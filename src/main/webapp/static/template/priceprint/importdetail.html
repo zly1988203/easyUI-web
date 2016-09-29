@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>导入向导</title>
+</head>
+<body class="ub uw uh ufs-14 uc-black">
+    <div class="ub ub-ver ub-f1 upad-8">
+        <div class="ub ub-ver umar-t12">
+            <div class="uatit">选择数据源</div>
+            <div class="ub umar-t8">
+                <div class="ub ub-ac uaselect">
+                    <div class=" uw-50 ut-r umar-r10">数据源:</div>
+                       <!--select-->
+				        <select class="easyui-combobox uselect " id="dataselect" name="select">
+				            <option value="1" selected="selected">Microsoft Excel 97-2003工作表(*.xls)</option>
+				            <option value="2">Microsoft Excel 工作表(*.xlsx)</option>
+				            <option value="3">文本文件(*.txt)</option>
+				        </select>
+                </div>
+            </div>
+            
+            <div class="uatit">连接设置</div>
+               <div class="ub ub-ver">
+               	<div class="upcon"><input class="uinp ub umar-r10" id="filelink" type="text"><label class="ualable">选择文件<input type="file" class="uafile"  name="choosefile" id="choosefile" ></label></div>	
+               </div>
+                <!--checkbox-->
+               <div class="ub ub-ver umar-t12">
+			   
+			            <div class="ub ub-ac umar-l10">
+			                <input class="ub" type="checkbox" name="radio" checked="checked"/><span class="umar-l10">首行包含列名称</span>
+			            </div>
+		
+		       </div>
+         </div>    
+    </div>
+</body>
+</html>

@@ -1,0 +1,108 @@
+/**
+ * 黄江 on 2016/03/31
+ * 描述：配置样式
+ */                     //
+//颜色-----------------------------------------------------
+$c-main:#0099cc;                 //主色
+$c-bg:#f5f5f5;                   //背景色
+$c-black :#393939;              //黑
+$c-yellow:#f0a314;              //黄色
+$c-grey:#999;                   //灰色
+$c-grey-while:#c9c9c9;         //灰白
+$c-while:#fff;                  //白
+$c-red:#ff0000;                  //红色
+$c-disabled:#efefef;               //不允许操作
+
+//布局-------------------------------------------------------------------
+@mixin ub(){                     //flex盒子布局,ub开头
+  display: -webkit-box !important;/* Chrome, WebKit Safari */
+  display: -moz-box !important; /* Firefox */
+  display: -ms-flexbox !important; /* IE10 */
+  display: box !important;
+  position:relative;
+}
+@mixin ub-ver(){                //垂直排列
+  -webkit-box-orient:vertical;
+  -moz-box-orient:vertical;
+  -ms-box-orient:vertical;
+  box-orient:vertical;
+}
+@mixin ub-pc(){                 //垂直排列：垂直居中   | 水平排列：水平居中
+  -webkit-box-pack:center;
+  -moz-box-pack:center;
+  -ms-box-pack:center;
+  box-pack:center;
+}
+@mixin ub-pe(){                //垂直排列：底部   | 水平排列：右边
+  -webkit-box-pack:end;
+  -moz-box-pack:end;
+  -ms-box-pack:end;
+  box-pack:end;
+}
+@mixin ub-pj(){               //分散排列
+  -webkit-box-pack:justify;
+  -moz-box-pack:justify;
+  -ms-box-pack:justify;
+  box-pack:justify;
+}
+@mixin ub-ac(){               //垂直排列：水平居中  | 水平排列：垂直居中
+  -webkit-box-align:center;
+  -moz-box-align:center;
+  -ms-box-align:center;
+  box-align:center;
+}
+@mixin ub-ae(){               //垂直排列：右边   | 水平排列：底部
+  -webkit-box-align:end;
+  -moz-box-align:end;
+  -ms-box-align:end;
+  box-align:end;
+}
+@mixin ub-f1(){
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -ms-box-flex: 1;
+  box-flex: 1;
+}
+@mixin ub-f2(){
+  -webkit-box-flex: 2;
+  -moz-box-flex: 2;
+  -ms-box-flex: 2;
+  box-flex: 2;
+}
+@mixin ub-f3(){
+  -webkit-box-flex: 3;
+  -moz-box-flex: 3;
+  -ms-box-flex: 3;
+  box-flex: 3;
+}
+@mixin ub-f4(){
+  -webkit-box-flex: 4;
+  -moz-box-flex: 4;
+  -ms-box-flex: 4;
+  box-flex: 4;
+}
+@mixin ub-f5(){
+  -webkit-box-flex: 5;
+  -moz-box-flex: 5;
+  -ms-box-flex: 5;
+  box-flex: 5;
+}
+@mixin uabs(){                //绝对布局
+  position:absolute;
+}
+@mixin ufix(){                //浮动布局
+  position: fixed;
+}
+@mixin ufix-t(){              //浮动-顶部
+  position: fixed;
+  top: 0px;
+  width: 100%;
+}
+@mixin ufix-b(){              //浮动-底部
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
+}
+@mixin uf-l(){
+  float: left;
+}

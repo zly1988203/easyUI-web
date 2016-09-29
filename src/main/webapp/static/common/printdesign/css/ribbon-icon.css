@@ -1,0 +1,140 @@
+.icon-copy{
+	background:url('../images/copy.png') no-repeat center center;
+}
+.icon-paste{
+	background:url('../images/paste.png') no-repeat center center;
+}
+.icon-format{
+	background:url('../images/format.png') no-repeat center center;
+}
+.icon-bold{
+	background:url('../images/bold.png') no-repeat center center;
+}
+.icon-italic{
+	background:url('../images/italic.png') no-repeat center center;
+}
+.icon-strikethrough{
+	background:url('../images/strikethrough.png') no-repeat center center;
+}
+.icon-subscript{
+	background:url('../images/subscript.png') no-repeat center center;
+}
+.icon-superscript{
+	background:url('../images/superscript.png') no-repeat center center;
+}
+.icon-underline{
+	background:url('../images/underline.png') no-repeat center center;
+}
+.icon-increase-font{
+	background:url('../images/increase-font.png') no-repeat center center;
+}
+.icon-decrease-font{
+	background:url('../images/decrease-font.png') no-repeat center center;
+}
+.icon-case-font{
+	background:url('../images/case-font.png') no-repeat center center;
+}
+.icon-grow-font{
+	background:url('../images/grow-font.png') no-repeat center center;
+}
+.icon-shrink-font{
+	background:url('../images/shrink-font.png') no-repeat center center;
+}
+.icon-align-left{
+	background:url('../images/align-left.png') no-repeat center center;
+}
+.icon-align-center{
+	background:url('../images/align-center.png') no-repeat center center;
+}
+.icon-align-right{
+	background:url('../images/align-right.png') no-repeat center center;
+}
+.icon-align-justify{
+	background:url('../images/align-justify.png') no-repeat center center;
+}
+.icon-aligncontrol-left{
+	background:url('../images/control_align_left.png') no-repeat center center;
+}
+.icon-aligncontrol-right{
+	background:url('../images/control_align_right.png') no-repeat center center;
+}
+.icon-aligncontrol-top{
+	background:url('../images/control_align_top.png') no-repeat center center;
+}
+.icon-aligncontrol-bottom{
+	background:url('../images/control_align_bottom.png') no-repeat center center;
+}
+.icon-bullets{
+	background:url('../images/bullets.png') no-repeat center center;
+}
+.icon-numbers{
+	background:url('../images/numbers.png') no-repeat center center;
+}
+.icon-find{
+	background:url('../images/find.png') no-repeat center center;
+}
+.icon-replace{
+	background:url('../images/replace.png') no-repeat center center;
+}
+.icon-select{
+	background:url('../images/select.png') no-repeat center center;
+}
+.icon-selectall{
+	background:url('../images/selectall.png') no-repeat center center;
+}
+.icon-go{
+	background:url('../images/go.png') no-repeat center center;
+}
+
+.icon-new-normal {
+    background:url('../images/page_add.png') no-repeat center center;
+}
+.icon-new-sheet {
+    background:url('../images/fileNew.png') no-repeat center center;
+}
+.icon-saveas {
+    background:url('../images/fileSaveAs.png') no-repeat center center;
+}
+.icon-delete {
+    background:url('../images/fileDelete.png') no-repeat center center;
+}
+.icon-pageset {
+    background:url('../images/page_gear.png') no-repeat center center;
+}
+.icon-sheetset {
+    background:url('../images/table_gear.png') no-repeat center center;
+}
+.icon-columnset {
+    background:url('../images/column_set.png') no-repeat center center;
+}
+.icon-setdefault {
+    background:url('../images/filePrintQuick.png') no-repeat center center;
+}
+.icon-printPreview {
+    background:url('../images/filePrintPreview.png') no-repeat center center;
+}
+.icon-elementDelete {
+    background:url('../images/elementDelete.png') no-repeat center center;
+}
+
+.icon-paste-large{
+	background:url('../images/paste.png') no-repeat center center;
+}
+.icon-table-large{
+	background:url('../images/table.png') no-repeat center center;
+}
+.icon-picture-large{
+	background:url('../images/picture.png') no-repeat center center;
+}
+.icon-clipart-large{
+	background:url('../images/clipart.png') no-repeat center center;
+}
+.icon-shapes-large{
+	background:url('../images/shapes.png') no-repeat center center;
+}
+.icon-smartart-large{
+	background:url('../images/smartart.png') no-repeat center center;
+}
+.icon-chart-large{
+	background:url('../images/chart.png') no-repeat center center;
+}

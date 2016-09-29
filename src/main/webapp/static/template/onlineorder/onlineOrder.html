@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>线上订单查询</title>
+    <!--easyui-->
+    <link rel="stylesheet" href="/webapp/static/libs/easyui/css/default/easyui.css">
+    <link rel="stylesheet" href="/webapp/static/libs/easyui/css/icon.css">
+    <!--ztree-->
+    <link rel="stylesheet" href="/webapp/static/libs/zTree/css/zTreeStyle.css">
+    <!--app css-->
+    <link rel="stylesheet" href="/webapp/static/css/icon.css">
+    <link rel="stylesheet" href="/webapp/static/css/style.css">
+    <link rel="stylesheet" href="/webapp/static/css/component.css">
+    <link rel="stylesheet" href="/webapp/static/css/base.css">
+    <link rel="stylesheet" href="/webapp/static/css/app.css">
+	<!--jquery-->
+    <script src="/webapp/static/libs/jquery/js/jquery-1.11.1.min.js"></script>
+    <!--easyui-->
+    <script src="/webapp/static/libs/easyui/js/jquery.easyui.min.js"></script>
+    <script src="/webapp/static/libs/easyui/js/easyui-lang-zh_CN.js"></script>
+    <!--ztree-->
+    <script src="/webapp/static/libs/zTree/js/jquery.ztree.core.min.js"></script>
+    <!--datepicker-->
+    <script  src="/webapp/static/libs/datepicker/WdatePicker.js"></script>
+    <script  src="/webapp/static/js/fun/baseEasyui.js"></script>
+    <script  src="/webapp/static/js/views/retail/onlineOrder.js"></script>
+</head>
+<body class="ub uw uh ufs-14 uc-black">
+
+    <div class="ub ub-ver ub-f1 upad-8">
+        <div class="ub ub-ac">
+            <!--buttons-->
+            <div class="ubtns">
+                <div class="ubtns-item">查询</div>
+                <div class="ubtns-item">打印</div>
+                <div class="ubtns-item">设置</div>
+                <div class="ubtns-item">导出</div>
+                <div class="ubtns-item">退出</div>
+            </div>
+        </div>
+        <div class="ub umar-t8 uc-black">【订单号】：</div>
+        <div class="ub uline umar-t8"></div>
+
+        <div class="ub ub-ver umar-t12">
+            <div class="ub">
+                <div class="ub ub-ac">
+                    <div class="umar-r10 uw-70 ut-r">日期:</div>
+                    <input class="Wdate"  readonly="readonly" id="txtStartDate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'#F{$dp.$D(\'txtEndDate\');}'})" />&nbsp;至&nbsp;
+                    <input class="Wdate"  readonly="readonly" id="txtEndDate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'txtStartDate\');}'})" />
+                    <div class="ub ub-ac umar-l10">
+                        <input class="ub" type="radio" name="dateradio" onclick="changeDate(0);"/><span>今天</span>
+                    </div>
+                    <div class="ub ub-ac umar-l10">
+                        <input class="ub" type="radio" name="dateradio" onclick="changeDate(1);"/><span>昨天</span>
+                    </div>
+                    <div class="ub ub-ac umar-l10">
+                        <input class="ub" type="radio" name="dateradio" onclick="changeDate(2);"/><span>本周</span>
+                    </div>
+                    <div class="ub ub-ac umar-l10">
+                        <input class="ub" type="radio" name="dateradio" onclick="changeDate(3);"/><span>上周</span>
+                    </div>
+                    <div class="ub ub-ac umar-l10">
+                        <input class="ub" type="radio" name="dateradio" onclick="changeDate(4);"/><span>本月</span>
+                    </div>
+                    <div class="ub ub-ac umar-l10">
+                        <input class="ub" type="radio" name="dateradio" onclick="changeDate(5);"/><span>上月</span>
+                    </div>
+                    <div class="ub ub-ac umar-l10">
+                        <input class="ub" type="radio" name="dateradio" onclick="changeDate(6);"/><span>本季</span>
+                    </div>
+                    <div class="ub ub-ac umar-l10">
+                        <input class="ub" type="radio" name="dateradio" onclick="changeDate(7);"/><span>上季</span>
+                    </div>
+                    <div class="ub ub-ac umar-l10">
+                        <input class="ub" type="radio" name="dateradio" onclick="changeDate(8);"/><span>今年</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="ub umar-t8">
+                <div class="ub ub-ac">
+                    <div class="umar-r10 uw-70 ut-r">店铺名称:</div>
+                    <input class="uinp" type="text">
+                    <div class="uinp-more">...</div>
+                </div>
+                <div class="ub ub-ac uw-300 umar-l20">
+                    <div class="umar-r10 uw-70 ut-r">商品名称:</div>
+                    <input class="uinp ub ub-f1" type="text">
+                </div>  
+            </div>
+            
+            <div class="ub umar-t8">
+                <div class="ub ub-ac">
+                    <div class="umar-r10 uw-70 ut-r">单号:</div>
+                    <input class="uinp" type="text">
+                </div>
+                <div class="ub ub-ac uw-300 umar-l20">
+                    <div class="umar-r10 uw-70 ut-r">货号/条码:</div>
+                    <input class="uinp ub ub-f1" type="text">
+                </div>  
+            </div>
+            
+            <div class="ub umar-t8">
+                <div class="ub ub-ac">
+                    <div class="umar-r10 uw-70 ut-r">业务类型:</div>
+                       <!--select-->
+				        <select class="easyui-combobox uselect" name="select">
+				            <option value="1" selected="selected">全部</option>
+				            <option value="2">销售</option>
+				            <option value="3">退货</option>
+				        </select>
+                </div>
+
+                   <div class="ub ub-ac uw-300 umar-l30">
+                    <div class="umar-r10 uw-70 ut-r">统计方式:</div>
+                       <!--select-->
+				        <select class="easyui-combobox uselect" name="select">
+				            <option value="1" selected="selected">全部</option>
+				            <option value="2">已完成</option>
+				            <option value="2">未完成</option>
+				        </select>
+                </div>
+            </div>
+            
+         <div class="ub umar-t8 umar-b8">【在线订单查询】</div>
+            <!--datagrid-->
+            <table id="onlineOrder"></table>
+        </div>
+    </div>
+
+
+</body>
+</html>

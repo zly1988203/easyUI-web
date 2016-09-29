@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>云上城·进销存</title>
+	<!--easyui-->
+	<link rel="stylesheet" href="/webapp/static/libs/easyui/css/default/easyui.css">
+	<link rel="stylesheet" href="/webapp/static/libs/easyui/css/icon.css">
+	<!--ztree-->
+	<link rel="stylesheet" href="/webapp/static/libs/zTree/css/zTreeStyle.css">
+	<!--app css-->
+	<link rel="stylesheet" href="/webapp/static/css/icon.css">
+	<link rel="stylesheet" href="/webapp/static/css/style.css">
+	<link rel="stylesheet" href="/webapp/static/css/component.css">
+	<link rel="stylesheet" href="/webapp/static/css/base.css">
+	<link rel="stylesheet" href="/webapp/static/css/app.css">
+
+	<!--jquery-->
+	<script src="/webapp/static/libs/jquery/js/jquery-1.11.1.min.js"></script>
+	<!--easyui-->
+	<script src="/webapp/static/libs/easyui/js/jquery.easyui.min.js"></script>
+	<script src="/webapp/static/libs/easyui/js/easyui-lang-zh_CN.js"></script>
+	<!--ztree-->
+	<script src="/webapp/static/libs/zTree/js/jquery.ztree.core.min.js"></script>
+
+	<!--datepicker-->
+	<script  src="/webapp/static/libs/datepicker/WdatePicker.js"></script>
+
+	<script  src="/webapp/static/js/fun/baseEasyui.js"></script>
+</head>
+<body>
+<!--mleft-menu-two-->
+<div id="menu_two" class="uhide menu-two">
+	<div class="menu-two-item ub ub-ver" >
+		<div class="item-title">基础信息</div>
+		<div class="item-list ub ub-ver">
+			<ul class="menu-two-ul" >
+				<li>分店区域</li>
+				<li>分店区域</li>
+				<li>分店区域</li>
+				<li>分店区域</li>
+				<li>分店区域</li>
+				<li>分店区域</li>
+				<li>分店区域</li>
+				<li>分店区域</li>
+				<li>分店区域</li>
+				<li>分店区域</li>
+				<li>分店区域</li>
+				<li>分店区域</li>
+			</ul>
+		</div>
+	</div>
+	<div class="menu-two-item ub ub-ver" >
+		<div class="item-title">基础信息</div>
+		<div class="item-list ub ub-ver">
+			<ul class="menu-two-ul" >
+				<li>分店区域</li>
+				<li>分店区域</li>
+				<li>分店区域</li>
+				<li>分店区域</li>
+				<li>分店区域</li>
+				<li>分店区域</li>
+				<li>分店区域</li>
+				<li>分店区域</li>
+				<li>分店区域</li>
+				<li>分店区域</li>
+				<li>分店区域</li>
+				<li>分店区域</li>
+			</ul>
+		</div>
+	</div>
+	<div class="menu-two-item ub ub-ver" >
+		<div class="item-title">基础信息</div>
+		<div class="item-list ub ub-ver">
+			<ul class="menu-two-ul" >
+				<li>分店区域</li>
+				<li>分店区域</li>
+				<li>分店区域</li>
+				<li>分店区域</li>
+				<li>分店区域</li>
+				<li>分店区域</li>
+				<li>分店区域</li>
+				<li>分店区域</li>
+				<li>分店区域</li>
+				<li>分店区域</li>
+				<li>分店区域</li>
+				<li>分店区域</li>
+			</ul>
+		</div>
+	</div>
+</div><!--end left-menu-two-->
+
+<div class="basic-header">
+	<div class="logo">
+		<a href="http://127.0.0.1:8080/webapp/#">
+			<img src="/webapp/static/base/frame/images/logo.png">
+			<span style="font-size: 20px;">进销存</span>
+		</a>
+	</div><!--end logo -->
+    
+    <div class="header-load">
+    	<a class="header-load-link"><span class="name">fms_admin,您好</span> <i class="iconfont"></i></a>
+        <div class="linkdiv">
+        	<a href="http://127.0.0.1:8080/webapp/logout">退出</a>
+        </div><!--end linkdiv -->
+    </div><!--end header-load -->
+</div><!--end header -->
+
+<div class="basic-body">
+	<div class="left-big-menu">
+		<div class="scroll-y-box" id="leftMenuContent">
+			<div class="big-menu-switch"><i class="iconfont"></i></div>
+			<div class="menu-box">
+				<!--<div class="menu-title"><i class="iconfont"></i><span>系统管理</span></div>-->
+				<ul class="menu-trans" >
+					<li class="menu-one">
+						<a href="javascript:openNewTab('控件库','template/component/component.html','icon-hamburg-left');">
+							<i class="iconfont"></i>
+							<span>控件库</span>
+						</a>
+					</li>
+					<li class="menu-one">
+						<a href="javascript:openNewTab('采购订单','template/purchase/orders.html','icon-hamburg-left');">
+							<i class="iconfont"></i>
+							<span>采购订单</span>
+						</a>
+					</li>
+					<li class="menu-one">
+						<a href="javascript:openNewTab('商品档案','template/archives/modifyPriceOrder.html','icon-hamburg-left');">
+							<i class="iconfont"></i>
+							<span>商品档案</span>
+						</a>
+					</li>
+                    
+                    	<li class="menu-one">
+						<a href="javascript:openNewTab('直调入库单','template/warehousing/sendWarehosing.html','icon-hamburg-left');">
+							<i class="iconfont"></i>
+							<span>直调入库单</span>
+						</a>
+					</li>
+					<li class="menu-one">
+						<a href="javascript:openNewTab('商品库查询','template/product/productInquire.html','icon-hamburg-left');">
+							<i class="iconfont"></i>
+							<span>商品库查询</span>
+						</a>
+					</li>
+					 <li class="menu-one">
+						<a href="javascript:openNewTab('销售流水','template/marketwater/marketWater.html','icon-hamburg-left');">
+							<i class="iconfont"></i>
+							<span>销售流水</span>
+						</a>
+					</li>
+					 <li class="menu-one">
+						<a href="javascript:openNewTab('收银流水','template/cashwater/cashWater.html','icon-hamburg-left');">
+							<i class="iconfont"></i>
+							<span>收银流水</span>
+						</a>
+					</li>
+					<li class="menu-one">
+						<a href="javascript:openNewTab('收银日报','template/cashdaily/cashDaily.html','icon-hamburg-left');">
+							<i class="iconfont"></i>
+							<span>收银流水</span>
+						</a>
+					</li>
+					<li class="menu-one">
+						<a href="javascript:openNewTab('收银对账','template/cashreconcile/cashReconcile.html','icon-hamburg-left');">
+							<i class="iconfont"></i>
+							<span>收银对账</span>
+						</a>
+					</li>
+					<li class="menu-one">
+						<a href="javascript:openNewTab('线上订单查询','template/onlineorder/onlineOrder.html','icon-hamburg-left');">
+							<i class="iconfont"></i>
+							<span>线上订单查询</span>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div><!--end scroll-y-box -->
+    </div><!--end left-big-menu-->
+
+    <div class="basic-right basic-right-active">
+        
+        <div class="basic-main">
+            <div class="scroll-y-box basic-main-content panel-noscroll">
+				<!--start内容区 -->
+            	<div id="component-content" class="easyui-tabs tabs-container easyui-fluid" fit="true" border="false" style="width: 1740px; height: 861px;">
+                <div class="tabs-header tabs-header-noborder" style="width: 1740px;"><div class="tabs-scroller-left" style="display: none;"></div><div class="tabs-scroller-right" style="display: none;"></div><div class="tabs-wrap" style="margin-left: 0px; margin-right: 0px; width: 1740px;"><ul class="tabs" style="height: 27px;"></ul></div></div><div class="tabs-panels tabs-panels-noborder" style="height: 832px; width: 1740px;"></div></div>  
+				<!--end 内容区 -->
+            </div><!--end scroll-y-box -->
+        </div><!--end basic-main -->
+	</div><!--end basic-right -->    
+</div><!--end basic-body -->
+
+
+<script type="text/javascript">
+$(function(){
+	$('.menu-one,.menu-two').bind('mouseleave',function(){
+		$('.menu-two').addClass('uhide')
+	});
+	$('.menu-two').bind('mouseenter',function(){
+		$('.menu-two').removeClass('uhide')
+	});
+	$('.menu-one').bind('mouseenter',function(){
+		console.log($(this).width());//
+		$('.menu-two').removeClass('uhide').css('top',$(this).offset().top);
+		$('.menu-two').removeClass('uhide').css('left',$(this).width());
+	});
+	//顶部右侧登录
+	$(".header-load-link").on("click",function(){
+		addActive("header-load");
+	});
+	//左侧大菜单关闭打开
+	collapseLeftMenu();
+	//左侧子菜单关闭打开
+	collapseChildMenu();
+	//绑定tab页关闭
+	tabClose();
+	//绑定tab页右键菜单
+	tabMenuEven();
+});
+//一二级菜单面板收缩功能
+function collapseLeftMenu(){
+	$(".big-menu-switch").on("click",function(){
+		addActive("basic-body");
+		$("#component-content").tabs("resize");//内容区最外层的组件尺寸刷新
+	});
+}
+//三级子菜单收缩功能
+function collapseChildMenu(){
+	$(".sma-menu-switch").on("click",function(){
+		addActive("basic-right");
+		$("#component-content").tabs("resize");//内容区最外层的组件尺寸刷新
+	});
+}
+//一级子菜单收缩功能
+function clickMenuItem(){
+	//二级菜单选中样式
+	$(".menu-trans li").on("click",function(){
+		$(".menu-trans li").removeClass("active");
+		$(this).addClass("active");
+	});
+	
+	//二级菜单收缩功能
+	$(".menu-title").on("click",function(){
+		parentState(this,"menu-box-active");
+	});
+}
+
+
+//显示 折叠按钮
+function showCollapseIcon(){
+	$("#collapseIcon").removeClass("none");
+}
+
+//隐藏 折叠按钮
+function hideCollapseIcon(){
+	$("#collapseIcon").addClass("none");
+}
+
+function currentState(id,name){
+	if(!id.hasClass(name)){
+		id.addClass(name);
+	}else{
+		id.removeClass(name);
+	}
+}
+
+function addActive(name){
+	var objName = "." + name;
+	var activeName = name +"-active";
+	if($(objName).hasClass(activeName)){
+		$(objName).removeClass(activeName);
+	}else{
+		$(objName).addClass(activeName);
+	}
+}
+
+function parentState(obj,name){
+	var parent = $(obj).parent();
+	if(parent.hasClass(name)){
+		parent.removeClass(name);
+	}else{
+		parent.addClass(name);
+	}	
+}
+
+function openNewTab(subtitle, url, icon){
+	
+	//隐藏三级菜单面板
+	$(".basic-right").addClass("basic-right-active");
+	
+	//隐藏折叠按钮
+	hideCollapseIcon();
+	
+	//新增tab页
+	addTab(subtitle, url, icon);
+	
+	$("#component-content").tabs("resize");//内容区最外层的组件尺寸刷新
+}
+
+function addTab(subtitle, url, icon) {
+	if (!$('#component-content').tabs('exists', subtitle)) {
+		$('#component-content').tabs('add', {
+			title : subtitle,
+			content : createFrame(url),
+			closable : true
+			//icon : icon	tab图标暂时不用
+		});
+	} else {
+		
+		//刷新tab页
+		$('#component-content').tabs('select', subtitle);
+		var currTab = $('#component-content').tabs('getSelected');
+		$('#component-content').tabs('update', {
+			tab : currTab,
+			options : {
+				content : createFrame(url)
+			}
+		});
+	}
+	tabClose();
+}
+
+function selectTab(subtitle){
+	$('#component-content').tabs('select', subtitle);
+}
+
+function createFrame(url) {
+	var s = '<iframe scrolling="auto" frameborder="0"  src="' + url + '" style="width:100%;height:99%;"></iframe>';
+	return s;
+}
+
+function tabClose() {
+	/* 双击关闭TAB选项卡 */
+	$(".tabs-inner").dblclick(function() {
+		var subtitle = $(this).children(".tabs-closable").text();
+		$('#component-content').tabs('close', subtitle);
+	});
+	/* 为选项卡绑定右键 */
+	$(".tabs-inner").bind('contextmenu', function(e) {
+		$('#mm').menu('show', {
+			left : e.pageX,
+			top : e.pageY
+		});
+		var subtitle = $(this).children(".tabs-closable").text();
+		$('#mm').data("currtab", subtitle);
+		$('#component-content').tabs('select', subtitle);
+		return false;
+	});
+}
+
+function refluseTabByTitle(subtitle){
+	var selectTab = $('#component-content').tabs('getTab', subtitle);
+	var url = $(selectTab.panel('options').content).attr('src');
+	
+	//刷新页面
+	addTab(subtitle, url, null);
+}
+
+function getTabByTitle(subtitle){
+	var tab = $('#component-content').tabs('getTab', subtitle);
+	return tab;
+}
+
+function closeTab(subtitle){
+	if(!subtitle){
+		var currTab = $('#component-content').tabs('getSelected');
+		subtitle = currTab.panel("options").title;
+	}
+	$('#component-content').tabs('close', subtitle);
+}
+
+// 绑定右键菜单事件
+function tabMenuEven() {
+	// 刷新
+	$('#mm-tabupdate').click(function() {
+		var currTab = $('#component-content').tabs('getSelected');
+		var url = $(currTab.panel('options').content).attr('src');
+		$('#component-content').tabs('update', {
+			tab : currTab,
+			options : {
+				content : createFrame(url)
+			}
+		});
+	});
+
+	// 关闭当前
+	$('#mm-tabclose').click(function() {
+		closeTab();
+	});
+	// 全部关闭
+	$('#mm-tabcloseall').click(function() {
+		$('.tabs-inner span').each(function(i, n) {
+			var t = $(n).text();
+			$('#component-content').tabs('close', t);
+		});
+	});
+	// 关闭除当前之外的TAB
+	$('#mm-tabcloseother').click(function() {
+		$('#mm-tabcloseright').click();
+		$('#mm-tabcloseleft').click();
+	});
+	// 关闭当前右侧的TAB
+	$('#mm-tabcloseright').click(function() {
+		var nextall = $('.tabs-selected').nextAll();
+		if (nextall.length == 0) {
+			// msgShow('系统提示','后边没有啦~~','error');
+			alert('后边没有啦~~');
+			return false;
+		}
+		nextall.each(function(i, n) {
+			var t = $('a:eq(0) span', $(n)).text();
+			$('#component-content').tabs('close', t);
+		});
+		return false;
+	});
+	// 关闭当前左侧的TAB
+	$('#mm-tabcloseleft').click(function() {
+		var prevall = $('.tabs-selected').prevAll();
+		if (prevall.length == 0) {
+			alert('到头了，前边没有啦~~');
+			return false;
+		}
+		prevall.each(function(i, n) {
+			var t = $('a:eq(0) span', $(n)).text();
+			$('#component-content').tabs('close', t);
+		});
+		return false;
+	});
+
+	// 退出
+	$("#mm-exit").click(function() {
+		$('#mm').menu('hide');
+	});
+}
+	
+</script>
+<!--<div id="mm" class="easyui-menu menu-top menu" style="width: 120px; height: 184px; overflow: hidden; display: none; left: 0px; top: 0px;"><div class="menu-line" style="height: 182px;"></div>-->
+	<!--<div id="mm-tabupdate" class="menu-item" style="height: 22px;"><div class="menu-text" style="height: 20px; line-height: 20px;">刷新</div></div>-->
+	<!--<div class="menu-sep"></div>-->
+	<!--<div id="mm-tabclose" class="menu-item" style="height: 22px;"><div class="menu-text" style="height: 20px; line-height: 20px;">关闭</div></div>-->
+	<!--<div id="mm-tabcloseall" class="menu-item" style="height: 22px;"><div class="menu-text" style="height: 20px; line-height: 20px;">全部关闭</div></div>-->
+	<!--<div id="mm-tabcloseother" class="menu-item" style="height: 22px;"><div class="menu-text" style="height: 20px; line-height: 20px;">关闭其它</div></div>-->
+	<!--<div class="menu-sep"></div>-->
+	<!--<div id="mm-tabcloseright" class="menu-item" style="height: 22px;"><div class="menu-text" style="height: 20px; line-height: 20px;">关闭右侧</div></div>-->
+	<!--<div id="mm-tabcloseleft" class="menu-item" style="height: 22px;"><div class="menu-text" style="height: 20px; line-height: 20px;">关闭左侧</div></div>-->
+	<!--<div class="menu-sep"></div>-->
+	<!--<div id="mm-exit" class="menu-item" style="height: 22px;"><div class="menu-text" style="height: 20px; line-height: 20px;">退出</div></div>-->
+<!--</div>-->
+</body>
+</html>

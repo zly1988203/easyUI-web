@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>采购订单-新增</title>
+    <!-- easyui皮肤 -->
+    <link href="/webapp/static/base/easyui/themes/icon.css" rel="stylesheet" type="text/css" />
+
+    <!-- 自定义easyUI皮肤 -->
+    <link href="/webapp/static/base/frame/css/metro-blue/easyui.css" rel="stylesheet" type="text/css" />
+    <link href="/webapp/static/base/frame/css/icon.css" rel="stylesheet" type="text/css" />
+    <link href="/webapp/static/base/frame/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="/webapp/static/base/frame/css/jquery.loadmask.css" rel="stylesheet" type="text/css" />
+    <link href="/webapp/static/base/frame/css/form.css" rel="stylesheet" type="text/css" />
+
+    <!-- 扩展样式 -->
+    <link href="/webapp/static/base/css/common_ex.css" rel="stylesheet" type="text/css" />
+
+    <script src="/webapp/static/base/js/jquery-1.11.1.min.js" type="text/javascript"></script>
+    <script src="/webapp/static/base/easyui/jquery.easyui.min.js" type="text/javascript"></script>
+
+    <!-- My97插件 -->
+    <script type="text/javascript" src="/webapp/static/base/plugins/My97DatePicker/WdatePicker.js"></script>
+    <script type="text/javascript" src="/webapp/static/base/easyui/extensions/jquery.my97.js"></script>
+    <link href="/webapp/static/base/easyui/themes/default/my97.css" rel="stylesheet" type="text/css" />
+
+    <script src="/webapp/static/base/easyui/locale/easyui-lang-zh_CN.js" type="text/javascript"></script>
+
+    <script src="/webapp/static/base/ex/common_ex.js" type="text/javascript"></script>
+    <script type="text/javascript" src="/webapp/static/base/ex/jquery.loadmask.min.js"></script>
+
+    <script src="/webapp/static/common/js/jquery.rotate.min.js"></script>
+
+    <script src="/webapp/static/common/js/common.js"></script>
+    <script>
+        window.addEventListener('message',function(e){
+            window.onbeforeunload = null;
+            window.location.replace('/webapp');
+        },false);
+    </script>
+
+</head>
+<body class="ub uw uh">
+<div class="ub ub-ver ub-f1 pos-cont">
+    <div class="ub ub-ver ">
+        <div class="ub">
+            <div class="ub actions">
+                <div id="addItem" class="ub action">新增</div>
+                <div id="saveItem" class="ub action">保存</div>
+                <div class="ub action">审核</div>
+                <div class="ub action">商品选择</div>
+                <div class="ub action">扫描</div>
+                <div class="ub action">删单</div>
+                <div class="ub action">终止</div>
+                <div class="ub action">设置</div>
+                <div class="ub action">打印</div>
+                <div class="ub action">明细菜单</div>
+                <div class="ub action">返回</div>
+            </div>
+        </div>
+        <div class="order-no">【单      号】：</div>
+        <div class="uline"></div>
+        <div class="ub uw uh ub-ver ub-pj item-form">
+            <div class="ub form-row" >
+                <div class="ub ub-ac ub-f1" style="width: 1px;">
+                    <div class="form-item-title">供应商：</div>
+                    <div class="ub form-input-more">
+                        <input type="text" class="form-input">
+                        <div class="input-more" >...</div>
+                    </div>
+                </div>
+                <div class="ub ub-ac ub-f1" style="width: 1px;">
+                    <div class="form-item-title">交货期限：</div>
+                    <input class="easyui-datebox form-input" style="width: 200px !important;" data-options="formatter:myformatter,parser:myparser" />
+                </div>
+                <div class="ub ub-ac ub-f1" style="width: 1px;">
+                    <div class="form-item-title">制单人员：</div>
+                    <div >管理员</div>
+                </div>
+                <div class="ub ub-ac ub-f1" style="width: 1px;">
+                    <div class="form-item-title">制单日期：</div>
+                    <div >2016-07-28</div>
+                </div>
+            </div>
+            <div class="ub form-row" >
+                <div class="ub ub-ac ub-f1" style="width: 1px;">
+                    <div class="form-item-title">仓库：</div>
+                    <div class="ub form-input-more">
+                        <input type="text" class="form-input">
+                        <div class="input-more" >...</div>
+                    </div>
+                </div>
+                <div class="ub ub-ac ub-f1" style="width: 1px;">
+                    <div class="form-item-title">采购员：</div>
+                    <div class="ub form-input-more">
+                        <input type="text" class="form-input">
+                        <div class="input-more" >...</div>
+                    </div>
+                </div>
+                <div class="ub ub-ac ub-f1" style="width: 1px;">
+                    <div class="form-item-title">审核人员：</div>
+                    <div ></div>
+                </div>
+                <div class="ub ub-ac ub-f1" style="width: 1px;">
+                    <div class="form-item-title">审核日期：</div>
+                    <div ></div>
+                </div>
+            </div>
+            <div class="ub form-row" >
+                <div class="ub ub-ac ub-f1" style="width: 1px;">
+                    <div class="form-item-title">备注：</div>
+                    <input type="text" class="ub ub-f1 form-input">
+                    <div class="ub ub-f1"></div>
+                </div>
+             </div>
+         </div>
+     </div><!--header-->
+    <div class="ub ub-ver ub-f1">
+        <table id="grid02" class="ub ub-f1" style="width: 100%;height: auto;"></table>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var editRowIndex = undefined;      //光标所在当前行
+    var editField = undefined;      //光标所在当前列
+
+    $(function(){
+        //初始化事件监听
+        initEvent();
+        //初始化订单列表
+        initSheetList();
+    });
+    //事件监听
+    function initEvent(){
+        $("#saveItem").bind("click",saveItemHandel);
+    }
+    function initSheetList(){
+
+        $("#grid02").datagrid({
+            //title:'普通表单-用键盘操作',
+            method:'get',
+            align:'center',
+
+            //url:'/webapp/static/base/json/POSheet.json',
+            //toolbar: '#tb',     //工具栏 id为tb
+            singleSelect:false,  //单选  false多选
+            rownumbers:true,    //序号
+            //pagination:true,    //分页
+            //fitColumns:true,    //占满
+            //showFooter:true,
+            columns:[[
+                {field:'ck',checkbox:true},
+                {field:'cz',title:'操作',width:100,align:'center',
+                    formatter : function(value, row,index) {
+                        var str =  '<a name="add" class="add-line" data-index="'+index+'" onclick="addLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>&nbsp;&nbsp;' +
+                                '&nbsp;&nbsp;<a name="del" class="del-line" data-index="'+index+'" onclick="delLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>';
+                        return str;
+                    },
+                },
+                {field:'hh',title:'货号',width:100,align:'center',editor:'textbox'},
+                {field:'zbm',title:'自编码',width:100,align:'center',},
+                {field:'pm',title:'品名',width:100,align:'center',},
+                {field:'xs',title:'箱数',width:100,align:'center',editor:'textbox'},
+                {field:'sl',title:'数量',width:100,align:'center',editor:'textbox'},
+                {field:'zssl',title:'赠送数量',width:100,align:'center',editor:'textbox'},
+                {field:'slv',title:'税率',width:100,align:'center',editor:'textbox'},
+                {field:'jj',title:'进价',width:100,align:'center',editor:'textbox'},
+                {field:'bz',title:'备注',width:100,align:'center',editor:'textbox'},
+                {field:'je',title:'金额',width:100,align:'center',editor:'numberbox'},
+                {field:'lsj',title:'零售价',width:100,align:'center',},
+                {field:'lsje',title:'零售金额',width:100,align:'center',},
+                {field:'se',title:'税额',width:100,align:'center',},
+                {field:'tcfl',title:'提成分类',width:100,align:'center',},
+            ]],
+            onClickCell:function(rowIndex,field,value){
+                $('#grid02').datagrid('endEdit', editRowIndex);     //结束之前的编辑
+                $('#grid02').datagrid('selectRow', rowIndex).datagrid('beginEdit', rowIndex);
+                editRowIndex = rowIndex;
+                editField = field;
+                var ed = $('#grid02').datagrid('getEditor', {index:rowIndex,field:editField});
+                if(!ed||!ed.target){
+                    ed = $('#grid02').datagrid('getEditor', {index:rowIndex,field:"hh"});
+                    editField = "hh";
+                }
+                $(ed.target).textbox('textbox').focus();
+
+            },
+            onLoadSuccess:function(data){
+                console.log("onLoadSuccess");
+                var rowL = $("#grid02").datagrid("getRows").length;
+                if(rowL==0){
+                    $("#grid02").datagrid("insertRow",{
+                        index:0,
+                        row:{}
+                    });
+                }
+            }
+        });
+
+
+        $.extend($.fn.datagrid.methods, {
+            keyCtr : function (jq) {
+                return jq.each(function () {
+                    var grid = $(this);
+                    grid.datagrid('getPanel').panel('panel').attr('tabindex', 1).bind('keydown', function (e) {
+                        switch (e.keyCode) {
+                            case 37: //左键
+                                var field = getLRFiledName(editRowIndex,editField,'left');
+                                var ed = grid.datagrid('getEditor', {index:editRowIndex,field:field});
+                                if(ed){
+                                    $(ed.target).textbox('textbox').focus();
+                                    setTimeout(function(){
+                                        $(ed.target).textbox('textbox').select();
+                                    },10)
+                                    editField= field;
+                                }
+                                break;
+                            case 39: //右键
+                                var field = getLRFiledName(editRowIndex,editField,'right');
+                                var ed = grid.datagrid('getEditor', {index:editRowIndex,field:field});
+                                if(ed){
+                                    $(ed.target).textbox('textbox').focus();
+                                    setTimeout(function(){
+                                        $(ed.target).textbox('textbox').select();
+                                    },10)
+                                    editField= field;
+                                }
+                                break;
+                            case 38: //上键
+                                if(editRowIndex>0){
+                                    var lastIndex = editRowIndex-1;
+                                    grid.datagrid('endEdit', editRowIndex);//结束之前的编辑
+                                    grid.datagrid('selectRow', lastIndex).datagrid('beginEdit', lastIndex);
+                                    editRowIndex = lastIndex;
+                                    var ed = grid.datagrid('getEditor', {index:lastIndex,field:editField});
+                                    if(ed){
+                                        $(ed.target).textbox('textbox').focus();
+                                        setTimeout(function(){
+                                            $(ed.target).textbox('textbox').select();
+                                        },10)
+                                    }
+                                }
+                                break;
+                            case 40: //下键
+                                if(grid.datagrid('getRows').length-editRowIndex>1){
+                                    var lastIndex = editRowIndex+1;
+                                    grid.datagrid('endEdit', editRowIndex);//结束之前的编辑
+                                    grid.datagrid('selectRow', lastIndex).datagrid('beginEdit', lastIndex);
+                                    editRowIndex = lastIndex;
+                                    var ed = grid.datagrid('getEditor', {index:lastIndex,field:editField});
+                                    if(ed){
+                                        $(ed.target).textbox('textbox').focus();
+                                        setTimeout(function(){
+                                            $(ed.target).textbox('textbox').select();
+                                        },10)
+                                    }
+                                }
+                                break;
+                        }
+                    });
+                });
+            }
+        });
+        $("#grid02").datagrid({}).datagrid("keyCtr");
+
+        $('#grid02').datagrid('loadData',{ code: '01',rows: []});
+    }
+    function getLRFiledName(index,field,type){
+        var row = $("#grid02").datagrid('getEditors', index);
+        var searchField = field;
+        for(var i=0;i<row.length;i++){
+            if(row[i].field==field){
+                if(type=='left'&&i>0){
+                    searchField = row[i-1].field;
+                }
+                if(type=='right'&&i<row.length-1){
+                    searchField = row[i+1].field;
+                }
+            }
+        }
+        return searchField;
+    }
+    //插入一行
+    function addLineHandel(event){
+        var index = $(event.target).attr('data-index')||0;
+        $("#grid02").datagrid("insertRow",{
+            index:parseInt(index)+1,
+            row:{}
+        });
+        //$("#grid02").datagrid("loadData",$("#grid02").datagrid("getRows"));
+    }
+    //删除一行
+    function delLineHandel(event){
+        var index = $(event.target).attr('data-index');
+        if(index>0){
+            console.log("addLine"+$(event.target).attr('data-index'));
+            $("#grid02").datagrid("deleteRow",index);
+            $("#grid02").datagrid("loadData",$("#grid02").datagrid("getRows"));
+        }
+    }
+    //保存
+    function saveItemHandel(e){
+        var rows = $("#grid02").datagrid('getRows');
+        var saveData = JSON.stringify(rows);
+        console.log(saveData);
+    }
+
+    function myformatter(date){
+        var y = date.getFullYear();
+        var m = date.getMonth()+1;
+        var d = date.getDate();
+        return y+'-'+(m<10?('0'+m):m)+'-'+(d<10?('0'+d):d);
+    }
+    function myparser(s){
+        if (!s) return new Date();
+        var ss = (s.split('-'));
+        var y = parseInt(ss[0],10);
+        var m = parseInt(ss[1],10);
+        var d = parseInt(ss[2],10);
+        if (!isNaN(y) && !isNaN(m) && !isNaN(d)){
+            return new Date(y,m-1,d);
+        } else {
+            return new Date();
+        }
+    }
+</script>
+</body>
+</html>

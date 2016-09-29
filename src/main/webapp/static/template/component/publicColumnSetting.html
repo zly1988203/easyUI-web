@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>公共组件-列表设置</title>
+    <!--easyui-->
+    <link rel="stylesheet" href="/webapp/static/libs/easyui/css/default/easyui.css">
+    <link rel="stylesheet" href="/webapp/static/libs/easyui/css/icon.css">
+    <!--ztree-->
+    <link rel="stylesheet" href="/webapp/static/libs/zTree/css/zTreeStyle.css">
+    <!--app css-->
+    <link rel="stylesheet" href="/webapp/static/css/icon.css">
+    <link rel="stylesheet" href="/webapp/static/css/style.css">
+    <link rel="stylesheet" href="/webapp/static/css/component.css">
+    <link rel="stylesheet" href="/webapp/static/css/base.css">
+    <link rel="stylesheet" href="/webapp/static/css/app.css">
+
+    <!--jquery-->
+    <script src="/webapp/static/libs/jquery/js/jquery-1.11.1.min.js"></script>
+    <!--easyui-->
+    <script src="/webapp/static/libs/easyui/js/jquery.easyui.min.js"></script>
+    <script src="/webapp/static/libs/easyui/js/easyui-lang-zh_CN.js"></script>
+    <!--datepicker-->
+    <script src="/webapp/static/libs/datepicker/WdatePicker.js"></script>
+
+    <script src="/webapp/static/js/fun/baseEasyui.js"></script>
+    <script src="/webapp/static/js/views/component/publicColumnSetting.js"></script>
+</head>
+<body class="ub uw uh ufs-14 uc-black">
+<div class="ub ub-ver ub-pc ub-ac ub-f1 umar-4 upad-4">
+    <div  id="panelColumn" class="easyui-panel" title="列表设置" style="width:600px;height: 440px;" data-options="closable:true,">
+        <div class="ub ub-ver ub-f1">
+            <div class="ub upad-4">
+                <div class="ub ub-ac umar-r40">
+                    <div class="umar-r10  ut-r">每页显示行数:</div>
+                    <input class="uinp uw-120" type="text">
+                </div>
+                <div class="ub ub-ac umar-r40">
+                    <div class="umar-r10 ut-r">报表名称:</div>
+                    <input class="uinp" type="text">
+                </div>
+            </div>
+            <div class="ub ub-f1">
+                <table id="gridColumn" class="datagrid" style="height: 310px;"></table>
+            </div>
+            <div class="ub upad-8">
+                <input type="button " class="ubtn uw-100" value="还原默认列">
+                <div class="ub ub-f1"></div>
+                <input type="button" class="ubtn" value="确定">
+                <input type="button" class="ubtn" value="取消">
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

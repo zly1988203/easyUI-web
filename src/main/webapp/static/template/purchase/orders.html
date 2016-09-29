@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>采购订单</title>
+    <!--easyui-->
+    <link rel="stylesheet" href="/webapp/static/libs/easyui/css/default/easyui.css">
+    <link rel="stylesheet" href="/webapp/static/libs/easyui/css/icon.css">
+    <!--ztree-->
+    <link rel="stylesheet" href="/webapp/static/libs/zTree/css/zTreeStyle.css">
+    <!--app css-->
+    <link rel="stylesheet" href="/webapp/static/css/icon.css">
+    <link rel="stylesheet" href="/webapp/static/css/style.css">
+    <link rel="stylesheet" href="/webapp/static/css/component.css">
+    <link rel="stylesheet" href="/webapp/static/css/base.css">
+    <link rel="stylesheet" href="/webapp/static/css/app.css">
+
+    <!--jquery-->
+    <script src="/webapp/static/libs/jquery/js/jquery-1.11.1.min.js"></script>
+    <!--easyui-->
+    <script src="/webapp/static/libs/easyui/js/jquery.easyui.min.js"></script>
+    <script src="/webapp/static/libs/easyui/js/easyui-lang-zh_CN.js"></script>
+    <!--datepicker-->
+    <script  src="/webapp/static/libs/datepicker/WdatePicker.js"></script>
+    <!--ztree-->
+    <script src="/webapp/static/libs/zTree/js/jquery.ztree.core.js"></script>
+
+    <script  src="/webapp/static/js/fun/baseEasyui.js"></script>
+    <script src="/webapp/static/js/fun/publicComponent.js"></script>
+    <script src="/webapp/static/js/views/purchase/orderList.js"></script>
+
+</head>
+<body class="uw uh ufs-14 uc-black">
+    <div class="ub ub-ver ub-f1 umar-4 upad-4">
+        <form name="search" action="">
+        <div class="ub ub-ver">
+            <div class="ub ub-ac">
+                <div class="ubtns">
+                    <button class="ubtns-item" disabled>新增</button>
+                    <button class="ubtns-item">查询</button>
+                    <button class="ubtns-item">删除</button>
+                    <button class="ubtns-item">打印</button>
+                    <button class="ubtns-item">设置</button>
+                    <button class="ubtns-item">退出</button>
+                </div>
+                <div class="ub ub-ac umar-l20">
+                    <input class="Wdate uw-100" type="text"  onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})"/>
+                    <div class="ub umar-4">至</div>
+                    <input class="Wdate uw-100" type="text"  onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})"/>
+                    <div class="ub ub-ac umar-l10 umar-r10">
+                        <input class="ub" type="radio" name="radio" /><span>今天</span>
+                    </div>
+                    <div class="ub ub-ac umar-r10">
+                        <input class="ub" type="radio" name="radio" /><span>昨天</span>
+                    </div>
+                    <div class="ub ub-ac umar-r10">
+                        <input class="ub" type="radio" name="radio" /><span>本周</span>
+                    </div>
+                    <div class="ub ub-ac umar-r10">
+                        <input class="ub" type="radio" name="radio" /><span>上周</span>
+                    </div>
+                    <div class="ub ub-ac umar-r10">
+                        <input class="ub" type="radio" name="radio" /><span>本月</span>
+                    </div>
+                    <div class="ub ub-ac umar-r10">
+                        <input class="ub" type="radio" name="radio" /><span>上月</span>
+                    </div>
+                    <div class="ub ub-ac umar-r10">
+                        <input class="ub" type="radio" name="radio" /><span>本季度</span>
+                    </div>
+                    <div class="ub ub-ac umar-r10">
+                        <input class="ub" type="radio" name="radio" /><span>上季度</span>
+                    </div>
+                    <div class="ub ub-ac umar-r10">
+                        <input class="ub" type="radio" name="radio" /><span>今年</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ub umar-t8">
+                <div class="ub ub-ac umar-r40">
+                    <div class="umar-r10 uw-60 ut-r">单据编号:</div>
+                    <input class="uinp" type="text">
+                </div>
+                <div class="ub ub-ac umar-r40">
+                    <div class="umar-r10 uw-60 ut-r">供应商:</div>
+                    <input class="uinp" type="text">
+                    <div class="uinp-more">...</div>
+                </div>
+                <div class="ub ub-ac umar-r40">
+                    <div class="umar-r10 uw-60 ut-r">操作员:</div>
+                    <input class="uinp" type="text">
+                    <div class="uinp-more">...</div>
+                </div>
+            </div>
+            <div class="ub umar-t8">
+                <div class="ub ub-ac umar-r40">
+                    <div class="umar-r10 uw-60 ut-r">审核状态:</div>
+                    <div class="ub ub-ac umar-r10">
+                        <input class="ub" type="radio" name="checkStatus" /><span>未审核 </span>
+                    </div>
+                    <div class="ub ub-ac umar-r10">
+                        <input class="ub" type="radio" name="checkStatus" /><span>已审核 </span>
+                    </div>
+                    <div class="ub ub-ac umar-r10">
+                        <input class="ub" type="radio" name="checkStatus" /><span>不通过 </span>
+                    </div>
+                    <div class="ub ub-ac umar-r10">
+                        <input class="ub" type="radio" name="checkStatus" checked="checked"/><span>全部 </span>
+                    </div>
+                </div>
+                <div class="ub ub-ac ">
+                    <div class="umar-r10 uw-60 ut-r">单据状态:</div>
+                    <div class="ub ub-ac umar-r10">
+                        <input class="ub" type="checkbox" name="status"/><span>未处理 </span>
+                    </div>
+                    <div class="ub ub-ac umar-r10">
+                        <input class="ub" type="checkbox" name="status" /><span>已处理 </span>
+                    </div>
+                    <div class="ub ub-ac umar-r10">
+                        <input class="ub" type="checkbox" name="status" /><span>终止 </span>
+                    </div>
+                    <div class="ub ub-ac umar-r10">
+                        <input class="ub" type="checkbox" name="status" checked="checked"/><span>全部 </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </form>
+        <div class="ub umar-t8 ub-f1">
+            <table id="gridOrders"></table>
+        </div>
+    </div>
+
+    <script>
+        new publicGoodsService("PA",function(data){
+            console.log(data);
+        });
+    </script>
+</body>
+</html>

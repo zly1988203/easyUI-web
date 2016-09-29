@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>云上城·进销存</title>
+    <!--easyui-->
+    <link rel="stylesheet" href="/webapp/static/libs/easyui/css/default/easyui.css">
+    <link rel="stylesheet" href="/webapp/static/libs/easyui/css/icon.css">
+    <!--ztree-->
+    <link rel="stylesheet" href="/webapp/static/libs/zTree/css/zTreeStyle.css">
+    <!--app css-->
+    <link rel="stylesheet" href="/webapp/static/css/icon.css">
+    <link rel="stylesheet" href="/webapp/static/css/style.css">
+    <link rel="stylesheet" href="/webapp/static/css/component.css">
+    <link rel="stylesheet" href="/webapp/static/css/base.css">
+    <link rel="stylesheet" href="/webapp/static/css/app.css">
+
+    <!--jquery-->
+    <script src="/webapp/static/libs/jquery/js/jquery-1.11.1.min.js"></script>
+    <!--easyui-->
+    <script src="/webapp/static/libs/easyui/js/jquery.easyui.min.js"></script>
+    <script src="/webapp/static/libs/easyui/js/easyui-lang-zh_CN.js"></script>
+    <!--ztree-->
+    <script src="/webapp/static/libs/zTree/js/jquery.ztree.core.min.js"></script>
+    <!--datepicker-->
+    <script src="/webapp/static/libs/datepicker/WdatePicker.js"></script>
+
+    <script src="/webapp/static/js/fun/baseEasyui.js"></script>
+    <script src="/webapp/static/js/views/goods/goodsArchivesAdd.js"></script>
+</head>
+<body class="ub uw uh ufs-14 uc-black">
+<div class="ub ub-ver  ub-f1 umar-4 upad-4">
+    <div class="ub ub-ac">
+        <div class="ubtns">
+            <div class="ubtns-item" onclick="saveGoodsArchives()">新增</div>
+            <div class="ubtns-item">复制</div>
+            <div class="ubtns-item">保存</div>
+            <div class="ubtns-item">关闭</div>
+        </div>
+    </div>
+    <form id="formGoodsArchivesAdd" method="post">
+        <div class="ub ub-ver ">
+            <div class="ub upad-4">
+                <div class="ub ub-ac umar-r40">
+                    <div class="umar-r10 uw-60 ut-r">货号:</div>
+                    <input id="skuCode" name="skuCode" class="uinp" readonly="readonly" type="text">
+                </div>
+                <div class="ub ub-ac umar-r40">
+                    <div class="umar-r10 uw-60 ut-r">商品名称:</div>
+                    <input id="skuName" name="skuName" class="uinp easyui-validatebox" data-options="required:true" >
+                </div>
+            </div>
+            <div class="ub upad-4">
+                <div class="ub ub-ac umar-r40">
+                    <div class="umar-r10 uw-60 ut-r">商品条码:</div>
+                    <input id="barCode" name="barCode"  class="uinp easyui-validatebox" data-options="required:true">
+                </div>
+                <div class="ub ub-ac umar-r40">
+                    <div class="umar-r10 uw-60 ut-r">助记码:</div>
+                    <input id="memoryCode" name="memoryCode"   class="uinp easyui-validatebox" data-options="required:true">
+                </div>
+            </div>
+            <div class="ub upad-4">
+                <div class="ub ub-ac umar-r40">
+                    <div class="umar-r10 uw-60 ut-r">商品类别:</div>
+                    <input id="categoryId" name="categoryId"   class="uinp" type="hidden">
+                    <input id="categoryCode" name="categoryCode"   class="uinp" type="hidden">
+                    <input id="categoryName" name="categoryName"   class="uinp" type="text">
+                    <div class="uinp-more" onclick="getGoodsType()">...</div>
+                </div>
+                <div class="ub ub-ac umar-r40">
+                    <div class="umar-r10 uw-60 ut-r">品牌:</div>
+                    <input id="brandId" name="brandId"   class="uinp" type="hidden">
+                    <input id="brandCode" name="brandCode"   class="uinp" type="hidden">
+                    <input id="brandName" name="brandName"   class="uinp" type="text">
+                    <div class="uinp-more">...</div>
+                </div>
+            </div>
+            <div class="ub upad-4">
+                <div class="ub ub-ac umar-r40">
+                    <div class="umar-r10 uw-60 ut-r">进货规格:</div>
+                    <input id="purchaseSpec" name="purchaseSpec"   class="uinp" type="text" required>
+                </div>
+                <div class="ub ub-ac umar-r40">
+                    <div class="umar-r10 uw-60 ut-r">规格:</div>
+                    <input id="spec" name="spec"   class="uinp" type="text">
+                </div>
+            </div>
+            <div class="ub upad-4">
+                <div class="ub ub-ac umar-r40">
+                    <div class="umar-r10 uw-60 ut-r">库存单位:</div>
+                    <select class="easyui-combobox uselect" name="unit">
+                        <option value="1" selected="selected">箱</option>
+                        <option value="2">套</option>
+                    </select>
+                </div>
+                <div class="ub ub-ac umar-r40">
+                    <div class="umar-r10 uw-60 ut-r">配送规格:</div>
+                    <input id="distributionSpec" name="distributionSpec"   class="uinp" type="text" required>
+                </div>
+            </div>
+            <div class="ub upad-4">
+                <div class="ub ub-ac umar-r40">
+                    <div class="umar-r10 uw-60 ut-r">商品状态:</div>
+                    <select class="easyui-combobox uselect" name="type">
+                        <option value="1" selected="selected">正常</option>
+                        <option value="2">下架</option>
+                    </select>
+                </div>
+                <div class="ub ub-ac umar-r40">
+                    <div class="umar-r10 uw-60 ut-r">产地:</div>
+                    <input id="originPlace" name="originPlace"   class="uinp" type="text">
+                </div>
+            </div>
+            <div class="ub upad-4">
+                <div class="ub ub-ac umar-r40">
+                    <div class="umar-r10 uw-60 ut-r">计价方式:</div>
+                    <select class="easyui-combobox uselect" name="pricingType">
+                        <option value="1" selected="selected">普通</option>
+                        <option value="2">VIP</option>
+                    </select>
+                </div>
+                <div class="ub ub-ac umar-r40">
+                    <div class="umar-r10 uw-60 ut-r">质保天数:</div>
+                    <input id="vaildity" name="vaildity"   class="uinp" type="text">
+                </div>
+            </div>
+            <div class="ub upad-4">
+                <div class="ub ub-ac umar-r40">
+                    <div class="umar-r10 uw-60 ut-r">主供应商:</div>
+                    <input id="supplierId" name="supplierId"   class="uinp" type="hidden" >
+                    <input id="supplierName" name="supplierName"   class="uinp" type="text" required>
+                    <div class="uinp-more">...</div>
+                </div>
+                <div class="ub ub-ac umar-r40">
+                    <div class="umar-r10 uw-60 ut-r">经营方式:</div>
+                    <input id="saleWay" name="saleWay"   class="uinp" type="text" readonly="readonly">
+                </div>
+            </div>
+            <div class="ub upad-4">
+                <div class="ub ub-ac umar-r40">
+                    <div class="umar-r10 uw-60 ut-r">联营/代销扣率:</div>
+                    <input id="supplierRate" name="supplierRate"   class="uinp" type="text">
+                </div>
+                <div class="ub ub-ac umar-r40">
+                    <div class="umar-r10 uw-60 ut-r">商品类型:</div>
+                    <select class="easyui-combobox uselect" name="select">
+                        <option value="1" selected="selected">普通商品</option>
+                        <option value="2">进口商品</option>
+                    </select>
+                </div>
+            </div>
+            <div class="ub upad-4">
+                <div class="ub ub-ac umar-r40">
+                    <div class="umar-r10 uw-60 ut-r">零售价:</div>
+                    <input id="salePrice" name="salePrice"   class="uinp" type="text">
+                </div>
+                <div class="ub ub-ac umar-r40">
+                    <div class="umar-r10 uw-60 ut-r">进货价:</div>
+                    <input id="purchasePrice" name="purchasePrice"   class="uinp" type="text">
+                </div>
+            </div>
+            <div class="ub upad-4">
+                <div class="ub ub-ac umar-r40">
+                    <div class="umar-r10 uw-60 ut-r">批发价:</div>
+                    <input id="wholesalePrice" name="wholesalePrice"   class="uinp" type="text">
+                </div>
+                <div class="ub ub-ac umar-r40">
+                    <div class="umar-r10 uw-60 ut-r">配送价:</div>
+                    <input id="distributionPrice" name="distributionPrice"   class="uinp" type="text">
+                </div>
+            </div>
+            <div class="ub upad-4">
+                <div class="ub ub-ac umar-r40">
+                    <div class="umar-r10 uw-60 ut-r">最低售价:</div>
+                    <input id="lowestPrice" name="lowestPrice"   class="uinp" type="text">
+                </div>
+                <div class="ub ub-ac umar-r40">
+                    <div class="umar-r10 uw-60 ut-r">会员价:</div>
+                    <input id="vipPrice" name="vipPrice"   class="uinp" type="text">
+                </div>
+            </div>
+            <div class="ub upad-4">
+                <div class="ub ub-ac umar-r40">
+                    <div class="umar-r10 uw-60 ut-r">毛利值:</div>
+                    <input id="" name=""   class="uinp" type="text" readonly="readonly">
+                </div>
+                <div class="ub ub-ac umar-r40">
+                    <div class="umar-r10 uw-60 ut-r">毛利率:</div>
+                    <input id="" name=""   class="uinp" type="text" readonly="readonly">
+                </div>
+            </div>
+            <div class="ub upad-4">
+                <div class="ub ub-ac umar-r40">
+                    <div class="umar-r10 uw-60 ut-r">销项税率:</div>
+                    <input id="outputTax" name="outputTax"   class="uinp" type="text" >
+                </div>
+                <div class="ub ub-ac umar-r40">
+                    <div class="umar-r10 uw-60 ut-r">进项税率:</div>
+                    <input id="inputTax" name="inputTax"   class="uinp" type="text">
+                </div>
+            </div>
+            <div class="ub upad-4">
+                <div class="ub ub-ac umar-r40">
+                    <div class="umar-r10 uw-60 ut-r">建档日期:</div>
+                    <input id="createDate" name="createDate"   class="uinp" type="text" readonly="readonly">
+                </div>
+                <div class="ub ub-ac umar-r40">
+                    <div class="umar-r10 uw-60 ut-r">建档人:</div>
+                    <input id="userName" name="userName"   class="uinp" type="text" readonly="readonly">
+                </div>
+            </div>
+            <!--<div class="ub upad-4">-->
+                <!--<div class="ub ub-ac umar-r40">-->
+                    <!--<div class="umar-r10 uw-60 ut-r">修改人:</div>-->
+                    <!--<input id="" name=""   class="uinp" type="text" readonly="readonly">-->
+                <!--</div>-->
+                <!--<div class="ub ub-ac umar-r40">-->
+                    <!--<div class="umar-r10 uw-60 ut-r">修改日期:</div>-->
+                    <!--<input id="" name=""   class="uinp" type="text" readonly="readonly">-->
+                <!--</div>-->
+            <!--</div>-->
+            <div class="ub upad-4">
+                <div class="umar-r10 uw-60 ut-r">备注:</div>
+                <textarea id="remark" name="remark" class="uh-80 uw-510 " type="text"></textarea>
+            </div>
+            <div class="ub umar-l32">
+                <div class="ub ub-ac umar-r20">
+                    <input id="managerStock" name="managerStock"   class="ub" type="checkbox" name="checkbox" checked="checked"/><span>是否管理库存</span>
+                </div>
+                <div class="ub ub-ac umar-r20">
+                    <input id="highValue" name="highValue"   class="ub" type="checkbox" name="checkbox" checked="checked"/><span>是否高值商品</span>
+                </div>
+                <div class="ub ub-ac umar-r20">
+                    <input id="attention" name="attention"   class="ub" type="checkbox" name="checkbox" checked="checked"/><span>是否关注商品</span>
+                </div>
+                <div class="ub ub-ac umar-r20">
+                    <input id="fastDeliver" name="fastDeliver"   class="ub" type="checkbox" name="checkbox" checked="checked"/><span>是否速送商品</span>
+                </div>
+            </div>
+
+        </div>
+    </form>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>采购订单-新增</title>
+    <!--easyui-->
+    <link rel="stylesheet" href="/webapp/static/libs/easyui/css/default/easyui.css">
+    <link rel="stylesheet" href="/webapp/static/libs/easyui/css/icon.css">
+    <!--ztree-->
+    <link rel="stylesheet" href="/webapp/static/libs/zTree/css/zTreeStyle.css">
+    <!--app css-->
+    <link rel="stylesheet" href="/webapp/static/css/icon.css">
+    <link rel="stylesheet" href="/webapp/static/css/style.css">
+    <link rel="stylesheet" href="../../css/component.css">
+    <link rel="stylesheet" href="/webapp/static/css/base.css">
+    <link rel="stylesheet" href="/webapp/static/css/app.css">
+
+    <!--jquery-->
+    <script src="/webapp/static/libs/jquery/js/jquery-1.11.1.min.js"></script>
+    <!--easyui-->
+    <script src="/webapp/static/libs/easyui/js/jquery.easyui.min.js"></script>
+    <script src="/webapp/static/libs/easyui/js/easyui-lang-zh_CN.js"></script>
+    <!--datepicker-->
+    <script  src="/webapp/static/libs/datepicker/WdatePicker.js"></script>
+
+    <script  src="/webapp/static/js/fun/baseEasyui.js"></script>
+    <script src="/webapp/static/js/views/purchase/orderAdd.js"></script>
+</head>
+<body class="ub uw uh ufs-14 uc-black">
+    <div class="ub ub-ver ub-f1 umar-4  ubor">
+        <div class="ub ub-ac upad-4">
+            <div class="ubtns">
+                <div class="ubtns-item">新增</div>
+                <div class="ubtns-item" onclick="saveItemHandel()">保存</div>
+                <div class="ubtns-item">审核</div>
+                <div class="ubtns-item">商品选择</div>
+                <div class="ubtns-item">扫描</div>
+                <div class="ubtns-item">删单</div>
+                <div class="ubtns-item">终止</div>
+                <div class="ubtns-item">设置</div>
+                <div class="ubtns-item">打印</div>
+                <div class="ubtns-item">明细菜单</div>
+                <div class="ubtns-item">返回</div>
+            </div>
+        </div>
+        <div class="ubor-b">
+            <div class="ub ub-ac">
+                <div class="umar-r10 ">【单      号】:</div>
+                <div class="utxt">YML129898986541</div>
+            </div>
+        </div>
+        <div class="ub umar-t8">
+            <div class="ub ub-ac umar-r80">
+                <div class="umar-r10 uw-60 ut-r">供应商:</div>
+                <input class="uinp" type="text">
+                <div class="uinp-more">...</div>
+            </div>
+            <div class="ub ub-ac umar-r80">
+                <div class="umar-r10 uw-60 ut-r">交货期限:</div>
+                <input class="Wdate " type="text"  onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true,minDate:'%y-%M-%d'})"/>
+            </div>
+            <div class="ub ub-ac umar-r80">
+                <div class="umar-r10 uw-60 ut-r">制单人员:</div>
+                <div class="utxt">管理员</div>
+            </div>
+            <div class="ub ub-ac">
+                <div class="umar-r10 uw-60 ut-r">制单日期:</div>
+                <div class="utxt">2016-8-9</div>
+            </div>
+        </div>
+        <div class="ub umar-t8">
+            <div class="ub ub-ac umar-r80">
+                <div class="umar-r10 uw-60 ut-r">仓库:</div>
+                <input class="uinp" type="text">
+                <div class="uinp-more">...</div>
+            </div>
+            <div class="ub ub-ac umar-r80">
+                <div class="umar-r10 uw-60 ut-r">采购员:</div>
+                <input class="uinp" type="text">
+                <div class="uinp-more">...</div>
+            </div>
+            <div class="ub ub-ac umar-r80">
+                <div class="umar-r10 uw-60 ut-r">审核人员:</div>
+                <div class="utxt">管理员</div>
+            </div>
+            <div class="ub ub-ac">
+                <div class="umar-r10 uw-60 ut-r">审核日期:</div>
+                <div class="utxt">2016-8-9</div>
+            </div>
+        </div>
+        <div class="ub ub-f1 datagrid-edit umar-t8">
+            <table id="gridEditOrder" ></table>
+        </div>
+    </div>
+
+</body>
+</html>

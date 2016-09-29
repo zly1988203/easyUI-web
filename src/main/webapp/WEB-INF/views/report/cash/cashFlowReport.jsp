@@ -1,0 +1,113 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>收银流水</title>
+<%@ include file="/WEB-INF/views/include/header.jsp"%>
+<script src="${ctx}/static/js/views/report/cash/cashFlowReport.js"></script>
+<style>
+.datagrid-header-row .datagrid-cell{text-align: center!important;}
+</style>
+</head>
+<body class="ub uw uh ufs-14 uc-black">
+
+    <div class="ub ub-ver ub-f1 umar-4 upad-4">
+		<form id="queryForm" action="" method="post">
+			<div class="ub ub-ac">
+	            <div class="ubtns">
+	                <div class="ubtns-item" onclick="query()">查询</div>
+	                <div class="ubtns-item" onclick="printReport()">打印</div>
+	                <div class="ubtns-item" onclick="exportExcel()">导出</div>
+	                <div class="ubtns-item" onclick="resetForm()">重置</div>
+	                <div class="ubtns-item" onclick="toClose()">退出</div>
+	            </div>
+	            
+	           	<!-- 引入时间选择控件 -->
+	            <%@ include file="/WEB-INF/views/component/dateSelect.jsp"%>
+            </div>
+	        
+	        <div class="ub umar-t8 uc-black">【收银流水】</div>
+	        <div class="ub uline umar-t8"></div>
+	        
+	          <div class="ub umar-t8">
+                <div class="ub ub-ac">
+                   <div class="umar-r10 uw-70 ut-r">店铺:</div>
+	                    <input class="uinp ub ub-f1" type="hidden" id="branchCode" name="branchCode">
+                        <input class="uinp ub ub-f1" type="text" id="branchNameOrCode" name="branchNameOrCode" onblur="cleanBranchCode();">
+                   <div class="uinp-more" onclick="searchBranch()">...</div>
+                </div>
+                <div class="ub ub-ac uselectw  umar-l20">
+                   <div class="umar-r10 uw-70 ut-r">业务类型:</div>
+                       <!--select-->
+				        <select class="easyui-combobox uselect" name="businessType" id="businessType" data-options="editable:false">
+				            <option value="" selected="selected">全部</option>
+				            <option value="A">销售</option>
+				            <option value="B">退货</option>
+				        </select>
+                </div>  
+            </div>
+	        <div class="ub umar-t8">
+                <div class="ub ub-ac">
+                    <div class="umar-r10 uw-70 ut-r">单号:</div>
+                    <input class="uinp" type="text" name="orderNo" id="orderNo">
+                </div>
+                <div class="ub ub-ac uselectw umar-l20">
+                    <div class="umar-r10 uw-70 ut-r">付款方式:</div>
+                       <!--select-->
+				        <select class="easyui-combobox uselect uw-300" name="payType" id="payType" data-options="editable:false">
+				            <option value="" selected="selected">全部</option>
+				            <option value="RMB">现金</option>
+				            <!-- <option value="ZER">抹零</option> -->
+				            <option value="YHK">银行卡</option>
+				            <option value="ZFB">支付宝</option>
+				            <option value="WZF">微支付</option>
+				            <option value="YQB">云钱包</option>
+				            <option value="DJQ">代金券</option>
+				            <option value="PDF">平台垫付</option>
+				            <option value="PBT">平台补贴</option>
+				            <option value="DXR">店小二</option>
+				        </select>
+                </div>  
+            </div>
+            
+             <div class="ub umar-t8">
+                <div class="ub ub-ac uselectw">
+                    <div class="umar-r10 uw-70  ut-r">订单类型:</div>
+                       <!--select-->
+				        <select class="easyui-combobox uselect " name="orderType" id="orderType" data-options="editable:false">
+				            <option value="" selected="selected">全部</option>
+				            <option value="0">APP</option>
+				            <option value="1">微信</option>
+				            <option value="2">POS订单</option>
+				        </select>
+                </div>
+             <!-- 
+                   <div class="ub ub-ac uselectw umar-l20">
+                    <div class="umar-r10 uw-70 ut-r">统计方式:</div>
+                       select
+				        <select class="easyui-combobox uselect" name="statisType" id="statisType" data-options="editable:false">
+				            <option value="0" selected="selected">全部</option>
+				            <option value="1">已完成</option>
+				            <option value="2">未完成</option>
+				        </select>
+                </div> -->
+                <div class="ub ub-ac umar-l20">
+                    <div class="umar-r10 uw-70 ut-r">收银员:</div>
+					<input type="hidden" name="cashierId" id="cashierId" class="uinp" />
+					<input type="text" name="cashierNameOrCode" id="cashierNameOrCode" class="uinp" onblur="clearCashierId()" />
+					<div class="uinp-more" id="cashierIdSelect" onclick="searchCashierId()">...</div>
+                </div>
+            </div>
+       	</form>
+       	<div class="ub umar-t8 umar-b8">【查询结果】</div>
+        <div class="ub ub-f1">
+			 <table id="cashWater"></table>
+		</div>
+    </div>
+
+</body>
+
+</html>

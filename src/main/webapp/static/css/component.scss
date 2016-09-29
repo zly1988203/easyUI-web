@@ -1,0 +1,229 @@
+/*component css*/
+@import "config.scss";
+/*==========================button from huangjiang to 2016-8-4 17:48:32===========================*/
+.ubtn{
+  width: 60px;
+  height: 32px;
+  line-height: 32px;
+  text-align: center;
+  color:$c-black;
+  font-size: 14px;
+  border: 1px solid $c-grey-while;
+  border-radius: 4px;
+  background-color: $c-while;
+}
+.ubtn:hover{
+  background-color: $c-grey-while;
+}
+.usure{
+  background-color: #d2423e;
+  color:$c-while;
+}
+.ucancle{
+  background-color: #6e6e6e;
+  color:$c-while;
+}
+.ubtn-icon{
+
+}
+.ubtns{
+  @include ub;
+  border: 1px solid $c-grey-while;
+  border-radius: 4px;
+  .ubtns-item{
+    @include ub;
+    @include ub-pc;
+    font-size: 14px;
+    width: 72px;
+    height: 32px;
+    line-height: 32px;
+    color: $c-black;
+    border: none;
+    border-right: 1px solid $c-grey-while;
+    background-color: $c-while;
+  }
+  .ubtns-item:end{
+    border-right: 1px solid transparent;
+  }
+  .ubtns-item:hover{
+    color: $c-yellow;
+    background-color: $c-grey-while;
+  }
+}
+/*==========================line from huangjiang to 2016-8-4 17:48:32===========================*/
+.uline{
+  width: 100%;
+  height: 1px;
+  background-color: $c-grey-while;
+}
+.uline-v{
+  width: 1px;
+  height: 100%;
+  background-color: $c-grey-while;
+}
+/*==========================input from huangjiang to 2016-8-4 17:48:32===========================*/
+.upublic{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top:0;
+  background-color: rgba(255,255,255,0.8);
+  z-index: 9
+}
+.urequired{
+  font-size: 16px;
+  color: red;
+}
+.utxt{
+  width: 200px;
+  height: 30px;
+  line-height: 30px;
+}
+.uinp{
+  width: 200px;
+  height: 30px;
+  border: 1px solid $c-grey-while;
+  text-indent: 4px;
+  padding: 0 !important;
+}
+.uinp:read-only{
+  border: 1px solid $c-grey-while;
+  background-color: $c-disabled;
+  //opacity: 0.5;
+}
+.textbox-readonly input{
+  background-color: #efefef !important; }
+.uinp-more{
+  position: absolute;
+  top:0;
+  right: 0;
+  height: 30px;
+  padding: 0 4px;
+  margin: 1px;
+  cursor: pointer;
+  //background-color: $c-while;
+}
+.uinp-date{
+  width: 200px;
+  height: 30px;
+  border: 1px solid $c-grey-while;
+  text-indent: 4px;
+}
+/*==========================select css from huangjiang to 2016-8-4 17:48:32===========================*/
+.uselect{
+  width: 200px !important;
+  height: 32px !important;
+}
+/*==========================datagrid css from huangjiang to 2016-8-4 17:48:32===========================*/
+.datagrid{
+  .row-up{background: url(../images/base/UI_RowUP.png) no-repeat ;width: 32px;height: 20px;}
+  .row-down{background: url(../images/base/UI_RowDown.png) no-repeat ;width: 32px;height: 20px;}
+}
+.datagrid-edit{
+  .add-line{background: url(../images/base/sidebar.png) no-repeat -10px -55px;width: 9px;height: 9px;}
+  .del-line{background: url(../images/base/sidebar.png) no-repeat -10px -38px;width: 9px;height: 9px;}
+  .textbox-text{
+    //height: 18px !important;
+  }
+}
+/*==========================WdatePicker reset css from huangjiang to 2016-8-10 14:10:02==========================*/
+//.Wdate{
+//  width: 200px;
+//  height: 30px !important;
+//  border: 1px solid $c-grey-while !important;
+//  text-indent: 4px;
+//}
+/*==========================easyui reset css from huangjiang to 2016-8-4 17:48:32===========================*/
+.textbox{
+  border-radius: 0px !important;
+}
+.uinp{
+  .textbox-text{
+    width: 200px !important;
+    height: 32px !important;
+    border-radius: 0px !important;
+    color: $c-black;
+    padding: 0 4px !important;
+  }
+  .combo{
+    width: 200px !important;
+    height: 32px !important;
+  }
+  .combo-arrow{
+    height: 32px !important;
+  }
+}
+.textbox .combo{
+  width: 200px !important;
+  height: 32px !important;
+}
+
+
+.datagrid{
+  width: 100% ;
+  .datebox{
+    width: 100px !important;
+    border: 1px solid #95B8E7;
+  }
+  .textbox{
+    height: 30px !important;
+    line-height: 30px !important;
+  }
+  .textbox-disabled{
+    .textbox-text{
+      background: rgba(255,255,255,0) !important;
+      border: none !important;
+    }
+    background: rgba(255,255,255,0) !important;
+    border: none !important;
+  }
+}
+.panel-header,.window-header{
+  //border: 1px solid $c-grey-while;
+  //border-bottom: 1px solid transparent;
+  //border-radius: 4px 4px 0 0;
+  //padding: 10px 0px!important;
+  background:none;
+  width: 100% !important;
+  border-color: $c-grey-while;
+}
+.panel-title,.window-title{
+  font-size: 14px;
+  //border-width: 0px !important;
+
+}
+.panel-body,.window-body{
+  width: auto!important;
+  border-color: $c-grey-while !important;
+  //border-radius: 0 0 4px 4px !important;;
+}
+.panel-title{
+  //margin-left: 10px;
+}
+.panel-tool{
+  //margin-right: 10px;
+}
+
+.window {
+  background:$c-while !important;
+  border-color:$c-grey-while;
+  //padding: 0 !important;
+}
+
+.dialog-button{
+  border-width: 0;
+  top:0px !important;
+  right: 20px !important;
+}
+.dialog-button .l-btn {
+  margin-left: 5px;
+  padding: 4px;
+  font-size: 14px;
+  width: 80px;
+}
+/*==========================easyui reset css from zhanghuan to 2016-9-5 14:30===========================*/
+.textbox{border-radius: 0;border: 1px solid #c9c9c9;height: 32px !important;}
+.textbox-text,.easyui-validatebox,.easyui-textbox{height: 32px !important; text-indent:4px;padding:0 !important; border: 1px solid #c9c9c9; width: 200px; line-height: 20px !important;
+  background-color: #fff; vertical-align: baseline; color: #393939;  outline: none;}
+.textbox-text:focus, .easyui-validatebox:focus {border-color: #aaa; background-color: #fff; box-shadow: 0 0 2px rgba(50,50,50,0.2); color: #333;}
+.uinp-more.new-right{right:10px;}

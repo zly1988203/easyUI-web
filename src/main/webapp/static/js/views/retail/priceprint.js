@@ -1,0 +1,237 @@
+/**
+ * Created by wxl on 2016/08/17.
+ */
+var datagridId = "pricePrint";
+$(function(){
+	//初始化列表
+	initPricePrintGrid();
+
+	$('#printnum').on('input',function(){
+		printRows($(this).val());
+	})
+	$('#discount').on('keyup',function(){
+		discountRows($(this).val());
+	})
+});
+var grid = new GridClass();
+grid.setGridName("pricePrint");
+function initPricePrintGrid() {
+	$("#"+datagridId).datagrid({
+		//title:'普通表单-用键盘操作',
+		method: 'get',
+		align: 'center',
+//		data:{"rows":[{"skuCode":"1","skuName":"s","promotionPrice":"50","printCount":"5"},{"skuCode":"2","skuName":"s","promotionPrice":"40","printCount":"6"},{"skuCode":"3","skuName":"s","promotionPrice":"30","printCount":"7"},{"skuCode":"4","skuName":"s","promotionPrice":"20","printCount":"8"}]},
+		//url: '../../json/component.json',
+		//toolbar: '#tb',     //工具栏 id为tb
+		singleSelect: false,  //单选  false多选
+		rownumbers: true,    //序号
+		//pagination: true,    //分页
+		//fitColumns:true,    //占满
+		//showFooter:true,
+		columns: [[
+		           {field: 'skuCode', title: '货号', width: 200, align: 'center',  },
+		           {field: 'skuName', title: '商品名称', width: 200, align: 'center',},
+		           {field: 'barCode', title: '条码', width: 150, align: 'center'},
+		           {field: 'spec', title: '规格', width: 150, align: 'center'},
+		           {field: 'unit', title: '单位', width: 100, align: 'center'},
+		           {field: 'originPlace', title: '产地', width: 100, align: 'center'},
+		           {field: 'salePrice', title: '销售价', width: 80, align: 'center'
+		        	   ,editor:{
+		        		   type:'numberbox',
+		        		   options:{
+		        			   min:0,
+		        			   precision:2,
+		        		   }
+		        	   },
+		        	   formatter:function(value,row,index){
+		        		   return  getTwoDecimalB(value);
+		        	   },
+		           },
+		           {field: 'promotionPrice', title: '促销价', width: 100, align: 'center',
+		        	   editor:{
+		        		   type:'numberbox',
+		        		   options:{
+		        			   min:0,
+		        			   precision:2,
+		        		   }
+		        	   },
+		        	   formatter:function(value,row,index){
+		        		   return  getTwoDecimalB(value);
+		        	   },
+
+		        	   // formatter : function(value, row,index) {
+		        	   //   var str = "<input class='uw-192' style='height:22px;line-height:22px;width: 90%;text-align:center;' value='0'>";
+		        	   //   return str;
+		        	   //},
+
+		           },
+
+		           {field: 'printCount', title: '打印数', width: 80, align: 'center',
+		        	   editor:{
+		        		   type:'numberbox',
+		        		   options:{
+		        			   min:1,
+		        			   precision:0,
+		        		   }
+		        	   },
+		        	   //getEditors : function(value, row,index) {
+		        	   //   var str = "<input class='uw-192' style='height:22px;line-height:22px;width: 90%;text-align:center;' value='1'>";
+		        	   //   return str;
+		        	   //},
+		           },
+		           ]],
+		           onClickCell:function(rowIndex,field,value){
+		        	   grid.setBeginRow(rowIndex);
+		        	   grid.setSelectFieldName(field);
+		           },
+	});
+}
+
+
+var gVarImportType = '1';
+function importproduct(){
+	gVarImportType = '0';
+	if(subArry){
+		subArry = [];
+	}
+	$('#xlf').val("");
+	$('#filename').val("");
+	$('.uatk').show();
+
+}
+function importproductAll(){
+	gVarImportType = '1';
+	if(subArryAll){
+		subArryAll = [];
+	}
+	$('#xlf').val("");
+	$('#filename').val("");
+	$('.uatk').show();
+
+}
+
+function uaclose(){
+	$('#filename').val("");
+	$('.uatk').hide();
+
+}
+
+//打印数设置 表格列数同步
+function printRows(printNum){
+	// 获取选中行的Index的值
+	var rowIndex = -1;
+	var newData = $("#"+datagridId).datagrid("getRows");
+	for(var i = 0;i < newData.length;i++){
+		newData[i].printCount= printNum;
+
+		rowIndex = $("#"+datagridId).datagrid('getRowIndex',newData[i]);
+		//更新行数据
+		$("#"+datagridId).datagrid('updateRow',{
+			index: rowIndex,
+			row: newData[i]
+		});
+		//刷新行
+		$("#"+datagridId).datagrid('refreshRow',rowIndex);
+	}
+}
+//打折 表格列数同步
+function discountRows(discountNum){
+	// 获取选中行的Index的值
+	var rowIndex = -1;
+	var newData = $("#"+datagridId).datagrid("getRows");
+
+	for(var i = 0;i < newData.length;i++){
+
+		newData[i].promotionPrice= discountNum*newData[i].salePrice/10;
+
+		rowIndex = $("#"+datagridId).datagrid('getRowIndex',newData[i]);
+		//更新行数据
+		$("#"+datagridId).datagrid('updateRow',{
+			index: rowIndex,
+			row: newData[i]
+		});
+		//刷新行
+		$("#"+datagridId).datagrid('refreshRow',rowIndex);
+	}
+}
+
+//打印的数据
+function printtable(){
+	if(!window.localStorage)
+	{
+		return false;
+	}
+	else{
+		$('#'+datagridId).datagrid('endEdit', grid.getSelectRowIndex());                  //结束之前的编辑
+		var storage=window.localStorage;
+		var printdata= $("#"+datagridId).datagrid('getRows');
+		console.log(printdata);
+		var tabledata=JSON.stringify(printdata);
+		/* var printNo= $('#optionseletc').val();*/
+		var printNo=$("#optionseletc").find("option:selected").val();
+		//console.log("printNo:"+printNo);
+		var checkText=$('#optionseletc').combobox('getValue');
+		//console.log("checkText:"+checkText);
+		var data=tabledata.substring(tabledata.indexOf('['),tabledata.lastIndexOf(']')+1) 
+		// console.log("data:"+data.length);
+		// 为空判断data.length的长度
+		if(data.length>=3){
+			storage.prdata=data;
+			storage.printNo=checkText;
+			window.open(contextPath + "/print/printGoodsView"); 
+		}
+		else {
+			messager("打印数据不能为空！");
+			return;
+		}
+
+	}
+}
+
+//商品选择  方法
+function chooseproduct(){
+	new publicGoodsService('PC',function(data){
+
+		var obj = {
+				/*id : "skuId",
+    			purchasePrice : 'oldPurPrice',
+    			distributionPrice : 'oldDcPrice',
+    			vipPrice : 'oldVipPrice',
+    			wholesalePrice : 'oldWsPrice',
+    			salePrice : 'oldSalePrice',
+    			disabled :""*/
+		}
+		gFunUpdateKey(data, obj);
+		$("#pricePrint").datagrid("unselectAll");
+		//$("#pricePrint").datagrid("endEdit", editRowIndex);
+		$.each(data,function(i,row){
+			row["promotionPrice"] = row["salePrice"] ;
+			row["printCount"] = row["printCount"]||1 ;
+
+		})
+		var rows = grid.getRows("pricePrint");
+
+		$.each(rows,function(i,rowItem){
+			$.each(data,function(j,dataItem){
+				if(rowItem.skuCode==dataItem.skuCode){
+					rowItem.printCount = parseInt(rowItem.printCount)+1;
+					data.splice(j,1);
+					return false;
+				}
+			})
+		});
+
+		//debugger;
+		var newRows = rows.concat(data)// $.extend(rows,data);
+//		var newRowsTwo = [];
+//		for(var i = 0;i < newRows.length;i++){
+//		newRowsTwo.push({"skuCode":newRows[i].skuCode,"skuName":newRows[i].skuName,"barCode":newRows[i].barCode
+//		,"spec":newRows[i].spec,"unit":newRows[i].unit,"originPlace":newRows[i].originPlace
+//		,"promotionPrice":newRows[i].promotionPrice,"salePrice":newRows[i].salePrice,"printCount":1});
+//		}
+		$("#pricePrint").datagrid("loadData", newRows);
+
+	});
+
+}
+

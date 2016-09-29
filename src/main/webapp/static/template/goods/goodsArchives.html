@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>商品档案</title>
+    <!--easyui-->
+    <link rel="stylesheet" href="/webapp/static/libs/easyui/css/default/easyui.css">
+    <link rel="stylesheet" href="/webapp/static/libs/easyui/css/icon.css">
+    <!--ztree-->
+    <link rel="stylesheet" href="/webapp/static/libs/zTree/css/zTreeStyle.css">
+    <!--app css-->
+    <link rel="stylesheet" href="/webapp/static/css/icon.css">
+    <link rel="stylesheet" href="/webapp/static/css/style.css">
+    <link rel="stylesheet" href="/webapp/static/css/component.css">
+    <link rel="stylesheet" href="/webapp/static/css/base.css">
+    <link rel="stylesheet" href="/webapp/static/css/app.css">
+
+    <!--jquery-->
+    <script src="/webapp/static/libs/jquery/js/jquery-1.11.1.min.js"></script>
+    <!--easyui-->
+    <script src="/webapp/static/libs/easyui/js/jquery.easyui.min.js"></script>
+    <script src="/webapp/static/libs/easyui/js/easyui-lang-zh_CN.js"></script>
+    <!--ztree-->
+    <script src="/webapp/static/libs/zTree/js/jquery.ztree.core.min.js"></script>
+    <!--datepicker-->
+    <script src="/webapp/static/libs/datepicker/WdatePicker.js"></script>
+
+    <script src="/webapp/static/js/fun/baseEasyui.js"></script>
+
+    <script src="/webapp/static/js/views/goods/goodsArchives.js"></script>
+</head>
+<body class="ub uw uh ufs-14 uc-black">
+<div class="ub  ub-f1 umar-4 upad-4">
+    <!--left-->
+    <div class="ub ub-ver ubor">
+        <div class="upad-4">
+            <select id="goodsType" class="easyui-combobox uselect"></select>
+        </div>
+        <div class="ubor-b "></div>
+        <div class="ub upad-4">
+            <div class="zTreeDemoBackground left">
+                <ul id="treeArchives" class="ztree"></ul>
+            </div>
+        </div>
+    </div><!--left end-->
+    <div class="ub ub-ver ub-f1 upad-4">
+        <div class="ub ub-ac">
+            <div class="ubtns">
+                <button class="ubtns-item" onclick="goodsAddView()">新增</button>
+                <button class="ubtns-item">保存</button>
+                <button class="ubtns-item">审核</button>
+                <button class="ubtns-item">商品选择</button>
+                <button class="ubtns-item">扫描</button>
+                <button class="ubtns-item">删单</button>
+                <button class="ubtns-item">终止</button>
+                <button class="ubtns-item">设置</button>
+                <button class="ubtns-item">打印</button>
+                <button class="ubtns-item">明细菜单</button>
+                <button class="ubtns-item">返回</button>
+            </div>
+        </div>
+        <form action="" id="formGoodsArchives">
+            <div class="ub umar-t4">
+                <div class="ub ub-ac umar-r10">
+                    <div class="umar-r10  ut-r">关键字:</div>
+                    <input class="uinp uw-400" type="text" name="goodsInfo" placeholder="输入货号、品名、自编码、助记码、附加条码进行查询">
+                </div>
+                <input type="button" class="ubtn  umar-r10" value="查询" onclick="goodsSearch()">
+                <div class="ub ub-ac umar-r10">
+                    <input class="ub" type="checkbox" name="outGoods" /><span>淘汰商品</span>
+                </div>
+            </div>
+        </form>
+
+        <div class="ub umar-t10 ">
+            <table id="gridArchives" ></table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,7 @@
+﻿.print {
+    margin:10px auto 10px auto;
+}
+.borderable {
+    border: 2px solid black;
+    padding: 3px;
+}

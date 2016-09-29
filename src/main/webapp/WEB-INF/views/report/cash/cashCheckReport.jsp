@@ -1,0 +1,73 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>收银对账</title>
+<%@ include file="/WEB-INF/views/include/header.jsp"%>
+<script src="${ctx}/static/js/views/report/cash/cashCheckReport.js"></script>
+<style>
+.datagrid-header-row .datagrid-cell{text-align: center!important;}
+</style>
+</head>
+<body class="ub uw uh ufs-14 uc-black">
+ <div class="ub ub-ver ub-f1 umar-4 upad-4">
+		<form id="queryForm" action="" method="post">
+			<div class="ub ub-ac">
+	            <div class="ubtns">
+	                <div class="ubtns-item" onclick="query()">查询</div>
+                	<div class="ubtns-item" onclick="printReport()">打印</div>
+                    <div class="ubtns-item" onclick="resetForm()">重置</div>
+	                <div class="ubtns-item" onclick="exportExcel()">导出</div>
+	                <div class="ubtns-item" onclick="toClose()">退出</div>
+	            </div>
+	            
+	           	<!-- 引入时间选择控件 -->
+	            <%@ include file="/WEB-INF/views/component/dateSelect.jsp"%>
+            </div> 
+            
+            <div class="ub umar-t8 uc-black">【收银对账】</div>
+	        <div class="ub uline umar-t8"></div>
+
+	         <div class="ub umar-t8">
+                <div class="ub ub-ac">
+                    <div class="umar-r10 uw-70 ut-r">店铺:</div>
+	                   <input class="uinp" type="hidden" id="branchCode" name="branchCode">
+	                   <input class="uinp" type="text" id="branchNameOrCode" name="branchNameOrCode" onblur="clearBranchCode()">
+                   <div class="uinp-more" onclick="searchBranch()">...</div>
+                </div>
+                <div class="ub ub-ac">
+                    <div class="umar-r10 uw-70 ut-r">收银员:</div>
+	                <input type="hidden" name="cashierId" id="cashierId" class="uinp" />
+					<input type="text" name="cashierNameOrCode" id="cashierNameOrCode" class="uinp" onblur="clearCashierId()" />
+					<div class="uinp-more" onclick="searchCashierId()">...</div>
+                </div>
+               
+                 <div class="ub ub-ac uw-300 umar-l20">
+                    <div class="umar-r10 uw-70 ut-r">付款方式:</div>
+                       <!--select-->
+				        <select class="easyui-combobox uselect" name="payType" id="payType" data-options="editable:false">
+				            <option value="" selected="selected">全部</option>
+				            <option value="RMB">现金</option>
+				            <!-- <option value="ZER">抹零</option> -->
+				            <option value="YHK">银行卡</option>
+				            <option value="ZFB">支付宝</option>
+				            <option value="WZF">微支付</option>
+				            <option value="YQB">云钱包</option>
+				            <option value="DJQ">代金券</option>
+				            <option value="PDF">平台垫付</option>
+				            <option value="PBT">平台补贴</option>
+				            <option value="DXR">店小二</option>
+				        </select>
+                </div>  
+            </div>
+       	</form>
+       	<div class="ub umar-t8 umar-b8">【查询结果】</div>
+        <div class="ub ub-f1">
+			<table id="cashReconcile"></table>
+		</div>
+    </div>
+</body>
+</html>

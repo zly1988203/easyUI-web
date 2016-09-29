@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>商品档案</title>
+    <!-- easyui皮肤 -->
+    <link href="/webapp/static/base/easyui/themes/icon.css" rel="stylesheet" type="text/css" />
+
+    <!-- 自定义easyUI皮肤 -->
+    <link href="/webapp/static/base/frame/css/metro-blue/easyui.css" rel="stylesheet" type="text/css" />
+    <link href="/webapp/static/base/frame/css/icon.css" rel="stylesheet" type="text/css" />
+    <link href="/webapp/static/base/frame/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="/webapp/static/base/frame/css/jquery.loadmask.css" rel="stylesheet" type="text/css" />
+    <!--<link href="/webapp/static/base/frame/css/form.css" rel="stylesheet" type="text/css" />-->
+
+    <!-- 扩展样式 -->
+    <link href="/webapp/static/base/css/common_ex.css" rel="stylesheet" type="text/css" />
+
+    <script src="/webapp/static/base/js/jquery-1.11.1.min.js" type="text/javascript"></script>
+    <script src="/webapp/static/base/easyui/jquery.easyui.min.js" type="text/javascript"></script>
+
+    <!-- My97插件 -->
+    <script type="text/javascript" src="/webapp/static/base/plugins/My97DatePicker/WdatePicker.js"></script>
+    <script type="text/javascript" src="/webapp/static/base/easyui/extensions/jquery.my97.js"></script>
+    <link href="/webapp/static/base/easyui/themes/default/my97.css" rel="stylesheet" type="text/css" />
+
+    <script src="/webapp/static/base/easyui/locale/easyui-lang-zh_CN.js" type="text/javascript"></script>
+
+    <script src="/webapp/static/base/ex/common_ex.js" type="text/javascript"></script>
+    <script type="text/javascript" src="/webapp/static/base/ex/jquery.loadmask.min.js"></script>
+
+    <script src="/webapp/static/common/js/jquery.rotate.min.js"></script>
+
+    <script src="/webapp/static/common/js/common.js"></script>
+
+    <!-- 多级树插件 -->
+    <script src="/webapp/static/base/frame/js/jquery.ztree.core.min.js"></script>
+    <link href="/webapp/static/base/frame/css/zTreeStyle.css" rel="stylesheet" type="text/css">
+
+    <script>
+        window.addEventListener('message',function(e){
+            window.onbeforeunload = null;
+            window.location.replace('/webapp');
+        },false);
+    </script>
+</head>
+<body>
+<div class="ub ub-f1 bas-item-list">
+    <!--tree-->
+    <div class="ub ub-ver tree-shop ">
+        <div class="ub select-shop">
+            <select class="easyui-combobox" name="state" style="width:180px;">
+                <option value="0">类别</option>
+                <option value="1">品牌</option>
+                <option value="2">供应商</option>
+            </select>
+        </div>
+        <div class="ub ub-f1">
+            <div class="zTreeDemoBackground left">
+                <ul id="treeShop" class="ztree"></ul>
+            </div>
+        </div>
+
+    </div>
+    <div class="ub ub-ver ub-f1 item-cont">
+        <div class="ub ub-ver">
+            <div class="ub">
+                <div class="ub actions">
+                    <div id="addItem" class="ub action">新增</div>
+                    <div class="ub action">复制</div>
+                    <div class="ub action">修改</div>
+                    <div class="ub action">删除</div>
+                    <div class="ub action">打印</div>
+                    <div class="ub action">设置</div>
+                    <div class="ub action">退出</div>
+                </div>
+            </div>
+            <div class="ub ub-ac search">
+                <span>关键字：</span>
+                <input class="search-key" name="search_key" placeholder="关键字可输入货号、品名、自编码、助记码、附加码进行查询">
+                <div>
+                    <a href="#"  class="button" >查询</a>
+                </div>
+                <input class="ub search-radio" type="checkbox" value="1">
+                <span class="ub ">淘汰商品</span>
+            </div>
+        </div>
+        <div class="ub ub-f1">
+            <table id="grid02" class="ub ub-f1" style="width: 100%;height: auto;"></table>
+        </div>
+    </div>
+</div>
+
+<!--add shopping-->
+<div id="addItemView" class="ufix add-item-view uhide">
+    <div class="ub uh ub-f1 ub-ac ub-pc">
+        <div  id="addItemViewPanel"class="easyui-panel" title="新增商品" style="width:700px;padding:10px;"
+             data-options="closable:true,onClose:closeAddItemForm,tools:'#tt'">
+            <div class="easyui-tabs" style="width: 100%;height:380px;">
+                <div title="基本信息" style="padding:10px">
+                    <div class="ub uw uh ub-ver">
+                        <div class="ub form-row">
+                            <div class="ub ub-ac ub-f1 ub-pc">
+                                <div class="form-item-title">货号：</div>
+                                <input type="text" class="form-input">
+                            </div>
+                            <div class="ub ub-ac ub-f1 ub-pc">
+                                <div class="form-item-title">品名：</div>
+                                <input type="text" class="form-input">
+                            </div>
+                        </div>
+                        <div class="ub form-row">
+                            <div class="ub ub-ac ub-f1 ub-pc">
+                                <div class="form-item-title">自编码：</div>
+                                <input type="text" class="form-input">
+                            </div>
+                            <div class="ub ub-ac ub-f1 ub-pc">
+                                <div class="form-item-title">助记码：</div>
+                                <input type="text" class="form-input">
+                            </div>
+                        </div>
+                        <div class="ub form-row">
+                            <div class="ub ub-ac ub-f1 ub-pc">
+                                <div class="form-item-title">品牌：</div>
+                                <input type="text" class="form-input">
+                            </div>
+                            <div class="ub ub-ac ub-f1 ub-pc">
+                                <div class="form-item-title">简称：</div>
+                                <input type="text" class="form-input">
+                            </div>
+                        </div>
+                        <div class="ub form-row">
+                            <div class="ub ub-ac ub-f1 ub-pc">
+                                <div class="form-item-title">类别：</div>
+                                <input type="text" class="form-input">
+                            </div>
+                            <div class="ub ub-ac ub-f1 ub-pc">
+                                <div class="form-item-title">规格：</div>
+                                <input type="text" class="form-input">
+                            </div>
+                        </div>
+                        <div class="ub form-row">
+                            <div class="ub ub-ac ub-f1 ub-pc">
+                                <div class="form-item-title">供应商：</div>
+                                <input type="text" class="form-input">
+                            </div>
+                            <div class="ub ub-ac ub-f1 ub-pc">
+                                <div class="form-item-title">单位：</div>
+                                <input type="text" class="form-input">
+                            </div>
+                        </div>
+                        <div class="ub form-row">
+                            <div class="ub ub-ac ub-f1 ub-pc">
+                                <div class="form-item-title">经营方式：</div>
+                                <input type="text" class="form-input-small">
+                                <div class="form-item-title">联营扣率：</div>
+                                <input type="text" class="form-input-small" value="0.00">
+                            </div>
+                            <div class="ub ub-ac ub-f1 ub-pc">
+                                <div class="form-item-title">进货规格：</div>
+                                <input type="text" class="form-input-small" value="1.00">
+                                <div class="form-item-title">毛利率：</div>
+                                <input type="text" class="form-input-small" value="0.00">
+                            </div>
+                        </div>
+                        <div class="ub form-row">
+                            <div class="ub ub-ac ub-f1 ub-pc" style="width: 1px;">
+                                <div class="form-item-title">商品类型：</div>
+                                <select class="easyui-combobox" name="shopType" style="width:200px;">
+                                    <option value="0">类别</option>
+                                    <option value="1">品牌</option>
+                                    <option value="2">供应商</option>
+                                </select>
+                            </div>
+                            <div class="ub ub-f1"  style="width: 1px;"></div>
+                        </div>
+                        <div class="ub form-row">
+                            <div class="ub ub-ac ub-f1 ub-pc">
+                                <div class="form-item-title">进价：</div>
+                                <input type="text" class="form-input">
+                            </div>
+                            <div class="ub ub-ac ub-f1 ub-pc">
+                                <div class="form-item-title">零售价：</div>
+                                <input type="text" class="form-input">
+                            </div>
+                        </div>
+                        <div class="ub form-row">
+                            <div class="ub ub-ac ub-f1 ub-pc">
+                                <div class="form-item-title">批发价：</div>
+                                <input type="text" class="form-input">
+                            </div>
+                            <div class="ub ub-ac ub-f1 ub-pc">
+                                <div class="form-item-title">最低售价：</div>
+                                <input type="text" class="form-input">
+                            </div>
+                        </div>
+                        <div class="ub form-row">
+                            <div class="ub ub-ac ub-f1 ub-pc">
+                                <div class="form-item-title">配送价：</div>
+                                <input type="text" class="form-input">
+                            </div>
+                            <div class="ub ub-ac ub-f1 ub-pc">
+                                <div class="form-item-title">会员价1：</div>
+                                <input type="text" class="form-input">
+                            </div>
+                        </div>
+                        <div class="ub form-row">
+                            <div class="ub ub-ac ub-f1">
+                                <input class="ub radio" type="checkbox" value="1">
+                                <span class="ub ">管理库存</span>
+                            </div>
+                            <div class="ub ub-ac ub-f1">
+                                <input class="ub radio" type="checkbox" value="1">
+                                <span class="ub ">前台打折</span>
+                            </div>
+                            <div class="ub ub-ac ub-f1">
+                                <input class="ub radio" type="checkbox" value="1">
+                                <span class="ub ">前台议价</span>
+                            </div>
+                            <div class="ub ub-ac ub-f1">
+                                <input class="ub radio" type="checkbox" value="1">
+                                <span class="ub ">前台赠送</span>
+                            </div>
+                            <div class="ub ub-ac ub-f1">
+                                <input class="ub radio" type="checkbox" value="1">
+                                <span class="ub ">是否积分</span>
+                            </div>
+                            <div class="ub ub-ac ub-f1">
+                                <input class="ub radio" type="checkbox" value="1">
+                                <span class="ub ">分店变价</span>
+                            </div>
+                            <div class="ub ub-ac ub-f1">
+                                <input class="ub radio" type="checkbox" value="1">
+                                <span class="ub ">试用品</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div title="辅助属性" style="padding:10px">
+                    <div class="ub uw uh ub-ver ub-pj">
+                        <div class="ub form-row">
+                            <div class="ub ub-ac ub-f1 ub-pc">
+                                <div class="form-item-title">第三方编码：</div>
+                                <input type="text" class="form-input">
+                            </div>
+                            <div class="ub ub-ac ub-f1 ub-pc">
+                                <div class="form-item-title">产地：</div>
+                                <input type="text" class="form-input">
+                            </div>
+                        </div>
+                        <div class="ub form-row">
+                            <div class="ub ub-ac ub-f1 ub-pc">
+                                <div class="form-item-title">有效期：</div>
+                                <input type="text" class="form-input">
+                            </div>
+                            <div class="ub ub-ac ub-f1 ub-pc">
+                                <div class="form-item-title">采购周期：</div>
+                                <input type="text" class="form-input">
+                            </div>
+                        </div>
+                        <div class="ub form-row">
+                            <div class="ub ub-ac ub-f1 ub-pc">
+                                <div class="form-item-title">进项税：</div>
+                                <input type="text" class="form-input">
+                            </div>
+                            <div class="ub ub-ac ub-f1 ub-pc">
+                                <div class="form-item-title">销项税：</div>
+                                <input type="text" class="form-input">
+                            </div>
+                        </div>
+                        <div class="ub form-row">
+                            <div class="ub ub-ac ub-f1 ub-pc">
+                                <div class="form-item-title">商品状态：</div>
+                                <select class="easyui-combobox" name="shopType" style="width:200px;">
+                                    <option value="0">正常</option>
+                                    <option value="1">停售</option>
+                                    <option value="2">停购</option>
+                                    <option value="3">淘汰</option>
+                                </select>
+                            </div>
+                            <div class="ub ub-ac ub-f1 ub-pc">
+                                <div class="form-item-title">商品备注：</div>
+                                <input type="text" class="form-input">
+                            </div>
+                        </div>
+                        <div class="ub form-row">
+                            <div class="ub ub-ac ub-f1 ub-pc">
+                                <div class="form-item-title">提成方式：</div>
+                                <select class="easyui-combobox" name="shopType" style="width:200px;">
+                                    <option value="0">按比例</option>
+                                    <option value="1">按金额</option>
+                                </select>
+                            </div>
+                            <div class="ub ub-ac ub-f1 ub-pc">
+                                <div class="form-item-title">提成数值：</div>
+                                <input type="text" class="form-input">
+                            </div>
+                        </div>
+                        <div class="ub form-row">
+                            <div class="ub ub-ac ub-f1 ub-pc">
+                                <div class="form-item-title">库管类型：</div>
+                                <select class="easyui-combobox" name="shopType" style="width:70px;">
+                                    <option value="0">标准</option>
+                                    <option value="1">批次</option>
+                                </select>
+                                <div class="form-item-title">积分值：</div>
+                                <input type="text" class="form-input-small" value="0.00">
+                            </div>
+                            <div class="ub ub-ac ub-f1 ub-pc">
+                                <div class="form-item-title">可用天数：</div>
+                                <input type="text" class="form-input-small" value="1.00">
+                                <div class="form-item-title">包装率：</div>
+                                <input type="text" class="form-input-small" value="0.00">
+                            </div>
+                        </div>
+                        <div class="ub form-row">
+                            <div class="ub ub-ac ub-f1 ub-pc">
+                                <div class="form-item-title">创建人：</div>
+                                <input type="text" class="form-input">
+                            </div>
+                            <div class="ub ub-ac ub-f1 ub-pc">
+                                <div class="form-item-title">创建日期：</div>
+                                <input type="text" class="form-input">
+                            </div>
+                        </div>
+                        <div class="ub form-row">
+                            <div class="ub ub-ac ub-f1 ub-pc">
+                                <div class="form-item-title">修改人：</div>
+                                <input type="text" class="form-input">
+                            </div>
+                            <div class="ub ub-ac ub-f1 ub-pc">
+                                <div class="form-item-title">修改日期：</div>
+                                <input type="text" class="form-input">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div title="其他价格" style="padding:10px">
+                    <div class="ub uw uh ub-ver ub-pj">
+                        <div class="ub form-row">
+                            <div class="ub ub-ac ub-f1 ub-pc">
+                                <div class="form-item-title">会员价2：</div>
+                                <input type="text" class="form-input">
+                            </div>
+                            <div class="ub ub-ac ub-f1 ub-pc">
+                                <div class="form-item-title">会员价3：</div>
+                                <input type="text" class="form-input">
+                            </div>
+                        </div>
+                        <div class="ub form-row">
+                            <div class="ub ub-ac ub-f1 ub-pc">
+                                <div class="form-item-title">会员价4：</div>
+                                <input type="text" class="form-input">
+                            </div>
+                            <div class="ub ub-ac ub-f1 ub-pc">
+                                <div class="form-item-title">会员价5：</div>
+                                <input type="text" class="form-input">
+                            </div>
+                        </div>
+                        <div class="ub form-row">
+                            <div class="ub ub-ac ub-f1 ub-pc">
+                                <div class="form-item-title">批发价1：</div>
+                                <input type="text" class="form-input">
+                            </div>
+                            <div class="ub ub-ac ub-f1 ub-pc">
+                                <div class="form-item-title">批发价2：</div>
+                                <input type="text" class="form-input">
+                            </div>
+                        </div>
+                        <div class="ub form-row">
+                            <div class="ub ub-ac ub-f1 ub-pc">
+                                <div class="form-item-title">批发价3：</div>
+                                <input type="text" class="form-input">
+                            </div>
+                            <div class="ub ub-ac ub-f1 ub-pc">
+                                <div class="form-item-title">批发价4：</div>
+                                <input type="text" class="form-input">
+                            </div>
+                        </div>
+                        <div class="ub form-row">
+                            <div class="ub ub-ac ub-f1 ub-pc">
+                                <div class="form-item-title">批发价5：</div>
+                                <input type="text" class="form-input">
+                            </div>
+                            <div class="ub ub-ac ub-f1 ub-pc">
+                                <div class="form-item-title">批发价6：</div>
+                                <input type="text" class="form-input">
+                            </div>
+                        </div>
+                        <div class="ub form-row">
+                            <div class="ub ub-ac ub-f1 ub-pc">
+                                <div class="form-item-title">批发价7：</div>
+                                <input type="text" class="form-input">
+                            </div>
+                            <div class="ub ub-ac ub-f1 ub-pc">
+                                <div class="form-item-title">批发价8：</div>
+                                <input type="text" class="form-input">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div title="自定义属性" style="padding:10px">
+                    <div class="ub uw uh ub-ver ub-pj">
+                        <div class="ub form-row">
+                            <div class="ub ub-ac ub-f1 ub-pc" style="width: 1px;">
+                                <div class="form-item-title">提出分类：</div>
+                                <select class="easyui-combobox" name="shopType" style="width:200px;">
+                                    <option value="0">2%</option>
+                                </select>
+                            </div>
+                            <div class="ub ub-ac ub-f1 ub-pc" style="width: 1px;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div title="分店价格" style="padding:10px">
+                    <div class="ub ub-pc" style="color: red;">没有与商品对应的分店价格，分店价格的产生是由于调价单调价后自动添加</div>
+                </div>
+                <div title="附加条码" style="padding:10px">
+                    附加条码
+                </div>
+                <div title="供应商" style="padding:10px">
+                    供应商
+                </div>
+                <div title="图片" style="padding:10px">
+                    <div class="ub ub-ver ub-ac">
+                        <div class="item-img-bor"></div>
+                        <div>图片显示(图片窗口大小为320*240，上传图片最佳宽高比例为4：3)</div>
+                        <div class="ub">
+                            <input type="file" class="form-input" style="width: 500px;margin-top: 10px;">
+                            <a href="#"  class="form-button" >上传</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ub ub-ver">
+                <div class="ub">
+                    <div class="ub ub-ac ">
+                        <input class="ub radio" type="checkbox" value="1">
+                        <span class="ub ">保存后自动新增</span>
+                    </div>
+                    <div class="ub ub-ac " style="margin: 10px;">
+                        <input class="ub radio" type="checkbox" value="1">
+                        <span class="ub ">新增时复制上条记录</span>
+                    </div>
+                    <div class="ub ub-ac ">
+                        <input class="ub radio" type="checkbox" value="1">
+                        <span class="ub ">输入货号时检索标准商品库（在线搜索5000万条码）</span>
+                    </div>
+                </div>
+                <div class="ub ub-pe" style="margin-top: 10px;">
+                    <a href="#"  class="form-button" >新增</a>
+                    <a href="#"  class="form-button" >复制</a>
+                    <a href="#"  class="form-button" >上一条</a>
+                    <a href="#"  class="form-button" >下一条</a>
+                    <a href="#"  class="form-button" >保存</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+<script>
+    $(function(){
+        //初始化事件监听
+        initEvent();
+        //初始化商品树
+        initShopTree();
+        //初始化商品列表
+        initShopList();
+    });
+    //事件监听
+    function initEvent(){
+        //新增
+        $("#addItem").bind('click',function(e){
+            $("#addItemView").removeClass('uhide');
+            $('#addItemViewPanel').panel('open')
+        });
+    }
+    //关闭新增视图
+    function closeAddItemForm(){
+        $("#addItemView").addClass('uhide');
+    }
+    function initShopTree(){
+        var setting = {
+            data: {
+                simpleData: {
+                    enable: true
+                }
+            }
+        };
+        var zNodes =[
+            { id:1, pId:0, name:"所有类别", open:true},
+            { id:11, pId:1, name:"进阶"},
+            { id:111, pId:11, name:"进阶1"},
+            { id:112, pId:11, name:"进阶2"},
+            { id:113, pId:11, name:"进阶3"},
+            { id:114, pId:11, name:"进阶4"},
+            { id:12, pId:1, name:"化妆品"},
+            { id:121, pId:12, name:"脸部保养"},
+            { id:122, pId:12, name:"身体保养"},
+            { id:123, pId:12, name:"手部保养"},
+            { id:124, pId:12, name:"唇部保养"},
+        ];
+        $.fn.zTree.init($("#treeShop"), setting, zNodes);
+    }
+    var editIndex;
+    var colIndex = 0;
+    var colNams = ["id","shop_name","shop_spec","shop_price"];
+    function initShopList(){
+        $("#grid02").datagrid({
+            //title:'普通表单-用键盘操作',
+            method:'get',
+            align:'center',
+            url:'/webapp/static/base/json/basItemList.json',
+            //toolbar: '#tb',     //工具栏 id为tb
+            singleSelect:true,  //单选  false多选
+            rownumbers:true,    //序号
+            pagination:true,    //分页
+            //fitColumns:true,    //占满
+            showFooter:true,
+            columns:[[
+
+                {field:'hh',title:'货号',width:100,align:'center'},
+                {field:'pm',title:'品名',width:100,align:'center'},
+                {field:'jc',title:'简称',width:100,align:'center'},
+                {field:'zbm',title:'自编码',width:100,align:'center'},
+                {field:'zjm',title:'助记码',width:100,align:'center'},
+                {field:'lbbm',title:'类别编码',width:100,align:'center'},
+                {field:'lbmc',title:'类别名称',width:100,align:'center'},
+                {field:'ppbm',title:'品牌编码',width:100,align:'center'},
+                {field:'ppmc',title:'品牌名称',width:100,align:'center'},
+                {field:'jhj',title:'进货价',width:100,align:'center'},
+                {field:'pfj',title:'批发价',width:100,align:'center'},
+                {field:'lsj',title:'零售价',width:100,align:'center'},
+                {field:'mll',title:'毛利率',width:100,align:'center'},
+                {field:'hyj',title:'会员价',width:100,align:'center'},
+                {field:'spzt',title:'商品状态',width:100,align:'center'},
+                {field:'gg',title:'规格',width:100,align:'center'},
+                {field:'dw',title:'单位',width:100,align:'center'},
+                {field:'gysbm',title:'供应商编码',width:100,align:'center'},
+                {field:'gysmc',title:'供应商名称',width:100,align:'center'},
+                {field:'cd',title:'产地',width:100,align:'center'},
+                {field:'bzqts',title:'保质期天数',width:100,align:'center'},
+                {field:'fdbj',title:'分店变价',width:100,align:'center'},
+                {field:'tcfl',title:'提成分类',width:100,align:'center'},
+            ]]
+        });
+    }
+
+</script>
+</body>
+</html>

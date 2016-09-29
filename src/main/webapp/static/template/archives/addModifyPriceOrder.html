@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>档案-新增调价单</title>
+    <!--easyui-->
+    <link rel="stylesheet" href="/webapp/WEB-INF/libs/easyui/css/default/easyui.css">
+    <link rel="stylesheet" href="/webapp/WEB-INF/libs/easyui/css/icon.css">
+    <!--ztree-->
+    <link rel="stylesheet" href="/webapp/WEB-INF/libs/zTree/css/zTreeStyle.css">
+    <!--app css-->
+    <link rel="stylesheet" href="/webapp/WEB-INF/css/icon.css">
+    <link rel="stylesheet" href="/webapp/WEB-INF/css/style.css">
+    <link rel="stylesheet" href="/webapp/WEB-INF/css/component.css">
+    <link rel="stylesheet" href="../../css/base.css">
+    <link rel="stylesheet" href="/webapp/WEB-INF/css/app.css">
+</head>
+<body class="ub uw uh ufs-14 uc-black">
+
+    <div class="ub ub-ver ub-f1 upad-8">
+        <div class="ub ub-ac">
+            <!--buttons-->
+            <div class="ubtns">
+                <div class="ubtns-item"onclick="addModifyDataGrid();">新增</div>
+                <div class="ubtns-item" onclick="saveModifyPriceOrder();">保存</div>
+                <div class="ubtns-item">审核</div>
+                <div class="ubtns-item" onclick="selectGoodsDialog();">商品选择</div>
+                <div class="ubtns-item" onclick="delModifyOrderDialog();">删单</div>
+                <div class="ubtns-item">打印</div>
+                <div class="ubtns-item">设置</div>
+                <div class="ubtns-item">返回</div>
+            </div>
+        </div>
+        <div class="ub umar-t8 uc-black">【单号】：</div>
+        <div class="ub uline umar-t8"></div>
+
+        <div class="ub ub-ver umar-t12">
+            <div class="ub">
+                <div class="ub ub-ac uw-300">
+                    <div class="umar-r10 uw-70 ut-r">区域:</div>
+                    <input class="uinp ub ub-f1" type="text" id="areaInput">
+                    <div class="uinp-more">...</div>
+                </div>
+                <div class="ub ub-ac uw-300 umar-l20">
+                    <div class="umar-r10 uw-70 ut-r">生效日期:</div>
+                    <input class="Wdate uw-192"  readonly="readonly" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" />
+                </div>
+                <div class="ub ub-ac umar-l20">
+                    <div class="umar-r10 uw-70 ut-r">制单人员:</div>
+                    <div class="utxt">管理员</div>
+                </div>
+                <div class="ub ub-ac umar-l20">
+                    <div class="umar-r10 uw-70 ut-r">制单日期:</div>
+                    <div class="utxt">2016-8-9</div>
+                </div>
+            </div>
+            <div class="ub umar-t8">
+                <div class="ub ub-ac uw-600">
+                    <div class="umar-r10 uw-70 ut-r">分店列表:</div>
+                    <input class="uinp ub ub-f1" type="text" id="branchShopInput">
+                    <div class="uinp-more">...</div>
+                </div>
+                <div class="ub ub-ac umar-l40">
+                    <div class="umar-r10 uw-70 ut-r">审核人员:</div>
+                    <div class="utxt">管理员</div>
+                </div>
+                <div class="ub ub-ac umar-l20">
+                    <div class="umar-r10 uw-70 ut-r">审核日期:</div>
+                    <div class="utxt">2016-8-9</div>
+                </div>
+            </div>
+            <div class="ub umar-t8">
+                <div class="ub ub-ac uw-600">
+                    <div class="umar-r10 uw-70 ut-r">备注:</div>
+                    <input class="uinp ub ub-f1" type="text">
+                </div>
+                <!--input-checkbox-->
+                <div class="ub ub-ac umar-l40">
+                    <div class="umar-r10 uw-70 ut-r">调价设置:</div>
+                    <div class="ub ub-ac umar-r10">
+                        <input class="ub" type="checkbox" name="radio" id="purchasePrice"/><span>采购价</span>
+                    </div>
+                    <div class="ub ub-ac umar-r10">
+                        <input class="ub" type="checkbox" name="radio" id="retailPrice"/><span>零售价</span>
+                    </div>
+                    <div class="ub ub-ac umar-r10">
+                        <input class="ub" type="checkbox" name="radio" id="distributionPrice"/><span>配送价</span>
+                    </div>
+                    <div class="ub ub-ac umar-r10">
+                        <input class="ub" type="checkbox" name="radio" id="tradePrice"/><span>批发价</span>
+                    </div>
+                    <div class="ub ub-ac umar-r10">
+                        <input class="ub" type="checkbox" name="radio" id="memberPrice"/><span>会员价</span>
+                    </div>
+                    <div class="ubtn uw-70" onclick="setModifyPriceDialog();">调价公式</div>
+                </div>
+            </div>
+            <div class="ub uw umar-t8 uc-red">*选择区域进行调价时，默认价格取区域内某个店的价格；对加盟店进行调价，不处理进价列的调价；改变调价机构,将清空所选商品。</div>
+            <div class="ub umar-t8 umar-b8">【明细信息】</div>
+            <!--datagrid-edit-->
+            <div class="ub uw datagrid-edit">
+                <table id="addModifyPriceGrid"></table>
+            </div>
+        </div>
+    </div>
+<!--jquery-->
+<script src="/webapp/WEB-INF/libs/jquery/js/jquery-1.11.1.min.js"></script>
+<!--easyui-->
+<script  src="/webapp/WEB-INF/libs/easyui/js/jquery.easyui.min.js"></script>
+<script  src="/webapp/WEB-INF/libs/easyui/js/easyui-lang-zh_CN.js"></script>
+<!--ztree-->
+<script src="/webapp/WEB-INF/libs/zTree/js/jquery.ztree.core.js"></script>
+<!--my97DatePicker-->
+<script src="/webapp/WEB-INF/libs/my97DatePicker/wdatePicker.js"></script>
+
+<script  src="/webapp/WEB-INF/js/fun/baseEasyui.js"></script>
+<script  src="/webapp/WEB-INF/js/archives/addModifyPriceOrder.js"></script>
+
+</body>
+</html>

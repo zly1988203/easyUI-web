@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>档案-新增要货单</title>
+    <!--easyui-->
+    <link rel="stylesheet" href="/webapp/WEB-INF/libs/easyui/css/default/easyui.css">
+    <link rel="stylesheet" href="/webapp/WEB-INF/libs/easyui/css/icon.css">
+    <!--ztree-->
+    <link rel="stylesheet" href="/webapp/WEB-INF/libs/zTree/css/zTreeStyle.css">
+    <!--app css-->
+    <link rel="stylesheet" href="/webapp/WEB-INF/css/icon.css">
+    <link rel="stylesheet" href="/webapp/WEB-INF/css/style.css">
+    <link rel="stylesheet" href="/webapp/WEB-INF/css/component.css">
+    <link rel="stylesheet" href="../../css/base.css">
+    <link rel="stylesheet" href="/webapp/WEB-INF/css/app.css">
+	
+	<!--jquery-->
+	<script src="/webapp/WEB-INF/libs/jquery/js/jquery-1.11.1.min.js"></script>
+	<!--easyui-->
+	<script  src="/webapp/WEB-INF/libs/easyui/js/jquery.easyui.min.js"></script>
+	<script  src="/webapp/WEB-INF/libs/easyui/js/easyui-lang-zh_CN.js"></script>
+	<!--ztree-->
+	<script src="/webapp/WEB-INF/libs/zTree/js/jquery.ztree.core.js"></script>
+	<!--my97DatePicker-->
+	<script src="/webapp/WEB-INF/libs/my97DatePicker/wdatePicker.js"></script>
+
+	<script  src="/webapp/WEB-INF/js/fun/baseEasyui.js"></script>
+	<script  src="/webapp/WEB-INF/views/js/dispatch/addRequireOrder.js"></script>
+</head>
+<body class="ub uw uh ufs-14 uc-black">
+
+    <div class="ub ub-ver ub-f1 upad-8">
+        <div class="ub ub-ac">
+            <!--buttons-->
+            <div class="ubtns">
+                <div class="ubtns-item"onclick="addRequireOrderGrid();">新增</div>
+                <div class="ubtns-item" onclick="saveRequireOrder();">保存</div>
+                <div class="ubtns-item">审核</div>
+                <div class="ubtns-item" onclick="selectGoodsDialog();">商品选择</div>
+                <div class="ubtns-item">扫描</div>
+                <div class="ubtns-item" onclick="delRequireOrderDialog();">删单</div>
+                <div class="ubtns-item">打印</div>
+                <div class="ubtns-item">设置</div>
+                <div class="ubtns-item">返回</div>
+            </div>
+        </div>
+        <div class="ub umar-t8 uc-black">【单号】：</div>
+        <div class="ub uline umar-t8"></div>
+
+        <div class="ub ub-ver umar-t12">
+            <div class="ub">
+                <div class="ub ub-ac uw-300">
+                    <div class="umar-r10 uw-70 ut-r">要货分店:</div>
+                    <input class="uinp ub ub-f1" type="text" id="areaInput">
+                    <div class="uinp-more">...</div>
+                </div>
+                <div class="ub ub-ac uw-300 umar-l20">
+                    <div class="umar-r10 uw-70 ut-r">申请人:</div>
+                    <input class="uinp ub ub-f1" type="text" id="areaInput">
+                    <div class="uinp-more">...</div>
+                </div>
+                <div class="ub ub-ac umar-l20">
+                    <div class="umar-r10 uw-70 ut-r">制单人员:</div>
+                    <div class="utxt">管理员</div>
+                </div>
+                <div class="ub ub-ac umar-l20">
+                    <div class="umar-r10 uw-70 ut-r">制单日期:</div>
+                    <div class="utxt">2016-8-9</div>
+                </div>
+            </div>
+            <div class="ub umar-t8">
+                <div class="ub ub-ac uw-300">
+                    <div class="umar-r10 uw-70 ut-r">发货分店:</div>
+                    <input class="uinp ub ub-f1" type="text" id="branchShopInput">
+                    <div class="uinp-more">...</div>
+                </div>
+                <div class="ub ub-ac uw-300 umar-l20">
+                    <div class="umar-r10 uw-70 ut-r">生效日期:</div>
+                    <input class="Wdate uw-212"  readonly="readonly" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" />
+                </div>
+                <div class="ub ub-ac umar-l20">
+                    <div class="umar-r10 uw-70 ut-r">审核人员:</div>
+                    <div class="utxt">管理员</div>
+                </div>
+                <div class="ub ub-ac umar-l20">
+                    <div class="umar-r10 uw-70 ut-r">审核日期:</div>
+                    <div class="utxt">2016-8-9</div>
+                </div>
+            </div>
+            <div class="ub umar-t8">
+                <div class="ub ub-ac uw-620">
+                    <div class="umar-r10 uw-70 ut-r">备注:</div>
+                    <input class="uinp ub ub-f1" type="text">
+                </div>
+            </div>
+            <div class="ub umar-t8 umar-b8">【明细信息】</div>
+            <!--datagrid-edit-->
+            <div class="ub uw datagrid-edit">
+                <table id="addRequireOrderGrid"></table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

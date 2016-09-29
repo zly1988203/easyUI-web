@@ -1,0 +1,219 @@
+/**
+ * 黄江 on 2016/03/31
+ * 描述：公共样式
+ */
+@import "config.scss";
+.ubgc-main        {background-color: $c-main;}
+.ubgc-bg          {background-color: $c-bg;}
+
+.uc-while         {color:$c-while;}
+.uc-black         {color:$c-black;}
+.uc-main          {color:$c-main;}
+.uc-red          {color:$c-red;}
+
+.ubor             {border: 1px solid $c-grey-while ;}
+.ubor-b           {border-bottom: 1px solid $c-grey-while ;}
+
+//布局-----------------------------------------------------
+.uabs{@include uabs();}
+.ufix{@include ufix;}
+.ufix-t{@include ufix-t;}
+.ufix-b{@include ufix-b;}
+.uf-l{@include uf-l;}
+.ub{@include ub;}
+.ub-ver{@include ub-ver;}
+.ub-pc{@include ub-pc;}
+.ub-pe{@include ub-pe;}
+.ub-pj{@include ub-pj;}
+.ub-ac{@include ub-ac;}
+.ub-ae{@include ub-ae;}
+.ub-f1{@include ub-f1;}
+.ub-f2{@include ub-f2;}
+.ub-f3{@include ub-f3;}
+.ub-f4{@include ub-f4;}
+.ub-f5{@include ub-f5;}
+//属性------------------------------------------------------
+//字号
+@for $i from 10 to 64 {
+  @if $i%2==0{
+    .ufs-#{$i}{
+      font-size: #{$i}px;
+    }
+  }
+}
+//间距
+@for $i from 2 to 101 {
+  @if $i%4==0 or $i%10==0{
+    .upad-#{$i}{padding: #{$i}px;}
+    .upad-t#{$i}{padding-top: #{$i}px;}
+    .upad-r#{$i}{padding-right: #{$i}px;}
+    .upad-b#{$i}{padding-bottom: #{$i}px;}
+    .upad-l#{$i}{padding-left: #{$i}px;}
+    .umar-#{$i}{margin: #{$i}px;}
+    .umar-t#{$i}{margin-top: #{$i}px;}
+    .umar-r#{$i}{margin-right: #{$i}px;}
+    .umar-b#{$i}{margin-bottom: #{$i}px;}
+    .umar-l#{$i}{margin-left: #{$i}px;}
+  }
+}
+//宽高
+.uw {width:100%;}
+.uh {height:100%;}
+@for $i from 4 to 640{
+  @if $i%4==0 or $i==1 or $i%10==0{
+    .uh-#{$i}{height: #{$i}px;}
+    .uw-#{$i}{width: #{$i}px;}
+  }
+}
+
+//常用样式--------------------------------------------------
+.main{
+  -webkit-overflow-scrolling:touch;
+  overflow: scroll;
+  min-height:100%;   //不写，幻灯片时会跑到顶部
+  width: 100%;
+}
+//触摸效果
+.uactive:active{
+  opacity: 0.5;
+}
+//遮盖效果
+.ubgc-a{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color:rgba(0,0,0,0.3);
+}
+//遮盖效果
+.ubgc-a1{
+  background-color:rgba(0,0,0,0.3);
+}
+//滚动条
+.iScroll{
+  -webkit-overflow-scrolling:touch;
+  overflow: scroll;
+}
+//按内容展示
+.uinl {
+  display: inline-block;
+  position: relative;
+}
+//隐藏
+.uhide {
+  display: none !important;
+}
+.opa-0{
+  opacity:0;
+}
+.opa-10{
+  opacity:1;
+}
+.opa-5{
+  opacity: 0.5;
+}
+.event-none{
+  pointer-events:none;    //屏蔽所有事件
+}
+.ufw-b {
+  font-weight: bold;
+}
+.ut-r {
+  text-align: right;
+}
+.ut-c {
+  text-align: center;
+}
+.ut-line{
+  text-decoration:line-through;
+}
+//超出显示省略号 要么是确定宽度要么父元素是ub ub-f1
+.ut-s {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap !important;   //一行
+  outline: 0 !important
+}
+//自动换行
+.ut-m {
+  word-break: break-all;
+  word-wrap: break-word;
+  overflow: hidden;
+  outline: 0 !important
+}
+//内容超过两行显示省略号
+.ut-s2{
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+//圆角
+.ubor-circle{ border-radius: 320px;  }
+.ubor-r4{ border-radius: 4px; }
+.ubor-none{border: none}
+//背景
+.ub-img {
+  -webkit-background-size:contain;
+  background-size:contain;
+  background-repeat:no-repeat;
+  background-position:center;
+}
+.ub-img1 {
+  -webkit-background-size:100% 100%;
+  background-size:100% 100%;
+  background-repeat:no-repeat;
+  background-position:center;
+}
+.uscroll {
+  -webkit-overflow-scrolling: touch;
+  overflow: scroll; }
+
+//控件样式-----------------------------------------------------
+body, div, ul, ol, li, form,input,textarea,p,header,nav,menu,button {
+  margin: 0;
+  padding: 0;
+  box-sizing: content-box !important;
+}
+html{
+  width: 100%;
+  height: 100%;
+}
+body {
+  //-webkit-user-select: none;                              //禁止选择文本
+  //-webkit-tap-highlight-color:rgba(255,255,255,0);       //同时屏蔽ios和android下点击元素时出现的阴影
+  //-webkit-appearance:none;                                //同时屏蔽输入框怪异的内阴影。
+  //-webkit-font-smoothing:antialiased;                   //平滑,页面小清晰
+  //-webkit-touch-callout:none;                            //禁止或显示系统默认菜单
+  width: 100%;
+  height: 100%;
+  //font-family:"Helvetica Neue", Helvetica, STHeiTi, sans-serif;
+  font-family: STHeiti Light, Microsoft YaHei, Helvetica, Arial, sans-serif;
+  background-color: #f8f8f8;
+  overflow-x: hidden;
+  font-size: 16px;
+  position: relative;
+}
+a, img {
+  -webkit-touch-callout: none; /* 禁止长按链接与图片弹出菜单 */
+}
+
+html, body {
+  //-webkit-user-select: none;   /* 禁止选中文本（如无文本选中需求，此为必选项） */
+}
+span{
+  display: inline-block;//设置宽度有效
+  //white-space:nowrap;  //单词不截断
+}
+a{ text-decoration: none;}  //禁止超链接样式
+input{ outline:none;}
+textarea{resize:none;}    //禁止拉大
+div {
+  outline: 0 !important;
+  -webkit-text-size-adjust: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  //position: relative;
+}

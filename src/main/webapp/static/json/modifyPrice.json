@@ -1,0 +1,17 @@
+{"total":3,"rows":[
+	{
+		"formNo":"2016727154924","skuName":"品名","barCode":"自编码","spec":"规格",
+		"unit":"单位","oldPurPrice":"100.00","newPurPrice":"99.00","oldSalePrice":"100.00","newSalePrice":"99.00",
+		"oldDcPrice":"2.00","newDcPrice":"1.00","olunitsPrice":"100.00","newWsPrice":"99.00","oldVipPrice":"99.00","newVipPrice":"98.00"
+	},
+	{
+	  "formNo":"2016727154924","skuName":"品名","barCode":"自编码","spec":"规格",
+	  "unit":"单位","oldPurPrice":"100.00","newPurPrice":"99.00","oldSalePrice":"100.00","newSalePrice":"99.00",
+	  "oldDcPrice":"2.00","newDcPrice":"1.00","olunitsPrice":"100.00","newWsPrice":"99.00","oldVipPrice":"99.00","newVipPrice":"98.00"
+	},
+	{
+	  "formNo":"2016727154924","skuName":"品名","barCode":"自编码","spec":"规格",
+	  "unit":"单位","oldPurPrice":"100.00","newPurPrice":"99.00","oldSalePrice":"100.00","newSalePrice":"99.00",
+	  "oldDcPrice":"2.00","newDcPrice":"1.00","olunitsPrice":"100.00","newWsPrice":"99.00","oldVipPrice":"99.00","newVipPrice":"98.00"
+	}
+]}

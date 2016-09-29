@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ProductSalesPlan" language="groovy" printOrder="Horizontal" pageWidth="261" pageHeight="842" columnWidth="241" leftMargin="10" rightMargin="10" topMargin="2" bottomMargin="0" isSummaryWithPageHeaderAndFooter="true" uuid="00831878-d208-460c-a1e1-15e96cc9ea5e">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["D:\\workspace_kasa\\PrintTest\\src\\com\\test\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select remarks from mfo_dtl]]>
+	</queryString>
+	<field name="skuCode" class="java.lang.String"/>
+	<field name="skuName" class="java.lang.String"/>
+	<field name="barCode" class="java.lang.String"/>
+	<field name="salePrice" class="java.math.BigDecimal"/>
+	<field name="spec" class="java.lang.String"/>
+	<field name="unit" class="java.lang.String"/>
+	<field name="promotionPrice" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="5" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="18"/>
+	</columnHeader>
+	<detail>
+		<band height="115" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="162" y="61" width="79" height="32" uuid="e68a3531-d432-4223-a289-0de53dd371cf"/>
+				<textElement textAlignment="Center">
+					<font size="18"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{promotionPrice}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="101" y="56" width="37" height="20" uuid="587cdc15-7710-454f-b218-847a8bfc7ee3"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="12" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{unit}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="30" y="56" width="43" height="20" uuid="026eebf7-f655-4a6e-b7ad-1ad2420f5212"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="12" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{spec}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="73" y="33" width="151" height="19" uuid="9d73442d-ec15-414b-9a38-19b2c5ed2bf9"/>
+				<textElement>
+					<font fontName="SansSerif" size="12" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{skuName}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="163" y="93" width="79" height="20" uuid="90c0988a-eb95-44b4-a6eb-d517a924308b"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{salePrice}]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement x="-3" y="74" width="100" height="14" uuid="4aeb4a79-7955-479e-8fd2-37484387645b"/>
+				<jr:Codabar xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" textPosition="none">
+					<jr:codeExpression><![CDATA[$F{barCode}]]></jr:codeExpression>
+				</jr:Codabar>
+			</componentElement>
+			<textField isBlankWhenNull="true">
+				<reportElement x="-3" y="87" width="100" height="7" uuid="54389683-71c4-4bff-842f-a82aee923f79"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{barCode}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>价签打印</title>
+    <!--easyui-->
+    <link rel="stylesheet" href="/webapp/static/libs/easyui/css/default/easyui.css">
+    <link rel="stylesheet" href="/webapp/static/libs/easyui/css/icon.css">
+    <!--ztree-->
+    <link rel="stylesheet" href="/webapp/static/libs/zTree/css/zTreeStyle.css">
+    <!--app css-->
+    <link rel="stylesheet" href="/webapp/static/css/icon.css">
+    <link rel="stylesheet" href="/webapp/static/css/style.css">
+    <link rel="stylesheet" href="/webapp/static/css/component.css">
+    <link rel="stylesheet" href="/webapp/static/css/base.css">
+    <link rel="stylesheet" href="/webapp/static/css/app.css">
+	<!--jquery-->
+    <script src="/webapp/static/libs/jquery/js/jquery-1.11.1.min.js"></script>
+    <!--easyui-->
+    <script src="/webapp/static/libs/easyui/js/jquery.easyui.min.js"></script>
+    <script src="/webapp/static/libs/easyui/js/easyui-lang-zh_CN.js"></script>
+    <!--ztree-->
+    <script src="/webapp/static/libs/zTree/js/jquery.ztree.core.min.js"></script>
+    <!--datepicker-->
+    <script  src="/webapp/static/libs/datepicker/WdatePicker.js"></script>
+    <script  src="/webapp/static/js/fun/baseEasyui.js"></script>
+
+    <script src="/webapp/static/libs/xlsx/shim.js"></script>
+    <script src="/webapp/static/libs/xlsx/jszip.js"></script>
+    <script src="/webapp/static/libs/xlsx/xlsx.js"></script>
+    <script src="/webapp/static/libs/xlsx/ods.js"></script>
+    
+	<script  src="/webapp/static/js/fun/publicComponent.js"></script>
+	<script  src="/webapp/static/js/views/retail/priceprint.js"></script>
+	<script  src="/webapp/static/js/views/retail/importdetails.js"></script>
+	<script  src="/webapp/static/libs/xlsx/upfile.js"></script>
+</head>
+<body class="ub uw uh ufs-14 uc-black">
+
+    <div class="ub ub-ver ub-f1 upad-8">
+        <div class="ub ub-ac">
+            <!--buttons-->
+            <div class="ubtns">
+                <div class="ubtns-item" onclick="chooseproduct();">商品选择</div>
+                <div class="ubtns-item" onclick="importproduct();">导入货号</div>
+                <div class="ubtns-item" onclick="printtable()">打印</div>
+                <div class="ubtns-item">返回</div>
+                <div class="ubtns-item" onclick="importdetail()">导入明细</div>
+            </div>
+
+        </div>
+         <div class="uabs uatk">
+
+         	<div class="uatit">导入文件选择</div>
+             <div class="uacon"><input class="uinp ub" id="filename" type="text"><label class="ualable">选择文件<input type="file" class="uafile" value=""  name="xlfile" id="xlf" /></label></div>
+             <p id="out" style="display: none"></p>
+             <div class="uabtns ">
+         	 	<button class="uabtn umar-r30" onclick="postelsx()">导入</button>
+         	 	<button class="uabtn" onclick="uaclose()" >取消</button>
+         	 </div>
+
+         </div>
+        
+      
+        <div class="ub ub-ver umar-t12">
+  
+            <div class="ub umar-t8">
+                <div class="ub ub-ac">
+                    <div class="umar-r10 uw-100 ut-r">价签样式选择:</div>
+                       <!--select-->
+				        <select class="easyui-combobox uselect" name="select">
+				            <option value="1" selected="selected">正常(55*25有底3*10)</option>
+				            <option value="2">正常(85*40有底2*7)</option>
+				            <option value="3">正常(85*40无底1*7)</option>
+				            <option value="3">促销(85*40无底1*7)</option>
+				        </select>
+                </div>
+               <div class="ub ub-ac uw-200 umar-l20">
+                    <div class="umar-r10 uw-100 ut-r">统一促销折扣:</div>
+                    <input class="uinp ub ub-f1 deal" type="number" onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')" id="discount" >
+                    <div class="umar-l10"> 折</div>
+                </div>  
+                
+                  <div class="ub ub-ac uw-200 umar-l20">
+                    <div class="umar-r10 uw-120 ut-r">批量设置打印数:</div>
+                    <input class="uinp ub ub-f1 deal" type="number" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" id="printnum">
+                </div>  
+            </div>
+            
+         <div class="ub umar-t8 umar-b8">【价签打印】</div>
+            <!--datagrid-->
+            <table id="pricePrint"></table>
+        </div>
+       
+    </div>
+
+</body>
+</html>

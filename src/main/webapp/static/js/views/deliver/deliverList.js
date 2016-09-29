@@ -1,0 +1,155 @@
+/**
+ * Created by zhanghuan on 2016/8/30.
+ * 要货单
+ */
+$(function(){
+	//开始和结束时间
+    $("#startTime").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
+    $("#endTime").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+    toChangeDate(0);
+    initDatagridRequireOrders();
+});
+var gridHandel = new GridClass();
+//初始化表格
+function initDatagridRequireOrders(){
+    $("#deliverFormList").datagrid({
+        //title:'普通表单-用键盘操作',
+        method:'post',
+        align:'center',
+        //url:contextPath+'/form/purchase/listData',
+        //toolbar: '#tb',     //工具栏 id为tb
+        singleSelect:false,  //单选  false多选
+        rownumbers:true,    //序号
+        pagination:true,    //分页
+        fitColumns:true,    //每列占满
+        //fit:true,            //占满
+        showFooter:true,
+		height:'100%',
+		width:'100%',
+        columns:[[
+			{field:'check',checkbox:true},
+            {field:'formNo',title:'单据编号',width:'140px',align:'left',formatter:function(value,row,index){
+            	return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/deliverForm/deliverEdit?deliverFormId="+ row.deliverFormId +"'>" + value + "</a>"
+            }},
+            {field:'status',title: '审核状态', width: '100px', align: 'left'},
+			{field: 'dealStatus', title: '单据状态', width: '60px', align: 'left'},
+			{field: 'targetBranchName', title: '要货机构', width: '200px', align: 'left'},
+			{field: 'salesman', title: '业务人员', width: '130px', align: 'left'},
+			{field: 'amount', title: '单据金额', width: '80px', align: 'right',
+				formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                }
+			},
+            {field: 'sourceBranchName', title: '发货机构', width: '200px', align: 'left'},
+            {field: 'createUserName', title: '制单人员', width: '130px', align: 'left'},
+            {field: 'validityTime', title: '有效期限', width: '120px', align: 'center',
+				formatter: function (value, row, index) {
+					if (value) {
+						return new Date(value).format('yyyy-MM-dd');
+					}
+					return "";
+				}
+			},
+			{field: 'validUserName', title: '审核人员', width: '130px', align: 'left'},
+			{field: 'remark', title: '备注', width: '200px', align: 'left'},
+			{field: 'updateUserName', title: '操作人员', width: '130px', align: 'left'},
+            {field: 'updateTime', title: '操作日期', width: '120px', align: 'center',
+				formatter: function (value, row, index) {
+					if (value) {
+						return new Date(value).format('yyyy-MM-dd');
+					}
+					return "";
+				}
+			}
+        ]],
+		onLoadSuccess:function(data){
+			gridHandel.setDatagridHeader("center");
+		}
+    });
+    queryForm();
+}
+
+//新增要货单
+function addDeliverForm(){
+	location.href = contextPath + "/form/deliverForm/addDeliverForm?deliverType=DA";
+}
+
+//查询要货单
+function queryForm(){
+	var fromObjStr = $('#queryForm').serializeObject();
+	$("#deliverFormList").datagrid("options").method = "post";
+	$("#deliverFormList").datagrid('options').url = contextPath + '/form/deliverForm/getDeliverForms';
+	$("#deliverFormList").datagrid('load', fromObjStr);
+}
+
+//删除
+function delDeliverForm(){
+	var dg = $("#deliverFormList");
+	var row = dg.datagrid("getSelected");
+	if(rowIsNull(row)){
+		return null;
+	}
+	$.messager.confirm('提示','是否要删除此条数据',function(data){
+		if(data){
+			$.ajax({
+		    	url:contextPath+"/form/deliverForm/deleteDeliverForm",
+		    	type:"POST",
+		    	data:{
+		    		formId : row.deliverFormId
+		    	},
+		    	success:function(result){
+		    		if(result['code'] == 0){
+		    			successTip("删除成功");
+		    			dg.datagrid('reload');
+		    		}else{
+		    			successTip(result['message']);
+		    		}
+		    	},
+		    	error:function(result){
+		    		successTip("请求发送失败或服务器处理失败");
+		    	}
+		    });
+		}
+	});
+}
+
+/**
+ * 操作员
+ */
+function selectOperator(){
+	new publicOperatorService(function(data){
+		$("#operateUserId").val(data.id);
+		$("#operateUserName").val(data.userName);
+	});
+}
+/**
+ * 机构
+ */
+function selectBranches(){
+	new publicAgencyService(function(data){
+		$("#targetBranchId").val(data.branchesId);
+		$("#brancheName").val(data.branchName);
+	},'DO','');
+}
+
+//打印
+function printDesign(){
+     var dg = $("#gridRequireOrders");
+     var row = dg.datagrid("getSelected");
+     if(rowIsNull(row)){
+           return null;
+     }
+     //弹出打印页面
+     parent.addTabPrint('PASheet' + row.id,row.formNo+'单据打印',contextPath + '/printdesign/design?page=PASheet&controller=/form/purchase&template=-1&sheetNo=' + row.id + '&gridFlag=PAGrid','');
+}
+
+
+/**
+ * 重置
+ */
+var resetForm = function() {
+	 $("#queryForm").form('clear');
+};
