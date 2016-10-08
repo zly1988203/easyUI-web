@@ -198,7 +198,8 @@ function postelsx(tableid,url,cb){
 	//begin bu lijy02 2016.9.12:
 	//1.导入明细 0. 导入货号
 	if(gVarImportType=="1"){
-		url=contextPath+url+"/importGoodsLists";
+		var branchIds=$("#branchId").val();
+		url=contextPath+url+"/importGoodsLists?branchIds="+branchIds;
 		 $.ajax({
 		        type: 'POST',
 		        data:JSON.stringify(subArryAll),

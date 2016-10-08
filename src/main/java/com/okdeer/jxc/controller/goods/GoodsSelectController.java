@@ -160,7 +160,7 @@ public class GoodsSelectController extends
 	 */
 	@RequestMapping(value = "importGoodsLists", method = RequestMethod.POST)
 	@ResponseBody
-	public List<GoodsSelect> importGoodsLists(
+	public List<GoodsSelect> importGoodsLists(String[] branchIds,
 			@RequestBody List<GoodsSelect> goodsSelectList) {
 		try {
 			List<GoodsSelect> suppliers = new ArrayList<GoodsSelect>();
@@ -170,10 +170,10 @@ public class GoodsSelectController extends
 			for (GoodsSelect goodsSelect : goodsSelectList) {
 				codes.add(goodsSelect.getSkuCode());
 			}
-			String[] skuCodes = (String[]) codes.toArray(new String[codes
-					.size()]);
-			suppliers = goodsSelectServiceApi.queryByCodeLists(skuCodes,
-					UserUtil.getCurrBranchId());
+			/*String[] skuCodes = (String[]) codes.toArray(new String[codes
+					.size()]);*/
+			suppliers = goodsSelectServiceApi.queryGoods(codes,
+					branchIds);
 			if (suppliers != null) {
 				// 传到页面中的商品资料以标准库的为主
 				Map<String, GoodsSelect> map = new HashMap<String, GoodsSelect>();
