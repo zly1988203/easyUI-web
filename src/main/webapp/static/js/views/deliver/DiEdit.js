@@ -114,16 +114,16 @@ function initDatagridEditRequireOrder(){
                         return
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                }
-//                editor:{
-//                    type:'numberbox',
-//                    options:{
-//                        min:0,
-//                        disabled:true,
-//                        precision:2,
-//                        onChange: onChangePrice,
-//                    }
-//                },
+                },
+                editor:{
+                    type:'numberbox',
+                    options:{
+                        min:0,
+                        disabled:true,
+                        precision:2,
+                        onChange: onChangePrice,
+                    }
+                },
             },
             {field:'amount',title:'金额',width:'80px',align:'right',
                 formatter:function(value,row,index){
@@ -252,7 +252,7 @@ function onChangeRealNum(newV,oldV) {
         messager("配送规格不能为0");
         return;
     }
-    var priceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
+    var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
     gridHandel.setFieldValue('amount',priceValue*newV);                         //金额=数量*单价
     gridHandel.setFieldValue('largeNum',(newV/purchaseSpecValue).toFixed(4));   //箱数=数量/商品规格
     updateFooter();
@@ -279,7 +279,7 @@ function onSelectIsGift(data){
     if(arrs.length==0){
         var targetPrice = gridHandel.getFieldTarget('price');
         if(data.id=="1"){
-            var priceVal = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
+            var priceVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
             $("#"+gridHandel.getGridName()).datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"] = priceVal;
             $(targetPrice).numberbox('setValue',0);
             $(targetPrice).numberbox('disable');
@@ -335,25 +335,27 @@ function selectGoods(searchKey){
             $("#"+gridHandel.getGridName()).datagrid("deleteRow", gridHandel.getSelectRowIndex());
             $("#"+gridHandel.getGridName()).datagrid("acceptChanges");
         }
+        $("#"+gridHandel.getGridName()).datagrid("acceptChanges");
         for(var i in data){
         	var rec = data[i];
         	rec.remark = "";
         }
+
         var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
         var addDefaultData  = gridHandel.addDefault(data,gridDefault);
+        var keyNames = {
+        		distributionPrice:'price',
+                id:'skuId',
+                disabled:'',
+                pricingType:'',
+                inputTax:'tax'
+        };
+        var rows = gFunUpdateKey(addDefaultData,keyNames);
         var argWhere ={skuCode:1};  //验证重复性
         var isCheck ={isGift:1 };   //只要是赠品就可以重复
-        var rows = gridHandel.checkDatagrid(nowRows,addDefaultData,argWhere,isCheck);
-        var keyNames = {
-        	distributionPrice:'price',
-            id:'skuId',
-            disabled:'',
-            pricingType:'',
-            inputTax:'tax'
-        };
-        var newRows = gFunUpdateKey(rows,keyNames);
+        var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
         $("#"+gridHandel.getGridName()).datagrid("loadData",newRows);
-
+        
         setTimeout(function(){
             gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
             gridHandel.setSelectFieldName("largeNum");
