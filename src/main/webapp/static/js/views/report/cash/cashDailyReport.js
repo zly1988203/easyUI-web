@@ -79,11 +79,11 @@ function initCashDailyallGrid(queryType) {
             {field: 'branchName', title: '店铺名称', width: 200, align: 'left',},
             {field: 'cashierCode', title: '收银员编号', width: 100, align: 'left'},
             {field: 'cashier', title: '收银员', width: 100, align: 'left'},
-            {field: 'rmb', title: '现金', width:120, align: 'right',
+            {field: 'rmb', title: '现金', width: 120, align: 'right',
             	formatter : function(value, row,index) {
-                    return getTwoDecimalB(value);
-                },
-			},
+    			return parseFloat(value||0.00).toFixed(2);
+    		   },
+            },
             /*1.0.0 先不计算抹零
              * {field: 'zer', title: '抹零', width:120, align: 'right',
 				formatter : function(value, row,index) {
@@ -92,47 +92,47 @@ function initCashDailyallGrid(queryType) {
             },*/
             {field: 'yhk', title: '银行卡', width:120, align: 'right',
 				formatter : function(value, row,index) {
-                    return getTwoDecimalB(value);
+					return parseFloat(value||0.00).toFixed(2);
                 },
             },
             {field: 'zfb', title: '支付宝', width:120, align: 'right',
 				formatter : function(value, row,index) {
-                    return getTwoDecimalB(value);
+					return parseFloat(value||0.00).toFixed(2);
                 },
             },
             {field: 'wzf', title: '微支付', width:120, align: 'right',
 				formatter : function(value, row,index) {
-                    return getTwoDecimalB(value);
+					return parseFloat(value||0.00).toFixed(2);
                 },
             },
             {field: 'yqb', title: '云钱包', width:120, align: 'right',
 				formatter : function(value, row,index) {
-                    return getTwoDecimalB(value);
+					return parseFloat(value||0.00).toFixed(2);
                 },
             },
             {field: 'djq', title: '代金券', width:120, align: 'right',
 				formatter : function(value, row,index) {
-                    return getTwoDecimalB(value);
+					return parseFloat(value||0.00).toFixed(2);
                 },
             },
             {field: 'pdf', title: '平台垫付', width:120, align: 'right',
 				formatter : function(value, row,index) {
-                    return getTwoDecimalB(value);
+					return parseFloat(value||0.00).toFixed(2);
                 },
             },
             {field: 'pbt', title: '平台补贴', width:120, align: 'right',
 				formatter : function(value, row,index) {
-                    return getTwoDecimalB(value);
+					return parseFloat(value||0.00).toFixed(2);
                 },
             },
             {field: 'dxr', title: '店小二', width:120, align: 'right',
 				formatter : function(value, row,index) {
-                    return getTwoDecimalB(value);
+					return parseFloat(value||0.00).toFixed(2);
                 },
             },
             {field: 'total', title: '合计金额', width:120, align: 'right',
 				formatter : function(value, row,index) {
-                    return getTwoDecimalB(value);
+					return parseFloat(value||0.00).toFixed(2);
                 },
             }
         ]],
