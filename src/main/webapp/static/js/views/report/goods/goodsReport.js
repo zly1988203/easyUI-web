@@ -21,14 +21,14 @@ function initDatagridOrders(){
 		          {field:'id',title:'商品id',hidden:true},  
 		          {field:'skuCode',title:'货号'},  
 		          {field:'skuName',title:'商品名称'}, 
-		          {field:"barCode",title:"条形码",sortable:true,tooltip:true,width:100},
+		          {field:"barCode",title:"条码",sortable:true,tooltip:true,width:100},
 		          {field:"memoryCode",title:"助记码",sortable:true,tooltip:true,width:80},
 		          /* {field:"categoryCode",title:"类别编码",sortable:true,tooltip:true,width:80}, */
 		          {field:"category",title:"商品类别",sortable:true,tooltip:true,width:80},
 		          {field:"spec",title:"规格",sortable:true,tooltip:true,width:80},
 		          {field:"brand",title:"品牌",sortable:true,tooltip:true,width:80},
 		          {field:"unit",title:"库存单位",sortable:true,tooltip:true,width:60},
-		          {field:"purchaseSpec",title:"采购规格",sortable:true,tooltip:true,width:80,align:'right',
+		          {field:"purchaseSpec",title:"进货规格",sortable:true,tooltip:true,width:80,align:'right',
 		        	  formatter : function(value,row,index){
 		        		  if(value){
 		        			  return parseFloat(value).toFixed(2);

@@ -212,18 +212,18 @@ public class CashFlowReportController extends BaseController<CashFlowReportContr
 	// 价格保留两位特殊处理
 	private List<CashFlowReportVo> handlePrice(List<CashFlowReportVo> exportList) {
 		for (CashFlowReportVo vo : exportList) {
-			if (StringUtils.isBlank(vo.getSaleAmount())) {
+			/*if (StringUtils.isBlank(vo.getSaleAmount())) {
 				vo.setSaleAmount("0.00");
-			}
+			}*/
 			if (StringUtils.isBlank(vo.getPayAmount())) {
 				vo.setPayAmount("0.00");
 			}
 			// 销售金额
-			if (StringUtils.isNotBlank(vo.getSaleAmount())) {
+			/*if (StringUtils.isNotBlank(vo.getSaleAmount())) {
 				java.math.BigDecimal saleAmount = new java.math.BigDecimal(vo.getSaleAmount()).setScale(2,
 						java.math.BigDecimal.ROUND_HALF_UP);
 				vo.setSaleAmount(String.valueOf(saleAmount));
-			}
+			}*/
 			// 付款金额
 			if (StringUtils.isNotBlank(vo.getPayAmount())) {
 				java.math.BigDecimal payAmount = new java.math.BigDecimal(vo.getPayAmount()).setScale(2,
