@@ -555,7 +555,7 @@ var datagridUtil = {
 	 */
 	isSaveData : function() {
 		if ($("#areaInput").val().trim() != ""
-			&& $("#branchShopInput").val().trim() != ""
+			&& $("#branchId").val().trim() != ""
 			&& $("#" + datagridId).datagrid("getData").rows.length > 0) {
 			return true;
 		} else {
@@ -582,7 +582,7 @@ var datagridUtil = {
 	 * @returns {boolean}
 	 */
 	isSelectArea : function() {
-		if ($("#branchShopInput").val().trim() == "") {
+		if ($("#branchId").val().trim() == "") {
 			$.messager.alert('提示', '请先选择分店');
 			return false;
 		} else {
@@ -829,15 +829,15 @@ function selectGoods(searchKey){
 function selectGoodsDialog(searchKey) {
 	var branchId=null;
 	//判定供应商是否存在
-    if($("#branchShopInput").val()==""){
+    if($("#branchId").val()==""){
         messager("请先选择门店");
         return;
     }
-    var bool = $("#branchShopInput").val().indexOf(",");
+    var bool = $("#branchId").val().indexOf(",");
     // 没有逗号表示机构id只有一个值 查询本机构中的商品
     if(bool<0){
     	//查询登录机构下商品
-    	branchId=$("#branchShopInput").val();
+    	branchId=$("#branchId").val();
     	gFunGoodsSelect(searchKey,branchId);
     }else{
     	gFunGoodsSelect(searchKey);
@@ -920,7 +920,7 @@ function selectBranchArea() {
 					branchesId= branchesId.replace(reg,"");
 					branchCode = branchCode.replace(reg,"");
 					showBranch = showBranch.replace(reg,"");
-					$("#branchShopInput").val(branchesId);
+					$("#branchId").val(branchesId);
 					$("#branchShopName").val(showBranch);
 					//清空列表数据
 					$('#addModifyPriceGrid').datagrid('loadData', {total: 0, rows:  [$.extend({},gridDefault)]});  
@@ -945,7 +945,7 @@ function selectBranch() {
 		})
 		branchesId = branchesId.substring(0,branchesId.length - 1);
 		branchName = branchName.substring(0,branchName.length - 1);
-		$("#branchShopInput").val(branchesId);// id
+		$("#branchId").val(branchesId);// id
 		$("#branchShopName").val(branchName);
 		$("#areaName").val("自定义");
 		$("#areaInput").val("");
@@ -954,7 +954,7 @@ function selectBranch() {
 	},1);
 }
 function toImportproduct(type){
-	var branchId=$("#branchShopInput").val();
+	var branchId=$("#branchId").val();
 	if(!branchId){
 		$.messager.alert('提示',"请先选择分店");
 		return;
@@ -987,7 +987,7 @@ function exportData(){
 }
 //打印
 function printDesign(formNo){
-	var branchId=$("#branchShopInput").val();
+	var branchId=$("#branchId").val();
 	if(!branchId){
 		$.messager.alert('提示',"请先选择分店");
 	}else{
@@ -1023,7 +1023,7 @@ var resetForm = function(){
  */
 function importData(grid){
 	var fileval=$('#filename').val();
-	var branchId=$("#branchShopInput").val();
+	var branchId=$("#branchId").val();
 	if(!branchId){
 		$.messager.alert('提示',"请先选择分店");
 	}else{

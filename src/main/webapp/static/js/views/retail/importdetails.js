@@ -11,7 +11,7 @@ function importdetail(tableid,url){
 	    buttons:[{
 				text:'完成',
 				handler:function(){
-					var branchId=$("#branchShopInput").val();
+					var branchId=$("#branchId").val();
 					if(!branchId){
 						$.messager.alert('提示','请先选择分店');
 						return;
