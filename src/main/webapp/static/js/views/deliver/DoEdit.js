@@ -330,9 +330,9 @@ function onSelectIsGift(data){
             var priceVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
             $('#'+gridHandel.getGridName()).datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"] = priceVal;
             $(targetPrice).numberbox('setValue',0);
-            $(targetPrice).numberbox('disable');
+            //$(targetPrice).numberbox('disable');
         }else{
-            $(targetPrice).numberbox('enable');
+           //$(targetPrice).numberbox('enable');
             var oldPrice =  $("#"+gridHandel.getGridName()).datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"];
             if(oldPrice){
                 $(targetPrice).numberbox('setValue',oldPrice);
@@ -391,17 +391,17 @@ function selectGoods(searchKey){
         }
         var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
         var addDefaultData  = gridHandel.addDefault(data,gridDefault);
-        var argWhere ={skuCode:1};  //验证重复性
-        var isCheck ={isGift:1 };   //只要是赠品就可以重复
-        var rows = gridHandel.checkDatagrid(nowRows,addDefaultData,argWhere,isCheck);
         var keyNames = {
-        	distributionPrice:'price',
+    		distributionPrice:'price',
             id:'skuId',
             disabled:'',
             pricingType:'',
             inputTax:'tax'
         };
-        var newRows = gFunUpdateKey(rows,keyNames);
+        var rows = gFunUpdateKey(addDefaultData,keyNames);
+        var argWhere ={skuCode:1};  //验证重复性
+        var isCheck ={isGift:1 };   //只要是赠品就可以重复
+        var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
         $("#"+gridHandel.getGridName()).datagrid("loadData",newRows);
 
         setTimeout(function(){
