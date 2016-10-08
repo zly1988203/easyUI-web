@@ -109,7 +109,7 @@ function initAddModifyPriceGridEdit() {
 						align : 'left'
 					}, {
 						field : 'barCode',
-						title : '国际条码',
+						title : '条码',
 						width : '130px',
 						align : 'left'
 					}, {

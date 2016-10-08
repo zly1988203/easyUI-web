@@ -9,7 +9,7 @@ $(function(){
 
 //根据调价设置的选中值，select展示对应的值
 function judgeIsAllChecked(){
-    var purchasePriceIsChecked = $("#purchasePrice").is(":checked");  //采购价
+    var purchasePriceIsChecked = $("#purchasePrice").is(":checked");  //进货价
     var retailPriceIsChecked = $("#retailPrice").is(":checked");  //零售价
     var tradePriceIsChecked = $("#tradePrice").is(":checked");  //批发价
     var memberPriceIsChecked = $("#memberPrice").is(":checked");  //会员价
@@ -19,11 +19,11 @@ function judgeIsAllChecked(){
         $("#select1,#select2").empty().append("<option value='0'>行号</option>");
     }
 
-    //采购价选中
+    //进货价选中
     if(purchasePriceIsChecked){
         $("#select1").append("<option value='newPurPrice'>新进货价</option>");
         $("#select2").append("<option value='newPurPrice'>新进货价</option>");
-        $("#select2").append("<option value='oldPurPrice'>原采购价</option>");
+        $("#select2").append("<option value='oldPurPrice'>原进货价</option>");
     }
 
     //零售价选中
