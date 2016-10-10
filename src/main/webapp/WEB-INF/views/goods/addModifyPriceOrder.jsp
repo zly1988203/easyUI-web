@@ -15,7 +15,10 @@
         <div class="ub ub-ac">
             <!--buttons-->
             <div class="ubtns">
+             <shiro:hasPermission name="JxcPriceAdjust:add">
 				<div class="ubtns-item"onclick="addModifyDataGrid();">新增</div>
+			 </shiro:hasPermission>
+			  <shiro:hasPermission name="JxcPriceAdjust:save">
                 <c:choose>
 				   <c:when test="${goodsPriceForm.formNo==''||goodsPriceForm.formNo==null}">
 				   	 <c:if test="${goodsPriceForm.status !=1 }">
@@ -28,21 +31,34 @@
 					  </c:if>
 				   </c:otherwise>
 				</c:choose>
+			</shiro:hasPermission>
+				
 				 <c:if test="${goodsPriceForm.status !=1 }">
-			 	     <div class="ubtns-item" id="check" onclick="check();">审核</div>
-			 	     <div class="ubtns-item" id="selectGoodsDialog" onclick="selectGoodsDialog();">商品选择</div>
-           			 <div class="ubtns-item" id="delModifyOrderDialog" onclick="delModifyOrderDialog();">删单</div>
+					 <shiro:hasPermission name="JxcPriceAdjust:save">
+				 	     <div class="ubtns-item" id="check" onclick="check();">审核</div>
+				 	 </shiro:hasPermission>
+				 	 <shiro:hasPermission name="JxcPriceAdjust:selectGoods">
+				 	     <div class="ubtns-item" id="selectGoodsDialog" onclick="selectGoodsDialog();">商品选择</div>
+				 	 </shiro:hasPermission>
+				 	 <shiro:hasPermission name="JxcPriceAdjust:delete">
+	           			 <div class="ubtns-item" id="delModifyOrderDialog" onclick="delModifyOrderDialog();">删单</div>
+	           		 </shiro:hasPermission>
 				 </c:if>
-				 <c:if test="${goodsPriceForm.status ==1 }">
-				 	<div class="ubtns-item"  onclick="exportData();">导出明细</div>
-				 </c:if>
+				<shiro:hasPermission name="JxcPriceAdjust:export">
+					 <c:if test="${goodsPriceForm.status ==1 }">
+					 	<div class="ubtns-item"  onclick="exportData();">导出明细</div>
+					 </c:if>
+				</shiro:hasPermission>
 			<!-- 	 <div class="ubtns-item"  onclick="exportTemplate()">导出模版下载</div> -->
-                <c:if test="${goodsPriceForm.status !=1 }">
-                	<!-- <div class="ubtns-item" id="importdetail" onclick="toImportproduct(0)">导入货号</div> -->
-                	<div class="ubtns-item" id="importdetail" onclick="toImportproduct(1)">条码导入</div>
-               		<div class="ubtns-item" id="importdetail" onclick="toImportproduct(1)">导入明细</div>
-               		<div class="ubtns-item" id="set" onclick="resetForm()">重置</div>
-                </c:if>
+			
+	                <c:if test="${goodsPriceForm.status !=1 }">
+	                	<!-- <div class="ubtns-item" id="importdetail" onclick="toImportproduct(0)">导入货号</div> -->
+	                	<shiro:hasPermission name="JxcPriceAdjust:import">
+		                	<div class="ubtns-item" id="importdetail" onclick="toImportproduct(1)">条码导入</div>
+		               		<div class="ubtns-item" id="importdetail" onclick="toImportproduct(1)">导入明细</div>
+		               	 </shiro:hasPermission>
+		               		<div class="ubtns-item" id="set" onclick="resetForm()">重置</div>
+	                </c:if>
                <%--  <div class="ubtns-item" onclick="printDesign('${goodsPriceForm.formNo}')">打印</div> --%>
                 <div class="ubtns-item" onclick="toBack()">返回</div>
             </div>
