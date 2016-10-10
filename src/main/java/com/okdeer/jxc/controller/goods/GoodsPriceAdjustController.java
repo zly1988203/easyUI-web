@@ -516,7 +516,36 @@ public class GoodsPriceAdjustController extends
 			LOG.error("GoodsPriceAdjustController:exportList:", e);
 		}
 	}
-
+	/**
+	 * @Description: 导出调价单模板
+	 * @param response
+	 * @param type
+	 * @author lijy02
+	 * @date 2016年10月10日
+	 */
+	@RequestMapping(value = "exportTemp")
+	public void exportTemp(HttpServletResponse response, String type) {
+		LOG.info("GoodsPriceAdjustController:exportList:" + type);
+		try {
+			// 导出文件名称，不包括后缀名
+			String fileName = "调价单货号模板";
+			// 模板名称，包括后缀名
+			String templateName=ExportExcelConstant.GOODS_PRICE_ADJUST_FORM_TEMPLE_SKUCODE;
+			if(ExportExcelConstant.SKUCODE_TEMPLE_TYPE.equals(type)) {
+				templateName = ExportExcelConstant.GOODS_PRICE_ADJUST_FORM_TEMPLE_SKUCODE;
+				fileName = "调价单货号模板";
+			}else {
+				templateName = ExportExcelConstant.GOODS_PRICE_ADJUST_FORM_TEMPLE_BARCODE;
+				fileName = "调价单条形码模板";
+			}
+			// 导出Excel
+			exportListForXLSX(response, null, fileName, templateName);
+		} catch (Exception e) {
+			LOG.error("GoodsPriceAdjustController:exportList:", e);
+		}
+	}
+	
+	
 	/**
 	 * (non-Javadoc)
 	 * @see com.okdeer.jxc.common.controller.BasePrintController#getPrintReplace(java.lang.String)

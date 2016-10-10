@@ -168,17 +168,20 @@ public class GoodsSelectController extends
 			// 根据skuCodes集合查询他的商品信息集合
 			List<String> codes = new ArrayList<String>();
 			for (GoodsSelect goodsSelect : goodsSelectList) {
-				codes.add(goodsSelect.getSkuCode());
+				codes.add(goodsSelect.getSkuCode() != null ? goodsSelect
+						.getSkuCode() : goodsSelect.getBarCode());
 			}
-			/*String[] skuCodes = (String[]) codes.toArray(new String[codes
-					.size()]);*/
-			suppliers = goodsSelectServiceApi.queryGoods(codes,
-					branchIds);
+			/*
+			 * String[] skuCodes = (String[]) codes.toArray(new String[codes
+			 * .size()]);
+			 */
+			suppliers = goodsSelectServiceApi.queryGoods(codes, branchIds);
 			if (suppliers != null) {
 				// 传到页面中的商品资料以标准库的为主
 				Map<String, GoodsSelect> map = new HashMap<String, GoodsSelect>();
 				for (GoodsSelect good : goodsSelectList) {
-					map.put(good.getSkuCode(), good);
+					map.put(good.getSkuCode() != null ? good.getSkuCode()
+							: good.getBarCode(), good);
 				}
 				restructureExcelValue(goodsSelectList, suppliers, map);
 
@@ -220,7 +223,8 @@ public class GoodsSelectController extends
 					// 传到页面中的商品资料以标准库的为主
 					Map<String, GoodsSelect> map = new HashMap<String, GoodsSelect>();
 					for (GoodsSelect good : goodsSelectList) {
-						map.put(good.getSkuCode(), good);
+						map.put(good.getSkuCode() != null ? good.getSkuCode()
+								: good.getBarCode(), good);
 					}
 					restructureExcelValue(goodsSelectList, suppliers, map);
 
@@ -251,7 +255,8 @@ public class GoodsSelectController extends
 			List<GoodsSelect> suppliers, Map<String, GoodsSelect> map) {
 		// 把excel中的得到的新值赋值到数据库查询出来的数据
 		for (GoodsSelect goodsSelect : suppliers) {
-			GoodsSelect good = map.get(goodsSelect.getSkuCode());
+			GoodsSelect good = map.get(goodsSelect.getSkuCode())!=null ? 
+					map.get(goodsSelect.getSkuCode()): map.get(goodsSelect.getBarCode());
 			// 新采购价
 			goodsSelect.setNewPurPrice(good.getNewPurPrice());
 			// 新配送价
