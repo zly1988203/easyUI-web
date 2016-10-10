@@ -229,6 +229,9 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 			LOG.warn("validate errorMessage:" + errorMessage);
 			return RespJson.error(errorMessage);
 		}
+		if(StringUtils.isEmpty(sku.getCategoryCode())){
+			return RespJson.error("请选择商品类别！");
+		}
 		try {
 			// 如果非普通商品没有设置条码，则把当前商品代码
 			if (StringUtils.isEmpty(sku.getBarCode())
