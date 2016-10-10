@@ -1,5 +1,9 @@
-/.factorypath
-/.classpath
-/.project
-/target/
-/.apt_generated/
+.iml
+.idea
+target
+bin
+.project
+.classpath
+.settings
+.gitignore
+.factorypath
