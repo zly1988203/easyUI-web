@@ -7,9 +7,15 @@ pageEncoding="UTF-8"%>
 <div class="ub ub-ver  ub-f1  uw uh ufs-14 uc-black">
 	<div class="ub ub-ac upad-4">
 			<div class="ubtns">
+			<shiro:hasPermission name="JxcGoodsArchive:save">
 				<button class="ubtns-item" onclick="saveGoodsArchives()" id="updateGoodsArchives">保存</button>
+		    </shiro:hasPermission>
+		    <shiro:hasPermission name="JxcGoodsArchive:add">
 				<button class="ubtns-item" onclick="goodsAddView()">新增</button>
+			</shiro:hasPermission>
+			<shiro:hasPermission name="JxcGoodsArchive:add">
 				<button class="ubtns-item" onclick="copyAddGoodsView()">复制新增</button>
+			</shiro:hasPermission>
 				<button class="ubtns-item" onclick="closeDialog()">返回</button>
 			</div>
 	</div>
