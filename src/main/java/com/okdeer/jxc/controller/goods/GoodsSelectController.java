@@ -177,6 +177,10 @@ public class GoodsSelectController extends
 			 * String[] skuCodes = (String[]) codes.toArray(new String[codes
 			 * .size()]);
 			 */
+			if(codes.isEmpty()) {
+				LOG.error("货号或者条形码不能为空:");
+				throw new Exception("货号或者条形码不能为空:");
+			}
 			suppliers = goodsSelectServiceApi.queryGoods(codes, branchIds);
 			if (suppliers != null) {
 				// 传到页面中的商品资料以标准库的为主
