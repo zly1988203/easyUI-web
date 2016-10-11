@@ -63,7 +63,7 @@ public class GoodsCategoryController extends
 	@ResponseBody
 	public String getGoodsCategoryToTree(GoodsCategoryVo vo) {
 		try {
-			LOG.info("vo:" + vo.toString());
+			LOG.info("类别树结构参数:" + vo.toString());
 			String categoryTree = goodsCategoryService
 					.queryGoodsCategoryToTree(vo);
 			LOG.info("categoryTree:" + categoryTree);
@@ -93,10 +93,10 @@ public class GoodsCategoryController extends
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
-			LOG.info("vo:" + vo.toString());
+			LOG.info("查询类别参数:" + vo.toString());
 			PageUtils<GoodsCategory> suppliers = goodsCategoryService
 					.queryLists(vo);
-			LOG.info("page" + suppliers.toString());
+			LOG.info("查询列表数据" + suppliers.toString());
 			return suppliers;
 		} catch (Exception e) {
 			LOG.error("查询查询类别异常:", e);

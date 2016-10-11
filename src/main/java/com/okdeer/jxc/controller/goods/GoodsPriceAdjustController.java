@@ -126,7 +126,7 @@ public class GoodsPriceAdjustController extends
 				goodsPriceFormVo.setEndTime(time);
 			}
 			goodsPriceFormVo.setCreateBranchCode(UserUtil.getCurrBranchCode());
-			LOG.debug("调价单搜索 ：goodsPriceFormVo=" + goodsPriceFormVo);
+			LOG.info("调价单搜索 ：goodsPriceFormVo=" + goodsPriceFormVo);
 			return goodsPriceAdustService.queryLists(goodsPriceFormVo);
 		} catch (Exception e) {
 			LOG.error(GoodsPriceFormConst.SEARCH_GOODS_PRICE_FOMR_ERRO, e);

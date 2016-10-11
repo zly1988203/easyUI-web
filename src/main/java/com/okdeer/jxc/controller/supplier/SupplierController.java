@@ -76,6 +76,7 @@ public class SupplierController extends BaseController<SupplierController> {
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
+			LOG.info("查询供应商参数:{}" + vo.toString());
 			// begin added by lijy02 2016.9.12:添加过滤条件
 			String branchesId = UserUtil.getCurrBranchId();
 			Integer branchType = UserUtil.getCurrBranchType();
@@ -93,12 +94,11 @@ public class SupplierController extends BaseController<SupplierController> {
 				}
 			}
 			// end added by lijy02
-			LOG.info("vo:" + vo.toString());
 			PageUtils<Supplier> suppliers = supplierService.queryLists(vo);
-			LOG.info("page" + suppliers.toString());
+			LOG.info("查询供应商列表:{}" + suppliers.toString());
 			return suppliers;
 		} catch (Exception e) {
-			LOG.error("查询供应商异常:", e);
+			LOG.error("查询供应商异常:{}", e);
 		}
 		return null;
 	}
@@ -117,7 +117,7 @@ public class SupplierController extends BaseController<SupplierController> {
 			String brandTree = supplierService.querySupplierToTree();
 			return brandTree;
 		} catch (Exception e) {
-			LOG.error("查询供应商树结构异常:", e);
+			LOG.error("查询供应商树结构异常:{}", e);
 		}
 		return null;
 	}

@@ -88,7 +88,7 @@ public class GoodsBrandController extends BaseController<GoodsBrandController> {
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
-			LOG.info("vo:" + vo.toString());
+			LOG.info("查询品牌参数:{}", vo.toString());
 			PageUtils<GoodsBrand> goodsBrand = goodsBrandService.queryLists(vo);
 			LOG.info("page:" + goodsBrand.toString());
 			return goodsBrand;
