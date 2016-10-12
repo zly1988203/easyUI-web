@@ -84,6 +84,7 @@ public class BranchAreaController extends BaseController<BranchAreaController> {
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
+			LOG.info("查询区域参数:{}", vo.toString()+"pageNumber:"+pageNumber+"pageSize:"+pageSize);
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
 			SysUser user = UserUtil.getCurrentUser();
@@ -99,7 +100,6 @@ public class BranchAreaController extends BaseController<BranchAreaController> {
 					}
 				}
 			}
-			LOG.info("查询区域机构列表参数:{}", vo);
 			PageUtils<BranchArea> suppliers = branchAreaService.queryLists(vo);
 			LOG.info("区域机构列表{}" , suppliers);
 			return suppliers;

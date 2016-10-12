@@ -68,8 +68,8 @@ function initGoodsView(data,flag){
 			}
 		});
 	});
-	$("#barCode").attr("readonly","readonly");
-//	$(document).ready(function(){ 
+/*	$("#barCode").attr("readonly","readonly");
+*///	$(document).ready(function(){ 
 //	$('#pricingType').change(function(){ 
 //	alert("AAAAAAAAAA");
 //	}) 

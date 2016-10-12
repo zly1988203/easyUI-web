@@ -1,10 +1,13 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <c:set var="user" value="${sessionScope.session_user}"/>
+<c:if test="${empty user }">
+	<c:redirect url="${ctx}/system/logout" />
+</c:if>
 <c:set var="sessionSupplier" value="${sessionScope.session_default_supplier}"/>
 <c:set var="priceGrantStr" value="${user.priceGrant}"/>
 <c:set var="now" value="<%=new java.util.Date()%>" />
@@ -41,12 +44,6 @@
 
 
 <script>
-
-var user = '${user}';
-//如果session用户为空，则需要重新登录
-if(!user){
-	top.location.replace('${ctx}/system/logout');
-};
 
 window.addEventListener('message',function(e){
 			window.onbeforeunload = null;

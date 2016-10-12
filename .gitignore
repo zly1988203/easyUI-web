@@ -7,3 +7,4 @@ bin
 .settings
 .gitignore
 .factorypath
+/.apt_generated/

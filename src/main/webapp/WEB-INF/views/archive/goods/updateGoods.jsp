@@ -1,15 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
+
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <script src="${ctx}/static/js/views/goods/goodsArchivesEdit.js"></script>
 
 <div class="ub ub-ver  ub-f1  uw uh ufs-14 uc-black">
 	<div class="ub ub-ac upad-4">
 			<div class="ubtns">
+			<shiro:hasPermission name="JxcGoodsArchive:save">
 				<button class="ubtns-item" onclick="saveGoodsArchives()" id="updateGoodsArchives">保存</button>
+		    </shiro:hasPermission>
+		    <shiro:hasPermission name="JxcGoodsArchive:add">
 				<button class="ubtns-item" onclick="goodsAddView()">新增</button>
+			</shiro:hasPermission>
+			<shiro:hasPermission name="JxcGoodsArchive:add">
 				<button class="ubtns-item" onclick="copyAddGoodsView()">复制新增</button>
+			</shiro:hasPermission>
 				<button class="ubtns-item" onclick="closeDialog()">返回</button>
 			</div>
 	</div>

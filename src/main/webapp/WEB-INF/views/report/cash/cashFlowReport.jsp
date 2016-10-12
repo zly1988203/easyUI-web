@@ -18,9 +18,15 @@
 		<form id="queryForm" action="" method="post">
 			<div class="ub ub-ac">
 	            <div class="ubtns">
+	            <shiro:hasPermission name="JxcCashFlow:search">
 	                <div class="ubtns-item" onclick="query()">查询</div>
+	            </shiro:hasPermission>
+	            <shiro:hasPermission name="JxcCashFlow:print">
 	                <div class="ubtns-item" onclick="printReport()">打印</div>
+	            </shiro:hasPermission>
+	            <shiro:hasPermission name="JxcCashFlow:export">
 	                <div class="ubtns-item" onclick="exportExcel()">导出</div>
+	            </shiro:hasPermission>
 	                <div class="ubtns-item" onclick="resetForm()">重置</div>
 	                <div class="ubtns-item" onclick="toClose()">退出</div>
 	            </div>

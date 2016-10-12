@@ -277,7 +277,13 @@ function goodsSearch(){
 }
 //新增
 function addGoodsView(){
-	openDialog(contextPath+"/common/goods/addGoodsView","新增商品档案","add",goodsClass.currSelectTreeParam);
+	debugger;
+	console.log(goodsClass.currSelectTreeParam.categoryId=="0");
+	var obj = $.extend({},goodsClass.currSelectTreeParam);
+	if(goodsClass.currSelectTreeParam.categoryId=="0"){
+		obj.categoryName="";
+	}
+	openDialog(contextPath+"/common/goods/addGoodsView","新增商品档案","add",obj);
     //window.location.href = contextPath+"/common/goods/addGoodsView";
 }
 var  dalogTemp;
@@ -359,7 +365,6 @@ function exportExcel(){
 	if(!isValid){
 		return;
 	}
-	
 	var length = $("#gridArchives").datagrid('getData').total;
 	if(length == 0){
 		$.messager.alert("提示","无数据可导");
@@ -369,6 +374,15 @@ function exportExcel(){
 		$.messager.alert('提示',"当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
 		return;
 	}
+	$("#formGoodsArchives").form({
+		success : function(data){
+			if(data==null){
+				$.messager.alert('提示',"导出数据成功！");
+			}else{
+				$.messager.alert('提示',JSON.parse(data).message);
+			}
+		}
+	});
 	$("#formGoodsArchives").attr("action",contextPath+"/common/goods/exportGoods");
 	$("#formGoodsArchives").submit();
 }

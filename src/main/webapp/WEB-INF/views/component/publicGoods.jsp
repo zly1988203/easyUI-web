@@ -314,6 +314,7 @@ pageEncoding="UTF-8"%>
         height:'100%',
         columns:[arrColumns],
         onClickRow:goodsClickRow,
+        idField:'skuCode',
         onLoadSuccess : function() {
         //gridHandel.setDatagridHeader();
         priceGrantUtil.grantPrice("gridGoods");

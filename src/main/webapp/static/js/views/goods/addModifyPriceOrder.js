@@ -426,7 +426,6 @@ function saveModifyPriceOrder() {
 										addModifyPriceGridDg.datagrid('options').queryParams = {formNo : data.goodsPriceForm.formNo};
 										addModifyPriceGridDg.datagrid('options').url = contextPath+ "/goods/priceAdjust/getForm";
 										addModifyPriceGridDg.datagrid('load');
-										console.info(data.goodsPriceForm);
 										$("#formNo").text(data.goodsPriceForm.formNo);
 										$("#formNoInput").val(data.goodsPriceForm.formNo);
 										$("#createUserId").text(data.createUserName);
@@ -439,7 +438,6 @@ function saveModifyPriceOrder() {
 														// 审核成功跳转到已审核页面，加上已审核标志
 														// 得到新的生效时间
 														var effectDate = $("#effectDate").val();
-														console.info(effectDate);
 														var status = 1;
 														var result = checkForm(data.goodsPriceForm.formNo,status,effectDate);
 													}
@@ -985,6 +983,16 @@ function exportData(){
 	$("#searchForm").attr("action",contextPath+'/goods/priceAdjust/exportList?formNo='+formNo);
 	$("#searchForm").submit();	
 }
+
+//模板导出
+function exportTemp(){
+	var temple = $("#temple").attr("value");
+	if(temple=="barCodeTemple"){
+		location.href=contextPath+'/goods/priceAdjust/exportTemp?type=barCodeTemple';
+	}else{
+		location.href=contextPath+'/goods/priceAdjust/exportTemp?type=skuCodeTemple';
+	}
+}
 //打印
 function printDesign(formNo){
 	var branchId=$("#branchId").val();
@@ -994,10 +1002,7 @@ function printDesign(formNo){
 		//弹出打印页面
 		parent.addTabPrint('CASheet' + formNo,formNo+'单据打印',contextPath + '/printdesign/design?page=CASheet&controller=/goods/priceAdjust&template=-1&sheetNo=' + formNo + '&gridFlag=CAGrid','');
 	}
-    
 }
-
-
 //验证表格数据 删除不合格数据
 function getDatagridRows(){
   $("#addModifyPriceGrid").datagrid("unselectAll");
@@ -1036,6 +1041,7 @@ function importData(grid){
 	}
 
 }
+
 /**
  * 获取导入的数据
  * @param data

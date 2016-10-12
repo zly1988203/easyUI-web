@@ -43,6 +43,8 @@
 				            <option value="2">正常（85*40mm有底 2*7）</option>
 				            <option value="3">正常（85*40mm无底 1*7）</option>
 				            <option value="4">促销（85*40mm无底 1*7）</option>
+				             <option value="5">标准价签(72*32.5mm 4*6)</option>
+				             <option value="6">标准促销价签(72*32.5mm 4*6)</option>
 				        </select>
                 </div>
                <div class="ub ub-ac uw-200 umar-l20">

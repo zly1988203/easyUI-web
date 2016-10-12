@@ -195,6 +195,7 @@ public class CashFlowReportController extends BaseController<CashFlowReportContr
 			qo.setPageSize(pageSize);
 			// 2、封装请求参数
 			qo = getParmas(qo);
+			LOG.debug("收银流水打印参数：{}", qo.toString());
 			PageUtils<CashFlowReportVo> cashFlowReport = cashFlowReportService.queryList(qo);
 			List<CashFlowReportVo> list = cashFlowReport.getList();
 			String path = PrintConstant.CASH_FLOW_REPORT;

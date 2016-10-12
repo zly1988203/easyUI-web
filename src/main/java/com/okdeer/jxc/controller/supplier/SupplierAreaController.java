@@ -7,79 +7,93 @@
 
 package com.okdeer.jxc.controller.supplier;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.okdeer.jxc.branch.entity.Branches;
-import com.okdeer.jxc.branch.service.BranchesServiceApi;
+import com.okdeer.jxc.branch.entity.BranchArea;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.supplier.service.SupplierAreaServiceApi;
-import com.okdeer.jxc.supplier.vo.SupplierAreaVo;
 import com.okdeer.jxc.utils.UserUtil;
 
 /**
  * ClassName: SupplierAreaController 
  * @Description: 供应商区域Controller
- * @author zhangchm
+ * @author 李俊义
  * @date 2016年7月20日
  *
  * =================================================================================================
  *     Task ID			  Date			     Author		      Description
  * ----------------+----------------+-------------------+-------------------------------------------
- *    进销存2.0.0		   2016年7月20日                  zhangchm            创建供应商区域Controller， 查询供应商区域树结构、类别树结构、类别
+ *    零售系统		2016.10.12			lijy02				供应商区域控制类
  */
 
 @Controller
-@RequestMapping("common/supplierArea")
+@RequestMapping("supplierArea")
 public class SupplierAreaController extends
 		BaseController<SupplierAreaController> {
 
 	@Reference(version = "1.0.0", check = false)
 	private SupplierAreaServiceApi supplierAreaService;
-
-	// 店铺服务接口
-	@Reference(version = "1.0.0", check = false)
-	private BranchesServiceApi branchesService;
-
+	
 	/**
-	 * @Description 查询供应商区域树结构
-	 * @param vo
-	 * @param response
-	 * @return   
-	 * @author zhangchm
-	 * @date 2016年7月20日
+	 * @Description: 跳转供应商区域页面
+	 * @return
+	 * @author lijy02
+	 * @date 2016年10月12日
 	 */
-	@RequestMapping(value = "getSupplierAreaToTree")
-	@ResponseBody
-	public String getSupplierAreaToTree() {
-		try {
-			// begin added by lijy02 2016.9.12:添加过滤条件
-			SupplierAreaVo vo = new SupplierAreaVo();
-			String branchesId = UserUtil.getCurrBranchId();
-			Integer branchType = UserUtil.getCurrBranchType();
-			if (branchesId != null) {
-				vo.setBranchId(branchesId);
-				// 如果机构类型不是 0 1 需要查询他们的分公司 找到他们分公司的供应商
-				if (branchType != 0 && branchType != 1) {
-					// 查询店铺的分公司
-					Branches branches = branchesService
-							.getBranchInfoById(branchesId);
-					if (branches != null && branches.getParentId() != null) {
-						// 把父级的id加入条件查询分公司的供应商
-						vo.setBranchId(branches.getParentId());
-					}
-				}
-			}
-			// end added by lijy02
-			String supplierAreaTree = supplierAreaService
-					.querySupplierAreaToTree(vo);
-			return supplierAreaTree;
-		} catch (Exception e) {
-			LOG.error("查询商对应区域树结构异常:", e);
+	@RequestMapping(value = "views")
+	public String views() {
+		if(UserUtil.getCurrBranchType()==0) {
+			return "supplier/area/supplierAreaList";
+		}else {
+			return "supplier/area/supplierAreaListOther";
 		}
-		return null;
+	}
+	
+	/**
+	 * @Description: 根据条件查询供应商区域
+	 * @param CodeOrName 编号或者名称
+	 * @return
+	 * @author lijy02
+	 * @date 2016年10月12日
+	 */
+	@RequestMapping(value = "getSupplierAreaList")
+	public List<BranchArea> getSupplierAreaList(String CodeOrName) {
+		//判断当前用户是否是0 总部
+		//总部查询总部下机构的供应商区域，其他的查询本机构的区域
+		LOG.info("供应商区域查询参数CodeOrName:{}",CodeOrName);
+		if(UserUtil.getCurrBranchType()==0) {
+			
+			return null;
+		}else {
+			
+			return null;
+		}
+	}
+	
+	/**
+	 * @Description: 新增页面
+	 * @return
+	 * @author lijy02
+	 * @date 2016年10月12日
+	 */
+	@RequestMapping(value = "toAdd")
+	public String toAdd() {
+		return "supplier/area/supplierAreaAdd";
+	}
+	
+	/**
+	 * @Description: 修改页面
+	 * @return
+	 * @author lijy02
+	 * @date 2016年10月12日
+	 */
+	@RequestMapping(value = "toEdit")
+	public String toEdit() {
+		return "supplier/area/supplierAreaEdit";
 	}
 
 }

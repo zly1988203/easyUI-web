@@ -14,11 +14,17 @@
         <div class="ub ub-ac">
             <!--buttons-->
             <div class="ubtns">
-                <div class="ubtns-item" onclick="modifyPriceOrderCx();">查询</div>
-                <div class="ubtns-item" onclick="addModifyDataGrid();">新增</div>
-                <div class="ubtns-item" onclick="delModifyOrderDialog();">删单</div>
-                <div class="ubtns-item" onclick="resetForm()">重置</div>
-                <div class="ubtns-item" onclick="window.parent.closeTab()">退出</div>
+            	<shiro:hasPermission name="JxcPriceAdjust:search">
+                	<div class="ubtns-item" onclick="modifyPriceOrderCx();">查询</div>
+                </shiro:hasPermission>
+                <shiro:hasPermission name="JxcPriceAdjust:add">
+					  <div class="ubtns-item" onclick="addModifyDataGrid();">新增</div>
+			   	</shiro:hasPermission>
+                <shiro:hasPermission name="JxcPriceAdjust:delete">
+	                <div class="ubtns-item" onclick="delModifyOrderDialog();">删单</div>
+	            </shiro:hasPermission>
+	            <div class="ubtns-item" onclick="resetForm()">重置</div>
+	            <div class="ubtns-item" onclick="window.parent.closeTab()">退出</div>
             </div>
 			<div class="ub">
 				<div class="ub ub-ac">
