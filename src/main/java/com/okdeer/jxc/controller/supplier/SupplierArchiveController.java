@@ -26,9 +26,26 @@ import com.okdeer.jxc.controller.BaseController;
  */
  
 @Controller
-@RequestMapping("supplierArchive")
+@RequestMapping("supplierArchive/")
 public class SupplierArchiveController extends BaseController<SupplierArchiveController> {
-
+	
+	
+	
+	@RequestMapping(value = "toManager")
+	public String toManager() {
+		return "supplier/archive/supplierArchiveList";
+	}
+	
+	@RequestMapping(value = "toAdd")
+	public String toAdd() {
+		return "supplier/archive/supplierArchiveAdd";
+	}
+	
+	@RequestMapping(value = "toEdit")
+	public String toEdit() {
+		return "supplier/archive/supplierArchiveEdit";
+	}
+	
 	
 
 }
