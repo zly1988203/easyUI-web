@@ -195,7 +195,7 @@ public class CashDailyReportController extends BaseController<CashDailyReportCon
 
 			// 初始化默认参数
 			qo = buildDefaultParams(qo);
-			
+			LOG.debug("日结报表打印参数：{}", qo.toString());
 			PageUtils<CashDailyReportVo> cashFlowReport = cashDailyReportService.queryList(qo);
 			List<CashDailyReportVo> list = cashFlowReport.getList();
 			BigDecimal allTotal = BigDecimal.ZERO;

@@ -15,24 +15,49 @@
         <div class="ub ub-ac">
             <!--buttons-->
             <div class="ubtns">
-
+             <shiro:hasPermission name="JxcPriceAdjust:add">
+				<div class="ubtns-item"onclick="addModifyDataGrid();">新增</div>
+			 </shiro:hasPermission>
+			  <shiro:hasPermission name="JxcPriceAdjust:save">
                 <c:choose>
-				   <c:when test="${goodsPriceForm.formNo==''||goodsPriceForm.formNo==null}">  
-				    	<div class="ubtns-item" id="saveModifyPriceOrder" onclick="saveModifyPriceOrder();">保存</div>   
+				   <c:when test="${goodsPriceForm.formNo==''||goodsPriceForm.formNo==null}">
+				   	 <c:if test="${goodsPriceForm.status !=1 }">
+				    	<div class="ubtns-item" id="saveModifyPriceOrder" onclick="saveModifyPriceOrder();">保存</div>
+				     </c:if>   
 				   </c:when>
 				   <c:otherwise>
-					   <div class="ubtns-item"onclick="addModifyDataGrid();">新增</div>
+				   	  <c:if test="${goodsPriceForm.status !=1 }">
 						<div class="ubtns-item" id="saveModifyPriceOrder" onclick="updateModifyPriceOrder();">保存</div>
+					  </c:if>
 				   </c:otherwise>
 				</c:choose>
-                <div class="ubtns-item" id="check" onclick="check();">审核</div>
-                <div class="ubtns-item" id="selectGoodsDialog" onclick="selectGoodsDialog();">商品选择</div>
-                <div class="ubtns-item" id="delModifyOrderDialog" onclick="delModifyOrderDialog();">删单</div>
-                <div class="ubtns-item"  onclick="exportData();">导出明细</div>
-                <div class="ubtns-item" id="importdetail" onclick="toImportproduct(0)">导入货号</div>
-                <div class="ubtns-item" id="importdetail" onclick="toImportproduct(1)">导入明细</div>
+			</shiro:hasPermission>
+				
+				 <c:if test="${goodsPriceForm.status !=1 }">
+					 <shiro:hasPermission name="JxcPriceAdjust:save">
+				 	     <div class="ubtns-item" id="check" onclick="check();">审核</div>
+				 	 </shiro:hasPermission>
+				 	     <div class="ubtns-item" id="selectGoodsDialog" onclick="selectGoodsDialog();">商品选择</div>
+				 	 <shiro:hasPermission name="JxcPriceAdjust:delete">
+	           			 <div class="ubtns-item" id="delModifyOrderDialog" onclick="delModifyOrderDialog();">删单</div>
+	           		 </shiro:hasPermission>
+				 </c:if>
+				<shiro:hasPermission name="JxcPriceAdjust:exportDetail">
+					 <c:if test="${goodsPriceForm.status ==1 }">
+					 	<div class="ubtns-item"  onclick="exportData();">导出明细</div>
+					 </c:if>
+				</shiro:hasPermission>
+			<!-- 	 <div class="ubtns-item"  onclick="exportTemplate()">导出模版下载</div> -->
+			
+	                <c:if test="${goodsPriceForm.status !=1 }">
+	                	<!-- <div class="ubtns-item" id="importdetail" onclick="toImportproduct(0)">导入货号</div> -->
+	                	<shiro:hasPermission name="JxcPriceAdjust:importDetail">
+		                	<div class="ubtns-item" id="importdetail" onclick="toImportproduct(1)">条码导入</div>
+		               		<div class="ubtns-item" id="importdetail" onclick="toImportproduct(1)">导入明细</div>
+		               	 </shiro:hasPermission>
+		               		<div class="ubtns-item" id="set" onclick="resetForm()">重置</div>
+	                </c:if>
                <%--  <div class="ubtns-item" onclick="printDesign('${goodsPriceForm.formNo}')">打印</div> --%>
-                <div class="ubtns-item" id="set" onclick="resetForm()">重置</div>
                 <div class="ubtns-item" onclick="toBack()">返回</div>
             </div>
         </div>
@@ -241,8 +266,9 @@
 	                    </div>
                      </c:if>
                     </c:if>
-                    
-                    <div class="ubtn uw-70" onclick="setModifyPriceDialog()">调价公式</div>
+                    <c:if test="${goodsPriceForm.status !=1}">
+                    	<div class="ubtn uw-70" onclick="setModifyPriceDialog()">调价公式</div>
+                    </c:if>
                 </div>
             </div>
             <div class="already-examine uhide" id="already-examine"><span>已审核</span></div>
@@ -257,15 +283,14 @@
     </div>
     <!-- 导入弹框 -->
     <div class="uabs uatk">
-
-     	<div class="uatit">导入文件选择</div>
+		<div class="ubtn uw-100 umar-10" onclick="exportTemp()" id="temple">导入模版下载</div>
+     	<!-- <div class="uatit">导入文件选择</div> -->
          <div class="uacon"><input class="uinp ub" id="filename" type="text"><label class="ualable">选择文件<input type="file" class="uafile" value=""  name="xlfile" id="xlf" /></label></div>
          
          <div class="uabtns ">
      	 	<button class="uabtn umar-r30" onclick="importData('addModifyPriceGrid')">导入</button>
      	 	<button class="uabtn" onclick="uaclose()" >取消</button>
      	 </div>
-；
      </div>
  
 </body>

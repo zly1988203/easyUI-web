@@ -208,9 +208,15 @@ function postelsx(tableid,url,cb){
 		        dataType:'json',
 		        success:function(data){
 		            //填充到table方法调用里面
-                    getImportData(data)
-		        	//updateTableDataAll(data,tableid);
-		        	$('.uatk').hide();
+		        	if(data.length<=0){
+		        		$.messager.alert('提示',"导入货号或者条形码不能为空"); 
+		        		$('.uatk').hide();
+		        	}else{
+		        		getImportData(data)
+			        	//updateTableDataAll(data,tableid);
+			        	$('.uatk').hide();
+		        	}
+                    
 		        },
 		        error: function(){
 		            //请求出错处理

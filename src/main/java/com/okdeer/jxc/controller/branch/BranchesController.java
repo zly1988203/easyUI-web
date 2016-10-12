@@ -66,6 +66,7 @@ public class BranchesController extends BaseController<BranchesController> {
 	 */
 	@RequestMapping(value = "viewComponent")
 	public String viewComponent(HttpServletRequest req, Model model) {
+		LOG.info("公共选择机构跳转页面参数:{}", req.toString());
 		String formType = req.getParameter("formType");
 		String branchId = req.getParameter("branchId");
 		model.addAttribute("formType", formType);
@@ -89,6 +90,7 @@ public class BranchesController extends BaseController<BranchesController> {
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
+			LOG.info("查询机构参数:{}", vo.toString()+"pageNumber:"+pageNumber+"pageSize:"+pageSize);
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
 			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
@@ -96,7 +98,6 @@ public class BranchesController extends BaseController<BranchesController> {
 			if (StringUtils.isEmpty(vo.getBranchId())) {
 				vo.setBranchId(UserUtil.getCurrBranchId());
 			}
-			LOG.info("机构查询参数:{}", vo);
 			PageUtils<Branches> suppliers = branchesService.queryLists(vo);
 			LOG.info("机构列表：{}", suppliers);
 			return suppliers;

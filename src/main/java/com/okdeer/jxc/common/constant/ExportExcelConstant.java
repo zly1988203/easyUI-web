@@ -39,7 +39,27 @@ public interface ExportExcelConstant {
 	 * @Fields GOODS_PRICE_ADJUST_FORM : 调价单模版名称“GoodsPriceAdjustForm.xlsx”
 	 */
 	String GOODS_PRICE_ADJUST_FORM = "GoodsPriceAdjustForm.xlsx";
+	
+	
+	/**
+	 * @Fields GOODS_PRICE_ADJUST_FORM_TEMPLE_SKUCODE : 调价单货号模板
+	 */
+	String GOODS_PRICE_ADJUST_FORM_TEMPLE_SKUCODE = "SkuCodeTemple.xlsx";
 
+	/**
+	 * @Fields GOODS_PRICE_ADJUST_FORM_TEMPLE_BARCODE : 调价单条形码模板
+	 */
+	String GOODS_PRICE_ADJUST_FORM_TEMPLE_BARCODE = "BarCodeTemple.xlsx";
+	
+	/**
+	 * @Fields BARCODE_TEMPLE_TYPE : 条形码模板类型
+	 */
+	String BARCODE_TEMPLE_TYPE = "barCodeTemple";
+	/**
+	 * @Fields SKUCODE_TEMPLE_TYPE : 货号模板类型
+	 */
+	String SKUCODE_TEMPLE_TYPE = "skuCodeTemple";
+	
 	/**
 	 * 商品档案导出模板
 	 */

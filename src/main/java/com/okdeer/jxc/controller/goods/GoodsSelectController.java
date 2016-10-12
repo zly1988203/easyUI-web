@@ -74,6 +74,7 @@ public class GoodsSelectController extends
 	 */
 	@RequestMapping(value = "view")
 	public String view(HttpServletRequest req, Model model) {
+		LOG.info("商品选择跳转页面参数:{}", req.toString());
 		String type = req.getParameter("type");
 		String sourceBranchId = req.getParameter("sourceBranchId");
 		String targetBranchId = req.getParameter("targetBranchId");
@@ -116,7 +117,7 @@ public class GoodsSelectController extends
 			if (FormType.DO.toString().equals(vo.getFormType())) {
 				vo.setBranchId(vo.getSourceBranchId());
 			}
-			LOG.info("vo:" + vo.toString());
+			LOG.info("商品查询参数:{}" + vo.toString());
 			PageUtils<GoodsSelect> suppliers = goodsSelectServiceApi
 					.queryLists(vo);
 			LOG.info("page" + suppliers.toString());
@@ -143,7 +144,7 @@ public class GoodsSelectController extends
 			// 根据有无skuCodes传来数据 空表示是导入货号 有数据表示导入数据
 			List<GoodsSelect> suppliers = goodsSelectServiceApi
 					.queryByCodeLists(skuCodes, UserUtil.getCurrBranchId());
-			LOG.info("page" + suppliers.toString());
+			LOG.info("根据货号批量查询商品参数:{}" + suppliers.toString());
 			return suppliers;
 		} catch (Exception e) {
 			LOG.error("查询商品选择数据出现异常:", e);
@@ -163,27 +164,35 @@ public class GoodsSelectController extends
 	public List<GoodsSelect> importGoodsLists(String[] branchIds,
 			@RequestBody List<GoodsSelect> goodsSelectList) {
 		try {
+			LOG.info("导入商品集合参数:{}" + goodsSelectList.toString()+"branchIds:"+branchIds);
 			List<GoodsSelect> suppliers = new ArrayList<GoodsSelect>();
 			// 从导入的excel中得到skuCodes集合
 			// 根据skuCodes集合查询他的商品信息集合
 			List<String> codes = new ArrayList<String>();
 			for (GoodsSelect goodsSelect : goodsSelectList) {
-				codes.add(goodsSelect.getSkuCode());
+				codes.add(goodsSelect.getSkuCode() != null ? goodsSelect
+						.getSkuCode() : goodsSelect.getBarCode());
 			}
-			/*String[] skuCodes = (String[]) codes.toArray(new String[codes
-					.size()]);*/
-			suppliers = goodsSelectServiceApi.queryGoods(codes,
-					branchIds);
+			/*
+			 * String[] skuCodes = (String[]) codes.toArray(new String[codes
+			 * .size()]);
+			 */
+			if(codes.isEmpty()) {
+				LOG.error("货号或者条形码不能为空:");
+				throw new Exception("货号或者条形码不能为空:");
+			}
+			suppliers = goodsSelectServiceApi.queryGoods(codes, branchIds);
 			if (suppliers != null) {
 				// 传到页面中的商品资料以标准库的为主
 				Map<String, GoodsSelect> map = new HashMap<String, GoodsSelect>();
 				for (GoodsSelect good : goodsSelectList) {
-					map.put(good.getSkuCode(), good);
+					map.put(good.getSkuCode() != null ? good.getSkuCode()
+							: good.getBarCode(), good);
 				}
 				restructureExcelValue(goodsSelectList, suppliers, map);
 
 			}
-			LOG.info("page" + goodsSelectList.toString());
+			LOG.info("导入商品集合列表:{}" + goodsSelectList.toString());
 			return suppliers;
 		} catch (Exception e) {
 			LOG.error("查询商品选择数据出现异常:", e);
@@ -203,6 +212,7 @@ public class GoodsSelectController extends
 	public List<GoodsSelect> importGoodsListsDeliver(
 			@RequestBody GoodsImportVo goodsImportVo) {
 		try {
+			LOG.info("导入商品集合(配送)参数:{}" + goodsImportVo.toString());
 			List<GoodsSelect> suppliers = new ArrayList<GoodsSelect>();
 			List<GoodsSelect> goodsSelectList = goodsImportVo
 					.getGoodsSelectList();
@@ -220,7 +230,8 @@ public class GoodsSelectController extends
 					// 传到页面中的商品资料以标准库的为主
 					Map<String, GoodsSelect> map = new HashMap<String, GoodsSelect>();
 					for (GoodsSelect good : goodsSelectList) {
-						map.put(good.getSkuCode(), good);
+						map.put(good.getSkuCode() != null ? good.getSkuCode()
+								: good.getBarCode(), good);
 					}
 					restructureExcelValue(goodsSelectList, suppliers, map);
 
@@ -251,7 +262,8 @@ public class GoodsSelectController extends
 			List<GoodsSelect> suppliers, Map<String, GoodsSelect> map) {
 		// 把excel中的得到的新值赋值到数据库查询出来的数据
 		for (GoodsSelect goodsSelect : suppliers) {
-			GoodsSelect good = map.get(goodsSelect.getSkuCode());
+			GoodsSelect good = map.get(goodsSelect.getSkuCode())!=null ? 
+					map.get(goodsSelect.getSkuCode()): map.get(goodsSelect.getBarCode());
 			// 新采购价
 			goodsSelect.setNewPurPrice(good.getNewPurPrice());
 			// 新配送价
@@ -356,6 +368,8 @@ public class GoodsSelectController extends
 	@ResponseBody
 	public List<GoodsSelect> enterSearchGoodsDeliver(String skuCode,
 			String formType, String sourceBranchId, String targetBranchId) {
+		LOG.info("enter事件配送导入参数:skuCode=" + skuCode+",formType="+formType+
+				",sourceBranchId="+sourceBranchId+",targetBranchId="+targetBranchId);
 		List<GoodsSelect> goodsSelect = new ArrayList<GoodsSelect>();
 		if (StringUtils.isNotEmpty(skuCode)) {
 			goodsSelect = goodsSelectServiceApi.queryBySkuCodeForDeliver(
