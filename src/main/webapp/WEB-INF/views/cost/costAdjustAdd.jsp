@@ -3,11 +3,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>库存调整-新增</title>
-    <%@ include file="/WEB-INF/views/include/header.jsp"%>
-	<script src="${ctx}/static/js/views/stockAdjust/stockAdd.js"></script>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>成本调整单-新增</title>
+	<%@ include file="/WEB-INF/views/include/header.jsp"%>
+	<script  src="${ctx}/static/js/views/cost/costAdjustAdd.js"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
     <div class="ub ub-ver ub-f1 umar-4  ubor">
@@ -26,7 +26,7 @@
 					<input type="text" name="branchName" id="branchName"class="uinp ub ub-f1" readonly="readonly"  />
 					<div class="uinp-more" onclick="searchBranch()">...</div>
 	           </div>
-               <div class="ub ub-ac uw-300 umar-l300">
+               <div class="ub ub-ac uw-300 ">
                    <div class="umar-r10 uw-70 ut-r">制单人员:</div>
                    <div class="utxt"><%=UserUtil.getCurrentUser().getUserName() %></div>
                </div>
@@ -36,12 +36,9 @@
                </div>
            </div>
            <div class="ub umar-t8">
-               <div class="ub ub-ac">
-                   <div class="umar-r10 uw-70 ut-r">调整原因:</div>
-                   <div class="ub">
-                       <textarea class="untextarea" type="text" id="remark" name="remark"></textarea>
-                   </div>
-
+               <div class="ub ub-ac uw-300" >
+                   <div class="umar-r10 uw-70 ut-r">备注:</div>
+                   <input class="uinp uninput" type="text" id="remark" name="remark">
                </div>
                <div class="ub ub-ac uw-300">
                    <div class="umar-r10 uw-70 ut-r">审核人员:</div>
@@ -52,12 +49,7 @@
                    <div class="utxt"></div>
                </div>
            </div>
-           <div class="ub umar-t8">
-              <div class="ub ub-ac uw-300" >
-                   <div class="umar-r10 uw-70 ut-r">备注:</div>
-                   <input class="uinp" type="text" id="remark" name="remark">
-               </div>
-           </div>
+          
            <!--datagrid-edit-->
            <div class="ub ub-f1 datagrid-edit umar-t8">
                <table id="gridEditOrder" ></table>
