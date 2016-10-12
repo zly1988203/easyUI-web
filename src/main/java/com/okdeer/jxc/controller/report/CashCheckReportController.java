@@ -80,7 +80,7 @@ public class CashCheckReportController extends BaseController<CashCheckReportCon
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
-			LOG.debug("收银对账查询参数{}", qo);
+			LOG.debug("收银对账查询参数{}", qo.toString());
 
 			qo.setPageNumber(pageNumber);
 			qo.setPageSize(pageSize);
@@ -140,7 +140,7 @@ public class CashCheckReportController extends BaseController<CashCheckReportCon
 	@RequestMapping(value = "/exportList")
 	@ResponseBody
 	public String exportList(HttpServletResponse response, CashCheckReportQo qo) {
-		LOG.info("收银对账导出查询参数:{}" + qo);
+		LOG.info("收银对账导出查询参数:{}" + qo.toString());
 		try {
 			qo.setPageNumber(Constant.ONE);
 			qo.setPageSize(Constant.MAX_EXPORT_NUM);
@@ -174,10 +174,12 @@ public class CashCheckReportController extends BaseController<CashCheckReportCon
 			qo.setBranchCode(branchCode);
 			qo.setPageNumber(pageNumber);
 			qo.setPageSize(PrintConstant.PRINT_MAX_LIMIT);
+			
 			// 默认当前机构
 			if (StringUtils.isBlank(qo.getBranchCompleCode()) && StringUtils.isBlank(qo.getBranchNameOrCode())) {
 				qo.setBranchCompleCode(getCurrBranchCompleCode());
 			}
+			LOG.info("收银对账报表打印参数:{}" + qo.toString());
 			PageUtils<CashCheckReportVo> cashCheckReportVo = cashCheckReportService.queryList(qo);
 			List<CashCheckReportVo> list = cashCheckReportVo.getList();
 			String path = PrintConstant.CASH_CHECK_REPORT;

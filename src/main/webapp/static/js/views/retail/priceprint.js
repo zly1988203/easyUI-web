@@ -96,6 +96,7 @@ function importproduct(){
 	}
 	$('#xlf').val("");
 	$('#filename').val("");
+	$('#temple').attr("value","barCodeTemple");
 	$('.uatk').show();
 
 }
@@ -106,6 +107,7 @@ function importproductAll(){
 	}
 	$('#xlf').val("");
 	$('#filename').val("");
+	$('#temple').attr("value","skuCodeTemple");
 	$('.uatk').show();
 
 }

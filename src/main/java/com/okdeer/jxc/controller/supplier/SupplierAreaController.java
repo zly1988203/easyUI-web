@@ -9,15 +9,10 @@ package com.okdeer.jxc.controller.supplier;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.okdeer.jxc.branch.entity.Branches;
-import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.supplier.service.SupplierAreaServiceApi;
-import com.okdeer.jxc.supplier.vo.SupplierAreaVo;
-import com.okdeer.jxc.utils.UserUtil;
 
 /**
  * ClassName: SupplierAreaController 
@@ -32,54 +27,45 @@ import com.okdeer.jxc.utils.UserUtil;
  */
 
 @Controller
-@RequestMapping("common/supplierArea")
+@RequestMapping("supplierArea")
 public class SupplierAreaController extends
 		BaseController<SupplierAreaController> {
 
 	@Reference(version = "1.0.0", check = false)
 	private SupplierAreaServiceApi supplierAreaService;
-
-	// 店铺服务接口
-	@Reference(version = "1.0.0", check = false)
-	private BranchesServiceApi branchesService;
-
+	
 	/**
-	 * @Description 查询供应商区域树结构
-	 * @param vo
-	 * @param response
-	 * @return   
-	 * @author zhangchm
-	 * @date 2016年7月20日
+	 * @Description: 跳转供应商区域页面
+	 * @return
+	 * @author lijy02
+	 * @date 2016年10月12日
 	 */
-	@RequestMapping(value = "getSupplierAreaToTree")
-	@ResponseBody
-	public String getSupplierAreaToTree() {
-		try {
-			// begin added by lijy02 2016.9.12:添加过滤条件
-			SupplierAreaVo vo = new SupplierAreaVo();
-			String branchesId = UserUtil.getCurrBranchId();
-			Integer branchType = UserUtil.getCurrBranchType();
-			if (branchesId != null) {
-				vo.setBranchId(branchesId);
-				// 如果机构类型不是 0 1 需要查询他们的分公司 找到他们分公司的供应商
-				if (branchType != 0 && branchType != 1) {
-					// 查询店铺的分公司
-					Branches branches = branchesService
-							.getBranchInfoById(branchesId);
-					if (branches != null && branches.getParentId() != null) {
-						// 把父级的id加入条件查询分公司的供应商
-						vo.setBranchId(branches.getParentId());
-					}
-				}
-			}
-			// end added by lijy02
-			String supplierAreaTree = supplierAreaService
-					.querySupplierAreaToTree(vo);
-			return supplierAreaTree;
-		} catch (Exception e) {
-			LOG.error("查询商对应区域树结构异常:", e);
-		}
-		return null;
+	@RequestMapping(value = "views")
+	public String views() {
+		return "supplier/area/supplierAreaList";
+	}
+	
+	
+	/**
+	 * @Description: 新增页面
+	 * @return
+	 * @author lijy02
+	 * @date 2016年10月12日
+	 */
+	@RequestMapping(value = "toAdd")
+	public String toAdd() {
+		return "supplier/area/supplierAreaAdd";
+	}
+	
+	/**
+	 * @Description: 修改页面
+	 * @return
+	 * @author lijy02
+	 * @date 2016年10月12日
+	 */
+	@RequestMapping(value = "toEdit")
+	public String toEdit() {
+		return "supplier/area/supplierAreaEdit";
 	}
 
 }

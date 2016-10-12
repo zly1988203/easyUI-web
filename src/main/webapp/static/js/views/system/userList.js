@@ -16,7 +16,7 @@ function initDatagrid(){
         rownumbers:true,    //序号
         pagination:true,    //分页
         fitColumns:true,    //每列占满
-        //fit:true,            //占满
+        fit:true,            //占满
         showFooter:true,
         columns:[[
             {field:'check',checkbox:true},
@@ -26,8 +26,7 @@ function initDatagrid(){
             {field:'branchCode',title:'机构编号',sortable:true,width:100},
             {field:'branchTypeStr',title:'机构类型',sortable:true,width:100},
             {field:'branchName',title:'机构名称',sortable:true,width:100},
-            {field:'priceGrant',title:'价格权限',sortable:true,width:100},
-            {field:'createTime',title:'创建时间',sortable:true,width:100,
+            {field:'lastLoginTime',title:'最近使用时间',sortable:true,width:100,
             	formatter : function(value, rowData, rowIndex) {
             		if(value){
             			return new Date(value).format('yyyy-MM-dd hh:mm:ss');
@@ -40,36 +39,63 @@ function initDatagrid(){
 }
 
 function query(){
-	$("#dg").datagrid("options").queryParams = $("#queryForm").serializeObject();
+	var formData = $("#queryForm").serializeObject();
+	var branchNameOrCode = $("#branchNameOrCode").val();
+	if(branchNameOrCode && branchNameOrCode.indexOf("[")>=0 && branchNameOrCode.indexOf("]")>=0){
+		formData.branchNameOrCode = null;
+	}
+	$("#dg").datagrid("options").queryParams = formData;
 	$("#dg").datagrid("options").method = "post";
 	$("#dg").datagrid("load");
 }
 
-function exportData(){
-	var isValid = $("#queryForm").form('validate');
-	if(!isValid){
-		return;
-	}
-	
-	var length = $("#dg").datagrid('getData').total;
-	if(length == 0){
-		showTip("无数据可导");
-		return;
-	}
-	if(length>10000){
-		showTip("当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
-		return;
-	}
-	
-	$("#queryForm").attr("action",contextPath + "/system/user/exportList");
-	$("#queryForm").submit();	
+/**
+ * 机构列表下拉选
+ */
+function searchBranch (){
+	new publicAgencyService(function(data){
+		$("#branchCode").val(data.branchCode);
+		$("#branchNameOrCode").val("["+data.branchCode+"]"+data.branchName);
+	},"","");
 }
 
-$(function(){
-	//选择文件
-	$("#xlfile").on("change",function(e){
-	    var files = e.target.files;
-	    var value = $(this).val();
-	    $('#filename').val(value);
-	});
-})
+function clearBranchCode(){
+	var branchNameOrCode = $("#branchNameOrCode").val();
+	
+	//如果修改名称
+	if(!branchNameOrCode || 
+			(branchNameOrCode && branchNameOrCode.indexOf("[")<0 && branchNameOrCode.indexOf("]")<0)){
+		$("#branchCode").val('');
+	}
+}
+
+function toAdd(){
+	openDialog(contextPath+"/system/user/toAddUser","新增用户","add");
+}
+
+var  dalogTemp;
+//打开Dialog
+function openDialog(argUrl,argTitle,argType) {
+    dalogTemp = $('<div/>').dialog({
+        href: argUrl,
+        width: 420,
+        height: 400,
+        title: argTitle,
+        closable: true,
+        resizable: true,
+        onClose: function () {
+            $(dalogTemp).panel('destroy');
+        },
+        modal: true,
+        onLoad: function () {
+//            if(argType=='add'){
+//                initGoodsView(params,"add")
+//            }else if(argType=="edit"){
+//                initGoodsEditView(params);
+//            }else if(argType=="copy"){
+//                initGoodsView(params,"")
+//            }
+
+        }
+    })
+}
