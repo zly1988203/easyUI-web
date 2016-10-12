@@ -132,6 +132,44 @@ public class GoodsBranchPriceController {
 	}
 	
 	/**
+	 * 批量启用商品
+	 * @param skuIds
+	 * @param storeId
+	 * @return
+	 * @author xiaoj02
+	 * @date 2016年9月17日
+	 */
+	@RequestMapping(value = "enableOne", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson enableOne(String skuIds, String branchId) {
+		if(StringUtils.isBlank(skuIds)){
+			return RespJson.error("未选择商品");
+		}
+		String[] skuIdArray = skuIds.split(",");
+		
+		if(skuIdArray.length==0){
+			return RespJson.error("未选择商品");
+		}
+		if(skuIdArray.length>1){
+			return RespJson.error("选择的商品数量超过了限制数量");
+		}
+		
+		SysUser user = UserUtil.getCurrentUser();
+		
+		if(StringUtils.isBlank(branchId)){
+			branchId = user.getBranchId();
+		}
+		
+		try {
+			goodsBranchPriceService.enableOne(skuIds, branchId, user.getId());
+		} catch (Exception e) {
+			return RespJson.error("导入失败");
+		}
+		
+		return RespJson.success();
+	}
+	
+	/**
 	 * 批量淘汰商品
 	 * @param skuCodes
 	 * @param storeId
