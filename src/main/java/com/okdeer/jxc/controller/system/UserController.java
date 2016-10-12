@@ -1,12 +1,7 @@
 
 package com.okdeer.jxc.controller.system;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.util.List;
-
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
@@ -15,16 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.okdeer.jxc.common.constant.ExportExcelConstant;
-import com.okdeer.jxc.common.constant.ImportExcelConstant;
-import com.okdeer.jxc.common.utils.DateUtils;
-import com.okdeer.jxc.common.utils.EasyUiUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
-import com.okdeer.jxc.goods.entity.GoodsSku;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.system.service.SysUserServiceApi;
 import com.okdeer.jxc.system.vo.SysUserVo;
@@ -67,23 +56,16 @@ public class UserController extends BaseController<UserController> {
 	 */
 	@RequestMapping(value = "/json")
 	@ResponseBody
-	public PageUtils<SysUser> getData(
-			SysUserVo vo,
+	public PageUtils<SysUser> getData(SysUserVo vo,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
-
-			GoodsSku goods = new GoodsSku();
-
-			goods.setSalePrice(BigDecimal.TEN);
-			goods.setVipPrice(BigDecimal.TEN);
-			goods.setPurchasePrice(BigDecimal.TEN);
-			goods.setDistributionPrice(BigDecimal.TEN);
-			goods.setWholesalePrice(BigDecimal.TEN);
-			goods.setLowestPrice(BigDecimal.TEN);
-
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
+			
+			//构建初始化参数
+			vo = buildDefaultParams(vo);
+
 			return sysUserService.queryLists(vo);
 		} catch (Exception e) {
 			LOG.error("查询用户信息异常:", e);
@@ -117,11 +99,10 @@ public class UserController extends BaseController<UserController> {
 	 */
 	@RequestMapping(value = "getOperator")
 	@ResponseBody
-	public PageUtils<SysUser> getOperator(
-			SysUserVo vo,
+	public PageUtils<SysUser> getOperator(SysUserVo vo,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
-		LOG.debug("获取操作员查询参数:{}" , vo);
+		LOG.debug("获取操作员查询参数:{}", vo);
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
@@ -132,73 +113,35 @@ public class UserController extends BaseController<UserController> {
 		}
 		return PageUtils.emptyPage();
 	}
+	
+	@RequestMapping(value = "/toAddUser")
+	public String addGoods(Model model, HttpServletRequest request) {
 
-	/**
-	 * @Description: 导出用户信息列表
-	 * @param request
-	 * @param response
-	 * @param vo
-	 * @return
-	 * @author liwb
-	 * @date 2016年8月20日
-	 */
-	@RequestMapping(value = "/exportList")
-	@ResponseBody
-	public String exportList(
-			HttpServletResponse response, SysUserVo vo) {
 
-		LOG.info("用户导出接口参数 vo=" + vo);
-		try {
-			// 数据集合
-			List<SysUser> exportList = sysUserService.getUserList(vo);
-
-			// 导出文件名称，不包括后缀名
-			String fileName = "用户信息列表" + "_" + DateUtils.getCurrSmallStr();
-
-			// 模板名称，包括后缀名
-			String templateName = ExportExcelConstant.USER_LIST;
-
-			// 导出Excel
-			exportListForXLSX(response, exportList, fileName, templateName);
-		} catch (Exception e) {
-			LOG.error("用户导出异常:", e);
-		}
-		return null;
+		return "system/userAdd";
 	}
 
-	@RequestMapping(value = "/importList", method = RequestMethod.POST)
-	@ResponseBody
-	public String importList(@RequestParam("file") MultipartFile file) {
+	/**
+	 * @Description: 初始化默认参数
+	 * @param vo
+	 * @author liwb
+	 * @date 2016年9月23日
+	 */
+	private SysUserVo buildDefaultParams(SysUserVo vo) {
 
-		try {
-			if (file.isEmpty()) {
-				LOG.info("file is empty");
-				return EasyUiUtils.FAILURE;
-			}
-
-			// 用户信息导入字段名信息
-			String[] fields = ImportExcelConstant.USER_LIST_FIELDS;
-
-			// 文件流
-			InputStream is = file.getInputStream();
-
-			// 获取文件名
-			String fileName = file.getOriginalFilename();
-
-			// 解析Excel
-			List<SysUser> userList = parseExcel(fileName, is, fields,
-					new SysUser());
-
-			for (SysUser user : userList) {
-				LOG.info("user:" + user);
-			}
-			return EasyUiUtils.SUCCESS;
-		} catch (IOException e) {
-			LOG.error("读取Excel流异常:", e);
-		} catch (Exception e) {
-			LOG.error("用户导入异常:", e);
+		// 如果没有修改所选机构等信息，则去掉该参数
+		String branchNameOrCode = vo.getBranchNameOrCode();
+		if (StringUtils.isNotBlank(branchNameOrCode) && branchNameOrCode.contains("[")
+				&& branchNameOrCode.contains("]")) {
+			vo.setBranchNameOrCode(null);
 		}
-		return EasyUiUtils.FAILURE;
+
+		// 默认当前机构
+		if (StringUtils.isBlank(vo.getBranchCode()) && StringUtils.isBlank(vo.getBranchNameOrCode())) {
+			vo.setBranchCompleCode(getCurrBranchCompleCode());
+		}
+
+		return vo;
 	}
 
 }

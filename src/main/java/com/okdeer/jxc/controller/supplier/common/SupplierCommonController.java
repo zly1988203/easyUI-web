@@ -5,7 +5,7 @@
  *@Copyright: ©2014-2020 www.okdeer.com Inc. All rights reserved. 
  */
 
-package com.okdeer.jxc.controller.supplier;
+package com.okdeer.jxc.controller.supplier.common;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,7 +38,7 @@ import com.okdeer.jxc.utils.UserUtil;
 
 @Controller
 @RequestMapping("common/supplier")
-public class SupplierController extends BaseController<SupplierController> {
+public class SupplierCommonController extends BaseController<SupplierCommonController> {
 
 	@Reference(version = "1.0.0", check = false)
 	private SupplierServiceApi supplierService;
@@ -76,7 +76,6 @@ public class SupplierController extends BaseController<SupplierController> {
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
-			LOG.info("查询供应商参数:{}" + vo.toString());
 			// begin added by lijy02 2016.9.12:添加过滤条件
 			String branchesId = UserUtil.getCurrBranchId();
 			Integer branchType = UserUtil.getCurrBranchType();
@@ -94,11 +93,12 @@ public class SupplierController extends BaseController<SupplierController> {
 				}
 			}
 			// end added by lijy02
+			LOG.info("vo:" + vo.toString());
 			PageUtils<Supplier> suppliers = supplierService.queryLists(vo);
-			LOG.info("查询供应商列表:{}" + suppliers.toString());
+			LOG.info("page" + suppliers.toString());
 			return suppliers;
 		} catch (Exception e) {
-			LOG.error("查询供应商异常:{}", e);
+			LOG.error("查询供应商异常:", e);
 		}
 		return null;
 	}
@@ -117,7 +117,7 @@ public class SupplierController extends BaseController<SupplierController> {
 			String brandTree = supplierService.querySupplierToTree();
 			return brandTree;
 		} catch (Exception e) {
-			LOG.error("查询供应商树结构异常:{}", e);
+			LOG.error("查询供应商树结构异常:", e);
 		}
 		return null;
 	}
