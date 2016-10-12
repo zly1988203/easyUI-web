@@ -10,29 +10,25 @@ package com.okdeer.jxc.controller.supplier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.controller.BaseController;
-import com.okdeer.jxc.supplier.service.SupplierAreaServiceApi;
+
 
 /**
- * ClassName: SupplierAreaController 
- * @Description: 供应商区域Controller
- * @author zhangchm
- * @date 2016年7月20日
+ * ClassName: SupplierArchiveController 
+ * @Description: 供应商档案controller
+ * @author liwb
+ * @date 2016年10月12日
  *
  * =================================================================================================
  *     Task ID			  Date			     Author		      Description
  * ----------------+----------------+-------------------+-------------------------------------------
- *    进销存2.0.0		   2016年7月20日                  zhangchm            创建供应商区域Controller， 查询供应商区域树结构、类别树结构、类别
+ *
  */
-
+ 
 @Controller
-@RequestMapping("supplierArea")
-public class SupplierAreaController extends
-		BaseController<SupplierAreaController> {
+@RequestMapping("supplierArchive")
+public class SupplierArchiveController extends BaseController<SupplierArchiveController> {
 
-	@Reference(version = "1.0.0", check = false)
-	private SupplierAreaServiceApi supplierAreaService;
-
+	
 
 }
