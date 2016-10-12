@@ -3,10 +3,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
-<title>供应商档案列表(总部)</title>
+<title>成本调整单</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 </head>
-<body style="font-family: '微软雅黑'">
-	<h1>供应商档案列表</h1>
+<body>
+	
+
 </body>
 </html>
