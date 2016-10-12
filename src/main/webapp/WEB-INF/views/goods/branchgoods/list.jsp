@@ -9,7 +9,10 @@
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
 
 	<script src="${ctx}/static/js/views/goods/branchgoods/list.js"></script>
-    
+    <style>
+    .ubtns .hide{display:none!important;}
+    .show{display:block!important;}
+    </style>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
     <div class="ub ub-ver ub-f1 umar-4 upad-4">
@@ -20,26 +23,28 @@
 	                <div class="ubtns-item" onclick="resetForm()">重置</div>
 	                <div class="ubtns-item" onclick="importShow(0)">按条码导入</div>
 					<div class="ubtns-item" onclick="importShow(1)">按货号导入</div>
-	                <div class="ubtns-item" onclick="enable()">启用</div>
+	                <div class="ubtns-item ub-enable hide" id="important_div"  onclick="enable()">引入</div>
+	                <div class="ubtns-item ub-eliminate" id="eliminate_div" onclick="eliminate()">淘汰</div>
+	                <div class="ubtns-item ub-recovery" id="recovery_div" onclick="recovery()">恢复</div>
 	            </div>
 	        </div>
 	        <div class="ub umar-t8">
 	            <div class="ub ub-ac umar-r40">
 	                <div class="umar-r10 uw-60 ut-r">机构:</div>
 	                <input class="uinp" name="branchId" id="branchId" type="hidden">
-	                <input id="branchName" class="uinp" readonly="readonly" type="text" onclick="selectBranch()" >
+	                <input id="branchName" name="branchName" class="uinp" readonly="readonly" type="text" onclick="selectBranch()" >
 	                <div class="uinp-more" onclick="selectBranch()">...</div>
 	            </div>
-	            <div class="ub ub-ac umar-r40">
+	            <div class="ub ub-ac umar-r40 ">
 	                <div class="umar-r10 uw-60 ut-r">商品过滤:</div>
-	                <div class="ub ub-ac umar-r10">
-	                    <input class="ub radioItem" type="radio" name="status" value="0" id="status_0" checked="checked"/><label for="status_0">机构已有商品</label>
+	                <div class="ub ub-ac umar-r10  checkstatue">
+	                    <label for="status_0"><input class="ub radioItem" type="radio" name="status" value="0" id="status_0" checked="checked"/>机构已有商品</label>
 	                </div>
-	                <div class="ub ub-ac umar-r10">
-	                    <input class="ub radioItem" type="radio" name="status" value="1" id="status_1"/><label for="status_1">机构未引入商品</label>
+	                <div class="ub ub-ac umar-r10 checkstatue">
+	                    <label for="status_1"><input class="ub radioItem" type="radio" name="status" value="1" id="status_1"/>机构未引入商品</label>
 	                </div>
-	                <div class="ub ub-ac umar-r10">
-	                    <input class="ub radioItem" type="radio" name="status" value="2" id="status_2"/><label for="status_2">所有</label>
+	                <div class="ub ub-ac umar-r10 checkstatue">
+	                    <label for="status_2"><input class="ub radioItem" type="radio" name="status" value="2" id="status_2"/>所有</label>
 	                </div>
 	            </div>
 	        </div>

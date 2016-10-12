@@ -416,11 +416,11 @@ function saveDataHandel(rows){
         amount = parseFloat(footerRows[0]["amount"]||0.0).toFixed(4);
     }
 
-    var saveData = JSON.stringify(rows);
-    var detailList = tableArrayFormatter(rows,"detailList");
+    var detailList = JSON.stringify(rows);
+    //var detailList = tableArrayFormatter(rows,"detailList");
     console.log(detailList);
 
-    var reqObj = $.extend({
+    var reqObj = {
         id:id,
         supplierId:supplierId,
         branchId:branchId,
@@ -428,7 +428,8 @@ function saveDataHandel(rows){
         salesmanId:salesmanId,
         totalNum:totalNum,
         amount:amount,
-    }, detailList);
+        detailList:detailList
+    };
 
     $.ajax({
         url:contextPath+"/form/purchase/updateOrder",

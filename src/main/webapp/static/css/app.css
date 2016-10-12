@@ -130,4 +130,13 @@
 .umust {
   font-size: 18px;
   color: red; }
-  .uselectw .textbox{ width:202px!important;}
+.uselectw .textbox{ 
+  width:202px!important;
+ }
+.untextarea{
+	width:500px;
+	height:60px;
+}
+.umar-l300{ 
+	margin-left:280px
+	}
