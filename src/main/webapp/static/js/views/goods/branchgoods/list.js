@@ -108,41 +108,62 @@ function enable(){
 		return ;
 	}
 	var skuIds = '';
-	for(var i in rows){
-		var row = rows[i];
-		if(row.status != null){
-			messager("选择的商品店铺已经在店铺中启用了");
-			return ;
-		}
-		skuIds += row.skuId + ',';
-	}
-	
 	var branchId =  $("#branchId").val();
 	
-	$.messager.confirm('提示','是否要启用已选择的商品',function(data){
-		if(data){
-			$.ajax({
-		    	url:contextPath+"/branch/goods/enable",
-		    	type:"POST",
-		    	data:{
-		    		skuIds:skuIds,
-		    		branchId:branchId
-		    	},
-		    	success:function(result){
-		    		console.log(result);
-		    		if(result['code'] == 0){
-		    			messager("启用成功");
-		    		}else{
-		    			messager(result['message']);
-		    		}
-		    		dg.datagrid('reload');
-		    	},
-		    	error:function(result){
-		    		messager("请求发送失败或服务器处理失败");
-		    	}
-		    });
+	if(rows.length == 1){
+		var row = rows[0];
+		skuIds += row.skuId;
+		
+		if(row.status != null){
+			$.messager.confirm('提示','该商品已经引入，是否需要强制引入？',function(data){
+				if(!data){
+					return ;
+				}else{
+					enableAjax(skuIds,branchId,contextPath+"/branch/goods/enableOne");
+				}
+			});
+		}else{
+			enableAjax(skuIds,branchId,contextPath+"/branch/goods/enableOne");
 		}
-	});
+	}else{
+		for(var i in rows){
+			var row = rows[i];
+			if(row.status != null){
+				messager("选择的商品店铺已经在店铺中引入了，如需强制引入商品，请选择单条商品。");
+				return ;
+			}
+			skuIds += row.skuId + ',';
+		}
+		
+		$.messager.confirm('提示','是否要启用已选择的商品',function(data){
+			if(data){
+				enableAjax(skuIds,branchId,contextPath+"/branch/goods/enable");
+			}
+		});
+	}
+}
+
+function enableAjax(skuIds,branchId,url){
+	$.ajax({
+    	url:url,
+    	type:"POST",
+    	data:{
+    		skuIds:skuIds,
+    		branchId:branchId
+    	},
+    	success:function(result){
+    		if(result['code'] == 0){
+    			messager("启用成功");
+    		}else{
+    			messager(result['message']);
+    		}
+    		var dg = $("#gridOrders");
+    		dg.datagrid('reload');
+    	},
+    	error:function(result){
+    		messager("请求发送失败或服务器处理失败");
+    	}
+    });
 }
 
 //批量淘汰商品
