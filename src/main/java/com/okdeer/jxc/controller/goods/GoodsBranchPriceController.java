@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,11 +23,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.okdeer.jxc.common.enums.GoodsStatusEnum;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.PageUtils;
+import com.okdeer.jxc.goods.entity.GoodsBranchPrice;
 import com.okdeer.jxc.goods.entity.GoodsBranchPriceVo;
 import com.okdeer.jxc.goods.qo.GoodsBranchPriceQo;
 import com.okdeer.jxc.goods.service.GoodsBranchPriceServiceApi;
+import com.okdeer.jxc.goods.service.GoodsSkuSyncServiceApi;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
 import com.okdeer.jxc.utils.poi.ExcelReaderUtil;
@@ -49,6 +53,9 @@ public class GoodsBranchPriceController {
 
 	@Reference(version = "1.0.0", check = false)
 	private GoodsBranchPriceServiceApi goodsBranchPriceService;
+	
+	@Reference(version = "1.0.0", check = false)
+	private GoodsSkuSyncServiceApi goodsSkuSyncServiceApi;
 	
 	private static final Logger LOG = LoggerFactory.getLogger(GoodsBranchPriceController.class);
 	
@@ -125,8 +132,91 @@ public class GoodsBranchPriceController {
 	}
 	
 	/**
+	 * 批量淘汰商品
+	 * @param skuCodes
+	 * @param storeId
+	 * @author zhongy
+	 * @date 2016年10月12日
+	 */
+	@RequestMapping(value = "eliminateGoodsStoreSku", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson eliminateGoodsStoreSku(String skuCodes, String branchId) {
+		if(StringUtils.isBlank(skuCodes)){
+			return RespJson.error("批量淘汰商品");
+		}
+		String[] skuIdArray = skuCodes.split(",");
+		
+		if(skuIdArray.length==0){
+			return RespJson.error("未选择商品");
+		}
+		if(skuIdArray.length>1000){
+			return RespJson.error("选择的商品数量超过了限制数量");
+		}
+		
+		List<String> skuCodeList = new ArrayList<String>();
+		for (int i = 0; i < skuIdArray.length; i++) {
+			skuCodeList.add(skuIdArray[i]);
+		}
+		SysUser user = UserUtil.getCurrentUser();
+		
+		if(StringUtils.isBlank(branchId)){
+			branchId = user.getBranchId();
+		}
+		try {
+			goodsSkuSyncServiceApi.eliminateGoodsStoreSkuToMq(branchId, skuCodeList);
+		} catch (Exception e) {
+			return RespJson.error(e.getLocalizedMessage());
+		}
+		return RespJson.success();
+	}
+	
+	/**
+	 * 批量恢复商品
+	 * @param skuCodes
+	 * @param storeId
+	 * @author zhongy
+	 * @date 2016年10月12日
+	 */
+	@RequestMapping(value = "recoveryGoodsStoreSku", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson recoveryGoodsStoreSku(String skuObjs) {
+		if(StringUtils.isBlank(skuObjs)){
+			return RespJson.error("批量淘汰商品");
+		}
+		String[] skuObjArr = skuObjs.split("\\|");
+		
+		if(skuObjArr.length==0){
+			return RespJson.error("未选择商品");
+		}
+		if(skuObjArr.length>1000){
+			return RespJson.error("选择的商品数量超过了限制数量");
+		}
+		
+		List<GoodsBranchPrice> goodsBranchPriceList = new ArrayList<GoodsBranchPrice>();
+		for(int i=0;i<skuObjArr.length;i++) {
+			GoodsBranchPrice goodsBranchPrice = new GoodsBranchPrice();
+			//skuObj格式备注：skuObj=id+","+skuId + ','+skuCode+","+branchId+"|"
+			String[] skuObj = skuObjArr[i].split(",");
+			goodsBranchPrice.setStatus(String.valueOf(GoodsStatusEnum.NORMAL.ordinal()));
+			goodsBranchPrice.setId(skuObj[0]);
+			goodsBranchPrice.setSkuId(skuObj[1]);
+			goodsBranchPrice.setSkuCode(skuObj[2]);
+			goodsBranchPrice.setBranchId(skuObj[3]);
+			goodsBranchPriceList.add(goodsBranchPrice);
+		}
+		try {
+			if(CollectionUtils.isNotEmpty(goodsBranchPriceList)) {
+			   goodsSkuSyncServiceApi.recoveryGoodsStoreSkuToMq(goodsBranchPriceList);
+			}
+		} catch (Exception e) {
+			return RespJson.error(e.getLocalizedMessage());
+		}
+		return RespJson.success();
+	}
+	
+	/**
 	 * 
-	 * @Description: TODO
+	 * @Description: 导入
 	 * @param file
 	 * @return
 	 * @author xiaoj02

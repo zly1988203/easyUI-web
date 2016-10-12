@@ -48,13 +48,15 @@ function initDatagridOrders(){
 		height:'100%',
         columns:[[
             {field:'check',checkbox:true},
+            {field:'branchId',title:'机构ID',width:0,align:'left',hidden:true},
+            {field:'id',title:'店铺商品ID',width:0,align:'left',hidden:true},
+            {field:'skuId',title:'标准商品ID',width:0,align:'left',hidden:true},
         	{field:'branchName',title:'机构名称',width:100,align:'left'},
         	{field:'branchCode',title:'机构编码',width:100,align:'left'},
             {field:'skuCode',title:'货号',width:100,align:'left'},
             {field:'skuName',title:'商品名称',width:100,align:'left'},
             {field:'barCode',title:'条码',width:100,align:'left'},
             {field:'status',title:'商品状态',width:100,align:'left',formatter:function(value,row,index){
-            	console.info(value);
             	if(value == '0'){
             		return '正常';
             	}else if(value == '1'){
@@ -143,6 +145,92 @@ function enable(){
 	});
 }
 
+//批量淘汰商品
+function eliminate(){
+	var dg = $("#gridOrders");
+	var rows = dg.datagrid("getSelections");
+	if(!rows || rows.length == 0){
+		messager("未选择商品");
+		return ;
+	}
+	var skuCodes = '';
+	var branchName =  $("#branchName").val();
+	for(var i in rows){
+		var row = rows[i];
+		if(row.actual != 0){
+			messager(branchName+"机构的"+row.skuName+"商品库存不为0,不能进行淘汰操作");
+			return ;
+		}
+		skuCodes += row.skuCode + ',';
+	}
+	var branchId =  $("#branchId").val();
+	$.messager.confirm('提示','是否要淘汰该商品',function(data){
+		if(data){
+			$.ajax({
+		    	url:contextPath+"/branch/goods/eliminateGoodsStoreSku",
+		    	type:"POST",
+		    	data:{
+		    		skuCodes:skuCodes,
+		    		branchId:branchId
+		    	},
+		    	success:function(result){
+		    		console.log(result);
+		    		if(result['code'] == 0){
+		    			messager("淘汰商品成功");
+		    		}else{
+		    			messager(result['message']);
+		    		}
+		    		dg.datagrid('reload');
+		    	},
+		    	error:function(result){
+		    		messager("请求发送失败或服务器处理失败");
+		    	}
+		    });
+		}
+	});
+}
+
+//批量恢复商品
+function recovery(){
+	var dg = $("#gridOrders");
+	var rows = dg.datagrid("getSelections");
+	if(!rows || rows.length == 0){
+		messager("未选择商品");
+		return ;
+	}
+	var params = '';
+	for(var i in rows){
+		var row = rows[i];
+		if(row.actual == null){
+			messager(row.branchName+"机构的"+row.skuName+"商品库存不存在,不能进行恢复操作");
+			return ;
+		}
+		params += row.id+","+row.skuId + ','+row.skuCode+","+row.branchId+"|";
+	}
+	$.messager.confirm('提示','是否要恢复该商品',function(data){
+		if(data){
+			$.ajax({
+		    	url:contextPath+"/branch/goods/recoveryGoodsStoreSku",
+		    	type:"POST",
+		    	data:{
+		    		skuObjs:params
+		    	},
+		    	success:function(result){
+		    		console.log(result);
+		    		if(result['code'] == 0){
+		    			messager("恢复商品成功");
+		    		}else{
+		    			messager(result['message']);
+		    		}
+		    		dg.datagrid('reload');
+		    	},
+		    	error:function(result){
+		    		messager("请求发送失败或服务器处理失败");
+		    	}
+		    });
+		}
+	});
+}
 
 /**
  * 重置
@@ -228,4 +316,18 @@ function importClose(){
 	$('.uatk').hide();
 }
 
+//隐藏显示引入、淘汰、恢复按钮
+$(document).on('change',"input[name='status']",function(){
+  var check=$(this).prop('checked');
+   var value=$(this).val();
+  if(value == 0){
+	 $('#important_div').addClass('hide');
+	 $('#eliminate_div').removeClass('hide');
+	 $('#recovery_div').removeClass('hide');
+  }else{
+	  $('#important_div').removeClass('hide');
+	  $('#eliminate_div').addClass('hide');
+	  $('#recovery_div').addClass('hide');
+  }
+})
 
