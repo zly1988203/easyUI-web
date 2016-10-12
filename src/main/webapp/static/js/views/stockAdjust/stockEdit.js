@@ -1,6 +1,6 @@
 /**
- * Created by zhanghuan on 2016/8/30.
- * 要货单-编辑
+ * Created by wxl on 2016/10/12.
+ * 库存调整-编辑
  */
 $(function(){
     initDatagridEditRequireOrder();
@@ -55,147 +55,119 @@ function initDatagridEditRequireOrder(){
         height:'100%',
         width:'100%',
         columns:[[
-			{field:'ck',checkbox:true},
-			{field:'cz',title:'操作',width:'60px',align:'center',
-			    formatter : function(value, row,index) {
-			        var str = "";
-			        if(row.isFooter){
-			            str ='<div class="ub ub-pc">合计</div> '
-			        }else{
-			            str =  '<a name="add" class="add-line" data-index="'+index+'" onclick="addLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>&nbsp;&nbsp;' +
-			                '&nbsp;&nbsp;<a name="del" class="del-line" data-index="'+index+'" onclick="delLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>';
-			        }
-			        return str;
-			    },
-			},
-            {field:'skuCode',title:'货号',width:'70px',align:'left',editor:'textbox'},
-            {field:'skuName',title:'商品名称',width:'200px',align:'left'},
-            {field:'barCode',title:'条码',width:'150px',align:'left'},
-            {field:'unit',title:'单位',width:'60px',align:'left'},
-            {field:'spec',title:'规格',width:'90px',align:'left'},
-            {field:'distributionSpec',title:'配送规格',width:'90px',align:'left'},
-            {field:'largeNum',title:'箱数',width:'80px',align:'right',
-                formatter:function(value,row,index){
-                    if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                    }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-                editor:{
-                    type:'numberbox',
-                    value:0,
-                    options:{
-                        min:0,
-                        precision:4,
-                        onChange: onChangeLargeNum,
-                    }
-                },
-            },
-            {field:'receiveNum',title:'数量',width:'80px',align:'right',
-                formatter:function(value,row,index){
-                    if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                    }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-                editor:{
-                    type:'numberbox',
-                    value:'0',
-                    options:{
-                        min:0,
-                        precision:4,
-                        onChange: onChangeRealNum,
-                    }
-                },
-            },
-            {field:'price',title:'单价',width:'80px',align:'right',
-                formatter:function(value,row,index){
-                    if(row.isFooter){
-                        return
-                    }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-                editor:{
-                    type:'numberbox',
-                    options:{
-                        min:0,
-                        disabled:true,
-                        precision:2,
-                        onChange: onChangePrice,
-                    }
-                },
-            },
-            {field:'amount',title:'金额',width:'80px',align:'right',
-                formatter:function(value,row,index){
-                    if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                    }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-                editor:{
-                    type:'numberbox',
-                    options:{
-                        min:0,
-                        disabled:true,
-                        precision:2,
-                        onChange: onChangeAmount,
-                    }
-                },
+                  {field:'ck',checkbox:true},
+                  {field:'cz',title:'操作',width:'60px',align:'center',
+                      formatter : function(value, row,index) {
+                          var str = "";
+                          if(row.isFooter){
+                              str ='<div class="ub ub-pc">合计</div> '
+                          }else{
+                              str =  '<a name="add" class="add-line" data-index="'+index+'" onclick="addLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>&nbsp;&nbsp;' +
+                                  '&nbsp;&nbsp;<a name="del" class="del-line" data-index="'+index+'" onclick="delLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>';
+                          }
+                          return str;
+                      },
+                  },
+                  {field:'skuCode',title:'货号',width:'70px',align:'left',editor:'textbox'},
+                  {field:'skuName',title:'商品名称',width:'200px',align:'left'},
+                  {field:'barCode',title:'国际条码',width:'150px',align:'left'},
+                  {field:'unit',title:'单位',width:'60px',align:'left'},
+                  {field:'spec',title:'规格',width:'90px',align:'left'},
+                  {field:'price',title:'单价',width:'80px',align:'right',
+                      formatter:function(value,row,index){
+                          if(row.isFooter){
+                              return
+                          }
+                          return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                      },
+                      editor:{
+                          type:'numberbox',
+                          options:{
+                          	disabled:true,
+                              min:0,
+                              precision:2,
+                              onChange: onChangePrice,
+                          }
+                      },
+                  },
+                  {field:'nowNum',title:'当前库存',width:'80px',align:'right',
+                      formatter:function(value,row,index){
+                          if(row.isFooter){
+                              return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                          }
+                          return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                      },
+                      editor:{
+                          type:'numberbox',
+                          value:0,
+                          options:{
+                              min:0,
+                              precision:4,
+                              onChange: onChangeLargeNum,
+                          }
+                      },
+                  },
+                  {field:'largeNum',title:'箱数',width:'80px',align:'right',
+                      formatter:function(value,row,index){
+                          if(row.isFooter){
+                              return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                          }
+                          return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                      },
+                      editor:{
+                          type:'numberbox',
+                          value:0,
+                          options:{
+                              min:0,
+                              precision:4,
+                              onChange: onChangeLargeNum,
+                          }
+                      },
+                  },
+                  {field:'dealNum',title:'发货数量',width:'80px',align:'right',hidden:true},
+                  {field:'receiveNum',title:'数量',width:'80px',align:'right',
+                  	formatter:function(value,row){
+                          if(row.isFooter){
+                              return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                          }
+                          if(!value||value==""||parseFloat(value)==0.0){
+                          	row["receiveNum"] = row["dealNum"];
+                        	  value = row["receiveNum"];
+                          }
+                          return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                      },
+                      editor:{
+                          type:'numberbox',
+                          value:'0',
+                          options:{
+                              min:0,
+                              precision:4,
+                              onChange: onChangeRealNum,
+                          }
+                      },
+                  },
+                 
+                  {field:'amount',title:'金额',width:'80px',align:'right',
+                      formatter:function(value,row,index){
+                          if(row.isFooter){
+                              return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                          }
+                          return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                      },
+                      editor:{
+                          type:'numberbox',
+                          options:{
+                          	disabled:true,
+                              min:0,
+                              precision:2,
+                              onChange: onChangeAmount,
+                          }
+                      },
 
-            },
-            {field:'isGift',title:'赠送',width:'80px',align:'left',
-                formatter:function(value,row){
-                    if(row.isFooter){
-                        return;
-                    }
-                    return value=='1'?'是':(value=='0'?'否':'请选择');
-                },
-                editor:{
-                    type:'combobox',
-                    options:{
-                        valueField: 'id',
-                        textField: 'text',
-                        editable:false,
-                        required:true,
-                        data: [{
-                            "id":'1',
-                            "text":"是",
-                        },{
-                            "id":'0',
-                            "text":"否",
-                        }],
-                        onSelect:onSelectIsGift
-                    }
-                }
-            },
-            {field:'inputTax',title:'税率',width:'80px',align:'right',
-                formatter:function(value,row,index){
-                    if(row.isFooter){
-                        return
-                    }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-            },
-            {field:'taxAmount',title:'税额',width:'80px',align:'right',
-                formatter:function(value,row){
-                    if(row.isFooter){
-                        return;
-                    }
-                    var taxAmountVal = (row.inputTax*(row.amount/(1+parseFloat(row.inputTax)))||0.0000).toFixed(2);
-                    row["taxAmount"] = taxAmountVal;
-                    return '<b>'+parseFloat(taxAmountVal||0).toFixed(2)+'</b>';
-                },
-                editor:{
-                    type:'numberbox',
-                    options:{
-                        disabled:true,
-                        min:0,
-                        precision:2,
-                    }
-                },
-            },
-            {field:'remark',title:'备注',width:'200px',align:'left',editor:'textbox'}
-        ]],
+                  },
+                  {field:'reason',title:'调整原因',width:'200px',align:'left',editor:'textbox'},
+                  {field:'remark',title:'备注',width:'200px',align:'left',editor:'textbox'}
+              ]],
         onClickCell:function(rowIndex,field,value){
         	gridHandel.setBeginRow(rowIndex);
             gridHandel.setSelectFieldName(field);
@@ -561,20 +533,7 @@ function selectOperator(){
 	});
 }
 
-/**
- * 单据选择
- */
-function selectDeliver(){
-	var referenceId = "";
-	new publicDeliverFormService ("DO",function(data){
-		referenceId = data.id;
-		$("#referenceId").val(referenceId);
-		$("#referenceNo").val(data.formNo);
-		$("#sourceBranchId").val(data.sourceBranchId);
-		$("#sourceBranchName").val(data.sourceBranchName);
-		loadLists(referenceId);
-	});
-}
+
 function loadLists(referenceId){
 	$("#gridEditRequireOrder").datagrid("options").method = "post";
 	$("#gridEditRequireOrder").datagrid('options').url = contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverFormId="+referenceId;
