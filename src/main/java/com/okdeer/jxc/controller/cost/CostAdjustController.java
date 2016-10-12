@@ -15,4 +15,14 @@ public class CostAdjustController extends BaseController<PurchaseForm>{
 		model.addAttribute("type", type);
 		return "cost/costAdjustList";
 	}
+	@RequestMapping(value = "add")
+	public String add(String type, Model model) {
+		model.addAttribute("type", type);
+		return "cost/costAdjustAdd";
+	}
+	@RequestMapping(value = "edit")
+	public String edit(String type, Model model) {
+		model.addAttribute("type", type);
+		return "cost/costAdjustEdit";
+	}
 }
