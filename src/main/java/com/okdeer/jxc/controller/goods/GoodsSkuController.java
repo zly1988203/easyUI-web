@@ -433,19 +433,21 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 	 */
 	@RequestMapping(value = "exportGoods", method = RequestMethod.POST)
 	@ResponseBody
-	public String exportGoods(GoodsSkuQo qo, HttpServletResponse response) {
+	public RespJson exportGoods(GoodsSkuQo qo, HttpServletResponse response) {
 		try {
 			qo.setPageSize(ExportExcelConstant.EXPORT_MAX_SIZE);
 			int count=goodsSkuService.querySkuByParamsCount(qo);
 			if(count>ExportExcelConstant.EXPORT_MAX_SIZE){
-				return "最多只能导出" + ExportExcelConstant.EXPORT_MAX_SIZE
-						+ "条数据";
+				RespJson json = RespJson.error("最多只能导出" + ExportExcelConstant.EXPORT_MAX_SIZE
+						+ "条数据");
+				return json;
 			}
 			List<GoodsSku> list = goodsSkuService.querySkuByParams(qo);
 			if (CollectionUtils.isNotEmpty(list)) {
 				if (list.size() > ExportExcelConstant.EXPORT_MAX_SIZE) {
-					return "最多只能导出" + ExportExcelConstant.EXPORT_MAX_SIZE
-							+ "条数据";
+					RespJson json = RespJson.error("最多只能导出" + ExportExcelConstant.EXPORT_MAX_SIZE
+							+ "条数据");
+					return json;
 				}
 				// 导出文件名称，不包括后缀名
 				String fileName = "商品档案列表" + "_" + DateUtils.getCurrSmallStr();
@@ -454,13 +456,15 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 
 				// 导出Excel
 				exportPageForXLSX(response, list, fileName, templateName);
-				return "success";
+				return null;
 			} else {
-				return "无数据可导";
+				RespJson json = RespJson.error("无数据可导");
+				return json;
 			}
 		} catch (Exception e) {
 			LOG.error("导出商品失败", e);
-			return e.getMessage();
+			RespJson json = RespJson.error(e.toString());
+			return json;
 		}
 	}
 

@@ -44,7 +44,7 @@
             <div class="ub umar-t4">
                 <div class="ub ub-ac umar-r10">
                     <div class="umar-r10  ut-r">关键字:</div>
-                    <input class="uinp uw-400" type="text" name="goodsInfo" placeholder="输入货号、条码、商品名称进行查询">
+                    <input class="uinp uw-400" type="text" name="goodsInfo" id="goodsInfo" placeholder="输入货号、条码、商品名称进行查询">
                 </div>
                 <input type="button" class="ubtn  umar-r10" value="查询" onclick="goodsSearch()">
                 <div class="ub ub-ac umar-r10">
