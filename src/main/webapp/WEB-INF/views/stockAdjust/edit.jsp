@@ -43,12 +43,10 @@
                </div>
            </div>
            <div class="ub umar-t8">
-               <div class="ub ub-ac uw-300">
-                   <div class="umar-r10 uw-70 ut-r">收货机构:</div>
+               <div class="ub ub-ac">
+                   <div class="umar-r10 uw-70 ut-r">调整原因:</div>
                    <div class="ub">
-                       <input type="hidden" id="targetBranchId" name="targetBranchId" value="${form.targetBranchId}"/>
-                       <input class="uinp ub ub-f1" type="text" id="targetBranchName" name="targetBranchName" value="${form.targetBranchName}" readonly="readonly"/>
-                       <div class="uinp-more"></div>
+                       <textarea class="untextarea" type="text" id="remark" name="remark"></textarea>
                    </div>
 
                </div>
@@ -62,17 +60,7 @@
                </div>
            </div>
            <div class="ub umar-t8">
-           	   <div class="ub ub-ac uw-300">
-                   <div class="umar-r10 uw-70 ut-r">配送单号:</div>
-                   <div class="ub">
-                       <input type="hidden" id="referenceId" name="referenceId" value="${form.referenceId}" />
-                       <input class="uinp ub ub-f1" type="text" id="referenceNo" name="referenceNo" onclick="selectDeliver()" value="${form.referenceNo}" readonly="readonly"/>
-                       <input type="hidden" id="oldReferenceNo" name="oldReferenceNo" value="${form.referenceNo}" />
-                       <div class="uinp-more" onclick="selectDeliver()">...</div>
-                   </div>
-
-               </div>
-               <div class="ub ub-ac uw-300 umar-l20">
+               <div class="ub ub-ac uw-300 ">
                    <div class="umar-r10 uw-70 ut-r">备注:</div>
                    <input class="uinp" type="text" id="remark" name="remark" value="${form.remark}" >
                </div>
