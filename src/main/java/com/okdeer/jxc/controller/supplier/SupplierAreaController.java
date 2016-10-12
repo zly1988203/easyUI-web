@@ -33,6 +33,39 @@ public class SupplierAreaController extends
 
 	@Reference(version = "1.0.0", check = false)
 	private SupplierAreaServiceApi supplierAreaService;
-
+	
+	/**
+	 * @Description: 跳转供应商区域页面
+	 * @return
+	 * @author lijy02
+	 * @date 2016年10月12日
+	 */
+	@RequestMapping(value = "views")
+	public String views() {
+		return "supplier/area/supplierAreaList";
+	}
+	
+	
+	/**
+	 * @Description: 新增页面
+	 * @return
+	 * @author lijy02
+	 * @date 2016年10月12日
+	 */
+	@RequestMapping(value = "toAdd")
+	public String toAdd() {
+		return "supplier/area/supplierAreaAdd";
+	}
+	
+	/**
+	 * @Description: 修改页面
+	 * @return
+	 * @author lijy02
+	 * @date 2016年10月12日
+	 */
+	@RequestMapping(value = "toEdit")
+	public String toEdit() {
+		return "supplier/area/supplierAreaEdit";
+	}
 
 }
