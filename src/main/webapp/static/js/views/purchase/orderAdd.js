@@ -444,18 +444,19 @@ function saveDataHandel(rows){
     }
 
     console.log(rows);
-    var saveData = JSON.stringify(rows);
-    var detailList = tableArrayFormatter(rows,"detailList");
+    var detailList = JSON.stringify(rows);
+    //var detailList = tableArrayFormatter(rows,"detailList");
     console.log(detailList);
 
-    var reqObj = $.extend({
+    var reqObj = {
         supplierId:supplierId,
         branchId:branchId,
         deliverTime:deliverTime,
         salesmanId:salesmanId,
         totalNum:totalNum,
         amount:amount,
-    }, detailList);
+        detailList:detailList
+    };
 
     $.ajax({
         url:contextPath+"/form/purchase/saveOrder",
