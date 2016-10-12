@@ -219,7 +219,12 @@ public class PrintController  {
 					exportPdf1(response, pintList);
 				} else if ("2".equals(printNo)) {
 					exportPdf2(response, pintList);
-				} else {
+				}  else if ("5".equals(printNo)) {
+					JasperHelper.exportmain(request, response, null, JasperHelper.PDF_TYPE,"GoodsLabel.jrxml" , pintList, "test");
+				}else if ("6".equals(printNo)) {
+					JasperHelper.exportmain(request, response, null, JasperHelper.PDF_TYPE,"GoodsPromotionLabel.jrxml" , pintList, "test");
+				}
+				else {
 					JasperHelper.exportmain(request, response, null, JasperHelper.PDF_TYPE, PrintConstant.PRINT_LABEL
 							+ printNo + ".jrxml", pintList, "test");
 				}

@@ -277,7 +277,13 @@ function goodsSearch(){
 }
 //新增
 function addGoodsView(){
-	openDialog(contextPath+"/common/goods/addGoodsView","新增商品档案","add",goodsClass.currSelectTreeParam);
+	debugger;
+	console.log(goodsClass.currSelectTreeParam.categoryId=="0");
+	var obj = $.extend({},goodsClass.currSelectTreeParam);
+	if(goodsClass.currSelectTreeParam.categoryId=="0"){
+		obj.categoryName="";
+	}
+	openDialog(contextPath+"/common/goods/addGoodsView","新增商品档案","add",obj);
     //window.location.href = contextPath+"/common/goods/addGoodsView";
 }
 var  dalogTemp;
