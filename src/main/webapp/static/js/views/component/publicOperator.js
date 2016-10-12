@@ -129,6 +129,7 @@ function initDatagridBranchArea(){
 //初始化表格(机构)
 function initDatagridBranch(){
   $("#gridOperator").datagrid({
+
       //title:'普通表单-用键盘操作',
       method:'post',
       align:'center',
@@ -166,6 +167,8 @@ function initDatagridBranchCheck(){
       showFooter:true,
       height:'100%',
       width:'100%',
+
+      idField:'branchCode',
       columns:[[
           {field:'id',checkbox:true},
           {field:'branchCode',title:'编码',width:100,align:'center'},
