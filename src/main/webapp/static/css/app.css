@@ -133,12 +133,15 @@
 .uselectw .textbox{ 
   width:202px!important;
  }
+ .uselectws .textbox{ 
+  width:220px!important;
+ }
 .untextarea{
 	width:500px;
 	height:60px;
 }
 .umar-l300{ 
-	margin-left:280px
+	margin-left:335px
 	}
 .uninput{ 
 	width:218px;
