@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
+import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.controller.BasePrintController;
 import com.okdeer.jxc.common.result.RespJson;
@@ -879,6 +880,35 @@ public class PurchaseFormController extends
 			exportListForXLSX(response, exportList, fileName, templateName);
 		} catch (Exception e) {
 			LOG.error("GoodsPriceAdjustController:exportList:", e);
+		}
+	}
+	
+	/**
+	 * @Description: 采购导入模板
+	 * @param response
+	 * @param type
+	 * @author zhongy
+	 * @date 2016年10月12日
+	 */
+	@RequestMapping(value = "exportTemp")
+	public void exportTemp(HttpServletResponse response, Integer type) {
+		LOG.info("导出采购导入模板请求参数,type={}",type);
+		try {
+			String fileName = "";
+			String templateName = "";
+			if(Constant.ZERO == type) {
+				//商品货号
+				templateName = ExportExcelConstant.PURCHASE_GOODS_SKUCODE_TEMPLE;
+				fileName = "商品货号导入模板";
+			}else if(Constant.ONE == type){
+				templateName = ExportExcelConstant.PURCHASE_GOODS_BARCODE_TEMPLE;
+				fileName = "商品条码导入模板";
+			}
+			if(StringUtils.isNotBlank(fileName) && StringUtils.isNotBlank(templateName)){
+				exportListForXLSX(response, null, fileName, templateName);
+			}
+		} catch (Exception e) {
+			LOG.error("导出采购导入模板异常", e);
 		}
 	}
 }
