@@ -135,6 +135,40 @@ public class ExcelReaderUtil {
 		LOG.warn("文件[{}]后缀名错误, 后缀名为=[{}]", fileName, postfix);
 		return Collections.emptyList();
 	}
+	
+	/**
+	 * @Description: 读取Excel，返回数据列表，自动判断格式 xls（2003），xlsx（2007）
+	 * @param fileName 文件名
+	 * @param is	文件流
+	 * @param fields 字段列表
+	 * @return JSONObject List
+	 * @author liwb
+	 * @date 2016年10月13日
+	 */
+	public static List<JSONObject> readExcel(String fileName, InputStream is, String[] fields) {
+		if (StringUtils.isBlank(fileName)) {
+			return Collections.emptyList();
+		}
+		
+		// 根据文件名，获取文件后缀
+		String postfix = getSuffix(fileName);
+		
+		if (StringUtils.isBlank(postfix)) {
+			LOG.warn("文件名 [{}] suffix is empty", fileName);
+			return Collections.emptyList();
+		}
+		
+		// xls(2003)格式
+		if (OFFICE_EXCEL_2003_POSTFIX.equals(postfix)) {
+			return readXls(is, fields);
+		} else if (OFFICE_EXCEL_2010_POSTFIX.equals(postfix)) {
+			// xlsx(2007)格式
+			return readXlsx(is, fields);
+		}
+		LOG.warn("文件[{}]后缀名错误, 后缀名为=[{}]", fileName, postfix);
+		return Collections.emptyList();
+	}
+	
 
 	/**
 	 * @Description: 读取Excel第一列的数据，并返回数据列表
@@ -260,6 +294,32 @@ public class ExcelReaderUtil {
 			JSONArray jArray = readSheet(workbook, fields);
 
 			return JSONArray.toList(jArray, entity, new JsonConfig());
+		} catch (IOException e) {
+			LOG.error("读取Excel文件出错:", e);
+		} finally {
+			closeIO(is, workbook);
+		}
+		return Collections.emptyList();
+	}
+	
+	/**
+	 * @Description: 读取xlsx 2007  格式的Excel，并返回List JSONObject数据
+	 * @param is	InputStream 文件流
+	 * @param fields	标题字段名称
+	 * @return
+	 * @author liwb
+	 * @date 2016年10月13日
+	 */
+	@SuppressWarnings("unchecked")
+	public static List<JSONObject> readXlsx(InputStream is, String[] fields) {
+		
+		LOG.info("读取Excel文件, 表头为={}", Arrays.toString(fields));
+		XSSFWorkbook workbook = null;
+		try {
+			workbook = new XSSFWorkbook(is);
+			JSONArray jArray = readSheet(workbook, fields);
+			
+			return JSONArray.toList(jArray, new JSONObject(), new JsonConfig());
 		} catch (IOException e) {
 			LOG.error("读取Excel文件出错:", e);
 		} finally {
@@ -485,6 +545,30 @@ public class ExcelReaderUtil {
 			workbook = new HSSFWorkbook(is);
 			JSONArray jArray = readSheet(workbook, fields);
 			return JSONArray.toList(jArray, entity, new JsonConfig());
+		} catch (IOException e) {
+			LOG.error("读取Excel文件出错:", e);
+		} finally {
+			closeIO(is, workbook);
+		}
+		return Collections.emptyList();
+	}
+	
+	/**
+	 * @Description: 读取xlsx 2003  格式的Excel，并返回List JSONObject数据
+	 * @param is
+	 * @param fields
+	 * @return
+	 * @author liwb
+	 * @date 2016年10月13日
+	 */
+	@SuppressWarnings("unchecked")
+	public static List<JSONObject> readXls(InputStream is, String[] fields) {
+		LOG.info("读取Excel文件, 文件表头为={}", Arrays.toString(fields));
+		HSSFWorkbook workbook = null;
+		try {
+			workbook = new HSSFWorkbook(is);
+			JSONArray jArray = readSheet(workbook, fields);
+			return JSONArray.toList(jArray, new JSONObject(), new JsonConfig());
 		} catch (IOException e) {
 			LOG.error("读取Excel文件出错:", e);
 		} finally {
