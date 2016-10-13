@@ -79,7 +79,7 @@ function initDatagridAddRequireOrder(){
                     }
                 },
             },
-            {field:'dealNum',title:'发货数量',width:'80px',align:'right',hidden:true},
+            {field:'dealNum',hidden:true},
             {field:'receiveNum',title:'数量',width:'80px',align:'right',
             	formatter:function(value,row){
                     if(row.isFooter){
@@ -411,8 +411,8 @@ function saveOrder(){
         return;
     }
     var saveData = JSON.stringify(rows);
-    var deliverFormListVo = tableArrayFormatter(rows,"deliverFormListVo");
-    var reqObj = $.extend({
+    //var deliverFormListVo = tableArrayFormatter(rows,"deliverFormListVo");
+    var reqObj = {
     	formType:'DI',
     	io:'1',
     	sourceBranchId:sourceBranchId,
@@ -423,14 +423,35 @@ function saveOrder(){
         remark:remark,
         referenceNo:referenceNo,
         referenceId:referenceId,
-        oldReferenceNo : ''
-    }, deliverFormListVo);
+        oldReferenceNo : '',
+        deliverFormListVo : []
+    };
     
-    console.log(reqObj);
+    $.each(rows,function(i,data){
+    	var temp = {
+    		skuId : data.skuId,
+    		skuCode : data.skuCode,
+    		skuName : data.skuName,
+    		barCode : data.barCode,
+    		spec : data.spec,
+    		rowNo : data.rowNo,
+    		dealNum : data.dealNum,
+    		receiveNum : data.receiveNum,
+    		largeNum : data.largeNum,
+    		price : data.price,
+    		amount : data.amount,
+    		inputTax : data.inputTax,
+    		isGift : data.isGift,
+    		remark : data.remark,
+    		distributionSpec : data.distributionSpec
+    	}
+    	reqObj.deliverFormListVo[i] = temp;
+	});
+    
     $.ajax({
         url:contextPath+"/form/deliverForm/insertDeliverForm",
         type:"POST",
-        data:reqObj,
+        data:{ formVo : JSON.stringify(reqObj)},
         success:function(result){
             if(result['code'] == 0){
                 $.messager.alert("操作提示", "操作成功！", "info",function(){
@@ -504,7 +525,7 @@ function selectDeliver(){
 }
 function loadLists(referenceId){
 	$("#gridEditOrder").datagrid("options").method = "post";
-	$("#gridEditOrder").datagrid('options').url = contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverFormId="+referenceId + "&formType=DO";
+	$("#gridEditOrder").datagrid('options').url = contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverFormId="+referenceId + "&deliverType=DA";
 	$("#gridEditOrder").datagrid('load');
 }
 

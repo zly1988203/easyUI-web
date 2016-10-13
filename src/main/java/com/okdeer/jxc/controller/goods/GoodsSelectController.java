@@ -7,6 +7,7 @@
 
 package com.okdeer.jxc.controller.goods;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
@@ -38,6 +40,7 @@ import com.okdeer.jxc.goods.service.GoodsSelectServiceApi;
 import com.okdeer.jxc.goods.vo.GoodsCategoryVo;
 import com.okdeer.jxc.goods.vo.GoodsImportVo;
 import com.okdeer.jxc.goods.vo.GoodsSelectVo;
+import com.okdeer.jxc.goods.vo.GoodsStockVo;
 import com.okdeer.jxc.utils.UserUtil;
 
 /**
@@ -373,6 +376,50 @@ public class GoodsSelectController extends
 		if (StringUtils.isNotEmpty(skuCode)) {
 			goodsSelect = goodsSelectServiceApi.queryBySkuCodeForDeliver(
 					skuCode, formType, sourceBranchId, targetBranchId);
+		}
+		return goodsSelect;
+	}
+
+	/**
+	 * @Description: 获取商品库存、价格 
+	 * @param req
+	 * @return
+	 * @author zhangchm
+	 * @date 2016年10月12日
+	 */
+	@RequestMapping(value = "selectStockAndPrice", method = RequestMethod.POST)
+	@ResponseBody
+	public List<GoodsSelect> selectStockAndPrice(HttpServletRequest req) {
+		String goodsStockVo = req.getParameter("goodsStockVo");
+		List<GoodsSelect> goodsSelect = new ArrayList<GoodsSelect>(0);
+		try {
+			GoodsStockVo goodsStockVos = new ObjectMapper().readValue(goodsStockVo, GoodsStockVo.class);
+			goodsSelect = goodsSelectServiceApi.queryByBrancheAndSkuIds(goodsStockVos);
+			System.out.println(goodsStockVos.getGoodsSkuVo());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return goodsSelect;
+	}
+
+	/**
+	 * @Description: 获取商品库存、价格 
+	 * @param req
+	 * @return
+	 * @author zhangchm
+	 * @date 2016年10月12日
+	 */
+	@RequestMapping(value = "selectStockAndPriceToDo", method = RequestMethod.POST)
+	@ResponseBody
+	public List<GoodsSelect> selectStockAndPriceToDo(HttpServletRequest req) {
+		String goodsStockVo = req.getParameter("goodsStockVo");
+		List<GoodsSelect> goodsSelect = new ArrayList<GoodsSelect>(0);
+		try {
+			GoodsStockVo goodsStockVos = new ObjectMapper().readValue(goodsStockVo, GoodsStockVo.class);
+			goodsSelect = goodsSelectServiceApi.queryByBrancheAndSkuIdsToDo(goodsStockVos);
+			System.out.println(goodsStockVos.getGoodsSkuVo());
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		return goodsSelect;
 	}

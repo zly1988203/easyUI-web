@@ -44,7 +44,7 @@ function initDatagridEditRequireOrder(){
     $("#gridEditRequireOrder").datagrid({
         //title:'普通表单-用键盘操作',
         method:'post',
-    	url:contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverFormId="+formId,
+    	url:contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverFormId="+formId+"&deliverType=DA",
         align:'center',
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:false,  //单选  false多选
@@ -91,6 +91,7 @@ function initDatagridEditRequireOrder(){
                     }
                 },
             },
+            {field:'dealNum',hidden:true},
             {field:'receiveNum',title:'数量',width:'80px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
@@ -422,8 +423,8 @@ function saveOrder(){
         return;
     }
     var saveData = JSON.stringify(rows);
-    var deliverFormListVo = tableArrayFormatter(rows,"deliverFormListVo");
-    var reqObj = $.extend({
+    //var deliverFormListVo = tableArrayFormatter(rows,"deliverFormListVo");
+    var reqObj = {
     	sourceBranchId : sourceBranchId,
     	deliverFormId : $("#formId").val(),
         targetBranchId : targetBranchId,
@@ -435,14 +436,35 @@ function saveOrder(){
         formNo : formNo,
         referenceId : referenceId,
         referenceNo : referenceNo,
-        oldReferenceNo : oldReferenceNo
-    }, deliverFormListVo);
+        oldReferenceNo : oldReferenceNo,
+        deliverFormListVo : []
+    };
     
-    console.log(reqObj);
+    $.each(rows,function(i,data){
+    	var temp = {
+    		skuId : data.skuId,
+    		skuCode : data.skuCode,
+    		skuName : data.skuName,
+    		barCode : data.barCode,
+    		spec : data.spec,
+    		rowNo : data.rowNo,
+    		dealNum : data.dealNum,
+    		receiveNum : data.receiveNum,
+    		largeNum : data.largeNum,
+    		price : data.price,
+    		amount : data.amount,
+    		inputTax : data.inputTax,
+    		isGift : data.isGift,
+    		remark : data.remark,
+    		distributionSpec : data.distributionSpec
+    	}
+    	reqObj.deliverFormListVo[i] = temp;
+	});
+    
     $.ajax({
         url:contextPath+"/form/deliverForm/updateDeliverForm",
         type:"POST",
-        data:reqObj,
+        data:{ formVo : JSON.stringify(reqObj)},
         success:function(result){
             if(result['code'] == 0){
             	oldData = {
@@ -577,7 +599,7 @@ function selectDeliver(){
 }
 function loadLists(referenceId){
 	$("#gridEditRequireOrder").datagrid("options").method = "post";
-	$("#gridEditRequireOrder").datagrid('options').url = contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverFormId="+referenceId;
+	$("#gridEditRequireOrder").datagrid('options').url = contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverFormId="+referenceId + "&deliverType=DA";
 	$("#gridEditRequireOrder").datagrid('load');
 }
 
