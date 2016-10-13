@@ -27,6 +27,7 @@ import org.slf4j.LoggerFactory;
 import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.common.enums.BranchTypeEnum;
+import com.okdeer.jxc.common.enums.StatusEnum;
 import com.okdeer.jxc.common.exception.BusinessException;
 import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.supplier.entity.Supplier;
@@ -115,8 +116,14 @@ public class UserRealm extends CasRealm {
 			// 获取本地用户信息
 			SysUser sysUser = sysUserService.getUserById(caUser.getId());
 			if (null == sysUser) {
-				LOG.error("登录失败，商业系统数据库中无当前用户数据，用户ID：{}", caUser.getId());
+				LOG.error("登录失败，零售系统数据库中无当前用户数据，用户ID：{}", caUser.getId());
 				throw new AuthenticationException("登录失败，商业管理系统不存在当前用户信息");
+			}
+			
+			//如果是禁用状态
+			if(StatusEnum.DISABLE.getCode().equals(sysUser.getStatus())){
+				LOG.error("登录失败，该用户已禁用，用户ID：{}", caUser.getId());
+				throw new AuthenticationException("登录失败，该用户已禁用!");
 			}
 
 			buildLoginInfo(caUser, sysUser);
@@ -151,6 +158,7 @@ public class UserRealm extends CasRealm {
 		// 获取机构类型完整编码
 		sysUser.setBranchCompleCode(branch.getBranchCompleCode());
 		sysUser.setBranchName(branch.getBranchName());
+		sysUser.setBranchType(branch.getType());
 		
 		//获取当前机构默认供应商，如果是总部或者分公司，则直接取当前机构的供应商，如果是店铺则获取父节点分公司的供应商
 		String branchId = null;

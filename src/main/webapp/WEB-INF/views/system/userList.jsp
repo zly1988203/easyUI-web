@@ -7,7 +7,7 @@
     <title>用户管理</title>
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-	<script src="${ctx}/static/js/views/system/userList.js"></script>
+	<script src="${ctx}/static/js/views/system/user/userList.js"></script>
     
 </head>
 <body class="ub uw uh ufs-14 uc-black">
@@ -18,7 +18,8 @@
 	                <div class="ubtns-item" onclick="query();">查询</div>
 	                <div class="ubtns-item" onclick="toAdd();">新增</div>
 	                <div class="ubtns-item" onclick="toUpdate();">修改</div>
-	                <div class="ubtns-item" onclick="toAdd();">删除</div>
+	                <div class="ubtns-item" onclick="enable();">启用</div>
+	                <div class="ubtns-item" onclick="disable();">禁用</div>
 	                <div class="ubtns-item" onclick="toClose()">退出</div>
 	            </div>
 	        </div>

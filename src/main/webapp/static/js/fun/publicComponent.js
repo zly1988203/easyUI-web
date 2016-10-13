@@ -63,6 +63,36 @@ function toChangeDate(index){
     }
 }
 
+/**
+ * 公共组件-选择角色
+ * 必须要先选机构，才能选角色
+ * @param callback 回调函数
+ * @param branchId 机构ID
+ */
+function publicRoleService(callback, branchCompleCode, branchType){
+    //公有属性
+    var  dalogTemp = $('<div/>').dialog({
+        href:contextPath + "/role/common/toRoleList",
+        width:500,
+        height:580,
+        title:"选择角色",
+        closable:true,
+        resizable:true,
+        onClose:function(){
+            $(dalogTemp).panel('destroy');
+        },
+        modal:true,
+        onLoad:function(){
+        	initRoleCommonView(branchCompleCode, branchType);
+        	initRoleCallBack(callBackHandel)
+        },
+    });
+    function callBackHandel(data){
+        callback(data);
+        $(dalogTemp).panel('destroy');
+    }
+}
+
 //公共组件-机构选择
 function publicAgencyService(callback,formType,branchId){
     //公有属性
