@@ -401,15 +401,16 @@ function saveModifyPriceOrder() {
 		// datagrid是否存在数据，存在为true，不存在为false，则提示用户输入
 		if (datagridUtil.isHasDataGrid()) {
 			var list = $('#searchForm').serializeObject();
-			var detailList =  getDatagridRows();;
+			var detailList =  getDatagridRows();
 			if(detailList.length==0){
 				messager("表格不能为空");
 				return;
 			}
 			if (datagridUtil.isCheckPrice()) {
 				if(datagridUtil.isCheckRemark()){
-			var goodsPriceFormDetail = tableArrayFormatter(detailList,"goodsPriceFormDetail");
-			var reqObj = $.extend(list, goodsPriceFormDetail);
+//			var goodsPriceFormDetail = tableArrayFormatter(detailList,"goodsPriceFormDetail");
+			
+			var reqObj = $.extend(list, {'list':JSON.stringify(detailList)});
 			// 调用后台保存方法，成功提示
 			$.ajax({
 					type : "POST",
@@ -464,9 +465,9 @@ function updateModifyPriceOrder() {
 			if(datagridUtil.isCheckRemark()){
 			var list = $('#searchForm').serializeObject();
 			var detailList = $("#addModifyPriceGrid").datagrid('getRows');
-			var goodsPriceFormDetail = tableArrayFormatter(detailList,
-				"goodsPriceFormDetail");
-			var reqObj = $.extend(list, goodsPriceFormDetail);
+//			var goodsPriceFormDetail = tableArrayFormatter(detailList,
+//				"goodsPriceFormDetail");
+			var reqObj = $.extend(list, {'list':JSON.stringify(detailList)});
 			// 调用后台保存方法，成功提示
 			$.ajax({
 					type : "POST",
