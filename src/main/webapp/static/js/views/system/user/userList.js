@@ -78,8 +78,8 @@ var  dalogTemp;
 function openDialog(argUrl,argTitle,argType) {
     dalogTemp = $('<div/>').dialog({
         href: argUrl,
-        width: 420,
-        height: 400,
+        width: 500,
+        height: 480,
         title: argTitle,
         closable: true,
         resizable: true,

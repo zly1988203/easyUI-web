@@ -1,13 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
-<script  src="${ctx}/static/js/views/goods/goodsArchivesAdd.js"></script>
+<script src="${ctx}/static/js/views/system/user/userAdd.js"></script>
 
 <div class="ub ub-ver  ub-f1  uw uh ufs-14 uc-black">
     <div class="ub ub-ac upad-4">
         <div class="ubtns">
-            <button class="ubtns-item" onclick="saveGoodsArchives()" id="saveGoodsArchives">保存</button>
+            <button class="ubtns-item" onclick="addUser()">保存</button>
             <button class="ubtns-item" onclick="closeDialog()">返回</button>
         </div>
     </div>
@@ -30,18 +29,22 @@ pageEncoding="UTF-8"%>
                 <i class="uc-red">*</i>
             </div>
             <div class="ub upad-4 umar-r60">
+            	<div class="umar-r10 uw-60 ut-r">手机号:</div>
+                <input id="mobile" name="mobile" class="uinp" data-options="required:true" type="text" maxlength="20">
+            </div>
+            <div class="ub upad-4 umar-r60">
             	<div class="umar-r10 uw-60 ut-r">所属机构:</div>
-                <input class="uinp" type="hidden" id="branchId" name="branchId">
-                <input class="uinp" type="hidden" id="branchCode" name="branchCode">
-                <input class="uinp" type="text" id="branchNameOrCode" name="branchNameOrCode" readonly="readonly">
-               	<div class="uinp-more" onclick="searchBranch();">...</div>
+                <input class="uinp" type="hidden" id="opBranchId" name="branchId">
+                <input class="uinp" type="hidden" id="opBranchType" name="opBranchType">
+                <input class="uinp" type="hidden" id="opBranchCompleCode" name="opBranchCompleCode">
+                <input class="uinp" type="text" id="branchNameCode" name="branchNameCode" readonly="readonly" onclick="searchBranchInfo();">
                 <i class="uc-red">*</i>
             </div>
             <div class="ub upad-4 umar-r60">
             	<div class="umar-r10 uw-60 ut-r">所属角色:</div>
-                <input class="uinp" type="hidden" id="roleId" name="roleId">
-                <input class="uinp" type="text" id="roleCodeOrName" name="roleCodeOrName" readonly="readonly">
-               	<div class="uinp-more" onclick="searchRole();">...</div>
+                <input class="uinp" type="hidden" id="opRoleId" name="roleId">
+                <input class="uinp" type="hidden" id="opRoleCode" name="roleCode">
+                <input class="uinp" type="text" id="roleCodeOrName" name="roleCodeOrName" readonly="readonly" onclick="searchRole();">
                 <i class="uc-red">*</i>
             </div>
             <div class="ub upad-4">
