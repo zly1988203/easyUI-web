@@ -31,7 +31,6 @@ import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.controller.scale.Message;
-import com.okdeer.jxc.form.enums.FormType;
 import com.okdeer.jxc.goods.entity.GoodsCategory;
 import com.okdeer.jxc.goods.entity.GoodsSelect;
 import com.okdeer.jxc.goods.service.GoodsCategoryServiceApi;
@@ -111,12 +110,12 @@ public class GoodsSelectController extends
 			if (StringUtils.isEmpty(vo.getBranchId())) {
 				vo.setBranchId(UserUtil.getCurrBranchId());
 			}
-			if (FormType.DA.toString().equals(vo.getFormType())) {
-				vo.setBranchId(vo.getTargetBranchId());
-			}
-			if (FormType.DO.toString().equals(vo.getFormType())) {
-				vo.setBranchId(vo.getSourceBranchId());
-			}
+//			if (FormType.DA.toString().equals(vo.getFormType())) {
+//				vo.setBranchId(vo.getTargetBranchId());
+//			}
+//			if (FormType.DO.toString().equals(vo.getFormType())) {
+//				vo.setBranchId(vo.getSourceBranchId());
+//			}
 			LOG.info("商品查询参数:{}" + vo.toString());
 			PageUtils<GoodsSelect> suppliers = goodsSelectServiceApi
 					.queryLists(vo);
@@ -264,21 +263,21 @@ public class GoodsSelectController extends
 		for (GoodsSelect goodsSelect : suppliers) {
 			GoodsSelect good = map.get(goodsSelect.getSkuCode())!=null ? 
 					map.get(goodsSelect.getSkuCode()): map.get(goodsSelect.getBarCode());
-			// 新采购价
-			goodsSelect.setNewPurPrice(good.getNewPurPrice());
-			// 新配送价
-			goodsSelect.setNewDcPrice(good.getNewDcPrice());
-			// 新销售价
-			goodsSelect.setNewSalePrice(good.getNewSalePrice());
-			// 新会员价
-			goodsSelect.setNewVipPrice(good.getNewVipPrice());
-			// 新批发价
-			goodsSelect.setNewWsPrice(good.getNewWsPrice());
+//			// 新采购价
+//			goodsSelect.setNewPurPrice(good.getNewPurPrice());
+//			// 新配送价
+//			goodsSelect.setNewDcPrice(good.getNewDcPrice());
+//			// 新销售价
+//			goodsSelect.setNewSalePrice(good.getNewSalePrice());
+//			// 新会员价
+//			goodsSelect.setNewVipPrice(good.getNewVipPrice());
+//			// 新批发价
+//			goodsSelect.setNewWsPrice(good.getNewWsPrice());
 			// 数量
-			goodsSelect.setApplyNum(good.getApplyNum());
-			goodsSelect.setRealNum(good.getRealNum());
-			goodsSelect.setReceiveNum(good.getReceiveNum());
-			goodsSelect.setDealNum(good.getDealNum());
+//			goodsSelect.setApplyNum(good.getApplyNum());
+//			goodsSelect.setRealNum(good.getRealNum());
+//			goodsSelect.setReceiveNum(good.getReceiveNum());
+//			goodsSelect.setDealNum(good.getDealNum());
 			// 是否赠品
 			if (Constant.ISGIFT.equals(good.getIsGift())) {
 				goodsSelect.setIsGift(Constant.STRING_ONE);

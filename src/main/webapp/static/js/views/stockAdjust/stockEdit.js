@@ -107,6 +107,23 @@ function initDatagridEditRequireOrder(){
                           }
                       },
                   },
+                  {field:'nowNumsale',title:'当前可销售库存',width:'100px',align:'right',
+                      formatter:function(value,row,index){
+                          if(row.isFooter){
+                              return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                          }
+                          return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                      },
+                      editor:{
+                          type:'numberbox',
+                          value:0,
+                          options:{
+                              min:0,
+                              precision:4,
+                              onChange: onChangeLargeNum,
+                          }
+                      },
+                  },
                   {field:'largeNum',title:'箱数',width:'80px',align:'right',
                       formatter:function(value,row,index){
                           if(row.isFooter){

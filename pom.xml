@@ -80,7 +80,7 @@
 			<groupId>com</groupId>
 			<artifactId>yscapi</artifactId>
 			<version>${yscapi.version}</version>
-		</dependency> -->
+		</dependency>
 		<dependency>
 			<groupId>com.okdeer.ca</groupId>
 			<artifactId>okdeer-ca-api</artifactId>
@@ -90,7 +90,7 @@
 			<groupId>com.okdeer.ca</groupId>
 			<artifactId>okdeer-ca-common</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
-		</dependency>
+		</dependency> -->
 		<dependency>
 			<groupId>com.yschome</groupId>
 			<artifactId>cloudy_file</artifactId>

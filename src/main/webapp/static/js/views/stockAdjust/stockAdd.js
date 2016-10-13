@@ -95,6 +95,23 @@ function initDatagridAddRequireOrder(){
                     }
                 },
             },
+            {field:'nowNumsale',title:'当前可销售库存',width:'100px',align:'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+                editor:{
+                    type:'numberbox',
+                    value:0,
+                    options:{
+                        min:0,
+                        precision:4,
+                        onChange: onChangeLargeNum,
+                    }
+                },
+            },
             {field:'largeNum',title:'箱数',width:'80px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
@@ -322,17 +339,9 @@ function saveOrder(){
     //总金额
     var amount=0;
 	// 要活分店id
-	 var targetBranchId = $("#targetBranchId").val();
-	//发货分店id
-    var sourceBranchId = $("#sourceBranchId").val();
-    //生效日期
-    var validityTime = $("#validityTime").val();
+	 var branchId = $("#branchId").val();
     // 备注
     var remark = $("#remark").val();
-    // 引用单号id
-    var referenceId = $("#referenceId").val();
-    // 引用单号
-    var referenceNo = $("#referenceNo").val();
     //验证表格数据
     $("#gridEditOrder").datagrid("endEdit", gridHandel.getSelectRowIndex());
 
@@ -347,7 +356,7 @@ function saveOrder(){
         messager("表格不能为空");
         return;
     }
-    var isCheckResult = true;
+    /*var isCheckResult = true;
     $.each(rows,function(i,v){
         if(!v["skuCode"]){
             messager("第"+(i+1)+"行，货号不能为空");
@@ -368,32 +377,28 @@ function saveOrder(){
     });
     if(!isCheckResult){
         return;
-    }
+    }*/
     var saveData = JSON.stringify(rows);
-    var deliverFormListVo = tableArrayFormatter(rows,"deliverFormListVo");
+    var stockFormDetailList = tableArrayFormatter(rows,"stockFormDetailList");
     var reqObj = $.extend({
     	formType:'DI',
     	io:'1',
-    	sourceBranchId:sourceBranchId,
-        targetBranchId:targetBranchId,
-        validityTime:validityTime,
+    	createBranchId:branchId,
         totalNum:totalNum,
         amount:amount,
+        reason:reason,
         remark:remark,
-        referenceNo:referenceNo,
-        referenceId:referenceId,
-        oldReferenceNo : ''
-    }, deliverFormListVo);
+    }, stockFormDetailList);
     
     console.log(reqObj);
     $.ajax({
-        url:contextPath+"/form/deliverForm/insertDeliverForm",
+        url:contextPath+"/stock/adjust/addStcokForm",
         type:"POST",
         data:reqObj,
         success:function(result){
             if(result['code'] == 0){
                 $.messager.alert("操作提示", "操作成功！", "info",function(){
-                	location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
+                	//location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
                 });
             }else{
                 successTip(result['message']);
