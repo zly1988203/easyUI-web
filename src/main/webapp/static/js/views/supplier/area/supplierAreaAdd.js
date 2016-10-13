@@ -13,7 +13,7 @@ function saveHandel(){
     var formData = $('#formAdd').serializeObject();
     $.ajax({
         type:"POST",
-        url:contextPath+"/supplierArea/addForm",
+        url:contextPath+"/supplierArea/addSupplierArea",
         data:formData,
         success:function(data){
             if(data.code == 0){

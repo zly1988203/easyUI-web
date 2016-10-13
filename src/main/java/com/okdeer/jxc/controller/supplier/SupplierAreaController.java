@@ -14,6 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -93,7 +94,7 @@ public class SupplierAreaController extends
 	 * @author lijy02
 	 * @date 2016年10月12日
 	 */
-	@RequestMapping(value = "getSupplierAreaList")
+	@RequestMapping(value = "getSupplierAreaList",method = RequestMethod.POST)
 	@ResponseBody
 	public PageUtils<SupplierArea> getSupplierAreaList(SupplierAreaVo vo,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
@@ -119,7 +120,7 @@ public class SupplierAreaController extends
 	 * @author lijy02
 	 * @date 2016年10月12日
 	 */
-	@RequestMapping(value = "addSupplierArea")
+	@RequestMapping(value = "addSupplierArea",method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson addSupplierArea(SupplierArea area) {
 		try {
@@ -130,7 +131,7 @@ public class SupplierAreaController extends
 			SupplierAreaVo supplierArea=new SupplierAreaVo();
 			supplierArea.setAreaCode(areaCode);
 			supplierArea.setBranchId(UserUtil.getCurrBranchId());
-			List<SupplierArea> supplierAreaOne = supplierAreaService.querySupplierArea(supplierArea);
+			List<SupplierArea> supplierAreaOne = supplierAreaService.querySupplierAreaByCode(supplierArea);
 			if(CollectionUtils.isNotEmpty(supplierAreaOne)) {
 				//如果都不重复则新增
 				RespJson rep=RespJson.error("区域编码重复！");
@@ -139,7 +140,7 @@ public class SupplierAreaController extends
 			
 			supplierArea.setAreaName(areaName);
 			supplierArea.setBranchId(UserUtil.getCurrBranchId());
-			List<SupplierArea> supplierAreaTwo = supplierAreaService.querySupplierArea(supplierArea);
+			List<SupplierArea> supplierAreaTwo = supplierAreaService.querySupplierAreaByName(supplierArea);
 			if(CollectionUtils.isNotEmpty(supplierAreaTwo)) {
 				RespJson rep=RespJson.error("区域名称重复！");
 				return rep;
@@ -160,12 +161,12 @@ public class SupplierAreaController extends
 	 * @author lijy02
 	 * @date 2016年10月12日
 	 */
-	@RequestMapping(value = "deleteSupplierArea")
+	@RequestMapping(value = "deleteSupplierArea",method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson deleteSupplierArea(String id) {
+	public RespJson deleteSupplierArea(String areaId) {
 		try {
-			LOG.info("根据区域编码删除供应商区域:{}",id);
-			supplierAreaService.deleteSupplierArea(id);
+			LOG.info("根据区域编码删除供应商区域:{}",areaId);
+			supplierAreaService.deleteSupplierArea(areaId);
 			return RespJson.success();
 		} catch (Exception e) {
 			return  RespJson.error("删除供应商区域失败！");
@@ -179,7 +180,7 @@ public class SupplierAreaController extends
 	 * @author lijy02
 	 * @date 2016年10月13日
 	 */
-	@RequestMapping(value = "updateSupplierArea")
+	@RequestMapping(value = "updateSupplierArea",method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson updateSupplierArea(SupplierArea area) {
 		try {
@@ -189,7 +190,7 @@ public class SupplierAreaController extends
 			SupplierAreaVo supplierArea=new SupplierAreaVo();
 			supplierArea.setAreaName(areaName);
 			supplierArea.setBranchId(UserUtil.getCurrBranchId());
-			List<SupplierArea> supplierAreaOne = supplierAreaService.querySupplierArea(supplierArea);
+			List<SupplierArea> supplierAreaOne = supplierAreaService.querySupplierAreaByName(supplierArea);
 			if(CollectionUtils.isNotEmpty(supplierAreaOne)) {
 				RespJson rep=RespJson.error("区域名称重复！");
 				return rep;
