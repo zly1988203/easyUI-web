@@ -4,8 +4,8 @@
  */
 $(function(){
 	//开始和结束时间
-    $("#startTime").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
-    $("#endTime").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+    $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
+    $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
     toChangeDate(0);
     initDatagridRequireOrders();
 });
