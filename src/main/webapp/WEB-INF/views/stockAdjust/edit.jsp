@@ -15,12 +15,11 @@
 </head>
 <body class="ub uw uh ufs-14 uc-black">
     <div class="ub ub-ver ub-f1 umar-4  ubor">
-        <div class="ub ub-ac upad-4">
+       <div class="ub ub-ac upad-4">
             <div class="ubtns">
                 <div class="ubtns-item" onclick="saveOrder()">保存</div>
-                <div class="ubtns-item" onclick="check()">审核</div>
-                <div class="ubtns-item" onclick="importproductAll()">导入明细</div>
-                <div class="ubtns-item" onclick="importproduct()">导入货号</div>
+                <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
+                <div class="ubtns-item" onclick="importproductAll()">导入</div>
                 <div class="ubtns-item" onclick="toBack()">返回</div>
             </div>
         </div>
@@ -33,7 +32,7 @@
 					<input type="text" name="branchName" id="branchName"class="uinp ub ub-f1" readonly="readonly"  />
 					<div class="uinp-more" onclick="searchBranch()">...</div>
 	           </div>
-	            <div class="ub ub-ac uselectws umar-l40">
+	            <div class="ub ub-ac uselectws umar-l20">
                     <div class="umar-r10 uw-70 ut-r">调整原因:</div>
                        <!--select-->
 				        <select class="easyui-combobox uselect" name="pricingType" id="pricingType" data-options="editable:false">
@@ -47,7 +46,7 @@
 								<option value="">[07]退赠品</option>
 				        </select>
                 </div>
-               <div class="ub ub-ac umar-l10">
+               <div class="ub ub-ac uw-300 umar-l10">
                    <div class="umar-r10 uw-70 ut-r">制单人员:</div>
                    <div class="utxt"><%=UserUtil.getCurrentUser().getUserName() %></div>
                </div>
@@ -66,11 +65,11 @@
 								<option value="3">出库</option>
 				        </select>
                 </div>
-               <div class="ub ub-ac uw-300 umar-l300">
+               <div class="ub ub-ac uw-300  umar-l300">
                    <div class="umar-r10 uw-70 ut-r">审核人员:</div>
                    <div class="utxt" id="validUserName">${form.validUserName}</div>
                </div>
-               <div class="ub ub-ac uw-300">
+               <div class="ub ub-ac umar-l8 uw-300">
                    <div class="umar-r10 uw-60 ut-r">审核日期:</div>
                    <div class="utxt"><fmt:formatDate value="${form.validTime}" pattern="yyyy-MM-dd"/></div>
                </div>
