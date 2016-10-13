@@ -8,8 +8,19 @@ package com.okdeer.jxc.controller.stock;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.dubbo.config.annotation.Reference;
+import com.okdeer.jxc.common.constant.LogConstant;
+import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
+import com.okdeer.jxc.stock.entity.StockForm;
+import com.okdeer.jxc.stock.service.StockAdjustServiceApi;
+import com.okdeer.jxc.stock.vo.StockFormVo;
+import com.okdeer.jxc.system.entity.SysUser;
+import com.okdeer.jxc.utils.UserUtil;
 
 
 /**
@@ -26,6 +37,9 @@ import com.okdeer.jxc.controller.BaseController;
 @Controller
 @RequestMapping("/stock/ajdust")
 public class StockAdjustController extends BaseController<StockAdjustController> {
+
+	@Reference(version = "1.0.0", check = false)
+	private StockAdjustServiceApi stockAdjustServiceApi;
 
 	/**
 	 * 
@@ -60,6 +74,59 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 	public String edit(){
 		return "/stockAdjust/edit";
 	}
-	
-	
+	/**
+	 * 
+	 * @Description: 获取单据列表信息
+	 * @param vo
+	 * @param pageNumber
+	 * @param pageSize
+	 * @return
+	 * @author liux01
+	 * @date 2016年10月13日
+	 */
+	@RequestMapping(value = "getStockFormList", method = RequestMethod.POST)
+	@ResponseBody
+	public PageUtils<StockFormVo> getStockFormList(
+			StockFormVo vo,
+			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
+			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
+		LOG.info(LogConstant.OUT_PARAM, vo.toString());
+		try {
+			vo.setPageNumber(pageNumber);
+			vo.setPageSize(pageSize);
+			PageUtils<StockFormVo> stockFormList = stockAdjustServiceApi
+					.getStockFormList(vo);
+			LOG.info(LogConstant.PAGE, stockFormList.toString());
+			return stockFormList;
+		} catch (Exception e) {
+			LOG.error("获取单据列表信息异常:{}", e);
+		}
+		return null;
+	}
+	/**
+	 * 
+	 * @Description: 保存库存调整单据
+	 * @param vo
+	 * @param pageNumber
+	 * @param pageSize
+	 * @return
+	 * @author liux01
+	 * @date 2016年10月13日
+	 */
+	@RequestMapping(value = "addStcokForm", method = RequestMethod.POST)
+	@ResponseBody
+	public String addStcokForm(
+			StockFormVo vo,
+			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
+			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
+		LOG.info(LogConstant.OUT_PARAM, vo.toString());
+		try {
+			SysUser user = UserUtil.getCurrentUser();
+			vo.setCreateUserId(user.getId());
+			stockAdjustServiceApi.addStockForm(vo);
+		} catch (Exception e) {
+			LOG.error("获取单据列表信息异常:{}", e);
+		}
+		return null;
+	}
 }
