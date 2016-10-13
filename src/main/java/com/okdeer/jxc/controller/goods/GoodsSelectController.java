@@ -7,8 +7,6 @@
 
 package com.okdeer.jxc.controller.goods;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -26,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
@@ -34,7 +31,6 @@ import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.controller.scale.Message;
-import com.okdeer.jxc.goods.entity.GoodsBranchPriceVo;
 import com.okdeer.jxc.goods.entity.GoodsCategory;
 import com.okdeer.jxc.goods.entity.GoodsSelect;
 import com.okdeer.jxc.goods.service.GoodsCategoryServiceApi;
@@ -43,7 +39,6 @@ import com.okdeer.jxc.goods.vo.GoodsCategoryVo;
 import com.okdeer.jxc.goods.vo.GoodsImportVo;
 import com.okdeer.jxc.goods.vo.GoodsSelectVo;
 import com.okdeer.jxc.utils.UserUtil;
-import com.okdeer.jxc.utils.poi.ExcelReaderUtil;
 
 /**
  * ClassName: GoodsSelectController 
@@ -61,10 +56,6 @@ import com.okdeer.jxc.utils.poi.ExcelReaderUtil;
 @RequestMapping("goods/goodsSelect")
 public class GoodsSelectController extends
 		BaseController<GoodsSelectController> {
-	
-	public static final String purchase_sku_code = "货号,数量，是否赠品";
-	public static final String purchase_bar_code = "条码,数量，是否赠品";
-	
 
 	@Reference(version = "1.0.0", check = false)
 	private GoodsSelectServiceApi goodsSelectServiceApi;
@@ -90,21 +81,6 @@ public class GoodsSelectController extends
 		model.addAttribute("type", type);
 		model.addAttribute("sourceBranchId", sourceBranchId);
 		model.addAttribute("targetBranchId", targetBranchId);
-		model.addAttribute("branchId", branchId);
-		return "component/publicGoods";
-	}
-	
-	
-	@RequestMapping(value = "viewGoods")
-	public String viewGoods(HttpServletRequest req, Model model) {
-		LOG.info("商品选择跳转页面参数:{}", req.toString());
-		
-		//单选或者多选
-		String type = req.getParameter("type");
-		//单机构或者多机构
-		String branchId = req.getParameter("branchId");
-		
-		model.addAttribute("type", type);
 		model.addAttribute("branchId", branchId);
 		return "component/publicGoods";
 	}
@@ -150,77 +126,6 @@ public class GoodsSelectController extends
 		}
 		return PageUtils.emptyPage();
 	}
-	
-	/**
-	 * @Description: 根据货号批量查询商品
-	 * @param skuCodes
-	 * @return   
-	 * @return List<GoodsSelect>  
-	 * @throws
-	 * @author yangyq02
-	 * @date 2016年8月23日
-	 */
-	@RequestMapping(value = "importSkuCode", method = RequestMethod.POST)
-	@ResponseBody
-	public List<GoodsSelect> selectGoodsListWithSkuCodeExcel(String[] skuCodes) {
-		try {
-			// 根据有无skuCodes传来数据 空表示是导入货号 有数据表示导入数据
-			List<GoodsSelect> suppliers = goodsSelectServiceApi
-					.queryByCodeLists(skuCodes, UserUtil.getCurrBranchId());
-			LOG.info("根据货号批量查询商品参数:{}" + suppliers.toString());
-			return suppliers;
-		} catch (Exception e) {
-			LOG.error("查询商品选择数据出现异常:", e);
-		}
-		return Collections.emptyList();
-	}
-	
-	/**
-	 * 
-	 * @Description: 导入
-	 * @param file
-	 * @return
-	 * @author xiaoj02
-	 * @date 2016年9月24日
-	 */
-	@RequestMapping(value = "/importListEnable", method = RequestMethod.POST)
-	@ResponseBody
-	public PageUtils<GoodsBranchPriceVo> importListEnable(@RequestParam("file") MultipartFile file, String branchId, Integer type) {
-		try {
-			if (file.isEmpty()) {
-				LOG.info("file is empty");
-				return null;
-			}
-			
-			if(type == null){
-				type = 0;
-			}
-			
-			// 文件流
-			InputStream is = file.getInputStream();
-			// 获取文件名
-			String fileName = file.getOriginalFilename();
-			// 解析Excel
-			List<String> list = ExcelReaderUtil.readExcelForFirstColumn(fileName, is, new String());
-			List<String> tempList = new ArrayList<String>();
-			for (String barCode : list) {
-				if(barCode != null && barCode.indexOf(".") != -1){
-					tempList.add(barCode.substring(0,barCode.indexOf(".")));
-				}else{
-					tempList.add(barCode);
-				}
-			}
-			
-			return null;
-		} catch (IOException e) {
-			LOG.error("读取Excel流异常:", e);
-		} catch (Exception e) {
-			LOG.error("用户导入异常:", e);
-		}
-		return null;
-	}
-
-	
 
 	/**
 	 * @Description: 根据货号批量查询商品
@@ -369,10 +274,10 @@ public class GoodsSelectController extends
 //			// 新批发价
 //			goodsSelect.setNewWsPrice(good.getNewWsPrice());
 			// 数量
-			goodsSelect.setApplyNum(good.getApplyNum());
-			goodsSelect.setRealNum(good.getRealNum());
-			goodsSelect.setReceiveNum(good.getReceiveNum());
-			goodsSelect.setDealNum(good.getDealNum());
+//			goodsSelect.setApplyNum(good.getApplyNum());
+//			goodsSelect.setRealNum(good.getRealNum());
+//			goodsSelect.setReceiveNum(good.getReceiveNum());
+//			goodsSelect.setDealNum(good.getDealNum());
 			// 是否赠品
 			if (Constant.ISGIFT.equals(good.getIsGift())) {
 				goodsSelect.setIsGift(Constant.STRING_ONE);
