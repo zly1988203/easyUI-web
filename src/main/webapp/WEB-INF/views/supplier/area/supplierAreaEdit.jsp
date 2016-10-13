@@ -11,15 +11,16 @@ pageEncoding="UTF-8"%>
 		</div>
 	</div>
 	<div class="ub uline"></div>
-	<form id="formAdd" method="post">
+	<form id="formEdit" method="post">
+		<input id="areaId" name="areaId" type="hidden">
 		<div class="ub ub-ver ub-ac upad-4">
 			<div class="ub ub-ac umar-t20">
 				<div class="umar-r10 uw-60 ut-r">编号:</div>
-				<input id="no" name="no" class="uinp easyui-validatebox" data-options="required:true" maxlength="2">
+				<input id="areaCode" name="areaCode" class="uinp easyui-validatebox" data-options="required:true" maxlength="2">
 			</div>
 			<div class="ub ub-ac umar-t20">
 				<div class="umar-r10 uw-60 ut-r">名称:</div>
-				<input id="name" name="name" class="uinp easyui-validatebox" data-options="required:true" maxlength="20">
+				<input id="areaName" name="areaName" class="uinp easyui-validatebox" data-options="required:true" maxlength="30">
 			</div>
 		</div>
 	</form>
