@@ -115,4 +115,14 @@ public interface ExportExcelConstant {
 	 */
 	String DADOFORM = "DADOForm.xlsx";
 
+	/**
+	 * 商品采购货号导入模板
+	 */
+	String PURCHASE_GOODS_SKUCODE_TEMPLE = "PurchaseGoodsSkuCodeTemple.xlsx";
+	
+	/**
+	 * 商品采购条码导入模板
+	 */
+	String PURCHASE_GOODS_BARCODE_TEMPLE = "PurchaseGoodsBarCodeTemple.xlsx";
+	
 }
