@@ -505,7 +505,7 @@ function back(){
 	location.href = contextPath+"/form/purchase/orderList";
 }
 /**
- * 调用导入功能 0导入货号 1导入明细
+ * 调用导入功能 0货号导入 1条码导入
  * @param type
  */
 function toImportproduct(type){
@@ -519,12 +519,26 @@ function toImportproduct(type){
         messager("请先选择收货机构");
         return;
     }
+    importproductTemplate(type);
     if(type==0){
-        importproduct();
+    	$("#temple").text('货号模版下载');
     }else{
-        importproductAll();
+    	$("#temple").text('条码模版下载');
     }
 }
+
+//模板导出
+function exportTemp(){
+	var type = $("#temple").attr("value");
+	//导入货号
+	if(type==0){
+		location.href=contextPath+'/form/purchase/exportTemp?type='+type;
+	//导入条码
+	}else if(type==1){
+		location.href=contextPath+'/form/purchase/exportTemp?type='+type;
+	}
+}
+
 /**
  * 获取导入的数据
  * @param data
