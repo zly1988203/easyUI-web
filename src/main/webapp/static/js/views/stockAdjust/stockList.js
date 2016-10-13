@@ -31,8 +31,8 @@ function initDatagridRequireOrders(){
             	return "<a style='text-decoration: underline;' href='"+ contextPath +"/stock/ajdust/edit?deliverFormId="+ row.deliverFormId +"'>" + value + "</a>"
             }},
             {field:'status',title: '审核状态', width: '100px', align: 'left'},
-			{field: 'sourceBranchName', title: '机构编号', width: '200px', align: 'left'},
-			{field: 'targetBranchName', title: '机构名称', width: '200px', align: 'left'},
+			{field: 'branchCode', title: '机构编号', width: '200px', align: 'left'},
+			{field: 'branchName', title: '机构名称', width: '200px', align: 'left'},
 			{field: 'amount', title: '单据金额', width: '80px', align: 'right',
 				formatter:function(value,row,index){
                     if(row.isFooter){
@@ -41,9 +41,9 @@ function initDatagridRequireOrders(){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
 			},
-            {field: 'createUserName', title: '调整原因', width: '200px', align: 'left'},
-            {field: 'updateUserName', title: '操作人员', width: '130px', align: 'left'},
-            {field: 'updateTime', title: '操作日期', width: '120px', align: 'center',
+            {field: 'reason', title: '调整原因', width: '200px', align: 'left'},
+            {field: 'createUserName', title: '操作人员', width: '130px', align: 'left'},
+            {field: 'createTime', title: '操作日期', width: '120px', align: 'center',
 				formatter: function (value, row, index) {
 					if (value) {
 						return new Date(value).format('yyyy-MM-dd');
@@ -72,7 +72,7 @@ function addStockForm(){
 function queryForm(){
 	var fromObjStr = $('#queryForm').serializeObject();
 	$("#stockFromList").datagrid("options").method = "post";
-	$("#stockFromList").datagrid('options').url = contextPath + '/form/deliverForm/getDeliverForms';
+	$("#stockFromList").datagrid('options').url = contextPath + '/stock/ajdust/getStockFormList';
 	$("#stockFromList").datagrid('load', fromObjStr);
 }
 
@@ -113,9 +113,9 @@ function delStockForm(){
  */
 function selectBranches(){
 	new publicAgencyService(function(data){
-		$("#targetBranchId").val(data.branchesId);
+		$("#createBranchId").val(data.branchesId);
 		$("#brancheName").val(data.branchName);
-	},'DO','');
+	},'BF','');
 }
 /**
  * 操作员
