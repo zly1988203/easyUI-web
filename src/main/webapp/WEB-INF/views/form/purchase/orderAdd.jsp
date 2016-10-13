@@ -18,7 +18,7 @@
             <div class="ubtns-item" onclick="saveItemHandel()">保存</div>
             <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
             <div class="ubtns-item" onclick="toImportproduct(0)">导入货号</div>
-            <div class="ubtns-item" onclick="toImportproduct(1)">导入明细</div>
+            <div class="ubtns-item" onclick="toImportproduct(1)">导入条码</div>
             <div class="ubtns-item" onclick="back()">返回</div>
         </div>
     </div>
@@ -75,7 +75,8 @@
 
 	 <!-- 导入弹框 -->
     <div class="uabs uatk">
-     	<div class="uatit">导入文件选择</div>
+        <div class="ubtn uw-100 umar-10" onclick="exportTemp()" id="temple"></div>
+     	<!-- <div class="uatit">导入文件选择</div> -->
          <div class="uacon">
          	<input class="uinp ub" id="filename" type="text">
          	<label class="ualable">选择文件
