@@ -504,27 +504,18 @@ function selectBranch(){
 function back(){
 	location.href = contextPath+"/form/purchase/orderList";
 }
-/**
- * 调用导入功能 0导入货号 1导入明细
- * @param type
- */
-function toImportproduct(type){
-    if($("#supplierId").val()==""){
-        messager("请先选择供应商");
-        return;
-    }
-
-    var branchId = $("#branchId").val();
-    if(!branchId){
-        messager("请先选择收货机构");
-        return;
-    }
-    if(type==0){
-        importproduct();
-    }else{
-        importproductAll();
-    }
+//模板导出
+function exportTemp(){
+	var type = $("#temple").attr("value");
+	//导入货号
+	if(type==0){
+		location.href=contextPath+'/form/purchase/exportTemp?type='+type;
+	//导入条码
+	}else if(type==1){
+		location.href=contextPath+'/form/purchase/exportTemp?type='+type;
+	}
 }
+
 /**
  * 获取导入的数据
  * @param data

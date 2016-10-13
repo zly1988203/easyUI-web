@@ -112,6 +112,17 @@ function importproductAll(){
 
 }
 
+//导入模板下载共用
+function importproductTemplate(param){
+	if(subArryAll){
+		subArryAll = [];
+	}
+	$('#xlf').val("");
+	$('#filename').val("");
+	$('#temple').attr("value",param);
+	$('.uatk').show();
+}
+
 function uaclose(){
 	$('#filename').val("");
 	$('.uatk').hide();

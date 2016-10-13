@@ -586,3 +586,15 @@ function getImportData(data){
     $("#"+gridHandel.getGridName()).datagrid("loadData",newRows);
     messager("导入成功");
 }
+
+//模板导出
+function exportTemp(){
+	var type = $("#temple").attr("value");
+	//导入货号
+	if(type==0){
+		location.href=contextPath+'/form/purchase/exportTemp?type='+type;
+	//导入条码
+	}else if(type==1){
+		location.href=contextPath+'/form/purchase/exportTemp?type='+type;
+	}
+}
