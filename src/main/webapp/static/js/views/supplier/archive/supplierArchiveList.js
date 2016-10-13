@@ -13,7 +13,7 @@ $(function(){
  */
 function initTreeArchives(){
     var args = {};
-    var httpUrl = "";
+    var httpUrl = "/supplierArea/supplierAreaTree";
     $.get(httpUrl, args,function(data){
         var setting = {
             data: {
