@@ -12,6 +12,7 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -79,7 +80,10 @@ public class SupplierAreaController extends
 	 * @date 2016年10月12日
 	 */
 	@RequestMapping(value = "toEdit")
-	public String toEdit() {
+	public String toEdit(String id,Model model) {
+		LOG.info("修改页面参数:{}",id);
+		SupplierArea supplierArea = supplierAreaService.querySupplierAreaById(id);
+		model.addAttribute("supplierArea", supplierArea);
 		return "supplier/area/supplierAreaEdit";
 	}
 	/**
@@ -158,14 +162,45 @@ public class SupplierAreaController extends
 	 */
 	@RequestMapping(value = "deleteSupplierArea")
 	@ResponseBody
-	public RespJson deleteSupplierArea(String areaCode) {
+	public RespJson deleteSupplierArea(String id) {
 		try {
-			LOG.info("根据区域编码删除供应商区域:{}",areaCode);
-			supplierAreaService.deleteSupplierArea(areaCode,UserUtil.getCurrBranchId());
+			LOG.info("根据区域编码删除供应商区域:{}",id);
+			supplierAreaService.deleteSupplierArea(id);
 			return RespJson.success();
 		} catch (Exception e) {
 			return  RespJson.error("删除供应商区域失败！");
 		}
+	}
+	
+	/**
+	 * @Description: 修改供应商区域
+	 * @param vo  id areaCode areaName
+	 * @return
+	 * @author lijy02
+	 * @date 2016年10月13日
+	 */
+	@RequestMapping(value = "updateSupplierArea")
+	@ResponseBody
+	public RespJson updateSupplierArea(SupplierArea area) {
+		try {
+			LOG.info("修改供应商区域参数:{}",area.toString());
+			String areaName = area.getAreaName();
+			//判断区域代码，跟区域名称是不是唯一
+			SupplierAreaVo supplierArea=new SupplierAreaVo();
+			supplierArea.setAreaName(areaName);
+			supplierArea.setBranchId(UserUtil.getCurrBranchId());
+			List<SupplierArea> supplierAreaOne = supplierAreaService.querySupplierArea(supplierArea);
+			if(CollectionUtils.isNotEmpty(supplierAreaOne)) {
+				RespJson rep=RespJson.error("区域名称重复！");
+				return rep;
+			}
+			area.setUpdateUserId(UserUtil.getCurrUserId());
+			supplierAreaService.updateSupplierArea(area);
+			return RespJson.success();
+		} catch (Exception e) {
+			return  RespJson.error("修改供应商区域失败！");
+		}
 		
 	}
+	
 }
