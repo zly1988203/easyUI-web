@@ -2,10 +2,13 @@
  * Created by zhanghuan on 2016/8/30.
  * 要货单-新增
  */
+var targetBranchTypeTemp = "";
 $(function(){
     $("#createTime").html(new Date().format('yyyy-MM-dd'));
     initDatagridAddRequireOrder();
+    targetBranchTypeTemp = $("#targetBranchType").val();
 });
+
 var gridDefault = {
     applyNum:0,
     largeNum:0,
@@ -290,42 +293,73 @@ function selectGoods(searchKey){
         messager("请先选择发货机构");
         return;
     }
+    var targetBranchType = $("#targetBranchType").val();
+    // C类加盟店显示为发货机构的商品表
+    if (targetBranchType === '5') {
+    	targetBranchId = sourceBranchId;
+    }
     new publicGoodsService("DA",function(data){
-        if(searchKey){
-            $("#gridEditOrder").datagrid("deleteRow", gridHandel.getSelectRowIndex());
-            $("#gridEditOrder").datagrid("acceptChanges");
+    	if(searchKey){
+	        $("#gridEditOrder").datagrid("deleteRow", gridHandel.getSelectRowIndex());
+	        $("#gridEditOrder").datagrid("acceptChanges");
+	    }
+    	selectStockAndPrice(sourceBranchId,targetBranchId,data);
+    },searchKey,"",sourceBranchId,targetBranchId,targetBranchId);
+}
+// 二次查询设置值
+function setDataValue(data) {
+    	for(var i in data){
+	        var rec = data[i];
+	        rec.remark = "";
         }
-     
-	    	for(var i in data){
-		        var rec = data[i];
-		        rec.remark = "";
-	        }
-
-
-	         var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
-	         var addDefaultData  = gridHandel.addDefault(data,gridDefault);
-	         var keyNames = {
-        		 distributionPrice:'price',
-   	             id:'skuId',
-   	             disabled:'',
-   	             pricingType:''
-	         };
-	         var rows = gFunUpdateKey(addDefaultData,keyNames);
-	         var argWhere ={skuCode:1};  //验证重复性
-	         var isCheck ={isGift:1 };   //只要是赠品就可以重复
-	         var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
-	         $("#gridEditOrder").datagrid("loadData",newRows);
-	         
-	         
-            setTimeout(function(){
-                gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
-                gridHandel.setSelectFieldName("largeNum");
-                gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
-            },100)
-        
-    },searchKey,"",sourceBranchId,targetBranchId,'');
+         var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
+         var addDefaultData = gridHandel.addDefault(data,gridDefault);
+         var keyNames = {
+    		 distributionPrice:'price',
+	         id:'skuId',
+	         disabled:'',
+	         pricingType:''
+         };
+         var rows = gFunUpdateKey(addDefaultData,keyNames);
+         var argWhere ={skuCode:1};  //验证重复性
+         var isCheck ={isGift:1 };   //只要是赠品就可以重复
+         var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
+         $("#gridEditOrder").datagrid("loadData",newRows);
+        setTimeout(function(){
+            gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
+            gridHandel.setSelectFieldName("largeNum");
+            gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
+        },100)
 }
 
+// 查询价格、库存
+function selectStockAndPrice(sourceBranchId,targetBranchId,data){
+	var GoodsStockVo = {
+			branchId : targetBranchId,
+			stockBranchId : sourceBranchId,
+			fieldName : 'id',
+			goodsSkuVo : [],
+		}; 
+	$.each(data,function(i,val){
+		var temp = {
+				id : val.id
+		};
+		GoodsStockVo.goodsSkuVo[i] = temp;
+	});
+	$.ajax({
+    	url : contextPath+"/goods/goodsSelect/selectStockAndPrice",
+    	type : "POST",
+    	data : {
+    		goodsStockVo : JSON.stringify(GoodsStockVo)
+    	},
+    	success:function(result){
+    		setDataValue(result);
+    	},
+    	error:function(result){
+    		successTip("请求发送失败或服务器处理失败");
+    	}
+    });
+}
 
 //保存
 function saveOrder(){
@@ -377,8 +411,8 @@ function saveOrder(){
         return;
     }
     var saveData = JSON.stringify(rows);
-    var deliverFormListVo = tableArrayFormatter(rows,"deliverFormListVo");
-    var reqObj = $.extend({
+    //var deliverFormListVo = tableArrayFormatter(rows,"deliverFormListVo");
+    var reqObj = {
     	formType:'DA',
     	sourceBranchId:sourceBranchId,
         targetBranchId:targetBranchId,
@@ -386,13 +420,35 @@ function saveOrder(){
         totalNum:totalNum,
         amount:amount,
         remark:remark,
-        branchCode:branchCode
-    }, deliverFormListVo);
+        branchCode:branchCode,
+        deliverFormListVo : []
+    };
+    
+    $.each(rows,function(i,data){
+    	var temp = {
+    		skuId : data.skuId,
+    		skuCode : data.skuCode,
+    		skuName : data.skuName,
+    		barCode : data.barCode,
+    		spec : data.spec,
+    		rowNo : data.rowNo,
+    		applyNum : data.applyNum,
+    		largeNum : data.largeNum,
+    		price : data.price,
+    		amount : data.amount,
+    		inputTax : data.inputTax,
+    		isGift : data.isGift,
+    		remark : data.remark,
+    		originPlace : data.originPlace,
+    		distributionSpec : data.distributionSpec
+    	}
+    	reqObj.deliverFormListVo[i] = temp;
+	});
     
     $.ajax({
         url:contextPath+"/form/deliverForm/insertDeliverForm",
         type:"POST",
-        data:reqObj,
+        data:{ formVo : JSON.stringify(reqObj)},
         success:function(result){
             if(result['code'] == 0){
                 $.messager.alert("操作提示", "操作成功！", "info",function(){
@@ -449,7 +505,7 @@ function check(){
 var branchCode = '';
 function selectTargetBranch(){
 	var targetBranchType = $("#targetBranchType").val();
-	if(targetBranchType != '0' && targetBranchType != '1'){
+	if(targetBranchTypeTemp != '0' && targetBranchTypeTemp != '1'){
 		return;
 	}
 	
@@ -457,6 +513,7 @@ function selectTargetBranch(){
         $("#targetBranchId").val(data.branchesId);
         $("#targetBranchName").val(data.branchName);
         branchCode = data.branchCode;
+        $("#targetBranchType").val(data.type);
         // 为店铺时
         if (data.type != '1' && data.type != '0') {
         	getSourceBranch(data.branchesId);
@@ -479,7 +536,6 @@ function getSourceBranch(branchesId) {
     	},
     	success:function(result){
     		if(result['code'] == 0){
-    			//debugger;
     			$("#sourceBranchId").val(result['sourceBranchId']);
                 $("#sourceBranchName").val(result['sourceBranchName']);
                 $("#validityTime").val(new Date(result['validityTime']).format('yyyy-MM-dd'));

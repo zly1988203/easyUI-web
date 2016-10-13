@@ -379,38 +379,70 @@ function selectGoods(searchKey){
         messager("已选要货单号，不允许添加其他商品");
         return;
     }
+    
     new publicGoodsService("DO",function(data){
         if(searchKey){
             $("#gridEditOrder").datagrid("deleteRow", gridHandel.getSelectRowIndex());
             $("#gridEditOrder").datagrid("acceptChanges");
         }
-        $("#gridEditOrder").datagrid("acceptChanges");
-        for(var i in data){
-        	var rec = data[i];
-        	rec.remark = "";
-        }
+        selectStockAndPrice(sourceBranchId,data);
+    },searchKey,'',sourceBranchId,targetBranchId,sourceBranchId);
+}
 
-        var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
-        var addDefaultData  = gridHandel.addDefault(data,gridDefault);
-        var keyNames = {
-    		distributionPrice:'price',
-            id:'skuId',
-            disabled:'',
-            pricingType:'',
-            inputTax:'tax'
-        };
-        var rows = gFunUpdateKey(addDefaultData,keyNames);
-        var argWhere ={skuCode:1};  //验证重复性
-        var isCheck ={isGift:1 };   //只要是赠品就可以重复
-        var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
-        $("#gridEditOrder").datagrid("loadData",newRows);
-        
-        setTimeout(function(){
-            gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
-            gridHandel.setSelectFieldName("largeNum");
-            gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
-        },100)
-    },searchKey,'',sourceBranchId,targetBranchId,'');
+//二次查询设置值
+function setDataValue(data) {
+	for(var i in data){
+    	var rec = data[i];
+    	rec.remark = "";
+    }
+    var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
+    var addDefaultData  = gridHandel.addDefault(data,gridDefault);
+    var keyNames = {
+		distributionPrice:'price',
+        id:'skuId',
+        disabled:'',
+        pricingType:'',
+        inputTax:'tax'
+    };
+    var rows = gFunUpdateKey(addDefaultData,keyNames);
+    var argWhere ={skuCode:1};  //验证重复性
+    var isCheck ={isGift:1 };   //只要是赠品就可以重复
+    var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
+    $("#gridEditOrder").datagrid("loadData",newRows);
+    
+    setTimeout(function(){
+        gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
+        gridHandel.setSelectFieldName("largeNum");
+        gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
+    },100)
+}
+
+//查询价格、库存
+function selectStockAndPrice(sourceBranchId,data){
+	var GoodsStockVo = {
+			branchId : sourceBranchId,
+			fieldName : 'id',
+			goodsSkuVo : [],
+		}; 
+	$.each(data,function(i,val){
+		var temp = {
+				id : val.id
+		};
+		GoodsStockVo.goodsSkuVo[i] = temp;
+	});
+	$.ajax({
+    	url : contextPath+"/goods/goodsSelect/selectStockAndPriceToDo",
+    	type : "POST",
+    	data : {
+    		goodsStockVo : JSON.stringify(GoodsStockVo)
+    	},
+    	success:function(result){
+    		setDataValue(result);
+    	},
+    	error:function(result){
+    		successTip("请求发送失败或服务器处理失败");
+    	}
+    });
 }
 
 //保存
@@ -440,7 +472,6 @@ function saveOrder(){
         totalNum = parseFloat(footerRows[0]["dealNum"]||0.0).toFixed(4);
         amount = parseFloat(footerRows[0]["amount"]||0.0).toFixed(4);
     }
-
     var rows = gridHandel.getRows();
     if(rows.length==0){
         messager("表格不能为空");
@@ -469,8 +500,8 @@ function saveOrder(){
         return;
     }
     var saveData = JSON.stringify(rows);
-    var deliverFormListVo = tableArrayFormatter(rows,"deliverFormListVo");
-    var reqObj = $.extend({
+    //var deliverFormListVo = tableArrayFormatter(rows,"deliverFormListVo");
+    var reqObj = {
     	formType:'DO',
     	io:'1',
     	sourceBranchId:sourceBranchId,
@@ -481,14 +512,38 @@ function saveOrder(){
         remark:remark,
         referenceNo:referenceNo,
         referenceId:referenceId,
-        oldReferenceNo : ''
-    }, deliverFormListVo);
+        oldReferenceNo : '',
+        deliverFormListVo : []
+    };
     
-    console.log(reqObj);
+    $.each(rows,function(i,data){
+    	var temp = {
+    		skuId : data.skuId,
+    		skuCode : data.skuCode,
+    		skuName : data.skuName,
+    		barCode : data.barCode,
+    		spec : data.spec,
+    		rowNo : data.rowNo,
+    		applyNum : data.applyNum,
+    		dealNum : data.dealNum,
+    		largeNum : data.largeNum,
+    		price : data.price,
+    		amount : data.amount,
+    		inputTax : data.inputTax,
+    		isGift : data.isGift,
+    		remark : data.remark,
+    		originPlace : data.originPlace,
+    		distributionSpec : data.distributionSpec,
+    		salePrice : data.salePrice,
+    		saleAmount : data.saleAmount
+    	}
+    	reqObj.deliverFormListVo[i] = temp;
+	});
+    
     $.ajax({
         url:contextPath+"/form/deliverForm/insertDeliverForm",
         type:"POST",
-        data:reqObj,
+        data:{ formVo : JSON.stringify(reqObj)},
         success:function(result){
             if(result['code'] == 0){
                 $.messager.alert("操作提示", "操作成功！", "info",function(){
@@ -576,7 +631,7 @@ function selectDeliver(){
 }
 function loadLists(referenceId){
 	$("#gridEditOrder").datagrid("options").method = "post";
-	$("#gridEditOrder").datagrid('options').url = contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverFormId="+referenceId + "&deliverType=DO";
+	$("#gridEditOrder").datagrid('options').url = contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverType=DO&deliverFormId="+referenceId;
 	$("#gridEditOrder").datagrid('load');
 }
 /**
