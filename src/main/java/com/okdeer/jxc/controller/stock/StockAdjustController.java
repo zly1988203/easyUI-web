@@ -195,5 +195,26 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 		}
 		return null;
 	}
+	/**
+	 * 
+	 * @Description: 审核单据信息
+	 * @param vo
+	 * @return
+	 * @author liux01
+	 * @date 2016年10月14日
+	 */
+	@RequestMapping(value = "check", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson check(StockFormVo vo){
+		try {
+			SysUser user = UserUtil.getCurrentUser();
+			vo.setCreateUserId(user.getId());
+			return stockAdjustServiceApi.check(vo);
+		} catch (Exception e) {
+			LOG.error("删除单据信息异常:{}", e);
+		}
+		return null;
+	}
+	
 	
 }
