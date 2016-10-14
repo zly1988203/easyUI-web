@@ -70,8 +70,9 @@ public class CostAdjustController extends BaseController<PurchaseForm>{
 	 * @date 2016年10月13日
 	 */
 	@RequestMapping(value = "edit")
-	public String edit(String type, Model model) {
-		model.addAttribute("type", type);
+	public String edit(String id, Model model) {
+		StockCostForm costForm = stockCostFormServiceApi.queryCostFormDetail(id);
+		model.addAttribute("data",costForm );
 		return "cost/costAdjustEdit";
 	}
 
@@ -125,13 +126,13 @@ public class CostAdjustController extends BaseController<PurchaseForm>{
 			String jsonData) {
 		try{
 			if(jsonData==null){
-				jsonData="{\"stockCostFormDetailList\":[{\"actual\":1,\"costPrice\":1,\"diffMoney\":1,\"remark\":\"备注1\",\"skuCode\":\"1000003\",\"skuId\":\"39c5e0e883fe11e6823127f894e357cf\"},{\"actual\":1,\"costPrice\":1,\"diffMoney\":1,\"remark\":\"备注1\",\"skuCode\":\"1000004\",\"skuId\":\"39c5e0e983fe11e6823127f894e357cf\"}],\"stockCostForm\":{\"branchId\":\"0\",\"remark\":\"主单号备注\"}}";
+				RespJson.error("json数据不允许为空！");
 			}
 			StockCostFormAll stockCostFormAl=JSON.parseObject(jsonData, StockCostFormAll.class);
 			stockCostFormAl.getStockCostForm().setCreateUserId(UserUtil.getCurrUserId());
 			stockCostFormAl.setBranchCode(UserUtil.getCurrBranchCode());
 			LOG.info("qo:" + stockCostFormAl);
-			stockCostFormServiceApi.insertCostForm(stockCostFormAl);
+			return	stockCostFormServiceApi.insertCostForm(stockCostFormAl);
 		}catch(RuntimeException e){
 			LOG.error("新增成本调整单失败！:{}",e);
 			return RespJson.error(e.getMessage());
@@ -140,7 +141,6 @@ public class CostAdjustController extends BaseController<PurchaseForm>{
 			LOG.error("新增成本调整单失败！:{}",e);
 			return RespJson.error("新增成本调整单失败！");
 		}
-		return RespJson.success();
 	}
 	/**
 	 * @Description: 修改成调整
@@ -159,12 +159,12 @@ public class CostAdjustController extends BaseController<PurchaseForm>{
 			String jsonData) {
 		try{
 			if(jsonData==null){
-				jsonData="{\"stockCostFormDetailList\":[{\"actual\":1,\"costPrice\":1,\"diffMoney\":1,\"remark\":\"备注1\",\"skuCode\":\"1000003\",\"skuId\":\"39c5e0e883fe11e6823127f894e357cf\",},{\"actual\":1,\"costPrice\":1,\"diffMoney\":1,\"remark\":\"备注2\",\"skuCode\":\"1000004\",\"skuId\":\"39c5e0e983fe11e6823127f894e357cf\"}],\"stockCostForm\":{\"branchId\":\"0\",\"remark\":\"主单号备注XXX\",\"id\":\"8a94eab857be11430157be1143f10000\"}}";
+				RespJson.error("json数据不允许为空！");
 			}
 			StockCostFormAll stockCostFormAl=JSON.parseObject(jsonData, StockCostFormAll.class);
 			stockCostFormAl.getStockCostForm().setUpdateUserId(UserUtil.getCurrBranchCode());
 			LOG.info("qo:" + stockCostFormAl);
-			stockCostFormServiceApi.updateCostForm(stockCostFormAl);
+			return stockCostFormServiceApi.updateCostForm(stockCostFormAl);
 		}catch(RuntimeException e){
 			LOG.error("删除成本调整单失败！:{}",e);
 			return RespJson.error(e.getMessage());
@@ -173,7 +173,6 @@ public class CostAdjustController extends BaseController<PurchaseForm>{
 			LOG.error("删除成本调整单失败！:{}",e);
 			return RespJson.error("删除成本调整单失败！");
 		}
-		return RespJson.success();
 	}
 	/**
 	 * @Description: 删除成本调整
@@ -192,10 +191,9 @@ public class CostAdjustController extends BaseController<PurchaseForm>{
 			String id) {
 		try{
 			if(id==null){
-				id="8a94eab857be11430157be1143f10000";
+				return	RespJson.error("id不允许为空！");
 			}
-			stockCostFormServiceApi.deleteCostFormById(id);
-			return RespJson.success();
+			return stockCostFormServiceApi.deleteCostFormById(id);
 		}catch(RuntimeException e){
 			LOG.error("删除成本调整单失败！:{}",e);
 			return RespJson.error(e.getMessage());
@@ -222,9 +220,6 @@ public class CostAdjustController extends BaseController<PurchaseForm>{
 	public StockCostForm queryCostFormDetail(
 			String id) {
 		try{
-			if(id==null){
-				id="8a94eab857c0cd030157c0cd03ac0000";
-			}
 			return stockCostFormServiceApi.queryCostFormDetail(id);
 		}catch(RuntimeException e){
 			LOG.error("查看成本调整单明细！:{}",e);
@@ -252,15 +247,11 @@ public class CostAdjustController extends BaseController<PurchaseForm>{
 	public List<StockCostFormDetail> queryCostFormDetailList(
 			String id) {
 		try{
-			if(id==null){
-				id="8a94eab857c0cd030157c0cd03ac0000";
-			}
-			return stockCostFormServiceApi.queryCostFormDetailList(id);
+			List<StockCostFormDetail>  list= stockCostFormServiceApi.queryCostFormDetailList(id);
+			return list;
 		}catch(RuntimeException e){
 			LOG.error("查看成本调整单明细！:{}",e);
-
 		}
-
 		catch(Exception e){
 			LOG.error("删除成本调整单失败！:{}",e);
 		}
@@ -281,12 +272,13 @@ public class CostAdjustController extends BaseController<PurchaseForm>{
 	@RequestMapping(value = "check", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson check(
-			String id,
-			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
-			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
+			String id) {
 		try{
-			stockCostFormServiceApi.deleteCostFormById(id);
-			return RespJson.success();
+			if(id==null){
+				return	RespJson.error("id不允许为空！");
+			}
+			RespJson json = stockCostFormServiceApi.check(id, UserUtil.getCurrUserId());
+			return json;
 		}catch(RuntimeException e){
 			LOG.error("删除成本调整单失败！:{}",e);
 			return RespJson.error(e.getMessage());
