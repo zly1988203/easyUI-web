@@ -59,7 +59,7 @@
 
                </div>
                <div class="ub ub-ac uw-300 umar-l20">
-                   <div class="umar-r10 uw-70 ut-r">有效期限:</div>
+                  <div class="umar-r10 uw-70 ut-r">有效期限:</div>
                   <input id="validityTime" class="Wdate" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" value="<fmt:formatDate value="${branchesGrow.validityTime}" pattern="yyyy-MM-dd"/>"/>
                </div>
                <div class="ub ub-ac umar-l20">
