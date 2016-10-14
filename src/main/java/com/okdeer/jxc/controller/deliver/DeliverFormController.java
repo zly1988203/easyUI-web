@@ -11,12 +11,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.druid.util.StringUtils;
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.entity.BranchesGrow;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
@@ -237,6 +235,7 @@ public class DeliverFormController extends
 				Branches branches = branchesServiceApi.getBranchInfoById(form
 						.getTargetBranchId());
 				model.addAttribute("minAmount", branches.getMinAmount());
+				model.addAttribute("targetBranchType", branches.getType());
 				model.addAttribute(
 						"salesman",
 						branches.getSalesman() == null ? "" : branches
@@ -317,17 +316,12 @@ public class DeliverFormController extends
 	 */
 	@RequestMapping(value = "insertDeliverForm", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson insertDeliverForm(@Valid DeliverFormVo vo,
-			BindingResult validate) {
+	public RespJson insertDeliverForm(String formVo) {
 		RespJson respJson = RespJson.success();
-		LOG.info(LogConstant.OUT_PARAM, vo.toString());
+		LOG.info(LogConstant.OUT_PARAM, formVo);
 		try {
-			if (validate.hasErrors()) {
-				String errorMessage = validate.getFieldError()
-						.getDefaultMessage();
-				LOG.warn("validate errorMessage:" + errorMessage);
-				return RespJson.error(errorMessage);
-			}
+			DeliverFormVo vo = new ObjectMapper().readValue(formVo, DeliverFormVo.class);
+
 			String getId = UuidUtils.getUuid();
 			String formNo = "";
 			if (StringUtils.isEmpty(vo.getBranchCode())) {
@@ -378,17 +372,11 @@ public class DeliverFormController extends
 	 */
 	@RequestMapping(value = "updateDeliverForm", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson updateDeliverForm(@Valid DeliverFormVo vo,
-			BindingResult validate) {
+	public RespJson updateDeliverForm(String formVo) {
 		RespJson respJson = RespJson.success();
-		LOG.info(LogConstant.OUT_PARAM, vo.toString());
+		LOG.info(LogConstant.OUT_PARAM, formVo.toString());
 		try {
-			if (validate.hasErrors()) {
-				String errorMessage = validate.getFieldError()
-						.getDefaultMessage();
-				LOG.warn("validate errorMessage:" + errorMessage);
-				return RespJson.error(errorMessage);
-			}
+			DeliverFormVo vo = new ObjectMapper().readValue(formVo, DeliverFormVo.class);
 			// 获取登录人
 			SysUser user = UserUtil.getCurrentUser();
 			// 设置值

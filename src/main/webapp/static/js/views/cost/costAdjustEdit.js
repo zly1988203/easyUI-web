@@ -107,7 +107,7 @@ function initDatagridEditRequireOrder(){
                           }
                       },
                   },
-                  {field:'receiveNum',title:'数量',width:'80px',align:'right',
+                  {field:'receiveNum',title:'当前库存',width:'80px',align:'right',
                   	formatter:function(value,row){
                           if(row.isFooter){
                               return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';

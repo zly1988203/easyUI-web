@@ -4,6 +4,10 @@
 /**
  * 保存
  */
+function initEditView(item){
+    gFunUnSerialize(item);
+}
+
 function saveHandel(){
     //验证数据
     if(!$("#formEdit").form('validate')){
@@ -12,7 +16,7 @@ function saveHandel(){
     var formData = $('#formEdit').serializeObject();
     $.ajax({
         type:"POST",
-        url:contextPath+"/supplierArea/editForm",
+        url:contextPath+"/supplierArea/updateSupplierArea",
         data:formData,
         success:function(data){
             if(data.code == 0){

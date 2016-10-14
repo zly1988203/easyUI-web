@@ -13,7 +13,11 @@ $(function(){
  */
 function initTreeArchives(){
     var args = {};
+<<<<<<< HEAD
     var httpUrl = contextPath+"/supplier/getBranchSupplierAreaToTree";
+=======
+    var httpUrl = "/supplierArea/supplierAreaTree";
+>>>>>>> branch 'master' of http://10.20.101.5/ERP/okdeer-jxc-web.git
     $.get(httpUrl, args,function(data){
         var setting = {
             data: {

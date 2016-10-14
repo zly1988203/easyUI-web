@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ProductSalesPlan" language="groovy" columnCount="4" printOrder="Horizontal" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="204" columnSpacing="7" leftMargin="2" rightMargin="2" topMargin="2" bottomMargin="0" isSummaryWithPageHeaderAndFooter="true" uuid="00831878-d208-460c-a1e1-15e96cc9ea5e">
-	<property name="ireport.zoom" value="3.0"/>
+	<property name="ireport.zoom" value="4.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
@@ -45,11 +45,11 @@
 				<reportElement x="0" y="90" width="204" height="1" forecolor="#285400" backcolor="#285400" uuid="13a4ea42-f668-4afe-91a4-e4f69b81bc46"/>
 			</line>
 			<image scaleImage="FillFrame">
-				<reportElement x="6" y="1" width="48" height="27" uuid="41c5bf93-8e32-4d93-83ea-cdf4b3e64cbe"/>
+				<reportElement x="9" y="1" width="48" height="27" uuid="41c5bf93-8e32-4d93-83ea-cdf4b3e64cbe"/>
 				<imageExpression><![CDATA[JasperReport.class.getResourceAsStream("/template/excel/print/LOGO.png")]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement positionType="FixRelativeToBottom" mode="Opaque" x="1" y="30" width="201" height="60" backcolor="#EED456" uuid="662a5da7-12bd-4905-bcdf-c2afedff4be5"/>
+				<reportElement positionType="FixRelativeToBottom" mode="Opaque" x="1" y="27" width="201" height="63" backcolor="#EED456" uuid="662a5da7-12bd-4905-bcdf-c2afedff4be5"/>
 				<text><![CDATA[]]></text>
 			</staticText>
 			<staticText>
@@ -66,12 +66,6 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{spec}]]></textFieldExpression>
 			</textField>
-			<componentElement>
-				<reportElement x="4" y="60" width="110" height="20" uuid="8b961e5a-a25f-4dcd-967f-f82c9a9b6e13"/>
-				<jr:Codabar xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" textPosition="none">
-					<jr:codeExpression><![CDATA[$F{barCode}]]></jr:codeExpression>
-				</jr:Codabar>
-			</componentElement>
 			<textField isBlankWhenNull="true">
 				<reportElement x="74" y="30" width="25" height="16" uuid="48399ee9-ee51-4313-8d44-a7a9a1312f5a"/>
 				<textElement verticalAlignment="Middle">
@@ -94,16 +88,16 @@
 				<textFieldExpression><![CDATA[$F{originPlace}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="115" y="54" width="84" height="36" uuid="9afe52c2-0c76-4d30-adcd-450c137913e2"/>
+				<reportElement x="123" y="49" width="76" height="41" uuid="9afe52c2-0c76-4d30-adcd-450c137913e2"/>
 				<textElement textAlignment="Center">
-					<font size="24"/>
+					<font size="22"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{promotionPrice}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="4" y="79" width="111" height="11" uuid="ca56001e-9e81-4920-801a-ad6e0bf88a27"/>
-				<textElement textAlignment="Center">
-					<font size="6"/>
+				<reportElement x="4" y="78" width="111" height="11" uuid="ca56001e-9e81-4920-801a-ad6e0bf88a27"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{barCode}]]></textFieldExpression>
 			</textField>
@@ -116,13 +110,13 @@
 			</staticText>
 			<staticText>
 				<reportElement x="129" y="30" width="50" height="16" uuid="3493fbb4-0ea9-4fd2-bbdf-cd2dae323446"/>
-				<textElement verticalAlignment="Middle">
+				<textElement>
 					<font size="10" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[零售价:￥]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="101" y="46" width="33" height="14" uuid="20769abd-da77-4f32-bf40-a4d15900c865"/>
+				<reportElement x="101" y="46" width="25" height="14" uuid="20769abd-da77-4f32-bf40-a4d15900c865"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="SansSerif" size="10" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
@@ -136,22 +130,28 @@
 				<text><![CDATA[原价:]]></text>
 			</staticText>
 			<line>
-				<reportElement x="82" y="49" width="55" height="8" forecolor="#FF3333" backcolor="#FF0000" uuid="e7573809-e6dc-4bb7-b2a3-7d5f526f8ce9"/>
+				<reportElement x="83" y="49" width="47" height="9" forecolor="#FF3333" backcolor="#FF0000" uuid="e7573809-e6dc-4bb7-b2a3-7d5f526f8ce9"/>
 			</line>
 			<staticText>
-				<reportElement x="130" y="44" width="14" height="16" uuid="61f994bf-52f9-4622-beb9-631ef10e620e"/>
+				<reportElement x="123" y="48" width="14" height="11" uuid="61f994bf-52f9-4622-beb9-631ef10e620e"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[元]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="190" y="77" width="11" height="11" uuid="01bc16ec-e2fa-492a-9507-e23ba1246a5b"/>
+				<reportElement x="186" y="74" width="11" height="11" uuid="01bc16ec-e2fa-492a-9507-e23ba1246a5b"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[元]]></text>
 			</staticText>
+			<componentElement>
+				<reportElement x="1" y="60" width="125" height="32" uuid="1e2289f8-9a29-4fca-86b7-c8be6e5f59ac"/>
+				<jr:Code128 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" moduleWidth="1.8" textPosition="none">
+					<jr:codeExpression><![CDATA[$F{barCode}]]></jr:codeExpression>
+				</jr:Code128>
+			</componentElement>
 		</band>
 	</detail>
 	<columnFooter>

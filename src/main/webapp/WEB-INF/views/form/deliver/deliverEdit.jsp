@@ -33,6 +33,7 @@
                 <div class="ub">
                     <input class="uinp" name="targetBranchId" id="targetBranchId" type="hidden" value="${form.targetBranchId}">
                     <input type="hidden" id="minAmount" name="minAmount" value="${minAmount}"  />
+                    <input type="hidden" id="targetBranchType" name="targetBranchType" value="${targetBranchType}"  />
                     <input class="uinp" id="targetBranchName" name="targetBranchName" type="text" readonly="readonly" value="${form.targetBranchName}" />
                     <div class="uinp-more" >...</div>
                 </div>

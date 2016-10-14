@@ -23,10 +23,24 @@
                <div class="ub ub-ac uw-300">
 	                <div class="umar-r10 uw-70 ut-r">机构名称:</div> 
                     <input type="hidden" name="branchId" id="branchId" class="uinp" />
-					<input type="text" name="branchName" id="branchName"class="uinp ub ub-f1" readonly="readonly"  />
+					<input type="text" name="branchName" id="branchName"class="uinp  ub ub-f1" readonly="readonly"  />
 					<div class="uinp-more" onclick="searchBranch()">...</div>
 	           </div>
-               <div class="ub ub-ac uw-300 umar-l300">
+	             <div class="ub ub-ac uselectw umar-l40">
+                    <div class="umar-r10 uw-70 ut-r">调整原因:</div>
+                       <!--select-->
+				        <select class="easyui-combobox uselect" name="pricingType" id="pricingType" data-options="editable:false">
+								<option value="1">全部</option> 
+								<option value="2">[01]其他</option> 
+								<option value="3">[02]领用</option> 
+								<option value="4">[03]报损</option> 
+								<option value="5">[04]丢失</option> 
+								<option value="6">[05]赠送</option>
+								<option value="7">[06]借用</option>
+								<option value="8">[07]退赠品</option>
+				        </select>
+                </div>
+               <div class="ub ub-ac uw-300  umar-l10">
                    <div class="umar-r10 uw-70 ut-r">制单人员:</div>
                    <div class="utxt"><%=UserUtil.getCurrentUser().getUserName() %></div>
                </div>
@@ -36,14 +50,16 @@
                </div>
            </div>
            <div class="ub umar-t8">
-               <div class="ub ub-ac">
-                   <div class="umar-r10 uw-70 ut-r">调整原因:</div>
-                   <div class="ub">
-                       <textarea class="untextarea" type="text" id="remark" name="remark"></textarea>
-                   </div>
-
-               </div>
-               <div class="ub ub-ac uw-300">
+               <div class="ub ub-ac uselectws">
+                    <div class="umar-r10 uw-70 ut-r">出/入库:</div>
+                       <!--select-->
+				        <select class="easyui-combobox uselect" name="pricingType" id="pricingType" data-options="editable:false">
+								<option value="1">请选择</option> 
+								<option value="2">入库</option> 
+								<option value="3">出库</option>
+				        </select>
+                </div>
+               <div class="ub ub-ac uw-300 umar-l300">
                    <div class="umar-r10 uw-70 ut-r">审核人员:</div>
                    <div class="utxt"></div>
                </div>
@@ -55,7 +71,7 @@
            <div class="ub umar-t8">
               <div class="ub ub-ac uw-300" >
                    <div class="umar-r10 uw-70 ut-r">备注:</div>
-                   <input class="uinp" type="text" id="remark" name="remark">
+                   <input class="uinp uninput" type="text" id="remark" name="remark">
                </div>
            </div>
            <!--datagrid-edit-->

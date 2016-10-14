@@ -7,6 +7,7 @@
 
 package com.okdeer.jxc.controller.goods;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.alibaba.fastjson.JSON;
 import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.controller.BasePrintController;
@@ -258,8 +260,8 @@ public class GoodsPriceAdjustController extends
 	private GoodsPriceForm setFormData(GoodsPriceForm goodsPriceForm) {
 		// 详情列表数据
 		// 得到传来的详情集合
-		List<GoodsPriceFormDetail> goodsPriceDetailList = goodsPriceForm
-				.getGoodsPriceFormDetail();
+		List<GoodsPriceFormDetail> goodsPriceDetailList = JSON.parseArray(
+				goodsPriceForm.getList(), GoodsPriceFormDetail.class);
 		for (GoodsPriceFormDetail goodsPriceFormDetail : goodsPriceDetailList) {
 			goodsPriceFormDetail.setId(UUIDHexGenerator.generate());
 			goodsPriceFormDetail.setFormId(goodsPriceForm.getId());
@@ -319,9 +321,6 @@ public class GoodsPriceAdjustController extends
 				LOG.warn("validate errorMessage:" + errorMessage);
 				return RespJson.error(errorMessage);
 			}
-			// 得到单据商品集合信息
-			List<GoodsPriceFormDetail> goodsPriceDetailList = goodsPriceForm
-					.getGoodsPriceFormDetail();
 			// 用户数据
 			SysUser user = UserUtil.getCurrentUser();
 			if (user != null) {
@@ -330,6 +329,9 @@ public class GoodsPriceAdjustController extends
 			}
 			// 设置商品价格单据信息
 			goodsPriceForm = setFormData(goodsPriceForm);
+			// 得到单据商品集合信息
+			List<GoodsPriceFormDetail> goodsPriceDetailList = goodsPriceForm
+					.getGoodsPriceFormDetail();
 			// 生成商品机构关联表单数据
 			List<GoodsPriceFormBranch> goodsPriceFormBranchList = setGoodsPriceFormBranch(
 					branchIds, goodsPriceForm.getFormNo());
@@ -471,10 +473,17 @@ public class GoodsPriceAdjustController extends
 			} else {
 				return RespJson.error("获取用户信息失败");
 			}
-			goodsPriceAdustService.checkForm(goodsPriceForm);
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");  
+		    Date effect = sdf.parse(effectDate);  
+			goodsPriceForm.setEffectDate(effect);
+			if (DateUtils.compareDate(effect) < 0) {
+				return RespJson.error("生效时间比今天小");
+			}else {
+				goodsPriceAdustService.checkForm(goodsPriceForm);
+			}
 		} catch (Exception e) {
-			LOG.error(GoodsPriceFormConst.UPDATE_GOODS_PRICE_ERRO, e);
-			return RespJson.error(GoodsPriceFormConst.UPDATE_GOODS_PRICE_ERRO);
+			LOG.error("审核调价单失败", e);
+			return RespJson.error("审核调价单失败");
 		}
 		RespJson resp = RespJson.success();
 		resp.put("formNo", formNo);
@@ -516,6 +525,7 @@ public class GoodsPriceAdjustController extends
 			LOG.error("GoodsPriceAdjustController:exportList:", e);
 		}
 	}
+
 	/**
 	 * @Description: 导出调价单模板
 	 * @param response
@@ -530,11 +540,11 @@ public class GoodsPriceAdjustController extends
 			// 导出文件名称，不包括后缀名
 			String fileName = "调价单货号模板";
 			// 模板名称，包括后缀名
-			String templateName=ExportExcelConstant.GOODS_PRICE_ADJUST_FORM_TEMPLE_SKUCODE;
-			if(ExportExcelConstant.SKUCODE_TEMPLE_TYPE.equals(type)) {
+			String templateName = ExportExcelConstant.GOODS_PRICE_ADJUST_FORM_TEMPLE_SKUCODE;
+			if (ExportExcelConstant.SKUCODE_TEMPLE_TYPE.equals(type)) {
 				templateName = ExportExcelConstant.GOODS_PRICE_ADJUST_FORM_TEMPLE_SKUCODE;
 				fileName = "调价单货号模板";
-			}else {
+			} else {
 				templateName = ExportExcelConstant.GOODS_PRICE_ADJUST_FORM_TEMPLE_BARCODE;
 				fileName = "调价单条形码模板";
 			}
@@ -544,8 +554,7 @@ public class GoodsPriceAdjustController extends
 			LOG.error("GoodsPriceAdjustController:exportList:", e);
 		}
 	}
-	
-	
+
 	/**
 	 * (non-Javadoc)
 	 * @see com.okdeer.jxc.common.controller.BasePrintController#getPrintReplace(java.lang.String)

@@ -12,12 +12,11 @@
 </head>
 <body class="ub uw uh ufs-14 uc-black">
     <div class="ub ub-ver ub-f1 umar-4  ubor">
-        <div class="ub ub-ac upad-4">
+         <div class="ub ub-ac upad-4">
             <div class="ubtns">
                 <div class="ubtns-item" onclick="saveOrder()">保存</div>
-                <div class="ubtns-item" onclick="check()">审核</div>
-                <div class="ubtns-item" onclick="importproductAll()">导入明细</div>
-                <div class="ubtns-item" onclick="importproduct()">导入货号</div>
+                <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
+                <div class="ubtns-item" onclick="importproductAll()">导入</div>
                 <div class="ubtns-item" onclick="toBack()">返回</div>
             </div>
         </div>
@@ -30,7 +29,11 @@
 					<input type="text" name="branchName" id="branchName"class="uinp ub ub-f1" readonly="readonly"  />
 					<div class="uinp-more" onclick="searchBranch()">...</div>
 	           </div>
-               <div class="ub ub-ac umar-l20">
+	           <div class="ub ub-ac uw-300">
+	                <div class="umar-r10 uw-70 ut-r">生效日期:</div>
+	               <input class="Wdate"  readonly="readonly" name="startTime" id="txtStartDate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" />
+                </div>
+               <div class="ub ub-ac">
                    <div class="umar-r10 uw-70 ut-r">制单人员:</div>
                    <div class="utxt"><%=UserUtil.getCurrentUser().getUserName() %></div>
                </div>
@@ -40,11 +43,11 @@
                </div>
            </div>
            <div class="ub umar-t8">
-               <div class="ub ub-ac uw-300" >
+               <div class="ub ub-ac " >
                    <div class="umar-r10 uw-70 ut-r">备注:</div>
-                   <input class="uinp uninput" type="text" id="remark" name="remark" value="${form.remark}" >
+                   <input class="uinp uninputs" type="text" id="remark" name="remark" value="${form.remark}" >
                </div>
-               <div class="ub ub-ac umar-l20">
+               <div class="ub ub-ac  umar-l20">
                    <div class="umar-r10 uw-70 ut-r">审核人员:</div>
                    <div class="utxt" id="validUserName">${form.validUserName}</div>
                </div>

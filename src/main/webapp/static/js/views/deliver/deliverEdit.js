@@ -299,39 +299,75 @@ function selectGoods(searchKey){
         messager("请先选择发货机构");
         return;
     }
+    var targetBranchType = $("#targetBranchType").val();
+    // C类加盟店显示为发货机构的商品表
+    if (targetBranchType === '5') {
+    	targetBranchId = sourceBranchId;
+    }
     new publicGoodsService("DA",function(data){
         if(searchKey){
             $("#"+gridHandel.getGridName()).datagrid("deleteRow", gridHandel.getSelectRowIndex());
             $("#"+gridHandel.getGridName()).datagrid("acceptChanges");
         }
-        for(var i in data){
-        	var rec = data[i];
-        	rec.remark = "";
+        selectStockAndPrice(sourceBranchId,targetBranchId,data);
+    },searchKey,'',sourceBranchId,targetBranchId,targetBranchId);
+}
+
+//二次查询设置值
+function setDataValue(data) {
+    	for(var i in data){
+	        var rec = data[i];
+	        rec.remark = "";
         }
-       
-        var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
-        var addDefaultData  = gridHandel.addDefault(data,gridDefault);
-        var keyNames = {
-    		distributionPrice:'price',
-            id:'skuId',
-            disabled:'',
-            pricingType:''
-        };
-        var rows = gFunUpdateKey(addDefaultData,keyNames);
-        var argWhere ={skuCode:1};  //验证重复性
-        var isCheck ={isGift:1 };   //只要是赠品就可以重复
-        var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
-        $("#gridEditRequireOrder").datagrid("loadData",newRows);
-
-
+         var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
+         var addDefaultData = gridHandel.addDefault(data,gridDefault);
+         var keyNames = {
+    		 distributionPrice:'price',
+	         id:'skuId',
+	         disabled:'',
+	         pricingType:''
+         };
+         var rows = gFunUpdateKey(addDefaultData,keyNames);
+         var argWhere ={skuCode:1};  //验证重复性
+         var isCheck ={isGift:1 };   //只要是赠品就可以重复
+         var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
+         $("#gridEditOrder").datagrid("loadData",newRows);
         setTimeout(function(){
             gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
             gridHandel.setSelectFieldName("largeNum");
             gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
         },100)
-
-    },searchKey,'',sourceBranchId,targetBranchId,'');
 }
+
+//查询价格、库存
+function selectStockAndPrice(sourceBranchId,targetBranchId,data){
+	var GoodsStockVo = {
+			branchId : targetBranchId,
+			stockBranchId : sourceBranchId,
+			fieldName : 'id',
+			goodsSkuVo : [],
+		}; 
+	$.each(data,function(i,val){
+		var temp = {
+				id : val.id
+		};
+		GoodsStockVo.goodsSkuVo[i] = temp;
+	});
+	$.ajax({
+    	url : contextPath+"/goods/goodsSelect/selectStockAndPrice",
+    	type : "POST",
+    	data : {
+    		goodsStockVo : JSON.stringify(GoodsStockVo)
+    	},
+    	success:function(result){
+    		setDataValue(result);
+    	},
+    	error:function(result){
+    		successTip("请求发送失败或服务器处理失败");
+    	}
+    });
+}
+
 
 //保存
 function saveOrder(){
@@ -386,8 +422,8 @@ function saveOrder(){
         return;
     }
     var saveData = JSON.stringify(rows);
-    var deliverFormListVo = tableArrayFormatter(rows,"deliverFormListVo");
-    var reqObj = $.extend({
+    //var deliverFormListVo = tableArrayFormatter(rows,"deliverFormListVo");
+    var reqObj = {
     	sourceBranchId : sourceBranchId,
     	deliverFormId : $("#formId").val(),
         targetBranchId : targetBranchId,
@@ -396,13 +432,37 @@ function saveOrder(){
         amount : amount,
         remark : remark,
         formType : "DA",
-        formNo : formNo
-    }, deliverFormListVo);
+        formNo : formNo,
+        deliverFormListVo : []
+       };
+    
+    $.each(rows,function(i,data){
+    	var temp = {
+    		skuId : data.skuId,
+    		skuCode : data.skuCode,
+    		skuName : data.skuName,
+    		barCode : data.barCode,
+    		spec : data.spec,
+    		rowNo : data.rowNo,
+    		applyNum : data.applyNum,
+    		largeNum : data.largeNum,
+    		price : data.price,
+    		amount : data.amount,
+    		inputTax : data.inputTax,
+    		isGift : data.isGift,
+    		remark : data.remark,
+    		originPlace : data.originPlace,
+    		distributionSpec : data.distributionSpec,
+    		formId : data.formId
+    	}
+    	reqObj.deliverFormListVo[i] = temp;
+	});
+    
     gFunStartLoading();
     $.ajax({
         url:contextPath+"/form/deliverForm/updateDeliverForm",
         type:"POST",
-        data:reqObj,
+        data:{ formVo : JSON.stringify(reqObj)},
         success:function(result){
             gFunEndLoading();
             if(result['code'] == 0){
