@@ -7,22 +7,30 @@
 
 package com.okdeer.jxc.controller.supplier;
 
+import javax.validation.Valid;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
+import com.okdeer.jxc.common.enums.BalanceWayEnum;
 import com.okdeer.jxc.common.enums.BranchTypeEnum;
+import com.okdeer.jxc.common.enums.SaleWayEnum;
+import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.supplier.entity.Supplier;
+import com.okdeer.jxc.supplier.entity.SupplierExt;
 import com.okdeer.jxc.supplier.qo.SupplierQo;
 import com.okdeer.jxc.supplier.service.SupplierAreaServiceApi;
 import com.okdeer.jxc.supplier.service.SupplierServiceApi;
 import com.okdeer.jxc.supplier.vo.SupplierAreaVo;
+import com.okdeer.jxc.supplier.vo.SupplierVo;
 
 /**
  * ClassName: SupplierArchiveController 
@@ -67,7 +75,13 @@ public class SupplierController extends BaseController<SupplierController> {
 	 * @date 2016年10月13日
 	 */
 	@RequestMapping(value = "toAdd")
-	public String toAdd() {
+	public String toAdd(Model model) {
+		SaleWayEnum[] saleWayEnums = SaleWayEnum.values();
+		BalanceWayEnum[] balanceWayEnums = BalanceWayEnum.values();
+		
+		model.addAttribute("saleWayEnums", saleWayEnums);
+		model.addAttribute("balanceWayEnums", balanceWayEnums);
+		
 		return "supplier/archive/supplierArchiveAdd";
 	}
 
@@ -78,7 +92,13 @@ public class SupplierController extends BaseController<SupplierController> {
 	 * @date 2016年10月13日
 	 */
 	@RequestMapping(value = "toEdit")
-	public String toEdit() {
+	public String toEdit(Model model) {
+		SaleWayEnum[] saleWayEnums = SaleWayEnum.values();
+		BalanceWayEnum[] balanceWayEnums = BalanceWayEnum.values();
+		
+		model.addAttribute("saleWayEnums", saleWayEnums);
+		model.addAttribute("balanceWayEnums", balanceWayEnums);
+		
 		return "supplier/archive/supplierArchiveEdit";
 	}
 
@@ -140,4 +160,101 @@ public class SupplierController extends BaseController<SupplierController> {
 		return PageUtils.emptyPage();
 	}
 
+	
+	/**
+	 * @Description: 新增供应商信息
+	 * @param supplier
+	 * @param supplierExt
+	 * @param validate
+	 * @return
+	 * @author liwb
+	 * @date 2016年10月14日
+	 */
+	@RequestMapping(value = "/addSupplier")
+	@ResponseBody
+	public RespJson addSupplier(@Valid Supplier supplier, @Valid SupplierExt supplierExt,
+			BindingResult validate) {
+		if (validate.hasErrors()) {
+			String errorMessage = validate.getFieldError().getDefaultMessage();
+			LOG.warn("validate errorMessage:{}", errorMessage);
+			return RespJson.error(errorMessage);
+		}
+		LOG.info("新增供应商信息{}，扩展信息{}", supplier, supplierExt);
+		RespJson respJson = RespJson.success();
+		try {
+			// 设置创建者Id
+			supplier.setCreateUserId(super.getCurrUserId());
+
+			//封装Vo信息
+			SupplierVo supplierVo = new SupplierVo();
+			supplierVo.setSupplier(supplier);
+			supplierVo.setSupplierExt(supplierExt);
+			
+			// 新增供应商信息
+			respJson = supplierService.addSupplier(supplierVo);
+		} catch (Exception e) {
+			LOG.error("新增供应商异常：", e);
+			respJson = RespJson.error("新增供应商异常：" + e.getMessage());
+		}
+		return respJson;
+	}
+	
+	/**
+	 * @Description: 修改供应商信息
+	 * @param supplier
+	 * @param supplierExt
+	 * @param validate
+	 * @return
+	 * @author liwb
+	 * @date 2016年10月14日
+	 */
+	@RequestMapping(value = "/updateSupplier")
+	@ResponseBody
+	public RespJson updateSupplier(@Valid Supplier supplier, @Valid SupplierExt supplierExt,
+			BindingResult validate) {
+		if (validate.hasErrors()) {
+			String errorMessage = validate.getFieldError().getDefaultMessage();
+			LOG.warn("validate errorMessage:{}", errorMessage);
+			return RespJson.error(errorMessage);
+		}
+		LOG.info("修改供应商信息{}，扩展信息{}", supplier, supplierExt);
+		RespJson respJson = RespJson.success();
+		try {
+			// 设置创建者Id
+			supplier.setUpdateUserId(super.getCurrUserId());
+			
+			//封装Vo信息
+			SupplierVo supplierVo = new SupplierVo();
+			supplierVo.setSupplier(supplier);
+			supplierVo.setSupplierExt(supplierExt);
+			
+			// 新增供应商信息
+			respJson = supplierService.updateSupplier(supplierVo);
+		} catch (Exception e) {
+			LOG.error("修改供应商异常：", e);
+			respJson = RespJson.error("修改供应商异常：" + e.getMessage());
+		}
+		return respJson;
+	}
+	
+	/**
+	 * @Description: 删除供应商信息
+	 * @param supplierId
+	 * @return
+	 * @author liwb
+	 * @date 2016年10月14日
+	 */
+	@RequestMapping(value = "/deleteSupplier")
+	@ResponseBody
+	public RespJson deleteSupplier(String supplierId) {
+		RespJson respJson = RespJson.success();
+		try {
+			respJson = supplierService.deleteSupplier(supplierId, super.getCurrUserId());
+		} catch (Exception e) {
+			LOG.error("删除供应商异常：", e);
+			respJson = RespJson.error("删除供应商异常：" + e.getMessage());
+		}
+		return respJson;
+	}
+	
 }
