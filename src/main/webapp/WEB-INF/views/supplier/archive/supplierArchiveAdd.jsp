@@ -210,7 +210,7 @@ pageEncoding="UTF-8"%>
 			</div>
 			<div class="ub upad-4">
 				<div class="ub ub-ac ub-f1">
-					<div class="umar-r10 uw-100 ut-r">品牌:</div>
+					<div class="umar-r10 uw-100 ut-r">备注:</div>
 					<input id="remark" name="remark" class="uinp ub ub-f1" type="text" value="${data.skuCode}">
 				</div>
 			</div>
