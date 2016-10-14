@@ -1006,9 +1006,10 @@ function gFunUpdateKey(arrs,obj){
     var newArrs = [];
     $.each(arrs,function(i,item){
         $.each(obj,function(k,v){
+            debugger;
         	if(item[k]||parseInt(item[k])===0||item[k]===""){
             	if(v){
-            		item[v] = item[k]||"";
+            		item[v] = gFunIsNotNull(item[k])?item[k]:"";
             	}
         	}
         });
@@ -1071,6 +1072,13 @@ function gFunEndLoading(){
 function checkNum(obj){
 	 obj.value=obj.value.replace(/[^0-9]/g,'');
 	 return obj.value;
+}
+
+function gFunIsNotNull(val){
+    if(val||parseInt(val)===0||val===""){
+        return true
+    }
+    return false;
 }
 
 //输入1-9的数字，第二位及后面的可以有0，比如10

@@ -111,6 +111,10 @@ function initDatagridAddRequireOrder(){
                     if(row.isFooter){
                         return
                     }
+                    if(!row["price"]){
+                        row["price"] = 0;
+                        value = row["price"];
+                    }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
                 editor:{
@@ -385,6 +389,7 @@ function selectGoods(searchKey){
             $("#gridEditOrder").datagrid("deleteRow", gridHandel.getSelectRowIndex());
             $("#gridEditOrder").datagrid("acceptChanges");
         }
+        debugger;
         selectStockAndPrice(sourceBranchId,data);
     },searchKey,'',sourceBranchId,targetBranchId,sourceBranchId);
 }
