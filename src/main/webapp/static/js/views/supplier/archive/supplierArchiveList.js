@@ -55,19 +55,19 @@ function initDatagridsupplierList(){
         height:'100%',
         width:'100%',
         columns:[[
-            {field:'no',title:'编号',width:100,align:'left',
+            {field:'supplierCode',title:'编号',width:100,align:'left',
                 formatter: function(value,row,index){
                     return "<a href='#' onclick=\"editHandel("+row.id+")\" class='ualine'>"+value+"</a>";
                 }
             },
-            {field:'name',title:'名称',width:100,align:'left'},
-            {field:'jyfs',title:'经营方式',width:100,align:'left'},
+            {field:'supplierName',title:'名称',width:100,align:'left'},
+            {field:'saleWay',title:'经营方式',width:100,align:'left'},
              {field:'status',title:'状态',width:100,align:'left'},
-             {field:'lxr',title:'联系人',width:100,align:'left'},
-             {field:'phone',title:'手机号码',width:100,align:'left'},
-             {field:'ssjg',title:'所属机构',width:100,align:'left'},
-             {field:'cjr',title:'创建人',width:100,align:'left'},
-             {field:'cjsj',title:'创建时间',width:100,align:'left'},
+             {field:'contcat',title:'联系人',width:100,align:'left'},
+             {field:'mobile',title:'手机号码',width:100,align:'left'},
+             {field:'branchName',title:'所属机构',width:100,align:'left'},
+             {field:'createUserName',title:'创建人',width:100,align:'left'},
+             {field:'createTime',title:'创建时间',width:100,align:'left'},
         ]],
         onLoadSuccess : function() {
             gridHandel.setDatagridHeader("center");
