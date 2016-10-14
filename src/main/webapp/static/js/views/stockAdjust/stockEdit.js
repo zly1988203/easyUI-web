@@ -418,26 +418,23 @@ function check(){
 	//验证数据是否修改
     $("#"+gridHandel.getGridName()).datagrid("endEdit", gridHandel.getSelectRowIndex());
     var newData = {
-        targetBranchId:$("#targetBranchId").val(), // 要活分店id
-        sourceBranchId:$("#sourceBranchId").val(), //发货分店id
-        validityTime:$("#validityTime").val(),      //生效日期
+        branchId:$("#branchId").val(), // 要活分店id
         remark:$("#remark").val(),                  // 备注
-        formNo:$("#formNo").html(),                 // 单号
+        formNo:$("#formNo").val(),                 // 单号
         grid:gridHandel.getRows(),
     }
 
-    if(!gFunComparisonArray(oldData,newData)){
+   /* if(!gFunComparisonArray(oldData,newData)){
         messager("数据已修改，请先保存再审核");
         return;
-    }
+    }*/
 	$.messager.confirm('提示','是否审核通过？',function(data){
 		if(data){
 			$.ajax({
-		    	url : contextPath+"/form/deliverForm/check",
+		    	url : contextPath+"/stock/adjust/check",
 		    	type : "POST",
 		    	data : {
-		    		deliverFormId : $("#formId").val(),
-		    		stockType : 'DI'
+		    		id : $("#formId").val()
 		    	},
 		    	success:function(result){
 		    		console.log(result);
