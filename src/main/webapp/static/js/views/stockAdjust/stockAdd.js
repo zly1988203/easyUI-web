@@ -7,7 +7,7 @@ $(function(){
     initDatagridAddRequireOrder();
 });
 var gridDefault = {
-    receiveNum:0,
+    realNum:0,
     largeNum:0,
     isGift:0,
 }
@@ -56,7 +56,7 @@ function initDatagridAddRequireOrder(){
                     return str;
                 },
             },
-            {field:'skuCode',title:'货号',width:'70px',align:'left',editor:'textbox'},
+            {field:'skuCode',title:'货号',width:'70px',align:'left'},
             {field:'skuName',title:'商品名称',width:'200px',align:'left'},
             {field:'barCode',title:'国际条码',width:'150px',align:'left'},
             {field:'unit',title:'单位',width:'60px',align:'left'},
@@ -84,16 +84,7 @@ function initDatagridAddRequireOrder(){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-                editor:{
-                    type:'numberbox',
-                    value:0,
-                    options:{
-                        min:0,
-                        precision:4,
-                        onChange: onChangeLargeNum,
-                    }
-                },
+                }
             },
             {field:'nowNumsale',title:'当前可销售库存',width:'100px',align:'right',
                 formatter:function(value,row,index){
@@ -101,16 +92,7 @@ function initDatagridAddRequireOrder(){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-                editor:{
-                    type:'numberbox',
-                    value:0,
-                    options:{
-                        min:0,
-                        precision:4,
-                        onChange: onChangeLargeNum,
-                    }
-                },
+                }
             },
             {field:'largeNum',title:'箱数',width:'80px',align:'right',
                 formatter:function(value,row,index){
@@ -130,14 +112,14 @@ function initDatagridAddRequireOrder(){
                 },
             },
             {field:'dealNum',title:'发货数量',width:'80px',align:'right',hidden:true},
-            {field:'receiveNum',title:'数量',width:'80px',align:'right',
+            {field:'realNum',title:'数量',width:'80px',align:'right',
             	formatter:function(value,row){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                     }
                     if(!value||value==""||parseFloat(value)==0.0){
-                    	row["receiveNum"] = row["dealNum"];
-                  	  value = row["receiveNum"];
+                    	row["realNum"] = row["dealNum"];
+                  	  value = row["realNum"];
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
@@ -209,8 +191,8 @@ function onChangeLargeNum(newV,oldV){
         messager("配送规格不能为0");
         return;
     }
-    if(gridHandel.getSelectFieldName()!="receiveNum"){
-    	gridHandel.setFieldValue('receiveNum',purchaseSpecValue*newV);//数量=商品规格*箱数
+    if(gridHandel.getSelectFieldName()!="realNum"){
+    	gridHandel.setFieldValue('realNum',purchaseSpecValue*newV);//数量=商品规格*箱数
   }
     
     updateFooter();
@@ -236,8 +218,8 @@ function onChangeRealNum(newV,oldV) {
 }
 //监听商品单价
 function onChangePrice(newV,oldV) {
-    var receiveNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'receiveNum');
-    gridHandel.setFieldValue('amount',receiveNumVal*newV);                          //金额=数量*单价
+    var realNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'realNum');
+    gridHandel.setFieldValue('amount',realNumVal*newV);                          //金额=数量*单价
     updateFooter();
 }
 //监听商品金额
@@ -276,7 +258,7 @@ function onSelectIsGift(data){
 }
 //合计
 function updateFooter(){
-    var fields = {price:0,nowNum:0,largeNum:0,receiveNum:0,amount:0,isGift:0, };
+    var fields = {price:0,nowNum:0,largeNum:0,realNum:0,amount:0,isGift:0, };
     var argWhere = {name:'isGift',value:0}
     gridHandel.updateFooter(fields,argWhere);
 }
@@ -347,7 +329,7 @@ function saveOrder(){
 
     var footerRows = $("#gridEditOrder").datagrid("getFooterRows");
     if(footerRows){
-        totalNum = parseFloat(footerRows[0]["receiveNum"]||0.0).toFixed(4);
+        totalNum = parseFloat(footerRows[0]["realNum"]||0.0).toFixed(4);
         amount = parseFloat(footerRows[0]["amount"]||0.0).toFixed(4);
     }
 
@@ -368,7 +350,7 @@ function saveOrder(){
             isCheckResult = false;
             return false;
         }
-        if(v["receiveNum"]<=0){
+        if(v["realNum"]<=0){
             messager("第"+(i+1)+"行，数量必须大于0");
             isCheckResult = false;
             return false;
@@ -379,26 +361,25 @@ function saveOrder(){
         return;
     }*/
     var saveData = JSON.stringify(rows);
+    console.log(saveData);
     var stockFormDetailList = tableArrayFormatter(rows,"stockFormDetailList");
+    console.log(stockFormDetailList);
     var reqObj = $.extend({
-    	formType:'DI',
     	io:'1',
     	createBranchId:branchId,
-        totalNum:totalNum,
-        amount:amount,
-        reason:reason,
+        reason:"",
         remark:remark,
     }, stockFormDetailList);
     
     console.log(reqObj);
     $.ajax({
-        url:contextPath+"/stock/adjust/addStcokForm",
+        url:contextPath+"/stock/adjust/addStockForm",
         type:"POST",
         data:reqObj,
         success:function(result){
             if(result['code'] == 0){
                 $.messager.alert("操作提示", "操作成功！", "info",function(){
-                	//location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
+                	location.href = contextPath +"/stock/adjust/edit?id=" + result["formId"];
                 });
             }else{
                 successTip(result['message']);
@@ -443,7 +424,7 @@ function check(){
  * 返回库存调整
  */
 function toBack(){
-	location.href = contextPath+"/stock/ajdust/list";
+	location.href = contextPath+"/stock/adjust/list";
 }
 
 /**
@@ -483,11 +464,11 @@ function getImportData(data){
         data[i]["oldVipPrice"]=data[i]["vipPrice"];
         data[i]["oldDcPrice"]=data[i]["distributionPrice"];
         data[i]["price"] = data[i]["oldPurPrice"];
-        data[i]["receiveNum"]=data[i]["receiveNum"]||0;
+        data[i]["realNum"]=data[i]["realNum"]||0;
         
-        data[i]["amount"]  = parseFloat(data[i]["price"]||0)*parseFloat(data[i]["receiveNum"]||0);
+        data[i]["amount"]  = parseFloat(data[i]["price"]||0)*parseFloat(data[i]["realNum"]||0);
         if(parseInt(data[i]["distributionSpec"])){
-        	 data[i]["largeNum"]  = (parseFloat(data[i]["receiveNum"]||0)/parseFloat(data[i]["distributionSpec"])).toFixed(4);
+        	 data[i]["largeNum"]  = (parseFloat(data[i]["realNum"]||0)/parseFloat(data[i]["distributionSpec"])).toFixed(4);
         }else{
         	 data[i]["largeNum"]  =  0;
         	 data[i]["distributionSpec"] = 0;
