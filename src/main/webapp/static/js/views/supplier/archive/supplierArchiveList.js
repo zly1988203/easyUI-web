@@ -6,14 +6,14 @@ var gridHandel = new GridClass();
 
 $(function(){
     initTreeArchives();
-    initDatagridSupplierArchiveList();
+    initDatagridsupplierList();
 });
 /**
  * 初始树
  */
 function initTreeArchives(){
     var args = {};
-    var httpUrl = "/supplierArea/supplierAreaTree";
+    var httpUrl = contextPath+"/supplier/getBranchSupplierAreaToTree";
     $.get(httpUrl, args,function(data){
         var setting = {
             data: {
@@ -35,8 +35,8 @@ function initTreeArchives(){
 }
 
 //初始化表格
-function initDatagridSupplierArchiveList(){
-    $("#gridSupplierArchiveList").datagrid({
+function initDatagridsupplierList(){
+    $("#gridsupplierList").datagrid({
         //title:'普通表单-用键盘操作',
         method:'get',
         align:'center',
@@ -83,7 +83,7 @@ function zTreeOnClick(event, treeId, treeNode) {
  */
 function addHandel(){
     addDalogTemp = $('<div/>').dialog({
-        href: contextPath+"/supplierArchive/toAdd",
+        href: contextPath+"/supplier/toAdd",
         width: 1000,
         height: 680,
         title: "供应商档案-新增",
@@ -107,7 +107,7 @@ function copyHandel(){
     }else {
         var selectionRow = $("#gridArchives").datagrid("getSelections");
         addDalogTemp = $('<div/>').dialog({
-            href: contextPath + "/supplierArchive/toAdd",
+            href: contextPath + "/supplier/toAdd",
             width: 1000,
             height: 680,
             title: "供应商档案-新增",
@@ -128,7 +128,7 @@ function copyHandel(){
  */
 function editHandel(id){
     editDalogTemp = $('<div/>').dialog({
-        href: contextPath+"/supplierArchive/toEdit?id="+id,
+        href: contextPath+"/supplier/toEdit?id="+id,
         width: 1000,
         height: 680,
         title: "供应商档案-修改",

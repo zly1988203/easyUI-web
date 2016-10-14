@@ -40,7 +40,7 @@ import com.okdeer.jxc.utils.UserUtil;
 
 @Controller
 @RequestMapping("common/branches")
-public class BranchesController extends BaseController<BranchesController> {
+public class BranchCommonController extends BaseController<BranchCommonController> {
 
 	@Reference(version = "1.0.0", check = false)
 	private BranchesServiceApi branchesService;
