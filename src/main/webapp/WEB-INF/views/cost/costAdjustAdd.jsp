@@ -11,9 +11,10 @@
 </head>
 <body class="ub uw uh ufs-14 uc-black">
     <div class="ub ub-ver ub-f1 umar-4  ubor">
+    <form id="addqueryForm" action="" method="post">
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
-                <div class="ubtns-item" onclick="saveOrder()">保存</div>
+                <div class="ubtns-item" onclick="addsaveOrder()">保存</div>
                 <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
                 <div class="ubtns-item" onclick="importproductAll()">导入</div>
                 <div class="ubtns-item" onclick="toBack()">返回</div>
@@ -26,9 +27,19 @@
 					<input type="text" name="branchName" id="branchName"class="uinp ub ub-f1" readonly="readonly"  />
 					<div class="uinp-more" onclick="searchBranch()">...</div>
 	           </div>
-	            <div class="ub ub-ac uw-300">
-	                <div class="umar-r10 uw-70 ut-r">生效日期:</div>
-	               <input class="Wdate"  readonly="readonly" name="startTime" id="txtStartDate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" />
+	            <div class="ub ub-ac uselectw umar-l20">
+                    <div class="umar-r10 uw-70 ut-r">调整原因:</div>
+                       <!--select-->
+				        <select class="easyui-combobox uselect" name="adjustReason" id="Reason" data-options="editable:false">
+								<option value="1">全部</option> 
+								<option value="2">[01]其他</option> 
+								<option value="3">[02]领用</option> 
+								<option value="4">[03]报损</option> 
+								<option value="5">[04]丢失</option> 
+								<option value="6">[05]赠送</option>
+								<option value="7">[06]借用</option>
+								<option value="8">[07]退赠品</option>
+				        </select>
                 </div>
                <div class="ub ub-ac uw-300 ">
                    <div class="umar-r10 uw-70 ut-r">制单人员:</div>
@@ -40,7 +51,8 @@
                </div>
            </div>
            <div class="ub umar-t8">
-               <div class="ub ub-ac " >
+           
+               <div class="ub ub-ac" >
                    <div class="umar-r10 uw-70 ut-r">备注:</div>
                    <input class="uinp uninputs" type="text" id="remark" name="remark">
                </div>
@@ -53,7 +65,7 @@
                    <div class="utxt"></div>
                </div>
            </div>
-          
+          	</form>
            <!--datagrid-edit-->
            <div class="ub ub-f1 datagrid-edit umar-t8">
                <table id="gridEditOrder" ></table>

@@ -7,7 +7,7 @@ $(function(){
     initDatagridAddRequireOrder();
 });
 var gridDefault = {
-    receiveNum:0,
+    actual:0,
     largeNum:0,
     isGift:0,
 }
@@ -61,7 +61,7 @@ function initDatagridAddRequireOrder(){
             {field:'barCode',title:'国际条码',width:'150px',align:'left'},
             {field:'unit',title:'单位',width:'60px',align:'left'},
             {field:'spec',title:'规格',width:'90px',align:'left'},
-            {field:'oldprice',title:'旧价',width:'80px',align:'right',
+            {field:'oldCostPrice',title:'旧价',width:'80px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
                         return
@@ -74,11 +74,11 @@ function initDatagridAddRequireOrder(){
                     	disabled:true,
                         min:0,
                         precision:2,
-                        onChange: onChangePrice,
+                     
                     }
                 },
             },
-            {field:'newprice',title:'新价',width:'80px',align:'right',
+            {field:'costPrice',title:'新价',width:'80px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
                         return
@@ -88,21 +88,22 @@ function initDatagridAddRequireOrder(){
                 editor:{
                     type:'numberbox',
                     options:{
-                    	disabled:true,
+                    	//disabled:true,
                         min:0,
-                        precision:2,
-                        onChange: onChangePrice,
+                        precision:4,
+                        onChange: onChangeCostPrice,
+                       
                     }
                 },
             },
-            {field:'receiveNum',title:'当前库存',width:'80px',align:'right',
+            {field:'actual',title:'当前库存',width:'80px',align:'right',
             	formatter:function(value,row){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                     }
                     if(!value||value==""||parseFloat(value)==0.0){
-                    	row["receiveNum"] = row["dealNum"];
-                  	  value = row["receiveNum"];
+                    	row["actual"] = row["dealNum"];
+                  	  value = row["actual"];
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
@@ -112,11 +113,12 @@ function initDatagridAddRequireOrder(){
                     options:{
                         min:0,
                         precision:4,
-                        onChange: onChangeRealNum,
+                        onChange: onChangeActual,
+                        
                     }
                 },
             },
-            {field:'differprice',title:'调价差额',width:'80px',align:'right',
+            {field:'diffMoney',title:'调价差额',width:'80px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -129,11 +131,11 @@ function initDatagridAddRequireOrder(){
                     	disabled:true,
                         min:0,
                         precision:2,
-                        onChange: onChangeAmount,
                     }
                 },
 
             },
+            {field: 'adjustReason', title: '调整原因', width: '200px', align: 'left',editor:'textbox'},
             {field:'remark',title:'备注',width:'200px',align:'left',editor:'textbox'}
         ]],
         onClickCell:function(rowIndex,field,value){
@@ -158,98 +160,37 @@ function initDatagridAddRequireOrder(){
         $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault)]);
 }
 
-//监听商品箱数
-function onChangeLargeNum(newV,oldV){
-    if(!gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuName')){
-        return;
-    }
-    var purchaseSpecValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'distributionSpec');
-    if(!purchaseSpecValue){
-        messager("没有配送规格,请审查");
-        return;
-    }
-    if(parseFloat(purchaseSpecValue)==0.0){
-        messager("配送规格不能为0");
-        return;
-    }
-    if(gridHandel.getSelectFieldName()!="receiveNum"){
-    	gridHandel.setFieldValue('receiveNum',purchaseSpecValue*newV);//数量=商品规格*箱数
-  }
+//监听新价
+function onChangeCostPrice(newV,oldV) {
+    //获取差额
+    var actual = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'actual')||0;
+    var oldCostPrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'oldCostPrice')||0;
+    var CostPrice = newV;
+    gridHandel.setFieldValue('diffMoney',(parseFloat(actual)*(parseFloat(CostPrice)-parseFloat(oldCostPrice)).toFixed(2)));
     
     updateFooter();
 }
-//监听商品数量
-function onChangeRealNum(newV,oldV) {
-    if(!gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuName')){
-        return;
-    }
-    var purchaseSpecValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'distributionSpec');
-    if(!purchaseSpecValue){
-        messager("没有配送规格,请审查");
-        return;
-    }
-    if(parseFloat(purchaseSpecValue)==0.0){
-        messager("配送规格不能为0");
-        return;
-    }
-    var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
-    gridHandel.setFieldValue('amount',priceValue*newV);                         //金额=数量*单价
-    gridHandel.setFieldValue('largeNum',(newV/purchaseSpecValue).toFixed(4));   //箱数=数量/商品规格
+//监听库存
+function onChangeActual(newV,oldV) {
+	debugger;
+    //获取差额
+    var actual = newV;
+    var oldCostPrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'oldCostPrice')||0;
+    var CostPrice = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'costPrice')||0;
+    console.log(actual )
+     gridHandel.setFieldValue('diffMoney',(parseFloat(actual)*(parseFloat(CostPrice)-parseFloat(oldCostPrice)).toFixed(2)));
+    
     updateFooter();
-}
-//监听商品单价
-function onChangePrice(newV,oldV) {
-    var receiveNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'receiveNum');
-    gridHandel.setFieldValue('amount',receiveNumVal*newV);                          //金额=数量*单价
-    updateFooter();
-}
-//监听商品金额
-function onChangeAmount(newV,oldV) {
-    //获取税率
-    var taxVal = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'inputTax');
-    gridHandel.setFieldValue('taxAmount',(taxVal*(newV/(1+parseFloat(taxVal)))).toFixed(2));
-}
-//监听是否赠品
-function onSelectIsGift(data){
-    var checkObj = {
-        skuCode: gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'skuCode'),
-        isGift:data.id,
-    };
-    var arrs = gridHandel.searchDatagridFiled(gridHandel.getSelectRowIndex(),checkObj);
-    if(arrs.length==0){
-        var targetPrice = gridHandel.getFieldTarget('price');
-        if(data.id=="1"){
-            var priceVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
-            $('#gridEditOrder').datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"] = priceVal;
-            $(targetPrice).numberbox('setValue',0);
-            $(targetPrice).numberbox('disable');
-        }else{
-            $(targetPrice).numberbox('enable');
-            var oldPrice =  $('#gridEditOrder').datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"];
-            if(oldPrice){
-                $(targetPrice).numberbox('setValue',oldPrice);
-            }
-        }
-        updateFooter();
-    }else{
-        var targetIsGift = gridHandel.getFieldTarget('isGift');
-        $(targetIsGift).combobox('select', data.id=='1'?'0':'1');
-        messager(data.id=='1'?'已存在相同赠品':'已存在相同商品');
-    }
 }
 //合计
 function updateFooter(){
-    var fields = {newprice:0,receiveNum:0,differprice:0,isGift:0, };
+    var fields = {actual:0,diffMoney:0,isGift:0, };
     var argWhere = {name:'isGift',value:0}
     gridHandel.updateFooter(fields,argWhere);
 }
 //插入一行
 function addLineHandel(event){
     event.stopPropagation(event);
-    if($("#referenceId").val()){
-        messager("已选配送单号，不允许添加其他商品");
-        return;
-    }
     var index = $(event.target).attr('data-index')||0;
     gridHandel.addRow(index,gridDefault);
 }
@@ -296,84 +237,63 @@ function selectGoods(searchKey){
 }
 
 //保存
-function saveOrder(){
-    //商品总数量
-    var totalNum = 0;
-    //总金额
-    var amount=0;
-	// 要活分店id
-	 var targetBranchId = $("#targetBranchId").val();
-	//发货分店id
-    var sourceBranchId = $("#sourceBranchId").val();
-    //生效日期
-    var validityTime = $("#validityTime").val();
+function addsaveOrder(){
+	//调价差价
+    var totlediffMoney=0;
+	// 机构id
+	 var branchId = $("#branchId").val();
+	//reason 原因 
+	 var Reason=$("#Reason").val();
     // 备注
     var remark = $("#remark").val();
-    // 引用单号id
-    var referenceId = $("#referenceId").val();
-    // 引用单号
-    var referenceNo = $("#referenceNo").val();
+ 
     //验证表格数据
     $("#gridEditOrder").datagrid("endEdit", gridHandel.getSelectRowIndex());
 
     var footerRows = $("#gridEditOrder").datagrid("getFooterRows");
     if(footerRows){
-        totalNum = parseFloat(footerRows[0]["receiveNum"]||0.0).toFixed(4);
-        amount = parseFloat(footerRows[0]["amount"]||0.0).toFixed(4);
+    	totlediffMoney = parseFloat(footerRows[0]["diffMoney"]||0.0).toFixed(4);
     }
-
+  
     var rows = gridHandel.getRows();
+    console.log(rows);
     if(rows.length==0){
         messager("表格不能为空");
         return;
     }
-    var isCheckResult = true;
-    $.each(rows,function(i,v){
-        if(!v["skuCode"]){
-            messager("第"+(i+1)+"行，货号不能为空");
-            isCheckResult = false;
-            return false;
-        };
-        if(v["largeNum"]<=0){
-            messager("第"+(i+1)+"行，箱数必须大于0");
-            isCheckResult = false;
-            return false;
-        }
-        if(v["receiveNum"]<=0){
-            messager("第"+(i+1)+"行，数量必须大于0");
-            isCheckResult = false;
-            return false;
-        }
-        v["rowNo"] = i+1;
-    });
-    if(!isCheckResult){
-        return;
-    }
-    var saveData = JSON.stringify(rows);
-    var deliverFormListVo = tableArrayFormatter(rows,"deliverFormListVo");
-    var reqObj = $.extend({
-    	formType:'DI',
-    	io:'1',
-    	sourceBranchId:sourceBranchId,
-        targetBranchId:targetBranchId,
-        validityTime:validityTime,
-        totalNum:totalNum,
-        amount:amount,
-        remark:remark,
-        referenceNo:referenceNo,
-        referenceId:referenceId,
-        oldReferenceNo : ''
-    }, deliverFormListVo);
     
-    console.log(reqObj);
+    var saveData = JSON.stringify(rows);
+    var jsonData = {
+    	stockCostFormDetailList:[],
+        stockCostForm:{
+			branchId:branchId,
+			Reason:Reason,
+			remark:remark,
+			 
+        }
+    };
+    $.each(rows,function(i,data){
+    	var temp = {
+    		actual: data.actual,
+    		costPrice:data.costPrice,
+    		diffMoney:data.diffMoney,
+    		remark : data.remark,
+    		skuCode : data.skuCode,
+    		skuId:data.skuId,
+    	}
+    	jsonData.stockCostFormDetailList[i] = temp;
+	});
+    
+    console.log(jsonData);
     $.ajax({
-        url:contextPath+"/form/deliverForm/insertDeliverForm",
+        url:contextPath+"/cost/costAdjust/addCostForm",
         type:"POST",
-        data:reqObj,
+        data:{"jsonData":JSON.stringify(jsonData)},
         success:function(result){
-            if(result['code'] == 0){
+            if(result){
+            	console.log(result);
                 $.messager.alert("操作提示", "操作成功！", "info",function(){
-                	location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
+                //toClose();
                 });
             }else{
                 successTip(result['message']);
@@ -433,11 +353,6 @@ function searchBranch (){
 }
 
 
-function loadLists(referenceId){
-	$("#gridEditOrder").datagrid("options").method = "post";
-	$("#gridEditOrder").datagrid('options').url = contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverFormId="+referenceId + "&formType=DO";
-	$("#gridEditOrder").datagrid('load');
-}
 
 /**
  * 导入
@@ -458,11 +373,11 @@ function getImportData(data){
         data[i]["oldVipPrice"]=data[i]["vipPrice"];
         data[i]["oldDcPrice"]=data[i]["distributionPrice"];
         data[i]["price"] = data[i]["oldPurPrice"];
-        data[i]["receiveNum"]=data[i]["receiveNum"]||0;
+        data[i]["actual"]=data[i]["actual"]||0;
         
-        data[i]["amount"]  = parseFloat(data[i]["price"]||0)*parseFloat(data[i]["receiveNum"]||0);
+        data[i]["amount"]  = parseFloat(data[i]["price"]||0)*parseFloat(data[i]["actual"]||0);
         if(parseInt(data[i]["distributionSpec"])){
-        	 data[i]["largeNum"]  = (parseFloat(data[i]["receiveNum"]||0)/parseFloat(data[i]["distributionSpec"])).toFixed(4);
+        	 data[i]["largeNum"]  = (parseFloat(data[i]["actual"]||0)/parseFloat(data[i]["distributionSpec"])).toFixed(4);
         }else{
         	 data[i]["largeNum"]  =  0;
         	 data[i]["distributionSpec"] = 0;
