@@ -19,6 +19,12 @@ function initTreeArchives(){
             data: {
                 key:{
                     name:'codeText',
+                },
+                simpleData: {
+                    enable: true,
+                    idKey: "id",
+                    pIdKey: "pid",
+                    rootPId: 0
                 }
             },
             callback: {
@@ -36,9 +42,10 @@ function initTreeArchives(){
 
 //初始化表格
 function initDatagridsupplierList(){
-    $("#gridsupplierList").datagrid({
+    $("#gridSupplierArchiveList").datagrid({
         //title:'普通表单-用键盘操作',
-        method:'get',
+        method:'post',
+        url:contextPath+'/supplier/getSupplierList',
         align:'center',
         singleSelect:true,  //单选  false多选
         rownumbers:true,    //序号
@@ -71,12 +78,22 @@ function initDatagridsupplierList(){
 
 //交互方法========================================================================
 
-var  addDalogTemp
-var  editDalogTemp
+var  addDalogTemp;
+var  editDalogTemp;
+
+var gVarBranchId;
+var gVarSupplierAreaId;
 
 //选择树节点
 function zTreeOnClick(event, treeId, treeNode) {
-
+    if(treeNode.type=="branch"){//选择机构
+        gVarBranchId = treeNode.id;
+        gVarSupplierAreaId = "";
+    }else if(treeNode.type=="area"){//选择区域
+        gVarBranchId = treeNode.pid
+        gVarSupplierAreaId = treeNode.id;
+    }
+    searchHandel();
 }
 /**
  * 新增
@@ -160,10 +177,15 @@ function delHandel(){
  * 搜索
  */
 function searchHandel(){
-
+    var formData = $('#formList').serializeObject();
+    var postParams = $.extend(formData,{branchId:gVarBranchId,supplierAreaId:gVarSupplierAreaId})
+    $("#gridSupplierArchiveList").datagrid("options").queryParams = postParams;
+    $("#gridSupplierArchiveList").datagrid("options").method = "post";
+    $("#gridSupplierArchiveList").datagrid("options").url =contextPath+'/supplier/getSupplierList',
+    $("#gridSupplierArchiveList").datagrid('load');
 }
 function reloadListHandel(){
-    $("#gridSupplierAreaList").datagrid('reload');
+    $("#gridSupplierArchiveList").datagrid('reload');
 }
 function closeDialogHandel(){
     if(addDalogTemp){
