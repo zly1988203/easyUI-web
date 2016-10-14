@@ -501,9 +501,31 @@ function selectBranch(){
     },0);
 }
 
+function toImportproduct(type){
+    //if($("#supplierId").val()==""){
+    //    messager("请先选择供应商");
+    //    return;
+    //}
+    var branchId = $("#branchId").val();
+    if(!branchId){
+        messager("请先选择收货机构");
+        return;
+    }
+    var param = {
+        url:"",
+        type:type,
+        branchId:branchId,
+    }
+    new publicUploadFileService(function(data){
+        console.log(data);
+    },param)
+}
+
 function back(){
 	location.href = contextPath+"/form/purchase/orderList";
 }
+
+
 //模板导出
 function exportTemp(){
 	var type = $("#temple").attr("value");

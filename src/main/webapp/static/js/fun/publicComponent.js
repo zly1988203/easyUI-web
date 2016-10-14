@@ -64,6 +64,34 @@ function toChangeDate(index){
 }
 
 /**
+ * 批量导入货号或条码
+ * @param params {type:0 货号 1条码,url:上传地址,}
+ * @param callback
+ */
+function publicUploadFileService(callback,params){
+    //公有属性
+    var  dalogTemp = $('<div/>').dialog({
+        href:contextPath + "/common/uploadFile",
+        width:480,
+        height:320,
+        title:params.type==1?"导入条码":"导入货号",
+        closable:true,
+        resizable:true,
+        onClose:function(){
+            $(dalogTemp).panel('destroy');
+        },
+        modal:true,
+        onLoad:function(){
+            initUploadFileCallBack(callBackHandel,params)
+        },
+    });
+    function callBackHandel(data){
+        callback(data);
+        $(dalogTemp).panel('destroy');
+    }
+}
+
+/**
  * 公共组件-选择角色
  * 必须要先选机构，才能选角色
  * @param callback 回调函数
@@ -1329,7 +1357,7 @@ $.extend($.fn.validatebox.defaults.rules, {
  * 调用导入功能type:0货号导入,1条码导入
  * @param type
  */
-function toImportproduct(type){
+/*function toImportproduct(type){
     if($("#supplierId").val()==""){
         messager("请先选择供应商");
         return;
@@ -1345,5 +1373,5 @@ function toImportproduct(type){
     }else{
     	$("#temple").text('条码模版下载');
     }
-}
+}*/
 
