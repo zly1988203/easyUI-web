@@ -205,11 +205,10 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 	 */
 	@RequestMapping(value = "check", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson check(StockFormVo vo){
+	public RespJson check(String id){
 		try {
 			SysUser user = UserUtil.getCurrentUser();
-			vo.setCreateUserId(user.getId());
-			return stockAdjustServiceApi.check(vo);
+			return stockAdjustServiceApi.check(id,user.getId());
 		} catch (Exception e) {
 			LOG.error("删除单据信息异常:{}", e);
 		}

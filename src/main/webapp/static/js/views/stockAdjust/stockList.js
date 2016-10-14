@@ -29,7 +29,17 @@ function initDatagridRequireOrders(){
             {field:'formNo',title:'单据编号',width:'140px',align:'left',formatter:function(value,row,index){
             	return "<a style='text-decoration: underline;' href='"+ contextPath +"/stock/adjust/edit?id="+ row.id +"'>" + value + "</a>"
             }},
-            {field:'status',title: '审核状态', width: '100px', align: 'left'},
+            {field:'status',title: '审核状态', width: '100px', align: 'left',formatter:function(value,row,index){
+            	if(value == '0'){
+            		return '待审核';
+            	}else if(value == '1'){
+            		return '审核通过';
+            	}else if(value == '2'){
+            		return '审核失败';
+            	}else{
+            		return '未知类型：'+ value;
+            	}
+            }},
 			{field: 'branchCode', title: '机构编号', width: '200px', align: 'left'},
 			{field: 'branchName', title: '机构名称', width: '200px', align: 'left'},
 			{field: 'amount', title: '单据金额', width: '80px', align: 'right',
