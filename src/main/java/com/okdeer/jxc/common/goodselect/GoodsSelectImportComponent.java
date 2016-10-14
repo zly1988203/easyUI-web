@@ -6,12 +6,12 @@
  */    
 package com.okdeer.jxc.common.goodselect;
 
-import static org.junit.Assert.*;
-
 import java.io.InputStream;
 import java.util.List;
 
-import org.junit.Test;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.dubbo.config.annotation.Reference;
@@ -24,7 +24,6 @@ import net.sf.json.JSONObject;
 
 /**
  * ClassName: GoodsSelectCompent 
- * @Description: TODO
  * @author xiaoj02
  * @date 2016年10月13日
  *
@@ -35,6 +34,8 @@ import net.sf.json.JSONObject;
  */
 @Component
 public class GoodsSelectImportComponent {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(GoodsSelectImportComponent.class);
 	
 	@Reference(version = "1.0.0", check = false)
 	private GoodsSelectServiceApi goodsSelectServiceApi;
@@ -48,18 +49,42 @@ public class GoodsSelectImportComponent {
 	 * @author xiaoj02
 	 * @date 2016年10月13日
 	 */
-	public <T extends GoodsSelect> GoodsSelectImportVo<T> importSelectGoods(String fileName, InputStream is, String[] fields, T entity, String branchId, GoodSelectImportBusinessValid businessValid) {
+	public <T extends GoodsSelect> GoodsSelectImportVo<T> importSelectGoods(String fileName, InputStream is, String[] fields, T entity, String branchId, String type,GoodSelectImportBusinessValid businessValid) {
 		//读取excel
 		List<JSONObject> excelList = ExcelReaderUtil.readExcel(fileName, is, fields);
 		
-		//构建数据过滤对象
-		GoodsSelectImportHandle goodsSelectImportHandle = new GoodsSelectImportHandle(excelList, fields, businessValid);
+		if(StringUtils.isBlank(type)){
+			LOG.error("导入类型为空");
+			throw new RuntimeException("导入类型为空");
+		}
 		
-		//获取已验证成功的数据的货号
-		List<String> list = goodsSelectImportHandle.getExcelSuccessSkuCode();
+		GoodsSelectImportHandle goodsSelectImportHandle = null;
+		List<GoodsSelect> dbList = null;
 		
-		//根据货号查询商品
-		List<GoodsSelect> dbList = goodsSelectServiceApi.queryListBySkuCode(list.toArray(new String[list.size()]), branchId);
+		if(type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)){//货号
+			//构建数据过滤对象
+			goodsSelectImportHandle = new GoodsSelectImportSkuCodeHandle(excelList, fields, businessValid);
+			
+			//获取已验证成功的数据的货号
+			List<String> list = goodsSelectImportHandle.getExcelSuccessCode();
+			
+			//根据货号查询商品
+			dbList = goodsSelectServiceApi.queryListBySkuCode(list.toArray(new String[list.size()]), branchId);
+			
+		}else if(type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)){//条码
+			
+			//构建数据过滤对象
+			goodsSelectImportHandle = new GoodsSelectImportBarCodeHandle(excelList, fields, businessValid);
+			
+			//获取已验证成功的数据的条码
+			List<String> list = goodsSelectImportHandle.getExcelSuccessCode();
+			
+			//根据条码查询商品，过滤掉条码重复的商品
+			dbList = goodsSelectServiceApi.queryListByBarCode(list.toArray(new String[list.size()]), branchId);
+			
+		}else{
+			throw new RuntimeException("导入类型不合法:\t"+type);
+		}
 		
 		//与数据库对比,标记处该店铺中未查询到的数据
 		goodsSelectImportHandle.checkWithDataBase(dbList);
@@ -76,9 +101,12 @@ public class GoodsSelectImportComponent {
 		message.append(errorNum);
 		message.append("条。");
 		
-		GoodsSelectImportVo goodsSelectImportVo = new GoodsSelectImportVo();
+		GoodsSelectImportVo<T> goodsSelectImportVo = new GoodsSelectImportVo<T>();
 		
-		goodsSelectImportVo.setList(dbList);
+		@SuppressWarnings("unchecked")
+		List<T> successList = (List<T>) goodsSelectImportHandle.getSuccessData(dbList, fields, entity);
+		
+		goodsSelectImportVo.setList(successList);
 		
 		goodsSelectImportVo.setMessage(message.toString());
 		
