@@ -3,7 +3,7 @@
  * 入库单-新增
  */
 $(function(){
-	$("#createTime").html(new Date().format('yyyy-MM-dd'));
+	 $("#createTime").html(new Date().format('yyyy-MM-dd hh:mm'));
     initDatagridAddRequireOrder();
 });
 var gridDefault = {
