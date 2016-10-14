@@ -25,8 +25,8 @@
         <div class="ub umar-t10">
                 <div class="ub ub-ac uw-300">
 	                <div class="umar-r10 uw-70 ut-r">机构名称:</div> 
-                    <input type="hidden" name="branchId" id="branchId" class="uinp" />
-					<input type="text" name="branchName" id="branchName"class="uinp ub ub-f1" readonly="readonly"  />
+                    <input type="hidden" name="branchId" id="branchId" value="${data.branchName} class="uinp" />
+					<input type="text" name="branchName" id="branchName" value="${data.branchName }" class="uinp ub ub-f1" readonly="readonly"  />
 					<div class="uinp-more" onclick="searchBranch()">...</div>
 	           </div>
 	           <div class="ub ub-ac uselectw umar-l20">
@@ -45,25 +45,25 @@
                 </div>
                <div class="ub ub-ac">
                    <div class="umar-r10 uw-70 ut-r">制单人员:</div>
-                   <div class="utxt"><%=UserUtil.getCurrentUser().getUserName() %></div>
+                   <div class="utxt">${data.createUserName }</div>
                </div>
                <div class="ub ub-ac umar-l20">
                    <div class="umar-r10 uw-60 ut-r">制单日期:</div>
-                   <div class="utxt" id="createTime"><fmt:formatDate value="${form.createTime}" pattern="yyyy-MM-dd"/></div>
+                   <div class="utxt" id="createTime"><fmt:formatDate value="${data.createTime}" pattern="yyyy-MM-dd"/></div>
                </div>
            </div>
            <div class="ub umar-t8">
                <div class="ub ub-ac " >
                    <div class="umar-r10 uw-70 ut-r">备注:</div>
-                   <input class="uinp uninputs" type="text" id="remark" name="remark" value="${form.remark}" >
+                   <input class="uinp uninputs" type="text" id="remark" name="remark" value="${data.remark}" >
                </div>
                <div class="ub ub-ac umar-l20">
                    <div class="umar-r10 uw-70 ut-r">审核人员:</div>
-                   <div class="utxt" id="validUserName">${form.validUserName}</div>
+                   <div class="utxt" id="validUserName">${data.validUserName}</div>
                </div>
                <div class="ub ub-ac umar-l20">
                    <div class="umar-r10 uw-60 ut-r">审核日期:</div>
-                   <div class="utxt"><fmt:formatDate value="${form.validTime}" pattern="yyyy-MM-dd"/></div>
+                   <div class="utxt"><fmt:formatDate value="${data.validTime}" pattern="yyyy-MM-dd"/></div>
                </div>
            </div>
         
