@@ -16,6 +16,8 @@
                 <button class="uabtn umar-r30" onclick="toUploadHandel()">导入</button>
                 <button class="uabtn" onclick="toCancel()" >取消</button>
             </div>
+            <div id="message" class="ub umar-10 ufs-14"></div>
+            <div id="errorUrl" class="ub umar-10 ufs-14"></div>
         </div>
     </div>
 

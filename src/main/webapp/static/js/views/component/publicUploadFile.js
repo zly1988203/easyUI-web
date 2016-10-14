@@ -23,7 +23,6 @@ function fileUrlChange(event){
  */
 function toUploadHandel(){
     var formData = new FormData();
-    debugger;
     formData.append("file",$("#file")[0].files[0]);
     formData.append("branchId",uploadFileParams.branchId);
     formData.append("type",uploadFileParams.type);
@@ -34,11 +33,16 @@ function toUploadHandel(){
         processData : false,
         contentType : false,
         success : function(data) {
-            debugger;
             if(data.code==0){
-                console.log("成功");
+                $("#message").html(data.importInfo.message);
+                if(data.importInfo.list.length==0){
+                    $("#errorUrl").html("<a href='"+data.importInfo.errorFileUrl+"' target='_blank'>导入失败，重新下载</a>");
+                }else{
+                    uploadFileCallBack(data.importInfo.list);
+                }
             }else{
-                console.log("失败");
+                $("#message").html(data.importInfo.message);
+                $("#errorUrl").html("<a href='"+data.importInfo.errorFileUrl+"' target='_blank'>导入失败，重新下载</a>");
             }
         },
         error : function(responseStr) {
