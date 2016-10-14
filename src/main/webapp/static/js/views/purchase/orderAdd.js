@@ -512,7 +512,7 @@ function toImportproduct(type){
         return;
     }
     var param = {
-        url:"",
+        url:contextPath+"/form/purchase/importList",
         type:type,
         branchId:branchId,
     }

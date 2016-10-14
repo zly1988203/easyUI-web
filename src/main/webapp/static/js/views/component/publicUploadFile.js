@@ -21,18 +21,20 @@ function fileUrlChange(event){
 /**
  * 开始上传
  */
-function toUpload(){
+function toUploadHandel(){
     var formData = new FormData();
-    formData.append("file",$("#file").files[0]);
+    debugger;
+    formData.append("file",$("#file")[0].files[0]);
     formData.append("branchId",uploadFileParams.branchId);
     formData.append("type",uploadFileParams.type);
     $.ajax({
-        url : contextPath + "/common/uploadFileHandel",//uploadFileParams.url,
+        url : uploadFileParams.url,//uploadFileParams.url,
         type : 'POST',
         data : formData,
         processData : false,
         contentType : false,
         success : function(data) {
+            debugger;
             if(data.code==0){
                 console.log("成功");
             }else{
