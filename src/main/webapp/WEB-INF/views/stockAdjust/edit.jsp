@@ -30,7 +30,7 @@
         <div class="ub umar-t10">
                <div class="ub ub-ac uw-300">
 	                <div class="umar-r10 uw-70 ut-r">机构名称:</div>
-	                <input type="hidden" name="branchId" id="branchId" class="uinp" />
+	                <input type="hidden" name="branchId" id="branchId" class="uinp" value="${stockFormVo.branchId }"/>
 			<input type="hidden" id="formId" name="formId" value="${stockFormVo.id}">   
 					<input type="text" name="branchName" id="branchName"class="uinp ub ub-f1" readonly="readonly" value="${stockFormVo.branchName }" />
 					<div class="uinp-more" onclick="searchBranch()">...</div>
