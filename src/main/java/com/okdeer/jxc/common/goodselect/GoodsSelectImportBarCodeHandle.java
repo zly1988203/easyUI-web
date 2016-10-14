@@ -13,11 +13,14 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.okdeer.jxc.common.enums.GoodsTypeEnum;
 import com.okdeer.jxc.goods.entity.GoodsSelect;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
+import net.sf.json.util.EnumMorpher;
+import net.sf.json.util.JSONUtils;
 
 /**
  * ClassName: GoodsSelectImport 
@@ -182,9 +185,11 @@ public class GoodsSelectImportBarCodeHandle implements GoodsSelectImportHandle{
 				obj.accumulate(excelField[j], excelJson.get(excelField[j]));
 			}
 		}
+		JSONUtils.getMorpherRegistry().registerMorpher(new EnumMorpher(GoodsTypeEnum.class));
 		
+		JsonConfig jsonConfig = new JsonConfig();
 		@SuppressWarnings("unchecked")
-		List<T> temp = JSONArray.toList(arr, entity, new JsonConfig());
+		List<T> temp = JSONArray.toList(arr, entity, jsonConfig);
 		
 		return temp;
 		
