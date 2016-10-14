@@ -431,26 +431,18 @@ function callBackHandel(data){
 function publicGoodsService(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId){
 	if(key){
 		var url= contextPath + '/goods/goodsSelect/importSkuCode?skuCodes='+key;
-		if(type=="DA"||type=="DO"){
-			 url=contextPath + '/goods/goodsSelect/enterSearchGoodsDeliver?skuCode='+key+"&formType="+type+"&sourceBranchId="+sourceBranchId+"&targetBranchId="+targetBranchId;
-		}
+//		if(type=="DA"||type=="DO"){
+//			 url=contextPath + '/goods/goodsSelect/enterSearchGoodsDeliver?skuCode='+key+"&formType="+type+"&sourceBranchId="+sourceBranchId+"&targetBranchId="+targetBranchId;
+//		}
         $.ajax({
             url:url,
             type:'POST',
             success:function(data){
-            	if(type=="DA"||type=="DO"){
-            		if(data&&data.length>0){
-            			callback(data)
-            		}else{
-            			publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId);
-            		}
-            	}else{
-            		if(data&&data.length>0){
-                		callback(data);
-	                }else{
-	                    publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId);
-	                }
-            	}
+            	if(data&&data.length==1){
+            		callback(data);
+                }else{
+                    publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId);
+                }
             }
         })
     }else{

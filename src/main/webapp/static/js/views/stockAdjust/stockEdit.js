@@ -143,6 +143,7 @@ function initDatagridEditRequireOrder(){
                           }
                       },
                   },
+                  {field:'skuId',hidden:'true'},
                   {field:'realNum',title:'数量',width:'80px',align:'right',
                   	formatter:function(value,row){
                           if(row.isFooter){
@@ -387,7 +388,7 @@ function saveOrder(){
         return;
     }*/
     var saveData = JSON.stringify(rows);
-    var deliverFormListVo = tableArrayFormatter(rows,"stockFormDetailList");
+    var stockFormDetailList = tableArrayFormatter(rows,"stockFormDetailList");
     var reqObj = $.extend({
     	createBranchId : branchId,
     	id : $("#formId").val(),

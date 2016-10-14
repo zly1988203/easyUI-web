@@ -4,8 +4,6 @@
  */
 var updateSku;
 function initGoodsEditView(id){
-	//var id = getQueryString("id");
-	$("#pricingType").attr("disabled","disabled");
 	//获取编辑商品的数据
 	getGoodsArchivesDetail(id);
 
