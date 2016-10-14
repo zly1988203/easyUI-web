@@ -96,7 +96,7 @@ public class GoodsSelectImportComponent {
 		StringBuffer message = new StringBuffer();
 		message.append("成功：");
 		message.append(successNum);
-		message.append("条,");
+		message.append("条，");
 		message.append("失败：");
 		message.append(errorNum);
 		message.append("条。");

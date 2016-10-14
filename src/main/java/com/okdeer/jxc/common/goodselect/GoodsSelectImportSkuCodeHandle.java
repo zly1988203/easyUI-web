@@ -13,11 +13,14 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.okdeer.jxc.common.enums.GoodsTypeEnum;
 import com.okdeer.jxc.goods.entity.GoodsSelect;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
+import net.sf.json.util.EnumMorpher;
+import net.sf.json.util.JSONUtils;
 
 /**
  * ClassName: GoodsSelectImport 
@@ -155,6 +158,7 @@ public class GoodsSelectImportSkuCodeHandle implements GoodsSelectImportHandle{
 	private void refreshSuccessData(){
 		excelListSuccessData = new ArrayList<JSONObject>();
 		excelSuccessSkuCode = new ArrayList<String>();
+		excelListErrorData = new ArrayList<JSONObject>();
 		for (JSONObject jsonObject : excelListFullData) {
 			if(jsonObject.get("error") == null){
 				excelListSuccessData.add(jsonObject);
@@ -176,13 +180,15 @@ public class GoodsSelectImportSkuCodeHandle implements GoodsSelectImportHandle{
 			JSONObject excelJson = getSuccessDataBySkuCode(skuCode);
 			
 			//忽略第一列,合并属性
-			for (int j = 1; i < excelField.length; j++) {
+			for (int j = 1; j < excelField.length; j++) {
 				obj.accumulate(excelField[j], excelJson.get(excelField[j]));
 			}
 		}
+		JSONUtils.getMorpherRegistry().registerMorpher(new EnumMorpher(GoodsTypeEnum.class));
 		
+		JsonConfig jsonConfig = new JsonConfig();
 		@SuppressWarnings("unchecked")
-		List<T> temp = JSONArray.toList(arr, entity, new JsonConfig());
+		List<T> temp = JSONArray.toList(arr, entity, jsonConfig);
 		
 		return temp;
 		

@@ -868,6 +868,7 @@ public class PurchaseFormController extends
 	 * @date 2016年10月14日
 	 */
 	@RequestMapping(value = "importList")
+	@ResponseBody
 	public RespJson importList(@RequestParam("file") MultipartFile file,String type, String branchId){
 		RespJson respJson = RespJson.success();
 		try {
