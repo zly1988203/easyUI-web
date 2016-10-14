@@ -22,7 +22,6 @@ import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.supplier.entity.Supplier;
 import com.okdeer.jxc.supplier.qo.SupplierQo;
 import com.okdeer.jxc.supplier.service.SupplierServiceApi;
-import com.okdeer.jxc.supplier.vo.SupplierVo;
 import com.okdeer.jxc.utils.UserUtil;
 
 /**
