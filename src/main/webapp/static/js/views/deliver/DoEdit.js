@@ -425,7 +425,7 @@ function selectStockAndPrice(sourceBranchId,data){
 		}; 
 	$.each(data,function(i,val){
 		var temp = {
-				id : val.id
+				id : val.skuId
 		};
 		GoodsStockVo.goodsSkuVo[i] = temp;
 	});

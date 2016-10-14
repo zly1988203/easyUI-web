@@ -4,7 +4,6 @@
  */
 var updateSku;
 function initGoodsEditView(id){
-	//var id = getQueryString("id");
 	//获取编辑商品的数据
 	getGoodsArchivesDetail(id);
 
@@ -52,7 +51,6 @@ function getMemoryCode(){
 		type:"POST",
 		data:reqObj,
 		success:function(result){
-			//console.log(result);
 			$("#memoryCode").val(result); //助记码
 		},
 		error:function(result){
@@ -295,7 +293,6 @@ function checkBarCodeByOrdinary(){
 		asyn:false,
 		data:reqObj,
 		success:function(result){
-			console.log(result+"=====result");
 			if(result.code == 0){ //条码不重复
 				result = true;
 			}

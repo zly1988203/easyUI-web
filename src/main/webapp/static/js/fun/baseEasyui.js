@@ -68,6 +68,22 @@ $.fn.serializeObject=function(){
  */
 var dateUtil = {
     /**
+     * 添加开始时间
+     */
+    addStartTime:function(date){
+        var result = new Date(date);
+        var newResult = result.getFullYear() + "-" + this.parseDate(result.getMonth() + 1) + "-" + this.parseDate(result.getDate())+" 00:00";
+        return new Date(newResult);
+    },
+    /**
+     * 添加开始时间
+     */
+    addEndTime:function(date){
+        var result = new Date(date);
+        var newResult = result.getFullYear() + "-" + this.parseDate(result.getMonth() + 1) + "-" + this.parseDate(result.getDate())+" 23:59";
+        return new Date(newResult);
+    },
+    /**
      * 获取系统当前时间
      * @returns {Date}
      */
@@ -83,10 +99,10 @@ var dateUtil = {
     	
     	//默认时间格式化
     	if(!fmt){
-    		fmt = "yyyy-MM-dd";
+    		fmt = "yyyy-MM-dd hh:mm";
     	}
     	var d = this.getCurrentDate();
-    	return d.format(fmt);
+    	return dateUtil.addEndTime(d).format(fmt);
     },
     
     /**
@@ -124,10 +140,10 @@ var dateUtil = {
     getPreMonthDateStr:function(fmt){
     	//默认时间格式化
     	if(!fmt){
-    		fmt = "yyyy-MM-dd";
+    		fmt = "yyyy-MM-dd hh:mm";
     	}
     	var d = this.getPreMonthDate();
-    	return d.format(fmt);
+    	return dateUtil.addStartTime(d).format(fmt);
     },
     
     /***

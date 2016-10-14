@@ -16,7 +16,7 @@ $(function(){
     }
 });
 var gridDefault = {
-    receiveNum:0,
+    realNum:0,
     largeNum:0,
     isGift:0,
 }
@@ -44,7 +44,7 @@ function initDatagridEditRequireOrder(){
     $("#gridEditRequireOrder").datagrid({
         //title:'普通表单-用键盘操作',
         method:'post',
-    	url:contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverFormId="+formId,
+    	url:contextPath+"/stock/adjust/getStcokFormDetailList?id="+formId,
         align:'center',
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:false,  //单选  false多选
@@ -68,7 +68,7 @@ function initDatagridEditRequireOrder(){
                           return str;
                       },
                   },
-                  {field:'skuCode',title:'货号',width:'70px',align:'left',editor:'textbox'},
+                  {field:'skuCode',title:'货号',width:'70px',align:'left'},
                   {field:'skuName',title:'商品名称',width:'200px',align:'left'},
                   {field:'barCode',title:'国际条码',width:'150px',align:'left'},
                   {field:'unit',title:'单位',width:'60px',align:'left'},
@@ -90,7 +90,7 @@ function initDatagridEditRequireOrder(){
                           }
                       },
                   },
-                  {field:'nowNum',title:'当前库存',width:'80px',align:'right',
+                  {field:'stockNum',title:'当前库存',width:'80px',align:'right',
                       formatter:function(value,row,index){
                           if(row.isFooter){
                               return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -101,13 +101,14 @@ function initDatagridEditRequireOrder(){
                           type:'numberbox',
                           value:0,
                           options:{
+                        	  disabled:true,
                               min:0,
                               precision:4,
                               onChange: onChangeLargeNum,
                           }
                       },
                   },
-                  {field:'nowNumsale',title:'当前可销售库存',width:'100px',align:'right',
+                  {field:'sellable',title:'当前可销售库存',width:'100px',align:'right',
                       formatter:function(value,row,index){
                           if(row.isFooter){
                               return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -118,6 +119,7 @@ function initDatagridEditRequireOrder(){
                           type:'numberbox',
                           value:0,
                           options:{
+                        	  disabled:true,
                               min:0,
                               precision:4,
                               onChange: onChangeLargeNum,
@@ -141,15 +143,15 @@ function initDatagridEditRequireOrder(){
                           }
                       },
                   },
-                  {field:'dealNum',title:'发货数量',width:'80px',align:'right',hidden:true},
-                  {field:'receiveNum',title:'数量',width:'80px',align:'right',
+                  {field:'skuId',hidden:'true'},
+                  {field:'realNum',title:'数量',width:'80px',align:'right',
                   	formatter:function(value,row){
                           if(row.isFooter){
                               return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                           }
                           if(!value||value==""||parseFloat(value)==0.0){
-                          	row["receiveNum"] = row["dealNum"];
-                        	  value = row["receiveNum"];
+                          	row["realNum"] = row["dealNum"];
+                        	  value = row["realNum"];
                           }
                           return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                       },
@@ -221,8 +223,8 @@ function onChangeLargeNum(newV,oldV){
         messager("配送规格不能为0");
         return;
     }
-    if(gridHandel.getSelectFieldName()!="receiveNum"){
-	   gridHandel.setFieldValue('receiveNum',purchaseSpecValue*newV);//数量=商品规格*箱数
+    if(gridHandel.getSelectFieldName()!="realNum"){
+	   gridHandel.setFieldValue('realNum',purchaseSpecValue*newV);//数量=商品规格*箱数
 	}
    
     updateFooter();
@@ -248,8 +250,8 @@ function onChangeRealNum(newV,oldV) {
 }
 //监听商品单价
 function onChangePrice(newV,oldV) {
-    var receiveNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'receiveNum');
-    gridHandel.setFieldValue('amount',receiveNumVal*newV);                          //金额=数量*单价
+    var realNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'realNum');
+    gridHandel.setFieldValue('amount',realNumVal*newV);                          //金额=数量*单价
     updateFooter();
 }
 //监听商品金额
@@ -288,7 +290,7 @@ function onSelectIsGift(data){
 }
 //合计
 function updateFooter(){
-    var fields = {largeNum:0,receiveNum:0,amount:0,isGift:0, };
+    var fields = {largeNum:0,realNum:0,amount:0,isGift:0, };
     var argWhere = {name:'isGift',value:0}
     gridHandel.updateFooter(fields,argWhere);
 }
@@ -354,37 +356,12 @@ function selectGoods(searchKey){
 }
 //保存
 function saveOrder(){
-    //商品总数量
-    var totalNum = 0;
-    //总金额
-    var amount=0;
 	// 要活分店id
-	var targetBranchId = $("#targetBranchId").val();
-	//发货分店id
-    var sourceBranchId = $("#sourceBranchId").val();
-    //生效日期
-    var validityTime = $("#validityTime").val();
+	var branchId = $("#branchId").val();
     // 备注
     var remark = $("#remark").val();
-    // 单号
-    var formNo = $("#formNo").html();
-    // 引用单号
-    var referenceId = $("#referenceId").val();
-    // 引用单号id
-    var referenceNo = $("#referenceNo").val();
-    // 旧的引用单号
-    var oldReferenceNo = $("#oldReferenceNo").val();
-    //验证表格数据
-    $("#"+gridHandel.getGridName()).datagrid("endEdit", gridHandel.getSelectRowIndex());
-
-    var footerRows = $("#"+gridHandel.getGridName()).datagrid("getFooterRows");
-    if(footerRows){
-        totalNum = parseFloat(footerRows[0]["receiveNum"]||0.0).toFixed(4);
-        amount = parseFloat(footerRows[0]["amount"]||0.0).toFixed(4);
-    }
-
     var rows = gridHandel.getRows();
-    if(rows.length==0){
+   /* if(rows.length==0){
         messager("表格不能为空");
         return;
     }
@@ -400,7 +377,7 @@ function saveOrder(){
             isCheckResult = false;
             return false;
         }
-        if(v["receiveNum"]<=0){
+        if(v["realNum"]<=0){
             messager("第"+(i+1)+"行，数量必须大于0");
             isCheckResult = false;
             return false;
@@ -409,41 +386,22 @@ function saveOrder(){
     });
     if(!isCheckResult){
         return;
-    }
+    }*/
     var saveData = JSON.stringify(rows);
-    var deliverFormListVo = tableArrayFormatter(rows,"deliverFormListVo");
+    var stockFormDetailList = tableArrayFormatter(rows,"stockFormDetailList");
     var reqObj = $.extend({
-    	sourceBranchId : sourceBranchId,
-    	deliverFormId : $("#formId").val(),
-        targetBranchId : targetBranchId,
-        validityTime : validityTime,
-        totalNum : totalNum,
-        amount : amount,
+    	createBranchId : branchId,
+    	id : $("#formId").val(),
         remark : remark,
-        formType : "DI",
-        formNo : formNo,
-        referenceId : referenceId,
-        referenceNo : referenceNo,
-        oldReferenceNo : oldReferenceNo
-    }, deliverFormListVo);
-    
-    console.log(reqObj);
+        reason :'',
+        io :'1'
+    }, stockFormDetailList);
     $.ajax({
-        url:contextPath+"/form/deliverForm/updateDeliverForm",
+        url:contextPath+"/stock/adjust/updateStockForm",
         type:"POST",
         data:reqObj,
         success:function(result){
             if(result['code'] == 0){
-            	oldData = {
-                    targetBranchId:$("#targetBranchId").val(), // 要活分店id
-                    sourceBranchId:$("#sourceBranchId").val(), //发货分店id
-                    validityTime:$("#validityTime").val(),      //生效日期
-                    remark:$("#remark").val(),                  // 备注
-                    formNo:$("#formNo").html(),                 // 单号
-                }
-                oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
-            		return $.extend(true,{},obj);//返回对象的深拷贝
-            	});
             	$.messager.alert("操作提示", "操作成功！", "info");
             }else{
                 successTip(result['message']);
@@ -567,7 +525,7 @@ function selectBranchesadd(){
 }
 
 function toBack(){
-	location.href = contextPath+"/stock/ajdust/list";
+	location.href = contextPath+"/stock/adjust/list";
 }
 /**
  * 导入
@@ -588,11 +546,11 @@ function getImportData(data){
         data[i]["oldVipPrice"]=data[i]["vipPrice"];
         data[i]["oldDcPrice"]=data[i]["distributionPrice"];
         data[i]["price"] = data[i]["oldPurPrice"];
-        data[i]["receiveNum"]=data[i]["receiveNum"]||0;
+        data[i]["realNum"]=data[i]["realNum"]||0;
       
-        data[i]["amount"]  = parseFloat(data[i]["price"]||0)*parseFloat(data[i]["receiveNum"]||0);
+        data[i]["amount"]  = parseFloat(data[i]["price"]||0)*parseFloat(data[i]["realNum"]||0);
         if(parseInt(data[i]["distributionSpec"])){
-        	 data[i]["largeNum"]  = (parseFloat(data[i]["receiveNum"]||0)/parseFloat(data[i]["distributionSpec"])).toFixed(4);
+        	 data[i]["largeNum"]  = (parseFloat(data[i]["realNum"]||0)/parseFloat(data[i]["distributionSpec"])).toFixed(4);
         }else{
         	 data[i]["largeNum"]  =  0;
         	 data[i]["distributionSpec"] = 0;

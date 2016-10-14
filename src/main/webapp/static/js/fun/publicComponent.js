@@ -22,41 +22,41 @@ function messager(msg,title){
 function toChangeDate(index){
     switch (index){
         case 0: //今天
-            $("#txtStartDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
-            $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getCurrentDate()).format("yyyy-MM-dd hh:mm"));
+            $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getCurrentDate()).format("yyyy-MM-dd hh:mm"));
             break;
         case 1: //昨天
-            $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",1));
-            $("#txtEndDate").val(dateUtil.getCurrDayPreOrNextDay("prev",1));
+            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getCurrDayPreOrNextDay("prev",1)).format("yyyy-MM-dd hh:mm"));
+            $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getCurrDayPreOrNextDay("prev",1)).format("yyyy-MM-dd hh:mm"));
             break;
         case 2: //本周
-            $("#txtStartDate").val(dateUtil.getCurrentWeek()[0].format("yyyy-MM-dd"));
-            $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
-            //$("#txtEndDate").val(dateUtil.getCurrentWeek()[1].format("yyyy-MM-dd"));
+            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getCurrentWeek()[0]).format("yyyy-MM-dd hh:mm"));
+            $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getCurrentDate()).format("yyyy-MM-dd hh:mm"));
+            //$("#txtEndDate").val(dateUtil.getCurrentWeek()[1].format("yyyy-MM-dd hh:mm"));
             break;
         case 3: //上周
-            $("#txtStartDate").val(dateUtil.getPreviousWeek()[0].format("yyyy-MM-dd"));
-            $("#txtEndDate").val(dateUtil.getPreviousWeek()[1].format("yyyy-MM-dd"));
+            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getPreviousWeek()[0]).format("yyyy-MM-dd hh:mm"));
+            $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getPreviousWeek()[1]).format("yyyy-MM-dd hh:mm"));
             break;
         case 4: //本月
-            $("#txtStartDate").val(dateUtil.getCurrentMonth()[0].format("yyyy-MM-dd"));
-            $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getCurrentMonth()[0]).format("yyyy-MM-dd hh:mm"));
+            $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getCurrentDate()).format("yyyy-MM-dd hh:mm"));
             break;
         case 5: //上月
-            $("#txtStartDate").val(dateUtil.getPreviousMonth()[0].format("yyyy-MM-dd"));
-            $("#txtEndDate").val(dateUtil.getPreviousMonth()[1].format("yyyy-MM-dd"));
+            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getPreviousMonth()[0]).format("yyyy-MM-dd hh:mm"));
+            $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getPreviousMonth()[1]).format("yyyy-MM-dd hh:mm"));
             break;
         case 6: //本季
-            $("#txtStartDate").val(dateUtil.getCurrentSeason()[0].format("yyyy-MM-dd"));
-            $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getCurrentSeason()[0]).format("yyyy-MM-dd hh:mm"));
+            $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getCurrentDate()).format("yyyy-MM-dd hh:mm"));
             break;
         case 7: //上季
-            $("#txtStartDate").val(dateUtil.getPreviousSeason()[0].format("yyyy-MM-dd"));
-            $("#txtEndDate").val(dateUtil.getPreviousSeason()[1].format("yyyy-MM-dd"));
+            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getPreviousSeason()[0]).format("yyyy-MM-dd hh:mm"));
+            $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getPreviousSeason()[1]).format("yyyy-MM-dd hh:mm"));
             break;
         case 8: //今年
-            $("#txtStartDate").val(dateUtil.getCurrentYear()[0].format("yyyy-MM-dd"));
-            $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getCurrentYear()[0]).format("yyyy-MM-dd hh:mm"));
+            $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getCurrentDate()).format("yyyy-MM-dd hh:mm"));
             break;
         default :
             break;
@@ -403,26 +403,18 @@ function callBackHandel(data){
 function publicGoodsService(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId){
 	if(key){
 		var url= contextPath + '/goods/goodsSelect/importSkuCode?skuCodes='+key;
-		if(type=="DA"||type=="DO"){
-			 url=contextPath + '/goods/goodsSelect/enterSearchGoodsDeliver?skuCode='+key+"&formType="+type+"&sourceBranchId="+sourceBranchId+"&targetBranchId="+targetBranchId;
-		}
+//		if(type=="DA"||type=="DO"){
+//			 url=contextPath + '/goods/goodsSelect/enterSearchGoodsDeliver?skuCode='+key+"&formType="+type+"&sourceBranchId="+sourceBranchId+"&targetBranchId="+targetBranchId;
+//		}
         $.ajax({
             url:url,
             type:'POST',
             success:function(data){
-            	if(type=="DA"||type=="DO"){
-            		if(data&&data.length>0){
-            			callback(data)
-            		}else{
-            			publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId);
-            		}
-            	}else{
-            		if(data&&data.length>0){
-                		callback(data);
-	                }else{
-	                    publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId);
-	                }
-            	}
+            	if(data&&data.length==1){
+            		callback(data);
+                }else{
+                    publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId);
+                }
             }
         })
     }else{
