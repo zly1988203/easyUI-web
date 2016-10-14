@@ -243,7 +243,7 @@ function addsaveOrder(){
 	// 机构id
 	 var branchId = $("#branchId").val();
 	//reason 原因 
-	 var Reason=$("#Reason").val();
+	 var adjustReason=$("#adjustReason").val();
     // 备注
     var remark = $("#remark").val();
  
@@ -256,9 +256,30 @@ function addsaveOrder(){
     }
   
     var rows = gridHandel.getRows();
-    console.log(rows);
     if(rows.length==0){
         messager("表格不能为空");
+        return;
+    }
+    var isCheckResult = true;
+    $.each(rows,function(i,v){
+    	console.log(v["skuCode"]);
+        if(!v["skuCode"]){
+            messager("第"+(i+1)+"行，货号不能为空");
+            isCheckResult = false;
+            return false;
+        };
+        if(!v["skuName"]){
+            messager("第"+(i+1)+"行，名称不能为空");
+            isCheckResult = false;
+            return false;
+        };
+        if(v["costPrice"]<=0){
+            messager("第"+(i+1)+"行，新价必须大于0");
+            isCheckResult = false;
+            return false;
+        }
+    });
+    if(!isCheckResult){
         return;
     }
     
@@ -267,7 +288,7 @@ function addsaveOrder(){
     	stockCostFormDetailList:[],
         stockCostForm:{
 			branchId:branchId,
-			Reason:Reason,
+			adjustReason:adjustReason,
 			remark:remark,
 			 
         }
@@ -290,7 +311,7 @@ function addsaveOrder(){
         type:"POST",
         data:{"jsonData":JSON.stringify(jsonData)},
         success:function(result){
-            if(result){
+            if(result['code'] == 0){
             	console.log(result);
                 $.messager.alert("操作提示", "操作成功！", "info",function(){
                 //toClose();
@@ -305,35 +326,6 @@ function addsaveOrder(){
     });
 }
 
-//审核
-function check(){
-	var deliverFormId = $("#formId").val();
-	$.messager.confirm('提示','是否审核通过？',function(data){
-		if(data){
-			$.ajax({
-		    	url : contextPath+"/form/deliverForm/check",
-		    	type : "POST",
-		    	data : {
-		    		deliverFormId : $("#formId").val(),
-		    		stockType : 'DI'
-		    	},
-		    	success:function(result){
-		    		console.log(result);
-		    		if(result['code'] == 0){
-		    			$.messager.alert("操作提示", "操作成功！", "info",function(){
-		    				contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + deliverFormId;
-		    			});
-		    		}else{
-		    			successTip(result['message']);
-		    		}
-		    	},
-		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
-		    	}
-		    });
-		}
-	});
-}
 /**
  * 返回库存调整
  */

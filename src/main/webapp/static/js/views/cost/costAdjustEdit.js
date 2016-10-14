@@ -8,10 +8,11 @@ $(function(){
     	$("p").slideToggle();
     });
     oldData = {
-        targetBranchId:$("#targetBranchId").val(), // 要活分店id
-        remark:$("#remark").val(),                  // 备注
+    		branchId:$("#branchId").val(), // 机构id
+            remark:$("#remark").val(),      // 备注
+            adjustNo:$("#adjustNo").val(),   // 单号
+            id:$("#adjusId").val(),          // id          
     }
-    costEditdata();
 });
 var gridDefault = {
     receiveNum:0,
@@ -38,11 +39,11 @@ function initDatagridEditRequireOrder(){
             }
         },
     })
-	var formId = $("#formId").val();
+	var dataId= $("#adjusId").val();
     $("#gridEditRequireOrder").datagrid({
         //title:'普通表单-用键盘操作',
         method:'post',
-    	url:contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverFormId="+formId,
+    	url:contextPath+"/cost/costAdjust/queryCostFormDetailList?id="+dataId,
         align:'center',
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:false,  //单选  false多选
@@ -255,10 +256,12 @@ function editsaveOrder(){
   
     //调价差价
     var totalMoney=0;
+    
+    var dataId= $("#adjusId").val();
     // 机构id
 	 var branchId = $("#branchId").val();
 	//reason 原因 
-	 var Reason=$("#Reason").val();
+	 var adjustReason=$("#adjustReason").val();
    // 备注
    var remark = $("#remark").val();
     //验证表格数据
@@ -274,15 +277,36 @@ function editsaveOrder(){
         messager("表格不能为空");
         return;
     }
+    var isCheckResult = true;
+    $.each(rows,function(i,v){
+        if(!v["skuCode"]){
+            messager("第"+(i+1)+"行，货号不能为空");
+            isCheckResult = false;
+            return false;
+        };
+        if(!v["skuName"]){
+            messager("第"+(i+1)+"行，名称不能为空");
+            isCheckResult = false;
+            return false;
+        };
+        if(v["costPrice"]<=0){
+            messager("第"+(i+1)+"行，新价必须大于0");
+            isCheckResult = false;
+            return false;
+        }
+    });
+    if(!isCheckResult){
+        return;
+    }
 
     var saveData = JSON.stringify(rows);
     var jsonData = {
     	stockCostFormDetailList:[],
         stockCostForm:{
 			branchId:branchId,
-			Reason:Reason,
+			adjustReason:adjustReason,
 			remark:remark,
-			 
+			id:dataId, 
         }
     };
     $.each(rows,function(i,data){
@@ -302,7 +326,7 @@ function editsaveOrder(){
         type:"POST",
         data:{"jsonData":JSON.stringify(jsonData)},
         success:function(result){
-            if(result){
+            if(result['code'] == 0){
             	oldData = {
             	    branchId:$("#branchId").val(), // 机构id
                     remark:$("#remark").val(),                  // 备注
@@ -322,38 +346,16 @@ function editsaveOrder(){
 }
 
 
-function  costEditdata(){
-    var rowdata = $("#gridEditRequireOrder").datagrid("getSelected"); 
-    var costid=rowdata.id
-    console.log(id);
-	$.ajax({
-        url:contextPath+"/cost/costAdjust/ queryCostFormDetailList",
-        type:"POST",
-        data:{"id":id},
-        dataType:"json",
-        success:function(result){
-            if(result){
-            	console.log(result);
-            	$.messager.alert("操作提示", "操作成功！", "info");
-            }else{
-                successTip(result['message']);
-            }
-        },
-        error:function(result){
-            successTip("请求发送失败或服务器处理失败");
-        }
-    });
-}
 //审核
-function check(){
+function costcheck(){
+	var dataId= $("#adjusId").val();
 	//验证数据是否修改
     $("#"+gridHandel.getGridName()).datagrid("endEdit", gridHandel.getSelectRowIndex());
     var newData = {
-        targetBranchId:$("#targetBranchId").val(), // 要活分店id
-        sourceBranchId:$("#sourceBranchId").val(), //发货分店id
-        validityTime:$("#validityTime").val(),      //生效日期
-        remark:$("#remark").val(),                  // 备注
-        formNo:$("#formNo").html(),                 // 单号
+    	branchId:$("#branchId").val(), // 机构id
+        remark:$("#remark").val(),      // 备注
+        adjustNo:$("#adjustNo").val(),   // 单号
+        id:$("#adjusId").val(),          // 单号
         grid:gridHandel.getRows(),
     }
 
@@ -364,17 +366,14 @@ function check(){
 	$.messager.confirm('提示','是否审核通过？',function(data){
 		if(data){
 			$.ajax({
-		    	url : contextPath+"/form/deliverForm/check",
+		    	url : contextPath+"/cost/costAdjust/check",
 		    	type : "POST",
-		    	data : {
-		    		deliverFormId : $("#formId").val(),
-		    		stockType : 'DI'
-		    	},
+		    	data:{"id":dataId},
 		    	success:function(result){
 		    		console.log(result);
-		    		if(result){
+		    		if(result['code'] == 0){
 		    			$.messager.alert("操作提示", "操作成功！", "info",function(){
-		    				location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
+		    			toBack();
 		    			});
 		    		}else{
 		    			successTip(result['message']);
@@ -389,20 +388,19 @@ function check(){
 }
 
 //删除
-function delStockForm(){
+function delCostForm(){
+	var dataId= $("#adjusId").val();
 	$.messager.confirm('提示','是否要删除此条数据',function(data){
 		if(data){
 			$.ajax({
-		    	url:contextPath+"/form/deliverForm/deleteDeliverForm",
+		    	url:contextPath+"/cost/costAdjust/deleteCostForm",
 		    	type:"POST",
-		    	data:{
-		    		formId : $("#formId").val()
-		    	},
+		    	data:{"id":dataId},
 		    	success:function(result){
 		    		console.log(result);
 		    		if(result['code'] == 0){
 		    			successTip("删除成功");
-		    			back();
+		    			toBack();
 		    		}else{
 		    			successTip(result['message']);
 		    		}
@@ -437,7 +435,7 @@ function loadLists(referenceId){
 }
 
 function toBack(){
-	location.href = contextPath+"/stock/ajdust/list";
+	location.href = contextPath+"/cost/costAdjust/view";
 }
 /**
  * 导入
