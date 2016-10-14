@@ -1,21 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
-<script src="${ctx}/static/js/views/system/user/userAdd.js"></script>
+<script src="${ctx}/static/js/views/system/user/userEdit.js"></script>
 
 <div class="ub ub-ver  ub-f1  uw uh ufs-14 uc-black">
     <div class="ub ub-ac upad-4">
         <div class="ubtns">
-            <button class="ubtns-item" onclick="addUser()">保存</button>
+            <button class="ubtns-item" onclick="editUser()">保存</button>
             <button class="ubtns-item" onclick="closeDialog()">返回</button>
         </div>
     </div>
     <div class="ub uline "></div>
-     <form id="addUserForm" method="post" >
+     <form id="editUserForm" method="post" >
           <div class="ub umar-t8">
 	            <div class="ub ub-ac umar-l20">
 	                <div class="umar-r10 uw-60 ut-r">用户编码:</div>
-	                <input  id="userCode" name="userCode" class="uinp easyui-validatebox" data-options="required:true" type="text" maxlength="4">
+	                <input  id="userCode" name="userCode" class="uinp easyui-validatebox"  type="text" maxlength="4" readonly="readonly">
             	    <i class="uc-red">*</i>
 	            </div>
           </div>
@@ -26,13 +26,7 @@
                 <i class="uc-red">*</i>
 	            </div>
           </div>
-           <div class="ub umar-t8">
-	            <div class="ub ub-ac umar-l20">
-	                <div class="umar-r10 uw-60 ut-r">登录密码:</div>
-	               <input  id="password" name="password" class="uinp easyui-validatebox" data-options="required:true" type="password" maxlength="20">
-                   <i class="uc-red">*</i>
-	            </div>
-          </div>
+
            <div class="ub umar-t8">
 	            <div class="ub ub-ac umar-l20">
 	               <div class="umar-r10 uw-60 ut-r">手机号:</div>
