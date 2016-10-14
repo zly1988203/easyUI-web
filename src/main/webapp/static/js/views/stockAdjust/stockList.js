@@ -6,7 +6,6 @@ $(function(){
 	//开始和结束时间
     $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
-    
     initDatagridRequireOrders();
 });
 var gridHandel = new GridClass();
@@ -28,7 +27,7 @@ function initDatagridRequireOrders(){
         columns:[[
 			{field:'check',checkbox:true},
             {field:'formNo',title:'单据编号',width:'140px',align:'left',formatter:function(value,row,index){
-            	return "<a style='text-decoration: underline;' href='"+ contextPath +"/stock/ajdust/edit?deliverFormId="+ row.deliverFormId +"'>" + value + "</a>"
+            	return "<a style='text-decoration: underline;' href='"+ contextPath +"/stock/adjust/edit?id="+ row.id +"'>" + value + "</a>"
             }},
             {field:'status',title: '审核状态', width: '100px', align: 'left'},
 			{field: 'branchCode', title: '机构编号', width: '200px', align: 'left'},
@@ -65,14 +64,14 @@ function initDatagridRequireOrders(){
 
 //新增入库单
 function addStockForm(){
-	location.href = contextPath + "/stock/ajdust/add?stockType=DI";
+	location.href = contextPath + "/stock/adjust/add?stockType=DI";
 }
 
 //查询入库单
 function queryForm(){
 	var fromObjStr = $('#queryForm').serializeObject();
 	$("#stockFromList").datagrid("options").method = "post";
-	$("#stockFromList").datagrid('options').url = contextPath + '/stock/ajdust/getStockFormList';
+	$("#stockFromList").datagrid('options').url = contextPath + '/stock/adjust/getStockFormList';
 	$("#stockFromList").datagrid('load', fromObjStr);
 }
 
