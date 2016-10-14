@@ -33,24 +33,23 @@ function searchRole (){
 }
 
 /**
- * 新增用户
+ * 编辑用户
  */
-function addUser(){	
-	var reqObj=$('#addUserForm').serializeObject();
-	 var isValid = $("#addUserForm").form('validate');
+function editUser(){	
+	var reqObj=$('#editUserForm').serializeObject();
+	 var isValid = $("#editUserForm").form('validate');
 	 console.log(isValid);
 	    if(!isValid){
 	        return;
 	    }
-	console.log(reqObj);
-
 	$.ajax({
-        url:contextPath+"/system/user/addUser",
+        url:contextPath+"/system/user/updateUser",
         type:"POST",
         data:reqObj,
         success:function(result){
         	console.log(result);
             if(result){
+            	 
                 $.messager.alert("操作提示", "操作成功！");
                 closeDialog();
             }else{
@@ -63,9 +62,20 @@ function addUser(){
         }
     });
 }
-
-
+function  getrowdata(){
+   var row = $("#dg").datagrid("getSelected");
+   $('#userCode').val(row.userCode);
+   $('#userName').val(row.userName);
+   $('#mobile').val(row.mobile);
+   $('#branchNameCode').val(row.branchName);
+   $('#roleCodeOrName').val("232334");
+   $('#remark').val(row.remark);
+}
 function closeDialog(){
 	dalogTemp=$('#dg');
     $(dalogTemp).panel('destroy');
 }
+$(function(){
+  getrowdata();	
+
+})

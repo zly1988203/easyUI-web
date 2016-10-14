@@ -146,6 +146,7 @@ public class UserController extends BaseController<UserController> {
 	 * @date 2016年10月13日
 	 */
 	@RequestMapping(value = "/addUser")
+	@ResponseBody
 	public RespJson addUser(SysUserVo userVo) {
 		LOG.info("新增用户信息{}", userVo);
 		RespJson respJson = RespJson.success();
@@ -170,6 +171,7 @@ public class UserController extends BaseController<UserController> {
 	 * @date 2016年10月13日
 	 */
 	@RequestMapping(value = "/updateUser")
+	@ResponseBody
 	public RespJson updateUser(SysUserVo userVo) {
 		LOG.info("修改用户信息{}", userVo);
 		RespJson respJson = RespJson.success();
@@ -193,7 +195,8 @@ public class UserController extends BaseController<UserController> {
 	 * @author liwb
 	 * @date 2016年10月13日
 	 */
-	@RequestMapping(value = "/deleteUser")
+	@RequestMapping(value = "/deleteUser", method = RequestMethod.POST)
+	@ResponseBody
 	public RespJson deleteUser(String userId) {
 		LOG.info("删除用户信息，userId{}", userId);
 		RespJson respJson = RespJson.success();
@@ -215,7 +218,8 @@ public class UserController extends BaseController<UserController> {
 	 * @author liwb
 	 * @date 2016年10月13日
 	 */
-	@RequestMapping(value = "/enableUser")
+	@RequestMapping(value = "/enableUser", method = RequestMethod.POST)
+	@ResponseBody
 	public RespJson enableUser(String userId) {
 		LOG.info("启用用户，userId{}", userId);
 		RespJson respJson = RespJson.success();
@@ -237,7 +241,8 @@ public class UserController extends BaseController<UserController> {
 	 * @author liwb
 	 * @date 2016年10月13日
 	 */
-	@RequestMapping(value = "/disableUser")
+	@RequestMapping(value = "/disableUser", method = RequestMethod.POST)
+	@ResponseBody
 	public RespJson disableUser(String userId) {
 		LOG.info("禁用用户，userId{}", userId);
 		RespJson respJson = RespJson.success();
