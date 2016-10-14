@@ -37,7 +37,7 @@ import com.okdeer.jxc.supplier.vo.SupplierAreaVo;
  */
 
 @Controller
-@RequestMapping("supplierArchive/")
+@RequestMapping("supplier")
 public class SupplierController extends BaseController<SupplierController> {
 
 	@Reference(version = "1.0.0", check = false)
