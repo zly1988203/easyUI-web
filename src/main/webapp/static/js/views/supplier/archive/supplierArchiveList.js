@@ -43,31 +43,36 @@ function initTreeArchives(){
 //初始化表格
 function initDatagridsupplierList(){
     $("#gridSupplierArchiveList").datagrid({
-        //title:'普通表单-用键盘操作',
         method:'post',
-        url:contextPath+'/supplier/getSupplierList',
         align:'center',
+        url:contextPath+'/supplier/getSupplierList',
+        //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:true,  //单选  false多选
         rownumbers:true,    //序号
         pagination:true,    //分页
         pageSize:10,
+        //fitColumns:true,    //每列占满
+        fit:true,            //占满
         showFooter:true,
-        height:'100%',
-        width:'100%',
         columns:[[
-            {field:'supplierCode',title:'编号',width:100,align:'left',
+            {field:'supplierCode',title:'编号',width:80,align:'left',
                 formatter: function(value,row,index){
-                    return "<a href='#' onclick=\"editHandel("+row.id+")\" class='ualine'>"+value+"</a>";
+                    return "<a href='#' onclick=\"editHandel('"+row.supplierId+"')\" class='ualine'>"+value+"</a>";
                 }
             },
-            {field:'supplierName',title:'名称',width:100,align:'left'},
-            {field:'saleWay',title:'经营方式',width:100,align:'left'},
-             {field:'status',title:'状态',width:100,align:'left'},
-             {field:'contcat',title:'联系人',width:100,align:'left'},
-             {field:'mobile',title:'手机号码',width:100,align:'left'},
-             {field:'branchName',title:'所属机构',width:100,align:'left'},
-             {field:'createUserName',title:'创建人',width:100,align:'left'},
-             {field:'createTime',title:'创建时间',width:100,align:'left'},
+        	{field:'supplierName',title:'名称',width:180,align:'left'},
+            {field:'saleWayName',title:'经营方式',width:80,align:'left'},
+            {field:'supplierAreaName',title:'所在区域',width:120,align:'left'},
+            {field:'statusStr',title:'状态',width:100,align:'left'},
+            {field:'contcat',title:'联系人',width:120,align:'left'},
+            {field:'mobile',title:'手机号码',width:120,align:'left'},
+            {field:'branchName',title:'所属机构',width:120,align:'left'},
+            {field:'createUserName',title:'创建人',width:120,align:'left'},
+            {field:'createTime',title:'创建时间',width:180,align:'left',
+            	formatter : function(value, rowData, rowIndex) {
+            		return formatDate(value);
+            	}
+            },
         ]],
         onLoadSuccess : function() {
             gridHandel.setDatagridHeader("center");
@@ -81,8 +86,8 @@ function initDatagridsupplierList(){
 var  addDalogTemp;
 var  editDalogTemp;
 
-var gVarBranchId;
-var gVarSupplierAreaId;
+var gVarBranchId = "";
+var gVarSupplierAreaId = "";
 
 //选择树节点
 function zTreeOnClick(event, treeId, treeNode) {
@@ -94,6 +99,7 @@ function zTreeOnClick(event, treeId, treeNode) {
         gVarSupplierAreaId = treeNode.id;
     }
     searchHandel();
+    $("#selectBranchId").val(gVarBranchId);
 }
 /**
  * 新增
@@ -101,6 +107,10 @@ function zTreeOnClick(event, treeId, treeNode) {
 function addHandel(){
     addDalogTemp = $('<div/>').dialog({
         href: contextPath+"/supplier/toAdd",
+        queryParams:{
+        	branchId : gVarBranchId,
+        	supplierAreaId : gVarSupplierAreaId
+        },
         width: 1000,
         height: 680,
         title: "供应商档案-新增",
@@ -186,6 +196,7 @@ function searchHandel(){
 }
 function reloadListHandel(){
     $("#gridSupplierArchiveList").datagrid('reload');
+    closeDialogHandel();
 }
 function closeDialogHandel(){
     if(addDalogTemp){

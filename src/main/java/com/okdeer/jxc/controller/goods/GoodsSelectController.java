@@ -10,17 +10,13 @@ package com.okdeer.jxc.controller.goods;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,7 +25,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.controller.scale.Message;
@@ -38,7 +33,6 @@ import com.okdeer.jxc.goods.entity.GoodsSelect;
 import com.okdeer.jxc.goods.service.GoodsCategoryServiceApi;
 import com.okdeer.jxc.goods.service.GoodsSelectServiceApi;
 import com.okdeer.jxc.goods.vo.GoodsCategoryVo;
-import com.okdeer.jxc.goods.vo.GoodsImportVo;
 import com.okdeer.jxc.goods.vo.GoodsSelectVo;
 import com.okdeer.jxc.goods.vo.GoodsStockVo;
 import com.okdeer.jxc.utils.UserUtil;
@@ -161,7 +155,7 @@ public class GoodsSelectController extends
 	 * @author lijy02
 	 * @date 2016年9月13日
 	 */
-	@RequestMapping(value = "importGoodsLists", method = RequestMethod.POST)
+	/*@RequestMapping(value = "importGoodsLists", method = RequestMethod.POST)
 	@ResponseBody
 	public List<GoodsSelect> importGoodsLists(String[] branchIds,
 			@RequestBody List<GoodsSelect> goodsSelectList) {
@@ -175,10 +169,10 @@ public class GoodsSelectController extends
 				codes.add(goodsSelect.getSkuCode() != null ? goodsSelect
 						.getSkuCode() : goodsSelect.getBarCode());
 			}
-			/*
+			
 			 * String[] skuCodes = (String[]) codes.toArray(new String[codes
 			 * .size()]);
-			 */
+			 
 			if(codes.isEmpty()) {
 				LOG.error("货号或者条形码不能为空:");
 				throw new Exception("货号或者条形码不能为空:");
@@ -200,7 +194,7 @@ public class GoodsSelectController extends
 			LOG.error("查询商品选择数据出现异常:", e);
 		}
 		return Collections.emptyList();
-	}
+	}*/
 
 	/**
 	 * @Description: 导入商品集合(配送)
@@ -209,7 +203,7 @@ public class GoodsSelectController extends
 	 * @author lijy02
 	 * @date 2016年9月13日
 	 */
-	@RequestMapping(value = "importGoodsListsDeliver", method = RequestMethod.POST)
+	/*@RequestMapping(value = "importGoodsListsDeliver", method = RequestMethod.POST)
 	@ResponseBody
 	public List<GoodsSelect> importGoodsListsDeliver(
 			@RequestBody GoodsImportVo goodsImportVo) {
@@ -250,7 +244,7 @@ public class GoodsSelectController extends
 			LOG.error("查询商品选择数据出现异常:", e);
 		}
 		return Collections.emptyList();
-	}
+	}*/
 
 	/**
 	 * @Description: 重构导入excel的值
@@ -260,7 +254,7 @@ public class GoodsSelectController extends
 	 * @author lijy02
 	 * @date 2016年9月20日
 	 */
-	private void restructureExcelValue(List<GoodsSelect> goodsSelectList,
+	/*private void restructureExcelValue(List<GoodsSelect> goodsSelectList,
 			List<GoodsSelect> suppliers, Map<String, GoodsSelect> map) {
 		// 把excel中的得到的新值赋值到数据库查询出来的数据
 		for (GoodsSelect goodsSelect : suppliers) {
@@ -282,15 +276,15 @@ public class GoodsSelectController extends
 //			goodsSelect.setReceiveNum(good.getReceiveNum());
 //			goodsSelect.setDealNum(good.getDealNum());
 			// 是否赠品
-			if (Constant.ISGIFT.equals(good.getIsGift())) {
-				goodsSelect.setIsGift(Constant.STRING_ONE);
-			} else {
-				goodsSelect.setIsGift(Constant.ZERO_STR);
-			}
+//			if (Constant.ISGIFT.equals(good.getIsGift())) {
+//				goodsSelect.setIsGift(Constant.STRING_ONE);
+//			} else {
+//				goodsSelect.setIsGift(Constant.ZERO_STR);
+//			}
 
 			goodsSelectList.add(goodsSelect);
 		}
-	}
+	}*/
 
 	/**
 	 * @Description: 查询电子秤商品 （重和计件商品）

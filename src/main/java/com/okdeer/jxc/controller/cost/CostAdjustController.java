@@ -19,12 +19,23 @@ import com.okdeer.jxc.cost.entity.StockCostFormAll;
 import com.okdeer.jxc.cost.entity.StockCostFormDetail;
 import com.okdeer.jxc.cost.service.StockCostFormServiceApi;
 import com.okdeer.jxc.cost.vo.StockCostFormVo;
-import com.okdeer.jxc.form.entity.PurchaseForm;
 import com.okdeer.jxc.utils.UserUtil;
 
+/**
+ * ClassName: CostAdjustController 
+ * @Description: 
+ * @author yangyq02
+ * @date 2016年10月15日
+ *
+ * =================================================================================================
+ *     Task ID			  Date			     Author		      Description
+ * ----------------+----------------+-------------------+-------------------------------------------
+ *
+ */
+ 
 @Controller
 @RequestMapping("cost/costAdjust")
-public class CostAdjustController extends BaseController<PurchaseForm>{
+public class CostAdjustController extends BaseController<StockCostForm>{
 
 	@Reference(version = "1.0.0", check = false)
 	private StockCostFormServiceApi stockCostFormServiceApi;

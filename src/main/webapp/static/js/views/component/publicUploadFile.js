@@ -62,8 +62,8 @@ function toCancel(){
  */
 function downExportFile(){
     if(uploadFileParams.type==0){//导入货号
-        location.href=contextPath+'/form/purchase/exportTemp?type='+type;
+        location.href=uploadFileParams.tempUrl+"?type="+uploadFileParams.type;
     }else if(uploadFileParams.type==1){//导入条码
-        location.href=contextPath+'/form/purchase/exportTemp?type='+type;
+    	location.href=uploadFileParams.tempUrl+"?type="+uploadFileParams.type;
     }
 }
