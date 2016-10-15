@@ -20,7 +20,7 @@
 	            <div class="ubtns">
 	                <div class="ubtns-item" onclick="queryForm()">查询</div>
 	                <div class="ubtns-item" onclick="addStockForm()">新增</div>
-	                <!-- <div class="ubtns-item" onclick="delStockForm()">删单</div> -->
+	                 <div class="ubtns-item" onclick="delStockForm()">删单</div>
 	                <div class="ubtns-item" onClick="exportExcel()">导出</div>
 	                <div class="ubtns-item" onClick="printDesign()">打印</div>
 	                <div class="ubtns-item" id="set" onclick="resetForm()" >重置</div>
@@ -61,7 +61,6 @@
 	            <div class="ub umar-t8">
 	                <div class="ub ub-ac">
 	                    <div class="umar-r10 uw-70 ut-r">单据编号:</div>
-	                    <input type="hidden" id="deliverType" name="deliverType" value="DI" />
 	                    <input class="uinp" type="text" id="formNo" name="formNo">
 	                </div>
 	              
@@ -75,7 +74,7 @@
 	            <div class="ub umar-t8">
 	                <div class="ub ub-ac umar-r40">
 	                <div class="umar-r10 uw-70 ut-r">操作员:</div>
-	                <input class="uinp" name="operateUserId" id="operateUserId" type="hidden">
+	                <input class="uinp" name="salesmanId" id="salesmanId" type="hidden">
 	                <input class="uinp" id="operateUserName" type="text" readonly="readonly" onclick="selectOperator()" >
 	                <div class="uinp-more" onclick="selectOperator()">...</div>
 	            </div>
@@ -83,13 +82,13 @@
 	                <div class="ub ub-ac umar-l40 uw-300">
 	                    <div class="umar-r10 uw-70 ut-r">审核状态:</div>
 	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub" type="radio" name="deliverAuditStatus"  value="1"/><span>已审核</span>
+	                        <input class="ub" type="radio" name="status"  value="1"/><span>已审核</span>
 	                    </div>
 	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub" type="radio" name="deliverAuditStatus" value="0" checked="checked"/><span>未审核</span>
+	                        <input class="ub" type="radio" name="status" value="0" checked="checked"/><span>未审核</span>
 	                    </div>
 	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub" type="radio" name="deliverAuditStatus" value=""  /><span>全部</span>
+	                        <input class="ub" type="radio" name="status" value=""  /><span>全部</span>
 	                    </div>
 	                </div>
 	            </div>

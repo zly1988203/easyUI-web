@@ -114,6 +114,10 @@ public interface ExportExcelConstant {
 	 * @Fields DADOFORM : DADOform.xlsx
 	 */
 	String DADOFORM = "DADOForm.xlsx";
+	/**
+	 * 库存调整
+	 */
+	String STOCKADJUST = "StockAdjust.xlsx";
 
 	/**
 	 * 商品采购货号导入模板
