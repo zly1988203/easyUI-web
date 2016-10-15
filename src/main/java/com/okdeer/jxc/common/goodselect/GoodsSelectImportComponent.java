@@ -50,12 +50,18 @@ public class GoodsSelectImportComponent {
 	
 	@Resource
 	private StringRedisTemplate redisTemplateTmp;
+	
+	
+	public <T extends GoodsSelect> GoodsSelectImportVo<T> importSelectGoods(String fileName, InputStream is, String[] fields, T entity, String branchId, String userId, String type, String errorFileDownloadUrlPrefix ,GoodsSelectImportBusinessValid businessValid) {
+		String[] branchIds = {branchId};
+		return importSelectGoodsMultiBranch(fileName, is, fields, entity, branchIds, userId, type, errorFileDownloadUrlPrefix, businessValid);
+	}
 
 	/**
 	 * @author xiaoj02
 	 * @date 2016年10月13日
 	 */
-	public <T extends GoodsSelect> GoodsSelectImportVo<T> importSelectGoods(String fileName, InputStream is, String[] fields, T entity, String branchId, String userId, String type, String errorFileDownloadUrlPrefix ,GoodsSelectImportBusinessValid businessValid) {
+	public <T extends GoodsSelect> GoodsSelectImportVo<T> importSelectGoodsMultiBranch(String fileName, InputStream is, String[] fields, T entity, String[] branchId, String userId, String type, String errorFileDownloadUrlPrefix ,GoodsSelectImportBusinessValid businessValid) {
 		//读取excel
 		List<JSONObject> excelList = ExcelReaderUtil.readExcel(fileName, is, fields);
 		
