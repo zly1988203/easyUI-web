@@ -271,6 +271,8 @@ function editsaveOrder(){
 	var createTime=formatDate($("#createTime").val());
 	//单号
 	var createUserId= $("#createUserId").val();
+	
+	var status= $("#status").val();
 	//验证表格数据
 	$("#"+gridHandel.getGridName()).datagrid("endEdit", gridHandel.getSelectRowIndex());
 
@@ -316,7 +318,8 @@ function editsaveOrder(){
 				remark:remark,
 				id:dataId, 
 				createTime:createTime,
-				createUserId:createUserId
+				createUserId:createUserId,
+				status:status
 			}
 	};
 	$.each(rows,function(i,data){
