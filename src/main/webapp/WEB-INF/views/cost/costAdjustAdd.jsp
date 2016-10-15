@@ -30,7 +30,7 @@
 	            <div class="ub ub-ac uselectw umar-l20">
                     <div class="umar-r10 uw-70 ut-r">调整原因:</div>
                        <!--select-->
-				        <select class="easyui-combobox uselect" name="adjustReason" id="Reason" data-options="editable:false">
+				        <select class="easyui-combobox uselect" name="adjustReason" id="adjustReason" data-options="editable:false">
 								<option value="1">全部</option> 
 								<option value="2">[01]其他</option> 
 								<option value="3">[02]领用</option> 

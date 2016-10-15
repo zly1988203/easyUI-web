@@ -17,11 +17,16 @@
                 <div class="ubtns-item" onclick="editsaveOrder()">保存</div>
                 <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
                 <div class="ubtns-item" onclick="importproductAll()">导入</div>
+                <div class="ubtns-item" onclick="importproductAll()">导出</div>
+                 <div class="ubtns-item" onclick="costcheck()">审核</div>
+                <div class="ubtns-item" onclick="delCostForm()">删单</div>
                 <div class="ubtns-item" onclick="toBack()">返回</div>
             </div>
         </div>
-        <div class="ub umar-t8 uc-black">【单号】：<span id="formNo">${form.formNo}</span></div>
+        <div class="ub umar-t8 uc-black">【单号】：<span id="adjustNo">${data.adjustNo}</span></div>
         <div class="ub uline umar-t10"></div>
+         <input type="hidden" id="adjusId" value="${data.id}">
+        <input type="hidden" id="adjustNo" value="${data.adjustNo}">
         <div class="ub umar-t10">
                 <div class="ub ub-ac uw-300">
 	                <div class="umar-r10 uw-70 ut-r">机构名称:</div> 
@@ -32,7 +37,7 @@
 	           <div class="ub ub-ac uselectw umar-l20">
                     <div class="umar-r10 uw-70 ut-r">调整原因:</div>
                        <!--select-->
-				        <select class="easyui-combobox uselect" name="reason" id="reason" data-options="editable:false">
+				        <select class="easyui-combobox uselect" name="adjustReason" id="adjustReason" data-options="editable:false">
 								<option value="1">全部</option> 
 								<option value="2">[01]其他</option> 
 								<option value="3">[02]领用</option> 
