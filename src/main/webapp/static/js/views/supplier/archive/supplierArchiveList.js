@@ -174,7 +174,30 @@ function editHandel(id){
  * 导出
  */
 function exportHandel(){
-
+	var isValid = $("#formList").form('validate');
+	if(!isValid){
+		return;
+	}
+	var length = $("#gridSupplierArchiveList").datagrid('getData').total;
+	if(length == 0){
+		$.messager.alert("提示","无数据可导");
+		return;
+	}
+	if(length>10000){
+		$.messager.alert('提示',"当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
+		return;
+	}
+	$("#formList").form({
+		success : function(data){
+			if(data==null){
+				$.messager.alert('提示',"导出数据成功！");
+			}else{
+				$.messager.alert('提示',JSON.parse(data).message);
+			}
+		}
+	});
+	$("#formList").attr("action",contextPath+"/supplier/exportHandel");
+	$("#formList").submit();
 }
 
 /**

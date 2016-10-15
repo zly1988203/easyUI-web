@@ -9,24 +9,29 @@ package com.okdeer.jxc.controller.supplier;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
+import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.enums.BalanceWayEnum;
 import com.okdeer.jxc.common.enums.BranchTypeEnum;
 import com.okdeer.jxc.common.enums.SaleWayEnum;
 import com.okdeer.jxc.common.result.RespJson;
+import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.supplier.entity.Supplier;
@@ -83,7 +88,7 @@ public class SupplierController extends BaseController<SupplierController> {
 	@RequestMapping(value = "toAdd")
 	public String toAdd(Model model, SupplierQo qo) {
 		initOpParams(model, qo);
-		
+
 		return "supplier/archive/supplierArchiveAdd";
 	}
 
@@ -97,18 +102,19 @@ public class SupplierController extends BaseController<SupplierController> {
 	private void initOpParams(Model model, SupplierQo qo) {
 		SaleWayEnum[] saleWayEnums = SaleWayEnum.values();
 		BalanceWayEnum[] balanceWayEnums = BalanceWayEnum.values();
-		
+
 		model.addAttribute("saleWayEnums", saleWayEnums);
 		model.addAttribute("balanceWayEnums", balanceWayEnums);
-		
+
 		String branchId = qo.getBranchId();
-		//机构Id为空则默认为当前机构Id
-		if(StringUtils.isBlank(branchId)){
+		// 机构Id为空则默认为当前机构Id
+		if (StringUtils.isBlank(branchId)) {
 			branchId = super.getCurrBranchId();
 		}
-		List<SupplierArea> areaList = supplierAreaService.querySupplierListByBranchId(branchId);
+		List<SupplierArea> areaList = supplierAreaService
+				.querySupplierListByBranchId(branchId);
 		model.addAttribute("areaList", areaList);
-		
+
 		Branches branch = branchesService.getBranchInfoById(branchId);
 		model.addAttribute("branch", branch);
 	}
@@ -122,11 +128,11 @@ public class SupplierController extends BaseController<SupplierController> {
 	@RequestMapping(value = "toEdit")
 	public String toEdit(Model model, SupplierQo qo) {
 		initOpParams(model, qo);
-		
+
 		String id = qo.getId();
 		Supplier supplier = supplierService.getById(id);
 		SupplierExt supplierExt = supplierService.getSupplierExtById(id);
-		//将supplier 的信息复制到 supplierExt对象中
+		// 将supplier 的信息复制到 supplierExt对象中
 		BeanUtils.copyProperties(supplier, supplierExt);
 		model.addAttribute("supplier", supplierExt);
 		return "supplier/archive/supplierArchiveEdit";
@@ -165,7 +171,8 @@ public class SupplierController extends BaseController<SupplierController> {
 	 */
 	@RequestMapping(value = "getSupplierList")
 	@ResponseBody
-	public PageUtils<Supplier> getSupplierList(SupplierQo qo,
+	public PageUtils<Supplier> getSupplierList(
+			SupplierQo qo,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
@@ -177,15 +184,19 @@ public class SupplierController extends BaseController<SupplierController> {
 			Integer branchType = super.getCurrBranchType();
 			// 如果机构类型不是总部，分公司，则无查看权限
 			if (!BranchTypeEnum.HEAD_QUARTERS.getCode().equals(branchType)
-					&& !BranchTypeEnum.BRANCH_OFFICE.getCode().equals(branchType)) {
-				LOG.error("当前机构无查看权限！机构Code：{}，机构类型：{}", getCurrBranchCode(), branchType);
+					&& !BranchTypeEnum.BRANCH_OFFICE.getCode().equals(
+							branchType)) {
+				LOG.error("当前机构无查看权限！机构Code：{}，机构类型：{}", getCurrBranchCode(),
+						branchType);
 				return PageUtils.emptyPage();
 			}
-			
+
 			String branchId = qo.getBranchId();
-			if(StringUtils.isNotBlank(branchId)){
+			if (StringUtils.isNotBlank(branchId)) {
 				Branches branch = branchesService.getBranchInfoById(branchId);
 				qo.setBranchCompleCode(branch.getBranchCompleCode());
+			} else {
+				qo.setBranchCompleCode(super.getCurrBranchCompleCode());
 			}
 			qo.setBranchId(null);
 			return supplierService.queryLists(qo);
@@ -195,7 +206,6 @@ public class SupplierController extends BaseController<SupplierController> {
 		return PageUtils.emptyPage();
 	}
 
-	
 	/**
 	 * @Description: 新增供应商信息
 	 * @param supplier
@@ -207,8 +217,8 @@ public class SupplierController extends BaseController<SupplierController> {
 	 */
 	@RequestMapping(value = "/addSupplier")
 	@ResponseBody
-	public RespJson addSupplier(@Valid Supplier supplier, @Valid SupplierExt supplierExt,
-			BindingResult validate) {
+	public RespJson addSupplier(@Valid Supplier supplier,
+			@Valid SupplierExt supplierExt, BindingResult validate) {
 		if (validate.hasErrors()) {
 			String errorMessage = validate.getFieldError().getDefaultMessage();
 			LOG.warn("validate errorMessage:{}", errorMessage);
@@ -220,11 +230,11 @@ public class SupplierController extends BaseController<SupplierController> {
 			// 设置创建者Id
 			supplier.setCreateUserId(super.getCurrUserId());
 
-			//封装Vo信息
+			// 封装Vo信息
 			SupplierVo supplierVo = new SupplierVo();
 			supplierVo.setSupplier(supplier);
 			supplierVo.setSupplierExt(supplierExt);
-			
+
 			// 新增供应商信息
 			respJson = supplierService.addSupplier(supplierVo);
 		} catch (Exception e) {
@@ -233,7 +243,7 @@ public class SupplierController extends BaseController<SupplierController> {
 		}
 		return respJson;
 	}
-	
+
 	/**
 	 * @Description: 修改供应商信息
 	 * @param supplier
@@ -245,8 +255,8 @@ public class SupplierController extends BaseController<SupplierController> {
 	 */
 	@RequestMapping(value = "/updateSupplier")
 	@ResponseBody
-	public RespJson updateSupplier(@Valid Supplier supplier, @Valid SupplierExt supplierExt,
-			BindingResult validate) {
+	public RespJson updateSupplier(@Valid Supplier supplier,
+			@Valid SupplierExt supplierExt, BindingResult validate) {
 		if (validate.hasErrors()) {
 			String errorMessage = validate.getFieldError().getDefaultMessage();
 			LOG.warn("validate errorMessage:{}", errorMessage);
@@ -257,12 +267,12 @@ public class SupplierController extends BaseController<SupplierController> {
 		try {
 			// 设置创建者Id
 			supplier.setUpdateUserId(super.getCurrUserId());
-			
-			//封装Vo信息
+
+			// 封装Vo信息
 			SupplierVo supplierVo = new SupplierVo();
 			supplierVo.setSupplier(supplier);
 			supplierVo.setSupplierExt(supplierExt);
-			
+
 			// 新增供应商信息
 			respJson = supplierService.updateSupplier(supplierVo);
 		} catch (Exception e) {
@@ -271,7 +281,7 @@ public class SupplierController extends BaseController<SupplierController> {
 		}
 		return respJson;
 	}
-	
+
 	/**
 	 * @Description: 删除供应商信息
 	 * @param supplierId
@@ -284,12 +294,72 @@ public class SupplierController extends BaseController<SupplierController> {
 	public RespJson deleteSupplier(String supplierId) {
 		RespJson respJson = RespJson.success();
 		try {
-			respJson = supplierService.deleteSupplier(supplierId, super.getCurrUserId());
+			respJson = supplierService.deleteSupplier(supplierId,
+					super.getCurrUserId());
 		} catch (Exception e) {
 			LOG.error("删除供应商异常：", e);
 			respJson = RespJson.error("删除供应商异常：" + e.getMessage());
 		}
 		return respJson;
 	}
-	
+
+	/**
+	 * @Description: 导出
+	 * @param qo
+	 * @param response
+	 * @return
+	 * @author lijy02
+	 * @date 2016年10月15日
+	 */
+	@RequestMapping(value = "exportHandel", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson exportHandel(SupplierQo qo, HttpServletResponse response) {
+		try {
+			qo.setPageSize(ExportExcelConstant.EXPORT_MAX_SIZE);
+			qo.setPageNumber(0);
+			// 添加过滤条件
+			Integer branchType = super.getCurrBranchType();
+			// 如果机构类型不是总部，分公司，则无查看权限
+			if (!BranchTypeEnum.HEAD_QUARTERS.getCode().equals(branchType)
+					&& !BranchTypeEnum.BRANCH_OFFICE.getCode().equals(
+							branchType)) {
+				LOG.error("当前机构无查看权限！机构Code：{}，机构类型：{}", getCurrBranchCode(),
+						branchType);
+				return RespJson.error("无数据可导");
+			}
+			String branchId = qo.getBranchId();
+			if (StringUtils.isNotBlank(branchId)) {
+				Branches branch = branchesService.getBranchInfoById(branchId);
+				qo.setBranchCompleCode(branch.getBranchCompleCode());
+			} else {
+				qo.setBranchCompleCode(super.getCurrBranchCompleCode());
+			}
+			qo.setBranchId(null);
+			List<Supplier> list = supplierService.getSupplierAll(qo);
+
+			if (CollectionUtils.isNotEmpty(list)) {
+				if (list.size() > ExportExcelConstant.EXPORT_MAX_SIZE) {
+					RespJson json = RespJson.error("最多只能导出"
+							+ ExportExcelConstant.EXPORT_MAX_SIZE + "条数据");
+					return json;
+				}
+				// 导出文件名称，不包括后缀名
+				String fileName = "供应商档案列表" + "_" + DateUtils.getCurrSmallStr();
+				// 模板名称，包括后缀名
+				String templateName = ExportExcelConstant.SUPPLIER_EXPORT_EXCEL;
+
+				// 导出Excel
+				exportPageForXLSX(response, list, fileName, templateName);
+				return null;
+			} else {
+				RespJson json = RespJson.error("无数据可导");
+				return json;
+			}
+		} catch (Exception e) {
+			LOG.error("导出商品失败", e);
+			RespJson json = RespJson.error(e.toString());
+			return json;
+		}
+	}
+
 }

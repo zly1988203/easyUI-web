@@ -64,6 +64,12 @@ public interface ExportExcelConstant {
 	 * 商品档案导出模板
 	 */
 	String GOODS_EXPORT_EXCEL = "goodsExport.xlsx";
+	
+	/**
+	 * 商品档案导出模板
+	 */
+	String SUPPLIER_EXPORT_EXCEL = "supplierExport.xlsx";
+
 
 	/**
 	 * @Fields STOCKREPORT : 库存报表
