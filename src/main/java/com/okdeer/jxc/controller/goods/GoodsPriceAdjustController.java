@@ -7,6 +7,8 @@
 
 package com.okdeer.jxc.controller.goods;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,13 +26,17 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.controller.BasePrintController;
+import com.okdeer.jxc.common.goodselect.GoodsSelectImportComponent;
+import com.okdeer.jxc.common.goodselect.GoodsSelectImportVo;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.ListUtils;
@@ -41,6 +47,7 @@ import com.okdeer.jxc.form.enums.FormType;
 import com.okdeer.jxc.goods.entity.GoodsPriceForm;
 import com.okdeer.jxc.goods.entity.GoodsPriceFormBranch;
 import com.okdeer.jxc.goods.entity.GoodsPriceFormDetail;
+import com.okdeer.jxc.goods.entity.GoodsSelectPriceAdjst;
 import com.okdeer.jxc.goods.service.GoodsPriceAdustServiceApi;
 import com.okdeer.jxc.goods.vo.GoodsPriceFormConst;
 import com.okdeer.jxc.goods.vo.GoodsPriceFormVo;
@@ -71,7 +78,10 @@ public class GoodsPriceAdjustController extends
 	// 单据生成
 	@Autowired
 	private OrderNoUtils orderNoUtils;
-
+	//导入
+	@Autowired
+	private GoodsSelectImportComponent goodsSelectImportComponent;
+	
 	/**
 	 * @Description: 调价单页面展示
 	 * @return
@@ -538,22 +548,61 @@ public class GoodsPriceAdjustController extends
 		LOG.info("GoodsPriceAdjustController:exportList:" + type);
 		try {
 			// 导出文件名称，不包括后缀名
-			String fileName = "调价单货号模板";
+			String fileName = "调价单货号导入模板";
 			// 模板名称，包括后缀名
 			String templateName = ExportExcelConstant.GOODS_PRICE_ADJUST_FORM_TEMPLE_SKUCODE;
 			if (ExportExcelConstant.SKUCODE_TEMPLE_TYPE.equals(type)) {
 				templateName = ExportExcelConstant.GOODS_PRICE_ADJUST_FORM_TEMPLE_SKUCODE;
-				fileName = "调价单货号模板";
+				fileName = "调价单货号导入模板";
 			} else {
 				templateName = ExportExcelConstant.GOODS_PRICE_ADJUST_FORM_TEMPLE_BARCODE;
-				fileName = "调价单条形码模板";
+				fileName = "调价单条形码导入模板";
 			}
 			// 导出Excel
 			exportListForXLSX(response, null, fileName, templateName);
 		} catch (Exception e) {
-			LOG.error("GoodsPriceAdjustController:exportList:", e);
+			LOG.error("调价单导入模版下载失败:", e);
 		}
 	}
+	
+	/**
+	 * 
+	 * @Description: 调价单导入
+	 * @param file
+	 * @param type 0货号、1条码
+	 * @param branchId
+	 * @return
+	 * @author lijy02
+	 * @date 2016年10月14日
+	 */
+	@RequestMapping(value = "importList")
+	@ResponseBody
+	public RespJson importList(@RequestParam("file") MultipartFile file,String type, String branchId){
+		RespJson respJson = RespJson.success();
+		try {
+			if(file.isEmpty()){
+				return RespJson.error("文件为空");
+			}
+			if(StringUtils.isBlank(type)){
+				return RespJson.error("导入类型为空");
+			}
+			// 文件流
+			InputStream is = file.getInputStream();
+			// 获取文件名
+			String fileName = file.getOriginalFilename();
+			GoodsSelectImportVo<GoodsSelectPriceAdjst> vo = goodsSelectImportComponent.importSelectGoods(fileName, is, new String[]{"skuCode"}, new GoodsSelectPriceAdjst(), branchId, type, null);
+			respJson.put("importInfo", vo);
+		} catch (IOException e) {
+			respJson = RespJson.error("读取Excel流异常");
+			LOG.error("读取Excel流异常:", e);
+		} catch (Exception e) {
+			respJson = RespJson.error("导入发生异常");
+			LOG.error("用户导入异常:", e);
+		}
+		return respJson;
+		
+	}
+	
 
 	/**
 	 * (non-Javadoc)
