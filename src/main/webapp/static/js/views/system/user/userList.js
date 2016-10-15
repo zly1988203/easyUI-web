@@ -9,6 +9,7 @@ var gridHandel = new GridClass();
 //初始化表格
 
 function initDatagrid(){
+	var updatePermission = $("#updatePermission").html().trim();
     $("#dg").datagrid({
         //title:'普通表单-用键盘操作',
         method:'post',
@@ -24,7 +25,11 @@ function initDatagrid(){
         columns:[[
             {field:'check',checkbox:true},
             {field:'userCode',title:'帐号名',sortable:true,width:100,formatter:function(value,row,index){
-            	return "<a style='text-decoration: underline;' onClick='toEdit(\""+row.id+"\")'>" + value + "</a>"
+            	if(updatePermission){
+            		return "<a style='text-decoration: underline;' onClick='toEdit(\""+row.id+"\")'>" + value + "</a>"
+            	}else{
+            		return value;
+            	}
             }},    
             {field:'userName',title:'用户名',sortable:true,width:100},
             {field:'mobile',title:'电话',sortable:true,width:100},

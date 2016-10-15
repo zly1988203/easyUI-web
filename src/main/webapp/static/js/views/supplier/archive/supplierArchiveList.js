@@ -42,6 +42,7 @@ function initTreeArchives(){
 
 //初始化表格
 function initDatagridsupplierList(){
+	var updatePermission = $("#updatePermission").html().trim();
     $("#gridSupplierArchiveList").datagrid({
         method:'post',
         align:'center',
@@ -57,7 +58,11 @@ function initDatagridsupplierList(){
         columns:[[
             {field:'supplierCode',title:'编号',width:80,align:'left',
                 formatter: function(value,row,index){
-                    return "<a href='#' onclick=\"editHandel('"+row.supplierId+"')\" class='ualine'>"+value+"</a>";
+                    if(updatePermission){
+                    	return "<a href='#' onclick=\"editHandel('"+row.supplierId+"')\" class='ualine'>"+value+"</a>";
+                	}else{
+                		return value;
+                	}
                 }
             },
         	{field:'supplierName',title:'名称',width:180,align:'left'},
