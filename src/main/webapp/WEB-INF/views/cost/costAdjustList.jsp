@@ -16,10 +16,16 @@
 			<div class="ub ub-ac">
 	            <div class="ubtns">
 	                <div class="ubtns-item" onclick="queryForm()">查询</div>
-	                <div class="ubtns-item" onclick="addStockForm()">新增</div>
+	                <shiro:hasPermission name="JxcCostAdjust:add">
+	                	<div class="ubtns-item" onclick="addStockForm()">新增</div>
+	                </shiro:hasPermission>
 	                <!-- <div class="ubtns-item" onclick="delStockForm()">删单</div> -->
-	                <div class="ubtns-item" onClick="exportExcel()">导出</div>
-	                <div class="ubtns-item" onClick="printDesign()">打印</div>
+	                <shiro:hasPermission name="JxcCostAdjust:export">
+	                	<div class="ubtns-item" onClick="exportExcel()">导出</div>
+	                </shiro:hasPermission>
+	                <shiro:hasPermission name="JxcCostAdjust:print">
+	                	<div class="ubtns-item" onClick="printDesign()">打印</div>
+	                </shiro:hasPermission>
 	                <div class="ubtns-item" id="set" onclick="resetForm()" >重置</div>
 	                <div class="ubtns-item" onclick="toClose()">退出</div>
 	            </div>
