@@ -45,9 +45,12 @@ public class GoodsSelectImportSkuCodeHandle implements GoodsSelectImportHandle{
 	
 	List<String> excelSuccessSkuCode = null; 
 	
+	GoodsSelectImportBusinessValid businessValid;
+	
 	
 	public GoodsSelectImportSkuCodeHandle(List<JSONObject> excelList, String[] excelField, GoodsSelectImportBusinessValid businessValid){
 		this.excelListFullData = excelList;
+		this.businessValid = businessValid;
 		//检验标记出SkuCode重复或者为空的数据
 		checkSkuCodeIsNullAndRepeat();
 		
@@ -75,6 +78,8 @@ public class GoodsSelectImportSkuCodeHandle implements GoodsSelectImportHandle{
 		
 		//刷新
 		refreshSuccessData();
+		
+		
 	}
 	
 	/**
@@ -189,6 +194,9 @@ public class GoodsSelectImportSkuCodeHandle implements GoodsSelectImportHandle{
 		JsonConfig jsonConfig = new JsonConfig();
 		@SuppressWarnings("unchecked")
 		List<T> temp = JSONArray.toList(arr, entity, jsonConfig);
+		
+		//处理数据
+		businessValid.formatter(temp);
 		
 		return temp;
 		
