@@ -69,17 +69,17 @@
                 </div>
                <div class="ub ub-ac uw-300 umar-l300">
                    <div class="umar-r10 uw-70 ut-r">审核人员:</div>
-                   <div class="utxt" id="validUserName">${form.validUserName}</div>
+                   <div class="utxt" id="validUserName">${stockFormVo.validUserName}</div>
                </div>
                <div class="ub ub-ac uw-300">
                    <div class="umar-r10 uw-60 ut-r">审核日期:</div>
-                   <div class="utxt"><fmt:formatDate value="${form.validTime}" pattern="yyyy-MM-dd"/></div>
+                   <div class="utxt">${stockFormVo.validTime}</div>
                </div>
            </div>
            <div class="ub umar-t8">
                <div class="ub ub-ac uw-300 ">
                    <div class="umar-r10 uw-70 ut-r">备注:</div>
-                   <input class="uinp uninput" type="text" id="remark" name="remark" value="${form.remark}" >
+                   <input class="uinp uninput" type="text" id="remark" name="remark" value="${stockFormVo.remark}" >
                </div>
            </div>
            <!--datagrid-edit-->
