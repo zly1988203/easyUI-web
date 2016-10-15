@@ -151,7 +151,7 @@ function initDatagridEditOrder(){
                 },
 
             },
-            {field:'gift',title:'是否赠品',width:'80px',align:'left',
+            {field:'isGift',title:'是否赠品',width:'80px',align:'left',
                 formatter:function(value,row){
                     if(row.isFooter){
                         return;
