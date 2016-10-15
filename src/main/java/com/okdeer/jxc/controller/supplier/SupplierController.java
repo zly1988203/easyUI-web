@@ -7,8 +7,12 @@
 
 package com.okdeer.jxc.controller.supplier;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.common.enums.BalanceWayEnum;
 import com.okdeer.jxc.common.enums.BranchTypeEnum;
@@ -25,6 +30,7 @@ import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.supplier.entity.Supplier;
+import com.okdeer.jxc.supplier.entity.SupplierArea;
 import com.okdeer.jxc.supplier.entity.SupplierExt;
 import com.okdeer.jxc.supplier.qo.SupplierQo;
 import com.okdeer.jxc.supplier.service.SupplierAreaServiceApi;
@@ -41,7 +47,7 @@ import com.okdeer.jxc.supplier.vo.SupplierVo;
  * =================================================================================================
  *     Task ID			  Date			     Author		      Description
  * ----------------+----------------+-------------------+-------------------------------------------
- *
+ * 零售管理系统1.0.0	  2016年10月14日			 liwb			     供应商档案controller
  */
 
 @Controller
@@ -75,14 +81,36 @@ public class SupplierController extends BaseController<SupplierController> {
 	 * @date 2016年10月13日
 	 */
 	@RequestMapping(value = "toAdd")
-	public String toAdd(Model model) {
+	public String toAdd(Model model, SupplierQo qo) {
+		initOpParams(model, qo);
+		
+		return "supplier/archive/supplierArchiveAdd";
+	}
+
+	/**
+	 * @Description: 操作页面的默认参数
+	 * @param model
+	 * @param qo
+	 * @author liwb
+	 * @date 2016年10月15日
+	 */
+	private void initOpParams(Model model, SupplierQo qo) {
 		SaleWayEnum[] saleWayEnums = SaleWayEnum.values();
 		BalanceWayEnum[] balanceWayEnums = BalanceWayEnum.values();
 		
 		model.addAttribute("saleWayEnums", saleWayEnums);
 		model.addAttribute("balanceWayEnums", balanceWayEnums);
 		
-		return "supplier/archive/supplierArchiveAdd";
+		String branchId = qo.getBranchId();
+		//机构Id为空则默认为当前机构Id
+		if(StringUtils.isBlank(branchId)){
+			branchId = super.getCurrBranchId();
+		}
+		List<SupplierArea> areaList = supplierAreaService.querySupplierListByBranchId(branchId);
+		model.addAttribute("areaList", areaList);
+		
+		Branches branch = branchesService.getBranchInfoById(branchId);
+		model.addAttribute("branch", branch);
 	}
 
 	/**
@@ -92,13 +120,15 @@ public class SupplierController extends BaseController<SupplierController> {
 	 * @date 2016年10月13日
 	 */
 	@RequestMapping(value = "toEdit")
-	public String toEdit(Model model) {
-		SaleWayEnum[] saleWayEnums = SaleWayEnum.values();
-		BalanceWayEnum[] balanceWayEnums = BalanceWayEnum.values();
+	public String toEdit(Model model, SupplierQo qo) {
+		initOpParams(model, qo);
 		
-		model.addAttribute("saleWayEnums", saleWayEnums);
-		model.addAttribute("balanceWayEnums", balanceWayEnums);
-		
+		String id = qo.getId();
+		Supplier supplier = supplierService.getById(id);
+		SupplierExt supplierExt = supplierService.getSupplierExtById(id);
+		//将supplier 的信息复制到 supplierExt对象中
+		BeanUtils.copyProperties(supplier, supplierExt);
+		model.addAttribute("supplier", supplierExt);
 		return "supplier/archive/supplierArchiveEdit";
 	}
 
@@ -141,18 +171,23 @@ public class SupplierController extends BaseController<SupplierController> {
 		try {
 			qo.setPageNumber(pageNumber);
 			qo.setPageSize(pageSize);
-			LOG.info("分页查询获取供应商条件参数:{}", qo);
+			LOG.debug("分页查询供应商条件参数:{}", qo);
 
 			// 添加过滤条件
-			String branchId = super.getCurrBranchId();
 			Integer branchType = super.getCurrBranchType();
-			qo.setBranchId(branchId);
 			// 如果机构类型不是总部，分公司，则无查看权限
 			if (!BranchTypeEnum.HEAD_QUARTERS.getCode().equals(branchType)
 					&& !BranchTypeEnum.BRANCH_OFFICE.getCode().equals(branchType)) {
 				LOG.error("当前机构无查看权限！机构Code：{}，机构类型：{}", getCurrBranchCode(), branchType);
 				return PageUtils.emptyPage();
 			}
+			
+			String branchId = qo.getBranchId();
+			if(StringUtils.isNotBlank(branchId)){
+				Branches branch = branchesService.getBranchInfoById(branchId);
+				qo.setBranchCompleCode(branch.getBranchCompleCode());
+			}
+			qo.setBranchId(null);
 			return supplierService.queryLists(qo);
 		} catch (Exception e) {
 			LOG.error("查询供应商异常:", e);

@@ -37,24 +37,20 @@ function searchRole (){
  */
 function addUser(){	
 	var reqObj=$('#addUserForm').serializeObject();
-	 var isValid = $("#addUserForm").form('validate');
-	 console.log(isValid);
-	    if(!isValid){
-	        return;
-	    }
-	console.log(reqObj);
+	var isValid = $("#addUserForm").form('validate');
+	if(!isValid){
+		return;
+	}
 
 	$.ajax({
         url:contextPath+"/system/user/addUser",
         type:"POST",
         data:reqObj,
         success:function(result){
-        	console.log(result);
-            if(result){
+            if(result && result.code==0){
                 $.messager.alert("操作提示", "操作成功！");
                 closeDialog();
             }else{
-            	
                 successTip(result['message']);
             }
         },

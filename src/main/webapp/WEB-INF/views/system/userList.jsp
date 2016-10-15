@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+]<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,7 +17,6 @@
 	            <div class="ubtns">
 	                <div class="ubtns-item" onclick="query();">查询</div>
 	                <div class="ubtns-item" onclick="toAdd();">新增</div>
-	                <div class="ubtns-item" onclick="toUpdate();">修改</div>
 	                <div class="ubtns-item" onclick="enable();">启用</div>
 	                <div class="ubtns-item" onclick="disable();">禁用</div>
 	                <div class="ubtns-item" onclick="toClose()">退出</div>
