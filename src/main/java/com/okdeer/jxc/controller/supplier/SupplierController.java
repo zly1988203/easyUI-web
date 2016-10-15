@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -82,6 +83,8 @@ public class SupplierController extends BaseController<SupplierController> {
 	 */
 	@RequestMapping(value = "toAdd")
 	public String toAdd(Model model, SupplierQo qo) {
+		LOG.debug("跳转新增供应商信息参数：{}", qo);
+		//获取初始化参数
 		initOpParams(model, qo);
 		
 		return "supplier/archive/supplierArchiveAdd";
@@ -121,15 +124,47 @@ public class SupplierController extends BaseController<SupplierController> {
 	 */
 	@RequestMapping(value = "toEdit")
 	public String toEdit(Model model, SupplierQo qo) {
+		LOG.debug("跳转修改供应商信息参数：{}", qo);
+		//获取初始化参数
 		initOpParams(model, qo);
 		
+		//获取初始化编辑页面参数
+		initEditParams(model, qo);
+		return "supplier/archive/supplierArchiveEdit";
+	}
+
+	/**
+	 * @Description: 初始化编辑页面参数
+	 * @param model
+	 * @param qo
+	 * @author liwb
+	 * @date 2016年10月15日
+	 */
+	private void initEditParams(Model model, SupplierQo qo) {
 		String id = qo.getId();
 		Supplier supplier = supplierService.getById(id);
 		SupplierExt supplierExt = supplierService.getSupplierExtById(id);
 		//将supplier 的信息复制到 supplierExt对象中
 		BeanUtils.copyProperties(supplier, supplierExt);
 		model.addAttribute("supplier", supplierExt);
-		return "supplier/archive/supplierArchiveEdit";
+	}
+	
+	/**
+	 * @Description: 到复制页面
+	 * @return
+	 * @author liwb
+	 * @date 2016年10月13日
+	 */
+	@RequestMapping(value = "toCopy")
+	public String toCopy(Model model, SupplierQo qo) {
+		LOG.debug("跳转复制供应商信息参数：{}", qo);
+		
+		//获取初始化参数
+		initOpParams(model, qo);
+		
+		//获取初始化编辑页面参数
+		initEditParams(model, qo);
+		return "supplier/archive/supplierArchiveAdd";
 	}
 
 	/**
@@ -205,7 +240,7 @@ public class SupplierController extends BaseController<SupplierController> {
 	 * @author liwb
 	 * @date 2016年10月14日
 	 */
-	@RequestMapping(value = "/addSupplier")
+	@RequestMapping(value = "/addSupplier", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson addSupplier(@Valid Supplier supplier, @Valid SupplierExt supplierExt,
 			BindingResult validate) {
@@ -243,7 +278,7 @@ public class SupplierController extends BaseController<SupplierController> {
 	 * @author liwb
 	 * @date 2016年10月14日
 	 */
-	@RequestMapping(value = "/updateSupplier")
+	@RequestMapping(value = "/updateSupplier", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson updateSupplier(@Valid Supplier supplier, @Valid SupplierExt supplierExt,
 			BindingResult validate) {
@@ -279,7 +314,7 @@ public class SupplierController extends BaseController<SupplierController> {
 	 * @author liwb
 	 * @date 2016年10月14日
 	 */
-	@RequestMapping(value = "/deleteSupplier")
+	@RequestMapping(value = "/deleteSupplier", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson deleteSupplier(String supplierId) {
 		RespJson respJson = RespJson.success();
