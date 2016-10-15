@@ -28,6 +28,7 @@
         <form action="" id="searchForm" method="post">
        		 <input type="hidden" id="adjusId" name="id" value="${data.id}">
         </form>
+         <input type="hidden" id="status" name="id" value="${data.status}">
         <input type="hidden" id="adjustNo" value="${data.adjustNo}">
         <div class="ub umar-t10">
                 <div class="ub ub-ac uw-300">
