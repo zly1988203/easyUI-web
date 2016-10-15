@@ -1,4 +1,4 @@
-]<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,10 +15,21 @@
     	<form id="queryForm">
 	        <div class="ub ub-ac">
 	            <div class="ubtns">
-	                <div class="ubtns-item" onclick="query();">查询</div>
-	                <div class="ubtns-item" onclick="toAdd();">新增</div>
-	                <div class="ubtns-item" onclick="enable();">启用</div>
-	                <div class="ubtns-item" onclick="disable();">禁用</div>
+	                <shiro:hasPermission name="JxcUserManage:search">
+						<div class="ubtns-item" onclick="query();">查询</div>
+				   	</shiro:hasPermission>
+	                <shiro:hasPermission name="JxcUserManage:add">
+						<div class="ubtns-item" onclick="toAdd();">新增</div>
+				   	</shiro:hasPermission>
+				   	<shiro:hasPermission name="JxcUserManage:enabled">
+						<div class="ubtns-item" onclick="enable();">启用</div>
+				   	</shiro:hasPermission>
+				   	<shiro:hasPermission name="JxcUserManage:disabled">
+						<div class="ubtns-item" onclick="disable();">禁用</div>
+				   	</shiro:hasPermission>
+				   	<div id="updatePermission" class="none">
+						<shiro:hasPermission name="JxcUserManage:update" >修改</shiro:hasPermission>
+					</div>
 	                <div class="ubtns-item" onclick="toClose()">退出</div>
 	            </div>
 	        </div>

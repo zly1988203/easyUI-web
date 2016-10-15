@@ -42,6 +42,7 @@ function initTreeArchives(){
 
 //初始化表格
 function initDatagridsupplierList(){
+	var updatePermission = $("#updatePermission").html().trim();
     $("#gridSupplierArchiveList").datagrid({
         method:'post',
         align:'center',
@@ -57,7 +58,11 @@ function initDatagridsupplierList(){
         columns:[[
             {field:'supplierCode',title:'编号',width:80,align:'left',
                 formatter: function(value,row,index){
-                    return "<a href='#' onclick=\"editHandel('"+row.supplierId+"')\" class='ualine'>"+value+"</a>";
+                    if(updatePermission){
+                    	return "<a href='#' onclick=\"editHandel('"+row.supplierId+"')\" class='ualine'>"+value+"</a>";
+                	}else{
+                		return value;
+                	}
                 }
             },
         	{field:'supplierName',title:'名称',width:180,align:'left'},
@@ -172,7 +177,30 @@ function editHandel(id){
  * 导出
  */
 function exportHandel(){
-
+	var isValid = $("#formList").form('validate');
+	if(!isValid){
+		return;
+	}
+	var length = $("#gridSupplierArchiveList").datagrid('getData').total;
+	if(length == 0){
+		$.messager.alert("提示","无数据可导");
+		return;
+	}
+	if(length>10000){
+		$.messager.alert('提示',"当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
+		return;
+	}
+	$("#formList").form({
+		success : function(data){
+			if(data==null){
+				$.messager.alert('提示',"导出数据成功！");
+			}else{
+				$.messager.alert('提示',JSON.parse(data).message);
+			}
+		}
+	});
+	$("#formList").attr("action",contextPath+"/supplier/exportHandel");
+	$("#formList").submit();
 }
 
 /**
