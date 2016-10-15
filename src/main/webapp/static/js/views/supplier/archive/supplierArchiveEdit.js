@@ -1,7 +1,16 @@
 /**
  * Created by huangj02 on 2016/10/12.
  */
-function saveSupplier() {
+$(function(){
+	
+	//供应商区域选择事件
+	bindSupplierAreaSelect();
+	
+	//初始化下拉框选中值
+	selectParamInit();
+});
+
+function updateSupplier() {
 	var formObj = $('#formEdit').serializeObject();
 	var isValid = $("#formEdit").form('validate');
 	if (!isValid) {

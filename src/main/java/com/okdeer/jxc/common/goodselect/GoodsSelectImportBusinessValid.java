@@ -9,15 +9,12 @@ package com.okdeer.jxc.common.goodselect;
 
 import java.util.List;
 
-import org.apache.poi.ss.formula.functions.T;
-
 import com.okdeer.jxc.goods.entity.GoodsSelect;
 
 import net.sf.json.JSONObject;
 
 /**
  * ClassName: GoodSelectImportBusinessValid 
- * @Description: TODO
  * @author xiaoj02
  * @date 2016年10月14日
  *
