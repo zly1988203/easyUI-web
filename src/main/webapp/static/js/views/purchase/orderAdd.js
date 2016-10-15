@@ -380,6 +380,24 @@ function selectGoods(searchKey){
     },searchKey,0,"","",branchId);
 }
 
+function updateListData(data){
+    var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
+    var addDefaultData  = gridHandel.addDefault(data,gridDefault);
+    var keyNames = {
+        purchasePrice:'price',
+        id:'skuId',
+        disabled:'',
+        pricingType:'',
+        inputTax:'tax'
+    };
+    var rows = gFunUpdateKey(addDefaultData,keyNames);
+    var argWhere ={skuCode:1};  //验证重复性
+    var isCheck ={isGift:1 };   //只要是赠品就可以重复
+    var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
+
+    $("#gridEditOrder").datagrid("loadData",newRows);
+}
+
 //保存
 function saveItemHandel(){
 
@@ -501,9 +519,32 @@ function selectBranch(){
     },0);
 }
 
+function toImportproduct(type){
+    //if($("#supplierId").val()==""){
+    //    messager("请先选择供应商");
+    //    return;
+    //}
+    var branchId = $("#branchId").val();
+    if(!branchId){
+        messager("请先选择收货机构");
+        return;
+    }
+    var param = {
+        url:contextPath+"/form/purchase/importList",
+        type:type,
+        branchId:branchId,
+    }
+    new publicUploadFileService(function(data){
+        console.log(data);
+        updateListData(data);
+    },param)
+}
+
 function back(){
 	location.href = contextPath+"/form/purchase/orderList";
 }
+
+
 //模板导出
 function exportTemp(){
 	var type = $("#temple").attr("value");

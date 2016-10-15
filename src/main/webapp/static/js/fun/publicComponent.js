@@ -64,6 +64,34 @@ function toChangeDate(index){
 }
 
 /**
+ * 批量导入货号或条码
+ * @param params {type:0 货号 1条码,url:上传地址,}
+ * @param callback
+ */
+function publicUploadFileService(callback,params){
+    //公有属性
+    var  dalogTemp = $('<div/>').dialog({
+        href:contextPath + "/common/uploadFile",
+        width:480,
+        height:320,
+        title:params.type==1?"导入条码":"导入货号",
+        closable:true,
+        resizable:true,
+        onClose:function(){
+            $(dalogTemp).panel('destroy');
+        },
+        modal:true,
+        onLoad:function(){
+            initUploadFileCallBack(callBackHandel,params)
+        },
+    });
+    function callBackHandel(data){
+        callback(data);
+        //$(dalogTemp).panel('destroy');
+    }
+}
+
+/**
  * 公共组件-选择角色
  * 必须要先选机构，才能选角色
  * @param callback 回调函数
@@ -978,9 +1006,10 @@ function gFunUpdateKey(arrs,obj){
     var newArrs = [];
     $.each(arrs,function(i,item){
         $.each(obj,function(k,v){
+            debugger;
         	if(item[k]||parseInt(item[k])===0||item[k]===""){
             	if(v){
-            		item[v] = item[k]||"";
+            		item[v] = gFunIsNotNull(item[k])?item[k]:"";
             	}
         	}
         });
@@ -1043,6 +1072,13 @@ function gFunEndLoading(){
 function checkNum(obj){
 	 obj.value=obj.value.replace(/[^0-9]/g,'');
 	 return obj.value;
+}
+
+function gFunIsNotNull(val){
+    if(val||parseInt(val)===0||val===""){
+        return true
+    }
+    return false;
 }
 
 //输入1-9的数字，第二位及后面的可以有0，比如10
@@ -1329,7 +1365,7 @@ $.extend($.fn.validatebox.defaults.rules, {
  * 调用导入功能type:0货号导入,1条码导入
  * @param type
  */
-function toImportproduct(type){
+/*function toImportproduct(type){
     if($("#supplierId").val()==""){
         messager("请先选择供应商");
         return;
@@ -1345,5 +1381,5 @@ function toImportproduct(type){
     }else{
     	$("#temple").text('条码模版下载');
     }
-}
+}*/
 

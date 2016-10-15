@@ -238,7 +238,7 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 					&& !PricingTypeEnum.ORDINARY.equals(sku.getPricingType())) {
 				sku.setBarCode(sku.getSkuCode());
 			}
-			BigDecimal price = new BigDecimal(0.00);
+			BigDecimal price = BigDecimal.ZERO;
 			if (sku.getSalePrice()==null) {
 				sku.setSalePrice(price);
 			}
@@ -286,7 +286,7 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 			return RespJson.error(errorMessage);
 		}
 		try {
-			BigDecimal price = new BigDecimal(0.00);
+			BigDecimal price = BigDecimal.ZERO;
 			if (sku.getSalePrice()==null) {
 				sku.setSalePrice(price);
 			}

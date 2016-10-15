@@ -3,7 +3,7 @@
  * 出库-新增
  */
 $(function(){
-    $("#createTime").html(new Date().format('yyyy-MM-dd'));
+	 $("#createTime").html(new Date().format('yyyy-MM-dd hh:mm'));
     initDatagridAddRequireOrder();
 });
 var gridDefault = {
@@ -110,6 +110,10 @@ function initDatagridAddRequireOrder(){
                 formatter:function(value,row,index){
                     if(row.isFooter){
                         return
+                    }
+                    if(!row["price"]){
+                        row["price"] = 0;
+                        value = row["price"];
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
@@ -385,6 +389,7 @@ function selectGoods(searchKey){
             $("#gridEditOrder").datagrid("deleteRow", gridHandel.getSelectRowIndex());
             $("#gridEditOrder").datagrid("acceptChanges");
         }
+        debugger;
         selectStockAndPrice(sourceBranchId,data);
     },searchKey,'',sourceBranchId,targetBranchId,sourceBranchId);
 }

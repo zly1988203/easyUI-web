@@ -7,6 +7,8 @@
 
 package com.okdeer.jxc.controller.purchase;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -25,13 +27,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.controller.BasePrintController;
+import com.okdeer.jxc.common.goodselect.GoodsSelectImportComponent;
+import com.okdeer.jxc.common.goodselect.GoodsSelectImportVo;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.BigDecimalUtils;
 import com.okdeer.jxc.common.utils.DateUtils;
@@ -52,6 +58,7 @@ import com.okdeer.jxc.form.purchase.vo.PurchaseFormDetailVo;
 import com.okdeer.jxc.form.purchase.vo.PurchaseFormVo;
 import com.okdeer.jxc.form.purchase.vo.ReceiptFormVo;
 import com.okdeer.jxc.form.purchase.vo.ReturnFormVo;
+import com.okdeer.jxc.goods.entity.GoodsSelect;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
 
@@ -72,6 +79,9 @@ public class PurchaseFormController extends
 
 	@Reference(version = "1.0.0", check = false)
 	private PurchaseFormServiceApi purchaseFormServiceApi;
+	
+	@Autowired
+	private GoodsSelectImportComponent goodsSelectImportComponent;
 
 	@Autowired
 	private OrderNoUtils orderNoUtils;
@@ -845,6 +855,52 @@ public class PurchaseFormController extends
 				formNo).getList();
 		return list;
 	}
+	
+	
+	/**
+	 * 
+	 * @Description: TODO
+	 * @param file
+	 * @param type 0货号、1条码
+	 * @param branchId
+	 * @return
+	 * @author xiaoj02
+	 * @date 2016年10月14日
+	 */
+	@RequestMapping(value = "importList")
+	@ResponseBody
+	public RespJson importList(@RequestParam("file") MultipartFile file,String type, String branchId){
+		RespJson respJson = RespJson.success();
+		try {
+			if(file.isEmpty()){
+				return RespJson.error("文件为空");
+			}
+			
+			if(StringUtils.isBlank(type)){
+				return RespJson.error("导入类型为空");
+			}
+			
+			// 文件流
+			InputStream is = file.getInputStream();
+			// 获取文件名
+			String fileName = file.getOriginalFilename();
+			
+			GoodsSelectImportVo<GoodsSelect> vo = goodsSelectImportComponent.importSelectGoods(fileName, is, new String[]{"skuCode"}, new GoodsSelect(), branchId, type, null);
+			
+			respJson.put("importInfo", vo);
+			
+		} catch (IOException e) {
+			respJson = RespJson.error("读取Excel流异常");
+			LOG.error("读取Excel流异常:", e);
+		} catch (Exception e) {
+			respJson = RespJson.error("导入发生异常");
+			LOG.error("用户导入异常:", e);
+		}
+		return respJson;
+		
+	}
+	
+	
 
 	/**
 	 * @Description: 导出明细

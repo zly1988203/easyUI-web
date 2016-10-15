@@ -15,10 +15,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-import net.sf.json.JsonConfig;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -37,6 +33,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.okdeer.jxc.common.utils.NumberUtils;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
 
 /**
  * ClassName: ExcelReaderUtil 
@@ -387,7 +387,7 @@ public class ExcelReaderUtil {
 	 */
 	private static void readCell(Row row, String[] fields, JSONArray jArray) {
 		int cellCount = row.getLastCellNum();
-		JSONObject json = new JSONObject();
+		JSONObject json = null;
 
 		// Read the Cell，循环遍历Excel单元格
 		for (int cellNum = 0; cellNum < cellCount; cellNum++) {
@@ -395,6 +395,7 @@ public class ExcelReaderUtil {
 			if (cell == null) {
 				continue;
 			}
+			json = new JSONObject();
 			Object content = getValue(cell);
 			json.accumulate(fields[cellNum], content);
 
@@ -403,7 +404,9 @@ public class ExcelReaderUtil {
 				break;
 			}
 		}
-		jArray.add(json);
+		if(json!=null){
+			jArray.add(json);
+		}
 	}
 
 	/**
@@ -647,6 +650,11 @@ public class ExcelReaderUtil {
 		} else {
 			// 如果是纯数字
 			obj = cell.getNumericCellValue();
+			
+			//解决数字，默认加0的问题
+			if(cell.toString().endsWith(".0")){
+				obj = new DecimalFormat("#").format(Double.parseDouble(cell.toString()));
+			}
 		}
 
 		if (NumberUtils.isENum(String.valueOf(obj))) {
@@ -654,6 +662,10 @@ public class ExcelReaderUtil {
 			obj = df.format(obj);
 		}
 		return obj;
+	}
+	
+	public static void main(String[] args) {
+		System.out.println();
 	}
 
 }
