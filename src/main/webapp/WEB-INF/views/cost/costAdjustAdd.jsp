@@ -17,12 +17,8 @@
              <shiro:hasPermission name="JxcCostAdjust:add">
                 <div class="ubtns-item" onclick="addsaveOrder()">保存</div>
              </shiro:hasPermission>
-             <shiro:hasPermission name="JxcCostAdjust:selectGoods">
                 <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
-             </shiro:hasPermission>
-             <shiro:hasPermission name="JxcCostAdjust:import">
                 <div class="ubtns-item" onclick="importproductAll()">导入</div>
-             </shiro:hasPermission>
                 <div class="ubtns-item" onclick="toBack()">返回</div>
             </div>
         </div>
