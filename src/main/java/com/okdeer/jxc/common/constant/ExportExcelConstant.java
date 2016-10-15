@@ -42,14 +42,14 @@ public interface ExportExcelConstant {
 	
 	
 	/**
-	 * @Fields GOODS_PRICE_ADJUST_FORM_TEMPLE_SKUCODE : 调价单货号模板
+	 * @Fields GOODS_PRICE_ADJUST_FORM_TEMPLE_SKUCODE : 调价单货号导入模板
 	 */
-	String GOODS_PRICE_ADJUST_FORM_TEMPLE_SKUCODE = "SkuCodeTemple.xlsx";
+	String GOODS_PRICE_ADJUST_FORM_TEMPLE_SKUCODE = "priceAdjustSkuTemp.xlsx";
 
 	/**
 	 * @Fields GOODS_PRICE_ADJUST_FORM_TEMPLE_BARCODE : 调价单条形码模板
 	 */
-	String GOODS_PRICE_ADJUST_FORM_TEMPLE_BARCODE = "BarCodeTemple.xlsx";
+	String GOODS_PRICE_ADJUST_FORM_TEMPLE_BARCODE = "priceAdjustBarTemp.xlsx";
 	
 	/**
 	 * @Fields BARCODE_TEMPLE_TYPE : 条形码模板类型

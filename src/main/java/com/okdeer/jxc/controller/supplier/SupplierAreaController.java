@@ -176,7 +176,8 @@ public class SupplierAreaController extends
 	public RespJson deleteSupplierArea(String areaId) {
 		try {
 			LOG.info("根据区域编码删除供应商区域:{}", areaId);
-			supplierAreaService.deleteSupplierArea(areaId);
+			
+			supplierAreaService.deleteSupplierArea(areaId,super.getCurrUserId());
 			return RespJson.success();
 		} catch (Exception e) {
 			return RespJson.error("删除供应商区域失败！");
