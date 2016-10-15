@@ -251,13 +251,14 @@ public class SupplierController extends BaseController<SupplierController> {
 	 */
 	@RequestMapping(value = "/addSupplier", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson addSupplier(@Valid Supplier supplier,
-			@Valid SupplierExt supplierExt, BindingResult validate) {
+	public RespJson addSupplier(@Valid SupplierExt supplierExt, BindingResult validate) {
 		if (validate.hasErrors()) {
 			String errorMessage = validate.getFieldError().getDefaultMessage();
 			LOG.warn("validate errorMessage:{}", errorMessage);
 			return RespJson.error(errorMessage);
 		}
+		Supplier supplier = new Supplier();
+		BeanUtils.copyProperties(supplierExt, supplier);
 		LOG.info("新增供应商信息{}，扩展信息{}", supplier, supplierExt);
 		RespJson respJson = RespJson.success();
 		try {
