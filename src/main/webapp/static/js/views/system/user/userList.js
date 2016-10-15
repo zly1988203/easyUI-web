@@ -24,7 +24,7 @@ function initDatagrid(){
         columns:[[
             {field:'check',checkbox:true},
             {field:'userCode',title:'帐号名',sortable:true,width:100,formatter:function(value,row,index){
-            	return "<a style='text-decoration: underline;' onClick='toEdit()'>" + value + "</a>"
+            	return "<a style='text-decoration: underline;' onClick='toEdit(\""+row.id+"\")'>" + value + "</a>"
             }},    
             {field:'userName',title:'用户名',sortable:true,width:100},
             {field:'mobile',title:'电话',sortable:true,width:100},
@@ -80,10 +80,8 @@ function toAdd(){
 	openDialog(contextPath+"/system/user/toAddUser","新增用户","add");
 }
 
-function toEdit(){
-	 openDialog(contextPath+"/system/user/toEditUser","编辑用户","edit");
-	  $('#dg').panel('destroy');
-	 
+function toEdit(id){
+	openDialog(contextPath+"/system/user/toEditUser?userId="+id,"编辑用户","edit");
 }
 
 var  dalogTemp;
@@ -104,6 +102,15 @@ function openDialog(argUrl,argTitle,argType) {
 
       }
   })
+}
+function reloadDataGrid(){
+    $("#dg").datagrid('reload');
+    closeDialog();
+}
+function closeDialog(){
+    if(dalogTemp){
+        $(dalogTemp).panel('destroy');
+    }
 }
 
 /**
