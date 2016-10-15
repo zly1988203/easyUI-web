@@ -180,9 +180,9 @@ function exportExcel(){
 		success:function(data){
 			if(data.code==0){
 				
-				$.messager.alert('提示',"导入成功");
+				$.messager.alert('提示',"导出成功");
 			}else{
-				$.messager.alert('提示',"导入失败");
+				$.messager.alert('提示',"导出失败");
 			}
 		},
 		error:function(error){

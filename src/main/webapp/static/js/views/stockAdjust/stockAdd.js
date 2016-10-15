@@ -495,6 +495,7 @@ function importHandel(type){
 	    }
 	    var param = {
 	        url:contextPath+"/stock/adjust/importList",
+	        tempUrl:contextPath+"/stock/adjust/exportTemp",
 	        branchId:branchId,
 	        type:type
 	    }
@@ -584,4 +585,8 @@ function exportExcel(){
 	$("#queryForm").attr("action",contextPath+"/goods/report/exportList");
 	$("#queryForm").submit(); 
 
+}
+
+function downExportFile(){
+	alert("wwww");
 }
