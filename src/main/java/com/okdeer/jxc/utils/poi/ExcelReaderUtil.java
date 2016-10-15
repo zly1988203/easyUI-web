@@ -390,7 +390,7 @@ public class ExcelReaderUtil {
 		JSONObject json = null;
 
 		// Read the Cell，循环遍历Excel单元格
-		for (int cellNum = 0; cellNum < cellCount; cellNum++) {
+		for (int cellNum = 0; cellNum < fields.length; cellNum++) {
 			if (json == null){
 				json = new JSONObject();
 			}
