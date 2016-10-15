@@ -95,10 +95,10 @@ function delStockForm(){
 	$.messager.confirm('提示','是否要删除此条数据',function(data){
 		if(data){
 			$.ajax({
-		    	url:contextPath+"/form/deliverForm/deleteDeliverForm",
+		    	url:contextPath+"/stock/adjust/deleteStockAdjust",
 		    	type:"POST",
 		    	data:{
-		    		formId : row.deliverFormId
+		    		id : row.id
 		    	},
 		    	success:function(result){
 		    		console.log(result);
@@ -123,7 +123,7 @@ function delStockForm(){
 function selectBranches(){
 	new publicAgencyService(function(data){
 		$("#createBranchId").val(data.branchesId);
-		$("#brancheName").val(data.branchName);
+		$("#branchName").val(data.branchName);
 	},'BF','');
 }
 /**
@@ -131,13 +131,13 @@ function selectBranches(){
  */
 function selectOperator(){
 	new publicOperatorService(function(data){
-		$("#operateUserId").val(data.id);
+		$("#salesmanId").val(data.id);
 		$("#operateUserName").val(data.userName);
 	});
 }
 
 //打印
-function printDesign(){
+/*function printDesign(){
      var dg = $("#gridRequireOrders");
      var row = dg.datagrid("getSelected");
      if(rowIsNull(row)){
@@ -146,11 +146,50 @@ function printDesign(){
      //弹出打印页面
      parent.addTabPrint('PASheet' + row.id,row.formNo+'单据打印',contextPath + '/printdesign/design?page=PASheet&controller=/form/purchase&template=-1&sheetNo=' + row.id + '&gridFlag=PAGrid','');
 }
-
+*/
 /**
  * 导出
  */
 function exportExcel(){
+	debugger;
+	var rows = $("#stockFromList").datagrid("getChecked");
+	if(rows.length==0){
+		$.messager.alert('提示',"无数据可导");
+		return ;
+	}
+	if(rows.length>10000){
+		$.messager.alert('提示',"当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
+		return;
+	}
+	
+	var ids = [];
+	$.each(rows,function(i,row){
+		ids.push(row["id"]);
+	})
+	var objs = $("#queryForm").serialize();
+	var param;
+	if(ids.length >0){
+		param = objs +"&ids="+ids;
+	}else{
+		param = objs;
+	}
+	$.ajax({
+		url:contextPath+"/stock/adjust/exportList",
+		type:'GET',
+		data:param,
+		success:function(data){
+			if(data.code==0){
+				
+				$.messager.alert('提示',"导入成功");
+			}else{
+				$.messager.alert('提示',"导入失败");
+			}
+		},
+		error:function(error){
+			
+		}
+	})
+	
 	$("#queryForm").form({
 		success : function(data){
 			if(data.code > 0){
@@ -158,23 +197,6 @@ function exportExcel(){
 			}
 		}
 	});
-
-	var isValid = $("#queryForm").form('validate');
-	if(!isValid){
-		return;
-	}
-
-	var length = $("#goodsTab").datagrid('getData').total;
-	if(length == 0){
-		$.messager.alert('提示',"无数据可导");
-		return;
-	}
-	if(length>10000){
-		$.messager.alert('提示',"当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
-		return;
-	}
-	$("#queryForm").attr("action",contextPath+"/goods/report/exportList");
-	$("#queryForm").submit(); 
 
 }
 

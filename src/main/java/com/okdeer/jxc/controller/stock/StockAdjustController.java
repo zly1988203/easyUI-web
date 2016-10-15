@@ -9,6 +9,7 @@ package com.okdeer.jxc.controller.stock;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,10 +18,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.LogConstant;
 import com.okdeer.jxc.common.result.RespJson;
+import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
+import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.controller.BaseController;
+import com.okdeer.jxc.report.qo.GoodsReportQo;
+import com.okdeer.jxc.report.vo.GoodsReportVo;
 import com.okdeer.jxc.stock.service.StockAdjustServiceApi;
 import com.okdeer.jxc.stock.vo.StockFormDetailVo;
 import com.okdeer.jxc.stock.vo.StockFormVo;
@@ -214,6 +220,58 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 		}
 		return null;
 	}
+	/**
+	 * 
+	 * @Description: 删除库存调整信息
+	 * @param id
+	 * @return
+	 * @author liux01
+	 * @date 2016年10月14日
+	 */
+	@RequestMapping(value = "deleteStockAdjust", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson deleteStockAdjust(String id){
+		try {
+			return stockAdjustServiceApi.deleteStockAdjust(id);
+		} catch (Exception e) {
+			LOG.error("删除单据信息异常:{}", e);
+		}
+		return null;
+	}
+	/**
+	 * 
+	 * @Description: 导出
+	 * @param response
+	 * @param qo
+	 * @return
+	 * @author liux01
+	 * @date 2016年10月14日
+	 */
+	@RequestMapping(value = "/exportList", method = RequestMethod.GET)
+	@ResponseBody
+	public RespJson exportList(HttpServletResponse response, StockFormVo vo) {
+
+		LOG.info("库存调整导出execl：vo" + vo);
+		RespJson resp = RespJson.success();
+		try {
+			// 如果没有选择店铺，则查询登录人所在机构的商品
+			/*if (StringUtils.isEmpty(vo.getBranchId())) {
+				vo.setBranchId(UserUtil.getCurrBranchId());
+			}*/
+			List<StockFormDetailVo> exportList = stockAdjustServiceApi.exportList(vo);
+
+			String fileName = "库存调整" + "_" + DateUtils.getCurrSmallStr();
+
+			String templateName = ExportExcelConstant.GOODSREPORT;
+
+			exportPageForXLSX(response, exportList, fileName, templateName);
+		} catch (Exception e) {
+			LOG.error("商品查询导出execl出现错误{}", e);
+			resp = RespJson.error();
+		}
+		return resp;
+	}
+	
 	
 	
 }
