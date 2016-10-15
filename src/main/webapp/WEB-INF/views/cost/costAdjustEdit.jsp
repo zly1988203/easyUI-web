@@ -17,7 +17,7 @@
                 <div class="ubtns-item" onclick="editsaveOrder()">保存</div>
                 <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
                 <div class="ubtns-item" onclick="importproductAll()">导入</div>
-                <div class="ubtns-item" onclick="importproductAll()">导出</div>
+                <div class="ubtns-item" onclick="exportExcel()">导出</div>
                  <div class="ubtns-item" onclick="costcheck()">审核</div>
                 <div class="ubtns-item" onclick="delCostForm()">删单</div>
                 <div class="ubtns-item" onclick="toBack()">返回</div>
@@ -25,7 +25,9 @@
         </div>
         <div class="ub umar-t8 uc-black">【单号】：<span >${data.adjustNo}</span></div>
         <div class="ub uline umar-t10"></div>
-         <input type="hidden" id="adjusId" value="${data.id}">
+        <form action="" id="searchForm" method="post">
+       		 <input type="hidden" id="adjusId" name="id" value="${data.id}">
+        </form>
         <input type="hidden" id="adjustNo" value="${data.adjustNo}">
         <div class="ub umar-t10">
                 <div class="ub ub-ac uw-300">
@@ -80,7 +82,7 @@
            </div>
     </div>
      <!-- 导入弹框 -->
-    <div class="uabs uatk">
+   <!--  <div class="uabs uatk">
 
      	<div class="uatit">导入文件选择</div>
          <div class="uacon"><input class="uinp ub" id="filename" type="text"><label class="ualable">选择文件<input type="file" class="uafile" value=""  name="xlfile" id="xlf" /></label></div>
@@ -89,6 +91,6 @@
      	 		<button class="uabtn umar-r30" onclick="importHandel('gridEditOrder')">导入</button>
      	 	<button class="uabtn" onclick="uaclose()" >取消</button>
      	 </div>
-     </div>
+     </div> -->
 </body>
 </html>
