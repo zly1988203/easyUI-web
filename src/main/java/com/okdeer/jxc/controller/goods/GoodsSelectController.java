@@ -276,11 +276,11 @@ public class GoodsSelectController extends
 //			goodsSelect.setReceiveNum(good.getReceiveNum());
 //			goodsSelect.setDealNum(good.getDealNum());
 			// 是否赠品
-			if (Constant.ISGIFT.equals(good.getIsGift())) {
-				goodsSelect.setIsGift(Constant.STRING_ONE);
-			} else {
-				goodsSelect.setIsGift(Constant.ZERO_STR);
-			}
+//			if (Constant.ISGIFT.equals(good.getIsGift())) {
+//				goodsSelect.setIsGift(Constant.STRING_ONE);
+//			} else {
+//				goodsSelect.setIsGift(Constant.ZERO_STR);
+//			}
 
 			goodsSelectList.add(goodsSelect);
 		}

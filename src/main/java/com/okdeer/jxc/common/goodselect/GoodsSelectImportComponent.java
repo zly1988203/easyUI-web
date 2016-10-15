@@ -8,15 +8,23 @@ package com.okdeer.jxc.common.goodselect;
 
 import java.io.InputStream;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.alibaba.fastjson.JSONArray;
 import com.okdeer.jxc.goods.entity.GoodsSelect;
 import com.okdeer.jxc.goods.service.GoodsSelectServiceApi;
+import com.okdeer.jxc.utils.poi.ExcelExportUtil;
 import com.okdeer.jxc.utils.poi.ExcelReaderUtil;
 
 import net.sf.json.JSONObject;
@@ -40,16 +48,14 @@ public class GoodsSelectImportComponent {
 	@Reference(version = "1.0.0", check = false)
 	private GoodsSelectServiceApi goodsSelectServiceApi;
 	
-	//采购货号导入{货号,数量，是否赠品}
-	public static final String[] purchase_sku_code = {"skuCode","num","isGift"};
-	//采购条码导入{条码,数量，是否赠品}
-	public static final String[] purchase_bar_code = {"barCode","num","isGift"};
+	@Resource
+	private StringRedisTemplate redisTemplateTmp;
 
 	/**
 	 * @author xiaoj02
 	 * @date 2016年10月13日
 	 */
-	public <T extends GoodsSelect> GoodsSelectImportVo<T> importSelectGoods(String fileName, InputStream is, String[] fields, T entity, String branchId, String type,GoodSelectImportBusinessValid businessValid) {
+	public <T extends GoodsSelect> GoodsSelectImportVo<T> importSelectGoods(String fileName, InputStream is, String[] fields, T entity, String branchId, String userId, String type, String errorFileDownloadUrlPrefix ,GoodsSelectImportBusinessValid businessValid) {
 		//读取excel
 		List<JSONObject> excelList = ExcelReaderUtil.readExcel(fileName, is, fields);
 		
@@ -110,9 +116,40 @@ public class GoodsSelectImportComponent {
 		
 		goodsSelectImportVo.setMessage(message.toString());
 		
-		goodsSelectImportVo.setErrorFileUrl("http://功能还没实现，等我下午来写");
+		List<JSONObject> errorList = goodsSelectImportHandle.getExcelListErrorData();
+		
+		//错误excel内容
+		String jsonText = JSONArray.toJSON(errorList).toString();
+		//文件key
+		String code = "goodsSelectImport_" + userId;
+		// 保存10分钟，单用户同时只能保存一个错误文件
+		redisTemplateTmp.opsForValue().set(code, jsonText, 10, TimeUnit.MINUTES);
+		
+		goodsSelectImportVo.setErrorFileUrl(errorFileDownloadUrlPrefix + "?code="+code);
 		
 		return goodsSelectImportVo;
+	}
+	
+	/**
+	 * 
+	 * @Description: 下载错误文件
+	 * @param code 下载的key
+	 * @param reportFileName 导出文件名称
+	 * @param headers 表格头名称
+	 * @param columns 表格头对应的属性名称
+	 * @param response 输出对象
+	 * @author xiaoj02
+	 * @date 2016年10月15日
+	 */
+	public void downloadErrorFile(String code, String reportFileName, String[] headers, String[] columns, HttpServletResponse response){
+		String jsonText = redisTemplateTmp.opsForValue().get(code);
+		
+		headers = ArrayUtils.add(headers, "错误原因");
+		columns = ArrayUtils.add(columns, "error");
+		
+		List<JSONObject> dataList = JSONArray.parseArray(jsonText, JSONObject.class);
+		
+		ExcelExportUtil.exportExcel(reportFileName, headers, columns, dataList, response);
 	}
 	
 	

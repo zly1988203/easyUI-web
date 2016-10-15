@@ -46,7 +46,7 @@ public class GoodsSelectImportBarCodeHandle implements GoodsSelectImportHandle{
 	List<String> excelSuccessBarCode = null; 
 	
 	
-	public GoodsSelectImportBarCodeHandle(List<JSONObject> excelList, String[] excelField, GoodSelectImportBusinessValid businessValid){
+	public GoodsSelectImportBarCodeHandle(List<JSONObject> excelList, String[] excelField, GoodsSelectImportBusinessValid businessValid){
 		this.excelListFullData = excelList;
 		//检验标记出BarCode重复或者为空的数据
 		checkBarCodeIsNullAndRepeat();
