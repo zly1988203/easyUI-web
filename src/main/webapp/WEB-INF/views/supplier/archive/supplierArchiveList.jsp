@@ -21,10 +21,21 @@
 	<div class="ub ub-ver ub-f1 upad-4">
 		<div class="ub ub-ac">
 			<div class="ubtns">
-				<button class="ubtns-item" onclick="addHandel()">新增</button>
-				<button class="ubtns-item" onclick="copyHandel()">复制</button>
-				<button class="ubtns-item" onclick="delHandel()">删除</button>
-				<button class="ubtns-item" onclick="exportHandel()">导出</button>
+				<shiro:hasPermission name="JxcSupplierArchive:add">
+					<button class="ubtns-item" onclick="addHandel()">新增</button>
+			   	</shiro:hasPermission>
+				<shiro:hasPermission name="JxcSupplierArchive:copy">
+					<button class="ubtns-item" onclick="copyHandel()">复制</button>
+			   	</shiro:hasPermission>
+				<shiro:hasPermission name="JxcSupplierArchive:delete">
+					<button class="ubtns-item" onclick="delHandel()">删除</button>
+			   	</shiro:hasPermission>
+				<shiro:hasPermission name="JxcSupplierArchive:export">
+					<button class="ubtns-item" onclick="exportHandel()">导出</button>
+			   	</shiro:hasPermission>
+			   	<div id="updatePermission" class="none">
+					<shiro:hasPermission name="JxcSupplierArchive:update" >修改</shiro:hasPermission>
+				</div>
 				<button class="ubtns-item" onclick="toClose()">退出</button>
 			</div>
 		</div>

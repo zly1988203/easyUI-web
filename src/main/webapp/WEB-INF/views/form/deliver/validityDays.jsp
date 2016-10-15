@@ -14,7 +14,10 @@
 <body class="ub ub-ver uw uh ufs-14 uc-black">
 	<div class="ub ub-ac upad-4">
 		<div class="ubtns">
-			<div class="ubtns-item" onclick="save()">保存</div>
+			
+			<shiro:hasPermission name="JxcDeliverSet:save">
+				<div class="ubtns-item" onclick="save()">保存</div>
+		   	</shiro:hasPermission>
 			<div class="ubtns-item" onclick="toClose()">关闭</div>
 		</div>
 	</div>
