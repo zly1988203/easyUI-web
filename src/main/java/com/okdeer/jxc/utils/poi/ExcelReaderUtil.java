@@ -391,11 +391,13 @@ public class ExcelReaderUtil {
 
 		// Read the Cell，循环遍历Excel单元格
 		for (int cellNum = 0; cellNum < cellCount; cellNum++) {
+			if (json == null){
+				json = new JSONObject();
+			}
 			Cell cell = row.getCell(cellNum);
 			if (cell == null) {
 				continue;
 			}
-			json = new JSONObject();
 			Object content = getValue(cell);
 			json.accumulate(fields[cellNum], content);
 

@@ -520,10 +520,6 @@ function selectBranch(){
 }
 
 function toImportproduct(type){
-    //if($("#supplierId").val()==""){
-    //    messager("请先选择供应商");
-    //    return;
-    //}
     var branchId = $("#branchId").val();
     if(!branchId){
         messager("请先选择收货机构");
@@ -531,11 +527,11 @@ function toImportproduct(type){
     }
     var param = {
         url:contextPath+"/form/purchase/importList",
+        tempUrl:contextPath+"/form/purchase/exportTemp",
         type:type,
         branchId:branchId,
     }
     new publicUploadFileService(function(data){
-        console.log(data);
         updateListData(data);
     },param)
 }

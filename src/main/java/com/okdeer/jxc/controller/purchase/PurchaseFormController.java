@@ -885,7 +885,14 @@ public class PurchaseFormController extends
 			// 获取文件名
 			String fileName = file.getOriginalFilename();
 			
-			GoodsSelectImportVo<GoodsSelect> vo = goodsSelectImportComponent.importSelectGoods(fileName, is, new String[]{"skuCode"}, new GoodsSelect(), branchId, type, null);
+			String[] field = null;
+			if(type.equals(String.valueOf(Constant.ZERO))){
+				field = GoodsSelectImportComponent.purchase_sku_code;
+			}else if(type.equals(String.valueOf(Constant.ONE))){
+				field = GoodsSelectImportComponent.purchase_bar_code;
+			}
+			
+			GoodsSelectImportVo<GoodsSelect> vo = goodsSelectImportComponent.importSelectGoods(fileName, is, field , new GoodsSelect(), branchId, type, null);
 			
 			respJson.put("importInfo", vo);
 			

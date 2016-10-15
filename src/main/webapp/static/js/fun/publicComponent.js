@@ -1006,7 +1006,7 @@ function gFunUpdateKey(arrs,obj){
     var newArrs = [];
     $.each(arrs,function(i,item){
         $.each(obj,function(k,v){
-            //debugger;
+            debugger;
         	if(item[k]||parseInt(item[k])===0||item[k]===""){
             	if(v){
             		item[v] = gFunIsNotNull(item[k])?item[k]:"";
@@ -1360,26 +1360,4 @@ $.extend($.fn.validatebox.defaults.rules, {
         message: '两次输入的密码不一致！'
     }
 });
-
-/**
- * 调用导入功能type:0货号导入,1条码导入
- * @param type
- */
-/*function toImportproduct(type){
-    if($("#supplierId").val()==""){
-        messager("请先选择供应商");
-        return;
-    }
-    var branchId = $("#branchId").val();
-    if(!branchId){
-        messager("请先选择收货机构");
-        return;
-    }
-    importproductTemplate(type);
-    if(type==0){
-    	$("#temple").text('货号模版下载');
-    }else{
-    	$("#temple").text('条码模版下载');
-    }
-}*/
 
