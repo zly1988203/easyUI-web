@@ -19,20 +19,19 @@
             <div class="ubtns">
                 <div class="ubtns-item" onclick="saveOrder()">保存</div>
                 <div class="ubtns-item" onclick="check()">审核</div>
-                <div class="ubtns-item" onclick="importproductAll()">导入</div>
+                <div class="ubtns-item" onclick="importHandel(0)">导入货号</div>
+                <div class="ubtns-item" onclick="importHandel(1)">导入条码</div>
                 <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
                 <div class="ubtns-item" onclick="toBack()">返回</div>
             </div>
         </div>
  <div class="ub umar-t8 uc-black">【单号】：<span id="formNo">${stockFormVo.formNo}</span></div>
-        <input type="hidden" id="formId" name="formId" value="${stockFormVo.id}">  
-        <input type="hidden" id="formNo" value="${stockFormVo.formNo}">
         <div class="ub uline umar-t10"></div>
         <div class="ub umar-t10">
                <div class="ub ub-ac uw-300">
 	                <div class="umar-r10 uw-70 ut-r">机构名称:</div>
 	                <input type="hidden" name="branchId" id="branchId" class="uinp" value="${stockFormVo.branchId }"/>
-			 
+			 <input type="hidden" id="formId" name="formId" value="${stockFormVo.id}">
 					<input type="text" name="branchName" id="branchName"class="uinp ub ub-f1" readonly="readonly" value="${stockFormVo.branchName }" />
 					<div class="uinp-more" onclick="searchBranch()">...</div>
 	           </div>
