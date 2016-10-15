@@ -148,7 +148,6 @@ function delHandel(){
  * 搜索
  */
 function searchHandel(){
-    debugger;
     var formData = $('#formList').serializeObject();
     var postParams = $.extend(formData,{branchId:gVarBranchId})
     $("#gridSupplierAreaList").datagrid("options").queryParams = postParams;
