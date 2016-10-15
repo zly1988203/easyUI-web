@@ -2,6 +2,9 @@ package com.okdeer.jxc.controller.cost;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,7 +14,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
+import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.result.RespJson;
+import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.cost.entity.StockCostForm;
@@ -299,6 +304,38 @@ public class CostAdjustController extends BaseController<StockCostForm>{
 			return RespJson.error("删除成本调整单失败！");
 		}
 	}
+	
+	/**
+	 * @Description: 成本调价导出
+	 * @param id
+	 * @param response
+	 * @return
+	 * @author lijy02
+	 * @date 2016年10月15日
+	 */
+	@RequestMapping(value = "exportGoods", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson exportGoods(String id, HttpServletResponse response) {
+		try {
+			List<StockCostFormDetail>  list= stockCostFormServiceApi.queryCostFormDetailList(id);
+			if (CollectionUtils.isNotEmpty(list)) {
+				// 导出文件名称，不包括后缀名
+				String fileName = "成本调价单" + "_" + DateUtils.getCurrSmallStr();
+				// 模板名称，包括后缀名
+				String templateName = ExportExcelConstant.COST_ADJUST_EXPORT_EXCEL;
 
+				// 导出Excel
+				exportPageForXLSX(response, list, fileName, templateName);
+				return null;
+			} else {
+				RespJson json = RespJson.error("无数据可导");
+				return json;
+			}
+		} catch (Exception e) {
+			LOG.error("导出商品失败", e);
+			RespJson json = RespJson.error(e.toString());
+			return json;
+		}
+	}
 
 }

@@ -7,8 +7,6 @@
 
 package com.okdeer.jxc.controller.goods;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -36,7 +34,6 @@ import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.controller.BasePrintController;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportComponent;
-import com.okdeer.jxc.common.goodselect.GoodsSelectImportVo;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.ListUtils;
@@ -47,7 +44,6 @@ import com.okdeer.jxc.form.enums.FormType;
 import com.okdeer.jxc.goods.entity.GoodsPriceForm;
 import com.okdeer.jxc.goods.entity.GoodsPriceFormBranch;
 import com.okdeer.jxc.goods.entity.GoodsPriceFormDetail;
-import com.okdeer.jxc.goods.entity.GoodsSelectPriceAdjst;
 import com.okdeer.jxc.goods.service.GoodsPriceAdustServiceApi;
 import com.okdeer.jxc.goods.vo.GoodsPriceFormConst;
 import com.okdeer.jxc.goods.vo.GoodsPriceFormVo;
@@ -78,10 +74,11 @@ public class GoodsPriceAdjustController extends
 	// 单据生成
 	@Autowired
 	private OrderNoUtils orderNoUtils;
-	//导入
+
+	// 导入
 	@Autowired
 	private GoodsSelectImportComponent goodsSelectImportComponent;
-	
+
 	/**
 	 * @Description: 调价单页面展示
 	 * @return
@@ -483,12 +480,12 @@ public class GoodsPriceAdjustController extends
 			} else {
 				return RespJson.error("获取用户信息失败");
 			}
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");  
-		    Date effect = sdf.parse(effectDate);  
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			Date effect = sdf.parse(effectDate);
 			goodsPriceForm.setEffectDate(effect);
 			if (DateUtils.compareDate(effect) < 0) {
 				return RespJson.error("生效时间比今天小");
-			}else {
+			} else {
 				goodsPriceAdustService.checkForm(goodsPriceForm);
 			}
 		} catch (Exception e) {
@@ -564,7 +561,7 @@ public class GoodsPriceAdjustController extends
 			LOG.error("调价单导入模版下载失败:", e);
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @Description: 调价单导入
@@ -577,32 +574,35 @@ public class GoodsPriceAdjustController extends
 	 */
 	@RequestMapping(value = "importList")
 	@ResponseBody
-	public RespJson importList(@RequestParam("file") MultipartFile file,String type, String branchId){
+	public RespJson importList(@RequestParam("file") MultipartFile file,
+			String type, String branchId) {
 		RespJson respJson = RespJson.success();
-//		try {
-//			if(file.isEmpty()){
-//				return RespJson.error("文件为空");
-//			}
-//			if(StringUtils.isBlank(type)){
-//				return RespJson.error("导入类型为空");
-//			}
-//			// 文件流
-//			InputStream is = file.getInputStream();
-//			// 获取文件名
-//			String fileName = file.getOriginalFilename();
-//			GoodsSelectImportVo<GoodsSelectPriceAdjst> vo = goodsSelectImportComponent.importSelectGoods(fileName, is, new String[]{"skuCode"}, new GoodsSelectPriceAdjst(), branchId, type, null);
-//			respJson.put("importInfo", vo);
-//		} catch (IOException e) {
-//			respJson = RespJson.error("读取Excel流异常");
-//			LOG.error("读取Excel流异常:", e);
-//		} catch (Exception e) {
-//			respJson = RespJson.error("导入发生异常");
-//			LOG.error("用户导入异常:", e);
-//		}
+		// try {
+		// if(file.isEmpty()){
+		// return RespJson.error("文件为空");
+		// }
+		// if(StringUtils.isBlank(type)){
+		// return RespJson.error("导入类型为空");
+		// }
+		// // 文件流
+		// InputStream is = file.getInputStream();
+		// // 获取文件名
+		// String fileName = file.getOriginalFilename();
+		// GoodsSelectImportVo<GoodsSelectPriceAdjst> vo =
+		// goodsSelectImportComponent.importSelectGoods(fileName, is, new
+		// String[]{"skuCode"}, new GoodsSelectPriceAdjst(), branchId, type,
+		// null);
+		// respJson.put("importInfo", vo);
+		// } catch (IOException e) {
+		// respJson = RespJson.error("读取Excel流异常");
+		// LOG.error("读取Excel流异常:", e);
+		// } catch (Exception e) {
+		// respJson = RespJson.error("导入发生异常");
+		// LOG.error("用户导入异常:", e);
+		// }
 		return respJson;
-		
+
 	}
-	
 
 	/**
 	 * (non-Javadoc)

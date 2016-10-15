@@ -13,8 +13,12 @@
 	<div class="ub ub-ver ub-f1 upad-4">
 		<div class="ub ub-ac">
 			<div class="ubtns">
+			<shiro:hasPermission name="JxcSupplierArea:add">
 				<button class="ubtns-item" onclick="addHandel()">新增</button>
+			</shiro:hasPermission>
+			<shiro:hasPermission name="JxcSupplierArea:delete">
 				<button class="ubtns-item" onclick="delHandel()">删除</button>
+			</shiro:hasPermission>
 				<button class="ubtns-item" onclick="toClose()">退出</button>
 			</div>
 		</div>
