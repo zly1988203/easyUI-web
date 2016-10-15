@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.LogConstant;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid;
@@ -275,9 +276,9 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 
 			String fileName = "库存调整" + "_" + DateUtils.getCurrSmallStr();
 
-			String templateName = ExportExcelConstant.GOODSREPORT;
+			String templateName = ExportExcelConstant.STOCKADJUST;
 
-			exportPageForXLSX(response, exportList, fileName, templateName);
+			exportListForXLSX(response, exportList, fileName, templateName);
 		} catch (Exception e) {
 			LOG.error("商品查询导出execl出现错误{}", e);
 			resp = RespJson.error();
@@ -391,9 +392,15 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 	public void exportTemp(HttpServletResponse response, String type) {
 		try {
 			// 导出文件名称，不包括后缀名
-			String fileName = "库存调整导入模板";
-			// 模板名称，包括后缀名
-			String templateName = ExportExcelConstant.STOCK_ADJUST_TEMPLE;
+			String fileName = null;
+			String templateName = null;
+			if(type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)){
+				fileName = "库存调整货号导入模板";
+				templateName = ExportExcelConstant.STOCK_ADJUST_SKU_TEMPLE;
+			}else if(type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)){
+				templateName = ExportExcelConstant.STOCK_ADJUST_BAR_TEMPLE;
+				fileName = "商品条码条码导入模板";
+			}
 			// 导出Excel
 			exportListForXLSX(response, null, fileName, templateName);
 		} catch (Exception e) {

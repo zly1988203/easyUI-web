@@ -75,7 +75,7 @@ public class GoodsSelectImportSkuCodeHandle implements GoodsSelectImportHandle{
 			String skuCode = jsonObject.getString("skuCode");
 			GoodsSelect goods = getBySkuCode(dblist, skuCode);
 			if(goods == null){//数据库不存在的数据
-				jsonObject.accumulate("error", NOT_EXISTS);
+				jsonObject.element("error", NOT_EXISTS);
 			}
 		}
 		
@@ -135,18 +135,18 @@ public class GoodsSelectImportSkuCodeHandle implements GoodsSelectImportHandle{
 			String objSkuCode = obj.getString("skuCode");
 			//货号为空
 			if(StringUtils.isBlank(objSkuCode)){
-				obj.accumulate("error", CODE_IS_BLANK);
+				obj.element("error", CODE_IS_BLANK);
 				continue;
 			}
 			//货号重复
 			if(skuCodeSet.keySet().contains(objSkuCode)){
 				
-				obj.accumulate("error", CODE_IS_REPEAT);
+				obj.element("error", CODE_IS_REPEAT);
 				//取出原来重复的数据,标记重复
 				Integer index = skuCodeSet.get(objSkuCode);
 				JSONObject existsObj = excelListFullData.get(index);
 				if(existsObj.get("error") == null){
-					existsObj.accumulate("error", CODE_IS_REPEAT);
+					existsObj.element("error", CODE_IS_REPEAT);
 				}
 				
 				continue;
@@ -189,7 +189,7 @@ public class GoodsSelectImportSkuCodeHandle implements GoodsSelectImportHandle{
 			
 			//忽略第一列,合并属性
 			for (int j = 1; j < excelField.length; j++) {
-				obj.accumulate(excelField[j], excelJson.get(excelField[j]));
+				obj.element(excelField[j], excelJson.get(excelField[j]));
 			}
 		}
 		JSONUtils.getMorpherRegistry().registerMorpher(new EnumMorpher(GoodsTypeEnum.class));

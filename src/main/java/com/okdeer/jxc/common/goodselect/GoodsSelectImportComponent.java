@@ -48,20 +48,97 @@ public class GoodsSelectImportComponent {
 	@Reference(version = "1.0.0", check = false)
 	private GoodsSelectServiceApi goodsSelectServiceApi;
 	
-	@Resource
+	@Resource 
 	private StringRedisTemplate redisTemplateTmp;
 	
-	
+	/**
+	 * 导入excel，查询商品(单个机构)
+	 * @Description: TODO
+	 * @param fileName
+	 * @param is
+	 * @param fields
+	 * @param entity
+	 * @param branchId
+	 * @param userId
+	 * @param type
+	 * @param errorFileDownloadUrlPrefix
+	 * @param businessValid
+	 * @return
+	 * @author xiaoj02
+	 * @date 2016年10月15日
+	 */
 	public <T extends GoodsSelect> GoodsSelectImportVo<T> importSelectGoods(String fileName, InputStream is, String[] fields, T entity, String branchId, String userId, String type, String errorFileDownloadUrlPrefix ,GoodsSelectImportBusinessValid businessValid) {
 		String[] branchIds = {branchId};
-		return importSelectGoodsMultiBranch(fileName, is, fields, entity, branchIds, userId, type, errorFileDownloadUrlPrefix, businessValid);
+		return importSelectGoodsMultiBranch(fileName, is, fields, entity, branchIds, userId, type, false, errorFileDownloadUrlPrefix, businessValid);
 	}
+	
+	/**
+	 *  导入excel，查询商品(多个机构)
+	 * @Description: TODO
+	 * @param fileName
+	 * @param is
+	 * @param fields
+	 * @param entity
+	 * @param branchId
+	 * @param userId
+	 * @param type
+	 * @param errorFileDownloadUrlPrefix
+	 * @param businessValid
+	 * @return
+	 * @author xiaoj02
+	 * @date 2016年10月15日
+	 */
+	public <T extends GoodsSelect> GoodsSelectImportVo<T> importSelectGoodsMultiBranch(String fileName, InputStream is, String[] fields, T entity, String[] branchId, String userId, String type, String errorFileDownloadUrlPrefix ,GoodsSelectImportBusinessValid businessValid) {
+		return importSelectGoodsMultiBranch(fileName, is, fields, entity, branchId, userId, type, false, errorFileDownloadUrlPrefix, businessValid);
+	}
+	
+	/**
+	 * 导入excel，查询商品和库存(单个机构)
+	 * @Description: TODO
+	 * @param fileName
+	 * @param is
+	 * @param fields
+	 * @param entity
+	 * @param branchId
+	 * @param userId
+	 * @param type
+	 * @param errorFileDownloadUrlPrefix
+	 * @param businessValid
+	 * @return
+	 * @author xiaoj02
+	 * @date 2016年10月15日
+	 */
+	public <T extends GoodsSelect> GoodsSelectImportVo<T> importSelectGoodsWithStock(String fileName, InputStream is, String[] fields, T entity, String branchId, String userId, String type, String errorFileDownloadUrlPrefix ,GoodsSelectImportBusinessValid businessValid) {
+		String[] branchIds = {branchId};
+		return importSelectGoodsMultiBranch(fileName, is, fields, entity, branchIds, userId, type, true, errorFileDownloadUrlPrefix, businessValid);
+	}
+	
+	/**
+	 * 导入excel，查询商品和库存(多个机构)
+	 * @Description: TODO
+	 * @param fileName
+	 * @param is
+	 * @param fields
+	 * @param entity
+	 * @param branchId
+	 * @param userId
+	 * @param type
+	 * @param errorFileDownloadUrlPrefix
+	 * @param businessValid
+	 * @return
+	 * @author xiaoj02
+	 * @date 2016年10月15日
+	 */
+	public <T extends GoodsSelect> GoodsSelectImportVo<T> importSelectGoodsMultiBranchWithStock(String fileName, InputStream is, String[] fields, T entity, String[] branchId, String userId, String type, String errorFileDownloadUrlPrefix ,GoodsSelectImportBusinessValid businessValid) {
+		return importSelectGoodsMultiBranch(fileName, is, fields, entity, branchId, userId, type, true, errorFileDownloadUrlPrefix, businessValid);
+	}
+	
 
 	/**
 	 * @author xiaoj02
 	 * @date 2016年10月13日
 	 */
-	public <T extends GoodsSelect> GoodsSelectImportVo<T> importSelectGoodsMultiBranch(String fileName, InputStream is, String[] fields, T entity, String[] branchId, String userId, String type, String errorFileDownloadUrlPrefix ,GoodsSelectImportBusinessValid businessValid) {
+	private <T extends GoodsSelect> GoodsSelectImportVo<T> importSelectGoodsMultiBranch(String fileName, InputStream is, String[] fields, T entity, String[] branchId, String userId, String type, Boolean withStock, String errorFileDownloadUrlPrefix ,GoodsSelectImportBusinessValid businessValid) {
 		//读取excel
 		List<JSONObject> excelList = ExcelReaderUtil.readExcel(fileName, is, fields);
 		
@@ -81,7 +158,7 @@ public class GoodsSelectImportComponent {
 			List<String> list = goodsSelectImportHandle.getExcelSuccessCode();
 			
 			//根据货号查询商品
-			dbList = goodsSelectServiceApi.queryListBySkuCode(list.toArray(new String[list.size()]), branchId);
+			dbList = goodsSelectServiceApi.queryListBySkuCode(list.toArray(new String[list.size()]), branchId, withStock);
 			
 		}else if(type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)){//条码
 			
@@ -92,7 +169,7 @@ public class GoodsSelectImportComponent {
 			List<String> list = goodsSelectImportHandle.getExcelSuccessCode();
 			
 			//根据条码查询商品，过滤掉条码重复的商品
-			dbList = goodsSelectServiceApi.queryListByBarCode(list.toArray(new String[list.size()]), branchId);
+			dbList = goodsSelectServiceApi.queryListByBarCode(list.toArray(new String[list.size()]), branchId, withStock);
 			
 		}else{
 			throw new RuntimeException("导入类型不合法:\t"+type);
