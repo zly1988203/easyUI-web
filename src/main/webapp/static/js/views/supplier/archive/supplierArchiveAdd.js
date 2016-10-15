@@ -1,6 +1,20 @@
 /**
  * Created by huangj02 on 2016/10/12.
  */
+$(function(){
+	
+	//供应商区域选择事件
+	bindSupplierAreaSelect();
+	
+	var supplierIdVal = $("#supplierIdVal").val();
+	
+	if(supplierIdVal){
+		//初始化下拉框选中值
+		selectParamInit();
+	}
+	
+});
+
 function saveSupplier() {
 	var formObj = $('#formAdd').serializeObject();
 	var isValid = $("#formAdd").form('validate');

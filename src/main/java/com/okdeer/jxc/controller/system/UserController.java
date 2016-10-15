@@ -10,11 +10,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.okdeer.jxc.branch.entity.Branches;
+import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
+import com.okdeer.jxc.system.entity.SysRole;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.system.qo.SysUserQo;
+import com.okdeer.jxc.system.service.SysRoleService;
 import com.okdeer.jxc.system.service.SysUserServiceApi;
 import com.okdeer.jxc.system.vo.SysUserVo;
 
@@ -36,6 +40,12 @@ public class UserController extends BaseController<UserController> {
 
 	@Reference(version = "1.0.0", check = false)
 	private SysUserServiceApi sysUserService;
+	
+	@Reference(version = "1.0.0", check = false)
+	private BranchesServiceApi branchService;
+	
+	@Reference(version = "1.0.0", check = false)
+	private SysRoleService roleService;
 
 	/**
 	 * 默认页面
@@ -133,8 +143,15 @@ public class UserController extends BaseController<UserController> {
 	 * @date 2016年10月12日
 	 */
 	@RequestMapping(value = "/toEditUser")
-	public String toEditUser() {
+	public String toEditUser(String userId, Model model) {
 
+		SysUser user = sysUserService.getUserById(userId);
+		Branches branch = branchService.getBranchInfoById(user.getBranchId());
+		SysRole role = roleService.getRoleByUserId(userId);
+		
+		model.addAttribute("user", user);
+		model.addAttribute("branch", branch);
+		model.addAttribute("role", role);
 		return "system/userEdit";
 	}
 

@@ -47,12 +47,9 @@ function addUser(){
         type:"POST",
         data:reqObj,
         success:function(result){
-            if(result && result.code==0){
-                $.messager.alert("操作提示", "操作成功！");
-                closeDialog();
-            }else{
-                successTip(result['message']);
-            }
+        	if(result){
+				alertTip(result.message, reloadDataGrid);
+			}
         },
         error:function(result){
             successTip("请求发送失败或服务器处理失败");
@@ -61,7 +58,3 @@ function addUser(){
 }
 
 
-function closeDialog(){
-	dalogTemp=$('#dg');
-    $(dalogTemp).panel('destroy');
-}
