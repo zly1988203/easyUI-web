@@ -895,9 +895,9 @@ public class PurchaseFormController extends
 			String[] field = null; 
 			
 			if(type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)){//货号
-				field = new String[]{"skuCode","realNum","isGift"};
+				field = new String[]{"skuCode","realNum","price","amount","isGift"};
 			}else if(type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)){//条码
-				field = new String[]{"barCode","realNum","isGift"};
+				field = new String[]{"barCode","realNum","price","amount","isGift"};
 			}
 			
 			GoodsSelectImportVo<GoodsSelect> vo = goodsSelectImportComponent.importSelectGoods(fileName, is,
