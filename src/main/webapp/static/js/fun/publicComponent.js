@@ -1006,7 +1006,6 @@ function gFunUpdateKey(arrs,obj){
     var newArrs = [];
     $.each(arrs,function(i,item){
         $.each(obj,function(k,v){
-            debugger;
         	if(item[k]||parseInt(item[k])===0||item[k]===""){
             	if(v){
             		item[v] = gFunIsNotNull(item[k])?item[k]:"";
