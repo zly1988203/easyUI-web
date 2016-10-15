@@ -46,7 +46,7 @@ public class GoodsSelectImportSkuCodeHandle implements GoodsSelectImportHandle{
 	List<String> excelSuccessSkuCode = null; 
 	
 	
-	public GoodsSelectImportSkuCodeHandle(List<JSONObject> excelList, String[] excelField, GoodSelectImportBusinessValid businessValid){
+	public GoodsSelectImportSkuCodeHandle(List<JSONObject> excelList, String[] excelField, GoodsSelectImportBusinessValid businessValid){
 		this.excelListFullData = excelList;
 		//检验标记出SkuCode重复或者为空的数据
 		checkSkuCodeIsNullAndRepeat();
