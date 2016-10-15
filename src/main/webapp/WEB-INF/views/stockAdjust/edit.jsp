@@ -63,7 +63,7 @@
                <div class="ub ub-ac uselectws">
                     <div class="umar-r10 uw-70 ut-r">出/入库:</div>
                        <!--select-->
-				        <select class="easyui-combobox uselect" name="io" id="io" data-options="editable:false" >
+				        <select class="easyui-combobox uselect" name="io" id="io" data-options="editable:false,onChange:selectTion" >
 								<option value="0" <c:if test="${stockFormVo.io ==0}">selected='selected'</c:if>>入库</option> 
 								<option value="1" <c:if test="${stockFormVo.io ==1}">selected='selected'</c:if>>出库</option>
 				        </select>
