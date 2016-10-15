@@ -964,7 +964,6 @@ public class PurchaseFormController extends
 	
 	
 	/**
-	 * @Description: TODO
 	 * @author xiaoj02
 	 * @date 2016年10月15日
 	 */

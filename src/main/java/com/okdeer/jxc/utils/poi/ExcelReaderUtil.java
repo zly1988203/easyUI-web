@@ -386,11 +386,9 @@ public class ExcelReaderUtil {
 	 * @date 2016年9月24日
 	 */
 	private static void readCell(Row row, String[] fields, JSONArray jArray) {
-		int cellCount = row.getLastCellNum();
 		JSONObject json = null;
-
 		// Read the Cell，循环遍历Excel单元格
-		for (int cellNum = 0; cellNum < cellCount; cellNum++) {
+		for (int cellNum = 0; cellNum < fields.length; cellNum++) {
 			if (json == null){
 				json = new JSONObject();
 			}
@@ -406,7 +404,7 @@ public class ExcelReaderUtil {
 				break;
 			}
 		}
-		if(json!=null){
+		if (json != null && !json.isEmpty()) {
 			jArray.add(json);
 		}
 	}
