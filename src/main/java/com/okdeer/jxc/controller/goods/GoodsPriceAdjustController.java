@@ -587,6 +587,7 @@ public class GoodsPriceAdjustController extends
 	public RespJson importList(@RequestParam("file") MultipartFile file,
 			String type, String branchId) {
 		RespJson respJson = RespJson.success();
+<<<<<<< HEAD
 		try {
 			if (file.isEmpty()) {
 				return RespJson.error("文件为空");
@@ -668,6 +669,28 @@ public class GoodsPriceAdjustController extends
 			respJson = RespJson.error("导入发生异常");
 			LOG.error("用户导入异常:", e);
 		}
+=======
+//		try {
+//			if(file.isEmpty()){
+//				return RespJson.error("文件为空");
+//			}
+//			if(StringUtils.isBlank(type)){
+//				return RespJson.error("导入类型为空");
+//			}
+//			// 文件流
+//			InputStream is = file.getInputStream();
+//			// 获取文件名
+//			String fileName = file.getOriginalFilename();
+//			GoodsSelectImportVo<GoodsSelectPriceAdjst> vo = goodsSelectImportComponent.importSelectGoods(fileName, is, new String[]{"skuCode"}, new GoodsSelectPriceAdjst(), branchId, type, null);
+//			respJson.put("importInfo", vo);
+//		} catch (IOException e) {
+//			respJson = RespJson.error("读取Excel流异常");
+//			LOG.error("读取Excel流异常:", e);
+//		} catch (Exception e) {
+//			respJson = RespJson.error("导入发生异常");
+//			LOG.error("用户导入异常:", e);
+//		}
+>>>>>>> branch 'master' of http://10.20.101.5/ERP/okdeer-jxc-web.git
 		return respJson;
 
 	}

@@ -1,12 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <script  src="${ctx}/static/js/views/supplier/archive/supplierArchiveEdit.js"></script>
 <div class="ub ub-ver  ub-f1  uw uh ufs-14 uc-black">
 	<div class="ub ub-ac upad-4">
 		<div class="ubtns">
-			<button class="ubtns-item" onclick="saveSupplier()">保存</button>
+			<button class="ubtns-item" onclick="updateSupplier()">保存</button>
 			<button class="ubtns-item" onclick="closeDialogHandel()">返回</button>
 		</div>
 	</div>
@@ -16,6 +17,7 @@ pageEncoding="UTF-8"%>
 			<div class="ub upad-4">
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">供应商编号:</div>
+					<input id="supplierId" name="supplierId" type="hidden" value="${supplier.supplierId }">
 					<input id="supplierCode" name="supplierCode" class="uinp uw-200"  type="text" readonly="readonly" value="${supplier.supplierCode }">
 				</div>
 				<div class="ub ub-ac umar-r20">
@@ -45,7 +47,7 @@ pageEncoding="UTF-8"%>
 					<select class="uselect easyui-combobox" name="supplierAreaId" id="supplierAreaId" data-options="onChange:onChangeUnit">
 						<c:forEach var="i" items="${areaList }">
 							<option value="${i.areaId }" code="${i.areaCode }"
-								<c:if test="${supplier.saleWay eq  i.areaId}">selected="selected"</c:if>
+								<c:if test="${supplier.supplierAreaId eq  i.areaId}">selected="selected"</c:if>
 								>${i.areaName }
 							</option>
 						</c:forEach>
@@ -98,6 +100,7 @@ pageEncoding="UTF-8"%>
 						<option value="9">收据</option>
 						<option value="10">其他</option>
 					</select>
+					<input id="stampsTypeVal" name="stampsTypeVal" type="hidden" value="${supplier.stampsType }">
 				</div>
 			</div>
 
@@ -141,7 +144,7 @@ pageEncoding="UTF-8"%>
 				</div>
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">合同时间:</div>
-					<input class="Wdate uinp uw-200" value="${supplier.contractDate }" readonly="readonly" name="contractDate" id="contractDate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" />
+					<input class="Wdate uinp uw-200" readonly="readonly" name="contractDate" id="contractDate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"  value="<fmt:formatDate value="${supplier.contractDate}" pattern="yyyy-MM-dd"/>"  />
 				</div>
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">采购人员:</div>
@@ -164,6 +167,7 @@ pageEncoding="UTF-8"%>
 						<option value="晚上">晚上</option>
 						<option value="凌晨">凌晨</option>
 					</select>
+					<input id="deliverTimeVal" name="deliverTimeVal" type="hidden" value="${supplier.deliverTime }">
 				</div>
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">起订限制:</div>
@@ -175,7 +179,9 @@ pageEncoding="UTF-8"%>
 					<div class="umar-r10 uw-100 ut-r">结算方式<i class="uc-red">*</i>:</div>
 					<select class="uselect easyui-combobox" name="balanceWay" id="balanceWay" data-options="onChange:onChangeUnit">
 						<c:forEach var="i" items="${balanceWayEnums }">
-							<option value="${i.value }">${i.name }</option>
+							<option value="${i.value }"
+								<c:if test="${supplier.balanceWay eq  i.value}">selected="selected"</c:if>
+								>${i.name }</option>
 						</c:forEach>
 					</select>
 				</div>
@@ -197,6 +203,7 @@ pageEncoding="UTF-8"%>
 						<option value="0">正常</option>
 						<option value="1">冻结</option>
 					</select>
+					<input id="freezeAccountVal" name="freezeAccountVal" type="hidden" value="${supplier.freezeAccount }">
 				</div>
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">冻结业务<i class="uc-red">*</i>:</div>
@@ -204,6 +211,7 @@ pageEncoding="UTF-8"%>
 						<option value="0">正常</option>
 						<option value="1">冻结</option>
 					</select>
+					<input id="freezeBusinessVal" name="freezeBusinessVal" type="hidden" value="${supplier.freezeBusiness }">
 				</div>
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">SKU数:</div>

@@ -57,6 +57,9 @@ public class GoodsSelectImportSkuCodeHandle implements GoodsSelectImportHandle{
 		if(businessValid != null){
 			//业务校验
 			businessValid.businessValid(excelListSuccessData, excelField);
+			
+			//刷新
+			refreshSuccessData();
 		}
 	}
 	

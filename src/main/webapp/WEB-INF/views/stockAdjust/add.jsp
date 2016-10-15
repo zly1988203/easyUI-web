@@ -15,8 +15,9 @@
             <div class="ubtns">
                 <div class="ubtns-item" onclick="saveOrder()">保存</div>
                 <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
-                <div class="ubtns-item" onclick="importproductAll()">导入</div>
-                <div class="ubtns-item" onclick="toBack()">返回</div>
+                 <div class="ubtns-item" onclick="importHandel(0)">导入货号</div>
+                <div class="ubtns-item" onclick="importHandel(1)">导入条码</div>
+		                <div class="ubtns-item" onclick="toBack()">返回</div>
             </div>
         </div>
            <div class="ub umar-t10">
@@ -39,6 +40,7 @@
 								<option value="7">[06]借用</option>
 								<option value="8">[07]退赠品</option>
 				        </select>
+				         <input type="hidden" name="reason" id="reason" class="uinp" />
                 </div>
                <div class="ub ub-ac uw-300  umar-l10">
                    <div class="umar-r10 uw-70 ut-r">制单人员:</div>
@@ -53,7 +55,7 @@
                <div class="ub ub-ac uselectws">
                     <div class="umar-r10 uw-70 ut-r">出/入库:</div>
                        <!--select-->
-				        <select class="easyui-combobox uselect" name="pricingType" id="pricingType" data-options="editable:false">
+				        <select class="easyui-combobox uselect" name="pricingType" id="pricingType"  data-options="editable:false">
 								<option value="1">请选择</option> 
 								<option value="2">入库</option> 
 								<option value="3">出库</option>

@@ -50,12 +50,18 @@ public class GoodsSelectImportComponent {
 	
 	@Resource
 	private StringRedisTemplate redisTemplateTmp;
+	
+	
+	public <T extends GoodsSelect> GoodsSelectImportVo<T> importSelectGoods(String fileName, InputStream is, String[] fields, T entity, String branchId, String userId, String type, String errorFileDownloadUrlPrefix ,GoodsSelectImportBusinessValid businessValid) {
+		String[] branchIds = {branchId};
+		return importSelectGoodsMultiBranch(fileName, is, fields, entity, branchIds, userId, type, errorFileDownloadUrlPrefix, businessValid);
+	}
 
 	/**
 	 * @author xiaoj02
 	 * @date 2016年10月13日
 	 */
-	public <T extends GoodsSelect> GoodsSelectImportVo<T> importSelectGoods(String fileName, InputStream is, String[] fields, T entity, String branchId, String userId, String type, String errorFileDownloadUrlPrefix ,GoodsSelectImportBusinessValid businessValid) {
+	public <T extends GoodsSelect> GoodsSelectImportVo<T> importSelectGoodsMultiBranch(String fileName, InputStream is, String[] fields, T entity, String[] branchId, String userId, String type, String errorFileDownloadUrlPrefix ,GoodsSelectImportBusinessValid businessValid) {
 		//读取excel
 		List<JSONObject> excelList = ExcelReaderUtil.readExcel(fileName, is, fields);
 		
@@ -118,14 +124,19 @@ public class GoodsSelectImportComponent {
 		
 		List<JSONObject> errorList = goodsSelectImportHandle.getExcelListErrorData();
 		
-		//错误excel内容
-		String jsonText = JSONArray.toJSON(errorList).toString();
-		//文件key
-		String code = "goodsSelectImport_" + userId;
-		// 保存10分钟，单用户同时只能保存一个错误文件
-		redisTemplateTmp.opsForValue().set(code, jsonText, 10, TimeUnit.MINUTES);
-		
-		goodsSelectImportVo.setErrorFileUrl(errorFileDownloadUrlPrefix + "?code="+code);
+		if(errorList != null && errorList.size() > 0){//有错误数据
+			//错误excel内容
+			String jsonText = JSONArray.toJSON(errorList).toString();
+			//文件key
+			String code = "jxc_goodsSelectImport_" + userId;
+			// 保存10分钟，单用户同时只能保存一个错误文件
+			redisTemplateTmp.opsForValue().set(code, jsonText, 10, TimeUnit.MINUTES);
+			
+			goodsSelectImportVo.setErrorFileUrl(errorFileDownloadUrlPrefix + "?code="+code+"&type="+type);
+		}else{//无错误数据
+			String code = "goodsSelectImport_" + userId;
+			redisTemplateTmp.delete(code);
+		}
 		
 		return goodsSelectImportVo;
 	}

@@ -19,6 +19,4 @@
             <div id="message" class="ub umar-10 ufs-14"></div>
             <div id="errorUrl" class="ub umar-10 ufs-14"></div>
         </div>
-    </div>
-
-</div>
+ </div>

@@ -6,32 +6,44 @@
  */    
 package com.okdeer.jxc.controller.stock;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.LogConstant;
+import com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid;
+import com.okdeer.jxc.common.goodselect.GoodsSelectImportComponent;
+import com.okdeer.jxc.common.goodselect.GoodsSelectImportHandle;
+import com.okdeer.jxc.common.goodselect.GoodsSelectImportVo;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
-import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.controller.BaseController;
-import com.okdeer.jxc.report.qo.GoodsReportQo;
-import com.okdeer.jxc.report.vo.GoodsReportVo;
+import com.okdeer.jxc.goods.entity.GoodsSelect;
+import com.okdeer.jxc.goods.entity.GoodsSelectByPurchase;
+import com.okdeer.jxc.goods.entity.GoodsSelectByStockAdjust;
 import com.okdeer.jxc.stock.service.StockAdjustServiceApi;
 import com.okdeer.jxc.stock.vo.StockFormDetailVo;
 import com.okdeer.jxc.stock.vo.StockFormVo;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
+
+import net.sf.json.JSONObject;
 
 
 /**
@@ -51,6 +63,8 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 
 	@Reference(version = "1.0.0", check = false)
 	private StockAdjustServiceApi stockAdjustServiceApi;
+	@Autowired
+	private GoodsSelectImportComponent goodsSelectImportComponent;
 
 	/**
 	 * 
@@ -171,7 +185,7 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 	 * @author liux01
 	 * @date 2016年10月13日
 	 */
-	@RequestMapping(value = "getStcokFormDetailList", method = RequestMethod.POST)
+	@RequestMapping(value = "getStockFormDetailList", method = RequestMethod.GET)
 	@ResponseBody
 	public List<StockFormDetailVo> getStockFormDetailList(String id) {
 		LOG.info(LogConstant.OUT_PARAM, id);
@@ -270,7 +284,121 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 		}
 		return resp;
 	}
+	/**
+	 * 
+	 * @Description: 文件导入
+	 * @param file 文件
+	 * @param branchId  机构ID
+	 * @param type 类型
+	 * @return
+	 * @author liux01
+	 * @date 2016年10月15日
+	 */
+	@RequestMapping(value = "importList")
+	@ResponseBody
+	public RespJson importList(@RequestParam("file") MultipartFile file, String branchId,String type){
+		RespJson respJson = RespJson.success();
+		try {
+			if(file.isEmpty()){
+				return RespJson.error("文件为空");
+			}
+			InputStream is = file.getInputStream();
+			// 获取文件名
+			String fileName = file.getOriginalFilename();
+			SysUser user = UserUtil.getCurrentUser();
+			String[] field = null; 
+			if(type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)){//货号
+				field = new String[]{"skuCode","realNum"};
+			}else if(type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)){//条码
+				field = new String[]{"barCode","realNum"};
+			}
+			
+			GoodsSelectImportVo<GoodsSelectByStockAdjust> vo = goodsSelectImportComponent.importSelectGoods(fileName, is, field, new GoodsSelectByStockAdjust(), branchId,user.getId(), type,"/stock/adjust/downloadErrorFile", new GoodsSelectImportBusinessValid() {
+				
+				@Override
+				public List<JSONObject> businessValid(List<JSONObject> list, String[] excelField) {
+					for (JSONObject obj : list) {
+						String realNum = obj.getString("realNum");
+						try {
+							Double.parseDouble(realNum);
+						} catch (Exception e) {
+							obj.accumulate("error", "数量必填");
+						}
+						
+					}
+					return list;
+				}
+				/**
+				 * (non-Javadoc)
+				 * @see com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid#formatter(java.util.List)
+				 */
+				@Override
+				public void formatter(List<? extends GoodsSelect> list) {
+					
+				}
+				
+			});
+			
+			respJson.put("importInfo", vo);
+			
+		} catch (IOException e) {
+			respJson = RespJson.error("读取Excel流异常");
+			LOG.error("读取Excel流异常:", e);
+		} catch (Exception e) {
+			respJson = RespJson.error("导入发生异常");
+			LOG.error("用户导入异常:", e);
+		}
+		return respJson;
+		
+	}
 	
 	
+	/**
+	 * 
+	 * @Description: 导出异常信息
+	 * @param code
+	 * @param type
+	 * @param response
+	 * @author liux01
+	 * @date 2016年10月15日
+	 */
+	@RequestMapping(value = "downloadErrorFile")
+	public void downloadErrorFile(String code, String type, HttpServletResponse response) {
+		String reportFileName = "错误数据";
+		
+		String[] headers = null;
+		String[] columns = null;
+		
+		if(type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)){//货号
+			columns = new String[]{"skuCode","realNum"};
+			headers = new String[]{"货号","数量"};
+		}else if(type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)){//条码
+			columns = new String[]{"barCode","realNum"};
+			headers = new String[]{"条码","数量"};
+		}
+
+		goodsSelectImportComponent.downloadErrorFile(code, reportFileName, headers, columns , response);
+	}
+	/**
+	 * 
+	 * @Description: 导入模板下载
+	 * @param response
+	 * @param type
+	 * @author liux01
+	 * @date 2016年10月15日
+	 */
+	@RequestMapping(value = "exportTemp")
+	public void exportTemp(HttpServletResponse response, String type) {
+		try {
+			// 导出文件名称，不包括后缀名
+			String fileName = "库存调整导入模板";
+			// 模板名称，包括后缀名
+			String templateName = ExportExcelConstant.STOCK_ADJUST_TEMPLE;
+			// 导出Excel
+			exportListForXLSX(response, null, fileName, templateName);
+		} catch (Exception e) {
+			LOG.error("库存调整导入失败:{}", e);
+		}
+	}
 	
 }

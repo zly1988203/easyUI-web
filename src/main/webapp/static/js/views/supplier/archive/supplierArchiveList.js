@@ -128,27 +128,25 @@ function addHandel(){
  * 复制
  */
 function copyHandel(){
-    if($("#gridArchives").datagrid("getSelections").length <= 0){
-        $.messager.alert('提示','请选中一行进行复制新增商品！');
-        return false;
-    }else {
-        var selectionRow = $("#gridArchives").datagrid("getSelections");
-        addDalogTemp = $('<div/>').dialog({
-            href: contextPath + "/supplier/toAdd",
-            width: 1000,
-            height: 680,
-            title: "供应商档案-新增",
-            closable: true,
-            resizable: true,
-            onClose: function () {
-                $(addDalogTemp).panel('destroy');
-            },
-            modal: true,
-            onLoad: function () {
-                initCopyData(selectionRow);
-            }
-        })
+	var rowData = $("#gridSupplierArchiveList").datagrid("getSelected"); 
+    
+    if(rowIsNull(rowData)){
+    	return;
     }
+    addDalogTemp = $('<div/>').dialog({
+        href: contextPath + "/supplier/toCopy?id="+rowData.supplierId,
+        width: 1000,
+        height: 680,
+        title: "供应商档案-新增",
+        closable: true,
+        resizable: true,
+        onClose: function () {
+            $(addDalogTemp).panel('destroy');
+        },
+        modal: true,
+        onLoad: function () {
+        }
+    });
 }
 /**
  * 修改
@@ -204,7 +202,32 @@ function exportHandel(){
  * 删除
  */
 function delHandel(){
-
+	var rowData = $("#gridSupplierArchiveList").datagrid("getSelected"); 
+    if(rowIsNull(rowData)){
+    	return;
+    }
+    
+    var supplierId=rowData.supplierId
+    
+    parent.$.messager.confirm('提示', '是否确认删除？此操作删除不可恢复', function(data){
+    	if(!data){
+    		return;
+    	}
+    	$.ajax({
+            url:contextPath+"/supplier/deleteSupplier",
+            type:"POST",
+            data:{"supplierId":supplierId},
+            dataType:"json",  
+            success:function(result){
+                if(result){
+                    successTip(result.message, $("#gridSupplierArchiveList"));
+                }
+            },
+            error:function(result){
+                successTip("请求发送失败或服务器处理失败");
+            }
+        });
+    });
 }
 /**
  * 搜索
@@ -228,4 +251,23 @@ function closeDialogHandel(){
     if(editDalogTemp){
         $(editDalogTemp).panel('destroy');
     }
+}
+/**
+ * 供应商区域选择事件
+ */
+function bindSupplierAreaSelect(){
+	$("#supplierAreaId").change(function(){
+		var supplierAreaCode = $(this).children('option:selected').attr("code");
+		$("#supplierAreaCode").val(supplierAreaCode);
+	});
+}
+
+/**
+ * 初始化下拉框的默认值
+ */
+function selectParamInit(){
+	$("#stampsType").val($("#stampsTypeVal").val());
+	$("#deliverTime").val($("#deliverTimeVal").val());
+	$("#freezeAccount").val($("#freezeAccountVal").val());
+	$("#freezeBusiness").val($("#freezeBusinessVal").val());
 }

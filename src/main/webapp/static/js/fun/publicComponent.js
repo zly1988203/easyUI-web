@@ -70,7 +70,7 @@ function toChangeDate(index){
  */
 function publicUploadFileService(callback,params){
     //公有属性
-    var  dalogTemp = $('<div/>').dialog({
+    var  dalogTemp = $('<div id="uploadFile"/>').dialog({
         href:contextPath + "/common/uploadFile",
         width:480,
         height:320,
@@ -87,7 +87,6 @@ function publicUploadFileService(callback,params){
     });
     function callBackHandel(data){
         callback(data);
-        //$(dalogTemp).panel('destroy');
     }
 }
 
