@@ -895,9 +895,9 @@ public class PurchaseFormController extends
 			String[] field = null; 
 			
 			if(type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)){//货号
-				field = new String[]{"skuCode","realNum","price","amount","isGift"};
+				field = new String[]{"skuCode","realNum","isGift"};
 			}else if(type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)){//条码
-				field = new String[]{"barCode","realNum","price","amount","isGift"};
+				field = new String[]{"barCode","realNum","isGift"};
 			}
 			
 			GoodsSelectImportVo<GoodsSelect> vo = goodsSelectImportComponent.importSelectGoods(fileName, is,
@@ -944,10 +944,8 @@ public class PurchaseFormController extends
 						if(price == null){
 							obj.setPrice(obj.getPurchasePrice());
 						}
-						
 					}
 				}
-				
 			});
 			respJson.put("importInfo", vo);
 			
@@ -964,7 +962,6 @@ public class PurchaseFormController extends
 	
 	
 	/**
-	 * @Description: TODO
 	 * @author xiaoj02
 	 * @date 2016年10月15日
 	 */
@@ -976,11 +973,11 @@ public class PurchaseFormController extends
 		String[] columns = null;
 		
 		if(type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)){//货号
-			columns = new String[]{"skuCode","realNum","price","amount","isGift"};
-			headers = new String[]{"货号","数量","单价","金额","是否赠品"};
+			columns = new String[]{"skuCode","realNum","isGift"};
+			headers = new String[]{"货号","数量","是否赠品"};
 		}else if(type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)){//条码
-			columns = new String[]{"barCode","realNum","price","amount","isGift"};
-			headers = new String[]{"条码","数量","单价","金额","是否赠品"};
+			columns = new String[]{"barCode","realNum","isGift"};
+			headers = new String[]{"条码","数量","是否赠品"};
 		}
 
 		goodsSelectImportComponent.downloadErrorFile(code, reportFileName, headers, columns , response);
