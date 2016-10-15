@@ -8,13 +8,11 @@ package com.okdeer.jxc.controller.stock;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.math.BigDecimal;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,7 +33,6 @@ import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.goods.entity.GoodsSelect;
-import com.okdeer.jxc.goods.entity.GoodsSelectByPurchase;
 import com.okdeer.jxc.goods.entity.GoodsSelectByStockAdjust;
 import com.okdeer.jxc.stock.service.StockAdjustServiceApi;
 import com.okdeer.jxc.stock.vo.StockFormDetailVo;
@@ -322,7 +319,7 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 						try {
 							Double.parseDouble(realNum);
 						} catch (Exception e) {
-							obj.accumulate("error", "数量必填");
+							obj.element("error", "数量必填");
 						}
 						
 					}

@@ -915,17 +915,17 @@ public class PurchaseFormController extends
 						try {
 							Double.parseDouble(realNum);
 						} catch (Exception e) {
-							realNum = "0";
+							obj.element("realNum", 0);
 						}
 						
 						String isGift = obj.getString("isGift");
 						if("是".equals(isGift)){//如果是赠品，单价设置为0
-							isGift = "1";
-							obj.accumulate("price", 0);
+							obj.element("isGift", "1");
+							obj.element("price", 0);
 						}else if("否".equals(isGift)){
-							isGift = "0";
+							obj.element("isGift", "0");
 						}else{
-							obj.accumulate("error", "是否赠品字段填写有误");
+							obj.element("error", "是否赠品字段填写有误");
 						}
 					}
 					return list;
@@ -959,7 +959,6 @@ public class PurchaseFormController extends
 		return respJson;
 		
 	}
-	
 	
 	/**
 	 * @author xiaoj02

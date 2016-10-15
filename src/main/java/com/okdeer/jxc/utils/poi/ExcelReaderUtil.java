@@ -405,7 +405,7 @@ public class ExcelReaderUtil {
 				isBlankRow = false;
 			}
 			
-			json.accumulate(fields[cellNum], content);
+			json.element(fields[cellNum], content);
 		}
 		
 		if (!isBlankRow && json != null && !json.isEmpty()) {
