@@ -56,7 +56,9 @@ public interface ExportExcelConstant {
 	 */
 	String STOCKADJUST = "StockAdjust.xlsx";
 	
-	String STOCK_ADJUST_TEMPLE = "StockAdjustTemple.xlsx";
+	String STOCK_ADJUST_SKU_TEMPLE = "StockAdjustSkuTemple.xlsx";
+	
+	String STOCK_ADJUST_BAR_TEMPLE = "StockAdjustBarTemple.xlsx";
 	/**
 	 * @Fields BARCODE_TEMPLE_TYPE : 条形码模板类型
 	 */
@@ -70,12 +72,10 @@ public interface ExportExcelConstant {
 	 * 商品档案导出模板
 	 */
 	String GOODS_EXPORT_EXCEL = "goodsExport.xlsx";
-	
 	/**
 	 * 商品档案导出模板
 	 */
 	String SUPPLIER_EXPORT_EXCEL = "supplierExport.xlsx";
-
 
 	/**
 	 * @Fields STOCKREPORT : 库存报表
