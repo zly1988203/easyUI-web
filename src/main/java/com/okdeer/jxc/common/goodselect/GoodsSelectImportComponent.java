@@ -43,7 +43,7 @@ public class GoodsSelectImportComponent {
 	//采购货号导入{货号,数量，是否赠品}
 	public static final String[] purchase_sku_code = {"skuCode","num","isGift"};
 	//采购条码导入{条码,数量，是否赠品}
-	public static final String[] purchase_bar_code = {"skuCode","num","isGift"};
+	public static final String[] purchase_bar_code = {"barCode","num","isGift"};
 
 	/**
 	 * @author xiaoj02
