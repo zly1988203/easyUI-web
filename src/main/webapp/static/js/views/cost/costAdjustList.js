@@ -29,8 +29,9 @@ function initDatagridRequireOrders(){
             {field:'adjustNo',title:'单号',width:'140px',align:'left',formatter:function(value,row,index){
             	return "<a style='text-decoration: underline;' href='"+ contextPath +"/cost/costAdjust/edit?id="+ row.id +"'>" + value + "</a>"
             }},
-            {field:'statusName',title: '审核状态', width: '100px', align: 'left',
+            {field:'status',title: '审核状态', width: '100px', align: 'left',
             	   formatter: function(value,row,index){
+            		   debugger;
                        if (value==1){
                            return "已审核";
                        }else if(value==2){

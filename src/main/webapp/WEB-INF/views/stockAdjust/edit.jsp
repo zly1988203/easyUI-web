@@ -19,7 +19,7 @@
             <div class="ubtns">
                 <div class="ubtns-item" onclick="saveOrder()">保存</div>
                 <div class="ubtns-item" onclick="check()">审核</div>
-                 <div class="ubtns-item" onClick="exportExcel()">导出</div>
+<div class="ubtns-item" onClick="exportExcel()">导出</div>
                 <div class="ubtns-item" onclick="importHandel(0)">导入货号</div>
                 <div class="ubtns-item" onclick="importHandel(1)">导入条码</div>
                 <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
@@ -27,7 +27,7 @@
             </div>
         </div>
  <div class="ub umar-t8 uc-black">【单号】：<span id="formNo">${stockFormVo.formNo}</span></div>
- 		<form action="" id="searchForm" method="post">
+	<form action="" id="searchForm" method="post">
  			<input type="hidden"  name="id" value="${stockFormVo.id}">
  		</form>
         <div class="ub uline umar-t10"></div>
@@ -37,7 +37,9 @@
 	                <input type="hidden" name="branchId" id="branchId" class="uinp" value="${stockFormVo.branchId }"/>
 			 <input type="hidden" id="formId" name="formId" value="${stockFormVo.id}">
 					<input type="text" name="branchName" id="branchName"class="uinp ub ub-f1" readonly="readonly" value="${stockFormVo.branchName }" />
+	                             <c:if test="${stockFormVo.status == 0}">
 					<div class="uinp-more" onclick="searchBranch()">...</div>
+                        	</c:if>
 	           </div>
 	            <div class="ub ub-ac uselectws umar-l40">
                     <div class="umar-r10 uw-70 ut-r">调整原因:</div>
@@ -94,7 +96,7 @@
            </div>
     </div>
      <!-- 导入弹框 -->
-    <!-- <div class="uabs uatk">
+   <!-- <div class="uabs uatk">
 
      	<div class="uatit">导入文件选择</div>
          <div class="uacon"><input class="uinp ub" id="filename" type="text"><label class="ualable">选择文件<input type="file" class="uafile" value=""  name="xlfile" id="xlf" /></label></div>

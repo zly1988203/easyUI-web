@@ -49,4 +49,45 @@ public interface ImportExcelConstant {
 	 * @Fields IMPORTMAXERRO : 导入数据不能超过10000
 	 */
 	String IMPORTMAXERRO = "导入数据不能超过10000";
+
+	/**
+	 * @Fields DELIVER_GOODS_SKUCODE : 要货申请单货号导入字段
+	 */
+	String[] DELIVER_GOODS_SKUCODE = { "skuCode", "num" };
+
+	/**
+	 * @Fields DELIVER_GOODS_SKUCODE_HEADERS : 要货申请单货号导入字段
+	 */
+	String[] DELIVER_GOODS_SKUCODE_HEADERS = { "货号", "数量" };
+
+	/**
+	 * @Fields DELIVER_GOODS_SKUCODE : 要货申请单条码导入字段
+	 */
+	String[] DELIVER_GOODS_BARCODE = { "barCode", "num" };
+
+	/**
+	 * @Fields DELIVER_GOODS_BARCODE_HEADERS : 要货申请单货号导入字段
+	 */
+	String[] DELIVER_GOODS_BARCODE_HEADERS = { "条码", "数量" };
+
+	/**
+	 * @Fields DELIVER_GOODS_SKUCODE_REPORT : 配送出库单货号导入字段
+	 */
+	String[] DELIVER_GOODS_SKUCODE_REPORT = { "skuCode", "num", "distributionPrice", "amount", "isGift" };
+
+	/**
+	 * @Fields DELIVER_GOODS_SKUCODE_HEADERS_REPORT : 配送出库单货号导入字段
+	 */
+	String[] DELIVER_GOODS_SKUCODE_HEADERS_REPORT = { "货号", "数量", "单价", "金额", "是否赠品" };
+
+	/**
+	 * @Fields DELIVER_GOODS_BARCODE_REPORT : 配送出库单条码导入字段
+	 */
+	String[] DELIVER_GOODS_BARCODE_REPORT = { "barCode", "num", "distributionPrice", "amount", "isGift" };
+
+	/**
+	 * @Fields DELIVER_GOODS_BARCODE_HEADERS_REPORT : 配送出库单货号导入字段
+	 */
+	String[] DELIVER_GOODS_BARCODE_HEADERS_REPORT = { "条码", "数量", "单价", "金额", "是否赠品" };
+
 }
