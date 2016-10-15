@@ -23,7 +23,7 @@
                 <div class="ubtns-item" onclick="toBack()">返回</div>
             </div>
         </div>
-        <div class="ub umar-t8 uc-black">【单号】：<span id="adjustNo">${data.adjustNo}</span></div>
+        <div class="ub umar-t8 uc-black">【单号】：<span >${data.adjustNo}</span></div>
         <div class="ub uline umar-t10"></div>
          <input type="hidden" id="adjusId" value="${data.id}">
         <input type="hidden" id="adjustNo" value="${data.adjustNo}">
@@ -49,12 +49,14 @@
 				        </select>
                 </div>
                <div class="ub ub-ac">
+               <input type="hidden" id="createUserId" value="${data.createUserId}">
                    <div class="umar-r10 uw-70 ut-r">制单人员:</div>
                    <div class="utxt">${data.createUserName }</div>
                </div>
                <div class="ub ub-ac umar-l20">
                    <div class="umar-r10 uw-60 ut-r">制单日期:</div>
-                   <div class="utxt" id="createTime"><fmt:formatDate value="${data.createTime}" pattern="yyyy-MM-dd"/></div>
+                   <div class="utxt" ><fmt:formatDate value="${data.createTime}" pattern="yyyy-MM-dd"/></div>
+                    <input type="hidden" id="createTime" value="${data.createTime}">
                </div>
            </div>
            <div class="ub umar-t8">

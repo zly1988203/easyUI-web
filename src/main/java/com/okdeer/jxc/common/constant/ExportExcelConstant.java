@@ -52,6 +52,12 @@ public interface ExportExcelConstant {
 	String GOODS_PRICE_ADJUST_FORM_TEMPLE_BARCODE = "priceAdjustBarTemp.xlsx";
 	
 	/**
+	 * 库存调整
+	 */
+	String STOCKADJUST = "StockAdjust.xlsx";
+	
+	String STOCK_ADJUST_TEMPLE = "StockAdjustTemple.xlsx";
+	/**
 	 * @Fields BARCODE_TEMPLE_TYPE : 条形码模板类型
 	 */
 	String BARCODE_TEMPLE_TYPE = "barCodeTemple";
@@ -64,6 +70,12 @@ public interface ExportExcelConstant {
 	 * 商品档案导出模板
 	 */
 	String GOODS_EXPORT_EXCEL = "goodsExport.xlsx";
+	
+	/**
+	 * 商品档案导出模板
+	 */
+	String SUPPLIER_EXPORT_EXCEL = "supplierExport.xlsx";
+
 
 	/**
 	 * @Fields STOCKREPORT : 库存报表
@@ -114,11 +126,6 @@ public interface ExportExcelConstant {
 	 * @Fields DADOFORM : DADOform.xlsx
 	 */
 	String DADOFORM = "DADOForm.xlsx";
-	/**
-	 * 库存调整
-	 */
-	String STOCKADJUST = "StockAdjust.xlsx";
-
 	/**
 	 * 商品采购货号导入模板
 	 */
