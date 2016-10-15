@@ -58,7 +58,7 @@ import com.okdeer.jxc.form.purchase.vo.PurchaseFormDetailVo;
 import com.okdeer.jxc.form.purchase.vo.PurchaseFormVo;
 import com.okdeer.jxc.form.purchase.vo.ReceiptFormVo;
 import com.okdeer.jxc.form.purchase.vo.ReturnFormVo;
-import com.okdeer.jxc.goods.entity.GoodsSelect;
+import com.okdeer.jxc.goods.vo.GoodsPurchaseImportVo;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
 
@@ -892,7 +892,7 @@ public class PurchaseFormController extends
 				field = GoodsSelectImportComponent.purchase_bar_code;
 			}
 			
-			GoodsSelectImportVo<GoodsSelect> vo = goodsSelectImportComponent.importSelectGoods(fileName, is, field , new GoodsSelect(), branchId, type, null);
+			GoodsSelectImportVo<GoodsPurchaseImportVo> vo = goodsSelectImportComponent.importSelectGoods(fileName, is, field , new GoodsPurchaseImportVo(), branchId, type, null);
 			
 			respJson.put("importInfo", vo);
 			

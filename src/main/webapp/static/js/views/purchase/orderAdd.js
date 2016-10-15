@@ -151,7 +151,7 @@ function initDatagridEditOrder(){
                 },
 
             },
-            {field:'isGift',title:'是否赠品',width:'80px',align:'left',
+            {field:'gift',title:'是否赠品',width:'80px',align:'left',
                 formatter:function(value,row){
                     if(row.isFooter){
                         return;
@@ -183,13 +183,6 @@ function initDatagridEditOrder(){
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
-                //editor:{
-                //    type:'numberbox',
-                //    options:{
-                //        min:0,
-                //        precision:4,
-                //    }
-                //},
             },
 
             {field:'tax',title:'税率',width:'80px',align:'right',

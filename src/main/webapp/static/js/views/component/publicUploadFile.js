@@ -54,7 +54,7 @@ function toUploadHandel(){
  * 取消
  */
 function toCancel(){
-
+	$('#uploadFile').panel('destroy');
 }
 
 /**
