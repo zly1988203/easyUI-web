@@ -183,13 +183,6 @@ function initDatagridEditOrder(){
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
-                //editor:{
-                //    type:'numberbox',
-                //    options:{
-                //        min:0,
-                //        precision:4,
-                //    }
-                //},
             },
 
             {field:'tax',title:'税率',width:'80px',align:'right',

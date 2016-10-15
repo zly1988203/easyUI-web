@@ -36,46 +36,22 @@ function searchRole (){
  * 编辑用户
  */
 function editUser(){	
-	var reqObj=$('#editUserForm').serializeObject();
-	 var isValid = $("#editUserForm").form('validate');
-	 console.log(isValid);
-	    if(!isValid){
-	        return;
-	    }
+	var reqObj = $('#editUserForm').serializeObject();
+	var isValid = $("#editUserForm").form('validate');
+	if (!isValid) {
+		return;
+	}
 	$.ajax({
-        url:contextPath+"/system/user/updateUser",
-        type:"POST",
-        data:reqObj,
-        success:function(result){
-        	console.log(result);
-            if(result){
-            	 
-                $.messager.alert("操作提示", "操作成功！");
-                closeDialog();
-            }else{
-            	
-                successTip(result['message']);
-            }
-        },
-        error:function(result){
-            successTip("请求发送失败或服务器处理失败");
-        }
-    });
+		url : contextPath + "/system/user/updateUser",
+		type : "POST",
+		data : reqObj,
+		success : function(result) {
+			if(result){
+				alertTip(result.message, reloadDataGrid);
+			}
+		},
+		error : function(result) {
+			successTip("请求发送失败或服务器处理失败");
+		}
+	});
 }
-function  getrowdata(){
-   var row = $("#dg").datagrid("getSelected");
-   $('#userCode').val(row.userCode);
-   $('#userName').val(row.userName);
-   $('#mobile').val(row.mobile);
-   $('#branchNameCode').val(row.branchName);
-   $('#roleCodeOrName').val("232334");
-   $('#remark').val(row.remark);
-}
-function closeDialog(){
-	dalogTemp=$('#dg');
-    $(dalogTemp).panel('destroy');
-}
-$(function(){
-  getrowdata();	
-
-})
