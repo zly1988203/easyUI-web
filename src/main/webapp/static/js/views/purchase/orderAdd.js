@@ -381,8 +381,8 @@ function selectGoods(searchKey){
 }
 
 function updateListData(data){
-    var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
-    var addDefaultData  = gridHandel.addDefault(data,gridDefault);
+   // var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
+    //var addDefaultData  = gridHandel.addDefault(data,gridDefault);
     var keyNames = {
         purchasePrice:'price',
         id:'skuId',
@@ -390,12 +390,12 @@ function updateListData(data){
         pricingType:'',
         inputTax:'tax'
     };
-    var rows = gFunUpdateKey(addDefaultData,keyNames);
+    var rows = gFunUpdateKey(data,keyNames);
     var argWhere ={skuCode:1};  //验证重复性
     var isCheck ={isGift:1 };   //只要是赠品就可以重复
-    var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
+    var newRows = gridHandel.checkDatagrid(rows,argWhere,isCheck);
 
-    $("#gridEditOrder").datagrid("loadData",newRows);
+    $("#gridEditOrder").datagrid("loadData",rows);
 }
 
 //保存
@@ -461,7 +461,6 @@ function saveDataHandel(rows){
         amount = parseFloat(footerRows[0]["amount"]||0.0).toFixed(4);
     }
 
-    console.log(rows);
     var detailList = JSON.stringify(rows);
     //var detailList = tableArrayFormatter(rows,"detailList");
     console.log(detailList);
@@ -533,6 +532,7 @@ function toImportproduct(type){
     }
     new publicUploadFileService(function(data){
         updateListData(data);
+        
     },param)
 }
 
@@ -575,7 +575,7 @@ function getImportData(data){
     var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
     var argWhere ={skuCode:1};  //验证重复性
     var newRows = gridHandel.checkDatagrid(nowRows,data,argWhere,{});
-
+       
     $("#"+gridHandel.getGridName()).datagrid("loadData",newRows);
     messager("导入成功");
 }
