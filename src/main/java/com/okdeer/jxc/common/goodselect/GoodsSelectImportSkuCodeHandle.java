@@ -221,7 +221,6 @@ public class GoodsSelectImportSkuCodeHandle implements GoodsSelectImportHandle{
 		return excelSuccessSkuCode;
 	}
 	
-	
 	/**
 	 * @return the excelListErrorData
 	 */
