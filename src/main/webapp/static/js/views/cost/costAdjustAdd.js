@@ -111,6 +111,7 @@ function initDatagridAddRequireOrder(){
                     type:'numberbox',
                     value:'0',
                     options:{
+                    	disabled:true,
                         min:0,
                         precision:4,
                         onChange: onChangeActual,
