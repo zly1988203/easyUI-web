@@ -251,7 +251,6 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 	@ResponseBody
 	public RespJson exportList(HttpServletResponse response, StockFormVo vo) {
 
-		LOG.info("库存调整导出execl：vo" + vo);
 		RespJson resp = RespJson.success();
 		try {
 			// 如果没有选择店铺，则查询登录人所在机构的商品
