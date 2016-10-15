@@ -13,7 +13,6 @@ var gridHandel = new GridClass();
 //初始化表格
 function initDatagridRequireOrders(){
 	var updatePermission = $("#updatePermission").html().trim();
-	console.log("updatePermission:"+updatePermission);
     $("#deliverFormList").datagrid({
         //title:'普通表单-用键盘操作',
         method:'post',

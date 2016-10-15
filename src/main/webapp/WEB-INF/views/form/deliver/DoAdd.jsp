@@ -17,8 +17,7 @@
                 <div class="ubtns-item" onclick="saveOrder()">保存</div>
                 <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
                 <div class="ubtns-item" onclick="toImportproduct(0)">导入货号</div>
-				<div class="ubtns-item" onclick="toImportproduct(1)">导入明细</div>
-   
+            	<div class="ubtns-item" onclick="toImportproduct(1)">导入条码</div>
                 <div class="ubtns-item" onclick="toBack()">返回</div>
             </div>
         </div>
@@ -26,7 +25,6 @@
                <div class="ub ub-ac uw-300">
                    <div class="umar-r10 uw-70 ut-r">发货机构:</div>
                    <div class="ub">
-                   	   
                        <input type="hidden" id="sourceBranchId" name="sourceBranchId" value="${branchesGrow.targetBranchId}"  />
                        <input type="hidden" id="sourceBranchType" name="sourceBranchType" value="${branchesGrow.targetBranchType}"  />
                        <input class="uinp ub ub-f1" type="text" id="sourceBranchName" name="sourceBranchName" value="${branchesGrow.targetBranchName}" readonly="readonly" />

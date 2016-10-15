@@ -15,8 +15,8 @@
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
                 <div class="ubtns-item" onclick="saveOrder()">保存</div>
-               <div class="ubtns-item" onclick="importproductAll()">导入明细</div>
-                <div class="ubtns-item" onclick="importproduct()">导入货号</div>
+               	<!-- <div class="ubtns-item" onclick="importproductAll()">导入明细</div>
+                <div class="ubtns-item" onclick="importproduct()">导入货号</div> -->
                 <div class="ubtns-item" onclick="toBack()">返回</div>
             </div>
         </div>

@@ -141,4 +141,24 @@ public interface ExportExcelConstant {
 	 */
 	String PURCHASE_GOODS_BARCODE_TEMPLE = "PurchaseGoodsBarCodeTemple.xlsx";
 	
+	/**
+	 * 配送要货单货号导入模板
+	 */
+	String DELIVER_GOODS_SKUCODE_TEMPLE = "DeliverGoodsSkuCodeTemple.xlsx";
+
+	/**
+	 * 配送要货单条码导入模板
+	 */
+	String DELIVER_GOODS_BARCODE_TEMPLE = "DeliverGoodsBarCodeTemple.xlsx";
+
+	/**
+	 * 配送出库单货号导入模板
+	 */
+	String DELIVER_GOODS_SKUCODE_REPORT = "DeliverGoodsSkuCodeReport.xlsx";
+
+	/**
+	 * 配送出库单条码导入模板
+	 */
+	String DELIVER_GOODS_BARCODE_REPORT = "DeliverGoodsBarCodeReport.xlsx";
+
 }

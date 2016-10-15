@@ -8,12 +8,16 @@
 package com.okdeer.jxc.controller.goods;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,10 +34,12 @@ import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.controller.scale.Message;
 import com.okdeer.jxc.goods.entity.GoodsCategory;
 import com.okdeer.jxc.goods.entity.GoodsSelect;
+import com.okdeer.jxc.goods.entity.GoodsSelectDeliver;
 import com.okdeer.jxc.goods.service.GoodsCategoryServiceApi;
 import com.okdeer.jxc.goods.service.GoodsSelectServiceApi;
 import com.okdeer.jxc.goods.vo.GoodsCategoryVo;
 import com.okdeer.jxc.goods.vo.GoodsSelectVo;
+import com.okdeer.jxc.goods.vo.GoodsSkuVo;
 import com.okdeer.jxc.goods.vo.GoodsStockVo;
 import com.okdeer.jxc.utils.UserUtil;
 
@@ -383,17 +389,19 @@ public class GoodsSelectController extends
 	 */
 	@RequestMapping(value = "selectStockAndPrice", method = RequestMethod.POST)
 	@ResponseBody
-	public List<GoodsSelect> selectStockAndPrice(HttpServletRequest req) {
+	public List<GoodsSelectDeliver> selectStockAndPrice(HttpServletRequest req) {
 		String goodsStockVo = req.getParameter("goodsStockVo");
 		List<GoodsSelect> goodsSelect = new ArrayList<GoodsSelect>(0);
+		List<GoodsSelectDeliver> goodsSelectDeliverTemp = new ArrayList<GoodsSelectDeliver>(0);
 		try {
 			GoodsStockVo goodsStockVos = new ObjectMapper().readValue(goodsStockVo, GoodsStockVo.class);
 			goodsSelect = goodsSelectServiceApi.queryByBrancheAndSkuIds(goodsStockVos);
-			System.out.println(goodsStockVos.getGoodsSkuVo());
+			List<GoodsSelectDeliver> goodsSelectDeliver = new ArrayList<GoodsSelectDeliver>(0);
+			goodsSelectDeliverTemp = getGoodsSelectDeliverLists(goodsStockVos, goodsSelect, goodsSelectDeliver, true);
 		} catch (IOException e) {
-			e.printStackTrace();
+			LOG.error("获取商品库存、价格 异常:", e);
 		}
-		return goodsSelect;
+		return goodsSelectDeliverTemp;
 	}
 
 	/**
@@ -405,17 +413,75 @@ public class GoodsSelectController extends
 	 */
 	@RequestMapping(value = "selectStockAndPriceToDo", method = RequestMethod.POST)
 	@ResponseBody
-	public List<GoodsSelect> selectStockAndPriceToDo(HttpServletRequest req) {
+	public List<GoodsSelectDeliver> selectStockAndPriceToDo(HttpServletRequest req) {
 		String goodsStockVo = req.getParameter("goodsStockVo");
 		List<GoodsSelect> goodsSelect = new ArrayList<GoodsSelect>(0);
+		List<GoodsSelectDeliver> goodsSelectDeliverTemp = new ArrayList<GoodsSelectDeliver>(0);
 		try {
 			GoodsStockVo goodsStockVos = new ObjectMapper().readValue(goodsStockVo, GoodsStockVo.class);
 			goodsSelect = goodsSelectServiceApi.queryByBrancheAndSkuIdsToDo(goodsStockVos);
-			System.out.println(goodsStockVos.getGoodsSkuVo());
+			List<GoodsSelectDeliver> goodsSelectDeliver = new ArrayList<GoodsSelectDeliver>(0);
+			goodsSelectDeliverTemp = getGoodsSelectDeliverLists(goodsStockVos, goodsSelect, goodsSelectDeliver, false);
 		} catch (IOException e) {
-			e.printStackTrace();
+			LOG.error("获取商品库存、价格 异常:{}", e);
 		}
-		return goodsSelect;
+		return goodsSelectDeliverTemp;
 	}
 
+	/**
+	 * @Description: 值转换
+	 * @param goodsStockVos
+	 * @param goodsSelects
+	 * @param goodsSelectDelivers
+	 * @param flag
+	 * @return
+	 * @author zhangchm
+	 * @date 2016年10月15日
+	 */
+	private List<GoodsSelectDeliver> getGoodsSelectDeliverLists(GoodsStockVo goodsStockVos,
+			List<GoodsSelect> goodsSelects, List<GoodsSelectDeliver> goodsSelectDelivers, boolean flag) {
+		GoodsSelectDeliver goodsSelectDeliver = null;
+		for (GoodsSelect goodsSelect : goodsSelects) {
+			goodsSelectDeliver = new GoodsSelectDeliver();
+			try {
+				BeanUtils.copyProperties(goodsSelectDeliver, goodsSelect);
+			} catch (IllegalAccessException | InvocationTargetException e) {
+				LOG.error("转换商品信息异常:{}", e);
+			}
+			goodsSelectDelivers.add(goodsSelectDeliver);
+		}
+		if (StringUtils.isEmpty(goodsStockVos.getGoodsSkuVo().get(0).getNum())) {
+			return goodsSelectDelivers;
+		} else {
+			Map<String, GoodsSkuVo> map = getGoodsSkuVo(goodsStockVos);
+			if (flag) {
+				for (GoodsSelectDeliver temp : goodsSelectDelivers) {
+					temp.setNum(map.get(temp.getId()).getNum());
+				}
+			} else {
+				for (GoodsSelectDeliver temp : goodsSelectDelivers) {
+					GoodsSkuVo vo = map.get(temp.getId());
+					temp.setNum(vo.getNum());
+					temp.setDistributionPrice(vo.getDistributionPrice());
+					temp.setIsGift(vo.getIsGift());
+				}
+			}
+			return goodsSelectDelivers;
+		}
+	}
+
+	/**
+	 * @Description: 获取页面传递商品数量
+	 * @param goodsStockVos
+	 * @return
+	 * @author zhangchm
+	 * @date 2016年10月15日
+	 */
+	private Map<String, GoodsSkuVo> getGoodsSkuVo(GoodsStockVo goodsStockVos) {
+		Map<String, GoodsSkuVo> map = new HashMap<String, GoodsSkuVo>();
+		for (GoodsSkuVo goodsSkuVo : goodsStockVos.getGoodsSkuVo()) {
+			map.put(goodsSkuVo.getId(), goodsSkuVo);
+		}
+		return map;
+	}
 }
