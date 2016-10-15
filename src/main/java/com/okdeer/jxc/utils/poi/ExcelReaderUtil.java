@@ -364,7 +364,7 @@ public class ExcelReaderUtil {
 	 * @date 2016年9月24日
 	 */
 	private static void readRow(Sheet sheet, String[] fields, JSONArray jArray) {
-		int rowCount = sheet.getPhysicalNumberOfRows();
+		int rowCount = sheet.getLastRowNum();
 
 		// Read the Row，循环遍历Excel行数,从第1行开始读取，第0行为标题
 		for (int rowNum = 1; rowNum <= rowCount; rowNum++) {
