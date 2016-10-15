@@ -76,6 +76,11 @@ public interface ExportExcelConstant {
 	 * 商品档案导出模板
 	 */
 	String SUPPLIER_EXPORT_EXCEL = "supplierExport.xlsx";
+	
+	/**
+	 * 成本调价单导出模板
+	 */
+	String COST_ADJUST_EXPORT_EXCEL = "costAdjustExport.xlsx";
 
 	/**
 	 * @Fields STOCKREPORT : 库存报表
