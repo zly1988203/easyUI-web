@@ -118,14 +118,17 @@ public class GoodsSelectImportComponent {
 		
 		List<JSONObject> errorList = goodsSelectImportHandle.getExcelListErrorData();
 		
-		//错误excel内容
-		String jsonText = JSONArray.toJSON(errorList).toString();
-		//文件key
-		String code = "goodsSelectImport_" + userId;
-		// 保存10分钟，单用户同时只能保存一个错误文件
-		redisTemplateTmp.opsForValue().set(code, jsonText, 10, TimeUnit.MINUTES);
+		if(errorList != null && errorList.size() > 0){
+			//错误excel内容
+			String jsonText = JSONArray.toJSON(errorList).toString();
+			//文件key
+			String code = "goodsSelectImport_" + userId;
+			// 保存10分钟，单用户同时只能保存一个错误文件
+			redisTemplateTmp.opsForValue().set(code, jsonText, 10, TimeUnit.MINUTES);
+			
+			goodsSelectImportVo.setErrorFileUrl(errorFileDownloadUrlPrefix + "?code="+code+"&type="+type);
+		}
 		
-		goodsSelectImportVo.setErrorFileUrl(errorFileDownloadUrlPrefix + "?code="+code);
 		
 		return goodsSelectImportVo;
 	}

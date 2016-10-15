@@ -35,14 +35,12 @@ function toUploadHandel(){
         success : function(data) {
             if(data.code==0){
                 $("#message").html(data.importInfo.message);
-                if(data.importInfo.list.length==0){
-                    $("#errorUrl").html("<a href='"+data.importInfo.errorFileUrl+"' target='_blank'>导入失败，重新下载</a>");
-                }else{
-                    uploadFileCallBack(data.importInfo.list);
+                if(data.importInfo.errorFileUrl){
+                    $("#errorUrl").html("<a href='"+contextPath+data.importInfo.errorFileUrl+"' target='_blank'>导入失败，重新下载</a>");
                 }
+                uploadFileCallBack(data.importInfo.list);
             }else{
-                $("#message").html(data.importInfo.message);
-                $("#errorUrl").html("<a href='"+data.importInfo.errorFileUrl+"' target='_blank'>导入失败，重新下载</a>");
+                $("#message").html(data.message);
             }
         },
         error : function(responseStr) {
