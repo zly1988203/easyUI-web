@@ -395,7 +395,9 @@ public class ExcelReaderUtil {
 			if (cell == null) {
 				continue;
 			}
-			json = new JSONObject();
+			if(json == null){
+				json = new JSONObject();
+			}
 			Object content = getValue(cell);
 			json.accumulate(fields[cellNum], content);
 

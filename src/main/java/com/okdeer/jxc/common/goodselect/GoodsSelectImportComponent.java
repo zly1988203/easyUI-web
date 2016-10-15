@@ -13,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,11 +50,6 @@ public class GoodsSelectImportComponent {
 	
 	@Resource
 	private StringRedisTemplate redisTemplateTmp;
-	
-	//采购货号导入{货号,数量，是否赠品}
-	public static final String[] purchase_sku_code = {"skuCode","realNum","price","amount","isGift"};
-	//采购条码导入{条码,数量，是否赠品}
-	public static final String[] purchase_bar_code = {"barCode","realNum","price","amount","isGift"};
 
 	/**
 	 * @author xiaoj02
@@ -146,7 +142,10 @@ public class GoodsSelectImportComponent {
 	 * @date 2016年10月15日
 	 */
 	public void downloadErrorFile(String code, String reportFileName, String[] headers, String[] columns, HttpServletResponse response){
-		String jsonText = redisTemplateTmp.opsForValue().get(code);	
+		String jsonText = redisTemplateTmp.opsForValue().get(code);
+		
+		headers = ArrayUtils.add(headers, "错误原因");
+		columns = ArrayUtils.add(columns, "error");
 		
 		List<JSONObject> dataList = JSONArray.parseArray(jsonText, JSONObject.class);
 		

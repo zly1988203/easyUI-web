@@ -143,7 +143,7 @@ public class GoodsSelectImportSkuCodeHandle implements GoodsSelectImportHandle{
 				Integer index = skuCodeSet.get(objSkuCode);
 				JSONObject existsObj = excelListFullData.get(index);
 				if(existsObj.get("error") == null){
-					obj.accumulate("error", CODE_IS_REPEAT);
+					existsObj.accumulate("error", CODE_IS_REPEAT);
 				}
 				
 				continue;

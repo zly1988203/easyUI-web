@@ -39,6 +39,7 @@ import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.controller.BasePrintController;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportComponent;
+import com.okdeer.jxc.common.goodselect.GoodsSelectImportHandle;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportVo;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.BigDecimalUtils;
@@ -891,9 +892,17 @@ public class PurchaseFormController extends
 			
 			SysUser user = UserUtil.getCurrentUser();
 			
+			String[] field = null; 
+			
+			if(type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)){//货号
+				field = new String[]{"skuCode","realNum","price","amount","isGift"};
+			}else if(type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)){//条码
+				field = new String[]{"barCode","realNum","price","amount","isGift"};
+			}
+			
 			GoodsSelectImportVo<GoodsSelect> vo = goodsSelectImportComponent.importSelectGoods(fileName, is,
-					GoodsSelectImportComponent.purchase_sku_code, 
-					new GoodsSelect(), 
+					field, 
+					new GoodsSelectByPurchase(), 
 					branchId, user.getId(), 
 					type,
 					"/form/purchase/downloadErrorFile",
@@ -961,12 +970,21 @@ public class PurchaseFormController extends
 	 * @date 2016年10月15日
 	 */
 	@RequestMapping(value = "downloadErrorFile")
-	public void downloadErrorFile(String code, HttpServletResponse response) {
-		String reportFileName = "错误文件";
+	public void downloadErrorFile(String code, String type, HttpServletResponse response) {
+		String reportFileName = "错误数据";
 		
-		String[] headers = {"货号","数量","单价","金额","是否赠品"};
+		String[] headers = null;
+		String[] columns = null;
+		
+		if(type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)){//货号
+			columns = new String[]{"skuCode","realNum","price","amount","isGift"};
+			headers = new String[]{"货号","数量","单价","金额","是否赠品"};
+		}else if(type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)){//条码
+			columns = new String[]{"barCode","realNum","price","amount","isGift"};
+			headers = new String[]{"条码","数量","单价","金额","是否赠品"};
+		}
 
-		goodsSelectImportComponent.downloadErrorFile(code, reportFileName, headers, GoodsSelectImportComponent.purchase_sku_code, response);
+		goodsSelectImportComponent.downloadErrorFile(code, reportFileName, headers, columns , response);
 	}
 	
 	
