@@ -9,7 +9,6 @@ package com.okdeer.jxc.controller.goods;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,8 +18,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-
-import net.sf.json.JSONObject;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,9 +35,7 @@ import com.alibaba.fastjson.JSON;
 import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.controller.BasePrintController;
-import com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportComponent;
-import com.okdeer.jxc.common.goodselect.GoodsSelectImportHandle;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportVo;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
@@ -52,8 +47,7 @@ import com.okdeer.jxc.form.enums.FormType;
 import com.okdeer.jxc.goods.entity.GoodsPriceForm;
 import com.okdeer.jxc.goods.entity.GoodsPriceFormBranch;
 import com.okdeer.jxc.goods.entity.GoodsPriceFormDetail;
-import com.okdeer.jxc.goods.entity.GoodsSelect;
-import com.okdeer.jxc.goods.entity.GoodsSelectByPurchase;
+import com.okdeer.jxc.goods.entity.GoodsSelectPriceAdjst;
 import com.okdeer.jxc.goods.service.GoodsPriceAdustServiceApi;
 import com.okdeer.jxc.goods.vo.GoodsPriceFormConst;
 import com.okdeer.jxc.goods.vo.GoodsPriceFormVo;
@@ -84,11 +78,10 @@ public class GoodsPriceAdjustController extends
 	// 单据生成
 	@Autowired
 	private OrderNoUtils orderNoUtils;
-
-	// 导入
+	//导入
 	@Autowired
 	private GoodsSelectImportComponent goodsSelectImportComponent;
-
+	
 	/**
 	 * @Description: 调价单页面展示
 	 * @return
@@ -490,12 +483,12 @@ public class GoodsPriceAdjustController extends
 			} else {
 				return RespJson.error("获取用户信息失败");
 			}
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			Date effect = sdf.parse(effectDate);
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");  
+		    Date effect = sdf.parse(effectDate);  
 			goodsPriceForm.setEffectDate(effect);
 			if (DateUtils.compareDate(effect) < 0) {
 				return RespJson.error("生效时间比今天小");
-			} else {
+			}else {
 				goodsPriceAdustService.checkForm(goodsPriceForm);
 			}
 		} catch (Exception e) {
@@ -571,7 +564,7 @@ public class GoodsPriceAdjustController extends
 			LOG.error("调价单导入模版下载失败:", e);
 		}
 	}
-
+	
 	/**
 	 * 
 	 * @Description: 调价单导入
@@ -584,92 +577,8 @@ public class GoodsPriceAdjustController extends
 	 */
 	@RequestMapping(value = "importList")
 	@ResponseBody
-	public RespJson importList(@RequestParam("file") MultipartFile file,
-			String type, String branchId) {
+	public RespJson importList(@RequestParam("file") MultipartFile file,String type, String branchId){
 		RespJson respJson = RespJson.success();
-<<<<<<< HEAD
-		try {
-			if (file.isEmpty()) {
-				return RespJson.error("文件为空");
-			}
-			if (StringUtils.isBlank(type)) {
-				return RespJson.error("导入类型为空");
-			}
-			// 文件流
-			InputStream is = file.getInputStream();
-			// 获取文件名
-			String fileName = file.getOriginalFilename();
-			
-			SysUser user = UserUtil.getCurrentUser();
-
-			String[] field = null;
-
-			if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {// 货号
-				field = new String[] { "skuCode", "realNum", "price", "amount",
-						"isGift" };
-			} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {// 条码
-				field = new String[] { "barCode", "realNum", "price", "amount",
-						"isGift" };
-			}
-
-			GoodsSelectImportVo<GoodsSelect> vo = goodsSelectImportComponent.importSelectGoods(fileName, is,
-					field, 
-					new GoodsSelectByPurchase(), 
-					branchId, user.getId(), 
-					type,
-					"/form/purchase/downloadErrorFile",
-					new GoodsSelectImportBusinessValid() {
-				
-				@Override
-				public List<JSONObject> businessValid(List<JSONObject> list, String[] excelField) {
-					for (JSONObject obj : list) {
-						String realNum = obj.getString("realNum");
-						try {
-							Double.parseDouble(realNum);
-						} catch (Exception e) {
-							realNum = "0";
-						}
-						
-						String isGift = obj.getString("isGift");
-						if("是".equals(isGift)){//如果是赠品，单价设置为0
-							isGift = "1";
-							obj.accumulate("price", 0);
-						}else if("否".equals(isGift)){
-							isGift = "0";
-						}else{
-							obj.accumulate("error", "是否赠品字段填写有误");
-						}
-					}
-					return list;
-				}
-				
-				/**
-				 * (non-Javadoc)
-				 * @see com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid#formatter(java.util.List)
-				 */
-				@Override
-				public void formatter(List<? extends GoodsSelect> list) {
-					for (GoodsSelect objGoods : list) {
-						GoodsSelectByPurchase obj = (GoodsSelectByPurchase) objGoods;
-						
-						BigDecimal price = obj.getPrice();
-						if(price == null){
-							obj.setPrice(obj.getPurchasePrice());
-						}
-						
-					}
-				}
-				
-			});
-			respJson.put("importInfo", vo);
-		} catch (IOException e) {
-			respJson = RespJson.error("读取Excel流异常");
-			LOG.error("读取Excel流异常:", e);
-		} catch (Exception e) {
-			respJson = RespJson.error("导入发生异常");
-			LOG.error("用户导入异常:", e);
-		}
-=======
 //		try {
 //			if(file.isEmpty()){
 //				return RespJson.error("文件为空");
@@ -690,10 +599,10 @@ public class GoodsPriceAdjustController extends
 //			respJson = RespJson.error("导入发生异常");
 //			LOG.error("用户导入异常:", e);
 //		}
->>>>>>> branch 'master' of http://10.20.101.5/ERP/okdeer-jxc-web.git
 		return respJson;
-
+		
 	}
+	
 
 	/**
 	 * (non-Javadoc)
