@@ -32,12 +32,12 @@
 			<div class="ub umar-t4">
 				<div class="ub ub-ac umar-r10">
 					<div class="umar-r10  ut-r">关键字:</div>
-					<input class="uinp uw-400" type="text" name="codeOrName" id="codeOrName" placeholder="输入编号、名称进行查询">
+					<input class="uinp uw-400" type="text" name="supplierNameOrsupplierCode" id="supplierNameOrsupplierCode" placeholder="输入编号、名称进行查询">
 				</div>
 				<input type="button" class="ubtn  umar-r10" value="查询" onclick="searchHandel()">
 			</div>
 		</form>
-
+		<input type="hidden" id="selectBranchId" name="selectBranchId" />
 		<div class="ub umar-t10 ub-f1">
 			<table id="gridSupplierArchiveList" ></table>
 		</div>

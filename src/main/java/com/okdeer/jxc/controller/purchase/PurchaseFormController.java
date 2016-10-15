@@ -9,6 +9,7 @@ package com.okdeer.jxc.controller.purchase;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -36,7 +37,9 @@ import com.alibaba.fastjson.JSON;
 import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.controller.BasePrintController;
+import com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportComponent;
+import com.okdeer.jxc.common.goodselect.GoodsSelectImportHandle;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportVo;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.BigDecimalUtils;
@@ -58,9 +61,12 @@ import com.okdeer.jxc.form.purchase.vo.PurchaseFormDetailVo;
 import com.okdeer.jxc.form.purchase.vo.PurchaseFormVo;
 import com.okdeer.jxc.form.purchase.vo.ReceiptFormVo;
 import com.okdeer.jxc.form.purchase.vo.ReturnFormVo;
-import com.okdeer.jxc.goods.vo.GoodsPurchaseImportVo;
+import com.okdeer.jxc.goods.entity.GoodsSelect;
+import com.okdeer.jxc.goods.entity.GoodsSelectByPurchase;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
+
+import net.sf.json.JSONObject;
 
 /**
  * ClassName: PurchaseFormController 
@@ -858,8 +864,7 @@ public class PurchaseFormController extends
 	
 	
 	/**
-	 * 
-	 * @Description: TODO
+	 * 商品导入
 	 * @param file
 	 * @param type 0货号、1条码
 	 * @param branchId
@@ -885,15 +890,63 @@ public class PurchaseFormController extends
 			// 获取文件名
 			String fileName = file.getOriginalFilename();
 			
-			String[] field = null;
-			if(type.equals(String.valueOf(Constant.ZERO))){
-				field = GoodsSelectImportComponent.purchase_sku_code;
-			}else if(type.equals(String.valueOf(Constant.ONE))){
-				field = GoodsSelectImportComponent.purchase_bar_code;
+			SysUser user = UserUtil.getCurrentUser();
+			
+			String[] field = null; 
+			
+			if(type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)){//货号
+				field = new String[]{"skuCode","realNum","isGift"};
+			}else if(type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)){//条码
+				field = new String[]{"barCode","realNum","isGift"};
 			}
 			
-			GoodsSelectImportVo<GoodsPurchaseImportVo> vo = goodsSelectImportComponent.importSelectGoods(fileName, is, field , new GoodsPurchaseImportVo(), branchId, type, null);
-			
+			GoodsSelectImportVo<GoodsSelect> vo = goodsSelectImportComponent.importSelectGoods(fileName, is,
+					field, 
+					new GoodsSelectByPurchase(), 
+					branchId, user.getId(), 
+					type,
+					"/form/purchase/downloadErrorFile",
+					new GoodsSelectImportBusinessValid() {
+				
+				@Override
+				public List<JSONObject> businessValid(List<JSONObject> list, String[] excelField) {
+					for (JSONObject obj : list) {
+						String realNum = obj.getString("realNum");
+						try {
+							Double.parseDouble(realNum);
+						} catch (Exception e) {
+							realNum = "0";
+						}
+						
+						String isGift = obj.getString("isGift");
+						if("是".equals(isGift)){//如果是赠品，单价设置为0
+							isGift = "1";
+							obj.accumulate("price", 0);
+						}else if("否".equals(isGift)){
+							isGift = "0";
+						}else{
+							obj.accumulate("error", "是否赠品字段填写有误");
+						}
+					}
+					return list;
+				}
+				
+				/**
+				 * (non-Javadoc)
+				 * @see com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid#formatter(java.util.List)
+				 */
+				@Override
+				public void formatter(List<? extends GoodsSelect> list) {
+					for (GoodsSelect objGoods : list) {
+						GoodsSelectByPurchase obj = (GoodsSelectByPurchase) objGoods;
+						
+						BigDecimal price = obj.getPrice();
+						if(price == null){
+							obj.setPrice(obj.getPurchasePrice());
+						}
+					}
+				}
+			});
 			respJson.put("importInfo", vo);
 			
 		} catch (IOException e) {
@@ -905,6 +958,29 @@ public class PurchaseFormController extends
 		}
 		return respJson;
 		
+	}
+	
+	
+	/**
+	 * @author xiaoj02
+	 * @date 2016年10月15日
+	 */
+	@RequestMapping(value = "downloadErrorFile")
+	public void downloadErrorFile(String code, String type, HttpServletResponse response) {
+		String reportFileName = "错误数据";
+		
+		String[] headers = null;
+		String[] columns = null;
+		
+		if(type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)){//货号
+			columns = new String[]{"skuCode","realNum","isGift"};
+			headers = new String[]{"货号","数量","是否赠品"};
+		}else if(type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)){//条码
+			columns = new String[]{"barCode","realNum","isGift"};
+			headers = new String[]{"条码","数量","是否赠品"};
+		}
+
+		goodsSelectImportComponent.downloadErrorFile(code, reportFileName, headers, columns , response);
 	}
 	
 	

@@ -9,6 +9,10 @@ package com.okdeer.jxc.common.goodselect;
 
 import java.util.List;
 
+import org.apache.poi.ss.formula.functions.T;
+
+import com.okdeer.jxc.goods.entity.GoodsSelect;
+
 import net.sf.json.JSONObject;
 
 /**
@@ -23,8 +27,10 @@ import net.sf.json.JSONObject;
  *
  */
 
-public interface GoodSelectImportBusinessValid {
+public interface GoodsSelectImportBusinessValid {
 
 	List<JSONObject> businessValid(List<JSONObject> list, String[] excelField);
+	
+	void formatter(List<? extends GoodsSelect> list);
 	
 }

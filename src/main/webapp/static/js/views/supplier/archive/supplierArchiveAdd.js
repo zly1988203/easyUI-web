@@ -13,11 +13,8 @@ function saveSupplier() {
 		type : "POST",
 		data : formObj,
 		success : function(result) {
-			if (result.code==0) {
-				$.messager.alert("操作提示", "操作成功！");
-				closeDialog();
-			} else {
-				successTip(result['message']);
+			if(result){
+				alertTip(result.message, reloadListHandel);
 			}
 		},
 		error : function(result) {
