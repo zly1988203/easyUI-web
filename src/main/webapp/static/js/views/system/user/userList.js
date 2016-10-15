@@ -4,7 +4,10 @@
 $(function(){
     initDatagrid();
 });
+
+var gridHandel = new GridClass();
 //初始化表格
+
 function initDatagrid(){
     $("#dg").datagrid({
         //title:'普通表单-用键盘操作',
@@ -28,16 +31,16 @@ function initDatagrid(){
             {field:'branchCode',title:'机构编号',sortable:true,width:100},
             {field:'branchTypeStr',title:'机构类型',sortable:true,width:100},
             {field:'branchName',title:'机构名称',sortable:true,width:100},
-            {field:'status',title:'状态 ',sortable:true,width:60,align: 'center'},
+            {field:'statusStr',title:'状态 ',sortable:true,width:60,align: 'center'},
             {field:'lastLoginTime',title:'最近使用时间',sortable:true,width:100,
             	formatter : function(value, rowData, rowIndex) {
-            		if(value){
-            			return new Date(value).format('yyyy-MM-dd hh:mm:ss');
-            		}
-            		return value;
+            		return formatDate(value);
             	}
             }
-        ]]
+        ]],
+        onLoadSuccess:function(data){
+			gridHandel.setDatagridHeader("center");
+		}
         
     });
 }
@@ -83,76 +86,70 @@ function toEdit(){
 	 
 }
 
+var  dalogTemp;
+//打开Dialog
+function openDialog(argUrl,argTitle,argType) {
+  dalogTemp = $('<div/>').dialog({
+      href: argUrl,
+      width: 500,
+      height: 480,
+      title: argTitle,
+      closable: true,
+      resizable: true,
+      onClose: function () {
+          $(dalogTemp).panel('destroy');
+      },
+      modal: true,
+      onLoad: function () {
+
+      }
+  })
+}
+
 /**
  * 启用状态
  */
 function enable(){
-	    var rowdata = $("#dg").datagrid("getSelected"); 
-	    rowdata.status=1;
-	    var userid=rowdata.id
-	    rowIndex = $("#dg").datagrid('getRowIndex',rowdata);
-	    console.log(userid)
-	    
-	  //更新行数据
-	    $("#dg").datagrid('updateRow',{
-			index: rowIndex
-			
-		});
-	    $("#dg").datagrid('refreshRow',rowIndex);
-		$.ajax({
-	        url:contextPath+"/system/user/enableUser",
-	        type:"POST",
-	        data:{"userId":userid},
-	        dataType:"json",  
-	        success:function(result){
-	        	console.log(result);
-	            if(result){
-	                $.messager.alert("操作提示", "操作成功！");
-	               
-	            }else{
-	            	
-	                successTip(result['message']);
-	            }
-	        },
-	        error:function(result){
-	            successTip("请求发送失败或服务器处理失败");
-	        }
-	    });
+	updateStatus(0);
 }
+
 /**
  * 禁用状态
  */
 function disable(){
-	 var rowdata = $("#dg").datagrid("getSelected"); 
-	    rowdata.status=0;
-	    var userid=rowdata.id
-	    rowIndex = $("#dg").datagrid('getRowIndex',rowdata);
-	    console.log(rowIndex)
-	  //更新行数据
-	    $("#dg").datagrid('updateRow',{
-			index: rowIndex
-			
-		});
-	    $("#dg").datagrid('refreshRow',rowIndex);
-	    $.ajax({
-	        url:contextPath+"/system/user/enableUser",
-	        type:"POST",
-	        data:{"userId":userid},
-	        dataType:"json",  
-	        success:function(result){
-	        	console.log(result);
-	            if(result){
-	                $.messager.alert("操作提示", "操作成功！");
-	               
-	            }else{
-	            	
-	                successTip(result['message']);
-	            }
-	        },
-	        error:function(result){
-	            successTip("请求发送失败或服务器处理失败");
-	        }
-	    });
+	updateStatus(1);
+}
 
-  }
+function updateStatus(status){
+    var rowData = $("#dg").datagrid("getSelected"); 
+    
+    if(rowIsNull(rowData)){
+    	return;
+    }
+    
+    var rowStatus = rowData.status;
+    if(rowStatus==status){
+    	var message = status == 0 ? "已经启用!":"已经禁用!";
+    	successTip(message);
+    	return;
+    }
+    
+    var userId=rowData.id
+    
+    var uri = status == 0 ? "enableUser":"disableUser"; 
+	$.ajax({
+        url:contextPath+"/system/user/"+uri,
+        type:"POST",
+        data:{"userId":userId},
+        dataType:"json",  
+        success:function(result){
+            if(result){
+                successTip(result.message, $("#dg"));
+            }
+        },
+        error:function(result){
+            successTip("请求发送失败或服务器处理失败");
+        }
+    });
+}
 

@@ -16,7 +16,7 @@ pageEncoding="UTF-8"%>
 			<div class="ub upad-4">
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">供应商编号:</div>
-					<input id="skuCode" name="skuCode" class="uinp uw-200"  type="text" value="${data.skuCode}">
+					<input id="supplierCode" name="supplierCode" class="uinp uw-200"  type="text" readonly="readonly">
 				</div>
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">供应商名称<i class="uc-red">*</i>:</div>
@@ -24,13 +24,14 @@ pageEncoding="UTF-8"%>
 				</div>
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">所属机构<i class="uc-red">*</i>:</div>
-					<input id="purchaseSpec" name="branchId" class="uinp easyui-validatebox " type="text"  data-options="required:true" >
+					<input id="branchCodeName" name="branchCodeName" class="uinp uw-200" type="text" readonly="readonly" value="[${branch.branchCode }]${branch.branchName }"  >
+					<input id="branchId" name="branchId" type="hidden" value="${branch.branchesId }">
 				</div>
 			</div>
 			<div class="ub upad-4">
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">经营方式<i class="uc-red">*</i>:</div>
-					<select class="uselect easyui-combobox" name="saleWay" id="saleWay">
+					<select class="uselect easyui-combobox" name="saleWay" id="saleWay" data-options="onChange:onChangeUnit">
 						<c:forEach var="i" items="${saleWayEnums }">
 							<option value="${i.name }">${i.value }</option>
 						</c:forEach>
@@ -38,15 +39,16 @@ pageEncoding="UTF-8"%>
 				</div>
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">所在区域<i class="uc-red">*</i>:</div>
-					<select class="uselect easyui-combobox" name="saleWay" id="saleWay2">
-						<c:forEach var="i" items="${saleWayEnums }">
-							<option value="${i.name }">${i.value }</option>
+					<select class="uselect easyui-combobox" name="supplierAreaId" id="supplierAreaId" data-options="onChange:onChangeUnit">
+						<c:forEach var="i" items="${areaList }">
+							<option value="${i.areaId }" code="${i.areaCode }">${i.areaName }</option>
 						</c:forEach>
 					</select>
+					<input id="supplierAreaCode" name="supplierAreaCode" type="hidden" value="">
 				</div>
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">办公地址<i class="uc-red">*</i>:</div>
-					<input id="officeAddress" name="officeAddress" class="uinp uw-200"  type="text" value="${data.skuCode}">
+					<input id="officeAddress" name="officeAddress" class="uinp uw-200"  type="text" value="">
 				</div>
 
 
@@ -54,7 +56,7 @@ pageEncoding="UTF-8"%>
 			<div class="ub upad-4">
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">营业执照号<i class="uc-red">*</i>:</div>
-					<input id="businessLicenseNum" name="businessLicenseNum" class="uinp uw-200"  type="text" value="${data.skuCode}">
+					<input id="businessLicenseNum" name="businessLicenseNum" class="uinp uw-200"  type="text" value="">
 				</div>
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">组织机构代码<i class="uc-red">*</i>:</div>
@@ -70,7 +72,7 @@ pageEncoding="UTF-8"%>
 			<div class="ub upad-4">
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">地税登记号<i class="uc-red">*</i>:</div>
-					<input id="localTaxRegNum" name="localTaxRegNum" class="uinp uw-200"  type="text" value="${data.skuCode}">
+					<input id="localTaxRegNum" name="localTaxRegNum" class="uinp uw-200"  type="text" value="">
 				</div>
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">纳税人识别号<i class="uc-red">*</i>:</div>
@@ -100,7 +102,7 @@ pageEncoding="UTF-8"%>
 				</div>
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">开户银行<i class="uc-red">*</i>:</div>
-					<input id="openAccountBank" name="openAccountBank" class="uinp uw-200"  type="text" value="${data.skuCode}">
+					<input id="openAccountBank" name="openAccountBank" class="uinp uw-200"  type="text" value="">
 				</div>
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">银行账号<i class="uc-red">*</i>:</div>
@@ -113,7 +115,7 @@ pageEncoding="UTF-8"%>
 			<div class="ub upad-4">
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">联系人<i class="uc-red">*</i>:</div>
-					<input id="contcat" name="contcat" class="uinp uw-200"  type="text" value="${data.skuCode}">
+					<input id="contcat" name="contcat" class="uinp uw-200"  type="text" value="">
 				</div>
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">电话号码<i class="uc-red">*</i>:</div>
@@ -121,7 +123,7 @@ pageEncoding="UTF-8"%>
 				</div>
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">手机号码<i class="uc-red">*</i>:</div>
-					<input id="mobile" name="mobile" class="uinp uw-200"  type="text" value="${data.skuCode}">
+					<input id="mobile" name="mobile" class="uinp uw-200"  type="text" value="">
 				</div>
 
 			</div>
@@ -133,7 +135,7 @@ pageEncoding="UTF-8"%>
 				</div>
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">合同时间:</div>
-					<input id="contractDate" name="contractDate" class="uinp uw-200"  type="text" value="${data.skuCode}">
+					<input class="Wdate uinp uw-200" readonly="readonly" name="contractDate" id="contractDate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" />
 				</div>
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">采购人员:</div>
@@ -174,44 +176,44 @@ pageEncoding="UTF-8"%>
 
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">结算周期<i class="uc-red">*</i>:</div>
-					<input id="skuNum" name="skuNum" class="uinp uw-200"  type="text" value="${data.skuCode}">
+					<input id="balanceCycle" name="balanceCycle" class="uinp uw-200"  type="text" value="">
 				</div>
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">月结账日期<i class="uc-red">*</i>:</div>
-					<input id="skuNum" name="skuNum" class="uinp uw-200"  type="text" value="${data.skuCode}">
+					<input id="balanceDate" name="balanceDate" class="uinp uw-200"  type="text" value="">
 				</div>
 			</div>
 
 			<div class="ub upad-4">
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">冻结账款<i class="uc-red">*</i>:</div>
-					<select class="uselect easyui-combobox" name="balanceWay" id="balanceWay" data-options="onChange:onChangeUnit">
-						<option value="正常">正常</option>
-						<option value="冻结">冻结</option>
+					<select class="uselect easyui-combobox" name="freezeAccount" id="freezeAccount" data-options="onChange:onChangeUnit">
+						<option value="0">正常</option>
+						<option value="1">冻结</option>
 					</select>
 				</div>
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">冻结业务<i class="uc-red">*</i>:</div>
-					<select class="uselect easyui-combobox" name="balanceWay" id="balanceWay" data-options="onChange:onChangeUnit">
-						<option value="正常">正常</option>
-						<option value="冻结">冻结</option>
+					<select class="uselect easyui-combobox" name="freezeBusiness" id="freezeBusiness" data-options="onChange:onChangeUnit">
+						<option value="0">正常</option>
+						<option value="1">冻结</option>
 					</select>
 				</div>
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">SKU数:</div>
-					<input id="skuNum" name="skuNum" class="uinp uw-200"  type="text" value="${data.skuCode}">
+					<input id="skuNum" name="skuNum" class="uinp uw-200"  type="text" value="">
 				</div>
 			</div>
 			<div class="ub upad-4">
 				<div class="ub ub-ac ub-f1">
 					<div class="umar-r10 uw-100 ut-r">品牌:</div>
-					<input id="brandName" name="brandName" class="uinp ub ub-f1"  type="text" value="${data.skuCode}">
+					<input id="brandName" name="brandName" class="uinp ub ub-f1"  type="text" value="">
 				</div>
 			</div>
 			<div class="ub upad-4">
 				<div class="ub ub-ac ub-f1">
 					<div class="umar-r10 uw-100 ut-r">备注:</div>
-					<input id="remark" name="remark" class="uinp ub ub-f1" type="text" value="${data.skuCode}">
+					<input id="remark" name="remark" class="uinp ub ub-f1" type="text" value="">
 				</div>
 			</div>
 			
