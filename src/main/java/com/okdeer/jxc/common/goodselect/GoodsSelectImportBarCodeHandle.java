@@ -146,7 +146,7 @@ public class GoodsSelectImportBarCodeHandle implements GoodsSelectImportHandle{
 				Integer index = barCodeSet.get(objBarCode);
 				JSONObject existsObj = excelListFullData.get(index);
 				if(existsObj.get("error") == null){
-					obj.accumulate("error", CODE_IS_REPEAT);
+					existsObj.accumulate("error", CODE_IS_REPEAT);
 				}
 				
 				continue;
@@ -166,6 +166,7 @@ public class GoodsSelectImportBarCodeHandle implements GoodsSelectImportHandle{
 	private void refreshSuccessData(){
 		excelListSuccessData = new ArrayList<JSONObject>();
 		excelSuccessBarCode = new ArrayList<String>();
+		excelListErrorData = new ArrayList<JSONObject>();
 		for (JSONObject jsonObject : excelListFullData) {
 			if(jsonObject.get("error") == null){
 				excelListSuccessData.add(jsonObject);
@@ -187,7 +188,7 @@ public class GoodsSelectImportBarCodeHandle implements GoodsSelectImportHandle{
 			JSONObject excelJson = getSuccessDataByBarCode(barCode);
 			
 			//忽略第一列,合并属性
-			for (int j = 1; i < excelField.length; j++) {
+			for (int j = 1; j < excelField.length; j++) {
 				obj.accumulate(excelField[j], excelJson.get(excelField[j]));
 			}
 		}
@@ -196,6 +197,9 @@ public class GoodsSelectImportBarCodeHandle implements GoodsSelectImportHandle{
 		JsonConfig jsonConfig = new JsonConfig();
 		@SuppressWarnings("unchecked")
 		List<T> temp = JSONArray.toList(arr, entity, jsonConfig);
+		
+		//处理数据
+		businessValid.formatter(temp);
 		
 		return temp;
 		

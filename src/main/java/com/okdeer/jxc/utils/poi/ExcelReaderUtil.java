@@ -364,7 +364,7 @@ public class ExcelReaderUtil {
 	 * @date 2016年9月24日
 	 */
 	private static void readRow(Sheet sheet, String[] fields, JSONArray jArray) {
-		int rowCount = sheet.getLastRowNum();
+		int rowCount = sheet.getPhysicalNumberOfRows();
 
 		// Read the Row，循环遍历Excel行数,从第1行开始读取，第0行为标题
 		for (int rowNum = 1; rowNum <= rowCount; rowNum++) {
@@ -387,6 +387,9 @@ public class ExcelReaderUtil {
 	 */
 	private static void readCell(Row row, String[] fields, JSONArray jArray) {
 		JSONObject json = null;
+		
+		boolean isBlankRow = true;
+		
 		// Read the Cell，循环遍历Excel单元格
 		for (int cellNum = 0; cellNum < fields.length; cellNum++) {
 			if (json == null){
@@ -397,14 +400,15 @@ public class ExcelReaderUtil {
 				continue;
 			}
 			Object content = getValue(cell);
-			json.accumulate(fields[cellNum], content);
-
-			// 如果单元格数量大于字段名称数量，则跳出循环
-			if (cellNum >= fields.length) {
-				break;
+			
+			if(isBlankRow && content instanceof String  && StringUtils.isNotBlank((String)content)){
+				isBlankRow = false;
 			}
+			
+			json.accumulate(fields[cellNum], content);
 		}
-		if (json != null && !json.isEmpty()) {
+		
+		if (!isBlankRow && json != null && !json.isEmpty()) {
 			jArray.add(json);
 		}
 	}
