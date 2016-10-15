@@ -949,7 +949,6 @@ public class PurchaseFormController extends
 				}
 				
 			});
-			
 			respJson.put("importInfo", vo);
 			
 		} catch (IOException e) {
