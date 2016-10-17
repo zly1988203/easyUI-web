@@ -42,7 +42,7 @@
                 <div class="ub ub-ac uw-300 umar-r40">
                     <div class="umar-r10 uw-70 ut-r">机构:</div>
                    	<input class="uinp" type="hidden" id="branchCode" name="branchCode">
-                   	<input class="uinp" type="text" id="branchNameOrCode" name="branchNameOrCode" onblur="clearBranchCode()">
+                   	<input class="uinp ub ub-f1" type="text" id="branchNameOrCode" name="branchNameOrCode" onblur="clearBranchCode()">
                    	<div class="uinp-more" onclick="searchBranch()">...</div>
                 </div>
 	        </div>
