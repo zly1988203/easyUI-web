@@ -779,7 +779,7 @@ function updateListData(data){
      var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
      debugger;
      $("#gridEditOrder").datagrid("loadData",newRows);
-    setTimeout(function(){
+     setTimeout(function(){
         gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
         gridHandel.setSelectFieldName("largeNum");
         gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
