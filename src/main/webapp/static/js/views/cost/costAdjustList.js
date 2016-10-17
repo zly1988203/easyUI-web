@@ -29,7 +29,19 @@ function initDatagridRequireOrders(){
             {field:'adjustNo',title:'单号',width:'140px',align:'left',formatter:function(value,row,index){
             	return "<a style='text-decoration: underline;' href='"+ contextPath +"/cost/costAdjust/edit?id="+ row.id +"'>" + value + "</a>"
             }},
-            {field:'status',title: '审核状态', width: '100px', align: 'left'},
+            {field:'status',title: '审核状态', width: '100px', align: 'left',
+            	   formatter: function(value,row,index){
+            		   debugger;
+                       if (value==1){
+                           return "已审核";
+                       }else if(value==2){
+                    	   return "不通过";
+                       } 
+                       else {
+                           return "未审核";
+                       }
+                   }
+            },
 			{field: 'branchCode', title: '机构编号', width: '200px', align: 'left'},
 			{field: 'branchName', title: '机构名称', width: '200px', align: 'left'},
 			{field: 'totalMoney', title: '单据金额', width: '80px', align: 'right',

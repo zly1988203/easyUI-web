@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
+import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
@@ -89,6 +90,9 @@ public class CostAdjustController extends BaseController<StockCostForm>{
 	public String edit(String id, Model model) {
 		StockCostForm costForm = stockCostFormServiceApi.queryCostFormDetail(id);
 		model.addAttribute("data",costForm );
+		if(Constant.INTEGER_ONE.equals( costForm.getStatus())){
+			return "cost/costAdjustCheck";
+		}
 		return "cost/costAdjustEdit";
 	}
 

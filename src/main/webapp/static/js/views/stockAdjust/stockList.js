@@ -147,58 +147,6 @@ function selectOperator(){
      parent.addTabPrint('PASheet' + row.id,row.formNo+'单据打印',contextPath + '/printdesign/design?page=PASheet&controller=/form/purchase&template=-1&sheetNo=' + row.id + '&gridFlag=PAGrid','');
 }
 */
-/**
- * 导出
- */
-function exportExcel(){
-	debugger;
-	var rows = $("#stockFromList").datagrid("getChecked");
-	if(rows.length==0){
-		$.messager.alert('提示',"无数据可导");
-		return ;
-	}
-	if(rows.length>10000){
-		$.messager.alert('提示',"当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
-		return;
-	}
-	
-	var ids = [];
-	$.each(rows,function(i,row){
-		ids.push(row["id"]);
-	})
-	var objs = $("#queryForm").serialize();
-	var param;
-	if(ids.length >0){
-		param = objs +"&ids="+ids;
-	}else{
-		param = objs;
-	}
-	$.ajax({
-		url:contextPath+"/stock/adjust/exportList",
-		type:'GET',
-		data:param,
-		success:function(data){
-			if(data.code==0){
-				
-				$.messager.alert('提示',"导出成功");
-			}else{
-				$.messager.alert('提示',"导出失败");
-			}
-		},
-		error:function(error){
-			
-		}
-	})
-	
-	$("#queryForm").form({
-		success : function(data){
-			if(data.code > 0){
-				$.messager.alert('提示',data.message);
-			}
-		}
-	});
-
-}
 
 /**
  * 重置

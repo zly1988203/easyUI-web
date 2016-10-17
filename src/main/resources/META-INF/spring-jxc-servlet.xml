@@ -30,8 +30,20 @@
 		<property name="defaultEncoding" value="UTF-8" />
 		<property name="cacheSeconds" value="60" />
 	</bean>
-
-
+    
+    <mvc:annotation-driven validator="validator">
+		<mvc:message-converters>
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+				<property name="supportedMediaTypes">
+					<list>
+						<value>text/plain;charset=UTF-8</value>
+						<value>text/html;charset=UTF-8</value>
+					</list>
+				</property>
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+	
 	<!-- <mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/**/json" />

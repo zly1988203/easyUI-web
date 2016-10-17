@@ -4,7 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <script src="${ctx}/static/js/views/component/publicUploadFile.js"></script>
- <div class="ub ub-ver ub-pc ub-ac uw uh ub-f1" >
+<div class="ub ub-ver ub-pc ub-ac uw uh ub-f1" >
         <div class="ub ub-ver uw uh ub-f1">
             <!-- 导入弹框 -->
             <div class="ubtn uw-100 umar-10" onclick="downExportFile()" id="temple">导入模版下载</div>
@@ -19,4 +19,5 @@
             <div id="message" class="ub umar-10 ufs-14"></div>
             <div id="errorUrl" class="ub umar-10 ufs-14"></div>
         </div>
- </div>
+</div>
+

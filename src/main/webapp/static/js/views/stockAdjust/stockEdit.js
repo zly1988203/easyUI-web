@@ -138,7 +138,6 @@ function initDatagridEditRequireOrder(){
                           type:'numberbox',
                           value:'0',
                           options:{
-                              min:0,
                               precision:4,
                               onChange: totleChangePrice,
                           }
@@ -203,14 +202,7 @@ function onChangeRealNum(newV,oldV) {
         var realNumValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'realNum');
         gridHandel.setFieldValue('amount',priceValue*realNumValue); 
     }                    
-	var selectVal=$("#pricingType").combobox('getValue');
-	if(selectVal==2){
 	
-	   gridHandel.setFieldValue('realNum',(-(newV*purchaseSpecValue).toFixed(4)));   //数量=箱数*商品规格
-	}
-	else{
-	   gridHandel.setFieldValue('realNum',(newV*purchaseSpecValue).toFixed(4));   //数量=箱数*商品规格
-	}
 
     updateFooter();
 }
@@ -225,24 +217,29 @@ function totleChangePrice(newV,oldV) {
 	        messager("没有配送规格,请审查");
 	        return;
 	    }
-	  
+	 
     var price = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
     gridHandel.setFieldValue('largeNum',(newV/purchaseSpecValue).toFixed(4));   //箱数=数量/商品规格
     gridHandel.setFieldValue('amount',price*newV);                          //金额=数量*单价
     updateFooter();
 }
+
 function selectTion(){
-	 var purchaseSpecValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'purchaseSpec');
-	var realNumValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'realNum');
- 
-	var selectVal=$("#pricingType").combobox('getValue');
-	if(selectVal==2){
-	alert(22)
-	   gridHandel.setFieldValue('realNum',(-(realNumValue*purchaseSpecValue).toFixed(4)));   //数量=箱数*商品规格
-	}
-	else{
-	   gridHandel.setFieldValue('realNum',(realNumValue*purchaseSpecValue).toFixed(4));   //数量=箱数*商品规格
-	}
+	//var rowsup=[];
+	var rows = $('#gridEditRequireOrder').datagrid('getRows');
+	var selectVal=$("#io").combobox('getValue');
+	$.each(rows, function (index, el) {
+		var realNum = el.realNum;
+		if(selectVal==1){
+			var ofrealNumValue=parseFloat(-realNum);
+			el["realNum"] = ofrealNumValue;
+		}
+		else{
+			el["realNum"] = parseFloat(realNum)*-1;
+		}
+		
+	})
+	$("#gridEditRequireOrder").datagrid("loadData", rows);
 }
 //合计
 function updateFooter(){
@@ -510,7 +507,7 @@ function toBack(){
 /**
  * 导入
  */
-function importHandel(){
+function importHandel(type){
 	var branchId = $("#branchId").val();
     if(!branchId){
         messager("请先选择收货机构");
@@ -576,4 +573,30 @@ function getImportData(data){
 
     $("#"+gridHandel.getGridName()).datagrid("loadData",newRows);
     messager("导入成功");
+}
+/**
+ * 导出
+ */
+function exportExcel(){
+	var length = $("#gridEditRequireOrder").datagrid('getData').total;
+	if(length == 0){
+		$.messager.alert("提示","无数据可导");
+		return;
+	}
+	if(length>10000){
+		$.messager.alert('提示',"当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
+		return;
+	}
+	$("#searchForm").form({
+		success : function(data){
+			if(data==null){
+				$.messager.alert('提示',"导出数据成功！");
+			}else{
+				$.messager.alert('提示',JSON.parse(data).message);
+			}
+		}
+	});
+	$("#searchForm").attr("action",contextPath+"/stock/adjust/exportList");
+	$("#searchForm").submit();
+
 }

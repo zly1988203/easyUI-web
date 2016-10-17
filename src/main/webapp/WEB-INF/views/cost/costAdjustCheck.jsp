@@ -14,7 +14,7 @@
     <div class="ub ub-ver ub-f1 umar-4  ubor">
          <div class="ub ub-ac upad-4">
             <div class="ubtns">
-              <shiro:hasPermission name="JxcCostAdjust:add">
+              <shiro:hasPermission name="JxcCostAdjust:save">
                 <div class="ubtns-item" onclick="editsaveOrder()">保存</div>
               </shiro:hasPermission>
                 <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
@@ -26,6 +26,7 @@
             </div>
         </div>
         <div class="ub umar-t8 uc-black">【单号】：<span >${data.adjustNo}</span></div>
+                 <div class="already-examine" id="already-examine"><span>已审核</span></div>
         <div class="ub uline umar-t10"></div>
         <form action="" id="searchForm" method="post">
        		 <input type="hidden" id="adjusId" name="id" value="${data.id}">
@@ -35,7 +36,7 @@
         <div class="ub umar-t10">
                 <div class="ub ub-ac uw-300">
 	                <div class="umar-r10 uw-70 ut-r">机构名称:</div> 
-                    <input type="hidden" name="branchId" id="branchId" value="${data.branchId}" class="uinp" />
+                    <input type="hidden" name="branchId" id="branchId" value="${data.branchName} class="uinp" />
 					<input type="text" name="branchName" id="branchName" value="${data.branchName }" class="uinp ub ub-f1" readonly="readonly"  />
 					<div class="uinp-more" onclick="searchBranch()">...</div>
 	           </div>
