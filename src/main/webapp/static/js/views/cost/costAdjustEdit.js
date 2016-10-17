@@ -238,9 +238,6 @@ function selectStockAndPrice(branchId,data){
     		goodsStockVo : JSON.stringify(GoodsStockVo)
     	},
     	success:function(result){
-    		console.log("result===========================");
-    		console.log(result);
-    		debugger;
     		setDataValue(result);
     	},
     	error:function(result){
@@ -254,8 +251,6 @@ function setDataValue(data) {
     	var rec = data[i];
     	rec.remark = "";
     }
-
-	console.log(data);
     var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
     var addDefaultData  = gridHandel.addDefault(data,gridDefault);
     var keyNames = {
@@ -271,7 +266,6 @@ function setDataValue(data) {
     var isCheck ={isGift:1 };   //只要是赠品就可以重复
     var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
     $("#gridEditOrder").datagrid("loadData",newRows);
- console.log(newRows);
     setTimeout(function(){
         gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
         gridHandel.setSelectFieldName("largeNum");
