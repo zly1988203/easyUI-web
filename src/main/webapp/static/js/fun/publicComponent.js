@@ -752,7 +752,7 @@ function GridClass(){
                 }
                if(isCheck&&isCheck!={}){
                    $.each(isCheck,function(checkKey,checkVal){
-                       if(val1[checkKey]==checkVal){
+                       if(val1[checkKey]==checkVal||val[checkKey]!=val1[checkKey]){
                            isRepeat = false;
                        }
                    });

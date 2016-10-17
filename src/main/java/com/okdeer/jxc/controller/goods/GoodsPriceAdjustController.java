@@ -551,14 +551,14 @@ public class GoodsPriceAdjustController extends
 	 * @date 2016年10月10日
 	 */
 	@RequestMapping(value = "exportTemp")
-	public void exportTemp(HttpServletResponse response, String type) {
+	public void exportTemp(HttpServletResponse response, Integer type) {
 		LOG.info("GoodsPriceAdjustController:exportList:" + type);
 		try {
 			// 导出文件名称，不包括后缀名
 			String fileName = "调价单货号导入模板";
 			// 模板名称，包括后缀名
 			String templateName = ExportExcelConstant.GOODS_PRICE_ADJUST_FORM_TEMPLE_SKUCODE;
-			if (ExportExcelConstant.SKUCODE_TEMPLE_TYPE.equals(type)) {
+			if (Constant.ZERO==type) {
 				templateName = ExportExcelConstant.GOODS_PRICE_ADJUST_FORM_TEMPLE_SKUCODE;
 				fileName = "调价单货号导入模板";
 			} else {

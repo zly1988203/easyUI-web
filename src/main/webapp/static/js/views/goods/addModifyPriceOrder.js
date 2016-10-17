@@ -1087,9 +1087,6 @@ function updateListData(data){
     var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
 
     $("#addModifyPriceGrid").datagrid("loadData",newRows);
-    
-    
-    
 }
 
 

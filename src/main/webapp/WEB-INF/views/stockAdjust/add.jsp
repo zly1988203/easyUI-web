@@ -29,18 +29,9 @@
 	           </div>
 	             <div class="ub ub-ac uselectw umar-l40">
                     <div class="umar-r10 uw-70 ut-r">调整原因:</div>
-                       <!--select-->
-				        <select class="easyui-combobox uselect" name="reason" id="reason" data-options="editable:false">
-								<option value="1">全部</option> 
-								<option value="2">[01]其他</option> 
-								<option value="3">[02]领用</option> 
-								<option value="4">[03]报损</option> 
-								<option value="5">[04]丢失</option> 
-								<option value="6">[05]赠送</option>
-								<option value="7">[06]借用</option>
-								<option value="8">[07]退赠品</option>
-				        </select>
-				         <input type="hidden" name="reason" id="reason" class="uinp" />
+                           <select id="reason" class="easyui-combobox uselect" name="reason" ></select>
+				        <!--      data-options="valueField:'value',textField:'label',
+                    url:'${ctx}/common/dict/ADJUST_REASON'" -->
                 </div>
                <div class="ub ub-ac uw-300  umar-l10">
                    <div class="umar-r10 uw-70 ut-r">制单人员:</div>
@@ -56,9 +47,9 @@
                     <div class="umar-r10 uw-70 ut-r">出/入库:</div>
                        <!--select-->
 				        <select class="easyui-combobox uselect" name="io" id="io"  data-options="editable:false,onChange:selectTion">
-								<option value="1">请选择</option> 
-								<option value="2">入库</option> 
-								<option value="3">出库</option>
+								<option value="0">请选择</option> 
+								<option value="1">入库</option> 
+								<option value="2">出库</option>
 				        </select>
                 </div>
                <div class="ub ub-ac uw-300 umar-l300">
@@ -92,5 +83,21 @@
      	 	<button class="uabtn" onclick="uaclose()" >取消</button>
      	 </div>
      </div>
+     
+     <script type="text/javascript">
+     $('#reason').combobox({
+         valueField:'value',
+         textField:'label',
+         url:'${ctx}/common/dict/ADJUST_REASON',    
+         onSelect: function(record){
+           
+         },
+         onLoadSuccess:function(data){
+        	 $('#reason').combobox('setValue', 'OTHER');
+
+         }
+     });
+     </script>
 </body>
+
 </html>

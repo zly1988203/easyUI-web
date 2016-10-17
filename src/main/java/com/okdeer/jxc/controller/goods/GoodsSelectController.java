@@ -462,7 +462,6 @@ public class GoodsSelectController extends
 				for (GoodsSelectDeliver temp : goodsSelectDelivers) {
 					GoodsSkuVo vo = map.get(temp.getId());
 					temp.setNum(vo.getNum());
-					temp.setDistributionPrice(vo.getDistributionPrice());
 					temp.setIsGift(vo.getIsGift());
 				}
 			}

@@ -22,6 +22,7 @@
 <div class="ubtns-item" onClick="exportExcel()">导出</div>
                 <div class="ubtns-item" onclick="importHandel(0)">导入货号</div>
                 <div class="ubtns-item" onclick="importHandel(1)">导入条码</div>
+                 <div class="ubtns-item" onclick="delStockForm()">删单</div>
                 <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
                 <div class="ubtns-item" onclick="toBack()">返回</div>
             </div>
@@ -44,17 +45,9 @@
 	            <div class="ub ub-ac uselectws umar-l40">
                     <div class="umar-r10 uw-70 ut-r">调整原因:</div>
                        <!--select-->
-				        <select class="easyui-combobox uselect" name="reason" id="reason" data-options="editable:false">
-								<option value="">全部</option> 
-								<option value="">[01]其他</option> 
-								<option value="">[02]领用</option> 
-								<option value="">[03]报损</option> 
-								<option value="">[04]丢失</option> 
-								<option value="">[05]赠送</option>
-								<option value="">[06]借用</option>
-								<option value="">[07]退赠品</option>
+				        <select class="easyui-combobox uselect" name="reason" id="reason" data-options="editable:false" >
 				        </select>
-				        <input type="hidden" name="reason" id="reason" class="uinp" />
+				        <input type="hidden" name="reason" id="reasonValue" class="uinp" value="${stockFormVo.reason }" />
                 </div>
                <div class="ub ub-ac umar-l10">
                    <div class="umar-r10 uw-70 ut-r">制单人员:</div>
@@ -106,5 +99,18 @@
      	 	<button class="uabtn" onclick="uaclose()" >取消</button>
      	 </div>
      </div> -->
+      <script type="text/javascript">
+     $('#reason').combobox({
+         valueField:'value',
+         textField:'label',
+         url:'${ctx}/common/dict/ADJUST_REASON',    
+         onSelect: function(record){
+           
+         },
+         onLoadSuccess:function(data){
+        	 $('#reason').combobox('setValue',$("#reasonValue").val());
+         }
+     });
+     </script>
 </body>
 </html>
