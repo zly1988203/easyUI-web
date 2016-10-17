@@ -1,0 +1,11 @@
+.iml
+.idea
+target
+bin
+.project
+.classpath
+.settings
+.gitignore
+.factorypath
+/.apt_generated/
+.properties

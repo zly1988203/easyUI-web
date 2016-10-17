@@ -533,7 +533,6 @@ function back(){
 	location.href = contextPath+"/form/purchase/orderList";
 }
 
-
 //模板导出
 function exportTemp(){
 	var type = $("#temple").attr("value");

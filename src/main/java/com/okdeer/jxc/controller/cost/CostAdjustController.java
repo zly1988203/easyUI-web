@@ -1,21 +1,33 @@
 package com.okdeer.jxc.controller.cost;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONObject;
+
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
+import com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid;
+import com.okdeer.jxc.common.goodselect.GoodsSelectImportComponent;
+import com.okdeer.jxc.common.goodselect.GoodsSelectImportHandle;
+import com.okdeer.jxc.common.goodselect.GoodsSelectImportVo;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
@@ -25,6 +37,9 @@ import com.okdeer.jxc.cost.entity.StockCostFormAll;
 import com.okdeer.jxc.cost.entity.StockCostFormDetail;
 import com.okdeer.jxc.cost.service.StockCostFormServiceApi;
 import com.okdeer.jxc.cost.vo.StockCostFormVo;
+import com.okdeer.jxc.goods.entity.GoodsSelect;
+import com.okdeer.jxc.goods.entity.GoodsSelectByCostPrice;
+import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
 
 /**
@@ -46,6 +61,8 @@ public class CostAdjustController extends BaseController<StockCostForm>{
 	@Reference(version = "1.0.0", check = false)
 	private StockCostFormServiceApi stockCostFormServiceApi;
 
+	@Autowired
+	private GoodsSelectImportComponent goodsSelectImportComponent;
 	/**
 	 * @Description: 显示列表页面
 	 * @param type
@@ -341,5 +358,138 @@ public class CostAdjustController extends BaseController<StockCostForm>{
 			return json;
 		}
 	}
+	
+	/**
+	 * @Description: 成本调价导入
+	 * @param file
+	 * @param type
+	 * @param branchId
+	 * @return
+	 * @author lijy02
+	 * @date 2016年10月17日
+	 */
+	@RequestMapping(value = "importList")
+	@ResponseBody
+	public RespJson importList(@RequestParam("file") MultipartFile file,String type, String branchId){
+		RespJson respJson = RespJson.success();
+		try {
+			if(file.isEmpty()){
+				return RespJson.error("文件为空");
+			}
+			
+			if(StringUtils.isBlank(type)){
+				return RespJson.error("导入类型为空");
+			}
+			
+			// 文件流
+			InputStream is = file.getInputStream();
+			// 获取文件名
+			String fileName = file.getOriginalFilename();
+			
+			SysUser user = UserUtil.getCurrentUser();
+			
+			String[] field = null; 
+			
+			if(type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)){//货号
+				field = new String[]{"skuCode","newCostPrice"};
+			}else if(type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)){//条码
+				field = new String[]{"barCode","newCostPrice"};
+			}
+			
+			GoodsSelectImportVo<GoodsSelectByCostPrice> vo = goodsSelectImportComponent.importSelectGoodsWithStock(fileName, is,
+					field, 
+					new GoodsSelectByCostPrice(), 
+					branchId, user.getId(), 
+					type,
+					"/cost/costAdjust/downloadErrorFile",
+					new GoodsSelectImportBusinessValid() {
+				
+				@Override
+				public List<JSONObject> businessValid(List<JSONObject> list, String[] excelField) {
+					return list;
+				}
+				
+				/**
+				 * (non-Javadoc)
+				 * @see com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid#formatter(java.util.List)
+				 */
+				@Override
+				public void formatter(List<? extends GoodsSelect> list) {
+					for (GoodsSelect objGoods : list) {
+						GoodsSelectByCostPrice obj = (GoodsSelectByCostPrice) objGoods;
+						BigDecimal newCostprice = obj.getNewCostPrice();
+						if(newCostprice == null){
+							obj.setNewCostPrice(obj.getCostPrice());
+						}
+					}
+				}
+			});
+			respJson.put("importInfo", vo);
+			
+		} catch (IOException e) {
+			respJson = RespJson.error("读取Excel流异常");
+			LOG.error("读取Excel流异常:", e);
+		} catch (Exception e) {
+			respJson = RespJson.error("导入发生异常");
+			LOG.error("用户导入异常:", e);
+		}
+		return respJson;
+		
+	}
+	
+	
+	/**
+	 * @Description: 下载错误模版
+	 * @param code
+	 * @param type
+	 * @param response
+	 * @author lijy02
+	 * @date 2016年10月17日
+	 */
+	@RequestMapping(value = "downloadErrorFile")
+	public void downloadErrorFile(String code, String type, HttpServletResponse response) {
+		String reportFileName = "错误数据";
+		
+		String[] headers = null;
+		String[] columns = null;
+		
+		if(type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)){//货号
+			columns = new String[]{"skuCode","newCostPrice"};
+			headers = new String[]{"货号","新价"};
+		}else if(type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)){//条码
+			columns = new String[]{"barCode","newCostPrice"};
+			headers = new String[]{"条码","新价"};
+		}
 
+		goodsSelectImportComponent.downloadErrorFile(code, reportFileName, headers, columns , response);
+	}
+	
+	/**
+	 * @Description: 导出调价单模板
+	 * @param response
+	 * @param type
+	 * @author lijy02
+	 * @date 2016年10月10日
+	 */
+	@RequestMapping(value = "exportTemp")
+	public void exportTemp(HttpServletResponse response, Integer type) {
+		LOG.info("CostAdjustController:" + type);
+		try {
+			// 导出文件名称，不包括后缀名
+			String fileName = "成本调价单货号导入模板";
+			// 模板名称，包括后缀名
+			String templateName = ExportExcelConstant.COST_GOODS_PRICE_ADJUST_FORM_TEMPLE_SKUCODE;
+			if (Constant.ZERO==type) {
+				templateName = ExportExcelConstant.COST_GOODS_PRICE_ADJUST_FORM_TEMPLE_SKUCODE;
+				fileName = "成本调价单货号导入模板";
+			} else {
+				templateName = ExportExcelConstant.COST_GOODS_PRICE_ADJUST_FORM_TEMPLE_BARCODE;
+				fileName = "成本调价单条形码导入模板";
+			}
+			// 导出Excel
+			exportListForXLSX(response, null, fileName, templateName);
+		} catch (Exception e) {
+			LOG.error("成本调价单导入模版下载失败:", e);
+		}
+	}
 }
