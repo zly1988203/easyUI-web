@@ -164,7 +164,7 @@ function initDatagridOrders(){
  */
 function searchSupplier(){
 	new publicSupplierService(function(data){
-		$("#supplierId").val(data.supplierId);
+		$("#supplierId").val(data.id);
 		$("#supplierName").val(data.supplierName);
 	});
 }

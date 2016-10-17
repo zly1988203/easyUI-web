@@ -496,7 +496,7 @@ function saveDataHandel(rows){
 function selectSupplier(){
 	new publicSupplierService(function(data){
 		console.log(data);
-		$("#supplierId").val(data.supplierId);
+		$("#supplierId").val(data.id);
 		$("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
 	});
 }
@@ -579,7 +579,7 @@ function selectForm(){
             var newRows = gFunUpdateKey(data.list,keyNames);
             $("#gridEditOrder").datagrid("loadData",newRows);
             //供应商
-            $("#supplierId").val(data.form.supplierId);
+            $("#supplierId").val(data.form.id);
             $("#supplierName").val(data.form.supplierName);
             //收货机构
             $("#branchId").val(data.form.branchId);
