@@ -528,15 +528,6 @@ function orderDelete(){
 	});
 }
 
-//打印
-function printDesign(){
-	var id = $("#formId").val();
-	var formNo = $("#formNo").val();
-     //弹出打印页面
-     parent.addTabPrint('PASheet' + id,formNo+'单据打印',contextPath + '/printdesign/design?page=PASheet&controller=/form/purchase&template=-1&sheetNo=' + id + '&gridFlag=PAGrid','');
-}
-
-
 function selectSupplier(){
 	new publicSupplierService(function(data){
 		$("#supplierId").val(data.supplierId);
@@ -567,6 +558,37 @@ function printDesign(){
 
 function back(){
 	location.href = contextPath+"/form/purchase/orderList";
+}
+
+function toImportproduct(type){
+    var branchId = $("#branchId").val();
+    if(!branchId){
+        messager("请先选择收货机构");
+        return;
+    }
+    var param = {
+        url:contextPath+"/form/purchase/importList",
+        tempUrl:contextPath+"/form/purchase/exportTemp",
+        type:type,
+        branchId:branchId,
+    }
+    new publicUploadFileService(function(data){
+        updateListData(data);
+        
+    },param)
+}
+
+
+//模板导出
+function exportTemp(){
+	var type = $("#temple").attr("value");
+	//导入货号
+	if(type==0){
+		location.href=contextPath+'/form/purchase/exportTemp?type='+type;
+	//导入条码
+	}else if(type==1){
+		location.href=contextPath+'/form/purchase/exportTemp?type='+type;
+	}
 }
 
 /**
