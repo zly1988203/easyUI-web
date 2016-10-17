@@ -22,6 +22,7 @@
 <div class="ubtns-item" onClick="exportExcel()">导出</div>
                 <div class="ubtns-item" onclick="importHandel(0)">导入货号</div>
                 <div class="ubtns-item" onclick="importHandel(1)">导入条码</div>
+                 <div class="ubtns-item" onclick="delStockForm()">删单</div>
                 <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
                 <div class="ubtns-item" onclick="toBack()">返回</div>
             </div>
