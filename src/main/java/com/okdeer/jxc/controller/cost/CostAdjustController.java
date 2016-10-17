@@ -37,6 +37,8 @@ import com.okdeer.jxc.cost.entity.StockCostFormAll;
 import com.okdeer.jxc.cost.entity.StockCostFormDetail;
 import com.okdeer.jxc.cost.service.StockCostFormServiceApi;
 import com.okdeer.jxc.cost.vo.StockCostFormVo;
+import com.okdeer.jxc.dict.entity.Dict;
+import com.okdeer.jxc.dict.service.DictServiceApi;
 import com.okdeer.jxc.goods.entity.GoodsSelect;
 import com.okdeer.jxc.goods.entity.GoodsSelectByCostPrice;
 import com.okdeer.jxc.system.entity.SysUser;
@@ -51,7 +53,7 @@ import com.okdeer.jxc.utils.UserUtil;
  * =================================================================================================
  *     Task ID			  Date			     Author		      Description
  * ----------------+----------------+-------------------+-------------------------------------------
- *
+ *      零售系统			2016-10-17			yangyq02	        配送（调拨单）Controller
  */
  
 @Controller
@@ -61,8 +63,11 @@ public class CostAdjustController extends BaseController<StockCostForm>{
 	@Reference(version = "1.0.0", check = false)
 	private StockCostFormServiceApi stockCostFormServiceApi;
 
+	@Reference(version = "1.0.0", check = false)
+	DictServiceApi dictServiceApi;
 	@Autowired
 	private GoodsSelectImportComponent goodsSelectImportComponent;
+	
 	/**
 	 * @Description: 显示列表页面
 	 * @param type
@@ -74,8 +79,7 @@ public class CostAdjustController extends BaseController<StockCostForm>{
 	 * @date 2016年10月13日
 	 */
 	@RequestMapping(value = "view")
-	public String view(String type, Model model) {
-		model.addAttribute("type", type);
+	public String view(Model model) {
 		return "cost/costAdjustList";
 	}
 	/**
@@ -89,8 +93,9 @@ public class CostAdjustController extends BaseController<StockCostForm>{
 	 * @date 2016年10月13日
 	 */
 	@RequestMapping(value = "add")
-	public String add(String type, Model model) {
-		model.addAttribute("type", type);
+	public String add( Model model) {
+		 List<Dict> dict = dictServiceApi.getDictByType("COST_ADJUST_REASON");
+		 model.addAttribute("COST_ADJUST_REASON", dict);
 		return "cost/costAdjustAdd";
 	}
 	/**
@@ -107,6 +112,8 @@ public class CostAdjustController extends BaseController<StockCostForm>{
 	public String edit(String id, Model model) {
 		StockCostForm costForm = stockCostFormServiceApi.queryCostFormDetail(id);
 		model.addAttribute("data",costForm );
+		 List<Dict> dict = dictServiceApi.getDictByType("COST_ADJUST_REASON");
+		 model.addAttribute("COST_ADJUST_REASON", dict);
 		if(Constant.INTEGER_ONE.equals( costForm.getStatus())){
 			return "cost/costAdjustCheck";
 		}
@@ -199,6 +206,9 @@ public class CostAdjustController extends BaseController<StockCostForm>{
 				RespJson.error("json数据不允许为空！");
 			}
 			StockCostFormAll stockCostFormAl=JSON.parseObject(jsonData, StockCostFormAll.class);
+			if(StringUtils.isEmpty( stockCostFormAl.getStockCostForm().getBranchId())){
+				RespJson.error("机构ID不允许为空！");
+			}
 			stockCostFormAl.getStockCostForm().setUpdateUserId(UserUtil.getCurrBranchCode());
 			LOG.info("qo:" + stockCostFormAl);
 			return stockCostFormServiceApi.updateCostForm(stockCostFormAl);
