@@ -52,7 +52,8 @@ function initDatagridRequireOrders(){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
 			},
-            {field: 'adjustReason', title: '调整原因', width: '200px', align: 'left'},
+			{field: 'adjustReasonName', title: '调整原因', width: '200px', align: 'left'},
+            {field: 'adjustReason', title: '调整原因', width: '200px', align: 'left',hidden:false},
             {field: 'updateUserName', title: '操作人员', width: '130px', align: 'left'},
             {field: 'updateTime', title: '操作日期', width: '120px', align: 'center',
 				formatter: function (value, row, index) {
