@@ -384,6 +384,8 @@ function saveOrder(){
     // 备注
     var remark = $("#remark").val();
     
+    var reason = $("input[name='reason']").val()  
+    
     var io = $("#io").val();
     //验证表格数据
     $("#gridEditOrder").datagrid("endEdit", gridHandel.getSelectRowIndex());
@@ -426,7 +428,7 @@ function saveOrder(){
     var reqObj = $.extend({
     	io:io,
     	createBranchId:branchId,
-        reason:"",
+        reason:reason,
         remark:remark,
     }, stockFormDetailList);
     
