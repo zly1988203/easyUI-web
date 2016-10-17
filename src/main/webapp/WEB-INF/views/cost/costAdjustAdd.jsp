@@ -18,7 +18,8 @@
                 <div class="ubtns-item" onclick="addsaveOrder()">保存</div>
              </shiro:hasPermission>
                 <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
-                <div class="ubtns-item" onclick="importproductAll()">导入</div>
+                <div class="ubtns-item" id="importdetail" onclick="toImportproduct(0)">导入货号</div>
+          		<div class="ubtns-item" id="importdetail" onclick="toImportproduct(1)">导入条码</div>
                 <div class="ubtns-item" onclick="toBack()">返回</div>
             </div>
         </div>
@@ -73,16 +74,5 @@
                <table id="gridEditOrder" ></table>
            </div>
     </div>
-     <!-- 导入弹框 -->
-    <div class="uabs uatk">
-
-     	<div class="uatit">导入文件选择</div>
-         <div class="uacon"><input class="uinp ub" id="filename" type="text"><label class="ualable">选择文件<input type="file" class="uafile" value=""  name="xlfile" id="xlf" /></label></div>
-         
-         <div class="uabtns ">
-     	 	<button class="uabtn umar-r30" onclick="importHandel('gridEditOrder')">导入</button>
-     	 	<button class="uabtn" onclick="uaclose()" >取消</button>
-     	 </div>
-     </div>
 </body>
 </html>

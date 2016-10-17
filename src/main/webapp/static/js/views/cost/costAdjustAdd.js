@@ -340,44 +340,52 @@ function searchBranch (){
 	});
 }
 
-
-
-/**
- * 导入
- */
-function importHandel(){
-	postelsxDeliver('gridEditOrder','/goods/goodsSelect',$("#sourceBranchId").val(),$("#targetBranchId").val(),"DA");
+//导入
+function toImportproduct(type){
+    var branchId = $("#branchId").val();
+    if(!branchId){
+        messager("请先选择收货机构");
+        return;
+    }
+    var param = {
+        url:contextPath+"/cost/costAdjust/importList",
+        tempUrl:contextPath+"/cost/costAdjust/exportTemp",
+        type:type,
+        branchId:branchId,
+    }
+    new publicUploadFileService(function(data){
+        updateListData(data);
+        
+    },param)
 }
+function updateListData(data){
+	   /* var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
+	    var addDefaultData  = gridHandel.addDefault(data,gridDefault);*/
+	console.info(data)
+	    var keyNames = {
+	        id:'skuId',
+	        costPrice:"oldCostPrice",
+	        newCostPrice:"costPrice"
+	    };
+	    var rows = gFunUpdateKey(data,keyNames);
+	    var argWhere ={skuCode:1};  //验证重复性
+	    var isCheck ={isGift:1 };   //只要是赠品就可以重复
+	    var newRows = gridHandel.checkDatagrid(data,rows,argWhere,isCheck);
 
-/**
- * 获取导入的数据
- * @param data
- */
-function getImportData(data){
-    $.each(data,function(i,val){
-        data[i]["oldPurPrice"] = data[i]["purchasePrice"];
-        data[i]["oldSalePrice"]=data[i]["salePrice"];
-        data[i]["oldWsPrice"]=data[i]["wholesalePrice"];
-        data[i]["oldVipPrice"]=data[i]["vipPrice"];
-        data[i]["oldDcPrice"]=data[i]["distributionPrice"];
-        data[i]["price"] = data[i]["oldPurPrice"];
-        data[i]["actual"]=data[i]["actual"]||0;
-        
-        data[i]["amount"]  = parseFloat(data[i]["price"]||0)*parseFloat(data[i]["actual"]||0);
-        if(parseInt(data[i]["distributionSpec"])){
-        	 data[i]["largeNum"]  = (parseFloat(data[i]["actual"]||0)/parseFloat(data[i]["distributionSpec"])).toFixed(4);
-        }else{
-        	 data[i]["largeNum"]  =  0;
-        	 data[i]["distributionSpec"] = 0;
-        }
-        
-    });
-    var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
-    var argWhere ={skuCode:1};  //验证重复性
-    var newRows = gridHandel.checkDatagrid(nowRows,data,argWhere,{});
+	    $("#gridEditOrder").datagrid("loadData",data);
+	}
 
-    $("#"+gridHandel.getGridName()).datagrid("loadData",newRows);
-    messager("导入成功");
+
+//模板导出
+function exportTemp(){
+	var type = $("#temple").attr("value");
+	//导入货号
+	if(type==0){
+		location.href=contextPath+'/cost/costAdjus/exportTemp?type='+type;
+	//导入条码
+	}else if(type==1){
+		location.href=contextPath+'/cost/costAdjus/exportTemp?type='+type;
+	}
 }
 
 /**
