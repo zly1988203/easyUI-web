@@ -11,55 +11,57 @@
         </div>
     </div>
     <div class="ub uline "></div>
-     <form id="editUserForm" method="post" >
-          <div class="ub umar-t8">
+     <form id="editUserForm" class="uncenter" method="post"  >
+     <div style="display:inline-block;">
+          <div class="ub umar-t20">
 	            <div class="ub ub-ac umar-l20">
 	                <div class="umar-r10 uw-60 ut-r">用户编码:</div>
-	                <input  id="userCode" name="userCode" value="${user.userCode }" class="uinp"  type="text" maxlength="4" readonly="readonly">
+	                <input  id="userCode" name="userCode" value="${user.userCode }" class="uinp uw-250"  type="text" maxlength="4" readonly="readonly">
 	                <input id="id" name="id" type="hidden" value="${user.id }" />
             	    <i class="uc-red">*</i>
 	            </div>
           </div>
-          <div class="ub umar-t8">
+          <div class="ub umar-t20">
 	            <div class="ub ub-ac umar-l20">
 	                <div class="umar-r10 uw-60 ut-r">用户名称:</div>
-	                <input  id="userName" name="userName" value="${user.userName }" class="uinp easyui-validatebox" data-options="required:true,validType:'userName'" type="text">
+	                <input  id="userName" name="userName" value="${user.userName }" class="uinp uw-250 easyui-validatebox" data-options="required:true,validType:'userName'" type="text">
                 <i class="uc-red">*</i>
 	            </div>
           </div>
 
-           <div class="ub umar-t8">
+           <div class="ub umar-t20">
 	            <div class="ub ub-ac umar-l20">
 	               <div class="umar-r10 uw-60 ut-r">手机号:</div>
-	               <input id="mobile" name="mobile" value="${user.mobile }" class="uinp easyui-validatebox" data-options="required:false,validType:'mobile'" type="text">
+	               <input id="mobile" name="mobile" value="${user.mobile }" class="uinp uw-250 easyui-validatebox" data-options="required:false,validType:'mobile'" type="text">
             
 	            </div>
           </div>
-        <div class="ub umar-t8"> 
+        <div class="ub umar-t20"> 
             <div class="ub ub-ac umar-l20">
             	<div class="umar-r10 uw-60 ut-r">所属机构:</div>
                 <input class="uinp" type="hidden" id="opBranchId" name="branchId" value="${user.branchId }">
                 <input class="uinp" type="hidden" id="opBranchId" name="branchCode" value="${branch.branchCode }">
                 <input class="uinp" type="hidden" id="opBranchType" name="opBranchType" value="${branch.type }">
                 <input class="uinp" type="hidden" id="opBranchCompleCode" name="opBranchCompleCode" value="${branch.branchCompleCode }">
-                <input class="uinp" type="text" id="branchNameCode" name="branchNameCode" value="[${branch.branchCode }]${branch.branchName }" readonly="readonly" onclick="searchBranchInfo();">
+                <input class="uinp uw-250" type="text" id="branchNameCode" name="branchNameCode" value="[${branch.branchCode }]${branch.branchName }" readonly="readonly" onclick="searchBranchInfo();">
                 <i class="uc-red">*</i>
             </div>
          </div>
-          <div class="ub umar-t8"> 
+          <div class="ub umar-t20"> 
              <div class="ub ub-ac umar-l20">
             	<div class="umar-r10 uw-60 ut-r">所属角色:</div>
                 <input class="uinp" type="hidden" id="opRoleId" name="roleId" value="${role.id }">
                 <input class="uinp" type="hidden" id="opRoleCode" name="roleCode" value="${role.roleCode }">
-                <input class="uinp" type="text" id="roleCodeOrName" name="roleCodeOrName" value="${role.roleName }" readonly="readonly" onclick="searchRole();">
+                <input class="uinp uw-250" type="text" id="roleCodeOrName" name="roleCodeOrName" value="${role.roleName }" readonly="readonly" onclick="searchRole();">
                 <i class="uc-red">*</i>
             </div>
            </div>
-           <div class="ub umar-t8"> 
+           <div class="ub umar-t20"> 
              <div class="ub ub-ac umar-l20">
                 <div class="umar-r10 uw-60 ut-r">备注:</div>
-                <textarea id="remark" name="remark" class="uh-40" style="width: 260px;" maxlength="100">${user.remark }</textarea>
+                <textarea id="remark" name="remark" class="uh-40 uw-250" maxlength="100">${user.remark }</textarea>
             </div>
+        </div>
         </div>
     </form>
 
