@@ -1054,29 +1054,42 @@ function toImportproduct(type){
 function updateListData(data){
     var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
     var addDefaultData  = gridHandel.addDefault(data,gridDefault);
-    var keyNames1 = {
+    var keyNames = {
     		purchasePrice : 'oldPurPrice',
     		salePrice:'oldSalePrice',
     		wholesalePrice:'oldWsPrice',
     		vipPrice:'oldVipPrice',
     		distributionPrice:'oldDcPrice'
     };
+    debugger;
+    var rows = gFunUpdateKey(addDefaultData,keyNames);
+    if(data.length>0){
+    	var obj = data[0];
+    	var arrKey = [
+    	              {"newPurPrice":"purchasePrice"},
+    	              {"newSalePrice":"retailPrice"},
+    	              {"newDcPrice":"distributionPrice"},
+    	              {"newWsPrice":"tradePrice"},
+    	              {"newVipPrice":"memberPrice"}
+    	             ]
+    	$.each(obj,function(key,val){
+    		$.each(arrKey,function(i,item){
+    			if(item[key]){
+    				$("#"+item[key]).attr("checked","checked");
+    				 datagridUtil.isCheckBoxChecked(item[key]);
+    			}
+    		})
+    	})
+    }
     
-    var keyNames2 = {
-			oldPurPrice : 'newPurPrice',
-			oldDcPrice : 'newDcPrice',
-			oldVipPrice : 'newVipPrice',
-			oldWsPrice : 'newWsPrice',
-			oldSalePrice : 'newSalePrice'
-		}
-    
-    var rows = gFunUpdateKey(addDefaultData,keyNames1);
-    var rows = gFunUpdateKey(addDefaultData,keyNames2);
     var argWhere ={skuCode:1};  //验证重复性
     var isCheck ={isGift:1 };   //只要是赠品就可以重复
     var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
 
     $("#addModifyPriceGrid").datagrid("loadData",newRows);
+    
+    
+    
 }
 
 
