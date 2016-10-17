@@ -125,7 +125,6 @@ function initDatagridEditRequireOrder(){
 		        			  disabled:true,
 		        			  min:0,
 		        			  precision:4,
-		        			  onChange: onChangeActual,
 
 		        		  }
 		        	  },
@@ -179,21 +178,10 @@ function onChangeCostPrice(newV,oldV) {
 	var actual = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'actual')||0;
 	var oldCostPrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'oldCostPrice')||0;
 	var CostPrice = newV;
-	gridHandel.setFieldValue('diffMoney',(parseFloat(actual)*(parseFloat(CostPrice)-parseFloat(oldCostPrice)).toFixed(2)));
-
+	gridHandel.setFieldValue('diffMoney',(parseFloat(actual)*(parseFloat(newV)-parseFloat(oldCostPrice)).toFixed(2)));
 	updateFooter();
 }
-//监听库存
-function onChangeActual(newV,oldV) {
-	//获取差额
-	var actual = newV;
-	var oldCostPrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'oldCostPrice')||0;
-	var CostPrice = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'costPrice')||0;
-	console.log(actual )
-	gridHandel.setFieldValue('diffMoney',(parseFloat(actual)*(parseFloat(CostPrice)-parseFloat(oldCostPrice)).toFixed(2)));
 
-	updateFooter();
-}
 //合计
 function updateFooter(){
 	var fields = {actual:0,diffMoney:0,isGift:0, };
@@ -250,7 +238,7 @@ function selectGoods(searchKey){
 			gridHandel.setSelectFieldName("largeNum");
 			gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
 		},100)
-	},searchKey);
+	},searchKey,0,"","",branchId);
 }
 //保存
 function editsaveOrder(){
@@ -330,6 +318,7 @@ function editsaveOrder(){
 				remark : data.remark,
 				skuCode : data.skuCode,
 				skuId:data.skuId,
+				adjustReason:data.adjustReason
 		}
 		jsonData.stockCostFormDetailList[i] = temp;
 	});
@@ -348,6 +337,7 @@ function editsaveOrder(){
 					return $.extend(true,{},obj);//返回对象的深拷贝
 				});
 				$.messager.alert("操作提示", "操作成功！", "info");
+				 toBack();
 			}else{
 				successTip(result['message']);
 			}
