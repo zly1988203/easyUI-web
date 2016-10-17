@@ -56,9 +56,9 @@
                     <div class="umar-r10 uw-70 ut-r">出/入库:</div>
                        <!--select-->
 				        <select class="easyui-combobox uselect" name="io" id="io"  data-options="editable:false,onChange:selectTion">
-								<option value="1">请选择</option> 
-								<option value="2">入库</option> 
-								<option value="3">出库</option>
+								<option value="0">请选择</option> 
+								<option value="1">入库</option> 
+								<option value="2">出库</option>
 				        </select>
                 </div>
                <div class="ub ub-ac uw-300 umar-l300">

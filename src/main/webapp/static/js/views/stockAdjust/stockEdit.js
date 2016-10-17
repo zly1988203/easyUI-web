@@ -224,23 +224,6 @@ function totleChangePrice(newV,oldV) {
     updateFooter();
 }
 
-function selectTion(){
-	//var rowsup=[];
-	var rows = $('#gridEditRequireOrder').datagrid('getRows');
-	var selectVal=$("#io").combobox('getValue');
-	$.each(rows, function (index, el) {
-		var realNum = el.realNum;
-		if(selectVal==1){
-			var ofrealNumValue=parseFloat(-realNum);
-			el["realNum"] = ofrealNumValue;
-		}
-		else{
-			el["realNum"] = parseFloat(realNum)*-1;
-		}
-		
-	})
-	$("#gridEditRequireOrder").datagrid("loadData", rows);
-}
 //合计
 function updateFooter(){
     var fields = {stockNum:0,sellable:0,largeNum:0,realNum:0,amount:0,isGift:0, };
@@ -273,7 +256,8 @@ function selectGoods(searchKey){
             $("#"+gridHandel.getGridName()).datagrid("deleteRow", gridHandel.getSelectRowIndex());
             $("#"+gridHandel.getGridName()).datagrid("acceptChanges");
         }
-        selectStockAndPrice(branchId,data);
+        var setdata=setTion(data);
+        selectStockAndPrice(branchId,setdata);
       
     },searchKey,"","","",branchId);
 }
@@ -326,14 +310,55 @@ function selectStockAndPrice(branchId,data){
     		goodsStockVo : JSON.stringify(GoodsStockVo)
     	},
     	success:function(result){
-    		setDataValue(result);
+    		 var setdata=setTion(result);
+    		setDataValue(setdata);
     	},
     	error:function(result){
     		successTip("请求发送失败或服务器处理失败");
     	}
     });
 }
-
+//库存调整一开始选择
+function setTion(datas){
+	var selectVal=$("#io").combobox('getValue');
+	$.each(datas, function (index, el) {
+		var realNum = el.realNum;
+        if(isNaN(el.realNum)){
+			el["realNum"]=parseFloat("7.00");
+        	console.log(el["realNum"]);
+		}
+	})
+	console.log(datas);
+	$.each(datas, function (index, el) {
+		var realNum = el.realNum;
+		if(selectVal==0){
+			el["realNum"] = parseFloat(realNum);
+		}
+		else{
+			el["realNum"] = parseFloat(realNum)*-1;
+		}
+		
+	})
+	console.log(datas);
+	return datas;
+}
+// 库存调整为负数
+function selectTion(){
+	//var rowsup=[];
+	var rows = $('#gridEditOrder').datagrid('getRows');
+	var selectVal=$("#io").combobox('getValue');
+	$.each(rows, function (index, el) {
+		var realNum = el.realNum;
+		if(selectVal==0){
+			el["realNum"] = parseFloat(realNum);
+		}
+		else{
+			el["realNum"] = parseFloat(realNum)*-1;
+		}
+		
+	})
+	$("#gridEditOrder").datagrid("loadData", rows);
+}
 //保存
 function saveOrder(){
 	// 机构id
