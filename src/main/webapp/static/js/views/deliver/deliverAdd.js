@@ -656,10 +656,6 @@ function selectStockAndPriceImport(sourceBranchId,targetBranchId,data){
 }
 
 function updateListData(data){
-    for(var i in data){
-        var rec = data[i];
-        rec.remark = "";
-    }
      var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
      var addDefaultData = gridHandel.addDefault(data,gridDefault);
      var keyNames = {
@@ -670,7 +666,16 @@ function updateListData(data){
          num : 'applyNum'
      };
      var rows = gFunUpdateKey(addDefaultData,keyNames);
-    
+     for(var i in rows){
+         rows[i].remark = "";
+         rows[i]["amount"]  = parseFloat(rows[i]["price"]||0)*parseFloat(rows[i]["applyNum"]||0);
+         if(parseInt(rows[i]["distributionSpec"])){
+        	 rows[i]["largeNum"]  = (parseFloat(rows[i]["applyNum"]||0)/parseFloat(rows[i]["distributionSpec"])).toFixed(4);
+         }else{
+        	 rows[i]["largeNum"]  =  0;
+        	 rows[i]["distributionSpec"] = 0;
+         }
+     }
      var argWhere ={skuCode:1};  //验证重复性
      var isCheck ={isGift:1 };   //只要是赠品就可以重复
      var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);

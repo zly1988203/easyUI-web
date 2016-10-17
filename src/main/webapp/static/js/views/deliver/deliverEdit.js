@@ -331,7 +331,7 @@ function setDataValue(data) {
          var argWhere ={skuCode:1};  //验证重复性
          var isCheck ={isGift:1 };   //只要是赠品就可以重复
          var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
-         $("#gridEditOrder").datagrid("loadData",newRows);
+         $("#gridEditRequireOrder").datagrid("loadData",newRows);
         setTimeout(function(){
             gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
             gridHandel.setSelectFieldName("largeNum");
@@ -647,7 +647,6 @@ function getImportData(data){
         data[i]["oldDcPrice"]=data[i]["distributionPrice"];
         data[i]["price"] = data[i]["oldPurPrice"];
         data[i]["applyNum"]=data[i]["applyNum"]||0;
-        
         data[i]["amount"]  = parseFloat(data[i]["price"]||0)*parseFloat(data[i]["applyNum"]||0);
         if(parseInt(data[i]["distributionSpec"])){
         	 data[i]["largeNum"]  = (parseFloat(data[i]["applyNum"]||0)/parseFloat(data[i]["distributionSpec"])).toFixed(4);
