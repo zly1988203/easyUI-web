@@ -206,6 +206,34 @@ function onChangeRealNum(newV,oldV) {
 
     updateFooter();
 }
+//删除
+function delStockForm(){
+	var id = $("#formId").val();
+	$.messager.confirm('提示','是否要删除此条数据',function(data){
+		if(data){
+			$.ajax({
+		    	url:contextPath+"/stock/adjust/deleteStockAdjust",
+		    	type:"POST",
+		    	data:{
+		    		id : id
+		    	},
+		    	success:function(result){
+		    		console.log(result);
+		    		if(result['code'] == 0){
+		    			$.messager.alert("操作提示", "删除成功！", "info",function(){
+		    				location.href = contextPath +"/stock/adjust/list";
+		    			});
+		    		}else{
+		    			successTip(result['message']);
+		    		}
+		    	},
+		    	error:function(result){
+		    		successTip("请求发送失败或服务器处理失败");
+		    	}
+		    });
+		}
+	});
+}
 
 //监听商品单价
 function totleChangePrice(newV,oldV) {
@@ -434,32 +462,6 @@ function check(){
 	});
 }
 
-//删除
-function delStockForm(){
-	$.messager.confirm('提示','是否要删除此条数据',function(data){
-		if(data){
-			$.ajax({
-		    	url:contextPath+"/form/deliverForm/deleteDeliverForm",
-		    	type:"POST",
-		    	data:{
-		    		formId : $("#formId").val()
-		    	},
-		    	success:function(result){
-		    		console.log(result);
-		    		if(result['code'] == 0){
-		    			successTip("删除成功");
-		    			back();
-		    		}else{
-		    			successTip(result['message']);
-		    		}
-		    	},
-		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
-		    	}
-		    });
-		}
-	});
-}
 
 //合计
 function toFooter(){

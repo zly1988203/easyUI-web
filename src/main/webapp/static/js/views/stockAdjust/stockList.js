@@ -85,37 +85,6 @@ function queryForm(){
 	$("#stockFromList").datagrid('load', fromObjStr);
 }
 
-//删除
-function delStockForm(){
-	var dg = $("#stockFromList");
-	var row = dg.datagrid("getSelected");
-	if(rowIsNull(row)){
-		return null;
-	}
-	$.messager.confirm('提示','是否要删除此条数据',function(data){
-		if(data){
-			$.ajax({
-		    	url:contextPath+"/stock/adjust/deleteStockAdjust",
-		    	type:"POST",
-		    	data:{
-		    		id : row.id
-		    	},
-		    	success:function(result){
-		    		console.log(result);
-		    		if(result['code'] == 0){
-		    			successTip("删除成功");
-		    			dg.datagrid('reload');
-		    		}else{
-		    			successTip(result['message']);
-		    		}
-		    	},
-		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
-		    	}
-		    });
-		}
-	});
-}
 
 /**
  * 机构名称
