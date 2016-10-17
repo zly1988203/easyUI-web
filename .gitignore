@@ -8,3 +8,4 @@ bin
 .gitignore
 .factorypath
 /.apt_generated/
+.properties
