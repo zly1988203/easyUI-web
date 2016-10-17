@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
+<c:set var="user" value="${sessionScope.session_user}"/>
 <script src="${ctx}/static/js/views/system/user/userAdd.js"></script>
 
 <div class="ub ub-ver  ub-f1  uw uh ufs-14 uc-black">
@@ -15,7 +16,8 @@
           <div class="ub umar-t8">
 	            <div class="ub ub-ac umar-l20">
 	                <div class="umar-r10 uw-60 ut-r">用户编码:</div>
-	                <input  id="userCode" name="userCode" class="uinp easyui-validatebox" data-options="required:true" type="text" maxlength="4">
+	                <span id="branchCodeSpan">S${user.branchCode }</span>
+	                <input  id="userCode" name="userCode" class="uinp easyui-validatebox" data-options="required:true" type="text" maxlength="4" style="width: 147px;">
             	    <i class="uc-red">*</i>
 	            </div>
           </div>
@@ -44,6 +46,7 @@
             <div class="ub ub-ac umar-l20">
             	<div class="umar-r10 uw-60 ut-r">所属机构:</div>
                 <input class="uinp" type="hidden" id="opBranchId" name="branchId">
+                <input class="uinp" type="hidden" id="opBranchCode" name="branchCode" value="${user.branchCode }">
                 <input class="uinp" type="hidden" id="opBranchType" name="opBranchType">
                 <input class="uinp" type="hidden" id="opBranchCompleCode" name="opBranchCompleCode">
                 <input class="uinp" type="text" id="branchNameCode" name="branchNameCode" readonly="readonly" onclick="searchBranchInfo();">

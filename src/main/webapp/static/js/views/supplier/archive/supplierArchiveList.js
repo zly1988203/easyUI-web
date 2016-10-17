@@ -59,7 +59,7 @@ function initDatagridsupplierList(){
             {field:'supplierCode',title:'编号',width:80,align:'left',
                 formatter: function(value,row,index){
                     if(updatePermission){
-                    	return "<a href='#' onclick=\"editHandel('"+row.supplierId+"')\" class='ualine'>"+value+"</a>";
+                    	return "<a href='#' onclick=\"editHandel('"+row.id+"')\" class='ualine'>"+value+"</a>";
                 	}else{
                 		return value;
                 	}
@@ -117,7 +117,7 @@ function addHandel(){
         	supplierAreaId : gVarSupplierAreaId
         },
         width: 1000,
-        height: 680,
+        height: 600,
         title: "供应商档案-新增",
         closable: true,
         resizable: true,
@@ -139,9 +139,9 @@ function copyHandel(){
     	return;
     }
     addDalogTemp = $('<div/>').dialog({
-        href: contextPath + "/supplier/toCopy?id="+rowData.supplierId,
+        href: contextPath + "/supplier/toCopy?id="+rowData.id,
         width: 1000,
-        height: 680,
+        height: 600,
         title: "供应商档案-新增",
         closable: true,
         resizable: true,
@@ -160,7 +160,7 @@ function editHandel(id){
     editDalogTemp = $('<div/>').dialog({
         href: contextPath+"/supplier/toEdit?id="+id,
         width: 1000,
-        height: 680,
+        height: 600,
         title: "供应商档案-修改",
         closable: true,
         resizable: true,
