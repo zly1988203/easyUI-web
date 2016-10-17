@@ -7,6 +7,8 @@
 
 package com.okdeer.jxc.controller.dict;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
@@ -69,15 +71,11 @@ public class DictController extends BaseController<PurchaseForm> {
 	 * @author yangyq02
 	 * @date 2016年8月11日
 	 */
-	@RequestMapping(value = "getDictType")
+	@RequestMapping(value = "/{type}")
 	@ResponseBody
-	public PageUtils<Dict> getDictType(HttpServletRequest req) {
+	public List<Dict> getDictType(@PathVariable String type) {
 		try {
-			String type = req.getParameter("dictType");
-			LOG.info("type:" + type);
-			PageUtils<Dict> suppliers = dictServiceApi.queryDictBytype(type);
-			LOG.info("page" + suppliers.toString());
-			return suppliers;
+			return dictServiceApi.getDictByType(type);
 		} catch (Exception e) {
 			LOG.error("查询字典出现错误:", e);
 		}
