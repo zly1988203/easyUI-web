@@ -516,6 +516,54 @@ function selectBranch(){
 	},0);
 }
 
+function toImportproduct(type){
+    var branchId = $("#branchId").val();
+    if(!branchId){
+        messager("请先选择收货机构");
+        return;
+    }
+    var param = {
+        url:contextPath+"/form/purchase/importList",
+        tempUrl:contextPath+"/form/purchase/exportTemp",
+        type:type,
+        branchId:branchId,
+    }
+    new publicUploadFileService(function(data){
+        updateListData(data);
+        
+    },param)
+}
+
+function updateListData(data){
+	   // var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
+	    //var addDefaultData  = gridHandel.addDefault(data,gridDefault);
+	    var keyNames = {
+	        purchasePrice:'price',
+	        id:'skuId',
+	        disabled:'',
+	        pricingType:'',
+	        inputTax:'tax'
+	    };
+	    var rows = gFunUpdateKey(data,keyNames);
+	    var argWhere ={skuCode:1};  //验证重复性
+	    var isCheck ={isGift:1 };   //只要是赠品就可以重复
+	    var newRows = gridHandel.checkDatagrid(rows,argWhere,isCheck);
+
+	    $("#gridEditOrder").datagrid("loadData",rows);
+	}
+
+//模板导出
+function exportTemp(){
+	var type = $("#temple").attr("value");
+	//导入货号
+	if(type==0){
+		location.href=contextPath+'/form/purchase/exportTemp?type='+type;
+	//导入条码
+	}else if(type==1){
+		location.href=contextPath+'/form/purchase/exportTemp?type='+type;
+	}
+}
+
 function selectForm(){
 	//引用单据类型
 	var refFormNoType = $(':radio[name=refFormNoType]:checked').val();
