@@ -385,7 +385,7 @@ function selectGoods(searchKey){
             $("#"+gridHandel.getGridName()).datagrid("acceptChanges");
         }
         selectStockAndPrice(sourceBranchId,data);
-    },searchKey,'',sourceBranchId,targetBranchId,'');
+    },searchKey,'',sourceBranchId,targetBranchId,sourceBranchId);
 }
 
 //二次查询设置值
