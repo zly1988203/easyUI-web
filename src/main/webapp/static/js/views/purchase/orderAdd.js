@@ -329,7 +329,7 @@ function selectGoods(searchKey){
         messager("请先选择供应商");
         return;
     }
-    
+    debugger;
     var branchId = $("#branchId").val();
     if(!branchId){
     	messager("请先选择收货机构");
@@ -376,6 +376,11 @@ function selectGoods(searchKey){
 function updateListData(data){
    // var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
     //var addDefaultData  = gridHandel.addDefault(data,gridDefault);
+    $.each(data,function(i,val){
+        data[i]["realNum"]=data[i]["realNum"]||0;
+        data[i]["largeNum"]  = (parseFloat(data[i]["realNum"]||0)/parseFloat(data[i]["purchaseSpec"])).toFixed(4);
+        data[i]["amount"]  = parseFloat(data[i]["purchasePrice"]||0)*parseFloat(data[i]["realNum"]||0);
+    });
     var keyNames = {
         purchasePrice:'price',
         id:'skuId',
@@ -410,8 +415,8 @@ function saveItemHandel(){
     var isChcekPrice = false;
     $.each(rows,function(i,v){
         v["rowNo"] = i+1;
-        if(!v["skuCode"]){
-            messager("第"+(i+1)+"行，货号不能为空");
+        if(!v["skuName"]){
+            messager("第"+(i+1)+"行，货号不正确");
             isCheckResult = false;
             return false;
         };
