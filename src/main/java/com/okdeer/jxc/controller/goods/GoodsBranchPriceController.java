@@ -178,11 +178,11 @@ public class GoodsBranchPriceController {
 	 */
 	@RequestMapping(value = "eliminateGoodsStoreSku", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson eliminateGoodsStoreSku(String skuCodes, String branchId) {
-		if(StringUtils.isBlank(skuCodes)){
+	public RespJson eliminateGoodsStoreSku(String goodsStoreSkuIds, String branchId) {
+		if(StringUtils.isBlank(goodsStoreSkuIds)){
 			return RespJson.error("批量淘汰商品");
 		}
-		String[] skuIdArray = skuCodes.split(",");
+		String[] skuIdArray = goodsStoreSkuIds.split(",");
 		
 		if(skuIdArray.length==0){
 			return RespJson.error("未选择商品");
@@ -191,9 +191,9 @@ public class GoodsBranchPriceController {
 			return RespJson.error("选择的商品数量超过了限制数量");
 		}
 		
-		List<String> skuCodeList = new ArrayList<String>();
+		List<String> skuIdList = new ArrayList<String>();
 		for (int i = 0; i < skuIdArray.length; i++) {
-			skuCodeList.add(skuIdArray[i]);
+			skuIdList.add(skuIdArray[i]);
 		}
 		SysUser user = UserUtil.getCurrentUser();
 		
@@ -201,7 +201,7 @@ public class GoodsBranchPriceController {
 			branchId = user.getBranchId();
 		}
 		try {
-			goodsSkuSyncServiceApi.eliminateGoodsStoreSkuToMq(branchId, skuCodeList);
+			goodsSkuSyncServiceApi.eliminateGoodsStoreSkuToMq(branchId, skuIdList);
 		} catch (Exception e) {
 			return RespJson.error(e.getLocalizedMessage());
 		}
@@ -233,13 +233,12 @@ public class GoodsBranchPriceController {
 		List<GoodsBranchPrice> goodsBranchPriceList = new ArrayList<GoodsBranchPrice>();
 		for(int i=0;i<skuObjArr.length;i++) {
 			GoodsBranchPrice goodsBranchPrice = new GoodsBranchPrice();
-			//skuObj格式备注：skuObj=id+","+skuId + ','+skuCode+","+branchId+"|"
+			//skuObj格式备注：skuObj=id+","+skuId + ','+branchId+"|"
 			String[] skuObj = skuObjArr[i].split(",");
 			goodsBranchPrice.setStatus(String.valueOf(GoodsStatusEnum.NORMAL.ordinal()));
 			goodsBranchPrice.setId(skuObj[0]);
 			goodsBranchPrice.setSkuId(skuObj[1]);
-			goodsBranchPrice.setSkuCode(skuObj[2]);
-			goodsBranchPrice.setBranchId(skuObj[3]);
+			goodsBranchPrice.setBranchId(skuObj[2]);
 			goodsBranchPriceList.add(goodsBranchPrice);
 		}
 		try {
