@@ -15,7 +15,7 @@
           <div class="ub umar-t8">
 	            <div class="ub ub-ac umar-l20">
 	                <div class="umar-r10 uw-60 ut-r">用户编码:</div>
-	                <input  id="userCode" name="userCode" value="${user.userCode }" class="uinp easyui-validatebox"  type="text" maxlength="4" readonly="readonly">
+	                <input  id="userCode" name="userCode" value="${user.userCode }" class="uinp"  type="text" maxlength="4" readonly="readonly">
 	                <input id="id" name="id" type="hidden" value="${user.id }" />
             	    <i class="uc-red">*</i>
 	            </div>

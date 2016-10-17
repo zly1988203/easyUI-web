@@ -16,12 +16,11 @@ $(function(){
 });
 
 function saveSupplier() {
-	var formObj = $('#formAdd').serializeObject();
 	var isValid = $("#formAdd").form('validate');
 	if (!isValid) {
 		return;
 	}
-
+	var formObj = $('#formAdd').serializeObject();
 	$.ajax({
 		url : contextPath + "/supplier/addSupplier",
 		type : "POST",

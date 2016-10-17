@@ -727,8 +727,7 @@ function selectStockAndPriceImport(sourceBranchId,data){
 		var temp = {
 				id : val.skuId,
 				num : val.num,
-				isGift : val.isGift,
-				distributionPrice : val.distributionPrice
+				isGift : val.isGift
 		};
 		GoodsStockVo.goodsSkuVo[i] = temp;
 	});
@@ -748,12 +747,8 @@ function selectStockAndPriceImport(sourceBranchId,data){
 }
 
 function updateListData(data){
-    for(var i in data){
-        var rec = data[i];
-        rec.remark = "";
-    }
      var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
-     var addDefaultData = gridHandel.addDefault(data,gridDefault);
+     var addDefaultData = gridHandel.addDefault(data, {dealNum:0,largeNum:0,});
      var keyNames = {
 		 distributionPrice:'price',
          id:'skuId',
@@ -762,12 +757,29 @@ function updateListData(data){
          num : 'dealNum'
      };
      var rows = gFunUpdateKey(addDefaultData,keyNames);
-    
+     
+     for(var i in rows){
+         rows[i].remark = "";
+         if(rows[i]["isGift"] =="1"){
+        	 rows[i]["oldPrice"] = rows[i]["price"];
+        	 rows[i]["price"] = 0;
+         }
+         rows[i]["amount"]  = parseFloat(rows[i]["price"]||0)*parseFloat(rows[i]["dealNum"]||0);
+         if(parseInt(rows[i]["distributionSpec"])){
+        	 rows[i]["largeNum"]  = (parseFloat(rows[i]["dealNum"]||0)/parseFloat(rows[i]["distributionSpec"])).toFixed(4);
+         }else{
+        	 rows[i]["largeNum"]  =  0;
+        	 rows[i]["distributionSpec"] = 0;
+         }
+         
+        
+     }
      var argWhere ={skuCode:1};  //验证重复性
      var isCheck ={isGift:1 };   //只要是赠品就可以重复
      var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
+     debugger;
      $("#gridEditOrder").datagrid("loadData",newRows);
-    setTimeout(function(){
+     setTimeout(function(){
         gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
         gridHandel.setSelectFieldName("largeNum");
         gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));

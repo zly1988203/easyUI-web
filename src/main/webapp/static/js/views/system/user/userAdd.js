@@ -11,6 +11,8 @@ function searchBranchInfo (){
 		$("#opBranchCompleCode").val(data.branchCompleCode);
 		$("#opBranchId").val(data.branchesId);
 		$("#opBranchType").val(data.type);
+		$("#branchCodeSpan").text("S"+data.branchCode);
+		$("#opBranchCode").val(data.branchCode);
 		$("#branchNameCode").val("["+data.branchCode+"]"+data.branchName);
 	},"","");
 }

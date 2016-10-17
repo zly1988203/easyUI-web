@@ -31,7 +31,7 @@ function initDatagridRequireOrders(){
             }},
             {field:'status',title: '审核状态', width: '100px', align: 'left',
             	   formatter: function(value,row,index){
-            		   debugger;
+            		 
                        if (value==1){
                            return "已审核";
                        }else if(value==2){
