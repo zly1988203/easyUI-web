@@ -406,8 +406,8 @@ function saveItemHandel(){
     var isChcekPrice = false;
     $.each(rows,function(i,v){
         v["rowNo"] = i+1;
-        if(!v["skuCode"]){
-            messager("第"+(i+1)+"行，货号不能为空");
+        if(!v["skuName"]){
+            messager("第"+(i+1)+"行，货号不正确");
             isCheckResult = false;
             return false;
         };
@@ -460,11 +460,8 @@ function saveDataHandel(rows){
         totalNum = parseFloat(footerRows[0]["realNum"]||0.0).toFixed(4);
         amount = parseFloat(footerRows[0]["amount"]||0.0).toFixed(4);
     }
-    var saveData = JSON.stringify(rows);
-
-    var detailList = tableArrayFormatter(rows,"detailList");
+    var detailList = JSON.stringify(rows);
     console.log(detailList);
-
 
     var id = $("#formId").val();
 
@@ -479,7 +476,7 @@ function saveDataHandel(rows){
         totalNum:totalNum,
         amount:amount,
         id:id
-    }, detailList);
+    }, { detailList:detailList});
 
     $.ajax({
         url:contextPath+"/form/purchase/updateReceipt",
