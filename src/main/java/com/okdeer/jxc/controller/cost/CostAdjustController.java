@@ -206,6 +206,9 @@ public class CostAdjustController extends BaseController<StockCostForm>{
 				RespJson.error("json数据不允许为空！");
 			}
 			StockCostFormAll stockCostFormAl=JSON.parseObject(jsonData, StockCostFormAll.class);
+			if(StringUtils.isEmpty( stockCostFormAl.getStockCostForm().getBranchId())){
+				RespJson.error("机构ID不允许为空！");
+			}
 			stockCostFormAl.getStockCostForm().setUpdateUserId(UserUtil.getCurrBranchCode());
 			LOG.info("qo:" + stockCostFormAl);
 			return stockCostFormServiceApi.updateCostForm(stockCostFormAl);
