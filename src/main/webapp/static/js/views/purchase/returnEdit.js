@@ -684,6 +684,38 @@ function printDesign(){
 function back(){
 	location.href = contextPath+"/form/purchase/returnList";
 }
+
+function toImportproduct(type){
+    var branchId = $("#branchId").val();
+    if(!branchId){
+        messager("请先选择收货机构");
+        return;
+    }
+    var param = {
+        url:contextPath+"/form/purchase/importList",
+        tempUrl:contextPath+"/form/purchase/exportTemp",
+        type:type,
+        branchId:branchId,
+    }
+    new publicUploadFileService(function(data){
+        updateListData(data);
+        
+    },param)
+}
+
+
+//模板导出
+function exportTemp(){
+	var type = $("#temple").attr("value");
+	//导入货号
+	if(type==0){
+		location.href=contextPath+'/form/purchase/exportTemp?type='+type;
+	//导入条码
+	}else if(type==1){
+		location.href=contextPath+'/form/purchase/exportTemp?type='+type;
+	}
+}
+
 /**
  * 获取导入的数据
  * @param data
