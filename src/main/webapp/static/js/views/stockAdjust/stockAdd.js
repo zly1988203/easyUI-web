@@ -193,7 +193,7 @@ function onChangeRealNum(newV,oldV) {
     var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
  var realNumValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'realNum');
     gridHandel.setFieldValue('amount',priceValue*realNumValue);                         //金额=数量*单价
-	var selectVal=$("#pricingType").combobox('getValue');
+	var selectVal=$("#io").combobox('getValue');
 	
 	
 	console.log(selectVal);
@@ -338,7 +338,7 @@ function setDataValue(data) {
 		distributionPrice:'price',
         id:'skuId',
         disabled:'',
-        pricingType:'',
+        io:'',
         inputTax:'tax',
         sourceStock:'sellable',
         actual:'stockNum'
@@ -355,6 +355,24 @@ function setDataValue(data) {
     },100)
 }
 
+function selectTion(){
+	//var rowsup=[];
+	var rows = $('#gridEditOrder').datagrid('getRows');
+	var selectVal=$("#io").combobox('getValue');
+	$.each(rows, function (index, el) {
+		var realNum = el.realNum;
+		if(selectVal==1){
+			var ofrealNumValue=parseFloat(-realNum);
+			el["realNum"] = ofrealNumValue;
+		}
+		else{
+			el["realNum"] = parseFloat(realNum)*-1;
+		}
+		
+	})
+	$("#gridEditOrder").datagrid("loadData", rows);
+}
+
 //保存
 function saveOrder(){
     //商品总数量
@@ -365,6 +383,8 @@ function saveOrder(){
 	 var branchId = $("#branchId").val();
     // 备注
     var remark = $("#remark").val();
+    
+    var io = $("#io").val();
     //验证表格数据
     $("#gridEditOrder").datagrid("endEdit", gridHandel.getSelectRowIndex());
 
@@ -404,7 +424,7 @@ function saveOrder(){
     var stockFormDetailList = tableArrayFormatter(rows,"stockFormDetailList");
     console.log(stockFormDetailList);
     var reqObj = $.extend({
-    	io:'1',
+    	io:io,
     	createBranchId:branchId,
         reason:"",
         remark:remark,
@@ -478,12 +498,6 @@ function searchBranch (){
 }
 
 
-function loadLists(referenceId){
-	$("#gridEditOrder").datagrid("options").method = "post";
-	$("#gridEditOrder").datagrid('options').url = contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverFormId="+referenceId + "&formType=DO";
-	$("#gridEditOrder").datagrid('load');
-}
-
 /**
  * 导入
  */
@@ -512,7 +526,7 @@ function updateListData(data){
         purchasePrice:'price',
         id:'skuId',
         disabled:'',
-        pricingType:'',
+        io:'',
         inputTax:'tax',
         nowStock:'sellable',
         actual:'stockNum'

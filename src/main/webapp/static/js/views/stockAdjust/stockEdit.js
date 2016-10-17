@@ -507,7 +507,7 @@ function toBack(){
 /**
  * 导入
  */
-function importHandel(){
+function importHandel(type){
 	var branchId = $("#branchId").val();
     if(!branchId){
         messager("请先选择收货机构");
