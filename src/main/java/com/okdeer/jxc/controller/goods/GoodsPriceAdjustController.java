@@ -9,7 +9,6 @@ package com.okdeer.jxc.controller.goods;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -269,7 +268,6 @@ public class GoodsPriceAdjustController extends
 		rep.put("createUserDate", createTime);
 		return rep;
 	}
-
 
 	/**
 	 * @Description: 设置单据详情数据
@@ -631,42 +629,11 @@ public class GoodsPriceAdjustController extends
 								@Override
 								public void formatter(
 										List<? extends GoodsSelect> list) {
-//									for (GoodsSelect objGoods : list) {
-//										GoodsSelectPriceAdjst obj = (GoodsSelectPriceAdjst) objGoods;
-										/*BigDecimal newPurPrice = obj
-												.getNewPurPrice();
-										BigDecimal newSalePrice = obj
-												.getNewSalePrice();
-										BigDecimal newDcPrice = obj
-												.getNewDcPrice();
-										BigDecimal newVipPrice = obj
-												.getNewVipPrice();
-										BigDecimal newWsPrice = obj
-												.getNewWsPrice();
-										if (newPurPrice == null) {
-											obj.setNewPurPrice(obj
-													.getPurchasePrice());
-										}
-										if (newSalePrice == null) {
-											obj.setNewSalePrice(obj
-													.getSalePrice());
-										}
-										if (newDcPrice == null) {
-											obj.setNewDcPrice(obj
-													.getDistributionPrice());
-										}
-										if (newVipPrice == null) {
-											obj.setNewVipPrice(obj
-													.getVipPrice());
-										}
-										if (newWsPrice == null) {
-											obj.setNewWsPrice(obj
-													.getWholesalePrice());
-										}*/
-//									}
 								}
+
 								@Override
-								public void errorDataFormatter(List<JSONObject> list) {
+								public void errorDataFormatter(
+										List<JSONObject> list) {
 								}
 							});
 			respJson.put("importInfo", vo);

@@ -402,6 +402,10 @@ function saveModifyPriceOrder() {
 		if (datagridUtil.isHasDataGrid()) {
 			var formData = $('#searchForm').serializeObject();
 			var detailList =  getDatagridRows();
+			if(detailList.length>600){
+				messager("保存数据不能超过600条");
+				return;
+			}
 			if(detailList.length==0){
 				messager("表格不能为空");
 				return;
@@ -469,6 +473,10 @@ function updateModifyPriceOrder() {
 		// datagrid是否存在数据，存在为true，不存在为false，则提示用户输入
 		var formData = $('#searchForm').serializeObject();
 		var detailList =  getDatagridRows();
+		if(detailList.length>600){
+			messager("保存数据不能超过600条");
+			return;
+		}
 		if(detailList.length==0){
 			messager("表格不能为空");
 			return;
