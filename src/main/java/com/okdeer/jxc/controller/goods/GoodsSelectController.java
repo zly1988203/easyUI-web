@@ -137,10 +137,14 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 	 */
 	@RequestMapping(value = "importSkuCode", method = RequestMethod.POST)
 	@ResponseBody
-	public List<GoodsSelect> importSkuCode(String[] skuCodes) {
+	public List<GoodsSelect> importSkuCode(String[] skuCodes,String branchId) {
 		try {
+			if(StringUtils.isEmpty(branchId)) {
+				branchId=UserUtil.getCurrBranchId();
+			}
 			// 根据有无skuCodes传来数据 空表示是导入货号 有数据表示导入数据
-			List<GoodsSelect> suppliers = goodsSelectServiceApi.queryByCodeLists(skuCodes, UserUtil.getCurrBranchId());
+			List<GoodsSelect> suppliers = goodsSelectServiceApi
+					.queryByCodeLists(skuCodes, branchId);
 			LOG.info("根据货号批量查询商品参数:{}" + suppliers.toString());
 			return suppliers;
 		} catch (Exception e) {

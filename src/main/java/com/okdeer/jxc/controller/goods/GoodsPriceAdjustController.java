@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 
 import net.sf.json.JSONObject;
 
@@ -26,7 +25,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -50,6 +49,7 @@ import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.UUIDHexGenerator;
 import com.okdeer.jxc.form.enums.FormType;
 import com.okdeer.jxc.goods.entity.GoodsPriceForm;
+import com.okdeer.jxc.goods.entity.GoodsPriceFormAll;
 import com.okdeer.jxc.goods.entity.GoodsPriceFormBranch;
 import com.okdeer.jxc.goods.entity.GoodsPriceFormDetail;
 import com.okdeer.jxc.goods.entity.GoodsSelect;
@@ -203,19 +203,25 @@ public class GoodsPriceAdjustController extends
 	 */
 	@RequestMapping(value = "/saveForm", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson saveForm(@Valid GoodsPriceForm goodsPriceForm,
-			BindingResult validate, String branchIds) {
+	public RespJson saveForm(String list) {
 		String formNo = "";
 		String createTime = "";
 		String createUserName = "";
+		GoodsPriceFormAll goodsPriceFormAll = null;
+		GoodsPriceForm goodsPriceForm = null;
+		List<GoodsPriceFormDetail> goodsPriceFormDetailList = null;
+		String branchIds = null;
 		try {
-			LOG.debug("新增调价单 ：goodsPriceForm=" + goodsPriceForm);
-			// 验证
-			if (validate.hasErrors()) {
-				String errorMessage = validate.getFieldError()
-						.getDefaultMessage();
-				LOG.warn("validate errorMessage:" + errorMessage);
-				return RespJson.error(errorMessage);
+			LOG.debug("新增调价单 ：list=" + list);
+			if (StringUtils.isNotEmpty(list)) {
+				goodsPriceFormAll = JSON.parseObject(list,
+						GoodsPriceFormAll.class);
+				if (goodsPriceFormAll != null) {
+					goodsPriceForm = goodsPriceFormAll.getGoodsPriceForm();
+					goodsPriceFormDetailList = goodsPriceFormAll
+							.getGoodsPriceFormDetailList();
+					branchIds = goodsPriceFormAll.getBranchIds();
+				}
 			}
 			// 生成uuid主键
 			String formId = UUIDHexGenerator.generate();
@@ -239,21 +245,20 @@ public class GoodsPriceAdjustController extends
 			}
 			goodsPriceForm.setCreateTime(new Date());
 			// 设置商品价格单据信息
-			goodsPriceForm = setFormData(goodsPriceForm);
+			goodsPriceFormDetailList = setFormData(goodsPriceForm,
+					goodsPriceFormDetailList);
 			// 需要返回到页面上的数据
 			if (goodsPriceForm != null) {
 				formNo = goodsPriceForm.getFormNo();
 				createTime = DateUtils.getCurrSmallRStr();
 			}
-			// 得到单据商品集合信息
-			List<GoodsPriceFormDetail> goodsPriceDetailList = goodsPriceForm
-					.getGoodsPriceFormDetail();
+
 			// 生成商品机构关联表单数据
 			List<GoodsPriceFormBranch> goodsPriceFormBranchList = setGoodsPriceFormBranch(
 					branchIds, formNo);
 			// 新增单据
 			goodsPriceAdustService.addForm(goodsPriceForm,
-					goodsPriceDetailList, goodsPriceFormBranchList);
+					goodsPriceFormDetailList, goodsPriceFormBranchList);
 		} catch (Exception e) {
 			LOG.error(GoodsPriceFormConst.ADD_GOODS_PRICE_FOMR_ERRO, e);
 			return RespJson
@@ -266,6 +271,7 @@ public class GoodsPriceAdjustController extends
 		return rep;
 	}
 
+
 	/**
 	 * @Description: 设置单据详情数据
 	 * @param goodsPriceForm
@@ -274,18 +280,16 @@ public class GoodsPriceAdjustController extends
 	 * @author lijy02
 	 * @date 2016年9月7日
 	 */
-	private GoodsPriceForm setFormData(GoodsPriceForm goodsPriceForm) {
+	private List<GoodsPriceFormDetail> setFormData(
+			GoodsPriceForm goodsPriceForm,
+			List<GoodsPriceFormDetail> goodsPriceDetailList) {
 		// 详情列表数据
-		// 得到传来的详情集合
-		List<GoodsPriceFormDetail> goodsPriceDetailList = JSON.parseArray(
-				goodsPriceForm.getList(), GoodsPriceFormDetail.class);
 		for (GoodsPriceFormDetail goodsPriceFormDetail : goodsPriceDetailList) {
 			goodsPriceFormDetail.setId(UUIDHexGenerator.generate());
 			goodsPriceFormDetail.setFormId(goodsPriceForm.getId());
 			goodsPriceFormDetail.setFormNo(goodsPriceForm.getFormNo());
 		}
-		goodsPriceForm.setGoodsPriceFormDetail(goodsPriceDetailList);
-		return goodsPriceForm;
+		return goodsPriceDetailList;
 	}
 
 	/**
@@ -327,16 +331,22 @@ public class GoodsPriceAdjustController extends
 	 */
 	@RequestMapping(value = "/updateForm", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson updateForm(@Valid GoodsPriceForm goodsPriceForm,
-			BindingResult validate, String branchIds) {
+	public RespJson updateForm(String list) {
+		GoodsPriceFormAll goodsPriceFormAll = null;
+		GoodsPriceForm goodsPriceForm = null;
+		List<GoodsPriceFormDetail> goodsPriceFormDetailList = null;
+		String branchIds = null;
 		try {
-			LOG.debug("新增调价单 ：goodsPriceForm=" + goodsPriceForm);
-			// 验证
-			if (validate.hasErrors()) {
-				String errorMessage = validate.getFieldError()
-						.getDefaultMessage();
-				LOG.warn("validate errorMessage:" + errorMessage);
-				return RespJson.error(errorMessage);
+			LOG.debug("修改调价单 ：list=" + list);
+			if (StringUtils.isNotEmpty(list)) {
+				goodsPriceFormAll = JSON.parseObject(list,
+						GoodsPriceFormAll.class);
+				if (goodsPriceFormAll != null) {
+					goodsPriceForm = goodsPriceFormAll.getGoodsPriceForm();
+					goodsPriceFormDetailList = goodsPriceFormAll
+							.getGoodsPriceFormDetailList();
+					branchIds = goodsPriceFormAll.getBranchIds();
+				}
 			}
 			// 用户数据
 			SysUser user = UserUtil.getCurrentUser();
@@ -345,16 +355,14 @@ public class GoodsPriceAdjustController extends
 				goodsPriceForm.setUpdateTime(new Date());
 			}
 			// 设置商品价格单据信息
-			goodsPriceForm = setFormData(goodsPriceForm);
-			// 得到单据商品集合信息
-			List<GoodsPriceFormDetail> goodsPriceDetailList = goodsPriceForm
-					.getGoodsPriceFormDetail();
+			goodsPriceFormDetailList = setFormData(goodsPriceForm,
+					goodsPriceFormDetailList);
 			// 生成商品机构关联表单数据
 			List<GoodsPriceFormBranch> goodsPriceFormBranchList = setGoodsPriceFormBranch(
 					branchIds, goodsPriceForm.getFormNo());
 			// 修改单据
 			goodsPriceAdustService.updateForm(goodsPriceForm,
-					goodsPriceDetailList, goodsPriceFormBranchList);
+					goodsPriceFormDetailList, goodsPriceFormBranchList);
 		} catch (Exception e) {
 			LOG.error(GoodsPriceFormConst.UPDATE_GOODS_PRICE_FOMR_ERRO, e);
 			RespJson respJson = RespJson
@@ -509,17 +517,6 @@ public class GoodsPriceAdjustController extends
 	}
 
 	/**
-	 * @Description: 打开导入页面
-	 * @return
-	 * @author lijy02
-	 * @date 2016年8月30日
-	 */
-/*	@RequestMapping("/importView")
-	public String importView() {
-		return "/component/importdetail";
-	}
-*/
-	/**
 	 * @Description: 导出明细
 	 * @param formNo 单号
 	 * @return
@@ -558,7 +555,7 @@ public class GoodsPriceAdjustController extends
 			String fileName = "调价单货号导入模板";
 			// 模板名称，包括后缀名
 			String templateName = ExportExcelConstant.GOODS_PRICE_ADJUST_FORM_TEMPLE_SKUCODE;
-			if (Constant.ZERO==type) {
+			if (Constant.ZERO == type) {
 				templateName = ExportExcelConstant.GOODS_PRICE_ADJUST_FORM_TEMPLE_SKUCODE;
 				fileName = "调价单货号导入模板";
 			} else {
@@ -588,73 +585,89 @@ public class GoodsPriceAdjustController extends
 			String type, String[] branchId) {
 		RespJson respJson = RespJson.success();
 		try {
-			if(file.isEmpty()){
+			if (file.isEmpty()) {
 				return RespJson.error("文件为空");
 			}
-			
-			if(StringUtils.isBlank(type)){
+
+			if (StringUtils.isBlank(type)) {
 				return RespJson.error("导入类型为空");
 			}
-			
+
 			// 文件流
 			InputStream is = file.getInputStream();
 			// 获取文件名
 			String fileName = file.getOriginalFilename();
-			
+
 			SysUser user = UserUtil.getCurrentUser();
-			
-			String[] field = null; 
-			
-			if(type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)){//货号
-				field = new String[]{"skuCode","ignoreSkuName","ignoreSpec","newPurPrice","newSalePrice","newDcPrice","newWsPrice","newVipPrice"};
-			}else if(type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)){//条码
-				field = new String[]{"barCode","ignoreSkuName","ignoreSpec","newPurPrice","newSalePrice","newDcPrice","newWsPrice","newVipPrice"};
+
+			String[] field = null;
+
+			if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {// 货号
+				field = new String[] { "skuCode", "ignoreSkuName",
+						"ignoreSpec", "newPurPrice", "newSalePrice",
+						"newDcPrice", "newWsPrice", "newVipPrice" };
+			} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {// 条码
+				field = new String[] { "barCode", "ignoreSkuName",
+						"ignoreSpec", "newPurPrice", "newSalePrice",
+						"newDcPrice", "newWsPrice", "newVipPrice" };
 			}
-			
-			GoodsSelectImportVo<GoodsSelect> vo = goodsSelectImportComponent.importSelectGoodsMultiBranch(fileName, is,
-					field, 
-					new GoodsSelectPriceAdjst(), 
-					branchId, user.getId(), 
-					type,
-					"/goods/priceAdjust/downloadErrorFile",
-					new GoodsSelectImportBusinessValid() {
-				
-				@Override
-				public List<JSONObject> businessValid(List<JSONObject> list, String[] excelField) {
-					return list;
-				}
-				
-				/**
-				 * (non-Javadoc)
-				 * @see com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid#formatter(java.util.List)
-				 */
-				@Override
-				public void formatter(List<? extends GoodsSelect> list) {
-					for (GoodsSelect objGoods : list) {
-						GoodsSelectPriceAdjst obj = (GoodsSelectPriceAdjst) objGoods;
-						BigDecimal newPurPrice = obj.getNewPurPrice();
-						BigDecimal newSalePrice = obj.getNewSalePrice();
-						BigDecimal newDcPrice = obj.getNewDcPrice();
-						BigDecimal newVipPrice = obj.getNewVipPrice();
-						BigDecimal newWsPrice = obj.getNewWsPrice();
-						if(newPurPrice == null){
-							obj.setNewPurPrice(obj.getPurchasePrice());
-						}
-						if(newSalePrice == null){
-							obj.setNewSalePrice(obj.getSalePrice());
-						}
-						if(newDcPrice == null){
-							obj.setNewDcPrice(obj.getDistributionPrice());
-						}
-						if(newVipPrice == null){
-							obj.setNewVipPrice(obj.getVipPrice());
-						}
-						if(newWsPrice == null){
-							obj.setNewWsPrice(obj.getWholesalePrice());
-						}
-					}
-				}
-			});
+
+			GoodsSelectImportVo<GoodsSelect> vo = goodsSelectImportComponent
+					.importSelectGoodsMultiBranch(fileName, is, field,
+							new GoodsSelectPriceAdjst(), branchId,
+							user.getId(), type,
+							"/goods/priceAdjust/downloadErrorFile",
+							new GoodsSelectImportBusinessValid() {
+
+								@Override
+								public List<JSONObject> businessValid(
+										List<JSONObject> list,
+										String[] excelField) {
+									return list;
+								}
+
+								/**
+								 * (non-Javadoc)
+								 * @see com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid#formatter(java.util.List)
+								 */
+								@Override
+								public void formatter(
+										List<? extends GoodsSelect> list) {
+									for (GoodsSelect objGoods : list) {
+										GoodsSelectPriceAdjst obj = (GoodsSelectPriceAdjst) objGoods;
+										BigDecimal newPurPrice = obj
+												.getNewPurPrice();
+										BigDecimal newSalePrice = obj
+												.getNewSalePrice();
+										BigDecimal newDcPrice = obj
+												.getNewDcPrice();
+										BigDecimal newVipPrice = obj
+												.getNewVipPrice();
+										BigDecimal newWsPrice = obj
+												.getNewWsPrice();
+										if (newPurPrice == null) {
+											obj.setNewPurPrice(obj
+													.getPurchasePrice());
+										}
+										if (newSalePrice == null) {
+											obj.setNewSalePrice(obj
+													.getSalePrice());
+										}
+										if (newDcPrice == null) {
+											obj.setNewDcPrice(obj
+													.getDistributionPrice());
+										}
+										if (newVipPrice == null) {
+											obj.setNewVipPrice(obj
+													.getVipPrice());
+										}
+										if (newWsPrice == null) {
+											obj.setNewWsPrice(obj
+													.getWholesalePrice());
+										}
+									}
+								}
+							});
 			respJson.put("importInfo", vo);
 		} catch (IOException e) {
 			respJson = RespJson.error("读取Excel流异常");
@@ -666,7 +679,6 @@ public class GoodsPriceAdjustController extends
 		return respJson;
 	}
 
-	
 	/**
 	 * @Description: 导入错误excel下载
 	 * @param code
@@ -676,22 +688,31 @@ public class GoodsPriceAdjustController extends
 	 * @date 2016年10月17日
 	 */
 	@RequestMapping(value = "downloadErrorFile")
-	public void downloadErrorFile(String code, String type, HttpServletResponse response) {
+	public void downloadErrorFile(String code, String type,
+			HttpServletResponse response) {
 		String reportFileName = "错误数据";
-		
+
 		String[] headers = null;
 		String[] columns = null;
-		
-		if(type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)){//货号
-			columns = new String[]{"skuCode","ignoreSkuName","ignoreSpec","newPurPrice","newSalePrice","newDcPrice","newWsPrice","newVipPrice"};
-			headers = new String[]{"货号","商品名称","规格","新进货价","新零售价","新配送价","新批发价","新会员价"};
-		}else if(type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)){//条码
-			columns = new String[]{"barCode","ignoreSkuName","ignoreSpec","newPurPrice","newSalePrice","newDcPrice","newWsPrice","newVipPrice"};
-			headers = new String[]{"条码","商品名称","规格","新进货价","新零售价","新配送价","新批发价","新会员价"};
+
+		if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {// 货号
+			columns = new String[] { "skuCode", "ignoreSkuName", "ignoreSpec",
+					"newPurPrice", "newSalePrice", "newDcPrice", "newWsPrice",
+					"newVipPrice" };
+			headers = new String[] { "货号", "商品名称", "规格", "新进货价", "新零售价",
+					"新配送价", "新批发价", "新会员价" };
+		} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {// 条码
+			columns = new String[] { "barCode", "ignoreSkuName", "ignoreSpec",
+					"newPurPrice", "newSalePrice", "newDcPrice", "newWsPrice",
+					"newVipPrice" };
+			headers = new String[] { "条码", "商品名称", "规格", "新进货价", "新零售价",
+					"新配送价", "新批发价", "新会员价" };
 		}
 
-		goodsSelectImportComponent.downloadErrorFile(code, reportFileName, headers, columns , response);
+		goodsSelectImportComponent.downloadErrorFile(code, reportFileName,
+				headers, columns, response);
 	}
+
 	/**
 	 * (non-Javadoc)
 	 * @see com.okdeer.jxc.common.controller.BasePrintController#getPrintReplace(java.lang.String)
