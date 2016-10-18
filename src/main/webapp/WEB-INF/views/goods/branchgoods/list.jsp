@@ -21,11 +21,16 @@
 	            <div class="ubtns">
 	                <div class="ubtns-item" onclick="query()">查询</div>
 	                <div class="ubtns-item" onclick="resetForm()">重置</div>
-	                <div class="ubtns-item" onclick="importShow(0)">按条码导入</div>
-					<div class="ubtns-item" onclick="importShow(1)">按货号导入</div>
-	                <div class="ubtns-item ub-enable hide" id="important_div"  onclick="enable()">引入</div>
-	                <div class="ubtns-item ub-eliminate" id="eliminate_div" onclick="eliminate()">淘汰</div>
-	                <div class="ubtns-item ub-recovery" id="recovery_div" onclick="recovery()">恢复</div>
+	                <div class="ubtns-item" onclick="importShow(0)">条码导入</div>
+					<div class="ubtns-item" onclick="importShow(1)">货号导入</div>
+	                <shiro:hasPermission name="JxcGoodsIntroduce:enabled">
+	                <div class="ubtns-item ub-enable hide" id="important_div" onclick="enable()">启用</div>
+	                </shiro:hasPermission>
+	                
+	                <shiro:hasPermission name="JxcGoodsIntroduce:eliminate">
+	                   <div class="ubtns-item ub-eliminate" id="eliminate_div" onclick="eliminate()">淘汰</div>
+	                </shiro:hasPermission>
+	               <!--  <div class="ubtns-item ub-recovery" id="recovery_div" onclick="recovery()">恢复</div> -->
 	            </div>
 	        </div>
 	        <div class="ub umar-t8">

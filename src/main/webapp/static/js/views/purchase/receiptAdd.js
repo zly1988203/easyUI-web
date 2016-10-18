@@ -491,7 +491,7 @@ function saveDataHandel(rows){
 function selectSupplier(){
 	new publicSupplierService(function(data){
 		console.log(data);
-		$("#supplierId").val(data.supplierId);
+		$("#supplierId").val(data.id);
 		$("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
 		
 		$("#saleWay").val(data.saleWay);

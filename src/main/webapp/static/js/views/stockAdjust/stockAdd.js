@@ -631,7 +631,3 @@ function exportExcel(){
 	$("#queryForm").submit(); 
 
 }
-
-function downExportFile(){
-	alert("wwww");
-}

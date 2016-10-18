@@ -587,7 +587,7 @@ function printDesign(){
 
 function selectSupplier(){
 	new publicSupplierService(function(data){
-		$("#supplierId").val(data.supplierId);
+		$("#supplierId").val(data.id);
 		$("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
 		
 		$("#saleWay").val(data.saleWay);

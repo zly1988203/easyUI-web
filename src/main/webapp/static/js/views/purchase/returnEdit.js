@@ -501,7 +501,7 @@ function saveDataHandel(rows){
 }
 function selectSupplier(){
 	new publicSupplierService(function(data){
-		$("#supplierId").val(data.supplierId);
+		$("#supplierId").val(data.id);
 		$("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
 	});
 }
