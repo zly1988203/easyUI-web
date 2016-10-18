@@ -20,7 +20,7 @@
 		<band splitType="Stretch"/>
 	</background>
 	<detail>
-		<band height="92" splitType="Stretch">
+		<band height="92" splitType="Immediate">
 			<textField isBlankWhenNull="true">
 				<reportElement x="129" y="45" width="76" height="46" uuid="e68a3531-d432-4223-a289-0de53dd371cf"/>
 				<textElement textAlignment="Center">
@@ -43,7 +43,7 @@
 				<textFieldExpression><![CDATA[$F{spec}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="57" y="2" width="140" height="25" uuid="9d73442d-ec15-414b-9a38-19b2c5ed2bf9"/>
+				<reportElement x="50" y="2" width="150" height="25" uuid="9d73442d-ec15-414b-9a38-19b2c5ed2bf9"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="SansSerif" size="14" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
