@@ -366,11 +366,11 @@ $(document).on('change',"input[name='status']",function(){
   var check=$(this).prop('checked');
    var value=$(this).val();
   if(value == 0){
-	 $('#important_div').addClass('hide');
+//	 $('#important_div').addClass('hide');
 	 $('#eliminate_div').removeClass('hide');
 	 $('#recovery_div').removeClass('hide');
   }else{
-	  $('#important_div').removeClass('hide');
+//	  $('#important_div').removeClass('hide');
 	  $('#eliminate_div').addClass('hide');
 	  $('#recovery_div').addClass('hide');
   }

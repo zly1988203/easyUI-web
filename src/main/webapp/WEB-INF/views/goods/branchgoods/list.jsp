@@ -33,7 +33,7 @@
 	                </shiro:hasPermission>
 	                 
 	                <shiro:hasPermission name="JxcGoodsIntroduce:enabled">
-	                <div class="ubtns-item ub-enable hide" id="important_div" onclick="enable()">引入</div>
+	                <div class="ubtns-item ub-enable" id="important_div" onclick="enable()">引入</div>
 	                </shiro:hasPermission>
 	                
 	                <shiro:hasPermission name="JxcGoodsIntroduce:eliminate">
