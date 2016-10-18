@@ -263,31 +263,15 @@ function setDataValue(data) {
 
 //保存
 function addsaveOrder(){
-	//调价差价
-    var totlediffMoney=0;
-	// 机构id
-	 var branchId = $("#branchId").val();
-	//reason 原因 
-	 var adjustReason=$("#adjustReason").combobox('getValue'); 
-    // 备注
-    var remark = $("#remark").val();
- 
-    //验证表格数据
     $("#gridEditOrder").datagrid("endEdit", gridHandel.getSelectRowIndex());
-
-    var footerRows = $("#gridEditOrder").datagrid("getFooterRows");
-    if(footerRows){
-    	totlediffMoney = parseFloat(footerRows[0]["diffMoney"]||0.0).toFixed(4);
-    }
-  
     var rows = gridHandel.getRows();
     if(rows.length==0){
         messager("表格不能为空");
         return;
     }
     var isCheckResult = true;
+    var isChcekPrice = false;
     $.each(rows,function(i,v){
-    	console.log(v["skuCode"]);
         if(!v["skuCode"]){
             messager("第"+(i+1)+"行，货号不能为空");
             isCheckResult = false;
@@ -298,49 +282,71 @@ function addsaveOrder(){
             isCheckResult = false;
             return false;
         };
-        if(v["costPrice"]<=0){
-            messager("第"+(i+1)+"行，新价必须大于0");
-            isCheckResult = false;
-            return false;
+        debugger;
+        if(parseFloat(v["costPrice"])<=0){
+            isChcekPrice = true;
         }
     });
-    if(!isCheckResult){
-        return;
+    if(isCheckResult){
+        if(isChcekPrice){
+            $.messager.confirm('系统提示',"新单价存在为0，是否确定保存",function(r){
+                if (r){
+                    saveDataHandel(rows);
+                }
+            });
+        }else{
+            saveDataHandel(rows);
+        }
     }
-    
+}
+
+function saveDataHandel(rows){
+    //调价差价
+    var totlediffMoney=0;
+    // 机构id
+    var branchId = $("#branchId").val();
+    //reason 原因
+    var adjustReason=$("#adjustReason").combobox('getValue');
+    // 备注
+    var remark = $("#remark").val();
+    //验证表格数据
+    var footerRows = $("#gridEditOrder").datagrid("getFooterRows");
+    if(footerRows){
+        totlediffMoney = parseFloat(footerRows[0]["diffMoney"]||0.0).toFixed(4);
+    }
+
     var saveData = JSON.stringify(rows);
     var jsonData = {
-    	stockCostFormDetailList:[],
+        stockCostFormDetailList:[],
         stockCostForm:{
-			branchId:branchId,
-			adjustReason:adjustReason,
-			remark:remark,
-			 
+            branchId:branchId,
+            adjustReason:adjustReason,
+            remark:remark,
+
         }
     };
     $.each(rows,function(i,data){
-    	var temp = {
-    		actual: data.actual,
-    		costPrice:data.costPrice,
-    		diffMoney:data.diffMoney,
-    		remark : data.remark,
-    		skuCode : data.skuCode,
-    		skuId:data.skuId,
-    		adjustReason:data.adjustReason
-    	}
-    	jsonData.stockCostFormDetailList[i] = temp;
-	});
-    
-    console.log(jsonData);
+        var temp = {
+            actual: data.actual,
+            costPrice:data.costPrice,
+            diffMoney:data.diffMoney,
+            remark : data.remark,
+            skuCode : data.skuCode,
+            skuId:data.skuId,
+            adjustReason:data.adjustReason
+        }
+        jsonData.stockCostFormDetailList[i] = temp;
+    });
+
     $.ajax({
         url:contextPath+"/cost/costAdjust/addCostForm",
         type:"POST",
         data:{"jsonData":JSON.stringify(jsonData)},
         success:function(result){
             if(result['code'] == 0){
-            	console.log(result);
+                console.log(result);
                 $.messager.alert("操作提示", "操作成功！", "info",function(){
-                	location.href = contextPath +"/cost/costAdjust/edit?id="+result.id+"&type=add"
+                    location.href = contextPath +"/cost/costAdjust/edit?id="+result.id+"&type=add"
                 });
             }else{
                 successTip(result['message']);
