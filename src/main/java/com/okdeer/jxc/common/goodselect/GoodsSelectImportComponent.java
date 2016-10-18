@@ -201,6 +201,9 @@ public class GoodsSelectImportComponent {
 		List<JSONObject> errorList = goodsSelectImportHandle.getExcelListErrorData();
 		
 		if(errorList != null && errorList.size() > 0){//有错误数据
+			//列转换处理
+			businessValid.errorDataFormatter(errorList);
+			
 			//错误excel内容
 			String jsonText = JSONArray.toJSON(errorList).toString();
 			//文件key

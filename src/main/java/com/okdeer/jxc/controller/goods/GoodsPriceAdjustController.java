@@ -620,8 +620,7 @@ public class GoodsPriceAdjustController extends
 					new GoodsSelectImportBusinessValid() {
 				
 				@Override
-				public List<JSONObject> businessValid(List<JSONObject> list, String[] excelField) {
-					return list;
+				public void businessValid(List<JSONObject> list, String[] excelField) {
 				}
 				
 				/**
@@ -653,6 +652,14 @@ public class GoodsPriceAdjustController extends
 							obj.setNewWsPrice(obj.getWholesalePrice());
 						}
 					}
+				}
+				
+				/**
+				 * (non-Javadoc)
+				 * @see com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid#errorDataFormatter(java.util.List)
+				 */
+				@Override
+				public void errorDataFormatter(List<JSONObject> list) {
 				}
 			});
 			respJson.put("importInfo", vo);

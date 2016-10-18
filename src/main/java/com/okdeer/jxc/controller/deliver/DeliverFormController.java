@@ -638,9 +638,12 @@ public class DeliverFormController extends
 							public void formatter(List<? extends GoodsSelect> list) {
 							}
 							@Override
-							public List<JSONObject> businessValid(List<JSONObject> list, String[] excelField) {
-								return null;
+							public void businessValid(List<JSONObject> list, String[] excelField) {
 							}
+							@Override
+							public void errorDataFormatter(List<JSONObject> list) {
+							}
+							
 						});
 			} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {
 				vo = goodsSelectImportComponent.importSelectGoods(fileName, is,
@@ -652,8 +655,11 @@ public class DeliverFormController extends
 							}
 
 							@Override
-							public List<JSONObject> businessValid(List<JSONObject> list, String[] excelField) {
-								return null;
+							public void businessValid(List<JSONObject> list, String[] excelField) {
+							}
+							
+							@Override
+							public void errorDataFormatter(List<JSONObject> list) {
 							}
 						});
 			}
@@ -790,7 +796,7 @@ public class DeliverFormController extends
 							}
 
 							@Override
-							public List<JSONObject> businessValid(List<JSONObject> list, String[] excelField) {
+							public void businessValid(List<JSONObject> list, String[] excelField) {
 								for (JSONObject obj : list) {
 									String num = obj.getString("num");
 									try {
@@ -807,10 +813,20 @@ public class DeliverFormController extends
 									} else if ("否".equals(isGift)) {
 										obj.element("isGift", "0");
 									} else {
-										obj.accumulate("error", "是否赠品字段填写有误");
+										obj.element("error", "是否赠品字段填写有误");
 									}
 								}
-								return list;
+							}
+							@Override
+							public void errorDataFormatter(List<JSONObject> list) {
+								for (JSONObject obj : list) {
+									String isGift = obj.getString("isGift");
+									if("1".equals(isGift)){
+										obj.element("isGift", "是");
+									}else if("0".equals(isGift)){
+										obj.element("isGift", "否");
+									}
+								}
 							}
 						});
 			} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {
@@ -823,7 +839,7 @@ public class DeliverFormController extends
 							}
 
 							@Override
-							public List<JSONObject> businessValid(List<JSONObject> list, String[] excelField) {
+							public void businessValid(List<JSONObject> list, String[] excelField) {
 								for (JSONObject obj : list) {
 									String num = obj.getString("num");
 									try {
@@ -840,10 +856,20 @@ public class DeliverFormController extends
 									} else if ("否".equals(isGift)) {
 										obj.element("isGift", "0");
 									} else {
-										obj.accumulate("error", "是否赠品字段填写有误");
+										obj.element("error", "是否赠品字段填写有误");
 									}
 								}
-								return list;
+							}
+							@Override
+							public void errorDataFormatter(List<JSONObject> list) {
+								for (JSONObject obj : list) {
+									String isGift = obj.getString("isGift");
+									if("1".equals(isGift)){
+										obj.element("isGift", "是");
+									}else if("0".equals(isGift)){
+										obj.element("isGift", "否");
+									}
+								}
 							}
 						});
 			}
