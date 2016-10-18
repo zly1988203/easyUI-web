@@ -283,13 +283,17 @@ function editsaveOrder(){
 	// 机构id
 	var branchId = $("#branchId").val();
 	//reason 原因 
-	var adjustReason=$("#adjustReason").val();
+	var adjustReason=$("#adjustReason").combobox('getValue');   
+	console.log(adjustReason);
 	// 备注
 	var remark = $("#remark").val();
 	//单号
 	var adjustNo= $("#adjustNo").val();
 	//单号
-	var createTime=formatDate($("#createTime").val());
+	
+	var createTime=$("#createTime").val();
+	var d = new Date(createTime);
+	createTime = new Date(createTime).format("yyyy-MM-dd hh:mm:ss");
 	//单号
 	var createUserId= $("#createUserId").val();
 	

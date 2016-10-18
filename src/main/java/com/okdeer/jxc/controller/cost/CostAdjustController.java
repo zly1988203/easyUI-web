@@ -111,6 +111,7 @@ public class CostAdjustController extends BaseController<StockCostForm>{
 	@RequestMapping(value = "edit")
 	public String edit(String id, Model model) {
 		StockCostForm costForm = stockCostFormServiceApi.queryCostFormDetail(id);
+		costForm.getCreateTime().getTime();
 		model.addAttribute("data",costForm );
 		 List<Dict> dict = dictServiceApi.getDictByType("COST_ADJUST_REASON");
 		 model.addAttribute("COST_ADJUST_REASON", dict);
@@ -209,7 +210,7 @@ public class CostAdjustController extends BaseController<StockCostForm>{
 			if(StringUtils.isEmpty( stockCostFormAl.getStockCostForm().getBranchId())){
 				RespJson.error("机构ID不允许为空！");
 			}
-			stockCostFormAl.getStockCostForm().setUpdateUserId(UserUtil.getCurrBranchCode());
+			stockCostFormAl.getStockCostForm().setUpdateUserId(UserUtil.getCurrUserId());
 			LOG.info("qo:" + stockCostFormAl);
 			return stockCostFormServiceApi.updateCostForm(stockCostFormAl);
 		}catch(RuntimeException e){
