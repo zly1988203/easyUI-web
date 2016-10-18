@@ -26,6 +26,7 @@ import com.okdeer.jxc.common.utils.UUIDHexGenerator;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.supplier.entity.SupplierArea;
 import com.okdeer.jxc.supplier.service.SupplierAreaServiceApi;
+import com.okdeer.jxc.supplier.service.SupplierServiceApi;
 import com.okdeer.jxc.supplier.vo.SupplierAreaVo;
 import com.okdeer.jxc.utils.UserUtil;
 
@@ -51,6 +52,9 @@ public class SupplierAreaController extends
 	
 	@Reference(version = "1.0.0", check = false)
 	private BranchesServiceApi branchesService;
+	
+	@Reference(version = "1.0.0", check = false)
+	private SupplierServiceApi supplierService;
 
 	/**
 	 * @Description: 跳转供应商区域页面
@@ -176,6 +180,8 @@ public class SupplierAreaController extends
 	public RespJson deleteSupplierArea(String areaId) {
 		try {
 			LOG.info("根据区域编码删除供应商区域:{}", areaId);
+			
+			int count = supplierService.getSupplierByAreaIdSum(areaId);
 			
 			supplierAreaService.deleteSupplierArea(areaId,super.getCurrUserId());
 			return RespJson.success();

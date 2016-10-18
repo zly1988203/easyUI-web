@@ -40,7 +40,7 @@
 					<input type="text" name="branchName" id="branchName" value="${data.branchName }" class="uinp ub ub-f1" readonly="readonly"  />
 					<div class="uinp-more" onclick="searchBranch()">...</div>
 	           </div>
-	           <div class="ub ub-ac uselectw umar-l20">
+	           <div class="ub ub-ac uselectw umar-l00">
                     <div class="umar-r10 uw-70 ut-r">调整原因:</div>
                        <!--select-->
 				        <select class="easyui-combobox uselect" name="adjustReason" id="adjustReason" data-options="editable:false">
