@@ -396,18 +396,21 @@ function delModifyOrderDialog() {
 
 // 保存单据
 function saveModifyPriceOrder() {
+	gFunStartLoading();
 	// 判断用户是否选择区域，选择为true，未选择为false，则提示用户选择
 	if (datagridUtil.isSelectArea()) {
 		// datagrid是否存在数据，存在为true，不存在为false，则提示用户输入
 		if (datagridUtil.isHasDataGrid()) {
 			var formData = $('#searchForm').serializeObject();
 			var detailList =  getDatagridRows();
-			if(detailList.length>600){
-				messager("保存数据不能超过600条");
+			if(detailList.length>1000){
+				messager("保存数据不能超过1000条");
+				gFunEndLoading();
 				return;
 			}
 			if(detailList.length==0){
 				messager("表格不能为空");
+				gFunEndLoading();
 				return;
 			}
 			if (datagridUtil.isCheckPrice()) {
@@ -422,15 +425,15 @@ function saveModifyPriceOrder() {
 			$.ajax({
 					type : "POST",
 					url : contextPath + "/goods/priceAdjust/saveForm",
-					data : reqObj,
-					//dataType:"json",
+					data :reqObj,
+					dataType:"json",
 					contentType : "application/json",
-		            //contentType : "text/html;charset=UTF-8",
 					success : function(data) {
+						gFunEndLoading();
 						if (data.code == 0) {
 							isClickSaveData = true;
 							// 代表点击过保存单据数据
-							$.messager.alert('提示','单据保存成功！',"info",function() {
+							$.messageur.alert('提示','单据保存成功！',"info",function() {
 										// window.location.href =
 										// contextPath+"/goods/priceAdjust/showDetail?formNo="+data.formNo;
 										addModifyPriceGridDg.datagrid('options').queryParams = {formNo : data.goodsPriceForm.formNo};
@@ -466,17 +469,20 @@ function saveModifyPriceOrder() {
 }
 // 修改调价单
 function updateModifyPriceOrder() {
+	gFunStartLoading();
 	// 判断用户是否选择区域，选择为true，未选择为false，则提示用户选择
 	if (datagridUtil.isSelectArea()) {
 		// datagrid是否存在数据，存在为true，不存在为false，则提示用户输入
 		var formData = $('#searchForm').serializeObject();
 		var detailList =  getDatagridRows();
-		if(detailList.length>600){
-			messager("保存数据不能超过600条");
+		if(detailList.length>1000){
+			messager("保存数据不能超过1000条");
+			gFunEndLoading();
 			return;
 		}
 		if(detailList.length==0){
 			messager("表格不能为空");
+			gFunEndLoading();
 			return;
 		}
 		if (datagridUtil.isHasDataGrid()) {
@@ -491,9 +497,11 @@ function updateModifyPriceOrder() {
 			$.ajax({
 					type : "POST",
 					url : contextPath + "/goods/priceAdjust/updateForm",
+					contentType : "application/json",
 					data : reqObj,
 					//dataType : "json",
-					success : function(data) {console.info(data)
+					success : function(data) {
+						gFunEndLoading();
 						if (data.code == 0) {
 							isClickSaveData = true;
 							// 代表点击过保存单据数据
