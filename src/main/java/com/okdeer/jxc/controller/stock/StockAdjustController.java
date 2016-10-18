@@ -133,6 +133,7 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
+			vo.setBranchId(UserUtil.getCurrBranchId());
 			PageUtils<StockFormVo> stockFormList = stockAdjustServiceApi
 					.getStockFormList(vo);
 			LOG.info(LogConstant.PAGE, stockFormList.toString());
