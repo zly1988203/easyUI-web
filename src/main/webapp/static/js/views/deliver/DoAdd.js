@@ -547,7 +547,8 @@ function saveOrder(){
     $.ajax({
         url:contextPath+"/form/deliverForm/insertDeliverForm",
         type:"POST",
-        data:{ formVo : JSON.stringify(reqObj)},
+        contentType:"application/json",
+        data:JSON.stringify(reqObj),
         success:function(result){
             if(result['code'] == 0){
                 $.messager.alert("操作提示", "操作成功！", "info",function(){
@@ -648,10 +649,10 @@ function loadLists(referenceId){
             $("#gridEditOrder").datagrid("loadData",rows);
         }
     })
-    return;
+   /* return;
 	$("#gridEditOrder").datagrid("options").method = "post";
 	$("#gridEditOrder").datagrid('options').url = contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverType=DO&deliverFormId="+referenceId;
-	$("#gridEditOrder").datagrid('load');
+	$("#gridEditOrder").datagrid('load');*/
 }
 /**
  * 调用导入功能 0导入货号 1导入明细
