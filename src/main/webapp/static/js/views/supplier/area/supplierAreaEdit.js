@@ -10,9 +10,10 @@ function initEditView(item){
 
 function saveHandel(){
     //验证数据
-    if(!$("#formEdit").form('validate')){
-        return;
-    }
+    var isValid = $("#formEdit").form('validate');
+	if (!isValid) {
+		return;
+	}
     var formData = $('#formEdit').serializeObject();
     $.ajax({
         type:"POST",

@@ -180,10 +180,12 @@ public class SupplierAreaController extends
 	public RespJson deleteSupplierArea(String areaId) {
 		try {
 			LOG.info("根据区域编码删除供应商区域:{}", areaId);
-			
 			int count = supplierService.getSupplierByAreaIdSum(areaId);
-			
-			supplierAreaService.deleteSupplierArea(areaId,super.getCurrUserId());
+			if(count>0) {
+				return RespJson.error("供应商区域已经被引用！");
+			}else {
+				supplierAreaService.deleteSupplierArea(areaId,super.getCurrUserId());
+			}
 			return RespJson.success();
 		} catch (Exception e) {
 			return RespJson.error("删除供应商区域失败！");

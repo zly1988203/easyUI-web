@@ -7,9 +7,10 @@
  */
 function saveHandel(){
    //验证数据
-    if(!$("#formAdd").form('validate')){
-        return;
-    }
+    var isValid = $("#formAdd").form('validate');
+	if (!isValid) {
+		return;
+	}
     var formData = $('#formAdd').serializeObject();
     $.ajax({
         type:"POST",
