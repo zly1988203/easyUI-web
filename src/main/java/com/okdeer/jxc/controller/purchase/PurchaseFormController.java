@@ -19,13 +19,12 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -376,12 +375,10 @@ public class PurchaseFormController extends
 	 */
 	@RequestMapping(value = "saveOrder", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson save(@Valid PurchaseFormVo formVo, BindingResult validate, String detailList) {
-		if (validate.hasErrors()) {
-			String errorMessage = validate.getFieldError().getDefaultMessage();
-			LOG.warn("validate errorMessage:" + errorMessage);
-			return RespJson.error(errorMessage);
-		}
+	public RespJson save(@RequestBody String jsonText) {
+//		PurchaseFormVo formVo = new PurchaseFormVo();
+		
+		PurchaseFormVo formVo = JSON.parseObject(jsonText, PurchaseFormVo.class);
 		
 		PurchaseForm form = new PurchaseForm();
 
@@ -415,7 +412,9 @@ public class PurchaseFormController extends
 
 		List<PurchaseFormDetail> list = new ArrayList<PurchaseFormDetail>();
 		
-		List<PurchaseFormDetailVo> listVo = JSON.parseArray(detailList, PurchaseFormDetailVo.class);
+//		List<PurchaseFormDetailVo> listVo = JSON.parseArray(detailList, PurchaseFormDetailVo.class);
+		
+		List<PurchaseFormDetailVo> listVo = formVo.getDetailList();
 
 		for (PurchaseFormDetailVo purchaseFormDetailVo : listVo) {
 			PurchaseFormDetail formDetail = new PurchaseFormDetail();
@@ -441,13 +440,10 @@ public class PurchaseFormController extends
 
 	@RequestMapping(value = "saveReturn", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson saveReturn(@Valid ReturnFormVo formVo,
-			BindingResult validate, String detailList) {
-		if (validate.hasErrors()) {
-			String errorMessage = validate.getFieldError().getDefaultMessage();
-			LOG.warn("validate errorMessage:" + errorMessage);
-			return RespJson.error(errorMessage);
-		}
+	public RespJson saveReturn(@RequestBody String jsonText) {
+		
+		ReturnFormVo formVo = JSON.parseObject(jsonText, ReturnFormVo.class);
+		
 		PurchaseForm form = new PurchaseForm();
 		BeanUtils.copyProperties(formVo, form);
 
@@ -483,7 +479,8 @@ public class PurchaseFormController extends
 
 		List<PurchaseFormDetail> list = new ArrayList<PurchaseFormDetail>();
 		
-		List<PurchaseFormDetailVo> listVo = JSON.parseArray(detailList, PurchaseFormDetailVo.class);
+//		List<PurchaseFormDetailVo> listVo = JSON.parseArray(detailList, PurchaseFormDetailVo.class);
+		List<PurchaseFormDetailVo> listVo = formVo.getDetailList();
 
 		for (PurchaseFormDetailVo purchaseFormDetailVo : listVo) {
 			PurchaseFormDetail formDetail = new PurchaseFormDetail();
@@ -509,13 +506,10 @@ public class PurchaseFormController extends
 
 	@RequestMapping(value = "saveReceipt", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson saveReceipt(@Valid ReceiptFormVo formVo,
-			BindingResult validate,String detailList) {
-		if (validate.hasErrors()) {
-			String errorMessage = validate.getFieldError().getDefaultMessage();
-			LOG.warn("validate errorMessage:" + errorMessage);
-			return RespJson.error(errorMessage);
-		}
+	public RespJson saveReceipt(@RequestBody String jsonText) {
+		
+		ReceiptFormVo formVo = JSON.parseObject(jsonText, ReceiptFormVo.class);
+		
 		PurchaseForm form = new PurchaseForm();
 		BeanUtils.copyProperties(formVo, form);
 
@@ -545,7 +539,8 @@ public class PurchaseFormController extends
 
 		List<PurchaseFormDetail> list = new ArrayList<PurchaseFormDetail>();
 
-		List<PurchaseFormDetailVo> listVo = JSON.parseArray(detailList, PurchaseFormDetailVo.class);
+//		List<PurchaseFormDetailVo> listVo = JSON.parseArray(detailList, PurchaseFormDetailVo.class);
+		List<PurchaseFormDetailVo> listVo = formVo.getDetailList();
 
 		for (PurchaseFormDetailVo purchaseFormDetailVo : listVo) {
 			PurchaseFormDetail formDetail = new PurchaseFormDetail();
@@ -579,16 +574,9 @@ public class PurchaseFormController extends
 	 */
 	@RequestMapping(value = "updateOrder", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson updateOrder(@Valid PurchaseFormVo formVo,
-			BindingResult validate, HttpServletRequest request) {
-		if (validate.hasErrors()) {
-			String errorMessage = validate.getFieldError().getDefaultMessage();
-			LOG.warn("validate errorMessage:" + errorMessage);
-
-			RespJson respJson = RespJson.error(errorMessage);
-
-			return respJson;
-		}
+	public RespJson updateOrder(@RequestBody String jsonText) {
+		
+		PurchaseFormVo formVo = JSON.parseObject(jsonText, PurchaseFormVo.class);
 
 		PurchaseForm form = new PurchaseForm();
 		BeanUtils.copyProperties(formVo, form);
@@ -599,8 +587,8 @@ public class PurchaseFormController extends
 		SysUser user = UserUtil.getCurrentUser();
 		Date now = new Date();
 
-		String detailList = request.getParameter("detailList");
-		List<PurchaseFormDetailVo> listVo = JSON.parseArray(detailList, PurchaseFormDetailVo.class);
+//		List<PurchaseFormDetailVo> listVo = JSON.parseArray(detailList, PurchaseFormDetailVo.class);
+		List<PurchaseFormDetailVo> listVo = formVo.getDetailList();
 		
 		for (PurchaseFormDetailVo purchaseFormDetailVo : listVo) {
 			PurchaseFormDetail formDetail = new PurchaseFormDetail();
@@ -630,16 +618,9 @@ public class PurchaseFormController extends
 	 */
 	@RequestMapping(value = "updateReceipt", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson updateReceipt(@Valid ReceiptFormVo formVo,
-			BindingResult validate,String detailList) {
-		if (validate.hasErrors()) {
-			String errorMessage = validate.getFieldError().getDefaultMessage();
-			LOG.warn("validate errorMessage:" + errorMessage);
-
-			RespJson respJson = RespJson.error(errorMessage);
-
-			return respJson;
-		}
+	public RespJson updateReceipt(@RequestBody String jsonText) {
+		
+		ReceiptFormVo formVo = JSON.parseObject(jsonText, ReceiptFormVo.class);
 
 		PurchaseForm form = new PurchaseForm();
 		BeanUtils.copyProperties(formVo, form);
@@ -650,7 +631,8 @@ public class PurchaseFormController extends
 		SysUser user = UserUtil.getCurrentUser();
 		Date now = new Date();
 
-		List<PurchaseFormDetailVo> listVo = JSON.parseArray(detailList, PurchaseFormDetailVo.class);
+//		List<PurchaseFormDetailVo> listVo = JSON.parseArray(detailList, PurchaseFormDetailVo.class);
+		List<PurchaseFormDetailVo> listVo = formVo.getDetailList();
 
 		for (PurchaseFormDetailVo purchaseFormDetailVo : listVo) {
 			PurchaseFormDetail purchaseFormDetail = new PurchaseFormDetail();
@@ -680,16 +662,8 @@ public class PurchaseFormController extends
 	 */
 	@RequestMapping(value = "updateReturn", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson updateReturn(@Valid ReceiptFormVo formVo,
-			BindingResult validate, String detailList) {
-		if (validate.hasErrors()) {
-			String errorMessage = validate.getFieldError().getDefaultMessage();
-			LOG.warn("validate errorMessage:" + errorMessage);
-
-			RespJson respJson = RespJson.error(errorMessage);
-
-			return respJson;
-		}
+	public RespJson updateReturn(@RequestBody String jsonText) {
+		ReturnFormVo formVo = JSON.parseObject(jsonText, ReturnFormVo.class);
 
 		PurchaseForm form = new PurchaseForm();
 		BeanUtils.copyProperties(formVo, form);
@@ -705,8 +679,9 @@ public class PurchaseFormController extends
 		SysUser user = UserUtil.getCurrentUser();
 		Date now = new Date();
 
-		List<PurchaseFormDetailVo> listVo = JSON.parseArray(detailList, PurchaseFormDetailVo.class);
-
+//		List<PurchaseFormDetailVo> listVo = JSON.parseArray(detailList, PurchaseFormDetailVo.class);
+		List<PurchaseFormDetailVo> listVo = formVo.getDetailList();
+		
 		for (PurchaseFormDetailVo purchaseFormDetailVo : listVo) {
 			PurchaseFormDetail purchaseFormDetail = new PurchaseFormDetail();
 			BeanUtils.copyProperties(purchaseFormDetailVo, purchaseFormDetail);

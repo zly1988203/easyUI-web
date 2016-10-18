@@ -21,7 +21,7 @@ function initConditionParams(){
     $("#supplierName").val(sessionSupplierCodeName);
     
     //设置付款期限默认值
-    $("#paymentTime").val(dateUtil.getCurrentDateStr());
+    $("#paymentTime").val(dateUtil.getCurrentDateDay());
 }
 
 var gridDefault = {
@@ -459,10 +459,8 @@ function saveDataHandel(rows){
         totalNum = parseFloat(footerRows[0]["realNum"]||0.0).toFixed(4);
         amount = parseFloat(footerRows[0]["amount"]||0.0).toFixed(4);
     }
-    var detailList = JSON.stringify(rows);
-    console.log(detailList);
 
-    var reqObj = $.extend({
+    var reqObj = {
         supplierId:supplierId,
         branchId:branchId,
         paymentTime:paymentTime,
@@ -471,13 +469,17 @@ function saveDataHandel(rows){
         remark:remark,
         totalNum:totalNum,
         amount:amount,
-        oldRefFormNo:""
-    },  { detailList:detailList});
+        oldRefFormNo:"",
+        detailList:rows
+    };
+    
+    var req = JSON.stringify(reqObj);
 
     $.ajax({
         url:contextPath+"/form/purchase/saveReturn",
         type:"POST",
-        data:reqObj,
+        contentType:'application/json',
+        data:req,
         success:function(result){
             console.log(result);
             if(result['code'] == 0){
@@ -580,7 +582,7 @@ function selectForm(){
             var newRows = gFunUpdateKey(data.list,keyNames);
             $("#gridEditOrder").datagrid("loadData",newRows);
             //供应商
-            $("#supplierId").val(data.form.id);
+            $("#supplierId").val(data.form.supplierId);
             $("#supplierName").val(data.form.supplierName);
             //收货机构
             $("#branchId").val(data.form.branchId);
