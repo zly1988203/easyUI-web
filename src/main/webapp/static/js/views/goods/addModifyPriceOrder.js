@@ -421,8 +421,6 @@ function saveModifyPriceOrder() {
 					type : "POST",
 					url : contextPath + "/goods/priceAdjust/saveForm",
 					data : reqObj,
-					dataType:"json",      
-		            contentType:"application/json",
 					success : function(data) {
 						if (data.code == 0) {
 							isClickSaveData = true;
@@ -1047,7 +1045,6 @@ function toImportproduct(type){
         branchId:branchId,
     }
     new publicUploadFileService(function(data){
-        console.log(data);
         updateListData(data);
     },param)
 }
@@ -1062,7 +1059,6 @@ function updateListData(data){
     		vipPrice:'oldVipPrice',
     		distributionPrice:'oldDcPrice'
     };
-    debugger;
     var rows = gFunUpdateKey(addDefaultData,keyNames);
     if(data.length>0){
     	var obj = data[0];
@@ -1074,8 +1070,11 @@ function updateListData(data){
     	              {"newVipPrice":"memberPrice"}
     	             ]
     	$.each(obj,function(key,val){
+			debugger;
+			var d = obj;
+			var c = key;
     		$.each(arrKey,function(i,item){
-    			if(item[key]){
+    			if(item[key]&&obj[key]){
     				$("#"+item[key]).attr("checked","checked");
     				 datagridUtil.isCheckBoxChecked(item[key]);
     			}
