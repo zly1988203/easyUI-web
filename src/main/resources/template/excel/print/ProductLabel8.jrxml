@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ProductSalesPlan" language="groovy" columnCount="4" printOrder="Horizontal" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="205" leftMargin="10" rightMargin="10" topMargin="2" bottomMargin="0" isSummaryWithPageHeaderAndFooter="true" uuid="00831878-d208-460c-a1e1-15e96cc9ea5e">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ProductSalesPlan" language="groovy" columnCount="4" printOrder="Horizontal" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="204" leftMargin="14" rightMargin="11" topMargin="21" bottomMargin="0" isSummaryWithPageHeaderAndFooter="true" uuid="00831878-d208-460c-a1e1-15e96cc9ea5e">
 	<property name="ireport.zoom" value="4.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -20,9 +20,6 @@
 	<background>
 		<band splitType="Stretch"/>
 	</background>
-	<columnHeader>
-		<band height="4"/>
-	</columnHeader>
 	<detail>
 		<band height="92" splitType="Stretch">
 			<textField>
@@ -68,7 +65,7 @@
 				<textFieldExpression><![CDATA[$F{originPlace}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="123" y="49" width="76" height="41" uuid="9afe52c2-0c76-4d30-adcd-450c137913e2"/>
+				<reportElement x="128" y="49" width="76" height="41" uuid="9afe52c2-0c76-4d30-adcd-450c137913e2"/>
 				<textElement textAlignment="Center">
 					<font size="22"/>
 				</textElement>
@@ -127,7 +124,7 @@
 				<text><![CDATA[元]]></text>
 			</staticText>
 			<componentElement>
-				<reportElement x="-1" y="60" width="125" height="32" uuid="1e2289f8-9a29-4fca-86b7-c8be6e5f59ac"/>
+				<reportElement x="2" y="60" width="125" height="32" uuid="1e2289f8-9a29-4fca-86b7-c8be6e5f59ac"/>
 				<jr:Code128 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" moduleWidth="1.8" textPosition="none">
 					<jr:codeExpression><![CDATA[$F{barCode}]]></jr:codeExpression>
 				</jr:Code128>
