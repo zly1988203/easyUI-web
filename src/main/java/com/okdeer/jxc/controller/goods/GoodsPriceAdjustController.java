@@ -19,13 +19,10 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.json.JSONObject;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -59,6 +56,8 @@ import com.okdeer.jxc.goods.vo.GoodsPriceFormConst;
 import com.okdeer.jxc.goods.vo.GoodsPriceFormVo;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
+
+import net.sf.json.JSONObject;
 
 /**
  * ClassName: GoodsPriceAdjustController 
@@ -620,10 +619,9 @@ public class GoodsPriceAdjustController extends
 							new GoodsSelectImportBusinessValid() {
 
 								@Override
-								public List<JSONObject> businessValid(
+								public void businessValid(
 										List<JSONObject> list,
 										String[] excelField) {
-									return list;
 								}
 
 								/**
@@ -666,6 +664,9 @@ public class GoodsPriceAdjustController extends
 													.getWholesalePrice());
 										}
 									}
+								}
+								@Override
+								public void errorDataFormatter(List<JSONObject> list) {
 								}
 							});
 			respJson.put("importInfo", vo);

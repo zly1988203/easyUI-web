@@ -317,17 +317,16 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 			GoodsSelectImportVo<GoodsSelectByStockAdjust> vo = goodsSelectImportComponent.importSelectGoodsWithStock(fileName, is, field, new GoodsSelectByStockAdjust(), branchId,user.getId(), type,"/stock/adjust/downloadErrorFile", new GoodsSelectImportBusinessValid() {
 				
 				@Override
-				public List<JSONObject> businessValid(List<JSONObject> list, String[] excelField) {
+				public void businessValid(List<JSONObject> list, String[] excelField) {
 					for (JSONObject obj : list) {
 						String realNum = obj.getString("realNum");
 						try {
 							Double.parseDouble(realNum);
 						} catch (Exception e) {
-							obj.accumulate("error", "数量必填");
+							obj.element("error", "数量必填");
 						}
 						
 					}
-					return list;
 				}
 				/**
 				 * (non-Javadoc)
@@ -335,6 +334,15 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 				 */
 				@Override
 				public void formatter(List<? extends GoodsSelect> list) {
+					
+				}
+				
+				/**
+				 * (non-Javadoc)
+				 * @see com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid#errorDataFormatter(java.util.List)
+				 */
+				@Override
+				public void errorDataFormatter(List<JSONObject> list) {
 					
 				}
 				
