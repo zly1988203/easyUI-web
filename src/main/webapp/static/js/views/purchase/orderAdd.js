@@ -377,6 +377,7 @@ function updateListData(data){
    // var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
     //var addDefaultData  = gridHandel.addDefault(data,gridDefault);
     $.each(data,function(i,val){
+    	data[i]["remark"] = "";
         data[i]["realNum"]=data[i]["realNum"]||0;
         data[i]["largeNum"]  = (parseFloat(data[i]["realNum"]||0)/parseFloat(data[i]["purchaseSpec"])).toFixed(4);
         data[i]["amount"]  = parseFloat(data[i]["purchasePrice"]||0)*parseFloat(data[i]["realNum"]||0);
