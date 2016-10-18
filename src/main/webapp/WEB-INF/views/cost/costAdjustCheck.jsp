@@ -8,7 +8,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>成本调整单-修改</title>
 	<%@ include file="/WEB-INF/views/include/header.jsp"%>
-	<script  src="${ctx}/static/js/views/cost/costAdjustEdit.js"></script>
+	<script  src="${ctx}/static/js/views/cost/costAdjustCheck.js"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
     <div class="ub ub-ver ub-f1 umar-4  ubor">
@@ -38,9 +38,9 @@
 	                <div class="umar-r10 uw-70 ut-r">机构名称:</div> 
                     <input type="hidden" name="branchId" id="branchId" value="${data.branchName} class="uinp" />
 					<input type="text" name="branchName" id="branchName" value="${data.branchName }" class="uinp ub ub-f1" readonly="readonly"  />
-					<div class="uinp-more" onclick="searchBranch()">...</div>
+					<div class="uinp-more" >...</div>
 	           </div>
-	           <div class="ub ub-ac uselectw umar-l20">
+	           <div class="ub ub-ac uselectw umar-l00">
                     <div class="umar-r10 uw-70 ut-r">调整原因:</div>
                        <!--select-->
 				        <select class="easyui-combobox uselect" name="adjustReason" id="adjustReason" data-options="editable:false" disabled="disabled">
@@ -67,7 +67,7 @@
            <div class="ub umar-t8">
                <div class="ub ub-ac " >
                    <div class="umar-r10 uw-70 ut-r">备注:</div>
-                   <input class="uinp uninputs" type="text" id="remark" name="remark" value="${data.remark}" >
+                   <input class="uinp uninputs" type="text" id="remark" name="remark" readonly value="${data.remark}" >
                </div>
                <div class="ub ub-ac umar-l20">
                    <div class="umar-r10 uw-70 ut-r">审核人员:</div>
@@ -75,7 +75,7 @@
                </div>
                <div class="ub ub-ac umar-l20">
                    <div class="umar-r10 uw-60 ut-r">审核日期:</div>
-                   <div class="utxt"><fmt:formatDate value="${data.validTime}" pattern="yyyy-MM-dd"/></div>
+                   <div class="utxt"><fmt:formatDate value="${data.validTime}"  pattern="yyyy-MM-dd"/></div>
                </div>
            </div>
         
