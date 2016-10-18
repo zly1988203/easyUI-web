@@ -282,7 +282,6 @@ function addsaveOrder(){
             isCheckResult = false;
             return false;
         };
-        debugger;
         if(parseFloat(v["costPrice"])<=0){
             isChcekPrice = true;
         }

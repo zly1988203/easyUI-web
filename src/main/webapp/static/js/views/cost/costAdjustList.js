@@ -54,11 +54,19 @@ function initDatagridRequireOrders(){
 			},
 			{field: 'adjustReasonName', title: '调整原因', width: '200px', align: 'left'},
             {field: 'adjustReason', title: '调整原因', width: '200px', align: 'left',hidden:true},
-            {field: 'updateUserName', title: '操作人员', width: '130px', align: 'left'},
-            {field: 'updateTime', title: '操作日期', width: '120px', align: 'center',
+            {field: 'createTime', title: '创建时间', width: '150px', align: 'center',
 				formatter: function (value, row, index) {
 					if (value) {
-						return new Date(value).format('yyyy-MM-dd');
+						return new Date(value).format('yyyy-MM-dd hh:mm:ss');
+					}
+					return "";
+				}
+			},
+            {field: 'updateUserName', title: '操作人员', width: '130px', align: 'left'},
+            {field: 'updateTime', title: '操作时间', width: '150px', align: 'center',
+				formatter: function (value, row, index) {
+					if (value) {
+						return new Date(value).format('yyyy-MM-dd hh:mm:ss');
 					}
 					return "";
 				}
@@ -70,6 +78,9 @@ function initDatagridRequireOrders(){
     		   }
             }
         ]],
+        onLoadSuccess : function() {
+            gridHandel.setDatagridHeader("center");
+        }
         
     });
     queryForm();

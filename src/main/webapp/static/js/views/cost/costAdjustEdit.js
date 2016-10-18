@@ -278,9 +278,46 @@ function setDataValue(data) {
     },100)
 }
 
-//保存
 function editsaveOrder(){
+   
+  //验证表格数据
+	$("#"+gridHandel.getGridName()).datagrid("endEdit", gridHandel.getSelectRowIndex());
+	var rows = gridHandel.getRows();
+	if(rows.length==0){
+		messager("表格不能为空");
+		return;
+	}
+    var isCheckResult = true;
+    var isChcekPrice = false;
+    $.each(rows,function(i,v){
+        if(!v["skuCode"]){
+            messager("第"+(i+1)+"行，货号不能为空");
+            isCheckResult = false;
+            return false;
+        };
+        if(!v["skuName"]){
+            messager("第"+(i+1)+"行，名称不能为空");
+            isCheckResult = false;
+            return false;
+        };
+        if(parseFloat(v["costPrice"])<=0){
+            isChcekPrice = true;
+        }
+    });
+    if(isCheckResult){
+        if(isChcekPrice){
+            $.messager.confirm('系统提示',"新单价存在为0，是否确定保存",function(r){
+                if (r){
+                    saveDataHandel(rows);
+                }
+            });
+        }else{
+            saveDataHandel(rows);
+        }
+    }
+}
 
+function saveDataHandel(rows){
 	//调价差价
 	var totalMoney=0;
 
@@ -303,40 +340,11 @@ function editsaveOrder(){
 	var createUserId= $("#createUserId").val();
 	
 	var status= $("#status").val();
-	//验证表格数据
-	$("#"+gridHandel.getGridName()).datagrid("endEdit", gridHandel.getSelectRowIndex());
-
 	var footerRows = $("#"+gridHandel.getGridName()).datagrid("getFooterRows");
 	if(footerRows){
 		totalMoney = parseFloat(footerRows[0]["diffMoney"]||0.0).toFixed(4);
 	}
 
-	var rows = gridHandel.getRows();
-	if(rows.length==0){
-		messager("表格不能为空");
-		return;
-	}
-	var isCheckResult = true;
-	$.each(rows,function(i,v){
-		if(!v["skuCode"]){
-			messager("第"+(i+1)+"行，货号不能为空");
-			isCheckResult = false;
-			return false;
-		};
-		if(!v["skuName"]){
-			messager("第"+(i+1)+"行，名称不能为空");
-			isCheckResult = false;
-			return false;
-		};
-		if(v["costPrice"]<=0){
-			messager("第"+(i+1)+"行，新价必须大于0");
-			isCheckResult = false;
-			return false;
-		}
-	});
-	if(!isCheckResult){
-		return;
-	}
 
 	var saveData = JSON.stringify(rows);
 	var jsonData = {
@@ -364,7 +372,6 @@ function editsaveOrder(){
 		}
 		jsonData.stockCostFormDetailList[i] = temp;
 	});
-	console.log(jsonData);
 	$.ajax({
 		url:contextPath+"/cost/costAdjust/updateCostForm",
 		type:"POST",
