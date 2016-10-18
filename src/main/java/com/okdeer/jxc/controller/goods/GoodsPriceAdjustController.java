@@ -200,7 +200,7 @@ public class GoodsPriceAdjustController extends
 	 * @author lijy02
 	 * @date 2016年8月4日
 	 */
-	@RequestMapping(value = "/saveForm", method = RequestMethod.POST)
+	@RequestMapping(value = "/saveForm", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public RespJson saveForm(String list) {
 		String formNo = "";

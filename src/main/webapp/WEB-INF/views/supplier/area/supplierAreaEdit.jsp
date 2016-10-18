@@ -16,7 +16,7 @@ pageEncoding="UTF-8"%>
 		<div class="ub ub-ver ub-ac upad-4">
 			<div class="ub ub-ac umar-t20">
 				<div class="umar-r10 uw-60 ut-r">编号:</div>
-				<input id="areaCode" name="areaCode" class="uinp easyui-validatebox" data-options="required:true" maxlength="2">
+				<input id="areaCode" name="areaCode" class="uinp easyui-validatebox" data-options="required:true"  readonly="readonly" maxlength="2">
 			</div>
 			<div class="ub ub-ac umar-t20">
 				<div class="umar-r10 uw-60 ut-r">名称:</div>

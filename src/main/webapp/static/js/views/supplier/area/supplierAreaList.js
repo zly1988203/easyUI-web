@@ -162,8 +162,10 @@ function reloadListHandel(){
 function closeDialogHandel(){
     if(addDalogTemp){
         $(addDalogTemp).panel('destroy');
+        addDalogTemp = null;
     }
     if(editDalogTemp){
         $(editDalogTemp).panel('destroy');
+        editDalogTemp = null;
     }
 }
