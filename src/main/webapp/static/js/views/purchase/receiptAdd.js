@@ -454,10 +454,7 @@ function saveDataHandel(rows){
         amount = parseFloat(footerRows[0]["amount"]||0.0).toFixed(4);
     }
 
-    var detailList = JSON.stringify(rows);
-    console.log(detailList);
-
-    var reqObj = $.extend({
+    var reqObj = {
         supplierId:supplierId,
         branchId:branchId,
         paymentTime:paymentTime,
@@ -467,12 +464,16 @@ function saveDataHandel(rows){
         remark:remark,
         totalNum:totalNum,
         amount:amount,
-    }, { detailList:detailList});
+        detailList:rows
+    };
+    
+    var req = JSON.stringify(reqObj);
 
     $.ajax({
         url:contextPath+"/form/purchase/saveReceipt",
         type:"POST",
-        data:reqObj,
+        contentType:'application/json',
+        data:req,
         success:function(result){
             console.log(result);
             if(result['code'] == 0){

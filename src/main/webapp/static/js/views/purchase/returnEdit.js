@@ -462,12 +462,10 @@ function saveDataHandel(rows){
         totalNum = parseFloat(footerRows[0]["realNum"]||0.0).toFixed(4);
         amount = parseFloat(footerRows[0]["amount"]||0.0).toFixed(4);
     }
-    var detailList =  JSON.stringify(rows);
-    console.log(detailList);
 
     var id = $("#formId").val();
 
-    var reqObj = $.extend({
+    var reqObj = {
         supplierId:supplierId,
         branchId:branchId,
         paymentTime:paymentTime,
@@ -477,13 +475,17 @@ function saveDataHandel(rows){
         totalNum:totalNum,
         amount:amount,
         id:id,
-        oldRefFormNo:oldRefFormNo
-    },  { detailList:detailList});
+        oldRefFormNo:oldRefFormNo,
+        detailList:rows
+    };
+    
+    var req = JSON.stringify(reqObj);
 
     $.ajax({
         url:contextPath+"/form/purchase/updateReturn",
         type:"POST",
-        data:reqObj,
+        contentType:'application/json',
+        data:req,
         success:function(result){
             console.log(result);
             if(result['code'] == 0){
