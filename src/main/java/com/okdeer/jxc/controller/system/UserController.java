@@ -40,10 +40,10 @@ public class UserController extends BaseController<UserController> {
 
 	@Reference(version = "1.0.0", check = false)
 	private SysUserServiceApi sysUserService;
-	
+
 	@Reference(version = "1.0.0", check = false)
 	private BranchesServiceApi branchService;
-	
+
 	@Reference(version = "1.0.0", check = false)
 	private SysRoleService roleService;
 
@@ -148,7 +148,7 @@ public class UserController extends BaseController<UserController> {
 		SysUser user = sysUserService.getUserById(userId);
 		Branches branch = branchService.getBranchInfoById(user.getBranchId());
 		SysRole role = roleService.getRoleByUserId(userId);
-		
+
 		model.addAttribute("user", user);
 		model.addAttribute("branch", branch);
 		model.addAttribute("role", role);
@@ -175,7 +175,7 @@ public class UserController extends BaseController<UserController> {
 			respJson = sysUserService.addUser(userVo);
 		} catch (Exception e) {
 			LOG.error("新增用户异常：", e);
-			respJson = RespJson.error("新增用户异常：" + e.getMessage());
+			respJson = RespJson.error("新增用户异常!");
 		}
 		return respJson;
 	}
@@ -200,11 +200,11 @@ public class UserController extends BaseController<UserController> {
 			respJson = sysUserService.updateUser(userVo);
 		} catch (Exception e) {
 			LOG.error("修改用户异常：", e);
-			respJson = RespJson.error("修改用户异常：" + e.getMessage());
+			respJson = RespJson.error("修改用户异常!");
 		}
 		return respJson;
 	}
-	
+
 	/**
 	 * @Description: 删除用户信息
 	 * @param userId
@@ -218,16 +218,16 @@ public class UserController extends BaseController<UserController> {
 		LOG.info("删除用户信息，userId{}", userId);
 		RespJson respJson = RespJson.success();
 		try {
-			
+
 			// 新增用户信息
 			respJson = sysUserService.deleteUser(userId, getCurrUserId());
 		} catch (Exception e) {
 			LOG.error("删除用户异常：", e);
-			respJson = RespJson.error("删除用户异常：" + e.getMessage());
+			respJson = RespJson.error("删除用户异常!");
 		}
 		return respJson;
 	}
-	
+
 	/**
 	 * @Description: 启用
 	 * @param userId
@@ -241,16 +241,16 @@ public class UserController extends BaseController<UserController> {
 		LOG.info("启用用户，userId{}", userId);
 		RespJson respJson = RespJson.success();
 		try {
-			
+
 			// 新增用户信息
 			respJson = sysUserService.enableUser(userId, getCurrUserId());
 		} catch (Exception e) {
 			LOG.error("启用用户异常：", e);
-			respJson = RespJson.error("启用用户异常：" + e.getMessage());
+			respJson = RespJson.error("启用用户异常!");
 		}
 		return respJson;
 	}
-	
+
 	/**
 	 * @Description: 禁用
 	 * @param userId
@@ -264,12 +264,12 @@ public class UserController extends BaseController<UserController> {
 		LOG.info("禁用用户，userId{}", userId);
 		RespJson respJson = RespJson.success();
 		try {
-			
+
 			// 新增用户信息
 			respJson = sysUserService.disableUser(userId, getCurrUserId());
 		} catch (Exception e) {
 			LOG.error("禁用用户异常：", e);
-			respJson = RespJson.error("禁用用户异常：" + e.getMessage());
+			respJson = RespJson.error("禁用用户异常!");
 		}
 		return respJson;
 	}
