@@ -394,6 +394,7 @@ function saveOrder(){
     // 备注
     var remark = $("#remark").val();
     var rows = gridHandel.getRows();
+    var reason = $("input[name='reason']").val()  
    /* if(rows.length==0){
         messager("表格不能为空");
         return;
@@ -426,7 +427,7 @@ function saveOrder(){
     	createBranchId : branchId,
     	id : $("#formId").val(),
         remark : remark,
-        reason :'',
+        reason :reason,
         io :'1'
     }, stockFormDetailList);
     $.ajax({
