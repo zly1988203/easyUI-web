@@ -400,7 +400,7 @@ function saveModifyPriceOrder() {
 	if (datagridUtil.isSelectArea()) {
 		// datagrid是否存在数据，存在为true，不存在为false，则提示用户输入
 		if (datagridUtil.isHasDataGrid()) {
-			var list = $('#searchForm').serializeObject();
+			var formData = $('#searchForm').serializeObject();
 			var detailList =  getDatagridRows();
 			if(detailList.length==0){
 				messager("表格不能为空");
@@ -408,15 +408,21 @@ function saveModifyPriceOrder() {
 			}
 			if (datagridUtil.isCheckPrice()) {
 				if(datagridUtil.isCheckRemark()){
-//			var goodsPriceFormDetail = tableArrayFormatter(detailList,"goodsPriceFormDetail");
-			
-			var reqObj = $.extend(list, {'list':JSON.stringify(detailList)});
+					var params = {
+							goodsPriceForm:formData,
+							goodsPriceFormDetailList:detailList,
+							branchIds:$("#branchId").val()
+						}
+					var reqObj = {
+							"list":JSON.stringify(params),
+					}
 			// 调用后台保存方法，成功提示
 			$.ajax({
 					type : "POST",
 					url : contextPath + "/goods/priceAdjust/saveForm",
 					data : reqObj,
-					dataType : "json",
+					dataType:"json",      
+		            contentType:"application/json",
 					success : function(data) {
 						if (data.code == 0) {
 							isClickSaveData = true;
@@ -460,14 +466,22 @@ function updateModifyPriceOrder() {
 	// 判断用户是否选择区域，选择为true，未选择为false，则提示用户选择
 	if (datagridUtil.isSelectArea()) {
 		// datagrid是否存在数据，存在为true，不存在为false，则提示用户输入
-		getDatagridRows();
+		var formData = $('#searchForm').serializeObject();
+		var detailList =  getDatagridRows();
+		if(detailList.length==0){
+			messager("表格不能为空");
+			return;
+		}
 		if (datagridUtil.isHasDataGrid()) {
 			if(datagridUtil.isCheckRemark()){
-			var list = $('#searchForm').serializeObject();
-			var detailList = $("#addModifyPriceGrid").datagrid('getRows');
-//			var goodsPriceFormDetail = tableArrayFormatter(detailList,
-//				"goodsPriceFormDetail");
-			var reqObj = $.extend(list, {'list':JSON.stringify(detailList)});
+				var params = {
+						goodsPriceForm:formData,
+						goodsPriceFormDetailList:detailList,
+						branchIds:$("#branchId").val()
+						}
+				var reqObj = {
+						list:JSON.stringify(params),
+				}
 			// 调用后台保存方法，成功提示
 			$.ajax({
 					type : "POST",
@@ -952,19 +966,6 @@ function selectBranch() {
 		$('#addModifyPriceGrid').datagrid('loadData', {total: 0, rows:  [$.extend({},gridDefault)]});  
 	},1);
 }
-/*
-function toImportproduct(type){
-	var branchId=$("#branchId").val();
-	if(!branchId){
-		$.messager.alert('提示',"请先选择分店");
-		return;
-	}
-	if(type==0){
-		importproduct();
-	}else{
-		importproductAll();
-	}
-}*/
 //导出
 function exportData(){
 	var length = $("#addModifyPriceGrid").datagrid('getData').total;
