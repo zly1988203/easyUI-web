@@ -34,13 +34,14 @@ function toUploadHandel(){
         contentType : false,
         success : function(data) {
             if(data.code==0){
-                $("#message").html(data.importInfo.message+"   2秒后自动关闭");
+                $("#message").html(data.importInfo.message);
                 uploadFileCallBack(data.importInfo.list);
+                if(data.importInfo.errorFileUrl){
+                    $("#errorUrl").html("<a href='"+contextPath+data.importInfo.errorFileUrl+"' target='_blank'>下载查看失败数据</a>");
+                }
             }else{
                 $("#message").html(data.message);
-                if(data.importInfo.errorFileUrl){
-                    $("#errorUrl").html("<a href='"+contextPath+data.importInfo.errorFileUrl+"' target='_blank'>导入失败，重新下载</a>");
-                }
+
             }
         },
         error : function(responseStr) {
