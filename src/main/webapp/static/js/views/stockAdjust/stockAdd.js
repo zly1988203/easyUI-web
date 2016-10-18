@@ -590,8 +590,8 @@ function searchBranch (){
 function importHandel(type){
 	    var branchId = $("#branchId").val();
 		var selectVal=$("#io").combobox('getValue');
-	    //判定发货分店是否存在
-	    if($("#branchId").val()==""){
+	    //判定发货分店是否存在   
+	    if($("#branchId").val()==""){   
 	        messager("请选择机构");
 	        return;
 	    } 
