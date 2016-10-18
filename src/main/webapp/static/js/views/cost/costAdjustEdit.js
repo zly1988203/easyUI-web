@@ -13,6 +13,11 @@ $(function(){
 			adjustNo:$("#adjustNo").val(),   // 单号
 			id:$("#adjusId").val(),          // id          
 	}
+	
+	 var type = gFunGetQueryString("type");
+	if(type=="add"){
+		costcheck(type);
+	}
 });
 var gridDefault = {
 		//receiveNum:0,
@@ -373,8 +378,10 @@ function editsaveOrder(){
 				oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
 					return $.extend(true,{},obj);//返回对象的深拷贝
 				});
-				$.messager.alert("操作提示", "操作成功！", "info");
-				 toBack();
+				$.messager.alert("操作提示", "操作成功！", "info",function(){
+					costcheck("add");
+				});
+				//location.reload()
 			}else{
 				successTip(result['message']);
 			}
@@ -387,21 +394,23 @@ function editsaveOrder(){
 
 
 //审核
-function costcheck(){
+function costcheck(type){
 	var dataId= $("#adjusId").val();
-	//验证数据是否修改
-	$("#"+gridHandel.getGridName()).datagrid("endEdit", gridHandel.getSelectRowIndex());
-	var newData = {
-			branchId:$("#branchId").val(), // 机构id
-			remark:$("#remark").val(),      // 备注
-			adjustNo:$("#adjustNo").val(),   // 单号
-			id:$("#adjusId").val(),          // 单号
-			grid:gridHandel.getRows(),
-	}
+	if(!type){
+		//验证数据是否修改
+		$("#"+gridHandel.getGridName()).datagrid("endEdit", gridHandel.getSelectRowIndex());
+		var newData = {
+				branchId:$("#branchId").val(), // 机构id
+				remark:$("#remark").val(),      // 备注
+				adjustNo:$("#adjustNo").val(),   // 单号
+				id:$("#adjusId").val(),          // 单号
+				grid:gridHandel.getRows(),
+		}
 
-	if(!gFunComparisonArray(oldData,newData)){
-		messager("数据已修改，请先保存再审核");
-		return;
+		if(!gFunComparisonArray(oldData,newData)){
+			messager("数据已修改，请先保存再审核");
+			return;
+		}
 	}
 	$.messager.confirm('提示','是否审核通过？',function(data){
 		if(data){
@@ -412,9 +421,8 @@ function costcheck(){
 				success:function(result){
 					console.log(result);
 					if(result['code'] == 0){
-						$.messager.alert("操作提示", "操作成功！", "info",function(){
-							toBack();
-						});
+						messager("操作成功！");
+						location.href = contextPath +"/cost/costAdjust/edit?id="+gFunGetQueryString("id");
 					}else{
 						successTip(result['message']);
 					}

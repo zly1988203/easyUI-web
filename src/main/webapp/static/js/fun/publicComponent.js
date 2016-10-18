@@ -1215,6 +1215,11 @@ function gFunSetEnterKey(cb){
         }
     });
 }
+function gFunGetQueryString(name) { 
+	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"); 
+	var r = window.location.search.substr(1).match(reg); 
+	if (r != null) return unescape(r[2]); return null; 
+} 
 //表单验证
 $.extend($.fn.validatebox.defaults.rules, {
     idcard: {// 验证身份证
