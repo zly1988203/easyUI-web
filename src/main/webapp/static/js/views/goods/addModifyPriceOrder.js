@@ -413,14 +413,17 @@ function saveModifyPriceOrder() {
 							goodsPriceFormDetailList:detailList,
 							branchIds:$("#branchId").val()
 						}
-					var reqObj = {
-							"list":JSON.stringify(params),
-					}
+					var reqObj = JSON.stringify(params);
 			// 调用后台保存方法，成功提示
 			$.ajax({
 					type : "POST",
 					url : contextPath + "/goods/priceAdjust/saveForm",
-					data : reqObj,
+					data : {
+						list:reqObj
+					},
+					dataType:"json", 
+					//contentType : "application/json",
+		            //contentType : "text/html;charset=UTF-8",
 					success : function(data) {
 						if (data.code == 0) {
 							isClickSaveData = true;

@@ -629,34 +629,29 @@ public class DeliverFormController extends
 			InputStream is = file.getInputStream();
 			// 获取文件名
 			String fileName = file.getOriginalFilename();
-			GoodsSelectImportVo<GoodsSelectDeliver> vo = null;
+			String[] fields = null;
 			if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {
-				vo = goodsSelectImportComponent.importSelectGoods(fileName, is,
-						ImportExcelConstant.DELIVER_GOODS_SKUCODE, new GoodsSelectDeliver(), branchId, user.getId(),
-						type, "/form/deliverForm/downloadErrorFile", new GoodsSelectImportBusinessValid() {
-							@Override
-							public void formatter(List<? extends GoodsSelect> list) {
-							}
-							@Override
-							public List<JSONObject> businessValid(List<JSONObject> list, String[] excelField) {
-								return null;
-							}
-						});
+				fields = ImportExcelConstant.DELIVER_GOODS_SKUCODE;
+
 			} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {
-				vo = goodsSelectImportComponent.importSelectGoods(fileName, is,
-						ImportExcelConstant.DELIVER_GOODS_BARCODE, new GoodsSelectDeliver(), branchId, user.getId(),
-						type, "/form/deliverForm/downloadErrorFile", new GoodsSelectImportBusinessValid() {
-
-							@Override
-							public void formatter(List<? extends GoodsSelect> list) {
-							}
-
-							@Override
-							public List<JSONObject> businessValid(List<JSONObject> list, String[] excelField) {
-								return null;
-							}
-						});
+				fields = ImportExcelConstant.DELIVER_GOODS_BARCODE;
 			}
+			GoodsSelectImportVo<GoodsSelectDeliver> vo = goodsSelectImportComponent.importSelectGoods(fileName, is,
+					fields, new GoodsSelectDeliver(), branchId, user.getId(), type,
+					"/form/deliverForm/downloadErrorFile", new GoodsSelectImportBusinessValid() {
+						@Override
+						public void formatter(List<? extends GoodsSelect> list) {
+						}
+
+						@Override
+						public void businessValid(List<JSONObject> list, String[] excelField) {
+						}
+
+						@Override
+						public void errorDataFormatter(List<JSONObject> list) {
+						}
+
+					});
 			respJson.put("importInfo", vo);
 		} catch (IOException e) {
 			respJson = RespJson.error("读取Excel流异常");
@@ -779,74 +774,54 @@ public class DeliverFormController extends
 			InputStream is = file.getInputStream();
 			// 获取文件名
 			String fileName = file.getOriginalFilename();
-			GoodsSelectImportVo<GoodsSelectDeliver> vo = null;
+			String[] fields = null;
 			if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {
-				vo = goodsSelectImportComponent.importSelectGoods(fileName, is,
-						ImportExcelConstant.DELIVER_GOODS_SKUCODE_REPORT, new GoodsSelectDeliver(), branchId,
-						user.getId(), type, "/form/deliverForm/downloadError",
-						new GoodsSelectImportBusinessValid() {
-							@Override
-							public void formatter(List<? extends GoodsSelect> list) {
-							}
-
-							@Override
-							public List<JSONObject> businessValid(List<JSONObject> list, String[] excelField) {
-								for (JSONObject obj : list) {
-									String num = obj.getString("num");
-									try {
-										Double.parseDouble(num);
-									} catch (Exception e) {
-										obj.element("num", 0);
-									}
-
-									String isGift = obj.getString("isGift");
-									if ("是".equals(isGift)) {
-										// 如果是赠品，单价设置为0
-										obj.element("isGift", "1");
-										obj.element("distributionPrice", 0);
-									} else if ("否".equals(isGift)) {
-										obj.element("isGift", "0");
-									} else {
-										obj.accumulate("error", "是否赠品字段填写有误");
-									}
-								}
-								return list;
-							}
-						});
+				fields = ImportExcelConstant.DELIVER_GOODS_SKUCODE_REPORT;
 			} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {
-				vo = goodsSelectImportComponent.importSelectGoods(fileName, is,
-						ImportExcelConstant.DELIVER_GOODS_BARCODE_REPORT, new GoodsSelectDeliver(), branchId,
-						user.getId(), type, "/form/deliverForm/downloadError",
-						new GoodsSelectImportBusinessValid() {
-							@Override
-							public void formatter(List<? extends GoodsSelect> list) {
-							}
-
-							@Override
-							public List<JSONObject> businessValid(List<JSONObject> list, String[] excelField) {
-								for (JSONObject obj : list) {
-									String num = obj.getString("num");
-									try {
-										Double.parseDouble(num);
-									} catch (Exception e) {
-										obj.element("num", 0);
-									}
-
-									String isGift = obj.getString("isGift");
-									if ("是".equals(isGift)) {
-										// 如果是赠品，单价设置为0
-										obj.element("isGift", "1");
-										obj.element("distributionPrice", 0);
-									} else if ("否".equals(isGift)) {
-										obj.element("isGift", "0");
-									} else {
-										obj.accumulate("error", "是否赠品字段填写有误");
-									}
-								}
-								return list;
-							}
-						});
+				fields = ImportExcelConstant.DELIVER_GOODS_BARCODE_REPORT;
 			}
+			GoodsSelectImportVo<GoodsSelectDeliver> vo = goodsSelectImportComponent.importSelectGoods(fileName, is,
+					fields, new GoodsSelectDeliver(), branchId, user.getId(), type, "/form/deliverForm/downloadError",
+					new GoodsSelectImportBusinessValid() {
+						@Override
+						public void formatter(List<? extends GoodsSelect> list) {
+						}
+
+						@Override
+						public void businessValid(List<JSONObject> list, String[] excelField) {
+							for (JSONObject obj : list) {
+								String num = obj.getString("num");
+								try {
+									Double.parseDouble(num);
+								} catch (Exception e) {
+									obj.element("num", 0);
+								}
+
+								String isGift = obj.getString("isGift");
+								if ("是".equals(isGift)) {
+									// 如果是赠品，单价设置为0
+									obj.element("isGift", "1");
+									obj.element("distributionPrice", 0);
+								} else if ("否".equals(isGift)) {
+									obj.element("isGift", "0");
+								} else {
+									obj.element("error", "是否赠品字段填写有误");
+								}
+							}
+						}
+
+						@Override
+						public void errorDataFormatter(List<JSONObject> list) {
+							for (JSONObject obj : list) {
+								String isGift = obj.getString("isGift");
+								if ("1".equals(isGift)) {
+									obj.element("isGift", "是");
+								} else if ("0".equals(isGift)) {
+									obj.element("isGift", "否");
+								}
+							}
+						}
+					});
 			respJson.put("importInfo", vo);
 		} catch (IOException e) {
 			respJson = RespJson.error("读取Excel流异常");
@@ -856,7 +831,6 @@ public class DeliverFormController extends
 			LOG.error("用户导入异常:", e);
 		}
 		return respJson;
-
 	}
 
 	/**

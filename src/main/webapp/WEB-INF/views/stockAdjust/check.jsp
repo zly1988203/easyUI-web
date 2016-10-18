@@ -6,9 +6,9 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>库存调整-编辑</title>
+    <title>库存调整-已审核</title>
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-	<script src="${ctx}/static/js/views/stockAdjust/stockEdit.js"></script>
+	<script src="${ctx}/static/js/views/stockAdjust/stockCheck.js"></script>
 	<style>
     .datagrid-header .datagrid-cell {text-align: center!important;font-weight: bold;}
     </style>
@@ -17,17 +17,12 @@
     <div class="ub ub-ver ub-f1 umar-4  ubor">
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
-                <div class="ubtns-item" onclick="saveOrder()">保存</div>
-                <div class="ubtns-item" onclick="check()">审核</div>
-<div class="ubtns-item" onClick="exportExcel()">导出</div>
-                <div class="ubtns-item" onclick="importHandel(0)">导入货号</div>
-                <div class="ubtns-item" onclick="importHandel(1)">导入条码</div>
-                 <div class="ubtns-item" onclick="delStockForm()">删单</div>
-                <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
+                <div class="ubtns-item" onClick="exportExcel()">导出</div>
                 <div class="ubtns-item" onclick="toBack()">返回</div>
             </div>
         </div>
  <div class="ub umar-t8 uc-black">【单号】：<span id="formNo">${stockFormVo.formNo}</span></div>
+  <div class="already-examine" id="already-examine"><span>已审核</span></div>
 
 	<form action="" id="searchForm" method="post">
  			<input type="hidden"  name="id" value="${stockFormVo.id}">
@@ -46,7 +41,7 @@
 	            <div class="ub ub-ac uselectws umar-l40">
                     <div class="umar-r10 uw-70 ut-r">调整原因:</div>
                        <!--select-->
-				        <select class="easyui-combobox uselect" name="reason" id="reason" data-options="editable:false" >
+				        <select class="easyui-combobox uselect" name="reason" id="reason" data-options="editable:false" readonly="readonly" >
 				        </select>
 				        <input type="hidden" name="reason" id="reasonValue" class="uinp" value="${stockFormVo.reason }" />
                 </div>
@@ -63,7 +58,7 @@
                <div class="ub ub-ac uselectws">
                     <div class="umar-r10 uw-70 ut-r">出/入库:</div>
                        <!--select-->
-				        <select class="easyui-combobox uselect" name="io" id="io" data-options="editable:false,onChange:selectTion" >
+				        <select class="easyui-combobox uselect" name="io" id="io" data-options="editable:false,onChange:selectTion" readonly="readonly" >
 								<option value="0" <c:if test="${stockFormVo.io ==0}">selected='selected'</c:if>>入库</option> 
 								<option value="1" <c:if test="${stockFormVo.io ==1}">selected='selected'</c:if>>出库</option>
 				        </select>
@@ -81,7 +76,7 @@
            <div class="ub umar-t8">
                <div class="ub ub-ac uw-300 ">
                    <div class="umar-r10 uw-70 ut-r">备注:</div>
-                   <input class="uinp uninput" type="text" id="remark" name="remark" value="${stockFormVo.remark}" >
+                   <input class="uinp uninput" type="text" id="remark" name="remark" value="${stockFormVo.remark}" readonly="readonly">
                </div>
            </div>
            <!--datagrid-edit-->
