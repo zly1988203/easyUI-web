@@ -100,6 +100,21 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 	}
 	/**
 	 * 
+	 * @Description: 审核通过跳转页面
+	 * @param id
+	 * @param request
+	 * @return
+	 * @author liux01
+	 * @date 2016年10月18日
+	 */
+	@RequestMapping(value = "/checkSuccess" , method = RequestMethod.GET)
+	public String checkSuccess(String id,HttpServletRequest request){
+		StockFormVo stockFormVo = stockAdjustServiceApi.getStcokFormInfo(id);
+		request.setAttribute("stockFormVo", stockFormVo);
+		return "/stockAdjust/check";
+	}
+	/**
+	 * 
 	 * @Description: 获取单据列表信息
 	 * @param vo
 	 * @param pageNumber
