@@ -23,7 +23,7 @@
 	<detail>
 		<band height="92" splitType="Stretch">
 			<textField>
-				<reportElement x="61" y="2" width="140" height="25" uuid="9d73442d-ec15-414b-9a38-19b2c5ed2bf9"/>
+				<reportElement x="50" y="2" width="140" height="25" uuid="9d73442d-ec15-414b-9a38-19b2c5ed2bf9"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="SansSerif" size="14" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
