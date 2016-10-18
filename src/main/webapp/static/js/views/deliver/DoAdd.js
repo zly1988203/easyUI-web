@@ -634,6 +634,21 @@ function selectDeliver(){
 	});
 }
 function loadLists(referenceId){
+
+    $.ajax({
+        url:contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverType=DO&deliverFormId="+referenceId,
+        type:"post",
+        success:function(data){
+            debugger;
+            var rows = data.rows
+            for(var i in rows){
+                rows[i]["amount"]  = parseFloat(rows[i]["price"]||0)*parseFloat(rows[i]["dealNum"]||0);
+                updateFooter();
+            }
+            $("#gridEditOrder").datagrid("loadData",rows);
+        }
+    })
+    return;
 	$("#gridEditOrder").datagrid("options").method = "post";
 	$("#gridEditOrder").datagrid('options').url = contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverType=DO&deliverFormId="+referenceId;
 	$("#gridEditOrder").datagrid('load');
