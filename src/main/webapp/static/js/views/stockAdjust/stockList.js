@@ -27,7 +27,12 @@ function initDatagridRequireOrders(){
         columns:[[
 			{field:'check',checkbox:true},
             {field:'formNo',title:'单据编号',width:'140px',align:'left',formatter:function(value,row,index){
-            	return "<a style='text-decoration: underline;' href='"+ contextPath +"/stock/adjust/edit?id="+ row.id +"'>" + value + "</a>"
+            	if(row.status  == 0){
+            		return "<a style='text-decoration: underline;' href='"+ contextPath +"/stock/adjust/edit?id="+ row.id +"'>" + value + "</a>"
+            	}else if(row.status == 1){
+            		return "<a style='text-decoration: underline;' href='"+ contextPath +"/stock/adjust/checkSuccess?id="+ row.id +"'>" + value + "</a>"
+
+            	}
             }},
             {field:'status',title: '审核状态', width: '100px', align: 'left',formatter:function(value,row,index){
             	if(value == '0'){
