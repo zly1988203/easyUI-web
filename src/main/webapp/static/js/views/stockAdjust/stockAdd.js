@@ -191,7 +191,7 @@ function onChangeRealNum(newV,oldV) {
     var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
 	var selectVal=$("#io").combobox('getValue');
 	if(gridHandel.getSelectFieldName()!="realNum"){
-		if(selectVal==2){
+		if(selectVal==1){
 			if(parseFloat(newV)>0){
 			    gridHandel.setFieldValue('largeNum',newV*-1);
 		        gridHandel.setFieldValue('realNum',(newV*purchaseSpecValue*-1).toFixed(4)); //数量=箱数*商品规格
@@ -239,7 +239,7 @@ function totleChangePrice(newV,oldV) {
     var selectVal=$("#io").combobox('getValue');
 
     var price = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
-	  if(selectVal==2){
+	  if(selectVal==1){
 		  if(parseFloat(newV)>0){
 		      gridHandel.setFieldValue('realNum',newV*-1); 
 		      gridHandel.setFieldValue('largeNum',(newV/purchaseSpecValue*-1).toFixed(4));   //箱数=数量/商品规格
@@ -328,7 +328,7 @@ function selectGoods(searchKey){
     } 
     
     //判定请选择出/入库
-    if(selectVal==0){
+    if(selectVal==''){
     	messager("请选择出/入库");
         return;
     }
@@ -412,7 +412,7 @@ function setTion(datas){
 	$.each(datas, function (index, el) {
 		var realNum = el.realNum;
 		var largeNum = el.largeNum;
-		if(selectVal==2){
+		if(selectVal==1){
 			el["realNum"] = parseFloat(realNum)*-1;
 			el["largeNum"] = parseFloat(largeNum)*-1;
 		}
@@ -438,7 +438,7 @@ function selectTion(){
 	$.each(rows, function (index, el) {
 		var realNum = el.realNum;
 		var largeNum = el.largeNum;
-		if(selectVal==2){
+		if(selectVal==1){
 			el["realNum"] = parseFloat(realNum)*-1;
 			el["largeNum"] = parseFloat(largeNum)*-1;
 		}
@@ -470,7 +470,7 @@ function saveOrder(){
     // 原因
     var reason = $("input[name='reason']").val()  
     // 选择出入库
-    var io = $("#io").val();
+    var io = $("input[name='io']").val();
     //验证表格数据
     $("#gridEditOrder").datagrid("endEdit", gridHandel.getSelectRowIndex());
 
@@ -482,7 +482,7 @@ function saveOrder(){
     var selectVal=$("#io").combobox('getValue');
     var rows = gridHandel.getRows();
     //判定请选择出/入库
-    if(selectVal==0){
+    if(selectVal==''){
     	messager("请选择出/入库");
         return;
     }
@@ -499,7 +499,7 @@ function saveOrder(){
              return false;
          };
       
-        if(selectVal==2){
+        if(selectVal==1){
 	        if(parseFloat(v["sellable"])+parseFloat(v["realNum"])<0){
 	          messager("调整扣减数量不允许超过当前可销售库存数量！");
 	          isCheckResult = false;
