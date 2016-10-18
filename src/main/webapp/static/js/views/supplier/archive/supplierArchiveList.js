@@ -271,8 +271,27 @@ function bindSupplierAreaSelect(){
  * 初始化下拉框的默认值
  */
 function selectParamInit(){
-	$("#stampsType").val($("#stampsTypeVal").val());
-	$("#deliverTime").val($("#deliverTimeVal").val());
-	$("#freezeAccount").val($("#freezeAccountVal").val());
-	$("#freezeBusiness").val($("#freezeBusinessVal").val());
+	// 税票类型下拉框
+	var stampsType = $("#stampsTypeVal").val();
+	if(stampsType){
+		$("#stampsType").val(stampsType);
+	}
+	
+	// 送货时间下拉框
+	var deliverTime = $("#deliverTimeVal").val();
+	if(deliverTime){
+		$("#deliverTime").val(deliverTime);
+	}
+	// 冻结账款下拉框
+	var freezeAccount = $("#freezeAccountVal").val();
+	if(freezeAccount){
+		$("#freezeAccount").val(freezeAccount);
+	}
+	
+	// 冻结业务下拉框
+	var freezeBusiness = $("#freezeBusinessVal").val();
+	if(freezeBusiness){
+		$("#stampfreezeBusinesssType").val(freezeBusiness);
+	}
+	
 }

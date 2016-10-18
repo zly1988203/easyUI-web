@@ -37,7 +37,7 @@
 	        <div class="ub umar-t8">
 	            <div class="ub ub-ac umar-r40">
 	                <div class="umar-r10 uw-60 ut-r">关键字:</div>
-	                <input class="uinp" name="nameOrCode" id="nameOrCode" type="text">
+	                <input class="uinp" name="nameOrCode" id="userNameOrCode" type="text">
 	            </div>
                 <div class="ub ub-ac uw-300 umar-r40">
                     <div class="umar-r10 uw-70 ut-r">机构:</div>
