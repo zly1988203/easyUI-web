@@ -124,7 +124,7 @@ public class GoodsReportController extends
 
 			String templateName = ExportExcelConstant.GOODSREPORT;
 
-			exportPageForXLSX(response, exportList, fileName, templateName);
+			exportListForXLSX(response, exportList, fileName, templateName);
 		} catch (Exception e) {
 			LOG.error("商品查询导出execl出现错误{}", e);
 		}

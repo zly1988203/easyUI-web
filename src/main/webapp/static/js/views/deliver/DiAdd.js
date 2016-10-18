@@ -451,7 +451,8 @@ function saveOrder(){
     $.ajax({
         url:contextPath+"/form/deliverForm/insertDeliverForm",
         type:"POST",
-        data:{ formVo : JSON.stringify(reqObj)},
+        contentType:"application/json",
+        data:JSON.stringify(reqObj),
         success:function(result){
             if(result['code'] == 0){
                 $.messager.alert("操作提示", "操作成功！", "info",function(){

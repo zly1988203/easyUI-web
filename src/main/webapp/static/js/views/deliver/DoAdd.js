@@ -547,7 +547,8 @@ function saveOrder(){
     $.ajax({
         url:contextPath+"/form/deliverForm/insertDeliverForm",
         type:"POST",
-        data:{ formVo : JSON.stringify(reqObj)},
+        contentType:"application/json",
+        data:JSON.stringify(reqObj),
         success:function(result){
             if(result['code'] == 0){
                 $.messager.alert("操作提示", "操作成功！", "info",function(){
@@ -634,9 +635,24 @@ function selectDeliver(){
 	});
 }
 function loadLists(referenceId){
+
+    $.ajax({
+        url:contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverType=DO&deliverFormId="+referenceId,
+        type:"post",
+        success:function(data){
+            debugger;
+            var rows = data.rows
+            for(var i in rows){
+                rows[i]["amount"]  = parseFloat(rows[i]["price"]||0)*parseFloat(rows[i]["dealNum"]||0);
+                updateFooter();
+            }
+            $("#gridEditOrder").datagrid("loadData",rows);
+        }
+    })
+   /* return;
 	$("#gridEditOrder").datagrid("options").method = "post";
 	$("#gridEditOrder").datagrid('options').url = contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverType=DO&deliverFormId="+referenceId;
-	$("#gridEditOrder").datagrid('load');
+	$("#gridEditOrder").datagrid('load');*/
 }
 /**
  * 调用导入功能 0导入货号 1导入明细
