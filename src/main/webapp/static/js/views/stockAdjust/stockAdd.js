@@ -588,11 +588,20 @@ function searchBranch (){
  * 导入
  */
 function importHandel(type){
-	 var branchId = $("#branchId").val();
-	    if(!branchId){
-	        messager("请先选择收货机构");
+	    var branchId = $("#branchId").val();
+		var selectVal=$("#io").combobox('getValue');
+	    //判定发货分店是否存在
+	    if($("#branchId").val()==""){
+	        messager("请选择机构");
+	        return;
+	    } 
+	    
+	    //判定请选择出/入库
+	    if(selectVal==''){
+	    	messager("请选择出/入库");
 	        return;
 	    }
+	    
 	    var param = {
 	        url:contextPath+"/stock/adjust/importList",
 	        tempUrl:contextPath+"/stock/adjust/exportTemp",
