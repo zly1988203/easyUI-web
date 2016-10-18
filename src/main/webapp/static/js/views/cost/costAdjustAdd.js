@@ -340,7 +340,7 @@ function addsaveOrder(){
             if(result['code'] == 0){
             	console.log(result);
                 $.messager.alert("操作提示", "操作成功！", "info",function(){
-                toBack();
+                	location.href = contextPath +"/cost/costAdjust/edit?id="+result.id+"&type=add"
                 });
             }else{
                 successTip(result['message']);
