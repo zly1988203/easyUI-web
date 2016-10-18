@@ -19,10 +19,19 @@
     	<form id="queryForm">
 	        <div class="ub ub-ac">
 	            <div class="ubtns">
-	                <div class="ubtns-item" onclick="query()">查询</div>
+	                       
+	                <shiro:hasPermission name="JxcGoodsIntroduce:search">
+	                 <div class="ubtns-item" onclick="query()">查询</div>
+	                </shiro:hasPermission>
 	                <div class="ubtns-item" onclick="resetForm()">重置</div>
-	                <div class="ubtns-item" onclick="importShow(0)">条码导入</div>
-					<div class="ubtns-item" onclick="importShow(1)">货号导入</div>
+	                <shiro:hasPermission name="JxcGoodsIntroduce:importBySkuCode">
+					  <div class="ubtns-item" onclick="importShow(0)">货号导入</div>
+					</shiro:hasPermission>
+					
+					<shiro:hasPermission name="JxcGoodsIntroduce:importByBarCode">
+	                <div class="ubtns-item" onclick="importShow(1)">条码导入</div>
+	                </shiro:hasPermission>
+	                 
 	                <shiro:hasPermission name="JxcGoodsIntroduce:enabled">
 	                <div class="ubtns-item ub-enable hide" id="important_div" onclick="enable()">启用</div>
 	                </shiro:hasPermission>
@@ -75,7 +84,7 @@
 
  <!-- 导入弹框 -->
      <div class="uabs uatk">
-     	<div class="uatit">导入文件选择</div>
+     	<div class="ubtn uw-100 umar-10" onclick="exportTemp()" id="temple"></div>
      	<form id="uploadForm" method="post" enctype="multipart/form-data">
      	<input type="hidden" name="branchId" id="uploadFormBranchId">
 		<input type="hidden" name="type" id="uploadFormType">
