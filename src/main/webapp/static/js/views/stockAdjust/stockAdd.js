@@ -320,9 +320,16 @@ function delLineHandel(event){
 //选择商品
 function selectGoods(searchKey){
 	var branchId = $("#branchId").val();
+	var selectVal=$("#io").combobox('getValue');
     //判定发货分店是否存在
     if($("#branchId").val()==""){
         messager("请选择机构");
+        return;
+    } 
+    
+    //判定请选择出/入库
+    if(selectVal==0){
+    	messager("请选择出/入库");
         return;
     }
     new publicGoodsService("",function(data){
@@ -399,7 +406,7 @@ function setTion(datas){
 	$.each(datas, function (index, el) {
 		var realNum = el.realNum;
         if(isNaN(el.realNum)){
-			el["realNum"]=parseFloat("7.00");
+			el["realNum"]=parseFloat("0.00");
 		}
 	})
 	$.each(datas, function (index, el) {
