@@ -418,11 +418,9 @@ function saveModifyPriceOrder() {
 			$.ajax({
 					type : "POST",
 					url : contextPath + "/goods/priceAdjust/saveForm",
-					data : {
-						list:reqObj
-					},
-					dataType:"json", 
-					//contentType : "application/json",
+					data : reqObj,
+					//dataType:"json",
+					contentType : "application/json",
 		            //contentType : "text/html;charset=UTF-8",
 					success : function(data) {
 						if (data.code == 0) {
