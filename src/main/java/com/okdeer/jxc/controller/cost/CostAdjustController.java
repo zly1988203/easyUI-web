@@ -358,7 +358,7 @@ public class CostAdjustController extends BaseController<StockCostForm>{
 				String templateName = ExportExcelConstant.COST_ADJUST_EXPORT_EXCEL;
 
 				// 导出Excel
-				exportPageForXLSX(response, list, fileName, templateName);
+				exportListForXLSX(response, list, fileName, templateName);
 				return null;
 			} else {
 				RespJson json = RespJson.error("无数据可导");

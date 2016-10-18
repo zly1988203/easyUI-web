@@ -175,7 +175,7 @@ public class StockReportController extends BaseController<StockReportController>
 			exportList = handlePrice(exportList);
 			String fileName = "商品库存报表" + "_" + DateUtils.getCurrSmallStr();
 			String templateName = ExportExcelConstant.STOCKREPORT;
-			exportPageForXLSX(response, exportList, fileName, templateName);
+			exportListForXLSX(response, exportList, fileName, templateName);
 		} catch (Exception e) {
 			LOG.error("商品库存查询报表导出异常:", e);
 		}
