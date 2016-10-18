@@ -473,7 +473,6 @@ function saveDataHandel(rows){
         amount:amount,
         detailList:detailList
     };
-
     $.ajax({
         url:contextPath+"/form/purchase/saveOrder",
         type:"POST",

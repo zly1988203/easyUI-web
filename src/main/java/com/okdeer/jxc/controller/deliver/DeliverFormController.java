@@ -20,6 +20,7 @@ import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -335,7 +336,7 @@ public class DeliverFormController extends
 	 */
 	@RequestMapping(value = "insertDeliverForm", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson insertDeliverForm(String formVo) {
+	public RespJson insertDeliverForm(@RequestBody String formVo) {
 		RespJson respJson = RespJson.success();
 		LOG.info(LogConstant.OUT_PARAM, formVo);
 		try {
@@ -391,7 +392,7 @@ public class DeliverFormController extends
 	 */
 	@RequestMapping(value = "updateDeliverForm", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson updateDeliverForm(String formVo) {
+	public RespJson updateDeliverForm(@RequestBody String formVo) {
 		RespJson respJson = RespJson.success();
 		LOG.info(LogConstant.OUT_PARAM, formVo.toString());
 		try {
@@ -797,14 +798,17 @@ public class DeliverFormController extends
 									obj.element("num", 0);
 								}
 
-								String isGift = obj.getString("isGift");
-								if ("是".equals(isGift)) {
-									// 如果是赠品，单价设置为0
-									obj.element("isGift", "1");
-									obj.element("distributionPrice", 0);
-								} else if ("否".equals(isGift)) {
-									obj.element("isGift", "0");
-								} else {
+								try {
+									String isGift = obj.getString("isGift");
+									if ("是".equals(isGift)) {// 如果是赠品，单价设置为0
+										obj.element("isGift", "1");
+										obj.element("price", 0);
+									} else if ("否".equals(isGift)) {
+										obj.element("isGift", "0");
+									} else {
+										obj.element("error", "是否赠品字段填写有误");
+									}
+								} catch (Exception e) {
 									obj.element("error", "是否赠品字段填写有误");
 								}
 							}

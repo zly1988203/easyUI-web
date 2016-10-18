@@ -548,7 +548,8 @@ function saveOrder(){
     $.ajax({
         url:contextPath+"/form/deliverForm/updateDeliverForm",
         type:"POST",
-        data:{ formVo : JSON.stringify(reqObj)},
+        contentType:"application/json",
+        data:JSON.stringify(reqObj),
         success:function(result){
             if(result['code'] == 0){
             	oldData = {

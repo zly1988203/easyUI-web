@@ -310,7 +310,7 @@ pageEncoding="UTF-8"%>
         fitColumns:true,    //每列占满
         //fit:true,            //占满
         pageSize:10,
-        pageList:[10,1000],
+       /*  pageList : [10,500],  */
         showFooter:true,
         height:'100%',
         columns:[arrColumns],
