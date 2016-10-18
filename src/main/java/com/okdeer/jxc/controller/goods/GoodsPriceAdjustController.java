@@ -17,12 +17,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -202,7 +204,7 @@ public class GoodsPriceAdjustController extends
 	 */
 	@RequestMapping(value = "/saveForm", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson saveForm(String list) {
+	public RespJson saveForm(HttpServletRequest request, @RequestBody String list) {
 		String formNo = "";
 		String createTime = "";
 		String createUserName = "";
@@ -631,9 +633,9 @@ public class GoodsPriceAdjustController extends
 								@Override
 								public void formatter(
 										List<? extends GoodsSelect> list) {
-									for (GoodsSelect objGoods : list) {
-										GoodsSelectPriceAdjst obj = (GoodsSelectPriceAdjst) objGoods;
-										BigDecimal newPurPrice = obj
+//									for (GoodsSelect objGoods : list) {
+//										GoodsSelectPriceAdjst obj = (GoodsSelectPriceAdjst) objGoods;
+										/*BigDecimal newPurPrice = obj
 												.getNewPurPrice();
 										BigDecimal newSalePrice = obj
 												.getNewSalePrice();
@@ -662,8 +664,8 @@ public class GoodsPriceAdjustController extends
 										if (newWsPrice == null) {
 											obj.setNewWsPrice(obj
 													.getWholesalePrice());
-										}
-									}
+										}*/
+//									}
 								}
 								@Override
 								public void errorDataFormatter(List<JSONObject> list) {

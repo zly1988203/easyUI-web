@@ -413,16 +413,15 @@ function saveModifyPriceOrder() {
 							goodsPriceFormDetailList:detailList,
 							branchIds:$("#branchId").val()
 						}
-					var reqObj = {
-							"list":JSON.stringify(params),
-					}
+					var reqObj = JSON.stringify(params);
 			// 调用后台保存方法，成功提示
 			$.ajax({
 					type : "POST",
 					url : contextPath + "/goods/priceAdjust/saveForm",
 					data : reqObj,
-					dataType:"json",      
-		            contentType:"application/json",
+					//dataType:"json",
+					contentType : "application/json",
+		            //contentType : "text/html;charset=UTF-8",
 					success : function(data) {
 						if (data.code == 0) {
 							isClickSaveData = true;
@@ -1047,7 +1046,6 @@ function toImportproduct(type){
         branchId:branchId,
     }
     new publicUploadFileService(function(data){
-        console.log(data);
         updateListData(data);
     },param)
 }
@@ -1062,7 +1060,6 @@ function updateListData(data){
     		vipPrice:'oldVipPrice',
     		distributionPrice:'oldDcPrice'
     };
-    debugger;
     var rows = gFunUpdateKey(addDefaultData,keyNames);
     if(data.length>0){
     	var obj = data[0];
@@ -1074,8 +1071,11 @@ function updateListData(data){
     	              {"newVipPrice":"memberPrice"}
     	             ]
     	$.each(obj,function(key,val){
+			debugger;
+			var d = obj;
+			var c = key;
     		$.each(arrKey,function(i,item){
-    			if(item[key]){
+    			if(item[key]&&obj[key]){
     				$("#"+item[key]).attr("checked","checked");
     				 datagridUtil.isCheckBoxChecked(item[key]);
     			}

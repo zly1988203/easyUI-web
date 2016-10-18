@@ -911,20 +911,24 @@ public class PurchaseFormController extends
 				@Override
 				public void businessValid(List<JSONObject> list, String[] excelField) {
 					for (JSONObject obj : list) {
-						String realNum = obj.getString("realNum");
 						try {
+							String realNum = obj.getString("realNum");
 							Double.parseDouble(realNum);
 						} catch (Exception e) {
 							obj.element("realNum", 0);
 						}
 						
-						String isGift = obj.getString("isGift");
-						if("是".equals(isGift)){//如果是赠品，单价设置为0
-							obj.element("isGift", "1");
-							obj.element("price", 0);
-						}else if("否".equals(isGift)){
-							obj.element("isGift", "0");
-						}else{
+						try {
+							String isGift = obj.getString("isGift");
+							if("是".equals(isGift)){//如果是赠品，单价设置为0
+								obj.element("isGift", "1");
+								obj.element("price", 0);
+							}else if("否".equals(isGift)){
+								obj.element("isGift", "0");
+							}else{
+								obj.element("error", "是否赠品字段填写有误");
+							}
+						} catch (Exception e) {
 							obj.element("error", "是否赠品字段填写有误");
 						}
 					}
@@ -953,11 +957,13 @@ public class PurchaseFormController extends
 				@Override
 				public void errorDataFormatter(List<JSONObject> list) {
 					for (JSONObject obj : list) {
-						String isGift = obj.getString("isGift");
-						if("1".equals(isGift)){
-							obj.element("isGift", "是");
-						}else if("0".equals(isGift)){
-							obj.element("isGift", "否");
+						if(obj.containsKey("isGift")){
+							String isGift = obj.getString("isGift");
+							if("1".equals(isGift)){
+								obj.element("isGift", "是");
+							}else if("0".equals(isGift)){
+								obj.element("isGift", "否");
+							}
 						}
 					}
 				}
