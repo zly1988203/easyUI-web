@@ -400,8 +400,8 @@ function saveItemHandel(){
     var isChcekPrice = false;
     $.each(rows,function(i,v){
         v["rowNo"] = i+1;
-        if(!v["skuCode"]){
-            messager("第"+(i+1)+"行，货号不能为空");
+        if(!v["skuName"]){
+            messager("第"+(i+1)+"行，货号不正确");
             isCheckResult = false;
             return false;
         };
@@ -454,8 +454,7 @@ function saveDataHandel(rows){
         amount = parseFloat(footerRows[0]["amount"]||0.0).toFixed(4);
     }
 
-    var saveData = JSON.stringify(rows);
-    var detailList = tableArrayFormatter(rows,"detailList");
+    var detailList = JSON.stringify(rows);
     console.log(detailList);
 
     var reqObj = $.extend({
@@ -468,7 +467,7 @@ function saveDataHandel(rows){
         remark:remark,
         totalNum:totalNum,
         amount:amount,
-    }, detailList);
+    }, { detailList:detailList});
 
     $.ajax({
         url:contextPath+"/form/purchase/saveReceipt",
@@ -492,7 +491,7 @@ function saveDataHandel(rows){
 function selectSupplier(){
 	new publicSupplierService(function(data){
 		console.log(data);
-		$("#supplierId").val(data.supplierId);
+		$("#supplierId").val(data.id);
 		$("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
 		
 		$("#saleWay").val(data.saleWay);

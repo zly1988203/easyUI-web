@@ -6,6 +6,7 @@
  */    
 package com.okdeer.jxc.common.goodselect;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -31,6 +32,7 @@ import net.sf.json.JSONObject;
 
 
 /**
+ * 商品选择，通用excel导入组件
  * ClassName: GoodsSelectCompent 
  * @author xiaoj02
  * @date 2016年10月13日
@@ -38,7 +40,7 @@ import net.sf.json.JSONObject;
  * =================================================================================================
  *     Task ID			  Date			     Author		      Description
  * ----------------+----------------+-------------------+-------------------------------------------
- *
+ *		v1.1			2016-10-17		xiaoj02				商品选择，通用excel导入组件
  */
 @Component
 public class GoodsSelectImportComponent {
@@ -52,17 +54,16 @@ public class GoodsSelectImportComponent {
 	private StringRedisTemplate redisTemplateTmp;
 	
 	/**
-	 * 导入excel，查询商品(单个机构)
-	 * @Description: TODO
-	 * @param fileName
-	 * @param is
-	 * @param fields
-	 * @param entity
-	 * @param branchId
-	 * @param userId
-	 * @param type
-	 * @param errorFileDownloadUrlPrefix
-	 * @param businessValid
+	 * 导入excel，通过导入的数据查询商品(单个机构)
+	 * @param fileName 文件名，用于识别excel文件版本
+	 * @param is	文件流
+	 * @param fields	属性数组，excel数据列所对应实体类属性
+	 * @param entity	业务实体类
+	 * @param branchId 机构
+	 * @param userId 用户
+	 * @param type 导入类型，（0货号、1条码）
+	 * @param errorFileDownloadUrlPrefix  失败文件下载地址前缀
+	 * @param businessValid 业务验证回调
 	 * @return
 	 * @author xiaoj02
 	 * @date 2016年10月15日
@@ -74,16 +75,15 @@ public class GoodsSelectImportComponent {
 	
 	/**
 	 *  导入excel，查询商品(多个机构)
-	 * @Description: TODO
-	 * @param fileName
-	 * @param is
-	 * @param fields
-	 * @param entity
-	 * @param branchId
-	 * @param userId
-	 * @param type
-	 * @param errorFileDownloadUrlPrefix
-	 * @param businessValid
+	 * @param fileName 文件名，用于识别excel文件版本
+	 * @param is	文件流
+	 * @param fields	属性数组，excel数据列所对应实体类属性
+	 * @param entity	业务实体类
+	 * @param branchId 机构
+	 * @param userId 用户
+	 * @param type 导入类型，（0货号、1条码）
+	 * @param errorFileDownloadUrlPrefix  失败文件下载地址前缀
+	 * @param businessValid 业务验证回调
 	 * @return
 	 * @author xiaoj02
 	 * @date 2016年10月15日
@@ -94,16 +94,15 @@ public class GoodsSelectImportComponent {
 	
 	/**
 	 * 导入excel，查询商品和库存(单个机构)
-	 * @Description: TODO
-	 * @param fileName
-	 * @param is
-	 * @param fields
-	 * @param entity
-	 * @param branchId
-	 * @param userId
-	 * @param type
-	 * @param errorFileDownloadUrlPrefix
-	 * @param businessValid
+	 * @param fileName 文件名，用于识别excel文件版本
+	 * @param is	文件流
+	 * @param fields	属性数组，excel数据列所对应实体类属性
+	 * @param entity	业务实体类
+	 * @param branchId 机构
+	 * @param userId 用户
+	 * @param type 导入类型，（0货号、1条码）
+	 * @param errorFileDownloadUrlPrefix  失败文件下载地址前缀
+	 * @param businessValid 业务验证回调
 	 * @return
 	 * @author xiaoj02
 	 * @date 2016年10月15日
@@ -115,16 +114,15 @@ public class GoodsSelectImportComponent {
 	
 	/**
 	 * 导入excel，查询商品和库存(多个机构)
-	 * @Description: TODO
-	 * @param fileName
-	 * @param is
-	 * @param fields
-	 * @param entity
-	 * @param branchId
-	 * @param userId
-	 * @param type
-	 * @param errorFileDownloadUrlPrefix
-	 * @param businessValid
+	 * @param fileName 文件名，用于识别excel文件版本
+	 * @param is	文件流
+	 * @param fields	属性数组，excel数据列所对应实体类属性
+	 * @param entity	业务实体类
+	 * @param branchId 机构
+	 * @param userId 用户
+	 * @param type 导入类型，（0货号、1条码）
+	 * @param errorFileDownloadUrlPrefix  失败文件下载地址前缀
+	 * @param businessValid 业务验证回调
 	 * @return
 	 * @author xiaoj02
 	 * @date 2016年10月15日
@@ -135,6 +133,7 @@ public class GoodsSelectImportComponent {
 	
 
 	/**
+	 * 导入excel，查询商品
 	 * @author xiaoj02
 	 * @date 2016年10月13日
 	 */
@@ -232,12 +231,22 @@ public class GoodsSelectImportComponent {
 	public void downloadErrorFile(String code, String reportFileName, String[] headers, String[] columns, HttpServletResponse response){
 		String jsonText = redisTemplateTmp.opsForValue().get(code);
 		
-		headers = ArrayUtils.add(headers, "错误原因");
-		columns = ArrayUtils.add(columns, "error");
-		
-		List<JSONObject> dataList = JSONArray.parseArray(jsonText, JSONObject.class);
-		
-		ExcelExportUtil.exportExcel(reportFileName, headers, columns, dataList, response);
+		if(jsonText == null){
+			headers = ArrayUtils.add(headers, "错误原因");
+			columns = ArrayUtils.add(columns, "error");
+			
+			List<JSONObject> dataList = JSONArray.parseArray(jsonText, JSONObject.class);
+			
+			ExcelExportUtil.exportExcel(reportFileName, headers, columns, dataList, response);
+		}else{
+			response.reset();// 清空输出流
+			response.setContentType("text/html");// 定义输出类型
+			try {
+				response.getWriter().println("文件不存在或者文件已过期");
+			} catch (IOException e) {
+				LOG.error("获取response.getWriter失败",e);
+			}
+		}
 	}
 	
 	

@@ -7,7 +7,7 @@ $(function(){
     initDatagridAddRequireOrder();
 });
 var gridDefault = {
-    realNum:0,
+   // realNum:0,
     largeNum:0,
     isGift:0,
 }
@@ -56,7 +56,7 @@ function initDatagridAddRequireOrder(){
                     return str;
                 },
             },
-            {field:'skuCode',title:'货号',width:'70px',align:'left'},
+            {field:'skuCode',title:'货号',width:'70px',align:'left',editor:'textbox'},
             {field:'skuName',title:'商品名称',width:'200px',align:'left'},
             {field:'barCode',title:'国际条码',width:'150px',align:'left'},
             {field:'unit',title:'单位',width:'60px',align:'left'},
@@ -126,7 +126,6 @@ function initDatagridAddRequireOrder(){
                     type:'numberbox',
                     value:'0',
                     options:{
-                        min:0,
                         precision:4,
                         onChange: totleChangePrice,
                     }
@@ -291,11 +290,14 @@ function selectGoods(searchKey){
         return;
     }
     new publicGoodsService("",function(data){
+ 
         if(searchKey){
             $("#"+gridHandel.getGridName()).datagrid("deleteRow", gridHandel.getSelectRowIndex());
             $("#"+gridHandel.getGridName()).datagrid("acceptChanges");
         }
-        selectStockAndPrice(branchId,data);
+        var setdata=setTion(data);
+        selectStockAndPrice(branchId,setdata);
+       
       
     },searchKey,"","","",branchId);
 }
@@ -311,6 +313,7 @@ function selectStockAndPrice(branchId,data){
 				id : val.skuId
 		};
 		GoodsStockVo.goodsSkuVo[i] = temp;
+		console.log(temp);
 	});
 	$.ajax({
     	url : contextPath+"/goods/goodsSelect/selectStockAndPriceToDo",
@@ -319,7 +322,8 @@ function selectStockAndPrice(branchId,data){
     		goodsStockVo : JSON.stringify(GoodsStockVo)
     	},
     	success:function(result){
-    		setDataValue(result);
+    		 var setdata=setTion(result);
+    		setDataValue(setdata);
     	},
     	error:function(result){
     		successTip("请求发送失败或服务器处理失败");
@@ -354,19 +358,44 @@ function setDataValue(data) {
         gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
     },100)
 }
-
+//库存调整一开始选择
+function setTion(datas){
+	var selectVal=$("#io").combobox('getValue');
+	$.each(datas, function (index, el) {
+		var realNum = el.realNum;
+        if(isNaN(el.realNum)){
+			el["realNum"]=parseFloat("7.00");
+        	console.log(el["realNum"]);
+		}
+	})
+	console.log(datas);
+	$.each(datas, function (index, el) {
+		var realNum = el.realNum;
+		if(selectVal==2){
+			
+			el["realNum"] = parseFloat(realNum)*-1;
+		}
+		else{
+			el["realNum"] = parseFloat(realNum);
+		}
+		
+	})
+	console.log(datas);
+	return datas;
+}
+// 库存调整为负数
 function selectTion(){
 	//var rowsup=[];
 	var rows = $('#gridEditOrder').datagrid('getRows');
 	var selectVal=$("#io").combobox('getValue');
 	$.each(rows, function (index, el) {
 		var realNum = el.realNum;
-		if(selectVal==1){
-			var ofrealNumValue=parseFloat(-realNum);
-			el["realNum"] = ofrealNumValue;
+		if(selectVal==2){
+			
+			el["realNum"] = parseFloat(realNum)*-1;
 		}
 		else{
-			el["realNum"] = parseFloat(realNum)*-1;
+			el["realNum"] = parseFloat(realNum);
 		}
 		
 	})
@@ -383,6 +412,8 @@ function saveOrder(){
 	 var branchId = $("#branchId").val();
     // 备注
     var remark = $("#remark").val();
+    
+    var reason = $("input[name='reason']").val()  
     
     var io = $("#io").val();
     //验证表格数据
@@ -426,7 +457,7 @@ function saveOrder(){
     var reqObj = $.extend({
     	io:io,
     	createBranchId:branchId,
-        reason:"",
+        reason:reason,
         remark:remark,
     }, stockFormDetailList);
     
@@ -599,8 +630,4 @@ function exportExcel(){
 	$("#queryForm").attr("action",contextPath+"/goods/report/exportList");
 	$("#queryForm").submit(); 
 
-}
-
-function downExportFile(){
-	alert("wwww");
 }

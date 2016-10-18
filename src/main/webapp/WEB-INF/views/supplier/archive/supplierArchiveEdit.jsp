@@ -17,7 +17,7 @@ pageEncoding="UTF-8"%>
 			<div class="ub upad-4">
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">供应商编号:</div>
-					<input id="supplierId" name="supplierId" type="hidden" value="${supplier.supplierId }">
+					<input id="id" name="id" type="hidden" value="${supplier.id }">
 					<input id="supplierCode" name="supplierCode" class="uinp uw-200"  type="text" readonly="readonly" value="${supplier.supplierCode }">
 				</div>
 				<div class="ub ub-ac umar-r20">
@@ -33,7 +33,7 @@ pageEncoding="UTF-8"%>
 			<div class="ub upad-4">
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">经营方式<i class="uc-red">*</i>:</div>
-					<select class="uselect easyui-combobox" name="saleWay" id="saleWay" data-options="onChange:onChangeUnit">
+					<select class="uselect easyui-combobox" name="saleWay" id="saleWay" data-options="editable:false">
 						<c:forEach var="i" items="${saleWayEnums }">
 							<option value="${i.name }" 
 								<c:if test="${supplier.saleWay eq  i.name}">selected="selected"</c:if>
@@ -44,7 +44,7 @@ pageEncoding="UTF-8"%>
 				</div>
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">所在区域<i class="uc-red">*</i>:</div>
-					<select class="uselect easyui-combobox" name="supplierAreaId" id="supplierAreaId" data-options="onChange:onChangeUnit">
+					<select class="uselect easyui-combobox easyui-validatebox" name="supplierAreaId" id="supplierAreaId" data-options="editable:false">
 						<c:forEach var="i" items="${areaList }">
 							<option value="${i.areaId }" code="${i.areaCode }"
 								<c:if test="${supplier.supplierAreaId eq  i.areaId}">selected="selected"</c:if>
@@ -56,7 +56,7 @@ pageEncoding="UTF-8"%>
 				</div>
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">办公地址<i class="uc-red">*</i>:</div>
-					<input id="officeAddress" name="officeAddress" class="uinp uw-200"  type="text" value="${supplier.officeAddress }">
+					<input id="officeAddress" name="officeAddress" class="uinp uw-200"  type="text" value="${supplier.officeAddress }" maxlength="50">
 				</div>
 
 
@@ -64,15 +64,15 @@ pageEncoding="UTF-8"%>
 			<div class="ub upad-4">
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">营业执照号<i class="uc-red">*</i>:</div>
-					<input id="businessLicenseNum" name="businessLicenseNum" class="uinp uw-200"  type="text" value="${supplier.businessLicenseNum }">
+					<input id="businessLicenseNum" name="businessLicenseNum" class="uinp uw-200"  type="text" value="${supplier.businessLicenseNum }" maxlength="50">
 				</div>
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">组织机构代码<i class="uc-red">*</i>:</div>
-					<input id="organizationCode" name="organizationCode" value="${supplier.organizationCode }" class="uinp easyui-validatebox" data-options="required:true" maxlength="20">
+					<input id="organizationCode" name="organizationCode" value="${supplier.organizationCode }" class="uinp easyui-validatebox" maxlength="50">
 				</div>
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">国税登记号<i class="uc-red">*</i>:</div>
-					<input id="nationalTaxRegNum" name="nationalTaxRegNum" value="${supplier.nationalTaxRegNum }" class="uinp easyui-validatebox" data-options="required:true" maxlength="20">
+					<input id="nationalTaxRegNum" name="nationalTaxRegNum" value="${supplier.nationalTaxRegNum }" class="uinp easyui-validatebox" maxlength="50">
 				</div>
 
 			</div>
@@ -80,15 +80,15 @@ pageEncoding="UTF-8"%>
 			<div class="ub upad-4">
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">地税登记号<i class="uc-red">*</i>:</div>
-					<input id="localTaxRegNum" name="localTaxRegNum" value="${supplier.localTaxRegNum }" class="uinp uw-200"  type="text" >
+					<input id="localTaxRegNum" name="localTaxRegNum" value="${supplier.localTaxRegNum }" class="uinp uw-200"  type="text" maxlength="50">
 				</div>
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">纳税人识别号<i class="uc-red">*</i>:</div>
-					<input id="taxIdentificationNum" name="taxIdentificationNum" value="${supplier.taxIdentificationNum }" class="uinp easyui-validatebox" data-options="required:true" maxlength="20">
+					<input id="taxIdentificationNum" name="taxIdentificationNum" value="${supplier.taxIdentificationNum }" class="uinp easyui-validatebox" maxlength="50">
 				</div>
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">税票类型<i class="uc-red">*</i>:</div>
-					<select class="uselect easyui-combobox" name="stampsType" id="stampsType" data-options="onChange:onChangeUnit">
+					<select class="uselect easyui-combobox" name="stampsType" id="stampsType" data-options="editable:false">
 						<option value="1">增值税普通发票17%</option>
 						<option value="2">增值税普通发票13%</option>
 						<option value="3">增值税普通发票3%</option>
@@ -107,7 +107,7 @@ pageEncoding="UTF-8"%>
 			<div class="ub upad-4">
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">银行账户名称<i class="uc-red">*</i>:</div>
-					<input id="bankAccountName" name="bankAccountName" value="${supplier.bankAccountName }" class="uinp easyui-validatebox" data-options="required:true" maxlength="20">
+					<input id="bankAccountName" name="bankAccountName" value="${supplier.bankAccountName }" class="uinp easyui-validatebox" maxlength="50">
 				</div>
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">开户银行<i class="uc-red">*</i>:</div>
@@ -115,8 +115,7 @@ pageEncoding="UTF-8"%>
 				</div>
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">银行账号<i class="uc-red">*</i>:</div>
-					<input id="bankAccount" name="bankAccount" value="${supplier.bankAccount }" class="uinp easyui-validatebox" data-options="required:true" maxlength="20">
-
+					<input id="bankAccount" name="bankAccount" value="${supplier.bankAccount }" class="uinp easyui-validatebox" maxlength="50">
 				</div>
 
 			</div>
@@ -128,11 +127,13 @@ pageEncoding="UTF-8"%>
 				</div>
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">电话号码<i class="uc-red">*</i>:</div>
-					<input id="phone" name="phone" value="${supplier.phone }" class="uinp easyui-validatebox" data-options="required:true" maxlength="20">
+					<input id="phone" name="phone" value="${supplier.phone }" class="uinp easyui-validatebox"
+						data-options="validType:'phone'" maxlength="20">
 				</div>
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">手机号码<i class="uc-red">*</i>:</div>
-					<input id="mobile" name="mobile" value="${supplier.mobile }" class="uinp uw-200"  type="text" >
+					<input id="mobile" name="mobile" value="${supplier.mobile }" class="uinp uw-200  easyui-validatebox" 
+						data-options="validType:'mobile'"  type="text" >
 				</div>
 
 			</div>
@@ -140,7 +141,7 @@ pageEncoding="UTF-8"%>
 			<div class="ub upad-4">
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">E-mail地址<i class="uc-red">*</i>:</div>
-					<input id="email" name="email" value="${supplier.email }" class="uinp easyui-validatebox" data-options="required:true" maxlength="20">
+					<input id="email" name="email" value="${supplier.email }" class="uinp easyui-validatebox" maxlength="50">
 				</div>
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">合同时间:</div>
@@ -148,7 +149,7 @@ pageEncoding="UTF-8"%>
 				</div>
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">采购人员:</div>
-					<input id="purchaseStaffName" name="purchaseStaffName" value="${supplier.purchaseStaffName }" class="uinp easyui-validatebox" data-options="required:true" maxlength="20">
+					<input id="purchaseStaffName" name="purchaseStaffName" value="${supplier.purchaseStaffName }" class="uinp easyui-validatebox" maxlength="20">
 				</div>
 
 
@@ -157,11 +158,12 @@ pageEncoding="UTF-8"%>
 			<div class="ub upad-4">
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">送货周期<i class="uc-red">*</i>:</div>
-					<input id="diliveCycle" name="diliveCycle" value="${supplier.diliveCycle }" class="uinp easyui-validatebox" data-options="required:true" maxlength="20">
+					<input id="diliveCycle" name="diliveCycle" value="${supplier.diliveCycle }" class="uinp easyui-validatebox" 
+						data-options="validType:'int'" maxlength="3">
 				</div>
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">送货时间:</div>
-					<select class="uselect easyui-combobox" name="deliverTime" id="deliverTime" data-options="onChange:onChangeUnit">
+					<select class="uselect easyui-combobox" name="deliverTime" id="deliverTime" data-options="editable:false">
 						<option value="上午">上午</option>
 						<option value="下午">下午</option>
 						<option value="晚上">晚上</option>
@@ -171,13 +173,18 @@ pageEncoding="UTF-8"%>
 				</div>
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">起订限制:</div>
-					<input id="orderNumLimit" name="orderNumLimit" value="${supplier.orderNumLimit }" class="uinp easyui-validatebox" data-options="required:true" maxlength="20">
+					<select name="orderNumType uselect" style="width: 60px;height: 32px;">
+						<option value="0">金额</option>
+						<option value="1">数量</option>
+					</select>
+					<input id="orderNumLimit" style="width: 135px;" name="orderNumLimit" value="${supplier.orderNumLimit }" 
+						class="uinp easyui-validatebox" data-options="validType:'intOrFloat'" maxlength="20">
 				</div>
 			</div>
 			<div class="ub upad-4">
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">结算方式<i class="uc-red">*</i>:</div>
-					<select class="uselect easyui-combobox" name="balanceWay" id="balanceWay" data-options="onChange:onChangeUnit">
+					<select class="uselect easyui-combobox" name="balanceWay" id="balanceWay" data-options="editable:false">
 						<c:forEach var="i" items="${balanceWayEnums }">
 							<option value="${i.value }"
 								<c:if test="${supplier.balanceWay eq  i.value}">selected="selected"</c:if>
@@ -188,18 +195,20 @@ pageEncoding="UTF-8"%>
 
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">结算周期<i class="uc-red">*</i>:</div>
-					<input id="balanceCycle" name="balanceCycle" value="${supplier.balanceCycle }" class="uinp uw-200"  type="text" >
+					<input id="balanceCycle" name="balanceCycle" value="${supplier.balanceCycle }" data-options="validType:'int'"
+						 class="uinp uw-200 easyui-validatebox"  type="text" maxlength="3">
 				</div>
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">月结账日期<i class="uc-red">*</i>:</div>
-					<input id="balanceDate" name="balanceDate" value="${supplier.balanceDate }" class="uinp uw-200"  type="text" >
+					<input id="balanceDate" name="balanceDate" value="${supplier.balanceDate }" data-options="validType:'int'" 
+						class="uinp uw-200 easyui-validatebox"  type="text"  maxlength="3">
 				</div>
 			</div>
 
 			<div class="ub upad-4">
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">冻结账款<i class="uc-red">*</i>:</div>
-					<select class="uselect easyui-combobox" name="freezeAccount" id="freezeAccount" data-options="onChange:onChangeUnit">
+					<select class="uselect easyui-combobox" name="freezeAccount" id="freezeAccount" data-options="editable:false">
 						<option value="0">正常</option>
 						<option value="1">冻结</option>
 					</select>
@@ -207,7 +216,7 @@ pageEncoding="UTF-8"%>
 				</div>
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">冻结业务<i class="uc-red">*</i>:</div>
-					<select class="uselect easyui-combobox" name="freezeBusiness" id="freezeBusiness" data-options="onChange:onChangeUnit">
+					<select class="uselect easyui-combobox" name="freezeBusiness" id="freezeBusiness" data-options="editable:false">
 						<option value="0">正常</option>
 						<option value="1">冻结</option>
 					</select>
@@ -215,7 +224,8 @@ pageEncoding="UTF-8"%>
 				</div>
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-100 ut-r">SKU数:</div>
-					<input id="skuNum" name="skuNum" value="${supplier.skuNum }" class="uinp uw-200"  type="text" >
+					<input id="skuNum" name="skuNum" value="${supplier.skuNum }" class="uinp uw-200 easyui-validatebox" 
+						data-options="validType:'int'" type="text"  maxlength="10">
 				</div>
 			</div>
 			<div class="ub upad-4">

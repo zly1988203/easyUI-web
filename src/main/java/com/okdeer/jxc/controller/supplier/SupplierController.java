@@ -149,6 +149,10 @@ public class SupplierController extends BaseController<SupplierController> {
 		String id = qo.getId();
 		Supplier supplier = supplierService.getById(id);
 		SupplierExt supplierExt = supplierService.getSupplierExtById(id);
+		if(supplierExt==null){
+			supplierExt = new SupplierExt();
+			supplierExt.setSupplierId(id);
+		}
 		// 将supplier 的信息复制到 supplierExt对象中
 		BeanUtils.copyProperties(supplier, supplierExt);
 		model.addAttribute("supplier", supplierExt);

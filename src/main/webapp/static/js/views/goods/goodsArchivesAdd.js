@@ -314,7 +314,7 @@ function getGoodsBrand(){
 function getGoodsPupplier(){
 	new publicSupplierService(function(data){
 		console.info("供应商==",data);
-		$("#supplierId").val(data.supplierId);
+		$("#supplierId").val(data.id);
 		$("#supplierName").val(data.supplierName);
 		$("#saleWayName").val(data.saleWayName);
 

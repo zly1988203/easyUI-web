@@ -87,6 +87,9 @@ function publicUploadFileService(callback,params){
     });
     function callBackHandel(data){
         callback(data);
+        setTimeout(function(){
+            $(dalogTemp).panel('destroy');
+        },2000)
     }
 }
 
@@ -429,7 +432,7 @@ function callBackHandel(data){
 //公共组件-商品选择
 function publicGoodsService(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId){
 	if(key){
-		var url= contextPath + '/goods/goodsSelect/importSkuCode?skuCodes='+key;
+		var url= contextPath + '/goods/goodsSelect/importSkuCode?skuCodes='+key+'&branchId='+branchId;
 //		if(type=="DA"||type=="DO"){
 //			 url=contextPath + '/goods/goodsSelect/enterSearchGoodsDeliver?skuCode='+key+"&formType="+type+"&sourceBranchId="+sourceBranchId+"&targetBranchId="+targetBranchId;
 //		}
@@ -752,7 +755,7 @@ function GridClass(){
                 }
                if(isCheck&&isCheck!={}){
                    $.each(isCheck,function(checkKey,checkVal){
-                       if(val1[checkKey]==checkVal){
+                       if(val1[checkKey]==checkVal||val[checkKey]!=val1[checkKey]){
                            isRepeat = false;
                        }
                    });

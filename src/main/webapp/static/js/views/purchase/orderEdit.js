@@ -369,8 +369,8 @@ function saveItemHandel(){
     var isChcekPrice = false;
     $.each(rows,function(i,v){
         v["rowNo"] = i+1;
-        if(!v["skuCode"]){
-            messager("第"+(i+1)+"行，货号不能为空");
+        if(!v["skuName"]){
+            messager("第"+(i+1)+"行，货号不正确");
             isCheckResult = false;
             return false;
         };
@@ -528,18 +528,9 @@ function orderDelete(){
 	});
 }
 
-//打印
-function printDesign(){
-	var id = $("#formId").val();
-	var formNo = $("#formNo").val();
-     //弹出打印页面
-     parent.addTabPrint('PASheet' + id,formNo+'单据打印',contextPath + '/printdesign/design?page=PASheet&controller=/form/purchase&template=-1&sheetNo=' + id + '&gridFlag=PAGrid','');
-}
-
-
 function selectSupplier(){
 	new publicSupplierService(function(data){
-		$("#supplierId").val(data.supplierId);
+		$("#supplierId").val(data.id);
 		$("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
 	});
 }
@@ -567,6 +558,60 @@ function printDesign(){
 
 function back(){
 	location.href = contextPath+"/form/purchase/orderList";
+}
+
+function toImportproduct(type){
+    var branchId = $("#branchId").val();
+    if(!branchId){
+        messager("请先选择收货机构");
+        return;
+    }
+    var param = {
+        url:contextPath+"/form/purchase/importList",
+        tempUrl:contextPath+"/form/purchase/exportTemp",
+        type:type,
+        branchId:branchId,
+    }
+    new publicUploadFileService(function(data){
+        updateListData(data);
+        
+    },param)
+}
+
+function updateListData(data){
+	   // var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
+	    //var addDefaultData  = gridHandel.addDefault(data,gridDefault);
+        $.each(data,function(i,val){
+            data[i]["realNum"]=data[i]["realNum"]||0;
+            data[i]["largeNum"]  = (parseFloat(data[i]["realNum"]||0)/parseFloat(data[i]["purchaseSpec"])).toFixed(4);
+            data[i]["amount"]  = parseFloat(data[i]["purchasePrice"]||0)*parseFloat(data[i]["realNum"]||0);
+        });
+	    var keyNames = {
+	        purchasePrice:'price',
+	        id:'skuId',
+	        disabled:'',
+	        pricingType:'',
+	        inputTax:'tax'
+	    };
+	    var rows = gFunUpdateKey(data,keyNames);
+
+	    var argWhere ={skuCode:1};  //验证重复性
+	    var isCheck ={isGift:1 };   //只要是赠品就可以重复
+	    var newRows = gridHandel.checkDatagrid(rows,argWhere,isCheck);
+
+	    $("#gridEditOrder").datagrid("loadData",rows);
+	}
+
+//模板导出
+function exportTemp(){
+	var type = $("#temple").attr("value");
+	//导入货号
+	if(type==0){
+		location.href=contextPath+'/form/purchase/exportTemp?type='+type;
+	//导入条码
+	}else if(type==1){
+		location.href=contextPath+'/form/purchase/exportTemp?type='+type;
+	}
 }
 
 /**

@@ -31,7 +31,7 @@ function initDatagridRequireOrders(){
             }},
             {field:'status',title: '审核状态', width: '100px', align: 'left',
             	   formatter: function(value,row,index){
-            		   debugger;
+            		 
                        if (value==1){
                            return "已审核";
                        }else if(value==2){
@@ -52,7 +52,8 @@ function initDatagridRequireOrders(){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
 			},
-            {field: 'adjustReason', title: '调整原因', width: '200px', align: 'left'},
+			{field: 'adjustReasonName', title: '调整原因', width: '200px', align: 'left'},
+            {field: 'adjustReason', title: '调整原因', width: '200px', align: 'left',hidden:true},
             {field: 'updateUserName', title: '操作人员', width: '130px', align: 'left'},
             {field: 'updateTime', title: '操作日期', width: '120px', align: 'center',
 				formatter: function (value, row, index) {
@@ -147,7 +148,7 @@ function printDesign(){
            return null;
      }
      //弹出打印页面
-     parent.addTabPrint('PASheet' + row.id,row.formNo+'单据打印',contextPath + '/printdesign/design?page=PASheet&controller=/form/purchase&template=-1&sheetNo=' + row.id + '&gridFlag=PAGrid','');
+     parent.addTabPrint('PASheet' + row.id,row.adjustNo+'单据打印',contextPath + '/printdesign/design?page=PASheet&controller=/form/purchase&template=-1&sheetNo=' + row.id + '&gridFlag=PAGrid','');
 }
 
 /**

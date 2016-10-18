@@ -44,15 +44,15 @@
                     <div class="umar-r10 uw-70 ut-r">调整原因:</div>
                        <!--select-->
 				        <select class="easyui-combobox uselect" name="adjustReason" id="adjustReason" data-options="editable:false">
-								<option value="1">全部</option> 
-								<option value="2">[01]其他</option> 
-								<option value="3">[02]领用</option> 
-								<option value="4">[03]报损</option> 
-								<option value="5">[04]丢失</option> 
-								<option value="6">[05]赠送</option>
-								<option value="7">[06]借用</option>
-								<option value="8">[07]退赠品</option>
+						<c:forEach items="${COST_ADJUST_REASON}" var="reason">
+						  <option value="${reason.value}"
+						<c:if test="${data.adjustReason==reason.value}">
+						    selected="selected"
+                         </c:if>
+                       >  ${reason.label}</option>
+                        </c:forEach>
 				        </select>
+				         <input type="hidden" id="status" name="id" value="${data.status}">
                 </div>
                <div class="ub ub-ac">
                <input type="hidden" id="createUserId" value="${data.createUserId}">
@@ -62,7 +62,7 @@
                <div class="ub ub-ac umar-l20">
                    <div class="umar-r10 uw-60 ut-r">制单日期:</div>
                    <div class="utxt" ><fmt:formatDate value="${data.createTime}" pattern="yyyy-MM-dd"/></div>
-                    <input type="hidden" id="createTime" value="${data.createTime}">
+                    <input type="hidden" id="createTime" value="${data.createTimeDesc}">
                </div>
            </div>
            <div class="ub umar-t8">

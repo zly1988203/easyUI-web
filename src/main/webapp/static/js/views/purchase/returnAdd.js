@@ -406,8 +406,8 @@ function saveItemHandel(){
     var isChcekPrice = false;
     $.each(rows,function(i,v){
         v["rowNo"] = i+1;
-        if(!v["skuCode"]){
-            messager("第"+(i+1)+"行，货号不能为空");
+        if(!v["skuName"]){
+            messager("第"+(i+1)+"行，货号不正确");
             isCheckResult = false;
             return false;
         };
@@ -459,10 +459,7 @@ function saveDataHandel(rows){
         totalNum = parseFloat(footerRows[0]["realNum"]||0.0).toFixed(4);
         amount = parseFloat(footerRows[0]["amount"]||0.0).toFixed(4);
     }
-    console.log(rows);
-    var saveData = JSON.stringify(rows);
-
-    var detailList = tableArrayFormatter(rows,"detailList");
+    var detailList = JSON.stringify(rows);
     console.log(detailList);
 
     var reqObj = $.extend({
@@ -475,7 +472,7 @@ function saveDataHandel(rows){
         totalNum:totalNum,
         amount:amount,
         oldRefFormNo:""
-    }, detailList);
+    },  { detailList:detailList});
 
     $.ajax({
         url:contextPath+"/form/purchase/saveReturn",
@@ -499,7 +496,7 @@ function saveDataHandel(rows){
 function selectSupplier(){
 	new publicSupplierService(function(data){
 		console.log(data);
-		$("#supplierId").val(data.supplierId);
+		$("#supplierId").val(data.id);
 		$("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
 	});
 }
@@ -537,6 +534,11 @@ function toImportproduct(type){
 function updateListData(data){
 	   // var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
 	    //var addDefaultData  = gridHandel.addDefault(data,gridDefault);
+        $.each(data,function(i,val){
+            data[i]["realNum"]=data[i]["realNum"]||0;
+            data[i]["largeNum"]  = (parseFloat(data[i]["realNum"]||0)/parseFloat(data[i]["purchaseSpec"])).toFixed(4);
+            data[i]["amount"]  = parseFloat(data[i]["purchasePrice"]||0)*parseFloat(data[i]["realNum"]||0);
+        });
 	    var keyNames = {
 	        purchasePrice:'price',
 	        id:'skuId',
@@ -577,7 +579,7 @@ function selectForm(){
             var newRows = gFunUpdateKey(data.list,keyNames);
             $("#gridEditOrder").datagrid("loadData",newRows);
             //供应商
-            $("#supplierId").val(data.form.supplierId);
+            $("#supplierId").val(data.form.id);
             $("#supplierName").val(data.form.supplierName);
             //收货机构
             $("#branchId").val(data.form.branchId);
