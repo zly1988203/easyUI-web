@@ -19,6 +19,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONObject;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -56,8 +58,6 @@ import com.okdeer.jxc.goods.vo.GoodsPriceFormConst;
 import com.okdeer.jxc.goods.vo.GoodsPriceFormVo;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
-
-import net.sf.json.JSONObject;
 
 /**
  * ClassName: GoodsPriceAdjustController 
@@ -328,7 +328,7 @@ public class GoodsPriceAdjustController extends
 	 * @author lijy02
 	 * @date 2016年8月6日
 	 */
-	@RequestMapping(value = "/updateForm", method = RequestMethod.POST)
+	@RequestMapping(value = "/updateForm", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public RespJson updateForm(String list) {
 		GoodsPriceFormAll goodsPriceFormAll = null;

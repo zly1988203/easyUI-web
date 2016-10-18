@@ -480,14 +480,14 @@ function updateModifyPriceOrder() {
 						goodsPriceFormDetailList:detailList,
 						branchIds:$("#branchId").val()
 						}
-				var reqObj = {
-						list:JSON.stringify(params),
-				}
+				var reqObj = JSON.stringify(params);
 			// 调用后台保存方法，成功提示
 			$.ajax({
 					type : "POST",
 					url : contextPath + "/goods/priceAdjust/updateForm",
-					data : reqObj,
+					data : {
+						list:reqObj
+					},
 					dataType : "json",
 					success : function(data) {console.info(data)
 						if (data.code == 0) {
