@@ -110,6 +110,17 @@ function enable(){
 	var skuIds = '';
 	var branchId =  $("#branchId").val();
 	
+	for(var i in rows){
+		var row = rows[i];
+		skuIds += row.skuId + ',';
+	}
+	$.messager.confirm('提示','是否要启用已选择的商品',function(data){
+		if(data){
+			enableAjax(skuIds,branchId,contextPath+"/branch/goods/enable");
+		}
+	});
+	
+	/*
 	if(rows.length == 1){
 		var row = rows[0];
 		skuIds += row.skuId;
@@ -140,7 +151,7 @@ function enable(){
 				enableAjax(skuIds,branchId,contextPath+"/branch/goods/enable");
 			}
 		});
-	}
+	}*/
 }
 
 function enableAjax(skuIds,branchId,url){
@@ -296,7 +307,21 @@ function importShow(type){
 	$('#filename').val("");
 	$('.uatk').show();
 	uploadFormType = type;
+	$("#temple").val(type);
+	if(type==0){
+		$("#temple").text("货号模板下载");
+	}else{
+		$("#temple").text("条码模板下载");
+	}
 }
+
+//模板导出
+function exportTemp(){
+	var type = $("#temple").val();
+	location.href=contextPath+'/form/purchase/exportTemp?type='+type;
+}
+
+
 $(document).on('change','#excelFile', function(){
 	var value=$(this).val();
 	$('#filename').val(value);

@@ -140,14 +140,16 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 	@RequestMapping(value = "addStockForm", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson addStcokForm(StockFormVo vo) {
+		RespJson resp;
 		try {
 			SysUser user = UserUtil.getCurrentUser();
 			vo.setCreateUserId(user.getId());
 			return stockAdjustServiceApi.addStockForm(vo);
 		} catch (Exception e) {
 			LOG.error("保存单据信息异常:{}", e);
+			resp = RespJson.error("保存单据信息失败");
 		}
-		return null;
+		return resp;
 		
 	}
 	/**
@@ -161,14 +163,16 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 	@RequestMapping(value = "updateStockForm", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson updateStockForm(StockFormVo vo) {
+		RespJson resp;
 		try {
 			SysUser user = UserUtil.getCurrentUser();
 			vo.setCreateUserId(user.getId());
 			return stockAdjustServiceApi.updateStockForm(vo);
 		} catch (Exception e) {
 			LOG.error("更新单据信息异常:{}", e);
+			resp = RespJson.error("更新单据信息失败");
 		}
-		return null;
+		return resp;
 		
 	}
 	
@@ -223,13 +227,15 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 	@RequestMapping(value = "check", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson check(String id){
+		RespJson resp;
 		try {
 			SysUser user = UserUtil.getCurrentUser();
 			return stockAdjustServiceApi.check(id,user.getId());
 		} catch (Exception e) {
-			LOG.error("删除单据信息异常:{}", e);
+			LOG.error("审核单据信息异常:{}", e);
+			resp = RespJson.error("审核单据信息失败");
 		}
-		return null;
+		return resp;
 	}
 	/**
 	 * 
@@ -242,12 +248,14 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 	@RequestMapping(value = "deleteStockAdjust", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson deleteStockAdjust(String id){
+		RespJson resp;
 		try {
 			return stockAdjustServiceApi.deleteStockAdjust(id);
 		} catch (Exception e) {
 			LOG.error("删除单据信息异常:{}", e);
+			resp = RespJson.error("删除单据信息失败");
 		}
-		return null;
+		return resp;
 	}
 	/**
 	 * 
@@ -264,10 +272,6 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 
 		RespJson resp = RespJson.success();
 		try {
-			// 如果没有选择店铺，则查询登录人所在机构的商品
-			/*if (StringUtils.isEmpty(vo.getBranchId())) {
-				vo.setBranchId(UserUtil.getCurrBranchId());
-			}*/
 			List<StockFormDetailVo> exportList = stockAdjustServiceApi.exportList(vo);
 
 			String fileName = "库存调整" + "_" + DateUtils.getCurrSmallStr();
@@ -276,8 +280,8 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 
 			exportListForXLSX(response, exportList, fileName, templateName);
 		} catch (Exception e) {
-			LOG.error("商品查询导出execl出现错误{}", e);
-			resp = RespJson.error("商品查询导出execl出现错误{}");
+			LOG.error("导出库存调整商品异常：{}", e);
+			resp = RespJson.error("导出库存调整商品异常");
 		}
 		return resp;
 	}

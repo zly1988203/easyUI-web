@@ -52,6 +52,7 @@
                        >  ${reason.label}</option>
                         </c:forEach>
 				        </select>
+				         <input type="hidden" id="status" name="id" value="${data.status}">
                 </div>
                <div class="ub ub-ac">
                <input type="hidden" id="createUserId" value="${data.createUserId}">
@@ -61,7 +62,7 @@
                <div class="ub ub-ac umar-l20">
                    <div class="umar-r10 uw-60 ut-r">制单日期:</div>
                    <div class="utxt" ><fmt:formatDate value="${data.createTime}" pattern="yyyy-MM-dd"/></div>
-                    <input type="hidden" id="createTime" value="${data.createTime}">
+                    <input type="hidden" id="createTime" value="${data.createTimeDesc}">
                </div>
            </div>
            <div class="ub umar-t8">

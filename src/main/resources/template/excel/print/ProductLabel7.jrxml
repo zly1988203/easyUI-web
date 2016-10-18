@@ -25,7 +25,7 @@
 	<detail>
 		<band height="92" splitType="Stretch">
 			<textField isBlankWhenNull="true">
-				<reportElement x="112" y="45" width="84" height="46" uuid="e68a3531-d432-4223-a289-0de53dd371cf"/>
+				<reportElement x="129" y="45" width="76" height="46" uuid="e68a3531-d432-4223-a289-0de53dd371cf"/>
 				<textElement textAlignment="Center">
 					<font size="24"/>
 				</textElement>
@@ -52,14 +52,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{skuName}]]></textFieldExpression>
 			</textField>
-			<componentElement>
-				<reportElement x="1" y="60" width="110" height="20" uuid="6efd98a0-6dc3-434d-92a0-d778f30b4edc"/>
-				<jr:Codabar xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" textPosition="none">
-					<jr:codeExpression><![CDATA[$F{barCode}]]></jr:codeExpression>
-				</jr:Codabar>
-			</componentElement>
 			<textField isBlankWhenNull="true">
-				<reportElement x="1" y="79" width="111" height="11" uuid="2b92857e-c403-4531-93dc-567e9a740eb8"/>
+				<reportElement x="1" y="83" width="111" height="9" uuid="2b92857e-c403-4531-93dc-567e9a740eb8"/>
 				<textElement textAlignment="Center">
 					<font size="6"/>
 				</textElement>
@@ -107,6 +101,12 @@
 				</textElement>
 				<text><![CDATA[元]]></text>
 			</staticText>
+			<componentElement>
+				<reportElement x="-1" y="60" width="130" height="32" uuid="dcc865cc-c52c-4c27-8bcb-56ad54ea9c97"/>
+				<jr:Code128 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" moduleWidth="1.8" textPosition="none">
+					<jr:codeExpression><![CDATA[$F{barCode}]]></jr:codeExpression>
+				</jr:Code128>
+			</componentElement>
 		</band>
 	</detail>
 	<columnFooter>
