@@ -28,9 +28,7 @@
             </div>
         </div>
  <div class="ub umar-t8 uc-black">【单号】：<span id="formNo">${stockFormVo.formNo}</span></div>
- <c:if test="${stockFormVo.status == 1}">
-  <div class="already-examine" id="already-examine"><span>已审核</span></div>
-  </c:if>
+
 	<form action="" id="searchForm" method="post">
  			<input type="hidden"  name="id" value="${stockFormVo.id}">
  		</form>
