@@ -142,6 +142,7 @@ public class CostAdjustController extends BaseController<StockCostForm>{
 			LOG.info("qo:" + vo.toString());
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
+			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
 			PageUtils<StockCostForm> page = stockCostFormServiceApi.queryLists(vo);
 			LOG.info("page" + page.toString());
 			return page;
@@ -357,7 +358,7 @@ public class CostAdjustController extends BaseController<StockCostForm>{
 				String templateName = ExportExcelConstant.COST_ADJUST_EXPORT_EXCEL;
 
 				// 导出Excel
-				exportPageForXLSX(response, list, fileName, templateName);
+				exportListForXLSX(response, list, fileName, templateName);
 				return null;
 			} else {
 				RespJson json = RespJson.error("无数据可导");

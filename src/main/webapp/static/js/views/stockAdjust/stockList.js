@@ -57,10 +57,10 @@ function initDatagridRequireOrders(){
 			},
             {field: 'reason', title: '调整原因', width: '200px', align: 'left'},
             {field: 'createUserName', title: '操作人员', width: '130px', align: 'left'},
-            {field: 'createTime', title: '操作日期', width: '120px', align: 'center',
+            {field: 'createTime', title: '操作日期', width: '150px', align: 'center',
 				formatter: function (value, row, index) {
 					if (value) {
-						return new Date(value).format('yyyy-MM-dd');
+						return new Date(value).format('yyyy-MM-dd hh:mm:ss');
 					}
 					return "";
 				}

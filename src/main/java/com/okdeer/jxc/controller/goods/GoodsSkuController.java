@@ -455,7 +455,7 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 				String templateName = ExportExcelConstant.GOODS_EXPORT_EXCEL;
 
 				// 导出Excel
-				exportPageForXLSX(response, list, fileName, templateName);
+				exportListForXLSX(response, list, fileName, templateName);
 				return null;
 			} else {
 				RespJson json = RespJson.error("无数据可导");

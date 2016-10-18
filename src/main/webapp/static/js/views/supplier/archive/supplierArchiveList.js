@@ -139,7 +139,12 @@ function copyHandel(){
     	return;
     }
     addDalogTemp = $('<div/>').dialog({
-        href: contextPath + "/supplier/toCopy?id="+rowData.id,
+        href: contextPath + "/supplier/toCopy",
+        queryParams:{
+        	id:rowData.id,
+        	branchId : gVarBranchId,
+        	supplierAreaId : gVarSupplierAreaId
+        },
         width: 1000,
         height: 600,
         title: "供应商档案-新增",
@@ -158,7 +163,12 @@ function copyHandel(){
  */
 function editHandel(id){
     editDalogTemp = $('<div/>').dialog({
-        href: contextPath+"/supplier/toEdit?id="+id,
+        href: contextPath+"/supplier/toEdit",
+        queryParams:{
+        	id:id,
+        	branchId : gVarBranchId,
+        	supplierAreaId : gVarSupplierAreaId
+        },
         width: 1000,
         height: 600,
         title: "供应商档案-修改",

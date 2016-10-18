@@ -309,8 +309,8 @@ pageEncoding="UTF-8"%>
         pagination:true,    //分页
         fitColumns:true,    //每列占满
         //fit:true,            //占满
-        pageSize:50,
-        pageList: [50,100,300],//可以设置每页记录条数的列表 
+        pageSize:10,
+       /*  pageList : [10,500],  */
         showFooter:true,
         height:'100%',
         columns:[arrColumns],

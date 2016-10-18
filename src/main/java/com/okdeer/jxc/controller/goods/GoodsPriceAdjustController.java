@@ -9,7 +9,6 @@ package com.okdeer.jxc.controller.goods;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,10 +18,13 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONObject;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -56,8 +58,6 @@ import com.okdeer.jxc.goods.vo.GoodsPriceFormConst;
 import com.okdeer.jxc.goods.vo.GoodsPriceFormVo;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
-
-import net.sf.json.JSONObject;
 
 /**
  * ClassName: GoodsPriceAdjustController 
@@ -200,9 +200,9 @@ public class GoodsPriceAdjustController extends
 	 * @author lijy02
 	 * @date 2016年8月4日
 	 */
-	@RequestMapping(value = "/saveForm", method = RequestMethod.POST, produces = "application/json")
+	@RequestMapping(value = "/saveForm", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson saveForm(String list) {
+	public RespJson saveForm(@RequestBody String list) {
 		String formNo = "";
 		String createTime = "";
 		String createUserName = "";
@@ -270,7 +270,6 @@ public class GoodsPriceAdjustController extends
 		return rep;
 	}
 
-
 	/**
 	 * @Description: 设置单据详情数据
 	 * @param goodsPriceForm
@@ -330,7 +329,7 @@ public class GoodsPriceAdjustController extends
 	 */
 	@RequestMapping(value = "/updateForm", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson updateForm(String list) {
+	public RespJson updateForm(@RequestBody String list) {
 		GoodsPriceFormAll goodsPriceFormAll = null;
 		GoodsPriceForm goodsPriceForm = null;
 		List<GoodsPriceFormDetail> goodsPriceFormDetailList = null;
@@ -631,42 +630,11 @@ public class GoodsPriceAdjustController extends
 								@Override
 								public void formatter(
 										List<? extends GoodsSelect> list) {
-									for (GoodsSelect objGoods : list) {
-										GoodsSelectPriceAdjst obj = (GoodsSelectPriceAdjst) objGoods;
-										BigDecimal newPurPrice = obj
-												.getNewPurPrice();
-										BigDecimal newSalePrice = obj
-												.getNewSalePrice();
-										BigDecimal newDcPrice = obj
-												.getNewDcPrice();
-										BigDecimal newVipPrice = obj
-												.getNewVipPrice();
-										BigDecimal newWsPrice = obj
-												.getNewWsPrice();
-										if (newPurPrice == null) {
-											obj.setNewPurPrice(obj
-													.getPurchasePrice());
-										}
-										if (newSalePrice == null) {
-											obj.setNewSalePrice(obj
-													.getSalePrice());
-										}
-										if (newDcPrice == null) {
-											obj.setNewDcPrice(obj
-													.getDistributionPrice());
-										}
-										if (newVipPrice == null) {
-											obj.setNewVipPrice(obj
-													.getVipPrice());
-										}
-										if (newWsPrice == null) {
-											obj.setNewWsPrice(obj
-													.getWholesalePrice());
-										}
-									}
 								}
+
 								@Override
-								public void errorDataFormatter(List<JSONObject> list) {
+								public void errorDataFormatter(
+										List<JSONObject> list) {
 								}
 							});
 			respJson.put("importInfo", vo);

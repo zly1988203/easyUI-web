@@ -396,14 +396,21 @@ function delModifyOrderDialog() {
 
 // 保存单据
 function saveModifyPriceOrder() {
+	gFunStartLoading();
 	// 判断用户是否选择区域，选择为true，未选择为false，则提示用户选择
 	if (datagridUtil.isSelectArea()) {
 		// datagrid是否存在数据，存在为true，不存在为false，则提示用户输入
 		if (datagridUtil.isHasDataGrid()) {
 			var formData = $('#searchForm').serializeObject();
 			var detailList =  getDatagridRows();
+			if(detailList.length>1000){
+				messager("保存数据不能超过1000条");
+				gFunEndLoading();
+				return;
+			}
 			if(detailList.length==0){
 				messager("表格不能为空");
+				gFunEndLoading();
 				return;
 			}
 			if (datagridUtil.isCheckPrice()) {
@@ -418,17 +425,15 @@ function saveModifyPriceOrder() {
 			$.ajax({
 					type : "POST",
 					url : contextPath + "/goods/priceAdjust/saveForm",
-					data : {
-						list:reqObj
-					},
-					dataType:"json", 
-					//contentType : "application/json",
-		            //contentType : "text/html;charset=UTF-8",
+					data :reqObj,
+					dataType:"json",
+					contentType : "application/json",
 					success : function(data) {
+						gFunEndLoading();
 						if (data.code == 0) {
 							isClickSaveData = true;
 							// 代表点击过保存单据数据
-							$.messager.alert('提示','单据保存成功！',"info",function() {
+							$.messageur.alert('提示','单据保存成功！',"info",function() {
 										// window.location.href =
 										// contextPath+"/goods/priceAdjust/showDetail?formNo="+data.formNo;
 										addModifyPriceGridDg.datagrid('options').queryParams = {formNo : data.goodsPriceForm.formNo};
@@ -464,13 +469,20 @@ function saveModifyPriceOrder() {
 }
 // 修改调价单
 function updateModifyPriceOrder() {
+	gFunStartLoading();
 	// 判断用户是否选择区域，选择为true，未选择为false，则提示用户选择
 	if (datagridUtil.isSelectArea()) {
 		// datagrid是否存在数据，存在为true，不存在为false，则提示用户输入
 		var formData = $('#searchForm').serializeObject();
 		var detailList =  getDatagridRows();
+		if(detailList.length>1000){
+			messager("保存数据不能超过1000条");
+			gFunEndLoading();
+			return;
+		}
 		if(detailList.length==0){
 			messager("表格不能为空");
+			gFunEndLoading();
 			return;
 		}
 		if (datagridUtil.isHasDataGrid()) {
@@ -480,16 +492,16 @@ function updateModifyPriceOrder() {
 						goodsPriceFormDetailList:detailList,
 						branchIds:$("#branchId").val()
 						}
-				var reqObj = {
-						list:JSON.stringify(params),
-				}
+				var reqObj = JSON.stringify(params);
 			// 调用后台保存方法，成功提示
 			$.ajax({
 					type : "POST",
 					url : contextPath + "/goods/priceAdjust/updateForm",
+					contentType : "application/json",
 					data : reqObj,
-					dataType : "json",
-					success : function(data) {console.info(data)
+					//dataType : "json",
+					success : function(data) {
+						gFunEndLoading();
 						if (data.code == 0) {
 							isClickSaveData = true;
 							// 代表点击过保存单据数据
@@ -1048,7 +1060,6 @@ function toImportproduct(type){
         branchId:branchId,
     }
     new publicUploadFileService(function(data){
-        console.log(data);
         updateListData(data);
     },param)
 }
@@ -1063,7 +1074,6 @@ function updateListData(data){
     		vipPrice:'oldVipPrice',
     		distributionPrice:'oldDcPrice'
     };
-    debugger;
     var rows = gFunUpdateKey(addDefaultData,keyNames);
     if(data.length>0){
     	var obj = data[0];
@@ -1075,8 +1085,11 @@ function updateListData(data){
     	              {"newVipPrice":"memberPrice"}
     	             ]
     	$.each(obj,function(key,val){
+			debugger;
+			var d = obj;
+			var c = key;
     		$.each(arrKey,function(i,item){
-    			if(item[key]){
+    			if(item[key]&&obj[key]){
     				$("#"+item[key]).attr("checked","checked");
     				 datagridUtil.isCheckBoxChecked(item[key]);
     			}

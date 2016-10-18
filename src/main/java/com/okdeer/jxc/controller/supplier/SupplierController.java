@@ -88,7 +88,7 @@ public class SupplierController extends BaseController<SupplierController> {
 	@RequestMapping(value = "toAdd")
 	public String toAdd(Model model, SupplierQo qo) {
 		LOG.debug("跳转新增供应商信息参数：{}", qo);
-		//获取初始化参数
+		// 获取初始化参数
 		initOpParams(model, qo);
 
 		return "supplier/archive/supplierArchiveAdd";
@@ -113,8 +113,7 @@ public class SupplierController extends BaseController<SupplierController> {
 		if (StringUtils.isBlank(branchId)) {
 			branchId = super.getCurrBranchId();
 		}
-		List<SupplierArea> areaList = supplierAreaService
-				.querySupplierListByBranchId(branchId);
+		List<SupplierArea> areaList = supplierAreaService.querySupplierListByBranchId(branchId);
 		model.addAttribute("areaList", areaList);
 
 		Branches branch = branchesService.getBranchInfoById(branchId);
@@ -130,10 +129,10 @@ public class SupplierController extends BaseController<SupplierController> {
 	@RequestMapping(value = "toEdit")
 	public String toEdit(Model model, SupplierQo qo) {
 		LOG.debug("跳转修改供应商信息参数：{}", qo);
-		//获取初始化参数
+		// 获取初始化参数
 		initOpParams(model, qo);
 
-		//获取初始化编辑页面参数
+		// 获取初始化编辑页面参数
 		initEditParams(model, qo);
 		return "supplier/archive/supplierArchiveEdit";
 	}
@@ -149,7 +148,7 @@ public class SupplierController extends BaseController<SupplierController> {
 		String id = qo.getId();
 		Supplier supplier = supplierService.getById(id);
 		SupplierExt supplierExt = supplierService.getSupplierExtById(id);
-		if(supplierExt==null){
+		if (supplierExt == null) {
 			supplierExt = new SupplierExt();
 			supplierExt.setSupplierId(id);
 		}
@@ -157,7 +156,7 @@ public class SupplierController extends BaseController<SupplierController> {
 		BeanUtils.copyProperties(supplier, supplierExt);
 		model.addAttribute("supplier", supplierExt);
 	}
-	
+
 	/**
 	 * @Description: 到复制页面
 	 * @return
@@ -167,11 +166,11 @@ public class SupplierController extends BaseController<SupplierController> {
 	@RequestMapping(value = "toCopy")
 	public String toCopy(Model model, SupplierQo qo) {
 		LOG.debug("跳转复制供应商信息参数：{}", qo);
-		
-		//获取初始化参数
+
+		// 获取初始化参数
 		initOpParams(model, qo);
-		
-		//获取初始化编辑页面参数
+
+		// 获取初始化编辑页面参数
 		initEditParams(model, qo);
 		return "supplier/archive/supplierArchiveAdd";
 	}
@@ -209,8 +208,7 @@ public class SupplierController extends BaseController<SupplierController> {
 	 */
 	@RequestMapping(value = "getSupplierList")
 	@ResponseBody
-	public PageUtils<Supplier> getSupplierList(
-			SupplierQo qo,
+	public PageUtils<Supplier> getSupplierList(SupplierQo qo,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
@@ -222,10 +220,8 @@ public class SupplierController extends BaseController<SupplierController> {
 			Integer branchType = super.getCurrBranchType();
 			// 如果机构类型不是总部，分公司，则无查看权限
 			if (!BranchTypeEnum.HEAD_QUARTERS.getCode().equals(branchType)
-					&& !BranchTypeEnum.BRANCH_OFFICE.getCode().equals(
-							branchType)) {
-				LOG.error("当前机构无查看权限！机构Code：{}，机构类型：{}", getCurrBranchCode(),
-						branchType);
+					&& !BranchTypeEnum.BRANCH_OFFICE.getCode().equals(branchType)) {
+				LOG.error("当前机构无查看权限！机构Code：{}，机构类型：{}", getCurrBranchCode(), branchType);
 				return PageUtils.emptyPage();
 			}
 
@@ -278,7 +274,7 @@ public class SupplierController extends BaseController<SupplierController> {
 			respJson = supplierService.addSupplier(supplierVo);
 		} catch (Exception e) {
 			LOG.error("新增供应商异常：", e);
-			respJson = RespJson.error("新增供应商异常：" + e.getMessage());
+			respJson = RespJson.error("新增供应商异常!");
 		}
 		return respJson;
 	}
@@ -294,8 +290,7 @@ public class SupplierController extends BaseController<SupplierController> {
 	 */
 	@RequestMapping(value = "/updateSupplier", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson updateSupplier(@Valid Supplier supplier,
-			@Valid SupplierExt supplierExt, BindingResult validate) {
+	public RespJson updateSupplier(@Valid Supplier supplier, @Valid SupplierExt supplierExt, BindingResult validate) {
 		if (validate.hasErrors()) {
 			String errorMessage = validate.getFieldError().getDefaultMessage();
 			LOG.warn("validate errorMessage:{}", errorMessage);
@@ -316,7 +311,7 @@ public class SupplierController extends BaseController<SupplierController> {
 			respJson = supplierService.updateSupplier(supplierVo);
 		} catch (Exception e) {
 			LOG.error("修改供应商异常：", e);
-			respJson = RespJson.error("修改供应商异常：" + e.getMessage());
+			respJson = RespJson.error("修改供应商异常!");
 		}
 		return respJson;
 	}
@@ -333,11 +328,10 @@ public class SupplierController extends BaseController<SupplierController> {
 	public RespJson deleteSupplier(String supplierId) {
 		RespJson respJson = RespJson.success();
 		try {
-			respJson = supplierService.deleteSupplier(supplierId,
-					super.getCurrUserId());
+			respJson = supplierService.deleteSupplier(supplierId, super.getCurrUserId());
 		} catch (Exception e) {
 			LOG.error("删除供应商异常：", e);
-			respJson = RespJson.error("删除供应商异常：" + e.getMessage());
+			respJson = RespJson.error("删除供应商异常!");
 		}
 		return respJson;
 	}
@@ -360,10 +354,8 @@ public class SupplierController extends BaseController<SupplierController> {
 			Integer branchType = super.getCurrBranchType();
 			// 如果机构类型不是总部，分公司，则无查看权限
 			if (!BranchTypeEnum.HEAD_QUARTERS.getCode().equals(branchType)
-					&& !BranchTypeEnum.BRANCH_OFFICE.getCode().equals(
-							branchType)) {
-				LOG.error("当前机构无查看权限！机构Code：{}，机构类型：{}", getCurrBranchCode(),
-						branchType);
+					&& !BranchTypeEnum.BRANCH_OFFICE.getCode().equals(branchType)) {
+				LOG.error("当前机构无查看权限！机构Code：{}，机构类型：{}", getCurrBranchCode(), branchType);
 				return RespJson.error("无数据可导");
 			}
 			String branchId = qo.getBranchId();
@@ -378,8 +370,7 @@ public class SupplierController extends BaseController<SupplierController> {
 
 			if (CollectionUtils.isNotEmpty(list)) {
 				if (list.size() > ExportExcelConstant.EXPORT_MAX_SIZE) {
-					RespJson json = RespJson.error("最多只能导出"
-							+ ExportExcelConstant.EXPORT_MAX_SIZE + "条数据");
+					RespJson json = RespJson.error("最多只能导出" + ExportExcelConstant.EXPORT_MAX_SIZE + "条数据");
 					return json;
 				}
 				// 导出文件名称，不包括后缀名
@@ -388,7 +379,7 @@ public class SupplierController extends BaseController<SupplierController> {
 				String templateName = ExportExcelConstant.SUPPLIER_EXPORT_EXCEL;
 
 				// 导出Excel
-				exportPageForXLSX(response, list, fileName, templateName);
+				exportListForXLSX(response, list, fileName, templateName);
 				return null;
 			} else {
 				RespJson json = RespJson.error("无数据可导");
