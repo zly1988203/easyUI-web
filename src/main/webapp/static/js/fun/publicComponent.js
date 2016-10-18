@@ -87,9 +87,6 @@ function publicUploadFileService(callback,params){
     });
     function callBackHandel(data){
         callback(data);
-        setTimeout(function(){
-            $(dalogTemp).panel('destroy');
-        },2000)
     }
 }
 

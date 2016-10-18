@@ -416,8 +416,8 @@ public class CostAdjustController extends BaseController<StockCostForm>{
 					new GoodsSelectImportBusinessValid() {
 				
 				@Override
-				public List<JSONObject> businessValid(List<JSONObject> list, String[] excelField) {
-					return list;
+				public void businessValid(List<JSONObject> list, String[] excelField) {
+					
 				}
 				
 				/**
@@ -433,6 +433,15 @@ public class CostAdjustController extends BaseController<StockCostForm>{
 							obj.setNewCostPrice(obj.getCostPrice());
 						}
 					}
+				}
+				
+				/**
+				 * (non-Javadoc)
+				 * @see com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid#errorDataFormatter(java.util.List)
+				 */
+				@Override
+				public void errorDataFormatter(List<JSONObject> list) {
+					
 				}
 			});
 			respJson.put("importInfo", vo);

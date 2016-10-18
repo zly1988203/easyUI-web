@@ -18,7 +18,7 @@
 	            <div class="ub ub-ac umar-l20">
 	                <div class="umar-r10 uw-60 ut-r">用户编码:</div>
 	                <span id="branchCodeSpan">S${user.branchCode }</span>
-	                <input  id="userCode" name="userCode" class="uinp easyui-validatebox" data-options="required:true" type="text" maxlength="4" style="width: 147px;">
+	                <input  id="userCode" name="userCode" class="uinp easyui-validatebox" data-options="required:true" type="text" maxlength="4" style="width: 197px;">
             	    <i class="uc-red">*</i>
 	            </div>
           </div>
@@ -50,7 +50,10 @@
                 <input class="uinp " type="hidden" id="opBranchCode" name="branchCode" value="${user.branchCode }">
                 <input class="uinp" type="hidden" id="opBranchType" name="opBranchType">
                 <input class="uinp" type="hidden" id="opBranchCompleCode" name="opBranchCompleCode">
-                <input class="uinp uw-250" type="text" id="branchNameCode" name="branchNameCode" readonly="readonly" onclick="searchBranchInfo();">
+                <div class="ub ub-ac">
+                	<input class="uinp uw-250" type="text" id="branchNameCode" name="branchNameCode" readonly="readonly" onclick="searchBranchInfo()">
+                	<div class="uinp-more"  onclick="searchBranchInfo()">...</div>
+                </div>
                 <i class="uc-red">*</i>
             </div>
          </div>
@@ -59,7 +62,10 @@
             	<div class="umar-r10 uw-60 ut-r">所属角色:</div>
                 <input class="uinp" type="hidden" id="opRoleId" name="roleId">
                 <input class="uinp" type="hidden" id="opRoleCode" name="roleCode">
-                <input class="uinp uw-250" type="text" id="roleCodeOrName" name="roleCodeOrName" readonly="readonly" onclick="searchRole();">
+                <div class="ub ub-ac">
+                	<input class="uinp uw-250" type="text" id="roleCodeOrName" name="roleCodeOrName" readonly="readonly" onclick="searchRole()">
+                	<div class="uinp-more"  onclick="searchRole()">...</div>
+                </div>
                 <i class="uc-red">*</i>
             </div>
            </div>

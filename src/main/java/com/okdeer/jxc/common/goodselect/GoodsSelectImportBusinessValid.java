@@ -26,8 +26,10 @@ import net.sf.json.JSONObject;
 
 public interface GoodsSelectImportBusinessValid {
 
-	List<JSONObject> businessValid(List<JSONObject> list, String[] excelField);
+	void businessValid(List<JSONObject> list, String[] excelField);
 	
 	void formatter(List<? extends GoodsSelect> list);
+	
+	void errorDataFormatter(List<JSONObject> list);
 	
 }

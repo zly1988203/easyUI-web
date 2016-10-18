@@ -909,7 +909,7 @@ public class PurchaseFormController extends
 					new GoodsSelectImportBusinessValid() {
 				
 				@Override
-				public List<JSONObject> businessValid(List<JSONObject> list, String[] excelField) {
+				public void businessValid(List<JSONObject> list, String[] excelField) {
 					for (JSONObject obj : list) {
 						String realNum = obj.getString("realNum");
 						try {
@@ -928,7 +928,6 @@ public class PurchaseFormController extends
 							obj.element("error", "是否赠品字段填写有误");
 						}
 					}
-					return list;
 				}
 				
 				/**
@@ -943,6 +942,22 @@ public class PurchaseFormController extends
 						BigDecimal price = obj.getPrice();
 						if(price == null){
 							obj.setPrice(obj.getPurchasePrice());
+						}
+					}
+				}
+				
+				/**
+				 * (non-Javadoc)
+				 * @see com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid#errorDataFormatter(java.util.List)
+				 */
+				@Override
+				public void errorDataFormatter(List<JSONObject> list) {
+					for (JSONObject obj : list) {
+						String isGift = obj.getString("isGift");
+						if("1".equals(isGift)){
+							obj.element("isGift", "是");
+						}else if("0".equals(isGift)){
+							obj.element("isGift", "否");
 						}
 					}
 				}
