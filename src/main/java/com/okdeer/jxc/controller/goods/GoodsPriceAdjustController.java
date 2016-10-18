@@ -631,9 +631,9 @@ public class GoodsPriceAdjustController extends
 								@Override
 								public void formatter(
 										List<? extends GoodsSelect> list) {
-									for (GoodsSelect objGoods : list) {
-										GoodsSelectPriceAdjst obj = (GoodsSelectPriceAdjst) objGoods;
-										BigDecimal newPurPrice = obj
+//									for (GoodsSelect objGoods : list) {
+//										GoodsSelectPriceAdjst obj = (GoodsSelectPriceAdjst) objGoods;
+										/*BigDecimal newPurPrice = obj
 												.getNewPurPrice();
 										BigDecimal newSalePrice = obj
 												.getNewSalePrice();
@@ -662,8 +662,8 @@ public class GoodsPriceAdjustController extends
 										if (newWsPrice == null) {
 											obj.setNewWsPrice(obj
 													.getWholesalePrice());
-										}
-									}
+										}*/
+//									}
 								}
 								@Override
 								public void errorDataFormatter(List<JSONObject> list) {

@@ -234,7 +234,7 @@ public class GoodsSelectImportComponent {
 	public void downloadErrorFile(String code, String reportFileName, String[] headers, String[] columns, HttpServletResponse response){
 		String jsonText = redisTemplateTmp.opsForValue().get(code);
 		
-		if(jsonText == null){
+		if(jsonText != null){
 			headers = ArrayUtils.add(headers, "错误原因");
 			columns = ArrayUtils.add(columns, "error");
 			
@@ -244,6 +244,7 @@ public class GoodsSelectImportComponent {
 		}else{
 			response.reset();// 清空输出流
 			response.setContentType("text/html");// 定义输出类型
+			response.setCharacterEncoding("UTF-8");
 			try {
 				response.getWriter().println("文件不存在或者文件已过期");
 			} catch (IOException e) {
