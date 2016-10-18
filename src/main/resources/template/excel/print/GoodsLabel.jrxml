@@ -25,7 +25,7 @@
 	<detail>
 		<band height="92" splitType="Stretch">
 			<textField isBlankWhenNull="true">
-				<reportElement x="112" y="45" width="84" height="46" uuid="e68a3531-d432-4223-a289-0de53dd371cf"/>
+				<reportElement x="127" y="45" width="76" height="46" uuid="e68a3531-d432-4223-a289-0de53dd371cf"/>
 				<textElement textAlignment="Center">
 					<font size="24"/>
 				</textElement>

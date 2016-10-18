@@ -268,7 +268,7 @@ function addsaveOrder(){
 	// 机构id
 	 var branchId = $("#branchId").val();
 	//reason 原因 
-	 var adjustReason=$("#adjustReason").val();
+	 var adjustReason=$("#adjustReason").combobox('getValue'); 
     // 备注
     var remark = $("#remark").val();
  

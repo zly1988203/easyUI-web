@@ -31,7 +31,7 @@
 	            </div>
 	        	<div class="ub ub-ac umar-l20">
 	              	<input class="Wdate"  readonly="readonly" name="beginDate" id="txtStartDate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'#F{$dp.$D(\'txtEndDate\');}'})" />&nbsp;至&nbsp;
-                    <input class="Wdate"  readonly="readonly" name="endTime" id="txtEndDate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'txtStartDate\');}'})" />
+                    <input class="Wdate"  readonly="readonly" name="endDate" id="txtEndDate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'txtStartDate\');}'})" />
 	                 <div class="ub ub-ac umar-l10">
                         <input class="ub" type="radio" name="dateradio" checked="checked" onclick="toChangeDate(0);"/><span>今天</span>
                     </div>
@@ -64,8 +64,8 @@
 	            <div class="ub umar-t8">
 	                <div class="ub ub-ac">
 	                    <div class="umar-r10 uw-70 ut-r">单号:</div>
-	                    <input type="hidden" id="adjustNo" name="adjustNo" value="DI" />
-	                    <input class="uinp" type="text" id="formNo" name="formNo">
+	                    <!-- <input type="hidden" id="adjustNo" name="adjustNo"  /> -->
+	                    <input class="uinp" type="text" id="adjustNo" name="adjustNo">
 	                </div>
 	              
 	                <div class="ub ub-ac uw-300 umar-l40">
@@ -86,13 +86,13 @@
 	                <div class="ub ub-ac umar-l40 uw-300">
 	                    <div class="umar-r10 uw-70 ut-r">审核状态:</div>
 	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub" type="radio" name="deliverFormListVo"  value="1"/><span>已审核</span>
+	                        <input class="ub" type="radio" name="status"  value="1"/><span>已审核</span>
 	                    </div>
 	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub" type="radio" name="deliverFormListVo" value="0" checked="checked"/><span>未审核</span>
+	                        <input class="ub" type="radio" name="status" value="0" checked="checked"/><span>未审核</span>
 	                    </div>
 	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub" type="radio" name="deliverFormListVo" value=""  /><span>全部</span>
+	                        <input class="ub" type="radio" name="status" value=""  /><span>全部</span>
 	                    </div>
 	                </div>
 	            </div>

@@ -148,7 +148,7 @@ function printDesign(){
            return null;
      }
      //弹出打印页面
-     parent.addTabPrint('PASheet' + row.id,row.formNo+'单据打印',contextPath + '/printdesign/design?page=PASheet&controller=/form/purchase&template=-1&sheetNo=' + row.id + '&gridFlag=PAGrid','');
+     parent.addTabPrint('PASheet' + row.id,row.adjustNo+'单据打印',contextPath + '/printdesign/design?page=PASheet&controller=/form/purchase&template=-1&sheetNo=' + row.id + '&gridFlag=PAGrid','');
 }
 
 /**
