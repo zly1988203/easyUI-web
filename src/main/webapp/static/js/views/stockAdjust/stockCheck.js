@@ -61,8 +61,8 @@ function initDatagridEditRequireOrder(){
                           if(row.isFooter){
                               str ='<div class="ub ub-pc">合计</div> '
                           }else{
-                              str =  '<a name="add" class="add-line" data-index="'+index+'" onclick="addLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>&nbsp;&nbsp;' +
-                                  '&nbsp;&nbsp;<a name="del" class="del-line" data-index="'+index+'" onclick="delLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>';
+                              str =  '<a name="add" class="add-line" data-index="'+index+'"  style="cursor:pointer;display:inline-block;text-decoration:none;"></a>&nbsp;&nbsp;' +
+                                  '&nbsp;&nbsp;<a name="del" class="del-line" data-index="'+index+'"  style="cursor:pointer;display:inline-block;text-decoration:none;"></a>';
                           }
                           return str;
                       },
@@ -144,8 +144,8 @@ function initDatagridEditRequireOrder(){
                       },
 
                   },
-                  {field:'reason',title:'调整原因',width:'200px',align:'left',editor:'textbox'},
-                  {field:'remark',title:'备注',width:'200px',align:'left',editor:'textbox'}
+                  {field:'reason',title:'调整原因',width:'200px',align:'left'},
+                  {field:'remark',title:'备注',width:'200px',align:'left'}
               ]],
         onClickCell:function(rowIndex,field,value){
         	gridHandel.setBeginRow(rowIndex);
