@@ -67,7 +67,7 @@ function initDatagridEditRequireOrder(){
                           return str;
                       },
                   },
-                  {field:'skuCode',title:'货号',width:'70px',align:'left',editor:'textbox'},
+                  {field:'skuCode',title:'货号',width:'70px',align:'left'},
                   {field:'skuName',title:'商品名称',width:'200px',align:'left'},
                   {field:'barCode',title:'国际条码',width:'150px',align:'left'},
                   {field:'unit',title:'单位',width:'60px',align:'left'},
@@ -111,15 +111,7 @@ function initDatagridEditRequireOrder(){
                               return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                           }
                           return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                      },
-                      editor:{
-                          type:'numberbox',
-                          value:'0',
-                          options:{
-                              precision:4,
-                              onChange: onChangeRealNum,
-                          }
-                      },
+                      }
                   },
                   {field:'skuId',hidden:'true'},
                   {field:'realNum',title:'数量',width:'80px',align:'right',
@@ -132,15 +124,7 @@ function initDatagridEditRequireOrder(){
                         	  value = row["realNum"];
                           }
                           return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                      },
-                      editor:{
-                          type:'numberbox',
-                          value:'0',
-                          options:{
-                              precision:4,
-                              onChange: totleChangePrice,
-                          }
-                      },
+                      }
                   },
                  
                   {field:'amount',title:'金额',width:'80px',align:'right',
@@ -522,7 +506,7 @@ function check(){
 		    	success:function(result){
 		    		if(result['code'] == 0){
 		    			$.messager.alert("操作提示", "操作成功！", "info",function(){
-		    			
+		    				alert(22)
 		    				location.href = contextPath +"/stock/adjust/checkSuccess?id="+id;
 		    			});
 		    		}else{
