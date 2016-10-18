@@ -7,7 +7,7 @@ $(function(){
     initDatagridAddRequireOrder();
 });
 var gridDefault = {
-   // realNum:0,
+    realNum:0,
     largeNum:0,
     isGift:0,
 }
@@ -102,9 +102,8 @@ function initDatagridAddRequireOrder(){
                 },
                 editor:{
                     type:'numberbox',
-                    value:0,
+                    value:'0',
                     options:{
-                        min:0,
                         precision:4,
                         onChange: onChangeRealNum,
                     }
@@ -175,7 +174,7 @@ function initDatagridAddRequireOrder(){
 }
 
 
-//监听商品数量
+//监听箱数
 function onChangeRealNum(newV,oldV) {
     if(!gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuName')){
         return;
@@ -190,48 +189,56 @@ function onChangeRealNum(newV,oldV) {
         return;
     }
     var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
- var realNumValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'realNum');
-    gridHandel.setFieldValue('amount',priceValue*realNumValue);                         //金额=数量*单价
 	var selectVal=$("#io").combobox('getValue');
-	
-	
-	console.log(selectVal);
-	if(selectVal==3){
-	
-	   gridHandel.setFieldValue('realNum',(-(newV*purchaseSpecValue).toFixed(4)));   //数量=箱数*商品规格
+	if(gridHandel.getSelectFieldName()!="realNum"){
+		if(selectVal==2){
+		   gridHandel.setFieldValue('realNum',(newV*purchaseSpecValue*-1).toFixed(4)); //数量=箱数*商品规格
+		}
+		else{
+		   gridHandel.setFieldValue('realNum',(newV*purchaseSpecValue).toFixed(4));    //数量=箱数*商品规格
+		} 
+		var realNumValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'realNum');
+		if(realNumValue<0){
+		   gridHandel.setFieldValue('amount',priceValue*realNumValue*-1);                  //金额=数量*单价
+		}
+		else{
+		   gridHandel.setFieldValue('amount',priceValue*realNumValue);
+		}
 	}
-	else{
-	   gridHandel.setFieldValue('realNum',(newV*purchaseSpecValue).toFixed(4));   //数量=箱数*商品规格
-	}
+    updateFooter();
+}
 
-    updateFooter();
-}
-//监听商品单价
-function totleChangePrice(newV,oldV) {
-    var realNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'realNum');
-    gridHandel.setFieldValue('amount',realNumVal*newV);                          //金额=数量*单价
-    updateFooter();
-}
-//监听商品单价
+//监听数量
 function totleChangePrice(newV,oldV) {
 	 if(!gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuName')){
 	        return;
-	    }
-	    var purchaseSpecValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'purchaseSpec');
-	    if(!purchaseSpecValue){
-	        messager("没有配送规格,请审查");
-	        return;
-	    }
-	    if(parseFloat(purchaseSpecValue)==0.0){
-	        messager("配送规格不能为0");
-	        return;
-	    }
-	
+	 }
+    var purchaseSpecValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'purchaseSpec');
+    if(!purchaseSpecValue){
+        messager("没有配送规格,请审查");
+        return;
+    }
+    if(parseFloat(purchaseSpecValue)==0.0){
+        messager("配送规格不能为0");
+        return;
+    }
+    var selectVal=$("#io").combobox('getValue');
 
     var price = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
-    gridHandel.setFieldValue('largeNum',(newV/purchaseSpecValue).toFixed(4));   //箱数=数量/商品规格
-    gridHandel.setFieldValue('amount',price*newV);                          //金额=数量*单价
-    updateFooter();
+	  if(selectVal==2&&parseFloat(newV)>0){
+		   gridHandel.setFieldValue('realNum',newV*-1); 
+		   gridHandel.setFieldValue('largeNum',(newV/purchaseSpecValue*-1).toFixed(4));   //箱数=数量/商品规格
+	  }
+	  else{
+		   gridHandel.setFieldValue('largeNum',(newV/purchaseSpecValue).toFixed(4));   //箱数=数量/商品规格	  
+	   }
+	  if(newV<0){
+          gridHandel.setFieldValue('amount',price*newV*-1);   //金额=数量*单价
+        }                       
+	  else{
+		  gridHandel.setFieldValue('amount',price*newV);    
+	  }
+	  updateFooter();
 }
 
 //监听是否赠品
@@ -313,7 +320,6 @@ function selectStockAndPrice(branchId,data){
 				id : val.skuId
 		};
 		GoodsStockVo.goodsSkuVo[i] = temp;
-		console.log(temp);
 	});
 	$.ajax({
     	url : contextPath+"/goods/goodsSelect/selectStockAndPriceToDo",
@@ -365,37 +371,50 @@ function setTion(datas){
 		var realNum = el.realNum;
         if(isNaN(el.realNum)){
 			el["realNum"]=parseFloat("7.00");
-        	console.log(el["realNum"]);
 		}
 	})
-	console.log(datas);
 	$.each(datas, function (index, el) {
 		var realNum = el.realNum;
+		var largeNum = el.largeNum;
 		if(selectVal==2){
-			
 			el["realNum"] = parseFloat(realNum)*-1;
+			el["largeNum"] = parseFloat(largeNum)*-1;
 		}
 		else{
-			el["realNum"] = parseFloat(realNum);
+			if(realNum<0){
+				  el["realNum"] = parseFloat(realNum)*-1;
+				  el["largeNum"] = parseFloat(largeNum)*-1;
+			    }
+			else{
+				   el["realNum"] = parseFloat(realNum);
+				   el["largeNum"] = parseFloat(largeNum);
+			   }
 		}
 		
 	})
-	console.log(datas);
 	return datas;
 }
 // 库存调整为负数
 function selectTion(){
-	//var rowsup=[];
+	
 	var rows = $('#gridEditOrder').datagrid('getRows');
 	var selectVal=$("#io").combobox('getValue');
 	$.each(rows, function (index, el) {
 		var realNum = el.realNum;
+		var largeNum = el.largeNum;
 		if(selectVal==2){
-			
 			el["realNum"] = parseFloat(realNum)*-1;
+			el["largeNum"] = parseFloat(largeNum)*-1;
 		}
 		else{
-			el["realNum"] = parseFloat(realNum);
+			if(realNum<0){
+				  el["realNum"] = parseFloat(realNum)*-1;
+				  el["largeNum"] = parseFloat(largeNum)*-1;
+			    }
+			else{
+				   el["realNum"] = parseFloat(realNum);
+				   el["largeNum"] = parseFloat(largeNum);
+			   }
 		}
 		
 	})
@@ -412,9 +431,9 @@ function saveOrder(){
 	 var branchId = $("#branchId").val();
     // 备注
     var remark = $("#remark").val();
-    
+    // 原因
     var reason = $("input[name='reason']").val()  
-    
+    // 选择出入库
     var io = $("#io").val();
     //验证表格数据
     $("#gridEditOrder").datagrid("endEdit", gridHandel.getSelectRowIndex());
@@ -424,44 +443,45 @@ function saveOrder(){
         totalNum = parseFloat(footerRows[0]["realNum"]||0.0).toFixed(4);
         amount = parseFloat(footerRows[0]["amount"]||0.0).toFixed(4);
     }
-
+    var selectVal=$("#io").combobox('getValue');
     var rows = gridHandel.getRows();
+    //判定请选择出/入库
+    if(selectVal==0){
+    	messager("请选择出/入库");
+        return;
+    }
+  //判定表格不能为空
     if(rows.length==0){
         messager("表格不能为空");
         return;
     }
    var isCheckResult = true;
     $.each(rows,function(i,v){
-        if(v["largeNum"]<=0){
-            messager("第"+(i+1)+"行，箱数必须大于0");
-            isCheckResult = false;
-            return false;
+    	 if(!v["skuCode"]){
+             messager("第"+(i+1)+"行，货号不能为空");
+             isCheckResult = false;
+             return false;
+         };
+      
+        if(selectVal==2){
+	        if(parseFloat(v["sellable"])+parseFloat(v["realNum"])<0){
+	          messager("调整扣减数量不允许超过当前可销售库存数量！");
+	          isCheckResult = false;
+	          return false;
+	        }
         }
-        if(v["realNum"]<=0){
-            messager("第"+(i+1)+"行，数量必须大于0");
-            isCheckResult = false;
-            return false;
-        }
-        if(v["sellable"]+v["realNum"]<0){
-          messager("调整扣减数量不允许超过当前可销售库存数量！返回");
-        }
-        
     });
     if(!isCheckResult){
         return;
     }
     var saveData = JSON.stringify(rows);
-    console.log(saveData);
     var stockFormDetailList = tableArrayFormatter(rows,"stockFormDetailList");
-    console.log(stockFormDetailList);
     var reqObj = $.extend({
     	io:io,
     	createBranchId:branchId,
         reason:reason,
         remark:remark,
     }, stockFormDetailList);
-    
-    console.log(reqObj);
     $.ajax({
         url:contextPath+"/stock/adjust/addStockForm",
         type:"POST",
@@ -472,7 +492,7 @@ function saveOrder(){
                 	location.href = contextPath +"/stock/adjust/edit?id=" + result["formId"];
                 });
             }else{
-                successTip(result['message']);
+               successTip(result['message']);
             }
         },
         error:function(result){
@@ -494,7 +514,6 @@ function check(){
 		    		stockType : 'DI'
 		    	},
 		    	success:function(result){
-		    		console.log(result);
 		    		if(result['code'] == 0){
 		    			$.messager.alert("操作提示", "操作成功！", "info",function(){
 		    				contextPath +"/stock/adjust/list";
@@ -545,7 +564,6 @@ function importHandel(type){
 	        type:type
 	    }
 	    new publicUploadFileService(function(data){
-	        console.log(data);
 	        updateListData(data);
 	    },param)
 }

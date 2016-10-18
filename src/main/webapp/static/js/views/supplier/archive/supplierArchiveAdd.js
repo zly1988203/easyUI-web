@@ -7,7 +7,6 @@ $(function(){
 	bindSupplierAreaSelect();
 	
 	var supplierIdVal = $("#supplierIdVal").val();
-	
 	if(supplierIdVal){
 		//初始化下拉框选中值
 		selectParamInit();
