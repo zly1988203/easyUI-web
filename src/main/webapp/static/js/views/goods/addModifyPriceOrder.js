@@ -422,11 +422,9 @@ function saveModifyPriceOrder() {
 			$.ajax({
 					type : "POST",
 					url : contextPath + "/goods/priceAdjust/saveForm",
-					data : {
-						list:reqObj
-					},
-					dataType:"json", 
-					//contentType : "application/json",
+					data : reqObj,
+					//dataType:"json",
+					contentType : "application/json",
 		            //contentType : "text/html;charset=UTF-8",
 					success : function(data) {
 						if (data.code == 0) {
@@ -493,10 +491,8 @@ function updateModifyPriceOrder() {
 			$.ajax({
 					type : "POST",
 					url : contextPath + "/goods/priceAdjust/updateForm",
-					data : {
-						list:reqObj
-					},
-					dataType : "json",
+					data : reqObj,
+					//dataType : "json",
 					success : function(data) {console.info(data)
 						if (data.code == 0) {
 							isClickSaveData = true;

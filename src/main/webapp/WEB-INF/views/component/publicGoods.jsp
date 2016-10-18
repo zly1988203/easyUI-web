@@ -310,7 +310,11 @@ pageEncoding="UTF-8"%>
         fitColumns:true,    //每列占满
         //fit:true,            //占满
         pageSize:10,
+<<<<<<< HEAD
       /*   pageList : [10,1000], */
+=======
+        pageList:[10,1000],
+>>>>>>> branch 'master' of http://10.20.101.5/ERP/okdeer-jxc-web.git
         showFooter:true,
         height:'100%',
         columns:[arrColumns],

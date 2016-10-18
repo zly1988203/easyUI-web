@@ -142,6 +142,7 @@ public class CostAdjustController extends BaseController<StockCostForm>{
 			LOG.info("qo:" + vo.toString());
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
+			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
 			PageUtils<StockCostForm> page = stockCostFormServiceApi.queryLists(vo);
 			LOG.info("page" + page.toString());
 			return page;

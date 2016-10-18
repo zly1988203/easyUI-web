@@ -24,6 +24,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -199,9 +200,9 @@ public class GoodsPriceAdjustController extends
 	 * @author lijy02
 	 * @date 2016年8月4日
 	 */
-	@RequestMapping(value = "/saveForm", method = RequestMethod.POST, produces = "application/json")
+	@RequestMapping(value = "/saveForm", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson saveForm(String list) {
+	public RespJson saveForm(@RequestBody String list) {
 		String formNo = "";
 		String createTime = "";
 		String createUserName = "";
@@ -326,9 +327,9 @@ public class GoodsPriceAdjustController extends
 	 * @author lijy02
 	 * @date 2016年8月6日
 	 */
-	@RequestMapping(value = "/updateForm", method = RequestMethod.POST, produces = "application/json")
+	@RequestMapping(value = "/updateForm", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson updateForm(String list) {
+	public RespJson updateForm(@RequestBody String list) {
 		GoodsPriceFormAll goodsPriceFormAll = null;
 		GoodsPriceForm goodsPriceForm = null;
 		List<GoodsPriceFormDetail> goodsPriceFormDetailList = null;

@@ -813,11 +813,13 @@ public class DeliverFormController extends
 						@Override
 						public void errorDataFormatter(List<JSONObject> list) {
 							for (JSONObject obj : list) {
-								String isGift = obj.getString("isGift");
-								if ("1".equals(isGift)) {
-									obj.element("isGift", "是");
-								} else if ("0".equals(isGift)) {
-									obj.element("isGift", "否");
+								if (obj.containsKey("isGift")) {
+									String isGift = obj.getString("isGift");
+									if ("1".equals(isGift)) {
+										obj.element("isGift", "是");
+									} else if ("0".equals(isGift)) {
+										obj.element("isGift", "否");
+									}
 								}
 							}
 						}
