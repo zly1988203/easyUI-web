@@ -13,8 +13,8 @@ import com.okdeer.jxc.goods.entity.GoodsSelect;
 import net.sf.json.JSONObject;
 
 /**
+ * 商品选择excel导入处理接口
  * ClassName: GoodsSelectImportHandle 
- * @Description: TODO
  * @author xiaoj02
  * @date 2016年10月14日
  *
