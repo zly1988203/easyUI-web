@@ -152,6 +152,16 @@ public interface ExportExcelConstant {
 	String PURCHASE_GOODS_BARCODE_TEMPLE = "PurchaseGoodsBarCodeTemple.xlsx";
 	
 	/**
+	 * 商品引入货号导入模板
+	 */
+	String GOODS_INTRODUCE_SKU_CODE_TEMPLE = "GoodsIntroduceSkuCodeTemple.xlsx";
+	
+	/**
+	 * 商品引入条码导入模板
+	 */
+	String GOODS_INTRODUCE_BAR_CODE_TEMPLE = "GoodsIntroduceBarCodeTemple.xlsx";
+	
+	/**
 	 * 配送要货单货号导入模板
 	 */
 	String DELIVER_GOODS_SKUCODE_TEMPLE = "DeliverGoodsSkuCodeTemple.xlsx";
