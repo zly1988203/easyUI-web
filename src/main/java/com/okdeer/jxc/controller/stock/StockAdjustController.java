@@ -249,7 +249,7 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 			return stockAdjustServiceApi.check(id,user.getId());
 		} catch (Exception e) {
 			LOG.error("审核单据信息异常:{}", e);
-			resp = RespJson.error("审核单据信息失败");
+			resp = RespJson.error(e.getMessage());
 		}
 		return resp;
 	}

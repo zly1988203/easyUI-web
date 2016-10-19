@@ -433,7 +433,7 @@ function saveModifyPriceOrder() {
 						if (data.code == 0) {
 							isClickSaveData = true;
 							// 代表点击过保存单据数据
-							$.messageur.alert('提示','单据保存成功！',"info",function() {
+							$.messager.alert('提示','单据保存成功！',"info",function() {
 										// window.location.href =
 										// contextPath+"/goods/priceAdjust/showDetail?formNo="+data.formNo;
 										addModifyPriceGridDg.datagrid('options').queryParams = {formNo : data.goodsPriceForm.formNo};

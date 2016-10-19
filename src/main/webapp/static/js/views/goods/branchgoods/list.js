@@ -318,7 +318,11 @@ function importShow(type){
 //模板导出
 function exportTemp(){
 	var type = $("#temple").val();
-	location.href=contextPath+'/form/purchase/exportTemp?type='+type;
+	if(type==0){
+		location.href=contextPath+'/form/purchase/exportTemp?type=2';
+	}else if(type==1){
+		location.href=contextPath+'/form/purchase/exportTemp?type=3';
+	}
 }
 
 

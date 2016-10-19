@@ -72,7 +72,7 @@ function initDatagridEditRequireOrder(){
                   {field:'barCode',title:'国际条码',width:'150px',align:'left'},
                   {field:'unit',title:'单位',width:'60px',align:'left'},
                   {field:'spec',title:'规格',width:'90px',align:'left'},
-                  {field:'price',title:'单价',width:'80px',align:'right',
+                  {field:'price',title:'成本价',width:'80px',align:'right',
                       formatter:function(value,row,index){
                           if(row.isFooter){
                               return

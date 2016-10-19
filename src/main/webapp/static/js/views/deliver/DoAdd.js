@@ -423,8 +423,10 @@ function setDataValue(data) {
 
 //查询价格、库存
 function selectStockAndPrice(sourceBranchId,data){
+	var targetBranchId = $("#targetBranchId").val();
 	var GoodsStockVo = {
 			branchId : sourceBranchId,
+			stockBranchId : targetBranchId,
 			fieldName : 'id',
 			goodsSkuVo : [],
 		}; 
@@ -734,8 +736,10 @@ function toImportproduct(type){
 
 //查询价格、库存
 function selectStockAndPriceImport(sourceBranchId,data){
+	var targetBranchId = $("#targetBranchId").val();
 	var GoodsStockVo = {
 			branchId : sourceBranchId,
+			stockBranchId : targetBranchId,
 			fieldName : 'id',
 			goodsSkuVo : [],
 		}; 
