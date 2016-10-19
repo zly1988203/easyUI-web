@@ -25,11 +25,11 @@
 	                </shiro:hasPermission>
 	                <div class="ubtns-item" onclick="resetForm()">重置</div>
 	                <shiro:hasPermission name="JxcGoodsIntroduce:importBySkuCode">
-					  <div class="ubtns-item" onclick="importShow(0)">货号导入</div>
+					  <div class="ubtns-item" onclick="importShow(0)">导入货号</div>
 					</shiro:hasPermission>
 					
 					<shiro:hasPermission name="JxcGoodsIntroduce:importByBarCode">
-	                <div class="ubtns-item" onclick="importShow(1)">条码导入</div>
+	                <div class="ubtns-item" onclick="importShow(1)">导入条码</div>
 	                </shiro:hasPermission>
 	                 
 	                <shiro:hasPermission name="JxcGoodsIntroduce:enabled">

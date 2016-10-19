@@ -1031,12 +1031,17 @@ public class PurchaseFormController extends
 			String fileName = "";
 			String templateName = "";
 			if(Constant.ZERO == type) {
-				//商品货号
 				templateName = ExportExcelConstant.PURCHASE_GOODS_SKUCODE_TEMPLE;
 				fileName = "商品货号导入模板";
 			}else if(Constant.ONE == type){
 				templateName = ExportExcelConstant.PURCHASE_GOODS_BARCODE_TEMPLE;
 				fileName = "商品条码导入模板";
+			}else if(Constant.TWO == type) {
+				templateName = ExportExcelConstant.GOODS_INTRODUCE_SKU_CODE_TEMPLE;
+				fileName = "商品引入货号导入模板";
+			}else if(Constant.THREE == type) {
+				templateName = ExportExcelConstant.GOODS_INTRODUCE_BAR_CODE_TEMPLE;
+				fileName = "商品引入条码导入模板";
 			}
 			if(StringUtils.isNotBlank(fileName) && StringUtils.isNotBlank(templateName)){
 				exportListForXLSX(response, null, fileName, templateName);
