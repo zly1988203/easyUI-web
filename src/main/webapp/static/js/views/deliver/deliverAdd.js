@@ -334,10 +334,19 @@ function setDataValue(data) {
 
 // 查询价格、库存
 function selectStockAndPrice(sourceBranchId,targetBranchId,data){
+	var targetBranchType = $("#targetBranchType").val();
+	var type;
+    // C类加盟店显示为发货机构的商品表
+    if (targetBranchType === '5' || targetBranchType === '4') {
+    	type = 'no';
+    } else {
+    	type = 'yes';
+    }
 	var GoodsStockVo = {
 			branchId : targetBranchId,
 			stockBranchId : sourceBranchId,
 			fieldName : 'id',
+			type : type,
 			goodsSkuVo : [],
 		}; 
 	$.each(data,function(i,val){
@@ -628,10 +637,19 @@ function toImportproduct(type){
 
 //查询价格、库存
 function selectStockAndPriceImport(sourceBranchId,targetBranchId,data){
+	var targetBranchType = $("#targetBranchType").val();
+	var type;
+    // C类加盟店显示为发货机构的商品表
+    if (targetBranchType === '5' || targetBranchType === '4') {
+    	type = 'no';
+    } else {
+    	type = 'yes';
+    }
 	var GoodsStockVo = {
 			branchId : targetBranchId,
 			stockBranchId : sourceBranchId,
 			fieldName : 'id',
+			type : type,
 			goodsSkuVo : [],
 		}; 
 	$.each(data,function(i,val){

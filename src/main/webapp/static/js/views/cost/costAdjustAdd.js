@@ -8,7 +8,7 @@ $(function(){
 });
 var gridDefault = {
     //actual:0,
-    largeNum:0,
+	costPrice:0,
     isGift:0,
 }
 var gridHandel = new GridClass();
@@ -66,6 +66,9 @@ function initDatagridAddRequireOrder(){
                     if(row.isFooter){
                         return
                     }
+                    if(!value){
+                        row["oldCostPrice"] = 0.00;
+                    }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
                 editor:{
@@ -102,7 +105,7 @@ function initDatagridAddRequireOrder(){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                     }
                     if(!value||value==""||parseFloat(value)==0.0){
-                    	row["actual"] = row["dealNum"];
+                    	row["actual"] = row["dealNum"]||0.00;
                   	  value = row["actual"];
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -113,7 +116,7 @@ function initDatagridAddRequireOrder(){
                     options:{
                     	disabled:true,
                         min:0,
-                        precision:4,
+                        precision:2,
                         
                     }
                 },
@@ -143,6 +146,7 @@ function initDatagridAddRequireOrder(){
             var target = gridHandel.getFieldTarget(field);
             if(target){
                 gridHandel.setFieldFocus(target);
+                console.log(target);
             }else{
                 gridHandel.setSelectFieldName("skuCode");
             }
@@ -255,8 +259,8 @@ function setDataValue(data) {
     $("#gridEditOrder").datagrid("loadData",newRows);
     setTimeout(function(){
         gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
-        gridHandel.setSelectFieldName("largeNum");
-        gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
+        gridHandel.setSelectFieldName("costPrice");
+        gridHandel.setFieldFocus(gridHandel.getFieldTarget('costPrice'));
     },100)
 }
 

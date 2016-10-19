@@ -63,7 +63,7 @@
                    <div class="umar-r10 uw-70 ut-r">备注:</div>
                    <input class="uinp uninputs" type="text" id="remark" name="remark">
                </div>
-               <div class="ub ub-ac umar-l20 uw-300">
+               <div class="ub ub-ac  uw-300">
                    <div class="umar-r10 uw-70 ut-r">审核人员:</div>
                    <div class="utxt"></div>
                </div>
