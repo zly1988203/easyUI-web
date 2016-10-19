@@ -66,6 +66,9 @@ function initDatagridAddRequireOrder(){
                     if(row.isFooter){
                         return
                     }
+                    if(!value){
+                        row["oldCostPrice"] = 0.00;
+                    }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
                 editor:{
@@ -102,7 +105,7 @@ function initDatagridAddRequireOrder(){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                     }
                     if(!value||value==""||parseFloat(value)==0.0){
-                    	row["actual"] = row["dealNum"];
+                    	row["actual"] = row["dealNum"]||0.00;
                   	  value = row["actual"];
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -113,7 +116,7 @@ function initDatagridAddRequireOrder(){
                     options:{
                     	disabled:true,
                         min:0,
-                        precision:4,
+                        precision:2,
                         
                     }
                 },

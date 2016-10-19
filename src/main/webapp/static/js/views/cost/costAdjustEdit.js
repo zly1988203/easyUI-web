@@ -82,6 +82,9 @@ function initDatagridEditRequireOrder(){
 		        		  if(row.isFooter){
 		        			  return
 		        		  }
+						  if(!value){
+							  row["oldCostPrice"] = 0.00;
+						  }
 		        		  return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		        	  },
 		        	  editor:{
@@ -118,7 +121,7 @@ function initDatagridEditRequireOrder(){
 		        			  return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		        		  }
 		        		  if(!value||value==""||parseFloat(value)==0.0){
-		        			  row["actual"] = row["dealNum"];
+		        			  row["actual"] = row["dealNum"]||0.00;
 		        			  value = row["actual"];
 		        		  }
 		        		  return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -129,7 +132,7 @@ function initDatagridEditRequireOrder(){
 		        		  options:{
 		        			  disabled:true,
 		        			  min:0,
-		        			  precision:4,
+		        			  precision:2,
 
 		        		  }
 		        	  },
@@ -214,8 +217,8 @@ function selectGoods(searchKey){
 	}
     new publicGoodsService("",function(data){
         if(searchKey){
-            $("#gridEditOrder").datagrid("deleteRow", gridHandel.getSelectRowIndex());
-            $("#gridEditOrder").datagrid("acceptChanges");
+            $("#gridEditRequireOrder").datagrid("deleteRow", gridHandel.getSelectRowIndex());
+            $("#gridEditRequireOrder").datagrid("acceptChanges");
         }
         selectStockAndPrice(branchId,data);
   
@@ -251,11 +254,13 @@ function selectStockAndPrice(branchId,data){
 }
 //二次查询设置值
 function setDataValue(data) {
+	debugger;
 	for(var i in data){
     	var rec = data[i];
     	rec.remark = "";
     }
     var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
+	debugger;
     var addDefaultData  = gridHandel.addDefault(data,gridDefault);
     var keyNames = {
 		distributionPrice:'price',
@@ -269,11 +274,11 @@ function setDataValue(data) {
     var argWhere ={skuCode:1};  //验证重复性
     var isCheck ={isGift:1 };   //只要是赠品就可以重复
     var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
-    $("#gridEditOrder").datagrid("loadData",newRows);
+    $("#gridEditRequireOrder").datagrid("loadData",newRows);
     setTimeout(function(){
         gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
-        gridHandel.setSelectFieldName("largeNum");
-        gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
+        gridHandel.setSelectFieldName("costPrice");
+        gridHandel.setFieldFocus(gridHandel.getFieldTarget('costPrice'));
     },100)
 }
 
@@ -495,7 +500,7 @@ function toBack(){
  * 导入
  */
 function importHandel(){
-	postelsxDeliver('gridEditOrder','/goods/goodsSelect',$("#sourceBranchId").val(),$("#targetBranchId").val(),"DA");
+	postelsxDeliver('gridEditRequireOrder','/goods/goodsSelect',$("#sourceBranchId").val(),$("#targetBranchId").val(),"DA");
 }
 
 /**
