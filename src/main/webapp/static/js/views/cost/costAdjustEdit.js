@@ -21,7 +21,7 @@ $(function(){
 });
 var gridDefault = {
 		//receiveNum:0,
-		largeNum:0,
+		//largeNum:0,
 		isGift:0,
 }
 var oldData = {};
@@ -368,6 +368,7 @@ function saveDataHandel(rows){
 		var temp = {
 				actual: data.actual,
 				costPrice:data.costPrice,
+				oldCostPrice:data.oldCostPrice,
 				diffMoney:data.diffMoney,
 				remark : data.remark,
 				skuCode : data.skuCode,
