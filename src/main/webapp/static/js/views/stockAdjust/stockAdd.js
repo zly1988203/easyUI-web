@@ -66,6 +66,9 @@ function initDatagridAddRequireOrder(){
                     if(row.isFooter){
                         return
                     }
+                    if(!value){
+                    	row["price"] = 0.00;
+                    }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
                 editor:{
@@ -511,6 +514,7 @@ function saveOrder(){
         return;
     }
     var saveData = JSON.stringify(rows);
+    console.log(saveData);
     var stockFormDetailList = tableArrayFormatter(rows,"stockFormDetailList");
     var reqObj = $.extend({
     	io:io,
@@ -631,9 +635,10 @@ function updateListData(data){
     var argWhere ={skuCode:1};  //验证重复性
     var isCheck ={isGift:1 };   //只要是赠品就可以重复
     var newRows = gridHandel.checkDatagrid(data,rows,argWhere,isCheck);
+    //导入箱数计算
     $.each(data, function (index, el) {	
-       el["largeNum"] =  el["realNum"]
-    })
+	       el["largeNum"] =parseFloat(el["realNum"])/parseFloat(el["purchaseSpec"]);
+	  })
     $("#gridEditOrder").datagrid("loadData",data);
 }
 
