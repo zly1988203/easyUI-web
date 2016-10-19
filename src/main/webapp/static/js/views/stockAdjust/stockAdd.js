@@ -381,7 +381,7 @@ function setDataValue(data) {
     var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
     var addDefaultData  = gridHandel.addDefault(data,gridDefault);
     var keyNames = {
-		distributionPrice:'price',
+		costPrice:'price',
         id:'skuId',
         disabled:'',
         io:'',
@@ -618,7 +618,7 @@ function updateListData(data){
    /* var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
     var addDefaultData  = gridHandel.addDefault(data,gridDefault);*/
     var keyNames = {
-        purchasePrice:'price',
+        costPrice:'price',
         id:'skuId',
         disabled:'',
         io:'',
