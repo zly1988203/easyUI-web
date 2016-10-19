@@ -84,6 +84,7 @@ function addHandel(){
         resizable: true,
         onClose: function () {
             $(addDalogTemp).panel('destroy');
+            addDalogTemp = null;
         },
         modal: true,
         onLoad: function () {
@@ -108,6 +109,7 @@ function editHandel(areaId,areaCode,areaName){
         resizable: true,
         onClose: function () {
             $(editDalogTemp).panel('destroy');
+            editDalogTemp = null;
         },
         modal: true,
         onLoad: function () {
