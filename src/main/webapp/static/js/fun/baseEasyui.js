@@ -106,6 +106,20 @@ var dateUtil = {
     },
     
     /**
+     * 获取系统当前时间显示值，默认格式yyyy-MM-dd
+     * @returns {string}
+     */
+    getCurrentDateDay:function (fmt) {
+    	
+    	//默认时间格式化
+    	if(!fmt){
+    		fmt = "yyyy-MM-dd";
+    	}
+    	var d = this.getCurrentDate();
+    	return dateUtil.addEndTime(d).format(fmt);
+    },
+    
+    /**
      * 获取当前日期前面几天或者后面几天
      * @returns {string}
      */

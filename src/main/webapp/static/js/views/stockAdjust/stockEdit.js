@@ -362,7 +362,7 @@ function setDataValue(data) {
     var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
     var addDefaultData  = gridHandel.addDefault(data,gridDefault);
     var keyNames = {
-		distributionPrice:'price',
+		costPrice:'price',
         id:'skuId',
         disabled:'',
         pricingType:'',
@@ -474,7 +474,7 @@ function saveOrder(){
     // 原因
     var reason = $("input[name='reason']").val()
     // 选择出入库
-    var io = $("#io").val();
+   // var io = $("input[name='io']").val();
    
 
     var selectVal=$("#io").combobox('getValue');
@@ -492,7 +492,7 @@ function saveOrder(){
             isCheckResult = false;
             return false;
         };
-        if(selectVal==2){
+        if(selectVal==1){
 	        if(parseFloat(v["sellable"])+parseFloat(v["realNum"])<0){
 	          messager("调整扣减数量不允许超过当前可销售库存数量！");
 	          isCheckResult = false;
@@ -510,7 +510,7 @@ function saveOrder(){
     	id : $("#formId").val(),
         remark : remark,
         reason :reason,
-        io :'1'
+        io :selectVal
     }, stockFormDetailList);
     $.ajax({
         url:contextPath+"/stock/adjust/updateStockForm",
@@ -638,7 +638,7 @@ function updateListData(data){
 	   /* var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
 	    var addDefaultData  = gridHandel.addDefault(data,gridDefault);*/
 	    var keyNames = {
-	        purchasePrice:'price',
+	        costPrice:'price',
 	        id:'skuId',
 	        disabled:'',
 	        pricingType:'',

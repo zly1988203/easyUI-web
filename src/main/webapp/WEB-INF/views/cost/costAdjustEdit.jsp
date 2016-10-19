@@ -17,12 +17,13 @@
               <shiro:hasPermission name="JxcCostAdjust:add">
                 <div class="ubtns-item" onclick="editsaveOrder()">保存</div>
               </shiro:hasPermission>
+                <div class="ubtns-item" onclick="costcheck()">审核</div>
                 <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
+                    <div class="ubtns-item" onclick="delCostForm()">删单</div>
                 <div class="ubtns-item" id="importdetail" onclick="toImportproduct(0)">导入货号</div>
           		<div class="ubtns-item" id="importdetail" onclick="toImportproduct(1)">导入条码</div>
                 <div class="ubtns-item" onclick="exportExcel()">导出</div>
-                 <div class="ubtns-item" onclick="costcheck()">审核</div>
-                <div class="ubtns-item" onclick="delCostForm()">删单</div>
+    
                 <div class="ubtns-item" onclick="toBack()">返回</div>
             </div>
         </div>

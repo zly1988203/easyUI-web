@@ -129,7 +129,6 @@ function initDatagridAddRequireOrder(){
                     type:'numberbox',
                     options:{
                     	disabled:true,
-                        min:0,
                         precision:2,
                     }
                 },
@@ -282,7 +281,6 @@ function addsaveOrder(){
             isCheckResult = false;
             return false;
         };
-        debugger;
         if(parseFloat(v["costPrice"])<=0){
             isChcekPrice = true;
         }
