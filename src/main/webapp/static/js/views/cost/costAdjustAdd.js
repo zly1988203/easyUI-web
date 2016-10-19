@@ -8,7 +8,7 @@ $(function(){
 });
 var gridDefault = {
     //actual:0,
-    largeNum:0,
+	costPrice:0,
     isGift:0,
 }
 var gridHandel = new GridClass();
@@ -143,6 +143,7 @@ function initDatagridAddRequireOrder(){
             var target = gridHandel.getFieldTarget(field);
             if(target){
                 gridHandel.setFieldFocus(target);
+                console.log(target);
             }else{
                 gridHandel.setSelectFieldName("skuCode");
             }
@@ -255,8 +256,8 @@ function setDataValue(data) {
     $("#gridEditOrder").datagrid("loadData",newRows);
     setTimeout(function(){
         gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
-        gridHandel.setSelectFieldName("largeNum");
-        gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
+        gridHandel.setSelectFieldName("costPrice");
+        gridHandel.setFieldFocus(gridHandel.getFieldTarget('costPrice'));
     },100)
 }
 

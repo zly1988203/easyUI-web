@@ -199,7 +199,7 @@ function initDatagridEditOrder(){
                     }
                 },
             },
-            {field:'remark',title:'备注',width:'200px',align:'left'}
+            {field:'remark',title:'备注',width:'200px',align:'left',editor:'textbox'}
         ]],
         onClickCell:function(rowIndex,field,value){
             gridHandel.setBeginRow(rowIndex);
