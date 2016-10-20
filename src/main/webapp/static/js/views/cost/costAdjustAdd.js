@@ -8,7 +8,7 @@ $(function(){
 });
 var gridDefault = {
     //actual:0,
-	costPrice:0,
+	//costPrice:0,
     isGift:0,
 }
 var gridHandel = new GridClass();
@@ -331,6 +331,7 @@ function saveDataHandel(rows){
         var temp = {
             actual: data.actual,
             costPrice:data.costPrice,
+            oldCostPrice:data.oldCostPrice,
             diffMoney:data.diffMoney,
             remark : data.remark,
             skuCode : data.skuCode,
