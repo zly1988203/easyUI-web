@@ -10,7 +10,7 @@ $(function(){
 
 //初始化默认条件
 function initConditionParams(){
-	$("#createTime").html(dateUtil.getCurrentDateStr());
+	$("#createTime").html(new Date().format('yyyy-MM-dd hh:mm')); 
 	
 	 //初始化机构ID，机构名称
     $("#branchId").val(sessionBranchId);
