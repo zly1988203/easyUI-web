@@ -13,9 +13,26 @@ $(function(){
 		discountRows($(this).val());
 	})
 });
-var grid = new GridClass();
-grid.setGridName("pricePrint");
+var gridHandel = new GridClass();
+gridHandel.setGridName("pricePrint");
 function initPricePrintGrid() {
+    gridHandel.setGridName("gridEditOrder");
+    gridHandel.initKey({
+        firstName:'skuCode',
+        enterName:'skuCode',
+        enterCallBack:function(arg){
+            if(arg&&arg=="add"){
+                gridHandel.addRow(parseInt(gridHandel.getSelectRowIndex())+1,gridDefault);
+                setTimeout(function(){
+                    gridHandel.setBeginRow(gridHandel.getSelectRowIndex()+1);
+                    gridHandel.setSelectFieldName("skuCode");
+                    gridHandel.setFieldFocus(gridHandel.getFieldTarget('skuCode'));
+                },100)
+            }else{
+                selectGoods(arg);
+            }
+        },
+    })
 	$("#"+datagridId).datagrid({
 		//title:'普通表单-用键盘操作',
 		method: 'get',
@@ -88,46 +105,32 @@ function initPricePrintGrid() {
 }
 
 
-var gVarImportType = '1';
-function importproduct(){
-	gVarImportType = '0';
-	if(subArry){
-		subArry = [];
+//导入
+function toImportproduct(type){
+    var param = {
+        url:contextPath+"/cost/costAdjust/importList",
+        tempUrl:contextPath+"/cost/costAdjust/exportTemp",
+        type:type,
+        
+    }
+    new publicUploadFileService(function(data){
+        updateListData(data);
+        
+    },param)
+}
+function updateListData(data){
+	    var keyNames = {
+	        id:'skuId',
+	        promotionPrice:"salePrice"
+	    };
+	    var rows = gFunUpdateKey(data,keyNames);
+	    var argWhere ={skuCode:1};  //验证重复性
+	    var isCheck ={isGift:1 };   //只要是赠品就可以重复
+	    var newRows = gridHandel.checkDatagrid(data,rows,argWhere,isCheck);
+
+	    $("#pricePrint").datagrid("loadData",data);
 	}
-	$('#xlf').val("");
-	$('#filename').val("");
-	$('#temple').attr("value","barCodeTemple");
-	$('.uatk').show();
 
-}
-function importproductAll(){
-	gVarImportType = '1';
-	if(subArryAll){
-		subArryAll = [];
-	}
-	$('#xlf').val("");
-	$('#filename').val("");
-	$('#temple').attr("value","skuCodeTemple");
-	$('.uatk').show();
-
-}
-
-//导入模板下载共用
-function importproductTemplate(param){
-	if(subArryAll){
-		subArryAll = [];
-	}
-	$('#xlf').val("");
-	$('#filename').val("");
-	$('#temple').attr("value",param);
-	$('.uatk').show();
-}
-
-function uaclose(){
-	$('#filename').val("");
-	$('.uatk').hide();
-
-}
 
 //打印数设置 表格列数同步
 function printRows(printNum){
@@ -180,13 +183,9 @@ function printtable(){
 		var printdata= $("#"+datagridId).datagrid('getRows');
 		console.log(printdata);
 		var tabledata=JSON.stringify(printdata);
-		/* var printNo= $('#optionseletc').val();*/
 		var printNo=$("#optionseletc").find("option:selected").val();
-		//console.log("printNo:"+printNo);
 		var checkText=$('#optionseletc').combobox('getValue');
-		//console.log("checkText:"+checkText);
 		var data=tabledata.substring(tabledata.indexOf('['),tabledata.lastIndexOf(']')+1) 
-		// console.log("data:"+data.length);
 		// 为空判断data.length的长度
 		if(data.length>=3){
 			storage.prdata=data;
