@@ -13,7 +13,8 @@
 			<!--buttons-->
 			<div class="ubtns">
 				<div class="ubtns-item" onclick="chooseproduct()">商品选择</div>
-				<div class="ubtns-item" onclick="importproduct();">导入货号</div>
+				<div class="ubtns-item" id="importdetail" onclick="toImportproduct(0)">导入货号</div>
+          		<div class="ubtns-item" id="importdetail" onclick="toImportproduct(1)">导入条码</div>
 				<div class="ubtns-item" onclick="printtable()">打印</div>
 				<div class="ubtns-item" onclick="toClose()">关闭</div>
 
