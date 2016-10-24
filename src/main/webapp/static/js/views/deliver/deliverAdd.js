@@ -4,7 +4,7 @@
  */
 var targetBranchTypeTemp = "";
 $(function(){
-    $("#createTime").html(new Date().format('yyyy-MM-dd hh:mm'));
+    $("#createTime").html(new Date().format('yyyy-MM-dd hh:mm')); 
     initDatagridAddRequireOrder();
     targetBranchTypeTemp = $("#targetBranchType").val();
 });
