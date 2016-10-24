@@ -79,9 +79,23 @@ public interface ExportExcelConstant {
 	String SKUCODE_TEMPLE_TYPE = "skuCodeTemple";
 	
 	/**
+	 * @Fields BARCODE_TEMPLE : 条码导出模板
+	 */
+	String BARCODE_TEMPLE = "barCodeTemp.xlsx";
+	/**
+	 * @Fields SKUCODE_TEMPLE : 货号导出模板
+	 */
+	String SKUCODE_TEMPLE = "skuCodeTemp.xlsx";
+	
+	
+	/**
 	 * 商品档案导出模板
 	 */
 	String GOODS_EXPORT_EXCEL = "goodsExport.xlsx";
+	
+	
+	
+	
 	/**
 	 * 商品档案导出模板
 	 */

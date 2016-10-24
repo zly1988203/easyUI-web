@@ -399,6 +399,9 @@ public class CostAdjustController extends BaseController<StockCostForm>{
 			String fileName = file.getOriginalFilename();
 			
 			SysUser user = UserUtil.getCurrentUser();
+			if(branchId==null){
+				branchId=UserUtil.getCurrBranchId();
+			}
 			
 			String[] field = null; 
 			

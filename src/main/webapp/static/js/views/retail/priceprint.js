@@ -108,8 +108,8 @@ function initPricePrintGrid() {
 //导入
 function toImportproduct(type){
     var param = {
-        url:contextPath+"/cost/costAdjust/importList",
-        tempUrl:contextPath+"/cost/costAdjust/exportTemp",
+        url:contextPath+"/print/importList",
+        tempUrl:contextPath+"/print/exportTemp",
         type:type,
         
     }
