@@ -124,10 +124,8 @@ function loadLeftMenu(){
                 //循环二级菜单 begin
                 $(o.children).each(function(j){
                     var p = this;
-
                     //二级菜单01，有子菜单，有三级菜单，即无URL的
                     if(!p.isleaf){
-                    	
                     	divHtml += 	"<div class=\"menu-two-item ub ub-ver\" >";
                     	divHtml +=			"<div class=\"item-title\">"+p.name+"</div>";
                     	divHtml +=			"<div class=\"item-list ub ub-ver\">";
