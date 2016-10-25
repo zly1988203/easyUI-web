@@ -317,7 +317,7 @@ function saveGoodsArchives(){
 	//校验商品条码是否重复
 	var pricingType = $('#pricingType option:selected').val();
 	var barCode = $("#barCode").val();
-	if(pricingType == "ordinary"){// 普通商品需要校验条码是否重复
+	if(pricingType == "ORDINARY"){// 普通商品需要校验条码是否重复
 		var reqObj = reqObj = {"barCode":barCode, "id":$("#id").val()};
 
 		$.ajax({
@@ -326,18 +326,11 @@ function saveGoodsArchives(){
 			data:reqObj,
 			async:false, 
 			success:function(result){
-				if(result.code == 0){ //条码不重复
-					submitForm(type);
-
+				if(result.code == 0){
+					submitForm();
 				}else{
-					$.messager.confirm('提示', '条码重复，是否确认提交？', function(data){
-						if(data){
-							submitForm(type);
-
-						}else{
-							return;
-						}
-					});
+					$('#updateGoodsArchives').removeAttr("disabled");
+					$.messager.alert("提示",result.message);
 				}
 			},
 			error:function(result){

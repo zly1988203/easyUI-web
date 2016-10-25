@@ -372,28 +372,32 @@ function saveGoodsArchives(){
 		$('#saveGoodsArchives').removeAttr("disabled");
 		return;
 	}
-	submitForm();
-	/*不验证条码，称重商品默认取货号*/
-	//先判断商品条码是否重复
-//	var reqObj = {"barCode":$("#barCode").val()};
-//	$.ajax({
-//	url:contextPath+"/common/goods/checkBarCodeByOrdinary",
-//	type:"POST",
-//	data:reqObj,
-//	success:function(result){
-//	console.log("商品条码是否重复==",result);
-//	if(result.code == 0){ //条码不重复
-//	//提交表单
-//	submitForm();
-//	}else{ //条码重复
-//	//若条码重复，提示“商品条码重复”  result.message
-//	$.messager.alert('提示',result.message);
-//	}
-//	},
-//	error:function(result){
-//	console.log(result);
-//	}
-//	});
+	
+	//校验商品条码是否重复
+	var pricingType = $('#pricingType option:selected').val();
+	var barCode = $("#barCode").val();
+	if(pricingType == "ORDINARY"){// 普通商品需要校验条码是否重复
+		var reqObj = reqObj = {"barCode":barCode, "id":$("#id").val()};
+		$.ajax({
+			url:contextPath+"/common/goods/checkBarCodeByOrdinary",
+			type:"POST",
+			data:reqObj,
+			async:false, 
+			success:function(result){
+				if(result.code == 0){
+					submitForm();
+				}else{
+					$('#saveGoodsArchives').removeAttr("disabled");
+					$.messager.alert("提示",result.message);
+				}
+			},
+			error:function(result){
+				console.log(result);
+			}
+		});
+	}else{
+		submitForm();
+	}
 }
 
 //提交表单
