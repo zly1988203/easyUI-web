@@ -82,7 +82,7 @@ public class UserRealm extends CasRealm {
 
 	@Resource(name = "branchesService")
 	private BranchesServiceApi branchesService;
-	
+
 	@Resource(name = "supplierService")
 	private SupplierServiceApi supplierService;
 
@@ -110,8 +110,6 @@ public class UserRealm extends CasRealm {
 			if (DisabledType.Delete.getKey().equals(caUser.getStatus())) {
 				throw new LockedAccountException("登录账号被禁用");
 			}
-			
-			LOG.info("认证用户ID：{}", caUser.getId());
 
 			// 获取本地用户信息
 			SysUser sysUser = sysUserService.getUserById(caUser.getId());
@@ -119,17 +117,17 @@ public class UserRealm extends CasRealm {
 				LOG.error("登录失败，零售系统数据库中无当前用户数据，用户ID：{}", caUser.getId());
 				throw new AuthenticationException("登录失败，商业管理系统不存在当前用户信息");
 			}
-			
-			//如果是禁用状态
-			if(StatusEnum.DISABLE.getCode().equals(sysUser.getStatus())){
+
+			// 如果是禁用状态
+			if (StatusEnum.DISABLE.getCode().equals(sysUser.getStatus())) {
 				LOG.error("登录失败，该用户已禁用，用户ID：{}", caUser.getId());
 				throw new AuthenticationException("登录失败，该用户已禁用!");
 			}
 
 			buildLoginInfo(caUser, sysUser);
-
 		} catch (Exception e) {
 			LOG.error("登录验证出错:", e);
+			throw new AuthenticationException("登录验证出错！");
 		}
 		return info;
 	}
@@ -151,25 +149,25 @@ public class UserRealm extends CasRealm {
 		sysUser.setCategoryCodes(codes);
 
 		Branches branch = branchesService.getBranchInfoById(sysUser.getBranchId());
-		if(branch == null){
+		if (branch == null) {
 			throw new BusinessException("用户对应机构为空！");
 		}
-		
+
 		// 获取机构类型完整编码
 		sysUser.setBranchCompleCode(branch.getBranchCompleCode());
 		sysUser.setBranchName(branch.getBranchName());
 		sysUser.setBranchType(branch.getType());
-		
-		//获取当前机构默认供应商，如果是总部或者分公司，则直接取当前机构的供应商，如果是店铺则获取父节点分公司的供应商
+
+		// 获取当前机构默认供应商，如果是总部或者分公司，则直接取当前机构的供应商，如果是店铺则获取父节点分公司的供应商
 		String branchId = null;
-		if(BranchTypeEnum.HEAD_QUARTERS.getCode().equals(branch.getType()) ||
-				BranchTypeEnum.BRANCH_OFFICE.getCode().equals(branch.getType())){
+		if (BranchTypeEnum.HEAD_QUARTERS.getCode().equals(branch.getType())
+				|| BranchTypeEnum.BRANCH_OFFICE.getCode().equals(branch.getType())) {
 			branchId = branch.getBranchesId();
-		}else{
+		} else {
 			branchId = branch.getParentId();
 		}
-		
-		//设置当前机构默认供应商信息
+
+		// 设置当前机构默认供应商信息
 		Supplier supplier = supplierService.getDefaultSupplierByBranchId(branchId);
 		UserUtil.setDefaultSupplier(supplier);
 
