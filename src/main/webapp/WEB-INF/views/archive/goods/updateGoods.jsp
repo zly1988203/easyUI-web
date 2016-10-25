@@ -120,7 +120,7 @@ pageEncoding="UTF-8"%>
 						<c:if test="${goodpPicingType!=0 }">
 							<select class="uselect easyui-combobox" name="pricingType" id="pricingType" data-options="readonly:true">
 								<c:forEach items="${pricingType}" var="pricingType">
-									<c:if test="${pricingType.ordinal != 0}">
+									<c:if test="${pricingType.ordinal == goodpPicingType}">
 										<option value="${pricingType.name}">${pricingType.value}</option>
 									</c:if>
 								</c:forEach>
