@@ -189,7 +189,7 @@ function eliminate(){
 	var branchName =  $("#branchName").val();
 	for(var i in rows){
 		var row = rows[i];
-		if(row.actual !=null &&　row.actual != 0){
+		if(row.actual !=null &&row.actual != 0){
 			messager(branchName+"机构的"+row.skuName+"商品库存不为0,不能进行淘汰操作");
 			return ;
 		}
