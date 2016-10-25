@@ -950,3 +950,4 @@ function formatDate(dateValue, pattern){
 	}
 	return dateValue;
 }
+

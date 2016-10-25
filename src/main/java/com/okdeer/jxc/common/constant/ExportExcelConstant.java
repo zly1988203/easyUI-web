@@ -40,6 +40,11 @@ public interface ExportExcelConstant {
 	 */
 	String GOODS_PRICE_ADJUST_FORM = "GoodsPriceAdjustForm.xlsx";
 	
+	/**
+	 * @Fields GOODS_PRICE_ADJUST_FORM : 采购明细表
+	 */
+	String PURCHASE_DETAIL_REPORT = "PurchaseDetail.xlsx";
+	
 	
 	/**
 	 * @Fields GOODS_PRICE_ADJUST_FORM_TEMPLE_SKUCODE : 调价单货号导入模板
