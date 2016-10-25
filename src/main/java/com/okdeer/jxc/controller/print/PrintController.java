@@ -8,6 +8,7 @@
 package com.okdeer.jxc.controller.print;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +20,13 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSONObject;
 import com.itextpdf.text.BaseColor;
@@ -40,8 +44,19 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.okdeer.jxc.common.constant.Constant;
+import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.PrintConstant;
+import com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid;
+import com.okdeer.jxc.common.goodselect.GoodsSelectImportComponent;
+import com.okdeer.jxc.common.goodselect.GoodsSelectImportHandle;
+import com.okdeer.jxc.common.goodselect.GoodsSelectImportVo;
+import com.okdeer.jxc.common.result.RespJson;
+import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.goods.entity.GoodsPrint;
+import com.okdeer.jxc.goods.entity.GoodsSelect;
+import com.okdeer.jxc.goods.entity.GoodsSelectByCostPrice;
+import com.okdeer.jxc.system.entity.SysUser;
+import com.okdeer.jxc.utils.UserUtil;
 
 /**
  * ClassName: PrintController 
@@ -56,12 +71,13 @@ import com.okdeer.jxc.goods.entity.GoodsPrint;
  */
 @Controller
 @RequestMapping("print")
-public class PrintController  {
+public class PrintController  extends BaseController<GoodsSelect>{
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(PrintController.class);
+	private static final Logger LOG = LoggerFactory.getLogger(PrintController.class);
 	// 价签logo的路径
 	private static String LOGO_PATH = "/template/excel/print/priceTag.png";
-
+	@Autowired
+	private GoodsSelectImportComponent goodsSelectImportComponent;
 	// 价签logo图片
 	private static Image logo = null;
 
@@ -155,9 +171,9 @@ public class PrintController  {
 			try {
 				baseFont = BaseFont.createFont("STSong-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
 			} catch (DocumentException e) {
-				LOGGER.error("文件异常：", e);
+				LOG.error("文件异常：", e);
 			} catch (IOException e) {
-				LOGGER.error("IO异常:", e);
+				LOG.error("IO异常:", e);
 			}
 		}
 		return baseFont;
@@ -302,7 +318,7 @@ public class PrintController  {
 			os.flush();
 			os.close();
 		} catch (Exception e) {
-			LOGGER.error("导出PDF时发生异常，{}", e);
+			LOG.error("导出PDF时发生异常，{}", e);
 		}
 	}
 
@@ -378,7 +394,7 @@ public class PrintController  {
 			os.flush();
 			os.close();
 		} catch (Exception e) {
-			LOGGER.error("导出PDF时发生异常，{}", e);
+			LOG.error("导出PDF时发生异常，{}", e);
 		}
 	}
 
@@ -391,7 +407,7 @@ public class PrintController  {
 			try {
 				logo = Image.getInstance(getClass().getResource(LOGO_PATH));
 			} catch (Exception e) {
-				LOGGER.error("生产logo图片失败，{}", e);
+				LOG.error("生产logo图片失败，{}", e);
 			}
 		}
 	}
@@ -516,9 +532,105 @@ public class PrintController  {
 			mainTable.addCell(mainCell);
 			return mainCell;
 		}catch(Exception e){
-			LOGGER.error("导出PDF时发生异常，{}", e);
+			LOG.error("导出PDF时发生异常，{}", e);
 		}
 		return null;
 	}
-
+	@RequestMapping(value = "importList")
+	@ResponseBody
+	public RespJson importList(@RequestParam("file") MultipartFile file,String type){
+		RespJson respJson = RespJson.success();
+		try {
+			if(file.isEmpty()){
+				return RespJson.error("文件为空");
+			}
+			
+			if(org.apache.commons.lang3.StringUtils.isBlank(type)){
+				return RespJson.error("导入类型为空");
+			}
+			String branchId=UserUtil.getCurrBranchId();
+			
+			// 文件流
+			InputStream is = file.getInputStream();
+			// 获取文件名
+			String fileName = file.getOriginalFilename();
+			
+			SysUser user = UserUtil.getCurrentUser();
+			
+			String[] field = null; 
+			
+			if(type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)){//货号
+				field = new String[]{"skuCode","newCostPrice"};
+			}else if(type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)){//条码
+				field = new String[]{"barCode","newCostPrice"};
+			}
+			GoodsSelectImportVo<GoodsSelectByCostPrice> vo = goodsSelectImportComponent.importSelectGoods(fileName, is,
+					field, 
+					new GoodsSelectByCostPrice(), 
+					branchId, user.getId(), 
+					type,
+					"/cost/costAdjust/downloadErrorFile",
+					new GoodsSelectImportBusinessValid() {
+						
+						@Override
+						public void formatter(List<? extends GoodsSelect> list) {
+							for (GoodsSelect objGoods : list) {
+								GoodsSelectByCostPrice obj = (GoodsSelectByCostPrice) objGoods;
+								BigDecimal newCostprice = obj.getNewCostPrice();
+								if(newCostprice == null){
+									obj.setNewCostPrice(obj.getCostPrice());
+								}
+							}
+						}
+						
+						@Override
+						public void errorDataFormatter(List<net.sf.json.JSONObject> list) {
+							
+						}
+						
+						@Override
+						public void businessValid(List<net.sf.json.JSONObject> list, String[] excelField) {
+							
+						}
+						
+					} );
+			respJson.put("importInfo", vo);
+			
+		} catch (IOException e) {
+			respJson = RespJson.error("读取Excel流异常");
+			LOG.error("读取Excel流异常:", e);
+		} catch (Exception e) {
+			respJson = RespJson.error("导入发生异常");
+			LOG.error("用户导入异常:", e);
+		}
+		return respJson;
+	}
+	/**
+	 * @Description: 导出调价单模板
+	 * @param response
+	 * @param type
+	 * @author lijy02
+	 * @date 2016年10月10日
+	 */
+	@RequestMapping(value = "exportTemp")
+	public void exportTemp(HttpServletResponse response, Integer type) {
+		LOG.info("CostAdjustController:" + type);
+		try {
+			// 导出文件名称，不包括后缀名
+			String fileName = "商品价签货号导入模板";
+			// 模板名称，包括后缀名
+			String templateName = ExportExcelConstant.SKUCODE_TEMPLE;
+			if (Constant.ZERO==type) {
+				templateName = ExportExcelConstant.SKUCODE_TEMPLE;
+				fileName = "商品价签货号导入模板";
+			} else {
+				templateName = ExportExcelConstant.BARCODE_TEMPLE;
+				fileName = "商品价签条码导入模板";
+			}
+			// 导出Excel
+			exportListForXLSX(response, null, fileName, templateName);
+		} catch (Exception e) {
+			LOG.error("成本调价单导入模版下载失败:", e);
+		}
+	}
 }
