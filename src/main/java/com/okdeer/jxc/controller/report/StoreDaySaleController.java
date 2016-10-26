@@ -8,8 +8,17 @@ package com.okdeer.jxc.controller.report;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.dubbo.config.annotation.Reference;
+import com.okdeer.jxc.common.constant.LogConstant;
+import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
+import com.okdeer.jxc.report.service.StoreDaySaleReportServiceApi;
+import com.okdeer.jxc.report.vo.StoreDaySaleReportVo;
+import com.okdeer.jxc.utils.UserUtil;
 
 
 /**
@@ -27,8 +36,38 @@ import com.okdeer.jxc.controller.BaseController;
 @RequestMapping("storeDaySale/report")
 public class StoreDaySaleController extends BaseController<StoreDaySaleController> {
 
+	@Reference(version="1.0.0", check=false)
+	private StoreDaySaleReportServiceApi storeDaySaleReportServiceApi;
+	/**
+	 * 
+	 * @Description: 获取列表视图
+	 * @return
+	 * @author liux01
+	 * @date 2016年10月26日
+	 */
 	@RequestMapping(value = "/list")
 	public String list(){
 		return "/report/retail/storeDaySaleReport";
 	}
+	
+	@RequestMapping(value = "getStoreDaySaleList", method = RequestMethod.POST)
+	@ResponseBody
+	public PageUtils<StoreDaySaleReportVo> getStoreDaySaleList(
+			StoreDaySaleReportVo vo,
+			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
+			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
+		LOG.info(LogConstant.OUT_PARAM, vo.toString());
+		try {
+			vo.setPageNumber(pageNumber);
+			vo.setPageSize(pageSize);
+			vo.setSourceBranchId(UserUtil.getCurrBranchId());
+			PageUtils<StoreDaySaleReportVo> goodsSaleReportList = storeDaySaleReportServiceApi.getStoreDaySaleList(vo);
+			LOG.info(LogConstant.PAGE, goodsSaleReportList.toString());
+			return goodsSaleReportList;
+		} catch (Exception e) {
+			LOG.error("类别销售列表信息异常:{}", e);
+		}
+		return null;
+	}
+	
 }
