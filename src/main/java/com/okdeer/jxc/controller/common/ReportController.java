@@ -6,6 +6,7 @@
  */    
 package com.okdeer.jxc.controller.common;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +20,9 @@ import com.okdeer.jxc.common.report.DataRecord;
 import com.okdeer.jxc.common.report.ReportService;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.PageUtils;
+import com.okdeer.jxc.utils.poi.ExcelExportUtil;
+
+import net.sf.json.JSONObject;
 
 /**
  * ClassName: ReportController 
@@ -56,8 +60,31 @@ public abstract class ReportController {
 		return json;
 	}
 	
+	@RequestMapping(value = "exportExcel")
 	public void exportExcel(HttpServletRequest request, HttpServletResponse response){
+		String reportFileName = getFileName();
+		String[] headers = getHeaders();
+		String[] columns = getColumns();
+		List<DataRecord> dataList = getReportService().getList(getParam(request));
 		
+		List<JSONObject> jsonList = new ArrayList<JSONObject>();
+		for (DataRecord dataRecord : dataList) {
+			JSONObject jsonObject = new JSONObject();
+			//格式化数据
+			formatter(dataRecord);
+			
+			jsonObject.putAll(dataRecord);
+			jsonList.add(jsonObject);
+		}
+		
+		ExcelExportUtil.exportExcel(reportFileName, headers, columns, jsonList, response);
 	}
-
+	
+	public abstract String getFileName();
+	
+	public abstract String[] getHeaders();
+	
+	public abstract String[] getColumns();
+	
+	public abstract void formatter(DataRecord dataRecord);
 }
