@@ -31,7 +31,7 @@
 								<option value="">全部</option> 
 								<option value="1">制单组合</option> 
 								<option value="2">制单拆分</option>
-								<option value="3">捆绑商品</option>
+								<option value="3" selected="selected">捆绑商品</option>
 								<option value="4">自动转货</option>
 				        </select>
                 </div>
