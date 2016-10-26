@@ -91,6 +91,7 @@ function initDatagridResultOrder(){
             },
             {field:'skuCode',title:'成分货号',width: '70px',align:'left',editor:'textbox'},
             {field:'skuName',title:'商品名称',width:'200px',align:'left'},
+            {field:'componentSkuId',title:'商品Id',width:'200px',align:'left',hidden:true},
             {field:'barCode',title:'条码',width:'130px',align:'left'},
           /*  {field:'memoryCode',title:'助记码',width:'130px',align:'left'},*/
             {field:'unit',title:'单位',width:'60px',align:'left'},
@@ -200,7 +201,8 @@ function initDatagridResultOrder(){
                 gridHandel.setSelectFieldName("skuCode");
             }
         },
-        onLoadSuccess : function() {
+        onLoadSuccess : function(data) {
+        
             gridHandel.setDatagridHeader("center");
             updateFooter();
         }
@@ -210,10 +212,14 @@ function initDatagridResultOrder(){
 
 //queryForm 表单提交
 function query(){
+	//清空gridOrdersresult里面的数据
+	//$("#gridOrdersresult").datagrid('loadData', { total: 0, rows: [] });
 	$("#gridOrdersview").datagrid("options").queryParams = $("#queryForm").serializeObject();
 	$("#gridOrdersview").datagrid("options").method = "post";
 	$("#gridOrdersview").datagrid("options").url = contextPath+'/goods/component/queryList';
+	console.log($("#gridOrdersview").datagrid("load"));
 	$("#gridOrdersview").datagrid("load");
+	
 }
 
 //监听成分数量
@@ -271,7 +277,8 @@ function selectGoods(searchKey){
             id:'skuId',
             disabled:'',
             pricingType:'',
-            inputTax:'tax'
+            inputTax:'tax',
+            componentSkuId:'skuId'
         };
         var rows = gFunUpdateKey(addDefaultData,keyNames);
         var argWhere ={skuCode:1};  //验证重复性
@@ -389,6 +396,7 @@ function saveDataHandel(rows){
 	//获取选中产品id
 	var viewRows = $("#gridOrdersview").datagrid('getSelected');
 	var checkskuCode=viewRows.skuId;
+	console.log(checkskuCode);
   /*    //关键字
     var keywordText =$("#keywordText").val();
     //商品类型:
@@ -433,8 +441,9 @@ function saveDataHandel(rows){
 /**
  * 重置
  */
-function resetForm(){
-	 $("#queryForm").form('clear');
+function reset(){
+  $("#goodsInfo").val("");
+  $('#isBind').prop('checked',false);
 };
 
 
