@@ -215,25 +215,6 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 	}
 	/**
 	 * 
-	 * @Description: 删除单据信息
-	 * @param id
-	 * @return
-	 * @author liux01
-	 * @date 2016年10月13日
-	 */
-	@RequestMapping(value = "deleteStockFormList", method = RequestMethod.POST)
-	@ResponseBody
-	public String deleteStockFormList(List<String> ids){
-		LOG.info(LogConstant.OUT_PARAM, ids);
-		try {
-			return stockAdjustServiceApi.deleteStockFormList(ids);
-		} catch (Exception e) {
-			LOG.error("删除单据信息异常:{}", e);
-		}
-		return null;
-	}
-	/**
-	 * 
 	 * @Description: 审核单据信息
 	 * @param vo
 	 * @return
