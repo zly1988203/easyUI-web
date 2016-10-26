@@ -388,7 +388,7 @@ function saveResultOrder(){
 function saveDataHandel(rows){
 	//获取选中产品id
 	var viewRows = $("#gridOrdersview").datagrid('getSelected');
-	var checkskuCode=viewRows.skuCode;
+	var checkskuCode=viewRows.skuId;
   /*    //关键字
     var keywordText =$("#keywordText").val();
     //商品类型:
