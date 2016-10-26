@@ -7,7 +7,7 @@ $(function(){
     initDatagridResultOrder();
 });
 var gridDefault = {
-		componentNum:1.00,
+		//componentNum:0,
 	    isGift:0,
 }
 var gridHandel = new GridClass();
@@ -32,12 +32,12 @@ function initDatagridOrders(){
             {field:'skuName',title:'商品名称',width:'140px',align:'left'},
             {field:'barCode',title:'条码',width:'120px',align:'left'},
             {field:'memoryCode',title:'助记码',width:'120px',align:'left'},
-            {field:'type',title:'商品类型',width:'120px',align:'left'},
+            {field:'typeName',title:'商品类型',width:'120px',align:'left'},
             {field:'categoryCode',title:'类型编码',width:'120px',align:'left'},
             {field:'categoryName',title:'类别名称',width:'120px',align:'left'},
             {field:'spec',title:'规格',width:'80px',align:'left'},
             {field:'unit',title:'单位',width:'80px',align:'left'},
-            {field:'set',title:'是否已设置成分商品',width:'120px',align:'center'}
+            {field:'isBindName',title:'是否已设置成分商品',width:'120px',align:'center'},
         ]],
         onSelect:function(rowIndex,rowData){
         	console.log(rowData);
@@ -92,13 +92,16 @@ function initDatagridResultOrder(){
             {field:'skuCode',title:'成分货号',width: '70px',align:'left',editor:'textbox'},
             {field:'skuName',title:'商品名称',width:'200px',align:'left'},
             {field:'barCode',title:'条码',width:'130px',align:'left'},
-            {field:'memoryCode',title:'助记码',width:'130px',align:'left'},
+          /*  {field:'memoryCode',title:'助记码',width:'130px',align:'left'},*/
             {field:'unit',title:'单位',width:'60px',align:'left'},
             {field:'spec',title:'规格',width:'90px',align:'left'},
             {field:'componentNum',title:'成分数量',width:'80px',align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    if(!value){
+                    	row["componentNum"] = 0.00;
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
@@ -233,6 +236,20 @@ function updateFooter(){
     gridHandel.updateFooter(fields,argWhere);
 }
 
+//插入一行
+function addLineHandel(event){
+    event.stopPropagation(event);
+
+    var index = $(event.target).attr('data-index')||0;
+    gridHandel.addRow(index,gridDefault);
+}
+//删除一行
+function delLineHandel(event){
+    event.stopPropagation();
+    var index = $(event.target).attr('data-index');
+    gridHandel.delRow(index);
+}
+
 //选择商品
 function selectGoods(searchKey){
    
@@ -342,6 +359,7 @@ function saveResultOrder(){
         messager("表格不能为空");
         return;
     }
+    console.log(rows);
     var isCheckResult = true;
     $.each(rows,function(i,v){
         if(!v["skuCode"]){
@@ -349,7 +367,9 @@ function saveResultOrder(){
             isCheckResult = false;
             return false;
         };
-        if(parseFloat(v["componentNum"])>0){
+        console.log(v["componentNum"])
+        if(v["componentNum"]<=0){
+        	
             messager("第"+(i+1)+"行，成分数量必须大于0");
             isCheckResult = false;
             return false;
@@ -359,14 +379,16 @@ function saveResultOrder(){
     if(!isCheckResult){
         return;
     }
-      saveDataHandel(rows);
+    else{
+    	saveDataHandel(rows);
+       }
 }
 
 //保存里面拼接的字段
 function saveDataHandel(rows){
 	//获取选中产品id
 	var viewRows = $("#gridOrdersview").datagrid('getSelected');
-	var checkskuCode=viewRows.skuCode;
+	var checkskuCode=viewRows.skuId;
   /*    //关键字
     var keywordText =$("#keywordText").val();
     //商品类型:
