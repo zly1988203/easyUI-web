@@ -39,11 +39,11 @@ function initDatagridOrders(){
             {field:'unit',title:'单位',width:'80px',align:'left'},
             {field:'isBindName',title:'是否已设置成分商品',width:'120px',align:'center'},
         ]],
-        onSelect:function(rowIndex,rowData){
-        	console.log(rowData);
+        onSelect:function(rowIndex,rowData){	
         	selectView(rowData);
         },
-		onLoadSuccess : function() {
+		onLoadSuccess : function(data) {
+			removeData(data);
 			gridHandel.setDatagridHeader("center");
 		}
     });
@@ -217,9 +217,14 @@ function query(){
 	$("#gridOrdersview").datagrid("options").queryParams = $("#queryForm").serializeObject();
 	$("#gridOrdersview").datagrid("options").method = "post";
 	$("#gridOrdersview").datagrid("options").url = contextPath+'/goods/component/queryList';
-	console.log($("#gridOrdersview").datagrid("load"));
 	$("#gridOrdersview").datagrid("load");
 	
+}
+
+function removeData(data){
+	  if(data.list.length<=0){
+		 $("#gridOrdersresult").datagrid('loadData', { total: 0, rows: [] });
+	  }
 }
 
 //监听成分数量
@@ -312,7 +317,6 @@ function selectView(data){
     	     //result.length <0 清空数据	
     	     $("#gridOrdersresult").datagrid('loadData', { total: 0, rows: [] });
     	    }
-    		console.log(result.length);
     	},
     	error:function(result){
     		successTip("请求发送失败或服务器处理失败");
@@ -366,7 +370,6 @@ function saveResultOrder(){
         messager("表格不能为空");
         return;
     }
-    console.log(rows);
     var isCheckResult = true;
     $.each(rows,function(i,v){
         if(!v["skuCode"]){
@@ -374,7 +377,6 @@ function saveResultOrder(){
             isCheckResult = false;
             return false;
         };
-        console.log(v["componentNum"])
         if(v["componentNum"]<=0){
         	
             messager("第"+(i+1)+"行，成分数量必须大于0");
@@ -396,7 +398,6 @@ function saveDataHandel(rows){
 	//获取选中产品id
 	var viewRows = $("#gridOrdersview").datagrid('getSelected');
 	var checkskuCode=viewRows.skuId;
-	console.log(checkskuCode);
   /*    //关键字
     var keywordText =$("#keywordText").val();
     //商品类型:
@@ -421,7 +422,6 @@ function saveDataHandel(rows){
         type:"POST",
         data:{"goodsJson":goodsJson},
         success:function(result){
-            console.log(result);
             if(result['code'] == 0){
                 $.messager.alert("操作提示", "操作成功！", "info",function(){
                     //location.href = contextPath +"/form/purchase/orderEdit?formId=" + result["formId"];
