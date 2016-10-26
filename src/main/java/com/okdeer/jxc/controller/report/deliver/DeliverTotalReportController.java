@@ -18,7 +18,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.report.DataRecord;
 import com.okdeer.jxc.common.report.ReportService;
 import com.okdeer.jxc.controller.common.ReportController;
-import com.okdeer.jxc.report.deliver.service.DeliverDetailsReportServiceApi;
+import com.okdeer.jxc.report.deliver.service.DeliverTotalReportServiceApi;
 
 
 @Controller
@@ -29,7 +29,7 @@ public class DeliverTotalReportController extends ReportController {
 	 * @Fields purchaseReportService : 采购报表service
 	 */
 	@Reference(version = "1.0.0", check = false)
-	private DeliverDetailsReportServiceApi deliverDetailsReportServiceApi;
+	private DeliverTotalReportServiceApi deliverTotalReportServiceApi;
 
 	/**
 	 * @Description: 采购报表明细
@@ -54,7 +54,7 @@ public class DeliverTotalReportController extends ReportController {
 
 	@Override
 	public ReportService getReportService() {
-		return deliverDetailsReportServiceApi;
+		return deliverTotalReportServiceApi;
 	}
 
 	@Override

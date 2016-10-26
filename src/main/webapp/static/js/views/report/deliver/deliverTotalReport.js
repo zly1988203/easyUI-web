@@ -39,83 +39,56 @@ function initPurReportDetailGrid(queryType) {
         showFooter:true,
         height:'100%',
         columns: [[
-            {field: 'branchCode', title: '机构编码', width: 100, align: 'left',
-            	formatter : function(value, row,index) {
-                    var str = value;
-                    if(row.isFooter){
-                        str ='<div class="ub ub-pc ufw-b">合计</div> '
-                    }
-                    return str;
-                },
-            },
-            {field: 'branchName', title: '机构名称', width: 200, align: 'left',},
-            {field: 'supplierCode', title: '供应商编号', width: 100, align: 'left'},
-            {field: 'supplierName', title: '供应商名称', width: 100, align: 'left'},
-            {field: 'formNo', title: '单据编号', width: 120, align: 'right'},
-            {field: 'skuName', title: '商品名称', width:120, align: 'right'},
-            {field: 'skuCode', title: '货号', width:120, align: 'right'},
-            {field: 'barCode', title: '条码', width:120, align: 'right'},
-            {field: 'categoryCode', title: '类别编号', width:120, align: 'right'},
-            {field: 'categoryName', title: '类别名称', width:120, align: 'right'},
-            {field: 'brandName', title: '品牌', width:120, align: 'right'},
-            {field: 'spec', title: '规格', width:120, align: 'right'},
-            {field: 'unit', title: '单位', width:120, align: 'right'},
-            {field: 'price', title: '单价', width:120, align: 'right',
-            	formatter : function(value, row, index) {
-            		if(row.isFooter){
-                        return "";
-                    }
-					var str=0.00;
-					if(value){
-						str= parseFloat(value).toFixed(2);
-					}
-    				return str;
-    			}
-            },
-            {field: 'realNum', title: '数量', width:120, align: 'right',
-            	formatter:function(value,row,index){
-                    if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                    }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                }
-            },
-            {field: 'amount', title: '金额', width:120, align: 'right',
-            	formatter:function(value,row,index){
-                    if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                    }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                }
-            },
-            {field: 'tax', title: '税率', width:120, align: 'right',
-            	formatter : function(value, row, index) {
-            		if(row.isFooter){
-                        return "";
-                    }
-					var str=0.00;
-					if(value){
-						str= parseFloat(value).toFixed(2);
-					}
-    				return str;
-    			}
-            },
-            {field: 'taxAmount', title: '税额', width:120, align: 'right',
-            	formatter:function(value,row,index){
-                    if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                    }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                }
-            },
-            {field: 'validTime', title: '审核日期', width:120, align: 'right',
-            	formatter : function(value, rowData, rowIndex) {
-            		return formatDate(value,'yyyy-MM-dd hh:mm');
-            	}},
-            {field: 'goodsCreateDate', title: '生产日期', width:120, align: 'right',
-            	formatter : function(value, rowData, rowIndex) {
-            		return formatDate(value,'yyyy-MM-dd hh:mm');
-            	}}
+                   {field: 'formNo', title: '单据编号', width: 200, align: 'left',},   
+                   {field: 'branchCode', title: '发货机构编码', width: 100, align: 'left',},
+                   {field: 'branchName', title: '发货机构名称', width: 200, align: 'left',},
+                   {field: 'branchCode', title: '要货机构编码', width: 100, align: 'left',},
+                   {field: 'branchName', title: '要货机构名称', width: 200, align: 'left',},
+                   {field: 'formNo', title: '引用单号', width: 200, align: 'left',},  
+                   {field: 'skuCode', title: '货号', width:120, align: 'right'},
+                   {field: 'skuName', title: '商品名称', width:120, align: 'right'},
+                   {field: 'barCode', title: '条码', width:120, align: 'right'},
+                   {field: 'categoryCode', title: '类别编号', width:120, align: 'right'},
+                   {field: 'categoryName', title: '类别名称', width:120, align: 'right'},
+                   {field: 'spec', title: '规格', width:120, align: 'right'},
+                   {field: 'unit', title: '单位', width:120, align: 'right'},
+                   {field: 'price', title: '单价', width:120, align: 'right',
+                   	formatter : function(value, row, index) {
+                   		if(row.isFooter){
+                               return "";
+                           }
+       					var str=0.00;
+       					if(value){
+       						str= parseFloat(value).toFixed(2);
+       					}
+           				return str;
+           			}
+                   },
+                   {field: 'realNum', title: '箱数', width:120, align: 'right',
+                   	formatter:function(value,row,index){
+                           if(row.isFooter){
+                               return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                           }
+                           return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                       }
+                   },
+                   {field: 'realNum', title: '数量', width:120, align: 'right',
+                      	formatter:function(value,row,index){
+                              if(row.isFooter){
+                                  return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                              }
+                              return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                          }
+                      },
+                   {field: 'amount', title: '金额', width:120, align: 'right',
+                   	formatter:function(value,row,index){
+                           if(row.isFooter){
+                               return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                           }
+                           return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                       }
+                   },
+                   {field: 'unit', title: '制单人', width:120, align: 'right'}
         ]],
 		onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
