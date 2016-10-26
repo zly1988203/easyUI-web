@@ -5,7 +5,7 @@ $(function() {
 	// 开始和结束时间
 	$("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
 	$("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
-	initPurReportDetailGrid();
+	initPurReportTotalGrid();
 });
 var gridHandel = new GridClass();
 /**
@@ -22,9 +22,9 @@ var gridHandel = new GridClass();
  * 初始化表格
  * @param queryType
  */
-function initPurReportDetailGrid(queryType) {
-	gridHandel.setGridName("purReportDetail");
-    $("#purReportDetail").datagrid({
+function initPurReportTotalGrid(queryType) {
+	gridHandel.setGridName("purReportTotal");
+    $("#purReportTotal").datagrid({
         //title:'普通表单-用键盘操作',
         method: 'post',
         align: 'center',
@@ -39,7 +39,7 @@ function initPurReportDetailGrid(queryType) {
         showFooter:true,
         height:'100%',
         columns: [[
-            {field: 'branchCode', title: '机构编码', width: 100, align: 'left',
+            {field: 'supplierCode', title: '供应商编号', width: 100, align: 'left',
             	formatter : function(value, row,index) {
                     var str = value;
                     if(row.isFooter){
@@ -48,14 +48,7 @@ function initPurReportDetailGrid(queryType) {
                     return str;
                 },
             },
-            {field: 'branchName', title: '机构名称', width: 200, align: 'left',},
-            {field: 'supplierCode', title: '供应商编号', width: 100, align: 'left'},
             {field: 'supplierName', title: '供应商名称', width: 100, align: 'left'},
-            {field: 'formNo', title: '单据编号', width: 120, align: 'right',
-            	formatter:function(value,row,index){
-                	return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/purchase/orderEdit?formId="+ row.formId +"'>" + value + "</a>"
-                }
-            },
             {field: 'skuName', title: '商品名称', width:120, align: 'right'},
             {field: 'skuCode', title: '货号', width:120, align: 'right'},
             {field: 'barCode', title: '条码', width:120, align: 'right'},
@@ -64,19 +57,15 @@ function initPurReportDetailGrid(queryType) {
             {field: 'brandName', title: '品牌', width:120, align: 'right'},
             {field: 'spec', title: '规格', width:120, align: 'right'},
             {field: 'unit', title: '单位', width:120, align: 'right'},
-            {field: 'price', title: '单价', width:120, align: 'right',
-            	formatter : function(value, row, index) {
-            		if(row.isFooter){
-                        return "";
+            {field: 'realNumPI', title: '进货数量', width:120, align: 'right',
+            	formatter:function(value,row,index){
+                    if(row.isFooter){	
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                     }
-					var str=0.00;
-					if(value){
-						str= parseFloat(value).toFixed(2);
-					}
-    				return str;
-    			}
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                }
             },
-            {field: 'realNum', title: '数量', width:120, align: 'right',
+            {field: 'amountPI', title: '进货金额', width:120, align: 'right',
             	formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -84,7 +73,7 @@ function initPurReportDetailGrid(queryType) {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
-            {field: 'amount', title: '金额', width:120, align: 'right',
+            {field: 'realNumPR', title: '退货数量', width:120, align: 'right',
             	formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -92,19 +81,7 @@ function initPurReportDetailGrid(queryType) {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
-            {field: 'tax', title: '税率', width:120, align: 'right',
-            	formatter : function(value, row, index) {
-            		if(row.isFooter){
-                        return "";
-                    }
-					var str=0.00;
-					if(value){
-						str= parseFloat(value).toFixed(2);
-					}
-    				return str;
-    			}
-            },
-            {field: 'taxAmount', title: '税额', width:120, align: 'right',
+            {field: 'amountPR', title: '退货金额', width:120, align: 'right',
             	formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -112,14 +89,22 @@ function initPurReportDetailGrid(queryType) {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
-            {field: 'validTime', title: '审核日期', width:120, align: 'right',
-            	formatter : function(value, rowData, rowIndex) {
-            		return formatDate(value,'yyyy-MM-dd hh:mm');
-            	}},
-            {field: 'goodsCreateDate', title: '生产日期', width:120, align: 'right',
-            	formatter : function(value, rowData, rowIndex) {
-            		return formatDate(value,'yyyy-MM-dd hh:mm');
-            	}}
+            {field: 'totalNum', title: '小计数量', width:120, align: 'right',
+            	formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                }
+            },
+            {field: 'totalAmount', title: '小计金额', width:120, align: 'right',
+            	formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                }
+            }
         ]],
 		onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
@@ -129,25 +114,25 @@ function initPurReportDetailGrid(queryType) {
 }
 //合计
 function updateFooter(){
-    var fields = {realNum:0,amount:0,taxAmount:0, };
+    var fields = {realNumPI:0,amountPI:0,realNumPR:0,amountPR:0,totalNum:0,totalAmount:0,};
     var argWhere = {name:'isGift',value:0}
     gridHandel.updateFooter(fields,argWhere);
 }
 /**
  * 查询
  */
-function purchaseDetailCx(){
+function purchaseTotalCx(){
 	var formData = $("#queryForm").serializeObject();
-	$("#purReportDetail").datagrid("options").queryParams = formData;
-	$("#purReportDetail").datagrid("options").method = "post";
-	$("#purReportDetail").datagrid("options").url =  contextPath+"/report/purchase/getPurReportDetail";
-	$("#purReportDetail").datagrid("load");
+	$("#purReportTotal").datagrid("options").queryParams = formData;
+	$("#purReportTotal").datagrid("options").method = "post";
+	$("#purReportTotal").datagrid("options").url =  contextPath+"/report/purchase/getPurReportTotal";
+	$("#purReportTotal").datagrid("load");
 }
 /**
  * 导出
  */
-function exportDetails(){
-	var length = $("#purReportDetail").datagrid('getData').total;
+function exportTotal(){
+	var length = $("#purReportTotal").datagrid('getData').total;
 	if(length == 0){
 		$.messager.alert('提示',"没有数据");
 		return;
@@ -156,7 +141,7 @@ function exportDetails(){
 		$.messager.alert("当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
 		return;
 	}
-	$("#queryForm").attr("action",contextPath+'/report/purchase/exportDetails');
+	$("#queryForm").attr("action",contextPath+'/report/purchase/exportTotal');
 	$("#queryForm").submit();	
 }
 /**
@@ -184,7 +169,6 @@ function searchCategory(){
 	new publicCategoryService(function(data){
 		$("#categoryId").val(data.goodsCategoryId);
 		$("#categoryName").val(data.categoryName);
-
 	});
 }
 /**
