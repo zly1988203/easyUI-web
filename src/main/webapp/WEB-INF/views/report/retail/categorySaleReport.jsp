@@ -5,24 +5,20 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>销售流水</title>
+<title>类别销售汇总</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="${ctx}/static/js/views/report/cash/saleFlowReport.js"></script>
+<script src="${ctx}/static/js/views/report/retail/categorySaleReport.js"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
 </style>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
-
     <div class="ub ub-ver ub-f1 umar-4 upad-4">
 		<form id="queryForm" action="" method="post">
 			<div class="ub ub-ac">
 	            <div class="ubtns">
 	            <shiro:hasPermission name="JxcSaleFlow:search">
-	                <div class="ubtns-item" onclick="query()">查询</div>
-	            </shiro:hasPermission>
-	            <shiro:hasPermission name="JxcSaleFlow:print">
-	                <div class="ubtns-item" onclick="printReport()">打印</div>
+	                <div class="ubtns-item" onclick="queryForm()">查询</div>
 	            </shiro:hasPermission>
 	            <shiro:hasPermission name="JxcSaleFlow:export">
 	                <div class="ubtns-item" onclick="exportExcel()">导出</div>
@@ -38,23 +34,25 @@
 	        <div class="ub umar-t8 uc-black">【销售流水】</div>
 	        <div class="ub uline umar-t8"></div>
 	        <div class="ub umar-t8">
-                <div class="ub  ub-ac">
-                   <div class="umar-r10 uw-70 ut-r">店铺:</div>
-	                    <input class="uinp ub ub-f1" type="hidden" id="branchCode" name="branchCode">
-                        <input class="uinp ub ub-f1" type="text" id="branchNameOrCode" name="branchNameOrCode" onblur="cleanBranchCode();">
-                   <div class="uinp-more" onclick="searchBranch()">...</div>
-                </div>
+                <div class="ub ub-ac uw-300 ">
+	                    <div class="umar-r10 uw-70 ut-r">机构名称:</div>
+	                    <input type="hidden" id="branchId" name="branchId" />
+	                    <input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" onclick="selectBranches()" readonly="readonly" />
+	                    <div class="uinp-more" onclick="selectBranches()" >...</div>
+	                </div>
                 <div class="ub ub-ac  umar-l20">
                     <div class="umar-r10 uw-70 ut-r">商品类别:</div>
-                    <input class="uinp ub ub-f1" type="text" name="categoryName" id="categoryName">
+                    <input class="uinp ub ub-f1" type="text" name="skuName" id="skuName">
                 </div>  
             </div>
-            </div>
+	
        	</form>
+           
        	<div class="ub umar-t8 umar-b8">【查询结果】</div>
         <div class="ub ub-f1">
-			 <table id="categorySale"></table>
+			 <table id="storeSale"></table>
 		</div>
     </div>
+
 </body>
 </html>

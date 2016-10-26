@@ -58,3 +58,9 @@ function searchBranch(){
 		$("#branchName").val(data.branchName);
 	},'BF','');
 }
+/**
+ * 重置
+ */
+var resetForm = function() {
+	 $("#queryForm").form('clear');
+};
