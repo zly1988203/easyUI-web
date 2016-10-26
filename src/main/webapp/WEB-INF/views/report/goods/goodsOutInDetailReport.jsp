@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>店铺日销售排名</title>
+<title>商品出入库明细查询</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <script src="${ctx}/static/js/views/report/retail/storeDaySaleReport.js"></script>
 <style>
@@ -26,14 +26,10 @@
 	              	<div class="ubtns-item" onclick="resetForm()">重置</div>
 	                <div class="ubtns-item" onclick="toClose()">退出</div>
 	            </div>
-	            
-	           	<!-- 引入时间选择控件 -->
-	           <div class="ub ub-ac umar-l20">
-	              	<input class="Wdate"  readonly="readonly" name="saleTime" id="saleTime" onclick="selectMonth()"  />
-	            </div>
+	          <!-- 引入时间选择控件 -->
+	            <%@ include file="/WEB-INF/views/component/dateSelect.jsp"%>
             </div>
 	           
-	        <div class="ub umar-t8 uc-black">【销售流水】</div>
 	        <div class="ub uline umar-t8"></div>
 	        <div class="ub umar-t8">
                 <div class="ub  ub-ac">
@@ -42,14 +38,36 @@
                         <input class="uinp ub ub-f1" type="text" id="branchName" readonly="readonly" name="branchName">
                    <div class="uinp-more" onclick="searchBranch()">...</div>
                 </div>
-                
+                <div class="ub ub-ac  umar-l20">
+                    <div class="umar-r10 uw-70 ut-r">货号/条码:</div>
+                    <input class="uinp ub ub-f1" type="text" name="skuBarCode" id="skuBarCode">
+                </div>  
             </div>
-	      
+	      <div class="ub umar-t8">
+                <div class="ub  ub-ac">
+                    <div class="umar-r10 uw-70 ut-r">单号:</div>
+                    <input class="uinp ub ub-f1" type="text" name="formNo" id="formNo">
+                </div>
+                <div class="ub ub-ac  umar-l20">
+                    <div class="umar-r10 uw-70 ut-r">计价方式:</div>
+                    <input class="uinp ub ub-f1" type="text" name="skuBarCode" id="skuBarCode">
+                </div>  
+            </div>
+	      <div class="ub umar-t8">
+                <div class="ub  ub-ac">
+                    <div class="umar-r10 uw-70 ut-r">出入库类型:</div>
+                    <input class="uinp ub ub-f1" type="text" name="formType" id="formType">
+                </div>
+                <div class="ub ub-ac  umar-l20">
+                    <div class="umar-r10 uw-70 ut-r">供应商:</div>
+                    <input class="uinp ub ub-f1" type="text" name="supplierId" id="supplierId">
+                </div>  
+            </div>
        	</form>
            
        	<div class="ub umar-t8 umar-b8">【查询结果】</div>
         <div class="ub ub-f1">
-			 <table id="storeSale"></table>
+			 <table id="goodsOutInDetail"></table>
 		</div>
     </div>
 
