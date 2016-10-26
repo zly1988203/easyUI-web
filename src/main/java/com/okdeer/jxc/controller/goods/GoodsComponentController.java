@@ -14,9 +14,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
-import com.okdeer.jxc.goods.vo.GoodsSelectVo;
 import com.okdeer.jxc.stock.entity.GoodsComponent;
 import com.okdeer.jxc.stock.service.GoodsComponentApi;
+import com.okdeer.jxc.stock.vo.GoodsComponentVo;
 import com.okdeer.jxc.utils.UserUtil;
 
 /**
@@ -52,7 +52,7 @@ public class GoodsComponentController extends BaseController<GoodsSelectControll
 	 */
 	@RequestMapping(value = "queryList",method=RequestMethod.POST)
 	@ResponseBody
-	public PageUtils<GoodsComponent>  queryList( GoodsSelectVo vo,
+	public PageUtils<GoodsComponent>  queryList( GoodsComponentVo vo,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try{
