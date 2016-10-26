@@ -14,6 +14,7 @@
 	        <div class="ub ub-ac">
 	            <div class="ubtns">
 					<div class="ubtns-item" onclick="query()">查询</div>
+					<div class="ubtns-item" onclick="reset()">重置</div>
 	                <div class="ubtns-item" onclick="toClose()">退出</div>
 	            </div>
 	        </div>
@@ -28,11 +29,11 @@
                     <div class="umar-r10 uw-70 ut-r">商品类型:</div>
                        <!--select-->
 				        <select class="easyui-combobox uselect" name="type" id="type"  data-options="editable:false">
-								<option value="">全部</option> 
+								<!-- <option value="">全部</option> 
 								<option value="1">制单组合</option> 
-								<option value="2">制单拆分</option>
+								<option value="2">制单拆分</option> -->
 								<option value="3" selected="selected">捆绑商品</option>
-								<option value="4">自动转货</option>
+								<!-- <option value="4">自动转货</option> -->
 				        </select>
                 </div>
                 <div class="ub ub-ac uselectws"> <label class="uncheckbox umar-l40"> <input type="checkbox" name="isBind" id="isBind" onclick="checkval();" name="check" value="0">仅显示未绑定成份的商品</label></div>
@@ -43,7 +44,8 @@
             <table id="gridOrdersview"></table>  
         </div>
         <div class="ub ub-ac">
-	            <div class="ubtns umar-b20 umar-t20">
+                 <span class="ubspan">成分信息:</span>
+	             <div class="ubtns umar-b20 umar-t20">
 	                <div class="ubtns-item" onclick="saveResultOrder()">保存</div>
 					<div class="ubtns-item" onclick="selectGoods()">商品选择</div>
 	            </div>
