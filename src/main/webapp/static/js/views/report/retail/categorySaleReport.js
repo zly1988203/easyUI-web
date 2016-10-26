@@ -23,7 +23,7 @@ function initDatagridRequire(){
 			{field:'check',checkbox:true},
             {field:'branchName',title:'机构名称',width:'200px',align:'left'},
             {field:'skuCode',title: '所在城市', width: '200px', align: 'left'},
-			{field:'skuName', title: '类别编号', width: '200px', align: 'left'},
+			{field:'categoryCode', title: '类别编号', width: '200px', align: 'left'},
             {field:'categoryName', title: '类别名称', width: '80px', align: 'right'},
             {field:'saleAmount', title: '销售金额', width: '130px', align: 'left'},
             {field:'saleNum', title: '销售占比', width: '130px', align: 'left'},
@@ -36,7 +36,7 @@ function initDatagridRequire(){
 function queryForm(){
 	var fromObjStr = $('#queryForm').serializeObject();
 	$("#storeSale").datagrid("options").method = "post";
-	$("#storeSale").datagrid('options').url = contextPath + '/goodsSale/report/getGoodsSaleList';
+	$("#storeSale").datagrid('options').url = contextPath + '/categorySale/report/getCategorySaleList';
 	$("#storeSale").datagrid('load', fromObjStr);
 }
 
