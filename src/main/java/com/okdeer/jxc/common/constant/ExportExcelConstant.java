@@ -224,4 +224,9 @@ public interface ExportExcelConstant {
 	 * @Fields 按商品商采购到货率报表
 	 */
 	String ARRIVAL_RATE_GOODS_REPORT = "ArrivalRateGoodsReport.xlsx";
+
+	/**
+	 * @Fields PURCHASEFORM : 配送明细
+	 */
+	String DELIVER_FORM_LIST_REPORT = "DeliverFormListReport.xlsx";
 }

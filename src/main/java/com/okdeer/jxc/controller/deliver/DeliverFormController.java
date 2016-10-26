@@ -236,15 +236,18 @@ public class DeliverFormController extends
 
 	/**
 	 * @Description: 根据要货单跳转页面
-	 * @return   
-	 * @return String  
-	 * @throws
+	 * @param vo
+	 * @param model
+	 * @param type
+	 * @return
 	 * @author zhangchm
 	 * @date 2016年8月29日
 	 */
 	@RequestMapping(value = "deliverEdit")
 	public String deliverEdit(QueryDeliverFormVo vo, Model model) {
 		LOG.info(LogConstant.OUT_PARAM, vo.toString());
+		model.addAttribute("type", vo.getFormSources());
+		vo.setFormSources("");
 		DeliverForm form = queryDeliverFormServiceApi.queryEntity(vo);
 		model.addAttribute("form", form);
 		LOG.info(LogConstant.PAGE, form.toString());

@@ -28,7 +28,8 @@
         <div class="ub umar-t8 uc-black">【单号】：${form.formNo}</div>
         <div class="ub uline umar-t8"></div>
         <input type="hidden" id="formId" value="${form.deliverFormId}">
-         <input type="hidden" id="formNo" value="${form.formNo}">
+        <input type="hidden" id="formNo" value="${form.formNo}">
+        <input type="hidden" id="type" value="${type}">
         <div class="ub umar-t8">
             <div class="ub ub-ac uw-300">
                 <div class="umar-r10 uw-60 ut-r">要货机构:</div>
