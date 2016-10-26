@@ -77,7 +77,7 @@ public class GoodsComponentController extends BaseController<GoodsSelectControll
 	@ResponseBody
 	public List<GoodsComponent>  queryComponent(String skuId) {
 		try{
-			
+
 			return goodsComponentApi.queryComponent(skuId);
 		}catch(Exception e){
 			LOG.error("查询商品成分失败！:{}",e);
@@ -98,7 +98,11 @@ public class GoodsComponentController extends BaseController<GoodsSelectControll
 		try{
 			JSONObject jsonObject = com.alibaba.fastjson.JSON.parseObject(goodsJson);
 			String skuId=jsonObject.getString("skuId");
-
+//			com.alibaba.fastjson.JSONArray jsonList =JSON.parseArray(jsonObject.getString("detailList"));
+//			for(int i=0;i<jsonList.size();i++){
+//				JSONObject object = com.alibaba.fastjson.JSON.parseObject(jsonList.get(i).toString());
+//				object.remove("type");
+//			}
 			List<GoodsComponent> componentList=JSON.parseArray(jsonObject.getString("detailList"),GoodsComponent.class );
 			goodsComponentApi.save( skuId,UserUtil.getCurrUserId(), componentList);
 			return RespJson.success();
