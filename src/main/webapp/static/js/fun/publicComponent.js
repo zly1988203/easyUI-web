@@ -58,6 +58,10 @@ function toChangeDate(index){
             $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getCurrentYear()[0]).format("yyyy-MM-dd hh:mm"));
             $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getCurrentDate()).format("yyyy-MM-dd hh:mm"));
             break;
+        case 9: //昨天
+            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getCurrDayPreOrNextDay("prev",30)).format("yyyy-MM-dd hh:mm"));
+            $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getCurrentDate()).format("yyyy-MM-dd hh:mm"));
+            break;
         default :
             break;
     }

@@ -32,12 +32,12 @@ function initDatagridOrders(){
             {field:'skuName',title:'商品名称',width:'140px',align:'left'},
             {field:'barCode',title:'条码',width:'120px',align:'left'},
             {field:'memoryCode',title:'助记码',width:'120px',align:'left'},
-            {field:'type',title:'商品类型',width:'120px',align:'left'},
+            {field:'typeName',title:'商品类型',width:'120px',align:'left'},
             {field:'categoryCode',title:'类型编码',width:'120px',align:'left'},
             {field:'categoryName',title:'类别名称',width:'120px',align:'left'},
             {field:'spec',title:'规格',width:'80px',align:'left'},
             {field:'unit',title:'单位',width:'80px',align:'left'},
-            {field:'set',title:'是否已设置成分商品',width:'120px',align:'center'}
+            {field:'isBindName',title:'是否已设置成分商品',width:'120px',align:'center'},
         ]],
         onSelect:function(rowIndex,rowData){
         	console.log(rowData);
@@ -92,7 +92,7 @@ function initDatagridResultOrder(){
             {field:'skuCode',title:'成分货号',width: '70px',align:'left',editor:'textbox'},
             {field:'skuName',title:'商品名称',width:'200px',align:'left'},
             {field:'barCode',title:'条码',width:'130px',align:'left'},
-            {field:'memoryCode',title:'助记码',width:'130px',align:'left'},
+          /*  {field:'memoryCode',title:'助记码',width:'130px',align:'left'},*/
             {field:'unit',title:'单位',width:'60px',align:'left'},
             {field:'spec',title:'规格',width:'90px',align:'left'},
             {field:'componentNum',title:'成分数量',width:'80px',align:'right',
