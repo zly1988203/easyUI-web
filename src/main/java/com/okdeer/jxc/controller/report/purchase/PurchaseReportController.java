@@ -190,7 +190,7 @@ public class PurchaseReportController extends
 	}
 
 	/**
-	 * @Description: TODO
+	 * @Description: 获得采购报表汇总（按供应商）
 	 * @param qo
 	 * @return
 	 * @author lijy02
@@ -198,8 +198,15 @@ public class PurchaseReportController extends
 	 */
 	private PageUtils<PurchaseReportPo> getPurReportTotalBySupplier(
 			FormQueryQo qo) {
-		// TODO Auto-generated method stub
-		return null;
+		PageUtils<PurchaseReportPo> list = purchaseReportService
+				.getPurReportTotalBySupplier(qo);
+		// 2、查询合计
+		PurchaseReportPo vo = purchaseReportService
+				.getPurReportTotalBySupplierSum(qo);
+		List<PurchaseReportPo> footer = new ArrayList<PurchaseReportPo>();
+		footer.add(vo);
+		list.setFooter(footer);
+		return list;
 	}
 
 	/**
