@@ -6,10 +6,10 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>要货单-查看</title>
+    <title>要货单状态跟踪明细</title>
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-	<script src="${ctx}/static/js/views/deliver/deliverView.js"></script>
+	<script src="${ctx}/static/js/views/report/deliver/DaListView.js"></script>
 	<script src="${ctx}/static/js/views/deliver/deliverExport.js"></script>
     
 </head>
@@ -17,8 +17,8 @@
     <div class="ub ub-ver ub-f1 umar-4  ubor">
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
-            	<div class="ubtns-item" onclick="addDeliverForm()">新增</div>
-            	<div class="ubtns-item" onclick="stop()">终止</div>
+            	<!-- <div class="ubtns-item" onclick="addDeliverForm()">新增</div>
+            	<div class="ubtns-item" onclick="stop()">终止</div> -->
             	<div class="ubtns-item" onclick="printDesign('${form.formNo}')">打印</div>
             	<div class="ubtns-item"  onclick="exportData('DA','gridViewRequireOrder')">导出明细</div>
             	<div class="ubtns-item"  onclick="exportData('DA','gridViewRequireOrder',1)">导出货号</div>
@@ -66,7 +66,7 @@
             </div>
             <div class="ub ub-ac uw-300 umar-l20">
                 <div class="umar-r10 uw-60 ut-r">有效期限:</div>
-                <input id="validityTime" class="Wdate" type="text" value="<fmt:formatDate value="${form.validityTime}" pattern="yyyy-MM-dd"/>" readonly="readonly"/>
+                <input id="validityTime" class="Wdate" type="text" readonly="readonly" value="<fmt:formatDate value="${form.validityTime}" pattern="yyyy-MM-dd"/>" />
             </div>
             <div class="ub ub-ac umar-l20">
                 <div class="umar-r10 uw-60 ut-r">审核人员:</div>
