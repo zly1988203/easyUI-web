@@ -119,7 +119,6 @@ function back(){
 	} else {
 		location.href = contextPath+"/form/deliverForm/viewsDI";
 	}
-	
 }
 
 //打印 入库单 DI
