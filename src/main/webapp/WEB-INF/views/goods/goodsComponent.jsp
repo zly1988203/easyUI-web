@@ -23,12 +23,6 @@
 	                <div class="umar-r10 uw-60 ut-r">关键字:</div>
 	                <input class="uinp" name="goodsInfo" id="goodsInfo" type="text" placeholder="输入货号、条码、商品名称进行查询"> 
 	            </div>
-	             <div class="ub ub-ac umar-r40">
-	                <div class="umar-r10 uw-60 ut-r">地址选择:</div>
-	                <input class="uinp" name="keywordId" id="keywordId" type="hidden">
-	                <input class="uinp ub ub-f1" id="keywordText" type="text" onclick="chooseCity()"> 
-	                <div class="uinp-more" onclick="chooseCity()">...</div>
-	            </div>
 	            <div class="ub ub-ac uselectws">
                     <div class="umar-r10 uw-70 ut-r">商品类型:</div>
                        <!--select-->
