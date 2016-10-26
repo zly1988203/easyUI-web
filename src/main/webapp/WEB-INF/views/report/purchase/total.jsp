@@ -5,9 +5,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>采购明细</title>
+<title>采购汇总表</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="${ctx}/static/js/views/report/purchase/details.js"></script>
+<script src="${ctx}/static/js/views/report/purchase/total.js"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
 </style>
@@ -17,8 +17,8 @@
 		<form id="queryForm" action="" method="post">
 			<div class="ub ub-ac">
 	            <div class="ubtns">
-	                <div class="ubtns-item" onclick="purchaseDetailCx()">查询</div>
-	                <div class="ubtns-item" onclick="exportDetails()">导出</div>
+	                <div class="ubtns-item" onclick="purchaseTotalCx()">查询</div>
+	                <div class="ubtns-item" onclick="exportTotal()">导出</div>
 	                <div class="ubtns-item" onclick="resetForm()">重置</div>
 	                <div class="ubtns-item" onclick="toClose()">退出</div>
 	            </div>
@@ -64,20 +64,46 @@
                         <option value="PR">采购退货单</option>
                    </select>
                </div>
-               <div class="ub ub-ac umar-r40">
-				<div class="umar-r10 uw-70 ut-r" style="margin-left:5px">单据编号:</div>
-				<input type="text" name="formNo" id="formNo" class="uinp" />
-			   </div>
 			  <div class="ub ub-ac umar-r40">
 				<div class="umar-r10 uw-70 ut-r">货号/条码:</div>
 				<input type="text" name="skuCodeOrBarCode" id="skuCodeOrBarCode" class="uinp" />
 			  </div>
             </div>
+           
+             <div class="ub umar-t8">
+                <!--input-checkbox-->
+                <div class="ub ub-ac">
+                   <div class="umar-r10 uw-70 ut-r">汇总类型:</div>
+                    <div class="ub ub-ac umar-r10 ">
+                        <input class="ub radioItem" id="goodsTotal" type="radio" name="searchType" value="goodsTotal" checked="checked"/>
+                        <label for="goodsTotal">商品汇总</label>
+                    </div>
+                    <div class="ub ub-ac umar-r10">
+                        <input class="ub radioItem" id="supplierTotal" type="radio" name="searchType" value="supplierTotal"  />
+                        <label for="supplierTotal">供应商汇总</label>
+                    </div>
+                   <div class="ub ub-ac umar-r10">
+                        <input class="ub radioItem" id="formNoTotal" type="radio" name="searchType" value="formNoTotal" />
+                        <label for="formNoTotal">单据汇总</label>
+                  </div>
+                  <div class="ub ub-ac umar-r10">
+                        <input class="ub radioItem" id="categoryTotal" type="radio" name="searchType" value="categoryTotal" />
+                        <label for="categoryTotal">类别汇总:</label>
+                        <select class="uselect easyui-combobox" name="category" id="category">
+	                        <option value="小类">小类</option>
+	                        <option value="中类">中类</option>
+	                        <option value="大类">大类</option>
+                   		</select>
+                  </div>
+                  
+                  
+                </div>
+            </div>
             
        	</form>
        	<div class="ub umar-t8 umar-b8">【查询结果】</div>
         <div class="ub ub-f1">
-			 <table id="purReportDetail"></table>
+			 <table id="purReportTotal"></table>
 		</div>
     </div>
 </body>

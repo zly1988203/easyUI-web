@@ -46,10 +46,21 @@ public class PurchaseReportController extends
 	 * @date 2016年10月25日
 	 */
 	@RequestMapping("/detail")
-	public String view() {
+	public String detail() {
 		return "report/purchase/details";
 	}
-
+	
+	/**
+	 * @Description: 采购汇总页面
+	 * @return
+	 * @author lijy02
+	 * @date 2016年10月25日
+	 */
+	@RequestMapping("/total")
+	public String total() {
+		return "report/purchase/total";
+	}
+	
 	/**
 	 * @Description: 采购明细查询
 	 * @param qo 采购报名查询字段类
@@ -61,7 +72,7 @@ public class PurchaseReportController extends
 	 */
 	@RequestMapping(value = "getPurReportDetail", method = RequestMethod.POST)
 	@ResponseBody
-	public PageUtils<PurchaseReportPo> getList(
+	public PageUtils<PurchaseReportPo> getPurReportDetail(
 			FormQueryQo qo,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
@@ -95,8 +106,8 @@ public class PurchaseReportController extends
 	 * @author lijy02
 	 * @date 2016年10月25日
 	 */
-	@RequestMapping(value = "exportData")
-	public void exportData(HttpServletResponse response,FormQueryQo qo) {
+	@RequestMapping(value = "exportDetails")
+	public void exportDetails(HttpServletResponse response,FormQueryQo qo) {
 		LOG.info("采购单明细导出:{}" + qo);
 		try {
 			PageUtils<PurchaseReportPo> result = purchaseReportService
@@ -112,4 +123,100 @@ public class PurchaseReportController extends
 			LOG.error("GoodsPriceAdjustController:exportList:", e);
 		}
 	}
+	/**
+	 * @Description: 采购汇总表
+	 * @param qo
+	 * @param pageNumber
+	 * @param pageSize
+	 * @return
+	 * @author lijy02
+	 * @date 2016年10月26日
+	 */
+	@RequestMapping(value = "getPurReportTotal", method = RequestMethod.POST)
+	@ResponseBody
+	public PageUtils<PurchaseReportPo> getPurReportTotal(
+			FormQueryQo qo,
+			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
+			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
+		try {
+			LOG.debug("采购汇总表查询：{}", qo);
+			qo.setPageNumber(pageNumber);
+			qo.setPageSize(pageSize);
+			PageUtils<PurchaseReportPo> list=null;
+			switch (qo.getSearchType()) {
+				case "supplierTotal":
+					list=getPurReportTotalBySupplier(qo);
+					break;
+				case "formNoTotal":
+					list=getPurReportTotalByFormNo(qo);
+					break;
+				case "categoryTotal":
+					list=getPurReportTotalByCategory(qo);
+					break;	
+				default:
+					list=getPurReportTotalByGoods(qo);
+					break;
+			}
+			return list;
+		} catch (Exception e) {
+			LOG.error("采购汇总表查询:", e);
+		}
+		return PageUtils.emptyPage();
+	}
+
+	/**
+	 * @Description: TODO
+	 * @param qo
+	 * @return
+	 * @author lijy02
+	 * @date 2016年10月26日
+	 */
+	private PageUtils<PurchaseReportPo> getPurReportTotalByCategory(
+			FormQueryQo qo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * @Description: TODO
+	 * @param qo
+	 * @return
+	 * @author lijy02
+	 * @date 2016年10月26日
+	 */
+	private PageUtils<PurchaseReportPo> getPurReportTotalByFormNo(FormQueryQo qo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * @Description: TODO
+	 * @param qo
+	 * @return
+	 * @author lijy02
+	 * @date 2016年10月26日
+	 */
+	private PageUtils<PurchaseReportPo> getPurReportTotalBySupplier(
+			FormQueryQo qo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * @Description: 获得采购报表汇总（按商品）
+	 * @author lijy02
+	 * @date 2016年10月26日
+	 */
+	private PageUtils<PurchaseReportPo> getPurReportTotalByGoods(FormQueryQo qo) {
+		PageUtils<PurchaseReportPo> list = purchaseReportService
+				.getPurReportTotalByGoods(qo);
+		// 2、查询合计
+		PurchaseReportPo vo = purchaseReportService
+				.getPurReportTotalByGoodsSum(qo);
+		List<PurchaseReportPo> footer = new ArrayList<PurchaseReportPo>();
+		footer.add(vo);
+		list.setFooter(footer);
+		return list;
+	}
+	
 }
