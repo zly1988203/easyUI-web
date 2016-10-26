@@ -23,7 +23,7 @@
 	</div><!--end logo -->
     
     <div class="header-load">
-    	<a class="header-load-link"><span class="name">  ${user.userName }, 您好 </span> <i class="iconfont">&#xe606;</i></a>
+    	<a class="header-load-link"><span class="name">${user.userName }, 您好 </span> <i class="iconfont">&#xe606;</i></a>
         <div class="linkdiv">
         	<a href="${ctx}/system/logout">退出</a>
         </div><!--end linkdiv -->
