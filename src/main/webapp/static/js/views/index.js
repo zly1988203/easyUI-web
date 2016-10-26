@@ -134,7 +134,7 @@ function loadLeftMenu(){
                     	//三级菜单，最后一级菜单
                     	$(p.children).each(function(m){
                     		var q = this;
-                    		divHtml +=					"<li><a href=\"javascript:openNewTab('"+q.name+"','"+q.url+"');\">"+q.name+"</li>";
+                    		divHtml +=				"<li><a href=\"javascript:openNewTab('"+q.name+"','"+q.url+"');\">"+q.name+"</a></li>";
                     	});
                     	
                     	divHtml +=				"</ul>";
