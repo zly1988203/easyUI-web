@@ -7,7 +7,7 @@ $(function(){
     initDatagridResultOrder();
 });
 var gridDefault = {
-		componentNum:1.00,
+		//componentNum:0,
 	    isGift:0,
 }
 var gridHandel = new GridClass();
@@ -99,6 +99,9 @@ function initDatagridResultOrder(){
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    if(!value){
+                    	row["componentNum"] = 0.00;
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
@@ -233,6 +236,20 @@ function updateFooter(){
     gridHandel.updateFooter(fields,argWhere);
 }
 
+//插入一行
+function addLineHandel(event){
+    event.stopPropagation(event);
+
+    var index = $(event.target).attr('data-index')||0;
+    gridHandel.addRow(index,gridDefault);
+}
+//删除一行
+function delLineHandel(event){
+    event.stopPropagation();
+    var index = $(event.target).attr('data-index');
+    gridHandel.delRow(index);
+}
+
 //选择商品
 function selectGoods(searchKey){
    
@@ -342,6 +359,7 @@ function saveResultOrder(){
         messager("表格不能为空");
         return;
     }
+    console.log(rows);
     var isCheckResult = true;
     $.each(rows,function(i,v){
         if(!v["skuCode"]){
@@ -349,7 +367,9 @@ function saveResultOrder(){
             isCheckResult = false;
             return false;
         };
-        if(parseFloat(v["componentNum"])>0){
+        console.log(v["componentNum"])
+        if(v["componentNum"]<=0){
+        	
             messager("第"+(i+1)+"行，成分数量必须大于0");
             isCheckResult = false;
             return false;
@@ -359,7 +379,9 @@ function saveResultOrder(){
     if(!isCheckResult){
         return;
     }
-      saveDataHandel(rows);
+    else{
+    	saveDataHandel(rows);
+       }
 }
 
 //保存里面拼接的字段
