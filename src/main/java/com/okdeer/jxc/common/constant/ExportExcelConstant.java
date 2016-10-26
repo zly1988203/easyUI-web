@@ -200,4 +200,9 @@ public interface ExportExcelConstant {
 	 */
 	String DELIVER_GOODS_BARCODE_REPORT = "DeliverGoodsBarCodeReport.xlsx";
 
+	/**
+	 * @Fields PURCHASEFORM : 采购单 退货单 收货单
+	 */
+	String DELIVER_REPORT = "DeliverReport.xlsx";
+
 }
