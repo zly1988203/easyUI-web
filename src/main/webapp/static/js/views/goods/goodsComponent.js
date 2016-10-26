@@ -208,7 +208,6 @@ function initDatagridResultOrder(){
 //queryForm 表单提交
 function query(){
 	$("#gridOrdersview").datagrid("options").queryParams = $("#queryForm").serializeObject();
-	console.log($("#queryForm").serializeObject())
 	$("#gridOrdersview").datagrid("options").method = "post";
 	$("#gridOrdersview").datagrid("options").url = contextPath+'/goods/component/queryList';
 	$("#gridOrdersview").datagrid("load");
@@ -283,12 +282,11 @@ function selectView(data){
     	data : {"skuId":searchskuId},
     	success:function(result){
     	    if(result.length>0){
-    	    	console.log(222)
-    	     	setDataValue(result);
+    	     setDataValue(result);
     		}
     	    else{
-    	    //result.length <0 清空数据	
-    	    $("#gridOrdersresult").datagrid('loadData', { total: 0, rows: [] });
+    	     //result.length <0 清空数据	
+    	     $("#gridOrdersresult").datagrid('loadData', { total: 0, rows: [] });
     	    }
     		console.log(result.length);
     	},
@@ -321,6 +319,11 @@ function setDataValue(data) {
         gridHandel.setSelectFieldName("componentNum");
         gridHandel.setFieldFocus(gridHandel.getFieldTarget('componentNum'));
     },100)
+}
+
+function checkdatas(){
+	
+	
 }
 //设置val 值选中位true  不选中为false
 function checkval(){
@@ -404,16 +407,6 @@ function saveDataHandel(rows){
 
 }
 
-/**
- * 城市选择
- */
-
-function chooseCity(){
-	new publicCityService(function(data){
-	$("#branchId").val(data.branchesId);
-	$("#branchName").val(data.branchName);
-	});
-}
 
 /**
  * 重置
