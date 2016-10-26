@@ -8,6 +8,8 @@ $(function(){
     $("#endTime").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
     toChangeDate(9);
     initDatagridRequireOrders();
+    branchId = $("#branchId").val();
+    brancheType = $("#brancheType").val();
 });
 var gridHandel = new GridClass();
 //初始化表格
@@ -29,7 +31,7 @@ function initDatagridRequireOrders(){
         columns:[[
 			{field:'check',checkbox:true},
             {field:'formNo',title:'单据编号',width:'140px',align:'left',formatter:function(value,row,index){
-            	return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/deliverReport/deliverEdit?deliverFormId="+ row.deliverFormId +"'>" + value + "</a>";
+            	return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/deliverForm/deliverEdit?deliverFormId="+ row.deliverFormId +"&formSources=2'>" + value + "</a>";
             }},
             {field:'sourceBranchCode',title: '发货机构编码', width: '100px', align: 'left'},
             {field: 'sourceBranchName', title: '发货机构', width: '200px', align: 'left'},
@@ -63,6 +65,7 @@ function initDatagridRequireOrders(){
 
 //查询要货单
 function queryForm(){
+	$("#deliverType").val('DA');
 	var fromObjStr = $('#queryForm').serializeObject();
 	$("#deliverFormList").datagrid("options").method = "post";
 	$("#deliverFormList").datagrid('options').url = contextPath + '/form/deliverReport/getDaForms';
@@ -72,7 +75,7 @@ function queryForm(){
 /**
  * 发货机构
  */
-function selectSourceBranches(){
+/*function selectSourceBranches(){
 	new publicAgencyService(function(data){
         if($("#sourceBranchId").val()!=data.branchesId){
             $("#sourceBranchId").val(data.branchesId);
@@ -80,12 +83,12 @@ function selectSourceBranches(){
             gridHandel.setLoadData([$.extend({},gridDefault)]);
         }
 	},'DA',$("#targetBranchId").val());
-}
+}*/
 
 /**
  * 收货机构
  */
-function selectTargetBranches(){
+/*function selectTargetBranches(){
 	var targetBranchType = $("#targetBranchType").val();
 	if(targetBranchType != '0' && targetBranchType != '1'){
 		return;
@@ -94,6 +97,24 @@ function selectTargetBranches(){
         $("#targetBranchId").val(data.branchesId);
         $("#targetBranchName").val(data.branchName);
 	},'DA','');
+}*/
+
+/**
+ * 查询机构
+ */
+var branchId;
+var brancheType;
+function selectBranches(){
+	/*if(brancheType != '0' && brancheType != '1'){
+		return;
+	}*/
+	new publicAgencyService(function(data){
+        if($("#branchId").val()!=data.branchesId){
+            $("#branchId").val(data.branchesId);
+            $("#branchName").val(data.branchName);
+            //gridHandel.setLoadData([$.extend({},gridDefault)]);
+        }
+	},'',branchId);
 }
 
 /**
@@ -101,6 +122,7 @@ function selectTargetBranches(){
  */
 var resetForm = function() {
 	 $("#queryForm").form('clear');
+	 $("#deliverType").val('DA');
 };
 
 /**
