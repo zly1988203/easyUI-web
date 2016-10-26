@@ -205,4 +205,23 @@ public interface ExportExcelConstant {
 	 */
 	String DELIVER_REPORT = "DeliverReport.xlsx";
 
+	/**
+	* @Fields 按单采购到货率报表
+	*/
+	String ARRIVAL_RATE_FORMNO_REPORT = "ArrivalRateFormNoReport.xlsx";
+	
+	/**
+	 * @Fields 按供应商采购到货率报表
+	 */
+	String ARRIVAL_RATE_SUPPLIER_REPORT = "ArrivalRateSupplierReport.xlsx";
+	
+	/**
+	 * @Fields 按分类商采购到货率报表
+	 */
+	String ARRIVAL_RATE_CATEGORY_REPORT = "ArrivalRateCategoryReport.xlsx";
+	
+	/**
+	 * @Fields 按商品商采购到货率报表
+	 */
+	String ARRIVAL_RATE_GOODS_REPORT = "ArrivalRateGoodsReport.xlsx";
 }
