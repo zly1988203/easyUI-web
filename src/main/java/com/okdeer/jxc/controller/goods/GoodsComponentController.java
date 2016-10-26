@@ -14,7 +14,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
-import com.okdeer.jxc.cost.entity.StockCostFormAll;
 import com.okdeer.jxc.goods.vo.GoodsSelectVo;
 import com.okdeer.jxc.stock.entity.GoodsComponent;
 import com.okdeer.jxc.stock.service.GoodsComponentApi;
@@ -29,7 +28,7 @@ import com.okdeer.jxc.utils.UserUtil;
  * =================================================================================================
  *     Task ID			  Date			     Author		      Description
  * ----------------+----------------+-------------------+-------------------------------------------
- *
+ *	进销存V2.0.0		 2016年10月25日			       杨永钦  			           组合商品Controller
  */
 
 @Controller
@@ -59,7 +58,8 @@ public class GoodsComponentController extends BaseController<GoodsSelectControll
 		try{
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
-			return goodsComponentApi.queryLists(vo);
+			PageUtils<GoodsComponent> page= goodsComponentApi.queryLists(vo);
+			return page;
 		}catch(Exception e){
 			LOG.error("查询组合商品失败！:{}",e);
 			return null;
@@ -77,9 +77,7 @@ public class GoodsComponentController extends BaseController<GoodsSelectControll
 	@ResponseBody
 	public List<GoodsComponent>  queryComponent(String skuId) {
 		try{
-			if(skuId==null){
-				skuId="39c5e10483fe11e6823127f894e357cf";
-			}
+			
 			return goodsComponentApi.queryComponent(skuId);
 		}catch(Exception e){
 			LOG.error("查询商品成分失败！:{}",e);
@@ -98,9 +96,6 @@ public class GoodsComponentController extends BaseController<GoodsSelectControll
 	@ResponseBody
 	public RespJson  saveComponent(String goodsJson) {
 		try{
-			if(goodsJson==null){
-				goodsJson="{\"skuId\":\"39c5e10483fe11e6823127f894e357cf\",\"detailList\":[{\"componentNum\":1,\"componentSkuId\":\"39c5e10683fe11e6823127f894e357cf\"},{\"componentNum\":2,\"componentSkuId\":\"39c5e10583fe11e6823127f894e357cf\"}]}";
-			}
 			JSONObject jsonObject = com.alibaba.fastjson.JSON.parseObject(goodsJson);
 			String skuId=jsonObject.getString("skuId");
 
