@@ -27,7 +27,6 @@ import com.okdeer.jxc.form.purchase.po.PurchaseReportPo;
 import com.okdeer.jxc.form.purchase.qo.FormQueryQo;
 import com.okdeer.jxc.form.purchase.service.PurchaseReportService;
 
-
 @Controller
 @RequestMapping("report/purchase")
 public class PurchaseReportController extends
@@ -49,7 +48,7 @@ public class PurchaseReportController extends
 	public String detail() {
 		return "report/purchase/details";
 	}
-	
+
 	/**
 	 * @Description: 采购汇总页面
 	 * @return
@@ -60,7 +59,7 @@ public class PurchaseReportController extends
 	public String total() {
 		return "report/purchase/total";
 	}
-	
+
 	/**
 	 * @Description: 采购明细查询
 	 * @param qo 采购报名查询字段类
@@ -97,8 +96,7 @@ public class PurchaseReportController extends
 		}
 		return PageUtils.emptyPage();
 	}
-	
-	
+
 	/**
 	 * @Description: 采购单明细导出
 	 * @param response
@@ -107,12 +105,18 @@ public class PurchaseReportController extends
 	 * @date 2016年10月25日
 	 */
 	@RequestMapping(value = "exportDetails")
-	public void exportDetails(HttpServletResponse response,FormQueryQo qo) {
+	public void exportDetails(
+			HttpServletResponse response,
+			FormQueryQo qo,
+			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
+			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		LOG.info("采购单明细导出:{}" + qo);
 		try {
+			qo.setPageNumber(pageNumber);
+			qo.setPageSize(pageSize);
 			PageUtils<PurchaseReportPo> result = purchaseReportService
 					.getPurReportDetail(qo);
-			List<PurchaseReportPo> exportList =result.getList();
+			List<PurchaseReportPo> exportList = result.getList();
 			// 导出文件名称，不包括后缀名
 			String fileName = "采购明细表" + "_" + DateUtils.getCurrSmallStr();
 			// 模板名称，包括后缀名
@@ -123,6 +127,7 @@ public class PurchaseReportController extends
 			LOG.error("GoodsPriceAdjustController:exportList:", e);
 		}
 	}
+
 	/**
 	 * @Description: 采购汇总表
 	 * @param qo
@@ -142,19 +147,22 @@ public class PurchaseReportController extends
 			LOG.debug("采购汇总表查询：{}", qo);
 			qo.setPageNumber(pageNumber);
 			qo.setPageSize(pageSize);
-			PageUtils<PurchaseReportPo> list=null;
+			PageUtils<PurchaseReportPo> list = null;
 			switch (qo.getSearchType()) {
 				case "supplierTotal":
-					list=getPurReportTotalBySupplier(qo);
+					list = getPurReportTotalBySupplier(qo);
 					break;
 				case "formNoTotal":
-					list=getPurReportTotalByFormNo(qo);
+					list = getPurReportTotalByFormNo(qo);
 					break;
 				case "categoryTotal":
-					list=getPurReportTotalByCategory(qo);
-					break;	
+					list = getPurReportTotalByCategory(qo);
+					break;
+				case "goodsTotal":
+					list = getPurReportTotalByGoods(qo);
+					break;
 				default:
-					list=getPurReportTotalByGoods(qo);
+					list = getPurReportTotalByGoods(qo);
 					break;
 			}
 			return list;
@@ -165,7 +173,7 @@ public class PurchaseReportController extends
 	}
 
 	/**
-	 * @Description: TODO
+	 * @Description: 采购报表总计（类别）
 	 * @param qo
 	 * @return
 	 * @author lijy02
@@ -173,20 +181,34 @@ public class PurchaseReportController extends
 	 */
 	private PageUtils<PurchaseReportPo> getPurReportTotalByCategory(
 			FormQueryQo qo) {
-		// TODO Auto-generated method stub
-		return null;
+		PageUtils<PurchaseReportPo> list = purchaseReportService
+				.getPurReportTotalByCategory(qo);
+		// 2、查询合计
+		PurchaseReportPo vo = purchaseReportService
+				.getPurReportTotalByCategorySum(qo);
+		List<PurchaseReportPo> footer = new ArrayList<PurchaseReportPo>();
+		footer.add(vo);
+		list.setFooter(footer);
+		return list;
 	}
 
 	/**
-	 * @Description: TODO
+	 * @Description: 获得采购报表汇总（按单据）
 	 * @param qo
 	 * @return
 	 * @author lijy02
 	 * @date 2016年10月26日
 	 */
 	private PageUtils<PurchaseReportPo> getPurReportTotalByFormNo(FormQueryQo qo) {
-		// TODO Auto-generated method stub
-		return null;
+		PageUtils<PurchaseReportPo> list = purchaseReportService
+				.getPurReportTotalByFormNo(qo);
+		// 2、查询合计
+		PurchaseReportPo vo = purchaseReportService
+				.getPurReportTotalByFormNoSum(qo);
+		List<PurchaseReportPo> footer = new ArrayList<PurchaseReportPo>();
+		footer.add(vo);
+		list.setFooter(footer);
+		return list;
 	}
 
 	/**
@@ -225,5 +247,59 @@ public class PurchaseReportController extends
 		list.setFooter(footer);
 		return list;
 	}
-	
+
+	/**
+	 * @Description: 汇总导出
+	 * @param response
+	 * @param qo
+	 * @author lijy02
+	 * @date 2016年10月27日
+	 */
+	@RequestMapping(value = "exportTotal")
+	public void exportTotal(
+			HttpServletResponse response,
+			FormQueryQo qo,
+			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
+			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
+		LOG.info("采购汇总导出:{}" + qo);
+		try {
+			qo.setPageNumber(pageNumber);
+			qo.setPageSize(pageSize);
+			PageUtils<PurchaseReportPo> list = null;
+			// 导出文件名称，不包括后缀名
+			String fileName = "采购汇总表" + "_" + DateUtils.getCurrSmallStr();
+			// 模板名称，包括后缀名
+			String templateName ="";
+			switch (qo.getSearchType()) {
+				case "supplierTotal":
+					list = getPurReportTotalBySupplier(qo);
+					fileName += "(供应商)";
+					templateName = ExportExcelConstant.PUR_REPORT_TOTAL_SUPPLIER;
+					break;
+				case "formNoTotal":
+					list = getPurReportTotalByFormNo(qo);
+					fileName += "(单据)";
+					templateName = ExportExcelConstant.PUR_REPORT_TOTAL_FORMNO;
+					break;
+				case "categoryTotal":
+					list = getPurReportTotalByCategory(qo);
+					fileName += "(类别)";
+					templateName = ExportExcelConstant.PUR_REPORT_TOTAL_CATEGORY;
+					break;
+				case "goodsTotal":
+					list = getPurReportTotalByGoods(qo);
+					fileName += "(商品)";
+					templateName = ExportExcelConstant.PUR_REPORT_TOTAL_GOODS;
+					break;
+				default:
+					list = getPurReportTotalByGoods(qo);
+					break;
+			}
+			List<PurchaseReportPo> exportList = list.getList();
+			// 导出Excel
+			exportListForXLSX(response, exportList, fileName, templateName);
+		} catch (Exception e) {
+			LOG.error("GoodsPriceAdjustController:exportList:", e);
+		}
+	}
 }
