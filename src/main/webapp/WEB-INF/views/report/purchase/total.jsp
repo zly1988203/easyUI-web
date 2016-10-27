@@ -75,20 +75,16 @@
                 <div class="ub ub-ac">
                    <div class="umar-r10 uw-70 ut-r">汇总类型:</div>
                     <div class="ub ub-ac umar-r10 ">
-                        <input class="ub radioItem" id="goodsTotal" type="radio" name="searchType" value="goodsTotal" checked="checked"/>
-                        <label for="goodsTotal">商品汇总</label>
+                        <label> <input class="ub radioItem" id="goodsTotal" type="radio" name="searchType" value="goodsTotal" checked="checked"/> 商品汇总</label>
                     </div>
                     <div class="ub ub-ac umar-r10">
-                        <input class="ub radioItem" id="supplierTotal" type="radio" name="searchType" value="supplierTotal"  />
-                        <label for="supplierTotal">供应商汇总</label>
+                         <label> <input class="ub radioItem" id="supplierTotal" type="radio" name="searchType" value="supplierTotal"  /> 供应商汇总</label>
                     </div>
                    <div class="ub ub-ac umar-r10">
-                        <input class="ub radioItem" id="formNoTotal" type="radio" name="searchType" value="formNoTotal" />
-                        <label for="formNoTotal">单据汇总</label>
+                         <label> <input class="ub radioItem" id="formNoTotal" type="radio" name="searchType" value="formNoTotal" /> 单据汇总</label>
                   </div>
                   <div class="ub ub-ac umar-r10">
-                        <input class="ub radioItem" id="categoryTotal" type="radio" name="searchType" value="categoryTotal" />
-                        <label for="categoryTotal">类别汇总:</label>
+                          <label><input class="ub radioItem" id="categoryTotal" type="radio" name="searchType" value="categoryTotal" />类别汇总:</label>
                         <select class="uselect easyui-combobox" name="category" id="category">
 	                        <option value="小类">小类</option>
 	                        <option value="中类">中类</option>
