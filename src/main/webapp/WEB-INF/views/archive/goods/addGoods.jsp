@@ -39,7 +39,7 @@ pageEncoding="UTF-8"%>
                 <div class="ub ub-ac umar-r48">
                     <div class="umar-r10 uw-60 ut-r">商品类别:</div>
                     <input id="categoryId" name="categoryId"   class="uinp" type="hidden">
-                    <input id="categoryCode" name="categoryCode"   class="uinp" type="hidden">
+                    <input id="categoryCode1" name="categoryCode"   class="uinp" type="hidden">
                     <input id="categoryName" name="categoryName"   class="uinp uw-200 easyui-validatebox" type="text" readonly="readonly"  data-options="required:true">
                     <div class="uinp-more new-right" onclick="getGoodsType()">...</div>
                     <i class="uc-red">*</i>
