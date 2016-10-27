@@ -4,7 +4,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<title>友门鹿·零售管理系统V1.2.0_DEV161027 </title>
+	<title>友门鹿·零售管理系统V1.2.0_DEV161027</title>
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
 	<script src="${ctx}/static/js/views/index.js"></script>
 </head>
