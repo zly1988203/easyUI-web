@@ -7,7 +7,7 @@ $(function(){
 var gridHandel = new GridClass();
 //初始化表格
 function initDatagridRequire(){
-    $("#storeSale").datagrid({
+    $("#categorySale").datagrid({
         method:'post',
         align:'center',
         //toolbar: '#tb',     //工具栏 id为tb
@@ -20,7 +20,6 @@ function initDatagridRequire(){
 		height:'100%',
 		width:'100%',
         columns:[[
-			{field:'check',checkbox:true},
             {field:'branchName',title:'机构名称',width:'200px',align:'left'},
             {field:'skuCode',title: '所在城市', width: '200px', align: 'left'},
 			{field:'categoryCode', title: '类别编号', width: '200px', align: 'left'},
@@ -35,9 +34,9 @@ function initDatagridRequire(){
 //查询入库单
 function queryForm(){
 	var fromObjStr = $('#queryForm').serializeObject();
-	$("#storeSale").datagrid("options").method = "post";
-	$("#storeSale").datagrid('options').url = contextPath + '/categorySale/report/getCategorySaleList';
-	$("#storeSale").datagrid('load', fromObjStr);
+	$("#categorySale").datagrid("options").method = "post";
+	$("#categorySale").datagrid('options').url = contextPath + '/categorySale/report/getCategorySaleList';
+	$("#categorySale").datagrid('load', fromObjStr);
 }
 
 /**
@@ -48,6 +47,34 @@ function selectBranches(){
 		$("#branchId").val(data.branchesId);
 		$("#branchName").val(data.branchName);
 	},'DO','');
+}
+
+/**
+ * 导出
+ */
+function exportExcel(){
+	var length = $("#categorySale").datagrid('getData').total;
+	if(length == 0){
+		$.messager.alert('提示',"没有数据");
+		return;
+	}
+	if(length>10000){
+		$.messager.alert("当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
+		return;
+	}
+	var fromObjStr = $('#queryForm').serializeObject();
+	console.log(fromObjStr);
+	$("#queryForm").form({
+		success : function(data){
+			if(data==null){
+				$.messager.alert('提示',"导出数据成功！");
+			}else{
+				$.messager.alert('提示',JSON.parse(data).message);
+			}
+		}
+	});
+	$("#queryForm").attr("action",contextPath+"/categorySale/report/exportList?"+fromObjStr);
+	$("#queryForm").submit();
 }
 
 /**

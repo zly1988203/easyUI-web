@@ -49,7 +49,7 @@
            
        	<div class="ub umar-t8 umar-b8">【查询结果】</div>
         <div class="ub ub-f1">
-			 <table id="storeSale"></table>
+			 <table id="storeDaySale"></table>
 		</div>
     </div>
 
