@@ -39,16 +39,29 @@
 	        
           <div class="ub umar-t8">
                <div class="ub ub-ac">
-                   <div class="umar-r10 uw-70 ut-r">店铺:</div>
-                   <input class="uinp" type="hidden" id="branchCode" name="branchCode">
+                   <div class="umar-r10 uw-70 ut-r">机构:</div>
+                   <input class="uinp" type="hidden" id="branchId" name="branchId">
                    <input class="uinp" type="text" id="branchNameOrCode" name="branchNameOrCode" onblur="clearBranchCode()">
                    <div class="uinp-more" onclick="searchBranch()">...</div>
                </div>
                <div class="ub ub-ac umar-r40">
-				<div class="umar-r10 uw-60 ut-r">收银员:</div>
-				<input type="hidden" name="cashierId" id="cashierId" class="uinp" />
-				<input type="text" name="cashierNameOrCode" id="cashierNameOrCode" class="uinp" onblur="clearCashierId()" />
+				<div class="umar-r10 uw-60 ut-r">货号:</div>
+				<input type="hidden" name="skuId" id="skuId" class="uinp" />
+				<input type="text" name="skuCode" id="skuCode" class="uinp" onblur="clearCashierId()" />
 				<div class="uinp-more" id="cashierIdSelect" onclick="searchCashierId()">...</div>
+			  </div>
+			   <div class="ub ub-ac umar-r40">
+				<div class="umar-r10 uw-60 ut-r">商品类别:</div>
+				<input type="text" name="categoryCode" id="categoryCode" class="uinp" onblur="clearCashierId()" />
+				<div class="uinp-more" id="cashierIdSelect" onclick="searchCashierId()">...</div>
+			  </div>
+			  <div class="ub ub-ac umar-r40">
+				<div class="umar-r10 uw-60 ut-r">单据类别:</div>
+				 <select class="easyui-combobox uselect" name="formType" id="type"  data-options="editable:false">
+								 <option value="">全部</option> 
+								<option value="DO">配送出库单</option> 
+								<option value="DI">配送入库单</option>
+				   </select>
 			  </div>
             </div>
             
@@ -62,11 +75,11 @@
                     </div>
                     <div class="ub ub-ac umar-r10">
                         <input class="ub radioItem" id="form" type="radio" name="queryType" value="form"  />
-                        <label for="cashDailyMd">按单汇总</label>
+                        <label for="form">按单汇总</label>
                     </div>
                    <div class="ub ub-ac umar-r10">
                         <input class="ub radioItem" id="categoryCode" type="radio" name="queryType" value="categoryCode" />
-                        <label for="cashDailyDate">类别汇总</label>
+                        <label for="categoryCode">类别汇总</label>
                   </div>
                 </div>
             </div>

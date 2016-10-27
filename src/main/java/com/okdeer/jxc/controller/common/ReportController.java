@@ -20,14 +20,16 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.okdeer.jxc.common.report.DataRecord;
 import com.okdeer.jxc.common.report.ReportService;
-import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.PageUtils;
+import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.utils.poi.ExcelExportUtil;
 
 /**
@@ -42,7 +44,7 @@ import com.okdeer.jxc.utils.poi.ExcelExportUtil;
  *	v1.2.0				2016-10-26		xiaoj02				报表通用controller
  */
 
-public abstract class ReportController {
+public abstract class ReportController extends BaseController<T>{
 
 	public abstract ReportService getReportService();
 
@@ -50,20 +52,17 @@ public abstract class ReportController {
 
 	@RequestMapping("reportList")
 	@ResponseBody
-	public RespJson reportList(HttpServletRequest request) {
+	public List<DataRecord> reportList(HttpServletRequest request) {
 		List<DataRecord> list = getReportService().getList(getParam(request));
-		RespJson json =RespJson.success();
-		json.put("data", list);
-		return json;
+		return list;
 	}
 
 	@RequestMapping("reportListPage")
 	@ResponseBody
-	public RespJson reportListPage(HttpServletRequest request, Integer page, Integer rows) {
+	public PageUtils<DataRecord> reportListPage(HttpServletRequest request,@RequestParam(value = "page", defaultValue = PAGE_NO)  Integer page,
+			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) Integer rows) {
 		PageUtils<DataRecord> list = getReportService().getListPage(getParam(request),page, rows);
-		RespJson json =RespJson.success();
-		json.put("data", list);
-		return json;
+		return list;
 	}
 
 	@RequestMapping(value = "exportExcel")
