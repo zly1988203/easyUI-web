@@ -105,27 +105,27 @@ function zTreeOnClick(event, treeId, treeNode) {
         goodsClass.treeParam["level"] = treeNode.level;
         
         //将选中树参数值传入表单
-        $("#categoryCode").val(treeNode.code);
+        $("#categoryCode1").val(treeNode.code);
         $("#level").val(treeNode.level);
-        $("#brandId").val('');
-        $("#supplierId").val('');
+        $("#brandId1").val('');
+        $("#supplierId1").val('');
     }else if(goodsClass.selectTypeName=="brandId"){
         goodsClass.treeParam[goodsClass.selectTypeName] = treeNode.id;
         goodsClass.treeParam["level"] = "";
         
         //将选中树参数值传入表单
-        $("#brandId").val(treeNode.id);
-        $("#categoryCode").val('');
+        $("#brandId1").val(treeNode.id);
+        $("#categoryCode1").val('');
         $("#level").val('');
-        $("#supplierId").val('');
+        $("#supplierId1").val('');
     }else{
     	 goodsClass.treeParam[goodsClass.selectTypeName] = treeNode.id;
          goodsClass.treeParam["level"] = "";
          
          //将选中树参数值传入表单
-         $("#supplierId").val(treeNode.id);
-         $("#brandId").val('');
-         $("#categoryCode").val('');
+         $("#supplierId1").val(treeNode.id);
+         $("#brandId1").val('');
+         $("#categoryCode1").val('');
          $("#level").val('');
     }
     

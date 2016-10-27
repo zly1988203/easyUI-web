@@ -8,7 +8,7 @@ function initGoodsView(data,flag){
 	if(flag == "add"){
 		//商品分类
 		$("#categoryId").val(data.categoryId);
-		$("#categoryCode1").val(data.categoryCode);
+		$("#categoryCode").val(data.categoryCode);
 		$("#categoryName").val(data.categoryName);
 		//商品自动生成货号
 //		getSkuCodeVal();
@@ -98,7 +98,7 @@ function getSelectionRow(data){
 //根据复制的值，给input框赋值
 function setInputValByObj(){
 	if(selectionRow!=null){
-		$("#categoryCode1").val(selectionRow.categoryCode);
+		
 		$.each(selectionRow[0]||selectionRow,function(key,value){
 			//普通的input
 			if(key=="braCode"||key=="skuCode"){
@@ -290,7 +290,7 @@ function getBarCode(pricingType,skuCode){
 function getGoodsType(){
 	new publicCategoryService(function(data){
 		$("#categoryId").val(data.goodsCategoryId);
-		$("#categoryCode1").val(data.categoryCode);
+		$("#categoryCode").val(data.categoryCode);
 		$("#categoryName").val(data.categoryName);
 		//商品自动生成货号
 //		getSkuCodeVal();
