@@ -75,7 +75,7 @@
                 <div class="ub ub-ac">
                    <div class="umar-r10 uw-70 ut-r">汇总类型:</div>
                     <div class="ub ub-ac umar-r10 ">
-                        <label> <input class="ub radioItem"  type="radio" name="searchType" value="goodsTotal" checked="checked"/> 商品汇总</label>
+                        <label> <input class="ub radioItem" id="goodsTotal"  type="radio" name="searchType" value="goodsTotal" checked="checked"/> 商品汇总</label>
                     </div>
                     <div class="ub ub-ac umar-r10">
                          <label> <input class="ub radioItem"  type="radio" name="searchType" value="supplierTotal"  /> 供应商汇总</label>
@@ -84,8 +84,8 @@
                          <label> <input class="ub radioItem"  type="radio" name="searchType" value="formNoTotal" /> 单据汇总</label>
                   </div>
                   <div class="ub ub-ac umar-r10">
-                          <label><input class="ub radioItem"  type="radio" name="searchType" value="categoryTotal" />类别汇总:</label>
-                        <select class="uselect easyui-combobox" name="categoryType" >
+                          <label><input class="ub radioItem" id="categoryTotal" type="radio" name="searchType" value="categoryTotal" />类别汇总:</label>
+                        <select class="uselect easyui-combobox" name="categoryType" id="categoryType" >
 	                        <option value="smallCategory">小类</option>
 	                        <option value="medCategory">中类</option>
 	                        <option value="bigCategory">大类</option>
