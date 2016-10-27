@@ -5,9 +5,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>配送明细查询</title>
+<title>收银日报</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="${ctx}/static/js/views/report/deliver/deliverDetailsReport.js"></script>
+<script src="${ctx}/static/js/views/report/deliver/deliverTotalReport.js"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
 </style>
@@ -17,67 +17,63 @@
 		<form id="queryForm" action="" method="post">
 			<div class="ub ub-ac">
 	            <div class="ubtns">
-	                <div class="ubtns-item" onclick="purchaseDetailCx()">查询</div>
-	                <div class="ubtns-item" onclick="exportData()">导出</div>
+	            <shiro:hasPermission name="JxcCashDaily:search">
+	                <div class="ubtns-item" onclick="query()">查询</div>
+	            </shiro:hasPermission>
+	            <shiro:hasPermission name="JxcCashDaily:print">
+	                <div class="ubtns-item" onclick="printReport()">打印</div>
+	            </shiro:hasPermission>
+	            <shiro:hasPermission name="JxcCashDaily:export">
+	                <div class="ubtns-item" onclick="exportExcel()">导出</div>
+	            </shiro:hasPermission>
 	                <div class="ubtns-item" onclick="resetForm()">重置</div>
 	                <div class="ubtns-item" onclick="toClose()">退出</div>
 	            </div>
+	            
+	           	<!-- 引入时间选择控件 -->
+	            <%@ include file="/WEB-INF/views/component/dateSelect.jsp"%>
             </div>
 	               
-	        <div class="ub uline umar-t8">
-	        </div>
-	         
-	      <div class="ub umar-t8">
-	           <!-- 引入时间选择控件 -->
-	           <div class="ub ub-ac">
-	            	<div class="umar-r10 uw-70 ut-r">日期:</div>
-	       			<%@ include file="/WEB-INF/views/component/dateSelect.jsp"%>
-	           </div>
-	      </div>
+	        <div class="ub umar-t8 uc-black">【收银日报】</div>
+	        <div class="ub uline umar-t8"></div>
+	        
           <div class="ub umar-t8">
                <div class="ub ub-ac">
-                   <div class="umar-r10 uw-70 ut-r">机构名称:</div>
-                   <input class="uinp" type="hidden" id="branchId" name="branchId">
-                   <input class="uinp" type="text" id="branchName" name="branchName" readonly="readonly">
-                   <div class="uinp-more" id="branchSelect" onclick="searchBranch()">...</div>
+                   <div class="umar-r10 uw-70 ut-r">店铺:</div>
+                   <input class="uinp" type="hidden" id="branchCode" name="branchCode">
+                   <input class="uinp" type="text" id="branchNameOrCode" name="branchNameOrCode" onblur="clearBranchCode()">
+                   <div class="uinp-more" onclick="searchBranch()">...</div>
                </div>
                <div class="ub ub-ac umar-r40">
-				<div class="umar-r10 uw-70 ut-r">供应商:</div>
-				<input type="hidden" name="supplierId" id="supplierId" class="uinp" />
-				<input type="text" name="supplierName" id="supplierName" class="uinp" readonly="readonly" />
-				<div class="uinp-more" id="supplierSelect" onclick="searchSupplier()">...</div>
-			  </div>
-			  <div class="ub ub-ac umar-r40">
-				<div class="umar-r10 uw-70 ut-r">类别:</div>
-				<input type="hidden" name="categoryId" id="categoryId" class="uinp" />
-				<input type="text" name="categoryName" id="categoryName" class="uinp" readonly="readonly"  />
-				<div class="uinp-more" id="categorySelect" onclick="searchCategory()">...</div>
+				<div class="umar-r10 uw-60 ut-r">收银员:</div>
+				<input type="hidden" name="cashierId" id="cashierId" class="uinp" />
+				<input type="text" name="cashierNameOrCode" id="cashierNameOrCode" class="uinp" onblur="clearCashierId()" />
+				<div class="uinp-more" id="cashierIdSelect" onclick="searchCashierId()">...</div>
 			  </div>
             </div>
             
-             <div class="ub umar-t8">
-               <div class="ub ub-ac">
-                   <div class="umar-r10 uw-70 ut-r">单据类型:</div>
-                   <select class="uselect easyui-combobox" name="formType" id="formType" data-options="onChange:onChangeFormType">
-                   		<option value="">全部</option>
-                   		<option value="PI">采购收货</option>
-                        <option value="PR">采购退货</option>
-                   </select>
-               </div>
-               <div class="ub ub-ac umar-r40">
-				<div class="umar-r10 uw-70 ut-r" style="margin-left:5px">单据编号:</div>
-				<input type="text" name="formNo" id="formNo" class="uinp" />
-			   </div>
-			  <div class="ub ub-ac umar-r40">
-				<div class="umar-r10 uw-70 ut-r">货号/条码:</div>
-				<input type="text" name="skuCodeOrBarCode" id="skuCodeOrBarCode" class="uinp" />
-			  </div>
+            <div class="ub umar-t8">
+                <!--input-checkbox-->
+                <div class="ub ub-ac">
+                   <div class="umar-r10 uw-70 ut-r">报表类型:</div>
+                    <div class="ub ub-ac umar-r10 ">
+                        <input class="ub radioItem" id="goods" type="radio" name="queryType" value="goods" checked="checked"/>
+                        <label for="goods">商品汇总</label>
+                    </div>
+                    <div class="ub ub-ac umar-r10">
+                        <input class="ub radioItem" id="form" type="radio" name="queryType" value="form"  />
+                        <label for="cashDailyMd">按单汇总</label>
+                    </div>
+                   <div class="ub ub-ac umar-r10">
+                        <input class="ub radioItem" id="categoryCode" type="radio" name="queryType" value="categoryCode" />
+                        <label for="cashDailyDate">类别汇总</label>
+                  </div>
+                </div>
             </div>
-            
        	</form>
        	<div class="ub umar-t8 umar-b8">【查询结果】</div>
         <div class="ub ub-f1">
-			 <table id="purReportDetail"></table>
+			 <table id="cashDaily"></table>
 		</div>
     </div>
 </body>
