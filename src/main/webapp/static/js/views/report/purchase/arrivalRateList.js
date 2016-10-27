@@ -4,6 +4,18 @@ $(function() {
     initDatagridByFormNo();
 	//选择报表类型
 	changeType();
+
+	$(document).on('keyup','#arrivalRate',function(){
+		var val=parseFloat($(this).val());
+	    var str=$(this).val();
+		if(val<0||val>1){
+			   $(this).val("");	
+		}
+		else if(str.length>=7){
+		    var subval=str.substring(0,7);
+		    $(this).val(subval);	
+		}
+	})
 });
 
 //初始化默认条件

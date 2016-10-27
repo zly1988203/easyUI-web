@@ -21,21 +21,26 @@ function initDatagridRequire(){
 		width:'100%',
         columns:[[
 			{field:'check',checkbox:true},
+			{field:'branchCode',title:'店铺编号',width:'140px',align:'left'},
             {field:'branchName',title:'店铺名称',width:'140px',align:'left'},
+            {field:'formNo',title: '单号', width: '100px', align: 'left'},
             {field:'skuCode',title: '货号', width: '100px', align: 'left'},
+            {field:'barCode',title: '条码', width: '100px', align: 'left'},
 			{field: 'skuName', title: '商品名称', width: '200px', align: 'left'},
-			{field: 'barCode', title: '条码', width: '200px', align: 'left'},
+			{field: 'spec', title: '规格', width: '200px', align: 'left'},
+			{field: 'unit', title: '单位', width: '200px', align: 'left'},
+			 {field: 'pricingType', title: '计价方式', width: '130px', align: 'left'},
+			{field: 'categoryCode', title: '类别编码', width: '80px', align: 'right'},
 			{field: 'categoryName', title: '类别名称', width: '80px', align: 'right'},
-            {field: 'spec', title: '规格', width: '200px', align: 'left'},
-            {field: 'unit', title: '单位', width: '130px', align: 'left'},
-            {field: 'originalAmount', title: '原价金额', width: '150px', align: 'center'},
-            {field: 'discountAmount', title: '优惠金额', width: '130px', align: 'left'},
-            {field: 'saleAmount', title: '销售金额', width: '130px', align: 'left'},
-            {field: 'saleNum', title: '销售数量', width: '130px', align: 'left'},
-            {field: 'returnAmount', title: '退货金额', width: '130px', align: 'left'},
-            {field: 'returnNum', title: '退货数量', width: '130px', align: 'left'},
-            {field: 'totalAmount', title: '小计金额', width: '130px', align: 'left'},
-            {field: 'totalNum', title: '小计数量', width: '130px', align: 'left'}
+			{field: 'createTime', title: '日期时间', width: '200px', align: 'left'},
+            {field: 'outNum', title: '出库数量', width: '200px', align: 'left'},
+            {field: 'inNum', title: '入库数量', width: '200px', align: 'left'},
+            {field: 'formType', title: '出入库类型', width: '130px', align: 'left'},
+            {field: 'costPrice', title: '进价', width: '150px', align: 'center'},
+            {field: 'costAmount', title: '进价金额', width: '130px', align: 'left'},
+            {field: 'salePrice', title: '售价', width: '130px', align: 'left'},
+            {field: 'saleAmount', title: '售价金额', width: '130px', align: 'left'},
+            {field: 'supplierName', title: '供应商名称', width: '130px', align: 'left'}
         ]],
         
     });
@@ -45,7 +50,7 @@ function initDatagridRequire(){
 function queryForm(){
 	var fromObjStr = $('#queryForm').serializeObject();
 	$("#goodsOutInDetail").datagrid("options").method = "post";
-	$("#goodsOutInDetail").datagrid('options').url = contextPath + '/goods/goodsDetail/getGoodsSaleList';
+	$("#goodsOutInDetail").datagrid('options').url = contextPath + '/goods/goodsDetail/getGoodsOutInDetailList';
 	$("#goodsOutInDetail").datagrid('load', fromObjStr);
 }
 

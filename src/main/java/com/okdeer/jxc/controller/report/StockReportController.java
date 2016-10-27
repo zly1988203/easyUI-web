@@ -214,31 +214,31 @@ public class StockReportController extends BaseController<StockReportController>
 		for (StockReportVo vo : exportList) {
 			// 库存
 			if (StringUtils.isNotBlank(vo.getActual())) {
-				java.math.BigDecimal actual = new java.math.BigDecimal(vo.getActual()).setScale(2,
+				java.math.BigDecimal actual = new java.math.BigDecimal(vo.getActual()).setScale(4,
 						java.math.BigDecimal.ROUND_HALF_UP);
 				vo.setActual(String.valueOf(actual));
 			}
 			// 成本价
 			if (StringUtils.isNotBlank(vo.getCostPrice())) {
-				java.math.BigDecimal costPrice = new java.math.BigDecimal(vo.getCostPrice()).setScale(2,
+				java.math.BigDecimal costPrice = new java.math.BigDecimal(vo.getCostPrice()).setScale(4,
 						java.math.BigDecimal.ROUND_HALF_UP);
 				vo.setCostPrice(String.valueOf(costPrice));
 			}
 			// 库存金额
 			if (StringUtils.isNotBlank(vo.getCostAmount())) {
-				java.math.BigDecimal costAmount = new java.math.BigDecimal(vo.getCostAmount()).setScale(2,
+				java.math.BigDecimal costAmount = new java.math.BigDecimal(vo.getCostAmount()).setScale(4,
 						java.math.BigDecimal.ROUND_HALF_UP);
 				vo.setCostAmount(String.valueOf(costAmount));
 			}
 			// 售价
 			if (StringUtils.isNotBlank(vo.getSalePrice())) {
-				java.math.BigDecimal salePrice = new java.math.BigDecimal(vo.getSalePrice()).setScale(2,
+				java.math.BigDecimal salePrice = new java.math.BigDecimal(vo.getSalePrice()).setScale(4,
 						java.math.BigDecimal.ROUND_HALF_UP);
 				vo.setSalePrice(String.valueOf(salePrice));
 			}
 			// 售价金额
 			if (StringUtils.isNotBlank(vo.getSaleAmount())) {
-				java.math.BigDecimal saleAmount = new java.math.BigDecimal(vo.getSaleAmount()).setScale(2,
+				java.math.BigDecimal saleAmount = new java.math.BigDecimal(vo.getSaleAmount()).setScale(4,
 						java.math.BigDecimal.ROUND_HALF_UP);
 				vo.setSaleAmount(String.valueOf(saleAmount));
 			}
