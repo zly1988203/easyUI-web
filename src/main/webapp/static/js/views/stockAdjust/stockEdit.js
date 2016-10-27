@@ -653,10 +653,17 @@ function updateListData(data){
 	    var argWhere ={skuCode:1};  //验证重复性
 	    var isCheck ={isGift:1 };   //只要是赠品就可以重复
 	    var newRows = gridHandel.checkDatagrid(data,rows,argWhere,isCheck);
-	 
+	    var selectVal=$("#io").combobox('getValue');
 	    //导入箱数计算
 	    $.each(data, function (index, el) {	
-		       el["largeNum"] =parseFloat(el["realNum"])/parseFloat(el["purchaseSpec"]);
+	    	if(selectVal==1&&parseFloat(el["realNum"])>0){
+	     	   el["realNum"]=el["realNum"]*-1;
+	 	       el["largeNum"] =parseFloat(el["realNum"])/parseFloat(el["purchaseSpec"]);
+	     	}
+	     	else{
+	     		 el["realNum"]=el["realNum"];
+	     		 el["largeNum"] =parseFloat(el["realNum"])/parseFloat(el["purchaseSpec"]);
+	     	}
 		  })
 	    $("#gridEditRequireOrder").datagrid("loadData",data);
 	}
