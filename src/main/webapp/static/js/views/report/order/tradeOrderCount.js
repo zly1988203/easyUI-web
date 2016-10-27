@@ -39,7 +39,7 @@ function initDatagridRequireOrders(){
 					return value;
 				}
 			},
-            {field: 'areaName', title: '区域名称', width: '100px', align: 'left'},
+            {field: 'areaName', title: '所在区域', width: '100px', align: 'left'},
             {field: 'totalAmount', title: '销额/元', width: '200px', align: 'left',
             	formatter:function(value,row,index){
                     if(row.isFooter){
