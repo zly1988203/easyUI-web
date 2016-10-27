@@ -3,7 +3,7 @@
  */
 $(function() {
 	// 开始和结束时间
-	$("#txtStartDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+	$("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
 	$("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 	// 初始化列表
 	initCashDailyallGrid('data');
@@ -249,15 +249,7 @@ function initCashDailydateGrid(queryType) {
 }
 
 
-/**
- * 机构列表下拉选
- */
-function searchBranch (){
-	new publicAgencyService(function(data){
-		$("#branchCode").val(data.branchCode);
-		$("#branchNameOrCode").val("["+data.branchCode+"]"+data.branchName);
-	},"","");
-}
+
 
 /**
  * 收银员下拉选
@@ -348,6 +340,59 @@ function updateFooter(){
     gridHandel.updateFooter(fields,argWhere);
 }
 
+//选择商品
+function selectGoods(searchKey){
+    var branchId = $("#branchId").val();
+    new publicGoodsService("PA",function(data){
+        if(data.length==0){
+            return;
+        }
+        if(searchKey){
+            $("#cashDaily").datagrid("deleteRow", gridHandel.getSelectRowIndex());
+            $("#cashDaily").datagrid("acceptChanges");
+        }
+        var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
+        var addDefaultData  = gridHandel.addDefault(data,gridDefault);
+        var keyNames = {
+            purchasePrice:'price',
+            id:'skuId',
+            disabled:'',
+            pricingType:'',
+            inputTax:'tax'
+        };
+        var rows = gFunUpdateKey(addDefaultData,keyNames);
+        var argWhere ={skuCode:1};  //验证重复性
+        var isCheck ={isGift:1 };   //只要是赠品就可以重复
+        var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
+
+        $("#cashDaily").datagrid("loadData",newRows);
+        gridHandel.setLoadFocus();
+        setTimeout(function(){
+            gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
+            gridHandel.setSelectFieldName("largeNum");
+            gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
+        },100)
+    },searchKey,0,"","",branchId);
+}
+
+/**
+ * 机构名称
+ */
+function selectBranches(){
+	new publicAgencyService(function(data){
+		$("#branchId").val(data.branchesId);
+		$("#branchName").val(data.branchName);
+	},'BF','');
+}
+
+//商品分类
+function getGoodsType(){
+	new publicCategoryService(function(data){
+		$("#goodsCategoryId").val(data.goodsCategoryId);
+		$("#categoryCode").val(data.categoryCode);
+		$("#categoryName").val(data.categoryName);
+	});
+}
 //打印
 function printReport(){
    /*  var dg = $("#cashDaily");
