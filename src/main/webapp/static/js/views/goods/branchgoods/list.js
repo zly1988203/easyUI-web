@@ -18,7 +18,8 @@ function changeStatus(){
     	query();
     	
     	var a = $(this).val();
-    	
+    	//导入有用
+    	$("#status_3").val(a);
     	//如果是机构未引入商品，则隐藏 机构名称、机构编码两列
     	var fieldArr = [ "branchCode" , "branchName" ];
     	if(a==1){
