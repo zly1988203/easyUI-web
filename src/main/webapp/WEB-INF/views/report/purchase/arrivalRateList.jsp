@@ -26,9 +26,9 @@
 	
 	        <div class="ub umar-t8">
 	             <div class="ub  ub-ac umar-r40">
-                   <div class="umar-r10 uw-70 ut-r">店铺:</div>
+                   <div class="umar-r10 uw-70 ut-r">机构名称:</div>
 	                    <input class="uinp ub ub-f1" type="hidden" id="branchCode" name="branchCode">
-                        <input class="uinp ub ub-f1" type="text" id="branchNameOrCode" name="branchNameOrCode" onblur="cleanBranchCode();">
+                        <input class="uinp ub ub-f1" type="text" id="branchNameOrCode" name="branchNameOrCode" onblur="cleanBranchCode();" maxlength="50">
                    <div class="uinp-more" onclick="searchBranch()">...</div>
                 </div>
 	            <div class="ub ub-ac umar-r40">
@@ -38,7 +38,7 @@
 	                <div class="uinp-more" onclick="selectSupplier()">...</div>
 	            </div>
 	             <div class="ub ub-ac umar-r40">
-                    <div class="umar-r10 uw-60 ut-r">商品类别:</div>
+                    <div class="umar-r10 uw-60 ut-r">类别:</div>
                     <input id="categoryId" name="categoryId" class="uinp" type="hidden">
                     <input id="categoryCode" name="categoryCode" class="uinp" type="hidden">
                     <input id="categoryName" name="categoryName" class="uinp uw-200 easyui-validatebox" type="text" readonly="readonly">
@@ -48,11 +48,11 @@
 	        <div class="ub umar-t8">
 	            <div class="ub ub-ac umar-r40">
 	                <div class="umar-r10 uw-70 ut-r">单据编号:</div>
-	                <input class="uinp" name="formNo" id="formNo" type="text">
+	                <input class="uinp" name="formNo" id="formNo" type="text" maxlength="20">
 	            </div>
 	            <div class="ub ub-ac umar-r40">
 	                <div class="umar-r10 uw-60 ut-r">到货率≤:</div>
-	                <input class="uinp" name="arrivalRate" id="arrivalRate" type="text">
+	                <input class="uinp" name="arrivalRate" id="arrivalRate" type="text"  maxlength="6">
 	            </div>
 	            <div class="ub ub-ac">
 	                <div class="umar-r10 uw-70 ut-r">查询类型:</div>
