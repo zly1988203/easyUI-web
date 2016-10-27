@@ -7,7 +7,10 @@
 
 package com.okdeer.jxc.controller.supplier.common;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -54,7 +57,11 @@ public class SupplierCommonController extends BaseController<SupplierCommonContr
 	 * @date 2016年7月21日
 	 */
 	@RequestMapping(value = "views")
-	public String views() {
+	public String views(HttpServletRequest req,Model model) {
+		String str = req.getParameter("model");
+		if("purchase".equals(str)) {
+			model.addAttribute("saleWayNot", str);
+		}
 		return "component/publicSupplier";
 	}
 

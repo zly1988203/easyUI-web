@@ -261,10 +261,10 @@ function publicCategoryService(callback){
 }
 
 //公共组件-选择供应商
-function publicSupplierService(callback) {
+function publicSupplierService(callback,model) {
     //公有属性
     var dalogTemp = $('<div/>').dialog({
-        href: contextPath + "/common/supplier/views",
+        href: contextPath + "/common/supplier/views?model="+model,
         width: 600,
         height: 500,
         title: "选择供应商",
