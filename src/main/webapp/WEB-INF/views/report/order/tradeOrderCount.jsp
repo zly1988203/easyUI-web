@@ -25,7 +25,7 @@
 		            </div>
 				</div>
 	            <div class="ub umar-t8">
-	                <div class="ub ub-ac uw-300 umar-l40">
+	                <div class="ub ub-ac uw-300">
 	                    <div class="umar-r10 uw-70 ut-r">机构名称:</div>
 	                    <input type="hidden" id="branchId" name="branchId" value="${branchesGrow.branchesId}"/>
 	                    <input type="hidden" id="brancheType" name="brancheType" value="${branchesGrow.type}"/>
