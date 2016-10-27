@@ -246,7 +246,7 @@ public interface ExportExcelConstant {
 	String PUR_REPORT_TOTAL_CATEGORY="PurReportTotalCategory.xlsx";
 	
 	/**
-	 * @Fields PUR_REPORT_TOTAL_SUPPLIER : 采购报表  汇总（类别）
+	 * @Fields PUR_REPORT_TOTAL_SUPPLIER : 采购报表  汇总（单据）
 	 */
 	String PUR_REPORT_TOTAL_FORMNO="PurReportTotalFormNo.xlsx";
 }

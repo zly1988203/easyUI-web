@@ -3,11 +3,8 @@
  */
 $(function() {
 	// 开始和结束时间
-	var startTime = dateUtil.getPreMonthDateStr();
-    var endTime = dateUtil.getCurrentDateStr();
-    //开始和结束时间
-    $("#txtStartDate").val(startTime);
-    $("#txtEndDate").val(endTime);
+	$("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
+	$("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
     
 	initPurReportTotalGrid();
 	
@@ -272,7 +269,15 @@ function initPurFormNoGrid() {
             {field: 'branchName', title: '机构名称', width: 100, align: 'left'},
             {field: 'supplierCode', title: '供应商编号', width: 100, align: 'left'},
             {field: 'supplierName', title: '供应商名称', width: 100, align: 'left'},
-            {field: 'formNo', title: '单据编号', width: 100, align: 'left'},
+            {field: 'formNo', title: '单据编号', width: 100, align: 'left',
+            	formatter:function(value,row,index){
+            		if(row.formId){
+            			return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/purchase/orderEdit?formId="+ row.formId +"'>" + value + "</a>"
+            		}else{
+            			return "";
+            		}
+                }
+            	},
             {field: 'refFormNo', title: '引用单号', width: 100, align: 'left'},
             {field: 'amount', title: '单据金额', width:120, align: 'right',
             	formatter:function(value,row,index){
@@ -468,6 +473,17 @@ function searchCategory(){
 /**
  * 重置
  */
+/**
+ * 重置
+ */
 var resetForm = function(){
-	 $("#queryForm").form('clear');
+	$("#queryForm").form('clear');
+	$("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
+	$("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+	$("#branchId").val(sessionBranchId);
+	$("#branchName").val(sessionBranchName);
+	onChangeFormType("");
+	$("#categoryType").combobox("setValue","smallCategory");
+	$('input:radio[name=searchType]')[0].checked = true;
+	
 };
