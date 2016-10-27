@@ -94,7 +94,7 @@ function initDatagridEditRequireOrder(){
                           	disabled:true,
                               precision:4,
                           }
-                  },
+                  }},
                   {field:'sellable',title:'当前可销售库存',width:'100px',align:'right',
                       formatter:function(value,row,index){
                           if(row.isFooter){

@@ -6,7 +6,7 @@ $(function(){
 var gridHandel = new GridClass();
 //初始化表格
 function initDatagridRequire(){
-    $("#storeSale").datagrid({
+    $("#storeDaySale").datagrid({
         method:'post',
         align:'center',
         //toolbar: '#tb',     //工具栏 id为tb
@@ -123,9 +123,9 @@ function initDatagridRequire(){
 //查询入库单
 function queryForm(){
 	var fromObjStr = $('#queryForm').serializeObject();
-	$("#storeSale").datagrid("options").method = "post";
-	$("#storeSale").datagrid('options').url = contextPath + '/storeDaySale/report/getStoreDaySaleList';
-	$("#storeSale").datagrid('load', fromObjStr);
+	$("#storeDaySale").datagrid("options").method = "post";
+	$("#storeDaySale").datagrid('options').url = contextPath + '/storeDaySale/report/getStoreDaySaleList';
+	$("#storeDaySale").datagrid('load', fromObjStr);
 }
 
 /**
@@ -137,6 +137,35 @@ function searchBranch(){
 		$("#branchName").val(data.branchName);
 	},'BF','');
 }
+
+/**
+ * 导出
+ */
+function exportExcel(){
+	var length = $("#storeDaySale").datagrid('getData').total;
+	if(length == 0){
+		$.messager.alert('提示',"没有数据");
+		return;
+	}
+	if(length>10000){
+		$.messager.alert("当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
+		return;
+	}
+	var fromObjStr = $('#queryForm').serializeObject();
+	console.log(fromObjStr);
+	$("#queryForm").form({
+		success : function(data){
+			if(data==null){
+				$.messager.alert('提示',"导出数据成功！");
+			}else{
+				$.messager.alert('提示',JSON.parse(data).message);
+			}
+		}
+	});
+	$("#queryForm").attr("action",contextPath+"/storeDaySale/report/exportList?"+fromObjStr);
+	$("#queryForm").submit();
+}
+
 /**
  * 重置
  */
