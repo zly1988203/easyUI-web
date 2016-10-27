@@ -14,7 +14,7 @@
     <div class="ub ub-ver ub-f1 umar-4 upad-4">
     	<form id="queryForm" action="" method="post">
 	        <div class="ub ub-ac">
-	            <div class="ubtns">
+	            <div class="ubtns"> 
 					<div class="ubtns-item" onclick="query()">查询</div>
 	                <div class="ubtns-item" onclick="exportExcel()">导出</div>
 	                <div class="ubtns-item" onclick="resetForm()">重置</div>

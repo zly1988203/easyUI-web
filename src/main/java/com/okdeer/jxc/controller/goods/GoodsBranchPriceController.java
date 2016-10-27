@@ -263,7 +263,7 @@ public class GoodsBranchPriceController {
 	@ResponseBody
 	public PageUtils<GoodsBranchPriceVo> importListEnable(@RequestParam("file") MultipartFile file,
 			String branchId, Integer type,Integer status) {
-		try {
+		try { 
 			if (file.isEmpty()) {
 				LOG.info("file is empty");
 				return null;

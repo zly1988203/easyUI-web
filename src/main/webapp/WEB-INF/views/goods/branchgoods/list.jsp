@@ -7,7 +7,7 @@
     <title>商品引入</title>
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-
+ 
 	<script src="${ctx}/static/js/views/goods/branchgoods/list.js"></script>
     <style>
     .ubtns .hide{display:none!important;}
