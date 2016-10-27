@@ -20,6 +20,7 @@ function changeType(){
 	$(".radioItem").on("click",function(){
 		flushFlg = true;
     	var a = $(this).val();
+    	$("#purReportTotal").datagrid("options").url = "";
     	if (a=="goodsTotal") {
 			//  按商品汇总
     		initPurReportTotalGrid();
@@ -34,8 +35,6 @@ function changeType(){
 			initCategoryGrid();
 		}
     });
-	
-	 
 }
 var gridHandel = new GridClass();
 /**
