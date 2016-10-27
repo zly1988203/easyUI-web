@@ -39,7 +39,8 @@ function initDatagridOrders(){
             {field:'unit',title:'单位',width:'80px',align:'left'},
             {field:'isBindName',title:'是否已设置成分商品',width:'120px',align:'center'},
         ]],
-        onSelect:function(rowIndex,rowData){	
+        onSelect:function(rowIndex,rowData){
+        	 $("#gridOrdersresult").datagrid('loadData', { total: 0, rows: [] });
         	selectView(rowData);
         },
 		onLoadSuccess : function(data) {
@@ -64,8 +65,9 @@ function initDatagridResultOrder(){
                     gridHandel.setSelectFieldName("skuCode");
                     gridHandel.setFieldFocus(gridHandel.getFieldTarget('skuCode'));
                 },100)
-            }else{
-               selectGoods(arg);
+            }else{    
+            	
+                selectGoods(arg);
             }
         },
     })
@@ -263,7 +265,12 @@ function delLineHandel(event){
 
 //选择商品
 function selectGoods(searchKey){
-   
+	var viewrows=$("#gridOrdersview").datagrid("getRows");
+	console.log(viewrows);
+	  if(viewrows==0){
+		messager("查询表格不能为空");
+		 return;
+	   }
     new publicGoodsService("PA",function(data){
         if(data.length==0){
             return;
@@ -442,7 +449,7 @@ function saveDataHandel(rows){
  * 重置
  */
 function reset(){
-  $("#goodsInfo").val("");
+  $("#goodsInfos").val("");
   $('#isBind').prop('checked',false);
 };
 
