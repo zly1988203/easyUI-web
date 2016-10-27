@@ -1,19 +1,25 @@
 $(function() {
+	//开始和结束时间
+    $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
+    $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 	//初始化默认条件
-    initConditionParams();
     initDatagridByFormNo();
 	//选择报表类型
 	changeType();
+
+	$(document).on('keyup','#arrivalRate',function(){
+		var val=parseFloat($(this).val());
+	    var str=$(this).val();
+		if(val<0||val>1){
+			   $(this).val("");	
+		}
+		else if(str.length>=7){
+		    var subval=str.substring(0,7);
+		    $(this).val(subval);	
+		}
+	})
 });
 
-//初始化默认条件
-function initConditionParams(){
-    var startTime = dateUtil.getPreMonthDateStr();
-    var endTime = dateUtil.getCurrentDateStr();
-    //开始和结束时间
-    $("#txtStartDate").val(startTime);
-    $("#txtEndDate").val(endTime);
-}
 
 function changeType(){
 	$(".radioItem").change(function(){

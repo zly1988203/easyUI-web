@@ -229,4 +229,24 @@ public interface ExportExcelConstant {
 	 * @Fields PURCHASEFORM : 配送明细
 	 */
 	String DELIVER_FORM_LIST_REPORT = "DeliverFormListReport.xlsx";
+	
+	/**
+	 * @Fields PUR_REPORT_TOTAL_SUPPLIER : 采购报表  汇总（供应商）
+	 */
+	String PUR_REPORT_TOTAL_SUPPLIER="PurReportTotalSupplier.xlsx";
+	
+	/**
+	 * @Fields PUR_REPORT_TOTAL_SUPPLIER : 采购报表  汇总（商品）
+	 */
+	String PUR_REPORT_TOTAL_GOODS="PurReportTotalGoods.xlsx";
+	
+	/**
+	 * @Fields PUR_REPORT_TOTAL_SUPPLIER : 采购报表  汇总（类别）
+	 */
+	String PUR_REPORT_TOTAL_CATEGORY="PurReportTotalCategory.xlsx";
+	
+	/**
+	 * @Fields PUR_REPORT_TOTAL_SUPPLIER : 采购报表  汇总（类别）
+	 */
+	String PUR_REPORT_TOTAL_FORMNO="PurReportTotalFormNo.xlsx";
 }

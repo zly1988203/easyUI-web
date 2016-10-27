@@ -7,7 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>商品出入库明细查询</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="${ctx}/static/js/views/report/retail/storeDaySaleReport.js"></script>
+<script src="${ctx}/static/js/views/report/goods/goodsOutInDetailReport.js"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
 </style>
@@ -50,7 +50,7 @@
                 </div>
                 <div class="ub ub-ac  umar-l20">
                     <div class="umar-r10 uw-70 ut-r">计价方式:</div>
-                    <input class="uinp ub ub-f1" type="text" name="skuBarCode" id="skuBarCode">
+                    <input class="uinp ub ub-f1" type="text" name="pricingType" id="pricingType">
                 </div>  
             </div>
 	      <div class="ub umar-t8">
@@ -60,7 +60,7 @@
                 </div>
                 <div class="ub ub-ac  umar-l20">
                     <div class="umar-r10 uw-70 ut-r">供应商:</div>
-                    <input class="uinp ub ub-f1" type="text" name="supplierId" id="supplierId">
+                    <input class="uinp ub ub-f1" type="text" name="supplierName" id="supplierName">
                 </div>  
             </div>
        	</form>
