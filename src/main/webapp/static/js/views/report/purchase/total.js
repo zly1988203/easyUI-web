@@ -130,6 +130,14 @@ function initPurReportTotalGrid() {
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
+            },
+            {field: 'taxAmount', title: '税额', width:120, align: 'right',
+            	formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                }
             }
         ]],
 		onLoadSuccess:function(data){

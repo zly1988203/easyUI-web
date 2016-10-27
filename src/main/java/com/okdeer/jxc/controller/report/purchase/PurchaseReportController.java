@@ -311,7 +311,7 @@ public class PurchaseReportController extends
 			// 导出Excel
 			exportListForXLSX(response, exportList, fileName, templateName);
 		} catch (Exception e) {
-			LOG.error("GoodsPriceAdjustController:exportList:", e);
+			LOG.error("采购汇总导出:{}", e);
 		}
 	}
 }

@@ -2,10 +2,12 @@
  * Created by huangj02 on 2016/8/8.
  * 公共组件-供应商
  */
+var saleWayNot="";
 function initSupplierView(){
     gFunSetEnterKey(supplierSearch);
+    saleWayNot=$("#saleWayNot").val();
     initTreeSupplier(); //初始树
-    initDatagridSupplier(); //初始化表格
+    initDatagridSupplier(saleWayNot); //初始化表格
 }
 var supplierCallBack ;
 //初始化回调函数
@@ -54,19 +56,19 @@ function initTreeSupplier(){
 var supplierAreaCode=null;
 function zTreeOnClick(event, treeId, treeNode) {
 	supplierAreaCode=treeNode.code;
-   $("#gridSupplier").datagrid("options").queryParams = {supplierAreaCode:supplierAreaCode};
+   $("#gridSupplier").datagrid("options").queryParams = {supplierAreaCode:supplierAreaCode,saleWayNot:saleWayNot};
    $("#gridSupplier").datagrid("options").method = "post";
    $("#gridSupplier").datagrid("options").url =contextPath + "/common/supplier/getComponentList",
    $("#gridSupplier").datagrid("load");
 };
 
 //初始化表格
-function initDatagridSupplier(){
+function initDatagridSupplier(saleWayNot){
     $("#gridSupplier").datagrid({
         //title:'普通表单-用键盘操作',
         method:'post',
         align:'center',
-        url:contextPath + "/common/supplier/getComponentList",
+        url:contextPath + "/common/supplier/getComponentList?saleWayNot="+saleWayNot,
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:true,  //单选  false多选
         rownumbers:true,    //序号
