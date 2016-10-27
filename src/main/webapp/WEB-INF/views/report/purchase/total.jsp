@@ -22,18 +22,16 @@
 	                <div class="ubtns-item" onclick="resetForm()">重置</div>
 	                <div class="ubtns-item" onclick="toClose()">退出</div>
 	            </div>
+	             <!-- 引入时间选择控件 -->
+	           <div class="ub ub-ac">
+	            	<div class="umar-r10 uw-70 ut-r">日期:</div>
+	       			<%@ include file="/WEB-INF/views/component/dateSelect.jsp"%>
+	           </div>
             </div>
 	               
 	        <div class="ub uline umar-t8">
 	        </div>
 	         
-	      <div class="ub umar-t8">
-	           <!-- 引入时间选择控件 -->
-	           <div class="ub ub-ac">
-	            	<div class="umar-r10 uw-70 ut-r">日期:</div>
-	       			<%@ include file="/WEB-INF/views/component/dateSelect.jsp"%>
-	           </div>
-	      </div>
           <div class="ub umar-t8">
                <div class="ub ub-ac">
                    <div class="umar-r10 uw-70 ut-r">机构名称:</div>
