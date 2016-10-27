@@ -70,7 +70,7 @@
 					<input class="uinp ub ub-f1 deal" type="number"
 						onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
 						onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
-						id="printnum">
+						id="printnum" >
 				</div>
 
 			</div>

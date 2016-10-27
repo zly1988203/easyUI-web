@@ -66,7 +66,10 @@ function initDatagridRequireOrders(){
             },
             {field:'price',title:'客单价/元',width:'140px',align:'left',
             	formatter:function(value,row,index){
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+            		if(row.isFooter){
+						return ;
+					}
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
             {field: 'totalLineAmount', title: '线上销额/元', width: '100px', align: 'left',
