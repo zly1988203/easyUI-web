@@ -27,6 +27,18 @@ import com.okdeer.jxc.form.purchase.po.PurchaseReportPo;
 import com.okdeer.jxc.form.purchase.qo.FormQueryQo;
 import com.okdeer.jxc.form.purchase.service.PurchaseReportService;
 
+/**
+ * ClassName: PurchaseReportController 
+ * @Description: 采购报表控制类
+ * @author lijy02
+ * @date 2016年10月27日
+ *
+ * =================================================================================================
+ *     Task ID			  Date			     Author		      Description
+ * ----------------+----------------+-------------------+-------------------------------------------
+ *	零售系统V1.02	2016.10.25			lijy02		  采购报表控制类
+ */
+ 
 @Controller
 @RequestMapping("report/purchase")
 public class PurchaseReportController extends
@@ -113,7 +125,7 @@ public class PurchaseReportController extends
 		LOG.info("采购单明细导出:{}" + qo);
 		try {
 			qo.setPageNumber(pageNumber);
-			qo.setPageSize(pageSize);
+			qo.setPageSize(10000);
 			PageUtils<PurchaseReportPo> result = purchaseReportService
 					.getPurReportDetail(qo);
 			List<PurchaseReportPo> exportList = result.getList();
@@ -124,7 +136,7 @@ public class PurchaseReportController extends
 			// 导出Excel
 			exportListForXLSX(response, exportList, fileName, templateName);
 		} catch (Exception e) {
-			LOG.error("GoodsPriceAdjustController:exportList:", e);
+			LOG.error("采购单明细导出:{}", e);
 		}
 	}
 

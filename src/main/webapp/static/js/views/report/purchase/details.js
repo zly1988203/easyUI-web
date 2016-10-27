@@ -53,7 +53,11 @@ function initPurReportDetailGrid(queryType) {
             {field: 'supplierName', title: '供应商名称', width: 100, align: 'left'},
             {field: 'formNo', title: '单据编号', width: 120, align: 'right',
             	formatter:function(value,row,index){
-                	return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/purchase/orderEdit?formId="+ row.formId +"'>" + value + "</a>"
+            		if(row.formId){
+            			return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/purchase/orderEdit?formId="+ row.formId +"'>" + value + "</a>"
+            		}else{
+            			return "";
+            		}
                 }
             },
             {field: 'skuName', title: '商品名称', width:120, align: 'right'},
@@ -129,8 +133,8 @@ function initPurReportDetailGrid(queryType) {
 }
 //合计
 function updateFooter(){
-    var fields = {realNum:0,amount:0,taxAmount:0, };
-    var argWhere = {name:'isGift',value:0}
+    var fields = {realNum:0,amount:0,taxAmount:0 };
+    var argWhere = {name:'formNo',value:''}
     gridHandel.updateFooter(fields,argWhere);
 }
 /**
@@ -191,5 +195,11 @@ function searchCategory(){
  * 重置
  */
 var resetForm = function(){
-	 $("#queryForm").form('clear');
+	$("#queryForm").form('clear');
+	$("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
+	$("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+	$("#branchId").val(sessionBranchId);
+	$("#branchName").val(sessionBranchName);
+	onChangeFormType("");
+	
 };
