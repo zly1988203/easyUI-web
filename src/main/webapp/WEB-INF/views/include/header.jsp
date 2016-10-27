@@ -63,7 +63,7 @@ if(sessionBranchCode && sessionBranchName){
 }
 
 //设置默认供应商信息
-var sessionSupplierId = '${sessionSupplier.supplierId}';
+var sessionSupplierId = '${sessionSupplier.id}';
 var sessionSupplierCode = '${sessionSupplier.supplierCode}';
 var sessionSupplierName = '${sessionSupplier.supplierName}';
 var sessionSupplierCodeName = '';

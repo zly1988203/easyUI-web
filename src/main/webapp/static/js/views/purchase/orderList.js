@@ -11,8 +11,8 @@ $(function(){
 //初始化默认条件
 function initConditionParams(){
     
-    var startTime = dateUtil.getPreMonthDateStr();
-    var endTime = dateUtil.getCurrentDateStr();
+    var startTime = dateUtil.getCurrentDateDay();
+    var endTime = dateUtil.getCurrentDateDay();
     
     //开始和结束时间
     $("#txtStartDate").val(startTime);
@@ -133,7 +133,7 @@ function orderDelete(){
 
 function selectSupplier(){
 	new publicSupplierService(function(data){
-		$("#supplierId").val(data.supplierId);
+		$("#supplierId").val(data.id);
 		$("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
 	});
 }

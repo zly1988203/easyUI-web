@@ -15,8 +15,9 @@
             <div class="ubtns">
                 <div class="ubtns-item" onclick="saveOrder()">保存</div>
                 <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
-                <div class="ubtns-item" onclick="importproductAll()">导入</div>
-                <div class="ubtns-item" onclick="toBack()">返回</div>
+                 <div class="ubtns-item" onclick="importHandel(0)">导入货号</div>
+                <div class="ubtns-item" onclick="importHandel(1)">导入条码</div>
+		                <div class="ubtns-item" onclick="toBack()">返回</div>
             </div>
         </div>
            <div class="ub umar-t10">
@@ -28,17 +29,9 @@
 	           </div>
 	             <div class="ub ub-ac uselectw umar-l40">
                     <div class="umar-r10 uw-70 ut-r">调整原因:</div>
-                       <!--select-->
-				        <select class="easyui-combobox uselect" name="pricingType" id="pricingType" data-options="editable:false">
-								<option value="1">全部</option> 
-								<option value="2">[01]其他</option> 
-								<option value="3">[02]领用</option> 
-								<option value="4">[03]报损</option> 
-								<option value="5">[04]丢失</option> 
-								<option value="6">[05]赠送</option>
-								<option value="7">[06]借用</option>
-								<option value="8">[07]退赠品</option>
-				        </select>
+                           <select id="reason" class="easyui-combobox uselect" name="reason" ></select>
+				        <!--      data-options="valueField:'value',textField:'label',
+                    url:'${ctx}/common/dict/ADJUST_REASON'" -->
                 </div>
                <div class="ub ub-ac uw-300  umar-l10">
                    <div class="umar-r10 uw-70 ut-r">制单人员:</div>
@@ -53,10 +46,10 @@
                <div class="ub ub-ac uselectws">
                     <div class="umar-r10 uw-70 ut-r">出/入库:</div>
                        <!--select-->
-				        <select class="easyui-combobox uselect" name="pricingType" id="pricingType" data-options="editable:false">
-								<option value="1">请选择</option> 
-								<option value="2">入库</option> 
-								<option value="3">出库</option>
+				        <select class="easyui-combobox uselect" name="io" id="io"  data-options="editable:false,onChange:selectTion">
+								<option value="">请选择</option> 
+								<option value="0">入库</option> 
+								<option value="1">出库</option>
 				        </select>
                 </div>
                <div class="ub ub-ac uw-300 umar-l300">
@@ -90,5 +83,21 @@
      	 	<button class="uabtn" onclick="uaclose()" >取消</button>
      	 </div>
      </div>
+     
+     <script type="text/javascript">
+     $('#reason').combobox({
+         valueField:'value',
+         textField:'label',
+         url:'${ctx}/common/dict/ADJUST_REASON',    
+         onSelect: function(record){
+           
+         },
+         onLoadSuccess:function(data){
+        	 $('#reason').combobox('setValue', 'OTHER');
+
+         }
+     });
+     </script>
 </body>
+
 </html>

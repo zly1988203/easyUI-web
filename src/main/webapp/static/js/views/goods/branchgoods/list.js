@@ -110,6 +110,17 @@ function enable(){
 	var skuIds = '';
 	var branchId =  $("#branchId").val();
 	
+	for(var i in rows){
+		var row = rows[i];
+		skuIds += row.skuId + ',';
+	}
+	$.messager.confirm('提示','是否要启用已选择的商品',function(data){
+		if(data){
+			enableAjax(skuIds,branchId,contextPath+"/branch/goods/enable");
+		}
+	});
+	
+	/*
 	if(rows.length == 1){
 		var row = rows[0];
 		skuIds += row.skuId;
@@ -140,7 +151,7 @@ function enable(){
 				enableAjax(skuIds,branchId,contextPath+"/branch/goods/enable");
 			}
 		});
-	}
+	}*/
 }
 
 function enableAjax(skuIds,branchId,url){
@@ -174,15 +185,15 @@ function eliminate(){
 		messager("未选择商品");
 		return ;
 	}
-	var skuCodes = '';
+	var goodsStoreSkuIds = '';
 	var branchName =  $("#branchName").val();
 	for(var i in rows){
 		var row = rows[i];
-		if(row.actual != 0){
+		if(row.actual !=null &&row.actual != 0){
 			messager(branchName+"机构的"+row.skuName+"商品库存不为0,不能进行淘汰操作");
 			return ;
 		}
-		skuCodes += row.skuCode + ',';
+		goodsStoreSkuIds += row.id + ',';
 	}
 	var branchId =  $("#branchId").val();
 	$.messager.confirm('提示','是否要淘汰该商品',function(data){
@@ -191,7 +202,7 @@ function eliminate(){
 		    	url:contextPath+"/branch/goods/eliminateGoodsStoreSku",
 		    	type:"POST",
 		    	data:{
-		    		skuCodes:skuCodes,
+		    		goodsStoreSkuIds:goodsStoreSkuIds,
 		    		branchId:branchId
 		    	},
 		    	success:function(result){
@@ -226,7 +237,7 @@ function recovery(){
 			messager(row.branchName+"机构的"+row.skuName+"商品库存不存在,不能进行恢复操作");
 			return ;
 		}
-		params += row.id+","+row.skuId + ','+row.skuCode+","+row.branchId+"|";
+		params += row.id+","+row.skuId + ','+row.branchId+"|";
 	}
 	$.messager.confirm('提示','是否要恢复该商品',function(data){
 		if(data){
@@ -237,7 +248,6 @@ function recovery(){
 		    		skuObjs:params
 		    	},
 		    	success:function(result){
-		    		console.log(result);
 		    		if(result['code'] == 0){
 		    			messager("恢复商品成功");
 		    		}else{
@@ -297,7 +307,25 @@ function importShow(type){
 	$('#filename').val("");
 	$('.uatk').show();
 	uploadFormType = type;
+	$("#temple").val(type);
+	if(type==0){
+		$("#temple").text("货号模板下载");
+	}else{
+		$("#temple").text("条码模板下载");
+	}
 }
+
+//模板导出
+function exportTemp(){
+	var type = $("#temple").val();
+	if(type==0){
+		location.href=contextPath+'/form/purchase/exportTemp?type=2';
+	}else if(type==1){
+		location.href=contextPath+'/form/purchase/exportTemp?type=3';
+	}
+}
+
+
 $(document).on('change','#excelFile', function(){
 	var value=$(this).val();
 	$('#filename').val(value);
@@ -342,11 +370,11 @@ $(document).on('change',"input[name='status']",function(){
   var check=$(this).prop('checked');
    var value=$(this).val();
   if(value == 0){
-	 $('#important_div').addClass('hide');
+//	 $('#important_div').addClass('hide');
 	 $('#eliminate_div').removeClass('hide');
 	 $('#recovery_div').removeClass('hide');
   }else{
-	  $('#important_div').removeClass('hide');
+//	  $('#important_div').removeClass('hide');
 	  $('#eliminate_div').addClass('hide');
 	  $('#recovery_div').addClass('hide');
   }

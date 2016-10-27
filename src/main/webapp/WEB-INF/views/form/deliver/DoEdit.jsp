@@ -18,8 +18,8 @@
                 <div class="ubtns-item" onclick="saveOrder()">保存</div>
                 <div class="ubtns-item" onclick="check()">审核</div>
                 <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
-                <div class="ubtns-item" onclick="importproductAll()">导入明细</div>
-                <div class="ubtns-item" onclick="importproduct()">导入货号</div>
+                <div class="ubtns-item" onclick="toImportproduct(0)">导入货号</div>
+            	<div class="ubtns-item" onclick="toImportproduct(1)">导入条码</div>
                 <div class="ubtns-item" onclick="back()">返回</div>
             </div>
         </div>
@@ -43,7 +43,7 @@
                </div>
                <div class="ub ub-ac umar-l20">
                    <div class="umar-r10 uw-60 ut-r">制单日期:</div>
-                   <div class="utxt" id="createTime"><fmt:formatDate value="${form.createTime}" pattern="yyyy-MM-dd"/></div>
+                   <div class="utxt" id="createTime"><fmt:formatDate value="${form.createTime}" pattern="yyyy-MM-dd hh:mm"/></div>
                </div>
            </div>
            <div class="ub umar-t8">

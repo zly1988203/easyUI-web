@@ -26,13 +26,25 @@ function initDatagridRequireOrders(){
 		width:'100%',
         columns:[[
 			{field:'check',checkbox:true},
-            {field:'formNo',title:'单据编号',width:'140px',align:'left',formatter:function(value,row,index){
-            	return "<a style='text-decoration: underline;' href='"+ contextPath +"/cost/costAdjust/edit?deliverFormId="+ row.deliverFormId +"'>" + value + "</a>"
+            {field:'adjustNo',title:'单号',width:'140px',align:'left',formatter:function(value,row,index){
+            	return "<a style='text-decoration: underline;' href='"+ contextPath +"/cost/costAdjust/edit?id="+ row.id +"'>" + value + "</a>"
             }},
-            {field:'status',title: '审核状态', width: '100px', align: 'left'},
-			{field: 'sourceBranchName', title: '机构编号', width: '200px', align: 'left'},
-			{field: 'targetBranchName', title: '机构名称', width: '200px', align: 'left'},
-			{field: 'amount', title: '单据金额', width: '80px', align: 'right',
+            {field:'status',title: '审核状态', width: '100px', align: 'left',
+            	   formatter: function(value,row,index){
+            		 
+                       if (value==1){
+                           return "已审核";
+                       }else if(value==2){
+                    	   return "不通过";
+                       } 
+                       else {
+                           return "未审核";
+                       }
+                   }
+            },
+			{field: 'branchCode', title: '机构编号', width: '200px', align: 'left'},
+			{field: 'branchName', title: '机构名称', width: '200px', align: 'left'},
+			{field: 'totalMoney', title: '单据金额', width: '80px', align: 'right',
 				formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -40,12 +52,21 @@ function initDatagridRequireOrders(){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
 			},
-            {field: 'createUserName', title: '调整原因', width: '200px', align: 'left'},
-            {field: 'updateUserName', title: '操作人员', width: '130px', align: 'left'},
-            {field: 'updateTime', title: '操作日期', width: '120px', align: 'center',
+			{field: 'adjustReasonName', title: '调整原因', width: '200px', align: 'left'},
+            {field: 'adjustReason', title: '调整原因', width: '200px', align: 'left',hidden:true},
+            {field: 'createTime', title: '创建时间', width: '150px', align: 'center',
 				formatter: function (value, row, index) {
 					if (value) {
-						return new Date(value).format('yyyy-MM-dd');
+						return new Date(value).format('yyyy-MM-dd hh:mm:ss');
+					}
+					return "";
+				}
+			},
+            {field: 'updateUserName', title: '操作人员', width: '130px', align: 'left'},
+            {field: 'updateTime', title: '操作时间', width: '150px', align: 'center',
+				formatter: function (value, row, index) {
+					if (value) {
+						return new Date(value).format('yyyy-MM-dd hh:mm:ss');
 					}
 					return "";
 				}
@@ -57,6 +78,9 @@ function initDatagridRequireOrders(){
     		   }
             }
         ]],
+        onLoadSuccess : function() {
+            gridHandel.setDatagridHeader("center");
+        }
         
     });
     queryForm();
@@ -71,8 +95,9 @@ function addStockForm(){
 function queryForm(){
 	var fromObjStr = $('#queryForm').serializeObject();
 	$("#costFromList").datagrid("options").method = "post";
-	$("#costFromList").datagrid('options').url = contextPath + '/form/deliverForm/getDeliverForms';
+	$("#costFromList").datagrid('options').url = contextPath + '/cost/costAdjust/queryList';
 	$("#costFromList").datagrid('load', fromObjStr);
+	//console.log(fromObjStr);
 }
 
 //删除
@@ -85,7 +110,7 @@ function delStockForm(){
 	$.messager.confirm('提示','是否要删除此条数据',function(data){
 		if(data){
 			$.ajax({
-		    	url:contextPath+"/form/deliverForm/deleteDeliverForm",
+		    	url:contextPath+"/cost/costAdjust/deleteCostForm",
 		    	type:"POST",
 		    	data:{
 		    		formId : row.deliverFormId
@@ -112,8 +137,8 @@ function delStockForm(){
  */
 function selectBranches(){
 	new publicAgencyService(function(data){
-		$("#targetBranchId").val(data.branchesId);
-		$("#brancheName").val(data.branchName);
+		$("#branchId").val(data.branchesId);
+		$("#branchName").val(data.branchName);
 	},'DO','');
 }
 /**
@@ -134,7 +159,7 @@ function printDesign(){
            return null;
      }
      //弹出打印页面
-     parent.addTabPrint('PASheet' + row.id,row.formNo+'单据打印',contextPath + '/printdesign/design?page=PASheet&controller=/form/purchase&template=-1&sheetNo=' + row.id + '&gridFlag=PAGrid','');
+     parent.addTabPrint('PASheet' + row.id,row.adjustNo+'单据打印',contextPath + '/printdesign/design?page=PASheet&controller=/form/purchase&template=-1&sheetNo=' + row.id + '&gridFlag=PAGrid','');
 }
 
 /**

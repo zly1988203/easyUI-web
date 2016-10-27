@@ -406,8 +406,8 @@ function saveItemHandel(){
     var isChcekPrice = false;
     $.each(rows,function(i,v){
         v["rowNo"] = i+1;
-        if(!v["skuCode"]){
-            messager("第"+(i+1)+"行，货号不能为空");
+        if(!v["skuName"]){
+            messager("第"+(i+1)+"行，货号不正确");
             isCheckResult = false;
             return false;
         };
@@ -460,15 +460,11 @@ function saveDataHandel(rows){
         totalNum = parseFloat(footerRows[0]["realNum"]||0.0).toFixed(4);
         amount = parseFloat(footerRows[0]["amount"]||0.0).toFixed(4);
     }
-    var saveData = JSON.stringify(rows);
-
-    var detailList = tableArrayFormatter(rows,"detailList");
-    console.log(detailList);
-
 
     var id = $("#formId").val();
-
-    var reqObj = $.extend({
+    
+    var reqObj = {
+		id:id,
         supplierId:supplierId,
         branchId:branchId,
         paymentTime:paymentTime,
@@ -478,13 +474,16 @@ function saveDataHandel(rows){
         remark:remark,
         totalNum:totalNum,
         amount:amount,
-        id:id
-    }, detailList);
+        detailList:rows
+    };
+    
+    var req = JSON.stringify(reqObj);
 
     $.ajax({
         url:contextPath+"/form/purchase/updateReceipt",
         type:"POST",
-        data:reqObj,
+        contentType:'application/json',
+        data:req,
         success:function(result){
             console.log(result);
             if(result['code'] == 0){
@@ -590,7 +589,7 @@ function printDesign(){
 
 function selectSupplier(){
 	new publicSupplierService(function(data){
-		$("#supplierId").val(data.supplierId);
+		$("#supplierId").val(data.id);
 		$("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
 		
 		$("#saleWay").val(data.saleWay);

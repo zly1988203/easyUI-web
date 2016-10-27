@@ -28,7 +28,8 @@
         <div class="ub umar-t8 uc-black">【单号】：${form.formNo}</div>
         <div class="ub uline umar-t8"></div>
         <input type="hidden" id="formId" value="${form.deliverFormId}">
-         <input type="hidden" id="formNo" value="${form.formNo}">
+        <input type="hidden" id="formNo" value="${form.formNo}">
+        <input type="hidden" id="type" value="${type}">
         <div class="ub umar-t8">
             <div class="ub ub-ac uw-300">
                 <div class="umar-r10 uw-60 ut-r">要货机构:</div>
@@ -51,7 +52,7 @@
             </div>
             <div class="ub ub-ac umar-l20">
                 <div class="umar-r10 uw-60 ut-r">制单日期:</div>
-                <div class="utxt" id="createTime"><fmt:formatDate value="${form.createTime}" pattern="yyyy-MM-dd"/></div>
+                <div class="utxt" id="createTime"><fmt:formatDate value="${form.createTime}" pattern="yyyy-MM-dd hh:mm"/></div>
             </div>
         </div>
         <div class="ub umar-t8">
@@ -66,7 +67,7 @@
             </div>
             <div class="ub ub-ac uw-300 umar-l20">
                 <div class="umar-r10 uw-60 ut-r">有效期限:</div>
-                <input id="validityTime" class="Wdate" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" value="<fmt:formatDate value="${form.validityTime}" pattern="yyyy-MM-dd"/>"/>
+                <input id="validityTime" class="Wdate" type="text" value="<fmt:formatDate value="${form.validityTime}" pattern="yyyy-MM-dd"/>" readonly="readonly"/>
             </div>
             <div class="ub ub-ac umar-l20">
                 <div class="umar-r10 uw-60 ut-r">审核人员:</div>

@@ -25,6 +25,7 @@
         </div>
         <div class="ub umar-t8 uc-black">【单号】：${form.formNo}</div>
         <input type="hidden" id="formNo" value="${form.formNo}">
+        <input type="hidden" id="type" value="${type}">
         <div class="ub uline umar-t8"></div>
         <div class="ub">
                <div class="ub ub-ac uw-300">
@@ -40,7 +41,7 @@
                </div>
                <div class="ub ub-ac umar-l20">
                    <div class="umar-r10 uw-60 ut-r">制单日期:</div>
-                   <div class="utxt" id="createTime"><fmt:formatDate value="${form.createTime}" pattern="yyyy-MM-dd"/></div>
+                   <div class="utxt" id="createTime"><fmt:formatDate value="${form.createTime}" pattern="yyyy-MM-dd hh:mm"/></div>
                </div>
            </div>
            <div class="ub umar-t8">

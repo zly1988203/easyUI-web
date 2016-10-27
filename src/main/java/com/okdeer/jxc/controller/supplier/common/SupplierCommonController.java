@@ -20,8 +20,8 @@ import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.supplier.entity.Supplier;
+import com.okdeer.jxc.supplier.qo.SupplierQo;
 import com.okdeer.jxc.supplier.service.SupplierServiceApi;
-import com.okdeer.jxc.supplier.vo.SupplierVo;
 import com.okdeer.jxc.utils.UserUtil;
 
 /**
@@ -60,7 +60,7 @@ public class SupplierCommonController extends BaseController<SupplierCommonContr
 
 	/**
 	 * @Description: 查询供应商
-	 * @param vo
+	 * @param qo
 	 * @param pageNumber
 	 * @param pageSize
 	 * @return   
@@ -70,31 +70,31 @@ public class SupplierCommonController extends BaseController<SupplierCommonContr
 	@RequestMapping(value = "getComponentList", method = RequestMethod.POST)
 	@ResponseBody
 	public PageUtils<Supplier> getComponentList(
-			SupplierVo vo,
+			SupplierQo qo,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
-			vo.setPageNumber(pageNumber);
-			vo.setPageSize(pageSize);
+			qo.setPageNumber(pageNumber);
+			qo.setPageSize(pageSize);
 			// begin added by lijy02 2016.9.12:添加过滤条件
-			String branchesId = UserUtil.getCurrBranchId();
+			String branchId = UserUtil.getCurrBranchId();
 			Integer branchType = UserUtil.getCurrBranchType();
-			if (branchesId != null) {
-				vo.setBranchesId(branchesId);
+			if (branchId != null) {
+				qo.setBranchId(branchId);
 				// 如果机构类型不是 0 1 需要查询他们的分公司 找到他们分公司的供应商
 				if (branchType != 0 && branchType != 1) {
 					// 查询店铺的分公司
 					Branches branches = branchesService
-							.getBranchInfoById(branchesId);
+							.getBranchInfoById(branchId);
 					if (branches != null && branches.getParentId() != null) {
 						// 把父级的id加入条件查询分公司的供应商
-						vo.setBranchesId(branches.getParentId());
+						qo.setBranchId(branches.getParentId());
 					}
 				}
 			}
 			// end added by lijy02
-			LOG.info("vo:" + vo.toString());
-			PageUtils<Supplier> suppliers = supplierService.queryLists(vo);
+			LOG.info("vo:" + qo.toString());
+			PageUtils<Supplier> suppliers = supplierService.queryLists(qo);
 			LOG.info("page" + suppliers.toString());
 			return suppliers;
 		} catch (Exception e) {
@@ -112,7 +112,7 @@ public class SupplierCommonController extends BaseController<SupplierCommonContr
 	 */
 	@RequestMapping(value = "getSupplierToTree")
 	@ResponseBody
-	public String getGoodsCategoryToTree() {
+	public String getSupplierToTree() {
 		try {
 			String brandTree = supplierService.querySupplierToTree();
 			return brandTree;

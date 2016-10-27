@@ -10,11 +10,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.okdeer.jxc.branch.entity.Branches;
+import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
+import com.okdeer.jxc.system.entity.SysRole;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.system.qo.SysUserQo;
+import com.okdeer.jxc.system.service.SysRoleService;
 import com.okdeer.jxc.system.service.SysUserServiceApi;
 import com.okdeer.jxc.system.vo.SysUserVo;
 
@@ -36,6 +40,12 @@ public class UserController extends BaseController<UserController> {
 
 	@Reference(version = "1.0.0", check = false)
 	private SysUserServiceApi sysUserService;
+
+	@Reference(version = "1.0.0", check = false)
+	private BranchesServiceApi branchService;
+
+	@Reference(version = "1.0.0", check = false)
+	private SysRoleService roleService;
 
 	/**
 	 * 默认页面
@@ -133,8 +143,15 @@ public class UserController extends BaseController<UserController> {
 	 * @date 2016年10月12日
 	 */
 	@RequestMapping(value = "/toEditUser")
-	public String toEditUser() {
+	public String toEditUser(String userId, Model model) {
 
+		SysUser user = sysUserService.getUserById(userId);
+		Branches branch = branchService.getBranchInfoById(user.getBranchId());
+		SysRole role = roleService.getRoleByUserId(userId);
+
+		model.addAttribute("user", user);
+		model.addAttribute("branch", branch);
+		model.addAttribute("role", role);
 		return "system/userEdit";
 	}
 
@@ -146,6 +163,7 @@ public class UserController extends BaseController<UserController> {
 	 * @date 2016年10月13日
 	 */
 	@RequestMapping(value = "/addUser")
+	@ResponseBody
 	public RespJson addUser(SysUserVo userVo) {
 		LOG.info("新增用户信息{}", userVo);
 		RespJson respJson = RespJson.success();
@@ -157,7 +175,7 @@ public class UserController extends BaseController<UserController> {
 			respJson = sysUserService.addUser(userVo);
 		} catch (Exception e) {
 			LOG.error("新增用户异常：", e);
-			respJson = RespJson.error("新增用户异常：" + e.getMessage());
+			respJson = RespJson.error("新增用户异常!");
 		}
 		return respJson;
 	}
@@ -170,6 +188,7 @@ public class UserController extends BaseController<UserController> {
 	 * @date 2016年10月13日
 	 */
 	@RequestMapping(value = "/updateUser")
+	@ResponseBody
 	public RespJson updateUser(SysUserVo userVo) {
 		LOG.info("修改用户信息{}", userVo);
 		RespJson respJson = RespJson.success();
@@ -181,11 +200,11 @@ public class UserController extends BaseController<UserController> {
 			respJson = sysUserService.updateUser(userVo);
 		} catch (Exception e) {
 			LOG.error("修改用户异常：", e);
-			respJson = RespJson.error("修改用户异常：" + e.getMessage());
+			respJson = RespJson.error("修改用户异常!");
 		}
 		return respJson;
 	}
-	
+
 	/**
 	 * @Description: 删除用户信息
 	 * @param userId
@@ -193,21 +212,22 @@ public class UserController extends BaseController<UserController> {
 	 * @author liwb
 	 * @date 2016年10月13日
 	 */
-	@RequestMapping(value = "/deleteUser")
+	@RequestMapping(value = "/deleteUser", method = RequestMethod.POST)
+	@ResponseBody
 	public RespJson deleteUser(String userId) {
 		LOG.info("删除用户信息，userId{}", userId);
 		RespJson respJson = RespJson.success();
 		try {
-			
+
 			// 新增用户信息
 			respJson = sysUserService.deleteUser(userId, getCurrUserId());
 		} catch (Exception e) {
 			LOG.error("删除用户异常：", e);
-			respJson = RespJson.error("删除用户异常：" + e.getMessage());
+			respJson = RespJson.error("删除用户异常!");
 		}
 		return respJson;
 	}
-	
+
 	/**
 	 * @Description: 启用
 	 * @param userId
@@ -215,21 +235,22 @@ public class UserController extends BaseController<UserController> {
 	 * @author liwb
 	 * @date 2016年10月13日
 	 */
-	@RequestMapping(value = "/enableUser")
+	@RequestMapping(value = "/enableUser", method = RequestMethod.POST)
+	@ResponseBody
 	public RespJson enableUser(String userId) {
 		LOG.info("启用用户，userId{}", userId);
 		RespJson respJson = RespJson.success();
 		try {
-			
+
 			// 新增用户信息
 			respJson = sysUserService.enableUser(userId, getCurrUserId());
 		} catch (Exception e) {
 			LOG.error("启用用户异常：", e);
-			respJson = RespJson.error("启用用户异常：" + e.getMessage());
+			respJson = RespJson.error("启用用户异常!");
 		}
 		return respJson;
 	}
-	
+
 	/**
 	 * @Description: 禁用
 	 * @param userId
@@ -237,17 +258,18 @@ public class UserController extends BaseController<UserController> {
 	 * @author liwb
 	 * @date 2016年10月13日
 	 */
-	@RequestMapping(value = "/disableUser")
+	@RequestMapping(value = "/disableUser", method = RequestMethod.POST)
+	@ResponseBody
 	public RespJson disableUser(String userId) {
 		LOG.info("禁用用户，userId{}", userId);
 		RespJson respJson = RespJson.success();
 		try {
-			
+
 			// 新增用户信息
 			respJson = sysUserService.disableUser(userId, getCurrUserId());
 		} catch (Exception e) {
 			LOG.error("禁用用户异常：", e);
-			respJson = RespJson.error("禁用用户异常：" + e.getMessage());
+			respJson = RespJson.error("禁用用户异常!");
 		}
 		return respJson;
 	}

@@ -7,17 +7,25 @@
 
 package com.okdeer.jxc.controller.deliver;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
+import net.sf.json.JSONObject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.druid.util.StringUtils;
 import com.alibaba.dubbo.config.annotation.Reference;
@@ -25,6 +33,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.entity.BranchesGrow;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
+import com.okdeer.jxc.common.constant.Constant;
+import com.okdeer.jxc.common.constant.ExportExcelConstant;
+import com.okdeer.jxc.common.constant.ImportExcelConstant;
 import com.okdeer.jxc.common.constant.LogConstant;
 import com.okdeer.jxc.common.constant.SysConstant;
 import com.okdeer.jxc.common.controller.BasePrintController;
@@ -34,6 +45,10 @@ import com.okdeer.jxc.common.enums.DeliverStatusEnum;
 import com.okdeer.jxc.common.enums.DisabledEnum;
 import com.okdeer.jxc.common.enums.FormSourcesEnum;
 import com.okdeer.jxc.common.enums.IsReference;
+import com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid;
+import com.okdeer.jxc.common.goodselect.GoodsSelectImportComponent;
+import com.okdeer.jxc.common.goodselect.GoodsSelectImportHandle;
+import com.okdeer.jxc.common.goodselect.GoodsSelectImportVo;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.BigDecimalUtils;
 import com.okdeer.jxc.common.utils.DateUtils;
@@ -51,6 +66,8 @@ import com.okdeer.jxc.form.deliver.vo.DeliverFormListVo;
 import com.okdeer.jxc.form.deliver.vo.DeliverFormVo;
 import com.okdeer.jxc.form.deliver.vo.QueryDeliverFormVo;
 import com.okdeer.jxc.form.enums.FormType;
+import com.okdeer.jxc.goods.entity.GoodsSelect;
+import com.okdeer.jxc.goods.entity.GoodsSelectDeliver;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
 
@@ -88,6 +105,9 @@ public class DeliverFormController extends
 
 	@Reference(version = "1.0.0", check = false)
 	BranchesServiceApi branchesServiceApi;
+
+	@Autowired
+	private GoodsSelectImportComponent goodsSelectImportComponent;
 
 	/**
 	 * @Description: 跳转要货单页面
@@ -216,15 +236,18 @@ public class DeliverFormController extends
 
 	/**
 	 * @Description: 根据要货单跳转页面
-	 * @return   
-	 * @return String  
-	 * @throws
+	 * @param vo
+	 * @param model
+	 * @param type
+	 * @return
 	 * @author zhangchm
 	 * @date 2016年8月29日
 	 */
 	@RequestMapping(value = "deliverEdit")
 	public String deliverEdit(QueryDeliverFormVo vo, Model model) {
 		LOG.info(LogConstant.OUT_PARAM, vo.toString());
+		model.addAttribute("type", vo.getFormSources());
+		vo.setFormSources("");
 		DeliverForm form = queryDeliverFormServiceApi.queryEntity(vo);
 		model.addAttribute("form", form);
 		LOG.info(LogConstant.PAGE, form.toString());
@@ -316,7 +339,7 @@ public class DeliverFormController extends
 	 */
 	@RequestMapping(value = "insertDeliverForm", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson insertDeliverForm(String formVo) {
+	public RespJson insertDeliverForm(@RequestBody String formVo) {
 		RespJson respJson = RespJson.success();
 		LOG.info(LogConstant.OUT_PARAM, formVo);
 		try {
@@ -372,7 +395,7 @@ public class DeliverFormController extends
 	 */
 	@RequestMapping(value = "updateDeliverForm", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson updateDeliverForm(String formVo) {
+	public RespJson updateDeliverForm(@RequestBody String formVo) {
 		RespJson respJson = RespJson.success();
 		LOG.info(LogConstant.OUT_PARAM, formVo.toString());
 		try {
@@ -584,4 +607,265 @@ public class DeliverFormController extends
 		return queryDeliverFormListServiceApi.getDeliverList(formNo);
 	}
 	// end by lijy02
+
+	/**
+	 * @Description: 导入功能
+	 * @param file
+	 * @param type 0货号、1条码
+	 * @param branchId
+	 * @return
+	 * @author zhangchm
+	 * @date 2016年10月15日
+	 */
+	@RequestMapping(value = "importList")
+	@ResponseBody
+	public RespJson importList(@RequestParam("file") MultipartFile file, String type, String branchId) {
+		RespJson respJson = RespJson.success();
+		try {
+			if (file.isEmpty()) {
+				return RespJson.error("文件为空");
+			}
+			if (StringUtils.isEmpty(type)) {
+				return RespJson.error("导入类型为空");
+			}
+			SysUser user = UserUtil.getCurrentUser();
+			// 文件流
+			InputStream is = file.getInputStream();
+			// 获取文件名
+			String fileName = file.getOriginalFilename();
+			String[] fields = null;
+			if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {
+				fields = ImportExcelConstant.DELIVER_GOODS_SKUCODE;
+
+			} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {
+				fields = ImportExcelConstant.DELIVER_GOODS_BARCODE;
+			}
+			GoodsSelectImportVo<GoodsSelectDeliver> vo = goodsSelectImportComponent.importSelectGoods(fileName, is,
+					fields, new GoodsSelectDeliver(), branchId, user.getId(), type,
+					"/form/deliverForm/downloadErrorFile", new GoodsSelectImportBusinessValid() {
+						@Override
+						public void formatter(List<? extends GoodsSelect> list) {
+						}
+
+						@Override
+						public void businessValid(List<JSONObject> list, String[] excelField) {
+						}
+
+						@Override
+						public void errorDataFormatter(List<JSONObject> list) {
+						}
+
+					});
+			respJson.put("importInfo", vo);
+		} catch (IOException e) {
+			respJson = RespJson.error("读取Excel流异常");
+			LOG.error("读取Excel流异常:", e);
+		} catch (Exception e) {
+			respJson = RespJson.error("导入发生异常");
+			LOG.error("用户导入异常:", e);
+		}
+		return respJson;
+
+	}
+
+	/**
+	 * @Description: 错误信息下载
+	 * @param code
+	 * @param type
+	 * @param response
+	 * @author zhangchm
+	 * @date 2016年10月15日
+	 */
+	@RequestMapping(value = "downloadErrorFile")
+	public void downloadErrorFile(String code, String type, HttpServletResponse response) {
+		String reportFileName = "错误数据";
+
+		String[] headers = null;
+		String[] columns = null;
+
+		if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {
+			// 货号
+			columns = ImportExcelConstant.DELIVER_GOODS_SKUCODE;
+			headers = ImportExcelConstant.DELIVER_GOODS_SKUCODE_HEADERS;
+		} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {
+			// 条码
+			columns = ImportExcelConstant.DELIVER_GOODS_BARCODE;
+			headers = ImportExcelConstant.DELIVER_GOODS_BARCODE_HEADERS;
+		}
+		goodsSelectImportComponent.downloadErrorFile(code, reportFileName, headers, columns, response);
+	}
+
+	/**
+	 * @Description: 配送要货导入模板
+	 * @param response
+	 * @param type
+	 * @author zhangchm
+	 * @date 2016年10月15日
+	 */
+	@RequestMapping(value = "exportTemp")
+	public void exportTemp(HttpServletResponse response, Integer type) {
+		LOG.info("导出配送要货导入模板请求参数,type={}", type);
+		try {
+			String fileName = "";
+			String templateName = "";
+			if (Constant.ZERO == type) {
+				// 商品货号
+				templateName = ExportExcelConstant.DELIVER_GOODS_SKUCODE_TEMPLE;
+				fileName = "要货申请单货号导入模板";
+			} else if (Constant.ONE == type) {
+				templateName = ExportExcelConstant.DELIVER_GOODS_BARCODE_TEMPLE;
+				fileName = "要货申请单条码导入模板";
+			}
+			if (!StringUtils.isEmpty(fileName) && !StringUtils.isEmpty(templateName)) {
+				exportListForXLSX(response, null, fileName, templateName);
+			}
+		} catch (Exception e) {
+			LOG.error("导出要货申请单导入模板异常", e);
+		}
+	}
+
+	/**
+	 * @Description: 配送出库导入模板
+	 * @param response
+	 * @param type
+	 * @author zhangchm
+	 * @date 2016年10月15日
+	 */
+	@RequestMapping(value = "exportReport")
+	public void exportReport(HttpServletResponse response, Integer type) {
+		LOG.info("导出配送出库导入模板请求参数,type={}", type);
+		try {
+			String fileName = "";
+			String templateName = "";
+			if (Constant.ZERO == type) {
+				// 商品货号
+				templateName = ExportExcelConstant.DELIVER_GOODS_SKUCODE_REPORT;
+				fileName = "配送出库单货号导入模板";
+			} else if (Constant.ONE == type) {
+				templateName = ExportExcelConstant.DELIVER_GOODS_BARCODE_REPORT;
+				fileName = "配送出库单条码导入模板";
+			}
+			if (!StringUtils.isEmpty(fileName) && !StringUtils.isEmpty(templateName)) {
+				exportListForXLSX(response, null, fileName, templateName);
+			}
+		} catch (Exception e) {
+			LOG.error("导出配送出库单导入模板异常", e);
+		}
+	}
+
+	/**
+	 * @Description: 导入功能
+	 * @param file
+	 * @param type 0货号、1条码
+	 * @param branchId
+	 * @return
+	 * @author zhangchm
+	 * @date 2016年10月15日
+	 */
+	@RequestMapping(value = "reportList")
+	@ResponseBody
+	public RespJson reportList(@RequestParam("file") MultipartFile file, String type, String branchId) {
+		RespJson respJson = RespJson.success();
+		try {
+			if (file.isEmpty()) {
+				return RespJson.error("文件为空");
+			}
+			if (StringUtils.isEmpty(type)) {
+				return RespJson.error("导入类型为空");
+			}
+			SysUser user = UserUtil.getCurrentUser();
+			// 文件流
+			InputStream is = file.getInputStream();
+			// 获取文件名
+			String fileName = file.getOriginalFilename();
+			String[] fields = null;
+			if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {
+				fields = ImportExcelConstant.DELIVER_GOODS_SKUCODE_REPORT;
+			} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {
+				fields = ImportExcelConstant.DELIVER_GOODS_BARCODE_REPORT;
+			}
+			GoodsSelectImportVo<GoodsSelectDeliver> vo = goodsSelectImportComponent.importSelectGoods(fileName, is,
+					fields, new GoodsSelectDeliver(), branchId, user.getId(), type, "/form/deliverForm/downloadError",
+					new GoodsSelectImportBusinessValid() {
+						@Override
+						public void formatter(List<? extends GoodsSelect> list) {
+						}
+
+						@Override
+						public void businessValid(List<JSONObject> list, String[] excelField) {
+							for (JSONObject obj : list) {
+								String num = obj.getString("num");
+								try {
+									Double.parseDouble(num);
+								} catch (Exception e) {
+									obj.element("num", 0);
+								}
+
+								try {
+									String isGift = obj.getString("isGift");
+									if ("是".equals(isGift)) {// 如果是赠品，单价设置为0
+										obj.element("isGift", "1");
+										obj.element("price", 0);
+									} else if ("否".equals(isGift)) {
+										obj.element("isGift", "0");
+									} else {
+										obj.element("error", "是否赠品字段填写有误");
+									}
+								} catch (Exception e) {
+									obj.element("error", "是否赠品字段填写有误");
+								}
+							}
+						}
+
+						@Override
+						public void errorDataFormatter(List<JSONObject> list) {
+							for (JSONObject obj : list) {
+								if (obj.containsKey("isGift")) {
+									String isGift = obj.getString("isGift");
+									if ("1".equals(isGift)) {
+										obj.element("isGift", "是");
+									} else if ("0".equals(isGift)) {
+										obj.element("isGift", "否");
+									}
+								}
+							}
+						}
+					});
+			respJson.put("importInfo", vo);
+		} catch (IOException e) {
+			respJson = RespJson.error("读取Excel流异常");
+			LOG.error("读取Excel流异常:", e);
+		} catch (Exception e) {
+			respJson = RespJson.error("导入发生异常");
+			LOG.error("用户导入异常:", e);
+		}
+		return respJson;
+	}
+
+	/**
+	 * @Description: 错误信息下载
+	 * @param code
+	 * @param type
+	 * @param response
+	 * @author zhangchm
+	 * @date 2016年10月15日
+	 */
+	@RequestMapping(value = "downloadError")
+	public void downloadError(String code, String type, HttpServletResponse response) {
+		String reportFileName = "错误数据";
+
+		String[] headers = null;
+		String[] columns = null;
+
+		if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {
+			// 货号
+			columns = ImportExcelConstant.DELIVER_GOODS_SKUCODE_REPORT;
+			headers = ImportExcelConstant.DELIVER_GOODS_SKUCODE_HEADERS_REPORT;
+		} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {
+			// 条码
+			columns = ImportExcelConstant.DELIVER_GOODS_BARCODE_REPORT;
+			headers = ImportExcelConstant.DELIVER_GOODS_BARCODE_HEADERS_REPORT;
+		}
+		goodsSelectImportComponent.downloadErrorFile(code, reportFileName, headers, columns, response);
+	}
 }

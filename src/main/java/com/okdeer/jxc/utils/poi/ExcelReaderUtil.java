@@ -15,10 +15,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-import net.sf.json.JsonConfig;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -37,6 +33,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.okdeer.jxc.common.utils.NumberUtils;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
 
 /**
  * ClassName: ExcelReaderUtil 
@@ -386,24 +386,31 @@ public class ExcelReaderUtil {
 	 * @date 2016年9月24日
 	 */
 	private static void readCell(Row row, String[] fields, JSONArray jArray) {
-		int cellCount = row.getLastCellNum();
-		JSONObject json = new JSONObject();
-
+		JSONObject json = null;
+		
+		boolean isBlankRow = true;
+		
 		// Read the Cell，循环遍历Excel单元格
-		for (int cellNum = 0; cellNum < cellCount; cellNum++) {
+		for (int cellNum = 0; cellNum < fields.length; cellNum++) {
+			if (json == null){
+				json = new JSONObject();
+			}
 			Cell cell = row.getCell(cellNum);
 			if (cell == null) {
 				continue;
 			}
 			Object content = getValue(cell);
-			json.accumulate(fields[cellNum], content);
-
-			// 如果单元格数量大于字段名称数量，则跳出循环
-			if (cellNum >= fields.length) {
-				break;
+			
+			if(isBlankRow && content instanceof String  && StringUtils.isNotBlank((String)content)){
+				isBlankRow = false;
 			}
+			
+			json.element(fields[cellNum], content);
 		}
-		jArray.add(json);
+		
+		if (!isBlankRow && json != null && !json.isEmpty()) {
+			jArray.add(json);
+		}
 	}
 
 	/**
@@ -647,6 +654,11 @@ public class ExcelReaderUtil {
 		} else {
 			// 如果是纯数字
 			obj = cell.getNumericCellValue();
+			
+			//解决数字，默认加0的问题
+			if(cell.toString().endsWith(".0")){
+				obj = new DecimalFormat("#").format(Double.parseDouble(cell.toString()));
+			}
 		}
 
 		if (NumberUtils.isENum(String.valueOf(obj))) {

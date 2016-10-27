@@ -144,7 +144,7 @@ pageEncoding="UTF-8"%>
         categoryCode=treeNode.code;
         $("#gridGoods").datagrid("options").queryParams = {categoryCode:categoryCode};
         $("#gridGoods").datagrid("options").method = "post";
-        $("#gridGoods").datagrid("options").url =contextPath + '/goods/goodsSelect/getGoodsList';
+        $("#gridGoods").datagrid("options").url =contextPath + '/goods/goodsSelect/getGoodsList?formType=${type}&sourceBranchId=${sourceBranchId}&targetBranchId=${targetBranchId}&branchId=${branchId}';
         $("#gridGoods").datagrid("load");
 
     };
@@ -310,6 +310,7 @@ pageEncoding="UTF-8"%>
         fitColumns:true,    //每列占满
         //fit:true,            //占满
         pageSize:10,
+       /*  pageList : [10,500],  */
         showFooter:true,
         height:'100%',
         columns:[arrColumns],

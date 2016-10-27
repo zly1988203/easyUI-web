@@ -12,6 +12,7 @@ $(function(){
 var gridHandel = new GridClass();
 //初始化表格
 function initDatagridRequireOrders(){
+	var updatePermission = $("#updatePermission").html().trim();
     $("#deliverFormList").datagrid({
         //title:'普通表单-用键盘操作',
         method:'post',
@@ -29,7 +30,11 @@ function initDatagridRequireOrders(){
         columns:[[
 			{field:'check',checkbox:true},
             {field:'formNo',title:'单据编号',width:'140px',align:'left',formatter:function(value,row,index){
-            	return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/deliverForm/deliverEdit?deliverFormId="+ row.deliverFormId +"'>" + value + "</a>"
+            	if(updatePermission){
+            		return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/deliverForm/deliverEdit?deliverFormId="+ row.deliverFormId +"'>" + value + "</a>";
+            	}else{
+            		return value;
+            	}
             }},
             {field:'status',title: '审核状态', width: '100px', align: 'left'},
 			{field: 'dealStatus', title: '单据状态', width: '60px', align: 'left'},

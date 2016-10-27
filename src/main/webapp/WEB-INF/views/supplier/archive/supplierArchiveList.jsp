@@ -21,23 +21,34 @@
 	<div class="ub ub-ver ub-f1 upad-4">
 		<div class="ub ub-ac">
 			<div class="ubtns">
-				<button class="ubtns-item" onclick="addHandel()">新增</button>
-				<button class="ubtns-item" onclick="copyHandel()">复制</button>
-				<button class="ubtns-item" onclick="delHandel()">删除</button>
-				<button class="ubtns-item" onclick="exportHandel()">导出</button>
+				<shiro:hasPermission name="JxcSupplierArchive:add">
+					<button class="ubtns-item" onclick="addHandel()">新增</button>
+			   	</shiro:hasPermission>
+				<shiro:hasPermission name="JxcSupplierArchive:copy">
+					<button class="ubtns-item" onclick="copyHandel()">复制</button>
+			   	</shiro:hasPermission>
+				<shiro:hasPermission name="JxcSupplierArchive:delete">
+					<button class="ubtns-item" onclick="delHandel()">删除</button>
+			   	</shiro:hasPermission>
+				<shiro:hasPermission name="JxcSupplierArchive:export">
+					<button class="ubtns-item" onclick="exportHandel()">导出</button>
+			   	</shiro:hasPermission>
+			   	<div id="updatePermission" class="none">
+					<shiro:hasPermission name="JxcSupplierArchive:update" >修改</shiro:hasPermission>
+				</div>
 				<button class="ubtns-item" onclick="toClose()">退出</button>
 			</div>
 		</div>
-		<form action="" id="formGoodsArchives" method="post">
+		<form action="" id="formList" method="post">
 			<div class="ub umar-t4">
 				<div class="ub ub-ac umar-r10">
 					<div class="umar-r10  ut-r">关键字:</div>
-					<input class="uinp uw-400" type="text" name="goodsInfo" id="goodsInfo" placeholder="输入编号、名称进行查询">
+					<input class="uinp uw-400" type="text" name="supplierNameOrsupplierCode" id="supplierNameOrsupplierCode" placeholder="输入编号、名称进行查询">
 				</div>
-				<input type="button" class="ubtn  umar-r10" value="查询" onclick="goodsSearch()">
+				<input type="button" class="ubtn  umar-r10" value="查询" onclick="searchHandel()">
 			</div>
 		</form>
-
+		<input type="hidden" id="selectBranchId" name="selectBranchId" />
 		<div class="ub umar-t10 ub-f1">
 			<table id="gridSupplierArchiveList" ></table>
 		</div>

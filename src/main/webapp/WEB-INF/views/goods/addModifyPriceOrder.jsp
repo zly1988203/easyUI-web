@@ -52,8 +52,8 @@
 	                <c:if test="${goodsPriceForm.status !=1 }">
 	                	<!-- <div class="ubtns-item" id="importdetail" onclick="toImportproduct(0)">导入货号</div> -->
 	                	<shiro:hasPermission name="JxcPriceAdjust:importDetail">
-		                	<div class="ubtns-item" id="importdetail" onclick="toImportproduct(1)">条码导入</div>
-		               		<div class="ubtns-item" id="importdetail" onclick="toImportproduct(1)">导入明细</div>
+		                	<div class="ubtns-item" id="importdetail" onclick="toImportproduct(0)">导入货号</div>
+		               		<div class="ubtns-item" id="importdetail" onclick="toImportproduct(1)">导入条码</div>
 		               	 </shiro:hasPermission>
 		               		<div class="ubtns-item" id="set" onclick="resetForm()">重置</div>
 	                </c:if>
@@ -74,7 +74,7 @@
             <div class="ub">
                 <div class="ub ub-ac uw-300">
                     <div class="umar-r10 uw-70 ut-r">区域:</div>
-                    <input class="uinp ub ub-f1"   type="text" name="branchAreaName" id="areaName" value="${branchAreaCodeName}" readonly>
+                    <input class="uinp ub ub-f1"   type="text" name="branchAreaName" id="areaName" onclick="selectBranchArea();" value="${branchAreaCodeName}" readonly>
                     <input class="uinp ub ub-f1" name="branchAreaId" value="${goodsPriceForm.branchAreaId}" type="hidden" id="areaInput" >
                     <div class="uinp-more" onclick="selectBranchArea();">...</div>
                 </div>
@@ -100,7 +100,7 @@
                 <div class="ub ub-ac uw-600">
                     <div class="umar-r10 uw-70 ut-r">机构列表:</div>
                     <input class="uinp ub ub-f1" name="branchIds" type="hidden" value="${branchId}" id="branchId" >
-                    <input class="uinp ub ub-f1" name="branchName" type="text" value="${branchName}" id="branchShopName" readonly>
+                    <input class="uinp ub ub-f1" name="branchName" type="text" value="${branchName}"  onclick="selectBranch();" id="branchShopName" readonly>
                     <div class="uinp-more" onclick="selectBranch();">...</div>
                 </div>
                 <div class="ub ub-ac umar-l40 uw-200">
@@ -281,17 +281,5 @@
         </div>
         </form>
     </div>
-    <!-- 导入弹框 -->
-    <div class="uabs uatk">
-		<div class="ubtn uw-100 umar-10" onclick="exportTemp()" id="temple">导入模版下载</div>
-     	<!-- <div class="uatit">导入文件选择</div> -->
-         <div class="uacon"><input class="uinp ub" id="filename" type="text"><label class="ualable">选择文件<input type="file" class="uafile" value=""  name="xlfile" id="xlf" /></label></div>
-         
-         <div class="uabtns ">
-     	 	<button class="uabtn umar-r30" onclick="importData('addModifyPriceGrid')">导入</button>
-     	 	<button class="uabtn" onclick="uaclose()" >取消</button>
-     	 </div>
-     </div>
- 
 </body>
 </html>

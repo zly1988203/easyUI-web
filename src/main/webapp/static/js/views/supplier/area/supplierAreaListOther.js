@@ -52,6 +52,7 @@ function addHandel(){
         resizable: true,
         onClose: function () {
             $(addDalogTemp).panel('destroy');
+            addDalogTemp = null;
         },
         modal: true,
         onLoad: function () {
@@ -76,6 +77,7 @@ function editHandel(areaId,areaCode,areaName){
         resizable: true,
         onClose: function () {
             $(editDalogTemp).panel('destroy');
+            editDalogTemp = null;
         },
         modal: true,
         onLoad: function () {
@@ -87,30 +89,32 @@ function editHandel(areaId,areaCode,areaName){
  * 删除
  */
 function delHandel(){
-    if($("#gridSupplierAreaList").datagrid("getSelections").length <= 0){
-        $.messager.alert('提示','请选中一行进行删除！');
-    }else {
-        debugger;
-        var row = $("#gridSupplierAreaList").datagrid("getSelections");
-        var formData = {areaId:row[0].areaId};
-        $.ajax({
-            type:"POST",
-            url:contextPath+"/supplierArea/deleteSupplierArea",
-            data:formData,
-            success:function(data){
-                if(data.code == 0){
-                    $("#gridSupplierAreaList").datagrid('reload');
-                    $.messager.alert('提示',"删除成功");
-                }else{
-                    $.messager.alert('提示',data.message);
-                }
-            },
-            error:function(e){
-
-            }
-        })
+	var rowData = $("#gridSupplierAreaList").datagrid("getSelected"); 
+    if(rowIsNull(rowData)){
+    	return;
     }
+    parent.$.messager.confirm('提示', '是否确认删除？此操作删除不可恢复', function(data){
+    	if(!data){
+    		return;
+    	}
+         var formData = {areaId:rowData.areaId};
+         $.ajax({
+             type:"POST",
+             url:contextPath+"/supplierArea/deleteSupplierArea",
+             data:formData,
+             success:function(data){
+                 if(data.code == 0){
+                     $("#gridSupplierAreaList").datagrid('reload');
+                     $.messager.alert('提示',"删除成功");
+                 }else{
+                     $.messager.alert('提示',data.message);
+                 }
+             },
+             error:function(e){
 
+             }
+         });
+    });
 }
 /**
  * 搜索
@@ -129,8 +133,10 @@ function reloadListHandel(){
 function closeDialogHandel(){
     if(addDalogTemp){
         $(addDalogTemp).panel('destroy');
+        addDalogTemp = null;
     }
     if(editDalogTemp){
         $(editDalogTemp).panel('destroy');
+        editDalogTemp = null;
     }
 }

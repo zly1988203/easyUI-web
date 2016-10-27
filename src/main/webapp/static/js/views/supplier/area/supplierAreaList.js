@@ -84,6 +84,7 @@ function addHandel(){
         resizable: true,
         onClose: function () {
             $(addDalogTemp).panel('destroy');
+            addDalogTemp = null;
         },
         modal: true,
         onLoad: function () {
@@ -108,6 +109,7 @@ function editHandel(areaId,areaCode,areaName){
         resizable: true,
         onClose: function () {
             $(editDalogTemp).panel('destroy');
+            editDalogTemp = null;
         },
         modal: true,
         onLoad: function () {
@@ -148,7 +150,6 @@ function delHandel(){
  * 搜索
  */
 function searchHandel(){
-    debugger;
     var formData = $('#formList').serializeObject();
     var postParams = $.extend(formData,{branchId:gVarBranchId})
     $("#gridSupplierAreaList").datagrid("options").queryParams = postParams;
@@ -163,8 +164,10 @@ function reloadListHandel(){
 function closeDialogHandel(){
     if(addDalogTemp){
         $(addDalogTemp).panel('destroy');
+        addDalogTemp = null;
     }
     if(editDalogTemp){
         $(editDalogTemp).panel('destroy');
+        editDalogTemp = null;
     }
 }

@@ -22,44 +22,75 @@ function messager(msg,title){
 function toChangeDate(index){
     switch (index){
         case 0: //今天
-            $("#txtStartDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
-            $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getCurrentDate()).format("yyyy-MM-dd hh:mm"));
+            $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getCurrentDate()).format("yyyy-MM-dd hh:mm"));
             break;
         case 1: //昨天
-            $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",1));
-            $("#txtEndDate").val(dateUtil.getCurrDayPreOrNextDay("prev",1));
+            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getCurrDayPreOrNextDay("prev",1)).format("yyyy-MM-dd hh:mm"));
+            $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getCurrDayPreOrNextDay("prev",1)).format("yyyy-MM-dd hh:mm"));
             break;
         case 2: //本周
-            $("#txtStartDate").val(dateUtil.getCurrentWeek()[0].format("yyyy-MM-dd"));
-            $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
-            //$("#txtEndDate").val(dateUtil.getCurrentWeek()[1].format("yyyy-MM-dd"));
+            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getCurrentWeek()[0]).format("yyyy-MM-dd hh:mm"));
+            $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getCurrentDate()).format("yyyy-MM-dd hh:mm"));
+            //$("#txtEndDate").val(dateUtil.getCurrentWeek()[1].format("yyyy-MM-dd hh:mm"));
             break;
         case 3: //上周
-            $("#txtStartDate").val(dateUtil.getPreviousWeek()[0].format("yyyy-MM-dd"));
-            $("#txtEndDate").val(dateUtil.getPreviousWeek()[1].format("yyyy-MM-dd"));
+            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getPreviousWeek()[0]).format("yyyy-MM-dd hh:mm"));
+            $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getPreviousWeek()[1]).format("yyyy-MM-dd hh:mm"));
             break;
         case 4: //本月
-            $("#txtStartDate").val(dateUtil.getCurrentMonth()[0].format("yyyy-MM-dd"));
-            $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getCurrentMonth()[0]).format("yyyy-MM-dd hh:mm"));
+            $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getCurrentDate()).format("yyyy-MM-dd hh:mm"));
             break;
         case 5: //上月
-            $("#txtStartDate").val(dateUtil.getPreviousMonth()[0].format("yyyy-MM-dd"));
-            $("#txtEndDate").val(dateUtil.getPreviousMonth()[1].format("yyyy-MM-dd"));
+            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getPreviousMonth()[0]).format("yyyy-MM-dd hh:mm"));
+            $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getPreviousMonth()[1]).format("yyyy-MM-dd hh:mm"));
             break;
         case 6: //本季
-            $("#txtStartDate").val(dateUtil.getCurrentSeason()[0].format("yyyy-MM-dd"));
-            $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getCurrentSeason()[0]).format("yyyy-MM-dd hh:mm"));
+            $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getCurrentDate()).format("yyyy-MM-dd hh:mm"));
             break;
         case 7: //上季
-            $("#txtStartDate").val(dateUtil.getPreviousSeason()[0].format("yyyy-MM-dd"));
-            $("#txtEndDate").val(dateUtil.getPreviousSeason()[1].format("yyyy-MM-dd"));
+            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getPreviousSeason()[0]).format("yyyy-MM-dd hh:mm"));
+            $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getPreviousSeason()[1]).format("yyyy-MM-dd hh:mm"));
             break;
         case 8: //今年
-            $("#txtStartDate").val(dateUtil.getCurrentYear()[0].format("yyyy-MM-dd"));
-            $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getCurrentYear()[0]).format("yyyy-MM-dd hh:mm"));
+            $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getCurrentDate()).format("yyyy-MM-dd hh:mm"));
+            break;
+        case 9: //昨天
+            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getCurrDayPreOrNextDay("prev",29)).format("yyyy-MM-dd hh:mm"));
+            $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getCurrentDate()).format("yyyy-MM-dd hh:mm"));
             break;
         default :
             break;
+    }
+}
+
+/**
+ * 批量导入货号或条码
+ * @param params {type:0 货号 1条码,url:上传地址,}
+ * @param callback
+ */
+function publicUploadFileService(callback,params){
+    //公有属性
+    var  dalogTemp = $('<div id="uploadFile"/>').dialog({
+        href:contextPath + "/common/uploadFile",
+        width:480,
+        height:320,
+        title:params.type==1?"导入条码":"导入货号",
+        closable:true,
+        resizable:true,
+        onClose:function(){
+            $(dalogTemp).panel('destroy');
+        },
+        modal:true,
+        onLoad:function(){
+            initUploadFileCallBack(callBackHandel,params)
+        },
+    });
+    function callBackHandel(data){
+        callback(data);
     }
 }
 
@@ -402,27 +433,19 @@ function callBackHandel(data){
 //公共组件-商品选择
 function publicGoodsService(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId){
 	if(key){
-		var url= contextPath + '/goods/goodsSelect/importSkuCode?skuCodes='+key;
-		if(type=="DA"||type=="DO"){
-			 url=contextPath + '/goods/goodsSelect/enterSearchGoodsDeliver?skuCode='+key+"&formType="+type+"&sourceBranchId="+sourceBranchId+"&targetBranchId="+targetBranchId;
-		}
+		var url= contextPath + '/goods/goodsSelect/importSkuCode?skuCodes='+key+'&branchId='+branchId;
+//		if(type=="DA"||type=="DO"){
+//			 url=contextPath + '/goods/goodsSelect/enterSearchGoodsDeliver?skuCode='+key+"&formType="+type+"&sourceBranchId="+sourceBranchId+"&targetBranchId="+targetBranchId;
+//		}
         $.ajax({
             url:url,
             type:'POST',
             success:function(data){
-            	if(type=="DA"||type=="DO"){
-            		if(data&&data.length>0){
-            			callback(data)
-            		}else{
-            			publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId);
-            		}
-            	}else{
-            		if(data&&data.length>0){
-                		callback(data);
-	                }else{
-	                    publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId);
-	                }
-            	}
+            	if(data&&data.length==1){
+            		callback(data);
+                }else{
+                    publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId);
+                }
             }
         })
     }else{
@@ -733,7 +756,7 @@ function GridClass(){
                 }
                if(isCheck&&isCheck!={}){
                    $.each(isCheck,function(checkKey,checkVal){
-                       if(val1[checkKey]==checkVal){
+                       if(val1[checkKey]==checkVal||val[checkKey]!=val1[checkKey]){
                            isRepeat = false;
                        }
                    });
@@ -988,7 +1011,7 @@ function gFunUpdateKey(arrs,obj){
         $.each(obj,function(k,v){
         	if(item[k]||parseInt(item[k])===0||item[k]===""){
             	if(v){
-            		item[v] = item[k]||"";
+            		item[v] = gFunIsNotNull(item[k])?item[k]:"";
             	}
         	}
         });
@@ -1051,6 +1074,13 @@ function gFunEndLoading(){
 function checkNum(obj){
 	 obj.value=obj.value.replace(/[^0-9]/g,'');
 	 return obj.value;
+}
+
+function gFunIsNotNull(val){
+    if(val||parseInt(val)===0||val===""){
+        return true
+    }
+    return false;
 }
 
 //输入1-9的数字，第二位及后面的可以有0，比如10
@@ -1189,6 +1219,11 @@ function gFunSetEnterKey(cb){
         }
     });
 }
+function gFunGetQueryString(name) { 
+	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"); 
+	var r = window.location.search.substr(1).match(reg); 
+	if (r != null) return unescape(r[2]); return null; 
+} 
 //表单验证
 $.extend($.fn.validatebox.defaults.rules, {
     idcard: {// 验证身份证
@@ -1332,26 +1367,4 @@ $.extend($.fn.validatebox.defaults.rules, {
         message: '两次输入的密码不一致！'
     }
 });
-
-/**
- * 调用导入功能type:0货号导入,1条码导入
- * @param type
- */
-function toImportproduct(type){
-    if($("#supplierId").val()==""){
-        messager("请先选择供应商");
-        return;
-    }
-    var branchId = $("#branchId").val();
-    if(!branchId){
-        messager("请先选择收货机构");
-        return;
-    }
-    importproductTemplate(type);
-    if(type==0){
-    	$("#temple").text('货号模版下载');
-    }else{
-    	$("#temple").text('条码模版下载');
-    }
-}
 

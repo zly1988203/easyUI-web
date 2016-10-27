@@ -83,7 +83,7 @@ public class StockReportController extends BaseController<StockReportController>
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
-			LOG.info("商品库存查询，报表导出参数：{}", qo);
+			LOG.info("商品库存查询，报表查询参数：{}", qo);
 			qo.setPageNumber(pageNumber);
 			qo.setPageSize(pageSize);
 
@@ -175,7 +175,7 @@ public class StockReportController extends BaseController<StockReportController>
 			exportList = handlePrice(exportList);
 			String fileName = "商品库存报表" + "_" + DateUtils.getCurrSmallStr();
 			String templateName = ExportExcelConstant.STOCKREPORT;
-			exportPageForXLSX(response, exportList, fileName, templateName);
+			exportListForXLSX(response, exportList, fileName, templateName);
 		} catch (Exception e) {
 			LOG.error("商品库存查询报表导出异常:", e);
 		}

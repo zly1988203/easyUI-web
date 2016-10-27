@@ -48,7 +48,7 @@
 	</bean>
 	
 	<bean id="casFilter" class="org.apache.shiro.cas.CasFilter">
-        <property name="failureUrl" value="/error/403.jsp"/>    
+        <property name="failureUrl" value="/error/403"/>    
     </bean>
     
     <bean id="userRealm" class="com.okdeer.jxc.common.shiro.UserRealm">  

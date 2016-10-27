@@ -7,6 +7,8 @@
 
 package com.okdeer.jxc.controller.dict;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
@@ -16,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.dict.entity.Dict;
 import com.okdeer.jxc.dict.service.DictServiceApi;
@@ -69,15 +70,11 @@ public class DictController extends BaseController<PurchaseForm> {
 	 * @author yangyq02
 	 * @date 2016年8月11日
 	 */
-	@RequestMapping(value = "getDictType")
+	@RequestMapping(value = "/{type}")
 	@ResponseBody
-	public PageUtils<Dict> getDictType(HttpServletRequest req) {
+	public List<Dict> getDictType(@PathVariable String type) {
 		try {
-			String type = req.getParameter("dictType");
-			LOG.info("type:" + type);
-			PageUtils<Dict> suppliers = dictServiceApi.queryDictBytype(type);
-			LOG.info("page" + suppliers.toString());
-			return suppliers;
+			return dictServiceApi.getDictByType(type);
 		} catch (Exception e) {
 			LOG.error("查询字典出现错误:", e);
 		}

@@ -7,6 +7,7 @@
 
 package com.okdeer.jxc.controller.report;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -124,13 +125,94 @@ public class GoodsReportController extends
 
 			String templateName = ExportExcelConstant.GOODSREPORT;
 
-			exportPageForXLSX(response, exportList, fileName, templateName);
+			exportList = handlePrice(exportList);
+			exportListForXLSX(response, exportList, fileName, templateName);
 		} catch (Exception e) {
 			LOG.error("商品查询导出execl出现错误{}", e);
 		}
 		return null;
 	}
 
+	// 价格特殊处理
+	private List<GoodsReportVo> handlePrice(List<GoodsReportVo> exportList) {
+		BigDecimal param = new BigDecimal(100);
+		for (GoodsReportVo vo : exportList) {
+			// 进货规格
+			if (StringUtils.isNotBlank(vo.getPurchaseSpec())) {
+				java.math.BigDecimal purchaseSpec = new java.math.BigDecimal(vo.getPurchaseSpec()).setScale(2,
+						java.math.BigDecimal.ROUND_HALF_UP);
+				vo.setPurchaseSpec(String.valueOf(purchaseSpec));
+			}
+			// 配送规格
+			if (StringUtils.isNotBlank(vo.getDistributionSpec())) {
+				java.math.BigDecimal distributionSpec = new java.math.BigDecimal(vo.getDistributionSpec()).setScale(2,
+						java.math.BigDecimal.ROUND_HALF_UP);
+				vo.setDistributionSpec(String.valueOf(distributionSpec));
+			}
+			// 联营扣率/代销扣率
+			if (StringUtils.isNotBlank(vo.getSupplierRate())) {
+				java.math.BigDecimal supplierRate = new java.math.BigDecimal(vo.getSupplierRate()).setScale(2,
+						java.math.BigDecimal.ROUND_HALF_UP);
+				vo.setSupplierRate(String.valueOf(supplierRate));
+			}
+			// 进货价
+			if (StringUtils.isNotBlank(vo.getPurchasePrice())) {
+				java.math.BigDecimal purchasePrice = new java.math.BigDecimal(vo.getPurchasePrice()).setScale(2,
+						java.math.BigDecimal.ROUND_HALF_UP);
+				vo.setPurchasePrice(String.valueOf(purchasePrice));
+			}
+			// 零售价
+			if (StringUtils.isNotBlank(vo.getSalePrice())) {
+				java.math.BigDecimal salePrice = new java.math.BigDecimal(vo.getSalePrice()).setScale(2,
+						java.math.BigDecimal.ROUND_HALF_UP);
+				vo.setSalePrice(String.valueOf(salePrice));
+			}
+			// 配送价
+			if (StringUtils.isNotBlank(vo.getDistributionPrice())) {
+				java.math.BigDecimal distributionPrice = new java.math.BigDecimal(vo.getDistributionPrice()).setScale(2,
+						java.math.BigDecimal.ROUND_HALF_UP);
+				vo.setDistributionPrice(String.valueOf(distributionPrice));
+			}
+			// 批发价
+			if (StringUtils.isNotBlank(vo.getWholesalePrice())) {
+				java.math.BigDecimal wholesalePrice = new java.math.BigDecimal(vo.getWholesalePrice()).setScale(2,
+						java.math.BigDecimal.ROUND_HALF_UP);
+				vo.setWholesalePrice(String.valueOf(wholesalePrice));
+			}
+			// 会员价
+			if (StringUtils.isNotBlank(vo.getVipPrice())) {
+				java.math.BigDecimal vipPrice = new java.math.BigDecimal(vo.getVipPrice()).setScale(2,
+						java.math.BigDecimal.ROUND_HALF_UP);
+				vo.setVipPrice(String.valueOf(vipPrice));
+			}
+			
+			// 进项税率
+			if (StringUtils.isNotBlank(vo.getInputTax())) {
+				BigDecimal inputTax = new BigDecimal(vo.getInputTax());
+				BigDecimal inputTax1 =  inputTax.multiply(param).setScale(2,
+						java.math.BigDecimal.ROUND_HALF_UP);
+				vo.setInputTax(String.valueOf(inputTax1)+"%");
+			}
+			
+			// 销项税率
+			if (StringUtils.isNotBlank(vo.getOutputTax())) {
+				BigDecimal outputTax = new BigDecimal(vo.getOutputTax());
+				BigDecimal outputTax1 =  outputTax.multiply(param).setScale(2,
+						java.math.BigDecimal.ROUND_HALF_UP);
+				vo.setOutputTax(String.valueOf(outputTax1)+"%");
+			}
+			
+			// 毛利率
+			if (StringUtils.isNotBlank(vo.getProfitAmtRate())) {
+				BigDecimal profitAmtRate = new BigDecimal(vo.getProfitAmtRate());
+				BigDecimal profitAmtRate1 =  profitAmtRate.multiply(param).setScale(2,
+						java.math.BigDecimal.ROUND_HALF_UP);
+				vo.setProfitAmtRate(String.valueOf(profitAmtRate1)+"%");
+			}
+			
+		}
+		return exportList;
+	}
 	// start by lijy02
 
 	/**

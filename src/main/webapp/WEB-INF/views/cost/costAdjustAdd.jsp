@@ -11,11 +11,15 @@
 </head>
 <body class="ub uw uh ufs-14 uc-black">
     <div class="ub ub-ver ub-f1 umar-4  ubor">
+    <form id="addqueryForm" action="" method="post">
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
-                <div class="ubtns-item" onclick="saveOrder()">保存</div>
+             <shiro:hasPermission name="JxcCostAdjust:add">
+                <div class="ubtns-item" onclick="addsaveOrder()">保存</div>
+             </shiro:hasPermission>
                 <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
-                <div class="ubtns-item" onclick="importproductAll()">导入</div>
+                <div class="ubtns-item" id="importdetail" onclick="toImportproduct(0)">导入货号</div>
+          		<div class="ubtns-item" id="importdetail" onclick="toImportproduct(1)">导入条码</div>
                 <div class="ubtns-item" onclick="toBack()">返回</div>
             </div>
         </div>
@@ -26,9 +30,23 @@
 					<input type="text" name="branchName" id="branchName"class="uinp ub ub-f1" readonly="readonly"  />
 					<div class="uinp-more" onclick="searchBranch()">...</div>
 	           </div>
-	            <div class="ub ub-ac uw-300">
-	                <div class="umar-r10 uw-70 ut-r">生效日期:</div>
-	               <input class="Wdate"  readonly="readonly" name="startTime" id="txtStartDate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" />
+	            <div class="ub ub-ac uselectw umar-l00">
+                    <div class="umar-r10 uw-70 ut-r">调整原因:</div>
+                       <!--select-->
+				        <select class="easyui-combobox uselect" name="adjustReason" id="adjustReason" data-options="editable:false">
+								<!-- <option value="1">全部</option> 
+								<option value="2">[01]其他</option> 
+								<option value="3">[02]领用</option> 
+								<option value="4">[03]报损</option> 
+								<option value="5">[04]丢失</option> 
+								<option value="6">[05]赠送</option>
+								<option value="7">[06]借用</option>
+								<option value="8">[07]退赠品</option> -->
+							<c:forEach items="${COST_ADJUST_REASON}" var="reason">
+                            <option value="${reason.value}">${reason.label}</option>
+                        </c:forEach>
+								
+				        </select>
                 </div>
                <div class="ub ub-ac uw-300 ">
                    <div class="umar-r10 uw-70 ut-r">制单人员:</div>
@@ -40,11 +58,12 @@
                </div>
            </div>
            <div class="ub umar-t8">
-               <div class="ub ub-ac " >
+           
+               <div class="ub ub-ac" >
                    <div class="umar-r10 uw-70 ut-r">备注:</div>
                    <input class="uinp uninputs" type="text" id="remark" name="remark">
                </div>
-               <div class="ub ub-ac umar-l20 uw-300">
+               <div class="ub ub-ac  uw-300">
                    <div class="umar-r10 uw-70 ut-r">审核人员:</div>
                    <div class="utxt"></div>
                </div>
@@ -53,22 +72,11 @@
                    <div class="utxt"></div>
                </div>
            </div>
-          
+          	</form>
            <!--datagrid-edit-->
            <div class="ub ub-f1 datagrid-edit umar-t8">
                <table id="gridEditOrder" ></table>
            </div>
     </div>
-     <!-- 导入弹框 -->
-    <div class="uabs uatk">
-
-     	<div class="uatit">导入文件选择</div>
-         <div class="uacon"><input class="uinp ub" id="filename" type="text"><label class="ualable">选择文件<input type="file" class="uafile" value=""  name="xlfile" id="xlf" /></label></div>
-         
-         <div class="uabtns ">
-     	 	<button class="uabtn umar-r30" onclick="importHandel('gridEditOrder')">导入</button>
-     	 	<button class="uabtn" onclick="uaclose()" >取消</button>
-     	 </div>
-     </div>
 </body>
 </html>

@@ -7,6 +7,9 @@
 
 package com.okdeer.jxc.controller.purchase;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -16,22 +19,27 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.controller.BasePrintController;
+import com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid;
+import com.okdeer.jxc.common.goodselect.GoodsSelectImportComponent;
+import com.okdeer.jxc.common.goodselect.GoodsSelectImportHandle;
+import com.okdeer.jxc.common.goodselect.GoodsSelectImportVo;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.BigDecimalUtils;
 import com.okdeer.jxc.common.utils.DateUtils;
@@ -52,8 +60,12 @@ import com.okdeer.jxc.form.purchase.vo.PurchaseFormDetailVo;
 import com.okdeer.jxc.form.purchase.vo.PurchaseFormVo;
 import com.okdeer.jxc.form.purchase.vo.ReceiptFormVo;
 import com.okdeer.jxc.form.purchase.vo.ReturnFormVo;
+import com.okdeer.jxc.goods.entity.GoodsSelect;
+import com.okdeer.jxc.goods.entity.GoodsSelectByPurchase;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
+
+import net.sf.json.JSONObject;
 
 /**
  * ClassName: PurchaseFormController 
@@ -72,6 +84,9 @@ public class PurchaseFormController extends
 
 	@Reference(version = "1.0.0", check = false)
 	private PurchaseFormServiceApi purchaseFormServiceApi;
+	
+	@Autowired
+	private GoodsSelectImportComponent goodsSelectImportComponent;
 
 	@Autowired
 	private OrderNoUtils orderNoUtils;
@@ -360,12 +375,10 @@ public class PurchaseFormController extends
 	 */
 	@RequestMapping(value = "saveOrder", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson save(@Valid PurchaseFormVo formVo, BindingResult validate, String detailList) {
-		if (validate.hasErrors()) {
-			String errorMessage = validate.getFieldError().getDefaultMessage();
-			LOG.warn("validate errorMessage:" + errorMessage);
-			return RespJson.error(errorMessage);
-		}
+	public RespJson save(@RequestBody String jsonText) {
+//		PurchaseFormVo formVo = new PurchaseFormVo();
+		
+		PurchaseFormVo formVo = JSON.parseObject(jsonText, PurchaseFormVo.class);
 		
 		PurchaseForm form = new PurchaseForm();
 
@@ -399,7 +412,9 @@ public class PurchaseFormController extends
 
 		List<PurchaseFormDetail> list = new ArrayList<PurchaseFormDetail>();
 		
-		List<PurchaseFormDetailVo> listVo = JSON.parseArray(detailList, PurchaseFormDetailVo.class);
+//		List<PurchaseFormDetailVo> listVo = JSON.parseArray(detailList, PurchaseFormDetailVo.class);
+		
+		List<PurchaseFormDetailVo> listVo = formVo.getDetailList();
 
 		for (PurchaseFormDetailVo purchaseFormDetailVo : listVo) {
 			PurchaseFormDetail formDetail = new PurchaseFormDetail();
@@ -425,13 +440,10 @@ public class PurchaseFormController extends
 
 	@RequestMapping(value = "saveReturn", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson saveReturn(@Valid ReturnFormVo formVo,
-			BindingResult validate, String detailList) {
-		if (validate.hasErrors()) {
-			String errorMessage = validate.getFieldError().getDefaultMessage();
-			LOG.warn("validate errorMessage:" + errorMessage);
-			return RespJson.error(errorMessage);
-		}
+	public RespJson saveReturn(@RequestBody String jsonText) {
+		
+		ReturnFormVo formVo = JSON.parseObject(jsonText, ReturnFormVo.class);
+		
 		PurchaseForm form = new PurchaseForm();
 		BeanUtils.copyProperties(formVo, form);
 
@@ -467,7 +479,8 @@ public class PurchaseFormController extends
 
 		List<PurchaseFormDetail> list = new ArrayList<PurchaseFormDetail>();
 		
-		List<PurchaseFormDetailVo> listVo = JSON.parseArray(detailList, PurchaseFormDetailVo.class);
+//		List<PurchaseFormDetailVo> listVo = JSON.parseArray(detailList, PurchaseFormDetailVo.class);
+		List<PurchaseFormDetailVo> listVo = formVo.getDetailList();
 
 		for (PurchaseFormDetailVo purchaseFormDetailVo : listVo) {
 			PurchaseFormDetail formDetail = new PurchaseFormDetail();
@@ -493,13 +506,10 @@ public class PurchaseFormController extends
 
 	@RequestMapping(value = "saveReceipt", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson saveReceipt(@Valid ReceiptFormVo formVo,
-			BindingResult validate,String detailList) {
-		if (validate.hasErrors()) {
-			String errorMessage = validate.getFieldError().getDefaultMessage();
-			LOG.warn("validate errorMessage:" + errorMessage);
-			return RespJson.error(errorMessage);
-		}
+	public RespJson saveReceipt(@RequestBody String jsonText) {
+		
+		ReceiptFormVo formVo = JSON.parseObject(jsonText, ReceiptFormVo.class);
+		
 		PurchaseForm form = new PurchaseForm();
 		BeanUtils.copyProperties(formVo, form);
 
@@ -529,7 +539,8 @@ public class PurchaseFormController extends
 
 		List<PurchaseFormDetail> list = new ArrayList<PurchaseFormDetail>();
 
-		List<PurchaseFormDetailVo> listVo = JSON.parseArray(detailList, PurchaseFormDetailVo.class);
+//		List<PurchaseFormDetailVo> listVo = JSON.parseArray(detailList, PurchaseFormDetailVo.class);
+		List<PurchaseFormDetailVo> listVo = formVo.getDetailList();
 
 		for (PurchaseFormDetailVo purchaseFormDetailVo : listVo) {
 			PurchaseFormDetail formDetail = new PurchaseFormDetail();
@@ -563,16 +574,9 @@ public class PurchaseFormController extends
 	 */
 	@RequestMapping(value = "updateOrder", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson updateOrder(@Valid PurchaseFormVo formVo,
-			BindingResult validate, HttpServletRequest request) {
-		if (validate.hasErrors()) {
-			String errorMessage = validate.getFieldError().getDefaultMessage();
-			LOG.warn("validate errorMessage:" + errorMessage);
-
-			RespJson respJson = RespJson.error(errorMessage);
-
-			return respJson;
-		}
+	public RespJson updateOrder(@RequestBody String jsonText) {
+		
+		PurchaseFormVo formVo = JSON.parseObject(jsonText, PurchaseFormVo.class);
 
 		PurchaseForm form = new PurchaseForm();
 		BeanUtils.copyProperties(formVo, form);
@@ -583,8 +587,8 @@ public class PurchaseFormController extends
 		SysUser user = UserUtil.getCurrentUser();
 		Date now = new Date();
 
-		String detailList = request.getParameter("detailList");
-		List<PurchaseFormDetailVo> listVo = JSON.parseArray(detailList, PurchaseFormDetailVo.class);
+//		List<PurchaseFormDetailVo> listVo = JSON.parseArray(detailList, PurchaseFormDetailVo.class);
+		List<PurchaseFormDetailVo> listVo = formVo.getDetailList();
 		
 		for (PurchaseFormDetailVo purchaseFormDetailVo : listVo) {
 			PurchaseFormDetail formDetail = new PurchaseFormDetail();
@@ -614,16 +618,9 @@ public class PurchaseFormController extends
 	 */
 	@RequestMapping(value = "updateReceipt", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson updateReceipt(@Valid ReceiptFormVo formVo,
-			BindingResult validate,String detailList) {
-		if (validate.hasErrors()) {
-			String errorMessage = validate.getFieldError().getDefaultMessage();
-			LOG.warn("validate errorMessage:" + errorMessage);
-
-			RespJson respJson = RespJson.error(errorMessage);
-
-			return respJson;
-		}
+	public RespJson updateReceipt(@RequestBody String jsonText) {
+		
+		ReceiptFormVo formVo = JSON.parseObject(jsonText, ReceiptFormVo.class);
 
 		PurchaseForm form = new PurchaseForm();
 		BeanUtils.copyProperties(formVo, form);
@@ -634,7 +631,8 @@ public class PurchaseFormController extends
 		SysUser user = UserUtil.getCurrentUser();
 		Date now = new Date();
 
-		List<PurchaseFormDetailVo> listVo = JSON.parseArray(detailList, PurchaseFormDetailVo.class);
+//		List<PurchaseFormDetailVo> listVo = JSON.parseArray(detailList, PurchaseFormDetailVo.class);
+		List<PurchaseFormDetailVo> listVo = formVo.getDetailList();
 
 		for (PurchaseFormDetailVo purchaseFormDetailVo : listVo) {
 			PurchaseFormDetail purchaseFormDetail = new PurchaseFormDetail();
@@ -664,16 +662,8 @@ public class PurchaseFormController extends
 	 */
 	@RequestMapping(value = "updateReturn", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson updateReturn(@Valid ReceiptFormVo formVo,
-			BindingResult validate, String detailList) {
-		if (validate.hasErrors()) {
-			String errorMessage = validate.getFieldError().getDefaultMessage();
-			LOG.warn("validate errorMessage:" + errorMessage);
-
-			RespJson respJson = RespJson.error(errorMessage);
-
-			return respJson;
-		}
+	public RespJson updateReturn(@RequestBody String jsonText) {
+		ReturnFormVo formVo = JSON.parseObject(jsonText, ReturnFormVo.class);
 
 		PurchaseForm form = new PurchaseForm();
 		BeanUtils.copyProperties(formVo, form);
@@ -689,8 +679,9 @@ public class PurchaseFormController extends
 		SysUser user = UserUtil.getCurrentUser();
 		Date now = new Date();
 
-		List<PurchaseFormDetailVo> listVo = JSON.parseArray(detailList, PurchaseFormDetailVo.class);
-
+//		List<PurchaseFormDetailVo> listVo = JSON.parseArray(detailList, PurchaseFormDetailVo.class);
+		List<PurchaseFormDetailVo> listVo = formVo.getDetailList();
+		
 		for (PurchaseFormDetailVo purchaseFormDetailVo : listVo) {
 			PurchaseFormDetail purchaseFormDetail = new PurchaseFormDetail();
 			BeanUtils.copyProperties(purchaseFormDetailVo, purchaseFormDetail);
@@ -845,6 +836,149 @@ public class PurchaseFormController extends
 				formNo).getList();
 		return list;
 	}
+	
+	
+	/**
+	 * 商品导入
+	 * @param file
+	 * @param type 0货号、1条码
+	 * @param branchId
+	 * @return
+	 * @author xiaoj02
+	 * @date 2016年10月14日
+	 */
+	@RequestMapping(value = "importList")
+	@ResponseBody
+	public RespJson importList(@RequestParam("file") MultipartFile file,String type, String branchId){
+		RespJson respJson = RespJson.success();
+		try {
+			if(file.isEmpty()){
+				return RespJson.error("文件为空");
+			}
+			
+			if(StringUtils.isBlank(type)){
+				return RespJson.error("导入类型为空");
+			}
+			
+			// 文件流
+			InputStream is = file.getInputStream();
+			// 获取文件名
+			String fileName = file.getOriginalFilename();
+			
+			SysUser user = UserUtil.getCurrentUser();
+			
+			String[] field = null; 
+			
+			if(type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)){//货号
+				field = new String[]{"skuCode","realNum","price","ingoreAmount","isGift"};
+			}else if(type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)){//条码
+				field = new String[]{"barCode","realNum","price","ingoreAmount","isGift"};
+			}
+			
+			GoodsSelectImportVo<GoodsSelect> vo = goodsSelectImportComponent.importSelectGoods(fileName, is,
+					field, 
+					new GoodsSelectByPurchase(), 
+					branchId, user.getId(), 
+					type,
+					"/form/purchase/downloadErrorFile",
+					new GoodsSelectImportBusinessValid() {
+				
+				@Override
+				public void businessValid(List<JSONObject> list, String[] excelField) {
+					for (JSONObject obj : list) {
+						try {
+							String realNum = obj.getString("realNum");
+							Double.parseDouble(realNum);
+						} catch (Exception e) {
+							obj.element("realNum", 0);
+						}
+						
+						try {
+							String isGift = obj.getString("isGift");
+							if("是".equals(isGift)){//如果是赠品，单价设置为0
+								obj.element("isGift", "1");
+								obj.element("price", 0);
+							}else if("否".equals(isGift)){
+								obj.element("isGift", "0");
+							}else{
+								obj.element("error", "是否赠品字段填写有误");
+							}
+						} catch (Exception e) {
+							obj.element("error", "是否赠品字段填写有误");
+						}
+					}
+				}
+				
+				/**
+				 * (non-Javadoc)
+				 * @see com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid#formatter(java.util.List)
+				 */
+				@Override
+				public void formatter(List<? extends GoodsSelect> list) {
+					for (GoodsSelect objGoods : list) {
+						GoodsSelectByPurchase obj = (GoodsSelectByPurchase) objGoods;
+						
+						BigDecimal price = obj.getPrice();
+						if(price == null){
+							obj.setPrice(obj.getPurchasePrice());
+						}
+					}
+				}
+				
+				/**
+				 * (non-Javadoc)
+				 * @see com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid#errorDataFormatter(java.util.List)
+				 */
+				@Override
+				public void errorDataFormatter(List<JSONObject> list) {
+					for (JSONObject obj : list) {
+						if(obj.containsKey("isGift")){
+							String isGift = obj.getString("isGift");
+							if("1".equals(isGift)){
+								obj.element("isGift", "是");
+							}else if("0".equals(isGift)){
+								obj.element("isGift", "否");
+							}
+						}
+					}
+				}
+			});
+			respJson.put("importInfo", vo);
+			
+		} catch (IOException e) {
+			respJson = RespJson.error("读取Excel流异常");
+			LOG.error("读取Excel流异常:", e);
+		} catch (Exception e) {
+			respJson = RespJson.error("导入发生异常");
+			LOG.error("用户导入异常:", e);
+		}
+		return respJson;
+		
+	}
+	
+	/**
+	 * @author xiaoj02
+	 * @date 2016年10月15日
+	 */
+	@RequestMapping(value = "downloadErrorFile")
+	public void downloadErrorFile(String code, String type, HttpServletResponse response) {
+		String reportFileName = "错误数据";
+		
+		String[] headers = null;
+		String[] columns = null;
+		
+		if(type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)){//货号
+			columns = new String[]{"skuCode","realNum","price","ingoreAmount","isGift"};
+			headers = new String[]{"货号","数量","单价","金额","是否赠品"};
+		}else if(type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)){//条码
+			columns = new String[]{"barCode","realNum","price","ingoreAmount","isGift"};
+			headers = new String[]{"条码","数量","单价","金额","是否赠品"};
+		}
+
+		goodsSelectImportComponent.downloadErrorFile(code, reportFileName, headers, columns , response);
+	}
+	
+	
 
 	/**
 	 * @Description: 导出明细
@@ -897,12 +1031,17 @@ public class PurchaseFormController extends
 			String fileName = "";
 			String templateName = "";
 			if(Constant.ZERO == type) {
-				//商品货号
 				templateName = ExportExcelConstant.PURCHASE_GOODS_SKUCODE_TEMPLE;
 				fileName = "商品货号导入模板";
 			}else if(Constant.ONE == type){
 				templateName = ExportExcelConstant.PURCHASE_GOODS_BARCODE_TEMPLE;
 				fileName = "商品条码导入模板";
+			}else if(Constant.TWO == type) {
+				templateName = ExportExcelConstant.GOODS_INTRODUCE_SKU_CODE_TEMPLE;
+				fileName = "商品引入货号导入模板";
+			}else if(Constant.THREE == type) {
+				templateName = ExportExcelConstant.GOODS_INTRODUCE_BAR_CODE_TEMPLE;
+				fileName = "商品引入条码导入模板";
 			}
 			if(StringUtils.isNotBlank(fileName) && StringUtils.isNotBlank(templateName)){
 				exportListForXLSX(response, null, fileName, templateName);

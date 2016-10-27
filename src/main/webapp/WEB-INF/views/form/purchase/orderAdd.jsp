@@ -74,9 +74,9 @@
     </div>
 
 	 <!-- 导入弹框 -->
-    <div class="uabs uatk">
+   <!-- <div class="uabs uatk">
         <div class="ubtn uw-100 umar-10" onclick="exportTemp()" id="temple"></div>
-     	<!-- <div class="uatit">导入文件选择</div> -->
+     	&lt;!&ndash; <div class="uatit">导入文件选择</div> &ndash;&gt;
          <div class="uacon">
          	<input class="uinp ub" id="filename" type="text">
          	<label class="ualable">选择文件
@@ -87,7 +87,7 @@
      	 	<button class="uabtn umar-r30" onclick="importHandel('gridEditOrder')">导入</button>
      	 	<button class="uabtn" onclick="uaclose()" >取消</button>
      	 </div>
-     </div>
+     </div>-->
 </div>
 
 </body>

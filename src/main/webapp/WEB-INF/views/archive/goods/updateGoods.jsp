@@ -118,16 +118,16 @@ pageEncoding="UTF-8"%>
 					<div class="ub ub-ac umar-r60">
 						<div class="umar-r10 uw-60 ut-r">计价方式:</div>
 						<c:if test="${goodpPicingType!=0 }">
-							<select class="uselect" name="pricingType" id="pricingType" data-options="readonly:true">
+							<select class="uselect easyui-combobox" name="pricingType" id="pricingType" data-options="readonly:true">
 								<c:forEach items="${pricingType}" var="pricingType">
-									<c:if test="${pricingType.ordinal != 0}">
+									<c:if test="${pricingType.ordinal == goodpPicingType}">
 										<option value="${pricingType.name}">${pricingType.value}</option>
 									</c:if>
 								</c:forEach>
 							</select>
 						</c:if>
 						<c:if test="${goodpPicingType==0 }">
-							<select class="uselect" name="pricingType" id="pricingType" data-options="readonly:true">
+							<select class="uselect  easyui-combobox" name="pricingType" id="pricingType" data-options="readonly:true">
 								<c:forEach items="${pricingType}" var="pricingType">
 									<c:if test="${pricingType.ordinal == 0}">
 										<option value="${pricingType.name}">${pricingType.value}</option>

@@ -11,6 +11,8 @@ function searchBranchInfo (){
 		$("#opBranchCompleCode").val(data.branchCompleCode);
 		$("#opBranchId").val(data.branchesId);
 		$("#opBranchType").val(data.type);
+		$("#branchCodeSpan").text("S"+data.branchCode);
+		$("#opBranchCode").val(data.branchCode);
 		$("#branchNameCode").val("["+data.branchCode+"]"+data.branchName);
 	},"","");
 }
@@ -21,7 +23,7 @@ function searchBranchInfo (){
 function searchRole (){
 	var opBranchCompleCode = $("#opBranchCompleCode").val();
 	if(!opBranchCompleCode){
-		$.messager.alert("提示", "请先选择机构！","warning");
+		successTip("请先选择机构！");
 		return;
 	}
 	var opBranchType = $("#opBranchType").val();
@@ -35,21 +37,21 @@ function searchRole (){
 /**
  * 新增用户
  */
-function addUser(){
-	var reqObj
-	
+function addUser(){	
+	var reqObj=$('#addUserForm').serializeObject();
+	var isValid = $("#addUserForm").form('validate');
+	if(!isValid){
+		return;
+	}
+
 	$.ajax({
-        url:contextPath+"/form/deliverForm/insertDeliverForm",
+        url:contextPath+"/system/user/addUser",
         type:"POST",
         data:reqObj,
         success:function(result){
-            if(result['code'] == 0){
-                $.messager.alert("操作提示", "操作成功！", "info",function(){
-                	location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
-                });
-            }else{
-                successTip(result['message']);
-            }
+        	if(result){
+				alertTip(result.message, reloadDataGrid);
+			}
         },
         error:function(result){
             successTip("请求发送失败或服务器处理失败");
@@ -58,6 +60,3 @@ function addUser(){
 }
 
 
-function closeDialog(){
-    $(dalogTemp).panel('destroy');
-}

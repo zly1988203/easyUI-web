@@ -68,6 +68,22 @@ $.fn.serializeObject=function(){
  */
 var dateUtil = {
     /**
+     * 添加开始时间
+     */
+    addStartTime:function(date){
+        var result = new Date(date);
+        var newResult = result.getFullYear() + "-" + this.parseDate(result.getMonth() + 1) + "-" + this.parseDate(result.getDate())+" 00:00";
+        return new Date(newResult);
+    },
+    /**
+     * 添加开始时间
+     */
+    addEndTime:function(date){
+        var result = new Date(date);
+        var newResult = result.getFullYear() + "-" + this.parseDate(result.getMonth() + 1) + "-" + this.parseDate(result.getDate())+" 23:59";
+        return new Date(newResult);
+    },
+    /**
      * 获取系统当前时间
      * @returns {Date}
      */
@@ -83,10 +99,24 @@ var dateUtil = {
     	
     	//默认时间格式化
     	if(!fmt){
+    		fmt = "yyyy-MM-dd hh:mm";
+    	}
+    	var d = this.getCurrentDate();
+    	return dateUtil.addEndTime(d).format(fmt);
+    },
+    
+    /**
+     * 获取系统当前时间显示值，默认格式yyyy-MM-dd
+     * @returns {string}
+     */
+    getCurrentDateDay:function (fmt) {
+    	
+    	//默认时间格式化
+    	if(!fmt){
     		fmt = "yyyy-MM-dd";
     	}
     	var d = this.getCurrentDate();
-    	return d.format(fmt);
+    	return dateUtil.addEndTime(d).format(fmt);
     },
     
     /**
@@ -124,10 +154,10 @@ var dateUtil = {
     getPreMonthDateStr:function(fmt){
     	//默认时间格式化
     	if(!fmt){
-    		fmt = "yyyy-MM-dd";
+    		fmt = "yyyy-MM-dd hh:mm";
     	}
     	var d = this.getPreMonthDate();
-    	return d.format(fmt);
+    	return dateUtil.addStartTime(d).format(fmt);
     },
     
     /***
@@ -569,6 +599,51 @@ function successTip(data, dg, d) {
 }
 
 /**
+ * 弹出框
+ * @param data 提示信息
+ * @param refreshDgMethod 刷新datagrid方法名称
+ * @param closeDMethod 关闭窗口方法名称
+ * @returns {Boolean}
+ */
+function alertTip(data, refreshDgMethod, closeDMethod) {
+	  if (data == 'success') {
+	      $.messager.show({
+	          title: "提示",
+	          msg: "操作成功！",
+	          position: "topCenter",
+	          timeout: 1500,
+	          showType: 'show',
+	          style:{
+	      		right:'',
+	      		top:document.body.scrollTop+document.documentElement.scrollTop+50,
+	      		bottom:''
+	      	}
+	      });
+	      if (refreshDgMethod) {
+	    	  refreshDgMethod();
+	      }
+	      if (closeDMethod) {
+	    	  closeDMethod();
+	      }
+	      return true;
+	  } else {
+	      $.messager.show({
+	          title: "提示",
+	          msg: data,
+	          position: "topCenter",
+	          timeout: 1500,
+	          showType: 'slide',
+	          style:{
+	      		right:'',
+	      		top:document.body.scrollTop+document.documentElement.scrollTop+50,
+	      		bottom:''
+	      	}
+	      });
+	      return false;
+	  }
+	}
+
+/**
 * ajax返回提示
 * @param data    返回的数据
 * @param dg datagrid
@@ -859,3 +934,28 @@ function getTwoDecimalB(decimal){
 	}
 	return '<b>'+formatTwoDecimal(decimal)+'</b>';
 }
+
+/**
+ * 格式化日期，返回格式化后的字符串
+ * @param dateValue Date值
+ * @param pattern 格式，默认为 yyyy-MM-dd hh:mm:ss
+ * @returns
+ */
+function formatDate(dateValue, pattern){
+	if(!pattern){
+		pattern = 'yyyy-MM-dd hh:mm:ss';
+	}
+	if(dateValue){
+		return new Date(dateValue).format(pattern);
+	}
+	return dateValue;
+}
+/**
+ * 日期月份选择
+ * @param dateValue Month值
+ * @param pattern 格式，默认为 yyyy-MM
+ * @returns
+ */
+function selectMonth(){  
+    WdatePicker({ dateFmt:'yyyy-MM', isShowToday: false, isShowClear: false });  
+}  

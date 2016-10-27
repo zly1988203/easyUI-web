@@ -10,7 +10,7 @@ $(function(){
 
 //初始化默认条件
 function initConditionParams(){
-	$("#createTime").html(dateUtil.getCurrentDateStr());
+	$("#createTime").html(new Date().format('yyyy-MM-dd hh:mm'));
 	$("#paymentTime").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 }
 
@@ -400,8 +400,8 @@ function saveItemHandel(){
     var isChcekPrice = false;
     $.each(rows,function(i,v){
         v["rowNo"] = i+1;
-        if(!v["skuCode"]){
-            messager("第"+(i+1)+"行，货号不能为空");
+        if(!v["skuName"]){
+            messager("第"+(i+1)+"行，货号不正确");
             isCheckResult = false;
             return false;
         };
@@ -454,11 +454,7 @@ function saveDataHandel(rows){
         amount = parseFloat(footerRows[0]["amount"]||0.0).toFixed(4);
     }
 
-    var saveData = JSON.stringify(rows);
-    var detailList = tableArrayFormatter(rows,"detailList");
-    console.log(detailList);
-
-    var reqObj = $.extend({
+    var reqObj = {
         supplierId:supplierId,
         branchId:branchId,
         paymentTime:paymentTime,
@@ -468,12 +464,16 @@ function saveDataHandel(rows){
         remark:remark,
         totalNum:totalNum,
         amount:amount,
-    }, detailList);
+        detailList:rows
+    };
+    
+    var req = JSON.stringify(reqObj);
 
     $.ajax({
         url:contextPath+"/form/purchase/saveReceipt",
         type:"POST",
-        data:reqObj,
+        contentType:'application/json',
+        data:req,
         success:function(result){
             console.log(result);
             if(result['code'] == 0){
@@ -492,7 +492,7 @@ function saveDataHandel(rows){
 function selectSupplier(){
 	new publicSupplierService(function(data){
 		console.log(data);
-		$("#supplierId").val(data.supplierId);
+		$("#supplierId").val(data.id);
 		$("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
 		
 		$("#saleWay").val(data.saleWay);

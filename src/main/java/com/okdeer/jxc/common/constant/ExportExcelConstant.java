@@ -40,17 +40,40 @@ public interface ExportExcelConstant {
 	 */
 	String GOODS_PRICE_ADJUST_FORM = "GoodsPriceAdjustForm.xlsx";
 	
+	/**
+	 * @Fields GOODS_PRICE_ADJUST_FORM : 采购明细表
+	 */
+	String PURCHASE_DETAIL_REPORT = "PurchaseDetail.xlsx";
+	
 	
 	/**
-	 * @Fields GOODS_PRICE_ADJUST_FORM_TEMPLE_SKUCODE : 调价单货号模板
+	 * @Fields GOODS_PRICE_ADJUST_FORM_TEMPLE_SKUCODE : 调价单货号导入模板
 	 */
-	String GOODS_PRICE_ADJUST_FORM_TEMPLE_SKUCODE = "SkuCodeTemple.xlsx";
+	String GOODS_PRICE_ADJUST_FORM_TEMPLE_SKUCODE = "priceAdjustSkuTemp.xlsx";
 
 	/**
 	 * @Fields GOODS_PRICE_ADJUST_FORM_TEMPLE_BARCODE : 调价单条形码模板
 	 */
-	String GOODS_PRICE_ADJUST_FORM_TEMPLE_BARCODE = "BarCodeTemple.xlsx";
+	String GOODS_PRICE_ADJUST_FORM_TEMPLE_BARCODE = "priceAdjustBarTemp.xlsx";
 	
+	/**
+	 * @Fields GOODS_PRICE_ADJUST_FORM_TEMPLE_SKUCODE : 成本调价单货号导入模板
+	 */
+	String COST_GOODS_PRICE_ADJUST_FORM_TEMPLE_SKUCODE = "costPriceAdjustSkuTemp.xlsx";
+
+	/**
+	 * @Fields GOODS_PRICE_ADJUST_FORM_TEMPLE_BARCODE : 调价单条形码模板
+	 */
+	String COST_GOODS_PRICE_ADJUST_FORM_TEMPLE_BARCODE = "costPriceAdjustBarTemp.xlsx";
+	
+	/**
+	 * 库存调整
+	 */
+	String STOCKADJUST = "StockAdjust.xlsx";
+	
+	String STOCK_ADJUST_SKU_TEMPLE = "StockAdjustSkuTemple.xlsx";
+	
+	String STOCK_ADJUST_BAR_TEMPLE = "StockAdjustBarTemple.xlsx";
 	/**
 	 * @Fields BARCODE_TEMPLE_TYPE : 条形码模板类型
 	 */
@@ -61,9 +84,32 @@ public interface ExportExcelConstant {
 	String SKUCODE_TEMPLE_TYPE = "skuCodeTemple";
 	
 	/**
+	 * @Fields BARCODE_TEMPLE : 条码导出模板
+	 */
+	String BARCODE_TEMPLE = "barCodeTemp.xlsx";
+	/**
+	 * @Fields SKUCODE_TEMPLE : 货号导出模板
+	 */
+	String SKUCODE_TEMPLE = "skuCodeTemp.xlsx";
+	
+	
+	/**
 	 * 商品档案导出模板
 	 */
 	String GOODS_EXPORT_EXCEL = "goodsExport.xlsx";
+	
+	
+	
+	
+	/**
+	 * 商品档案导出模板
+	 */
+	String SUPPLIER_EXPORT_EXCEL = "supplierExport.xlsx";
+	
+	/**
+	 * 成本调价单导出模板
+	 */
+	String COST_ADJUST_EXPORT_EXCEL = "costAdjustExport.xlsx";
 
 	/**
 	 * @Fields STOCKREPORT : 库存报表
@@ -114,7 +160,6 @@ public interface ExportExcelConstant {
 	 * @Fields DADOFORM : DADOform.xlsx
 	 */
 	String DADOFORM = "DADOForm.xlsx";
-
 	/**
 	 * 商品采购货号导入模板
 	 */
@@ -125,4 +170,63 @@ public interface ExportExcelConstant {
 	 */
 	String PURCHASE_GOODS_BARCODE_TEMPLE = "PurchaseGoodsBarCodeTemple.xlsx";
 	
+	/**
+	 * 商品引入货号导入模板
+	 */
+	String GOODS_INTRODUCE_SKU_CODE_TEMPLE = "GoodsIntroduceSkuCodeTemple.xlsx";
+	
+	/**
+	 * 商品引入条码导入模板
+	 */
+	String GOODS_INTRODUCE_BAR_CODE_TEMPLE = "GoodsIntroduceBarCodeTemple.xlsx";
+	
+	/**
+	 * 配送要货单货号导入模板
+	 */
+	String DELIVER_GOODS_SKUCODE_TEMPLE = "DeliverGoodsSkuCodeTemple.xlsx";
+
+	/**
+	 * 配送要货单条码导入模板
+	 */
+	String DELIVER_GOODS_BARCODE_TEMPLE = "DeliverGoodsBarCodeTemple.xlsx";
+
+	/**
+	 * 配送出库单货号导入模板
+	 */
+	String DELIVER_GOODS_SKUCODE_REPORT = "DeliverGoodsSkuCodeReport.xlsx";
+
+	/**
+	 * 配送出库单条码导入模板
+	 */
+	String DELIVER_GOODS_BARCODE_REPORT = "DeliverGoodsBarCodeReport.xlsx";
+
+	/**
+	 * @Fields PURCHASEFORM : 采购单 退货单 收货单
+	 */
+	String DELIVER_REPORT = "DeliverReport.xlsx";
+
+	/**
+	* @Fields 按单采购到货率报表
+	*/
+	String ARRIVAL_RATE_FORMNO_REPORT = "ArrivalRateFormNoReport.xlsx";
+	
+	/**
+	 * @Fields 按供应商采购到货率报表
+	 */
+	String ARRIVAL_RATE_SUPPLIER_REPORT = "ArrivalRateSupplierReport.xlsx";
+	
+	/**
+	 * @Fields 按分类商采购到货率报表
+	 */
+	String ARRIVAL_RATE_CATEGORY_REPORT = "ArrivalRateCategoryReport.xlsx";
+	
+	/**
+	 * @Fields 按商品商采购到货率报表
+	 */
+	String ARRIVAL_RATE_GOODS_REPORT = "ArrivalRateGoodsReport.xlsx";
+
+	/**
+	 * @Fields PURCHASEFORM : 配送明细
+	 */
+	String DELIVER_FORM_LIST_REPORT = "DeliverFormListReport.xlsx";
 }

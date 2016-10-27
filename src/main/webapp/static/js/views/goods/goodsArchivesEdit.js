@@ -4,7 +4,6 @@
  */
 var updateSku;
 function initGoodsEditView(id){
-	//var id = getQueryString("id");
 	//获取编辑商品的数据
 	getGoodsArchivesDetail(id);
 
@@ -52,7 +51,6 @@ function getMemoryCode(){
 		type:"POST",
 		data:reqObj,
 		success:function(result){
-			//console.log(result);
 			$("#memoryCode").val(result); //助记码
 		},
 		error:function(result){
@@ -180,7 +178,7 @@ function getGoodsPupplier(){
 	new publicSupplierService(function(data){
 		
 		console.info("供应商==",data);
-		$("#supplierId").val(data.supplierId);
+		$("#supplierId").val(data.id);
 		$("#supplierName").val(data.supplierName);
 		$("#saleWayName").val(data.saleWayName);
 		//经营方式
@@ -295,7 +293,6 @@ function checkBarCodeByOrdinary(){
 		asyn:false,
 		data:reqObj,
 		success:function(result){
-			console.log(result+"=====result");
 			if(result.code == 0){ //条码不重复
 				result = true;
 			}
@@ -320,7 +317,7 @@ function saveGoodsArchives(){
 	//校验商品条码是否重复
 	var pricingType = $('#pricingType option:selected').val();
 	var barCode = $("#barCode").val();
-	if(pricingType == "ordinary"){// 普通商品需要校验条码是否重复
+	if(pricingType == "ORDINARY"){// 普通商品需要校验条码是否重复
 		var reqObj = reqObj = {"barCode":barCode, "id":$("#id").val()};
 
 		$.ajax({
@@ -329,18 +326,11 @@ function saveGoodsArchives(){
 			data:reqObj,
 			async:false, 
 			success:function(result){
-				if(result.code == 0){ //条码不重复
-					submitForm(type);
-
+				if(result.code == 0){
+					submitForm();
 				}else{
-					$.messager.confirm('提示', '条码重复，是否确认提交？', function(data){
-						if(data){
-							submitForm(type);
-
-						}else{
-							return;
-						}
-					});
+					$('#updateGoodsArchives').removeAttr("disabled");
+					$.messager.alert("提示",result.message);
 				}
 			},
 			error:function(result){
