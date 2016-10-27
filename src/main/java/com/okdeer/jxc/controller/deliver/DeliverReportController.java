@@ -26,12 +26,10 @@ import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.LogConstant;
 import com.okdeer.jxc.common.controller.BasePrintController;
 import com.okdeer.jxc.common.result.RespJson;
-import com.okdeer.jxc.common.utils.BigDecimalUtils;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.form.deliver.entity.DeliverFormList;
-import com.okdeer.jxc.form.enums.FormType;
 import com.okdeer.jxc.report.qo.DeliverFormReportQo;
 import com.okdeer.jxc.report.service.DeliverFormReportServiceApi;
 import com.okdeer.jxc.report.vo.DeliverDaAndDoFormListVo;
@@ -131,26 +129,26 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
 	 * @author zhangchm
 	 * @date 2016年10月25日
 	 */
-	@RequestMapping(value = "deliverEdit")
-	public String deliverEdit(String deliverFormId, Model model) {
-		LOG.info(LogConstant.OUT_PARAM, deliverFormId);
-		DeliverFormVo form = deliverFormReportServiceApi.queryById(deliverFormId);
-		model.addAttribute("form", form);
-		LOG.info(LogConstant.PAGE, form.toString());
-		// 已审核，不能修改
-		if (FormType.DA.toString().equals(form.getFormType())) {
-			Branches branches = branchesServiceApi.getBranchInfoById(getCurrBranchId());
-			model.addAttribute("minAmount", branches.getMinAmount());
-			model.addAttribute("salesman", branches.getSalesman() == null ? "" : branches.getSalesman());
-			return "report/deliver/DaListView";
-		} else if (FormType.DO.toString().equals(form.getFormType())) {
-			form.setRebateMoney(BigDecimalUtils.formatDecimal(form.getRebateMoney(), 2));
-			form.setAddRebateMoney(BigDecimalUtils.formatDecimal(form.getAddRebateMoney(), 2));
-			return "form/deliver/DoView";
-		} else {
-			return "form/deliver/DiView";
-		}
-	}
+	// @RequestMapping(value = "deliverEdit")
+	// public String deliverEdit(String deliverFormId, Model model) {
+	// LOG.info(LogConstant.OUT_PARAM, deliverFormId);
+	// DeliverFormVo form = deliverFormReportServiceApi.queryById(deliverFormId);
+	// model.addAttribute("form", form);
+	// LOG.info(LogConstant.PAGE, form.toString());
+	// // 已审核，不能修改
+	// if (FormType.DA.toString().equals(form.getFormType())) {
+	// Branches branches = branchesServiceApi.getBranchInfoById(getCurrBranchId());
+	// model.addAttribute("minAmount", branches.getMinAmount());
+	// model.addAttribute("salesman", branches.getSalesman() == null ? "" : branches.getSalesman());
+	// return "report/deliver/DaListView";
+	// } else if (FormType.DO.toString().equals(form.getFormType())) {
+	// form.setRebateMoney(BigDecimalUtils.formatDecimal(form.getRebateMoney(), 2));
+	// form.setAddRebateMoney(BigDecimalUtils.formatDecimal(form.getAddRebateMoney(), 2));
+	// return "form/deliver/DoView";
+	// } else {
+	// return "form/deliver/DiView";
+	// }
+	// }
 
 	/**
 	 * @Description: 导出要货单列表
@@ -273,13 +271,11 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
 
 	@Override
 	protected Map<String, Object> getPrintReplace(String formNo) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected List<DeliverFormList> getPrintDetail(String formNo) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

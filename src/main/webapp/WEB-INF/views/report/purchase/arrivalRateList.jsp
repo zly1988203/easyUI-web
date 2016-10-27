@@ -14,7 +14,7 @@
     <div class="ub ub-ver ub-f1 umar-4 upad-4">
     	<form id="queryForm" action="" method="post">
 	        <div class="ub ub-ac">
-	            <div class="ubtns">
+	            <div class="ubtns"> 
 					<div class="ubtns-item" onclick="query()">查询</div>
 	                <div class="ubtns-item" onclick="exportExcel()">导出</div>
 	                <div class="ubtns-item" onclick="resetForm()">重置</div>
@@ -28,7 +28,7 @@
 	             <div class="ub  ub-ac umar-r40">
                    <div class="umar-r10 uw-70 ut-r">机构名称:</div>
 	                    <input class="uinp ub ub-f1" type="hidden" id="branchCode" name="branchCode">
-                        <input class="uinp ub ub-f1" type="text" id="branchNameOrCode" name="branchNameOrCode" onblur="cleanBranchCode();">
+                        <input class="uinp ub ub-f1" type="text" id="branchNameOrCode" name="branchNameOrCode" onblur="cleanBranchCode();" maxlength="50">
                    <div class="uinp-more" onclick="searchBranch()">...</div>
                 </div>
 	            <div class="ub ub-ac umar-r40">
@@ -48,11 +48,11 @@
 	        <div class="ub umar-t8">
 	            <div class="ub ub-ac umar-r40">
 	                <div class="umar-r10 uw-70 ut-r">单据编号:</div>
-	                <input class="uinp" name="formNo" id="formNo" type="text">
+	                <input class="uinp" name="formNo" id="formNo" type="text" maxlength="20">
 	            </div>
 	            <div class="ub ub-ac umar-r40">
 	                <div class="umar-r10 uw-60 ut-r">到货率≤:</div>
-	                <input class="uinp" name="arrivalRate" maxlength="7"  onKeypress="return (/[\d.]/.test(String.fromCharCode(event.keyCode)))" id="arrivalRate"  type="number"  >
+	                <input class="uinp" name="arrivalRate" id="arrivalRate"  type="number" maxlength="7"  onKeypress="return (/[\d.]/.test(String.fromCharCode(event.keyCode)))">
 	            </div>
 	            <div class="ub ub-ac">
 	                <div class="umar-r10 uw-70 ut-r">查询类型:</div>

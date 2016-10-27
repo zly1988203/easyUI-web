@@ -70,6 +70,14 @@ public interface ExportExcelConstant {
 	 * 库存调整
 	 */
 	String STOCKADJUST = "StockAdjust.xlsx";
+	/**
+	 * 商品销售汇总
+	 */
+	String 	GOODS_SALE_REPORT = "goodsSaleReport.xlsx";
+	
+	String CATEGORY_SALE_REPORT ="categorySaleReport.xlsx";
+	
+	String STORE_DAY_SALE_REPORT = "storeDaySaleReport.xlsx";
 	
 	String STOCK_ADJUST_SKU_TEMPLE = "StockAdjustSkuTemple.xlsx";
 	
@@ -229,7 +237,6 @@ public interface ExportExcelConstant {
 	 * @Fields PURCHASEFORM : 配送明细
 	 */
 	String DELIVER_FORM_LIST_REPORT = "DeliverFormListReport.xlsx";
-	
 	/**
 	 * @Fields PUR_REPORT_TOTAL_SUPPLIER : 采购报表  汇总（供应商）
 	 */
@@ -249,4 +256,9 @@ public interface ExportExcelConstant {
 	 * @Fields PUR_REPORT_TOTAL_SUPPLIER : 采购报表  汇总（单据）
 	 */
 	String PUR_REPORT_TOTAL_FORMNO="PurReportTotalFormNo.xlsx";
+
+	/**
+	 * @Fields PURCHASEFORM : 导出店铺销售排名列表
+	 */
+	String TRADE_ORDER_COUNT_REPORT = "TradeOrderCountReport.xlsx";
 }

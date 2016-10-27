@@ -516,7 +516,6 @@ function check(){
 		    		deliverType : 'DI'
 		    	},
 		    	success:function(result){
-		    		console.log(result);
 		    		if(result['code'] == 0){
 		    			$.messager.alert("操作提示", "操作成功！", "info",function(){
 		    				location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
@@ -544,7 +543,6 @@ function delDeliverForm(){
 		    		formId : $("#formId").val()
 		    	},
 		    	success:function(result){
-		    		console.log(result);
 		    		if(result['code'] == 0){
 		    			successTip("删除成功");
 		    			back();
