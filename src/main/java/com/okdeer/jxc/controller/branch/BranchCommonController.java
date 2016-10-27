@@ -98,6 +98,9 @@ public class BranchCommonController extends BaseController<BranchCommonControlle
 			if (StringUtils.isEmpty(vo.getBranchId())) {
 				vo.setBranchId(UserUtil.getCurrBranchId());
 			}
+			if ("DV".equals(vo.getFormType())) {
+				vo.setBranchId(UserUtil.getCurrBranchId());
+			}
 			PageUtils<Branches> suppliers = branchesService.queryLists(vo);
 			LOG.info("机构列表：{}", suppliers);
 			return suppliers;
