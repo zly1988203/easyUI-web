@@ -119,8 +119,6 @@ function updateFooter(){
     var fields = {largeNum:0,num:0,amount:0, };
     var argWhere = {name:'isGift',value:0}
     sum(fields);
-    //$("#deliverFormList").datagrid('reloadFooter',[$.extend({"isFooter":true,},fields)]);
-    //gridHandel.updateFooter(fields,argWhere);
 }
 
 function sum(fields) {
@@ -213,7 +211,7 @@ function exportData(){
 	var fromObjStr = $('#queryForm').serializeObject();
 	$("#queryForm").form({
 		success : function(result){
-			successTip(result);
+			//successTip(result);
 		}
 	});
 	$("#queryForm").attr("action",contextPath+'/form/deliverReport/exportDeliverFormList')

@@ -481,7 +481,6 @@ function check(){
 		    		deliverType : 'DI'
 		    	},
 		    	success:function(result){
-		    		console.log(result);
 		    		if(result['code'] == 0){
 		    			$.messager.alert("操作提示", "操作成功！", "info",function(){
 		    				contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + deliverFormId;

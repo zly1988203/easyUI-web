@@ -249,4 +249,9 @@ public interface ExportExcelConstant {
 	 * @Fields PUR_REPORT_TOTAL_SUPPLIER : 采购报表  汇总（类别）
 	 */
 	String PUR_REPORT_TOTAL_FORMNO="PurReportTotalFormNo.xlsx";
+
+	/**
+	 * @Fields PURCHASEFORM : 导出店铺销售排名列表
+	 */
+	String TRADE_ORDER_COUNT_REPORT = "TradeOrderCountReport.xlsx";
 }

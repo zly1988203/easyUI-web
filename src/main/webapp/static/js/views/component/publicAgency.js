@@ -16,6 +16,7 @@ function initAgencyCallBack(cb){
 function agencyClickRow(rowIndex, rowData){
     if(agencyCallBack){
         agencyCallBack(rowData);
+       
     }
 }
 //初始树
@@ -49,7 +50,7 @@ function initTreeAgency(){
 var branchAreaCode=null;
 function zTreeOnClick(event, treeId, treeNode) {
 	branchAreaCode=treeNode.code;
-    $("#gridAgency").datagrid("options").queryParams = {branchAreaCode:branchAreaCode};
+    $("#gridAgency").datagrid("options").queryParams = {branchAreaCode:branchAreaCode,formType:$("#formType").val()};
     $("#gridAgency").datagrid("options").method = "post";
     $("#gridAgency").datagrid("options").url =contextPath+'/common/branches/getComponentList',
     $("#gridAgency").datagrid("load");
@@ -57,6 +58,7 @@ function zTreeOnClick(event, treeId, treeNode) {
 
 //初始化表格
 function initDatagridAgency(){
+	
 	var formType="";
 	var branchId="";
 	if($("#formType").val()){

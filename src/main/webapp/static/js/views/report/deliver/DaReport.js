@@ -142,7 +142,7 @@ function exportData(){
 	var fromObjStr = $('#queryForm').serializeObject();
 	$("#queryForm").form({
 		success : function(result){
-			successTip(result);
+			//successTip(result);
 		}
 	});
 	$("#queryForm").attr("action",contextPath+'/form/deliverReport/exportList')
