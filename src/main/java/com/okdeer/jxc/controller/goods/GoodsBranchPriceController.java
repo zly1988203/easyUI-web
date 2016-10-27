@@ -261,7 +261,8 @@ public class GoodsBranchPriceController {
 	 */
 	@RequestMapping(value = "/importListEnable", method = RequestMethod.POST)
 	@ResponseBody
-	public PageUtils<GoodsBranchPriceVo> importListEnable(@RequestParam("file") MultipartFile file, String branchId, Integer type) {
+	public PageUtils<GoodsBranchPriceVo> importListEnable(@RequestParam("file") MultipartFile file,
+			String branchId, Integer type,Integer status) {
 		try {
 			if (file.isEmpty()) {
 				LOG.info("file is empty");
@@ -287,7 +288,7 @@ public class GoodsBranchPriceController {
 				}
 			}
 			
-			List<GoodsBranchPriceVo> goodsList = goodsBranchPriceService.querySkuGoodsByBarCodes(tempList,branchId,type);
+			List<GoodsBranchPriceVo> goodsList = goodsBranchPriceService.querySkuGoodsByBarCodes(tempList,branchId,type,status);
 			
 			PageUtils<GoodsBranchPriceVo> pageUtils = new PageUtils<GoodsBranchPriceVo>(goodsList);
 			return pageUtils;

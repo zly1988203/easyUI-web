@@ -5,7 +5,7 @@ $(function() {
 	// 开始和结束时间
 	$("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
 	$("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
-	initPurReportTotalGrid('data');
+	initPurReportTotalGrid('goodsTotal');
 	
 	//选择报表类型
 	changeType();
@@ -13,9 +13,17 @@ $(function() {
 
 var flushFlg = false;
 function changeType(){
-	$(".radioItem").change(function(){
+	var evTimeStamp = 0;
+	$(document).on('click','.radioItem',function(){
+		//去除双点击事件问题
+		 var now = +new Date();
+		if (now - evTimeStamp < 100) {
+		       return;
+	     }
+		evTimeStamp = now;
 		flushFlg = true;
     	var a = $(this).val();
+    	console.log(a)
     	if (a=="goodsTotal") {
 			// 初始化列表按收银员汇总
     		initPurReportTotalGrid();
@@ -28,7 +36,6 @@ function changeType(){
 		} else if (a=="categoryTotal") {
 			// 初始化列表按日期汇总
 			initCashDailydateGrid();
-			
 		}else if (a=="category") {
 			// 初始化列表按日期汇总
 			initCashDailydateGrid();
@@ -252,6 +259,7 @@ function updateFooter(){
  */
 function purchaseTotalCx(){
 	var formData = $("#queryForm").serializeObject();
+	
 	$("#purReportTotal").datagrid("options").queryParams = formData;
 	$("#purReportTotal").datagrid("options").method = "post";
 	$("#purReportTotal").datagrid("options").url =  contextPath+"/report/purchase/getPurReportTotal";
