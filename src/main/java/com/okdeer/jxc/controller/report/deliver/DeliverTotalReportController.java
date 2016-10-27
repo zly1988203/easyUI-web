@@ -59,7 +59,8 @@ public class DeliverTotalReportController extends ReportController {
 
 	@Override
 	public Map<String, Object> getParam(HttpServletRequest request) {
-		return null;
+		Map<String, Object> map= this.builderParams(request, null);
+		return map;
 	}
 
 	@Override
