@@ -17,7 +17,6 @@ import com.okdeer.jxc.common.constant.LogConstant;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.report.service.GoodsOutInDetailServiceApi;
-import com.okdeer.jxc.report.vo.CategorySaleReportVo;
 import com.okdeer.jxc.report.vo.GoodsOutInDetailVo;
 import com.okdeer.jxc.utils.UserUtil;
 
