@@ -20,24 +20,22 @@ $(function() {
 	})
 });
 
-
+var flushFlg = false;
 function changeType(){
 	$(".radioItem").change(function(){
-		flushFlg = true;
-    	var a = $(this).val();
-    	if (a==0) {
-    		initDatagridByFormNo();
-		} else if (a==1) {
+		var val = $(this).val();
+		if (val==0) {
+			flushFlg=true;
+			initDatagridByFormNo();
+		} else if (val==1) {
 			initDatagridBySupplier();
-		} else if (a==2) {
+		} else if (val==2) {
 			initDatagridByCategory();
-		}else if(a==3){
+		}else if(val==3){
 			initDatagridBySku();
 		}
-    });
+	});
 }
-
-
 
 var gridHandel = new GridClass();
 //初始化表格
@@ -46,6 +44,7 @@ function initDatagridByFormNo(){
     $("#gridOrders").datagrid({
         method:'post',
         align:'center',
+        url:'',
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
         pagination:true,    //分页
@@ -62,7 +61,7 @@ function initDatagridByFormNo(){
             {field:'arrivalRate',title:'到货率',width:'140px',align:'right',
 				formatter : function(value, row, index) {
 					if(value!=null){
-						return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+						return '<b>'+value+'</b>';
 					}
 					return "";
 				},
@@ -102,6 +101,9 @@ function initDatagridByFormNo(){
 			gridHandel.setDatagridHeader("center");
 		}
     });
+    if(flushFlg){
+    	query();
+    }
 }
 
 //初始化表格
@@ -110,6 +112,7 @@ function initDatagridBySupplier(){
     $("#gridOrders").datagrid({
         method:'post',
         align:'center',
+        url:'',
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
         pagination:true,    //分页
@@ -123,7 +126,7 @@ function initDatagridBySupplier(){
             {field:'arrivalRate',title:'到货率',width:'140px',align:'right',
 				formatter : function(value, row, index) {
 					if(value!=null){
-						return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+						return '<b>'+value+'</b>';
 					}
 					return "";
 				},
@@ -163,7 +166,7 @@ function initDatagridBySupplier(){
 			gridHandel.setDatagridHeader("center");
 		}
     });
-    query();
+    	query();
 }
 
 //初始化表格
@@ -172,6 +175,7 @@ function initDatagridByCategory(){
     $("#gridOrders").datagrid({
         method:'post',
         align:'center',
+        url:'',
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
         pagination:true,    //分页
@@ -185,7 +189,7 @@ function initDatagridByCategory(){
             {field:'arrivalRate',title:'到货率',width:'140px',align:'right',
 				formatter : function(value, row, index) {
 					if(value!=null){
-						return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+						return '<b>'+value+'</b>';
 					}
 					return "";
 				},
@@ -235,6 +239,7 @@ function initDatagridBySku(){
     $("#gridOrders").datagrid({
         method:'post',
         align:'center',
+        url:'',
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
         pagination:true,    //分页
@@ -254,7 +259,7 @@ function initDatagridBySku(){
             {field:'arrivalRate',title:'到货率',width:'140px',align:'right',
 				formatter : function(value, row, index) {
 					if(value!=null){
-						return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+						return '<b>'+value+'</b>';
 					}
 					return "";
 				},
