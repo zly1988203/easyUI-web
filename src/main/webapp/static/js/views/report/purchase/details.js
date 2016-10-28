@@ -39,7 +39,7 @@ function initPurReportDetailGrid(queryType) {
         showFooter:true,
         height:'100%',
         columns: [[
-            {field: 'branchCode', title: '机构编码', width: 100, align: 'left',
+            {field: 'branchCode', title: '机构编号', width: 100, align: 'left',
             	formatter : function(value, row,index) {
                     var str = value;
                     if(row.isFooter){
