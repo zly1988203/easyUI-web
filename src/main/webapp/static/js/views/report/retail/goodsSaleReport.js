@@ -27,16 +27,91 @@ function initDatagridRequire(){
 			{field: 'categoryName', title: '类别名称', width: '80px', align: 'right'},
             {field: 'spec', title: '规格', width: '200px', align: 'left'},
             {field: 'unit', title: '单位', width: '130px', align: 'left'},
-            {field: 'originalAmount', title: '原价金额', width: '150px', align: 'center'},
-            {field: 'discountAmount', title: '优惠金额', width: '130px', align: 'left'},
-            {field: 'saleAmount', title: '销售金额', width: '130px', align: 'left'},
-            {field: 'saleNum', title: '销售数量', width: '130px', align: 'left'},
-            {field: 'returnAmount', title: '退货金额', width: '130px', align: 'left'},
-            {field: 'returnNum', title: '退货数量', width: '130px', align: 'left'},
-            {field: 'totalAmount', title: '小计金额', width: '130px', align: 'left'},
-            {field: 'totalNum', title: '小计数量', width: '130px', align: 'left'}
+            {field: 'originalAmount', title: '原价金额', width: '150px', align: 'center',
+                editor:{
+                    type:'numberbox',
+                    options:{
+                    	disabled:true,
+                        min:0,
+                        precision:4
+                    }
+                }
+            },
+            {field: 'discountAmount', title: '优惠金额', width: '130px', align: 'left',
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         min:0,
+                         precision:4
+                     }
+                 }
+            },
+            {field: 'saleAmount', title: '销售金额', width: '130px', align: 'left',
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         min:0,
+                         precision:4
+                     }
+                 }
+            },
+            {field: 'saleNum', title: '销售数量', width: '130px', align: 'left',
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         min:0,
+                         precision:4
+                     }
+                 }
+            },
+            {field: 'returnAmount', title: '退货金额', width: '130px', align: 'left',
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         min:0,
+                         precision:4
+                     }
+                 }
+            },
+            {field: 'returnNum', title: '退货数量', width: '130px', align: 'left',
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         min:0,
+                         precision:4
+                     }
+                 }
+            },
+            {field: 'totalAmount', title: '小计金额', width: '130px', align: 'left',
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         min:0,
+                         precision:4
+                     }
+                 }
+            },
+            {field: 'totalNum', title: '小计数量', width: '130px', align: 'left',
+            	
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         min:0,
+                         precision:4
+                     }
+                 }
+            }
         ]],
-        
+        onLoadSuccess:function(data){
+        	countSet(data);	
+        }
     });
    // queryForm();
 }
@@ -47,6 +122,17 @@ function queryForm(){
 	$("#storeSale").datagrid('options').url = contextPath + '/goodsSale/report/getGoodsSaleList';
 	$("#storeSale").datagrid('load', fromObjStr);
 }
+/**
+ * 计算
+ */
+function countSet(data){
+	var rows=data.list;
+  $.each(rows, function (index, el) {
+	  el["totalAmount"] = parseFloat(el["saleAmount"])-parseFloat(el["returnAmount"]);
+	  el["totalNum"] = parseFloat(el["saleNum"])-parseFloat(el["returnNum"]);
+  })
+  $("#storeSale").datagrid("loadData", rows);
+}
 
 /**
  * 机构名称
@@ -56,6 +142,16 @@ function searchBranch(){
 		$("#branchId").val(data.branchesId);
 		$("#branchName").val(data.branchName);
 	},'BF','');
+}
+/**
+ * 商品类别
+ */
+function searchCategory(){
+	new publicCategoryService(function(data){
+		$("#categoryId").val(data.goodsCategoryId);
+		$("#categoryName").val(data.categoryName);
+
+	});
 }
 /**
  * 重置

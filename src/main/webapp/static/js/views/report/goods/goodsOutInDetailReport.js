@@ -90,6 +90,15 @@ function searchBranch(){
 		$("#branchName").val(data.branchName);
 	},'BF','');
 }
+
+//选择供应商
+function selectSupplier(){
+  new publicSupplierService(function(data){
+      $("#supplierId").val(data.id);
+      $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
+      $("#deliverTime").val(new Date(new Date().getTime() + 24*60*60*1000*data.diliveCycle).format('yyyy-MM-dd'));
+  });
+}
 /**
  * 重置
  */
