@@ -33,7 +33,6 @@
 	            </div>
             </div>
 	           
-	        <div class="ub umar-t8 uc-black">【销售流水】</div>
 	        <div class="ub uline umar-t8"></div>
 	        <div class="ub umar-t8">
                 <div class="ub  ub-ac">
