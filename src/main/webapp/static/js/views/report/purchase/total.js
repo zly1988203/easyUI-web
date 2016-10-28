@@ -75,14 +75,14 @@ function initPurReportTotalGrid() {
                 },
             },
             {field: 'supplierName', title: '供应商名称', width: 100, align: 'left'},
-            {field: 'skuName', title: '商品名称', width:120, align: 'right'},
-            {field: 'skuCode', title: '货号', width:120, align: 'right'},
-            {field: 'barCode', title: '条码', width:120, align: 'right'},
-            {field: 'categoryCode', title: '类别编号', width:120, align: 'right'},
-            {field: 'categoryName', title: '类别名称', width:120, align: 'right'},
-            {field: 'brandName', title: '品牌', width:120, align: 'right'},
-            {field: 'spec', title: '规格', width:120, align: 'right'},
-            {field: 'unit', title: '单位', width:120, align: 'right'},
+            {field: 'skuName', title: '商品名称', width:120, align: 'left'},
+            {field: 'skuCode', title: '货号', width:120, align: 'left'},
+            {field: 'barCode', title: '条码', width:120, align: 'left'},
+            {field: 'categoryCode', title: '类别编号', width:120, align: 'left'},
+            {field: 'categoryName', title: '类别名称', width:120, align: 'left'},
+            {field: 'brandName', title: '品牌', width:120, align: 'left'},
+            {field: 'spec', title: '规格', width:120, align: 'left'},
+            {field: 'unit', title: '单位', width:120, align: 'left'},
             {field: 'realNumPI', title: '进货数量', width:120, align: 'right',
             	formatter:function(value,row,index){
                     if(row.isFooter){	
@@ -228,8 +228,8 @@ function initPurReportSupplierGrid() {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
-            {field: 'validUserName', title: '审核人', width: 100, align: 'left'},
-            {field: 'validTime', title: '审核时间', width: 100, align: 'left',
+            {field: 'validUserName', title: '审核人', width: 150, align: 'left'},
+            {field: 'validTime', title: '审核时间', width: 150, align: 'left',
             	formatter : function(value, rowData, rowIndex) {
             		return formatDate(value,'yyyy-MM-dd hh:mm');
             	}
@@ -274,10 +274,10 @@ function initPurFormNoGrid() {
                     return str;
                 },
             },
-            {field: 'branchName', title: '机构名称', width: 100, align: 'left'},
-            {field: 'supplierCode', title: '供应商编号', width: 100, align: 'left'},
-            {field: 'supplierName', title: '供应商名称', width: 100, align: 'left'},
-            {field: 'formNo', title: '单据编号', width: 100, align: 'left',
+            {field: 'branchName', title: '机构名称', width: 120, align: 'left'},
+            {field: 'supplierCode', title: '供应商编号', width: 120, align: 'left'},
+            {field: 'supplierName', title: '供应商名称', width: 150, align: 'left'},
+            {field: 'formNo', title: '单据编号', width: 150, align: 'left',
             	formatter:function(value,row,index){
             		if(row.formId){
             			return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/purchase/orderEdit?formId="+ row.formId +"'>" + value + "</a>"
@@ -285,8 +285,8 @@ function initPurFormNoGrid() {
             			return "";
             		}
                 }
-            	},
-            {field: 'refFormNo', title: '引用单号', width: 100, align: 'left'},
+            },
+            {field: 'refFormNo', title: '引用单号', width: 150, align: 'left'},
             {field: 'amount', title: '单据金额', width:120, align: 'right',
             	formatter:function(value,row,index){
                     if(row.isFooter){	
@@ -303,11 +303,19 @@ function initPurFormNoGrid() {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
-            {field: 'salesManName', title: '采购员', width: 100, align: 'left'},
-            {field: 'createUserName', title: '制单人', width: 100, align: 'left'},
-            {field: 'createTime', title: '制单日期', width: 100, align: 'left'},
-            {field: 'validUserName', title: '审核人', width: 100, align: 'left'},
-            {field: 'validTime', title: '审核日期', width: 100, align: 'left'}
+            {field: 'salesManName', title: '采购员', width: 120, align: 'left'},
+            {field: 'createUserName', title: '制单人', width: 120, align: 'left'},
+            {field: 'createTime', title: '制单日期', width: 120, align: 'left',
+            	formatter : function(value, rowData, rowIndex) {
+            		return formatDate(value,'yyyy-MM-dd hh:mm');
+            	}
+            },
+            {field: 'validUserName', title: '审核人', width: 120, align: 'left'},
+            {field: 'validTime', title: '审核日期', width: 120, align: 'left',
+            	formatter : function(value, rowData, rowIndex) {
+            		return formatDate(value,'yyyy-MM-dd hh:mm');
+            	}
+            }
         ]],
 		onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
