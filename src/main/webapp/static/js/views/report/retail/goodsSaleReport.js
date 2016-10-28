@@ -204,11 +204,11 @@ function updateFooter(){
 }
 //查询入库单
 function queryForm(){
-  /*  //判定店铺名称是否存在
+    //判定店铺名称是否存在
     if($("#branchName").val()==""){
         messager("请选择店铺名称");
         return;
-    } */
+    } 
 	var fromObjStr = $('#queryForm').serializeObject();
 	$("#storeSale").datagrid("options").method = "post";
 	$("#storeSale").datagrid('options').url = contextPath + '/goodsSale/report/getGoodsSaleList';
