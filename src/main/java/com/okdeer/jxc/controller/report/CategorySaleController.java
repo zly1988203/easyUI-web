@@ -95,7 +95,7 @@ public class CategorySaleController extends BaseController<CategorySaleControlle
 		try {
 			List<CategorySaleReportVo> exportList = categorySaleReportServiceApi.exportList(vo);
 
-			String fileName = "库存调整" + "_" + DateUtils.getCurrSmallStr();
+			String fileName = "类别销售汇总";
 
 			String templateName = ExportExcelConstant.STORE_DAY_SALE_REPORT;
 

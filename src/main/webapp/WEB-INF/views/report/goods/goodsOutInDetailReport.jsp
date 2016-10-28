@@ -52,10 +52,10 @@
                     <div class="umar-r10 uw-70 ut-r">计价方式:</div>
                        <!--select-->
 				        <select class="easyui-combobox uselect" name="pricingType" id="pricingType" data-options="editable:false">
-							<option value="1">全部</option> 
-							<option value="2">计件</option> 
-							<option value="3">计重</option> 
-							<option value="4">普通</option> 	
+							<option value="">全部</option> 
+							<option value="0">普通</option> 	
+							<option value="1">计件</option> 
+							<option value="2">计重</option> 
 				        </select>
                 </div>
             </div>
@@ -64,17 +64,13 @@
                     <div class="umar-r10 uw-80 ut-r">出入库类型:</div>
                        <!--select-->
 				        <select class="easyui-combobox uselect" name="formType" id="formType" data-options="editable:false">
-								<option value="1">全部</option> 
-								<option value="2">配送入库</option> 
-								<option value="3">配送出库</option> 
-								<option value="4">销售</option> 
-								<option value="5">销售退货</option> 
-								<option value="6">报废</option>
-								<option value="7">领用</option>
-								<option value="8">库存调整</option>
-								<option value="8">盘点</option>
-								<option value="8">调拨</option>
-								<option value="8">组合拆分</option> 	
+								<option value="">全部</option> 
+								<option value="PI">采购收货</option> 
+								<option value="PR">采购退货</option> 
+								<option value="DI">配送入库</option> 
+								<option value="DO">配送出库</option> 
+								<option value="XS">销售</option> 
+								<option value="IO">库存调整</option>
 				        </select>
                 </div>
                 <div class="ub ub-ac umar-l20">

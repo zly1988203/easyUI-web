@@ -93,7 +93,7 @@ public class StoreDaySaleController extends BaseController<StoreDaySaleControlle
 		try {
 			List<StoreDaySaleReportVo> exportList = storeDaySaleReportServiceApi.exportList(vo);
 
-			String fileName = "库存调整" + "_" + DateUtils.getCurrSmallStr();
+			String fileName = "店铺日销售总额";
 
 			String templateName = ExportExcelConstant.STORE_DAY_SALE_REPORT;
 

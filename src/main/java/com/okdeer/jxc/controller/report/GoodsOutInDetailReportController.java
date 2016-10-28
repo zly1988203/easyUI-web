@@ -25,7 +25,6 @@ import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.report.service.GoodsOutInDetailServiceApi;
 import com.okdeer.jxc.report.vo.GoodsOutInDetailVo;
-import com.okdeer.jxc.report.vo.GoodsSaleReportVo;
 import com.okdeer.jxc.utils.UserUtil;
 
 
@@ -86,7 +85,7 @@ public class GoodsOutInDetailReportController extends BaseController<GoodsOutInD
 		try {
 			List<GoodsOutInDetailVo> exportList = goodsOutInDetailServiceApi.exportList(vo);
 
-			String fileName = "库存调整" + "_" + DateUtils.getCurrSmallStr();
+			String fileName = "商品出入库明细查询";
 
 			String templateName = ExportExcelConstant.GOODS_OUT_IN_DETAIL_REPORT;
 
