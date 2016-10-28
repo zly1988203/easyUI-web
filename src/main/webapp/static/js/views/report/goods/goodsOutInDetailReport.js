@@ -20,7 +20,6 @@ function initDatagridRequire(){
 		height:'100%',
 		width:'100%',
         columns:[[
-			{field:'check',checkbox:true},
 			{field:'branchCode',title:'店铺编号',width:'140px',align:'left'},
             {field:'branchName',title:'店铺名称',width:'140px',align:'left'},
             {field:'formNo',title: '单号', width: '100px', align: 'left'},
@@ -52,6 +51,34 @@ function queryForm(){
 	$("#goodsOutInDetail").datagrid("options").method = "post";
 	$("#goodsOutInDetail").datagrid('options').url = contextPath + '/goods/goodsDetail/getGoodsOutInDetailList';
 	$("#goodsOutInDetail").datagrid('load', fromObjStr);
+}
+
+/**
+ * 导出
+ */
+function exportExcel(){
+	var length = $("#goodsOutInDetail").datagrid('getData').total;
+	if(length == 0){
+		$.messager.alert('提示',"没有数据");
+		return;
+	}
+	if(length>10000){
+		$.messager.alert("当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
+		return;
+	}
+	var fromObjStr = $('#queryForm').serializeObject();
+	console.log(fromObjStr);
+	$("#queryForm").form({
+		success : function(data){
+			if(data==null){
+				$.messager.alert('提示',"导出数据成功！");
+			}else{
+				$.messager.alert('提示',JSON.parse(data).message);
+			}
+		}
+	});
+	$("#queryForm").attr("action",contextPath+"/goods/goodsDetail/exportList?"+fromObjStr);
+	$("#queryForm").submit();
 }
 
 /**

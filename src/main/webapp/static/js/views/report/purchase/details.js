@@ -48,10 +48,10 @@ function initPurReportDetailGrid(queryType) {
                     return str;
                 },
             },
-            {field: 'branchName', title: '机构名称', width: 200, align: 'left',},
+            {field: 'branchName', title: '机构名称', width: 100, align: 'left',},
             {field: 'supplierCode', title: '供应商编号', width: 100, align: 'left'},
             {field: 'supplierName', title: '供应商名称', width: 100, align: 'left'},
-            {field: 'formNo', title: '单据编号', width: 120, align: 'right',
+            {field: 'formNo', title: '单据编号', width: 150, align: 'left',
             	formatter:function(value,row,index){
             		if(row.formId){
             			return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/purchase/orderEdit?formId="+ row.formId +"'>" + value + "</a>"
@@ -60,15 +60,15 @@ function initPurReportDetailGrid(queryType) {
             		}
                 }
             },
-            {field: 'skuName', title: '商品名称', width:120, align: 'right'},
-            {field: 'skuCode', title: '货号', width:120, align: 'right'},
-            {field: 'barCode', title: '条码', width:120, align: 'right'},
-            {field: 'categoryCode', title: '类别编号', width:120, align: 'right'},
-            {field: 'categoryName', title: '类别名称', width:120, align: 'right'},
-            {field: 'brandName', title: '品牌', width:120, align: 'right'},
-            {field: 'spec', title: '规格', width:120, align: 'right'},
-            {field: 'unit', title: '单位', width:120, align: 'right'},
-            {field: 'price', title: '单价', width:120, align: 'right',
+            {field: 'skuName', title: '商品名称', width:150, align: 'left'},
+            {field: 'skuCode', title: '货号', width:120, align: 'left'},
+            {field: 'barCode', title: '条码', width:120, align: 'left'},
+            {field: 'categoryCode', title: '类别编号', width:120, align: 'left'},
+            {field: 'categoryName', title: '类别名称', width:100, align: 'left'},
+            {field: 'brandName', title: '品牌', width:100, align: 'left'},
+            {field: 'spec', title: '规格', width:100, align: 'left'},
+            {field: 'unit', title: '单位', width:80, align: 'left'},
+            {field: 'price', title: '单价', width:80, align: 'right',
             	formatter : function(value, row, index) {
             		if(row.isFooter){
                         return "";
@@ -80,7 +80,7 @@ function initPurReportDetailGrid(queryType) {
     				return str;
     			}
             },
-            {field: 'realNum', title: '数量', width:120, align: 'right',
+            {field: 'realNum', title: '数量', width:80, align: 'right',
             	formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
