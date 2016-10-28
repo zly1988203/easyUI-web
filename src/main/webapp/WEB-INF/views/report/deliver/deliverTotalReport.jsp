@@ -76,9 +76,13 @@
                         <input class="ub radioItem" id="form" type="radio" name="queryType" value="form"  />
                         <label for="form">按单汇总</label>
                     </div>
+                     <div class="ub ub-ac umar-r10">
+                        <input class="ub radioItem" id="branch" type="radio" name="queryType" value="branch"  />
+                        <label for="branch">往来汇总</label>
+                    </div>
                    <div class="ub ub-ac umar-r10">
                         <input class="ub radioItem" id="category" type="radio" name="queryType" value="category" />
-                        <label for="categoryCode">类别汇总</label>
+                        <label for="category">类别汇总</label>
                   </div>
                 </div>
             </div>
