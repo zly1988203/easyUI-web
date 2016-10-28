@@ -100,7 +100,7 @@ public class GoodsSaleController extends BaseController<GoodsSaleController> {
 		try {
 			List<GoodsSaleReportVo> exportList = goodsSaleReportServiceApi.exportList(vo);
 
-			String fileName = "库存调整" + "_" + DateUtils.getCurrSmallStr();
+			String fileName = "商品销售汇总表";
 
 			String templateName = ExportExcelConstant.GOODS_SALE_REPORT;
 
