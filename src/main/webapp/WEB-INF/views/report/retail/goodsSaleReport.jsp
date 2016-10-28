@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>销售流水</title>
+<title>商品销售汇总表</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <script src="${ctx}/static/js/views/report/retail/goodsSaleReport.js"></script>
 <style>
@@ -30,12 +30,11 @@
 	           	<!-- 引入时间选择控件 -->
 	            <%@ include file="/WEB-INF/views/component/dateSelect.jsp"%>
             </div>
-	           
-	        <div class="ub umar-t8 uc-black">【销售流水】</div>
+	     
 	        <div class="ub uline umar-t8"></div>
 	        <div class="ub umar-t8">
                 <div class="ub  ub-ac">
-                   <div class="umar-r10 uw-70 ut-r">店铺:</div>
+                   <div class="umar-r10 uw-70 ut-r">店铺名称:</div>
 	                    <input class="uinp ub ub-f1" type="hidden" id="branchId" name="branchId">
                         <input class="uinp ub ub-f1" type="text" id="branchName" readonly="readonly" name="branchName">
                    <div class="uinp-more" onclick="searchBranch()">...</div>
@@ -47,7 +46,7 @@
             </div>
 	        <div class="ub umar-t8">
                 <div class="ub ub-ac">
-				<div class="umar-r10 uw-70 ut-r">类别:</div>
+				<div class="umar-r10 uw-70 ut-r">商品类别:</div>
 				<input type="hidden" name="categoryId" id="categoryId" class="uinp" />
 				<input type="text" name="categoryName" id="categoryName" class="uinp" readonly="readonly"  />
 				<div class="uinp-more" id="categorySelect" onclick="searchCategory()">...</div>

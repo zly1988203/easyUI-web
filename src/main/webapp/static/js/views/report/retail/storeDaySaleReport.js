@@ -121,6 +121,10 @@ function initDatagridRequire(){
 }
 //查询入库单
 function queryForm(){
+ if($("#branchName").val()==""){
+	        messager("请选择店铺名称");
+	        return;
+	    } 
 	var fromObjStr = $('#queryForm').serializeObject();
 	$("#storeDaySale").datagrid("options").method = "post";
 	$("#storeDaySale").datagrid('options').url = contextPath + '/storeDaySale/report/getStoreDaySaleList';
@@ -170,4 +174,5 @@ function exportExcel(){
  */
 var resetForm = function() {
 	 $("#queryForm").form('clear');
+	 $("#saleTime").val(dateUtil.getCurrentDate().format("yyyy-MM"));
 };

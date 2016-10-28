@@ -13,6 +13,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -87,6 +88,9 @@ public class DeliverTotalReportController extends ReportController {
 		Map<String, Object> map = getParam(request);
 		String reportFileName="";
 		String templateName="";
+		if(map.get("queryType")==null||StringUtils.isEmpty(map.get("queryType").toString())){
+			return ;
+		}
 		if("goods".equals(map.get("queryType"))){
 			reportFileName="配送汇总_商品汇总表"+ "_" + DateUtils.getCurrSmallStr();
 			templateName="deliverTotalByGoods.xlsx";
@@ -96,6 +100,9 @@ public class DeliverTotalReportController extends ReportController {
 		}else if("category".equals(map.get("queryType"))){
 			reportFileName="配送汇总_类别汇总"+ "_" + DateUtils.getCurrSmallStr();
 			templateName="deliverTotalByCategory.xlsx";
+		}else if("branch".equals(map.get("queryType"))){
+			reportFileName="配送汇总_类别汇总"+ "_" + DateUtils.getCurrSmallStr();
+			templateName="deliverTotalBybranch.xlsx";
 		}
 		// 模板名称，包括后缀名
 		List<DataRecord> dataList=deliverTotalReportServiceApi.getList(map);
