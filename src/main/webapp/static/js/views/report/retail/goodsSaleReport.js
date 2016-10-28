@@ -38,7 +38,7 @@ function initDatagridRequire(){
         ]],
         
     });
-    queryForm();
+   // queryForm();
 }
 //查询入库单
 function queryForm(){
