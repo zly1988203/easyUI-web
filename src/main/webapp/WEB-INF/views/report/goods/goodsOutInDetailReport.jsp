@@ -33,7 +33,7 @@
 	        <div class="ub uline umar-t8"></div>
 	        <div class="ub umar-t8">
                 <div class="ub  ub-ac">
-                   <div class="umar-r10 uw-70 ut-r">店铺名称:</div>
+                   <div class="umar-r10 uw-80 ut-r">店铺名称:</div>
 	                    <input class="uinp ub ub-f1" type="hidden" id="branchId" name="branchId">
                         <input class="uinp ub ub-f1" type="text" id="branchName" readonly="readonly" name="branchName">
                    <div class="uinp-more" onclick="searchBranch()">...</div>
@@ -45,23 +45,44 @@
             </div>
 	      <div class="ub umar-t8">
                 <div class="ub  ub-ac">
-                    <div class="umar-r10 uw-70 ut-r">单号:</div>
+                    <div class="umar-r10 uw-80 ut-r">单号:</div>
                     <input class="uinp ub ub-f1" type="text" name="formNo" id="formNo">
                 </div>
-                <div class="ub ub-ac  umar-l20">
+                 <div class="ub ub-ac uselectw umar-l20">
                     <div class="umar-r10 uw-70 ut-r">计价方式:</div>
-                    <input class="uinp ub ub-f1" type="text" name="pricingType" id="pricingType">
-                </div>  
+                       <!--select-->
+				        <select class="easyui-combobox uselect" name="pricingType" id="pricingType" data-options="editable:false">
+							<option value="1">全部</option> 
+							<option value="2">计件</option> 
+							<option value="3">计重</option> 
+							<option value="4">普通</option> 	
+				        </select>
+                </div>
             </div>
 	      <div class="ub umar-t8">
-                <div class="ub  ub-ac">
-                    <div class="umar-r10 uw-70 ut-r">出入库类型:</div>
-                    <input class="uinp ub ub-f1" type="text" name="formType" id="formType">
+                  <div class="ub ub-ac uselectw">
+                    <div class="umar-r10 uw-80 ut-r">出入库类型:</div>
+                       <!--select-->
+				        <select class="easyui-combobox uselect" name="formType" id="formType" data-options="editable:false">
+								<option value="1">全部</option> 
+								<option value="2">配送入库</option> 
+								<option value="3">配送出库</option> 
+								<option value="4">销售</option> 
+								<option value="5">销售退货</option> 
+								<option value="6">报废</option>
+								<option value="7">领用</option>
+								<option value="8">库存调整</option>
+								<option value="8">盘点</option>
+								<option value="8">调拨</option>
+								<option value="8">组合拆分</option> 	
+				        </select>
                 </div>
-                <div class="ub ub-ac  umar-l20">
+                <div class="ub ub-ac umar-l20">
                     <div class="umar-r10 uw-70 ut-r">供应商:</div>
-                    <input class="uinp ub ub-f1" type="text" name="supplierName" id="supplierName">
-                </div>  
+                    <input class="uinp" name="supplierId" id="supplierId" type="hidden">
+                    <input class="uinp easyui-validatebox" data-options="required:true" readonly="readonly" name="supplierName" id="supplierName" type="text"  onclick="selectSupplier()">
+                    <div class="uinp-more" onclick="selectSupplier()">...</div>
+                </div>
             </div>
        	</form>
            
