@@ -130,7 +130,12 @@ function addDeliverForm(){
 }
 
 function back(){
-	location.href = contextPath+"/form/deliverForm/viewsDO";
+	var type = $("#type").val();
+	if (type == '1') {
+		location.href = contextPath+"/form/deliverReport/viewDeliverList";
+	} else {
+		location.href = contextPath+"/form/deliverForm/viewsDO";
+	}
 }
 
 //打印 入库单 配送 DO

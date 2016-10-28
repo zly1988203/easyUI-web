@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.alibaba.fastjson.JSON;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.LogConstant;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid;
@@ -32,6 +34,7 @@ import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
+import com.okdeer.jxc.form.purchase.vo.PurchaseFormVo;
 import com.okdeer.jxc.goods.entity.GoodsSelect;
 import com.okdeer.jxc.goods.entity.GoodsSelectByStockAdjust;
 import com.okdeer.jxc.stock.service.StockAdjustServiceApi;
@@ -155,9 +158,10 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 	 */
 	@RequestMapping(value = "addStockForm", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson addStcokForm(StockFormVo vo) {
+	public RespJson addStcokForm(@RequestBody String jsonText) {
 		RespJson resp;
 		try {
+			StockFormVo vo	= JSON.parseObject(jsonText, StockFormVo.class);
 			SysUser user = UserUtil.getCurrentUser();
 			vo.setCreateUserId(user.getId());
 			return stockAdjustServiceApi.addStockForm(vo);
@@ -178,9 +182,10 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 	 */
 	@RequestMapping(value = "updateStockForm", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson updateStockForm(StockFormVo vo) {
+	public RespJson updateStockForm(@RequestBody String jsonText) {
 		RespJson resp;
 		try {
+			StockFormVo vo	= JSON.parseObject(jsonText, StockFormVo.class);
 			SysUser user = UserUtil.getCurrentUser();
 			vo.setCreateUserId(user.getId());
 			return stockAdjustServiceApi.updateStockForm(vo);
@@ -210,25 +215,6 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 			return stockAdjustServiceApi.getStcokFormDetailList(id);
 		} catch (Exception e) {
 			LOG.error("获取单据信息异常:{}", e);
-		}
-		return null;
-	}
-	/**
-	 * 
-	 * @Description: 删除单据信息
-	 * @param id
-	 * @return
-	 * @author liux01
-	 * @date 2016年10月13日
-	 */
-	@RequestMapping(value = "deleteStockFormList", method = RequestMethod.POST)
-	@ResponseBody
-	public String deleteStockFormList(List<String> ids){
-		LOG.info(LogConstant.OUT_PARAM, ids);
-		try {
-			return stockAdjustServiceApi.deleteStockFormList(ids);
-		} catch (Exception e) {
-			LOG.error("删除单据信息异常:{}", e);
 		}
 		return null;
 	}
@@ -423,7 +409,7 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 				templateName = ExportExcelConstant.STOCK_ADJUST_SKU_TEMPLE;
 			}else if(type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)){
 				templateName = ExportExcelConstant.STOCK_ADJUST_BAR_TEMPLE;
-				fileName = "商品条码条码导入模板";
+				fileName = "库存调整条码导入模板";
 			}
 			// 导出Excel
 			exportListForXLSX(response, null, fileName, templateName);

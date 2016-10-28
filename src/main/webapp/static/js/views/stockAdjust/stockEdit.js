@@ -506,19 +506,30 @@ function saveOrder(){
     if(!isCheckResult){
         return;
     }
-    var saveData = JSON.stringify(rows);
-    var stockFormDetailList = tableArrayFormatter(rows,"stockFormDetailList");
-    var reqObj = $.extend({
+    //var saveData = JSON.stringify(rows);
+    //var stockFormDetailList = tableArrayFormatter(rows,"stockFormDetailList");
+  /*  var reqObj = $.extend({
     	createBranchId : branchId,
     	id : $("#formId").val(),
         remark : remark,
         reason :reason,
         io :selectVal
-    }, stockFormDetailList);
+    }, stockFormDetailList);*/
+    
+    var reqObj = {
+    		io :selectVal,
+    		id : $("#formId").val(),
+        	createBranchId:branchId,
+            reason:reason,
+            remark:remark,
+            stockFormDetailList:rows
+        };
+    var req = JSON.stringify(reqObj);
     $.ajax({
         url:contextPath+"/stock/adjust/updateStockForm",
         type:"POST",
-        data:reqObj,
+        data:req,
+        contentType:"application/json",
         success:function(result){
             if(result['code'] == 0){
             	$.messager.alert("操作提示", "操作成功！", "info");
@@ -653,10 +664,17 @@ function updateListData(data){
 	    var argWhere ={skuCode:1};  //验证重复性
 	    var isCheck ={isGift:1 };   //只要是赠品就可以重复
 	    var newRows = gridHandel.checkDatagrid(data,rows,argWhere,isCheck);
-	 
+	    var selectVal=$("#io").combobox('getValue');
 	    //导入箱数计算
 	    $.each(data, function (index, el) {	
-		       el["largeNum"] =parseFloat(el["realNum"])/parseFloat(el["purchaseSpec"]);
+	    	if(selectVal==1&&parseFloat(el["realNum"])>0){
+	     	   el["realNum"]=el["realNum"]*-1;
+	 	       el["largeNum"] =parseFloat(el["realNum"])/parseFloat(el["purchaseSpec"]);
+	     	}
+	     	else{
+	     		 el["realNum"]=el["realNum"];
+	     		 el["largeNum"] =parseFloat(el["realNum"])/parseFloat(el["purchaseSpec"]);
+	     	}
 		  })
 	    $("#gridEditRequireOrder").datagrid("loadData",data);
 	}

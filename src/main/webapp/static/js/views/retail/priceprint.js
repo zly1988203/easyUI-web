@@ -5,18 +5,18 @@ var datagridId = "pricePrint";
 $(function(){
 	//初始化列表
 	initPricePrintGrid();
-
 	$('#printnum').on('input',function(){
 		printRows($(this).val());
+
 	})
 	$('#discount').on('keyup',function(){
 		discountRows($(this).val());
 	})
 });
+
 var gridHandel = new GridClass();
-gridHandel.setGridName("pricePrint");
 function initPricePrintGrid() {
-    gridHandel.setGridName("gridEditOrder");
+    gridHandel.setGridName("pricePrint");
     gridHandel.initKey({
         firstName:'skuCode',
         enterName:'skuCode',
@@ -76,30 +76,28 @@ function initPricePrintGrid() {
 		        		   return  getTwoDecimalB(value);
 		        	   },
 
-		        	   // formatter : function(value, row,index) {
-		        	   //   var str = "<input class='uw-192' style='height:22px;line-height:22px;width: 90%;text-align:center;' value='0'>";
-		        	   //   return str;
-		        	   //},
-
 		           },
 
 		           {field: 'printCount', title: '打印数', width: 80, align: 'center',
+		        	   formatter:function(value,row,index){
+		        		   if(!value){
+		                    	row["printCount"] =1;
+		                    }
+		        		   return row["printCount"];
+		        	   },
 		        	   editor:{
 		        		   type:'numberbox',
+		        		   precision:200,
 		        		   options:{
 		        			   min:1,
-		        			   precision:0,
 		        		   }
 		        	   },
-		        	   //getEditors : function(value, row,index) {
-		        	   //   var str = "<input class='uw-192' style='height:22px;line-height:22px;width: 90%;text-align:center;' value='1'>";
-		        	   //   return str;
-		        	   //},
+		        	  
 		           },
 		           ]],
 		           onClickCell:function(rowIndex,field,value){
-		        	   grid.setBeginRow(rowIndex);
-		        	   grid.setSelectFieldName(field);
+		        	   gridHandel.setBeginRow(rowIndex);
+		        	   gridHandel.setSelectFieldName(field);
 		           },
 	});
 }
@@ -121,13 +119,13 @@ function toImportproduct(type){
 function updateListData(data){
 	    var keyNames = {
 	        id:'skuId',
-	        promotionPrice:"salePrice"
+	        salePrice:'promotionPrice'
 	    };
 	    var rows = gFunUpdateKey(data,keyNames);
 	    var argWhere ={skuCode:1};  //验证重复性
 	    var isCheck ={isGift:1 };   //只要是赠品就可以重复
 	    var newRows = gridHandel.checkDatagrid(data,rows,argWhere,isCheck);
-
+         console.log(newRows);
 	    $("#pricePrint").datagrid("loadData",data);
 	}
 
@@ -178,7 +176,7 @@ function printtable(){
 		return false;
 	}
 	else{
-		$('#'+datagridId).datagrid('endEdit', grid.getSelectRowIndex());                  //结束之前的编辑
+		$('#'+datagridId).datagrid('endEdit', gridHandel.getSelectRowIndex());                  //结束之前的编辑
 		var storage=window.localStorage;
 		var printdata= $("#"+datagridId).datagrid('getRows');
 		console.log(printdata);
@@ -205,23 +203,17 @@ function chooseproduct(){
 	new publicGoodsService('PC',function(data){
 
 		var obj = {
-				/*id : "skuId",
-    			purchasePrice : 'oldPurPrice',
-    			distributionPrice : 'oldDcPrice',
-    			vipPrice : 'oldVipPrice',
-    			wholesalePrice : 'oldWsPrice',
-    			salePrice : 'oldSalePrice',
-    			disabled :""*/
+				
 		}
 		gFunUpdateKey(data, obj);
 		$("#pricePrint").datagrid("unselectAll");
-		//$("#pricePrint").datagrid("endEdit", editRowIndex);
+		
 		$.each(data,function(i,row){
 			row["promotionPrice"] = row["salePrice"] ;
 			row["printCount"] = row["printCount"]||1 ;
 
 		})
-		var rows = grid.getRows("pricePrint");
+		var rows = gridHandel.getRows("pricePrint");
 
 		$.each(rows,function(i,rowItem){
 			$.each(data,function(j,dataItem){
@@ -232,15 +224,8 @@ function chooseproduct(){
 				}
 			})
 		});
-
-		//debugger;
 		var newRows = rows.concat(data)// $.extend(rows,data);
-//		var newRowsTwo = [];
-//		for(var i = 0;i < newRows.length;i++){
-//		newRowsTwo.push({"skuCode":newRows[i].skuCode,"skuName":newRows[i].skuName,"barCode":newRows[i].barCode
-//		,"spec":newRows[i].spec,"unit":newRows[i].unit,"originPlace":newRows[i].originPlace
-//		,"promotionPrice":newRows[i].promotionPrice,"salePrice":newRows[i].salePrice,"printCount":1});
-//		}
+
 		$("#pricePrint").datagrid("loadData", newRows);
 
 	});

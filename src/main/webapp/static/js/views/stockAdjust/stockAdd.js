@@ -86,15 +86,31 @@ function initDatagridAddRequireOrder(){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+ },
+             editor:{
+                type:'numberbox',
+                value:'0',
+                options:{
+                	disabled:true,
+                    precision:4,
                 }
             },
+ },
             {field:'sellable',title:'当前可销售库存',width:'100px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+ },
+              editor:{
+                type:'numberbox',
+                value:'0',
+                options:{
+                	disabled:true,
+                    precision:4,
                 }
+ },
             },
             {field:'largeNum',title:'箱数',width:'80px',align:'right',
                 formatter:function(value,row,index){
@@ -513,19 +529,28 @@ function saveOrder(){
     if(!isCheckResult){
         return;
     }
-    var saveData = JSON.stringify(rows);
-    console.log(saveData);
-    var stockFormDetailList = tableArrayFormatter(rows,"stockFormDetailList");
-    var reqObj = $.extend({
+   // var saveData = JSON.stringify(rows);
+   // var stockFormDetailList = tableArrayFormatter(rows,"stockFormDetailList");
+   /* var reqObj = $.extend({
     	io:io,
     	createBranchId:branchId,
         reason:reason,
         remark:remark,
     }, stockFormDetailList);
+    */
+    var reqObj = {
+    		io:io,
+        	createBranchId:branchId,
+            reason:reason,
+            remark:remark,
+            stockFormDetailList:rows
+        };
+    var req = JSON.stringify(reqObj);
     $.ajax({
         url:contextPath+"/stock/adjust/addStockForm",
         type:"POST",
-        data:reqObj,
+        data:req,
+        contentType:"application/json",
         success:function(result){
             if(result['code'] == 0){
                 $.messager.alert("操作提示", "操作成功！", "info",function(){
@@ -635,9 +660,18 @@ function updateListData(data){
     var argWhere ={skuCode:1};  //验证重复性
     var isCheck ={isGift:1 };   //只要是赠品就可以重复
     var newRows = gridHandel.checkDatagrid(data,rows,argWhere,isCheck);
+    var selectVal=$("#io").combobox('getValue');
+   
     //导入箱数计算
     $.each(data, function (index, el) {	
+    	if(selectVal==1&&parseFloat(el["realNum"])>0){
+    	   el["realNum"]=el["realNum"]*-1;
 	       el["largeNum"] =parseFloat(el["realNum"])/parseFloat(el["purchaseSpec"]);
+    	}
+    	else{
+    		 el["realNum"]=el["realNum"];
+    		 el["largeNum"] =parseFloat(el["realNum"])/parseFloat(el["purchaseSpec"]);
+    	}
 	  })
     $("#gridEditOrder").datagrid("loadData",data);
 }

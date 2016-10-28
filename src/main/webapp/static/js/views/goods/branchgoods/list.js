@@ -18,7 +18,8 @@ function changeStatus(){
     	query();
     	
     	var a = $(this).val();
-    	
+    	//导入有用
+    	$("#status_3").val(a);
     	//如果是机构未引入商品，则隐藏 机构名称、机构编码两列
     	var fieldArr = [ "branchCode" , "branchName" ];
     	if(a==1){
@@ -189,7 +190,7 @@ function eliminate(){
 	var branchName =  $("#branchName").val();
 	for(var i in rows){
 		var row = rows[i];
-		if(row.actual !=null &&　row.actual != 0){
+		if(row.actual !=null &&row.actual != 0){
 			messager(branchName+"机构的"+row.skuName+"商品库存不为0,不能进行淘汰操作");
 			return ;
 		}

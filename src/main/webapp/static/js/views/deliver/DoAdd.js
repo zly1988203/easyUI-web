@@ -585,7 +585,6 @@ function check(){
 		    		deliverType : 'DO'
 		    	},
 		    	success:function(result){
-		    		console.log(result);
 		    		if(result['code'] == 0){
 		    			$.messager.alert("操作提示", "操作成功！", "info",function(){
 		    				contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + deliverFormId;
@@ -642,7 +641,6 @@ function loadLists(referenceId){
         url:contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverType=DO&deliverFormId="+referenceId,
         type:"post",
         success:function(data){
-            debugger;
             var rows = data.rows
             for(var i in rows){
                 rows[i]["amount"]  = parseFloat(rows[i]["price"]||0)*parseFloat(rows[i]["dealNum"]||0);

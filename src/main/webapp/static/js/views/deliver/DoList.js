@@ -105,7 +105,6 @@ function delDeliverForm(){
 		    		formId : row.deliverFormId
 		    	},
 		    	success:function(result){
-		    		console.log(result);
 		    		if(result['code'] == 0){
 		    			successTip("删除成功");
 		    		}else{

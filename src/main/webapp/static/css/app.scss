@@ -61,3 +61,21 @@
 .uncenter{ 
 	text-align:center;
 	}
+.uncheckbox{
+	padding: 0;
+    display: block;
+    height: 18px;
+    line-height:18px;
+}
+.uncheckbox input{ 
+     margin-left:10px;
+    float:left;
+    width: 15px;
+    height: 18px;
+    }
+.ubspan{
+ font-size: 14px;
+    min-width: 72px;
+    height: 32px;
+    line-height: 32px;
+ }

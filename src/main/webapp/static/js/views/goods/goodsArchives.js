@@ -103,10 +103,32 @@ function zTreeOnClick(event, treeId, treeNode) {
         }
         goodsClass.treeParam[goodsClass.selectTypeName] = treeNode.code;
         goodsClass.treeParam["level"] = treeNode.level;
-    }else{
+        
+        //将选中树参数值传入表单
+        $("#categoryCode1").val(treeNode.code);
+        $("#level").val(treeNode.level);
+        $("#brandId1").val('');
+        $("#supplierId1").val('');
+    }else if(goodsClass.selectTypeName=="brandId"){
         goodsClass.treeParam[goodsClass.selectTypeName] = treeNode.id;
         goodsClass.treeParam["level"] = "";
+        
+        //将选中树参数值传入表单
+        $("#brandId1").val(treeNode.id);
+        $("#categoryCode1").val('');
+        $("#level").val('');
+        $("#supplierId1").val('');
+    }else{
+    	 goodsClass.treeParam[goodsClass.selectTypeName] = treeNode.id;
+         goodsClass.treeParam["level"] = "";
+         
+         //将选中树参数值传入表单
+         $("#supplierId1").val(treeNode.id);
+         $("#brandId1").val('');
+         $("#categoryCode1").val('');
+         $("#level").val('');
     }
+    
     //var formParams = $("#formGoodsArchives").serializeObject();
     gridReload("gridArchives",goodsClass.treeParam,goodsClass.selectTypeName);
 };
@@ -277,8 +299,6 @@ function goodsSearch(){
 }
 //新增
 function addGoodsView(){
-	debugger;
-	console.log(goodsClass.currSelectTreeParam.categoryId=="0");
 	var obj = $.extend({},goodsClass.currSelectTreeParam);
 	if(goodsClass.currSelectTreeParam.categoryId=="0"){
 		obj.categoryName="";

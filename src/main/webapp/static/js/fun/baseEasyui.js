@@ -950,3 +950,12 @@ function formatDate(dateValue, pattern){
 	}
 	return dateValue;
 }
+/**
+ * 日期月份选择
+ * @param dateValue Month值
+ * @param pattern 格式，默认为 yyyy-MM
+ * @returns
+ */
+function selectMonth(){  
+    WdatePicker({ dateFmt:'yyyy-MM', isShowToday: false, isShowClear: false });  
+}  

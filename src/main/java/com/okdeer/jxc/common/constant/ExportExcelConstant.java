@@ -40,6 +40,11 @@ public interface ExportExcelConstant {
 	 */
 	String GOODS_PRICE_ADJUST_FORM = "GoodsPriceAdjustForm.xlsx";
 	
+	/**
+	 * @Fields GOODS_PRICE_ADJUST_FORM : 采购明细表
+	 */
+	String PURCHASE_DETAIL_REPORT = "PurchaseDetail.xlsx";
+	
 	
 	/**
 	 * @Fields GOODS_PRICE_ADJUST_FORM_TEMPLE_SKUCODE : 调价单货号导入模板
@@ -65,6 +70,14 @@ public interface ExportExcelConstant {
 	 * 库存调整
 	 */
 	String STOCKADJUST = "StockAdjust.xlsx";
+	/**
+	 * 商品销售汇总
+	 */
+	String 	GOODS_SALE_REPORT = "goodsSaleReport.xlsx";
+	
+	String CATEGORY_SALE_REPORT ="categorySaleReport.xlsx";
+	
+	String STORE_DAY_SALE_REPORT = "storeDaySaleReport.xlsx";
 	
 	String STOCK_ADJUST_SKU_TEMPLE = "StockAdjustSkuTemple.xlsx";
 	
@@ -195,4 +208,57 @@ public interface ExportExcelConstant {
 	 */
 	String DELIVER_GOODS_BARCODE_REPORT = "DeliverGoodsBarCodeReport.xlsx";
 
+	/**
+	 * @Fields PURCHASEFORM : 采购单 退货单 收货单
+	 */
+	String DELIVER_REPORT = "DeliverReport.xlsx";
+
+	/**
+	* @Fields 按单采购到货率报表
+	*/
+	String ARRIVAL_RATE_FORMNO_REPORT = "ArrivalRateFormNoReport.xlsx";
+	
+	/**
+	 * @Fields 按供应商采购到货率报表
+	 */
+	String ARRIVAL_RATE_SUPPLIER_REPORT = "ArrivalRateSupplierReport.xlsx";
+	
+	/**
+	 * @Fields 按分类商采购到货率报表
+	 */
+	String ARRIVAL_RATE_CATEGORY_REPORT = "ArrivalRateCategoryReport.xlsx";
+	
+	/**
+	 * @Fields 按商品商采购到货率报表
+	 */
+	String ARRIVAL_RATE_GOODS_REPORT = "ArrivalRateGoodsReport.xlsx";
+
+	/**
+	 * @Fields PURCHASEFORM : 配送明细
+	 */
+	String DELIVER_FORM_LIST_REPORT = "DeliverFormListReport.xlsx";
+	/**
+	 * @Fields PUR_REPORT_TOTAL_SUPPLIER : 采购报表  汇总（供应商）
+	 */
+	String PUR_REPORT_TOTAL_SUPPLIER="PurReportTotalSupplier.xlsx";
+	
+	/**
+	 * @Fields PUR_REPORT_TOTAL_SUPPLIER : 采购报表  汇总（商品）
+	 */
+	String PUR_REPORT_TOTAL_GOODS="PurReportTotalGoods.xlsx";
+	
+	/**
+	 * @Fields PUR_REPORT_TOTAL_SUPPLIER : 采购报表  汇总（类别）
+	 */
+	String PUR_REPORT_TOTAL_CATEGORY="PurReportTotalCategory.xlsx";
+	
+	/**
+	 * @Fields PUR_REPORT_TOTAL_SUPPLIER : 采购报表  汇总（单据）
+	 */
+	String PUR_REPORT_TOTAL_FORMNO="PurReportTotalFormNo.xlsx";
+
+	/**
+	 * @Fields PURCHASEFORM : 导出店铺销售排名列表
+	 */
+	String TRADE_ORDER_COUNT_REPORT = "TradeOrderCountReport.xlsx";
 }

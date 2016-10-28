@@ -25,6 +25,7 @@
         </div>
         <div class="ub umar-t8 uc-black">【单号】：${form.formNo}</div>
         <input type="hidden" id="formNo" value="${form.formNo}">
+        <input type="hidden" id="type" value="${type}"> 
         <div class="ub uline umar-t8"></div>
         <div class="ub">
                <div class="ub ub-ac uw-300">

@@ -133,7 +133,14 @@ function stop(){
 
 //返回
 function back(){
-	location.href = contextPath+"/form/deliverForm/viewsDA";
+	var type = $("#type").val();
+	if (type == '1') {
+		location.href = contextPath+"/form/deliverReport/viewDeliverList";
+	} else if (type == '2'){
+		location.href = contextPath+"/form/deliverReport/view";
+	} else {
+		location.href = contextPath+"/form/deliverForm/viewsDA";
+	}
 }
 
 //新增要货单
