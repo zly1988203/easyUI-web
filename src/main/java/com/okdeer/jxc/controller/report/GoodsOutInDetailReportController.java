@@ -6,6 +6,10 @@
  */    
 package com.okdeer.jxc.controller.report;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,11 +17,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.LogConstant;
+import com.okdeer.jxc.common.result.RespJson;
+import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.report.service.GoodsOutInDetailServiceApi;
 import com.okdeer.jxc.report.vo.GoodsOutInDetailVo;
+import com.okdeer.jxc.report.vo.GoodsSaleReportVo;
 import com.okdeer.jxc.utils.UserUtil;
 
 
@@ -60,4 +68,33 @@ public class GoodsOutInDetailReportController extends BaseController<GoodsOutInD
 		}
 		return null;
 	}	
+	
+
+	/**
+	 * 
+	 * @Description: 导出
+	 * @param response
+	 * @param vo
+	 * @return
+	 * @author liux01
+	 * @date 2016年10月27日
+	 */
+	@RequestMapping(value = "/exportList", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson exportList(HttpServletResponse response, GoodsOutInDetailVo vo) {
+		RespJson resp = RespJson.success();
+		try {
+			List<GoodsOutInDetailVo> exportList = goodsOutInDetailServiceApi.exportList(vo);
+
+			String fileName = "库存调整" + "_" + DateUtils.getCurrSmallStr();
+
+			String templateName = ExportExcelConstant.GOODS_OUT_IN_DETAIL_REPORT;
+
+			exportListForXLSX(response, exportList, fileName, templateName);
+		} catch (Exception e) {
+			LOG.error("导出库存调整商品异常：{}", e);
+			resp = RespJson.error("导出库存调整商品异常");
+		}
+		return resp;
+	}
 }

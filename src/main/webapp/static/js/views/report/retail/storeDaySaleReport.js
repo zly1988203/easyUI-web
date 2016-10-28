@@ -19,7 +19,6 @@ function initDatagridRequire(){
 		height:'100%',
 		width:'100%',
         columns:[[
-			{field:'check',checkbox:true, rowspan:2},
 			{field:'branchName',title:'店铺名称',width: '200px',align:'left', rowspan:2},
             {field:'oneflag',title:'1号',width: '100px',align:'left',colspan:2},
             {field:'oneflag',title:'2号',width:'100px',align:'left',colspan:2},
