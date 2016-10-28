@@ -1,12 +1,13 @@
 $(function(){
 	//开始和结束时间
-    $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
+    $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",29));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
     initDatagridRequire();
 });
 var gridHandel = new GridClass();
 //初始化表格
 function initDatagridRequire(){
+	gridHandel.setGridName("storeSale");
     $("#storeSale").datagrid({
         method:'post',
         align:'center',
@@ -20,24 +21,88 @@ function initDatagridRequire(){
 		height:'100%',
 		width:'100%',
         columns:[[
-            {field:'branchName',title:'店铺名称',width:'140px',align:'left'},
+            {field:'branchName',title:'店铺名称',width:'140px',align:'left',
+            	formatter : function(value, row,index) {
+                    var str = value;
+                    if(row.isFooter){
+                        str ='<div class="ub ub-pc ufw-b">合计</div> '
+                    }
+                    return str;
+                }
+            },
             {field:'skuCode',title: '货号', width: '100px', align: 'left'},
 			{field: 'skuName', title: '商品名称', width: '200px', align: 'left'},
 			{field: 'barCode', title: '条码', width: '200px', align: 'left'},
 			{field: 'categoryName', title: '类别名称', width: '80px', align: 'right'},
             {field: 'spec', title: '规格', width: '200px', align: 'left'},
             {field: 'unit', title: '单位', width: '130px', align: 'left'},
-            {field: 'originalAmount', title: '原价金额', width: '150px', align: 'center',
+            {field: 'originalAmount', title: '原价金额', width: '150px', align: 'right',
+            	formatter:function(value,row,index){
+            		 if(row.isFooter){
+                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                     }
+                    if(!value){
+                    	row["originalAmount"] = 0.0000;
+                    }
+                    return parseFloat(value||0).toFixed(2);
+                },
                 editor:{
                     type:'numberbox',
                     options:{
                     	disabled:true,
                         min:0,
-                        precision:4
+                        precision:2
                     }
                 }
             },
-            {field: 'discountAmount', title: '优惠金额', width: '130px', align: 'left',
+            {field: 'discountAmount', title: '优惠金额', width: '130px', align: 'right',
+            	formatter:function(value,row,index){
+            		if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    if(!value){
+                    	row["discountAmount"] = 0.0000;
+                    }
+                    return parseFloat(value||0).toFixed(2);
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         min:0,
+                         precision:2
+                     }
+                 }
+            },
+            {field: 'saleAmount', title: '销售金额', width: '130px', align: 'right',
+            	formatter:function(value,row,index){
+            		if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    if(!value){
+                    	row["saleAmount"] = 0.0000;
+                    }
+                    return parseFloat(value||0).toFixed(2);
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         min:0,
+                         precision:2
+                     }
+                 }
+            },
+            {field: 'saleNum', title: '销售数量', width: '130px', align: 'right',
+            	formatter:function(value,row,index){
+            		if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+                    }
+                    if(!value){
+                    	row["saleNum"] = 0.0000;
+                    }
+                    return parseFloat(value||0).toFixed(4);
+                },
             	 editor:{
                      type:'numberbox',
                      options:{
@@ -47,7 +112,13 @@ function initDatagridRequire(){
                      }
                  }
             },
-            {field: 'saleAmount', title: '销售金额', width: '130px', align: 'left',
+            {field: 'returnAmount', title: '退货金额', width: '130px', align: 'right',
+            	formatter:function(value,row,index){
+                    if(!value){
+                    	row["returnAmount"] = 0.0000;
+                    }
+                    return parseFloat(value||0).toFixed(4);
+                },
             	 editor:{
                      type:'numberbox',
                      options:{
@@ -57,7 +128,16 @@ function initDatagridRequire(){
                      }
                  }
             },
-            {field: 'saleNum', title: '销售数量', width: '130px', align: 'left',
+            {field: 'returnNum', title: '退货数量', width: '130px', align: 'right',
+            	formatter:function(value,row,index){
+            		if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+                    }
+                    if(!value){
+                    	row["returnNum"] = 0.0000;
+                    }
+                    return parseFloat(value||0).toFixed(4);
+                },
             	 editor:{
                      type:'numberbox',
                      options:{
@@ -67,7 +147,16 @@ function initDatagridRequire(){
                      }
                  }
             },
-            {field: 'returnAmount', title: '退货金额', width: '130px', align: 'left',
+            {field: 'totalAmount', title: '小计金额', width: '130px', align: 'right',
+            	formatter:function(value,row,index){
+            		if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+                    }
+                    if(!value){
+                    	row["totalAmount"] = 0.0000;
+                    }
+                    return parseFloat(value||0).toFixed(4);
+                },
             	 editor:{
                      type:'numberbox',
                      options:{
@@ -77,28 +166,16 @@ function initDatagridRequire(){
                      }
                  }
             },
-            {field: 'returnNum', title: '退货数量', width: '130px', align: 'left',
-            	 editor:{
-                     type:'numberbox',
-                     options:{
-                     	disabled:true,
-                         min:0,
-                         precision:4
-                     }
-                 }
-            },
-            {field: 'totalAmount', title: '小计金额', width: '130px', align: 'left',
-            	 editor:{
-                     type:'numberbox',
-                     options:{
-                     	disabled:true,
-                         min:0,
-                         precision:4
-                     }
-                 }
-            },
-            {field: 'totalNum', title: '小计数量', width: '130px', align: 'left',
-            	
+            {field: 'totalNum', title: '小计数量', width: '130px', align: 'right',
+            	formatter:function(value,row,index){
+            		if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+                    }
+                    if(!value){
+                    	row["totalNum"] = 0.0000;
+                    }
+                    return parseFloat(value||0).toFixed(4);
+                },
             	 editor:{
                      type:'numberbox',
                      options:{
@@ -110,28 +187,48 @@ function initDatagridRequire(){
             }
         ]],
         onLoadSuccess:function(data){
+        	gridHandel.setDatagridHeader("center");
+        	updateFooter();
         	countSet(data);	
+			
+        	
         }
     });
    // queryForm();
 }
+//合计
+function updateFooter(){
+    var fields = {saleAmount:0,saleNum:0,returnAmount:0,returnNum:0,totalAmount:0,totalNum:0,isGift:0};
+    var argWhere = {name:'isGift',value:0}
+    gridHandel.updateFooter(fields,argWhere);
+}
 //查询入库单
 function queryForm(){
+  /*  //判定店铺名称是否存在
+    if($("#branchName").val()==""){
+        messager("请选择店铺名称");
+        return;
+    } */
 	var fromObjStr = $('#queryForm').serializeObject();
 	$("#storeSale").datagrid("options").method = "post";
 	$("#storeSale").datagrid('options').url = contextPath + '/goodsSale/report/getGoodsSaleList';
 	$("#storeSale").datagrid('load', fromObjStr);
 }
-/**
- * 计算
- */
+//小计金额和小计数量 计算
 function countSet(data){
-	var rows=data.list;
-  $.each(rows, function (index, el) {
-	  el["totalAmount"] = parseFloat(el["saleAmount"])-parseFloat(el["returnAmount"]);
-	  el["totalNum"] = parseFloat(el["saleNum"])-parseFloat(el["returnNum"]);
-  })
-  $("#storeSale").datagrid("loadData", rows);
+	  var rows=data.list;
+	  
+	  if(!rows){
+		  return; 
+	  }
+	  
+	  $.each(rows, function (index, el) {
+		  if(el){
+			  el["totalAmount"] = parseFloat(el["saleAmount"])-parseFloat(el["returnAmount"]);
+			  el["totalNum"] = parseFloat(el["saleNum"])-parseFloat(el["returnNum"]);
+		  }
+	   })
+	  $("#storeSale").datagrid("loadData",rows);
 }
 
 /**
@@ -158,6 +255,8 @@ function searchCategory(){
  */
 var resetForm = function() {
 	 $("#queryForm").form('clear');
+	 $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",29));
+	 $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 };
 
 /**

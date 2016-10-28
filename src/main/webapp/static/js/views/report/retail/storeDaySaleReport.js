@@ -170,4 +170,5 @@ function exportExcel(){
  */
 var resetForm = function() {
 	 $("#queryForm").form('clear');
+	 $("#saleTime").val(dateUtil.getCurrentDate().format("yyyy-MM"));
 };
