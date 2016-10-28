@@ -37,7 +37,10 @@ function changeType(){
 			// 初始化列表按日期汇总
 			initCashDailydateGrid('category');
 			hideCashier();
+		}else if(a=="branch"){
+			initbranchGrid();
 		}
+		
 
 	});
 }
@@ -216,6 +219,69 @@ function initCashDailydateGrid(queryType) {
 		columns: [[
 		           {field: 'categoryCode', title: '类别编号', width:120, align: 'right'},
 		           {field: 'categoryName', title: '类别名称', width:120, align: 'right'},
+		           {field: 'receiveNum', title: '调入数量', width:120, align: 'right',
+		        	   formatter:function(value,row,index){
+		        		   if(row.isFooter){
+		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		        		   }
+		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		        	   }
+		           },
+		           {field: 'receiveAmount', title: '调入金额', width:120, align: 'right',
+		        	   formatter:function(value,row,index){
+		        		   if(row.isFooter){
+		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		        		   }
+		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		        	   }
+		           },
+		           {field: 'dealNum', title: '调出数量', width:120, align: 'right',
+		        	   formatter:function(value,row,index){
+		        		   if(row.isFooter){
+		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		        		   }
+		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		        	   }
+		           },
+		           {field: 'dealAmount', title: '调出金额', width:120, align: 'right',
+		        	   formatter:function(value,row,index){
+		        		   if(row.isFooter){
+		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		        		   }
+		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		        	   }
+		           },
+
+		           {field: 'sumNum', title: '合计数量', width:120, align: 'right'},
+		           {field: 'sumAmount', title: '合计金额', width:120, align: 'right'}
+		           ]],
+		           onLoadSuccess:function(data){
+		        	   gridHandel.setDatagridHeader("center");
+		        	   updateFooter();
+		           }
+	});
+	if(flushFlg){
+		query();
+	}
+}
+
+
+//往来汇总
+function initbranchGrid(queryType) {
+	gridHandel.setGridName("cashDaily");
+	$("#cashDaily").datagrid({
+		//title:'普通表单-用键盘操作',
+		method: 'post',
+		align: 'center',
+		//toolbar: '#tb',     //工具栏 id为tb
+		singleSelect: false,  //单选  false多选
+		rownumbers: true,    //序号
+		pagination: true,    //分页
+		//fitColumns:true,    //占满
+		//showFooter:true,
+		columns: [[
+		           {field: 'branchCode', title: '往来机构编码', width:120, align: 'right'},
+		           {field: 'branchName', title: '往来机构编码', width:120, align: 'right'},
 		           {field: 'receiveNum', title: '调入数量', width:120, align: 'right',
 		        	   formatter:function(value,row,index){
 		        		   if(row.isFooter){
