@@ -21,7 +21,7 @@ function initDatagridRequire(){
 		width:'100%',
         columns:[[
             {field:'branchName',title:'机构名称',width:'200px',align:'left'},
-            {field:'skuCode',title: '所在城市', width: '200px', align: 'left'},
+            {field:'cityName',title: '所在城市', width: '200px', align: 'left'},
 			{field:'categoryCode', title: '类别编号', width: '200px', align: 'left'},
             {field:'categoryName', title: '类别名称', width: '80px', align: 'right'},
             {field:'saleAmount', title: '销售金额', width: '130px', align: 'left'},
@@ -29,7 +29,7 @@ function initDatagridRequire(){
       ]],
         
     });
-    queryForm();
+    //queryForm();
 }
 //查询入库单
 function queryForm(){

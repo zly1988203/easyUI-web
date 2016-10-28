@@ -20,7 +20,6 @@ function initDatagridRequire(){
 		height:'100%',
 		width:'100%',
         columns:[[
-			{field:'check',checkbox:true},
 			{field:'branchCode',title:'店铺编号',width:'140px',align:'left'},
             {field:'branchName',title:'店铺名称',width:'140px',align:'left'},
             {field:'formNo',title: '单号', width: '100px', align: 'left'},
@@ -44,7 +43,7 @@ function initDatagridRequire(){
         ]],
         
     });
-    queryForm();
+   // queryForm();
 }
 //查询入库单
 function queryForm(){
@@ -55,6 +54,34 @@ function queryForm(){
 }
 
 /**
+ * 导出
+ */
+function exportExcel(){
+	var length = $("#goodsOutInDetail").datagrid('getData').total;
+	if(length == 0){
+		$.messager.alert('提示',"没有数据");
+		return;
+	}
+	if(length>10000){
+		$.messager.alert("当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
+		return;
+	}
+	var fromObjStr = $('#queryForm').serializeObject();
+	console.log(fromObjStr);
+	$("#queryForm").form({
+		success : function(data){
+			if(data==null){
+				$.messager.alert('提示',"导出数据成功！");
+			}else{
+				$.messager.alert('提示',JSON.parse(data).message);
+			}
+		}
+	});
+	$("#queryForm").attr("action",contextPath+"/goods/goodsDetail/exportList?"+fromObjStr);
+	$("#queryForm").submit();
+}
+
+/**
  * 机构名称
  */
 function searchBranch(){
@@ -62,6 +89,15 @@ function searchBranch(){
 		$("#branchId").val(data.branchesId);
 		$("#branchName").val(data.branchName);
 	},'BF','');
+}
+
+//选择供应商
+function selectSupplier(){
+  new publicSupplierService(function(data){
+      $("#supplierId").val(data.id);
+      $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
+      $("#deliverTime").val(new Date(new Date().getTime() + 24*60*60*1000*data.diliveCycle).format('yyyy-MM-dd'));
+  });
 }
 /**
  * 重置
