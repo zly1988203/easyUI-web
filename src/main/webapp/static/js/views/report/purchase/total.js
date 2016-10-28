@@ -5,7 +5,7 @@ $(function() {
 	// 开始和结束时间
 	$("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
 	$("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
-    
+	$("#categoryType").combobox("disable");
 	initPurReportTotalGrid();
 	
 	//选择报表类型
@@ -20,15 +20,19 @@ function changeType(){
     	$("#purReportTotal").datagrid("options").url = "";
     	if (a=="goodsTotal") {
 			//  按商品汇总
+    		$("#categoryType").combobox("disable");
     		initPurReportTotalGrid();
 		}else if (a=="supplierTotal") {
 			//初始化列表按收供应商汇总
+			$("#categoryType").combobox("disable");
 			initPurReportSupplierGrid();
 		} else if (a=="formNoTotal") {
 			// 初始化列表按单据汇总
+			$("#categoryType").combobox("disable");
 			initPurFormNoGrid();
 		} else if (a=="categoryTotal") {
 			// 初始化列表按类别汇总
+			$("#categoryType").combobox("enable");
 			initCategoryGrid();
 		}
     });
@@ -437,6 +441,17 @@ function updateFooter(){
  * 查询
  */
 function purchaseTotalCx(){
+	var startDate = $("#txtStartDate").val();
+	var endDate = $("#txtEndDate").val();
+	var branchName = $("#branchName").val();
+	if(!(startDate && endDate)){
+		$.messager.alert('提示', '日期不能为空');
+		return ;
+	}
+	if(!branchName){
+		$.messager.alert('提示', '机构名不能为空');
+		return ;
+	}
 	var formData = $("#queryForm").serializeObject();
 	$("#purReportTotal").datagrid("options").queryParams = formData;
 	$("#purReportTotal").datagrid("options").method = "post";
@@ -447,6 +462,17 @@ function purchaseTotalCx(){
  * 导出
  */
 function exportTotal(){
+	var startDate = $("#txtStartDate").val();
+	var endDate = $("#txtEndDate").val();
+	var branchName = $("#branchName").val();
+	if(!(startDate && endDate)){
+		$.messager.alert('提示', '日期不能为空');
+		return ;
+	}
+	if(!branchName){
+		$.messager.alert('提示', '机构名不能为空');
+		return ;
+	}
 	var length = $("#purReportTotal").datagrid('getData').total;
 	if(length == 0){
 		$.messager.alert('提示',"没有数据");
@@ -486,9 +512,6 @@ function searchCategory(){
 		$("#categoryName").val(data.categoryName);
 	});
 }
-/**
- * 重置
- */
 /**
  * 重置
  */

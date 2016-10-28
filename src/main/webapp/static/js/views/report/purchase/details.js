@@ -141,6 +141,18 @@ function updateFooter(){
  * 查询
  */
 function purchaseDetailCx(){
+	//机构日期不能为空
+	var startDate = $("#txtStartDate").val();
+	var endDate = $("#txtEndDate").val();
+	var branchName = $("#branchName").val();
+	if(!(startDate && endDate)){
+		$.messager.alert('提示', '日期不能为空');
+		return ;
+	}
+	if(!branchName){
+		$.messager.alert('提示', '机构名不能为空');
+		return ;
+	}
 	var formData = $("#queryForm").serializeObject();
 	$("#purReportDetail").datagrid("options").queryParams = formData;
 	$("#purReportDetail").datagrid("options").method = "post";
@@ -151,6 +163,17 @@ function purchaseDetailCx(){
  * 导出
  */
 function exportDetails(){
+	var startDate = $("#txtStartDate").val();
+	var endDate = $("#txtEndDate").val();
+	var branchName = $("#branchName").val();
+	if(!(startDate && endDate)){
+		$.messager.alert('提示', '日期不能为空');
+		return ;
+	}
+	if(!branchName){
+		$.messager.alert('提示', '机构名不能为空');
+		return ;
+	}
 	var length = $("#purReportDetail").datagrid('getData').total;
 	if(length == 0){
 		$.messager.alert('提示',"没有数据");
