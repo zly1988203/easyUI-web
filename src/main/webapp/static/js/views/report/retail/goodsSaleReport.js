@@ -214,16 +214,21 @@ function queryForm(){
 	$("#storeSale").datagrid('options').url = contextPath + '/goodsSale/report/getGoodsSaleList';
 	$("#storeSale").datagrid('load', fromObjStr);
 }
-/**
- * 计算
- */
+//小计金额和小计数量 计算
 function countSet(data){
-	var rows=data.list;
-  $.each(rows, function (index, el) {
-	  el["totalAmount"] = parseFloat(el["saleAmount"])-parseFloat(el["returnAmount"]);
-	  el["totalNum"] = parseFloat(el["saleNum"])-parseFloat(el["returnNum"]);
-  })
-  $("#storeSale").datagrid("loadData",rows);
+	  var rows=data.list;
+	  
+	  if(!rows){
+		  return; 
+	  }
+	  
+	  $.each(rows, function (index, el) {
+		  if(el){
+			  el["totalAmount"] = parseFloat(el["saleAmount"])-parseFloat(el["returnAmount"]);
+			  el["totalNum"] = parseFloat(el["saleNum"])-parseFloat(el["returnNum"]);
+		  }
+	   })
+	  $("#storeSale").datagrid("loadData",rows);
 }
 
 /**
