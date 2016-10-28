@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>收银日报</title>
+<title>配送汇总查询</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <script src="${ctx}/static/js/views/report/deliver/deliverTotalReport.js"></script>
 <style>
@@ -20,9 +20,6 @@
 	            <shiro:hasPermission name="JxcCashDaily:search">
 	                <div class="ubtns-item" onclick="query()">查询</div>
 	            </shiro:hasPermission>
-	            <shiro:hasPermission name="JxcCashDaily:print">
-	                <div class="ubtns-item" onclick="printReport()">打印</div>
-	            </shiro:hasPermission>
 	            <shiro:hasPermission name="JxcCashDaily:export">
 	                <div class="ubtns-item" onclick="exportExcel()">导出</div>
 	            </shiro:hasPermission>
@@ -34,8 +31,8 @@
 	            <%@ include file="/WEB-INF/views/component/dateSelect.jsp"%>
             </div>
 	               
-	        <div class="ub umar-t8 uc-black">【收银日报】</div>
-	        <div class="ub uline umar-t8"></div>
+	      <!--   <div class="ub umar-t8 uc-black">【配送汇总查询】</div>
+	        <div class="ub uline umar-t8"></div> -->
 	        
           <div class="ub umar-t8">
                <div class="ub ub-ac uw-300">
@@ -47,20 +44,20 @@
                <div class="ub ub-ac umar-r40">
 				<div class="umar-r10 uw-60 ut-r">货号:</div>
 				<input type="hidden" name="skuId" id="skuId" class="uinp" />
-				<input type="text" name="skuCode" id="skuCode" class="uinp" onclick="selectGoods()" readonly="readonly" />
-				<div class="uinp-more" id="cashierIdSelect" onclick="selectGoods()">...</div>
+				<input type="text" name="skuCode" id="skuCode" class="uinp"/>
+				<!-- <div class="uinp-more" id="cashierIdSelect" onclick="selectGoods()">...</div> -->
 			  </div>
 			   <div class="ub ub-ac umar-r48">
 					<div class="umar-r10 uw-60 ut-r">商品类别:</div>
 					<input id="goodsCategoryId" name="goodsCategoryId" class="uinp" type="hidden"> 
 					<input id="categoryCode" name="categoryCode" class="uinp" type="hidden"> 
 					<input id="categoryName" name="categoryName" class="uinp" type="text" readonly="readonly" data-options="required:true">
-					<div class="uinp-more new-right" onclick="getGoodsType()">...</div>
+					<div class="uinp-more new-right" id="categoryButon" onclick="getGoodsType()">...</div>
 				</div>
 			  <div class="ub ub-ac umar-r40">
 				<div class="umar-r10 uw-60 ut-r">单据类别:</div>
-				 <select class="easyui-combobox uselect" name="formType" id="type"  data-options="editable:false">
-								 <option value="">全部</option> 
+				 <select class="easyui-combobox uselect" name="formType" id="formType"  data-options="editable:false">
+								<option value="">全部</option> 
 								<option value="DO">配送出库单</option> 
 								<option value="DI">配送入库单</option>
 				   </select>
@@ -80,7 +77,7 @@
                         <label for="form">按单汇总</label>
                     </div>
                    <div class="ub ub-ac umar-r10">
-                        <input class="ub radioItem" id="categoryCode" type="radio" name="queryType" value="categoryCode" />
+                        <input class="ub radioItem" id="category" type="radio" name="queryType" value="category" />
                         <label for="categoryCode">类别汇总</label>
                   </div>
                 </div>
