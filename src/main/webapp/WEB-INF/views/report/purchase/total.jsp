@@ -56,7 +56,7 @@
              <div class="ub umar-t8">
                <div class="ub ub-ac">
                    <div class="umar-r10 uw-70 ut-r">单据类型:</div>
-                   <select class="uselect easyui-combobox" name="formType" id="formType" data-options="onChange:onChangeFormType">
+                   <select class="uselect easyui-combobox" name="formType" id="formType" data-options="onChange:onChangeFormType,editable:false">
                    		<option value="">全部</option>
                    		<option value="PI">采购收货单</option>
                         <option value="PR">采购退货单</option>
@@ -83,7 +83,7 @@
                   </div>
                   <div class="ub ub-ac umar-r10">
                           <label><input class="ub radioItem" id="categoryTotal" type="radio" name="searchType" value="categoryTotal" />类别汇总:</label>
-                        <select class="uselect easyui-combobox" name="categoryType" id="categoryType" >
+                        <select class="uselect easyui-combobox" name="categoryType" id="categoryType" data-options="editable:false" >
 	                        <option value="smallCategory">小类</option>
 	                        <option value="medCategory">中类</option>
 	                        <option value="bigCategory">大类</option>
