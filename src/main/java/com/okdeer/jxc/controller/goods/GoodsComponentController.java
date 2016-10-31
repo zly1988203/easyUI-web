@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.okdeer.jxc.common.exception.BusinessException;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
@@ -104,9 +105,12 @@ public class GoodsComponentController extends BaseController<GoodsSelectControll
 //				object.remove("type");
 //			}
 			List<GoodsComponent> componentList=JSON.parseArray(jsonObject.getString("detailList"),GoodsComponent.class );
-			goodsComponentApi.save( skuId,UserUtil.getCurrUserId(), componentList);
-			return RespJson.success();
-		}catch(Exception e){
+			return	goodsComponentApi.save( skuId,UserUtil.getCurrUserId(), componentList);
+		}catch(BusinessException e){
+			LOG.error("保存商品成分失败！:{}",e);
+			return RespJson.error(e.getMessage());
+		}
+		catch(Exception e){
 			LOG.error("保存商品成分失败！:{}",e);
 			return RespJson.error("保存商品成分失败！");
 		}
