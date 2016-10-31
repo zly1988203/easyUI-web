@@ -751,7 +751,7 @@ function updateListData(data){
          rows[i].remark = "";
          rows[i]["amount"]  = parseFloat(rows[i]["price"]||0)*parseFloat(rows[i]["applyNum"]||0);
          if(parseInt(rows[i]["distributionSpec"])){
-        	 rows[i]["largeNum"]  = (parseFloat(rows[i]["applyNum"]||0)/parseFloat(rows[i]["distributionSpec"])).toFixed(4);
+             rows[i]["applyNum"]  = (parseFloat(rows[i]["largeNum"]||0)*parseFloat(rows[i]["distributionSpec"])).toFixed(4);
          }else{
         	 rows[i]["largeNum"]  =  0;
         	 rows[i]["distributionSpec"] = 0;
