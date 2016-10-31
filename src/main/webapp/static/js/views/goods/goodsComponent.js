@@ -66,11 +66,7 @@ function initDatagridResultOrder(){
         enterCallBack:function(arg){
             if(arg&&arg=="add"){
                 gridHandel.addRow(parseInt(gridHandel.getSelectRowIndex())+1,gridDefault);
-                setTimeout(function(){
-                    gridHandel.setBeginRow(gridHandel.getSelectRowIndex()+1);
-                    gridHandel.setSelectFieldName("skuCode");
-                    gridHandel.setFieldFocus(gridHandel.getFieldTarget('skuCode'));
-                },100)
+               
             }else{    
             	
                 selectGoods(arg);
@@ -210,7 +206,7 @@ function initDatagridResultOrder(){
             }
         },
         onLoadSuccess : function(data) {
-        
+        	//$('#gridOrdersresult').datagrid("selectRow", 0);
             gridHandel.setDatagridHeader("center");
             updateFooter();
         }
@@ -306,11 +302,11 @@ function selectGoods(searchKey){
 
         $("#gridOrdersresult").datagrid("loadData",newRows);
 
-        gridHandel.setLoadFocus();
+       // gridHandel.setLoadFocus();
         setTimeout(function(){
             gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
-            gridHandel.setSelectFieldName("componentNum");
-            gridHandel.setFieldFocus(gridHandel.getFieldTarget('componentNum'));
+           // gridHandel.setSelectFieldName("componentNum");
+           // gridHandel.setFieldFocus(gridHandel.getFieldTarget('componentNum'));
         },100)
     },searchKey,0,"","","");
 }
@@ -356,11 +352,7 @@ function setDataValue(data) {
     var isCheck ={isGift:1 };   //只要是赠品就可以重复
     var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
     $("#gridOrdersresult").datagrid("loadData",newRows);
-    setTimeout(function(){
-        gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
-        gridHandel.setSelectFieldName("componentNum");
-        gridHandel.setFieldFocus(gridHandel.getFieldTarget('componentNum'));
-    },100)
+   
 }
 
 function checkdatas(){
