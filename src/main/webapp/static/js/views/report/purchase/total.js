@@ -5,7 +5,9 @@ $(function() {
 	// 开始和结束时间
 	$("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
 	$("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+	
 	$("#categoryType").combobox("disable");
+	
 	initPurReportTotalGrid();
 	
 	//选择报表类型
@@ -20,23 +22,84 @@ function changeType(){
     	$("#purReportTotal").datagrid("options").url = "";
     	if (a=="goodsTotal") {
 			//  按商品汇总
-    		$("#categoryType").combobox("disable");
+    		categoryOn();
+    		skuCodeOrBarCodeOn();
+    		supplierOn();
+    		formTypeOn();
+    		categoryTypeOff();
     		initPurReportTotalGrid();
 		}else if (a=="supplierTotal") {
 			//初始化列表按收供应商汇总
-			$("#categoryType").combobox("disable");
+			supplierOn();
+			formTypeOn();
+			categoryOff();
+			skuCodeOrBarCodeOff();
+			categoryTypeOff();
 			initPurReportSupplierGrid();
 		} else if (a=="formNoTotal") {
 			// 初始化列表按单据汇总
-			$("#categoryType").combobox("disable");
+			supplierOn();
+			formTypeOn();
+			categoryOff();
+			skuCodeOrBarCodeOff();
+			categoryTypeOff();
 			initPurFormNoGrid();
 		} else if (a=="categoryTotal") {
 			// 初始化列表按类别汇总
-			$("#categoryType").combobox("enable");
+			categoryOn();
+			formTypeOn();
+			categoryTypeOn();
+			supplierOff();
+			skuCodeOrBarCodeOff();
 			initCategoryGrid();
 		}
     });
 }
+//供应商开启
+function supplierOn(){
+	$("#supplierSelect").attr("onclick","searchSupplier()");
+}
+//供应商禁用
+function supplierOff(){
+	$("#supplierSelect").removeAttr("onclick");
+	$("#supplierId").val("");
+	$("#supplierName").val("");
+}
+//类别开启
+function categoryOn(){
+	$("#categorySelect").attr("onclick","searchCategory()");
+}
+//类别禁用
+function categoryOff(){
+	$("#categorySelect").removeAttr("onclick");
+	$("#categoryName").val("");
+	$("#categoryId").val("");
+}
+//单据类型开启
+function formTypeOn(){
+	$("#formType").combobox("enable");
+}
+//单据类型禁用
+function formTypeOff(){
+	$("#formType").combobox("disable");
+}
+//货号开启
+function skuCodeOrBarCodeOn(){
+	$("#skuCodeOrBarCode").removeAttr("readonly");
+}
+//货号禁用
+function skuCodeOrBarCodeOff(){
+	$("#skuCodeOrBarCode").attr("readonly","readonly");
+}
+//三级分类开启
+function categoryTypeOn(){
+	$("#categoryType").combobox("enable");
+}
+//三级分类禁用
+function categoryTypeOff(){
+	$("#categoryType").combobox("disable");
+}
+
 var gridHandel = new GridClass();
 /**
  * 单据类型

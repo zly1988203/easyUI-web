@@ -8,6 +8,7 @@
 package com.okdeer.jxc.controller.report.purchase;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -91,7 +92,10 @@ public class PurchaseReportController extends
 			LOG.debug("采购明细查询：{}", qo);
 			qo.setPageNumber(pageNumber);
 			qo.setPageSize(pageSize);
-
+			if (qo.getEndTime() != null) {
+				Date time = DateUtils.getNextDay(qo.getEndTime());
+				qo.setEndTime(time);
+			}
 			PageUtils<PurchaseReportPo> list = purchaseReportService
 					.getPurReportDetail(qo);
 
@@ -126,6 +130,10 @@ public class PurchaseReportController extends
 		try {
 			qo.setPageNumber(pageNumber);
 			qo.setPageSize(10000);
+			if (qo.getEndTime() != null) {
+				Date time = DateUtils.getNextDay(qo.getEndTime());
+				qo.setEndTime(time);
+			}
 			PageUtils<PurchaseReportPo> result = purchaseReportService
 					.getPurReportDetail(qo);
 			List<PurchaseReportPo> exportList = result.getList();
@@ -159,6 +167,10 @@ public class PurchaseReportController extends
 			LOG.debug("采购汇总表查询：{}", qo);
 			qo.setPageNumber(pageNumber);
 			qo.setPageSize(pageSize);
+			if (qo.getEndTime() != null) {
+				Date time = DateUtils.getNextDay(qo.getEndTime());
+				qo.setEndTime(time);
+			}
 			PageUtils<PurchaseReportPo> list = null;
 			switch (qo.getSearchType()) {
 				case "supplierTotal":
@@ -277,6 +289,10 @@ public class PurchaseReportController extends
 		try {
 			qo.setPageNumber(pageNumber);
 			qo.setPageSize(pageSize);
+			if (qo.getEndTime() != null) {
+				Date time = DateUtils.getNextDay(qo.getEndTime());
+				qo.setEndTime(time);
+			}
 			PageUtils<PurchaseReportPo> list = null;
 			// 导出文件名称，不包括后缀名
 			String fileName = "采购汇总表" + "_" + DateUtils.getCurrSmallStr();
