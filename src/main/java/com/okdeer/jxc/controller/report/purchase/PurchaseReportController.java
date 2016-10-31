@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
+import com.okdeer.jxc.common.enums.BranchTypeEnum;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
@@ -90,6 +91,10 @@ public class PurchaseReportController extends
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
 			LOG.debug("采购明细查询：{}", qo);
+			if(BranchTypeEnum.HEAD_QUARTERS.getCode().toString().equals(qo.getBranchId())) {
+				qo.setBranchId(null);
+				qo.setBranchCompleCode(getCurrBranchCompleCode());
+			}
 			qo.setPageNumber(pageNumber);
 			qo.setPageSize(pageSize);
 			if (qo.getEndTime() != null) {
