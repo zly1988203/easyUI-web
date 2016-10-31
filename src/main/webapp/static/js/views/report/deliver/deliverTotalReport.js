@@ -74,12 +74,20 @@ function initCashDailyallGrid(queryType) {
 		rownumbers: true,    //序号
 		pagination: true,    //分页
 		//fitColumns:true,    //占满
-		//showFooter:true,
+		showFooter:true,
 		pageSize : 20,
 		showFooter:true,
 		height:'100%',
 		columns: [[
-		           {field: 'skuCode', title: '货号', width:120, align: 'left'},
+		           {field: 'skuCode', title: '货号', width:120, align: 'left',
+		        	   formatter : function(value, row,index) {
+		                    var str = value;
+		                    if(row.isFooter){
+		                        str ='<div class="ub ub-pc ufw-b">合计</div> '
+		                    }
+		                    return str;
+		                }
+		           },
 		           {field: 'skuName', title: '商品名称', width:120, align: 'left'},
 		           {field: 'barCode', title: '条码', width:120, align: 'left'},
 		           {field: 'categoryCode', title: '类别编号', width:120, align: 'left'},
@@ -135,8 +143,22 @@ function initCashDailyallGrid(queryType) {
 		        	   }
 		           },
 
-		           {field: 'sumNum', title: '合计数量', width:120, align: 'right'},
-		           {field: 'sumAmount', title: '合计金额', width:120, align: 'right'}
+		           {field: 'sumNum', title: '合计数量', width:120, align: 'right',
+		        	   formatter:function(value,row,index){
+		        		   if(row.isFooter){
+		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		        		   }
+		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		        	   }   
+		           },
+		           {field: 'sumAmount', title: '合计金额', width:120, align: 'right',
+		        	   formatter:function(value,row,index){
+		        		   if(row.isFooter){
+		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		        		   }
+		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		        	   }   
+		           }
 		           ]],
 		           onLoadSuccess:function(data){
 		        	   gridHandel.setDatagridHeader("center");
@@ -215,7 +237,7 @@ function initCashDailydateGrid(queryType) {
 		rownumbers: true,    //序号
 		pagination: true,    //分页
 		//fitColumns:true,    //占满
-		//showFooter:true,
+		showFooter:true,
 		columns: [[
 		           {field: 'categoryCode', title: '类别编号', width:120, align: 'right'},
 		           {field: 'categoryName', title: '类别名称', width:120, align: 'right'},
@@ -278,7 +300,7 @@ function initbranchGrid(queryType) {
 		rownumbers: true,    //序号
 		pagination: true,    //分页
 		//fitColumns:true,    //占满
-		//showFooter:true,
+		showFooter:true,
 		columns: [[
 		           {field: 'branchCode', title: '往来机构编码', width:120, align: 'right'},
 		           {field: 'branchName', title: '往来机构编码', width:120, align: 'right'},
@@ -415,7 +437,7 @@ function query(){
 }
 //合计
 function updateFooter(){
-	var fields = {rmb:0,zer:0,yhk:0,zfb:0,wzf:0,yqb:0,djq:0,pdf:0,pbt:0,dxr:0,total:0};
+	var fields = {isFooter:1,receiveLargeNum:0,receiveNum:0,receiveAmount:0,dealLargeNum:0,dealNum:0,dealAmount:0,sumNum:0,sumAmount:0,num:0,amount:0};
 	var argWhere = {name:'isGift',value:''}
 	gridHandel.updateFooter(fields,argWhere);
 }
