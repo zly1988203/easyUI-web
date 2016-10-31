@@ -34,10 +34,14 @@ function changeType(){
 			initCashDailymdGrid('form');
 			hideCashier();
 		} else if (a=="category") {
+			$("#skuCode").attr("readonly","readonly");
+			$("#skuCode").val("");
 			// 初始化列表按日期汇总
 			initCashDailydateGrid('category');
 			hideCashier();
 		}else if(a=="branch"){
+			$("#skuCode").attr("readonly","readonly");
+			$("#skuCode").val("");
 			initbranchGrid();
 		}
 		

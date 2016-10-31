@@ -83,6 +83,11 @@
                    <div class="ub ub-ac umar-r10">
                         <input class="ub radioItem" id="category" type="radio" name="queryType" value="category" />
                         <label for="category">类别汇总</label>
+                         <select class="easyui-combobox uselect" name="categoryType" id="categoryType" data-options="editable:false">
+	                        <option value="smallCategory">小类</option>
+	                        <option value="medCategory">中类</option>
+	                        <option value="bigCategory">大类</option>
+                   		</select>
                   </div>
                 </div>
             </div>
