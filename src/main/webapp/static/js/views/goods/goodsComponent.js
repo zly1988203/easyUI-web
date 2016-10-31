@@ -46,6 +46,12 @@ function initDatagridOrders(){
 		onLoadSuccess : function(data) {
 			removeData(data);
 			gridHandel.setDatagridHeader("center");
+			 if (data.rows.length == 0) {  
+			   return;
+			 } 
+			 else{
+				 $('#gridOrdersview').datagrid("selectRow", 0);
+			 }
 		}
     });
     query();
@@ -220,6 +226,7 @@ function query(){
 	$("#gridOrdersview").datagrid("options").method = "post";
 	$("#gridOrdersview").datagrid("options").url = contextPath+'/goods/component/queryList';
 	$("#gridOrdersview").datagrid("load");
+
 	
 }
 
@@ -268,7 +275,7 @@ function selectGoods(searchKey){
 	var viewrows=$("#gridOrdersview").datagrid("getRows");
 	console.log(viewrows);
 	  if(viewrows==0){
-		messager("查询表格不能为空");
+		messager("请选择捆绑商品");
 		 return;
 	   }
     new publicGoodsService("PA",function(data){
