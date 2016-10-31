@@ -154,7 +154,7 @@ function selectBranches(){
  * 重置
  */
 var resetForm = function() {
-	 $("#queryForm").form('clear');
+	location.href = contextPath + "/bill/tradeOrderCount/view";
 };
 
 /**

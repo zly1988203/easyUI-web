@@ -7,6 +7,7 @@
 
 package com.okdeer.jxc.controller.report;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -86,6 +87,10 @@ public class TradeOrderCountController extends BasePrintController<TradeOrderCou
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		LOG.info(LogConstant.OUT_PARAM, vo.toString());
 		try {
+			if (vo.getEndTime() != null) {
+				Date time = DateUtils.getNextDay(vo.getEndTime());
+				vo.setEndTime(time);
+			}
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
 			PageUtils<TradeOrderCountVo> tradeOrderCountVos = tradeOrderCountServiceApi.queryLists(vo);
@@ -110,6 +115,10 @@ public class TradeOrderCountController extends BasePrintController<TradeOrderCou
 		LOG.info(LogConstant.OUT_PARAM, vo.toString());
 		RespJson respJson = RespJson.success();
 		try {
+			if (vo.getEndTime() != null) {
+				Date time = DateUtils.getNextDay(vo.getEndTime());
+				vo.setEndTime(time);
+			}
 			TradeOrderCountVo tradeOrderCountVo = tradeOrderCountServiceApi.queryTradeOrderCountSum(vo);
 			if (tradeOrderCountVo != null) {
 				LOG.info(LogConstant.PAGE, tradeOrderCountVo.toString());
@@ -137,6 +146,10 @@ public class TradeOrderCountController extends BasePrintController<TradeOrderCou
 	public void exportList(HttpServletResponse response, TradeOrderCountQo vo) {
 		LOG.info(LogConstant.OUT_PARAM, vo.toString());
 		try {
+			if (vo.getEndTime() != null) {
+				Date time = DateUtils.getNextDay(vo.getEndTime());
+				vo.setEndTime(time);
+			}
 			List<TradeOrderCountVo> exportList = tradeOrderCountServiceApi.queryTradeOrderCount(vo);
 			String fileName = "店铺销售排名" + "_" + DateUtils.getCurrSmallStr();
 			String templateName = ExportExcelConstant.TRADE_ORDER_COUNT_REPORT;

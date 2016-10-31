@@ -133,6 +133,10 @@ public class PurchaseReportController extends
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		LOG.info("采购单明细导出:{}" + qo);
 		try {
+			if(BranchTypeEnum.HEAD_QUARTERS.getCode().toString().equals(qo.getBranchId())) {
+				qo.setBranchId(null);
+				qo.setBranchCompleCode(getCurrBranchCompleCode());
+			}
 			qo.setPageNumber(pageNumber);
 			qo.setPageSize(10000);
 			if (qo.getEndTime() != null) {
