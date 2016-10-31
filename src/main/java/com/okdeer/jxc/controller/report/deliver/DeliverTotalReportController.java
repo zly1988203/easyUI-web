@@ -81,7 +81,7 @@ public class DeliverTotalReportController extends ReportController {
 		}
 		return list;
 	}
-	
+
 	@RequestMapping(value = "exportDeliverExcel")
 	public void exportExcel(HttpServletRequest request, HttpServletResponse response){
 
@@ -137,5 +137,9 @@ public class DeliverTotalReportController extends ReportController {
 			String dateStr=DateUtils.formatDate(dataRecord.getDate("validTime"), DateUtils.DATE_SMALL_STR_R);
 			dataRecord.put("validTimeDesc", dateStr);
 		}
+	}
+	@RequestMapping("reportTotal")
+	public DataRecord getTotal(){
+		return null;
 	}
 }
