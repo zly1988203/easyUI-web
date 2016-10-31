@@ -215,7 +215,7 @@ function initDatagridResultOrder(){
             updateFooter();
         }
     });
-    gridHandel.setLoadData([$.extend({},gridDefault)]);
+   
 }
 
 //queryForm 表单提交
