@@ -143,7 +143,7 @@ public class GoodsPriceAdjustController extends
 				Date time = DateUtils.getNextDay(goodsPriceFormVo.getEndTime());
 				goodsPriceFormVo.setEndTime(time);
 			}
-			goodsPriceFormVo.setCreateBranchCode(UserUtil.getCurrBranchCode());
+			goodsPriceFormVo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
 			LOG.info("调价单搜索 ：goodsPriceFormVo=" + goodsPriceFormVo);
 			return goodsPriceAdustService.queryLists(goodsPriceFormVo);
 		} catch (Exception e) {

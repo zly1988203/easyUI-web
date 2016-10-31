@@ -645,6 +645,7 @@ public class DeliverFormController extends
 					"/form/deliverForm/downloadErrorFile", new GoodsSelectImportBusinessValid() {
 						@Override
 						public void formatter(List<? extends GoodsSelect> list) {
+							
 						}
 
 						@Override
