@@ -174,15 +174,25 @@ pageEncoding="UTF-8"%>
                 </div>
                 <div class="ub ub-ac umar-r48">
                     <div class="umar-r10 uw-60 ut-r">销项税率:</div>
-                    <input id="outputTax" name="outputTax" value="0" class="uinp easyui-numberbox easyui-validatebox" data-options="min:0,precision:2" type="text"  maxlength="4" onkeyup="checkPositiveInteger(this);" onafterpaste="checkPositiveInteger(this)">%
+                   <!--  <input id="outputTax" name="outputTax" value="0" class="uinp easyui-numberbox easyui-validatebox" data-options="min:0,precision:2" type="text"  maxlength="4" onkeyup="checkPositiveInteger(this);" onafterpaste="checkPositiveInteger(this)">% -->
+                <input id="outputTax" name="outputTax"
+							   class="uinp easyui-numberbox easyui-validatebox"
+							   data-options="min:0,precision:2,validType:['length[0,18]']" type="text" maxlength="4"
+							   onkeyup="checkPositiveInteger(this);"
+							   onafterpaste="checkPositiveInteger(this)">%
                 </div>
             </div>
             <div class="ub upad-4">
             	<div class="ub ub-ac umar-r48">
 						<div class="umar-r10 uw-60 ut-r">进项税率:</div>
-						<input id="inputTax" name="inputTax" value="0"
+						<!-- <input id="inputTax" name="inputTax" value="0"
 							   class="uinp easyui-numberbox easyui-validatebox"
 							   data-options="min:0,precision:2" type="text" maxlength="4"
+							   onkeyup="checkPositiveInteger(this);"
+							   onafterpaste="checkPositiveInteger(this)">% -->
+					    <input id="inputTax" name="inputTax" value='0.00'
+							    class="uinp easyui-numberbox easyui-validatebox"
+							   data-options="min:0,precision:2,validType:['length[0,18]']" type="text" maxlength="4"
 							   onkeyup="checkPositiveInteger(this);"
 							   onafterpaste="checkPositiveInteger(this)">%
 					</div>
