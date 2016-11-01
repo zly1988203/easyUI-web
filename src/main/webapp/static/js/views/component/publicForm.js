@@ -95,6 +95,7 @@ function initDatagridForm(type){
                  }
             },
             {field:'supplierName',title:'供应商',width:100,align:'left'}
+          
         ]],
         onLoadSuccess : function() {
         	$('.datagrid-header').find('div.datagrid-cell').css('text-align','center');
@@ -134,7 +135,12 @@ function initDatagridDeliverForm(type){
                  }
             },
             {field:'sourceBranchName',title:'调出仓库',width:100,align:'center'},
-            {field:'targetBranchName',title:'调入仓库',width:100,align:'center'}
+            {field:'targetBranchName',title:'调入仓库',width:100,align:'center'},
+            {field:'validTime',title:'审核日期',width:100,align:'left',
+            	formatter : function(value, rowData, rowIndex) {
+            		return formatDate(value,'yyyy-MM-dd hh:mm');
+            	}
+            }
         ]],
         onClickRow:deliverFormClickRow,
     });

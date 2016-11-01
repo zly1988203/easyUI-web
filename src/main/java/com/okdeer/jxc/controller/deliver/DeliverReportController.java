@@ -25,6 +25,7 @@ import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.LogConstant;
 import com.okdeer.jxc.common.controller.BasePrintController;
+import com.okdeer.jxc.common.enums.BranchTypeEnum;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
@@ -196,6 +197,10 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
 			}
 			if (StringUtils.isNullOrEmpty(vo.getDeliverType())) {
 				vo.setDeliverType("");
+			}
+			if(BranchTypeEnum.HEAD_QUARTERS.getCode().toString().equals(vo.getBranchId())) {
+				vo.setBranchId(null);
+				//vo.setBranchCompleCode(getCurrBranchCompleCode());
 			}
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
