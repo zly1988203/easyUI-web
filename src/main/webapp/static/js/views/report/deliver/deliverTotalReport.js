@@ -2,17 +2,24 @@
  * Created by wxl on 2016/08/17.
  */
 $(function() {
-	// 开始和结束时间
-	$("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
-	$("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
-	// 初始化列表
-	initCashDailyallGrid('data');
-
 	//选择报表类型
 	changeType();
-	$('#categoryTypeDiv').hide();
-});
+	// 初始化列表
+	initCashDailyallGrid('data');
+	var s = $("#txtStartDate").val();
+	if(!$("#txtStartDate").val()){
+		// 开始和结束时间
+		$("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
+		$("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+		$('#categoryTypeDiv').hide();
+		
+	}else{
+		$("input[name='queryType'][value=goods]").attr("checked",true); 
+		$("input[name='queryType'][value=goods]").click();
+	}
 
+	
+});
 var flushFlg = false;
 function changeType(){
 	$(".radioItem").change(function(){
@@ -25,18 +32,23 @@ function changeType(){
 
 			$('#categoryTypeDiv').hide();
 			$("#skuCode").removeAttr("readonly");
+			$("#skuCode").removeClass("uinp-no-more");
 			$("#categoryButon").removeAttr("readonly");
 			$("#categoryType").attr("disabled","disabled");
 			$("#formNo").attr("readonly","readonly");
+			$("#formNo").addClass("uinp-no-more");
+
 			$("#formNo").val("");
 			showCashier();
 		} else if (a=="form") {
 			// 初始化列表按门店汇总
 			$('#categoryTypeDiv').hide();	
 			$("#skuCode").attr("readonly","readonly");
+			$("#skuCode").addClass("uinp-no-more");
 			$("#skuCode").val("");
 			$("#categoryCode").val("");	
 			$("#formNo").removeAttr("readonly");
+			$("#formNo").removeClass("uinp-no-more");
 			$("#categoryName").val("");
 			initCashDailymdGrid('form');
 			hideCashier();
@@ -44,9 +56,11 @@ function changeType(){
 
 			$('#categoryTypeDiv').show();
 			$("#skuCode").attr("readonly","readonly");
+			$("#skuCode").addClass("uinp-no-more");
 			$("#skuCode").val("");
 			$("#formNo").attr("readonly","readonly");
 			$("#formNo").val("");
+			$("#formNo").addClass("uinp-no-more");
 			$("#categoryType").attr("disabled","disabled");
 			
 			// 初始化列表按日期汇总
@@ -55,10 +69,11 @@ function changeType(){
 		}else if(a=="branch"){
 			$('#categoryTypeDiv').hide();
 			$("#skuCode").attr("readonly","readonly");
+			$("#skuCode").addClass("uinp-no-more");
 			$("#skuCode").val("");
 			$("#formNo").attr("readonly","readonly");
 			$("#formNo").val("");
-			
+			$("#formNo").addClass("uinp-no-more");
 			initbranchGrid();
 		}
 		
@@ -464,6 +479,7 @@ function exportExcel(){
 
 //查询
 function query(){
+	debugger;
 	var formData = $("#queryForm").serializeObject();
 	var branchNameOrCode = $("#branchNameOrCode").val();
 	if(branchNameOrCode && branchNameOrCode.indexOf("[")>=0 && branchNameOrCode.indexOf("]")>=0){

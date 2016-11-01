@@ -360,7 +360,11 @@ function initPurFormNoGrid() {
             {field: 'formNo', title: '单据编号', width: 150, align: 'left',
             	formatter:function(value,row,index){
             		if(row.formId){
-            			return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/purchase/orderEdit?formId="+ row.formId +"'>" + value + "</a>"
+            			if(row.type=="PI"){
+            				return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/purchase/receiptEdit?formId="+ row.formId +"'>" + value + "</a>"
+            			}else{
+            				return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/purchase/returnEdit?formId="+ row.formId +"'>" + value + "</a>"
+            			}
             		}else{
             			return "";
             		}
@@ -592,13 +596,14 @@ function searchCategory(){
  * 重置
  */
 var resetForm = function(){
-	$("#queryForm").form('clear');
+	/*$("#queryForm").form('clear');
 	$("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
 	$("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 	$("#branchId").val(sessionBranchId);
 	$("#branchName").val(sessionBranchName);
 	onChangeFormType("");
 	$("#categoryType").combobox("setValue","smallCategory");
-	$('input:radio[name=searchType]')[0].checked = true;
+	$('input:radio[name=searchType]')[0].checked = true;*/
+	location.href=contextPath+"/report/purchase/total";
 	
 };
