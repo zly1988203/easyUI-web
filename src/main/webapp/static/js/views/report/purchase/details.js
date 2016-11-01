@@ -149,10 +149,10 @@ function purchaseDetailCx(){
 		$.messager.alert('提示', '日期不能为空');
 		return ;
 	}
-	if(!branchName){
+	/*if(!branchName){
 		$.messager.alert('提示', '机构名不能为空');
 		return ;
-	}
+	}*/
 	var formData = $("#queryForm").serializeObject();
 	$("#purReportDetail").datagrid("options").queryParams = formData;
 	$("#purReportDetail").datagrid("options").method = "post";

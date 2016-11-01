@@ -107,6 +107,13 @@ function initDatagridRequireOrders(){
 
 //查询要货单
 function queryForm(){
+	var startDate = $("#txtStartDate").val();
+	var endDate = $("#txtEndDate").val();
+	var branchName = $("#branchName").val();
+	if(!(startDate && endDate)){
+		$.messager.alert('提示', '日期不能为空');
+		return ;
+	}
 	var fromObjStr = $('#queryForm').serializeObject();
 	$("#deliverFormList").datagrid("options").method = "post";
 	$("#deliverFormList").datagrid('options').url = contextPath + '/form/deliverReport/getDeliverFormList';
@@ -191,7 +198,7 @@ function selectBranches(){
  * 重置
  */
 var resetForm = function() {
-	 $("#queryForm").form('clear');
+	location.href=contextPath+"/form/deliverReport/viewDeliverList";
 };
 
 /**
