@@ -196,14 +196,14 @@ function initDatagridResultOrder(){
             }
         ]],
         onClickCell:function(rowIndex,field,value){
-         //  gridHandel.setBeginRow(rowIndex);
-          //  gridHandel.setSelectFieldName(field);
-         //   var target = gridHandel.getFieldTarget(field);
-          //  if(target){
-          //      gridHandel.setFieldFocus(target);
-          //  }else{
-           //     gridHandel.setSelectFieldName("skuCode");
-         // }
+          gridHandel.setBeginRow(rowIndex);
+          gridHandel.setSelectFieldName(field);
+           var target = gridHandel.getFieldTarget(field);
+            if(target){
+                gridHandel.setFieldFocus(target);
+            }else{
+                gridHandel.setSelectFieldName("skuCode");
+         }
         },
         onLoadSuccess : function(data) {
         	//$('#gridOrdersresult').datagrid("selectRow", 0);
