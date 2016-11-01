@@ -52,8 +52,7 @@
                     <div class="umar-r10 uw-70 ut-r">计价方式:</div>
                        <!--select-->
 				        <select class="easyui-combobox uselect" name="pricingType" id="pricingType" data-options="editable:false">
-							<option value="">全部</option> 
-							<option value="0">普通</option> 	
+							<option value="0" selected="selected">普通</option> 	
 							<option value="1">计件</option> 
 							<option value="2">计重</option> 
 				        </select>
