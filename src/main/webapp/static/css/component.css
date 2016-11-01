@@ -102,8 +102,10 @@
   padding: 0 !important; }
 
 .uinp:read-only {
-  border: 1px solid #c9c9c9;
-  background-color: #efefef; }
+  background-color: #ffffff; }
+.uinp-no-more:read-only{
+  background-color: #efefef;
+}
 .textbox-readonly input{
   background-color: #efefef !important; }
 .uinp-more {

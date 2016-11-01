@@ -5,11 +5,11 @@ $(function() {
 	// 开始和结束时间
 	$("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
 	$("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
-	
+    $("#categoryTypeDiv").hide();
 	$("#categoryType").combobox("disable");
-	
+
 	initPurReportTotalGrid();
-	
+
 	//选择报表类型
 	changeType();
 });
@@ -57,23 +57,28 @@ function changeType(){
 }
 //供应商开启
 function supplierOn(){
+    $("#supplierName").removeClass("uinp-no-more");
 	$("#supplierSelect").attr("onclick","searchSupplier()");
 }
 //供应商禁用
 function supplierOff(){
+    $("#supplierName").addClass("uinp-no-more");
 	$("#supplierSelect").removeAttr("onclick");
 	$("#supplierId").val("");
 	$("#supplierName").val("");
 }
 //类别开启
 function categoryOn(){
+    $("#categoryName").removeClass("uinp-no-more");
 	$("#categorySelect").attr("onclick","searchCategory()");
 }
 //类别禁用
 function categoryOff(){
+    $("#categoryName").addClass("uinp-no-more");
 	$("#categorySelect").removeAttr("onclick");
 	$("#categoryName").val("");
 	$("#categoryId").val("");
+
 }
 //单据类型开启
 function formTypeOn(){
@@ -85,18 +90,22 @@ function formTypeOff(){
 }
 //货号开启
 function skuCodeOrBarCodeOn(){
+    $("#skuCodeOrBarCode").removeClass("uinp-no-more");
 	$("#skuCodeOrBarCode").removeAttr("readonly");
 }
 //货号禁用
 function skuCodeOrBarCodeOff(){
 	$("#skuCodeOrBarCode").attr("readonly","readonly");
+    $("#skuCodeOrBarCode").addClass("uinp-no-more");
 }
 //三级分类开启
 function categoryTypeOn(){
+    $("#categoryTypeDiv").show();
 	$("#categoryType").combobox("enable");
 }
 //三级分类禁用
 function categoryTypeOff(){
+    $("#categoryTypeDiv").hide();
 	$("#categoryType").combobox("disable");
 }
 
@@ -109,7 +118,11 @@ var gridHandel = new GridClass();
 function onChangeFormType(newV,oldV){
 	$("#formType").combobox("setValue",newV);
 }
-
+function onChangeCategoryType(newV,oldV){
+    debugger;
+    $("#categoryName").val("");
+    $("#categoryId").val("");
+}
 var gridHandel = new GridClass();
 /**
  * 初始化表格按  商品

@@ -58,7 +58,7 @@ function toChangeDate(index){
             $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getCurrentDate()).format("yyyy-MM-dd"));
             break;
         case 9: //昨天
-            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getCurrDayPreOrNextDay("prev",29)).format("yyyy-MM-dd"));
+            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getCurrDayPreOrNextDay("prev",30)).format("yyyy-MM-dd"));
             $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getCurrentDate()).format("yyyy-MM-dd"));
             break;
         default :
@@ -609,13 +609,13 @@ function publicNewGoodsServiceHandel(params,callback){
                 callback( [data]);
                 $(dalogTemp).panel('destroy')
             });
-            initSearch();
+            initNewSearch(params);
         };
     }else{
         dalogObj["onLoad"] =function(){
             initGoodsRadioCallBack();
             $("#goodsInfo").val(params.key);
-            initSearch(params.key);
+            initNewSearch(params);
         };
         dalogObj["buttons"] =[{
             text:'确定',

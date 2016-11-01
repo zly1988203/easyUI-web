@@ -27,6 +27,8 @@ function changeType(){
 			$("#skuCode").removeAttr("readonly");
 			$("#categoryButon").removeAttr("readonly");
 			$("#categoryType").attr("disabled","disabled");
+			$("#formNo").attr("readonly","readonly");
+			$("#formNo").val("");
 			showCashier();
 		} else if (a=="form") {
 			// 初始化列表按门店汇总
@@ -56,6 +58,7 @@ function changeType(){
 			$("#skuCode").val("");
 			$("#formNo").attr("readonly","readonly");
 			$("#formNo").val("");
+			
 			initbranchGrid();
 		}
 		
@@ -112,7 +115,14 @@ function initCashDailyallGrid(queryType) {
 		           {field: 'categoryName', title: '类别', width:120, align: 'left'},
 		           {field: 'spec', title: '规格', width:80, align: 'left'},
 		           {field: 'unit', title: '单位', width:60, align: 'left'},
-		           {field: 'inputTax', title: '税率', width:60, align: 'right'},
+		           {field: 'inputTax', title: '税率', width:60, align: 'right',
+		        	   formatter:function(value,row,index){
+		        		   if(row.isFooter){
+		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		        		   }
+		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		        	   }
+		           },
 		           {field: 'receiveLargeNum', title: '调入箱数', width:100, align: 'right',
 		        	   formatter:function(value,row,index){
 		        		   if(row.isFooter){
@@ -337,8 +347,8 @@ function initbranchGrid(queryType) {
 		//fitColumns:true,    //占满
 		showFooter:true,
 		columns: [[
-		           {field: 'branchCode', title: '往来机构编码', width:120, align: 'right'},
-		           {field: 'branchName', title: '往来机构编码', width:120, align: 'right'},
+		           {field: 'branchCode', title: '往来机构编码', width:120, align: 'left'},
+		           {field: 'branchName', title: '往来机构名称', width:120, align: 'left'},
 		           {field: 'receiveNum', title: '调入数量', width:120, align: 'right',
 		        	   formatter:function(value,row,index){
 		        		   if(row.isFooter){
@@ -480,7 +490,7 @@ function updateFooter(){
 //选择商品
 function selectGoods(searchKey){
 	/*  var branchId = $("#branchId").val();*/
-	new publicGoodsService("",function(data){
+	/*new publicGoodsService("",function(data){
 		if(data.length==0){
 			return;
 		}
@@ -512,7 +522,12 @@ function selectGoods(searchKey){
 			gridHandel.setSelectFieldName("largeNum");
 			gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
 		},100)
-	},searchKey,0,"","","");
+	},searchKey,0,"","","");*/
+	publicNewGoodsService({'goodsTypeList':'0,1','branchId':'123123'},function(data){
+
+	})
+	
+	
 }
 
 /**

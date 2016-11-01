@@ -349,7 +349,7 @@ pageEncoding="UTF-8"%>
             var goodsInfo=$("#goodsInfo").val();
             // $("#gridGoods").datagrid("options").queryParams = {'categoryId':categoryId,'goodsInfo':goodsInfo,'formType':'${type}','sourceBranchId':'${sourceBranchId}','targetBranchId':'${targetBranchId}'};
             // 梁利 提出左边树与右边的查询无关系
-            $("#gridGoods").datagrid("options").queryParams = {'goodsInfo':goodsInfo,'formType':'${type}','sourceBranchId':'${sourceBranchId}','targetBranchId':'${targetBranchId}','branchId':'${branchId}'};
+            $("#gridGoods").datagrid("options").queryParams = $.extend({'goodsInfo':goodsInfo,'formType':'${type}','sourceBranchId':'${sourceBranchId}','targetBranchId':'${targetBranchId}','branchId':'${branchId}'},fromParams)
             $("#gridGoods").datagrid("options").method = "post";
             $("#gridGoods").datagrid("options").url =contextPath + '/goods/goodsSelect/getGoodsList';
             $("#gridGoods").datagrid('load');
@@ -357,4 +357,17 @@ pageEncoding="UTF-8"%>
             $("#goodsInfo").select();
         },1000)
     }
+    var fromParams = {};
+    function initNewSearch(params){
+        fromParams = params;
+        if(!params.key){
+            $("#gridGoods").datagrid("options").method = "post";
+            $("#gridGoods").datagrid("options").queryParams = params;
+            $("#gridGoods").datagrid("options").url =contextPath + '/goods/goodsSelect/getGoodsList?formType=${type}&sourceBranchId=${sourceBranchId}&targetBranchId=${targetBranchId}&branchId=${branchId}';
+            $("#gridGoods").datagrid('load');
+        }else{
+            cx()
+        }
+    }
+
 </script>

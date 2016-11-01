@@ -52,8 +52,7 @@
                     <div class="umar-r10 uw-70 ut-r">计价方式:</div>
                        <!--select-->
 				        <select class="easyui-combobox uselect" name="pricingType" id="pricingType" data-options="editable:false">
-							<option value="">全部</option> 
-							<option value="0">普通</option> 	
+							<option value="0" selected="selected">普通</option> 	
 							<option value="1">计件</option> 
 							<option value="2">计重</option> 
 				        </select>
@@ -76,7 +75,7 @@
                 <div class="ub ub-ac umar-l20">
                     <div class="umar-r10 uw-70 ut-r">供应商:</div>
                     <input class="uinp" name="supplierId" id="supplierId" type="hidden">
-                    <input class="uinp easyui-validatebox" data-options="required:true" readonly="readonly" name="supplierName" id="supplierName" type="text"  onclick="selectSupplier()">
+                    <input class="uinp easyui-validatebox"  readonly="readonly" name="supplierName" id="supplierName" type="text"  onclick="selectSupplier()">
                     <div class="uinp-more" onclick="selectSupplier()">...</div>
                 </div>
             </div>
