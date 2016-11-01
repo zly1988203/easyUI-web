@@ -118,7 +118,7 @@ function initPurReportDetailGrid(queryType) {
             	}},
             {field: 'goodsCreateDate', title: '生产日期', width:120, align: 'right',
             	formatter : function(value, rowData, rowIndex) {
-            		return formatDate(value,'yyyy-MM-dd hh:mm');
+            		return formatDate(value,'yyyy-MM-dd');
             	}}
         ]],
 		onLoadSuccess:function(data){

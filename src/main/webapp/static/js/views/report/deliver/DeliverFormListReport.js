@@ -59,7 +59,7 @@ function initDatagridRequireOrders(){
             {field: 'categoryName', title: '类别', width: '100px', align: 'left'},
             {field: 'spec', title: '规格', width: '100px', align: 'left'},
             {field: 'unit', title: '单位', width: '100px', align: 'left'},
-            {field: 'price', title: '价格', width: '100px', align: 'left'},
+            {field: 'price', title: '单价', width: '100px', align: 'left'},
             {field: 'inputTax', title: '税率', width: '100px', align: 'left'},
             {field: 'largeNum', title: '箱数', width: '100px', align: 'left',
             	formatter:function(value,row,index){
