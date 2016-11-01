@@ -31,7 +31,7 @@ function initDatagridOrders(){
             {field:'skuCode',title:'货号',width:'140px',align:'left'},
             {field:'skuName',title:'商品名称',width:'140px',align:'left'},
             {field:'barCode',title:'条码',width:'120px',align:'left'},
-            {field:'memoryCode',title:'助记码',width:'120px',align:'left'},
+            /*{field:'memoryCode',title:'助记码',width:'120px',align:'left'},*/
             {field:'typeName',title:'商品类型',width:'120px',align:'left'},
             {field:'categoryCode',title:'类型编码',width:'120px',align:'left'},
             {field:'categoryName',title:'类别名称',width:'120px',align:'left'},
@@ -200,14 +200,14 @@ function initDatagridResultOrder(){
             }
         ]],
         onClickCell:function(rowIndex,field,value){
-            gridHandel.setBeginRow(rowIndex);
-            gridHandel.setSelectFieldName(field);
-            var target = gridHandel.getFieldTarget(field);
-            if(target){
-                gridHandel.setFieldFocus(target);
-            }else{
-                gridHandel.setSelectFieldName("skuCode");
-            }
+         //  gridHandel.setBeginRow(rowIndex);
+          //  gridHandel.setSelectFieldName(field);
+         //   var target = gridHandel.getFieldTarget(field);
+          //  if(target){
+          //      gridHandel.setFieldFocus(target);
+          //  }else{
+           //     gridHandel.setSelectFieldName("skuCode");
+         // }
         },
         onLoadSuccess : function(data) {
         
