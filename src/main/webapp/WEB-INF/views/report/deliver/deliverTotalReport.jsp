@@ -41,8 +41,8 @@
 	                    <input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" onclick="selectBranches()" readonly="readonly" />
 	                    <div class="uinp-more" onclick="selectBranches()" >...</div>
 	                </div>
-               <div class="ub ub-ac umar-r40">
-				<div class="umar-r10 uw-60 ut-r">货号:</div>
+               <div class="ub ub-ac umar-r60">
+				<div class="umar-r10 uw-80 ut-r">货号/条码:</div>
 				<input type="hidden" name="skuId" id="skuId" class="uinp" />
 				<input type="text" name="skuCode" id="skuCode" class="uinp"/>
 				<!-- <div class="uinp-more" id="cashierIdSelect" onclick="selectGoods()">...</div> -->
