@@ -24,7 +24,7 @@
 	            </div>
 	             <!-- 引入时间选择控件 -->
 	           <div class="ub ub-ac">
-	            	<div class="umar-r10 uw-70 ut-r">日期:</div>
+	            	<div class="umar-r10 uw-80 ut-r">日期:</div>
 	       			<%@ include file="/WEB-INF/views/component/dateSelect.jsp"%>
 	           </div>
             </div>
@@ -33,37 +33,37 @@
 	        </div>
 	         
           <div class="ub umar-t8">
-               <div class="ub ub-ac">
-                   <div class="umar-r10 uw-70 ut-r">机构名称:</div>
+               <div class="ub ub-ac umar-r40">
+                   <div class="umar-r10 uw-80 ut-r">机构名称:</div>
                    <input class="uinp" type="hidden" id="branchId" name="branchId" value="${user.branchId}">
                    <input class="uinp" type="text" id="branchName" name="branchName" value="[${user.branchCode}]${user.branchName}" readonly="readonly">
                    <div class="uinp-more" id="branchSelect" onclick="searchBranch()">...</div>
                </div>
                <div class="ub ub-ac umar-r40">
-				<div class="umar-r10 uw-70 ut-r">供应商:</div>
+				<div class="umar-r10 uw-80 ut-r">供应商:</div>
 				<input type="hidden" name="supplierId" id="supplierId" class="uinp" />
 				<input type="text" name="supplierName" id="supplierName" class="uinp" readonly="readonly" />
 				<div class="uinp-more" id="supplierSelect" onclick="searchSupplier()">...</div>
 			  </div>
-			  <div class="ub ub-ac umar-r40">
-				<div class="umar-r10 uw-70 ut-r">类别:</div>
-				<input type="hidden" name="categoryId" id="categoryId" class="uinp" />
-				<input type="text" name="categoryName" id="categoryName" class="uinp" readonly="readonly"  />
-				<div class="uinp-more" id="categorySelect" onclick="searchCategory()">...</div>
+			  <div id="categoryNameDiv" class="ub ub-ac umar-r40">
+				<div class="umar-r10 uw-80 ut-r">类别:</div>
+				  <input type="hidden" name="categoryId" id="categoryId" class="uinp" />
+				  <input type="text" name="categoryName" id="categoryName" class="uinp " readonly="readonly"  />
+				  <div class="uinp-more" id="categorySelect" onclick="searchCategory()">...</div>
 			  </div>
             </div>
             
              <div class="ub umar-t8">
-               <div class="ub ub-ac">
-                   <div class="umar-r10 uw-70 ut-r">单据类型:</div>
-                   <select class="uselect easyui-combobox" name="formType" id="formType" data-options="onChange:onChangeFormType,editable:false">
+               <div class="ub ub-ac umar-r40">
+                   <div class="umar-r10 uw-80 ut-r">单据类型:</div>
+                   <select class="uselect easyui-combobox" style="width: 203px;" name="formType" id="formType" data-options="onChange:onChangeFormType,editable:false">
                    		<option value="">全部</option>
                    		<option value="PI">采购收货单</option>
                         <option value="PR">采购退货单</option>
                    </select>
                </div>
 			  <div class="ub ub-ac umar-r40">
-				<div class="umar-r10 uw-70 ut-r">货号/条码:</div>
+				<div class="umar-r10 uw-80 ut-r">货号/条码:</div>
 				<input type="text" name="skuCodeOrBarCode" id="skuCodeOrBarCode" class="uinp" />
 			  </div>
             </div>
@@ -71,23 +71,26 @@
              <div class="ub umar-t8">
                 <!--input-checkbox-->
                 <div class="ub ub-ac">
-                   <div class="umar-r10 uw-70 ut-r">汇总类型:</div>
+                   <div class="umar-r10 uw-80 ut-r">汇总类型:</div>
                     <div class="ub ub-ac umar-r10 ">
                         <label> <input class="ub radioItem" id="goodsTotal"  type="radio" name="searchType" value="goodsTotal" checked="checked"/> 商品汇总</label>
                     </div>
                     <div class="ub ub-ac umar-r10">
                          <label> <input class="ub radioItem"  type="radio" name="searchType" value="supplierTotal"  /> 供应商汇总</label>
                     </div>
-                   <div class="ub ub-ac umar-r10">
+                   <div class="ub ub-ac ">
                          <label> <input class="ub radioItem"  type="radio" name="searchType" value="formNoTotal" /> 单据汇总</label>
                   </div>
-                  <div class="ub ub-ac umar-r10">
-                          <label><input class="ub radioItem" id="categoryTotal" type="radio" name="searchType" value="categoryTotal" />类别汇总:</label>
-                        <select class="uselect easyui-combobox" name="categoryType" id="categoryType" data-options="editable:false" >
-	                        <option value="smallCategory">小类</option>
-	                        <option value="medCategory">中类</option>
-	                        <option value="bigCategory">大类</option>
-                   		</select>
+                  <div class="ub ub-ac  uh-36">
+                      <label class="umar-r10"><input class="ub radioItem" id="categoryTotal" type="radio" name="searchType" value="categoryTotal" />类别汇总:</label>
+                      <div id="categoryTypeDiv">
+						  <select class="uselect easyui-combobox" name="categoryType" id="categoryType" data-options="editable:false,onChange:onChangeCategoryType" >
+							  <option value="smallCategory">小类</option>
+							  <option value="medCategory">中类</option>
+							  <option value="bigCategory">大类</option>
+						  </select>
+					  </div>
+
                   </div>
                 </div>
             </div>

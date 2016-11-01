@@ -609,13 +609,13 @@ function publicNewGoodsServiceHandel(params,callback){
                 callback( [data]);
                 $(dalogTemp).panel('destroy')
             });
-            initSearch();
+            initNewSearch(params);
         };
     }else{
         dalogObj["onLoad"] =function(){
             initGoodsRadioCallBack();
             $("#goodsInfo").val(params.key);
-            initSearch(params.key);
+            initNewSearch(params);
         };
         dalogObj["buttons"] =[{
             text:'确定',

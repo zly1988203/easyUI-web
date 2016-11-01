@@ -17,7 +17,7 @@ pageEncoding="UTF-8"%>
             <div class="ub upad-4">
                 <div class="ub ub-ac umar-r60">
                     <div class="umar-r10 uw-60 ut-r">货号:</div>
-                    <input id="skuCode" name="skuCode" class="uinp uw-200" readonly="readonly" type="text" value="${data.skuCode}">
+                    <input id="skuCode" name="skuCode" class="uinp uinp-no-more uw-200" readonly="readonly" type="text" value="${data.skuCode}">
                 </div>
                 <div class="ub ub-ac umar-r50">
                     <div class="umar-r10 uw-60 ut-r">商品名称:</div>
@@ -111,7 +111,7 @@ pageEncoding="UTF-8"%>
                 <div class="ub ub-ac umar-r48">
                     <div class="umar-r10 uw-60 ut-r">主供应商:</div>
                     <input id="supplierId" name="supplierId"   class="uinp" type="hidden" >
-                    <input id="supplierName" name="supplierName"   class="uinp easyui-validatebox" type="text" readonly="readonly" data-options="required:true">
+                    <input id="supplierName" name="supplierName"   class="uinp  easyui-validatebox" type="text" readonly="readonly" data-options="required:true">
                     <div class="uinp-more new-right" onclick="getGoodsPupplier()">...</div>
                     <i class="uc-red">*</i>
                 </div>
@@ -120,7 +120,7 @@ pageEncoding="UTF-8"%>
                 <div class="ub ub-ac umar-r60">
                     <div class="umar-r10 uw-60 ut-r">经营方式:</div>
                     <input id="saleWay" name="saleWay"   class="uinp" type="hidden" readonly="readonly">
-                    <input id="saleWayName" name="saleWayName"   class="uinp" type="text" readonly="readonly">
+                    <input id="saleWayName" name="saleWayName"   class="uinp uinp-no-more" type="text" readonly="readonly">
                 </div>
                 <div class="ub ub-ac umar-r48">
                     <div class="umar-r10 uw-60 ut-r">联营/代销扣率:</div>
@@ -128,7 +128,7 @@ pageEncoding="UTF-8"%>
                 </div>
                 <div class="ub ub-ac umar-r60">
                     <div class="umar-r10 uw-60 ut-r">商品类型:</div>
-                    <select class="uselect easyui-combobox" name="type" id="type" data-options="editable:false,onChange:typeChange">
+                    <select class="uselect easyui-combobox input-form" name="type" id="type" data-options="editable:false,onChange:typeChange">
                         <c:forEach items="${goodsType}" var="type">
                             <option value="${type.name}">${type.value}</option>
                         </c:forEach>
@@ -166,11 +166,11 @@ pageEncoding="UTF-8"%>
             <div class="ub upad-4">
                 <div class="ub ub-ac umar-r60">
                     <div class="umar-r10 uw-60 ut-r">毛利值:</div>
-                    <input id="grossProfit" name="" value="0" class="uinp easyui-numberbox easyui-validatebox" data-options="min:0,precision:2" type="text" readonly="readonly">
+                    <input id="grossProfit" name="" value="0" class="uinp uinp-no-more easyui-numberbox easyui-validatebox" data-options="min:0,precision:2" type="text" readonly="readonly">
                 </div>
                 <div class="ub ub-ac umar-r60">
                     <div class="umar-r10 uw-60 ut-r">毛利率:</div>
-                    <input id="grossProfitPercent" name="" value="0" class="uinp easyui-numberbox easyui-validatebox" data-options="min:0,precision:2" type="text" readonly="readonly">
+                    <input id="grossProfitPercent" name="" value="0" class="uinp uinp-no-more easyui-numberbox easyui-validatebox" data-options="min:0,precision:2" type="text" readonly="readonly">
                 </div>
                 <div class="ub ub-ac umar-r48">
                     <div class="umar-r10 uw-60 ut-r">销项税率:</div>
@@ -198,11 +198,11 @@ pageEncoding="UTF-8"%>
 					</div>
                 <div class="ub ub-ac umar-r60">
                     <div class="umar-r10 uw-60 ut-r">建档时间:</div>
-                    <input id="createDate" name="createDate"   class="uinp" type="text" readonly="readonly">
+                    <input id="createDate" name="createDate"   class="uinp uinp-no-more" type="text" readonly="readonly">
                 </div>
                 <div class="ub ub-ac umar-r60">
                     <div class="umar-r10 uw-60 ut-r">建档人:</div>
-                    <input id="createUserName" name="createUserName"   class="uinp" type="text" readonly="readonly" ">
+                    <input id="createUserName" name="createUserName"   class="uinp uinp-no-more" type="text" readonly="readonly" >
                 </div>
             </div>
             <div class="ub upad-4">
