@@ -275,43 +275,40 @@ function selectGoods(searchKey){
 		 return;
 	   }
 	  publicNewGoodsService({goodsTypeList:'0,1,2'},function(data){
+		  if(data.length==0){
+	            return;
+	        }
+	        if(searchKey){
+	            $("#gridOrdersresult").datagrid("deleteRow", gridHandel.getSelectRowIndex());
+	            $("#gridOrdersresult").datagrid("acceptChanges");
+	        }
+	        for(var i in data){
+	        	var rec = data[i];
+	        	rec.remark = "";
+	        }
+	        var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
+	        var addDefaultData  = gridHandel.addDefault(data,gridDefault);
+	        var keyNames = {
+	            id:'skuId',
+	            disabled:'',
+	            pricingType:'',
+	            inputTax:'tax',
+	            componentSkuId:'skuId'
+	        };
+	        var rows = gFunUpdateKey(addDefaultData,keyNames);
+	        var argWhere ={skuCode:1};  //验证重复性
+	        var isCheck ={isGift:1 };   //只要是赠品就可以重复
+	        var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
 
-	  })
-  /*  new publicGoodsService("PA",function(data){
-        if(data.length==0){
-            return;
-        }
-        if(searchKey){
-            $("#gridOrdersresult").datagrid("deleteRow", gridHandel.getSelectRowIndex());
-            $("#gridOrdersresult").datagrid("acceptChanges");
-        }
-        for(var i in data){
-        	var rec = data[i];
-        	rec.remark = "";
-        }
-        var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
-        var addDefaultData  = gridHandel.addDefault(data,gridDefault);
-        var keyNames = {
-            id:'skuId',
-            disabled:'',
-            pricingType:'',
-            inputTax:'tax',
-            componentSkuId:'skuId'
-        };
-        var rows = gFunUpdateKey(addDefaultData,keyNames);
-        var argWhere ={skuCode:1};  //验证重复性
-        var isCheck ={isGift:1 };   //只要是赠品就可以重复
-        var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
+	        $("#gridOrdersresult").datagrid("loadData",newRows);
 
-        $("#gridOrdersresult").datagrid("loadData",newRows);
-
-       // gridHandel.setLoadFocus();
-        setTimeout(function(){
-            gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
-           // gridHandel.setSelectFieldName("componentNum");
-           // gridHandel.setFieldFocus(gridHandel.getFieldTarget('componentNum'));
-        },100)
-    },searchKey,0,"","","");*/
+	       // gridHandel.setLoadFocus();
+	        setTimeout(function(){
+	            gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
+	           // gridHandel.setSelectFieldName("componentNum");
+	           // gridHandel.setFieldFocus(gridHandel.getFieldTarget('componentNum'));
+	        },100);
+	  });
 }
 
 
