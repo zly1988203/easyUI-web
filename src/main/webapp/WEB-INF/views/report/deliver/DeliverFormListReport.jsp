@@ -46,15 +46,15 @@
 	            </div>
 	            <div class="ub umar-t8">
 	                <div class="ub ub-ac umar-r48">
-						<div class="umar-r10 uw-60 ut-r">商品类别:</div>
+						<div class="umar-r10 uw-70 ut-r">商品类别:</div>
 						<input id="goodsCategoryId" name="goodsCategoryId" class="uinp" type="hidden"> 
 						<input id="categoryCode" name="categoryCode" class="uinp" type="hidden"> 
 					    <input id="categoryName" name="categoryName" class="uinp" type="text" readonly="readonly" data-options="required:true">
 						<div class="uinp-more new-right" onclick="getGoodsType()">...</div>
 					</div>
 		            <div class="ub ub-ac">
-	                   <div class="umar-r10 uw-70 ut-r">单据类型:</div>
-	                   <select class="uselect easyui-combobox" name="deliverType" id="deliverType">
+	                   <div class="umar-r10 uw-60 ut-r">单据类型:</div>
+	                   <select class="uselect easyui-combobox" style="width:224px"  name="deliverType" id="deliverType">
 	                   		<option value="">全部</option>
 	                   		<option value="DO">配送出库</option>
 	                        <option value="DI">配送入库</option>
