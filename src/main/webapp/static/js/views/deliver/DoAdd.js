@@ -642,11 +642,14 @@ function loadLists(referenceId){
         type:"post",
         success:function(data){
             var rows = data.rows
+            debugger;
             for(var i in rows){
+                rows[i]["dealNum"] =  rows[i]["applyNum"]?rows[i]["applyNum"]:rows[i]["dealNum"];
                 rows[i]["amount"]  = parseFloat(rows[i]["price"]||0)*parseFloat(rows[i]["dealNum"]||0);
-                updateFooter();
+
             }
             $("#gridEditOrder").datagrid("loadData",rows);
+            updateFooter();
         }
     })
    /* return;
