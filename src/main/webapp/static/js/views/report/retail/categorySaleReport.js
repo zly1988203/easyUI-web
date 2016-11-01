@@ -21,7 +21,7 @@ function initDatagridRequire(){
 		height:'100%',
 		width:'100%',
         columns:[[
-            {field:'branchName',title:'机构名称',width:'200px',align:'left',
+            {field:'branchName',title:'机构名称',width:'250px',align:'left',
             	formatter : function(value, row,index) {
                     var str = value;
                     if(row.isFooter){
@@ -31,17 +31,15 @@ function initDatagridRequire(){
                 }
             },
             {field:'cityName',title: '所在城市', width: '200px', align: 'left'},
-			{field:'categoryCode', title: '类别编号', width: '200px', align: 'left'},
-            {field:'categoryName', title: '类别名称', width: '80px', align: 'right'},
+			{field:'categoryCode', title: '类别编号', width: '120px', align: 'left'},
+            {field:'categoryName', title: '类别名称', width: '120px', align: 'left'},
             {field:'saleAmount', title: '销售金额', width: '130px', align: 'right',
             	formatter:function(value,row,index){
             		if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                     }
-                    if(!value){
-                    	row["saleAmount"] = 0.0000;
-                    }
-                    return parseFloat(value||0).toFixed(4);
+                   
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
             	 editor:{
                      type:'numberbox',
@@ -52,7 +50,22 @@ function initDatagridRequire(){
                      }
                  }
             },
-            {field:'saleRate', title: '销售占比', width: '130px', align: 'left'},
+            {field:'saleRate', title: '销售占比', width: '130px', align: 'right',
+            	formatter:function(value,row,index){
+            		if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(1)+'%'+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(1)+'%'+'</b>';
+                },
+            	editor:{
+                    type:'numberbox',
+                    options:{
+                    	disabled:true,
+                        min:0,
+                        precision:1
+                    }
+                }
+            },
       ]],
       onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
@@ -64,7 +77,7 @@ function initDatagridRequire(){
 
 //合计
 function updateFooter(){
-    var fields = {saleAmount:0,isGift:0};
+    var fields = {saleAmount:0,saleRate:0,isGift:0};
     var argWhere = {name:'isGift',value:0}
     gridHandel.updateFooter(fields,argWhere);
 }
