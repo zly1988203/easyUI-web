@@ -174,6 +174,10 @@ public class PurchaseReportController extends
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
 			LOG.debug("采购汇总表查询：{}", qo);
+			if(BranchTypeEnum.HEAD_QUARTERS.getCode().toString().equals(qo.getBranchId())) {
+				qo.setBranchId(null);
+				qo.setBranchCompleCode(getCurrBranchCompleCode());
+			}
 			qo.setPageNumber(pageNumber);
 			qo.setPageSize(pageSize);
 			if (qo.getEndTime() != null) {
@@ -296,6 +300,10 @@ public class PurchaseReportController extends
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		LOG.info("采购汇总导出:{}" + qo);
 		try {
+			if(BranchTypeEnum.HEAD_QUARTERS.getCode().toString().equals(qo.getBranchId())) {
+				qo.setBranchId(null);
+				qo.setBranchCompleCode(getCurrBranchCompleCode());
+			}
 			qo.setPageNumber(pageNumber);
 			qo.setPageSize(pageSize);
 			if (qo.getEndTime() != null) {
