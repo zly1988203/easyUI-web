@@ -232,8 +232,11 @@ function getGoodsArchivesDetail(id){
 				}else{
 					//进项税、销项税、联营扣率要乘以100
 					if($("#"+key).attr("id") == "outputTax" || $("#"+key).attr("id") == "inputTax" || $("#"+key).attr("id") == "supplierRate"){
-//						$("#"+key).val(value*100);
-						$("#"+key).textbox("setValue",value*100);
+						if(value){
+							$("#"+key).textbox("setValue",parseFloat((value*100).toFixed(2)));
+						}else{
+							$("#"+key).textbox("setValue",0.00);
+						}
 					}else{
 						if($("#"+key).hasClass('easyui-numberbox')){
 							$("#"+key).numberbox('setValue', value);

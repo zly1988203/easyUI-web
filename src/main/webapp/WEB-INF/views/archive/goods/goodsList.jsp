@@ -48,7 +48,7 @@
                     <input type="hidden" name="level" id="level" value="">
                     <input type="hidden" name="brandId1" id="brandId1" value="">
                     <input type="hidden" name="supplierId1" id="supplierId1" value="">
-                    <input class="uinp uw-400" type="text" name="goodsInfo" id="goodsInfo" placeholder="输入货号、条码、商品名称进行查询">
+                    <input class="uinp uw-400" type="text" name="goodsInfo" maxlength="50" id="goodsInfo" placeholder="输入货号、条码、商品名称进行查询">
                 </div>
                 <input type="button" class="ubtn  umar-r10" value="查询" onclick="goodsSearch()">
                 <div class="ub ub-ac umar-r10">
