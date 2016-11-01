@@ -274,7 +274,10 @@ function selectGoods(searchKey){
 		messager("请选择捆绑商品");
 		 return;
 	   }
-    new publicGoodsService("PA",function(data){
+	  publicNewGoodsService({goodsTypeList:'0,1,2'},function(data){
+
+	  })
+  /*  new publicGoodsService("PA",function(data){
         if(data.length==0){
             return;
         }
@@ -308,7 +311,7 @@ function selectGoods(searchKey){
            // gridHandel.setSelectFieldName("componentNum");
            // gridHandel.setFieldFocus(gridHandel.getFieldTarget('componentNum'));
         },100)
-    },searchKey,0,"","","");
+    },searchKey,0,"","","");*/
 }
 
 
