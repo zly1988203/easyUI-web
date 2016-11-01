@@ -36,7 +36,7 @@
 	        
           <div class="ub umar-t8">
                <div class="ub ub-ac uw-300">
-	                    <div class="umar-r10 uw-70 ut-r">机构名称:</div>
+	                    <div class="umar-r10 uw-70 ut-r">查询机构:</div>
 	                    <input type="hidden" id="branchId" name="branchId" />
 	                    <input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" onclick="selectBranches()" readonly="readonly" />
 	                    <div class="uinp-more" onclick="selectBranches()" >...</div>
@@ -62,12 +62,17 @@
 								<option value="DI">配送入库单</option>
 				   </select>
 			  </div>
+			  <div class="ub ub-ac umar-r40">
+				<div class="umar-r10 uw-60 ut-r">单号:</div>
+				<input type="text" name="formNo" id="formNo" class="uinp"/>
+				<!-- <div class="uinp-more" id="cashierIdSelect" onclick="selectGoods()">...</div> -->
+			  </div>
             </div>
             
             <div class="ub umar-t8">
                 <!--input-checkbox-->
                 <div class="ub ub-ac">
-                   <div class="umar-r10 uw-70 ut-r">报表类型:</div>
+                   <div class="umar-r10 uw-70 ut-r">汇总类型:</div>
                     <div class="ub ub-ac umar-r10 ">
                         <input class="ub radioItem" id="goods" type="radio" name="queryType" value="goods" checked="checked"/>
                         <label for="goods">商品汇总</label>
@@ -83,11 +88,14 @@
                    <div class="ub ub-ac umar-r10">
                         <input class="ub radioItem" id="category" type="radio" name="queryType" value="category" />
                         <label for="category">类别汇总</label>
-                         <select class="easyui-combobox uselect" name="categoryType" id="categoryType" data-options="editable:false">
+                        <div id="categoryTypeDiv">
+                          <select class="easyui-combobox uselect" name="categoryType" id="categoryType" data-options="editable:false">
 	                        <option value="smallCategory">小类</option>
 	                        <option value="medCategory">中类</option>
 	                        <option value="bigCategory">大类</option>
-                   		</select>
+                   		 </select>
+                        </div>
+
                   </div>
                 </div>
             </div>

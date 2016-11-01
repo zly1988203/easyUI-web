@@ -10,7 +10,7 @@ $(function() {
 
 	//选择报表类型
 	changeType();
-
+	$('#categoryTypeDiv').hide();
 });
 
 var flushFlg = false;
@@ -22,26 +22,40 @@ function changeType(){
 		if (a=="goods") {
 			// 初始化列表按收银员汇总
 			initCashDailyallGrid('goods');
+
+			$('#categoryTypeDiv').hide();
 			$("#skuCode").removeAttr("readonly");
 			$("#categoryButon").removeAttr("readonly");
+			$("#categoryType").attr("disabled","disabled");
 			showCashier();
 		} else if (a=="form") {
 			// 初始化列表按门店汇总
+			$('#categoryTypeDiv').hide();	
 			$("#skuCode").attr("readonly","readonly");
 			$("#skuCode").val("");
 			$("#categoryCode").val("");	
+			$("#formNo").removeAttr("readonly");
 			$("#categoryName").val("");
 			initCashDailymdGrid('form');
 			hideCashier();
 		} else if (a=="category") {
+
+			$('#categoryTypeDiv').show();
 			$("#skuCode").attr("readonly","readonly");
 			$("#skuCode").val("");
+			$("#formNo").attr("readonly","readonly");
+			$("#formNo").val("");
+			$("#categoryType").attr("disabled","disabled");
+			
 			// 初始化列表按日期汇总
 			initCashDailydateGrid('category');
 			hideCashier();
 		}else if(a=="branch"){
+			$('#categoryTypeDiv').hide();
 			$("#skuCode").attr("readonly","readonly");
 			$("#skuCode").val("");
+			$("#formNo").attr("readonly","readonly");
+			$("#formNo").val("");
 			initbranchGrid();
 		}
 		
@@ -98,7 +112,7 @@ function initCashDailyallGrid(queryType) {
 		           {field: 'categoryName', title: '类别', width:120, align: 'left'},
 		           {field: 'spec', title: '规格', width:80, align: 'left'},
 		           {field: 'unit', title: '单位', width:60, align: 'left'},
-		           {field: 'inputTax', title: '税率', width:60, align: 'left'},
+		           {field: 'inputTax', title: '税率', width:60, align: 'right'},
 		           {field: 'receiveLargeNum', title: '调入箱数', width:100, align: 'right',
 		        	   formatter:function(value,row,index){
 		        		   if(row.isFooter){
@@ -542,7 +556,9 @@ function printReport(){
 var resetForm = function(){
 	$("#queryForm").form('clear');
 	$("#formType").combobox("setText","全部");
+	$("#categoryType").combobox("setText","小类");
 	$("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
 	$("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 	$('input:radio[name=queryType]')[0].checked = true;
+	
 };
