@@ -659,6 +659,9 @@ function toBack(){
 function gFunRefresh() {
     window.location.reload();
 }
+function toBackByJS(){
+	history.go(-1);
+}
 /**
  * 公共库-表格 黄江
  * ***************核心请勿修改*********************

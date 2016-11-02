@@ -36,6 +36,10 @@
 	                    <input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" value="${branchesGrow.branchName}" onclick="selectBranches()" readonly="readonly"/>
 	                    <div class="uinp-more" onclick="selectBranches()" >...</div>
 	                </div>
+	                <div class="ub ub-ac umar-r40">
+		                <div class="umar-r10 uw-60 ut-r">货号:</div>
+		                <input class="uinp" name=skuCode id="skuCode" type="text">
+		            </div>
 	                <%-- <div class="ub ub-ac uw-300 umar-l40">
 	                    <div class="umar-r10 uw-70 ut-r">收货机构:</div>
 	                    <input type="hidden" id="targetBranchId" name="targetBranchId" value="${branchesGrow.targetBranchId}"/>
@@ -60,10 +64,6 @@
 	                        <option value="DI">配送入库</option>
 	                   </select>
 	               </div>
-	               <div class="ub ub-ac umar-r40">
-		                <div class="umar-r10 uw-60 ut-r">货号:</div>
-		                <input class="uinp" name=skuCode id="skuCode" type="text">
-		           </div>
 	            </div>
        	</form>
         <div class="ub ub-f1  umar-t8 umar-b8">

@@ -26,7 +26,7 @@
 	                <shiro:hasPermission name="JxcCostAdjust:print">
 	                	<div class="ubtns-item" onClick="printDesign()">打印</div>
 	                </shiro:hasPermission>
-	                <div class="ubtns-item" id="set" onclick="resetForm()" >重置</div>
+	                <div class="ubtns-item" id="set" onclick="gFunRefresh()" >重置</div>
 	                <div class="ubtns-item" onclick="toClose()">退出</div>
 	            </div>
 	        	<div class="ub ub-ac umar-l20">

@@ -26,7 +26,7 @@
 	            <shiro:hasPermission name="JxcCashDaily:export">
 	                <div class="ubtns-item" onclick="exportExcel()">导出</div>
 	            </shiro:hasPermission>
-	                <div class="ubtns-item" onclick="resetForm()">重置</div>
+	                <div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 	                <div class="ubtns-item" onclick="toClose()">退出</div>
 	            </div>
 	            

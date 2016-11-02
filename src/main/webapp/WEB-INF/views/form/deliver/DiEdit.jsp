@@ -19,7 +19,7 @@
                 <div class="ubtns-item" onclick="check()">审核</div>
                 <div class="ubtns-item" onclick="importproductAll()">导入明细</div>
                 <div class="ubtns-item" onclick="importproduct()">导入货号</div>
-                <div class="ubtns-item" onclick="toBack()">返回</div>
+                <div class="ubtns-item" onclick="toBackByJS()">返回</div>
             </div>
         </div>
         <div class="ub umar-t8 uc-black">【单号】：<span id="formNo">${form.formNo}</span></div>

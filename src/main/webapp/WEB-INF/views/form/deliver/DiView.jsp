@@ -20,7 +20,7 @@
             	<div class="ubtns-item" onclick="printDesign('${form.formNo}')">打印</div>
             	<div class="ubtns-item"  onclick="exportData('DI','gridEditRequireOrder')">导出明细</div>
             	<div class="ubtns-item"  onclick="exportData('DI','gridEditRequireOrder','1')">导出货号</div>
-                <div class="ubtns-item" onclick="toBack()">返回</div>
+                <div class="ubtns-item" onclick="toBackByJS()">返回</div>
             </div>
         </div>
         <div class="ub umar-t8 uc-black">【单号】：${form.formNo}</div>

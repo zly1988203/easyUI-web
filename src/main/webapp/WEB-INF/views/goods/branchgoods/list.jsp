@@ -23,7 +23,7 @@
 	                <shiro:hasPermission name="JxcGoodsIntroduce:search">
 	                 <div class="ubtns-item" onclick="query()">查询</div>
 	                </shiro:hasPermission>
-	                <div class="ubtns-item" onclick="resetForm()">重置</div>
+	                <div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 	                <shiro:hasPermission name="JxcGoodsIntroduce:importBySkuCode">
 					  <div class="ubtns-item" onclick="importShow(0)">导入货号</div>
 					</shiro:hasPermission>
