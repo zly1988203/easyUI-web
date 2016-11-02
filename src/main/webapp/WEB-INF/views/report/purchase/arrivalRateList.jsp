@@ -15,8 +15,12 @@
     	<form id="queryForm" action="" method="post">
 	        <div class="ub ub-ac">
 	            <div class="ubtns"> 
+	            <shiro:hasPermission name="JxcPurArrivalRate:search">
 					<div class="ubtns-item" onclick="query()">查询</div>
+				</shiro:hasPermission>
+	            <shiro:hasPermission name="JxcPurArrivalRate:export">
 	                <div class="ubtns-item" onclick="exportExcel()">导出</div>
+				</shiro:hasPermission>
 	                <div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 	                <div class="ubtns-item" onclick="toClose()">退出</div>
 	            </div>
