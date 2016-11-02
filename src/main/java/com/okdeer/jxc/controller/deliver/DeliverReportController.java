@@ -200,7 +200,6 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
 			}
 			if(BranchTypeEnum.HEAD_QUARTERS.getCode().toString().equals(vo.getBranchId())) {
 				vo.setBranchId(null);
-				//vo.setBranchCompleCode(getCurrBranchCompleCode());
 			}
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
@@ -230,6 +229,9 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
 			if (StringUtils.isNullOrEmpty(vo.getDeliverType())) {
 				vo.setDeliverType("");
 			}
+			if (BranchTypeEnum.HEAD_QUARTERS.getCode().toString().equals(vo.getBranchId())) {
+				vo.setBranchId(null);
+			}
 			List<DeliverDaAndDoFormListVo> exportList = deliverFormReportServiceApi.queryDaAndDoFormLists(vo);
 			String fileName = "配送明细" + "_" + DateUtils.getCurrSmallStr();
 			String templateName = ExportExcelConstant.DELIVER_FORM_LIST_REPORT;
@@ -258,6 +260,9 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
 			}
 			if (StringUtils.isNullOrEmpty(vo.getDeliverType())) {
 				vo.setDeliverType("");
+			}
+			if (BranchTypeEnum.HEAD_QUARTERS.getCode().toString().equals(vo.getBranchId())) {
+				vo.setBranchId(null);
 			}
 			DeliverDaAndDoFormListVo deliverDaAndDoFormListVo = deliverFormReportServiceApi
 					.queryDaAndDoFormListsSum(vo);

@@ -55,7 +55,7 @@ function initDatagridRequireOrders(){
             {field: 'skuCode', title: '货号', width: '100px', align: 'left'},
             {field: 'skuName', title: '商品名称', width: '100px', align: 'left'},
             {field: 'barCode', title: '条码', width: '100px', align: 'left'},
-            {field: 'categoryCode', title: '类别编码', width: '100px', align: 'left'},
+            {field: 'categoryCode', title: '类别编号', width: '100px', align: 'left'},
             {field: 'categoryName', title: '类别', width: '100px', align: 'left'},
             {field: 'spec', title: '规格', width: '100px', align: 'left'},
             {field: 'unit', title: '单位', width: '100px', align: 'left'},
