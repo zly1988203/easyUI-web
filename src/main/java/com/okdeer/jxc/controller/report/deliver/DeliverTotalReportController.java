@@ -27,6 +27,7 @@ import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.common.ReportController;
 import com.okdeer.jxc.report.deliver.service.DeliverTotalReportServiceApi;
+import com.okdeer.jxc.utils.UserUtil;
 
 
 @Controller
@@ -68,6 +69,12 @@ public class DeliverTotalReportController extends ReportController {
 	@Override
 	public Map<String, Object> getParam(HttpServletRequest request) {
 		Map<String, Object> map= this.builderParams(request, null);
+		if(!map.containsKey("branchId")){
+			map.put("branchCompleCode", UserUtil.getCurrBranchCompleCode());
+		}
+		if(!map.containsKey("categoryType")||"".equals(map.get("categoryType"))){
+			map.put("categoryType", "smallCategory");
+		}
 		return map;
 	}
 
