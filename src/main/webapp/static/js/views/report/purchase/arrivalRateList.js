@@ -13,8 +13,8 @@ $(function() {
 		if(val<0||val>1){
 			   $(this).val("");	
 		}
-		else if(str.length>=7){
-		    var subval=str.substring(0,7);
+		else if(str.length>=6){
+		    var subval=str.substring(0,6);
 		    $(this).val(subval);	
 		}
 	})
