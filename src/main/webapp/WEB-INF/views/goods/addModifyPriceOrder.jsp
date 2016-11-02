@@ -55,7 +55,7 @@
 		                	<div class="ubtns-item" id="importdetail" onclick="toImportproduct(0)">导入货号</div>
 		               		<div class="ubtns-item" id="importdetail" onclick="toImportproduct(1)">导入条码</div>
 		               	 </shiro:hasPermission>
-		               		<div class="ubtns-item" id="set" onclick="resetForm()">重置</div>
+		               		<div class="ubtns-item" id="set" onclick="gFunRefresh()">重置</div>
 	                </c:if>
                <%--  <div class="ubtns-item" onclick="printDesign('${goodsPriceForm.formNo}')">打印</div> --%>
                 <div class="ubtns-item" onclick="toBack()">返回</div>

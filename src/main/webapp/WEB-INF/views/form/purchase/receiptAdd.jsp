@@ -17,7 +17,7 @@
             <div class="ubtns">
                 <div class="ubtns-item" onclick="saveItemHandel()">保存</div>
                 <!--<div class="ubtns-item" onclick="selectGoods()">商品选择</div>-->
-                <div class="ubtns-item"  onclick="back()">返回</div>
+                <div class="ubtns-item"  onclick="toBackByJS()">返回</div>
             </div>
         </div>
         <form id="formAdd">

@@ -23,7 +23,7 @@
                 <shiro:hasPermission name="JxcPriceAdjust:delete">
 	                <div class="ubtns-item" onclick="delModifyOrderDialog();">删单</div>
 	            </shiro:hasPermission>
-	            <div class="ubtns-item" onclick="resetForm()">重置</div>
+	            <div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 	            <div class="ubtns-item" onclick="window.parent.closeTab()">退出</div>
             </div>
 			<div class="ub">

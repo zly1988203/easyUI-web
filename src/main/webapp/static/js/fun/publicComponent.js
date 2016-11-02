@@ -651,6 +651,9 @@ function toClose(){
 function toBack(){
 	history.go(-1);
 }
+function toBackByJS(){
+	history.go(-1);
+}
 /**
  * 公共库-表格 黄江
  * ***************核心请勿修改*********************

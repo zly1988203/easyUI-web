@@ -20,7 +20,7 @@
 
 	                <div class="ubtns-item" onclick="receiptDelete()">删除</div>
 	                <div class="ubtns-item" onclick="printDesign()">打印</div>
-	                <div class="ubtns-item" onclick="resetForm()">重置</div>
+	                <div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 	                <div class="ubtns-item" onclick="toClose()">退出</div>
 	            </div>
 	            <!-- 引入时间选择控件 -->

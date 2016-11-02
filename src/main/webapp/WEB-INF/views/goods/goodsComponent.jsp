@@ -14,7 +14,7 @@
 	        <div class="ub ub-ac">
 	            <div class="ubtns">
 					<div class="ubtns-item" onclick="query()">查询</div>
-					<div class="ubtns-item" onclick="reset()">重置</div>
+					<div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 	                <div class="ubtns-item" onclick="toClose()">退出</div>
 	            </div>
 	        </div>
