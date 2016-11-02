@@ -131,7 +131,7 @@ public class DeliverFormListController extends BaseController<DeliverFormListCon
 				fileName = fileName + "_" + "货号";
 			} else {
 				// 模板名称，包括后缀名
-				templateName = ExportExcelConstant.PURCHASEFORM;
+				templateName = ExportExcelConstant.DELIVERFORM;
 			}
 			// 导出Excel
 			exportListForXLSX(response, exportList, fileName, templateName);

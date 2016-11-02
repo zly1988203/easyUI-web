@@ -170,10 +170,10 @@ function exportDetails(){
 		$.messager.alert('提示', '日期不能为空');
 		return ;
 	}
-	if(!branchName){
+	/*if(!branchName){
 		$.messager.alert('提示', '机构名不能为空');
 		return ;
-	}
+	}*/
 	var length = $("#purReportDetail").datagrid('getData').total;
 	if(length == 0){
 		$.messager.alert('提示',"没有数据");

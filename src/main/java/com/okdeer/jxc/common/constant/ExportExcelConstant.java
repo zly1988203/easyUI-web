@@ -160,11 +160,11 @@ public interface ExportExcelConstant {
 	 * @Fields PURCHASEFORMHH : 采购单 退货单 收货单 货号模版
 	 */
 	String PURCHASEFORMCODE = "purchaseFormCode.xlsx";
-
+	
 	/**
-	 * @Fields PURCHASEFORM : DA 要货单 DO 出库单  DI入库单  DD 店间要货  DR退货申请
+	 * @Fields PURCHASEFORMHH :DA 要货单 DO 出库单  DI入库单  DD 店间要货  DR退货申请 导出模版
 	 */
-	String DELIVERFORM = "deliverForm.xlsx";
+	String DELIVERFORM = "DeliverForm.xlsx";
 
 	/**
 	 * @Fields DADOFORM : DADOform.xlsx

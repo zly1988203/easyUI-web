@@ -2,17 +2,22 @@
  * Created by wxl on 2016/08/17.
  */
 $(function() {
-	// 开始和结束时间
-	$("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
-	$("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
-    $("#categoryTypeDiv").hide();
-	$("#categoryType").combobox("disable");
-
-	initPurReportTotalGrid();
-	$("input[name='searchType'][value=goodsTotal]").attr("checked",true); 
-	$("input[name='searchType'][value=goodsTotal]").click();
 	//选择报表类型
 	changeType();
+	initPurReportTotalGrid();
+	// 开始和结束时间
+	if(!$("#txtStartDate").val()){
+		// 开始和结束时间
+		$("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
+		$("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+	    $("#categoryTypeDiv").hide();
+		$("#categoryType").combobox("disable");
+		
+	}else{
+		flushFlg = true;
+		$('input:radio[name=searchType]')[0].checked = true;
+		$('input:radio[name=searchType]')[0].click();
+	}
 });
 
 var flushFlg = false;
@@ -534,6 +539,7 @@ function purchaseTotalCx(){
 		return ;
 	}*/
 	var formData = $("#queryForm").serializeObject();
+	debugger;
 	$("#purReportTotal").datagrid("options").queryParams = formData;
 	$("#purReportTotal").datagrid("options").method = "post";
 	$("#purReportTotal").datagrid("options").url =  contextPath+"/report/purchase/getPurReportTotal";
@@ -550,10 +556,10 @@ function exportTotal(){
 		$.messager.alert('提示', '日期不能为空');
 		return ;
 	}
-	if(!branchName){
+	/*if(!branchName){
 		$.messager.alert('提示', '机构名不能为空');
 		return ;
-	}
+	}*/
 	var length = $("#purReportTotal").datagrid('getData').total;
 	if(length == 0){
 		$.messager.alert('提示',"没有数据");
