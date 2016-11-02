@@ -15,7 +15,7 @@
                         <c:if test="${type=='DA'}">
                         	<div class="umar-l10">
 		                        <span class="umar-l10  umar-r10">时间：</span>
-		                        <input class="Wdate"  readonly="readonly" name="endTime" id="txtEndDate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" />
+		                        <input class="Wdate"  readonly="readonly" name="endTime" id="popupSearchDateTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" />
                         	</div>
                         </c:if>
                         <div class="ubtn umar-l20" onclick="formCx()">查询</div>
