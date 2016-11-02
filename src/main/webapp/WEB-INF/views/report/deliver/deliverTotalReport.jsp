@@ -63,7 +63,7 @@
 				   </select>
 			  </div>
 			  <div class="ub ub-ac umar-r40">
-				<div class="umar-r10 uw-60 ut-r">单号:</div>
+				<div class="umar-r10 uw-60 ut-r">单据编号:</div>
 				<input type="text" name="formNo" id="formNo" class="uinp" readonly="readonly"/>
 				<!-- <div class="uinp-more" id="cashierIdSelect" onclick="selectGoods()">...</div> -->
 			  </div>
