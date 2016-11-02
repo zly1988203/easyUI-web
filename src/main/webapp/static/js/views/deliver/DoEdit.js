@@ -240,6 +240,22 @@ function initDatagridEditRequireOrder(){
                     }
                 }
             },
+            {field:'defectNum',title:'缺货数',width:'100px',align:'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return
+                    }
+                    return  "<b>"+parseFloat(value||0).toFixed(2)+ "<b>";
+                },
+                editor:{
+                    type:'numberbox',
+                    options:{
+                        disabled:true,
+                        min:0,
+                        precision:2,
+                    }
+                }
+            },
             {field:'remark',title:'备注',width:'200px',align:'left',editor:'textbox'}
         ]],
         onClickCell:function(rowIndex,field,value){
@@ -253,17 +269,36 @@ function initDatagridEditRequireOrder(){
             }
         },
         onLoadSuccess:function(data){
+            if(isFirst)return;
+            isFirst = true;
         	if(!oldData["grid"]){
             	oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
             		return $.extend(true,{},obj);//返回对象的深拷贝
             	});
             }
+            var rows = data.rows;
+            var isError = false;
+            for(var i in rows){
+                var oldDefectNum = rows[i]["defectNum"]||0;
+                rows[i]["oldDefectNum"] = oldDefectNum
+                var defectNum = parseFloat(rows[i]["sourceStock"]||0)-parseFloat(rows[i]["dealNum"]||0);
+                defectNum = defectNum<0?-defectNum:0;
+                debugger;
+                if(parseFloat(oldDefectNum)!=parseFloat(defectNum)&&parseInt(defectNum)!=0){
+                    isError = true;
+                }
+                rows[i]["defectNum"] = defectNum;
+            }
+            if(isError){
+                messager("库存数发送改变，请先保存");
+            }
+            $('#gridEditRequireOrder').datagrid('loadData',rows);
             gridHandel.setDatagridHeader("center");
             updateFooter();
         }
     });
 }
-
+var isFirst = false;
 //监听商品箱数
 function onChangeLargeNum(newV,oldV){
     if(!gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuName')){
@@ -297,6 +332,18 @@ function onChangeRealNum(newV,oldV) {
         messager("配送规格不能为0");
         return;
     }
+    var applyNum = gridHandel.getFieldData(gridHandel.getSelectRowIndex()||0,'applyNum');
+    if(parseFloat(newV)>parseFloat(applyNum)){
+        messager("数量不能大于要货数量("+applyNum+")");
+        gridHandel.setFieldValue('dealNum',applyNum);
+        return;
+    }else{
+        var sourceStockVal = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'sourceStock');
+        var defectNum = parseFloat(sourceStockVal||0)-parseFloat(newV||0);
+        var defectNumVal = defectNum<0?-defectNum:0;
+        gridHandel.setFieldValue('defectNum',defectNumVal);
+    }
+
     var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
     var salePriceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'salePrice');
     gridHandel.setFieldValue('amount',(priceValue*newV).toFixed(4));             //金额=数量*单价
