@@ -680,9 +680,6 @@ function printDesign(){
 
 
 
-function back(){
-	location.href = contextPath+"/form/purchase/returnList";
-}
 
 function toImportproduct(type){
     var branchId = $("#branchId").val();

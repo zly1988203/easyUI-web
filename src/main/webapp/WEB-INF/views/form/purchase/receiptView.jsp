@@ -18,7 +18,7 @@
             	<div class="ubtns-item" onclick="receiptAdd()">新增</div>
                 <div class="ubtns-item" onclick="printDesign()">打印</div>
                 <div class="ubtns-item" onclick="exportData('PI');">导出明细</div>
-                <div class="ubtns-item"  onclick="back()">返回</div>
+                <div class="ubtns-item" onclick="toBack()">返回</div>
             </div>
         </div>
         <div class="ub umar-t8 uc-black">【单号】：<span >${form.formNo}</span></div>

@@ -643,7 +643,3 @@ function selectPurchaseForm(){
 	});
 }
 
-
-function back(){
-	location.href = contextPath+"/form/purchase/receiptList";
-}

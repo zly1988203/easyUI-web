@@ -20,7 +20,7 @@
                 <!--<div class="ubtns-item" onclick="selectGoods()">商品选择</div>-->
                 <div class="ubtns-item" onclick="orderDelete()">删单</div>
                 <div class="ubtns-item" onclick="printDesign()">打印</div>
-                <div class="ubtns-item"  onclick="back()">返回</div>
+                <div class="ubtns-item" onclick="toBack()">返回</div>
             </div>
         </div>
         <div class="ub umar-t8 uc-black">【单号】：<span >${form.formNo}</span></div>
@@ -56,7 +56,7 @@
                 <div class="utxt">${form.updateUserName}</div>
             </div>
             <div class="ub ub-ac">
-                <div class="umar-r10 uw-60 ut-r">制单日期:</div>
+                <div class="umar-r10 uw-60 ut-r">制1单日期:</div>
                 <div class="utxt"><fmt:formatDate value="${form.updateTime}" pattern="yyyy-MM-dd"/></div>
             </div>
         </div>

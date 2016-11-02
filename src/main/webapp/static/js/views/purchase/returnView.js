@@ -155,9 +155,6 @@ function printDesign(){
      parent.addTabPrint('PRSheet' + id,formNo+'单据打印',contextPath + '/printdesign/design?page=PRSheet&controller=/form/purchase&template=-1&sheetNo=' + id + '&gridFlag=PRGrid','');
 }
 
-function back(){
-	location.href = contextPath+"/form/purchase/returnList";
-}
 
 function returnAdd(){
 	location.href = contextPath + "/form/purchase/returnAdd";
