@@ -239,6 +239,7 @@ function initDatagridAddRequireOrder(){
                     }
                 }
             },
+            {field:'defectNum',title:'缺货数',width:'100px',align:'left'},
             {field:'remark',title:'备注',width:'200px',align:'left',editor:'textbox'}
         ]],
         onClickCell:function(rowIndex,field,value){
@@ -255,10 +256,7 @@ function initDatagridAddRequireOrder(){
             gridHandel.setDatagridHeader("center");
             updateFooter();
         }
-
- 
     });
-
 }
 //监听商品箱数
 function onChangeLargeNum(newV,oldV){
