@@ -9,7 +9,8 @@ $(function() {
 	$("#categoryType").combobox("disable");
 
 	initPurReportTotalGrid();
-
+	$("input[name='searchType'][value=goodsTotal]").attr("checked",true); 
+	$("input[name='searchType'][value=goodsTotal]").click();
 	//选择报表类型
 	changeType();
 });
