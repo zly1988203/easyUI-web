@@ -355,12 +355,6 @@ function initDatagridBySku(){
 }
 
 function query(){
-	/*var branchId = $("#branchNameOrCode").val();
-	//判定发货分店是否存在
-	if(branchId==""){
-		messager("请先选择机构名称");
-		return;
-	}*/
 	$("#gridOrders").datagrid("options").queryParams = $("#queryForm").serializeObject();
 	$("#gridOrders").datagrid("options").method = "post";
 	$("#gridOrders").datagrid("options").url = contextPath+'/report/purchase/getList';
