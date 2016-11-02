@@ -228,7 +228,7 @@ function initPurReportTotalGrid() {
         ]],
 		onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
-			updateFooter();
+			//updateFooter();
 		}
     });
     if(flushFlg){
@@ -323,7 +323,7 @@ function initPurReportSupplierGrid() {
         ]],
 		onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
-			updateFooter();
+			//updateFooter();
 		}
     });
     if(flushFlg){
@@ -409,7 +409,7 @@ function initPurFormNoGrid() {
         ]],
 		onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
-			updateFooter();
+			//updateFooter();
 		}
     });
     if(flushFlg){
@@ -506,7 +506,7 @@ function initCategoryGrid() {
         ]],
 		onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
-			updateFooter();
+			//updateFooter();
 		}
     });
     if(flushFlg){
