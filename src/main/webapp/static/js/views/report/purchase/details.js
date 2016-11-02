@@ -77,9 +77,9 @@ function initPurReportDetailGrid(queryType) {
             		if(row.isFooter){
                         return "";
                     }
-					var str=0.00;
+					var str="";
 					if(value){
-						str= parseFloat(value).toFixed(2);
+						str= '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 					}
     				return str;
     			}
@@ -105,7 +105,7 @@ function initPurReportDetailGrid(queryType) {
             		if(row.isFooter){
                         return "";
                     }
-    				return  parseFloat(value||0).toFixed(2);
+    				return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
     			}
             },
             {field: 'taxAmount', title: '税额', width:120, align: 'right',
@@ -127,7 +127,7 @@ function initPurReportDetailGrid(queryType) {
         ]],
 		onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
-			updateFooter();
+			//updateFooter();
 		}
     });
 }
