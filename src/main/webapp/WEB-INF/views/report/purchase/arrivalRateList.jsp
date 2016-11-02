@@ -28,21 +28,21 @@
 	             <div class="ub  ub-ac umar-r40">
                    <div class="umar-r10 uw-70 ut-r">机构名称:</div>
 	                    <input class="uinp ub ub-f1" type="hidden" id="branchCode" name="branchCode">
-                        <input class="uinp ub ub-f1" type="text" id="branchNameOrCode" name="branchNameOrCode" onblur="cleanBranchCode();" maxlength="50">
-                   <div class="uinp-more" onclick="searchBranch()">...</div>
+                        <input class="uinp ub ub-f1" type="text" id="branchNameOrCode" name="branchNameOrCode" readonly="readonly" onclick="cleanBranchCode();" maxlength="50">
+                   <div class="uinp-more uinp-branchNameOrCode" onclick="searchBranch()">...</div>
                 </div>
 	            <div class="ub ub-ac umar-r40">
 	                <div class="umar-r10 uw-60 ut-r">供应商:</div>
 	                <input class="uinp" name="supplierId" id="supplierId" type="hidden">
 	                <input class="uinp" id="supplierName" type="text" readonly="readonly" onclick="selectSupplier()">
-	                <div class="uinp-more" onclick="selectSupplier()">...</div>
+	                <div class="uinp-more uinp-supplierName" onclick="selectSupplier()">...</div>
 	            </div>
 	             <div class="ub ub-ac umar-r40">
                     <div class="umar-r10 uw-60 ut-r">类别:</div>
                     <input id="categoryId" name="categoryId" class="uinp" type="hidden">
                     <input id="categoryCode" name="categoryCode" class="uinp" type="hidden">
                     <input id="categoryName" name="categoryName" class="uinp uw-200 easyui-validatebox" type="text" readonly="readonly">
-                    <div class="uinp-more new-right" onclick="getGoodsType()">...</div>
+                    <div class="uinp-more uinp-categoryName " onclick="getGoodsType()">...</div>
                 </div>
 	        </div>
 	        <div class="ub umar-t8">
@@ -52,7 +52,7 @@
 	            </div>
 	            <div class="ub ub-ac umar-r40">
 	                <div class="umar-r10 uw-60 ut-r">到货率≤:</div>
-	                <input class="uinp" name="arrivalRate" id="arrivalRate"  type="number" maxlength="7"  onKeypress="return (/[\d.]/.test(String.fromCharCode(event.keyCode)))">
+	                <input class="uinp deal" name="arrivalRate" id="arrivalRate"  type="number" maxlength="7"  onKeypress="return (/[\d.]/.test(String.fromCharCode(event.keyCode)))">
 	            </div>
 	            <div class="ub ub-ac">
 	                <div class="umar-r10 uw-70 ut-r">查询类型:</div>

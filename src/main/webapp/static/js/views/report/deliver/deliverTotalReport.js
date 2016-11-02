@@ -591,5 +591,5 @@ var resetForm = function(){
 	$("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
 	$("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 	$('input:radio[name=queryType]')[0].checked = true;
-	
+	$("input[name='categoryType'][value=smallCategory]").click();
 };
