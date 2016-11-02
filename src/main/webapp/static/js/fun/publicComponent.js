@@ -110,6 +110,10 @@ function toChangeDatetime(index){
             $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getCurrDayPreOrNextDay("prev",29)).format("yyyy-MM-dd hh:mm"));
             $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getCurrentDate()).format("yyyy-MM-dd hh:mm"));
             break;
+        case 10: //往后推一个月
+            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getPreMonthDate()).format("yyyy-MM-dd hh:mm"));
+            $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getCurrentDate()).format("yyyy-MM-dd hh:mm"));
+            break;
         default :
             break;
     }
@@ -650,6 +654,10 @@ function toClose(){
 //返回
 function toBack(){
 	history.go(-1);
+}
+//刷新当前页面
+function gFunRefresh() {
+    window.location.reload();
 }
 function toBackByJS(){
 	history.go(-1);

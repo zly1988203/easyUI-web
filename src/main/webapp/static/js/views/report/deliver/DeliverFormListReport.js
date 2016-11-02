@@ -4,13 +4,12 @@
  */
 $(function(){
 	//开始和结束时间
-    $("#startTime").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
-    $("#endTime").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
-    toChangeDatetime(9);
-    initDatagridRequireOrders();
-    branchId = $("#branchId").val();
-    brancheType = $("#brancheType").val();
+	toChangeDatetime(10);
+	initDatagridRequireOrders();
+	branchId = $("#branchId").val();
+	brancheType = $("#brancheType").val();
 });
+
 var gridHandel = new GridClass();
 //初始化表格
 function initDatagridRequireOrders(){
@@ -56,13 +55,13 @@ function initDatagridRequireOrders(){
             {field: 'skuCode', title: '货号', width: '100px', align: 'left'},
             {field: 'skuName', title: '商品名称', width: '100px', align: 'left'},
             {field: 'barCode', title: '条码', width: '100px', align: 'left'},
-            {field: 'categoryCode', title: '类别编码', width: '100px', align: 'left'},
+            {field: 'categoryCode', title: '类别编号', width: '100px', align: 'left'},
             {field: 'categoryName', title: '类别', width: '100px', align: 'left'},
             {field: 'spec', title: '规格', width: '100px', align: 'left'},
             {field: 'unit', title: '单位', width: '100px', align: 'left'},
-            {field: 'price', title: '单价', width: '100px', align: 'left'},
-            {field: 'inputTax', title: '税率', width: '100px', align: 'left'},
-            {field: 'largeNum', title: '箱数', width: '100px', align: 'left',
+            {field: 'price', title: '单价', width: '100px', align: 'right'},
+            {field: 'inputTax', title: '税率', width: '100px', align: 'right'},
+            {field: 'largeNum', title: '箱数', width: '100px', align: 'right',
             	formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -73,7 +72,7 @@ function initDatagridRequireOrders(){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
            },
-            {field: 'num', title: '数量', width: '100px', align: 'left',
+            {field: 'num', title: '数量', width: '100px', align: 'right',
             	formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
