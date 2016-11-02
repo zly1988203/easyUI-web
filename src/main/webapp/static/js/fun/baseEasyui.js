@@ -90,7 +90,11 @@ var dateUtil = {
     getCurrentDate:function () {
         return new Date();
     },
-    
+    getCurrentDateTime:function () {
+    	 var result = new Date();
+         var newResult = result.getFullYear() + "-" + this.parseDate(result.getMonth() + 1) + "-" + this.parseDate(result.getDate())+" 16:00";
+         return new Date(newResult);
+    },
     /**
      * 获取系统当前时间显示值，默认格式yyyy-MM-dd
      * @returns {string}
