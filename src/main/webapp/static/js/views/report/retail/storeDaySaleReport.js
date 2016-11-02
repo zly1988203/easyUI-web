@@ -52,68 +52,753 @@ function initDatagridRequire(){
             {field:'oneflag',title:'30号',width:'100px',align:'left',colspan:2},
             {field:'oneflag',title:'31号',width:'100px',align:'left',colspan:2}
         ],[ 
-            {field:'saleAmount1',title:'销售额',width: '50px',align:'center',rowspan:1},
-            {field:'profitAmount1',title:'毛利',align:'center',width: '50px',rowspan:1},
-            {field:'saleAmount2',title:'销售额',align:'center',width: '50px',rowspan:1},
-            {field:'profitAmount2',title:'毛利',align:'center',width: '50px',rowspan:1},
-            {field:'saleAmount3',title:'销售额',align:'center',width: '50px',rowspan:1},
-            {field:'profitAmount3',title:'毛利',align:'center',width: '50px',rowspan:1},
-            {field:'saleAmount4',title:'销售额',align:'center',width: '50px',rowspan:1},
-            {field:'profitAmount4',title:'毛利',align:'center',width: '50px',rowspan:1},
-            {field:'saleAmount5',title:'销售额',align:'center',width: '50px',rowspan:1},
-            {field:'profitAmount5',title:'毛利',align:'center',width: '50px',rowspan:1},
-            {field:'saleAmount6',title:'销售额',align:'center',width: '50px',rowspan:1},
-            {field:'profitAmount6',title:'毛利',align:'center',width: '50px',rowspan:1},
-            {field:'saleAmount7',title:'销售额',align:'center',width: '50px',rowspan:1},
-            {field:'profitAmount7',title:'毛利',align:'center',width: '50px',rowspan:1},
-            {field:'saleAmount8',title:'销售额',align:'center',width: '50px',rowspan:1},
-            {field:'profitAmount8',title:'毛利',align:'center',width: '50px',rowspan:1},
-            {field:'saleAmount9',title:'销售额',align:'center',width: '50px',rowspan:1},
-            {field:'profitAmount9',title:'毛利',align:'center',width: '50px',rowspan:1},
-            {field:'saleAmount10',title:'销售额',align:'center',width: '50px',rowspan:1},
-            {field:'profitAmount10',title:'毛利',align:'center',width: '50px',rowspan:1},
-            {field:'saleAmount11',title:'销售额',align:'center',width: '50px',rowspan:1},
-            {field:'profitAmount11',title:'毛利',align:'center',width: '50px',rowspan:1},
-            {field:'saleAmount12',title:'销售额',align:'center',width: '50px',rowspan:1},
-            {field:'profitAmount12',title:'毛利',align:'center',width: '50px',rowspan:1},
-            {field:'saleAmount13',title:'销售额',align:'center',width: '50px',rowspan:1},
-            {field:'profitAmount13',title:'毛利',align:'center',width: '50px',rowspan:1},
-            {field:'saleAmount14',title:'销售额',align:'center',width: '50px',rowspan:1},
-            {field:'profitAmount14',title:'毛利',align:'center',width: '50px',rowspan:1},
-            {field:'saleAmount15',title:'销售额',align:'center',width: '50px',rowspan:1},
-            {field:'profitAmount15',title:'毛利',align:'center',width: '50px',rowspan:1},
-            {field:'saleAmount16',title:'销售额',align:'center',width: '50px',rowspan:1},
-            {field:'profitAmount16',title:'毛利',align:'center',width: '50px',rowspan:1},
-            {field:'saleAmount17',title:'销售额',align:'center',width: '50px',rowspan:1},
-            {field:'profitAmount17',title:'毛利',align:'center',width: '50px',rowspan:1},
-            {field:'saleAmount18',title:'销售额',align:'center',width: '50px',rowspan:1},
-            {field:'profitAmount18',title:'毛利',align:'center',width: '50px',rowspan:1},
-            {field:'saleAmount19',title:'销售额',align:'center',width: '50px',rowspan:1},
-            {field:'profitAmount19',title:'毛利',align:'center',width: '50px',rowspan:1},
-            {field:'saleAmount20',title:'销售额',align:'center',width: '50px',rowspan:1},
-            {field:'profitAmount20',title:'毛利',align:'center',width: '50px',rowspan:1},
-            {field:'saleAmount21',title:'销售额',align:'center',width: '50px',rowspan:1},
-            {field:'profitAmount21',title:'毛利',align:'center',width: '50px',rowspan:1},
-            {field:'saleAmount22',title:'销售额',align:'center',width: '50px',rowspan:1},
-            {field:'profitAmount22',title:'毛利',align:'center',width: '50px',rowspan:1},
-            {field:'saleAmount23',title:'销售额',align:'center',width: '50px',rowspan:1},
-            {field:'profitAmount23',title:'毛利',align:'center',width: '50px',rowspan:1},
-            {field:'saleAmount24',title:'销售额',align:'center',width: '50px',rowspan:1},
-            {field:'profitAmount24',title:'毛利',align:'center',width: '50px',rowspan:1},
-            {field:'saleAmount25',title:'销售额',align:'center',width: '50px',rowspan:1},
-            {field:'profitAmount25',title:'毛利',align:'center',width: '50px',rowspan:1},
-            {field:'saleAmount26',title:'销售额',align:'center',width: '50px',rowspan:1},
-            {field:'profitAmount26',title:'毛利',align:'center',width: '50px',rowspan:1},
-            {field:'saleAmount27',title:'销售额',align:'center',width: '50px',rowspan:1},
-            {field:'profitAmount27',title:'毛利',align:'center',width: '50px',rowspan:1},
-            {field:'saleAmount28',title:'销售额',align:'center',width: '50px',rowspan:1},
-            {field:'profitAmount28',title:'毛利',align:'center',width: '50px',rowspan:1},
-            {field:'saleAmount29',title:'销售额',align:'center',width: '50px',rowspan:1},
-            {field:'profitAmount29',title:'毛利',align:'center',width: '50px',rowspan:1},
-            {field:'saleAmount30',title:'销售额',align:'center',width: '50px',rowspan:1},
-            {field:'profitAmount30',title:'毛利',align:'center',width: '50px',rowspan:1},
-            {field:'saleAmount31',title:'销售额',align:'center',width: '50px',rowspan:1},
-            {field:'profitAmount31',title:'毛利',align:'center',width: '50px',rowspan:1}
+            {field:'saleAmount1',title:'销售额',width: '50px',align:'center',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'profitAmount1',title:'毛利',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount2',title:'销售额',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'profitAmount2',title:'毛利',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount3',title:'销售额',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'profitAmount3',title:'毛利',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount4',title:'销售额',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'profitAmount4',title:'毛利',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount5',title:'销售额',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'profitAmount5',title:'毛利',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount6',title:'销售额',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'profitAmount6',title:'毛利',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount7',title:'销售额',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'profitAmount7',title:'毛利',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount8',title:'销售额',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'profitAmount8',title:'毛利',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount9',title:'销售额',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'profitAmount9',title:'毛利',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount10',title:'销售额',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'profitAmount10',title:'毛利',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount11',title:'销售额',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'profitAmount11',title:'毛利',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount12',title:'销售额',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'profitAmount12',title:'毛利',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount13',title:'销售额',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'profitAmount13',title:'毛利',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount14',title:'销售额',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'profitAmount14',title:'毛利',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount15',title:'销售额',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'profitAmount15',title:'毛利',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount16',title:'销售额',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'profitAmount16',title:'毛利',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount17',title:'销售额',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'profitAmount17',title:'毛利',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+             
+            },
+            {field:'saleAmount18',title:'销售额',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            
+            },
+            {field:'profitAmount18',title:'毛利',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount19',title:'销售额',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'profitAmount19',title:'毛利',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount20',title:'销售额',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'profitAmount20',title:'毛利',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount21',title:'销售额',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'profitAmount21',title:'毛利',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount22',title:'销售额',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'profitAmount22',title:'毛利',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount23',title:'销售额',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'profitAmount23',title:'毛利',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount24',title:'销售额',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'profitAmount24',title:'毛利',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount25',title:'销售额',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'profitAmount25',title:'毛利',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount26',title:'销售额',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            
+            },
+            {field:'profitAmount26',title:'毛利',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount27',title:'销售额',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'profitAmount27',title:'毛利',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount28',title:'销售额',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'profitAmount28',title:'毛利',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount29',title:'销售额',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'profitAmount29',title:'毛利',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount30',title:'销售额',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'profitAmount30',title:'毛利',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount31',title:'销售额',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'profitAmount31',title:'毛利',align:'center',width: '50px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            }
         ]],
         
     });
