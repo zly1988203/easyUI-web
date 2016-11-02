@@ -1,20 +1,20 @@
 $(function() {
 	//开始和结束时间
-    $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
+	$("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 	//初始化默认条件
     initDatagridByFormNo();
 	//选择报表类型
 	changeType();
-
+	checktype();
 	$(document).on('keyup','#arrivalRate',function(){
 		var val=parseFloat($(this).val());
 	    var str=$(this).val();
 		if(val<0||val>1){
 			   $(this).val("");	
 		}
-		else if(str.length>=7){
-		    var subval=str.substring(0,7);
+		else if(str.length>=6){
+		    var subval=str.substring(0,6);
 		    $(this).val(subval);	
 		}
 	})
@@ -23,10 +23,12 @@ $(function() {
 var flushFlg = false;
 function changeType(){
 	$(".radioItem").change(function(){
+		checktype()
 		var val = $(this).val();
 		if (val==0) {
 			flushFlg=true;
 			initDatagridByFormNo();
+			
 		} else if (val==1) {
 			initDatagridBySupplier();
 		} else if (val==2) {
@@ -35,6 +37,56 @@ function changeType(){
 			initDatagridBySku();
 		}
 	});
+}
+
+function checktype(){
+	
+ var len=$('.radioItem').length;
+  console.log(len)
+	for(var i=0;i<len;i++){
+		var check=$('.radioItem').eq(i).prop('checked');
+		var value=$('.radioItem').eq(i).val();
+		if(check==true&&value=='0'){
+			$('#categoryName').addClass('uinp-no-more');
+			$('#categoryName').removeAttr('onclick');
+			$('.uinp-categoryName').removeAttr('onclick');
+			$('#supplierName').removeClass('uinp-no-more');
+			$('#supplierName').attr('onclick','selectSupplier()');
+			$('.uinp-supplierName').attr('onclick','selectSupplier()');
+			$('#formNo').removeClass('uinp-no-more');
+			$('#formNo').removeAttr("readonly");
+		}
+		else if(check==true&&value=='1'){
+			$('#categoryName').addClass('uinp-no-more');
+			$('#categoryName').removeAttr('onclick');
+			$('.uinp-categoryName').removeAttr('onclick');
+			$('#formNo').addClass('uinp-no-more');
+			$('#formNo').attr("readonly","readonly"); 
+			$('#supplierName').removeClass('uinp-no-more');
+			$('#supplierName').attr('onclick','selectSupplier()');
+			$('.uinp-supplierName').attr('onclick','selectSupplier()');	
+		}
+		else if(check==true&&value=='2'){
+			$('#supplierName').addClass('uinp-no-more');
+			$('#supplierName').removeAttr('onclick');
+			$('.uinp-supplierName').removeAttr('onclick');
+			$('#formNo').addClass('uinp-no-more');
+			$('#formNo').attr("readonly","readonly"); 
+			$('#categoryName').attr('onclick','getGoodsType()');
+			$('.uinp-categoryName').attr('onclick','getGoodsType()');
+			$('#categoryName').removeClass('uinp-no-more');
+		}
+		else if(check==true&&value=='3'){
+			$('#categoryName').attr('onclick','getGoodsType()');
+			$('.uinp-categoryName').attr('onclick','getGoodsType()');
+			$('#categoryName').removeClass('uinp-no-more');
+			$('#supplierName').removeClass('uinp-no-more');
+			$('#supplierName').attr('onclick','selectSupplier()');
+			$('.uinp-supplierName').attr('onclick','selectSupplier()');
+			$('#formNo').removeClass('uinp-no-more');
+			$('#formNo').removeAttr("readonly");
+		}
+   }	
 }
 
 var gridHandel = new GridClass();
@@ -303,6 +355,12 @@ function initDatagridBySku(){
 }
 
 function query(){
+	var branchId = $("#branchNameOrCode").val();
+	//判定发货分店是否存在
+	if(branchId==""){
+		messager("请先选择机构名称");
+		return;
+	}
 	$("#gridOrders").datagrid("options").queryParams = $("#queryForm").serializeObject();
 	$("#gridOrders").datagrid("options").method = "post";
 	$("#gridOrders").datagrid("options").url = contextPath+'/report/purchase/getList';
@@ -339,17 +397,10 @@ function getGoodsType(){
  * 重置
  */
 function resetForm(){
-	 $("#txtStartDate").val('');
-	 $("#txtEndDate").val('');
-	 $('#branchCode').val('');
-	 $('#branchNameOrCode').val('');
-	 $('#supplierId').val('');
-	 $('#supplierName').val('');
-	 $('#categoryId').val('');
-	 $('#categoryName').val('');
-	 $('#categoryCode').val('');
-	 $('#formNo').val('');
-	 $('#arrivalRate').val('');
+	$("#queryForm").form('clear');
+	//开始和结束时间
+	$("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
+    $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 };
 
 //清空机构编号
