@@ -528,10 +528,10 @@ function purchaseTotalCx(){
 		$.messager.alert('提示', '日期不能为空');
 		return ;
 	}
-	if(!branchName){
+	/*if(!branchName){
 		$.messager.alert('提示', '机构名不能为空');
 		return ;
-	}
+	}*/
 	var formData = $("#queryForm").serializeObject();
 	$("#purReportTotal").datagrid("options").queryParams = formData;
 	$("#purReportTotal").datagrid("options").method = "post";

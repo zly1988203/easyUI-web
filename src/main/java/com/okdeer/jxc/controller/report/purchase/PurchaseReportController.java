@@ -13,6 +13,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,7 +22,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
-import com.okdeer.jxc.common.enums.BranchTypeEnum;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
@@ -91,8 +91,11 @@ public class PurchaseReportController extends
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
 			LOG.debug("采购明细查询：{}", qo);
-			if(BranchTypeEnum.HEAD_QUARTERS.getCode().toString().equals(qo.getBranchId())) {
+			/*if(BranchTypeEnum.HEAD_QUARTERS.getCode().toString().equals(qo.getBranchId())) {
 				qo.setBranchId(null);
+				qo.setBranchCompleCode(getCurrBranchCompleCode());
+			}*/
+			if(StringUtils.isEmpty(qo.getBranchId())) {
 				qo.setBranchCompleCode(getCurrBranchCompleCode());
 			}
 			qo.setPageNumber(pageNumber);
@@ -133,8 +136,11 @@ public class PurchaseReportController extends
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		LOG.info("采购单明细导出:{}" + qo);
 		try {
-			if(BranchTypeEnum.HEAD_QUARTERS.getCode().toString().equals(qo.getBranchId())) {
+			/*if(BranchTypeEnum.HEAD_QUARTERS.getCode().toString().equals(qo.getBranchId())) {
 				qo.setBranchId(null);
+				qo.setBranchCompleCode(getCurrBranchCompleCode());
+			}*/
+			if(StringUtils.isEmpty(qo.getBranchId())) {
 				qo.setBranchCompleCode(getCurrBranchCompleCode());
 			}
 			qo.setPageNumber(pageNumber);
@@ -174,8 +180,11 @@ public class PurchaseReportController extends
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
 			LOG.debug("采购汇总表查询：{}", qo);
-			if(BranchTypeEnum.HEAD_QUARTERS.getCode().toString().equals(qo.getBranchId())) {
+			/*if(BranchTypeEnum.HEAD_QUARTERS.getCode().toString().equals(qo.getBranchId())) {
 				qo.setBranchId(null);
+				qo.setBranchCompleCode(getCurrBranchCompleCode());
+			}*/
+			if(StringUtils.isEmpty(qo.getBranchId())) {
 				qo.setBranchCompleCode(getCurrBranchCompleCode());
 			}
 			qo.setPageNumber(pageNumber);
@@ -300,8 +309,11 @@ public class PurchaseReportController extends
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		LOG.info("采购汇总导出:{}" + qo);
 		try {
-			if(BranchTypeEnum.HEAD_QUARTERS.getCode().toString().equals(qo.getBranchId())) {
+			/*if(BranchTypeEnum.HEAD_QUARTERS.getCode().toString().equals(qo.getBranchId())) {
 				qo.setBranchId(null);
+				qo.setBranchCompleCode(getCurrBranchCompleCode());
+			}*/
+			if(StringUtils.isEmpty(qo.getBranchId())) {
 				qo.setBranchCompleCode(getCurrBranchCompleCode());
 			}
 			qo.setPageNumber(pageNumber);
