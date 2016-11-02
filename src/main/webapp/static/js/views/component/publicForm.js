@@ -4,7 +4,8 @@
  * 公共组件-单据选择
  */
 $(function(){
-
+	// 开始和结束时间
+	$("#txtEndDate").val(dateUtil.getCurrentDateTime().format("yyyy-MM-dd hh:mm"));
 	var type=$("#type").val();
 	if(type=="PA" || type=="PI" || type=="PR"){
 		initDatagridForm(type);
@@ -27,7 +28,12 @@ function initDeliverFormCallBack(cb){
 //搜索
 function formCx(){
 	var formNo=$("#formNo").val();
-    $("#gridForm").datagrid("options").queryParams = {formNo:formNo};
+	if($("#type").val()=='DA'){
+		var endTime=$("#txtEndDate").val();
+		  $("#gridForm").datagrid("options").queryParams = {formNo:formNo,endTime:endTime};
+	}else{
+		  $("#gridForm").datagrid("options").queryParams = {formNo:formNo};
+	}
     $("#gridForm").datagrid("options").method = "post";
     $("#gridForm").datagrid("load");
 }
@@ -105,11 +111,17 @@ function initDatagridForm(type){
 }
 //初始化表格 单据选择（调拨）
 function initDatagridDeliverForm(type){
+	if($("#type").val()=='DA'){
+		var endTime=$("#txtEndDate").val();
+		var url=contextPath+'/form/deliverSelect/getDeliverFormList?formType='+type+'&endTime='+endTime;
+	}else{
+		var url=contextPath+'/form/deliverSelect/getDeliverFormList?formType='+type;
+	}
     $("#gridForm").datagrid({
         //title:'普通表单-用键盘操作',
         method:'post',
         align:'center',
-        url:contextPath+'/form/deliverSelect/getDeliverFormList?formType='+type,
+        url:url,
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:true,  //单选  false多选
         rownumbers:true,    //序号
