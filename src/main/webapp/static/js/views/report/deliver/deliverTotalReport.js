@@ -241,7 +241,7 @@ function initCashDailymdGrid(queryType) {
 		//fitColumns:true,    //占满
 		showFooter:true,
 		columns: [[
-		           {field: 'formNo', title: '单号', width:120, align: 'left',
+		           {field: 'formNo', title: '单据编号', width:120, align: 'left',
 		        	   formatter:function(value,row,index){
 		            		if(row.formId){
 		            			return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/deliverForm/deliverEdit?deliverFormId="+ row.formId +"'>" + value + "</a>"
