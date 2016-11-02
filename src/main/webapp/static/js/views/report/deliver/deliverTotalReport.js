@@ -4,6 +4,8 @@
 $(function() {
 	//选择报表类型
 	changeType();
+	$("#formNo").attr("readonly","readonly");
+	$("#formNo").addClass("uinp-no-more");
 	// 初始化列表
 	initCashDailyallGrid('data');
 	var s = $("#txtStartDate").val();
@@ -29,7 +31,10 @@ function changeType(){
 		if (a=="goods") {
 			// 初始化列表按收银员汇总
 			initCashDailyallGrid('goods');
-
+			$("#categoryButon").attr("onclick","getGoodsType()");
+			$("#categoryName").removeClass("uinp-no-more");
+			
+			
 			$('#categoryTypeDiv').hide();
 			$("#skuCode").removeAttr("readonly");
 			$("#skuCode").removeClass("uinp-no-more");
@@ -42,18 +47,23 @@ function changeType(){
 			showCashier();
 		} else if (a=="form") {
 			// 初始化列表按门店汇总
+			$("#categoryName").addClass("uinp-no-more");
+			$("#categoryButon").removeAttr("onclick");
+				//$("#categoryButon").attr("onclick","getGoodsType()");
 			$('#categoryTypeDiv').hide();	
 			$("#skuCode").attr("readonly","readonly");
 			$("#skuCode").addClass("uinp-no-more");
 			$("#skuCode").val("");
 			$("#categoryCode").val("");	
+			$("#categoryName").val("");
+
 			$("#formNo").removeAttr("readonly");
 			$("#formNo").removeClass("uinp-no-more");
-			$("#categoryName").val("");
 			initCashDailymdGrid('form');
 			hideCashier();
 		} else if (a=="category") {
-
+			$("#categoryButon").attr("onclick","getGoodsType()");
+			$("#categoryName").removeClass("uinp-no-more");
 			$('#categoryTypeDiv').show();
 			$("#skuCode").attr("readonly","readonly");
 			$("#skuCode").addClass("uinp-no-more");
@@ -67,6 +77,9 @@ function changeType(){
 			initCashDailydateGrid('category');
 			hideCashier();
 		}else if(a=="branch"){
+			$("#categoryName").val("");
+			$("#categoryName").addClass("uinp-no-more");
+			$("#categoryButon").removeAttr("onclick");
 			$('#categoryTypeDiv').hide();
 			$("#skuCode").attr("readonly","readonly");
 			$("#skuCode").addClass("uinp-no-more");
@@ -130,14 +143,14 @@ function initCashDailyallGrid(queryType) {
 		           {field: 'categoryName', title: '类别', width:120, align: 'left'},
 		           {field: 'spec', title: '规格', width:80, align: 'left'},
 		           {field: 'unit', title: '单位', width:60, align: 'left'},
-		           {field: 'inputTax', title: '税率', width:60, align: 'right',
+		         /*  {field: 'inputTax', title: '税率', width:60, align: 'right',
 		        	   formatter:function(value,row,index){
 		        		   if(row.isFooter){
 		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		        		   }
 		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		        	   }
-		           },
+		           },*/
 		           {field: 'receiveLargeNum', title: '调入箱数', width:100, align: 'right',
 		        	   formatter:function(value,row,index){
 		        		   if(row.isFooter){
@@ -238,9 +251,9 @@ function initCashDailymdGrid(queryType) {
 		                }   
 		           },
 		           {field: 'sourceBranchCode', title: '发货机构编码', width:120, align: 'left'},
-		           {field: 'sourceBranchName', title: '发货机构名称', width:120, align: 'left'},
+		           {field: 'sourceBranchName', title: '发货机构', width:120, align: 'left'},
 		           {field: 'targetBranchCode', title: '要货机构编码', width:120, align: 'left'},
-		           {field: 'targetBranchName', title: '要货机构名称', width:120, align: 'left'},
+		           {field: 'targetBranchName', title: '要货机构', width:120, align: 'left'},
 		           {field: 'referenceNo', title: '引用单号', width:120, align: 'right',
 		        	   formatter:function(value,row,index){
 		            		if(row.formId){

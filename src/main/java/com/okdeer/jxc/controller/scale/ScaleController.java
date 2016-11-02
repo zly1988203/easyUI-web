@@ -10,10 +10,13 @@ package com.okdeer.jxc.controller.scale;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.ss.formula.functions.T;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -183,5 +186,9 @@ public class ScaleController extends BaseController<T> {
 			LOG.error("保存电子秤传称记录失败！", e);
 			return	Message.getFailMsg("保存电子秤传称记录失败！");
 		}
+	}
+	@RequestMapping(value = "scaleDownView")
+	public String scaleDownView(HttpServletRequest req, Model model) {
+		return "scale/scaleDown";
 	}
 }
