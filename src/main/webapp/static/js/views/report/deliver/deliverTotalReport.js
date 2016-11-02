@@ -143,14 +143,14 @@ function initCashDailyallGrid(queryType) {
 		           {field: 'categoryName', title: '类别', width:120, align: 'left'},
 		           {field: 'spec', title: '规格', width:80, align: 'left'},
 		           {field: 'unit', title: '单位', width:60, align: 'left'},
-		           {field: 'inputTax', title: '税率', width:60, align: 'right',
+		         /*  {field: 'inputTax', title: '税率', width:60, align: 'right',
 		        	   formatter:function(value,row,index){
 		        		   if(row.isFooter){
 		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		        		   }
 		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		        	   }
-		           },
+		           },*/
 		           {field: 'receiveLargeNum', title: '调入箱数', width:100, align: 'right',
 		        	   formatter:function(value,row,index){
 		        		   if(row.isFooter){
