@@ -115,9 +115,12 @@ function initDatagridForm(type){
 }
 //初始化表格 单据选择（调拨）
 function initDatagridDeliverForm(type){
+	var data = "";
 	if($("#type").val()=='DA'){
 		var endTime=$("#popupSearchDateTime").val();
-		var data = {endTime:endTime,formType:type};
+		data = {endTime:endTime,formType:type};
+	}else{
+		data = {formType:type};
 	}
     $("#gridForm").datagrid({
         //title:'普通表单-用键盘操作',
