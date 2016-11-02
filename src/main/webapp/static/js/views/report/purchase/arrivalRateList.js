@@ -109,7 +109,7 @@ function initDatagridByFormNo(){
             {field:'branchName',title:'机构名称',width:'140px',align:'left'},
             {field:'supplierCode',title:'供应商编号',width:'140px',align:'left'},
             {field:'supplierName',title:'供应商名称',width:'140px',align:'left'},
-            {field:'formNo',title:'采购单编号',width:'140px',align:'left'},
+            {field:'formNo',title:'单据编号',width:'140px',align:'left'},
             {field:'arrivalRate',title:'到货率',width:'140px',align:'right',
 				formatter : function(value, row, index) {
 					if(value!=null){
