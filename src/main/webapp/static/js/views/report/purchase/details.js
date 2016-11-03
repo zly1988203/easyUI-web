@@ -108,7 +108,11 @@ function initPurReportDetailGrid(queryType) {
             		if(row.isFooter){
                         return "";
                     }
-    				return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+					var str="";
+					if(value||value==0){
+						str= '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+					}
+    				return str;
     			}
             },
             {field: 'taxAmount', title: '税额', width:140, align: 'right',
