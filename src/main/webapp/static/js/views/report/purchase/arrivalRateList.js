@@ -1,3 +1,4 @@
+var pageSize = 50;
 $(function() {
 	//开始和结束时间
 	$("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
@@ -97,6 +98,7 @@ function initDatagridByFormNo(){
         method:'post',
         align:'center',
         url:'',
+        pageSize : pageSize,
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
         pagination:true,    //分页
@@ -165,6 +167,7 @@ function initDatagridBySupplier(){
         method:'post',
         align:'center',
         url:'',
+        pageSize : pageSize,
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
         pagination:true,    //分页
@@ -228,6 +231,7 @@ function initDatagridByCategory(){
         method:'post',
         align:'center',
         url:'',
+        pageSize : pageSize,
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
         pagination:true,    //分页
@@ -292,6 +296,7 @@ function initDatagridBySku(){
         method:'post',
         align:'center',
         url:'',
+        pageSize : pageSize,
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
         pagination:true,    //分页
