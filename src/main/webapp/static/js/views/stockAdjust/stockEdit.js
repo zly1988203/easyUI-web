@@ -626,9 +626,7 @@ function selectBranchesadd(){
 	},'DO','');
 }
 
-function toBack(){
-	location.href = contextPath+"/stock/adjust/list";
-}
+
 /**
  * 导入
  */
