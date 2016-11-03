@@ -106,7 +106,6 @@ public class PurchaseReportController extends
 			}
 			PageUtils<PurchaseReportPo> list = purchaseReportService
 					.getPurReportDetail(qo);
-
 			// 2、查询合计
 			PurchaseReportPo vo = purchaseReportService
 					.getPurReportDetailSum(qo);
@@ -151,7 +150,11 @@ public class PurchaseReportController extends
 			}
 			PageUtils<PurchaseReportPo> result = purchaseReportService
 					.getPurReportDetail(qo);
+			// 2、查询合计
+			PurchaseReportPo vo = purchaseReportService
+					.getPurReportDetailSum(qo);
 			List<PurchaseReportPo> exportList = result.getList();
+			exportList.add(vo);
 			// 导出文件名称，不包括后缀名
 			String fileName = "采购明细表" + "_" + DateUtils.getCurrSmallStr();
 			// 模板名称，包括后缀名
@@ -323,6 +326,8 @@ public class PurchaseReportController extends
 				qo.setEndTime(time);
 			}
 			PageUtils<PurchaseReportPo> list = null;
+			// 2、查询合计
+			PurchaseReportPo vo =null;
 			// 导出文件名称，不包括后缀名
 			String fileName = "采购汇总表" + "_" + DateUtils.getCurrSmallStr();
 			// 模板名称，包括后缀名
@@ -330,29 +335,33 @@ public class PurchaseReportController extends
 			switch (qo.getSearchType()) {
 				case "supplierTotal":
 					list = getPurReportTotalBySupplier(qo);
-					fileName += "(供应商)";
+					vo = purchaseReportService.getPurReportTotalBySupplierSum(qo);
+					fileName += "_供应商";
 					templateName = ExportExcelConstant.PUR_REPORT_TOTAL_SUPPLIER;
 					break;
 				case "formNoTotal":
 					list = getPurReportTotalByFormNo(qo);
-					fileName += "(单据)";
+					vo = purchaseReportService.getPurReportTotalByFormNoSum(qo);
+					fileName += "_单据";
 					templateName = ExportExcelConstant.PUR_REPORT_TOTAL_FORMNO;
 					break;
 				case "categoryTotal":
 					list = getPurReportTotalByCategory(qo);
-					fileName += "(类别)";
+					vo = purchaseReportService.getPurReportTotalByCategorySum(qo);
+					fileName += "_类别";
 					templateName = ExportExcelConstant.PUR_REPORT_TOTAL_CATEGORY;
 					break;
 				case "goodsTotal":
 					list = getPurReportTotalByGoods(qo);
-					fileName += "(商品)";
+					vo = purchaseReportService.getPurReportTotalByGoodsSum(qo);
+					fileName += "_商品";
 					templateName = ExportExcelConstant.PUR_REPORT_TOTAL_GOODS;
 					break;
 				default:
-					list = getPurReportTotalByGoods(qo);
 					break;
 			}
 			List<PurchaseReportPo> exportList = list.getList();
+			exportList.add(vo);
 			// 导出Excel
 			exportListForXLSX(response, exportList, fileName, templateName);
 		} catch (Exception e) {
