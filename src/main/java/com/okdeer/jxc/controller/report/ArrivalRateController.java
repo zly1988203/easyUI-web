@@ -145,32 +145,32 @@ public class ArrivalRateController extends BaseController<PurchaseForm>{
 		for (ArrivalRateVo vo : exportList) {
 			// 采购数量
 			if (vo.getPurchaseNum() !=null) {
-				BigDecimal purchaseNum = vo.getPurchaseNum().setScale(2,BigDecimal.ROUND_HALF_UP);
+				BigDecimal purchaseNum = vo.getPurchaseNum().setScale(4,BigDecimal.ROUND_HALF_UP);
 				vo.setPurchaseNum(purchaseNum);
 			}
 			// 采购金额
 			if (vo.getPurchaseAmount() !=null) {
-				BigDecimal purchaseAmount = vo.getPurchaseAmount().setScale(2,BigDecimal.ROUND_HALF_UP);
+				BigDecimal purchaseAmount = vo.getPurchaseAmount().setScale(4,BigDecimal.ROUND_HALF_UP);
 				vo.setPurchaseAmount(purchaseAmount);
 			}
 			// 收货数量
 			if (vo.getReceiptNum() !=null) {
-				BigDecimal receiptNum = vo.getReceiptNum().setScale(2,BigDecimal.ROUND_HALF_UP);
+				BigDecimal receiptNum = vo.getReceiptNum().setScale(4,BigDecimal.ROUND_HALF_UP);
 				vo.setReceiptNum(receiptNum);
 			}
 			// 收货金额
 			if (vo.getReceiptAmount() !=null) {
-				BigDecimal receiptAmount = vo.getReceiptAmount().setScale(2,BigDecimal.ROUND_HALF_UP);
+				BigDecimal receiptAmount = vo.getReceiptAmount().setScale(4,BigDecimal.ROUND_HALF_UP);
 				vo.setReceiptAmount(receiptAmount);
 			}
 			// 未收货数量
 			if (vo.getNotQuantity() !=null) {
-				BigDecimal notQuantity = vo.getNotQuantity().setScale(2,BigDecimal.ROUND_HALF_UP);
+				BigDecimal notQuantity = vo.getNotQuantity().setScale(4,BigDecimal.ROUND_HALF_UP);
 				vo.setNotQuantity(notQuantity);
 			}
 			// 未收货金额
 			if (vo.getNotAmount() !=null) {
-				BigDecimal notAmount =vo.getNotAmount().setScale(2,BigDecimal.ROUND_HALF_UP);
+				BigDecimal notAmount =vo.getNotAmount().setScale(4,BigDecimal.ROUND_HALF_UP);
 				vo.setNotAmount(notAmount);
 			}
 		}
