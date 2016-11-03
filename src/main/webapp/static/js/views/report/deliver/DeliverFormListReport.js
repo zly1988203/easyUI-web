@@ -26,7 +26,7 @@ function initDatagridRequireOrders(){
         fitColumns:true,    //每列占满
         //fit:true,            //占满
         showFooter:true,
-        pageSize : 20,
+        pageSize : 50,
 		height:'100%',
 		width:'100%',
         columns:[[
@@ -59,14 +59,28 @@ function initDatagridRequireOrders(){
             {field: 'categoryName', title: '类别', width: '100px', align: 'left'},
             {field: 'spec', title: '规格', width: '100px', align: 'left'},
             {field: 'unit', title: '单位', width: '100px', align: 'left'},
-            {field: 'price', title: '单价', width: '100px', align: 'right'},
-            {field: 'inputTax', title: '税率', width: '100px', align: 'right'},
+            {field: 'price', title: '单价', width: '100px', align: 'right',
+            	formatter:function(value,row,index){
+            		if(row.isFooter){
+                        return '';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                }
+            },
+            {field: 'inputTax', title: '税率', width: '100px', align: 'right',
+            	formatter:function(value,row,index){
+            		if(row.isFooter){
+                        return '';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                }
+            },
             {field: 'largeNum', title: '箱数', width: '100px', align: 'right',
             	formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                     }
-                    if(row.formType == 'DI'){
+                    if(row.formType == 'DO'){
                     	return '<b style="color: red;">'+parseFloat(value||0).toFixed(2)+'</b>'
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -77,7 +91,7 @@ function initDatagridRequireOrders(){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                     }
-                    if(row.formType == 'DI'){
+                    if(row.formType == 'DO'){
                     	return '<b style="color: red;">'+parseFloat(value||0).toFixed(2)+'</b>'
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -88,7 +102,7 @@ function initDatagridRequireOrders(){
             		if(row.isFooter){
             			return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
             		}
-            		if(row.formType == 'DI'){
+            		if(row.formType == 'DO'){
             			return '<b style="color: red;">'+parseFloat(value||0).toFixed(2)+'</b>'
                     }
             		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
