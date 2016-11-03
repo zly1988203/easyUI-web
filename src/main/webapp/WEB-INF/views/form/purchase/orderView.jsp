@@ -14,13 +14,14 @@
 </head>
 <body class="ub uw uh ufs-14 uc-black">
     <div class="ub ub-ver ub-f1 umar-4  ubor">
+    	<input type="hidden" id="close" value="${close}"/>
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
-            	<div class="ubtns-item" onclick="orderAdd()">新增</div>
+            	<div class="ubtns-item" id="addButton" onclick="orderAdd()" >新增</div>
             	<div class="ubtns-item" onclick="stop()">终止</div>
             	<div class="ubtns-item" onclick="printDesign()">打印</div>
             	<div class="ubtns-item" onclick="exportData('PA');">导出明细</div>
-                <div class="ubtns-item" onclick="toBackByJS()">返回</div>
+                <div class="ubtns-item" id="toBackByJSButton" onclick="toBackByJS()">返回</div>
             </div>
         </div>
         <div class="ub umar-t8 uc-black">【单号】：<span >${form.formNo}</span></div>

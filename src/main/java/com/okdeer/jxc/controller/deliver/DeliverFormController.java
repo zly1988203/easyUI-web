@@ -279,14 +279,17 @@ public class DeliverFormController extends
 						"salesman",
 						branches.getSalesman() == null ? "" : branches
 								.getSalesman());
+				model.addAttribute("close", "close");
 				return "form/deliver/deliverView";
 			} else if (FormType.DO.toString().equals(form.getFormType())) {
 				form.setRebateMoney(BigDecimalUtils.formatDecimal(
 						form.getRebateMoney(), 2));
 				form.setAddRebateMoney(BigDecimalUtils.formatDecimal(
 						form.getAddRebateMoney(), 2));
+				model.addAttribute("close", "close");
 				return "form/deliver/DoView";
 			} else {
+				model.addAttribute("close", "close");
 				return "form/deliver/DiView";
 			}
 		}

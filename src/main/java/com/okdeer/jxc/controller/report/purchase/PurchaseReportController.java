@@ -336,25 +336,25 @@ public class PurchaseReportController extends
 				case "supplierTotal":
 					list = getPurReportTotalBySupplier(qo);
 					vo = purchaseReportService.getPurReportTotalBySupplierSum(qo);
-					fileName += "_供应商";
+					fileName += "-供应商汇总";
 					templateName = ExportExcelConstant.PUR_REPORT_TOTAL_SUPPLIER;
 					break;
 				case "formNoTotal":
 					list = getPurReportTotalByFormNo(qo);
 					vo = purchaseReportService.getPurReportTotalByFormNoSum(qo);
-					fileName += "_单据";
+					fileName += "-单据汇总";
 					templateName = ExportExcelConstant.PUR_REPORT_TOTAL_FORMNO;
 					break;
 				case "categoryTotal":
 					list = getPurReportTotalByCategory(qo);
 					vo = purchaseReportService.getPurReportTotalByCategorySum(qo);
-					fileName += "_类别";
+					fileName += "-类别汇总";
 					templateName = ExportExcelConstant.PUR_REPORT_TOTAL_CATEGORY;
 					break;
 				case "goodsTotal":
 					list = getPurReportTotalByGoods(qo);
 					vo = purchaseReportService.getPurReportTotalByGoodsSum(qo);
-					fileName += "_商品";
+					fileName += "-商品汇总";
 					templateName = ExportExcelConstant.PUR_REPORT_TOTAL_GOODS;
 					break;
 				default:

@@ -4,6 +4,10 @@
  */
 $(function(){
     initDatagridViewRequireOrder();
+    if($("#close").val()){
+    	$("#addButton").addClass("unhide");
+    	$("#toBackByJSButton").attr("onclick","window.parent.closeTab()");
+    }
 });
 
 function initDatagridViewRequireOrder(){

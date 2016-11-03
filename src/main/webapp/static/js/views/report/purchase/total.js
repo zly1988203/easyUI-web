@@ -5,7 +5,6 @@ $(function() {
 	//选择报表类型
 	changeType();
 	initPurReportTotalGrid();
-	debugger;
 	// 开始和结束时间
 	if(!$("#txtStartDate").val()){
 		// 开始和结束时间
@@ -60,6 +59,8 @@ function changeType(){
 			skuCodeOrBarCodeOff();
 			initCategoryGrid();
 		}
+    	$("#purReportTotal").datagrid('loadData', { total: 0, rows: [] });
+    	$('#purReportTotal').datagrid({showFooter:false});
     });
 }
 //供应商开启
@@ -232,9 +233,9 @@ function initPurReportTotalGrid() {
 			//updateFooter();
 		}
     });
-    if(flushFlg){
+   /* if(flushFlg){
     	purchaseTotalCx();
-    }
+    }*/
 }
 /**
  * 初始化表格按  供应商
@@ -327,9 +328,9 @@ function initPurReportSupplierGrid() {
 			//updateFooter();
 		}
     });
-    if(flushFlg){
+  /*  if(flushFlg){
     	purchaseTotalCx();
-    }
+    }*/
 }
 /**
  * 初始化表格按  单据汇总
@@ -366,18 +367,31 @@ function initPurFormNoGrid() {
             {field: 'supplierName', title: '供应商名称', width: 150, align: 'left'},
             {field: 'formNo', title: '单据编号', width: 150, align: 'left',
             	formatter:function(value,row,index){
+            		var hrefStr = '';
             		if(row.formId){
+            			hrefStr='parent.addTab("详情","'+contextPath+'/form/purchase/receiptEdit?report=close&formId='+row.formId+'")';
             			if(row.type=="PI"){
-            				return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/purchase/receiptEdit?formId="+ row.formId +"'>" + value + "</a>"
+            				return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
             			}else{
-            				return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/purchase/returnEdit?formId="+ row.formId +"'>" + value + "</a>"
+            				hrefStr='parent.addTab("详情","'+contextPath+'/form/purchase/returnEdit?report=close&formId='+row.formId+'")'
+            				return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
             			}
             		}else{
             			return "";
             		}
                 }
             },
-            {field: 'refFormNo', title: '引用单号', width: 150, align: 'left'},
+            {field: 'refFormNo', title: '引用单号', width: 150, align: 'left',
+            	formatter:function(value,row,index){
+            		var hrefStr = '';
+            		if(row.formId){
+            			hrefStr='parent.addTab("详情","'+contextPath+'/form/purchase/orderEdit?report=close&formId='+row.refFormId+'")';
+            			return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
+            		}else{
+            			return "";
+            		}
+                }
+            },
             {field: 'amount', title: '单据金额', width:120, align: 'right',
             	formatter:function(value,row,index){
                     if(row.isFooter){	
@@ -413,9 +427,9 @@ function initPurFormNoGrid() {
 			//updateFooter();
 		}
     });
-    if(flushFlg){
+   /* if(flushFlg){
     	purchaseTotalCx();
-    }
+    }*/
 }
 /**
  * 初始化表格按  类别汇总
@@ -510,9 +524,9 @@ function initCategoryGrid() {
 			//updateFooter();
 		}
     });
-    if(flushFlg){
+   /* if(flushFlg){
     	purchaseTotalCx();
-    }
+    }*/
 }
 
 
@@ -540,7 +554,7 @@ function purchaseTotalCx(){
 		return ;
 	}*/
 	var formData = $("#queryForm").serializeObject();
-	debugger;
+	$('#purReportTotal').datagrid({showFooter:true});
 	$("#purReportTotal").datagrid("options").queryParams = formData;
 	$("#purReportTotal").datagrid("options").method = "post";
 	$("#purReportTotal").datagrid("options").url =  contextPath+"/report/purchase/getPurReportTotal";
