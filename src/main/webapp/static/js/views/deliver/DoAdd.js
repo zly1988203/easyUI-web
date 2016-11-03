@@ -567,7 +567,8 @@ function saveOrder(){
     		originPlace : data.originPlace,
     		distributionSpec : data.distributionSpec,
     		salePrice : data.salePrice,
-    		saleAmount : data.saleAmount
+    		saleAmount : data.saleAmount,
+    		defectNum : data.defectNum
     	}
     	reqObj.deliverFormListVo[i] = temp;
 	});

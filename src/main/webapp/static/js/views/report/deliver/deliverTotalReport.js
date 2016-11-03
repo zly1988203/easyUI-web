@@ -219,7 +219,7 @@ function initCashDailyallGrid(queryType) {
 		           ]],
 		           onLoadSuccess:function(data){
 		        	   gridHandel.setDatagridHeader("center");
-		        	   updateFooter();
+		        	   /*updateFooter();*/
 		           }
 	});
 	if(flushFlg){
@@ -255,12 +255,12 @@ function initCashDailymdGrid(queryType) {
 		           {field: 'sourceBranchName', title: '发货机构', width:120, align: 'left'},
 		           {field: 'targetBranchCode', title: '要货机构编码', width:120, align: 'left'},
 		           {field: 'targetBranchName', title: '要货机构', width:120, align: 'left'},
-		           {field: 'referenceNo', title: '引用单号', width:120, align: 'right',
+		           {field: 'referenceNo', title: '引用单号', width:140, align: 'left',
 		        	   formatter:function(value,row,index){
 		            		if(row.formId){
 		            			return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/deliverForm/deliverEdit?deliverFormId="+ row.referenceId +"'>" + value + "</a>"
 		            		}else{
-		            			return ""; //form/deliverForm/deliverEdit?deliverFormId=8aadb39a577a947301577a99c2f4091c
+		            			return "";
 		            		}
 		                }    
 		           },
@@ -292,7 +292,7 @@ function initCashDailymdGrid(queryType) {
 		           ]],
 		           onLoadSuccess:function(data){
 		        	   gridHandel.setDatagridHeader("center");
-		        	   updateFooter();
+		        	   /*updateFooter();*/
 		           }
 	});
 	if(flushFlg){
@@ -354,7 +354,7 @@ function initCashDailydateGrid(queryType) {
 		           ]],
 		           onLoadSuccess:function(data){
 		        	   gridHandel.setDatagridHeader("center");
-		        	   updateFooter();
+		        	   /*updateFooter();*/
 		           }
 	});
 	if(flushFlg){
@@ -418,7 +418,7 @@ function initbranchGrid(queryType) {
 		           ]],
 		           onLoadSuccess:function(data){
 		        	   gridHandel.setDatagridHeader("center");
-		        	   updateFooter();
+		        	   /*updateFooter();*/
 		           }
 	});
 	if(flushFlg){
@@ -495,7 +495,6 @@ function exportExcel(){
 
 //查询
 function query(){
-	debugger;
 	var formData = $("#queryForm").serializeObject();
 	var branchNameOrCode = $("#branchNameOrCode").val();
 	if(branchNameOrCode && branchNameOrCode.indexOf("[")>=0 && branchNameOrCode.indexOf("]")>=0){
