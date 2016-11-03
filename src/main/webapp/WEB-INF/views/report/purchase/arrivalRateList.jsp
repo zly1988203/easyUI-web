@@ -45,7 +45,7 @@
                     <div class="umar-r10 uw-60 ut-r">类别:</div>
                     <input id="categoryId" name="categoryId" class="uinp" type="hidden">
                     <input id="categoryCode" name="categoryCode" class="uinp" type="hidden">
-                    <input id="categoryName" name="categoryName" class="uinp uw-200 easyui-validatebox" type="text" readonly="readonly">
+                    <input id="categoryName" name="categoryName" class="uinp" type="text" readonly="readonly">
                     <div class="uinp-more uinp-categoryName " onclick="getGoodsType()">...</div>
                 </div>
 	        </div>
