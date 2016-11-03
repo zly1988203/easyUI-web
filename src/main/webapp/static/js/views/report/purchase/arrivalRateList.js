@@ -89,10 +89,10 @@ function checktype(){
 			$('#supplierName').removeClass('uinp-no-more');
 			$('#supplierName').attr('onclick','selectSupplier()');
 			$('.uinp-supplierName').attr('onclick','selectSupplier()');
-			$('#formNo').removeClass('uinp-no-more');
-			$('#formNo').removeAttr("readonly");
-			$('#categoryName').val("");
+			$('#formNo').addClass('uinp-no-more');
+			$('#formNo').attr("readonly","readonly");
 			$('#formNo').val("");
+			$('#categoryName').val("");
 			$('#categoryName').val("");
 		}
    }	
@@ -311,7 +311,6 @@ function initDatagridBySku(){
         columns:[[
             {field:'supplierCode',title:'供应商编号',width:'140px',align:'left'},
             {field:'supplierName',title:'供应商名称',width:'140px',align:'left'},
-            {field:'formNo',title:'单据编号',width:'140px',align:'left'},
             {field:'skuName',title:'商品名称',width:'140px',align:'left'},
             {field:'skuCode',title:'货号',width:'140px',align:'left'},
             {field:'barCode',title:'条码',width:'140px',align:'left'},
