@@ -265,7 +265,7 @@ function initCashDailymdGrid(queryType) {
 		                }    
 		           },
 		           {field: 'statusName', title: '单据状态', width:120, align: 'center' },
-		           {field: 'status', title: '引用单号', width:120, align: 'right',hidden:true},
+		           {field: 'status', title: '状态', width:120, align: 'right',hidden:true},
 		           
 		           {field: 'num', title: '数量', width:120, align: 'right',
 		        	   formatter:function(value,row,index){
@@ -314,8 +314,8 @@ function initCashDailydateGrid(queryType) {
 		showFooter:true,
 		pageSize : 50,
 		columns: [[
-		           {field: 'categoryCode', title: '类别编号', width:120, align: 'right'},
-		           {field: 'categoryName', title: '类别', width:120, align: 'right'},
+		           {field: 'categoryCode', title: '类别编号', width:120, align: 'left'},
+		           {field: 'categoryName', title: '类别', width:120, align: 'left'},
 		           {field: 'receiveNum', title: '调入数量', width:120, align: 'right',
 		        	   formatter:function(value,row,index){
 		        		   if(row.isFooter){
