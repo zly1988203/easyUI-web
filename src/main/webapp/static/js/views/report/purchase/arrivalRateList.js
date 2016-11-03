@@ -9,11 +9,16 @@ $(function() {
 	checktype();
 	$(document).on('keyup','#arrivalRate',function(){
 		var val=parseFloat($(this).val());
+		var reg=/^d*(?:.d{0,5})?$/;
 	    var str=$(this).val();
 		if(val<0||val>1){
 			   $(this).val("");	
 		}
+		else if(!reg.test(val)){
+			 $(this).val("");	
+		}
 		else if(str.length>=6){
+			
 		    var subval=str.substring(0,6);
 		    $(this).val(subval);	
 		}
