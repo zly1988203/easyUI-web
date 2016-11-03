@@ -113,6 +113,8 @@ public class DeliverTotalReportController extends ReportController {
 		}
 		// 模板名称，包括后缀名
 		List<DataRecord> dataList=deliverTotalReportServiceApi.getList(map);
+		DataRecord data = deliverTotalReportServiceApi.getTotal(map);
+		dataList.add(data);
 		for (DataRecord dataRecord : dataList) {
 			formatter(dataRecord);
 		}

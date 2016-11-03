@@ -124,7 +124,7 @@ function initCashDailyallGrid(queryType) {
 		pagination: true,    //分页
 		//fitColumns:true,    //占满
 		showFooter:true,
-		pageSize : 20,
+		pageSize : 50,
 		showFooter:true,
 		height:'100%',
 		columns: [[
@@ -137,7 +137,7 @@ function initCashDailyallGrid(queryType) {
 		                    return str;
 		                }
 		           },
-		           {field: 'skuName', title: '商品名称', width:120, align: 'left'},
+		           {field: 'skuName', title: '商品名称', width:180, align: 'left'},
 		           {field: 'barCode', title: '条码', width:120, align: 'left'},
 		           {field: 'categoryCode', title: '类别编号', width:120, align: 'left'},
 		           {field: 'categoryName', title: '类别', width:120, align: 'left'},
@@ -240,13 +240,14 @@ function initCashDailymdGrid(queryType) {
 		pagination: true,    //分页
 		//fitColumns:true,    //占满
 		showFooter:true,
+		pageSize : 50,
 		columns: [[
 		           {field: 'formNo', title: '单据编号', width:140, align: 'left',
 		        	   formatter:function(value,row,index){
 		            		if(row.formId){
 		            			return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/deliverForm/deliverEdit?deliverFormId="+ row.formId +"'>" + value + "</a>"
 		            		}else{
-		            			return ""; //form/deliverForm/deliverEdit?deliverFormId=8aadb39a577a947301577a99c2f4091c
+		            			return '<div class="ub  ufw-b">合计</div>'; //form/deliverForm/deliverEdit?deliverFormId=8aadb39a577a947301577a99c2f4091c
 		            		}
 		                }   
 		           },
@@ -264,7 +265,7 @@ function initCashDailymdGrid(queryType) {
 		                }    
 		           },
 		           {field: 'statusName', title: '单据状态', width:120, align: 'center' },
-		           {field: 'status', title: '引用单号', width:120, align: 'right',hidden:true},
+		           {field: 'status', title: '状态', width:120, align: 'right',hidden:true},
 		           
 		           {field: 'num', title: '数量', width:120, align: 'right',
 		        	   formatter:function(value,row,index){
@@ -282,7 +283,7 @@ function initCashDailymdGrid(queryType) {
 		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		        	   }
 		           },
-		           {field: 'validTime', title: '审核日期', width:120, align: 'center',
+		           {field: 'validTime', title: '审核日期', width:120, align: 'left',
 		        	   formatter : function(value, rowData, rowIndex) {
 		        		   return formatDate(value,'yyyy-MM-dd');
 		        	   }   
@@ -311,9 +312,10 @@ function initCashDailydateGrid(queryType) {
 		pagination: true,    //分页
 		//fitColumns:true,    //占满
 		showFooter:true,
+		pageSize : 50,
 		columns: [[
-		           {field: 'categoryCode', title: '类别编号', width:120, align: 'right'},
-		           {field: 'categoryName', title: '类别', width:120, align: 'right'},
+		           {field: 'categoryCode', title: '类别编号', width:120, align: 'left'},
+		           {field: 'categoryName', title: '类别', width:120, align: 'left'},
 		           {field: 'receiveNum', title: '调入数量', width:120, align: 'right',
 		        	   formatter:function(value,row,index){
 		        		   if(row.isFooter){
@@ -347,8 +349,22 @@ function initCashDailydateGrid(queryType) {
 		        	   }
 		           },
 
-		           {field: 'sumNum', title: '数量小计', width:120, align: 'right'},
-		           {field: 'sumAmount', title: '金额小计', width:120, align: 'right'}
+		           {field: 'sumNum', title: '数量小计', width:120, align: 'right',
+		        	   formatter:function(value,row,index){
+		        		   if(row.isFooter){
+		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		        		   }
+		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		        	   }
+		           },
+		           {field: 'sumAmount', title: '金额小计', width:120, align: 'right',
+		        	   formatter:function(value,row,index){
+		        		   if(row.isFooter){
+		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		        		   }
+		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		        	   }
+		           }
 		           ]],
 		           onLoadSuccess:function(data){
 		        	   gridHandel.setDatagridHeader("center");
@@ -374,6 +390,7 @@ function initbranchGrid(queryType) {
 		pagination: true,    //分页
 		//fitColumns:true,    //占满
 		showFooter:true,
+		pageSize : 50,
 		columns: [[
 		           {field: 'branchCode', title: '往来机构编码', width:120, align: 'left'},
 		           {field: 'branchName', title: '往来机构名称', width:120, align: 'left'},
@@ -410,8 +427,22 @@ function initbranchGrid(queryType) {
 		        	   }
 		           },
 
-		           {field: 'sumNum', title: '数量小计', width:120, align: 'right'},
-		           {field: 'sumAmount', title: '金额小计', width:120, align: 'right'}
+		           {field: 'sumNum', title: '数量小计', width:120, align: 'right',
+		        	   formatter:function(value,row,index){
+		        		   if(row.isFooter){
+		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		        		   }
+		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		        	   }
+		           },
+		           {field: 'sumAmount', title: '金额小计', width:120, align: 'right',
+		        	   formatter:function(value,row,index){
+		        		   if(row.isFooter){
+		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		        		   }
+		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		        	   }
+		           }
 		           ]],
 		           onLoadSuccess:function(data){
 		        	   gridHandel.setDatagridHeader("center");

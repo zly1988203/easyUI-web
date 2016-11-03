@@ -645,33 +645,48 @@ function check(){
         messager("数据已修改，请先保存再审核");
         return;
     }
-    
-	$.messager.confirm('提示','是否审核通过？',function(data){
-		if(data){
-			$.ajax({
-		    	url : contextPath+"/form/deliverForm/check",
-		    	type : "POST",
-		    	data : {
-		    		deliverFormId : $("#formId").val(),
-		    		deliverType : 'DO'
-		    	},
-		    	success:function(result){
-		    		if(result['code'] == 0){
-		    			$.messager.alert("操作提示", "操作成功！", "info",function(){
-		    				location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
-		    			});
-		    		}else{
-		    			successTip(result['message']);
-		    		}
-		    	},
-		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
-		    	}
-		    });
-		}
+    var rows = gridHandel.getRows();
+    if(rows.length==0){
+        messager("表格不能为空");
+        return;
+    }
+    var msg = "是否审核通过？";
+    $.each(rows,function(i,v){
+        if(v["dealNum"]<=0){
+            msg = "第"+(i+1)+"行，商品数量为0，是否删除并审核?";
+            return false;
+        }
+        v["rowNo"] = i+1;
+    });
+	$.messager.confirm('提示',msg,function(data){
+        if(data){
+            checkHandel()
+        }
 	});
 }
+function checkHandel(){
+        $.ajax({
+            url : contextPath+"/form/deliverForm/check",
+            type : "POST",
+            data : {
+                deliverFormId : $("#formId").val(),
+                deliverType : 'DO'
+            },
+            success:function(result){
+                if(result['code'] == 0){
+                    $.messager.alert("操作提示", "操作成功！", "info",function(){
+                        location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
+                    });
+                }else{
+                    successTip(result['message']);
+                }
+            },
+            error:function(result){
+                successTip("请求发送失败或服务器处理失败");
+            }
+        });
 
+}
 //合计
 function toFooter(){
 	$('#gridEditRequireOrder').datagrid('reloadFooter',[{"isFooter":true,"receivablesAccount":$('#receivablesAccount').val()||0,"collectAccount":$('#collectAccount').val()||0}]);
