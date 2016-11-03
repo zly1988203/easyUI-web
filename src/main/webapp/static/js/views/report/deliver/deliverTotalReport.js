@@ -349,8 +349,22 @@ function initCashDailydateGrid(queryType) {
 		        	   }
 		           },
 
-		           {field: 'sumNum', title: '数量小计', width:120, align: 'right'},
-		           {field: 'sumAmount', title: '金额小计', width:120, align: 'right'}
+		           {field: 'sumNum', title: '数量小计', width:120, align: 'right',
+		        	   formatter:function(value,row,index){
+		        		   if(row.isFooter){
+		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		        		   }
+		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		        	   }
+		           },
+		           {field: 'sumAmount', title: '金额小计', width:120, align: 'right',
+		        	   formatter:function(value,row,index){
+		        		   if(row.isFooter){
+		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		        		   }
+		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		        	   }
+		           }
 		           ]],
 		           onLoadSuccess:function(data){
 		        	   gridHandel.setDatagridHeader("center");
@@ -413,8 +427,22 @@ function initbranchGrid(queryType) {
 		        	   }
 		           },
 
-		           {field: 'sumNum', title: '数量小计', width:120, align: 'right'},
-		           {field: 'sumAmount', title: '金额小计', width:120, align: 'right'}
+		           {field: 'sumNum', title: '数量小计', width:120, align: 'right',
+		        	   formatter:function(value,row,index){
+		        		   if(row.isFooter){
+		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		        		   }
+		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		        	   }
+		           },
+		           {field: 'sumAmount', title: '金额小计', width:120, align: 'right',
+		        	   formatter:function(value,row,index){
+		        		   if(row.isFooter){
+		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		        		   }
+		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		        	   }
+		           }
 		           ]],
 		           onLoadSuccess:function(data){
 		        	   gridHandel.setDatagridHeader("center");
