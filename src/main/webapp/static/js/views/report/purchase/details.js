@@ -35,7 +35,7 @@ function initPurReportDetailGrid(queryType) {
         pagination: true,    //分页
         //fitColumns:true,    //占满
         showFooter:true,
-        pageSize : 20,
+        pageSize : 50,
         showFooter:true,
         height:'100%',
         columns: [[
@@ -64,7 +64,7 @@ function initPurReportDetailGrid(queryType) {
             		}
                 }
             },
-            {field: 'skuName', title: '商品名称', width:150, align: 'left'},
+            {field: 'skuName', title: '商品名称', width:180, align: 'left'},
             {field: 'skuCode', title: '货号', width:120, align: 'left'},
             {field: 'barCode', title: '条码', width:120, align: 'left'},
             {field: 'categoryCode', title: '类别编号', width:120, align: 'left'},
@@ -84,7 +84,7 @@ function initPurReportDetailGrid(queryType) {
     				return str;
     			}
             },
-            {field: 'realNum', title: '数量', width:80, align: 'right',
+            {field: 'realNum', title: '数量', width:100, align: 'right',
             	formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -92,7 +92,7 @@ function initPurReportDetailGrid(queryType) {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
-            {field: 'amount', title: '金额', width:120, align: 'right',
+            {field: 'amount', title: '金额', width:140, align: 'right',
             	formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -100,7 +100,7 @@ function initPurReportDetailGrid(queryType) {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
-            {field: 'tax', title: '税率', width:120, align: 'right',
+            {field: 'tax', title: '税率', width:140, align: 'right',
             	formatter : function(value, row, index) {
             		if(row.isFooter){
                         return "";
@@ -108,7 +108,7 @@ function initPurReportDetailGrid(queryType) {
     				return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
     			}
             },
-            {field: 'taxAmount', title: '税额', width:120, align: 'right',
+            {field: 'taxAmount', title: '税额', width:140, align: 'right',
             	formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -116,11 +116,11 @@ function initPurReportDetailGrid(queryType) {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
-            {field: 'validTime', title: '审核日期', width:120, align: 'right',
+            {field: 'validTime', title: '审核日期', width:120, align: 'left',
             	formatter : function(value, rowData, rowIndex) {
             		return formatDate(value,'yyyy-MM-dd hh:mm');
             	}},
-            {field: 'goodsCreateDate', title: '生产日期', width:120, align: 'right',
+            {field: 'goodsCreateDate', title: '生产日期', width:120, align: 'left',
             	formatter : function(value, rowData, rowIndex) {
             		return formatDate(value,'yyyy-MM-dd');
             	}}

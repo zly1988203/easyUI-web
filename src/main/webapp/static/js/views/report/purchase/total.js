@@ -5,6 +5,7 @@ $(function() {
 	//选择报表类型
 	changeType();
 	initPurReportTotalGrid();
+	debugger;
 	// 开始和结束时间
 	if(!$("#txtStartDate").val()){
 		// 开始和结束时间
@@ -147,7 +148,7 @@ function initPurReportTotalGrid() {
         pagination: true,    //分页
         //fitColumns:true,    //占满
         showFooter:true,
-        pageSize : 20,
+        pageSize : 50,
         showFooter:true,
         height:'100%',
         columns: [[
@@ -161,7 +162,7 @@ function initPurReportTotalGrid() {
                 },
             },
             {field: 'supplierName', title: '供应商名称', width: 100, align: 'left'},
-            {field: 'skuName', title: '商品名称', width:120, align: 'left'},
+            {field: 'skuName', title: '商品名称', width:180, align: 'left'},
             {field: 'skuCode', title: '货号', width:120, align: 'left'},
             {field: 'barCode', title: '条码', width:120, align: 'left'},
             {field: 'categoryCode', title: '类别编号', width:120, align: 'left'},
@@ -252,7 +253,7 @@ function initPurReportSupplierGrid() {
         pagination: true,    //分页
         //fitColumns:true,    //占满
         showFooter:true,
-        pageSize : 20,
+        pageSize : 50,
         showFooter:true,
         height:'100%',
         columns: [[
@@ -347,7 +348,7 @@ function initPurFormNoGrid() {
         pagination: true,    //分页
         //fitColumns:true,    //占满
         showFooter:true,
-        pageSize : 20,
+        pageSize : 50,
         showFooter:true,
         height:'100%',
         columns: [[
@@ -433,7 +434,7 @@ function initCategoryGrid() {
         pagination: true,    //分页
         //fitColumns:true,    //占满
         showFooter:true,
-        pageSize : 20,
+        pageSize : 50,
         showFooter:true,
         height:'100%',
         columns: [[
