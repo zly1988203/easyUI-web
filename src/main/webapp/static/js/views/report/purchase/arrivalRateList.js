@@ -1,3 +1,4 @@
+var pageSize = 50;
 $(function() {
 	//开始和结束时间
 	$("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
@@ -97,6 +98,7 @@ function initDatagridByFormNo(){
         method:'post',
         align:'center',
         url:'',
+        pageSize : pageSize,
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
         pagination:true,    //分页
@@ -165,6 +167,7 @@ function initDatagridBySupplier(){
         method:'post',
         align:'center',
         url:'',
+        pageSize : pageSize,
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
         pagination:true,    //分页
@@ -193,12 +196,12 @@ function initDatagridBySupplier(){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
 			},
-			{field:'receiptNum',title:'收货数量',width:'120px',align:'right',
+			{field:'receiptNum',title:'到货数量',width:'120px',align:'right',
 				formatter : function(value, row, index) {
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
 			},
-			{field:'receiptAmount',title:'收货金额',width:'140px',align:'right',
+			{field:'receiptAmount',title:'到货金额',width:'140px',align:'right',
 				formatter : function(value, row, index) {
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
@@ -228,6 +231,7 @@ function initDatagridByCategory(){
         method:'post',
         align:'center',
         url:'',
+        pageSize : pageSize,
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
         pagination:true,    //分页
@@ -256,12 +260,12 @@ function initDatagridByCategory(){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
 			},
-			{field:'receiptNum',title:'收货数量',width:'120px',align:'right',
+			{field:'receiptNum',title:'到货数量',width:'120px',align:'right',
 				formatter : function(value, row, index) {
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
 			},
-			{field:'receiptAmount',title:'收货金额',width:'140px',align:'right',
+			{field:'receiptAmount',title:'到货金额',width:'140px',align:'right',
 				formatter : function(value, row, index) {
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
@@ -292,6 +296,7 @@ function initDatagridBySku(){
         method:'post',
         align:'center',
         url:'',
+        pageSize : pageSize,
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
         pagination:true,    //分页
@@ -326,12 +331,12 @@ function initDatagridBySku(){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
 			},
-			{field:'receiptNum',title:'收货数量',width:'120px',align:'right',
+			{field:'receiptNum',title:'到货数量',width:'120px',align:'right',
 				formatter : function(value, row, index) {
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
 			},
-			{field:'receiptAmount',title:'收货金额',width:'140px',align:'right',
+			{field:'receiptAmount',title:'到货金额',width:'140px',align:'right',
 				formatter : function(value, row, index) {
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
