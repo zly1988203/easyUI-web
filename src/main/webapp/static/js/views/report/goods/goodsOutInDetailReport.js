@@ -35,7 +35,7 @@ function initDatagridRequire(){
             	formatter:function(value,row,index){
             		console.log(row);
             		if(row.formType=="库存调整"){
-            			;
+            		
                 		return "<a style='text-decoration: underline;' href='"+ contextPath +"/stock/adjust/edit?id="+ row.formId +"'>" + value + "</a>"
                 	}else if(row.formType=="采购收货"){
                 		return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/purchase/receiptEdit?formId="+ row.formId +"'>" + value + "</a>"	
@@ -103,13 +103,6 @@ function initDatagridRequire(){
             },
             {field: 'formType', title: '出入库类型', width: '80px', align: 'left'},
             {field: 'costPrice', title: '进价', width: '100px', align: 'right',
-            	formatter:function(value,row,index){
-            		if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                    }
-                   
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
             	 editor:{
                      type:'numberbox',
                      options:{
@@ -137,13 +130,6 @@ function initDatagridRequire(){
                  }
             },
             {field: 'salePrice', title: '售价', width: '100px', align: 'right',
-            	formatter:function(value,row,index){
-            		if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                    }
-                   
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
             	 editor:{
                      type:'numberbox',
                      options:{
@@ -183,9 +169,31 @@ function initDatagridRequire(){
 
 //合计
 function updateFooter(){
-    var fields = {outNum:0,inNum:0,costPrice:0,salePrice:0,saleAmount:0,isGift:0};
-    var argWhere = {name:'isGift',value:0}
-    gridHandel.updateFooter(fields,argWhere);
+    var fields = {outNum:0,inNum:0,costAmount:0,saleAmount:0};
+    sum(fields);
+}
+
+function sum(fields) {
+	var fromObjStr = $('#queryForm').serializeObject();
+	$.ajax({
+    	url : contextPath+"/goods/goodsDetail/sum",
+    	type : "POST",
+    	data : fromObjStr,
+    	success:function(result){
+    		if(result['code'] == 0){
+    			fields.outNum = result['outNumSum'];
+    			fields.inNum = result['inNumSum'];
+    			fields.saleAmount = result['saleAmountSum'];
+    			fields.costAmount = result['costAmountSum'];
+    			$("#goodsOutInDetail").datagrid('reloadFooter',[$.extend({"isFooter":true,},fields)]);
+    		}else{
+    			successTip(result['message']);
+    		}
+    	},
+    	error:function(result){
+    		successTip("请求发送失败或服务器处理失败");
+    	}
+    });
 }
 //查询入库单
 function queryForm(){
