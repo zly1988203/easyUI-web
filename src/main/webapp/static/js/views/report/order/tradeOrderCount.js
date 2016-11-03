@@ -30,7 +30,7 @@ function initDatagridRequireOrders(){
 		width:'100%',
         columns:[[
 			{field:'check',checkbox:true},
-            {field:'branchName',title:'机构名称',width:'140px',align:'left',
+            {field:'branchName',title:'机构名称',width:'150px',align:'left',
 				formatter:function(value,row,index){
 					if(row.isFooter){
 	                    str ='<div class="ub ub-pc ufw-b">合计</div> '
@@ -39,8 +39,8 @@ function initDatagridRequireOrders(){
 					return value;
 				}
 			},
-            {field: 'areaName', title: '所在区域', width: '100px', align: 'left'},
-            {field: 'totalAmount', title: '销额/元', width: '200px', align: 'left',
+            {field: 'areaName', title: '所在区域', width: '200px', align: 'left'},
+            {field: 'totalAmount', title: '销额/元', width: '80px', align: 'right',
             	formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -48,7 +48,7 @@ function initDatagridRequireOrders(){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
-            {field: 'totalSaleNum', title: '销量', width: '100px', align: 'left',
+            {field: 'totalSaleNum', title: '销量', width: '80px', align: 'right',
             	formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -56,7 +56,7 @@ function initDatagridRequireOrders(){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
-            {field: 'totalNum', title: '总订单数', width: '200px', align: 'left',
+            {field: 'totalNum', title: '总订单数', width: '80px', align: 'right',
             	formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -64,7 +64,7 @@ function initDatagridRequireOrders(){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
-            {field:'price',title:'客单价/元',width:'140px',align:'left',
+            {field:'price',title:'客单价/元',width:'80px',align:'right',
             	formatter:function(value,row,index){
             		if(row.isFooter){
 						return ;
@@ -72,7 +72,7 @@ function initDatagridRequireOrders(){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
-            {field: 'totalLineAmount', title: '线上销额/元', width: '100px', align: 'left',
+            {field: 'totalLineAmount', title: '线上销额/元', width: '80px', align: 'right',
             	formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -80,7 +80,7 @@ function initDatagridRequireOrders(){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
-            {field: 'totalLineSaleNum', title: '线上销量', width: '100px', align: 'left',
+            {field: 'totalLineSaleNum', title: '线上销量', width: '80px', align: 'right',
             	formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -88,7 +88,7 @@ function initDatagridRequireOrders(){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
-            {field: 'rowNo', title: '排名', width: '100px', align: 'left'}
+            {field: 'rowNo', title: '排名', width: '80px', align: 'left'}
         ]],
 		onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
@@ -100,10 +100,6 @@ function initDatagridRequireOrders(){
 
 //查询要货单
 function queryForm(){
-	if ($("#branchId").val() == null || $("#branchId").val() == '') {
-		successTip("请选择查询机构");
-		return;
-	}
 	var fromObjStr = $('#queryForm').serializeObject();
 	$("#gridOrders").datagrid("options").method = "post";
 	$("#gridOrders").datagrid('options').url = contextPath + '/bill/tradeOrderCount/getTradeOrderCounts';

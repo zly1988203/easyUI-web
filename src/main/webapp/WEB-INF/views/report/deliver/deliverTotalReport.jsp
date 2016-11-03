@@ -35,40 +35,42 @@
 	        <div class="ub uline umar-t8"></div> -->
 	        
           <div class="ub umar-t8">
-               <div class="ub ub-ac uw-300">
-	                    <div class="umar-r10 uw-70 ut-r">查询机构:</div>
-	                    <input type="hidden" id="branchId" name="branchId" />
-	                    <input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" onclick="selectBranches()" readonly="readonly" />
-	                    <div class="uinp-more" onclick="selectBranches()" >...</div>
-	                </div>
+               <div class="ub ub-ac umar-r60">
+					<div class="umar-r10 uw-80 ut-r">查询机构:</div>
+					<input type="hidden" id="branchId" name="branchId" />
+					<input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" onclick="selectBranches()" readonly="readonly" />
+					<div class="uinp-more" onclick="selectBranches()" >...</div>
+	           </div>
                <div class="ub ub-ac umar-r60">
 				<div class="umar-r10 uw-80 ut-r">货号/条码:</div>
 				<input type="hidden" name="skuId" id="skuId" class="uinp" />
 				<input type="text" name="skuCode" id="skuCode" class="uinp"/>
 				<!-- <div class="uinp-more" id="cashierIdSelect" onclick="selectGoods()">...</div> -->
 			  </div>
-			   <div class="ub ub-ac umar-r48">
-					<div class="umar-r10 uw-60 ut-r">商品类别:</div>
+			   <div class="ub ub-ac umar-r60">
+					<div class="umar-r10 uw-80 ut-r">商品类别:</div>
 					<input id="goodsCategoryId" name="goodsCategoryId" class="uinp" type="hidden"> 
 					<input id="categoryCode" name="categoryCode" class="uinp" type="hidden"> 
 					<input id="categoryName" name="categoryName" class="uinp" type="text" readonly="readonly" data-options="required:true">
 					<div class="uinp-more new-right" id="categoryButon" onclick="getGoodsType()">...</div>
 				</div>
-			  <div class="ub ub-ac umar-r40">
-				<div class="umar-r10 uw-60 ut-r">单据类别:</div>
-				 <select class="easyui-combobox uselect" name="formType" id="formType"  data-options="editable:false">
-								<option value="">全部</option> 
-								<option value="DO">配送出库单</option> 
-								<option value="DI">配送入库单</option>
-				   </select>
-			  </div>
-			  <div class="ub ub-ac umar-r40">
-				<div class="umar-r10 uw-60 ut-r">单据编号:</div>
-				<input type="text" name="formNo" id="formNo" class="uinp" readonly="readonly"/>
-				<!-- <div class="uinp-more" id="cashierIdSelect" onclick="selectGoods()">...</div> -->
-			  </div>
+
             </div>
-            
+            <div class="ub umar-t8">
+				<div class="ub ub-ac umar-r60">
+					<div class="umar-r10 uw-80 ut-r">单据类别:</div>
+					<select style="width: 204px;"  class="easyui-combobox uselect" name="formType" id="formType"  data-options="editable:false">
+						<option value="">全部</option>
+						<option value="DO">配送出库单</option>
+						<option value="DI">配送入库单</option>
+					</select>
+				</div>
+				<div class="ub ub-ac umar-r60">
+					<div class="umar-r10 uw-80 ut-r">单据编号:</div>
+					<input type="text" name="formNo" id="formNo" class="uinp" readonly="readonly"/>
+					<!-- <div class="uinp-more" id="cashierIdSelect" onclick="selectGoods()">...</div> -->
+				</div>
+			</div>
             <div class="ub umar-t8">
                 <!--input-checkbox-->
                 <div class="ub ub-ac">
@@ -100,8 +102,7 @@
                 </div>
             </div>
        	</form>
-       	<div class="ub umar-t8 umar-b8">【查询结果】</div>
-        <div class="ub ub-f1">
+        <div class="ub ub-f1 umar-t20">
 			 <table id="cashDaily"></table>
 		</div>
     </div>

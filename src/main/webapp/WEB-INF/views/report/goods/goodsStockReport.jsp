@@ -89,9 +89,8 @@
                 </div>
             </div>
             </form>
-    
-            <div class="ub umar-t8 uc-black">【查询结果】</div>
-          	<div class="ub ub-f1">
+
+          	<div class="ub ub-f1 umar-t20">
           	   <!--datagrid-->
                <table id="productInquire"></table>
           	</div>

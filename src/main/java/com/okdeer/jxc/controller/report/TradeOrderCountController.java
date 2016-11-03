@@ -35,8 +35,8 @@ import com.okdeer.jxc.report.vo.TradeOrderCountVo;
 import com.okdeer.jxc.system.entity.SysUser;
 
 /**
- * ClassName: DeliverReportController 
- * @Description: 配送报表
+ * ClassName: TradeOrderCountController 
+ * @Description: 店铺销售排名
  * @author zhangchm
  * @date 2016年10月25日
  *
@@ -86,6 +86,7 @@ public class TradeOrderCountController extends BasePrintController<TradeOrderCou
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		LOG.info(LogConstant.OUT_PARAM, vo.toString());
+
 		try {
 			if (vo.getEndTime() != null) {
 				Date time = DateUtils.getNextDay(vo.getEndTime());
@@ -132,6 +133,7 @@ public class TradeOrderCountController extends BasePrintController<TradeOrderCou
 			LOG.error("店铺销售排名合计出现异常:{}", e);
 			respJson = RespJson.error("店铺销售排名合计失败！");
 		}
+
 		return respJson;
 	}
 
