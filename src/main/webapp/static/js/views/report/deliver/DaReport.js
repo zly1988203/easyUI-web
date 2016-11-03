@@ -25,14 +25,15 @@ function initDatagridRequireOrders(){
         fitColumns:true,    //每列占满
         //fit:true,            //占满
         showFooter:true,
+        pageSize : 50,
 		height:'100%',
 		width:'100%',
         columns:[[
 			{field:'check',checkbox:true},
+			{field:'sourceBranchCode',title: '发货机构编码', width: '100px', align: 'left'},
             {field:'formNo',title:'单据编号',width:'140px',align:'left',formatter:function(value,row,index){
             	return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/deliverForm/deliverEdit?deliverFormId="+ row.deliverFormId +"&formSources=2'>" + value + "</a>";
             }},
-            {field:'sourceBranchCode',title: '发货机构编码', width: '100px', align: 'left'},
             {field: 'sourceBranchName', title: '发货机构', width: '200px', align: 'left'},
             {field: 'targetBranchCode', title: '要货机构编码', width: '100px', align: 'left'},
             {field: 'targetBranchName', title: '要货机构', width: '200px', align: 'left'},
