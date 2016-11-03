@@ -492,7 +492,6 @@ function exportExcel(){
 
 //查询
 function query(){
-	debugger;
 	var formData = $("#queryForm").serializeObject();
 	var branchNameOrCode = $("#branchNameOrCode").val();
 	if(branchNameOrCode && branchNameOrCode.indexOf("[")>=0 && branchNameOrCode.indexOf("]")>=0){
