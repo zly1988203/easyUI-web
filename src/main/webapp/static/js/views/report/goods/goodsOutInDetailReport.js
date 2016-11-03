@@ -21,11 +21,11 @@ function initDatagridRequire(){
 		height:'100%',
 		width:'100%',
         columns:[[
-			{field:'branchCode',title:'店铺编号',width:'140px',align:'left',
+			{field:'branchCode',title:'店铺编号',width:'80px',align:'left',
 				formatter : function(value, row,index) {
                     var str = value;
                     if(row.isFooter){
-                        str ='<div class="ub ub-pc ufw-b">合计</div> '
+                        str ='<div class="ub ub-pc ufw-b" style="text-align:left;height:auto;">合计</div> '
                     }
                     return str;
                 }	
@@ -35,7 +35,7 @@ function initDatagridRequire(){
             	formatter:function(value,row,index){
             		console.log(row);
             		if(row.formType=="库存调整"){
-            			console.log(11);
+            			;
                 		return "<a style='text-decoration: underline;' href='"+ contextPath +"/stock/adjust/edit?id="+ row.formId +"'>" + value + "</a>"
                 	}else if(row.formType=="采购收货"){
                 		return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/purchase/receiptEdit?formId="+ row.formId +"'>" + value + "</a>"	
@@ -61,9 +61,9 @@ function initDatagridRequire(){
             {field:'skuCode',title: '货号', width: '100px', align: 'left'},
             {field:'barCode',title: '条码', width: '150px', align: 'left'},
 			{field: 'skuName', title: '商品名称', width: '200px', align: 'left'},
-			{field: 'spec', title: '规格', width: '80px', align: 'center'},
-			{field: 'unit', title: '单位', width: '80px', align: 'center'},
-			{field: 'pricingType', title: '计价方式', width: '100px', align: 'left'},
+			{field: 'spec', title: '规格', width: '80px', align: 'left'},
+			{field: 'unit', title: '单位', width: '80px', align: 'left'},
+			{field: 'pricingType', title: '计价方式', width: '80px', align: 'left'},
 			{field: 'categoryCode', title: '类别编码', width: '80px', align: 'right'},
 			{field: 'categoryName', title: '类别名称', width: '80px', align: 'left'},
 			{field: 'createTime', title: '日期时间', width: '150px', align: 'left'},
@@ -101,7 +101,7 @@ function initDatagridRequire(){
                      }
                  }
             },
-            {field: 'formType', title: '出入库类型', width: '130px', align: 'left'},
+            {field: 'formType', title: '出入库类型', width: '80px', align: 'left'},
             {field: 'costPrice', title: '进价', width: '100px', align: 'right',
             	formatter:function(value,row,index){
             		if(row.isFooter){

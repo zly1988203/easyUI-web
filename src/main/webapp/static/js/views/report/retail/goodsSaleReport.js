@@ -30,12 +30,12 @@ function initDatagridRequire(){
                     return str;
                 }
             },
-            {field:'skuCode',title: '货号', width: '100px', align: 'left'},
+            {field:'skuCode',title: '货号', width: '80px', align: 'left'},
 			{field: 'skuName', title: '商品名称', width: '250px', align: 'left'},
 			{field: 'barCode', title: '条码', width: '120px', align: 'left'},
 			{field: 'categoryName', title: '类别名称', width: '120px', align: 'left'},
-            {field: 'spec', title: '规格', width: '80px', align: 'center'},
-            {field: 'unit', title: '单位', width: '80px', align: 'center'},
+            {field: 'spec', title: '规格', width: '80px', align: 'left'},
+            {field: 'unit', title: '单位', width: '80px', align: 'left'},
             {field: 'originalAmount', title: '原价金额', width: '100px', align: 'right',
             	formatter:function(value,row,index){
             		 if(row.isFooter){
@@ -187,6 +187,7 @@ function initDatagridRequire(){
             }
         ]],
         onLoadSuccess:function(data){
+        	console.log(data)
         	gridHandel.setDatagridHeader("center");
         	updateFooter();
         	countSet(data);	
@@ -204,11 +205,6 @@ function updateFooter(){
 }
 //查询入库单
 function queryForm(){
-    //判定店铺名称是否存在
-    if($("#branchName").val()==""){
-        messager("请选择店铺名称");
-        return;
-    } 
 	var fromObjStr = $('#queryForm').serializeObject();
 	$("#storeSale").datagrid("options").method = "post";
 	$("#storeSale").datagrid('options').url = contextPath + '/goodsSale/report/getGoodsSaleList';
@@ -216,6 +212,7 @@ function queryForm(){
 }
 //小计金额和小计数量 计算
 function countSet(data){
+	
 	  var rows=data.list;
 	  
 	  if(!rows){
@@ -229,6 +226,8 @@ function countSet(data){
 		  }
 	   })
 	  $("#storeSale").datagrid("loadData",rows);
+	 
+	  return data;
 }
 
 /**
