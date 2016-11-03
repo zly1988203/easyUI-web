@@ -163,7 +163,7 @@ function initPurReportTotalGrid() {
                 },
             },
             {field: 'supplierName', title: '供应商名称', width: 100, align: 'left'},
-            {field: 'skuName', title: '商品名称', width:180, align: 'left'},
+            {field: 'skuName', title: '商品名称', width:200, align: 'left'},
             {field: 'skuCode', title: '货号', width:120, align: 'left'},
             {field: 'barCode', title: '条码', width:120, align: 'left'},
             {field: 'categoryCode', title: '类别编号', width:120, align: 'left'},
