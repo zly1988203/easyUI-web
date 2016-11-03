@@ -56,7 +56,7 @@
 	            </div>
 	            <div class="ub ub-ac umar-r40">
 	                <div class="umar-r10 uw-60 ut-r">到货率≤:</div>
-	                <input class="uinp deal" name="arrivalRate" id="arrivalRate"  type="number" maxlength="7"  onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')">
+	                <input class="uinp deal" name="arrivalRate" id="arrivalRate"  type="number" maxlength="7"  onkeyup="value=value.replace(/[^\d\.]/g,'')" onbeforepaste="value=value.replace(/[^\d\.]/g,'')">
 	            </div>
 	            <div class="ub ub-ac">
 	                <div class="umar-r10 uw-70 ut-r">查询类型:</div>
