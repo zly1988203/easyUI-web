@@ -7,6 +7,7 @@
 package com.okdeer.jxc.controller.report;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -104,5 +105,28 @@ public class CategorySaleController extends BaseController<CategorySaleControlle
 			resp = RespJson.error("导出库存调整商品异常");
 		}
 		return resp;
+	}
+	
+	/**
+	 * @Description: 商品类别合计
+	 * @param vo
+	 * @return
+	 * @author liux01
+	 * @date 2016年10月27日
+	 */
+	@RequestMapping(value = "sum", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson sum(CategorySaleReportVo vo) {
+		RespJson respJson = RespJson.success();
+		try {
+			Map<String,Object> resultMap = categorySaleReportServiceApi.queryCategorySaleCountSum(vo);
+			if (resultMap != null) {
+				respJson.put("saleAmountSum", resultMap.get("saleAmountSum"));
+			}
+		} catch (Exception e) {
+			LOG.error("店铺销售排名合计出现异常:{}", e);
+			respJson = RespJson.error("店铺销售排名合计失败！");
+		}
+		return respJson;
 	}
 }

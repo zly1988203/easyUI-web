@@ -1,6 +1,7 @@
 /**
  * Created by wxl on 2016/08/17.
  */
+var pageSize = 50;
 $(function(){
     //开始和结束时间
     $("#txtStartDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
@@ -22,7 +23,7 @@ function initCashWaterGrid() {
         pagination: true,    //分页
         //fitColumns:true,    //占满
         showFooter:true,
-        pageSize : 20,
+        pageSize : pageSize,
         height:'100%',
         columns: [[
             {field: 'branchCode', title: '店铺编号', width: 100, align: 'left'},

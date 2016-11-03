@@ -89,7 +89,8 @@ function changeType(){
 			$("#formNo").addClass("uinp-no-more");
 			initbranchGrid();
 		}
-		
+		$("#cashDaily").datagrid('loadData', { total: 0, rows: [] });
+    	$('#cashDaily').datagrid({showFooter:false});
 
 	});
 }
@@ -222,9 +223,9 @@ function initCashDailyallGrid(queryType) {
 		        	   /*updateFooter();*/
 		           }
 	});
-	if(flushFlg){
+	/*if(flushFlg){
 		query();
-	}
+	}*/
 }
 
 //按单汇总
@@ -244,11 +245,12 @@ function initCashDailymdGrid(queryType) {
 		columns: [[
 		           {field: 'formNo', title: '单据编号', width:140, align: 'left',
 		        	   formatter:function(value,row,index){
-		            		if(row.formId){
-		            			return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/deliverForm/deliverEdit?deliverFormId="+ row.formId +"'>" + value + "</a>"
-		            		}else{
-		            			return '<div class="ub  ufw-b">合计</div>'; //form/deliverForm/deliverEdit?deliverFormId=8aadb39a577a947301577a99c2f4091c
-		            		}
+		            			if(row.formId){
+		            				var hrefStr='parent.addTab("详情","'+contextPath+'/form/deliverForm/deliverEdit?report=close&deliverFormId='+row.formId+'")';
+		            				return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
+		            			}else{
+		            				return '<div class="ub  ufw-b">合计</div>'; 
+		            			}
 		                }   
 		           },
 		           {field: 'sourceBranchCode', title: '发货机构编码', width:120, align: 'left'},
@@ -257,11 +259,12 @@ function initCashDailymdGrid(queryType) {
 		           {field: 'targetBranchName', title: '要货机构', width:120, align: 'left'},
 		           {field: 'referenceNo', title: '引用单号', width:140, align: 'left',
 		        	   formatter:function(value,row,index){
-		            		if(row.formId){
-		            			return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/deliverForm/deliverEdit?deliverFormId="+ row.referenceId +"'>" + value + "</a>"
-		            		}else{
-		            			return "";
-		            		}
+		        		   if(row.formId){
+	            				var hrefStr='parent.addTab("详情","'+contextPath+'/form/deliverForm/deliverEdit?report=close&deliverFormId='+row.referenceId+'")';
+	            				return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
+	            			}else{
+	            				return '<div class="ub  ufw-b">合计</div>'; 
+	            			}
 		                }    
 		           },
 		           {field: 'statusName', title: '单据状态', width:120, align: 'center' },
@@ -295,9 +298,9 @@ function initCashDailymdGrid(queryType) {
 		        	   /*updateFooter();*/
 		           }
 	});
-	if(flushFlg){
+	/*if(flushFlg){
 		query();
-	}
+	}*/
 }
 //类别汇总
 function initCashDailydateGrid(queryType) {
@@ -371,9 +374,9 @@ function initCashDailydateGrid(queryType) {
 		        	   /*updateFooter();*/
 		           }
 	});
-	if(flushFlg){
+	/*if(flushFlg){
 		query();
-	}
+	}*/
 }
 
 
@@ -392,8 +395,8 @@ function initbranchGrid(queryType) {
 		showFooter:true,
 		pageSize : 50,
 		columns: [[
-		           {field: 'branchCode', title: '往来机构编码', width:120, align: 'left'},
-		           {field: 'branchName', title: '往来机构名称', width:120, align: 'left'},
+		           {field: 'branchCode', title: '往来机构编码', width:140, align: 'left'},
+		           {field: 'branchName', title: '往来机构名称', width:180, align: 'left'},
 		           {field: 'receiveNum', title: '调入数量', width:120, align: 'right',
 		        	   formatter:function(value,row,index){
 		        		   if(row.isFooter){
@@ -449,9 +452,9 @@ function initbranchGrid(queryType) {
 		        	   /*updateFooter();*/
 		           }
 	});
-	if(flushFlg){
+	/*if(flushFlg){
 		query();
-	}
+	}*/
 }
 
 
@@ -533,6 +536,7 @@ function query(){
 	if(cashierNameOrCode && cashierNameOrCode.indexOf("[")>=0 && cashierNameOrCode.indexOf("]")>=0){
 		formData.cashierNameOrCode = null;
 	}
+	$('#cashDaily').datagrid({showFooter:true});
 	$("#cashDaily").datagrid("options").queryParams = formData;
 	$("#cashDaily").datagrid("options").method = "post";
 	$("#cashDaily").datagrid("options").url =  contextPath+"/report/deliverTotalReport/reportListPage";
