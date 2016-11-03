@@ -247,7 +247,7 @@ function initCashDailymdGrid(queryType) {
 		            		if(row.formId){
 		            			return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/deliverForm/deliverEdit?deliverFormId="+ row.formId +"'>" + value + "</a>"
 		            		}else{
-		            			return ""; //form/deliverForm/deliverEdit?deliverFormId=8aadb39a577a947301577a99c2f4091c
+		            			return '<div class="ub  ufw-b">合计</div>'; //form/deliverForm/deliverEdit?deliverFormId=8aadb39a577a947301577a99c2f4091c
 		            		}
 		                }   
 		           },
