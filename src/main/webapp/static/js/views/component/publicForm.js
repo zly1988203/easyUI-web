@@ -35,7 +35,7 @@ function formCx(){
 		$("#gridForm").datagrid("options").url = contextPath+'/form/deliverSelect/getDeliverFormList';
 	}else{
 		  $("#gridForm").datagrid("options").queryParams = {formNo:formNo,formType:type};
-		  $("#gridForm").datagrid("options").url = contextPath+'/form/purchaseSelect/getPurchaseForm';
+		  $("#gridForm").datagrid("options").url = contextPath+'/form/purchaseSelect/getPurchaseFormList';
 	}
     $("#gridForm").datagrid("options").method = "post";
     $("#gridForm").datagrid("load");

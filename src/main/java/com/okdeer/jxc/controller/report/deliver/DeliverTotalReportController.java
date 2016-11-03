@@ -99,16 +99,16 @@ public class DeliverTotalReportController extends ReportController {
 			return ;
 		}
 		if("goods".equals(map.get("queryType"))){
-			reportFileName="配送汇总_商品汇总表"+ "_" + DateUtils.getCurrSmallStr();
+			reportFileName="配送汇总"+ "_" + DateUtils.getCurrSmallStr()+"-"+"商品查询";
 			templateName="deliverTotalByGoods.xlsx";
 		}else if("form".equals(map.get("queryType"))){
-			reportFileName="配送汇总_按单汇总"+ "_" + DateUtils.getCurrSmallStr();
+			reportFileName="配送汇总"+ "_" + DateUtils.getCurrSmallStr()+"-"+"订单查询";
 			templateName="deliverTotalByForm.xlsx";
 		}else if("category".equals(map.get("queryType"))){
-			reportFileName="配送汇总_类别汇总"+ "_" + DateUtils.getCurrSmallStr();
+			reportFileName="配送汇总"+ "_" + DateUtils.getCurrSmallStr()+"-"+"类别汇总查询";
 			templateName="deliverTotalByCategory.xlsx";
 		}else if("branch".equals(map.get("queryType"))){
-			reportFileName="配送汇总_类别汇总"+ "_" + DateUtils.getCurrSmallStr();
+			reportFileName="配送汇总"+ "_" + DateUtils.getCurrSmallStr()+"-"+"往来汇总查询";
 			templateName="deliverTotalBybranch.xlsx";
 		}
 		// 模板名称，包括后缀名
