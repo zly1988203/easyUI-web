@@ -124,7 +124,7 @@ function initCashDailyallGrid(queryType) {
 		pagination: true,    //分页
 		//fitColumns:true,    //占满
 		showFooter:true,
-		pageSize : 20,
+		pageSize : 50,
 		showFooter:true,
 		height:'100%',
 		columns: [[
@@ -137,7 +137,7 @@ function initCashDailyallGrid(queryType) {
 		                    return str;
 		                }
 		           },
-		           {field: 'skuName', title: '商品名称', width:120, align: 'left'},
+		           {field: 'skuName', title: '商品名称', width:180, align: 'left'},
 		           {field: 'barCode', title: '条码', width:120, align: 'left'},
 		           {field: 'categoryCode', title: '类别编号', width:120, align: 'left'},
 		           {field: 'categoryName', title: '类别', width:120, align: 'left'},
@@ -240,8 +240,9 @@ function initCashDailymdGrid(queryType) {
 		pagination: true,    //分页
 		//fitColumns:true,    //占满
 		showFooter:true,
+		pageSize : 50,
 		columns: [[
-		           {field: 'formNo', title: '单据编号', width:120, align: 'left',
+		           {field: 'formNo', title: '单据编号', width:140, align: 'left',
 		        	   formatter:function(value,row,index){
 		            		if(row.formId){
 		            			return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/deliverForm/deliverEdit?deliverFormId="+ row.formId +"'>" + value + "</a>"
@@ -282,7 +283,7 @@ function initCashDailymdGrid(queryType) {
 		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		        	   }
 		           },
-		           {field: 'validTime', title: '审核日期', width:120, align: 'center',
+		           {field: 'validTime', title: '审核日期', width:120, align: 'left',
 		        	   formatter : function(value, rowData, rowIndex) {
 		        		   return formatDate(value,'yyyy-MM-dd');
 		        	   }   
@@ -311,6 +312,7 @@ function initCashDailydateGrid(queryType) {
 		pagination: true,    //分页
 		//fitColumns:true,    //占满
 		showFooter:true,
+		pageSize : 50,
 		columns: [[
 		           {field: 'categoryCode', title: '类别编号', width:120, align: 'right'},
 		           {field: 'categoryName', title: '类别', width:120, align: 'right'},
@@ -374,6 +376,7 @@ function initbranchGrid(queryType) {
 		pagination: true,    //分页
 		//fitColumns:true,    //占满
 		showFooter:true,
+		pageSize : 50,
 		columns: [[
 		           {field: 'branchCode', title: '往来机构编码', width:120, align: 'left'},
 		           {field: 'branchName', title: '往来机构名称', width:120, align: 'left'},
