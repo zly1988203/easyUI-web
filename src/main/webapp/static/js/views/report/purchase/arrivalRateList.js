@@ -193,12 +193,12 @@ function initDatagridBySupplier(){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
 			},
-			{field:'receiptNum',title:'收货数量',width:'120px',align:'right',
+			{field:'receiptNum',title:'到货数量',width:'120px',align:'right',
 				formatter : function(value, row, index) {
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
 			},
-			{field:'receiptAmount',title:'收货金额',width:'140px',align:'right',
+			{field:'receiptAmount',title:'到货金额',width:'140px',align:'right',
 				formatter : function(value, row, index) {
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
@@ -256,12 +256,12 @@ function initDatagridByCategory(){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
 			},
-			{field:'receiptNum',title:'收货数量',width:'120px',align:'right',
+			{field:'receiptNum',title:'到货数量',width:'120px',align:'right',
 				formatter : function(value, row, index) {
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
 			},
-			{field:'receiptAmount',title:'收货金额',width:'140px',align:'right',
+			{field:'receiptAmount',title:'到货金额',width:'140px',align:'right',
 				formatter : function(value, row, index) {
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
@@ -326,12 +326,12 @@ function initDatagridBySku(){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
 			},
-			{field:'receiptNum',title:'收货数量',width:'120px',align:'right',
+			{field:'receiptNum',title:'到货数量',width:'120px',align:'right',
 				formatter : function(value, row, index) {
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
 			},
-			{field:'receiptAmount',title:'收货金额',width:'140px',align:'right',
+			{field:'receiptAmount',title:'到货金额',width:'140px',align:'right',
 				formatter : function(value, row, index) {
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
