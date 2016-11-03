@@ -30,7 +30,7 @@ function initDatagridRequire(){
                     return str;
                 }
             },
-            {field:'skuCode',title: '货号', width: '80px', align: 'left'},
+              {field:'skuCode',title: '货号', width: '80px', align: 'left'},
 			{field: 'skuName', title: '商品名称', width: '250px', align: 'left'},
 			{field: 'barCode', title: '条码', width: '120px', align: 'left'},
 			{field: 'categoryName', title: '类别名称', width: '120px', align: 'left'},
@@ -187,7 +187,6 @@ function initDatagridRequire(){
             }
         ]],
         onLoadSuccess:function(data){
-        	console.log(data)
         	gridHandel.setDatagridHeader("center");
         	updateFooter();
         	countSet(data);	
@@ -200,11 +199,41 @@ function initDatagridRequire(){
 //合计
 function updateFooter(){
     var fields = {originalAmount:0,discountAmount:0,saleAmount:0,saleNum:0,returnAmount:0,returnNum:0,totalAmount:0,totalNum:0,isGift:0};
-    var argWhere = {name:'isGift',value:0}
-    gridHandel.updateFooter(fields,argWhere);
+    sum(fields);
+}
+function sum(fields) {
+	var fromObjStr = $('#queryForm').serializeObject();
+	$.ajax({
+    	url : contextPath+"/goodsSale/report/sum",
+    	type : "POST",
+    	data : fromObjStr,
+    	success:function(result){
+    		if(result['code'] == 0){
+    			fields.originalAmount = result['originalAmountSum'];
+    			fields.discountAmount = result['discountAmountSum'];
+    			fields.returnAmount = result['returnAmountSum'];
+    			fields.returnNum = result['returnNumSum'];
+    			fields.saleAmount = result['saleAmountSum'];
+    			fields.saleNum = result['saleNumSum'];
+    			fields.totalAmount = result['totalAmountSum'];
+    			fields.totalNum = result['totalNumSum'];
+    			$("#storeSale").datagrid('reloadFooter',[$.extend({"isFooter":true,},fields)]);
+    		}else{
+    			successTip(result['message']);
+    		}
+    	},
+    	error:function(result){
+    		successTip("请求发送失败或服务器处理失败");
+    	}
+    });
 }
 //查询入库单
 function queryForm(){
+    //判定店铺名称是否存在
+    if($("#branchName").val()==""){
+        messager("请选择店铺名称");
+        return;
+    } 
 	var fromObjStr = $('#queryForm').serializeObject();
 	$("#storeSale").datagrid("options").method = "post";
 	$("#storeSale").datagrid('options').url = contextPath + '/goodsSale/report/getGoodsSaleList';
@@ -212,7 +241,6 @@ function queryForm(){
 }
 //小计金额和小计数量 计算
 function countSet(data){
-	
 	  var rows=data.list;
 	  
 	  if(!rows){
@@ -226,8 +254,7 @@ function countSet(data){
 		  }
 	   })
 	  $("#storeSale").datagrid("loadData",rows);
-	 
-	  return data;
+  return data;
 }
 
 /**

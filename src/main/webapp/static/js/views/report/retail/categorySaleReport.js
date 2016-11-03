@@ -51,12 +51,7 @@ function initDatagridRequire(){
                  }
             },
             {field:'saleRate', title: '销售占比', width: '130px', align: 'right',
-            	formatter:function(value,row,index){
-            		if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(1)+'%'+'</b>';
-                    }
-                    return '<b>'+parseFloat(value||0).toFixed(1)+'%'+'</b>';
-                },
+            	
             	editor:{
                     type:'numberbox',
                     options:{
@@ -77,9 +72,27 @@ function initDatagridRequire(){
 
 //合计
 function updateFooter(){
-    var fields = {saleAmount:0,saleRate:0,isGift:0};
-    var argWhere = {name:'isGift',value:0}
-    gridHandel.updateFooter(fields,argWhere);
+    var fields = {saleAmount:0};
+    sum(fields);
+}
+function sum(fields) {
+	var fromObjStr = $('#queryForm').serializeObject();
+	$.ajax({
+    	url : contextPath+"/categorySale/report/sum",
+    	type : "POST",
+    	data : fromObjStr,
+    	success:function(result){
+    		if(result['code'] == 0){
+    			fields.saleAmount = result['saleAmountSum'];
+    			$("#categorySale").datagrid('reloadFooter',[$.extend({"isFooter":true,},fields)]);
+    		}else{
+    			successTip(result['message']);
+    		}
+    	},
+    	error:function(result){
+    		successTip("请求发送失败或服务器处理失败");
+    	}
+    });
 }
 //查询入库单
 function queryForm(){
