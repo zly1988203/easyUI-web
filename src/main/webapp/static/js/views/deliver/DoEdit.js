@@ -271,11 +271,7 @@ function initDatagridEditRequireOrder(){
         onLoadSuccess:function(data){
             if(isFirst)return;
             isFirst = true;
-        	if(!oldData["grid"]){
-            	oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
-            		return $.extend(true,{},obj);//返回对象的深拷贝
-            	});
-            }
+           
             var rows = data.rows;
             var isError = false;
             for(var i in rows){
@@ -290,9 +286,14 @@ function initDatagridEditRequireOrder(){
                 rows[i]["defectNum"] = defectNum;
             }
             if(isError){
-                messager("库存数发送改变，请先保存");
+                messager("库存数发生改变，请先保存");
             }
             $('#gridEditRequireOrder').datagrid('loadData',rows);
+        	if(!oldData["grid"]){
+            	oldData["grid"] = $.map(rows, function(obj){
+            		return $.extend(true,{},obj);//返回对象的深拷贝
+            	});
+            }
             gridHandel.setDatagridHeader("center");
             updateFooter();
         }
@@ -589,7 +590,8 @@ function saveOrder(){
     		distributionSpec : data.distributionSpec,
     		formId : data.formId,
     		salePrice : data.salePrice,
-    		saleAmount : data.saleAmount
+    		saleAmount : data.saleAmount,
+    		defectNum : data.defectNum
     	}
     	reqObj.deliverFormListVo[i] = temp;
 	});
@@ -608,10 +610,14 @@ function saveOrder(){
                     remark:$("#remark").val(),                  // 备注
                     formNo:$("#formNo").html(),                 // 单号
                 }
-                oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
-            		return $.extend(true,{},obj);//返回对象的深拷贝
-            	});
+            	oldData["grid"] = null;
+//                oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
+//            		return $.extend(true,{},obj);//返回对象的深拷贝
+//            	});
             	$.messager.alert("操作提示", "操作成功！", "info");
+            	//window.location.reload();
+            	isFirst = false;
+            	$("#"+gridHandel.getGridName()).datagrid("reload");
             }else{
                 successTip(result['message']);
             }
