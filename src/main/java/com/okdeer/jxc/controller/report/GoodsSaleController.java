@@ -23,6 +23,7 @@ import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.report.service.GoodsSaleReportServiceApi;
+import com.okdeer.jxc.report.vo.GoodsSaleCountVo;
 import com.okdeer.jxc.report.vo.GoodsSaleReportVo;
 import com.okdeer.jxc.utils.UserUtil;
 
@@ -82,6 +83,36 @@ public class GoodsSaleController extends BaseController<GoodsSaleController> {
 			LOG.error("获取单据列表信息异常:{}", e);
 		}
 		return null;
+	}
+	
+	/**
+	 * @Description: 商品销售合计
+	 * @param vo
+	 * @return
+	 * @author liux01
+	 * @date 2016年10月27日
+	 */
+	@RequestMapping(value = "sum", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson sum(GoodsSaleReportVo vo) {
+		RespJson respJson = RespJson.success();
+		try {
+			GoodsSaleCountVo goodsSaleCountVo = goodsSaleReportServiceApi.queryGoodsSaleCountSum(vo);
+			if (goodsSaleCountVo != null) {
+				respJson.put("discountAmountSum", goodsSaleCountVo.getDiscountAmountSum());
+				respJson.put("originalAmountSum", goodsSaleCountVo.getOriginalAmountSum());
+				respJson.put("returnAmountSum", goodsSaleCountVo.getReturnAmountSum());
+				respJson.put("returnNumSum", goodsSaleCountVo.getReturnNumSum());
+				respJson.put("saleAmountSum", goodsSaleCountVo.getSaleAmountSum());
+				respJson.put("saleNumSum", goodsSaleCountVo.getSaleNumSum());
+				respJson.put("totalAmountSum", goodsSaleCountVo.getTotalAmountSum());
+				respJson.put("totalNumSum", goodsSaleCountVo.getTotalNumSum());
+			}
+		} catch (Exception e) {
+			LOG.error("店铺销售排名合计出现异常:{}", e);
+			respJson = RespJson.error("店铺销售排名合计失败！");
+		}
+		return respJson;
 	}
 	/**
 	 * 
