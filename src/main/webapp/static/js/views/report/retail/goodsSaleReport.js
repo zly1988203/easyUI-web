@@ -190,9 +190,7 @@ function initDatagridRequire(){
         	console.log(data)
         	gridHandel.setDatagridHeader("center");
         	updateFooter();
-        	countSet(data);	
-			
-        	
+        	//countSet(data);		
         }
     });
    // queryForm();
@@ -205,30 +203,28 @@ function updateFooter(){
 }
 //查询入库单
 function queryForm(){
+	console.log($("#storeSale").datagrid('options'))
 	var fromObjStr = $('#queryForm').serializeObject();
 	$("#storeSale").datagrid("options").method = "post";
 	$("#storeSale").datagrid('options').url = contextPath + '/goodsSale/report/getGoodsSaleList';
 	$("#storeSale").datagrid('load', fromObjStr);
 }
 //小计金额和小计数量 计算
-function countSet(data){
-	
+/*function countSet(data){
 	  var rows=data.list;
-	  
 	  if(!rows){
 		  return; 
 	  }
-	  
 	  $.each(rows, function (index, el) {
 		  if(el){
 			  el["totalAmount"] = parseFloat(el["saleAmount"])-parseFloat(el["returnAmount"]);
 			  el["totalNum"] = parseFloat(el["saleNum"])-parseFloat(el["returnNum"]);
+			  return;
 		  }
 	   })
 	  $("#storeSale").datagrid("loadData",rows);
 	 
-	  return data;
-}
+}*/
 
 /**
  * 机构名称
