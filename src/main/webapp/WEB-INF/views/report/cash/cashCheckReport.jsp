@@ -70,8 +70,7 @@
                 </div>  
             </div>
        	</form>
-       	<div class="ub umar-t8 umar-b8">【查询结果】</div>
-        <div class="ub ub-f1">
+        <div class="ub ub-f1 umar-t20">
 			<table id="cashReconcile"></table>
 		</div>
     </div>

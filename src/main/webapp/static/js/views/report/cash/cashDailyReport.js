@@ -1,6 +1,7 @@
 /**
  * Created by wxl on 2016/08/17.
  */
+var pageSize = 50;
 $(function() {
 	// 开始和结束时间
 	$("#txtStartDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
@@ -63,7 +64,7 @@ function initCashDailyallGrid(queryType) {
         pagination: true,    //分页
         //fitColumns:true,    //占满
         //showFooter:true,
-        pageSize : 20,
+        pageSize : pageSize,
         showFooter:true,
         height:'100%',
         columns: [[
@@ -158,6 +159,7 @@ function initCashDailymdGrid(queryType) {
         rownumbers: true,    //序号
         pagination: true,    //分页
         //fitColumns:true,    //占满
+        pageSize : pageSize,
         showFooter:true,
         columns: [[
            {field: 'branchCode', title: '店铺编号', width:100, align: 'left', 
@@ -247,6 +249,7 @@ function initCashDailydateGrid(queryType) {
         singleSelect: false,  //单选  false多选
         rownumbers: true,    //序号
         pagination: true,    //分页
+        pageSize : pageSize,
         //fitColumns:true,    //占满
         //showFooter:true,
         columns: [[

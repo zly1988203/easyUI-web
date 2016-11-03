@@ -1,3 +1,4 @@
+var pageSize = 50;
 $(function() {
 	//开始和结束时间
 	$("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
@@ -6,6 +7,7 @@ $(function() {
     initDatagridByFormNo();
 	//选择报表类型
 	changeType();
+	//切换radio 禁启用
 	checktype();
 	$(document).on('keyup','#arrivalRate',function(){
 		var val=parseFloat($(this).val());
@@ -14,6 +16,7 @@ $(function() {
 			   $(this).val("");	
 		}
 		else if(str.length>=6){
+			
 		    var subval=str.substring(0,6);
 		    $(this).val(subval);	
 		}
@@ -38,17 +41,16 @@ function changeType(){
 		}
 	});
 }
-
+//切换radio 4个状态的禁用和启用 以及值的清空
 function checktype(){
-	
  var len=$('.radioItem').length;
-  console.log(len)
 	for(var i=0;i<len;i++){
 		var check=$('.radioItem').eq(i).prop('checked');
 		var value=$('.radioItem').eq(i).val();
 		if(check==true&&value=='0'){
 			$('#categoryName').addClass('uinp-no-more');
 			$('#categoryName').removeAttr('onclick');
+			$('#categoryName').val("");
 			$('.uinp-categoryName').removeAttr('onclick');
 			$('#supplierName').removeClass('uinp-no-more');
 			$('#supplierName').attr('onclick','selectSupplier()');
@@ -59,9 +61,11 @@ function checktype(){
 		else if(check==true&&value=='1'){
 			$('#categoryName').addClass('uinp-no-more');
 			$('#categoryName').removeAttr('onclick');
+			$('#categoryName').val("");
 			$('.uinp-categoryName').removeAttr('onclick');
 			$('#formNo').addClass('uinp-no-more');
-			$('#formNo').attr("readonly","readonly"); 
+			$('#formNo').attr("readonly","readonly");
+			$('#formNo').val("");
 			$('#supplierName').removeClass('uinp-no-more');
 			$('#supplierName').attr('onclick','selectSupplier()');
 			$('.uinp-supplierName').attr('onclick','selectSupplier()');	
@@ -69,9 +73,11 @@ function checktype(){
 		else if(check==true&&value=='2'){
 			$('#supplierName').addClass('uinp-no-more');
 			$('#supplierName').removeAttr('onclick');
+			$('#supplierName').val("");
 			$('.uinp-supplierName').removeAttr('onclick');
 			$('#formNo').addClass('uinp-no-more');
-			$('#formNo').attr("readonly","readonly"); 
+			$('#formNo').attr("readonly","readonly");
+			$('#formNo').val("");
 			$('#categoryName').attr('onclick','getGoodsType()');
 			$('.uinp-categoryName').attr('onclick','getGoodsType()');
 			$('#categoryName').removeClass('uinp-no-more');
@@ -85,6 +91,9 @@ function checktype(){
 			$('.uinp-supplierName').attr('onclick','selectSupplier()');
 			$('#formNo').removeClass('uinp-no-more');
 			$('#formNo').removeAttr("readonly");
+			$('#categoryName').val("");
+			$('#formNo').val("");
+			$('#categoryName').val("");
 		}
    }	
 }
@@ -97,6 +106,7 @@ function initDatagridByFormNo(){
         method:'post',
         align:'center',
         url:'',
+        pageSize : pageSize,
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
         pagination:true,    //分页
@@ -153,9 +163,7 @@ function initDatagridByFormNo(){
 			gridHandel.setDatagridHeader("center");
 		}
     });
-    if(flushFlg){
-    	query();
-    }
+    
 }
 
 //初始化表格
@@ -165,6 +173,7 @@ function initDatagridBySupplier(){
         method:'post',
         align:'center',
         url:'',
+        pageSize : pageSize,
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
         pagination:true,    //分页
@@ -193,12 +202,12 @@ function initDatagridBySupplier(){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
 			},
-			{field:'receiptNum',title:'收货数量',width:'120px',align:'right',
+			{field:'receiptNum',title:'到货数量',width:'120px',align:'right',
 				formatter : function(value, row, index) {
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
 			},
-			{field:'receiptAmount',title:'收货金额',width:'140px',align:'right',
+			{field:'receiptAmount',title:'到货金额',width:'140px',align:'right',
 				formatter : function(value, row, index) {
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
@@ -218,7 +227,6 @@ function initDatagridBySupplier(){
 			gridHandel.setDatagridHeader("center");
 		}
     });
-    	query();
 }
 
 //初始化表格
@@ -228,6 +236,7 @@ function initDatagridByCategory(){
         method:'post',
         align:'center',
         url:'',
+        pageSize : pageSize,
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
         pagination:true,    //分页
@@ -256,12 +265,12 @@ function initDatagridByCategory(){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
 			},
-			{field:'receiptNum',title:'收货数量',width:'120px',align:'right',
+			{field:'receiptNum',title:'到货数量',width:'120px',align:'right',
 				formatter : function(value, row, index) {
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
 			},
-			{field:'receiptAmount',title:'收货金额',width:'140px',align:'right',
+			{field:'receiptAmount',title:'到货金额',width:'140px',align:'right',
 				formatter : function(value, row, index) {
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
@@ -281,7 +290,6 @@ function initDatagridByCategory(){
 			gridHandel.setDatagridHeader("center");
 		}
     });
-    query();
 }
 
 
@@ -292,6 +300,7 @@ function initDatagridBySku(){
         method:'post',
         align:'center',
         url:'',
+        pageSize : pageSize,
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
         pagination:true,    //分页
@@ -326,12 +335,12 @@ function initDatagridBySku(){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
 			},
-			{field:'receiptNum',title:'收货数量',width:'120px',align:'right',
+			{field:'receiptNum',title:'到货数量',width:'120px',align:'right',
 				formatter : function(value, row, index) {
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
 			},
-			{field:'receiptAmount',title:'收货金额',width:'140px',align:'right',
+			{field:'receiptAmount',title:'到货金额',width:'140px',align:'right',
 				formatter : function(value, row, index) {
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
@@ -351,7 +360,6 @@ function initDatagridBySku(){
 			gridHandel.setDatagridHeader("center");
 		}
     });
-    query();
 }
 
 function query(){

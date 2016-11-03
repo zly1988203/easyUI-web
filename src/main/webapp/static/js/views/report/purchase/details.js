@@ -53,11 +53,14 @@ function initPurReportDetailGrid(queryType) {
             {field: 'supplierName', title: '供应商名称', width: 100, align: 'left'},
             {field: 'formNo', title: '单据编号', width: 150, align: 'left',
             	formatter:function(value,row,index){
+            		var hrefStr = '';
             		if(row.formId){
+            			hrefStr='parent.addTab("详情","'+contextPath+'/form/purchase/receiptEdit?report=close&formId='+row.formId+'")';
             			if(row.type=="PI"){
-            				return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/purchase/receiptEdit?formId="+ row.formId +"'>" + value + "</a>"
+            				return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
             			}else{
-            				return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/purchase/returnEdit?formId="+ row.formId +"'>" + value + "</a>"
+            				hrefStr='parent.addTab("详情","'+contextPath+'/form/purchase/returnEdit?report=close&formId='+row.formId+'")'
+            				return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
             			}
             		}else{
             			return "";

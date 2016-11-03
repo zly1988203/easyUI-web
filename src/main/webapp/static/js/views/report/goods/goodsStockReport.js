@@ -1,6 +1,7 @@
 /**
  * Created by wxl on 2016/08/11.
  */
+var pageSize = 50;
 $(function(){
     //初始化列表
     initProductInquireGrid();
@@ -16,7 +17,7 @@ function initProductInquireGrid() {
         pagination:true,    //分页
         showFooter:true,
         fitColumns:true,    //每列占满
-        pageSize : 20,
+        pageSize : pageSize,
         height:'100%',
         columns: [[
             {field: 'branchCode', title: '店铺编号', width: 100, align: 'left'},

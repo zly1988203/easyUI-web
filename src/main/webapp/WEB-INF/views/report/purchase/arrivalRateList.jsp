@@ -56,8 +56,10 @@
 	            </div>
 	            <div class="ub ub-ac umar-r40">
 	                <div class="umar-r10 uw-60 ut-r">到货率≤:</div>
-	                <input class="uinp deal" name="arrivalRate" id="arrivalRate"  type="number" maxlength="7"  onKeypress="return (/[\d.]/.test(String.fromCharCode(event.keyCode)))">
+	                <input class="uinp deal" name="arrivalRate" id="arrivalRate"  type="number" maxlength="7"  onkeyup="value=value.replace(/[^\d\.]/g,'')" onbeforepaste="value=value.replace(/[^\d\.]/g,'')">
 	            </div>
+	        </div>
+	        <div class="ub umar-t8">
 	            <div class="ub ub-ac">
 	                <div class="umar-r10 uw-70 ut-r">查询类型:</div>
 	                <div class="ub ub-ac umar-r10">

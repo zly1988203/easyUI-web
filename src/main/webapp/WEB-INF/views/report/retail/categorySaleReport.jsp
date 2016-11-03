@@ -39,12 +39,16 @@
 	                    <input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" onclick="selectBranches()" readonly="readonly" />
 	                    <div class="uinp-more" onclick="selectBranches()" >...</div>
 	                </div>
+	                <div class="ub ub-ac  umar-l20">
+                    <div class="umar-r10 uw-70 ut-r">商品类别:</div>
+                    <input class="uinp ub ub-f1" type="text" name="categoryName" id="categoryName">
+                </div> 
             </div>
 	
        	</form>
            
-       	<div class="ub umar-t8 umar-b8">【查询结果】</div>
-        <div class="ub ub-f1">
+      
+      <div class="ub ub-f1 umar-t20">
 			 <table id="categorySale"></table>
 		</div>
     </div>
