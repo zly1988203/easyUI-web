@@ -6,6 +6,7 @@ $(function() {
     initDatagridByFormNo();
 	//选择报表类型
 	changeType();
+	//切换radio 禁启用
 	checktype();
 	$(document).on('keyup','#arrivalRate',function(){
 		var val=parseFloat($(this).val());
@@ -43,17 +44,17 @@ function changeType(){
 		}
 	});
 }
-
+//切换radio 4个状态的禁用和启用 以及值的清空
 function checktype(){
-	
  var len=$('.radioItem').length;
-  console.log(len)
 	for(var i=0;i<len;i++){
 		var check=$('.radioItem').eq(i).prop('checked');
 		var value=$('.radioItem').eq(i).val();
 		if(check==true&&value=='0'){
+
 			$('#categoryName').addClass('uinp-no-more');
 			$('#categoryName').removeAttr('onclick');
+			$('#categoryName').val("");
 			$('.uinp-categoryName').removeAttr('onclick');
 			$('#supplierName').removeClass('uinp-no-more');
 			$('#supplierName').attr('onclick','selectSupplier()');
@@ -64,9 +65,11 @@ function checktype(){
 		else if(check==true&&value=='1'){
 			$('#categoryName').addClass('uinp-no-more');
 			$('#categoryName').removeAttr('onclick');
+			$('#categoryName').val("");
 			$('.uinp-categoryName').removeAttr('onclick');
 			$('#formNo').addClass('uinp-no-more');
-			$('#formNo').attr("readonly","readonly"); 
+			$('#formNo').attr("readonly","readonly");
+			$('#formNo').val("");
 			$('#supplierName').removeClass('uinp-no-more');
 			$('#supplierName').attr('onclick','selectSupplier()');
 			$('.uinp-supplierName').attr('onclick','selectSupplier()');	
@@ -74,9 +77,11 @@ function checktype(){
 		else if(check==true&&value=='2'){
 			$('#supplierName').addClass('uinp-no-more');
 			$('#supplierName').removeAttr('onclick');
+			$('#supplierName').val("");
 			$('.uinp-supplierName').removeAttr('onclick');
 			$('#formNo').addClass('uinp-no-more');
-			$('#formNo').attr("readonly","readonly"); 
+			$('#formNo').attr("readonly","readonly");
+			$('#formNo').val("");
 			$('#categoryName').attr('onclick','getGoodsType()');
 			$('.uinp-categoryName').attr('onclick','getGoodsType()');
 			$('#categoryName').removeClass('uinp-no-more');
@@ -90,6 +95,9 @@ function checktype(){
 			$('.uinp-supplierName').attr('onclick','selectSupplier()');
 			$('#formNo').removeClass('uinp-no-more');
 			$('#formNo').removeAttr("readonly");
+			$('#categoryName').val("");
+			$('#formNo').val("");
+			$('#categoryName').val("");
 		}
    }	
 }
@@ -158,9 +166,7 @@ function initDatagridByFormNo(){
 			gridHandel.setDatagridHeader("center");
 		}
     });
-    if(flushFlg){
-    	query();
-    }
+    
 }
 
 //初始化表格
@@ -223,7 +229,6 @@ function initDatagridBySupplier(){
 			gridHandel.setDatagridHeader("center");
 		}
     });
-    	query();
 }
 
 //初始化表格
@@ -286,7 +291,6 @@ function initDatagridByCategory(){
 			gridHandel.setDatagridHeader("center");
 		}
     });
-    query();
 }
 
 
@@ -356,7 +360,6 @@ function initDatagridBySku(){
 			gridHandel.setDatagridHeader("center");
 		}
     });
-    query();
 }
 
 function query(){
