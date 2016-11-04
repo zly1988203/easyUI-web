@@ -50,7 +50,7 @@
 	                </div> --%>
 	            </div>
 	            <div class="ub umar-t8">
-	                <div class="ub ub-ac umar-l20">
+	                <div class="ub ub-ac">
 	                    <div class="umar-r10 uw-70 ut-r">单据状态:</div>
 	                    <div class="ub ub-ac umar-r10">
 	                        <input class="ub" type="radio" name="deliverStatus" value="0" /><span>待处理</span>
