@@ -34,24 +34,27 @@ function initDatagridRequire(){
             {field:'branchName',title:'店铺名称',width:'140px',align:'left'},
             {field:'formNo',title: '单号', width: '150px', align: 'left',
             	formatter:function(value,row,index){
-            		console.log(row);
+            		var hrefStr='';
             		if(row.formType=="库存调整"){
-            		
-                		return "<a style='text-decoration: underline;' href='"+ contextPath +"/stock/adjust/edit?id="+ row.formId +"'>" + value + "</a>"
+            			hrefStr='parent.addTab("详情","'+contextPath+'/stock/adjust/checkSuccess?report=close&id='+row.formId+'")';
+            			return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
                 	}else if(row.formType=="采购收货"){
-                		return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/purchase/receiptEdit?formId="+ row.formId +"'>" + value + "</a>"	
+                		hrefStr='parent.addTab("详情","'+contextPath+'/form/purchase/receiptEdit?report=close&formId='+row.formId+'")';
+                		return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';	
                 	}
                 	else if(row.formType=="采购退货"){
-                		return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/purchase/returnEdit?formId="+ row.formId +"'>" + value + "</a>"	
+                		hrefStr='parent.addTab("详情","'+contextPath+'/form/purchase/returnEdit?report=close&formId='+row.formId+'")'
+                		return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';		
                     		
                 	}
                 	else if(row.formType=="配送入库"){
-                		return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/deliverForm/deliverEdit?deliverFormId="+ row.formId +"'>" + value + "</a>"	
+                		hrefStr='parent.addTab("详情","'+contextPath+'/form/deliverForm/deliverEdit?report=close&deliverFormId='+row.formId+'")';
+                		return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';			
                     	
                 	}
 					else if(row.formType=="配送出库"){
-					        
-						return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/deliverForm/deliverEdit?deliverFormId="+ row.formId +"'>" + value + "</a>"	
+						hrefStr='parent.addTab("详情","'+contextPath+'/form/deliverForm/deliverEdit?report=close&deliverFormId='+row.formId+'")';  
+						return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';			
                     	
 					}
 					else if(row.formType=="销售"){
