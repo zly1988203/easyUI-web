@@ -30,10 +30,11 @@ function initDatagridRequireOrders(){
 		width:'100%',
         columns:[[
 			{field:'check',checkbox:true},
-			{field:'sourceBranchCode',title: '发货机构编码', width: '100px', align: 'left'},
-            {field:'formNo',title:'单据编号',width:'140px',align:'left',formatter:function(value,row,index){
-            	return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/deliverForm/deliverEdit?deliverFormId="+ row.deliverFormId +"&formSources=2'>" + value + "</a>";
+			{field:'formNo',title:'单据编号',width:'140px',align:'left',formatter:function(value,row,index){
+				var hrefStr='parent.addTab("详情","'+contextPath+'/form/deliverForm/deliverEdit?report=close&deliverFormId='+row.deliverFormId+'")';
+				return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
             }},
+            {field:'sourceBranchCode',title: '发货机构编码', width: '100px', align: 'left'},
             {field: 'sourceBranchName', title: '发货机构', width: '200px', align: 'left'},
             {field: 'targetBranchCode', title: '要货机构编码', width: '100px', align: 'left'},
             {field: 'targetBranchName', title: '要货机构', width: '200px', align: 'left'},
@@ -105,14 +106,10 @@ function queryForm(){
 var branchId;
 var brancheType;
 function selectBranches(){
-	/*if(brancheType != '0' && brancheType != '1'){
-		return;
-	}*/
 	new publicAgencyService(function(data){
         if($("#branchId").val()!=data.branchesId){
             $("#branchId").val(data.branchesId);
             $("#branchName").val(data.branchName);
-            //gridHandel.setLoadData([$.extend({},gridDefault)]);
         }
 	},'',branchId);
 }
