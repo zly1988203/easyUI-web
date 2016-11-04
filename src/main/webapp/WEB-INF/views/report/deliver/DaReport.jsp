@@ -15,8 +15,12 @@
 		<form id="queryForm" action="" method="post">
 			<div class="ub ub-ac">
 	            <div class="ubtns">
-					<div class="ubtns-item" onclick="queryForm()">查询</div>
-					<div class="ubtns-item"  onclick="exportData()">导出</div>
+	                <shiro:hasPermission name="JxcDeliverReport:search">
+						<div class="ubtns-item" onclick="queryForm()">查询</div>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="JxcDeliverReport:export">
+						<div class="ubtns-item"  onclick="exportData()">导出</div>
+					</shiro:hasPermission>
 					<div class="ubtns-item" id="set" onclick="gFunRefresh()">重置</div>
 	                <div class="ubtns-item" onclick="toClose()">退出</div>
 	            </div>
@@ -46,7 +50,7 @@
 	                </div> --%>
 	            </div>
 	            <div class="ub umar-t8">
-	                <div class="ub ub-ac umar-l20">
+	                <div class="ub ub-ac">
 	                    <div class="umar-r10 uw-70 ut-r">单据状态:</div>
 	                    <div class="ub ub-ac umar-r10">
 	                        <input class="ub" type="radio" name="deliverStatus" value="0" /><span>待处理</span>
