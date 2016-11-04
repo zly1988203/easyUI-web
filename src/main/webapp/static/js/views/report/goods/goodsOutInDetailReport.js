@@ -68,7 +68,7 @@ function initDatagridRequire(){
 			{field: 'spec', title: '规格', width: '80px', align: 'left'},
 			{field: 'unit', title: '单位', width: '80px', align: 'left'},
 			{field: 'pricingType', title: '计价方式', width: '80px', align: 'left'},
-			{field: 'categoryCode', title: '类别编码', width: '80px', align: 'right'},
+			{field: 'categoryCode', title: '类别编码', width: '80px', align: 'left'},
 			{field: 'categoryName', title: '类别名称', width: '80px', align: 'left'},
 			{field: 'createTime', title: '日期时间', width: '150px', align: 'left'},
             {field: 'outNum', title: '出库数量', width: '100px', align: 'right',
@@ -134,6 +134,12 @@ function initDatagridRequire(){
                  }
             },
             {field: 'salePrice', title: '售价', width: '100px', align: 'right',
+            	formatter:function(value,row,index){
+            		if(row.isFooter){
+                        return '';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
             	 editor:{
                      type:'numberbox',
                      options:{

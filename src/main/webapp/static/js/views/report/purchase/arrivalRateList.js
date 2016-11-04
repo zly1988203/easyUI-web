@@ -28,6 +28,7 @@ function changeType(){
 	$(".radioItem").change(function(){
 		checktype()
 		var val = $(this).val();
+		$("#gridOrders").datagrid("options").url = "";
 		if (val==0) {
 			flushFlg=true;
 			initDatagridByFormNo();
@@ -39,6 +40,8 @@ function changeType(){
 		}else if(val==3){
 			initDatagridBySku();
 		}
+		$("#gridOrders").datagrid('loadData', { total: 0, rows: [] });
+    	$('#gridOrders').datagrid({showFooter:false});
 	});
 }
 //切换radio 4个状态的禁用和启用 以及值的清空
@@ -365,6 +368,7 @@ function initDatagridBySku(){
 }
 
 function query(){
+	$("#gridOrders").datagrid({showFooter:true});
 	$("#gridOrders").datagrid("options").queryParams = $("#queryForm").serializeObject();
 	$("#gridOrders").datagrid("options").method = "post";
 	$("#gridOrders").datagrid("options").url = contextPath+'/report/purchase/getList';
