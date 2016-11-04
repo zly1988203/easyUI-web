@@ -26,9 +26,9 @@ $(function() {
 var flushFlg = false;
 function changeType(){
 	$(".radioItem").change(function(){
+		$("#gridOrders").datagrid("options").url = "";
 		checktype()
 		var val = $(this).val();
-		$("#gridOrders").datagrid("options").url = "";
 		if (val==0) {
 			flushFlg=true;
 			initDatagridByFormNo();
@@ -54,6 +54,8 @@ function checktype(){
 			$('#categoryName').addClass('uinp-no-more');
 			$('#categoryName').removeAttr('onclick');
 			$('#categoryName').val("");
+			$('#categoryId').val("");
+			$('#categoryCode').val("");
 			$('.uinp-categoryName').removeAttr('onclick');
 			$('#supplierName').removeClass('uinp-no-more');
 			$('#supplierName').attr('onclick','selectSupplier()');
@@ -96,7 +98,8 @@ function checktype(){
 			$('#formNo').attr("readonly","readonly");
 			$('#formNo').val("");
 			$('#categoryName').val("");
-			$('#categoryName').val("");
+			$('#categoryId').val("");
+			$('#categoryCode').val("");
 		}
    }	
 }
@@ -368,6 +371,7 @@ function initDatagridBySku(){
 }
 
 function query(){
+	$("#gridOrders").datagrid("options").url = "";
 	$("#gridOrders").datagrid({showFooter:true});
 	$("#gridOrders").datagrid("options").queryParams = $("#queryForm").serializeObject();
 	$("#gridOrders").datagrid("options").method = "post";

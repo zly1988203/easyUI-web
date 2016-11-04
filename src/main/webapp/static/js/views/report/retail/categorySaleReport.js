@@ -22,7 +22,7 @@ function initDatagridRequire(){
 		pageSize:50,
 		width:'100%',
         columns:[[
-            {field:'branchName',title:'机构名称',width:'250px',align:'left',
+            {field:'branchName',title:'机构名称',width:'86px',align:'left',
             	formatter : function(value, row,index) {
                     var str = value;
                     if(row.isFooter){
@@ -31,10 +31,10 @@ function initDatagridRequire(){
                     return str;
                 }
             },
-            {field:'cityName',title: '所在城市', width: '200px', align: 'left'},
-			{field:'categoryCode', title: '类别编号', width: '120px', align: 'left'},
-            {field:'categoryName', title: '类别名称', width: '120px', align: 'left'},
-            {field:'saleAmount', title: '销售金额', width: '130px', align: 'right',
+            {field:'cityName',title: '所在城市', width: '86px', align: 'left'},
+			{field:'categoryCode', title: '类别编号', width: '56px', align: 'left'},
+            {field:'categoryName', title: '类别名称', width: '65px', align: 'left'},
+            {field:'saleAmount', title: '销售金额', width: '80px', align: 'right',
             	formatter:function(value,row,index){
             		if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -51,7 +51,7 @@ function initDatagridRequire(){
                      }
                  }
             },
-            {field:'saleRate', title: '销售占比', width: '130px', align: 'right',
+            {field:'saleRate', title: '销售占比', width: '60px', align: 'right',
             	formatter:function(value,row,index){
             		if(row.isFooter){
                         return '';
