@@ -31,6 +31,9 @@ function initProductInquireGrid() {
             {field: 'actual', title: '库存', width: 80, align: 'right',formatter : function(value){
     			return getTwoDecimalB(value);
     		}},
+    		{field: 'numberCase', title: '箱数', width: 80, align: 'right',formatter : function(value){
+    			return getTwoDecimalB(value);
+    		}},
     	   {field: 'costPrice', title: '成本价', width: 80, align: 'right',formatter : function(value){
     		   return getTwoDecimalB(value);
      		}},
