@@ -35,8 +35,6 @@ function initDatagridRequire(){
 			{field: 'skuName', title: '商品名称', width: '185px', align: 'left'},
 			{field: 'barCode', title: '条码', width: '100px', align: 'left'},
 			{field: 'categoryName', title: '类别名称', width: '65px', align: 'left'},
-            {field: 'spec', title: '规格', width: '45px', align: 'left'},
-            {field: 'unit', title: '单位', width: '45px', align: 'left'},
             {field: 'originalAmount', title: '原价金额', width: '80px', align: 'right',
             	formatter:function(value,row,index){
             		 if(row.isFooter){
@@ -148,7 +146,26 @@ function initDatagridRequire(){
                      }
                  }
             },
-            {field: 'totalAmount', title: '小计金额', width: '80px', align: 'right',
+            {field: 'totalNum', title: '数量小计', width: '80px', align: 'right',
+            	formatter:function(value,row,index){
+            		if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    if(!value){
+                    	row["totalNum"] = 0.00;
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         min:0,
+                         precision:2
+                     }
+                 }
+            },
+            {field: 'totalAmount', title: '金额小计', width: '80px', align: 'right',
             	formatter:function(value,row,index){
             		if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -167,25 +184,8 @@ function initDatagridRequire(){
                      }
                  }
             },
-            {field: 'totalNum', title: '小计数量', width: '80px', align: 'right',
-            	formatter:function(value,row,index){
-            		if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                    }
-                    if(!value){
-                    	row["totalNum"] = 0.00;
-                    }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-            	 editor:{
-                     type:'numberbox',
-                     options:{
-                     	disabled:true,
-                         min:0,
-                         precision:2
-                     }
-                 }
-            }
+            {field: 'spec', title: '规格', width: '45px', align: 'left'},
+            {field: 'unit', title: '单位', width: '45px', align: 'left'}
         ]],
         onLoadSuccess:function(data){
         	gridHandel.setDatagridHeader("center");

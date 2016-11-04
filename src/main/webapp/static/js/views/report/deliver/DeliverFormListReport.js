@@ -59,10 +59,6 @@ function initDatagridRequireOrders(){
             {field: 'skuCode', title: '货号', width: '55px', align: 'left'},
             {field: 'skuName', title: '商品名称', width: '185px', align: 'left'},
             {field: 'barCode', title: '条码', width: '100px', align: 'left'},
-            {field: 'categoryCode', title: '类别编号', width: '56px', align: 'left'},
-            {field: 'categoryName', title: '类别', width: '65px', align: 'left'},
-            {field: 'spec', title: '规格', width: '45px', align: 'left'},
-            {field: 'unit', title: '单位', width: '45px', align: 'left'},
             {field: 'price', title: '单价', width: '60px', align: 'right',
             	formatter:function(value,row,index){
             		if(row.isFooter){
@@ -112,6 +108,10 @@ function initDatagridRequireOrders(){
             		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
             	}
             },
+            {field: 'categoryCode', title: '类别编号', width: '56px', align: 'left'},
+            {field: 'categoryName', title: '类别名称', width: '65px', align: 'left'},
+            {field: 'spec', title: '规格', width: '45px', align: 'left'},
+            {field: 'unit', title: '单位', width: '45px', align: 'left'},
             {field: 'userName', title: '制单人', width: '80px', align: 'left'},
 			{field: 'remark', title: '备注', width: '100px', align: 'left'}
         ]],
