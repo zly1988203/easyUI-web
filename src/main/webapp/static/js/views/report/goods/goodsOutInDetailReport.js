@@ -22,7 +22,7 @@ function initDatagridRequire(){
 		height:'100%',
 		width:'100%',
         columns:[[
-			{field:'branchCode',title:'店铺编号',width:'56px',align:'left',
+			{field:'branchCode',title:'店铺编号',width:'56',align:'left',
 				formatter : function(value, row,index) {
                     var str = value;
                     if(row.isFooter){
@@ -31,8 +31,8 @@ function initDatagridRequire(){
                     return str;
                 }	
 			},
-            {field:'branchName',title:'店铺名称',width:'86px',align:'left'},
-            {field:'formNo',title: '单号', width: '130px', align: 'left',
+            {field:'branchName',title:'店铺名称',width:'86',align:'left'},
+            {field:'formNo',title: '单号', width: '130', align: 'left',
             	formatter:function(value,row,index){
             		console.log(row);
             		if(row.formType=="库存调整"){
@@ -59,111 +59,106 @@ function initDatagridRequire(){
 					}
                }
             },
-            {field:'skuCode',title: '货号', width: '55px', align: 'left'},
-            {field:'barCode',title: '条码', width: '100px', align: 'left'},
-			{field: 'skuName', title: '商品名称', width: '185px', align: 'left'},
-			{field: 'spec', title: '规格', width: '45px', align: 'left'},
-			{field: 'unit', title: '单位', width: '45px', align: 'left'},
-			{field: 'pricingType', title: '计价方式', width: '80px', align: 'left'},
-			{field: 'categoryCode', title: '类别编码', width: '56px', align: 'left'},
-			{field: 'categoryName', title: '类别名称', width: '65px', align: 'left'},
-			{field: 'createTime', title: '日期时间', width: '115px', align: 'left'},
-            {field: 'outNum', title: '出库数量', width: '80px', align: 'right',
+			{field: 'createTime', title: '日期时间', width: '115', align: 'left'},
+            {field:'skuCode',title: '货号', width: '55', align: 'left'},
+			{field: 'skuName', title: '商品名称', width: '185', align: 'left'},
+            {field:'barCode',title: '条码', width: '100', align: 'left'},
+			{field: 'formType', title: '出入库类型', width: '80', align: 'left'},
+			{field: 'outNum', title: '出库数量', width: '80', align: 'right',
 				formatter:function(value,row,index){
-            		if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                    }
-                   
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-            	 editor:{
-                     type:'numberbox',
-                     options:{
-                     	disabled:true,
-                         min:0,
-                         precision:2
-                     }
-                 }
-            },
-            {field: 'inNum', title: '入库数量', width: '80px', align: 'right',
-            	formatter:function(value,row,index){
-            		if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                    }
-                   
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-            	 editor:{
-                     type:'numberbox',
-                     options:{
-                     	disabled:true,
-                         min:0,
-                         precision:2
-                     }
-                 }
-            },
-            {field: 'formType', title: '出入库类型', width: '80px', align: 'left'},
-            {field: 'costPrice', title: '进价', width: '60px', align: 'right',
-            	 editor:{
-                     type:'numberbox',
-                     options:{
-                     	disabled:true,
-                         min:0,
-                         precision:2
-                     }
-                 }
-            },
-            {field: 'costAmount', title: '进价金额', width: '80px', align: 'right',
-            	formatter:function(value,row,index){
-            		if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                    }
-                   
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-            	 editor:{
-                     type:'numberbox',
-                     options:{
-                     	disabled:true,
-                         min:0,
-                         precision:2
-                     }
-                 }
-            },
-            {field: 'salePrice', title: '售价', width: '60px', align: 'right',
-            	formatter:function(value,row,index){
-            		if(row.isFooter){
-                        return '';
-                    }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-            	 editor:{
-                     type:'numberbox',
-                     options:{
-                     	disabled:true,
-                         min:0,
-                         precision:2
-                     }
-                 }
-            },
-            {field: 'saleAmount', title: '售价金额', width: '80px', align: 'right',
-            	formatter:function(value,row,index){
-            		if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                    }
-                   
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-            	 editor:{
-                     type:'numberbox',
-                     options:{
-                     	disabled:true,
-                         min:0,
-                         precision:2
-                     }
-                 }
-            },
-            {field: 'supplierName', title: '供应商名称', width: '185px', align: 'left'}
+					if(row.isFooter){
+						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+					}
+
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				},
+				editor:{
+					type:'numberbox',
+					options:{
+						disabled:true,
+						min:0,
+						precision:2
+					}
+				}
+			},
+			{field: 'inNum', title: '入库数量', width: '80', align: 'right',
+				formatter:function(value,row,index){
+					if(row.isFooter){
+						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+					}
+
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				},
+				editor:{
+					type:'numberbox',
+					options:{
+						disabled:true,
+						min:0,
+						precision:2
+					}
+				}
+			},
+			{field: 'costPrice', title: '进价', width: '60', align: 'right',
+				editor:{
+					type:'numberbox',
+					options:{
+						disabled:true,
+						min:0,
+						precision:2
+					}
+				}
+			},
+			{field: 'costAmount', title: '进价金额', width: '80', align: 'right',
+				formatter:function(value,row,index){
+					if(row.isFooter){
+						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+					}
+
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				},
+				editor:{
+					type:'numberbox',
+					options:{
+						disabled:true,
+						min:0,
+						precision:2
+					}
+				}
+			},
+			{field: 'salePrice', title: '售价', width: '60', align: 'right',
+				editor:{
+					type:'numberbox',
+					options:{
+						disabled:true,
+						min:0,
+						precision:2
+					}
+				}
+			},
+			{field: 'saleAmount', title: '售价金额', width: '80', align: 'right',
+				formatter:function(value,row,index){
+					if(row.isFooter){
+						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+					}
+
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				},
+				editor:{
+					type:'numberbox',
+					options:{
+						disabled:true,
+						min:0,
+						precision:2
+					}
+				}
+			},
+			{field: 'spec', title: '规格', width: '45', align: 'left'},
+			{field: 'unit', title: '单位', width: '45', align: 'left'},
+			{field: 'pricingType', title: '计价方式', width: '56', align: 'left'},
+			{field: 'categoryCode', title: '类别编码', width: '56', align: 'right'},
+			{field: 'categoryName', title: '类别名称', width: '65', align: 'left'},
+
+            {field: 'supplierName', title: '供应商名称', width: '185', align: 'left'}
         ]],
         onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
