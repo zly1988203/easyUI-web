@@ -129,7 +129,7 @@ function initCashDailyallGrid(queryType) {
 		showFooter:true,
 		height:'100%',
 		columns: [[
-		           {field: 'skuCode', title: '货号', width:120, align: 'left',
+		           {field: 'skuCode', title: '货号', width:'55px', align: 'left',
 		        	   formatter : function(value, row,index) {
 		                    var str = value;
 		                    if(row.isFooter){
@@ -138,12 +138,12 @@ function initCashDailyallGrid(queryType) {
 		                    return str;
 		                }
 		           },
-		           {field: 'skuName', title: '商品名称', width:200, align: 'left'},
-		           {field: 'barCode', title: '条码', width:120, align: 'left'},
-		           {field: 'categoryCode', title: '类别编号', width:120, align: 'left'},
-		           {field: 'categoryName', title: '类别', width:120, align: 'left'},
-		           {field: 'spec', title: '规格', width:80, align: 'left'},
-		           {field: 'unit', title: '单位', width:60, align: 'left'},
+		           {field: 'skuName', title: '商品名称', width:'185px', align: 'left'},
+		           {field: 'barCode', title: '条码', width:'100px', align: 'left'},
+		           {field: 'categoryCode', title: '类别编号', width:'56px', align: 'left'},
+		           {field: 'categoryName', title: '类别', width:'65px', align: 'left'},
+		           {field: 'spec', title: '规格', width:'45px', align: 'left'},
+		           {field: 'unit', title: '单位', width:'45px', align: 'left'},
 		         /*  {field: 'inputTax', title: '税率', width:60, align: 'right',
 		        	   formatter:function(value,row,index){
 		        		   if(row.isFooter){
@@ -152,7 +152,7 @@ function initCashDailyallGrid(queryType) {
 		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		        	   }
 		           },*/
-		           {field: 'receiveLargeNum', title: '调入箱数', width:100, align: 'right',
+		           {field: 'receiveLargeNum', title: '调入箱数', width:'80px', align: 'right',
 		        	   formatter:function(value,row,index){
 		        		   if(row.isFooter){
 		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -160,7 +160,7 @@ function initCashDailyallGrid(queryType) {
 		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		        	   }
 		           },
-		           {field: 'receiveNum', title: '调入数量', width:100, align: 'right',
+		           {field: 'receiveNum', title: '调入数量', width:'80px', align: 'right',
 		        	   formatter:function(value,row,index){
 		        		   if(row.isFooter){
 		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -168,7 +168,7 @@ function initCashDailyallGrid(queryType) {
 		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		        	   }
 		           },
-		           {field: 'receiveAmount', title: '调入金额', width:100, align: 'right',
+		           {field: 'receiveAmount', title: '调入金额', width:'80px', align: 'right',
 		        	   formatter:function(value,row,index){
 		        		   if(row.isFooter){
 		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -176,7 +176,7 @@ function initCashDailyallGrid(queryType) {
 		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		        	   }
 		           },
-		           {field: 'dealLargeNum', title: '调出箱数', width:100, align: 'right',
+		           {field: 'dealLargeNum', title: '调出箱数', width:'80px', align: 'right',
 		        	   formatter:function(value,row,index){
 		        		   if(row.isFooter){
 		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -184,7 +184,7 @@ function initCashDailyallGrid(queryType) {
 		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		        	   }
 		           },
-		           {field: 'dealNum', title: '调出数量', width:100, align: 'right',
+		           {field: 'dealNum', title: '调出数量', width:'80px', align: 'right',
 		        	   formatter:function(value,row,index){
 		        		   if(row.isFooter){
 		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -192,7 +192,7 @@ function initCashDailyallGrid(queryType) {
 		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		        	   }
 		           },
-		           {field: 'dealAmount', title: '调出金额', width:100, align: 'right',
+		           {field: 'dealAmount', title: '调出金额', width:'80px', align: 'right',
 		        	   formatter:function(value,row,index){
 		        		   if(row.isFooter){
 		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -201,7 +201,7 @@ function initCashDailyallGrid(queryType) {
 		        	   }
 		           },
 
-		           {field: 'sumNum', title: '数量小计', width:120, align: 'right',
+		           {field: 'sumNum', title: '数量小计', width:'80px', align: 'right',
 		        	   formatter:function(value,row,index){
 		        		   if(row.isFooter){
 		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -209,7 +209,7 @@ function initCashDailyallGrid(queryType) {
 		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		        	   }   
 		           },
-		           {field: 'sumAmount', title: '金额小计', width:120, align: 'right',
+		           {field: 'sumAmount', title: '金额小计', width:'80px', align: 'right',
 		        	   formatter:function(value,row,index){
 		        		   if(row.isFooter){
 		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -243,7 +243,7 @@ function initCashDailymdGrid(queryType) {
 		showFooter:true,
 		pageSize : 50,
 		columns: [[
-		           {field: 'formNo', title: '单据编号', width:140, align: 'left',
+		           {field: 'formNo', title: '单据编号', width:'130px', align: 'left',
 		        	   formatter:function(value,row,index){
 		            			if(row.formId){
 		            				var hrefStr='parent.addTab("详情","'+contextPath+'/form/deliverForm/deliverEdit?report=close&deliverFormId='+row.formId+'")';
@@ -253,11 +253,11 @@ function initCashDailymdGrid(queryType) {
 		            			}
 		                }   
 		           },
-		           {field: 'sourceBranchCode', title: '发货机构编码', width:120, align: 'left'},
-		           {field: 'sourceBranchName', title: '发货机构', width:120, align: 'left'},
-		           {field: 'targetBranchCode', title: '要货机构编码', width:120, align: 'left'},
-		           {field: 'targetBranchName', title: '要货机构', width:120, align: 'left'},
-		           {field: 'referenceNo', title: '引用单号', width:140, align: 'left',
+		           {field: 'sourceBranchCode', title: '发货机构编码', width:'56px', align: 'left'},
+		           {field: 'sourceBranchName', title: '发货机构', width:'86px', align: 'left'},
+		           {field: 'targetBranchCode', title: '要货机构编码', width:'56px', align: 'left'},
+		           {field: 'targetBranchName', title: '要货机构', width:'86px', align: 'left'},
+		           {field: 'referenceNo', title: '引用单号', width:'130px', align: 'left',
 		        	   formatter:function(value,row,index){
 		        		   if(row.formId){
 	            				var hrefStr='parent.addTab("详情","'+contextPath+'/form/deliverForm/deliverEdit?report=close&deliverFormId='+row.referenceId+'")';
@@ -267,10 +267,10 @@ function initCashDailymdGrid(queryType) {
 	            			}
 		                }    
 		           },
-		           {field: 'statusName', title: '单据状态', width:120, align: 'center' },
+		           {field: 'statusName', title: '单据状态', width:'60px', align: 'center' },
 		           {field: 'status', title: '状态', width:120, align: 'right',hidden:true},
 		           
-		           {field: 'num', title: '数量', width:120, align: 'right',
+		           {field: 'num', title: '数量', width:'80px', align: 'right',
 		        	   formatter:function(value,row,index){
 		        		   if(row.isFooter){
 		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -278,7 +278,7 @@ function initCashDailymdGrid(queryType) {
 		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		        	   }
 		           },
-		           {field: 'amount', title: '金额', width:120, align: 'right',
+		           {field: 'amount', title: '金额', width:'80px', align: 'right',
 		        	   formatter:function(value,row,index){
 		        		   if(row.isFooter){
 		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -286,12 +286,12 @@ function initCashDailymdGrid(queryType) {
 		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		        	   }
 		           },
-		           {field: 'validTime', title: '审核日期', width:120, align: 'left',
+		           {field: 'validTime', title: '审核日期', width:'115px', align: 'left',
 		        	   formatter : function(value, rowData, rowIndex) {
 		        		   return formatDate(value,'yyyy-MM-dd');
 		        	   }   
 		           },
-		           {field: 'remark', title: '备注', width:120, align: 'left'}
+		           {field: 'remark', title: '备注', width:'100px', align: 'left'}
 		           ]],
 		           onLoadSuccess:function(data){
 		        	   gridHandel.setDatagridHeader("center");
@@ -317,9 +317,9 @@ function initCashDailydateGrid(queryType) {
 		showFooter:true,
 		pageSize : 50,
 		columns: [[
-		           {field: 'categoryCode', title: '类别编号', width:120, align: 'left'},
-		           {field: 'categoryName', title: '类别', width:120, align: 'left'},
-		           {field: 'receiveNum', title: '调入数量', width:120, align: 'right',
+		           {field: 'categoryCode', title: '类别编号', width:'56px', align: 'left'},
+		           {field: 'categoryName', title: '类别', width:'65px', align: 'left'},
+		           {field: 'receiveNum', title: '调入数量', width:'80px', align: 'right',
 		        	   formatter:function(value,row,index){
 		        		   if(row.isFooter){
 		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -327,7 +327,7 @@ function initCashDailydateGrid(queryType) {
 		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		        	   }
 		           },
-		           {field: 'receiveAmount', title: '调入金额', width:120, align: 'right',
+		           {field: 'receiveAmount', title: '调入金额', width:'80px', align: 'right',
 		        	   formatter:function(value,row,index){
 		        		   if(row.isFooter){
 		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -335,7 +335,7 @@ function initCashDailydateGrid(queryType) {
 		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		        	   }
 		           },
-		           {field: 'dealNum', title: '调出数量', width:120, align: 'right',
+		           {field: 'dealNum', title: '调出数量', width:'80px', align: 'right',
 		        	   formatter:function(value,row,index){
 		        		   if(row.isFooter){
 		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -343,7 +343,7 @@ function initCashDailydateGrid(queryType) {
 		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		        	   }
 		           },
-		           {field: 'dealAmount', title: '调出金额', width:120, align: 'right',
+		           {field: 'dealAmount', title: '调出金额', width:'80px', align: 'right',
 		        	   formatter:function(value,row,index){
 		        		   if(row.isFooter){
 		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -352,7 +352,7 @@ function initCashDailydateGrid(queryType) {
 		        	   }
 		           },
 
-		           {field: 'sumNum', title: '数量小计', width:120, align: 'right',
+		           {field: 'sumNum', title: '数量小计', width:'80px', align: 'right',
 		        	   formatter:function(value,row,index){
 		        		   if(row.isFooter){
 		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -360,7 +360,7 @@ function initCashDailydateGrid(queryType) {
 		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		        	   }
 		           },
-		           {field: 'sumAmount', title: '金额小计', width:120, align: 'right',
+		           {field: 'sumAmount', title: '金额小计', width:'80px', align: 'right',
 		        	   formatter:function(value,row,index){
 		        		   if(row.isFooter){
 		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -395,9 +395,9 @@ function initbranchGrid(queryType) {
 		showFooter:true,
 		pageSize : 50,
 		columns: [[
-		           {field: 'branchCode', title: '往来机构编码', width:140, align: 'left'},
-		           {field: 'branchName', title: '往来机构名称', width:180, align: 'left'},
-		           {field: 'receiveNum', title: '调入数量', width:120, align: 'right',
+		           {field: 'branchCode', title: '往来机构编码', width:'56px', align: 'left'},
+		           {field: 'branchName', title: '往来机构名称', width:'86px', align: 'left'},
+		           {field: 'receiveNum', title: '调入数量', width:'80px', align: 'right',
 		        	   formatter:function(value,row,index){
 		        		   if(row.isFooter){
 		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -405,7 +405,7 @@ function initbranchGrid(queryType) {
 		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		        	   }
 		           },
-		           {field: 'receiveAmount', title: '调入金额', width:120, align: 'right',
+		           {field: 'receiveAmount', title: '调入金额', width:'80px', align: 'right',
 		        	   formatter:function(value,row,index){
 		        		   if(row.isFooter){
 		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -413,7 +413,7 @@ function initbranchGrid(queryType) {
 		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		        	   }
 		           },
-		           {field: 'dealNum', title: '调出数量', width:120, align: 'right',
+		           {field: 'dealNum', title: '调出数量', width:'80px', align: 'right',
 		        	   formatter:function(value,row,index){
 		        		   if(row.isFooter){
 		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -421,7 +421,7 @@ function initbranchGrid(queryType) {
 		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		        	   }
 		           },
-		           {field: 'dealAmount', title: '调出金额', width:120, align: 'right',
+		           {field: 'dealAmount', title: '调出金额', width:'80px', align: 'right',
 		        	   formatter:function(value,row,index){
 		        		   if(row.isFooter){
 		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -430,7 +430,7 @@ function initbranchGrid(queryType) {
 		        	   }
 		           },
 
-		           {field: 'sumNum', title: '数量小计', width:120, align: 'right',
+		           {field: 'sumNum', title: '数量小计', width:'80px', align: 'right',
 		        	   formatter:function(value,row,index){
 		        		   if(row.isFooter){
 		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -438,7 +438,7 @@ function initbranchGrid(queryType) {
 		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		        	   }
 		           },
-		           {field: 'sumAmount', title: '金额小计', width:120, align: 'right',
+		           {field: 'sumAmount', title: '金额小计', width:'80px', align: 'right',
 		        	   formatter:function(value,row,index){
 		        		   if(row.isFooter){
 		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';

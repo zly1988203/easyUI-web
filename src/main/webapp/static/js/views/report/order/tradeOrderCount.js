@@ -31,7 +31,7 @@ function initDatagridRequireOrders(){
 		width:'100%',
         columns:[[
 			{field:'check',checkbox:true},
-            {field:'branchName',title:'机构名称',width:'150px',align:'left',
+            {field:'branchName',title:'机构名称',width:'86px',align:'left',
 				formatter:function(value,row,index){
 					if(row.isFooter){
 	                    str ='<div class="ub ub-pc ufw-b">合计</div> '
@@ -40,7 +40,7 @@ function initDatagridRequireOrders(){
 					return value;
 				}
 			},
-            {field: 'areaName', title: '所在区域', width: '200px', align: 'left'},
+            {field: 'areaName', title: '所在区域', width: '86px', align: 'left'},
             {field: 'totalAmount', title: '销额/元', width: '80px', align: 'right',
             	formatter:function(value,row,index){
                     if(row.isFooter){
