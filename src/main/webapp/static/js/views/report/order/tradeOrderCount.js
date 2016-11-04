@@ -89,7 +89,7 @@ function initDatagridRequireOrders(){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
-            {field: 'rowNo', title: '排名', width: '80px', align: 'left'}
+            {field: 'rowNo', title: '排名', width: '80px', align: 'right'}
         ]],
 		onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
