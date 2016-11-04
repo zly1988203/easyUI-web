@@ -30,19 +30,21 @@ function initDatagridRequireOrders(){
 		width:'100%',
         columns:[[
 			{field:'check',checkbox:true},
-			{field:'formNo',title:'单据编号',width:'130px',align:'left',formatter:function(value,row,index){
-				var hrefStr='parent.addTab("详情","'+contextPath+'/form/deliverForm/deliverEdit?report=close&deliverFormId='+row.deliverFormId+'")';
-				return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
-            }},
-            {field:'sourceBranchCode',title: '发货机构编码', width: '56px', align: 'left'},
+			{field:'formNo',title:'单据编号',width:'130px',align:'left',
+				formatter:function(value,row,index){
+	                if(!value){
+	                    return '<div class="ub ub-pc ufw-b">合计</div> '
+	                }
+					var hrefStr='parent.addTab("详情","'+contextPath+'/form/deliverForm/deliverEdit?report=close&deliverFormId='+row.deliverFormId+'")';
+					return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
+	            }
+			},
+             {field:'sourceBranchCode',title: '发货机构编码', width: '56px', align: 'left'},
             {field: 'sourceBranchName', title: '发货机构', width: '86px', align: 'left'},
             {field: 'targetBranchCode', title: '要货机构编码', width: '56px', align: 'left'},
             {field: 'targetBranchName', title: '要货机构', width: '86px', align: 'left'},
             {field: 'amount', title: '单据金额', width: '80px', align: 'right',
             	formatter:function(value,row,index){
-            		if(row.isFooter){
-            			return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-            		}
             		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
             	}
             },

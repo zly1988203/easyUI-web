@@ -33,13 +33,11 @@ function initDatagridRequireOrders(){
 			{field:'check',checkbox:true},
             {field:'formNo',title:'单据编号',width:'130px',align:'left',
 				formatter:function(value,row,index){
-					if(row.isFooter){
-	                    str ='<div class="ub ub-pc ufw-b">合计</div> '
-	                    return str;
+					if(!value){
+	                    return '<div class="ub ub-pc ufw-b">合计</div>';
 	                }
 					var hrefStr='parent.addTab("详情","'+contextPath+'/form/deliverForm/deliverEdit?report=close&deliverFormId='+row.deliverFormDetailId+'")';
 					return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
-					//return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/deliverForm/deliverEdit?deliverFormId="+ row.deliverFormDetailId +"&formSources=1'>" + value + "</a>";
 				}
 			},
             {field: 'sourceBranchCode', title: '发货机构编码', width: '56px', align: 'left'},
@@ -53,7 +51,6 @@ function initDatagridRequireOrders(){
             		}
             		var hrefStr='parent.addTab("详情","'+contextPath+'/form/deliverForm/deliverEdit?report=close&deliverFormId='+row.referenceId+'")';
 					return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
-            		//return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/deliverForm/deliverEdit?deliverFormId="+ row.referenceId +"&formSources=1'>" + value + "</a>";
             	}
             },
             {field: 'skuCode', title: '货号', width: '55px', align: 'left'},
@@ -61,7 +58,7 @@ function initDatagridRequireOrders(){
             {field: 'barCode', title: '条码', width: '100px', align: 'left'},
             {field: 'price', title: '单价', width: '60px', align: 'right',
             	formatter:function(value,row,index){
-            		if(row.isFooter){
+            		if(!value){
                         return '';
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -69,7 +66,7 @@ function initDatagridRequireOrders(){
             },
             {field: 'inputTax', title: '税率', width: '60px', align: 'right',
             	formatter:function(value,row,index){
-            		if(row.isFooter){
+            		if(!value){
                         return '';
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -77,34 +74,16 @@ function initDatagridRequireOrders(){
             },
             {field: 'largeNum', title: '箱数', width: '80px', align: 'right',
             	formatter:function(value,row,index){
-                    if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                    }
-                    if(row.formType == 'DO'){
-                    	return '<b style="color: red;">'+parseFloat(value||0).toFixed(2)+'</b>'
-                    }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
            },
             {field: 'num', title: '数量', width: '80px', align: 'right',
             	formatter:function(value,row,index){
-                    if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                    }
-                    if(row.formType == 'DO'){
-                    	return '<b style="color: red;">'+parseFloat(value||0).toFixed(2)+'</b>'
-                    }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                }
             },
             {field: 'amount', title: '金额', width: '80px', align: 'right',
             	formatter:function(value,row,index){
-            		if(row.isFooter){
-            			return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-            		}
-            		if(row.formType == 'DO'){
-            			return '<b style="color: red;">'+parseFloat(value||0).toFixed(2)+'</b>'
-                    }
             		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
             	}
             },
@@ -117,7 +96,6 @@ function initDatagridRequireOrders(){
         ]],
 		onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
-			updateFooter();
 		}
     });
 }
@@ -138,77 +116,16 @@ function queryForm(){
 	$("#deliverFormList").datagrid('load', fromObjStr);
 }
 
-
-//合计
-function updateFooter(){
-    var fields = {largeNum:0,num:0,amount:0, };
-    var argWhere = {name:'isGift',value:0}
-    sum(fields);
-}
-
-function sum(fields) {
-	var fromObjStr = $('#queryForm').serializeObject();
-	$.ajax({
-    	url : contextPath+"/form/deliverReport/sum",
-    	type : "POST",
-    	data : fromObjStr,
-    	success:function(result){
-    		if(result['code'] == 0){
-    			fields.largeNum = result['sumLargeNum'];
-    			fields.num = result['sumNum'];
-    			fields.amount = result['sumAmount'];
-    			$("#deliverFormList").datagrid('reloadFooter',[$.extend({"isFooter":true,},fields)]);
-    		}else{
-    			successTip(result['message']);
-    		}
-    	},
-    	error:function(result){
-    		successTip("请求发送失败或服务器处理失败");
-    	}
-    });
-}
-
-
-/**
- * 收货机构
- */
-/*function selectTargetBranches(){
-	if(branchType != '0' && branchType != '1'){
-		return;
-	}
-	new publicAgencyService(function(data){
-        $("#targetBranchId").val(data.branchesId);
-        $("#targetBranchName").val(data.branchName);
-	},'DA','');
-}
-
-*/
-/**
- * 发货机构
- *//*
-function selectSourceBranches(){
-	new publicAgencyService(function(data){
-        if($("#sourceBranchId").val()!=data.branchesId){
-            $("#sourceBranchId").val(data.branchesId);
-            $("#sourceBranchName").val(data.branchName);
-            gridHandel.setLoadData([$.extend({},gridDefault)]);
-        }
-	},'DA',$("#targetBranchId").val());
-}*/
 /**
  * 查询机构
  */
 var branchId;
 var brancheType;
 function selectBranches(){
-	/*if(brancheType != '0' && brancheType != '1'){
-		return;
-	}*/
 	new publicAgencyService(function(data){
         if($("#branchId").val()!=data.branchesId){
             $("#branchId").val(data.branchesId);
             $("#branchName").val(data.branchName);
-            //gridHandel.setLoadData([$.extend({},gridDefault)]);
         }
 	},'',branchId);
 }
