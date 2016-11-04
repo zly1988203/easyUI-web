@@ -4,9 +4,9 @@ $(function() {
 	$("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 	//初始化默认条件
+    //选择报表类型
+    changeType();
     initDatagridByFormNo();
-	//选择报表类型
-	changeType();
 	//切换radio 禁启用
 	checktype();
 	$(document).on('keyup','#arrivalRate',function(){
@@ -28,6 +28,7 @@ function changeType(){
 	$(".radioItem").change(function(){
 		checktype()
 		var val = $(this).val();
+		$("#gridOrders").datagrid("options").url = "";
 		if (val==0) {
 			flushFlg=true;
 			initDatagridByFormNo();
@@ -39,6 +40,8 @@ function changeType(){
 		}else if(val==3){
 			initDatagridBySku();
 		}
+		$("#gridOrders").datagrid('loadData', { total: 0, rows: [] });
+    	$('#gridOrders').datagrid({showFooter:false});
 	});
 }
 //切换radio 4个状态的禁用和启用 以及值的清空
@@ -120,7 +123,10 @@ function initDatagridByFormNo(){
             {field:'supplierCode',title:'供应商编号',width:'140px',align:'left'},
             {field:'supplierName',title:'供应商名称',width:'140px',align:'left'},
             {field:'formNo',title:'单据编号',width:'140px',align:'left',formatter:function(value,row,index){
-            	return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/purchase/orderEdit?formId="+ row.id +"'>" + value + "</a>"
+            	if(value!=null){
+            		return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/purchase/orderEdit?formId="+ row.id +"'>" + value + "</a>"
+            	}
+            	return "";
             }},
             {field:'arrivalRate',title:'到货率',width:'140px',align:'right',
 				formatter : function(value, row, index) {
@@ -364,6 +370,7 @@ function initDatagridBySku(){
 }
 
 function query(){
+	$("#gridOrders").datagrid({showFooter:true});
 	$("#gridOrders").datagrid("options").queryParams = $("#queryForm").serializeObject();
 	$("#gridOrders").datagrid("options").method = "post";
 	$("#gridOrders").datagrid("options").url = contextPath+'/report/purchase/getList';
