@@ -13,6 +13,10 @@ $(function(){
         remark:$("#remark").val(),                  // 备注
         formNo:$("#formNo").html(),                 // 单号
     }
+    if($("#close").val()){
+    	$("#addButton").addClass("unhide");
+    	$("#toBackByJSButton").attr("onclick","window.parent.closeTab()");
+    }
 });
 var gridDefault = {
     realNum:0,

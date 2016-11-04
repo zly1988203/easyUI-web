@@ -16,8 +16,12 @@
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
             	<input type="hidden" id="close" value="${close}"/>
+            	<shiro:hasPermission name="JxcPurchaseReceipt:add">
             	<div class="ubtns-item"  id="addButton" onclick="receiptAdd()">新增</div>
+            	</shiro:hasPermission>
+            	<shiro:hasPermission name="JxcPurchaseReceipt:print">
                 <div class="ubtns-item" onclick="printDesign()">打印</div>
+                </shiro:hasPermission>
                 <div class="ubtns-item" onclick="exportData('PI');">导出明细</div>
                 <div class="ubtns-item" id="toBackByJSButton"  onclick="toBackByJS()">返回</div>
             </div>

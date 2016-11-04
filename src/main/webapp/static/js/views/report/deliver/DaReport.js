@@ -111,7 +111,7 @@ function selectBranches(){
             $("#branchId").val(data.branchesId);
             $("#branchName").val(data.branchName);
         }
-	},'',branchId);
+	},'DV',branchId);
 }
 
 /**

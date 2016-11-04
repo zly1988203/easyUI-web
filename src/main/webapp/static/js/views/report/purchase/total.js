@@ -556,6 +556,7 @@ function purchaseTotalCx(){
 		return ;
 	}*/
 	var formData = $("#queryForm").serializeObject();
+	$("#purReportTotal").datagrid("options").url = "";
 	$('#purReportTotal').datagrid({showFooter:true});
 	$("#purReportTotal").datagrid("options").queryParams = formData;
 	$("#purReportTotal").datagrid("options").method = "post";

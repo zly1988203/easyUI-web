@@ -4,9 +4,9 @@ $(function() {
 	$("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 	//初始化默认条件
-    //选择报表类型
-    changeType();
     initDatagridByFormNo();
+	//选择报表类型
+	changeType();
 	//切换radio 禁启用
 	checktype();
 	$(document).on('keyup','#arrivalRate',function(){
@@ -126,10 +126,8 @@ function initDatagridByFormNo(){
             {field:'supplierCode',title:'供应商编号',width:'140px',align:'left'},
             {field:'supplierName',title:'供应商名称',width:'140px',align:'left'},
             {field:'formNo',title:'单据编号',width:'140px',align:'left',formatter:function(value,row,index){
-            	if(value!=null){
-            		return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/purchase/orderEdit?formId="+ row.id +"'>" + value + "</a>"
-            	}
-            	return "";
+            	hrefStr='parent.addTab("详情","'+contextPath+'/form/purchase/orderEdit?report=close&formId='+row.id+'")';
+    			return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
             }},
             {field:'arrivalRate',title:'到货率',width:'140px',align:'right',
 				formatter : function(value, row, index) {

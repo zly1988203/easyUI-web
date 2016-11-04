@@ -528,6 +528,7 @@ function query(){
 	if(cashierNameOrCode && cashierNameOrCode.indexOf("[")>=0 && cashierNameOrCode.indexOf("]")>=0){
 		formData.cashierNameOrCode = null;
 	}
+	$("#cashDaily").datagrid("options").url = '';
 	$('#cashDaily').datagrid({showFooter:true});
 	$("#cashDaily").datagrid("options").queryParams = formData;
 	$("#cashDaily").datagrid("options").method = "post";

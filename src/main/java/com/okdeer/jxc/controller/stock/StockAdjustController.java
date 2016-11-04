@@ -113,6 +113,7 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 	public String checkSuccess(String id,HttpServletRequest request){
 		StockFormVo stockFormVo = stockAdjustServiceApi.getStcokFormInfo(id);
 		request.setAttribute("stockFormVo", stockFormVo);
+		request.setAttribute("close", "close");
 		return "/stockAdjust/check";
 	}
 	/**

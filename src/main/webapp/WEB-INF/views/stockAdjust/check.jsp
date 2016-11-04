@@ -17,8 +17,9 @@
     <div class="ub ub-ver ub-f1 umar-4  ubor">
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
+            	<input type="hidden" id="close" value="${close}"/>
                 <div class="ubtns-item" onClick="exportExcel()">导出</div>
-                <div class="ubtns-item" onclick="toBack()">返回</div>
+                <div class="ubtns-item" id="toBackByJSButton" onclick="toBack()">返回</div>
             </div>
         </div>
  <div class="ub umar-t8 uc-black">【单号】：<span id="formNo">${stockFormVo.formNo}</span></div>
