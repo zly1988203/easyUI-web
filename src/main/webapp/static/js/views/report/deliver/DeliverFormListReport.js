@@ -37,7 +37,9 @@ function initDatagridRequireOrders(){
 	                    str ='<div class="ub ub-pc ufw-b">合计</div> '
 	                    return str;
 	                }
-					return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/deliverForm/deliverEdit?deliverFormId="+ row.deliverFormDetailId +"&formSources=1'>" + value + "</a>";
+					var hrefStr='parent.addTab("详情","'+contextPath+'/form/deliverForm/deliverEdit?report=close&deliverFormId='+row.deliverFormDetailId+'")';
+					return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
+					//return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/deliverForm/deliverEdit?deliverFormId="+ row.deliverFormDetailId +"&formSources=1'>" + value + "</a>";
 				}
 			},
             {field: 'sourceBranchCode', title: '发货机构编码', width: '100px', align: 'left'},
@@ -49,7 +51,9 @@ function initDatagridRequireOrders(){
             		if (value == null || value == '') {
             			return '';
             		}
-            		return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/deliverForm/deliverEdit?deliverFormId="+ row.referenceId +"&formSources=1'>" + value + "</a>";
+            		var hrefStr='parent.addTab("详情","'+contextPath+'/form/deliverForm/deliverEdit?report=close&deliverFormId='+row.referenceId+'")';
+					return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
+            		//return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/deliverForm/deliverEdit?deliverFormId="+ row.referenceId +"&formSources=1'>" + value + "</a>";
             	}
             },
             {field: 'skuCode', title: '货号', width: '100px', align: 'left'},
