@@ -18,6 +18,7 @@ function initDatagridRequire(){
         fitColumns:true,    //每列占满
         //fit:true,            //占满
         showFooter:true,
+        pageSize : 50,
 		height:'100%',
 		width:'100%',
         columns:[[
@@ -189,9 +190,7 @@ function initDatagridRequire(){
         onLoadSuccess:function(data){
         	gridHandel.setDatagridHeader("center");
         	updateFooter();
-        	countSet(data);	
-			
-        	
+        	//countSet(data);		
         }
     });
    // queryForm();
@@ -229,33 +228,27 @@ function sum(fields) {
 }
 //查询入库单
 function queryForm(){
-    //判定店铺名称是否存在
-    if($("#branchName").val()==""){
-        messager("请选择店铺名称");
-        return;
-    } 
 	var fromObjStr = $('#queryForm').serializeObject();
 	$("#storeSale").datagrid("options").method = "post";
 	$("#storeSale").datagrid('options').url = contextPath + '/goodsSale/report/getGoodsSaleList';
 	$("#storeSale").datagrid('load', fromObjStr);
 }
 //小计金额和小计数量 计算
-function countSet(data){
+/*function countSet(data){
 	  var rows=data.list;
-	  
 	  if(!rows){
 		  return; 
 	  }
-	  
 	  $.each(rows, function (index, el) {
 		  if(el){
 			  el["totalAmount"] = parseFloat(el["saleAmount"])-parseFloat(el["returnAmount"]);
 			  el["totalNum"] = parseFloat(el["saleNum"])-parseFloat(el["returnNum"]);
+			  return;
 		  }
 	   })
 	  $("#storeSale").datagrid("loadData",rows);
-  return data;
-}
+	 
+}*/
 
 /**
  * 机构名称

@@ -27,7 +27,6 @@ import com.okdeer.jxc.common.constant.LogConstant;
 import com.okdeer.jxc.common.controller.BasePrintController;
 import com.okdeer.jxc.common.enums.BranchTypeEnum;
 import com.okdeer.jxc.common.result.RespJson;
-import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.form.deliver.entity.DeliverFormList;
@@ -166,7 +165,7 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
 				vo.setBranchId(UserUtil.getCurrBranchId());
 			}
 			List<DeliverFormVo> exportList = deliverFormReportServiceApi.queryDeliverForms(vo);
-			String fileName = "要货单列表" + "_" + DateUtils.getCurrSmallStr();
+			String fileName = "要货单状态跟踪";
 			String templateName = ExportExcelConstant.DELIVER_REPORT;
 			// 导出Excel
 			exportListForXLSX(response, exportList, fileName, templateName);
@@ -233,7 +232,17 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
 				vo.setBranchId(null);
 			}
 			List<DeliverDaAndDoFormListVo> exportList = deliverFormReportServiceApi.queryDaAndDoFormLists(vo);
-			String fileName = "配送明细" + "_" + DateUtils.getCurrSmallStr();
+
+			DeliverDaAndDoFormListVo deliverDaAndDoFormListVo = deliverFormReportServiceApi
+					.queryDaAndDoFormListsSum(vo);
+			deliverDaAndDoFormListVo.setFormNo("合计：");
+			deliverDaAndDoFormListVo.setLargeNum(deliverDaAndDoFormListVo.getSumLargeNum());
+			deliverDaAndDoFormListVo.setNum(deliverDaAndDoFormListVo.getSumNum());
+			deliverDaAndDoFormListVo.setAmount(deliverDaAndDoFormListVo.getSumAmount());
+
+			exportList.add(deliverDaAndDoFormListVo);
+
+			String fileName = "配送明细查询";
 			String templateName = ExportExcelConstant.DELIVER_FORM_LIST_REPORT;
 			// 导出Excel
 			exportListForXLSX(response, exportList, fileName, templateName);
