@@ -140,18 +140,6 @@ function initCashDailyallGrid(queryType) {
 		           },
 		           {field: 'skuName', title: '商品名称', width:'185px', align: 'left'},
 		           {field: 'barCode', title: '条码', width:'100px', align: 'left'},
-		           {field: 'categoryCode', title: '类别编号', width:'56px', align: 'left'},
-		           {field: 'categoryName', title: '类别', width:'65px', align: 'left'},
-		           {field: 'spec', title: '规格', width:'45px', align: 'left'},
-		           {field: 'unit', title: '单位', width:'45px', align: 'left'},
-		         /*  {field: 'inputTax', title: '税率', width:60, align: 'right',
-		        	   formatter:function(value,row,index){
-		        		   if(row.isFooter){
-		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-		        		   }
-		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-		        	   }
-		           },*/
 		           {field: 'receiveLargeNum', title: '调入箱数', width:'80px', align: 'right',
 		        	   formatter:function(value,row,index){
 		        		   if(row.isFooter){
@@ -216,7 +204,11 @@ function initCashDailyallGrid(queryType) {
 		        		   }
 		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		        	   }   
-		           }
+		           },
+		           {field: 'categoryCode', title: '类别编号', width:'56px', align: 'left'},
+		           {field: 'categoryName', title: '类别', width:'65px', align: 'left'},
+		           {field: 'spec', title: '规格', width:'45px', align: 'left'},
+		           {field: 'unit', title: '单位', width:'45px', align: 'left'}
 		           ]],
 		           onLoadSuccess:function(data){
 		        	   gridHandel.setDatagridHeader("center");
