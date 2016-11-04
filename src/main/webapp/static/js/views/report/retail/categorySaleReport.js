@@ -19,6 +19,7 @@ function initDatagridRequire(){
         //fit:true,            //占满
         showFooter:true,
 		height:'100%',
+		pageSize:50,
 		width:'100%',
         columns:[[
             {field:'branchName',title:'机构名称',width:'250px',align:'left',

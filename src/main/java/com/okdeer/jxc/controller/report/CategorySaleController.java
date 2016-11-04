@@ -93,6 +93,7 @@ public class CategorySaleController extends BaseController<CategorySaleControlle
 	public RespJson exportList(HttpServletResponse response, CategorySaleReportVo vo) {
 		RespJson resp = RespJson.success();
 		try {
+			vo.setSourceBranchId(UserUtil.getCurrBranchId());
 			List<CategorySaleReportVo> exportList = categorySaleReportServiceApi.exportList(vo);
 
 			String fileName = "类别销售汇总";
@@ -119,6 +120,7 @@ public class CategorySaleController extends BaseController<CategorySaleControlle
 	public RespJson sum(CategorySaleReportVo vo) {
 		RespJson respJson = RespJson.success();
 		try {
+			vo.setSourceBranchId(UserUtil.getCurrBranchId());
 			Map<String,Object> resultMap = categorySaleReportServiceApi.queryCategorySaleCountSum(vo);
 			if (resultMap != null) {
 				respJson.put("saleAmountSum", resultMap.get("saleAmountSum"));

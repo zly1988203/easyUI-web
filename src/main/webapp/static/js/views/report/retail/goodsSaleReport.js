@@ -18,6 +18,7 @@ function initDatagridRequire(){
         fitColumns:true,    //每列占满
         //fit:true,            //占满
         showFooter:true,
+        pageSize : 50,
 		height:'100%',
 		width:'100%',
         columns:[[
@@ -227,7 +228,6 @@ function sum(fields) {
 }
 //查询入库单
 function queryForm(){
-	console.log($("#storeSale").datagrid('options'))
 	var fromObjStr = $('#queryForm').serializeObject();
 	$("#storeSale").datagrid("options").method = "post";
 	$("#storeSale").datagrid('options').url = contextPath + '/goodsSale/report/getGoodsSaleList';

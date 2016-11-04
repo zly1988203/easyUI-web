@@ -660,7 +660,8 @@ function gFunRefresh() {
     window.location.reload();
 }
 function toBackByJS(){
-	history.go(-1);
+	history.back()
+	//history.go(-1);
 }
 /**
  * 公共库-表格 黄江

@@ -90,6 +90,7 @@ public class StoreDaySaleController extends BaseController<StoreDaySaleControlle
 	public RespJson exportList(HttpServletResponse response, StoreDaySaleReportVo vo) {
 		RespJson resp = RespJson.success();
 		try {
+			vo.setSourceBranchId(UserUtil.getCurrBranchId());
 			List<StoreDaySaleReportVo> exportList = storeDaySaleReportServiceApi.exportList(vo);
 
 			String fileName = "店铺日销售总额";
