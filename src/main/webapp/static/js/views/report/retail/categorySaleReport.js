@@ -70,7 +70,7 @@ function initDatagridRequire(){
       ]],
       onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
-			updateFooter();
+			//updateFooter();
 		}
     });
     //queryForm();
