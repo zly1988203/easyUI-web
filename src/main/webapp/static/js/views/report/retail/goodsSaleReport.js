@@ -22,7 +22,7 @@ function initDatagridRequire(){
 		height:'100%',
 		width:'100%',
         columns:[[
-            {field:'branchName',title:'店铺名称',width:'140px',align:'left',
+            {field:'branchName',title:'店铺名称',width:'86px',align:'left',
             	formatter : function(value, row,index) {
                     var str = value;
                     if(row.isFooter){
@@ -31,13 +31,13 @@ function initDatagridRequire(){
                     return str;
                 }
             },
-              {field:'skuCode',title: '货号', width: '80px', align: 'left'},
-			{field: 'skuName', title: '商品名称', width: '250px', align: 'left'},
-			{field: 'barCode', title: '条码', width: '120px', align: 'left'},
-			{field: 'categoryName', title: '类别名称', width: '120px', align: 'left'},
-            {field: 'spec', title: '规格', width: '80px', align: 'left'},
-            {field: 'unit', title: '单位', width: '80px', align: 'left'},
-            {field: 'originalAmount', title: '原价金额', width: '100px', align: 'right',
+              {field:'skuCode',title: '货号', width: '55px', align: 'left'},
+			{field: 'skuName', title: '商品名称', width: '185px', align: 'left'},
+			{field: 'barCode', title: '条码', width: '100px', align: 'left'},
+			{field: 'categoryName', title: '类别名称', width: '65px', align: 'left'},
+            {field: 'spec', title: '规格', width: '45px', align: 'left'},
+            {field: 'unit', title: '单位', width: '45px', align: 'left'},
+            {field: 'originalAmount', title: '原价金额', width: '80px', align: 'right',
             	formatter:function(value,row,index){
             		 if(row.isFooter){
                          return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -56,7 +56,7 @@ function initDatagridRequire(){
                     }
                 }
             },
-            {field: 'discountAmount', title: '优惠金额', width: '100px', align: 'right',
+            {field: 'discountAmount', title: '优惠金额', width: '80px', align: 'right',
             	formatter:function(value,row,index){
             		if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -75,7 +75,7 @@ function initDatagridRequire(){
                      }
                  }
             },
-            {field: 'saleAmount', title: '销售金额', width: '100px', align: 'right',
+            {field: 'saleAmount', title: '销售金额', width: '80px', align: 'right',
             	formatter:function(value,row,index){
             		if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -94,7 +94,7 @@ function initDatagridRequire(){
                      }
                  }
             },
-            {field: 'saleNum', title: '销售数量', width: '100px', align: 'right',
+            {field: 'saleNum', title: '销售数量', width: '80px', align: 'right',
             	formatter:function(value,row,index){
             		if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -113,7 +113,7 @@ function initDatagridRequire(){
                      }
                  }
             },
-            {field: 'returnAmount', title: '退货金额', width: '100px', align: 'right',
+            {field: 'returnAmount', title: '退货金额', width: '80px', align: 'right',
             	formatter:function(value,row,index){
                     if(!value){
                     	row["returnAmount"] = 0.00;
@@ -129,7 +129,7 @@ function initDatagridRequire(){
                      }
                  }
             },
-            {field: 'returnNum', title: '退货数量', width: '100px', align: 'right',
+            {field: 'returnNum', title: '退货数量', width: '80px', align: 'right',
             	formatter:function(value,row,index){
             		if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -148,7 +148,7 @@ function initDatagridRequire(){
                      }
                  }
             },
-            {field: 'totalAmount', title: '小计金额', width: '100px', align: 'right',
+            {field: 'totalAmount', title: '小计金额', width: '80px', align: 'right',
             	formatter:function(value,row,index){
             		if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -167,7 +167,7 @@ function initDatagridRequire(){
                      }
                  }
             },
-            {field: 'totalNum', title: '小计数量', width: '100px', align: 'right',
+            {field: 'totalNum', title: '小计数量', width: '80px', align: 'right',
             	formatter:function(value,row,index){
             		if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';

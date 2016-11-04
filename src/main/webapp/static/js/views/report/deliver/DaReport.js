@@ -30,14 +30,14 @@ function initDatagridRequireOrders(){
 		width:'100%',
         columns:[[
 			{field:'check',checkbox:true},
-			{field:'formNo',title:'单据编号',width:'140px',align:'left',formatter:function(value,row,index){
+			{field:'formNo',title:'单据编号',width:'130px',align:'left',formatter:function(value,row,index){
 				var hrefStr='parent.addTab("详情","'+contextPath+'/form/deliverForm/deliverEdit?report=close&deliverFormId='+row.deliverFormId+'")';
 				return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
             }},
-            {field:'sourceBranchCode',title: '发货机构编码', width: '100px', align: 'left'},
-            {field: 'sourceBranchName', title: '发货机构', width: '200px', align: 'left'},
-            {field: 'targetBranchCode', title: '要货机构编码', width: '100px', align: 'left'},
-            {field: 'targetBranchName', title: '要货机构', width: '200px', align: 'left'},
+            {field:'sourceBranchCode',title: '发货机构编码', width: '56px', align: 'left'},
+            {field: 'sourceBranchName', title: '发货机构', width: '86px', align: 'left'},
+            {field: 'targetBranchCode', title: '要货机构编码', width: '56px', align: 'left'},
+            {field: 'targetBranchName', title: '要货机构', width: '86px', align: 'left'},
             {field: 'amount', title: '单据金额', width: '80px', align: 'right',
             	formatter:function(value,row,index){
             		if(row.isFooter){
@@ -47,7 +47,7 @@ function initDatagridRequireOrders(){
             	}
             },
 			{field: 'dealStatus', title: '单据状态', width: '60px', align: 'left'},
-			{field: 'validityTime', title: '有效期限', width: '120px', align: 'center',
+			{field: 'validityTime', title: '有效期限', width: '115px', align: 'center',
 				formatter: function (value, row, index) {
 					if (value) {
 						return new Date(value).format('yyyy-MM-dd');
@@ -55,7 +55,7 @@ function initDatagridRequireOrders(){
 					return "";
 				}
 			},
-			{field: 'remark', title: '备注', width: '200px', align: 'left'}
+			{field: 'remark', title: '备注', width: '100px', align: 'left'}
         ]],
 		onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
