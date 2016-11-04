@@ -53,6 +53,7 @@
                        <!--select-->
 				        <select class="easyui-combobox uselect" name="pricingType" id="pricingType" data-options="editable:false">
 							<option value="" selected="selected">全部</option> 	
+							<option value="0">普通</option> 
 							<option value="1">计重</option> 
 							<option value="2">计件</option> 
 				        </select>
