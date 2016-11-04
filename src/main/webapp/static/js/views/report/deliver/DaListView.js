@@ -18,11 +18,11 @@ function initDatagridViewRequireOrder(){
 		showFooter:true,
 		height:'100%',
         columns:[[
-            {field:'skuCode',title:'货号',width:'70px',align:'left'},
-            {field:'skuName',title:'商品名称',width:'200px',align:'left'},
-            {field:'barCode',title:'条码',width:'130px',align:'left'},
-			{field:'unit',title:'单位',width:'60px',align:'left'},
-			{field:'spec',title:'规格',width:'90px',align:'left'},
+            {field:'skuCode',title:'货号',width:'55px',align:'left'},
+            {field:'skuName',title:'商品名称',width:'185px',align:'left'},
+            {field:'barCode',title:'条码',width:'100px',align:'left'},
+			{field:'unit',title:'单位',width:'45px',align:'left'},
+			{field:'spec',title:'规格',width:'45px',align:'left'},
             {field:'distributionSpec',title:'配送规格',width:'80px',align:'left'},
             {field:'largeNum',title:'箱数',width:'80px',align:'right',
 				formatter : function(value, row, index) {
@@ -73,7 +73,7 @@ function initDatagridViewRequireOrder(){
                     return  '<b>'+parseFloat(taxAmountVal||0).toFixed(2)+'</b>';
                 }
             },
-            {field:'remark',title:'备注',width:'200px',align:'left'},
+            {field:'remark',title:'备注',width:'100px',align:'left'},
             {field:'sourceStock',title:'目标库存',width:'80px',align:'right',
 				formatter : function(value, row, index) {
 					if(row.isFooter){

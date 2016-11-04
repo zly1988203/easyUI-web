@@ -76,6 +76,7 @@ import com.okdeer.jxc.utils.UserUtil;
  *     Task ID			  Date			     Author		      Description
  * ----------------+----------------+-------------------+-------------------------------------------
  *		重构2.0			2016-8-5			xiaoj02			 采购controller
+ *		零售系统V1.20	2016-11-4			lijy02			采购审核部分审核后回写字段
  */
 @Controller
 @RequestMapping("form/purchase")

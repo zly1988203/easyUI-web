@@ -31,7 +31,7 @@ function initDatagridRequireOrders(){
 		width:'100%',
         columns:[[
 			{field:'check',checkbox:true},
-            {field:'formNo',title:'单据编号',width:'140px',align:'left',
+            {field:'formNo',title:'单据编号',width:'130px',align:'left',
 				formatter:function(value,row,index){
 					if(!value){
 	                    return '<div class="ub ub-pc ufw-b">合计</div>';
@@ -40,11 +40,11 @@ function initDatagridRequireOrders(){
 					return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
 				}
 			},
-            {field: 'sourceBranchCode', title: '发货机构编码', width: '100px', align: 'left'},
-            {field: 'sourceBranchName', title: '发货机构', width: '200px', align: 'left'},
-            {field: 'targetBranchCode', title: '要货机构编码', width: '100px', align: 'left'},
-            {field: 'targetBranchName', title: '要货机构', width: '200px', align: 'left'},
-            {field:'referenceNo',title:'引用单号',width:'140px',align:'left',
+            {field: 'sourceBranchCode', title: '发货机构编码', width: '56px', align: 'left'},
+            {field: 'sourceBranchName', title: '发货机构', width: '86px', align: 'left'},
+            {field: 'targetBranchCode', title: '要货机构编码', width: '56px', align: 'left'},
+            {field: 'targetBranchName', title: '要货机构', width: '86px', align: 'left'},
+            {field:'referenceNo',title:'引用单号',width:'130px',align:'left',
             	formatter:function(value,row,index){
             		if (value == null || value == '') {
             			return '';
@@ -53,14 +53,10 @@ function initDatagridRequireOrders(){
 					return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
             	}
             },
-            {field: 'skuCode', title: '货号', width: '100px', align: 'left'},
-            {field: 'skuName', title: '商品名称', width: '100px', align: 'left'},
+            {field: 'skuCode', title: '货号', width: '55px', align: 'left'},
+            {field: 'skuName', title: '商品名称', width: '185px', align: 'left'},
             {field: 'barCode', title: '条码', width: '100px', align: 'left'},
-            {field: 'categoryCode', title: '类别编号', width: '100px', align: 'left'},
-            {field: 'categoryName', title: '类别', width: '100px', align: 'left'},
-            {field: 'spec', title: '规格', width: '100px', align: 'left'},
-            {field: 'unit', title: '单位', width: '100px', align: 'left'},
-            {field: 'price', title: '单价', width: '100px', align: 'right',
+            {field: 'price', title: '单价', width: '60px', align: 'right',
             	formatter:function(value,row,index){
             		if(!value){
                         return '';
@@ -68,7 +64,7 @@ function initDatagridRequireOrders(){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
-            {field: 'inputTax', title: '税率', width: '100px', align: 'right',
+            {field: 'inputTax', title: '税率', width: '60px', align: 'right',
             	formatter:function(value,row,index){
             		if(!value){
                         return '';
@@ -76,12 +72,12 @@ function initDatagridRequireOrders(){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
-            {field: 'largeNum', title: '箱数', width: '100px', align: 'right',
+            {field: 'largeNum', title: '箱数', width: '80px', align: 'right',
             	formatter:function(value,row,index){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
            },
-            {field: 'num', title: '数量', width: '100px', align: 'right',
+            {field: 'num', title: '数量', width: '80px', align: 'right',
             	formatter:function(value,row,index){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                }
@@ -91,8 +87,12 @@ function initDatagridRequireOrders(){
             		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
             	}
             },
-            {field: 'userName', title: '制单人', width: '100px', align: 'left'},
-			{field: 'remark', title: '备注', width: '200px', align: 'left'}
+            {field: 'categoryCode', title: '类别编号', width: '56px', align: 'left'},
+            {field: 'categoryName', title: '类别名称', width: '65px', align: 'left'},
+            {field: 'spec', title: '规格', width: '45px', align: 'left'},
+            {field: 'unit', title: '单位', width: '45px', align: 'left'},
+            {field: 'userName', title: '制单人', width: '80px', align: 'left'},
+			{field: 'remark', title: '备注', width: '100px', align: 'left'}
         ]],
 		onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");

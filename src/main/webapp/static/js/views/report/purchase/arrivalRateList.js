@@ -26,6 +26,7 @@ $(function() {
 var flushFlg = false;
 function changeType(){
 	$(".radioItem").change(function(){
+		$("#gridOrders").datagrid("options").url = "";
 		checktype()
 		var val = $(this).val();
 		if (val==0) {
@@ -39,6 +40,8 @@ function changeType(){
 		}else if(val==3){
 			initDatagridBySku();
 		}
+		$("#gridOrders").datagrid('loadData', { total: 0, rows: [] });
+    	$('#gridOrders').datagrid({showFooter:false});
 	});
 }
 //切换radio 4个状态的禁用和启用 以及值的清空
@@ -51,6 +54,8 @@ function checktype(){
 			$('#categoryName').addClass('uinp-no-more');
 			$('#categoryName').removeAttr('onclick');
 			$('#categoryName').val("");
+			$('#categoryId').val("");
+			$('#categoryCode').val("");
 			$('.uinp-categoryName').removeAttr('onclick');
 			$('#supplierName').removeClass('uinp-no-more');
 			$('#supplierName').attr('onclick','selectSupplier()');
@@ -93,7 +98,8 @@ function checktype(){
 			$('#formNo').attr("readonly","readonly");
 			$('#formNo').val("");
 			$('#categoryName').val("");
-			$('#categoryName').val("");
+			$('#categoryId').val("");
+			$('#categoryCode').val("");
 		}
    }	
 }
@@ -120,7 +126,8 @@ function initDatagridByFormNo(){
             {field:'supplierCode',title:'供应商编号',width:'140px',align:'left'},
             {field:'supplierName',title:'供应商名称',width:'140px',align:'left'},
             {field:'formNo',title:'单据编号',width:'140px',align:'left',formatter:function(value,row,index){
-            	return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/purchase/orderEdit?formId="+ row.id +"'>" + value + "</a>"
+            	hrefStr='parent.addTab("详情","'+contextPath+'/form/purchase/orderEdit?report=close&formId='+row.id+'")';
+    			return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
             }},
             {field:'arrivalRate',title:'到货率',width:'140px',align:'right',
 				formatter : function(value, row, index) {
@@ -364,6 +371,8 @@ function initDatagridBySku(){
 }
 
 function query(){
+	$("#gridOrders").datagrid("options").url = "";
+	$("#gridOrders").datagrid({showFooter:true});
 	$("#gridOrders").datagrid("options").queryParams = $("#queryForm").serializeObject();
 	$("#gridOrders").datagrid("options").method = "post";
 	$("#gridOrders").datagrid("options").url = contextPath+'/report/purchase/getList';

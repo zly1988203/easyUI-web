@@ -17,8 +17,6 @@
     <div class="ub ub-ver ub-f1 umar-4  ubor">
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
-            	<!-- <div class="ubtns-item" onclick="addDeliverForm()">新增</div>
-            	<div class="ubtns-item" onclick="stop()">终止</div> -->
             	<div class="ubtns-item" onclick="printDesign('${form.formNo}')">打印</div>
             	<div class="ubtns-item"  onclick="exportData('DA','gridViewRequireOrder')">导出明细</div>
             	<div class="ubtns-item"  onclick="exportData('DA','gridViewRequireOrder',1)">导出货号</div>

@@ -498,6 +498,8 @@ function saveDataHandel(rows){
     });
 }
 function check(){
+	//先保存
+	saveItemHandel();
     $("#gridEditOrder").datagrid("endEdit", gridHandel.getSelectRowIndex());
     var rows = gridHandel.getRows();
     if(rows.length==0){

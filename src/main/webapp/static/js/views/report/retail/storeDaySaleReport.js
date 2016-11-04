@@ -17,9 +17,10 @@ function initDatagridRequire(){
        // fit:true,            //占满
         showFooter:true,
 		height:'100%',
+		pageSize:50,
 		width:'100%',
         columns:[[
-			{field:'branchName',title:'店铺名称',width: '180px',align:'left', rowspan:2},
+			{field:'branchName',title:'店铺名称',width: '86px',align:'left', rowspan:2},
             {field:'oneflag',title:'1号',width: '160px',align:'left',colspan:2},
             {field:'oneflag',title:'2号',width:'160px',align:'left',colspan:2},
             {field:'oneflag',title:'3号',width:'160px',align:'left',colspan:2},

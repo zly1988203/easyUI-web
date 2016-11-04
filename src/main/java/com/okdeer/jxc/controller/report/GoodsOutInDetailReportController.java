@@ -83,6 +83,7 @@ public class GoodsOutInDetailReportController extends BaseController<GoodsOutInD
 	public RespJson exportList(HttpServletResponse response, GoodsOutInDetailVo vo) {
 		RespJson resp = RespJson.success();
 		try {
+			vo.setSourceBranchId(UserUtil.getCurrBranchId());
 			List<GoodsOutInDetailVo> exportList = goodsOutInDetailServiceApi.exportList(vo);
 
 			String fileName = "商品出入库明细查询";
@@ -108,6 +109,7 @@ public class GoodsOutInDetailReportController extends BaseController<GoodsOutInD
 	public RespJson sum(GoodsOutInDetailVo vo) {
 		RespJson respJson = RespJson.success();
 		try {
+			vo.setSourceBranchId(UserUtil.getCurrBranchId());
 			GoodsOutInDetailCountVo goodsOutInDetailCountVo = goodsOutInDetailServiceApi.queryGoodsOutInDetailCountSum(vo);
 			if (goodsOutInDetailCountVo != null) {
 				respJson.put("outNumSum", goodsOutInDetailCountVo.getOutNumSum());
