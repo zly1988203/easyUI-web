@@ -1,5 +1,6 @@
 /**
  * Created by wxl on 2016/08/17.
+ * 采购明细查询
  */
 $(function() {
 	// 开始和结束时间
@@ -39,7 +40,7 @@ function initPurReportDetailGrid(queryType) {
         showFooter:true,
         height:'100%',
         columns: [[
-            {field: 'branchCode', title: '机构编号', width: 100, align: 'left',
+            {field: 'branchCode', title: '机构编号', width: 56, align: 'left',
             	formatter : function(value, row,index) {
                     var str = value;
                     if(row.isFooter){
@@ -49,9 +50,7 @@ function initPurReportDetailGrid(queryType) {
                 },
             },
             {field: 'branchName', title: '机构名称', width: 100, align: 'left',},
-            {field: 'supplierCode', title: '供应商编号', width: 100, align: 'left'},
-            {field: 'supplierName', title: '供应商名称', width: 100, align: 'left'},
-            {field: 'formNo', title: '单据编号', width: 150, align: 'left',
+            {field: 'formNo', title: '单据编号', width: 130, align: 'left',
             	formatter:function(value,row,index){
             		var hrefStr = '';
             		if(row.formId){
@@ -67,70 +66,76 @@ function initPurReportDetailGrid(queryType) {
             		}
                 }
             },
-            {field: 'skuName', title: '商品名称', width:200, align: 'left'},
-            {field: 'skuCode', title: '货号', width:120, align: 'left'},
-            {field: 'barCode', title: '条码', width:120, align: 'left'},
-            {field: 'categoryCode', title: '类别编号', width:120, align: 'left'},
-            {field: 'categoryName', title: '类别名称', width:100, align: 'left'},
-            {field: 'brandName', title: '品牌', width:100, align: 'left'},
-            {field: 'spec', title: '规格', width:100, align: 'left'},
-            {field: 'unit', title: '单位', width:80, align: 'left'},
-            {field: 'price', title: '单价', width:80, align: 'right',
-            	formatter : function(value, row, index) {
-            		if(row.isFooter){
-                        return "";
-                    }
+			{field: 'skuCode', title: '货号', width:55, align: 'left'},
+            {field: 'skuName', title: '商品名称', width:185, align: 'left'},
+            {field: 'barCode', title: '条码', width:100, align: 'left'},
+			{field: 'price', title: '单价', width:60, align: 'right',
+				formatter : function(value, row, index) {
+					if(row.isFooter){
+						return "";
+					}
 					var str="";
 					if(value){
 						str= '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 					}
-    				return str;
-    			}
-            },
-            {field: 'realNum', title: '数量', width:100, align: 'right',
-            	formatter:function(value,row,index){
-                    if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                    }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                }
-            },
-            {field: 'amount', title: '金额', width:140, align: 'right',
-            	formatter:function(value,row,index){
-                    if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                    }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                }
-            },
-            {field: 'tax', title: '税率', width:140, align: 'right',
-            	formatter : function(value, row, index) {
-            		if(row.isFooter){
-                        return "";
-                    }
+					return str;
+				}
+			},
+			{field: 'realNum', title: '数量', width:80, align: 'right',
+				formatter:function(value,row,index){
+					if(row.isFooter){
+						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+					}
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				}
+			},
+			{field: 'amount', title: '金额', width:80, align: 'right',
+				formatter:function(value,row,index){
+					if(row.isFooter){
+						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+					}
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				}
+			},
+			{field: 'tax', title: '税率', width:60, align: 'right',
+				formatter : function(value, row, index) {
+					if(row.isFooter){
+						return "";
+					}
 					var str="";
 					if(value||value==0){
 						str= '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 					}
-    				return str;
-    			}
-            },
-            {field: 'taxAmount', title: '税额', width:140, align: 'right',
-            	formatter:function(value,row,index){
-                    if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                    }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                }
-            },
-            {field: 'validTime', title: '审核日期', width:120, align: 'left',
-            	formatter : function(value, rowData, rowIndex) {
-            		return formatDate(value,'yyyy-MM-dd hh:mm');
-            	}},
-            {field: 'goodsCreateDate', title: '生产日期', width:120, align: 'left',
-            	formatter : function(value, rowData, rowIndex) {
-            		return formatDate(value,'yyyy-MM-dd');
-            	}}
+					return str;
+				}
+			},
+			{field: 'taxAmount', title: '税额', width:60, align: 'right',
+				formatter:function(value,row,index){
+					if(row.isFooter){
+						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+					}
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				}
+			},
+			{field: 'validTime', title: '审核日期', width:115, align: 'left',
+				formatter : function(value, rowData, rowIndex) {
+					return formatDate(value,'yyyy-MM-dd hh:mm');
+				}},
+			{field: 'goodsCreateDate', title: '生产日期', width:115, align: 'left',
+				formatter : function(value, rowData, rowIndex) {
+					return formatDate(value,'yyyy-MM-dd');
+				}},
+			{field: 'supplierCode', title: '供应商编号', width: 60, align: 'left'},
+			{field: 'supplierName', title: '供应商名称', width: 185, align: 'left'},
+            {field: 'categoryCode', title: '类别编号', width:56, align: 'left'},
+            {field: 'categoryName', title: '类别名称', width:65, align: 'left'},
+            {field: 'brandName', title: '品牌', width:56, align: 'left'},
+            {field: 'spec', title: '规格', width:45, align: 'left'},
+            {field: 'unit', title: '单位', width:45, align: 'left'},
+
+
+
+
         ]],
 		onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
