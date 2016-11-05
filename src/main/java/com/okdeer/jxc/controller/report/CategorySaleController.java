@@ -6,8 +6,8 @@
  */    
 package com.okdeer.jxc.controller.report;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -71,6 +71,10 @@ public class CategorySaleController extends BaseController<CategorySaleControlle
 			vo.setPageSize(pageSize);
 			vo.setSourceBranchId(UserUtil.getCurrBranchId());
 			PageUtils<CategorySaleReportVo> goodsSaleReportList = categorySaleReportServiceApi.getCategorySaleList(vo);
+			CategorySaleReportVo categorySaleReportVo = categorySaleReportServiceApi.queryCategorySaleCountSum(vo);
+			List<CategorySaleReportVo> footer = new ArrayList<CategorySaleReportVo>();
+			footer.add(categorySaleReportVo);
+			goodsSaleReportList.setFooter(footer);
 			LOG.info(LogConstant.PAGE, goodsSaleReportList.toString());
 			return goodsSaleReportList;
 		} catch (Exception e) {
@@ -95,9 +99,10 @@ public class CategorySaleController extends BaseController<CategorySaleControlle
 		try {
 			vo.setSourceBranchId(UserUtil.getCurrBranchId());
 			List<CategorySaleReportVo> exportList = categorySaleReportServiceApi.exportList(vo);
-
+			CategorySaleReportVo categorySaleReportVo = categorySaleReportServiceApi.queryCategorySaleCountSum(vo);
+			categorySaleReportVo.setBranchName("合计：");
+			exportList.add(categorySaleReportVo);
 			String fileName = "类别销售分析表";
-
 			String templateName = ExportExcelConstant.CATEGORY_SALE_REPORT;
 
 			exportListForXLSX(response, exportList, fileName, templateName);
@@ -106,29 +111,5 @@ public class CategorySaleController extends BaseController<CategorySaleControlle
 			resp = RespJson.error("导出库存调整商品异常");
 		}
 		return resp;
-	}
-	
-	/**
-	 * @Description: 商品类别合计
-	 * @param vo
-	 * @return
-	 * @author liux01
-	 * @date 2016年10月27日
-	 */
-	@RequestMapping(value = "sum", method = RequestMethod.POST)
-	@ResponseBody
-	public RespJson sum(CategorySaleReportVo vo) {
-		RespJson respJson = RespJson.success();
-		try {
-			vo.setSourceBranchId(UserUtil.getCurrBranchId());
-			Map<String,Object> resultMap = categorySaleReportServiceApi.queryCategorySaleCountSum(vo);
-			if (resultMap != null) {
-				respJson.put("saleAmountSum", resultMap.get("saleAmountSum"));
-			}
-		} catch (Exception e) {
-			LOG.error("店铺销售排名合计出现异常:{}", e);
-			respJson = RespJson.error("店铺销售排名合计失败！");
-		}
-		return respJson;
 	}
 }
