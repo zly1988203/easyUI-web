@@ -31,7 +31,7 @@ function initDatagridOrders(){
             {field:'skuCode',title:'货号',width:'140px',align:'left'},
             {field:'skuName',title:'商品名称',width:'140px',align:'left'},
             {field:'barCode',title:'条码',width:'120px',align:'left'},
-            {field:'memoryCode',title:'助记码',width:'120px',align:'left'},
+            /*{field:'memoryCode',title:'助记码',width:'120px',align:'left'},*/
             {field:'typeName',title:'商品类型',width:'120px',align:'left'},
             {field:'categoryCode',title:'类型编码',width:'120px',align:'left'},
             {field:'categoryName',title:'类别名称',width:'120px',align:'left'},
@@ -46,6 +46,12 @@ function initDatagridOrders(){
 		onLoadSuccess : function(data) {
 			removeData(data);
 			gridHandel.setDatagridHeader("center");
+			 if (data.rows.length == 0) {  
+			   return;
+			 } 
+			 else{
+				 $('#gridOrdersview').datagrid("selectRow", 0);
+			 }
 		}
     });
     query();
@@ -60,11 +66,7 @@ function initDatagridResultOrder(){
         enterCallBack:function(arg){
             if(arg&&arg=="add"){
                 gridHandel.addRow(parseInt(gridHandel.getSelectRowIndex())+1,gridDefault);
-                setTimeout(function(){
-                    gridHandel.setBeginRow(gridHandel.getSelectRowIndex()+1);
-                    gridHandel.setSelectFieldName("skuCode");
-                    gridHandel.setFieldFocus(gridHandel.getFieldTarget('skuCode'));
-                },100)
+               
             }else{    
             	
                 selectGoods(arg);
@@ -194,22 +196,22 @@ function initDatagridResultOrder(){
             }
         ]],
         onClickCell:function(rowIndex,field,value){
-            gridHandel.setBeginRow(rowIndex);
-            gridHandel.setSelectFieldName(field);
-            var target = gridHandel.getFieldTarget(field);
+          gridHandel.setBeginRow(rowIndex);
+          gridHandel.setSelectFieldName(field);
+           var target = gridHandel.getFieldTarget(field);
             if(target){
                 gridHandel.setFieldFocus(target);
             }else{
                 gridHandel.setSelectFieldName("skuCode");
-            }
+         }
         },
         onLoadSuccess : function(data) {
-        
+        	//$('#gridOrdersresult').datagrid("selectRow", 0);
             gridHandel.setDatagridHeader("center");
             updateFooter();
         }
     });
-    gridHandel.setLoadData([$.extend({},gridDefault)]);
+   
 }
 
 //queryForm 表单提交
@@ -220,6 +222,7 @@ function query(){
 	$("#gridOrdersview").datagrid("options").method = "post";
 	$("#gridOrdersview").datagrid("options").url = contextPath+'/goods/component/queryList';
 	$("#gridOrdersview").datagrid("load");
+
 	
 }
 
@@ -268,44 +271,44 @@ function selectGoods(searchKey){
 	var viewrows=$("#gridOrdersview").datagrid("getRows");
 	console.log(viewrows);
 	  if(viewrows==0){
-		messager("查询表格不能为空");
+		messager("请选择捆绑商品");
 		 return;
 	   }
-    new publicGoodsService("PA",function(data){
-        if(data.length==0){
-            return;
-        }
-        if(searchKey){
-            $("#gridOrdersresult").datagrid("deleteRow", gridHandel.getSelectRowIndex());
-            $("#gridOrdersresult").datagrid("acceptChanges");
-        }
-        for(var i in data){
-        	var rec = data[i];
-        	rec.remark = "";
-        }
-        var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
-        var addDefaultData  = gridHandel.addDefault(data,gridDefault);
-        var keyNames = {
-            id:'skuId',
-            disabled:'',
-            pricingType:'',
-            inputTax:'tax',
-            componentSkuId:'skuId'
-        };
-        var rows = gFunUpdateKey(addDefaultData,keyNames);
-        var argWhere ={skuCode:1};  //验证重复性
-        var isCheck ={isGift:1 };   //只要是赠品就可以重复
-        var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
+	  publicNewGoodsService({goodsTypeList:'0,1,2'},function(data){
+		  if(data.length==0){
+	            return;
+	        }
+	        if(searchKey){
+	            $("#gridOrdersresult").datagrid("deleteRow", gridHandel.getSelectRowIndex());
+	            $("#gridOrdersresult").datagrid("acceptChanges");
+	        }
+	        for(var i in data){
+	        	var rec = data[i];
+	        	rec.remark = "";
+	        }
+	        var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
+	        var addDefaultData  = gridHandel.addDefault(data,gridDefault);
+	        var keyNames = {
+	            id:'skuId',
+	            disabled:'',
+	            pricingType:'',
+	            inputTax:'tax',
+	            componentSkuId:'skuId'
+	        };
+	        var rows = gFunUpdateKey(addDefaultData,keyNames);
+	        var argWhere ={skuCode:1};  //验证重复性
+	        var isCheck ={isGift:1 };   //只要是赠品就可以重复
+	        var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
 
-        $("#gridOrdersresult").datagrid("loadData",newRows);
+	        $("#gridOrdersresult").datagrid("loadData",newRows);
 
-        gridHandel.setLoadFocus();
-        setTimeout(function(){
-            gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
-            gridHandel.setSelectFieldName("componentNum");
-            gridHandel.setFieldFocus(gridHandel.getFieldTarget('componentNum'));
-        },100)
-    },searchKey,0,"","","");
+	       // gridHandel.setLoadFocus();
+	        setTimeout(function(){
+	            gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
+	           // gridHandel.setSelectFieldName("componentNum");
+	           // gridHandel.setFieldFocus(gridHandel.getFieldTarget('componentNum'));
+	        },100);
+	  });
 }
 
 
@@ -349,11 +352,7 @@ function setDataValue(data) {
     var isCheck ={isGift:1 };   //只要是赠品就可以重复
     var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
     $("#gridOrdersresult").datagrid("loadData",newRows);
-    setTimeout(function(){
-        gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
-        gridHandel.setSelectFieldName("componentNum");
-        gridHandel.setFieldFocus(gridHandel.getFieldTarget('componentNum'));
-    },100)
+   
 }
 
 function checkdatas(){

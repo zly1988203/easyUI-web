@@ -86,10 +86,10 @@
   text-indent: 4px;
   padding: 0 !important;
 }
-.uinp:read-only{
-  border: 1px solid $c-grey-while;
-  background-color: $c-disabled;
-  //opacity: 0.5;
+.uinp:read-only {
+  background-color: #efefef; }
+.uinp-has-more:read-only{
+  background-color: #ffffff;
 }
 .textbox-readonly input{
   background-color: #efefef !important; }

@@ -19,26 +19,24 @@
 	            <div class="ubtns">
 	                <div class="ubtns-item" onclick="purchaseDetailCx()">查询</div>
 	                <div class="ubtns-item" onclick="exportDetails()">导出</div>
-	                <div class="ubtns-item" onclick="resetForm()">重置</div>
+	                <div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 	                <div class="ubtns-item" onclick="toClose()">退出</div>
 	            </div>
-            </div>
-	               
-	        <div class="ub uline umar-t8">
-	        </div>
-	         
-	      <div class="ub umar-t8">
-	           <!-- 引入时间选择控件 -->
+	            
+	             <!-- 引入时间选择控件 -->
 	           <div class="ub ub-ac">
 	            	<div class="umar-r10 uw-70 ut-r">日期:</div>
 	       			<%@ include file="/WEB-INF/views/component/dateSelect.jsp"%>
 	           </div>
-	      </div>
+            </div>
+	               
+	        <div class="ub uline umar-t8">
+	        </div>
           <div class="ub umar-t8">
                <div class="ub ub-ac">
                    <div class="umar-r10 uw-70 ut-r">机构名称:</div>
-                   <input class="uinp" type="hidden" id="branchId" name="branchId">
-                   <input class="uinp" type="text" id="branchName" name="branchName" value="${user.branchName}" readonly="readonly">
+                   <input class="uinp" type="hidden" id="branchId" name="branchId" >
+                   <input class="uinp" type="text" id="branchName" name="branchName" readonly="readonly">
                    <div class="uinp-more" id="branchSelect" onclick="searchBranch()">...</div>
                </div>
                <div class="ub ub-ac umar-r40">
@@ -75,8 +73,7 @@
             </div>
             
        	</form>
-       	<div class="ub umar-t8 umar-b8">【查询结果】</div>
-        <div class="ub ub-f1">
+        <div class="ub ub-f1 umar-t20">
 			 <table id="purReportDetail"></table>
 		</div>
     </div>

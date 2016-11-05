@@ -239,6 +239,22 @@ function initDatagridAddRequireOrder(){
                     }
                 }
             },
+            {field:'defectNum',title:'缺货数',width:'100px',align:'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return
+                    }
+                    return  "<b>"+parseFloat(value||0).toFixed(2)+ "<b>";
+                },
+                editor:{
+                    type:'numberbox',
+                    options:{
+                        disabled:true,
+                        min:0,
+                        precision:2,
+                    }
+                }
+            },
             {field:'remark',title:'备注',width:'200px',align:'left',editor:'textbox'}
         ]],
         onClickCell:function(rowIndex,field,value){
@@ -255,10 +271,7 @@ function initDatagridAddRequireOrder(){
             gridHandel.setDatagridHeader("center");
             updateFooter();
         }
-
- 
     });
-
 }
 //监听商品箱数
 function onChangeLargeNum(newV,oldV){
@@ -281,6 +294,19 @@ function onChangeLargeNum(newV,oldV){
 }
 //监听商品数量
 function onChangeRealNum(newV,oldV) {
+    if(isSelectDeliver){
+        var oldDeliverDealNum = gridHandel.getFieldData(gridHandel.getSelectRowIndex()||0,'oldDeliverDealNum');
+        if(parseFloat(newV)>parseFloat(oldDeliverDealNum)){
+            messager("数量不能大于要货数量("+oldDeliverDealNum+")");
+            gridHandel.setFieldValue('dealNum',oldDeliverDealNum);
+            return;
+        }else{
+            var sourceStockVal = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'sourceStock');
+            var defectNum = parseFloat(sourceStockVal||0)-parseFloat(newV||0);
+            var defectNumVal = defectNum<0?-defectNum:0;
+            gridHandel.setFieldValue('defectNum',defectNumVal);
+        }
+    }
     if(!gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuName')){
         return;
     }
@@ -293,14 +319,14 @@ function onChangeRealNum(newV,oldV) {
         messager("配送规格不能为0");
         return;
     }
-    var sourceStockVal = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'sourceStock');
-    if(parseFloat(newV)>parseFloat(sourceStockVal)){
-    	messager("输入的数量不能大于库存数："+sourceStockVal);
-        gridHandel.setFieldValue('dealNum',0.0000);
-        gridHandel.setSelectFieldName("dealNum");
-        gridHandel.setFieldFocus(gridHandel.getFieldTarget('dealNum'));
-        return;
-    }
+    //var sourceStockVal = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'sourceStock');
+    //if(parseFloat(newV)>parseFloat(sourceStockVal)){
+    //	messager("输入的数量不能大于库存数："+sourceStockVal);
+    //    gridHandel.setFieldValue('dealNum',0.0000);
+    //    gridHandel.setSelectFieldName("dealNum");
+    //    gridHandel.setFieldFocus(gridHandel.getFieldTarget('dealNum'));
+    //    return;
+    //}
     var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
     var salePriceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'salePrice');
     gridHandel.setFieldValue('amount',(priceValue*newV).toFixed(4));             //金额=数量*单价
@@ -541,7 +567,8 @@ function saveOrder(){
     		originPlace : data.originPlace,
     		distributionSpec : data.distributionSpec,
     		salePrice : data.salePrice,
-    		saleAmount : data.saleAmount
+    		saleAmount : data.saleAmount,
+    		defectNum : data.defectNum
     	}
     	reqObj.deliverFormListVo[i] = temp;
 	});
@@ -621,9 +648,11 @@ function selectBranches(){
 /**
  * 单据选择
  */
+var isSelectDeliver = false;    //true导入的是要货单号
 function selectDeliver(){
 	var referenceId = "";
 	new publicDeliverFormService ("DA",function(data){
+        isSelectDeliver = true;
 		referenceId = data.id;
 		$("#referenceId").val(referenceId);
 		$("#referenceNo").val(data.formNo);
@@ -642,11 +671,16 @@ function loadLists(referenceId){
         type:"post",
         success:function(data){
             var rows = data.rows
+            debugger;
             for(var i in rows){
+                rows[i]["dealNum"] =  rows[i]["applyNum"]?rows[i]["applyNum"]:rows[i]["dealNum"];
                 rows[i]["amount"]  = parseFloat(rows[i]["price"]||0)*parseFloat(rows[i]["dealNum"]||0);
-                updateFooter();
+                rows[i]["oldDeliverDealNum"] =  rows[i]["dealNum"];
+                var defectNum = parseFloat(rows[i]["sourceStock"]||0)-parseFloat(rows[i]["dealNum"]||0);
+                rows[i]["defectNum"] = defectNum<0?-defectNum:0;
             }
             $("#gridEditOrder").datagrid("loadData",rows);
+            updateFooter();
         }
     })
    /* return;

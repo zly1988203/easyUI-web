@@ -98,7 +98,7 @@ function getSelectionRow(data){
 //根据复制的值，给input框赋值
 function setInputValByObj(){
 	if(selectionRow!=null){
-
+		
 		$.each(selectionRow[0]||selectionRow,function(key,value){
 			//普通的input
 			if(key=="braCode"||key=="skuCode"){
@@ -117,8 +117,11 @@ function setInputValByObj(){
 				}else{
 					//进项税、销项税、联营扣率要乘以100
 					if($("#"+key).attr("id") == "outputTax" || $("#"+key).attr("id") == "inputTax" || $("#"+key).attr("id") == "supplierRate"){
-//						$("#"+key).val(value*100);
-						$("#"+key).textbox("setValue",value*100);
+						if(value){
+							$("#"+key).textbox("setValue",parseFloat((value*100).toFixed(2)));
+						}else{
+							$("#"+key).textbox("setValue",0.00);
+						}
 					}else{
 						if($("#"+key).hasClass('easyui-numberbox')){
 							$("#"+key).numberbox('setValue', value);
@@ -151,7 +154,6 @@ function setInputValByObj(){
 			}
 		});
 	}
-	//debugger;
 	$("#skuCode").val(null);
 	$("#barCode").val($("#skuCode").val()); //货号
 	if(selectionRow.saleWay=='A'){
@@ -290,11 +292,9 @@ function getBarCode(pricingType,skuCode){
 //商品分类
 function getGoodsType(){
 	new publicCategoryService(function(data){
-		//console.log("商品分类==",data);
 		$("#categoryId").val(data.goodsCategoryId);
 		$("#categoryCode").val(data.categoryCode);
 		$("#categoryName").val(data.categoryName);
-
 		//商品自动生成货号
 //		getSkuCodeVal();
 	});
@@ -303,7 +303,6 @@ function getGoodsType(){
 //品牌
 function getGoodsBrand(){
 	new publicBrandService(function(data){
-		console.log("品牌==",data);
 		$("#brandId").val(data.id);
 		$("#brandCode").val(data.brandCode);
 		$("#brandName").val(data.brandName);
@@ -313,7 +312,6 @@ function getGoodsBrand(){
 //供应商公共组件
 function getGoodsPupplier(){
 	new publicSupplierService(function(data){
-		console.info("供应商==",data);
 		$("#supplierId").val(data.id);
 		$("#supplierName").val(data.supplierName);
 		$("#saleWayName").val(data.saleWayName);

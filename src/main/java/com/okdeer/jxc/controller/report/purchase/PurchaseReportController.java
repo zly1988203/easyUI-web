@@ -8,10 +8,12 @@
 package com.okdeer.jxc.controller.report.purchase;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -89,12 +91,21 @@ public class PurchaseReportController extends
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
 			LOG.debug("采购明细查询：{}", qo);
+			/*if(BranchTypeEnum.HEAD_QUARTERS.getCode().toString().equals(qo.getBranchId())) {
+				qo.setBranchId(null);
+				qo.setBranchCompleCode(getCurrBranchCompleCode());
+			}*/
+			if(StringUtils.isEmpty(qo.getBranchId())) {
+				qo.setBranchCompleCode(getCurrBranchCompleCode());
+			}
 			qo.setPageNumber(pageNumber);
 			qo.setPageSize(pageSize);
-
+			if (qo.getEndTime() != null) {
+				Date time = DateUtils.getNextDay(qo.getEndTime());
+				qo.setEndTime(time);
+			}
 			PageUtils<PurchaseReportPo> list = purchaseReportService
 					.getPurReportDetail(qo);
-
 			// 2、查询合计
 			PurchaseReportPo vo = purchaseReportService
 					.getPurReportDetailSum(qo);
@@ -124,11 +135,26 @@ public class PurchaseReportController extends
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		LOG.info("采购单明细导出:{}" + qo);
 		try {
+			/*if(BranchTypeEnum.HEAD_QUARTERS.getCode().toString().equals(qo.getBranchId())) {
+				qo.setBranchId(null);
+				qo.setBranchCompleCode(getCurrBranchCompleCode());
+			}*/
+			if(StringUtils.isEmpty(qo.getBranchId())) {
+				qo.setBranchCompleCode(getCurrBranchCompleCode());
+			}
 			qo.setPageNumber(pageNumber);
 			qo.setPageSize(10000);
+			if (qo.getEndTime() != null) {
+				Date time = DateUtils.getNextDay(qo.getEndTime());
+				qo.setEndTime(time);
+			}
 			PageUtils<PurchaseReportPo> result = purchaseReportService
 					.getPurReportDetail(qo);
+			// 2、查询合计
+			PurchaseReportPo vo = purchaseReportService
+					.getPurReportDetailSum(qo);
 			List<PurchaseReportPo> exportList = result.getList();
+			exportList.add(vo);
 			// 导出文件名称，不包括后缀名
 			String fileName = "采购明细表" + "_" + DateUtils.getCurrSmallStr();
 			// 模板名称，包括后缀名
@@ -157,8 +183,19 @@ public class PurchaseReportController extends
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
 			LOG.debug("采购汇总表查询：{}", qo);
+			/*if(BranchTypeEnum.HEAD_QUARTERS.getCode().toString().equals(qo.getBranchId())) {
+				qo.setBranchId(null);
+				qo.setBranchCompleCode(getCurrBranchCompleCode());
+			}*/
+			if(StringUtils.isEmpty(qo.getBranchId())) {
+				qo.setBranchCompleCode(getCurrBranchCompleCode());
+			}
 			qo.setPageNumber(pageNumber);
 			qo.setPageSize(pageSize);
+			if (qo.getEndTime() != null) {
+				Date time = DateUtils.getNextDay(qo.getEndTime());
+				qo.setEndTime(time);
+			}
 			PageUtils<PurchaseReportPo> list = null;
 			switch (qo.getSearchType()) {
 				case "supplierTotal":
@@ -275,9 +312,22 @@ public class PurchaseReportController extends
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		LOG.info("采购汇总导出:{}" + qo);
 		try {
+			/*if(BranchTypeEnum.HEAD_QUARTERS.getCode().toString().equals(qo.getBranchId())) {
+				qo.setBranchId(null);
+				qo.setBranchCompleCode(getCurrBranchCompleCode());
+			}*/
+			if(StringUtils.isEmpty(qo.getBranchId())) {
+				qo.setBranchCompleCode(getCurrBranchCompleCode());
+			}
 			qo.setPageNumber(pageNumber);
 			qo.setPageSize(pageSize);
+			if (qo.getEndTime() != null) {
+				Date time = DateUtils.getNextDay(qo.getEndTime());
+				qo.setEndTime(time);
+			}
 			PageUtils<PurchaseReportPo> list = null;
+			// 2、查询合计
+			PurchaseReportPo vo =null;
 			// 导出文件名称，不包括后缀名
 			String fileName = "采购汇总表" + "_" + DateUtils.getCurrSmallStr();
 			// 模板名称，包括后缀名
@@ -285,33 +335,37 @@ public class PurchaseReportController extends
 			switch (qo.getSearchType()) {
 				case "supplierTotal":
 					list = getPurReportTotalBySupplier(qo);
-					fileName += "(供应商)";
+					vo = purchaseReportService.getPurReportTotalBySupplierSum(qo);
+					fileName += "-供应商汇总";
 					templateName = ExportExcelConstant.PUR_REPORT_TOTAL_SUPPLIER;
 					break;
 				case "formNoTotal":
 					list = getPurReportTotalByFormNo(qo);
-					fileName += "(单据)";
+					vo = purchaseReportService.getPurReportTotalByFormNoSum(qo);
+					fileName += "-单据汇总";
 					templateName = ExportExcelConstant.PUR_REPORT_TOTAL_FORMNO;
 					break;
 				case "categoryTotal":
 					list = getPurReportTotalByCategory(qo);
-					fileName += "(类别)";
+					vo = purchaseReportService.getPurReportTotalByCategorySum(qo);
+					fileName += "-类别汇总";
 					templateName = ExportExcelConstant.PUR_REPORT_TOTAL_CATEGORY;
 					break;
 				case "goodsTotal":
 					list = getPurReportTotalByGoods(qo);
-					fileName += "(商品)";
+					vo = purchaseReportService.getPurReportTotalByGoodsSum(qo);
+					fileName += "-商品汇总";
 					templateName = ExportExcelConstant.PUR_REPORT_TOTAL_GOODS;
 					break;
 				default:
-					list = getPurReportTotalByGoods(qo);
 					break;
 			}
 			List<PurchaseReportPo> exportList = list.getList();
+			exportList.add(vo);
 			// 导出Excel
 			exportListForXLSX(response, exportList, fileName, templateName);
 		} catch (Exception e) {
-			LOG.error("GoodsPriceAdjustController:exportList:", e);
+			LOG.error("采购汇总导出:{}", e);
 		}
 	}
 }

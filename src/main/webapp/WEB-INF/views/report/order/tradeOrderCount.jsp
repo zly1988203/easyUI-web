@@ -4,7 +4,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>配送明细查询</title>
+    <title>店铺销售排行</title>
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
     <script  src="${ctx}/static/js/views/report/order/tradeOrderCount.js"></script>
@@ -15,9 +15,13 @@
 		<form id="queryForm" action="" method="post">
 				<div class="ub ub-ac">
 		            <div class="ubtns">
-						<div class="ubtns-item" onclick="queryForm()">查询</div>
-						<div class="ubtns-item"  onclick="exportData()">导出</div>
-						<div class="ubtns-item" id="set" onclick="resetForm()">重置</div>
+		            	<shiro:hasPermission name="JxcTradeOrderCount:search">
+							<div class="ubtns-item" onclick="queryForm()">查询</div>
+						</shiro:hasPermission>
+						<shiro:hasPermission name="JxcTradeOrderCount:export">
+							<div class="ubtns-item"  onclick="exportData()">导出</div>
+						</shiro:hasPermission>
+						<div class="ubtns-item" id="set" onclick="gFunRefresh()">重置</div>
 		                <div class="ubtns-item" onclick="toClose()">退出</div>
 		            </div>
 		        	<div class="ub ub-ac umar-l20">
@@ -29,7 +33,7 @@
 	                    <div class="umar-r10 uw-70 ut-r">机构名称:</div>
 	                    <input type="hidden" id="branchId" name="branchId" value="${branchesGrow.branchesId}"/>
 	                    <input type="hidden" id="brancheType" name="brancheType" value="${branchesGrow.type}"/>
-	                    <input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" value="${branchesGrow.branchName}" onclick="selectBranches()" readonly="readonly"/>
+	                    <input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" value="" onclick="selectBranches()" readonly="readonly"/>
 	                    <div class="uinp-more" onclick="selectBranches()" >...</div>
 	                </div>
 	            </div>

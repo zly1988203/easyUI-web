@@ -241,14 +241,15 @@ function onChangeRealNum(newV,oldV) {
         gridHandel.setFieldFocus(gridHandel.getFieldTarget('applyNum'));
         return;
     }
-    var sourceStockVal = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'sourceStock');
-    if(parseFloat(newV)>parseFloat(sourceStockVal)){
-    	messager("输入的数量不能大于库存数："+sourceStockVal);
-        gridHandel.setFieldValue('applyNum',0.0000);
-        gridHandel.setSelectFieldName("applyNum");
-        gridHandel.setFieldFocus(gridHandel.getFieldTarget('applyNum'));
-        return;
-    }
+    ////检查库存
+    //var sourceStockVal = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'sourceStock');
+    //if(parseFloat(newV)>parseFloat(sourceStockVal)){
+    //	messager("输入的数量不能大于库存数："+sourceStockVal);
+    //    gridHandel.setFieldValue('applyNum',0.0000);
+    //    gridHandel.setSelectFieldName("applyNum");
+    //    gridHandel.setFieldFocus(gridHandel.getFieldTarget('applyNum'));
+    //    return;
+    //}
     var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
     gridHandel.setFieldValue('amount',priceValue*newV);                         //金额=数量*单价
     gridHandel.setFieldValue('largeNum',(newV/purchaseSpecValue).toFixed(4));   //箱数=数量/商品规格
@@ -687,8 +688,9 @@ function updateListData(data){
      for(var i in rows){
          rows[i].remark = "";
          rows[i]["amount"]  = parseFloat(rows[i]["price"]||0)*parseFloat(rows[i]["applyNum"]||0);
+
          if(parseInt(rows[i]["distributionSpec"])){
-        	 rows[i]["largeNum"]  = (parseFloat(rows[i]["applyNum"]||0)/parseFloat(rows[i]["distributionSpec"])).toFixed(4);
+        	 rows[i]["applyNum"]  = (parseFloat(rows[i]["largeNum"]||0)*parseFloat(rows[i]["distributionSpec"])).toFixed(4);
          }else{
         	 rows[i]["largeNum"]  =  0;
         	 rows[i]["distributionSpec"] = 0;

@@ -144,34 +144,34 @@ public class ArrivalRateController extends BaseController<PurchaseForm>{
 	private List<ArrivalRateVo> handlePrice(List<ArrivalRateVo> exportList) {
 		for (ArrivalRateVo vo : exportList) {
 			// 采购数量
-			if (StringUtils.isNotBlank(vo.getPurchaseNum())) {
-				BigDecimal purchaseNum = new BigDecimal(vo.getPurchaseNum()).setScale(2,BigDecimal.ROUND_HALF_UP);
-				vo.setPurchaseNum(String.valueOf(purchaseNum));
+			if (vo.getPurchaseNum() !=null) {
+				BigDecimal purchaseNum = vo.getPurchaseNum().setScale(4,BigDecimal.ROUND_HALF_UP);
+				vo.setPurchaseNum(purchaseNum);
 			}
 			// 采购金额
 			if (vo.getPurchaseAmount() !=null) {
-				BigDecimal purchaseAmount = new BigDecimal(vo.getPurchaseAmount()).setScale(2,BigDecimal.ROUND_HALF_UP);
-				vo.setPurchaseAmount(String.valueOf(purchaseAmount));
+				BigDecimal purchaseAmount = vo.getPurchaseAmount().setScale(4,BigDecimal.ROUND_HALF_UP);
+				vo.setPurchaseAmount(purchaseAmount);
 			}
 			// 收货数量
 			if (vo.getReceiptNum() !=null) {
-				BigDecimal receiptNum = new BigDecimal(vo.getReceiptNum()).setScale(2,BigDecimal.ROUND_HALF_UP);
-				vo.setReceiptNum(String.valueOf(receiptNum));
+				BigDecimal receiptNum = vo.getReceiptNum().setScale(4,BigDecimal.ROUND_HALF_UP);
+				vo.setReceiptNum(receiptNum);
 			}
 			// 收货金额
 			if (vo.getReceiptAmount() !=null) {
-				BigDecimal receiptAmount = new BigDecimal(vo.getReceiptAmount()).setScale(2,BigDecimal.ROUND_HALF_UP);
-				vo.setReceiptAmount(String.valueOf(receiptAmount));
+				BigDecimal receiptAmount = vo.getReceiptAmount().setScale(4,BigDecimal.ROUND_HALF_UP);
+				vo.setReceiptAmount(receiptAmount);
 			}
 			// 未收货数量
 			if (vo.getNotQuantity() !=null) {
-				BigDecimal notQuantity = new BigDecimal(vo.getNotQuantity()).setScale(2,BigDecimal.ROUND_HALF_UP);
-				vo.setNotQuantity(String.valueOf(notQuantity));
+				BigDecimal notQuantity = vo.getNotQuantity().setScale(4,BigDecimal.ROUND_HALF_UP);
+				vo.setNotQuantity(notQuantity);
 			}
 			// 未收货金额
 			if (vo.getNotAmount() !=null) {
-				BigDecimal notAmount = new BigDecimal(vo.getNotAmount()).setScale(2,BigDecimal.ROUND_HALF_UP);
-				vo.setNotAmount(String.valueOf(notAmount));
+				BigDecimal notAmount =vo.getNotAmount().setScale(4,BigDecimal.ROUND_HALF_UP);
+				vo.setNotAmount(notAmount);
 			}
 		}
 		return exportList;

@@ -3,6 +3,10 @@
  */
 $(function(){
     initDatagridEditOrder();
+    if($("#close").val()){
+    	$("#addButton").addClass("unhide");
+    	$("#toBackByJSButton").attr("onclick","window.parent.closeTab()");
+    }
 });
 var gridHandel = new GridClass();
 function initDatagridEditOrder(){

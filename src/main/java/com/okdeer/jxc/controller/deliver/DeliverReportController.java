@@ -7,6 +7,7 @@
 
 package com.okdeer.jxc.controller.deliver;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -25,8 +26,7 @@ import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.LogConstant;
 import com.okdeer.jxc.common.controller.BasePrintController;
-import com.okdeer.jxc.common.result.RespJson;
-import com.okdeer.jxc.common.utils.DateUtils;
+import com.okdeer.jxc.common.enums.BranchTypeEnum;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.form.deliver.entity.DeliverFormList;
@@ -91,7 +91,7 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
 	}
 
 	/**
-	 * @Description: 要货单查询
+	 * @Description: 要货单状态跟踪查询
 	 * @param vo
 	 * @param pageNumber
 	 * @param pageSize
@@ -102,19 +102,25 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
 	 */
 	@RequestMapping(value = "getDaForms", method = RequestMethod.POST)
 	@ResponseBody
-	public PageUtils<DeliverFormVo> getDaForms(DeliverFormReportQo vo,
+	public PageUtils<DeliverFormVo> getDaForms(DeliverFormReportQo qo,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
-		LOG.info(LogConstant.OUT_PARAM, vo.toString());
+		LOG.info(LogConstant.OUT_PARAM, qo.toString());
 		try {
-			if (StringUtils.isNullOrEmpty(vo.getBranchId())) {
-				vo.setBranchId(UserUtil.getCurrBranchId());
+			if (StringUtils.isNullOrEmpty(qo.getBranchId())) {
+				qo.setBranchId(UserUtil.getCurrBranchId());
 			}
-			vo.setPageNumber(pageNumber);
-			vo.setPageSize(pageSize);
-			PageUtils<DeliverFormVo> deliverForms = deliverFormReportServiceApi.queryLists(vo);
-			LOG.info(LogConstant.PAGE, deliverForms.toString());
-			return deliverForms;
+			qo.setPageNumber(pageNumber);
+			qo.setPageSize(pageSize);
+			PageUtils<DeliverFormVo> page = deliverFormReportServiceApi.queryLists(qo);
+			List<DeliverFormVo> footer = new ArrayList<DeliverFormVo>();
+			DeliverFormVo vo = deliverFormReportServiceApi.queryListsSum(qo);
+			if (vo != null) {
+				footer.add(vo);
+			}
+			page.setFooter(footer);
+			LOG.info(LogConstant.PAGE, page.toString());
+			return page;
 		} catch (Exception e) {
 			LOG.error("要货单查询数据出现异常:{}", e);
 		}
@@ -158,14 +164,17 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
 	 * @date 2016年10月25日
 	 */
 	@RequestMapping(value = "exportList")
-	public void exportList(HttpServletResponse response, DeliverFormReportQo vo) {
-		LOG.info(LogConstant.OUT_PARAM, vo.toString());
+	public void exportList(HttpServletResponse response, DeliverFormReportQo qo) {
+		LOG.info(LogConstant.OUT_PARAM, qo.toString());
 		try {
-			if (StringUtils.isNullOrEmpty(vo.getBranchId())) {
-				vo.setBranchId(UserUtil.getCurrBranchId());
+			if (StringUtils.isNullOrEmpty(qo.getBranchId())) {
+				qo.setBranchId(UserUtil.getCurrBranchId());
 			}
-			List<DeliverFormVo> exportList = deliverFormReportServiceApi.queryDeliverForms(vo);
-			String fileName = "要货单列表" + "_" + DateUtils.getCurrSmallStr();
+			List<DeliverFormVo> exportList = deliverFormReportServiceApi.queryDeliverForms(qo);
+			DeliverFormVo vo = deliverFormReportServiceApi.queryListsSum(qo);
+			vo.setFormNo("合计：");
+			exportList.add(vo);
+			String fileName = "要货单状态跟踪";
 			String templateName = ExportExcelConstant.DELIVER_REPORT;
 			// 导出Excel
 			exportListForXLSX(response, exportList, fileName, templateName);
@@ -197,11 +206,21 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
 			if (StringUtils.isNullOrEmpty(vo.getDeliverType())) {
 				vo.setDeliverType("");
 			}
+			if(BranchTypeEnum.HEAD_QUARTERS.getCode().toString().equals(vo.getBranchId())) {
+				vo.setBranchId(null);
+			}
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
-			PageUtils<DeliverDaAndDoFormListVo> deliverForms = deliverFormReportServiceApi.queryDaAndDoFormList(vo);
-			LOG.info(LogConstant.PAGE, deliverForms.toString());
-			return deliverForms;
+			PageUtils<DeliverDaAndDoFormListVo> page = deliverFormReportServiceApi.queryDaAndDoFormList(vo);
+			DeliverDaAndDoFormListVo deliverDaAndDoFormListVo = deliverFormReportServiceApi
+					.queryDaAndDoFormListsSum(vo);
+			List<DeliverDaAndDoFormListVo> footer = new ArrayList<DeliverDaAndDoFormListVo>();
+			if (deliverDaAndDoFormListVo != null) {
+				footer.add(deliverDaAndDoFormListVo);
+			}
+			page.setFooter(footer);
+			LOG.info(LogConstant.PAGE, page.toString());
+			return page;
 		} catch (Exception e) {
 			LOG.error("要货单查询数据出现异常:{}", e);
 		}
@@ -225,48 +244,22 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
 			if (StringUtils.isNullOrEmpty(vo.getDeliverType())) {
 				vo.setDeliverType("");
 			}
+			if (BranchTypeEnum.HEAD_QUARTERS.getCode().toString().equals(vo.getBranchId())) {
+				vo.setBranchId(null);
+			}
 			List<DeliverDaAndDoFormListVo> exportList = deliverFormReportServiceApi.queryDaAndDoFormLists(vo);
-			String fileName = "配送明细" + "_" + DateUtils.getCurrSmallStr();
+
+			DeliverDaAndDoFormListVo deliverDaAndDoFormListVo = deliverFormReportServiceApi
+					.queryDaAndDoFormListsSum(vo);
+			deliverDaAndDoFormListVo.setFormNo("合计：");
+			exportList.add(deliverDaAndDoFormListVo);
+			String fileName = "配送明细查询";
 			String templateName = ExportExcelConstant.DELIVER_FORM_LIST_REPORT;
 			// 导出Excel
 			exportListForXLSX(response, exportList, fileName, templateName);
 		} catch (Exception e) {
 			LOG.error("DeliverReportController:exportList:", e);
 		}
-	}
-
-	/**
-	 * @Description: 配送求和
-	 * @param vo
-	 * @return
-	 * @author zhangchm
-	 * @date 2016年10月26日
-	 */
-	@RequestMapping(value = "sum", method = RequestMethod.POST)
-	@ResponseBody
-	public RespJson sum(DeliverFormReportQo vo) {
-		LOG.info(LogConstant.OUT_PARAM, vo.toString());
-		RespJson respJson = RespJson.success();
-		try {
-			if (StringUtils.isNullOrEmpty(vo.getBranchId())) {
-				vo.setBranchId(UserUtil.getCurrBranchId());
-			}
-			if (StringUtils.isNullOrEmpty(vo.getDeliverType())) {
-				vo.setDeliverType("");
-			}
-			DeliverDaAndDoFormListVo deliverDaAndDoFormListVo = deliverFormReportServiceApi
-					.queryDaAndDoFormListsSum(vo);
-			if (deliverDaAndDoFormListVo != null) {
-				LOG.info(LogConstant.PAGE, deliverDaAndDoFormListVo.toString());
-				respJson.put("sumLargeNum", deliverDaAndDoFormListVo.getSumLargeNum());
-				respJson.put("sumAmount", deliverDaAndDoFormListVo.getSumAmount());
-				respJson.put("sumNum", deliverDaAndDoFormListVo.getSumNum());
-			}
-		} catch (Exception e) {
-			LOG.error("配送求和出现异常:{}", e);
-			respJson = RespJson.error("配送求和失败！");
-		}
-		return respJson;
 	}
 
 	@Override

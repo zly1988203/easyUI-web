@@ -84,12 +84,21 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 	@RequestMapping(value = "queryGoodsSku", method = RequestMethod.POST)
 	@ResponseBody
 	public PageUtils<GoodsSku> queryGoodsSku(
-			GoodsSkuQo qo,
+			GoodsSkuQo qo,String categoryCode1,String brandId1,String supplierId1,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		LOG.info("qo:" + qo.toString());
 		if (qo.isOutGoods()) {// 淘汰商品
 			qo.setStatus(GoodsStatusEnum.OBSOLETE.ordinal());
+		}
+		if(StringUtils.isNotBlank(categoryCode1)){
+			qo.setCategoryCode(categoryCode1);
+		}
+		if(StringUtils.isNotBlank(brandId1)){
+			qo.setBrandId(brandId1);
+		}
+		if(StringUtils.isNotBlank(supplierId1)){
+			qo.setSupplierId(supplierId1);
 		}
 		qo.setPageNumber(pageNumber);
 		qo.setPageSize(pageSize);
@@ -433,8 +442,19 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 	 */
 	@RequestMapping(value = "exportGoods", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson exportGoods(GoodsSkuQo qo, HttpServletResponse response) {
+	public RespJson exportGoods(GoodsSkuQo qo, 
+			String categoryCode1,String brandId1,String supplierId1,
+			HttpServletResponse response) {
 		try {
+			if(StringUtils.isNotBlank(categoryCode1)){
+				qo.setCategoryCode(categoryCode1);
+			}
+			if(StringUtils.isNotBlank(brandId1)){
+				qo.setBrandId(brandId1);
+			}
+			if(StringUtils.isNotBlank(supplierId1)){
+				qo.setSupplierId(supplierId1);
+			}
 			qo.setPageSize(ExportExcelConstant.EXPORT_MAX_SIZE);
 			int count=goodsSkuService.querySkuByParamsCount(qo);
 			if(count>ExportExcelConstant.EXPORT_MAX_SIZE){

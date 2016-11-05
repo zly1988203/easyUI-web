@@ -20,6 +20,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONObject;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,8 +67,6 @@ import com.okdeer.jxc.goods.entity.GoodsSelectByPurchase;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
 
-import net.sf.json.JSONObject;
-
 /**
  * ClassName: PurchaseFormController 
  * @author xiaoj02
@@ -76,6 +76,7 @@ import net.sf.json.JSONObject;
  *     Task ID			  Date			     Author		      Description
  * ----------------+----------------+-------------------+-------------------------------------------
  *		重构2.0			2016-8-5			xiaoj02			 采购controller
+ *		零售系统V1.20	2016-11-4			lijy02			采购审核部分审核后回写字段
  */
 @Controller
 @RequestMapping("form/purchase")
@@ -181,6 +182,7 @@ public class PurchaseFormController extends
 		request.setAttribute("form", form);
 		if (FormStatus.CHECK_SUCCESS.getValue().equals(form.getStatus())) {// 已审核，不能修改
 			request.setAttribute("status", FormStatus.CHECK_SUCCESS.getLabel());
+			request.setAttribute("close", "close");
 			return "form/purchase/orderView";
 		}
 
@@ -212,6 +214,7 @@ public class PurchaseFormController extends
 		request.setAttribute("form", form);
 		if (FormStatus.CHECK_SUCCESS.getValue().equals(form.getStatus())) {// 已审核，不能修改
 			request.setAttribute("status", FormStatus.CHECK_SUCCESS.getLabel());
+			request.setAttribute("close", "close");
 			return "form/purchase/returnView";
 		}
 
@@ -243,6 +246,7 @@ public class PurchaseFormController extends
 		request.setAttribute("form", form);
 		if (FormStatus.CHECK_SUCCESS.getValue().equals(form.getStatus())) {// 已审核，不能修改
 			request.setAttribute("status", FormStatus.CHECK_SUCCESS.getLabel());
+			request.setAttribute("close", "close");
 			return "form/purchase/receiptView";
 		}
 
@@ -255,7 +259,7 @@ public class PurchaseFormController extends
 			request.setAttribute("status", FormDealStatus.STOP.getLabel());
 			return "form/purchase/receiptView";
 		}
-
+		
 		return "form/purchase/receiptEdit";
 	}
 

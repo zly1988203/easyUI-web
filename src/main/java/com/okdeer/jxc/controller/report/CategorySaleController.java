@@ -6,6 +6,7 @@
  */    
 package com.okdeer.jxc.controller.report;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -20,7 +21,6 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.LogConstant;
 import com.okdeer.jxc.common.result.RespJson;
-import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.report.service.CategorySaleReportServiceApi;
@@ -71,6 +71,10 @@ public class CategorySaleController extends BaseController<CategorySaleControlle
 			vo.setPageSize(pageSize);
 			vo.setSourceBranchId(UserUtil.getCurrBranchId());
 			PageUtils<CategorySaleReportVo> goodsSaleReportList = categorySaleReportServiceApi.getCategorySaleList(vo);
+			CategorySaleReportVo categorySaleReportVo = categorySaleReportServiceApi.queryCategorySaleCountSum(vo);
+			List<CategorySaleReportVo> footer = new ArrayList<CategorySaleReportVo>();
+			footer.add(categorySaleReportVo);
+			goodsSaleReportList.setFooter(footer);
 			LOG.info(LogConstant.PAGE, goodsSaleReportList.toString());
 			return goodsSaleReportList;
 		} catch (Exception e) {
@@ -93,11 +97,13 @@ public class CategorySaleController extends BaseController<CategorySaleControlle
 	public RespJson exportList(HttpServletResponse response, CategorySaleReportVo vo) {
 		RespJson resp = RespJson.success();
 		try {
+			vo.setSourceBranchId(UserUtil.getCurrBranchId());
 			List<CategorySaleReportVo> exportList = categorySaleReportServiceApi.exportList(vo);
-
-			String fileName = "库存调整" + "_" + DateUtils.getCurrSmallStr();
-
-			String templateName = ExportExcelConstant.STORE_DAY_SALE_REPORT;
+			CategorySaleReportVo categorySaleReportVo = categorySaleReportServiceApi.queryCategorySaleCountSum(vo);
+			categorySaleReportVo.setBranchName("合计：");
+			exportList.add(categorySaleReportVo);
+			String fileName = "类别销售分析表";
+			String templateName = ExportExcelConstant.CATEGORY_SALE_REPORT;
 
 			exportListForXLSX(response, exportList, fileName, templateName);
 		} catch (Exception e) {

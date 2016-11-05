@@ -23,7 +23,7 @@
 	            <shiro:hasPermission name="JxcSaleFlow:export">
 	                <div class="ubtns-item" onclick="exportExcel()">导出</div>
 	            </shiro:hasPermission>
-	              	<div class="ubtns-item" onclick="resetForm()">重置</div>
+	              	<div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 	                <div class="ubtns-item" onclick="toClose()">退出</div>
 	            </div>
 	            
@@ -33,7 +33,6 @@
 	            </div>
             </div>
 	           
-	        <div class="ub umar-t8 uc-black">【销售流水】</div>
 	        <div class="ub uline umar-t8"></div>
 	        <div class="ub umar-t8">
                 <div class="ub  ub-ac">
@@ -46,9 +45,7 @@
             </div>
 	      
        	</form>
-           
-       	<div class="ub umar-t8 umar-b8">【查询结果】</div>
-        <div class="ub ub-f1">
+        <div class="ub ub-f1 umar-t20">
 			 <table id="storeDaySale"></table>
 		</div>
     </div>

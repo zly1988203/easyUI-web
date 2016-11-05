@@ -4,9 +4,8 @@
  */
 $(function(){
 	//开始和结束时间
-    $("#startTime").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
-    $("#endTime").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
-    toChangeDate(9);
+
+    toChangeDatetime(10);
     initDatagridRequireOrders();
     branchId = $("#branchId").val();
     brancheType = $("#brancheType").val();
@@ -26,27 +25,31 @@ function initDatagridRequireOrders(){
         fitColumns:true,    //每列占满
         //fit:true,            //占满
         showFooter:true,
+        pageSize : 50,
 		height:'100%',
 		width:'100%',
         columns:[[
 			{field:'check',checkbox:true},
-            {field:'formNo',title:'单据编号',width:'140px',align:'left',formatter:function(value,row,index){
-            	return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/deliverForm/deliverEdit?deliverFormId="+ row.deliverFormId +"&formSources=2'>" + value + "</a>";
-            }},
-            {field:'sourceBranchCode',title: '发货机构编码', width: '100px', align: 'left'},
-            {field: 'sourceBranchName', title: '发货机构', width: '200px', align: 'left'},
-            {field: 'targetBranchCode', title: '要货机构编码', width: '100px', align: 'left'},
-            {field: 'targetBranchName', title: '要货机构', width: '200px', align: 'left'},
+			{field:'formNo',title:'单据编号',width:'130px',align:'left',
+				formatter:function(value,row,index){
+	                if(!value){
+	                    return '<div class="ub ub-pc ufw-b">合计</div> '
+	                }
+					var hrefStr='parent.addTab("详情","'+contextPath+'/form/deliverForm/deliverEdit?report=close&deliverFormId='+row.deliverFormId+'")';
+					return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
+	            }
+			},
+            {field:'sourceBranchCode',title: '发货机构编码', width: '80px', align: 'left'},
+            {field: 'sourceBranchName', title: '发货机构', width: '80px', align: 'left'},
+            {field: 'targetBranchCode', title: '要货机构编码', width: '80px', align: 'left'},
+            {field: 'targetBranchName', title: '要货机构', width: '80px', align: 'left'},
             {field: 'amount', title: '单据金额', width: '80px', align: 'right',
             	formatter:function(value,row,index){
-            		if(row.isFooter){
-            			return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-            		}
             		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
             	}
             },
 			{field: 'dealStatus', title: '单据状态', width: '60px', align: 'left'},
-			{field: 'validityTime', title: '有效期限', width: '120px', align: 'center',
+			{field: 'validityTime', title: '有效期限', width: '115px', align: 'center',
 				formatter: function (value, row, index) {
 					if (value) {
 						return new Date(value).format('yyyy-MM-dd');
@@ -54,7 +57,7 @@ function initDatagridRequireOrders(){
 					return "";
 				}
 			},
-			{field: 'remark', title: '备注', width: '200px', align: 'left'}
+			{field: 'remark', title: '备注', width: '100px', align: 'left'}
         ]],
 		onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
@@ -73,48 +76,17 @@ function queryForm(){
 }
 
 /**
- * 发货机构
- */
-/*function selectSourceBranches(){
-	new publicAgencyService(function(data){
-        if($("#sourceBranchId").val()!=data.branchesId){
-            $("#sourceBranchId").val(data.branchesId);
-            $("#sourceBranchName").val(data.branchName);
-            gridHandel.setLoadData([$.extend({},gridDefault)]);
-        }
-	},'DA',$("#targetBranchId").val());
-}*/
-
-/**
- * 收货机构
- */
-/*function selectTargetBranches(){
-	var targetBranchType = $("#targetBranchType").val();
-	if(targetBranchType != '0' && targetBranchType != '1'){
-		return;
-	}
-	new publicAgencyService(function(data){
-        $("#targetBranchId").val(data.branchesId);
-        $("#targetBranchName").val(data.branchName);
-	},'DA','');
-}*/
-
-/**
  * 查询机构
  */
 var branchId;
 var brancheType;
 function selectBranches(){
-	/*if(brancheType != '0' && brancheType != '1'){
-		return;
-	}*/
 	new publicAgencyService(function(data){
         if($("#branchId").val()!=data.branchesId){
             $("#branchId").val(data.branchesId);
             $("#branchName").val(data.branchName);
-            //gridHandel.setLoadData([$.extend({},gridDefault)]);
         }
-	},'',branchId);
+	},'DV',branchId);
 }
 
 /**

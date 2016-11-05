@@ -15,9 +15,13 @@
 		<form id="queryForm" action="" method="post">
 				<div class="ub ub-ac">
 		            <div class="ubtns">
-						<div class="ubtns-item" onclick="queryForm()">查询</div>
-						<div class="ubtns-item"  onclick="exportData()">导出</div>
-						<div class="ubtns-item" id="set" onclick="resetForm()">重置</div>
+						<shiro:hasPermission name="JxcDeliverList:search">
+							<div class="ubtns-item" onclick="queryForm()">查询</div>
+						</shiro:hasPermission>
+						<shiro:hasPermission name="JxcDeliverList:export">
+							<div class="ubtns-item"  onclick="exportData()">导出</div>
+						</shiro:hasPermission>
+						<div class="ubtns-item" id="set" onclick="gFunRefresh()">重置</div>
 		                <div class="ubtns-item" onclick="toClose()">退出</div>
 		            </div>
 		        	<div class="ub ub-ac umar-l20">
@@ -26,16 +30,20 @@
 				</div>
 	            <div class="ub umar-t8">
 	                <div class="ub ub-ac">
-	                    <div class="umar-r10 uw-70 ut-r">单据编号:</div>
-	                    <input class="uinp" type="text" id="formNo" name="formNo">
-	                </div>
-	                <div class="ub ub-ac uw-300 umar-l40">
 	                    <div class="umar-r10 uw-70 ut-r">查询机构:</div>
 	                    <input type="hidden" id="branchId" name="branchId" value="${branchesGrow.branchesId}"/>
 	                    <input type="hidden" id="brancheType" name="brancheType" value="${branchesGrow.type}"/>
 	                    <input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" value="${branchesGrow.branchName}" onclick="selectBranches()" readonly="readonly"/>
 	                    <div class="uinp-more" onclick="selectBranches()" >...</div>
 	                </div>
+	                <div class="ub ub-ac uw-300 umar-l40">
+	                    <div class="umar-r10 uw-70 ut-r">单据编号:</div>
+	                    <input class="uinp" type="text" id="formNo" name="formNo">
+	                </div>
+	                <div class="ub ub-ac umar-r40">
+		                <div class="umar-r10 uw-60 ut-r">货号:</div>
+		                <input class="uinp" name=skuCode id="skuCode" type="text">
+		            </div>
 	                <%-- <div class="ub ub-ac uw-300 umar-l40">
 	                    <div class="umar-r10 uw-70 ut-r">收货机构:</div>
 	                    <input type="hidden" id="targetBranchId" name="targetBranchId" value="${branchesGrow.targetBranchId}"/>
@@ -46,24 +54,20 @@
 	            </div>
 	            <div class="ub umar-t8">
 	                <div class="ub ub-ac umar-r48">
-						<div class="umar-r10 uw-60 ut-r">商品类别:</div>
+						<div class="umar-r10 uw-70 ut-r">商品类别:</div>
 						<input id="goodsCategoryId" name="goodsCategoryId" class="uinp" type="hidden"> 
 						<input id="categoryCode" name="categoryCode" class="uinp" type="hidden"> 
 					    <input id="categoryName" name="categoryName" class="uinp" type="text" readonly="readonly" data-options="required:true">
 						<div class="uinp-more new-right" onclick="getGoodsType()">...</div>
 					</div>
 		            <div class="ub ub-ac">
-	                   <div class="umar-r10 uw-70 ut-r">单据类型:</div>
-	                   <select class="uselect easyui-combobox" name="deliverType" id="deliverType">
+	                   <div class="umar-r10 uw-60 ut-r">单据类型:</div>
+	                   <select class="uselect easyui-combobox" style="width:224px"  name="deliverType" id="deliverType">
 	                   		<option value="">全部</option>
 	                   		<option value="DO">配送出库</option>
 	                        <option value="DI">配送入库</option>
 	                   </select>
 	               </div>
-	               <div class="ub ub-ac umar-r40">
-		                <div class="umar-r10 uw-60 ut-r">货号:</div>
-		                <input class="uinp" name=skuCode id="skuCode" type="text">
-		           </div>
 	            </div>
        	</form>
         <div class="ub ub-f1  umar-t8 umar-b8">

@@ -5,14 +5,15 @@ var datagridId = "pricePrint";
 $(function(){
 	//初始化列表
 	initPricePrintGrid();
-
 	$('#printnum').on('input',function(){
 		printRows($(this).val());
+
 	})
 	$('#discount').on('keyup',function(){
 		discountRows($(this).val());
 	})
 });
+
 var gridHandel = new GridClass();
 function initPricePrintGrid() {
     gridHandel.setGridName("pricePrint");
@@ -78,11 +79,17 @@ function initPricePrintGrid() {
 		           },
 
 		           {field: 'printCount', title: '打印数', width: 80, align: 'center',
+		        	   formatter:function(value,row,index){
+		        		   if(!value){
+		                    	row["printCount"] =1;
+		                    }
+		        		   return row["printCount"];
+		        	   },
 		        	   editor:{
 		        		   type:'numberbox',
+		        		   precision:200,
 		        		   options:{
 		        			   min:1,
-		        			   precision:0,
 		        		   }
 		        	   },
 		        	  
@@ -112,13 +119,13 @@ function toImportproduct(type){
 function updateListData(data){
 	    var keyNames = {
 	        id:'skuId',
-	        promotionPrice:"salePrice"
+	        salePrice:'promotionPrice'
 	    };
 	    var rows = gFunUpdateKey(data,keyNames);
 	    var argWhere ={skuCode:1};  //验证重复性
 	    var isCheck ={isGift:1 };   //只要是赠品就可以重复
 	    var newRows = gridHandel.checkDatagrid(data,rows,argWhere,isCheck);
-
+         console.log(newRows);
 	    $("#pricePrint").datagrid("loadData",data);
 	}
 

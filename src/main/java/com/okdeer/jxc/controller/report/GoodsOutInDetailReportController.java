@@ -6,6 +6,11 @@
  */    
 package com.okdeer.jxc.controller.report;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.LogConstant;
+import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.report.service.GoodsOutInDetailServiceApi;
@@ -52,12 +59,48 @@ public class GoodsOutInDetailReportController extends BaseController<GoodsOutInD
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
 			vo.setSourceBranchId(UserUtil.getCurrBranchId());
-			PageUtils<GoodsOutInDetailVo> goodsSaleReportList = goodsOutInDetailServiceApi.getGoodsOutInDetailList(vo);
-			LOG.info(LogConstant.PAGE, goodsSaleReportList.toString());
-			return goodsSaleReportList;
+			PageUtils<GoodsOutInDetailVo> goodsOutInfoDetailList = goodsOutInDetailServiceApi.getGoodsOutInDetailList(vo);
+			GoodsOutInDetailVo goodsOutInDetailVo = goodsOutInDetailServiceApi.queryGoodsOutInDetailCountSum(vo);
+			List<GoodsOutInDetailVo> footer = new ArrayList<GoodsOutInDetailVo>();
+			footer.add(goodsOutInDetailVo);
+			goodsOutInfoDetailList.setFooter(footer);
+			LOG.info(LogConstant.PAGE, goodsOutInfoDetailList.toString());
+			return goodsOutInfoDetailList;
 		} catch (Exception e) {
 			LOG.error("类别销售列表信息异常:{}", e);
 		}
 		return null;
 	}	
+	
+
+	/**
+	 * 
+	 * @Description: 导出
+	 * @param response
+	 * @param vo
+	 * @return
+	 * @author liux01
+	 * @date 2016年10月27日
+	 */
+	@RequestMapping(value = "/exportList", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson exportList(HttpServletResponse response, GoodsOutInDetailVo vo) {
+		RespJson resp = RespJson.success();
+		try {
+			vo.setSourceBranchId(UserUtil.getCurrBranchId());
+			List<GoodsOutInDetailVo> exportList = goodsOutInDetailServiceApi.exportList(vo);
+			GoodsOutInDetailVo goodsOutInDetailVo = goodsOutInDetailServiceApi.queryGoodsOutInDetailCountSum(vo);
+			goodsOutInDetailVo.setBranchCode("合计：");
+			exportList.add(goodsOutInDetailVo);
+			String fileName = "商品出入库明细查询";
+
+			String templateName = ExportExcelConstant.GOODS_OUT_IN_DETAIL_REPORT;
+
+			exportListForXLSX(response, exportList, fileName, templateName);
+		} catch (Exception e) {
+			LOG.error("导出库存调整商品异常：{}", e);
+			resp = RespJson.error("导出库存调整商品异常");
+		}
+		return resp;
+	}
 }
