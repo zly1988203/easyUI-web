@@ -102,6 +102,13 @@ function initDatagridRequire(){
 				}
 			},
 			{field: 'costPrice', title: '进价', width: '60', align: 'right',
+				formatter:function(value,row,index){
+					if(row.isFooter){
+						return '';
+					}
+
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				},
 				editor:{
 					type:'numberbox',
 					options:{
@@ -158,7 +165,7 @@ function initDatagridRequire(){
 			{field: 'spec', title: '规格', width: '45', align: 'left'},
 			{field: 'unit', title: '单位', width: '45', align: 'left'},
 			{field: 'pricingType', title: '计价方式', width: '56', align: 'left'},
-			{field: 'categoryCode', title: '类别编码', width: '56', align: 'right'},
+			{field: 'categoryCode', title: '类别编码', width: '56', align: 'left'},
 			{field: 'categoryName', title: '类别名称', width: '65', align: 'left'},
 
             {field: 'supplierName', title: '供应商名称', width: '185', align: 'left'}
