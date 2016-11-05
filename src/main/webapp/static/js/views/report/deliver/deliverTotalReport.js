@@ -255,7 +255,7 @@ function initCashDailymdGrid(queryType) {
 	            				var hrefStr='parent.addTab("详情","'+contextPath+'/form/deliverForm/deliverEdit?report=close&deliverFormId='+row.referenceId+'")';
 	            				return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
 	            			}else{
-	            				return '<div class="ub  ufw-b">合计</div>'; 
+	            				return ''; 
 	            			}
 		                }    
 		           },

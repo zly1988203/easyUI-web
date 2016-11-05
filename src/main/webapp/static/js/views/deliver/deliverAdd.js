@@ -60,6 +60,7 @@ function initDatagridAddRequireOrder(){
             {field:'barCode',title:'条码',width:'150px',align:'left',
                 formatter:function(value,row,index){
                     var str = "";
+                    debugger;
                     if(row.isFooter){
                         str ='<div class="ub ub-pc" style="color:red;">起订金额：<span id="spanMinAmount"> ' + $("#minAmount").val() +'</span></div> '
                     }else{
