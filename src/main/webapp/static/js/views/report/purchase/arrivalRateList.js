@@ -126,8 +126,11 @@ function initDatagridByFormNo(){
             {field:'supplierCode',title:'供应商编号',width:'140px',align:'left'},
             {field:'supplierName',title:'供应商名称',width:'140px',align:'left'},
             {field:'formNo',title:'单据编号',width:'140px',align:'left',formatter:function(value,row,index){
-            	hrefStr='parent.addTab("详情","'+contextPath+'/form/purchase/orderEdit?report=close&formId='+row.id+'")';
-    			return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
+            	if(value!=null){
+            		hrefStr='parent.addTab("详情","'+contextPath+'/form/purchase/orderEdit?report=close&formId='+row.id+'")';
+            		return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
+            	}
+            	return "";
             }},
             {field:'arrivalRate',title:'到货率',width:'140px',align:'right',
 				formatter : function(value, row, index) {
