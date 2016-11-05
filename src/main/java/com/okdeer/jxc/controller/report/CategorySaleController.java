@@ -96,7 +96,7 @@ public class CategorySaleController extends BaseController<CategorySaleControlle
 			vo.setSourceBranchId(UserUtil.getCurrBranchId());
 			List<CategorySaleReportVo> exportList = categorySaleReportServiceApi.exportList(vo);
 
-			String fileName = "类别销售汇总";
+			String fileName = "类别销售分析表";
 
 			String templateName = ExportExcelConstant.CATEGORY_SALE_REPORT;
 
