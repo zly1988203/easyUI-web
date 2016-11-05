@@ -25,9 +25,9 @@ function initDatagridRequire(){
             {field:'branchName',title:'机构名称',width:'86px',align:'left',
             	formatter : function(value, row,index) {
                     var str = value;
-                    if(row.isFooter){
-                        str ='<div class="ub ub-pc ufw-b">合计</div> '
-                    }
+                    if(!value){
+	                    return '<div class="ub ub-pc ufw-b">合计</div> '
+	                }
                     return str;
                 }
             },
@@ -53,9 +53,6 @@ function initDatagridRequire(){
             },
             {field:'saleRate', title: '销售占比', width: '60px', align: 'right',
             	formatter:function(value,row,index){
-            		if(row.isFooter){
-                        return '';
-                    }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'%</b>';
                 },
             	editor:{
@@ -70,18 +67,18 @@ function initDatagridRequire(){
       ]],
       onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
-			updateFooter();
+			//updateFooter();
 		}
     });
     //queryForm();
 }
 
 //合计
-function updateFooter(){
+/*function updateFooter(){
     var fields = {saleAmount:0};
     sum(fields);
-}
-function sum(fields) {
+}*/
+/*function sum(fields) {
 	var fromObjStr = $('#queryForm').serializeObject();
 	$.ajax({
     	url : contextPath+"/categorySale/report/sum",
@@ -99,7 +96,7 @@ function sum(fields) {
     		successTip("请求发送失败或服务器处理失败");
     	}
     });
-}
+}*/
 //查询入库单
 function queryForm(){
 	var fromObjStr = $('#queryForm').serializeObject();
