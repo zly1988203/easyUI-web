@@ -40,9 +40,9 @@ function initDatagridRequireOrders(){
 					return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
 				}
 			},
-            {field: 'sourceBranchCode', title: '发货机构编码', width: '56px', align: 'left'},
+            {field: 'sourceBranchCode', title: '发货机构编码', width: '80px', align: 'left'},
             {field: 'sourceBranchName', title: '发货机构', width: '86px', align: 'left'},
-            {field: 'targetBranchCode', title: '要货机构编码', width: '56px', align: 'left'},
+            {field: 'targetBranchCode', title: '要货机构编码', width: '80px', align: 'left'},
             {field: 'targetBranchName', title: '要货机构', width: '86px', align: 'left'},
             {field:'referenceNo',title:'引用单号',width:'130px',align:'left',
             	formatter:function(value,row,index){

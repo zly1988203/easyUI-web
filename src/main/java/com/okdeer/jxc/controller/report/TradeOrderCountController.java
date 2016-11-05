@@ -7,6 +7,7 @@
 
 package com.okdeer.jxc.controller.report;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +26,6 @@ import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.LogConstant;
 import com.okdeer.jxc.common.controller.BasePrintController;
-import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.StringUtils;
@@ -64,9 +64,6 @@ public class TradeOrderCountController extends BasePrintController<TradeOrderCou
 	 */
 	@RequestMapping(value = "view")
 	public String view(Model model) {
-		// SysUser user = getCurrentUser();
-		// Branches branchesGrow = branchesServiceApi.getBranchInfoById(user.getBranchId());
-		// model.addAttribute("branchesGrow", branchesGrow);
 		return "report/order/tradeOrderCount";
 	}
 
@@ -96,49 +93,21 @@ public class TradeOrderCountController extends BasePrintController<TradeOrderCou
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
 			PageUtils<TradeOrderCountVo> tradeOrderCountVos = tradeOrderCountServiceApi.queryLists(vo);
+
+			TradeOrderCountVo tradeOrderCountVo = tradeOrderCountServiceApi.queryTradeOrderCountSum(vo);
+
+			List<TradeOrderCountVo> footer = new ArrayList<TradeOrderCountVo>();
+			if (tradeOrderCountVo != null) {
+				footer.add(tradeOrderCountVo);
+			}
+			tradeOrderCountVos.setFooter(footer);
+
 			LOG.info(LogConstant.PAGE, tradeOrderCountVos.toString());
 			return tradeOrderCountVos;
 		} catch (Exception e) {
 			LOG.error("店铺销售排名列表查询出现异常:{}", e);
 		}
 		return null;
-	}
-
-	/**
-	 * @Description: 店铺销售排名合计
-	 * @param vo
-	 * @return
-	 * @author zhangchm
-	 * @date 2016年10月27日
-	 */
-	@RequestMapping(value = "sum", method = RequestMethod.POST)
-	@ResponseBody
-	public RespJson sum(TradeOrderCountQo vo) {
-		LOG.info(LogConstant.OUT_PARAM, vo.toString());
-		RespJson respJson = RespJson.success();
-		try {
-			if (vo.getEndTime() != null) {
-				Date time = DateUtils.getNextDay(vo.getEndTime());
-				vo.setEndTime(time);
-			}
-			if (StringUtils.isNullOrEmpty(vo.getBranchId())) {
-				vo.setBranchId(getCurrBranchId());
-			}
-			TradeOrderCountVo tradeOrderCountVo = tradeOrderCountServiceApi.queryTradeOrderCountSum(vo);
-			if (tradeOrderCountVo != null) {
-				LOG.info(LogConstant.PAGE, tradeOrderCountVo.toString());
-				respJson.put("sumAmount", tradeOrderCountVo.getSumAmount());
-				respJson.put("sumSaleNum", tradeOrderCountVo.getSumSaleNum());
-				respJson.put("sumNum", tradeOrderCountVo.getSumNum());
-				respJson.put("sumLineAmount", tradeOrderCountVo.getSumLineAmount());
-				respJson.put("sumLineSaleNum", tradeOrderCountVo.getSumLineSaleNum());
-			}
-		} catch (Exception e) {
-			LOG.error("店铺销售排名合计出现异常:{}", e);
-			respJson = RespJson.error("店铺销售排名合计失败！");
-		}
-
-		return respJson;
 	}
 
 	/**
@@ -160,17 +129,9 @@ public class TradeOrderCountController extends BasePrintController<TradeOrderCou
 				vo.setBranchId(getCurrBranchId());
 			}
 			List<TradeOrderCountVo> exportList = tradeOrderCountServiceApi.queryTradeOrderCount(vo);
-
 			TradeOrderCountVo tradeOrderCountVo = tradeOrderCountServiceApi.queryTradeOrderCountSum(vo);
 			tradeOrderCountVo.setBranchName("合计：");
-			tradeOrderCountVo.setTotalAmount(tradeOrderCountVo.getSumAmount());
-			tradeOrderCountVo.setTotalSaleNum(tradeOrderCountVo.getSumSaleNum());
-			tradeOrderCountVo.setTotalNum(tradeOrderCountVo.getSumNum());
-			tradeOrderCountVo.setTotalLineAmount(tradeOrderCountVo.getSumLineAmount());
-			tradeOrderCountVo.setTotalLineSaleNum(tradeOrderCountVo.getSumLineSaleNum());
-
 			exportList.add(tradeOrderCountVo);
-
 			String fileName = "店铺销售排名";
 			String templateName = ExportExcelConstant.TRADE_ORDER_COUNT_REPORT;
 			// 导出Excel

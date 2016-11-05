@@ -39,10 +39,10 @@ function initDatagridRequireOrders(){
 					return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
 	            }
 			},
-             {field:'sourceBranchCode',title: '发货机构编码', width: '56px', align: 'left'},
-            {field: 'sourceBranchName', title: '发货机构', width: '86px', align: 'left'},
-            {field: 'targetBranchCode', title: '要货机构编码', width: '56px', align: 'left'},
-            {field: 'targetBranchName', title: '要货机构', width: '86px', align: 'left'},
+            {field:'sourceBranchCode',title: '发货机构编码', width: '80px', align: 'left'},
+            {field: 'sourceBranchName', title: '发货机构', width: '80px', align: 'left'},
+            {field: 'targetBranchCode', title: '要货机构编码', width: '80px', align: 'left'},
+            {field: 'targetBranchName', title: '要货机构', width: '80px', align: 'left'},
             {field: 'amount', title: '单据金额', width: '80px', align: 'right',
             	formatter:function(value,row,index){
             		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -74,33 +74,6 @@ function queryForm(){
 	$("#deliverFormList").datagrid('options').url = contextPath + '/form/deliverReport/getDaForms';
 	$("#deliverFormList").datagrid('load', fromObjStr);
 }
-
-/**
- * 发货机构
- */
-/*function selectSourceBranches(){
-	new publicAgencyService(function(data){
-        if($("#sourceBranchId").val()!=data.branchesId){
-            $("#sourceBranchId").val(data.branchesId);
-            $("#sourceBranchName").val(data.branchName);
-            gridHandel.setLoadData([$.extend({},gridDefault)]);
-        }
-	},'DA',$("#targetBranchId").val());
-}*/
-
-/**
- * 收货机构
- */
-/*function selectTargetBranches(){
-	var targetBranchType = $("#targetBranchType").val();
-	if(targetBranchType != '0' && targetBranchType != '1'){
-		return;
-	}
-	new publicAgencyService(function(data){
-        $("#targetBranchId").val(data.branchesId);
-        $("#targetBranchName").val(data.branchName);
-	},'DA','');
-}*/
 
 /**
  * 查询机构
