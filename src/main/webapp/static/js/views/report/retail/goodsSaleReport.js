@@ -25,9 +25,9 @@ function initDatagridRequire(){
             {field:'branchName',title:'店铺名称',width:'86px',align:'left',
             	formatter : function(value, row,index) {
                     var str = value;
-                    if(row.isFooter){
-                        str ='<div class="ub ub-pc ufw-b">合计</div> '
-                    }
+                    if(!value){
+	                    return '<div class="ub ub-pc ufw-b">合计</div> '
+	                }
                     return str;
                 }
             },
@@ -189,43 +189,12 @@ function initDatagridRequire(){
         ]],
         onLoadSuccess:function(data){
         	gridHandel.setDatagridHeader("center");
-        	updateFooter();
-        	//countSet(data);		
+
         }
     });
    // queryForm();
 }
-//合计
-function updateFooter(){
-    var fields = {originalAmount:0,discountAmount:0,saleAmount:0,saleNum:0,returnAmount:0,returnNum:0,totalAmount:0,totalNum:0,isGift:0};
-    sum(fields);
-}
-function sum(fields) {
-	var fromObjStr = $('#queryForm').serializeObject();
-	$.ajax({
-    	url : contextPath+"/goodsSale/report/sum",
-    	type : "POST",
-    	data : fromObjStr,
-    	success:function(result){
-    		if(result['code'] == 0){
-    			fields.originalAmount = result['originalAmountSum'];
-    			fields.discountAmount = result['discountAmountSum'];
-    			fields.returnAmount = result['returnAmountSum'];
-    			fields.returnNum = result['returnNumSum'];
-    			fields.saleAmount = result['saleAmountSum'];
-    			fields.saleNum = result['saleNumSum'];
-    			fields.totalAmount = result['totalAmountSum'];
-    			fields.totalNum = result['totalNumSum'];
-    			$("#storeSale").datagrid('reloadFooter',[$.extend({"isFooter":true,},fields)]);
-    		}else{
-    			successTip(result['message']);
-    		}
-    	},
-    	error:function(result){
-    		successTip("请求发送失败或服务器处理失败");
-    	}
-    });
-}
+
 //查询入库单
 function queryForm(){
 	var fromObjStr = $('#queryForm').serializeObject();
