@@ -33,9 +33,8 @@ function initDatagridRequireOrders(){
 			{field:'check',checkbox:true},
             {field:'branchName',title:'机构名称',width:'86px',align:'left',
 				formatter:function(value,row,index){
-					if(row.isFooter){
-	                    str ='<div class="ub ub-pc ufw-b">合计</div> '
-	                    return str;
+					if(!value){
+	                    return '<div class="ub ub-pc ufw-b">合计</div> '
 	                }
 					return value;
 				}
@@ -43,49 +42,34 @@ function initDatagridRequireOrders(){
             {field: 'areaName', title: '所在区域', width: '86px', align: 'left'},
             {field: 'totalAmount', title: '销额/元', width: '80px', align: 'right',
             	formatter:function(value,row,index){
-                    if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                    }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
             {field: 'totalSaleNum', title: '销量', width: '80px', align: 'right',
             	formatter:function(value,row,index){
-                    if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                    }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
             {field: 'totalNum', title: '总订单数', width: '80px', align: 'right',
             	formatter:function(value,row,index){
-                    if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                    }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
             {field:'price',title:'客单价/元',width:'80px',align:'right',
             	formatter:function(value,row,index){
-            		if(row.isFooter){
-						return ;
-					}
+            		if(!value){
+                        return '';
+                    }
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
             {field: 'totalLineAmount', title: '线上销额/元', width: '80px', align: 'right',
             	formatter:function(value,row,index){
-                    if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                    }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
             {field: 'totalLineSaleNum', title: '线上销量', width: '80px', align: 'right',
             	formatter:function(value,row,index){
-                    if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                    }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
@@ -93,7 +77,6 @@ function initDatagridRequireOrders(){
         ]],
 		onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
-			updateFooter();
 		}
     });
 }
@@ -105,36 +88,6 @@ function queryForm(){
 	$("#gridOrders").datagrid("options").method = "post";
 	$("#gridOrders").datagrid('options').url = contextPath + '/bill/tradeOrderCount/getTradeOrderCounts';
 	$("#gridOrders").datagrid('load', fromObjStr);
-}
-
-//合计
-function updateFooter(){
-    var fields = {totalAmount:0,totalSaleNum:0,totalNum:0,totalLineAmount:0,totalLineSaleNum:0};
-    sum(fields);
-}
-
-function sum(fields) {
-	var fromObjStr = $('#queryForm').serializeObject();
-	$.ajax({
-    	url : contextPath+"/bill/tradeOrderCount/sum",
-    	type : "POST",
-    	data : fromObjStr,
-    	success:function(result){
-    		if(result['code'] == 0){
-    			fields.totalAmount = result['sumAmount'];
-    			fields.totalSaleNum = result['sumSaleNum'];
-    			fields.totalNum = result['sumNum'];
-    			fields.totalLineAmount = result['sumLineAmount'];
-    			fields.totalLineSaleNum = result['sumLineSaleNum'];
-    			$("#gridOrders").datagrid('reloadFooter',[$.extend({"isFooter":true,},fields)]);
-    		}else{
-    			successTip(result['message']);
-    		}
-    	},
-    	error:function(result){
-    		successTip("请求发送失败或服务器处理失败");
-    	}
-    });
 }
 
 /**
