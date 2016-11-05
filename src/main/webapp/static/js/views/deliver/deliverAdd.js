@@ -324,16 +324,13 @@ function setDataValue(data) {
          var rows = gFunUpdateKey(addDefaultData,keyNames);
          var argWhere ={skuCode:1};  //验证重复性
          var isCheck ={isGift:1 };   //只要是赠品就可以重复
-         
-         console.log($("#spanMinAmount").html());
-         debugger;
          var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
          $("#gridEditOrder").datagrid("loadData",newRows);
-        setTimeout(function(){
+         setTimeout(function(){
             gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
             gridHandel.setSelectFieldName("largeNum");
             gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
-        },100)
+         },100)
 }
 
 // 查询价格、库存
@@ -532,7 +529,6 @@ function selectTargetBranch(){
         }
         if (data.type == '1') {
         	$("#salesman").val(data.salesman);
-        	debugger;
         	$("#spanMinAmount").html(data.minAmount);
         	$("#minAmount").val(data.minAmount);
         	$("#sourceBranchId").val('');
