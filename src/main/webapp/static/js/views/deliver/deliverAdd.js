@@ -324,6 +324,9 @@ function setDataValue(data) {
          var rows = gFunUpdateKey(addDefaultData,keyNames);
          var argWhere ={skuCode:1};  //验证重复性
          var isCheck ={isGift:1 };   //只要是赠品就可以重复
+         
+         console.log($("#spanMinAmount").html());
+         debugger;
          var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
          $("#gridEditOrder").datagrid("loadData",newRows);
         setTimeout(function(){
@@ -529,7 +532,9 @@ function selectTargetBranch(){
         }
         if (data.type == '1') {
         	$("#salesman").val(data.salesman);
+        	debugger;
         	$("#spanMinAmount").html(data.minAmount);
+        	$("#minAmount").val(data.minAmount);
         	$("#sourceBranchId").val('');
             $("#sourceBranchName").val('');
         }
@@ -550,6 +555,7 @@ function getSourceBranch(branchesId) {
                 $("#validityTime").val(new Date(result['validityTime']).format('yyyy-MM-dd'));
                 $("#salesman").val(result['salesman']);
                 $("#spanMinAmount").html(result['minAmount']);
+                $("#minAmount").val(result['minAmount']);
     		}else{
     			successTip(result['message']);
     		}
