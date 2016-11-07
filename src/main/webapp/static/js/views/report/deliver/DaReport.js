@@ -1,10 +1,9 @@
 /**
  * Created by zhanghuan on 2016/8/30.
- * 要货单
+ * 要货单状态跟踪
  */
 $(function(){
 	//开始和结束时间
-
     toChangeDatetime(10);
     initDatagridRequireOrders();
     branchId = $("#branchId").val();
@@ -86,7 +85,7 @@ function selectBranches(){
             $("#branchId").val(data.branchesId);
             $("#branchName").val(data.branchName);
         }
-	},'DV',branchId);
+	},'',branchId);
 }
 
 /**

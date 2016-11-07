@@ -526,6 +526,12 @@ function saveOrder(){
             isCheckResult = false;
             return false;
         }
+        if(v["sourceStock"]==0){
+            messager("第"+(i+1)+"行，库存为0");
+            isCheckResult = true;
+            return true;
+        }
+        
         v["rowNo"] = i+1;
     });
     if(!isCheckResult){
