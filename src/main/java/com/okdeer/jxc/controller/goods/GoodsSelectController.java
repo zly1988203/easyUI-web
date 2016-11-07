@@ -309,18 +309,20 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 			BeanUtils.copyProperties(goodsSelect, goodsSelectDeliver);
 			goodsSelectDelivers.add(goodsSelectDeliver);
 		}
-		if (StringUtils.isEmpty(goodsStockVos.getGoodsSkuVo().get(0).getNum())) {
+		if (StringUtils.isEmpty(goodsStockVos.getGoodsSkuVo().get(0).getLargeNum())) {
 			return goodsSelectDelivers;
 		} else {
 			Map<String, GoodsSkuVo> map = getGoodsSkuVo(goodsStockVos);
 			if (flag) {
 				for (GoodsSelectDeliver temp : goodsSelectDelivers) {
-					temp.setNum(map.get(temp.getId()).getNum());
+//					temp.setNum(map.get(temp.getId()).getNum());
+					temp.setLargeNum(map.get(temp.getId()).getLargeNum());
 				}
 			} else {
 				for (GoodsSelectDeliver temp : goodsSelectDelivers) {
 					GoodsSkuVo vo = map.get(temp.getId());
-					temp.setNum(vo.getNum());
+//					temp.setNum(vo.getNum());
+					temp.setLargeNum(vo.getLargeNum());
 					temp.setIsGift(vo.getIsGift());
 				}
 			}
