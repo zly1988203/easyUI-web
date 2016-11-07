@@ -22,7 +22,7 @@ function initDatagridRequire(){
 		pageSize:50,
 		width:'100%',
         columns:[[
-            {field:'branchName',title:'机构名称',width:'86px',align:'left',
+            {field:'branchName',title:'机构名称',width:'220px',align:'left',
             	formatter : function(value, row,index) {
                     var str = value;
                     if(!value){

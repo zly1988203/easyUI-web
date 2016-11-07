@@ -22,7 +22,7 @@ function initDatagridRequire(){
 		height:'100%',
 		width:'100%',
         columns:[[
-            {field:'branchName',title:'店铺名称',width:'86px',align:'left',
+            {field:'branchName',title:'店铺名称',width:'220px',align:'left',
             	formatter : function(value, row,index) {
                     var str = value;
                     if(!value){
@@ -34,7 +34,6 @@ function initDatagridRequire(){
               {field:'skuCode',title: '货号', width: '55px', align: 'left'},
 			{field: 'skuName', title: '商品名称', width: '185px', align: 'left'},
 			{field: 'barCode', title: '条码', width: '100px', align: 'left'},
-			{field: 'categoryName', title: '类别名称', width: '65px', align: 'left'},
             {field: 'originalAmount', title: '原价金额', width: '80px', align: 'right',
             	formatter:function(value,row,index){
             		 if(row.isFooter){
@@ -184,7 +183,8 @@ function initDatagridRequire(){
                      }
                  }
             },
-            {field: 'spec', title: '规格', width: '45px', align: 'left'},
+            {field: 'categoryName', title: '类别名称', width: '65px', align: 'left'},
+            {field: 'spec', title: '规格', width: '55px', align: 'left'},
             {field: 'unit', title: '单位', width: '45px', align: 'left'}
         ]],
         onLoadSuccess:function(data){
