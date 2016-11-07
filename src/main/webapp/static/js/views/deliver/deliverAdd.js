@@ -11,7 +11,7 @@ $(function(){
 
 var gridDefault = {
     applyNum:0,
-    largeNum:0,
+    //largeNum:0,
     isGift:0,
 }
 var gridHandel = new GridClass();
@@ -60,7 +60,6 @@ function initDatagridAddRequireOrder(){
             {field:'barCode',title:'条码',width:'150px',align:'left',
                 formatter:function(value,row,index){
                     var str = "";
-                    debugger;
                     if(row.isFooter){
                         str ='<div class="ub ub-pc" style="color:red;">起订金额：<span id="spanMinAmount"> ' + $("#minAmount").val() +'</span></div> '
                     }else{
@@ -658,7 +657,7 @@ function selectStockAndPriceImport(sourceBranchId,targetBranchId,data){
 	$.each(data,function(i,val){
 		var temp = {
 				id : val.skuId,
-				num : val.num
+				largeNum : val.largeNum
 		};
 		GoodsStockVo.goodsSkuVo[i] = temp;
 	});
@@ -669,6 +668,7 @@ function selectStockAndPriceImport(sourceBranchId,targetBranchId,data){
     		goodsStockVo : JSON.stringify(GoodsStockVo)
     	},
     	success:function(result){
+    
     		updateListData(result);
     	},
     	error:function(result){
@@ -688,6 +688,7 @@ function updateListData(data){
          num : 'applyNum'
      };
      var rows = gFunUpdateKey(addDefaultData,keyNames);
+     console.log(rows);
      for(var i in rows){
          rows[i].remark = "";
          rows[i]["amount"]  = parseFloat(rows[i]["price"]||0)*parseFloat(rows[i]["applyNum"]||0);
@@ -702,6 +703,7 @@ function updateListData(data){
      var argWhere ={skuCode:1};  //验证重复性
      var isCheck ={isGift:1 };   //只要是赠品就可以重复
      var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
+     console.log(newRows);
      $("#gridEditOrder").datagrid("loadData",newRows);
     setTimeout(function(){
         gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
