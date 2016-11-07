@@ -51,7 +51,7 @@
             </div>
             <div class="ub ub-ac umar-l20">
                 <div class="umar-r10 uw-60 ut-r">制单日期:</div>
-                <div class="utxt" id="createTime"><fmt:formatDate value="${form.createTime}" pattern="yyyy-MM-dd hh:mm"/></div>
+                <div class="utxt" id="createTime"><fmt:formatDate value="${form.createTime}" pattern="yyyy-MM-dd HH:mm"/></div>
             </div>
         </div>
         <div class="ub umar-t8">
