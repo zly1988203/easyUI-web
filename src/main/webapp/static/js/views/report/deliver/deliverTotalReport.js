@@ -245,10 +245,10 @@ function initCashDailymdGrid(queryType) {
 		            			}
 		                }   
 		           },
-		           {field: 'sourceBranchCode', title: '发货机构编码', width:'56px', align: 'left'},
+		           {field: 'sourceBranchCode', title: '发货机构编码', width:'80px', align: 'left'},
 		           {field: 'sourceBranchName', title: '发货机构', width:'86px', align: 'left'},
-		           {field: 'targetBranchCode', title: '要货机构编码', width:'56px', align: 'left'},
-		           {field: 'targetBranchName', title: '要货机构', width:'86px', align: 'left'},
+		           {field: 'targetBranchCode', title: '要货机构编码', width:'7px', align: 'left'},
+		           {field: 'targetBranchName', title: '要货机构', width:'80px', align: 'left'},
 		           {field: 'referenceNo', title: '引用单号', width:'130px', align: 'left',
 		        	   formatter:function(value,row,index){
 		        		   if(row.formId){
@@ -387,7 +387,7 @@ function initbranchGrid(queryType) {
 		showFooter:true,
 		pageSize : 50,
 		columns: [[
-		           {field: 'branchCode', title: '往来机构编码', width:'56px', align: 'left'},
+		           {field: 'branchCode', title: '往来机构编码', width:'80px', align: 'left'},
 		           {field: 'branchName', title: '往来机构名称', width:'86px', align: 'left'},
 		           {field: 'receiveNum', title: '调入数量', width:'80px', align: 'right',
 		        	   formatter:function(value,row,index){

@@ -62,7 +62,7 @@ function initDatagridRequire(){
 					}
                }
             },
-			{field: 'createTime', title: '日期时间', width: '115', align: 'left'},
+			{field: 'createTime', title: '日期时间', width: '135', align: 'left'},
             {field:'skuCode',title: '货号', width: '55', align: 'left'},
 			{field: 'skuName', title: '商品名称', width: '185', align: 'left'},
             {field:'barCode',title: '条码', width: '100', align: 'left'},
@@ -136,6 +136,13 @@ function initDatagridRequire(){
 				}
 			},
 			{field: 'salePrice', title: '售价', width: '60', align: 'right',
+				formatter:function(value,row,index){
+					if(row.isFooter){
+						return ' ';
+					}
+
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				},
 				editor:{
 					type:'numberbox',
 					options:{
