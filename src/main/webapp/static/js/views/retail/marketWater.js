@@ -24,7 +24,7 @@ function initMarketWaterGrid() {
         //showFooter:true,
         columns: [[
             {field: 'dpbh', title: '店铺编号', width: 200, align: 'center',  },
-            {field: 'dpmc', title: '店铺名称', width: 200, align: 'center',},
+            {field: 'dpmc', title: '店铺名称', width: 220, align: 'center',},
             {field: 'djbh', title: '单据编号', width: 150, align: 'center'},
             {field: 'shsj', title: '时间', width: 150, align: 'center'},
             {field: 'pm', title: '品名', width: 100, align: 'center'},

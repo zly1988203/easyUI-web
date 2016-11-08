@@ -19,7 +19,7 @@ function initDatagridOutbound(){
         //fit:true,            //占满
         showFooter:true,
         columns:[[
-            {field:'dh',title:'单号',width:100,align:'center'},
+            {field:'dh',title:'单号',width:135,align:'center'},
             {field:'shzt',title:'审核状态',width:100,align:'center'},
             {field:'qubm',title:'区域编码',width:100,align:'center'},
             {field:'qumc',title:'区域名称',width:100,align:'center'},
@@ -28,7 +28,7 @@ function initDatagridOutbound(){
             {field:'shr',title:'审核人',width:100,align:'center'},
             {field:'bz',title:'备注',width:100,align:'center'},
             {field:'zdjg',title:'制单机构',width:100,align:'center'},
-            {field:'zdjgmc',title:'制单机构名称',width:100,align:'center'},
+            {field:'zdjgmc',title:'制单机构名称',width:220,align:'center'},
         ]]
     });
 }

@@ -52,7 +52,7 @@ function initDatagridOrders(){
             {field:'branchId',title:'机构ID',width:0,align:'left',hidden:true},
             {field:'id',title:'店铺商品ID',width:0,align:'left',hidden:true},
             {field:'skuId',title:'标准商品ID',width:0,align:'left',hidden:true},
-        	{field:'branchName',title:'机构名称',width:100,align:'left'},
+        	{field:'branchName',title:'机构名称',width:220,align:'left'},
         	{field:'branchCode',title:'机构编码',width:100,align:'left'},
             {field:'skuCode',title:'货号',width:100,align:'left'},
             {field:'skuName',title:'商品名称',width:100,align:'left'},

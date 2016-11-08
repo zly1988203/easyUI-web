@@ -24,7 +24,7 @@ function initOnlineOrderGrid() {
         //showFooter:true,
         columns: [[
             {field: 'dpbh', title: '店铺编号', width: 200, align: 'center',  },
-            {field: 'dpmc', title: '店铺名称', width: 200, align: 'center',},
+            {field: 'dpmc', title: '店铺名称', width: 220, align: 'center',},
             {field: 'dh', title: '单号', width: 150, align: 'center'},
             {field: 'ywlx', title: '业务类型', width: 150, align: 'center'},
             {field: 'xdsj', title: '下单时间', width: 100, align: 'center'},

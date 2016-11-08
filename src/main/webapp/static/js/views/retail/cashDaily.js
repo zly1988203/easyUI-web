@@ -40,7 +40,7 @@ function initCashDailyallGrid() {
         //showFooter:true,
         columns: [[
             {field: 'dpbh', title: '店铺编号', width: 200, align: 'center',  },
-            {field: 'dpmc', title: '店铺名称', width: 200, align: 'center',},
+            {field: 'dpmc', title: '店铺名称', width: 220, align: 'center',},
             {field: 'syybh', title: '收银员编号', width: 150, align: 'center'},
             {field: 'syy', title: '收银员', width: 150, align: 'center'},
             {field: 'ye', title: '余额', width: 80, align: 'center'},
@@ -67,7 +67,7 @@ function initCashDailymdGrid() {
         //showFooter:true,
         columns: [[
            {field: 'dpbh', title: '店铺编号', width: 200, align: 'center',  },
-            {field: 'dpmc', title: '店铺名称', width: 200, align: 'center',},
+            {field: 'dpmc', title: '店铺名称', width: 220, align: 'center',},
             {field: 'ye', title: '余额', width: 80, align: 'center'},
             {field: 'xj', title: '现金', width: 80, align: 'center'},
             {field: 'zfb', title: '支付宝', width: 80, align: 'center'},
@@ -92,7 +92,7 @@ function initCashDailydateGrid() {
         //showFooter:true,
         columns: [[
             {field: 'dpbh', title: '店铺编号', width: 200, align: 'center',  },
-            {field: 'dpmc', title: '店铺名称', width: 200, align: 'center',},
+            {field: 'dpmc', title: '店铺名称', width: 220, align: 'center',},
             {field: 'syybh', title: '操作日期', width: 150, align: 'center'},
             {field: 'ye', title: '余额', width: 80, align: 'center'},
             {field: 'xj', title: '现金', width: 80, align: 'center'},

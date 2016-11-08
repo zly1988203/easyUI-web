@@ -35,7 +35,7 @@ function initCashReconcileGrid() {
                     return str;
                 },
             },
-            {field: 'branchName', title: '店铺名称', width: 200, align: 'left',},
+            {field: 'branchName', title: '店铺名称', width: 220, align: 'left',},
             {field: 'cashierCode', title: '收银员编号', width: 150, align: 'left'},
             {field: 'cashier', title: '收银员', width: 180, align: 'left'},
             {field: 'payType', title: '收款方式', width: 100, align: 'left'},
