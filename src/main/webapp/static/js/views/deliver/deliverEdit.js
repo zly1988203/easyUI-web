@@ -16,8 +16,8 @@ $(function(){
     }
 });
 var gridDefault = {
-    applyNum:0,
-    largeNum:0,
+   /* applyNum:0,
+    largeNum:0,*/
     isGift:0,
 }
 var oldData = {};
@@ -717,7 +717,7 @@ function selectStockAndPriceImport(sourceBranchId,targetBranchId,data){
 	$.each(data,function(i,val){
 		var temp = {
 				id : val.skuId,
-				num : val.num
+				largeNum : val.largeNum
 		};
 		GoodsStockVo.goodsSkuVo[i] = temp;
 	});
