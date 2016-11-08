@@ -28,10 +28,10 @@ function initProductInquireGrid() {
             {field: 'memoryCode', title: '助记码', width: 100, align: 'left'},
             {field: 'unit', title: '单位', width: 80, align: 'center'},
             {field: 'spec', title: '规格', width: 80, align: 'center'},
+            {field: 'numberCase', title: '箱数', width: 80, align: 'right',formatter : function(value){
+            	return getTwoDecimalB(value);
+            }},
             {field: 'actual', title: '库存', width: 80, align: 'right',formatter : function(value){
-    			return getTwoDecimalB(value);
-    		}},
-    		{field: 'numberCase', title: '箱数', width: 80, align: 'right',formatter : function(value){
     			return getTwoDecimalB(value);
     		}},
     	   {field: 'costPrice', title: '成本价', width: 80, align: 'right',formatter : function(value){
