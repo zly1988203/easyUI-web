@@ -805,11 +805,11 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 				@Override
 				public void businessValid(List<JSONObject> list, String[] excelField) {
 					for (JSONObject obj : list) {
-						String num = obj.getString("num");
+						String num = obj.getString("largeNum");
 						try {
 							Double.parseDouble(num);
 						} catch (Exception e) {
-							obj.element("num", 0);
+							obj.element("largeNum", 0);
 						}
 
 						try {
