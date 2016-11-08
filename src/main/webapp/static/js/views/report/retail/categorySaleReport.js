@@ -53,8 +53,10 @@ function initDatagridRequire(){
             },
             {field:'saleRate', title: '销售占比', width: '60px', align: 'right',
             	formatter:function(value,row,index){
-                    return '<b>'+parseFloat(value||0).toFixed(1)+'%</b>';
-                },
+				    if(value){
+				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
+				    }
+				},
             	editor:{
                     type:'numberbox',
                     options:{

@@ -102,11 +102,9 @@ function initDatagridRequire(){
 			},
 			{field: 'costPrice', title: '进价', width: '60', align: 'right',
 				formatter:function(value,row,index){
-					if(row.isFooter){
-						return '';
-					}
-
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				    if(value){
+				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
+				    }
 				},
 				editor:{
 					type:'numberbox',
@@ -136,11 +134,9 @@ function initDatagridRequire(){
 			},
 			{field: 'salePrice', title: '售价', width: '60', align: 'right',
 				formatter:function(value,row,index){
-					if(row.isFooter){
-						return ' ';
-					}
-
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				    if(value){
+				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
+				    }
 				},
 				editor:{
 					type:'numberbox',
