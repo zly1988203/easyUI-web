@@ -631,6 +631,7 @@ function toImportproduct(type){
         branchId:targetBranchId,
     }
     new publicUploadFileService(function(data){
+    	
     	if (data.length != 0) {
     		selectStockAndPriceImport(sourceBranchId,targetBranchId,data);
     	}
@@ -678,8 +679,8 @@ function selectStockAndPriceImport(sourceBranchId,targetBranchId,data){
 }
 
 function updateListData(data){
-     var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
-     var addDefaultData = gridHandel.addDefault(data,gridDefault);
+     //var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
+     //var addDefaultData = gridHandel.addDefault(data,gridDefault);
      var keyNames = {
 		 distributionPrice:'price',
          id:'skuId',
@@ -687,7 +688,8 @@ function updateListData(data){
          pricingType:'',
          num : 'applyNum'
      };
-     var rows = gFunUpdateKey(addDefaultData,keyNames);
+     var rows = gFunUpdateKey(data,keyNames);
+
      console.log(rows);
      for(var i in rows){
          rows[i].remark = "";
@@ -702,7 +704,7 @@ function updateListData(data){
      }
      var argWhere ={skuCode:1};  //验证重复性
      var isCheck ={isGift:1 };   //只要是赠品就可以重复
-     var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
+     var newRows = gridHandel.checkDatagrid(data,rows,argWhere,isCheck);
      console.log(newRows);
      $("#gridEditOrder").datagrid("loadData",newRows);
     setTimeout(function(){
