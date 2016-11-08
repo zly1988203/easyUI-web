@@ -23,7 +23,7 @@
 		<jdk.version>1.8</jdk.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
-		<parent.version>0.0.1-SNAPSHOT</parent.version>
+		<parents.version>0.0.1-SNAPSHOT</parents.version>
 		<base.version>0.3.0-SNAPSHOT</base.version>
 		<shiro.version>1.2.2</shiro.version>
 		<ca.version>1.2.4-SNAPSHOT</ca.version>
@@ -68,7 +68,7 @@
 		<dependency>
 			<groupId>com.okdeer.jxc</groupId>
 			<artifactId>okdeer-jxc-api</artifactId>
-			<version>${parent.version}</version>
+			<version>${parents.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jxls</groupId>
