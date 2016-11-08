@@ -21,7 +21,7 @@ function initProductInquireGrid() {
         //showFooter:true,
         columns: [[
             {field: 'dpbh', title: '店铺编号', width: 150, align: 'center',},
-            {field: 'dpmc', title: '店铺名称', width: 200, align: 'center', },
+            {field: 'dpmc', title: '店铺名称', width: 220, align: 'center', },
             {field: 'spmc', title: '商品名称', width: 200, align: 'center'},
             {field: 'tm', title: '条码', width: 200, align: 'center'},
             {field: 'lbbh', title: '类别编号', width: 150, align: 'center'},

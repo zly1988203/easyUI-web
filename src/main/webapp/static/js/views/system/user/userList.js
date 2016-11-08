@@ -35,7 +35,7 @@ function initDatagrid(){
             {field:'mobile',title:'电话',sortable:true,width:100},
             {field:'branchCode',title:'机构编号',sortable:true,width:100},
             {field:'branchTypeStr',title:'机构类型',sortable:true,width:100},
-            {field:'branchName',title:'机构名称',sortable:true,width:100},
+            {field:'branchName',title:'机构名称',sortable:true,width:220},
             {field:'statusStr',title:'状态 ',sortable:true,width:60,align: 'center'},
             {field:'lastLoginTime',title:'最近使用时间',sortable:true,width:100,
             	formatter : function(value, rowData, rowIndex) {

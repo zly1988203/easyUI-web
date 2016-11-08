@@ -26,7 +26,7 @@ function initDatagridRequireOrders(){
 		width:'100%',
         columns:[[
 			{field:'check',checkbox:true},
-            {field:'adjustNo',title:'单号',width:'140px',align:'left',formatter:function(value,row,index){
+            {field:'adjustNo',title:'单号',width:'135px',align:'left',formatter:function(value,row,index){
             	return "<a style='text-decoration: underline;' href='"+ contextPath +"/cost/costAdjust/edit?id="+ row.id +"'>" + value + "</a>"
             }},
             {field:'status',title: '审核状态', width: '100px', align: 'left',
@@ -43,7 +43,7 @@ function initDatagridRequireOrders(){
                    }
             },
 			{field: 'branchCode', title: '机构编号', width: '200px', align: 'left'},
-			{field: 'branchName', title: '机构名称', width: '200px', align: 'left'},
+			{field: 'branchName', title: '机构名称', width: '220px', align: 'left'},
 			{field: 'totalMoney', title: '单据金额', width: '80px', align: 'right',
 				formatter:function(value,row,index){
                     if(row.isFooter){

@@ -49,7 +49,7 @@ function initPurReportDetailGrid(queryType) {
                     return str;
                 },
             },
-            {field: 'branchName', title: '机构名称', width: 100, align: 'left',},
+            {field: 'branchName', title: '机构名称', width: 220, align: 'left',},
             {field: 'formNo', title: '单据编号', width: 130, align: 'left',
             	formatter:function(value,row,index){
             		var hrefStr = '';
