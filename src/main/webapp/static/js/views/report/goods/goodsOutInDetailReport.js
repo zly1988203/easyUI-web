@@ -31,8 +31,8 @@ function initDatagridRequire(){
                     return str;
                 }	
 			},
-            {field:'branchName',title:'店铺名称',width:'86',align:'left'},
-            {field:'formNo',title: '单号', width: '130', align: 'left',
+            {field:'branchName',title:'店铺名称',width:'220',align:'left'},
+            {field:'formNo',title: '单号', width: '135', align: 'left',
             	formatter:function(value,row,index){
             		var hrefStr='';
             		if(row.formType=="库存调整"){
@@ -62,7 +62,6 @@ function initDatagridRequire(){
 					}
                }
             },
-			{field: 'createTime', title: '日期时间', width: '135', align: 'left'},
             {field:'skuCode',title: '货号', width: '55', align: 'left'},
 			{field: 'skuName', title: '商品名称', width: '185', align: 'left'},
             {field:'barCode',title: '条码', width: '100', align: 'left'},
@@ -172,6 +171,7 @@ function initDatagridRequire(){
 			{field: 'spec', title: '规格', width: '45', align: 'left'},
 			{field: 'unit', title: '单位', width: '45', align: 'left'},
 			{field: 'pricingType', title: '计价方式', width: '56', align: 'left'},
+			{field: 'createTime', title: '日期时间', width: '135', align: 'left'},
 			{field: 'categoryCode', title: '类别编码', width: '56', align: 'left'},
 			{field: 'categoryName', title: '类别名称', width: '65', align: 'left'},
 

@@ -53,9 +53,6 @@ function initDatagridRequire(){
             },
             {field:'saleRate', title: '销售占比', width: '60px', align: 'right',
             	formatter:function(value,row,index){
-            		if(row.isFooter){
-                        return ' ';
-                    }
                     return '<b>'+parseFloat(value||0).toFixed(1)+'%</b>';
                 },
             	editor:{
@@ -81,25 +78,7 @@ function initDatagridRequire(){
     var fields = {saleAmount:0};
     sum(fields);
 }*/
-/*function sum(fields) {
-	var fromObjStr = $('#queryForm').serializeObject();
-	$.ajax({
-    	url : contextPath+"/categorySale/report/sum",
-    	type : "POST",
-    	data : fromObjStr,
-    	success:function(result){
-    		if(result['code'] == 0){
-    			fields.saleAmount = result['saleAmountSum'];
-    			$("#categorySale").datagrid('reloadFooter',[$.extend({"isFooter":true,},fields)]);
-    		}else{
-    			successTip(result['message']);
-    		}
-    	},
-    	error:function(result){
-    		successTip("请求发送失败或服务器处理失败");
-    	}
-    });
-}*/
+
 //查询入库单
 function queryForm(){
 	var fromObjStr = $('#queryForm').serializeObject();
