@@ -23,11 +23,7 @@ function initDatagridAddRequireOrder(){
         enterCallBack:function(arg){
             if(arg&&arg=="add"){
                 gridHandel.addRow(parseInt(gridHandel.getSelectRowIndex())+1,gridDefault);
-                setTimeout(function(){
-                    gridHandel.setBeginRow(gridHandel.getSelectRowIndex()+1);
-                    gridHandel.setSelectFieldName("skuCode");
-                    gridHandel.setFieldFocus(gridHandel.getFieldTarget('skuCode'));
-                },100)
+                
             }else{
                 selectGoods(arg);
             }
@@ -326,11 +322,7 @@ function setDataValue(data) {
          var isCheck ={isGift:1 };   //只要是赠品就可以重复
          var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
          $("#gridEditOrder").datagrid("loadData",newRows);
-         setTimeout(function(){
-            gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
-            gridHandel.setSelectFieldName("largeNum");
-            gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
-         },100)
+        
 }
 
 // 查询价格、库存
@@ -707,11 +699,7 @@ function updateListData(data){
      var newRows = gridHandel.checkDatagrid(data,rows,argWhere,isCheck);
      console.log(newRows);
      $("#gridEditOrder").datagrid("loadData",newRows);
-    setTimeout(function(){
-        gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
-        gridHandel.setSelectFieldName("largeNum");
-        gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
-    },100)
+ 
 }
 
 
