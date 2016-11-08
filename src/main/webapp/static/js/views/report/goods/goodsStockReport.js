@@ -21,7 +21,7 @@ function initProductInquireGrid() {
         height:'100%',
         columns: [[
             {field: 'branchCode', title: '店铺编号', width: 100, align: 'left'},
-            {field: 'branch', title: '店铺名称', width: 150, align: 'left'},
+            {field: 'branch', title: '店铺名称', width: 220, align: 'left'},
             {field: 'skuCode', title: '货号', width: 150, align: 'left'},
             {field: 'skuName', title: '商品名称', width: 180, align: 'left'},
             {field: 'barCode', title: '条码', width: 150, align: 'left'},

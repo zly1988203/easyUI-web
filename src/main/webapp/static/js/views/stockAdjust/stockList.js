@@ -46,7 +46,7 @@ function initDatagridRequireOrders(){
             	}
             }},
 			{field: 'branchCode', title: '机构编号', width: '200px', align: 'left'},
-			{field: 'branchName', title: '机构名称', width: '200px', align: 'left'},
+			{field: 'branchName', title: '机构名称', width: '220px', align: 'left'},
 			{field: 'amount', title: '单据金额', width: '80px', align: 'right',
 				formatter:function(value,row,index){
                     if(row.isFooter){
