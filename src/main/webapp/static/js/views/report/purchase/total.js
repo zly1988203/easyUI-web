@@ -105,6 +105,7 @@ function skuCodeOrBarCodeOn(){
 function skuCodeOrBarCodeOff(){
 	$("#skuCodeOrBarCode").attr("readonly","readonly");
     $("#skuCodeOrBarCode").addClass("uinp-no-more");
+    $("#skuCodeOrBarCode").val('');
 }
 //三级分类开启
 function categoryTypeOn(){
