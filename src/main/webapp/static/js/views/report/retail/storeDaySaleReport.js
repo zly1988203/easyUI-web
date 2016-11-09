@@ -841,7 +841,7 @@ function exportExcel(){
 		return;
 	}
 	if(length>10000){
-		$.messager.alert("当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
+		$.messager.alert('提示',"当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
 		return;
 	}
 	var fromObjStr = $('#queryForm').serializeObject();
