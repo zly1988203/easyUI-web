@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONObject;
@@ -68,7 +69,6 @@ import com.okdeer.jxc.form.deliver.vo.DeliverFormVo;
 import com.okdeer.jxc.form.deliver.vo.QueryDeliverFormVo;
 import com.okdeer.jxc.form.enums.FormType;
 import com.okdeer.jxc.goods.entity.GoodsSelect;
-import com.okdeer.jxc.goods.entity.GoodsSelectByCostPrice;
 import com.okdeer.jxc.goods.entity.GoodsSelectDeliver;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
@@ -246,7 +246,7 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 	 * @date 2016年8月29日
 	 */
 	@RequestMapping(value = "deliverEdit")
-	public String deliverEdit(QueryDeliverFormVo vo, Model model) {
+	public String deliverEdit(QueryDeliverFormVo vo,String report, Model model,HttpServletRequest request) {
 		LOG.info(LogConstant.OUT_PARAM, vo.toString());
 		model.addAttribute("type", vo.getFormSources());
 		vo.setFormSources("");
@@ -281,17 +281,17 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 						"salesman",
 						branches.getSalesman() == null ? "" : branches
 								.getSalesman());
-				model.addAttribute("close", "close");
+				model.addAttribute("close", report);
 				return "form/deliver/deliverView";
 			} else if (FormType.DO.toString().equals(form.getFormType())) {
 				form.setRebateMoney(BigDecimalUtils.formatDecimal(
 						form.getRebateMoney(), 2));
 				form.setAddRebateMoney(BigDecimalUtils.formatDecimal(
 						form.getAddRebateMoney(), 2));
-				model.addAttribute("close", "close");
+				model.addAttribute("close", report);
 				return "form/deliver/DoView";
 			} else {
-				model.addAttribute("close", "close");
+				model.addAttribute("close", report);
 				return "form/deliver/DiView";
 			}
 		}
