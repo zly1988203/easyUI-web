@@ -73,21 +73,21 @@ public interface ImportExcelConstant {
 	/**
 	 * @Fields DELIVER_GOODS_SKUCODE_REPORT : 配送出库单货号导入字段
 	 */
-	String[] DELIVER_GOODS_SKUCODE_REPORT = { "skuCode", "num", "distributionPrice", "amount", "isGift" };
-
+//	String[] DELIVER_GOODS_SKUCODE_REPORT = { "skuCode", "largeNum", "distributionPrice", "amount", "isGift" };
+	String[] DELIVER_GOODS_SKUCODE_REPORT = { "skuCode", "largeNum"};
 	/**
 	 * @Fields DELIVER_GOODS_SKUCODE_HEADERS_REPORT : 配送出库单货号导入字段
 	 */
-	String[] DELIVER_GOODS_SKUCODE_HEADERS_REPORT = { "货号", "数量", "单价", "金额", "是否赠品" };
-
+//	String[] DELIVER_GOODS_SKUCODE_HEADERS_REPORT = { "货号", "箱数", "单价", "金额", "是否赠品" };
+	String[] DELIVER_GOODS_SKUCODE_HEADERS_REPORT = { "货号", "箱数"};
 	/**
 	 * @Fields DELIVER_GOODS_BARCODE_REPORT : 配送出库单条码导入字段
 	 */
-	String[] DELIVER_GOODS_BARCODE_REPORT = { "barCode", "num", "distributionPrice", "amount", "isGift" };
-
+//	String[] DELIVER_GOODS_BARCODE_REPORT = { "barCode", "num", "distributionPrice", "amount", "isGift" };
+	String[] DELIVER_GOODS_BARCODE_REPORT = { "barCode", "largeNum" };
 	/**
 	 * @Fields DELIVER_GOODS_BARCODE_HEADERS_REPORT : 配送出库单货号导入字段
 	 */
-	String[] DELIVER_GOODS_BARCODE_HEADERS_REPORT = { "条码", "数量", "单价", "金额", "是否赠品" };
-
+//	String[] DELIVER_GOODS_BARCODE_HEADERS_REPORT = { "条码", "数量", "单价", "金额", "是否赠品" };
+	String[] DELIVER_GOODS_BARCODE_HEADERS_REPORT = { "条码", "箱数"};
 }

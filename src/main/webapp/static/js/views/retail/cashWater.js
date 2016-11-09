@@ -24,7 +24,7 @@ function initCashWaterGrid() {
         //showFooter:true,
         columns: [[
             {field: 'dpbh', title: '店铺编号', width: 200, align: 'center',  },
-            {field: 'dpmc', title: '店铺名称', width: 200, align: 'center',},
+            {field: 'dpmc', title: '店铺名称', width: 220, align: 'center',},
             {field: 'djbh', title: '单据编号', width: 150, align: 'center'},
             {field: 'shsj', title: '销售时间', width: 150, align: 'center'},
             {field: 'xsje', title: '销售金额', width: 80, align: 'center'},
@@ -32,7 +32,7 @@ function initCashWaterGrid() {
             {field: 'fkje', title: '付款金额', width: 80, align: 'center'},
             {field: 'fkfs', title: '付款方式', width: 100, align: 'center'},
             {field: 'syy', title: '收银员', width: 150, align: 'center'},
-            {field: 'dkyd', title: '退货原单号牌', width: 100, align: 'center'},
+            {field: 'dkyd', title: '退货原单号牌', width: 135, align: 'center'},
             {field: 'ddlx', title: '订单类型', width: 80, align: 'center'},
             {field: 'cdbz', title: '备注', width: 150, align: 'center'},
         ]]

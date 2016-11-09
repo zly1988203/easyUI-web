@@ -31,7 +31,7 @@ function initDatagridRequireOrders(){
 		width:'100%',
         columns:[[
 			{field:'check',checkbox:true},
-            {field:'branchName',title:'机构名称',width:'86px',align:'left',
+            {field:'branchName',title:'机构名称',width:'220px',align:'left',
 				formatter:function(value,row,index){
 					if(!value){
 	                    return '<div class="ub ub-pc ufw-b">合计</div> '

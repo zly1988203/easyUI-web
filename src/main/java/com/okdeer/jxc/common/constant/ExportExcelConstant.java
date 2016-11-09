@@ -165,6 +165,11 @@ public interface ExportExcelConstant {
 	 * @Fields PURCHASEFORMHH :DA 要货单 DO 出库单  DI入库单  DD 店间要货  DR退货申请 导出模版
 	 */
 	String DELIVERFORM = "DeliverForm.xlsx";
+	
+	String DELIVERFORM_DO = "DeliverFormDO.xlsx";
+	
+	String DELIVERFORM_DI = "DeliverFormDI.xlsx";
+	
 
 	/**
 	 * @Fields DADOFORM : DADOform.xlsx

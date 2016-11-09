@@ -114,6 +114,22 @@ function initDatagridEditRequireOrder(){
                     }
                 }
             },
+            {field:'defectNum',title:'缺货数',width:'100px',align:'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return
+                    }
+                    return  "<b>"+parseFloat(value||0).toFixed(2)+ "<b>";
+                },
+                editor:{
+                    type:'numberbox',
+                    options:{
+                        disabled:true,
+                        min:0,
+                        precision:2,
+                    }
+                }
+            },
             {field:'remark',title:'备注',width:'200px',align:'left'}
         ]],
         onLoadSuccess : function() {

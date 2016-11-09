@@ -114,6 +114,9 @@ public class DeliverFormListController extends BaseController<DeliverFormListCon
 		try {
 			List<DeliverFormList> exportList = queryDeliverFormListServiceApi.getDeliverList(formNo);
 			String fileName = "";
+			String templateName = "";
+
+
 			if (FormType.DA.toString().equals(type)) {
 				// 导出文件名称，不包括后缀名
 				fileName = "要货单" + "_" + DateUtils.getCurrSmallStr();
@@ -124,14 +127,21 @@ public class DeliverFormListController extends BaseController<DeliverFormListCon
 				// 导出文件名称，不包括后缀名
 				fileName = "入库单" + "_" + DateUtils.getCurrSmallStr();
 			}
-			String templateName = "";
 			if (Constant.STRING_ONE.equals(pattern)) {
 				// 模板名称，包括后缀名
 				templateName = ExportExcelConstant.PURCHASEFORMCODE;
 				fileName = fileName + "_" + "货号";
 			} else {
-				// 模板名称，包括后缀名
-				templateName = ExportExcelConstant.DELIVERFORM;
+				if (FormType.DA.toString().equals(type)) {
+					// 模板名称，包括后缀名
+					templateName = ExportExcelConstant.DELIVERFORM;
+				}else if (FormType.DO.toString().equals(type)) {
+					// 模板名称，包括后缀名
+					templateName = ExportExcelConstant.DELIVERFORM_DO;
+				}
+				else{
+					templateName = ExportExcelConstant.DELIVERFORM_DI;
+				}
 			}
 			// 导出Excel
 			exportListForXLSX(response, exportList, fileName, templateName);

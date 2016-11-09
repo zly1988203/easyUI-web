@@ -122,7 +122,7 @@ function initDatagridByFormNo(){
 		width:'100%',
         columns:[[
             {field:'branchCode',title:'机构编号',width:'140px',align:'left'},
-            {field:'branchName',title:'机构名称',width:'140px',align:'left'},
+            {field:'branchName',title:'机构名称',width:'220px',align:'left'},
             {field:'supplierCode',title:'供应商编号',width:'140px',align:'left'},
             {field:'supplierName',title:'供应商名称',width:'140px',align:'left'},
             {field: 'formNo', title: '单据编号', width: 140, align: 'left',

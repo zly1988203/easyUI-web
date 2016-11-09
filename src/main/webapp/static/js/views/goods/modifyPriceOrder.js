@@ -27,7 +27,7 @@ function initModifyPriceGrid() {
          pageSize:20,
         //showFooter:true,
         columns: [[
-            {field: 'formNo', title: '单号', width: '160px', align: 'left',
+            {field: 'formNo', title: '单号', width: '135px', align: 'left',
                 formatter: function(value,row,index){
                     return "<a href="+contextPath+"/goods/priceAdjust/showDetail?formNo="+value+" class='ualine'>"+value+"</a>";
                 }

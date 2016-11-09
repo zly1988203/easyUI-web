@@ -22,7 +22,7 @@ function initDatagridRequire(){
 		pageSize:50,
 		width:'100%',
         columns:[[
-            {field:'branchName',title:'机构名称',width:'86px',align:'left',
+            {field:'branchName',title:'机构名称',width:'220px',align:'left',
             	formatter : function(value, row,index) {
                     var str = value;
                     if(!value){
@@ -53,8 +53,10 @@ function initDatagridRequire(){
             },
             {field:'saleRate', title: '销售占比', width: '60px', align: 'right',
             	formatter:function(value,row,index){
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'%</b>';
-                },
+				    if(value){
+				    	return '<b>'+parseFloat(value).toFixed(1)+'%</b>';
+				    }
+				},
             	editor:{
                     type:'numberbox',
                     options:{
@@ -78,25 +80,7 @@ function initDatagridRequire(){
     var fields = {saleAmount:0};
     sum(fields);
 }*/
-/*function sum(fields) {
-	var fromObjStr = $('#queryForm').serializeObject();
-	$.ajax({
-    	url : contextPath+"/categorySale/report/sum",
-    	type : "POST",
-    	data : fromObjStr,
-    	success:function(result){
-    		if(result['code'] == 0){
-    			fields.saleAmount = result['saleAmountSum'];
-    			$("#categorySale").datagrid('reloadFooter',[$.extend({"isFooter":true,},fields)]);
-    		}else{
-    			successTip(result['message']);
-    		}
-    	},
-    	error:function(result){
-    		successTip("请求发送失败或服务器处理失败");
-    	}
-    });
-}*/
+
 //查询入库单
 function queryForm(){
 	var fromObjStr = $('#queryForm').serializeObject();

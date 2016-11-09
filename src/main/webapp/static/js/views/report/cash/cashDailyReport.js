@@ -77,7 +77,7 @@ function initCashDailyallGrid(queryType) {
                     return str;
                 },
             },
-            {field: 'branchName', title: '店铺名称', width: 200, align: 'left',},
+            {field: 'branchName', title: '店铺名称', width: 220, align: 'left',},
             {field: 'cashierCode', title: '收银员编号', width: 100, align: 'left'},
             {field: 'cashier', title: '收银员', width: 100, align: 'left'},
             {field: 'rmb', title: '现金', width: 120, align: 'right',
@@ -171,7 +171,7 @@ function initCashDailymdGrid(queryType) {
                    return str;
                },
            	},
-            {field: 'branchName', title: '店铺名称', width:200, align: 'left',},
+            {field: 'branchName', title: '店铺名称', width:220, align: 'left',},
             {field: 'rmb', title: '现金', width:120, align: 'right',
             	formatter : function(value, row,index) {
                     return getTwoDecimalB(value);
@@ -262,7 +262,7 @@ function initCashDailydateGrid(queryType) {
                     return str;
                 },
             },
-            {field: 'branchName', title: '店铺名称', width: 200, align: 'left',},
+            {field: 'branchName', title: '店铺名称', width: 220, align: 'left',},
             {field:'opDate',title:'操作日期',sortable:false,width:150,align: 'left'},
 			{field: 'rmb', title: '现金', width:120, align: 'right',
             	formatter : function(value, row,index) {
