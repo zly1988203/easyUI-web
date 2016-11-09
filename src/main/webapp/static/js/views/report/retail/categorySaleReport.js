@@ -83,6 +83,10 @@ function initDatagridRequire(){
 
 //查询入库单
 function queryForm(){
+	if($("#branchName").val()==""){
+        messager("请选择店铺名称");
+        return;
+    } 
 	var fromObjStr = $('#queryForm').serializeObject();
 	$("#categorySale").datagrid("options").method = "post";
 	$("#categorySale").datagrid('options').url = contextPath + '/categorySale/report/getCategorySaleList';
