@@ -68,7 +68,6 @@ import com.okdeer.jxc.form.deliver.vo.DeliverFormVo;
 import com.okdeer.jxc.form.deliver.vo.QueryDeliverFormVo;
 import com.okdeer.jxc.form.enums.FormType;
 import com.okdeer.jxc.goods.entity.GoodsSelect;
-import com.okdeer.jxc.goods.entity.GoodsSelectByCostPrice;
 import com.okdeer.jxc.goods.entity.GoodsSelectDeliver;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
