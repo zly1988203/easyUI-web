@@ -16,13 +16,13 @@
 	        <div class="ub ub-ac">
 	            <div class="ubtns">
 					<div class="ubtns-item" onclick="query()">查询</div>
-				<shiro:hasPermission name="JxcPurchaseReturn:add">
+				<shiro:hasPermission name="JxcPurchaseRefund:add">
 	                <div class="ubtns-item" onclick="receiptAdd()">新增</div>
 	            </shiro:hasPermission>
-	             <shiro:hasPermission name="JxcPurchaseReturn:delete">
+	             <shiro:hasPermission name="JxcPurchaseRefund:delete">
 	                <div class="ubtns-item" onclick="returnDelete()">删除</div>
 	             </shiro:hasPermission>
-	             <shiro:hasPermission name="JxcPurchaseReturn:print">
+	             <shiro:hasPermission name="JxcPurchaseRefund:print">
 	                <div class="ubtns-item" onclick="printDesign()">打印</div>
 	             </shiro:hasPermission>
 	                <div class="ubtns-item" onclick="gFunRefresh()">重置</div>

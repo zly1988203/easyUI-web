@@ -15,7 +15,7 @@
     <div class="ub ub-ver ub-f1 umar-4  ubor">
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
-            <shiro:hasPermission name="JxcPurchaseReturn:add">
+            <shiro:hasPermission name="JxcPurchaseRefund:add">
                 <div class="ubtns-item" onclick="saveItemHandel()">保存</div>
             </shiro:hasPermission>
                 <div class="ubtns-item" onclick="selectGoods()">商品选择</div>

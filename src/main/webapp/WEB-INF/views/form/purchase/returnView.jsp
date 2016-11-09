@@ -16,10 +16,10 @@
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
             	<input type="hidden" id="close" value="${close}"/>
-            	<shiro:hasPermission name="JxcPurchaseReturn:add">
+            	<shiro:hasPermission name="JxcPurchaseRefund:add">
             	<div class="ubtns-item" id="addButton" onclick="returnAdd()">新增</div>
             	</shiro:hasPermission>
-            	<shiro:hasPermission name="JxcPurchaseReturn:print">
+            	<shiro:hasPermission name="JxcPurchaseRefund:print">
                 <div class="ubtns-item" onclick="printDesign()">打印</div>
                 </shiro:hasPermission>
                 <div class="ubtns-item" onclick="exportData('PR');">导出明细</div>
