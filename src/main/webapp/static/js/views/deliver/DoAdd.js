@@ -8,7 +8,7 @@ $(function(){
 });
 var gridDefault = {
 	dealNum:0,
-    largeNum:0,
+    //largeNum:0,
     isGift:0,
 }
 var gridHandel = new GridClass();
@@ -477,9 +477,54 @@ function selectStockAndPrice(sourceBranchId,data){
     });
 }
 
-//保存
+//保存校验
 function saveOrder(){
-    //商品总数量
+    var rows = gridHandel.getRows();
+    if(rows.length==0){
+        messager("表格不能为空");
+        return;
+    }
+    var isCheckResult = true;
+    $.each(rows,function(i,v){
+        if(!v["skuCode"]){
+            messager("第"+(i+1)+"行，货号不能为空");
+            isCheckResult = false;
+            return false;
+        };
+        if(v["largeNum"]<=0){
+            messager("第"+(i+1)+"行，箱数必须大于0");
+            isCheckResult = false;
+            return false;
+        }
+        if(v["dealNum"]<=0){
+            messager("第"+(i+1)+"行，数量必须大于0");
+            isCheckResult = false;
+            return false;
+        }
+        if(v["sourceStock"]==0){
+        	$.messager.confirm('提示',"第"+(i+1)+"行，库存为0",function(data){
+        		if(data){
+        			saveOrderbtn();
+        			isCheckResult =true;
+        			return true;
+        		}
+        		else{ 
+        		    isCheckResult =false;
+        			return false;
+        		}
+        	});
+        	
+        }
+        v["rowNo"] = i+1;
+    });
+    if(!isCheckResult){
+        return;
+    } 
+   
+}
+//保存到后台
+function saveOrderbtn(){
+	  //商品总数量
     var totalNum = 0;
     //总金额
     var amount=0;
@@ -505,38 +550,6 @@ function saveOrder(){
         amount = parseFloat(footerRows[0]["amount"]||0.0).toFixed(4);
     }
     var rows = gridHandel.getRows();
-    if(rows.length==0){
-        messager("表格不能为空");
-        return;
-    }
-    var isCheckResult = true;
-    $.each(rows,function(i,v){
-        if(!v["skuCode"]){
-            messager("第"+(i+1)+"行，货号不能为空");
-            isCheckResult = false;
-            return false;
-        };
-        if(v["largeNum"]<=0){
-            messager("第"+(i+1)+"行，箱数必须大于0");
-            isCheckResult = false;
-            return false;
-        }
-        if(v["dealNum"]<=0){
-            messager("第"+(i+1)+"行，数量必须大于0");
-            isCheckResult = false;
-            return false;
-        }
-        if(v["sourceStock"]==0){
-            messager("第"+(i+1)+"行，库存为0");
-            isCheckResult = true;
-            return true;
-        }
-        
-        v["rowNo"] = i+1;
-    });
-    if(!isCheckResult){
-        return;
-    }
     var saveData = JSON.stringify(rows);
     //var deliverFormListVo = tableArrayFormatter(rows,"deliverFormListVo");
     var reqObj = {
@@ -587,7 +600,7 @@ function saveOrder(){
         success:function(result){
             if(result['code'] == 0){
                 $.messager.alert("操作提示", "操作成功！", "info",function(){
-                	location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
+                   location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
                 });
             }else{
             	var strResult = "";
@@ -604,7 +617,6 @@ function saveOrder(){
         }
     });
 }
-
 //审核
 function check(){
 	var deliverFormId = $("#formId").val();
@@ -677,7 +689,7 @@ function loadLists(referenceId){
         type:"post",
         success:function(data){
             var rows = data.rows
-            debugger;
+           
             for(var i in rows){
                 rows[i]["dealNum"] =  rows[i]["applyNum"]?rows[i]["applyNum"]:rows[i]["dealNum"];
                 rows[i]["amount"]  = parseFloat(rows[i]["price"]||0)*parseFloat(rows[i]["dealNum"]||0);
