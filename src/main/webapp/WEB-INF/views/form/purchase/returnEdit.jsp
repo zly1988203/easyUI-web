@@ -15,14 +15,14 @@
     <div class="ub ub-ver ub-f1 umar-4  ubor">
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
-            <shiro:hasPermission name="JxcPurchaseReturn:update">
+            <shiro:hasPermission name="JxcPurchaseRefund:update">
                 <div class="ubtns-item" onclick="saveItemHandel()">保存</div>
             </shiro:hasPermission>
-            <shiro:hasPermission name="JxcPurchaseReturn:audit">
+            <shiro:hasPermission name="JxcPurchaseRefund:audit">
                 <div class="ubtns-item" onclick="check()">审核</div>
             </shiro:hasPermission>
                 <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
-            <shiro:hasPermission name="JxcPurchaseReturn:delete">
+            <shiro:hasPermission name="JxcPurchaseRefund:delete">
                 <div class="ubtns-item" onclick="orderDelete()">删单</div>
             </shiro:hasPermission>
             <shiro:hasPermission name="JxcPurchaseOrder:terminate">
@@ -30,7 +30,7 @@
             </shiro:hasPermission>
                 <div class="ubtns-item" onclick="toImportproduct(0)">导入货号</div>
                 <div class="ubtns-item" onclick="toImportproduct(1)">导入条码</div>
-            <shiro:hasPermission name="JxcPurchaseReturn:print">
+            <shiro:hasPermission name="JxcPurchaseRefund:print">
                 <div class="ubtns-item" onclick="printDesign()">打印</div>
             </shiro:hasPermission>
                 <div class="ubtns-item"  onclick="toBackByJS()">返回</div>
