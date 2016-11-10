@@ -7,6 +7,8 @@
 
 package com.okdeer.jxc.controller.report;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -20,22 +22,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.LogConstant;
 import com.okdeer.jxc.common.controller.BasePrintController;
-import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
+import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.report.qo.TradeOrderCountQo;
 import com.okdeer.jxc.report.service.TradeOrderCountServiceApi;
 import com.okdeer.jxc.report.vo.TradeOrderCountVo;
-import com.okdeer.jxc.system.entity.SysUser;
 
 /**
- * ClassName: DeliverReportController 
- * @Description: 配送报表
+ * ClassName: TradeOrderCountController 
+ * @Description: 店铺销售排名
  * @author zhangchm
  * @date 2016年10月25日
  *
@@ -64,9 +64,6 @@ public class TradeOrderCountController extends BasePrintController<TradeOrderCou
 	 */
 	@RequestMapping(value = "view")
 	public String view(Model model) {
-		SysUser user = getCurrentUser();
-		Branches branchesGrow = branchesServiceApi.getBranchInfoById(user.getBranchId());
-		model.addAttribute("branchesGrow", branchesGrow);
 		return "report/order/tradeOrderCount";
 	}
 
@@ -86,44 +83,31 @@ public class TradeOrderCountController extends BasePrintController<TradeOrderCou
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		LOG.info(LogConstant.OUT_PARAM, vo.toString());
 		try {
+			if (vo.getEndTime() != null) {
+				Date time = DateUtils.getNextDay(vo.getEndTime());
+				vo.setEndTime(time);
+			}
+			if (StringUtils.isNullOrEmpty(vo.getBranchId())) {
+				vo.setBranchId(getCurrBranchId());
+			}
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
 			PageUtils<TradeOrderCountVo> tradeOrderCountVos = tradeOrderCountServiceApi.queryLists(vo);
+
+			TradeOrderCountVo tradeOrderCountVo = tradeOrderCountServiceApi.queryTradeOrderCountSum(vo);
+
+			List<TradeOrderCountVo> footer = new ArrayList<TradeOrderCountVo>();
+			if (tradeOrderCountVo != null) {
+				footer.add(tradeOrderCountVo);
+			}
+			tradeOrderCountVos.setFooter(footer);
+
 			LOG.info(LogConstant.PAGE, tradeOrderCountVos.toString());
 			return tradeOrderCountVos;
 		} catch (Exception e) {
 			LOG.error("店铺销售排名列表查询出现异常:{}", e);
 		}
 		return null;
-	}
-
-	/**
-	 * @Description: 店铺销售排名合计
-	 * @param vo
-	 * @return
-	 * @author zhangchm
-	 * @date 2016年10月27日
-	 */
-	@RequestMapping(value = "sum", method = RequestMethod.POST)
-	@ResponseBody
-	public RespJson sum(TradeOrderCountQo vo) {
-		LOG.info(LogConstant.OUT_PARAM, vo.toString());
-		RespJson respJson = RespJson.success();
-		try {
-			TradeOrderCountVo tradeOrderCountVo = tradeOrderCountServiceApi.queryTradeOrderCountSum(vo);
-			if (tradeOrderCountVo != null) {
-				LOG.info(LogConstant.PAGE, tradeOrderCountVo.toString());
-				respJson.put("sumAmount", tradeOrderCountVo.getSumAmount());
-				respJson.put("sumSaleNum", tradeOrderCountVo.getSumSaleNum());
-				respJson.put("sumNum", tradeOrderCountVo.getSumNum());
-				respJson.put("sumLineAmount", tradeOrderCountVo.getSumLineAmount());
-				respJson.put("sumLineSaleNum", tradeOrderCountVo.getSumLineSaleNum());
-			}
-		} catch (Exception e) {
-			LOG.error("店铺销售排名合计出现异常:{}", e);
-			respJson = RespJson.error("店铺销售排名合计失败！");
-		}
-		return respJson;
 	}
 
 	/**
@@ -137,8 +121,18 @@ public class TradeOrderCountController extends BasePrintController<TradeOrderCou
 	public void exportList(HttpServletResponse response, TradeOrderCountQo vo) {
 		LOG.info(LogConstant.OUT_PARAM, vo.toString());
 		try {
+			if (vo.getEndTime() != null) {
+				Date time = DateUtils.getNextDay(vo.getEndTime());
+				vo.setEndTime(time);
+			}
+			if (StringUtils.isNullOrEmpty(vo.getBranchId())) {
+				vo.setBranchId(getCurrBranchId());
+			}
 			List<TradeOrderCountVo> exportList = tradeOrderCountServiceApi.queryTradeOrderCount(vo);
-			String fileName = "店铺销售排名" + "_" + DateUtils.getCurrSmallStr();
+			TradeOrderCountVo tradeOrderCountVo = tradeOrderCountServiceApi.queryTradeOrderCountSum(vo);
+			tradeOrderCountVo.setBranchName("合计：");
+			exportList.add(tradeOrderCountVo);
+			String fileName = "店铺销售排名";
 			String templateName = ExportExcelConstant.TRADE_ORDER_COUNT_REPORT;
 			// 导出Excel
 			exportListForXLSX(response, exportList, fileName, templateName);

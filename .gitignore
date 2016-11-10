@@ -1,4 +1,4 @@
-.iml
+*.iml
 .idea
 target
 bin
@@ -8,4 +8,5 @@ bin
 .gitignore
 .factorypath
 /.apt_generated/
-.properties
+application.properties
+application-dev.properties

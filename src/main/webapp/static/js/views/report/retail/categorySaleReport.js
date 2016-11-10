@@ -1,12 +1,13 @@
 $(function(){
 	//开始和结束时间
-    $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
+	$("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
     initDatagridRequire();
 });
 var gridHandel = new GridClass();
 //初始化表格
 function initDatagridRequire(){
+	gridHandel.setGridName("categorySale");
     $("#categorySale").datagrid({
         method:'post',
         align:'center',
@@ -18,21 +19,74 @@ function initDatagridRequire(){
         //fit:true,            //占满
         showFooter:true,
 		height:'100%',
+		pageSize:50,
 		width:'100%',
         columns:[[
-            {field:'branchName',title:'机构名称',width:'200px',align:'left'},
-            {field:'skuCode',title: '所在城市', width: '200px', align: 'left'},
-			{field:'categoryCode', title: '类别编号', width: '200px', align: 'left'},
-            {field:'categoryName', title: '类别名称', width: '80px', align: 'right'},
-            {field:'saleAmount', title: '销售金额', width: '130px', align: 'left'},
-            {field:'saleNum', title: '销售占比', width: '130px', align: 'left'},
+            {field:'branchName',title:'机构名称',width:'220px',align:'left',
+            	formatter : function(value, row,index) {
+                    var str = value;
+                    if(!value){
+	                    return '<div class="ub ub-pc ufw-b">合计</div> '
+	                }
+                    return str;
+                }
+            },
+            {field:'cityName',title: '所在城市', width: '86px', align: 'left'},
+			{field:'categoryCode', title: '类别编号', width: '56px', align: 'left'},
+            {field:'categoryName', title: '类别名称', width: '65px', align: 'left'},
+            {field:'saleAmount', title: '销售金额', width: '80px', align: 'right',
+            	formatter:function(value,row,index){
+            		if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                   
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         min:0,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleRate', title: '销售占比', width: '60px', align: 'right',
+            	formatter:function(value,row,index){
+				    if(value){
+				    	return '<b>'+parseFloat(value).toFixed(1)+'%</b>';
+				    }
+				},
+            	editor:{
+                    type:'numberbox',
+                    options:{
+                    	disabled:true,
+                        min:0,
+                        precision:1
+                    }
+                }
+            },
       ]],
-        
+      onLoadSuccess:function(data){
+			gridHandel.setDatagridHeader("center");
+			//updateFooter();
+		}
     });
-    queryForm();
+    //queryForm();
 }
+
+//合计
+/*function updateFooter(){
+    var fields = {saleAmount:0};
+    sum(fields);
+}*/
+
 //查询入库单
 function queryForm(){
+	if($("#branchName").val()==""){
+        messager("请选择店铺名称");
+        return;
+    } 
 	var fromObjStr = $('#queryForm').serializeObject();
 	$("#categorySale").datagrid("options").method = "post";
 	$("#categorySale").datagrid('options').url = contextPath + '/categorySale/report/getCategorySaleList';
@@ -59,7 +113,7 @@ function exportExcel(){
 		return;
 	}
 	if(length>10000){
-		$.messager.alert("当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
+		$.messager.alert('提示',"当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
 		return;
 	}
 	var fromObjStr = $('#queryForm').serializeObject();
@@ -82,4 +136,6 @@ function exportExcel(){
  */
 var resetForm = function() {
 	 $("#queryForm").form('clear');
+	 $("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
+	 $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 };

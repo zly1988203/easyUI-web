@@ -143,7 +143,7 @@ public class GoodsPriceAdjustController extends
 				Date time = DateUtils.getNextDay(goodsPriceFormVo.getEndTime());
 				goodsPriceFormVo.setEndTime(time);
 			}
-			goodsPriceFormVo.setCreateBranchCode(UserUtil.getCurrBranchCode());
+			goodsPriceFormVo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
 			LOG.info("调价单搜索 ：goodsPriceFormVo=" + goodsPriceFormVo);
 			return goodsPriceAdustService.queryLists(goodsPriceFormVo);
 		} catch (Exception e) {
@@ -202,7 +202,7 @@ public class GoodsPriceAdjustController extends
 	 */
 	@RequestMapping(value = "/saveForm", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson saveForm(@RequestBody String list) {
+	public RespJson saveForm(@RequestBody String data) {
 		String formNo = "";
 		String createTime = "";
 		String createUserName = "";
@@ -211,16 +211,27 @@ public class GoodsPriceAdjustController extends
 		List<GoodsPriceFormDetail> goodsPriceFormDetailList = null;
 		String branchIds = null;
 		try {
-			LOG.debug("新增调价单 ：list=" + list);
-			if (StringUtils.isNotEmpty(list)) {
-				goodsPriceFormAll = JSON.parseObject(list,
+			LOG.debug("新增调价单 ：data=" + data);
+			if (StringUtils.isNotEmpty(data)) {
+				goodsPriceFormAll = JSON.parseObject(data,
 						GoodsPriceFormAll.class);
 				if (goodsPriceFormAll != null) {
 					goodsPriceForm = goodsPriceFormAll.getGoodsPriceForm();
 					goodsPriceFormDetailList = goodsPriceFormAll
 							.getGoodsPriceFormDetailList();
 					branchIds = goodsPriceFormAll.getBranchIds();
+				} else {
+					RespJson rep = RespJson.error("保存数据不能为空！");
+					return rep;
 				}
+			} else {
+				RespJson rep = RespJson.error("保存数据不能为空！");
+				return rep;
+			}
+			SysUser user = UserUtil.getCurrentUser();
+			if (user == null) {
+				RespJson rep = RespJson.error("用户不能为空！");
+				return rep;
 			}
 			// 生成uuid主键
 			String formId = UUIDHexGenerator.generate();
@@ -234,24 +245,15 @@ public class GoodsPriceAdjustController extends
 			// 判断是否生效
 			goodsPriceForm.setIsEffected(Constant.ZERO_STR);
 			// 用户数据
-			SysUser user = UserUtil.getCurrentUser();
-			if (user != null) {
-				goodsPriceForm.setCreateUserId(user.getId());
-				createUserName = user.getUserName();
-				goodsPriceForm.setCreateUserName(createUserName);
-				goodsPriceForm.setCreateBranchId(user.getBranchId());
-				goodsPriceForm.setCreateBranchCode(user.getBranchCode());
-			}
+			goodsPriceForm.setCreateUserId(user.getId());
+			createUserName = user.getUserName();
+			goodsPriceForm.setCreateUserName(createUserName);
+			goodsPriceForm.setCreateBranchId(user.getBranchId());
+			goodsPriceForm.setCreateBranchCode(user.getBranchCode());
 			goodsPriceForm.setCreateTime(new Date());
 			// 设置商品价格单据信息
 			goodsPriceFormDetailList = setFormData(goodsPriceForm,
 					goodsPriceFormDetailList);
-			// 需要返回到页面上的数据
-			if (goodsPriceForm != null) {
-				formNo = goodsPriceForm.getFormNo();
-				createTime = DateUtils.getCurrSmallRStr();
-			}
-
 			// 生成商品机构关联表单数据
 			List<GoodsPriceFormBranch> goodsPriceFormBranchList = setGoodsPriceFormBranch(
 					branchIds, formNo);
@@ -264,6 +266,9 @@ public class GoodsPriceAdjustController extends
 					.error(GoodsPriceFormConst.ADD_GOODS_PRICE_FOMR_ERRO);
 		}
 		RespJson rep = RespJson.success();
+		// 需要返回到页面上的数据
+		formNo = goodsPriceForm.getFormNo();
+		createTime = DateUtils.getCurrSmallRStr();
 		rep.put("goodsPriceForm", goodsPriceForm);
 		rep.put("createUserName", createUserName);
 		rep.put("createUserDate", createTime);
@@ -344,14 +349,22 @@ public class GoodsPriceAdjustController extends
 					goodsPriceFormDetailList = goodsPriceFormAll
 							.getGoodsPriceFormDetailList();
 					branchIds = goodsPriceFormAll.getBranchIds();
+				}else {
+					RespJson rep = RespJson.error("保存数据不能为空！");
+					return rep;
 				}
+			}else {
+				RespJson rep = RespJson.error("保存数据不能为空！");
+				return rep;
 			}
 			// 用户数据
 			SysUser user = UserUtil.getCurrentUser();
-			if (user != null) {
-				goodsPriceForm.setUpdateUserId(user.getId());
-				goodsPriceForm.setUpdateTime(new Date());
+			if (user == null) {
+				RespJson rep = RespJson.error("用户数据不能为空！");
+				return rep;
 			}
+			goodsPriceForm.setUpdateUserId(user.getId());
+			goodsPriceForm.setUpdateTime(new Date());
 			// 设置商品价格单据信息
 			goodsPriceFormDetailList = setFormData(goodsPriceForm,
 					goodsPriceFormDetailList);

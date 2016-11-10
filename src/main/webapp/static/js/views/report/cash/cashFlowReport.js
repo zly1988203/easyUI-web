@@ -1,6 +1,7 @@
 /**
  * Created by wxl on 2016/08/17.
  */
+var pageSize = 50;
 $(function(){
     //开始和结束时间
     $("#txtStartDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
@@ -22,11 +23,11 @@ function initCashWaterGrid() {
         pagination: true,    //分页
         //fitColumns:true,    //占满
         showFooter:true,
-        pageSize : 20,
+        pageSize : pageSize,
         height:'100%',
         columns: [[
             {field: 'branchCode', title: '店铺编号', width: 100, align: 'left'},
-            {field: 'branchName', title: '店铺名称', width: 200, align: 'left'},
+            {field: 'branchName', title: '店铺名称', width: 220, align: 'left'},
             {field: 'orderNo', title: '单据编号', width: 180, align: 'left'},
             {field: 'saleTime', title: '销售时间', width: 150, align: 'left',formatter : function(saleTime){
     			if(saleTime){
@@ -63,7 +64,7 @@ function initCashWaterGrid() {
     		}},
             {field: 'payType', title: '付款方式', width: 100, align: 'center'},
             {field: 'cashier', title: '收银员', width: 100, align: 'left'},
-            {field: 'returnOrderNo', title: '退货原单号', width: 100, align: 'left'},
+            {field: 'returnOrderNo', title: '退货原单号', width: 135, align: 'left'},
             {field: 'orderType', title: '订单类型', width: 80, align: 'center',formatter : function(orderType){
     			if(orderType){
     				if(orderType =='0') {

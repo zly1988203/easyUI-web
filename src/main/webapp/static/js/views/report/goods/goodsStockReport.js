@@ -1,6 +1,7 @@
 /**
  * Created by wxl on 2016/08/11.
  */
+var pageSize = 50;
 $(function(){
     //初始化列表
     initProductInquireGrid();
@@ -16,17 +17,20 @@ function initProductInquireGrid() {
         pagination:true,    //分页
         showFooter:true,
         fitColumns:true,    //每列占满
-        pageSize : 20,
+        pageSize : pageSize,
         height:'100%',
         columns: [[
             {field: 'branchCode', title: '店铺编号', width: 100, align: 'left'},
-            {field: 'branch', title: '店铺名称', width: 150, align: 'left'},
+            {field: 'branch', title: '店铺名称', width: 220, align: 'left'},
             {field: 'skuCode', title: '货号', width: 150, align: 'left'},
             {field: 'skuName', title: '商品名称', width: 180, align: 'left'},
             {field: 'barCode', title: '条码', width: 150, align: 'left'},
             {field: 'memoryCode', title: '助记码', width: 100, align: 'left'},
             {field: 'unit', title: '单位', width: 80, align: 'center'},
             {field: 'spec', title: '规格', width: 80, align: 'center'},
+            {field: 'numberCase', title: '箱数', width: 80, align: 'right',formatter : function(value){
+            	return getTwoDecimalB(value);
+            }},
             {field: 'actual', title: '库存', width: 80, align: 'right',formatter : function(value){
     			return getTwoDecimalB(value);
     		}},

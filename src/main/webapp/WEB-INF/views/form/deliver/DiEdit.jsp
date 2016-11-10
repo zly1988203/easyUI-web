@@ -19,7 +19,7 @@
                 <div class="ubtns-item" onclick="check()">审核</div>
                 <div class="ubtns-item" onclick="importproductAll()">导入明细</div>
                 <div class="ubtns-item" onclick="importproduct()">导入货号</div>
-                <div class="ubtns-item" onclick="back()">返回</div>
+                <div class="ubtns-item" onclick="toBackByJS()">返回</div>
             </div>
         </div>
         <div class="ub umar-t8 uc-black">【单号】：<span id="formNo">${form.formNo}</span></div>
@@ -41,7 +41,7 @@
                </div>
                <div class="ub ub-ac umar-l20">
                    <div class="umar-r10 uw-60 ut-r">制单日期:</div>
-                   <div class="utxt" id="createTime"><fmt:formatDate value="${form.createTime}" pattern="yyyy-MM-dd hh:mm"/></div>
+                   <div class="utxt" id="createTime"><fmt:formatDate value="${form.createTime}" pattern="yyyy-MM-dd HH:mm"/></div>
                </div>
            </div>
            <div class="ub umar-t8">

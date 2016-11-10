@@ -145,7 +145,7 @@ function initDatagridBranch(){
       width:'100%',
       columns:[[
           {field:'branchCode',title:'编码',width:100,align:'center'},
-          {field:'branchName',title:'机构名称',width:100,align:'center'},
+          {field:'branchName',title:'机构名称',width:220,align:'center'},
       ]],
       onClickRow:branchClickRow,
   });

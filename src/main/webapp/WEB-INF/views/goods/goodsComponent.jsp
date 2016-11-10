@@ -14,7 +14,7 @@
 	        <div class="ub ub-ac">
 	            <div class="ubtns">
 					<div class="ubtns-item" onclick="query()">查询</div>
-					<div class="ubtns-item" onclick="reset()">重置</div>
+					<div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 	                <div class="ubtns-item" onclick="toClose()">退出</div>
 	            </div>
 	        </div>
@@ -22,7 +22,7 @@
 	        <div class="ub umar-t8">
 	            <div class="ub ub-ac umar-r40">
 	                <div class="umar-r10 uw-60 ut-r">关键字:</div>
-	                <input class="uinp" name="goodsInfos" id="goodsInfos" type="text" placeholder="输入货号、条码、商品名称进行查询"> 
+	                <input class="uinp uninputs" name="goodsInfos" id="goodsInfos" type="text" placeholder="输入货号、条码、商品名称进行查询"> 
 	            </div>
 	             
 	            <div class="ub ub-ac uselectws">

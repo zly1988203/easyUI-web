@@ -1,43 +1,108 @@
+var pageSize = 50;
 $(function() {
 	//开始和结束时间
-    $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
+	$("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 	//初始化默认条件
     initDatagridByFormNo();
 	//选择报表类型
 	changeType();
-
+	//切换radio 禁启用
+	checktype();
 	$(document).on('keyup','#arrivalRate',function(){
 		var val=parseFloat($(this).val());
 	    var str=$(this).val();
 		if(val<0||val>1){
 			   $(this).val("");	
 		}
-		else if(str.length>=7){
-		    var subval=str.substring(0,7);
+		else if(str.length>=6){
+			
+		    var subval=str.substring(0,6);
 		    $(this).val(subval);	
 		}
 	})
 });
 
-
+var flushFlg = false;
 function changeType(){
 	$(".radioItem").change(function(){
-		flushFlg = true;
-    	var a = $(this).val();
-    	if (a==0) {
-    		initDatagridByFormNo();
-		} else if (a==1) {
+		$("#gridOrders").datagrid("options").url = "";
+		checktype()
+		var val = $(this).val();
+		if (val==0) {
+			flushFlg=true;
+			initDatagridByFormNo();
+			
+		} else if (val==1) {
 			initDatagridBySupplier();
-		} else if (a==2) {
+		} else if (val==2) {
 			initDatagridByCategory();
-		}else if(a==3){
+		}else if(val==3){
 			initDatagridBySku();
 		}
-    });
+		$("#gridOrders").datagrid('loadData', { total: 0, rows: [] });
+    	$('#gridOrders').datagrid({showFooter:false});
+	});
 }
-
-
+//切换radio 4个状态的禁用和启用 以及值的清空
+function checktype(){
+ var len=$('.radioItem').length;
+	for(var i=0;i<len;i++){
+		var check=$('.radioItem').eq(i).prop('checked');
+		var value=$('.radioItem').eq(i).val();
+		if(check==true&&value=='0'){
+			$('#categoryName').addClass('uinp-no-more');
+			$('#categoryName').removeAttr('onclick');
+			$('#categoryName').val("");
+			$('#categoryId').val("");
+			$('#categoryCode').val("");
+			$('.uinp-categoryName').removeAttr('onclick');
+			$('#supplierName').removeClass('uinp-no-more');
+			$('#supplierName').attr('onclick','selectSupplier()');
+			$('.uinp-supplierName').attr('onclick','selectSupplier()');
+			$('#formNo').removeClass('uinp-no-more');
+			$('#formNo').removeAttr("readonly");
+		}
+		else if(check==true&&value=='1'){
+			$('#categoryName').addClass('uinp-no-more');
+			$('#categoryName').removeAttr('onclick');
+			$('#categoryName').val("");
+			$('.uinp-categoryName').removeAttr('onclick');
+			$('#formNo').addClass('uinp-no-more');
+			$('#formNo').attr("readonly","readonly");
+			$('#formNo').val("");
+			$('#supplierName').removeClass('uinp-no-more');
+			$('#supplierName').attr('onclick','selectSupplier()');
+			$('.uinp-supplierName').attr('onclick','selectSupplier()');	
+		}
+		else if(check==true&&value=='2'){
+			$('#supplierName').addClass('uinp-no-more');
+			$('#supplierName').removeAttr('onclick');
+			$('#supplierName').val("");
+			$('.uinp-supplierName').removeAttr('onclick');
+			$('#formNo').addClass('uinp-no-more');
+			$('#formNo').attr("readonly","readonly");
+			$('#formNo').val("");
+			$('#categoryName').attr('onclick','getGoodsType()');
+			$('.uinp-categoryName').attr('onclick','getGoodsType()');
+			$('#categoryName').removeClass('uinp-no-more');
+		}
+		else if(check==true&&value=='3'){
+			$('#categoryName').attr('onclick','getGoodsType()');
+			$('.uinp-categoryName').attr('onclick','getGoodsType()');
+			$('#categoryName').removeClass('uinp-no-more');
+			$('#supplierName').removeClass('uinp-no-more');
+			$('#supplierName').attr('onclick','selectSupplier()');
+			$('.uinp-supplierName').attr('onclick','selectSupplier()');
+			$('#formNo').addClass('uinp-no-more');
+			$('#formNo').attr("readonly","readonly");
+			$('#formNo').val("");
+			$('#categoryName').val("");
+			$('#categoryId').val("");
+			$('#categoryCode').val("");
+		}
+   }	
+}
 
 var gridHandel = new GridClass();
 //初始化表格
@@ -46,6 +111,8 @@ function initDatagridByFormNo(){
     $("#gridOrders").datagrid({
         method:'post',
         align:'center',
+        url:'',
+        pageSize : pageSize,
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
         pagination:true,    //分页
@@ -55,14 +122,24 @@ function initDatagridByFormNo(){
 		width:'100%',
         columns:[[
             {field:'branchCode',title:'机构编号',width:'140px',align:'left'},
-            {field:'branchName',title:'机构名称',width:'140px',align:'left'},
+            {field:'branchName',title:'机构名称',width:'220px',align:'left'},
             {field:'supplierCode',title:'供应商编号',width:'140px',align:'left'},
             {field:'supplierName',title:'供应商名称',width:'140px',align:'left'},
-            {field:'formNo',title:'采购单编号',width:'140px',align:'left'},
+            {field: 'formNo', title: '单据编号', width: 140, align: 'left',
+            	formatter:function(value,row,index){
+            		var hrefStr = '';
+            		if(row.id){
+        				hrefStr='parent.addTab("详情","'+contextPath+'/form/purchase/returnEdit?report=close&formId='+row.id+'")'
+        				return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
+            		}else{
+            			return "";
+            		}
+                }
+            },
             {field:'arrivalRate',title:'到货率',width:'140px',align:'right',
 				formatter : function(value, row, index) {
 					if(value!=null){
-						return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+						return '<b>'+value+'</b>';
 					}
 					return "";
 				},
@@ -77,12 +154,12 @@ function initDatagridByFormNo(){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
 			},
-			{field:'receiptNum',title:'收货数量',width:'120px',align:'right',
+			{field:'receiptNum',title:'到货数量',width:'120px',align:'right',
 				formatter : function(value, row, index) {
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
 			},
-			{field:'receiptAmount',title:'收货金额',width:'140px',align:'right',
+			{field:'receiptAmount',title:'到货金额',width:'140px',align:'right',
 				formatter : function(value, row, index) {
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
@@ -102,6 +179,7 @@ function initDatagridByFormNo(){
 			gridHandel.setDatagridHeader("center");
 		}
     });
+    
 }
 
 //初始化表格
@@ -110,6 +188,8 @@ function initDatagridBySupplier(){
     $("#gridOrders").datagrid({
         method:'post',
         align:'center',
+        url:'',
+        pageSize : pageSize,
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
         pagination:true,    //分页
@@ -123,7 +203,7 @@ function initDatagridBySupplier(){
             {field:'arrivalRate',title:'到货率',width:'140px',align:'right',
 				formatter : function(value, row, index) {
 					if(value!=null){
-						return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+						return '<b>'+value+'</b>';
 					}
 					return "";
 				},
@@ -138,12 +218,12 @@ function initDatagridBySupplier(){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
 			},
-			{field:'receiptNum',title:'收货数量',width:'120px',align:'right',
+			{field:'receiptNum',title:'到货数量',width:'120px',align:'right',
 				formatter : function(value, row, index) {
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
 			},
-			{field:'receiptAmount',title:'收货金额',width:'140px',align:'right',
+			{field:'receiptAmount',title:'到货金额',width:'140px',align:'right',
 				formatter : function(value, row, index) {
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
@@ -163,7 +243,6 @@ function initDatagridBySupplier(){
 			gridHandel.setDatagridHeader("center");
 		}
     });
-    query();
 }
 
 //初始化表格
@@ -172,6 +251,8 @@ function initDatagridByCategory(){
     $("#gridOrders").datagrid({
         method:'post',
         align:'center',
+        url:'',
+        pageSize : pageSize,
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
         pagination:true,    //分页
@@ -185,7 +266,7 @@ function initDatagridByCategory(){
             {field:'arrivalRate',title:'到货率',width:'140px',align:'right',
 				formatter : function(value, row, index) {
 					if(value!=null){
-						return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+						return '<b>'+value+'</b>';
 					}
 					return "";
 				},
@@ -200,12 +281,12 @@ function initDatagridByCategory(){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
 			},
-			{field:'receiptNum',title:'收货数量',width:'120px',align:'right',
+			{field:'receiptNum',title:'到货数量',width:'120px',align:'right',
 				formatter : function(value, row, index) {
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
 			},
-			{field:'receiptAmount',title:'收货金额',width:'140px',align:'right',
+			{field:'receiptAmount',title:'到货金额',width:'140px',align:'right',
 				formatter : function(value, row, index) {
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
@@ -225,7 +306,6 @@ function initDatagridByCategory(){
 			gridHandel.setDatagridHeader("center");
 		}
     });
-    query();
 }
 
 
@@ -235,6 +315,8 @@ function initDatagridBySku(){
     $("#gridOrders").datagrid({
         method:'post',
         align:'center',
+        url:'',
+        pageSize : pageSize,
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
         pagination:true,    //分页
@@ -245,7 +327,6 @@ function initDatagridBySku(){
         columns:[[
             {field:'supplierCode',title:'供应商编号',width:'140px',align:'left'},
             {field:'supplierName',title:'供应商名称',width:'140px',align:'left'},
-            {field:'formNo',title:'单据编号',width:'140px',align:'left'},
             {field:'skuName',title:'商品名称',width:'140px',align:'left'},
             {field:'skuCode',title:'货号',width:'140px',align:'left'},
             {field:'barCode',title:'条码',width:'140px',align:'left'},
@@ -254,7 +335,7 @@ function initDatagridBySku(){
             {field:'arrivalRate',title:'到货率',width:'140px',align:'right',
 				formatter : function(value, row, index) {
 					if(value!=null){
-						return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+						return '<b>'+value+'</b>';
 					}
 					return "";
 				},
@@ -269,12 +350,12 @@ function initDatagridBySku(){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
 			},
-			{field:'receiptNum',title:'收货数量',width:'120px',align:'right',
+			{field:'receiptNum',title:'到货数量',width:'120px',align:'right',
 				formatter : function(value, row, index) {
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
 			},
-			{field:'receiptAmount',title:'收货金额',width:'140px',align:'right',
+			{field:'receiptAmount',title:'到货金额',width:'140px',align:'right',
 				formatter : function(value, row, index) {
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
@@ -294,10 +375,11 @@ function initDatagridBySku(){
 			gridHandel.setDatagridHeader("center");
 		}
     });
-    query();
 }
 
 function query(){
+	$("#gridOrders").datagrid("options").url = "";
+	$("#gridOrders").datagrid({showFooter:true});
 	$("#gridOrders").datagrid("options").queryParams = $("#queryForm").serializeObject();
 	$("#gridOrders").datagrid("options").method = "post";
 	$("#gridOrders").datagrid("options").url = contextPath+'/report/purchase/getList';
@@ -334,17 +416,10 @@ function getGoodsType(){
  * 重置
  */
 function resetForm(){
-	 $("#txtStartDate").val('');
-	 $("#txtEndDate").val('');
-	 $('#branchCode').val('');
-	 $('#branchNameOrCode').val('');
-	 $('#supplierId').val('');
-	 $('#supplierName').val('');
-	 $('#categoryId').val('');
-	 $('#categoryName').val('');
-	 $('#categoryCode').val('');
-	 $('#formNo').val('');
-	 $('#arrivalRate').val('');
+	$("#queryForm").form('clear');
+	//开始和结束时间
+	$("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
+    $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 };
 
 //清空机构编号

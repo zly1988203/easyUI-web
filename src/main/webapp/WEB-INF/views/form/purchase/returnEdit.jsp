@@ -15,15 +15,25 @@
     <div class="ub ub-ver ub-f1 umar-4  ubor">
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
+            
                 <div class="ubtns-item" onclick="saveItemHandel()">保存</div>
+           
+            <shiro:hasPermission name="JxcPurchaseRefund:audit">
                 <div class="ubtns-item" onclick="check()">审核</div>
+            </shiro:hasPermission>
                 <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
+            <shiro:hasPermission name="JxcPurchaseRefund:delete">
                 <div class="ubtns-item" onclick="orderDelete()">删单</div>
+            </shiro:hasPermission>
+            <shiro:hasPermission name="JxcPurchaseOrder:terminate">
                 <div class="ubtns-item" onclick="stop()">终止</div>
+            </shiro:hasPermission>
                 <div class="ubtns-item" onclick="toImportproduct(0)">导入货号</div>
                 <div class="ubtns-item" onclick="toImportproduct(1)">导入条码</div>
+            <shiro:hasPermission name="JxcPurchaseRefund:print">
                 <div class="ubtns-item" onclick="printDesign()">打印</div>
-                <div class="ubtns-item"  onclick="back()">返回</div>
+            </shiro:hasPermission>
+                <div class="ubtns-item"  onclick="toBackByJS()">返回</div>
             </div>
         </div>
         <div class="ub umar-t8 uc-black">【单号】：<span >${form.formNo}</span></div>

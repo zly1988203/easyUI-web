@@ -58,7 +58,7 @@ function toChangeDate(index){
             $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getCurrentDate()).format("yyyy-MM-dd"));
             break;
         case 9: //昨天
-            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getCurrDayPreOrNextDay("prev",29)).format("yyyy-MM-dd"));
+            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getCurrDayPreOrNextDay("prev",30)).format("yyyy-MM-dd"));
             $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getCurrentDate()).format("yyyy-MM-dd"));
             break;
         default :
@@ -108,6 +108,10 @@ function toChangeDatetime(index){
             break;
         case 9: //昨天
             $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getCurrDayPreOrNextDay("prev",29)).format("yyyy-MM-dd hh:mm"));
+            $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getCurrentDate()).format("yyyy-MM-dd hh:mm"));
+            break;
+        case 10: //往后推一个月
+            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getPreMonthDate()).format("yyyy-MM-dd hh:mm"));
             $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getCurrentDate()).format("yyyy-MM-dd hh:mm"));
             break;
         default :
@@ -561,6 +565,87 @@ function publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targe
     }
 }
 
+/**
+ * 公共组件-商品选择-新
+ * @param params  传参对象
+ * @param callback 回调函数
+ */
+function publicNewGoodsService(params,callback){
+    if(params.key){
+        var url= contextPath + '/goods/goodsSelect/importSkuCode?skuCodes='+params.key+'&branchId='+params.branchId;
+        $.ajax({
+            url:url,
+            type:'POST',
+            success:function(data){
+                if(data&&data.length==1){
+                    callback(data);
+                }else{
+                    publicNewGoodsServiceHandel(params,callback);
+                }
+            }
+        })
+    }else{
+        publicNewGoodsServiceHandel(params,callback);
+    }
+}
+function publicNewGoodsServiceHandel(params,callback){
+    if(!params.branchId){
+        url=contextPath + "/goods/goodsSelect/view?type="+params.type+"&sourceBranchId="+params.sourceBranchId+"&targetBranchId="+params.targetBranchId;
+    }else{
+        url=contextPath + "/goods/goodsSelect/view?type="+params.type+"&branchId="+params.branchId;
+    }
+    //公有属性
+    var dalogObj = {
+        href:url,
+        width:1200,
+        height:600,
+        title:"商品选择",
+        closable:true,
+        resizable:true,
+        onClose:function(){
+            $(dalogTemp).panel('destroy');
+        },
+        modal:true,
+    }
+    if(params.isRadio&&params.isRadio==1){
+        dalogObj["onLoad"] =function(){
+            initGoodsRadioCallBack(function(data){
+                callback( [data]);
+                $(dalogTemp).panel('destroy')
+            });
+            initNewSearch(params);
+        };
+    }else{
+        dalogObj["onLoad"] =function(){
+            initGoodsRadioCallBack();
+            $("#goodsInfo").val(params.key);
+            initNewSearch(params);
+        };
+        dalogObj["buttons"] =[{
+            text:'确定',
+            handler:function(){
+                getCheckGoods();
+            }
+        },{
+            text:'取消',
+            handler:function(){
+                $(dalogTemp).panel('destroy');
+            }
+        }];
+    }
+    var  dalogTemp = $('<div/>').dialog(dalogObj);
+    //私有方法
+    function getCheckGoods(){
+        publicGoodsGetCheckGoods(function(data){
+            if(data.length==0){
+                messager("请选择数据");
+                return;
+            }
+            callback(data);
+            $(dalogTemp).panel('destroy');
+        });
+    }
+}
 //公共组件-公共方法
 //关闭
 function toClose(){
@@ -569,6 +654,14 @@ function toClose(){
 //返回
 function toBack(){
 	history.go(-1);
+}
+//刷新当前页面
+function gFunRefresh() {
+    window.location.reload();
+}
+function toBackByJS(){
+	history.back()
+	//history.go(-1);
 }
 /**
  * 公共库-表格 黄江

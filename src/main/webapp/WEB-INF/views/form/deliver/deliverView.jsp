@@ -17,12 +17,13 @@
     <div class="ub ub-ver ub-f1 umar-4  ubor">
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
-            	<div class="ubtns-item" onclick="addDeliverForm()">新增</div>
+            	<input type="hidden" id="close" value="${close}"/>
+            	<div class="ubtns-item" id="addButton" onclick="addDeliverForm()">新增</div>
             	<div class="ubtns-item" onclick="stop()">终止</div>
             	<div class="ubtns-item" onclick="printDesign('${form.formNo}')">打印</div>
             	<div class="ubtns-item"  onclick="exportData('DA','gridViewRequireOrder')">导出明细</div>
             	<div class="ubtns-item"  onclick="exportData('DA','gridViewRequireOrder',1)">导出货号</div>
-                <div class="ubtns-item" onclick="back()">返回</div>
+                <div class="ubtns-item" id="toBackByJSButton" onclick="toBackByJS()">返回</div>
             </div>
         </div>
         <div class="ub umar-t8 uc-black">【单号】：${form.formNo}</div>
@@ -52,7 +53,7 @@
             </div>
             <div class="ub ub-ac umar-l20">
                 <div class="umar-r10 uw-60 ut-r">制单日期:</div>
-                <div class="utxt" id="createTime"><fmt:formatDate value="${form.createTime}" pattern="yyyy-MM-dd hh:mm"/></div>
+                <div class="utxt" id="createTime"><fmt:formatDate value="${form.createTime}" pattern="yyyy-MM-dd HH:mm"/></div>
             </div>
         </div>
         <div class="ub umar-t8">

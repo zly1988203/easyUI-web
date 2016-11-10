@@ -115,19 +115,21 @@ public abstract class ReportController extends BaseController<T>{
 				// 只转换一个参数，多个参数不转换
 				String values[] = (String[]) p.getValue();
 				String match = "^((((1[6-9]|[2-9]\\d)\\d{2})-(0?[13578]|1[02])-(0?[1-9]|[12]\\d|3[01]))|(((1[6-9]|[2-9]\\d)\\d{2})-(0?[13456789]|1[012])-(0?[1-9]|[12]\\d|30))|(((1[6-9]|[2-9]\\d)\\d{2})-0?2-(0?[1-9]|1\\d|2[0-8]))|(((1[6-9]|[2-9]\\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))-0?2-29-)) (20|21|22|23|[0-1]?\\d):[0-5]?\\d:[0-5]?\\d$";
-				if (values[0].matches(match)) {
-					try {
-						retParams.put(p.getKey(), sdf.parse(values[0]));
-					} catch (ParseException e) {
-						retParams.put(p.getKey(), values);
-						e.printStackTrace();
+				if(StringUtils.isNotBlank(values[0])){
+					if (values[0].matches(match)) {
+						try {
+							retParams.put(p.getKey(), sdf.parse(values[0]));
+						} catch (ParseException e) {
+							retParams.put(p.getKey(), values);
+							e.printStackTrace();
+						}
+					} else if (p.getKey().equals("queryCondition")
+							&& model.asMap().containsKey("queryCondition")) {
+						retParams.put(p.getKey(),
+								model.asMap().get("queryCondition"));
+					} else {
+						retParams.put(p.getKey(), values[0].trim());
 					}
-				} else if (p.getKey().equals("queryCondition")
-						&& model.asMap().containsKey("queryCondition")) {
-					retParams.put(p.getKey(),
-							model.asMap().get("queryCondition"));
-				} else {
-					retParams.put(p.getKey(), values[0].trim());
 				}
 			}
 		}

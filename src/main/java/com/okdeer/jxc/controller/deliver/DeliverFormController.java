@@ -9,10 +9,12 @@ package com.okdeer.jxc.controller.deliver;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONObject;
@@ -86,7 +88,7 @@ import com.okdeer.jxc.utils.UserUtil;
 @Controller
 @RequestMapping("form/deliverForm")
 public class DeliverFormController extends
-		BasePrintController<DeliverFormController, DeliverFormList> {
+BasePrintController<DeliverFormController, DeliverFormList> {
 
 	@Reference(version = "1.0.0", check = false)
 	private QueryDeliverFormServiceApi queryDeliverFormServiceApi;
@@ -204,16 +206,16 @@ public class DeliverFormController extends
 					.intValue()) {
 				// 判断要货机构是否是分店，如果是分店，要货机构可以选择该分店下的所有机构，有效时间为该分店的，起订金额为目标机构的
 				branchesGrow
-						.setValidityTime(branchesGrow
-								.getTargetBranchValidityNumDays() == 0 ? SysConstant.VALIDITY_DAY
+				.setValidityTime(branchesGrow
+						.getTargetBranchValidityNumDays() == 0 ? SysConstant.VALIDITY_DAY
 								: branchesGrow.getTargetBranchValidityNumDays());
 				branchesGrow.setSourceBranchId("");
 				branchesGrow.setSourceBranchName("");
 			} else {
 				// 如果为店铺，则只能是该机构本身，不能选择，有效时间为该店铺对应的分店的，起订金额为该店铺对应分店的
 				branchesGrow
-						.setValidityTime(branchesGrow
-								.getSourceBranchValidityNumDays() == 0 ? SysConstant.VALIDITY_DAY
+				.setValidityTime(branchesGrow
+						.getSourceBranchValidityNumDays() == 0 ? SysConstant.VALIDITY_DAY
 								: branchesGrow.getSourceBranchValidityNumDays());
 			}
 
@@ -223,7 +225,7 @@ public class DeliverFormController extends
 			if (BranchTypeEnum.HEAD_QUARTERS.getCode().intValue() == type
 					.intValue()
 					|| BranchTypeEnum.BRANCH_OFFICE.getCode().intValue() == type
-							.intValue()) {
+					.intValue()) {
 				branchesGrow.setSourceBranchId("");
 				branchesGrow.setSourceBranchName("");
 			}
@@ -244,7 +246,7 @@ public class DeliverFormController extends
 	 * @date 2016年8月29日
 	 */
 	@RequestMapping(value = "deliverEdit")
-	public String deliverEdit(QueryDeliverFormVo vo, Model model) {
+	public String deliverEdit(QueryDeliverFormVo vo,String report, Model model,HttpServletRequest request) {
 		LOG.info(LogConstant.OUT_PARAM, vo.toString());
 		model.addAttribute("type", vo.getFormSources());
 		vo.setFormSources("");
@@ -279,14 +281,17 @@ public class DeliverFormController extends
 						"salesman",
 						branches.getSalesman() == null ? "" : branches
 								.getSalesman());
+				model.addAttribute("close", report);
 				return "form/deliver/deliverView";
 			} else if (FormType.DO.toString().equals(form.getFormType())) {
 				form.setRebateMoney(BigDecimalUtils.formatDecimal(
 						form.getRebateMoney(), 2));
 				form.setAddRebateMoney(BigDecimalUtils.formatDecimal(
 						form.getAddRebateMoney(), 2));
+				model.addAttribute("close", report);
 				return "form/deliver/DoView";
 			} else {
+				model.addAttribute("close", report);
 				return "form/deliver/DiView";
 			}
 		}
@@ -643,19 +648,25 @@ public class DeliverFormController extends
 			GoodsSelectImportVo<GoodsSelectDeliver> vo = goodsSelectImportComponent.importSelectGoods(fileName, is,
 					fields, new GoodsSelectDeliver(), branchId, user.getId(), type,
 					"/form/deliverForm/downloadErrorFile", new GoodsSelectImportBusinessValid() {
-						@Override
-						public void formatter(List<? extends GoodsSelect> list) {
+				@Override
+				public void formatter(List<? extends GoodsSelect> list) {
+					for (GoodsSelect objGoods : list) {
+						GoodsSelectDeliver obj = (GoodsSelectDeliver) objGoods;
+						if(!StringUtils.isEmpty(obj.getLargeNum())&&obj.getDistributionSpec()!=null){
+							obj.setNum(new BigDecimal( obj.getLargeNum()).multiply(obj.getDistributionSpec() ).toEngineeringString());
 						}
+					}
+				}
 
-						@Override
-						public void businessValid(List<JSONObject> list, String[] excelField) {
-						}
+				@Override
+				public void businessValid(List<JSONObject> list, String[] excelField) {
+				}
 
-						@Override
-						public void errorDataFormatter(List<JSONObject> list) {
-						}
+				@Override
+				public void errorDataFormatter(List<JSONObject> list) {
+				}
 
-					});
+			});
 			respJson.put("importInfo", vo);
 		} catch (IOException e) {
 			respJson = RespJson.error("读取Excel流异常");
@@ -787,50 +798,50 @@ public class DeliverFormController extends
 			GoodsSelectImportVo<GoodsSelectDeliver> vo = goodsSelectImportComponent.importSelectGoods(fileName, is,
 					fields, new GoodsSelectDeliver(), branchId, user.getId(), type, "/form/deliverForm/downloadError",
 					new GoodsSelectImportBusinessValid() {
-						@Override
-						public void formatter(List<? extends GoodsSelect> list) {
+				@Override
+				public void formatter(List<? extends GoodsSelect> list) {
+				}
+
+				@Override
+				public void businessValid(List<JSONObject> list, String[] excelField) {
+					for (JSONObject obj : list) {
+						String num = obj.getString("largeNum");
+						try {
+							Double.parseDouble(num);
+						} catch (Exception e) {
+							obj.element("largeNum", 0);
 						}
 
-						@Override
-						public void businessValid(List<JSONObject> list, String[] excelField) {
-							for (JSONObject obj : list) {
-								String num = obj.getString("num");
-								try {
-									Double.parseDouble(num);
-								} catch (Exception e) {
-									obj.element("num", 0);
-								}
+						try {
+							String isGift = obj.getString("isGift");
+							if ("是".equals(isGift)) {// 如果是赠品，单价设置为0
+								obj.element("isGift", "1");
+								obj.element("price", 0);
+							} else if ("否".equals(isGift)) {
+								obj.element("isGift", "0");
+							} else {
+								obj.element("error", "是否赠品字段填写有误");
+							}
+						} catch (Exception e) {
+							obj.element("error", "是否赠品字段填写有误");
+						}
+					}
+				}
 
-								try {
-									String isGift = obj.getString("isGift");
-									if ("是".equals(isGift)) {// 如果是赠品，单价设置为0
-										obj.element("isGift", "1");
-										obj.element("price", 0);
-									} else if ("否".equals(isGift)) {
-										obj.element("isGift", "0");
-									} else {
-										obj.element("error", "是否赠品字段填写有误");
-									}
-								} catch (Exception e) {
-									obj.element("error", "是否赠品字段填写有误");
-								}
+				@Override
+				public void errorDataFormatter(List<JSONObject> list) {
+					for (JSONObject obj : list) {
+						if (obj.containsKey("isGift")) {
+							String isGift = obj.getString("isGift");
+							if ("1".equals(isGift)) {
+								obj.element("isGift", "是");
+							} else if ("0".equals(isGift)) {
+								obj.element("isGift", "否");
 							}
 						}
-
-						@Override
-						public void errorDataFormatter(List<JSONObject> list) {
-							for (JSONObject obj : list) {
-								if (obj.containsKey("isGift")) {
-									String isGift = obj.getString("isGift");
-									if ("1".equals(isGift)) {
-										obj.element("isGift", "是");
-									} else if ("0".equals(isGift)) {
-										obj.element("isGift", "否");
-									}
-								}
-							}
-						}
-					});
+					}
+				}
+			});
 			respJson.put("importInfo", vo);
 		} catch (IOException e) {
 			respJson = RespJson.error("读取Excel流异常");

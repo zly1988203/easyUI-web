@@ -13,6 +13,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONObject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,7 +36,6 @@ import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
-import com.okdeer.jxc.form.purchase.vo.PurchaseFormVo;
 import com.okdeer.jxc.goods.entity.GoodsSelect;
 import com.okdeer.jxc.goods.entity.GoodsSelectByStockAdjust;
 import com.okdeer.jxc.stock.service.StockAdjustServiceApi;
@@ -42,8 +43,6 @@ import com.okdeer.jxc.stock.vo.StockFormDetailVo;
 import com.okdeer.jxc.stock.vo.StockFormVo;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
-
-import net.sf.json.JSONObject;
 
 
 /**
@@ -111,17 +110,18 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 	 * @date 2016年10月18日
 	 */
 	@RequestMapping(value = "/checkSuccess" , method = RequestMethod.GET)
-	public String checkSuccess(String id,HttpServletRequest request){
+	public String checkSuccess(String id,String report,HttpServletRequest request){
 		StockFormVo stockFormVo = stockAdjustServiceApi.getStcokFormInfo(id);
 		request.setAttribute("stockFormVo", stockFormVo);
+		request.setAttribute("close", report);
 		return "/stockAdjust/check";
 	}
 	/**
 	 * 
 	 * @Description: 获取单据列表信息
-	 * @param vo
-	 * @param pageNumber
-	 * @param pageSize
+	 * @param vo  库存调整对象
+	 * @param pageNumber  当前页数
+	 * @param pageSize 每页显示数
 	 * @return
 	 * @author liux01
 	 * @date 2016年10月13日
@@ -149,9 +149,9 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 	/**
 	 * 
 	 * @Description: 保存库存调整单据
-	 * @param vo
-	 * @param pageNumber
-	 * @param pageSize
+	 * @param vo  库存调整对象
+	 * @param pageNumber  当前页数
+	 * @param pageSize 每页显示数
 	 * @return
 	 * @author liux01
 	 * @date 2016年10月13日
@@ -175,7 +175,7 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 	/**
 	 * 
 	 * @Description: 更新信息
-	 * @param vo
+	 * @param vo 库存调整实体对象
 	 * @return
 	 * @author liux01
 	 * @date 2016年10月13日
@@ -199,13 +199,11 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 	
 	/**
 	 * 
-	 * @Description: 获取库存信息
-	 * @param vo
-	 * @param pageNumber
-	 * @param pageSize
+	 * @Description: 获取库存调整明细信息
+	 * @param id 库存调整主键ID
 	 * @return
 	 * @author liux01
-	 * @date 2016年10月13日
+	 * @date 2016年11月4日
 	 */
 	@RequestMapping(value = "getStockFormDetailList", method = RequestMethod.GET)
 	@ResponseBody
@@ -221,7 +219,7 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 	/**
 	 * 
 	 * @Description: 审核单据信息
-	 * @param vo
+	 * @param ID  库存调整主键ID
 	 * @return
 	 * @author liux01
 	 * @date 2016年10月14日
@@ -242,7 +240,7 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 	/**
 	 * 
 	 * @Description: 删除库存调整信息
-	 * @param id
+	 * @param id 库存调整主键ID
 	 * @return
 	 * @author liux01
 	 * @date 2016年10月14日

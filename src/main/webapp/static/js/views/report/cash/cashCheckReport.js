@@ -1,6 +1,7 @@
 /**
  * Created by wxl on 2016/08/17.
  */
+var pageSize = 50;
 $(function(){
     //开始和结束时间
     $("#txtStartDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
@@ -16,7 +17,7 @@ function initCashReconcileGrid() {
         //title:'普通表单-用键盘操作',
         method: 'post',
         align: 'center',
-        pageSize : 20,
+        pageSize : pageSize,
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect: false,  //单选  false多选
         rownumbers: true,    //序号
@@ -34,7 +35,7 @@ function initCashReconcileGrid() {
                     return str;
                 },
             },
-            {field: 'branchName', title: '店铺名称', width: 200, align: 'left',},
+            {field: 'branchName', title: '店铺名称', width: 220, align: 'left',},
             {field: 'cashierCode', title: '收银员编号', width: 150, align: 'left'},
             {field: 'cashier', title: '收银员', width: 180, align: 'left'},
             {field: 'payType', title: '收款方式', width: 100, align: 'left'},

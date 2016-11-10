@@ -20,13 +20,13 @@
 	                	<div class="ubtns-item" onclick="addStockForm()">新增</div>
 	                </shiro:hasPermission>
 	                <!-- <div class="ubtns-item" onclick="delStockForm()">删单</div> -->
-	                <shiro:hasPermission name="JxcCostAdjust:export">
+	               <%--  <shiro:hasPermission name="JxcCostAdjust:export">
 	                	<div class="ubtns-item" onClick="exportExcel()">导出</div>
 	                </shiro:hasPermission>
 	                <shiro:hasPermission name="JxcCostAdjust:print">
 	                	<div class="ubtns-item" onClick="printDesign()">打印</div>
-	                </shiro:hasPermission>
-	                <div class="ubtns-item" id="set" onclick="resetForm()" >重置</div>
+	                </shiro:hasPermission> --%>
+	                <div class="ubtns-item" id="set" onclick="gFunRefresh()" >重置</div>
 	                <div class="ubtns-item" onclick="toClose()">退出</div>
 	            </div>
 	        	<div class="ub ub-ac umar-l20">

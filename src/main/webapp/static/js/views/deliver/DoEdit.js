@@ -240,6 +240,22 @@ function initDatagridEditRequireOrder(){
                     }
                 }
             },
+            {field:'defectNum',title:'缺货数',width:'100px',align:'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return
+                    }
+                    return  "<b>"+parseFloat(value||0).toFixed(2)+ "<b>";
+                },
+                editor:{
+                    type:'numberbox',
+                    options:{
+                        disabled:true,
+                        min:0,
+                        precision:2,
+                    }
+                }
+            },
             {field:'remark',title:'备注',width:'200px',align:'left',editor:'textbox'}
         ]],
         onClickCell:function(rowIndex,field,value){
@@ -253,8 +269,28 @@ function initDatagridEditRequireOrder(){
             }
         },
         onLoadSuccess:function(data){
+            if(isFirst)return;
+            isFirst = true;
+           
+            var rows = data.rows;
+            var isError = false;
+            for(var i in rows){
+                var oldDefectNum = rows[i]["defectNum"]||0;
+                rows[i]["oldDefectNum"] = oldDefectNum
+                var defectNum = parseFloat(rows[i]["sourceStock"]||0)-parseFloat(rows[i]["dealNum"]||0);
+                defectNum = defectNum<0?-defectNum:0;
+                debugger;
+                if(parseFloat(oldDefectNum)!=parseFloat(defectNum)&&parseInt(defectNum)!=0){
+                    isError = true;
+                }
+                rows[i]["defectNum"] = defectNum;
+            }
+            if(isError){
+                messager("库存数发生改变，请先保存");
+            }
+            $('#gridEditRequireOrder').datagrid('loadData',rows);
         	if(!oldData["grid"]){
-            	oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
+            	oldData["grid"] = $.map(rows, function(obj){
             		return $.extend(true,{},obj);//返回对象的深拷贝
             	});
             }
@@ -263,7 +299,7 @@ function initDatagridEditRequireOrder(){
         }
     });
 }
-
+var isFirst = false;
 //监听商品箱数
 function onChangeLargeNum(newV,oldV){
     if(!gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuName')){
@@ -297,6 +333,18 @@ function onChangeRealNum(newV,oldV) {
         messager("配送规格不能为0");
         return;
     }
+    var applyNum = gridHandel.getFieldData(gridHandel.getSelectRowIndex()||0,'applyNum');
+    if(parseFloat(newV)>parseFloat(applyNum)){
+        messager("数量不能大于要货数量("+applyNum+")");
+        gridHandel.setFieldValue('dealNum',applyNum);
+        return;
+    }else{
+        var sourceStockVal = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'sourceStock');
+        var defectNum = parseFloat(sourceStockVal||0)-parseFloat(newV||0);
+        var defectNumVal = defectNum<0?-defectNum:0;
+        gridHandel.setFieldValue('defectNum',defectNumVal);
+    }
+
     var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
     var salePriceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'salePrice');
     gridHandel.setFieldValue('amount',(priceValue*newV).toFixed(4));             //金额=数量*单价
@@ -542,7 +590,8 @@ function saveOrder(){
     		distributionSpec : data.distributionSpec,
     		formId : data.formId,
     		salePrice : data.salePrice,
-    		saleAmount : data.saleAmount
+    		saleAmount : data.saleAmount,
+    		defectNum : data.defectNum
     	}
     	reqObj.deliverFormListVo[i] = temp;
 	});
@@ -561,10 +610,14 @@ function saveOrder(){
                     remark:$("#remark").val(),                  // 备注
                     formNo:$("#formNo").html(),                 // 单号
                 }
-                oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
-            		return $.extend(true,{},obj);//返回对象的深拷贝
-            	});
+            	oldData["grid"] = null;
+//                oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
+//            		return $.extend(true,{},obj);//返回对象的深拷贝
+//            	});
             	$.messager.alert("操作提示", "操作成功！", "info");
+            	//window.location.reload();
+            	isFirst = false;
+            	$("#"+gridHandel.getGridName()).datagrid("reload");
             }else{
                 successTip(result['message']);
             }
@@ -592,33 +645,48 @@ function check(){
         messager("数据已修改，请先保存再审核");
         return;
     }
-    
-	$.messager.confirm('提示','是否审核通过？',function(data){
-		if(data){
-			$.ajax({
-		    	url : contextPath+"/form/deliverForm/check",
-		    	type : "POST",
-		    	data : {
-		    		deliverFormId : $("#formId").val(),
-		    		deliverType : 'DO'
-		    	},
-		    	success:function(result){
-		    		if(result['code'] == 0){
-		    			$.messager.alert("操作提示", "操作成功！", "info",function(){
-		    				location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
-		    			});
-		    		}else{
-		    			successTip(result['message']);
-		    		}
-		    	},
-		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
-		    	}
-		    });
-		}
+    var rows = gridHandel.getRows();
+    if(rows.length==0){
+        messager("表格不能为空");
+        return;
+    }
+    var msg = "是否审核通过？";
+    $.each(rows,function(i,v){
+        if(v["dealNum"]<=0){
+            msg = "第"+(i+1)+"行，商品数量为0，是否删除并审核?";
+            return false;
+        }
+        v["rowNo"] = i+1;
+    });
+	$.messager.confirm('提示',msg,function(data){
+        if(data){
+            checkHandel()
+        }
 	});
 }
+function checkHandel(){
+        $.ajax({
+            url : contextPath+"/form/deliverForm/check",
+            type : "POST",
+            data : {
+                deliverFormId : $("#formId").val(),
+                deliverType : 'DO'
+            },
+            success:function(result){
+                if(result['code'] == 0){
+                    $.messager.alert("操作提示", "操作成功！", "info",function(){
+                        location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
+                    });
+                }else{
+                    successTip(result['message']);
+                }
+            },
+            error:function(result){
+                successTip("请求发送失败或服务器处理失败");
+            }
+        });
 
+}
 //合计
 function toFooter(){
 	$('#gridEditRequireOrder').datagrid('reloadFooter',[{"isFooter":true,"receivablesAccount":$('#receivablesAccount').val()||0,"collectAccount":$('#collectAccount').val()||0}]);

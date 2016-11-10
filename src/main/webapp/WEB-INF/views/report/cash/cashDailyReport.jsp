@@ -26,7 +26,7 @@
 	            <shiro:hasPermission name="JxcCashDaily:export">
 	                <div class="ubtns-item" onclick="exportExcel()">导出</div>
 	            </shiro:hasPermission>
-	                <div class="ubtns-item" onclick="resetForm()">重置</div>
+	                <div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 	                <div class="ubtns-item" onclick="toClose()">退出</div>
 	            </div>
 	            
@@ -70,9 +70,8 @@
                   </div>
                 </div>
             </div>
-       	</form>
-       	<div class="ub umar-t8 umar-b8">【查询结果】</div>
-        <div class="ub ub-f1">
+       	</form>  	
+        <div class="ub ub-f1 umar-t20">
 			 <table id="cashDaily"></table>
 		</div>
     </div>

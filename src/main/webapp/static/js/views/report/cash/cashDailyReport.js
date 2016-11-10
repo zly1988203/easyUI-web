@@ -1,6 +1,7 @@
 /**
  * Created by wxl on 2016/08/17.
  */
+var pageSize = 50;
 $(function() {
 	// 开始和结束时间
 	$("#txtStartDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
@@ -63,7 +64,7 @@ function initCashDailyallGrid(queryType) {
         pagination: true,    //分页
         //fitColumns:true,    //占满
         //showFooter:true,
-        pageSize : 20,
+        pageSize : pageSize,
         showFooter:true,
         height:'100%',
         columns: [[
@@ -76,7 +77,7 @@ function initCashDailyallGrid(queryType) {
                     return str;
                 },
             },
-            {field: 'branchName', title: '店铺名称', width: 200, align: 'left',},
+            {field: 'branchName', title: '店铺名称', width: 220, align: 'left',},
             {field: 'cashierCode', title: '收银员编号', width: 100, align: 'left'},
             {field: 'cashier', title: '收银员', width: 100, align: 'left'},
             {field: 'rmb', title: '现金', width: 120, align: 'right',
@@ -158,6 +159,7 @@ function initCashDailymdGrid(queryType) {
         rownumbers: true,    //序号
         pagination: true,    //分页
         //fitColumns:true,    //占满
+        pageSize : pageSize,
         showFooter:true,
         columns: [[
            {field: 'branchCode', title: '店铺编号', width:100, align: 'left', 
@@ -169,7 +171,7 @@ function initCashDailymdGrid(queryType) {
                    return str;
                },
            	},
-            {field: 'branchName', title: '店铺名称', width:200, align: 'left',},
+            {field: 'branchName', title: '店铺名称', width:220, align: 'left',},
             {field: 'rmb', title: '现金', width:120, align: 'right',
             	formatter : function(value, row,index) {
                     return getTwoDecimalB(value);
@@ -247,6 +249,7 @@ function initCashDailydateGrid(queryType) {
         singleSelect: false,  //单选  false多选
         rownumbers: true,    //序号
         pagination: true,    //分页
+        pageSize : pageSize,
         //fitColumns:true,    //占满
         //showFooter:true,
         columns: [[
@@ -259,7 +262,7 @@ function initCashDailydateGrid(queryType) {
                     return str;
                 },
             },
-            {field: 'branchName', title: '店铺名称', width: 200, align: 'left',},
+            {field: 'branchName', title: '店铺名称', width: 220, align: 'left',},
             {field:'opDate',title:'操作日期',sortable:false,width:150,align: 'left'},
 			{field: 'rmb', title: '现金', width:120, align: 'right',
             	formatter : function(value, row,index) {

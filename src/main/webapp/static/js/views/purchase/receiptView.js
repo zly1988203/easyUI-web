@@ -16,6 +16,10 @@ $(function(){
 	}else{
 		$("#saleWayName").val(data.saleWay);
 	}
+	 if($("#close").val()){
+		$("#addButton").addClass("unhide");
+    	$("#toBackByJSButton").attr("onclick","window.parent.closeTab()");
+     }
 });
 var gridHandel = new GridClass();
 function initDatagridEditOrder(){
@@ -156,9 +160,6 @@ function printDesign(){
      parent.addTabPrint('PISheet' + id,formNo+'单据打印',contextPath + '/printdesign/design?page=PISheet&controller=/form/purchase&template=-1&sheetNo=' + id + '&gridFlag=PIGrid','');
 }
 
-function back(){
-	location.href = contextPath+"/form/purchase/receiptList";
-}
 
 function receiptAdd(){
 	location.href = contextPath + "/form/purchase/receiptAdd";

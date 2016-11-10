@@ -6,6 +6,7 @@
  */    
 package com.okdeer.jxc.controller.report;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -20,7 +21,6 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.LogConstant;
 import com.okdeer.jxc.common.result.RespJson;
-import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.report.service.GoodsSaleReportServiceApi;
@@ -77,6 +77,10 @@ public class GoodsSaleController extends BaseController<GoodsSaleController> {
 			vo.setPageSize(pageSize);
 			vo.setSourceBranchId(UserUtil.getCurrBranchId());
 			PageUtils<GoodsSaleReportVo> goodsSaleReportList = goodsSaleReportServiceApi.getGoodsSaleList(vo);
+			GoodsSaleReportVo goodsSaleReportVo = goodsSaleReportServiceApi.queryGoodsSaleCountSum(vo);
+			List<GoodsSaleReportVo> footer = new ArrayList<GoodsSaleReportVo>();
+			footer.add(goodsSaleReportVo);
+			goodsSaleReportList.setFooter(footer);
 			LOG.info(LogConstant.PAGE, goodsSaleReportList.toString());
 			return goodsSaleReportList;
 		} catch (Exception e) {
@@ -98,9 +102,12 @@ public class GoodsSaleController extends BaseController<GoodsSaleController> {
 	public RespJson exportList(HttpServletResponse response, GoodsSaleReportVo vo) {
 		RespJson resp = RespJson.success();
 		try {
+			vo.setSourceBranchId(UserUtil.getCurrBranchId());
 			List<GoodsSaleReportVo> exportList = goodsSaleReportServiceApi.exportList(vo);
-
-			String fileName = "库存调整" + "_" + DateUtils.getCurrSmallStr();
+			GoodsSaleReportVo goodsSaleReportVo = goodsSaleReportServiceApi.queryGoodsSaleCountSum(vo);
+			goodsSaleReportVo.setBranchName("合计：");
+			exportList.add(goodsSaleReportVo);
+			String fileName = "商品销售汇总表";
 
 			String templateName = ExportExcelConstant.GOODS_SALE_REPORT;
 

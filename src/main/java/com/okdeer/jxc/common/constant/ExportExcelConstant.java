@@ -79,6 +79,8 @@ public interface ExportExcelConstant {
 	
 	String STORE_DAY_SALE_REPORT = "storeDaySaleReport.xlsx";
 	
+	String GOODS_OUT_IN_DETAIL_REPORT = "goodsOutInDetailReport.xlsx";
+	
 	String STOCK_ADJUST_SKU_TEMPLE = "StockAdjustSkuTemple.xlsx";
 	
 	String STOCK_ADJUST_BAR_TEMPLE = "StockAdjustBarTemple.xlsx";
@@ -158,11 +160,16 @@ public interface ExportExcelConstant {
 	 * @Fields PURCHASEFORMHH : 采购单 退货单 收货单 货号模版
 	 */
 	String PURCHASEFORMCODE = "purchaseFormCode.xlsx";
-
+	
 	/**
-	 * @Fields PURCHASEFORM : DA 要货单 DO 出库单  DI入库单  DD 店间要货  DR退货申请
+	 * @Fields PURCHASEFORMHH :DA 要货单 DO 出库单  DI入库单  DD 店间要货  DR退货申请 导出模版
 	 */
-	String DELIVERFORM = "deliverForm.xlsx";
+	String DELIVERFORM = "DeliverForm.xlsx";
+	
+	String DELIVERFORM_DO = "DeliverFormDO.xlsx";
+	
+	String DELIVERFORM_DI = "DeliverFormDI.xlsx";
+	
 
 	/**
 	 * @Fields DADOFORM : DADOform.xlsx

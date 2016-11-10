@@ -76,6 +76,7 @@ public class DeliverSelectController extends BaseController<PurchaseForm> {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
 			LOG.info("制定调拨单选择页面参数:{}"+vo.toString());
+			
 			/**
 			 * @author zhangchm
 			 * 修改查询公共组件配送单号选择start

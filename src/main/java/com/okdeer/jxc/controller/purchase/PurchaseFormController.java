@@ -20,6 +20,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONObject;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,8 +67,6 @@ import com.okdeer.jxc.goods.entity.GoodsSelectByPurchase;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
 
-import net.sf.json.JSONObject;
-
 /**
  * ClassName: PurchaseFormController 
  * @author xiaoj02
@@ -76,6 +76,7 @@ import net.sf.json.JSONObject;
  *     Task ID			  Date			     Author		      Description
  * ----------------+----------------+-------------------+-------------------------------------------
  *		重构2.0			2016-8-5			xiaoj02			 采购controller
+ *		零售系统V1.20	2016-11-4			lijy02			采购审核部分审核后回写字段
  */
 @Controller
 @RequestMapping("form/purchase")
@@ -84,7 +85,7 @@ public class PurchaseFormController extends
 
 	@Reference(version = "1.0.0", check = false)
 	private PurchaseFormServiceApi purchaseFormServiceApi;
-	
+
 	@Autowired
 	private GoodsSelectImportComponent goodsSelectImportComponent;
 
@@ -176,11 +177,12 @@ public class PurchaseFormController extends
 	 * @date 2016年8月12日
 	 */
 	@RequestMapping(value = "orderEdit")
-	public String orderEdit(String formId, HttpServletRequest request) {
+	public String orderEdit(String formId,String report, HttpServletRequest request) {
 		PurchaseFormPO form = purchaseFormServiceApi.selectPOById(formId);
 		request.setAttribute("form", form);
 		if (FormStatus.CHECK_SUCCESS.getValue().equals(form.getStatus())) {// 已审核，不能修改
 			request.setAttribute("status", FormStatus.CHECK_SUCCESS.getLabel());
+			request.setAttribute("close", report);
 			return "form/purchase/orderView";
 		}
 
@@ -207,11 +209,12 @@ public class PurchaseFormController extends
 	 * @date 2016年8月18日
 	 */
 	@RequestMapping(value = "returnEdit")
-	public String returnEdit(String formId, HttpServletRequest request) {
+	public String returnEdit(String formId,String report, HttpServletRequest request) {
 		PurchaseFormPO form = purchaseFormServiceApi.selectPOById(formId);
 		request.setAttribute("form", form);
 		if (FormStatus.CHECK_SUCCESS.getValue().equals(form.getStatus())) {// 已审核，不能修改
 			request.setAttribute("status", FormStatus.CHECK_SUCCESS.getLabel());
+			request.setAttribute("close", report);
 			return "form/purchase/returnView";
 		}
 
@@ -238,11 +241,12 @@ public class PurchaseFormController extends
 	 * @date 2016年8月12日
 	 */
 	@RequestMapping(value = "receiptEdit")
-	public String receiptEdit(String formId, HttpServletRequest request) {
+	public String receiptEdit(String formId,String report, HttpServletRequest request) {
 		PurchaseFormPO form = purchaseFormServiceApi.selectPOById(formId);
 		request.setAttribute("form", form);
 		if (FormStatus.CHECK_SUCCESS.getValue().equals(form.getStatus())) {// 已审核，不能修改
 			request.setAttribute("status", FormStatus.CHECK_SUCCESS.getLabel());
+			request.setAttribute("close", report);
 			return "form/purchase/receiptView";
 		}
 
@@ -376,10 +380,11 @@ public class PurchaseFormController extends
 	@RequestMapping(value = "saveOrder", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson save(@RequestBody String jsonText) {
-//		PurchaseFormVo formVo = new PurchaseFormVo();
-		
-		PurchaseFormVo formVo = JSON.parseObject(jsonText, PurchaseFormVo.class);
-		
+		// PurchaseFormVo formVo = new PurchaseFormVo();
+
+		PurchaseFormVo formVo = JSON
+				.parseObject(jsonText, PurchaseFormVo.class);
+
 		PurchaseForm form = new PurchaseForm();
 
 		BeanUtils.copyProperties(formVo, form);
@@ -411,9 +416,10 @@ public class PurchaseFormController extends
 		form.setUpdateTime(now);
 
 		List<PurchaseFormDetail> list = new ArrayList<PurchaseFormDetail>();
-		
-//		List<PurchaseFormDetailVo> listVo = JSON.parseArray(detailList, PurchaseFormDetailVo.class);
-		
+
+		// List<PurchaseFormDetailVo> listVo = JSON.parseArray(detailList,
+		// PurchaseFormDetailVo.class);
+
 		List<PurchaseFormDetailVo> listVo = formVo.getDetailList();
 
 		for (PurchaseFormDetailVo purchaseFormDetailVo : listVo) {
@@ -441,9 +447,9 @@ public class PurchaseFormController extends
 	@RequestMapping(value = "saveReturn", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson saveReturn(@RequestBody String jsonText) {
-		
+
 		ReturnFormVo formVo = JSON.parseObject(jsonText, ReturnFormVo.class);
-		
+
 		PurchaseForm form = new PurchaseForm();
 		BeanUtils.copyProperties(formVo, form);
 
@@ -478,8 +484,9 @@ public class PurchaseFormController extends
 		}
 
 		List<PurchaseFormDetail> list = new ArrayList<PurchaseFormDetail>();
-		
-//		List<PurchaseFormDetailVo> listVo = JSON.parseArray(detailList, PurchaseFormDetailVo.class);
+
+		// List<PurchaseFormDetailVo> listVo = JSON.parseArray(detailList,
+		// PurchaseFormDetailVo.class);
 		List<PurchaseFormDetailVo> listVo = formVo.getDetailList();
 
 		for (PurchaseFormDetailVo purchaseFormDetailVo : listVo) {
@@ -507,9 +514,9 @@ public class PurchaseFormController extends
 	@RequestMapping(value = "saveReceipt", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson saveReceipt(@RequestBody String jsonText) {
-		
+
 		ReceiptFormVo formVo = JSON.parseObject(jsonText, ReceiptFormVo.class);
-		
+
 		PurchaseForm form = new PurchaseForm();
 		BeanUtils.copyProperties(formVo, form);
 
@@ -539,7 +546,8 @@ public class PurchaseFormController extends
 
 		List<PurchaseFormDetail> list = new ArrayList<PurchaseFormDetail>();
 
-//		List<PurchaseFormDetailVo> listVo = JSON.parseArray(detailList, PurchaseFormDetailVo.class);
+		// List<PurchaseFormDetailVo> listVo = JSON.parseArray(detailList,
+		// PurchaseFormDetailVo.class);
 		List<PurchaseFormDetailVo> listVo = formVo.getDetailList();
 
 		for (PurchaseFormDetailVo purchaseFormDetailVo : listVo) {
@@ -575,8 +583,9 @@ public class PurchaseFormController extends
 	@RequestMapping(value = "updateOrder", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson updateOrder(@RequestBody String jsonText) {
-		
-		PurchaseFormVo formVo = JSON.parseObject(jsonText, PurchaseFormVo.class);
+
+		PurchaseFormVo formVo = JSON
+				.parseObject(jsonText, PurchaseFormVo.class);
 
 		PurchaseForm form = new PurchaseForm();
 		BeanUtils.copyProperties(formVo, form);
@@ -587,9 +596,10 @@ public class PurchaseFormController extends
 		SysUser user = UserUtil.getCurrentUser();
 		Date now = new Date();
 
-//		List<PurchaseFormDetailVo> listVo = JSON.parseArray(detailList, PurchaseFormDetailVo.class);
+		// List<PurchaseFormDetailVo> listVo = JSON.parseArray(detailList,
+		// PurchaseFormDetailVo.class);
 		List<PurchaseFormDetailVo> listVo = formVo.getDetailList();
-		
+
 		for (PurchaseFormDetailVo purchaseFormDetailVo : listVo) {
 			PurchaseFormDetail formDetail = new PurchaseFormDetail();
 			BeanUtils.copyProperties(purchaseFormDetailVo, formDetail);
@@ -619,7 +629,7 @@ public class PurchaseFormController extends
 	@RequestMapping(value = "updateReceipt", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson updateReceipt(@RequestBody String jsonText) {
-		
+
 		ReceiptFormVo formVo = JSON.parseObject(jsonText, ReceiptFormVo.class);
 
 		PurchaseForm form = new PurchaseForm();
@@ -631,7 +641,8 @@ public class PurchaseFormController extends
 		SysUser user = UserUtil.getCurrentUser();
 		Date now = new Date();
 
-//		List<PurchaseFormDetailVo> listVo = JSON.parseArray(detailList, PurchaseFormDetailVo.class);
+		// List<PurchaseFormDetailVo> listVo = JSON.parseArray(detailList,
+		// PurchaseFormDetailVo.class);
 		List<PurchaseFormDetailVo> listVo = formVo.getDetailList();
 
 		for (PurchaseFormDetailVo purchaseFormDetailVo : listVo) {
@@ -679,9 +690,10 @@ public class PurchaseFormController extends
 		SysUser user = UserUtil.getCurrentUser();
 		Date now = new Date();
 
-//		List<PurchaseFormDetailVo> listVo = JSON.parseArray(detailList, PurchaseFormDetailVo.class);
+		// List<PurchaseFormDetailVo> listVo = JSON.parseArray(detailList,
+		// PurchaseFormDetailVo.class);
 		List<PurchaseFormDetailVo> listVo = formVo.getDetailList();
-		
+
 		for (PurchaseFormDetailVo purchaseFormDetailVo : listVo) {
 			PurchaseFormDetail purchaseFormDetail = new PurchaseFormDetail();
 			BeanUtils.copyProperties(purchaseFormDetailVo, purchaseFormDetail);
@@ -836,8 +848,7 @@ public class PurchaseFormController extends
 				formNo).getList();
 		return list;
 	}
-	
-	
+
 	/**
 	 * 商品导入
 	 * @param file
@@ -849,102 +860,112 @@ public class PurchaseFormController extends
 	 */
 	@RequestMapping(value = "importList")
 	@ResponseBody
-	public RespJson importList(@RequestParam("file") MultipartFile file,String type, String branchId){
+	public RespJson importList(@RequestParam("file") MultipartFile file,
+			String type, String branchId) {
 		RespJson respJson = RespJson.success();
 		try {
-			if(file.isEmpty()){
+			if (file.isEmpty()) {
 				return RespJson.error("文件为空");
 			}
-			
-			if(StringUtils.isBlank(type)){
+
+			if (StringUtils.isBlank(type)) {
 				return RespJson.error("导入类型为空");
 			}
-			
+
 			// 文件流
 			InputStream is = file.getInputStream();
 			// 获取文件名
 			String fileName = file.getOriginalFilename();
-			
+
 			SysUser user = UserUtil.getCurrentUser();
-			
-			String[] field = null; 
-			
-			if(type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)){//货号
-				field = new String[]{"skuCode","realNum","price","ingoreAmount","isGift"};
-			}else if(type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)){//条码
-				field = new String[]{"barCode","realNum","price","ingoreAmount","isGift"};
+
+			String[] field = null;
+
+			if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {// 货号
+				field = new String[] { "skuCode", "realNum", "price",
+						"ingoreAmount", "isGift" };
+			} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {// 条码
+				field = new String[] { "barCode", "realNum", "price",
+						"ingoreAmount", "isGift" };
 			}
-			
-			GoodsSelectImportVo<GoodsSelect> vo = goodsSelectImportComponent.importSelectGoods(fileName, is,
-					field, 
-					new GoodsSelectByPurchase(), 
-					branchId, user.getId(), 
-					type,
-					"/form/purchase/downloadErrorFile",
-					new GoodsSelectImportBusinessValid() {
-				
-				@Override
-				public void businessValid(List<JSONObject> list, String[] excelField) {
-					for (JSONObject obj : list) {
-						try {
-							String realNum = obj.getString("realNum");
-							Double.parseDouble(realNum);
-						} catch (Exception e) {
-							obj.element("realNum", 0);
-						}
-						
-						try {
-							String isGift = obj.getString("isGift");
-							if("是".equals(isGift)){//如果是赠品，单价设置为0
-								obj.element("isGift", "1");
-								obj.element("price", 0);
-							}else if("否".equals(isGift)){
-								obj.element("isGift", "0");
-							}else{
-								obj.element("error", "是否赠品字段填写有误");
-							}
-						} catch (Exception e) {
-							obj.element("error", "是否赠品字段填写有误");
-						}
-					}
-				}
-				
-				/**
-				 * (non-Javadoc)
-				 * @see com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid#formatter(java.util.List)
-				 */
-				@Override
-				public void formatter(List<? extends GoodsSelect> list) {
-					for (GoodsSelect objGoods : list) {
-						GoodsSelectByPurchase obj = (GoodsSelectByPurchase) objGoods;
-						
-						BigDecimal price = obj.getPrice();
-						if(price == null){
-							obj.setPrice(obj.getPurchasePrice());
-						}
-					}
-				}
-				
-				/**
-				 * (non-Javadoc)
-				 * @see com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid#errorDataFormatter(java.util.List)
-				 */
-				@Override
-				public void errorDataFormatter(List<JSONObject> list) {
-					for (JSONObject obj : list) {
-						if(obj.containsKey("isGift")){
-							String isGift = obj.getString("isGift");
-							if("1".equals(isGift)){
-								obj.element("isGift", "是");
-							}else if("0".equals(isGift)){
-								obj.element("isGift", "否");
-							}
-						}
-					}
-				}
-			});
+
+			GoodsSelectImportVo<GoodsSelect> vo = goodsSelectImportComponent
+					.importSelectGoods(fileName, is, field,
+							new GoodsSelectByPurchase(), branchId,
+							user.getId(), type,
+							"/form/purchase/downloadErrorFile",
+							new GoodsSelectImportBusinessValid() {
+
+								@Override
+								public void businessValid(
+										List<JSONObject> list,
+										String[] excelField) {
+									for (JSONObject obj : list) {
+										try {
+											String realNum = obj
+													.getString("realNum");
+											Double.parseDouble(realNum);
+										} catch (Exception e) {
+											obj.element("realNum", 0);
+										}
+
+										try {
+											String isGift = obj
+													.getString("isGift");
+											if ("是".equals(isGift)) {// 如果是赠品，单价设置为0
+												obj.element("isGift", "1");
+												obj.element("price", 0);
+											} else if ("否".equals(isGift)) {
+												obj.element("isGift", "0");
+											} else {
+												obj.element("error",
+														"是否赠品字段填写有误");
+											}
+										} catch (Exception e) {
+											obj.element("error", "是否赠品字段填写有误");
+										}
+									}
+								}
+
+								/**
+								 * (non-Javadoc)
+								 * @see com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid#formatter(java.util.List)
+								 */
+								@Override
+								public void formatter(
+										List<? extends GoodsSelect> list) {
+									for (GoodsSelect objGoods : list) {
+										GoodsSelectByPurchase obj = (GoodsSelectByPurchase) objGoods;
+
+										BigDecimal price = obj.getPrice();
+										if (price == null) {
+											obj.setPrice(obj.getPurchasePrice());
+										}
+									}
+								}
+
+								/**
+								 * (non-Javadoc)
+								 * @see com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid#errorDataFormatter(java.util.List)
+								 */
+								@Override
+								public void errorDataFormatter(
+										List<JSONObject> list) {
+									for (JSONObject obj : list) {
+										if (obj.containsKey("isGift")) {
+											String isGift = obj
+													.getString("isGift");
+											if ("1".equals(isGift)) {
+												obj.element("isGift", "是");
+											} else if ("0".equals(isGift)) {
+												obj.element("isGift", "否");
+											}
+										}
+									}
+								}
+							});
 			respJson.put("importInfo", vo);
-			
+
 		} catch (IOException e) {
 			respJson = RespJson.error("读取Excel流异常");
 			LOG.error("读取Excel流异常:", e);
@@ -953,32 +974,34 @@ public class PurchaseFormController extends
 			LOG.error("用户导入异常:", e);
 		}
 		return respJson;
-		
+
 	}
-	
+
 	/**
 	 * @author xiaoj02
 	 * @date 2016年10月15日
 	 */
 	@RequestMapping(value = "downloadErrorFile")
-	public void downloadErrorFile(String code, String type, HttpServletResponse response) {
+	public void downloadErrorFile(String code, String type,
+			HttpServletResponse response) {
 		String reportFileName = "错误数据";
-		
+
 		String[] headers = null;
 		String[] columns = null;
-		
-		if(type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)){//货号
-			columns = new String[]{"skuCode","realNum","price","ingoreAmount","isGift"};
-			headers = new String[]{"货号","数量","单价","金额","是否赠品"};
-		}else if(type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)){//条码
-			columns = new String[]{"barCode","realNum","price","ingoreAmount","isGift"};
-			headers = new String[]{"条码","数量","单价","金额","是否赠品"};
+
+		if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {// 货号
+			columns = new String[] { "skuCode", "realNum", "price",
+					"ingoreAmount", "isGift" };
+			headers = new String[] { "货号", "数量", "单价", "金额", "是否赠品" };
+		} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {// 条码
+			columns = new String[] { "barCode", "realNum", "price",
+					"ingoreAmount", "isGift" };
+			headers = new String[] { "条码", "数量", "单价", "金额", "是否赠品" };
 		}
 
-		goodsSelectImportComponent.downloadErrorFile(code, reportFileName, headers, columns , response);
+		goodsSelectImportComponent.downloadErrorFile(code, reportFileName,
+				headers, columns, response);
 	}
-	
-	
 
 	/**
 	 * @Description: 导出明细
@@ -1016,7 +1039,7 @@ public class PurchaseFormController extends
 			LOG.error("GoodsPriceAdjustController:exportList:", e);
 		}
 	}
-	
+
 	/**
 	 * @Description: 采购导入模板
 	 * @param response
@@ -1026,24 +1049,25 @@ public class PurchaseFormController extends
 	 */
 	@RequestMapping(value = "exportTemp")
 	public void exportTemp(HttpServletResponse response, Integer type) {
-		LOG.info("导出采购导入模板请求参数,type={}",type);
+		LOG.info("导出采购导入模板请求参数,type={}", type);
 		try {
 			String fileName = "";
 			String templateName = "";
-			if(Constant.ZERO == type) {
+			if (Constant.ZERO == type) {
 				templateName = ExportExcelConstant.PURCHASE_GOODS_SKUCODE_TEMPLE;
 				fileName = "商品货号导入模板";
-			}else if(Constant.ONE == type){
+			} else if (Constant.ONE == type) {
 				templateName = ExportExcelConstant.PURCHASE_GOODS_BARCODE_TEMPLE;
 				fileName = "商品条码导入模板";
-			}else if(Constant.TWO == type) {
+			} else if (Constant.TWO == type) {
 				templateName = ExportExcelConstant.GOODS_INTRODUCE_SKU_CODE_TEMPLE;
 				fileName = "商品引入货号导入模板";
-			}else if(Constant.THREE == type) {
+			} else if (Constant.THREE == type) {
 				templateName = ExportExcelConstant.GOODS_INTRODUCE_BAR_CODE_TEMPLE;
 				fileName = "商品引入条码导入模板";
 			}
-			if(StringUtils.isNotBlank(fileName) && StringUtils.isNotBlank(templateName)){
+			if (StringUtils.isNotBlank(fileName)
+					&& StringUtils.isNotBlank(templateName)) {
 				exportListForXLSX(response, null, fileName, templateName);
 			}
 		} catch (Exception e) {

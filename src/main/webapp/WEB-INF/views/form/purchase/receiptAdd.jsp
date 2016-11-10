@@ -15,9 +15,11 @@
     <div class="ub ub-ver ub-f1 umar-4  ubor">
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
+            <shiro:hasPermission name="JxcPurchaseReceipt:add">
                 <div class="ubtns-item" onclick="saveItemHandel()">保存</div>
+            </shiro:hasPermission>
                 <!--<div class="ubtns-item" onclick="selectGoods()">商品选择</div>-->
-                <div class="ubtns-item"  onclick="back()">返回</div>
+                <div class="ubtns-item"  onclick="toBackByJS()">返回</div>
             </div>
         </div>
         <form id="formAdd">
