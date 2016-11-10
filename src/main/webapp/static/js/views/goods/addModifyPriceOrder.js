@@ -14,6 +14,12 @@ $(function() {
 	initAddModifyPriceGridEdit();
 	// 初始化复选框
 	initCheckbox();
+	
+	 if($("#close").val()){
+	    	$("#addButton").addClass("unhide");
+	    	$("#toBackByJSButton").attr("onclick","window.parent.closeTab()");
+	    }
+	
 	var formNo = $("#formNo").text();
 	if (formNo != null && formNo != '') {
 		addModifyPriceGridDg.datagrid('options').queryParams = {

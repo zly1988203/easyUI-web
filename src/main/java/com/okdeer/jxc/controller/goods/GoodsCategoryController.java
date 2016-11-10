@@ -87,10 +87,17 @@ public class GoodsCategoryController extends
 	@RequestMapping(value = "getComponentList", method = RequestMethod.POST)
 	@ResponseBody
 	public PageUtils<GoodsCategory> getComponentList(
-			GoodsCategoryVo vo,
+			GoodsCategoryVo vo,String categoryType,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
+			//判断类别类型1.goodsTotal 商品汇总 2.categoryTotal 类别汇总
+			if("goodsTotal".equals(categoryType)) {
+				vo.setCategoryLevel("3");
+			}
+			if("categoryTotal".equals(categoryType)) {
+				vo.setCategoryLevel("1");
+			}
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
 			LOG.info("查询类别参数:" + vo.toString());
