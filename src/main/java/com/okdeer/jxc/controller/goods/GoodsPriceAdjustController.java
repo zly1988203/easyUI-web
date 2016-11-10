@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONObject;
@@ -106,11 +107,12 @@ public class GoodsPriceAdjustController extends
 	 * @date 2016年8月1日
 	 */
 	@RequestMapping(value = "/addFormView", method = RequestMethod.GET)
-	public String addForm(Model model) {
+	public String addForm(Model model,HttpServletRequest request) {
 		// 获得价格权限 逗号隔开
 		SysUser user = UserUtil.getCurrentUser();
 		UserUtil.setPriceGrantMap(user);
 		model.addAttribute("first", Constant.ONE);
+		model.addAttribute("close", request.getAttribute("report"));
 		return "goods/addModifyPriceOrder";
 	}
 

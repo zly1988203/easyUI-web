@@ -34,7 +34,7 @@
 			</shiro:hasPermission>
 				
 				 <c:if test="${goodsPriceForm.status !=1 }">
-					 <shiro:hasPermission name="JxcPriceAdjust:save">
+					 <shiro:hasPermission name="JxcPriceAdjust:audit">
 				 	     <div class="ubtns-item" id="check" onclick="check();">审核</div>
 				 	 </shiro:hasPermission>
 				 	     <div class="ubtns-item" id="selectGoodsDialog" onclick="selectGoodsDialog();">商品选择</div>
