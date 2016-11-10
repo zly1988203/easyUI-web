@@ -199,6 +199,9 @@ public class ArrivalRateController extends BaseController<PurchaseForm>{
 		if (StringUtils.isBlank(qo.getBranchCode()) && StringUtils.isBlank(qo.getBranchNameOrCode())) {
 			qo.setBranchCompleCode(getCurrBranchCompleCode());
 		}
+		if(qo.getArrivalRate()!=null){
+			qo.setArrivalRate(qo.getArrivalRate().multiply(new BigDecimal(100)));
+		}
 		return qo;
 	}
 	
