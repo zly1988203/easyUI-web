@@ -485,7 +485,9 @@ function saveOrder(){
         return;
     }
     var isCheckResult = true;
+    var num=0;
     $.each(rows,function(i,v){
+    	
         if(!v["skuCode"]){
             messager("第"+(i+1)+"行，货号不能为空");
             isCheckResult = false;
@@ -502,25 +504,27 @@ function saveOrder(){
             return false;
         }
         if(v["sourceStock"]==0){
-        	$.messager.confirm('提示',"第"+(i+1)+"行，库存为0",function(data){
-        		if(data){
-        			saveOrderbtn();
-        			isCheckResult =true;
-        			return true;
-        		}
-        		else{ 
-        		    isCheckResult =false;
-        			return false;
-        		}
-        	});
         	
+        	num++;
+        	console.log(num);
+        	        	
         }
         v["rowNo"] = i+1;
     });
     if(!isCheckResult){
         return;
     } 
-   
+    if(num==rows.length||num==0){
+		saveOrderbtn();
+	}
+	else{
+		$.messager.confirm('提示',"表格存在库存为0的记录是否继续？",function(data){
+    		if(data){
+    			saveOrderbtn();
+    		}	
+    	});
+	}
+
 }
 //保存到后台
 function saveOrderbtn(){
