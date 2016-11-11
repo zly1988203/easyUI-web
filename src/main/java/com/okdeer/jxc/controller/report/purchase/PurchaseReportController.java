@@ -320,7 +320,7 @@ public class PurchaseReportController extends
 				qo.setBranchCompleCode(getCurrBranchCompleCode());
 			}
 			qo.setPageNumber(pageNumber);
-			qo.setPageSize(pageSize);
+			qo.setPageSize(10000);
 			if (qo.getEndTime() != null) {
 				Date time = DateUtils.getNextDay(qo.getEndTime());
 				qo.setEndTime(time);
