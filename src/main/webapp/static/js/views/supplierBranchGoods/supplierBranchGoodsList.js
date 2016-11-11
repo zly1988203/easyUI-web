@@ -44,11 +44,13 @@ function initTreeArchives(){
 function zTreeOnClick(event, treeId, treeNode) {
     if(treeNode.type=="branch"){//选择机构
     	$("#supplierId").val('');
+    	$("#supplierName").val('');
     }else if(treeNode.type=="supplier"){//供应商
     	if(treeNode.id){
 	    	sourceBranchId = $("#branchId").val();
     		if(sourceBranchId){
     			$("#supplierId").val(treeNode.id);
+    			$("#supplierName").val(treeNode.text);
     			searchHandel();
     		}
     	}
@@ -56,7 +58,6 @@ function zTreeOnClick(event, treeId, treeNode) {
 }
 
 var gridHandel = new GridClass();
-console.log(gridHandel);
 function initDatagridsupplierList(){
     gridHandel.setGridName("gridSupplierArchiveList");
     gridHandel.initKey({
@@ -182,6 +183,13 @@ function selectBranches(){
         if($("#branchId").val()!=data.branchesId){
             $("#branchId").val(data.branchesId);
             $("#branchName").val(data.branchName);
+           //选择机构查询
+           var supplierId = $("#supplierId").val();
+           if(supplierId){
+        	   searchHandel();
+           }else{
+        	   $('#gridSupplierArchiveList').datagrid('loadData', {total: 0,rows: []}); 
+           }
         }
 	},'','');
 }
@@ -227,7 +235,6 @@ function importListHandel(){
 			return true;
 		},
 		success : function(data){
-			console.log(data);
 			gFunEndLoading();
 			importClose();
 			var rows = JSON.parse(data);
@@ -253,17 +260,9 @@ function importClose(){
  * 导出
  */
 function exportHandel(){
-	var isValid = $("#formList").form('validate');
-	if(!isValid){
-		return;
-	}
-	var length = $("#gridSupplierArchiveList").datagrid('getData').total;
-	if(length == 0){
-		$.messager.alert("提示","无数据可导");
-		return;
-	}
-	if(length>10000){
-		$.messager.alert('提示',"当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
+	var supplierId = $("#supplierId").val();
+	if(!supplierId){
+		$.messager.alert("提示","请选择供应商");
 		return;
 	}
 	$("#formList").form({
@@ -275,7 +274,7 @@ function exportHandel(){
 			}
 		}
 	});
-	$("#formList").attr("action",contextPath+"/supplier/exportHandel");
+	$("#formList").attr("action",contextPath+"/supplierBranchGoods/exportList");
 	$("#formList").submit();
 }
 
@@ -289,7 +288,7 @@ function delHandel(){
     }
     
     var supplierId=rowData.id
-    parent.$.messager.confirm('提示', '是否确认删除？此操作删除不可恢复', function(data){
+    parent.$.messager.confirm('提示', '你确认要删除么?', function(data){
     	if(!data){
     		return;
     	}
@@ -334,12 +333,12 @@ function saveItemHandel(){
     var skuIds=[];
     $.each(rows,function(i,v){
         v["rowNo"] = i+1;
-        skuIds.push(v["skuId"]);
-        if(!v["skuName"]){
-            messager("第"+(i+1)+"行，货号不正确");
+        if(!v["skuId"]){
+            messager("第"+(i+1)+"行,商品不正确");
             isCheckResult = false;
             return false;
         };
+        skuIds.push(v["skuId"]);
     });
     if(isCheckResult){
        saveDataHandel(skuIds);
