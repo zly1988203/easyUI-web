@@ -14,6 +14,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,6 +29,8 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
+import com.okdeer.jxc.common.constant.ExportExcelConstant;
+import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.goods.service.GoodsSkuServiceApi;
 import com.okdeer.jxc.goods.service.GoodsSupplierBranchServiceApi;
@@ -212,4 +216,28 @@ public class SupplierBranchGoodsController extends BaseController<SupplierBranch
 		return null;
 	}
 	
+	/**
+	 * @Description: 供应商机构商品关系导出
+	 * @param response
+	 * @param branchId 机构id
+	 * @param supplierId 供应商id
+	 * @return
+	 * @author zhongy
+	 * @date 2016年11月11日
+	 */
+	@RequestMapping(value = "/exportList", method = RequestMethod.POST)
+	@ResponseBody
+	public String exportList(HttpServletResponse response,String branchId,String branchName,
+			String supplierId,String supplierName) {
+		LOG.info("供应商机构商品关系导出请求参数,branchId={},supplierId={}",branchId,supplierId);
+		try {
+			List<BranchGoodsSkuVo> list = goodsSupplierBranchServiceApi.querySupplierBranchGoods(branchId, supplierId);
+			String fileName = supplierName+"_"+branchName+ "_" + DateUtils.getCurrSmallStr();
+			String templateName = ExportExcelConstant.SUPPLIER_BRANCH_GOODS_REPORT;
+			exportListForXLSX(response, list, fileName, templateName);
+		} catch (Exception e) {
+			LOG.error("供应商机构商品关系导出失败", e);
+		}
+		return null;
+	}
 }

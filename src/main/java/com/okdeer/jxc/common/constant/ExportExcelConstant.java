@@ -268,4 +268,9 @@ public interface ExportExcelConstant {
 	 * @Fields PURCHASEFORM : 导出店铺销售排名列表
 	 */
 	String TRADE_ORDER_COUNT_REPORT = "TradeOrderCountReport.xlsx";
+	
+	/**
+	* @Fields 供应商机构商品关系报表
+	*/
+	String SUPPLIER_BRANCH_GOODS_REPORT = "SupplierBranchGoodsReport.xlsx";
 }
