@@ -54,7 +54,7 @@ function initDatagridRequire(){
 					         }
 					     }
 					},
-					{field:'saleAmount', title: '销售量', width: '80px', align: 'right',
+					{field:'saleNum', title: '销售量', width: '80px', align: 'right',
 						formatter:function(value,row,index){
 							if(row.isFooter){
 					            return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -74,7 +74,7 @@ function initDatagridRequire(){
 					{field:'saleRate', title: '销售金额占比(%)', width: '100px', align: 'right',
 						formatter:function(value,row,index){
 						    if(value){
-						    	return '<b>'+parseFloat(value).toFixed(1)+'%</b>';
+						    	return '<b>'+parseFloat(value).toFixed(1)+'</b>';
 						    }
 						},
 						editor:{
@@ -86,10 +86,10 @@ function initDatagridRequire(){
 					        }
 					    }
 					},
-					{field:'acountRate', title: '累积占比(%)', width: '80px', align: 'right',
+					{field:'totalRate', title: '累积占比(%)', width: '80px', align: 'right',
 						formatter:function(value,row,index){
 						    if(value){
-						    	return '<b>'+parseFloat(value).toFixed(1)+'%</b>';
+						    	return '<b>'+parseFloat(value).toFixed(1)+'</b>';
 						    }
 						},
 						editor:{
@@ -101,7 +101,7 @@ function initDatagridRequire(){
 					        }
 					    }
 					},
-					{field:'ABCdj',title:'ABC等级',width:'80px',align:'right'},
+					{field:'grade',title:'ABC等级',width:'80px',align:'right'},
       ]],
       onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
@@ -118,7 +118,7 @@ function queryForm(){
     } 
 	var fromObjStr = $('#queryForm').serializeObject();
 	$("#goodsSaleNumReport").datagrid("options").method = "post";
-	$("#goodsSaleNumReport").datagrid('options').url = contextPath + '/categorySale/report/getCategorySaleList';
+	$("#goodsSaleNumReport").datagrid('options').url = contextPath + '/goods/goodsSaleNum/goodsSaleNumList';
 	$("#goodsSaleNumReport").datagrid('load', fromObjStr);
 }
 
@@ -156,7 +156,7 @@ function exportExcel(){
 			}
 		}
 	});
-	$("#queryForm").attr("action",contextPath+"/categorySale/report/exportList?"+fromObjStr);
+	$("#queryForm").attr("action",contextPath+"/goods/goodsSaleNum/exportList?"+fromObjStr);
 	$("#queryForm").submit();
 }
 

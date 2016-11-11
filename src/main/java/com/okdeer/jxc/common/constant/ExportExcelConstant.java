@@ -79,6 +79,11 @@ public interface ExportExcelConstant {
 	
 	String STORE_DAY_SALE_REPORT = "storeDaySaleReport.xlsx";
 	
+String GOODS_SALE_AMOUNT_REPORT = "goodsSaleAmountReport.xlsx";
+	
+	String GOODS_SALE_NUM_REPORT = "goodsSaleNumReport.xlsx";
+	
+	String GOODS_SALE_PROFIT_REPORT = "goodsSaleProfitReport.xlsx";
 	String GOODS_OUT_IN_DETAIL_REPORT = "goodsOutInDetailReport.xlsx";
 	
 	String STOCK_ADJUST_SKU_TEMPLE = "StockAdjustSkuTemple.xlsx";

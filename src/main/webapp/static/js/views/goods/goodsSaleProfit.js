@@ -54,7 +54,7 @@ function initDatagridRequire(){
 					         }
 					     }
 					},
-					{field:'profitAmount', title: '毛利', width: '80px', align: 'right',
+					{field:'saleProfit', title: '毛利', width: '80px', align: 'right',
 						formatter:function(value,row,index){
 							if(row.isFooter){
 					            return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -71,10 +71,10 @@ function initDatagridRequire(){
 					         }
 					     }
 					},
-					{field:'profitAmountRate', title: '毛利占比(%)', width: '100px', align: 'right',
+					{field:'profitRate', title: '毛利占比(%)', width: '100px', align: 'right',
 						formatter:function(value,row,index){
 						    if(value){
-						    	return '<b>'+parseFloat(value).toFixed(1)+'%</b>';
+						    	return '<b>'+parseFloat(value).toFixed(1)+'</b>';
 						    }
 						},
 						editor:{
@@ -86,10 +86,10 @@ function initDatagridRequire(){
 					        }
 					    }
 					},
-					{field:'acountRate', title: '累积占比(%)', width: '80px', align: 'right',
+					{field:'totalRate', title: '累积占比(%)', width: '80px', align: 'right',
 						formatter:function(value,row,index){
 						    if(value){
-						    	return '<b>'+parseFloat(value).toFixed(1)+'%</b>';
+						    	return '<b>'+parseFloat(value).toFixed(1)+'</b>';
 						    }
 						},
 						editor:{
@@ -101,7 +101,7 @@ function initDatagridRequire(){
 					        }
 					    }
 					},
-					{field:'ABCdj',title:'ABC等级',width:'80px',align:'right'},
+					{field:'grade',title:'ABC等级',width:'80px',align:'right'},
             ]],
       onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
@@ -117,7 +117,7 @@ function queryForm(){
     } 
 	var fromObjStr = $('#queryForm').serializeObject();
 	$("#goodsSaleProfit").datagrid("options").method = "post";
-	$("#goodsSaleProfit").datagrid('options').url = contextPath + '/categorySale/report/getCategorySaleList';
+	$("#goodsSaleProfit").datagrid('options').url = contextPath + '/goods/goodsSaleProfit/goodsSaleProfitList';
 	$("#goodsSaleProfit").datagrid('load', fromObjStr);
 }
 
@@ -155,7 +155,7 @@ function exportExcel(){
 			}
 		}
 	});
-	$("#queryForm").attr("action",contextPath+"/categorySale/report/exportList?"+fromObjStr);
+	$("#queryForm").attr("action",contextPath+"/goods/goodsSaleProfit/exportList?"+fromObjStr);
 	$("#queryForm").submit();
 }
 

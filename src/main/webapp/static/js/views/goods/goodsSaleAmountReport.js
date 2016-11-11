@@ -1,3 +1,4 @@
+var maxRate = 0;
 $(function(){
 	//开始和结束时间
 	$("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
@@ -54,7 +55,7 @@ function initDatagridRequire(){
                      }
                  }
             },
-            {field:'saleAmount', title: '销售量', width: '80px', align: 'right',
+            {field:'saleNum', title: '销售量', width: '80px', align: 'right',
             	formatter:function(value,row,index){
             		if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -74,7 +75,7 @@ function initDatagridRequire(){
             {field:'saleRate', title: '销售金额占比(%)', width: '100px', align: 'right',
             	formatter:function(value,row,index){
 				    if(value){
-				    	return '<b>'+parseFloat(value).toFixed(1)+'%</b>';
+				    	return '<b>'+parseFloat(value).toFixed(1)+'</b>';
 				    }
 				},
             	editor:{
@@ -86,10 +87,10 @@ function initDatagridRequire(){
                     }
                 }
             },
-            {field:'acountRate', title: '累积占比(%)', width: '80px', align: 'right',
+            {field:'totalRate', title: '累积占比(%)', width: '80px', align: 'right',
             	formatter:function(value,row,index){
 				    if(value){
-				    	return '<b>'+parseFloat(value).toFixed(1)+'%</b>';
+				    	return '<b>'+parseFloat(value).toFixed(1)+'</b>';
 				    }
 				},
             	editor:{
@@ -101,11 +102,21 @@ function initDatagridRequire(){
                     }
                 }
             },
-            {field:'ABCdj',title:'ABC等级',width:'80px',align:'right'},
+            {field:'grade',title:'ABC等级',width:'80px',align:'right'},
       ]],
       onLoadSuccess:function(data){
+    	  if(data.list.length>1){
+    		  var obj = data.list[data.list.length-1];
+    		  maxRate= obj.totalRate.substring(0, obj.totalRate.length-2)/100;
+    		  console.log(maxRate);
+    	  }
 		gridHandel.setDatagridHeader("center");
 			
+	 },onBeforeLoad:function(params){
+		 if(maxRate ||maxRate == 0){
+			 params = $.extend(params,{maxRate:maxRate});
+		 }
+		 console.log(params);
 	 }
     });
 
@@ -113,13 +124,16 @@ function initDatagridRequire(){
 
 //查询入库单
 function queryForm(){
+	maxRate ='0';
 	if($("#branchName").val()==""){
         messager("请选择店铺名称");
         return;
     } 
 	var fromObjStr = $('#queryForm').serializeObject();
+	console.log(fromObjStr);
+	
 	$("#goodsSaleAmountReport").datagrid("options").method = "post";
-	$("#goodsSaleAmountReport").datagrid('options').url = contextPath + '/categorySale/report/getCategorySaleList';
+	$("#goodsSaleAmountReport").datagrid('options').url = contextPath + '/goods/goodsSaleAmount/goodsSaleAmountList';
 	$("#goodsSaleAmountReport").datagrid('load', fromObjStr);
 }
 
@@ -157,7 +171,7 @@ function exportExcel(){
 			}
 		}
 	});
-	$("#queryForm").attr("action",contextPath+"/categorySale/report/exportList?"+fromObjStr);
+	$("#queryForm").attr("action",contextPath+"/goods/goodsSaleAmount/exportList?"+fromObjStr);
 	$("#queryForm").submit();
 }
 
