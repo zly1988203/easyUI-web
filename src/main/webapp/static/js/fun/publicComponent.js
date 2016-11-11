@@ -235,7 +235,7 @@ function publicBrandService(callback){
 }
 
 //公共组件-选择商品类别
-function publicCategoryService(callback){
+function publicCategoryService(callback,categoryType){
 
     //公有属性
     var  dalogTemp = $('<div/>').dialog({
@@ -250,7 +250,7 @@ function publicCategoryService(callback){
         },
         modal:true,
         onLoad:function(){
-            initCategoryView();
+            initCategoryView(categoryType);
             initCategoryCallBack(callBackHandel)
         },
     });

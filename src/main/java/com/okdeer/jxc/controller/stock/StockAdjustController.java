@@ -110,10 +110,10 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 	 * @date 2016年10月18日
 	 */
 	@RequestMapping(value = "/checkSuccess" , method = RequestMethod.GET)
-	public String checkSuccess(String id,HttpServletRequest request){
+	public String checkSuccess(String id,String report,HttpServletRequest request){
 		StockFormVo stockFormVo = stockAdjustServiceApi.getStcokFormInfo(id);
 		request.setAttribute("stockFormVo", stockFormVo);
-		request.setAttribute("close", "close");
+		request.setAttribute("close", report);
 		return "/stockAdjust/check";
 	}
 	/**

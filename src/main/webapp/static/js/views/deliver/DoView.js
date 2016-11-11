@@ -114,7 +114,7 @@ function initDatagridEditRequireOrder(){
                     }
                 }
             },
-            {field:'defectNum',title:'缺货数',width:'100px',align:'right',
+           /* {field:'defectNum',title:'缺货数',width:'100px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
                         return
@@ -129,7 +129,7 @@ function initDatagridEditRequireOrder(){
                         precision:2,
                     }
                 }
-            },
+            },*/
             {field:'remark',title:'备注',width:'200px',align:'left'}
         ]],
         onLoadSuccess : function() {

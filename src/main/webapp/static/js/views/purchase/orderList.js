@@ -11,7 +11,7 @@ $(function(){
 //初始化默认条件
 function initConditionParams(){
     
-    var startTime = dateUtil.getCurrentDateDay();
+	var startTime = dateUtil.getPreMonthDateStr();
     var endTime = dateUtil.getCurrentDateDay();
     
     //开始和结束时间

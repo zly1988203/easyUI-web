@@ -7,8 +7,8 @@ $(function(){
 var gridHandel = new GridClass();
 //初始化表格
 function initDatagridRequire(){
-	gridHandel.setGridName("categorySale");
-    $("#categorySale").datagrid({
+	gridHandel.setGridName("goodsSaleAmountReport");
+    $("#goodsSaleAmountReport").datagrid({
         method:'post',
         align:'center',
         //toolbar: '#tb',     //工具栏 id为tb
@@ -31,9 +31,12 @@ function initDatagridRequire(){
                     return str;
                 }
             },
-            {field:'cityName',title: '所在城市', width: '86px', align: 'left'},
-			{field:'categoryCode', title: '类别编号', width: '56px', align: 'left'},
-            {field:'categoryName', title: '类别名称', width: '65px', align: 'left'},
+            {field:'skuCode',title: '货号', width: '70px', align: 'left'},
+			{field:'skuName', title: '商品名称', width: '200px', align: 'left'},
+			{field:'barCode',title:'条码',width:'150px',align:'left'},
+			{field:'spec',title:'规格',width:'90px',align:'left'},
+	        {field:'unit',title:'单位',width:'60px',align:'left'},
+	        {field:'categoryName',title:'商品类别',width:'80px',align:'left'},
             {field:'saleAmount', title: '销售金额', width: '80px', align: 'right',
             	formatter:function(value,row,index){
             		if(row.isFooter){
@@ -51,7 +54,24 @@ function initDatagridRequire(){
                      }
                  }
             },
-            {field:'saleRate', title: '销售占比', width: '60px', align: 'right',
+            {field:'saleAmount', title: '销售量', width: '80px', align: 'right',
+            	formatter:function(value,row,index){
+            		if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                   
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         min:0,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleRate', title: '销售金额占比(%)', width: '100px', align: 'right',
             	formatter:function(value,row,index){
 				    if(value){
 				    	return '<b>'+parseFloat(value).toFixed(1)+'%</b>';
@@ -66,20 +86,30 @@ function initDatagridRequire(){
                     }
                 }
             },
+            {field:'acountRate', title: '累积占比(%)', width: '80px', align: 'right',
+            	formatter:function(value,row,index){
+				    if(value){
+				    	return '<b>'+parseFloat(value).toFixed(1)+'%</b>';
+				    }
+				},
+            	editor:{
+                    type:'numberbox',
+                    options:{
+                    	disabled:true,
+                        min:0,
+                        precision:1
+                    }
+                }
+            },
+            {field:'ABCdj',title:'ABC等级',width:'80px',align:'right'},
       ]],
       onLoadSuccess:function(data){
-			gridHandel.setDatagridHeader("center");
-			//updateFooter();
-		}
+		gridHandel.setDatagridHeader("center");
+			
+	 }
     });
-    //queryForm();
-}
 
-//合计
-/*function updateFooter(){
-    var fields = {saleAmount:0};
-    sum(fields);
-}*/
+}
 
 //查询入库单
 function queryForm(){
@@ -88,9 +118,9 @@ function queryForm(){
         return;
     } 
 	var fromObjStr = $('#queryForm').serializeObject();
-	$("#categorySale").datagrid("options").method = "post";
-	$("#categorySale").datagrid('options').url = contextPath + '/categorySale/report/getCategorySaleList';
-	$("#categorySale").datagrid('load', fromObjStr);
+	$("#goodsSaleAmountReport").datagrid("options").method = "post";
+	$("#goodsSaleAmountReport").datagrid('options').url = contextPath + '/categorySale/report/getCategorySaleList';
+	$("#goodsSaleAmountReport").datagrid('load', fromObjStr);
 }
 
 /**
@@ -107,7 +137,7 @@ function selectBranches(){
  * 导出
  */
 function exportExcel(){
-	var length = $("#categorySale").datagrid('getData').total;
+	var length = $("#goodsSaleAmountReport").datagrid('getData').total;
 	if(length == 0){
 		$.messager.alert('提示',"没有数据");
 		return;

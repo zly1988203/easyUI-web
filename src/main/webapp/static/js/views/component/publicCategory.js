@@ -2,10 +2,12 @@
  * Created by huangj02 on 2016/8/8.
  * 公共组件-请选择商品类别
  */
-function initCategoryView(){
+var categoryType='';
+function initCategoryView(data){
+	categoryType=data;
     gFunSetEnterKey(categorySearch);
     initTreeCategory(); //初始树
-    initDatagridCategory(); //初始化表格
+    initDatagridCategory(categoryType); //初始化表格
 }
 
 var categoryCallBack ;
@@ -51,7 +53,7 @@ function initTreeCategory(){
 var categoryCode=null;
 function zTreeOnClick(event, treeId, treeNode) {
 	categoryCode=treeNode.code;
-    $("#gridCategory").datagrid("options").queryParams = {categoryCode:categoryCode};
+    $("#gridCategory").datagrid("options").queryParams = {categoryCode:categoryCode,categoryType:categoryType};
     $("#gridCategory").datagrid("options").method = "post";
     $("#gridCategory").datagrid("options").url =contextPath+'/common/category/getComponentList',
     $("#gridCategory").datagrid("load");
@@ -59,18 +61,18 @@ function zTreeOnClick(event, treeId, treeNode) {
 //搜索
 function categorySearch(){
 	var categoryNameOrCode=$("#categoryNameOrCode").val();
-	$("#gridCategory").datagrid("options").queryParams = {categoryCode:categoryCode,categoryNameOrCode:categoryNameOrCode};
+	$("#gridCategory").datagrid("options").queryParams = {categoryCode:categoryCode,categoryNameOrCode:categoryNameOrCode,categoryType:categoryType};
 	$("#gridCategory").datagrid("options").method = "post";
 	$("#gridCategory").datagrid("options").url =contextPath+'/common/category/getComponentList',
 	$("#gridCategory").datagrid('load');
 }
 //初始化表格
-function initDatagridCategory(){
+function initDatagridCategory(categoryType){
     $("#gridCategory").datagrid({
         //title:'普通表单-用键盘操作',
         method:'post',
         align:'center',
-        url:contextPath + "/common/category/getComponentList",
+        url:contextPath + "/common/category/getComponentList?categoryType="+categoryType,
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:true,  //单选  false多选
         rownumbers:true,    //序号
