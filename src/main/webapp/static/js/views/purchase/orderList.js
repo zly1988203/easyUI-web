@@ -11,12 +11,8 @@ $(function(){
 //初始化默认条件
 function initConditionParams(){
     
-	var startTime = dateUtil.getPreMonthDateStr();
-    var endTime = dateUtil.getCurrentDateDay();
-    
-    //开始和结束时间
-    $("#txtStartDate").val(startTime);
-    $("#txtEndDate").val(endTime);
+	$("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
+	$("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
     
 }
 
