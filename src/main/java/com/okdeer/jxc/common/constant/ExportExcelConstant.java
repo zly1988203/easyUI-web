@@ -268,4 +268,17 @@ public interface ExportExcelConstant {
 	 * @Fields PURCHASEFORM : 导出店铺销售排名列表
 	 */
 	String TRADE_ORDER_COUNT_REPORT = "TradeOrderCountReport.xlsx";
+	
+	/**
+	 * @Fields PURCHASEFORM : 导出调价查询列
+	 */
+	String PRICING_QUERY = "princingQuery.xlsx";
+	/**
+	 * @Fields PURCHASEFORM : 导出配送缺货率分析明细
+	 */
+	String DELIVERY_DETAIL= "deliveryDetail.xlsx";
+	/**
+	 * @Fields PURCHASEFORM : 导出配送缺货率分析汇总
+	 */
+	String DELIVERY_SUM = "deliverySum.xlsx";
 }
