@@ -144,158 +144,50 @@ pageEncoding="UTF-8"%>
         categoryCode=treeNode.code;
         $("#gridGoods").datagrid("options").queryParams = {categoryCode:categoryCode};
         $("#gridGoods").datagrid("options").method = "post";
-        $("#gridGoods").datagrid("options").url =contextPath + '/goods/goodsSelect/getGoodsList?formType=${type}&sourceBranchId=${sourceBranchId}&targetBranchId=${targetBranchId}&branchId=${branchId}';
+        $("#gridGoods").datagrid("options").url =contextPath + '/goods/goodsSelect/queryGoodsSkuLists';
         $("#gridGoods").datagrid("load");
-
     };
     //初始化表格
     var gridGoodsDg;
     function initDatagridGoods(){
-
-    	//gridHandel.setGridName("goodsType");
         var arrColumns = [
             {field:'skuCode',title:'货号',align:'left',width:100,},
             {field:'barCode',title:'条码',align:'left',width:100,},
             {field:'skuName',title:'商品名称',align:'left',width:100,},
             {field:'categoryName',title:'类别',align:'center',width:100},
-	  /*   {field:'sourceStock',title:'库存',align:'center',width:100,},  */
-	  /*如果是调价单页面，值显示零售价，其他价格隐藏*/
-	  //CA 批发单 只显示进货价 
-		<c:choose> 
-			   <c:when test="${type =='PC'}">
-			       {field:'salePrice',title:'零售价',align:'right',width:100,
-				        formatter : function(value, row, index) {
-					        var str=(value||0).toFixed(2);
-					        return str;
-					    }
-				    },
-				    {field:'vipPrice',title:'会员价',align:'right',hidden:true,width:100,
-				        formatter : function(value, row, index) {
-					        var str=(value||0).toFixed(2);
-					        return str;
-					    }
-				    },
-				    {field:'distributionPrice',title:'配送价',align:'right',hidden:true,width:100,
-				        formatter : function(value, row, index) {
-					        var str=(value||0).toFixed(2);
-					        return str;
-				        }
-				    },
-				    {field:'wholesalePrice',title:'批发价',align:'right',hidden:true,width:100,
-			              formatter : function(value, row, index) {
-			                  var str=(value||0).toFixed(2);
-			                  return str;
-			              }
-			         },
-			        {field:'purchasePrice',title:'进货价',align:'right',hidden:true,width:100,
-			              formatter : function(value, row, index) {
-			               var str=(value||0).toFixed(2);
-			               return str;
-			   			  }	
-		         	 },
-		  	
-		      </c:when>
-		     <c:when test="${type == 'PA' }">
-			     {field:'purchasePrice',title:'进货价',align:'right',width:100,
-				        formatter : function(value, row, index) {
-					         var str=(value||0).toFixed(2);
-					         return str;
-					   	}	
-					 },
-				    {field:'salePrice',title:'零售价',align:'right',hidden:true,width:100,
-				        formatter : function(value, row, index) {
-					        var str=(value||0).toFixed(2);
-					        return str;
-					    }
-				    },
-				    {field:'vipPrice',title:'会员价',align:'right',hidden:true,width:100,
-				        formatter : function(value, row, index) {
-					        var str=(value||0).toFixed(2);
-					        return str;
-					    }
-				    },
-				    {field:'distributionPrice',title:'配送价',align:'right',hidden:true,width:100,
-				        formatter : function(value, row, index) {
-					        var str=(value||0).toFixed(2);
-					        return str;
-				   	    }
-				    },
-				    {field:'wholesalePrice',title:'批发价',align:'right',hidden:true,width:100,
-			           formatter : function(value, row, index) {
-			               var str=(value||0).toFixed(2);
-			               return str;
-			           }
-			        },
-		     </c:when>
-			 <c:when test="${type == 'PR' }">
-				     {field:'purchasePrice',title:'进货价',align:'right',width:100,
-				        formatter : function(value, row, index) {
-					         var str=(value||0).toFixed(2);
-					         return str;
-					   	}	
-					 },
-				    {field:'salePrice',title:'零售价',align:'right',hidden:true,width:100,
-				        formatter : function(value, row, index) {
-					        var str=(value||0).toFixed(2);
-					        return str;
-					    }
-				    },
-				    {field:'vipPrice',title:'会员价',align:'right',hidden:true,width:100,
-				        formatter : function(value, row, index) {
-					        var str=(value||0).toFixed(2);
-					        return str;
-					    }
-				    },
-				    {field:'distributionPrice',title:'配送价',align:'right',hidden:true,width:100,
-				        formatter : function(value, row, index) {
-					        var str=(value||0).toFixed(2);
-					        return str;
-				   	    }
-				    },
-				    {field:'wholesalePrice',title:'批发价',align:'right',hidden:true,width:100,
-			           formatter : function(value, row, index) {
-			               var str=(value||0).toFixed(2);
-			               return str;
-			           }
-			        },
-		     </c:when>
-			        
-		     <c:otherwise>
-				     {field:'salePrice',title:'零售价',align:'right',width:100,
-				        formatter : function(value, row, index) {
-					        var str=(value||0).toFixed(2);
-					        return str;
-					    }
-					 },
-				    {field:'vipPrice',title:'会员价',align:'right',hidden:true,width:100,
-				        formatter : function(value, row, index) {
-					        var str=(value||0).toFixed(2);
-					        return str;
-					    }
-				    },
-				    {field:'distributionPrice',title:'配送价',align:'right',hidden:true,width:100,
-					        formatter : function(value, row, index) {
-					        var str=(value||0).toFixed(2);
-					        return str;
-				        }
-				    },
-				    {field:'wholesalePrice',title:'批发价',align:'right',hidden:true,width:100,
-			           formatter : function(value, row, index) {
-			               var str=(value||0).toFixed(2);
-			               return str;
-			           }
-			       },
-			       {field:'purchasePrice',title:'进货价',align:'right',hidden:true,width:100,
-			           formatter : function(value, row, index) {
-				            var str=(value||0).toFixed(2);
-				            return str;
-			      	   }	
-			       },
-		     </c:otherwise> 
-		</c:choose> 
-	    {field:'unit',title:'库存单位',align:'left',width:100,},
-	    {field:'spec',title:'规格',align:'left',width:100,},
-	    {field:'memoryCode',title:'助记码',align:'left',width:100,}
+		    {field:'purchasePrice',title:'进货价',align:'right',width:100,
+			        formatter : function(value, row, index) {
+				         var str=(value||0).toFixed(2);
+				         return str;
+				   	}	
+		     },
+		    {field:'salePrice',title:'零售价',align:'right',hidden:true,width:100,
+			        formatter : function(value, row, index) {
+				        var str=(value||0).toFixed(2);
+				        return str;
+				    }
+			 },
+		   {field:'vipPrice',title:'会员价',align:'right',hidden:true,width:100,
+		        formatter : function(value, row, index) {
+			        var str=(value||0).toFixed(2);
+			        return str;
+			    }
+		    },
+		   {field:'distributionPrice',title:'配送价',align:'right',hidden:true,width:100,
+		        formatter : function(value, row, index) {
+			        var str=(value||0).toFixed(2);
+			        return str;
+		   	    }
+		    },
+		   {field:'wholesalePrice',title:'批发价',align:'right',hidden:true,width:100,
+	           formatter : function(value, row, index) {
+	               var str=(value||0).toFixed(2);
+	               return str;
+	           }
+	        },
+	    {field:'unit',title:'库存单位',align:'left',width:100},
+	    {field:'spec',title:'规格',align:'left',width:100},
+	    {field:'memoryCode',title:'助记码',align:'left',width:100}
     ];
     if(!goodsRadioCallBack){
         arrColumns.unshift({field:'ck',checkbox:true});
@@ -304,21 +196,17 @@ pageEncoding="UTF-8"%>
         //title:'普通表单-用键盘操作',
         method:'POST',
         align:'center',
-        //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
         pagination:true,    //分页
         fitColumns:true,    //每列占满
-        //fit:true,            //占满
         pageSize:50,
-       /*  pageList : [10,500],  */
         showFooter:true,
         height:'100%',
         columns:[arrColumns],
         onClickRow:goodsClickRow,
         idField:'skuCode',
         onLoadSuccess : function() {
-        //gridHandel.setDatagridHeader();
         priceGrantUtil.grantPrice("gridGoods");
     }
     });
@@ -336,7 +224,7 @@ pageEncoding="UTF-8"%>
     function initSearch(key){
         if(!key){
             $("#gridGoods").datagrid("options").method = "post";
-            $("#gridGoods").datagrid("options").url =contextPath + '/goods/goodsSelect/getGoodsList?formType=${type}&sourceBranchId=${sourceBranchId}&targetBranchId=${targetBranchId}&branchId=${branchId}';
+            $("#gridGoods").datagrid("options").url =contextPath + '/goods/goodsSelect/queryGoodsSkuLists';
             $("#gridGoods").datagrid('load');
         }else{
             cx();
