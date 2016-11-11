@@ -8,12 +8,14 @@ package com.okdeer.jxc.common.goodselect;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -156,19 +158,27 @@ public class GoodsSelectImportComponent {
 			//获取已验证成功的数据的货号
 			List<String> list = goodsSelectImportHandle.getExcelSuccessCode();
 			
-			//根据货号查询商品
-			dbList = goodsSelectServiceApi.queryListBySkuCode(list.toArray(new String[list.size()]), branchId, withStock);
+			if(CollectionUtils.isEmpty(list)){
+				dbList = new ArrayList<GoodsSelect>();
+			}else{
+				//根据货号查询商品
+				dbList = goodsSelectServiceApi.queryListBySkuCode(list.toArray(new String[list.size()]), branchId, withStock);
+			}
+			
 			
 		}else if(type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)){//条码
-			
 			//构建数据过滤对象
 			goodsSelectImportHandle = new GoodsSelectImportBarCodeHandle(excelList, fields, businessValid);
 			
 			//获取已验证成功的数据的条码
 			List<String> list = goodsSelectImportHandle.getExcelSuccessCode();
 			
-			//根据条码查询商品，过滤掉条码重复的商品
-			dbList = goodsSelectServiceApi.queryListByBarCode(list.toArray(new String[list.size()]), branchId, withStock);
+			if(CollectionUtils.isEmpty(list)){
+				dbList = new ArrayList<GoodsSelect>();
+			}else{
+				//根据条码查询商品，过滤掉条码重复的商品
+				dbList = goodsSelectServiceApi.queryListByBarCode(list.toArray(new String[list.size()]), branchId, withStock);
+			}
 			
 		}else{
 			throw new RuntimeException("导入类型不合法:\t"+type);
