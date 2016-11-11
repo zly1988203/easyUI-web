@@ -445,7 +445,9 @@ function saveModifyPriceOrder() {
 										$("#createUserDate").text(data.createUserDate);
 										$("#id").val(data.goodsPriceForm.id);
 										$("#saveModifyPriceOrder").attr("onclick","updateModifyPriceOrder();");
-										$.messager.confirm('提示','是否审核，请确认？',function(r) {
+										
+										
+									/*	$.messager.confirm('提示','是否审核，请确认？',function(r) {
 													if (r) {
 														// 确定审核，调用后台的审核方法，成功提示
 														// 审核成功跳转到已审核页面，加上已审核标志
@@ -454,7 +456,8 @@ function saveModifyPriceOrder() {
 														var status = 1;
 														var result = checkForm(data.goodsPriceForm.formNo,status,effectDate);
 													}
-												});
+												});*/
+										
 									});
 						} else {
 							// 失败提示
@@ -513,7 +516,7 @@ function updateModifyPriceOrder() {
 										addModifyPriceGridDg.datagrid('load');
 										$("#formNo").text(data.goodsPriceForm.formNo);
 										$("#formNoInput").val(data.goodsPriceForm.formNo);
-										$.messager.confirm('提示','是否审核，请确认？',function(r) {
+										/*$.messager.confirm('提示','是否审核，请确认？',function(r) {
 													if (r) {
 														// 确定审核，调用后台的审核方法，成功提示
 														// 审核成功跳转到已审核页面，加上已审核标志
@@ -522,7 +525,7 @@ function updateModifyPriceOrder() {
 														var status = 1;
 														var result = checkForm(data.goodsPriceForm.formNo,status,effectDate);
 													}
-												});
+												});*/
 									});
 						} else {
 							// 失败提示
