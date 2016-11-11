@@ -7,14 +7,14 @@ var gridHandel = new GridClass();
 $(function(){
     initTreeArchives('');
     initDatagridsupplierList();
-    //左侧失去焦点查询事件
-    $("#supplierNameSearch").blur(function(){
-    	var codeOrName = $("#supplierNameSearch").val();
-    	if(supplierNameSearch){
-    		initTreeArchives(codeOrName)
-    	 }
-    });
 });
+
+//左侧树条件搜索
+function searchTree(){
+	var codeOrName = $("#supplierNameSearch").val();
+	initTreeArchives(codeOrName)
+}
+
 /**
  * 初始树
  */
