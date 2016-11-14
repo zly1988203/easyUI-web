@@ -184,6 +184,7 @@ function initDatagridArchives(){
              {field:'skuName',title:'商品名称',width:'200px',align:'left'},
              {field:'barCode',title:'条形码',width:'120px',align:'left'},
              {field:'memoryCode',title:'助记码',width:'80px',align:'left'},
+             {field:'oneCategoryName',title:'商品一级类别',width:'80px',align:'left'},
              {field:'categoryName',title:'商品类别',width:'80px',align:'left'},
              {field:'spec',title:'规格',width:'90px',align:'left'},
              {field:'brandName',title:'品牌',width:'100px',align:'left'},
