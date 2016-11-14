@@ -81,6 +81,7 @@ function initProductInquireGrid() {
  */
 function searchBranch (){
 	new publicAgencyService(function(data){
+		$("#branchId").val(data.branchesId);
 		$("#branchCode").val(data.branchCode);
 		$("#branchNameOrCode").val("["+data.branchCode+"]"+data.branchName);
 	},"","");
@@ -162,5 +163,7 @@ function cleanCategoryCode(){
 
 //重置
 function reset(){
+	$("#branchCode").val('');
+	$("#branchId").val('');
 	$("#queryForm")[0].reset();
 }
