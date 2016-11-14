@@ -42,7 +42,7 @@ function initTreeArchives(codeOrName){
         var treeObj = $.fn.zTree.getZTreeObj("treeArchives");
         var nodes = treeObj.getNodes();
         if (nodes.length>0) {
-            treeObj.expandNode(nodes[0], true, false, true);
+            treeObj.expandNode(nodes[0], true, true, true);
         }
     });
 }
