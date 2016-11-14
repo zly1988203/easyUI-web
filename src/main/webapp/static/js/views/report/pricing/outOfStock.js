@@ -48,8 +48,8 @@ function checktype(){
 		}
 		else if(check==true&&value=='1'){
 			$('#sourceBranchName').removeClass('uinp-no-more');
-			$('#sourceBranchName').attr('onclick',"searchBranch()");
-			$('.uinp-sourceName').removeAttr('onclick');
+			$('#sourceBranchName').attr('onclick',"searchBranch(1)");
+			$('.uinp-sourceName').attr('onclick',"searchBranch(1)");
 			$('#formNo').addClass('uinp-no-more');
 			$('#formNo').val("");
 			$('#formNo').attr("readonly","readonly");
@@ -280,12 +280,13 @@ function queryForm(){
  * 店铺名称
  */
 function searchBranch(type){
+	/*	alert("-------------------"+ type);
 	var branchesId;
 	if (type === 0) {
 		branchesId = $("#targetBranchId").val();
 	} else {
 		branchesId = $("#sourceBranchId").val();
-	}
+	}*/
 	new publicAgencyService(function(data){
 		if(type==0){
 			$("#targetBranchId").val(data.branchesId);
@@ -294,15 +295,15 @@ function searchBranch(type){
 			$("#sourceBranchId").val(data.branchesId);
 			$("#sourceBranchName").val(data.branchName);
 		}
-	});
+	},"","");
 }
 
 
 
 /**
  * 店铺名称
- */
-function searchBranch(){
+ *//*
+function searchBranch(type){
 	new publicAgencyService(function(data){
 		if(type==0){
 			$("#targetBranchId").val(data.branchesId);
@@ -312,7 +313,7 @@ function searchBranch(){
 			$("#sourceBranchName").val(data.branchName);
 		}
 	},'BF','');
-}
+}*/
 
 
 
