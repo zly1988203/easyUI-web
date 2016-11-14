@@ -43,9 +43,9 @@
                 <input class="uinp" type="hidden" id="opBranchCode" name="branchCode" value="${branch.branchCode }">
                 <input class="uinp" type="hidden" id="opBranchType" name="opBranchType" value="${branch.type }">
                 <input class="uinp" type="hidden" id="opBranchCompleCode" name="opBranchCompleCode" value="${branch.branchCompleCode }">
-		<div class="ub ub-ac">
+				<div class="ub ub-ac">
                 	<input class="uinp uw-250" type="text" id="branchNameCode" name="branchNameCode" value="[${branch.branchCode }]${branch.branchName }" readonly="readonly" onclick="searchBranchInfo();">
-			<div class="uinp-more"  onclick="searchBranchInfo()">...</div>
+					<div class="uinp-more"  onclick="searchBranchInfo()">...</div>
                 </div>
                 <i class="uc-red">*</i>
             </div>
@@ -55,10 +55,12 @@
             	<div class="umar-r10 uw-60 ut-r">所属角色:</div>
                 <input class="uinp" type="hidden" id="opRoleId" name="roleId" value="${role.id }">
                 <input class="uinp" type="hidden" id="opRoleCode" name="roleCode" value="${role.roleCode }">
-		<div class="ub ub-ac">
+                <input type="hidden" id="roleIdOld" name="roleIdOld" value="${role.id }">
+                <input type="hidden" id="roleCodeOld" name="roleCodeOld" value="${role.roleCode }">
+				<div class="ub ub-ac">
                 	<input class="uinp uw-250" type="text" id="roleCodeOrName" name="roleCodeOrName" value="${role.roleName }" readonly="readonly" onclick="searchRole();">
-			<div class="uinp-more"  onclick="searchRole()">...</div>
-		</div>
+					<div class="uinp-more"  onclick="searchRole()">...</div>
+				</div>
                 <i class="uc-red">*</i>
             </div>
            </div>
