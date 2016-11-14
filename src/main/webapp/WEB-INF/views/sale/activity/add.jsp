@@ -21,7 +21,6 @@
 	             <div class="ubtns-item" id="GoodsType" onclick="getGoodsType()">类别选择</div>
 	              <div class="ubtns-item" onclick="addsaveOrder()">保存</div>
 	             <div class="ubtns-item" onclick="stop()">终止</div>
-	            <!--  <div class="ubtns-item" onclick="gFunRefresh()">重置</div> -->
 	             <div class="ubtns-item" onclick="costcheck()">审核</div>
 	             <div class="ubtns-item" onclick="toBack()">返回</div>
 	             </div>
@@ -51,21 +50,21 @@
                 </div>
                 <div class="ub ub-ac umar-l40  discountTypechoose unhide">
 	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub disradio" type="radio" name="disstatus"  value="0" checked="checked"/><span>类别折扣</span>
+	                        <input class="ub disradio" type="radio" name="disstatus"  value="1" checked="checked"/><span>类别折扣</span>
 	                    </div>
 	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub disradio" type="radio" name="disstatus" value="1" /><span>单品折扣</span>
+	                        <input class="ub disradio" type="radio" name="disstatus" value="0" /><span>单品折扣</span>
 	                    </div>
 	            </div>
                 <div class="ub ub-ac umar-l40  mjTypechoose unhide">
 	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub mjradio" type="radio" name="mjstatus"  value="0" checked="checked"/><span>全场</span>
+	                        <input class="ub mjradio" type="radio" name="mjstatus"  value="2" checked="checked"/><span>全场</span>
 	                    </div>
 	                    <div class="ub ub-ac umar-r10">
 	                        <input class="ub mjradio" type="radio" name="mjstatus" value="1" /><span>类别</span>
 	                    </div>
 	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub mjradio" type="radio" name="mjstatus" value="2" /><span>商品</span>
+	                        <input class="ub mjradio" type="radio" name="mjstatus" value="0" /><span>商品</span>
 	                    </div>
 	            </div>
             </div>
@@ -83,25 +82,25 @@
 	              <div class="ub ub-ac">
 	               <div class="umar-r10 uw-80 ut-r">活动日:</div>
 	               <div class="ub ub-ac umar-l10 ">
-                        <input class="ub" type="checkbox" name="weekcheckbox" checked="checked" onclick="toChangeDate(0);"/><span class="umar-l10">一</span>
+                        <input class="ub" type="checkbox" name="weekcheckbox" checked="checked" /><span class="umar-l10">一</span>
                    </div>
                    <div class="ub ub-ac umar-l10">
-                        <input class="ub" type="checkbox" name="weekcheckbox" checked="checked" onclick="toChangeDate(0);"/><span class="umar-l10">二</span>
+                        <input class="ub" type="checkbox" name="weekcheckbox" /><span class="umar-l10">二</span>
                    </div>
                    <div class="ub ub-ac umar-l10">
-                        <input class="ub" type="checkbox" name="weekcheckbox" checked="checked" onclick="toChangeDate(0);"/><span class="umar-l10">三</span>
+                        <input class="ub" type="checkbox" name="weekcheckbox" /><span class="umar-l10">三</span>
                    </div>
                     <div class="ub ub-ac umar-l10">
-                        <input class="ub" type="checkbox" name="weekcheckbox" checked="checked" onclick="toChangeDate(0);"/><span class="umar-l10">四</span>
+                        <input class="ub" type="checkbox" name="weekcheckbox"  /><span class="umar-l10">四</span>
                    </div>
                     <div class="ub ub-ac umar-l10">
-                        <input class="ub" type="checkbox" name="weekcheckbox" checked="checked" onclick="toChangeDate(0);"/><span class="umar-l10">五</span>
+                        <input class="ub" type="checkbox" name="weekcheckbox"  /><span class="umar-l10">五</span>
                    </div>
                     <div class="ub ub-ac umar-l10">
-                        <input class="ub" type="checkbox" name="weekcheckbox" checked="checked" onclick="toChangeDate(0);"/><span>六</span>
+                        <input class="ub" type="checkbox" name="weekcheckbox"  /><span>六</span>
                    </div>
                     <div class="ub ub-ac umar-l10">
-                        <input class="ub" type="checkbox" name="weekcheckbox" checked="checked" onclick="toChangeDate(0);"/><span>日</span>
+                        <input class="ub" type="checkbox" name="weekcheckbox"  /><span>日</span>
                    </div>
                   </div>
 	          </div>
@@ -130,7 +129,7 @@
 					<div class="umar-r10 uw-100 ut-r">批量偶数特价:</div>
 					<input class="uinp ub ub-f1 deal" type="number"
 						onkeyup="if(isNaN(value))execCommand('undo')"
-						onafterpaste="if(isNaN(value))execCommand('undo')" id="discount">
+						onafterpaste="if(isNaN(value))execCommand('undo')" id="batchcount">
 						<div class="umar-l10">折</div>
 				   </div>
 	          </div>
