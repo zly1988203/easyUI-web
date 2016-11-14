@@ -13,7 +13,7 @@
 	<!--left-->
 	<div class="ub ub-ver ubor" style="width:240px;">
 	    <div class="upad-4">
-            <input class="uinp ub ub-f1" id="supplierNameSearch" name="supplierName" value="" maxlength="30"  
+            <input class="uinp ub ub-f1" id="supplierNameSearch" name="supplierName" value="" maxlength="20"  
             placeholder="供应商编码、名称" />
             <img style=" z-index:2; position: absolute;top: 10px;right: 40px;" src="${ctx}/static/images/search.png" width="20" onclick="searchTree()">
         </div>
