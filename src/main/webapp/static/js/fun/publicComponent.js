@@ -1513,3 +1513,63 @@ $.extend($.fn.validatebox.defaults.rules, {
     }
 });
 
+
+//公共组件-商品选择
+function publicGoodsSkuService(callback,isRadio,key){
+	  publicGoodsSkuServiceHandel(callback,isRadio,key);
+}
+function publicGoodsSkuServiceHandel(callback,isRadio,key){
+   var url=contextPath + "/goods/goodsSelect/goGoodsSku";
+//公有属性
+var dalogObj = {
+    href:url,
+    width:1200,
+    height:600,
+    title:"商品选择",
+    closable:true,
+    resizable:true,
+    onClose:function(){
+        $(dalogTemp).panel('destroy');
+    },
+    modal:true,
+}
+if(isRadio&&isRadio==1){
+    dalogObj["onLoad"] =function(){
+        initGoodsRadioCallBack(function(data){
+            callback( [data]);
+            $(dalogTemp).panel('destroy')
+        });
+        initSearch();
+    };
+}else{
+    dalogObj["onLoad"] =function(){
+        initGoodsRadioCallBack();
+        $("#goodsInfo").val(key);
+        initSearch(key);
+    };
+    dalogObj["buttons"] =[{
+        text:'确定',
+        handler:function(){
+            getCheckGoods();
+        }
+    },{
+        text:'取消',
+        handler:function(){
+            $(dalogTemp).panel('destroy');
+        }
+    }];
+}
+var  dalogTemp = $('<div/>').dialog(dalogObj);
+//私有方法
+function getCheckGoods(){
+    publicGoodsGetCheckGoods(function(data){
+        if(data.length==0){
+            messager("请选择数据");
+            return;
+        }
+        callback(data);
+        $(dalogTemp).panel('destroy');
+    });
+}
+}
+
