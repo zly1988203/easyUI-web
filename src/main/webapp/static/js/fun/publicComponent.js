@@ -61,6 +61,10 @@ function toChangeDate(index){
             $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getCurrDayPreOrNextDay("prev",30)).format("yyyy-MM-dd"));
             $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getCurrentDate()).format("yyyy-MM-dd"));
             break;
+        case 10: //往后推一个月
+            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getPreMonthDate()).format("yyyy-MM-dd"));
+            $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getCurrentDate()).format("yyyy-MM-dd"));
+            break;
         default :
             break;
     }

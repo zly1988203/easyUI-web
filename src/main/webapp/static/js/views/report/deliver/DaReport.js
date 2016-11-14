@@ -1,4 +1,4 @@
-/**
+s/**
  * Created by zhanghuan on 2016/8/30.
  * 要货单状态跟踪
  */
@@ -34,7 +34,7 @@ function initDatagridRequireOrders(){
 	                if(!value){
 	                    return '<div class="ub ub-pc ufw-b">合计</div> '
 	                }
-					var hrefStr='parent.addTab("详情","'+contextPath+'/form/deliverForm/deliverEdit?report=close&deliverFormId='+row.deliverFormId+'")';
+					var hrefStr='parent.addTab("详情","'+contextPath+'/form/deliverForm/deliverEdit?report=close&deliverFormId='+row.outFormId+'")';
 					return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
 	            }
 			},
