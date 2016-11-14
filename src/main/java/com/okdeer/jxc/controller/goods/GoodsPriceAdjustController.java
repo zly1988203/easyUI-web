@@ -433,7 +433,7 @@ public class GoodsPriceAdjustController extends
 	 * @date 2016年8月8日
 	 */
 	@RequestMapping(value = "/showDetail", method = RequestMethod.GET)
-	public String showDetail(String formNo, Model model) {
+	public String showDetail(String formNo, Model model,String report) {
 		// 根据formNo查询单据
 		GoodsPriceForm goodsPriceForm = goodsPriceAdustService
 				.queryFormInCheck(formNo);
@@ -473,6 +473,7 @@ public class GoodsPriceAdjustController extends
 		model.addAttribute("branchId", branchId);
 		model.addAttribute("branchAreaCodeName", branchAreaCodeName);
 		model.addAttribute("branchName", branchName);
+		model.addAttribute("close", report);
 		return "goods/addModifyPriceOrder";
 	}
 
