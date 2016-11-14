@@ -32,11 +32,11 @@ function initDatagridRequireOrders(){
 		width:'100%',
         columns:[[
 			//{field:'check',checkbox:true},
-            {field: 'branchName',title:'机构名称',width:'130px',align:'left'},
+            {field: 'branchName',title:'机构名称',width:'220px',align:'left'},
             {field: 'skuCode', title: '货号', width: '80px', align: 'left'},
-            {field: 'skuName', title: '商品名称', width: '86px', align: 'left'},
-            {field: 'barCode', title: '条码', width: '80px', align: 'left'},
-            {field: 'formNO', title: '单据编号', width: '86px', align: 'left',
+            {field: 'skuName', title: '商品名称', width: '200px', align: 'left'},
+            {field: 'barCode', title: '条码', width: '115px', align: 'left'},
+            {field: 'formNO', title: '单据编号', width: '135px', align: 'left',
             	formatter:function(value,row,index){
 		   			if(row.formNO){
 		   				var hrefStr='parent.addTab("详情","'+contextPath+'/goods/priceAdjust/showDetail?report=close&formNo='+row.formNO+'")';
@@ -44,7 +44,7 @@ function initDatagridRequireOrders(){
 		   			}
 	           }   
             },
-            {field: 'effectDate',title:'生效日期',width:'135px',align:'left',
+            {field: 'effectDate',title:'生效日期',width:'115px',align:'left',
 	        	   formatter : function(value, rowData, rowIndex) {
 	        		   return formatDate(value,'yyyy-MM-dd');
 	        	   }   

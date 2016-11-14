@@ -128,7 +128,7 @@ function selectBranches(){
 	new publicAgencyService(function(data){
 		$("#branchId").val(data.branchesId);
 		$("#branchName").val(data.branchName);
-	},'DO','');
+	},'BF','');
 }
 
 /**
