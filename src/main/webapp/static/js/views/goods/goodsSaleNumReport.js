@@ -71,7 +71,7 @@ function initDatagridRequire(){
 					         }
 					     }
 					},
-					{field:'saleRate', title: '销售金额占比(%)', width: '100px', align: 'right',
+					{field:'saleRate', title: '销售量占比(%)', width: '100px', align: 'right',
 						formatter:function(value,row,index){
 						    if(value){
 						    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
