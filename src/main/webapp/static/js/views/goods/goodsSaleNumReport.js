@@ -71,7 +71,7 @@ function initDatagridRequire(){
 					         }
 					     }
 					},
-					{field:'saleRate', title: '销售金额占比(%)', width: '100px', align: 'right',
+					{field:'saleRate', title: '销售量占比(%)', width: '100px', align: 'right',
 						formatter:function(value,row,index){
 						    if(value){
 						    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
@@ -113,7 +113,7 @@ function initDatagridRequire(){
 //查询入库单
 function queryForm(){
 	if($("#branchName").val()==""){
-        messager("请选择店铺名称");
+        messager("请选择机构名称");
         return;
     } 
 	var fromObjStr = $('#queryForm').serializeObject();

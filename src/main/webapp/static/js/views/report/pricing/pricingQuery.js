@@ -62,7 +62,7 @@ function initDatagridRequireOrders(){
             {field: 'oldPurPrice', title: '原进货价', width: '60px', align: 'right',
             	formatter:function(value,row,index){
             		if(!value){
-                        return '0';
+                        return '<b>0.00</b>';
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
@@ -70,7 +70,7 @@ function initDatagridRequireOrders(){
             {field: 'newPurPrice', title: '新进货价', width: '60px', align: 'right',
             	formatter:function(value,row,index){
             		if(!value){
-                        return '0';
+                        return '<b>0.00</b>';
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
@@ -78,7 +78,7 @@ function initDatagridRequireOrders(){
             {field: 'oldSalePrice', title: '原零售价', width: '60px', align: 'right',
             	formatter:function(value,row,index){
             		if(!value){
-                        return  '0';
+                        return  '<b>0.00</b>';
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
@@ -86,7 +86,7 @@ function initDatagridRequireOrders(){
             {field: 'newSalePrice', title: '新零售价', width: '60px', align: 'right',
             	formatter:function(value,row,index){
             		if(!value){
-                        return '0';
+                        return '<b>0.00</b>';
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
@@ -94,7 +94,7 @@ function initDatagridRequireOrders(){
             {field: 'oldDcPrice', title: '原配送价', width: '60px', align: 'right',
             	formatter:function(value,row,index){
             		if(!value){
-                        return  '0';
+                        return '<b>0.00</b>';
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
@@ -102,7 +102,7 @@ function initDatagridRequireOrders(){
             {field: 'newDcPrice', title: '新配送价', width: '60px', align: 'right',
             	formatter:function(value,row,index){
             		if(!value){
-                        return  '0';
+                        return '<b>0.00</b>';
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
@@ -110,7 +110,7 @@ function initDatagridRequireOrders(){
             {field: 'oldVipPrice', title: '原会员价', width: '60px', align: 'right',
             	formatter:function(value,row,index){
             		if(!value){
-                        return '0';
+                        return  '<b>0.00</b>';
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
@@ -118,7 +118,7 @@ function initDatagridRequireOrders(){
             {field: 'newVipPrice', title: '新会员价', width: '60px', align: 'right',
             	formatter:function(value,row,index){
             		if(!value){
-                        return  '0';
+                        return  '<b>0.00</b>';
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
@@ -126,7 +126,7 @@ function initDatagridRequireOrders(){
             {field: 'oldWsPrice', title: '原批发价', width: '60px', align: 'right',
             	formatter:function(value,row,index){
             		if(!value){
-                        return  '0';
+                        return   '<b>0.00</b>';
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
@@ -134,7 +134,7 @@ function initDatagridRequireOrders(){
             {field: 'newWsPrice', title: '新批发价', width: '60px', align: 'right',
             	formatter:function(value,row,index){
             		if(!value){
-                        return  '0';
+                        return '<b>0.00</b>';
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
