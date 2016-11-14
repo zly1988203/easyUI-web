@@ -51,7 +51,7 @@
 	                        <input class="ub" type="radio" name="grade" value="2"  /><span>B(75%~95%)</span>
 	                    </div>
 	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub" type="radio" name="grade" value="3"  /><span>B(95%~100%)</span>
+	                        <input class="ub" type="radio" name="grade" value="3"  /><span>C(95%~100%)</span>
 	                    </div>
 	                </div>
             </div>
