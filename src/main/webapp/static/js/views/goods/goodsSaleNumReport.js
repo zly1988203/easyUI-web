@@ -113,7 +113,7 @@ function initDatagridRequire(){
 //查询入库单
 function queryForm(){
 	if($("#branchName").val()==""){
-        messager("请选择店铺名称");
+        messager("请选择机构名称");
         return;
     } 
 	var fromObjStr = $('#queryForm').serializeObject();
