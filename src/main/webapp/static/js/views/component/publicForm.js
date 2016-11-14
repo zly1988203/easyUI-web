@@ -29,7 +29,7 @@ function initDeliverFormCallBack(cb){
 function formCx(){
 	var formNo=$("#formNo").val();
 	var type = $("#type").val();
-	if($("#type").val()=='DA'){
+	if($("#type").val()=='DA'||$("#type").val()=='DO'||$("#type").val()=='DI'){
 		var endTime=$("#popupSearchDateTime").val();
 		$("#gridForm").datagrid("options").queryParams = {formNo:formNo,endTime:endTime,formType:type};
 		$("#gridForm").datagrid("options").url = contextPath+'/form/deliverSelect/getDeliverFormList';

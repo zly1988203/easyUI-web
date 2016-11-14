@@ -344,4 +344,46 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 		}
 		return map;
 	}
+	
+	
+	/**
+	 * @Description: 商品选择view
+	 * @param  model
+	 * @return String  
+	 * @throws
+	 * @author zhongy
+	 * @date 2016年11月09日
+	 */
+	@RequestMapping(value = "goGoodsSku")
+	public String goGoodsSku() {
+		return "component/publicGoodsSku";
+	}
+	
+	/**
+	 * @Description: 查询商品列表
+	 * @param vo GoodsSelectVo商品选择VO
+	 * @param pageNumber
+	 * @param pageSize
+	 * @return   
+	 * @return PageUtils<GoodsSelect>  
+	 * @throws
+	 * @author zhongy
+	 * @date 2016年11月09日
+	 */
+	@RequestMapping(value = "queryGoodsSkuLists", method = RequestMethod.POST)
+	@ResponseBody
+	public PageUtils<GoodsSelect> queryGoodsSkuLists(GoodsSelectVo vo,
+			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
+			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
+		try {
+			LOG.info("标准商品查询参数,vo={}",vo);
+			vo.setPageNumber(pageNumber);
+			vo.setPageSize(pageSize);
+			PageUtils<GoodsSelect> suppliers = goodsSelectServiceApi.queryGoodsSkuLists(vo);
+			return suppliers;
+		} catch (Exception e) {
+			LOG.error("标准查询商品选择数据出现异常:", e);
+		}
+		return PageUtils.emptyPage();
+	}
 }
