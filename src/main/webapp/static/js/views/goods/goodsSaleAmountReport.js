@@ -75,7 +75,7 @@ function initDatagridRequire(){
             {field:'saleRate', title: '销售金额占比(%)', width: '100px', align: 'right',
             	formatter:function(value,row,index){
 				    if(value){
-				    	return '<b>'+parseFloat(value).toFixed(1)+'</b>';
+				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
 				    }
 				},
             	editor:{
@@ -90,7 +90,7 @@ function initDatagridRequire(){
             {field:'totalRate', title: '累积占比(%)', width: '80px', align: 'right',
             	formatter:function(value,row,index){
 				    if(value){
-				    	return '<b>'+parseFloat(value).toFixed(1)+'</b>';
+				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
 				    }
 				},
             	editor:{
