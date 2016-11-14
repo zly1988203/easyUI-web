@@ -103,13 +103,13 @@ function initDatagridsupplierList(){
             {field:'skuId',title:'ID',width: '0px;',align:'left',hidden:true},
             {field:'skuCode',title:'货号',width: '100px',align:'left',editor:'textbox'},
             {field:'skuName',title:'商品名称',width:'200px',align:'left'},
-            {field:'barCode',title:'商品条码',width:'200px',align:'left'},
+            {field:'barCode',title:'条码',width:'200px',align:'left'},
             {field:'categoryName',title:'商品类别',width:'200px',align:'left'},
             {field:'spec',title:'规格',width:'200px',align:'left'},
             {field:'unit',title:'单位',width:'100px',align:'left'},
             {field:'purchasePrice',title:'最新进价',width:'100px',align:'left'},
-            {field:'purchasePrice',title:'最低进价',width:'100px',align:'left'},
-            {field:'purchasePrice',title:'最高进价',width:'100px',align:'left'}
+            {field:'purchasePrice',title:'最低历史进价',width:'100px',align:'left'},
+            {field:'purchasePrice',title:'最高历史进价',width:'100px',align:'left'}
         ]],
         onClickCell:function(rowIndex,field,value){
             gridHandel.setBeginRow(rowIndex);
