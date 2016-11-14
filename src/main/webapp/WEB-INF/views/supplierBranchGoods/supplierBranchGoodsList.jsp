@@ -31,7 +31,7 @@
 			   	</shiro:hasPermission>
 			   	
 				<shiro:hasPermission name="JxcSupplierGoods:selectGoods">
-				<button class="ubtns-item" onclick="selectGoods()">选择商品</button>
+				<button class="ubtns-item" onclick="selectGoods()">商品选择</button>
 			   	</shiro:hasPermission>
 				
 				<shiro:hasPermission name="JxcSupplierGoods:importProduct">
