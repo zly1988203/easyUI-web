@@ -75,6 +75,7 @@ function initDatagridRequireOrders(){
         //fit:true,            //占满
         showFooter:true,
         pageSize : 50,
+        pageList : [20, 50, 100],
 		height:'100%',
 		width:'100%',
         columns:[[
@@ -178,6 +179,7 @@ function initDatagridByGoods(){
        // fit:true,            //占满
         showFooter:true,
         pageSize : 50,
+        pageList : [20, 50, 100],
 		height:'100%',
 		width:'100%',
         columns:[[
@@ -360,6 +362,7 @@ function exportExcel(){
 		return ;
 	}
 	var length = $("#marketWater").datagrid('getData').total;
+	
 	if(length == 0){
 		$.messager.alert('提示',"无数据可导");
 		return;
