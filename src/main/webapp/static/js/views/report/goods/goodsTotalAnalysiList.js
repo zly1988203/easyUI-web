@@ -39,7 +39,7 @@ function changeType(){
 			skuNameOff();
 			categoryOff();
 			skuCodeOrBarCodeOff();
-			branchOff();
+			branchOn();
 			initPurReportSupplierGrid();
 		}  else if (a=="categoryTotal") {
 			// 初始化列表按类别汇总
