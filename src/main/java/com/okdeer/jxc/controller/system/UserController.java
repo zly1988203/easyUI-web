@@ -116,7 +116,8 @@ public class UserController extends BaseController<UserController> {
 		try {
 			qo.setPageNumber(pageNumber);
 			qo.setPageSize(pageSize);
-			qo.setBranchId(super.getCurrBranchId());
+			/*qo.setBranchId(super.getCurrBranchId());*/
+			qo.setBranchCompleCode(super.getCurrBranchCompleCode());
 			return sysUserService.queryLists(qo);
 		} catch (Exception e) {
 			LOG.error("查询操作员异常:", e);

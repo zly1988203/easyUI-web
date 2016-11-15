@@ -12,10 +12,12 @@
 <div class="ub  ub-f1 umar-4 upad-4">
 	<!--left-->
 	<div class="ub ub-ver ubor" style="width:240px;">
-	    <div class="upad-4">
-            <input class="uinp ub ub-f1" id="supplierNameSearch" name="supplierName" value="" maxlength="30"  
+	    <div class="ub upad-4">
+            <input class="uinp ub ub-f1" id="supplierNameSearch" name="supplierName" value="" maxlength="50"  
             placeholder="供应商编码、名称" />
-            <img style=" z-index:2; position: absolute;top: 10px;right: 40px;" src="${ctx}/static/images/search.png" width="20" onclick="searchTree()">
+            <div class="ub ub-pc ub-ac ubgc-while" style="  background-color: #ffffff;width: 40px;height: 28px;z-index: 2;position: absolute;top: 6px;right: 5px;">
+            <img src="${ctx}/static/images/search.png" width="20" onclick="searchTree()">
+        	</div>
         </div>
 		<div class="ub upad-4 ub-f1 uscroll">
 			<div class="zTreeDemoBackground left">
@@ -31,15 +33,15 @@
 			   	</shiro:hasPermission>
 			   	
 				<shiro:hasPermission name="JxcSupplierGoods:selectGoods">
-				<button class="ubtns-item" onclick="selectGoods()">选择商品</button>
+				<button class="ubtns-item" onclick="selectGoods()">商品选择</button>
 			   	</shiro:hasPermission>
 				
 				<shiro:hasPermission name="JxcSupplierGoods:importProduct">
-				<div class="ubtns-item" onclick="importShow(0)">导入货号</div>
+				<div class="ubtns-item" onclick="toImportproduct(0)">导入货号</div>
 			   	</shiro:hasPermission>
 			   	
 				<shiro:hasPermission name="JxcSupplierGoods:importByBarCode">
-                <div class="ubtns-item" onclick="importShow(1)">导入条码</div>
+                <div class="ubtns-item" onclick="toImportproduct(1)">导入条码</div>
 			   	</shiro:hasPermission>
 			   	
 				<shiro:hasPermission name="JxcSupplierGoods:delete">
@@ -73,21 +75,19 @@
 		</div>
 	</div>
 	<!-- 导入弹框 -->
-     <div class="uabs uatk">
-     	<div class="ubtn uw-100 umar-10" onclick="exportTemp()" id="temple"></div>
-     	<form id="uploadForm" method="post" enctype="multipart/form-data">
-		<input type="hidden" name="type" id="uploadFormType">
+	<!-- 导入弹框 -->
+    <div class="uabs uatk">
+     	<div class="uatit">导入文件选择</div>
          <div class="uacon">
-			 <input class="uinp ub" id="filename" type="text" readonly="readonly">
-			 <label class="ualable">选择文件
-				 <input type="file" class="uafile" value=""  name="file" id="excelFile"/>
-			 </label>
-		 </div>
+         	<input class="uinp ub" id="filename" type="text" readonly="readonly">
+         	<label class="ualable">选择文件
+         		<input type="file" class="uafile" value="" name="xlfile" id="xlf" readonly="readonly"/>
+         	</label>
+         </div>
          <div class="uabtns ">
-     	 	<button class="uabtn umar-r30" onclick="importListHandel()">导入</button>
-     	 	<div class="uabtn" onclick="importClose()" >取消</div>
+     	 	<button class="uabtn umar-r30" onclick="importHandel()">导入</button>
+     	 	<button class="uabtn" onclick="uaclose()" >取消</button>
      	 </div>
-     	 </form>
      </div>
 </div>
 </body>

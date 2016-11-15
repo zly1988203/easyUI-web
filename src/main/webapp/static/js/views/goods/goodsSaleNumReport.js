@@ -71,10 +71,10 @@ function initDatagridRequire(){
 					         }
 					     }
 					},
-					{field:'saleRate', title: '销售金额占比(%)', width: '100px', align: 'right',
+					{field:'saleRate', title: '销售量占比(%)', width: '100px', align: 'right',
 						formatter:function(value,row,index){
 						    if(value){
-						    	return '<b>'+parseFloat(value).toFixed(1)+'</b>';
+						    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
 						    }
 						},
 						editor:{
@@ -89,7 +89,7 @@ function initDatagridRequire(){
 					{field:'totalRate', title: '累积占比(%)', width: '80px', align: 'right',
 						formatter:function(value,row,index){
 						    if(value){
-						    	return '<b>'+parseFloat(value).toFixed(1)+'</b>';
+						    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
 						    }
 						},
 						editor:{
@@ -101,7 +101,7 @@ function initDatagridRequire(){
 					        }
 					    }
 					},
-					{field:'grade',title:'ABC等级',width:'80px',align:'right'},
+					{field:'grade',title:'ABC等级',width:'80px',align:'left'},
       ]],
       onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
@@ -113,7 +113,7 @@ function initDatagridRequire(){
 //查询入库单
 function queryForm(){
 	if($("#branchName").val()==""){
-        messager("请选择店铺名称");
+        messager("请选择机构名称");
         return;
     } 
 	var fromObjStr = $('#queryForm').serializeObject();
@@ -129,7 +129,7 @@ function selectBranches(){
 	new publicAgencyService(function(data){
 		$("#branchId").val(data.branchesId);
 		$("#branchName").val(data.branchName);
-	},'DO','');
+	},'BF','');
 }
 
 /**

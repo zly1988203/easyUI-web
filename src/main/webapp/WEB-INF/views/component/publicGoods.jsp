@@ -23,6 +23,7 @@ pageEncoding="UTF-8"%>
                 <div class="ub ub-ac upad-10">
                     <input class="usearch uinp ub ub-f1" type="text" id="goodsInfo"
                            placeholder="可按货号、自编码、品名、助记码等查询">
+                    <input type="hidden" name="supplierId" id="searchSupplierId" value="${searchSupplierId}">
                     <input type="button" class="ubtn umar-l10" value="查询" onclick="cx()">
                 </div>
 
@@ -335,8 +336,9 @@ pageEncoding="UTF-8"%>
     }
     function initSearch(key){
         if(!key){
+        	var searchSupplierId = $("#searchSupplierId").val();
             $("#gridGoods").datagrid("options").method = "post";
-            $("#gridGoods").datagrid("options").url =contextPath + '/goods/goodsSelect/getGoodsList?formType=${type}&sourceBranchId=${sourceBranchId}&targetBranchId=${targetBranchId}&branchId=${branchId}';
+            $("#gridGoods").datagrid("options").url =contextPath + '/goods/goodsSelect/getGoodsList?formType=${type}&sourceBranchId=${sourceBranchId}&targetBranchId=${targetBranchId}&branchId=${branchId}&supplierId='+searchSupplierId;
             $("#gridGoods").datagrid('load');
         }else{
             cx();
@@ -348,9 +350,10 @@ pageEncoding="UTF-8"%>
     function cx(){
         setTimeout(function(){
             var goodsInfo=$("#goodsInfo").val();
+            var searchSupplierId = $("#searchSupplierId").val();
             // $("#gridGoods").datagrid("options").queryParams = {'categoryId':categoryId,'goodsInfo':goodsInfo,'formType':'${type}','sourceBranchId':'${sourceBranchId}','targetBranchId':'${targetBranchId}'};
             // 梁利 提出左边树与右边的查询无关系
-            $("#gridGoods").datagrid("options").queryParams = $.extend({'goodsInfo':goodsInfo,'formType':'${type}','sourceBranchId':'${sourceBranchId}','targetBranchId':'${targetBranchId}','branchId':'${branchId}'},fromParams)
+            $("#gridGoods").datagrid("options").queryParams = $.extend({'goodsInfo':goodsInfo,'supplierId':searchSupplierId,'formType':'${type}','sourceBranchId':'${sourceBranchId}','supplierId':'${searchSupplierId}','targetBranchId':'${targetBranchId}','branchId':'${branchId}'},fromParams)
             $("#gridGoods").datagrid("options").method = "post";
             $("#gridGoods").datagrid("options").url =contextPath + '/goods/goodsSelect/getGoodsList';
             $("#gridGoods").datagrid('load');
@@ -364,7 +367,8 @@ pageEncoding="UTF-8"%>
         if(!params.key){
             $("#gridGoods").datagrid("options").method = "post";
             $("#gridGoods").datagrid("options").queryParams = params;
-            $("#gridGoods").datagrid("options").url =contextPath + '/goods/goodsSelect/getGoodsList?formType=${type}&sourceBranchId=${sourceBranchId}&targetBranchId=${targetBranchId}&branchId=${branchId}';
+            var searchSupplierId = $("#searchSupplierId").val();
+            $("#gridGoods").datagrid("options").url =contextPath + '/goods/goodsSelect/getGoodsList?formType=${type}&sourceBranchId=${sourceBranchId}&targetBranchId=${targetBranchId}&branchId=${branchId}&supplierId=${searchSupplierId}&supplierId='+searchSupplierId;
             $("#gridGoods").datagrid('load');
         }else{
             cx()

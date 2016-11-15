@@ -42,7 +42,7 @@ function initTreeArchives(codeOrName){
         var treeObj = $.fn.zTree.getZTreeObj("treeArchives");
         var nodes = treeObj.getNodes();
         if (nodes.length>0) {
-            treeObj.expandNode(nodes[0], true, false, true);
+            treeObj.expandNode(nodes[0], true, true, true);
         }
     });
 }
@@ -103,13 +103,13 @@ function initDatagridsupplierList(){
             {field:'skuId',title:'ID',width: '0px;',align:'left',hidden:true},
             {field:'skuCode',title:'货号',width: '100px',align:'left',editor:'textbox'},
             {field:'skuName',title:'商品名称',width:'200px',align:'left'},
-            {field:'barCode',title:'商品条码',width:'200px',align:'left'},
+            {field:'barCode',title:'条码',width:'200px',align:'left'},
             {field:'categoryName',title:'商品类别',width:'200px',align:'left'},
             {field:'spec',title:'规格',width:'200px',align:'left'},
             {field:'unit',title:'单位',width:'100px',align:'left'},
             {field:'purchasePrice',title:'最新进价',width:'100px',align:'left'},
-            {field:'purchasePrice',title:'最低进价',width:'100px',align:'left'},
-            {field:'purchasePrice',title:'最高进价',width:'100px',align:'left'}
+            {field:'purchasePrice',title:'最低历史进价',width:'100px',align:'left'},
+            {field:'purchasePrice',title:'最高历史进价',width:'100px',align:'left'}
         ]],
         onClickCell:function(rowIndex,field,value){
             gridHandel.setBeginRow(rowIndex);
@@ -174,7 +174,7 @@ function selectGoods(key){
         var rows = gFunUpdateKey(addDefaultData,keyNames);
         var argWhere ={skuCode:1};  //验证重复性
         var isCheck ={isGift:1 };   //只要是赠品就可以重复
-        var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
+        var newRows = gridHandel.checkDatagrid(rows,nowRows,argWhere,isCheck);
 
         $("#gridSupplierArchiveList").datagrid("loadData",newRows);
         gridHandel.setLoadFocus();
@@ -228,41 +228,6 @@ $(document).on('change','#excelFile', function(){
 	$('#filename').val(value);
 });
 
-//导入
-function importListHandel(){
-	var branchId = $("#branchId").val();
-	if(!branchId){
-		messager("请先选择机构");
-		return;
-	}
-	$("#uploadForm").attr("action",contextPath+"/supplierBranchGoods/importListEnable");
-	gFunStartLoading();
-	$("#uploadForm").form({
-		onSubmit : function(){
-			return true;
-		},
-		success : function(data){
-			gFunEndLoading();
-			importClose();
-			var rows = JSON.parse(data);
-			$("#gridSupplierArchiveList").datagrid("loadData",rows);
-			messager("导入成功");
-
-		},
-		error:function(e){
-			gFunEndLoading();
-			messager("导入失败");
-		}
-	});
-}
-
-//关闭导入
-function importClose(){
-	$('#excelFile').val("");
-	$('#filename').val("");
-	$('.uatk').hide();
-}
-
 /**
  * 导出
  */
@@ -271,6 +236,11 @@ function exportHandel(){
 	if(!supplierId){
 		$.messager.alert("提示","请选择供应商");
 		return;
+	}
+	var rows = $("#gridSupplierArchiveList").datagrid("getRows");
+	if(rows.length <= 0){
+		 $.messager.alert('提示','无数据可导');
+	     return;
 	}
 	$("#formList").form({
 		success : function(data){
@@ -285,36 +255,6 @@ function exportHandel(){
 	$("#formList").submit();
 }
 
-/**
- * 删除
- */
-function delHandel(){
-	var rowData = $("#gridSupplierArchiveList").datagrid("getSelected"); 
-    if(rowIsNull(rowData)){
-    	return;
-    }
-    
-    var supplierId=rowData.id
-    parent.$.messager.confirm('提示', '你确认要删除么?', function(data){
-    	if(!data){
-    		return;
-    	}
-    	$.ajax({
-            url:contextPath+"/supplier/deleteSupplier",
-            type:"POST",
-            data:{"supplierId":supplierId},
-            dataType:"json",  
-            success:function(result){
-                if(result){
-                    successTip(result.message, $("#gridSupplierArchiveList"));
-                }
-            },
-            error:function(result){
-                successTip("请求发送失败或服务器处理失败");
-            }
-        });
-    });
-}
 //保存
 function saveItemHandel(){
     $("#gridSupplierArchiveList").datagrid("endEdit", gridHandel.getSelectRowIndex());
@@ -352,13 +292,21 @@ function saveItemHandel(){
     }
 }
 
-
+//保存
 function saveDataHandel(skuIds){
     //供应商
     var supplierId = $("#supplierId").val();
+    if(!supplierId){
+    	messager("供应商不能为空");
+        return;
+    }
     //收货机构
     var branchId = $("#branchId").val();
-
+    if(!branchId){
+    	messager("机构不能为空");
+    	return;
+    }
+    
     var reqObj = {
     	branchId:branchId,
         supplierId:supplierId,
@@ -387,9 +335,11 @@ function saveDataHandel(skuIds){
 function orderDelete(){
 	var dg = $("#gridSupplierArchiveList");
 	var rows =dg.datagrid("getChecked");
-	if(rowIsNull(rows)){
-		return null;
-	}
+	if($("#gridSupplierArchiveList").datagrid("getChecked").length <= 0){
+	        $.messager.alert('提示','请选中一行进行删除！');
+	        return;
+	 }
+	
 	 var skuIds=[];
 	    $.each(rows,function(i,v){
 	        skuIds.push(v.skuId);
@@ -424,4 +374,41 @@ function orderDelete(){
 		}
 	});
 }
+
+//新的导入功能 货号(0)、条码(1)导入
+function toImportproduct(type){
+	//供应商
+    var supplierId = $("#supplierId").val();
+    if(!supplierId){
+    	messager("供应商不能为空");
+        return;
+    }
+    //收货机构
+    var branchId = $("#branchId").val();
+    if(!branchId){
+    	messager("机构不能为空");
+    	return;
+    }
+	
+    var param = {
+        url:contextPath+"/supplierBranchGoods/importListEnable",//导入后台url
+        tempUrl:contextPath+"/supplierBranchGoods/exportTemp",//下载模板
+        type:type
+    }
+    new publicUploadFileService(function(data){
+        updateListData(data);
+    },param)
+}
+
+function updateListData(data){
+	    var keyNames = {
+	        purchasePrice:'price'
+	    };
+	   
+	    var newRows = gFunUpdateKey(data,keyNames);
+	    var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
+	    var argWhere ={skuCode:1};  //验证重复性
+	    var allRows = gridHandel.checkDatagrid(newRows,nowRows,argWhere,{});
+	    $("#gridSupplierArchiveList").datagrid("loadData",allRows);
+	}
 

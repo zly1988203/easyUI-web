@@ -487,9 +487,9 @@ function callBackHandel(data){
 
 
 //公共组件-商品选择
-function publicGoodsService(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId){
+function publicGoodsService(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId,supplierId){
 	if(key){
-		var url= contextPath + '/goods/goodsSelect/importSkuCode?skuCodes='+key+'&branchId='+branchId;
+		var url= contextPath + '/goods/goodsSelect/importSkuCode?skuCodes='+key+'&branchId='+branchId+"&supplierId="+supplierId;
 //		if(type=="DA"||type=="DO"){
 //			 url=contextPath + '/goods/goodsSelect/enterSearchGoodsDeliver?skuCode='+key+"&formType="+type+"&sourceBranchId="+sourceBranchId+"&targetBranchId="+targetBranchId;
 //		}
@@ -500,19 +500,19 @@ function publicGoodsService(type,callback,key,isRadio,sourceBranchId,targetBranc
             	if(data&&data.length==1){
             		callback(data);
                 }else{
-                    publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId);
+                    publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId,supplierId);
                 }
             }
         })
     }else{
-        publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId);
+        publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId,supplierId);
     }
 }
-function publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId){
+function publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId,supplierId){
 	if(!branchId){
-        url=contextPath + "/goods/goodsSelect/view?type="+type+"&sourceBranchId="+sourceBranchId+"&targetBranchId="+targetBranchId;
+        url=contextPath + "/goods/goodsSelect/view?type="+type+"&sourceBranchId="+sourceBranchId+"&targetBranchId="+targetBranchId+"&supplierId="+supplierId;
     }else{
-        url=contextPath + "/goods/goodsSelect/view?type="+type+"&branchId="+branchId;
+        url=contextPath + "/goods/goodsSelect/view?type="+type+"&branchId="+branchId+"&supplierId="+supplierId;
     }
     //公有属性
     var dalogObj = {
