@@ -38,6 +38,7 @@ function checktype(){
 	for(var i=0;i<len;i++){
 		var check=$('.radioItem').eq(i).prop('checked');
 		var value=$('.radioItem').eq(i).val();
+		cleardata();
 		if(check==true&&value=='0'){
 			$('#sourceBranchName').addClass('uinp-no-more');
 			$('#sourceBranchName').removeAttr('onclick');
@@ -45,6 +46,7 @@ function checktype(){
 			$('.uinp-sourceName').removeAttr('onclick');
 			$('#formNo').removeClass('uinp-no-more');
 			$('#formNo').removeAttr("readonly");
+			
 		}
 		else if(check==true&&value=='1'){
 			$('#sourceBranchName').removeClass('uinp-no-more');
@@ -56,7 +58,15 @@ function checktype(){
 		}	
    }	
 }
-
+//清空所有数据值
+function cleardata(){
+	$('#targetBranchName').val("");
+	$('#skuName').val("");
+	$('#sourceBranchName').val("");
+	$('#formNo').val("");
+	$('#categoryName').val("");
+	$('#skuCode').val("");
+}
 
 var gridHandel = new GridClass();
 //初始化表格
@@ -80,7 +90,7 @@ function initDatagridRequireOrders(){
 		width:'100%',
         columns:[[
 			//{field:'check',checkbox:true},
-			 {field: 'inFormNo', title: '要货单号', width: '86px', align: 'left',
+			 {field: 'inFormNo', title: '要货单号', width: '150px', align: 'left',
 				 formatter:function(value,row,index){
 		                if(!value){
 		                    return '<div class="ub ub-pc ufw-b">合计</div> '
@@ -89,9 +99,9 @@ function initDatagridRequireOrders(){
 						return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
 		            } 
             },
-            {field: 'targetBranchName',title:'要货机构',width:'130px',align:'left'},
-            {field: 'sourceBranchName',title:'发货机构',width:'130px',align:'left'},
-            {field: 'outFormNo', title: '出库单号', width: '86px', align: 'left',
+            {field: 'targetBranchName',title:'要货机构',width:'85px',align:'left'},
+            {field: 'sourceBranchName',title:'发货机构',width:'85px',align:'left'},
+            {field: 'outFormNo', title: '出库单号', width: '150px', align: 'left',
             	formatter:function(value,row,index){
 		   			if(row.outFormId){
 		   				var hrefStr='parent.addTab("详情","'+contextPath+'/form/deliverForm/deliverEdit?report=close&deliverFormId='+row.outFormId+'")';
@@ -99,13 +109,13 @@ function initDatagridRequireOrders(){
 		   			}
 	           }   
             },
-            {field: 'skuCode', title: '货号', width: '80px', align: 'left'},
-            {field: 'skuName', title: '商品名称', width: '86px', align: 'left'},
-            {field: 'barCode', title: '条码', width: '80px', align: 'left'},
-            {field: 'spec', title: '规格', width: '45px', align: 'left'},
-            {field: 'unit', title: '单位', width: '45px', align: 'left'},
-            {field: 'categoryName', title: '商品类别', width: '55px', align:'center'},
-            {field: 'defectNum', title: '缺货数', width: '60px', align: 'right',
+            {field: 'skuCode', title: '货号', width: '65px', align: 'left'},
+            {field: 'skuName', title: '商品名称', width: '150px', align: 'left'},
+            {field: 'barCode', title: '条码', width: '150px', align: 'left'},
+            {field: 'spec', title: '规格', width: '65px', align:'center'},
+            {field: 'unit', title: '单位', width: '65px', align:'center'},
+            {field: 'categoryName', title: '商品类别', width: '85px', align:'center'},
+            {field: 'defectNum', title: '缺货数', width: '85px', align: 'right',
             	formatter : function(value, row, index) {
 					if(row.defectNum){
 						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -113,15 +123,15 @@ function initDatagridRequireOrders(){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
 			},
-            {field: 'outRate', title: '缺货率', width: '100px', align: 'right',
+            {field: 'outRate', title: '缺货率', width: '85px', align: 'right',
             	formatter : function(value, row, index) {
 					if(row.outRate){
 						return '<b>'+(parseFloat(value||0)*100).toFixed(2)+'%</b>';
 					}
-					return '<b>'+(parseFloat(value||0)*100).toFixed(2)+'%</b>';
+					return '';
 				},
             },
-            {field: 'inApplyNum', title: '要货数量', width: '60px', align: 'right',
+            {field: 'inApplyNum', title: '要货数量', width: '85px', align: 'right',
             	formatter : function(value, row, index) {
 					if(row.inApplyNum){
 						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -129,7 +139,7 @@ function initDatagridRequireOrders(){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
             },
-            {field: 'inAmount', title: '要货金额', width: '60px', align: 'right',
+            {field: 'inAmount', title: '要货金额', width: '85px', align: 'right',
             	formatter:function(value,row,index){
             		if(!value){
                         return '0.00';
@@ -137,7 +147,7 @@ function initDatagridRequireOrders(){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
-            {field: 'outDealNum', title: '发货数量', width: '60px', align: 'right',
+            {field: 'outDealNum', title: '发货数量', width: '85px', align: 'right',
             	formatter : function(value, row, index) {
 					if(row.outDealNum){
 						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -145,7 +155,7 @@ function initDatagridRequireOrders(){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
             },
-            {field: 'outAmount', title: '发货金额', width: '60px', align: 'right',
+            {field: 'outAmount', title: '发货金额', width: '85px', align: 'right',
             	formatter:function(value,row,index){
             		if(row.outAmount){
             			return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -184,7 +194,7 @@ function initDatagridByGoods(){
 		width:'100%',
         columns:[[
 			//{field:'check',checkbox:true},
-			{field: 'skuCode', title: '货号', width: '120px', align: 'left',
+			{field: 'skuCode', title: '货号', width: '65px', align: 'left',
 				formatter:function(value,row,index){
 					if(!value){
 	                    return '<div class="ub ub-pc ufw-b">合计</div> '
@@ -193,12 +203,12 @@ function initDatagridByGoods(){
 				}
 				 
 			},
-            {field: 'skuName', title: '商品名称', width: '120px', align: 'left'},
-            {field: 'barCode', title: '条码', width: '80px', align: 'left'},
-            {field: 'spec', title: '规格', width: '45px', align: 'left'},
-            {field: 'unit', title: '单位', width: '45px', align: 'left'},
-            {field: 'categoryName', title: '商品类别', width: '55px', align:'center'},
-            {field: 'defectNum', title: '缺货数', width: '60px', align: 'right',
+            {field: 'skuName', title: '商品名称', width: '150px', align: 'left'},
+            {field: 'barCode', title: '条码', width: '150px', align: 'left'},
+            {field: 'spec', title: '规格', width: '65px', align:'center'},
+            {field: 'unit', title: '单位', width: '65px', align:'center'},
+            {field: 'categoryName', title: '商品类别', width: '85px', align:'center'},
+            {field: 'defectNum', title: '缺货数', width: '85px', align: 'right',
             	formatter : function(value, row, index) {
 					if(row.defectNum){
 						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -206,15 +216,15 @@ function initDatagridByGoods(){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
 			},
-            {field: 'outRate', title: '缺货率', width: '100px', align: 'right',
+            {field: 'outRate', title: '缺货率', width: '85px', align: 'right',
             	formatter : function(value, row, index) {
 					if(row.outRate){
 						return '<b>'+(parseFloat(value||0)*100).toFixed(2)+'%</b>';
 					}
-					return '<b>'+(parseFloat(value||0)*100).toFixed(2)+'%</b>';
+					return '';
 				},
             },
-            {field: 'inApplyNum', title: '要货数量', width: '60px', align: 'right',
+            {field: 'inApplyNum', title: '要货数量', width: '85px', align: 'right',
             	formatter : function(value, row, index) {
 					if(row.inApplyNum){
 						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -222,7 +232,7 @@ function initDatagridByGoods(){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
             },
-            {field: 'inAmount', title: '要货金额', width: '60px', align: 'right',
+            {field: 'inAmount', title: '要货金额', width: '85px', align: 'right',
             	formatter:function(value,row,index){
             		if(!value){
                         return '';
@@ -230,7 +240,7 @@ function initDatagridByGoods(){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
-            {field: 'outDealNum', title: '发货数量', width: '60px', align: 'right',
+            {field: 'outDealNum', title: '发货数量', width: '85px', align: 'right',
             	formatter : function(value, row, index) {
 					if(row.outDealNum){
 						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -238,7 +248,7 @@ function initDatagridByGoods(){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
             },
-            {field: 'outAmount', title: '发货金额', width: '60px', align: 'right',
+            {field: 'outAmount', title: '发货金额', width: '85px', align: 'right',
             	formatter:function(value,row,index){
             		if(row.outAmount){
             			return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -254,12 +264,6 @@ function initDatagridByGoods(){
 }
 
 
-
-
-
-
-
-
 //查询
 function queryForm(){
 	var startDate = $("#txtStartDate").val();
@@ -269,7 +273,7 @@ function queryForm(){
 		$.messager.alert('提示', '日期不能为空');
 		return ;
 	}	
-	$("#marketWater").datagrid("options").url = '';
+	//$("#marketWater").datagrid("options").url = '';
 	var fromObjStr = $('#queryForm').serializeObject();
 	$("#marketWater").datagrid("options").queryParams = fromObjStr;
 	$('#marketWater').datagrid({showFooter:true});
