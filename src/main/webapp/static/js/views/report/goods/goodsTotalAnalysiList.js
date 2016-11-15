@@ -356,13 +356,16 @@ function exportTotal(){
 	var startDate = $("#txtStartDate").val();
 	var endDate = $("#txtEndDate").val();
 	var branchName = $("#branchName").val();
+	var categoryType=$('input[name="searchType"]:checked ').val();
 	if(!(startDate && endDate)){
 		$.messager.alert('提示', '日期不能为空');
 		return ;
 	}
-	if(!branchName){
-		$.messager.alert('提示', '店铺名不能为空');
-		return ;
+	if(categoryType!='branchTotal'){
+		if(!branchName){
+			$.messager.alert('提示', '店铺名不能为空');
+			return ;
+		}
 	}
 	var length = $("#goodsTotalAnalysi").datagrid('getData').total;
 	if(length == 0){
