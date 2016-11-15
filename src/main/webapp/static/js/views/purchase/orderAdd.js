@@ -325,11 +325,11 @@ function delLineHandel(event){
 //选择商品
 function selectGoods(searchKey){
     //判定供应商是否存在
-    if($("#supplierId").val()==""){
+	var supplierId = $("#supplierId").val();
+    if(supplierId==""){
         messager("请先选择供应商");
         return;
     }
-    debugger;
     var branchId = $("#branchId").val();
     if(!branchId){
     	messager("请先选择收货机构");
@@ -370,7 +370,7 @@ function selectGoods(searchKey){
             gridHandel.setSelectFieldName("largeNum");
             gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
         },100)
-    },searchKey,0,"","",branchId);
+    },searchKey,0,"","",branchId,supplierId);
 }
 
 function updateListData(data){
