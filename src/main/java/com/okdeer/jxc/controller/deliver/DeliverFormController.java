@@ -120,7 +120,8 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 	 * @date 2016年8月17日
 	 */
 	@RequestMapping(value = "viewsDA")
-	public String viewDA() {
+	public String viewDA(Model model) {
+		model.addAttribute("targetBranchId", getCurrBranchId());
 		return "form/deliver/deliverList";
 	}
 
@@ -133,7 +134,8 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 	 * @date 2016年8月17日
 	 */
 	@RequestMapping(value = "viewsDO")
-	public String viewsDO() {
+	public String viewsDO(Model model) {
+		model.addAttribute("sourceBranchId", getCurrBranchId());
 		return "form/deliver/DoList";
 	}
 
@@ -146,7 +148,8 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 	 * @date 2016年8月17日
 	 */
 	@RequestMapping(value = "viewsDI")
-	public String viewsDI() {
+	public String viewsDI(Model model) {
+		model.addAttribute("sourceBranchId", getCurrBranchId());
 		return "form/deliver/DiList";
 	}
 
@@ -317,11 +320,16 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
-			if (FormType.DO.toString().equals(vo.getDeliverType())) {
-				vo.setSourceBranchId(UserUtil.getCurrBranchId());
+			if (FormType.DO.toString().equals(vo.getDeliverType())
+					|| FormType.DI.toString().equals(vo.getDeliverType())) {
+				if (StringUtils.isEmpty(vo.getSourceBranchId())) {
+					vo.setSourceBranchId(UserUtil.getCurrBranchId());
+				}
 			} else {
 				// 获取机构ID
-				vo.setTargetBranchId(UserUtil.getCurrBranchId());
+				if (StringUtils.isEmpty(vo.getTargetBranchId())) {
+					vo.setTargetBranchId(UserUtil.getCurrBranchId());
+				}
 			}
 			PageUtils<DeliverForm> deliverForms = queryDeliverFormServiceApi
 					.queryLists(vo);

@@ -149,13 +149,9 @@ function addDeliverForm(){
 	location.href = contextPath + "/form/deliverForm/addDeliverForm?deliverType=DO";
 }
 
+//返回列表页面
 function back(){
-	var type = $("#type").val();
-	if (type == '1') {
-		location.href = contextPath+"/form/deliverReport/viewDeliverList";
-	} else {
-		location.href = contextPath+"/form/deliverForm/viewsDO";
-	}
+	location.href = contextPath+"/form/deliverForm/viewsDO";
 }
 
 //打印 入库单 配送 DO

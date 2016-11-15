@@ -116,13 +116,9 @@ function updateFooter(){
 function addDeliverForm(){
 	location.href = contextPath + "/form/deliverForm/addDeliverForm?deliverType=DI";
 }
+//返回列表页面
 function back(){
-	var type = $("#type").val();
-	if (type == '1') {
-		location.href = contextPath+"/form/deliverReport/viewDeliverList";
-	} else {
-		location.href = contextPath+"/form/deliverForm/viewsDI";
-	}
+	location.href = contextPath+"/form/deliverForm/viewsDI";
 }
 
 //打印 入库单 DI

@@ -701,6 +701,9 @@ function updateListData(data){
      $("#gridEditOrder").datagrid("loadData",newRows);
  
 }
-
+//返回列表页面
+function back(){
+	location.href = contextPath+"/form/deliverForm/viewsDA";
+}
 
 

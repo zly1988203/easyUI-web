@@ -566,3 +566,7 @@ function getImportData(data){
     $("#"+gridHandel.getGridName()).datagrid("loadData",newRows);
     messager("导入成功");
 }
+//返回列表页面
+function back(){
+	location.href = contextPath+"/form/deliverForm/viewsDI";
+}

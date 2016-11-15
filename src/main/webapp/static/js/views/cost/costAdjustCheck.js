@@ -201,8 +201,10 @@ function loadLists(referenceId){
 	$("#gridEditRequireOrder").datagrid('options').url = contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverFormId="+referenceId;
 	$("#gridEditRequireOrder").datagrid('load');
 }
-
-function toBack(){
+/**
+ * 返回库存调整
+ */
+function back(){
 	location.href = contextPath+"/cost/costAdjust/view";
 }
 

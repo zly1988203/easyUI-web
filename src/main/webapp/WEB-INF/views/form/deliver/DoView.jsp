@@ -21,7 +21,7 @@
             	<div class="ubtns-item" onclick="printDesign('${form.formNo}')">打印</div>
             	<div class="ubtns-item"  onclick="exportData('DO','gridEditRequireOrder')">导出明细</div>
             	<div class="ubtns-item"  onclick="exportData('DO','gridEditRequireOrder','1')">导出货号</div>
-                <div class="ubtns-item"  id="toBackByJSButton" onclick="toBackByJS()">返回</div>
+                <div class="ubtns-item"  id="toBackByJSButton" onclick="back()">返回</div>
             </div>
         </div>
         <div class="ub umar-t8 uc-black">【单号】：${form.formNo}</div>
@@ -38,7 +38,7 @@
                </div>
                <div class="ub ub-ac umar-l20">
                    <div class="umar-r10 uw-70 ut-r">制单人员:</div>
-                   <div class="utxt"><%=UserUtil.getCurrentUser().getUserName() %></div>
+                   <div class="utxt">${form.createUserName}</div>
                </div>
                <div class="ub ub-ac umar-l20">
                    <div class="umar-r10 uw-60 ut-r">制单日期:</div>

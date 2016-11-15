@@ -364,7 +364,7 @@ function saveDataHandel(rows){
 /**
  * 返回库存调整
  */
-function toBack(){
+function back(){
 	location.href = contextPath+"/cost/costAdjust/view";
 }
 
