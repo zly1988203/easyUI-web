@@ -455,6 +455,7 @@ function check(){
         return;
     }
     var isCheckResult = true;
+    var num=0;
     $.each(rows,function(i,v){
         v["rowNo"] = i+1;
         if(!v["skuCode"]){
@@ -463,40 +464,49 @@ function check(){
             return false;
         };
         if(parseFloat(v["realNum"])<=0){
-            messager("第"+(i+1)+"行，存在商品数量为0");
-            isCheckResult = false;
-            return false;
+        	num++;
         }
     });
+    
     if(!isCheckResult){
         return
     }
-    var id = $("#formId").val();
-    $.messager.confirm('提示','是否审核通过？',function(data){
-        if(data){
-            $.ajax({
-                url:contextPath+"/form/purchase/check",
-                type:"POST",
-                data:{
-                    formId:id,
-                    status:1
-                },
-                success:function(result){
-                    console.log(result);
-                    if(result['code'] == 0){
-                        $.messager.alert("操作提示", "操作成功！", "info",function(){
-                            location.href = contextPath +"/form/purchase/orderEdit?formId=" + id;
-                        });
-                    }else{
-                        successTip(result['message']);
-                    }
-                },
-                error:function(result){
-                    successTip("请求发送失败或服务器处理失败");
-                }
-            });
-        }
-    });
+    if(num==rows.length){
+    	 messager("采购商品数量全部为0");
+		return
+	}else{
+		$.messager.confirm('提示',"是否清除单据中数量为0的商品记录?",function(data){
+    		if(data){
+    		    checkOrder();
+    		}	
+    	});
+	}
+}
+
+//审核采购单
+function checkOrder(){
+	 var id = $("#formId").val();
+	 $.ajax({
+         url:contextPath+"/form/purchase/check",
+         type:"POST",
+         data:{
+             formId:id,
+             status:1
+         },
+         success:function(result){
+             console.log(result);
+             if(result['code'] == 0){
+                 $.messager.alert("操作提示", "操作成功！", "info",function(){
+                     location.href = contextPath +"/form/purchase/orderEdit?formId=" + id;
+                 });
+             }else{
+                 successTip(result['message']);
+             }
+         },
+         error:function(result){
+             successTip("请求发送失败或服务器处理失败");
+         }
+     });
 }
 
 function orderDelete(){
