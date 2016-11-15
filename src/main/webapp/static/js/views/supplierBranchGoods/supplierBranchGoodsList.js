@@ -272,6 +272,11 @@ function exportHandel(){
 		$.messager.alert("提示","请选择供应商");
 		return;
 	}
+	var rows = $("#gridSupplierArchiveList").datagrid("getRows");
+	if(rows.length <= 0){
+		 $.messager.alert('提示','无数据可导');
+	     return;
+	}
 	$("#formList").form({
 		success : function(data){
 			if(data==null){
@@ -285,36 +290,6 @@ function exportHandel(){
 	$("#formList").submit();
 }
 
-/**
- * 删除
- */
-function delHandel(){
-	var rowData = $("#gridSupplierArchiveList").datagrid("getSelected"); 
-    if(rowIsNull(rowData)){
-    	return;
-    }
-    
-    var supplierId=rowData.id
-    parent.$.messager.confirm('提示', '你确认要删除么?', function(data){
-    	if(!data){
-    		return;
-    	}
-    	$.ajax({
-            url:contextPath+"/supplier/deleteSupplier",
-            type:"POST",
-            data:{"supplierId":supplierId},
-            dataType:"json",  
-            success:function(result){
-                if(result){
-                    successTip(result.message, $("#gridSupplierArchiveList"));
-                }
-            },
-            error:function(result){
-                successTip("请求发送失败或服务器处理失败");
-            }
-        });
-    });
-}
 //保存
 function saveItemHandel(){
     $("#gridSupplierArchiveList").datagrid("endEdit", gridHandel.getSelectRowIndex());
@@ -387,9 +362,11 @@ function saveDataHandel(skuIds){
 function orderDelete(){
 	var dg = $("#gridSupplierArchiveList");
 	var rows =dg.datagrid("getChecked");
-	if(rowIsNull(rows)){
-		return null;
-	}
+	if($("#gridSupplierArchiveList").datagrid("getChecked").length <= 0){
+	        $.messager.alert('提示','请选中一行进行删除！');
+	        return;
+	 }
+	
 	 var skuIds=[];
 	    $.each(rows,function(i,v){
 	        skuIds.push(v.skuId);

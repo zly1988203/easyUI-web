@@ -12,10 +12,12 @@
 <div class="ub  ub-f1 umar-4 upad-4">
 	<!--left-->
 	<div class="ub ub-ver ubor" style="width:240px;">
-	    <div class="upad-4">
-            <input class="uinp ub ub-f1" id="supplierNameSearch" name="supplierName" value="" maxlength="20"  
+	    <div class="ub upad-4">
+            <input class="uinp ub ub-f1" id="supplierNameSearch" name="supplierName" value="" maxlength="50"  
             placeholder="供应商编码、名称" />
-            <img style=" z-index:2; position: absolute;top: 10px;right: 40px;" src="${ctx}/static/images/search.png" width="20" onclick="searchTree()">
+            <div class="ub ub-pc ub-ac ubgc-while" style="  background-color: #ffffff;width: 40px;height: 28px;z-index: 2;position: absolute;top: 6px;right: 5px;">
+            <img src="${ctx}/static/images/search.png" width="20" onclick="searchTree()">
+        	</div>
         </div>
 		<div class="ub upad-4 ub-f1 uscroll">
 			<div class="zTreeDemoBackground left">
