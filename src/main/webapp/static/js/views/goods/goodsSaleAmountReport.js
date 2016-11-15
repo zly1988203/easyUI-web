@@ -144,9 +144,12 @@ function queryForm(){
 function selectBranches(){
 	new publicAgencyService(function(data){
 		$("#branchId").val(data.branchesId);
-		$("#branchName").val(data.branchName);
+		//转义字符
+		var baranchesId=data.branchName.replace(/&mdash;&mdash;/,"——");
+		$("#branchName").val(baranchesId);
 	},'BF','');
 }
+
 /**
  * 导出
  */
