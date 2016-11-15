@@ -140,13 +140,13 @@ function queryForm(){
 /**
  * 机构名称
  */
+
 function selectBranches(){
 	new publicAgencyService(function(data){
 		$("#branchId").val(data.branchesId);
 		$("#branchName").val(data.branchName);
-	},'DO','');
+	},'BF','');
 }
-
 /**
  * 导出
  */

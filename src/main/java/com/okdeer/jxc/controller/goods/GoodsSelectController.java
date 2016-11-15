@@ -77,10 +77,12 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 	public String view(HttpServletRequest req, Model model) {
 		LOG.info("商品选择跳转页面参数:{}", req.toString());
 		String type = req.getParameter("type");
+		String supplierId = req.getParameter("supplierId");
 		String sourceBranchId = req.getParameter("sourceBranchId");
 		String targetBranchId = req.getParameter("targetBranchId");
 		String branchId = req.getParameter("branchId");
 		model.addAttribute("type", type);
+		model.addAttribute("searchSupplierId", supplierId);
 		model.addAttribute("sourceBranchId", sourceBranchId);
 		model.addAttribute("targetBranchId", targetBranchId);
 		model.addAttribute("branchId", branchId);
@@ -123,8 +125,12 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 			// vo.setBranchId(vo.getSourceBranchId());
 			// }
 			LOG.info("商品查询参数:{}" + vo.toString());
-			PageUtils<GoodsSelect> suppliers = goodsSelectServiceApi.queryLists(vo);
-			LOG.info("page" + suppliers.toString());
+			PageUtils<GoodsSelect> suppliers = null;
+			if(FormType.PA.name().equals(vo.getFormType())){
+				suppliers = goodsSelectServiceApi.queryPurchaseGoodsLists(vo);
+			}else{
+				suppliers = goodsSelectServiceApi.queryLists(vo);
+			}
 			return suppliers;
 		} catch (Exception e) {
 			LOG.error("查询商品选择数据出现异常:", e);
