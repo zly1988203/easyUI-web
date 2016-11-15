@@ -6,7 +6,9 @@ $(function(){
 	//开始和结束时间
 	toChangeDatetime(0);
     initDatagridRequireOrders();
+    sourceBranchId = $("#sourceBranchId").val();
 });
+var sourceBranchId;
 var gridHandel = new GridClass();
 //初始化表格
 function initDatagridRequireOrders(){
@@ -125,7 +127,17 @@ function selectBranches(){
 	new publicAgencyService(function(data){
 		$("#sourceBranchId").val(data.branchesId);
 		$("#sourceBranchName").val(data.branchName);
-	},'DO','');
+	},'',sourceBranchId);
+}
+
+/**
+ * 制单人
+ */
+function selectOperator(){
+	new publicOperatorService(function(data){
+		$("#operateUserId").val(data.id);
+		$("#operateUserName").val(data.userName);
+	});
 }
 
 //打印
