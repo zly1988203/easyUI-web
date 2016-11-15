@@ -601,7 +601,7 @@ function loadLists(referenceId){
 	$("#gridEditRequireOrder").datagrid('options').url = contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverFormId="+referenceId + "&deliverType=DA";
 	$("#gridEditRequireOrder").datagrid('load');
 }
-
+//返回列表页面
 function back(){
 	location.href = contextPath+"/form/deliverForm/viewsDI";
 }

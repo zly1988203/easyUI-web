@@ -141,7 +141,7 @@ function initDatagridRequireOrders(){
             },
             {field: 'spec', title: '规格', width: '45px', align: 'left'},
             {field: 'unit', title: '单位', width: '45px', align: 'left'},
-            {field: 'validTime', title: '审核人日期', width: '80px', align: 'left',
+            {field: 'validTime', title: '审核日期', width: '80px', align: 'left',
             	formatter : function(value, rowData, rowIndex) {
 	        		   return formatDate(value,'yyyy-MM-dd');
 	        	} 	

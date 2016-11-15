@@ -20,6 +20,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.report.DataRecord;
 import com.okdeer.jxc.common.report.ReportService;
+import com.okdeer.jxc.common.utils.BooleanUtils;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.controller.common.ReportController;
 import com.okdeer.jxc.report.service.PricingQueryServiceApi;
@@ -72,6 +73,9 @@ public class PricingQueryController  extends ReportController{
 			List<DataRecord> reportList=pricingQueryServiceApi.getList(map);
 			String fileName = "调价查询" + "_" + DateUtils.getCurrSmallStr();
 			String templateName = ExportExcelConstant.PRICING_QUERY;
+			for(DataRecord dataRecord:reportList){
+				formatter(dataRecord);
+			}
 			exportListForXLSX(response, reportList, fileName, templateName);
 		} catch (Exception e) {
 			LOG.error("调价单导出查询异常:", e);
@@ -96,11 +100,14 @@ public class PricingQueryController  extends ReportController{
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+    /**
+     * 导出isEffected 0,1 转换为 是 ,否
+     * (non-Javadoc)
+     * @see com.okdeer.jxc.controller.common.ReportController#formatter(com.okdeer.jxc.common.report.DataRecord)
+     */
 	@Override
 	public void formatter(DataRecord dataRecord) {
-		// TODO Auto-generated method stub
-		
+		dataRecord.put("isEffected",  BooleanUtils.getBooleanStrDesc((Integer)dataRecord.get("isEffected")));
 	}
 
 

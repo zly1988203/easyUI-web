@@ -460,7 +460,7 @@ function delCostForm(){
 					console.log(result);
 					if(result['code'] == 0){
 						successTip("删除成功");
-						toBack();
+						back();
 					}else{
 						successTip(result['message']);
 					}
@@ -494,7 +494,10 @@ function loadLists(referenceId){
 	$("#gridEditRequireOrder").datagrid('load');
 }
 
-function toBack(){
+/**
+ * 返回库存调整
+ */
+function back(){
 	location.href = contextPath+"/cost/costAdjust/view";
 }
 /**
