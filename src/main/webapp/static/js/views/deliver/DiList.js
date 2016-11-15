@@ -6,7 +6,9 @@ $(function(){
 	//开始和结束时间
 	toChangeDatetime(0);
     initDatagridRequireOrders();
+    sourceBranchId = $("#sourceBranchId").val();
 });
+var sourceBranchId;
 var gridHandel = new GridClass();
 //初始化表格
 function initDatagridRequireOrders(){
@@ -122,9 +124,9 @@ function delDeliverForm(){
  */
 function selectBranches(){
 	new publicAgencyService(function(data){
-		$("#targetBranchId").val(data.branchesId);
-		$("#brancheName").val(data.branchName);
-	},'DO','');
+		$("#sourceBranchId").val(data.branchesId);
+		$("#sourceBranchName").val(data.branchName);
+	},'',sourceBranchId);
 }
 
 //打印
@@ -136,6 +138,16 @@ function printDesign(){
      }
      //弹出打印页面
      parent.addTabPrint('PASheet' + row.id,row.formNo+'单据打印',contextPath + '/printdesign/design?page=PASheet&controller=/form/purchase&template=-1&sheetNo=' + row.id + '&gridFlag=PAGrid','');
+}
+
+/**
+ * 制单人
+ */
+function selectOperator(){
+	new publicOperatorService(function(data){
+		$("#operateUserId").val(data.id);
+		$("#operateUserName").val(data.userName);
+	});
 }
 
 

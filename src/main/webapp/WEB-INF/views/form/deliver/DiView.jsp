@@ -38,7 +38,7 @@
                </div>
                <div class="ub ub-ac umar-l20">
                    <div class="umar-r10 uw-70 ut-r">制单人员:</div>
-                   <div class="utxt"><%=UserUtil.getCurrentUser().getUserName() %></div>
+                   <div class="utxt">${form.createUserName}</div>
                </div>
                <div class="ub ub-ac umar-l20">
                    <div class="umar-r10 uw-60 ut-r">制单日期:</div>
