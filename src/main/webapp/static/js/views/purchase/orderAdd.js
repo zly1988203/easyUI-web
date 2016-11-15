@@ -414,6 +414,7 @@ function saveItemHandel(){
     }
     var isCheckResult = true;
     var isChcekPrice = false;
+    var isChcekNum = false;
     $.each(rows,function(i,v){
         v["rowNo"] = i+1;
         if(!v["skuName"]){
@@ -424,6 +425,10 @@ function saveItemHandel(){
         if(parseFloat(v["price"])<=0&&v["isGift"]==0){
             isChcekPrice = true;
         }
+        //数量判断
+        if(parseFloat(v["realNum"])<=0){
+        	isChcekNum = true;
+        }
     });
     if(isCheckResult){
         if(isChcekPrice){
@@ -431,11 +436,17 @@ function saveItemHandel(){
                 if (r){
                     return ;
                 }else{
-                    saveDataHandel(rows);
+                	 saveDataHandel(rows);
                 }
             });
         }else{
-            saveDataHandel(rows);
+        	if(isChcekNum){
+       		 $.messager.confirm('提示','存在数量为0的商品!',function(data){
+       			if(data){
+       				saveDataHandel(rows);
+       		    }
+       		 });
+         	}
         }
     }
 }
