@@ -272,6 +272,11 @@ function exportHandel(){
 		$.messager.alert("提示","请选择供应商");
 		return;
 	}
+	var rows = $("#gridSupplierArchiveList").datagrid("getRows");
+	if(rows.length <= 0){
+		 $.messager.alert('提示','无数据可导');
+	     return;
+	}
 	$("#formList").form({
 		success : function(data){
 			if(data==null){
