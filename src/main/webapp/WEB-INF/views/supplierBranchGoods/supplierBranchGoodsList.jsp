@@ -37,11 +37,11 @@
 			   	</shiro:hasPermission>
 				
 				<shiro:hasPermission name="JxcSupplierGoods:importProduct">
-				<div class="ubtns-item" onclick="importShow(0)">导入货号</div>
+				<div class="ubtns-item" onclick="toImportproduct(0)">导入货号</div>
 			   	</shiro:hasPermission>
 			   	
 				<shiro:hasPermission name="JxcSupplierGoods:importByBarCode">
-                <div class="ubtns-item" onclick="importShow(1)">导入条码</div>
+                <div class="ubtns-item" onclick="toImportproduct(1)">导入条码</div>
 			   	</shiro:hasPermission>
 			   	
 				<shiro:hasPermission name="JxcSupplierGoods:delete">
@@ -75,21 +75,19 @@
 		</div>
 	</div>
 	<!-- 导入弹框 -->
-     <div class="uabs uatk">
-     	<div class="ubtn uw-100 umar-10" onclick="exportTemp()" id="temple"></div>
-     	<form id="uploadForm" method="post" enctype="multipart/form-data">
-		<input type="hidden" name="type" id="uploadFormType">
+	<!-- 导入弹框 -->
+    <div class="uabs uatk">
+     	<div class="uatit">导入文件选择</div>
          <div class="uacon">
-			 <input class="uinp ub" id="filename" type="text" readonly="readonly">
-			 <label class="ualable">选择文件
-				 <input type="file" class="uafile" value=""  name="file" id="excelFile"/>
-			 </label>
-		 </div>
+         	<input class="uinp ub" id="filename" type="text" readonly="readonly">
+         	<label class="ualable">选择文件
+         		<input type="file" class="uafile" value="" name="xlfile" id="xlf" readonly="readonly"/>
+         	</label>
+         </div>
          <div class="uabtns ">
-     	 	<button class="uabtn umar-r30" onclick="importListHandel()">导入</button>
-     	 	<div class="uabtn" onclick="importClose()" >取消</div>
+     	 	<button class="uabtn umar-r30" onclick="importHandel()">导入</button>
+     	 	<button class="uabtn" onclick="uaclose()" >取消</button>
      	 </div>
-     	 </form>
      </div>
 </div>
 </body>
