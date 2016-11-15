@@ -83,7 +83,7 @@
 	                </div>
 	                <div class="ub ub-ac uw-300 umar-l40">
 	                    <div class="umar-r10 uw-70 ut-r">发货机构:</div>
-	                    <input type="hidden" id="sourceBranchId" name="sourceBranchId" />
+	                    <input type="hidden" id="sourceBranchId" name="sourceBranchId" value="${sourceBranchId}" />
 	                    <input class="uinp ub ub-f1" type="text" id="sourceBranchName" name="sourceBranchName" onclick="selectBranches()" />
 	                    <div class="uinp-more" onclick="selectBranches()" >...</div>
 	                </div>
