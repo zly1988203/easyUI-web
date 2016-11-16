@@ -5,6 +5,7 @@ $(function(){
     initDatagridRequire();
 });
 var gridHandel = new GridClass();
+var grid = new GridClass();
 //初始化表格
 function initDatagridRequire(){
 	gridHandel.setGridName("saleMange");
@@ -117,6 +118,34 @@ function exportExcel(){
 
 function addActivity(){
 	location.href = contextPath + "/sale/activity/add";
+}
+
+//终止
+function stop(){
+	$.messager.confirm('提示','是否终止？',function(data){
+		if(data){
+			$.ajax({
+				url : contextPath+"/form/deliverForm/stopped",
+				type : "POST",
+				data : {
+					deliverFormId : $("#formId").val(),
+					deliverType : 'DA'
+				},
+				success:function(result){
+					if(result['code'] == 0){
+						$.messager.alert("操作提示", "操作成功！", "info",function(){
+							location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
+						});
+					}else{
+						successTip(result['message']);
+					}
+				},
+				error:function(result){
+					successTip("请求发送失败或服务器处理失败");
+				}
+			});
+		}
+	});
 }
 
 /**

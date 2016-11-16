@@ -65,7 +65,7 @@
 	        <div class="ub umar-t8">
 	            <div class="ub ub-ac ">
                     <div class="umar-r10 uw-80 ut-r">活动名称:</div>
-                    <input class="uinp" type="text" name="skuName" id="skuName">
+                    <input class="uinp" type="text" name="activityName" id="activityName">
                 </div>
                  
                 <div class="ub ub-ac ">
