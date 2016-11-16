@@ -37,7 +37,7 @@ public class PricingQueryController  extends ReportController{
 	public String view() {
 		return "report/pricing/pricingQuery";
 	}
-	
+
 	@Override
 	public ReportService getReportService() {
 		return pricingQueryServiceApi;
@@ -51,7 +51,7 @@ public class PricingQueryController  extends ReportController{
 	public Map<String, Object> getParam(HttpServletRequest request) {
 		Map<String,Object> map= this.builderParams(request, null);
 		return map;
-		
+
 	}
 	/**
 	 * 
@@ -65,7 +65,7 @@ public class PricingQueryController  extends ReportController{
 	@RequestMapping(value = "/exportList")
 	@ResponseBody
 	public String exportList(HttpServletRequest request,HttpServletResponse response) {
-		
+
 		try {
 			Map<String,Object> map=getParam(request);
 			LOG.info("调价单导出查询参数:{}" + map.toString());
@@ -81,7 +81,7 @@ public class PricingQueryController  extends ReportController{
 		}
 		return null;
 	}
-	
+
 	@Override
 	public String getFileName() {
 		// TODO Auto-generated method stub
@@ -99,18 +99,22 @@ public class PricingQueryController  extends ReportController{
 		// TODO Auto-generated method stub
 		return null;
 	}
-    /**
-     * 导出isEffected 0,1 转换为 是 ,否
-     * (non-Javadoc)
-     * @see com.okdeer.jxc.controller.common.ReportController#formatter(com.okdeer.jxc.common.report.DataRecord)
-     */
+	/**
+	 * 导出isEffected 0,1 转换为 是 ,否
+	 * (non-Javadoc)
+	 * @see com.okdeer.jxc.controller.common.ReportController#formatter(com.okdeer.jxc.common.report.DataRecord)
+	 */
 	@Override
 	public void formatter(DataRecord dataRecord) {
-		dataRecord.put("isEffected",  BooleanUtils.getBooleanStrDesc((Integer)dataRecord.get("isEffected")));
+		if(dataRecord.get("isEffected") instanceof Integer){
+			dataRecord.put("isEffected",  BooleanUtils.getBooleanStrDesc((Integer)dataRecord.get("isEffected")));
+		}else if(dataRecord.get("isEffected") instanceof Boolean){
+			dataRecord.put("isEffected",  BooleanUtils.getBooleanStrDesc((Boolean)dataRecord.get("isEffected")));
+		}
 	}
 
 
-	
-	
+
+
 }
 

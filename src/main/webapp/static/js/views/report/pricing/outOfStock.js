@@ -65,6 +65,8 @@ function cleardata(){
 	$('#sourceBranchName').val("");
 	$('#formNo').val("");
 	$('#categoryName').val("");
+	$('#categoryCode').val("");
+	$('#goodsCategoryId').val("");
 	$('#skuCode').val("");
 }
 
