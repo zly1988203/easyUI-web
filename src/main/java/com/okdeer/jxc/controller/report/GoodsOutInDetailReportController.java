@@ -62,7 +62,9 @@ public class GoodsOutInDetailReportController extends BaseController<GoodsOutInD
 			PageUtils<GoodsOutInDetailVo> goodsOutInfoDetailList = goodsOutInDetailServiceApi.getGoodsOutInDetailList(vo);
 			GoodsOutInDetailVo goodsOutInDetailVo = goodsOutInDetailServiceApi.queryGoodsOutInDetailCountSum(vo);
 			List<GoodsOutInDetailVo> footer = new ArrayList<GoodsOutInDetailVo>();
-			footer.add(goodsOutInDetailVo);
+			if (goodsOutInDetailVo != null){
+				footer.add(goodsOutInDetailVo);
+			}
 			goodsOutInfoDetailList.setFooter(footer);
 			LOG.info(LogConstant.PAGE, goodsOutInfoDetailList.toString());
 			return goodsOutInfoDetailList;
