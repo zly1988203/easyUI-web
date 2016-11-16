@@ -69,6 +69,11 @@ public class ActivityController {
 		return "sale/activity/add";
 	}
 	
+	@RequestMapping(value = "edit")
+	public String viewEdit() {
+		return "sale/activity/edit";
+	}
+	
 	@RequestMapping(value = "save", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson save(@RequestBody String jsonText) {
