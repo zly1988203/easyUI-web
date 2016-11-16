@@ -165,6 +165,7 @@ pageEncoding="UTF-8"%>
      	   brandId = treeNode.id;
      	   supplierId = "";
         }else if(text=="供应商"){
+        	brandId = "";
      	   supplierId = treeNode.id;
         }
         $("#gridGoods").datagrid("options").queryParams = {categoryCode:categoryCode,brandId:brandId,supplierId:supplierId};
