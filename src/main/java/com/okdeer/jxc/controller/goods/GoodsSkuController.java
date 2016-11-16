@@ -492,7 +492,7 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 	// 导出数据特殊处理
 	private List<GoodsSku> handleDateReport(List<GoodsSku> exportList) {
 		for (GoodsSku vo : exportList) {
-			if(vo.getSalePrice()!=null && vo.getPurchasePrice()!=null){
+			if(vo.getSalePrice()!=null && vo.getSalePrice().compareTo(BigDecimal.ZERO) ==1 && vo.getPurchasePrice()!=null){
 				BigDecimal marginTax = vo.getSalePrice().subtract(vo.getPurchasePrice());
 				marginTax = marginTax.multiply(new BigDecimal(100));
 				BigDecimal val =marginTax.divide(vo.getSalePrice(),2,BigDecimal.ROUND_HALF_UP);
