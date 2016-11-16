@@ -35,6 +35,7 @@ import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportComponent;
+import com.okdeer.jxc.common.goodselect.GoodsSelectImportHandle;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportVo;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
@@ -279,7 +280,7 @@ public class SupplierBranchGoodsController extends BaseController<SupplierBranch
 			GoodsSelectImportVo<GoodsSelect> vo = goodsSelectImportComponent.importSelectGoods(fileName, is, field,
 							new GoodsSelectByPurchase(), null,
 							user.getId(), type,
-							"/form/purchase/downloadErrorFile",
+							"/supplierBranchGoods/downloadErrorFile",
 							new GoodsSelectImportBusinessValid() {
 
 								@Override
@@ -325,7 +326,28 @@ public class SupplierBranchGoodsController extends BaseController<SupplierBranch
 			LOG.error("用户导入异常:", e);
 		}
 		return respJson;
+	}
+	
+	/**
+	 * @author xiaoj02
+	 * @date 2016年10月15日
+	 */
+	@RequestMapping(value = "downloadErrorFile")
+	public void downloadErrorFile(String code, String type,
+			HttpServletResponse response) {
+		String reportFileName = "错误数据";
 
+		String[] headers = null;
+		String[] columns = null;
+
+		if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {// 货号
+			columns = new String[] { "skuCode"};
+			headers = new String[] { "货号"};
+		} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {// 条码
+			columns = new String[] { "barCode"};
+			headers = new String[] { "条码"};
+		}
+		goodsSelectImportComponent.downloadErrorFile(code, reportFileName,headers, columns, response);
 	}
 	
 }
