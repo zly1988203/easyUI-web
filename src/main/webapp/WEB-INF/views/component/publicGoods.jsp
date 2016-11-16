@@ -160,8 +160,10 @@ pageEncoding="UTF-8"%>
         var text =  $("#goodsType").combobox('getText');
         if(text =='类别'){
         	brandId = "";
+        	supplierId = "";
         }else if(text =="品牌"){
      	   brandId = treeNode.id;
+     	   supplierId = "";
         }else if(text=="供应商"){
      	   supplierId = treeNode.id;
         }
