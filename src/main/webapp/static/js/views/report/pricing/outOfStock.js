@@ -127,11 +127,12 @@ function initDatagridRequireOrders(){
 			},
             {field: 'outRate', title: '缺货率', width: '85px', align: 'right',
             	formatter : function(value, row, index) {
-					if(row.outRate){
+					if(row.outRate||row.outRate==0){
 						return '<b>'+(parseFloat(value||0)*100).toFixed(2)+'%</b>';
 					}
 					return '';
-				},
+				}
+			
             },
             {field: 'inApplyNum', title: '要货数量', width: '85px', align: 'right',
             	formatter : function(value, row, index) {
