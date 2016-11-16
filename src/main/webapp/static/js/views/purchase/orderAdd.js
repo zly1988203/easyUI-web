@@ -446,6 +446,8 @@ function saveItemHandel(){
        				saveDataHandel(rows);
        		    }
        		 });
+         	}else{
+         		saveDataHandel(rows);
          	}
         }
     }

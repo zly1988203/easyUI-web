@@ -49,9 +49,10 @@ pageEncoding="UTF-8"%>
     function goodsArchives(){
         this.selectTypeName = "categoryCode"
         //tree的提交参数
+        var searchSupplierId = $("#searchSupplierId").val();
         this.treeParam = {
             categoryCode:'',
-            supplierId:'',
+            supplierId:searchSupplierId,
             brandId:'',
             level:'',
         }
@@ -116,9 +117,10 @@ pageEncoding="UTF-8"%>
     }
     //初始树
     function initTreeArchives(){
-        var args = { }
+    	 var searchSupplierId = $("#searchSupplierId").val();
+        var args = {supplierId:searchSupplierId};
         var httpUrl = goodsClass.getTreeUrl(goodsClass.selectTypeName);
-        $.get(httpUrl, args,function(data){
+        $.post(httpUrl, args,function(data){
             var setting = {
                 data: {
                     key:{
