@@ -800,7 +800,7 @@ function selectStockAndPriceImport(sourceBranchId,data){
 	$.each(data,function(i,val){
 		var temp = {
 				id : val.skuId,
-				num : val.num,
+				largeNum : val.largeNum,
 				isGift : val.isGift
 		};
 		GoodsStockVo.goodsSkuVo[i] = temp;
@@ -822,13 +822,13 @@ function selectStockAndPriceImport(sourceBranchId,data){
 
 function updateListData(data){
      var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
-     var addDefaultData = gridHandel.addDefault(data, {dealNum:0,largeNum:0,});
+     var addDefaultData = gridHandel.addDefault(data, {});
      var keyNames = {
 		 distributionPrice:'price',
          id:'skuId',
          disabled:'',
          pricingType:'',
-         num : 'dealNum'
+         //num : 'dealNum'
      };
      var rows = gFunUpdateKey(addDefaultData,keyNames);
      
@@ -839,8 +839,9 @@ function updateListData(data){
         	 rows[i]["price"] = 0;
          }
          rows[i]["amount"]  = parseFloat(rows[i]["price"]||0)*parseFloat(rows[i]["dealNum"]||0);
+         debugger;
          if(parseInt(rows[i]["distributionSpec"])){
-        	 rows[i]["largeNum"]  = (parseFloat(rows[i]["dealNum"]||0)/parseFloat(rows[i]["distributionSpec"])).toFixed(4);
+        	 rows[i]["dealNum"]  = (parseFloat(rows[i]["largeNum"]||0)*parseFloat(rows[i]["distributionSpec"])).toFixed(4);
          }else{
         	 rows[i]["largeNum"]  =  0;
         	 rows[i]["distributionSpec"] = 0;
