@@ -661,7 +661,8 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 					for (GoodsSelect objGoods : list) {
 						GoodsSelectDeliver obj = (GoodsSelectDeliver) objGoods;
 						if(!StringUtils.isEmpty(obj.getLargeNum())&&obj.getDistributionSpec()!=null){
-							obj.setNum(new BigDecimal( obj.getLargeNum()).multiply(obj.getDistributionSpec() ).toEngineeringString());
+									obj.setNum(new BigDecimal(obj.getLargeNum()).multiply(obj.getDistributionSpec())
+											.toEngineeringString());
 						}
 					}
 				}
