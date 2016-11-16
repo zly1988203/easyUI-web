@@ -37,11 +37,11 @@
 			   	</shiro:hasPermission>
 				
 				<shiro:hasPermission name="JxcSupplierGoods:importProduct">
-				<div class="ubtns-item" onclick="toImportproduct(0)">导入货号</div>
+				<button class="ubtns-item" onclick="toImportproduct(0)">导入货号</button>
 			   	</shiro:hasPermission>
 			   	
 				<shiro:hasPermission name="JxcSupplierGoods:importByBarCode">
-                <div class="ubtns-item" onclick="toImportproduct(1)">导入条码</div>
+                <button class="ubtns-item" onclick="toImportproduct(1)">导入条码</button>
 			   	</shiro:hasPermission>
 			   	
 				<shiro:hasPermission name="JxcSupplierGoods:delete">
