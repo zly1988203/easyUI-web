@@ -367,7 +367,7 @@ function orderDelete(){
 	    $.each(rows,function(i,v){
 	        skuIds.push(v.skuId);
 	    });
-	$.messager.confirm('提示','是否要删除此条数据',function(data){
+	$.messager.confirm('提示','是否要删除选中数据',function(data){
 		if(data){
 		    var supplierId = $("#supplierId").val();
 		    var branchId = $("#branchId").val();
