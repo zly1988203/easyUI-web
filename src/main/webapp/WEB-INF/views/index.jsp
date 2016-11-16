@@ -4,7 +4,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<title>友门鹿·零售管理系统V1.2.0_DEV161028 </title>
+	<title>友门鹿·零售管理系统</title>
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
 	<script src="${ctx}/static/js/views/index.js"></script>
 </head>
@@ -76,7 +76,14 @@
 	<div class="menu-sep"></div>
 	<div id="mm-exit">退出</div>
 </div><!--end menu -->
-	
+
+<script type="text/javascript">
+	document.onkeydown = function(e) {
+	    if (event.ctrlKey && event.altKey && 67 == e.keyCode){
+	        alert("当前版本：V1.3.0_A12");
+	    }
+	}
+</script>
 </body>
 </html>
 
