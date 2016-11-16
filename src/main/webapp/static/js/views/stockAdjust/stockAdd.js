@@ -361,7 +361,7 @@ function selectGoods(searchKey){
         selectStockAndPrice(branchId,setdata);
        
       
-    },searchKey,"","","",branchId);
+    },searchKey,"","","",branchId,'');
 }
 //查询价格、库存
 function selectStockAndPrice(branchId,data){

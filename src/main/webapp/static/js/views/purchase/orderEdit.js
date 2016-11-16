@@ -353,7 +353,7 @@ function selectGoods(searchKey){
             gridHandel.setSelectFieldName("largeNum");
             gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
         },100)
-    },searchKey,0,"","",branchId);
+    },searchKey,0,"","",branchId,supplierId);
 }
 
 //保存

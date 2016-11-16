@@ -228,7 +228,7 @@ function chooseproduct(){
 
 		$("#pricePrint").datagrid("loadData", newRows);
 
-	});
+	},'','','','','','');
 
 }
 
