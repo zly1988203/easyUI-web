@@ -92,7 +92,7 @@ function initDatagridRequireOrders(){
 			//{field:'check',checkbox:true},
 			 {field: 'inFormNo', title: '要货单号', width: '150px', align: 'left',
 				 formatter:function(value,row,index){
-		                if(!value){
+		                if(!value || value == '合计'){
 		                    return '<div class="ub ub-pc ufw-b">合计</div> '
 		                }
 						var hrefStr='parent.addTab("详情","'+contextPath+'/form/deliverForm/deliverEdit?report=close&deliverFormId='+row.inFormId+'")';
