@@ -11,9 +11,13 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.supplier.entity.Supplier;
@@ -53,6 +57,13 @@ public class UserUtil {
 	public static Session getSession() {
 		return SecurityUtils.getSubject().getSession();
 	}
+	
+	public static HttpSession getHttpSession() {
+		ServletRequestAttributes requestAttributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
+		return requestAttributes.getRequest().getSession();
+	}
+	
+	
 
 	/**
 	 * @Description: 获取当前登录用户对象
