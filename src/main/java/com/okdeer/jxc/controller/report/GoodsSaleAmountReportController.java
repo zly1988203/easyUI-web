@@ -75,7 +75,9 @@ public class GoodsSaleAmountReportController extends BaseController<GoodsSaleAmo
 			PageUtils<GoodsSaleAmountReportVo> goodsOutInfoDetailList = goodsSaleAmountReportServiceApi.goodsSaleAmountList(vo);
 			GoodsSaleAmountReportVo goodsSaleAmountReportVo = goodsSaleAmountReportServiceApi.queryGoodsSaleAmountSum(vo);
 			List<GoodsSaleAmountReportVo> footer = new ArrayList<GoodsSaleAmountReportVo>();
-			footer.add(goodsSaleAmountReportVo);
+			if(goodsSaleAmountReportVo !=null){
+				footer.add(goodsSaleAmountReportVo);
+			}
 			goodsOutInfoDetailList.setFooter(footer);
 			return goodsOutInfoDetailList;
 		} catch (Exception e) {

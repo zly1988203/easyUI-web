@@ -73,7 +73,9 @@ public class GoodsSaleProfitReportController extends BaseController<GoodsSalePro
 			PageUtils<GoodsSaleProfitReportVo> goodsOutInfoDetailList = goodsSaleProfitReportServiceApi.goodsSaleProfitList(vo);
 			GoodsSaleProfitReportVo goodsSaleProfitReportVo = goodsSaleProfitReportServiceApi.queryGoodsSaleProfitSum(vo);
 			List<GoodsSaleProfitReportVo> footer = new ArrayList<GoodsSaleProfitReportVo>();
-			footer.add(goodsSaleProfitReportVo);
+			if(goodsSaleProfitReportVo !=null){
+				footer.add(goodsSaleProfitReportVo);
+			}
 			goodsOutInfoDetailList.setFooter(footer);
 			LOG.info(LogConstant.PAGE, goodsOutInfoDetailList.toString());
 			return goodsOutInfoDetailList;

@@ -60,7 +60,7 @@ function checktype(){
 }
 //清空所有数据值
 function cleardata(){
-	$('#targetBranchName').val("");
+	//$('#targetBranchName').val("");
 	$('#skuName').val("");
 	$('#sourceBranchName').val("");
 	$('#formNo').val("");

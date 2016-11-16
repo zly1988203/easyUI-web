@@ -15,7 +15,7 @@ var gridHandel = new GridClass();
 function initDatagridRequireOrders(){
 	gridHandel.setGridName("marketWater");
     $("#marketWater").datagrid({
-        //title:'普通表单-用键盘操作',
+        //title:'普通表单-用键盘操作'
         method:'post',
         align:'center',
         url:'',

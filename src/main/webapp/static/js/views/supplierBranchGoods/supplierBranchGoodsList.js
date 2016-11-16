@@ -79,7 +79,20 @@ function initDatagridsupplierList(){
                     gridHandel.setFieldFocus(gridHandel.getFieldTarget('skuCode'));
                 },100)
             }else{
-               selectGoods(arg);
+              var rows=gridHandel.getRows();
+              var num=0;
+              $.each(rows,function(i,v){
+            	  if(v["skuCode"]==arg){
+            		  num++;
+            	  }
+              })
+              if(num>0){
+            	  $.messager.alert('提示',"输入货号重复，请重新输入!");
+        		  return; 
+              }
+              else{
+            	  selectGoods(arg);  
+              }
             }
         },
     })

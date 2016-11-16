@@ -917,7 +917,7 @@ function gFunGoodsSelect(searchKey,branchId){
 	            gridHandel.setSelectFieldName("newPurPrice");
 	            gridHandel.setFieldFocus(gridHandel.getFieldTarget('newPurPrice'));
 	        },100)
-		},searchKey,0,"","",branchId);	
+		},searchKey,0,"","",branchId,"");	
 }
 
 /**
@@ -1112,6 +1112,10 @@ function updateListData(data){
     var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
 
     $("#addModifyPriceGrid").datagrid("loadData",newRows);
+}
+//返回列表页面
+function back(){
+	window.location.href=contextPath+"/goods/priceAdjust/view";
 }
 
 
