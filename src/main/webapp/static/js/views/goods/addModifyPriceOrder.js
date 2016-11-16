@@ -917,7 +917,7 @@ function gFunGoodsSelect(searchKey,branchId){
 	            gridHandel.setSelectFieldName("newPurPrice");
 	            gridHandel.setFieldFocus(gridHandel.getFieldTarget('newPurPrice'));
 	        },100)
-		},searchKey,0,"","",branchId);	
+		},searchKey,0,"","",branchId,"");	
 }
 
 /**
