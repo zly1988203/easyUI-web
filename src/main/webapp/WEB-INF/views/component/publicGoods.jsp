@@ -47,7 +47,12 @@ pageEncoding="UTF-8"%>
     })
      
     function goodsArchives(){
-        this.selectTypeName = "categoryCode"
+    	var type = '${type}';
+    	if(type=='PA' || type=='PR'){
+          this.selectTypeName = "supplierId";
+    	}else{
+          this.selectTypeName = "categoryCode";
+    	}
         //tree的提交参数
         var searchSupplierId = $("#searchSupplierId").val();
         this.treeParam = {
@@ -95,20 +100,25 @@ pageEncoding="UTF-8"%>
         initDatagridGoods();
     }
     function initSelectView(){
+    	var arr = [{
+            id: 'categoryCode',
+            text: '类别',
+        },{
+            id: 'brandId',
+            text: '品牌'
+        },{
+            id: 'supplierId',
+            text: '供应商'
+        }];
+    	for(var i =0 ;i<arr.length;i++){
+    		if(arr[i]['id']==goodsClass.selectTypeName){
+    			arr[i]['selected']= true;
+    		}
+    	}
         $('#goodsType').combobox({
             valueField:'id',
             textField:'text',
-            data: [{
-                id: 'categoryCode',
-                text: '类别',
-                selected:true,
-            },{
-                id: 'brandId',
-                text: '品牌'
-            },{
-                id: 'supplierId',
-                text: '供应商'
-            }],
+            data: arr,
             onSelect: function(record){
                 goodsClass.selectTypeName = record.id;
                 initTreeArchives();
@@ -361,7 +371,11 @@ pageEncoding="UTF-8"%>
     function cx(){
         setTimeout(function(){
             var goodsInfo=$("#goodsInfo").val();
-            var searchSupplierId = $("#searchSupplierId").val();
+            var text =  $("#goodsType").combobox('getText');
+            var searchSupplierId = '';
+            if(text=='供应商'){
+               searchSupplierId = $("#searchSupplierId").val();
+            }
             // $("#gridGoods").datagrid("options").queryParams = {'categoryId':categoryId,'goodsInfo':goodsInfo,'formType':'${type}','sourceBranchId':'${sourceBranchId}','targetBranchId':'${targetBranchId}'};
             // 梁利 提出左边树与右边的查询无关系
             $("#gridGoods").datagrid("options").queryParams = $.extend({'goodsInfo':goodsInfo,'supplierId':searchSupplierId,'formType':'${type}','sourceBranchId':'${sourceBranchId}','supplierId':searchSupplierId,'targetBranchId':'${targetBranchId}','branchId':'${branchId}'},fromParams)
