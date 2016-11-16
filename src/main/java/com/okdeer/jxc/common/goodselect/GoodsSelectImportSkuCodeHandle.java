@@ -37,7 +37,7 @@ public class GoodsSelectImportSkuCodeHandle implements GoodsSelectImportHandle{
 	
 	public static final String CODE_IS_BLANK = "货号为空";
 	public static final String CODE_IS_REPEAT = "货号重复";
-	public static final String NOT_EXISTS = "没有该商品";
+	public static final String NOT_EXISTS = "找不到该商品";
 
 	List<JSONObject> excelListFullData = null;
 	List<JSONObject> excelListSuccessData = null;

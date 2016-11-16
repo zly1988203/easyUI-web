@@ -126,7 +126,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 			// }
 			LOG.info("商品查询参数:{}" + vo.toString());
 			PageUtils<GoodsSelect> suppliers = null;
-			if(FormType.PA.name().equals(vo.getFormType())){
+			if(FormType.PA.name().equals(vo.getFormType()) || FormType.PR.name().equals(vo.getFormType())){
 				suppliers = goodsSelectServiceApi.queryPurchaseGoodsLists(vo);
 			}else{
 				suppliers = goodsSelectServiceApi.queryLists(vo);
