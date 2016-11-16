@@ -21,7 +21,6 @@ import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.report.DataRecord;
 import com.okdeer.jxc.common.report.ReportService;
 import com.okdeer.jxc.common.utils.BooleanUtils;
-import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.controller.common.ReportController;
 import com.okdeer.jxc.report.service.PricingQueryServiceApi;
 @Controller
@@ -71,7 +70,7 @@ public class PricingQueryController  extends ReportController{
 			Map<String,Object> map=getParam(request);
 			LOG.info("调价单导出查询参数:{}" + map.toString());
 			List<DataRecord> reportList=pricingQueryServiceApi.getList(map);
-			String fileName = "调价查询" + "_" + DateUtils.getCurrSmallStr();
+			String fileName = "调价查询" +map.get("startTime").toString().replaceAll("-", "")+'-'+map.get("endTime").toString().replaceAll("-", "");
 			String templateName = ExportExcelConstant.PRICING_QUERY;
 			for(DataRecord dataRecord:reportList){
 				formatter(dataRecord);

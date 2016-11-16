@@ -441,11 +441,13 @@ function saveItemHandel(){
             });
         }else{
         	if(isChcekNum){
-       		 $.messager.confirm('提示','存在数量为0的商品!',function(data){
+       		 $.messager.confirm('提示','存在数量为0的商品,是否继续保存?',function(data){
        			if(data){
        				saveDataHandel(rows);
        		    }
        		 });
+         	}else{
+         		saveDataHandel(rows);
          	}
         }
     }

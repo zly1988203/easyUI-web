@@ -49,9 +49,10 @@ pageEncoding="UTF-8"%>
     function goodsArchives(){
         this.selectTypeName = "categoryCode"
         //tree的提交参数
+        var searchSupplierId = $("#searchSupplierId").val();
         this.treeParam = {
             categoryCode:'',
-            supplierId:'',
+            supplierId:searchSupplierId,
             brandId:'',
             level:'',
         }
@@ -116,9 +117,10 @@ pageEncoding="UTF-8"%>
     }
     //初始树
     function initTreeArchives(){
-        var args = { }
+    	 var searchSupplierId = $("#searchSupplierId").val();
+        var args = {supplierId:searchSupplierId};
         var httpUrl = goodsClass.getTreeUrl(goodsClass.selectTypeName);
-        $.get(httpUrl, args,function(data){
+        $.post(httpUrl, args,function(data){
             var setting = {
                 data: {
                     key:{
@@ -140,10 +142,19 @@ pageEncoding="UTF-8"%>
     /*
      * 树点击事件
      */
-    var categoryId="";
+     var categoryCode="";
+     var supplierId="";
+     var brandId="";
     function zTreeOnClick(event, treeId, treeNode) {
         categoryCode=treeNode.code;
-        $("#gridGoods").datagrid("options").queryParams = {categoryCode:categoryCode};
+        var text =  $("#goodsType").combobox('getText');
+        if(text =='类别'){
+        }else if(text =="品牌"){
+     	   brandId = treeNode.id;
+        }else if(text=="供应商"){
+     	   supplierId = treeNode.id;
+        }
+        $("#gridGoods").datagrid("options").queryParams = {categoryCode:categoryCode,brandId:brandId,supplierId:supplierId};
         $("#gridGoods").datagrid("options").method = "post";
         $("#gridGoods").datagrid("options").url =contextPath + '/goods/goodsSelect/getGoodsList?formType=${type}&sourceBranchId=${sourceBranchId}&targetBranchId=${targetBranchId}&branchId=${branchId}';
         $("#gridGoods").datagrid("load");

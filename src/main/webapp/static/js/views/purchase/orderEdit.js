@@ -394,11 +394,13 @@ function saveItemHandel(){
             });
         }else{
         	if(isChcekNum){
-          		 $.messager.confirm('提示','存在数量为0的商品!',function(data){
+          		 $.messager.confirm('提示','存在数量为0的商品,是否继续保存?',function(data){
           			if(data){
           				saveDataHandel(rows);
           		    }
           		 });
+            }else{
+            	saveDataHandel(rows);
             }
         }
     }
@@ -485,12 +487,16 @@ function check(){
     if(num==rows.length){
     	 messager("采购商品数量全部为0");
 		return
-	}else{
+	}else if(parseFloat(num)>0){
 		$.messager.confirm('提示',"是否清除单据中数量为0的商品记录?",function(data){
     		if(data){
     		    checkOrder();
     		}	
     	});
+	}else{
+		 $.messager.confirm('提示','是否审核通过？',function(data){
+		    checkOrder();
+		 });
 	}
 }
 

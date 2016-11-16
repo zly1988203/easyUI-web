@@ -73,14 +73,14 @@ public class OutOfStockController  extends ReportController{
 			if("0".equals(map.get("type"))){
 				LOG.info("导出配送缺货率分析明细导出查询参数:{}" + map.toString());
 				reportList=outOfStockServiceApi.getList(map);
-				fileName = "配送缺货率明细表" + "_" + DateUtils.getCurrSmallStr();
+				fileName = "配送缺货率明细表" + map.get("startTime").toString().replaceAll("-", "")+'-'+map.get("endTime").toString().replaceAll("-", "");
 				templateName = ExportExcelConstant.DELIVERY_DETAIL;
 				dataRecord.put("inFormNo", "合计");
 				
 			}else{
 				LOG.info("导出配送缺货率分析汇总导出查询参数:{}" + map.toString());
 				reportList=outOfStockServiceApi.getList(map);
-				fileName = "配送缺货率汇总表" + "_" + DateUtils.getCurrSmallStr();
+				fileName = "配送缺货率汇总表" + map.get("startTime").toString().replaceAll("-", "")+'-'+map.get("endTime").toString().replaceAll("-", "");
 				templateName = ExportExcelConstant.DELIVERY_SUM;
 				dataRecord.put("skuCode", "合计");
 			}
