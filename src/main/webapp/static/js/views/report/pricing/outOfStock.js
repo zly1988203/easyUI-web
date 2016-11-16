@@ -199,7 +199,7 @@ function initDatagridByGoods(){
 			//{field:'check',checkbox:true},
 			{field: 'skuCode', title: '货号', width: '65px', align: 'left',
 				formatter:function(value,row,index){
-					if(!value){
+					if(!value || value == '合计'){
 	                    return '<div class="ub ub-pc ufw-b">合计</div> '
 					}
 					return row.skuCode;
