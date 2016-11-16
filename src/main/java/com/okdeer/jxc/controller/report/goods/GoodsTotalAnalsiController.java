@@ -14,13 +14,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+import org.castor.util.StringUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.report.DataRecord;
 import com.okdeer.jxc.common.report.ReportService;
-import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.controller.common.ReportController;
 import com.okdeer.jxc.report.goods.service.GoodsTotalAnalsiServiceApi;
 import com.okdeer.jxc.utils.UserUtil;
@@ -131,14 +131,15 @@ public class GoodsTotalAnalsiController extends ReportController {
 			if(map.get("searchType")==null||StringUtils.isEmpty(map.get("searchType").toString())){
 				return ;
 			}
+			String timeStr=StringUtil.replaceAll((String) map.get("startTime"),"-" , "")+"-"+StringUtil.replaceAll((String) map.get("endTime"),"-" , "")+"-";
 			if("goodsTotal".equals(map.get("searchType"))){
-				reportFileName="商品销售汇总分析"+ "_" + DateUtils.getCurrSmallStr()+"-"+"商品汇总";
+				reportFileName="商品销售汇总分析" + timeStr+"商品汇总";
 				templateName="GoodsAnalysiBySku.xlsx";
 			}else if("categoryTotal".equals(map.get("searchType"))){
-				reportFileName="商品销售汇总分析"+ "_" + DateUtils.getCurrSmallStr()+"-"+"大类汇总";
+				reportFileName="商品销售汇总分析"+ timeStr+"大类汇总";
 				templateName="GoodsAnalysiByBigCategory.xlsx";
 			}else if("branchTotal".equals(map.get("searchType"))){
-				reportFileName="商品销售汇总分析"+ "_" + DateUtils.getCurrSmallStr()+"-"+"店铺汇总";
+				reportFileName="商品销售汇总分析"+ timeStr+"店铺汇总";
 				templateName="GoodsAnalysiByBranch.xlsx";
 			}
 			// 模板名称，包括后缀名

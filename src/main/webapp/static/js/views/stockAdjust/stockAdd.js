@@ -597,7 +597,7 @@ function check(){
 /**
  * 返回库存调整
  */
-function toBack(){
+function back(){
 	location.href = contextPath+"/stock/adjust/list";
 }
 

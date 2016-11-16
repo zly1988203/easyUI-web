@@ -565,7 +565,7 @@ function selectPurchaseForm(){
         
 	});
 }
-
+//返回列表页面
 function back(){
 	location.href = contextPath+"/form/purchase/receiptList";
 }

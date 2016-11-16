@@ -15,7 +15,7 @@ var gridHandel = new GridClass();
 function initDatagridRequireOrders(){
 	gridHandel.setGridName("marketWater");
     $("#marketWater").datagrid({
-        //title:'普通表单-用键盘操作',
+        //title:'普通表单-用键盘操作'
         method:'post',
         align:'center',
         url:'',
@@ -27,15 +27,16 @@ function initDatagridRequireOrders(){
         //fit:true,            //占满
         showFooter:true,
         pageSize : 50,
+        pageList : [20, 50, 100],
 		height:'100%',
 		width:'100%',
         columns:[[
 			//{field:'check',checkbox:true},
-            {field: 'branchName',title:'机构名称',width:'130px',align:'left'},
+            {field: 'branchName',title:'机构名称',width:'220px',align:'left'},
             {field: 'skuCode', title: '货号', width: '80px', align: 'left'},
-            {field: 'skuName', title: '商品名称', width: '86px', align: 'left'},
-            {field: 'barCode', title: '条码', width: '80px', align: 'left'},
-            {field: 'formNO', title: '单据编号', width: '86px', align: 'left',
+            {field: 'skuName', title: '商品名称', width: '200px', align: 'left'},
+            {field: 'barCode', title: '条码', width: '115px', align: 'left'},
+            {field: 'formNO', title: '单据编号', width: '135px', align: 'left',
             	formatter:function(value,row,index){
 		   			if(row.formNO){
 		   				var hrefStr='parent.addTab("详情","'+contextPath+'/goods/priceAdjust/showDetail?report=close&formNo='+row.formNO+'")';
@@ -43,7 +44,7 @@ function initDatagridRequireOrders(){
 		   			}
 	           }   
             },
-            {field: 'effectDate',title:'生效日期',width:'135px',align:'left',
+            {field: 'effectDate',title:'生效日期',width:'115px',align:'left',
 	        	   formatter : function(value, rowData, rowIndex) {
 	        		   return formatDate(value,'yyyy-MM-dd');
 	        	   }   
@@ -61,7 +62,7 @@ function initDatagridRequireOrders(){
             {field: 'oldPurPrice', title: '原进货价', width: '60px', align: 'right',
             	formatter:function(value,row,index){
             		if(!value){
-                        return '0';
+                        return '<b>0.00</b>';
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
@@ -69,7 +70,7 @@ function initDatagridRequireOrders(){
             {field: 'newPurPrice', title: '新进货价', width: '60px', align: 'right',
             	formatter:function(value,row,index){
             		if(!value){
-                        return '0';
+                        return '<b>0.00</b>';
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
@@ -77,7 +78,7 @@ function initDatagridRequireOrders(){
             {field: 'oldSalePrice', title: '原零售价', width: '60px', align: 'right',
             	formatter:function(value,row,index){
             		if(!value){
-                        return  '0';
+                        return  '<b>0.00</b>';
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
@@ -85,7 +86,7 @@ function initDatagridRequireOrders(){
             {field: 'newSalePrice', title: '新零售价', width: '60px', align: 'right',
             	formatter:function(value,row,index){
             		if(!value){
-                        return '0';
+                        return '<b>0.00</b>';
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
@@ -93,7 +94,7 @@ function initDatagridRequireOrders(){
             {field: 'oldDcPrice', title: '原配送价', width: '60px', align: 'right',
             	formatter:function(value,row,index){
             		if(!value){
-                        return  '0';
+                        return '<b>0.00</b>';
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
@@ -101,7 +102,7 @@ function initDatagridRequireOrders(){
             {field: 'newDcPrice', title: '新配送价', width: '60px', align: 'right',
             	formatter:function(value,row,index){
             		if(!value){
-                        return  '0';
+                        return '<b>0.00</b>';
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
@@ -109,7 +110,7 @@ function initDatagridRequireOrders(){
             {field: 'oldVipPrice', title: '原会员价', width: '60px', align: 'right',
             	formatter:function(value,row,index){
             		if(!value){
-                        return '0';
+                        return  '<b>0.00</b>';
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
@@ -117,7 +118,7 @@ function initDatagridRequireOrders(){
             {field: 'newVipPrice', title: '新会员价', width: '60px', align: 'right',
             	formatter:function(value,row,index){
             		if(!value){
-                        return  '0';
+                        return  '<b>0.00</b>';
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
@@ -125,7 +126,7 @@ function initDatagridRequireOrders(){
             {field: 'oldWsPrice', title: '原批发价', width: '60px', align: 'right',
             	formatter:function(value,row,index){
             		if(!value){
-                        return  '0';
+                        return   '<b>0.00</b>';
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
@@ -133,14 +134,14 @@ function initDatagridRequireOrders(){
             {field: 'newWsPrice', title: '新批发价', width: '60px', align: 'right',
             	formatter:function(value,row,index){
             		if(!value){
-                        return  '0';
+                        return '<b>0.00</b>';
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
             {field: 'spec', title: '规格', width: '45px', align: 'left'},
             {field: 'unit', title: '单位', width: '45px', align: 'left'},
-            {field: 'validTime', title: '审核人日期', width: '80px', align: 'left',
+            {field: 'validTime', title: '审核日期', width: '80px', align: 'left',
             	formatter : function(value, rowData, rowIndex) {
 	        		   return formatDate(value,'yyyy-MM-dd');
 	        	} 	

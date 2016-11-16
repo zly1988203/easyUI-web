@@ -420,6 +420,7 @@ function saveModifyPriceOrder() {
 				return;
 			}
 			if (datagridUtil.isCheckPrice()) {
+				gFunEndLoading();
 				if(datagridUtil.isCheckRemark()){
 					var params = {
 							goodsPriceForm:formData,
@@ -469,7 +470,7 @@ function saveModifyPriceOrder() {
 					}
 				});
 			}
-		}
+			}
      }
   }
 }
@@ -616,6 +617,7 @@ var datagridUtil = {
 	isSelectArea : function() {
 		if ($("#branchId").val().trim() == "") {
 			$.messager.alert('提示', '请先选择分店');
+			gFunEndLoading();
 			return false;
 		} else {
 			return true;
@@ -638,6 +640,7 @@ var datagridUtil = {
 		});
 		if(!isCheckPrice){
 			$.messager.alert('提示', '没有勾选调价设置！');
+			gFunEndLoading();
 		}
 		return isCheckPrice;
 	},
@@ -662,6 +665,7 @@ var datagridUtil = {
 	isHasDataGrid : function() {
 		if ($(".datagrid-btable td[field='skuCode']").length <= 0) {
 			$.messager.alert('提示', '明细数据不能为空，请输入！');
+			gFunEndLoading();
 			return false;
 		} else {
 			var count = 0;
@@ -913,7 +917,7 @@ function gFunGoodsSelect(searchKey,branchId){
 	            gridHandel.setSelectFieldName("newPurPrice");
 	            gridHandel.setFieldFocus(gridHandel.getFieldTarget('newPurPrice'));
 	        },100)
-		},searchKey,0,"","",branchId);	
+		},searchKey,0,"","",branchId,"");	
 }
 
 /**
@@ -1108,6 +1112,10 @@ function updateListData(data){
     var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
 
     $("#addModifyPriceGrid").datagrid("loadData",newRows);
+}
+//返回列表页面
+function back(){
+	window.location.href=contextPath+"/goods/priceAdjust/view";
 }
 
 

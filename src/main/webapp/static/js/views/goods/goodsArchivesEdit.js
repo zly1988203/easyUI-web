@@ -160,7 +160,7 @@ function getGoodsType(){
 
 		//商品自动生成货号
 		getSkuCodeVal();
-	});
+	},'goodsTotal');
 }
 
 //品牌

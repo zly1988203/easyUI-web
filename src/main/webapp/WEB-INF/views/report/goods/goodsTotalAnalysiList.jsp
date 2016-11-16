@@ -68,7 +68,7 @@
           <div class="ub umar-t8">
 			  <div id="categoryNameDiv" class="ub ub-ac umar-r40">
 				<div class="umar-r10 uw-80 ut-r">商品类别:</div>
-				  <input type="hidden" name="categoryId" id="categoryId" class="uinp" />
+				  <input type="hidden" name="categoryCode" id="categoryCode" class="uinp" />
 				  <input type="text" name="categoryName" id="categoryName" class="uinp " readonly="readonly"  />
 				  <div class="uinp-more" id="categorySelect" onclick="searchCategory()">...</div>
 			  </div>
