@@ -11,15 +11,17 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
@@ -47,7 +49,7 @@ import com.okdeer.jxc.utils.UserUtil;
  * ----------------+----------------+-------------------+-------------------------------------------
  *
  */ 
-@RestController
+@Controller
 @RequestMapping("sale/activity")
 public class ActivityController {
 	
@@ -70,7 +72,8 @@ public class ActivityController {
 	}
 	
 	@RequestMapping(value = "edit")
-	public String viewEdit() {
+	public String viewEdit(String activityId, HttpServletRequest request) {
+		request.setAttribute("activityId", activityId);
 		return "sale/activity/edit";
 	}
 	
