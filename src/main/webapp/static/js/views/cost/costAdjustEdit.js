@@ -433,8 +433,12 @@ function costcheck(type){
 				success:function(result){
 					console.log(result);
 					if(result['code'] == 0){
-						messager("操作成功！");
-						location.href = contextPath +"/cost/costAdjust/edit?id="+gFunGetQueryString("id");
+						$.messager.confirm('提示','操作成功！',function(data){
+							if(data){
+							   location.href = contextPath +"/cost/costAdjust/edit?id="+gFunGetQueryString("id");
+							}
+						})
+						
 					}else{
 						successTip(result['message']);
 					}
