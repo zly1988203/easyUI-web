@@ -1113,6 +1113,10 @@ function updateListData(data){
 
     $("#addModifyPriceGrid").datagrid("loadData",newRows);
 }
+//返回列表页面
+function back(){
+	window.location.href=contextPath+"/goods/priceAdjust/view";
+}
 
 
 /**
