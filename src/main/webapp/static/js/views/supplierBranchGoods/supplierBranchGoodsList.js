@@ -346,13 +346,23 @@ function saveDataHandel(skuIds){
 }
 
 function orderDelete(){
-	var dg = $("#gridSupplierArchiveList");
-	var rows =dg.datagrid("getChecked");
+	//供应商
+    var supplierId = $("#supplierId").val();
+    if(!supplierId){
+    	messager("供应商不能为空");
+        return;
+    }
+    //收货机构
+    var branchId = $("#branchId").val();
+    if(!branchId){
+    	messager("机构不能为空");
+    	return;
+    }
+	var rows =$("#gridSupplierArchiveList").datagrid("getChecked");
 	if($("#gridSupplierArchiveList").datagrid("getChecked").length <= 0){
-	        $.messager.alert('提示','请选中一行进行删除！');
-	        return;
-	 }
-	
+		 $.messager.alert('提示','请选中一行进行删除！');
+		return null;
+	}
 	 var skuIds=[];
 	    $.each(rows,function(i,v){
 	        skuIds.push(v.skuId);
@@ -375,7 +385,7 @@ function orderDelete(){
 		        success:function(result){
 		            if(result['code'] == 0){
 		                $.messager.alert("操作提示", "操作成功!");
-		                dg.datagrid('reload');
+		                $("#gridSupplierArchiveList").datagrid('reload');
 		            }else{
 		                successTip(result['message']);
 		            }
