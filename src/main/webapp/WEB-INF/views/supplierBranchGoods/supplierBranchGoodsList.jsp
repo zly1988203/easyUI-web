@@ -13,9 +13,9 @@
 	<!--left-->
 	<div class="ub ub-ver ubor" style="width:240px;">
 	    <div class="ub upad-4">
-            <input class="uinp ub ub-f1" id="supplierNameSearch" name="supplierName" value="" maxlength="50"  
+            <input class="uinp ub ub-f1" id="supplierNameSearch" name="supplierName" style="padding-right:30px!important" value="" maxlength="50"  
             placeholder="供应商编码、名称" />
-            <div class="ub ub-pc ub-ac ubgc-while" style="  background-color: #ffffff;width: 40px;height: 28px;z-index: 2;position: absolute;top: 6px;right: 5px;">
+            <div class="ub ub-pc ub-ac ubgc-while" style="  background-color: #ffffff;width:30px;height: 28px;z-index: 2;position: absolute;top: 6px;right: 5px;">
             <img src="${ctx}/static/images/search.png" width="20" onclick="searchTree()">
         	</div>
         </div>
