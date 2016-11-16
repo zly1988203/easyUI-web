@@ -159,6 +159,7 @@ pageEncoding="UTF-8"%>
         categoryCode=treeNode.code;
         var text =  $("#goodsType").combobox('getText');
         if(text =='类别'){
+        	brandId = "";
         }else if(text =="品牌"){
      	   brandId = treeNode.id;
         }else if(text=="供应商"){
