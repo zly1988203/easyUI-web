@@ -360,7 +360,7 @@ function selectGoods(searchKey){
         var newRows = gFunUpdateKey(rows,keyNames);
         console.log(newRows);
         $("#gridAddRequireOrder").datagrid("loadData",newRows);
-    },searchKey);
+    },searchKey,'','','','','','');
 }
 
 

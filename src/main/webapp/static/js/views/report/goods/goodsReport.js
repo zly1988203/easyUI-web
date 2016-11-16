@@ -205,7 +205,7 @@ function searchBranch (){
 function selectSkuCode(){
 	new publicGoodsService("",function(data){
 		$("#skuCode").val(data[0].skuCode);
-	},"",1);
+	},"",1,'','','','');
 
 }
 
@@ -215,7 +215,7 @@ function selectSkuCode(){
 function selectBarCode(){
 	new publicGoodsService("",function(data){
 		$("#barCode").val(data[0].barCode);
-	},"",1);
+	},"",1,'','','','');
 
 }
 

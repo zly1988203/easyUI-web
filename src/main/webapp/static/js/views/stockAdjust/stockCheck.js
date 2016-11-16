@@ -311,7 +311,7 @@ function selectGoods(searchKey){
         var setdata=setTion(data);
         selectStockAndPrice(branchId,setdata);
       
-    },searchKey,"","","",branchId);
+    },searchKey,"","","",branchId,'');
 }
 
 //二次查询设置值

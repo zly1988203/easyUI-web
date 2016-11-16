@@ -326,7 +326,7 @@ function selectGoods(searchKey){
         var newRows = gFunUpdateKey(rows,keyNames);
         console.log(newRows);
         $("#gridEditRequireOrder").datagrid("loadData",newRows);
-    },searchKey);
+    },searchKey,'','','','','');
 }
 
 //表格添加默认值

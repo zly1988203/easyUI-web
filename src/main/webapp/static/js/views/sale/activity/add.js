@@ -1155,7 +1155,7 @@ function selectGoods(searchKey){
             gridHandel.setSelectFieldName("saleAmount");
             gridHandel.setFieldFocus(gridHandel.getFieldTarget('saleAmount'));
         },100)*/
-    },searchKey);
+    },searchKey,'','','','','');
 }
 
 
