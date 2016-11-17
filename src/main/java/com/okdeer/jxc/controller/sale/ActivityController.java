@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
-import com.itextpdf.text.pdf.PdfStructTreeController.returnType;
 import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.OrderNoUtils;
@@ -279,7 +278,5 @@ public class ActivityController {
 		}
 		return resp;
 	}
-//	
-	
 	
 }
