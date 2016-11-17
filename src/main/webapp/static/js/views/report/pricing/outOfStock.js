@@ -227,28 +227,6 @@ function initDatagridByGoods(){
 					return '';
 				}
 			
-            },            
-            {field: 'skuName', title: '商品名称', width: '150px', align: 'left'},
-            {field: 'barCode', title: '条码', width: '150px', align: 'left'},
-            {field: 'spec', title: '规格', width: '65px', align:'center'},
-            {field: 'unit', title: '单位', width: '65px', align:'center'},
-            {field: 'categoryName', title: '商品类别', width: '85px', align:'center'},
-            {field: 'defectNum', title: '缺货数', width: '85px', align: 'right',
-            	formatter : function(value, row, index) {
-					if(row.defectNum){
-						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-					}
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-				},
-			},
-            {field: 'outRate', title: '缺货率', width: '85px', align: 'right',
-            	formatter : function(value, row, index) {
-					if(row.outRate||row.outRate==0){
-						return '<b>'+(parseFloat(value||0)*100).toFixed(2)+'%</b>';
-					}
-					return '';
-				}
-			
             },
             {field: 'inApplyNum', title: '要货数量', width: '85px', align: 'right',
             	formatter : function(value, row, index) {
