@@ -269,12 +269,12 @@ public class ActivityController {
 		}
 	}
 	
-	@RequestMapping(value = "list", method = RequestMethod.GET)
+	@RequestMapping(value = "listData", method = RequestMethod.GET)
 	@ResponseBody
-	public RespJson list(ActivityListQueryVo queryVo){
+	public RespJson listData(ActivityListQueryVo queryVo){
 		RespJson resp = RespJson.success();
 		try {
-			logger.debug("查询活动列表：list：{}",queryVo);
+			logger.debug("查询活动列表：listData：{}",queryVo);
 			
 			PageUtils<Map<String, Object>> page = mainServiceApi.listPage(queryVo);
 			
