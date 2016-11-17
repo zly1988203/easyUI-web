@@ -69,11 +69,16 @@ public class DeliverTotalReportController extends ReportController {
 	@Override
 	public Map<String, Object> getParam(HttpServletRequest request) {
 		Map<String, Object> map= this.builderParams(request, null);
-		if(!map.containsKey("branchId")){
-			map.put("branchCompleCode", UserUtil.getCurrBranchCompleCode());
-		}
+		
 		if(!map.containsKey("categoryType")||"".equals(map.get("categoryType"))){
 			map.put("categoryType", "smallCategory");
+		}
+		//如果查询往来账。默认给查询当前机构的往来
+		if("branch".equals(map.get("queryType"))&&!map.containsKey("branchId")){
+			map.put("branchId", UserUtil.getCurrBranchId());
+		}
+		if(!map.containsKey("branchId")){
+			map.put("branchCompleCode", UserUtil.getCurrBranchCompleCode());
 		}
 		return map;
 	}

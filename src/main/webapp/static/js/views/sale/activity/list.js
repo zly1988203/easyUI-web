@@ -115,7 +115,7 @@ function exportExcel(){
 	$("#queryForm").attr("action",contextPath+"/categorySale/report/exportList?"+fromObjStr);
 	$("#queryForm").submit();
 }
-
+//pos新增
 function addActivity(){
 	location.href = contextPath + "/sale/activity/add";
 }
@@ -125,16 +125,15 @@ function stop(){
 	$.messager.confirm('提示','是否终止？',function(data){
 		if(data){
 			$.ajax({
-				url : contextPath+"/form/deliverForm/stopped",
+				url : contextPath+"/sale/activity/stop",
 				type : "POST",
 				data : {
-					deliverFormId : $("#formId").val(),
-					deliverType : 'DA'
+					activityId : $("#formId").val(),
 				},
 				success:function(result){
 					if(result['code'] == 0){
 						$.messager.alert("操作提示", "操作成功！", "info",function(){
-							location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
+							location.href = contextPath +"/sale/activity/edit?activityId=" + result["formId"];
 						});
 					}else{
 						successTip(result['message']);
