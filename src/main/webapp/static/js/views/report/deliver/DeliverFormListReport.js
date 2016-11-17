@@ -58,17 +58,17 @@ function initDatagridRequireOrders(){
             {field: 'barCode', title: '条码', width: '100px', align: 'left'},
             {field: 'price', title: '单价', width: '60px', align: 'right',
             	formatter:function(value,row,index){
-            		if(!value){
-                        return '';
-                    }
+            		if (value == null) {
+            			return '';
+            		}
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
             {field: 'inputTax', title: '税率', width: '60px', align: 'right',
             	formatter:function(value,row,index){
-            		if(!value){
-                        return '';
-                    }
+            		if (value == null) {
+            			return '';
+            		}
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
