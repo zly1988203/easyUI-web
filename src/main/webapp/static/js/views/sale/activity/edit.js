@@ -195,9 +195,11 @@ function initDatagridSpecial(){
             }
         },
     })
+    var activityId = $("#activityId").val();
     $("#saleMangeadd").datagrid({
         method:'post',
         align:'center',
+        url:contextPath+"/sale/activity/getDetail?activityId="+activityId,
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
@@ -1474,22 +1476,22 @@ function saveDataHandel(rows,setrows){
 	  }
 	  else if(activityScopemj=="1"){
 		  
-	  } 
+	  }
+	  
   }
+
   var req = JSON.stringify(reqObj);
+  console.log(reqObj)
   console.log(req)
   $.ajax({
-      url:contextPath+"/sale/activity/save",
+      url:contextPath+"/sale/activity/update",
       type:"POST",
       contentType:'application/json',
       data:req,
       success:function(result){
     	  console.log(result)
-          if(result['code'] == 0){
-              console.log(result);
-              $.messager.alert("操作提示", "操作成功！", "info",function(data){
-            		  location.href = contextPath +"/sale/activity/edit?activityId="+result["activityId"]; 
-              });
+    	  if(result['code'] == 0){
+              $.messager.alert("操作提示", "操作成功！", "info");
           }else{
               successTip(result['message']);
           }
@@ -1499,6 +1501,36 @@ function saveDataHandel(rows,setrows){
       }
   });
 }
+
+//审核
+function check(){
+	var activityId = $("#activityId").val();
+	$.messager.confirm('提示','是否审核通过？',function(data){
+		if(data){
+			$.ajax({
+		    	url : contextPath+"/sale/activity/check",
+		    	type : "POST",
+		    	data : {
+		    		deliverFormId : $("#formId").val(),
+		    	},
+		    	success:function(result){
+		    		if(result['code'] == 0){
+		    			$.messager.alert("操作提示", "操作成功！", "info",function(){
+		    				location.href = contextPath +"/sale/activity/edit?activityId="+activityId;
+		    			});
+		    		}else{
+		    			successTip(result['message']);
+		    		}
+		    	},
+		    	error:function(result){
+		    		successTip("请求发送失败或服务器处理失败");
+		    	}
+		    });
+		}
+	});
+}
+
+
 
 
 /**

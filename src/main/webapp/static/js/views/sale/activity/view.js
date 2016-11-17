@@ -1474,9 +1474,12 @@ function saveDataHandel(rows,setrows){
 	  }
 	  else if(activityScopemj=="1"){
 		  
-	  } 
+	  }
+	  
   }
+
   var req = JSON.stringify(reqObj);
+  console.log(reqObj)
   console.log(req)
   $.ajax({
       url:contextPath+"/sale/activity/save",
@@ -1487,8 +1490,10 @@ function saveDataHandel(rows,setrows){
     	  console.log(result)
           if(result['code'] == 0){
               console.log(result);
-              $.messager.alert("操作提示", "操作成功！", "info",function(data){
-            		  location.href = contextPath +"/sale/activity/edit?activityId="+result["activityId"]; 
+              $.messager.alert("操作提示", "操作成功！", "info",function(){
+            	 
+            		  location.href = contextPath +"/sale/activity/edit?id="+result.id;
+                 
               });
           }else{
               successTip(result['message']);
@@ -1499,6 +1504,36 @@ function saveDataHandel(rows,setrows){
       }
   });
 }
+
+//审核
+function check(){
+	var activityId = $("#activityId").val();
+	$.messager.confirm('提示','是否审核通过？',function(data){
+		if(data){
+			$.ajax({
+		    	url : contextPath+"/sale/activity/check",
+		    	type : "POST",
+		    	data : {
+		    		deliverFormId : $("#formId").val(),
+		    	},
+		    	success:function(result){
+		    		if(result['code'] == 0){
+		    			$.messager.alert("操作提示", "操作成功！", "info",function(){
+		    				location.href = contextPath +"/sale/activity/edit?activityId="+activityId;
+		    			});
+		    		}else{
+		    			successTip(result['message']);
+		    		}
+		    	},
+		    	error:function(result){
+		    		successTip("请求发送失败或服务器处理失败");
+		    	}
+		    });
+		}
+	});
+}
+
+
 
 
 /**
@@ -1536,7 +1571,10 @@ function back(){
 	location.href = contextPath +"/sale/activity/list";
 }
 
-
+//pos新增
+function addActivity(){
+	location.href = contextPath + "/sale/activity/add";
+}
 /**
  * 重置
  */
