@@ -28,10 +28,12 @@ import com.alibaba.fastjson.JSON;
 import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.OrderNoUtils;
+import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.UUIDHexGenerator;
 import com.okdeer.jxc.form.enums.FormType;
 import com.okdeer.jxc.sale.activity.service.ActivityServiceApi;
 import com.okdeer.jxc.sale.activity.vo.ActivityDetailVo;
+import com.okdeer.jxc.sale.activity.vo.ActivityListQueryVo;
 import com.okdeer.jxc.sale.activity.vo.ActivityVo;
 import com.okdeer.jxc.sale.entity.ActivityBranch;
 import com.okdeer.jxc.sale.entity.ActivityDetail;
@@ -80,10 +82,17 @@ public class ActivityController {
 	@RequestMapping(value = "save", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson save(@RequestBody String jsonText) {
+		RespJson resp = RespJson.success();
 		try {
 			logger.debug("json:{}",jsonText);
 			//转换Json数据
 			ActivityVo activityVo = JSON.parseObject(jsonText, ActivityVo.class);
+			
+			String validMsg = activityVo.validate();
+			
+			if(validMsg != null){
+				return RespJson.businessError(validMsg);
+			}
 			
 			//构建活动ActivityMain
 			ActivityMain main = new ActivityMain();
@@ -129,12 +138,12 @@ public class ActivityController {
 			
 			//保存活动
 			mainServiceApi.save(main, detailList, branchList);
-			
+			resp.put("activityId", main.getId());
 		} catch (Exception e) {
 			logger.error("保存活动出现异常：",e);
 			return RespJson.error("保存活动出现异常");
 		}
-		return RespJson.success();
+		return resp;
 	}
 	
 	@RequestMapping(value = "update", method = RequestMethod.POST)
@@ -144,6 +153,12 @@ public class ActivityController {
 			logger.debug("json:{}",jsonText);
 			//转换Json数据
 			ActivityVo activityVo = JSON.parseObject(jsonText, ActivityVo.class);
+			
+			String validMsg = activityVo.validate();
+			
+			if(validMsg != null){
+				return RespJson.businessError(validMsg);
+			}
 			
 			//构建活动ActivityMain
 			ActivityMain main = new ActivityMain();
@@ -181,13 +196,12 @@ public class ActivityController {
 			}
 			
 			//保存活动
-			mainServiceApi.update(main, detailList, branchList);
+			return mainServiceApi.update(main, detailList, branchList);
 			
 		} catch (Exception e) {
 			logger.error("保存活动出现异常：",e);
 			return RespJson.error("保存活动出现异常");
 		}
-		return RespJson.success();
 	}
 	
 	@RequestMapping(value = "check", method = RequestMethod.POST)
@@ -196,12 +210,11 @@ public class ActivityController {
 		try {
 			logger.debug("审核：activityId：{}",activityId);
 			SysUser user = (SysUser)UserUtil.getHttpSession().getAttribute(Constant.SESSION_USER);
-			mainServiceApi.check(activityId, user.getId());
+			return mainServiceApi.check(activityId, user.getId());
 		} catch (Exception e) {
 			logger.error("审核活动出现异常：",e);
 			return RespJson.error("审核活动出现异常");
 		}
-		return RespJson.success();
 	}
 	
 	@RequestMapping(value = "stop", method = RequestMethod.POST)
@@ -210,12 +223,11 @@ public class ActivityController {
 		try {
 			logger.debug("终止：activityId：{}",activityId);
 			SysUser user = (SysUser)UserUtil.getHttpSession().getAttribute(Constant.SESSION_USER);
-			mainServiceApi.stop(activityId, user.getId());
+			return mainServiceApi.stop(activityId, user.getId());
 		} catch (Exception e) {
 			logger.error("终止活动出现异常：",e);
 			return RespJson.error("终止活动出现异常");
 		}
-		return RespJson.success();
 	}
 	
 	@RequestMapping(value = "get", method = RequestMethod.GET)
@@ -246,6 +258,23 @@ public class ActivityController {
 		} catch (Exception e) {
 			logger.error("查询活动详情出现异常：",e);
 			return RespJson.error("查询活动详情出现异常");
+		}
+		return resp;
+	}
+	
+	@RequestMapping(value = "list", method = RequestMethod.GET)
+	@ResponseBody
+	public RespJson list(ActivityListQueryVo queryVo){
+		RespJson resp = RespJson.success();
+		try {
+			logger.debug("查询活动列表：list：{}",queryVo);
+			
+			PageUtils<Map<String, Object>> page = mainServiceApi.listPage(queryVo);
+			
+			resp.put("page", page);
+		} catch (Exception e) {
+			logger.error("查询活动列表出现异常：",e);
+			return RespJson.error("查询活动列表出现异常");
 		}
 		return resp;
 	}
