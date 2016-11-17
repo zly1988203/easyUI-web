@@ -262,8 +262,8 @@ public class ActivityController {
 		RespJson resp = RespJson.success();
 		try {
 			logger.debug("查询活动详情：getDetail：{}",activityId);
-			List<Map<String, Object>> activityDetail = mainServiceApi.getDetail(activityId);
-			resp.put("list", activityDetail);
+			PageUtils<Map<String, Object>> activityDetail = mainServiceApi.getDetail(activityId);
+			resp.put("page", activityDetail);
 		} catch (Exception e) {
 			logger.error("查询活动详情出现异常：",e);
 			return RespJson.error("查询活动详情出现异常");
