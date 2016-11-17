@@ -275,7 +275,6 @@ public class ActivityController {
 		RespJson resp = RespJson.success();
 		try {
 			logger.debug("查询活动列表：listData：{}",queryVo);
-			
 			PageUtils<Map<String, Object>> page = mainServiceApi.listPage(queryVo);
 			
 			resp.put("page", page);
