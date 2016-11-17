@@ -63,7 +63,7 @@ function selectOptionSpecial(){
 function selectOptionzk(){
 	initDatagridoneZk();
 	optionHide();
-    disableGoods('SelectGoods','');
+	disableGoods('','GoodsType');
 	$('.discount').removeClass('unhide');
 	$('.discountTypechoose').removeClass('unhide');
 	$(document).on('click','.discountTypechoose .disradio',function(){
@@ -222,7 +222,7 @@ function initDatagridSpecial(){
 					        return str;
 					    },
 					},
-					{field:'skuCode',title:'货号',width:'70px',align:'left',editor:'textbox'},
+					{field:'skuCode',title:'货号',width:'85px',align:'left',editor:'textbox'},
 					{field:'skuName',title:'商品名称',width:'200px',align:'left'},
 					{field:'barCode',title:'条码',width:'150px',align:'left'},
 					{field:'categoryName',title:'商品类别',width:'200px',align:'left'},
@@ -389,7 +389,7 @@ function initDatagridoneZk(){
 			        return str;
 			    },
 			},
-			{field:'skuCode',title:'货号',width:'70px',align:'left',editor:'textbox'},
+			{field:'skuCode',title:'货号',width:'85px',align:'left',editor:'textbox'},
 			{field:'skuName',title:'商品名称',width:'200px',align:'left'},
 			{field:'barCode',title:'条码',width:'150px',align:'left'},
 			{field:'categoryName',title:'商品类别',width:'200px',align:'left'},
@@ -483,7 +483,7 @@ function initDatagridOddtj(){
 			        return str;
 			    },
 			},
-			{field:'skuCode',title:'货号',width:'70px',align:'left',editor:'textbox'},
+			{field:'skuCode',title:'货号',width:'85px',align:'left',editor:'textbox'},
 			{field:'skuName',title:'商品名称',width:'200px',align:'left'},
 			{field:'barCode',title:'条码',width:'150px',align:'left'},
 			{field:'categoryName',title:'商品类别',width:'200px',align:'left'},
@@ -577,7 +577,7 @@ function initDatagridRedemption(){
 			        return str;
 			    },
 			},
-			{field:'skuCode',title:'货号',width:'70px',align:'left',editor:'textbox'},
+			{field:'skuCode',title:'货号',width:'85px',align:'left',editor:'textbox'},
 			{field:'skuName',title:'商品名称',width:'200px',align:'left'},
 			{field:'barCode',title:'条码',width:'150px',align:'left'},
 			{field:'categoryName',title:'商品类别',width:'200px',align:'left'},
@@ -862,7 +862,7 @@ function initDatagridshopMj(){
 			        return str;
 			    },
 			},
-			{field:'skuCode',title:'货号',width:'70px',align:'left',editor:'textbox'},
+			{field:'skuCode',title:'货号',width:'85px',align:'left',editor:'textbox'},
 			{field:'skuName',title:'商品名称',width:'200px',align:'left'},
 			{field:'barCode',title:'条码',width:'150px',align:'left'},
 			{field:'categoryName',title:'商品类别',width:'200px',align:'left'},
@@ -942,7 +942,7 @@ function initDatagridCompose(){
 			        return str;
 			    },
 			},
-			{field:'skuCode',title:'货号',width:'70px',align:'left',editor:'textbox'},
+			{field:'skuCode',title:'货号',width:'85px',align:'left',editor:'textbox'},
 			{field:'skuName',title:'商品名称',width:'200px',align:'left'},
 			{field:'barCode',title:'条码',width:'150px',align:'left'},
 			{field:'categoryName',title:'商品类别',width:'200px',align:'left'},

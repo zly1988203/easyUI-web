@@ -1,7 +1,10 @@
 $(function(){
 	//开始和结束时间
-	$("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
-    $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+	toChangeDatetime(0);
+	
+	$("#txtStartDate").val("");
+	$("#txtEndDate").val("");
+	
     initDatagridRequire();
 });
 var gridHandel = new GridClass();
@@ -40,13 +43,9 @@ function initDatagridRequire(){
 		width:'100%',
         columns:[[
             {field:'activityCode',title:'活动编号',width:'220px',align:'left',
-            	formatter : function(value, row,index) {
-                    var str = value;
-                    if(!value){
-	                    return '<div class="ub ub-pc ufw-b">合计</div> '
-	                }
-                    return str;
-                }
+               formatter : function(value, row,index) {
+                 return "<a style='text-decoration: underline;' href='"+ contextPath +"/sale/activity/edit?activityId="+ row.id +"'>" + value + "</a>"
+              },
             },
 			{field:'activityName', title: '活动名称', width: '200px', align: 'left'},
 			{field:'activityTyep',title:'活动类型',width:'150px',align:'left'},
@@ -69,13 +68,9 @@ function initDatagridRequire(){
 
 //查询入库单
 function queryForm(){
-	if($("#branchName").val()==""){
-        messager("请选择店铺名称");
-        return;
-    } 
 	var fromObjStr = $('#queryForm').serializeObject();
 	$("#saleMange").datagrid("options").method = "post";
-	$("#saleMange").datagrid('options').url = contextPath + '/categorySale/report/getCategorySaleList';
+	$("#saleMange").datagrid('options').url = contextPath +'/sale/activity/listData';
 	$("#saleMange").datagrid('load', fromObjStr);
 }
 
@@ -88,61 +83,39 @@ function searchBranch(){
 		$("#branchName").val(data.branchName);
 	},'BF','');
 }
-/**
- * 导出
- */
-function exportExcel(){
-	var length = $("#saleMange").datagrid('getData').total;
-	if(length == 0){
-		$.messager.alert('提示',"没有数据");
-		return;
-	}
-	if(length>10000){
-		$.messager.alert('提示',"当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
-		return;
-	}
-	var fromObjStr = $('#queryForm').serializeObject();
-	console.log(fromObjStr);
-	$("#queryForm").form({
-		success : function(data){
-			if(data==null){
-				$.messager.alert('提示',"导出数据成功！");
-			}else{
-				$.messager.alert('提示',JSON.parse(data).message);
-			}
-		}
-	});
-	$("#queryForm").attr("action",contextPath+"/categorySale/report/exportList?"+fromObjStr);
-	$("#queryForm").submit();
-}
+
 //pos新增
 function addActivity(){
 	location.href = contextPath + "/sale/activity/add";
 }
 
-//终止
-function stop(){
-	$.messager.confirm('提示','是否终止？',function(data){
+//删除
+function delActivity(){
+	var dg = $("#saleMange");
+	var row = dg.datagrid("getSelected");
+	if(rowIsNull(row)){
+		return null;
+	}
+	$.messager.confirm('提示','是否要删除此条数据',function(data){
 		if(data){
 			$.ajax({
-				url : contextPath+"/sale/activity/stop",
-				type : "POST",
-				data : {
-					activityId : $("#formId").val(),
-				},
-				success:function(result){
-					if(result['code'] == 0){
-						$.messager.alert("操作提示", "操作成功！", "info",function(){
-							location.href = contextPath +"/sale/activity/edit?activityId=" + result["formId"];
-						});
-					}else{
-						successTip(result['message']);
-					}
-				},
-				error:function(result){
-					successTip("请求发送失败或服务器处理失败");
-				}
-			});
+		    	url:contextPath+"/sale/activity/delete",
+		    	type:"POST",
+		    	data:{
+		    		formId : row.deliverFormId
+		    	},
+		    	success:function(result){
+		    		if(result['code'] == 0){
+		    			successTip("删除成功");
+		    			dg.datagrid('reload');
+		    		}else{
+		    			successTip(result['message']);
+		    		}
+		    	},
+		    	error:function(result){
+		    		successTip("请求发送失败或服务器处理失败");
+		    	}
+		    });
 		}
 	});
 }

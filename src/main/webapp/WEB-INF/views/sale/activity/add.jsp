@@ -19,7 +19,7 @@
 	            <div class="ubtns">
 	             <div class="ubtns-item" id="SelectGoods" onclick="selectGoods()">商品选择</div>
 	             <div class="ubtns-item" id="GoodsType" onclick="getGoodsType()">类别选择</div>
-	             <div class="ubtns-item" onclick="saveActivity()">保存</div>
+	             <div class="ubtns-item" onclick="addsaveOrder()">保存</div>
 	             <div class="ubtns-item" onclick="back()">返回</div>
 	             </div>
             </div>
@@ -32,7 +32,7 @@
 	            </div> -->
 	            <div class="ub ub-ac ">
                     <div class="umar-r10 uw-80 ut-r">活动名称:</div>
-                    <input class="uinp" type="text" name="activityName" id="activityName">
+                    <input class="uinp" type="text" name="activityName" id="activityName" value="">
                 </div>
                 <div class="ub ub-ac uselectw umar-l00">
                     <div class="umar-r10 uw-70 ut-r">活动类型:</div>
@@ -40,7 +40,7 @@
 				        <select class="easyui-combobox uselect" name="activityType" id="activityType" data-options="editable:false,onChange:onChangeSelect">
 							    <option value="1">特价</option> 
 								<option value="2">折扣</option> 
-								<option value="3">偶数特价</option> 
+								<option value="3" checked="checked">偶数特价</option> 
 								<option value="4">换购</option> 
 								<option value="5">满减</option> 
 								<option value="6">组合特价</option>
@@ -73,8 +73,8 @@
 	          <div class="ub umar-t8">
 	             <div class="ub ub-ac">
 	             	<div class="umar-r10 uw-80 ut-r">活动时间:</div>
-	              	<input class="Wdate"  readonly="readonly" name="startTime" id="startTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'#F{$dp.$D(\'endTime\');}'})" />&nbsp;至&nbsp;
-                    <input class="Wdate"  readonly="readonly" name="endTime" id="endTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'startTime\');}'})" /> 
+	              	<input class="Wdate"  readonly="readonly" name="startTime" id="startTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'#F{$dp.$D(\'endTime\');}'})" />&nbsp;至&nbsp;
+                    <input class="Wdate"  readonly="readonly" name="endTime" id="endTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'startTime\');}'})" /> 
 	              </div>
 	              <div class="ub ub-ac">
 	             	<div class="umar-r10 uw-80 ut-r">活动时段:</div>
@@ -104,13 +104,14 @@
                     <div class="ub ub-ac umar-l10">
                         <input class="ub" type="checkbox" name="weekcheckbox" value="7" checked="checked" /><span class="umar-l10">日</span>
                    </div>
+                   <input class="uinp ub ub-f1" type="hidden" id="weeklyActivityDay" name="weeklyActivityDay" value=" ">
                   </div>
 	          </div>
 	          <div class="ub umar-t8">
 	             <div class="ub  ub-ac">
 	                   <div class="umar-r10 uw-80 ut-r">活动分店:</div>
-		                    <input class="uinp ub ub-f1" type="hidden" id="branchIds" name="branchIds">
-	                        <input class="uinp ub ub-f1 uw-400" type="text" id="branchName" readonly="readonly" name="branchName" onclick="selectBranch()">
+		                    <input class="uinp ub ub-f1" type="hidden" id="branchIds" name="branchIds" value=" ">
+	                        <input class="uinp ub ub-f1 uw-400" type="text" id="branchName" readonly="readonly" value=" " name="branchName" onclick="selectBranch()">
 	                   <div class="uinp-more" onclick="selectBranch()">...</div>
 	             </div>
 	              <div class="ub ub-ac uw-200 umar-l10 special">
@@ -137,6 +138,7 @@
 	          </div>
        	</form>
            
+      
       <div id="consaleadd" class="ub uw ub-f1 umar-t20" style="min-height:300px;">
 			 <table id="saleMangeadd"></table>
 		</div>
