@@ -5,9 +5,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>促销活动设置</title>
+<title>促销活动设置-审核</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="${ctx}/static/js/views/sale/activity/add.js"></script>
+<script src="${ctx}/static/js/views/sale/activity/view.js"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
 </style>
@@ -17,13 +17,15 @@
 		<form id="queryForm" action="" method="post">
 			<div class="ub ub-ac">
 	            <div class="ubtns">
+	             <div class="ubtns-item" onclick="addActivity()">新增</div>
 	             <div class="ubtns-item" id="SelectGoods" onclick="selectGoods()">商品选择</div>
 	             <div class="ubtns-item" id="GoodsType" onclick="getGoodsType()">类别选择</div>
+	             <div class="ubtns-item" onclick="stop()">终止</div>
 	             <div class="ubtns-item" onclick="addsaveOrder()">保存</div>
 	             <div class="ubtns-item" onclick="back()">返回</div>
 	             </div>
-            </div>
-
+            </div> 
+ 			<input type="hidden"  name="activityId" id="activityId" value="${activityId}">
 	        <div class="ub uline umar-t8"></div>
 	        <div class="ub umar-t8">
 	           <!--  <div class="ub ub-ac ">

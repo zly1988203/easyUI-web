@@ -239,11 +239,11 @@ function publicBrandService(callback){
 }
 
 //公共组件-选择商品类别
-function publicCategoryService(callback,categoryType){
-
+function publicCategoryService(callback,categoryType,type){
+	var type = type?type:0;
     //公有属性
-    var  dalogTemp = $('<div/>').dialog({
-        href: contextPath + "/common/category/views",
+    var dalogObj = {
+		href: contextPath + "/common/category/views",
         width:680,
         height:600,
         title:"选择商品类别",
@@ -253,15 +253,37 @@ function publicCategoryService(callback,categoryType){
             $(dalogTemp).panel('destroy');
         },
         modal:true,
-        onLoad:function(){
-            initCategoryView(categoryType);
-            initCategoryCallBack(callBackHandel)
-        },
-    });
-    function callBackHandel(data){
-        callback(data);
-        $(dalogTemp).panel('destroy');
+        };
+   
+    if(type==1){
+    	 dalogObj["onLoad"] = function () {
+        	 initCategoryView(categoryType,type);
+        };
+    	dalogObj["buttons"] = [{
+            text:'确定',
+            handler:function(){
+            	publicCategoryGetCheck(callBackHandel);
+            }
+        },{
+            text:'取消',
+            handler:function(){
+                $(dalogTemp).panel('destroy');
+            }
+        }];
+    }else{
+        dalogObj["onLoad"] = function () {
+        	 initCategoryView(categoryType,type);
+             initCategoryCallBack(callBackHandel)
+        };
     }
+    //公有属性
+    var dalogTemp = $('<div/>').dialog(dalogObj);
+    function callBackHandel(data){
+    	  callback(data);
+          $(dalogTemp).panel('destroy');
+    }
+    
+    
     //调用方式
     //new publicCategoryService(function(data){
     //    console.log(data);
