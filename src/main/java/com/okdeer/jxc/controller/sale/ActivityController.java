@@ -271,18 +271,15 @@ public class ActivityController {
 	
 	@RequestMapping(value = "listData", method = RequestMethod.GET)
 	@ResponseBody
-	public RespJson listData(ActivityListQueryVo queryVo){
-		RespJson resp = RespJson.success();
+	public PageUtils<Map<String, Object>> listData(ActivityListQueryVo queryVo){
 		try {
 			logger.debug("查询活动列表：listData：{}",queryVo);
 			PageUtils<Map<String, Object>> page = mainServiceApi.listPage(queryVo);
-			
-			resp.put("page", page);
+			return page;
 		} catch (Exception e) {
 			logger.error("查询活动列表出现异常：",e);
-			return RespJson.error("查询活动列表出现异常");
+			return null;
 		}
-		return resp;
 	}
 	
 }
