@@ -105,13 +105,14 @@
                     <div class="ub ub-ac umar-l10">
                         <input class="ub" type="checkbox" name="weekcheckbox" value="7" checked="checked" /><span class="umar-l10">日</span>
                    </div>
+                    <input class="uinp ub ub-f1" type="hidden" id="weeklyActivityDay" name="weeklyActivityDay" value=" ">
                   </div>
 	          </div>
 	          <div class="ub umar-t8">
 	             <div class="ub  ub-ac">
 	                   <div class="umar-r10 uw-80 ut-r">活动分店:</div>
-		                    <input class="uinp ub ub-f1" type="hidden" id="branchIds" name="branchIds" value="080b1000156211e689240050569e21f2">
-	                        <input class="uinp ub ub-f1 uw-400" type="text" id="branchName" readonly="readonly" value="[10000]深圳分公司" name="branchName" onclick="selectBranch()">
+		                    <input class="uinp ub ub-f1" type="hidden" id="branchIds" name="branchIds" value=" ">
+	                        <input class="uinp ub ub-f1 uw-400" type="text" id="branchName" readonly="readonly" value=" " name="branchName" onclick="selectBranch()">
 	                   <div class="uinp-more" onclick="selectBranch()">...</div>
 	             </div>
 	              <div class="ub ub-ac uw-200 umar-l10 special">

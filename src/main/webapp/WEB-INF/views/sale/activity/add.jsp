@@ -32,7 +32,7 @@
 	            </div> -->
 	            <div class="ub ub-ac ">
                     <div class="umar-r10 uw-80 ut-r">活动名称:</div>
-                    <input class="uinp" type="text" name="activityName" id="activityName" value="222">
+                    <input class="uinp" type="text" name="activityName" id="activityName" value="">
                 </div>
                 <div class="ub ub-ac uselectw umar-l00">
                     <div class="umar-r10 uw-70 ut-r">活动类型:</div>
@@ -40,7 +40,7 @@
 				        <select class="easyui-combobox uselect" name="activityType" id="activityType" data-options="editable:false,onChange:onChangeSelect">
 							    <option value="1">特价</option> 
 								<option value="2">折扣</option> 
-								<option value="3">偶数特价</option> 
+								<option value="3" checked="checked">偶数特价</option> 
 								<option value="4">换购</option> 
 								<option value="5">满减</option> 
 								<option value="6">组合特价</option>
@@ -104,13 +104,14 @@
                     <div class="ub ub-ac umar-l10">
                         <input class="ub" type="checkbox" name="weekcheckbox" value="7" checked="checked" /><span class="umar-l10">日</span>
                    </div>
+                   <input class="uinp ub ub-f1" type="hidden" id="weeklyActivityDay" name="weeklyActivityDay" value=" ">
                   </div>
 	          </div>
 	          <div class="ub umar-t8">
 	             <div class="ub  ub-ac">
 	                   <div class="umar-r10 uw-80 ut-r">活动分店:</div>
-		                    <input class="uinp ub ub-f1" type="hidden" id="branchIds" name="branchIds" value="080b1000156211e689240050569e21f2">
-	                        <input class="uinp ub ub-f1 uw-400" type="text" id="branchName" readonly="readonly" value="[10000]深圳分公司" name="branchName" onclick="selectBranch()">
+		                    <input class="uinp ub ub-f1" type="hidden" id="branchIds" name="branchIds" value=" ">
+	                        <input class="uinp ub ub-f1 uw-400" type="text" id="branchName" readonly="readonly" value=" " name="branchName" onclick="selectBranch()">
 	                   <div class="uinp-more" onclick="selectBranch()">...</div>
 	             </div>
 	              <div class="ub ub-ac uw-200 umar-l10 special">

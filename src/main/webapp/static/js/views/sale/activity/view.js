@@ -63,7 +63,7 @@ function selectOptionSpecial(){
 function selectOptionzk(){
 	initDatagridoneZk();
 	optionHide();
-    disableGoods('SelectGoods','');
+	disableGoods('','GoodsType');
 	$('.discount').removeClass('unhide');
 	$('.discountTypechoose').removeClass('unhide');
 	$(document).on('click','.discountTypechoose .disradio',function(){

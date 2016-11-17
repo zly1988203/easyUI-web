@@ -106,6 +106,7 @@
                     <div class="ub ub-ac umar-l10">
                         <input class="ub" type="checkbox" name="weekcheckbox" value="7" checked="checked" /><span class="umar-l10">日</span>
                    </div>
+                   <input class="uinp ub ub-f1" type="hidden" id="weeklyActivityDay" name="weeklyActivityDay" value=" ">
                   </div>
 	          </div>
 	          <div class="ub umar-t8">
