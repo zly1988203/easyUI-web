@@ -1538,7 +1538,24 @@ $.extend($.fn.validatebox.defaults.rules, {
 
 //公共组件-商品选择
 function publicGoodsSkuService(callback,isRadio,key){
-	  publicGoodsSkuServiceHandel(callback,isRadio,key);
+	if(key){
+		var url= contextPath + '/goods/goodsSelect/queryGoodsSkuLists';
+        $.ajax({
+            url:url,
+            data:{skuCode:key},
+            type:'POST',
+            success:function(data){
+            	if(data&&data.list&&data.list.length==1){
+            		callback(data.list);
+                }else{
+                	publicGoodsSkuServiceHandel(callback,isRadio,key);
+                }
+            }
+        })
+    }else{
+    	  publicGoodsSkuServiceHandel(callback,isRadio,key);
+    }
+	
 }
 function publicGoodsSkuServiceHandel(callback,isRadio,key){
    var url=contextPath + "/goods/goodsSelect/goGoodsSku";
