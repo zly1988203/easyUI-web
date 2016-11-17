@@ -256,7 +256,7 @@ public class ActivityController {
 		return resp;
 	}
 	
-	@RequestMapping(value = "getDetail", method = RequestMethod.GET)
+	@RequestMapping(value = "getDetail", method = RequestMethod.POST)
 	@ResponseBody
 	public PageUtils<Map<String, Object>> getDetail(String activityId){
 		try {
@@ -269,7 +269,7 @@ public class ActivityController {
 		}
 	}
 	
-	@RequestMapping(value = "listData", method = RequestMethod.GET)
+	@RequestMapping(value = "listData", method = RequestMethod.POST)
 	@ResponseBody
 	public PageUtils<Map<String, Object>> listData(ActivityListQueryVo queryVo){
 		try {
