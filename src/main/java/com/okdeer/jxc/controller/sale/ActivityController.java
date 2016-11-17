@@ -258,17 +258,15 @@ public class ActivityController {
 	
 	@RequestMapping(value = "getDetail", method = RequestMethod.GET)
 	@ResponseBody
-	public RespJson getDetail(String activityId){
-		RespJson resp = RespJson.success();
+	public PageUtils<Map<String, Object>> getDetail(String activityId){
 		try {
 			logger.debug("查询活动详情：getDetail：{}",activityId);
 			PageUtils<Map<String, Object>> activityDetail = mainServiceApi.getDetail(activityId);
-			resp.put("page", activityDetail);
+			return activityDetail;
 		} catch (Exception e) {
 			logger.error("查询活动详情出现异常：",e);
-			return RespJson.error("查询活动详情出现异常");
+			return null;
 		}
-		return resp;
 	}
 	
 	@RequestMapping(value = "list", method = RequestMethod.GET)
