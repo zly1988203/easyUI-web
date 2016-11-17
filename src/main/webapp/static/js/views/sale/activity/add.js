@@ -1,8 +1,8 @@
 var datagridId = "saleMangeadd";
 $(function(){
 	//开始和结束时间
-	$("#startTime").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
-    $("#endTime").val("2016-11-18");
+//	$("#startTime").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
+//    $("#endTime").val("2016-11-18");
     $("#dailyStartTime").val("00:00:00");
     $("#dailyEndTime").val("23:59:59");
     initDatagridSpecial();
@@ -201,7 +201,6 @@ function initDatagridSpecial(){
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
-        pagination:true,    //分页
         fitColumns:true,    //每列占满
         //fit:true,            //占满
         showFooter:true,
@@ -267,7 +266,7 @@ function initDatagridSpecial(){
 				
 		 }
     });
-    gridHandel.setLoadData([$.extend({},gridDefault)]) 
+    gridHandel.setLoadData([{}]) 
 }
 
 //初始化表格-类别折扣
@@ -295,7 +294,6 @@ function initDatagridsortZk(){
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
-        pagination:true,    //分页
         fitColumns:true,    //每列占满
         //fit:true,            //占满
         showFooter:true,
@@ -368,7 +366,6 @@ function initDatagridoneZk(){
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
-        pagination:true,    //分页
         fitColumns:true,    //每列占满
         //fit:true,            //占满
         showFooter:true,
@@ -462,7 +459,6 @@ function initDatagridOddtj(){
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
-        pagination:true,    //分页
         fitColumns:true,    //每列占满
         //fit:true,            //占满
         showFooter:true,
@@ -556,7 +552,6 @@ function initDatagridRedemption(){
       //toolbar: '#tb',     //工具栏 id为tb
       singleSelect:false,  //单选  false多选
       rownumbers:true,    //序号
-      pagination:true,    //分页
       fitColumns:true,    //每列占满
       //fit:true,            //占满
       showFooter:true,
@@ -649,7 +644,6 @@ function initDatagridallMj(){
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
-        pagination:true,    //分页
         fitColumns:true,    //每列占满
         //fit:true,            //占满
         showFooter:true,
@@ -720,7 +714,6 @@ function initDatagridsortMj(){
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
-        pagination:true,    //分页
         fitColumns:true,    //每列占满
         //fit:true,            //占满
         showFooter:true,
@@ -760,7 +753,6 @@ function initDatagridsortSet(){
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
-        pagination:true,    //分页
         fitColumns:true,    //每列占满
         //fit:true,            //占满
         showFooter:true,
@@ -841,7 +833,6 @@ function initDatagridshopMj(){
       //toolbar: '#tb',     //工具栏 id为tb
       singleSelect:false,  //单选  false多选
       rownumbers:true,    //序号
-      pagination:true,    //分页
       fitColumns:true,    //每列占满
       //fit:true,            //占满
       showFooter:true,
@@ -921,7 +912,6 @@ function initDatagridCompose(){
       //toolbar: '#tb',     //工具栏 id为tb
       singleSelect:false,  //单选  false多选
       rownumbers:true,    //序号
-      pagination:true,    //分页
       fitColumns:true,    //每列占满
       //fit:true,            //占满
       showFooter:true,
@@ -1161,30 +1151,32 @@ function selectGoods(searchKey){
 
 
 //保存
-function addsaveOrder(){
+function saveActivity(){
   //保存结束编辑
   $("#saleMangeadd").datagrid("endEdit", gridHandel.getSelectRowIndex());
-
-  var rows=$('#saleMangeadd').datagrid('getRows');
-
+  
   //活动类型
   var activityType=$("#activityType").combobox('getValue');
   // 打折活动类型
   var activityScopedis=$("#activityScopedis").val();
   // 满减活动类型
   var activityScopemj=$("#activityScopemj").val();
-//满减活动类型
-  var activityScopemj=$("#activityScopemj").val();
+  //获取非空的数据
+  var rows= gridHandel.getRowsWhere({skuCode:'1'});//$('#saleMangeadd').datagrid('getRows');
+  //重新加载数据，去除空数据
+  $("#saleMangeadd").datagrid("loadData",rows);
+  
   if(rows.length==0){
       messager("表格不能为空");
       return;
   }
   
   var isCheckResult = true;
-//活动类型特价验证
+  //活动类型特价验证
   if(activityType=="1"){
-	  $.each(rows,function(i,v){
-	      if(!v["skuCode"]){
+	  for(var i=0;i<rows.length;i++){
+		  var v = rows[i];
+		  if(!v["skuCode"]){
 	          messager("第"+(i+1)+"行，货号不能为空");
 	          isCheckResult = false;
 	          return false;
@@ -1194,15 +1186,16 @@ function addsaveOrder(){
 	          isCheckResult = false;
 	          return false;
 	      };
-	     
-	  });
+	  }
 	  saveDataHandel(rows);
   }
-//活动类型折扣验证
+  
+  //活动类型折扣验证
   else if(activityType=="2"){ 
 	//活动类型单品折扣验证
 	  if(activityScopedis=="0"){
-		  $.each(rows,function(i,v){
+		  for(var i=0;i<rows.length;i++){
+			  var v = rows[i];
 		      if(!v["skuCode"]){
 		          messager("第"+(i+1)+"行，货号不能为空");
 		          isCheckResult = false;
@@ -1218,12 +1211,13 @@ function addsaveOrder(){
 		          isCheckResult = false;
 		          return false;
 		      };
-		  });
+		  }
 		  saveDataHandel(rows);
 	  }
 	//活动类型类别折扣验证
 	  else{
-		  $.each(rows,function(i,v){
+		  for(var i=0;i<rows.length;i++){
+			  var v = rows[i];
 		      if(!v["categoryName"]){
 		          messager("第"+(i+1)+"行，商品类别不能为空");
 		          isCheckResult = false;
@@ -1240,14 +1234,15 @@ function addsaveOrder(){
 		          return false;
 		      };
 		     
-		  });
+		  }
 		  saveDataHandel(rows);
 	  }
 	  
   }
 //活动类型偶数特价验证
   else if(activityType=="3"){
-	  $.each(rows,function(i,v){
+	  for(var i=0;i<rows.length;i++){
+		  var v = rows[i];
 	      if(!v["skuCode"]){
 	          messager("第"+(i+1)+"行，货号不能为空");
 	          isCheckResult = false;
@@ -1259,12 +1254,13 @@ function addsaveOrder(){
 	          return false;
 	      };
 	     
-	  });
+	  }
 	  saveDataHandel(rows);
   }
 //活动类型换购价验证
   else if(activityType=="4"){
-	  $.each(rows,function(i,v){
+	  for(var i=0;i<rows.length;i++){
+		  var v = rows[i];
 	      if(!v["skuCode"]){
 	          messager("第"+(i+1)+"行，货号不能为空");
 	          isCheckResult = false;
@@ -1276,7 +1272,7 @@ function addsaveOrder(){
 	          return false;
 	      };
 	     
-	  });
+	  }
 	  saveDataHandel(rows);
   }
 //活动满减验证
@@ -1284,20 +1280,21 @@ function addsaveOrder(){
 	 
 	  $("#salesetmj").datagrid("endEdit", gridHandelMj.getSelectRowIndex());
 	  var setrows=$('#salesetmj').datagrid('getRows');
-	  console.log(setrows)
 		  if(activityScopemj=="0"){  
 			  if(setrows.length==0){
 			      messager("满减设置表格不能为空");
 			      return;
 			  }
-			  $.each(rows,function(i,v){
+			  for(var i=0;i<rows.length;i++){
+				  var v = rows[i];
 			      if(!v["skuCode"]){
 			          messager("第"+(i+1)+"行，货号不能为空");
 			          isCheckResult = false;
 			          return false;
 			      };
-			  });
-			  $.each(setrows,function(i,v){
+			  }
+			  for(var i=0;i<rows.length;i++){
+				  var v = rows[i];
 			      if(!v["limitAmount"]){
 			          messager("第"+(i+1)+"行，买满金额不能为空");
 			          isCheckResult = false;
@@ -1308,7 +1305,7 @@ function addsaveOrder(){
 			          isCheckResult = false;
 			          return false;
 			      };
-			  });
+			  }
 			  saveDataHandel(rows,setrows);
 		 }
 		  else if(activityScopemj=="1"){
@@ -1316,14 +1313,16 @@ function addsaveOrder(){
 			      messager("满减设置表格不能为空");
 			      return;
 			  }
-			  $.each(rows,function(i,v){
+			  for(var i=0;i<rows.length;i++){
+				  var v = rows[i];
 			      if(!v["categoryName"]){
 			          messager("第"+(i+1)+"行，商品类别不能为空");
 			          isCheckResult = false;
 			          return false;
 			      };
-			  });
-			  $.each(setrows,function(i,v){
+			  }
+			  for(var i=0;i<rows.length;i++){
+				  var v = rows[i];
 			      if(!v["limitAmount"]){
 			          messager("第"+(i+1)+"行，买满金额不能为空");
 			          isCheckResult = false;
@@ -1334,11 +1333,12 @@ function addsaveOrder(){
 			          isCheckResult = false;
 			          return false;
 			      };
-			  });
+			  }
 			  saveDataHandel(rows,setrows); 
 		 }
 		  else if(activityScopemj=="2"){
-			  $.each(rows,function(i,v){
+			  for(var i=0;i<rows.length;i++){
+				  var v = rows[i];
 			      if(!v["limitAmount"]){
 			          messager("第"+(i+1)+"行，买满金额不能为空");
 			          isCheckResult = false;
@@ -1349,14 +1349,13 @@ function addsaveOrder(){
 			          isCheckResult = false;
 			          return false;
 			      };
-			  });
+			  }
 			  saveDataHandel(rows);
 		  }
   }
   else{
 	  saveDataHandel(rows);
   }
- 
 
 }
 
@@ -1487,7 +1486,8 @@ function saveDataHandel(rows,setrows){
     	  console.log(result)
           if(result['code'] == 0){
               console.log(result);
-              $.messager.alert("操作提示", "操作成功！", "info",function(data){
+              
+              $.messager.alert("操作提示", "操作成功！", "info", function(){
             		  location.href = contextPath +"/sale/activity/edit?activityId="+result["activityId"]; 
               });
           }else{

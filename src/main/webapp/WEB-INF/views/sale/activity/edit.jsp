@@ -40,7 +40,7 @@
                        <!--select-->
 				        <select class="easyui-combobox uselect" name="activityType" id="activityType" data-options="editable:false,onChange:onChangeSelect">
 							    <option value="1">特价</option> 
-								<option value="2">折扣</option> 
+								<option value="2" >折扣</option> 
 								<option value="3">偶数特价</option> 
 								<option value="4">换购</option> 
 								<option value="5">满减</option> 
