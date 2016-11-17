@@ -324,9 +324,15 @@ public class PurchaseFormController extends
 	 */
 	@RequestMapping(value = "delete", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson delete(String formId) {
+	public RespJson delete(String formIds) {
 		SysUser user = UserUtil.getCurrentUser();
-		RespJson resp = purchaseFormServiceApi.delete(formId, user.getId());
+		RespJson resp = new RespJson();
+		if(StringUtils.isNotBlank(formIds)){
+			String[] arr = formIds.split(",");
+			for(int i=0;i<arr.length;i++){
+				resp = purchaseFormServiceApi.delete(arr[i], user.getId());
+			}
+		}
 		return resp;
 	}
 
