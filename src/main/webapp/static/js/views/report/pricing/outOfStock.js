@@ -144,8 +144,8 @@ function initDatagridRequireOrders(){
             },
             {field: 'inAmount', title: '要货金额', width: '85px', align: 'right',
             	formatter:function(value,row,index){
-            		if(!value){
-                        return '0.00';
+            		if(row.inAmount){
+            			return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
@@ -237,12 +237,12 @@ function initDatagridByGoods(){
 				},
             },
             {field: 'inAmount', title: '要货金额', width: '85px', align: 'right',
-            	formatter:function(value,row,index){
-            		if(!value){
-                        return '0.00';
+            	formatter : function(value, row, index) {
+					if(row.inAmount){
+						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                }
+				},
             },
             {field: 'outDealNum', title: '发货数量', width: '85px', align: 'right',
             	formatter : function(value, row, index) {
