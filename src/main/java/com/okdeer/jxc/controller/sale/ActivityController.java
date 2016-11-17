@@ -38,6 +38,7 @@ import com.okdeer.jxc.sale.activity.vo.ActivityVo;
 import com.okdeer.jxc.sale.entity.ActivityBranch;
 import com.okdeer.jxc.sale.entity.ActivityDetail;
 import com.okdeer.jxc.sale.entity.ActivityMain;
+import com.okdeer.jxc.sale.enums.ActivityStatus;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
 
@@ -76,7 +77,15 @@ public class ActivityController {
 	@RequestMapping(value = "edit")
 	public String viewEdit(String activityId, HttpServletRequest request) {
 		request.setAttribute("activityId", activityId);
-		return "sale/activity/edit";
+		ActivityMain main = mainServiceApi.get(activityId);
+		if(main == null){
+			return "error/404";
+		}
+		if(main.getActivityStatus().equals(ActivityStatus.WAIT_CHECK.getValue())){
+			return "sale/activity/edit";
+		}else{
+			return "sale/activity/view";
+		}
 	}
 	
 	@RequestMapping(value = "save", method = RequestMethod.POST)
@@ -101,7 +110,7 @@ public class ActivityController {
 			Date now = new Date();
 			
 			main.setId(UUIDHexGenerator.generate());
-			main.setActivityStatus(0);
+			main.setActivityStatus(ActivityStatus.WAIT_CHECK.getValue());
 			main.setCreateUserId(user.getId());
 			main.setCreateTime(now);
 			main.setUpdateUserId(user.getId());
@@ -236,7 +245,7 @@ public class ActivityController {
 		RespJson resp = RespJson.success();
 		try {
 			logger.debug("查询单个活动：get：{}",activityId);
-			Map<String, Object> activityMain = mainServiceApi.get(activityId);
+			Map<String, Object> activityMain = mainServiceApi.getMain(activityId);
 			List<Map<String, Object>> activityBranch = mainServiceApi.getBranch(activityId);
 			resp.put("obj", activityMain);
 			resp.put("branch", activityBranch);
