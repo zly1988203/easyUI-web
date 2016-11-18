@@ -40,7 +40,7 @@
 				        <select class="easyui-combobox uselect" name="activityType" id="activityType" data-options="editable:false,onChange:onChangeSelect">
 							    <option value="1">特价</option> 
 								<option value="2">折扣</option> 
-								<option value="3" checked="checked">偶数特价</option> 
+								<option value="3">偶数特价</option> 
 								<option value="4">换购</option> 
 								<option value="5">满减</option> 
 								<option value="6">组合特价</option>
@@ -81,28 +81,28 @@
 	              	<input class="Wdate"  readonly="readonly" name="dailyStartTime" id="dailyStartTime" onclick="WdatePicker({dateFmt:'HH:mm:ss',minDate:'00:00:00',maxDate:'#F{$dp.$D(\'dailyEndTime\');}'})" />&nbsp;至&nbsp;
                     <input class="Wdate"  readonly="readonly" name="dailyEndTime" id="dailyEndTime" onclick="WdatePicker({dateFmt:'HH:mm:ss',minDate:'#F{$dp.$D(\'dailyStartTime\');}'})" /> 
 	              </div>
-	              <div class="ub ub-ac">
+	              <div class="ub ub-ac " id="weekday">
 	               <div class="umar-r10 uw-80 ut-r">活动日:</div>
-	               <div class="ub ub-ac umar-l10 ">
+	               <div class="ub ub-ac umar-l10 ubcheckweek">
                         <input class="ub" type="checkbox" name="weekcheckbox" value="1" checked="checked" /><span class="umar-l10">一</span>
                    </div>
-                   <div class="ub ub-ac umar-l10">
-                        <input class="ub" type="checkbox" name="weekcheckbox" value="2" checked="checked" /><span class="umar-l10">二</span>
+                   <div class="ub ub-ac umar-l10 ubcheckweek">
+                        <input class="ub " type="checkbox" name="weekcheckbox" value="2" checked="checked" /><span class="umar-l10">二</span>
                    </div>
-                   <div class="ub ub-ac umar-l10">
-                        <input class="ub" type="checkbox" name="weekcheckbox" value="3" checked="checked" /><span class="umar-l10">三</span>
+                   <div class="ub ub-ac umar-l10 ubcheckweek">
+                        <input class="ub " type="checkbox" name="weekcheckbox" value="3" checked="checked" /><span class="umar-l10">三</span>
                    </div>
-                    <div class="ub ub-ac umar-l10">
-                        <input class="ub" type="checkbox" name="weekcheckbox" value="4" checked="checked" /><span class="umar-l10">四</span>
+                    <div class="ub ub-ac umar-l10 ubcheckweek">
+                        <input class="ub " type="checkbox" name="weekcheckbox" value="4" checked="checked" /><span class="umar-l10">四</span>
                    </div>
-                    <div class="ub ub-ac umar-l10">
-                        <input class="ub" type="checkbox" name="weekcheckbox" value="5" checked="checked" /><span class="umar-l10">五</span>
+                    <div class="ub ub-ac umar-l10 ubcheckweek">
+                        <input class="ub " type="checkbox" name="weekcheckbox" value="5" checked="checked" /><span class="umar-l10">五</span>
                    </div>
-                    <div class="ub ub-ac umar-l10">
-                        <input class="ub" type="checkbox" name="weekcheckbox" value="6" checked="checked" /><span class="umar-l10">六</span>
+                    <div class="ub ub-ac umar-l10 ubcheckweek">
+                        <input class="ub " type="checkbox" name="weekcheckbox" value="6" checked="checked" /><span class="umar-l10">六</span>
                    </div>
-                    <div class="ub ub-ac umar-l10">
-                        <input class="ub" type="checkbox" name="weekcheckbox" value="7" checked="checked" /><span class="umar-l10">日</span>
+                    <div class="ub ub-ac umar-l10 ubcheckweek">
+                        <input class="ub " type="checkbox" name="weekcheckbox" value="7" checked="checked" /><span class="umar-l10">日</span>
                    </div>
                    <input class="uinp ub ub-f1" type="hidden" id="weeklyActivityDay" name="weeklyActivityDay" value=" ">
                   </div>
@@ -139,7 +139,7 @@
        	</form>
            
       
-      <div id="consaleadd" class="ub uw ub-f1 umar-t20" style="min-height:300px;">
+      <div id="consaleadd" class="ub uw ub-f1 umar-t20" style="min-height:50%;">
 			 <table id="saleMangeadd"></table>
 		</div>
 		 
