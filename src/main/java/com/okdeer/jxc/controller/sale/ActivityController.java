@@ -298,6 +298,40 @@ public class ActivityController {
 	}
 	
 	/**
+	 * 查询单个活动的详情(满减活动)
+	 */
+	@RequestMapping(value = "getDetailFullCut", method = RequestMethod.GET)
+	@ResponseBody
+	public PageUtils<Map<String, Object>> getDetailFullCut(String activityId){
+		try {
+			logger.debug("查询活动详情(满减)：getDetailFullCut：{}",activityId);
+			PageUtils<Map<String, Object>> activityDetail = mainServiceApi.getDetailFullCut(activityId);
+			return activityDetail;
+		} catch (Exception e) {
+			logger.error("查询活动详情(满减)出现异常：",e);
+			return null;
+		}
+	}
+	
+	/**
+	 * 查询单个活动的满减优惠信息(满减活动)
+	 */
+	@RequestMapping(value = "getLimitAmountFullCut", method = RequestMethod.GET)
+	@ResponseBody
+	public PageUtils<Map<String, Object>> getLimitAmountFullCut(String activityId){
+		try {
+			logger.debug("查询活动详情(满减优惠信息)：getLimitAmountFullCut：{}",activityId);
+			PageUtils<Map<String, Object>> activityDetail = mainServiceApi.getLimitAmountFullCut(activityId);
+			return activityDetail;
+		} catch (Exception e) {
+			logger.error("查询活动详情(满减优惠信息)出现异常：",e);
+			return null;
+		}
+	}
+	
+	
+	
+	/**
 	 * 查询活动列表
 	 */
 	@RequestMapping(value = "listData", method = RequestMethod.GET)
