@@ -76,13 +76,13 @@
 	          <div class="ub umar-t8">
 	             <div class="ub ub-ac">
 	             	<div class="umar-r10 uw-80 ut-r">活动时间:</div>
-	              	<input class="Wdate"  readonly="readonly" name="startTime" id="startTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'#F{$dp.$D(\'endTime\');}'})" />&nbsp;至&nbsp;
-                    <input class="Wdate"  readonly="readonly" name="endTime" id="endTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'startTime\');}'})" /> 
+	              	<input class="Wdate"  readonly="readonly" name="startTime" id="startTime" />&nbsp;至&nbsp;
+                    <input class="Wdate"  readonly="readonly" name="endTime" id="endTime" /> 
 	              </div>
 	              <div class="ub ub-ac">
 	             	<div class="umar-r10 uw-80 ut-r">活动时段:</div>
-	              	<input class="Wdate"  readonly="readonly" name="dailyStartTime" id="dailyStartTime" onclick="WdatePicker({dateFmt:'HH:mm:ss',minDate:'00:00:00',maxDate:'#F{$dp.$D(\'dailyEndTime\');}'})" />&nbsp;至&nbsp;
-                    <input class="Wdate"  readonly="readonly" name="dailyEndTime" id="dailyEndTime" onclick="WdatePicker({dateFmt:'HH:mm:ss',minDate:'#F{$dp.$D(\'dailyStartTime\');}'})" /> 
+	              	<input class="Wdate"  readonly="readonly" name="dailyStartTime" id="dailyStartTime"  />&nbsp;至&nbsp;
+                    <input class="Wdate"  readonly="readonly" name="dailyEndTime" id="dailyEndTime"  /> 
 	              </div>
 	                   <div class="ub ub-ac" id="weekday">
 	               <div class="umar-r10 uw-80 ut-r">活动日:</div>

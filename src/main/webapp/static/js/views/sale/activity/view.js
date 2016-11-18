@@ -82,6 +82,8 @@ function  editstart(selectType){
                     //combobox 下拉赋值和禁止选择
   		    		$("#activityType").combobox('select',activtype);  
   		    		$("#activityType").combobox("disable");
+  		    	    //checkbox 禁止所有选中状态
+  		    		checkboxDisabled();
 		    		//满减类型赋值
 					if(activtype==5){	    			
 						initmjOneDatagrid(activityId);
@@ -272,9 +274,7 @@ function radioSetmj(radioVal){
 }
 //checkbox 禁止 状态
 function checkboxDisabled(){
-	
-	
-	
+	$(".ubcheckweek").prop('disabled',true);
 }
 
 //状态初始化 隐藏 清空数据 
