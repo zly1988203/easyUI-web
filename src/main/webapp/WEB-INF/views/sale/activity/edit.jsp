@@ -19,7 +19,7 @@
 	            <div class="ubtns">
 	             <div class="ubtns-item" id="SelectGoods" onclick="selectGoods()">商品选择</div>
 	             <div class="ubtns-item" id="GoodsType" onclick="getGoodsType()">类别选择</div>
-	             <div class="ubtns-item" onclick="addsaveOrder()">保存</div>
+	             <div class="ubtns-item" onclick="saveActivity()">保存</div>
 	             <div class="ubtns-item" onclick="check()">审核</div>
 	             <div class="ubtns-item" onclick="back()">返回</div>
 	             </div>
