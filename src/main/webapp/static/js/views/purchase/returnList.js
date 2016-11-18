@@ -128,7 +128,7 @@ function returnDelete(){
 	    $.each(rows,function(i,v){
 	    	formIds+=v.id+",";
 	    });
-	$.messager.confirm('提示','是否要删除此条数据',function(data){
+	$.messager.confirm('提示','是否要删除选中数据',function(data){
 		if(data){
 			$.ajax({
 		    	url:contextPath+"/form/purchase/delete",
@@ -142,7 +142,6 @@ function returnDelete(){
 		    		}else{
 		    			successTip(result['message']);
 		    		}
-		    		//dg.datagrid('reload');
 		    		$("#gridOrders").datagrid('reload');
 		    	},
 		    	error:function(result){
