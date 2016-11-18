@@ -97,19 +97,26 @@ function query(){
 	$("#gridOrders").datagrid("options").url = contextPath+'/form/purchase/listData';
 	$("#gridOrders").datagrid("load");
 }
+
+//删除
 function orderDelete(){
-	var dg = $("#gridOrders");
-	var row = dg.datagrid("getSelected");
-	if(rowIsNull(row)){
+	var rows =$("#gridOrders").datagrid("getChecked");
+	if($("#gridOrders").datagrid("getChecked").length <= 0){
+		 $.messager.alert('提示','请选中一行进行删除！');
 		return null;
 	}
-	$.messager.confirm('提示','是否要删除此条数据',function(data){
+	 var formIds='';
+	    $.each(rows,function(i,v){
+	    	formIds+=v.id+",";
+	    });
+	
+	$.messager.confirm('提示','是否要删除选中数据',function(data){
 		if(data){
 			$.ajax({
 		    	url:contextPath+"/form/purchase/delete",
 		    	type:"POST",
 		    	data:{
-		    		formId:row.id
+		    		formIds:formIds
 		    	},
 		    	success:function(result){
 		    		console.log(result);
@@ -118,7 +125,7 @@ function orderDelete(){
 		    		}else{
 		    			successTip(result['message']);
 		    		}
-		    		dg.datagrid('reload');
+		    		$("#gridOrders").datagrid('reload');
 		    	},
 		    	error:function(result){
 		    		successTip("请求发送失败或服务器处理失败");

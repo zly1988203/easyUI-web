@@ -25,6 +25,7 @@ var flushFlg = false;
 function changeType(){
 	$(".radioItem").on("click",function(){
 		flushFlg = true;
+		resetCondition();
     	var a = $(this).val();
     	$("#goodsTotalAnalysi").datagrid("options").url = "";
     	if (a=="goodsTotal") {
@@ -39,7 +40,7 @@ function changeType(){
 			skuNameOff();
 			categoryOff();
 			skuCodeOrBarCodeOff();
-			branchOff();
+			branchOn();
 			initPurReportSupplierGrid();
 		}  else if (a=="categoryTotal") {
 			// 初始化列表按类别汇总
@@ -52,6 +53,15 @@ function changeType(){
     	$("#goodsTotalAnalysi").datagrid('loadData', { total: 0, rows: [] });
     	$('#goodsTotalAnalysi').datagrid({showFooter:false});
     });
+}
+//重置条件
+function resetCondition(){
+//	 $("#branchName").val("");
+//	 $("#branchId").val("");
+	 $("#categoryName").val("");
+	 $("#categoryCode").val("");
+	 $("#skuName").val('');
+	 $("#skuCodeOrBarCode").val("");
 }
 //店铺开启
 function branchOn(){
@@ -75,7 +85,7 @@ function categoryOff(){
     $("#categoryName").addClass("uinp-no-more");
 	$("#categorySelect").removeAttr("onclick");
 	$("#categoryName").val("");
-	$("#categoryId").val("");
+	$("#categoryCode").val("");
 
 }
 //商品名称开
@@ -98,6 +108,7 @@ function skuCodeOrBarCodeOn(){
 function skuCodeOrBarCodeOff(){
 	$("#skuCodeOrBarCode").attr("readonly","readonly");
     $("#skuCodeOrBarCode").addClass("uinp-no-more");
+    $("#skuCodeOrBarCode").val("");
 }
 //三级分类开启
 function categoryTypeOn(){
@@ -356,13 +367,16 @@ function exportTotal(){
 	var startDate = $("#txtStartDate").val();
 	var endDate = $("#txtEndDate").val();
 	var branchName = $("#branchName").val();
+	var categoryType=$('input[name="searchType"]:checked ').val();
 	if(!(startDate && endDate)){
 		$.messager.alert('提示', '日期不能为空');
 		return ;
 	}
-	if(!branchName){
-		$.messager.alert('提示', '店铺名不能为空');
-		return ;
+	if(categoryType!='branchTotal'){
+		if(!branchName){
+			$.messager.alert('提示', '店铺名不能为空');
+			return ;
+		}
 	}
 	var length = $("#goodsTotalAnalysi").datagrid('getData').total;
 	if(length == 0){
@@ -391,7 +405,8 @@ function searchBranch (){
 function searchCategory(){
 	var categoryType=$('input[name="searchType"]:checked ').val();
 	new publicCategoryService(function(data){
-		$("#categoryId").val(data.goodsCategoryId);
+		console.info(data);
+		$("#categoryCode").val(data.categoryCode);
 		$("#categoryName").val(data.categoryName);
 	},categoryType);
 }

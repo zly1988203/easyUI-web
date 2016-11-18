@@ -23,6 +23,7 @@ pageEncoding="UTF-8"%>
                 <div class="ub ub-ac upad-10">
                     <input class="usearch uinp ub ub-f1" type="text" id="goodsInfo"
                            placeholder="可按货号、自编码、品名、助记码等查询">
+                    <input type="hidden" name="supplierId" id="searchSupplierId" value="${searchSupplierId}">
                     <input type="button" class="ubtn umar-l10" value="查询" onclick="cx()">
                 </div>
 
@@ -46,11 +47,17 @@ pageEncoding="UTF-8"%>
     })
      
     function goodsArchives(){
-        this.selectTypeName = "categoryCode"
+    	var type = '${type}';
+    	if(type=='PA' || type=='PR'){
+          this.selectTypeName = "supplierId";
+    	}else{
+          this.selectTypeName = "categoryCode";
+    	}
         //tree的提交参数
+        var searchSupplierId = $("#searchSupplierId").val();
         this.treeParam = {
             categoryCode:'',
-            supplierId:'',
+            supplierId:searchSupplierId,
             brandId:'',
             level:'',
         }
@@ -93,20 +100,25 @@ pageEncoding="UTF-8"%>
         initDatagridGoods();
     }
     function initSelectView(){
+    	var arr = [{
+            id: 'categoryCode',
+            text: '类别',
+        },{
+            id: 'brandId',
+            text: '品牌'
+        },{
+            id: 'supplierId',
+            text: '供应商'
+        }];
+    	for(var i =0 ;i<arr.length;i++){
+    		if(arr[i]['id']==goodsClass.selectTypeName){
+    			arr[i]['selected']= true;
+    		}
+    	}
         $('#goodsType').combobox({
             valueField:'id',
             textField:'text',
-            data: [{
-                id: 'categoryCode',
-                text: '类别',
-                selected:true,
-            },{
-                id: 'brandId',
-                text: '品牌'
-            },{
-                id: 'supplierId',
-                text: '供应商'
-            }],
+            data: arr,
             onSelect: function(record){
                 goodsClass.selectTypeName = record.id;
                 initTreeArchives();
@@ -115,9 +127,10 @@ pageEncoding="UTF-8"%>
     }
     //初始树
     function initTreeArchives(){
-        var args = { }
+    	 var searchSupplierId = $("#searchSupplierId").val();
+        var args = {supplierId:searchSupplierId};
         var httpUrl = goodsClass.getTreeUrl(goodsClass.selectTypeName);
-        $.get(httpUrl, args,function(data){
+        $.post(httpUrl, args,function(data){
             var setting = {
                 data: {
                     key:{
@@ -139,10 +152,23 @@ pageEncoding="UTF-8"%>
     /*
      * 树点击事件
      */
-    var categoryId="";
+     var categoryCode="";
+     var supplierId="";
+     var brandId="";
     function zTreeOnClick(event, treeId, treeNode) {
         categoryCode=treeNode.code;
-        $("#gridGoods").datagrid("options").queryParams = {categoryCode:categoryCode};
+        var text =  $("#goodsType").combobox('getText');
+        if(text =='类别'){
+        	brandId = "";
+        	supplierId = "";
+        }else if(text =="品牌"){
+     	   brandId = treeNode.id;
+     	   supplierId = "";
+        }else if(text=="供应商"){
+        	brandId = "";
+     	   supplierId = treeNode.id;
+        }
+        $("#gridGoods").datagrid("options").queryParams = {categoryCode:categoryCode,brandId:brandId,supplierId:supplierId};
         $("#gridGoods").datagrid("options").method = "post";
         $("#gridGoods").datagrid("options").url =contextPath + '/goods/goodsSelect/getGoodsList?formType=${type}&sourceBranchId=${sourceBranchId}&targetBranchId=${targetBranchId}&branchId=${branchId}';
         $("#gridGoods").datagrid("load");
@@ -335,8 +361,9 @@ pageEncoding="UTF-8"%>
     }
     function initSearch(key){
         if(!key){
+        	var searchSupplierId = $("#searchSupplierId").val();
             $("#gridGoods").datagrid("options").method = "post";
-            $("#gridGoods").datagrid("options").url =contextPath + '/goods/goodsSelect/getGoodsList?formType=${type}&sourceBranchId=${sourceBranchId}&targetBranchId=${targetBranchId}&branchId=${branchId}';
+            $("#gridGoods").datagrid("options").url =contextPath + '/goods/goodsSelect/getGoodsList?formType=${type}&sourceBranchId=${sourceBranchId}&targetBranchId=${targetBranchId}&branchId=${branchId}&supplierId='+searchSupplierId;
             $("#gridGoods").datagrid('load');
         }else{
             cx();
@@ -348,9 +375,14 @@ pageEncoding="UTF-8"%>
     function cx(){
         setTimeout(function(){
             var goodsInfo=$("#goodsInfo").val();
+            var text =  $("#goodsType").combobox('getText');
+            var searchSupplierId = '';
+            if(text=='供应商'){
+               searchSupplierId = $("#searchSupplierId").val();
+            }
             // $("#gridGoods").datagrid("options").queryParams = {'categoryId':categoryId,'goodsInfo':goodsInfo,'formType':'${type}','sourceBranchId':'${sourceBranchId}','targetBranchId':'${targetBranchId}'};
             // 梁利 提出左边树与右边的查询无关系
-            $("#gridGoods").datagrid("options").queryParams = $.extend({'goodsInfo':goodsInfo,'formType':'${type}','sourceBranchId':'${sourceBranchId}','targetBranchId':'${targetBranchId}','branchId':'${branchId}'},fromParams)
+            $("#gridGoods").datagrid("options").queryParams = $.extend({'goodsInfo':goodsInfo,'supplierId':searchSupplierId,'formType':'${type}','sourceBranchId':'${sourceBranchId}','supplierId':searchSupplierId,'targetBranchId':'${targetBranchId}','branchId':'${branchId}'},fromParams)
             $("#gridGoods").datagrid("options").method = "post";
             $("#gridGoods").datagrid("options").url =contextPath + '/goods/goodsSelect/getGoodsList';
             $("#gridGoods").datagrid('load');
@@ -359,12 +391,13 @@ pageEncoding="UTF-8"%>
         },1000)
     }
     var fromParams = {};
+    //永亲专用，请勿修改
     function initNewSearch(params){
         fromParams = params;
         if(!params.key){
             $("#gridGoods").datagrid("options").method = "post";
             $("#gridGoods").datagrid("options").queryParams = params;
-            $("#gridGoods").datagrid("options").url =contextPath + '/goods/goodsSelect/getGoodsList?formType=${type}&sourceBranchId=${sourceBranchId}&targetBranchId=${targetBranchId}&branchId=${branchId}';
+            $("#gridGoods").datagrid("options").url =contextPath + '/goods/goodsSelect/getGoodsList';
             $("#gridGoods").datagrid('load');
         }else{
             cx()

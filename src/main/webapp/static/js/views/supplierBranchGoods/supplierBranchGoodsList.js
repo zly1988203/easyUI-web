@@ -42,7 +42,7 @@ function initTreeArchives(codeOrName){
         var treeObj = $.fn.zTree.getZTreeObj("treeArchives");
         var nodes = treeObj.getNodes();
         if (nodes.length>0) {
-            treeObj.expandNode(nodes[0], true, false, true);
+            treeObj.expandNode(nodes[0], true, true, true);
         }
     });
 }
@@ -79,7 +79,26 @@ function initDatagridsupplierList(){
                     gridHandel.setFieldFocus(gridHandel.getFieldTarget('skuCode'));
                 },100)
             }else{
-               selectGoods(arg);
+              var rows=gridHandel.getRows();
+              var num=0;
+              var num1=0;
+              $.each(rows,function(i,v){
+            	  if(v["skuCode"]==arg&&i!=gridHandel.getSelectRowIndex()){
+            		  num++;
+            	  }
+            	  if(v["barCode"]==arg&&i!=gridHandel.getSelectRowIndex()){
+            		  num1++;
+            	  }
+              })
+              if(num>0){
+            	  $.messager.alert('提示',"输入货号重复，请重新输入!");
+              }
+              if(num1>0){
+            	  $.messager.alert('提示',"输入条码重复，请重新输入!");
+              }
+              else{
+            	  selectGoods(arg);  
+              }
             }
         },
     })
@@ -103,13 +122,26 @@ function initDatagridsupplierList(){
             {field:'skuId',title:'ID',width: '0px;',align:'left',hidden:true},
             {field:'skuCode',title:'货号',width: '100px',align:'left',editor:'textbox'},
             {field:'skuName',title:'商品名称',width:'200px',align:'left'},
-            {field:'barCode',title:'商品条码',width:'200px',align:'left'},
-            {field:'categoryName',title:'商品类别',width:'200px',align:'left'},
-            {field:'spec',title:'规格',width:'200px',align:'left'},
-            {field:'unit',title:'单位',width:'100px',align:'left'},
-            {field:'purchasePrice',title:'最新进价',width:'100px',align:'left'},
-            {field:'purchasePrice',title:'最低进价',width:'100px',align:'left'},
-            {field:'purchasePrice',title:'最高进价',width:'100px',align:'left'}
+            {field:'barCode',title:'条码',width:'140px',align:'left'},
+            {field:'categoryName',title:'商品类别',width:'140px',align:'left'},
+            {field:'spec',title:'规格',width:'80px',align:'left'},
+            {field:'unit',title:'单位',width:'80px',align:'left'},
+            {field:'purchasePrice',title:'最新进价',width:'80px',align:'right',
+            	 formatter:function(value,row,index){
+                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                 },
+            },
+            {field:'purchasePrice',title:'最低历史进价',width:'80px',align:'right',
+            	
+            	 formatter:function(value,row,index){
+                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                 },
+            },
+            {field:'purchasePrice',title:'最高历史进价',width:'80px',align:'right',
+            	 formatter:function(value,row,index){
+                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                 },
+            }
         ]],
         onClickCell:function(rowIndex,field,value){
             gridHandel.setBeginRow(rowIndex);
@@ -162,7 +194,7 @@ function selectGoods(key){
         	var rec = data[i];
         	rec.remark = "";
         }
-        var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
+        var nowRows = gridHandel.getRowsWhere({skuName:'1'});
         var addDefaultData  = gridHandel.addDefault(data,gridDefault);
         var keyNames = {
             purchasePrice:'price',
@@ -228,41 +260,6 @@ $(document).on('change','#excelFile', function(){
 	$('#filename').val(value);
 });
 
-//导入
-function importListHandel(){
-	var branchId = $("#branchId").val();
-	if(!branchId){
-		messager("请先选择机构");
-		return;
-	}
-	$("#uploadForm").attr("action",contextPath+"/supplierBranchGoods/importListEnable");
-	gFunStartLoading();
-	$("#uploadForm").form({
-		onSubmit : function(){
-			return true;
-		},
-		success : function(data){
-			gFunEndLoading();
-			importClose();
-			var rows = JSON.parse(data);
-			$("#gridSupplierArchiveList").datagrid("loadData",rows);
-			messager("导入成功");
-
-		},
-		error:function(e){
-			gFunEndLoading();
-			messager("导入失败");
-		}
-	});
-}
-
-//关闭导入
-function importClose(){
-	$('#excelFile').val("");
-	$('#filename').val("");
-	$('.uatk').hide();
-}
-
 /**
  * 导出
  */
@@ -271,6 +268,11 @@ function exportHandel(){
 	if(!supplierId){
 		$.messager.alert("提示","请选择供应商");
 		return;
+	}
+	var rows = $("#gridSupplierArchiveList").datagrid("getRows");
+	if(rows.length <= 0){
+		 $.messager.alert('提示','无数据可导');
+	     return;
 	}
 	$("#formList").form({
 		success : function(data){
@@ -285,36 +287,6 @@ function exportHandel(){
 	$("#formList").submit();
 }
 
-/**
- * 删除
- */
-function delHandel(){
-	var rowData = $("#gridSupplierArchiveList").datagrid("getSelected"); 
-    if(rowIsNull(rowData)){
-    	return;
-    }
-    
-    var supplierId=rowData.id
-    parent.$.messager.confirm('提示', '你确认要删除么?', function(data){
-    	if(!data){
-    		return;
-    	}
-    	$.ajax({
-            url:contextPath+"/supplier/deleteSupplier",
-            type:"POST",
-            data:{"supplierId":supplierId},
-            dataType:"json",  
-            success:function(result){
-                if(result){
-                    successTip(result.message, $("#gridSupplierArchiveList"));
-                }
-            },
-            error:function(result){
-                successTip("请求发送失败或服务器处理失败");
-            }
-        });
-    });
-}
 //保存
 function saveItemHandel(){
     $("#gridSupplierArchiveList").datagrid("endEdit", gridHandel.getSelectRowIndex());
@@ -352,13 +324,21 @@ function saveItemHandel(){
     }
 }
 
-
+//保存
 function saveDataHandel(skuIds){
     //供应商
     var supplierId = $("#supplierId").val();
+    if(!supplierId){
+    	messager("供应商不能为空");
+        return;
+    }
     //收货机构
     var branchId = $("#branchId").val();
-
+    if(!branchId){
+    	messager("机构不能为空");
+    	return;
+    }
+    
     var reqObj = {
     	branchId:branchId,
         supplierId:supplierId,
@@ -385,16 +365,28 @@ function saveDataHandel(skuIds){
 }
 
 function orderDelete(){
-	var dg = $("#gridSupplierArchiveList");
-	var rows =dg.datagrid("getChecked");
-	if(rowIsNull(rows)){
+	//供应商
+    var supplierId = $("#supplierId").val();
+    if(!supplierId){
+    	messager("供应商不能为空");
+        return;
+    }
+    //收货机构
+    var branchId = $("#branchId").val();
+    if(!branchId){
+    	messager("机构不能为空");
+    	return;
+    }
+	var rows =$("#gridSupplierArchiveList").datagrid("getChecked");
+	if($("#gridSupplierArchiveList").datagrid("getChecked").length <= 0){
+		 $.messager.alert('提示','请选中一行进行删除！');
 		return null;
 	}
 	 var skuIds=[];
 	    $.each(rows,function(i,v){
 	        skuIds.push(v.skuId);
 	    });
-	$.messager.confirm('提示','是否要删除此条数据',function(data){
+	$.messager.confirm('提示','是否要删除选中数据',function(data){
 		if(data){
 		    var supplierId = $("#supplierId").val();
 		    var branchId = $("#branchId").val();
@@ -412,7 +404,7 @@ function orderDelete(){
 		        success:function(result){
 		            if(result['code'] == 0){
 		                $.messager.alert("操作提示", "操作成功!");
-		                dg.datagrid('reload');
+		                $("#gridSupplierArchiveList").datagrid('reload');
 		            }else{
 		                successTip(result['message']);
 		            }
@@ -424,4 +416,41 @@ function orderDelete(){
 		}
 	});
 }
+
+//新的导入功能 货号(0)、条码(1)导入
+function toImportproduct(type){
+	//供应商
+    var supplierId = $("#supplierId").val();
+    if(!supplierId){
+    	messager("供应商不能为空");
+        return;
+    }
+    //收货机构
+    var branchId = $("#branchId").val();
+    if(!branchId){
+    	messager("机构不能为空");
+    	return;
+    }
+	
+    var param = {
+        url:contextPath+"/supplierBranchGoods/importListEnable",//导入后台url
+        tempUrl:contextPath+"/supplierBranchGoods/exportTemp",//下载模板
+        type:type
+    }
+    new publicUploadFileService(function(data){
+        updateListData(data);
+    },param)
+}
+
+function updateListData(data){
+	    var keyNames = {
+	        purchasePrice:'price'
+	    };
+	   
+	    var newRows = gFunUpdateKey(data,keyNames);
+	    var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
+	    var argWhere ={skuCode:1};  //验证重复性
+	    var allRows = gridHandel.checkDatagrid(nowRows,newRows,argWhere,{});
+	    $("#gridSupplierArchiveList").datagrid("loadData",allRows);
+	}
 

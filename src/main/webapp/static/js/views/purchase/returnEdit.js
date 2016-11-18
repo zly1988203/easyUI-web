@@ -351,7 +351,9 @@ function delLineHandel(event){
 //选择商品
 function selectGoods(searchKey){
     //判定供应商是否存在
-    if($("#supplierId").val()==""){
+	 //判定供应商是否存在
+    var supplierId = $("#supplierId").val();
+    if(supplierId==""){
         messager("请先选择供应商");
         return;
     }
@@ -394,7 +396,7 @@ function selectGoods(searchKey){
             gridHandel.setSelectFieldName("largeNum");
             gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
         },100)
-    },searchKey,0,"","",branchId);
+    },searchKey,0,"","",branchId,supplierId);
 }
 
 
@@ -409,6 +411,7 @@ function saveItemHandel(){
     }
     var isCheckResult = true;
     var isChcekPrice = false;
+    var isChcekNum = false;
     $.each(rows,function(i,v){
         v["rowNo"] = i+1;
         if(!v["skuName"]){
@@ -419,6 +422,10 @@ function saveItemHandel(){
         if(parseFloat(v["price"])<=0&&v["isGift"]==0){
             isChcekPrice = true;
         }
+        //数量判断
+        if(parseFloat(v["realNum"])<=0){
+        	isChcekNum = true;
+        }
     });
     if(isCheckResult){
         if(isChcekPrice){
@@ -426,11 +433,19 @@ function saveItemHandel(){
                 if (r){
                     return ;
                 }else{
-                    saveDataHandel(rows);
+                	 saveDataHandel(rows);
                 }
             });
         }else{
-            saveDataHandel(rows);
+        	if(isChcekNum){
+       		 $.messager.confirm('提示','存在数量为0的商品,是否继续保存?',function(data){
+       			if(data){
+       				saveDataHandel(rows);
+       		    }
+       		 });
+         	}else{
+         		saveDataHandel(rows);
+         	}
         }
     }
 
@@ -569,6 +584,7 @@ function check(){
         return;
     }
     var isCheckResult = true;
+    var num=0;
     $.each(rows,function(i,v){
         v["rowNo"] = i+1;
         if(!v["skuCode"]){
@@ -577,40 +593,54 @@ function check(){
             return false;
         };
         if(parseFloat(v["realNum"])<=0){
-            messager("第"+(i+1)+"行，存在商品数量为0");
-            isCheckResult = false;
-            return false;
+        	num++;
         }
+        
     });
     if(!isCheckResult){
         return
     }
+    
+    if(num==rows.length){
+   	 messager("采购商品数量全部为0");
+		return
+	}else if(parseFloat(num)>0){
+		$.messager.confirm('提示',"是否清除单据中数量为0的商品记录?",function(data){
+   		if(data){
+   		    checkOrder();
+   		}	
+   	});
+	}else{
+		 $.messager.confirm('提示','是否审核通过？',function(data){
+		    checkOrder();
+		 });
+	}
+}
+
+//审核
+function checkOrder(){
 	var id = $("#formId").val();
-	$.messager.confirm('提示','是否审核通过？',function(data){
-		if(data){
-			$.ajax({
-		    	url:contextPath+"/form/purchase/check",
-		    	type:"POST",
-		    	data:{
-		    		formId:id,
-		    		status:1
-		    	},
-		    	success:function(result){
-		    		console.log(result);
-		    		if(result['code'] == 0){
-		    			$.messager.alert("操作提示", "操作成功！", "info",function(){
-		    				location.href = contextPath +"/form/purchase/returnEdit?formId=" + id;
-		    			});
-		    		}else{
-		    			successTip(result['message']);
-		    		}
-		    	},
-		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
-		    	}
-		    });
-		}
-	});
+		$.ajax({
+	    	url:contextPath+"/form/purchase/check",
+	    	type:"POST",
+	    	data:{
+	    		formId:id,
+	    		status:1
+	    	},
+	    	success:function(result){
+	    		console.log(result);
+	    		if(result['code'] == 0){
+	    			$.messager.alert("操作提示", "操作成功！", "info",function(){
+	    				location.href = contextPath +"/form/purchase/returnEdit?formId=" + id;
+	    			});
+	    		}else{
+	    			successTip(result['message']);
+	    		}
+	    	},
+	    	error:function(result){
+	    		successTip("请求发送失败或服务器处理失败");
+	    	}
+	    });
 }
 
 function stop(){
@@ -758,4 +788,9 @@ function getImportData(data){
 
     $("#"+gridHandel.getGridName()).datagrid("loadData",newRows);
     messager("导入成功");
+}
+
+//返回列表页面
+function back(){
+	location.href = contextPath+"/form/purchase/returnList";
 }

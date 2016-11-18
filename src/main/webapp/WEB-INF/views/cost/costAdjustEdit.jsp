@@ -24,7 +24,7 @@
           		<div class="ubtns-item" id="importdetail" onclick="toImportproduct(1)">导入条码</div>
                 <div class="ubtns-item" onclick="exportExcel()">导出</div>
     
-                <div class="ubtns-item" onclick="toBack()">返回</div>
+                <div class="ubtns-item" onclick="back()">返回</div>
             </div>
         </div>
         <div class="ub umar-t8 uc-black">【单号】：<span >${data.adjustNo}</span></div>

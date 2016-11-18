@@ -378,7 +378,7 @@ function selectGoods(searchKey){
             gridHandel.setSelectFieldName("largeNum");
             gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
         },100)
-    },searchKey);
+    },searchKey,'','','','','');
 }
 
 
@@ -565,7 +565,7 @@ function selectPurchaseForm(){
         
 	});
 }
-
+//返回列表页面
 function back(){
 	location.href = contextPath+"/form/purchase/receiptList";
 }

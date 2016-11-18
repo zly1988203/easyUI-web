@@ -324,9 +324,15 @@ public class PurchaseFormController extends
 	 */
 	@RequestMapping(value = "delete", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson delete(String formId) {
+	public RespJson delete(String formIds) {
 		SysUser user = UserUtil.getCurrentUser();
-		RespJson resp = purchaseFormServiceApi.delete(formId, user.getId());
+		RespJson resp = new RespJson();
+		if(StringUtils.isNotBlank(formIds)){
+			String[] arr = formIds.split(",");
+			for(int i=0;i<arr.length;i++){
+				resp = purchaseFormServiceApi.delete(arr[i], user.getId());
+			}
+		}
 		return resp;
 	}
 
@@ -1055,16 +1061,16 @@ public class PurchaseFormController extends
 			String templateName = "";
 			if (Constant.ZERO == type) {
 				templateName = ExportExcelConstant.PURCHASE_GOODS_SKUCODE_TEMPLE;
-				fileName = "商品货号导入模板";
+				fileName = "货号导入模板";
 			} else if (Constant.ONE == type) {
 				templateName = ExportExcelConstant.PURCHASE_GOODS_BARCODE_TEMPLE;
-				fileName = "商品条码导入模板";
+				fileName = "条码导入模板";
 			} else if (Constant.TWO == type) {
 				templateName = ExportExcelConstant.GOODS_INTRODUCE_SKU_CODE_TEMPLE;
-				fileName = "商品引入货号导入模板";
+				fileName = "货号导入模板";
 			} else if (Constant.THREE == type) {
 				templateName = ExportExcelConstant.GOODS_INTRODUCE_BAR_CODE_TEMPLE;
-				fileName = "商品引入条码导入模板";
+				fileName = "条码导入模板";
 			}
 			if (StringUtils.isNotBlank(fileName)
 					&& StringUtils.isNotBlank(templateName)) {

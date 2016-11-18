@@ -433,7 +433,7 @@ function selectGoods(searchKey){
             $("#"+gridHandel.getGridName()).datagrid("acceptChanges");
         }
         selectStockAndPrice(sourceBranchId,data);
-    },searchKey,'',sourceBranchId,targetBranchId,sourceBranchId);
+    },searchKey,'',sourceBranchId,targetBranchId,sourceBranchId,'');
 }
 
 //二次查询设置值
@@ -727,11 +727,26 @@ function selectDeliver(){
 	});
 }
 function loadLists(referenceId){
-	$("#gridEditRequireOrder").datagrid("options").method = "post";
-	$("#gridEditRequireOrder").datagrid('options').url = contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverFormId="+referenceId + "&deliverType=DO";
-	$("#gridEditRequireOrder").datagrid('load');
-}
 
+    $.ajax({
+        url:contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverFormId="+referenceId + "&deliverType=DO",
+        type:"post",
+        success:function(data){
+            var rows = data.rows
+           
+            for(var i in rows){
+                rows[i]["dealNum"] =  rows[i]["applyNum"]?rows[i]["applyNum"]:rows[i]["dealNum"];
+                rows[i]["amount"]  = parseFloat(rows[i]["price"]||0)*parseFloat(rows[i]["dealNum"]||0);
+                rows[i]["oldDeliverDealNum"] =  rows[i]["dealNum"];
+                var defectNum = parseFloat(rows[i]["sourceStock"]||0)-parseFloat(rows[i]["dealNum"]||0);
+                rows[i]["defectNum"] = defectNum<0?-defectNum:0;
+            }
+            $("#gridEditOrder").datagrid("loadData",rows);
+            updateFooter();
+        }
+    })
+}
+//返回列表页面
 function back(){
 	location.href = contextPath+"/form/deliverForm/viewsDO";
 }

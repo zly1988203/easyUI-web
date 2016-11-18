@@ -307,7 +307,7 @@ function selectGoods(searchKey){
             $("#"+gridHandel.getGridName()).datagrid("acceptChanges");
         }
         selectStockAndPrice(sourceBranchId,targetBranchId,data);
-    },searchKey,'',sourceBranchId,targetBranchId,targetBranchId);
+    },searchKey,'',sourceBranchId,targetBranchId,targetBranchId,'');
 }
 
 //二次查询设置值
@@ -625,7 +625,7 @@ function selectSourceBranch(){
         }
 	},'DA',$("#targetBranchId").val());
 }
-
+//返回列表页面
 function back(){
 	location.href = contextPath+"/form/deliverForm/viewsDA";
 }

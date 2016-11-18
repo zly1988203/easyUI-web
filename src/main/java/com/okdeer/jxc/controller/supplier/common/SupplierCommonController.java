@@ -119,9 +119,9 @@ public class SupplierCommonController extends BaseController<SupplierCommonContr
 	 */
 	@RequestMapping(value = "getSupplierToTree")
 	@ResponseBody
-	public String getSupplierToTree() {
+	public String getSupplierToTree(String supplierId) {
 		try {
-			String brandTree = supplierService.querySupplierToTree();
+			String brandTree = supplierService.querySupplierToTree(supplierId);
 			return brandTree;
 		} catch (Exception e) {
 			LOG.error("查询供应商树结构异常:", e);

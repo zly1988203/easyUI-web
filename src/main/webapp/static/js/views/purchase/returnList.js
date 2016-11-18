@@ -117,4 +117,37 @@ function resetForm(){
 	 $("#queryForm").form('clear');
 };
 
-
+//删除
+function returnDelete(){
+	var rows =$("#gridOrders").datagrid("getChecked");
+	if($("#gridOrders").datagrid("getChecked").length <= 0){
+		 $.messager.alert('提示','请选中一行进行删除！');
+		return null;
+	}
+	 var formIds='';
+	    $.each(rows,function(i,v){
+	    	formIds+=v.id+",";
+	    });
+	$.messager.confirm('提示','是否要删除选中数据',function(data){
+		if(data){
+			$.ajax({
+		    	url:contextPath+"/form/purchase/delete",
+		    	type:"POST",
+		    	data:{
+		    		formIds:formIds
+		    	},
+		    	success:function(result){
+		    		if(result['code'] == 0){
+		    			successTip("删除成功");
+		    		}else{
+		    			successTip(result['message']);
+		    		}
+		    		$("#gridOrders").datagrid('reload');
+		    	},
+		    	error:function(result){
+		    		successTip("请求发送失败或服务器处理失败");
+		    	}
+		    });
+		}
+	});
+}

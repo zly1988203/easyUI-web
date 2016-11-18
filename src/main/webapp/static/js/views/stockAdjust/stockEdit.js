@@ -353,7 +353,7 @@ function selectGoods(searchKey){
         var setdata=setTion(data);
         selectStockAndPrice(branchId,setdata);
       
-    },searchKey,"","","",branchId);
+    },searchKey,"","","",branchId,'');
 }
 
 //二次查询设置值
@@ -732,4 +732,10 @@ function exportExcel(){
 	$("#searchForm").attr("action",contextPath+"/stock/adjust/exportList");
 	$("#searchForm").submit();
 
+}
+/**
+ * 返回库存调整
+ */
+function back(){
+	location.href = contextPath+"/stock/adjust/list";
 }
