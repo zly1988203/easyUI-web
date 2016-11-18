@@ -90,14 +90,9 @@ function  editstart(selectType){
 							activityScopemj=listinfo.activityScope;	
 							radioSetmj(activityScopemj);
 							console.log(selectType)
-							if(activityScopemj==selectType){
-								initmjOneDatagrid(activityId);
-								initmjTowDatagrid(activityId);
-							}
-							else{
-								return;
-							}
-						
+							initmjOneDatagrid(activityId);
+							initmjTowDatagrid(activityId);
+
 						  }
 						//其他类型请求
 						else{
@@ -1758,6 +1753,7 @@ function weekCheckDay(){
   for(var i=0;i<len;i++){
 	 var elemt=$('#weekday .ubcheckweek').eq(i).find('.ub');
 	 var check= elemt.prop("checked");
+	  console.log(check)
 	  if(check){
 		str+=elemt.val()
 	   }
@@ -1769,10 +1765,10 @@ function weekCheckDay(){
  * 星期拆分字符串赋值checkbox  
  */
 function StrweekCheckDay(weekstr){
-	$(".ubcheckweek").prop("checked",false);
+	$(".ubcheckweek .ub").prop("checked",false);
 	var arrWeek = weekstr.split("");
 	$.each(arrWeek,function(i,val){
-		$("#weekcheckbox"+val).prop("checked",true);
+		$("#weekcheckbox"+val+".ub").prop("checked",true);
 	})
 	
 }

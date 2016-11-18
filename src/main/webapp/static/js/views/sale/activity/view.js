@@ -1763,6 +1763,7 @@ function weekCheckDay(){
 		str+=elemt.val()
 	   }
     }
+  console.log(str)
   $('#weeklyActivityDay').val(str);
 }
 
@@ -1770,10 +1771,10 @@ function weekCheckDay(){
  * 星期拆分字符串赋值checkbox  
  */
 function StrweekCheckDay(weekstr){
-	$(".ubcheckweek").prop("checked",false);
+	$(".ubcheckweek .ub").prop("checked",false);
 	var arrWeek = weekstr.split("");
 	$.each(arrWeek,function(i,val){
-		$("#weekcheckbox"+val).prop("checked",true);
+		$("#weekcheckbox"+val+".ub").prop("checked",true);
 	})
 	
 }
