@@ -81,13 +81,20 @@ function initDatagridsupplierList(){
             }else{
               var rows=gridHandel.getRows();
               var num=0;
+              var num1=0;
               $.each(rows,function(i,v){
             	  if(v["skuCode"]==arg&&i!=gridHandel.getSelectRowIndex()){
             		  num++;
             	  }
+            	  if(v["barCode"]==arg&&i!=gridHandel.getSelectRowIndex()){
+            		  num1++;
+            	  }
               })
               if(num>0){
             	  $.messager.alert('提示',"输入货号重复，请重新输入!");
+              }
+              if(num1>0){
+            	  $.messager.alert('提示',"输入条码重复，请重新输入!");
               }
               else{
             	  selectGoods(arg);  
