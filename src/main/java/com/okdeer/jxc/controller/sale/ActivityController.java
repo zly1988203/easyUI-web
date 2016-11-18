@@ -64,16 +64,25 @@ public class ActivityController {
 	@Autowired
 	private OrderNoUtils orderNoUtils;
 
+	/**
+	 * 跳转到列表
+	 */
 	@RequestMapping(value = "list")
 	public String viewList() {
 		return "sale/activity/list";
 	}
 	
+	/**
+	 * 跳转到新增页面
+	 */
 	@RequestMapping(value = "add")
 	public String viewAdd() {
 		return "sale/activity/add";
 	}
 	
+	/**
+	 * 跳转到修改页面
+	 */
 	@RequestMapping(value = "edit")
 	public String viewEdit(String activityId, HttpServletRequest request) {
 		request.setAttribute("activityId", activityId);
@@ -81,6 +90,7 @@ public class ActivityController {
 		if(main == null){
 			return "error/404";
 		}
+		//判断是否已审核
 		if(main.getActivityStatus().equals(ActivityStatus.WAIT_CHECK.getValue())){
 			return "sale/activity/edit";
 		}else{
@@ -88,6 +98,9 @@ public class ActivityController {
 		}
 	}
 	
+	/**
+	 * 保存活动
+	 */
 	@RequestMapping(value = "save", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson save(@RequestBody String jsonText) {
@@ -96,7 +109,7 @@ public class ActivityController {
 			logger.debug("json:{}",jsonText);
 			//转换Json数据
 			ActivityVo activityVo = JSON.parseObject(jsonText, ActivityVo.class);
-			
+			//数据验证
 			String validMsg = activityVo.validate();
 			
 			if(validMsg != null){
@@ -155,6 +168,9 @@ public class ActivityController {
 		return resp;
 	}
 	
+	/**
+	 * 修改活动
+	 */
 	@RequestMapping(value = "update", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson update(@RequestBody String jsonText) {
@@ -162,7 +178,7 @@ public class ActivityController {
 			logger.debug("json:{}",jsonText);
 			//转换Json数据
 			ActivityVo activityVo = JSON.parseObject(jsonText, ActivityVo.class);
-			
+			//验证数据
 			String validMsg = activityVo.validate();
 			
 			if(validMsg != null){
@@ -213,6 +229,9 @@ public class ActivityController {
 		}
 	}
 	
+	/**
+	 * 审核活动
+	 */
 	@RequestMapping(value = "check", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson check(String activityId) {
@@ -226,6 +245,9 @@ public class ActivityController {
 		}
 	}
 	
+	/**
+	 * 终止活动
+	 */
 	@RequestMapping(value = "stop", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson stop(String activityId) {
@@ -239,6 +261,9 @@ public class ActivityController {
 		}
 	}
 	
+	/**
+	 * 查询单个活动
+	 */
 	@RequestMapping(value = "get", method = RequestMethod.GET)
 	@ResponseBody
 	public RespJson get(String activityId){
@@ -256,6 +281,9 @@ public class ActivityController {
 		return resp;
 	}
 	
+	/**
+	 * 查询单个活动的详情
+	 */
 	@RequestMapping(value = "getDetail", method = RequestMethod.GET)
 	@ResponseBody
 	public PageUtils<Map<String, Object>> getDetail(String activityId){
@@ -269,6 +297,9 @@ public class ActivityController {
 		}
 	}
 	
+	/**
+	 * 查询活动列表
+	 */
 	@RequestMapping(value = "listData", method = RequestMethod.GET)
 	@ResponseBody
 	public PageUtils<Map<String, Object>> listData(ActivityListQueryVo queryVo){
