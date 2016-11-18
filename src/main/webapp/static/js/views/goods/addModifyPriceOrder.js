@@ -14,6 +14,12 @@ $(function() {
 	initAddModifyPriceGridEdit();
 	// 初始化复选框
 	initCheckbox();
+	
+	 if($("#close").val()){
+	    	$("#addButton").addClass("unhide");
+	    	$("#toBackByJSButton").attr("onclick","window.parent.closeTab()");
+	    }
+	
 	var formNo = $("#formNo").text();
 	if (formNo != null && formNo != '') {
 		addModifyPriceGridDg.datagrid('options').queryParams = {
@@ -414,6 +420,7 @@ function saveModifyPriceOrder() {
 				return;
 			}
 			if (datagridUtil.isCheckPrice()) {
+				gFunEndLoading();
 				if(datagridUtil.isCheckRemark()){
 					var params = {
 							goodsPriceForm:formData,
@@ -445,7 +452,7 @@ function saveModifyPriceOrder() {
 										$("#createUserDate").text(data.createUserDate);
 										$("#id").val(data.goodsPriceForm.id);
 										$("#saveModifyPriceOrder").attr("onclick","updateModifyPriceOrder();");
-										$.messager.confirm('提示','是否审核，请确认？',function(r) {
+										/*$.messager.confirm('提示','是否审核，请确认？',function(r) {
 													if (r) {
 														// 确定审核，调用后台的审核方法，成功提示
 														// 审核成功跳转到已审核页面，加上已审核标志
@@ -454,7 +461,7 @@ function saveModifyPriceOrder() {
 														var status = 1;
 														var result = checkForm(data.goodsPriceForm.formNo,status,effectDate);
 													}
-												});
+												});*/
 									});
 						} else {
 							// 失败提示
@@ -463,7 +470,7 @@ function saveModifyPriceOrder() {
 					}
 				});
 			}
-		}
+			}
      }
   }
 }
@@ -513,7 +520,7 @@ function updateModifyPriceOrder() {
 										addModifyPriceGridDg.datagrid('load');
 										$("#formNo").text(data.goodsPriceForm.formNo);
 										$("#formNoInput").val(data.goodsPriceForm.formNo);
-										$.messager.confirm('提示','是否审核，请确认？',function(r) {
+										/*$.messager.confirm('提示','是否审核，请确认？',function(r) {
 													if (r) {
 														// 确定审核，调用后台的审核方法，成功提示
 														// 审核成功跳转到已审核页面，加上已审核标志
@@ -522,7 +529,7 @@ function updateModifyPriceOrder() {
 														var status = 1;
 														var result = checkForm(data.goodsPriceForm.formNo,status,effectDate);
 													}
-												});
+												});*/
 									});
 						} else {
 							// 失败提示
@@ -610,6 +617,7 @@ var datagridUtil = {
 	isSelectArea : function() {
 		if ($("#branchId").val().trim() == "") {
 			$.messager.alert('提示', '请先选择分店');
+			gFunEndLoading();
 			return false;
 		} else {
 			return true;
@@ -632,6 +640,7 @@ var datagridUtil = {
 		});
 		if(!isCheckPrice){
 			$.messager.alert('提示', '没有勾选调价设置！');
+			gFunEndLoading();
 		}
 		return isCheckPrice;
 	},
@@ -656,6 +665,7 @@ var datagridUtil = {
 	isHasDataGrid : function() {
 		if ($(".datagrid-btable td[field='skuCode']").length <= 0) {
 			$.messager.alert('提示', '明细数据不能为空，请输入！');
+			gFunEndLoading();
 			return false;
 		} else {
 			var count = 0;
@@ -907,7 +917,7 @@ function gFunGoodsSelect(searchKey,branchId){
 	            gridHandel.setSelectFieldName("newPurPrice");
 	            gridHandel.setFieldFocus(gridHandel.getFieldTarget('newPurPrice'));
 	        },100)
-		},searchKey,0,"","",branchId);	
+		},searchKey,0,"","",branchId,"");	
 }
 
 /**
@@ -1102,6 +1112,10 @@ function updateListData(data){
     var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
 
     $("#addModifyPriceGrid").datagrid("loadData",newRows);
+}
+//返回列表页面
+function back(){
+	window.location.href=contextPath+"/goods/priceAdjust/view";
 }
 
 

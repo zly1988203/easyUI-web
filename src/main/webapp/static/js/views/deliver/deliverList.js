@@ -9,7 +9,9 @@ $(function(){
 
 	toChangeDatetime(0);
     initDatagridRequireOrders();
+    targetBranchId = $("#targetBranchId").val();
 });
+var targetBranchId;
 var gridHandel = new GridClass();
 //初始化表格
 function initDatagridRequireOrders(){
@@ -24,7 +26,7 @@ function initDatagridRequireOrders(){
         rownumbers:true,    //序号
         pagination:true,    //分页
         fitColumns:true,    //每列占满
-        //fit:true,            //占满
+        //fit:true,         //占满
         showFooter:true,
 		height:'100%',
 		width:'100%',
@@ -137,8 +139,8 @@ function selectOperator(){
 function selectBranches(){
 	new publicAgencyService(function(data){
 		$("#targetBranchId").val(data.branchesId);
-		$("#brancheName").val(data.branchName);
-	},'DO','');
+		$("#targetBranchName").val(data.branchName);
+	},'',targetBranchId);
 }
 
 //打印

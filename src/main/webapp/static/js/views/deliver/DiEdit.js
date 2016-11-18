@@ -362,7 +362,7 @@ function selectGoods(searchKey){
             gridHandel.setSelectFieldName("largeNum");
             gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
         },100)
-    },searchKey);
+    },searchKey,'','','','','','');
 }
 //保存
 function saveOrder(){
@@ -601,7 +601,7 @@ function loadLists(referenceId){
 	$("#gridEditRequireOrder").datagrid('options').url = contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverFormId="+referenceId + "&deliverType=DA";
 	$("#gridEditRequireOrder").datagrid('load');
 }
-
+//返回列表页面
 function back(){
 	location.href = contextPath+"/form/deliverForm/viewsDI";
 }

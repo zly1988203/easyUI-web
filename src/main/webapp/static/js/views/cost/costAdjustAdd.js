@@ -206,7 +206,7 @@ function selectGoods(searchKey){
         }
         selectStockAndPrice(branchId,data);
   
-    },searchKey,0,'','',branchId);
+    },searchKey,0,'','',branchId,'');
 }
 //查询价格、库存
 function selectStockAndPrice(branchId,data){
@@ -364,7 +364,7 @@ function saveDataHandel(rows){
 /**
  * 返回库存调整
  */
-function toBack(){
+function back(){
 	location.href = contextPath+"/cost/costAdjust/view";
 }
 

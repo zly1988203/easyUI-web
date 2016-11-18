@@ -73,7 +73,9 @@ public class CategorySaleController extends BaseController<CategorySaleControlle
 			PageUtils<CategorySaleReportVo> goodsSaleReportList = categorySaleReportServiceApi.getCategorySaleList(vo);
 			CategorySaleReportVo categorySaleReportVo = categorySaleReportServiceApi.queryCategorySaleCountSum(vo);
 			List<CategorySaleReportVo> footer = new ArrayList<CategorySaleReportVo>();
-			footer.add(categorySaleReportVo);
+			if(categorySaleReportVo != null){
+				footer.add(categorySaleReportVo);
+			}
 			goodsSaleReportList.setFooter(footer);
 			LOG.info(LogConstant.PAGE, goodsSaleReportList.toString());
 			return goodsSaleReportList;

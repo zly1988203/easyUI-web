@@ -77,10 +77,12 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 	public String view(HttpServletRequest req, Model model) {
 		LOG.info("商品选择跳转页面参数:{}", req.toString());
 		String type = req.getParameter("type");
+		String supplierId = req.getParameter("supplierId");
 		String sourceBranchId = req.getParameter("sourceBranchId");
 		String targetBranchId = req.getParameter("targetBranchId");
 		String branchId = req.getParameter("branchId");
 		model.addAttribute("type", type);
+		model.addAttribute("searchSupplierId", supplierId);
 		model.addAttribute("sourceBranchId", sourceBranchId);
 		model.addAttribute("targetBranchId", targetBranchId);
 		model.addAttribute("branchId", branchId);
@@ -123,8 +125,16 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 			// vo.setBranchId(vo.getSourceBranchId());
 			// }
 			LOG.info("商品查询参数:{}" + vo.toString());
-			PageUtils<GoodsSelect> suppliers = goodsSelectServiceApi.queryLists(vo);
-			LOG.info("page" + suppliers.toString());
+			PageUtils<GoodsSelect> suppliers = null;
+			if(FormType.PA.name().equals(vo.getFormType()) || FormType.PR.name().equals(vo.getFormType())){
+				if(StringUtils.isNotBlank(vo.getSupplierId())){
+					suppliers = goodsSelectServiceApi.queryPurchaseGoodsLists(vo);
+				}else{
+					suppliers = goodsSelectServiceApi.queryLists(vo);
+				}
+			}else{
+				suppliers = goodsSelectServiceApi.queryLists(vo);
+			}
 			return suppliers;
 		} catch (Exception e) {
 			LOG.error("查询商品选择数据出现异常:", e);
@@ -343,5 +353,47 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 			map.put(goodsSkuVo.getId(), goodsSkuVo);
 		}
 		return map;
+	}
+	
+	
+	/**
+	 * @Description: 商品选择view
+	 * @param  model
+	 * @return String  
+	 * @throws
+	 * @author zhongy
+	 * @date 2016年11月09日
+	 */
+	@RequestMapping(value = "goGoodsSku")
+	public String goGoodsSku() {
+		return "component/publicGoodsSku";
+	}
+	
+	/**
+	 * @Description: 查询商品列表
+	 * @param vo GoodsSelectVo商品选择VO
+	 * @param pageNumber
+	 * @param pageSize
+	 * @return   
+	 * @return PageUtils<GoodsSelect>  
+	 * @throws
+	 * @author zhongy
+	 * @date 2016年11月09日
+	 */
+	@RequestMapping(value = "queryGoodsSkuLists", method = RequestMethod.POST)
+	@ResponseBody
+	public PageUtils<GoodsSelect> queryGoodsSkuLists(GoodsSelectVo vo,
+			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
+			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
+		try {
+			LOG.info("标准商品查询参数,vo={}",vo);
+			vo.setPageNumber(pageNumber);
+			vo.setPageSize(pageSize);
+			PageUtils<GoodsSelect> suppliers = goodsSelectServiceApi.queryGoodsSkuLists(vo);
+			return suppliers;
+		} catch (Exception e) {
+			LOG.error("标准查询商品选择数据出现异常:", e);
+		}
+		return PageUtils.emptyPage();
 	}
 }

@@ -34,7 +34,7 @@
 			</shiro:hasPermission>
 				
 				 <c:if test="${goodsPriceForm.status !=1 }">
-					 <shiro:hasPermission name="JxcPriceAdjust:save">
+					 <shiro:hasPermission name="JxcPriceAdjust:audit">
 				 	     <div class="ubtns-item" id="check" onclick="check();">审核</div>
 				 	 </shiro:hasPermission>
 				 	     <div class="ubtns-item" id="selectGoodsDialog" onclick="selectGoodsDialog();">商品选择</div>
@@ -58,7 +58,8 @@
 		               		<div class="ubtns-item" id="set" onclick="gFunRefresh()">重置</div>
 	                </c:if>
                <%--  <div class="ubtns-item" onclick="printDesign('${goodsPriceForm.formNo}')">打印</div> --%>
-                <div class="ubtns-item" onclick="toBack()">返回</div>
+                <div class="ubtns-item" id="toBackByJSButton" onclick="back()">返回</div>
+                <input type="hidden" id="close" value="${close}"/>
             </div>
         </div>
         <div class="ub ub-ac umar-t8">

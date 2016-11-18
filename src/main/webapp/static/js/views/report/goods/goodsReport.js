@@ -23,7 +23,7 @@ function initDatagridOrders(){
 		          {field:'skuName',title:'商品名称'}, 
 		          {field:"barCode",title:"条码",sortable:true,tooltip:true,width:100},
 		          {field:"memoryCode",title:"助记码",sortable:true,tooltip:true,width:80},
-		          /* {field:"categoryCode",title:"类别编码",sortable:true,tooltip:true,width:80}, */
+		          {field:"oneCategoryName",title:"商品一级类别",sortable:true,tooltip:true,width:80},
 		          {field:"category",title:"商品类别",sortable:true,tooltip:true,width:80},
 		          {field:"spec",title:"规格",sortable:true,tooltip:true,width:80},
 		          {field:"brand",title:"品牌",sortable:true,tooltip:true,width:80},
@@ -205,7 +205,7 @@ function searchBranch (){
 function selectSkuCode(){
 	new publicGoodsService("",function(data){
 		$("#skuCode").val(data[0].skuCode);
-	},"",1);
+	},"",1,'','','','');
 
 }
 
@@ -215,7 +215,7 @@ function selectSkuCode(){
 function selectBarCode(){
 	new publicGoodsService("",function(data){
 		$("#barCode").val(data[0].barCode);
-	},"",1);
+	},"",1,'','','','');
 
 }
 

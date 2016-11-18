@@ -61,6 +61,10 @@ function toChangeDate(index){
             $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getCurrDayPreOrNextDay("prev",30)).format("yyyy-MM-dd"));
             $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getCurrentDate()).format("yyyy-MM-dd"));
             break;
+        case 10: //往后推一个月
+            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getPreMonthDate()).format("yyyy-MM-dd"));
+            $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getCurrentDate()).format("yyyy-MM-dd"));
+            break;
         default :
             break;
     }
@@ -235,11 +239,11 @@ function publicBrandService(callback){
 }
 
 //公共组件-选择商品类别
-function publicCategoryService(callback){
-
+function publicCategoryService(callback,categoryType,type){
+	var type = type?type:0;
     //公有属性
-    var  dalogTemp = $('<div/>').dialog({
-        href: contextPath + "/common/category/views",
+    var dalogObj = {
+		href: contextPath + "/common/category/views",
         width:680,
         height:600,
         title:"选择商品类别",
@@ -249,15 +253,37 @@ function publicCategoryService(callback){
             $(dalogTemp).panel('destroy');
         },
         modal:true,
-        onLoad:function(){
-            initCategoryView();
-            initCategoryCallBack(callBackHandel)
-        },
-    });
-    function callBackHandel(data){
-        callback(data);
-        $(dalogTemp).panel('destroy');
+        };
+   
+    if(type==1){
+    	 dalogObj["onLoad"] = function () {
+        	 initCategoryView(categoryType,type);
+        };
+    	dalogObj["buttons"] = [{
+            text:'确定',
+            handler:function(){
+            	publicCategoryGetCheck(callBackHandel);
+            }
+        },{
+            text:'取消',
+            handler:function(){
+                $(dalogTemp).panel('destroy');
+            }
+        }];
+    }else{
+        dalogObj["onLoad"] = function () {
+        	 initCategoryView(categoryType,type);
+             initCategoryCallBack(callBackHandel)
+        };
     }
+    //公有属性
+    var dalogTemp = $('<div/>').dialog(dalogObj);
+    function callBackHandel(data){
+    	  callback(data);
+          $(dalogTemp).panel('destroy');
+    }
+    
+    
     //调用方式
     //new publicCategoryService(function(data){
     //    console.log(data);
@@ -483,9 +509,9 @@ function callBackHandel(data){
 
 
 //公共组件-商品选择
-function publicGoodsService(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId){
+function publicGoodsService(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId,supplierId){
 	if(key){
-		var url= contextPath + '/goods/goodsSelect/importSkuCode?skuCodes='+key+'&branchId='+branchId;
+		var url= contextPath + '/goods/goodsSelect/importSkuCode?skuCodes='+key+'&branchId='+branchId+"&supplierId="+supplierId;
 //		if(type=="DA"||type=="DO"){
 //			 url=contextPath + '/goods/goodsSelect/enterSearchGoodsDeliver?skuCode='+key+"&formType="+type+"&sourceBranchId="+sourceBranchId+"&targetBranchId="+targetBranchId;
 //		}
@@ -496,19 +522,19 @@ function publicGoodsService(type,callback,key,isRadio,sourceBranchId,targetBranc
             	if(data&&data.length==1){
             		callback(data);
                 }else{
-                    publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId);
+                    publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId,supplierId);
                 }
             }
         })
     }else{
-        publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId);
+        publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId,supplierId);
     }
 }
-function publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId){
+function publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId,supplierId){
 	if(!branchId){
-        url=contextPath + "/goods/goodsSelect/view?type="+type+"&sourceBranchId="+sourceBranchId+"&targetBranchId="+targetBranchId;
+        url=contextPath + "/goods/goodsSelect/view?type="+type+"&sourceBranchId="+sourceBranchId+"&targetBranchId="+targetBranchId+"&supplierId="+supplierId;
     }else{
-        url=contextPath + "/goods/goodsSelect/view?type="+type+"&branchId="+branchId;
+        url=contextPath + "/goods/goodsSelect/view?type="+type+"&branchId="+branchId+"&supplierId="+supplierId;
     }
     //公有属性
     var dalogObj = {
@@ -1508,4 +1534,81 @@ $.extend($.fn.validatebox.defaults.rules, {
         message: '两次输入的密码不一致！'
     }
 });
+
+
+//公共组件-商品选择
+function publicGoodsSkuService(callback,isRadio,key){
+	if(key){
+		var url= contextPath + '/goods/goodsSelect/queryGoodsSkuLists';
+        $.ajax({
+            url:url,
+            data:{skuCode:key},
+            type:'POST',
+            success:function(data){
+            	if(data&&data.list&&data.list.length==1){
+            		callback(data.list);
+                }else{
+                	publicGoodsSkuServiceHandel(callback,isRadio,key);
+                }
+            }
+        })
+    }else{
+    	  publicGoodsSkuServiceHandel(callback,isRadio,key);
+    }
+	
+}
+function publicGoodsSkuServiceHandel(callback,isRadio,key){
+   var url=contextPath + "/goods/goodsSelect/goGoodsSku";
+//公有属性
+var dalogObj = {
+    href:url,
+    width:1200,
+    height:600,
+    title:"商品选择",
+    closable:true,
+    resizable:true,
+    onClose:function(){
+        $(dalogTemp).panel('destroy');
+    },
+    modal:true,
+}
+if(isRadio&&isRadio==1){
+    dalogObj["onLoad"] =function(){
+        initGoodsRadioCallBack(function(data){
+            callback( [data]);
+            $(dalogTemp).panel('destroy')
+        });
+        initSearch();
+    };
+}else{
+    dalogObj["onLoad"] =function(){
+        initGoodsRadioCallBack();
+        $("#goodsInfo").val(key);
+        initSearch(key);
+    };
+    dalogObj["buttons"] =[{
+        text:'确定',
+        handler:function(){
+            getCheckGoods();
+        }
+    },{
+        text:'取消',
+        handler:function(){
+            $(dalogTemp).panel('destroy');
+        }
+    }];
+}
+var  dalogTemp = $('<div/>').dialog(dalogObj);
+//私有方法
+function getCheckGoods(){
+    publicGoodsGetCheckGoods(function(data){
+        if(data.length==0){
+            messager("请选择数据");
+            return;
+        }
+        callback(data);
+        $(dalogTemp).panel('destroy');
+    });
+}
+}
 

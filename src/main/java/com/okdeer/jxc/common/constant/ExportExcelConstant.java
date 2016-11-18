@@ -79,6 +79,11 @@ public interface ExportExcelConstant {
 	
 	String STORE_DAY_SALE_REPORT = "storeDaySaleReport.xlsx";
 	
+String GOODS_SALE_AMOUNT_REPORT = "goodsSaleAmountReport.xlsx";
+	
+	String GOODS_SALE_NUM_REPORT = "goodsSaleNumReport.xlsx";
+	
+	String GOODS_SALE_PROFIT_REPORT = "goodsSaleProfitReport.xlsx";
 	String GOODS_OUT_IN_DETAIL_REPORT = "goodsOutInDetailReport.xlsx";
 	
 	String STOCK_ADJUST_SKU_TEMPLE = "StockAdjustSkuTemple.xlsx";
@@ -268,4 +273,22 @@ public interface ExportExcelConstant {
 	 * @Fields PURCHASEFORM : 导出店铺销售排名列表
 	 */
 	String TRADE_ORDER_COUNT_REPORT = "TradeOrderCountReport.xlsx";
+	
+	/**
+	 * @Fields PURCHASEFORM : 导出调价查询列
+	 */
+	String PRICING_QUERY = "princingQuery.xlsx";
+	/**
+	 * @Fields PURCHASEFORM : 导出配送缺货率分析明细
+	 */
+	String DELIVERY_DETAIL= "deliveryDetail.xlsx";
+	/**
+	 * @Fields PURCHASEFORM : 导出配送缺货率分析汇总
+	 */
+	String DELIVERY_SUM = "deliverySum.xlsx";
+	
+	/**
+	* @Fields 供应商机构商品关系报表
+	*/
+	String SUPPLIER_BRANCH_GOODS_REPORT = "SupplierBranchGoodsReport.xlsx";
 }

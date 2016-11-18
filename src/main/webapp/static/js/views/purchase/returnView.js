@@ -164,6 +164,9 @@ function returnAdd(){
 	location.href = contextPath + "/form/purchase/returnAdd";
 }
 
-
+//返回列表页面
+function back(){
+	location.href = contextPath+"/form/purchase/returnList";
+}
 
 

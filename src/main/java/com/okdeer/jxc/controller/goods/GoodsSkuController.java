@@ -475,6 +475,7 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 				String templateName = ExportExcelConstant.GOODS_EXPORT_EXCEL;
 
 				// 导出Excel
+				list = handleDateReport(list);
 				exportListForXLSX(response, list, fileName, templateName);
 				return null;
 			} else {
@@ -486,6 +487,21 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 			RespJson json = RespJson.error(e.toString());
 			return json;
 		}
+	}
+	
+	// 导出数据特殊处理
+	private List<GoodsSku> handleDateReport(List<GoodsSku> exportList) {
+		for (GoodsSku vo : exportList) {
+			if(vo.getSalePrice()!=null && vo.getSalePrice().compareTo(BigDecimal.ZERO) ==1 && vo.getPurchasePrice()!=null){
+				BigDecimal marginTax = vo.getSalePrice().subtract(vo.getPurchasePrice());
+				marginTax = marginTax.multiply(new BigDecimal(100));
+				BigDecimal val =marginTax.divide(vo.getSalePrice(),2,BigDecimal.ROUND_HALF_UP);
+				vo.setMarginTax(val+"%");
+			}else{
+				vo.setMarginTax("00.00%");
+			}
+		}
+		return exportList;
 	}
 
 }
