@@ -47,6 +47,7 @@ function initDatagridRequire(){
                  return "<a style='text-decoration: underline;' href='"+ contextPath +"/sale/activity/edit?activityId="+ row.id +"'>" + value + "</a>"
               },
             },
+            {field:'skuCode',title:'货号',width:'85px',align:'left',hidden:true},
 			{field:'activityName', title: '活动名称', width: '200px', align: 'left'},
 			{field:'activityTyep',title:'活动类型',width:'150px',align:'left'},
 			{field:'starttime',title:'开始日期',width:'115px',align:'left'},

@@ -1,5 +1,9 @@
+//全局变量
 var datagridId = "saleMangeadd";
+var activtype="";
+
 $(function(){
+	
 	//开始和结束时间
 	$("#startTime").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
     $("#endTime").val("2016-11-18");
@@ -14,8 +18,74 @@ $(function(){
     	specialRows(obj,$(this).val());
 
 	})
+	var priceValone=$("#activityType").combobox('getValue');
+	editstart(priceValone);
 });
 
+
+function  editstart(selectType){
+	var activityId = $("#activityId").val();
+	$.ajax({
+	      url:contextPath+"/sale/activity/get?activityId="+activityId,
+	      type:"get",
+	      contentType:'application/json',
+	      success:function(data){
+	    	  console.log(data)
+	    	  if(data['code'] == 0){
+	    		var listinfo=data['obj'];
+	    		activtype=listinfo.activityType;
+	    		if(activtype==selectType){
+	    			
+	    			initmangeDatagrid(activityId);
+		    		//状态选择赋值
+		    		$("#activityType").combobox('select',activtype);
+		    		//活动名称
+		    		$('#activityName').val(data.obj.activityName);
+		    		//日期转换格式
+		    	    var startTimeedit= new Date(listinfo.startTime);
+		    	    var endTimeedit=new Date(listinfo.endTime);
+		    		startTimeedit=startTimeedit.format("yyyy-MM-dd"); 
+		    		endTimeedit=endTimeedit.format("yyyy-MM-dd");
+		    		$('#startTime').val(startTimeedit);
+		    		$('#endTime').val(endTimeedit);
+		    		//时间转换格式
+		    		 var dailyStartTimeedit= new Date(listinfo.dailyStartTime);
+			    	 var dailyEndTimeedit=new Date(listinfo.dailyEndTime);
+		    		 dailyStartTimeedit=listinfo.dailyStartTime.format("HH:mm:ss"); 
+		    		 dailyEndTimeedit=listinfo.dailyEndTime.format("HH:mm:ss");
+		    		 $('#dailyStartTime').val(dailyStartTimeedit);
+		    		 $('#dailyEndTime').val(dailyEndTimeedit);
+		    		
+		    		$('#weeklyActivityDay').val(listinfo.weeklyActivityDay);
+		    		//组合结构显示和id
+		    		var branchesId="";
+		    		var branchName="";
+		    		$.each(data.branch,function(i,v){
+		    			if(!v.branchName&&!v.branchCode){
+		    				return;
+		    			}
+		    			branchName+="["+v.branchCode+"]"+v.branchName+",";
+		    			branchesId=v.branchesId+","+branchesId;
+		    		 });
+		    		 branchesId = branchesId.substring(0,branchesId.length - 1);
+		    		 branchName = branchName.substring(0,branchName.length - 1);
+		    		 $('#branchName').val(branchName);
+		    		 $('#branchId').val(branchesId);
+		    		 console.log(branchName);
+		    		 
+	    		}
+	    		else{
+	    			return;
+	    		}
+	          }else{
+	              successTip(data['message']);
+	          }
+	      },
+	      error:function(result){
+	          successTip("请求发送失败或服务器处理失败");
+	      }
+	  });
+}
 //select 选择切换
 function onChangeSelect(){
  var priceVal=$("#activityType").combobox('getValue');
@@ -25,26 +95,38 @@ function onChangeSelect(){
 	   selectOptionSpecial();
 	   //禁止按钮点击事件
 	   disableGoods('','GoodsType');
+	   //编辑开始获取添加的状态的值初始化赋值
+	   editstart(priceVal);
 	   break;
 	 case "2":
 	   selectOptionzk();
+	   //编辑开始获取添加的状态的值初始化赋值
+	   //editstart(priceVal);
 	   break;
 	 case "3":
 	   selectOptionOdd();
 	   disableGoods('','GoodsType');
+	   //编辑开始获取添加的状态的值初始化赋值
+	   editstart(priceVal);
 	   break;
 	 case "4":
 	   optionHide();
 	   initDatagridRedemption();
 	   disableGoods('','GoodsType');
+	   //编辑开始获取添加的状态的值初始化赋值
+	   editstart(priceVal);
 	   break;
 	 case "5":
 	   selectOptionMj();
+	   //编辑开始获取添加的状态的值初始化赋值
+	   editstart(priceVal);
 	   break;
 	 case "6":
 	   optionHide();
 	   initDatagridCompose();
 	   disableGoods('','GoodsType');
+	   //编辑开始获取添加的状态的值初始化赋值
+	   editstart(priceVal);
 	  break;
      }	
 }
@@ -52,17 +134,17 @@ function onChangeSelect(){
 
 //特价状态选择隐藏
 function selectOptionSpecial(){
-	initDatagridSpecial();
 	optionHide();
-	 $('.special').removeClass('unhide');
+	initDatagridSpecial();
+	$('.special').removeClass('unhide');
 }
 
 
 
 //折扣状态选择隐藏
 function selectOptionzk(){
-	initDatagridoneZk();
 	optionHide();
+	initDatagridoneZk();
 	disableGoods('','GoodsType');
 	$('.discount').removeClass('unhide');
 	$('.discountTypechoose').removeClass('unhide');
@@ -84,8 +166,8 @@ function selectOptionzk(){
 
 //偶数特价状态选择隐藏
 function selectOptionOdd(){
-	initDatagridOddtj();
 	optionHide();
+	initDatagridOddtj();
     $('.oddprice ').removeClass('unhide');
 }
 
@@ -131,22 +213,26 @@ function selectOptionMj(){
 	      }
 	   })
 }
-//状态初始化 隐藏
+//状态初始化 隐藏 清空数据 
 function optionHide(){
+	$("#consaleadd").addClass('ub-f1');
 	$('.special').addClass('unhide');
 	$('.discount').addClass('unhide');
 	$('.oddprice ').addClass('unhide');
 	$('.discountTypechoose').addClass('unhide');
 	$('.mjTypechoose').addClass('unhide');
 	$('#consalesetmj').addClass('unhide');	
+	$('#activityName').val("");
+	$('#startTime').val("");
+	$('#endTime').val("");
+	$('#dailyStartTime').val("00:00:00");
+	$('#dailyEndTime').val("23:59:59");
+	$('#branchName').val("");
+	$('#saleMangeadd').datagrid('loadData', { total: 0, rows: [] });
+	$("#saleMangeadd").datagrid("options").url ="";
+	//$('#salesetmj').datagrid('loadData', { total: 0, rows: [] });
 }
 
-// cleardata清空数据
-function cleardata(){
-	$('#saleMangeadd').datagrid('loadData', { total: 0, rows: [] }); 
-    $('#salesetmj').datagrid('loadData', { total: 0, rows: [] });
-	
-}
 //状态初始化 禁止点击
 function disableGoods(idone,idtow){
 	if(idone=="SelectGoods"&&idtow==""){
@@ -176,6 +262,13 @@ function disableGoods(idone,idtow){
 }
 
 var gridHandel = new GridClass();
+
+function initmangeDatagrid(activityId){
+	 $("#saleMangeadd").datagrid("options").method = "post";
+     $("#saleMangeadd").datagrid("options").url =contextPath+"/sale/activity/getDetail?activityId="+activityId;
+     $("#saleMangeadd").datagrid("load");
+}
+var datagridObj;
 //初始化表格-特价
 function initDatagridSpecial(){
 	gridHandel.setGridName("saleMangeadd");
@@ -195,8 +288,7 @@ function initDatagridSpecial(){
             }
         },
     })
-    $("#saleMangeadd").datagrid({
-        method:'post',
+    datagridObj = $("#saleMangeadd").datagrid({
         align:'center',
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:false,  //单选  false多选
@@ -262,8 +354,7 @@ function initDatagridSpecial(){
 		            },
         ]],
       onLoadSuccess:function(data){
-    	  console.log(data)
-			gridHandel.setDatagridHeader("center");
+		gridHandel.setDatagridHeader("center");
 				
 		 }
     });
@@ -290,7 +381,6 @@ function initDatagridsortZk(){
         },
     })
     $("#saleMangeadd").datagrid({
-        method:'post',
         align:'center',
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:false,  //单选  false多选
@@ -362,8 +452,7 @@ function initDatagridoneZk(){
             }
         },
     })
-    $("#saleMangeadd").datagrid({
-        method:'post',
+   $("#saleMangeadd").datagrid({
         align:'center',
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:false,  //单选  false多选
@@ -433,7 +522,6 @@ function initDatagridoneZk(){
 				
 		 }
     });
-    
     gridHandel.setLoadData([$.extend({},gridDefault)])
    }
 
@@ -456,8 +544,8 @@ function initDatagridOddtj(){
             }
         },
     })
+  
     $("#saleMangeadd").datagrid({
-        method:'post',
         align:'center',
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:false,  //单选  false多选
@@ -533,7 +621,7 @@ function initDatagridOddtj(){
 
 //初始化表格-换购
 function initDatagridRedemption(){
-	gridHandel.setGridName("saleMangeadd");
+  gridHandel.setGridName("saleMangeadd");
   gridHandel.initKey({
       firstName:'skuCode',
       enterName:'skuCode',
@@ -550,8 +638,8 @@ function initDatagridRedemption(){
           }
       },
   })
+
   $("#saleMangeadd").datagrid({
-      method:'post',
       align:'center',
       //toolbar: '#tb',     //工具栏 id为tb
       singleSelect:false,  //单选  false多选
@@ -644,7 +732,6 @@ function initDatagridallMj(){
         },
     })
     $("#saleMangeadd").datagrid({
-        method:'post',
         align:'center',
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:false,  //单选  false多选
@@ -715,7 +802,6 @@ function initDatagridallMj(){
 function initDatagridsortMj(){
 	gridHandel.setGridName("saleMangeadd");
     $("#saleMangeadd").datagrid({
-        method:'post',
         align:'center',
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:false,  //单选  false多选
@@ -755,7 +841,6 @@ var gridHandelMj = new GridClass();
 function initDatagridsortSet(){
 	gridHandelMj.setGridName("salesetmj");
     $("#salesetmj").datagrid({
-        method:'post',
         align:'center',
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:false,  //单选  false多选
@@ -835,8 +920,23 @@ function initDatagridsortSet(){
 //初始化表格-商品满减
 function initDatagridshopMj(){
 	gridHandel.setGridName("saleMangeadd");
+	  gridHandel.initKey({
+	      firstName:'skuCode',
+	      enterName:'skuCode',
+	      enterCallBack:function(arg){
+	          if(arg&&arg=="add"){
+	              gridHandel.addRow(parseInt(gridHandel.getSelectRowIndex())+1,gridDefault);
+	              setTimeout(function(){
+	                  gridHandel.setBeginRow(gridHandel.getSelectRowIndex()+1);
+	                  gridHandel.setSelectFieldName("skuCode");
+	                  gridHandel.setFieldFocus(gridHandel.getFieldTarget('skuCode'));
+	              },100)
+	          }else{
+	             selectGoods(arg);
+	          }
+	      },
+	  })
   $("#saleMangeadd").datagrid({
-      method:'post',
       align:'center',
       //toolbar: '#tb',     //工具栏 id为tb
       singleSelect:false,  //单选  false多选
@@ -916,7 +1016,6 @@ function initDatagridCompose(){
       },
   })
   $("#saleMangeadd").datagrid({
-      method:'post',
       align:'center',
       //toolbar: '#tb',     //工具栏 id为tb
       singleSelect:false,  //单选  false多选
@@ -1139,11 +1238,7 @@ function selectGoods(searchKey){
         var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
         var addDefaultData  = gridHandel.addDefault(data,gridDefault);
         var keyNames = {
-        		distributionPrice:'price',
-                id:'skuId',
-                disabled:'',
-                pricingType:'',
-                inputTax:'tax'
+        	skuId:'goodsSkuId'
         };
         var rows = gFunUpdateKey(addDefaultData,keyNames);
         var argWhere ={skuCode:1};  //验证重复性
@@ -1158,28 +1253,23 @@ function selectGoods(searchKey){
     },searchKey);
 }
 
-
-
 //保存
-function addsaveOrder(){
+function saveActivity(){
   //保存结束编辑
   $("#saleMangeadd").datagrid("endEdit", gridHandel.getSelectRowIndex());
-
   var rows=$('#saleMangeadd').datagrid('getRows');
-
   //活动类型
   var activityType=$("#activityType").combobox('getValue');
   // 打折活动类型
   var activityScopedis=$("#activityScopedis").val();
   // 满减活动类型
   var activityScopemj=$("#activityScopemj").val();
-//满减活动类型
+  //满减活动类型
   var activityScopemj=$("#activityScopemj").val();
   if(rows.length==0){
       messager("表格不能为空");
       return;
   }
-  
   var isCheckResult = true;
 //活动类型特价验证
   if(activityType=="1"){
@@ -1405,7 +1495,7 @@ function saveDataHandel(rows,setrows){
 	  };
 	  $.each(rows,function(i,data){
 	      var temp = {
-	    	  goodsSkuId: data.skuCode,
+	    	  goodsSkuId: data.goodsSkuId,
 	    	  saleAmount:data.saleAmount,
 	      }
 	      reqObj.detailList[i] = temp;
@@ -1430,7 +1520,7 @@ function saveDataHandel(rows,setrows){
 	   if(activityScopedis=="0"){
 		   $.each(rows,function(i,data){
 			      var temp = {
-			    	  goodsSkuId: data.skuCode,
+			    	  goodsSkuId: data.goodsSkuId,
 			    	  discount:data.discount,
 			      }
 			      reqObj.detailList[i] = temp;
@@ -1440,7 +1530,8 @@ function saveDataHandel(rows,setrows){
 	   else{
 		   $.each(rows,function(i,data){
 			      var temp = {
-			    	  categoryName:data.categoryName,
+			    	  goodsCategoryId:data.goodsCategoryId,
+				      goodsCategoryCode:data.goodsCategoryCode,
 			    	  discount:data.discount,
 			      }
 			      reqObj.detailList[i] = temp;
@@ -1467,7 +1558,7 @@ function saveDataHandel(rows,setrows){
 	  if(activityScopemj=="0"){
 		  $.each(rows,function(i,data){
 		      var temp = {
-		    	  goodsSkuId: data.skuCode,
+		    	 goodsSkuId: data.goodsSkuId,
 		      }
 		      reqObj.detailList[i] = temp;
 		  });
@@ -1479,22 +1570,16 @@ function saveDataHandel(rows,setrows){
   }
 
   var req = JSON.stringify(reqObj);
-  console.log(reqObj)
   console.log(req)
   $.ajax({
-      url:contextPath+"/sale/activity/save",
+      url:contextPath+"/sale/activity/update",
       type:"POST",
       contentType:'application/json',
       data:req,
       success:function(result){
     	  console.log(result)
-          if(result['code'] == 0){
-              console.log(result);
-              $.messager.alert("操作提示", "操作成功！", "info",function(){
-            	 
-            		  location.href = contextPath +"/sale/activity/edit?id="+result.id;
-                 
-              });
+    	  if(result['code'] == 0){
+              $.messager.alert("操作提示", "操作成功！", "info");
           }else{
               successTip(result['message']);
           }
@@ -1562,19 +1647,25 @@ function selectBranch() {
 //类别选择
 function getGoodsType(){
 	new publicCategoryService(function(data){
-		$('#'+datagridId).datagrid("loadData",data);
+		var nowRows = gridHandel.getRowsWhere({categoryCode:'1'});
+		
+        var addDefaultData  = gridHandel.addDefault(data,[{}]);
+    	var keyNames = {
+    			categoryCode:'goodsCategoryCode'
+        };
+        var rows = gFunUpdateKey(addDefaultData,keyNames);
+        var argWhere ={categoryCode:1};  // 验证重复性
+        var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere);
+        $('#'+datagridId).datagrid("loadData",newRows);
+		
 	},"",1);
 }
-
 //返回列表页面
 function back(){
 	location.href = contextPath +"/sale/activity/list";
 }
 
-//pos新增
-function addActivity(){
-	location.href = contextPath + "/sale/activity/add";
-}
+
 /**
  * 重置
  */
