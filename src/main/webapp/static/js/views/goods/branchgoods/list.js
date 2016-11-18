@@ -38,7 +38,7 @@ function initDatagridOrders(){
         //title:'普通表单-用键盘操作',
         method:'post',
         align:'center',
-        url:contextPath+'/branch/goods/listData',
+        url:'',
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
         pagination:true,    //分页
@@ -87,6 +87,7 @@ function initDatagridOrders(){
 
 function query(){
 	$("#gridOrders").datagrid("options").queryParams = $("#queryForm").serializeObject();
+	$("#gridOrders").datagrid("options").url = contextPath+'/branch/goods/listData';
 	$("#gridOrders").datagrid("options").method = "post";
 	$("#gridOrders").datagrid("load");
 }
