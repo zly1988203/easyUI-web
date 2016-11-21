@@ -91,7 +91,12 @@ function queryForm(){
 //删除
 function delDeliverForm(){
 	var dg = $("#deliverFormList");
-	var row = dg.datagrid("getSelected");
+	debugger;
+	var row = dg.datagrid("getChecked");
+	var ids = [];
+	for(var i=0; i<row.length; i++){
+		ids.push(row[i].deliverFormId);
+	}
 	if(rowIsNull(row)){
 		return null;
 	}
@@ -100,9 +105,8 @@ function delDeliverForm(){
 			$.ajax({
 		    	url:contextPath+"/form/deliverForm/deleteDeliverForm",
 		    	type:"POST",
-		    	data:{
-		    		formId : row.deliverFormId
-		    	},
+		    	contentType:"application/json",
+		    	data:JSON.stringify(ids),
 		    	success:function(result){
 		    		if(result['code'] == 0){
 		    			successTip("删除成功");
