@@ -38,35 +38,6 @@
 	        	<div class="ub ub-ac umar-l20">
 	        	<!-- 引入时间选择控件 -->
 	            <%@ include file="/WEB-INF/views/component/dateSelectHour.jsp"%>
-	              <!-- 	<input class="Wdate"  readonly="readonly" name="startTime" id="txtStartDate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'#F{$dp.$D(\'txtEndDate\');}'})" />&nbsp;至&nbsp;
-                    <input class="Wdate"  readonly="readonly" name="endTime" id="txtEndDate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'txtStartDate\');}'})" />
-	                 <div class="ub ub-ac umar-l10">
-                        <input class="ub" type="radio" name="dateradio" checked="checked" onclick="toChangeDate(0);"/><span>今天</span>
-                    </div>
-                    <div class="ub ub-ac umar-l10">
-                        <input class="ub" type="radio" name="dateradio" onclick="toChangeDate(1);"/><span>昨天</span>
-                    </div>
-                    <div class="ub ub-ac umar-l10">
-                        <input class="ub" type="radio" name="dateradio" onclick="toChangeDate(2);"/><span>本周</span>
-                    </div>
-                    <div class="ub ub-ac umar-l10">
-                        <input class="ub" type="radio" name="dateradio" onclick="toChangeDate(3);"/><span>上周</span>
-                    </div>
-                    <div class="ub ub-ac umar-l10">
-                        <input class="ub" type="radio" name="dateradio" onclick="toChangeDate(4);"/><span>本月</span>
-                    </div>
-                    <div class="ub ub-ac umar-l10">
-                        <input class="ub" type="radio" name="dateradio" onclick="toChangeDate(5);"/><span>上月</span>
-                    </div>
-                    <div class="ub ub-ac umar-l10">
-                        <input class="ub" type="radio" name="dateradio" onclick="toChangeDate(6);"/><span>本季</span>
-                    </div>
-                    <div class="ub ub-ac umar-l10">
-                        <input class="ub" type="radio" name="dateradio" onclick="toChangeDate(7);"/><span>上季</span>
-                    </div>
-                    <div class="ub ub-ac umar-l10">
-                        <input class="ub" type="radio" name="dateradio" onclick="toChangeDate(8);"/><span>今年</span>
-                    </div> -->
 	            </div>
 			</div>
 	            <div class="ub umar-t8">
