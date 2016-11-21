@@ -25,8 +25,8 @@
 			<div class="ub umar-t8">
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r"><span class="umust"></span>机构:</div>
-					<input type="hidden" name="branchId" id="branchId" class="uinp" />
-					<input type="text" name="branchName" id="branchName" class="uinp" readonly="readonly"  />
+					<input type="hidden" name="branchId" id="branchId" class="uinp" value="${branchesGrow.branchesId}"/>
+					<input type="text" name="branchName" id="branchName" class="uinp" readonly="readonly" value="${branchesGrow.branchName}" />
 					<div class="uinp-more" onclick="searchBranch()">...</div>
 				</div>
 				<div class="ub ub-ac umar-r40">
