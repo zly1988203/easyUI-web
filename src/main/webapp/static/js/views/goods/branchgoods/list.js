@@ -1,7 +1,52 @@
 /**
  * Created by huangj02 on 2016/8/9.
  */
+function goodsArchives(){
+    this.selectTypeName = "categoryCode"
+    //tree的提交参数
+    this.treeParam = {
+        categoryCode:'',
+        supplierId:'',
+        brandId:'',
+        level:'',
+    }
+    //获取当前选中的树相关参数
+    this.currSelectTreeParam = {
+		categoryId:'',
+		categoryCode:'',
+		categoryName:''
+    }
+    //树的请求地址
+    this.treeUrls = [
+        {
+            name:'categoryCode',
+            url:contextPath+'/common/category/getGoodsCategoryToTree'
+        },
+        {
+            name:'brandId',
+            url:contextPath+'/common/brand/getBrandToTree'
+        },
+        {
+            name:'supplierId',
+            url:contextPath+'/common/supplier/getSupplierToTree'
+        }
+   ];
+    this.getTreeUrl = function(name){
+        var httpUrl = ""
+        $.each(this.treeUrls,function(i,v){
+            if(v.name==name){
+                httpUrl = v.url;
+                return false
+            }
+        });
+        return httpUrl
+    }
+}
+var goodsClass = new goodsArchives();
+
 $(function(){
+	initView();
+	initTreeArchives();
 	 //初始化机构ID，机构名称
     $("#branchId").val(sessionBranchId);
 	$("#branchName").val(sessionBranchCodeName);
@@ -12,6 +57,104 @@ $(function(){
     changeStatus();
 
 });
+
+function initView(){
+    $('#goodsType').combobox({
+        valueField:'id',
+        textField:'text',
+        data: [{
+            id: 'categoryCode',
+            text: '类别',
+            selected:true,
+        },{
+            id: 'brandId',
+            text: '品牌'
+        },{
+            id: 'supplierId',
+            text: '供应商'
+        }],
+        onSelect: function(record){
+            goodsClass.selectTypeName = record.id;
+            initTreeArchives();
+        },
+    });
+}
+
+//初始树
+function initTreeArchives(){
+    var args = { }
+    var httpUrl = goodsClass.getTreeUrl(goodsClass.selectTypeName);
+    $.get(httpUrl, args,function(data){
+        var setting = {
+            data: {
+                key:{
+                    name:'codeText',
+                }
+            },
+            callback: {
+                onClick: zTreeOnClick
+            }
+        };
+        $.fn.zTree.init($("#treeArchives"), setting, JSON.parse(data));
+        var treeObj = $.fn.zTree.getZTreeObj("treeArchives");
+        var nodes = treeObj.getNodes();
+        if (nodes.length>0) {
+            treeObj.expandNode(nodes[0], true, false, true);
+        }
+    });
+}
+//选择树节点
+function zTreeOnClick(event, treeId, treeNode) {
+    if(goodsClass.selectTypeName=="categoryCode"){
+    	//获取当前选中的”类别“相关参数
+    	goodsClass.currSelectTreeParam = {
+    		categoryId:treeNode.id,
+    		categoryCode:treeNode.code,
+    		categoryName:treeNode.text
+        }
+        goodsClass.treeParam[goodsClass.selectTypeName] = treeNode.code;
+        //将选中树参数值传入表单
+        $("#categoryCode").val(treeNode.code);
+        $("#brandId").val('');
+        $("#supplierId").val('');
+    }else if(goodsClass.selectTypeName=="brandId"){
+        goodsClass.treeParam[goodsClass.selectTypeName] = treeNode.id;
+        
+        //将选中树参数值传入表单
+        $("#categoryCode").val('');
+        $("#brandId").val(treeNode.id);
+        $("#supplierId").val('');
+    }else{
+    	 goodsClass.treeParam[goodsClass.selectTypeName] = treeNode.id;
+         //将选中树参数值传入表单
+    	 $("#categoryCode").val('');
+    	 $("#brandId").val('');
+         $("#supplierId").val(treeNode.id);
+    }
+    gridReload("gridOrders",goodsClass.treeParam,goodsClass.selectTypeName);
+};
+
+function gridReload(gridName,httpParams,selectTypeName){
+	switch (selectTypeName){ 
+		case "categoryCode":  //类别
+			httpParams.supplierId = "";
+			httpParams.brandId = "";
+			break;
+		case "brandId":  //品牌
+			httpParams.categoryCode = "";
+			httpParams.supplierId = "";
+			break;
+		case "supplierId":  //供应商
+			httpParams.categoryCode = "";
+			httpParams.brandId = "";
+			break;
+	}
+	$("#"+gridName).datagrid("options").url = contextPath+'/branch/goods/listData';
+	$("#"+gridName).datagrid("options").queryParams = $("#queryForm").serializeObject();
+    $("#"+gridName).datagrid("options").method = "post";
+    $("#"+gridName).datagrid("load");
+}
+
 
 function changeStatus(){
 	$(".radioItem").change(function(){
@@ -85,7 +228,17 @@ function initDatagridOrders(){
     });
 }
 
+//搜索导出清除左侧条件
+function cleanLeftParam(){
+	 //查询需要清除左侧条件
+	 $("#categoryCode").val('');
+	 $("#brandId").val('');
+	 $("#supplierId").val('');
+}
+
 function query(){
+	//查询需要清除左侧条件
+	cleanLeftParam();
 	$("#gridOrders").datagrid("options").queryParams = $("#queryForm").serializeObject();
 	$("#gridOrders").datagrid("options").url = contextPath+'/branch/goods/listData';
 	$("#gridOrders").datagrid("options").method = "post";
@@ -121,39 +274,6 @@ function enable(){
 			enableAjax(skuIds,branchId,contextPath+"/branch/goods/enable");
 		}
 	});
-	
-	/*
-	if(rows.length == 1){
-		var row = rows[0];
-		skuIds += row.skuId;
-		
-		if(row.status != null){
-			$.messager.confirm('提示','该商品已经引入，是否需要强制引入？',function(data){
-				if(!data){
-					return ;
-				}else{
-					enableAjax(skuIds,branchId,contextPath+"/branch/goods/enableOne");
-				}
-			});
-		}else{
-			enableAjax(skuIds,branchId,contextPath+"/branch/goods/enableOne");
-		}
-	}else{
-		for(var i in rows){
-			var row = rows[i];
-			if(row.status != null){
-				messager("选择的商品店铺已经在店铺中引入了，如需强制引入商品，请选择单条商品。");
-				return ;
-			}
-			skuIds += row.skuId + ',';
-		}
-		
-		$.messager.confirm('提示','是否要启用已选择的商品',function(data){
-			if(data){
-				enableAjax(skuIds,branchId,contextPath+"/branch/goods/enable");
-			}
-		});
-	}*/
 }
 
 function enableAjax(skuIds,branchId,url){
@@ -272,37 +392,7 @@ function resetForm(){
 	 $("#queryForm").form('clear');
 	 $('#status_0').click();
 };
-/**
- * 调用导入功能 0导入货号 1导入明细
- * @param type
- */
-/*function toImportproduct(type){
-	var branchId = $("#branchId").val();
-	if(!branchId){
-		messager("请先选择收货机构");
-		return;
-	}
-	if(type==0){
-		importproduct();
-	}else{
-		importproductAll();
-	}
-}*/
-/**
- * 获取导入的数据
- * @param data
- */
-/*function getImportData(data){
-    $.each(data,function(i,val){
-        
-    });
-    var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
-    var argWhere ={skuCode:1};  //验证重复性
-    var newRows = gridHandel.checkDatagrid(nowRows,data,argWhere,{});
 
-    $("#"+gridHandel.getGridName()).datagrid("loadData",newRows);
-    messager("导入成功");
-}*/
 var uploadFormType;
 function importShow(type){
 	$('#excelFile').val("");

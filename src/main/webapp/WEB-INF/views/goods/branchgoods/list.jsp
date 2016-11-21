@@ -15,11 +15,25 @@
     </style>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
-    <div class="ub ub-ver ub-f1 umar-4 upad-4">
+      <div class="ub  ub-f1 umar-4 upad-4">
+          <!--left start-->
+		    <div class="ub ub-ver ubor">
+		        <div class="upad-4">
+		            <select id="goodsType" class="easyui-combobox uselect" data-options="editable:false"></select>
+		        </div>
+		        <div class="ubor-b "></div>
+		        <div class="ub upad-4 ub-f1 uscroll">
+		            <div class="zTreeDemoBackground left">
+		                <ul id="treeArchives" class="ztree"></ul>
+		            </div>
+		        </div>
+		    </div>
+		   <!--left end-->
+		   
+     <div class="ub ub-ver ub-f1 upad-4">
     	<form id="queryForm" action="" method="post">
 	        <div class="ub ub-ac">
 	            <div class="ubtns">
-	                       
 	                <shiro:hasPermission name="JxcGoodsIntroduce:search">
 	                 <div class="ubtns-item" onclick="query()">查询</div>
 	                </shiro:hasPermission>
@@ -44,6 +58,11 @@
 	        </div>
 	        <div class="ub umar-t8">
 	            <div class="ub ub-ac umar-r40">
+	                <!-- 隐藏类别编号 -->
+	                <input class="uinp" name="categoryCode" id="categoryCode" type="hidden">
+	                <input class="uinp" name="brandId" id="brandId" type="hidden">
+	                <input class="uinp" name="supplierId" id="supplierId" type="hidden">
+	                
 	                <div class="umar-r10 uw-60 ut-r">机构:</div>
 	                <input class="uinp" name="branchId" id="branchId" type="hidden">
 	                <input id="branchName" name="branchName" class="uinp" readonly="readonly" type="text" onclick="selectBranch()" >
@@ -76,11 +95,11 @@
 	                <input class="uinp" name="skuName" id="skuName" type="text">
 	            </div>
 	        </div>
-	        
         </form>
         <div class="ub umar-t8 ub-f1">
             <table id="gridOrders"></table>
         </div>
+       </div>
 
  <!-- 导入弹框 -->
      <div class="uabs uatk">
