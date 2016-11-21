@@ -230,15 +230,16 @@ function initDatagridOrders(){
 
 //搜索导出清除左侧条件
 function cleanLeftParam(){
-	 //查询需要清除左侧条件
 	 $("#categoryCode").val('');
 	 $("#brandId").val('');
 	 $("#supplierId").val('');
 }
 
 function query(){
-	//查询需要清除左侧条件
+	//去除左侧选中值
 	cleanLeftParam();
+	//去除左侧选中样式
+	$('.zTreeDemoBackground a').removeClass('curSelectedNode');
 	$("#gridOrders").datagrid("options").queryParams = $("#queryForm").serializeObject();
 	$("#gridOrders").datagrid("options").url = contextPath+'/branch/goods/listData';
 	$("#gridOrders").datagrid("options").method = "post";
