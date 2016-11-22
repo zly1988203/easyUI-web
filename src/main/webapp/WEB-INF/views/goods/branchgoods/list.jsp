@@ -107,7 +107,7 @@
      	<form id="uploadForm" method="post" enctype="multipart/form-data">
      	<input type="hidden" name="branchId" id="uploadFormBranchId">
 		<input type="hidden" name="type" id="uploadFormType">
-		<input type="hidden" name="status" id="status_3" value="0">
+		<input type="hidden" name="status" id="status_3" value="1">
          <div class="uacon">
 			 <input class="uinp ub" id="filename" type="text">
 			 <label class="ualable">选择文件
