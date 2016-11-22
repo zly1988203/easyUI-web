@@ -146,6 +146,20 @@ public class PurchaseFormController extends
 		qo.setFormType(FormType.PI.toString());
 		qo.setBranchCompleCode(getCurrBranchCompleCode());
 
+		//处理供应商
+		String supplierName = qo.getSupplierName();
+		if(StringUtils.isNotBlank(supplierName)){
+			supplierName = supplierName.substring(supplierName.lastIndexOf("]")+1,supplierName.length());
+			qo.setSupplierName(supplierName);
+		}
+		
+		//处理机构
+		String branchName = qo.getBranchName();
+		if(StringUtils.isNotBlank(branchName)){
+			branchName = branchName.substring(branchName.lastIndexOf("]")+1,branchName.length());
+			qo.setBranchName(branchName);
+		}
+		
 		PageUtils<PurchaseFormPO> page = purchaseFormServiceApi.selectPage(qo);
 		return page;
 	}
@@ -164,6 +178,20 @@ public class PurchaseFormController extends
 		qo.setFormType(FormType.PR.name());
 		qo.setBranchCompleCode(getCurrBranchCompleCode());
 
+		//处理供应商
+		String supplierName = qo.getSupplierName();
+		if(StringUtils.isNotBlank(supplierName)){
+			supplierName = supplierName.substring(supplierName.lastIndexOf("]")+1,supplierName.length());
+			qo.setSupplierName(supplierName);
+		}
+		
+		//处理机构
+		String branchName = qo.getBranchName();
+		if(StringUtils.isNotBlank(branchName)){
+			branchName = branchName.substring(branchName.lastIndexOf("]")+1,branchName.length());
+			qo.setBranchName(branchName);
+		}
+		
 		PageUtils<PurchaseFormPO> page = purchaseFormServiceApi.selectPage(qo);
 		return page;
 	}

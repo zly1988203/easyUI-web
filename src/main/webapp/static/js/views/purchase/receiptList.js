@@ -116,19 +116,19 @@ function receiptDelete(){
 
 function selectSupplier(){
 	new publicSupplierService(function(data){
-		$("#supplierId").val(data.id);
+//		$("#supplierId").val(data.id);
 		$("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
 	});
 }
 function selectOperator(){
 	new publicOperatorService(function(data){
-		$("#operateUserId").val(data.id);
+//		$("#operateUserId").val(data.id);
 		$("#operateUserName").val(data.userName);
 	});
 }
 function selectBranch(){
 	new publicBranchService(function(data){
-		$("#branchId").val(data.branchesId);
+//		$("#branchId").val(data.branchesId);
 		$("#branchName").val("["+data.branchCode+"]"+data.branchName);
 	},0);
 }
