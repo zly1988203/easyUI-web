@@ -101,8 +101,7 @@ public class GoodsReportController extends
 			if (StringUtils.isEmpty(qo.getBranchId())) {
 				qo.setBranchId(UserUtil.getCurrBranchId());
 			}
-			PageUtils<GoodsReportVo> goodsReport = goodsReportService
-					.queryListToPage(qo);
+			PageUtils<GoodsReportVo> goodsReport = goodsReportService.queryListToPage(qo);
 			return goodsReport;
 		} catch (Exception e) {
 			LOG.error("查询商品选择数据出现异常:", e);

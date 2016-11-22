@@ -1,9 +1,149 @@
 /**
  * Created by huangj02 on 2016/8/9.
  */
+
+//html5 localStorage 存值永久有效
+window.localStorageUtil = {
+   setLocalStorageItem:function(localName,localObj){ //设置存储数据，传入key和value；key是任意的字符串，value是一个object
+      localStorage.setItem(localName,JSON.stringify(localObj));
+   },
+   getLocalStorageItem:function(localName){ //获取存储数据，传入之前设置的key
+      var data = JSON.parse(localStorage.getItem(localName));
+      return data;
+   },
+   delLocalStorageItem:function(localName){ //删除存储数据，传入之前设置的key
+	   localStorage.removeItem(localName);
+   },
+   clearStorageItem:function(){ //清空所有存储数据
+      localStorage.clear()
+   }
+}
+
+function goodsArchives(){
+    this.selectTypeName = "categoryCode"
+    //tree的提交参数
+    this.treeParam = {
+        categoryCode:'',
+        supplierId:'',
+        brandId:'',
+        level:'',
+    }
+    //获取当前选中的树相关参数
+    this.currSelectTreeParam = {
+		categoryId:'',
+		categoryCode:'',
+		categoryName:''
+    }
+    //树的请求地址
+    this.treeUrls = [
+        {
+            name:'categoryCode',
+            url:contextPath+'/common/category/getGoodsCategoryToTree'
+        },
+        {
+            name:'brandId',
+            url:contextPath+'/common/brand/getBrandToTree'
+        },
+        {
+            name:'supplierId',
+            url:contextPath+'/common/supplier/getSupplierToTree'
+        }
+   ];
+    this.getTreeUrl = function(name){
+        var httpUrl = ""
+        $.each(this.treeUrls,function(i,v){
+            if(v.name==name){
+                httpUrl = v.url;
+                return false
+            }
+        });
+        return httpUrl
+    }
+}
+var goodsClass = new goodsArchives();
+
 $(function(){
+	initView();
+	initTreeArchives();
 	initDatagridOrders();
+	//清楚缓存
+	localStorageUtil.clearStorageItem();
 });
+
+
+function initView(){
+    $('#goodsType').combobox({
+        valueField:'id',
+        textField:'text',
+        data: [{
+            id: 'categoryCode',
+            text: '类别',
+            selected:true,
+        }],
+        onSelect: function(record){
+            goodsClass.selectTypeName = record.id;
+            initTreeArchives();
+        },
+    });
+}
+
+//初始树
+function initTreeArchives(){
+    var args = { }
+    var httpUrl = goodsClass.getTreeUrl(goodsClass.selectTypeName);
+    $.get(httpUrl, args,function(data){
+        var setting = {
+            data: {
+                key:{
+                    name:'codeText',
+                }
+            },
+            callback: {
+                onClick: zTreeOnClick
+            }
+        };
+        $.fn.zTree.init($("#treeArchives"), setting, JSON.parse(data));
+        var treeObj = $.fn.zTree.getZTreeObj("treeArchives");
+        var nodes = treeObj.getNodes();
+        if (nodes.length>0) {
+            treeObj.expandNode(nodes[0], true, false, true);
+        }
+    });
+}
+//选择树节点
+function zTreeOnClick(event, treeId, treeNode) {
+    if(goodsClass.selectTypeName=="categoryCode"){
+    	//获取当前选中的”类别“相关参数
+    	goodsClass.currSelectTreeParam = {
+    		categoryId:treeNode.id,
+    		categoryCode:treeNode.code,
+    		categoryName:treeNode.text
+        }
+        goodsClass.treeParam[goodsClass.selectTypeName] = treeNode.code;
+        //将选中树参数值传入表单
+        $("#categoryCode").val(treeNode.code);
+        $("#brandId").val('');
+        $("#supplierId").val('');
+    }
+    gridReload("goodsTab",goodsClass.treeParam,goodsClass.selectTypeName);
+};
+
+function gridReload(gridName,httpParams,selectTypeName){
+	switch (selectTypeName){ 
+		case "categoryCode":  //类别
+			httpParams.supplierId = "";
+			httpParams.brandId = "";
+			break;
+	}
+	//将左侧查询条件设置缓存中
+	setLocalStorage();
+	$("#"+gridName).datagrid("options").url = contextPath+'/goods/report/getList';
+	$("#"+gridName).datagrid("options").queryParams = $("#queryForm").serializeObject();
+    $("#"+gridName).datagrid("options").method = "post";
+    $("#"+gridName).datagrid("load");
+}
+
+
 //初始化表格
 function initDatagridOrders(){
 	goodsTab=$("#goodsTab").datagrid({
@@ -138,11 +278,6 @@ function initDatagridOrders(){
 		        		  return null;
 		        	  }	
 		          }
-
-
-
-
-
 		          ]] ,
 		          toolBar : "#tg_tb",
 		          /*  onBeforeLoad:function(param){
@@ -166,16 +301,6 @@ function searchSupplier(){
 	new publicSupplierService(function(data){
 		$("#supplierId").val(data.id);
 		$("#supplierName").val(data.supplierName);
-	});
-}
-
-/**
- * 类别选择
- */
-function searchCategory(){
-	new publicCategoryService(function(data){
-		$("#categoryCode").val(data.categoryCode);
-		$("#categoryName").val(data.categoryName);
 	});
 }
 
@@ -208,17 +333,6 @@ function selectSkuCode(){
 	},"",1,'','','','');
 
 }
-
-/**
- * 商品条码
- */
-function selectBarCode(){
-	new publicGoodsService("",function(data){
-		$("#barCode").val(data[0].barCode);
-	},"",1,'','','','');
-
-}
-
 /**
  * 导出
  */
@@ -245,14 +359,39 @@ function exportExcel(){
 		$.messager.alert('提示',"当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
 		return;
 	}
-
+	//获取左侧缓存查询数据
+	var obj = localStorageUtil .getLocalStorageItem("storge");
+	$("#categoryCode").val(obj.categoryCode);
+	
+	//导出记录上一次查询条件
 	$("#queryForm").attr("action",contextPath+"/goods/report/exportList");
 	$("#queryForm").submit(); 
 
 }
 
+//搜索导出清除左侧条件
+function cleanLeftParam(){
+	$("#categoryCode").val('');
+}
+
+//将左侧查询条件设置缓存中
+function setLocalStorage(){
+	var categoryCode = $("#categoryCode").val();
+	var obj={"categoryCode":categoryCode}
+	localStorageUtil.setLocalStorageItem("storge",obj);
+}
+
 //查询
 function query(){
+	//搜索导出清除左侧条件
+	cleanLeftParam();
+	
+	//将左侧查询条件设置缓存中
+	setLocalStorage();
+	
+	//去除左侧选中样式
+	$('.zTreeDemoBackground a').removeClass('curSelectedNode');
+	
 	$("#goodsTab").datagrid("options").queryParams = $("#queryForm").serializeObject();
 	$("#goodsTab").datagrid("options").method = "post";
 	$("#goodsTab").datagrid("options").url = contextPath+"/goods/report/getList";
@@ -260,7 +399,6 @@ function query(){
 }
 //重置
 function resetFrom(){
-	
 	$("#queryForm").form('clear');
 }
 //打印
@@ -277,4 +415,17 @@ function printReport(){
 	parent.addTabPrint("reportPrint"+branchId,"打印",contextPath+"/goods/report/printReport?" +"&supplierId="+supplierId
 			+"&categoryCode="+categoryCode+"&brandId="+brandId+"&skuCode="+skuCode+"&branchId="+branchId+"&barCode="+barCode
 			+"&operater="+operater+"&operaterNum="+operaterNum+"&memoryCode="+memoryCode);
+}
+
+//品牌失焦事件
+function checkBrand(param){
+	if(!param.value){
+		$("#brandId").val('');
+	}
+}
+//供应商失焦事件
+function checkSupplier(param){
+	if(!param.value){
+		$("#supplierId").val('');
+	}
 }
