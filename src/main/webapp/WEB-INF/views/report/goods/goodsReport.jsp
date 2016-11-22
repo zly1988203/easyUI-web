@@ -49,7 +49,7 @@
 				</div>
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">货号:</div>
-					<input type="text" name="skuCode" id="skuCode" class="uinp" placeholder="输入货号、条码"/>
+					<input type="text" name="skuCode" id="skuCode" class="uinp" placeholder="输入货号、条码" maxlength="20"/>
 					<div class="uinp-more" onclick="selectSkuCode()">...</div>
 				</div>
 				<div class="ub ub-ac umar-r40">
@@ -73,7 +73,7 @@
 				</div>
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">商品名称:</div>
-					<input type="text" name="skuName" id="skuName" class="uinp" />
+					<input type="text" name="skuName" id="skuName" class="uinp" maxlength="50"/>
 				</div>
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">供应商:</div>
