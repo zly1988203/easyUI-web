@@ -363,6 +363,11 @@ public class PurchaseFormController extends
 		}
 		// 采购单
 		qo.setFormType(FormType.PA.toString());
+		String supplierName = qo.getSupplierName();
+		if(StringUtils.isNotBlank(supplierName)){
+			supplierName = supplierName.substring(supplierName.lastIndexOf("]")+1,supplierName.length());
+			qo.setSupplierName(supplierName);
+		}
 		qo.setBranchCompleCode(getCurrBranchCompleCode());
 		PageUtils<PurchaseFormPO> page = purchaseFormServiceApi.selectPage(qo);
 		return page;
