@@ -299,7 +299,6 @@ function initDatagridOrders(){
  */
 function searchSupplier(){
 	new publicSupplierService(function(data){
-		$("#supplierId").val(data.id);
 		$("#supplierName").val(data.supplierName);
 	});
 }
@@ -309,7 +308,6 @@ function searchSupplier(){
  */
 function searchBind(){
 	new publicBrandService(function(data){
-		$("#brandId").val(data.id);
 		$("#brandName").val(data.brandName);
 	});
 }
@@ -319,7 +317,6 @@ function searchBind(){
  */
 function searchBranch (){
 	new publicAgencyService(function(data){
-	$("#branchId").val(data.branchesId);
 	$("#branchName").val(data.branchName);
 	});
 }
@@ -415,17 +412,4 @@ function printReport(){
 	parent.addTabPrint("reportPrint"+branchId,"打印",contextPath+"/goods/report/printReport?" +"&supplierId="+supplierId
 			+"&categoryCode="+categoryCode+"&brandId="+brandId+"&skuCode="+skuCode+"&branchId="+branchId+"&barCode="+barCode
 			+"&operater="+operater+"&operaterNum="+operaterNum+"&memoryCode="+memoryCode);
-}
-
-//品牌失焦事件
-function checkBrand(param){
-	if(!param.value){
-		$("#brandId").val('');
-	}
-}
-//供应商失焦事件
-function checkSupplier(param){
-	if(!param.value){
-		$("#supplierId").val('');
-	}
 }

@@ -41,10 +41,8 @@
 				<div class="ub ub-ac umar-r40">
 				     <!-- 隐藏类别 -->
 					<input type="hidden" name="categoryCode" id="categoryCode" class="uinp" />
-				
-					<div class="umar-r10 uw-60 ut-r"><span class="umust"></span>机构:</div>
-					<input type="hidden" name="branchId" id="branchId" class="uinp" value="${branchesGrow.branchesId}"/>
-					<input type="text" name="branchName" id="branchName" class="uinp" readonly="readonly" value="${branchesGrow.branchName}" />
+					<div class="umar-r10 uw-60 ut-r">机构:</div>
+					<input type="text" name="branchName" id="branchName" class="uinp" value="${branchesGrow.branchName}" maxlength="50"/>
 					<div class="uinp-more" onclick="searchBranch()">...</div>
 				</div>
 				<div class="ub ub-ac umar-r40">
@@ -54,8 +52,7 @@
 				</div>
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">品牌:</div>
-					<input type="hidden" name="brandId" id="brandId" class="uinp" />
-					<input type="text" name="brandName" id="brandName" class="uinp" maxlength="50" onblur="checkBrand(this)"/>
+					<input type="text" name="brandName" id="brandName" class="uinp" maxlength="50"/>
 					<div class="uinp-more" onclick="searchBind()">...</div>
 				</div>
 			</div>
@@ -77,8 +74,7 @@
 				</div>
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">供应商:</div>
-					<input type="hidden" name="supplierId" id="supplierId" class="uinp" />
-					<input type="text" name="supplierName" id="supplierName" class="uinp" maxlength="50" onblur="checkSupplier(this)"/>
+					<input type="text" name="supplierName" id="supplierName" class="uinp" maxlength="50"/>
 					<div class="uinp-more" onclick="searchSupplier()">...</div>
 				</div>
 			</div>
