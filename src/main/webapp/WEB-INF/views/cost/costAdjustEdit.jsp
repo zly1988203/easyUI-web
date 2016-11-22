@@ -27,7 +27,7 @@
                 <div class="ubtns-item" onclick="back()">返回</div>
             </div>
         </div>
-        <div class="ub umar-t8 uc-black">【单号】：<span >${data.adjustNo}</span></div>
+        <div class="ub umar-t8 uc-black">【单号】:<span >${data.adjustNo}</span></div>
         <div class="ub uline umar-t10"></div>
         <form action="" id="searchForm" method="post">
        		 <input type="hidden" id="adjusId" name="id" value="${data.id}">

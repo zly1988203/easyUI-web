@@ -33,7 +33,7 @@
 	        <div class="ub uline umar-t8"></div>
 	       	
 	       	<div class="ub umar-t8">
-	            <div class="ub ub-ac">
+	            <div class="ub ub-ac umar-l20">
 	                <div class="umar-r10 uw-70 ut-r">查询类型:</div>
 	                <div class="ub ub-ac umar-r10">
 	                    <input class="ub radioItem" type="radio" name="type" id="deal0" value="0" checked="checked"/><label for="deal0">明细表 </label>
