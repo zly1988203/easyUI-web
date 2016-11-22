@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
-import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.OrderNoUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
@@ -119,7 +118,7 @@ public class ActivityController {
 			//构建活动ActivityMain
 			ActivityMain main = new ActivityMain();
 			BeanUtils.copyProperties(activityVo, main);
-			SysUser user = (SysUser)UserUtil.getHttpSession().getAttribute(Constant.SESSION_USER);
+			SysUser user = UserUtil.getUser();
 			Date now = new Date();
 			
 			main.setId(UUIDHexGenerator.generate());
@@ -188,7 +187,7 @@ public class ActivityController {
 			//构建活动ActivityMain
 			ActivityMain main = new ActivityMain();
 			BeanUtils.copyProperties(activityVo, main);
-			SysUser user = (SysUser)UserUtil.getHttpSession().getAttribute(Constant.SESSION_USER);
+			SysUser user = UserUtil.getUser();
 			Date now = new Date();
 			
 			main.setUpdateUserId(user.getId());
@@ -237,7 +236,7 @@ public class ActivityController {
 	public RespJson check(String activityId) {
 		try {
 			logger.debug("审核：activityId：{}",activityId);
-			SysUser user = (SysUser)UserUtil.getHttpSession().getAttribute(Constant.SESSION_USER);
+			SysUser user = UserUtil.getUser();
 			return mainServiceApi.check(activityId, user.getId());
 		} catch (Exception e) {
 			logger.error("审核活动出现异常：",e);
@@ -253,7 +252,7 @@ public class ActivityController {
 	public RespJson stop(String activityId) {
 		try {
 			logger.debug("终止：activityId：{}",activityId);
-			SysUser user = (SysUser)UserUtil.getHttpSession().getAttribute(Constant.SESSION_USER);
+			SysUser user = UserUtil.getUser();
 			return mainServiceApi.stop(activityId, user.getId());
 		} catch (Exception e) {
 			logger.error("终止活动出现异常：",e);
