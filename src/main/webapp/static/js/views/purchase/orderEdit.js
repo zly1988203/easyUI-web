@@ -415,9 +415,10 @@ function saveDataHandel(rows){
     //采购员
     var salesmanId = $("#salesmanId").val();
     var id = $("#formId").val();
+    //备注
+    var remark = $("#remark").val();
 
-
-    //TODO 计算获取商品总数量和总金额
+    //计算获取商品总数量和总金额
     //商品总数量
     var totalNum = 0;
     //总金额
@@ -437,6 +438,7 @@ function saveDataHandel(rows){
         salesmanId:salesmanId,
         totalNum:totalNum,
         amount:amount,
+        remark:remark,
         detailList:rows
     };
     

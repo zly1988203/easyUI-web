@@ -146,6 +146,20 @@ public class PurchaseFormController extends
 		qo.setFormType(FormType.PI.toString());
 		qo.setBranchCompleCode(getCurrBranchCompleCode());
 
+		//处理供应商
+		String supplierName = qo.getSupplierName();
+		if(StringUtils.isNotBlank(supplierName)){
+			supplierName = supplierName.substring(supplierName.lastIndexOf("]")+1,supplierName.length());
+			qo.setSupplierName(supplierName);
+		}
+		
+		//处理机构
+		String branchName = qo.getBranchName();
+		if(StringUtils.isNotBlank(branchName)){
+			branchName = branchName.substring(branchName.lastIndexOf("]")+1,branchName.length());
+			qo.setBranchName(branchName);
+		}
+		
 		PageUtils<PurchaseFormPO> page = purchaseFormServiceApi.selectPage(qo);
 		return page;
 	}
@@ -164,6 +178,20 @@ public class PurchaseFormController extends
 		qo.setFormType(FormType.PR.name());
 		qo.setBranchCompleCode(getCurrBranchCompleCode());
 
+		//处理供应商
+		String supplierName = qo.getSupplierName();
+		if(StringUtils.isNotBlank(supplierName)){
+			supplierName = supplierName.substring(supplierName.lastIndexOf("]")+1,supplierName.length());
+			qo.setSupplierName(supplierName);
+		}
+		
+		//处理机构
+		String branchName = qo.getBranchName();
+		if(StringUtils.isNotBlank(branchName)){
+			branchName = branchName.substring(branchName.lastIndexOf("]")+1,branchName.length());
+			qo.setBranchName(branchName);
+		}
+		
 		PageUtils<PurchaseFormPO> page = purchaseFormServiceApi.selectPage(qo);
 		return page;
 	}
@@ -181,9 +209,17 @@ public class PurchaseFormController extends
 		PurchaseFormPO form = purchaseFormServiceApi.selectPOById(formId);
 		request.setAttribute("form", form);
 		if (FormStatus.CHECK_SUCCESS.getValue().equals(form.getStatus())) {// 已审核，不能修改
-			request.setAttribute("status", FormStatus.CHECK_SUCCESS.getLabel());
-			request.setAttribute("close", report);
-			return "form/purchase/orderView";
+			if(FormStatus.CHECK_SUCCESS.getValue().equals(form.getStatus()) 
+					&& form.getDealStatus()!=null 
+					&& form.getDealStatus()==FormDealStatus.STOP.getValue()){
+				request.setAttribute("status", FormDealStatus.STOP.getLabel());
+				request.setAttribute("close", report);
+				return "form/purchase/orderView";
+			}else{
+				request.setAttribute("status", FormStatus.CHECK_SUCCESS.getLabel());
+				request.setAttribute("close", report);
+				return "form/purchase/orderView";
+			}
 		}
 
 		if (FormDealStatus.FINISH.getValue().equals(form.getDealStatus())) {// 处理完成，不能修改
@@ -355,6 +391,11 @@ public class PurchaseFormController extends
 		}
 		// 采购单
 		qo.setFormType(FormType.PA.toString());
+		String supplierName = qo.getSupplierName();
+		if(StringUtils.isNotBlank(supplierName)){
+			supplierName = supplierName.substring(supplierName.lastIndexOf("]")+1,supplierName.length());
+			qo.setSupplierName(supplierName);
+		}
 		qo.setBranchCompleCode(getCurrBranchCompleCode());
 		PageUtils<PurchaseFormPO> page = purchaseFormServiceApi.selectPage(qo);
 		return page;

@@ -137,13 +137,13 @@ function orderDelete(){
 
 function selectSupplier(){
 	new publicSupplierService(function(data){
-		$("#supplierId").val(data.id);
+//		$("#supplierId").val(data.id);
 		$("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
 	});
 }
 function selectOperator(){
 	new publicOperatorService(function(data){
-		$("#operateUserId").val(data.id);
+//		$("#operateUserId").val(data.id);
 		$("#operateUserName").val(data.userName);
 	});
 }

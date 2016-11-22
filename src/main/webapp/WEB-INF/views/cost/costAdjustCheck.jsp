@@ -25,7 +25,7 @@
                 <div class="ubtns-item" onclick="back()">返回</div>
             </div>
         </div>
-        <div class="ub umar-t8 uc-black">【单号】：<span >${data.adjustNo}</span></div>
+        <div class="ub umar-t8 uc-black">【单号】:<span >${data.adjustNo}</span></div>
                  <div class="already-examine" id="already-examine"><span>已审核</span></div>
         <div class="ub uline umar-t10"></div>
         <form action="" id="searchForm" method="post">
@@ -53,7 +53,7 @@
                         </c:forEach>
 				        </select>
                 </div>
-               <div class="ub ub-ac">
+               <div class="ub ub-ac umar-l40">
                <input type="hidden" id="createUserId" value="${data.createUserId}">
                    <div class="umar-r10 uw-70 ut-r">制单人员:</div>
                    <div class="utxt">${data.createUserName }</div>
@@ -69,7 +69,7 @@
                    <div class="umar-r10 uw-70 ut-r">备注:</div>
                    <input class="uinp uninputs" type="text" id="remark" name="remark" readonly value="${data.remark}" >
                </div>
-               <div class="ub ub-ac umar-l20">
+               <div class="ub ub-ac umar-l40">
                    <div class="umar-r10 uw-70 ut-r">审核人员:</div>
                    <div class="utxt" id="validUserName">${data.validUserName}</div>
                </div>

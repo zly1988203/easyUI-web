@@ -24,7 +24,7 @@
                 <div class="ubtns-item"  id="toBackByJSButton" onclick="back()">返回</div>
             </div>
         </div>
-        <div class="ub umar-t8 uc-black">【单号】：${form.formNo}</div>
+        <div class="ub umar-t8 uc-black">【单号】:${form.formNo}</div>
         <input type="hidden" id="formNo" value="${form.formNo}">
         <input type="hidden" id="type" value="${type}">
         <div class="ub uline umar-t8"></div>

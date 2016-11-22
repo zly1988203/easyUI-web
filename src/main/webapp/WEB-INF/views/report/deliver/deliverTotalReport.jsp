@@ -74,7 +74,7 @@
             <div class="ub umar-t8">
                 <!--input-checkbox-->
                 <div class="ub ub-ac">
-                   <div class="umar-r10 uw-70 ut-r">汇总类型:</div>
+                   <div class="umar-r10 uw-80 ut-r">汇总类型:</div>
                     <div class="ub ub-ac umar-r10 ">
                         <input class="ub radioItem" id="goods" type="radio" name="queryType" value="goods" checked="checked"/>
                         <label for="goods">商品汇总</label>

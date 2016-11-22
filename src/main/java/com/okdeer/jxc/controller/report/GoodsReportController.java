@@ -98,7 +98,7 @@ public class GoodsReportController extends
 			qo.setPageSize(pageSize);
 
 			// 如果没有选择店铺，则查询登录人所在机构的商品
-			if (StringUtils.isEmpty(qo.getBranchId())) {
+			if (StringUtils.isEmpty(qo.getBranchName())) {
 				qo.setBranchId(UserUtil.getCurrBranchId());
 			}
 			PageUtils<GoodsReportVo> goodsReport = goodsReportService.queryListToPage(qo);
@@ -125,7 +125,7 @@ public class GoodsReportController extends
 		LOG.info("商品查询导出execl：vo" + qo);
 		try {
 			// 如果没有选择店铺，则查询登录人所在机构的商品
-			if (StringUtils.isEmpty(qo.getBranchId())) {
+			if (StringUtils.isEmpty(qo.getBranchName())) {
 				qo.setBranchId(UserUtil.getCurrBranchId());
 			}
 			List<GoodsReportVo> exportList = goodsReportService.queryList(qo);
