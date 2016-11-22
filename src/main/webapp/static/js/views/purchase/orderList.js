@@ -155,8 +155,10 @@ function printDesign(){
      if(rowIsNull(row)){
            return null;
      }
+     var url=contextPath + '/form/purchase/preview?page=PASheet&form=list&template=-1&sheetNo=' + row.id ;
      //弹出打印页面
-     parent.addTabPrint('PASheet' + row.id,row.formNo+'单据打印',contextPath + '/printdesign/design?page=PASheet&controller=/form/purchase&template=-1&sheetNo=' + row.id + '&gridFlag=PAGrid','');
+     parent.addTabPrint('PASheet' + row.id,row.formNo+'打印预览',url,'');
+   
 }
 
 /**

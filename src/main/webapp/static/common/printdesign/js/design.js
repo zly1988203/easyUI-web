@@ -432,12 +432,20 @@ function showSetPaperDialog() {
     $.helper.modalDialog("打印纸张设置", 600, 400, true, init, true, okCallback);
 }
 
+$(function(){
+	console.log(111)
+	$('.icon-printPreview').trigger("click");
+})
 //打印预览
 function printPreview() {
+
 	//预览地址
     var url = rootPath + gVar.controller+ "/preview" + "?page=" + gVar.page + "&template=" + gVar.templateNo + "&sheetNo=" + gVar.sheetNo;
+    
+    console.log(url);
     var tab_id = 'prev_'+gVar.page+'_'+gVar.sheetNo;
     var tab_title = gVar.templateData.templateName;
+    console.log(tab_title);
     refreshPreviewOptions();
     window.parent[tab_id] = gVar.previewOptions;
     parent.addTabPrint(tab_id,'模板【' + tab_title + '】打印预览',url,'');
@@ -711,6 +719,7 @@ function initToolbar() {
                 $(this).colssetting({ gridFlag: gVar.gridFlag, sheetType: gVar.controller, targetGrid: '#dg' });
             }
             else if (name == "printPreview") {
+            	console.log(222)
             	//打印预览
                 printPreview();
             }
@@ -1259,7 +1268,7 @@ function initDetailGrid(columns) {
                         col.width = width;
                     }
                 }
-                debugger;
+               
             }
         });
 
@@ -1342,7 +1351,7 @@ function deleteSelectedElement() {
 
 //刷新打印预览Options
 function refreshPreviewOptions() {
-	debugger;
+	
     var printTemp = getTemplate().templateContentPrint;
     var jsPrint = JSON.parse(printTemp);
     var jqPrint = $(jsPrint.module);
