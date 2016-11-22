@@ -203,7 +203,7 @@ function exportDetails(){
  */
 function searchBranch (){
 	new publicAgencyService(function(data){
-		$("#branchId").val(data.branchesId);
+//		$("#branchId").val(data.branchesId);
 		$("#branchName").val("["+data.branchCode+"]"+data.branchName);
 	},"","");
 }
@@ -212,7 +212,7 @@ function searchBranch (){
  */
 function searchSupplier(){
 	new publicSupplierService(function(data){
-		$("#supplierId").val(data.id);
+//		$("#supplierId").val(data.id);
 		$("#supplierName").val(data.supplierName);
 	},"purchase");
 }
@@ -221,7 +221,7 @@ function searchSupplier(){
  */
 function searchCategory(){
 	new publicCategoryService(function(data){
-		$("#categoryId").val(data.goodsCategoryId);
+//		$("#categoryId").val(data.goodsCategoryId);
 		$("#categoryName").val(data.categoryName);
 
 	});
@@ -230,11 +230,5 @@ function searchCategory(){
  * 重置
  */
 var resetForm = function(){
-	/*$("#queryForm").form('clear');
-	$("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
-	$("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
-	$("#branchId").val(sessionBranchId);
-	$("#branchName").val(sessionBranchName);
-	onChangeFormType("");*/
 	location.href=contextPath+"/report/purchase/detail";
 };
