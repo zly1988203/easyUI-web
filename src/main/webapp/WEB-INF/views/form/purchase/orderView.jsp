@@ -75,7 +75,21 @@
         <div class="ub ub-f1 datagrid-edit umar-t8">
             <table id="gridEditOrder" ></table>
         </div>
+	        <div id="printSet">   
+	              <div class="ub umar-t8 uhide" >
+	               <div class="ub ub-ac uselectws umar-l50 umar-t20">
+	                       <!--select-->
+					        <select class="easyui-combobox uselect " name="io" id="io"  data-options="editable:false">
+								<option value="">默认模板</option> 
+					        </select>
+	                </div>
+	              </div> 
+	             <div class="uabtns umar-t20 uhide" >
+	                 <button class="uabtn umar-r10 " onclick="toView()">预览</button>
+	                 <button class="uabtn umar-r10 " onclick="toSetPrint()">设置</button>
+	                 <button class="uabtn" onclick="toPrint()" >打印</button>
+	            </div>    
+	      </div>    
     </div>
-	
 </body>
 </html>
