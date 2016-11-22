@@ -27,15 +27,15 @@
 	<form id="editPwd_mainform" action="">
 		<div class="umar-t18">
 			<div class="form-row">
-				<span class="form-row-left" >旧密码：</span>
+				<span class="form-row-left" >旧密码:</span>
 				<span class="form-row-right"><input type="password" id="oldPass" name="oldPass" class="easyui-textbox" data-options="width:200"/></span>
 			</div>
 			<div class="form-row">
-				<span class="form-row-left">新密码：</span>
+				<span class="form-row-left">新密码:</span>
 				<span class="form-row-right"><input type="password" id="newPass" name="newPass" class="easyui-textbox" data-options="width:200"/></span>
 			</div>
 			<div class="form-row">
-				<span class="form-row-left">确认新密码：</span>
+				<span class="form-row-left">确认新密码:</span>
 				<span class="form-row-right"><input type="password" id="againNewPass" name="againNewPass" class="easyui-textbox" data-options="width:200"/></span>
 			</div>
 			<div class="form-row">
@@ -44,7 +44,7 @@
 				   <input type="button" class="ubtn usure" value="提交"  id="formSubmit">
 			</div>
 			<div class="form-row">
-				<span class="uc-red ufs-12">注：密码长度为8-18位，字母+数字，不能是纯数字。</span>
+				<span class="uc-red ufs-12">注:密码长度为8-18位，字母+数字，不能是纯数字。</span>
 			</div>
 		</div>
 	</form>

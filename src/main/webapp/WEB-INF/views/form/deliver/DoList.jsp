@@ -75,7 +75,7 @@
 	                    <input type="hidden" id="deliverType" name="deliverType" value="DO" />
 	                    <input class="uinp" type="text" id="formNo" name="formNo">
 	                </div>
-	                <div class="ub ub-ac uw-300 umar-l20">
+	                <div class="ub ub-ac uw-300 umar-l40">
 	                    <div class="umar-r10 uw-70 ut-r">制单人员:</div>
 	                    <input type="hidden" id="operateUserId" name="operateUserId" />
 	                    <input class="uinp ub ub-f1" type="text"  id="operateUserName" type="text" readonly="readonly" onclick="selectOperator()" />
@@ -106,7 +106,7 @@
 	                        <input class="ub" type="radio" name="deliverAuditStatus" value=""  /><span>全部</span>
 	                    </div>
 	                </div>
-	                <div class="ub ub-ac umar-l20">
+	                <div class="ub ub-ac umar-l40">
 	                    <div class="umar-r10 uw-70 ut-r">单据状态:</div>
 	                    <div class="ub ub-ac umar-r10">
 	                        <input class="ub" type="radio" name="deliverStatus" value="0" /><span>待处理</span>

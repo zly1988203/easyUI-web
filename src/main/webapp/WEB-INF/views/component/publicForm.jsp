@@ -14,7 +14,7 @@
                         <input class="usearch uinp ub ub-f1" id="formNo" type="text" placeholder="输入编号/名称" >
                         <c:if test="${type=='DA'}">
                         	<div class="umar-l10">
-		                        <span class="umar-l10  umar-r10">时间：</span>
+		                        <span class="umar-l10  umar-r10">时间:</span>
 		                        <input class="Wdate"  readonly="readonly" name="endTime" id="popupSearchDateTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" />
                         	</div>
                         </c:if>

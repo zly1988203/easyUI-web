@@ -58,18 +58,18 @@
 	                    <input class="uinp ub ub-f1" type="text" id="targetBranchName" name="targetBranchName" onclick="selectBranches()" />
 	                    <div class="uinp-more" onclick="selectBranches()" >...</div>
 	                </div>
-	                <div class="ub ub-ac">
+	                <div class="ub ub-ac umar-l20">
 	                    <div class="umar-r10 uw-70 ut-r">业务人员:</div>
 	                    <input class="uinp" type="text" id="salesman" name="salesman">
 	                </div>
 	            </div>
 	            <div class="ub umar-t8">
-	                <div class="ub ub-ac">
+	                <div class="ub ub-ac ">
 	                    <div class="umar-r10 uw-70 ut-r">备注:</div>
 	                    <input class="uinp" type="text" id="remark" name="remark">
 	                </div>
 	                <!--input-checkbox-->
-	                <div class="ub ub-ac umar-l40 uw-300">
+	                <div class="ub ub-ac umar-l20 uw-300">
 	                    <div class="umar-r10 uw-70 ut-r">审核状态:</div>
 	                    <div class="ub ub-ac umar-r10">
 	                        <input class="ub" type="radio" name="deliverAuditStatus"  value="1"/><span>已审核</span>
@@ -81,7 +81,7 @@
 	                        <input class="ub" type="radio" name="deliverAuditStatus" value=""  /><span>全部</span>
 	                    </div>
 	                </div>
-	                <div class="ub ub-ac umar-l20">
+	                <div class="ub ub-ac umar-l40">
 	                    <div class="umar-r10 uw-70 ut-r">单据状态:</div>
 	                    <div class="ub ub-ac umar-r10">
 	                        <input class="ub" type="radio" name="deliverStatus" value="0" /><span>待处理</span>
