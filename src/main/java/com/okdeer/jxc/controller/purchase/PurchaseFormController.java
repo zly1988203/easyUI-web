@@ -181,9 +181,17 @@ public class PurchaseFormController extends
 		PurchaseFormPO form = purchaseFormServiceApi.selectPOById(formId);
 		request.setAttribute("form", form);
 		if (FormStatus.CHECK_SUCCESS.getValue().equals(form.getStatus())) {// 已审核，不能修改
-			request.setAttribute("status", FormStatus.CHECK_SUCCESS.getLabel());
-			request.setAttribute("close", report);
-			return "form/purchase/orderView";
+			if(FormStatus.CHECK_SUCCESS.getValue().equals(form.getStatus()) 
+					&& form.getDealStatus()!=null 
+					&& form.getDealStatus()==FormDealStatus.STOP.getValue()){
+				request.setAttribute("status", FormDealStatus.STOP.getLabel());
+				request.setAttribute("close", report);
+				return "form/purchase/orderView";
+			}else{
+				request.setAttribute("status", FormStatus.CHECK_SUCCESS.getLabel());
+				request.setAttribute("close", report);
+				return "form/purchase/orderView";
+			}
 		}
 
 		if (FormDealStatus.FINISH.getValue().equals(form.getDealStatus())) {// 处理完成，不能修改

@@ -466,6 +466,8 @@ function saveDataHandel(rows){
     var deliverTime = $("#deliverTime").val();
     //采购员
     var salesmanId = $("#salesmanId").val();
+    //备注
+    var remark = $("#remark").val();
 
     var footerRows = $("#gridEditOrder").datagrid("getFooterRows");
     if(footerRows){
@@ -480,6 +482,7 @@ function saveDataHandel(rows){
         salesmanId:salesmanId,
         totalNum:totalNum,
         amount:amount,
+        remark:remark,
         detailList:rows
     };
     
