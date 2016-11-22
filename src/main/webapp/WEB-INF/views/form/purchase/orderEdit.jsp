@@ -80,6 +80,12 @@
                 <div class="utxt"></div>
             </div>
         </div>
+        <div class="ub umar-t8">
+               <div class="ub ub-ac uw-610" style="width: 624px;">
+	                    <div class="umar-r10 uw-60 ut-r">备注:</div>
+	                    <input class="uinp ub ub-f1" name="remark" id="remark" type="text" maxlength="100" value="${form.remark}">
+	           </div>
+        </div>
         <div class="ub ub-f1 datagrid-edit umar-t8">
             <table id="gridEditOrder" ></table>
         </div>
