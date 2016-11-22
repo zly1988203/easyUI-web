@@ -33,7 +33,7 @@
 	            </div> -->
 	            <div class="ub ub-ac ">
                     <div class="umar-r10 uw-80 ut-r">活动名称:</div>
-                    <input class="uinp" type="text" name="activityName" id="activityName" value="222">
+                    <input class="uinp" type="text" name="activityName" id="activityName" value="">
                 </div>
                 <div class="ub ub-ac uselectw umar-l00">
                     <div class="umar-r10 uw-70 ut-r">活动类型:</div>
@@ -49,23 +49,23 @@
                 </div>
                 <div class="ub ub-ac umar-l40  discountTypechoose unhide">
                         <div class="ub ub-ac umar-r10">
-	                        <input class="ub disradio" type="radio" name="disstatus" value="0" checked="checked" /><span>单品折扣</span>
+	                        <input class="ub disradio" id="disradio0" type="radio" name="disstatus" value="0" checked="checked" /><span>单品折扣</span>
 	                    </div>
 	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub disradio" type="radio" name="disstatus"  value="1" /><span>类别折扣</span>
+	                        <input class="ub disradio" id="disradio1" type="radio" name="disstatus"  value="1" /><span>类别折扣</span>
 	                    </div> 
 	                     <input class="uinp" type="hidden" id="activityScopedis" value="0"  name="activityScopedis">
 	            </div>
                 <div class="ub ub-ac umar-l40  mjTypechoose unhide">
 	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub mjradio" type="radio" name="mjstatus" value="0" checked="checked" /><span>商品</span>
+	                        <input class="ub mjradio" id="mjradio0" type="radio" name="mjstatus" value="0" checked="checked" /><span>商品</span>
 	                    </div>
 	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub mjradio" type="radio" name="mjstatus" value="1" /><span>类别</span>
+	                        <input class="ub mjradio" id="mjradio1" type="radio" name="mjstatus" value="1" /><span>类别</span>
 	                    </div>
 	                    
 	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub mjradio" type="radio" name="mjstatus"  value="2" /><span>全场</span>
+	                        <input class="ub mjradio" id="mjradio2"  type="radio" name="mjstatus"  value="2" /><span>全场</span>
 	                    </div>
 	                     <input class="uinp" type="hidden" id="activityScopemj" value="0"  name="activityScopemj">
 	            </div>
@@ -82,28 +82,28 @@
 	              	<input class="Wdate"  readonly="readonly" name="dailyStartTime" id="dailyStartTime" onclick="WdatePicker({dateFmt:'HH:mm:ss',minDate:'00:00:00',maxDate:'#F{$dp.$D(\'dailyEndTime\');}'})" />&nbsp;至&nbsp;
                     <input class="Wdate"  readonly="readonly" name="dailyEndTime" id="dailyEndTime" onclick="WdatePicker({dateFmt:'HH:mm:ss',minDate:'#F{$dp.$D(\'dailyStartTime\');}'})" /> 
 	              </div>
-	              <div class="ub ub-ac">
+	              <div class="ub ub-ac" id="weekday">
 	               <div class="umar-r10 uw-80 ut-r">活动日:</div>
-	               <div class="ub ub-ac umar-l10 ">
-                        <input class="ub" type="checkbox" name="weekcheckbox" value="1" checked="checked" /><span class="umar-l10">一</span>
+	               <div class="ub ub-ac umar-l10 ubcheckweek">
+                        <input class="ub" id="weekcheckbox1" type="checkbox" name="weekcheckbox" value="1" checked="checked" /><span class="umar-l10">一</span>
                    </div>
-                   <div class="ub ub-ac umar-l10">
-                        <input class="ub" type="checkbox" name="weekcheckbox" value="2" checked="checked" /><span class="umar-l10">二</span>
+                   <div class="ub ub-ac umar-l10 ubcheckweek">
+                        <input class="ub" id="weekcheckbox2" type="checkbox" name="weekcheckbox" value="2" checked="checked" /><span class="umar-l10">二</span>
                    </div>
-                   <div class="ub ub-ac umar-l10">
-                        <input class="ub" type="checkbox" name="weekcheckbox" value="3" checked="checked" /><span class="umar-l10">三</span>
+                   <div class="ub ub-ac umar-l10 ubcheckweek">
+                        <input class="ub" id="weekcheckbox3" type="checkbox" name="weekcheckbox" value="3" checked="checked" /><span class="umar-l10">三</span>
                    </div>
-                    <div class="ub ub-ac umar-l10">
-                        <input class="ub" type="checkbox" name="weekcheckbox" value="4" checked="checked" /><span class="umar-l10">四</span>
+                    <div class="ub ub-ac umar-l10 ubcheckweek">
+                        <input class="ub" id="weekcheckbox4" type="checkbox" name="weekcheckbox" value="4" checked="checked" /><span class="umar-l10">四</span>
                    </div>
-                    <div class="ub ub-ac umar-l10">
-                        <input class="ub" type="checkbox" name="weekcheckbox" value="5" checked="checked" /><span class="umar-l10">五</span>
+                    <div class="ub ub-ac umar-l10 ubcheckweek">
+                        <input class="ub" id="weekcheckbox5" type="checkbox" name="weekcheckbox" value="5" checked="checked" /><span class="umar-l10">五</span>
                    </div>
-                    <div class="ub ub-ac umar-l10">
-                        <input class="ub" type="checkbox" name="weekcheckbox" value="6" checked="checked" /><span class="umar-l10">六</span>
+                    <div class="ub ub-ac umar-l10 ubcheckweek">
+                        <input class="ub " id="weekcheckbox6" type="checkbox" name="weekcheckbox" value="6" checked="checked" /><span class="umar-l10">六</span>
                    </div>
-                    <div class="ub ub-ac umar-l10">
-                        <input class="ub" type="checkbox" name="weekcheckbox" value="7" checked="checked" /><span class="umar-l10">日</span>
+                    <div class="ub ub-ac umar-l10 ubcheckweek">
+                        <input class="ub " id="weekcheckbox7" type="checkbox" name="weekcheckbox" value="7" checked="checked" /><span class="umar-l10">日</span>
                    </div>
                     <input class="uinp ub ub-f1" type="hidden" id="weeklyActivityDay" name="weeklyActivityDay" value=" ">
                   </div>
@@ -140,7 +140,7 @@
        	</form>
            
       
-      <div id="consaleadd" class="ub uw ub-f1 umar-t20" style="min-height:300px;">
+      <div id="consaleadd" class="ub uw ub-f1 umar-t20" style="min-height:50%;">
 			 <table id="saleMangeadd"></table>
 		</div>
 		 

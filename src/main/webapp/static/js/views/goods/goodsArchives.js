@@ -152,7 +152,7 @@ function gridReload(gridName,httpParams,selectTypeName){
 	//begin by lijy02 2016.9.13
 //	$("#"+gridName).datagrid("options").url = contextPath+'/goods/goodsSelect/getGoodsList';
 	//end by lijy02
-    $("#"+gridName).datagrid("options").queryParams = httpParams;
+    $("#"+gridName).datagrid("options").queryParams = $("#formGoodsArchives").serializeObject();
     $("#"+gridName).datagrid("options").method = "post";
     $("#"+gridName).datagrid("load");
 }
@@ -292,11 +292,25 @@ function goodsSelectType(){
     console.log($("#goodsType").val());
     goodsClass.selectTypeName = $("#goodsType").val();
 }
+
+//清除左侧菜单参数
+function cleanLeftParam(){
+	 $("#brandId1").val('');
+     $("#categoryCode1").val('');
+     $("#level").val('');
+     $("#supplierId1").val('');
+}
+
 //搜索
 function goodsSearch(){
+	//去除左侧选中值
+	cleanLeftParam();
+	//去除左侧选中样式
+	$('.zTreeDemoBackground a').removeClass('curSelectedNode');
     var formParams = $("#formGoodsArchives").serializeObject();
     $("#gridArchives").datagrid('options').url=contextPath+'/common/goods/queryGoodsSku';
     gridReload("gridArchives", formParams);
+    
 }
 //新增
 function addGoodsView(){
@@ -382,6 +396,7 @@ function delGoods(){
 
 //导出
 function exportExcel(){
+	cleanLeftParam();
 	var isValid = $("#formGoodsArchives").form('validate');
 	if(!isValid){
 		return;

@@ -171,8 +171,9 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 				suppliers = goodsSelectServiceApi.queryPurchaseGoodsLists(vo);
 			}else{
 				//2.2 如果供应商机构商品关系不存在,需要查询该机构上级分公司
-				vo.setBranchId(branches.getParentId());
-				suppliers = goodsSelectServiceApi.queryPurchaseGoodsLists(vo);
+				vo.setParentId(branches.getParentId());
+				vo.setBranchId(branchId);
+				suppliers = goodsSelectServiceApi.queryBranchPurchaseGoodsLists(vo);
 			}
 		}else{
 			suppliers = goodsSelectServiceApi.queryPurchaseGoodsLists(vo);
