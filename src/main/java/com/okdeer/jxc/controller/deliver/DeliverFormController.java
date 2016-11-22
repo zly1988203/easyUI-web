@@ -32,6 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.alibaba.druid.util.StringUtils;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.okdeer.jxc.branch.entity.BranchSpec;
 import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.entity.BranchesGrow;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
@@ -177,9 +178,10 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 	@RequestMapping(value = "validityDays")
 	public String validityDays(Model model) {
 		// 在页面显示有效天数
-		int validityDay = deliverConfigServiceApi.getValidityDay(UserUtil
-				.getCurrBranchId());
+		int validityDay = deliverConfigServiceApi.getValidityDay(UserUtil.getCurrBranchId());
 		model.addAttribute("validityDay", validityDay);
+		BranchSpec branchSpec = deliverConfigServiceApi.querySpecByBranchId(UserUtil.getCurrBranchId());
+		model.addAttribute("branchSpec", branchSpec);
 		return "form/deliver/validityDays";
 	}
 

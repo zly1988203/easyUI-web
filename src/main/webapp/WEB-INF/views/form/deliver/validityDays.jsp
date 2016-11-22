@@ -24,17 +24,32 @@
 	<div class="ub ub-ver ub-f1 umar-4 ubor upad-10">
 		<!--<div class="upad-10 ubor-b" style="border-color: #0099cc">连锁设置</div>-->
 		<div class="ub ub-ver umar-t20">
-			<div class="ub ub-ac upad-10 ubor-b">
-				<div class="umar-r10 uw-280 ut-r">有效天数:</div>
-				<div class="ub ub-ac umar-r10">
-					<form id="validityDayForm"
-						action="${ctx}/form/deliverConfig/saveValidityDay" method="post">
-						<input type="text" value="${validityDay}"
-							class="easyui-numberbox " name="validityDay" id="validityDay"
-							data-options="min:0,precision:0">
-					</form>
+			<form id="validityDayForm" action="${ctx}/form/deliverConfig/saveValidityDay" method="post">
+				<div class="ub ub-ac upad-10 ubor-b">
+					<div class="umar-r10 uw-280 ut-r">有效天数:</div>
+					<div class="ub ub-ac umar-r10">
+						<input type="text" value="${validityDay}" class="easyui-numberbox " name="validityDay" id="validityDay" data-options="min:0,precision:0">
+					</div>
 				</div>
-			</div>
+				<div class="ub upad-10 ubor-b">
+					<div class="umar-r10 uw-280 ut-r">进货价:</div>
+					<div class="ub ub-ac umar-r10">
+						<input class="ub" type="radio" id="priceSpec0" name="priceSpec" value="0"  /><span>成本价</span>
+					</div>
+					<div class="ub ub-ac umar-r10">
+						<input class="ub" type="radio" id="priceSpec1" name="priceSpec" value="1" /><span>配送价</span>
+					</div>
+				</div>
+				<div class="ub upad-10 ubor-b">
+					<div class="umar-r10 uw-280 ut-r">商品范围:</div>
+					<div class="ub ub-ac umar-r10">
+						<input class="ub" type="radio" id="selectGoodsSpec0" name="selectGoodsSpec" value="0" /><span>发货机构的商品</span>
+					</div>
+					<div class="ub ub-ac umar-r10">
+						<input class="ub" type="radio" id="selectGoodsSpec1"  name="selectGoodsSpec" value="1"  /><span>进货机构和发货机构的交集的商品</span>
+					</div>
+				</div>
+			</form>
 			<!-- <div class="ub upad-10 ubor-b">
 				<div class="umar-r10 uw-280 ut-r">分店间直调必须经过总部审批:</div>
 				<div class="ub ub-ac umar-r10">
@@ -182,27 +197,43 @@
 
 </body>
 <script type="text/javascript">
-		$("#validityDayForm").form({
-			onSubmit : function() {
-					$.messager.progress({
-						msg : '数据正在保存中，请稍后...'
-					});
-				return true;
-			},
-			success:function(data){
-				var result = JSON.parse(data)
-				$.messager.progress('close');
-	            if(result['code'] == 0){
-	                messager("保存成功！");
-	            }else{
-	                successTip(result['message']);
-	            }
-	        } ,error:function(data){
-	            successTip("请求发送失败或服务器处理失败");
-	        }
-		});
-	function save(){
-		$("#validityDayForm").submit();
+$(function(){
+	var priceSpec = '${branchSpec.priceSpec}';
+	var selectGoodsSpec = '${branchSpec.selectGoodsSpec}';
+	if (priceSpec === null || priceSpec === '0' || priceSpec === '') {
+		$("#priceSpec0").attr("checked","true");
+	} else {
+		$("#priceSpec1").attr("checked","true");
 	}
+	if (selectGoodsSpec === null || selectGoodsSpec === '0' || selectGoodsSpec === '') {
+		$("#selectGoodsSpec0").attr("checked","true");
+	} else {
+		$("#selectGoodsSpec1").attr("checked","true");
+	}
+});
+
+$("#validityDayForm").form({
+	onSubmit : function() {
+			$.messager.progress({
+				msg : '数据正在保存中，请稍后...'
+			});
+		return true;
+	},
+	success:function(data){
+		var result = JSON.parse(data)
+		$.messager.progress('close');
+           if(result['code'] == 0){
+               messager("保存成功！");
+           }else{
+               successTip(result['message']);
+           }
+       } ,error:function(data){
+           successTip("请求发送失败或服务器处理失败");
+       }
+});
+
+function save(){
+	$("#validityDayForm").submit();
+}
 </script>
 </html>
