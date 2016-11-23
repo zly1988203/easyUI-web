@@ -96,7 +96,7 @@ function queryForm(){
  */
 function selectBranches(){
 	new publicAgencyService(function(data){
-		$("#createBranchId").val(data.branchesId);
+//		$("#createBranchId").val(data.branchesId);
 		$("#branchName").val(data.branchName);
 	},'BF','');
 }
@@ -105,8 +105,8 @@ function selectBranches(){
  */
 function selectOperator(){
 	new publicOperatorService(function(data){
-		$("#salesmanId").val(data.id);
-		$("#operateUserName").val(data.userName);
+//		$("#salesmanId").val(data.id);
+		$("#createUserName").val(data.userName);
 	});
 }
 
