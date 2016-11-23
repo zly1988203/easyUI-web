@@ -11,6 +11,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -58,7 +59,13 @@ public class GoodsOutInDetailReportController extends BaseController<GoodsOutInD
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
-			vo.setSourceBranchId(UserUtil.getCurrBranchId());
+			//处理供应商
+			String supplierName = vo.getSupplierName();
+			if(StringUtils.isNotBlank(supplierName)){
+				supplierName = supplierName.substring(supplierName.lastIndexOf("]")+1,supplierName.length());
+				vo.setSupplierName(supplierName);
+			}
+			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
 			PageUtils<GoodsOutInDetailVo> goodsOutInfoDetailList = goodsOutInDetailServiceApi.getGoodsOutInDetailList(vo);
 			GoodsOutInDetailVo goodsOutInDetailVo = goodsOutInDetailServiceApi.queryGoodsOutInDetailCountSum(vo);
 			List<GoodsOutInDetailVo> footer = new ArrayList<GoodsOutInDetailVo>();
@@ -89,7 +96,13 @@ public class GoodsOutInDetailReportController extends BaseController<GoodsOutInD
 	public RespJson exportList(HttpServletResponse response, GoodsOutInDetailVo vo) {
 		RespJson resp = RespJson.success();
 		try {
-			vo.setSourceBranchId(UserUtil.getCurrBranchId());
+			//处理供应商
+			String supplierName = vo.getSupplierName();
+			if(StringUtils.isNotBlank(supplierName)){
+				supplierName = supplierName.substring(supplierName.lastIndexOf("]")+1,supplierName.length());
+				vo.setSupplierName(supplierName);
+			}
+			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
 			List<GoodsOutInDetailVo> exportList = goodsOutInDetailServiceApi.exportList(vo);
 			GoodsOutInDetailVo goodsOutInDetailVo = goodsOutInDetailServiceApi.queryGoodsOutInDetailCountSum(vo);
 			goodsOutInDetailVo.setBranchCode("合计：");
