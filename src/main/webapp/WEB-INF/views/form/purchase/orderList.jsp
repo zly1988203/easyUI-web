@@ -41,13 +41,13 @@
 	            <div class="ub ub-ac umar-r40">
 	                <div class="umar-r10 uw-60 ut-r">供应商:</div>
 	                <input class="uinp" name="supplierId" id="supplierId" type="hidden">
-	                <input class="uinp" id="supplierName" type="text" readonly="readonly" onclick="selectSupplier()">
+	                <input class="uinp" id="supplierName" name="supplierName" type="text" maxlength="50">
 	                <div class="uinp-more" onclick="selectSupplier()">...</div>
 	            </div>
 	            <div class="ub ub-ac umar-r40">
 	                <div class="umar-r10 uw-60 ut-r">操作员:</div>
 	                <input class="uinp" name="operateUserId" id="operateUserId" type="hidden">
-	                <input class="uinp" id="operateUserName" type="text" readonly="readonly" onclick="selectOperator()" >
+	                <input class="uinp" id="operateUserName" name ="operateUserName" type="text"  maxlength="50">
 	                <div class="uinp-more" onclick="selectOperator()">...</div>
 	            </div>
 	        </div>

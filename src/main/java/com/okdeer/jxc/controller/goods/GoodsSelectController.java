@@ -28,6 +28,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.okdeer.base.common.exception.ServiceException;
+import com.okdeer.jxc.branch.entity.Branches;
+import com.okdeer.jxc.branch.service.BranchesServiceApi;
+import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.controller.scale.Message;
@@ -37,6 +41,7 @@ import com.okdeer.jxc.goods.entity.GoodsSelect;
 import com.okdeer.jxc.goods.entity.GoodsSelectDeliver;
 import com.okdeer.jxc.goods.service.GoodsCategoryServiceApi;
 import com.okdeer.jxc.goods.service.GoodsSelectServiceApi;
+import com.okdeer.jxc.goods.service.GoodsSupplierBranchServiceApi;
 import com.okdeer.jxc.goods.vo.GoodsCategoryVo;
 import com.okdeer.jxc.goods.vo.GoodsSelectVo;
 import com.okdeer.jxc.goods.vo.GoodsSkuVo;
@@ -64,6 +69,12 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 
 	@Reference(version = "1.0.0", check = false)
 	private GoodsCategoryServiceApi goodsCategoryService;
+	
+	@Reference(version = "1.0.0", check = false)
+	private BranchesServiceApi branchesService;
+	
+	@Reference(version = "1.0.0", check = false)
+	GoodsSupplierBranchServiceApi goodsSupplierBranchServiceApi;
 
 	/**
 	 * @Description: 商品选择view
@@ -128,7 +139,9 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 			PageUtils<GoodsSelect> suppliers = null;
 			if(FormType.PA.name().equals(vo.getFormType()) || FormType.PR.name().equals(vo.getFormType())){
 				if(StringUtils.isNotBlank(vo.getSupplierId())){
-					suppliers = goodsSelectServiceApi.queryPurchaseGoodsLists(vo);
+					//suppliers = goodsSelectServiceApi.queryPurchaseGoodsLists(vo);
+					//根据机构id判断查询采购商品
+					suppliers = queryPurchaseGoods(vo);
 				}else{
 					suppliers = goodsSelectServiceApi.queryLists(vo);
 				}
@@ -142,6 +155,33 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 		return PageUtils.emptyPage();
 	}
 
+	//根据机构id判断查询采购商品
+	private PageUtils<GoodsSelect> queryPurchaseGoods(GoodsSelectVo vo) throws ServiceException  {
+		//1、查询选择机构
+		String branchId = vo.getBranchId();
+		String supplierId = vo.getSupplierId();
+		Branches branches = branchesService.getBranchInfoById(branchId);
+		PageUtils<GoodsSelect> suppliers = null;
+		Integer type = branches.getType();
+		//2、判断选择机构类型为店铺还是分公司,type : 机构类型(0.总部、1.分公司、2.物流中心、3.自营店、4.加盟店B、5.加盟店C)
+		if(type ==Constant.THREE || type ==Constant.FOUR || type ==Constant.FIVE){
+			Integer count = goodsSupplierBranchServiceApi.queryCountByBranchIdAndSupplierId(branchId, supplierId);
+			if(count>0){
+				//2.1 如果供应商机构商品关系存在
+				suppliers = goodsSelectServiceApi.queryPurchaseGoodsLists(vo);
+			}else{
+				//2.2 如果供应商机构商品关系不存在,需要查询该机构上级分公司
+				vo.setParentId(branches.getParentId());
+				vo.setBranchId(branchId);
+				suppliers = goodsSelectServiceApi.queryBranchPurchaseGoodsLists(vo);
+			}
+		}else{
+			suppliers = goodsSelectServiceApi.queryPurchaseGoodsLists(vo);
+		}
+		return suppliers;
+	}
+	
+	
 	/**
 	 * @Description: 根据货号批量查询商品
 	 * @param skuCodes

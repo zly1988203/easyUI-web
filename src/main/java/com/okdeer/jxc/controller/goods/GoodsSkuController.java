@@ -88,7 +88,7 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		LOG.info("qo:" + qo.toString());
-		if (qo.isOutGoods()) {// 淘汰商品
+		if (!qo.isOutGoods()) {// 淘汰商品
 			qo.setStatus(GoodsStatusEnum.OBSOLETE.ordinal());
 		}
 		if(StringUtils.isNotBlank(categoryCode1)){
@@ -454,6 +454,9 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 			}
 			if(StringUtils.isNotBlank(supplierId1)){
 				qo.setSupplierId(supplierId1);
+			}
+			if (!qo.isOutGoods()) {// 淘汰商品
+				qo.setStatus(GoodsStatusEnum.OBSOLETE.ordinal());
 			}
 			qo.setPageSize(ExportExcelConstant.EXPORT_MAX_SIZE);
 			int count=goodsSkuService.querySkuByParamsCount(qo);

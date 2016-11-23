@@ -21,7 +21,7 @@
 		<band splitType="Stretch"/>
 	</background>
 	<detail>
-		<band height="96" splitType="Prevent">
+		<band height="96" splitType="Immediate">
 			<textField>
 				<reportElement x="50" y="2" width="140" height="25" uuid="9d73442d-ec15-414b-9a38-19b2c5ed2bf9"/>
 				<textElement verticalAlignment="Middle">

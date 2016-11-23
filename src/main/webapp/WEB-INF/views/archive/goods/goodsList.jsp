@@ -32,9 +32,9 @@
 			   	<shiro:hasPermission name="JxcGoodsArchive:copy">
 					<button class="ubtns-item" onclick="copyGoodsView()">复制</button>
 			   	</shiro:hasPermission>
-			   	<shiro:hasPermission name="JxcGoodsArchive:delete">
+			   <%-- 	<shiro:hasPermission name="JxcGoodsArchive:delete">
 					<button class="ubtns-item" onclick="delGoods()">删除</button>
-			   	</shiro:hasPermission>
+			   	</shiro:hasPermission> --%>
 			   	<shiro:hasPermission name="JxcGoodsArchive:export">
 					<button class="ubtns-item" onclick="exportExcel()">导出</button>
 			   	</shiro:hasPermission>

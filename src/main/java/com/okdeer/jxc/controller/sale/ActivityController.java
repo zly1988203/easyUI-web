@@ -28,14 +28,17 @@ import com.alibaba.fastjson.JSON;
 import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.OrderNoUtils;
+import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.UUIDHexGenerator;
 import com.okdeer.jxc.form.enums.FormType;
 import com.okdeer.jxc.sale.activity.service.ActivityServiceApi;
 import com.okdeer.jxc.sale.activity.vo.ActivityDetailVo;
+import com.okdeer.jxc.sale.activity.vo.ActivityListQueryVo;
 import com.okdeer.jxc.sale.activity.vo.ActivityVo;
 import com.okdeer.jxc.sale.entity.ActivityBranch;
 import com.okdeer.jxc.sale.entity.ActivityDetail;
 import com.okdeer.jxc.sale.entity.ActivityMain;
+import com.okdeer.jxc.sale.enums.ActivityStatus;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
 
@@ -61,29 +64,57 @@ public class ActivityController {
 	@Autowired
 	private OrderNoUtils orderNoUtils;
 
+	/**
+	 * 跳转到列表
+	 */
 	@RequestMapping(value = "list")
 	public String viewList() {
 		return "sale/activity/list";
 	}
 	
+	/**
+	 * 跳转到新增页面
+	 */
 	@RequestMapping(value = "add")
 	public String viewAdd() {
 		return "sale/activity/add";
 	}
 	
+	/**
+	 * 跳转到修改页面
+	 */
 	@RequestMapping(value = "edit")
 	public String viewEdit(String activityId, HttpServletRequest request) {
 		request.setAttribute("activityId", activityId);
-		return "sale/activity/edit";
+		ActivityMain main = mainServiceApi.get(activityId);
+		if(main == null){
+			return "error/404";
+		}
+		//判断是否已审核
+		if(main.getActivityStatus().equals(ActivityStatus.WAIT_CHECK.getValue())){
+			return "sale/activity/edit";
+		}else{
+			return "sale/activity/view";
+		}
 	}
 	
+	/**
+	 * 保存活动
+	 */
 	@RequestMapping(value = "save", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson save(@RequestBody String jsonText) {
+		RespJson resp = RespJson.success();
 		try {
 			logger.debug("json:{}",jsonText);
 			//转换Json数据
 			ActivityVo activityVo = JSON.parseObject(jsonText, ActivityVo.class);
+			//数据验证
+			String validMsg = activityVo.validate();
+			
+			if(validMsg != null){
+				return RespJson.businessError(validMsg);
+			}
 			
 			//构建活动ActivityMain
 			ActivityMain main = new ActivityMain();
@@ -92,7 +123,7 @@ public class ActivityController {
 			Date now = new Date();
 			
 			main.setId(UUIDHexGenerator.generate());
-			main.setActivityStatus(0);
+			main.setActivityStatus(ActivityStatus.WAIT_CHECK.getValue());
 			main.setCreateUserId(user.getId());
 			main.setCreateTime(now);
 			main.setUpdateUserId(user.getId());
@@ -129,14 +160,17 @@ public class ActivityController {
 			
 			//保存活动
 			mainServiceApi.save(main, detailList, branchList);
-			
+			resp.put("activityId", main.getId());
 		} catch (Exception e) {
 			logger.error("保存活动出现异常：",e);
 			return RespJson.error("保存活动出现异常");
 		}
-		return RespJson.success();
+		return resp;
 	}
 	
+	/**
+	 * 修改活动
+	 */
 	@RequestMapping(value = "update", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson update(@RequestBody String jsonText) {
@@ -144,6 +178,12 @@ public class ActivityController {
 			logger.debug("json:{}",jsonText);
 			//转换Json数据
 			ActivityVo activityVo = JSON.parseObject(jsonText, ActivityVo.class);
+			//验证数据
+			String validMsg = activityVo.validate();
+			
+			if(validMsg != null){
+				return RespJson.businessError(validMsg);
+			}
 			
 			//构建活动ActivityMain
 			ActivityMain main = new ActivityMain();
@@ -181,50 +221,56 @@ public class ActivityController {
 			}
 			
 			//保存活动
-			mainServiceApi.update(main, detailList, branchList);
+			return mainServiceApi.update(main, detailList, branchList);
 			
 		} catch (Exception e) {
 			logger.error("保存活动出现异常：",e);
 			return RespJson.error("保存活动出现异常");
 		}
-		return RespJson.success();
 	}
 	
+	/**
+	 * 审核活动
+	 */
 	@RequestMapping(value = "check", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson check(String activityId) {
 		try {
 			logger.debug("审核：activityId：{}",activityId);
 			SysUser user = (SysUser)UserUtil.getHttpSession().getAttribute(Constant.SESSION_USER);
-			mainServiceApi.check(activityId, user.getId());
+			return mainServiceApi.check(activityId, user.getId());
 		} catch (Exception e) {
 			logger.error("审核活动出现异常：",e);
 			return RespJson.error("审核活动出现异常");
 		}
-		return RespJson.success();
 	}
 	
+	/**
+	 * 终止活动
+	 */
 	@RequestMapping(value = "stop", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson stop(String activityId) {
 		try {
 			logger.debug("终止：activityId：{}",activityId);
 			SysUser user = (SysUser)UserUtil.getHttpSession().getAttribute(Constant.SESSION_USER);
-			mainServiceApi.stop(activityId, user.getId());
+			return mainServiceApi.stop(activityId, user.getId());
 		} catch (Exception e) {
 			logger.error("终止活动出现异常：",e);
 			return RespJson.error("终止活动出现异常");
 		}
-		return RespJson.success();
 	}
 	
+	/**
+	 * 查询单个活动
+	 */
 	@RequestMapping(value = "get", method = RequestMethod.GET)
 	@ResponseBody
 	public RespJson get(String activityId){
 		RespJson resp = RespJson.success();
 		try {
 			logger.debug("查询单个活动：get：{}",activityId);
-			Map<String, Object> activityMain = mainServiceApi.get(activityId);
+			Map<String, Object> activityMain = mainServiceApi.getMain(activityId);
 			List<Map<String, Object>> activityBranch = mainServiceApi.getBranch(activityId);
 			resp.put("obj", activityMain);
 			resp.put("branch", activityBranch);
@@ -235,19 +281,70 @@ public class ActivityController {
 		return resp;
 	}
 	
+	/**
+	 * 查询单个活动的详情
+	 */
 	@RequestMapping(value = "getDetail", method = RequestMethod.GET)
 	@ResponseBody
-	public RespJson getDetail(String activityId){
-		RespJson resp = RespJson.success();
+	public PageUtils<Map<String, Object>> getDetail(String activityId){
 		try {
 			logger.debug("查询活动详情：getDetail：{}",activityId);
-			List<Map<String, Object>> activityDetail = mainServiceApi.getDetail(activityId);
-			resp.put("list", activityDetail);
+			PageUtils<Map<String, Object>> activityDetail = mainServiceApi.getDetail(activityId);
+			return activityDetail;
 		} catch (Exception e) {
 			logger.error("查询活动详情出现异常：",e);
-			return RespJson.error("查询活动详情出现异常");
+			return null;
 		}
-		return resp;
+	}
+	
+	/**
+	 * 查询单个活动的详情(满减活动)
+	 */
+	@RequestMapping(value = "getDetailFullCut", method = RequestMethod.GET)
+	@ResponseBody
+	public PageUtils<Map<String, Object>> getDetailFullCut(String activityId){
+		try {
+			logger.debug("查询活动详情(满减)：getDetailFullCut：{}",activityId);
+			PageUtils<Map<String, Object>> activityDetail = mainServiceApi.getDetailFullCut(activityId);
+			return activityDetail;
+		} catch (Exception e) {
+			logger.error("查询活动详情(满减)出现异常：",e);
+			return null;
+		}
+	}
+	
+	/**
+	 * 查询单个活动的满减优惠信息(满减活动)
+	 */
+	@RequestMapping(value = "getLimitAmountFullCut", method = RequestMethod.GET)
+	@ResponseBody
+	public PageUtils<Map<String, Object>> getLimitAmountFullCut(String activityId){
+		try {
+			logger.debug("查询活动详情(满减优惠信息)：getLimitAmountFullCut：{}",activityId);
+			PageUtils<Map<String, Object>> activityDetail = mainServiceApi.getLimitAmountFullCut(activityId);
+			return activityDetail;
+		} catch (Exception e) {
+			logger.error("查询活动详情(满减优惠信息)出现异常：",e);
+			return null;
+		}
+	}
+	
+	
+	
+	/**
+	 * 查询活动列表
+	 */
+	@RequestMapping(value = "listData", method = RequestMethod.GET)
+	@ResponseBody
+	public PageUtils<Map<String, Object>> listData(ActivityListQueryVo queryVo){
+		try {
+			logger.debug("查询活动列表：listData：{}",queryVo);
+			PageUtils<Map<String, Object>> page = mainServiceApi.listPage(queryVo);
+			return page;
+		} catch (Exception e) {
+			logger.error("查询活动列表出现异常：",e);
+			return null;
+		}
 	}
 	
 }

@@ -81,14 +81,20 @@ function initDatagridsupplierList(){
             }else{
               var rows=gridHandel.getRows();
               var num=0;
+              var num1=0;
               $.each(rows,function(i,v){
-            	  if(v["skuCode"]==arg){
+            	  if(v["skuCode"]==arg&&i!=gridHandel.getSelectRowIndex()){
             		  num++;
+            	  }
+            	  if(v["barCode"]==arg&&i!=gridHandel.getSelectRowIndex()){
+            		  num1++;
             	  }
               })
               if(num>0){
             	  $.messager.alert('提示',"输入货号重复，请重新输入!");
-        		  return; 
+              }
+              if(num1>0){
+            	  $.messager.alert('提示',"输入条码重复，请重新输入!");
               }
               else{
             	  selectGoods(arg);  
@@ -116,13 +122,26 @@ function initDatagridsupplierList(){
             {field:'skuId',title:'ID',width: '0px;',align:'left',hidden:true},
             {field:'skuCode',title:'货号',width: '100px',align:'left',editor:'textbox'},
             {field:'skuName',title:'商品名称',width:'200px',align:'left'},
-            {field:'barCode',title:'条码',width:'200px',align:'left'},
-            {field:'categoryName',title:'商品类别',width:'200px',align:'left'},
-            {field:'spec',title:'规格',width:'200px',align:'left'},
-            {field:'unit',title:'单位',width:'100px',align:'left'},
-            {field:'purchasePrice',title:'最新进价',width:'100px',align:'left'},
-            {field:'purchasePrice',title:'最低历史进价',width:'100px',align:'left'},
-            {field:'purchasePrice',title:'最高历史进价',width:'100px',align:'left'}
+            {field:'barCode',title:'条码',width:'140px',align:'left'},
+            {field:'categoryName',title:'商品类别',width:'140px',align:'left'},
+            {field:'spec',title:'规格',width:'80px',align:'left'},
+            {field:'unit',title:'单位',width:'80px',align:'left'},
+            {field:'purchasePrice',title:'最新进价',width:'80px',align:'right',
+            	 formatter:function(value,row,index){
+                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                 },
+            },
+            {field:'purchasePrice',title:'最低历史进价',width:'80px',align:'right',
+            	
+            	 formatter:function(value,row,index){
+                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                 },
+            },
+            {field:'purchasePrice',title:'最高历史进价',width:'80px',align:'right',
+            	 formatter:function(value,row,index){
+                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                 },
+            }
         ]],
         onClickCell:function(rowIndex,field,value){
             gridHandel.setBeginRow(rowIndex);
@@ -175,7 +194,7 @@ function selectGoods(key){
         	var rec = data[i];
         	rec.remark = "";
         }
-        var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
+        var nowRows = gridHandel.getRowsWhere({skuName:'1'});
         var addDefaultData  = gridHandel.addDefault(data,gridDefault);
         var keyNames = {
             purchasePrice:'price',
@@ -187,7 +206,7 @@ function selectGoods(key){
         var rows = gFunUpdateKey(addDefaultData,keyNames);
         var argWhere ={skuCode:1};  //验证重复性
         var isCheck ={isGift:1 };   //只要是赠品就可以重复
-        var newRows = gridHandel.checkDatagrid(rows,nowRows,argWhere,isCheck);
+        var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
 
         $("#gridSupplierArchiveList").datagrid("loadData",newRows);
         gridHandel.setLoadFocus();
@@ -367,7 +386,7 @@ function orderDelete(){
 	    $.each(rows,function(i,v){
 	        skuIds.push(v.skuId);
 	    });
-	$.messager.confirm('提示','是否要删除此条数据',function(data){
+	$.messager.confirm('提示','是否要删除选中数据',function(data){
 		if(data){
 		    var supplierId = $("#supplierId").val();
 		    var branchId = $("#branchId").val();
@@ -431,7 +450,7 @@ function updateListData(data){
 	    var newRows = gFunUpdateKey(data,keyNames);
 	    var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
 	    var argWhere ={skuCode:1};  //验证重复性
-	    var allRows = gridHandel.checkDatagrid(newRows,nowRows,argWhere,{});
+	    var allRows = gridHandel.checkDatagrid(nowRows,newRows,argWhere,{});
 	    $("#gridSupplierArchiveList").datagrid("loadData",allRows);
 	}
 

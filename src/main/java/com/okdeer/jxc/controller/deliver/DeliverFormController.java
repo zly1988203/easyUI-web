@@ -32,6 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.alibaba.druid.util.StringUtils;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.okdeer.jxc.branch.entity.BranchSpec;
 import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.entity.BranchesGrow;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
@@ -177,9 +178,10 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 	@RequestMapping(value = "validityDays")
 	public String validityDays(Model model) {
 		// 在页面显示有效天数
-		int validityDay = deliverConfigServiceApi.getValidityDay(UserUtil
-				.getCurrBranchId());
+		int validityDay = deliverConfigServiceApi.getValidityDay(UserUtil.getCurrBranchId());
 		model.addAttribute("validityDay", validityDay);
+		BranchSpec branchSpec = deliverConfigServiceApi.querySpecByBranchId(UserUtil.getCurrBranchId());
+		model.addAttribute("branchSpec", branchSpec);
 		return "form/deliver/validityDays";
 	}
 
@@ -445,30 +447,33 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 
 	/**
 	 * @Description: 删除要货单(假删除)
-	 * @param vo
-	 * @param validate
+	 * @param formIds  
 	 * @return
 	 * @author zhangchm
 	 * @date 2016年8月20日
 	 */
 	@RequestMapping(value = "deleteDeliverForm", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson deleteDeliverForm(String formId) {
+	public RespJson deleteDeliverForm(@RequestBody String formIds) {
 		RespJson respJson = RespJson.success();
-		LOG.info(LogConstant.OUT_PARAM, formId);
+		LOG.info(LogConstant.OUT_PARAM, formIds);
 		try {
+			if (StringUtils.isEmpty(formIds)) {
+				LOG.error("未选择删除的配送单！");
+				return RespJson.error("未选择删除的配送单！");
+			}
+			List<String> formIdsList = new ObjectMapper().readValue(formIds, List.class);
 			// 获取登录人
 			SysUser user = UserUtil.getCurrentUser();
 			DeliverFormVo vo = new DeliverFormVo();
-			vo.setDeliverFormId(formId);
+			vo.setDeliverFormIds(formIdsList);
 			// 设置值
-			vo.setValue("", user.getId(), vo.getCreateTime(), null);
-			vo.setDisabled(DisabledEnum.YES.getIndex());
-
+			vo.setUpdateUserId(user.getId());
+			vo.setUpdateTime(DateUtils.getCurrDate());
 			return deliverFormServiceApi.updateToRemove(vo);
 		} catch (Exception e) {
-			LOG.error("保存要货申请单出现异常:{}", e);
-			respJson = RespJson.error("添加要货申请单失败！");
+			LOG.error("删除配送单出现异常:{}", e);
+			respJson = RespJson.error("删除配送单失败！");
 		}
 		return respJson;
 	}
@@ -661,7 +666,8 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 					for (GoodsSelect objGoods : list) {
 						GoodsSelectDeliver obj = (GoodsSelectDeliver) objGoods;
 						if(!StringUtils.isEmpty(obj.getLargeNum())&&obj.getDistributionSpec()!=null){
-							obj.setNum(new BigDecimal( obj.getLargeNum()).multiply(obj.getDistributionSpec() ).toEngineeringString());
+									obj.setNum(new BigDecimal(obj.getLargeNum()).multiply(obj.getDistributionSpec())
+											.toEngineeringString());
 						}
 					}
 				}

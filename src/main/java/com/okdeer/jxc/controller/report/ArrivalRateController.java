@@ -191,14 +191,27 @@ public class ArrivalRateController extends BaseController<PurchaseForm>{
 			qo.setBranchNameOrCode(null);
 		}
 
+		//处理供应商
+		String supplierName = qo.getSupplierCode();
+		if(StringUtils.isNotBlank(supplierName)){
+			supplierName = supplierName.substring(supplierName.lastIndexOf("]")+1,supplierName.length());
+			qo.setSupplierCode(supplierName);
+		}
+		
+		//处理机构
+		String branchName = qo.getBranchName();
+		if(StringUtils.isNotBlank(branchName)){
+			branchName = branchName.substring(branchName.lastIndexOf("]")+1,branchName.length());
+			qo.setBranchName(branchName);
+		}
+		
 		if (qo.getEndTime() != null) {
 			qo.setEndTime(DateUtils.getNextDay(qo.getEndTime()));
 		}
 
 		// 默认当前机构
-		if (StringUtils.isBlank(qo.getBranchCode()) && StringUtils.isBlank(qo.getBranchNameOrCode())) {
-			qo.setBranchCompleCode(getCurrBranchCompleCode());
-		}
+		qo.setBranchCompleCode(getCurrBranchCompleCode());
+		
 		if(qo.getArrivalRate()!=null){
 			qo.setArrivalRate(qo.getArrivalRate().multiply(new BigDecimal(100)));
 		}

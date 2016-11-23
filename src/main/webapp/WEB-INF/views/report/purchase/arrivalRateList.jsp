@@ -32,20 +32,20 @@
 	             <div class="ub  ub-ac umar-r40">
                    <div class="umar-r10 uw-70 ut-r">机构名称:</div>
 	                    <input class="uinp ub ub-f1" type="hidden" id="branchCode" name="branchCode">
-                        <input class="uinp ub ub-f1" type="text" id="branchNameOrCode" name="branchNameOrCode" readonly="readonly" onclick="cleanBranchCode();" maxlength="50">
+                        <input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" maxlength="50" maxlength="50">
                    <div class="uinp-more uinp-branchNameOrCode" onclick="searchBranch()">...</div>
                 </div>
 	            <div class="ub ub-ac umar-r40">
 	                <div class="umar-r10 uw-60 ut-r">供应商:</div>
 	                <input class="uinp" name="supplierId" id="supplierId" type="hidden">
-	                <input class="uinp" id="supplierName" type="text" readonly="readonly" onclick="selectSupplier()">
+	                <input class="uinp" id="supplierCode" name="supplierCode" type="text" maxlength="50">
 	                <div class="uinp-more uinp-supplierName" onclick="selectSupplier()">...</div>
 	            </div>
 	             <div class="ub ub-ac umar-r40">
                     <div class="umar-r10 uw-60 ut-r">类别:</div>
                     <input id="categoryId" name="categoryId" class="uinp" type="hidden">
                     <input id="categoryCode" name="categoryCode" class="uinp" type="hidden">
-                    <input id="categoryName" name="categoryName" class="uinp" type="text" readonly="readonly">
+                    <input id="categoryName" name="categoryName" class="uinp" type="text" maxlength="50">
                     <div class="uinp-more uinp-categoryName " onclick="getGoodsType()">...</div>
                 </div>
 	        </div>

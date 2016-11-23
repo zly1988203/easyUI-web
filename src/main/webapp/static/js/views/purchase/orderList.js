@@ -97,19 +97,26 @@ function query(){
 	$("#gridOrders").datagrid("options").url = contextPath+'/form/purchase/listData';
 	$("#gridOrders").datagrid("load");
 }
+
+//删除
 function orderDelete(){
-	var dg = $("#gridOrders");
-	var row = dg.datagrid("getSelected");
-	if(rowIsNull(row)){
+	var rows =$("#gridOrders").datagrid("getChecked");
+	if($("#gridOrders").datagrid("getChecked").length <= 0){
+		 $.messager.alert('提示','请选中一行进行删除！');
 		return null;
 	}
-	$.messager.confirm('提示','是否要删除此条数据',function(data){
+	 var formIds='';
+	    $.each(rows,function(i,v){
+	    	formIds+=v.id+",";
+	    });
+	
+	$.messager.confirm('提示','是否要删除选中数据',function(data){
 		if(data){
 			$.ajax({
 		    	url:contextPath+"/form/purchase/delete",
 		    	type:"POST",
 		    	data:{
-		    		formId:row.id
+		    		formIds:formIds
 		    	},
 		    	success:function(result){
 		    		console.log(result);
@@ -118,7 +125,7 @@ function orderDelete(){
 		    		}else{
 		    			successTip(result['message']);
 		    		}
-		    		dg.datagrid('reload');
+		    		$("#gridOrders").datagrid('reload');
 		    	},
 		    	error:function(result){
 		    		successTip("请求发送失败或服务器处理失败");
@@ -130,13 +137,13 @@ function orderDelete(){
 
 function selectSupplier(){
 	new publicSupplierService(function(data){
-		$("#supplierId").val(data.id);
+//		$("#supplierId").val(data.id);
 		$("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
 	});
 }
 function selectOperator(){
 	new publicOperatorService(function(data){
-		$("#operateUserId").val(data.id);
+//		$("#operateUserId").val(data.id);
 		$("#operateUserName").val(data.userName);
 	});
 }
@@ -148,8 +155,10 @@ function printDesign(){
      if(rowIsNull(row)){
            return null;
      }
+     var url=contextPath + '/form/purchase/preview?page=PASheet&form=list&template=-1&sheetNo=' + row.id ;
      //弹出打印页面
-     parent.addTabPrint('PASheet' + row.id,row.formNo+'单据打印',contextPath + '/printdesign/design?page=PASheet&controller=/form/purchase&template=-1&sheetNo=' + row.id + '&gridFlag=PAGrid','');
+     parent.addTabPrint('PASheet' + row.id,row.formNo+'打印预览',url,'');
+   
 }
 
 /**

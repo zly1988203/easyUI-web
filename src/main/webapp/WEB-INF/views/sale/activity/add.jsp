@@ -19,10 +19,8 @@
 	            <div class="ubtns">
 	             <div class="ubtns-item" id="SelectGoods" onclick="selectGoods()">商品选择</div>
 	             <div class="ubtns-item" id="GoodsType" onclick="getGoodsType()">类别选择</div>
-	              <div class="ubtns-item" onclick="addsaveOrder()">保存</div>
-	             <div class="ubtns-item" onclick="stop()">终止</div>
-	             <div class="ubtns-item" onclick="check()">审核</div>
-	             <div class="ubtns-item" onclick="toBack()">返回</div>
+	             <div class="ubtns-item" onclick="saveActivity()">保存</div>
+	             <div class="ubtns-item" onclick="back()">返回</div>
 	             </div>
             </div>
 
@@ -34,7 +32,7 @@
 	            </div> -->
 	            <div class="ub ub-ac ">
                     <div class="umar-r10 uw-80 ut-r">活动名称:</div>
-                    <input class="uinp" type="text" name="activityName" id="activityName">
+                    <input class="uinp" type="text" name="activityName" id="activityName" value="">
                 </div>
                 <div class="ub ub-ac uselectw umar-l00">
                     <div class="umar-r10 uw-70 ut-r">活动类型:</div>
@@ -75,45 +73,46 @@
 	          <div class="ub umar-t8">
 	             <div class="ub ub-ac">
 	             	<div class="umar-r10 uw-80 ut-r">活动时间:</div>
-	              	<input class="Wdate"  readonly="readonly" name="beginDate" id="startTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'#F{$dp.$D(\'endTime\');}'})" />&nbsp;至&nbsp;
-                    <input class="Wdate"  readonly="readonly" name="endDate" id="endTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'startTime\');}'})" /> 
+	              	<input class="Wdate"  readonly="readonly" name="startTime" id="startTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'#F{$dp.$D(\'endTime\');}'})" />&nbsp;至&nbsp;
+                    <input class="Wdate"  readonly="readonly" name="endTime" id="endTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'startTime\');}'})" /> 
 	              </div>
 	              <div class="ub ub-ac">
 	             	<div class="umar-r10 uw-80 ut-r">活动时段:</div>
-	              	<input class="Wdate"  readonly="readonly" name="beginDate" id="dailyStartTime" onclick="WdatePicker({dateFmt:'HH:mm:ss',minDate:'00:00:00',maxDate:'#F{$dp.$D(\'dailyEndTime\');}'})" />&nbsp;至&nbsp;
-                    <input class="Wdate"  readonly="readonly" name="endDate" id="dailyEndTime" onclick="WdatePicker({dateFmt:'HH:mm:ss',minDate:'#F{$dp.$D(\'dailyStartTime\');}'})" /> 
+	              	<input class="Wdate"  readonly="readonly" name="dailyStartTime" id="dailyStartTime" onclick="WdatePicker({dateFmt:'HH:mm:ss',minDate:'00:00:00',maxDate:'#F{$dp.$D(\'dailyEndTime\');}'})" />&nbsp;至&nbsp;
+                    <input class="Wdate"  readonly="readonly" name="dailyEndTime" id="dailyEndTime" onclick="WdatePicker({dateFmt:'HH:mm:ss',minDate:'#F{$dp.$D(\'dailyStartTime\');}'})" /> 
 	              </div>
-	              <div class="ub ub-ac">
+	              <div class="ub ub-ac " id="weekday">
 	               <div class="umar-r10 uw-80 ut-r">活动日:</div>
-	               <div class="ub ub-ac umar-l10 ">
+	               <div class="ub ub-ac umar-l10 ubcheckweek">
                         <input class="ub" type="checkbox" name="weekcheckbox" value="1" checked="checked" /><span class="umar-l10">一</span>
                    </div>
-                   <div class="ub ub-ac umar-l10">
-                        <input class="ub" type="checkbox" name="weekcheckbox" value="2" checked="checked" /><span class="umar-l10">二</span>
+                   <div class="ub ub-ac umar-l10 ubcheckweek">
+                        <input class="ub " type="checkbox" name="weekcheckbox" value="2" checked="checked" /><span class="umar-l10">二</span>
                    </div>
-                   <div class="ub ub-ac umar-l10">
-                        <input class="ub" type="checkbox" name="weekcheckbox" value="3" checked="checked" /><span class="umar-l10">三</span>
+                   <div class="ub ub-ac umar-l10 ubcheckweek">
+                        <input class="ub " type="checkbox" name="weekcheckbox" value="3" checked="checked" /><span class="umar-l10">三</span>
                    </div>
-                    <div class="ub ub-ac umar-l10">
-                        <input class="ub" type="checkbox" name="weekcheckbox" value="4" checked="checked" /><span class="umar-l10">四</span>
+                    <div class="ub ub-ac umar-l10 ubcheckweek">
+                        <input class="ub " type="checkbox" name="weekcheckbox" value="4" checked="checked" /><span class="umar-l10">四</span>
                    </div>
-                    <div class="ub ub-ac umar-l10">
-                        <input class="ub" type="checkbox" name="weekcheckbox" value="5" checked="checked" /><span class="umar-l10">五</span>
+                    <div class="ub ub-ac umar-l10 ubcheckweek">
+                        <input class="ub " type="checkbox" name="weekcheckbox" value="5" checked="checked" /><span class="umar-l10">五</span>
                    </div>
-                    <div class="ub ub-ac umar-l10">
-                        <input class="ub" type="checkbox" name="weekcheckbox" value="6" checked="checked" /><span class="umar-l10">六</span>
+                    <div class="ub ub-ac umar-l10 ubcheckweek">
+                        <input class="ub " type="checkbox" name="weekcheckbox" value="6" checked="checked" /><span class="umar-l10">六</span>
                    </div>
-                    <div class="ub ub-ac umar-l10">
-                        <input class="ub" type="checkbox" name="weekcheckbox" value="7" checked="checked" /><span class="umar-l10">日</span>
+                    <div class="ub ub-ac umar-l10 ubcheckweek">
+                        <input class="ub " type="checkbox" name="weekcheckbox" value="7" checked="checked" /><span class="umar-l10">日</span>
                    </div>
+                   <input class="uinp ub ub-f1" type="hidden" id="weeklyActivityDay" name="weeklyActivityDay" value=" ">
                   </div>
 	          </div>
 	          <div class="ub umar-t8">
 	             <div class="ub  ub-ac">
 	                   <div class="umar-r10 uw-80 ut-r">活动分店:</div>
-		                    <input class="uinp ub ub-f1" type="hidden" id="branchIds" name="branchIds">
-	                        <input class="uinp ub ub-f1 uw-400" type="text" id="branchName" readonly="readonly" name="branchName" onclick="searchBranch()">
-	                   <div class="uinp-more" onclick="searchBranch()">...</div>
+		                    <input class="uinp ub ub-f1" type="hidden" id="branchIds" name="branchIds" value=" ">
+	                        <input class="uinp ub ub-f1 uw-400" type="text" id="branchName" readonly="readonly" value=" " name="branchName" onclick="selectBranch()">
+	                   <div class="uinp-more" onclick="selectBranch()">...</div>
 	             </div>
 	              <div class="ub ub-ac uw-200 umar-l10 special">
 					<div class="umar-r10 uw-100 ut-r">批量特价:</div>
@@ -140,7 +139,7 @@
        	</form>
            
       
-      <div id="item1" class="ub uw ub-f1 umar-t20" style="min-height:300px;">
+      <div id="consaleadd" class="ub uw ub-f1 umar-t20" style="min-height:50%;">
 			 <table id="saleMangeadd"></table>
 		</div>
 		 

@@ -34,7 +34,7 @@
                 <div class="ubtns-item" onclick="back()">返回</div>
             </div>
         </div>
-        <div class="ub umar-t8 uc-black">【单号】：<span >${form.formNo}</span></div>
+        <div class="ub umar-t8 uc-black">【单号】:<span >${form.formNo}</span></div>
         <div class="ub uline umar-t8"></div>
         <input type="hidden" id="formId" value="${form.id}">
         <input type="hidden" id="formNo" value="${form.formNo}">
@@ -79,6 +79,12 @@
                 <div class="umar-r10 uw-60 ut-r">审核日期:</div>
                 <div class="utxt"></div>
             </div>
+        </div>
+        <div class="ub umar-t8">
+               <div class="ub ub-ac uw-610" style="width: 624px;">
+	                    <div class="umar-r10 uw-60 ut-r">备注:</div>
+	                    <input class="uinp ub ub-f1" name="remark" id="remark" type="text" maxlength="100" value="${form.remark}">
+	           </div>
         </div>
         <div class="ub ub-f1 datagrid-edit umar-t8">
             <table id="gridEditOrder" ></table>

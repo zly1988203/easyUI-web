@@ -159,9 +159,13 @@ pageEncoding="UTF-8"%>
         categoryCode=treeNode.code;
         var text =  $("#goodsType").combobox('getText');
         if(text =='类别'){
+        	brandId = "";
+        	supplierId = "";
         }else if(text =="品牌"){
      	   brandId = treeNode.id;
+     	   supplierId = "";
         }else if(text=="供应商"){
+        	brandId = "";
      	   supplierId = treeNode.id;
         }
         $("#gridGoods").datagrid("options").queryParams = {categoryCode:categoryCode,brandId:brandId,supplierId:supplierId};
@@ -387,13 +391,13 @@ pageEncoding="UTF-8"%>
         },1000)
     }
     var fromParams = {};
+    //永亲专用，请勿修改
     function initNewSearch(params){
         fromParams = params;
         if(!params.key){
             $("#gridGoods").datagrid("options").method = "post";
             $("#gridGoods").datagrid("options").queryParams = params;
-            var searchSupplierId = $("#searchSupplierId").val();
-            $("#gridGoods").datagrid("options").url =contextPath + '/goods/goodsSelect/getGoodsList?formType=${type}&sourceBranchId=${sourceBranchId}&targetBranchId=${targetBranchId}&branchId=${branchId}&supplierId=${searchSupplierId}&supplierId='+searchSupplierId;
+            $("#gridGoods").datagrid("options").url =contextPath + '/goods/goodsSelect/getGoodsList';
             $("#gridGoods").datagrid('load');
         }else{
             cx()

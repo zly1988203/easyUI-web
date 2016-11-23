@@ -116,7 +116,6 @@ public class DeliverFormListController extends BaseController<DeliverFormListCon
 			String fileName = "";
 			String templateName = "";
 
-
 			if (FormType.DA.toString().equals(type)) {
 				// 导出文件名称，不包括后缀名
 				fileName = "要货单" + "_" + DateUtils.getCurrSmallStr();

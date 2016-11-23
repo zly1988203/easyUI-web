@@ -3,13 +3,18 @@
  * 公共组件-请选择商品类别
  */
 var categoryType='';
-function initCategoryView(data){
+var isSingleSelect = true;
+function initCategoryView(data,type){
 	categoryType=data;
+	isSingleSelect = type==1?false:true;
     gFunSetEnterKey(categorySearch);
     initTreeCategory(); //初始树
     initDatagridCategory(categoryType); //初始化表格
 }
-
+function publicCategoryGetCheck(cb){
+    var row =  $("#gridCategory").datagrid("getChecked");
+    cb(row);
+}
 var categoryCallBack ;
 //初始化回调函数
 function initCategoryCallBack(cb){
@@ -18,7 +23,7 @@ function initCategoryCallBack(cb){
 
 //选择单行
 function categoryClickRow(rowIndex, rowData){
-    if(categoryCallBack){
+    if(categoryCallBack&&isSingleSelect){
         categoryCallBack(rowData);
     }
 }
@@ -74,7 +79,7 @@ function initDatagridCategory(categoryType){
         align:'center',
         url:contextPath + "/common/category/getComponentList?categoryType="+categoryType,
         //toolbar: '#tb',     //工具栏 id为tb
-        singleSelect:true,  //单选  false多选
+        singleSelect:isSingleSelect,  //单选  false多选
         rownumbers:true,    //序号
         pagination:true,    //分页
         fitColumns:true,    //每列占满
