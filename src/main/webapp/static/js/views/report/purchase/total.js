@@ -67,6 +67,8 @@ function changeType(){
 function supplierOn(){
     $("#supplierName").removeClass("uinp-no-more");
 	$("#supplierSelect").attr("onclick","searchSupplier()");
+	$("#supplierName").removeClass("uinp-no-more");
+	$("#supplierName").removeAttr("readonly");
 }
 //供应商禁用
 function supplierOff(){
@@ -74,11 +76,15 @@ function supplierOff(){
 	$("#supplierSelect").removeAttr("onclick");
 	$("#supplierId").val("");
 	$("#supplierName").val("");
+	$("#supplierName").attr("readonly","readonly");
+    $("#supplierName").addClass("uinp-no-more");
 }
 //类别开启
 function categoryOn(){
     $("#categoryName").removeClass("uinp-no-more");
 	$("#categorySelect").attr("onclick","searchCategory()");
+	$("#categoryName").removeClass("uinp-no-more");
+	$("#categoryName").removeAttr("readonly");
 }
 //类别禁用
 function categoryOff(){
@@ -86,7 +92,8 @@ function categoryOff(){
 	$("#categorySelect").removeAttr("onclick");
 	$("#categoryName").val("");
 	$("#categoryId").val("");
-
+	$("#categoryName").attr("readonly","readonly");
+    $("#categoryName").addClass("uinp-no-more");
 }
 //单据类型开启
 function formTypeOn(){
@@ -596,7 +603,7 @@ function exportTotal(){
  */
 function searchBranch (){
 	new publicAgencyService(function(data){
-		$("#branchId").val(data.branchesId);
+//		$("#branchId").val(data.branchesId);
 		$("#branchName").val("["+data.branchCode+"]"+data.branchName);
 	},"","");
 }
@@ -605,7 +612,7 @@ function searchBranch (){
  */
 function searchSupplier(){
 	new publicSupplierService(function(data){
-		$("#supplierId").val(data.id);
+//		$("#supplierId").val(data.id);
 		$("#supplierName").val(data.supplierName);
 	});
 }
@@ -614,7 +621,7 @@ function searchSupplier(){
  */
 function searchCategory(){
 	new publicCategoryService(function(data){
-		$("#categoryId").val(data.goodsCategoryId);
+//		$("#categoryId").val(data.goodsCategoryId);
 		$("#categoryName").val(data.categoryName);
 	});
 }

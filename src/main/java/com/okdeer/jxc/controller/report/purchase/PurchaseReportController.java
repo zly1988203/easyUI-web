@@ -212,7 +212,7 @@ public class PurchaseReportController extends
 				qo.setBranchId(null);
 				qo.setBranchCompleCode(getCurrBranchCompleCode());
 			}*/
-			if(StringUtils.isEmpty(qo.getBranchId())) {
+			if(StringUtils.isEmpty(qo.getBranchName())) {
 				qo.setBranchCompleCode(getCurrBranchCompleCode());
 			}
 			qo.setPageNumber(pageNumber);
@@ -221,6 +221,21 @@ public class PurchaseReportController extends
 				Date time = DateUtils.getNextDay(qo.getEndTime());
 				qo.setEndTime(time);
 			}
+			
+			//处理供应商
+			String supplierName = qo.getSupplierName();
+			if(StringUtils.isNotBlank(supplierName)){
+				supplierName = supplierName.substring(supplierName.lastIndexOf("]")+1,supplierName.length());
+				qo.setSupplierName(supplierName);
+			}
+			
+			//处理机构
+			String branchName = qo.getBranchName();
+			if(StringUtils.isNotBlank(branchName)){
+				branchName = branchName.substring(branchName.lastIndexOf("]")+1,branchName.length());
+				qo.setBranchName(branchName);
+			}
+			
 			PageUtils<PurchaseReportPo> list = null;
 			switch (qo.getSearchType()) {
 				case "supplierTotal":
@@ -341,7 +356,7 @@ public class PurchaseReportController extends
 				qo.setBranchId(null);
 				qo.setBranchCompleCode(getCurrBranchCompleCode());
 			}*/
-			if(StringUtils.isEmpty(qo.getBranchId())) {
+			if(StringUtils.isEmpty(qo.getBranchName())) {
 				qo.setBranchCompleCode(getCurrBranchCompleCode());
 			}
 			qo.setPageNumber(pageNumber);
@@ -350,6 +365,21 @@ public class PurchaseReportController extends
 				Date time = DateUtils.getNextDay(qo.getEndTime());
 				qo.setEndTime(time);
 			}
+			
+			//处理供应商
+			String supplierName = qo.getSupplierName();
+			if(StringUtils.isNotBlank(supplierName)){
+				supplierName = supplierName.substring(supplierName.lastIndexOf("]")+1,supplierName.length());
+				qo.setSupplierName(supplierName);
+			}
+			
+			//处理机构
+			String branchName = qo.getBranchName();
+			if(StringUtils.isNotBlank(branchName)){
+				branchName = branchName.substring(branchName.lastIndexOf("]")+1,branchName.length());
+				qo.setBranchName(branchName);
+			}
+			
 			PageUtils<PurchaseReportPo> list = null;
 			// 2、查询合计
 			PurchaseReportPo vo =null;

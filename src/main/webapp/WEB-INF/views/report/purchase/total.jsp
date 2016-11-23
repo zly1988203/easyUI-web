@@ -36,19 +36,19 @@
                <div class="ub ub-ac umar-r40">
                    <div class="umar-r10 uw-80 ut-r">机构名称:</div>
                    <input class="uinp" type="hidden" id="branchId" name="branchId" >
-                   <input class="uinp" type="text" id="branchName" name="branchName"  readonly="readonly">
+                   <input class="uinp" type="text" id="branchName" name="branchName" maxlength="50">
                    <div class="uinp-more" id="branchSelect" onclick="searchBranch()">...</div>
                </div>
                <div class="ub ub-ac umar-r40">
 				<div class="umar-r10 uw-80 ut-r">供应商:</div>
 				<input type="hidden" name="supplierId" id="supplierId" class="uinp" />
-				<input type="text" name="supplierName" id="supplierName" class="uinp" readonly="readonly" />
+				<input type="text" name="supplierName" id="supplierName" class="uinp" maxlength="50"/>
 				<div class="uinp-more" id="supplierSelect" onclick="searchSupplier()">...</div>
 			  </div>
 			  <div id="categoryNameDiv" class="ub ub-ac umar-r40">
 				<div class="umar-r10 uw-80 ut-r">类别:</div>
 				  <input type="hidden" name="categoryId" id="categoryId" class="uinp" />
-				  <input type="text" name="categoryName" id="categoryName" class="uinp " readonly="readonly"  />
+				  <input type="text" name="categoryName" id="categoryName" class="uinp " maxlength="50"/>
 				  <div class="uinp-more" id="categorySelect" onclick="searchCategory()">...</div>
 			  </div>
             </div>
