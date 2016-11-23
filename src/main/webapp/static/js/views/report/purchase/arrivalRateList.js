@@ -51,11 +51,7 @@ function checktype(){
 		var check=$('.radioItem').eq(i).prop('checked');
 		var value=$('.radioItem').eq(i).val();
 		if(check==true&&value=='0'){
-			$('#categoryName').addClass('uinp-no-more');
-			$('#categoryName').removeAttr('onclick');
-			$('#categoryName').val("");
-			$('#categoryId').val("");
-			$('#categoryCode').val("");
+			categoryOff();
 			$('.uinp-categoryName').removeAttr('onclick');
 			$('#supplierName').removeClass('uinp-no-more');
 			$('#supplierName').attr('onclick','selectSupplier()');
@@ -64,44 +60,61 @@ function checktype(){
 			$('#formNo').removeAttr("readonly");
 		}
 		else if(check==true&&value=='1'){
-			$('#categoryName').addClass('uinp-no-more');
-			$('#categoryName').removeAttr('onclick');
-			$('#categoryName').val("");
-			$('.uinp-categoryName').removeAttr('onclick');
+			categoryOff();
 			$('#formNo').addClass('uinp-no-more');
 			$('#formNo').attr("readonly","readonly");
 			$('#formNo').val("");
-			$('#supplierName').removeClass('uinp-no-more');
-			$('#supplierName').attr('onclick','selectSupplier()');
-			$('.uinp-supplierName').attr('onclick','selectSupplier()');	
+			supplierOn();
 		}
 		else if(check==true&&value=='2'){
-			$('#supplierName').addClass('uinp-no-more');
-			$('#supplierName').removeAttr('onclick');
-			$('#supplierName').val("");
-			$('.uinp-supplierName').removeAttr('onclick');
+			supplierOff();
 			$('#formNo').addClass('uinp-no-more');
 			$('#formNo').attr("readonly","readonly");
 			$('#formNo').val("");
-			$('#categoryName').attr('onclick','getGoodsType()');
-			$('.uinp-categoryName').attr('onclick','getGoodsType()');
-			$('#categoryName').removeClass('uinp-no-more');
+			categoryOn();
 		}
 		else if(check==true&&value=='3'){
-			$('#categoryName').attr('onclick','getGoodsType()');
-			$('.uinp-categoryName').attr('onclick','getGoodsType()');
-			$('#categoryName').removeClass('uinp-no-more');
-			$('#supplierName').removeClass('uinp-no-more');
-			$('#supplierName').attr('onclick','selectSupplier()');
-			$('.uinp-supplierName').attr('onclick','selectSupplier()');
+			categoryOn();
+			supplierOn();
 			$('#formNo').addClass('uinp-no-more');
 			$('#formNo').attr("readonly","readonly");
 			$('#formNo').val("");
-			$('#categoryName').val("");
-			$('#categoryId').val("");
-			$('#categoryCode').val("");
 		}
    }	
+}
+
+function supplierOff(){
+	$('#supplierCode').addClass('uinp-no-more');
+	$('.uinp-supplierName').removeAttr('onclick');
+	$("#supplierCode").attr("readonly","readonly");
+    $("#supplierCode").addClass("uinp-no-more");
+	$('#supplierCode').val("");
+	$('#supplierId').val("");
+}
+
+function supplierOn(){
+	$('.uinp-supplierName').attr('onclick','selectSupplier()');	
+	$('#supplierCode').removeClass('uinp-no-more');
+	$('#supplierCode').removeAttr("readonly");
+	$('#supplierCode').val("");
+	$('#supplierId').val("");
+}
+
+function  categoryOff(){
+	$('#categoryName').addClass('uinp-no-more');
+	$("#categoryName").attr("readonly","readonly");
+	$('#categoryName').val("");
+	$('#categoryId').val("");
+	$('#categoryCode').val("");
+}
+
+function categoryOn(){
+	$('.uinp-categoryName').attr('onclick','getGoodsType()');
+	$('#categoryName').removeClass('uinp-no-more');
+	$('#categoryName').removeAttr("readonly");
+	$('#categoryName').val("");
+	$('#categoryId').val("");
+	$('#categoryCode').val("");
 }
 
 var gridHandel = new GridClass();
@@ -388,8 +401,8 @@ function query(){
 
 function selectSupplier(){
 	new publicSupplierService(function(data){
-		$("#supplierId").val(data.id);
-		$("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
+//		$("#supplierId").val(data.id);
+		$("#supplierCode").val("["+data.supplierCode+"]"+data.supplierName);
 	});
 }
 
@@ -398,16 +411,16 @@ function selectSupplier(){
  */
 function searchBranch (){
 	new publicAgencyService(function(data){
-		$("#branchCode").val(data.branchCode);
-		$("#branchNameOrCode").val("["+data.branchCode+"]"+data.branchName);
+//		$("#branchCode").val(data.branchCode);
+		$("#branchName").val("["+data.branchCode+"]"+data.branchName);
 	},"","");
 }
 
 //商品分类
 function getGoodsType(){
 	new publicCategoryService(function(data){
-		$("#categoryId").val(data.goodsCategoryId);
-		$("#categoryCode").val(data.categoryCode);
+//		$("#categoryId").val(data.goodsCategoryId);
+//		$("#categoryCode").val(data.categoryCode);
 		$("#categoryName").val(data.categoryName);
 	});
 }
