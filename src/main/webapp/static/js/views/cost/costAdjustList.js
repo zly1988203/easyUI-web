@@ -137,7 +137,7 @@ function delStockForm(){
  */
 function selectBranches(){
 	new publicAgencyService(function(data){
-		$("#branchId").val(data.branchesId);
+//		$("#branchId").val(data.branchesId);
 		$("#branchName").val(data.branchName);
 	},'DO','');
 }
@@ -146,7 +146,7 @@ function selectBranches(){
  */
 function selectOperator(){
 	new publicOperatorService(function(data){
-		$("#operateUserId").val(data.id);
+//		$("#operateUserId").val(data.id);
 		$("#operateUserName").val(data.userName);
 	});
 }
