@@ -24,8 +24,17 @@ function initDatagridPosOrders(){
         columns:[[
 			{field: 'branchCode', title: '店铺编号', width: '100px', align: 'left'},
 			{field: 'branchName', title: '店铺名称', width: '220px', align: 'left'},
-			{field: 'posCode', title: 'POS机号', width: '80px', align: 'left'},
-			{field: 'status', title: '绑定状态', width: '80px', align: 'left'},
+			{field: 'posNo', title: 'POS机号', width: '80px', align: 'left'},
+			{field: 'status', title: '绑定状态', width: '80px', align: 'left',
+				  formatter: function(value,row,index){
+                      if (value==1){
+                          return "已绑定";
+                      }
+                      else {
+                          return "未绑定";
+                      }
+                  }
+			},
 			{field: 'bindAddress', title: '绑定地址', width: '220px', align: 'left'},
         ]],
         onLoadSuccess : function() {
