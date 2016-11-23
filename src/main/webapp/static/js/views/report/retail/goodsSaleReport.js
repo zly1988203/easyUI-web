@@ -224,7 +224,7 @@ function queryForm(){
  */
 function searchBranch(){
 	new publicAgencyService(function(data){
-		$("#branchId").val(data.branchesId);
+//		$("#branchId").val(data.branchesId);
 		$("#branchName").val(data.branchName);
 	},'BF','');
 }
@@ -233,7 +233,7 @@ function searchBranch(){
  */
 function searchCategory(){
 	new publicCategoryService(function(data){
-		$("#categoryId").val(data.goodsCategoryId);
+//		$("#categoryId").val(data.goodsCategoryId);
 		$("#categoryName").val(data.categoryName);
 
 	});
