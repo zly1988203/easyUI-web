@@ -654,23 +654,58 @@ function updateListData(data){
         inputTax:'tax',
         nowStock:'sellable',
         actual:'stockNum'
-       
     };
     var rows = gFunUpdateKey(data,keyNames);
     var argWhere ={skuCode:1};  //验证重复性
     var isCheck ={isGift:1 };   //只要是赠品就可以重复
     var newRows = gridHandel.checkDatagrid(data,rows,argWhere,isCheck);
     var selectVal=$("#io").combobox('getValue');
-   
     //导入箱数计算
     $.each(data, function (index, el) {	
-    	if(selectVal==1&&parseFloat(el["realNum"])>0){
-    	   el["realNum"]=el["realNum"]*-1;
-	       el["largeNum"] =parseFloat(el["realNum"])/parseFloat(el["purchaseSpec"]);
+    	if(selectVal==1){
+    		if(parseFloat(el["realNum"])){
+    			if(parseFloat(el["realNum"])>0){
+    			  el["realNum"]=el["realNum"]*-1;
+    			  el["largeNum"] =parseFloat(el["realNum"])/parseFloat(el["purchaseSpec"]);
+    			}
+    			else{
+    			  el["realNum"]=el["realNum"];
+       			  el["largeNum"] =parseFloat(el["realNum"])/parseFloat(el["purchaseSpec"]);
+    			}
+    		 }
+    	   if(parseFloat(el["largeNum"])){
+    		   if(parseFloat(el["largeNum"])>0){
+    			   el["largeNum"]=el["largeNum"]*-1;
+        		   el["realNum"] =parseFloat(el["largeNum"])*parseFloat(el["purchaseSpec"]); 
+    		   }
+    		   else{
+    			   el["largeNum"]=el["largeNum"];
+      			   el["realNum"] =parseFloat(el["largeNum"])*parseFloat(el["purchaseSpec"]);
+    		   }
+    	}
     	}
     	else{
-    		 el["realNum"]=el["realNum"];
-    		 el["largeNum"] =parseFloat(el["realNum"])/parseFloat(el["purchaseSpec"]);
+    		if(parseFloat(el["realNum"])){
+    			if(parseFloat(el["realNum"])<0){
+    			  el["realNum"]=el["realNum"]*-1;
+      			  el["largeNum"] =parseFloat(el["realNum"])/parseFloat(el["purchaseSpec"]);
+    			}
+    			else{
+    			  el["realNum"]=el["realNum"];
+    			  el["largeNum"] =parseFloat(el["realNum"])/parseFloat(el["purchaseSpec"]);
+    			 }
+    		}
+    		if(parseFloat(el["largeNum"])){
+    			if(parseFloat(el["largeNum"])<0){
+    			  el["largeNum"]=el["largeNum"]*-1;
+    	          el["realNum"] =parseFloat(el["largeNum"])*parseFloat(el["purchaseSpec"]);
+    			}
+    			else{
+    			 el["largeNum"]=el["largeNum"];
+    			 el["realNum"] =parseFloat(el["largeNum"])*parseFloat(el["purchaseSpec"]);
+    			}
+    		} 
+	
     	}
 	  })
     $("#gridEditOrder").datagrid("loadData",data);
