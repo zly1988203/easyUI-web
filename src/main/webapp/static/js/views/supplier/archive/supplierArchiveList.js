@@ -103,7 +103,7 @@ function zTreeOnClick(event, treeId, treeNode) {
         gVarBranchId = treeNode.pid
         gVarSupplierAreaId = treeNode.id;
     }
-    searchHandel();
+    searchLeftHandel();
     $("#selectBranchId").val(gVarBranchId);
 }
 /**
@@ -248,12 +248,24 @@ function delHandel(){
  * 搜索
  */
 function searchHandel(){
+	//搜索需要将左侧查询条件清除
+	$("#selectBranchId").val('');
     var formData = $('#formList').serializeObject();
-    var postParams = $.extend(formData,{branchId:gVarBranchId,supplierAreaId:gVarSupplierAreaId})
-    $("#gridSupplierArchiveList").datagrid("options").queryParams = postParams;
+    $("#gridSupplierArchiveList").datagrid("options").queryParams = formData;
     $("#gridSupplierArchiveList").datagrid("options").method = "post";
     $("#gridSupplierArchiveList").datagrid("options").url =contextPath+'/supplier/getSupplierList',
     $("#gridSupplierArchiveList").datagrid('load');
+}
+/**
+ * 左侧搜索
+ */
+function searchLeftHandel(){
+	var formData = $('#formList').serializeObject();
+	var postParams = $.extend(formData,{branchId:gVarBranchId,supplierAreaId:gVarSupplierAreaId})
+	$("#gridSupplierArchiveList").datagrid("options").queryParams = postParams;
+	$("#gridSupplierArchiveList").datagrid("options").method = "post";
+	$("#gridSupplierArchiveList").datagrid("options").url =contextPath+'/supplier/getSupplierList',
+	$("#gridSupplierArchiveList").datagrid('load');
 }
 function reloadListHandel(){
     $("#gridSupplierArchiveList").datagrid('reload');
