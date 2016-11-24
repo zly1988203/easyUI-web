@@ -365,9 +365,6 @@ public class ExcelReaderUtil {
 	 */
 	private static void readRow(Sheet sheet, String[] fields, JSONArray jArray) {
 		int rowCount = sheet.getLastRowNum();
-
-		//扩展字段信息
-		fields = extendFields(sheet,fields);
 		// Read the Row，循环遍历Excel行数,从第1行开始读取，第0行为标题
 		for (int rowNum = 1; rowNum <= rowCount; rowNum++) {
 			Row row = sheet.getRow(rowNum);
@@ -378,33 +375,6 @@ public class ExcelReaderUtil {
 			readCell(row, fields, jArray);
 		}
 	}
-
-	/**
-	 * @Description: 扩展字段信息
-	 * @param sheet
-	 * @param fields
-	 * @author liux01
-	 * @return 
-	 * @date 2016年11月22日
-	 */
-	private static String[] extendFields(Sheet sheet, String[] fields) {
-		if(sheet != null){
-			Cell cell = sheet.getRow(0).getCell(1);
-			if(cell != null){
-				String cellValue = cell.getStringCellValue();
-				List<String> fieldList = new ArrayList<String>();
-				fieldList.addAll(Arrays.asList(fields));
-				if("数量".equals(cellValue)){
-					fieldList.add("realNum");
-				}else if("箱数".equals(cellValue)){
-					fieldList.add("largeNum");
-				}
-				fields = (String[]) fieldList.toArray(new String[fieldList.size()]);
-			}
-		}
-		return fields;
-	}
-
 	/**
 	 * @Description: 读取单元格
 	 * @param row
