@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.LogConstant;
@@ -32,6 +33,7 @@ import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.report.qo.TradeOrderCountQo;
 import com.okdeer.jxc.report.service.TradeOrderCountServiceApi;
 import com.okdeer.jxc.report.vo.TradeOrderCountVo;
+import com.okdeer.jxc.system.entity.SysUser;
 
 /**
  * ClassName: TradeOrderCountController 
@@ -64,6 +66,9 @@ public class TradeOrderCountController extends BasePrintController<TradeOrderCou
 	 */
 	@RequestMapping(value = "view")
 	public String view(Model model) {
+		SysUser user = getCurrentUser();
+		Branches branchesGrow = branchesServiceApi.getBranchInfoById(user.getBranchId());
+		model.addAttribute("branchesGrow", branchesGrow);
 		return "report/order/tradeOrderCount";
 	}
 
