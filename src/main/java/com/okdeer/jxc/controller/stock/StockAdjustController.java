@@ -13,9 +13,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.json.JSONObject;
-
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -44,6 +41,8 @@ import com.okdeer.jxc.stock.vo.StockFormDetailVo;
 import com.okdeer.jxc.stock.vo.StockFormVo;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
+
+import net.sf.json.JSONObject;
 
 
 /**
@@ -296,7 +295,6 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 	 * @author liux01
 	 * @date 2016年10月15日
 	 */
-	@SuppressWarnings("resource")
 	@RequestMapping(value = "importList")
 	@ResponseBody
 	public RespJson importList(@RequestParam("file") MultipartFile file, String branchId,String type){
@@ -311,9 +309,9 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 			SysUser user = UserUtil.getCurrentUser();
 			String[] field = null; 
 			if(type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)){//货号
-				field = new String[]{"skuCode"};
+				field = new String[]{"skuCode","realNum","largeNum"};
 			}else if(type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)){//条码
-				field = new String[]{"barCode"};
+				field = new String[]{"barCode","realNum","largeNum"};
 			}
 			GoodsSelectImportVo<GoodsSelectByStockAdjust> vo = goodsSelectImportComponent.importSelectGoodsWithStock(fileName, is, field, new GoodsSelectByStockAdjust(), branchId,user.getId(), type,"/stock/adjust/downloadErrorFile", new GoodsSelectImportBusinessValid() {
 				
