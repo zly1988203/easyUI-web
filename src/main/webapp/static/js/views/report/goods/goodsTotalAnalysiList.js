@@ -77,16 +77,16 @@ function branchOff(){
 }
 //类别开启
 function categoryOn(){
-    $("#categoryName").removeClass("uinp-no-more");
+    $("#categoryCode").removeClass("uinp-no-more");
 	$("#categorySelect").attr("onclick","searchCategory()");
+    $("#categoryCode").removeAttr("readonly");
 }
 //类别禁用
 function categoryOff(){
-    $("#categoryName").addClass("uinp-no-more");
+    $("#categoryCode").addClass("uinp-no-more");
 	$("#categorySelect").removeAttr("onclick");
-	$("#categoryName").val("");
+	$("#categoryCode").attr("readonly","readonly");
 	$("#categoryCode").val("");
-
 }
 //商品名称开
 function skuNameOn(){
@@ -406,8 +406,8 @@ function searchCategory(){
 	var categoryType=$('input[name="searchType"]:checked ').val();
 	new publicCategoryService(function(data){
 		console.info(data);
-		$("#categoryCode").val(data.categoryCode);
-		$("#categoryName").val(data.categoryName);
+//		$("#categoryCode").val(data.categoryCode);
+		$("#categoryCode").val(data.categoryName);
 	},categoryType);
 }
 /**

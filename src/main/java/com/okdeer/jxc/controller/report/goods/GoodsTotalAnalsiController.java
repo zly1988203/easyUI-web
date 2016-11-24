@@ -16,13 +16,17 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.castor.util.StringUtil;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.okdeer.jxc.branch.entity.Branches;
+import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.common.report.DataRecord;
 import com.okdeer.jxc.common.report.ReportService;
 import com.okdeer.jxc.controller.common.ReportController;
 import com.okdeer.jxc.report.goods.service.GoodsTotalAnalsiServiceApi;
+import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
 
 /**
@@ -47,6 +51,9 @@ public class GoodsTotalAnalsiController extends ReportController {
 	@Reference(version = "1.0.0", check = false)
 	private GoodsTotalAnalsiServiceApi goodsTotalAnalsiServiceApi;
 	
+	@Reference(version = "1.0.0", check = false)
+	private BranchesServiceApi branchesServiceApi;
+	
 	/**
 	 * @Description: 列表页面
 	 * @return
@@ -54,7 +61,10 @@ public class GoodsTotalAnalsiController extends ReportController {
 	 * @date 2016年11月9日
 	 */
 	@RequestMapping("/list")
-	public String list() {
+	public String list(Model model) {
+		SysUser user = getCurrentUser();
+		Branches branchesGrow = branchesServiceApi.getBranchInfoById(user.getBranchId());
+		model.addAttribute("branchesGrow", branchesGrow);
 		return "report/goods/goodsTotalAnalysiList";
 	}
 

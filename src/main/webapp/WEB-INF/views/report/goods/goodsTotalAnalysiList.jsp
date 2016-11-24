@@ -53,8 +53,8 @@
                 </div>
                  <div class="ub ub-ac umar-r40">
                    <div class="umar-r10 uw-80 ut-r"> 店铺名称:</div>
-                   <input class="uinp" type="hidden" id="branchId" name="branchId" >
-                   <input class="uinp" type="text" id="branchName" name="branchName"  readonly="readonly">
+                   <input class="uinp" type="hidden" id="branchId" name="branchId" value="${branchesGrow.branchesId}">
+                   <input class="uinp" type="text" id="branchName" name="branchName" value="${branchesGrow.branchName}" readonly="readonly">
                    <div class="uinp-more" id="branchSelect" onclick="searchBranch()">...</div>
                    
              	 </div>
@@ -68,8 +68,8 @@
           <div class="ub umar-t8">
 			  <div id="categoryNameDiv" class="ub ub-ac umar-r40">
 				<div class="umar-r10 uw-80 ut-r">商品类别:</div>
-				  <input type="hidden" name="categoryCode" id="categoryCode" class="uinp" />
-				  <input type="text" name="categoryName" id="categoryName" class="uinp " readonly="readonly"  />
+				  <!-- <input type="hidden" name="categoryCode" id="categoryCode" class="uinp" /> -->
+				  <input type="text" name="categoryCode" id="categoryCode" class="uinp " maxlength="50"/>
 				  <div class="uinp-more" id="categorySelect" onclick="searchCategory()">...</div>
 			  </div>
 			  
