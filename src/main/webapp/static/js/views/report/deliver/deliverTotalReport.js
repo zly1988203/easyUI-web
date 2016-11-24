@@ -599,9 +599,9 @@ function selectBranches(){
 //商品分类
 function getGoodsType(){
 	new publicCategoryService(function(data){
-		$("#goodsCategoryId").val(data.goodsCategoryId);
-		$("#categoryCode").val(data.categoryCode);
-		$("#categoryName").val(data.categoryName);
+//		$("#goodsCategoryId").val(data.goodsCategoryId);
+//		$("#categoryCode").val(data.categoryCode);
+		$("#categoryCode").val(data.categoryName);
 	});
 }
 //打印
