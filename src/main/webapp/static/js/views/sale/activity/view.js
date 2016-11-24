@@ -1346,7 +1346,7 @@ function saveActivity(){
 
   var check = {skuCode:'1'};
   
-  if(activityScopedis == 1 ||　activityScopemj == 1){
+  if(activityScopedis == 1 || activityScopemj == 1){
 	  var check ={goodsCategoryCode:'1'}
   }
   // 获取非空的数据
