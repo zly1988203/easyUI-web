@@ -23,7 +23,7 @@ public interface ExportExcelConstant {
 	/**
 	 * @Fields EXPORT_MAX_SIZE : 导出最大记录数
 	 */
-	int EXPORT_MAX_SIZE = 10001;
+	int EXPORT_MAX_SIZE = 20001;
 
 	/**
 	 * @Fields EXPORT_SHEET_PAGE_SIZE : 每页显示大小，1000

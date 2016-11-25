@@ -10,7 +10,7 @@ $(function(){
     brancheType = $("#brancheType").val();
 });
 var gridHandel = new GridClass();
-var dg;
+
 //初始化表格
 function initDatagridRequireOrders(){
 	dg=$("#deliverFormList").datagrid({
@@ -97,6 +97,7 @@ var resetForm = function() {
 	 $("#deliverType").val('DA');
 };
 
+var dg;
 /**
  * 导出
  */
@@ -106,10 +107,6 @@ function exportData(){
 		successTip("无数据可导");
 		return;
 	}
-	if(length>20000){
-		successTip("当次导出数据不可超过2万条，现已超过，请重新调整导出范围！");
-		return;
-	}
 	$('#exportWin').window({
 		top:($(window).height()-300) * 0.5,   
 	    left:($(window).width()-500) * 0.5
@@ -117,17 +114,8 @@ function exportData(){
 	$("#exportWin").show();
 	$("#totalRows").html(dg.datagrid('getData').total);
 	$("#exportWin").window("open");
-	
-	/*var fromObjStr = $('#queryForm').serializeObject();
-	$("#queryForm").form({
-		success : function(result){
-			//successTip(result);
-		}
-	});
-	$("#queryForm").attr("action",contextPath+'/form/deliverReport/exportList')
-	$("#queryForm").submit();*/
 }
-
+// 调用导出方法
 function exportExcel(){
 	$("#exportWin").hide();
 	$("#exportWin").window("close");
