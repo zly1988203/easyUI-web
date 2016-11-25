@@ -68,6 +68,8 @@ function initDatagridRequireOrders(){
 
 //查询要货单
 function queryForm(){
+	$("#startCount").attr("value",null);
+	$("#endCount").attr("value",null);
 	$("#deliverType").val('DA');
 	var fromObjStr = $('#queryForm').serializeObject();
 	$("#deliverFormList").datagrid("options").method = "post";
