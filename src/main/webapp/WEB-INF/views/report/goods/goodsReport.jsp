@@ -7,6 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>商品档案</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
+<%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 <script src="${ctx}/static/js/views/report/goods/goodsReport.js"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
@@ -31,7 +32,7 @@
 				<div class="ubtns">
 					<div class="ubtns-item" onclick="query()">查询</div>
 					<div class="ubtns-item" onclick="printReport()">打印</div>
-					<div class="ubtns-item" onclick="exportExcel()">导出</div>
+					<div class="ubtns-item" onclick="exportData()">导出</div>
 					<div class="ubtns-item" onclick="toClose()">关闭</div>
 					<div class="ubtns-item" onclick="resetFrom()">重置</div>
 				</div>
@@ -40,6 +41,9 @@
 			<div class="ub umar-t8">
 				<div class="ub ub-ac umar-r40">
 				     <!-- 隐藏类别 -->
+					<input type="hidden" name="startCount" id="startCount" class="uinp" />
+					<input type="hidden" name="endCount" id="endCount" class="uinp" />
+					
 					<input type="hidden" name="categoryCode" id="categoryCode" class="uinp" />
 					<div class="umar-r10 uw-60 ut-r">机构:</div>
 					<input type="text" name="branchName" id="branchName" class="uinp" value="${branchesGrow.branchName}" maxlength="50"/>

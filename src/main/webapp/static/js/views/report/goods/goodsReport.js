@@ -145,8 +145,9 @@ function gridReload(gridName,httpParams,selectTypeName){
 
 
 //初始化表格
+var dg;
 function initDatagridOrders(){
-	goodsTab=$("#goodsTab").datagrid({
+	dg=$("#goodsTab").datagrid({
 		//title:'普通表单-用键盘操作',
 		align:'center',
 		method: 'post',
@@ -333,38 +334,38 @@ function selectSkuCode(){
 /**
  * 导出
  */
+function exportData(){
+	var length = $('#goodsTab').datagrid('getData').rows.length;
+	if(length == 0){
+		successTip("无数据可导");
+		return;
+	}
+	$('#exportWin').window({
+		top:($(window).height()-300) * 0.5,   
+	    left:($(window).width()-500) * 0.5
+	});
+	$("#exportWin").show();
+	$("#totalRows").html(dg.datagrid('getData').total);
+	$("#exportWin").window("open");
+}
+
 function exportExcel(){
+	$("#exportWin").hide();
+	$("#exportWin").window("close");
 	$("#queryForm").form({
-		success : function(data){
-			if(data.code > 0){
-				$.messager.alert('提示',data.message);
-			}
+		success : function(result){
+			successTip(result);
 		}
 	});
-
-	var isValid = $("#queryForm").form('validate');
-	if(!isValid){
-		return;
-	}
-
-	var length = $("#goodsTab").datagrid('getData').total;
-	if(length == 0){
-		$.messager.alert('提示',"无数据可导");
-		return;
-	}
-	if(length>10000){
-		$.messager.alert('提示',"当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
-		return;
-	}
 	//获取左侧缓存查询数据
-	var obj = localStorageUtil .getLocalStorageItem("storge");
+	var obj = localStorageUtil.getLocalStorageItem("storge");
 	$("#categoryCode").val(obj.categoryCode);
 	
 	//导出记录上一次查询条件
 	$("#queryForm").attr("action",contextPath+"/goods/report/exportList");
 	$("#queryForm").submit(); 
-
 }
+
 
 //搜索导出清除左侧条件
 function cleanLeftParam(){
