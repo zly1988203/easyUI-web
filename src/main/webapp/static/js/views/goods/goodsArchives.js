@@ -128,7 +128,8 @@ function zTreeOnClick(event, treeId, treeNode) {
          $("#categoryCode1").val('');
          $("#level").val('');
     }
-    
+    $("#startCount").val('');
+    $("#endCount").val('');
     //var formParams = $("#formGoodsArchives").serializeObject();
     gridReload("gridArchives",goodsClass.treeParam,goodsClass.selectTypeName);
 };
@@ -158,8 +159,10 @@ function gridReload(gridName,httpParams,selectTypeName){
 }
 var gridHandel = new GridClass();
 //初始化表格
+
+var dg;
 function initDatagridArchives(){
-    $("#gridArchives").datagrid({
+	dg = $("#gridArchives").datagrid({
         //title:'普通表单-用键盘操作',
         align:'center',
         url:'',
@@ -305,6 +308,8 @@ function cleanLeftParam(){
 function goodsSearch(){
 	//去除左侧选中值
 	cleanLeftParam();
+	$("#startCount").val('');
+    $("#endCount").val('');
 	//去除左侧选中样式
 	$('.zTreeDemoBackground a').removeClass('curSelectedNode');
     var formParams = $("#formGoodsArchives").serializeObject();
@@ -394,34 +399,36 @@ function delGoods(){
 	});
 }
 
-//导出
-function exportExcel(){
-	cleanLeftParam();
-	var isValid = $("#formGoodsArchives").form('validate');
-	if(!isValid){
-		return;
-	}
-	var length = $("#gridArchives").datagrid('getData').total;
+/**
+ * 导出
+ */
+function exportData(){
+	var length = $('#gridArchives').datagrid('getData').rows.length;
 	if(length == 0){
-		$.messager.alert("提示","无数据可导");
+		successTip("无数据可导");
 		return;
 	}
-	if(length>10000){
-		$.messager.alert('提示',"当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
-		return;
-	}
+	$('#exportWin').window({
+		top:($(window).height()-300) * 0.5,   
+	    left:($(window).width()-500) * 0.5
+	});
+	$("#exportWin").show();
+	$("#totalRows").html(dg.datagrid('getData').total);
+	$("#exportWin").window("open");
+}
+
+function exportExcel(){
+	$("#exportWin").hide();
+	$("#exportWin").window("close");
 	$("#formGoodsArchives").form({
-		success : function(data){
-			if(data==null){
-				$.messager.alert('提示',"导出数据成功！");
-			}else{
-				$.messager.alert('提示',JSON.parse(data).message);
-			}
+		success : function(result){
+			successTip(result);
 		}
 	});
 	$("#formGoodsArchives").attr("action",contextPath+"/common/goods/exportGoods");
 	$("#formGoodsArchives").submit();
 }
+
 //重置
 function resetFrom(){
 	$("#searchForm").form('clear');
