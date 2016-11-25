@@ -50,7 +50,8 @@ function initTreeAgency(){
 var branchAreaCode=null;
 function zTreeOnClick(event, treeId, treeNode) {
 	branchAreaCode=treeNode.code;
-    $("#gridAgency").datagrid("options").queryParams = {branchAreaCode:branchAreaCode,formType:$("#formType").val()};
+	var nameOrCode=$("#nameOrCode").val();
+    $("#gridAgency").datagrid("options").queryParams = {branchAreaCode:branchAreaCode,nameOrCode:nameOrCode,formType:$("#formType").val()};
     $("#gridAgency").datagrid("options").method = "post";
     $("#gridAgency").datagrid("options").url =contextPath+'/common/branches/getComponentList',
     $("#gridAgency").datagrid("load");
@@ -103,7 +104,11 @@ function publicGoodsGetCheckGoods(cb){
 //搜索
 function agencySearch(){
 	var nameOrCode=$("#nameOrCode").val();
-	$("#gridAgency").datagrid("options").queryParams = {branchAreaCode:branchAreaCode,nameOrCode:nameOrCode,formType:$("#formType").val(),branchId:$("#branchId").val()};
+	//去除左侧选中样式
+	$('.zTreeDemoBackground a').removeClass('curSelectedNode');
+	//点击搜索清除左侧数据
+	$("#gridAgency").datagrid("options").queryParams = {nameOrCode:nameOrCode,formType:$("#formType").val(),branchId:$("#branchId").val()};
+//	$("#gridAgency").datagrid("options").queryParams = {branchAreaCode:branchAreaCode,nameOrCode:nameOrCode,formType:$("#formType").val(),branchId:$("#branchId").val()};
 	$("#gridAgency").datagrid("options").method = "post";
 	$("#gridAgency").datagrid("options").url =contextPath+'/common/branches/getComponentList',
 	$("#gridAgency").datagrid('load');
