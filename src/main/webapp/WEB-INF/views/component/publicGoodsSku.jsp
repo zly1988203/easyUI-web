@@ -259,17 +259,4 @@ pageEncoding="UTF-8"%>
             $("#goodsInfo").select();
         },1000)
     }
-    var fromParams = {};
-    function initNewSearch(params){
-        fromParams = params;
-        if(!params.key){
-            $("#gridGoods").datagrid("options").method = "post";
-            $("#gridGoods").datagrid("options").queryParams = params;
-            $("#gridGoods").datagrid("options").url =contextPath + '/goods/goodsSelect/queryGoodsSkuLists?formType=${type}&sourceBranchId=${sourceBranchId}&targetBranchId=${targetBranchId}&branchId=${branchId}';
-            $("#gridGoods").datagrid('load');
-        }else{
-            cx()
-        }
-    }
-
 </script>
