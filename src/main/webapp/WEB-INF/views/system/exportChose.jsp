@@ -49,11 +49,19 @@
 		if(choose=="1"){
 			stratRow = 1;
 			endRow = dg.datagrid('getData').total;
+			if (endRow > 20000) {
+				successTip("最大导出20000条");
+				return;
+			}
 		}
 		//手动填写范围
 		if(choose=="2"){
 			stratRow = $("#startRow").val();
 			endRow = $("#endRow").val();
+			if ((endRow - stratRow + 1) > 20000) {
+				successTip("最大导出20000条");
+				return;
+			}
 			if(!stratRow || !endRow ){
 				successTip("请填写页面范围");
 				return;
@@ -70,7 +78,6 @@
 	    // 调用导出
 		exportExcel();
 	}
-	
 	function checkNumber(obj){
 		if(obj.value.length == 1){
 			obj.value=obj.value.replace(/[^1-9]/g,'');
@@ -79,6 +86,5 @@
 		}
 		return obj.value;
 	}
-	
 </script>
 		
