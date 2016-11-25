@@ -458,14 +458,15 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 			if (!qo.isOutGoods()) {// 淘汰商品
 				qo.setStatus(GoodsStatusEnum.OBSOLETE.ordinal());
 			}
-			qo.setPageSize(ExportExcelConstant.EXPORT_MAX_SIZE);
-			int count=goodsSkuService.querySkuByParamsCount(qo);
-			if(count>ExportExcelConstant.EXPORT_MAX_SIZE){
-				RespJson json = RespJson.error("最多只能导出" + ExportExcelConstant.EXPORT_MAX_SIZE
-						+ "条数据");
-				return json;
-			}
-			List<GoodsSku> list = goodsSkuService.querySkuByParams(qo);
+//			int count=goodsSkuService.querySkuByParamsCount(qo);
+//			if(count>ExportExcelConstant.EXPORT_MAX_SIZE){
+//				RespJson json = RespJson.error("最多只能导出" + ExportExcelConstant.EXPORT_MAX_SIZE
+//						+ "条数据");
+//				return json;
+//			}
+			
+			qo.setEndCount(qo.getEndCount()-qo.getStartCount());
+ 			List<GoodsSku> list = goodsSkuService.querySkuByParams(qo);
 			if (CollectionUtils.isNotEmpty(list)) {
 				if (list.size() > ExportExcelConstant.EXPORT_MAX_SIZE) {
 					RespJson json = RespJson.error("最多只能导出" + ExportExcelConstant.EXPORT_MAX_SIZE
