@@ -77,6 +77,8 @@
 		$("#endCount").attr("value",endRow);
 	    // 调用导出
 		exportExcel();
+		$("#startCount").attr("value",null);
+		$("#endCount").attr("value",null);
 	}
 	function checkNumber(obj){
 		if(obj.value.length == 1){
