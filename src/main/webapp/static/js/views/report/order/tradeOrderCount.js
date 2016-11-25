@@ -84,6 +84,8 @@ function initDatagridRequireOrders(){
 
 //查询要货单
 function queryForm(){
+	$("#startCount").attr("value",null);
+	$("#endCount").attr("value",null);
 	var fromObjStr = $('#queryForm').serializeObject();
 	$("#gridOrders").datagrid("options").method = "post";
 	$("#gridOrders").datagrid('options').url = contextPath + '/bill/tradeOrderCount/getTradeOrderCounts';
@@ -106,10 +108,6 @@ function selectBranches(){
 var resetForm = function() {
 	location.href = contextPath + "/bill/tradeOrderCount/view";
 };
-
-/**
- * 导出
- */
 
 var dg;
 /**

@@ -103,6 +103,8 @@ function initDatagridRequireOrders(){
 
 //查询要货单
 function queryForm(){
+	$("#startCount").attr("value",null);
+	$("#endCount").attr("value",null);
 	var startDate = $("#txtStartDate").val();
 	var endDate = $("#txtEndDate").val();
 	var branchName = $("#branchName").val();
@@ -169,7 +171,7 @@ function exportExcel(){
 	$("#exportWin").window("close");
 	$("#queryForm").form({
 		success : function(result){
-			//successTip(result);
+			
 		}
 	});
 	$("#queryForm").attr("action",contextPath+'/form/deliverReport/exportDeliverFormList')
