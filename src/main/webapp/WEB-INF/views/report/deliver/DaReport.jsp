@@ -7,6 +7,7 @@
     <title>要货单状态跟踪</title>
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
+    <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
     <script  src="${ctx}/static/js/views/report/deliver/DaReport.js"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
@@ -19,6 +20,8 @@
 						<div class="ubtns-item" onclick="queryForm()">查询</div>
 					</shiro:hasPermission>
 					<shiro:hasPermission name="JxcDeliverReport:export">
+						<input type="hidden" id="startCount" name="startCount" />
+						<input type="hidden" id="endCount" name="endCount" />
 						<div class="ubtns-item"  onclick="exportData()">导出</div>
 					</shiro:hasPermission>
 					<div class="ubtns-item" id="set" onclick="gFunRefresh()">重置</div>
@@ -41,13 +44,6 @@
 	                    <input type="hidden" id="deliverType" name="deliverType" value="DA" />
 	                    <input class="uinp" type="text" id="formNo" name="formNo">
 	                </div>
-	                <%-- <div class="ub ub-ac uw-300 umar-l40">
-	                    <div class="umar-r10 uw-70 ut-r">收货机构:</div>
-	                    <input type="hidden" id="targetBranchId" name="targetBranchId" value="${branchesGrow.targetBranchId}"/>
-	                    <input type="hidden" id="targetBranchType" name="targetBranchType" value="${branchesGrow.targetBranchType}"  />
-	                    <input class="uinp ub ub-f1" type="text" id="targetBranchName" name="targetBranchName" value="${branchesGrow.targetBranchName}" onclick="selectTargetBranches()" readonly="readonly"/>
-	                    <div class="uinp-more" onclick="selectTargetBranches()" >...</div>
-	                </div> --%>
 	            </div>
 	            <div class="ub umar-t8">
 	                <div class="ub ub-ac">
@@ -75,6 +71,5 @@
 			<table id="deliverFormList"></table>
 		</div>
     </div>
-
 </body>
 </html>
