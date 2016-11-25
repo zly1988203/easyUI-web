@@ -32,7 +32,6 @@
 	});
 
 	function sureExportExcel(){
-		debugger;
 		var choose = $('input[name="chose"]:checked').val();
 		if(choose == null){
 			successTip("请选择导出项");
