@@ -124,6 +124,8 @@ function zTreeOnClick(event, treeId, treeNode) {
         $("#categoryCode").val(treeNode.code);
         $("#brandId").val('');
         $("#supplierId").val('');
+        $("#startCount").val('');
+    	$("#endCount").val('');
     }
     gridReload("goodsTab",goodsClass.treeParam,goodsClass.selectTypeName);
 };
@@ -383,6 +385,8 @@ function setLocalStorage(){
 function query(){
 	//搜索导出清除左侧条件
 	cleanLeftParam();
+	$("#startCount").val('');
+	$("#endCount").val('');
 	
 	//将左侧查询条件设置缓存中
 	setLocalStorage();

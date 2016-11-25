@@ -128,6 +128,8 @@ function zTreeOnClick(event, treeId, treeNode) {
          $("#categoryCode1").val('');
          $("#level").val('');
     }
+    $("#startCount").val('');
+	$("#endCount").val('');
     //var formParams = $("#formGoodsArchives").serializeObject();
     gridReload("gridArchives",goodsClass.treeParam,goodsClass.selectTypeName);
 };
@@ -306,6 +308,8 @@ function cleanLeftParam(){
 function goodsSearch(){
 	//去除左侧选中值
 	cleanLeftParam();
+	$("#startCount").val('');
+	$("#endCount").val('');
 	//去除左侧选中样式
 	$('.zTreeDemoBackground a').removeClass('curSelectedNode');
     var formParams = $("#formGoodsArchives").serializeObject();
