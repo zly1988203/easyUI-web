@@ -44,7 +44,7 @@
                         <input type="hidden" name="startCount" id="startCount" value="">
                         <input type="hidden" name="endCount" id="endCount" value="">
 	                    <input class="uinp ub ub-f1" type="hidden" id="branchCode" name="branchCode">
-                        <input class="uinp ub ub-f1" type="text" id="branchNameOrCode" name="branchNameOrCode" onblur="cleanBranchCode();">
+                        <input class="uinp ub ub-f1" type="text" id="branchNameOrCode" name="branchNameOrCode">
                    <div class="uinp-more" onclick="searchBranch()">...</div>
                 </div>
                 <div class="ub ub-ac  umar-l20">

@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.PrintConstant;
 import com.okdeer.jxc.common.enums.BusinessTypeEnum;
@@ -93,7 +92,7 @@ public class CashFlowReportController extends BaseController<CashFlowReportContr
 			qo = getParmas(qo);
 
 			// 3、价格保留两位小数特殊处理
-			PageUtils<CashFlowReportVo> page = cashFlowReportService.queryList(qo);
+			PageUtils<CashFlowReportVo> page = cashFlowReportService.queryPageList(qo);
 			page.setList(handlePrice(page.getList()));
 
 			// 4、查询汇总
@@ -144,8 +143,8 @@ public class CashFlowReportController extends BaseController<CashFlowReportContr
 	 * @param response
 	 * @param vo
 	 * @return
-	 * @author dongh
-	 * @date 2016年8月25日
+	 * @author zhongy
+	 * @date 2016年11月28日
 	 */
 	@RequestMapping(value = "/exportList", method = RequestMethod.POST)
 	@ResponseBody
@@ -153,18 +152,16 @@ public class CashFlowReportController extends BaseController<CashFlowReportContr
 
 		LOG.info("UserController.exportList start ,parameter vo=" + qo);
 		try {
-			qo.setPageNumber(Constant.ONE);
-			qo.setPageSize(Constant.MAX_EXPORT_NUM);
-			// 2、封装请求参数
+			// 1、封装请求参数
 			qo = getParmas(qo);
+			qo.setEndCount(qo.getEndCount()-qo.getStartCount());
+			List<CashFlowReportVo> exportList = cashFlowReportService.queryList(qo);
 
-			PageUtils<CashFlowReportVo> exportList = cashFlowReportService.queryList(qo);
-
-			// 3、查询汇总
+			// 2、查询汇总
 			CashFlowReportVo cashFlowReportVo = cashFlowReportService.queryCashFlowReportSum(qo);
-			exportList.getList().add(cashFlowReportVo);
-			// 4、导出数据特殊处理
-			List<CashFlowReportVo> list = handleCashFlowReport(exportList.getList());
+			exportList.add(cashFlowReportVo);
+			// 3、导出数据特殊处理
+			List<CashFlowReportVo> list = handleCashFlowReport(exportList);
 
 			String fileName = "收银流水报表" + "_" + DateUtils.getCurrSmallStr();
 			String templateName = ExportExcelConstant.CASHFLOWREPORT;
@@ -187,17 +184,12 @@ public class CashFlowReportController extends BaseController<CashFlowReportContr
 	 */
 	@RequestMapping(value = "printReport", method = RequestMethod.GET)
 	@ResponseBody
-	public void printReport(CashFlowReportQo qo, HttpServletResponse response, HttpServletRequest request,
-			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
-			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
+	public void printReport(CashFlowReportQo qo, HttpServletResponse response, HttpServletRequest request) {
 		try {
-			qo.setPageNumber(pageNumber);
-			qo.setPageSize(pageSize);
 			// 2、封装请求参数
 			qo = getParmas(qo);
 			LOG.debug("收银流水打印参数：{}", qo.toString());
-			PageUtils<CashFlowReportVo> cashFlowReport = cashFlowReportService.queryList(qo);
-			List<CashFlowReportVo> list = cashFlowReport.getList();
+			List<CashFlowReportVo> list = cashFlowReportService.queryList(qo);
 			String path = PrintConstant.CASH_FLOW_REPORT;
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("startDate", qo.getStartTime());

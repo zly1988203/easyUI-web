@@ -219,22 +219,20 @@ function updateFooter(){
 //打印
 function printReport(){
 	//var queryType = $("input[name='queryType']").val();
-	var startDate = $("#txtStartDate").val();
-	var endDate = $("#txtEndDate").val();
-	var branchId= $("#branchId").val();
+	var startTime = $("#txtStartDate").val();
+	var endTime = $("#txtEndDate").val();
+	var branchNameOrCode= $("#branchNameOrCode").val();
 	var orderNo=$("#orderNo").val();
 	var skuName=$("#skuName").val();
 	var skuCode=$("#skuCode").val();
 	var businessType=$("#businessType").combobox("getValue");//业务类型
 	var orderType=$("#orderType").combobox("getValue");
-	var statisType=$("#statisType").combobox("getValue");
-	
 	//var cashierId=$("#cashierId").val();//收银员
 	//var payType=$("#payType").combobox("getValue");
 	//var orderType=$("#orderType").combobox("getValue");
-	parent.addTabPrint("reportPrint"+branchId,"打印",contextPath+"/saleFlow/report/printReport?" +"&startDate="+startDate
-			+"&endDate="+endDate+"&branchId="+branchId+"&orderNo="+orderNo+"&skuName="+skuName
-			+"&skuCode="+skuCode+"&businessType="+businessType+"&orderType="+orderType+"&statisType="+statisType);
+	parent.addTabPrint("reportPrint"+branchNameOrCode,"打印",contextPath+"/saleFlow/report/printReport?" +"&startTime="+startTime
+			+"&endTime="+endTime+"&branchNameOrCode="+branchNameOrCode+"&orderNo="+orderNo+"&skuName="+skuName
+			+"&skuCode="+skuCode+"&businessType="+businessType+"&orderType="+orderType);
 }
 /**
  * 重置

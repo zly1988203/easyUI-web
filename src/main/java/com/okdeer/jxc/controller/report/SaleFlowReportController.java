@@ -225,15 +225,11 @@ public class SaleFlowReportController extends BaseController<SaleFlowReportContr
 	 */
 	@RequestMapping(value = "printReport", method = RequestMethod.GET)
 	@ResponseBody
-	public void printReport(SaleFlowReportQo qo, HttpServletResponse response, HttpServletRequest request,
-			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber) {
+	public void printReport(SaleFlowReportQo qo, HttpServletResponse response, HttpServletRequest request) {
 		try {
-			qo.setPageNumber(pageNumber);
-			qo.setPageSize(PrintConstant.PRINT_MAX_LIMIT);
 			// 设置默认查询条件参数
 			qo = getDefultParmas(qo);
-			PageUtils<SaleFlowReportVo> saleFlowReportVo = saleFlowReportService.queryList(qo);
-			List<SaleFlowReportVo> list = saleFlowReportVo.getList();
+			List<SaleFlowReportVo> list = saleFlowReportService.querySaleList(qo);
 			String path = PrintConstant.SALE_FLOW_REPORT;
 
 			Map<String, Object> map = new HashMap<String, Object>();
