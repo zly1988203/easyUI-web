@@ -24,7 +24,13 @@ function fileUrlChange(event){
 function toUploadHandel(){
     var formData = new FormData();
     formData.append("file",$("#file")[0].files[0]);
-    formData.append("branchId",uploadFileParams.branchId);
+    debugger;
+    if (typeof(uploadFileParams.branchId)=="undefined") {
+    	formData.append("targetBranchId",uploadFileParams.targetBranchId);
+    	formData.append("sourceBranchId",uploadFileParams.sourceBranchId);
+    } else {
+    	formData.append("branchId",uploadFileParams.branchId);
+    }
     formData.append("type",uploadFileParams.type);
     $.ajax({
         url : uploadFileParams.url,//uploadFileParams.url,

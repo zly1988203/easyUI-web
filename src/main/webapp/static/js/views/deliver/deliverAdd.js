@@ -290,28 +290,32 @@ function selectGoods(searchKey){
         messager("请先选择发货机构");
         return;
     }
-    var targetBranchType = $("#targetBranchType").val();
+    /*var targetBranchType = $("#targetBranchType").val();
     // C类加盟店显示为发货机构的商品表
     if (targetBranchType === '5') {
     	targetBranchId = sourceBranchId;
-    }
+    }*/
     new publicGoodsService("DA",function(data){
     	if(searchKey){
 	        $("#gridEditOrder").datagrid("deleteRow", gridHandel.getSelectRowIndex());
 	        $("#gridEditOrder").datagrid("acceptChanges");
 	    }
-    	selectStockAndPrice(sourceBranchId,targetBranchId,data);
-    },searchKey,"",sourceBranchId,targetBranchId,targetBranchId,'');
+    	selectStockAndPrice(data);
+    },searchKey,"",sourceBranchId,targetBranchId,'','');
 }
 // 二次查询设置值
-function setDataValue(data) {
+function setDataValue(data,type) {
     	for(var i in data){
 	        var rec = data[i];
 	        rec.remark = "";
         }
          var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
          var addDefaultData = gridHandel.addDefault(data,gridDefault);
-         var keyNames = {
+         var keyNames = type==1?{
+	         id:'skuId',
+	         disabled:'',
+	         pricingType:''
+         }:{
     		 distributionPrice:'price',
 	         id:'skuId',
 	         disabled:'',
@@ -322,32 +326,32 @@ function setDataValue(data) {
          var isCheck ={isGift:1 };   //只要是赠品就可以重复
          var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
          $("#gridEditOrder").datagrid("loadData",newRows);
-        
 }
 
 // 查询价格、库存
-function selectStockAndPrice(sourceBranchId,targetBranchId,data){
-	var targetBranchType = $("#targetBranchType").val();
-	var type;
+function selectStockAndPrice(data){
+//	var targetBranchType = $("#targetBranchType").val();
     // C类加盟店显示为发货机构的商品表
-    if (targetBranchType === '5' || targetBranchType === '4') {
+   /* if (targetBranchType === '5' || targetBranchType === '4') {
     	type = 'no';
     } else {
     	type = 'yes';
-    }
-	var GoodsStockVo = {
+    }*/
+	/*var GoodsStockVo = {
 			branchId : targetBranchId,
 			stockBranchId : sourceBranchId,
 			fieldName : 'id',
-			type : type,
-			goodsSkuVo : [],
+			goodsSkuVo : []
 		}; 
 	$.each(data,function(i,val){
 		var temp = {
-				id : val.skuId
+				id : val.skuId,
+				distributionPrice : val.distributionPrice,
 		};
 		GoodsStockVo.goodsSkuVo[i] = temp;
-	});
+	});*/
+	setDataValue(data);
+	/*return;
 	$.ajax({
     	url : contextPath+"/goods/goodsSelect/selectStockAndPrice",
     	type : "POST",
@@ -355,12 +359,12 @@ function selectStockAndPrice(sourceBranchId,targetBranchId,data){
     		goodsStockVo : JSON.stringify(GoodsStockVo)
     	},
     	success:function(result){
-    		setDataValue(result);
+    		setDataValue(result,1);
     	},
     	error:function(result){
     		successTip("请求发送失败或服务器处理失败");
     	}
-    });
+    });*/
 }
 
 //保存
@@ -601,13 +605,13 @@ function getImportData(data){
     var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
     var argWhere ={skuCode:1};  //验证重复性
     var newRows = gridHandel.checkDatagrid(nowRows,data,argWhere,{});
-
     $("#"+gridHandel.getGridName()).datagrid("loadData",newRows);
     messager("导入成功");
 }
 
 // 新的导入功能 货号(0)、条码(1)导入
 function toImportproduct(type){
+	debugger;
 	// 要货机构id
 	var targetBranchId = $("#targetBranchId").val();
 	// 发货机构id
@@ -620,10 +624,10 @@ function toImportproduct(type){
         url:contextPath+"/form/deliverForm/importList",
         tempUrl:contextPath+"/form/deliverForm/exportTemp",
         type:type,
-        branchId:targetBranchId,
+        targetBranchId:targetBranchId,
+        sourceBranchId:sourceBranchId
     }
     new publicUploadFileService(function(data){
-    	
     	if (data.length != 0) {
     		selectStockAndPriceImport(sourceBranchId,targetBranchId,data);
     	}
@@ -632,7 +636,8 @@ function toImportproduct(type){
 
 //查询价格、库存
 function selectStockAndPriceImport(sourceBranchId,targetBranchId,data){
-	var targetBranchType = $("#targetBranchType").val();
+	updateListData(data);
+	/*var targetBranchType = $("#targetBranchType").val();
 	var type;
     // C类加盟店显示为发货机构的商品表
     if (targetBranchType === '5' || targetBranchType === '4') {
@@ -667,12 +672,10 @@ function selectStockAndPriceImport(sourceBranchId,targetBranchId,data){
     	error:function(result){
     		successTip("请求发送失败或服务器处理失败");
     	}
-    });
+    });*/
 }
 
 function updateListData(data){
-     //var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
-     //var addDefaultData = gridHandel.addDefault(data,gridDefault);
      var keyNames = {
 		 distributionPrice:'price',
          id:'skuId',
@@ -681,8 +684,6 @@ function updateListData(data){
          num : 'applyNum'
      };
      var rows = gFunUpdateKey(data,keyNames);
-
-     console.log(rows);
      for(var i in rows){
          rows[i].remark = "";
          rows[i]["amount"]  = parseFloat(rows[i]["price"]||0)*parseFloat(rows[i]["applyNum"]||0);

@@ -10,10 +10,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+
+import net.sf.json.JSONObject;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
@@ -29,8 +32,6 @@ import com.okdeer.jxc.goods.entity.GoodsSelect;
 import com.okdeer.jxc.goods.service.GoodsSelectServiceApi;
 import com.okdeer.jxc.utils.poi.ExcelExportUtil;
 import com.okdeer.jxc.utils.poi.ExcelReaderUtil;
-
-import net.sf.json.JSONObject;
 
 
 /**
@@ -66,13 +67,17 @@ public class GoodsSelectImportComponent {
 	 * @param type 导入类型，（0货号、1条码）
 	 * @param errorFileDownloadUrlPrefix  失败文件下载地址前缀
 	 * @param businessValid 业务验证回调
+	 * @param map_branchid 要货机构和发货机构id map
 	 * @return
 	 * @author xiaoj02
 	 * @date 2016年10月15日
 	 */
-	public <T extends GoodsSelect> GoodsSelectImportVo<T> importSelectGoods(String fileName, InputStream is, String[] fields, T entity, String branchId, String userId, String type, String errorFileDownloadUrlPrefix ,GoodsSelectImportBusinessValid businessValid) {
+	public <T extends GoodsSelect> GoodsSelectImportVo<T> importSelectGoods(String fileName, InputStream is,
+			String[] fields, T entity, String branchId, String userId, String type, String errorFileDownloadUrlPrefix,
+			GoodsSelectImportBusinessValid businessValid, Map<String, String> map_branchid) {
 		String[] branchIds = {branchId};
-		return importSelectGoodsMultiBranch(fileName, is, fields, entity, branchIds, userId, type, false, errorFileDownloadUrlPrefix, businessValid);
+		return importSelectGoodsMultiBranch(fileName, is, fields, entity, branchIds, userId, type, false,
+				errorFileDownloadUrlPrefix, businessValid, map_branchid);
 	}
 	
 	/**
@@ -91,7 +96,8 @@ public class GoodsSelectImportComponent {
 	 * @date 2016年10月15日
 	 */
 	public <T extends GoodsSelect> GoodsSelectImportVo<T> importSelectGoodsMultiBranch(String fileName, InputStream is, String[] fields, T entity, String[] branchId, String userId, String type, String errorFileDownloadUrlPrefix ,GoodsSelectImportBusinessValid businessValid) {
-		return importSelectGoodsMultiBranch(fileName, is, fields, entity, branchId, userId, type, false, errorFileDownloadUrlPrefix, businessValid);
+		return importSelectGoodsMultiBranch(fileName, is, fields, entity, branchId, userId, type, false,
+				errorFileDownloadUrlPrefix, businessValid, null);
 	}
 	
 	/**
@@ -111,7 +117,8 @@ public class GoodsSelectImportComponent {
 	 */
 	public <T extends GoodsSelect> GoodsSelectImportVo<T> importSelectGoodsWithStock(String fileName, InputStream is, String[] fields, T entity, String branchId, String userId, String type, String errorFileDownloadUrlPrefix ,GoodsSelectImportBusinessValid businessValid) {
 		String[] branchIds = {branchId};
-		return importSelectGoodsMultiBranch(fileName, is, fields, entity, branchIds, userId, type, true, errorFileDownloadUrlPrefix, businessValid);
+		return importSelectGoodsMultiBranch(fileName, is, fields, entity, branchIds, userId, type, true,
+				errorFileDownloadUrlPrefix, businessValid, null);
 	}
 	
 	/**
@@ -130,7 +137,8 @@ public class GoodsSelectImportComponent {
 	 * @date 2016年10月15日
 	 */
 	public <T extends GoodsSelect> GoodsSelectImportVo<T> importSelectGoodsMultiBranchWithStock(String fileName, InputStream is, String[] fields, T entity, String[] branchId, String userId, String type, String errorFileDownloadUrlPrefix ,GoodsSelectImportBusinessValid businessValid) {
-		return importSelectGoodsMultiBranch(fileName, is, fields, entity, branchId, userId, type, true, errorFileDownloadUrlPrefix, businessValid);
+		return importSelectGoodsMultiBranch(fileName, is, fields, entity, branchId, userId, type, true,
+				errorFileDownloadUrlPrefix, businessValid, null);
 	}
 	
 
@@ -139,7 +147,10 @@ public class GoodsSelectImportComponent {
 	 * @author xiaoj02
 	 * @date 2016年10月13日
 	 */
-	private <T extends GoodsSelect> GoodsSelectImportVo<T> importSelectGoodsMultiBranch(String fileName, InputStream is, String[] fields, T entity, String[] branchId, String userId, String type, Boolean withStock, String errorFileDownloadUrlPrefix ,GoodsSelectImportBusinessValid businessValid) {
+	private <T extends GoodsSelect> GoodsSelectImportVo<T> importSelectGoodsMultiBranch(String fileName,
+			InputStream is, String[] fields, T entity, String[] branchId, String userId, String type,
+			Boolean withStock, String errorFileDownloadUrlPrefix, GoodsSelectImportBusinessValid businessValid,
+			Map<String, String> map_branchid) {
 		//读取excel
 		List<JSONObject> excelList = ExcelReaderUtil.readExcel(fileName, is, fields);
 		
@@ -162,7 +173,7 @@ public class GoodsSelectImportComponent {
 				dbList = new ArrayList<GoodsSelect>();
 			}else{
 				//根据货号查询商品
-				dbList = goodsSelectServiceApi.queryListBySkuCode(list.toArray(new String[list.size()]), branchId, withStock);
+				dbList = goodsSelectServiceApi.queryListBySkuCode(list.toArray(new String[list.size()]), branchId, withStock,map_branchid);
 			}
 			
 			
@@ -177,7 +188,7 @@ public class GoodsSelectImportComponent {
 				dbList = new ArrayList<GoodsSelect>();
 			}else{
 				//根据条码查询商品，过滤掉条码重复的商品
-				dbList = goodsSelectServiceApi.queryListByBarCode(list.toArray(new String[list.size()]), branchId, withStock);
+				dbList = goodsSelectServiceApi.queryListByBarCode(list.toArray(new String[list.size()]), branchId, withStock,map_branchid);
 			}
 			
 		}else{
