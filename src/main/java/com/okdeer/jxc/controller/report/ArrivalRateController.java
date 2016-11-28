@@ -8,7 +8,6 @@
 package com.okdeer.jxc.controller.report;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -82,7 +81,7 @@ public class ArrivalRateController extends BaseController<PurchaseForm>{
 			qo.setPageSize(pageSize);
 			qo = buildDefaultParams(qo);
 			//1、列表查询
-			PageUtils<ArrivalRateVo> arrivalRateReport = arrivalRateService.findArrivalRate(qo);
+			PageUtils<ArrivalRateVo> arrivalRateReport = arrivalRateService.findPageArrivalRate(qo);
 			
 			//2、汇总查询
 			List<ArrivalRateVo> footer = arrivalRateService.findArrivalRateSum(qo);
@@ -108,18 +107,15 @@ public class ArrivalRateController extends BaseController<PurchaseForm>{
 	@ResponseBody
 	public String exportList(HttpServletResponse response, ArrivalRateQo qo) {
 
-		LOG.info("UserController.exportList start ,parameter vo=" + qo);
+		LOG.info("UserController.exportList start ,parameter vo=",qo);
 		try {
-			qo.setPageNumber(Constant.ONE);
-			qo.setPageSize(Constant.MAX_EXPORT_NUM);
 			qo = buildDefaultParams(qo);
+			qo.setEndCount(qo.getEndCount()-qo.getStartCount());
 			//1、列表查询
-			List<ArrivalRateVo> list = new ArrayList<ArrivalRateVo>();
-			PageUtils<ArrivalRateVo> exportList = arrivalRateService.findArrivalRate(qo);
+			List<ArrivalRateVo> list = arrivalRateService.findArrivalRate(qo);
 			
 			//2、汇总查询
 			List<ArrivalRateVo> footer = arrivalRateService.findArrivalRateSum(qo);
-			list = exportList.getList();
 			list.addAll(footer);
 			list = handlePrice(list);
 			String fileName = "采购到货率" + "_" + DateUtils.getCurrSmallStr();
