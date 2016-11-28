@@ -68,6 +68,7 @@ public abstract class BasePrintController<T,P> extends BaseController<T> {
 		// 页签
 		String tabId = "prev_" + page + "_" + sheetNo;
 		model.addObject("tabId", tabId);
+		model.addObject("sheetNo", sheetNo);
 		//获取打印占位JSON
 		Map<String, Object> replaceMap = getPrintReplace(sheetNo);
 		String jsonReplace = jsonMapper.toJson(replaceMap);
