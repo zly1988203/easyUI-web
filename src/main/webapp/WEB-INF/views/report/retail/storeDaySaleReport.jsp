@@ -38,7 +38,7 @@
                 <div class="ub  ub-ac">
                    <div class="umar-r10 uw-70 ut-r">店铺名称:</div>
 	                    <input class="uinp ub ub-f1" type="hidden" id="branchId" name="branchId">
-                        <input class="uinp ub ub-f1" type="text" id="branchName" readonly="readonly" name="branchName">
+                        <input class="uinp ub ub-f1" type="text" id="branchName" name="branchName">
                    <div class="uinp-more" onclick="searchBranch()">...</div>
                 </div>
                 
