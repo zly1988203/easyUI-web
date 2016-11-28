@@ -543,7 +543,7 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 	protected Map<String, Object> getPrintReplace(String formNo) {
 		Map<String, Object> replaceMap = new HashMap<String, Object>();
 		DeliverForm deliverForm = deliverFormServiceApi
-				.queryDeliverFormByFormNo(formNo);
+				.queryDeliverFormById(formNo);
 		replaceMap.put("_单号",
 				deliverForm.getFormNo() != null ? deliverForm.getFormNo() : "");
 		replaceMap.put(
@@ -622,7 +622,7 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 	 */
 	@Override
 	protected List<DeliverFormList> getPrintDetail(String formNo) {
-		return queryDeliverFormListServiceApi.getDeliverList(formNo);
+		return queryDeliverFormListServiceApi.getDeliverListById(formNo);
 	}
 	// end by lijy02
 

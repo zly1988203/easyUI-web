@@ -144,9 +144,3 @@ function back(){
 function addDeliverForm(){
 	location.href = contextPath + "/form/deliverForm/addDeliverForm?deliverType=DA";
 }
-
-//打印
-function printDesign(formNo){
-     //弹出打印页面
-     parent.addTabPrint('DASheet' + formNo,formNo+'单据打印',contextPath + '/printdesign/design?page=DASheet&controller=/form/deliverForm&template=-1&sheetNo=' + formNo + '&gridFlag=DAGrid','');
-}
