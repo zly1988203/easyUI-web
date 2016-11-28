@@ -8,7 +8,7 @@ var gridHandel = new GridClass();
 //初始化表格
 function initDatagridRequire(){
 	gridHandel.setGridName("categorySale");
-    $("#categorySale").datagrid({
+   dg = $("#categorySale").datagrid({
         method:'post',
         align:'center',
         //toolbar: '#tb',     //工具栏 id为tb
@@ -87,6 +87,8 @@ function queryForm(){
         messager("请选择店铺名称");
         return;
     } 
+	$("#startCount").attr("value",null);
+	$("#endCount").attr("value",null);
 	var fromObjStr = $('#queryForm').serializeObject();
 	$("#categorySale").datagrid("options").method = "post";
 	$("#categorySale").datagrid('options').url = contextPath + '/categorySale/report/getCategorySaleList';
@@ -102,6 +104,25 @@ function selectBranches(){
 		$("#branchName").val(data.branchName);
 	},'BF','');
 }
+var dg;
+/**
+ * 导出
+ */
+function exportData(){
+	var length = $('#categorySale').datagrid('getData').total;
+	if(length == 0){
+		successTip("无数据可导");
+		return;
+	}
+	$('#exportWin').window({
+		top:($(window).height()-300) * 0.5,   
+	    left:($(window).width()-500) * 0.5
+	});
+	$("#exportWin").show();
+	$("#totalRows").html(dg.datagrid('getData').total);
+	$("#exportWin").window("open");
+}
+
 /**
  * 导出
  */
@@ -111,7 +132,7 @@ function exportExcel(){
 		$.messager.alert('提示',"没有数据");
 		return;
 	}
-	if(length>10000){
+	if(length>20000){
 		$.messager.alert('提示',"当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
 		return;
 	}
