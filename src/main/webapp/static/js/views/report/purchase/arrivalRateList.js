@@ -119,9 +119,10 @@ function categoryOn(){
 
 var gridHandel = new GridClass();
 //初始化表格
+var dg;
 function initDatagridByFormNo(){
 	gridHandel.setGridName("gridOrders");
-    $("#gridOrders").datagrid({
+	dg = $("#gridOrders").datagrid({
         method:'post',
         align:'center',
         url:'',
@@ -198,7 +199,7 @@ function initDatagridByFormNo(){
 //初始化表格
 function initDatagridBySupplier(){
 	gridHandel.setGridName("gridOrders");
-    $("#gridOrders").datagrid({
+	dg =  $("#gridOrders").datagrid({
         method:'post',
         align:'center',
         url:'',
@@ -261,7 +262,7 @@ function initDatagridBySupplier(){
 //初始化表格
 function initDatagridByCategory(){
 	gridHandel.setGridName("gridOrders");
-    $("#gridOrders").datagrid({
+	dg =  $("#gridOrders").datagrid({
         method:'post',
         align:'center',
         url:'',
@@ -325,7 +326,7 @@ function initDatagridByCategory(){
 //初始化表格
 function initDatagridBySku(){
 	gridHandel.setGridName("gridOrders");
-    $("#gridOrders").datagrid({
+	dg =  $("#gridOrders").datagrid({
         method:'post',
         align:'center',
         url:'',
@@ -391,6 +392,8 @@ function initDatagridBySku(){
 }
 
 function query(){
+	$("#startCount").val('');
+	$("#endCount").val('');
 	$("#gridOrders").datagrid("options").url = "";
 	$("#gridOrders").datagrid({showFooter:true});
 	$("#gridOrders").datagrid("options").queryParams = $("#queryForm").serializeObject();
@@ -435,40 +438,33 @@ function resetForm(){
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 };
 
-//清空机构编号
-function cleanBranchCode(){
-	var branchNameOrCode = $("#branchNameOrCode").val();
-	if(!branchNameOrCode){
-		$("#branchCode").val('');
-	}
-}
-
 /**
  * 导出
  */
+function exportData(){
+	var length = $('#gridOrders').datagrid('getData').rows.length;
+	if(length == 0){
+		successTip("无数据可导");
+		return;
+	}
+	$('#exportWin').window({
+		top:($(window).height()-300) * 0.5,   
+	    left:($(window).width()-500) * 0.5
+	});
+	$("#exportWin").show();
+	$("#totalRows").html(dg.datagrid('getData').total);
+	$("#exportWin").window("open");
+}
+
 function exportExcel(){
+	$("#exportWin").hide();
+	$("#exportWin").window("close");
 	$("#queryForm").form({
-		success : function(data){
-			if(data.code > 0){
-				$.messager.alert('提示',data.message);
-			}
+		success : function(result){
+			successTip(result);
 		}
 	});
-	
-	var isValid = $("#queryForm").form('validate');
-	if(!isValid){
-		return;
-	}
-	
-	var length = $("#gridOrders").datagrid('getData').total;
-	if(length == 0){
-		$.messager.alert('提示',"无数据可导");
-		return;
-	}
-	if(length>10000){
-		$.messager.alert('提示',"当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
-		return;
-	}
 	$("#queryForm").attr("action",contextPath+"/report/purchase/exportList");
-	$("#queryForm").submit(); 
+	$("#queryForm").submit();
 }
+
