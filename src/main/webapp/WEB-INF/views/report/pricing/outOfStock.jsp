@@ -83,7 +83,7 @@
 						<input id="goodsCategoryId" name="goodsCategoryId" class="uinp" type="hidden"> 
 						<input id="categoryCode" name="categoryCode" class="uinp" type="hidden"> 
 					    <input id="categoryName" name="categoryName" class="uinp" type="text" readonly="readonly" data-options="required:true">
-						<div class="uinp-more new-right" onclick="getGoodsType()">...</div>
+						<div class="uinp-more " onclick="getGoodsType()">...</div>
 					</div>
                </div>
        	</div>
