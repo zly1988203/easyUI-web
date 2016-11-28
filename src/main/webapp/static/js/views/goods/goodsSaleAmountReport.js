@@ -9,7 +9,7 @@ var gridHandel = new GridClass();
 //初始化表格
 function initDatagridRequire(){
 	gridHandel.setGridName("goodsSaleAmountReport");
-    $("#goodsSaleAmountReport").datagrid({
+	dg = $("#goodsSaleAmountReport").datagrid({
         method:'post',
         align:'center',
         //toolbar: '#tb',     //工具栏 id为tb
@@ -129,6 +129,8 @@ function queryForm(){
         messager("请选择机构名称");
         return;
     } 
+	$("#startCount").attr("value",null);
+	$("#endCount").attr("value",null);
 	var fromObjStr = $('#queryForm').serializeObject();
 	console.log(fromObjStr);
 	
@@ -149,7 +151,24 @@ function selectBranches(){
 		$("#branchName").val(baranchesId);
 	},'BF','');
 }
-
+var dg;
+/**
+ * 导出
+ */
+function exportData(){
+	var length = $('#goodsSaleAmountReport').datagrid('getData').total;
+	if(length == 0){
+		successTip("无数据可导");
+		return;
+	}
+	$('#exportWin').window({
+		top:($(window).height()-300) * 0.5,   
+	    left:($(window).width()-500) * 0.5
+	});
+	$("#exportWin").show();
+	$("#totalRows").html(dg.datagrid('getData').total);
+	$("#exportWin").window("open");
+}
 /**
  * 导出
  */
