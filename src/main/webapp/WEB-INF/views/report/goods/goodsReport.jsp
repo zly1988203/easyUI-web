@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>商品档案</title>
+<title>商品查询</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 <script src="${ctx}/static/js/views/report/goods/goodsReport.js"></script>
@@ -70,7 +70,7 @@
 							<option value="3">小于</option>
 							<option value="4">小于等于</option>
 					</select> 
-					<input type="text" maxlength = "10" name="operaterNum" id="operaterNum" class="uinp" style="width: 113px;" />
+					<input type="text" maxlength = "10" name="operaterNum" id="operaterNum" class="uinp" style="width: 117px;" />
 				</div>
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">商品名称:</div>
@@ -83,7 +83,7 @@
 				</div>
 			</div>
 		</form>
-		 <div class="ub umar-t8">&nbsp;</div>
+		 <div class="ub ">&nbsp;</div>
 		 <div class="ub ub-f1">
 		 	<table id="goodsTab"></table>
 		 </div>
