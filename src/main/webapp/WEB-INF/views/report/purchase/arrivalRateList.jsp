@@ -7,6 +7,7 @@
     <title>到货率分析</title>
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
+    <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 	<script src="${ctx}/static/js/views/report/purchase/arrivalRateList.js"></script>
     
 </head>
@@ -19,7 +20,7 @@
 					<div class="ubtns-item" onclick="query()">查询</div>
 				</shiro:hasPermission>
 	            <shiro:hasPermission name="JxcPurArrivalRate:export">
-	                <div class="ubtns-item" onclick="exportExcel()">导出</div>
+	                <div class="ubtns-item" onclick="exportData()">导出</div>
 				</shiro:hasPermission>
 	                <div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 	                <div class="ubtns-item" onclick="toClose()">退出</div>
@@ -31,6 +32,8 @@
 	        <div class="ub umar-t8">
 	             <div class="ub  ub-ac umar-r40">
                    <div class="umar-r10 uw-70 ut-r">机构名称:</div>
+                        <input type="hidden" name="startCount" id="startCount" value="">
+						<input type="hidden" name="endCount" id="endCount" value="">
 	                    <input class="uinp ub ub-f1" type="hidden" id="branchCode" name="branchCode">
                         <input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" maxlength="50" maxlength="50">
                    <div class="uinp-more uinp-branchNameOrCode" onclick="searchBranch()">...</div>
