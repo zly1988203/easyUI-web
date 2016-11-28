@@ -9,6 +9,9 @@ package com.okdeer.jxc.common.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -62,13 +65,16 @@ public abstract class BasePrintController<T,P> extends BaseController<T> {
 	 * @date 2016年8月29日
 	 */
 	@RequestMapping(value = "/preview")
-	public ModelAndView preview(String page, String template, String sheetNo, ModelAndView model){
-		LOG.info("template:{}", template);
+	public ModelAndView preview(String page, String template, String sheetNo,HttpServletRequest request, ModelAndView model){
+		String controllerUrl = request.getRequestURI().replace("/okdeerjxc/", "/").replace("/preview", "/");
 		JsonMapper jsonMapper = new JsonMapper();
 		// 页签
 		String tabId = "prev_" + page + "_" + sheetNo;
 		model.addObject("tabId", tabId);
 		model.addObject("sheetNo", sheetNo);
+		
+		model.addObject("page", page);
+		model.addObject("controllerUrl", controllerUrl);
 		//获取打印占位JSON
 		Map<String, Object> replaceMap = getPrintReplace(sheetNo);
 		String jsonReplace = jsonMapper.toJson(replaceMap);
