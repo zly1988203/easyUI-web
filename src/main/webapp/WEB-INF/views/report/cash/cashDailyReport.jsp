@@ -34,7 +34,6 @@
 	            <%@ include file="/WEB-INF/views/component/dateSelect.jsp"%>
             </div>
 	               
-	        <div class="ub umar-t8 uc-black">【收银日报】</div>
 	        <div class="ub uline umar-t8"></div>
 	        
           <div class="ub umar-t8">
