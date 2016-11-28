@@ -6,7 +6,7 @@ $(function(){
 var gridHandel = new GridClass();
 //初始化表格
 function initDatagridRequire(){
-    $("#storeDaySale").datagrid({
+    dg = $("#storeDaySale").datagrid({
         method:'post',
         align:'right',
         //toolbar: '#tb',     //工具栏 id为tb
@@ -815,6 +815,8 @@ function queryForm(){
 	        messager("请选择店铺名称");
 	        return;
 	    } 
+ $("#startCount").attr("value",null);
+	$("#endCount").attr("value",null);
 	var fromObjStr = $('#queryForm').serializeObject();
 	$("#storeDaySale").datagrid("options").method = "post";
 	$("#storeDaySale").datagrid('options').url = contextPath + '/storeDaySale/report/getStoreDaySaleList';
@@ -830,7 +832,24 @@ function searchBranch(){
 		$("#branchName").val(data.branchName);
 	},'BF','');
 }
-
+var dg;
+/**
+ * 导出
+ */
+function exportData(){
+	var length = $('#storeDaySale').datagrid('getData').total;
+	if(length == 0){
+		successTip("无数据可导");
+		return;
+	}
+	$('#exportWin').window({
+		top:($(window).height()-300) * 0.5,   
+	    left:($(window).width()-500) * 0.5
+	});
+	$("#exportWin").show();
+	$("#totalRows").html(dg.datagrid('getData').total);
+	$("#exportWin").window("open");
+}
 /**
  * 导出
  */
