@@ -152,14 +152,6 @@ function updateFooter(){
     var argWhere = {name:'isGift',value:""}
     gridHandel.updateFooter(fields,argWhere);
 }
-//打印
-function printDesign(){
-	var id = $("#formId").val();
-	var formNo = $("#formNo").val();
-     //弹出打印页面
-     parent.addTabPrint('PISheet' + id,formNo+'单据打印',contextPath + '/printdesign/design?page=PISheet&controller=/form/purchase&template=-1&sheetNo=' + id + '&gridFlag=PIGrid','');
-}
-
 
 function receiptAdd(){
 	location.href = contextPath + "/form/purchase/receiptAdd";
