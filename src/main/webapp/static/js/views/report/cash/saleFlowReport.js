@@ -12,8 +12,9 @@ $(function(){
     initMarketWaterGrid();
 });
 var gridHandel = new GridClass();
+var dg;
 function initMarketWaterGrid() {
-    $("#marketWater").datagrid({
+	dg = $("#marketWater").datagrid({
         //title:'普通表单-用键盘操作',
         method: 'post',
         align: 'center',
@@ -166,37 +167,38 @@ function searchBranch (){
 /**
  * 导出
  */
+function exportData(){
+	var length = $('#marketWater').datagrid('getData').rows.length;
+	if(length == 0){
+		successTip("无数据可导");
+		return;
+	}
+	$('#exportWin').window({
+		top:($(window).height()-300) * 0.5,   
+	    left:($(window).width()-500) * 0.5
+	});
+	$("#exportWin").show();
+	$("#totalRows").html(dg.datagrid('getData').total);
+	$("#exportWin").window("open");
+}
+
 function exportExcel(){
+	$("#exportWin").hide();
+	$("#exportWin").window("close");
 	$("#queryForm").form({
-		success : function(data){
-			if(data.code > 0){
-				$.messager.alert('提示',data.message);
-			}
+		success : function(result){
+			successTip(result);
 		}
 	});
-	
-	var isValid = $("#queryForm").form('validate');
-	if(!isValid){
-		return;
-	}
-	
-	var length = $("#marketWater").datagrid('getData').total;
-	if(length == 0){
-		$.messager.alert('提示',"无数据可导");
-		return;
-	}
-	if(length>10000){
-		$.messager.alert('提示',"当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
-		return;
-	}
-	
 	$("#queryForm").attr("action",contextPath+"/saleFlow/report/exportList");
-	$("#queryForm").submit(); 
-	
+	$("#queryForm").submit();
 }
+
 
 //查询
 function query(){
+	$("#startCount").val('');
+	$("#endCount").val('');
 	var formData = $("#queryForm").serializeObject();
 	var branchNameOrCode = $("#branchNameOrCode").val();
 	if(branchNameOrCode && branchNameOrCode.indexOf("[")>=0 && branchNameOrCode.indexOf("]")>=0){
