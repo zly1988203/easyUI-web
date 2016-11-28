@@ -51,9 +51,10 @@ function hideCashier(){
 
 var gridHandel = new GridClass();
 // 按收银汇总
+var dg;
 function initCashDailyallGrid(queryType) {
 	gridHandel.setGridName("cashDaily");
-    $("#cashDaily").datagrid({
+	dg = $("#cashDaily").datagrid({
         //title:'普通表单-用键盘操作',
         method: 'post',
         align: 'center',
@@ -150,7 +151,7 @@ function initCashDailyallGrid(queryType) {
 //门店汇总
 function initCashDailymdGrid(queryType) {
 	gridHandel.setGridName("cashDaily");
-    $("#cashDaily").datagrid({
+	dg = $("#cashDaily").datagrid({
         //title:'普通表单-用键盘操作',
         method: 'post',
         align: 'center',
@@ -241,7 +242,7 @@ function initCashDailymdGrid(queryType) {
 //日期汇总
 function initCashDailydateGrid(queryType) {
 	gridHandel.setGridName("cashDaily");
-    $("#cashDaily").datagrid({
+	dg =  $("#cashDaily").datagrid({
         //title:'普通表单-用键盘操作',
         method: 'post',
         align: 'center',
@@ -373,41 +374,40 @@ function clearCashierId() {
 	}
 }
 
-
 /**
  * 导出
  */
+function exportData(){
+	var length = $('#cashDaily').datagrid('getData').rows.length;
+	if(length == 0){
+		successTip("无数据可导");
+		return;
+	}
+	$('#exportWin').window({
+		top:($(window).height()-300) * 0.5,   
+	    left:($(window).width()-500) * 0.5
+	});
+	$("#exportWin").show();
+	$("#totalRows").html(dg.datagrid('getData').total);
+	$("#exportWin").window("open");
+}
+
 function exportExcel(){
+	$("#exportWin").hide();
+	$("#exportWin").window("close");
 	$("#queryForm").form({
-		success : function(data){
-			if(data.code > 0){
-				$.messager.alert('提示',data.message);
-			}
+		success : function(result){
+			successTip(result);
 		}
 	});
-	
-	var isValid = $("#queryForm").form('validate');
-	if(!isValid){
-		return;
-	}
-	
-	var length = $("#cashDaily").datagrid('getData').total;
-	if(length == 0){
-		$.messager.alert('提示',"无数据可导");
-		return;
-	}
-	if(length>10000){
-		$.messager.alert('提示',"当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
-		return;
-	}
-	
 	$("#queryForm").attr("action",contextPath+"/cashDaily/report/exportList");
-	$("#queryForm").submit(); 
-	
+	$("#queryForm").submit();
 }
 
 //查询
 function query(){
+	$("#startCount").val('');
+	$("#endCount").val('');
 	var formData = $("#queryForm").serializeObject();
 	var branchNameOrCode = $("#branchNameOrCode").val();
 	if(branchNameOrCode && branchNameOrCode.indexOf("[")>=0 && branchNameOrCode.indexOf("]")>=0){
@@ -433,20 +433,16 @@ function updateFooter(){
 
 //打印
 function printReport(){
-   /*  var dg = $("#cashDaily");
-     var row = dg.datagrid("getSelected");
-     if(rowIsNull(row)){
-           return null;
-     }*/
+	$("#startCount").val('');
+	$("#endCount").val('');
 	var queryType = $("input[name='queryType']").val();
-	var startDate = $("#txtStartDate").val();
-	var endDate = $("#txtEndDate").val();
-	var branchId= $("#branchId").val();
+	var startTime = $("#txtStartDate").val();
+	var endTime = $("#txtEndDate").val();
+	var branchNameOrCode= $("#branchNameOrCode").val();
 	var cashierId=$("#cashierId").val();
-	parent.addTabPrint("reportPrint"+branchId,"打印",contextPath+"/cashDaily/report/printReport?" +
-			"queryType="+queryType+"&startDate="+startDate+"&endDate="+endDate+
-			"&branchId="+branchId+"&cashierId="+cashierId);
-	//window.open(contextPath+"/cashDaily/report/printReport");
+	parent.addTabPrint("reportPrint"+branchNameOrCode,"打印",contextPath+"/cashDaily/report/printReport?" +
+			"queryType="+queryType+"&startTime="+startTime+"&endTime="+endTime+
+			"&branchNameOrCode="+branchNameOrCode+"&cashierId="+cashierId);
 }
 /**
  * 重置
