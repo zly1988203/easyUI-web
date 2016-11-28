@@ -7,6 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>店铺日销售排名</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
+<%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 <script src="${ctx}/static/js/views/report/retail/storeDaySaleReport.js"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
@@ -21,7 +22,9 @@
 	                <div class="ubtns-item" onclick="queryForm()">查询</div>
 	            </shiro:hasPermission>
 	            <shiro:hasPermission name="JxcSaleFlow:export">
-	                <div class="ubtns-item" onclick="exportExcel()">导出</div>
+	             <input type="hidden" id="startCount" name="startCount" />
+				<input type="hidden" id="endCount" name="endCount" />
+	                <div class="ubtns-item" onclick="exportData()">导出</div>
 	            </shiro:hasPermission>
 	              	<div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 	                <div class="ubtns-item" onclick="toClose()">退出</div>
@@ -38,7 +41,7 @@
                 <div class="ub  ub-ac">
                    <div class="umar-r10 uw-70 ut-r">店铺名称:</div>
 	                    <input class="uinp ub ub-f1" type="hidden" id="branchId" name="branchId">
-                        <input class="uinp ub ub-f1" type="text" id="branchName" readonly="readonly" name="branchName">
+                        <input class="uinp ub ub-f1" type="text" id="branchName"  name="branchName">
                    <div class="uinp-more" onclick="searchBranch()">...</div>
                 </div>
                 

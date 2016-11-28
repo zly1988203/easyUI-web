@@ -126,11 +126,10 @@ public class SaleFlowReportController extends BaseController<SaleFlowReportContr
 			// 设置默认查询条件参数
 			qo = getDefultParmas(qo);
 			// 1、查询列表
-			PageUtils<SaleFlowReportVo> exportList = saleFlowReportService.queryList(qo);
+			qo.setEndCount(qo.getEndCount()-qo.getStartCount());
+			List<SaleFlowReportVo> list = saleFlowReportService.querySaleList(qo);
 			// 2、汇总查询
-			List<SaleFlowReportVo> list = new ArrayList<SaleFlowReportVo>();
 			SaleFlowReportVo saleFlowReportVo = saleFlowReportService.querySaleFlowReportSum(qo);
-			list = exportList.getList();
 			list.add(saleFlowReportVo);
 			// 3、价格特殊处理
 			list = handlePrice(list);
@@ -226,15 +225,11 @@ public class SaleFlowReportController extends BaseController<SaleFlowReportContr
 	 */
 	@RequestMapping(value = "printReport", method = RequestMethod.GET)
 	@ResponseBody
-	public void printReport(SaleFlowReportQo qo, HttpServletResponse response, HttpServletRequest request,
-			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber) {
+	public void printReport(SaleFlowReportQo qo, HttpServletResponse response, HttpServletRequest request) {
 		try {
-			qo.setPageNumber(pageNumber);
-			qo.setPageSize(PrintConstant.PRINT_MAX_LIMIT);
 			// 设置默认查询条件参数
 			qo = getDefultParmas(qo);
-			PageUtils<SaleFlowReportVo> saleFlowReportVo = saleFlowReportService.queryList(qo);
-			List<SaleFlowReportVo> list = saleFlowReportVo.getList();
+			List<SaleFlowReportVo> list = saleFlowReportService.querySaleList(qo);
 			String path = PrintConstant.SALE_FLOW_REPORT;
 
 			Map<String, Object> map = new HashMap<String, Object>();

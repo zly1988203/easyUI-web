@@ -7,6 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>收银流水</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
+<%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 <script src="${ctx}/static/js/views/report/cash/cashFlowReport.js"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
@@ -25,7 +26,7 @@
 	                <div class="ubtns-item" onclick="printReport()">打印</div>
 	            </shiro:hasPermission>
 	            <shiro:hasPermission name="JxcCashFlow:export">
-	                <div class="ubtns-item" onclick="exportExcel()">导出</div>
+	                <div class="ubtns-item" onclick="exportData()">导出</div>
 	            </shiro:hasPermission>
 	                <div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 	                <div class="ubtns-item" onclick="toClose()">退出</div>
@@ -34,15 +35,16 @@
 	           	<!-- 引入时间选择控件 -->
 	            <%@ include file="/WEB-INF/views/component/dateSelect.jsp"%>
             </div>
-	        
-	        <div class="ub umar-t8 uc-black">【收银流水】</div>
+	  
 	        <div class="ub uline umar-t8"></div>
 	        
 	          <div class="ub umar-t8">
                 <div class="ub ub-ac">
                    <div class="umar-r10 uw-70 ut-r">店铺:</div>
+                    	<input type="hidden" name="startCount" id="startCount" value="">
+                        <input type="hidden" name="endCount" id="endCount" value="">
 	                    <input class="uinp ub ub-f1" type="hidden" id="branchCode" name="branchCode">
-                        <input class="uinp ub ub-f1" type="text" id="branchNameOrCode" name="branchNameOrCode" onblur="cleanBranchCode();">
+                        <input class="uinp ub ub-f1" type="text" id="branchNameOrCode" name="branchNameOrCode">
                    <div class="uinp-more" onclick="searchBranch()">...</div>
                 </div>
                 <div class="ub ub-ac uselectw  umar-l20">

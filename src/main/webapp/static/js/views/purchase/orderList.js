@@ -6,7 +6,18 @@ $(function(){
     initConditionParams();
     
     initDatagridOrders();
+    
+    //单据状态切换
+    changeStatus();
 });
+
+
+//单据状态切换
+function changeStatus(){
+	$(".radioItem").change(function(){
+    	query();
+    });
+}
 
 //初始化默认条件
 function initConditionParams(){
@@ -146,19 +157,6 @@ function selectOperator(){
 //		$("#operateUserId").val(data.id);
 		$("#operateUserName").val(data.userName);
 	});
-}
-
-//打印
-function printDesign(){
-     var dg = $("#gridOrders");
-     var row = dg.datagrid("getSelected");
-     if(rowIsNull(row)){
-           return null;
-     }
-     var url=contextPath + '/form/purchase/preview?page=PASheet&form=list&template=-1&sheetNo=' + row.id ;
-     //弹出打印页面
-     parent.addTabPrint('PASheet' + row.id,row.formNo+'打印预览',url,'');
-   
 }
 
 /**

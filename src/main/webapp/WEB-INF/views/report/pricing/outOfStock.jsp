@@ -48,14 +48,14 @@
                 <div class="ub  ub-ac umar-l20">
                    <div class="umar-r10 uw-70 ut-r">要货机构:</div>
 	                    <input class="uinp ub ub-f1" type="hidden" id="targetBranchId" name="targetBranchId">
-                        <input class="uinp ub ub-f1" type="text" id="targetBranchName" readonly="readonly" name="targetBranchName" onblur="cleanBranchCode();">
+                        <input class="uinp ub ub-f1" type="text" id="targetBranchName"  name="targetBranchName" >
                    <div class="uinp-more" onclick="searchBranch(0)">...</div>
                 </div>
                 
                 <div class="ub  ub-ac umar-l20">
                    <div class="umar-r10 uw-70 ut-r">发货机构:</div>
 	                    <input class="uinp ub ub-f1" type="hidden" id="sourceBranchId" name="sourceBranchId">
-                        <input class="uinp ub ub-f1" type="text" id="sourceBranchName" readonly="readonly" name="sourceBranchName" onblur="cleanBranchCode();">
+                        <input class="uinp ub ub-f1" type="text" id="sourceBranchName"  name="sourceBranchName" >
                    <div class="uinp-more uinp-sourceName"  onclick="searchBranch(1)">...</div>
                 </div>
                 
@@ -82,7 +82,7 @@
 						<div class="umar-r10 uw-70 ut-r">商品类别:</div>
 						<input id="goodsCategoryId" name="goodsCategoryId" class="uinp" type="hidden"> 
 						<input id="categoryCode" name="categoryCode" class="uinp" type="hidden"> 
-					    <input id="categoryName" name="categoryName" class="uinp" type="text" readonly="readonly" data-options="required:true">
+			    		<input id="categoryName" name="categoryName" class="uinp" type="text" readonly="readonly" data-options="required:true">
 						<div class="uinp-more " onclick="getGoodsType()">...</div>
 					</div>
                </div>

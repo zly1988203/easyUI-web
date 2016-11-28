@@ -12,8 +12,9 @@ $(function(){
     initMarketWaterGrid();
 });
 var gridHandel = new GridClass();
+var dg;
 function initMarketWaterGrid() {
-    $("#marketWater").datagrid({
+	dg = $("#marketWater").datagrid({
         //title:'普通表单-用键盘操作',
         method: 'post',
         align: 'center',
@@ -166,37 +167,38 @@ function searchBranch (){
 /**
  * 导出
  */
+function exportData(){
+	var length = $('#marketWater').datagrid('getData').rows.length;
+	if(length == 0){
+		successTip("无数据可导");
+		return;
+	}
+	$('#exportWin').window({
+		top:($(window).height()-300) * 0.5,   
+	    left:($(window).width()-500) * 0.5
+	});
+	$("#exportWin").show();
+	$("#totalRows").html(dg.datagrid('getData').total);
+	$("#exportWin").window("open");
+}
+
 function exportExcel(){
+	$("#exportWin").hide();
+	$("#exportWin").window("close");
 	$("#queryForm").form({
-		success : function(data){
-			if(data.code > 0){
-				$.messager.alert('提示',data.message);
-			}
+		success : function(result){
+			successTip(result);
 		}
 	});
-	
-	var isValid = $("#queryForm").form('validate');
-	if(!isValid){
-		return;
-	}
-	
-	var length = $("#marketWater").datagrid('getData').total;
-	if(length == 0){
-		$.messager.alert('提示',"无数据可导");
-		return;
-	}
-	if(length>10000){
-		$.messager.alert('提示',"当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
-		return;
-	}
-	
 	$("#queryForm").attr("action",contextPath+"/saleFlow/report/exportList");
-	$("#queryForm").submit(); 
-	
+	$("#queryForm").submit();
 }
+
 
 //查询
 function query(){
+	$("#startCount").val('');
+	$("#endCount").val('');
 	var formData = $("#queryForm").serializeObject();
 	var branchNameOrCode = $("#branchNameOrCode").val();
 	if(branchNameOrCode && branchNameOrCode.indexOf("[")>=0 && branchNameOrCode.indexOf("]")>=0){
@@ -217,22 +219,20 @@ function updateFooter(){
 //打印
 function printReport(){
 	//var queryType = $("input[name='queryType']").val();
-	var startDate = $("#txtStartDate").val();
-	var endDate = $("#txtEndDate").val();
-	var branchId= $("#branchId").val();
+	var startTime = $("#txtStartDate").val();
+	var endTime = $("#txtEndDate").val();
+	var branchNameOrCode= $("#branchNameOrCode").val();
 	var orderNo=$("#orderNo").val();
 	var skuName=$("#skuName").val();
 	var skuCode=$("#skuCode").val();
 	var businessType=$("#businessType").combobox("getValue");//业务类型
 	var orderType=$("#orderType").combobox("getValue");
-	var statisType=$("#statisType").combobox("getValue");
-	
 	//var cashierId=$("#cashierId").val();//收银员
 	//var payType=$("#payType").combobox("getValue");
 	//var orderType=$("#orderType").combobox("getValue");
-	parent.addTabPrint("reportPrint"+branchId,"打印",contextPath+"/saleFlow/report/printReport?" +"&startDate="+startDate
-			+"&endDate="+endDate+"&branchId="+branchId+"&orderNo="+orderNo+"&skuName="+skuName
-			+"&skuCode="+skuCode+"&businessType="+businessType+"&orderType="+orderType+"&statisType="+statisType);
+	parent.addTabPrint("reportPrint"+branchNameOrCode,"打印",contextPath+"/saleFlow/report/printReport?" +"&startTime="+startTime
+			+"&endTime="+endTime+"&branchNameOrCode="+branchNameOrCode+"&orderNo="+orderNo+"&skuName="+skuName
+			+"&skuCode="+skuCode+"&businessType="+businessType+"&orderType="+orderType);
 }
 /**
  * 重置

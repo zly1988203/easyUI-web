@@ -8,7 +8,7 @@
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
 	<script src="${ctx}/static/js/views/purchase/orderList.js"></script>
-    
+    <%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
     <div class="ub ub-ver ub-f1 umar-4 upad-4">
@@ -23,7 +23,7 @@
 	                <div class="ubtns-item" onclick="orderDelete()">删除</div>
 	            </shiro:hasPermission>
 	            <shiro:hasPermission name="JxcPurchaseOrder:print">
-	                <div class="ubtns-item" onclick="printDesign()">打印</div>
+	                <div class="ubtns-item" onclick="toPrintPreview('PA','/form/purchase/')">打印</div>
 	            </shiro:hasPermission>
 	                <div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 	                <div class="ubtns-item" onclick="toClose()">退出</div>
@@ -70,22 +70,28 @@
 	            <div class="ub ub-ac umar-l20">
 	                <div class="umar-r10 uw-60 ut-r">单据状态:</div>
 	                <div class="ub ub-ac umar-r10">
-	                    <input class="ub" type="radio" name="dealStatus" id="deal0" value="0"/><label for="deal0">未处理 </label>
+	                    <input class="ub radioItem" type="radio" name="dealStatus" id="deal0" value="0"/><label for="deal0">未处理 </label>
 	                </div>
 	                <!-- <div class="ub ub-ac umar-r10">
-	                    <input class="ub" type="radio" name="dealStatus" id="deal1" value="1"/><label for="deal1">部分处理  </label>
+	                    <input class="ub radioItem" type="radio" name="dealStatus" id="deal1" value="1"/><label for="deal1">部分处理  </label>
 	                </div> -->
 	                <div class="ub ub-ac umar-r10">
-	                    <input class="ub" type="radio" name="dealStatus" id="deal2" value="2"/><label for="deal2">处理完成 </label>
+	                    <input class="ub radioItem" type="radio" name="dealStatus" id="deal2" value="2"/><label for="deal2">处理完成 </label>
 	                </div>
 					<div class="ub ub-ac umar-r10">
-						<input class="ub" type="radio" name="dealStatus" id="deal3" value="3" /><label for="deal3">终止</label>
+						<input class="ub radioItem" type="radio" name="dealStatus" id="deal3" value="3" /><label for="deal3">终止</label>
 					</div>
 	                <div class="ub ub-ac umar-r10">
-	                    <input class="ub" type="radio" name="dealStatus" id="deal4" value="" checked="checked"/><label for="deal4">全部 </label>
+	                    <input class="ub radioItem" type="radio" name="dealStatus" id="deal4" value="" checked="checked"/><label for="deal4">全部 </label>
 	                </div>
 	            </div>
 	        </div>
+	       <div class="ub umar-t8">
+               <div class="ub ub-ac uw-610" style="width: 624px;">
+	                    <div class="umar-r10 uw-60 ut-r">备注:</div>
+	                    <input class="uinp ub ub-f1" name="remark" id="remark" type="text" onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')" onpaste="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')" oncontextmenu = "value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')" maxlength="100">
+	           </div>
+            </div>
         </form>
         <div class="ub uw umar-t8 ub-f1">
             <table id="gridOrders"></table>
