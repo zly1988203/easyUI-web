@@ -159,19 +159,6 @@ function selectOperator(){
 	});
 }
 
-//打印
-function printDesign(){
-     var dg = $("#gridOrders");
-     var row = dg.datagrid("getSelected");
-     if(rowIsNull(row)){
-           return null;
-     }
-     var url=contextPath + '/form/purchase/preview?page=PASheet&form=list&template=-1&sheetNo=' + row.id ;
-     //弹出打印页面
-     parent.addTabPrint('PASheet' + row.id,row.formNo+'打印预览',url,'');
-   
-}
-
 /**
  * 重置
  */

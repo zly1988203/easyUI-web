@@ -3,8 +3,8 @@
  * Created by zhangq on 2016/11/25.
  * 公共组件-打印选择
  */
-//弹出打印选项
 /**
+ * 弹出打印选项
  * templateCode:模版代码，如PASheet
  * controllerUrl:打印处理类，如/form/purchase/
  * submitFrom：提交来源,list或print
@@ -21,7 +21,7 @@ function printChoose(templateCode,controllerUrl){
         cache: false
     });
 	
-	$("#templateCode").val(templateCode);
+	$("#templateCode").val(templateCode+"Sheet");
 	$("#controllerUrl").val(controllerUrl);
 	initTemplateSelect();
 }
@@ -109,7 +109,7 @@ function toPrintPreview(templateCode, controllerUrl, gridId) {
     if(rowIsNull(row)){
           return null;
     }
-    var url=contextPath + controllerUrl +"preview?page="+templateCode+"&form=list&template=-1&sheetNo=" + row.id ;
+    var url=contextPath + controllerUrl +"preview?page="+templateCode+"Sheet&form=list&template=-1&sheetNo=" + row.id ;
     //弹出打印页面
     parent.addTabPrint(templateCode + row.id,row.formNo+'打印预览',url,'');
 }
