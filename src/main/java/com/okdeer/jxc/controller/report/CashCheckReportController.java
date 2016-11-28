@@ -7,6 +7,7 @@
 
 package com.okdeer.jxc.controller.report;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.PrintConstant;
 import com.okdeer.jxc.common.utils.DateUtils;
@@ -86,7 +86,12 @@ public class CashCheckReportController extends BaseController<CashCheckReportCon
 			qo.setPageSize(pageSize);
 
 			qo = buildDefaultParams(qo);
-			PageUtils<CashCheckReportVo> CashFlowReport = cashCheckReportService.queryList(qo);
+			PageUtils<CashCheckReportVo> CashFlowReport = cashCheckReportService.queryPageList(qo);
+			
+			List<CashCheckReportVo> footer = new ArrayList<CashCheckReportVo>();
+			CashCheckReportVo vo = cashCheckReportService.queryListSum(qo);
+			footer.add(vo);
+			CashFlowReport.setFooter(footer);
 			return CashFlowReport;
 		} catch (Exception e) {
 			LOG.error("收银对账查询参数异常:", e);
@@ -142,13 +147,15 @@ public class CashCheckReportController extends BaseController<CashCheckReportCon
 	public String exportList(HttpServletResponse response, CashCheckReportQo qo) {
 		LOG.info("收银对账导出查询参数:{}" + qo.toString());
 		try {
-			qo.setPageNumber(Constant.ONE);
-			qo.setPageSize(Constant.MAX_EXPORT_NUM);
 			qo = buildDefaultParams(qo);
-			PageUtils<CashCheckReportVo> exportList = cashCheckReportService.queryList(qo);
+			qo.setEndCount(qo.getEndCount()-qo.getStartCount());
+			List<CashCheckReportVo> exportList = cashCheckReportService.queryList(qo);
+			
+			CashCheckReportVo vo = cashCheckReportService.queryListSum(qo);
+			exportList.add(vo);
 			String fileName = "收银对账" + "_" + DateUtils.getCurrSmallStr();
 			String templateName = ExportExcelConstant.CASHCHECKREPORT;
-			exportListForXLSX(response, exportList.getList(), fileName, templateName);
+			exportListForXLSX(response, exportList, fileName, templateName);
 		} catch (Exception e) {
 			LOG.error("收银对账导出查询异常:", e);
 		}
@@ -170,18 +177,16 @@ public class CashCheckReportController extends BaseController<CashCheckReportCon
 	public void printReport(CashCheckReportQo qo, HttpServletResponse response, HttpServletRequest request,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber) {
 		try {
-			String branchCode = getCurrBranchCode();
-			qo.setBranchCode(branchCode);
 			qo.setPageNumber(pageNumber);
 			qo.setPageSize(PrintConstant.PRINT_MAX_LIMIT);
-			
-			// 默认当前机构
-			if (StringUtils.isBlank(qo.getBranchCompleCode()) && StringUtils.isBlank(qo.getBranchNameOrCode())) {
-				qo.setBranchCompleCode(getCurrBranchCompleCode());
-			}
+			qo = buildDefaultParams(qo);
 			LOG.info("收银对账报表打印参数:{}" + qo.toString());
-			PageUtils<CashCheckReportVo> cashCheckReportVo = cashCheckReportService.queryList(qo);
+			PageUtils<CashCheckReportVo> cashCheckReportVo = cashCheckReportService.queryPageList(qo);
 			List<CashCheckReportVo> list = cashCheckReportVo.getList();
+			
+			CashCheckReportVo vo = cashCheckReportService.queryListSum(qo);
+			list.add(vo);
+			
 			String path = PrintConstant.CASH_CHECK_REPORT;
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("startDate", qo.getStartTime());
