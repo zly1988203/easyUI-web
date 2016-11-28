@@ -37,7 +37,7 @@
 	                    <div class="ub ub-ac">
 	                      <input type="hidden" id="branchId" name="branchId" value="${branchesGrow.branchesId}"/>
 	                    <input type="hidden" id="brancheType" name="brancheType" value="${branchesGrow.type}"/>
-	                    <input class="uinp  " type="text" id="branchName" name="branchName" value="${branchesGrow.branchName}" onclick="selectBranches()" readonly="readonly"/>
+	                    <input class="uinp  " type="text" id="branchName" name="branchName" value="${branchesGrow.branchName}" />
 	                    <div class="uinp-more" onclick="selectBranches()" >...</div>
 	                    </div>	
 	                  
@@ -58,7 +58,7 @@
 						 	<input id="goodsCategoryId" name="goodsCategoryId" class="uinp" type="hidden"> 
 							<input id="categoryCode" name="categoryCode" class="uinp" type="hidden"> 
 						    <input id="categoryName" name="categoryName" class="uinp" type="text" maxlength="50">
-							<div class="uinp-more new-right" onclick="getGoodsType()">...</div>
+							<div class="uinp-more" onclick="getGoodsType()">...</div>
 						 </div>
 					
 					</div>

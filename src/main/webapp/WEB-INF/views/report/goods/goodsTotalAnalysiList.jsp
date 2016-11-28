@@ -54,7 +54,7 @@
                  <div class="ub ub-ac umar-r40">
                    <div class="umar-r10 uw-80 ut-r"> 店铺名称:</div>
                    <input class="uinp" type="hidden" id="branchId" name="branchId" value="${branchesGrow.branchesId}">
-                   <input class="uinp" type="text" id="branchName" name="branchName" value="${branchesGrow.branchName}" readonly="readonly">
+                   <input class="uinp" type="text" id="branchName" name="branchName" value="${branchesGrow.branchName}" >
                    <div class="uinp-more" id="branchSelect" onclick="searchBranch()">...</div>
                    
              	 </div>

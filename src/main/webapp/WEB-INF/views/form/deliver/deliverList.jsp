@@ -4,7 +4,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>要货单-明细</title>
+    <title>要货申请</title>
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
     <%-- <script  src="${ctx}/static/js/fun/publicComponent.js"></script> --%>
@@ -49,13 +49,13 @@
 	                <div class="ub ub-ac uw-300 umar-l20">
 	                    <div class="umar-r10 uw-70 ut-r">制单人员:</div>
 	                    <input type="hidden" id="operateUserId" name="operateUserId" />
-	                    <input class="uinp ub ub-f1" type="text"  id="operateUserName" type="text" readonly="readonly" onclick="selectOperator()" />
+	                    <input class="uinp ub ub-f1" type="text"  id="operateUserName" type="text" />
 	                    <div class="uinp-more" onclick="selectOperator()">...</div>
 	                </div>
 	                <div class="ub ub-ac uw-300 umar-l40">
 	                    <div class="umar-r10 uw-70 ut-r">要货机构:</div>
 	                    <input type="hidden" id="targetBranchId" name="targetBranchId" value="${targetBranchId}"/>
-	                    <input class="uinp ub ub-f1" type="text" id="targetBranchName" name="targetBranchName" onclick="selectBranches()" />
+	                    <input class="uinp ub ub-f1" type="text" id="targetBranchName" name="targetBranchName" />
 	                    <div class="uinp-more" onclick="selectBranches()" >...</div>
 	                </div>
 	                <div class="ub ub-ac umar-l20">
