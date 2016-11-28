@@ -35,8 +35,7 @@
 	           	<!-- 引入时间选择控件 -->
 	            <%@ include file="/WEB-INF/views/component/dateSelect.jsp"%>
             </div>
-	           
-	        <div class="ub umar-t8 uc-black">【销售流水】</div>
+
 	        <div class="ub uline umar-t8"></div>
 	        <div class="ub umar-t8">
                 <div class="ub  ub-ac">
