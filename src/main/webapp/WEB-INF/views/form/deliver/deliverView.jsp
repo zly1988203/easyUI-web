@@ -52,7 +52,7 @@
                 <div class="utxt">${form.createUserName}</div>
             </div>
             <div class="ub ub-ac umar-l20">
-                <div class="umar-r10 uw-60 ut-r">制单日期:</div>
+                <div class="umar-r10 uw-60 ut-r">制单时间:</div>
                 <div class="utxt" id="createTime"><fmt:formatDate value="${form.createTime}" pattern="yyyy-MM-dd HH:mm"/></div>
             </div>
         </div>
@@ -76,8 +76,8 @@
             </div>
             <div class="already-examine" id="already-examine"><span>已审核</span></div>
             <div class="ub ub-ac umar-l20">
-                <div class="umar-r10 uw-60 ut-r">审核日期:</div>
-                <div class="utxt"><fmt:formatDate value="${form.validTime}" pattern="yyyy-MM-dd"/></div>
+                <div class="umar-r10 uw-60 ut-r">审核时间:</div>
+                <div class="utxt"><fmt:formatDate value="${form.validTime}" pattern="yyyy-MM-dd HH:mm"/></div>
             </div>
         </div>
         <div class="ub umar-t8">
