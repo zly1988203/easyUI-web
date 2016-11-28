@@ -630,14 +630,16 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 	 * @Description: 导入功能
 	 * @param file
 	 * @param type 0货号、1条码
-	 * @param branchId
+	 * @param targetBranchId
+	 * @param sourceBranchId
 	 * @return
 	 * @author zhangchm
 	 * @date 2016年10月15日
 	 */
 	@RequestMapping(value = "importList")
 	@ResponseBody
-	public RespJson importList(@RequestParam("file") MultipartFile file, String type, String branchId) {
+	public RespJson importList(@RequestParam("file") MultipartFile file, String type, String targetBranchId,
+			String sourceBranchId) {
 		RespJson respJson = RespJson.success();
 		try {
 			if (file.isEmpty()) {
@@ -658,8 +660,11 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 			} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {
 				fields = ImportExcelConstant.DELIVER_GOODS_BARCODE;
 			}
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("targetBranchId", targetBranchId);
+			map.put("sourceBranchId", sourceBranchId);
 			GoodsSelectImportVo<GoodsSelectDeliver> vo = goodsSelectImportComponent.importSelectGoods(fileName, is,
-					fields, new GoodsSelectDeliver(), branchId, user.getId(), type,
+					fields, new GoodsSelectDeliver(), null, user.getId(), type,
 					"/form/deliverForm/downloadErrorFile", new GoodsSelectImportBusinessValid() {
 				@Override
 				public void formatter(List<? extends GoodsSelect> list) {
@@ -680,7 +685,7 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 				public void errorDataFormatter(List<JSONObject> list) {
 				}
 
-			});
+					}, map);
 			respJson.put("importInfo", vo);
 		} catch (IOException e) {
 			respJson = RespJson.error("读取Excel流异常");
@@ -855,7 +860,7 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 						}
 					}
 				}
-			});
+					}, null);
 			respJson.put("importInfo", vo);
 		} catch (IOException e) {
 			respJson = RespJson.error("读取Excel流异常");
