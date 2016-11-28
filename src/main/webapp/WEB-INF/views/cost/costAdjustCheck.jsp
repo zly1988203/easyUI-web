@@ -36,7 +36,7 @@
         <div class="ub umar-t10">
                 <div class="ub ub-ac uw-300">
 	                <div class="umar-r10 uw-70 ut-r">机构名称:</div> 
-                    <input type="hidden" name="branchId" id="branchId" value="${data.branchName} class="uinp" />
+                    <input type="hidden" name="branchId" id="branchId" value="${data.branchName}" class="uinp" />
 					<input type="text" name="branchName" id="branchName" value="${data.branchName }" class="uinp ub ub-f1" readonly="readonly"  />
 					<div class="uinp-more" >...</div>
 	           </div>
@@ -59,8 +59,8 @@
                    <div class="utxt">${data.createUserName }</div>
                </div>
                <div class="ub ub-ac umar-l20">
-                   <div class="umar-r10 uw-60 ut-r">制单日期:</div>
-                   <div class="utxt" ><fmt:formatDate value="${data.createTime}" pattern="yyyy-MM-dd"/></div>
+                   <div class="umar-r10 uw-60 ut-r">制单时间:</div>
+                   <div class="utxt" ><fmt:formatDate value="${data.createTime}" pattern="yyyy-MM-dd HH:mm"/></div>
                     <input type="hidden" id="createTime" value="${data.createTime}">
                </div>
            </div>
@@ -74,8 +74,8 @@
                    <div class="utxt" id="validUserName">${data.validUserName}</div>
                </div>
                <div class="ub ub-ac umar-l20">
-                   <div class="umar-r10 uw-60 ut-r">审核日期:</div>
-                   <div class="utxt"><fmt:formatDate value="${data.validTime}"  pattern="yyyy-MM-dd"/></div>
+                   <div class="umar-r10 uw-60 ut-r">审核时间:</div>
+                   <div class="utxt"><fmt:formatDate value="${data.validTime}"  pattern="yyyy-MM-dd HH:mm"/></div>
                </div>
            </div>
         
