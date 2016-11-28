@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="${ctx}/static/common/printdesign/css/easyui.css" />
 </head>
 <body>
-<iframe id="${sheetNo}" scrolling="auto" frameborder="0" src="/okdeerjxc/printdesign/design?page=PASheet&amp;controller=/form/purchase&amp;template=-1&amp;sheetNo=${sheetNo}&amp;gridFlag=PAGrid" style="width:0;height:0;"></iframe>
+<iframe id="${sheetNo}" scrolling="auto" frameborder="0" src="/okdeerjxc/printdesign/design?page=${page}&amp;controller=${controllerUrl}&amp;template=-1&amp;sheetNo=${sheetNo}&amp;gridFlag=PAGrid" style="width:0;height:0;"></iframe>
     <div>
         <input id="btnPrint" class='noPrint' type='button' value='打印' />
     </div>
