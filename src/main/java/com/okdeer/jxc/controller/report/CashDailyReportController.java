@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.PrintConstant;
 import com.okdeer.jxc.common.utils.DateUtils;
@@ -95,7 +94,7 @@ public class CashDailyReportController extends BaseController<CashDailyReportCon
 			qo = buildDefaultParams(qo);
 
 			// 1、查询列表
-			PageUtils<CashDailyReportVo> cashFlowReport = cashDailyReportService.queryList(qo);
+			PageUtils<CashDailyReportVo> cashFlowReport = cashDailyReportService.queryPageList(qo);
 
 			// 2、查询合计
 			CashDailyReportVo vo = cashDailyReportService.queryCashDailyReportSum(qo);
@@ -153,15 +152,11 @@ public class CashDailyReportController extends BaseController<CashDailyReportCon
 	public String exportList(HttpServletResponse response, CashDailyReportQo qo) {
 		LOG.info("收银日报导出查询参数：{}" + qo);
 		try {
-			qo.setPageNumber(Constant.ONE);
-			qo.setPageSize(Constant.MAX_EXPORT_NUM);
-
 			// 初始化默认参数
 			qo = buildDefaultParams(qo);
-
 			// 1、列表查询
-			PageUtils<CashDailyReportVo> exportList = cashDailyReportService.queryList(qo);
-			List<CashDailyReportVo> list = exportList.getList();
+			qo.setEndCount(qo.getEndCount()-qo.getStartCount());
+			List<CashDailyReportVo> list = cashDailyReportService.queryList(qo);
 			// 2、查询合计
 			CashDailyReportVo cashDailyReportVo = cashDailyReportService.queryCashDailyReportSum(qo);
 			if (CollectionUtils.isEmpty(list)) {
@@ -192,11 +187,10 @@ public class CashDailyReportController extends BaseController<CashDailyReportCon
 		try {
 			qo.setPageNumber(pageNumber);
 			qo.setPageSize(PrintConstant.PRINT_MAX_LIMIT);
-
 			// 初始化默认参数
 			qo = buildDefaultParams(qo);
 			LOG.debug("日结报表打印参数：{}", qo.toString());
-			PageUtils<CashDailyReportVo> cashFlowReport = cashDailyReportService.queryList(qo);
+			PageUtils<CashDailyReportVo> cashFlowReport = cashDailyReportService.queryPageList(qo);
 			List<CashDailyReportVo> list = cashFlowReport.getList();
 			BigDecimal allTotal = BigDecimal.ZERO;
 			for (CashDailyReportVo cashDailyReportVo : list) {

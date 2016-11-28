@@ -14,12 +14,11 @@
 	<field name="branchName" class="java.lang.String"/>
 	<field name="cashierCode" class="java.lang.String"/>
 	<field name="cashier" class="java.lang.String"/>
-	<field name="balance" class="java.lang.String"/>
-	<field name="cash" class="java.lang.String"/>
-	<field name="alipay" class="java.lang.String"/>
-	<field name="wechatpay" class="java.lang.String"/>
-	<field name="platform" class="java.lang.String"/>
-	<field name="bankcard" class="java.lang.String"/>
+	<field name="rmb" class="java.lang.String"/>
+	<field name="zfb" class="java.lang.String"/>
+	<field name="wzf" class="java.lang.String"/>
+	<field name="yqb" class="java.lang.String"/>
+	<field name="yhk" class="java.lang.String"/>
 	<field name="total" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
@@ -169,13 +168,6 @@
 				<text><![CDATA[收银人]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="229" y="4" width="39" height="22" uuid="d4e6ed37-caa1-4843-98f0-f7d45585b676"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
-				</textElement>
-				<text><![CDATA[余额]]></text>
-			</staticText>
-			<staticText>
 				<reportElement x="269" y="3" width="41" height="23" uuid="3f8cd0fc-5f3e-4184-a1b5-1b7bb98b06ff"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
@@ -310,46 +302,39 @@
 				<textFieldExpression><![CDATA[$F{cashier}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="229" y="0" width="39" height="22" uuid="aaf24f5e-4ee8-4ec4-86ed-10cbbeb3fcca"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{balance}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
 				<reportElement x="269" y="0" width="40" height="22" uuid="e4b810a9-576a-4705-a8f7-cdd764d5b5d4"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{cash}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{rmb}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="310" y="0" width="43" height="22" uuid="4b5b42e5-1557-469c-8fb4-1acde836fd5a"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{alipay}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{zfb}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="353" y="0" width="38" height="22" uuid="aaf8c0b2-8da7-4fc5-a271-dff3faaea306"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{wechatpay}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{wzf}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="391" y="0" width="45" height="22" uuid="76ac6b92-c26b-4a4e-9e30-9ddf0f4e8d81"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{platform}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{yqb}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="435" y="0" width="53" height="23" uuid="c9d28027-3df2-4e61-80c1-5370ede658fd"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{bankcard}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{yhk}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="488" y="0" width="66" height="22" uuid="34db7655-24eb-43a0-9799-ef6ee3617063"/>
