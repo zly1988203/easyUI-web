@@ -66,13 +66,13 @@
 	                <div class="ub ub-ac umar-l40">
 	                    <div class="umar-r10 uw-70 ut-r">审核状态:</div>
 	                    <div class="ub ub-ac umar-r10">
-	                         <label><input  type="radio" value="0" name="status" checked="checked"/><span>未审核</span></label>
+	                         <label><input class="ub radioItem" type="radio" value="0" name="status" checked="checked"/><span>未审核</span></label>
 	                    </div>
 	                    <div class="ub ub-ac umar-r10">
-	                         <label><input  type="radio" value="1" name="status"/><span>审核</span></label>
+	                         <label><input class="ub radioItem" type="radio" value="1" name="status"/><span>审核</span></label>
 	                    </div>
 	                    <div class="ub ub-ac umar-r10">
-	                         <label><input  type="radio" value="" name="status"/><span>全部</span></label>
+	                         <label><input class="ub radioItem"  type="radio" value="" name="status"/><span>全部</span></label>
 	                    </div>
 	                </div>
            		 </div>
