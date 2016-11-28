@@ -67,7 +67,7 @@
 	                    <input class="ub" type="radio" name="status" id="status_all" value=""/><label for="status_all">全部</label>
 	                </div>
 	            </div>
-	            <div class="ub ub-ac ">
+	            <div class="ub ub-ac umar-l20">
 	                <div class="umar-r10 uw-60 ut-r">单据状态:</div>
 	                <div class="ub ub-ac umar-r10">
 	                    <input class="ub radioItem" type="radio" name="dealStatus" id="deal0" value="0"/><label for="deal0">未处理 </label>
