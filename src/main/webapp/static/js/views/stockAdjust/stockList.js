@@ -7,7 +7,17 @@ $(function(){
     $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
     initDatagridRequireOrders();
+    //单据状态切换
+    changeStatus();
 });
+
+//单据状态切换
+function changeStatus(){
+	$(".radioItem").change(function(){
+		queryForm();
+    });
+}
+
 var gridHandel = new GridClass();
 //初始化表格
 function initDatagridRequireOrders(){
