@@ -6,7 +6,18 @@ $(function(){
     initConditionParams();
     
     initDatagridOrders();
+    
+    //单据状态切换
+    changeStatus();
 });
+
+
+//单据状态切换
+function changeStatus(){
+	$(".radioItem").change(function(){
+    	query();
+    });
+}
 
 //初始化默认条件
 function initConditionParams(){
