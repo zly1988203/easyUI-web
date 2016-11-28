@@ -120,9 +120,3 @@ function addDeliverForm(){
 function back(){
 	location.href = contextPath+"/form/deliverForm/viewsDI";
 }
-
-//打印 入库单 DI
-function printDesign(formNo){
-     //弹出打印页面
-     parent.addTabPrint('DISheet' + formNo,formNo+'单据打印',contextPath + '/printdesign/design?page=DISheet&controller=/form/deliverForm&template=-1&sheetNo=' + formNo + '&gridFlag=DIGrid','');
-}
