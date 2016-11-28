@@ -10,6 +10,7 @@
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
 	<script src="${ctx}/static/js/views/purchase/returnView.js"></script>
     <script src="${ctx}/static/js/views/purchase/purchaseExport.js"></script>
+    <%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
     <div class="ub ub-ver ub-f1 umar-4  ubor">
@@ -20,7 +21,7 @@
             	<div class="ubtns-item" id="addButton" onclick="returnAdd()">新增</div>
             	</shiro:hasPermission>
             	<shiro:hasPermission name="JxcPurchaseRefund:print">
-                <div class="ubtns-item" onclick="printDesign()">打印</div>
+                <div class="ubtns-item" onclick="printChoose('PR','/form/purchase/')">打印</div>
                 </shiro:hasPermission>
                 <div class="ubtns-item" onclick="exportData('PR');">导出明细</div>
                 <div class="ubtns-item" id="toBackByJSButton"  onclick="back()">返回</div>
