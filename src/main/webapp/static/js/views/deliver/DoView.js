@@ -153,9 +153,3 @@ function addDeliverForm(){
 function back(){
 	location.href = contextPath+"/form/deliverForm/viewsDO";
 }
-
-//打印 入库单 配送 DO
-function printDesign(formNo){
-     //弹出打印页面
-     parent.addTabPrint('DOSheet' + formNo,formNo+'单据打印',contextPath + '/printdesign/design?page=DOSheet&controller=/form/deliverForm&template=-1&sheetNo=' + formNo + '&gridFlag=DOGrid','');
-}
