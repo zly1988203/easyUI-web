@@ -93,8 +93,8 @@
                     <div class="utxt"  id="createUserId">${goodsPriceForm.createUserName}</div>
                 </div>
                 <div class="ub ub-ac umar-l20 uw-200" >
-                    <div class="umar-r10 uw-70 ut-r" >制单日期:</div>
-                    <div class="utxt" id="createUserDate"><fmt:formatDate value='${goodsPriceForm.createTime}' pattern='yyyy-MM-dd' /></div>
+                    <div class="umar-r10 uw-70 ut-r" >制单时间:</div>
+                    <div class="utxt" id="createUserDate"><fmt:formatDate value='${goodsPriceForm.createTime}' pattern='yyyy-MM-dd HH:mm' /></div>
                 </div>
             </div>
             <div class="ub umar-t8">
@@ -109,8 +109,8 @@
                     <div class="utxt" id="checkUser">${goodsPriceForm.validUserName}</div>
                 </div>
                 <div class="ub ub-ac umar-l20  uw-200">
-                    <div class="umar-r10 uw-70 ut-r" >审核日期:</div>
-                    <div class="utxt" id="checkDate"><fmt:formatDate value='${goodsPriceForm.validTime}' pattern='yyyy-MM-dd' /></div>
+                    <div class="umar-r10 uw-70 ut-r" >审核时间:</div>
+                    <div class="utxt" id="checkDate"><fmt:formatDate value='${goodsPriceForm.validTime}' pattern='yyyy-MM-dd HH:mm' /></div>
                 </div>
             </div>
             <div class="ub umar-t8">

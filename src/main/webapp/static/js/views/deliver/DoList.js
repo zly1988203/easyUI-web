@@ -60,10 +60,10 @@ function initDatagridRequireOrders(){
             {field: 'validUserName', title: '审核人员', width: '130px', align: 'left'},
             {field: 'remark', title: '备注', width: '200px', align: 'left'},
             {field: 'updateUserName', title: '操作人员', width: '130px', align: 'left'},
-            {field: 'updateTime', title: '操作日期', width: '120px', align: 'center',
+            {field: 'updateTime', title: '操作时间', width: '120px', align: 'center',
 				formatter: function (value, row, index) {
 					if (value) {
-						return new Date(value).format('yyyy-MM-dd');
+						return new Date(value).format('yyyy-MM-dd hh:mm');
 					}
 					return "";
 				}

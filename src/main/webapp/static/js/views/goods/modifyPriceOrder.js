@@ -53,11 +53,11 @@ function initModifyPriceGrid() {
             {field: 'branchAreaCode', title: '区域编码', width: '100px', align: 'left'},
             {field: 'branchAreaName', title: '区域名称', width: '90px', align: 'left'},
             {field: 'createUserName', title: '操作员', width: '120px', align: 'left'},
-            {field: 'createTime', title: '操作日期', width: '100px', align: 'left',
+            {field: 'createTime', title: '操作时间', width: '120px', align: 'left',
             	formatter: function (value, row, index) {
 	                if (value != null && value != '') {
 	                    var date = new Date(value);
-	                    return date.format("yyyy-MM-dd");
+	                    return date.format("yyyy-MM-dd hh:mm");
 	                }
 	                return "";
 	            }
