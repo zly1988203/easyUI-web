@@ -10,7 +10,7 @@
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
 	<script src="${ctx}/static/js/views/purchase/orderView.js"></script>
 	<script src="${ctx}/static/js/views/purchase/purchaseExport.js"></script>
-    
+    <%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
     <div class="ub ub-ver ub-f1 umar-4  ubor">
@@ -24,7 +24,7 @@
             	<div class="ubtns-item" onclick="stop()">终止</div>
             </shiro:hasPermission>
             <shiro:hasPermission name="JxcPurchaseOrder:print">
-            	<div class="ubtns-item" onclick="printDesign()">打印</div>
+            	<div class="ubtns-item" onclick="printChoose('PA','/form/purchase/')">打印</div>
             </shiro:hasPermission>
             	<div class="ubtns-item" onclick="exportData('PA');">导出明细</div>
                 <div class="ubtns-item" id="toBackByJSButton"  onclick="back()">返回</div>
@@ -75,21 +75,6 @@
         <div class="ub ub-f1 datagrid-edit umar-t8">
             <table id="gridEditOrder" ></table>
         </div>
-	        <div id="printSet">   
-	              <div class="ub umar-t8 uhide" >
-	               <div class="ub ub-ac uselectws umar-l50 umar-t20">
-	                       <!--select-->
-					        <select class="easyui-combobox uselect " name="io" id="io"  data-options="editable:false">
-								<option value="">默认模板</option> 
-					        </select>
-	                </div>
-	              </div> 
-	             <div class="uabtns umar-t20 uhide" >
-	                 <button class="uabtn umar-r10 " onclick="toView()">预览</button>
-	                 <button class="uabtn umar-r10 " onclick="toSetPrint()">设置</button>
-	                 <button class="uabtn" onclick="toPrint()" >打印</button>
-	            </div>    
-	      </div>    
     </div>
 </body>
 </html>

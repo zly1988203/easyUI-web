@@ -114,44 +114,6 @@ function updateFooter(){
     var argWhere = {name:'isGift',value:""}
     gridHandel.updateFooter(fields,argWhere);
 }
-//打印
-function printDesign(){
-	$('#printSet .ub,#printSet .uabtns').removeClass('uhide')
-	$("#printSet").dialog({
-        title:'打印模板选择',
-        width: 350,
-        height:190,
-        modal: true,
-        resizable:true,
-        closed: false,   
-        cache: false    
-
-    });
-}
-
-//打印预览
-function toView(){
-	var id = $("#formId").val();
-	var formNo = $("#formNo").val();
-    var url=contextPath + '/form/purchase/preview?page=PASheet&form=list&template=-1&sheetNo=' + id ;
-    //弹出打印页面
-    parent.addTabPrint('PASheet' + id,formNo+'打印预览',url,'');
-}
-//打印设置
-function toSetPrint(){
-	var id = $("#formId").val();
-	var formNo = $("#formNo").val();
-    // 弹出打印页面
-    parent.addTabPrint('PASheet' + id,formNo+'单据打印',contextPath + '/printdesign/design?page=PASheet&controller=/form/purchase&template=-1&sheetNo=' + id + '&gridFlag=PAGrid','');
-}
-//打印
-function toPrint(print){
-	var id = $("#formId").val();
-	var formNo = $("#formNo").val();
-    var url=contextPath + '/form/purchase/preview?page=PASheet&form=print&template=-1&sheetNo=' + id ;
-    //弹出打印页面
-    parent.addTabPrint('PASheet' + id,formNo+'打印预览',url,'');
-}
 
 function back(){
 	location.href = contextPath+"/form/purchase/orderList";
