@@ -11,7 +11,7 @@
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
 	<script src="${ctx}/static/js/views/deliver/deliverView.js"></script>
 	<script src="${ctx}/static/js/views/deliver/deliverExport.js"></script>
-    
+    <%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
     <div class="ub ub-ver ub-f1 umar-4  ubor">
@@ -20,7 +20,7 @@
             	<input type="hidden" id="close" value="${close}"/>
             	<div class="ubtns-item" id="addButton" onclick="addDeliverForm()">新增</div>
             	<div class="ubtns-item" onclick="stop()">终止</div>
-            	<div class="ubtns-item" onclick="printDesign('${form.formNo}')">打印</div>
+            	<div class="ubtns-item" onclick="printChoose('DA','/form/deliverForm/')">打印</div>
             	<div class="ubtns-item"  onclick="exportData('DA','gridViewRequireOrder')">导出明细</div>
             	<div class="ubtns-item"  onclick="exportData('DA','gridViewRequireOrder',1)">导出货号</div>
                 <div class="ubtns-item" id="toBackByJSButton" onclick="back()">返回</div>

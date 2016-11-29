@@ -48,7 +48,7 @@ function initDatagridRequireOrders(){
             		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
             	}
             },
-			{field: 'dealStatus', title: '单据状态', width: '60px', align: 'left'},
+			{field: 'dealStatus', title: '单据状态', width: '60px', align: 'center'},
 			{field: 'validityTime', title: '有效期限', width: '115px', align: 'center',
 				formatter: function (value, row, index) {
 					if (value) {

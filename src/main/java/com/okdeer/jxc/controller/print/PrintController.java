@@ -593,7 +593,7 @@ public class PrintController  extends BaseController<GoodsSelect>{
 							
 						}
 						
-					} );
+					}, null);
 			respJson.put("importInfo", vo);
 			
 		} catch (IOException e) {
