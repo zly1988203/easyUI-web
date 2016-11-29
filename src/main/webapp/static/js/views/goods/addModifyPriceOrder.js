@@ -1115,7 +1115,7 @@ function updateListData(data){
 }
 //返回列表页面
 function back(){
-	window.location.href=contextPath+"/goods/priceAdjust/view";
+	toClose();
 }
 
 

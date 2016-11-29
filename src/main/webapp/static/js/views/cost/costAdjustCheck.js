@@ -205,7 +205,7 @@ function loadLists(referenceId){
  * 返回库存调整
  */
 function back(){
-	location.href = contextPath+"/cost/costAdjust/view";
+	toClose();
 }
 
 //导出

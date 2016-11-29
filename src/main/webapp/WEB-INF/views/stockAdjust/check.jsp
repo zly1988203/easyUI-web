@@ -71,7 +71,7 @@
                </div>
                <div class="ub ub-ac uw-300">
                    <div class="umar-r10 uw-60 ut-r">审核时间:</div>
-                   <div class="utxt"><fmt:formatDate value="${stockFormVo.validTime}" pattern="yyyy-MM-dd HH:mm"/></div>
+                   <div class="utxt">${stockFormVo.validTime}</div>
                </div>
            </div>
            <div class="ub umar-t8">

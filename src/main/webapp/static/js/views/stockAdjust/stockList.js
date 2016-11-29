@@ -38,9 +38,11 @@ function initDatagridRequireOrders(){
 			{field:'check',checkbox:true},
             {field:'formNo',title:'单据编号',width:'140px',align:'left',formatter:function(value,row,index){
             	if(row.status  == 0){
-            		return "<a style='text-decoration: underline;' href='"+ contextPath +"/stock/adjust/edit?id="+ row.id +"'>" + value + "</a>"
+            		var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看库存调整详细\',\''+contextPath+'/stock/adjust/edit?id='+row.id+'\')">' + value + '</a>';
+                	return strHtml;
             	}else if(row.status == 1){
-            		return "<a style='text-decoration: underline;' href='"+ contextPath +"/stock/adjust/checkSuccess?id="+ row.id +"'>" + value + "</a>"
+            		var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看库存调整详细\',\''+contextPath+'/stock/adjust/checkSuccess?id='+row.id+'\')">' + value + '</a>';
+                	return strHtml;
 
             	}
             }},
@@ -89,7 +91,7 @@ function initDatagridRequireOrders(){
 
 //新增入库单
 function addStockForm(){
-	location.href = contextPath + "/stock/adjust/add?stockType=DI";
+	toAddTab("新增库存调整单",contextPath + "/stock/adjust/add");
 }
 
 //查询入库单

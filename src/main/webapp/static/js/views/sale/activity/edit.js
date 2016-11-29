@@ -1813,5 +1813,5 @@ function getGoodsType(){
 }
 //返回列表页面
 function back(){
-	location.href = contextPath +"/sale/activity/list";
+	toClose();
 }
