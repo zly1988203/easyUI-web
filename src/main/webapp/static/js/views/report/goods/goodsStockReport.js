@@ -97,7 +97,12 @@ function searchCategory(){
 		$("#categoryNameCode").val("["+data.categoryCode+"]"+data.categoryName);
 	});
 }
-
+/**
+ * 商品状态加载完成
+ */
+function comboboxGoodsStatus(data){
+	$("#status").combobox("setValue","正常");
+}
 
 /**
  * 导出

@@ -698,6 +698,7 @@ function GridClass(){
     var gridName;                        //表格名称
     var rowIndex;                //当前选中的行号
     var selectFieldName;               //当前选中的单元名称
+    var nowEditFieldName;               //当前正在编辑的单元名称
     this.getSelectRowIndex = function(){
         return rowIndex||0;
     };
@@ -715,6 +716,12 @@ function GridClass(){
     };
     this.setSelectFieldName = function(arg){
         selectFieldName = arg;
+    };
+    this.setNowEditFieldName = function(arg){
+        nowEditFieldName = arg;
+    };
+    this.getNowEditFieldName = function(){
+        return nowEditFieldName;
     };
     this.initKey = function(params){
         $.extend($.fn.datagrid.methods, {

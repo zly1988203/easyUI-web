@@ -228,8 +228,15 @@ function onChangeLargeNum(newV,oldV){
         messager("没有商品规格,请审查");
         return;
     }
-    if(gridHandel.getSelectFieldName()!="realNum"){
+    if(gridHandel.getNowEditFieldName()!="realNum"){
+        if(parseFloat(newV)>0){
+            gridHandel.setNowEditFieldName("largeNum");
+        }
         gridHandel.setFieldValue('realNum',purchaseSpecValue*newV);//数量=商品规格*箱数
+    }else{
+        if(parseFloat(newV)>0){
+            gridHandel.setNowEditFieldName("largeNum");
+        }
     }
 
     updateFooter();
@@ -245,6 +252,9 @@ function onChangeRealNum(newV,oldV) {
         return;
     }
     var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
+    if(parseFloat(newV)>0){
+        gridHandel.setNowEditFieldName("realNum");
+    }
     gridHandel.setFieldValue('amount',priceValue*newV);                         //金额=数量*单价
     gridHandel.setFieldValue('largeNum',(newV/purchaseSpecValue).toFixed(4));   //箱数=数量/商品规格
     updateFooter();
