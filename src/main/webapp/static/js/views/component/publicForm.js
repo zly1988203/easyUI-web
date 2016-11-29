@@ -91,21 +91,19 @@ function initDatagridForm(type){
         width:'100%',
         columns:[[
             {field:'formNo',title:'单号',width:135,align:'left'},
-            {field:'status',title:'单据状态',width:100,align:'left',
-            	 formatter: function(value,row,index){
-            		 if(value == '0'){
-                 		return '待审核';
-                 	}else if(value == '1'){
-                 		return '审核通过';
-                 	}else if(value == '2'){
-                 		return '审核失败';
-                 	}else{
-                 		return '未知类型：'+ value;
-                 	}
-                 }
+            {field:'branchName',title:'收货机构',width:100,align:'left'},
+            {field:'supplierName',title:'供应商',width:100,align:'left'},
+            {field:'amount',title:'单据金额',width:100,align:'right',
+            	formatter : function(value, row, index) {
+            		return parseFloat(value||0).toFixed(2);
+            	}
             },
-            {field:'supplierName',title:'供应商',width:100,align:'left'}
-          
+            {field:'validTime',title:'审核时间',width:100,align:'center', formatter: function (value, row, index) {
+                if (value) {
+                	return new Date(value).format('yyyy-MM-dd hh:mm');
+                }
+                return "";
+            }}
         ]],
         onLoadSuccess : function() {
         	$('.datagrid-header').find('div.datagrid-cell').css('text-align','center');
