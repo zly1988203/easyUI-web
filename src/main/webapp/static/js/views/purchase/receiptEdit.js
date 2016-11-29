@@ -264,10 +264,8 @@ function onChangeLargeNum(newV,oldV){
         messager("没有商品规格,请审查");
         return;
     }
-    if(gridHandel.getSelectFieldName()!="realNum"){
-        gridHandel.setFieldValue('realNum',purchaseSpecValue*newV);//数量=商品规格*箱数
-    }
-
+    var newRealNum = (Math.round(purchaseSpecValue*newV*100)/100).toFixed(4);
+    gridHandel.setFieldValue('realNum',newRealNum);//数量=商品规格*箱数
     updateFooter();
 }
 //监听商品数量
