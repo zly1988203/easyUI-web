@@ -45,7 +45,9 @@ function initDatagridOrders(){
         columns:[[
             {field:'check',checkbox:true},
             {field:'formNo',title:'单据编号',width:'140px',align:'left',formatter:function(value,row,index){
-            	return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/purchase/receiptEdit?formId="+ row.id +"'>" + value + "</a>"
+            	var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看采购收货详细\',\''+contextPath+'/form/purchase/receiptEdit?formId='+row.id+'\')">' + value + '</a>';
+            	return strHtml;
+            
             }},
             {field:'branchName',title:'收货机构',width:'100px',align:'left'},
             {field:'status',title:'审核状态',width:'100px',align:'center',formatter:function(value,row,index){
@@ -82,9 +84,11 @@ function initDatagridOrders(){
     });
     query();
 }
+
 function receiptAdd(){
-	location.href = contextPath + "/form/purchase/receiptAdd";
+	toAddTab("新增采购收货单",contextPath + "/form/purchase/receiptAdd");
 }
+
 function query(){
 	$("#gridOrders").datagrid("options").queryParams = $("#queryForm").serializeObject();
 	$("#gridOrders").datagrid("options").method = "post";
