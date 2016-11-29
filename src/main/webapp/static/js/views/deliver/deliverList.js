@@ -36,8 +36,8 @@ function initDatagridRequireOrders(){
             		return value;
             	}
             }},
-            {field:'status',title: '审核状态', width: '100px', align: 'left'},
-			{field: 'dealStatus', title: '单据状态', width: '60px', align: 'left'},
+            {field:'status',title: '审核状态', width: '100px', align: 'center'},
+			{field: 'dealStatus', title: '单据状态', width: '60px', align: 'center'},
 			{field: 'targetBranchName', title: '要货机构', width: '200px', align: 'left'},
 			{field: 'salesman', title: '业务人员', width: '130px', align: 'left'},
 			{field: 'amount', title: '单据金额', width: '80px', align: 'right',
@@ -155,10 +155,10 @@ function printDesign(){
      parent.addTabPrint('PASheet' + row.id,row.formNo+'单据打印',contextPath + '/printdesign/design?page=PASheet&controller=/form/purchase&template=-1&sheetNo=' + row.id + '&gridFlag=PAGrid','');
 }
 
-
 /**
  * 重置
  */
 var resetForm = function() {
 	 $("#queryForm").form('clear');
 };
+

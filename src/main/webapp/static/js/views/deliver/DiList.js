@@ -36,7 +36,7 @@ function initDatagridRequireOrders(){
             		return value;
             	}
             }},
-            {field:'status',title: '审核状态', width: '100px', align: 'left'},
+            {field:'status',title: '审核状态', width: '100px', align: 'center'},
 			{field: 'sourceBranchName', title: '发货机构', width: '200px', align: 'left'},
 			{field: 'targetBranchName', title: '收货机构', width: '200px', align: 'left'},
 			{field: 'amount', title: '单据金额', width: '80px', align: 'right',

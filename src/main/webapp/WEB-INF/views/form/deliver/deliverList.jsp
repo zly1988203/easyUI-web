@@ -72,31 +72,31 @@
 	                <div class="ub ub-ac umar-l20 uw-300">
 	                    <div class="umar-r10 uw-70 ut-r">审核状态:</div>
 	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub" type="radio" name="deliverAuditStatus"  value="1"/><span>已审核</span>
+	                        <input class="ub" type="radio" name="deliverAuditStatus" value="1" onclick="queryForm()"/><span>已审核</span>
 	                    </div>
 	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub" type="radio" name="deliverAuditStatus" value="0" checked="checked"/><span>未审核</span>
+	                        <input class="ub" type="radio" name="deliverAuditStatus" value="0" checked="checked" onclick="queryForm()"/><span>未审核</span>
 	                    </div>
 	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub" type="radio" name="deliverAuditStatus" value=""  /><span>全部</span>
+	                        <input class="ub" type="radio" name="deliverAuditStatus" value=""  onclick="queryForm()"/><span>全部</span>
 	                    </div>
 	                </div>
 	                <div class="ub ub-ac umar-l40">
 	                    <div class="umar-r10 uw-70 ut-r">单据状态:</div>
 	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub" type="radio" name="deliverStatus" value="0" /><span>待处理</span>
+	                        <input class="ub" type="radio" name="deliverStatus" value="0" onclick="queryForm()"/><span>待处理</span>
 	                    </div>
 	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub" type="radio" name="deliverStatus" value="1"  /><span>部分发货</span>
+	                        <input class="ub" type="radio" name="deliverStatus" value="1" onclick="queryForm()"/><span>部分发货</span>
 	                    </div>
 	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub" type="radio" name="deliverStatus" value="2"  /><span>全部发货</span>
+	                        <input class="ub" type="radio" name="deliverStatus" value="2" onclick="queryForm()"/><span>全部发货</span>
 	                    </div>
 	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub" type="radio" name="deliverStatus" value="3" /><span>终止</span>
+	                        <input class="ub" type="radio" name="deliverStatus" value="3" onclick="queryForm()"/><span>终止</span>
 	                    </div>
 	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub" type="radio" name="deliverStatus" value="" checked="checked"/><span>全部</span>
+	                        <input class="ub" type="radio" name="deliverStatus" value="" checked="checked" onclick="queryForm()"/><span>全部</span>
 	                    </div>
 	                </div>
 	            </div>
