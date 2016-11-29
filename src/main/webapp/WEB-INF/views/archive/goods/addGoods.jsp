@@ -16,7 +16,7 @@ pageEncoding="UTF-8"%>
         <div class="ub ub-ver ub-ac upad-4">
             <div class="ub upad-4">
                 <div class="ub ub-ac uw-300">
-                    <div class="umar-r10 uw-60 ut-r">货号货号:</div>
+                    <div class="umar-r10 uw-60 ut-r">货号:</div>
                     <input id="skuCode" name="skuCode" class="uinp uinp-no-more uw-200 "  readonly="readonly" type="text" value="${data.skuCode}">
                 </div>
                 <div class="ub ub-ac uw-300">
@@ -49,10 +49,10 @@ pageEncoding="UTF-8"%>
                 </div>
                 <div class="ub ub-ac uw-300">
                     <div class="umar-r10 uw-60 ut-r">品牌:</div>
-                    <input id="brandId" name="brandId"   class="uinp" type="hidden">
+                    <input id="brandId" name="brandId" class="uinp" type="hidden" value="${goodsBrand.id}">
                     <input id="brandCode" name="brandCode"   class="uinp" type="hidden">
                     <div class="ub">
-                        <input id="brandName" name="brandName"   class="uinp" type="text" readonly="readonly">
+                        <input id="brandName" name="brandName"   class="uinp" type="text" readonly="readonly" value="${goodsBrand.brandName}">
                         <div class="uinp-more" onclick="getGoodsBrand()">...</div>
                     </div>
                 </div>
@@ -85,10 +85,10 @@ pageEncoding="UTF-8"%>
             <div class="ub upad-4">
                 <div class="ub ub-ac uw-300">
                     <div class="umar-r10 uw-60 ut-r">配送规格:</div>
-                    <div class="ub">
-                    <input id="distributionSpec" name="distributionSpec" value='1'  class="uinp easyui-numberbox easyui-validatebox " data-options="min:0.01,precision:2" type="text" data-options="required:true">
-                    </div>
-                        <i class="uc-red">*</i>
+                     <div class="ub">
+                     <input id="distributionSpec" name="distributionSpec" value='1'  class="uinp easyui-numberbox easyui-validatebox " style="width: 204px;" data-options="min:0.01,precision:2" type="text" data-options="required:true">
+                     </div>
+                    <i class="uc-red">*</i>
                 </div>
                 <div class="ub ub-ac uw-300">
                     <div class="umar-r10 uw-60 ut-r">商品状态:</div>
@@ -114,14 +114,14 @@ pageEncoding="UTF-8"%>
                 </div>
                 <div class="ub ub-ac uw-300">
                     <div class="umar-r10 uw-60 ut-r">质保天数:</div>
-                    <input id="vaildity" name="vaildity"   class="uinp easyui-numberbox easyui-validatebox"
+                    <input id="vaildity" name="vaildity"   class="uinp easyui-numberbox easyui-validatebox" style="width: 204px;"
                            data-options="min:0,precision:0" type="text" onkeyup="checkInteger(this)" onafterpaste="checkInteger(this)">
                 </div>
                 <div class="ub ub-ac uw-300">
                     <div class="umar-r10 uw-60 ut-r">主供应商:</div>
-                    <input id="supplierId" name="supplierId"   class="uinp" type="hidden" >
+                    <input id="supplierId" name="supplierId"   class="uinp" type="hidden" value="${supplier.id}">
                     <div class="ub">
-                        <input id="supplierName" name="supplierName"   class="uinp  easyui-validatebox" type="text" readonly="readonly" data-options="required:true">
+                        <input id="supplierName" name="supplierName"   class="uinp  easyui-validatebox" value="${supplier.supplierName}" type="text" readonly="readonly" data-options="required:true">
                         <div class="uinp-more " onclick="getGoodsPupplier()">...</div>
                     </div>
                     <i class="uc-red">*</i>
@@ -135,7 +135,7 @@ pageEncoding="UTF-8"%>
                 </div>
                 <div class="ub ub-ac uw-300">
                     <div class="umar-r10 uw-60 ut-r">联营/代销扣率:</div>
-                    <input id="supplierRate" name="supplierRate"   class="uinp easyui-numberbox easyui-validatebox" data-options="min:0,precision:2" type="text" onkeyup="checkSupplierRate(this);" onafterpaste="checkSupplierRate(this);">%
+                    <input id="supplierRate" name="supplierRate"   class="uinp easyui-numberbox easyui-validatebox" style="width: 204px;" data-options="min:0,precision:2" type="text" onkeyup="checkSupplierRate(this);" onafterpaste="checkSupplierRate(this);">%
                 </div>
                 <div class="ub ub-ac uw-300">
                     <div class="umar-r10 uw-60 ut-r">商品类型:</div>
@@ -149,45 +149,45 @@ pageEncoding="UTF-8"%>
             <div class="ub upad-4">
                 <div class="ub ub-ac uw-300">
                     <div class="umar-r10 uw-60 ut-r">零售价:</div>
-                    <input id="salePrice" name="salePrice" value="0" class="uinp easyui-numberbox easyui-validatebox" data-options="min:0,precision:2" type="text" maxlength="10" onkeyup="checkPrice(this);" onafterpaste="checkPrice(this);" >
+                    <input id="salePrice" name="salePrice" value="0" class="uinp easyui-numberbox easyui-validatebox" style="width: 204px;" data-options="min:0,precision:2" type="text" maxlength="10" onkeyup="checkPrice(this);" onafterpaste="checkPrice(this);" >
                 </div>
                 <div class="ub ub-ac uw-300">
                     <div class="umar-r10 uw-60 ut-r">进货价:</div>
-                    <input id="purchasePrice" name="purchasePrice" value="0" class="uinp easyui-numberbox easyui-validatebox" data-options="min:0,precision:2" type="text" maxlength="10" onkeyup="checkPrice(this);" onafterpaste="checkPrice(this);">
+                    <input id="purchasePrice" name="purchasePrice" value="0" class="uinp easyui-numberbox easyui-validatebox" style="width: 204px;" data-options="min:0,precision:2" type="text" maxlength="10" onkeyup="checkPrice(this);" onafterpaste="checkPrice(this);">
                 </div>
                 <div class="ub ub-ac uw-300">
                     <div class="umar-r10 uw-60 ut-r">批发价:</div>
-                    <input id="wholesalePrice" name="wholesalePrice" value="0" class="uinp easyui-numberbox easyui-validatebox" data-options="min:0,precision:2" type="text" maxlength="10" onkeyup="checkPrice(this);" onafterpaste="checkPrice(this);">
+                    <input id="wholesalePrice" name="wholesalePrice" value="0" class="uinp easyui-numberbox easyui-validatebox" style="width: 204px;" data-options="min:0,precision:2" type="text" maxlength="10" onkeyup="checkPrice(this);" onafterpaste="checkPrice(this);">
                 </div>
             </div>
             <div class="ub upad-4">
                 <div class="ub ub-ac uw-300">
                     <div class="umar-r10 uw-60 ut-r">配送价:</div>
-                    <input id="distributionPrice" name="distributionPrice" value="0" class="uinp easyui-numberbox easyui-validatebox" data-options="min:0,precision:2" type="text" maxlength="10" onkeyup="checkPrice(this);" onafterpaste="checkPrice(this);">
+                    <input id="distributionPrice" name="distributionPrice" value="0" class="uinp easyui-numberbox easyui-validatebox" style="width: 204px;" data-options="min:0,precision:2" type="text" maxlength="10" onkeyup="checkPrice(this);" onafterpaste="checkPrice(this);">
                 </div>
                 <div class="ub ub-ac uw-300">
                     <div class="umar-r10 uw-60 ut-r">最低售价:</div>
-                    <input id="lowestPrice" name="lowestPrice" value="0" class="uinp easyui-numberbox easyui-validatebox" data-options="min:0,precision:2" type="text" maxlength="10" onkeyup="checkPrice(this);" onafterpaste="checkPrice(this);">
+                    <input id="lowestPrice" name="lowestPrice" value="0" class="uinp easyui-numberbox easyui-validatebox" style="width: 204px;" data-options="min:0,precision:2" type="text" maxlength="10" onkeyup="checkPrice(this);" onafterpaste="checkPrice(this);">
                 </div>
                 <div class="ub ub-ac uw-300">
                     <div class="umar-r10 uw-60 ut-r">会员价:</div>
-                    <input id="vipPrice" name="vipPrice" value="0" class="uinp easyui-numberbox easyui-validatebox" data-options="min:0,precision:2" type="text" maxlength="10" onkeyup="checkPrice(this);" onafterpaste="checkPrice(this);">
+                    <input id="vipPrice" name="vipPrice" value="0" class="uinp easyui-numberbox easyui-validatebox" style="width: 204px;" data-options="min:0,precision:2" type="text" maxlength="10" onkeyup="checkPrice(this);" onafterpaste="checkPrice(this);">
                 </div>
             </div>
             <div class="ub upad-4">
                 <div class="ub ub-ac uw-300">
                     <div class="umar-r10 uw-60 ut-r">毛利值:</div>
-                    <input id="grossProfit" name="" value="0" class="uinp uinp-no-more easyui-numberbox easyui-validatebox" data-options="min:0,precision:2" type="text" readonly="readonly">
+                    <input id="grossProfit" name="" value="0" class="uinp uinp-no-more easyui-numberbox easyui-validatebox" style="width: 204px;" data-options="min:0,precision:2" type="text" readonly="readonly">
                 </div>
                 <div class="ub ub-ac uw-300">
                     <div class="umar-r10 uw-60 ut-r">毛利率:</div>
-                    <input id="grossProfitPercent" name="" value="0" class="uinp uinp-no-more easyui-numberbox easyui-validatebox" data-options="min:0,precision:2" type="text" readonly="readonly">
+                    <input id="grossProfitPercent" name="" value="0" class="uinp uinp-no-more easyui-numberbox easyui-validatebox" style="width: 204px;" data-options="min:0,precision:2" type="text" readonly="readonly">
                 </div>
                 <div class="ub ub-ac uw-300">
                     <div class="umar-r10 uw-60 ut-r">销项税率:</div>
                    <!--  <input id="outputTax" name="outputTax" value="0" class="uinp easyui-numberbox easyui-validatebox" data-options="min:0,precision:2" type="text"  maxlength="4" onkeyup="checkPositiveInteger(this);" onafterpaste="checkPositiveInteger(this)">% -->
                 <input id="outputTax" name="outputTax"
-							   class="uinp easyui-numberbox easyui-validatebox"
+							   class="uinp easyui-numberbox easyui-validatebox" style="width: 204px;"
 							   data-options="min:0,precision:2,validType:['length[0,18]']" type="text" maxlength="4"
 							   onkeyup="checkPositiveInteger(this);"
 							   onafterpaste="checkPositiveInteger(this)">%
@@ -202,7 +202,7 @@ pageEncoding="UTF-8"%>
 							   onkeyup="checkPositiveInteger(this);"
 							   onafterpaste="checkPositiveInteger(this)">% -->
 					    <input id="inputTax" name="inputTax" value='0.00'
-							    class="uinp easyui-numberbox easyui-validatebox"
+							    class="uinp easyui-numberbox easyui-validatebox" style="width: 204px;"
 							   data-options="min:0,precision:2,validType:['length[0,18]']" type="text" maxlength="4"
 							   onkeyup="checkPositiveInteger(this);"
 							   onafterpaste="checkPositiveInteger(this)">%

@@ -155,7 +155,8 @@ pageEncoding="UTF-8"%>
     	   brandId="";
     	   supplierId = treeNode.id;
        }
-        $("#gridGoods").datagrid("options").queryParams = {categoryCode:categoryCode,brandId:brandId,supplierId:supplierId};
+        var goodsInfo=$("#goodsInfo").val();
+        $("#gridGoods").datagrid("options").queryParams = {goodsInfo:goodsInfo,categoryCode:categoryCode,brandId:brandId,supplierId:supplierId};
         $("#gridGoods").datagrid("options").method = "post";
         $("#gridGoods").datagrid("options").url =contextPath + '/goods/goodsSelect/queryGoodsSkuLists';
         $("#gridGoods").datagrid("load");

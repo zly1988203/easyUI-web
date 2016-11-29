@@ -512,7 +512,6 @@ function saveDataHandel(rows){
 }
 function selectSupplier(){
 	new publicSupplierService(function(data){
-		console.log(data);
 		$("#supplierId").val(data.id);
 		$("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
 	});
