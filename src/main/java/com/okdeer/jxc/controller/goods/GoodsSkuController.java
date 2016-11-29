@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.enums.GoodsStatusEnum;
 import com.okdeer.jxc.common.enums.GoodsTypeEnum;
@@ -33,10 +34,16 @@ import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.controller.BaseController;
+import com.okdeer.jxc.goods.entity.GoodsBrand;
 import com.okdeer.jxc.goods.entity.GoodsSku;
 import com.okdeer.jxc.goods.qo.GoodsSkuQo;
+import com.okdeer.jxc.goods.service.GoodsBrandServiceApi;
 import com.okdeer.jxc.goods.service.GoodsSkuServiceApi;
+import com.okdeer.jxc.goods.vo.GoodsBrandVo;
 import com.okdeer.jxc.goods.vo.GoodsSkuVo;
+import com.okdeer.jxc.supplier.entity.Supplier;
+import com.okdeer.jxc.supplier.qo.SupplierQo;
+import com.okdeer.jxc.supplier.service.SupplierServiceApi;
 import com.okdeer.jxc.utils.UserUtil;
 
 /**
@@ -56,6 +63,12 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 
 	@Reference(version = "1.0.0", check = false)
 	private GoodsSkuServiceApi goodsSkuService;
+	
+	@Reference(version = "1.0.0", check = false)
+	private GoodsBrandServiceApi goodsBrandService;
+	
+	@Reference(version = "1.0.0", check = false)
+	private SupplierServiceApi supplierService;
 
 	/**
 	 * 
@@ -120,7 +133,25 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 	public String addGoods(Model model, HttpServletRequest request) {
 		model.addAttribute("date", DateUtils.getCurrSmallRStr());
 		model.addAttribute("action", "create");
-
+		
+		//品牌查询
+		GoodsBrandVo  brand = new GoodsBrandVo();
+		brand.setBrandCodeOrName("其他");
+		brand.setPageNumber(Constant.ONE);
+		brand.setPageSize(Constant.ONE);
+		PageUtils<GoodsBrand> goodsBrands = goodsBrandService.queryLists(brand);
+		model.addAttribute("goodsBrand", goodsBrands.getList().get(0));
+		
+		//供应商查询
+		SupplierQo supplier = new SupplierQo();
+		supplier.setSupplierName("默认供应商");
+		String branchId = UserUtil.getCurrBranchId();
+		supplier.setBranchId(branchId);
+		supplier.setPageNumber(Constant.ONE);
+		supplier.setPageSize(Constant.ONE);
+		PageUtils<Supplier> suppliers = supplierService.queryLists(supplier);
+		model.addAttribute("supplier", suppliers.getList().get(0));
+		
 		// 将计价方式，商品状态，商品类型的枚举放入model中
 		addEnum(model);
 
