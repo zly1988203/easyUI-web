@@ -233,10 +233,16 @@ function onChangeLargeNum(newV,oldV){
         messager("配送规格不能为0");
         return;
     }
-    if(gridHandel.getSelectFieldName()!="receiveNum"){
-	   gridHandel.setFieldValue('receiveNum',purchaseSpecValue*newV);//数量=商品规格*箱数
-	}
-   
+    if(gridHandel.getNowEditFieldName()!="receiveNum"){
+        if(parseFloat(newV)>0){
+            gridHandel.setNowEditFieldName("largeNum");
+        }
+        gridHandel.setFieldValue('receiveNum',purchaseSpecValue*newV);//数量=商品规格*箱数
+    }else{
+        if(parseFloat(newV)>0){
+            gridHandel.setNowEditFieldName("largeNum");
+        }
+    }
     updateFooter();
 }
 //监听商品数量
@@ -254,6 +260,9 @@ function onChangeRealNum(newV,oldV) {
         return;
     }
     var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
+    if(parseFloat(newV)>0){
+        gridHandel.setNowEditFieldName("receiveNum");
+    }
     gridHandel.setFieldValue('amount',priceValue*newV);                         //金额=数量*单价
     gridHandel.setFieldValue('largeNum',(newV/purchaseSpecValue).toFixed(4));   //箱数=数量/商品规格
     updateFooter();

@@ -66,7 +66,7 @@
                 <div class="ub ub-ac uselectw umar-l40">
                     <div class="umar-r10 uw-70 ut-r">商品状态:</div>
                        <!--select-->
-				        <select class="easyui-combobox uselect" name="status" id="status" data-options="editable:false">
+				        <select class="easyui-combobox uselect" name="status" id="status" data-options="editable:false,onLoadSuccess:comboboxGoodsStatus">
 				    			<option value="">全部</option> 
 				           	<c:forEach items="${goodsStatus}" var="goodsStatus">
 				    			<option value="${goodsStatus.ordinal}">${goodsStatus.value}</option> 
