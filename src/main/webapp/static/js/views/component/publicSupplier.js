@@ -56,7 +56,8 @@ function initTreeSupplier(){
 var supplierAreaCode=null;
 function zTreeOnClick(event, treeId, treeNode) {
 	supplierAreaCode=treeNode.code;
-   $("#gridSupplier").datagrid("options").queryParams = {supplierAreaCode:supplierAreaCode,saleWayNot:saleWayNot};
+	var supplierNameOrsupplierCode=$("#supplierNameOrsupplierCode").val();
+   $("#gridSupplier").datagrid("options").queryParams = {supplierAreaCode:supplierAreaCode,saleWayNot:saleWayNot,supplierNameOrsupplierCode:supplierNameOrsupplierCode};
    $("#gridSupplier").datagrid("options").method = "post";
    $("#gridSupplier").datagrid("options").url =contextPath + "/common/supplier/getComponentList",
    $("#gridSupplier").datagrid("load");
