@@ -19,8 +19,7 @@ $(function() {
 		$("input[name='queryType'][value=goods]").attr("checked",true); 
 		$("input[name='queryType'][value=goods]").click();
 	}
-
-	
+	branchId = $("#branchId").val();
 });
 var flushFlg = false;
 function changeType(){
@@ -33,8 +32,6 @@ function changeType(){
 			initCashDailyallGrid('goods');
 			$("#categoryButon").attr("onclick","getGoodsType()");
 			$("#categoryName").removeClass("uinp-no-more");
-			
-			
 			$('#categoryTypeDiv').hide();
 			$("#skuCode").removeAttr("readonly");
 			$("#skuCode").removeClass("uinp-no-more");
@@ -101,9 +98,6 @@ function showCashier(){
 }
 
 function hideCashier(){
-	/*$("#cashierId").val('');*/
-	
-	
 	$("#cashierNameOrCode").val('');
 	$("#cashierNameOrCode").attr("disabled","disabled");
 	$("#cashierNameOrCode").attr("disabled","disabled");
@@ -585,13 +579,14 @@ function selectGoods(searchKey){
 	
 	
 }
+var branchId;
 
 /**
  * 机构名称
  */
 function selectBranches(){
 	new publicAgencyService(function(data){
-		$("#branchId").val(data.branchesId);
+//		$("#branchId").val(data.branchesId);
 		$("#branchName").val(data.branchName);
 	},'BF','');
 }

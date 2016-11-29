@@ -37,7 +37,7 @@
                     <div class="ub ub-ac">
                     	<input type="hidden" id="branchId" name="branchId" value="${branchesGrow.branchesId}"/>
                     	<input type="hidden" id="brancheType" name="brancheType" value="${branchesGrow.type}"/>
-                    	<input class="uinp  " type="text" id="branchName" name="branchName" value="${branchesGrow.branchName}" />
+                    	<input class="uinp" type="text" id="branchName" name="branchName"/><%--  value="${branchesGrow.branchName}" --%> 
                     	<div class="uinp-more" onclick="selectBranches()" >...</div>
                     </div>	
                 </div>

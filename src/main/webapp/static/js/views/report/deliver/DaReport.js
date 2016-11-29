@@ -7,7 +7,6 @@ $(function(){
     toChangeDatetime(10);
     initDatagridRequireOrders();
     branchId = $("#branchId").val();
-    brancheType = $("#brancheType").val();
 });
 var gridHandel = new GridClass();
 
@@ -81,13 +80,10 @@ function queryForm(){
  * 查询机构
  */
 var branchId;
-var brancheType;
 function selectBranches(){
 	new publicAgencyService(function(data){
-        if($("#branchId").val()!=data.branchesId){
-            $("#branchId").val(data.branchesId);
-            $("#branchName").val(data.branchName);
-        }
+//        $("#branchId").val(data.branchesId);
+        $("#branchName").val(data.branchName);
 	},'',branchId);
 }
 

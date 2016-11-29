@@ -23,7 +23,7 @@
             	<div class="ubtns-item" onclick="printChoose('DA','/form/deliverForm/')">打印</div>
             	<div class="ubtns-item"  onclick="exportData('DA','gridViewRequireOrder')">导出明细</div>
             	<div class="ubtns-item"  onclick="exportData('DA','gridViewRequireOrder',1)">导出货号</div>
-                <div class="ubtns-item" id="toBackByJSButton" onclick="back()">返回</div>
+                <div class="ubtns-item" onclick="toClose()">关闭</div>
             </div>
         </div>
         <div class="ub umar-t8 uc-black">【单号】:${form.formNo}</div>
@@ -44,7 +44,7 @@
                 <div class="umar-r10 uw-60 ut-r">业务人员:</div>
                 <div class="ub">
                     <input class="uinp ub ub-f1" type="text" id="salesman" name="salesman" value="${salesman}" readonly="readonly">
-                    <div class="uinp-more">...</div>
+                    <div class="uinp-more"></div>
                 </div>
             </div>
             <div class="ub ub-ac umar-l20">

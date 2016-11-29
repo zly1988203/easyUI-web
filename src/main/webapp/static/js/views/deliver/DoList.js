@@ -31,7 +31,9 @@ function initDatagridRequireOrders(){
 			{field:'check',checkbox:true},
             {field:'formNo',title:'单据编号',width:'140px',align:'left',formatter:function(value,row,index){
             	if(updatePermission){
-            		return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/deliverForm/deliverEdit?deliverFormId="+ row.deliverFormId +"&formType=DO'>" + value + "</a>";
+            		var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'出库单明细\',\''+ contextPath +'/form/deliverForm/deliverEdit?deliverFormId='+ row.deliverFormId +'&formType=DO\')">' + value + '</a>';
+            		return strHtml;
+//            		return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/deliverForm/deliverEdit?deliverFormId="+ row.deliverFormId +"&formType=DO'>" + value + "</a>";
             	}else{
             		return value;
             	}
@@ -78,7 +80,8 @@ function initDatagridRequireOrders(){
 
 //新增出库单
 function addDeliverForm(){
-	location.href = contextPath + "/form/deliverForm/addDeliverForm?deliverType=DO";
+	toAddTab("新增出库单",contextPath + "/form/deliverForm/addDeliverForm?deliverType=DO");
+//	location.href = contextPath + "/form/deliverForm/addDeliverForm?deliverType=DO";
 }
 
 //查询要货单
@@ -129,7 +132,7 @@ function delDeliverForm(){
  */
 function selectBranches(){
 	new publicAgencyService(function(data){
-		$("#sourceBranchId").val(data.branchesId);
+//		$("#sourceBranchId").val(data.branchesId);
 		$("#sourceBranchName").val(data.branchName);
 	},'',sourceBranchId);
 }
@@ -139,7 +142,7 @@ function selectBranches(){
  */
 function selectOperator(){
 	new publicOperatorService(function(data){
-		$("#operateUserId").val(data.id);
+//		$("#operateUserId").val(data.id);
 		$("#operateUserName").val(data.userName);
 	});
 }
