@@ -48,7 +48,7 @@ function initDatagridOrders(){
             	return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/purchase/receiptEdit?formId="+ row.id +"'>" + value + "</a>"
             }},
             {field:'branchName',title:'收货机构',width:'100px',align:'left'},
-            {field:'status',title:'审核状态',width:'100px',align:'left',formatter:function(value,row,index){
+            {field:'status',title:'审核状态',width:'100px',align:'center',formatter:function(value,row,index){
             	if(value == '0'){
             		return '待审核';
             	}else if(value == '1'){

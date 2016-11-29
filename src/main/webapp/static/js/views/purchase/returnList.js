@@ -48,7 +48,7 @@ function initDatagridOrders(){
             {field:'formNo',title:'单据编号',width:'140px',align:'left',formatter:function(value,row,index){
             	return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/purchase/returnEdit?formId="+ row.id +"'>" + value + "</a>"
             }},
-            {field:'status',title:'审核状态',width:'100px',align:'left',formatter:function(value,row,index){
+            {field:'status',title:'审核状态',width:'100px',align:'center',formatter:function(value,row,index){
             	if(value == '0'){
             		return '待审核';
             	}else if(value == '1'){
@@ -76,7 +76,10 @@ function initDatagridOrders(){
             }},
             {field:'validUserName',title:'审核人',width:'130px',align:'left'},
             {field:'remark',title:'备注',width:'200px',align:'left'}
-        ]]
+        ]],
+	onLoadSuccess : function() {
+		gridHandel.setDatagridHeader("center");
+	}
     });
     query();
 }

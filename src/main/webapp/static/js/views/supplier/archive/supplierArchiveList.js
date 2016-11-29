@@ -68,7 +68,7 @@ function initDatagridsupplierList(){
         	{field:'supplierName',title:'名称',width:180,align:'left'},
             {field:'saleWayName',title:'经营方式',width:80,align:'left'},
             {field:'supplierAreaName',title:'所在区域',width:120,align:'left'},
-            {field:'statusStr',title:'状态',width:100,align:'left'},
+            {field:'statusStr',title:'状态',width:100,align:'center'},
             {field:'contcat',title:'联系人',width:120,align:'left'},
             {field:'mobile',title:'手机号码',width:120,align:'left'},
             {field:'branchName',title:'所属机构',width:120,align:'left'},
