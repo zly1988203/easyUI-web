@@ -46,7 +46,8 @@ function initDatagridOrders(){
         columns:[[
             {field:'check',checkbox:true},
             {field:'formNo',title:'单据编号',width:'140px',align:'left',formatter:function(value,row,index){
-            	return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/purchase/returnEdit?formId="+ row.id +"'>" + value + "</a>"
+            	var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看采购退货详细\',\''+contextPath+'/form/purchase/returnEdit?formId='+row.id+'\')">' + value + '</a>';
+            	return strHtml;
             }},
             {field:'status',title:'审核状态',width:'100px',align:'center',formatter:function(value,row,index){
             	if(value == '0'){
@@ -84,8 +85,10 @@ function initDatagridOrders(){
     query();
 }
 function receiptAdd(){
-	location.href = contextPath + "/form/purchase/returnAdd";
+	toAddTab("新增采购退货订单",contextPath + "/form/purchase/returnAdd");
 }
+
+
 function query(){
 	$("#gridOrders").datagrid("options").queryParams = $("#queryForm").serializeObject();
 	$("#gridOrders").datagrid("options").method = "post";

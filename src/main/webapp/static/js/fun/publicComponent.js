@@ -677,6 +677,9 @@ function publicNewGoodsServiceHandel(params,callback){
 function toClose(){
 	window.parent.closeTab();
 }
+function toAddTab(title,url){
+	window.parent.addTab(title,url);
+}
 //返回
 function toBack(){
 	history.go(-1);
