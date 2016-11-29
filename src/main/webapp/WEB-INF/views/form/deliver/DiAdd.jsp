@@ -17,7 +17,7 @@
                 <div class="ubtns-item" onclick="saveOrder()">保存</div>
                	<!-- <div class="ubtns-item" onclick="importproductAll()">导入明细</div>
                 <div class="ubtns-item" onclick="importproduct()">导入货号</div> -->
-                <div class="ubtns-item" onclick="back()">返回</div>
+                <div class="ubtns-item" onclick="toClose()">关闭</div>
             </div>
         </div>
            <div class="ub">

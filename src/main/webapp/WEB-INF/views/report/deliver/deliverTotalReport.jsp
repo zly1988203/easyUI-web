@@ -38,7 +38,7 @@
                <div class="ub ub-ac umar-r60">
 					<div class="umar-r10 uw-80 ut-r">查询机构:</div>
 					<input type="hidden" id="branchId" name="branchId" value="${branchesGrow.branchesId}"/>
-					<input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" value="${branchesGrow.branchName}" />
+					<input class="uinp ub ub-f1" type="text" id="branchName" name="branchName"/><%--  value="${branchesGrow.branchName}"  --%>
 					<div class="uinp-more" onclick="selectBranches()" >...</div>
 	           </div>
                <div class="ub ub-ac umar-r60">
@@ -68,7 +68,6 @@
 				<div class="ub ub-ac umar-r60">
 					<div class="umar-r10 uw-80 ut-r">单据编号:</div>
 					<input type="text" name="formNo" id="formNo" class="uinp" readonly="readonly"/>
-					<!-- <div class="uinp-more" id="cashierIdSelect" onclick="selectGoods()">...</div> -->
 				</div>
 			</div>
             <div class="ub umar-t8">
