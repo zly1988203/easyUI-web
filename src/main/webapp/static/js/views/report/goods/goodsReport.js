@@ -321,7 +321,7 @@ function searchBind(){
 function searchBranch (){
 	new publicAgencyService(function(data){
 	$("#branchName").val(data.branchName);
-	});
+	},"","");
 }
 
 /**
