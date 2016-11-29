@@ -38,7 +38,8 @@ function initModifyPriceGrid() {
         columns: [[
             {field: 'formNo', title: '单号', width: '135px', align: 'left',
                 formatter: function(value,row,index){
-                    return "<a href="+contextPath+"/goods/priceAdjust/showDetail?formNo="+value+" class='ualine'>"+value+"</a>";
+                	var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看调价单详细\',\''+contextPath+'/goods/priceAdjust/showDetail?formNo='+value+'\')">' + value + '</a>';
+                	return strHtml;
                 }
             },
             {field: 'status', title: '审核状态', width:'90px', align: 'left',
@@ -73,7 +74,7 @@ function initModifyPriceGrid() {
 }
 //新增
 function addModifyDataGrid(){
-	window.location.href=contextPath+"/goods/priceAdjust/addFormView";
+	toAddTab("新增调价单",contextPath + "/goods/priceAdjust/addFormView");
 }
 
 //删单

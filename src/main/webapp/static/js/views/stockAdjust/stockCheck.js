@@ -674,5 +674,5 @@ function exportExcel(){
  * 返回库存调整
  */
 function back(){
-	location.href = contextPath+"/stock/adjust/list";
+	toClose();
 }

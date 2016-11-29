@@ -36,7 +36,8 @@ function initDatagridRequireOrders(){
         columns:[[
 			{field:'check',checkbox:true},
             {field:'adjustNo',title:'单号',width:'135px',align:'left',formatter:function(value,row,index){
-            	return "<a style='text-decoration: underline;' href='"+ contextPath +"/cost/costAdjust/edit?id="+ row.id +"'>" + value + "</a>"
+            	var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看成本调价单详细\',\''+contextPath+'/cost/costAdjust/edit?id='+row.id+'\')">' + value + '</a>';
+            	return strHtml;
             }},
             {field:'status',title: '审核状态', width: '100px', align: 'left',
             	   formatter: function(value,row,index){
@@ -97,7 +98,7 @@ function initDatagridRequireOrders(){
 
 //新增入库单
 function addStockForm(){
-	location.href = contextPath + "/cost/costAdjust/add";
+	toAddTab("新增成本调价单",contextPath + "/cost/costAdjust/add");
 }
 
 //查询入库单
