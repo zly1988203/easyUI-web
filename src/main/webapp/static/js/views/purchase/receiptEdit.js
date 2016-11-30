@@ -646,3 +646,7 @@ function selectPurchaseForm(){
 function back(){
 	location.href = contextPath+"/form/purchase/receiptList";
 }
+
+function receiptAdd(){
+	toAddTab("新增采购收货单",contextPath + "/form/purchase/receiptAdd");
+}
