@@ -1132,7 +1132,8 @@ function selectGoods(searchKey){
         var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
         var addDefaultData  = gridHandel.addDefault(data,gridDefault);
         var keyNames = {
-        		skuId:'goodsSkuId'
+        		skuId:'goodsSkuId',
+        		salePrice:'price'
         };
         var rows = gFunUpdateKey(addDefaultData,keyNames);
         var argWhere ={skuCode:1};  // 验证重复性
@@ -1284,7 +1285,7 @@ function saveActivity(){
   }
 // 活动满减验证
   else if(activityType=="5"){
-	 
+	 debugger;
 	  $("#salesetmj").datagrid("endEdit", gridHandelMj.getSelectRowIndex());
 	  var setrows=$('#salesetmj').datagrid('getRows');
 		  if(activityScopemj=="0"){  
@@ -1473,15 +1474,14 @@ function saveDataHandel(rows,setrows){
 	// 活动状态为满减 -商品
 	  if(activityScopemj=="0"){
 		  $.each(rows,function(i,data){
-		      var goods = {
-		    	  goodsSkuId: data.goodsSkuId,
-		      }
+		      var _goodsSkuId = data.goodsSkuId;
+		      
 		      $.each(setrows,function(i,data){
 			      var fullCutData = {
 			    	  limitAmount:data.limitAmount,
 			          discountPrice:data.discountPrice,
 			      }
-			      var goodsFullCut = $.extend(goods,fullCutData);
+			      var goodsFullCut = $.extend({goodsSkuId:_goodsSkuId}, fullCutData);
 			      
 			      reqObj.detailList.push(goodsFullCut);
 			      
@@ -1492,16 +1492,18 @@ function saveDataHandel(rows,setrows){
 	//活动状态为满减 -商品
 	  else if(activityScopemj=="1"){
 		  $.each(rows,function(i,data){
-		      var goods = {
-		    	  goodsCategoryId:data.goodsCategoryId,
-				  goodsCategoryCode:data.goodsCategoryCode,
-		      }
+		      var _goodsCategoryId = data.goodsCategoryId;
+		      var _goodsCategoryCode = data.goodsCategoryCode;
+		      
 		      $.each(setrows,function(i,data){
 			      var fullCutData = {
 			    	  limitAmount:data.limitAmount,
 			          discountPrice:data.discountPrice,
 			      }
-			      var goodsFullCut = $.extend(goods,fullCutData);
+			      var goodsFullCut = $.extend({
+			    	  goodsCategoryId:_goodsCategoryId,
+			    	  goodsCategoryCode:_goodsCategoryCode
+			      },fullCutData);
 			      
 			      reqObj.detailList.push(goodsFullCut);
 			      

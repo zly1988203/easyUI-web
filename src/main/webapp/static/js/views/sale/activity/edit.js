@@ -69,19 +69,19 @@ function  editstart(selectType){
 		    		//星期字符串处理
 		    		StrweekCheckDay(strweek);
 		    		//组合结构显示和id
-		    		var branchesId="";
+		    		var branchIds="";
 		    		var branchName="";
 		    		$.each(data.branch,function(i,v){
 		    			if(!v.branchName&&!v.branchCode){
 		    				return;
 		    			}
 		    			branchName+="["+v.branchCode+"]"+v.branchName+",";
-		    			branchesId=v.branchesId+","+branchesId;
+		    			branchIds = v.branchId+"," + branchIds;
 		    		 });
-		    		 branchesId = branchesId.substring(0,branchesId.length - 1);
+		    		 branchIds = branchIds.substring(0,branchIds.length - 1);
 		    		 branchName = branchName.substring(0,branchName.length - 1);
 		    		 $('#branchName').val(branchName);
-		    		 $('#branchIds').val(branchesId);
+		    		 $('#branchIds').val(branchIds);
                     //combobox 下拉赋值和禁止选择
   		    		$("#activityType").combobox('select',activtype);  
   		    		$("#activityType").combobox("disable");
@@ -1695,6 +1695,8 @@ function saveDataHandel(rows,setrows){
 		  });
 	  }
   }
+  
+  reqObj['id'] = $("#activityId").val();
   var req = JSON.stringify(reqObj);
   console.log(req)
   $.ajax({
