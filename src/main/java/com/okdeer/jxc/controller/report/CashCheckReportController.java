@@ -15,6 +15,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.PrintConstant;
+import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.StringUtils;
@@ -144,20 +146,26 @@ public class CashCheckReportController extends BaseController<CashCheckReportCon
 	 */
 	@RequestMapping(value = "/exportList")
 	@ResponseBody
-	public String exportList(HttpServletResponse response, CashCheckReportQo qo) {
+	public RespJson exportList(HttpServletResponse response, CashCheckReportQo qo) {
 		LOG.info("收银对账导出查询参数:{}" + qo.toString());
 		try {
 			qo = buildDefaultParams(qo);
 			qo.setEndCount(qo.getEndCount()-qo.getStartCount());
 			List<CashCheckReportVo> exportList = cashCheckReportService.queryList(qo);
-			
-			CashCheckReportVo vo = cashCheckReportService.queryListSum(qo);
-			exportList.add(vo);
-			String fileName = "收银对账" + "_" + DateUtils.getCurrSmallStr();
-			String templateName = ExportExcelConstant.CASHCHECKREPORT;
-			exportListForXLSX(response, exportList, fileName, templateName);
+			if(CollectionUtils.isNotEmpty(exportList)){
+				CashCheckReportVo vo = cashCheckReportService.queryListSum(qo);
+				exportList.add(vo);
+				String fileName = "收银对账" + "_" + DateUtils.getCurrSmallStr();
+				String templateName = ExportExcelConstant.CASHCHECKREPORT;
+				exportListForXLSX(response, exportList, fileName, templateName);
+			}else{
+				RespJson json = RespJson.error("无数据可导");
+				return json;
+			}
 		} catch (Exception e) {
 			LOG.error("收银对账导出查询异常:", e);
+			RespJson json = RespJson.error("导出失败");
+			return json;
 		}
 		return null;
 	}
