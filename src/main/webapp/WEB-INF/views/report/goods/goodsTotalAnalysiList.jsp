@@ -35,10 +35,10 @@
                 <div class="ub ub-ac">
                    <div class="umar-r10 uw-80 ut-r">查询类型:</div>
                     <div class="ub ub-ac umar-r10 ">
-                        <label> <input class="ub radioItem" id="goodsTotal"  type="radio" name="searchType" value="goodsTotal" checked="checked"/> 商品汇总</label>
+                        <label> <input class="radioItem" id="goodsTotal"  type="radio" name="searchType" value="goodsTotal" checked="checked"/> 商品汇总</label>
                     </div>
                     <div class="ub ub-ac  uh-36">
-                      <label class="umar-r10"><input class="ub radioItem" id="categoryTotal" type="radio" name="searchType" value="categoryTotal" />大类汇总</label>
+                      <label class="umar-r10"><input class=" radioItem" id="categoryTotal" type="radio" name="searchType" value="categoryTotal" />大类汇总</label>
                       <!-- <div id="categoryTypeDiv">
 						  <select class="uselect easyui-combobox" name="categoryType" id="categoryType" data-options="editable:false,onChange:onChangeCategoryType" >
 							  <option value="smallCategory">小类</option>
@@ -48,7 +48,7 @@
 					  </div> -->
                   </div>
                     <div class="ub ub-ac umar-r10">
-                         <label> <input class="ub radioItem"  type="radio" name="searchType" value="branchTotal"  /> 店铺汇总</label>
+                         <label> <input class="radioItem"  type="radio" name="searchType" value="branchTotal"  />店铺汇总</label>
                     </div>
                 </div>
                  <div class="ub ub-ac umar-r40">
