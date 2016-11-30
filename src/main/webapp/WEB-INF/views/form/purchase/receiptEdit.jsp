@@ -15,7 +15,9 @@
     <div class="ub ub-ver ub-f1 umar-4  ubor">
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
-        
+                <shiro:hasPermission name="JxcPurchaseReceipt:add">
+	                <div class="ubtns-item" onclick="receiptAdd()">新增</div>
+	            </shiro:hasPermission>
                 <div class="ubtns-item" onclick="saveItemHandel()">保存</div>
             
             <shiro:hasPermission name="JxcPurchaseReceipt:audit">
@@ -28,7 +30,7 @@
              <shiro:hasPermission name="JxcPurchaseReceipt:print">
                 <div class="ubtns-item" onclick="printDesign()">打印</div>
              </shiro:hasPermission>
-                <div class="ubtns-item"  onclick="back()">关闭</div>
+                <div class="ubtns-item" onclick="toClose()">关闭</div>
             </div>
         </div>
         <div class="ub umar-t8 uc-black">【单号】:<span >${form.formNo}</span></div>

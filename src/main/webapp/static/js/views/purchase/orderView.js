@@ -120,7 +120,7 @@ function back(){
 }
 
 function orderAdd(){
-	location.href = contextPath + "/form/purchase/orderAdd";
+	toAddTab("新增采购订单",contextPath + "/form/purchase/orderAdd");
 }
 
 function stop(){
@@ -150,4 +150,3 @@ function stop(){
 		}
 	});
 }
-

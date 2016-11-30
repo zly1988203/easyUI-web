@@ -667,3 +667,7 @@ function getImportData(data){
     $("#"+gridHandel.getGridName()).datagrid("loadData",newRows);
     messager("导入成功");
 }
+
+function orderAdd(){
+	toAddTab("新增采购订单",contextPath + "/form/purchase/orderAdd");
+}

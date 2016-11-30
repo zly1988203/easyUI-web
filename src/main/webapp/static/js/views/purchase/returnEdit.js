@@ -789,6 +789,10 @@ function getImportData(data){
     messager("导入成功");
 }
 
+function receiptAdd(){
+	toAddTab("新增采购退货订单",contextPath + "/form/purchase/returnAdd");
+}
+
 //返回列表页面
 function back(){
 	location.href = contextPath+"/form/purchase/returnList";

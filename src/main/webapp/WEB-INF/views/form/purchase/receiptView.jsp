@@ -24,7 +24,7 @@
                 <div class="ubtns-item" onclick="printChoose('PI','/form/purchase/')">打印</div>
                 </shiro:hasPermission>
                 <div class="ubtns-item" onclick="exportData('PI');">导出明细</div>
-                <div class="ubtns-item" id="toBackByJSButton"  onclick="back()">关闭</div>
+                <div class="ubtns-item" id="toBackByJSButton" onclick="toClose()">关闭</div>
             </div>
         </div>
         <div class="ub umar-t8 uc-black">【单号】:<span >${form.formNo}</span></div>
