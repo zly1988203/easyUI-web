@@ -58,7 +58,7 @@
 		               		<div class="ubtns-item" id="set" onclick="gFunRefresh()">重置</div>
 	                </c:if>
                <%--  <div class="ubtns-item" onclick="printDesign('${goodsPriceForm.formNo}')">打印</div> --%>
-                <div class="ubtns-item" id="toBackByJSButton" onclick="back()">返回</div>
+                <div class="ubtns-item" id="toBackByJSButton" onclick="back()">关闭</div>
                 <input type="hidden" id="close" value="${close}"/>
             </div>
         </div>
