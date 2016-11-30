@@ -383,7 +383,7 @@ function searchBranch (){
 function toImportproduct(type){
     var branchId = $("#branchId").val();
     if(!branchId){
-        messager("请先选择收货机构");
+        messager("请先选择机构名称");
         return;
     }
     var param = {
