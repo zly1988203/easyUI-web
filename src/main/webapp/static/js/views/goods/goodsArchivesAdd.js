@@ -68,20 +68,6 @@ function initGoodsView(data,flag){
 			}
 		});
 	});
-/*	$("#barCode").attr("readonly","readonly");
-*///	$(document).ready(function(){ 
-//	$('#pricingType').change(function(){ 
-//	alert("AAAAAAAAAA");
-//	}) 
-//	}) ;
-
-	//生成毛利值，毛利率
-//	$('#salePrice').on("input",function(){
-//	setGrossProfit();
-//	});
-//	$('#purchasePrice').on("input",function(){
-//	setGrossProfit();
-//	});
 }
 //获取列表复制的值
 function getSelectionRow(data){
