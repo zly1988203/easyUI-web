@@ -71,13 +71,13 @@
 	            <div class="ub ub-ac umar-r40 ">
 	                <div class="umar-r10 uw-60 ut-r">商品过滤:</div>
 	                <div class="ub ub-ac umar-r10  checkstatue">
-	                    <label for="status_0"><input class="ub radioItem" type="radio" name="status" value="0" id="status_0" />机构已有商品</label>
+	                    <label for="status_0"><input class="radioItem" type="radio" name="status" value="0" id="status_0" />机构已有商品</label>
 	                </div>
 	                <div class="ub ub-ac umar-r10 checkstatue">
-	                    <label for="status_1"><input class="ub radioItem" type="radio" name="status" value="1" id="status_1" checked="checked"/>机构未引入商品</label>
+	                    <label for="status_1"><input class="radioItem" type="radio" name="status" value="1" id="status_1" checked="checked"/>机构未引入商品</label>
 	                </div>
 	                <div class="ub ub-ac umar-r10 checkstatue">
-	                    <label for="status_2"><input class="ub radioItem" type="radio" name="status" value="2" id="status_2"/>所有</label>
+	                    <label for="status_2"><input class="radioItem" type="radio" name="status" value="2" id="status_2"/>所有</label>
 	                </div>
 	            </div>
 	        </div>
