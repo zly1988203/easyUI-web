@@ -9,6 +9,7 @@ package com.okdeer.jxc.controller.goods;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -125,9 +126,16 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 			vo.setPageSize(pageSize);
 			// 如果页面上有传入机构 则选择页面上的
 			// 没有传入机构则选择登录机构
-			if (StringUtils.isEmpty(vo.getBranchId())) {
+			String branchId = vo.getBranchId();
+			if (StringUtils.isEmpty(branchId)) {
 				vo.setBranchId(UserUtil.getCurrBranchId());
 			}
+			// 多机构查询
+			if (branchId.indexOf(",") != -1) {
+				vo.setBranchId("");
+				vo.setBranchIds(Arrays.asList(branchId.split(",")));
+			}
+
 			//如果formType 是属于配送中的数据 说明不需要管理库存
 			if(FormType.DA.name().equals(vo.getFormType())||FormType.DO.name().equals(vo.getFormType())
 					||FormType.DI.name().equals(vo.getFormType())||FormType.DR.name().equals(vo.getFormType())) {
@@ -291,8 +299,14 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 			if(StringUtils.isEmpty(branchId)) {
 				branchId=UserUtil.getCurrBranchId();
 			}
+			List<String> branchIds = new ArrayList<String>(0);
+			// 多机构查询
+			if (branchId.indexOf(",") != -1) {
+				branchIds = Arrays.asList(branchId.split(","));
+				branchId = "";
+			}
 			// 根据有无skuCodes传来数据 空表示是导入货号 有数据表示导入数据
-			List<GoodsSelect> suppliers = goodsSelectServiceApi.queryByCodeLists(skuCodes, branchId);
+			List<GoodsSelect> suppliers = goodsSelectServiceApi.queryByCodeLists(skuCodes, branchId, branchIds);
 			LOG.info("根据货号批量查询商品参数:{}" + suppliers.toString());
 			return suppliers;
 		} catch (Exception e) {
