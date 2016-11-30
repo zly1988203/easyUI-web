@@ -265,7 +265,6 @@ function getGoodsArchivesDetail(id){
 
 			}
 		});
-		//debugger;
 		$("#saleWay").val(updateSku.saleWay);
 		if(updateSku.saleWay=='A'){
 			$('#supplierRate').textbox('disable'); 

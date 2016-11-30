@@ -35,7 +35,6 @@ function initTreeArchives(){
 }
 //选择树节点
 function zTreeOnClick(event, treeId, treeNode) {
-    debugger;
     gVarBranchId = treeNode.id;
     searchHandel();
 }
@@ -124,7 +123,6 @@ function delHandel(){
     if($("#gridSupplierAreaList").datagrid("getSelections").length <= 0){
         $.messager.alert('提示','请选中一行进行删除！');
     }else {
-        debugger;
         var row = $("#gridSupplierAreaList").datagrid("getSelections");
         var formData = {areaId:row[0].areaId};
         $.ajax({

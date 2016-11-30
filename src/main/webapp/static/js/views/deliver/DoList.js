@@ -95,7 +95,6 @@ function queryForm(){
 //删除
 function delDeliverForm(){
 	var dg = $("#deliverFormList");
-	debugger;
 	var row = dg.datagrid("getChecked");
 	var ids = [];
 	for(var i=0; i<row.length; i++){

@@ -279,7 +279,6 @@ function initDatagridEditRequireOrder(){
                 rows[i]["oldDefectNum"] = oldDefectNum
                 var defectNum = parseFloat(rows[i]["sourceStock"]||0)-parseFloat(rows[i]["dealNum"]||0);
                 defectNum = defectNum<0?-defectNum:0;
-                debugger;
                 if(parseFloat(oldDefectNum)!=parseFloat(defectNum)&&parseInt(defectNum)!=0){
                     isError = true;
                 }

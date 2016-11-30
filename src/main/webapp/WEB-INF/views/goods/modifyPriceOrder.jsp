@@ -35,10 +35,7 @@
         </div>
         <div class="ub umar-t8 uc-black"></div>
         <div class="ub uline umar-t8"></div>
-
         <div class="ub ub-ver ub-f1 ">
-
-
 	            <div class="ub umar-t8">
 	                <div class="ub ub-ac">
 	                    <div class="umar-r10 uw-70 ut-r">单据编号:</div>
@@ -76,7 +73,6 @@
 	                    </div>
 	                </div>
            		 </div>
-
         </div>
 		</form>
 		<div class="ub umar-t8 umar-b8">【单据信息】</div>
@@ -84,7 +80,5 @@
 			<table id="modifyPriceGrid"></table>
 		</div>
     </div>
-
-
 </body>
 </html>
