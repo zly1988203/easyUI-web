@@ -101,7 +101,7 @@ function searchCategory(){
  * 商品状态加载完成
  */
 function comboboxGoodsStatus(data){
-	$("#status").combobox("setValue","正常");
+	$("#status").combobox("setValue","0");
 }
 
 /**
