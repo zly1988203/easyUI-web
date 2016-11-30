@@ -122,6 +122,16 @@ function onChangequantity(newV,oldV) {
     }
     var priceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
     gridHandel.setFieldValue('amount',priceValue*newV);//金额=数量*单价
+    
+    if(oldV){
+    	 $("#gridEditOrder").datagrid("endEdit", gridHandel.getSelectRowIndex());
+    }
+    var rows = gridHandel.getRows();
+    var totalAmount = 0;
+    for(var i in rows){
+    	totalAmount += ( parseFloat(rows[i]['amount']) );
+    }
+    $("#totalAmount").val(totalAmount.toFixed(4));
 }
 
 //插入一行
@@ -183,7 +193,6 @@ function selectGoods(searchKey){
 
 //保存
 function saveItemHandel(){
-
     $("#gridEditOrder").datagrid("endEdit", gridHandel.getSelectRowIndex());
 
     var rows = gridHandel.getRows();
@@ -230,16 +239,21 @@ function saveItemHandel(){
 }
 
 function saveDataHandel(rows){
+	 //采购员
+    var salesmanId = $("#salesmanId").val();
+    
+	if(!salesmanId){
+		messager("收银员不能为空");
+		return ;
+	}
+	
     //商品总数量
     var totalNum = 0;
     //总金额
     var amount=0;
     //收货机构
     var branchId = $("#branchId").val();
-    //交货期限
-    var deliverTime = $("#deliverTime").val();
-    //采购员
-    var salesmanId = $("#salesmanId").val();
+   
     
     for(var i in rows){
     	amount += parseFloat(rows[i].amount);
@@ -250,9 +264,8 @@ function saveDataHandel(rows){
         token:"0",
         machinecode:"01",
         userId:salesmanId,
-        amount:"0",
         data:{
-        	amount:"0",
+        	amount:amount,
         	list:rows
         }
     };
@@ -265,6 +278,69 @@ function saveDataHandel(rows){
         contentType:'application/json',
         data:req,
         success:function(result){
+        	$("#textDialog").dialog('open');
+        	
+        	payInfo = result.data;
+        	
+        	$("#orderId").html(payInfo.orderId);
+        	$("#prepayId").html(payInfo.prepayId);
+        	
+        	$("#orderTotalAmount").html(payInfo.totalAmount);
+        	$("#saleAmount").html(payInfo.saleAmount);
+        	$("#discountAmount").html(payInfo.discountAmount);
+        	$("#subZeroAmount").html(payInfo.subZeroAmount);
+        	$("#paymentAmount").html(payInfo.paymentAmount);
+        	
+        	$("#receiveAmount").val(payInfo.paymentAmount);
+        	
+        	var list = payInfo.tradeOrderItems;
+        	
+        	var line = "";
+        	line += "<tr>";
+        	line += "<th>skuId</th>";
+        	line += "<th>货号</th>";
+        	line += "<th>原单价</th>";
+        	line += "<th>单价</th>";
+        	line += "<th>数量</th>";
+        	line += "<th>小计</th>";
+        	line += "<th>活动类型</th>";
+        	line += "</tr>";
+        	
+        	
+        	for(var i in list){
+        		var item = list[i];
+        		var str = "<tr>";
+        		str += ("<td>" + item.skuId + "</td>");
+        		str += ("<td>" + item.skuCode + "</td/>");
+        		str += ("<td>" + item.originalPrice + "</td/>");
+        		str += ("<td>" + item.salePrice + "</td>");
+        		str += ("<td>" + item.saleNum + "</td>");
+        		str += ("<td>" + item.saleAmount + "</td>");
+        		
+        		if(item.activityType == 1){
+        			str += ("<td>特价</td>");
+        		}else if(item.activityType == 2){
+        			str += ("<td>折扣</td>");
+        		}else if(item.activityType == 3){
+        			str += ("<td>偶数特价</td>");
+        		}else if(item.activityType == 4){
+        			str += ("<td>换购</td>");
+        		}else if(item.activityType == 5){
+        			str += ("<td>满减</td>");
+        		}else if(item.activityType == 6){
+        			str += ("<td>组合商品</td>");
+        		}else{
+        			str += ("<td>普通商品</td>");
+        		}
+        		
+        		str += "</tr>";
+        		
+        		line += str;
+        	}
+        	
+        	$("#goodsList").html(line);
+        	
+        	
             console.log(result);
         },
         error:function(result){
@@ -272,6 +348,49 @@ function saveDataHandel(rows){
         }
     });
 
+}
+var payInfo = {};
+
+function pay(){
+	
+	var payWay = $("input[name='payWay']:checked").val();
+	var receiveAmount = $("#receiveAmount").val();
+	var paymentCode = $("#paymentCode").val();
+	
+	var branchId = $("#branchId").val();
+	var branchCode = $("#branchCode").val();
+	   
+	var salesmanId = $("#salesmanId").val();
+	
+	var reqObj = {
+        branchId:branchId,
+        branchCode:branchCode,
+        token:"0",
+        machinecode:"0A1B2C",
+        userId:salesmanId,
+        posNo:"01",
+        data:{
+        	prepayId : payInfo.prepayId,
+        	payWay : payWay,
+        	receiveAmount : receiveAmount,
+        	paymentCode : paymentCode
+        }
+    };
+	
+	var req = JSON.stringify(reqObj);
+	
+	$.ajax({
+		url:contextPath+"/order/order/pay",
+		type:"POST",
+		contentType:'application/json',
+		data:req,
+		success:function(result){
+			console.log(result);
+		},
+		error:function(result){
+			console.log(result);
+		}
+	});
 }
 
 function selectOperator(){
@@ -282,7 +401,9 @@ function selectOperator(){
 }
 function selectBranch(){
     new publicBranchService(function(data){
+    	console.log(data);
         $("#branchId").val(data.branchesId);
+        $("#branchCode").val(data.branchCode);
         $("#branchName").val("["+data.branchCode+"]"+data.branchName);
     },0);
 }

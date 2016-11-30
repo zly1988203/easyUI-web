@@ -27,7 +27,7 @@
             </div> 
  			<input type="hidden"  name="activityId" id="activityId" value="${activityId}">
 	        <div class="ub uline umar-t8"></div>
-	         <div class="already-examine" id="already-examine"><span>已审核</span></div>
+	        <div class="already-examine" id="already-examine"><span>已审核</span></div>
 	        <div class="ub umar-t8">
 	           <!--  <div class="ub ub-ac ">
 	                <div class="umar-r10 uw-80 ut-r">活动编号:</div>

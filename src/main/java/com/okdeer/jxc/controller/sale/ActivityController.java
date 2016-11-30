@@ -181,7 +181,11 @@ public class ActivityController {
 			String validMsg = activityVo.validate();
 			
 			if(validMsg != null){
-				return RespJson.businessError(validMsg);
+				return RespJson.argumentError(validMsg);
+			}
+			
+			if(activityVo.getId() == null){
+				return RespJson.argumentError("活动Id不能为空");
 			}
 			
 			//构建活动ActivityMain
@@ -241,6 +245,22 @@ public class ActivityController {
 		} catch (Exception e) {
 			logger.error("审核活动出现异常：",e);
 			return RespJson.error("审核活动出现异常");
+		}
+	}
+	
+	/**
+	 * 终止活动
+	 */
+	@RequestMapping(value = "delete", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson delete(String activityId) {
+		try {
+			logger.debug("删除：activityId：{}",activityId);
+			SysUser user = UserUtil.getUser();
+			return mainServiceApi.delete(activityId, user.getId());
+		} catch (Exception e) {
+			logger.error("删除活动出现异常：",e);
+			return RespJson.error("删除活动出现异常");
 		}
 	}
 	
@@ -333,7 +353,7 @@ public class ActivityController {
 	/**
 	 * 查询活动列表
 	 */
-	@RequestMapping(value = "listData", method = RequestMethod.GET)
+	@RequestMapping(value = "listData", method = RequestMethod.POST)
 	@ResponseBody
 	public PageUtils<Map<String, Object>> listData(ActivityListQueryVo queryVo){
 		try {

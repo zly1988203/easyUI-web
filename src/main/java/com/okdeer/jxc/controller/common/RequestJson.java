@@ -41,6 +41,11 @@ public class RequestJson implements Serializable {
 	 * @Fields branchId : 店铺Id
 	 */
 	private String branchId;
+	
+	/**
+	 * @Fields branchCode : 店铺code
+	 */
+	private String branchCode;
 
 	/**
 	 * @Fields token : token标识
@@ -51,16 +56,25 @@ public class RequestJson implements Serializable {
 	 * @Fields machinecode : 机器编码
 	 */
 	private String machinecode;
+	
+	/**
+	 * @Fields machinecode : pos机编码
+	 */
+	private String posNo;
 
 	/**
 	 * @Fields data : data数据
 	 */
 	private String data;
 
+	/**
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
-		return "RequestJson [userId=" + userId + ", branchId=" + branchId + ", token=" + token + ", machinecode="
-				+ machinecode + ", data=" + data + "]";
+		return "RequestJson [userId=" + userId + ", branchId=" + branchId + ", branchCode=" + branchCode + ", token="
+				+ token + ", machinecode=" + machinecode + ", posNo=" + posNo + ", data=" + data + "]";
 	}
 
 	public String getUserId() {
@@ -99,6 +113,28 @@ public class RequestJson implements Serializable {
 		return data;
 	}
 	
+	public String getBranchCode() {
+		return branchCode;
+	}
+	
+	public void setBranchCode(String branchCode) {
+		this.branchCode = branchCode;
+	}
+	
+	/**
+	 * @return the posNo
+	 */
+	public String getPosNo() {
+		return posNo;
+	}
+	
+	/**
+	 * @param posNo the posNo to set
+	 */
+	public void setPosNo(String posNo) {
+		this.posNo = posNo;
+	}
+
 	public JSONObject getDataJSONObject() {
 		JSONObject obj = JSONObject.fromObject(data);
 		return obj;
