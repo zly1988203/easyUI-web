@@ -102,13 +102,24 @@ function receiptDelete(){
 	if(rowIsNull(row)){
 		return null;
 	}
+	var rows =$("#gridOrders").datagrid("getChecked");
+	if($("#gridOrders").datagrid("getChecked").length <= 0){
+		 $.messager.alert('提示','请选中一行进行删除！');
+		return null;
+	}
+	 var formIds='';
+	    $.each(rows,function(i,v){
+	    	formIds+=v.id+",";
+	    });
+	
+	
 	$.messager.confirm('提示','是否要删除此条数据',function(data){
 		if(data){
 			$.ajax({
 		    	url:contextPath+"/form/purchase/delete",
 		    	type:"POST",
 		    	data:{
-		    		formId:row.id
+		    		formIds:formIds
 		    	},
 		    	success:function(result){
 		    		console.log(result);
