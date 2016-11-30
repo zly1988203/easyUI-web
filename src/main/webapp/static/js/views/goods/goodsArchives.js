@@ -206,7 +206,7 @@ function initDatagridArchives(){
              {field:'originPlace',title:'产地',width:'200px',align:'left'},
              {field:'supplierName',title:'主供应商',width:'200px',align:'left'},
              {field:'saleWay',title:'经营方式',width:'80px',align:'left',hidden:true},
-             {field:'saleWayName',title:'经营方式',width:'100px',align:'left'},
+             {field:'saleWayName',title:'经营方式',width:'100px',align:'center'},
              {field:'supplierRate',title:'联营扣率/代销扣率',width:'80px',align:'right',
                  formatter:function(value,row,index){
                      return ((value||0)*100).toFixed(0)+"%";
@@ -214,30 +214,30 @@ function initDatagridArchives(){
              },
              {field:'purchasePrice',title:'进货价',width:'80px',align:'right',
                  formatter:function(value,row,index){
-                     return (value||0).toFixed(2);
+                     return (value||0).toFixed(4);
                  }
              },
              {field:'salePrice',title:'零售价',width:'80px',align:'right',
                  formatter:function(value,row,index){
-                     return (value||0).toFixed(2);
+                     return (value||0).toFixed(4);
                  }
              },
              {field:'distributionPrice',title:'配送价',width:'80px',align:'right',
                  formatter:function(value,row,index){
-                     return (value||0).toFixed(2);
+                     return (value||0).toFixed(4);
                  }
              },
              {field:'wholesalePrice',title:'批发价',width:'80px',align:'right',
                  formatter:function(value,row,index){
-                     return (value||0).toFixed(2);
+                     return (value||0).toFixed(4);
                  }
              },
              {field:'vipPrice',title:'会员价',width:'80px',align:'right',
                  formatter:function(value,row,index){
-                     return (value||0).toFixed(2);
+                     return (value||0).toFixed(4);
                  }
              },
-             {field:'status',title:'商品状态',width:'80px',align:'left',
+             {field:'status',title:'商品状态',width:'80px',align:'center',
                  formatter:function(value,row,index){
                      if(value){
                          return value.value;
@@ -245,7 +245,7 @@ function initDatagridArchives(){
                      return value;
                  }
              },
-             {field:'pricingType',title:'计价方式',width:'80px',align:'left',
+             {field:'pricingType',title:'计价方式',width:'80px',align:'center',
                 formatter:function(value,row,index){
                     if(value){
                         return value.value;
