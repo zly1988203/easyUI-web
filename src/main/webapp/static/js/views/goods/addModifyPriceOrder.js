@@ -914,13 +914,30 @@ function gFunGoodsSelect(searchKey,branchId){
 			var newRows = gridHandel.checkDatagrid(nowRows,newData,argWhere);
 			console.info(newRows)
 			$("#addModifyPriceGrid").datagrid("loadData",newRows);
-			
-	        gridHandel.setLoadFocus();
-	        setTimeout(function(){
-	            gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
-	            gridHandel.setSelectFieldName("newPurPrice");
-	            gridHandel.setFieldFocus(gridHandel.getFieldTarget('newPurPrice'));
-	        },100)
+			  var fieldName = "";
+			  var fieldNames = {
+					  "purchasePrice":"newPurPrice",
+					  "retailPrice":"newSalePrice",
+					  "distributionPrice":"newDcPrice",
+					  "tradePrice":"newWsPrice",
+					  "memberPrice":"newVipPrice",
+			  }
+		      $('.priceItem:checked').each(function(i){
+		    	  debugger;
+		       if(0==i){
+		    	   fieldName =fieldNames[$(this).attr("id")] ;
+		       }
+		      });
+			  debugger;
+		      if(fieldName){
+		    	  gridHandel.setLoadFocus();
+			        setTimeout(function(){
+			            gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
+			            gridHandel.setSelectFieldName(fieldName);
+			            gridHandel.setFieldFocus(gridHandel.getFieldTarget(fieldName));
+			        },100)
+		      }
+	      
 		},searchKey,0,"","",branchId,"");	
 }
 
