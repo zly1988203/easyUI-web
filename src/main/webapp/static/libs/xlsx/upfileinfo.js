@@ -23,7 +23,6 @@ function s2ab(s) {
 }
 
 function xw_noxfer(data, cb) {
-	debugger;
     var worker = new Worker(XW.noxfer);
     worker.onmessage = function(e) {
         switch(e.data.t) {

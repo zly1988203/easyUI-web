@@ -839,7 +839,6 @@ function updateListData(data){
         	 rows[i]["price"] = 0;
          }
          rows[i]["amount"]  = parseFloat(rows[i]["price"]||0)*parseFloat(rows[i]["dealNum"]||0);
-         debugger;
          if(parseInt(rows[i]["distributionSpec"])){
         	 rows[i]["dealNum"]  = (parseFloat(rows[i]["largeNum"]||0)*parseFloat(rows[i]["distributionSpec"])).toFixed(4);
          }else{

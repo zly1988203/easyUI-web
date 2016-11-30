@@ -609,7 +609,6 @@ function getImportData(data){
 
 // 新的导入功能 货号(0)、条码(1)导入
 function toImportproduct(type){
-	debugger;
 	// 要货机构id
 	var targetBranchId = $("#targetBranchId").val();
 	// 发货机构id

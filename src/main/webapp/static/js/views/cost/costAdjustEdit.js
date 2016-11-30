@@ -254,13 +254,11 @@ function selectStockAndPrice(branchId,data){
 }
 //二次查询设置值
 function setDataValue(data) {
-	debugger;
 	for(var i in data){
     	var rec = data[i];
     	rec.remark = "";
     }
     var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
-	debugger;
     var addDefaultData  = gridHandel.addDefault(data,gridDefault);
     var keyNames = {
 		distributionPrice:'price',
