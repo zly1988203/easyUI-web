@@ -218,7 +218,6 @@ function getGoodsArchivesDetail(id){
 	var args = {}
 	var httpUrl = contextPath+"/common/goods/getGoodsSkuById?id="+id;
 	$.get(httpUrl, args,function(data){
-		console.log("data="+data);
 		updateSku = data["_data"];
 		
 		$.each(data["_data"],function(key,value){
