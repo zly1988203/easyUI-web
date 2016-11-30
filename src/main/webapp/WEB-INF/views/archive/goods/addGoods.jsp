@@ -8,7 +8,7 @@ pageEncoding="UTF-8"%>
     <div class="ub ub-ac upad-4">
         <div class="ubtns">
             <button class="ubtns-item" onclick="saveGoodsArchives()" id="saveGoodsArchives">保存</button>
-            <button class="ubtns-item" onclick="closeDialog()">返回</button>
+            <button class="ubtns-item" onclick="closeDialog()">关闭</button>
         </div>
     </div>
     <div class="ub uline "></div>

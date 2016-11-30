@@ -18,7 +18,7 @@ pageEncoding="UTF-8"%>
 			<shiro:hasPermission name="JxcGoodsArchive:add">
 				<button class="ubtns-item" onclick="copyAddGoodsView()">复制新增</button>
 			</shiro:hasPermission>
-				<button class="ubtns-item" onclick="closeDialog()">返回</button>
+				<button class="ubtns-item" onclick="closeDialog()">关闭</button>
 			</div>
 	</div>
 	<div class="ub uline "></div>
