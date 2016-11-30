@@ -356,7 +356,8 @@ function exportExcel(){
 	$("#exportWin").window("close");
 	$("#queryForm").form({
 		success : function(result){
-			successTip(result);
+			var dataObj=eval("("+result+")");
+			successTip(dataObj.message);
 		}
 	});
 	//获取左侧缓存查询数据

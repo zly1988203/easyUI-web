@@ -15,6 +15,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +28,7 @@ import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.PrintConstant;
+import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.StringUtils;
@@ -120,7 +122,7 @@ public class GoodsReportController extends
 	 */
 	@RequestMapping(value = "/exportList", method = RequestMethod.POST)
 	@ResponseBody
-	public String exportList(HttpServletResponse response, GoodsReportQo qo) {
+	public RespJson exportList(HttpServletResponse response, GoodsReportQo qo) {
 
 		LOG.info("商品查询导出execl：vo" + qo);
 		try {
@@ -130,15 +132,21 @@ public class GoodsReportController extends
 			}
 			qo.setEndCount(qo.getEndCount()-qo.getStartCount());
 			List<GoodsReportVo> exportList = goodsReportService.queryList(qo);
-
+            if(CollectionUtils.isNotEmpty(exportList)){
 			String fileName = "商品查询列表" + "_" + DateUtils.getCurrSmallStr();
 
 			String templateName = ExportExcelConstant.GOODSREPORT;
 
 			exportList = handlePrice(exportList);
 			exportListForXLSX(response, exportList, fileName, templateName);
+			} else {
+				RespJson json = RespJson.error("无数据可导");
+				return json;
+			}
 		} catch (Exception e) {
 			LOG.error("商品查询导出execl出现错误{}", e);
+			RespJson json = RespJson.error("导出失败");
+			return json;
 		}
 		return null;
 	}

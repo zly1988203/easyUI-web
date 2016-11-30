@@ -512,16 +512,16 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 				// 导出Excel
 				list = handleDateReport(list);
 				exportListForXLSX(response, list, fileName, templateName);
-				return null;
 			} else {
 				RespJson json = RespJson.error("无数据可导");
 				return json;
 			}
 		} catch (Exception e) {
 			LOG.error("导出商品失败", e);
-			RespJson json = RespJson.error(e.toString());
+			RespJson json = RespJson.error("导出失败");
 			return json;
 		}
+		return null;
 	}
 	
 	// 导出数据特殊处理

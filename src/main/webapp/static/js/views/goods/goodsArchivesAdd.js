@@ -61,13 +61,6 @@ function initGoodsView(data,flag){
 			minMaxSalePrice();
 		}
 	});
-	$(function(){
-		$("#remark").textbox('textbox').bind('keyup', function(e){
-			if( $("#remark").val().length>100){
-				$("#remark").textbox('setValue', $(this).val().substring(0,100));
-			}
-		});
-	});
 }
 //获取列表复制的值
 function getSelectionRow(data){

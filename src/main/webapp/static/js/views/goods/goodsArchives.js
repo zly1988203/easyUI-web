@@ -422,7 +422,8 @@ function exportExcel(){
 	$("#exportWin").window("close");
 	$("#formGoodsArchives").form({
 		success : function(result){
-			successTip(result);
+			var dataObj=eval("("+result+")");
+			successTip(dataObj.message);
 		}
 	});
 	$("#formGoodsArchives").attr("action",contextPath+"/common/goods/exportGoods");
