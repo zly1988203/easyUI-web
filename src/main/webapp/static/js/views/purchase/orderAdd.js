@@ -86,7 +86,6 @@ function initDatagridEditOrder(){
             {field:'largeNum',title:'箱数',width:'80px',align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
-                        //debugger;
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';

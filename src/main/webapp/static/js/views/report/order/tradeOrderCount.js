@@ -114,7 +114,6 @@ var dg;
  * 导出
  */
 function exportData(){
-	debugger;
 	var length = $('#gridOrders').datagrid('getData').rows.length;
 	if(length == 0){
 		successTip("无数据可导");

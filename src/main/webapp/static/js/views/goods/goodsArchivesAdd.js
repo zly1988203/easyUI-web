@@ -89,7 +89,6 @@ function getSelectionRow(data){
 	if(selectionRow != ""){
 		selectionRow = JSON.parse(unescape(selectionRow));
 		setInputValByObj();
-		//debugger;
 		$("#skuCode").val(null);
 		$("#barCode").val(null);
 	}
@@ -212,7 +211,6 @@ function getMemoryCode(){
 
 //商品自动生成货号
 function getSkuCodeVal(){
-	//debugger;
 	var pricingType = 	$('#pricingType').combobox("getValue");
 	//计件方式为“普通”，需要商品类别生成货号，其他不需要，直接生成货号，并且货号全部都是只可读
 	if(pricingType == ""){
@@ -440,7 +438,6 @@ function pricingTypeChange(){
 	getSkuCodeVal();
 }
 function typeChange(){
-	//debugger;
 	var pricingType = 	$('#type').combobox("getValue");
 	//计件方式为“普通”，需要商品类别生成货号，其他不需要，直接生成货号，并且货号全部都是只可读
 	if(pricingType == ""){

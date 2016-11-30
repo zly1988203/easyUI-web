@@ -9,7 +9,10 @@ var isClickSaveData = false;
 // datagrid对象
 var addModifyPriceGridDg;
 
+var loginBranchId;
+
 $(function() {
+	loginBranchId = $("#loginBranchId").val();
 	// 初始化表格
 	initAddModifyPriceGridEdit();
 	// 初始化复选框
@@ -870,13 +873,14 @@ function selectGoodsDialog(searchKey) {
         return;
     }
     var bool = $("#branchId").val().indexOf(",");
-    // 没有逗号表示机构id只有一个值 查询本机构中的商品
     if(bool<0){
-    	//查询登录机构下商品
+    	// 没有逗号表示机构id只有一个值 查询本机构中的商品
     	branchId=$("#branchId").val();
     	gFunGoodsSelect(searchKey,branchId);
     }else{
-    	gFunGoodsSelect(searchKey);
+    	//查询登录机构下商品
+    	branchId=loginBranchId;
+    	gFunGoodsSelect(searchKey,branchId);
     }
 }
 //商品选择 公共使用
@@ -1095,7 +1099,6 @@ function updateListData(data){
     	              {"newVipPrice":"memberPrice"}
     	             ]
     	$.each(obj,function(key,val){
-			debugger;
 			var d = obj;
 			var c = key;
     		$.each(arrKey,function(i,item){

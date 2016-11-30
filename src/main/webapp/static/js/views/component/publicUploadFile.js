@@ -24,7 +24,6 @@ function fileUrlChange(event){
 function toUploadHandel(){
     var formData = new FormData();
     formData.append("file",$("#file")[0].files[0]);
-    debugger;
     if (typeof(uploadFileParams.branchId)=="undefined") {
     	formData.append("targetBranchId",uploadFileParams.targetBranchId);
     	formData.append("sourceBranchId",uploadFileParams.sourceBranchId);

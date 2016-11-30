@@ -1283,7 +1283,6 @@ function getDetailColumns() {
         var col = gVar.detailColumns[i];
         col.temp_no = gVar.templateNo;
     }
-    debugger;
     return gVar.detailColumns;
 }
 
