@@ -12,7 +12,7 @@ pageEncoding="UTF-8"%>
         </div>
     </div>
     <div class="ub uline "></div>
-    <form id="formGoodsArchivesAdd " style="font-size: 14px;" method="post">
+    <form id="formGoodsArchivesAdd" style="font-size: 14px;" method="post">
         <div class="ub ub-ver ub-ac upad-4">
             <div class="ub upad-4">
                 <div class="ub ub-ac uw-300">
