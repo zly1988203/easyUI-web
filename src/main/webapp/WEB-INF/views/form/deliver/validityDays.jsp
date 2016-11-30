@@ -43,10 +43,10 @@
 				<div class="ub upad-10 ubor-b">
 					<div class="umar-r10 uw-280 ut-r">商品范围:</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="ub" type="radio" id="selectGoodsSpec0" name="selectGoodsSpec" value="0" /><span>发货机构的商品</span>
+						<input class="ub" type="radio" id="selectGoodsSpec0" name="selectGoodsSpec" value="1"/><span>发货机构的商品</span>
 					</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="ub" type="radio" id="selectGoodsSpec1"  name="selectGoodsSpec" value="1"  /><span>进货机构和发货机构的交集的商品</span>
+						<input class="ub" type="radio" id="selectGoodsSpec1"  name="selectGoodsSpec" value="0"/><span>进货机构和发货机构的交集的商品</span>
 					</div>
 				</div>
 			</form>

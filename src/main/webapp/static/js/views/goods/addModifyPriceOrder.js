@@ -878,7 +878,9 @@ function selectGoodsDialog(searchKey) {
         messager("请先选择机构");
         return;
     }
-    var bool = $("#branchId").val().indexOf(",");
+    branchId=$("#branchId").val();
+	gFunGoodsSelect(searchKey,branchId);
+    /*var bool = $("#branchId").val().indexOf(",");
     if(bool<0){
     	// 没有逗号表示机构id只有一个值 查询本机构中的商品
     	branchId=$("#branchId").val();
@@ -887,7 +889,7 @@ function selectGoodsDialog(searchKey) {
     	//查询登录机构下商品
     	branchId=loginBranchId;
     	gFunGoodsSelect(searchKey,branchId);
-    }
+    }*/
 }
 //商品选择 公共使用
 function gFunGoodsSelect(searchKey,branchId){
