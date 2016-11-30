@@ -15,6 +15,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,6 +27,7 @@ import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.PrintConstant;
 import com.okdeer.jxc.common.enums.BusinessTypeEnum;
 import com.okdeer.jxc.common.enums.OrderResourceEnum;
+import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.StringUtils;
@@ -148,7 +150,7 @@ public class CashFlowReportController extends BaseController<CashFlowReportContr
 	 */
 	@RequestMapping(value = "/exportList", method = RequestMethod.POST)
 	@ResponseBody
-	public String exportList(HttpServletResponse response, CashFlowReportQo qo) {
+	public RespJson exportList(HttpServletResponse response, CashFlowReportQo qo) {
 
 		LOG.info("UserController.exportList start ,parameter vo=" + qo);
 		try {
@@ -156,18 +158,24 @@ public class CashFlowReportController extends BaseController<CashFlowReportContr
 			qo = getParmas(qo);
 			qo.setEndCount(qo.getEndCount()-qo.getStartCount());
 			List<CashFlowReportVo> exportList = cashFlowReportService.queryList(qo);
-
-			// 2、查询汇总
-			CashFlowReportVo cashFlowReportVo = cashFlowReportService.queryCashFlowReportSum(qo);
-			exportList.add(cashFlowReportVo);
-			// 3、导出数据特殊处理
-			List<CashFlowReportVo> list = handleCashFlowReport(exportList);
-
-			String fileName = "收银流水报表" + "_" + DateUtils.getCurrSmallStr();
-			String templateName = ExportExcelConstant.CASHFLOWREPORT;
-			exportListForXLSX(response, list, fileName, templateName);
+            if(CollectionUtils.isNotEmpty(exportList)){
+            	// 2、查询汇总
+            	CashFlowReportVo cashFlowReportVo = cashFlowReportService.queryCashFlowReportSum(qo);
+            	exportList.add(cashFlowReportVo);
+            	// 3、导出数据特殊处理
+            	List<CashFlowReportVo> list = handleCashFlowReport(exportList);
+            	
+            	String fileName = "收银流水报表" + "_" + DateUtils.getCurrSmallStr();
+            	String templateName = ExportExcelConstant.CASHFLOWREPORT;
+            	exportListForXLSX(response, list, fileName, templateName);
+            }else{
+            	RespJson json = RespJson.error("无数据可导");
+				return json;
+            }
 		} catch (Exception e) {
 			LOG.error("UserController.exportList Exception:", e);
+			RespJson json = RespJson.error("导出失败");
+			return json;
 		}
 		return null;
 	}

@@ -397,7 +397,8 @@ function exportExcel(){
 	$("#exportWin").window("close");
 	$("#queryForm").form({
 		success : function(result){
-			successTip(result);
+			var dataObj=eval("("+result+")");
+			successTip(dataObj.message);
 		}
 	});
 	$("#queryForm").attr("action",contextPath+"/cashDaily/report/exportList");

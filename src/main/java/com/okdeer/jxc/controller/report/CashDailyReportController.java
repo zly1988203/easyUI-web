@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.PrintConstant;
+import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.StringUtils;
@@ -149,7 +150,7 @@ public class CashDailyReportController extends BaseController<CashDailyReportCon
 	 */
 	@RequestMapping(value = "/exportList", method = RequestMethod.POST)
 	@ResponseBody
-	public String exportList(HttpServletResponse response, CashDailyReportQo qo) {
+	public RespJson exportList(HttpServletResponse response, CashDailyReportQo qo) {
 		LOG.info("收银日报导出查询参数：{}" + qo);
 		try {
 			// 初始化默认参数
@@ -157,17 +158,24 @@ public class CashDailyReportController extends BaseController<CashDailyReportCon
 			// 1、列表查询
 			qo.setEndCount(qo.getEndCount()-qo.getStartCount());
 			List<CashDailyReportVo> list = cashDailyReportService.queryList(qo);
-			// 2、查询合计
-			CashDailyReportVo cashDailyReportVo = cashDailyReportService.queryCashDailyReportSum(qo);
-			if (CollectionUtils.isEmpty(list)) {
-				list = new ArrayList<CashDailyReportVo>();
+			if(CollectionUtils.isNotEmpty(list)){
+				// 2、查询合计
+				CashDailyReportVo cashDailyReportVo = cashDailyReportService.queryCashDailyReportSum(qo);
+				if (CollectionUtils.isEmpty(list)) {
+					list = new ArrayList<CashDailyReportVo>();
+				}
+				list.add(cashDailyReportVo);
+				String fileName = "收银日报" + "_" + DateUtils.getCurrSmallStr();
+				String templateName = ExportExcelConstant.CASHDAILYREPORT;
+				exportListForXLSX(response, list, fileName, templateName);
+			}else{
+				RespJson json = RespJson.error("无数据可导");
+				return json;
 			}
-			list.add(cashDailyReportVo);
-			String fileName = "收银日报" + "_" + DateUtils.getCurrSmallStr();
-			String templateName = ExportExcelConstant.CASHDAILYREPORT;
-			exportListForXLSX(response, list, fileName, templateName);
 		} catch (Exception e) {
 			LOG.error("收银日报导出异常:", e);
+			RespJson json = RespJson.error("导出失败");
+			return json;
 		}
 		return null;
 	}
