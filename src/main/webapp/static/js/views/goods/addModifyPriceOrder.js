@@ -625,7 +625,7 @@ var datagridUtil = {
 	 */
 	isSelectArea : function() {
 		if ($("#branchId").val().trim() == "") {
-			$.messager.alert('提示', '请先选择分店');
+			$.messager.alert('提示', '请先选择机构');
 			gFunEndLoading();
 			return false;
 		} else {
@@ -875,7 +875,7 @@ function selectGoodsDialog(searchKey) {
 	var branchId=null;
 	//判定供应商是否存在
     if($("#branchId").val()==""){
-        messager("请先选择门店");
+        messager("请先选择机构");
         return;
     }
     var bool = $("#branchId").val().indexOf(",");
@@ -1041,7 +1041,7 @@ function exportData(){
 function printDesign(formNo){
 	var branchId=$("#branchId").val();
 	if(!branchId){
-		$.messager.alert('提示',"请先选择分店");
+		$.messager.alert('提示',"请先选择机构");
 	}else{
 		//弹出打印页面
 		parent.addTabPrint('CASheet' + formNo,formNo+'单据打印',contextPath + '/printdesign/design?page=CASheet&controller=/goods/priceAdjust&template=-1&sheetNo=' + formNo + '&gridFlag=CAGrid','');
@@ -1087,7 +1087,7 @@ function toImportproduct(type){
     //}
     var branchId = $("#branchId").val();
     if(!branchId){
-        messager("请先选择收货机构");
+        messager("请先选择机构");
         return;
     }
     var param = {
