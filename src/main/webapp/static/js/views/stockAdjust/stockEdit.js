@@ -232,7 +232,7 @@ function onChangeRealNum(newV,oldV) {
     }
     var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
 	var selectVal=$("#io").combobox('getValue');
-    var newRealNum = parseFloat(Math.round(purchaseSpecValue*newV*100)/100).toFixed(4);
+    var newRealNum = parseFloat(Math.round(purchaseSpecValue*newV)).toFixed(4);
     if(parseFloat(newV)>0){
         gridHandel.setNowEditFieldName("largeNum");
     }
