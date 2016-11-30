@@ -218,7 +218,7 @@ function onChangeLargeNum(newV,oldV){
         messager("没有配送规格,请审查");
         return;
     }
-    var newRealNum = (Math.round(purchaseSpecValue*newV*100)/100).toFixed(4);
+    var newRealNum = (Math.round(purchaseSpecValue*newV)).toFixed(4);
     gridHandel.setFieldValue('applyNum',newRealNum);//数量=商品规格*箱数
    
     updateFooter();

@@ -22,7 +22,7 @@
                 <div class="ubtns-item" onclick="exportExcel()">导出</div>
               <!--    <div class="ubtns-item" onclick="costcheck()">审核</div> -->
                 <!-- <div class="ubtns-item" onclick="delCostForm()">删单</div> -->
-                <div class="ubtns-item" onclick="back()">返回</div>
+                <div class="ubtns-item" onclick="back()">关闭</div>
             </div>
         </div>
         <div class="ub umar-t8 uc-black">【单号】:<span >${data.adjustNo}</span></div>

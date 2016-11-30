@@ -23,7 +23,7 @@
                 <div class="ubtns-item">终止</div>
                 <div class="ubtns-item">设置</div>
                 <div class="ubtns-item">打印</div>
-                <div class="ubtns-item" onclick="toBack()">返回</div>
+                <div class="ubtns-item" onclick="toBack()">关闭</div>
             </div>
         </div>
         <input type="hidden" id="formId" value="${form.id}">
