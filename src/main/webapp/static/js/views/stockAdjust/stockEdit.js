@@ -672,20 +672,25 @@ function updateListData(data){
 	    			if(parseFloat(el["realNum"])>0){
 	    			  el["realNum"]=el["realNum"]*-1;
 	    			  el["largeNum"] =parseFloat(el["realNum"])/parseFloat(el["purchaseSpec"]);
+	    			  el["amount"] =parseFloat(el["realNum"])*parseFloat(el["price"]);
+	    			  
 	    			}
 	    			else{
 	    			  el["realNum"]=el["realNum"];
 	       			  el["largeNum"] =parseFloat(el["realNum"])/parseFloat(el["purchaseSpec"]);
+	       			  el["amount"] =parseFloat(el["realNum"])*parseFloat(el["price"]);
 	    			}
 	    		 }
 	    	   if(parseFloat(el["largeNum"])){
 	    		   if(parseFloat(el["largeNum"])>0){
 	    			   el["largeNum"]=el["largeNum"]*-1;
-	        		   el["realNum"] =parseFloat(el["largeNum"])*parseFloat(el["purchaseSpec"]); 
+	        		   el["realNum"] =parseFloat(el["largeNum"])*parseFloat(el["purchaseSpec"]);
+	        		   el["amount"] =parseFloat(el["largeNum"])*parseFloat(el["price"])*parseFloat(el["purchaseSpec"]);
 	    		   }
 	    		   else{
 	    			   el["largeNum"]=el["largeNum"];
 	      			   el["realNum"] =parseFloat(el["largeNum"])*parseFloat(el["purchaseSpec"]);
+	      			  el["amount"] =parseFloat(el["largeNum"])*parseFloat(el["price"])*parseFloat(el["purchaseSpec"]);
 	    		   }
 	    	}
 	    	}
@@ -694,20 +699,25 @@ function updateListData(data){
 	    			if(parseFloat(el["realNum"])<0){
 	    			  el["realNum"]=el["realNum"]*-1;
 	      			  el["largeNum"] =parseFloat(el["realNum"])/parseFloat(el["purchaseSpec"]);
+	      			  el["amount"] =parseFloat(el["realNum"])*parseFloat(el["price"]);
 	    			}
 	    			else{
 	    			  el["realNum"]=el["realNum"];
 	    			  el["largeNum"] =parseFloat(el["realNum"])/parseFloat(el["purchaseSpec"]);
+	    			  el["amount"] =parseFloat(el["realNum"])*parseFloat(el["price"]);
 	    			 }
 	    		}
 	    		if(parseFloat(el["largeNum"])){
 	    			if(parseFloat(el["largeNum"])<0){
 	    			  el["largeNum"]=el["largeNum"]*-1;
 	    	          el["realNum"] =parseFloat(el["largeNum"])*parseFloat(el["purchaseSpec"]);
+	    	          el["amount"] =parseFloat(el["largeNum"])*parseFloat(el["price"])*parseFloat(el["purchaseSpec"]);
+	       		   
 	    			}
 	    			else{
 	    			 el["largeNum"]=el["largeNum"];
 	    			 el["realNum"] =parseFloat(el["largeNum"])*parseFloat(el["purchaseSpec"]);
+	    			 el["amount"] =parseFloat(el["largeNum"])*parseFloat(el["price"])*parseFloat(el["purchaseSpec"]);
 	    			}
 	    		} 
 		
