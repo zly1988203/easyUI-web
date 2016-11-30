@@ -67,15 +67,21 @@ function initAddModifyPriceGridEdit() {
 
 	        },
 	});
-	addModifyPriceGridDg = $("#" + datagridId)
-		.datagrid(
-			{
+	addModifyPriceGridDg = $("#" + datagridId).datagrid({
 				align : 'center',
+				//toolbar: '#tb',     //工具栏 id为tb
+		        singleSelect:false,  //单选  false多选
+		        rownumbers:true,    //序号
+		        pagination:true,    //分页
+		        fitColumns:true,    //每列占满
+		        //fit:true,            //占满
+		        showFooter:true,
+				height:'600px',
+				width:'100%',
 				data : [ {
 					"rows" : [$.extend({},gridDefault)]
 				} ],
-				singleSelect : false, // 单选 false多选
-				rownumbers : true, // 序号
+				
 				columns : [ [
 					{
 						field : 'ck',
@@ -150,9 +156,9 @@ function initAddModifyPriceGridEdit() {
 						width : '120px',
 						align : 'right',
 						formatter : function(value, row, index) {
-							var str=0.00;
+							var str=0.0000;
 							if(value){
-								str= parseFloat(value).toFixed(2);
+								str= parseFloat(value).toFixed(4);
 							}
 		    				return str;
 		    			},
@@ -169,9 +175,9 @@ function initAddModifyPriceGridEdit() {
 						width : '120px',
 						align : 'right',
 						formatter : function(value, row, index) {
-							var str=0.00;
+							var str=0.0000;
 							if(value){
-								str= parseFloat(value).toFixed(2);
+								str= parseFloat(value).toFixed(4);
 							}
 		    				return str;
 		    			}
@@ -182,9 +188,9 @@ function initAddModifyPriceGridEdit() {
 						width : '120px',
 						align : 'right',
 						formatter : function(value, row, index) {
-							var str=0.00;
+							var str=0.0000;
 							if(value){
-								str= parseFloat(value).toFixed(2);
+								str= parseFloat(value).toFixed(4);
 							}
 		    				return str;
 		    			},
@@ -201,9 +207,9 @@ function initAddModifyPriceGridEdit() {
 						width : '120px',
 						align : 'right',
 						formatter : function(value, row, index) {
-							var str=0.00;
+							var str=0.0000;
 							if(value){
-								str= parseFloat(value).toFixed(2);
+								str= parseFloat(value).toFixed(4);
 							}
 		    				return str;
 		    			}
@@ -214,9 +220,9 @@ function initAddModifyPriceGridEdit() {
 						width : '120px',
 						align : 'right',
 						formatter : function(value, row, index) {
-							var str=0.00;
+							var str=0.0000;
 							if(value){
-								str= parseFloat(value).toFixed(2);
+								str= parseFloat(value).toFixed(4);
 							}
 		    				return str;
 		    			},
@@ -233,9 +239,9 @@ function initAddModifyPriceGridEdit() {
 						width : '120px',
 						align : 'right',
 						formatter : function(value, row, index) {
-							var str=0.00;
+							var str=0.0000;
 							if(value){
-								str= parseFloat(value).toFixed(2);
+								str= parseFloat(value).toFixed(4);
 							}
 		    				return str;
 		    			}
@@ -246,9 +252,9 @@ function initAddModifyPriceGridEdit() {
 						width : '120px',
 						align : 'right',
 						formatter : function(value, row, index) {
-							var str=0.00;
+							var str=0.0000;
 							if(value){
-								str= parseFloat(value).toFixed(2);
+								str= parseFloat(value).toFixed(4);
 							}
 		    				return str;
 		    			},
@@ -265,9 +271,9 @@ function initAddModifyPriceGridEdit() {
 						width : '120px',
 						align : 'right',
 						formatter : function(value, row, index) {
-							var str=0.00;
+							var str=0.0000;
 							if(value){
-								str= parseFloat(value).toFixed(2);
+								str= parseFloat(value).toFixed(4);
 							}
 		    				return str;
 		    			}
@@ -278,9 +284,9 @@ function initAddModifyPriceGridEdit() {
 						width : '120px',
 						align : 'right',
 						formatter : function(value, row, index) {
-							var str=0.00;
+							var str=0.0000;
 							if(value){
-								str= parseFloat(value).toFixed(2);
+								str= parseFloat(value).toFixed(4);
 							}
 		    				return str;
 		    			},

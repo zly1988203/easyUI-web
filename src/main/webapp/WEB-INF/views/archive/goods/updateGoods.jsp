@@ -304,20 +304,20 @@ pageEncoding="UTF-8"%>
 					<div class="umar-r10 uw-60 ut-r">备注:</div>
 					<textarea id="remark" name="remark" class="uh-40 umar-r30 ubor" maxlength="100" style="width: 800px;"></textarea>
 				</div>
-				<div class="ub umar-l32">
-					<div class="ub ub-ac umar-r20">
+				<div class="ub umar-l32" style="position: absolute;left: 0px;">
+					<div class="ub ub-ac umar-r40">
 						<input id="managerStock" name="managerStock" id="managerStock"
 							class="ub" type="checkbox" name="checkbox" /><span>是否管理库存</span>
 					</div>
-					<div class="ub ub-ac umar-r20">
+					<div class="ub ub-ac umar-r40">
 						<input id="highValue" name="highValue" id="highValue" class="ub"
 							type="checkbox" name="checkbox" /><span>是否高值商品</span>
 					</div>
-					<div class="ub ub-ac umar-r20">
+					<div class="ub ub-ac umar-r40">
 						<input id="attention" name="attention" id="attention" class="ub"
 							type="checkbox" name="checkbox" /><span>是否关注商品</span>
 					</div>
-					<div class="ub ub-ac umar-r20">
+					<div class="ub ub-ac umar-r40">
 						<input id="fastDeliver" name="fastDeliver" id="fastDeliver"
 							class="ub" type="checkbox" name="checkbox" /><span>是否速送商品</span>
 					</div>
