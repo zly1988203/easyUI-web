@@ -641,3 +641,8 @@ function getImportData(data){
     $("#"+gridHandel.getGridName()).datagrid("loadData",newRows);
     messager("导入成功");
 }
+
+//新增入库单
+function addDeliverForm(){
+	toAddTab("新增入库单",contextPath + "/form/deliverForm/addDeliverForm?deliverType=DI");
+}

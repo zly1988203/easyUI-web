@@ -19,6 +19,7 @@
             <div class="ubtns">
             	<input type="hidden" id="close" value="${close}"/>
                	<div class="ubtns-item" id="addButton" onclick="addDeliverForm()">新增</div>
+               	<div class="ubtns-item-disabled">终止</div>
             	<div class="ubtns-item" onclick="printChoose('DI','/form/deliverForm/')">打印</div>
             	<div class="ubtns-item"  onclick="exportData('DI','gridEditRequireOrder')">导出明细</div>
             	<div class="ubtns-item"  onclick="exportData('DI','gridEditRequireOrder','1')">导出货号</div>

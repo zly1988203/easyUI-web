@@ -80,7 +80,6 @@ function initDatagridRequireOrders(){
 //新增入库单
 function addDeliverForm(){
 	toAddTab("新增入库单",contextPath + "/form/deliverForm/addDeliverForm?deliverType=DI");
-//	location.href = contextPath + "/form/deliverForm/addDeliverForm?deliverType=DI";
 }
 
 //查询入库单
