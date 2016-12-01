@@ -82,7 +82,7 @@
                          <label> <input class=" radioItem"  type="radio" name="searchType" value="formNoTotal" /> 单据汇总</label>
                   </div>
                   <div class="ub ub-ac  uh-36">
-                      <label class="umar-r10"><input class="ub radioItem" id="categoryTotal" type="radio" name="searchType" value="categoryTotal" />类别汇总</label>
+                      <label class="umar-r10"><input class="radioItem" id="categoryTotal" type="radio" name="searchType" value="categoryTotal" />类别汇总</label>
                       <div id="categoryTypeDiv">
 						  <select class="uselect easyui-combobox" name="categoryType" id="categoryType" data-options="editable:false,onChange:onChangeCategoryType" >
 							  <option value="smallCategory">小类</option>

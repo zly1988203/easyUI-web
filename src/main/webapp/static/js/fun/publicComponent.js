@@ -511,21 +511,25 @@ function callBackHandel(data){
 //公共组件-商品选择
 function publicGoodsService(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId,supplierId){
 	if(key){
-		var url= contextPath + '/goods/goodsSelect/importSkuCode?skuCodes='+key+'&branchId='+branchId+"&supplierId="+supplierId;
-//		if(type=="DA"||type=="DO"){
-//			 url=contextPath + '/goods/goodsSelect/enterSearchGoodsDeliver?skuCode='+key+"&formType="+type+"&sourceBranchId="+sourceBranchId+"&targetBranchId="+targetBranchId;
-//		}
-        $.ajax({
-            url:url,
-            type:'POST',
-            success:function(data){
-            	if(data&&data.length==1){
-            		callback(data);
-                }else{
-                    publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId,supplierId);
-                }
-            }
-        })
+		var urlTemp;
+		if(type=="DA"){
+			branchId = '';
+			urlTemp = contextPath + '/goods/goodsSelect/importSkuCode?skuCodes='+key+'&branchId='+branchId+"&supplierId="+supplierId+"&type="+type+"&sourceBranchId="+sourceBranchId+"&targetBranchId="+targetBranchId;
+			//publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId,supplierId);
+		} else {
+			urlTemp = contextPath + '/goods/goodsSelect/importSkuCode?skuCodes='+key+'&branchId='+branchId+"&supplierId="+supplierId;
+		}
+		$.ajax({
+			url:urlTemp,
+			type:'POST',
+			success:function(data){
+				if(data&&data.length==1){
+					callback(data);
+			}else{
+				publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId,supplierId);
+			}
+		}
+		})
     }else{
         publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId,supplierId);
     }

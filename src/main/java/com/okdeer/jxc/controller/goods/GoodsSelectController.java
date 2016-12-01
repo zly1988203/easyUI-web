@@ -294,20 +294,34 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 	 */
 	@RequestMapping(value = "importSkuCode", method = RequestMethod.POST)
 	@ResponseBody
-	public List<GoodsSelect> importSkuCode(String[] skuCodes,String branchId) {
+	public List<GoodsSelect> importSkuCode(String[] skuCodes, String branchId, String type, String sourceBranchId,
+			String targetBranchId) {
+		List<GoodsSelect> suppliers = null;
 		try {
-			if(StringUtils.isEmpty(branchId)) {
-				branchId=UserUtil.getCurrBranchId();
+			if (FormType.DA.name().equals(type)) {
+				GoodsSelectVo vo = new GoodsSelectVo();
+				vo.setIsManagerStock(1);
+				vo.setTargetBranchId(targetBranchId);
+				vo.setSourceBranchId(sourceBranchId);
+				vo.setSkuCodesOrBarCodes(Arrays.asList(skuCodes));
+				vo.setPageNumber(1);
+				vo.setPageSize(50);
+				PageUtils<GoodsSelect> goodsSelects = getGoodsListDA(vo);
+				suppliers = goodsSelects.getList();
+			} else {
+				if (StringUtils.isEmpty(branchId)) {
+					branchId = UserUtil.getCurrBranchId();
+				}
+				List<String> branchIds = new ArrayList<String>(0);
+				// 多机构查询
+				if (branchId.indexOf(",") != -1) {
+					branchIds = Arrays.asList(branchId.split(","));
+					branchId = "";
+				}
+				// 根据有无skuCodes传来数据 空表示是导入货号 有数据表示导入数据
+				suppliers = goodsSelectServiceApi.queryByCodeLists(skuCodes, branchId, branchIds);
 			}
-			List<String> branchIds = new ArrayList<String>(0);
-			// 多机构查询
-			if (branchId.indexOf(",") != -1) {
-				branchIds = Arrays.asList(branchId.split(","));
-				branchId = "";
-			}
-			// 根据有无skuCodes传来数据 空表示是导入货号 有数据表示导入数据
-			List<GoodsSelect> suppliers = goodsSelectServiceApi.queryByCodeLists(skuCodes, branchId, branchIds);
-			LOG.info("根据货号批量查询商品参数:{}" + suppliers.toString());
+			LOG.info("根据货号查询商品:{}" + suppliers.toString());
 			return suppliers;
 		} catch (Exception e) {
 			LOG.error("查询商品选择数据出现异常:", e);
