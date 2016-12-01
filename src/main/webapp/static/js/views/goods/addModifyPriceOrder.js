@@ -895,8 +895,8 @@ function selectGoodsDialog(searchKey) {
 function gFunGoodsSelect(searchKey,branchId){
 	 new publicGoodsService('PC', function(data) {
 			if(searchKey){
-				$("#gridEditOrder").datagrid("deleteRow", gridHandel.getSelectRowIndex());
-				$("#gridEditOrder").datagrid("acceptChanges");
+				$("#addModifyPriceGrid").datagrid("deleteRow", gridHandel.getSelectRowIndex());
+				$("#addModifyPriceGrid").datagrid("acceptChanges");
 			}
 			var nowRows = gridHandel.getRowsWhere({'skuName':true});
 			//var addDefaultData  = gridHandel.addDefault(data,gridDefault);
