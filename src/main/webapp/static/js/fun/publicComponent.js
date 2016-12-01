@@ -1232,9 +1232,9 @@ function gFunComparisonArray(arg1,arg2){
 /**
  * 显示loading
  */
-function gFunStartLoading(){
+function gFunStartLoading(str){
     $("<div class=\"datagrid-mask\"></div>").css({display:"block",width:"100%",height:$(window).height()}).appendTo("body");
-    $("<div class=\"datagrid-mask-msg\"></div>").html("正在加载，请稍候...").appendTo("body").css({display:"block",left:($(document.body).outerWidth(true) - 190) / 2,top:($(window).height() - 45) / 2});
+    $("<div class=\"datagrid-mask-msg\"></div>").html(str?str:"正在加载，请稍候...").appendTo("body").css({display:"block",left:($(document.body).outerWidth(true) - 190) / 2,top:($(window).height() - 45) / 2});
 }
 /**
  * 关闭loading
