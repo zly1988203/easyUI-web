@@ -150,7 +150,6 @@ public class CashCheckReportController extends BaseController<CashCheckReportCon
 		LOG.info("收银对账导出查询参数:{}" + qo.toString());
 		try {
 			qo = buildDefaultParams(qo);
-			qo.setEndCount(qo.getEndCount()-qo.getStartCount());
 			List<CashCheckReportVo> exportList = cashCheckReportService.queryList(qo);
 			if(CollectionUtils.isNotEmpty(exportList)){
 				CashCheckReportVo vo = cashCheckReportService.queryListSum(qo);

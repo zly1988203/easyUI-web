@@ -128,7 +128,6 @@ public class SaleFlowReportController extends BaseController<SaleFlowReportContr
 			// 设置默认查询条件参数
 			qo = getDefultParmas(qo);
 			// 1、查询列表
-			qo.setEndCount(qo.getEndCount()-qo.getStartCount());
 			List<SaleFlowReportVo> list = saleFlowReportService.querySaleList(qo);
 			if(CollectionUtils.isNotEmpty(list)){
 				// 2、汇总查询

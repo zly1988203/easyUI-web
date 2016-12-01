@@ -156,7 +156,6 @@ public class CashDailyReportController extends BaseController<CashDailyReportCon
 			// 初始化默认参数
 			qo = buildDefaultParams(qo);
 			// 1、列表查询
-			qo.setEndCount(qo.getEndCount()-qo.getStartCount());
 			List<CashDailyReportVo> list = cashDailyReportService.queryList(qo);
 			if(CollectionUtils.isNotEmpty(list)){
 				// 2、查询合计
