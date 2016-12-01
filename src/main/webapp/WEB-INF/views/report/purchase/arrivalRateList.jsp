@@ -66,16 +66,16 @@
 	            <div class="ub ub-ac">
 	                <div class="umar-r10 uw-70 ut-r">查询类型:</div>
 	                <div class="ub ub-ac umar-r10">
-	                    <input class="ub radioItem" type="radio" name="type" id="deal0" value="0" checked="checked"/><label for="deal0">按单 </label>
+	                    <input class="radioItem" type="radio" name="type" id="deal0" value="0" checked="checked"/><label for="deal0">按单 </label>
 	                </div>
 	                <div class="ub ub-ac umar-r10">
-	                    <input class="ub radioItem" type="radio" name="type" id="deal2" value="1"/><label for="deal2">供应商 </label>
+	                    <input class="radioItem" type="radio" name="type" id="deal2" value="1"/><label for="deal2">供应商 </label>
 	                </div>
 					<div class="ub ub-ac umar-r10">
-						<input class="ub radioItem" type="radio" name="type" id="deal3" value="2" /><label for="deal3">类别</label>
+						<input class="radioItem" type="radio" name="type" id="deal3" value="2" /><label for="deal3">类别</label>
 					</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="ub radioItem" type="radio" name="type" id="deal3" value="3" /><label for="deal3">商品</label>
+						<input class="radioItem" type="radio" name="type" id="deal3" value="3" /><label for="deal3">商品</label>
 					</div>
 	            </div>
 	        </div>

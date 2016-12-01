@@ -55,34 +55,34 @@
 	            <div class="ub ub-ac umar-r40">
 	                <div class="umar-r10 uw-60 ut-r">审核状态:</div>
 	                <div class="ub ub-ac umar-r10">
-	                    <input class="ub radioItem" type="radio" name="status" id="status_no" value="0" checked="checked"/><label for="status_no">未审核 </label>
+	                    <input class="radioItem" type="radio" name="status" id="status_no" value="0" checked="checked"/><label for="status_no">未审核 </label>
 	                </div>
 	                <div class="ub ub-ac umar-r10">
-	                    <input class="ub radioItem" type="radio" name="status" id="status_yes" value="1"/><label for="status_yes">已审核 </label>
+	                    <input class="radioItem" type="radio" name="status" id="status_yes" value="1"/><label for="status_yes">已审核 </label>
 	                </div>
 	                <!-- <div class="ub ub-ac umar-r10">
 	                    <input class="ub" type="radio" name="status" value="2"/><span>不通过 </span>
 	                </div> -->
 	                <div class="ub ub-ac umar-r10">
-	                    <input class="ub radioItem" type="radio" name="status" id="status_all" value=""/><label for="status_all">全部</label>
+	                    <input class="radioItem" type="radio" name="status" id="status_all" value=""/><label for="status_all">全部</label>
 	                </div>
 	            </div>
 	            <div class="ub ub-ac umar-l20">
 	                <div class="umar-r10 uw-60 ut-r">单据状态:</div>
 	                <div class="ub ub-ac umar-r10">
-	                    <input class="ub radioItem" type="radio" name="dealStatus" id="deal0" value="0"/><label for="deal0">未处理 </label>
+	                    <input class="radioItem" type="radio" name="dealStatus" id="deal0" value="0"/><label for="deal0">未处理 </label>
 	                </div>
 	                <!-- <div class="ub ub-ac umar-r10">
 	                    <input class="ub radioItem" type="radio" name="dealStatus" id="deal1" value="1"/><label for="deal1">部分处理  </label>
 	                </div> -->
 	                <div class="ub ub-ac umar-r10">
-	                    <input class="ub radioItem" type="radio" name="dealStatus" id="deal2" value="2"/><label for="deal2">处理完成 </label>
+	                    <input class="radioItem" type="radio" name="dealStatus" id="deal2" value="2"/><label for="deal2">处理完成 </label>
 	                </div>
 					<div class="ub ub-ac umar-r10">
-						<input class="ub radioItem" type="radio" name="dealStatus" id="deal3" value="3" /><label for="deal3">终止</label>
+						<input class="radioItem" type="radio" name="dealStatus" id="deal3" value="3" /><label for="deal3">终止</label>
 					</div>
 	                <div class="ub ub-ac umar-r10">
-	                    <input class="ub radioItem" type="radio" name="dealStatus" id="deal4" value="" checked="checked"/><label for="deal4">全部 </label>
+	                    <input class="radioItem" type="radio" name="dealStatus" id="deal4" value="" checked="checked"/><label for="deal4">全部 </label>
 	                </div>
 	            </div>
 	        </div>
