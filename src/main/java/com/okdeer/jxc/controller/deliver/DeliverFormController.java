@@ -277,6 +277,12 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 				return "form/deliver/DiEdit";
 			}
 		} else {
+			// 返回状态
+			if (DeliverStatusEnum.STOPPED.getName().equals(form.getDealStatus())) {
+				model.addAttribute("status", Constant.DEAL_STATUS);
+			} else {
+				model.addAttribute("status", Constant.STATUS);
+			}
 			// 已审核，不能修改
 			if (FormType.DA.toString().equals(form.getFormType())) {
 				Branches branches = branchesServiceApi

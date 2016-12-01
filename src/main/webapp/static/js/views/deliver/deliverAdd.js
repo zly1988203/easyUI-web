@@ -106,6 +106,9 @@ function initDatagridAddRequireOrder(){
                     if(row.isFooter){
                         return
                     }
+                    if(!row.price){
+                    	row.price = parseFloat(value||0).toFixed(2);
+                    }
                     return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
                 editor:{
