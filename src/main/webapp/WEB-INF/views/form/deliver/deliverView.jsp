@@ -74,7 +74,7 @@
                 <div class="umar-r10 uw-60 ut-r">审核人员:</div>
                 <div class="utxt" id="validUserName">${form.validUserName}</div>
             </div>
-            <div class="already-examine" id="already-examine"><span>已审核</span></div>
+            <div class="already-examine" id="already-examine"><span>${status}</span></div>
             <div class="ub ub-ac umar-l20">
                 <div class="umar-r10 uw-60 ut-r">审核时间:</div>
                 <div class="utxt"><fmt:formatDate value="${form.validTime}" pattern="yyyy-MM-dd HH:mm"/></div>
