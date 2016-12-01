@@ -26,7 +26,7 @@
             <shiro:hasPermission name="JxcPurchaseOrder:print">
             	<div class="ubtns-item" onclick="printChoose('PA','/form/purchase/')">打印</div>
             </shiro:hasPermission>
-            	<div class="ubtns-item" onclick="exportData('PA');">导出明细</div>
+            	<div class="ubtns-item" onclick="exportDetail();">导出明细</div>
                 <div class="ubtns-item" id="toBackByJSButton" onclick="toClose()">关闭</div>
             </div>
         </div>

@@ -150,3 +150,8 @@ function stop(){
 		}
 	});
 }
+
+function exportDetail(){
+	var formId = $("#formId").val();
+	window.location.href = contextPath + '/form/purchase/exportSheet?page=PASheet&sheetNo='+formId;
+}
