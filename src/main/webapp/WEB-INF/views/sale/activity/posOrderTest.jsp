@@ -5,7 +5,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>采购订单-新增</title>
+    <title>POS下单模拟测试</title>
 
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
     <script src="${ctx}/static/js/views/sale/activity/posOrderTest.js"></script>
