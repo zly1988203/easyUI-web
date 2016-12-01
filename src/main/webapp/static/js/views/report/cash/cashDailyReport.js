@@ -58,6 +58,7 @@ function initCashDailyallGrid(queryType) {
         //title:'普通表单-用键盘操作',
         method: 'post',
         align: 'center',
+        url:'',
         //url: "",
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect: false,  //单选  false多选
@@ -154,6 +155,7 @@ function initCashDailymdGrid(queryType) {
         //title:'普通表单-用键盘操作',
         method: 'post',
         align: 'center',
+        url:'',
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect: false,  //单选  false多选
         rownumbers: true,    //序号
@@ -244,6 +246,7 @@ function initCashDailydateGrid(queryType) {
         //title:'普通表单-用键盘操作',
         method: 'post',
         align: 'center',
+        url:'',
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect: false,  //单选  false多选
         rownumbers: true,    //序号
@@ -404,6 +407,7 @@ function exportExcel(){
 
 //查询
 function query(){
+	$("#cashDaily").datagrid("options").url =  "";
 	$("#startCount").val('');
 	$("#endCount").val('');
 	var formData = $("#queryForm").serializeObject();
