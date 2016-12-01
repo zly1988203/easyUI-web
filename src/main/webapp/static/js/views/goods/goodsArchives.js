@@ -319,12 +319,27 @@ function goodsSearch(){
 }
 //新增
 function addGoodsView(){
-	var obj = $.extend({},goodsClass.currSelectTreeParam);
-	if(goodsClass.currSelectTreeParam.categoryId=="0"){
-		obj.categoryName="";
+	var param = goodsClass.currSelectTreeParam;
+	var categoryCode = param.categoryCode;
+	if(categoryCode){
+		if(categoryCode.length==6){
+			var obj = $.extend({},param);
+			if(goodsClass.currSelectTreeParam.categoryId=="0"){
+				obj.categoryName="";
+			}
+			openDialog(contextPath+"/common/goods/addGoodsView","新增商品档案","add",obj);
+		}else{
+			var obj = $.extend({},param);
+				obj.categoryName="";
+			openDialog(contextPath+"/common/goods/addGoodsView","新增商品档案","add",obj);
+		}
+	}else{
+		var obj = $.extend({},param);
+		if(goodsClass.currSelectTreeParam.categoryId=="0"){
+			obj.categoryName="";
+		}
+		openDialog(contextPath+"/common/goods/addGoodsView","新增商品档案","add",obj);
 	}
-	openDialog(contextPath+"/common/goods/addGoodsView","新增商品档案","add",obj);
-    //window.location.href = contextPath+"/common/goods/addGoodsView";
 }
 var  dalogTemp;
 //打开Dialog
