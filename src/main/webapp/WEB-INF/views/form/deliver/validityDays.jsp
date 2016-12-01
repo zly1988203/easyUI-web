@@ -25,14 +25,14 @@
 		<!--<div class="upad-10 ubor-b" style="border-color: #0099cc">连锁设置</div>-->
 		<div class="ub ub-ver umar-t20">
 			<form id="validityDayForm" action="${ctx}/form/deliverConfig/saveValidityDay" method="post">
-				<div class="ub ub-ac upad-10 ubor-b">
-					<div class="umar-r10 uw-280 ut-r">有效天数:</div>
+				<div class="ub ub-ac upad-16 ">
+					<div class="umar-r10 uw-60 ut-r">有效天数:</div>
 					<div class="ub ub-ac umar-r10">
 						<input type="text" value="${validityDay}" class="easyui-numberbox " name="validityDay" id="validityDay" data-options="min:0,precision:0">
 					</div>
 				</div>
-				<div class="ub upad-10 ubor-b">
-					<div class="umar-r10 uw-280 ut-r">进货价:</div>
+				<div class="ub upad-16 ">
+					<div class="umar-r10 uw-60 ut-r">进货价:</div>
 					<div class="ub ub-ac umar-r10">
 						<input class="ub" type="radio" id="priceSpec0" name="priceSpec" value="0"  /><span>成本价</span>
 					</div>
@@ -40,8 +40,8 @@
 						<input class="ub" type="radio" id="priceSpec1" name="priceSpec" value="1" /><span>配送价</span>
 					</div>
 				</div>
-				<div class="ub upad-10 ubor-b">
-					<div class="umar-r10 uw-280 ut-r">商品范围:</div>
+				<div class="ub upad-16 ">
+					<div class="umar-r10 uw-60 ut-r">商品范围:</div>
 					<div class="ub ub-ac umar-r10">
 						<input class="ub" type="radio" id="selectGoodsSpec0" name="selectGoodsSpec" value="1"/><span>发货机构的商品</span>
 					</div>
@@ -214,14 +214,15 @@ $(function(){
 
 $("#validityDayForm").form({
 	onSubmit : function() {
-			$.messager.progress({
-				msg : '数据正在保存中，请稍后...'
-			});
+		gFunStartLoading('正在保存，请稍后...');
+//			$.messager.progress({
+//				msg : '数据正在保存中，请稍后...'
+//			});
 		return true;
 	},
 	success:function(data){
-		var result = JSON.parse(data)
-		$.messager.progress('close');
+		var result = JSON.parse(data);
+		gFunEndLoading();
            if(result['code'] == 0){
                messager("保存成功！");
            }else{
