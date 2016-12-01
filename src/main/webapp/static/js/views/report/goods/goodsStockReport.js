@@ -28,7 +28,7 @@ function initProductInquireGrid() {
             {field: 'barCode', title: '条码', width: 150, align: 'left'},
             {field: 'memoryCode', title: '助记码', width: 100, align: 'left'},
             {field: 'unit', title: '单位', width: 80, align: 'center'},
-            {field: 'spec', title: '规格', width: 80, align: 'center'},
+            {field: 'spec', title: '规格', width: 80, align: 'left'},
             {field: 'numberCase', title: '箱数', width: 80, align: 'right',formatter : function(value){
             	return getTwoDecimalB(value);
             }},
