@@ -26,7 +26,6 @@ function initDatagridAddRequireOrder(){
                 gridHandel.addRow(parseInt(gridHandel.getSelectRowIndex())+1,gridDefault);
                 
             }else{
-            	debugger;
             	branchId = $("#sourceBranchId").val();
                 selectGoods(arg);
             }
