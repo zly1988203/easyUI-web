@@ -25,7 +25,6 @@ import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.report.service.GoodsSaleReportServiceApi;
 import com.okdeer.jxc.report.vo.GoodsSaleReportVo;
-import com.okdeer.jxc.utils.UserUtil;
 
 
 /**
@@ -105,6 +104,7 @@ public class GoodsSaleController extends BaseController<GoodsSaleController> {
 		RespJson resp = RespJson.success();
 		try {
 			vo.setBranchCompleCode(getCurrBranchCompleCode());
+			vo.setEndCount(vo.getEndCount() - vo.getStartCount());
 			List<GoodsSaleReportVo> exportList = goodsSaleReportServiceApi.exportList(vo);
 			GoodsSaleReportVo goodsSaleReportVo = goodsSaleReportServiceApi.queryGoodsSaleCountSum(vo);
 			goodsSaleReportVo.setBranchName("合计：");
