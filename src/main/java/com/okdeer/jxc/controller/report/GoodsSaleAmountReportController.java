@@ -102,7 +102,6 @@ public class GoodsSaleAmountReportController extends BaseController<GoodsSaleAmo
 		RespJson resp = RespJson.success();
 		try {
 			vo.setSourceBranchId(UserUtil.getCurrBranchId());
-			vo.setEndCount(vo.getEndCount() - vo.getStartCount());
 			List<GoodsSaleAmountReportVo> exportList = goodsSaleAmountReportServiceApi.exportList(vo);
 			GoodsSaleAmountReportVo goodsSaleAmountReportVo = goodsSaleAmountReportServiceApi.queryGoodsSaleAmountSum(vo);
 			goodsSaleAmountReportVo.setBranchName("合计:");

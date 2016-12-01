@@ -104,7 +104,6 @@ public class GoodsSaleController extends BaseController<GoodsSaleController> {
 		RespJson resp = RespJson.success();
 		try {
 			vo.setBranchCompleCode(getCurrBranchCompleCode());
-			vo.setEndCount(vo.getEndCount() - vo.getStartCount());
 			List<GoodsSaleReportVo> exportList = goodsSaleReportServiceApi.exportList(vo);
 			GoodsSaleReportVo goodsSaleReportVo = goodsSaleReportServiceApi.queryGoodsSaleCountSum(vo);
 			goodsSaleReportVo.setBranchName("合计：");

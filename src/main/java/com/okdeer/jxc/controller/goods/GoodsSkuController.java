@@ -496,7 +496,6 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 //				return json;
 //			}
 			
-			qo.setEndCount(qo.getEndCount()-qo.getStartCount());
  			List<GoodsSku> list = goodsSkuService.querySkuByParams(qo);
 			if (CollectionUtils.isNotEmpty(list)) {
 				if (list.size() > ExportExcelConstant.EXPORT_MAX_SIZE) {
