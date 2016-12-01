@@ -806,81 +806,84 @@ public class PurchaseFormController extends
 		PurchaseFormPO form = purchaseFormServiceApi.selectPOById(formNo);
 		Map<String, Object> replaceMap = new HashMap<String, Object>();
 		if (null != form) {
-			// 表头
+			//审核状态
 			switch (form.getStatus().intValue()) {
 				case 0:
 					replaceMap.put("_审核状态", "待审核");
+					replaceMap.put("status", "待审核");
 					break;
 				case 1:
 					replaceMap.put("_审核状态", "审核通过");
+					replaceMap.put("status", "审核通过");
 					break;
 				case 2:
 					replaceMap.put("_审核状态", "审核不通过");
+					replaceMap.put("status", "审核不通过");
 					break;
 				default:
 					replaceMap.put("_审核状态", "");
+					replaceMap.put("status", "");
 					break;
 			}
-			replaceMap.put("_订单编号", form.getFormNo() != null ? form.getFormNo()
-					: "");
-			replaceMap.put("_供应商",
-					form.getSupplierName() != null ? form.getSupplierName()
-							: "");
-			replaceMap.put("_制单人员",
-					form.getSalesmanName() != null ? form.getSalesmanName()
-							: "");
-
-			replaceMap.put("_机构名称",
-					form.getBranchName() != null ? form.getBranchName() : "");
-
-			// replaceMap.put("_仓库编码", "");
-			// replaceMap.put("_仓库名称", "");
+			//订单编号
+			replaceMap.put("_订单编号", form.getFormNo() != null ? form.getFormNo() : "");
+			replaceMap.put("formNo", form.getFormNo() != null ? form.getFormNo() : "");
+			//供应商
+			replaceMap.put("_供应商", form.getSupplierName() != null ? form.getSupplierName() : "");
+			replaceMap.put("supplierName", form.getSupplierName() != null ? form.getSupplierName() : "");
+			//制单人员
+			replaceMap.put("_制单人员", form.getSalesmanName() != null ? form.getSalesmanName() : "");
+			replaceMap.put("salesmanName", form.getSalesmanName() != null ? form.getSalesmanName() : "");
+			//机构名称
+			replaceMap.put("_机构名称", form.getBranchName() != null ? form.getBranchName() : "");
+			replaceMap.put("branchName", form.getBranchName() != null ? form.getBranchName() : "");
+			//下单日期
 			if (form.getCreateTime() != null) {
-				replaceMap.put("_下单日期", DateUtils.formatDate(
-						form.getCreateTime(), "yyyy-MM-dd"));
+				replaceMap.put("_下单日期", DateUtils.formatDate(form.getCreateTime(), "yyyy-MM-dd"));
+				replaceMap.put("createTime", DateUtils.formatDate(form.getCreateTime(), "yyyy-MM-dd"));
 			} else {
 				replaceMap.put("_下单日期", "");
+				replaceMap.put("createTime", "");
 			}
-			replaceMap.put("_采购人员",
-					form.getSalesmanName() != null ? form.getSalesmanName()
-							: "");
-
+			//采购人员
+			replaceMap.put("_采购人员", form.getSalesmanName() != null ? form.getSalesmanName() : "");
+			replaceMap.put("salesmanName", form.getSalesmanName() != null ? form.getSalesmanName() : "");
+			//交货日期
 			if (form.getDeliverTime() != null) {
-				replaceMap.put("_交货日期", DateUtils.formatDate(
-						form.getDeliverTime(), "yyyy-MM-dd"));
+				replaceMap.put("_交货日期", DateUtils.formatDate(form.getDeliverTime(), "yyyy-MM-dd"));
+				replaceMap.put("deliverTime", DateUtils.formatDate(form.getDeliverTime(), "yyyy-MM-dd"));
 			} else {
 				replaceMap.put("_交货日期", "");
+				replaceMap.put("deliverTime", "");
 			}
-
-			replaceMap.put("_审核人员",
-					form.getValidUserName() != null ? form.getValidUserName()
-							: "");
+			//审核人员
+			replaceMap.put("_审核人员", form.getValidUserName() != null ? form.getValidUserName() : "");
+			replaceMap.put("validUserName", form.getValidUserName() != null ? form.getValidUserName() : "");
+			//备注
 			replaceMap.put("_备注", form.getRemark());
-
+			replaceMap.put("remark", form.getRemark());
+			//审核日期
 			if (form.getValidTime() != null) {
-				replaceMap
-						.put("_审核日期", DateUtils.formatDate(form.getValidTime(),
-								"yyyy-MM-dd"));
+				replaceMap.put("_审核日期", DateUtils.formatDate(form.getValidTime(),"yyyy-MM-dd"));
+				replaceMap.put("validTime", DateUtils.formatDate(form.getValidTime(),"yyyy-MM-dd"));
 			} else {
 				replaceMap.put("_审核日期", "");
+				replaceMap.put("validTime", "");
 			}
-
-			replaceMap.put("_人民币总金额大写",
-					NumberToCN.number2CNMontrayUnit(form.getAmount()));
-			replaceMap.put("_总金额",
-					BigDecimalUtils.formatTwoDecimal(form.getAmount())
-							.toString());
-
-			// 表尾
-			replaceMap.put("_合计金额",
-					NumberToCN.number2CNMontrayUnit(form.getAmount()));
-			// replaceMap.put("_打印次数", "");
-			// replaceMap.put("_公司名称", "");
-			// replaceMap.put("_公司地址", "");
-			// replaceMap.put("_页码", "");
+			//人民币总金额大写
+			replaceMap.put("_人民币总金额大写",NumberToCN.number2CNMontrayUnit(form.getAmount()));
+			replaceMap.put("amountCN",NumberToCN.number2CNMontrayUnit(form.getAmount()));
+			//总金额
+			replaceMap.put("_总金额",BigDecimalUtils.formatTwoDecimal(form.getAmount()).toString());
+			replaceMap.put("amount",BigDecimalUtils.formatTwoDecimal(form.getAmount()).toString());
+			//合计金额
+			replaceMap.put("_合计金额",NumberToCN.number2CNMontrayUnit(form.getAmount()));
+			//打印人
 			replaceMap.put("_打印人", getCurrentUser().getUserName());
-			replaceMap.put("_打印时间",
-					DateUtils.formatDate(new Date(), "yyyy-MM-dd"));
+			replaceMap.put("printUserName", getCurrentUser().getUserName());
+			//打印时间
+			replaceMap.put("_打印时间",DateUtils.formatDate(new Date(), "yyyy-MM-dd"));
+			replaceMap.put("printTime",DateUtils.formatDate(new Date(), "yyyy-MM-dd"));
 		}
 		return replaceMap;
 	}
