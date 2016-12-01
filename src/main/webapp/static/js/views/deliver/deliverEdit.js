@@ -755,4 +755,9 @@ function updateListData(data){
    
 }
 
+//新增要货单
+function addDeliverForm(){
+	toAddTab("新增要货单",contextPath + "/form/deliverForm/addDeliverForm?deliverType=DA");
+}
+
 
