@@ -7,9 +7,12 @@ function initGoodsView(data,flag){
 	//添加页面根据列表页面选中的类别进行商品分类赋值
 	if(flag == "add"){
 		//商品分类
-		$("#categoryId").val(data.categoryId);
-		$("#categoryCode").val(data.categoryCode);
-		$("#categoryName").val(data.categoryName);
+		var categoryCode = data.categoryCode;
+		if(categoryCode && categoryCode.length == 6){
+			$("#categoryId").val(data.categoryId);
+			$("#categoryCode").val(data.categoryCode);
+			$("#categoryName").val(data.categoryName);
+		}
 		//商品自动生成货号
 //		getSkuCodeVal();
 	}else{
@@ -74,11 +77,14 @@ function getSelectionRow(data){
 }
 
 //根据复制的值，给input框赋值
+
+var categoryCode="";
 function setInputValByObj(){
 	if(selectionRow!=null){
 		
 		$.each(selectionRow[0]||selectionRow,function(key,value){
 			//普通的input
+			
 			if(key=="braCode"||key=="skuCode"){
 				
 			}else if($("#"+key).prop("tagName") == "INPUT"){
@@ -104,7 +110,18 @@ function setInputValByObj(){
 						if($("#"+key).hasClass('easyui-numberbox')){
 							$("#"+key).numberbox('setValue', value);
 						}else{
+							if(key == "categoryCode"){
+								categoryCode = value;
+							}
 							$("#"+key).val(value);
+							//不在三级类别商品特殊处理
+							if(categoryCode){
+								if(categoryCode.length!=6){
+									$("#categoryId").val('');
+									$("#categoryCode").val('');
+									$("#categoryName").val('');
+								}
+							}
 						}
 
 					}
