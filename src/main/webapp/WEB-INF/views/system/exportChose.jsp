@@ -73,7 +73,7 @@
 			stratRow = 1;
 		} 
 		$("#startCount").attr("value",(stratRow - 1));
-		$("#endCount").attr("value",endRow);
+		$("#endCount").attr("value",(endRow - (stratRow - 1)));
 	    // 调用导出
 		exportExcel();
 		$("#exportWin").panel('close');
