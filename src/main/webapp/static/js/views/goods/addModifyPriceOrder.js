@@ -9,7 +9,10 @@ var isClickSaveData = false;
 // datagrid对象
 var addModifyPriceGridDg;
 
+var loginBranchId;
+
 $(function() {
+	loginBranchId = $("#loginBranchId").val();
 	// 初始化表格
 	initAddModifyPriceGridEdit();
 	// 初始化复选框
@@ -64,15 +67,21 @@ function initAddModifyPriceGridEdit() {
 
 	        },
 	});
-	addModifyPriceGridDg = $("#" + datagridId)
-		.datagrid(
-			{
+	addModifyPriceGridDg = $("#" + datagridId).datagrid({
 				align : 'center',
+				//toolbar: '#tb',     //工具栏 id为tb
+		        singleSelect:false,  //单选  false多选
+		        rownumbers:true,    //序号
+		        pagination:true,    //分页
+		        fitColumns:true,    //每列占满
+		        //fit:true,            //占满
+		        showFooter:true,
+				height:'600px',
+				width:'100%',
 				data : [ {
 					"rows" : [$.extend({},gridDefault)]
 				} ],
-				singleSelect : false, // 单选 false多选
-				rownumbers : true, // 序号
+				
 				columns : [ [
 					{
 						field : 'ck',
@@ -147,9 +156,9 @@ function initAddModifyPriceGridEdit() {
 						width : '120px',
 						align : 'right',
 						formatter : function(value, row, index) {
-							var str=0.00;
+							var str=0.0000;
 							if(value){
-								str= parseFloat(value).toFixed(2);
+								str= parseFloat(value).toFixed(4);
 							}
 		    				return str;
 		    			},
@@ -166,9 +175,9 @@ function initAddModifyPriceGridEdit() {
 						width : '120px',
 						align : 'right',
 						formatter : function(value, row, index) {
-							var str=0.00;
+							var str=0.0000;
 							if(value){
-								str= parseFloat(value).toFixed(2);
+								str= parseFloat(value).toFixed(4);
 							}
 		    				return str;
 		    			}
@@ -179,9 +188,9 @@ function initAddModifyPriceGridEdit() {
 						width : '120px',
 						align : 'right',
 						formatter : function(value, row, index) {
-							var str=0.00;
+							var str=0.0000;
 							if(value){
-								str= parseFloat(value).toFixed(2);
+								str= parseFloat(value).toFixed(4);
 							}
 		    				return str;
 		    			},
@@ -198,9 +207,9 @@ function initAddModifyPriceGridEdit() {
 						width : '120px',
 						align : 'right',
 						formatter : function(value, row, index) {
-							var str=0.00;
+							var str=0.0000;
 							if(value){
-								str= parseFloat(value).toFixed(2);
+								str= parseFloat(value).toFixed(4);
 							}
 		    				return str;
 		    			}
@@ -211,9 +220,9 @@ function initAddModifyPriceGridEdit() {
 						width : '120px',
 						align : 'right',
 						formatter : function(value, row, index) {
-							var str=0.00;
+							var str=0.0000;
 							if(value){
-								str= parseFloat(value).toFixed(2);
+								str= parseFloat(value).toFixed(4);
 							}
 		    				return str;
 		    			},
@@ -230,9 +239,9 @@ function initAddModifyPriceGridEdit() {
 						width : '120px',
 						align : 'right',
 						formatter : function(value, row, index) {
-							var str=0.00;
+							var str=0.0000;
 							if(value){
-								str= parseFloat(value).toFixed(2);
+								str= parseFloat(value).toFixed(4);
 							}
 		    				return str;
 		    			}
@@ -243,9 +252,9 @@ function initAddModifyPriceGridEdit() {
 						width : '120px',
 						align : 'right',
 						formatter : function(value, row, index) {
-							var str=0.00;
+							var str=0.0000;
 							if(value){
-								str= parseFloat(value).toFixed(2);
+								str= parseFloat(value).toFixed(4);
 							}
 		    				return str;
 		    			},
@@ -262,9 +271,9 @@ function initAddModifyPriceGridEdit() {
 						width : '120px',
 						align : 'right',
 						formatter : function(value, row, index) {
-							var str=0.00;
+							var str=0.0000;
 							if(value){
-								str= parseFloat(value).toFixed(2);
+								str= parseFloat(value).toFixed(4);
 							}
 		    				return str;
 		    			}
@@ -275,9 +284,9 @@ function initAddModifyPriceGridEdit() {
 						width : '120px',
 						align : 'right',
 						formatter : function(value, row, index) {
-							var str=0.00;
+							var str=0.0000;
 							if(value){
-								str= parseFloat(value).toFixed(2);
+								str= parseFloat(value).toFixed(4);
 							}
 		    				return str;
 		    			},
@@ -616,7 +625,7 @@ var datagridUtil = {
 	 */
 	isSelectArea : function() {
 		if ($("#branchId").val().trim() == "") {
-			$.messager.alert('提示', '请先选择分店');
+			$.messager.alert('提示', '请先选择机构');
 			gFunEndLoading();
 			return false;
 		} else {
@@ -866,18 +875,21 @@ function selectGoodsDialog(searchKey) {
 	var branchId=null;
 	//判定供应商是否存在
     if($("#branchId").val()==""){
-        messager("请先选择门店");
+        messager("请先选择机构");
         return;
     }
-    var bool = $("#branchId").val().indexOf(",");
-    // 没有逗号表示机构id只有一个值 查询本机构中的商品
+    branchId=$("#branchId").val();
+	gFunGoodsSelect(searchKey,branchId);
+    /*var bool = $("#branchId").val().indexOf(",");
     if(bool<0){
-    	//查询登录机构下商品
+    	// 没有逗号表示机构id只有一个值 查询本机构中的商品
     	branchId=$("#branchId").val();
     	gFunGoodsSelect(searchKey,branchId);
     }else{
-    	gFunGoodsSelect(searchKey);
-    }
+    	//查询登录机构下商品
+    	branchId=loginBranchId;
+    	gFunGoodsSelect(searchKey,branchId);
+    }*/
 }
 //商品选择 公共使用
 function gFunGoodsSelect(searchKey,branchId){
@@ -910,13 +922,30 @@ function gFunGoodsSelect(searchKey,branchId){
 			var newRows = gridHandel.checkDatagrid(nowRows,newData,argWhere);
 			console.info(newRows)
 			$("#addModifyPriceGrid").datagrid("loadData",newRows);
-			
-	        gridHandel.setLoadFocus();
-	        setTimeout(function(){
-	            gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
-	            gridHandel.setSelectFieldName("newPurPrice");
-	            gridHandel.setFieldFocus(gridHandel.getFieldTarget('newPurPrice'));
-	        },100)
+			  var fieldName = "";
+			  var fieldNames = {
+					  "purchasePrice":"newPurPrice",
+					  "retailPrice":"newSalePrice",
+					  "distributionPrice":"newDcPrice",
+					  "tradePrice":"newWsPrice",
+					  "memberPrice":"newVipPrice",
+			  }
+		      $('.priceItem:checked').each(function(i){
+		    	  debugger;
+		       if(0==i){
+		    	   fieldName =fieldNames[$(this).attr("id")] ;
+		       }
+		      });
+			  debugger;
+		      if(fieldName){
+		    	  gridHandel.setLoadFocus();
+			        setTimeout(function(){
+			            gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
+			            gridHandel.setSelectFieldName(fieldName);
+			            gridHandel.setFieldFocus(gridHandel.getFieldTarget(fieldName));
+			        },100)
+		      }
+	      
 		},searchKey,0,"","",branchId,"");	
 }
 
@@ -1014,7 +1043,7 @@ function exportData(){
 function printDesign(formNo){
 	var branchId=$("#branchId").val();
 	if(!branchId){
-		$.messager.alert('提示',"请先选择分店");
+		$.messager.alert('提示',"请先选择机构");
 	}else{
 		//弹出打印页面
 		parent.addTabPrint('CASheet' + formNo,formNo+'单据打印',contextPath + '/printdesign/design?page=CASheet&controller=/goods/priceAdjust&template=-1&sheetNo=' + formNo + '&gridFlag=CAGrid','');
@@ -1060,7 +1089,7 @@ function toImportproduct(type){
     //}
     var branchId = $("#branchId").val();
     if(!branchId){
-        messager("请先选择收货机构");
+        messager("请先选择机构");
         return;
     }
     var param = {
@@ -1095,7 +1124,6 @@ function updateListData(data){
     	              {"newVipPrice":"memberPrice"}
     	             ]
     	$.each(obj,function(key,val){
-			debugger;
 			var d = obj;
 			var c = key;
     		$.each(arrKey,function(i,item){
@@ -1115,7 +1143,7 @@ function updateListData(data){
 }
 //返回列表页面
 function back(){
-	window.location.href=contextPath+"/goods/priceAdjust/view";
+	toClose();
 }
 
 

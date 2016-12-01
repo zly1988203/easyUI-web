@@ -18,7 +18,7 @@ pageEncoding="UTF-8"%>
 			<shiro:hasPermission name="JxcGoodsArchive:add">
 				<button class="ubtns-item" onclick="copyAddGoodsView()">复制新增</button>
 			</shiro:hasPermission>
-				<button class="ubtns-item" onclick="closeDialog()">返回</button>
+				<button class="ubtns-item" onclick="closeDialog()">关闭</button>
 			</div>
 	</div>
 	<div class="ub uline "></div>
@@ -198,7 +198,7 @@ pageEncoding="UTF-8"%>
 						<div class="umar-r10 uw-60 ut-r">零售价:</div>
 						<input id="salePrice" name="salePrice" style="width: 204px;"
 							   class="uinp uinp-no-more easyui-numberbox easyui-validatebox"
-							   data-options="min:0,precision:2,readonly:true" type="text"
+							   data-options="min:0,precision:4,readonly:true" type="text"
 							   align="right" maxlength="10" onkeyup="checkPrice(this);"
 							   onafterpaste="checkPrice(this);">
 					</div>
@@ -206,7 +206,7 @@ pageEncoding="UTF-8"%>
 						<div class="umar-r10 uw-60 ut-r">进货价:</div>
 						<input id="purchasePrice" name="purchasePrice" style="width: 204px;"
 							   class="uinp uinp-no-more easyui-numberbox easyui-validatebox"
-							   data-options="min:0,precision:2,readonly:true" type="text"
+							   data-options="min:0,precision:4,readonly:true" type="text"
 							   maxlength="10" onkeyup="checkPrice(this);"
 							   onafterpaste="checkPrice(this);">
 					</div>
@@ -214,7 +214,7 @@ pageEncoding="UTF-8"%>
 						<div class="umar-r10 uw-60 ut-r">批发价:</div>
 						<input id="wholesalePrice" name="wholesalePrice" style="width: 204px;"
 							   class="uinp uinp-no-more easyui-numberbox easyui-validatebox"
-							   data-options="min:0,precision:2,readonly:true" type="text"
+							   data-options="min:0,precision:4,readonly:true" type="text"
 							   maxlength="10" onkeyup="checkPrice(this);"
 							   onafterpaste="checkPrice(this);">
 					</div>
@@ -224,7 +224,7 @@ pageEncoding="UTF-8"%>
 						<div class="umar-r10 uw-60 ut-r">配送价:</div>
 						<input id="distributionPrice" name="distributionPrice" style="width: 204px;"
 							   class="uinp uinp-no-more easyui-numberbox easyui-validatebox"
-							   data-options="min:0,precision:2,readonly:true" type="text"
+							   data-options="min:0,precision:4,readonly:true" type="text"
 							   maxlength="10" onkeyup="checkPrice(this);"
 							   onafterpaste="checkPrice(this);">
 					</div>
@@ -233,14 +233,14 @@ pageEncoding="UTF-8"%>
 
 						<input id="lowestPrice" name="lowestPrice" style="width: 204px;"
 							   class="uinp uinp-no-more easyui-numberbox easyui-validatebox"
-							   data-options="min:0,precision:2" type="text" maxlength="10"
+							   data-options="min:0,precision:4" type="text" maxlength="10"
 							   onkeyup="checkPrice(this);" onafterpaste="checkPrice(this);">
 					</div>
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">会员价:</div>
 						<input id="vipPrice" name="vipPrice" style="width: 204px;"
 							   class="uinp uinp-no-more easyui-numberbox easyui-validatebox"
-							   data-options="min:0,precision:2,readonly:true" type="text"
+							   data-options="min:0,precision:4,readonly:true" type="text"
 							   maxlength="10" onkeyup="checkPrice(this);"
 							   onafterpaste="checkPrice(this);">
 					</div>
@@ -304,20 +304,20 @@ pageEncoding="UTF-8"%>
 					<div class="umar-r10 uw-60 ut-r">备注:</div>
 					<textarea id="remark" name="remark" class="uh-40 umar-r30 ubor" maxlength="100" style="width: 800px;"></textarea>
 				</div>
-				<div class="ub umar-l32">
-					<div class="ub ub-ac umar-r20">
+				<div class="ub umar-l32" style="position: absolute;left: 0px;">
+					<div class="ub ub-ac umar-r40">
 						<input id="managerStock" name="managerStock" id="managerStock"
 							class="ub" type="checkbox" name="checkbox" /><span>是否管理库存</span>
 					</div>
-					<div class="ub ub-ac umar-r20">
+					<div class="ub ub-ac umar-r40">
 						<input id="highValue" name="highValue" id="highValue" class="ub"
 							type="checkbox" name="checkbox" /><span>是否高值商品</span>
 					</div>
-					<div class="ub ub-ac umar-r20">
+					<div class="ub ub-ac umar-r40">
 						<input id="attention" name="attention" id="attention" class="ub"
 							type="checkbox" name="checkbox" /><span>是否关注商品</span>
 					</div>
-					<div class="ub ub-ac umar-r20">
+					<div class="ub ub-ac umar-r40">
 						<input id="fastDeliver" name="fastDeliver" id="fastDeliver"
 							class="ub" type="checkbox" name="checkbox" /><span>是否速送商品</span>
 					</div>

@@ -154,7 +154,7 @@ function updateFooter(){
 }
 
 function receiptAdd(){
-	location.href = contextPath + "/form/purchase/receiptAdd";
+	toAddTab("新增采购收货单",contextPath + "/form/purchase/receiptAdd");
 }
 
 

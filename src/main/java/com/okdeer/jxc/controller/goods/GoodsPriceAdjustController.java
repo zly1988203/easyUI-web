@@ -107,12 +107,13 @@ public class GoodsPriceAdjustController extends
 	 * @date 2016年8月1日
 	 */
 	@RequestMapping(value = "/addFormView", method = RequestMethod.GET)
-	public String addForm(Model model,HttpServletRequest request) {
+	public String addFormView(Model model, HttpServletRequest request) {
 		// 获得价格权限 逗号隔开
 		SysUser user = UserUtil.getCurrentUser();
 		UserUtil.setPriceGrantMap(user);
 		model.addAttribute("first", Constant.ONE);
 		model.addAttribute("close", request.getAttribute("report"));
+		model.addAttribute("loginBranchId", UserUtil.getCurrBranchId());
 		return "goods/addModifyPriceOrder";
 	}
 

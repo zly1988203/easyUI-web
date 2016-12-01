@@ -100,8 +100,9 @@ public class CategorySaleController extends BaseController<CategorySaleControlle
 		RespJson resp = RespJson.success();
 		try {
 			vo.setSourceBranchId(UserUtil.getCurrBranchId());
+			vo.setEndCount(vo.getEndCount() - vo.getStartCount());
 			List<CategorySaleReportVo> exportList = categorySaleReportServiceApi.exportList(vo);
-			CategorySaleReportVo categorySaleReportVo = categorySaleReportServiceApi.queryCategorySaleCountSum(vo);
+			CategorySaleReportVo categorySaleReportVo = categorySaleReportServiceApi.getCategorySaleCountSum(vo);
 			categorySaleReportVo.setBranchName("合计：");
 			exportList.add(categorySaleReportVo);
 			String fileName = "类别销售分析表";

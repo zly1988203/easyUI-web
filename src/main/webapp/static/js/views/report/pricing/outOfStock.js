@@ -13,9 +13,15 @@ $(function(){
 	changeType();
 	//切换radio 禁启用
 	checktype();
+	targetBranchId = $("#targetBranchId").val();
+	sourceBranchId = $("#sourceBranchId").val();
 });
 
+var targetBranchId;
+var sourceBranchId;
+
 var flushFlg = false;
+var temp = true;
 function changeType(){
 	$(".radioItem").change(function(){
 		checktype()
@@ -23,8 +29,12 @@ function changeType(){
 		console.log(val);
 		if (val==0) {
 			flushFlg=true;
+			temp = true;
+			$("#sourceBranchId").val('');
 			initDatagridRequireOrders();
 		} else if (val==1) {
+			$("#sourceBranchId").val(sourceBranchId);
+			temp = false;
 			initDatagridByGoods();
 		}
 		$("#marketWater").datagrid('loadData', { total: 0, rows: [] });
@@ -40,8 +50,9 @@ function checktype(){
 		var value=$('.radioItem').eq(i).val();
 		cleardata();
 		if(check==true&&value=='0'){
+			$('#sourceBranchName').attr("readonly","readonly");
 			$('#sourceBranchName').addClass('uinp-no-more');
-			$('#sourceBranchName').removeAttr('onclick');
+//			$('#sourceBranchName').removeAttr('onclick');
 			$('#sourceBranchName').val("");
 			$('.uinp-sourceName').removeAttr('onclick');
 			$('#formNo').removeClass('uinp-no-more');
@@ -50,21 +61,21 @@ function checktype(){
 		}
 		else if(check==true&&value=='1'){
 			$('#sourceBranchName').removeClass('uinp-no-more');
-			$('#sourceBranchName').attr('onclick',"searchBranch(1)");
+//			$('#sourceBranchName').attr('onclick',"searchBranch(1)");
 			$('.uinp-sourceName').attr('onclick',"searchBranch(1)");
 			$('#formNo').addClass('uinp-no-more');
 			$('#formNo').val("");
 			$('#formNo').attr("readonly","readonly");
+			$("#sourceBranchName").removeAttr("readonly");
 		}	
    }	
 }
 //清空所有数据值
 function cleardata(){
-	//$('#targetBranchName').val("");
+	$('#targetBranchName').val("");
 	$('#skuName').val("");
 	$('#sourceBranchName').val("");
 	$('#formNo').val("");
-	$('#categoryName').val("");
 	$('#categoryCode').val("");
 	$('#goodsCategoryId').val("");
 	$('#skuCode').val("");
@@ -173,9 +184,6 @@ function initDatagridRequireOrders(){
     });
 }
 
-
-
-
 //初始化表格
 function initDatagridByGoods(){
 	gridHandel.setGridName("marketWater");
@@ -267,17 +275,17 @@ function initDatagridByGoods(){
     });
 }
 
-
 //查询
 function queryForm(){
 	var startDate = $("#txtStartDate").val();
 	var endDate = $("#txtEndDate").val();
-	var branchName = $("#branchName").val();
 	if(!(startDate && endDate)){
 		$.messager.alert('提示', '日期不能为空');
 		return ;
 	}	
-	//$("#marketWater").datagrid("options").url = '';
+	if (temp) {
+		$("#sourceBranchId").val('');
+	}
 	var fromObjStr = $('#queryForm').serializeObject();
 	$("#marketWater").datagrid("options").queryParams = fromObjStr;
 	$('#marketWater').datagrid({showFooter:true});
@@ -290,62 +298,23 @@ function queryForm(){
  * 店铺名称
  */
 function searchBranch(type){
-	/*	alert("-------------------"+ type);
-	var branchesId;
-	if (type === 0) {
-		branchesId = $("#targetBranchId").val();
-	} else {
-		branchesId = $("#sourceBranchId").val();
-	}*/
 	new publicAgencyService(function(data){
 		if(type==0){
-			$("#targetBranchId").val(data.branchesId);
+//			$("#targetBranchId").val(data.branchesId);
 			$("#targetBranchName").val(data.branchName);
 		}else{
-			$("#sourceBranchId").val(data.branchesId);
+//			$("#sourceBranchId").val(data.branchesId);
 			$("#sourceBranchName").val(data.branchName);
 		}
 	},"","");
 }
 
-
-
-/**
- * 店铺名称
- *//*
-function searchBranch(type){
-	new publicAgencyService(function(data){
-		if(type==0){
-			$("#targetBranchId").val(data.branchesId);
-			$("#targetBranchName").val(data.branchName);
-		}else{
-			$("#sourceBranchId").val(data.branchesId);
-			$("#sourceBranchName").val(data.branchName);
-		}
-	},'BF','');
-}*/
-
-
-
-
 //商品分类
 function getGoodsType(){
 	new publicCategoryService(function(data){
-		$("#goodsCategoryId").val(data.goodsCategoryId);
-		$("#categoryCode").val(data.categoryCode);
+//		$("#goodsCategoryId").val(data.goodsCategoryId);
+//		$("#categoryCode").val(data.categoryCode);
 		$("#categoryName").val(data.categoryName);
-	});
-}
-
-
-/**
- * 操作员列表下拉选
- */
-function selectOperator(){
-	new publicOperatorService(function(data){
-		//data.Id
-		$("#createUserId").val(data.id);
-		$("#createUserName").val("["+data.userCode+"]"+data.userName);
 	});
 }
 
@@ -355,8 +324,6 @@ function selectOperator(){
 var resetForm = function(){
 	 $("#searchForm").form('clear');
 };
-
-
 
 /**
  * 导出

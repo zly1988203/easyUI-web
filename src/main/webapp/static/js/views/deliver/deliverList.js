@@ -31,7 +31,9 @@ function initDatagridRequireOrders(){
 			{field:'check',checkbox:true},
             {field:'formNo',title:'单据编号',width:'140px',align:'left',formatter:function(value,row,index){
             	if(updatePermission){
-            		return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/deliverForm/deliverEdit?deliverFormId="+ row.deliverFormId +"'>" + value + "</a>";
+            		var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'要货单明细\',\''+ contextPath +'/form/deliverForm/deliverEdit?deliverFormId='+ row.deliverFormId +'&formType=DA\')">' + value + '</a>';
+            		return strHtml;
+            		//return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/deliverForm/deliverEdit?deliverFormId="+ row.deliverFormId +"'>" + value + "</a>";
             	}else{
             		return value;
             	}
@@ -79,7 +81,7 @@ function initDatagridRequireOrders(){
 
 //新增要货单
 function addDeliverForm(){
-	location.href = contextPath + "/form/deliverForm/addDeliverForm?deliverType=DA";
+	toAddTab("新增要货单",contextPath + "/form/deliverForm/addDeliverForm?deliverType=DA");
 }
 
 //查询要货单
@@ -93,7 +95,6 @@ function queryForm(){
 //删除
 function delDeliverForm(){
 	var dg = $("#deliverFormList");
-	debugger;
 	var row = dg.datagrid("getChecked");
 	var ids = [];
 	for(var i=0; i<row.length; i++){
@@ -130,7 +131,7 @@ function delDeliverForm(){
  */
 function selectOperator(){
 	new publicOperatorService(function(data){
-		$("#operateUserId").val(data.id);
+//		$("#operateUserId").val(data.id);
 		$("#operateUserName").val(data.userName);
 	});
 }
@@ -139,7 +140,7 @@ function selectOperator(){
  */
 function selectBranches(){
 	new publicAgencyService(function(data){
-		$("#targetBranchId").val(data.branchesId);
+//		$("#targetBranchId").val(data.branchesId);
 		$("#targetBranchName").val(data.branchName);
 	},'',targetBranchId);
 }

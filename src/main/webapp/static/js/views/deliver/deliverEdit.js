@@ -218,17 +218,8 @@ function onChangeLargeNum(newV,oldV){
         messager("没有配送规格,请审查");
         return;
     }
-    if(gridHandel.getNowEditFieldName()!="applyNum"){
-        if(parseFloat(newV)>0){
-            gridHandel.setNowEditFieldName("largeNum");
-        }
-        gridHandel.setFieldValue('applyNum',purchaseSpecValue*newV);//数量=商品规格*箱数
-    }else{
-        if(parseFloat(newV)>0){
-            gridHandel.setNowEditFieldName("largeNum");
-        }
-    }
-  
+    var newRealNum = (Math.round(purchaseSpecValue*newV)).toFixed(4);
+    gridHandel.setFieldValue('applyNum',newRealNum);//数量=商品规格*箱数
    
     updateFooter();
 }
@@ -259,9 +250,6 @@ function onChangeRealNum(newV,oldV) {
     //    return;
     //}
     var priceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
-    if(parseFloat(newV)>0){
-        gridHandel.setNowEditFieldName("applyNum");
-    }
     gridHandel.setFieldValue('amount',priceValue*newV);                         //金额=数量*单价
     gridHandel.setFieldValue('largeNum',(newV/purchaseSpecValue).toFixed(4));   //箱数=数量/商品规格
     updateFooter();
@@ -765,6 +753,11 @@ function updateListData(data){
      var newRows = gridHandel.checkDatagrid(data,rows,argWhere,isCheck);
      $("#gridEditRequireOrder").datagrid("loadData",newRows);
    
+}
+
+//新增要货单
+function addDeliverForm(){
+	toAddTab("新增要货单",contextPath + "/form/deliverForm/addDeliverForm?deliverType=DA");
 }
 
 

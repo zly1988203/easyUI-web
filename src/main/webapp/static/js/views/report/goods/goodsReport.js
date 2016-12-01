@@ -191,7 +191,7 @@ function initDatagridOrders(){
 		          {field:"originPlace",title:"产地",sortable:true,tooltip:true,width:80},
 		          {field:"supplier",title:"主供应商",sortable:true,tooltip:true,width:80},
 		          {field:"saleWay",title:"经营方式",sortable:true,tooltip:true,width:60,hidden:true},
-		          {field:"saleWayName",title:"经营方式",sortable:true,tooltip:true,width:60},
+		          {field:"saleWayName",title:"经营方式",sortable:true,tooltip:true,width:60,align:'center'},
 		          {field:"supplierRate",title:"联营扣率/代销扣率",sortable:true,tooltip:true,width:80,align:'right',
 		        	  formatter : function(value,row,index){
 		        		  if(value){
@@ -203,7 +203,7 @@ function initDatagridOrders(){
 		          {field:"purchasePrice",title:"进货价",sortable:true,tooltip:true,width:80,align:'right',
 		        	  formatter : function(value,row,index){
 		        		  if(value){
-		        			  return parseFloat(value).toFixed(2);
+		        			  return parseFloat(value).toFixed(4);
 		        		  }
 		        		  return null;
 		        	  }
@@ -211,7 +211,7 @@ function initDatagridOrders(){
 		          {field:"salePrice",title:"零售价",sortable:true,tooltip:true,width:80,align:'right',
 		        	  formatter : function(value,row,index){
 		        		  if(value){
-		        			  return parseFloat(value).toFixed(2);
+		        			  return parseFloat(value).toFixed(4);
 		        		  }
 		        		  return null;
 		        	  }
@@ -219,7 +219,7 @@ function initDatagridOrders(){
 		          {field:"distributionPrice",title:"配送价",sortable:true,tooltip:true,width:80,align:'right',
 		        	  formatter : function(value,row,index){
 		        		  if(value){
-		        			  return parseFloat(value).toFixed(2);
+		        			  return parseFloat(value).toFixed(4);
 		        		  }
 		        		  return null;
 		        	  }
@@ -227,7 +227,7 @@ function initDatagridOrders(){
 		          {field:"wholesalePrice",title:"批发价",sortable:true,tooltip:true,width:80,align:'right',
 		        	  formatter : function(value,row,index){
 		        		  if(value){
-		        			  return parseFloat(value).toFixed(2);
+		        			  return parseFloat(value).toFixed(4);
 		        		  }
 		        		  return null;
 		        	  }
@@ -235,12 +235,12 @@ function initDatagridOrders(){
 		          {field:"vipPrice",title:"会员价",sortable:true,tooltip:true,width:80,align:'right',
 		        	  formatter : function(value,row,index){
 		        		  if(row.vipPrice){
-		        			  return parseFloat(row.vipPrice).toFixed(2);
+		        			  return parseFloat(row.vipPrice).toFixed(4);
 		        		  }
 		        		  return null;
 		        	  }	
 		          },
-		          {field:"status",title:"商品状态",sortable:true,tooltip:true,width:80,
+		          {field:"status",title:"商品状态",sortable:true,tooltip:true,width:80,align:'center',
 		        	  formatter : function(status){
 		        		  if(status){
 		        			  return status.value;
@@ -248,7 +248,7 @@ function initDatagridOrders(){
 		        		  return null;
 		        	  }	
 		          },
-		          {field:"pricingType",title:"计价方式",sortable:true,tooltip:true,width:80,
+		          {field:"pricingType",title:"计价方式",sortable:true,tooltip:true,width:80,align:'center',
 		        	  formatter : function(pricingType){
 		        		  if(pricingType){
 		        			  return pricingType.value;
@@ -321,7 +321,7 @@ function searchBind(){
 function searchBranch (){
 	new publicAgencyService(function(data){
 	$("#branchName").val(data.branchName);
-	});
+	},"","");
 }
 
 /**
@@ -356,7 +356,8 @@ function exportExcel(){
 	$("#exportWin").window("close");
 	$("#queryForm").form({
 		success : function(result){
-			successTip(result);
+			var dataObj=eval("("+result+")");
+			successTip(dataObj.message);
 		}
 	});
 	//获取左侧缓存查询数据

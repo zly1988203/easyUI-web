@@ -135,7 +135,6 @@ function onChangeFormType(newV,oldV){
 	$("#formType").combobox("setValue",newV);
 }
 function onChangeCategoryType(newV,oldV){
-    debugger;
     $("#categoryName").val("");
     $("#categoryId").val("");
 }

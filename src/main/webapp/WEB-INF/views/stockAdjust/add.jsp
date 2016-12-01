@@ -17,7 +17,7 @@
                 <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
                  <div class="ubtns-item" onclick="importHandel(0)">导入货号</div>
                 <div class="ubtns-item" onclick="importHandel(1)">导入条码</div>
-		                <div class="ubtns-item" onclick="back()">返回</div>
+		                <div class="ubtns-item" onclick="back()">关闭</div>
             </div>
         </div>
            <div class="ub umar-t10">

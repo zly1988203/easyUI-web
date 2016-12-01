@@ -153,7 +153,7 @@ function updateFooter(){
 }
 
 function returnAdd(){
-	location.href = contextPath + "/form/purchase/returnAdd";
+	toAddTab("新增采购退货单",contextPath + "/form/purchase/returnAdd");
 }
 
 //返回列表页面

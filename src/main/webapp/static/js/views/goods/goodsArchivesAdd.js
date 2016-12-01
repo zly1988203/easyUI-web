@@ -61,27 +61,6 @@ function initGoodsView(data,flag){
 			minMaxSalePrice();
 		}
 	});
-	$(function(){
-		$("#remark").textbox('textbox').bind('keyup', function(e){
-			if( $("#remark").val().length>100){
-				$("#remark").textbox('setValue', $(this).val().substring(0,100));
-			}
-		});
-	});
-/*	$("#barCode").attr("readonly","readonly");
-*///	$(document).ready(function(){ 
-//	$('#pricingType').change(function(){ 
-//	alert("AAAAAAAAAA");
-//	}) 
-//	}) ;
-
-	//生成毛利值，毛利率
-//	$('#salePrice').on("input",function(){
-//	setGrossProfit();
-//	});
-//	$('#purchasePrice').on("input",function(){
-//	setGrossProfit();
-//	});
 }
 //获取列表复制的值
 function getSelectionRow(data){
@@ -89,7 +68,6 @@ function getSelectionRow(data){
 	if(selectionRow != ""){
 		selectionRow = JSON.parse(unescape(selectionRow));
 		setInputValByObj();
-		//debugger;
 		$("#skuCode").val(null);
 		$("#barCode").val(null);
 	}
@@ -212,7 +190,6 @@ function getMemoryCode(){
 
 //商品自动生成货号
 function getSkuCodeVal(){
-	//debugger;
 	var pricingType = 	$('#pricingType').combobox("getValue");
 	//计件方式为“普通”，需要商品类别生成货号，其他不需要，直接生成货号，并且货号全部都是只可读
 	if(pricingType == ""){
@@ -440,7 +417,6 @@ function pricingTypeChange(){
 	getSkuCodeVal();
 }
 function typeChange(){
-	//debugger;
 	var pricingType = 	$('#type').combobox("getValue");
 	//计件方式为“普通”，需要商品类别生成货号，其他不需要，直接生成货号，并且货号全部都是只可读
 	if(pricingType == ""){

@@ -27,7 +27,7 @@
 						<div class="ubtns-item" onclick="delDeliverForm()">删单</div>
 				   	</shiro:hasPermission>
 	            	<shiro:hasPermission name="JxcDeliverDA:setting">
-						<div class="ubtns-item">设置</div>
+						<div class="ubtns-item-disabled">设置</div>
 				   	</shiro:hasPermission>
 				   	<div id="updatePermission" class="none">
 						<shiro:hasPermission name="JxcDeliverDA:update" >修改</shiro:hasPermission>
@@ -49,7 +49,7 @@
 	                <div class="ub ub-ac uw-300 umar-l20">
 	                    <div class="umar-r10 uw-70 ut-r">制单人员:</div>
 	                    <input type="hidden" id="operateUserId" name="operateUserId" />
-	                    <input class="uinp ub ub-f1" type="text"  id="operateUserName" type="text" />
+	                    <input class="uinp ub ub-f1" type="text" id="operateUserName" name="operateUserName" type="text" />
 	                    <div class="uinp-more" onclick="selectOperator()">...</div>
 	                </div>
 	                <div class="ub ub-ac uw-300 umar-l40">

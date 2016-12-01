@@ -35,6 +35,7 @@ public class OutOfStockController  extends ReportController{
 
 	@RequestMapping("/view")
 	public String view(Model model) {
+		model.addAttribute("branchId", getCurrBranchId());
 		return "report/pricing/outOfStock";
 	}
 	
@@ -47,7 +48,6 @@ public class OutOfStockController  extends ReportController{
 	public Map<String, Object> getParam(HttpServletRequest request) {
 		Map<String,Object> map= this.builderParams(request, null);
 		return map;
-		
 	}
 	
 	/**
@@ -92,34 +92,25 @@ public class OutOfStockController  extends ReportController{
 		}
 		return null;
 	}
-	
 
 	@Override
 	public String getFileName() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String[] getHeaders() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String[] getColumns() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void formatter(DataRecord dataRecord) {
-		// TODO Auto-generated method stub
 		
 	}
-
-
-	
-	
 }
 

@@ -31,7 +31,9 @@ function initDatagridRequireOrders(){
 			{field:'check',checkbox:true},
             {field:'formNo',title:'单据编号',width:'140px',align:'left',formatter:function(value,row,index){
             	if(updatePermission){
-            		return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/deliverForm/deliverEdit?deliverFormId="+ row.deliverFormId +"'>" + value + "</a>";
+            		var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'入库单明细\',\''+ contextPath +'/form/deliverForm/deliverEdit?deliverFormId='+ row.deliverFormId +'&formType=DI\')">' + value + '</a>';
+            		return strHtml;
+            		//return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/deliverForm/deliverEdit?deliverFormId="+ row.deliverFormId +"'>" + value + "</a>";
             	}else{
             		return value;
             	}
@@ -77,7 +79,7 @@ function initDatagridRequireOrders(){
 
 //新增入库单
 function addDeliverForm(){
-	location.href = contextPath + "/form/deliverForm/addDeliverForm?deliverType=DI";
+	toAddTab("新增入库单",contextPath + "/form/deliverForm/addDeliverForm?deliverType=DI");
 }
 
 //查询入库单
@@ -91,7 +93,6 @@ function queryForm(){
 //删除
 function delDeliverForm(){
 	var dg = $("#deliverFormList");
-	debugger;
 	var row = dg.datagrid("getChecked");
 	var ids = [];
 	for(var i=0; i<row.length; i++){
@@ -128,7 +129,7 @@ function delDeliverForm(){
  */
 function selectBranches(){
 	new publicAgencyService(function(data){
-		$("#sourceBranchId").val(data.branchesId);
+//		$("#sourceBranchId").val(data.branchesId);
 		$("#sourceBranchName").val(data.branchName);
 	},'',sourceBranchId);
 }
@@ -149,7 +150,7 @@ function printDesign(){
  */
 function selectOperator(){
 	new publicOperatorService(function(data){
-		$("#operateUserId").val(data.id);
+//		$("#operateUserId").val(data.id);
 		$("#operateUserName").val(data.userName);
 	});
 }

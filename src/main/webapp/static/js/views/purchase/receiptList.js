@@ -45,10 +45,12 @@ function initDatagridOrders(){
         columns:[[
             {field:'check',checkbox:true},
             {field:'formNo',title:'单据编号',width:'140px',align:'left',formatter:function(value,row,index){
-            	return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/purchase/receiptEdit?formId="+ row.id +"'>" + value + "</a>"
+            	var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看采购收货详细\',\''+contextPath+'/form/purchase/receiptEdit?formId='+row.id+'\')">' + value + '</a>';
+            	return strHtml;
+            
             }},
             {field:'branchName',title:'收货机构',width:'100px',align:'left'},
-            {field:'status',title:'审核状态',width:'100px',align:'left',formatter:function(value,row,index){
+            {field:'status',title:'审核状态',width:'100px',align:'center',formatter:function(value,row,index){
             	if(value == '0'){
             		return '待审核';
             	}else if(value == '1'){
@@ -82,9 +84,11 @@ function initDatagridOrders(){
     });
     query();
 }
+
 function receiptAdd(){
-	location.href = contextPath + "/form/purchase/receiptAdd";
+	toAddTab("新增采购收货单",contextPath + "/form/purchase/receiptAdd");
 }
+
 function query(){
 	$("#gridOrders").datagrid("options").queryParams = $("#queryForm").serializeObject();
 	$("#gridOrders").datagrid("options").method = "post";
@@ -98,13 +102,24 @@ function receiptDelete(){
 	if(rowIsNull(row)){
 		return null;
 	}
+	var rows =$("#gridOrders").datagrid("getChecked");
+	if($("#gridOrders").datagrid("getChecked").length <= 0){
+		 $.messager.alert('提示','请选中一行进行删除！');
+		return null;
+	}
+	 var formIds='';
+	    $.each(rows,function(i,v){
+	    	formIds+=v.id+",";
+	    });
+	
+	
 	$.messager.confirm('提示','是否要删除此条数据',function(data){
 		if(data){
 			$.ajax({
 		    	url:contextPath+"/form/purchase/delete",
 		    	type:"POST",
 		    	data:{
-		    		formId:row.id
+		    		formIds:formIds
 		    	},
 		    	success:function(result){
 		    		console.log(result);
