@@ -82,7 +82,6 @@ function initDatagridRequireOrders(){
 //新增要货单
 function addDeliverForm(){
 	toAddTab("新增要货单",contextPath + "/form/deliverForm/addDeliverForm?deliverType=DA");
-	//location.href = contextPath + "/form/deliverForm/addDeliverForm?deliverType=DA";
 }
 
 //查询要货单

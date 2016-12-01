@@ -879,5 +879,8 @@ function updateListData(data){
     },100)
 }
 
-
+//新增出库单
+function addDeliverForm(){
+	toAddTab("新增出库单",contextPath + "/form/deliverForm/addDeliverForm?deliverType=DO");
+}
 
