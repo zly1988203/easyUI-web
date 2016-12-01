@@ -156,7 +156,6 @@ public class CashFlowReportController extends BaseController<CashFlowReportContr
 		try {
 			// 1、封装请求参数
 			qo = getParmas(qo);
-			qo.setEndCount(qo.getEndCount()-qo.getStartCount());
 			List<CashFlowReportVo> exportList = cashFlowReportService.queryList(qo);
             if(CollectionUtils.isNotEmpty(exportList)){
             	// 2、查询汇总

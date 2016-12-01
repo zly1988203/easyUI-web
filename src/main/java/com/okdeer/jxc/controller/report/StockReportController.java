@@ -148,7 +148,6 @@ public class StockReportController extends BaseController<StockReportController>
 		try {
 			// 构建默认参数
 			qo = buildDefaultParams(qo);
-            qo.setEndCount(qo.getEndCount()-qo.getStartCount());
 			// 1、列表查询
 			List<StockReportVo> exportList = stockReportService.queryList(qo);
 

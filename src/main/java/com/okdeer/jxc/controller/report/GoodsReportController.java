@@ -130,7 +130,6 @@ public class GoodsReportController extends
 			if (StringUtils.isEmpty(qo.getBranchName())) {
 				qo.setBranchId(UserUtil.getCurrBranchId());
 			}
-			qo.setEndCount(qo.getEndCount()-qo.getStartCount());
 			List<GoodsReportVo> exportList = goodsReportService.queryList(qo);
             if(CollectionUtils.isNotEmpty(exportList)){
 			String fileName = "商品查询列表" + "_" + DateUtils.getCurrSmallStr();

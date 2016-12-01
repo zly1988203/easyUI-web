@@ -112,7 +112,6 @@ public class ArrivalRateController extends BaseController<PurchaseForm>{
 		LOG.info("UserController.exportList start ,parameter vo=",qo);
 		try {
 			qo = buildDefaultParams(qo);
-			qo.setEndCount(qo.getEndCount()-qo.getStartCount());
 			//1、列表查询
 			List<ArrivalRateVo> list = arrivalRateService.findArrivalRate(qo);
 			if(CollectionUtils.isNotEmpty(list)){
