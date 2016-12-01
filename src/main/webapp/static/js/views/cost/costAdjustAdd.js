@@ -275,7 +275,7 @@ function addsaveOrder(){
     var isCheckResult = true;
     var isChcekPrice = false;
     $.each(rows,function(i,v){
-        if(!v["skuCode"]){
+       /* if(!v["skuCode"]){
             messager("第"+(i+1)+"行，货号不能为空");
             isCheckResult = false;
             return false;
@@ -284,7 +284,7 @@ function addsaveOrder(){
             messager("第"+(i+1)+"行，名称不能为空");
             isCheckResult = false;
             return false;
-        };
+        };*/
         if(parseFloat(v["costPrice"])<=0){
             isChcekPrice = true;
         }
