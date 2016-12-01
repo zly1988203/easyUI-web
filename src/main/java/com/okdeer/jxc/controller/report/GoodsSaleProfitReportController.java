@@ -100,7 +100,6 @@ public class GoodsSaleProfitReportController extends BaseController<GoodsSalePro
 		RespJson resp = RespJson.success();
 		try {
 			vo.setSourceBranchId(UserUtil.getCurrBranchId());
-			vo.setEndCount(vo.getEndCount() - vo.getStartCount());
 			List<GoodsSaleProfitReportVo> exportList = goodsSaleProfitReportServiceApi.exportList(vo);
 			GoodsSaleProfitReportVo goodsSaleProfitReportVo = goodsSaleProfitReportServiceApi.queryGoodsSaleProfitSum(vo);
 			goodsSaleProfitReportVo.setBranchName("合计:");
