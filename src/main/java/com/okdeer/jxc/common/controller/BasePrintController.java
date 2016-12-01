@@ -6,10 +6,12 @@
  */    
 package com.okdeer.jxc.common.controller;
 
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +19,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.okdeer.jxc.common.utils.JsonMapper;
 import com.okdeer.jxc.controller.BaseController;
+import com.okdeer.jxc.utils.IOStreamUtils;
+import com.okdeer.jxc.utils.jxls.ReportExcelUtil;
 
 
 /**
@@ -86,5 +90,24 @@ public abstract class BasePrintController<T,P> extends BaseController<T> {
 		//页面跳转
 		model.setViewName("component/publicPrintPreview");
 		return model;
+	}
+	
+	@RequestMapping(value = "exportSheet")
+	public void export(HttpServletResponse response,String page,String sheetNo){
+		//获取打印占位JSON
+		Map<String, Object> replaceMap = getPrintReplace(sheetNo);
+		//获取打印表格明细JSON
+		List<P> detailList = getPrintDetail(sheetNo);
+		
+		InputStream is = null;
+		try {
+			is = IOStreamUtils.getExcelExportPathInputStream(page+".xlsx");
+			//ReportExcelUtil.reportExcelToList(response, is, replaceMap.get("_订单编号").toString(), ReportExcelUtil.REPORT_XLSX, detailList);
+			ReportExcelUtil.reportExcelToMapAndList(response, is, replaceMap.get("_订单编号").toString(), ReportExcelUtil.REPORT_XLSX, replaceMap, detailList);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+
 	}
 }
