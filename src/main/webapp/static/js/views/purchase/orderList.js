@@ -92,7 +92,8 @@ function initDatagridOrders(){
                 }
                 return "";
             }},
-            {field:'validUserName',title:'审核人',width:'130px',align:'left'}
+            {field:'validUserName',title:'审核人',width:'130px',align:'left'},
+            {field:'remark',title:'备注',width:'200px',align:'left'}
         ]],
 		onLoadSuccess : function() {
 			gridHandel.setDatagridHeader("center");
