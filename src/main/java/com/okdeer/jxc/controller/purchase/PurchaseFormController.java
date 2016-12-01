@@ -884,6 +884,31 @@ public class PurchaseFormController extends
 			//打印时间
 			replaceMap.put("_打印时间",DateUtils.formatDate(new Date(), "yyyy-MM-dd"));
 			replaceMap.put("printTime",DateUtils.formatDate(new Date(), "yyyy-MM-dd"));
+			
+			/**
+			 * added by zhangqin on 2016-12-01 14:36 begin
+			 * 新增供应商联系人、供应商电话号码、供应商手机号码、机构联系人、机构联系电话、机构详细地址字段
+			 */
+			//供应商联系人
+			replaceMap.put("_供应商联系人", form.getSupplierContcat() != null ? form.getSupplierContcat() : "");
+			replaceMap.put("supplierContcat", form.getSupplierContcat() != null ? form.getSupplierContcat() : "");
+			//供应商电话号码
+			replaceMap.put("_供应商电话号码", form.getSupplierPhone() != null ? form.getSupplierPhone() : "");
+			//供应商手机号码
+			replaceMap.put("_供应商手机号码", form.getSupplierMobile() != null ? form.getSupplierMobile() : "");
+			replaceMap.put("supplierMobile", form.getSupplierMobile() != null ? form.getSupplierMobile() : "");
+			//机构联系人
+			replaceMap.put("_机构联系人", form.getBranchContacts() != null ? form.getBranchContacts() : "");
+			replaceMap.put("branchContacts", form.getBranchContacts() != null ? form.getBranchContacts() : "");
+			//机构联系电话
+			replaceMap.put("_机构联系电话", form.getBranchMobile() != null ? form.getBranchMobile() : "");
+			replaceMap.put("branchMobile", form.getBranchMobile() != null ? form.getBranchMobile() : "");
+			//机构详细地址
+			replaceMap.put("_机构详细地址", form.getBranchAddress() != null ? form.getBranchAddress() : "");
+			replaceMap.put("branchAddress", form.getBranchAddress() != null ? form.getBranchAddress() : "");
+			/**
+			 * added by zhangqin on 2016-12-01 14:36 end
+			 */
 		}
 		return replaceMap;
 	}

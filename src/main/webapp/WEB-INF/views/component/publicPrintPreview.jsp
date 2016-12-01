@@ -13,7 +13,7 @@
 <iframe id="${sheetNo}" scrolling="auto" frameborder="0" src="${ctx}/printdesign/design?page=${page}&amp;controller=${controllerUrl}&amp;template=-1&amp;sheetNo=${sheetNo}&amp;gridFlag=PAGrid" style="width:0;height:0;"></iframe>
     <div>
         <input id="btnPrint" class='noPrint' type='button' value='打印' />
-        <input id="btnExport" class='noPrint' type='button' value='导出' />
+        <!-- <input id="btnExport" class='noPrint' type='button' value='导出' /> -->
     </div>
     <div>
         <div id="divPrint"></div>
@@ -95,9 +95,9 @@
     	        $.sheetDesignPrint(options,${jsonReplace});
     	    });
     	    
-            $("#btnExport").click(function () {
+            /* $("#btnExport").click(function () {
             	window.location.href='${ctx}${controllerUrl}'+'exportSheet?page=${page}&sheetNo=${sheetNo}';
-            });
+            }); */
     	}
     	
     	function initHandelprint(argoptions){
