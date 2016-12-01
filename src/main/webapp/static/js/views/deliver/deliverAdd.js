@@ -3,6 +3,7 @@
  * 要货单-新增
  */
 var targetBranchTypeTemp = "";
+var branchId = '';
 $(function(){
     $("#createTime").html(new Date().format('yyyy-MM-dd hh:mm')); 
     initDatagridAddRequireOrder();
@@ -25,6 +26,8 @@ function initDatagridAddRequireOrder(){
                 gridHandel.addRow(parseInt(gridHandel.getSelectRowIndex())+1,gridDefault);
                 
             }else{
+            	debugger;
+            	branchId = $("#sourceBranchId").val();
                 selectGoods(arg);
             }
         },
@@ -144,6 +147,7 @@ function initDatagridAddRequireOrder(){
                     if(row.isFooter){
                         return
                     }
+                    
                     return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
                 options:{
@@ -176,16 +180,19 @@ function initDatagridAddRequireOrder(){
                     if(row.isFooter){
                         return
                     }
+                    if(!row.sourceStock){
+                    	row.sourceStock = parseFloat(value||0).toFixed(2);
+                    }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
-            	editor:{
-                    type:'numberbox',
-                    options:{
-                        disabled:true,
-                        min:0,
-                        precision:2,
-                    }
-                }
+//            	editor:{
+//                    type:'numberbox',
+//                    options:{
+//                        disabled:true,
+//                        min:0,
+//                        precision:2,
+//                    }
+//                }
             }
         ]],
         onClickCell:function(rowIndex,field,value){
@@ -301,8 +308,9 @@ function selectGoods(searchKey){
 	        $("#gridEditOrder").datagrid("deleteRow", gridHandel.getSelectRowIndex());
 	        $("#gridEditOrder").datagrid("acceptChanges");
 	    }
-    	selectStockAndPrice(data);
-    },searchKey,"",sourceBranchId,targetBranchId,'','');
+    	selectStockAndPrice(data,branchId);
+    },searchKey,'',sourceBranchId,targetBranchId,branchId,'');
+    branchId = '';
 }
 // 二次查询设置值
 function setDataValue(data,type) {
@@ -322,6 +330,7 @@ function setDataValue(data,type) {
 	         disabled:'',
 	         pricingType:''
          };
+         debugger;
          var rows = gFunUpdateKey(addDefaultData,keyNames);
          var argWhere ={skuCode:1};  //验证重复性
          var isCheck ={isGift:1 };   //只要是赠品就可以重复
@@ -330,7 +339,8 @@ function setDataValue(data,type) {
 }
 
 // 查询价格、库存
-function selectStockAndPrice(data){
+function selectStockAndPrice(data,branchId){
+	setDataValue(data);
 //	var targetBranchType = $("#targetBranchType").val();
     // C类加盟店显示为发货机构的商品表
    /* if (targetBranchType === '5' || targetBranchType === '4') {
@@ -351,7 +361,6 @@ function selectStockAndPrice(data){
 		};
 		GoodsStockVo.goodsSkuVo[i] = temp;
 	});*/
-	setDataValue(data);
 	/*return;
 	$.ajax({
     	url : contextPath+"/goods/goodsSelect/selectStockAndPrice",
