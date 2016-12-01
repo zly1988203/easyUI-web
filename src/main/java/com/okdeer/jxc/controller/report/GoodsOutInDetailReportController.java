@@ -103,7 +103,6 @@ public class GoodsOutInDetailReportController extends BaseController<GoodsOutInD
 				vo.setSupplierName(supplierName);
 			}
 			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
-			vo.setEndCount(vo.getEndCount() - vo.getStartCount());
 			List<GoodsOutInDetailVo> exportList = goodsOutInDetailServiceApi.exportList(vo);
 			GoodsOutInDetailVo goodsOutInDetailVo = goodsOutInDetailServiceApi.queryGoodsOutInDetailCountSum(vo);
 			goodsOutInDetailVo.setBranchCode("合计：");
