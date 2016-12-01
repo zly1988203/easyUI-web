@@ -41,7 +41,7 @@ import com.okdeer.jxc.pos.vo.PosPrepayVo;
  */
 @RequestMapping("order/order")
 @Controller
-public class OrderController extends BaseController<OrderController>{
+public class TestOrderController extends BaseController<TestOrderController>{
 	
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 	
