@@ -48,8 +48,8 @@
                 </div>
                 <div class="ub ub-ac uw-300 umar-l40">
                     <div class="umar-r10 uw-70 ut-r">制单人员:</div>
-                    <input type="hidden" id="operateUserId" name="operateUserId" />
-                    <input class="uinp ub ub-f1" type="text"  id="operateUserName" type="text" />
+                    <!-- <input type="hidden" id="operateUserId" name="operateUserId" /> -->
+                    <input class="uinp ub ub-f1" type="text"  id="operateUserName" name="operateUserName" type="text" />
                     <div class="uinp-more" onclick="selectOperator()">...</div>
                 </div>
                 <div class="ub ub-ac uw-300 umar-l40">
