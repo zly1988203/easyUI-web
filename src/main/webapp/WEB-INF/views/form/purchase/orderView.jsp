@@ -71,7 +71,12 @@
             </div>
         </div>
         <div class="already-examine" id="already-examine"><span>${status}</span></div>
-        
+        <div class="ub umar-t8">
+               <div class="ub ub-ac uw-610" style="width: 624px;">
+	                    <div class="umar-r10 uw-60 ut-r">备注:</div>
+	                    <input class="uinp ub ub-f1" name="remark" id="remark" type="text" onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')" onpaste="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')" oncontextmenu = "value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')" maxlength="100" value="${form.remark}" readonly="readonly">
+	           </div>
+        </div>
         <div class="ub ub-f1 datagrid-edit umar-t8">
             <table id="gridEditOrder" ></table>
         </div>
