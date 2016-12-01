@@ -59,15 +59,15 @@
                 <div class="ub ub-ac">
                    <div class="umar-r10 uw-70 ut-r">报表类型:</div>
                     <div class="ub ub-ac umar-r10 ">
-                        <input class="ub radioItem" id="cashDailyAll" type="radio" name="queryType" value="cashier" checked="checked"/>
+                        <input class="radioItem" id="cashDailyAll" type="radio" name="queryType" value="cashier" checked="checked"/>
                         <label for="cashDailyAll">按收银员汇总</label>
                     </div>
                     <div class="ub ub-ac umar-r10">
-                        <input class="ub radioItem" id="cashDailyMd" type="radio" name="queryType" value="branch"  />
+                        <input class="radioItem" id="cashDailyMd" type="radio" name="queryType" value="branch"  />
                         <label for="cashDailyMd">按门店汇总</label>
                     </div>
                    <div class="ub ub-ac umar-r10">
-                        <input class="ub radioItem" id="cashDailyDate" type="radio" name="queryType" value="date" />
+                        <input class="radioItem" id="cashDailyDate" type="radio" name="queryType" value="date" />
                         <label for="cashDailyDate">按日期汇总</label>
                   </div>
                 </div>

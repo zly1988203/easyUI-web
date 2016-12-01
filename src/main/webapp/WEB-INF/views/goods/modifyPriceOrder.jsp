@@ -66,7 +66,7 @@
 	                         <label><input class="radioItem" type="radio" value="0" name="status" checked="checked"/><span>未审核</span></label>
 	                    </div>
 	                    <div class="ub ub-ac umar-r10">
-	                         <label><input class=" radioItem" type="radio" value="1" name="status"/><span>审核</span></label>
+	                         <label><input class="radioItem" type="radio" value="1" name="status"/><span>审核</span></label>
 	                    </div>
 	                    <div class="ub ub-ac umar-r10">
 	                         <label><input class="radioItem"  type="radio" value="" name="status"/><span>全部</span></label>
