@@ -1238,6 +1238,7 @@ function loadTemplate(temp) {
         var span = $(this);
         bindDropElementEvent(span);
     });
+
 }
 
 //初始化明细列表
@@ -1274,6 +1275,15 @@ function initDetailGrid(columns) {
 
         setFontSize(fs);
     }
+    if(parent.viewName=="publicPrintPreView"){
+        if(parent.form=="list"){
+            parent.initPrintView();
+        }else if(parent.form=="print"){
+            parent.initHandelPrintView();
+        }
+
+    }
+
 }
 
 //获取模板界面明细列
