@@ -18,9 +18,15 @@
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
             	<input type="hidden" id="close" value="${close}"/>
-            	<div class="ubtns-item" id="addButton" onclick="addDeliverForm()">新增</div>
-            	<div class="ubtns-item" onclick="stop()">终止</div>
-            	<div class="ubtns-item" onclick="printChoose('DA','/form/deliverForm/')">打印</div>
+            	<shiro:hasPermission name="JxcDeliverDA:add">
+            		<div class="ubtns-item" id="addButton" onclick="addDeliverForm()">新增</div>
+            	</shiro:hasPermission>
+            	<shiro:hasPermission name="JxcDeliverDA:terminate">
+            		<div class="ubtns-item" onclick="stop()">终止</div>
+            	</shiro:hasPermission>
+            	<shiro:hasPermission name="JxcDeliverDA:print">
+            		<div class="ubtns-item" onclick="printChoose('DA','/form/deliverForm/')">打印</div>
+            	</shiro:hasPermission>
             	<div class="ubtns-item"  onclick="exportData('DA','gridViewRequireOrder')">导出明细</div>
             	<div class="ubtns-item"  onclick="exportData('DA','gridViewRequireOrder',1)">导出货号</div>
                 <div class="ubtns-item" onclick="toClose()">关闭</div>
