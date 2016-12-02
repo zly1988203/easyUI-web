@@ -348,8 +348,8 @@ public class SupplierController extends BaseController<SupplierController> {
 	@ResponseBody
 	public RespJson exportHandel(SupplierQo qo, HttpServletResponse response) {
 		try {
-			qo.setPageSize(ExportExcelConstant.EXPORT_MAX_SIZE);
-			qo.setPageNumber(0);
+			/*qo.setPageSize(ExportExcelConstant.EXPORT_MAX_SIZE);
+			qo.setPageNumber(0);*/
 			// 添加过滤条件
 			Integer branchType = super.getCurrBranchType();
 			// 如果机构类型不是总部，分公司，则无查看权限

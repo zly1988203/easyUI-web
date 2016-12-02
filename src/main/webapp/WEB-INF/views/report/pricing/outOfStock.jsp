@@ -7,6 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>配送缺货率分析</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
+<%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 <script src="${ctx}/static/js/views/report/pricing/outOfStock.js"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
@@ -22,7 +23,9 @@
 	                <div class="ubtns-item" onclick="queryForm()">查询</div>
 	            </shiro:hasPermission>
 	            <shiro:hasPermission name="JxcSaleFlow:export">
-	                <div class="ubtns-item" onclick="exportExcel()">导出</div>
+	           		<input type="hidden" id="startCount" name="startCount" />
+					<input type="hidden" id="endCount" name="endCount" />
+	                <div class="ubtns-item" onclick="exportData()">导出</div>
 	            </shiro:hasPermission>
 	              	<div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 	            	<div class="ubtns-item" onclick="window.parent.closeTab()">退出</div>

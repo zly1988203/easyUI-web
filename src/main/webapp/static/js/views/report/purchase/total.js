@@ -21,11 +21,12 @@ $(function() {
 });
 
 var flushFlg = false;
+var dg;
 function changeType(){
 	$(".radioItem").on("click",function(){
 		flushFlg = true;
     	var a = $(this).val();
-    	$("#purReportTotal").datagrid("options").url = "";
+    	dg=$("#purReportTotal").datagrid("options").url = "";
     	if (a=="goodsTotal") {
 			//  按商品汇总
     		categoryOn();
@@ -143,9 +144,11 @@ var gridHandel = new GridClass();
  * 初始化表格按  商品
  * @param queryType
  */
+
+var dg;
 function initPurReportTotalGrid() {
 	gridHandel.setGridName("purReportTotal");
-    $("#purReportTotal").datagrid({
+	dg= $("#purReportTotal").datagrid({
         //title:'普通表单-用键盘操作',
         method: 'post',
         align: 'center',
@@ -252,7 +255,7 @@ function initPurReportTotalGrid() {
  */
 function initPurReportSupplierGrid() {
 	gridHandel.setGridName("purReportTotal");
-    $("#purReportTotal").datagrid({
+	dg= $("#purReportTotal").datagrid({
         //title:'普通表单-用键盘操作',
         method: 'post',
         align: 'center',
@@ -347,7 +350,7 @@ function initPurReportSupplierGrid() {
  */
 function initPurFormNoGrid() {
 	gridHandel.setGridName("purReportTotal");
-    $("#purReportTotal").datagrid({
+   dg = $("#purReportTotal").datagrid({
         //title:'普通表单-用键盘操作',
         method: 'post',
         align: 'center',
@@ -446,7 +449,7 @@ function initPurFormNoGrid() {
  */
 function initCategoryGrid() {
 	gridHandel.setGridName("purReportTotal");
-    $("#purReportTotal").datagrid({
+	dg=$("#purReportTotal").datagrid({
         //title:'普通表单-用键盘操作',
         method: 'post',
         align: 'center',
@@ -551,6 +554,8 @@ function updateFooter(){
  * 查询
  */
 function purchaseTotalCx(){
+	$("#startCount").val('');
+	$("#endCount").val('');
 	var startDate = $("#txtStartDate").val();
 	var endDate = $("#txtEndDate").val();
 	var branchName = $("#branchName").val();
@@ -581,22 +586,35 @@ function exportTotal(){
 		$.messager.alert('提示', '日期不能为空');
 		return ;
 	}
-	/*if(!branchName){
-		$.messager.alert('提示', '机构名不能为空');
-		return ;
-	}*/
-	var length = $("#purReportTotal").datagrid('getData').total;
+	var length = $('#purReportTotal').datagrid('getData').rows.length;
 	if(length == 0){
-		$.messager.alert('提示',"没有数据");
+		successTip("无数据可导");
 		return;
 	}
-	if(length>10000){
-		$.messager.alert("当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
-		return;
-	}
-	$("#queryForm").attr("action",contextPath+'/report/purchase/exportTotal');
-	$("#queryForm").submit();	
+	$('#exportWin').window({
+		top:($(window).height()-300) * 0.5,   
+	    left:($(window).width()-500) * 0.5
+	});
+	$("#exportWin").show();
+	$("#totalRows").html(dg.datagrid('getData').total);
+	$("#exportWin").window("open");
 }
+// 调用导出方法
+function exportExcel(){
+	$("#exportWin").hide();
+	$("#exportWin").window("close");
+	$("#queryForm").form({
+		success : function(result){
+			
+		}
+	});
+	$("#queryForm").attr("action",contextPath+'/report/purchase/exportTotal');
+	$("#queryForm").submit();		
+
+}
+
+
+
 /**
  * 机构列表下拉选
  */
