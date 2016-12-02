@@ -9,8 +9,8 @@
 				<tr style="height: 30px;"><td><input type="radio" name="chose" value="2" />自定义页面（手动填写条数，最大20000条）当前搜索结果共<span id="totalRows"></span>条</td></tr>
 				<tr style="height: 20px;">
 					<td>
-						<input type="text" id="startRow" style="width: 60px;" onkeyup="checkNumber(this);"  onafterpaste="checkNumber(this);">条&nbsp;-&nbsp;
-						<input type="text" id="endRow" style="width: 60px;" onkeyup="checkNumber(this);"  onafterpaste="checkNumber(this);">条
+						<input type="text" id="startRow" name="startRow" style="width: 60px;" onkeyup="checkNumber(this);"  onafterpaste="checkNumber(this);">条&nbsp;-&nbsp;
+						<input type="text" id="endRow" name="endRow" style="width: 60px;" onkeyup="checkNumber(this);"  onafterpaste="checkNumber(this);">条
 					</td>
 				</tr>
 				<tr style="height: 60px;">

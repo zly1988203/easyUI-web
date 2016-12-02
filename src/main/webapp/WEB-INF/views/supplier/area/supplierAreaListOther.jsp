@@ -6,6 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>供应商档案列表(机构)</title>
 	<%@ include file="/WEB-INF/views/include/header.jsp"%>
+	<%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 	<script  src="${ctx}/static/js/views/supplier/area/supplierAreaListOther.js"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
