@@ -141,7 +141,7 @@ var gridHandel = new GridClass();
  */
 function initGoodsTotalAnalysiGrid() {
 	gridHandel.setGridName("goodsTotalAnalysi");
-    $("#goodsTotalAnalysi").datagrid({
+   dg =  $("#goodsTotalAnalysi").datagrid({
         //title:'普通表单-用键盘操作',
         method: 'post',
         align: 'center',
@@ -352,6 +352,8 @@ function purchaseTotalCx(){
 			return ;
 		}
 	}
+	$("#startCount").attr("value",null);
+	$("#endCount").attr("value",null);
 	var formData = $("#queryForm").serializeObject();
 	$("#goodsTotalAnalysi").datagrid("options").url = "";
 	$('#goodsTotalAnalysi').datagrid({showFooter:true});
@@ -360,10 +362,28 @@ function purchaseTotalCx(){
 	$("#goodsTotalAnalysi").datagrid("options").url =  contextPath+"/report/goodsTotalAnalysi/reportListPage";
 	$("#goodsTotalAnalysi").datagrid("load");
 }
+var dg;
 /**
  * 导出
  */
-function exportTotal(){
+function exportData(){
+	var length = $('#goodsTotalAnalysi').datagrid('getData').total;
+	if(length == 0){
+		successTip("无数据可导");
+		return;
+	}
+	$('#exportWin').window({
+		top:($(window).height()-300) * 0.5,   
+	    left:($(window).width()-500) * 0.5
+	});
+	$("#exportWin").show();
+	$("#totalRows").html(dg.datagrid('getData').total);
+	$("#exportWin").window("open");
+}
+/**
+ * 导出
+ */
+function exportExcel(){
 	var startDate = $("#txtStartDate").val();
 	var endDate = $("#txtEndDate").val();
 	var branchName = $("#branchName").val();
