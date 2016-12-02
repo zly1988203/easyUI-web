@@ -65,6 +65,7 @@ function zTreeOnClick(event, treeId, treeNode) {
 }
 
 var gridHandel = new GridClass();
+var dg;
 function initDatagridsupplierList(){
     gridHandel.setGridName("gridSupplierArchiveList");
     gridHandel.initKey({
@@ -103,7 +104,7 @@ function initDatagridsupplierList(){
         },
     })
     
-    $("#gridSupplierArchiveList").datagrid({
+   dg = $("#gridSupplierArchiveList").datagrid({
         align:'center',
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
@@ -164,6 +165,8 @@ function initDatagridsupplierList(){
  * 搜索
  */
 function searchHandel(){
+	$("#startCount").val('');
+	$("#endCount").val('');
     var fromObjStr = $('#formList').serializeObject();
 	$("#gridSupplierArchiveList").datagrid("options").method = "post";
     $("#gridSupplierArchiveList").datagrid("options").url =contextPath+'/supplierBranchGoods/findSupplierBranchGoods',
@@ -263,7 +266,7 @@ $(document).on('change','#excelFile', function(){
 /**
  * 导出
  */
-function exportHandel(){
+function exportData(){
 	var supplierId = $("#supplierId").val();
 	if(!supplierId){
 		$.messager.alert("提示","请选择供应商");
@@ -274,18 +277,28 @@ function exportHandel(){
 		 $.messager.alert('提示','无数据可导');
 	     return;
 	}
+	$('#exportWin').window({
+		top:($(window).height()-300) * 0.5,   
+	    left:($(window).width()-500) * 0.5
+	});
+	$("#exportWin").show();
+	$("#totalRows").html(dg.datagrid('getData').total);
+	$("#exportWin").window("open");
+}
+
+function exportExcel(){
+	$("#exportWin").hide();
+	$("#exportWin").window("close");
 	$("#formList").form({
-		success : function(data){
-			if(data==null){
-				$.messager.alert('提示',"导出数据成功！");
-			}else{
-				$.messager.alert('提示',JSON.parse(data).message);
-			}
+		success : function(result){
+			var dataObj=eval("("+result+")");
+			successTip(dataObj.message);
 		}
 	});
 	$("#formList").attr("action",contextPath+"/supplierBranchGoods/exportList");
 	$("#formList").submit();
 }
+
 
 //保存
 function saveItemHandel(){
