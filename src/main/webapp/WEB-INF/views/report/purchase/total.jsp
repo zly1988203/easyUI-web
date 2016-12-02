@@ -33,28 +33,37 @@
 	        </div>
 	         
           <div class="ub umar-t8">
-               <div class="ub ub-ac umar-r40">
+               <div class="ub ub-ac uw-300">
                    <div class="umar-r10 uw-80 ut-r">机构名称:</div>
                    <input class="uinp" type="hidden" id="branchId" name="branchId" >
-                   <input class="uinp" type="text" id="branchName" name="branchName" maxlength="50">
-                   <div class="uinp-more" id="branchSelect" onclick="searchBranch()">...</div>
+				   <div class="ub">
+
+					   <input class="uinp" type="text" id="branchName" name="branchName" maxlength="50">
+					   <div class="uinp-more" id="branchSelect" onclick="searchBranch()">...</div>
+				   </div>
                </div>
-               <div class="ub ub-ac umar-r40">
+               <div class="ub ub-ac uw-300">
 				<div class="umar-r10 uw-80 ut-r">供应商:</div>
 				<input type="hidden" name="supplierId" id="supplierId" class="uinp" />
-				<input type="text" name="supplierName" id="supplierName" class="uinp" maxlength="50"/>
-				<div class="uinp-more" id="supplierSelect" onclick="searchSupplier()">...</div>
+				   <div class="ub">
+					   <input type="text" name="supplierName" id="supplierName" class="uinp" maxlength="50"/>
+					   <div class="uinp-more" id="supplierSelect" onclick="searchSupplier()">...</div>
+
+				   </div>
 			  </div>
-			  <div id="categoryNameDiv" class="ub ub-ac umar-r40">
+			  <div id="categoryNameDiv" class="ub ub-ac uw-300">
 				<div class="umar-r10 uw-80 ut-r">类别:</div>
 				  <input type="hidden" name="categoryId" id="categoryId" class="uinp" />
-				  <input type="text" name="categoryName" id="categoryName" class="uinp " maxlength="50"/>
-				  <div class="uinp-more" id="categorySelect" onclick="searchCategory()">...</div>
+				  <div class="ub">
+
+					  <input type="text" name="categoryName" id="categoryName" class="uinp " maxlength="50"/>
+					  <div class="uinp-more" id="categorySelect" onclick="searchCategory()">...</div>
+				  </div>
 			  </div>
             </div>
             
              <div class="ub umar-t8">
-               <div class="ub ub-ac umar-r40">
+               <div class="ub ub-ac uw-300">
                    <div class="umar-r10 uw-80 ut-r">单据类型:</div>
                    <select class="uselect easyui-combobox" style="width: 203px;" name="formType" id="formType" data-options="onChange:onChangeFormType,editable:false">
                    		<option value="">全部</option>
@@ -62,7 +71,7 @@
                         <option value="PR">采购退货单</option>
                    </select>
                </div>
-			  <div class="ub ub-ac umar-r40">
+			  <div class="ub ub-ac uw-300">
 				<div class="umar-r10 uw-80 ut-r">货号/条码:</div>
 				<input type="text" name="skuCodeOrBarCode" id="skuCodeOrBarCode" class="uinp" />
 			  </div>
