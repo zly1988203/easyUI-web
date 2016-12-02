@@ -78,7 +78,7 @@
                     <div class="ub ub-ac umar-r10">
                          <label> <input class=" radioItem"  type="radio" name="searchType" value="supplierTotal"  /> 供应商汇总</label>
                     </div>
-                   <div class="ub ub-ac ">
+                   <div class="ub ub-ac umar-r10">
                          <label> <input class=" radioItem"  type="radio" name="searchType" value="formNoTotal" /> 单据汇总</label>
                   </div>
                   <div class="ub ub-ac  uh-36">
