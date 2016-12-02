@@ -6,6 +6,8 @@
  */    
 package com.okdeer.jxc.controller.sale;
 
+import java.util.Collections;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -19,10 +21,10 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.alibaba.fastjson.JSONObject;
 import com.okdeer.jxc.common.exception.BusinessException;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.FastJsonUtils;
-import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.controller.common.RequestJson;
 import com.okdeer.jxc.pos.service.PosOrderServiceApi;
 import com.okdeer.jxc.pos.vo.PosPayVo;
@@ -41,7 +43,7 @@ import com.okdeer.jxc.pos.vo.PosPrepayVo;
  */
 @RequestMapping("order/order")
 @Controller
-public class TestOrderController extends BaseController<TestOrderController>{
+public class TestOrderController{
 	
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 	
@@ -56,23 +58,6 @@ public class TestOrderController extends BaseController<TestOrderController>{
 		return "sale/activity/posOrderTest";
 	}
 	
-	/**
-	 * @Description: 生成请求参数
-	 * @param param
-	 * @return
-	 * @author liwb
-	 * @date 2016年11月21日
-	 */
-	protected RequestJson buildRequestParam(String param) {
-//		JSONObject jObj = JSONObject.fromObject(param);
-//		JSONObject data = jObj.getJSONObject("data");
-//		RequestJson requestJson = new RequestJson();
-//		requestJson = JSONUtils.parseJSONObject(jObj, requestJson);
-//		requestJson.setData(data);
-		RequestJson requestJson = FastJsonUtils.parseObject(param, RequestJson.class);
-		LOG.info("请求参数：{}", requestJson);
-		return requestJson;
-	}
 	
 	/**
 	 * 预支付（结算）
@@ -81,23 +66,26 @@ public class TestOrderController extends BaseController<TestOrderController>{
 	 * @author xiaoj02
 	 * @date 2016年11月21日
 	 */
-	@RequestMapping(value = "perpay", method = RequestMethod.POST)
+	@RequestMapping(value = "prepay", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson perpay(@RequestBody String jsonText) {
+	public RespJson prepay(@RequestBody String jsonText) {
 		try {
 			logger.debug("json:{}",jsonText);
 			//转换Json数据
-			RequestJson requestJson = buildRequestParam(jsonText);
+			RequestJson<PosPrepayVo> requestJson = buildRequestObj(jsonText, PosPrepayVo.class);
 			
-			PosPrepayVo posPerpayVo = requestJson.getDataObject(PosPrepayVo.class);
+			PosPrepayVo posPrepayVo = requestJson.getData();
 			
 			//参数验证
-			String validMsg = posPerpayVo.validate();
+			String validMsg = posPrepayVo.validate();
 			if(validMsg != null){
 				return RespJson.argumentError(validMsg);
 			}
 			
-			RespJson respJson = posOrderServiceApi.prepay(posPerpayVo, requestJson.getBranchId(), requestJson.getUserId());
+			//按扫描顺序排序
+			Collections.sort(posPrepayVo.getList());
+			
+			RespJson respJson = posOrderServiceApi.prepay(posPrepayVo, requestJson.getBranchId(), requestJson.getUserId());
 			logger.debug("预支付结果：",respJson);
 			
 			return respJson;
@@ -106,6 +94,40 @@ public class TestOrderController extends BaseController<TestOrderController>{
 			return RespJson.error("预支付出现异常");
 		}
 	}
+	
+	/**
+	 * @Description: 生成请求参数，data对象为泛型实体类
+	 * @param param
+	 * @param clz
+	 * @return
+	 * @author liwb
+	 * @date 2016年11月29日
+	 */
+	@SuppressWarnings({ "unchecked"})
+	protected <T> RequestJson<T> buildRequestObj(String param, Class<T> clz){
+		RequestJson<T> requestJson = FastJsonUtils.parseObject(param, RequestJson.class);
+		JSONObject jObj = (JSONObject)requestJson.getData();
+		T t = FastJsonUtils.parseObject(jObj.toJSONString(), clz);
+		requestJson.setData(t);
+		logger.info("请求参数：{}", requestJson);
+		return requestJson;
+	}
+	
+	
+//	/**
+//	 * @author xiaoj02
+//	 * @date 2016年12月1日
+//	 */
+//	private List<PosPrepayGoodsVo> cleanRepeat(List<PosPrepayGoodsVo> list) {
+//		List<PosPrepayGoodsVo> temp = new ArrayList<PosPrepayGoodsVo>();
+//		
+//		for (PosPrepayGoodsVo posPrepayGoodsVo : list) {
+//			posPrepayGoodsVo.getSkuId();
+//		}
+//		
+//		return list;
+//	}
+	
 		
 	/**
 	 * 支付
@@ -120,9 +142,9 @@ public class TestOrderController extends BaseController<TestOrderController>{
 		try {
 			logger.debug("json:{}",jsonText);
 			//转换Json数据
-			RequestJson requestJson = buildRequestParam(jsonText);
+			RequestJson<PosPayVo> requestJson = buildRequestObj(jsonText, PosPayVo.class);
 			
-			PosPayVo posPayVo = requestJson.getDataObject(PosPayVo.class);
+			PosPayVo posPayVo = requestJson.getData();
 			
 			//参数验证
 			String validMsg = posPayVo.validate();

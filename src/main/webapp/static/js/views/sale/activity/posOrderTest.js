@@ -79,6 +79,15 @@ function initDatagridEditOrder(){
                 }
             },
             {field:'amount',title:'金额',width:'80px',align:'right',
+            	 formatter : function(value, row, index) {
+                     if(row.isFooter){
+                         return;
+                     }
+                     if(!row.amount){
+                    	 row.amount = parseFloat(value||0).toFixed(4);
+                     }
+                     return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+                 },
             	editor:{
                     type:'numberbox',
                     options:{
@@ -176,9 +185,9 @@ function selectGoods(searchKey){
             inputTax:'tax'
         };
         var rows = gFunUpdateKey(addDefaultData,keyNames);
-        var argWhere ={skuCode:1};  //验证重复性
-        var isCheck ={isGift:1 };   //只要是赠品就可以重复
-        var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
+        var argWhere ={skuCode:0};  //验证重复性
+        
+        var newRows = gridHandel.checkDatagrid(nowRows,rows);
 
         $("#gridEditOrder").datagrid("loadData",newRows);
 
@@ -273,75 +282,78 @@ function saveDataHandel(rows){
     var req = JSON.stringify(reqObj);
 
     $.ajax({
-        url:contextPath+"/order/order/perpay",
+        url:contextPath+"/order/order/prepay",
         type:"POST",
         contentType:'application/json',
         data:req,
         success:function(result){
-        	$("#textDialog").dialog('open');
-        	
-        	payInfo = result.data;
-        	
-        	$("#orderId").html(payInfo.orderId);
-        	$("#prepayId").html(payInfo.prepayId);
-        	
-        	$("#orderTotalAmount").html(payInfo.totalAmount);
-        	$("#saleAmount").html(payInfo.saleAmount);
-        	$("#discountAmount").html(payInfo.discountAmount);
-        	$("#subZeroAmount").html(payInfo.subZeroAmount);
-        	$("#paymentAmount").html(payInfo.paymentAmount);
-        	
-        	$("#receiveAmount").val(payInfo.paymentAmount);
-        	
-        	var list = payInfo.tradeOrderItems;
-        	
-        	var line = "";
-        	line += "<tr>";
-        	line += "<th>skuId</th>";
-        	line += "<th>货号</th>";
-        	line += "<th>原单价</th>";
-        	line += "<th>单价</th>";
-        	line += "<th>数量</th>";
-        	line += "<th>小计</th>";
-        	line += "<th>活动类型</th>";
-        	line += "</tr>";
-        	
-        	
-        	for(var i in list){
-        		var item = list[i];
-        		var str = "<tr>";
-        		str += ("<td>" + item.skuId + "</td>");
-        		str += ("<td>" + item.skuCode + "</td/>");
-        		str += ("<td>" + item.originalPrice + "</td/>");
-        		str += ("<td>" + item.salePrice + "</td>");
-        		str += ("<td>" + item.saleNum + "</td>");
-        		str += ("<td>" + item.saleAmount + "</td>");
+        	console.log(result);
+        	if(result.code == 0){
+        		$("#textDialog").dialog('open');
         		
-        		if(item.activityType == 1){
-        			str += ("<td>特价</td>");
-        		}else if(item.activityType == 2){
-        			str += ("<td>折扣</td>");
-        		}else if(item.activityType == 3){
-        			str += ("<td>偶数特价</td>");
-        		}else if(item.activityType == 4){
-        			str += ("<td>换购</td>");
-        		}else if(item.activityType == 5){
-        			str += ("<td>满减</td>");
-        		}else if(item.activityType == 6){
-        			str += ("<td>组合商品</td>");
-        		}else{
-        			str += ("<td>普通商品</td>");
-        		}
-        		
-        		str += "</tr>";
-        		
-        		line += str;
+            	payInfo = result.data;
+            	
+            	$("#orderId").html(payInfo.orderId);
+            	$("#prepayId").html(payInfo.prepayId);
+            	
+            	$("#orderTotalAmount").html(payInfo.totalAmount);
+            	$("#saleAmount").html(payInfo.saleAmount);
+            	$("#discountAmount").html(payInfo.discountAmount);
+            	$("#subZeroAmount").html(payInfo.subZeroAmount);
+            	$("#paymentAmount").html(payInfo.paymentAmount);
+            	
+            	$("#receiveAmount").val(payInfo.paymentAmount);
+            	
+            	var list = payInfo.tradeOrderItems;
+            	
+            	var line = "";
+            	line += "<tr>";
+            	line += "<th>skuId</th>";
+            	line += "<th>货号</th>";
+            	line += "<th>原单价</th>";
+            	line += "<th>单价</th>";
+            	line += "<th>数量</th>";
+            	line += "<th>小计</th>";
+            	line += "<th>活动类型</th>";
+            	line += "</tr>";
+            	
+            	
+            	for(var i in list){
+            		var item = list[i];
+            		var str = "<tr>";
+            		str += ("<td>" + item.skuId + "</td>");
+            		str += ("<td>" + item.skuCode + "</td/>");
+            		str += ("<td>" + item.originalPrice + "</td/>");
+            		str += ("<td>" + item.salePrice + "</td>");
+            		str += ("<td>" + item.saleNum + "</td>");
+            		str += ("<td>" + item.saleAmount + "</td>");
+            		
+            		if(item.activityType == 1){
+            			str += ("<td>特价</td>");
+            		}else if(item.activityType == 2){
+            			str += ("<td>折扣</td>");
+            		}else if(item.activityType == 3){
+            			str += ("<td>偶数特价</td>");
+            		}else if(item.activityType == 4){
+            			str += ("<td>换购</td>");
+            		}else if(item.activityType == 5){
+            			str += ("<td>满减</td>");
+            		}else if(item.activityType == 6){
+            			str += ("<td>组合商品</td>");
+            		}else{
+            			str += ("<td>普通商品</td>");
+            		}
+            		
+            		str += "</tr>";
+            		
+            		line += str;
+            	}
+            	
+            	$("#goodsList").html(line);
+        	}else{
+        		messager(result.message);
         	}
-        	
-        	$("#goodsList").html(line);
-        	
-        	
-            console.log(result);
+           
         },
         error:function(result){
         	console.log(result);
