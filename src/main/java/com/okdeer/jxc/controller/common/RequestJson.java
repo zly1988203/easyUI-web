@@ -4,14 +4,12 @@
  *@Date: 2016年11月17日 
  *@Copyright: ©2014-2020 www.okdeer.com Inc. All rights reserved. 
  */
-
 package com.okdeer.jxc.controller.common;
 
 import java.io.Serializable;
 
+import com.alibaba.fastjson.JSONObject;
 import com.okdeer.jxc.common.utils.FastJsonUtils;
-
-import net.sf.json.JSONObject;
 
 /**
  * ClassName: RequestJson 
@@ -25,7 +23,7 @@ import net.sf.json.JSONObject;
  * 零售管理系统2.0.0	  2016年11月17日			 liwb			  POS请求参数实体
  */
 
-public class RequestJson implements Serializable {
+public class RequestJson<T> implements Serializable {
 
 	/**
 	 * @Fields serialVersionUID : serialVersionUID
@@ -41,9 +39,9 @@ public class RequestJson implements Serializable {
 	 * @Fields branchId : 店铺Id
 	 */
 	private String branchId;
-	
+
 	/**
-	 * @Fields branchCode : 店铺code
+	 * @Fields branchCode : 店铺Code
 	 */
 	private String branchCode;
 
@@ -56,25 +54,27 @@ public class RequestJson implements Serializable {
 	 * @Fields machinecode : 机器编码
 	 */
 	private String machinecode;
-	
+
 	/**
-	 * @Fields machinecode : pos机编码
+	 * @Fields version : APP客户端版本号
+	 */
+	private Long version;
+
+	/**
+	 * @Fields posNo : POS编号
 	 */
 	private String posNo;
 
 	/**
 	 * @Fields data : data数据
 	 */
-	private String data;
+	private T data;
 
-	/**
-	 * (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		return "RequestJson [userId=" + userId + ", branchId=" + branchId + ", branchCode=" + branchCode + ", token="
-				+ token + ", machinecode=" + machinecode + ", posNo=" + posNo + ", data=" + data + "]";
+				+ token + ", machinecode=" + machinecode + ", version=" + version + ", posNo=" + posNo + ", data="
+				+ data + "]";
 	}
 
 	public String getUserId() {
@@ -109,43 +109,40 @@ public class RequestJson implements Serializable {
 		this.machinecode = machinecode;
 	}
 
-	public String getData() {
+	public T getData() {
 		return data;
-	}
-	
-	public String getBranchCode() {
-		return branchCode;
-	}
-	
-	public void setBranchCode(String branchCode) {
-		this.branchCode = branchCode;
-	}
-	
-	/**
-	 * @return the posNo
-	 */
-	public String getPosNo() {
-		return posNo;
-	}
-	
-	/**
-	 * @param posNo the posNo to set
-	 */
-	public void setPosNo(String posNo) {
-		this.posNo = posNo;
 	}
 
 	public JSONObject getDataJSONObject() {
-		JSONObject obj = JSONObject.fromObject(data);
-		return obj;
-	}
-	
-	public <T> T getDataObject(Class<T> clz) {
-		return FastJsonUtils.parseObject(data.toString(), clz);
+		return FastJsonUtils.toJSONObject(data);
 	}
 
-	public void setData(String data) {
+	public void setData(T data) {
 		this.data = data;
+	}
+
+	public String getBranchCode() {
+		return branchCode;
+	}
+
+	public void setBranchCode(String branchCode) {
+		this.branchCode = branchCode;
+	}
+
+	public Long getVersion() {
+		return version;
+	}
+
+	public void setVersion(Long version) {
+		this.version = version;
+	}
+
+	public String getPosNo() {
+		return posNo;
+	}
+
+	public void setPosNo(String posNo) {
+		this.posNo = posNo;
 	}
 
 }

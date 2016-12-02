@@ -51,7 +51,7 @@
     
     
     
-    <div id="textDialog" class="easyui-dialog" title="My Dialog" style="width:600px;height:600px;"
+    <div id="textDialog" class="easyui-dialog" title="My Dialog" style="width:600px;height:450px;"
         data-options="iconCls:'icon-save',resizable:true,modal:true,closed:true">
         <p>orderId：<span id="orderId"></span></p>
 	    <p>prepayId：<span id="prepayId"></span></p>
