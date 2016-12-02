@@ -63,6 +63,8 @@ public class OutOfStockController  extends ReportController{
 	@ResponseBody
 	public String exportList(HttpServletRequest request,HttpServletResponse response) {
 		Map<String,Object> map=getParam(request);
+		map.put("startCount",Integer.parseInt( map.get("startCount").toString()));
+		map.put("endCount",Integer.parseInt( map.get("endCount").toString()));
 		List<DataRecord> reportList=null;
 		String fileName=null;
 		String templateName=null;

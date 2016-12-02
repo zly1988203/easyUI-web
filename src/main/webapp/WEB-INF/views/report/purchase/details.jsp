@@ -7,6 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>采购明细</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
+<%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 <script src="${ctx}/static/js/views/report/purchase/details.js"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
@@ -18,6 +19,8 @@
 			<div class="ub ub-ac">
 	            <div class="ubtns">
 	                <div class="ubtns-item" onclick="purchaseDetailCx()">查询</div>
+	                <input type="hidden" id="startCount" name="startCount" />
+					<input type="hidden" id="endCount" name="endCount" />
 	                <div class="ubtns-item" onclick="exportDetails()">导出</div>
 	                <div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 	                <div class="ubtns-item" onclick="toClose()">退出</div>

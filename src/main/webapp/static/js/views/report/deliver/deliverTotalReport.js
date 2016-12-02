@@ -108,7 +108,7 @@ var gridHandel = new GridClass();
 //按商品汇总
 function initCashDailyallGrid(queryType) {
 	gridHandel.setGridName("cashDaily");
-	$("#cashDaily").datagrid({
+	dg = $("#cashDaily").datagrid({
 		//title:'普通表单-用键盘操作',
 		method: 'post',
 		align: 'center',
@@ -206,18 +206,14 @@ function initCashDailyallGrid(queryType) {
 		           ]],
 		           onLoadSuccess:function(data){
 		        	   gridHandel.setDatagridHeader("center");
-		        	   /*updateFooter();*/
 		           }
 	});
-	/*if(flushFlg){
-		query();
-	}*/
 }
 
 //按单汇总
 function initCashDailymdGrid(queryType) {
 	gridHandel.setGridName("cashDaily");
-	$("#cashDaily").datagrid({
+	dg = $("#cashDaily").datagrid({
 		//title:'普通表单-用键盘操作',
 		method: 'post',
 		align: 'center',
@@ -281,17 +277,13 @@ function initCashDailymdGrid(queryType) {
 		           ]],
 		           onLoadSuccess:function(data){
 		        	   gridHandel.setDatagridHeader("center");
-		        	   /*updateFooter();*/
 		           }
 	});
-	/*if(flushFlg){
-		query();
-	}*/
 }
 //类别汇总
 function initCashDailydateGrid(queryType) {
 	gridHandel.setGridName("cashDaily");
-	$("#cashDaily").datagrid({
+	dg = $("#cashDaily").datagrid({
 		//title:'普通表单-用键盘操作',
 		method: 'post',
 		align: 'center',
@@ -357,19 +349,15 @@ function initCashDailydateGrid(queryType) {
 		           ]],
 		           onLoadSuccess:function(data){
 		        	   gridHandel.setDatagridHeader("center");
-		        	   /*updateFooter();*/
 		           }
 	});
-	/*if(flushFlg){
-		query();
-	}*/
 }
 
 
 //往来汇总
 function initbranchGrid(queryType) {
 	gridHandel.setGridName("cashDaily");
-	$("#cashDaily").datagrid({
+	dg = $("#cashDaily").datagrid({
 		//title:'普通表单-用键盘操作',
 		method: 'post',
 		align: 'center',
@@ -435,12 +423,8 @@ function initbranchGrid(queryType) {
 		           ]],
 		           onLoadSuccess:function(data){
 		        	   gridHandel.setDatagridHeader("center");
-		        	   /*updateFooter();*/
 		           }
 	});
-	/*if(flushFlg){
-		query();
-	}*/
 }
 
 
@@ -477,11 +461,24 @@ function clearCashierId() {
 	}
 }
 
-
+var dg;
 /**
  * 导出
  */
-function exportExcel(){
+function exportData(){
+	var length = $('#cashDaily').datagrid('getData').rows.length;
+	if(length == 0){
+		successTip("无数据可导");
+		return;
+	}
+	$('#exportWin').window({
+		top:($(window).height()-300) * 0.5,   
+	    left:($(window).width()-500) * 0.5
+	});
+	$("#exportWin").show();
+	$("#totalRows").html(dg.datagrid('getData').total);
+	$("#exportWin").window("open");
+	
 	$("#queryForm").form({
 		success : function(data){
 			if(data.code > 0){
@@ -489,29 +486,26 @@ function exportExcel(){
 			}
 		}
 	});
-
-	var isValid = $("#queryForm").form('validate');
-	if(!isValid){
-		return;
-	}
-
-	var length = $("#cashDaily").datagrid('getData').total;
-	if(length == 0){
-		$.messager.alert('提示',"无数据可导");
-		return;
-	}
-	if(length>10000){
-		$.messager.alert('提示',"当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
-		return;
-	}
-
-	$("#queryForm").attr("action",contextPath+"/report/deliverTotalReport/exportDeliverExcel");
-	$("#queryForm").submit(); 
-
+}
+//调用导出方法
+function exportExcel(){
+	$("#exportWin").hide();
+	$("#exportWin").window("close");
+	$("#queryForm").form({
+		success : function(data){
+			if(data.code > 0){
+				$.messager.alert('提示',data.message);
+			}
+		}
+	});
+	$("#queryForm").attr("action",contextPath+'/report/deliverTotalReport/exportDeliverExcel')
+	$("#queryForm").submit();
 }
 
 //查询
 function query(){
+	$("#startCount").attr("value",null);
+	$("#endCount").attr("value",null);
 	var formData = $("#queryForm").serializeObject();
 	var branchNameOrCode = $("#branchNameOrCode").val();
 	if(branchNameOrCode && branchNameOrCode.indexOf("[")>=0 && branchNameOrCode.indexOf("]")>=0){
