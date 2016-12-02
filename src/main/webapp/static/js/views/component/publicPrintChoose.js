@@ -88,7 +88,7 @@ function toPrintComponentPrint(){
 	var controllerUrl = $("#controllerUrl").val();
 	
 	//访问路径
-    var url = contextPath + "/form/purchase/preview?page=" + templateCode
+    var url = contextPath + controllerUrl +"preview?page=" + templateCode
 		+ "&form=print&template=" + templateId + "&sheetNo="
 		+ id;
     //弹出打印页面
