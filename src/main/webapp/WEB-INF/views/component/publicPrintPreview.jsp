@@ -43,37 +43,31 @@
      
      
     <script type="text/javascript">
+		var viewName = "publicPrintPreView"
     	//获取预览页签
    		function getUrlParam(name) {
             var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
             var r = window.location.search.substr(1).match(reg);  //匹配目标参数
             if (r != null) return unescape(r[2]); return null; //关闭参数值
         }
-   		var form = getUrlParam("form");
-   		if(form=="list"){
-   		  $("#${sheetNo}").on("load",function(){
-   			  setTimeout(function(){
-   			      //加载完成，需要执行的代码
-   	   			var ifra = form=="list"?window.frames["${sheetNo}"]:window.parent['${tabId}'];
-   	        	ifra.contentWindow.refreshPreviewOptions();
-   	        	var options = ifra.contentWindow.document;
-   	        	initHandel(options);
-   			  },100)
-   	    
-   	      });
-   		}
-   		else if(form=="print"){
-   		$("#${sheetNo}").on("load",function(){
-     	   setTimeout(function(){
-   			 var ifra =window.frames["${sheetNo}"];
-   			 ifra.contentWindow.refreshPreviewOptions();
-	         var options = ifra.contentWindow.document;
-	         initHandelprint(options);
-     		},100)
-     	   	    
- 	        });
-   		}
-   		else{
+		var form = getUrlParam("form");
+		//打印预览
+		function initPrintView(){
+			//加载完成，需要执行的代码
+			var ifra = form=="list"?window.frames["${sheetNo}"]:window.parent['${tabId}'];
+			ifra.contentWindow.refreshPreviewOptions();
+			var options = ifra.contentWindow.document;
+			initHandel(options);
+		}
+		//直接打印
+		function initHandelPrintView(){
+			var ifra =window.frames["${sheetNo}"];
+			ifra.contentWindow.refreshPreviewOptions();
+			var options = ifra.contentWindow.document;
+			initHandelprint(options);
+		}
+
+   		if(form!="list"&&form!="print"){
    			var options = window.parent['${tabId}'];
    			initHandel(options);
    		}
@@ -115,6 +109,10 @@
     	    //$("#btnPrint").click(function () {
     	    	options.isPreview = false;  
     	        $.sheetDesignPrint(options,${jsonReplace});
+				setTimeout(function(){
+					window.parent.closeTab();
+				},1000)
+
     	    //});
     	}
     </script>
