@@ -29,9 +29,9 @@
 	            	<shiro:hasPermission name="JxcDeliverDA:setting">
 						<div class="ubtns-item-disabled">设置</div>
 				   	</shiro:hasPermission>
-				   	<%-- <div id="updatePermission" class="none">
+				   	<div id="updatePermission" class="none">
 						<shiro:hasPermission name="JxcDeliverDA:update">修改</shiro:hasPermission>
-					</div> --%>
+					</div>
 	                <div class="ubtns-item" id="set" onclick="gFunRefresh()" >重置</div>
 	                <div class="ubtns-item" onclick="toClose()">退出</div>
 	            </div>
