@@ -154,7 +154,7 @@ public class GoodsTotalAnalsiController extends ReportController {
 			}
 			// 模板名称，包括后缀名
 			List<DataRecord> dataList=goodsTotalAnalsiServiceApi.getList(map);
-			DataRecord data = goodsTotalAnalsiServiceApi.getTotal(map);
+			DataRecord data = goodsTotalAnalsiServiceApi.getExportTotal(map);
 			dataList.add(data);
 			exportListForXLSX(response, dataList, reportFileName, templateName);
 		} catch (Exception e) {
