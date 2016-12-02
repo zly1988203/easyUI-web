@@ -31,22 +31,22 @@
 						<input type="text" value="${validityDay}" class="easyui-numberbox " name="validityDay" id="validityDay" data-options="min:0,precision:0">
 					</div>
 				</div>
-				<div class="ub upad-16 ">
-					<div class="umar-r10 uw-60 ut-r">进货价:</div>
+				<div class="ub ub-ac upad-16 ">
+					<div class="ub uw-220 ut-r ">自营店要货价格直接取物流配送价:</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="ub" type="radio" id="priceSpec0" name="priceSpec" value="0"  /><span>成本价</span>
+						<input class="ub" type="radio" id="priceSpec0" name="priceSpec" value="0"  /><span>不启用</span>
 					</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="ub" type="radio" id="priceSpec1" name="priceSpec" value="1" /><span>配送价</span>
+						<input class="ub" type="radio" id="priceSpec1" name="priceSpec" value="1" /><span>启用</span>
 					</div>
 				</div>
-				<div class="ub upad-16 ">
-					<div class="umar-r10 uw-60 ut-r">商品范围:</div>
+				<div class="ub ub-ac upad-16 ">
+					<div class="ub uw-220 ut-r ">自营店可要仓库所有对外供应商品:</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="ub" type="radio" id="selectGoodsSpec0" name="selectGoodsSpec" value="1"/><span>发货机构的商品</span>
+						<input class="ub" type="radio" id="selectGoodsSpec1"  name="selectGoodsSpec" value="0"/><span>不启用</span>
 					</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="ub" type="radio" id="selectGoodsSpec1"  name="selectGoodsSpec" value="0"/><span>进货机构和发货机构的交集的商品</span>
+						<input class="ub" type="radio" id="selectGoodsSpec0" name="selectGoodsSpec" value="1"/><span>启用</span>
 					</div>
 				</div>
 			</form>

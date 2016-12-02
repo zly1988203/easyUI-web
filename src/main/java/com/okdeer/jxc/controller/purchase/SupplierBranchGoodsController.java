@@ -125,10 +125,10 @@ public class SupplierBranchGoodsController extends BaseController<SupplierBranch
 	 */
 	@RequestMapping(value = "findSupplierBranchGoods", method = RequestMethod.POST)
 	@ResponseBody
-	public List<BranchGoodsSkuVo> findSupplierBranchGoods(String branchId,String supplierId) {
+	public List<BranchGoodsSkuVo> findSupplierBranchGoods(BranchGoodsSkuVo vo) {
 		try {
-			LOG.info("供应商机构商品查询请求参数,branchId={},supplierId={}",branchId,supplierId);
-			List<BranchGoodsSkuVo> result = goodsSupplierBranchServiceApi.querySupplierBranchGoods(branchId, supplierId);
+			LOG.info("供应商机构商品查询请求参数,vo={}",vo);
+			List<BranchGoodsSkuVo> result = goodsSupplierBranchServiceApi.querySupplierBranchGoods(vo);
 			return result;
 		} catch (Exception e) {
 			LOG.error("供应商机构商品查询异常:", e);
@@ -200,12 +200,11 @@ public class SupplierBranchGoodsController extends BaseController<SupplierBranch
 	 */
 	@RequestMapping(value = "/exportList", method = RequestMethod.POST)
 	@ResponseBody
-	public String exportList(HttpServletResponse response,String branchId,String branchName,
-			String supplierId,String supplierName) {
-		LOG.info("供应商机构商品关系导出请求参数,branchId={},supplierId={}",branchId,supplierId);
+	public String exportList(HttpServletResponse response,BranchGoodsSkuVo vo) {
+		LOG.info("供应商机构商品关系导出请求参数,vo={}",vo);
 		try {
-			List<BranchGoodsSkuVo> list = goodsSupplierBranchServiceApi.querySupplierBranchGoods(branchId, supplierId);
-			String fileName = supplierName+"_"+branchName+ "_" + DateUtils.getCurrSmallStr();
+			List<BranchGoodsSkuVo> list = goodsSupplierBranchServiceApi.querySupplierBranchGoods(vo);
+			String fileName = vo.getSupplierName()+"_"+vo.getBranchName()+ "_" + DateUtils.getCurrSmallStr();
 			String templateName = ExportExcelConstant.SUPPLIER_BRANCH_GOODS_REPORT;
 			exportListForXLSX(response, list, fileName, templateName);
 		} catch (Exception e) {
