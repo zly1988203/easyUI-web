@@ -64,7 +64,7 @@
 	                <div class="ub ub-ac uw-300 umar-l40">
 	                    <div class="umar-r10 uw-70 ut-r">机构名称:</div>
 	                    <input type="hidden" id="createBranchId" name="createBranchId" />
-	                    <input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" onclick="selectBranches()" readonly="readonly" />
+	                    <input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" maxlength="50"/>
 	                    <div class="uinp-more" onclick="selectBranches()" >...</div>
 	                </div>
 	            </div>
@@ -72,20 +72,20 @@
 	                <div class="ub ub-ac umar-r40">
 	                <div class="umar-r10 uw-70 ut-r">操作员:</div>
 	                <input class="uinp" name="salesmanId" id="salesmanId" type="hidden">
-	                <input class="uinp" id="operateUserName" type="text" readonly="readonly" onclick="selectOperator()" >
+	                <input class="uinp" id="createUserName" name="createUserName" type="text" maxlength="50" >
 	                <div class="uinp-more" onclick="selectOperator()">...</div>
 	            </div>
 	                <!--input-checkbox-->
-	                <div class="ub ub-ac umar-l40 uw-300">
+	                <div class="ub ub-ac  uw-300">
 	                    <div class="umar-r10 uw-70 ut-r">审核状态:</div>
 	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub" type="radio" name="status"  value="1"/><span>已审核</span>
+	                        <input class="ub radioItem" type="radio" name="status"  value="1"/><span>已审核</span>
 	                    </div>
 	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub" type="radio" name="status" value="0" checked="checked"/><span>未审核</span>
+	                        <input class="ub radioItem" type="radio" name="status" value="0" checked="checked"/><span>未审核</span>
 	                    </div>
 	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub" type="radio" name="status" value=""  /><span>全部</span>
+	                        <input class="ub radioItem" type="radio" name="status" value=""  /><span>全部</span>
 	                    </div>
 	                </div>
 	            </div>

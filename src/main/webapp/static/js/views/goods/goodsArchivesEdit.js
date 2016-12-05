@@ -218,7 +218,6 @@ function getGoodsArchivesDetail(id){
 	var args = {}
 	var httpUrl = contextPath+"/common/goods/getGoodsSkuById?id="+id;
 	$.get(httpUrl, args,function(data){
-		console.log("data="+data);
 		updateSku = data["_data"];
 		
 		$.each(data["_data"],function(key,value){
@@ -266,7 +265,6 @@ function getGoodsArchivesDetail(id){
 
 			}
 		});
-		//debugger;
 		$("#saleWay").val(updateSku.saleWay);
 		if(updateSku.saleWay=='A'){
 			$('#supplierRate').textbox('disable'); 

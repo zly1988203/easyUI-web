@@ -233,10 +233,8 @@ function onChangeLargeNum(newV,oldV){
         messager("配送规格不能为0");
         return;
     }
-    if(gridHandel.getSelectFieldName()!="receiveNum"){
-	   gridHandel.setFieldValue('receiveNum',purchaseSpecValue*newV);//数量=商品规格*箱数
-	}
-   
+    var newRealNum = (Math.round(purchaseSpecValue*newV)).toFixed(4);
+    gridHandel.setFieldValue('receiveNum',newRealNum);//数量=商品规格*箱数
     updateFooter();
 }
 //监听商品数量
@@ -254,6 +252,7 @@ function onChangeRealNum(newV,oldV) {
         return;
     }
     var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
+
     gridHandel.setFieldValue('amount',priceValue*newV);                         //金额=数量*单价
     gridHandel.setFieldValue('largeNum',(newV/purchaseSpecValue).toFixed(4));   //箱数=数量/商品规格
     updateFooter();
@@ -641,4 +640,9 @@ function getImportData(data){
 
     $("#"+gridHandel.getGridName()).datagrid("loadData",newRows);
     messager("导入成功");
+}
+
+//新增入库单
+function addDeliverForm(){
+	toAddTab("新增入库单",contextPath + "/form/deliverForm/addDeliverForm?deliverType=DI");
 }

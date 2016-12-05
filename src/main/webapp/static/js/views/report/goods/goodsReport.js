@@ -1,12 +1,155 @@
 /**
  * Created by huangj02 on 2016/8/9.
  */
+
+//html5 localStorage 存值永久有效
+window.localStorageUtil = {
+   setLocalStorageItem:function(localName,localObj){ //设置存储数据，传入key和value；key是任意的字符串，value是一个object
+      localStorage.setItem(localName,JSON.stringify(localObj));
+   },
+   getLocalStorageItem:function(localName){ //获取存储数据，传入之前设置的key
+      var data = JSON.parse(localStorage.getItem(localName));
+      return data;
+   },
+   delLocalStorageItem:function(localName){ //删除存储数据，传入之前设置的key
+	   localStorage.removeItem(localName);
+   },
+   clearStorageItem:function(){ //清空所有存储数据
+      localStorage.clear()
+   }
+}
+
+function goodsArchives(){
+    this.selectTypeName = "categoryCode"
+    //tree的提交参数
+    this.treeParam = {
+        categoryCode:'',
+        supplierId:'',
+        brandId:'',
+        level:'',
+    }
+    //获取当前选中的树相关参数
+    this.currSelectTreeParam = {
+		categoryId:'',
+		categoryCode:'',
+		categoryName:''
+    }
+    //树的请求地址
+    this.treeUrls = [
+        {
+            name:'categoryCode',
+            url:contextPath+'/common/category/getGoodsCategoryToTree'
+        },
+        {
+            name:'brandId',
+            url:contextPath+'/common/brand/getBrandToTree'
+        },
+        {
+            name:'supplierId',
+            url:contextPath+'/common/supplier/getSupplierToTree'
+        }
+   ];
+    this.getTreeUrl = function(name){
+        var httpUrl = ""
+        $.each(this.treeUrls,function(i,v){
+            if(v.name==name){
+                httpUrl = v.url;
+                return false
+            }
+        });
+        return httpUrl
+    }
+}
+var goodsClass = new goodsArchives();
+
 $(function(){
+	initView();
+	initTreeArchives();
 	initDatagridOrders();
+	//清楚缓存
+	localStorageUtil.clearStorageItem();
 });
+
+
+function initView(){
+    $('#goodsType').combobox({
+        valueField:'id',
+        textField:'text',
+        data: [{
+            id: 'categoryCode',
+            text: '类别',
+            selected:true,
+        }],
+        onSelect: function(record){
+            goodsClass.selectTypeName = record.id;
+            initTreeArchives();
+        },
+    });
+}
+
+//初始树
+function initTreeArchives(){
+    var args = { }
+    var httpUrl = goodsClass.getTreeUrl(goodsClass.selectTypeName);
+    $.get(httpUrl, args,function(data){
+        var setting = {
+            data: {
+                key:{
+                    name:'codeText',
+                }
+            },
+            callback: {
+                onClick: zTreeOnClick
+            }
+        };
+        $.fn.zTree.init($("#treeArchives"), setting, JSON.parse(data));
+        var treeObj = $.fn.zTree.getZTreeObj("treeArchives");
+        var nodes = treeObj.getNodes();
+        if (nodes.length>0) {
+            treeObj.expandNode(nodes[0], true, false, true);
+        }
+    });
+}
+//选择树节点
+function zTreeOnClick(event, treeId, treeNode) {
+    if(goodsClass.selectTypeName=="categoryCode"){
+    	//获取当前选中的”类别“相关参数
+    	goodsClass.currSelectTreeParam = {
+    		categoryId:treeNode.id,
+    		categoryCode:treeNode.code,
+    		categoryName:treeNode.text
+        }
+        goodsClass.treeParam[goodsClass.selectTypeName] = treeNode.code;
+        //将选中树参数值传入表单
+        $("#categoryCode").val(treeNode.code);
+        $("#brandId").val('');
+        $("#supplierId").val('');
+        $("#startCount").val('');
+    	$("#endCount").val('');
+    }
+    gridReload("goodsTab",goodsClass.treeParam,goodsClass.selectTypeName);
+};
+
+function gridReload(gridName,httpParams,selectTypeName){
+	switch (selectTypeName){ 
+		case "categoryCode":  //类别
+			httpParams.supplierId = "";
+			httpParams.brandId = "";
+			break;
+	}
+	//将左侧查询条件设置缓存中
+	setLocalStorage();
+	$("#"+gridName).datagrid("options").url = contextPath+'/goods/report/getList';
+	$("#"+gridName).datagrid("options").queryParams = $("#queryForm").serializeObject();
+    $("#"+gridName).datagrid("options").method = "post";
+    $("#"+gridName).datagrid("load");
+}
+
+
 //初始化表格
+var dg;
 function initDatagridOrders(){
-	goodsTab=$("#goodsTab").datagrid({
+	dg=$("#goodsTab").datagrid({
 		//title:'普通表单-用键盘操作',
 		align:'center',
 		method: 'post',
@@ -48,7 +191,7 @@ function initDatagridOrders(){
 		          {field:"originPlace",title:"产地",sortable:true,tooltip:true,width:80},
 		          {field:"supplier",title:"主供应商",sortable:true,tooltip:true,width:80},
 		          {field:"saleWay",title:"经营方式",sortable:true,tooltip:true,width:60,hidden:true},
-		          {field:"saleWayName",title:"经营方式",sortable:true,tooltip:true,width:60},
+		          {field:"saleWayName",title:"经营方式",sortable:true,tooltip:true,width:60,align:'center'},
 		          {field:"supplierRate",title:"联营扣率/代销扣率",sortable:true,tooltip:true,width:80,align:'right',
 		        	  formatter : function(value,row,index){
 		        		  if(value){
@@ -60,7 +203,7 @@ function initDatagridOrders(){
 		          {field:"purchasePrice",title:"进货价",sortable:true,tooltip:true,width:80,align:'right',
 		        	  formatter : function(value,row,index){
 		        		  if(value){
-		        			  return parseFloat(value).toFixed(2);
+		        			  return parseFloat(value).toFixed(4);
 		        		  }
 		        		  return null;
 		        	  }
@@ -68,7 +211,7 @@ function initDatagridOrders(){
 		          {field:"salePrice",title:"零售价",sortable:true,tooltip:true,width:80,align:'right',
 		        	  formatter : function(value,row,index){
 		        		  if(value){
-		        			  return parseFloat(value).toFixed(2);
+		        			  return parseFloat(value).toFixed(4);
 		        		  }
 		        		  return null;
 		        	  }
@@ -76,7 +219,7 @@ function initDatagridOrders(){
 		          {field:"distributionPrice",title:"配送价",sortable:true,tooltip:true,width:80,align:'right',
 		        	  formatter : function(value,row,index){
 		        		  if(value){
-		        			  return parseFloat(value).toFixed(2);
+		        			  return parseFloat(value).toFixed(4);
 		        		  }
 		        		  return null;
 		        	  }
@@ -84,7 +227,7 @@ function initDatagridOrders(){
 		          {field:"wholesalePrice",title:"批发价",sortable:true,tooltip:true,width:80,align:'right',
 		        	  formatter : function(value,row,index){
 		        		  if(value){
-		        			  return parseFloat(value).toFixed(2);
+		        			  return parseFloat(value).toFixed(4);
 		        		  }
 		        		  return null;
 		        	  }
@@ -92,12 +235,12 @@ function initDatagridOrders(){
 		          {field:"vipPrice",title:"会员价",sortable:true,tooltip:true,width:80,align:'right',
 		        	  formatter : function(value,row,index){
 		        		  if(row.vipPrice){
-		        			  return parseFloat(row.vipPrice).toFixed(2);
+		        			  return parseFloat(row.vipPrice).toFixed(4);
 		        		  }
 		        		  return null;
 		        	  }	
 		          },
-		          {field:"status",title:"商品状态",sortable:true,tooltip:true,width:80,
+		          {field:"status",title:"商品状态",sortable:true,tooltip:true,width:80,align:'center',
 		        	  formatter : function(status){
 		        		  if(status){
 		        			  return status.value;
@@ -105,7 +248,7 @@ function initDatagridOrders(){
 		        		  return null;
 		        	  }	
 		          },
-		          {field:"pricingType",title:"计价方式",sortable:true,tooltip:true,width:80,
+		          {field:"pricingType",title:"计价方式",sortable:true,tooltip:true,width:80,align:'center',
 		        	  formatter : function(pricingType){
 		        		  if(pricingType){
 		        			  return pricingType.value;
@@ -138,11 +281,6 @@ function initDatagridOrders(){
 		        		  return null;
 		        	  }	
 		          }
-
-
-
-
-
 		          ]] ,
 		          toolBar : "#tg_tb",
 		          /*  onBeforeLoad:function(param){
@@ -164,18 +302,7 @@ function initDatagridOrders(){
  */
 function searchSupplier(){
 	new publicSupplierService(function(data){
-		$("#supplierId").val(data.id);
 		$("#supplierName").val(data.supplierName);
-	});
-}
-
-/**
- * 类别选择
- */
-function searchCategory(){
-	new publicCategoryService(function(data){
-		$("#categoryCode").val(data.categoryCode);
-		$("#categoryName").val(data.categoryName);
 	});
 }
 
@@ -184,7 +311,6 @@ function searchCategory(){
  */
 function searchBind(){
 	new publicBrandService(function(data){
-		$("#brandId").val(data.id);
 		$("#brandName").val(data.brandName);
 	});
 }
@@ -194,9 +320,8 @@ function searchBind(){
  */
 function searchBranch (){
 	new publicAgencyService(function(data){
-	$("#branchId").val(data.branchesId);
 	$("#branchName").val(data.branchName);
-	});
+	},"","");
 }
 
 /**
@@ -208,51 +333,68 @@ function selectSkuCode(){
 	},"",1,'','','','');
 
 }
-
-/**
- * 商品条码
- */
-function selectBarCode(){
-	new publicGoodsService("",function(data){
-		$("#barCode").val(data[0].barCode);
-	},"",1,'','','','');
-
-}
-
 /**
  * 导出
  */
+function exportData(){
+	var length = $('#goodsTab').datagrid('getData').rows.length;
+	if(length == 0){
+		successTip("无数据可导");
+		return;
+	}
+	$('#exportWin').window({
+		top:($(window).height()-300) * 0.5,   
+	    left:($(window).width()-500) * 0.5
+	});
+	$("#exportWin").show();
+	$("#totalRows").html(dg.datagrid('getData').total);
+	$("#exportWin").window("open");
+}
+
 function exportExcel(){
+	$("#exportWin").hide();
+	$("#exportWin").window("close");
 	$("#queryForm").form({
-		success : function(data){
-			if(data.code > 0){
-				$.messager.alert('提示',data.message);
-			}
+		success : function(result){
+			var dataObj=eval("("+result+")");
+			successTip(dataObj.message);
 		}
 	});
-
-	var isValid = $("#queryForm").form('validate');
-	if(!isValid){
-		return;
-	}
-
-	var length = $("#goodsTab").datagrid('getData').total;
-	if(length == 0){
-		$.messager.alert('提示',"无数据可导");
-		return;
-	}
-	if(length>10000){
-		$.messager.alert('提示',"当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
-		return;
-	}
-
+	//获取左侧缓存查询数据
+	var obj = localStorageUtil.getLocalStorageItem("storge");
+	$("#categoryCode").val(obj.categoryCode);
+	
+	//导出记录上一次查询条件
 	$("#queryForm").attr("action",contextPath+"/goods/report/exportList");
 	$("#queryForm").submit(); 
+}
 
+
+//搜索导出清除左侧条件
+function cleanLeftParam(){
+	$("#categoryCode").val('');
+}
+
+//将左侧查询条件设置缓存中
+function setLocalStorage(){
+	var categoryCode = $("#categoryCode").val();
+	var obj={"categoryCode":categoryCode}
+	localStorageUtil.setLocalStorageItem("storge",obj);
 }
 
 //查询
 function query(){
+	//搜索导出清除左侧条件
+	cleanLeftParam();
+	$("#startCount").val('');
+	$("#endCount").val('');
+	
+	//将左侧查询条件设置缓存中
+	setLocalStorage();
+	
+	//去除左侧选中样式
+	$('.zTreeDemoBackground a').removeClass('curSelectedNode');
+	
 	$("#goodsTab").datagrid("options").queryParams = $("#queryForm").serializeObject();
 	$("#goodsTab").datagrid("options").method = "post";
 	$("#goodsTab").datagrid("options").url = contextPath+"/goods/report/getList";
@@ -260,7 +402,6 @@ function query(){
 }
 //重置
 function resetFrom(){
-	
 	$("#queryForm").form('clear');
 }
 //打印

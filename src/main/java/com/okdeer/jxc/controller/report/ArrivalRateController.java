@@ -8,11 +8,11 @@
 package com.okdeer.jxc.controller.report;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
+import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.StringUtils;
@@ -82,7 +83,7 @@ public class ArrivalRateController extends BaseController<PurchaseForm>{
 			qo.setPageSize(pageSize);
 			qo = buildDefaultParams(qo);
 			//1、列表查询
-			PageUtils<ArrivalRateVo> arrivalRateReport = arrivalRateService.findArrivalRate(qo);
+			PageUtils<ArrivalRateVo> arrivalRateReport = arrivalRateService.findPageArrivalRate(qo);
 			
 			//2、汇总查询
 			List<ArrivalRateVo> footer = arrivalRateService.findArrivalRateSum(qo);
@@ -106,36 +107,38 @@ public class ArrivalRateController extends BaseController<PurchaseForm>{
 	 */
 	@RequestMapping(value = "/exportList", method = RequestMethod.POST)
 	@ResponseBody
-	public String exportList(HttpServletResponse response, ArrivalRateQo qo) {
+	public RespJson exportList(HttpServletResponse response, ArrivalRateQo qo) {
 
-		LOG.info("UserController.exportList start ,parameter vo=" + qo);
+		LOG.info("UserController.exportList start ,parameter vo=",qo);
 		try {
-			qo.setPageNumber(Constant.ONE);
-			qo.setPageSize(Constant.MAX_EXPORT_NUM);
 			qo = buildDefaultParams(qo);
 			//1、列表查询
-			List<ArrivalRateVo> list = new ArrayList<ArrivalRateVo>();
-			PageUtils<ArrivalRateVo> exportList = arrivalRateService.findArrivalRate(qo);
-			
-			//2、汇总查询
-			List<ArrivalRateVo> footer = arrivalRateService.findArrivalRateSum(qo);
-			list = exportList.getList();
-			list.addAll(footer);
-			list = handlePrice(list);
-			String fileName = "采购到货率" + "_" + DateUtils.getCurrSmallStr();
-			String templateName = ExportExcelConstant.ARRIVAL_RATE_FORMNO_REPORT;
-			if(qo.getType()==Constant.ZERO){
-				templateName = ExportExcelConstant.ARRIVAL_RATE_FORMNO_REPORT;
-			}else if(qo.getType()==Constant.ONE){
-				templateName = ExportExcelConstant.ARRIVAL_RATE_SUPPLIER_REPORT;
-			}else if(qo.getType()==Constant.TWO){
-				templateName = ExportExcelConstant.ARRIVAL_RATE_CATEGORY_REPORT;
-			}else if(qo.getType()==Constant.THREE){
-				templateName = ExportExcelConstant.ARRIVAL_RATE_GOODS_REPORT;
+			List<ArrivalRateVo> list = arrivalRateService.findArrivalRate(qo);
+			if(CollectionUtils.isNotEmpty(list)){
+				//2、汇总查询
+				List<ArrivalRateVo> footer = arrivalRateService.findArrivalRateSum(qo);
+				list.addAll(footer);
+				list = handlePrice(list);
+				String fileName = "采购到货率" + "_" + DateUtils.getCurrSmallStr();
+				String templateName = ExportExcelConstant.ARRIVAL_RATE_FORMNO_REPORT;
+				if(qo.getType()==Constant.ZERO){
+					templateName = ExportExcelConstant.ARRIVAL_RATE_FORMNO_REPORT;
+				}else if(qo.getType()==Constant.ONE){
+					templateName = ExportExcelConstant.ARRIVAL_RATE_SUPPLIER_REPORT;
+				}else if(qo.getType()==Constant.TWO){
+					templateName = ExportExcelConstant.ARRIVAL_RATE_CATEGORY_REPORT;
+				}else if(qo.getType()==Constant.THREE){
+					templateName = ExportExcelConstant.ARRIVAL_RATE_GOODS_REPORT;
+				}
+				exportListForXLSX(response, list, fileName, templateName);
+			}else{
+				RespJson json = RespJson.error("无数据可导");
+				return json;
 			}
-			exportListForXLSX(response, list, fileName, templateName);
 		} catch (Exception e) {
 			LOG.error("UserController.exportList Exception:", e);
+			RespJson json = RespJson.error("导出失败");
+			return json;
 		}
 		return null;
 	}
@@ -191,14 +194,27 @@ public class ArrivalRateController extends BaseController<PurchaseForm>{
 			qo.setBranchNameOrCode(null);
 		}
 
+		//处理供应商
+		String supplierName = qo.getSupplierCode();
+		if(StringUtils.isNotBlank(supplierName)){
+			supplierName = supplierName.substring(supplierName.lastIndexOf("]")+1,supplierName.length());
+			qo.setSupplierCode(supplierName);
+		}
+		
+		//处理机构
+		String branchName = qo.getBranchName();
+		if(StringUtils.isNotBlank(branchName)){
+			branchName = branchName.substring(branchName.lastIndexOf("]")+1,branchName.length());
+			qo.setBranchName(branchName);
+		}
+		
 		if (qo.getEndTime() != null) {
 			qo.setEndTime(DateUtils.getNextDay(qo.getEndTime()));
 		}
 
 		// 默认当前机构
-		if (StringUtils.isBlank(qo.getBranchCode()) && StringUtils.isBlank(qo.getBranchNameOrCode())) {
-			qo.setBranchCompleCode(getCurrBranchCompleCode());
-		}
+		qo.setBranchCompleCode(getCurrBranchCompleCode());
+		
 		if(qo.getArrivalRate()!=null){
 			qo.setArrivalRate(qo.getArrivalRate().multiply(new BigDecimal(100)));
 		}

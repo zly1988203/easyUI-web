@@ -175,8 +175,6 @@
                 var tr = $("<tr></tr>");
                 var fmt = undefined;
                 var val = undefined;
-                debugger;
-                console.log(columns)
                 for (var i = 0; i < columns.length; i++) {
                     var col = columns[i];
                     var field = col.field;

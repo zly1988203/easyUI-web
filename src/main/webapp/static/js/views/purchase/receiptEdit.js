@@ -264,10 +264,8 @@ function onChangeLargeNum(newV,oldV){
         messager("没有商品规格,请审查");
         return;
     }
-    if(gridHandel.getSelectFieldName()!="realNum"){
-        gridHandel.setFieldValue('realNum',purchaseSpecValue*newV);//数量=商品规格*箱数
-    }
-
+    var newRealNum = (Math.round(purchaseSpecValue*newV)).toFixed(4);
+    gridHandel.setFieldValue('realNum',newRealNum);//数量=商品规格*箱数
     updateFooter();
 }
 //监听商品数量
@@ -647,4 +645,8 @@ function selectPurchaseForm(){
 //返回列表页面
 function back(){
 	location.href = contextPath+"/form/purchase/receiptList";
+}
+
+function receiptAdd(){
+	toAddTab("新增采购收货单",contextPath + "/form/purchase/receiptAdd");
 }

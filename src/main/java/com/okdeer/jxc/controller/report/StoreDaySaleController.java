@@ -92,11 +92,8 @@ public class StoreDaySaleController extends BaseController<StoreDaySaleControlle
 		try {
 			vo.setSourceBranchId(UserUtil.getCurrBranchId());
 			List<StoreDaySaleReportVo> exportList = storeDaySaleReportServiceApi.exportList(vo);
-
 			String fileName = "店铺日销售总额";
-
 			String templateName = ExportExcelConstant.STORE_DAY_SALE_REPORT;
-
 			exportListForXLSX(response, exportList, fileName, templateName);
 		} catch (Exception e) {
 			LOG.error("导出库存调整商品异常：{}", e);

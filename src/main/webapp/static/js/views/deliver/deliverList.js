@@ -4,9 +4,6 @@
  */
 $(function(){
 	//开始和结束时间
-    //$("#startTime").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
-    //$("#endTime").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
-
 	toChangeDatetime(0);
     initDatagridRequireOrders();
     targetBranchId = $("#targetBranchId").val();
@@ -34,13 +31,15 @@ function initDatagridRequireOrders(){
 			{field:'check',checkbox:true},
             {field:'formNo',title:'单据编号',width:'140px',align:'left',formatter:function(value,row,index){
             	if(updatePermission){
-            		return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/deliverForm/deliverEdit?deliverFormId="+ row.deliverFormId +"'>" + value + "</a>";
+            		var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'要货单明细\',\''+ contextPath +'/form/deliverForm/deliverEdit?deliverFormId='+ row.deliverFormId +'&formType=DA\')">' + value + '</a>';
+            		return strHtml;
+            		//return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/deliverForm/deliverEdit?deliverFormId="+ row.deliverFormId +"'>" + value + "</a>";
             	}else{
             		return value;
             	}
             }},
-            {field:'status',title: '审核状态', width: '100px', align: 'left'},
-			{field: 'dealStatus', title: '单据状态', width: '60px', align: 'left'},
+            {field:'status',title: '审核状态', width: '100px', align: 'center'},
+			{field: 'dealStatus', title: '单据状态', width: '60px', align: 'center'},
 			{field: 'targetBranchName', title: '要货机构', width: '200px', align: 'left'},
 			{field: 'salesman', title: '业务人员', width: '130px', align: 'left'},
 			{field: 'amount', title: '单据金额', width: '80px', align: 'right',
@@ -64,10 +63,10 @@ function initDatagridRequireOrders(){
 			{field: 'validUserName', title: '审核人员', width: '130px', align: 'left'},
 			{field: 'remark', title: '备注', width: '200px', align: 'left'},
 			{field: 'updateUserName', title: '操作人员', width: '130px', align: 'left'},
-            {field: 'updateTime', title: '操作日期', width: '120px', align: 'center',
+            {field: 'updateTime', title: '操作时间', width: '120px', align: 'center',
 				formatter: function (value, row, index) {
 					if (value) {
-						return new Date(value).format('yyyy-MM-dd');
+						return new Date(value).format('yyyy-MM-dd hh:mm');
 					}
 					return "";
 				}
@@ -82,7 +81,7 @@ function initDatagridRequireOrders(){
 
 //新增要货单
 function addDeliverForm(){
-	location.href = contextPath + "/form/deliverForm/addDeliverForm?deliverType=DA";
+	toAddTab("新增要货单",contextPath + "/form/deliverForm/addDeliverForm?deliverType=DA");
 }
 
 //查询要货单
@@ -96,7 +95,11 @@ function queryForm(){
 //删除
 function delDeliverForm(){
 	var dg = $("#deliverFormList");
-	var row = dg.datagrid("getSelected");
+	var row = dg.datagrid("getChecked");
+	var ids = [];
+	for(var i=0; i<row.length; i++){
+		ids.push(row[i].deliverFormId);
+	}
 	if(rowIsNull(row)){
 		return null;
 	}
@@ -105,9 +108,8 @@ function delDeliverForm(){
 			$.ajax({
 		    	url:contextPath+"/form/deliverForm/deleteDeliverForm",
 		    	type:"POST",
-		    	data:{
-		    		formId : row.deliverFormId
-		    	},
+		    	contentType:"application/json",
+		    	data:JSON.stringify(ids),
 		    	success:function(result){
 		    		if(result['code'] == 0){
 		    			successTip("删除成功");
@@ -129,7 +131,7 @@ function delDeliverForm(){
  */
 function selectOperator(){
 	new publicOperatorService(function(data){
-		$("#operateUserId").val(data.id);
+//		$("#operateUserId").val(data.id);
 		$("#operateUserName").val(data.userName);
 	});
 }
@@ -138,7 +140,7 @@ function selectOperator(){
  */
 function selectBranches(){
 	new publicAgencyService(function(data){
-		$("#targetBranchId").val(data.branchesId);
+//		$("#targetBranchId").val(data.branchesId);
 		$("#targetBranchName").val(data.branchName);
 	},'',targetBranchId);
 }
@@ -154,10 +156,10 @@ function printDesign(){
      parent.addTabPrint('PASheet' + row.id,row.formNo+'单据打印',contextPath + '/printdesign/design?page=PASheet&controller=/form/purchase&template=-1&sheetNo=' + row.id + '&gridFlag=PAGrid','');
 }
 
-
 /**
  * 重置
  */
 var resetForm = function() {
 	 $("#queryForm").form('clear');
 };
+

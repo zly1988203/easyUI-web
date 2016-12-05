@@ -15,6 +15,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,6 +28,7 @@ import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.PrintConstant;
 import com.okdeer.jxc.common.enums.BusinessTypeEnum;
 import com.okdeer.jxc.common.enums.OrderResourceEnum;
+import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.StringUtils;
@@ -117,7 +119,7 @@ public class SaleFlowReportController extends BaseController<SaleFlowReportContr
 	 */
 	@RequestMapping(value = "/exportList", method = RequestMethod.POST)
 	@ResponseBody
-	public String exportList(HttpServletResponse response, SaleFlowReportQo qo) {
+	public RespJson exportList(HttpServletResponse response, SaleFlowReportQo qo) {
 
 		LOG.info("UserController.exportList start ,parameter vo=" + qo);
 		try {
@@ -126,19 +128,24 @@ public class SaleFlowReportController extends BaseController<SaleFlowReportContr
 			// 设置默认查询条件参数
 			qo = getDefultParmas(qo);
 			// 1、查询列表
-			PageUtils<SaleFlowReportVo> exportList = saleFlowReportService.queryList(qo);
-			// 2、汇总查询
-			List<SaleFlowReportVo> list = new ArrayList<SaleFlowReportVo>();
-			SaleFlowReportVo saleFlowReportVo = saleFlowReportService.querySaleFlowReportSum(qo);
-			list = exportList.getList();
-			list.add(saleFlowReportVo);
-			// 3、价格特殊处理
-			list = handlePrice(list);
-			String fileName = "销售流水报表" + "_" + DateUtils.getCurrSmallStr();
-			String templateName = ExportExcelConstant.SALEFLOWREPORT;
-			exportListForXLSX(response, list, fileName, templateName);
+			List<SaleFlowReportVo> list = saleFlowReportService.querySaleList(qo);
+			if(CollectionUtils.isNotEmpty(list)){
+				// 2、汇总查询
+				SaleFlowReportVo saleFlowReportVo = saleFlowReportService.querySaleFlowReportSum(qo);
+				list.add(saleFlowReportVo);
+				// 3、价格特殊处理
+				list = handlePrice(list);
+				String fileName = "销售流水报表" + "_" + DateUtils.getCurrSmallStr();
+				String templateName = ExportExcelConstant.SALEFLOWREPORT;
+				exportListForXLSX(response, list, fileName, templateName);
+			}else{
+				RespJson json = RespJson.error("无数据可导");
+				return json;
+			}
 		} catch (Exception e) {
 			LOG.error("UserController.exportList Exception:", e);
+			RespJson json = RespJson.error("导出失败");
+			return json;
 		}
 		return null;
 	}
@@ -226,15 +233,11 @@ public class SaleFlowReportController extends BaseController<SaleFlowReportContr
 	 */
 	@RequestMapping(value = "printReport", method = RequestMethod.GET)
 	@ResponseBody
-	public void printReport(SaleFlowReportQo qo, HttpServletResponse response, HttpServletRequest request,
-			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber) {
+	public void printReport(SaleFlowReportQo qo, HttpServletResponse response, HttpServletRequest request) {
 		try {
-			qo.setPageNumber(pageNumber);
-			qo.setPageSize(PrintConstant.PRINT_MAX_LIMIT);
 			// 设置默认查询条件参数
 			qo = getDefultParmas(qo);
-			PageUtils<SaleFlowReportVo> saleFlowReportVo = saleFlowReportService.queryList(qo);
-			List<SaleFlowReportVo> list = saleFlowReportVo.getList();
+			List<SaleFlowReportVo> list = saleFlowReportService.querySaleList(qo);
 			String path = PrintConstant.SALE_FLOW_REPORT;
 
 			Map<String, Object> map = new HashMap<String, Object>();

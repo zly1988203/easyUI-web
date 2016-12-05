@@ -7,7 +7,17 @@ $(function(){
     $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
     initDatagridRequireOrders();
+    //单据状态切换
+    changeStatus();
 });
+
+//单据状态切换
+function changeStatus(){
+	$(".radioItem").change(function(){
+		queryForm();
+    });
+}
+
 var gridHandel = new GridClass();
 //初始化表格
 function initDatagridRequireOrders(){
@@ -28,9 +38,11 @@ function initDatagridRequireOrders(){
 			{field:'check',checkbox:true},
             {field:'formNo',title:'单据编号',width:'140px',align:'left',formatter:function(value,row,index){
             	if(row.status  == 0){
-            		return "<a style='text-decoration: underline;' href='"+ contextPath +"/stock/adjust/edit?id="+ row.id +"'>" + value + "</a>"
+            		var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看库存调整详细\',\''+contextPath+'/stock/adjust/edit?id='+row.id+'\')">' + value + '</a>';
+                	return strHtml;
             	}else if(row.status == 1){
-            		return "<a style='text-decoration: underline;' href='"+ contextPath +"/stock/adjust/checkSuccess?id="+ row.id +"'>" + value + "</a>"
+            		var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看库存调整详细\',\''+contextPath+'/stock/adjust/checkSuccess?id='+row.id+'\')">' + value + '</a>';
+                	return strHtml;
 
             	}
             }},
@@ -57,10 +69,10 @@ function initDatagridRequireOrders(){
 			},
             {field: 'reason', title: '调整原因', width: '200px', align: 'left'},
             {field: 'createUserName', title: '操作人员', width: '130px', align: 'left'},
-            {field: 'createTime', title: '操作日期', width: '150px', align: 'center',
+            {field: 'createTime', title: '操作时间', width: '150px', align: 'center',
 				formatter: function (value, row, index) {
 					if (value) {
-						return new Date(value).format('yyyy-MM-dd hh:mm:ss');
+						return new Date(value).format('yyyy-MM-dd hh:mm');
 					}
 					return "";
 				}
@@ -79,7 +91,7 @@ function initDatagridRequireOrders(){
 
 //新增入库单
 function addStockForm(){
-	location.href = contextPath + "/stock/adjust/add?stockType=DI";
+	toAddTab("新增库存调整单",contextPath + "/stock/adjust/add");
 }
 
 //查询入库单
@@ -96,7 +108,7 @@ function queryForm(){
  */
 function selectBranches(){
 	new publicAgencyService(function(data){
-		$("#createBranchId").val(data.branchesId);
+//		$("#createBranchId").val(data.branchesId);
 		$("#branchName").val(data.branchName);
 	},'BF','');
 }
@@ -105,8 +117,8 @@ function selectBranches(){
  */
 function selectOperator(){
 	new publicOperatorService(function(data){
-		$("#salesmanId").val(data.id);
-		$("#operateUserName").val(data.userName);
+//		$("#salesmanId").val(data.id);
+		$("#createUserName").val(data.userName);
 	});
 }
 

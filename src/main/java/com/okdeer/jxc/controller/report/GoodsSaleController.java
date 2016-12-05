@@ -25,7 +25,6 @@ import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.report.service.GoodsSaleReportServiceApi;
 import com.okdeer.jxc.report.vo.GoodsSaleReportVo;
-import com.okdeer.jxc.utils.UserUtil;
 
 
 /**
@@ -75,7 +74,7 @@ public class GoodsSaleController extends BaseController<GoodsSaleController> {
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
-			vo.setSourceBranchId(UserUtil.getCurrBranchId());
+			vo.setBranchCompleCode(getCurrBranchCompleCode());
 			PageUtils<GoodsSaleReportVo> goodsSaleReportList = goodsSaleReportServiceApi.getGoodsSaleList(vo);
 			GoodsSaleReportVo goodsSaleReportVo = goodsSaleReportServiceApi.queryGoodsSaleCountSum(vo);
 			List<GoodsSaleReportVo> footer = new ArrayList<GoodsSaleReportVo>();
@@ -104,7 +103,7 @@ public class GoodsSaleController extends BaseController<GoodsSaleController> {
 	public RespJson exportList(HttpServletResponse response, GoodsSaleReportVo vo) {
 		RespJson resp = RespJson.success();
 		try {
-			vo.setSourceBranchId(UserUtil.getCurrBranchId());
+			vo.setBranchCompleCode(getCurrBranchCompleCode());
 			List<GoodsSaleReportVo> exportList = goodsSaleReportServiceApi.exportList(vo);
 			GoodsSaleReportVo goodsSaleReportVo = goodsSaleReportServiceApi.queryGoodsSaleCountSum(vo);
 			goodsSaleReportVo.setBranchName("合计：");

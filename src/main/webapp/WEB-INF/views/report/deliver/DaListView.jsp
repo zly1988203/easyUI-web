@@ -20,10 +20,10 @@
             	<div class="ubtns-item" onclick="printDesign('${form.formNo}')">打印</div>
             	<div class="ubtns-item"  onclick="exportData('DA','gridViewRequireOrder')">导出明细</div>
             	<div class="ubtns-item"  onclick="exportData('DA','gridViewRequireOrder',1)">导出货号</div>
-                <div class="ubtns-item" onclick="back()">返回</div>
+                <div class="ubtns-item" onclick="back()">关闭</div>
             </div>
         </div>
-        <div class="ub umar-t8 uc-black">【单号】：${form.formNo}</div>
+        <div class="ub umar-t8 uc-black">【单号】:${form.formNo}</div>
         <div class="ub uline umar-t8"></div>
         <input type="hidden" id="formId" value="${form.deliverFormId}">
          <input type="hidden" id="formNo" value="${form.formNo}">

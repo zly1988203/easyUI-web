@@ -40,10 +40,11 @@ function initTreeArchives(){
     });
 }
 
+var dg;
 //初始化表格
 function initDatagridsupplierList(){
 	var updatePermission = $("#updatePermission").html().trim();
-    $("#gridSupplierArchiveList").datagrid({
+	dg = $("#gridSupplierArchiveList").datagrid({
         method:'post',
         align:'center',
         url:contextPath+'/supplier/getSupplierList',
@@ -68,7 +69,7 @@ function initDatagridsupplierList(){
         	{field:'supplierName',title:'名称',width:180,align:'left'},
             {field:'saleWayName',title:'经营方式',width:80,align:'left'},
             {field:'supplierAreaName',title:'所在区域',width:120,align:'left'},
-            {field:'statusStr',title:'状态',width:100,align:'left'},
+            {field:'statusStr',title:'状态',width:100,align:'center'},
             {field:'contcat',title:'联系人',width:120,align:'left'},
             {field:'mobile',title:'手机号码',width:120,align:'left'},
             {field:'branchName',title:'所属机构',width:120,align:'left'},
@@ -103,7 +104,7 @@ function zTreeOnClick(event, treeId, treeNode) {
         gVarBranchId = treeNode.pid
         gVarSupplierAreaId = treeNode.id;
     }
-    searchHandel();
+    searchLeftHandel();
     $("#selectBranchId").val(gVarBranchId);
 }
 /**
@@ -183,35 +184,38 @@ function editHandel(id){
     })
 }
 
+
 /**
  * 导出
  */
-function exportHandel(){
-	var isValid = $("#formList").form('validate');
-	if(!isValid){
-		return;
-	}
-	var length = $("#gridSupplierArchiveList").datagrid('getData').total;
+function exportData(){
+	var length = $('#gridSupplierArchiveList').datagrid('getData').rows.length;
 	if(length == 0){
-		$.messager.alert("提示","无数据可导");
+		successTip("无数据可导");
 		return;
 	}
-	if(length>10000){
-		$.messager.alert('提示',"当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
-		return;
-	}
+	$('#exportWin').window({
+		top:($(window).height()-300) * 0.5,   
+	    left:($(window).width()-500) * 0.5
+	});
+	$("#exportWin").show();
+	$("#totalRows").html(dg.datagrid('getData').total);
+	$("#exportWin").window("open");
+}
+// 调用导出方法
+function exportExcel(){
+	$("#exportWin").hide();
+	$("#exportWin").window("close");
 	$("#formList").form({
-		success : function(data){
-			if(data==null){
-				$.messager.alert('提示',"导出数据成功！");
-			}else{
-				$.messager.alert('提示',JSON.parse(data).message);
-			}
+		success : function(result){
+			
 		}
 	});
 	$("#formList").attr("action",contextPath+"/supplier/exportHandel");
 	$("#formList").submit();
 }
+
+
 
 /**
  * 删除
@@ -248,12 +252,26 @@ function delHandel(){
  * 搜索
  */
 function searchHandel(){
+	//搜索需要将左侧查询条件清除
+	$("#startCount").val('');
+	$("#endCount").val('');
+	$("#selectBranchId").val('');
     var formData = $('#formList').serializeObject();
-    var postParams = $.extend(formData,{branchId:gVarBranchId,supplierAreaId:gVarSupplierAreaId})
-    $("#gridSupplierArchiveList").datagrid("options").queryParams = postParams;
+    $("#gridSupplierArchiveList").datagrid("options").queryParams = formData;
     $("#gridSupplierArchiveList").datagrid("options").method = "post";
     $("#gridSupplierArchiveList").datagrid("options").url =contextPath+'/supplier/getSupplierList',
     $("#gridSupplierArchiveList").datagrid('load');
+}
+/**
+ * 左侧搜索
+ */
+function searchLeftHandel(){
+	var formData = $('#formList').serializeObject();
+	var postParams = $.extend(formData,{branchId:gVarBranchId,supplierAreaId:gVarSupplierAreaId})
+	$("#gridSupplierArchiveList").datagrid("options").queryParams = postParams;
+	$("#gridSupplierArchiveList").datagrid("options").method = "post";
+	$("#gridSupplierArchiveList").datagrid("options").url =contextPath+'/supplier/getSupplierList',
+	$("#gridSupplierArchiveList").datagrid('load');
 }
 function reloadListHandel(){
     $("#gridSupplierArchiveList").datagrid('reload');

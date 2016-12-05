@@ -11,22 +11,28 @@
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
 	<script src="${ctx}/static/js/views/deliver/deliverView.js"></script>
 	<script src="${ctx}/static/js/views/deliver/deliverExport.js"></script>
-    
+    <%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
     <div class="ub ub-ver ub-f1 umar-4  ubor">
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
             	<input type="hidden" id="close" value="${close}"/>
-            	<div class="ubtns-item" id="addButton" onclick="addDeliverForm()">新增</div>
-            	<div class="ubtns-item" onclick="stop()">终止</div>
-            	<div class="ubtns-item" onclick="printDesign('${form.formNo}')">打印</div>
+            	<shiro:hasPermission name="JxcDeliverDA:add">
+            		<div class="ubtns-item" id="addButton" onclick="addDeliverForm()">新增</div>
+            	</shiro:hasPermission>
+            	<shiro:hasPermission name="JxcDeliverDA:terminate">
+            		<div class="ubtns-item" onclick="stop()">终止</div>
+            	</shiro:hasPermission>
+            	<shiro:hasPermission name="JxcDeliverDA:print">
+            		<div class="ubtns-item" onclick="printChoose('DA','/form/deliverForm/')">打印</div>
+            	</shiro:hasPermission>
             	<div class="ubtns-item"  onclick="exportData('DA','gridViewRequireOrder')">导出明细</div>
             	<div class="ubtns-item"  onclick="exportData('DA','gridViewRequireOrder',1)">导出货号</div>
-                <div class="ubtns-item" id="toBackByJSButton" onclick="back()">返回</div>
+                <div class="ubtns-item" onclick="toClose()">关闭</div>
             </div>
         </div>
-        <div class="ub umar-t8 uc-black">【单号】：${form.formNo}</div>
+        <div class="ub umar-t8 uc-black">【单号】:${form.formNo}</div>
         <div class="ub uline umar-t8"></div>
         <input type="hidden" id="formId" value="${form.deliverFormId}">
         <input type="hidden" id="formNo" value="${form.formNo}">
@@ -44,7 +50,7 @@
                 <div class="umar-r10 uw-60 ut-r">业务人员:</div>
                 <div class="ub">
                     <input class="uinp ub ub-f1" type="text" id="salesman" name="salesman" value="${salesman}" readonly="readonly">
-                    <div class="uinp-more">...</div>
+                    <div class="uinp-more"></div>
                 </div>
             </div>
             <div class="ub ub-ac umar-l20">
@@ -52,7 +58,7 @@
                 <div class="utxt">${form.createUserName}</div>
             </div>
             <div class="ub ub-ac umar-l20">
-                <div class="umar-r10 uw-60 ut-r">制单日期:</div>
+                <div class="umar-r10 uw-60 ut-r">制单时间:</div>
                 <div class="utxt" id="createTime"><fmt:formatDate value="${form.createTime}" pattern="yyyy-MM-dd HH:mm"/></div>
             </div>
         </div>
@@ -74,10 +80,10 @@
                 <div class="umar-r10 uw-60 ut-r">审核人员:</div>
                 <div class="utxt" id="validUserName">${form.validUserName}</div>
             </div>
-            <div class="already-examine" id="already-examine"><span>已审核</span></div>
+            <div class="already-examine" id="already-examine"><span>${status}</span></div>
             <div class="ub ub-ac umar-l20">
-                <div class="umar-r10 uw-60 ut-r">审核日期:</div>
-                <div class="utxt"><fmt:formatDate value="${form.validTime}" pattern="yyyy-MM-dd"/></div>
+                <div class="umar-r10 uw-60 ut-r">审核时间:</div>
+                <div class="utxt"><fmt:formatDate value="${form.validTime}" pattern="yyyy-MM-dd HH:mm"/></div>
             </div>
         </div>
         <div class="ub umar-t8">

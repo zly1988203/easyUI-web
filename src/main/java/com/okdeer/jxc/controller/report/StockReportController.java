@@ -21,9 +21,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
-import com.okdeer.jxc.common.enums.GoodsStatusEnum;
+import com.okdeer.jxc.common.enums.BranchGoodsStatusEnum;
 import com.okdeer.jxc.common.enums.PricingTypeEnum;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
@@ -63,7 +62,7 @@ public class StockReportController extends BaseController<StockReportController>
 	@RequestMapping(value = "view")
 	public String view(Model model) {
 		model.addAttribute("pricingType", PricingTypeEnum.values()); // 计价方式
-		model.addAttribute("goodsStatus", GoodsStatusEnum.values()); // 商品状态
+		model.addAttribute("goodsStatus", BranchGoodsStatusEnum.values()); // 商品状态
 		return "report/goods/goodsStockReport";
 	}
 
@@ -147,12 +146,8 @@ public class StockReportController extends BaseController<StockReportController>
 
 		LOG.info("商品库存查询，报表导出参数：{}", qo);
 		try {
-			qo.setPageNumber(Constant.ONE);
-			qo.setPageSize(Constant.MAX_EXPORT_NUM);
-
 			// 构建默认参数
 			qo = buildDefaultParams(qo);
-
 			// 1、列表查询
 			List<StockReportVo> exportList = stockReportService.queryList(qo);
 

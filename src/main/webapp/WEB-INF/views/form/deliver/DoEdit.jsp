@@ -15,15 +15,25 @@
     <div class="ub ub-ver ub-f1 umar-4  ubor">
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
-                <div class="ubtns-item" onclick="saveOrder()">保存</div>
-                <div class="ubtns-item" onclick="check()">审核</div>
+            	<shiro:hasPermission name="JxcDeliverDO:add">
+            		<div class="ubtns-item" onclick="addDeliverForm()">新增</div>
+            	</shiro:hasPermission>
+            	<shiro:hasPermission name="JxcDeliverDO:add">
+                	<div class="ubtns-item" onclick="saveOrder()">保存</div>
+                </shiro:hasPermission>
+                <shiro:hasPermission name="JxcDeliverDO:audit">
+                	<div class="ubtns-item" onclick="check()">审核</div>
+                </shiro:hasPermission>
                 <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
+                <div class="ubtns-item-disabled">导入</div>
+                <div class="ubtns-item-disabled">删除</div>
+                <div class="ubtns-item-disabled">打印</div>
                 <div class="ubtns-item" onclick="toImportproduct(0)">导入货号</div>
             	<div class="ubtns-item" onclick="toImportproduct(1)">导入条码</div>
-                <div class="ubtns-item" onclick="back()">返回</div>
+                <div class="ubtns-item" onclick="toClose()">关闭</div>
             </div>
         </div>
-        <div class="ub umar-t8 uc-black">【单号】：<span id="formNo">${form.formNo}</span></div>
+        <div class="ub umar-t8 uc-black">【单号】:<span id="formNo">${form.formNo}</span></div>
         <div class="ub uline umar-t8"></div>
         <div class="ub">
                <div class="ub ub-ac uw-300">
@@ -42,7 +52,7 @@
                    <div class="utxt">${form.createUserName}</div>
                </div>
                <div class="ub ub-ac umar-l20">
-                   <div class="umar-r10 uw-60 ut-r">制单日期:</div>
+                   <div class="umar-r10 uw-60 ut-r">制单时间:</div>
                    <div class="utxt" id="createTime"><fmt:formatDate value="${form.createTime}" pattern="yyyy-MM-dd HH:mm"/></div>
                </div>
            </div>
@@ -60,8 +70,8 @@
                    <div class="utxt" id="validUserName">${form.validUserName}</div>
                </div>
                <div class="ub ub-ac umar-l20">
-                   <div class="umar-r10 uw-60 ut-r">审核日期:</div>
-                   <div class="utxt"><fmt:formatDate value="${form.validTime}" pattern="yyyy-MM-dd"/></div>
+                   <div class="umar-r10 uw-60 ut-r">审核时间:</div>
+                   <div class="utxt"><fmt:formatDate value="${form.validTime}" pattern="yyyy-MM-dd HH:mm"/></div>
                </div>
            </div>
            <div class="ub umar-t8">

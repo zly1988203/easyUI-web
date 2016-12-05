@@ -151,17 +151,9 @@ function updateFooter(){
     var argWhere = {name:'isGift',value:""}
     gridHandel.updateFooter(fields,argWhere);
 }
-//打印
-function printDesign(){
-	var id = $("#formId").val();
-	var formNo = $("#formNo").val();
-     //弹出打印页面
-     parent.addTabPrint('PRSheet' + id,formNo+'单据打印',contextPath + '/printdesign/design?page=PRSheet&controller=/form/purchase&template=-1&sheetNo=' + id + '&gridFlag=PRGrid','');
-}
-
 
 function returnAdd(){
-	location.href = contextPath + "/form/purchase/returnAdd";
+	toAddTab("新增采购退货单",contextPath + "/form/purchase/returnAdd");
 }
 
 //返回列表页面

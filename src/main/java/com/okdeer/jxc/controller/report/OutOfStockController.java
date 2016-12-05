@@ -21,7 +21,6 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.report.DataRecord;
 import com.okdeer.jxc.common.report.ReportService;
-import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.controller.common.ReportController;
 import com.okdeer.jxc.report.service.OutOfStockServiceApi;
 @Controller
@@ -36,6 +35,7 @@ public class OutOfStockController  extends ReportController{
 
 	@RequestMapping("/view")
 	public String view(Model model) {
+		model.addAttribute("branchId", getCurrBranchId());
 		return "report/pricing/outOfStock";
 	}
 	
@@ -48,7 +48,6 @@ public class OutOfStockController  extends ReportController{
 	public Map<String, Object> getParam(HttpServletRequest request) {
 		Map<String,Object> map= this.builderParams(request, null);
 		return map;
-		
 	}
 	
 	/**
@@ -64,6 +63,8 @@ public class OutOfStockController  extends ReportController{
 	@ResponseBody
 	public String exportList(HttpServletRequest request,HttpServletResponse response) {
 		Map<String,Object> map=getParam(request);
+		map.put("startCount",Integer.parseInt( map.get("startCount").toString()));
+		map.put("endCount",Integer.parseInt( map.get("endCount").toString()));
 		List<DataRecord> reportList=null;
 		String fileName=null;
 		String templateName=null;
@@ -93,34 +94,25 @@ public class OutOfStockController  extends ReportController{
 		}
 		return null;
 	}
-	
 
 	@Override
 	public String getFileName() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String[] getHeaders() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String[] getColumns() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void formatter(DataRecord dataRecord) {
-		// TODO Auto-generated method stub
 		
 	}
-
-
-	
-	
 }
 

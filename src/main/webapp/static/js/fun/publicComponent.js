@@ -511,21 +511,25 @@ function callBackHandel(data){
 //公共组件-商品选择
 function publicGoodsService(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId,supplierId){
 	if(key){
-		var url= contextPath + '/goods/goodsSelect/importSkuCode?skuCodes='+key+'&branchId='+branchId+"&supplierId="+supplierId;
-//		if(type=="DA"||type=="DO"){
-//			 url=contextPath + '/goods/goodsSelect/enterSearchGoodsDeliver?skuCode='+key+"&formType="+type+"&sourceBranchId="+sourceBranchId+"&targetBranchId="+targetBranchId;
-//		}
-        $.ajax({
-            url:url,
-            type:'POST',
-            success:function(data){
-            	if(data&&data.length==1){
-            		callback(data);
-                }else{
-                    publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId,supplierId);
-                }
-            }
-        })
+		var urlTemp;
+		if(type=="DA"){
+			branchId = '';
+			urlTemp = contextPath + '/goods/goodsSelect/importSkuCode?skuCodes='+key+'&branchId='+branchId+"&supplierId="+supplierId+"&type="+type+"&sourceBranchId="+sourceBranchId+"&targetBranchId="+targetBranchId;
+			//publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId,supplierId);
+		} else {
+			urlTemp = contextPath + '/goods/goodsSelect/importSkuCode?skuCodes='+key+'&branchId='+branchId+"&supplierId="+supplierId;
+		}
+		$.ajax({
+			url:urlTemp,
+			type:'POST',
+			success:function(data){
+				if(data&&data.length==1){
+					callback(data);
+			}else{
+				publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId,supplierId);
+			}
+		}
+		})
     }else{
         publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId,supplierId);
     }
@@ -677,6 +681,9 @@ function publicNewGoodsServiceHandel(params,callback){
 function toClose(){
 	window.parent.closeTab();
 }
+function toAddTab(title,url){
+	window.parent.addTab(title,url);
+}
 //返回
 function toBack(){
 	history.go(-1);
@@ -698,6 +705,7 @@ function GridClass(){
     var gridName;                        //表格名称
     var rowIndex;                //当前选中的行号
     var selectFieldName;               //当前选中的单元名称
+    var nowEditFieldName;               //当前正在编辑的单元名称
     this.getSelectRowIndex = function(){
         return rowIndex||0;
     };
@@ -715,6 +723,12 @@ function GridClass(){
     };
     this.setSelectFieldName = function(arg){
         selectFieldName = arg;
+    };
+    this.setNowEditFieldName = function(arg){
+        nowEditFieldName = arg;
+    };
+    this.getNowEditFieldName = function(){
+        return nowEditFieldName;
     };
     this.initKey = function(params){
         $.extend($.fn.datagrid.methods, {
@@ -1222,9 +1236,9 @@ function gFunComparisonArray(arg1,arg2){
 /**
  * 显示loading
  */
-function gFunStartLoading(){
+function gFunStartLoading(str){
     $("<div class=\"datagrid-mask\"></div>").css({display:"block",width:"100%",height:$(window).height()}).appendTo("body");
-    $("<div class=\"datagrid-mask-msg\"></div>").html("正在加载，请稍候...").appendTo("body").css({display:"block",left:($(document.body).outerWidth(true) - 190) / 2,top:($(window).height() - 45) / 2});
+    $("<div class=\"datagrid-mask-msg\"></div>").html(str?str:"正在加载，请稍候...").appendTo("body").css({display:"block",left:($(document.body).outerWidth(true) - 190) / 2,top:($(window).height() - 45) / 2});
 }
 /**
  * 关闭loading

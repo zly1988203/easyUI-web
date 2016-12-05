@@ -7,6 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>商品销售汇总分析</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
+<%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 <script src="${ctx}/static/js/views/report/goods/goodsTotalAnalysiList.js"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
@@ -18,7 +19,9 @@
 			<div class="ub ub-ac">
 	            <div class="ubtns">
 	                <div class="ubtns-item" onclick="purchaseTotalCx()">查询</div>
-	                <div class="ubtns-item" onclick="exportTotal()">导出</div>
+	                <input type="hidden" id="startCount" name="startCount" />
+				<input type="hidden" id="endCount" name="endCount" />
+	                <div class="ubtns-item" onclick="exportData()">导出</div>
 	                <div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 	                <div class="ubtns-item" onclick="toClose()">退出</div>
 	            </div>
@@ -35,10 +38,10 @@
                 <div class="ub ub-ac">
                    <div class="umar-r10 uw-80 ut-r">查询类型:</div>
                     <div class="ub ub-ac umar-r10 ">
-                        <label> <input class="ub radioItem" id="goodsTotal"  type="radio" name="searchType" value="goodsTotal" checked="checked"/> 商品汇总</label>
+                        <label> <input class="radioItem" id="goodsTotal"  type="radio" name="searchType" value="goodsTotal" checked="checked"/> 商品汇总</label>
                     </div>
                     <div class="ub ub-ac  uh-36">
-                      <label class="umar-r10"><input class="ub radioItem" id="categoryTotal" type="radio" name="searchType" value="categoryTotal" />大类汇总</label>
+                      <label class="umar-r10"><input class=" radioItem" id="categoryTotal" type="radio" name="searchType" value="categoryTotal" />大类汇总</label>
                       <!-- <div id="categoryTypeDiv">
 						  <select class="uselect easyui-combobox" name="categoryType" id="categoryType" data-options="editable:false,onChange:onChangeCategoryType" >
 							  <option value="smallCategory">小类</option>
@@ -48,13 +51,13 @@
 					  </div> -->
                   </div>
                     <div class="ub ub-ac umar-r10">
-                         <label> <input class="ub radioItem"  type="radio" name="searchType" value="branchTotal"  /> 店铺汇总</label>
+                         <label> <input class="radioItem"  type="radio" name="searchType" value="branchTotal"  />店铺汇总</label>
                     </div>
                 </div>
-                 <div class="ub ub-ac umar-r40">
+                 <div class="ub ub-ac umar-r40 umar-l4">
                    <div class="umar-r10 uw-80 ut-r"> 店铺名称:</div>
-                   <input class="uinp" type="hidden" id="branchId" name="branchId" >
-                   <input class="uinp" type="text" id="branchName" name="branchName"  readonly="readonly">
+                   <input class="uinp" type="hidden" id="branchId" name="branchId" value="${branchesGrow.branchesId}">
+                   <input class="uinp" type="text" id="branchName" name="branchName" value="${branchesGrow.branchName}" >
                    <div class="uinp-more" id="branchSelect" onclick="searchBranch()">...</div>
                    
              	 </div>
@@ -68,8 +71,8 @@
           <div class="ub umar-t8">
 			  <div id="categoryNameDiv" class="ub ub-ac umar-r40">
 				<div class="umar-r10 uw-80 ut-r">商品类别:</div>
-				  <input type="hidden" name="categoryCode" id="categoryCode" class="uinp" />
-				  <input type="text" name="categoryName" id="categoryName" class="uinp " readonly="readonly"  />
+				  <!-- <input type="hidden" name="categoryCode" id="categoryCode" class="uinp" /> -->
+				  <input type="text" name="categoryCode" id="categoryCode" class="uinp " maxlength="50"/>
 				  <div class="uinp-more" id="categorySelect" onclick="searchCategory()">...</div>
 			  </div>
 			  

@@ -19,10 +19,10 @@
             <div class="ubtns">
             	<input type="hidden" id="close" value="${close}"/>
                 <div class="ubtns-item" onClick="exportExcel()">导出</div>
-                <div class="ubtns-item" id="toBackByJSButton" onclick="back()">返回</div>
+                <div class="ubtns-item" id="toBackByJSButton" onclick="back()">关闭</div>
             </div>
         </div>
- <div class="ub umar-t8 uc-black">【单号】：<span id="formNo">${stockFormVo.formNo}</span></div>
+ <div class="ub umar-t8 uc-black">【单号】:<span id="formNo">${stockFormVo.formNo}</span></div>
   <div class="already-examine" id="already-examine"><span>已审核</span></div>
 
 	<form action="" id="searchForm" method="post">
@@ -51,8 +51,8 @@
                    <div class="utxt">${stockFormVo.createUserName }</div>
                </div>
                <div class="ub ub-ac umar-l10">
-                   <div class="umar-r10 uw-60 ut-r">制单日期:</div>
-                   <div class="utxt" id="createTime"><fmt:formatDate value="${stockFormVo.createTime}" pattern="yyyy-MM-dd"/></div>
+                   <div class="umar-r10 uw-60 ut-r">制单时间:</div>
+                   <div class="utxt" id="createTime"><fmt:formatDate value="${stockFormVo.createTime}" pattern="yyyy-MM-dd HH:mm"/></div>
                </div>
            </div>
          <div class="ub umar-t8">
@@ -70,7 +70,7 @@
                    <div class="utxt" id="validUserName">${stockFormVo.validUserName}</div>
                </div>
                <div class="ub ub-ac uw-300">
-                   <div class="umar-r10 uw-60 ut-r">审核日期:</div>
+                   <div class="umar-r10 uw-60 ut-r">审核时间:</div>
                    <div class="utxt">${stockFormVo.validTime}</div>
                </div>
            </div>

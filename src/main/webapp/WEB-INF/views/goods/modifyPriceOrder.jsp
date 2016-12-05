@@ -35,10 +35,7 @@
         </div>
         <div class="ub umar-t8 uc-black"></div>
         <div class="ub uline umar-t8"></div>
-
         <div class="ub ub-ver ub-f1 ">
-
-
 	            <div class="ub umar-t8">
 	                <div class="ub ub-ac">
 	                    <div class="umar-r10 uw-70 ut-r">单据编号:</div>
@@ -66,17 +63,16 @@
 	                <div class="ub ub-ac umar-l40">
 	                    <div class="umar-r10 uw-70 ut-r">审核状态:</div>
 	                    <div class="ub ub-ac umar-r10">
-	                         <label><input  type="radio" value="0" name="status" checked="checked"/><span>未审核</span></label>
+	                         <label><input class="radioItem" type="radio" value="0" name="status" checked="checked"/><span>未审核</span></label>
 	                    </div>
 	                    <div class="ub ub-ac umar-r10">
-	                         <label><input  type="radio" value="1" name="status"/><span>审核</span></label>
+	                         <label><input class="radioItem" type="radio" value="1" name="status"/><span>审核</span></label>
 	                    </div>
 	                    <div class="ub ub-ac umar-r10">
-	                         <label><input  type="radio" value="" name="status"/><span>全部</span></label>
+	                         <label><input class="radioItem"  type="radio" value="" name="status"/><span>全部</span></label>
 	                    </div>
 	                </div>
            		 </div>
-
         </div>
 		</form>
 		<div class="ub umar-t8 umar-b8">【单据信息】</div>
@@ -84,7 +80,5 @@
 			<table id="modifyPriceGrid"></table>
 		</div>
     </div>
-
-
 </body>
 </html>

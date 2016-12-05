@@ -114,20 +114,13 @@ function updateFooter(){
     var argWhere = {name:'isGift',value:""}
     gridHandel.updateFooter(fields,argWhere);
 }
-//打印
-function printDesign(){
-	var id = $("#formId").val();
-	var formNo = $("#formNo").val();
-     //弹出打印页面
-     parent.addTabPrint('PASheet' + id,formNo+'单据打印',contextPath + '/printdesign/design?page=PASheet&controller=/form/purchase&template=-1&sheetNo=' + id + '&gridFlag=PAGrid','');
-}
 
 function back(){
 	location.href = contextPath+"/form/purchase/orderList";
 }
 
 function orderAdd(){
-	location.href = contextPath + "/form/purchase/orderAdd";
+	toAddTab("新增采购订单",contextPath + "/form/purchase/orderAdd");
 }
 
 function stop(){
@@ -158,3 +151,7 @@ function stop(){
 	});
 }
 
+function exportDetail(){
+	var formId = $("#formId").val();
+	window.location.href = contextPath + '/form/purchase/exportSheet?page=PASheet&sheetNo='+formId;
+}

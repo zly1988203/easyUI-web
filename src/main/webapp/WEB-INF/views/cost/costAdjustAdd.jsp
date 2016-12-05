@@ -20,7 +20,7 @@
                 <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
                 <div class="ubtns-item" id="importdetail" onclick="toImportproduct(0)">导入货号</div>
           		<div class="ubtns-item" id="importdetail" onclick="toImportproduct(1)">导入条码</div>
-                <div class="ubtns-item" onclick="back()">返回</div>
+                <div class="ubtns-item" onclick="back()">关闭</div>
             </div>
         </div>
            <div class="ub umar-t10">
@@ -48,12 +48,12 @@
 								
 				        </select>
                 </div>
-               <div class="ub ub-ac uw-300 ">
+               <div class="ub ub-ac umar-l40 uw-300 ">
                    <div class="umar-r10 uw-70 ut-r">制单人员:</div>
                    <div class="utxt"><%=UserUtil.getCurrentUser().getUserName() %></div>
                </div>
                <div class="ub ub-ac umar-l10">
-                   <div class="umar-r10 uw-60 ut-r">制单日期:</div>
+                   <div class="umar-r10 uw-60 ut-r">制单时间:</div>
                    <div class="utxt" id="createTime"></div>
                </div>
            </div>
@@ -63,12 +63,12 @@
                    <div class="umar-r10 uw-70 ut-r">备注:</div>
                    <input class="uinp uninputs" type="text" id="remark" name="remark">
                </div>
-               <div class="ub ub-ac  uw-300">
+               <div class="ub ub-ac umar-l40 uw-300">
                    <div class="umar-r10 uw-70 ut-r">审核人员:</div>
                    <div class="utxt"></div>
                </div>
                <div class="ub ub-ac uw-300">
-                   <div class="umar-r10 uw-70 ut-r">审核日期:</div>
+                   <div class="umar-r10 uw-70 ut-r">审核时间:</div>
                    <div class="utxt"></div>
                </div>
            </div>

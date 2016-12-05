@@ -3,7 +3,7 @@
  * 库存调整-新增
  */
 $(function(){
-	$("#createTime").html(new Date().format('yyyy-MM-dd'));
+	$("#createTime").html(new Date().format('yyyy-MM-dd hh:mm'));
     initDatagridAddRequireOrder();
 });
 var gridDefault = {
@@ -209,35 +209,37 @@ function onChangeRealNum(newV,oldV) {
     }
     var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
 	var selectVal=$("#io").combobox('getValue');
-	if(gridHandel.getSelectFieldName()!="realNum"){
-		if(selectVal==1){
-			if(parseFloat(newV)>0){
-			    gridHandel.setFieldValue('largeNum',newV*-1);
-		        gridHandel.setFieldValue('realNum',(newV*purchaseSpecValue*-1).toFixed(4)); //数量=箱数*商品规格
-			} 
-			else{
-				gridHandel.setFieldValue('largeNum',newV);
-				gridHandel.setFieldValue('realNum',(newV*purchaseSpecValue).toFixed(4));    //数量=箱数*商品规格
-			}
-	    }
-		else{
-			if(parseFloat(newV)<0){
-			    gridHandel.setFieldValue('largeNum',newV*-1);
-			    gridHandel.setFieldValue('realNum',(newV*purchaseSpecValue*-1).toFixed(4));    //数量=箱数*商品规格
-			} 
-			else{
-				gridHandel.setFieldValue('largeNum',newV);
-				gridHandel.setFieldValue('realNum',(newV*purchaseSpecValue).toFixed(4));    //数量=箱数*商品规格
-			}
-		} 
-		var realNumValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'realNum');
-		if(parseFloat(realNumValue)<0){
-		   gridHandel.setFieldValue('amount',priceValue*realNumValue*-1);                  //金额=数量*单价
-		}
-		else{
-		   gridHandel.setFieldValue('amount',priceValue*realNumValue);
-		}
-	}
+    var newRealNum = parseFloat(Math.round(purchaseSpecValue*newV)).toFixed(4);
+    if(parseFloat(newV)>0){
+        gridHandel.setNowEditFieldName("largeNum");
+    }
+    if(selectVal==1){
+        if(parseFloat(newV)>0){
+            gridHandel.setFieldValue('largeNum',newV*-1);
+            gridHandel.setFieldValue('realNum',(newRealNum*-1)); //数量=箱数*商品规格
+        }
+        else{
+            gridHandel.setFieldValue('largeNum',newV);
+            gridHandel.setFieldValue('realNum',newRealNum);    //数量=箱数*商品规格
+        }
+    }
+    else{
+        if(parseFloat(newV)<0){
+            gridHandel.setFieldValue('largeNum',newV*-1);
+            gridHandel.setFieldValue('realNum',(newRealNum*-1));    //数量=箱数*商品规格
+        }
+        else{
+            gridHandel.setFieldValue('largeNum',newV);
+            gridHandel.setFieldValue('realNum',newRealNum);    //数量=箱数*商品规格
+        }
+    }
+    var realNumValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'realNum');
+    if(parseFloat(realNumValue)<0){
+        gridHandel.setFieldValue('amount',priceValue*realNumValue*-1);                  //金额=数量*单价
+    }
+    else{
+        gridHandel.setFieldValue('amount',priceValue*realNumValue);
+    }
     updateFooter();
 }
 
@@ -258,6 +260,7 @@ function totleChangePrice(newV,oldV) {
     var selectVal=$("#io").combobox('getValue');
 
     var price = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
+
 	  if(selectVal==1){
 		  if(parseFloat(newV)>0){
 		      gridHandel.setFieldValue('realNum',newV*-1); 
@@ -598,7 +601,7 @@ function check(){
  * 返回库存调整
  */
 function back(){
-	location.href = contextPath+"/stock/adjust/list";
+	toClose();
 }
 
 /**
@@ -654,23 +657,68 @@ function updateListData(data){
         inputTax:'tax',
         nowStock:'sellable',
         actual:'stockNum'
-       
     };
     var rows = gFunUpdateKey(data,keyNames);
     var argWhere ={skuCode:1};  //验证重复性
     var isCheck ={isGift:1 };   //只要是赠品就可以重复
     var newRows = gridHandel.checkDatagrid(data,rows,argWhere,isCheck);
     var selectVal=$("#io").combobox('getValue');
-   
     //导入箱数计算
     $.each(data, function (index, el) {	
-    	if(selectVal==1&&parseFloat(el["realNum"])>0){
-    	   el["realNum"]=el["realNum"]*-1;
-	       el["largeNum"] =parseFloat(el["realNum"])/parseFloat(el["purchaseSpec"]);
+    	if(selectVal==1){
+    		if(parseFloat(el["realNum"])){
+    			if(parseFloat(el["realNum"])>0){
+    			  el["realNum"]=el["realNum"]*-1;
+    			  el["largeNum"] =parseFloat(el["realNum"])/parseFloat(el["purchaseSpec"]);
+    			  el["amount"] =parseFloat(el["realNum"])*parseFloat(el["price"]);
+    			  
+    			}
+    			else{
+    			  el["realNum"]=el["realNum"];
+       			  el["largeNum"] =parseFloat(el["realNum"])/parseFloat(el["purchaseSpec"]);
+       			  el["amount"] =parseFloat(el["realNum"])*parseFloat(el["price"]);
+    			}
+    		 }
+    	   if(parseFloat(el["largeNum"])){
+    		   if(parseFloat(el["largeNum"])>0){
+    			   el["largeNum"]=el["largeNum"]*-1;
+        		   el["realNum"] =parseFloat(el["largeNum"])*parseFloat(el["purchaseSpec"]);
+        		   el["amount"] =parseFloat(el["largeNum"])*parseFloat(el["price"])*parseFloat(el["purchaseSpec"]);
+    		   }
+    		   else{
+    			   el["largeNum"]=el["largeNum"];
+      			   el["realNum"] =parseFloat(el["largeNum"])*parseFloat(el["purchaseSpec"]);
+      			  el["amount"] =parseFloat(el["largeNum"])*parseFloat(el["price"])*parseFloat(el["purchaseSpec"]);
+    		   }
+    	}
     	}
     	else{
-    		 el["realNum"]=el["realNum"];
-    		 el["largeNum"] =parseFloat(el["realNum"])/parseFloat(el["purchaseSpec"]);
+    		if(parseFloat(el["realNum"])){
+    			if(parseFloat(el["realNum"])<0){
+    			  el["realNum"]=el["realNum"]*-1;
+      			  el["largeNum"] =parseFloat(el["realNum"])/parseFloat(el["purchaseSpec"]);
+      			  el["amount"] =parseFloat(el["realNum"])*parseFloat(el["price"]);
+    			}
+    			else{
+    			  el["realNum"]=el["realNum"];
+    			  el["largeNum"] =parseFloat(el["realNum"])/parseFloat(el["purchaseSpec"]);
+    			  el["amount"] =parseFloat(el["realNum"])*parseFloat(el["price"]);
+    			 }
+    		}
+    		if(parseFloat(el["largeNum"])){
+    			if(parseFloat(el["largeNum"])<0){
+    			  el["largeNum"]=el["largeNum"]*-1;
+    	          el["realNum"] =parseFloat(el["largeNum"])*parseFloat(el["purchaseSpec"]);
+    	          el["amount"] =parseFloat(el["largeNum"])*parseFloat(el["price"])*parseFloat(el["purchaseSpec"]);
+       		   
+    			}
+    			else{
+    			 el["largeNum"]=el["largeNum"];
+    			 el["realNum"] =parseFloat(el["largeNum"])*parseFloat(el["purchaseSpec"]);
+    			 el["amount"] =parseFloat(el["largeNum"])*parseFloat(el["price"])*parseFloat(el["purchaseSpec"]);
+    			}
+    		} 
+	
     	}
 	  })
     $("#gridEditOrder").datagrid("loadData",data);

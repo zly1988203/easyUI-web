@@ -7,6 +7,7 @@
     <title>到货率分析</title>
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
+    <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 	<script src="${ctx}/static/js/views/report/purchase/arrivalRateList.js"></script>
     
 </head>
@@ -19,7 +20,7 @@
 					<div class="ubtns-item" onclick="query()">查询</div>
 				</shiro:hasPermission>
 	            <shiro:hasPermission name="JxcPurArrivalRate:export">
-	                <div class="ubtns-item" onclick="exportExcel()">导出</div>
+	                <div class="ubtns-item" onclick="exportData()">导出</div>
 				</shiro:hasPermission>
 	                <div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 	                <div class="ubtns-item" onclick="toClose()">退出</div>
@@ -31,21 +32,23 @@
 	        <div class="ub umar-t8">
 	             <div class="ub  ub-ac umar-r40">
                    <div class="umar-r10 uw-70 ut-r">机构名称:</div>
+                        <input type="hidden" name="startCount" id="startCount" value="">
+						<input type="hidden" name="endCount" id="endCount" value="">
 	                    <input class="uinp ub ub-f1" type="hidden" id="branchCode" name="branchCode">
-                        <input class="uinp ub ub-f1" type="text" id="branchNameOrCode" name="branchNameOrCode" readonly="readonly" onclick="cleanBranchCode();" maxlength="50">
+                        <input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" maxlength="50" maxlength="50">
                    <div class="uinp-more uinp-branchNameOrCode" onclick="searchBranch()">...</div>
                 </div>
 	            <div class="ub ub-ac umar-r40">
 	                <div class="umar-r10 uw-60 ut-r">供应商:</div>
 	                <input class="uinp" name="supplierId" id="supplierId" type="hidden">
-	                <input class="uinp" id="supplierName" type="text" readonly="readonly" onclick="selectSupplier()">
+	                <input class="uinp" id="supplierCode" name="supplierCode" type="text" maxlength="50">
 	                <div class="uinp-more uinp-supplierName" onclick="selectSupplier()">...</div>
 	            </div>
 	             <div class="ub ub-ac umar-r40">
                     <div class="umar-r10 uw-60 ut-r">类别:</div>
                     <input id="categoryId" name="categoryId" class="uinp" type="hidden">
                     <input id="categoryCode" name="categoryCode" class="uinp" type="hidden">
-                    <input id="categoryName" name="categoryName" class="uinp" type="text" readonly="readonly">
+                    <input id="categoryName" name="categoryName" class="uinp" type="text" maxlength="50">
                     <div class="uinp-more uinp-categoryName " onclick="getGoodsType()">...</div>
                 </div>
 	        </div>
@@ -63,16 +66,16 @@
 	            <div class="ub ub-ac">
 	                <div class="umar-r10 uw-70 ut-r">查询类型:</div>
 	                <div class="ub ub-ac umar-r10">
-	                    <input class="ub radioItem" type="radio" name="type" id="deal0" value="0" checked="checked"/><label for="deal0">按单 </label>
+	                    <input class="radioItem" type="radio" name="type" id="deal0" value="0" checked="checked"/><label for="deal0">按单 </label>
 	                </div>
 	                <div class="ub ub-ac umar-r10">
-	                    <input class="ub radioItem" type="radio" name="type" id="deal2" value="1"/><label for="deal2">供应商 </label>
+	                    <input class="radioItem" type="radio" name="type" id="deal2" value="1"/><label for="deal2">供应商 </label>
 	                </div>
 					<div class="ub ub-ac umar-r10">
-						<input class="ub radioItem" type="radio" name="type" id="deal3" value="2" /><label for="deal3">类别</label>
+						<input class="radioItem" type="radio" name="type" id="deal3" value="2" /><label for="deal3">类别</label>
 					</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="ub radioItem" type="radio" name="type" id="deal3" value="3" /><label for="deal3">商品</label>
+						<input class="radioItem" type="radio" name="type" id="deal3" value="3" /><label for="deal3">商品</label>
 					</div>
 	            </div>
 	        </div>

@@ -51,11 +51,7 @@ function checktype(){
 		var check=$('.radioItem').eq(i).prop('checked');
 		var value=$('.radioItem').eq(i).val();
 		if(check==true&&value=='0'){
-			$('#categoryName').addClass('uinp-no-more');
-			$('#categoryName').removeAttr('onclick');
-			$('#categoryName').val("");
-			$('#categoryId').val("");
-			$('#categoryCode').val("");
+			categoryOff();
 			$('.uinp-categoryName').removeAttr('onclick');
 			$('#supplierName').removeClass('uinp-no-more');
 			$('#supplierName').attr('onclick','selectSupplier()');
@@ -64,51 +60,69 @@ function checktype(){
 			$('#formNo').removeAttr("readonly");
 		}
 		else if(check==true&&value=='1'){
-			$('#categoryName').addClass('uinp-no-more');
-			$('#categoryName').removeAttr('onclick');
-			$('#categoryName').val("");
-			$('.uinp-categoryName').removeAttr('onclick');
+			categoryOff();
 			$('#formNo').addClass('uinp-no-more');
 			$('#formNo').attr("readonly","readonly");
 			$('#formNo').val("");
-			$('#supplierName').removeClass('uinp-no-more');
-			$('#supplierName').attr('onclick','selectSupplier()');
-			$('.uinp-supplierName').attr('onclick','selectSupplier()');	
+			supplierOn();
 		}
 		else if(check==true&&value=='2'){
-			$('#supplierName').addClass('uinp-no-more');
-			$('#supplierName').removeAttr('onclick');
-			$('#supplierName').val("");
-			$('.uinp-supplierName').removeAttr('onclick');
+			supplierOff();
 			$('#formNo').addClass('uinp-no-more');
 			$('#formNo').attr("readonly","readonly");
 			$('#formNo').val("");
-			$('#categoryName').attr('onclick','getGoodsType()');
-			$('.uinp-categoryName').attr('onclick','getGoodsType()');
-			$('#categoryName').removeClass('uinp-no-more');
+			categoryOn();
 		}
 		else if(check==true&&value=='3'){
-			$('#categoryName').attr('onclick','getGoodsType()');
-			$('.uinp-categoryName').attr('onclick','getGoodsType()');
-			$('#categoryName').removeClass('uinp-no-more');
-			$('#supplierName').removeClass('uinp-no-more');
-			$('#supplierName').attr('onclick','selectSupplier()');
-			$('.uinp-supplierName').attr('onclick','selectSupplier()');
+			categoryOn();
+			supplierOn();
 			$('#formNo').addClass('uinp-no-more');
 			$('#formNo').attr("readonly","readonly");
 			$('#formNo').val("");
-			$('#categoryName').val("");
-			$('#categoryId').val("");
-			$('#categoryCode').val("");
 		}
    }	
 }
 
+function supplierOff(){
+	$('#supplierCode').addClass('uinp-no-more');
+	$('.uinp-supplierName').removeAttr('onclick');
+	$("#supplierCode").attr("readonly","readonly");
+    $("#supplierCode").addClass("uinp-no-more");
+	$('#supplierCode').val("");
+	$('#supplierId').val("");
+}
+
+function supplierOn(){
+	$('.uinp-supplierName').attr('onclick','selectSupplier()');	
+	$('#supplierCode').removeClass('uinp-no-more');
+	$('#supplierCode').removeAttr("readonly");
+	$('#supplierCode').val("");
+	$('#supplierId').val("");
+}
+
+function  categoryOff(){
+	$('#categoryName').addClass('uinp-no-more');
+	$("#categoryName").attr("readonly","readonly");
+	$('#categoryName').val("");
+	$('#categoryId').val("");
+	$('#categoryCode').val("");
+}
+
+function categoryOn(){
+	$('.uinp-categoryName').attr('onclick','getGoodsType()');
+	$('#categoryName').removeClass('uinp-no-more');
+	$('#categoryName').removeAttr("readonly");
+	$('#categoryName').val("");
+	$('#categoryId').val("");
+	$('#categoryCode').val("");
+}
+
 var gridHandel = new GridClass();
 //初始化表格
+var dg;
 function initDatagridByFormNo(){
 	gridHandel.setGridName("gridOrders");
-    $("#gridOrders").datagrid({
+	dg = $("#gridOrders").datagrid({
         method:'post',
         align:'center',
         url:'',
@@ -185,7 +199,7 @@ function initDatagridByFormNo(){
 //初始化表格
 function initDatagridBySupplier(){
 	gridHandel.setGridName("gridOrders");
-    $("#gridOrders").datagrid({
+	dg =  $("#gridOrders").datagrid({
         method:'post',
         align:'center',
         url:'',
@@ -248,7 +262,7 @@ function initDatagridBySupplier(){
 //初始化表格
 function initDatagridByCategory(){
 	gridHandel.setGridName("gridOrders");
-    $("#gridOrders").datagrid({
+	dg =  $("#gridOrders").datagrid({
         method:'post',
         align:'center',
         url:'',
@@ -312,7 +326,7 @@ function initDatagridByCategory(){
 //初始化表格
 function initDatagridBySku(){
 	gridHandel.setGridName("gridOrders");
-    $("#gridOrders").datagrid({
+	dg =  $("#gridOrders").datagrid({
         method:'post',
         align:'center',
         url:'',
@@ -378,6 +392,8 @@ function initDatagridBySku(){
 }
 
 function query(){
+	$("#startCount").val('');
+	$("#endCount").val('');
 	$("#gridOrders").datagrid("options").url = "";
 	$("#gridOrders").datagrid({showFooter:true});
 	$("#gridOrders").datagrid("options").queryParams = $("#queryForm").serializeObject();
@@ -388,8 +404,8 @@ function query(){
 
 function selectSupplier(){
 	new publicSupplierService(function(data){
-		$("#supplierId").val(data.id);
-		$("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
+//		$("#supplierId").val(data.id);
+		$("#supplierCode").val("["+data.supplierCode+"]"+data.supplierName);
 	});
 }
 
@@ -398,16 +414,16 @@ function selectSupplier(){
  */
 function searchBranch (){
 	new publicAgencyService(function(data){
-		$("#branchCode").val(data.branchCode);
-		$("#branchNameOrCode").val("["+data.branchCode+"]"+data.branchName);
+//		$("#branchCode").val(data.branchCode);
+		$("#branchName").val("["+data.branchCode+"]"+data.branchName);
 	},"","");
 }
 
 //商品分类
 function getGoodsType(){
 	new publicCategoryService(function(data){
-		$("#categoryId").val(data.goodsCategoryId);
-		$("#categoryCode").val(data.categoryCode);
+//		$("#categoryId").val(data.goodsCategoryId);
+//		$("#categoryCode").val(data.categoryCode);
 		$("#categoryName").val(data.categoryName);
 	});
 }
@@ -422,40 +438,34 @@ function resetForm(){
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 };
 
-//清空机构编号
-function cleanBranchCode(){
-	var branchNameOrCode = $("#branchNameOrCode").val();
-	if(!branchNameOrCode){
-		$("#branchCode").val('');
-	}
-}
-
 /**
  * 导出
  */
+function exportData(){
+	var length = $('#gridOrders').datagrid('getData').rows.length;
+	if(length == 0){
+		successTip("无数据可导");
+		return;
+	}
+	$('#exportWin').window({
+		top:($(window).height()-300) * 0.5,   
+	    left:($(window).width()-500) * 0.5
+	});
+	$("#exportWin").show();
+	$("#totalRows").html(dg.datagrid('getData').total);
+	$("#exportWin").window("open");
+}
+
 function exportExcel(){
+	$("#exportWin").hide();
+	$("#exportWin").window("close");
 	$("#queryForm").form({
-		success : function(data){
-			if(data.code > 0){
-				$.messager.alert('提示',data.message);
-			}
+		success : function(result){
+			var dataObj=eval("("+result+")");
+			successTip(dataObj.message);
 		}
 	});
-	
-	var isValid = $("#queryForm").form('validate');
-	if(!isValid){
-		return;
-	}
-	
-	var length = $("#gridOrders").datagrid('getData').total;
-	if(length == 0){
-		$.messager.alert('提示',"无数据可导");
-		return;
-	}
-	if(length>10000){
-		$.messager.alert('提示',"当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
-		return;
-	}
 	$("#queryForm").attr("action",contextPath+"/report/purchase/exportList");
-	$("#queryForm").submit(); 
+	$("#queryForm").submit();
 }
+

@@ -279,7 +279,6 @@ function initDatagridEditRequireOrder(){
                 rows[i]["oldDefectNum"] = oldDefectNum
                 var defectNum = parseFloat(rows[i]["sourceStock"]||0)-parseFloat(rows[i]["dealNum"]||0);
                 defectNum = defectNum<0?-defectNum:0;
-                debugger;
                 if(parseFloat(oldDefectNum)!=parseFloat(defectNum)&&parseInt(defectNum)!=0){
                     isError = true;
                 }
@@ -314,9 +313,8 @@ function onChangeLargeNum(newV,oldV){
         messager("配送规格不能为0");
         return;
     }
-    if(gridHandel.getSelectFieldName()!="dealNum"){
-    	 gridHandel.setFieldValue('dealNum',purchaseSpecValue*newV);//数量=商品规格*箱数
-    }
+    var newRealNum = (Math.round(purchaseSpecValue*newV)).toFixed(4);
+    gridHandel.setFieldValue('dealNum',newRealNum);//数量=商品规格*箱数
     updateFooter();
 }
 //监听商品数量
@@ -881,5 +879,8 @@ function updateListData(data){
     },100)
 }
 
-
+//新增出库单
+function addDeliverForm(){
+	toAddTab("新增出库单",contextPath + "/form/deliverForm/addDeliverForm?deliverType=DO");
+}
 

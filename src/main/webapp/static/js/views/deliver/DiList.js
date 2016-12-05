@@ -31,12 +31,14 @@ function initDatagridRequireOrders(){
 			{field:'check',checkbox:true},
             {field:'formNo',title:'单据编号',width:'140px',align:'left',formatter:function(value,row,index){
             	if(updatePermission){
-            		return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/deliverForm/deliverEdit?deliverFormId="+ row.deliverFormId +"'>" + value + "</a>";
+            		var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'入库单明细\',\''+ contextPath +'/form/deliverForm/deliverEdit?deliverFormId='+ row.deliverFormId +'&formType=DI\')">' + value + '</a>';
+            		return strHtml;
+            		//return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/deliverForm/deliverEdit?deliverFormId="+ row.deliverFormId +"'>" + value + "</a>";
             	}else{
             		return value;
             	}
             }},
-            {field:'status',title: '审核状态', width: '100px', align: 'left'},
+            {field:'status',title: '审核状态', width: '100px', align: 'center'},
 			{field: 'sourceBranchName', title: '发货机构', width: '200px', align: 'left'},
 			{field: 'targetBranchName', title: '收货机构', width: '200px', align: 'left'},
 			{field: 'amount', title: '单据金额', width: '80px', align: 'right',
@@ -51,7 +53,7 @@ function initDatagridRequireOrders(){
             {field: 'createTime', title: '制单日期', width: '120px', align: 'center',
 				formatter: function (value, row, index) {
 					if (value) {
-						return new Date(value).format('yyyy-MM-dd');
+						return new Date(value).format('yyyy-MM-dd hh:mm');
 					}
 					return "";
 				}
@@ -59,10 +61,10 @@ function initDatagridRequireOrders(){
             {field: 'validUserName', title: '审核人员', width: '130px', align: 'left'},
             {field: 'remark', title: '备注', width: '200px', align: 'left'},
             {field: 'updateUserName', title: '操作人员', width: '130px', align: 'left'},
-            {field: 'updateTime', title: '操作日期', width: '120px', align: 'center',
+            {field: 'updateTime', title: '操作时间', width: '120px', align: 'center',
 				formatter: function (value, row, index) {
 					if (value) {
-						return new Date(value).format('yyyy-MM-dd');
+						return new Date(value).format('yyyy-MM-dd hh:mm');
 					}
 					return "";
 				}
@@ -77,7 +79,7 @@ function initDatagridRequireOrders(){
 
 //新增入库单
 function addDeliverForm(){
-	location.href = contextPath + "/form/deliverForm/addDeliverForm?deliverType=DI";
+	toAddTab("新增入库单",contextPath + "/form/deliverForm/addDeliverForm?deliverType=DI");
 }
 
 //查询入库单
@@ -91,7 +93,11 @@ function queryForm(){
 //删除
 function delDeliverForm(){
 	var dg = $("#deliverFormList");
-	var row = dg.datagrid("getSelected");
+	var row = dg.datagrid("getChecked");
+	var ids = [];
+	for(var i=0; i<row.length; i++){
+		ids.push(row[i].deliverFormId);
+	}
 	if(rowIsNull(row)){
 		return null;
 	}
@@ -100,9 +106,8 @@ function delDeliverForm(){
 			$.ajax({
 		    	url:contextPath+"/form/deliverForm/deleteDeliverForm",
 		    	type:"POST",
-		    	data:{
-		    		formId : row.deliverFormId
-		    	},
+		    	contentType:"application/json",
+		    	data:JSON.stringify(ids),
 		    	success:function(result){
 		    		if(result['code'] == 0){
 		    			successTip("删除成功");
@@ -124,7 +129,7 @@ function delDeliverForm(){
  */
 function selectBranches(){
 	new publicAgencyService(function(data){
-		$("#sourceBranchId").val(data.branchesId);
+//		$("#sourceBranchId").val(data.branchesId);
 		$("#sourceBranchName").val(data.branchName);
 	},'',sourceBranchId);
 }
@@ -145,7 +150,7 @@ function printDesign(){
  */
 function selectOperator(){
 	new publicOperatorService(function(data){
-		$("#operateUserId").val(data.id);
+//		$("#operateUserId").val(data.id);
 		$("#operateUserName").val(data.userName);
 	});
 }

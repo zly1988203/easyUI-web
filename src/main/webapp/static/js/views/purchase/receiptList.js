@@ -6,7 +6,16 @@ $(function(){
     initConditionParams();
     
     initDatagridOrders();
+    //单据状态切换
+    changeStatus();
 });
+
+//单据状态切换
+function changeStatus(){
+	$(".radioItem").change(function(){
+		query();
+    });
+}
 
 //初始化默认条件
 function initConditionParams(){
@@ -36,10 +45,12 @@ function initDatagridOrders(){
         columns:[[
             {field:'check',checkbox:true},
             {field:'formNo',title:'单据编号',width:'140px',align:'left',formatter:function(value,row,index){
-            	return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/purchase/receiptEdit?formId="+ row.id +"'>" + value + "</a>"
+            	var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看采购收货详细\',\''+contextPath+'/form/purchase/receiptEdit?formId='+row.id+'\')">' + value + '</a>';
+            	return strHtml;
+            
             }},
             {field:'branchName',title:'收货机构',width:'100px',align:'left'},
-            {field:'status',title:'审核状态',width:'100px',align:'left',formatter:function(value,row,index){
+            {field:'status',title:'审核状态',width:'100px',align:'center',formatter:function(value,row,index){
             	if(value == '0'){
             		return '待审核';
             	}else if(value == '1'){
@@ -58,9 +69,9 @@ function initDatagridOrders(){
 				},
 			},
             {field:'updateUserName',title:'操作员',width:'130px',align:'left'},
-            {field:'createTime',title:'操作日期',width:'150px',align:'center', formatter: function (value, row, index) {
+            {field:'createTime',title:'操作时间',width:'150px',align:'center', formatter: function (value, row, index) {
                 if (value) {
-                	return new Date(value).format('yyyy-MM-dd hh:mm:ss');
+                	return new Date(value).format('yyyy-MM-dd hh:mm');
                 }
                 return "";
             }},
@@ -73,9 +84,11 @@ function initDatagridOrders(){
     });
     query();
 }
+
 function receiptAdd(){
-	location.href = contextPath + "/form/purchase/receiptAdd";
+	toAddTab("新增采购收货单",contextPath + "/form/purchase/receiptAdd");
 }
+
 function query(){
 	$("#gridOrders").datagrid("options").queryParams = $("#queryForm").serializeObject();
 	$("#gridOrders").datagrid("options").method = "post";
@@ -89,13 +102,24 @@ function receiptDelete(){
 	if(rowIsNull(row)){
 		return null;
 	}
+	var rows =$("#gridOrders").datagrid("getChecked");
+	if($("#gridOrders").datagrid("getChecked").length <= 0){
+		 $.messager.alert('提示','请选中一行进行删除！');
+		return null;
+	}
+	 var formIds='';
+	    $.each(rows,function(i,v){
+	    	formIds+=v.id+",";
+	    });
+	
+	
 	$.messager.confirm('提示','是否要删除此条数据',function(data){
 		if(data){
 			$.ajax({
 		    	url:contextPath+"/form/purchase/delete",
 		    	type:"POST",
 		    	data:{
-		    		formId:row.id
+		    		formIds:formIds
 		    	},
 		    	success:function(result){
 		    		console.log(result);
@@ -116,32 +140,21 @@ function receiptDelete(){
 
 function selectSupplier(){
 	new publicSupplierService(function(data){
-		$("#supplierId").val(data.id);
+//		$("#supplierId").val(data.id);
 		$("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
 	});
 }
 function selectOperator(){
 	new publicOperatorService(function(data){
-		$("#operateUserId").val(data.id);
+//		$("#operateUserId").val(data.id);
 		$("#operateUserName").val(data.userName);
 	});
 }
 function selectBranch(){
 	new publicBranchService(function(data){
-		$("#branchId").val(data.branchesId);
+//		$("#branchId").val(data.branchesId);
 		$("#branchName").val("["+data.branchCode+"]"+data.branchName);
 	},0);
-}
-
-//打印
-function printDesign(){
-     var dg = $("#gridOrders");
-     var row = dg.datagrid("getSelected");
-     if(rowIsNull(row)){
-           return null;
-     }
-     //弹出打印页面
-     parent.addTabPrint('PASheet' + row.id,row.formNo+'单据打印',contextPath + '/printdesign/design?page=PASheet&controller=/form/purchase&template=-1&sheetNo=' + row.id + '&gridFlag=PAGrid','');
 }
 
 /**

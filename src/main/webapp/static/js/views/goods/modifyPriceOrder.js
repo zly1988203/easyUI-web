@@ -6,11 +6,20 @@ $(function(){
     //开始和结束时间
     $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+    //单据状态切换
+    changeStatus();
     //初始化列表
     initModifyPriceGrid();
     modifyPriceOrderCx();
     
 });
+
+//单据状态切换
+function changeStatus(){
+	$(".radioItem").change(function(){
+		modifyPriceOrderCx();
+    });
+}
 var gridHandel = new GridClass();
 function initModifyPriceGrid() {
      dg=$("#modifyPriceGrid").datagrid({
@@ -29,7 +38,8 @@ function initModifyPriceGrid() {
         columns: [[
             {field: 'formNo', title: '单号', width: '135px', align: 'left',
                 formatter: function(value,row,index){
-                    return "<a href="+contextPath+"/goods/priceAdjust/showDetail?formNo="+value+" class='ualine'>"+value+"</a>";
+                	var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看调价单详细\',\''+contextPath+'/goods/priceAdjust/showDetail?formNo='+value+'\')">' + value + '</a>';
+                	return strHtml;
                 }
             },
             {field: 'status', title: '审核状态', width:'90px', align: 'left',
@@ -44,11 +54,11 @@ function initModifyPriceGrid() {
             {field: 'branchAreaCode', title: '区域编码', width: '100px', align: 'left'},
             {field: 'branchAreaName', title: '区域名称', width: '90px', align: 'left'},
             {field: 'createUserName', title: '操作员', width: '120px', align: 'left'},
-            {field: 'createTime', title: '操作日期', width: '100px', align: 'left',
+            {field: 'createTime', title: '操作时间', width: '120px', align: 'left',
             	formatter: function (value, row, index) {
 	                if (value != null && value != '') {
 	                    var date = new Date(value);
-	                    return date.format("yyyy-MM-dd");
+	                    return date.format("yyyy-MM-dd hh:mm");
 	                }
 	                return "";
 	            }
@@ -64,7 +74,7 @@ function initModifyPriceGrid() {
 }
 //新增
 function addModifyDataGrid(){
-	window.location.href=contextPath+"/goods/priceAdjust/addFormView";
+	toAddTab("新增调价单",contextPath + "/goods/priceAdjust/addFormView");
 }
 
 //删单

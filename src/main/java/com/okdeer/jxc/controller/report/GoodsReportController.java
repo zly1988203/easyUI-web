@@ -15,15 +15,20 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.okdeer.jxc.branch.entity.Branches;
+import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.PrintConstant;
+import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.StringUtils;
@@ -32,6 +37,7 @@ import com.okdeer.jxc.controller.print.JasperHelper;
 import com.okdeer.jxc.report.qo.GoodsReportQo;
 import com.okdeer.jxc.report.service.GoodsReportService;
 import com.okdeer.jxc.report.vo.GoodsReportVo;
+import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
 
 /**
@@ -54,6 +60,9 @@ public class GoodsReportController extends
 
 	@Reference(version = "1.0.0", check = false)
 	private GoodsReportService goodsReportService;
+	
+	@Reference(version = "1.0.0", check = false)
+	BranchesServiceApi branchesServiceApi;
 
 	/**
 	 * 
@@ -63,7 +72,10 @@ public class GoodsReportController extends
 	 * @date 2016年8月22日
 	 */
 	@RequestMapping(value = "view")
-	public String view() {
+	public String view(Model model) {
+		SysUser user = getCurrentUser();
+		Branches branchesGrow = branchesServiceApi.getBranchInfoById(user.getBranchId());
+		model.addAttribute("branchesGrow", branchesGrow);
 		return "report/goods/goodsReport";
 	}
 
@@ -88,11 +100,10 @@ public class GoodsReportController extends
 			qo.setPageSize(pageSize);
 
 			// 如果没有选择店铺，则查询登录人所在机构的商品
-			if (StringUtils.isEmpty(qo.getBranchId())) {
+			if (StringUtils.isEmpty(qo.getBranchName())) {
 				qo.setBranchId(UserUtil.getCurrBranchId());
 			}
-			PageUtils<GoodsReportVo> goodsReport = goodsReportService
-					.queryListToPage(qo);
+			PageUtils<GoodsReportVo> goodsReport = goodsReportService.queryListToPage(qo);
 			return goodsReport;
 		} catch (Exception e) {
 			LOG.error("查询商品选择数据出现异常:", e);
@@ -111,24 +122,30 @@ public class GoodsReportController extends
 	 */
 	@RequestMapping(value = "/exportList", method = RequestMethod.POST)
 	@ResponseBody
-	public String exportList(HttpServletResponse response, GoodsReportQo qo) {
+	public RespJson exportList(HttpServletResponse response, GoodsReportQo qo) {
 
 		LOG.info("商品查询导出execl：vo" + qo);
 		try {
 			// 如果没有选择店铺，则查询登录人所在机构的商品
-			if (StringUtils.isEmpty(qo.getBranchId())) {
+			if (StringUtils.isEmpty(qo.getBranchName())) {
 				qo.setBranchId(UserUtil.getCurrBranchId());
 			}
 			List<GoodsReportVo> exportList = goodsReportService.queryList(qo);
-
+            if(CollectionUtils.isNotEmpty(exportList)){
 			String fileName = "商品查询列表" + "_" + DateUtils.getCurrSmallStr();
 
 			String templateName = ExportExcelConstant.GOODSREPORT;
 
 			exportList = handlePrice(exportList);
 			exportListForXLSX(response, exportList, fileName, templateName);
+			} else {
+				RespJson json = RespJson.error("无数据可导");
+				return json;
+			}
 		} catch (Exception e) {
 			LOG.error("商品查询导出execl出现错误{}", e);
+			RespJson json = RespJson.error("导出失败");
+			return json;
 		}
 		return null;
 	}

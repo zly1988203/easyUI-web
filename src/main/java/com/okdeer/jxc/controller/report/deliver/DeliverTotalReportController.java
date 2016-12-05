@@ -15,11 +15,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.okdeer.jxc.branch.entity.Branches;
+import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.common.enums.DeliverAuditStatusEnum;
 import com.okdeer.jxc.common.report.DataRecord;
 import com.okdeer.jxc.common.report.ReportService;
@@ -27,6 +30,7 @@ import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.common.ReportController;
 import com.okdeer.jxc.report.deliver.service.DeliverTotalReportServiceApi;
+import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
 
 
@@ -40,6 +44,9 @@ public class DeliverTotalReportController extends ReportController {
 	@Reference(version = "1.0.0", check = false)
 	private DeliverTotalReportServiceApi deliverTotalReportServiceApi;
 
+	@Reference(version = "1.0.0", check = false)
+	BranchesServiceApi branchesServiceApi;
+	
 	/**
 	 * @Description: 采购报表明细
 	 * @return
@@ -47,7 +54,11 @@ public class DeliverTotalReportController extends ReportController {
 	 * @date 2016年10月25日
 	 */
 	@RequestMapping("/view")
-	public String view() {
+	public String view(Model model) {
+		SysUser user = getCurrentUser();
+		Branches branchesGrow = branchesServiceApi.getBranchInfoById(user.getBranchId());
+		model.addAttribute("branchesGrow", branchesGrow);
+		
 		return "report/deliver/deliverTotalReport";
 	}
 

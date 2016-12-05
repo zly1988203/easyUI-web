@@ -7,6 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>配送汇总查询</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
+<%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 <script src="${ctx}/static/js/views/report/deliver/deliverTotalReport.js"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
@@ -21,7 +22,9 @@
 	                <div class="ubtns-item" onclick="query()">查询</div>
 	            </shiro:hasPermission>
 	            <shiro:hasPermission name="JxcCashDaily:export">
-	                <div class="ubtns-item" onclick="exportExcel()">导出</div>
+	            	<input type="hidden" id="startCount" name="startCount" />
+					<input type="hidden" id="endCount" name="endCount" />
+	                <div class="ubtns-item" onclick="exportData()">导出</div>
 	            </shiro:hasPermission>
 	                <div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 	                <div class="ubtns-item" onclick="toClose()">退出</div>
@@ -37,8 +40,8 @@
           <div class="ub umar-t8">
                <div class="ub ub-ac umar-r60">
 					<div class="umar-r10 uw-80 ut-r">查询机构:</div>
-					<input type="hidden" id="branchId" name="branchId" />
-					<input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" onclick="selectBranches()" readonly="readonly" />
+					<input type="hidden" id="branchId" name="branchId" value="${branchesGrow.branchesId}"/>
+					<input class="uinp ub ub-f1" type="text" id="branchName" name="branchName"/><%--  value="${branchesGrow.branchName}"  --%>
 					<div class="uinp-more" onclick="selectBranches()" >...</div>
 	           </div>
                <div class="ub ub-ac umar-r60">
@@ -50,8 +53,8 @@
 			   <div class="ub ub-ac umar-r60">
 					<div class="umar-r10 uw-80 ut-r">商品类别:</div>
 					<input id="goodsCategoryId" name="goodsCategoryId" class="uinp" type="hidden"> 
-					<input id="categoryCode" name="categoryCode" class="uinp" type="hidden"> 
-					<input id="categoryName" name="categoryName" class="uinp" type="text" readonly="readonly" data-options="required:true">
+					<!-- <input id="categoryCode" name="categoryCode" class="uinp" type="hidden">  -->
+					<input id="categoryCode" name="categoryCode" class="uinp" type="text" maxlength="50">
 					<div class="uinp-more new-right" id="categoryButon" onclick="getGoodsType()">...</div>
 				</div>
 
@@ -68,13 +71,12 @@
 				<div class="ub ub-ac umar-r60">
 					<div class="umar-r10 uw-80 ut-r">单据编号:</div>
 					<input type="text" name="formNo" id="formNo" class="uinp" readonly="readonly"/>
-					<!-- <div class="uinp-more" id="cashierIdSelect" onclick="selectGoods()">...</div> -->
 				</div>
 			</div>
             <div class="ub umar-t8">
                 <!--input-checkbox-->
                 <div class="ub ub-ac">
-                   <div class="umar-r10 uw-70 ut-r">汇总类型:</div>
+                   <div class="umar-r10 uw-80 ut-r">汇总类型:</div>
                     <div class="ub ub-ac umar-r10 ">
                         <input class="ub radioItem" id="goods" type="radio" name="queryType" value="goods" checked="checked"/>
                         <label for="goods">商品汇总</label>

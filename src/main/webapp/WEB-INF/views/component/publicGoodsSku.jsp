@@ -155,7 +155,8 @@ pageEncoding="UTF-8"%>
     	   brandId="";
     	   supplierId = treeNode.id;
        }
-        $("#gridGoods").datagrid("options").queryParams = {categoryCode:categoryCode,brandId:brandId,supplierId:supplierId};
+        var goodsInfo=$("#goodsInfo").val();
+        $("#gridGoods").datagrid("options").queryParams = {goodsInfo:goodsInfo,categoryCode:categoryCode,brandId:brandId,supplierId:supplierId};
         $("#gridGoods").datagrid("options").method = "post";
         $("#gridGoods").datagrid("options").url =contextPath + '/goods/goodsSelect/queryGoodsSkuLists';
         $("#gridGoods").datagrid("load");
@@ -251,7 +252,7 @@ pageEncoding="UTF-8"%>
             var goodsInfo=$("#goodsInfo").val();
             // $("#gridGoods").datagrid("options").queryParams = {'categoryId':categoryId,'goodsInfo':goodsInfo,'formType':'${type}','sourceBranchId':'${sourceBranchId}','targetBranchId':'${targetBranchId}'};
             // 梁利 提出左边树与右边的查询无关系
-            $("#gridGoods").datagrid("options").queryParams = $.extend({'goodsInfo':goodsInfo,'formType':'${type}','sourceBranchId':'${sourceBranchId}','targetBranchId':'${targetBranchId}','branchId':'${branchId}'},fromParams)
+            $("#gridGoods").datagrid("options").queryParams = {'goodsInfo':goodsInfo};
             $("#gridGoods").datagrid("options").method = "post";
             $("#gridGoods").datagrid("options").url =contextPath + '/goods/goodsSelect/queryGoodsSkuLists';
             $("#gridGoods").datagrid('load');
@@ -259,17 +260,4 @@ pageEncoding="UTF-8"%>
             $("#goodsInfo").select();
         },1000)
     }
-    var fromParams = {};
-    function initNewSearch(params){
-        fromParams = params;
-        if(!params.key){
-            $("#gridGoods").datagrid("options").method = "post";
-            $("#gridGoods").datagrid("options").queryParams = params;
-            $("#gridGoods").datagrid("options").url =contextPath + '/goods/goodsSelect/queryGoodsSkuLists?formType=${type}&sourceBranchId=${sourceBranchId}&targetBranchId=${targetBranchId}&branchId=${branchId}';
-            $("#gridGoods").datagrid('load');
-        }else{
-            cx()
-        }
-    }
-
 </script>

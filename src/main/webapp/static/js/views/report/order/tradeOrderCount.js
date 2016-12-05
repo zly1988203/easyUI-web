@@ -14,7 +14,7 @@ var gridHandel = new GridClass();
 //初始化表格
 function initDatagridRequireOrders(){
 	gridHandel.setGridName("gridOrders");
-    $("#gridOrders").datagrid({
+	dg=$("#gridOrders").datagrid({
         //title:'普通表单-用键盘操作',
         method:'post',
         align:'center',
@@ -84,6 +84,8 @@ function initDatagridRequireOrders(){
 
 //查询要货单
 function queryForm(){
+	$("#startCount").attr("value",null);
+	$("#endCount").attr("value",null);
 	var fromObjStr = $('#queryForm').serializeObject();
 	$("#gridOrders").datagrid("options").method = "post";
 	$("#gridOrders").datagrid('options').url = contextPath + '/bill/tradeOrderCount/getTradeOrderCounts';
@@ -107,6 +109,7 @@ var resetForm = function() {
 	location.href = contextPath + "/bill/tradeOrderCount/view";
 };
 
+var dg;
 /**
  * 导出
  */
@@ -116,12 +119,18 @@ function exportData(){
 		successTip("无数据可导");
 		return;
 	}
-	if(length>10000){
-		successTip("当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
-		return;
-	}
-	
-	var fromObjStr = $('#queryForm').serializeObject();
+	$('#exportWin').window({
+		top:($(window).height()-300) * 0.5,   
+	    left:($(window).width()-500) * 0.5
+	});
+	$("#exportWin").show();
+	$("#totalRows").html(dg.datagrid('getData').total);
+	$("#exportWin").window("open");
+}
+// 调用导出方法
+function exportExcel(){
+	$("#exportWin").hide();
+	$("#exportWin").window("close");
 	$("#queryForm").form({
 		success : function(result){
 			//successTip(result);

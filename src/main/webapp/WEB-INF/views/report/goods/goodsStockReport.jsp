@@ -7,6 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>商品库存查询</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
+<%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 <script src="${ctx}/static/js/views/report/goods/goodsStockReport.js"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
@@ -18,7 +19,7 @@
 	                <div class="ubtns-item" onclick="query()">查询</div>
 	                <div class="ubtns-item">打印</div>
 	                <div class="ubtns-item" onclick="reset();">重置</div>
-	                <div class="ubtns-item" onclick="exportExcel()">导出</div>
+	                <div class="ubtns-item" onclick="exportData()">导出</div>
 	                <div class="ubtns-item" onclick="toClose()">退出</div>
 	            </div>
 	        </div>
@@ -30,6 +31,8 @@
           	<div class="ub umar-t8">
                 <div class="ub ub-ac">
                 	<div class="umar-r10 uw-70 ut-r">店铺:</div>
+                	<input type="hidden" name="startCount" id="startCount" value="">
+					<input type="hidden" name="endCount" id="endCount" value="">
                     <input class="uinp ub ub-f1" type="hidden" id="branchId" name="branchId">
                     <input class="uinp ub ub-f1" type="hidden" id="branchCode" name="branchCode">
                     <input class="uinp ub ub-f1" type="text" id="branchNameOrCode" name="branchNameOrCode" onblur="cleanBranchCode();">
@@ -63,7 +66,7 @@
                 <div class="ub ub-ac uselectw umar-l40">
                     <div class="umar-r10 uw-70 ut-r">商品状态:</div>
                        <!--select-->
-				        <select class="easyui-combobox uselect" name="status" id="status" data-options="editable:false">
+				        <select class="easyui-combobox uselect" name="status" id="status" data-options="editable:false,onLoadSuccess:comboboxGoodsStatus">
 				    			<option value="">全部</option> 
 				           	<c:forEach items="${goodsStatus}" var="goodsStatus">
 				    			<option value="${goodsStatus.ordinal}">${goodsStatus.value}</option> 

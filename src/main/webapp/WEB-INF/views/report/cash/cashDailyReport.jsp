@@ -7,6 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>收银日报</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
+<%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 <script src="${ctx}/static/js/views/report/cash/cashDailyReport.js"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
@@ -24,7 +25,7 @@
 	                <div class="ubtns-item" onclick="printReport()">打印</div>
 	            </shiro:hasPermission>
 	            <shiro:hasPermission name="JxcCashDaily:export">
-	                <div class="ubtns-item" onclick="exportExcel()">导出</div>
+	                <div class="ubtns-item" onclick="exportData()">导出</div>
 	            </shiro:hasPermission>
 	                <div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 	                <div class="ubtns-item" onclick="toClose()">退出</div>
@@ -34,12 +35,13 @@
 	            <%@ include file="/WEB-INF/views/component/dateSelect.jsp"%>
             </div>
 	               
-	        <div class="ub umar-t8 uc-black">【收银日报】</div>
 	        <div class="ub uline umar-t8"></div>
 	        
           <div class="ub umar-t8">
                <div class="ub ub-ac">
                    <div class="umar-r10 uw-70 ut-r">店铺:</div>
+                   <input type="hidden" name="startCount" id="startCount" value="">
+				   <input type="hidden" name="endCount" id="endCount" value="">
                    <input class="uinp" type="hidden" id="branchCode" name="branchCode">
                    <input class="uinp" type="text" id="branchNameOrCode" name="branchNameOrCode" onblur="clearBranchCode()">
                    <div class="uinp-more" onclick="searchBranch()">...</div>
@@ -57,15 +59,15 @@
                 <div class="ub ub-ac">
                    <div class="umar-r10 uw-70 ut-r">报表类型:</div>
                     <div class="ub ub-ac umar-r10 ">
-                        <input class="ub radioItem" id="cashDailyAll" type="radio" name="queryType" value="cashier" checked="checked"/>
+                        <input class="radioItem" id="cashDailyAll" type="radio" name="queryType" value="cashier" checked="checked"/>
                         <label for="cashDailyAll">按收银员汇总</label>
                     </div>
                     <div class="ub ub-ac umar-r10">
-                        <input class="ub radioItem" id="cashDailyMd" type="radio" name="queryType" value="branch"  />
+                        <input class="radioItem" id="cashDailyMd" type="radio" name="queryType" value="branch"  />
                         <label for="cashDailyMd">按门店汇总</label>
                     </div>
                    <div class="ub ub-ac umar-r10">
-                        <input class="ub radioItem" id="cashDailyDate" type="radio" name="queryType" value="date" />
+                        <input class="radioItem" id="cashDailyDate" type="radio" name="queryType" value="date" />
                         <label for="cashDailyDate">按日期汇总</label>
                   </div>
                 </div>

@@ -112,17 +112,12 @@ function updateFooter(){
     var argWhere = {name:'isGift',value:""}
     gridHandel.updateFooter(fields,argWhere);
 }
-//新增出库单
+
+//新增入库单
 function addDeliverForm(){
-	location.href = contextPath + "/form/deliverForm/addDeliverForm?deliverType=DI";
+	toAddTab("新增入库单",contextPath + "/form/deliverForm/addDeliverForm?deliverType=DI");
 }
 //返回列表页面
 function back(){
 	location.href = contextPath+"/form/deliverForm/viewsDI";
-}
-
-//打印 入库单 DI
-function printDesign(formNo){
-     //弹出打印页面
-     parent.addTabPrint('DISheet' + formNo,formNo+'单据打印',contextPath + '/printdesign/design?page=DISheet&controller=/form/deliverForm&template=-1&sheetNo=' + formNo + '&gridFlag=DIGrid','');
 }

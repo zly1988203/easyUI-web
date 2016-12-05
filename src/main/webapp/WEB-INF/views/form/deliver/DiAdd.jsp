@@ -14,10 +14,13 @@
     <div class="ub ub-ver ub-f1 umar-4  ubor">
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
-                <div class="ubtns-item" onclick="saveOrder()">保存</div>
-               	<!-- <div class="ubtns-item" onclick="importproductAll()">导入明细</div>
-                <div class="ubtns-item" onclick="importproduct()">导入货号</div> -->
-                <div class="ubtns-item" onclick="back()">返回</div>
+                <shiro:hasPermission name="JxcDeliverDI:add">
+                	<div class="ubtns-item" onclick="saveOrder()">保存</div>
+                </shiro:hasPermission>
+                <div class="ubtns-item">商品选择</div>
+                <div class="ubtns-item">导入货号</div>
+                <div class="ubtns-item">导入条码</div>
+                <div class="ubtns-item" onclick="toClose()">关闭</div>
             </div>
         </div>
            <div class="ub">
@@ -44,7 +47,7 @@
                    <div class="utxt"><%=UserUtil.getCurrentUser().getUserName() %></div>
                </div>
                <div class="ub ub-ac umar-l20">
-                   <div class="umar-r10 uw-60 ut-r">制单日期:</div>
+                   <div class="umar-r10 uw-60 ut-r">制单时间:</div>
                    <div class="utxt" id="createTime"></div>
                </div>
            </div>
@@ -63,7 +66,7 @@
                    <div class="utxt"></div>
                </div>
                <div class="ub ub-ac uw-300">
-                   <div class="umar-r10 uw-70 ut-r">审核日期:</div>
+                   <div class="umar-r10 uw-70 ut-r">审核时间:</div>
                    <div class="utxt"></div>
                </div>
            </div>

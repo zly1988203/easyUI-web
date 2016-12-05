@@ -128,7 +128,8 @@ function zTreeOnClick(event, treeId, treeNode) {
          $("#categoryCode1").val('');
          $("#level").val('');
     }
-    
+    $("#startCount").val('');
+	$("#endCount").val('');
     //var formParams = $("#formGoodsArchives").serializeObject();
     gridReload("gridArchives",goodsClass.treeParam,goodsClass.selectTypeName);
 };
@@ -152,14 +153,16 @@ function gridReload(gridName,httpParams,selectTypeName){
 	//begin by lijy02 2016.9.13
 //	$("#"+gridName).datagrid("options").url = contextPath+'/goods/goodsSelect/getGoodsList';
 	//end by lijy02
-    $("#"+gridName).datagrid("options").queryParams = httpParams;
+    $("#"+gridName).datagrid("options").queryParams = $("#formGoodsArchives").serializeObject();
     $("#"+gridName).datagrid("options").method = "post";
     $("#"+gridName).datagrid("load");
 }
 var gridHandel = new GridClass();
 //初始化表格
+
+var dg;
 function initDatagridArchives(){
-    $("#gridArchives").datagrid({
+	dg = $("#gridArchives").datagrid({
         //title:'普通表单-用键盘操作',
         align:'center',
         url:'',
@@ -203,7 +206,7 @@ function initDatagridArchives(){
              {field:'originPlace',title:'产地',width:'200px',align:'left'},
              {field:'supplierName',title:'主供应商',width:'200px',align:'left'},
              {field:'saleWay',title:'经营方式',width:'80px',align:'left',hidden:true},
-             {field:'saleWayName',title:'经营方式',width:'100px',align:'left'},
+             {field:'saleWayName',title:'经营方式',width:'100px',align:'center'},
              {field:'supplierRate',title:'联营扣率/代销扣率',width:'80px',align:'right',
                  formatter:function(value,row,index){
                      return ((value||0)*100).toFixed(0)+"%";
@@ -211,30 +214,30 @@ function initDatagridArchives(){
              },
              {field:'purchasePrice',title:'进货价',width:'80px',align:'right',
                  formatter:function(value,row,index){
-                     return (value||0).toFixed(2);
+                     return (value||0).toFixed(4);
                  }
              },
              {field:'salePrice',title:'零售价',width:'80px',align:'right',
                  formatter:function(value,row,index){
-                     return (value||0).toFixed(2);
+                     return (value||0).toFixed(4);
                  }
              },
              {field:'distributionPrice',title:'配送价',width:'80px',align:'right',
                  formatter:function(value,row,index){
-                     return (value||0).toFixed(2);
+                     return (value||0).toFixed(4);
                  }
              },
              {field:'wholesalePrice',title:'批发价',width:'80px',align:'right',
                  formatter:function(value,row,index){
-                     return (value||0).toFixed(2);
+                     return (value||0).toFixed(4);
                  }
              },
              {field:'vipPrice',title:'会员价',width:'80px',align:'right',
                  formatter:function(value,row,index){
-                     return (value||0).toFixed(2);
+                     return (value||0).toFixed(4);
                  }
              },
-             {field:'status',title:'商品状态',width:'80px',align:'left',
+             {field:'status',title:'商品状态',width:'80px',align:'center',
                  formatter:function(value,row,index){
                      if(value){
                          return value.value;
@@ -242,7 +245,7 @@ function initDatagridArchives(){
                      return value;
                  }
              },
-             {field:'pricingType',title:'计价方式',width:'80px',align:'left',
+             {field:'pricingType',title:'计价方式',width:'80px',align:'center',
                 formatter:function(value,row,index){
                     if(value){
                         return value.value;
@@ -292,28 +295,59 @@ function goodsSelectType(){
     console.log($("#goodsType").val());
     goodsClass.selectTypeName = $("#goodsType").val();
 }
+
+//清除左侧菜单参数
+function cleanLeftParam(){
+	 $("#brandId1").val('');
+     $("#categoryCode1").val('');
+     $("#level").val('');
+     $("#supplierId1").val('');
+}
+
 //搜索
 function goodsSearch(){
+	//去除左侧选中值
+	cleanLeftParam();
+	$("#startCount").val('');
+	$("#endCount").val('');
+	//去除左侧选中样式
+	$('.zTreeDemoBackground a').removeClass('curSelectedNode');
     var formParams = $("#formGoodsArchives").serializeObject();
     $("#gridArchives").datagrid('options').url=contextPath+'/common/goods/queryGoodsSku';
     gridReload("gridArchives", formParams);
+    
 }
 //新增
 function addGoodsView(){
-	var obj = $.extend({},goodsClass.currSelectTreeParam);
-	if(goodsClass.currSelectTreeParam.categoryId=="0"){
-		obj.categoryName="";
+	var param = goodsClass.currSelectTreeParam;
+	var categoryCode = param.categoryCode;
+	if(categoryCode){
+		if(categoryCode.length==6){
+			var obj = $.extend({},param);
+			if(goodsClass.currSelectTreeParam.categoryId=="0"){
+				obj.categoryName="";
+			}
+			openDialog(contextPath+"/common/goods/addGoodsView","新增商品档案","add",obj);
+		}else{
+			var obj = $.extend({},param);
+				obj.categoryName="";
+			openDialog(contextPath+"/common/goods/addGoodsView","新增商品档案","add",obj);
+		}
+	}else{
+		var obj = $.extend({},param);
+		if(goodsClass.currSelectTreeParam.categoryId=="0"){
+			obj.categoryName="";
+		}
+		openDialog(contextPath+"/common/goods/addGoodsView","新增商品档案","add",obj);
 	}
-	openDialog(contextPath+"/common/goods/addGoodsView","新增商品档案","add",obj);
-    //window.location.href = contextPath+"/common/goods/addGoodsView";
 }
 var  dalogTemp;
 //打开Dialog
 function openDialog(argUrl,argTitle,argType,params) {
     dalogTemp = $('<div/>').dialog({
         href: argUrl,
-        width: 1000,
-        height: 600,
+        width: 940,
+        height: 620,
         title: argTitle,
         closable: true,
         resizable: true,
@@ -380,33 +414,37 @@ function delGoods(){
 	});
 }
 
-//导出
-function exportExcel(){
-	var isValid = $("#formGoodsArchives").form('validate');
-	if(!isValid){
-		return;
-	}
-	var length = $("#gridArchives").datagrid('getData').total;
+/**
+ * 导出
+ */
+function exportData(){
+	var length = $('#gridArchives').datagrid('getData').rows.length;
 	if(length == 0){
-		$.messager.alert("提示","无数据可导");
+		successTip("无数据可导");
 		return;
 	}
-	if(length>10000){
-		$.messager.alert('提示',"当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
-		return;
-	}
+	$('#exportWin').window({
+		top:($(window).height()-300) * 0.5,   
+	    left:($(window).width()-500) * 0.5
+	});
+	$("#exportWin").show();
+	$("#totalRows").html(dg.datagrid('getData').total);
+	$("#exportWin").window("open");
+}
+
+function exportExcel(){
+	$("#exportWin").hide();
+	$("#exportWin").window("close");
 	$("#formGoodsArchives").form({
-		success : function(data){
-			if(data==null){
-				$.messager.alert('提示',"导出数据成功！");
-			}else{
-				$.messager.alert('提示',JSON.parse(data).message);
-			}
+		success : function(result){
+			var dataObj=eval("("+result+")");
+			successTip(dataObj.message);
 		}
 	});
 	$("#formGoodsArchives").attr("action",contextPath+"/common/goods/exportGoods");
 	$("#formGoodsArchives").submit();
 }
+
 //重置
 function resetFrom(){
 	$("#searchForm").form('clear');

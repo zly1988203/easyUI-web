@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.enums.GoodsStatusEnum;
 import com.okdeer.jxc.common.enums.GoodsTypeEnum;
@@ -33,10 +34,16 @@ import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.controller.BaseController;
+import com.okdeer.jxc.goods.entity.GoodsBrand;
 import com.okdeer.jxc.goods.entity.GoodsSku;
 import com.okdeer.jxc.goods.qo.GoodsSkuQo;
+import com.okdeer.jxc.goods.service.GoodsBrandServiceApi;
 import com.okdeer.jxc.goods.service.GoodsSkuServiceApi;
+import com.okdeer.jxc.goods.vo.GoodsBrandVo;
 import com.okdeer.jxc.goods.vo.GoodsSkuVo;
+import com.okdeer.jxc.supplier.entity.Supplier;
+import com.okdeer.jxc.supplier.qo.SupplierQo;
+import com.okdeer.jxc.supplier.service.SupplierServiceApi;
 import com.okdeer.jxc.utils.UserUtil;
 
 /**
@@ -56,6 +63,12 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 
 	@Reference(version = "1.0.0", check = false)
 	private GoodsSkuServiceApi goodsSkuService;
+	
+	@Reference(version = "1.0.0", check = false)
+	private GoodsBrandServiceApi goodsBrandService;
+	
+	@Reference(version = "1.0.0", check = false)
+	private SupplierServiceApi supplierService;
 
 	/**
 	 * 
@@ -88,7 +101,7 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		LOG.info("qo:" + qo.toString());
-		if (qo.isOutGoods()) {// 淘汰商品
+		if (!qo.isOutGoods()) {// 淘汰商品
 			qo.setStatus(GoodsStatusEnum.OBSOLETE.ordinal());
 		}
 		if(StringUtils.isNotBlank(categoryCode1)){
@@ -120,7 +133,25 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 	public String addGoods(Model model, HttpServletRequest request) {
 		model.addAttribute("date", DateUtils.getCurrSmallRStr());
 		model.addAttribute("action", "create");
-
+		
+		//品牌查询
+		GoodsBrandVo  brand = new GoodsBrandVo();
+		brand.setBrandCodeOrName("其他");
+		brand.setPageNumber(Constant.ONE);
+		brand.setPageSize(Constant.ONE);
+		PageUtils<GoodsBrand> goodsBrands = goodsBrandService.queryLists(brand);
+		model.addAttribute("goodsBrand", goodsBrands.getList().get(0));
+		
+		//供应商查询
+		SupplierQo supplier = new SupplierQo();
+		supplier.setSupplierName("默认供应商");
+		String branchId = UserUtil.getCurrBranchId();
+		supplier.setBranchId(branchId);
+		supplier.setPageNumber(Constant.ONE);
+		supplier.setPageSize(Constant.ONE);
+		PageUtils<Supplier> suppliers = supplierService.queryLists(supplier);
+		model.addAttribute("supplier", suppliers.getList().get(0));
+		
 		// 将计价方式，商品状态，商品类型的枚举放入model中
 		addEnum(model);
 
@@ -455,14 +486,17 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 			if(StringUtils.isNotBlank(supplierId1)){
 				qo.setSupplierId(supplierId1);
 			}
-			qo.setPageSize(ExportExcelConstant.EXPORT_MAX_SIZE);
-			int count=goodsSkuService.querySkuByParamsCount(qo);
-			if(count>ExportExcelConstant.EXPORT_MAX_SIZE){
-				RespJson json = RespJson.error("最多只能导出" + ExportExcelConstant.EXPORT_MAX_SIZE
-						+ "条数据");
-				return json;
+			if (!qo.isOutGoods()) {// 淘汰商品
+				qo.setStatus(GoodsStatusEnum.OBSOLETE.ordinal());
 			}
-			List<GoodsSku> list = goodsSkuService.querySkuByParams(qo);
+//			int count=goodsSkuService.querySkuByParamsCount(qo);
+//			if(count>ExportExcelConstant.EXPORT_MAX_SIZE){
+//				RespJson json = RespJson.error("最多只能导出" + ExportExcelConstant.EXPORT_MAX_SIZE
+//						+ "条数据");
+//				return json;
+//			}
+			
+ 			List<GoodsSku> list = goodsSkuService.querySkuByParams(qo);
 			if (CollectionUtils.isNotEmpty(list)) {
 				if (list.size() > ExportExcelConstant.EXPORT_MAX_SIZE) {
 					RespJson json = RespJson.error("最多只能导出" + ExportExcelConstant.EXPORT_MAX_SIZE
@@ -477,16 +511,16 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 				// 导出Excel
 				list = handleDateReport(list);
 				exportListForXLSX(response, list, fileName, templateName);
-				return null;
 			} else {
 				RespJson json = RespJson.error("无数据可导");
 				return json;
 			}
 		} catch (Exception e) {
 			LOG.error("导出商品失败", e);
-			RespJson json = RespJson.error(e.toString());
+			RespJson json = RespJson.error("导出失败");
 			return json;
 		}
+		return null;
 	}
 	
 	// 导出数据特殊处理

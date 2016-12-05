@@ -7,12 +7,12 @@ $(function(){
     toChangeDatetime(10);
     initDatagridRequireOrders();
     branchId = $("#branchId").val();
-    brancheType = $("#brancheType").val();
 });
 var gridHandel = new GridClass();
+
 //初始化表格
 function initDatagridRequireOrders(){
-    $("#deliverFormList").datagrid({
+	dg=$("#deliverFormList").datagrid({
         //title:'普通表单-用键盘操作',
         method:'post',
         align:'center',
@@ -47,7 +47,7 @@ function initDatagridRequireOrders(){
             		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
             	}
             },
-			{field: 'dealStatus', title: '单据状态', width: '60px', align: 'left'},
+			{field: 'dealStatus', title: '单据状态', width: '60px', align: 'center'},
 			{field: 'validityTime', title: '有效期限', width: '115px', align: 'center',
 				formatter: function (value, row, index) {
 					if (value) {
@@ -67,6 +67,8 @@ function initDatagridRequireOrders(){
 
 //查询要货单
 function queryForm(){
+	$("#startCount").attr("value",null);
+	$("#endCount").attr("value",null);
 	$("#deliverType").val('DA');
 	var fromObjStr = $('#queryForm').serializeObject();
 	$("#deliverFormList").datagrid("options").method = "post";
@@ -78,13 +80,10 @@ function queryForm(){
  * 查询机构
  */
 var branchId;
-var brancheType;
 function selectBranches(){
 	new publicAgencyService(function(data){
-        if($("#branchId").val()!=data.branchesId){
-            $("#branchId").val(data.branchesId);
-            $("#branchName").val(data.branchName);
-        }
+//        $("#branchId").val(data.branchesId);
+        $("#branchName").val(data.branchName);
 	},'',branchId);
 }
 
@@ -96,6 +95,7 @@ var resetForm = function() {
 	 $("#deliverType").val('DA');
 };
 
+var dg;
 /**
  * 导出
  */
@@ -105,12 +105,18 @@ function exportData(){
 		successTip("无数据可导");
 		return;
 	}
-	if(length>10000){
-		successTip("当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
-		return;
-	}
-	
-	var fromObjStr = $('#queryForm').serializeObject();
+	$('#exportWin').window({
+		top:($(window).height()-300) * 0.5,   
+	    left:($(window).width()-500) * 0.5
+	});
+	$("#exportWin").show();
+	$("#totalRows").html(dg.datagrid('getData').total);
+	$("#exportWin").window("open");
+}
+// 调用导出方法
+function exportExcel(){
+	$("#exportWin").hide();
+	$("#exportWin").window("close");
 	$("#queryForm").form({
 		success : function(result){
 			//successTip(result);
@@ -119,6 +125,5 @@ function exportData(){
 	$("#queryForm").attr("action",contextPath+'/form/deliverReport/exportList')
 	$("#queryForm").submit();
 }
-
 
 

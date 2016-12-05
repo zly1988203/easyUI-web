@@ -13,8 +13,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.json.JSONObject;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -43,6 +41,8 @@ import com.okdeer.jxc.stock.vo.StockFormDetailVo;
 import com.okdeer.jxc.stock.vo.StockFormVo;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
+
+import net.sf.json.JSONObject;
 
 
 /**
@@ -136,7 +136,7 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
-			vo.setBranchId(UserUtil.getCurrBranchId());
+			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
 			PageUtils<StockFormVo> stockFormList = stockAdjustServiceApi
 					.getStockFormList(vo);
 			LOG.info(LogConstant.PAGE, stockFormList.toString());
@@ -309,21 +309,30 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 			SysUser user = UserUtil.getCurrentUser();
 			String[] field = null; 
 			if(type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)){//货号
-				field = new String[]{"skuCode","realNum"};
+				field = new String[]{"skuCode","realNum","largeNum"};
 			}else if(type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)){//条码
-				field = new String[]{"barCode","realNum"};
+				field = new String[]{"barCode","realNum","largeNum"};
 			}
-			
 			GoodsSelectImportVo<GoodsSelectByStockAdjust> vo = goodsSelectImportComponent.importSelectGoodsWithStock(fileName, is, field, new GoodsSelectByStockAdjust(), branchId,user.getId(), type,"/stock/adjust/downloadErrorFile", new GoodsSelectImportBusinessValid() {
 				
 				@Override
 				public void businessValid(List<JSONObject> list, String[] excelField) {
 					for (JSONObject obj : list) {
-						String realNum = obj.getString("realNum");
-						try {
-							Double.parseDouble(realNum);
-						} catch (Exception e) {
-							obj.element("error", "数量必填");
+						if(obj.get("realNum") != null){
+							String realNum = obj.getString("realNum");
+							try {
+								Double.parseDouble(realNum);
+							} catch (Exception e) {
+								obj.element("error", "数量必填");
+							}
+						}
+						if(obj.get("largeNum") != null){
+							String largeNum = obj.getString("largeNum");
+							try {
+								Double.parseDouble(largeNum);
+							} catch (Exception e) {
+								obj.element("error", "箱数必填");
+							}
 						}
 						
 					}

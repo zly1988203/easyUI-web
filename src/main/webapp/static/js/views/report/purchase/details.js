@@ -23,9 +23,10 @@ var gridHandel = new GridClass();
  * 初始化表格
  * @param queryType
  */
+var dg;
 function initPurReportDetailGrid(queryType) {
 	gridHandel.setGridName("purReportDetail");
-    $("#purReportDetail").datagrid({
+    dg= $("#purReportDetail").datagrid({
         //title:'普通表单-用键盘操作',
         method: 'post',
         align: 'center',
@@ -154,6 +155,8 @@ function updateFooter(){
  */
 function purchaseDetailCx(){
 	//机构日期不能为空
+	$("#startCount").val('');
+	$("#endCount").val('');
 	var startDate = $("#txtStartDate").val();
 	var endDate = $("#txtEndDate").val();
 	var branchName = $("#branchName").val();
@@ -171,6 +174,8 @@ function purchaseDetailCx(){
 	$("#purReportDetail").datagrid("options").url =  contextPath+"/report/purchase/getPurReportDetail";
 	$("#purReportDetail").datagrid("load");
 }
+
+
 /**
  * 导出
  */
@@ -182,28 +187,42 @@ function exportDetails(){
 		$.messager.alert('提示', '日期不能为空');
 		return ;
 	}
-	/*if(!branchName){
-		$.messager.alert('提示', '机构名不能为空');
-		return ;
-	}*/
-	var length = $("#purReportDetail").datagrid('getData').total;
+	var length = $('#purReportDetail').datagrid('getData').rows.length;
 	if(length == 0){
-		$.messager.alert('提示',"没有数据");
+		successTip("无数据可导");
 		return;
 	}
-	if(length>10000){
-		$.messager.alert("当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
-		return;
-	}
+	$('#exportWin').window({
+		top:($(window).height()-300) * 0.5,   
+	    left:($(window).width()-500) * 0.5
+	});
+	$("#exportWin").show();
+	$("#totalRows").html(dg.datagrid('getData').total);
+	$("#exportWin").window("open");
+}
+// 调用导出方法
+function exportExcel(){
+	$("#exportWin").hide();
+	$("#exportWin").window("close");
+	$("#queryForm").form({
+		success : function(result){
+			
+		}
+	});
 	$("#queryForm").attr("action",contextPath+'/report/purchase/exportDetails');
 	$("#queryForm").submit();	
+
 }
+
+
+
+
 /**
  * 机构列表下拉选
  */
 function searchBranch (){
 	new publicAgencyService(function(data){
-		$("#branchId").val(data.branchesId);
+//		$("#branchId").val(data.branchesId);
 		$("#branchName").val("["+data.branchCode+"]"+data.branchName);
 	},"","");
 }
@@ -212,7 +231,7 @@ function searchBranch (){
  */
 function searchSupplier(){
 	new publicSupplierService(function(data){
-		$("#supplierId").val(data.id);
+//		$("#supplierId").val(data.id);
 		$("#supplierName").val(data.supplierName);
 	},"purchase");
 }
@@ -221,7 +240,7 @@ function searchSupplier(){
  */
 function searchCategory(){
 	new publicCategoryService(function(data){
-		$("#categoryId").val(data.goodsCategoryId);
+//		$("#categoryId").val(data.goodsCategoryId);
 		$("#categoryName").val(data.categoryName);
 
 	});
@@ -230,11 +249,5 @@ function searchCategory(){
  * 重置
  */
 var resetForm = function(){
-	/*$("#queryForm").form('clear');
-	$("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
-	$("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
-	$("#branchId").val(sessionBranchId);
-	$("#branchName").val(sessionBranchName);
-	onChangeFormType("");*/
 	location.href=contextPath+"/report/purchase/detail";
 };

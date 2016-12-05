@@ -7,9 +7,12 @@ function initGoodsView(data,flag){
 	//添加页面根据列表页面选中的类别进行商品分类赋值
 	if(flag == "add"){
 		//商品分类
-		$("#categoryId").val(data.categoryId);
-		$("#categoryCode").val(data.categoryCode);
-		$("#categoryName").val(data.categoryName);
+		var categoryCode = data.categoryCode;
+		if(categoryCode && categoryCode.length == 6){
+			$("#categoryId").val(data.categoryId);
+			$("#categoryCode").val(data.categoryCode);
+			$("#categoryName").val(data.categoryName);
+		}
 		//商品自动生成货号
 //		getSkuCodeVal();
 	}else{
@@ -61,27 +64,6 @@ function initGoodsView(data,flag){
 			minMaxSalePrice();
 		}
 	});
-	$(function(){
-		$("#remark").textbox('textbox').bind('keyup', function(e){
-			if( $("#remark").val().length>100){
-				$("#remark").textbox('setValue', $(this).val().substring(0,100));
-			}
-		});
-	});
-/*	$("#barCode").attr("readonly","readonly");
-*///	$(document).ready(function(){ 
-//	$('#pricingType').change(function(){ 
-//	alert("AAAAAAAAAA");
-//	}) 
-//	}) ;
-
-	//生成毛利值，毛利率
-//	$('#salePrice').on("input",function(){
-//	setGrossProfit();
-//	});
-//	$('#purchasePrice').on("input",function(){
-//	setGrossProfit();
-//	});
 }
 //获取列表复制的值
 function getSelectionRow(data){
@@ -89,18 +71,20 @@ function getSelectionRow(data){
 	if(selectionRow != ""){
 		selectionRow = JSON.parse(unescape(selectionRow));
 		setInputValByObj();
-		//debugger;
 		$("#skuCode").val(null);
 		$("#barCode").val(null);
 	}
 }
 
 //根据复制的值，给input框赋值
+
+var categoryCode="";
 function setInputValByObj(){
 	if(selectionRow!=null){
 		
 		$.each(selectionRow[0]||selectionRow,function(key,value){
 			//普通的input
+			
 			if(key=="braCode"||key=="skuCode"){
 				
 			}else if($("#"+key).prop("tagName") == "INPUT"){
@@ -126,7 +110,18 @@ function setInputValByObj(){
 						if($("#"+key).hasClass('easyui-numberbox')){
 							$("#"+key).numberbox('setValue', value);
 						}else{
+							if(key == "categoryCode"){
+								categoryCode = value;
+							}
 							$("#"+key).val(value);
+							//不在三级类别商品特殊处理
+							if(categoryCode){
+								if(categoryCode.length!=6){
+									$("#categoryId").val('');
+									$("#categoryCode").val('');
+									$("#categoryName").val('');
+								}
+							}
 						}
 
 					}
@@ -212,7 +207,6 @@ function getMemoryCode(){
 
 //商品自动生成货号
 function getSkuCodeVal(){
-	//debugger;
 	var pricingType = 	$('#pricingType').combobox("getValue");
 	//计件方式为“普通”，需要商品类别生成货号，其他不需要，直接生成货号，并且货号全部都是只可读
 	if(pricingType == ""){
@@ -440,7 +434,6 @@ function pricingTypeChange(){
 	getSkuCodeVal();
 }
 function typeChange(){
-	//debugger;
 	var pricingType = 	$('#type').combobox("getValue");
 	//计件方式为“普通”，需要商品类别生成货号，其他不需要，直接生成货号，并且货号全部都是只可读
 	if(pricingType == ""){

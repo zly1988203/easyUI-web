@@ -287,9 +287,8 @@ function onChangeLargeNum(newV,oldV){
         messager("配送规格不能为0");
         return;
     }
-    if(gridHandel.getSelectFieldName()!="dealNum"){
-        gridHandel.setFieldValue('dealNum',purchaseSpecValue*newV);//数量=商品规格*箱数
-    }
+    var newRealNum = (Math.round(purchaseSpecValue*newV)).toFixed(4);
+    gridHandel.setFieldValue('dealNum',newRealNum);//数量=商品规格*箱数
     updateFooter();
 }
 //监听商品数量
@@ -329,6 +328,7 @@ function onChangeRealNum(newV,oldV) {
     //}
     var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
     var salePriceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'salePrice');
+
     gridHandel.setFieldValue('amount',(priceValue*newV).toFixed(4));             //金额=数量*单价
     gridHandel.setFieldValue('saleAmount',(salePriceValue*newV).toFixed(4));      //零售金额=数量*零售价
     gridHandel.setFieldValue('largeNum',(newV/purchaseSpecValue).toFixed(4));   //箱数=数量/商品规格
@@ -839,7 +839,6 @@ function updateListData(data){
         	 rows[i]["price"] = 0;
          }
          rows[i]["amount"]  = parseFloat(rows[i]["price"]||0)*parseFloat(rows[i]["dealNum"]||0);
-         debugger;
          if(parseInt(rows[i]["distributionSpec"])){
         	 rows[i]["dealNum"]  = (parseFloat(rows[i]["largeNum"]||0)*parseFloat(rows[i]["distributionSpec"])).toFixed(4);
          }else{

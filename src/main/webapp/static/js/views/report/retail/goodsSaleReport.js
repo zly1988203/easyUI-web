@@ -8,7 +8,7 @@ var gridHandel = new GridClass();
 //初始化表格
 function initDatagridRequire(){
 	gridHandel.setGridName("storeSale");
-    $("#storeSale").datagrid({
+	dg= $("#storeSale").datagrid({
         method:'post',
         align:'center',
         //toolbar: '#tb',     //工具栏 id为tb
@@ -197,6 +197,8 @@ function initDatagridRequire(){
 
 //查询入库单
 function queryForm(){
+	$("#startCount").attr("value",null);
+	$("#endCount").attr("value",null);
 	var fromObjStr = $('#queryForm').serializeObject();
 	$("#storeSale").datagrid("options").method = "post";
 	$("#storeSale").datagrid('options').url = contextPath + '/goodsSale/report/getGoodsSaleList';
@@ -224,7 +226,7 @@ function queryForm(){
  */
 function searchBranch(){
 	new publicAgencyService(function(data){
-		$("#branchId").val(data.branchesId);
+//		$("#branchId").val(data.branchesId);
 		$("#branchName").val(data.branchName);
 	},'BF','');
 }
@@ -233,7 +235,7 @@ function searchBranch(){
  */
 function searchCategory(){
 	new publicCategoryService(function(data){
-		$("#categoryId").val(data.goodsCategoryId);
+//		$("#categoryId").val(data.goodsCategoryId);
 		$("#categoryName").val(data.categoryName);
 
 	});
@@ -246,7 +248,24 @@ var resetForm = function() {
 	 $("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
 	 $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 };
-
+var dg;
+/**
+ * 导出
+ */
+function exportData(){
+	var length = $('#storeSale').datagrid('getData').total;
+	if(length == 0){
+		successTip("无数据可导");
+		return;
+	}
+	$('#exportWin').window({
+		top:($(window).height()-300) * 0.5,   
+	    left:($(window).width()-500) * 0.5
+	});
+	$("#exportWin").show();
+	$("#totalRows").html(dg.datagrid('getData').total);
+	$("#exportWin").window("open");
+}
 /**
  * 导出
  */
@@ -256,7 +275,7 @@ function exportExcel(){
 		$.messager.alert('提示',"没有数据");
 		return;
 	}
-	if(length>10000){
+	if(length>20000){
 		$.messager.alert('提示',"当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
 		return;
 	}

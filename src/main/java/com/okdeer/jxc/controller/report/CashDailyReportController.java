@@ -24,9 +24,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.PrintConstant;
+import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.StringUtils;
@@ -95,7 +95,7 @@ public class CashDailyReportController extends BaseController<CashDailyReportCon
 			qo = buildDefaultParams(qo);
 
 			// 1、查询列表
-			PageUtils<CashDailyReportVo> cashFlowReport = cashDailyReportService.queryList(qo);
+			PageUtils<CashDailyReportVo> cashFlowReport = cashDailyReportService.queryPageList(qo);
 
 			// 2、查询合计
 			CashDailyReportVo vo = cashDailyReportService.queryCashDailyReportSum(qo);
@@ -150,29 +150,32 @@ public class CashDailyReportController extends BaseController<CashDailyReportCon
 	 */
 	@RequestMapping(value = "/exportList", method = RequestMethod.POST)
 	@ResponseBody
-	public String exportList(HttpServletResponse response, CashDailyReportQo qo) {
+	public RespJson exportList(HttpServletResponse response, CashDailyReportQo qo) {
 		LOG.info("收银日报导出查询参数：{}" + qo);
 		try {
-			qo.setPageNumber(Constant.ONE);
-			qo.setPageSize(Constant.MAX_EXPORT_NUM);
-
 			// 初始化默认参数
 			qo = buildDefaultParams(qo);
-
 			// 1、列表查询
-			PageUtils<CashDailyReportVo> exportList = cashDailyReportService.queryList(qo);
-			List<CashDailyReportVo> list = exportList.getList();
-			// 2、查询合计
-			CashDailyReportVo cashDailyReportVo = cashDailyReportService.queryCashDailyReportSum(qo);
-			if (CollectionUtils.isEmpty(list)) {
-				list = new ArrayList<CashDailyReportVo>();
+			List<CashDailyReportVo> list = cashDailyReportService.queryList(qo);
+			if(CollectionUtils.isNotEmpty(list)){
+				// 2、查询合计
+				CashDailyReportVo cashDailyReportVo = cashDailyReportService.queryCashDailyReportSum(qo);
+				cashDailyReportVo.setBranchCode("合计");
+				if (CollectionUtils.isEmpty(list)) {
+					list = new ArrayList<CashDailyReportVo>();
+				}
+				list.add(cashDailyReportVo);
+				String fileName = "收银日报" + "_" + DateUtils.getCurrSmallStr();
+				String templateName = ExportExcelConstant.CASHDAILYREPORT;
+				exportListForXLSX(response, list, fileName, templateName);
+			}else{
+				RespJson json = RespJson.error("无数据可导");
+				return json;
 			}
-			list.add(cashDailyReportVo);
-			String fileName = "收银日报" + "_" + DateUtils.getCurrSmallStr();
-			String templateName = ExportExcelConstant.CASHDAILYREPORT;
-			exportListForXLSX(response, list, fileName, templateName);
 		} catch (Exception e) {
 			LOG.error("收银日报导出异常:", e);
+			RespJson json = RespJson.error("导出失败");
+			return json;
 		}
 		return null;
 	}
@@ -192,11 +195,10 @@ public class CashDailyReportController extends BaseController<CashDailyReportCon
 		try {
 			qo.setPageNumber(pageNumber);
 			qo.setPageSize(PrintConstant.PRINT_MAX_LIMIT);
-
 			// 初始化默认参数
 			qo = buildDefaultParams(qo);
 			LOG.debug("日结报表打印参数：{}", qo.toString());
-			PageUtils<CashDailyReportVo> cashFlowReport = cashDailyReportService.queryList(qo);
+			PageUtils<CashDailyReportVo> cashFlowReport = cashDailyReportService.queryPageList(qo);
 			List<CashDailyReportVo> list = cashFlowReport.getList();
 			BigDecimal allTotal = BigDecimal.ZERO;
 			for (CashDailyReportVo cashDailyReportVo : list) {

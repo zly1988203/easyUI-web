@@ -2,6 +2,7 @@
  * Created by zhanghuan on 2016/8/30.
  * 要货单-编辑
  */
+var branchId = '';
 $(function(){
     initDatagridEditRequireOrder();
     $("div").delegate("button","click",function(){
@@ -32,6 +33,7 @@ function initDatagridEditRequireOrder(){
                 gridHandel.addRow(parseInt(gridHandel.getSelectRowIndex())+1,gridDefault);
                
             }else{
+            	branchId = $("#sourceBranchId").val();
                 selectGoods(arg);
             }
         },
@@ -218,10 +220,8 @@ function onChangeLargeNum(newV,oldV){
         messager("没有配送规格,请审查");
         return;
     }
-    if(gridHandel.getSelectFieldName()!="applyNum"){
-    	 gridHandel.setFieldValue('applyNum',purchaseSpecValue*newV);//数量=商品规格*箱数
-   }
-  
+    var newRealNum = (Math.round(purchaseSpecValue*newV)).toFixed(4);
+    gridHandel.setFieldValue('applyNum',newRealNum);//数量=商品规格*箱数
    
     updateFooter();
 }
@@ -296,18 +296,19 @@ function selectGoods(searchKey){
         messager("请先选择发货机构");
         return;
     }
-    var targetBranchType = $("#targetBranchType").val();
+   /* var targetBranchType = $("#targetBranchType").val();
     // C类加盟店显示为发货机构的商品表
     if (targetBranchType === '5') {
     	targetBranchId = sourceBranchId;
-    }
+    }*/
     new publicGoodsService("DA",function(data){
         if(searchKey){
             $("#"+gridHandel.getGridName()).datagrid("deleteRow", gridHandel.getSelectRowIndex());
             $("#"+gridHandel.getGridName()).datagrid("acceptChanges");
         }
-        selectStockAndPrice(sourceBranchId,targetBranchId,data);
-    },searchKey,'',sourceBranchId,targetBranchId,targetBranchId,'');
+        selectStockAndPrice(data);
+    },searchKey,'',sourceBranchId,targetBranchId,branchId,'');
+    branchId = '';
 }
 
 //二次查询设置值
@@ -318,7 +319,11 @@ function setDataValue(data) {
         }
          var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
          var addDefaultData = gridHandel.addDefault(data,gridDefault);
-         var keyNames = {
+         var keyNames = type==1?{
+	         id:'skuId',
+	         disabled:'',
+	         pricingType:''
+         }:{
     		 distributionPrice:'price',
 	         id:'skuId',
 	         disabled:'',
@@ -334,7 +339,8 @@ function setDataValue(data) {
 
 //查询价格、库存
 function selectStockAndPrice(sourceBranchId,targetBranchId,data){
-	var targetBranchType = $("#targetBranchType").val();
+	setDataValue(data);
+	/*var targetBranchType = $("#targetBranchType").val();
 	var type;
     // C类加盟店显示为发货机构的商品表
     if (targetBranchType === '5' || targetBranchType === '4') {
@@ -367,7 +373,7 @@ function selectStockAndPrice(sourceBranchId,targetBranchId,data){
     	error:function(result){
     		successTip("请求发送失败或服务器处理失败");
     	}
-    });
+    });*/
 }
 
 
@@ -755,6 +761,11 @@ function updateListData(data){
      var newRows = gridHandel.checkDatagrid(data,rows,argWhere,isCheck);
      $("#gridEditRequireOrder").datagrid("loadData",newRows);
    
+}
+
+//新增要货单
+function addDeliverForm(){
+	toAddTab("新增要货单",contextPath + "/form/deliverForm/addDeliverForm?deliverType=DA");
 }
 
 

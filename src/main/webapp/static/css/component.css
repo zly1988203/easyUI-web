@@ -59,6 +59,23 @@
     border: none;
     border-right: 1px solid #c9c9c9;
     background-color: #fff; }
+	.ubtns-item-disabled{
+	    display: box !important;
+    position: relative;
+    -webkit-box-pack: center;
+    -moz-box-pack: center;
+    -ms-box-pack: center;
+    box-pack: center;
+    font-size: 14px;
+    width: 72px;
+    height: 32px;
+    line-height: 32px;
+    color: #393939;
+    border: none;
+        border-right: 1px solid #aaa;
+    background-color: #cecece;
+    text-align: center;
+	}
   .ubtns .ubtns-item:end {
     border-right: 1px solid transparent; }
   .ubtns .ubtns-item:hover {
@@ -156,7 +173,7 @@
 
 .uinp .textbox-text {
   width: 200px !important;
-  height: 32px !important;
+  height: 30px !important;
   border-radius: 0px !important;
   color: #393939;
   padding: 0 4px !important; }
@@ -221,7 +238,7 @@
   height: 32px !important; }
 
 .textbox-text, .easyui-validatebox, .easyui-textbox {
-  height: 32px !important;
+  height: 30px !important;
   text-indent: 4px;
   padding: 0 !important;
   border: 1px solid #c9c9c9;

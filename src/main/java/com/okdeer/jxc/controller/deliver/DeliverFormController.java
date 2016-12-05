@@ -32,6 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.alibaba.druid.util.StringUtils;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.okdeer.jxc.branch.entity.BranchSpec;
 import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.entity.BranchesGrow;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
@@ -177,9 +178,10 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 	@RequestMapping(value = "validityDays")
 	public String validityDays(Model model) {
 		// 在页面显示有效天数
-		int validityDay = deliverConfigServiceApi.getValidityDay(UserUtil
-				.getCurrBranchId());
+		int validityDay = deliverConfigServiceApi.getValidityDay(UserUtil.getCurrBranchId());
 		model.addAttribute("validityDay", validityDay);
+		BranchSpec branchSpec = deliverConfigServiceApi.querySpecByBranchId(UserUtil.getCurrBranchId());
+		model.addAttribute("branchSpec", branchSpec);
 		return "form/deliver/validityDays";
 	}
 
@@ -275,6 +277,12 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 				return "form/deliver/DiEdit";
 			}
 		} else {
+			// 返回状态
+			if (DeliverStatusEnum.STOPPED.getName().equals(form.getDealStatus())) {
+				model.addAttribute("status", Constant.DEAL_STATUS);
+			} else {
+				model.addAttribute("status", Constant.STATUS);
+			}
 			// 已审核，不能修改
 			if (FormType.DA.toString().equals(form.getFormType())) {
 				Branches branches = branchesServiceApi
@@ -445,30 +453,33 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 
 	/**
 	 * @Description: 删除要货单(假删除)
-	 * @param vo
-	 * @param validate
+	 * @param formIds  
 	 * @return
 	 * @author zhangchm
 	 * @date 2016年8月20日
 	 */
 	@RequestMapping(value = "deleteDeliverForm", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson deleteDeliverForm(String formId) {
+	public RespJson deleteDeliverForm(@RequestBody String formIds) {
 		RespJson respJson = RespJson.success();
-		LOG.info(LogConstant.OUT_PARAM, formId);
+		LOG.info(LogConstant.OUT_PARAM, formIds);
 		try {
+			if (StringUtils.isEmpty(formIds)) {
+				LOG.error("未选择删除的配送单！");
+				return RespJson.error("未选择删除的配送单！");
+			}
+			List<String> formIdsList = new ObjectMapper().readValue(formIds, List.class);
 			// 获取登录人
 			SysUser user = UserUtil.getCurrentUser();
 			DeliverFormVo vo = new DeliverFormVo();
-			vo.setDeliverFormId(formId);
+			vo.setDeliverFormIds(formIdsList);
 			// 设置值
-			vo.setValue("", user.getId(), vo.getCreateTime(), null);
-			vo.setDisabled(DisabledEnum.YES.getIndex());
-
+			vo.setUpdateUserId(user.getId());
+			vo.setUpdateTime(DateUtils.getCurrDate());
 			return deliverFormServiceApi.updateToRemove(vo);
 		} catch (Exception e) {
-			LOG.error("保存要货申请单出现异常:{}", e);
-			respJson = RespJson.error("添加要货申请单失败！");
+			LOG.error("删除配送单出现异常:{}", e);
+			respJson = RespJson.error("删除配送单失败！");
 		}
 		return respJson;
 	}
@@ -538,7 +549,7 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 	protected Map<String, Object> getPrintReplace(String formNo) {
 		Map<String, Object> replaceMap = new HashMap<String, Object>();
 		DeliverForm deliverForm = deliverFormServiceApi
-				.queryDeliverFormByFormNo(formNo);
+				.queryDeliverFormById(formNo);
 		replaceMap.put("_单号",
 				deliverForm.getFormNo() != null ? deliverForm.getFormNo() : "");
 		replaceMap.put(
@@ -617,7 +628,7 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 	 */
 	@Override
 	protected List<DeliverFormList> getPrintDetail(String formNo) {
-		return queryDeliverFormListServiceApi.getDeliverList(formNo);
+		return queryDeliverFormListServiceApi.getDeliverListById(formNo);
 	}
 	// end by lijy02
 
@@ -625,14 +636,16 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 	 * @Description: 导入功能
 	 * @param file
 	 * @param type 0货号、1条码
-	 * @param branchId
+	 * @param targetBranchId
+	 * @param sourceBranchId
 	 * @return
 	 * @author zhangchm
 	 * @date 2016年10月15日
 	 */
 	@RequestMapping(value = "importList")
 	@ResponseBody
-	public RespJson importList(@RequestParam("file") MultipartFile file, String type, String branchId) {
+	public RespJson importList(@RequestParam("file") MultipartFile file, String type, String targetBranchId,
+			String sourceBranchId) {
 		RespJson respJson = RespJson.success();
 		try {
 			if (file.isEmpty()) {
@@ -653,8 +666,11 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 			} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {
 				fields = ImportExcelConstant.DELIVER_GOODS_BARCODE;
 			}
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("targetBranchId", targetBranchId);
+			map.put("sourceBranchId", sourceBranchId);
 			GoodsSelectImportVo<GoodsSelectDeliver> vo = goodsSelectImportComponent.importSelectGoods(fileName, is,
-					fields, new GoodsSelectDeliver(), branchId, user.getId(), type,
+					fields, new GoodsSelectDeliver(), null, user.getId(), type,
 					"/form/deliverForm/downloadErrorFile", new GoodsSelectImportBusinessValid() {
 				@Override
 				public void formatter(List<? extends GoodsSelect> list) {
@@ -675,7 +691,7 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 				public void errorDataFormatter(List<JSONObject> list) {
 				}
 
-			});
+					}, map);
 			respJson.put("importInfo", vo);
 		} catch (IOException e) {
 			respJson = RespJson.error("读取Excel流异常");
@@ -850,7 +866,7 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 						}
 					}
 				}
-			});
+					}, null);
 			respJson.put("importInfo", vo);
 		} catch (IOException e) {
 			respJson = RespJson.error("读取Excel流异常");

@@ -22,10 +22,10 @@
                 <div class="ubtns-item" onclick="exportExcel()">导出</div>
               <!--    <div class="ubtns-item" onclick="costcheck()">审核</div> -->
                 <!-- <div class="ubtns-item" onclick="delCostForm()">删单</div> -->
-                <div class="ubtns-item" onclick="back()">返回</div>
+                <div class="ubtns-item" onclick="back()">关闭</div>
             </div>
         </div>
-        <div class="ub umar-t8 uc-black">【单号】：<span >${data.adjustNo}</span></div>
+        <div class="ub umar-t8 uc-black">【单号】:<span >${data.adjustNo}</span></div>
                  <div class="already-examine" id="already-examine"><span>已审核</span></div>
         <div class="ub uline umar-t10"></div>
         <form action="" id="searchForm" method="post">
@@ -36,7 +36,7 @@
         <div class="ub umar-t10">
                 <div class="ub ub-ac uw-300">
 	                <div class="umar-r10 uw-70 ut-r">机构名称:</div> 
-                    <input type="hidden" name="branchId" id="branchId" value="${data.branchName} class="uinp" />
+                    <input type="hidden" name="branchId" id="branchId" value="${data.branchName}" class="uinp" />
 					<input type="text" name="branchName" id="branchName" value="${data.branchName }" class="uinp ub ub-f1" readonly="readonly"  />
 					<div class="uinp-more" >...</div>
 	           </div>
@@ -53,14 +53,14 @@
                         </c:forEach>
 				        </select>
                 </div>
-               <div class="ub ub-ac">
+               <div class="ub ub-ac umar-l40">
                <input type="hidden" id="createUserId" value="${data.createUserId}">
                    <div class="umar-r10 uw-70 ut-r">制单人员:</div>
                    <div class="utxt">${data.createUserName }</div>
                </div>
                <div class="ub ub-ac umar-l20">
-                   <div class="umar-r10 uw-60 ut-r">制单日期:</div>
-                   <div class="utxt" ><fmt:formatDate value="${data.createTime}" pattern="yyyy-MM-dd"/></div>
+                   <div class="umar-r10 uw-60 ut-r">制单时间:</div>
+                   <div class="utxt" ><fmt:formatDate value="${data.createTime}" pattern="yyyy-MM-dd HH:mm"/></div>
                     <input type="hidden" id="createTime" value="${data.createTime}">
                </div>
            </div>
@@ -69,13 +69,13 @@
                    <div class="umar-r10 uw-70 ut-r">备注:</div>
                    <input class="uinp uninputs" type="text" id="remark" name="remark" readonly value="${data.remark}" >
                </div>
-               <div class="ub ub-ac umar-l20">
+               <div class="ub ub-ac umar-l40">
                    <div class="umar-r10 uw-70 ut-r">审核人员:</div>
                    <div class="utxt" id="validUserName">${data.validUserName}</div>
                </div>
                <div class="ub ub-ac umar-l20">
-                   <div class="umar-r10 uw-60 ut-r">审核日期:</div>
-                   <div class="utxt"><fmt:formatDate value="${data.validTime}"  pattern="yyyy-MM-dd"/></div>
+                   <div class="umar-r10 uw-60 ut-r">审核时间:</div>
+                   <div class="utxt"><fmt:formatDate value="${data.validTime}"  pattern="yyyy-MM-dd HH:mm"/></div>
                </div>
            </div>
         

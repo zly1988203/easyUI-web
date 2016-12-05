@@ -86,7 +86,7 @@ public class PrintDesignController {
 	 * @author zhangq
 	 * @date 2016年7月25日
 	 */
-	@RequestMapping(value = "/loadPrintTemplates", method = RequestMethod.POST)
+	@RequestMapping(value = "/loadPrintTemplates", method = {RequestMethod.POST,RequestMethod.GET})
 	@ResponseBody
 	public List<SysPrintTemplateVo> loadPrintTemplates(String templateCode) {
 		List<SysPrintTemplateVo> result = printTemplateService.queryPrintTemplateListByCode(templateCode,

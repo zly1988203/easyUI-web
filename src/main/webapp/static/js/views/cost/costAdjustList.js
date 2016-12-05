@@ -7,7 +7,16 @@ $(function(){
     $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
     initDatagridRequireOrders();
+  //单据状态切换
+    changeStatus();
 });
+
+//单据状态切换
+function changeStatus(){
+	$(".radioItem").change(function(){
+		queryForm();
+    });
+}
 var gridHandel = new GridClass();
 //初始化表格
 function initDatagridRequireOrders(){
@@ -27,7 +36,8 @@ function initDatagridRequireOrders(){
         columns:[[
 			{field:'check',checkbox:true},
             {field:'adjustNo',title:'单号',width:'135px',align:'left',formatter:function(value,row,index){
-            	return "<a style='text-decoration: underline;' href='"+ contextPath +"/cost/costAdjust/edit?id="+ row.id +"'>" + value + "</a>"
+            	var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看成本调价单详细\',\''+contextPath+'/cost/costAdjust/edit?id='+row.id+'\')">' + value + '</a>';
+            	return strHtml;
             }},
             {field:'status',title: '审核状态', width: '100px', align: 'left',
             	   formatter: function(value,row,index){
@@ -66,7 +76,7 @@ function initDatagridRequireOrders(){
             {field: 'updateTime', title: '操作时间', width: '150px', align: 'center',
 				formatter: function (value, row, index) {
 					if (value) {
-						return new Date(value).format('yyyy-MM-dd hh:mm:ss');
+						return new Date(value).format('yyyy-MM-dd hh:mm');
 					}
 					return "";
 				}
@@ -88,7 +98,7 @@ function initDatagridRequireOrders(){
 
 //新增入库单
 function addStockForm(){
-	location.href = contextPath + "/cost/costAdjust/add";
+	toAddTab("新增成本调价单",contextPath + "/cost/costAdjust/add");
 }
 
 //查询入库单
@@ -137,7 +147,7 @@ function delStockForm(){
  */
 function selectBranches(){
 	new publicAgencyService(function(data){
-		$("#branchId").val(data.branchesId);
+//		$("#branchId").val(data.branchesId);
 		$("#branchName").val(data.branchName);
 	},'DO','');
 }
@@ -146,7 +156,7 @@ function selectBranches(){
  */
 function selectOperator(){
 	new publicOperatorService(function(data){
-		$("#operateUserId").val(data.id);
+//		$("#operateUserId").val(data.id);
 		$("#operateUserName").val(data.userName);
 	});
 }

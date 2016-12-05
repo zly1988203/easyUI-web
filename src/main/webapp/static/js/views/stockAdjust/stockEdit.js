@@ -232,35 +232,37 @@ function onChangeRealNum(newV,oldV) {
     }
     var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
 	var selectVal=$("#io").combobox('getValue');
-	if(gridHandel.getSelectFieldName()!="realNum"){
-		if(selectVal==1){
-			if(parseFloat(newV)>0){
-			    gridHandel.setFieldValue('largeNum',newV*-1);
-		        gridHandel.setFieldValue('realNum',(newV*purchaseSpecValue*-1).toFixed(4)); //数量=箱数*商品规格
-			} 
-			else{
-				gridHandel.setFieldValue('largeNum',newV);
-				gridHandel.setFieldValue('realNum',(newV*purchaseSpecValue).toFixed(4));    //数量=箱数*商品规格
-			}
-	    }
-		else{
-			if(parseFloat(newV)<0){
-			    gridHandel.setFieldValue('largeNum',newV*-1);
-			    gridHandel.setFieldValue('realNum',(newV*purchaseSpecValue*-1).toFixed(4));    //数量=箱数*商品规格
-			} 
-			else{
-				gridHandel.setFieldValue('largeNum',newV);
-				gridHandel.setFieldValue('realNum',(newV*purchaseSpecValue).toFixed(4));    //数量=箱数*商品规格
-			}
-		} 
-		var realNumValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'realNum');
-		if(parseFloat(realNumValue)<0){
-		   gridHandel.setFieldValue('amount',priceValue*realNumValue*-1);                  //金额=数量*单价
-		}
-		else{
-		   gridHandel.setFieldValue('amount',priceValue*realNumValue);
-		}
-	}
+    var newRealNum = parseFloat(Math.round(purchaseSpecValue*newV)).toFixed(4);
+    if(parseFloat(newV)>0){
+        gridHandel.setNowEditFieldName("largeNum");
+    }
+    if(selectVal==1){
+        if(parseFloat(newV)>0){
+            gridHandel.setFieldValue('largeNum',newV*-1);
+            gridHandel.setFieldValue('realNum',(newRealNum*-1)); //数量=箱数*商品规格
+        }
+        else{
+            gridHandel.setFieldValue('largeNum',newV);
+            gridHandel.setFieldValue('realNum',newRealNum);    //数量=箱数*商品规格
+        }
+    }
+    else{
+        if(parseFloat(newV)<0){
+            gridHandel.setFieldValue('largeNum',newV*-1);
+            gridHandel.setFieldValue('realNum',(newRealNum*-1));    //数量=箱数*商品规格
+        }
+        else{
+            gridHandel.setFieldValue('largeNum',newV);
+            gridHandel.setFieldValue('realNum',newRealNum);    //数量=箱数*商品规格
+        }
+    }
+    var realNumValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'realNum');
+    if(parseFloat(realNumValue)<0){
+        gridHandel.setFieldValue('amount',priceValue*realNumValue*-1);                  //金额=数量*单价
+    }
+    else{
+        gridHandel.setFieldValue('amount',priceValue*realNumValue);
+    }
     updateFooter();
 }
 
@@ -665,14 +667,61 @@ function updateListData(data){
 	    var selectVal=$("#io").combobox('getValue');
 	    //导入箱数计算
 	    $.each(data, function (index, el) {	
-	    	if(selectVal==1&&parseFloat(el["realNum"])>0){
-	     	   el["realNum"]=el["realNum"]*-1;
-	 	       el["largeNum"] =parseFloat(el["realNum"])/parseFloat(el["purchaseSpec"]);
-	     	}
-	     	else{
-	     		 el["realNum"]=el["realNum"];
-	     		 el["largeNum"] =parseFloat(el["realNum"])/parseFloat(el["purchaseSpec"]);
-	     	}
+	    	if(selectVal==1){
+	    		if(parseFloat(el["realNum"])){
+	    			if(parseFloat(el["realNum"])>0){
+	    			  el["realNum"]=el["realNum"]*-1;
+	    			  el["largeNum"] =parseFloat(el["realNum"])/parseFloat(el["purchaseSpec"]);
+	    			  el["amount"] =parseFloat(el["realNum"])*parseFloat(el["price"]);
+	    			  
+	    			}
+	    			else{
+	    			  el["realNum"]=el["realNum"];
+	       			  el["largeNum"] =parseFloat(el["realNum"])/parseFloat(el["purchaseSpec"]);
+	       			  el["amount"] =parseFloat(el["realNum"])*parseFloat(el["price"]);
+	    			}
+	    		 }
+	    	   if(parseFloat(el["largeNum"])){
+	    		   if(parseFloat(el["largeNum"])>0){
+	    			   el["largeNum"]=el["largeNum"]*-1;
+	        		   el["realNum"] =parseFloat(el["largeNum"])*parseFloat(el["purchaseSpec"]);
+	        		   el["amount"] =parseFloat(el["largeNum"])*parseFloat(el["price"])*parseFloat(el["purchaseSpec"]);
+	    		   }
+	    		   else{
+	    			   el["largeNum"]=el["largeNum"];
+	      			   el["realNum"] =parseFloat(el["largeNum"])*parseFloat(el["purchaseSpec"]);
+	      			  el["amount"] =parseFloat(el["largeNum"])*parseFloat(el["price"])*parseFloat(el["purchaseSpec"]);
+	    		   }
+	    	}
+	    	}
+	    	else{
+	    		if(parseFloat(el["realNum"])){
+	    			if(parseFloat(el["realNum"])<0){
+	    			  el["realNum"]=el["realNum"]*-1;
+	      			  el["largeNum"] =parseFloat(el["realNum"])/parseFloat(el["purchaseSpec"]);
+	      			  el["amount"] =parseFloat(el["realNum"])*parseFloat(el["price"]);
+	    			}
+	    			else{
+	    			  el["realNum"]=el["realNum"];
+	    			  el["largeNum"] =parseFloat(el["realNum"])/parseFloat(el["purchaseSpec"]);
+	    			  el["amount"] =parseFloat(el["realNum"])*parseFloat(el["price"]);
+	    			 }
+	    		}
+	    		if(parseFloat(el["largeNum"])){
+	    			if(parseFloat(el["largeNum"])<0){
+	    			  el["largeNum"]=el["largeNum"]*-1;
+	    	          el["realNum"] =parseFloat(el["largeNum"])*parseFloat(el["purchaseSpec"]);
+	    	          el["amount"] =parseFloat(el["largeNum"])*parseFloat(el["price"])*parseFloat(el["purchaseSpec"]);
+	       		   
+	    			}
+	    			else{
+	    			 el["largeNum"]=el["largeNum"];
+	    			 el["realNum"] =parseFloat(el["largeNum"])*parseFloat(el["purchaseSpec"]);
+	    			 el["amount"] =parseFloat(el["largeNum"])*parseFloat(el["price"])*parseFloat(el["purchaseSpec"]);
+	    			}
+	    		} 
+		
+	    	}
 		  })
 	    $("#gridEditRequireOrder").datagrid("loadData",data);
 	}
@@ -737,5 +786,5 @@ function exportExcel(){
  * 返回库存调整
  */
 function back(){
-	location.href = contextPath+"/stock/adjust/list";
+	toClose();
 }

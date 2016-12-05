@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.okdeer.jxc.branch.vo.BranchSpecVo;
 import com.okdeer.jxc.common.result.RespJson;
+import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.form.deliver.entity.BranchRebate;
 import com.okdeer.jxc.form.deliver.entity.BranchRebateDetail;
@@ -53,14 +55,17 @@ public class DeliverConfigController extends BaseController<PurchaseForm> {
 	 */
 	@RequestMapping(value = "saveValidityDay", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson saveValidityDay(int validityDay) {
+	public RespJson saveValidityDay(BranchSpecVo vo) {
 		try {
-			// 获取当前机构
-			deliverConfigServiceApi.saveValidityDay(UserUtil.getCurrBranchId(), validityDay);
+			vo.setBranchId(UserUtil.getCurrBranchId());
+			vo.setCreateUserId(UserUtil.getCurrUserId());
+			vo.setCreateTime(DateUtils.getCurrDate());
+
+			deliverConfigServiceApi.saveBranchSpec(vo);
 			return RespJson.success();
 		} catch (Exception e) {
-			LOG.error("保存配送有效天失败！", e);
-			return RespJson.error("保存配送有效天失败！");
+			LOG.error("保存机构配置失败{}", e);
+			return RespJson.error("保存机构配置失败！");
 		}
 	}
 

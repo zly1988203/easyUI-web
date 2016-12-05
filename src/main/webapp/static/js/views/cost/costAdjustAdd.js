@@ -3,7 +3,7 @@
  * 成本调整单-新增
  */
 $(function(){
-	$("#createTime").html(new Date().format('yyyy-MM-dd'));
+	$("#createTime").html(new Date().format('yyyy-MM-dd hh:mm'));
     initDatagridAddRequireOrder();
 });
 var gridDefault = {
@@ -275,7 +275,7 @@ function addsaveOrder(){
     var isCheckResult = true;
     var isChcekPrice = false;
     $.each(rows,function(i,v){
-        if(!v["skuCode"]){
+       /* if(!v["skuCode"]){
             messager("第"+(i+1)+"行，货号不能为空");
             isCheckResult = false;
             return false;
@@ -284,7 +284,7 @@ function addsaveOrder(){
             messager("第"+(i+1)+"行，名称不能为空");
             isCheckResult = false;
             return false;
-        };
+        };*/
         if(parseFloat(v["costPrice"])<=0){
             isChcekPrice = true;
         }
@@ -365,7 +365,7 @@ function saveDataHandel(rows){
  * 返回库存调整
  */
 function back(){
-	location.href = contextPath+"/cost/costAdjust/view";
+	toClose();
 }
 
 /**
@@ -383,7 +383,7 @@ function searchBranch (){
 function toImportproduct(type){
     var branchId = $("#branchId").val();
     if(!branchId){
-        messager("请先选择收货机构");
+        messager("请先选择机构名称");
         return;
     }
     var param = {

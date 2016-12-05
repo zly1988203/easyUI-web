@@ -228,10 +228,8 @@ function onChangeLargeNum(newV,oldV){
         messager("没有商品规格,请审查");
         return;
     }
-    if(gridHandel.getSelectFieldName()!="realNum"){
-        gridHandel.setFieldValue('realNum',purchaseSpecValue*newV);//数量=商品规格*箱数
-    }
-
+    var newRealNum = (Math.round(purchaseSpecValue*newV)).toFixed(4);
+    gridHandel.setFieldValue('realNum',newRealNum);//数量=商品规格*箱数
     updateFooter();
 }
 //监听商品数量
@@ -245,6 +243,7 @@ function onChangeRealNum(newV,oldV) {
         return;
     }
     var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
+
     gridHandel.setFieldValue('amount',priceValue*newV);                         //金额=数量*单价
     gridHandel.setFieldValue('largeNum',(newV/purchaseSpecValue).toFixed(4));   //箱数=数量/商品规格
     updateFooter();
@@ -415,9 +414,10 @@ function saveDataHandel(rows){
     //采购员
     var salesmanId = $("#salesmanId").val();
     var id = $("#formId").val();
+    //备注
+    var remark = $("#remark").val();
 
-
-    //TODO 计算获取商品总数量和总金额
+    //计算获取商品总数量和总金额
     //商品总数量
     var totalNum = 0;
     //总金额
@@ -437,6 +437,7 @@ function saveDataHandel(rows){
         salesmanId:salesmanId,
         totalNum:totalNum,
         amount:amount,
+        remark:remark,
         detailList:rows
     };
     
@@ -665,4 +666,8 @@ function getImportData(data){
 
     $("#"+gridHandel.getGridName()).datagrid("loadData",newRows);
     messager("导入成功");
+}
+
+function orderAdd(){
+	toAddTab("新增采购订单",contextPath + "/form/purchase/orderAdd");
 }

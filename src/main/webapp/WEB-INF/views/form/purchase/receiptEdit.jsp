@@ -15,7 +15,9 @@
     <div class="ub ub-ver ub-f1 umar-4  ubor">
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
-        
+                <shiro:hasPermission name="JxcPurchaseReceipt:add">
+	                <div class="ubtns-item" onclick="receiptAdd()">新增</div>
+	            </shiro:hasPermission>
                 <div class="ubtns-item" onclick="saveItemHandel()">保存</div>
             
             <shiro:hasPermission name="JxcPurchaseReceipt:audit">
@@ -28,10 +30,10 @@
              <shiro:hasPermission name="JxcPurchaseReceipt:print">
                 <div class="ubtns-item" onclick="printDesign()">打印</div>
              </shiro:hasPermission>
-                <div class="ubtns-item"  onclick="back()">返回</div>
+                <div class="ubtns-item" onclick="toClose()">关闭</div>
             </div>
         </div>
-        <div class="ub umar-t8 uc-black">【单号】：<span >${form.formNo}</span></div>
+        <div class="ub umar-t8 uc-black">【单号】:<span >${form.formNo}</span></div>
         <div class="ub uline umar-t8"></div>
         <input type="hidden" id="formId" value="${form.id}">
         <input type="hidden" id="formNo" value="${form.formNo}">
@@ -64,8 +66,8 @@
                 <div class="utxt">${form.updateUserName}</div>
             </div>
             <div class="ub ub-ac">
-                <div class="umar-r10 uw-60 ut-r">制单日期:</div>
-                <div class="utxt"><fmt:formatDate value="${form.updateTime}" pattern="yyyy-MM-dd"/></div>
+                <div class="umar-r10 uw-60 ut-r">制单时间:</div>
+                <div class="utxt"><fmt:formatDate value="${form.updateTime}" pattern="yyyy-MM-dd HH:mm"/></div>
             </div>
         </div>
         <div class="ub umar-t8">
@@ -85,7 +87,7 @@
                 <div class="utxt"></div>
             </div>
             <div class="ub ub-ac">
-                <div class="umar-r10 uw-60 ut-r">审核日期:</div>
+                <div class="umar-r10 uw-60 ut-r">审核时间:</div>
                 <div class="utxt"></div>
             </div>
 

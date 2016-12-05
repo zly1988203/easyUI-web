@@ -7,6 +7,7 @@
     <title>店铺销售排行</title>
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
+    <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
     <script  src="${ctx}/static/js/views/report/order/tradeOrderCount.js"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
@@ -19,6 +20,8 @@
 							<div class="ubtns-item" onclick="queryForm()">查询</div>
 						</shiro:hasPermission>
 						<shiro:hasPermission name="JxcTradeOrderCount:export">
+							<input type="hidden" id="startCount" name="startCount" />
+							<input type="hidden" id="endCount" name="endCount" />
 							<div class="ubtns-item"  onclick="exportData()">导出</div>
 						</shiro:hasPermission>
 						<div class="ubtns-item" id="set" onclick="gFunRefresh()">重置</div>
@@ -33,7 +36,7 @@
 	                    <div class="umar-r10 uw-70 ut-r">机构名称:</div>
 	                    <input type="hidden" id="branchId" name="branchId" value="${branchesGrow.branchesId}"/>
 	                    <input type="hidden" id="brancheType" name="brancheType" value="${branchesGrow.type}"/>
-	                    <input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" value="" onclick="selectBranches()" readonly="readonly"/>
+	                    <input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" value="${branchesGrow.branchName}" />
 	                    <div class="uinp-more" onclick="selectBranches()" >...</div>
 	                </div>
 	            </div>

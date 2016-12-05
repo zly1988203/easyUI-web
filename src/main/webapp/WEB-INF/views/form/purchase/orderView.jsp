@@ -10,7 +10,7 @@
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
 	<script src="${ctx}/static/js/views/purchase/orderView.js"></script>
 	<script src="${ctx}/static/js/views/purchase/purchaseExport.js"></script>
-    
+    <%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
     <div class="ub ub-ver ub-f1 umar-4  ubor">
@@ -24,13 +24,13 @@
             	<div class="ubtns-item" onclick="stop()">终止</div>
             </shiro:hasPermission>
             <shiro:hasPermission name="JxcPurchaseOrder:print">
-            	<div class="ubtns-item" onclick="printDesign()">打印</div>
+            	<div class="ubtns-item" onclick="printChoose('PA','/form/purchase/')">打印</div>
             </shiro:hasPermission>
-            	<div class="ubtns-item" onclick="exportData('PA');">导出明细</div>
-                <div class="ubtns-item" id="toBackByJSButton"  onclick="back()">返回</div>
+            	<div class="ubtns-item" onclick="exportDetail();">导出明细</div>
+                <div class="ubtns-item" id="toBackByJSButton" onclick="toClose()">关闭</div>
             </div>
         </div>
-        <div class="ub umar-t8 uc-black">【单号】：<span >${form.formNo}</span></div>
+        <div class="ub umar-t8 uc-black">【单号】:<span >${form.formNo}</span></div>
         <div class="ub uline umar-t8"></div>
         <input type="hidden" id="formId" value="${form.id}">
         <input type="hidden" id="formNo" value="${form.formNo}">
@@ -48,8 +48,8 @@
                 <div class="utxt">${form.updateUserName}</div>
             </div>
             <div class="ub ub-ac">
-                <div class="umar-r10 uw-60 ut-r">制单日期:</div>
-                <div class="utxt" id="createDate"><fmt:formatDate value="${form.updateTime}" pattern="yyyy-MM-dd"/></div>
+                <div class="umar-r10 uw-60 ut-r">制单时间:</div>
+                <div class="utxt" id="createDate"><fmt:formatDate value="${form.updateTime}" pattern="yyyy-MM-dd HH:mm"/></div>
             </div>
         </div>
         <div class="ub umar-t8">
@@ -66,16 +66,20 @@
                 <div class="utxt">${form.validUserName}</div>
             </div>
             <div class="ub ub-ac">
-                <div class="umar-r10 uw-60 ut-r">审核日期:</div>
-                <div class="utxt"><fmt:formatDate value="${form.validTime}" pattern="yyyy-MM-dd"/></div>
+                <div class="umar-r10 uw-60 ut-r">审核时间:</div>
+                <div class="utxt"><fmt:formatDate value="${form.validTime}" pattern="yyyy-MM-dd HH:mm"/></div>
             </div>
         </div>
         <div class="already-examine" id="already-examine"><span>${status}</span></div>
-        
+        <div class="ub umar-t8">
+               <div class="ub ub-ac uw-610" style="width: 624px;">
+	                    <div class="umar-r10 uw-60 ut-r">备注:</div>
+	                    <input class="uinp ub ub-f1" name="remark" id="remark" type="text" onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')" onpaste="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')" oncontextmenu = "value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')" maxlength="100" value="${form.remark}" readonly="readonly">
+	           </div>
+        </div>
         <div class="ub ub-f1 datagrid-edit umar-t8">
             <table id="gridEditOrder" ></table>
         </div>
     </div>
-	
 </body>
 </html>

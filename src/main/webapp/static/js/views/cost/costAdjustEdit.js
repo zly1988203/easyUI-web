@@ -254,13 +254,11 @@ function selectStockAndPrice(branchId,data){
 }
 //二次查询设置值
 function setDataValue(data) {
-	debugger;
 	for(var i in data){
     	var rec = data[i];
     	rec.remark = "";
     }
     var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
-	debugger;
     var addDefaultData  = gridHandel.addDefault(data,gridDefault);
     var keyNames = {
 		distributionPrice:'price',
@@ -294,7 +292,7 @@ function editsaveOrder(){
     var isCheckResult = true;
     var isChcekPrice = false;
     $.each(rows,function(i,v){
-        if(!v["skuCode"]){
+        /*if(!v["skuCode"]){
             messager("第"+(i+1)+"行，货号不能为空");
             isCheckResult = false;
             return false;
@@ -303,7 +301,7 @@ function editsaveOrder(){
             messager("第"+(i+1)+"行，名称不能为空");
             isCheckResult = false;
             return false;
-        };
+        };*/
         if(parseFloat(v["costPrice"])<=0){
             isChcekPrice = true;
         }
@@ -502,7 +500,7 @@ function loadLists(referenceId){
  * 返回库存调整
  */
 function back(){
-	location.href = contextPath+"/cost/costAdjust/view";
+	toClose();
 }
 /**
  * 导入
