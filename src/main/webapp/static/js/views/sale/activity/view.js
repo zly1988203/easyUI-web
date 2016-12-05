@@ -384,19 +384,7 @@ function initDatagridSpecial(){
 		width:'100%',
         columns:[[
 					{field:'ck',checkbox:true},
-					{field:'cz',title:'操作',width:'60px',align:'center',
-					    formatter : function(value, row,index) {
-					        var str = "";
-					        if(row.isFooter){
-					            str ='<div class="ub ub-pc">合计</div> '
-					        }else{
-					            str =  '<a name="add" class="add-line" data-index="'+index+'" onclick="addLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>&nbsp;&nbsp;' +
-					                '&nbsp;&nbsp;<a name="del" class="del-line" data-index="'+index+'" onclick="delLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>';
-					        }
-					        return str;
-					    },
-					},
-					{field:'skuCode',title:'货号',width:'85px',align:'left',editor:'textbox'},
+					{field:'skuCode',title:'货号',width:'85px',align:'left'},
 					{field:'skuName',title:'商品名称',width:'200px',align:'left'},
 					{field:'barCode',title:'条码',width:'150px',align:'left'},
 					{field:'categoryName',title:'商品类别',width:'200px',align:'left'},
@@ -429,6 +417,7 @@ function initDatagridSpecial(){
 		                editor:{
 		                    type:'numberbox',
 		                    options:{
+		                    	disabled:true,
 		                        min:0,
 		                        precision:2,
 		                    }
@@ -476,19 +465,7 @@ function initDatagridsortZk(){
 		width:'100%',
         columns:[[
 					{field:'ck',checkbox:true},
-					{field:'cz',title:'操作',width:'60px',align:'center',
-					    formatter : function(value, row,index) {
-					        var str = "";
-					        if(row.isFooter){
-					            str ='<div class="ub ub-pc">合计</div> '
-					        }else{
-					            str =  '<a name="add" class="add-line" data-index="'+index+'" onclick="addLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>&nbsp;&nbsp;' +
-					                '&nbsp;&nbsp;<a name="del" class="del-line" data-index="'+index+'" onclick="delLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>';
-					        }
-					        return str;
-					    },
-					},
-					{field:'categoryName',title:'商品类别',width:'200px',align:'left',editor:'textbox'},
+					{field:'categoryName',title:'商品类别',width:'200px',align:'left'},
 					 {field:'discount',title:'折扣',width:'80px',align:'right',
 		                formatter:function(value,row,index){
 		                    if(row.isFooter){
@@ -499,6 +476,7 @@ function initDatagridsortZk(){
 		                editor:{
 		                    type:'numberbox',
 		                    options:{
+		                    	disabled:true,
 		                        min:0,
 		                        precision:2,
 		           
@@ -548,19 +526,7 @@ function initDatagridoneZk(){
 		width:'100%',
         columns:[[
 			{field:'ck',checkbox:true},
-			{field:'cz',title:'操作',width:'60px',align:'center',
-			    formatter : function(value, row,index) {
-			        var str = "";
-			        if(row.isFooter){
-			            str ='<div class="ub ub-pc">合计</div> '
-			        }else{
-			            str =  '<a name="add" class="add-line" data-index="'+index+'" onclick="addLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>&nbsp;&nbsp;' +
-			                '&nbsp;&nbsp;<a name="del" class="del-line" data-index="'+index+'" onclick="delLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>';
-			        }
-			        return str;
-			    },
-			},
-			{field:'skuCode',title:'货号',width:'85px',align:'left',editor:'textbox'},
+			{field:'skuCode',title:'货号',width:'85px',align:'left'},
 			{field:'skuName',title:'商品名称',width:'200px',align:'left'},
 			{field:'barCode',title:'条码',width:'150px',align:'left'},
 			{field:'categoryName',title:'商品类别',width:'200px',align:'left'},
@@ -579,7 +545,6 @@ function initDatagridoneZk(){
 			            disabled:true,
 			            min:0,
 			            precision:2,
-			
 			        }
 			    },
 			},
@@ -593,6 +558,7 @@ function initDatagridoneZk(){
 			    editor:{
 			        type:'numberbox',
 			        options:{
+			        	disabled:true,
 			            min:0,
 			            precision:2,
 			        }
@@ -641,19 +607,7 @@ function initDatagridOddtj(){
 		width:'100%',
         columns:[[
 			{field:'ck',checkbox:true},
-			{field:'cz',title:'操作',width:'60px',align:'center',
-			    formatter : function(value, row,index) {
-			        var str = "";
-			        if(row.isFooter){
-			            str ='<div class="ub ub-pc">合计</div> '
-			        }else{
-			            str =  '<a name="add" class="add-line" data-index="'+index+'" onclick="addLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>&nbsp;&nbsp;' +
-			                '&nbsp;&nbsp;<a name="del" class="del-line" data-index="'+index+'" onclick="delLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>';
-			        }
-			        return str;
-			    },
-			},
-			{field:'skuCode',title:'货号',width:'85px',align:'left',editor:'textbox'},
+			{field:'skuCode',title:'货号',width:'85px',align:'left'},
 			{field:'skuName',title:'商品名称',width:'200px',align:'left'},
 			{field:'barCode',title:'条码',width:'150px',align:'left'},
 			{field:'categoryName',title:'商品类别',width:'200px',align:'left'},
@@ -665,16 +619,7 @@ function initDatagridOddtj(){
 			            return
 			        }
 			        return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-			    },
-			    editor:{
-			        type:'numberbox',
-			        options:{
-			            disabled:true,
-			            min:0,
-			            precision:2,
-			
-			        }
-			    },
+			    }
 			},
 			{field: 'saleAmount', title: '偶数特价', width: 100, align: 'right',
 			    formatter : function(value, row, index) {
@@ -682,14 +627,7 @@ function initDatagridOddtj(){
 			            return;
 			        }
 			        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-			    },
-			    editor:{
-			        type:'numberbox',
-			        options:{
-			            min:0,
-			            precision:2,
-			        }
-			    },
+			    }
 			},
           ]],
       onLoadSuccess:function(data){
@@ -735,19 +673,7 @@ function initDatagridRedemption(){
 		width:'100%',
       columns:[[
 			{field:'ck',checkbox:true},
-			{field:'cz',title:'操作',width:'60px',align:'center',
-			    formatter : function(value, row,index) {
-			        var str = "";
-			        if(row.isFooter){
-			            str ='<div class="ub ub-pc">合计</div> '
-			        }else{
-			            str =  '<a name="add" class="add-line" data-index="'+index+'" onclick="addLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>&nbsp;&nbsp;' +
-			                '&nbsp;&nbsp;<a name="del" class="del-line" data-index="'+index+'" onclick="delLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>';
-			        }
-			        return str;
-			    },
-			},
-			{field:'skuCode',title:'货号',width:'85px',align:'left',editor:'textbox'},
+			{field:'skuCode',title:'货号',width:'85px',align:'left'},
 			{field:'skuName',title:'商品名称',width:'200px',align:'left'},
 			{field:'barCode',title:'条码',width:'150px',align:'left'},
 			{field:'categoryName',title:'商品类别',width:'200px',align:'left'},
@@ -759,16 +685,7 @@ function initDatagridRedemption(){
 			            return
 			        }
 			        return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-			    },
-			    editor:{
-			        type:'numberbox',
-			        options:{
-			            disabled:true,
-			            min:0,
-			            precision:2,
-			
-			        }
-			    },
+			    }
 			},
 			{field: 'saleAmount', title: '换购价', width: 100, align: 'right',
 			    formatter : function(value, row, index) {
@@ -776,14 +693,7 @@ function initDatagridRedemption(){
 			            return;
 			        }
 			        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-			    },
-			    editor:{
-			        type:'numberbox',
-			        options:{
-			            min:0,
-			            precision:2,
-			        }
-			    },
+			    }
 			},
         ]],
     onLoadSuccess:function(data){
@@ -827,33 +737,13 @@ function initDatagridallMj(){
 		width:'100%',
         columns:[[
 					{field:'ck',checkbox:true},
-					{field:'cz',title:'操作',width:'60px',align:'center',
-					    formatter : function(value, row,index) {
-					        var str = "";
-					        if(row.isFooter){
-					            str ='<div class="ub ub-pc">合计</div> '
-					        }else{
-					            str =  '<a name="add" class="add-line" data-index="'+index+'" onclick="addLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>&nbsp;&nbsp;' +
-					                '&nbsp;&nbsp;<a name="del" class="del-line" data-index="'+index+'" onclick="delLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>';
-					        }
-					        return str;
-					    },
-					},
 					{field:'limitAmount',title:'买满金额',width:'80px',align:'right',
 		                formatter:function(value,row,index){
 		                    if(row.isFooter){
 		                        return
 		                    }
 		                    return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-		                },
-		                editor:{
-		                    type:'numberbox',
-		                    options:{
-		                        min:0,
-		                        precision:2,
-		           
-		                    }
-		                },
+		                }
 		            }, 
 					{field:'discountPrice',title:'优惠额',width:'80px',align:'right',
 		                formatter:function(value,row,index){
@@ -861,15 +751,7 @@ function initDatagridallMj(){
 		                        return
 		                    }
 		                    return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-		                },
-		                editor:{
-		                    type:'numberbox',
-		                    options:{
-		                        min:0,
-		                        precision:2,
-		           
-		                    }
-		                },
+		                }
 		            }, 
           ]],
       onLoadSuccess:function(data){
@@ -897,19 +779,7 @@ function initDatagridsortMj(){
 		width:'100%',
         columns:[[
 					{field:'ck',checkbox:true},
-					{field:'cz',title:'操作',width:'60px',align:'center',
-					    formatter : function(value, row,index) {
-					        var str = "";
-					        if(row.isFooter){
-					            str ='<div class="ub ub-pc">合计</div> '
-					        }else{
-					            str =  '<a name="add" class="add-line" data-index="'+index+'" onclick="addLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>&nbsp;&nbsp;' +
-					                '&nbsp;&nbsp;<a name="del" class="del-line" data-index="'+index+'" onclick="delLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>';
-					        }
-					        return str;
-					    },
-					},
-					{field:'categoryName',title:'商品类别',width:'200px',align:'left',editor:'textbox'},
+					{field:'categoryName',title:'商品类别',width:'200px',align:'left'},
           ]],
            onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
@@ -936,32 +806,13 @@ function initDatagridsortSet(){
 		width:'100%',
         columns:[[
 					{field:'ck',checkbox:true},
-					{field:'cz',title:'操作',width:'60px',align:'center',
-					    formatter : function(value, row,index) {
-					        var str = "";
-					        if(row.isFooter){
-					            str ='<div class="ub ub-pc">合计</div> '
-					        }else{
-					            str =  '<a name="add" class="add-line" data-index="'+index+'" onclick="addLineHandelmj(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>&nbsp;&nbsp;' +
-					                '&nbsp;&nbsp;<a name="del" class="del-line" data-index="'+index+'" onclick="delLineHandelmj(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>';
-					        }
-					        return str;
-					    },
-					},
 					{field: 'limitAmount', title: '买满金额', width: 100, align: 'right',
 					    formatter : function(value, row, index) {
 					        if(row.isFooter){
 					            return;
 					        }
 					        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-					    },
-					    editor:{
-					        type:'numberbox',
-					        options:{
-					            min:0,
-					            precision:2,
-					        }
-					    },
+					    }
 					},
 					{field: 'discountPrice', title: '优惠额', width: 100, align: 'right',
 					    formatter : function(value, row, index) {
@@ -969,14 +820,7 @@ function initDatagridsortSet(){
 					            return;
 					        }
 					        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-					    },
-					    editor:{
-					        type:'numberbox',
-					        options:{
-					            min:0,
-					            precision:2,
-					        }
-					    },
+					    }
 					},
           ]],
          
@@ -1032,19 +876,7 @@ function initDatagridshopMj(){
 		width:'100%',
       columns:[[
 			{field:'ck',checkbox:true},
-			{field:'cz',title:'操作',width:'60px',align:'center',
-			    formatter : function(value, row,index) {
-			        var str = "";
-			        if(row.isFooter){
-			            str ='<div class="ub ub-pc">合计</div> '
-			        }else{
-			            str =  '<a name="add" class="add-line" data-index="'+index+'" onclick="addLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>&nbsp;&nbsp;' +
-			                '&nbsp;&nbsp;<a name="del" class="del-line" data-index="'+index+'" onclick="delLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>';
-			        }
-			        return str;
-			    },
-			},
-			{field:'skuCode',title:'货号',width:'85px',align:'left',editor:'textbox'},
+			{field:'skuCode',title:'货号1123',width:'85px',align:'left'},
 			{field:'skuName',title:'商品名称',width:'200px',align:'left'},
 			{field:'barCode',title:'条码',width:'150px',align:'left'},
 			{field:'categoryName',title:'商品类别',width:'200px',align:'left'},
@@ -1056,16 +888,7 @@ function initDatagridshopMj(){
 			            return
 			        }
 			        return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-			    },
-			    editor:{
-			        type:'numberbox',
-			        options:{
-			            disabled:true,
-			            min:0,
-			            precision:2,
-			
-			        }
-			    },
+			    }
 			},
         ]], 
        
@@ -1111,19 +934,7 @@ function initDatagridCompose(){
 		width:'100%',
       columns:[[
 			{field:'ck',checkbox:true},
-			{field:'cz',title:'操作',width:'60px',align:'center',
-			    formatter : function(value, row,index) {
-			        var str = "";
-			        if(row.isFooter){
-			            str ='<div class="ub ub-pc">合计</div> '
-			        }else{
-			            str =  '<a name="add" class="add-line" data-index="'+index+'" onclick="addLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>&nbsp;&nbsp;' +
-			                '&nbsp;&nbsp;<a name="del" class="del-line" data-index="'+index+'" onclick="delLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>';
-			        }
-			        return str;
-			    },
-			},
-			{field:'skuCode',title:'货号',width:'85px',align:'left',editor:'textbox'},
+			{field:'skuCode',title:'货号',width:'85px',align:'left'},
 			{field:'skuName',title:'商品名称',width:'200px',align:'left'},
 			{field:'barCode',title:'条码',width:'150px',align:'left'},
 			{field:'categoryName',title:'商品类别',width:'200px',align:'left'},
@@ -1135,16 +946,7 @@ function initDatagridCompose(){
 			            return
 			        }
 			        return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-			    },
-			    editor:{
-			        type:'numberbox',
-			        options:{
-			            disabled:true,
-			            min:0,
-			            precision:2,
-			
-			        }
-			    },
+			    }
 			},
 			{field: 'limitCount', title: '组合数量', width: 100, align: 'right',
 			    formatter : function(value, row, index) {
@@ -1152,14 +954,7 @@ function initDatagridCompose(){
 			            return;
 			        }
 			        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-			    },
-			    editor:{
-			        type:'numberbox',
-			        options:{
-			            min:0,
-			            precision:2,
-			        }
-			    },
+			    }
 			},
 			{field: 'saleAmount', title: '组合特价', width: 100, align: 'right',
 			    formatter : function(value, row, index) {
@@ -1167,14 +962,7 @@ function initDatagridCompose(){
 			            return;
 			        }
 			        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-			    },
-			    editor:{
-			        type:'numberbox',
-			        options:{
-			            min:0,
-			            precision:2,
-			        }
-			    },
+			    }
 			},
 			{field: 'groupNum', title: '组号', width: 100, align: 'right',
 			    formatter : function(value, row, index) {
@@ -1182,14 +970,7 @@ function initDatagridCompose(){
 			            return;
 			        }
 			        return '<b>'+parseFloat(value||0).toFixed(0)+'</b>';
-			    },
-			    editor:{
-			        type:'numberbox',
-			        options:{
-			            min:0,
-			            precision:0,
-			        }
-			    },
+			    }
 			},
         ]],
        onLoadSuccess:function(data){
