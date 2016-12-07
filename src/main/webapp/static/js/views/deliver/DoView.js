@@ -155,3 +155,8 @@ function addDeliverForm(){
 function back(){
 	location.href = contextPath+"/form/deliverForm/viewsDO";
 }
+
+function exportDetail(){
+	var formId = $("#formId").val();
+	window.location.href = contextPath + '/form/deliverForm/exportSheet?page=DOSheet&sheetNo='+formId;
+}
