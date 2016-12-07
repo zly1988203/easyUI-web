@@ -905,6 +905,7 @@ public class PurchaseFormController extends
 			replaceMap.put("branchMobile", form.getBranchMobile() != null ? form.getBranchMobile() : "");
 			//机构详细地址
 			replaceMap.put("_机构详细地址", form.getBranchAddress() != null ? form.getBranchAddress() : "");
+			replaceMap.put("_送货地址", form.getBranchAddress() != null ? form.getBranchAddress() : "");
 			replaceMap.put("branchAddress", form.getBranchAddress() != null ? form.getBranchAddress() : "");
 			/**
 			 * added by zhangqin on 2016-12-01 14:36 end
