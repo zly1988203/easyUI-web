@@ -238,7 +238,8 @@ function onChangeRealNum(newV,oldV) {
         messager("没有配送规格,请审查");
         return;
     }
-    if(parseFloat(newV).toFixed(4)%parseFloat(purchaseSpecValue).toFixed(4)!=0){
+    var tempNum = parseFloat(newV).toFixed(4)/parseFloat(purchaseSpecValue).toFixed(4);
+    if(parseInt(tempNum) != tempNum){
         messager("输入的数量必须是商品规格("+purchaseSpecValue+")的整数倍");
         gridHandel.setFieldValue('applyNum',0.0000);
         gridHandel.setSelectFieldName("applyNum");
