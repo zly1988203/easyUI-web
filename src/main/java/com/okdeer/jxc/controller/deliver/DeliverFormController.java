@@ -150,7 +150,7 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 	 */
 	@RequestMapping(value = "viewsDI")
 	public String viewsDI(Model model) {
-		model.addAttribute("sourceBranchId", getCurrBranchId());
+		model.addAttribute("targetBranchId", getCurrBranchId());
 		return "form/deliver/DiList";
 	}
 
@@ -328,8 +328,7 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
-			if (FormType.DO.toString().equals(vo.getDeliverType())
-					|| FormType.DI.toString().equals(vo.getDeliverType())) {
+			if (FormType.DO.toString().equals(vo.getDeliverType())) {
 				if (StringUtils.isEmpty(vo.getSourceBranchId())) {
 					vo.setSourceBranchId(UserUtil.getCurrBranchId());
 				}
