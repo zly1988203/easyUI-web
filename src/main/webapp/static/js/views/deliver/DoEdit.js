@@ -884,3 +884,7 @@ function addDeliverForm(){
 	toAddTab("新增出库单",contextPath + "/form/deliverForm/addDeliverForm?deliverType=DO");
 }
 
+function exportDetail(){
+	var formId = $("#formId").val();
+	window.location.href = contextPath + '/form/deliverForm/exportSheet?page=DOSheet&sheetNo='+formId;
+}

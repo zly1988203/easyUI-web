@@ -27,7 +27,7 @@
                	<shiro:hasPermission name="JxcDeliverDO:print">
             		<div class="ubtns-item" onclick="printChoose('DO','/form/deliverForm/')">打印</div>
             	</shiro:hasPermission>
-            	<div class="ubtns-item"  onclick="exportData('DO','gridEditRequireOrder')">导出明细</div>
+            	<div class="ubtns-item"  onclick="exportDetail()">导出明细</div>
             	<div class="ubtns-item"  onclick="exportData('DO','gridEditRequireOrder','1')">导出货号</div>
                 <div class="ubtns-item" onclick="toClose()">关闭</div>
             </div>
