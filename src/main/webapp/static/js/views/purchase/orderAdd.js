@@ -242,8 +242,11 @@ function onChangeLargeNum(newV,oldV){
         messager("没有商品规格,请审查");
         return;
     }
-    var newRealNum = (Math.round(purchaseSpecValue*newV)).toFixed(4);
-    gridHandel.setFieldValue('realNum',newRealNum);//数量=商品规格*箱数
+    var realNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'realNum');
+    var realNumVal2 = parseFloat(Math.round(purchaseSpecValue*newV*1000)/1000).toFixed(4);
+    if(realNumVal&&realNumVal2!=realNumVal){
+        gridHandel.setFieldValue('realNum',realNumVal2);//数量=商品规格*箱数
+    }
     updateFooter();
 }
 //监听商品数量
@@ -258,8 +261,8 @@ function onChangeRealNum(newV,oldV) {
     }
     var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
     gridHandel.setFieldValue('amount',priceValue*newV);                         //金额=数量*单价
-    gridHandel.setFieldValue('largeNum',(newV/purchaseSpecValue).toFixed(4));   //箱数=数量/商品规格
-
+    var largeNumVal = parseFloat(newV/purchaseSpecValue);
+    gridHandel.setFieldValue('largeNum',largeNumVal);   //箱数=数量/商品规格
     updateFooter();
 }
 //监听商品单价
