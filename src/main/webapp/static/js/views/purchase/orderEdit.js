@@ -228,11 +228,18 @@ function onChangeLargeNum(newV,oldV){
         messager("没有商品规格,请审查");
         return;
     }
+
+    //var newRealNum = (Math.round(purchaseSpecValue*newV)).toFixed(4);
+    /*var newRealNum = (purchaseSpecValue*newV).toFixed(4);
+     gridHandel.setFieldValue('realNum',newRealNum);//数量=商品规格*箱数*/
     var realNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'realNum');
-    var realNumVal2 = parseFloat(Math.round(purchaseSpecValue*newV*1000)/1000).toFixed(4);
-    if(realNumVal&&realNumVal2!=realNumVal){
-        gridHandel.setFieldValue('realNum',realNumVal2);//数量=商品规格*箱数
+    var realNumVal2 = parseFloat(purchaseSpecValue*newV).toFixed(4);//parseFloat(Math.round(purchaseSpecValue*newV*1000)/1000).toFixed(4);
+    if(realNumVal&&Math.abs(realNumVal2-realNumVal)>0.001){
+        var val = parseFloat(purchaseSpecValue*newV).toFixed(4);
+        console.log(val);
+        gridHandel.setFieldValue('realNum',(purchaseSpecValue*newV).toFixed(4));//数量=商品规格*箱数
     }
+
     updateFooter();
 }
 //监听商品数量
