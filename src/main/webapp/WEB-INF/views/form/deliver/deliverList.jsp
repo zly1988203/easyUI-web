@@ -30,7 +30,7 @@
 						<div class="ubtns-item-disabled">设置</div>
 				   	</shiro:hasPermission>
 				   	<div id="updatePermission" class="none">
-						<shiro:hasPermission name="JxcDeliverDA:update" >修改</shiro:hasPermission>
+						<shiro:hasPermission name="JxcDeliverDA:update">修改</shiro:hasPermission>
 					</div>
 	                <div class="ubtns-item" id="set" onclick="gFunRefresh()" >重置</div>
 	                <div class="ubtns-item" onclick="toClose()">退出</div>
@@ -72,10 +72,10 @@
 	                <div class="ub ub-ac umar-l20 uw-300">
 	                    <div class="umar-r10 uw-70 ut-r">审核状态:</div>
 	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub" type="radio" name="deliverAuditStatus" value="1" onclick="queryForm()"/><span>已审核</span>
+	                        <input class="ub" type="radio" name="deliverAuditStatus" value="0" checked="checked" onclick="queryForm()"/><span>未审核</span>
 	                    </div>
 	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub" type="radio" name="deliverAuditStatus" value="0" checked="checked" onclick="queryForm()"/><span>未审核</span>
+	                        <input class="ub" type="radio" name="deliverAuditStatus" value="1" onclick="queryForm()"/><span>已审核</span>
 	                    </div>
 	                    <div class="ub ub-ac umar-r10">
 	                        <input class="ub" type="radio" name="deliverAuditStatus" value=""  onclick="queryForm()"/><span>全部</span>

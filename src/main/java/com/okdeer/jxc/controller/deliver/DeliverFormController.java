@@ -150,7 +150,7 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 	 */
 	@RequestMapping(value = "viewsDI")
 	public String viewsDI(Model model) {
-		model.addAttribute("sourceBranchId", getCurrBranchId());
+		model.addAttribute("targetBranchId", getCurrBranchId());
 		return "form/deliver/DiList";
 	}
 
@@ -328,8 +328,7 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
-			if (FormType.DO.toString().equals(vo.getDeliverType())
-					|| FormType.DI.toString().equals(vo.getDeliverType())) {
+			if (FormType.DO.toString().equals(vo.getDeliverType())) {
 				if (StringUtils.isEmpty(vo.getSourceBranchId())) {
 					vo.setSourceBranchId(UserUtil.getCurrBranchId());
 				}
@@ -550,75 +549,70 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 		Map<String, Object> replaceMap = new HashMap<String, Object>();
 		DeliverForm deliverForm = deliverFormServiceApi
 				.queryDeliverFormById(formNo);
-		replaceMap.put("_单号",
-				deliverForm.getFormNo() != null ? deliverForm.getFormNo() : "");
-		replaceMap.put(
-				"_要货机构",
-				deliverForm.getTargetBranchName() != null ? deliverForm
-						.getTargetBranchName() : "");
-		replaceMap.put(
-				"_发货机构",
-				deliverForm.getSourceBranchName() != null ? deliverForm
-						.getSourceBranchName() : "");
-		replaceMap.put(
-				"_收货机构",
-				deliverForm.getSourceBranchName() != null ? deliverForm
-						.getSourceBranchName() : "");
-		replaceMap.put(
-				"_有效期限",
-				deliverForm.getValidityTime() != null ? deliverForm
-						.getValidityTime() : "");
-		replaceMap.put(
-				"_备注",
-				deliverForm.getTargetBranchRemark() != null ? deliverForm
-						.getTargetBranchRemark() : "");
-		replaceMap.put(
-				"_制单人员",
-				deliverForm.getCreateUserName() != null ? deliverForm
-						.getCreateUserName() : "");
-		replaceMap.put(
-				"_制单日期",
-				deliverForm.getCreateTime() != null ? deliverForm
-						.getCreateTime() : "");
-		replaceMap.put(
-				"_审核日期",
-				deliverForm.getValidityTime() != null ? deliverForm
-						.getValidityTime() : "");
-		replaceMap.put(
-				"_审核人员",
-				deliverForm.getValidUserName() != null ? deliverForm
-						.getValidUserName() : "");
-		replaceMap.put(
-				"_配送单号",
-				deliverForm.getReferenceNo() != null ? deliverForm
-						.getReferenceNo() : "");
-		replaceMap.put(
-				"_要货单号",
-				deliverForm.getReferenceNo() != null ? deliverForm
-						.getReferenceNo() : "");
+		// 单号
+		replaceMap.put("_单号", deliverForm.getFormNo() != null ? deliverForm.getFormNo() : "");
+		replaceMap.put("_订单编号", deliverForm.getFormNo() != null ? deliverForm.getFormNo() : "");
+		replaceMap.put("formNo", deliverForm.getFormNo() != null ? deliverForm.getFormNo() : "");
+		// 要货机构
+		replaceMap.put("_要货机构", deliverForm.getTargetBranchName() != null ? deliverForm.getTargetBranchName() : "");
+		replaceMap.put("targetBranchName", deliverForm.getTargetBranchName() != null ? deliverForm.getTargetBranchName() : "");
+		replaceMap.put("targetBranchAddress", deliverForm.getTargetBranchAddress() != null ? deliverForm.getTargetBranchAddress() : "");
+		replaceMap.put("targetBranchCode", deliverForm.getTargetBranchCode() != null ? deliverForm.getTargetBranchCode() : "");
+		// 发货机构
+		replaceMap.put("_发货机构", deliverForm.getSourceBranchName() != null ? deliverForm.getSourceBranchName() : "");
+		replaceMap.put("sourceBranchName", deliverForm.getSourceBranchName() != null ? deliverForm.getSourceBranchName() : "");
+		// 收货机构
+		replaceMap.put("_收货机构", deliverForm.getSourceBranchName() != null ? deliverForm.getSourceBranchName() : "");
+		replaceMap.put("sourceBranchName", deliverForm.getSourceBranchName() != null ? deliverForm.getSourceBranchName() : "");
+		// 有效期限
+		replaceMap.put("_有效期限", deliverForm.getValidityTime() != null ? deliverForm.getValidityTime() : "");
+		replaceMap.put("validityTime", deliverForm.getValidityTime() != null ? deliverForm.getValidityTime() : "");
+		// 备注
+		replaceMap.put("_备注", deliverForm.getTargetBranchRemark() != null ? deliverForm.getTargetBranchRemark() : "");
+		replaceMap.put("targetBranchRemark", deliverForm.getTargetBranchRemark() != null ? deliverForm.getTargetBranchRemark() : "");
+		// 制单人员
+		replaceMap.put("_制单人员", deliverForm.getCreateUserName() != null ? deliverForm.getCreateUserName() : "");
+		replaceMap.put("createUserName", deliverForm.getCreateUserName() != null ? deliverForm.getCreateUserName() : "");
+		// 制单日期
+		replaceMap.put("_制单日期", deliverForm.getCreateTime() != null ? deliverForm.getCreateTime() : "");
+		replaceMap.put("createTime", deliverForm.getCreateTime() != null ? DateUtils.formatDate(deliverForm.getCreateTime(), "yyyy-MM-dd") : "");
+		// 审核日期
+		replaceMap.put("_审核日期", deliverForm.getValidityTime() != null ? deliverForm.getValidityTime() : "");
+		replaceMap.put("validityTime", deliverForm.getValidityTime() != null ? DateUtils.formatDate(deliverForm.getValidityTime(), "yyyy-MM-dd") : "");
+		// 审核人员
+		replaceMap.put("_审核人员", deliverForm.getValidUserName() != null ? deliverForm.getValidUserName() : "");
+		replaceMap.put("validUserName", deliverForm.getValidUserName() != null ? deliverForm.getValidUserName() : "");
+		// 配送单号
+		replaceMap.put("_配送单号", deliverForm.getReferenceNo() != null ? deliverForm.getReferenceNo() : "");
+		replaceMap.put("referenceNo", deliverForm.getReferenceNo() != null ? deliverForm.getReferenceNo() : "");
+		// 要货单号
+		replaceMap.put("_要货单号", deliverForm.getReferenceNo() != null ? deliverForm.getReferenceNo() : "");
+		replaceMap.put("referenceNo", deliverForm.getReferenceNo() != null ? deliverForm.getReferenceNo() : "");
 		// 业务人员
-		replaceMap.put("_业务人员",
-				deliverForm.getSalesman() != null ? deliverForm.getSalesman()
-						: "");
-		replaceMap.put(
-				"_申请人",
-				deliverForm.getTargetBranchName() != null ? deliverForm
-						.getTargetBranchName() : "");
-		replaceMap.put("_联系人",
-				deliverForm.getContacts() != null ? deliverForm.getContacts()
-						: "");
-		replaceMap.put("_联系电话",
-				deliverForm.getMobile() != null ? deliverForm.getMobile() : "");
-
-		replaceMap.put("_返利", BigDecimalUtils.formatTwoDecimal(deliverForm
-				.getAddRebateMoney()));
-		replaceMap.put("_折扣",
-				BigDecimalUtils.formatTwoDecimal(deliverForm.getRebateMoney()));
-		// _人民币总金额大写
-		replaceMap.put("_人民币总金额大写",
-				NumberToCN.number2CNMontrayUnit(deliverForm.getAmount()));
-		replaceMap.put("_总金额",
-				BigDecimalUtils.formatTwoDecimal(deliverForm.getAmount()));
+		replaceMap.put("_业务人员", deliverForm.getSalesman() != null ? deliverForm.getSalesman() : "");
+		replaceMap.put("salesman", deliverForm.getSalesman() != null ? deliverForm.getSalesman() : "");
+		replaceMap.put("salesmanName", deliverForm.getSalesmanName() != null ? deliverForm.getSalesmanName() : "");
+		// 申请
+		replaceMap.put("_申请人", deliverForm.getTargetBranchName() != null ? deliverForm.getTargetBranchName() : "");
+		replaceMap.put("targetBranchName", deliverForm.getTargetBranchName() != null ? deliverForm.getTargetBranchName() : "");
+		// 联系人
+		replaceMap.put("_联系人", deliverForm.getContacts() != null ? deliverForm.getContacts() : "");
+		replaceMap.put("contacts", deliverForm.getContacts() != null ? deliverForm.getContacts() : "");
+		// 联系电话
+		replaceMap.put("_联系电话", deliverForm.getMobile() != null ? deliverForm.getMobile() : "");
+		replaceMap.put("mobile", deliverForm.getMobile() != null ? deliverForm.getMobile() : "");
+		// 返利
+		replaceMap.put("_返利", BigDecimalUtils.formatTwoDecimal(deliverForm.getAddRebateMoney()));
+		replaceMap.put("addRebateMoney", BigDecimalUtils.formatTwoDecimal(deliverForm.getAddRebateMoney()));
+		// 折扣
+		replaceMap.put("_折扣", BigDecimalUtils.formatTwoDecimal(deliverForm.getRebateMoney()));
+		replaceMap.put("rebateMoney", BigDecimalUtils.formatTwoDecimal(deliverForm.getRebateMoney()));
+		// 人民币总金额大写
+		replaceMap.put("_人民币总金额大写", NumberToCN.number2CNMontrayUnit(deliverForm.getAmount()));
+		replaceMap.put("amountCN", NumberToCN.number2CNMontrayUnit(deliverForm.getAmount()));
+		// 总金额
+		replaceMap.put("_总金额",BigDecimalUtils.formatTwoDecimal(deliverForm.getAmount()));
+		replaceMap.put("amount",BigDecimalUtils.formatTwoDecimal(deliverForm.getAmount()));
 		return replaceMap;
 	}
 

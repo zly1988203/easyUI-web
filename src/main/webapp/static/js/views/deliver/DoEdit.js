@@ -313,7 +313,8 @@ function onChangeLargeNum(newV,oldV){
         messager("配送规格不能为0");
         return;
     }
-    var newRealNum = (Math.round(purchaseSpecValue*newV)).toFixed(4);
+    //var newRealNum = (Math.round(purchaseSpecValue*newV)).toFixed(4);
+    var newRealNum = (purchaseSpecValue*newV).toFixed(4);
     gridHandel.setFieldValue('dealNum',newRealNum);//数量=商品规格*箱数
     updateFooter();
 }
@@ -884,3 +885,7 @@ function addDeliverForm(){
 	toAddTab("新增出库单",contextPath + "/form/deliverForm/addDeliverForm?deliverType=DO");
 }
 
+function exportDetail(){
+	var formId = $("#formId").val();
+	window.location.href = contextPath + '/form/deliverForm/exportSheet?page=DOSheet&sheetNo='+formId;
+}
