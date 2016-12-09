@@ -110,7 +110,7 @@ function saveRebateForm(){
         rebates:'',
     }
     gridHandel.endEditRow();
-    var rows = gridHandel.getRowsWhere({skuName:'1'});
+    var rows = gridHandel.getRowsWhere({money:'1'});
     $(gridHandel.getGridName()).datagrid("loadData",rows);
     if(rows.length==0){
         messager("表格不能为空");
