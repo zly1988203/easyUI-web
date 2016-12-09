@@ -242,7 +242,6 @@ function onChangeLargeNum(newV,oldV){
         messager("没有商品规格,请审查");
         return;
     }
-
     var realNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'realNum');
     var realNumVal2 = parseFloat(purchaseSpecValue*newV).toFixed(4);
     if(realNumVal&&Math.abs(realNumVal2-realNumVal)>0.0001){
@@ -416,7 +415,7 @@ function saveItemHandel(){
 
     $("#gridEditOrder").datagrid("endEdit", gridHandel.getSelectRowIndex());
 
-    var rows = gridHandel.getRows();
+    var rows = gridHandel.getRowsWhere({skuName:'1'});//删除空数据  //gridHandel.getRows();
     if(rows.length==0){
         messager("表格不能为空");
         return;
