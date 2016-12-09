@@ -674,7 +674,7 @@ function delDeliverForm(){
 		    	data:JSON.stringify(ids),
 		    	success:function(result){
 		    		if(result['code'] == 0){
-		    			successTip("删除成功");
+		    			toRefreshIframeDataGrid("form/deliverForm/viewsDI","deliverFormList");
 		    			toClose();
 		    		}else{
 		    			successTip(result['message']);
