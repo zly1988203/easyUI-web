@@ -76,8 +76,9 @@ pageEncoding="UTF-8"%>
                         <option value="箱">箱</option>
                         <option value="套">套</option>
                         <option value="包">包</option>
-                        <option value="个">个</option>
+                        <option value="个" selected="selected">个</option>
                         <option value="瓶">瓶</option>
+                        <option value="千克">千克</option>
                         <option value="克">克</option>
                     </select>
                 </div>
