@@ -483,7 +483,8 @@ function saveOrder(){
    
 
     var selectVal=$("#io").combobox('getValue');
-    var rows = gridHandel.getRows();
+    var rows = gridHandel.getRowsWhere({skuName:'1'});
+    $(gridHandel.getGridName()).datagrid("loadData",rows);
   
   //判定表格不能为空
     if(rows.length==0){

@@ -502,7 +502,8 @@ function saveOrder(){
         amount = parseFloat(footerRows[0]["amount"]||0.0).toFixed(4);
     }
     var selectVal=$("#io").combobox('getValue');
-    var rows = gridHandel.getRows();
+    var rows = gridHandel.getRowsWhere({skuName:'1'});
+    $(gridHandel.getGridName()).datagrid("loadData",rows);
     //判定请选择出/入库
     if(selectVal==''){
     	messager("请选择出/入库");
