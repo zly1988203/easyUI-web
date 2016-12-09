@@ -12,7 +12,7 @@ $(function(){
         sourceBranchId:$("#sourceBranchId").val(), //发货分店id
         validityTime:$("#validityTime").val(),      //生效日期
         remark:$("#remark").val(),                  // 备注
-        formNo:$("#formNo").html(),                 // 单号
+        formNo:$("#formNo").val(),                 // 单号
     }
 });
 var gridDefault = {
@@ -519,7 +519,7 @@ function saveOrder(){
     // 备注
     var remark = $("#remark").val();
     // 单号
-    var formNo = $("#formNo").html();
+    var formNo = $("#formNo").val();
     // 引用单号
     var referenceId = $("#referenceId").val();
     // 引用单号id
@@ -618,7 +618,7 @@ function saveOrder(){
                     sourceBranchId:$("#sourceBranchId").val(), //发货分店id
                     validityTime:$("#validityTime").val(),      //生效日期
                     remark:$("#remark").val(),                  // 备注
-                    formNo:$("#formNo").html(),                 // 单号
+                    formNo:$("#formNo").val(),                 // 单号
                 }
             	oldData["grid"] = null;
 //                oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
@@ -647,7 +647,7 @@ function check(){
         sourceBranchId:$("#sourceBranchId").val(), //发货分店id
         validityTime:$("#validityTime").val(),      //生效日期
         remark:$("#remark").val(),                  // 备注
-        formNo:$("#formNo").html(),                 // 单号
+        formNo:$("#formNo").val(),                 // 单号
         grid:gridHandel.getRows(),
     }
 
