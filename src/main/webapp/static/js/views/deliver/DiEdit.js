@@ -12,7 +12,7 @@ $(function(){
         sourceBranchId:$("#sourceBranchId").val(), //发货分店id
         validityTime:$("#validityTime").val(),      //生效日期
         remark:$("#remark").val(),                  // 备注
-        formNo:$("#formNo").html(),                 // 单号
+        formNo:$("#formNo").val(),                 // 单号
     }
 });
 var gridDefault = {
@@ -392,7 +392,7 @@ function saveOrder(){
     // 备注
     var remark = $("#remark").val();
     // 单号
-    var formNo = $("#formNo").html();
+    var formNo = $("#formNo").val();
     // 引用单号
     var referenceId = $("#referenceId").val();
     // 引用单号id
@@ -487,7 +487,7 @@ function saveOrder(){
                     sourceBranchId:$("#sourceBranchId").val(), //发货分店id
                     validityTime:$("#validityTime").val(),      //生效日期
                     remark:$("#remark").val(),                  // 备注
-                    formNo:$("#formNo").html(),                 // 单号
+                    formNo:$("#formNo").val(),                 // 单号
                 }
                 oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
             		return $.extend(true,{},obj);//返回对象的深拷贝
@@ -512,7 +512,7 @@ function check(){
         sourceBranchId:$("#sourceBranchId").val(), //发货分店id
         validityTime:$("#validityTime").val(),      //生效日期
         remark:$("#remark").val(),                  // 备注
-        formNo:$("#formNo").html(),                 // 单号
+        formNo:$("#formNo").val(),                 // 单号
         grid:gridHandel.getRows(),
     }
 
@@ -660,4 +660,31 @@ function getImportData(data){
 //新增入库单
 function addDeliverForm(){
 	toAddTab("新增入库单",contextPath + "/form/deliverForm/addDeliverForm?deliverType=DI");
+}
+
+//删除
+function delDeliverForm(){
+	var ids = [];
+	ids.push($("#formId").val());
+	$.messager.confirm('提示','是否要删除单据',function(data){
+		if(data){
+			$.ajax({
+		    	url:contextPath+"/form/deliverForm/deleteDeliverForm",
+		    	type:"POST",
+		    	contentType:"application/json",
+		    	data:JSON.stringify(ids),
+		    	success:function(result){
+		    		if(result['code'] == 0){
+		    			successTip("删除成功");
+		    			toClose();
+		    		}else{
+		    			successTip(result['message']);
+		    		}
+		    	},
+		    	error:function(result){
+		    		successTip("请求发送失败或服务器处理失败");
+		    	}
+		    });
+		}
+	});
 }

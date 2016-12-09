@@ -99,6 +99,7 @@ pageEncoding="UTF-8"%>
 							<option value="包">包</option>
 							<option value="个">个</option>
 							<option value="瓶">瓶</option>
+							<option value="千克">千克</option>
 							<option value="克">克</option>
 						</select>
 					</div>
