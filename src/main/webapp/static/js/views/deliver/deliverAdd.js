@@ -74,6 +74,9 @@ function initDatagridAddRequireOrder(){
                     if(row.isFooter){
                         return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                     }
+                    if(!value){
+                        row["largeNum"] = parseFloat(value||0).toFixed(2);
+                    }
                     return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
                 editor:{
@@ -90,6 +93,9 @@ function initDatagridAddRequireOrder(){
                 formatter:function(value,row,index){
                     if(row.isFooter){
                         return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    if(!value){
+                        row["largeNum"] = parseFloat(value||0).toFixed(2);
                     }
                     return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
@@ -342,7 +348,7 @@ function setDataValue(data,type) {
 	         disabled:'',
 	         pricingType:''
          };
-         debugger;
+         //debugger;
          var rows = gFunUpdateKey(addDefaultData,keyNames);
          var argWhere ={skuCode:1};  //验证重复性
          var isCheck ={isGift:1 };   //只要是赠品就可以重复
