@@ -13,7 +13,7 @@ $(function(){
         sourceBranchId:$("#sourceBranchId").val(), //发货分店id
         validityTime:$("#validityTime").val(),      //生效日期
         remark:$("#remark").val(),                  // 备注
-        formNo:$("#formNo").html(),                 // 单号
+        formNo:$("#formNo").val(),                 // 单号
     }
 });
 var gridDefault = {
@@ -401,7 +401,7 @@ function saveOrder(){
     // 备注
     var remark = $("#remark").val();
     // 单号
-    var formNo = $("#formNo").html();
+    var formNo = $("#formNo").val();
     //验证表格数据
     $("#"+gridHandel.getGridName()).datagrid("endEdit", gridHandel.getSelectRowIndex());
 
@@ -490,7 +490,7 @@ function saveOrder(){
                     sourceBranchId:$("#sourceBranchId").val(), //发货分店id
                     validityTime:$("#validityTime").val(),      //生效日期
                     remark:$("#remark").val(),                  // 备注
-                    formNo:$("#formNo").html(),                 // 单号
+                    formNo:$("#formNo").val(),                 // 单号
                 }
                 oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
             		return $.extend(true,{},obj);//返回对象的深拷贝
@@ -515,7 +515,7 @@ function check(){
         sourceBranchId:$("#sourceBranchId").val(), //发货分店id
         validityTime:$("#validityTime").val(),      //生效日期
         remark:$("#remark").val(),                  // 备注
-        formNo:$("#formNo").html(),                 // 单号
+        formNo:$("#formNo").val(),                 // 单号
         grid:gridHandel.getRows(),
     }
 
