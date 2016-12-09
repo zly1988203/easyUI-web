@@ -69,19 +69,19 @@ function  editstart(selectType){
 		    		//星期字符串处理
 		    		StrweekCheckDay(strweek);
 		    		//组合结构显示和id
-		    		var branchesId="";
+		    		var branchIds="";
 		    		var branchName="";
 		    		$.each(data.branch,function(i,v){
 		    			if(!v.branchName&&!v.branchCode){
 		    				return;
 		    			}
 		    			branchName+="["+v.branchCode+"]"+v.branchName+",";
-		    			branchesId=v.branchesId+","+branchesId;
+		    			branchIds = v.branchId+"," + branchIds;
 		    		 });
-		    		 branchesId = branchesId.substring(0,branchesId.length - 1);
+		    		 branchIds = branchIds.substring(0,branchIds.length - 1);
 		    		 branchName = branchName.substring(0,branchName.length - 1);
 		    		 $('#branchName').val(branchName);
-		    		 $('#branchIds').val(branchesId);
+		    		 $('#branchIds').val(branchIds);
                     //combobox 下拉赋值和禁止选择
   		    		$("#activityType").combobox('select',activtype);  
   		    		$("#activityType").combobox("disable");
@@ -1572,7 +1572,7 @@ function saveDataHandel(rows,setrows){
   }
  
   // 活动状态为特价--偶数特价--换购
-  if(activityType=="1"||activityType=="3"||activityType=="4"||activityType=="6"){
+  if(activityType=="1"||activityType=="3"||activityType=="4"){
 	  var reqObj = {
 	          branchIds:branchIds,
 	          activityName:activityName,
@@ -1592,6 +1592,30 @@ function saveDataHandel(rows,setrows){
 	      }
 	      reqObj.detailList[i] = temp;
 	  });
+  }
+  else if(activityType=="6"){
+	  var reqObj = {
+	          branchIds:branchIds,
+	          activityName:activityName,
+	          activityType:activityType,
+	          startTime:startTime,
+	          endTime:endTime,
+	          dailyStartTime:dailyStartTime,
+	          dailyEndTime:dailyEndTime,
+	          weeklyActivityDay:weeklyActivityDay,
+	          activityScope:0,
+	          detailList : []
+	  };
+	  $.each(rows,function(i,data){
+	      var temp = {
+	    	  goodsSkuId: data.goodsSkuId,
+	    	  limitCount: data.limitCount,
+	    	  saleAmount:data.saleAmount,
+	    	  groupNum:data.groupNum,
+	      }
+	      reqObj.detailList[i] = temp;
+	  });
+	  
   }
   // 活动状态为折扣
   else if(activityType=="2"){
@@ -1695,6 +1719,8 @@ function saveDataHandel(rows,setrows){
 		  });
 	  }
   }
+  
+  reqObj['id'] = $("#activityId").val();
   var req = JSON.stringify(reqObj);
   console.log(req)
   $.ajax({
