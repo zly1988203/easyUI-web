@@ -331,7 +331,6 @@ function setDataValue(data,type) {
 	         disabled:'',
 	         pricingType:''
          };
-         debugger;
          var rows = gFunUpdateKey(addDefaultData,keyNames);
          var argWhere ={skuCode:1};  //验证重复性
          var isCheck ={isGift:1 };   //只要是赠品就可以重复

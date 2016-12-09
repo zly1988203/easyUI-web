@@ -26,7 +26,7 @@
                 </shiro:hasPermission>
                 <div class="ubtns-item-disabled">商品选择</div>
                 <div class="ubtns-item-disabled">导入</div>
-                <div class="ubtns-item-disabled">删除</div>
+               <div class="ubtns-item" onclick="delDeliverForm()">删除</div>
                 <div class="ubtns-item-disabled">打印</div>
                 <div class="ubtns-item" onclick="importproductAll()">导入明细</div>
                 <div class="ubtns-item" onclick="importproduct()">导入货号</div>

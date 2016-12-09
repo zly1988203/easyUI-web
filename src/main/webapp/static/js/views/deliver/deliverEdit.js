@@ -244,15 +244,6 @@ function onChangeRealNum(newV,oldV) {
         gridHandel.setFieldFocus(gridHandel.getFieldTarget('applyNum'));
         return;
     }
-    ////检查库存
-    //var sourceStockVal = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'sourceStock');
-    //if(parseFloat(newV)>parseFloat(sourceStockVal)){
-    //	messager("输入的数量不能大于库存数："+sourceStockVal);
-    //    gridHandel.setFieldValue('applyNum',0.0000);
-    //    gridHandel.setSelectFieldName("applyNum");
-    //    gridHandel.setFieldFocus(gridHandel.getFieldTarget('applyNum'));
-    //    return;
-    //}
     var priceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
     gridHandel.setFieldValue('amount',priceValue*newV);                         //金额=数量*单价
     gridHandel.setFieldValue('largeNum',(newV/purchaseSpecValue).toFixed(4));   //箱数=数量/商品规格
@@ -298,11 +289,6 @@ function selectGoods(searchKey){
         messager("请先选择发货机构");
         return;
     }
-   /* var targetBranchType = $("#targetBranchType").val();
-    // C类加盟店显示为发货机构的商品表
-    if (targetBranchType === '5') {
-    	targetBranchId = sourceBranchId;
-    }*/
     new publicGoodsService("DA",function(data){
         if(searchKey){
             $("#"+gridHandel.getGridName()).datagrid("deleteRow", gridHandel.getSelectRowIndex());
@@ -376,6 +362,17 @@ function selectStockAndPrice(sourceBranchId,targetBranchId,data){
     		successTip("请求发送失败或服务器处理失败");
     	}
     });*/
+	$.ajax({
+		url : "",
+		type : "POST",
+		data : "",
+		success : function () {
+			
+		},
+		error : function () {
+			
+		}
+	});
 }
 
 
@@ -770,4 +767,29 @@ function addDeliverForm(){
 	toAddTab("新增要货单",contextPath + "/form/deliverForm/addDeliverForm?deliverType=DA");
 }
 
-
+//删除
+function delDeliverForm(){
+	var ids = [];
+	ids.push($("#formId").val());
+	$.messager.confirm('提示','是否要删除单据',function(data){
+		if(data){
+			$.ajax({
+		    	url:contextPath+"/form/deliverForm/deleteDeliverForm",
+		    	type:"POST",
+		    	contentType:"application/json",
+		    	data:JSON.stringify(ids),
+		    	success:function(result){
+		    		if(result['code'] == 0){
+		    			successTip("删除成功");
+		    			toClose();
+		    		}else{
+		    			successTip(result['message']);
+		    		}
+		    	},
+		    	error:function(result){
+		    		successTip("请求发送失败或服务器处理失败");
+		    	}
+		    });
+		}
+	});
+}
