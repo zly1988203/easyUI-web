@@ -29,6 +29,7 @@ $(document).on('input','#posNo',function(){
 		  var newVal=val.substring(0,2);
 		  $(this).val(newVal);
 		}
+	
 		else{
 			if(!val.replace(reg)){
 				$(this).val("");
@@ -50,6 +51,10 @@ function toSave(){
 		messager("请输入POS机编号");
 		return;	
 	}
+	if(posNo.length<2){
+		messager("请输入正确的POS机编号");
+		return;	
+	}
 	$.ajax({
     	url:contextPath+"/pos/register/addRegister",
     	type:"POST",
@@ -60,8 +65,10 @@ function toSave(){
     	success:function(result){
     		console.log(result);
     		if(result['code'] == 0){
+    			
     			successTip("保存成功");
     			$(dolg).panel('destroy');
+    			$('#registerList').datagrid("reload");
     		}else{
     			successTip(result['message']);
     		}
