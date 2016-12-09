@@ -27,8 +27,9 @@
                 	<div class="ubtns-item" onclick="check()">审核</div>
                 </shiro:hasPermission>
                 <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
-                <!-- <div class="ubtns-item-disabled" >导入</div> -->
-                <div class="ubtns-item" onclick="delDeliverForm()">删除</div>
+                <shiro:hasPermission name="JxcDeliverDA:delete">
+	                <div class="ubtns-item" onclick="delDeliverForm()">删除</div>
+                </shiro:hasPermission>
                 <shiro:hasPermission name="JxcDeliverDA:print">
                     <div class="ubtns-item" onclick="printChoose('DA','/form/deliverForm/')">打印</div>
                 </shiro:hasPermission>

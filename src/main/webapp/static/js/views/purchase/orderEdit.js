@@ -687,3 +687,9 @@ function getImportData(data){
 function orderAdd(){
 	toAddTab("新增采购订单",contextPath + "/form/purchase/orderAdd");
 }
+
+
+function exportDetail(){
+	var formId = $("#formId").val();
+	window.location.href = contextPath + '/form/purchase/exportSheet?page=PASheet&sheetNo='+formId;
+}
