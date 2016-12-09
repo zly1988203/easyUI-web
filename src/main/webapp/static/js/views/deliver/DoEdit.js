@@ -900,3 +900,30 @@ function exportDetail(){
 	var formId = $("#formId").val();
 	window.location.href = contextPath + '/form/deliverForm/exportSheet?page=DOSheet&sheetNo='+formId;
 }
+
+//删除
+function delDeliverForm(){
+	var ids = [];
+	ids.push($("#formId").val());
+	$.messager.confirm('提示','是否要删除单据',function(data){
+		if(data){
+			$.ajax({
+		    	url:contextPath+"/form/deliverForm/deleteDeliverForm",
+		    	type:"POST",
+		    	contentType:"application/json",
+		    	data:JSON.stringify(ids),
+		    	success:function(result){
+		    		if(result['code'] == 0){
+		    			successTip("删除成功");
+		    			toClose();
+		    		}else{
+		    			successTip(result['message']);
+		    		}
+		    	},
+		    	error:function(result){
+		    		successTip("请求发送失败或服务器处理失败");
+		    	}
+		    });
+		}
+	});
+}
