@@ -779,6 +779,7 @@ function addDeliverForm(){
 
 //删除
 function delDeliverForm(){
+
 	var ids = [];
 	ids.push($("#formId").val());
 	$.messager.confirm('提示','是否要删除单据',function(data){
@@ -791,6 +792,7 @@ function delDeliverForm(){
 		    	success:function(result){
 		    		if(result['code'] == 0){
 		    			successTip("删除成功");
+                        toRefreshIframeDataGrid("form/deliverForm/viewsDA","deliverFormList");
 		    			toClose();
 		    		}else{
 		    			successTip(result['message']);

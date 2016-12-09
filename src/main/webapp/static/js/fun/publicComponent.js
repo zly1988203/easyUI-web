@@ -684,6 +684,14 @@ function toClose(){
 function toAddTab(title,url){
 	window.parent.addTab(title,url);
 }
+function refreshDataGrid(datagridName){
+    $('#'+datagridName).datagrid('reload');
+}
+function toRefreshIframeDataGrid(src,datagridName){
+    var frame = window.parent.frames[src];
+    frame.contentWindow.refreshDataGrid(datagridName);
+}
+
 //返回
 function toBack(){
 	history.go(-1);
