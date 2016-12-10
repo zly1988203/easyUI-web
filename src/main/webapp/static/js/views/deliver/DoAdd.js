@@ -702,7 +702,7 @@ function selectDeliver(){
 function loadLists(referenceId){
 
     $.ajax({
-        url:contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverType=DO&deliverFormId="+referenceId,
+        url:contextPath+"/form/deliverFormList/getDeliverFormLists?deliverType=DO&deliverFormId="+referenceId,
         type:"post",
         success:function(data){
             var rows = data.rows
@@ -718,10 +718,6 @@ function loadLists(referenceId){
             updateFooter();
         }
     })
-   /* return;
-	$("#gridEditOrder").datagrid("options").method = "post";
-	$("#gridEditOrder").datagrid('options').url = contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverType=DO&deliverFormId="+referenceId;
-	$("#gridEditOrder").datagrid('load');*/
 }
 /**
  * 调用导入功能 0导入货号 1导入明细
