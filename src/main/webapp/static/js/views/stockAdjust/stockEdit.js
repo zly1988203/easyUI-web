@@ -615,7 +615,7 @@ function selectOperator(){
 
 function loadLists(referenceId){
 	$("#gridEditRequireOrder").datagrid("options").method = "post";
-	$("#gridEditRequireOrder").datagrid('options').url = contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverFormId="+referenceId;
+	$("#gridEditRequireOrder").datagrid('options').url = contextPath+"/form/deliverFormList/getDeliverFormLists?deliverFormId="+referenceId;
 	$("#gridEditRequireOrder").datagrid('load');
 }
 /**

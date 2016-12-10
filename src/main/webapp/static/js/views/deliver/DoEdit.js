@@ -737,9 +737,8 @@ function selectDeliver(){
 	});
 }
 function loadLists(referenceId){
-
     $.ajax({
-        url:contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverFormId="+referenceId + "&deliverType=DO",
+        url:contextPath+"/form/deliverFormList/getDeliverFormLists?deliverFormId="+referenceId + "&deliverType=DO",
         type:"post",
         success:function(data){
             var rows = data.rows

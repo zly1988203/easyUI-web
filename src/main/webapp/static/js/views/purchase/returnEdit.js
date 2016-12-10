@@ -585,7 +585,7 @@ function selectForm(){
 
 function loadLists(referenceId){
 	$("#gridEditOrder").datagrid("options").method = "post";
-	$("#gridEditOrder").datagrid('options').url = contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverFormId="+referenceId + "&formType=DI";
+	$("#gridEditOrder").datagrid('options').url = contextPath+"/form/deliverFormList/getDeliverFormLists?deliverFormId="+referenceId + "&formType=DI";
 	$("#gridEditOrder").datagrid('load');
 }
 
