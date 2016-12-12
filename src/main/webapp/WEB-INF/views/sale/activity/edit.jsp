@@ -33,7 +33,7 @@
 	            </div> -->
 	            <div class="ub ub-ac ">
                     <div class="umar-r10 uw-80 ut-r">活动名称:</div>
-                    <input class="uinp" type="text" name="activityName" id="activityName" value="">
+                    <input class="uinp" maxLength="20" type="text" name="activityName" id="activityName" value="">
                 </div>
                 <div class="ub ub-ac uselectw umar-l00">
                     <div class="umar-r10 uw-70 ut-r">活动类型:</div>

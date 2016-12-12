@@ -47,12 +47,12 @@
 				        </select>
                 </div>
                 <div class="ub ub-ac umar-l40  discountTypechoose unhide">
-                        <div class="ub ub-ac umar-r10">
-	                        <input class="ub disradio" type="radio" name="disstatus" value="0" checked="checked" /><span>单品折扣</span>
-	                    </div>
 	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub disradio" type="radio" name="disstatus"  value="1" /><span>类别折扣</span>
-	                    </div> 
+	                        <input class="ub disradio" type="radio" name="disstatus"  value="1" checked="checked" onclick="disstatusChangeEvent('1')" /><span>类别折扣</span>
+	                    </div>
+						<div class="ub ub-ac umar-r10">
+							<input class="ub disradio" type="radio" name="disstatus" value="0" onclick="disstatusChangeEvent('0')" /><span>单品折扣</span>
+						</div>
 	                     <input class="uinp" type="hidden" id="activityScopedis" value="0"  name="activityScopedis">
 	            </div>
                 <div class="ub ub-ac umar-l40  mjTypechoose unhide">

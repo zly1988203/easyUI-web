@@ -1659,7 +1659,7 @@ function saleAmountOnChange(newV,oldV){
 	var priceNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
 	if(parseFloat(priceNumVal) < parseFloat(newV)) {
 		messager("促销价格大于商品原价");
-
+		gridHandel.setFieldValue('saleAmount','');
 		return;
 	}
 	if(parseFloat(newV)==0){
@@ -1668,3 +1668,19 @@ function saleAmountOnChange(newV,oldV){
 	}
 	gridHandel.setFieldValue('saleAmount',newV);
 }
+
+//折扣状态切换
+var gVarDisStatus = "1";
+function disstatusChangeEvent(status){
+	if(status!==gVarDisStatus){
+		gVarDisStatus = status;
+		$.messager.confirm("","更换活动类型将清空当前列表信息，是否更换？",function(b){
+			if(!b) return;
+			if(gVarDisStatus==="1"){
+				initDatagridsortZk();
+			}else if(gVarDisStatus==="0"){
+				initDatagridoneZk();
+			}
+		});
+	}
+};
