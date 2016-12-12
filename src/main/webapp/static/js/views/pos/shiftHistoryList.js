@@ -45,10 +45,10 @@ function initDatagridPosOrders(){
 			{field: 'operate', title: '操作', width: '100px', align: 'center',
 				 formatter: function(value,row,index){
                      if (row.isFinish==1){
-                         return "/";
+                    	   return '<span onClick="getShift(\''+row.id+'\')" style="color:#4395ff">详情</span>';
                      }
                      else {
-                         return '<span onClick="shiftChange(\''+row.id+'\')" style="color:#4395ff">交班</span>';
+                         return '<span onClick="shiftChange(\''+row.id+'\')" style="color:#4395ff">交班</span>';;
                      }
                  }
 			},
@@ -79,11 +79,11 @@ function shiftChange(id){
 		    			successTip("交班成功");
 		    			dg.datagrid('reload');
 		    		}else{
-		    			successTip(result['message']);
+		    			$.messager.alert((result['message']));
 		    		}
 		    	},
 		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
+		    		$.messager.alert(("请求发送失败或服务器处理失败"));
 		    	}
 		    });
 			
@@ -92,6 +92,23 @@ function shiftChange(id){
 	})
 	
 }
+function getShift(id){
+	var  dalogTemp = $('<div id="#regadd"/>').dialog({
+		    href:contextPath + "/pos/shiftHistory/shiftDetail?id="+id,
+		    width:400,
+		    height:450,
+		    title:"班次详情",
+		    closable:true,
+		    resizable:true,
+		    onClose:function(){
+		        $(dalogTemp).panel('destroy');
+		    },
+		    modal:true,
+		    onLoad:function(){
+		    	setDolgObj(dalogTemp);
+		    },
+		});
+	}
 
 //查询pos
 function queryForm(){
