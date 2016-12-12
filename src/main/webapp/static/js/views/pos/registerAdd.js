@@ -22,20 +22,7 @@ function searchBranch(){
 /**
  * posNo验证
  */
-$(document).on('input','#posNo',function(){
-		var val=$(this).val();
-		var reg=/^\+?(0|[1-9][0-9]*)$/;
-		if(val.length>2){
-		  var newVal=val.substring(0,2);
-		  $(this).val(newVal);
-		}
-	
-		else{
-			if(!val.replace(reg)){
-				$(this).val("");
-			}
-		}
-	})	
+
 function toSearchBranchHandel(){
 	setTimeout(function(){
 		$("#branchName").blur();

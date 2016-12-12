@@ -19,7 +19,7 @@
             <div class="ub umar-t8">
 	             <div class="ub ub-ac umar-t20">
 	              <div class="umar-r10 uw-80 ut-r">POS机编号:</div>
-	             <input class="uinp deal easyui-validatebox" data-options="required:true,validType:['int','leng[2]']" type="number" maxlength="2"  id="posNo" name="posNo" >
+	             <input class="uinp deal easyui-validatebox" data-options="required:true,validType:['int','leng[2]']" type="number" maxlength="2"  oninput="if(value.length>2)value=value.slice(0,2)"  id="posNo" name="posNo" >
                 </div>
              </div>
             <div class="uabtns umar-t20">
