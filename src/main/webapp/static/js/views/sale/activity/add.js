@@ -26,41 +26,46 @@ $(function(){
 // select 选择切换
 function onChangeSelect(){
  var priceVal=$("#activityType").combobox('getValue');
-	 switch(priceVal)
-	 {
-	 case "1":
-	   selectOptionSpecial();
-	   // 禁止按钮点击事件
-	   disableGoods('','GoodsType');
-	   break;
-	 case "2":
-	   selectOptionzk();
-	   break;
-	 case "3":
-	   selectOptionOdd();
-	   disableGoods('','GoodsType');
-	   break;
-	 case "4":
-	   optionHide();
-	   initDatagridRedemption();
-	   disableGoods('','GoodsType');
-	   break;
-	 case "5":
-	   selectOptionMj();
-	   break;
-	 case "6":
-	   optionHide();
-	   initDatagridCompose();
-	   disableGoods('','GoodsType');
-	  break;
-     }	
+	var comfirmed;
+ 	$.messager.confirm("","更换活动类型将清空当前列表信息，是否更换？",function(b){
+		if(!b) return;
+		switch(priceVal)
+		{
+			case "1":
+				selectOptionSpecial();
+				// 禁止按钮点击事件
+				disableGoods('','GoodsType');
+				break;
+			case "2":
+				selectOptionzk();
+				break;
+			case "3":
+				selectOptionOdd();
+				disableGoods('','GoodsType');
+				break;
+			case "4":
+				//optionHide();
+				initDatagridRedemption();
+				disableGoods('','GoodsType');
+				break;
+			case "5":
+				selectOptionMj();
+				break;
+			case "6":
+				//optionHide();
+				initDatagridCompose();
+				disableGoods('','GoodsType');
+				break;
+		}
+  	});
+
 }
 
 
 // 特价状态选择隐藏
 function selectOptionSpecial(){
 	initDatagridSpecial();
-	optionHide();
+	//optionHide();
 	 $('.special').removeClass('unhide');
 }
 
@@ -68,7 +73,7 @@ function selectOptionSpecial(){
 
 // 折扣状态选择隐藏
 function selectOptionzk(){
-	optionHide();
+	//optionHide();
 	initDatagridoneZk();
 	disableGoods('','GoodsType');
 	$('.discount').removeClass('unhide');
@@ -91,14 +96,14 @@ function selectOptionzk(){
 
 // 偶数特价状态选择隐藏
 function selectOptionOdd(){
-	optionHide();
+	//optionHide();
 	initDatagridOddtj();
     $('.oddprice ').removeClass('unhide');
 }
 
 // 满减状态选择隐藏
 function selectOptionMj(){
-	optionHide();
+	//optionHide();
 	$('#consalesetmj').removeClass('unhide');
 	$("#consaleadd").removeClass('ub-f1');
 	initDatagridshopMj();
@@ -268,6 +273,7 @@ function initDatagridSpecial(){
 		                    options:{
 		                        min:0,
 		                        precision:2,
+								onChange:saleAmountOnChange,
 		                    }
 		                },
 		            },
@@ -338,7 +344,6 @@ function initDatagridsortZk(){
 		                    options:{
 		                        min:0,
 		                        precision:2,
-		           
 		                    }
 		                },
 		            }, 
@@ -523,6 +528,7 @@ function initDatagridOddtj(){
 			        options:{
 			            min:0,
 			            precision:2,
+						onChange:saleAmountOnChange,
 			        }
 			    },
 			},
@@ -615,6 +621,7 @@ function initDatagridRedemption(){
 			        options:{
 			            min:0,
 			            precision:2,
+						onChange:saleAmountOnChange,
 			        }
 			    },
 			},
@@ -1124,6 +1131,10 @@ function delLineHandelmj(event){
 }
 // 选择商品
 function selectGoods(searchKey){
+	if($("#branchName").val()==" "){ //是否选择活动机构的校验
+		messager("请先选择活动分店！");
+		return;
+	}
     new publicGoodsService("",function(data){
         if(searchKey){
             $("#saleMangeadd").datagrid("deleteRow", gridHandel.getSelectRowIndex());
@@ -1642,3 +1653,18 @@ var resetForm = function() {
 	 $("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
 	 $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 };
+
+//折扣价处理
+function saleAmountOnChange(newV,oldV){
+	var priceNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
+	if(parseFloat(priceNumVal) < parseFloat(newV)) {
+		messager("促销价格大于商品原价");
+
+		return;
+	}
+	if(parseFloat(newV)==0){
+		messager("促销价格为0");
+		return;
+	}
+	gridHandel.setFieldValue('saleAmount',newV);
+}
