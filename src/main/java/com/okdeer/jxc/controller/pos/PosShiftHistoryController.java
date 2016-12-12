@@ -138,5 +138,11 @@ public class PosShiftHistoryController extends BaseController<T> {
 			return RespJson.error("添加POS登记失败！");
 		}
 	}
+	@RequestMapping(value = "shiftDetail")
+	public String getShift(Model model,String id){
+		Map<String,Object>  shift=posShiftHistoryServiceApi.getShiftExt(id);
+		model.addAttribute("shift", shift);
+		return "pos/shiftDetail";
+	}
 
 }

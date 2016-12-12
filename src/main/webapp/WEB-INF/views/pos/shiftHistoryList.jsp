@@ -26,7 +26,7 @@
 	                </div>
 	                 <div class="ub ub-ac">
 	                    <div class="umar-r10 uw-80 ut-r">用户编码:</div>
-	                    <input class="uinp" type="text" id="userCode" name="userCode"  placeholder="用户编码:">
+	                    <input class="uinp" type="text" id="userCode" name="userCode"  placeholder="用户编码">
 	                </div>
 	           </div>
        	</form>

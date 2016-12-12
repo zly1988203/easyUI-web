@@ -1427,6 +1427,12 @@ $.extend($.fn.validatebox.defaults.rules, {
         },
         message: '请输入至少（2）个字符.'
     },
+    leng: {
+        validator: function (value, param) {
+            return value.length == param[0];
+        },
+        message: '请输入{0}个字符.'
+    },
     length: { validator: function (value, param) {
         var len = $.trim(value).length;
         return len >= param[0] && len <= param[1];
