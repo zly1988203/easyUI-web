@@ -358,6 +358,7 @@ public class ActivityController {
 	public PageUtils<Map<String, Object>> listData(ActivityListQueryVo queryVo){
 		try {
 			logger.debug("查询活动列表：listData：{}",queryVo);
+			queryVo.setSourceBranchId(UserUtil.getCurrBranchId());
 			PageUtils<Map<String, Object>> page = mainServiceApi.listPage(queryVo);
 			return page;
 		} catch (Exception e) {
