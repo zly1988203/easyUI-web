@@ -73,7 +73,7 @@ pageEncoding="UTF-8"%>
                 <div class="ub ub-ac uw-300">
                     <div class="umar-r10 uw-100 ut-r">班次开始时间:</div>
                     <div class="ub">
-                     <input id="distributionSpec" name="distributionSpec" readonly="readonly" class="uinp uinp-no-more uw-200 " value="${shift['loginTime']}"  style="width: 204px;"  type="text" >
+                     <input id="loginTime" name="loginTime" readonly="readonly" class="uinp uinp-no-more uw-200 " value="${shift['loginTime']}"  style="width: 204px;"  type="text" >
                      </div>
                     
                 </div>
@@ -82,11 +82,20 @@ pageEncoding="UTF-8"%>
                 <div class="ub ub-ac uw-300">
                     <div class="umar-r10 uw-100 ut-r">班次结束时间:</div>
                      <div class="ub">
-                     <input id="distributionSpec" name="distributionSpec" readonly="readonly" class="uinp uinp-no-more uw-200 " value="${shift['exitTime']}"  style="width: 204px;"  type="text" >
+                     <input id="exitTime" name="exitTime" readonly="readonly" class="uinp uinp-no-more uw-200 "   style="width: 204px;"  type="text" >
                      </div>
                 </div>
             </div>
         </div>
     </form>
+    <script>
+    (function(){
+    	distributionSpecVal = new Date("${shift['exitTime']}").format("yyyy-MM-dd hh:mm:ss");
+    	$("#exitTime").val(distributionSpecVal);
+    	
+    	loginTime = new Date("${shift['loginTime']}").format("yyyy-MM-dd hh:mm:ss");
+    	$("#loginTime").val(loginTime);
+    })();
+    </script>
 
 </div>
