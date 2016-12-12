@@ -44,7 +44,8 @@ function initDatagridRequire(){
         columns:[[
             {field:'activityCode',title:'活动编号',width:'220px',align:'left',
                formatter : function(value, row,index) {
-                 return "<a style='text-decoration: underline;' href='"+ contextPath +"/sale/activity/edit?activityId="+ row.id +"'>" + value + "</a>"
+                 var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看促销管理详细\',\''+contextPath+'/sale/activity/edit?activityId='+row.id+'\')">' + value + '</a>';
+                 return strHtml;
               },
             },
             {field:'id',title:'货号',width:'85px',align:'left',hidden:true},
@@ -136,7 +137,7 @@ function searchBranch(){
 
 //pos新增
 function addActivity(){
-	location.href = contextPath + "/sale/activity/add";
+	toAddTab("新增促销活动",contextPath + "/sale/activity/add");
 }
 
 //删除
