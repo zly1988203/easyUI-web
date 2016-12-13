@@ -291,4 +291,9 @@ String GOODS_SALE_AMOUNT_REPORT = "goodsSaleAmountReport.xlsx";
 	* @Fields 供应商机构商品关系报表
 	*/
 	String SUPPLIER_BRANCH_GOODS_REPORT = "SupplierBranchGoodsReport.xlsx";
+	
+	/**
+	 * @Fields 促销活动商品查询报表
+	 */
+	String ACTIVITY_GOODS_REPORT = "ActivityGoodsReport.xlsx";
 }
