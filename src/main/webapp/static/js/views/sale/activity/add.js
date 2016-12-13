@@ -1184,7 +1184,7 @@ function saveActivity(){
   var rows= gridHandel.getRowsWhere(check);// $('#saleMangeadd').datagrid('getRows');
   // 重新加载数据，去除空数据
   $("#saleMangeadd").datagrid("loadData",rows);
-  
+
   if(rows.length==0){
       messager("表格不能为空");
       return;
@@ -1225,8 +1225,8 @@ function saveActivity(){
 		          isCheckResult = false;
 		          return false;
 		      };
-		      if(v["discount"]>1||v["discount"]<0){
-		          messager("第"+(i+1)+"行，折扣值在0~1之间");
+		      if(v["discount"]>10||v["discount"]<0){
+		          messager("第"+(i+1)+"行，折扣值在0~10之间");
 		          isCheckResult = false;
 		          return false;
 		      };
@@ -1247,8 +1247,8 @@ function saveActivity(){
 		          isCheckResult = false;
 		          return false;
 		      };
-		      if(v["discount"]>1||v["discount"]<0){
-		          messager("第"+(i+1)+"行，折扣值在0~1之间");
+		      if(v["discount"]>10||v["discount"]<0){
+		          messager("第"+(i+1)+"行，折扣值在0~10之间");
 		          isCheckResult = false;
 		          return false;
 		      };
