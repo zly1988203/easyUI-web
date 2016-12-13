@@ -30,6 +30,21 @@ $(function(){
 	//点击取消切换方法执行
 	  weekCheckDay();
 	})
+
+	//切换折扣类型
+	$(".disstatusChange").on("mousedown",function(){
+		var _this = $(this);
+		$.messager.confirm("","更换活动类型将清空当前列表信息，是否更换？",function(b){
+			if(!b) return;
+			_this.siblings().prop("checked",false);
+			_this.prop("checked",true);
+			if(_this.val()==="1"){
+				initDatagridsortZk();
+			}else if(_this.val()==="0"){
+				initDatagridoneZk();
+			}
+		});
+	})
 });
 
 //编辑请求数据
