@@ -20,15 +20,41 @@ $(function(){
 	//点击取消切换方法执行
 	  weekCheckDay();
 	})
+
+	//切换折扣类型
+	$(".disstatusChange").on("mousedown",function(){
+		var _this = $(this);
+		$.messager.confirm("","更换活动类型将清空当前列表信息，是否更换？",function(b){
+			if(!b) return;
+			_this.siblings().prop("checked",false);
+			_this.prop("checked",true);
+			if(_this.val()==="1"){
+				initDatagridsortZk();
+			}else if(_this.val()==="0"){
+				initDatagridoneZk();
+			}
+		});
+	})
 	
 });
 
 // select 选择切换
+var gVarLastActivityType = "1";
+var gVarAutoSelect = false;
 function onChangeSelect(){
+ if(gVarAutoSelect){
+	 gVarAutoSelect = false;
+	 return;
+ }
  var priceVal=$("#activityType").combobox('getValue');
-	var comfirmed;
+	//var comfirmed;
  	$.messager.confirm("","更换活动类型将清空当前列表信息，是否更换？",function(b){
-		if(!b) return;
+		if(!b) {
+			gVarAutoSelect = true;
+			$("#activityType").combobox('select',gVarLastActivityType);
+			return;
+		};
+		gVarLastActivityType = priceVal;
 		switch(priceVal)
 		{
 			case "1":
@@ -74,7 +100,7 @@ function selectOptionSpecial(){
 // 折扣状态选择隐藏
 function selectOptionzk(){
 	//optionHide();
-	initDatagridoneZk();
+	initDatagridsortZk();
 	disableGoods('','GoodsType');
 	$('.discount').removeClass('unhide');
 	$('.discountTypechoose').removeClass('unhide');
@@ -1668,19 +1694,3 @@ function saleAmountOnChange(newV,oldV){
 	}
 	gridHandel.setFieldValue('saleAmount',newV);
 }
-
-//折扣状态切换
-var gVarDisStatus = "1";
-function disstatusChangeEvent(status){
-	if(status!==gVarDisStatus){
-		gVarDisStatus = status;
-		$.messager.confirm("","更换活动类型将清空当前列表信息，是否更换？",function(b){
-			if(!b) return;
-			if(gVarDisStatus==="1"){
-				initDatagridsortZk();
-			}else if(gVarDisStatus==="0"){
-				initDatagridoneZk();
-			}
-		});
-	}
-};
