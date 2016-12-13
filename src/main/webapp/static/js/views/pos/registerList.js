@@ -21,6 +21,7 @@ function initDatagridPosOrders(){
         showFooter:true,
 		height:'100%',
 		width:'100%',
+		singleSelect: true,
         columns:[[
 			{field: 'branchCode', title: '店铺编号', width: '100px', align: 'left'},
 			{field: 'branchName', title: '店铺名称', width: '220px', align: 'left'},

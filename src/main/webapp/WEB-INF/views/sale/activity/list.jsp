@@ -73,13 +73,13 @@
                 <div class="ub ub-ac umar-l40 uw-300">
 	                    <div class="umar-r10 uw-70 ut-r">活动状态:</div>
 	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub" type="radio" name="activityStatus" value="" checked="checked"/><span>全部</span>
+	                        <input class="ub" type="radio" name="activityStatus" value=""/><span>全部</span>
 	                    </div>
 	                    <div class="ub ub-ac umar-r10">
 	                        <input class="ub" type="radio" name="activityStatus" value="0" /><span>未审核</span>
 	                    </div>
 	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub" type="radio" name="activityStatus" value="1"  /><span>已审核</span>
+	                        <input class="ub" type="radio" name="activityStatus" value="1" checked="checked" /><span>已审核</span>
 	                    </div>
 	                <div class="ub ub-ac umar-r10">
 	                        <input class="ub" type="radio" name="activityStatus" value="2"  /><span>已终止</span>

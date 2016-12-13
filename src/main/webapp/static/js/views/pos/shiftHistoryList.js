@@ -21,6 +21,7 @@ function initDatagridPosOrders(){
         showFooter:true,
 		height:'100%',
 		width:'100%',
+		singleSelect: true,
         columns:[[
             {field: 'id', title: ' ID', width: '100px', align: 'left',hidden:true},
 			{field: 'createUserCode', title: ' 用户编码', width: '150px', align: 'left'},

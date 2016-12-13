@@ -1429,7 +1429,7 @@ $.extend($.fn.validatebox.defaults.rules, {
     },
     leng: {
         validator: function (value, param) {
-            return value.length >= param[0];
+            return value.length == param[0];
         },
         message: '请输入{0}个字符.'
     },
