@@ -1182,8 +1182,8 @@ function saveActivity(){
 		          isCheckResult = false;
 		          return false;
 		      };
-		      if(v["discount"]>1||v["discount"]<0){
-		          messager("第"+(i+1)+"行，折扣值在0~1之间");
+		      if(v["discount"]>10||v["discount"]<0){
+		          messager("第"+(i+1)+"行，折扣值在0~10之间");
 		          isCheckResult = false;
 		          return false;
 		      };
@@ -1204,8 +1204,8 @@ function saveActivity(){
 		          isCheckResult = false;
 		          return false;
 		      };
-		      if(v["discount"]>1||v["discount"]<0){
-		          messager("第"+(i+1)+"行，折扣值在0~1之间");
+		      if(v["discount"]>10||v["discount"]<0){
+		          messager("第"+(i+1)+"行，折扣值在0~10之间");
 		          isCheckResult = false;
 		          return false;
 		      };
@@ -1636,6 +1636,11 @@ function stop(){
 		    });
 		}
 	});
+}
+
+//新增
+function addActivity(){
+	toAddTab("新增促销活动",contextPath + "/sale/activity/add");
 }
 
 
