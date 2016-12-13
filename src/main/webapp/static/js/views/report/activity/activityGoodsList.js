@@ -215,6 +215,7 @@ function exportExcel(){
 			successTip(dataObj.message);
 		}
 	});
+	getCheckBoxValue();
 	$("#queryForm").attr("action",contextPath+"/activity/goods/exportList");
 	$("#queryForm").submit();
 }
