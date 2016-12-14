@@ -102,7 +102,7 @@
                    <input class="uinp" type="text" id="rebateMoney" name="rebateMoney" value="${form.rebateMoney}" readonly="readonly" />
                </div>
            </div>
-           <!--datagrid-edit-->
+           <%--datagrid-edit--%>
            <div class="ub ub-f1 datagrid-edit umar-t8">
                <table id="gridEditRequireOrder" ></table>
            </div>

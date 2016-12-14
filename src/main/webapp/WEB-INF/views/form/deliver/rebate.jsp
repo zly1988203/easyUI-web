@@ -22,7 +22,7 @@
             </div>
         </div>
         <div class="ub ub-ver ub-f1">
-           <!--datagrid-edit-->
+           <%--datagrid-edit--%>
            <div class="ub ub-f1 datagrid-edit umar-t8">
                <table id="gridEditRebate" ></table>
            </div>

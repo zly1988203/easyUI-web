@@ -64,10 +64,10 @@ function initDatagridRequireOrdersDA(){
 			gridHandel.setDatagridHeader("center");
 		}
 	});
-	//queryForm();
 }
 // 加载配送出库单
 function initDatagridRequireOrdersDO(){
+	var updatePermission = $("#updatePermission").html().trim();
 	var fromObjStr = $('#queryForm').serializeObject();
 	$("#"+tableIdName).datagrid({
 		//title:'普通表单-用键盘操作',
@@ -139,7 +139,6 @@ function initDatagridRequireOrdersDO(){
 			gridHandel.setDatagridHeader("center");
 		}
 	});
-	//queryForm();
 }
 
 //新增出库单

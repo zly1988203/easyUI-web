@@ -7,7 +7,6 @@
     <title>配送入库</title>
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-    <%-- <script  src="${ctx}/static/js/fun/publicComponent.js"></script> --%>
     <script  src="${ctx}/static/js/views/deliver/DiList.js"></script>
     
 </head>
@@ -35,7 +34,7 @@
 	                <div class="ubtns-item" onclick="toClose()">退出</div>
 	            </div>
 	        	<div class="ub ub-ac umar-l20">
-	        		<!-- 引入时间选择控件 -->
+	        		<%-- 引入时间选择控件 --%>
 	            	<%@ include file="/WEB-INF/views/component/dateSelectHour.jsp"%>
 	            </div>
 			</div>
@@ -47,7 +46,7 @@
 	                </div>
 	                <div class="ub ub-ac uw-300 umar-l40">
 	                    <div class="umar-r10 uw-70 ut-r">制单人:</div>
-	                    <!-- <input type="hidden" id="operateUserId" name="operateUserId" /> -->
+	                    <%-- <input type="hidden" id="operateUserId" name="operateUserId" /> --%>
 	                    <input class="uinp ub ub-f1" type="text"  id="operateUserName" name="operateUserName" type="text" />
 	                    <div class="uinp-more" onclick="selectOperator()">...</div>
 	                </div>
@@ -64,7 +63,7 @@
 	            	<div class="umar-r10 uw-70 ut-r">备注:</div>
 	                    <input class="uinp" type="text" id="remark" name="remark">
 	                </div>
-	                <!--input-checkbox-->
+	                <%--input-checkbox--%>
 	                <div class="ub ub-ac umar-l40 uw-300">
 	                    <div class="umar-r10 uw-70 ut-r">审核状态:</div>
 	                    <div class="ub ub-ac umar-r10">

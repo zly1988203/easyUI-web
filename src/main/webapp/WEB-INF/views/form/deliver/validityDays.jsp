@@ -53,7 +53,7 @@
 					</div>
 				</div>
 			</form>
-			<!-- <div class="ub upad-10 ubor-b">
+			<%-- <div class="ub upad-10 ubor-b">
 				<div class="umar-r10 uw-280 ut-r">分店间直调必须经过总部审批:</div>
 				<div class="ub ub-ac umar-r10">
 					<input class="ub" type="radio" name="radio1" /><span>启用</span>
@@ -190,13 +190,13 @@
 				<div class="ub ub-ac umar-r10">
 					<input class="ub" type="radio" name="radio2" /><span>不启用</span>
 				</div>
-			</div> -->
+			</div> --%>
 		</div>
 	</div>
-	<!--<div class="ub umar-10">-->
-		<!--<input type="button" class="ubtn" value="保存" onclick="save()"/>-->
-		<!--<input type="button" class="ubtn" value="退出"/>-->
-	<!--</div>-->
+	<%--<div class="ub umar-10">
+		<input type="button" class="ubtn" value="保存" onclick="save()"/>
+		<input type="button" class="ubtn" value="退出"/>
+	</div>--%>
 
 </body>
 <script type="text/javascript">

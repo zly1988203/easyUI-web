@@ -7,7 +7,6 @@
     <title>要货申请</title>
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-    <%-- <script  src="${ctx}/static/js/fun/publicComponent.js"></script> --%>
     <script  src="${ctx}/static/js/views/deliver/deliverList.js"></script>
     
 </head>
@@ -36,7 +35,7 @@
 	                <div class="ubtns-item" onclick="toClose()">退出</div>
 	            </div>
 	        	<div class="ub ub-ac umar-l20">
-	        	<!-- 引入时间选择控件 -->
+	        	<%-- 引入时间选择控件 --%>
 	            <%@ include file="/WEB-INF/views/component/dateSelectHour.jsp"%>
 	            </div>
 			</div>
