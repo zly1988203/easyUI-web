@@ -2,56 +2,120 @@
  * Created by zhanghuan on 2016/8/30.
  * 配送-出库单
  */
+var indexTab = 0;
+var tableIdName = 'deliverFormList';
+var tempURL = '/form/deliverSelect/getDeliverFormList';
+var sourceBranchId;
 $(function(){
 	//开始和结束时间
 	toChangeDatetime(0);
-    initDatagridRequireOrders();
+	loadTabs();
+	toBtnDisable('btnAdd','btnDel');
+	delDivAuditStatus();
+	initDatagridRequireOrdersDA();
     sourceBranchId = $("#sourceBranchId").val();
 });
-var sourceBranchId;
 var gridHandel = new GridClass();
-//初始化表格
-function initDatagridRequireOrders(){
+// 加载要货申请单
+function initDatagridRequireOrdersDA(){
+	var fromObjStr = $('#queryForm').serializeObject();
 	var updatePermission = $("#updatePermission").html().trim();
-    $("#deliverFormList").datagrid({
-        //title:'普通表单-用键盘操作',
-        method:'post',
-        align:'center',
-        //url:contextPath+'/form/purchase/listData',
-        //toolbar: '#tb',     //工具栏 id为tb
-        singleSelect:false,  //单选  false多选
-        rownumbers:true,    //序号
-        pagination:true,    //分页
-        fitColumns:true,    //每列占满
-        //fit:true,            //占满
-        showFooter:true,
+	$("#"+tableIdName).datagrid({
+		//title:'普通表单-用键盘操作',
+		method:'post',
+		align:'center',
+		queryParams:fromObjStr,
+		url:contextPath + tempURL,
+		//toolbar: '#tb',     //工具栏 id为tb
+		singleSelect:false,  //单选  false多选
+		rownumbers:true,    //序号
+		pagination:true,    //分页
+		fitColumns:true,    //每列占满
+		//fit:true,         //占满
+		showFooter:true,
 		height:'100%',
 		width:'100%',
-        columns:[[
+		columns:[[
 			{field:'check',checkbox:true},
-            {field:'formNo',title:'单据编号',width:'140px',align:'left',formatter:function(value,row,index){
-            	if(updatePermission){
-            		var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'出库单明细\',\''+ contextPath +'/form/deliverForm/deliverEdit?deliverFormId='+ row.deliverFormId +'&formType=DO\')">' + value + '</a>';
-            		return strHtml;
-//            		return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/deliverForm/deliverEdit?deliverFormId="+ row.deliverFormId +"&formType=DO'>" + value + "</a>";
-            	}else{
-            		return value;
-            	}
-            }},
-            {field:'status',title: '审核状态', width: '100px', align: 'center'},
+			{field:'formNo',title:'要货单号',width:'140px',align:'left',formatter:function(value,row,index){
+				if(updatePermission){
+					var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'新增出库单\',\''+ contextPath +'/form/deliverForm/addDeliverForm?deliverFormId='+ row.id +'&deliverType=DO\')">' + value + '</a>';
+					return strHtml;
+				}else{
+					return value;
+				}
+			}},
+			{field: 'targetBranchName', title: '要货机构', width: '200px', align: 'left'},
+			{field: 'sourceBranchName', title: '发货机构', width: '200px', align: 'left'},
+			{field: 'amount', title: '单据金额', width: '80px', align: 'right',
+				formatter:function(value,row,index){
+					if(row.isFooter){
+						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+					}
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				}
+			},
+			{field: 'salesman', title: '业务人员', width: '130px', align: 'left'},
+			{field: 'createUserName', title: '制单人员', width: '130px', align: 'left'},
+			{field: 'validUserName', title: '审核人员', width: '130px', align: 'left'},
+			{field: 'remark', title: '备注', width: '200px', align: 'left'}
+		]],
+		onLoadSuccess:function(data){
+			gridHandel.setDatagridHeader("center");
+		}
+	});
+	//queryForm();
+}
+// 加载配送出库单
+function initDatagridRequireOrdersDO(){
+	var fromObjStr = $('#queryForm').serializeObject();
+	$("#"+tableIdName).datagrid({
+		//title:'普通表单-用键盘操作',
+		method:'post',
+		align:'center',
+		queryParams:fromObjStr,
+		url:contextPath + tempURL,
+		//toolbar: '#tb',     //工具栏 id为tb
+		singleSelect:false,  //单选  false多选
+		rownumbers:true,    //序号
+		pagination:true,    //分页
+		fitColumns:true,    //每列占满
+		//fit:true,            //占满
+		showFooter:true,
+		height:'100%',
+		width:'100%',
+		columns:[[
+			{field:'check',checkbox:true},
+			{field:'formNo',title:'发货单号',width:'140px',align:'left',formatter:function(value,row,index){
+				if(updatePermission){
+					var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'出库单明细\',\''+ contextPath +'/form/deliverForm/deliverEdit?deliverFormId='+ row.deliverFormId +'&formType=DO\')">' + value + '</a>';
+					return strHtml;
+				}else{
+					return value;
+				}
+			}},
+			{field:'status',title: '审核状态', width: '100px', align: 'center'},
 			{field: 'dealStatusDO', title: '单据状态', width: '100px', align: 'center'},
 			{field: 'sourceBranchName', title: '发货机构', width: '200px', align: 'left'},
 			{field: 'targetBranchName', title: '收货机构', width: '200px', align: 'left'},
+			{field:'referenceNo',title:'要货单号',width:'140px',align:'left',formatter:function(value,row,index){
+				if(updatePermission){
+					var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'要货单明细\',\''+ contextPath +'/form/deliverForm/deliverEdit?deliverFormId='+ row.referenceId +'&formType=DA\')">' + value + '</a>';
+					return strHtml;
+				}else{
+					return value;
+				}
+			}},
 			{field: 'amount', title: '单据金额', width: '80px', align: 'right',
 				formatter:function(value,row,index){
-                    if(row.isFooter){
-                        return "<b>"+parseFloat(value||0).toFixed(2)+ "<b>";
-                    }
-                    return "<b>"+parseFloat(value||0).toFixed(2)+ "<b>";
-                }
+					if(row.isFooter){
+						return "<b>"+parseFloat(value||0).toFixed(2)+ "<b>";
+					}
+					return "<b>"+parseFloat(value||0).toFixed(2)+ "<b>";
+				}
 			},
-            {field: 'createUserName', title: '制单人员', width: '130px', align: 'left'},
-            {field: 'createTime', title: '制单日期', width: '120px', align: 'center',
+			{field: 'createUserName', title: '制单人员', width: '130px', align: 'left'},
+			{field: 'createTime', title: '制单日期', width: '120px', align: 'center',
 				formatter: function (value, row, index) {
 					if (value) {
 						return new Date(value).format('yyyy-MM-dd hh:mm');
@@ -59,10 +123,10 @@ function initDatagridRequireOrders(){
 					return "";
 				}
 			},
-            {field: 'validUserName', title: '审核人员', width: '130px', align: 'left'},
-            {field: 'remark', title: '备注', width: '200px', align: 'left'},
-            {field: 'updateUserName', title: '操作人员', width: '130px', align: 'left'},
-            {field: 'updateTime', title: '操作时间', width: '120px', align: 'center',
+			{field: 'validUserName', title: '审核人员', width: '130px', align: 'left'},
+			{field: 'remark', title: '备注', width: '200px', align: 'left'},
+			{field: 'updateUserName', title: '操作人员', width: '130px', align: 'left'},
+			{field: 'updateTime', title: '操作时间', width: '120px', align: 'center',
 				formatter: function (value, row, index) {
 					if (value) {
 						return new Date(value).format('yyyy-MM-dd hh:mm');
@@ -70,12 +134,12 @@ function initDatagridRequireOrders(){
 					return "";
 				}
 			}
-        ]],
+		]],
 		onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
 		}
-    });
-    queryForm();
+	});
+	//queryForm();
 }
 
 //新增出库单
@@ -85,10 +149,12 @@ function addDeliverForm(){
 
 //查询要货单
 function queryForm(){
+	//var fromObjStr = $('#queryForm').serializeObject();
+	//$("#" + tableIdName).datagrid("options").method = "post";
+	//$("#" + tableIdName).datagrid("options").queryParams = fromObjStr;
+	//$("#" + tableIdName).datagrid('options').url = contextPath + tempURL;
 	var fromObjStr = $('#queryForm').serializeObject();
-	$("#deliverFormList").datagrid("options").method = "post";
-	$("#deliverFormList").datagrid('options').url = contextPath + '/form/deliverForm/getDeliverForms';
-	$("#deliverFormList").datagrid('load', fromObjStr);
+	$("#" + tableIdName).datagrid('load',fromObjStr);
 }
 
 //删除
@@ -98,6 +164,10 @@ function delDeliverForm(){
 	var ids = [];
 	for(var i=0; i<row.length; i++){
 		ids.push(row[i].deliverFormId);
+	}
+	if (ids.length == 0) {
+		successTip("请选择行数据！");
+		return;
 	}
 	if(rowIsNull(row)){
 		return null;
@@ -145,6 +215,22 @@ function selectOperator(){
 	});
 }
 
+/**
+ * 禁用按钮
+ * @param id
+ */
+function toBtnDisable(addId,delId){
+	$("#"+addId).removeClass('ubtns-item').addClass('ubtns-item-disabled').removeAttr('onclick');
+	$("#"+delId).removeClass('ubtns-item').addClass('ubtns-item-disabled').removeAttr('onclick');
+}
+/**
+ * 开启按钮
+ * @param id
+ */
+function toBtnEnable(addId,delId){
+	$("#"+addId).removeClass('ubtns-item-disabled').addClass('ubtns-item').attr('onclick','addDeliverForm()');
+	$("#"+delId).removeClass('ubtns-item-disabled').addClass('ubtns-item').attr('onclick','delDeliverForm()');
+}
 //打印
 function printDesign(){
      var dg = $("#gridRequireOrders");
@@ -162,3 +248,92 @@ function printDesign(){
 var resetForm = function() {
 	 $("#queryForm").form('clear');
 };
+
+// 加载选项卡
+function loadTabs(){
+	$('#tabs').tabs({
+		border:false,
+		onSelect:function(title){
+			// 获取选项卡下标
+			indexTab = $('#tabs').tabs('getTabIndex',$('#tabs').tabs('getSelected'));
+			if (indexTab === 0) {
+				toBtnDisable('btnAdd','btnDel');
+				setQueryDataDA();
+				delDivAuditStatus();
+				initDatagridRequireOrdersDA();
+			} else {
+				toBtnEnable('btnAdd','btnDel');
+				setQueryDataDO();
+				delDivTime();
+				initDatagridRequireOrdersDO();
+			}
+		}
+	});
+}
+// 设置值
+function setQueryDataDA() {
+	tempURL = '/form/deliverSelect/getDeliverFormList';
+	tableIdName = 'deliverFormList';
+}
+// 设置值
+function setQueryDataDO() {
+	tempURL = '/form/deliverForm/getDeliverForms';
+	tableIdName = 'processedFormList';
+}
+var deliverAuditStatus = '0';
+var checkboxTime = 'checked';
+var popupSearchDateTime = dateUtil.getCurrentDateTime().format("yyyy-MM-dd hh:mm");
+
+// 移除要货查询时间div
+function delDivTime() {
+	// 清空div
+	// $("#checkDiv").empty();
+	// 移除div
+	var checkDiv = document.getElementById("checkDiv");
+	if (checkDiv) {
+		if($("#checkboxTime").is(':checked')){
+			checkboxTime = 'checked';
+		} else {
+			checkboxTime = '';
+		}
+		popupSearchDateTime = $("#popupSearchDateTime").val();
+		checkDiv.parentNode.removeChild(checkDiv);
+	}
+	$("#remarkDiv").after("<div class='ub ub-ac umar-l40 uw-300' id='auditStatus' style='visibility:visible;'><div class='umar-r10 uw-70 ut-r'>审核状态:</div><div class='ub ub-ac umar-r10'><input class='ub' type='radio' id='deliverAuditStatus0' name='deliverAuditStatus' value='0' checked='checked' onclick='queryForm()'/><span>未审核</span></div><div class='ub ub-ac umar-r10'><input class='ub' type='radio' id='deliverAuditStatus1' name='deliverAuditStatus'  value='1' onclick='queryForm()'/><span>已审核</span></div><div class='ub ub-ac umar-r10'><input class='ub' type='radio' id='deliverAuditStatus2' name='deliverAuditStatus' value='' onclick='queryForm()'/><span>全部</span></div></div>");
+	setAuditStatusVal();
+}
+
+// 移除配送出库查询深圳状态div
+function delDivAuditStatus() {
+	// 清空div
+	// $("#auditStatus").empty();
+	// 移除div
+	var auditStatus = document.getElementById("auditStatus");
+	if (auditStatus) {
+		deliverAuditStatus = $("#auditStatus input[name='deliverAuditStatus']:checked").val();
+		auditStatus.parentNode.removeChild(auditStatus);
+	}
+	$("#remarkDiv").after("<div class='umar-l40' id='checkDiv' style='visibility:visible;'><input type='checkbox' id='checkboxTime' name='checkboxTime'/><span class='umar-l15  umar-r10'>结束时间:</span><input class='Wdate'  readonly='readonly' name='tempEndTime' id='popupSearchDateTime' onclick=\"WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})\" /></div>");
+	setDivTime();
+}
+
+// 添加被移除之前的审核值
+function setAuditStatusVal(){
+	if (deliverAuditStatus == '0') {
+		$("#deliverAuditStatus0").attr('checked','checked');
+	} else if (deliverAuditStatus == '1') {
+		$("#deliverAuditStatus1").attr('checked','checked');
+	} else {
+		$("#deliverAuditStatus2").attr('checked','checked');
+	}
+}
+
+// 添加被移除之前的时间值
+function setDivTime(){
+	if (checkboxTime == 'checked') {
+		$("#checkboxTime").attr('checked','checked');
+	} else {
+		$("#checkboxTime").attr('checked',false);
+	}
+	$("#popupSearchDateTime").val(popupSearchDateTime);
+}

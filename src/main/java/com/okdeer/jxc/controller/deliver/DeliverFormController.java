@@ -14,7 +14,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONObject;
@@ -194,9 +193,10 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 	 * @date 2016年8月29日
 	 */
 	@RequestMapping(value = "addDeliverForm")
-	public String addDeliverForm(String deliverType, Model model) {
-		LOG.info(LogConstant.OUT_PARAM, deliverType);
+	public String addDeliverForm(QueryDeliverFormVo vo, Model model) {
+		LOG.info(LogConstant.OUT_PARAM, vo.toString());
 		SysUser user = getCurrentUser();
+		String deliverType = vo.getDeliverType();
 		model.addAttribute("user", user);
 		BranchesGrow branchesGrow = branchesServiceApi.queryBranchesById(user
 				.getBranchId());
@@ -235,6 +235,10 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 				branchesGrow.setSourceBranchName("");
 			}
 			model.addAttribute("branchesGrow", branchesGrow);
+			// 需求修改，点击要货单生成出库单，将要货单id传入
+			if (!StringUtils.isEmpty(vo.getDeliverFormId())) {
+				model.addAttribute("referenceId", vo.getDeliverFormId());
+			}
 			return "form/deliver/DoAdd";
 		} else {
 			return "form/deliver/DiAdd";
@@ -251,7 +255,7 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 	 * @date 2016年8月29日
 	 */
 	@RequestMapping(value = "deliverEdit")
-	public String deliverEdit(QueryDeliverFormVo vo,String report, Model model,HttpServletRequest request) {
+	public String deliverEdit(QueryDeliverFormVo vo, String report, Model model) {
 		LOG.info(LogConstant.OUT_PARAM, vo.toString());
 		model.addAttribute("type", vo.getFormSources());
 		vo.setFormSources("");
@@ -897,5 +901,27 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 			headers = ImportExcelConstant.DELIVER_GOODS_BARCODE_HEADERS_REPORT;
 		}
 		goodsSelectImportComponent.downloadErrorFile(code, reportFileName, headers, columns, response);
+	}
+
+	/**
+	 * @Description: 查询发货机构信息,要货机构信息，单据信息
+	 * @param referenceId  
+	 * @return
+	 * @author zhangchm
+	 * @date 2016年9月18日
+	 */
+	@RequestMapping(value = "getSourceBranchAndTargetBranchAndFormNo", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson getSourceBranchAndTargetBranchAndFormNo(String referenceId) {
+		RespJson respJson = RespJson.success();
+		try {
+			Map<String, String> map = queryDeliverFormServiceApi.getSourceBranchAndTargetBranchAndFormNo(referenceId);
+			// JSONObject obj = JSONObject.fromObject(map);
+			respJson.put("data", map);
+		} catch (Exception e) {
+			respJson = RespJson.error();
+			LOG.error("查询发货机构信息,要货机构信息，单据信息异常", e);
+		}
+		return respJson;
 	}
 }
