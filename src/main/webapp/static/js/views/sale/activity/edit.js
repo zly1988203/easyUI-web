@@ -167,7 +167,7 @@ function onChangeSelect(){
 //特价状态选择隐藏
 function selectOptionSpecial(){
 	initDatagridSpecial();
-	$('.special').removeClass('unhide');
+	//$('.special').removeClass('unhide');
 }
 
 
@@ -175,10 +175,11 @@ function selectOptionSpecial(){
 //折扣状态选择隐藏
 function selectOptionzk(){
 	initDatagridoneZk();
-	disableGoods('','GoodsType');
+	//disableGoods('','GoodsType');
+	disableGoods('SelectGoods','');
 	$('.discount').removeClass('unhide');
 	$('.discountTypechoose').removeClass('unhide');
-	$(document).on('click','.discountTypechoose .disradio',function(){
+	$(document).on('mousedown','.discountTypechoose .disradio',function(){
       var disval=	$(this).val();
       $('#activityScopedis').val(disval);
       if(disval=="1"){
@@ -204,7 +205,7 @@ function selectOptionOdd(){
 function selectOptionMj(){
 	$('#consalesetmj').removeClass('unhide');
 	$("#consaleadd").removeClass('ub-f1');
-	initDatagridshopMj();
+	initDatagridallMj();
 	initDatagridsortSet();
 	//禁止按钮点击事件
 	disableGoods('','GoodsType');
@@ -289,7 +290,7 @@ function cleardata(){
 //状态初始化 隐藏 清空数据 
 function optionHide(){
 	$("#consaleadd").addClass('ub-f1');
-	$('.special').addClass('unhide');
+	//$('.special').addClass('unhide');
 	$('.discount').addClass('unhide');
 	$('.oddprice ').addClass('unhide');
 	$('.discountTypechoose').addClass('unhide');
