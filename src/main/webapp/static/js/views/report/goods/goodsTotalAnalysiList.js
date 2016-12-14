@@ -188,10 +188,10 @@ function initGoodsTotalAnalysiGrid() {
             },
             {field: 'grossProfitRate', title: '毛利率', width:80, align: 'right',
                 formatter:function(value,row,index){
-                    if(row.isFooter){
+                    if(row.grossProfitRate===''){
                         return '';
                     }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'%</b>';
+                    return '<b>'+parseFloat(value).toFixed(2)+'%</b>';
                 }
             }
         ]],
@@ -263,11 +263,11 @@ function initCategoryGrid() {
                 }
             },
             {field: 'grossProfitRate', title: '毛利率', width:80, align: 'right',
-            	formatter:function(value,row,index){
-                    if(row.isFooter){
+                formatter:function(value,row,index){
+                    if(row.grossProfitRate===''){
                         return '';
                     }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'%</b>';
+                    return '<b>'+parseFloat(value).toFixed(2)+'%</b>';
                 }
             }
         ]],
@@ -339,11 +339,11 @@ function initPurReportSupplierGrid() {
                 }
             },
             {field: 'grossProfitRate', title: '毛利率', width:80, align: 'right',
-            	formatter:function(value,row,index){
-                    if(row.isFooter){
+                formatter:function(value,row,index){
+                    if(row.grossProfitRate===''){
                         return '';
                     }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'%</b>';
+                    return '<b>'+parseFloat(value).toFixed(2)+'%</b>';
                 }
             }
         ]],

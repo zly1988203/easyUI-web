@@ -14,6 +14,7 @@ $(function(){
         remark:$("#remark").val(),                  // 备注
         formNo:$("#formNo").val(),                 // 单号
     }
+    selectTargetBranchData($("#targetBranchId").val());
 });
 var gridDefault = {
     dealNum:0,
@@ -927,4 +928,20 @@ function delDeliverForm(){
 		    });
 		}
 	});
+}
+
+// 查询要货机构的资料
+function selectTargetBranchData(targetBranchId){
+    $.ajax({
+        url:contextPath+"/common/branches/selectTargetBranchData",
+        data:{
+            branchesId : targetBranchId
+        },
+        type:"post",
+        success:function(data){
+            $("#address").html(data.address);
+            $("#contacts").html(data.contacts);
+            $("#mobile").html(data.mobile);
+        }
+    });
 }
