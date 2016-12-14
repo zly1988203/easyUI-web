@@ -57,7 +57,7 @@
                 </div>  
             </div>
 	        <div class="ub umar-t8">
-	           <div class="ub ub-ac  umar-l20">
+	           <div class="ub ub-ac">
                   <div class="umar-r10 uw-70 ut-r">活动类型:</div>
 	              <label><input type="checkbox" class="checkboxCtrl" name="activityType1" group="activityType1" onclick="selectedAll()">全部</label>
 	              <label><input type="checkbox" value="1" name="activityType1" onclick="selectedTypeItem()">特价</label>
@@ -65,7 +65,7 @@
 	              <label><input type="checkbox" value="3" name="activityType1" onclick="selectedTypeItem()">偶数特价</label>
 	              <label><input type="checkbox" value="4" name="activityType1" onclick="selectedTypeItem()">换购</label>
 	              <label><input type="checkbox" value="5" name="activityType1" onclick="selectedTypeItem()">满减</label>
-	              <label><input type="checkbox" value="6" name="activityType1" onclick="selectedTypeItem()">组合套餐</label>
+	              <label><input type="checkbox" value="6" name="activityType1" onclick="selectedTypeItem()">组合特价</label>
                 </div>
            </div>
        	</form>
