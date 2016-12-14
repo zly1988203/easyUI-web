@@ -134,7 +134,7 @@
 					<input class="uinp ub ub-f1 deal" type="number"
 						onkeyup="if(isNaN(value))execCommand('undo')"
 						onafterpaste="if(isNaN(value))execCommand('undo')" id="batchcount">
-						<div class="umar-l10">折</div>
+						<div class="umar-l10">元</div>
 				   </div>
 	          </div>
        	</form>
