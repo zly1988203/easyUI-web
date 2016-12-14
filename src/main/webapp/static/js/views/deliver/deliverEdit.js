@@ -342,7 +342,10 @@ function setDataValue(data) {
          var isCheck ={isGift:1 };   //只要是赠品就可以重复
          var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
          $("#gridEditRequireOrder").datagrid("loadData",newRows);
-        
+
+        oldData["grid"] = $.map(newRows, function(obj){
+            return $.extend(true,{},obj);//返回对象的深拷贝
+        });
 }
 
 //查询价格、库存
@@ -516,6 +519,8 @@ function check(){
         grid:gridHandel.getRows(),
     }
 
+
+    debugger;
     if(!gFunComparisonArray(oldData,newData)){
         messager("数据已修改，请先保存再审核");
         return;
