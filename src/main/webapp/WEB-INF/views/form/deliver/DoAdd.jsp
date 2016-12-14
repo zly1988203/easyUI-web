@@ -34,18 +34,19 @@
                    </div>
 
                </div>
-                <div class="ub ub-ac umar-l20">
-                    <div class="umar-r10 uw-70 ut-r">收货地址:</div>
-                    <div class="utxt" id="address"></div>
-                </div>
-               <div class="ub ub-ac umar-l20">
+
+               <div class="ub ub-ac umar-l20 uw-300">
                    <div class="umar-r10 uw-70 ut-r">制单人员:</div>
                    <div class="utxt"><%=UserUtil.getCurrentUser().getUserName() %></div>
                </div>
-               <div class="ub ub-ac umar-l20">
-                   <div class="umar-r10 uw-60 ut-r">制单时间:</div>
+               <div class="ub ub-ac umar-l20 uw-300">
+                   <div class="umar-r10 uw-70 ut-r">制单时间:</div>
                    <div class="utxt" id="createTime"></div>
                </div>
+                <div class="ub ub-ac umar-l20 uw-300">
+                    <div class="umar-r10 uw-70 ut-r">联系人:</div>
+                    <div class="utxt" id="contacts"></div>
+                </div>
            </div>
            <div class="ub umar-t8">
                <div class="ub ub-ac uw-300">
@@ -56,18 +57,19 @@
                        <div class="uinp-more" onclick="selectBranches()">...</div>
                    </div>
                </div>
-               <div class="ub ub-ac umar-l20">
-                   <div class="umar-r10 uw-70 ut-r">联系人:</div>
-                   <div class="utxt" id="contacts"></div>
-               </div>
-               <div class="ub ub-ac umar-l20">
+
+               <div class="ub ub-ac umar-l20 uw-300">
                    <div class="umar-r10 uw-70 ut-r">审核人员:</div>
                    <div class="utxt"></div>
                </div>
-               <div class="ub ub-ac umar-l20">
-                   <div class="umar-r10 uw-60 ut-r">审核时间:</div>
+               <div class="ub ub-ac umar-l20 uw-300">
+                   <div class="umar-r10 uw-70 ut-r">审核时间:</div>
                    <div class="utxt"></div>
                </div>
+                <div class="ub ub-ac uw-300 umar-l20">
+                    <div class="umar-r10 uw-70 ut-r">联系电话:</div>
+                    <div class="utxt" id="mobile"></div>
+                </div>
            </div>
            <div class="ub umar-t8">
            	   <div class="ub ub-ac uw-300">
@@ -78,14 +80,15 @@
                        <div class="uinp-more" onclick="selectDeliver()">...</div>
                    </div>
                </div>
+
                <div class="ub ub-ac uw-300 umar-l20">
-                   <div class="umar-r10 uw-70 ut-r">联系电话:</div>
-                   <div class="utxt" id="mobile"></div>
-               </div>
-               <div class="ub ub-ac umar-l20">
-                   <div class="umar-r10 uw-50 ut-r">备注:</div>
+                   <div class="umar-r10 uw-70 ut-r">备注:</div>
                    <input class="uinp" type="text" id="remark" name="remark">
                </div>
+                <div class="ub ub-ac umar-l20 uw-300">
+                    <div class="umar-r10 uw-70 ut-r">收货地址:</div>
+                    <div class="utxt" id="address"></div>
+                </div>
            </div>
            <%--datagrid-edit--%>
            <div class="ub ub-f1 datagrid-edit umar-t8">
