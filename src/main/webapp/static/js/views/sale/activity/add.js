@@ -26,7 +26,6 @@ $(function(){
 		var _this = $(this);
 		$.messager.confirm("","更换活动类型将清空当前列表信息，是否更换？",function(b){
 			if(!b) return;
-			_this.siblings().prop("checked",false);
 			_this.prop("checked",true);
 			if(_this.val()==="1"){
 				initDatagridsortZk();
@@ -42,56 +41,62 @@ $(function(){
 var gVarLastActivityType = "1";
 var gVarAutoSelect = false;
 function onChangeSelect(){
- if(gVarAutoSelect){
-	 gVarAutoSelect = false;
-	 return;
- }
- var priceVal=$("#activityType").combobox('getValue');
-	//var comfirmed;
- 	$.messager.confirm("","更换活动类型将清空当前列表信息，是否更换？",function(b){
-		if(!b) {
-			gVarAutoSelect = true;
-			$("#activityType").combobox('select',gVarLastActivityType);
-			return;
-		};
-		gVarLastActivityType = priceVal;
-		switch(priceVal)
-		{
-			case "1":
-				selectOptionSpecial();
-				// 禁止按钮点击事件
-				disableGoods('','GoodsType');
-				break;
-			case "2":
-				selectOptionzk();
-				break;
-			case "3":
-				selectOptionOdd();
-				disableGoods('','GoodsType');
-				break;
-			case "4":
-				//optionHide();
-				initDatagridRedemption();
-				disableGoods('','GoodsType');
-				break;
-			case "5":
-				selectOptionMj();
-				break;
-			case "6":
-				//optionHide();
-				initDatagridCompose();
-				disableGoods('','GoodsType');
-				break;
-		}
-  	});
-
+    if(gVarAutoSelect){
+	    gVarAutoSelect = false;
+	    return;
+    }
+    var priceVal=$("#activityType").combobox('getValue');
+    var changeType = function(){
+	    gVarLastActivityType = priceVal;
+	    switch(priceVal)
+	    {
+	 	    case "1":
+			    selectOptionSpecial();
+			    // 禁止按钮点击事件
+			    disableGoods('','GoodsType');
+			    break;
+		    case "2":
+			    selectOptionzk();
+			    break;
+		    case "3":
+			    selectOptionOdd();
+			    disableGoods('','GoodsType');
+			    break;
+		    case "4":
+			    optionHide();
+			    initDatagridRedemption();
+			    disableGoods('','GoodsType');
+			    break;
+		    case "5":
+			    selectOptionMj();
+			    break;
+		    case "6":
+			    optionHide();
+			    initDatagridCompose();
+			    disableGoods('','GoodsType');
+			    break;
+	    }
+	};
+    var rows = gridHandel.getRows();
+	if(rows.length==0 || JSON.stringify(rows[0])==JSON.stringify({oldPurPrice:0})){
+		changeType();
+	}else{
+		$.messager.confirm("","更换活动类型将清空当前列表信息，是否更换？",function(b){
+			if(!b) {
+				gVarAutoSelect = true;
+				$("#activityType").combobox('select',gVarLastActivityType);
+				return;
+			};
+			changeType();
+		});
+	}
 }
 
 
 // 特价状态选择隐藏
 function selectOptionSpecial(){
 	initDatagridSpecial();
-	//optionHide();
+	optionHide();
 	 $('.special').removeClass('unhide');
 }
 
@@ -99,12 +104,13 @@ function selectOptionSpecial(){
 
 // 折扣状态选择隐藏
 function selectOptionzk(){
-	//optionHide();
+	optionHide();
 	initDatagridsortZk();
-	disableGoods('','GoodsType');
+	//disableGoods('','GoodsType');
+	disableGoods('SelectGoods','');
 	$('.discount').removeClass('unhide');
 	$('.discountTypechoose').removeClass('unhide');
-	$(document).on('click','.discountTypechoose .disradio',function(){
+	$(document).on('mousedown','.discountTypechoose .disradio',function(){
       var disval=	$(this).val();
       $('#activityScopedis').val(disval);
       if(disval=="1"){
@@ -122,17 +128,17 @@ function selectOptionzk(){
 
 // 偶数特价状态选择隐藏
 function selectOptionOdd(){
-	//optionHide();
+	optionHide();
 	initDatagridOddtj();
     $('.oddprice ').removeClass('unhide');
 }
 
 // 满减状态选择隐藏
 function selectOptionMj(){
-	//optionHide();
+	optionHide();
 	$('#consalesetmj').removeClass('unhide');
 	$("#consaleadd").removeClass('ub-f1');
-	initDatagridshopMj();
+	initDatagridallMj();
 	initDatagridsortSet();
 	// 禁止按钮点击事件
 	disableGoods('','GoodsType');
@@ -179,14 +185,14 @@ function optionHide(){
 	$('.discountTypechoose').addClass('unhide');
 	$('.mjTypechoose').addClass('unhide');
 	$('#consalesetmj').addClass('unhide');	
-	$('#activityName').val("");
+	/*$('#activityName').val("");
 	$('#startTime').val("");
 	$('#endTime').val("");
 	$('#dailyStartTime').val("00:00:00");
 	$('#dailyEndTime').val("23:59:59");
 	$('#branchName').val("");
 	$('#saleMangeadd').datagrid('loadData', { total: 0, rows: [] });
-	$("#saleMangeadd").datagrid("options").url ="";
+	$("#saleMangeadd").datagrid("options").url ="";*/
 	//$('#salesetmj').datagrid('loadData', { total: 0, rows: [] });
 }
 
@@ -1206,6 +1212,9 @@ function saveActivity(){
   if(activityScopedis == 1 || activityScopemj == 1){
 	  var check ={goodsCategoryCode:'1'}
   }
+  /*if(activityType == 5 && activityScopemj == 2){
+	  check = {limitAmount:'1'}
+  }*/
   // 获取非空的数据
   var rows= gridHandel.getRowsWhere(check);// $('#saleMangeadd').datagrid('getRows');
   // 重新加载数据，去除空数据
@@ -1322,7 +1331,6 @@ function saveActivity(){
   }
 // 活动满减验证
   else if(activityType=="5"){
-	 debugger;
 	  $("#salesetmj").datagrid("endEdit", gridHandelMj.getSelectRowIndex());
 	  var setrows=$('#salesetmj').datagrid('getRows');
 		  if(activityScopemj=="0"){  
@@ -1340,6 +1348,7 @@ function saveActivity(){
 			  }
 			  for(var i=0;i<setrows.length;i++){
 				  var v = setrows[i];
+				  debugger;
 			      if(!v["limitAmount"]){
 			          messager("第"+(i+1)+"行，买满金额不能为空");
 			          isCheckResult = false;
