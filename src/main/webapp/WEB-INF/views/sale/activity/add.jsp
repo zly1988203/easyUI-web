@@ -56,16 +56,17 @@
 	                     <input class="uinp" type="hidden" id="activityScopedis" value="0"  name="activityScopedis">
 	            </div>
                 <div class="ub ub-ac umar-l40  mjTypechoose unhide">
-	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub mjradio" type="radio" name="mjstatus" value="0" checked="checked" /><span>商品</span>
-	                    </div>
+						<div class="ub ub-ac umar-r10">
+							<input class="ub mjradio" type="radio" name="mjstatus"  value="2" checked="checked" /><span>全场</span>
+						</div>
 	                    <div class="ub ub-ac umar-r10">
 	                        <input class="ub mjradio" type="radio" name="mjstatus" value="1" /><span>类别</span>
 	                    </div>
+						<div class="ub ub-ac umar-r10">
+							<input class="ub mjradio" type="radio" name="mjstatus" value="0" /><span>商品</span>
+						</div>
 	                    
-	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub mjradio" type="radio" name="mjstatus"  value="2" /><span>全场</span>
-	                    </div>
+
 	                     <input class="uinp" type="hidden" id="activityScopemj" value="0"  name="activityScopemj">
 	            </div>
 	           
