@@ -22,24 +22,24 @@ function searchBranch(){
 /**
  * posNo验证
  */
-$(document).on('input','#posNo',function(){
-		var val=$(this).val();
-		var reg=/^\+?(0|[1-9][0-9]*)$/;
-		if(val.length>2){
-		  var newVal=val.substring(0,2);
-		  $(this).val(newVal);
-		}
-		else{
-			if(!val.replace(reg)){
-				$(this).val("");
-			}
-		}
-	})	
 
+function toSearchBranchHandel(){
+	setTimeout(function(){
+		$("#branchName").blur();
+		searchBranch();
+	}, 10)
+
+}
 /**
  * 新增pos 保存
  */
-function toSave(){
+function toSaveAddData(){
+	//校验表单
+	var isValid = $("#registerAddForm").form('validate');
+	if(!isValid){
+		return;
+	}
+	
 	var branchId=$("#branchId").val();
 	if(!branchId){
 		messager("请先选择店铺名称");
@@ -48,6 +48,10 @@ function toSave(){
     var posNo=$('#posNo').val();
 	if(!posNo){
 		messager("请输入POS机编号");
+		return;	
+	}
+	if(posNo.length<2){
+		messager("请输入正确的POS机编号");
 		return;	
 	}
 	$.ajax({
@@ -60,14 +64,15 @@ function toSave(){
     	success:function(result){
     		console.log(result);
     		if(result['code'] == 0){
-    			successTip("保存成功");
+    			$.messager.alert("操作提示", "保存成功！");
     			$(dolg).panel('destroy');
+    			$('#registerList').datagrid("reload");
     		}else{
-    			successTip(result['message']);
+    			$.messager.alert("提示",result['message']);
     		}
     	},
     	error:function(result){
-    		successTip("请求发送失败或服务器处理失败");
+    		$.messager.alert(("请求发送失败或服务器处理失败"));
     	}
     });
 }

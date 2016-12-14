@@ -20,7 +20,7 @@
 	             <div class="ubtns-item" id="SelectGoods" onclick="selectGoods()">商品选择</div>
 	             <div class="ubtns-item" id="GoodsType" onclick="getGoodsType()">类别选择</div>
 	             <div class="ubtns-item" onclick="saveActivity()">保存</div>
-	             <div class="ubtns-item" onclick="back()">关闭</div>
+	             <div class="ubtns-item" onclick="toClose()">关闭</div>
 	             </div>
             </div>
 
@@ -32,7 +32,7 @@
 	            </div> -->
 	            <div class="ub ub-ac ">
                     <div class="umar-r10 uw-80 ut-r">活动名称:</div>
-                    <input class="uinp" type="text" name="activityName" id="activityName" value="">
+                    <input class="uinp" maxLength="20" type="text" name="activityName" id="activityName" value="">
                 </div>
                 <div class="ub ub-ac uselectw umar-l00">
                     <div class="umar-r10 uw-70 ut-r">活动类型:</div>
@@ -47,12 +47,12 @@
 				        </select>
                 </div>
                 <div class="ub ub-ac umar-l40  discountTypechoose unhide">
-                        <div class="ub ub-ac umar-r10">
-	                        <input class="ub disradio" type="radio" name="disstatus" value="0" checked="checked" /><span>单品折扣</span>
-	                    </div>
 	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub disradio" type="radio" name="disstatus"  value="1" /><span>类别折扣</span>
-	                    </div> 
+	                        <input class="ub disradio disstatusChange" type="radio" name="disstatus"  value="1" checked="checked" /><span>类别折扣</span>
+	                    </div>
+						<div class="ub ub-ac umar-r10">
+							<input class="ub disradio disstatusChange" type="radio" name="disstatus" value="0" /><span>单品折扣</span>
+						</div>
 	                     <input class="uinp" type="hidden" id="activityScopedis" value="0"  name="activityScopedis">
 	            </div>
                 <div class="ub ub-ac umar-l40  mjTypechoose unhide">
@@ -73,7 +73,7 @@
 	          <div class="ub umar-t8">
 	             <div class="ub ub-ac">
 	             	<div class="umar-r10 uw-80 ut-r">活动时间:</div>
-	              	<input class="Wdate"  readonly="readonly" name="startTime" id="startTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'#F{$dp.$D(\'endTime\');}'})" />&nbsp;至&nbsp;
+	              	<input class="Wdate"  readonly="readonly" name="startTime" id="startTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d',maxDate:'#F{$dp.$D(\'endTime\');}'})" />&nbsp;至&nbsp;
                     <input class="Wdate"  readonly="readonly" name="endTime" id="endTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'startTime\');}'})" /> 
 	              </div>
 	              <div class="ub ub-ac">

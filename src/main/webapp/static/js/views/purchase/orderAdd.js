@@ -415,7 +415,8 @@ function saveItemHandel(){
 
     $("#gridEditOrder").datagrid("endEdit", gridHandel.getSelectRowIndex());
 
-    var rows = gridHandel.getRowsWhere({skuName:'1'});//删除空数据  //gridHandel.getRows();
+    var rows = gridHandel.getRowsWhere({skuName:'1'});
+    $(gridHandel.getGridName()).datagrid("loadData",rows);
     if(rows.length==0){
         messager("表格不能为空");
         return;

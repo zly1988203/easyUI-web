@@ -14,6 +14,7 @@ $(function(){
         remark:$("#remark").val(),                  // 备注
         formNo:$("#formNo").val(),                 // 单号
     }
+    selectTargetBranchData($("#targetBranchId").val());
 });
 var gridDefault = {
     dealNum:0,
@@ -149,6 +150,7 @@ function initDatagridEditRequireOrder(){
                     if(row.isFooter){
                         return;
                     }
+                    row.isGift = row.isGift?row.isGift:0;
                     return value=='1'?'是':(value=='0'?'否':'请选择');
                 },
                 editor:{
@@ -535,7 +537,8 @@ function saveOrder(){
         amount = parseFloat(footerRows[0]["amount"]||0.0).toFixed(4);
     }
 
-    var rows = gridHandel.getRows();
+    var rows = gridHandel.getRowsWhere({skuName:'1'});
+    $(gridHandel.getGridName()).datagrid("loadData",rows);
     if(rows.length==0){
         messager("表格不能为空");
         return;
@@ -737,9 +740,8 @@ function selectDeliver(){
 	});
 }
 function loadLists(referenceId){
-
     $.ajax({
-        url:contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverFormId="+referenceId + "&deliverType=DO",
+        url:contextPath+"/form/deliverFormList/getDeliverFormLists?deliverFormId="+referenceId + "&deliverType=DO",
         type:"post",
         success:function(data){
             var rows = data.rows
@@ -926,4 +928,20 @@ function delDeliverForm(){
 		    });
 		}
 	});
+}
+
+// 查询要货机构的资料
+function selectTargetBranchData(targetBranchId){
+    $.ajax({
+        url:contextPath+"/common/branches/selectTargetBranchData",
+        data:{
+            branchesId : targetBranchId
+        },
+        type:"post",
+        success:function(data){
+            $("#address").html(data.address);
+            $("#contacts").html(data.contacts);
+            $("#mobile").html(data.mobile);
+        }
+    });
 }

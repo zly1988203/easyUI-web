@@ -414,7 +414,8 @@ function saveItemHandel(){
     }
 
     $("#gridEditOrder").datagrid("endEdit", gridHandel.getSelectRowIndex());
-    var rows = gridHandel.getRows();
+    var rows = gridHandel.getRowsWhere({skuName:'1'});
+    $(gridHandel.getGridName()).datagrid("loadData",rows);
     if(rows.length==0){
         messager("表格不能为空");
         return;
@@ -635,7 +636,7 @@ function selectForm(){
 
 function loadLists(referenceId){
 	$("#gridEditOrder").datagrid("options").method = "post";
-	$("#gridEditOrder").datagrid('options').url = contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverFormId="+referenceId + "&formType=DI";
+	$("#gridEditOrder").datagrid('options').url = contextPath+"/form/deliverFormList/getDeliverFormLists?deliverFormId="+referenceId + "&formType=DI";
 	$("#gridEditOrder").datagrid('load');
 }
 

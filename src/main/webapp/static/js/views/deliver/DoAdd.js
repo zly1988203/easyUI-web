@@ -3,8 +3,9 @@
  * 出库-新增
  */
 $(function(){
-	 $("#createTime").html(new Date().format('yyyy-MM-dd hh:mm'));
+    $("#createTime").html(new Date().format('yyyy-MM-dd hh:mm'));
     initDatagridAddRequireOrder();
+    loadFormByFormNoDA();
 });
 var gridDefault = {
 	dealNum:0,
@@ -150,6 +151,7 @@ function initDatagridAddRequireOrder(){
                     if(row.isFooter){
                         return;
                     }
+                    row.isGift = row.isGift?row.isGift:0;
                     return value=='1'?'是':(value=='0'?'否':'请选择');
                 },
                 editor:{
@@ -491,7 +493,8 @@ function selectStockAndPrice(sourceBranchId,data){
 
 //保存校验
 function saveOrder(){
-    var rows = gridHandel.getRows();
+    var rows = gridHandel.getRowsWhere({skuName:'1'});
+    $(gridHandel.getGridName()).datagrid("loadData",rows);
     if(rows.length==0){
         messager("表格不能为空");
         return;
@@ -565,7 +568,7 @@ function saveOrderbtn(){
         totalNum = parseFloat(footerRows[0]["dealNum"]||0.0).toFixed(4);
         amount = parseFloat(footerRows[0]["amount"]||0.0).toFixed(4);
     }
-    var rows = gridHandel.getRows();
+    var rows = gridHandel.getRowsWhere({skuName:'1'});
     var saveData = JSON.stringify(rows);
     //var deliverFormListVo = tableArrayFormatter(rows,"deliverFormListVo");
     var reqObj = {
@@ -676,6 +679,9 @@ function selectBranches(){
 	new publicAgencyService(function(data){
 		$("#targetBranchId").val(data.branchesId);
 		$("#targetBranchName").val(data.branchName);
+		$("#address").html(data.address);
+		$("#contacts").html(data.contacts);
+		$("#mobile").html(data.mobile);
 	},'DO','');
 }
 
@@ -685,7 +691,7 @@ function selectBranches(){
 var isSelectDeliver = false;    //true导入的是要货单号
 function selectDeliver(){
 	var referenceId = "";
-	new publicDeliverFormService ("DA",function(data){
+	new publicDeliverFormService("DA",function(data){
         isSelectDeliver = true;
 		referenceId = data.id;
 		$("#referenceId").val(referenceId);
@@ -694,18 +700,33 @@ function selectDeliver(){
 		$("#targetBranchName").val(data.targetBranchName);
 		$("#sourceBranchId").val(data.sourceBranchId);
 		$("#sourceBranchName").val(data.sourceBranchName);
-		
 		loadLists(referenceId);
+		selectTargetBranchData(data.targetBranchId);
 	});
 }
-function loadLists(referenceId){
 
+// 查询要货机构的资料
+function selectTargetBranchData(targetBranchId){
+	 $.ajax({
+	        url:contextPath+"/common/branches/selectTargetBranchData",
+	        data:{
+	        	branchesId : targetBranchId
+	        },
+	        type:"post",
+	        success:function(data){
+	        	$("#address").html(data.address);
+	    		$("#contacts").html(data.contacts);
+	    		$("#mobile").html(data.mobile);
+	        }
+	    });
+}
+
+function loadLists(referenceId){
     $.ajax({
-        url:contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverType=DO&deliverFormId="+referenceId,
+        url:contextPath+"/form/deliverFormList/getDeliverFormLists?deliverType=DO&deliverFormId="+referenceId,
         type:"post",
         success:function(data){
-            var rows = data.rows
-           
+            var rows = data.rows;
             for(var i in rows){
                 rows[i]["dealNum"] =  rows[i]["applyNum"]?rows[i]["applyNum"]:rows[i]["dealNum"];
                 rows[i]["amount"]  = parseFloat(rows[i]["price"]||0)*parseFloat(rows[i]["dealNum"]||0);
@@ -716,11 +737,7 @@ function loadLists(referenceId){
             $("#gridEditOrder").datagrid("loadData",rows);
             updateFooter();
         }
-    })
-   /* return;
-	$("#gridEditOrder").datagrid("options").method = "post";
-	$("#gridEditOrder").datagrid('options').url = contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverType=DO&deliverFormId="+referenceId;
-	$("#gridEditOrder").datagrid('load');*/
+    });
 }
 /**
  * 调用导入功能 0导入货号 1导入明细
@@ -874,4 +891,37 @@ function updateListData(data){
 //返回列表页面
 function back(){
 	location.href = contextPath+"/form/deliverForm/viewsDO";
+}
+
+// 从要货单号直接加载配送出库
+function loadFormByFormNoDA() {
+    var referenceId = $("#referenceId").val();
+    if (referenceId) {
+        loadLists(referenceId);
+        setData();
+    }
+}
+
+// 设置值
+function setData(){
+    $.ajax({
+        url:contextPath+"/form/deliverForm/getSourceBranchAndTargetBranchAndFormNo",
+        data:{
+            referenceId : $("#referenceId").val()
+        },
+        type:"post",
+        success:function(data){
+            if (data.code == '0') {
+                $("#referenceId").val(data.data.id);
+                $("#referenceNo").val(data.data.formNo);
+                $("#targetBranchId").val(data.data.targetBranchId);
+                $("#targetBranchName").val(data.data.targetBranchName);
+                $("#sourceBranchId").val(data.data.sourceBranchId);
+                $("#sourceBranchName").val(data.data.sourceBranchName);
+                $("#address").html(data.data.address);
+                $("#contacts").html(data.data.contacts);
+                $("#mobile").html(data.data.mobile);
+            }
+        }
+    });
 }

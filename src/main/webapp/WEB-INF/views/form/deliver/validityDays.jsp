@@ -32,7 +32,7 @@
 					</div>
 				</div>
 				<div class="ub ub-ac upad-16 ">
-					<div class="ub uw-220 ut-r ">自营店要货价格取值:</div>
+					<div class="ub uw-220 ut-r">自营店要货价格取值:</div>
 					<div class="ub ub-ac umar-r10">
 						<input class="ub" type="radio" id="priceSpec0" name="priceSpec" value="0"  /><span>要货机构成本价</span>
 					</div>

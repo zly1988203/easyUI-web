@@ -416,7 +416,9 @@ function saveItemHandel(){
     //验证表格数据
     $("#gridAddRequireOrder").datagrid("endEdit", editRowIndex);
     var grid = new GridClass();
-    var rows = grid.getRows("gridAddRequireOrder");
+    //var rows = grid.getRows("gridAddRequireOrder");
+    var rows = grid.getRowsWhere({skuName:'1'});
+    $(grid.getGridName()).datagrid("loadData",rows);
     if(rows.length==0){
         messager("表格不能为空");
         return;

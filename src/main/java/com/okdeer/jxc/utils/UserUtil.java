@@ -63,7 +63,6 @@ public class UserUtil {
 		return requestAttributes.getRequest().getSession();
 	}
 	
-	
 
 	/**
 	 * @Description: 获取当前登录用户对象
@@ -73,6 +72,16 @@ public class UserUtil {
 	 */
 	public static SysUser getCurrentUser() {
 		return getSessionValue(Constant.SESSION_USER);
+	}
+	
+	/**
+	 * @Description: 获取当前登录用户对象(兼容Junit)
+	 * @return
+	 * @author xiaoj02
+	 * @date 2016年8月5日
+	 */
+	public static SysUser getUser() {
+		return getHttpSessionValue(Constant.SESSION_USER);
 	}
 
 	/**
@@ -195,6 +204,17 @@ public class UserUtil {
 			return null;
 		}
 	}
+	
+	@SuppressWarnings("unchecked")
+	public static <T extends Serializable> T getHttpSessionValue(String key) {
+		HttpSession httpSession = UserUtil.getHttpSession();
+		if (null != httpSession) {
+			return (T) httpSession.getAttribute(key);
+		} else {
+			return null;
+		}
+	}
+	
 
 	/**
 	 * @Description: 保存对象到session当中

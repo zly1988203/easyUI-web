@@ -11,6 +11,7 @@ $(function(){
     	$("#addButton").addClass("unhide");
     	$("#toBackByJSButton").attr("onclick","window.parent.closeTab()");
     }
+    selectTargetBranchData($("#targetBranchId").val());
 });
 var gridHandel = new GridClass();
 function initDatagridEditRequireOrder(){
@@ -159,4 +160,20 @@ function back(){
 function exportDetail(){
 	var formId = $("#formId").val();
 	window.location.href = contextPath + '/form/deliverForm/exportSheet?page=DOSheet&sheetNo='+formId;
+}
+
+// 查询要货机构的资料
+function selectTargetBranchData(targetBranchId){
+    $.ajax({
+        url:contextPath+"/common/branches/selectTargetBranchData",
+        data:{
+            branchesId : targetBranchId
+        },
+        type:"post",
+        success:function(data){
+            $("#address").html(data.address);
+            $("#contacts").html(data.contacts);
+            $("#mobile").html(data.mobile);
+        }
+    });
 }

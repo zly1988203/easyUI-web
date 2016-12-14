@@ -141,6 +141,7 @@ function initDatagridAddRequireOrder(){
                     if(row.isFooter){
                         return;
                     }
+                    row.isGift = row.isGift?row.isGift:0;
                     return value=='1'?'是':(value=='0'?'否':'请选择');
                 },
                 editor:{
@@ -396,7 +397,8 @@ function saveOrder(){
         amount = parseFloat(footerRows[0]["amount"]||0.0).toFixed(4);
     }
 
-    var rows = gridHandel.getRows();
+    var rows = gridHandel.getRowsWhere({skuName:'1'});
+    $(gridHandel.getGridName()).datagrid("loadData",rows);
     if(rows.length==0){
         messager("表格不能为空");
         return;
@@ -538,7 +540,7 @@ function selectDeliver(){
 }
 function loadLists(referenceId){
 	$("#gridEditOrder").datagrid("options").method = "post";
-	$("#gridEditOrder").datagrid('options').url = contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverFormId="+referenceId + "&deliverType=DA";
+	$("#gridEditOrder").datagrid('options').url = contextPath+"/form/deliverFormList/getDeliverFormLists?deliverFormId="+referenceId + "&deliverType=DA";
 	$("#gridEditOrder").datagrid('load');
 }
 

@@ -7,6 +7,7 @@
 
 package com.okdeer.jxc.controller.deliver;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -81,6 +82,12 @@ public class DeliverSelectController extends BaseController<PurchaseForm> {
 			 * @author zhangchm
 			 * 修改查询公共组件配送单号选择start
 			 */
+			if (StringUtils.isEmpty(vo.getCheckboxTime())) {
+				vo.setTempEndTime(null);
+			} else {
+				vo.setStartTime(null);
+				vo.setEndTime(null);
+			}
 			// 如果是要货单说明登录店铺是根据要货单出库，登录店铺id就是source_branch_id
 			if (FormType.DA.toString().equals(vo.getFormType())) {
 				vo.setSourceBranchId(UserUtil.getCurrBranchId());

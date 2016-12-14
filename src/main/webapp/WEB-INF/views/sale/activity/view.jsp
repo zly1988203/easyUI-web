@@ -22,12 +22,12 @@
 	             <div class="ubtns-item" id="GoodsType" onclick="getGoodsType()">类别选择</div> -->
 	             <div class="ubtns-item" onclick="stop()">终止</div>
 	             <!-- <div class="ubtns-item" onclick="addsaveOrder()">保存</div> -->
-	             <div class="ubtns-item" onclick="back()">关闭</div>
+	             <div class="ubtns-item" onclick="toClose()">关闭</div>
 	             </div>
             </div> 
  			<input type="hidden"  name="activityId" id="activityId" value="${activityId}">
 	        <div class="ub uline umar-t8"></div>
-	         <div class="already-examine" id="already-examine"><span>已审核</span></div>
+	        <div class="already-examine" id="already-examine"><span>已审核</span></div>
 	        <div class="ub umar-t8">
 	           <!--  <div class="ub ub-ac ">
 	                <div class="umar-r10 uw-80 ut-r">活动编号:</div>
@@ -86,26 +86,26 @@
 	              </div>
 	                   <div class="ub ub-ac" id="weekday">
 	               <div class="umar-r10 uw-80 ut-r">活动日:</div>
-	               <div class="ub ub-ac umar-l10 ">
-                        <input class="ub ubcheckweek" id="weekcheckbox1" type="checkbox" name="weekcheckbox" value="1" checked="checked" /><span class="umar-l10">一</span>
+	               <div class="ub ub-ac umar-l10 ubcheckweek">
+                        <input class="ub" id="weekcheckbox1" type="checkbox" name="weekcheckbox" value="1" checked="checked" /><span class="umar-l10">一</span>
                    </div>
-                   <div class="ub ub-ac umar-l10">
-                        <input class="ub ubcheckweek" id="weekcheckbox2" type="checkbox" name="weekcheckbox" value="2" checked="checked" /><span class="umar-l10">二</span>
+                   <div class="ub ub-ac umar-l10 ubcheckweek">
+                        <input class="ub" id="weekcheckbox2" type="checkbox" name="weekcheckbox" value="2" checked="checked" /><span class="umar-l10">二</span>
                    </div>
-                   <div class="ub ub-ac umar-l10">
-                        <input class="ub ubcheckweek" id="weekcheckbox3" type="checkbox" name="weekcheckbox" value="3" checked="checked" /><span class="umar-l10">三</span>
+                   <div class="ub ub-ac umar-l10 ubcheckweek">
+                        <input class="ub" id="weekcheckbox3" type="checkbox" name="weekcheckbox" value="3" checked="checked" /><span class="umar-l10">三</span>
                    </div>
-                    <div class="ub ub-ac umar-l10">
-                        <input class="ub ubcheckweek" id="weekcheckbox4" type="checkbox" name="weekcheckbox" value="4" checked="checked" /><span class="umar-l10">四</span>
+                    <div class="ub ub-ac umar-l10 ubcheckweek">
+                        <input class="ub" id="weekcheckbox4" type="checkbox" name="weekcheckbox" value="4" checked="checked" /><span class="umar-l10">四</span>
                    </div>
-                    <div class="ub ub-ac umar-l10">
-                        <input class="ub ubcheckweek" id="weekcheckbox5" type="checkbox" name="weekcheckbox" value="5" checked="checked" /><span class="umar-l10">五</span>
+                    <div class="ub ub-ac umar-l10 ubcheckweek">
+                        <input class="ub" id="weekcheckbox5" type="checkbox" name="weekcheckbox" value="5" checked="checked" /><span class="umar-l10">五</span>
                    </div>
-                    <div class="ub ub-ac umar-l10">
-                        <input class="ub ubcheckweek" id="weekcheckbox6" type="checkbox" name="weekcheckbox" value="6" checked="checked" /><span class="umar-l10">六</span>
+                    <div class="ub ub-ac umar-l10 ubcheckweek">
+                        <input class="ub" id="weekcheckbox6" type="checkbox" name="weekcheckbox" value="6" checked="checked" /><span class="umar-l10">六</span>
                    </div>
-                    <div class="ub ub-ac umar-l10">
-                        <input class="ub ubcheckweek" id="weekcheckbox7" type="checkbox" name="weekcheckbox" value="7" checked="checked" /><span class="umar-l10">日</span>
+                    <div class="ub ub-ac umar-l10 ubcheckweek">
+                        <input class="ub" id="weekcheckbox7" type="checkbox" name="weekcheckbox" value="7" checked="checked" /><span class="umar-l10">日</span>
                    </div>
                     <input class="uinp ub ub-f1" type="hidden" id="weeklyActivityDay" name="weeklyActivityDay" value=" ">
                   </div>

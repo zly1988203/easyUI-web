@@ -47,7 +47,7 @@ public class DeliverFormListController extends BaseController<DeliverFormListCon
 	private QueryDeliverFormListServiceApi queryDeliverFormListServiceApi;
 
 	/**
-	 * @Description: 要货单查询明细
+	 * @Description: 引入单据明细查询，单价查询
 	 * @param vo
 	 * @param pageNumber
 	 * @param pageSize
@@ -58,12 +58,12 @@ public class DeliverFormListController extends BaseController<DeliverFormListCon
 	 */
 	@RequestMapping(value = "getDeliverFormLists", method = RequestMethod.POST)
 	@ResponseBody
-	public PageUtils<DeliverFormList> getDeliverFormLists(QueryDeliverFormVo vo, 
+	public PageUtils<DeliverFormList> getDeliverFormLists(QueryDeliverFormVo vo,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
-			vo.setPageNumber(pageNumber);
-			vo.setPageSize(pageSize);
+			vo.setPageNumber(1);
+			vo.setPageSize(99999);
 			LOG.info("vo:" + vo.toString());
 			PageUtils<DeliverFormList> deliverFormLists = queryDeliverFormListServiceApi.queryLists(vo);
 			LOG.info("page:" + deliverFormLists.toString());
@@ -92,7 +92,8 @@ public class DeliverFormListController extends BaseController<DeliverFormListCon
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(99999);
 			LOG.info("vo:" + vo.toString());
-			PageUtils<DeliverFormList> deliverFormLists = queryDeliverFormListServiceApi.queryLists(vo);
+			PageUtils<DeliverFormList> deliverFormLists = queryDeliverFormListServiceApi
+					.getDeliverFormListsAndStockByIdOrFormNo(vo);
 			LOG.info("page:" + deliverFormLists.toString());
 			return deliverFormLists;
 		} catch (Exception e) {
