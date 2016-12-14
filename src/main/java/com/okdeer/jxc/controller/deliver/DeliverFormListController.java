@@ -63,7 +63,7 @@ public class DeliverFormListController extends BaseController<DeliverFormListCon
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
 			vo.setPageNumber(1);
-			vo.setPageSize(999999);
+			vo.setPageSize(99999);
 			LOG.info("vo:" + vo.toString());
 			PageUtils<DeliverFormList> deliverFormLists = queryDeliverFormListServiceApi.queryLists(vo);
 			LOG.info("page:" + deliverFormLists.toString());
