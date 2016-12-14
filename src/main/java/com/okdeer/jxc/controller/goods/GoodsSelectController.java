@@ -17,6 +17,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import net.sf.json.JSONArray;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
@@ -37,6 +39,8 @@ import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.enums.BranchPriceSpecEnum;
 import com.okdeer.jxc.common.enums.BranchSelectGoodsSpecEnum;
 import com.okdeer.jxc.common.enums.BranchTypeEnum;
+import com.okdeer.jxc.common.result.RespJson;
+import com.okdeer.jxc.common.result.ResultCodeEnum;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.controller.scale.Message;
@@ -555,5 +559,30 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 			LOG.error("标准查询商品选择数据出现异常:", e);
 		}
 		return PageUtils.emptyPage();
+	}
+
+	/**
+	 * @Description: 查询要货单中已订数量
+	 * @param req
+	 * @return
+	 * @author zhangchm
+	 * @date 2016年12月12日
+	 */
+	@RequestMapping(value = "queryAlreadyNum", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson queryAlreadyNum(HttpServletRequest req) {
+		RespJson respJson = RespJson.success();
+		String goodsStockVo = req.getParameter("goodsStockVo");
+		List<Map<String, Object>> goodsSelect = new ArrayList<Map<String, Object>>();
+		try {
+			GoodsStockVo goodsStockVos = new ObjectMapper().readValue(goodsStockVo, GoodsStockVo.class);
+			goodsSelect = goodsSelectServiceApi.queryAlreadyNum(goodsStockVos);
+			JSONArray jsonObject = JSONArray.fromObject(goodsSelect);
+			respJson.put("data", jsonObject);
+		} catch (IOException e) {
+			respJson.put(RespJson.KEY_CODE, ResultCodeEnum.FAIL.getCode());
+			LOG.error("获取商品库存、价格 异常:", e);
+		}
+		return respJson;
 	}
 }

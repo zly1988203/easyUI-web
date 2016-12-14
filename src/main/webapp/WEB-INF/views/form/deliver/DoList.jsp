@@ -9,6 +9,7 @@
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
     <%-- <script  src="${ctx}/static/js/fun/publicComponent.js"></script> --%>
     <script  src="${ctx}/static/js/views/deliver/DoList.js"></script>
+
     
 </head>
 <body class="ub uw uh ufs-14 uc-black">
@@ -21,10 +22,10 @@
 						<div class="ubtns-item" onclick="queryForm()">查询</div>
 				   	</shiro:hasPermission>
 	            	<shiro:hasPermission name="JxcDeliverDO:add">
-						<div class="ubtns-item" onclick="addDeliverForm()">新增</div>
+						<div class="ubtns-item" id="btnAdd" onclick="addDeliverForm()">新增</div>
 				   	</shiro:hasPermission>
 	            	<shiro:hasPermission name="JxcDeliverDO:delete">
-						<div class="ubtns-item" onclick="delDeliverForm()">删单</div>
+						<div class="ubtns-item" id="btnDel" onclick="delDeliverForm()">删单</div>
 				   	</shiro:hasPermission>
 	            	<shiro:hasPermission name="JxcDeliverDO:setting">
 						<div class="ubtns-item-disabled">设置</div>
@@ -36,36 +37,40 @@
 	                <div class="ubtns-item" onclick="toClose()">退出</div>
 	            </div>
 	        	<div class="ub ub-ac umar-l20">
-	        		<!-- 引入时间选择控件 -->
+	        		<%-- 引入时间选择控件 --%>
 	            	<%@ include file="/WEB-INF/views/component/dateSelectHour.jsp"%>
 	            </div>
 			</div>
             <div class="ub umar-t8">
                 <div class="ub ub-ac">
                     <div class="umar-r10 uw-70 ut-r">单据编号:</div>
-                    <input type="hidden" id="deliverType" name="deliverType" value="DO" />
+                    <input type="hidden" id="formType" name="formType" value="DA"/>
+                    <input type="hidden" id="deliverType" name="deliverType" value="DO"/>
                     <input class="uinp" type="text" id="formNo" name="formNo">
                 </div>
                 <div class="ub ub-ac uw-300 umar-l40">
                     <div class="umar-r10 uw-70 ut-r">制单人员:</div>
-                    <!-- <input type="hidden" id="operateUserId" name="operateUserId" /> -->
                     <input class="uinp ub ub-f1" type="text"  id="operateUserName" name="operateUserName" type="text" />
                     <div class="uinp-more" onclick="selectOperator()">...</div>
                 </div>
                 <div class="ub ub-ac uw-300 umar-l40">
-                    <div class="umar-r10 uw-70 ut-r">发货机构:</div>
+                    <div class="umar-r10 uw-70 ut-r">机构名称:</div>
                     <input type="hidden" id="sourceBranchId" name="sourceBranchId" value="${sourceBranchId}" />
                     <input class="uinp ub ub-f1" type="text" id="sourceBranchName" name="sourceBranchName" />
                     <div class="uinp-more" onclick="selectBranches()" >...</div>
                 </div>
             </div>
             <div class="ub umar-t8">
-                <div class="ub ub-ac">
+                <div class="ub ub-ac" id="remarkDiv">
                     <div class="umar-r10 uw-70 ut-r">备注:</div>
                     <input class="uinp" type="text" id="remark" name="remark">
                 </div>
-                <!--input-checkbox-->
-                <div class="ub ub-ac umar-l40 uw-300">
+                <%--<div class="umar-l32" id="checkDiv" style="visibility:visible;">
+                    <input type="checkbox" id="checkboxTime" name="checkboxTime" checked="checked"/>
+                    <span class="umar-l15  umar-r10">结束时间:</span>
+                    <input class="Wdate"  readonly="readonly" name="tempEndTime" id="popupSearchDateTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" />
+                </div>--%>
+                <%--<div class="ub ub-ac umar-l40 uw-300" id="auditStatus" style="visibility:visible;">
                     <div class="umar-r10 uw-70 ut-r">审核状态:</div>
                     <div class="ub ub-ac umar-r10">
                         <input class="ub" type="radio" name="deliverAuditStatus" value="0" checked="checked" onclick="queryForm()"/><span>未审核</span>
@@ -76,8 +81,8 @@
                     <div class="ub ub-ac umar-r10">
                         <input class="ub" type="radio" name="deliverAuditStatus" value="" onclick="queryForm()"/><span>全部</span>
                     </div>
-                </div>
-                <div class="ub ub-ac umar-l40">
+                </div>--%>
+                <%--<div class="ub ub-ac umar-l40">
                     <div class="umar-r10 uw-70 ut-r">单据状态:</div>
                     <div class="ub ub-ac umar-r10">
                         <input class="ub" type="radio" name="deliverStatus" value="0" onclick="queryForm()"/><span>待处理</span>
@@ -91,13 +96,20 @@
                     <div class="ub ub-ac umar-r10">
                         <input class="ub" type="radio" name="deliverStatus" value="" checked="checked" onclick="queryForm()"/><span>全部</span>
                     </div>
-                </div>
+                </div>--%>
             </div>
        	</form>
         <div class="ub ub-f1  umar-t8 umar-b8">
-			<table id="deliverFormList"></table>
-		</div>
+            <div id="tabs" class="easyui-tabs" data-options="fit:true,border:false,tabWidth:120,tabHeight:25" style="">
+	            <div title="待处理要货单" id="pending" style="padding: 5px; height: auto;">
+	                <table id="deliverFormList"></table>
+	            </div>
+	            <div title="配送出库单" id="processed" style="height: auto;">
+	                <table id="processedFormList"></table>
+	            </div>
+        	</div>
+        </div>
+        
     </div>
-
 </body>
 </html>
