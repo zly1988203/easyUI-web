@@ -4,12 +4,13 @@
 var pageSize = 50;
 $(function(){
     //开始和结束时间
-    $("#txtStartDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
-    $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+	$("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
+	$("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
   
     //初始化列表
     initDateGrid();
 });
+
 var gridHandel = new GridClass();
 var dg;
 function initDateGrid() {
@@ -32,47 +33,47 @@ function initDateGrid() {
             {field: 'skuCode', title: '货号', width: 100, align: 'left'},
             {field: 'skuName', title: '商品名称', width: 150, align: 'left'},
             {field: 'barCode', title: '条码', width: 100, align: 'left'},
-            {field: 'categoryName', title: '商品类别', width: 80, align: 'center'},
-            {field: 'spec', title: '规格', width: 80, align: 'center'},
-            {field: 'unit', title: '单位', width: 80, align: 'center'},
+            {field: 'categoryName', title: '商品类别', width: 80, align: 'left'},
+            {field: 'spec', title: '规格', width: 80, align: 'left'},
+            {field: 'unit', title: '单位', width: 80, align: 'left'},
             {field: 'saleNum', title: '数量', width: 80, align: 'right',formatter : function(value){
             	if(value){
             		value = parseFloat(value);
-            		return value.toFixed(2);
+            		return '<b>'+value.toFixed(2)+'</b>';
             	}
             	return null;
             }},
             {field: 'originalPrice', title: '原价', width: 80, align: 'right',formatter : function(value){
             	if(value){
             		value = parseFloat(value);
-            		return value.toFixed(2);
+            		return '<b>'+value.toFixed(2)+'</b>';
             	}
             	return null;
             }},
             {field: 'salePrice', title: '销售价', width: 80, align: 'right',formatter : function(value){
             	if(value){
             		value = parseFloat(value);
-            		return value.toFixed(2);
+            		return '<b>'+value.toFixed(2)+'</b>';
             	}
             	return null;
             }},
             {field: 'saleAmount', title: '销售金额', width: 80, align: 'right',formatter : function(value){
             	if(value){
             		value = parseFloat(value);
-            		return value.toFixed(2);
+            		return '<b>'+value.toFixed(2)+'</b>';
             	}
             	return null;
             }},
             {field: 'discountAmount', title: '让利金额', width: 80, align: 'right',formatter : function(value){
     			if(value){
     				value = parseFloat(value);
-    				return value.toFixed(2);
+    				return '<b>'+value.toFixed(2)+'</b>';
     			}
     			return null;
     		}},
-    		{field: 'activityTypeName', title: '活动类型', width: 100, align: 'center'},
-    		{field: 'activityCode', title: '活动编号', width: 150, align: 'center'},
-    		{field: 'activityName', title: '活动名称', width: 150, align: 'center'}
+    		{field: 'activityTypeName', title: '活动类型', width: 100, align: 'left'},
+    		{field: 'activityCode', title: '活动编号', width: 150, align: 'left'},
+    		{field: 'activityName', title: '活动名称', width: 150, align: 'left'}
         ]]
     });
     gridHandel.setDatagridHeader("center");
