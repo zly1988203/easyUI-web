@@ -31,20 +31,6 @@ $(function(){
 	  weekCheckDay();
 	})
 
-	//切换折扣类型
-	$(".disstatusChange").on("mousedown",function(){
-		var _this = $(this);
-		$.messager.confirm("","更换活动类型将清空当前列表信息，是否更换？",function(b){
-			if(!b) return;
-			_this.siblings().prop("checked",false);
-			_this.prop("checked",true);
-			if(_this.val()==="1"){
-				initDatagridsortZk();
-			}else if(_this.val()==="0"){
-				initDatagridoneZk();
-			}
-		});
-	})
 });
 
 //编辑请求数据
@@ -179,7 +165,9 @@ function selectOptionzk(){
 	disableGoods('SelectGoods','');
 	$('.discount').removeClass('unhide');
 	$('.discountTypechoose').removeClass('unhide');
-	$(document).on('mousedown','.discountTypechoose .disradio',function(){
+	$(document).on('click','.discountTypechoose .disradio',function(e){
+		e.preventDefault();
+		return false;
       var disval=	$(this).val();
       $('#activityScopedis').val(disval);
       if(disval=="1"){
