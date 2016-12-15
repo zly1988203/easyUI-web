@@ -119,22 +119,22 @@
 	              <div class="ub ub-ac uw-200 umar-l10 special">
 					<div class="umar-r10 uw-100 ut-r">批量特价:</div>
 					<input class="uinp ub ub-f1 deal" type="number"
-						onkeyup="if(isNaN(value))execCommand('undo')"
-						onafterpaste="if(isNaN(value))execCommand('undo')" id="special">
+						onkeyup="if(isNaN(value)||value<0)execCommand('undo')"
+						onafterpaste="if(isNaN(value)||value<0)execCommand('undo')" id="special">
 						<div class="umar-l10">元</div>
 				  </div>
 				   <div class="ub ub-ac uw-200 umar-l10 discount unhide">
 					<div class="umar-r10 uw-100 ut-r">批量折扣:</div>
 					<input class="uinp ub ub-f1 deal" type="number"
-						onkeyup="if(isNaN(value))execCommand('undo')"
-						onafterpaste="if(isNaN(value))execCommand('undo')" id="discount">
+						onkeyup="if(isNaN(value)||value<0)execCommand('undo')"
+						onafterpaste="if(isNaN(value)||value<0)execCommand('undo')" id="discount">
 						<div class="umar-l10">折</div>
 				  </div>
 				  <div class="ub ub-ac uw-200 umar-l10 oddprice unhide">
 					<div class="umar-r10 uw-100 ut-r">批量偶数特价:</div>
 					<input class="uinp ub ub-f1 deal" type="number"
-						onkeyup="if(isNaN(value))execCommand('undo')"
-						onafterpaste="if(isNaN(value))execCommand('undo')" id="batchcount">
+						onkeyup="if(isNaN(value)||value<0)execCommand('undo')"
+						onafterpaste="if(isNaN(value)||value<0)execCommand('undo')" id="batchcount">
 						<div class="umar-l10">元</div>
 				   </div>
 	          </div>

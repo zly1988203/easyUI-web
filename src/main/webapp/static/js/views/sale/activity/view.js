@@ -805,7 +805,7 @@ function initDatagridsortSet(){
 		width:'100%',
         columns:[[
 					{field:'ck',checkbox:true},
-					{field: 'limitAmount', title: '买满金额', width: 100, align: 'right',
+					{field: 'limitAmount', title: '买满金额', width: '100px', align: 'right',
 					    formatter : function(value, row, index) {
 					        if(row.isFooter){
 					            return;
@@ -813,7 +813,7 @@ function initDatagridsortSet(){
 					        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 					    }
 					},
-					{field: 'discountPrice', title: '优惠额', width: 100, align: 'right',
+					{field: 'discountPrice', title: '优惠额', width: '100px', align: 'right',
 					    formatter : function(value, row, index) {
 					        if(row.isFooter){
 					            return;
