@@ -187,6 +187,7 @@ function selectOptionzk(){
 function selectOptionOdd(){
 	initDatagridOddtj();
     $('.oddprice ').removeClass('unhide');
+    $('.special').addClass('unhide');
 }
 
 //满减状态选择隐藏
@@ -198,7 +199,9 @@ function selectOptionMj(){
 	//禁止按钮点击事件
 	disableGoods('','GoodsType');
 	$('.mjTypechoose').removeClass('unhide');
-	$(document).on('click','.mjTypechoose .mjradio',function(){
+	$(document).on('click','.mjTypechoose .mjradio',function(e){
+		e.preventDefault();
+		return false;
 	      var mjval=$(this).val();
 	      $('#activityScopemj').val(mjval);
 	      if(mjval=="2"){
@@ -364,14 +367,14 @@ function initDatagridSpecial(){
         },
     })
     datagridObj = $("#saleMangeadd").datagrid({
-        align:'center',
-        //toolbar: '#tb',     //工具栏 id为tb
-        singleSelect:false,  //单选  false多选
-        rownumbers:true,    //序号
-        pagination:true,    //分页
-        fitColumns:true,    //每列占满
-        //fit:true,            //占满
-        showFooter:true,
+		align:'center',
+		//toolbar: '#tb',     //工具栏 id为tb
+		singleSelect:false,  //单选  false多选
+		rownumbers:true,    //序号
+		pagination:true,    //分页
+		fitColumns:true,    //每列占满
+		//fit:true,            //占满
+		showFooter:true,
 		height:'100%',
 		pageSize:50,
 		width:'100%',

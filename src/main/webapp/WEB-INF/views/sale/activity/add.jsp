@@ -53,7 +53,7 @@
 						<div class="ub ub-ac umar-r10">
 							<input class="ub disradio disstatusChange" type="radio" name="disstatus" value="0" /><span>单品折扣</span>
 						</div>
-	                     <input class="uinp" type="hidden" id="activityScopedis" value="0"  name="activityScopedis">
+	                     <input class="uinp" type="hidden" id="activityScopedis" value="1"  name="activityScopedis">
 	            </div>
                 <div class="ub ub-ac umar-l40  mjTypechoose unhide">
 						<div class="ub ub-ac umar-r10">
@@ -67,7 +67,7 @@
 						</div>
 	                    
 
-	                     <input class="uinp" type="hidden" id="activityScopemj" value="0"  name="activityScopemj">
+	                     <input class="uinp" type="hidden" id="activityScopemj" value="2"  name="activityScopemj">
 	            </div>
 	           
             </div>
