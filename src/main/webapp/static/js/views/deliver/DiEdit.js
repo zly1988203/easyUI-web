@@ -613,7 +613,7 @@ function selectDeliver(){
 }
 function loadLists(referenceId){
 	$("#gridEditRequireOrder").datagrid("options").method = "post";
-	$("#gridEditRequireOrder").datagrid('options').url = contextPath+"/form/deliverFormList/getDeliverFormLists?deliverFormId="+referenceId + "&deliverType=DA";
+	$("#gridEditRequireOrder").datagrid('options').url = contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverFormId="+referenceId;
 	$("#gridEditRequireOrder").datagrid('load');
 }
 //返回列表页面
