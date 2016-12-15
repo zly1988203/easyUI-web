@@ -519,8 +519,6 @@ function check(){
         grid:gridHandel.getRows(),
     }
 
-
-    debugger;
     if(!gFunComparisonArray(oldData,newData)){
         messager("数据已修改，请先保存再审核");
         return;

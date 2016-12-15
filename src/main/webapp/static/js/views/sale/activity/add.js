@@ -20,20 +20,6 @@ $(function(){
 	//点击取消切换方法执行
 	  weekCheckDay();
 	})
-
-	//切换折扣类型
-	$(".disstatusChange").on("mousedown",function(){
-		var _this = $(this);
-		$.messager.confirm("","更换活动类型将清空当前列表信息，是否更换？",function(b){
-			if(!b) return;
-			_this.prop("checked",true);
-			if(_this.val()==="1"){
-				initDatagridsortZk();
-			}else if(_this.val()==="0"){
-				initDatagridoneZk();
-			}
-		});
-	})
 	
 });
 
@@ -111,18 +97,31 @@ function selectOptionzk(){
 	$('.discount').removeClass('unhide');
 	$('.discountTypechoose').removeClass('unhide');
 	$(document).on('mousedown','.discountTypechoose .disradio',function(){
-      var disval=	$(this).val();
-      $('#activityScopedis').val(disval);
-      if(disval=="1"){
-    	  initDatagridsortZk();
-    	  // 禁止按钮点击事件
-    	  disableGoods('SelectGoods','');
-  	   }
-      else{
-    	  initDatagridoneZk();
-    	  // 禁止按钮点击事件
-    	  disableGoods('','GoodsType');
-      }
+		var _this = $(this);
+		var changeDisType = function(){
+			_this.prop("checked",true);
+			if(_this.val()==="1"){
+				initDatagridsortZk();
+				// 禁止按钮点击事件
+				disableGoods('SelectGoods','');
+			}else if(_this.val()==="0"){
+				initDatagridoneZk();
+				// 禁止按钮点击事件
+				disableGoods('','GoodsType');
+			}
+		}
+		var rows = gridHandel.getRows();
+		if(rows.length==0 || JSON.stringify(rows[0])==JSON.stringify({oldPurPrice:0})){
+			changeDisType();
+		}else{
+			$.messager.confirm("","更换活动类型将清空当前列表信息，是否更换？",function(b){
+				if(!b){
+					return;
+				}else{
+					changeDisType();
+				}
+			});
+		}
    })
 }
 
