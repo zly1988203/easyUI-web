@@ -42,8 +42,7 @@ function  editstart(selectType){
 	      contentType:'application/json',
 	      success:function(data){
 	    	  if(data['code'] == 0){
-	    		  
-	    		  if(data['obj']['activityType'] == "2"){
+	    		  if(data['obj']['activityStatus'] == "2"){
 	    			  $("#already-examine").html("<span>已终止</span>");
 	    		  }
 	    		  
