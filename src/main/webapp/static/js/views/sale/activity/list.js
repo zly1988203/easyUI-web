@@ -69,18 +69,25 @@ function initDatagridRequire(){
             }},
 			{field:'startTime',title:'开始日期',width:'150px',align:'left', formatter: function (value, row, index) {
                 if (value) {
-                	return new Date(value).format('yyyy-MM-dd hh:mm:ss');
+                	return new Date(value).format('yyyy-MM-dd');
                 }
                 return "";
             }},
 	        {field:'endTime',title:'结束日期',width:'150px',align:'left', formatter: function (value, row, index) {
                 if (value) {
-                	return new Date(value).format('yyyy-MM-dd hh:mm:ss');
+                	return new Date(value).format('yyyy-MM-dd');
                 }
                 return "";
             }},
-	        {field:'dailyStartTime',title:'活动时段',width:'80px',align:'left'},
-	        {field:'dailyEndTime',title:'活动时段',width:'80px',align:'left'},
+	        /*{field:'dailyStartTime',title:'活动时段',width:'80px',align:'left'},
+	        {field:'dailyEndTime',title:'活动时段',width:'80px',align:'left'},*/
+			{field:'dailyStartTime',title:'活动时段',width:'150px',align:'left', formatter: function (value, row, index) {
+				//debugger;
+				if (row) {
+					return row.dailyStartTime+"-"+row.dailyEndTime;
+				}
+				return "";
+			}},
 	        {field:'activityStatus',title:'活动状态',width:'80px',align:'left',formatter:function(value,row,index){
             	if(value == '0'){
             		return '未审核';
@@ -91,12 +98,6 @@ function initDatagridRequire(){
             	}else{
             		return '未知类型：'+ value;
             	}
-            }},
-            {field:'createTime',title:'创建时间',width:'150px',align:'left', formatter: function (value, row, index) {
-                if (value) {
-                	return new Date(value).format('yyyy-MM-dd hh:mm:ss');
-                }
-                return "";
             }},
 	        {field:'updateUserName',title:'制单人',width:'80px',align:'left'},
 	        {field:'validUserName',title:'审核人',width:'80px',align:'left'},
@@ -180,3 +181,31 @@ var resetForm = function() {
 	 $("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
 	 $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 };
+
+// 终止
+function stop(){
+	var activityId = $("#activityId").val();
+	$.messager.confirm('提示','是否终止此活动？',function(data){
+		if(data){
+			$.ajax({
+				url : contextPath+"/sale/activity/stop",
+				type : "POST",
+				data : {
+					activityId:$("#activityId").val(),
+				},
+				success:function(result){
+					if(result['code'] == 0){
+						$.messager.alert("操作提示", "操作成功！", "info",function(){
+							location.href = contextPath +"/sale/activity/edit?activityId="+activityId;
+						});
+					}else{
+						successTip(result['message']);
+					}
+				},
+				error:function(result){
+					successTip("请求发送失败或服务器处理失败");
+				}
+			});
+		}
+	});
+}
