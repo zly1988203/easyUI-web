@@ -1211,13 +1211,30 @@ function saveActivity(){
   if(activityScopedis == 1 || activityScopemj == 1){
 	  var check ={goodsCategoryCode:'1'}
   }
-  /*if(activityType == 5 && activityScopemj == 2){
+  if(activityType == 5 && activityScopemj == 2){
 	  check = {limitAmount:'1'}
-  }*/
+  }
   // 获取非空的数据
   var rows= gridHandel.getRowsWhere(check);// $('#saleMangeadd').datagrid('getRows');
   // 重新加载数据，去除空数据
   $("#saleMangeadd").datagrid("loadData",rows);
+
+    if(!$("#activityName").val()){
+	    messager("<活动名称>不能为空");
+	    return;
+    }
+	if(!$("#startTime").val() || !$("#endTime").val()){
+		messager("<活动时间>不能为空");
+		return;
+	}
+	if(!$("#dailyStartTime").val() || !$("#dailyStartTime").val()){
+		messager("<活动时段>不能为空");
+		return;
+	}
+	if(!$("#branchName").val()){
+		messager("<活动分店>不能为空");
+		return;
+	}
 
   if(rows.length==0){
       messager("表格不能为空");
@@ -1244,7 +1261,12 @@ function saveActivity(){
   }
   
   // 活动类型折扣验证
-  else if(activityType=="2"){ 
+  else if(activityType=="2"){
+	  debugger;
+	  if($("#discount").val()>10 || $("#discount").val()<0){
+		  messager("批量折扣值在0~10之间");
+		  return;
+	  }
 	// 活动类型单品折扣验证
 	  if(activityScopedis=="0"){
 		  for(var i=0;i<rows.length;i++){
@@ -1332,7 +1354,8 @@ function saveActivity(){
   else if(activityType=="5"){
 	  $("#salesetmj").datagrid("endEdit", gridHandelMj.getSelectRowIndex());
 	  var setrows=$('#salesetmj').datagrid('getRows');
-		  if(activityScopemj=="0"){  
+	  var setrows=gridHandel.getRowsWhere(check);
+		  if(activityScopemj=="0"){
 			  if(setrows.length==0){
 			      messager("满减设置表格不能为空");
 			      return;
