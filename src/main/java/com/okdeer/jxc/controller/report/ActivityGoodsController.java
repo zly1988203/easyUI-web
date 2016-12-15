@@ -145,5 +145,8 @@ public class ActivityGoodsController extends BaseController<ActivityGoodsReportV
 			 List<String> activityTypes = Arrays.asList(arr);
 			 qo.setActivityTypes(activityTypes);
 		 }
+		 if (qo.getEndTime() != null) {
+				qo.setEndTime(DateUtils.getNextDay(qo.getEndTime()));
+			}
 	}
 }
