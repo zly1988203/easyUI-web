@@ -12,28 +12,36 @@ pageEncoding="UTF-8"%>
             <div class="ub upad-4">
                 <div class="ub ub-ac uw-300">
                     <div class="umar-r10 uw-100 ut-r">收银员:</div>
-                    <input id="skuCode" name="skuCode" class="uinp uinp-no-more uw-200 "  readonly="readonly" type="text" value="${shift['createUserName']}">
+                    <input id="createUserName" name="createUserName" class="uinp uinp-no-more uw-200 "  readonly="readonly" type="text" value="${shift['createUserName']}">
                 </div>
             </div>
             <div class="ub upad-4">
                 <div class="ub ub-ac uw-300">
                     <div class="umar-r10 uw-100 ut-r">线上支付总额:</div>
-                    <input id="memoryCode" name="memoryCode" readonly="readonly" data-options="precision:2" class="uinp   easyui-numberbox easyui-validatebox "value="${shift['onlineOrderTotal']}"  style="width: 204px;" >
+                    <input id="onlineOrderTotal" name="onlineOrderTotal" readonly="readonly" data-options="precision:2" class="uinp   easyui-numberbox easyui-validatebox "value="${shift['onlineOrderTotal']}"  style="width: 204px;" >
                 </div>
             </div>
             <div class="ub upad-4">
                 <div class="ub ub-ac uw-300">
                     <div class="umar-r10 uw-100 ut-r">线上支付退款:</div>
                     <div class="ub">
-                    <input id="purchaseSpec" name="purchaseSpec" readonly="readonly" data-options="precision:2" class="uinp   easyui-numberbox easyui-validatebox "value="${shift['onlinePaymentRefund']}" style="width: 204px;"   type="text"   onkeyup="checkInteger(this)" onafterpaste="checkInteger(this)"  >
+                    <input id="onlinePaymentRefund" name="onlinePaymentRefund" readonly="readonly" data-options="precision:2" class="uinp   easyui-numberbox easyui-validatebox "value="${shift['onlinePaymentRefund']}" style="width: 204px;"   type="text"   onkeyup="checkInteger(this)" onafterpaste="checkInteger(this)"  >
                     </div>
+                </div>
+            </div>
+             <div class="ub upad-4">
+                <div class="ub ub-ac uw-300">
+                    <div class="umar-r10 uw-100 ut-r">货到付款总额:</div>
+                     <div class="ub">
+                     <input id="payDelivery" name="payDelivery"  readonly="readonly" data-options="precision:2"   class="uinp easyui-numberbox easyui-validatebox " value="${shift['payDelivery']}" style="width: 204px;"  type="text" >
+                     </div>
                 </div>
             </div>
             <div class="ub upad-4">
                 <div class="ub ub-ac uw-300">
                     <div class="umar-r10 uw-100 ut-r">货到付款退款:</div>
                      <div class="ub">
-                     <input id="distributionSpec" name="distributionSpec"  readonly="readonly" data-options="precision:2"   class="uinp easyui-numberbox easyui-validatebox " value="${shift['payDelivery']}" style="width: 204px;"  type="text" >
+                     <input id="payDeliveryRefund" name="payDeliveryRefund"  readonly="readonly" data-options="precision:2"   class="uinp easyui-numberbox easyui-validatebox " value="${shift['payDeliveryRefund']}" style="width: 204px;"  type="text" >
                      </div>
                 </div>
             </div>
@@ -41,7 +49,7 @@ pageEncoding="UTF-8"%>
                 <div class="ub ub-ac uw-300">
                     <div class="umar-r10 uw-100 ut-r">pos销售总额:</div>
                     <div class="ub">
-                     <input id="distributionSpec" name="distributionSpec" readonly="readonly"  data-options="precision:2"  class="uinp easyui-numberbox easyui-validatebox " value="${shift['posTotalSales']}" style="width: 204px;"  type="text" >
+                     <input id="posTotalSales" name="posTotalSales" readonly="readonly"  data-options="precision:2"  class="uinp easyui-numberbox easyui-validatebox " value="${shift['posTotalSales']}" style="width: 204px;"  type="text" >
                      </div>
                 </div>
             </div>
@@ -49,7 +57,7 @@ pageEncoding="UTF-8"%>
                 <div class="ub ub-ac uw-300">
                     <div class="umar-r10 uw-100 ut-r">pos销售退款:</div>
                     <div class="ub">
-                     <input id="distributionSpec" name="distributionSpec" readonly="readonly"  data-options="precision:2"  class="uinp easyui-numberbox easyui-validatebox " value="${shift['deliverFee']}"  style="width: 204px;"  type="text" >
+                     <input id="posSalesRefund" name="posSalesRefund" readonly="readonly"  data-options="precision:2"  class="uinp easyui-numberbox easyui-validatebox " value="${shift['posSalesRefund']}"  style="width: 204px;"  type="text" >
                      </div>
                 </div>
             </div>
@@ -57,7 +65,7 @@ pageEncoding="UTF-8"%>
                 <div class="ub ub-ac uw-300">
                     <div class="umar-r10 uw-100 ut-r">配送费总额:</div>
                     <div class="ub">
-                     <input id="distributionSpec" name="distributionSpec" readonly="readonly"  data-options="precision:2"  class="uinp easyui-numberbox easyui-validatebox " value="${shift['posSalesRefund']}" style="width: 204px;"  type="text" >
+                     <input id="deliverFee" name="deliverFee" readonly="readonly"  data-options="precision:2"  class="uinp easyui-numberbox easyui-validatebox " value="${shift['deliverFee']}" style="width: 204px;"  type="text" >
                      </div>
                 </div>
             </div>
@@ -65,7 +73,7 @@ pageEncoding="UTF-8"%>
                 <div class="ub ub-ac uw-300">
                     <div class="umar-r10 uw-100 ut-r">实际现金总额:</div>
                     <div class="ub">
-                     <input id="distributionSpec" name="distributionSpec" readonly="readonly"  data-options="precision:2"  class="uinp easyui-numberbox easyui-validatebox "value="${shift['actualCashTotal']}"  style="width: 204px;"  type="text" >
+                     <input id="actualCashTotal" name="actualCashTotal" readonly="readonly"  data-options="precision:2"  class="uinp easyui-numberbox easyui-validatebox "value="${shift['actualCashTotal']}"  style="width: 204px;"  type="text" >
                      </div>
                 </div>
             </div>

@@ -97,7 +97,7 @@ function getShift(id){
 	var  dalogTemp = $('<div id="#regadd"/>').dialog({
 		    href:contextPath + "/pos/shiftHistory/shiftDetail?id="+id,
 		    width:400,
-		    height:450,
+		    height:500,
 		    title:"班次详情",
 		    closable:true,
 		    resizable:true,
