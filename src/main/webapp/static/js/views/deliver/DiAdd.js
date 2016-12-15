@@ -540,7 +540,7 @@ function selectDeliver(){
 }
 function loadLists(referenceId){
 	$("#gridEditOrder").datagrid("options").method = "post";
-	$("#gridEditOrder").datagrid('options').url = contextPath+"/form/deliverFormList/getDeliverFormLists?deliverFormId="+referenceId + "&deliverType=DA";
+	$("#gridEditOrder").datagrid('options').url = contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverFormId="+referenceId;
 	$("#gridEditOrder").datagrid('load');
 }
 
