@@ -21,7 +21,6 @@
 					<div class="ubtns-item" onclick="addActivity()">新增</div>
 					<div class="ubtns-item" onclick="delActivity()">删除</div>
 	                <div class="ubtns-item" onclick="gFunRefresh()">重置</div>
-	                <div class="ubtns-item" onclick="stop()">终止</div>
 	                <div class="ubtns-item" onclick="toClose()">退出</div>
 	            </div>
 
