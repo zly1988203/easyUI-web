@@ -55,6 +55,7 @@ function onChangeSelect(){
 			    break;
 		    case "5":
 			    selectOptionMj();
+			    disableGoods('SelectGoods','');
 			    break;
 		    case "6":
 			    optionHide();
@@ -193,7 +194,7 @@ function selectOptionMj(){
 	    	  $('#consaleadd').addClass('unhide');
 	    	  //禁止按钮点击事件
 	    	  disableGoods('SelectGoods','GoodsType');
-	    	  initDatagridallMj();
+	    	  initDatagridallMj();  
 	    	  initDatagridsortSet();
 	  	   }
 	      else if(mjval=="1"){
@@ -1247,7 +1248,7 @@ function saveActivity(){
   var activityScopedis=$("#activityScopedis").val();
   // 满减活动类型
   var activityScopemj=$("#activityScopemj").val();
-  
+  //验证货号不能为空
   var check = {skuCode:'1'};
   
   if(activityScopedis == 1 || activityScopemj == 1){
@@ -1260,8 +1261,7 @@ function saveActivity(){
 	  check = {categoryName:'1'}
   }
   // 获取非空的数据
-  var rows= gridHandel.getRowsWhere(check);// $('#saleMangeadd').datagrid('getRows');
-	rows= gridHandel.getRows();
+  var rows= gridHandel.getRows();// $('#saleMangeadd').datagrid('getRows');
   // 重新加载数据，去除空数据
   $("#saleMangeadd").datagrid("loadData",rows);
     if(!$("#activityName").val()){
@@ -1426,6 +1426,12 @@ function saveActivity(){
 			          isCheckResult = false;
 			          return false;
 			      };
+			      
+			      if(v["limitAmount"] < v["discountPrice"]){
+			    	  messager("第"+(i+1)+"行，买满金额不能小于优惠额");
+			          isCheckResult = false;
+			          return false;
+			      }
 			  }
 			  saveDataHandel(rows,setrows);
 		 }
@@ -1454,6 +1460,12 @@ function saveActivity(){
 			          isCheckResult = false;
 			          return false;
 			      };
+			      
+			      if(v["limitAmount"] < v["discountPrice"]){
+			    	  messager("第"+(i+1)+"行，买满金额不能小于优惠额");
+			          isCheckResult = false;
+			          return false;
+			      }
 			  }
 			  saveDataHandel(rows,setrows); 
 		 }
@@ -1470,6 +1482,12 @@ function saveActivity(){
 			          isCheckResult = false;
 			          return false;
 			      };
+			      
+			      if(v["limitAmount"] < v["discountPrice"]){
+			    	  messager("第"+(i+1)+"行，买满金额不能小于优惠额");
+			          isCheckResult = false;
+			          return false;
+			      }
 			  }
 			  saveDataHandel(rows);
 		  }

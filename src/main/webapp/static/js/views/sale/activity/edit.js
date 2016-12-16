@@ -43,7 +43,13 @@ function  editstart(selectType){
 	      success:function(data){
 	    	  if(data['code'] == 0){
 	    		var listinfo=data['obj'];
-	    		     console.log(data)
+	    		 console.log(data);
+	    		 
+	    		if(undefined == listinfo){
+	    			 successTip("服务器返回数据异常.");
+	    			return;
+	    		}  
+	    		    
 	    		     //select 状态切换
 	    		    activtype=listinfo.activityType;
 	    		     //radio 状态切换
@@ -93,6 +99,7 @@ function  editstart(selectType){
 							console.log(selectType)
 							initmjOneDatagrid(activityId);
 							initmjTowDatagrid(activityId);
+							 disableGoods('SelectGoods','');
 
 						  }
 						//其他类型请求
@@ -205,8 +212,8 @@ function selectOptionMj(){
 	      var mjval=$(this).val();
 	      $('#activityScopemj').val(mjval);
 	      if(mjval=="2"){
-	    	  $('#consalesetmj').removeClass('unhide');
-	    	  $("#consalesetmj").addClass('ub-f1');
+//	    	  $('#consalesetmj').removeClass('unhide');
+//	    	  $("#consalesetmj").addClass('ub-f1');
 	    	  $('#consaleadd').addClass('unhide');
 	    	  //禁止按钮点击事件
 	    	  disableGoods('SelectGoods','GoodsType');
@@ -257,7 +264,8 @@ function radioSetmj(radioVal){
 	$('#mjradio'+radioVal).prop('checked',true); 
 	$('#activityScopemj').val(radioVal);
 	if(radioVal=="2"){
-  	  initDatagridallMj();    
+	  	  initDatagridallMj(); 
+		initDatagridsortSet();
 	   }
     else if(radioVal=="1"){
 
@@ -793,22 +801,22 @@ function initDatagridRedemption(){
 //初始化表格-全场满减
 function initDatagridallMj(){
 	gridHandel.setGridName("saleMangeadd");
-    gridHandel.initKey({
-        firstName:'skuCode',
-        enterName:'skuCode',
-        enterCallBack:function(arg){
-            if(arg&&arg=="add"){
-                gridHandel.addRow(parseInt(gridHandel.getSelectRowIndex())+1,gridDefault);
-                setTimeout(function(){
-                    gridHandel.setBeginRow(gridHandel.getSelectRowIndex()+1);
-                    gridHandel.setSelectFieldName("skuCode");
-                    gridHandel.setFieldFocus(gridHandel.getFieldTarget('skuCode'));
-                },100)
-            }else{
-               selectGoods(arg);
-            }
-        },
-    })
+//    gridHandel.initKey({
+//        firstName:'skuCode',
+//        enterName:'skuCode',
+//        enterCallBack:function(arg){
+//            if(arg&&arg=="add"){
+//                gridHandel.addRow(parseInt(gridHandel.getSelectRowIndex())+1,gridDefault);
+//                setTimeout(function(){
+//                    gridHandel.setBeginRow(gridHandel.getSelectRowIndex()+1);
+//                    gridHandel.setSelectFieldName("skuCode");
+//                    gridHandel.setFieldFocus(gridHandel.getFieldTarget('skuCode'));
+//                },100)
+//            }else{
+//               selectGoods(arg);
+//            }
+//        },
+//    })
     $("#saleMangeadd").datagrid({
         align:'center',
         //toolbar: '#tb',     //工具栏 id为tb
@@ -914,6 +922,7 @@ function initDatagridsortMj(){
     });
     gridHandel.setLoadData([$.extend({},gridDefault)])
 }
+
 //初始化表格-类别满减设置
 var gridHandelMj = new GridClass();
 function initDatagridsortSet(){
@@ -994,7 +1003,6 @@ function initDatagridsortSet(){
     gridHandelMj.setLoadData([$.extend({},gridDefault)])
 }
 
-
 //初始化表格-商品满减
 function initDatagridshopMj(){
 	gridHandel.setGridName("saleMangeadd");
@@ -1073,6 +1081,7 @@ function initDatagridshopMj(){
   gridHandel.setLoadData([$.extend({},gridDefault)])
 
 }
+
 
 //初始化表格-组合特价
 function initDatagridCompose(){
@@ -1353,7 +1362,7 @@ function saveActivity(){
 	  var check ={goodsCategoryCode:'1'}
   }
   // 获取非空的数据
-  var rows= gridHandel.getRowsWhere(check);// $('#saleMangeadd').datagrid('getRows');
+  var rows= gridHandel.getRows();// $('#saleMangeadd').datagrid('getRows');
   // 重新加载数据，去除空数据
   $("#saleMangeadd").datagrid("loadData",rows);
   
@@ -1496,6 +1505,12 @@ function saveActivity(){
 			          isCheckResult = false;
 			          return false;
 			      };
+			      
+			      if(v["limitAmount"] < v["discountPrice"]){
+			    	  messager("第"+(i+1)+"行，买满金额不能小于优惠额");
+			          isCheckResult = false;
+			          return false;
+			      }
 			  }
 			  saveDataHandel(rows,setrows);
 		 }
@@ -1524,6 +1539,12 @@ function saveActivity(){
 			          isCheckResult = false;
 			          return false;
 			      };
+			      
+			      if(v["limitAmount"] < v["discountPrice"]){
+			    	  messager("第"+(i+1)+"行，买满金额不能小于优惠额");
+			          isCheckResult = false;
+			          return false;
+			      }
 			  }
 			  saveDataHandel(rows,setrows); 
 		 }
@@ -1540,6 +1561,12 @@ function saveActivity(){
 			          isCheckResult = false;
 			          return false;
 			      };
+			      
+			      if(v["limitAmount"] < v["discountPrice"]){
+			    	  messager("第"+(i+1)+"行，买满金额不能小于优惠额");
+			          isCheckResult = false;
+			          return false;
+			      }
 			  }
 			  saveDataHandel(rows);
 		  }

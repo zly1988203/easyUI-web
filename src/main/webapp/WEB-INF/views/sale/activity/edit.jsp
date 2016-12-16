@@ -68,7 +68,7 @@
 							<input class="ub mjradio" id="mjradio0" type="radio" name="mjstatus" value="0" /><span>商品</span>
 						</div>
 
-	                     <input class="uinp" type="hidden" id="activityScopemj" value="0"  name="activityScopemj">
+	                     <input class="uinp" type="hidden" id="activityScopemj" value="2"  name="activityScopemj">
 	            </div>
 	           
             </div>
