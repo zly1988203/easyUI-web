@@ -99,6 +99,7 @@ function selectOptionzk(){
 	$('.discountTypechoose').removeClass('unhide');
 	$(document).on('mousedown','.discountTypechoose .disradio',function(){
 		var _this = $(this);
+		$('#activityScopedis').val(_this.val());
 		var changeDisType = function(){
 			_this.prop("checked",true);
 			if(_this.val()==="1"){
@@ -143,8 +144,49 @@ function selectOptionMj(){
 	// 禁止按钮点击事件
 	disableGoods('','GoodsType');
 	$('.mjTypechoose').removeClass('unhide');
-	$(document).on('click','.mjTypechoose .mjradio',function(){
-	      var mjval=$(this).val();
+	$(document).on('mousedown','.mjTypechoose .mjradio',function(){
+
+		var _this = $(this);
+		$('#activityScopemj').val(_this.val());
+		var changeDisType = function(){
+			_this.prop("checked",true);
+			if(_this.val()=="2"){
+				$('#consalesetmj').removeClass('unhide');
+				$("#consalesetmj").addClass('ub-f1');
+				$('#consaleadd').addClass('unhide');
+				//禁止按钮点击事件
+				disableGoods('SelectGoods','GoodsType');
+				initDatagridallMj();
+				initDatagridsortSet();
+			}
+			else if(_this.val()=="1"){
+				$("#consaleadd").addClass('ub-f1');
+				$('#consaleadd').removeClass('unhide');
+				$('#consalesetmj').removeClass('unhide');
+				//禁止按钮点击事件
+				disableGoods('SelectGoods','');
+				initDatagridsortMj();
+				initDatagridsortSet();
+			}
+			else {
+				$("#consaleadd").removeClass('ub-f1');
+				$('#consaleadd').removeClass('unhide');
+				$('#consalesetmj').removeClass('unhide');
+				//禁止按钮点击事件
+				disableGoods('','GoodsType');
+				initDatagridshopMj();
+				initDatagridsortSet();
+
+			}
+		}
+		$.messager.confirm("","更换满减类型将清空当前列表信息，是否更换？",function(b){
+			if(!b){
+				return;
+			}else{
+				changeDisType();
+			}
+		});
+	      /*var mjval=$(this).val();
 	      $('#activityScopemj').val(mjval);
 	      if(mjval=="2"){
 	    	  $('#consalesetmj').removeClass('unhide');
@@ -172,8 +214,8 @@ function selectOptionMj(){
 	    	  disableGoods('','GoodsType');
 	    	  initDatagridshopMj();
 	    	  initDatagridsortSet();
-	    
-	      }
+
+	      }*/
 	   })
 }
 //状态初始化 隐藏 清空数据 
@@ -1212,13 +1254,32 @@ function saveActivity(){
   if(activityScopedis == 1 || activityScopemj == 1){
 	  var check ={goodsCategoryCode:'1'}
   }
-  /*if(activityType == 5 && activityScopemj == 2){
+  if(activityType == 5 && activityScopemj == 2){
 	  check = {limitAmount:'1'}
-  }*/
+  }
+  if(activityType == 2 && activityScopedis == 1){
+	  check = {categoryName:'1'}
+  }
   // 获取非空的数据
   var rows= gridHandel.getRows();// $('#saleMangeadd').datagrid('getRows');
   // 重新加载数据，去除空数据
   $("#saleMangeadd").datagrid("loadData",rows);
+    if(!$("#activityName").val()){
+	    messager("<活动名称>不能为空");
+	    return;
+    }
+	if(!$("#startTime").val() || !$("#endTime").val()){
+		messager("<活动时间>不能为空");
+		return;
+	}
+	if(!$("#dailyStartTime").val() || !$("#dailyStartTime").val()){
+		messager("<活动时段>不能为空");
+		return;
+	}
+	if(!$("#branchName").val()){
+		messager("<活动分店>不能为空");
+		return;
+	}
 
   if(rows.length==0){
       messager("表格不能为空");
@@ -1245,7 +1306,12 @@ function saveActivity(){
   }
   
   // 活动类型折扣验证
-  else if(activityType=="2"){ 
+  else if(activityType=="2"){
+	  if($("#discount").val()>10 || $("#discount").val()<0){
+		  messager("批量折扣值在0~10之间");
+		  return;
+	  }
+	  debugger;
 	// 活动类型单品折扣验证
 	  if(activityScopedis=="0"){
 		  for(var i=0;i<rows.length;i++){
@@ -1333,7 +1399,8 @@ function saveActivity(){
   else if(activityType=="5"){
 	  $("#salesetmj").datagrid("endEdit", gridHandelMj.getSelectRowIndex());
 	  var setrows=$('#salesetmj').datagrid('getRows');
-		  if(activityScopemj=="0"){  
+	  var setrows=gridHandel.getRowsWhere(check);
+		  if(activityScopemj=="0"){
 			  if(setrows.length==0){
 			      messager("满减设置表格不能为空");
 			      return;

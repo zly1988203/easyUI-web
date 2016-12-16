@@ -10,6 +10,8 @@
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
 	<script src="${ctx}/static/js/views/purchase/receiptEdit.js"></script>
     <script src="${ctx}/static/js/views/purchase/purchaseExport.js"></script>
+    
+    <%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
     <div class="ub ub-ver ub-f1 umar-4  ubor">
@@ -28,7 +30,7 @@
                 <div class="ubtns-item" onclick="orderDelete()">删单</div>
              </shiro:hasPermission>
              <shiro:hasPermission name="JxcPurchaseReceipt:print">
-                <div class="ubtns-item" onclick="printDesign()">打印</div>
+                <div class="ubtns-item" onclick="printChoose('PI','/form/purchase/')">打印</div>
              </shiro:hasPermission>
              <div class="ubtns-item" onclick="exportData('PI');">导出明细</div>
                 <div class="ubtns-item" onclick="toClose()">关闭</div>

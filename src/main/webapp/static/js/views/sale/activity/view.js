@@ -42,8 +42,7 @@ function  editstart(selectType){
 	      contentType:'application/json',
 	      success:function(data){
 	    	  if(data['code'] == 0){
-	    		  
-	    		  if(data['obj']['activityType'] == "2"){
+	    		  if(data['obj']['activityStatus'] == "2"){
 	    			  $("#already-examine").html("<span>已终止</span>");
 	    		  }
 	    		  
@@ -806,7 +805,7 @@ function initDatagridsortSet(){
 		width:'100%',
         columns:[[
 					{field:'ck',checkbox:true},
-					{field: 'limitAmount', title: '买满金额', width: 100, align: 'right',
+					{field: 'limitAmount', title: '买满金额', width: '100px', align: 'right',
 					    formatter : function(value, row, index) {
 					        if(row.isFooter){
 					            return;
@@ -814,7 +813,7 @@ function initDatagridsortSet(){
 					        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 					    }
 					},
-					{field: 'discountPrice', title: '优惠额', width: 100, align: 'right',
+					{field: 'discountPrice', title: '优惠额', width: '100px', align: 'right',
 					    formatter : function(value, row, index) {
 					        if(row.isFooter){
 					            return;

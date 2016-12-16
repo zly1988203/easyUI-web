@@ -21,12 +21,10 @@
 					<div class="ubtns-item" onclick="addActivity()">新增</div>
 					<div class="ubtns-item" onclick="delActivity()">删除</div>
 	                <div class="ubtns-item" onclick="gFunRefresh()">重置</div>
+	                <div class="ubtns-item" onclick="stop()">终止</div>
 	                <div class="ubtns-item" onclick="toClose()">退出</div>
 	            </div>
-	            <div class="ub ub-ac umar-l20">
-		        	<!-- 引入时间选择控件 -->
-		            <%@ include file="/WEB-INF/views/component/dateSelect.jsp"%>
-		        </div>
+
             </div>
 	        <div class="ub uline umar-t8"></div>
 	        <div class="ub umar-t8">
@@ -70,6 +68,10 @@
                     <div class="umar-r10 uw-80 ut-r">活动名称:</div>
                     <input class="uinp" type="text" name="activityName" id="activityName">
                 </div>
+				<div class="ub ub-ac ">
+					<div class="umar-r10 uw-80 ut-r">商品名称:</div>
+					<input class="uinp" type="text" name="skuName" id="skuName">
+				</div>
                 <div class="ub ub-ac umar-l40 uw-300">
 	                    <div class="umar-r10 uw-70 ut-r">活动状态:</div>
 	                    <div class="ub ub-ac umar-r10">
