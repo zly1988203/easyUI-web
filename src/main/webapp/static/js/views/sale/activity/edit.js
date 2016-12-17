@@ -97,9 +97,20 @@ function  editstart(selectType){
 							activityScopemj=listinfo.activityScope;	
 							radioSetmj(activityScopemj);
 							console.log(selectType)
-							initmjOneDatagrid(activityId);
-							initmjTowDatagrid(activityId);
-							 disableGoods('SelectGoods','');
+							if(activityScopemj == 0){
+								initmjOneDatagrid(activityId);
+								initmjTowDatagrid(activityId);
+								disableGoods('','GoodsType');
+							}else if(activityScopemj == 1){
+								initmjOneDatagrid(activityId);
+								initmjTowDatagrid(activityId);
+								disableGoods('SelectGoods','');
+							}else if(activityScopemj == 2){
+								initmjFullDatagrid(activityId);
+								 disableGoods('SelectGoods','GoodsType');
+							}
+							
+							 
 
 						  }
 						//其他类型请求
@@ -354,6 +365,14 @@ function initmjTowDatagrid(activityId){
     $("#salesetmj").datagrid("options").url =contextPath+"/sale/activity/getLimitAmountFullCut?activityId="+activityId;
     $("#salesetmj").datagrid("load");
 }
+
+//满减请求方法 saleMangeadd
+function initmjFullDatagrid(activityId){
+	$("#saleMangeadd").datagrid("options").method = "get";
+    $("#saleMangeadd").datagrid("options").url =contextPath+"/sale/activity/getLimitAmountFullCut?activityId="+activityId;
+    $("#saleMangeadd").datagrid("load");
+}
+
 var datagridObj;
 //初始化表格-特价
 function initDatagridSpecial(){
@@ -1717,9 +1736,10 @@ function saveDataHandel(rows,setrows){
 			    	  limitAmount:data.limitAmount,
 			          discountPrice:data.discountPrice,
 			      }
-			      var goodsFullCut = $.extend(goods,fullCutData);
+			      var goodsFull = null;
+			      var goodsFull = $.extend(goodsFull,goods,fullCutData);
 			      
-			      reqObj.detailList.push(goodsFullCut);
+			      reqObj.detailList.push(goodsFull);
 			      
 			  });
 		      
@@ -1737,9 +1757,10 @@ function saveDataHandel(rows,setrows){
 			    	  limitAmount:data.limitAmount,
 			          discountPrice:data.discountPrice,
 			      }
-			      var goodsFullCut = $.extend(goods,fullCutData);
+			      var goodsFull = null;
+			      var goodsFull = $.extend(goodsFull,goods,fullCutData);
 			      
-			      reqObj.detailList.push(goodsFullCut);
+			      reqObj.detailList.push(goodsFull);
 			      
 			  });  
 		  });
