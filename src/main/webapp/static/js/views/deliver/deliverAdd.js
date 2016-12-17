@@ -147,7 +147,32 @@ function initDatagridAddRequireOrder(){
                         onChange: onChangeAmount,
                     }
                 },
-
+            },
+            {field:'isGift',title:'赠送',width:'65px',align:'left',
+                formatter:function(value,row){
+                    if(row.isFooter){
+                        return;
+                    }
+                    row.isGift = row.isGift?row.isGift:0;
+                    return value=='1'?'是':(value=='0'?'否':'请选择');
+                },
+                editor:{
+                    type:'combobox',
+                    options:{
+                        valueField: 'id',
+                        textField: 'text',
+                        editable:false,
+                        required:true,
+                        data: [{
+                            "id":'1',
+                            "text":"是",
+                        },{
+                            "id":'0',
+                            "text":"否",
+                        }],
+                        onSelect:onSelectIsGift
+                    }
+                }
             },
             {field:'inputTax',title:'税率',width:'80px',align:'right',
                 formatter:function(value,row,index){
@@ -299,6 +324,35 @@ function onChangeAmount(newV,oldV) {
     //获取税率
     var taxVal = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'inputTax');
     gridHandel.setFieldValue('taxAmount',(taxVal*(newV/(1+taxVal))).toFixed(2));
+}
+
+//监听是否赠品
+function onSelectIsGift(data){
+    var checkObj = {
+        skuCode: gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'skuCode'),
+        isGift:data.id,
+    };
+    var arrs = gridHandel.searchDatagridFiled(gridHandel.getSelectRowIndex(),checkObj);
+    if(arrs.length==0){
+        var targetPrice = gridHandel.getFieldTarget('price');
+        if(data.id=="1"){
+            var priceVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
+            $('#gridEditOrder').datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"] = priceVal;
+            $(targetPrice).numberbox('setValue',0);
+            //$(targetPrice).numberbox('disable');
+        }else{
+            //$(targetPrice).numberbox('enable');
+            var oldPrice =  $('#gridEditOrder').datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"];
+            if(oldPrice){
+                $(targetPrice).numberbox('setValue',oldPrice);
+            }
+        }
+        updateFooter();
+    }else{
+        var targetIsGift = gridHandel.getFieldTarget('isGift');
+        $(targetIsGift).combobox('select', data.id=='1'?'0':'1');
+        messager(data.id=='1'?'已存在相同赠品':'已存在相同商品');
+    }
 }
 //合计
 function updateFooter(){
