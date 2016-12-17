@@ -2,22 +2,29 @@
  * Created by zhanghuan on 2016/8/30.
  * 配送-出库单
  */
+var indexTab = 0;
+var tableIdName = 'deliverFormList';
+var tempURL = '/form/deliverSelect/getDeliverFormList';
+var targetBranchId;
 $(function(){
 	//开始和结束时间
 	toChangeDatetime(0);
-    initDatagridRequireOrders();
+	loadTabs();
+	toBtnDisable('btnAdd','btnDel');
+	initDatagridRequireOrdersDO();
     targetBranchId = $("#targetBranchId").val();
 });
-var targetBranchId;
 var gridHandel = new GridClass();
-//初始化表格
-function initDatagridRequireOrders(){
+//加载配送出库单
+function initDatagridRequireOrdersDO(){
+	var fromObjStr = $('#queryForm').serializeObject();
 	var updatePermission = $("#updatePermission").html().trim();
-    $("#deliverFormList").datagrid({
+    $("#"+tableIdName).datagrid({
         //title:'普通表单-用键盘操作',
         method:'post',
         align:'center',
-        //url:contextPath + '/form/deliverForm/getDeliverForms',
+		queryParams:fromObjStr,
+		url:contextPath + tempURL,
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
@@ -29,18 +36,17 @@ function initDatagridRequireOrders(){
 		width:'100%',
         columns:[[
 			{field:'check',checkbox:true},
-            {field:'formNo',title:'单据编号',width:'140px',align:'left',formatter:function(value,row,index){
+            {field:'formNo',title:'出库单号',width:'140px',align:'left',formatter:function(value,row,index){
             	if(updatePermission){
-            		var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'入库单明细\',\''+ contextPath +'/form/deliverForm/deliverEdit?deliverFormId='+ row.deliverFormId +'&formType=DI\')">' + value + '</a>';
+            		var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'新增入库单\',\''+ contextPath +'/form/deliverForm/addDeliverForm?deliverFormId='+ row.id +'&deliverType=DI\')">' + value + '</a>';
             		return strHtml;
-            		//return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/deliverForm/deliverEdit?deliverFormId="+ row.deliverFormId +"'>" + value + "</a>";
             	}else{
             		return value;
             	}
             }},
-            {field:'status',title: '审核状态', width: '100px', align: 'center'},
-			{field: 'sourceBranchName', title: '发货机构', width: '200px', align: 'left'},
+            //{field:'status',title: '审核状态', width: '100px', align: 'center'},
 			{field: 'targetBranchName', title: '收货机构', width: '200px', align: 'left'},
+			{field: 'sourceBranchName', title: '发货机构', width: '200px', align: 'left'},
 			{field: 'amount', title: '单据金额', width: '80px', align: 'right',
 				formatter:function(value,row,index){
                     if(row.isFooter){
@@ -49,6 +55,7 @@ function initDatagridRequireOrders(){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
 			},
+			{field: 'salesman', title: '业务人员', width: '130px', align: 'left'},
             {field: 'createUserName', title: '制单人员', width: '130px', align: 'left'},
             {field: 'createTime', title: '制单日期', width: '120px', align: 'center',
 				formatter: function (value, row, index) {
@@ -59,9 +66,77 @@ function initDatagridRequireOrders(){
 				}
 			},
             {field: 'validUserName', title: '审核人员', width: '130px', align: 'left'},
-            {field: 'remark', title: '备注', width: '200px', align: 'left'},
-            {field: 'updateUserName', title: '操作人员', width: '130px', align: 'left'},
-            {field: 'updateTime', title: '操作时间', width: '120px', align: 'center',
+            {field: 'remark', title: '备注', width: '200px', align: 'left'}
+            //{field: 'updateUserName', title: '操作人员', width: '130px', align: 'left'},
+            //{field: 'updateTime', title: '操作时间', width: '120px', align: 'center',
+			//	formatter: function (value, row, index) {
+			//		if (value) {
+			//			return new Date(value).format('yyyy-MM-dd hh:mm');
+			//		}
+			//		return "";
+			//	}
+			//}
+        ]],
+		onLoadSuccess:function(data){
+			gridHandel.setDatagridHeader("center");
+		}
+    });
+    //queryForm();
+}
+
+//加载配送入库单
+function initDatagridRequireOrdersDI(){
+	var fromObjStr = $('#queryForm').serializeObject();
+	var updatePermission = $("#updatePermission").html().trim();
+	$("#"+tableIdName).datagrid({
+		//title:'普通表单-用键盘操作',
+		method:'post',
+		align:'center',
+		queryParams:fromObjStr,
+		url:contextPath + tempURL,
+		//toolbar: '#tb',     //工具栏 id为tb
+		singleSelect:false,  //单选  false多选
+		rownumbers:true,    //序号
+		pagination:true,    //分页
+		fitColumns:true,    //每列占满
+		//fit:true,            //占满
+		showFooter:true,
+		height:'100%',
+		width:'100%',
+		columns:[[
+			{field:'check',checkbox:true},
+			{field:'formNo',title:'单据编号',width:'140px',align:'left',formatter:function(value,row,index){
+				if(updatePermission){
+					var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'入库单明细\',\''+ contextPath +'/form/deliverForm/deliverEdit?deliverFormId='+ row.deliverFormId +'&formType=DI\')">' + value + '</a>';
+					return strHtml;
+				}else{
+					return value;
+				}
+			}},
+			{field:'status',title: '审核状态', width: '100px', align: 'center'},
+			{field: 'sourceBranchName', title: '发货机构', width: '200px', align: 'left'},
+			{field: 'targetBranchName', title: '收货机构', width: '200px', align: 'left'},
+			{field: 'amount', title: '单据金额', width: '80px', align: 'right',
+				formatter:function(value,row,index){
+					if(row.isFooter){
+						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+					}
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				}
+			},
+			{field: 'createUserName', title: '制单人员', width: '130px', align: 'left'},
+			{field: 'createTime', title: '制单日期', width: '120px', align: 'center',
+				formatter: function (value, row, index) {
+					if (value) {
+						return new Date(value).format('yyyy-MM-dd hh:mm');
+					}
+					return "";
+				}
+			},
+			{field: 'validUserName', title: '审核人员', width: '130px', align: 'left'},
+			{field: 'remark', title: '备注', width: '200px', align: 'left'},
+			{field: 'updateUserName', title: '操作人员', width: '130px', align: 'left'},
+			{field: 'updateTime', title: '操作时间', width: '120px', align: 'center',
 				formatter: function (value, row, index) {
 					if (value) {
 						return new Date(value).format('yyyy-MM-dd hh:mm');
@@ -69,12 +144,12 @@ function initDatagridRequireOrders(){
 					return "";
 				}
 			}
-        ]],
+		]],
 		onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
 		}
-    });
-    queryForm();
+	});
+	//queryForm();
 }
 
 //新增入库单
@@ -85,9 +160,9 @@ function addDeliverForm(){
 //查询入库单
 function queryForm(){
 	var fromObjStr = $('#queryForm').serializeObject();
-	$("#deliverFormList").datagrid("options").method = "post";
-	$("#deliverFormList").datagrid('options').url = contextPath + '/form/deliverForm/getDeliverForms';
-	$("#deliverFormList").datagrid('load', fromObjStr);
+	//$("#deliverFormList").datagrid("options").method = "post";
+	//$("#deliverFormList").datagrid('options').url = contextPath + '/form/deliverForm/getDeliverForms';
+	$("#" + tableIdName).datagrid('load',fromObjStr);
 }
 
 //删除
@@ -129,7 +204,7 @@ function delDeliverForm(){
  */
 function selectBranches(){
 	new publicAgencyService(function(data){
-		$("#sourceBranchId").val(data.branchesId);
+		//$("#sourceBranchId").val(data.branchesId);
 		$("#sourceBranchName").val(data.branchName);
 	},'',targetBranchId);
 }
@@ -155,10 +230,93 @@ function selectOperator(){
 	});
 }
 
-
 /**
  * 重置
  */
 var resetForm = function() {
 	 $("#queryForm").form('clear');
 };
+
+// 加载选项卡
+function loadTabs(){
+	$('#tabs').tabs({
+		border:false,
+		onSelect:function(title){
+			// 获取选项卡下标
+			indexTab = $('#tabs').tabs('getTabIndex',$('#tabs').tabs('getSelected'));
+			if (indexTab === 0) {
+				toBtnDisable('btnAdd','btnDel');
+				setQueryDataDO();
+				delDivAuditStatus();
+				initDatagridRequireOrdersDO();
+			} else {
+				toBtnEnable('btnAdd','btnDel');
+				setQueryDataDI();
+				addDivAuditStatus();
+				initDatagridRequireOrdersDI();
+			}
+		}
+	});
+}
+
+/**
+ * 禁用按钮
+ * @param id
+ */
+function toBtnDisable(addId,delId){
+	$("#"+addId).removeClass('ubtns-item').addClass('ubtns-item-disabled').removeAttr('onclick');
+	$("#"+delId).removeClass('ubtns-item').addClass('ubtns-item-disabled').removeAttr('onclick');
+}
+/**
+ * 开启按钮
+ * @param id
+ */
+function toBtnEnable(addId,delId){
+	$("#"+addId).removeClass('ubtns-item-disabled').addClass('ubtns-item').attr('onclick','addDeliverForm()');
+	$("#"+delId).removeClass('ubtns-item-disabled').addClass('ubtns-item').attr('onclick','delDeliverForm()');
+}
+
+// 设置值
+function setQueryDataDO() {
+	tempURL = '/form/deliverSelect/getDeliverFormList';
+	tableIdName = 'deliverFormList';
+}
+
+// 设置值
+function setQueryDataDI() {
+	tempURL = '/form/deliverForm/getDeliverForms';
+	tableIdName = 'processedFormList';
+}
+
+var deliverAuditStatus = '0';
+// 移除审核状态
+function delDivAuditStatus() {
+	// 清空div
+	// $("#remarkDiv").empty();
+	// 移除div
+	var auditStatus = document.getElementById("auditStatus");
+	if (auditStatus) {
+		deliverAuditStatus = $("#auditStatus input[name='deliverAuditStatus']:checked").val();
+		auditStatus.parentNode.removeChild(auditStatus);
+	}
+}
+
+// 移除审核状态
+function addDivAuditStatus() {
+	// 清空div
+	// $("#remarkDiv").empty();
+	// 移除div
+	$("#remarkDiv").after("<div class='ub ub-ac umar-l40 uw-300' id='auditStatus' style='visibility:visible;'><div class='umar-r10 uw-70 ut-r'>审核状态:</div><div class='ub ub-ac umar-r10'><input class='ub' type='radio' id='deliverAuditStatus0' name='deliverAuditStatus' value='0' checked='checked' onclick='queryForm()'/><span>未审核</span></div><div class='ub ub-ac umar-r10'><input class='ub' type='radio' id='deliverAuditStatus1' name='deliverAuditStatus'  value='1' onclick='queryForm()'/><span>已审核</span></div><div class='ub ub-ac umar-r10'><input class='ub' type='radio' id='deliverAuditStatus2' name='deliverAuditStatus' value='' onclick='queryForm()'/><span>全部</span></div></div>");
+	setAuditStatusVal();
+}
+
+// 添加被移除之前的审核值
+function setAuditStatusVal(){
+	if (deliverAuditStatus == '0') {
+		$("#deliverAuditStatus0").attr('checked','checked');
+	} else if (deliverAuditStatus == '1') {
+		$("#deliverAuditStatus1").attr('checked','checked');
+	} else {
+		$("#deliverAuditStatus2").attr('checked','checked');
+	}
+}

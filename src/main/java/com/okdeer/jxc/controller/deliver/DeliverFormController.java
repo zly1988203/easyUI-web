@@ -241,6 +241,10 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 			}
 			return "form/deliver/DoAdd";
 		} else {
+			// 需求修改，点击要货单生成出库单，将要货单id传入
+			if (!StringUtils.isEmpty(vo.getDeliverFormId())) {
+				model.addAttribute("referenceId", vo.getDeliverFormId());
+			}
 			return "form/deliver/DiAdd";
 		}
 	}

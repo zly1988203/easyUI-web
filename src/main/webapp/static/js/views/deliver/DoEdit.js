@@ -90,7 +90,7 @@ function initDatagridEditRequireOrder(){
                         precision:4,
                         onChange: onChangeLargeNum,
                     }
-                },
+                }
             },
             {field:'applyNum',hidden:true},
             {field:'dealNum',title:'数量',width:'80px',align:'right',
@@ -108,7 +108,7 @@ function initDatagridEditRequireOrder(){
                         precision:4,
                         onChange: onChangeRealNum,
                     }
-                },
+                }
             },
             {field:'price',title:'单价',width:'80px',align:'right',
                 formatter:function(value,row,index){
@@ -116,8 +116,8 @@ function initDatagridEditRequireOrder(){
                         return
                     }
                     return "<b>"+parseFloat(value||0).toFixed(2)+ "<b>";
-                },
-                editor:{
+                }
+                /*editor:{
                     type:'numberbox',
                     options:{
                     	disabled:true,
@@ -125,7 +125,7 @@ function initDatagridEditRequireOrder(){
                         precision:2,
                         onChange: onChangePrice,
                     }
-                },
+                },*/
             },
             {field:'amount',title:'金额',width:'80px',align:'right',
                 formatter:function(value,row,index){
@@ -142,8 +142,7 @@ function initDatagridEditRequireOrder(){
                         precision:2,
                         onChange: onChangeAmount,
                     }
-                },
-
+                }
             },
             {field:'isGift',title:'赠送',width:'65px',align:'left',
                 formatter:function(value,row){
@@ -177,7 +176,7 @@ function initDatagridEditRequireOrder(){
                         return
                     }
                     return "<b>"+parseFloat(value||0).toFixed(2)+ "<b>";
-                },
+                }
             },
             {field:'saleAmount',title:'零售金额',width:'80px',align:'right',
             	
@@ -197,7 +196,7 @@ function initDatagridEditRequireOrder(){
                         min:0,
                         precision:2,
                     }
-                },
+                }
             },
             {field:'inputTax',title:'税率',width:'80px',align:'right',
                 formatter:function(value,row,index){
@@ -232,15 +231,15 @@ function initDatagridEditRequireOrder(){
                         return
                     }
                     return  "<b>"+parseFloat(value||0).toFixed(2)+ "<b>";
-                },
-            	editor:{
+                }
+            	/*editor:{
                     type:'numberbox',
                     options:{
                         disabled:true,
                         min:0,
                         precision:2,
                     }
-                }
+                }*/
             },
             {field:'defectNum',title:'缺货数',width:'100px',align:'right',
                 formatter:function(value,row,index){
@@ -248,15 +247,15 @@ function initDatagridEditRequireOrder(){
                         return
                     }
                     return  "<b>"+parseFloat(value||0).toFixed(2)+ "<b>";
-                },
-                editor:{
+                }
+                /*editor:{
                     type:'numberbox',
                     options:{
                         disabled:true,
                         min:0,
                         precision:2,
                     }
-                }
+                }*/
             },
             {field:'remark',title:'备注',width:'200px',align:'left',editor:'textbox'}
         ]],
@@ -454,8 +453,8 @@ function setDataValue(data) {
     	var rec = data[i];
     	rec.remark = "";
     }
-    var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
-    var addDefaultData  = gridHandel.addDefault(data,gridDefault);
+    //var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
+    //var addDefaultData  = gridHandel.addDefault(data,gridDefault);
     var keyNames = {
 		distributionPrice:'price',
         id:'skuId',
@@ -463,10 +462,10 @@ function setDataValue(data) {
         pricingType:'',
         inputTax:'tax'
     };
-    var rows = gFunUpdateKey(addDefaultData,keyNames);
+    //var rows = gFunUpdateKey(addDefaultData,keyNames);
     var argWhere ={skuCode:1};  //验证重复性
     var isCheck ={isGift:1 };   //只要是赠品就可以重复
-    var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
+    var newRows = gridHandel.checkDatagrid(data,rows,argWhere,isCheck);
     $("#"+gridHandel.getGridName()).datagrid("loadData",newRows);
 
     setTimeout(function(){
