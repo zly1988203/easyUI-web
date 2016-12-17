@@ -1,19 +1,74 @@
 /**
  * Created by huangj02 on 2016/8/9.
  */
+
+var indexTab = 0;
+var tableIdName = 'gridOrders';
+var tempURL = '/form/purchase/receiptListData';
 $(function(){
+	loadTabs();
+	toBtnDisable('btnAdd','btnDel');
 	//初始化默认条件
     initConditionParams();
-    
     initDatagridOrders();
     //单据状态切换
     changeStatus();
 });
 
+//加载选项卡
+function loadTabs(){
+	$('#tabs').tabs({
+		border:false,
+		onSelect:function(title){
+			// 获取选项卡下标
+			indexTab = $('#tabs').tabs('getTabIndex',$('#tabs').tabs('getSelected'));
+			if (indexTab === 0) {
+				toBtnEnable('btnAdd','btnDel');
+				setQueryDataPI();
+				initDatagridOrders();
+			} else {
+				toBtnDisable('btnAdd','btnDel');
+				setQueryDataPA();
+				initDatagridFormPA();
+			}
+		}
+	});
+}
+
+//设置值 收货单
+function setQueryDataPI() {
+	tempURL = '/form/purchase/receiptListData';
+	tableIdName = 'gridOrders';
+}
+// 设置值 采购单
+function setQueryDataPA() {
+	tempURL = '/form/purchaseSelect/getPurchaseFormList';
+	tableIdName = 'receiptOrderList';
+}
+
+/**
+ * 禁用按钮
+ * @param id
+ */
+function toBtnDisable(addId,delId){
+	$("#"+addId).removeClass('ubtns-item').addClass('ubtns-item-disabled').removeAttr('onclick');
+	$("#"+delId).removeClass('ubtns-item').addClass('ubtns-item-disabled').removeAttr('onclick');
+}
+/**
+ * 开启按钮
+ * @param id
+ */
+function toBtnEnable(addId,delId){
+	$("#"+addId).removeClass('ubtns-item-disabled').addClass('ubtns-item').attr('onclick','addDeliverForm()');
+	$("#"+delId).removeClass('ubtns-item-disabled').addClass('ubtns-item').attr('onclick','delDeliverForm()');
+}
 //单据状态切换
 function changeStatus(){
 	$(".radioItem").change(function(){
-		query();
+		indexTab = $('#tabs').tabs('getTabIndex',$('#tabs').tabs('getSelected'));
+		if (indexTab === 0) {
+			query();
+		}
     });
 }
 
@@ -28,11 +83,14 @@ function initConditionParams(){
 var gridHandel = new GridClass();
 //初始化表格
 function initDatagridOrders(){
-    $("#gridOrders").datagrid({
+    $("#"+tableIdName).datagrid({
         //title:'普通表单-用键盘操作',
         method:'post',
         align:'center',
-        //url:contextPath+'/form/purchase/receiptListData',
+        url:contextPath+tempURL,
+        queryParams : {startTime : $("#txtStartDate").val(),
+        	           endTime: $("#txtEndDate").val()
+                       },
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
@@ -82,18 +140,64 @@ function initDatagridOrders(){
 			gridHandel.setDatagridHeader("center");
 		}
     });
-    query();
+   // query();
 }
+
+
+//初始化表格 单据选择（采购）
+function initDatagridFormPA(){
+	$("#"+tableIdName).datagrid({
+        //title:'普通表单-用键盘操作',
+        method:'post',
+        align:'center',
+        queryParams : {formType : 'PA'},
+        url:contextPath+tempURL,
+        singleSelect:false,  //单选  false多选
+        rownumbers:true,    //序号
+        pagination:true,    //分页
+        fitColumns:true,    //每列占满
+        //fit:true,            //占满
+        showFooter:true,
+        height:'100%',
+        width:'100%',
+        columns:[[
+            {field:'check',checkbox:true},
+            {field:'formNo',title:'单号',width:'200px',align:'left',formatter:function(value,row,index){
+				var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'新增采购收货单\',\''+ contextPath +'/form/purchase/addReceiptForm?id='+ row.id +'&formType=PI\')">' + value + '</a>';
+				return strHtml;
+			}},
+            {field:'branchName',title:'收货机构',width:200,align:'left'},
+            {field:'supplierName',title:'供应商',width:200,align:'left'},
+            {field:'amount',title:'单据金额',width:200,align:'right',
+            	formatter : function(value, row, index) {
+            		return parseFloat(value||0).toFixed(2);
+            	}
+            },
+            {field:'validTime',title:'审核时间',width:200,align:'center', formatter: function (value, row, index) {
+                if (value) {
+                	return new Date(value).format('yyyy-MM-dd hh:mm');
+                }
+                return "";
+            }}
+        ]],
+        onLoadSuccess : function() {
+        	$('.datagrid-header').find('div.datagrid-cell').css('text-align','center');
+        },
+    });
+}
+
 
 function receiptAdd(){
 	toAddTab("新增采购收货单",contextPath + "/form/purchase/receiptAdd");
 }
 
 function query(){
-	$("#gridOrders").datagrid("options").queryParams = $("#queryForm").serializeObject();
-	$("#gridOrders").datagrid("options").method = "post";
-	$("#gridOrders").datagrid("options").url = contextPath+'/form/purchase/receiptListData';
-	$("#gridOrders").datagrid("load");
+	/*$("#"+tableIdName).datagrid("options").queryParams = $("#queryForm").serializeObject();
+	$("#"+tableIdName).datagrid("options").method = "post";
+	$("#"+tableIdName).datagrid("options").url = contextPath+'/form/purchase/receiptListData';
+	$("#"+tableIdName).datagrid("load");*/
+	var fromObjStr = $('#queryForm').serializeObject();
+	$("#" + tableIdName).datagrid('load',fromObjStr);
 }
 
 function receiptDelete(){
