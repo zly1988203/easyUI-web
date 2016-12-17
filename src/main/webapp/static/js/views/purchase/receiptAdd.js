@@ -6,12 +6,38 @@ $(function(){
     initConditionParams();
     
     initDatagridEditOrder();
+    
+    var supplierId = $("#supplierId").val();
+    if(supplierId){
+    	//设置经营方式
+    	setSupplierValue(supplierId);
+    }
 });
 
 //初始化默认条件
 function initConditionParams(){
 	$("#createTime").html(new Date().format('yyyy-MM-dd hh:mm'));
 	$("#paymentTime").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+}
+
+//设置经营方式
+function setSupplierValue(supplierId){
+	$.ajax({
+		url : contextPath + "/common/supplier/getById",
+		type : "POST",
+		data : {
+			id : supplierId
+		},
+		success : function(data) {
+			$("#saleWay").val(data.supplier.saleWay);
+			$("#saleWayName").val(data.supplier.saleWayName);
+			
+			console.log(data);
+		},
+		error : function(result) {
+			successTip("请求发送失败或服务器处理失败");
+		}
+	});
 }
 
 var gridDefault = {
@@ -38,7 +64,10 @@ function initDatagridEditOrder(){
             }
         },
     })
+    var formId = $("#formId").val();
     $("#gridEditOrder").datagrid({
+    	method:'post',
+        url:contextPath+"/form/purchase/detailList?formId="+formId,
         align:'center',
         singleSelect:true,  //单选  false多选
         rownumbers:true,    //序号

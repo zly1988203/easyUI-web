@@ -20,12 +20,11 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.json.JSONObject;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -37,6 +36,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
+import com.okdeer.jxc.common.constant.LogConstant;
 import com.okdeer.jxc.common.controller.BasePrintController;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportComponent;
@@ -67,6 +67,8 @@ import com.okdeer.jxc.goods.entity.GoodsSelectByPurchase;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
 
+import net.sf.json.JSONObject;
+
 /**
  * ClassName: PurchaseFormController 
  * @author xiaoj02
@@ -91,7 +93,7 @@ public class PurchaseFormController extends
 
 	@Autowired
 	private OrderNoUtils orderNoUtils;
-
+	
 	/**
 	 * 跳转到新增采购单页面
 	 * @return
@@ -114,6 +116,24 @@ public class PurchaseFormController extends
 		return "form/purchase/receiptAdd";
 	}
 
+	
+	/**
+	 * @Description: 新增页面
+	 * @return   
+	 * @return String  
+	 * @throws
+	 * @author zhongy
+	 * @date 2016年12月17日
+	 */
+	@RequestMapping(value = "addReceiptForm")
+	public String addDeliverForm(PurchaseFormPO vo, Model model) {
+		LOG.info(LogConstant.OUT_PARAM, vo.toString());
+		String formId = vo.getId();
+		PurchaseFormPO form = purchaseFormServiceApi.selectPOById(formId);
+		model.addAttribute("form", form);
+		return "form/purchase/receiptAdd";
+	}
+	
 	/**
 	 * 跳转到新增退货单页面
 	 * @return

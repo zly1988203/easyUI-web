@@ -35,6 +35,7 @@
 	        <div class="ub umar-t8">
 	            <div class="ub ub-ac umar-r40">
 	                <div class="umar-r10 uw-60 ut-r">单据编号:</div>
+	                <input class="uinp" name="formType" id="formType" type="hidden" value="PA">
 	                <input class="uinp" name="formNo" id="formNo" type="text">
 	            </div>
 	            <div class="ub ub-ac umar-r40">
@@ -60,7 +61,7 @@
 	            <div class="ub ub-ac umar-r40">
 	                <div class="umar-r10 uw-60 ut-r">审核状态:</div>
 	                <div class="ub ub-ac umar-r10">
-	                    <input class="radioItem" type="radio" name="status" id="status_no" value="0" checked="checked"/><label for="status_no">未审核 </label>
+	                    <input class="radioItem" type="radio" name="status" id="status_no" value="0"/><label for="status_no">未审核 </label>
 	                </div>
 	                <div class="ub ub-ac umar-r10">
 	                    <input class="radioItem" type="radio" name="status" id="status_yes" value="1"/><label for="status_yes">已审核 </label>
@@ -69,14 +70,26 @@
 	                    <input class="radioItem" type="radio" name="status" value="2"/><span>不通过 </span>
 	                </div> -->
 	                <div class="ub ub-ac umar-r10">
-	                    <input class="radioItem" type="radio" name="status" id="status_all" value=""/><label for="status_all">全部</label>
+	                    <input class="radioItem" type="radio" name="status" id="status_all" value="" checked="checked"/><label for="status_all">全部</label>
 	                </div>
 	            </div>
 	        </div>
         </form>
-        <div class="ub umar-t8 ub-f1">
-            <table id="gridOrders"></table>
+        
+      <div class="ub ub-f1  umar-t8 umar-b8">
+            <div id="tabs" class="easyui-tabs" data-options="fit:true,border:false,tabWidth:120,tabHeight:25" style="">
+	            <div title="采购收货单" id="processed" style="height: auto;">
+	                <table id="gridOrders"></table>
+	            </div>
+	            <div title="未收货采购订单" id="pending" style="padding: 5px; height: auto;">
+	                <table id="receiptOrderList"></table>
+	            </div> 
+        	</div>
         </div>
+        
+      <!--   <div class="ub umar-t8 ub-f1">
+            <table id="gridOrders"></table>
+        </div> -->
 
     </div>
 </body>
