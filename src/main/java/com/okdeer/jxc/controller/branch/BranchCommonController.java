@@ -70,7 +70,7 @@ public class BranchCommonController extends BaseController<BranchCommonControlle
 		LOG.info("公共选择机构跳转页面参数:{}", req.toString());
 		String deliverFormType = req.getParameter("formType");
 		String branchId = req.getParameter("branchId");
-		model.addAttribute("formType", deliverFormType);
+		model.addAttribute("deliverFormType", deliverFormType);
 		model.addAttribute("branchId", branchId);
 		return "component/publicAgency";
 	}
