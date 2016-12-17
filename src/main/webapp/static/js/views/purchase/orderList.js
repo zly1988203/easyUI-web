@@ -24,7 +24,7 @@ function initConditionParams(){
     
 	$("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
 	$("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
-    
+
     
 }
 

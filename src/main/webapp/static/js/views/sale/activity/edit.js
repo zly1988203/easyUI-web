@@ -92,6 +92,7 @@ function  editstart(selectType){
                     //combobox 下拉赋值和禁止选择
   		    		$("#activityType").combobox('select',activtype);  
   		    		$("#activityType").combobox("disable");
+
 	  		    	//满减类型赋值
 						if(activtype==5){		
 							activityScopemj=listinfo.activityScope;	
@@ -110,16 +111,18 @@ function  editstart(selectType){
 								 disableGoods('SelectGoods','GoodsType');
 							}
 							
-							 
-
 						  }
 						//其他类型请求
 						else{
 							 initmangeDatagrid(activityId);
 							 //折扣类型赋值
-				    		 if(activtype=="2"){
+				    		 if(activtype==2){
 				    		   activityScopedis=listinfo.activityScope;
 				    		   radioSetdis(activityScopedis);
+				    		  
+				    		}else if(activtype==1){
+				    			//设置批量特价不显示 除了activtype==1
+				    			 $('.special').removeClass('unhide');
 				    		}
 						}
 
@@ -157,7 +160,6 @@ function onChangeSelect(){
 	   break;
 	 case "5":
 	   selectOptionMj();
-
 	   break;
 	 case "6":
 	   initDatagridCompose();
@@ -183,6 +185,7 @@ function selectOptionzk(){
 	disableGoods('SelectGoods','');
 	$('.discount').removeClass('unhide');
 	$('.discountTypechoose').removeClass('unhide');
+	
 	$(document).on('click','.discountTypechoose .disradio',function(e){
 		e.preventDefault();
 		return false;
@@ -300,7 +303,7 @@ function cleardata(){
 //状态初始化 隐藏 清空数据 
 function optionHide(){
 	$("#consaleadd").addClass('ub-f1');
-	//$('.special').addClass('unhide');
+	$('.special').addClass('unhide');
 	$('.discount').addClass('unhide');
 	$('.oddprice ').addClass('unhide');
 	$('.discountTypechoose').addClass('unhide');
@@ -1400,11 +1403,19 @@ function saveActivity(){
 	          isCheckResult = false;
 	          return false;
 	      };
-	      if(!v["saleAmount"]){
-	          messager("第"+(i+1)+"行，促销价不能为空");
+	      if(!v["saleAmount"] || v["saleAmount"]=='0.00'){
+	          messager("第"+(i+1)+"行，促销价不能为空或0");
 	          isCheckResult = false;
 	          return false;
 	      };
+	      
+	      if(parseFloat(v["price"]) <= parseFloat(v["saleAmount"])){
+	          messager("第"+(i+1)+"行，促销价要小于原价");
+	          isCheckResult = false;
+	          return false;
+	      };
+	      
+	      
 	  }
 	  saveDataHandel(rows);
   }
@@ -1420,7 +1431,7 @@ function saveActivity(){
 		          isCheckResult = false;
 		          return false;
 		      };
-		      if(!v["discount"]){
+		      if(!v["discount"] || v["discount"]=='0.00'){
 		          messager("第"+(i+1)+"行，折扣不能为空");
 		          isCheckResult = false;
 		          return false;
@@ -1442,8 +1453,8 @@ function saveActivity(){
 		          isCheckResult = false;
 		          return false;
 		      };
-		      if(!v["discount"]){
-		          messager("第"+(i+1)+"行，折扣不能为空");
+		      if(!v["discount"] || v["discount"]=='0.00'){
+		          messager("第"+(i+1)+"行，折扣不能为空或0");
 		          isCheckResult = false;
 		          return false;
 		      };
@@ -1467,8 +1478,14 @@ function saveActivity(){
 	          isCheckResult = false;
 	          return false;
 	      };
-	      if(!v["saleAmount"]){
+	      if(!v["saleAmount"] || v["saleAmount"]=='0.00'){
 	          messager("第"+(i+1)+"行，偶数特价不能为空");
+	          isCheckResult = false;
+	          return false;
+	      };
+	      
+	      if(parseFloat(v["price"]) <= parseFloat(v["saleAmount"])){
+	          messager("第"+(i+1)+"行，偶数特价要小于原价");
 	          isCheckResult = false;
 	          return false;
 	      };
@@ -1485,8 +1502,14 @@ function saveActivity(){
 	          isCheckResult = false;
 	          return false;
 	      };
-	      if(!v["saleAmount"]){
-	          messager("第"+(i+1)+"行，换购价不能为空");
+	      if(!v["saleAmount"] || v["saleAmount"]=='0.00'){
+	          messager("第"+(i+1)+"行，换购价不能为空或0");
+	          isCheckResult = false;
+	          return false;
+	      };
+	      
+	      if(parseFloat(v["price"]) <= parseFloat(v["saleAmount"])){
+	          messager("第"+(i+1)+"行，换购价要小于原价");
 	          isCheckResult = false;
 	          return false;
 	      };
@@ -1514,18 +1537,18 @@ function saveActivity(){
 			  }
 			  for(var i=0;i<setrows.length;i++){
 				  var v = setrows[i];
-			      if(!v["limitAmount"]){
-			          messager("第"+(i+1)+"行，买满金额不能为空");
+				  if(!v["limitAmount"] || v["limitAmount"]=='0.00'){
+			          messager("第"+(i+1)+"行，买满金额不能为空或0");
 			          isCheckResult = false;
 			          return false;
 			      };
-			      if(!v["discountPrice"]){
-			          messager("第"+(i+1)+"行，优惠额不能为空");
+			      if(!v["discountPrice"] || v["discountPrice"]=='0.00'){
+			          messager("第"+(i+1)+"行，优惠额不能为空或0");
 			          isCheckResult = false;
 			          return false;
 			      };
 			      
-			      if(v["limitAmount"] < v["discountPrice"]){
+			      if(parseFloat(v["limitAmount"]) < parseFloat(v["discountPrice"])){
 			    	  messager("第"+(i+1)+"行，买满金额不能小于优惠额");
 			          isCheckResult = false;
 			          return false;
@@ -1548,18 +1571,18 @@ function saveActivity(){
 			  }
 			  for(var i=0;i<setrows.length;i++){
 				  var v = setrows[i];
-			      if(!v["limitAmount"]){
-			          messager("第"+(i+1)+"行，买满金额不能为空");
+				  if(!v["limitAmount"] || v["limitAmount"]=='0.00'){
+			          messager("第"+(i+1)+"行，买满金额不能为空或0");
 			          isCheckResult = false;
 			          return false;
 			      };
-			      if(!v["discountPrice"]){
-			          messager("第"+(i+1)+"行，优惠额不能为空");
+			      if(!v["discountPrice"] || v["discountPrice"]=='0.00'){
+			          messager("第"+(i+1)+"行，优惠额不能为空或0");
 			          isCheckResult = false;
 			          return false;
 			      };
 			      
-			      if(v["limitAmount"] < v["discountPrice"]){
+			      if(parseFloat(v["limitAmount"]||0) < parseFloat(v["discountPrice"]||0)){
 			    	  messager("第"+(i+1)+"行，买满金额不能小于优惠额");
 			          isCheckResult = false;
 			          return false;
@@ -1570,18 +1593,18 @@ function saveActivity(){
 		  else if(activityScopemj=="2"){
 			  for(var i=0;i<rows.length;i++){
 				  var v = rows[i];
-			      if(!v["limitAmount"]){
+			      if(!v["limitAmount"] || v["limitAmount"]=='0.00'){
 			          messager("第"+(i+1)+"行，买满金额不能为空");
 			          isCheckResult = false;
 			          return false;
 			      };
-			      if(!v["discountPrice"]){
-			          messager("第"+(i+1)+"行，优惠额不能为空");
+			      if(!v["discountPrice"] || v["discountPrice"]=='0.00'){
+			          messager("第"+(i+1)+"行，优惠额不能为空或0");
 			          isCheckResult = false;
 			          return false;
 			      };
 			      
-			      if(v["limitAmount"] < v["discountPrice"]){
+			      if(parseFloat(v["limitAmount"]||0) < parseFloat(v["discountPrice"]||0)){
 			    	  messager("第"+(i+1)+"行，买满金额不能小于优惠额");
 			          isCheckResult = false;
 			          return false;
@@ -1589,6 +1612,61 @@ function saveActivity(){
 			  }
 			  saveDataHandel(rows);
 		  }
+  }
+  //组合特价
+  else if(activityType=="6"){
+	 
+	  var flag = false;//判断是否有不同的组号
+	  
+	  for(var i=0;i<rows.length;i++){
+		  var v = rows[i];
+	      if(!v["skuCode"]){
+	          messager("第"+(i+1)+"行，货号不能为空");
+	          isCheckResult = false;
+	          return false;
+	      };
+	      if(!v["limitCount"] || v["limitCount"]=='0.00'){
+	          messager("第"+(i+1)+"行，组合数量不能为空或0");
+	          isCheckResult = false;
+	          return false;
+	      };
+	      
+	      if(!v["saleAmount"] || v["saleAmount"]=='0.00'){
+	          messager("第"+(i+1)+"行，组合特价不能为空或0");
+	          isCheckResult = false;
+	          return false;
+	      };
+	      
+	      if(parseFloat(v["price"]) <= parseFloat(v["saleAmount"])){
+	          messager("第"+(i+1)+"行，换购价要小于原价");
+	          isCheckResult = false;
+	          return false;
+	      };
+	      
+	      if(!v["groupNum"] || parseInt(v["groupNum"]) <= 0 || parseInt(v["groupNum"]) > 3){
+	          messager("第"+(i+1)+"行，组号只能是1,2,3");
+	          isCheckResult = false;
+	          return false;
+	      };
+	      
+	      //取列表第一个商品的组号跟其他商品组号比较，有不同的组号就可以
+	      var item = rows[0]
+	      
+	      if(v["groupNum"] != item["groupNum"]){
+	    	  flag = true;
+	    	  continue;
+	      }
+	      
+	  }
+	  
+	  if(!flag){
+		  messager("组号不能全部相同");
+          isCheckResult = false;
+          return false;
+	  }
+	  
+	  saveDataHandel(rows);
+	 
   }
   else{
 	  saveDataHandel(rows);

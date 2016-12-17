@@ -25,53 +25,8 @@
             </div>
 
 	        <div class="ub uline umar-t8"></div>
-	        <div class="ub umar-t8">
-	           <!--  <div class="ub ub-ac ">
-	                <div class="umar-r10 uw-80 ut-r">活动编号:</div>
-	                <input class="uinp ub ub-f1" type="text" name="formNo" id="formNo">
-	            </div> -->
-	            <div class="ub ub-ac ">
-                    <div class="umar-r10 uw-80 ut-r">活动名称:</div>
-                    <input class="uinp" maxLength="20" type="text" name="activityName" id="activityName" value="">
-                </div>
-                <div class="ub ub-ac uselectw umar-l00">
-                    <div class="umar-r10 uw-70 ut-r">活动类型:</div>
-                       <!--select-->
-				        <select class="easyui-combobox uselect" name="activityType" id="activityType" data-options="editable:false,onChange:onChangeSelect">
-							    <option value="1">特价</option> 
-								<option value="2">折扣</option> 
-								<option value="3">偶数特价</option> 
-								<option value="4">换购</option> 
-								<option value="5">满减</option> 
-								<option value="6">组合特价</option>
-				        </select>
-                </div>
-                <div class="ub ub-ac umar-l40  discountTypechoose unhide">
-	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub disradio disstatusChange" type="radio" name="disstatus"  value="1" checked="checked" /><span>类别折扣</span>
-	                    </div>
-						<div class="ub ub-ac umar-r10">
-							<input class="ub disradio disstatusChange" type="radio" name="disstatus" value="0" /><span>单品折扣</span>
-						</div>
-	                     <input class="uinp" type="hidden" id="activityScopedis" value="1"  name="activityScopedis">
-	            </div>
-                <div class="ub ub-ac umar-l40  mjTypechoose unhide">
-						<div class="ub ub-ac umar-r10">
-							<input class="ub mjradio" type="radio" name="mjstatus"  value="2" checked="checked" /><span>全场</span>
-						</div>
-	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub mjradio" type="radio" name="mjstatus" value="1" /><span>类别</span>
-	                    </div>
-						<div class="ub ub-ac umar-r10">
-							<input class="ub mjradio" type="radio" name="mjstatus" value="0" /><span>商品</span>
-						</div>
-	                    
-
-	                     <input class="uinp" type="hidden" id="activityScopemj" value="2"  name="activityScopemj">
-	            </div>
-	           
-            </div>
-	          <div class="ub umar-t8">
+	       
+	       	          <div class="ub umar-t8">
 	             <div class="ub ub-ac">
 	             	<div class="umar-r10 uw-80 ut-r">活动时间:</div>
 	              	<input class="Wdate"  readonly="readonly" name="startTime" id="startTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d',maxDate:'#F{$dp.$D(\'endTime\');}'})" />&nbsp;至&nbsp;
@@ -108,6 +63,55 @@
                    <input class="uinp ub ub-f1" type="hidden" id="weeklyActivityDay" name="weeklyActivityDay" value=" ">
                   </div>
 	          </div>
+	       
+	        <div class="ub umar-t8">
+	           <!--  <div class="ub ub-ac ">
+	                <div class="umar-r10 uw-80 ut-r">活动编号:</div>
+	                <input class="uinp ub ub-f1" type="text" name="formNo" id="formNo">
+	            </div> -->
+	            <div class="ub ub-ac ">
+                    <div class="umar-r10 uw-80 ut-r">活动名称:</div>
+                    <input class="uinp"  maxLength="20" type="text" name="activityName" id="activityName" value="">
+                </div>
+                <div class="ub ub-ac uselectw umar-l00">
+                    <div class="umar-r10 uw-70 ut-r">活动类型:</div>
+                       <!--select-->
+				        <select class="easyui-combobox uselect" name="activityType" id="activityType" data-options="editable:false,onChange:onChangeSelect">
+							    <option value="1">特价</option> 
+								<option value="2">折扣</option> 
+								<option value="3">偶数特价</option> 
+								<option value="4">换购</option> 
+								<option value="5">满减</option> 
+								<option value="6">组合特价</option>
+				        </select>
+                </div>
+                <div class="ub ub-ac umar-l40  discountTypechoose unhide">
+	                    <div class="ub ub-ac umar-r10">
+	                        <input class="ub disradio disstatusChange" type="radio" name="disstatus"  value="1" checked="checked" /><span>类别折扣</span>
+	                    </div>
+						<div class="ub ub-ac umar-r10">
+							<input class="ub disradio disstatusChange" type="radio" name="disstatus" value="0" /><span>单品折扣</span>
+						</div>
+	                     <input class="uinp" type="hidden" id="activityScopedis" value="1"  name="activityScopedis">
+	            </div>
+                <div class="ub ub-ac umar-l40  mjTypechoose unhide">
+						<div class="ub ub-ac umar-r10">
+							<input class="ub mjradio" type="radio" id="allMj" name="mjstatus"  value="2" checked="checked" /><span>全场</span>
+						</div>
+	                    <div class="ub ub-ac umar-r10">
+	                        <input class="ub mjradio" type="radio" name="mjstatus" value="1" /><span>类别</span>
+	                    </div>
+						<div class="ub ub-ac umar-r10">
+							<input class="ub mjradio" type="radio" name="mjstatus" value="0" /><span>商品</span>
+						</div>
+	                    
+
+	                     <input class="uinp" type="hidden" id="activityScopemj" value="2"  name="activityScopemj">
+	            </div>
+	           
+            </div>
+	         
+	     
 	          <div class="ub umar-t8">
 	             <div class="ub  ub-ac">
 	                   <div class="umar-r10 uw-80 ut-r">活动分店:</div>
