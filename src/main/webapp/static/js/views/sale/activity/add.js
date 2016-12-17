@@ -55,7 +55,6 @@ function onChangeSelect(){
 			    break;
 		    case "5":
 			    selectOptionMj();
-			    disableGoods('SelectGoods','');
 			    break;
 		    case "6":
 			    optionHide();
@@ -142,18 +141,20 @@ function selectOptionMj(){
 	initDatagridallMj();
 	initDatagridsortSet();
 	// 禁止按钮点击事件
-	disableGoods('','GoodsType');
+	disableGoods('SelectGoods','GoodsType');
 	$('.mjTypechoose').removeClass('unhide');
 	$(document).on('mousedown','.mjTypechoose .mjradio',function(){
 
 		var _this = $(this);
 		$('#activityScopemj').val(_this.val());
-		var changeDisType = function(){
+		var changeDisType =  function(){
 			_this.prop("checked",true);
+			
 			if(_this.val()=="2"){
-				$('#consalesetmj').removeClass('unhide');
-				$("#consalesetmj").addClass('ub-f1');
-				$('#consaleadd').addClass('unhide');
+				$("#consaleadd").removeClass('ub-f1');
+				$('#consaleadd').removeClass('unhide');
+				$('#consalesetmj').addClass('unhide');
+				
 				//禁止按钮点击事件
 				disableGoods('SelectGoods','GoodsType');
 				initDatagridallMj();
@@ -178,14 +179,27 @@ function selectOptionMj(){
 				initDatagridsortSet();
 
 			}
+
 		}
-		$.messager.confirm("","更换满减类型将清空当前列表信息，是否更换？",function(b){
-			if(!b){
-				return;
+
+			var rows= gridHandel.getRows();
+			 $("#salesetmj").datagrid("endEdit", gridHandelMj.getSelectRowIndex());
+			var setrows=$('#salesetmj').datagrid('getRows');
+			
+			if((rows.length==0 || JSON.stringify(rows[0])==JSON.stringify({oldPurPrice:0})) &&
+					(setrows.length == 0  || JSON.stringify(setrows[0])==JSON.stringify({oldPurPrice:0}))){
+						changeDisType();
 			}else{
-				changeDisType();
+				$.messager.confirm("","更换满减类型将清空当前列表信息，是否更换？",function(b){
+					if(!b){
+						return;
+					}else{
+						changeDisType();
+					}
+				});
 			}
-		});
+		
+
 	      /*var mjval=$(this).val();
 	      $('#activityScopemj').val(mjval);
 	      if(mjval=="2"){
@@ -711,22 +725,22 @@ function initDatagridRedemption(){
 // 初始化表格-全场满减
 function initDatagridallMj(){
 	gridHandel.setGridName("saleMangeadd");
-    gridHandel.initKey({
-        firstName:'skuCode',
-        enterName:'skuCode',
-        enterCallBack:function(arg){
-            if(arg&&arg=="add"){
-                gridHandel.addRow(parseInt(gridHandel.getSelectRowIndex())+1,gridDefault);
-                setTimeout(function(){
-                    gridHandel.setBeginRow(gridHandel.getSelectRowIndex()+1);
-                    gridHandel.setSelectFieldName("skuCode");
-                    gridHandel.setFieldFocus(gridHandel.getFieldTarget('skuCode'));
-                },100)
-            }else{
-               selectGoods(arg);
-            }
-        },
-    })
+//    gridHandel.initKey({
+//        firstName:'skuCode',
+//        enterName:'skuCode',
+//        enterCallBack:function(arg){
+//            if(arg&&arg=="add"){
+//                gridHandel.addRow(parseInt(gridHandel.getSelectRowIndex())+1,gridDefault);
+//                setTimeout(function(){
+//                    gridHandel.setBeginRow(gridHandel.getSelectRowIndex()+1);
+//                    gridHandel.setSelectFieldName("skuCode");
+//                    gridHandel.setFieldFocus(gridHandel.getFieldTarget('skuCode'));
+//                },100)
+//            }else{
+//               selectGoods(arg);
+//            }
+//        },
+//    })
     $("#saleMangeadd").datagrid({
         align:'center',
         // toolbar: '#tb', //工具栏 id为tb
@@ -1399,7 +1413,6 @@ function saveActivity(){
   else if(activityType=="5"){
 	  $("#salesetmj").datagrid("endEdit", gridHandelMj.getSelectRowIndex());
 	  var setrows=$('#salesetmj').datagrid('getRows');
-	  var setrows=gridHandel.getRowsWhere(check);
 		  if(activityScopemj=="0"){
 			  if(setrows.length==0){
 			      messager("满减设置表格不能为空");

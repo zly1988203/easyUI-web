@@ -59,20 +59,20 @@ function zTreeOnClick(event, treeId, treeNode) {
 
 //初始化表格
 function initDatagridAgency(){
-	
-	var formType="";
-	var branchId="";
-	if($("#formType").val()){
-		formType=$("#formType").val();
-	}
-	if($("#branchId").val()){
-		branchId=$("#branchId").val();
-	}
+	debugger;
+	//var formType="";
+	//var branchId="";
+	//if($("#deliverFormType").val()){
+	//	formType=$("#deliverFormType").val();
+	//}
+	//if($("#branchId").val()){
+	//	branchId=$("#branchId").val();
+	//}
     $("#gridAgency").datagrid({
         //title:'普通表单-用键盘操作',
         method:'POST',
         align:'center',
-        url:contextPath+'/common/branches/getComponentList?formType='+$("#formType").val()+'&branchId='+$("#branchId").val(),
+        url:contextPath+'/common/branches/getComponentList?formType='+$("#deliverFormType").val()+'&branchId='+$("#branchId").val(),
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:true,  //单选  false多选
         rownumbers:true,    //序号

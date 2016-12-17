@@ -5,6 +5,7 @@
 $(function(){
 	 $("#createTime").html(new Date().format('yyyy-MM-dd hh:mm'));
     initDatagridAddRequireOrder();
+    loadFormByFormNoDO();
 });
 var gridDefault = {
     receiveNum:0,
@@ -584,4 +585,37 @@ function getImportData(data){
 //返回列表页面
 function back(){
 	location.href = contextPath+"/form/deliverForm/viewsDI";
+}
+
+// 从出库单直接加载入库单
+function loadFormByFormNoDO() {
+    var referenceId = $("#referenceId").val();
+    if (referenceId) {
+        loadLists(referenceId);
+        setData();
+    }
+}
+
+// 设置值
+function setData(){
+    $.ajax({
+        url:contextPath+"/form/deliverForm/getSourceBranchAndTargetBranchAndFormNo",
+        data:{
+            referenceId : $("#referenceId").val()
+        },
+        type:"post",
+        success:function(data){
+            if (data.code == '0') {
+                $("#referenceId").val(data.data.id);
+                $("#referenceNo").val(data.data.formNo);
+                $("#targetBranchId").val(data.data.targetBranchId);
+                $("#targetBranchName").val(data.data.targetBranchName);
+                $("#sourceBranchId").val(data.data.sourceBranchId);
+                $("#sourceBranchName").val(data.data.sourceBranchName);
+                //$("#address").html(data.data.address);
+                //$("#contacts").html(data.data.contacts);
+                //$("#mobile").html(data.data.mobile);
+            }
+        }
+    });
 }

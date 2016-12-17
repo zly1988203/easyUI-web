@@ -68,9 +68,9 @@ public class BranchCommonController extends BaseController<BranchCommonControlle
 	@RequestMapping(value = "viewComponent")
 	public String viewComponent(HttpServletRequest req, Model model) {
 		LOG.info("公共选择机构跳转页面参数:{}", req.toString());
-		String formType = req.getParameter("formType");
+		String deliverFormType = req.getParameter("formType");
 		String branchId = req.getParameter("branchId");
-		model.addAttribute("formType", formType);
+		model.addAttribute("formType", deliverFormType);
 		model.addAttribute("branchId", branchId);
 		return "component/publicAgency";
 	}
