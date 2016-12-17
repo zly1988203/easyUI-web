@@ -60,7 +60,7 @@ function initDatagridEditRequireOrder(){
 			                '&nbsp;&nbsp;<a name="del" class="del-line" data-index="'+index+'" onclick="delLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>';
 			        }
 			        return str;
-			    },
+			    }
 			},
             {field:'rowNo',hidden:'true'},
             {field:'skuCode',title:'货号',width: '70px',align:'left',editor:'textbox'},
@@ -96,7 +96,7 @@ function initDatagridEditRequireOrder(){
                         precision:4,
                         onChange: onChangeLargeNum,
                     }
-                },
+                }
             },
             {field:'applyNum',title:'数量',width:'80px',align:'right',
                 formatter:function(value,row,index){
@@ -113,7 +113,7 @@ function initDatagridEditRequireOrder(){
                         precision:4,
                         onChange: onChangeRealNum,
                     }
-                },
+                }
             },
             {field:'price',title:'单价',width:'80px',align:'right',
                 formatter:function(value,row,index){
@@ -138,8 +138,33 @@ function initDatagridEditRequireOrder(){
                         precision:2,
                         onChange: onChangeAmount,
                     }
+                }
+            },
+            {field:'isGift',title:'赠送',width:'80px',align:'left',
+                formatter:function(value,row){
+                    if(row.isFooter){
+                        return;
+                    }
+                    row.isGift = row.isGift?row.isGift:0;
+                    return value=='1'?'是':(value=='0'?'否':'请选择');
                 },
-
+                editor:{
+                    type:'combobox',
+                    options:{
+                        valueField: 'id',
+                        textField: 'text',
+                        editable:false,
+                        required:true,
+                        data: [{
+                            "id":'1',
+                            "text":"是",
+                        },{
+                            "id":'0',
+                            "text":"否",
+                        }],
+                        onSelect:onSelectIsGift
+                    }
+                }
             },
             {field:'inputTax',title:'税率',width:'80px',align:'right',
                 formatter:function(value,row,index){
@@ -170,7 +195,7 @@ function initDatagridEditRequireOrder(){
                         min:0,
                         precision:2,
                     }
-                },
+                }
             },
             {field:'sourceStock',title:'目标库存',width:'80px',align:'right',
                 formatter:function(value,row,index){
@@ -178,7 +203,7 @@ function initDatagridEditRequireOrder(){
                         return
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
+                }
 //                editor:{
 //                    type:'numberbox',
 //                    options:{
@@ -286,6 +311,34 @@ function onChangeAmount(newV,oldV) {
     var taxVal = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'inputTax');
     gridHandel.setFieldValue('taxAmount',(taxVal*(newV/(1+parseFloat(taxVal)))).toFixed(2));
 }
+//监听是否赠品
+function onSelectIsGift(data){
+    var checkObj = {
+        skuCode: gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'skuCode'),
+        isGift:data.id,
+    };
+    var arrs = gridHandel.searchDatagridFiled(gridHandel.getSelectRowIndex(),checkObj);
+    if(arrs.length==0){
+        var targetPrice = gridHandel.getFieldTarget('price');
+        if(data.id=="1"){
+            var priceVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
+            $('#'+gridHandel.getGridName()).datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"] = priceVal;
+            $(targetPrice).numberbox('setValue',0);
+            //$(targetPrice).numberbox('disable');
+        }else{
+            //$(targetPrice).numberbox('enable');
+            var oldPrice =  $("#"+gridHandel.getGridName()).datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"];
+            if(oldPrice){
+                $(targetPrice).numberbox('setValue',oldPrice);
+            }
+        }
+        updateFooter();
+    }else{
+        var targetIsGift = gridHandel.getFieldTarget('isGift');
+        $(targetIsGift).combobox('select', data.id=='1'?'0':'1');
+        messager(data.id=='1'?'已存在相同赠品':'已存在相同商品');
+    }
+}
 //合计
 function updateFooter(){
     var fields = {largeNum:0,applyNum:0,amount:0,isGift:0, };
@@ -329,19 +382,19 @@ function setDataValue(data) {
 	        var rec = data[i];
 	        rec.remark = "";
         }
-         var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
-         var addDefaultData = gridHandel.addDefault(data,gridDefault);
+         //var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
+         //var addDefaultData = gridHandel.addDefault(data,gridDefault);
          var keyNames = {
     		 distributionPrice:'price',
 	         id:'skuId',
 	         disabled:'',
 	         pricingType:''
          };
-         var rows = gFunUpdateKey(addDefaultData,keyNames);
+         //var rows = gFunUpdateKey(nowRows,keyNames);
          var argWhere ={skuCode:1};  //验证重复性
          var isCheck ={isGift:1 };   //只要是赠品就可以重复
-         var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
-         $("#gridEditRequireOrder").datagrid("loadData",newRows);
+         var newRows = gridHandel.checkDatagrid(data,rows,argWhere,isCheck);
+         $("#gridEditRequireOrder").datagrid("loadData",data);
 
         oldData["grid"] = $.map(newRows, function(obj){
             return $.extend(true,{},obj);//返回对象的深拷贝
