@@ -453,20 +453,19 @@ function setDataValue(data) {
     	var rec = data[i];
     	rec.remark = "";
     }
-    //var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
-    //var addDefaultData  = gridHandel.addDefault(data,gridDefault);
+    var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
+    var addDefaultData = gridHandel.addDefault(data,gridDefault);
     var keyNames = {
-		distributionPrice:'price',
+        distributionPrice:'price',
         id:'skuId',
         disabled:'',
-        pricingType:'',
-        inputTax:'tax'
+        pricingType:''
     };
-    //var rows = gFunUpdateKey(addDefaultData,keyNames);
+    var rows = gFunUpdateKey(addDefaultData,keyNames);
     var argWhere ={skuCode:1};  //验证重复性
     var isCheck ={isGift:1 };   //只要是赠品就可以重复
-    var newRows = gridHandel.checkDatagrid(data,rows,argWhere,isCheck);
-    $("#"+gridHandel.getGridName()).datagrid("loadData",newRows);
+    var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
+    $("#gridEditRequireOrder").datagrid("loadData",newRows);
 
     setTimeout(function(){
         gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);

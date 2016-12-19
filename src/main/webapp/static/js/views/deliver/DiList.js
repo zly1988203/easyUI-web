@@ -12,7 +12,7 @@ $(function(){
 	loadTabs();
 	toBtnDisable('btnAdd','btnDel');
 	initDatagridRequireOrdersDO();
-    targetBranchId = $("#targetBranchId").val();
+	targetBranchId = $("#targetBranchId").val();
 });
 var gridHandel = new GridClass();
 //加载配送出库单
@@ -159,12 +159,27 @@ function addDeliverForm(){
 
 //查询入库单
 function queryForm(){
+	branchName = $("#branchName").val();
+	if (indexTab === 0) {
+		setQueryDataDOBranbch();
+	} else {
+		setQueryDataDIBranbch();
+	}
 	var fromObjStr = $('#queryForm').serializeObject();
 	//$("#deliverFormList").datagrid("options").method = "post";
 	//$("#deliverFormList").datagrid('options').url = contextPath + '/form/deliverForm/getDeliverForms';
 	$("#" + tableIdName).datagrid('load',fromObjStr);
 }
 
+function setQueryDataDOBranbch(){
+	$("#targetBranchId").val(targetBranchId);
+	$("#targetBranchName").val(branchName);
+}
+
+function setQueryDataDIBranbch(){
+		$("#targetBranchId").val(targetBranchId);
+		$("#targetBranchName").val(branchName);
+}
 //删除
 function delDeliverForm(){
 	var dg = $("#deliverFormList");
@@ -199,13 +214,15 @@ function delDeliverForm(){
 	});
 }
 
+var branchName;
 /**
  * 发货机构
  */
 function selectBranches(){
 	new publicAgencyService(function(data){
 		//$("#sourceBranchId").val(data.branchesId);
-		$("#sourceBranchName").val(data.branchName);
+		branchName = data.branchName;
+		$("#branchName").val(branchName);
 	},'',targetBranchId);
 }
 
@@ -280,12 +297,14 @@ function toBtnEnable(addId,delId){
 function setQueryDataDO() {
 	tempURL = '/form/deliverSelect/getDeliverFormList';
 	tableIdName = 'deliverFormList';
+	setQueryDataDOBranbch();
 }
 
 // 设置值
 function setQueryDataDI() {
 	tempURL = '/form/deliverForm/getDeliverForms';
 	tableIdName = 'processedFormList';
+	setQueryDataDIBranbch();
 }
 
 var deliverAuditStatus = '0';

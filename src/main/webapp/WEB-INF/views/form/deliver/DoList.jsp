@@ -56,7 +56,11 @@
                 <div class="ub ub-ac uw-300 umar-l40">
                     <div class="umar-r10 uw-70 ut-r">机构名称:</div>
                     <input type="hidden" id="sourceBranchId" name="sourceBranchId" value="${sourceBranchId}" />
-                    <input class="uinp ub ub-f1" type="text" id="sourceBranchName" name="sourceBranchName" />
+                    <input type="hidden" id="sourceBranchName" name="sourceBranchName"/>
+                    <%--<input type="hidden" id="targetBranchId" name="targetBranchId"/>
+                    <input type="hidden" id="targetBranchName" name="targetBranchName"/>--%>
+
+                    <input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" />
                     <div class="uinp-more" onclick="selectBranches()" >...</div>
                 </div>
             </div>

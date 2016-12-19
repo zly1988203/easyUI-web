@@ -18,8 +18,8 @@ $(function(){
 });
 var gridDefault = {
    /* applyNum:0,
-    largeNum:0,*/
-    isGift:0,
+    largeNum:0,
+    isGift:0,*/
 }
 var oldData = {};
 var gridHandel = new GridClass();
@@ -382,21 +382,21 @@ function setDataValue(data) {
 	        var rec = data[i];
 	        rec.remark = "";
         }
-         //var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
-         //var addDefaultData = gridHandel.addDefault(data,gridDefault);
-         var keyNames = {
-    		 distributionPrice:'price',
-	         id:'skuId',
-	         disabled:'',
-	         pricingType:''
-         };
-         //var rows = gFunUpdateKey(nowRows,keyNames);
-         var argWhere ={skuCode:1};  //验证重复性
-         var isCheck ={isGift:1 };   //只要是赠品就可以重复
-         var newRows = gridHandel.checkDatagrid(data,rows,argWhere,isCheck);
-         $("#gridEditRequireOrder").datagrid("loadData",data);
+        var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
+        //var addDefaultData = gridHandel.addDefault(data,gridDefault);
+        var keyNames = {
+            distributionPrice:'price',
+            id:'skuId',
+            disabled:'',
+            pricingType:''
+        };
+        var rows = gFunUpdateKey(data,keyNames);
+        var argWhere ={skuCode:1};  //验证重复性
+        var isCheck ={isGift:1 };   //只要是赠品就可以重复
+        //var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
+        $("#gridEditRequireOrder").datagrid("loadData",rows);
 
-        oldData["grid"] = $.map(newRows, function(obj){
+        oldData["grid"] = $.map(rows, function(obj){
             return $.extend(true,{},obj);//返回对象的深拷贝
         });
 }
