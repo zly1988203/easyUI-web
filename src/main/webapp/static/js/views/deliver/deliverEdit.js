@@ -18,8 +18,8 @@ $(function(){
 });
 var gridDefault = {
    /* applyNum:0,
-    largeNum:0,
-    isGift:0,*/
+    largeNum:0,*/
+    isGift:0,
 }
 var oldData = {};
 var gridHandel = new GridClass();
@@ -241,10 +241,10 @@ function initDatagridEditRequireOrder(){
             }
             gridHandel.setDatagridHeader("center");
             updateFooter();
-            if(!gVarIsInit){
+            /*if(!gVarIsInit){
             	gVarIsInit = true;
                 selectStockAndPrice(data.rows);
-            }
+            }*/
         }
     });
 }
@@ -383,18 +383,18 @@ function setDataValue(data) {
 	        rec.remark = "";
         }
         var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
-        //var addDefaultData = gridHandel.addDefault(data,gridDefault);
+        var addDefaultData = gridHandel.addDefault(data,gridDefault);
         var keyNames = {
             distributionPrice:'price',
             id:'skuId',
             disabled:'',
             pricingType:''
         };
-        var rows = gFunUpdateKey(data,keyNames);
+        var rows = gFunUpdateKey(addDefaultData,keyNames);
         var argWhere ={skuCode:1};  //验证重复性
         var isCheck ={isGift:1 };   //只要是赠品就可以重复
-        //var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
-        $("#gridEditRequireOrder").datagrid("loadData",rows);
+        var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
+        $("#gridEditRequireOrder").datagrid("loadData",newRows);
 
         oldData["grid"] = $.map(rows, function(obj){
             return $.extend(true,{},obj);//返回对象的深拷贝
@@ -794,8 +794,6 @@ function selectStockAndPriceImport(data){
 }
 
 function updateListData(data){
-     //var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
-    // var addDefaultData = gridHandel.addDefault(data,gridDefault);
      var keyNames = {
 		 distributionPrice:'price',
          id:'skuId',
