@@ -694,6 +694,7 @@ var datagridUtil = {
 			}
 			if (count == 0) {
 				$.messager.alert('提示', '明细数据不能为空，请输入！');
+				gFunEndLoading();
 				return false;
 			} else {
 				return true;
