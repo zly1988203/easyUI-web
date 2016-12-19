@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.OrderNoUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
@@ -305,10 +306,10 @@ public class ActivityController {
 	 */
 	@RequestMapping(value = "getDetail", method = RequestMethod.GET)
 	@ResponseBody
-	public PageUtils<Map<String, Object>> getDetail(String activityId){
+	public PageUtils<Map<String, Object>> getDetail(ActivityListQueryVo activityListQueryVo){
 		try {
-			logger.debug("查询活动详情：getDetail：{}",activityId);
-			PageUtils<Map<String, Object>> activityDetail = mainServiceApi.getDetail(activityId);
+			logger.debug("查询活动详情：getDetail：{}",JSONObject.toJSONString(activityListQueryVo));
+			PageUtils<Map<String, Object>> activityDetail = mainServiceApi.getDetail(activityListQueryVo);
 			return activityDetail;
 		} catch (Exception e) {
 			logger.error("查询活动详情出现异常：",e);
@@ -321,10 +322,10 @@ public class ActivityController {
 	 */
 	@RequestMapping(value = "getDetailFullCut", method = RequestMethod.GET)
 	@ResponseBody
-	public PageUtils<Map<String, Object>> getDetailFullCut(String activityId){
+	public PageUtils<Map<String, Object>> getDetailFullCut(ActivityListQueryVo activityListQueryVo){
 		try {
-			logger.debug("查询活动详情(满减)：getDetailFullCut：{}",activityId);
-			PageUtils<Map<String, Object>> activityDetail = mainServiceApi.getDetailFullCut(activityId);
+			logger.debug("查询活动详情(满减)：getDetailFullCut：{}",JSONObject.toJSONString(activityListQueryVo));
+			PageUtils<Map<String, Object>> activityDetail = mainServiceApi.getDetailFullCut(activityListQueryVo);
 			return activityDetail;
 		} catch (Exception e) {
 			logger.error("查询活动详情(满减)出现异常：",e);
