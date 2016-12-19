@@ -1361,7 +1361,7 @@ function selectGoods(searchKey){
             gridHandel.setSelectFieldName("saleAmount");
             gridHandel.setFieldFocus(gridHandel.getFieldTarget('saleAmount'));
         },100)*/
-    },searchKey);
+    },searchKey,0,"","","","");
 }
 
 //保存
@@ -1436,7 +1436,7 @@ function saveActivity(){
 		          isCheckResult = false;
 		          return false;
 		      };
-		      if(v["discount"]>10||v["discount"]<0){
+		      if(parseFloat(v["discount"])>=10 || parseFloat(v["discount"]<=0)){
 		          messager("第"+(i+1)+"行，折扣值在0~10之间");
 		          isCheckResult = false;
 		          return false;
@@ -1458,7 +1458,7 @@ function saveActivity(){
 		          isCheckResult = false;
 		          return false;
 		      };
-		      if(v["discount"]>10||v["discount"]<0){
+		      if(parseFloat(v["discount"])>=10 || parseFloat(v["discount"]<=0)){
 		          messager("第"+(i+1)+"行，折扣值在0~10之间");
 		          isCheckResult = false;
 		          return false;
