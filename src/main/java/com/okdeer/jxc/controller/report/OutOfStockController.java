@@ -23,6 +23,18 @@ import com.okdeer.jxc.common.report.DataRecord;
 import com.okdeer.jxc.common.report.ReportService;
 import com.okdeer.jxc.controller.common.ReportController;
 import com.okdeer.jxc.report.service.OutOfStockServiceApi;
+
+/**
+ * ClassName: OutOfStockController 
+ * @Description: 配送缺货率分析
+ * @author chenchm
+ * @date 2016年11月9日 
+ *
+ * =================================================================================================
+ *     Task ID			  Date			     Author		      Description
+ * ----------------+----------------+-------------------+-------------------------------------------
+ *
+ */
 @Controller
 @RequestMapping("report/outOfStock")
 public class OutOfStockController  extends ReportController{
