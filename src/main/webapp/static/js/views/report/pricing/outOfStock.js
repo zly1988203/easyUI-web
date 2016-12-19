@@ -292,7 +292,7 @@ function initDatagridByGoods(){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				}
 			},
-			{field: 'inReceiveNum', title: '发货数量', width: '85px', align: 'right',
+			{field: 'inReceiveNum', title: '收货数量', width: '85px', align: 'right',
 				formatter : function(value, row, index) {
 					if(row.inReceiveNum){
 						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -300,7 +300,7 @@ function initDatagridByGoods(){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
 			},
-			{field: 'DIAmount', title: '发货金额', width: '85px', align: 'right',
+			{field: 'DIAmount', title: '收货金额', width: '85px', align: 'right',
 				formatter:function(value,row,index){
 					if(row.DIAmount){
 						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
