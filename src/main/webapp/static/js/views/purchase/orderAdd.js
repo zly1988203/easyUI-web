@@ -218,8 +218,8 @@ function initDatagridEditOrder(){
                     if(row.isFooter){
                         return
                     }
-                    if(!row.sourceStock){
-                        row.sourceStock = parseFloat(value||0).toFixed(2);
+                    if(!row.actual){
+                        row.actual = parseFloat(value||0).toFixed(2);
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
@@ -363,11 +363,6 @@ function selectGoods(searchKey){
 	        $("#gridEditOrder").datagrid("deleteRow", gridHandel.getSelectRowIndex());
 	        $("#gridEditOrder").datagrid("acceptChanges");
 	    }
-        
-        if(searchKey){
-            $("#gridEditOrder").datagrid("deleteRow", gridHandel.getSelectRowIndex());
-            $("#gridEditOrder").datagrid("acceptChanges");
-        }
         for(var i in data){
         	var rec = data[i];
         	rec.remark = "";
