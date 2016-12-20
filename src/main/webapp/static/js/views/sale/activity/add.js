@@ -413,15 +413,15 @@ function initDatagridSpecial(){
 function initDatagridsortZk(){
 	gridHandel.setGridName("saleMangeadd");
     gridHandel.initKey({
-        firstName:'skuCode',
-        enterName:'skuCode',
+        firstName:'categoryCode',
+        enterName:'categoryCode',
         enterCallBack:function(arg){
             if(arg&&arg=="add"){
                 gridHandel.addRow(parseInt(gridHandel.getSelectRowIndex())+1,gridDefault);
                 setTimeout(function(){
                     gridHandel.setBeginRow(gridHandel.getSelectRowIndex()+1);
-                    gridHandel.setSelectFieldName("skuCode");
-                    gridHandel.setFieldFocus(gridHandel.getFieldTarget('skuCode'));
+                    gridHandel.setSelectFieldName("categoryCode");
+                    gridHandel.setFieldFocus(gridHandel.getFieldTarget('categoryCode'));
                 },100)
             }else{
                selectGoods(arg);
@@ -453,12 +453,12 @@ function initDatagridsortZk(){
 					        return str;
 					    },
 					},
-					{field:'categoryCode',title:'商品类别编码',width:'0',hidden:true},
-					{field:'categoryName',title:'商品类别',width:'200px',align:'left',editor:'textbox'},
+					{field:'categoryCode',title:'类别编码',width:'200px',align:'left',hidden:true},
+					{field:'categoryName',title:'商品类别',width:'200px',align:'left'},
 					 {field:'discount',title:'折扣',width:'80px',align:'right',
 		                formatter:function(value,row,index){
 		                    if(row.isFooter){
-		                        return
+		                    	return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		                    }
 		                    return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		                },
@@ -662,7 +662,7 @@ function initDatagridOddtj(){
 			{field: 'saleAmount', title: '偶数特价', width: 100, align: 'right',
 			    formatter : function(value, row, index) {
 			        if(row.isFooter){
-			            return;
+			        	  return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 			        }
 			        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 			    },
@@ -765,7 +765,7 @@ function initDatagridRedemption(){
 			{field: 'saleAmount', title: '换购价', width: 100, align: 'right',
 			    formatter : function(value, row, index) {
 			        if(row.isFooter){
-			            return;
+			        	 return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 			        }
 			        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 			    },
@@ -920,7 +920,8 @@ function initDatagridsortMj(){
 					        return str;
 					    },
 					},
-					{field:'categoryName',title:'商品类别',width:'200px',align:'left',editor:'textbox'},
+					{field:'categoryCode',title:'类别编码',width:'200px',align:'left',hidden:true},
+					{field:'categoryName',title:'商品类别',width:'200px',align:'left'},
           ]],
   		onClickCell : function(rowIndex, field, value) {
 			gridHandel.setBeginRow(rowIndex);
@@ -1365,6 +1366,15 @@ function selectGoods(searchKey){
 }
 
 
+//function selectCategory(searchKey){
+//	new publicCategoryService(function(){
+//		
+//	},searchKey,'');
+//}
+
+
+
+
 
 // 保存
 function saveActivity(){
@@ -1510,8 +1520,8 @@ function saveActivity(){
 	          isCheckResult = false;
 	          return false;
 	      };
-	      if(!v["saleAmount"] || v["saleAmount"]=='0.00'){
-	          messager("第"+(i+1)+"行，偶数特价不能为空或0");
+	      if(!v["saleAmount"]){
+	          messager("第"+(i+1)+"行，偶数特价不能为空");
 	          isCheckResult = false;
 	          return false;
 	      };
@@ -1534,8 +1544,8 @@ function saveActivity(){
 	          isCheckResult = false;
 	          return false;
 	      };
-	      if(!v["saleAmount"] || v["saleAmount"]=='0.00'){
-	          messager("第"+(i+1)+"行，换购价不能为空或0");
+	      if(!v["saleAmount"]){
+	          messager("第"+(i+1)+"行，换购价不能为空");
 	          isCheckResult = false;
 	          return false;
 	      };
@@ -1991,9 +2001,9 @@ function saleAmountOnChange(newV,oldV){
 		gridHandel.setFieldValue('saleAmount','');
 		return;
 	}
-	if(parseFloat(newV)==0){
-		messager("促销价格为0");
-		return;
-	}
+//	if(parseFloat(newV)==0){
+//		messager("促销价格为0");
+//		return;
+//	}
 	gridHandel.setFieldValue('saleAmount',newV);
 }
