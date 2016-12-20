@@ -43,20 +43,20 @@ function initDateGrid() {
             	}
             	return "0.00";
             }},
-            {field: 'originalPrice', title: '原价', width: 80, align: 'right',formatter : function(value){
-            	if(value){
-            		value = parseFloat(value);
-            		return '<b>'+value.toFixed(2)+'</b>';
-            	}
-            	return "0.00";
-            }},
-            {field: 'salePrice', title: '销售价', width: 80, align: 'right',formatter : function(value){
-            	if(value){
-            		value = parseFloat(value);
-            		return '<b>'+value.toFixed(2)+'</b>';
-            	}
-            	return "0.00";
-            }},
+            {field: 'originalPrice', title: '原价', width: 80, align: 'right',
+            	formatter : function(value, row, index) {
+            		if(value){
+            			return '<b>'+parseFloat(value||0.00).toFixed(2)+'</b>';
+            		}
+				},
+            },
+            {field: 'salePrice', title: '销售价', width: 80, align: 'right',
+            	formatter : function(value, row, index) {
+            		if(value){
+            			return '<b>'+parseFloat(value||0.00).toFixed(2)+'</b>';
+            		}
+				},
+            },
             {field: 'saleAmount', title: '销售金额', width: 80, align: 'right',formatter : function(value){
             	if(value){
             		value = parseFloat(value);
