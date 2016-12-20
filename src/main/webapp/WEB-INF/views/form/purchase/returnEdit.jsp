@@ -33,7 +33,6 @@
                 <shiro:hasPermission name="JxcPurchaseRefund:print">
                 <div class="ubtns-item" onclick="printChoose('PR','/form/purchase/')">打印</div>
                 </shiro:hasPermission>
-                <div class="ubtns-item" onclick="exportData('PR');">导出明细</div>
             <shiro:hasPermission name="JxcPurchaseOrder:terminate">
                 <div class="ubtns-item" onclick="stop()">终止</div>
             </shiro:hasPermission>

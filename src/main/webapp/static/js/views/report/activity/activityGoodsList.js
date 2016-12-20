@@ -41,35 +41,35 @@ function initDateGrid() {
             		value = parseFloat(value);
             		return '<b>'+value.toFixed(2)+'</b>';
             	}
-            	return null;
+            	return "0.00";
             }},
             {field: 'originalPrice', title: '原价', width: 80, align: 'right',formatter : function(value){
             	if(value){
             		value = parseFloat(value);
             		return '<b>'+value.toFixed(2)+'</b>';
             	}
-            	return null;
+            	return "0.00";
             }},
             {field: 'salePrice', title: '销售价', width: 80, align: 'right',formatter : function(value){
             	if(value){
             		value = parseFloat(value);
             		return '<b>'+value.toFixed(2)+'</b>';
             	}
-            	return null;
+            	return "0.00";
             }},
             {field: 'saleAmount', title: '销售金额', width: 80, align: 'right',formatter : function(value){
             	if(value){
             		value = parseFloat(value);
             		return '<b>'+value.toFixed(2)+'</b>';
             	}
-            	return null;
+            	return "0.00";
             }},
             {field: 'discountAmount', title: '让利金额', width: 80, align: 'right',formatter : function(value){
     			if(value){
     				value = parseFloat(value);
     				return '<b>'+value.toFixed(2)+'</b>';
     			}
-    			return null;
+    			return "0.00";
     		}},
     		{field: 'activityTypeName', title: '活动类型', width: 100, align: 'left'},
     		{field: 'activityCode', title: '活动编号', width: 150, align: 'left'},
