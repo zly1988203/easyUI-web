@@ -180,6 +180,11 @@ String GOODS_SALE_AMOUNT_REPORT = "goodsSaleAmountReport.xlsx";
 	 * @Fields DADOFORM : DADOform.xlsx
 	 */
 	String DADOFORM = "DADOForm.xlsx";
+	
+	/**
+	 * @Fields RETURN_FORM : ReturnForm.xlsx
+	 */
+	String RETURN_FORM = "ReturnForm.xlsx";
 	/**
 	 * 商品采购货号导入模板
 	 */

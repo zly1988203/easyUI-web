@@ -51,7 +51,7 @@ var branchAreaCode=null;
 function zTreeOnClick(event, treeId, treeNode) {
 	branchAreaCode=treeNode.code;
 	var nameOrCode=$("#nameOrCode").val();
-    $("#gridAgency").datagrid("options").queryParams = {branchAreaCode:branchAreaCode,nameOrCode:nameOrCode,formType:$("#formType").val()};
+    $("#gridAgency").datagrid("options").queryParams = {branchAreaCode:branchAreaCode,nameOrCode:nameOrCode,formType:$("#deliverFormType").val(),branchId:$("#branchId").val()};
     $("#gridAgency").datagrid("options").method = "post";
     $("#gridAgency").datagrid("options").url =contextPath+'/common/branches/getComponentList',
     $("#gridAgency").datagrid("load");

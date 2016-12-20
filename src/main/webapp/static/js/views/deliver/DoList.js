@@ -9,11 +9,12 @@ var sourceBranchId;
 $(function(){
 	//开始和结束时间
 	toChangeDatetime(0);
+	sourceBranchId = $("#sourceBranchId").val();
 	loadTabs();
 	toBtnDisable('btnAdd','btnDel');
+	setQueryDataDA();
 	delDivAuditStatus();
 	initDatagridRequireOrdersDA();
-    sourceBranchId = $("#sourceBranchId").val();
 });
 var gridHandel = new GridClass();
 // 加载要货申请单
@@ -148,6 +149,12 @@ function addDeliverForm(){
 
 //查询要货单
 function queryForm(){
+	branchName = $("#branchName").val();
+	if (indexTab === 0) {
+		setQueryDataDABranbch();
+	} else {
+		setQueryDataDOBranbch();
+	}
 	//var fromObjStr = $('#queryForm').serializeObject();
 	//$("#" + tableIdName).datagrid("options").method = "post";
 	//$("#" + tableIdName).datagrid("options").queryParams = fromObjStr;
@@ -193,14 +200,15 @@ function delDeliverForm(){
 		}
 	});
 }
-
+var branchName;
 /**
  * 发货机构
  */
 function selectBranches(){
 	new publicAgencyService(function(data){
 //		$("#sourceBranchId").val(data.branchesId);
-		$("#sourceBranchName").val(data.branchName);
+		branchName = data.branchName;
+		$("#branchName").val(branchName);
 	},'',sourceBranchId);
 }
 
@@ -269,16 +277,28 @@ function loadTabs(){
 		}
 	});
 }
-// 设置值
+// 设置值 待处理要货单查询的是发货机构的
 function setQueryDataDA() {
 	tempURL = '/form/deliverSelect/getDeliverFormList';
 	tableIdName = 'deliverFormList';
+	setQueryDataDABranbch();
+}
+function setQueryDataDABranbch() {
+	$("#sourceBranchId").val(sourceBranchId);
+	$("#sourceBranchName").val(branchName);
 }
 // 设置值
 function setQueryDataDO() {
 	tempURL = '/form/deliverForm/getDeliverForms';
 	tableIdName = 'processedFormList';
+	setQueryDataDOBranbch();
 }
+
+function setQueryDataDOBranbch(){
+	$("#sourceBranchId").val(sourceBranchId);
+	$("#sourceBranchName").val(branchName);
+}
+
 var deliverAuditStatus = '0';
 var checkboxTime = 'checked';
 var popupSearchDateTime = dateUtil.getCurrentDateTime().format("yyyy-MM-dd hh:mm");
