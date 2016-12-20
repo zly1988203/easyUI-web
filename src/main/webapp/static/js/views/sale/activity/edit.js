@@ -1440,7 +1440,7 @@ function selectGoods(searchKey){
             gridHandel.setSelectFieldName("saleAmount");
             gridHandel.setFieldFocus(gridHandel.getFieldTarget('saleAmount'));
         },100)*/
-    },searchKey,0,"","","","");
+    },searchKey,0,"","",$("#branchIds").val(),"");
 }
 
 //保存
