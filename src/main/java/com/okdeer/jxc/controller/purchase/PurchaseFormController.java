@@ -1127,7 +1127,7 @@ public class PurchaseFormController extends
 			} else {
 				// 导出文件名称，不包括后缀名
 				fileName = "退货单" + "_" + DateUtils.getCurrSmallStr();
-				templateName = ExportExcelConstant.DADOFORM;
+				templateName = ExportExcelConstant.RETURN_FORM;
 			}
 			// 导出Excel
 			exportListForXLSX(response, exportList, fileName, templateName);
