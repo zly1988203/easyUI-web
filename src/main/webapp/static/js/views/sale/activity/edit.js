@@ -461,6 +461,16 @@ function initDatagridSpecial(){
 		                },
 		            },
         ]],
+		onClickCell : function(rowIndex, field, value) {
+			gridHandel.setBeginRow(rowIndex);
+			gridHandel.setSelectFieldName(field);
+			var target = gridHandel.getFieldTarget(field);
+			if(target){
+				gridHandel.setFieldFocus(target);
+			}else{
+				gridHandel.setSelectFieldName("skuCode");
+			}
+		},
       onLoadSuccess:function(data){
 		gridHandel.setDatagridHeader("center");
 				
@@ -514,7 +524,7 @@ function initDatagridsortZk(){
 					        return str;
 					    },
 					},
-					{field:'categoryName',title:'商品类别',width:'200px',align:'left',editor:'textbox'},
+					{field:'categoryName',title:'商品类别',width:'200px',align:'left'},
 					 {field:'discount',title:'折扣',width:'80px',align:'right',
 		                formatter:function(value,row,index){
 		                    if(row.isFooter){
@@ -532,6 +542,16 @@ function initDatagridsortZk(){
 		                },
 		            }, 
           ]],
+  		onClickCell : function(rowIndex, field, value) {
+			gridHandel.setBeginRow(rowIndex);
+			gridHandel.setSelectFieldName(field);
+			var target = gridHandel.getFieldTarget(field);
+			if(target){
+				gridHandel.setFieldFocus(target);
+			}else{
+				gridHandel.setSelectFieldName("skuCode");
+			}
+		},
       onLoadSuccess:function(data){
     	  
 			gridHandel.setDatagridHeader("center");
@@ -625,6 +645,16 @@ function initDatagridoneZk(){
 			    },
 			},
           ]],
+  		onClickCell : function(rowIndex, field, value) {
+			gridHandel.setBeginRow(rowIndex);
+			gridHandel.setSelectFieldName(field);
+			var target = gridHandel.getFieldTarget(field);
+			if(target){
+				gridHandel.setFieldFocus(target);
+			}else{
+				gridHandel.setSelectFieldName("skuCode");
+			}
+		},
       onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
 				
@@ -718,6 +748,16 @@ function initDatagridOddtj(){
 			    },
 			},
           ]],
+  		onClickCell : function(rowIndex, field, value) {
+			gridHandel.setBeginRow(rowIndex);
+			gridHandel.setSelectFieldName(field);
+			var target = gridHandel.getFieldTarget(field);
+			if(target){
+				gridHandel.setFieldFocus(target);
+			}else{
+				gridHandel.setSelectFieldName("skuCode");
+			}
+		},
       onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
 				
@@ -812,6 +852,16 @@ function initDatagridRedemption(){
 			    },
 			},
         ]],
+		onClickCell : function(rowIndex, field, value) {
+			gridHandel.setBeginRow(rowIndex);
+			gridHandel.setSelectFieldName(field);
+			var target = gridHandel.getFieldTarget(field);
+			if(target){
+				gridHandel.setFieldFocus(target);
+			}else{
+				gridHandel.setSelectFieldName("skuCode");
+			}
+		},
     onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
 				
@@ -823,22 +873,22 @@ function initDatagridRedemption(){
 //初始化表格-全场满减
 function initDatagridallMj(){
 	gridHandel.setGridName("saleMangeadd");
-//    gridHandel.initKey({
-//        firstName:'skuCode',
-//        enterName:'skuCode',
-//        enterCallBack:function(arg){
-//            if(arg&&arg=="add"){
-//                gridHandel.addRow(parseInt(gridHandel.getSelectRowIndex())+1,gridDefault);
-//                setTimeout(function(){
-//                    gridHandel.setBeginRow(gridHandel.getSelectRowIndex()+1);
-//                    gridHandel.setSelectFieldName("skuCode");
-//                    gridHandel.setFieldFocus(gridHandel.getFieldTarget('skuCode'));
-//                },100)
-//            }else{
-//               selectGoods(arg);
-//            }
-//        },
-//    })
+    gridHandel.initKey({
+        firstName:'skuCode',
+        enterName:'skuCode',
+        enterCallBack:function(arg){
+            if(arg&&arg=="add"){
+                gridHandel.addRow(parseInt(gridHandel.getSelectRowIndex())+1,gridDefault);
+                setTimeout(function(){
+                    gridHandel.setBeginRow(gridHandel.getSelectRowIndex()+1);
+                    gridHandel.setSelectFieldName("skuCode");
+                    gridHandel.setFieldFocus(gridHandel.getFieldTarget('skuCode'));
+                },100)
+            }else{
+               selectGoods(arg);
+            }
+        },
+    })
     $("#saleMangeadd").datagrid({
         align:'center',
         //toolbar: '#tb',     //工具栏 id为tb
@@ -898,6 +948,16 @@ function initDatagridallMj(){
 		                },
 		            }, 
           ]],
+  		onClickCell : function(rowIndex, field, value) {
+			gridHandel.setBeginRow(rowIndex);
+			gridHandel.setSelectFieldName(field);
+			var target = gridHandel.getFieldTarget(field);
+			if(target){
+				gridHandel.setFieldFocus(target);
+			}else{
+				gridHandel.setSelectFieldName("skuCode");
+			}
+		},
       onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
 				
@@ -935,7 +995,7 @@ function initDatagridsortMj(){
 					        return str;
 					    },
 					},
-					{field:'categoryName',title:'商品类别',width:'200px',align:'left',editor:'textbox'},
+					{field:'categoryName',title:'商品类别',width:'200px',align:'left'},
           ]],
            onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
@@ -1094,7 +1154,16 @@ function initDatagridshopMj(){
 			    },
 			},
         ]], 
-       
+		onClickCell : function(rowIndex, field, value) {
+			gridHandel.setBeginRow(rowIndex);
+			gridHandel.setSelectFieldName(field);
+			var target = gridHandel.getFieldTarget(field);
+			if(target){
+				gridHandel.setFieldFocus(target);
+			}else{
+				gridHandel.setSelectFieldName("skuCode");
+			}
+		},
         onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
 			//selectAddRows(data);
@@ -1219,6 +1288,16 @@ function initDatagridCompose(){
 			    },
 			},
         ]],
+		onClickCell : function(rowIndex, field, value) {
+			gridHandel.setBeginRow(rowIndex);
+			gridHandel.setSelectFieldName(field);
+			var target = gridHandel.getFieldTarget(field);
+			if(target){
+				gridHandel.setFieldFocus(target);
+			}else{
+				gridHandel.setSelectFieldName("skuCode");
+			}
+		},
        onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
 				
@@ -1478,7 +1557,7 @@ function saveActivity(){
 	          isCheckResult = false;
 	          return false;
 	      };
-	      if(!v["saleAmount"] || v["saleAmount"]=='0.00'){
+	      if(!v["saleAmount"]){
 	          messager("第"+(i+1)+"行，偶数特价不能为空");
 	          isCheckResult = false;
 	          return false;
@@ -1502,8 +1581,8 @@ function saveActivity(){
 	          isCheckResult = false;
 	          return false;
 	      };
-	      if(!v["saleAmount"] || v["saleAmount"]=='0.00'){
-	          messager("第"+(i+1)+"行，换购价不能为空或0");
+	      if(!v["saleAmount"]){
+	          messager("第"+(i+1)+"行，换购价不能为空");
 	          isCheckResult = false;
 	          return false;
 	      };
