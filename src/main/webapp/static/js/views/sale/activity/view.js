@@ -892,7 +892,7 @@ function initDatagridshopMj(){
 		width:'100%',
       columns:[[
 			{field:'ck',checkbox:true},
-			{field:'skuCode',title:'货号1123',width:'85px',align:'left'},
+			{field:'skuCode',title:'货号',width:'85px',align:'left'},
 			{field:'skuName',title:'商品名称',width:'200px',align:'left'},
 			{field:'barCode',title:'条码',width:'150px',align:'left'},
 			{field:'categoryName',title:'商品类别',width:'200px',align:'left'},
