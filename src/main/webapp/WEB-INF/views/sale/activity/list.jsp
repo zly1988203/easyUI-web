@@ -33,7 +33,7 @@
 	                        <input class="uinp ub ub-f1" type="text" id="branchName" readonly="readonly" name="branchName" onclick="searchBranch()">
 	                   <div class="uinp-more" onclick="searchBranch()">...</div>
 	                </div>
-	                 <div class="ub ub-ac ">
+	                 <div class="ub ub-ac uw-330">
 	                    <div class="umar-r10 uw-80 ut-r">活动编号:</div>
 	                    <input class="uinp ub ub-f1" type="text" name="activityCode" id="activityCode">
 	                 </div>
@@ -63,16 +63,16 @@
 	                </div>
             </div>
 	        <div class="ub umar-t8">
-	            <div class="ub ub-ac ">
+	            <div class="ub ub-ac">
                     <div class="umar-r10 uw-80 ut-r">活动名称:</div>
                     <input class="uinp" type="text" name="activityName" id="activityName">
                 </div>
-				<div class="ub ub-ac ">
+<!-- 				<div class="ub ub-ac ">
 					<div class="umar-r10 uw-80 ut-r">商品名称:</div>
 					<input class="uinp" type="text" name="skuName" id="skuName">
-				</div>
-                <div class="ub ub-ac umar-l40 uw-300">
-	                    <div class="umar-r10 uw-70 ut-r">活动状态:</div>
+				</div> -->
+                <div class="ub ub-ac umar-r10 uw-300">
+	                    <div class="umar-r10 uw-80 ut-r">活动状态:</div>
 	                    <div class="ub ub-ac umar-r10">
 	                        <input class="ub" type="radio" name="activityStatus" value=""/><span>全部</span>
 	                    </div>

@@ -28,17 +28,17 @@
 	       
 	       	<div class="ub umar-t8">
 	             <div class="ub ub-ac">
-	             	<div class="umar-r10 uw-80 ut-r">活动时间:</div>
-	              	<input class="Wdate"  readonly="readonly" name="startTime" id="startTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d',maxDate:'#F{$dp.$D(\'endTime\');}'})" />&nbsp;至&nbsp;
-                    <input class="Wdate"  readonly="readonly" name="endTime" id="endTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'startTime\');}'})" /> 
+	             	<div class="umar-r10 uw-70 ut-r">活动时间:</div>
+	              	<input class="Wdate newWdate"  readonly="readonly" name="startTime" id="startTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d',maxDate:'#F{$dp.$D(\'endTime\');}'})" />&nbsp;至&nbsp;
+                    <input class="Wdate newWdate"  readonly="readonly" name="endTime" id="endTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'startTime\');}'})" /> 
 	              </div>
 	              <div class="ub ub-ac">
-	             	<div class="umar-r10 uw-100 ut-r">活动时段:</div>
-	              	<input class="Wdate"  readonly="readonly" name="dailyStartTime" id="dailyStartTime" onclick="WdatePicker({dateFmt:'HH:mm:ss',minDate:'00:00:00',maxDate:'#F{$dp.$D(\'dailyEndTime\');}'})" />&nbsp;至&nbsp;
-                    <input class="Wdate"  readonly="readonly" name="dailyEndTime" id="dailyEndTime" onclick="WdatePicker({dateFmt:'HH:mm:ss',minDate:'#F{$dp.$D(\'dailyStartTime\');}'})" /> 
+	             	<div class="umar-r10 uw-90 ut-r">活动时段:</div>
+	              	<input class="Wdate newWdate"  readonly="readonly" name="dailyStartTime" id="dailyStartTime" onclick="WdatePicker({dateFmt:'HH:mm:ss',minDate:'00:00:00',maxDate:'#F{$dp.$D(\'dailyEndTime\');}'})" />&nbsp;至&nbsp;
+                    <input class="Wdate newWdate"  readonly="readonly" name="dailyEndTime" id="dailyEndTime" onclick="WdatePicker({dateFmt:'HH:mm:ss',minDate:'#F{$dp.$D(\'dailyStartTime\');}'})" /> 
 	              </div>
 	              <div class="ub ub-ac " id="weekday">
-	               <div class="umar-r10 uw-80 ut-r">活动日:</div>
+	               <div class="umar-r10 uw-70 ut-r">活动日:</div>
 	               <div class="ub ub-ac umar-l10 ubcheckweek">
                         <input class="ub" type="checkbox" name="weekcheckbox" value="1" checked="checked" /><span class="umar-l10">一</span>
                    </div>
@@ -69,12 +69,12 @@
 	                <div class="umar-r10 uw-80 ut-r">活动编号:</div>
 	                <input class="uinp ub ub-f1" type="text" name="formNo" id="formNo">
 	            </div> -->
-	            <div class="ub ub-ac" style="width:520px;">
-                    <div class="umar-r10 uw-80 ut-r">活动名称:</div>
+	            <div class="ub ub-ac uw-384">
+                    <div class="umar-r10 uw-70 ut-r">活动名称:</div>
                     <input class="uinp ub ub-f1"  maxLength="20" type="text" name="activityName" id="activityName" value="">
                 </div>
-                <div class="ub ub-ac uselectw umar-l00">
-                    <div class="umar-r10 uw-100 ut-r">活动类型:</div>
+                <div class="ub ub-ac uselectw umar-r10">
+                    <div class="umar-r10 uw-90 ut-r">活动类型:</div>
                        <!--select-->
 				        <select class="easyui-combobox uselect" name="activityType" id="activityType" data-options="editable:false,onChange:onChangeSelect">
 							    <option value="1">特价</option> 
@@ -85,7 +85,7 @@
 								<option value="6">组合特价</option>
 				        </select>
                 </div>
-                <div class="ub ub-ac umar-l40  discountTypechoose unhide">
+                <div class="ub ub-ac umar-l10  discountTypechoose unhide">
 	                    <div class="ub ub-ac umar-r10">
 	                        <input class="ub disradio disstatusChange" type="radio" id="sortZk" name="disstatus"  value="1"/><span>类别折扣</span>
 	                    </div>
@@ -94,7 +94,7 @@
 						</div>
 	                     <input class="uinp" type="hidden" id="activityScopedis" value="1"  name="activityScopedis">
 	            </div>
-                <div class="ub ub-ac umar-l40  mjTypechoose unhide">
+                <div class="ub ub-ac umar-l10  mjTypechoose unhide">
 						<div class="ub ub-ac umar-r10">
 							<input class="ub mjradio" type="radio" id="allMj" name="mjstatus"  value="2" /><span>全场</span>
 						</div>
@@ -113,28 +113,28 @@
 	         
 	     
 	          <div class="ub umar-t8">
-	             <div class="ub  ub-ac" style="width:520px;">
-	                   <div class="umar-r10 uw-80 ut-r">活动分店:</div>
+	             <div class="ub  ub-ac uw-384">
+	                   <div class="umar-r10 uw-70 ut-r">活动分店:</div>
 		                    <input class="uinp ub ub-f1" type="hidden" id="branchIds" name="branchIds" value=" ">
 	                        <input class="uinp ub ub-f1" type="text" id="branchName" readonly="readonly" value=" " name="branchName" onclick="selectBranch()">
 	                   <div class="uinp-more" onclick="selectBranch()">...</div>
 	             </div>
-	              <div class="ub ub-ac uw-200 umar-l10 special" style="width:530px;">
-					<div class="umar-r10 uw-90 ut-r">批量特价:</div>
+	              <div class="ub ub-ac uw-390 umar-l10 special">
+					<div class="umar-r10 uw-80 ut-r">批量特价:</div>
 					<input class="uinp ub ub-f1 deal" type="number"
 						onkeyup="if(isNaN(value)||value<0)execCommand('undo')"
 						onafterpaste="if(isNaN(value)||value<0)execCommand('undo')" id="special">
 						<div class="umar-l10">元</div>
 				  </div>
-				   <div class="ub ub-ac uw-200 umar-l10 discount unhide" style="width:530px;">
-					<div class="umar-r10 uw-90 ut-r">批量折扣:</div>
+				   <div class="ub ub-ac uw-390 umar-l10 discount unhide">
+					<div class="umar-r10 uw-80 ut-r">批量折扣:</div>
 					<input class="uinp ub ub-f1 deal" type="number"
 						onkeyup="if(isNaN(value)||value<0)execCommand('undo')"
 						onafterpaste="if(isNaN(value)||value<0)execCommand('undo')" id="discount">
 						<div class="umar-l10">折</div>
 				  </div>
-				  <div class="ub ub-ac uw-200 umar-l10 oddprice unhide" style="width:530px;">
-					<div class="umar-r10 uw-90 ut-r">批量偶数特价:</div>
+				  <div class="ub ub-ac uw-390 umar-l10 oddprice unhide">
+					<div class="umar-r10 uw-80 ut-r">批量偶数特价:</div>
 					<input class="uinp ub ub-f1 deal" type="number"
 						onkeyup="if(isNaN(value)||value<0)execCommand('undo')"
 						onafterpaste="if(isNaN(value)||value<0)execCommand('undo')" id="batchcount">
