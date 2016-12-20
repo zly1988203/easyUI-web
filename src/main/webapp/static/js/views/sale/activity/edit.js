@@ -735,7 +735,7 @@ function initDatagridOddtj(){
 			{field: 'saleAmount', title: '偶数特价', width: 100, align: 'right',
 			    formatter : function(value, row, index) {
 			        if(row.isFooter){
-			            return;
+			        	return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 			        }
 			        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 			    },
@@ -839,7 +839,7 @@ function initDatagridRedemption(){
 			{field: 'saleAmount', title: '换购价', width: 100, align: 'right',
 			    formatter : function(value, row, index) {
 			        if(row.isFooter){
-			            return;
+			        	return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 			        }
 			        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 			    },
@@ -1557,7 +1557,7 @@ function saveActivity(){
 	          isCheckResult = false;
 	          return false;
 	      };
-	      if(!v["saleAmount"]){
+	      if(v["saleAmount"] === "" || undefined == v["saleAmount"]){
 	          messager("第"+(i+1)+"行，偶数特价不能为空");
 	          isCheckResult = false;
 	          return false;
@@ -1581,7 +1581,7 @@ function saveActivity(){
 	          isCheckResult = false;
 	          return false;
 	      };
-	      if(!v["saleAmount"]){
+	      if(v["saleAmount"] === "" || undefined === v["saleAmount"]){
 	          messager("第"+(i+1)+"行，换购价不能为空");
 	          isCheckResult = false;
 	          return false;
