@@ -161,7 +161,7 @@ public class GoodsSelectImportComponent {
 		
 		GoodsSelectImportHandle goodsSelectImportHandle = null;
 		List<GoodsSelect> dbList = null;
-		
+		List<GoodsSelect> dbList1 = new ArrayList<GoodsSelect>(); 
 		if(type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)){//货号
 			//构建数据过滤对象
 			goodsSelectImportHandle = new GoodsSelectImportSkuCodeHandle(excelList, fields, businessValid);
@@ -170,10 +170,23 @@ public class GoodsSelectImportComponent {
 			List<String> list = goodsSelectImportHandle.getExcelSuccessCode();
 			
 			if(CollectionUtils.isEmpty(list)){
-				dbList = new ArrayList<GoodsSelect>();
+				dbList1 = new ArrayList<GoodsSelect>();
 			}else{
 				//根据货号查询商品
 				dbList = goodsSelectServiceApi.queryListBySkuCode(list.toArray(new String[list.size()]), branchId, withStock,map_branchid);
+				//-----------------------------新增一校验成功数据为准--------------------------//
+				List<JSONObject> successData = goodsSelectImportHandle.getExcelListSuccessData();
+				for (int i = 0; i < successData.size(); i++) {
+					JSONObject obj = successData.get(i);	
+					String skuCode = obj.getString("skuCode");
+					for(GoodsSelect goodsSelect : dbList){
+						if(skuCode.equals(goodsSelect.getSkuCode())){
+							dbList1.add(goodsSelect);
+							break;
+						}
+					}
+				}
+				//---------------------------新增一校验成功数据为准----------------------------//
 			}
 			
 			
@@ -185,10 +198,24 @@ public class GoodsSelectImportComponent {
 			List<String> list = goodsSelectImportHandle.getExcelSuccessCode();
 			
 			if(CollectionUtils.isEmpty(list)){
-				dbList = new ArrayList<GoodsSelect>();
+				dbList1 = new ArrayList<GoodsSelect>();
 			}else{
 				//根据条码查询商品，过滤掉条码重复的商品
 				dbList = goodsSelectServiceApi.queryListByBarCode(list.toArray(new String[list.size()]), branchId, withStock,map_branchid);
+				
+				//---------------------------新增一校验成功数据为准----------------------------//
+				List<JSONObject> successData = goodsSelectImportHandle.getExcelListSuccessData();
+				for (int i = 0; i < successData.size(); i++) {
+					JSONObject obj = successData.get(i);	
+					String barCode = obj.getString("barCode");
+					for(GoodsSelect goodsSelect : dbList){
+						if(barCode.equals(goodsSelect.getBarCode())){
+							dbList1.add(goodsSelect);
+							break;
+						}
+					}
+				}
+				//----------------------------新增一校验成功数据为准---------------------------//
 			}
 			
 		}else{
@@ -213,7 +240,7 @@ public class GoodsSelectImportComponent {
 		GoodsSelectImportVo<T> goodsSelectImportVo = new GoodsSelectImportVo<T>();
 		
 		@SuppressWarnings("unchecked")
-		List<T> successList = (List<T>) goodsSelectImportHandle.getSuccessData(dbList, fields, entity);
+		List<T> successList = (List<T>) goodsSelectImportHandle.getSuccessData(dbList1, fields, entity);
 		
 		goodsSelectImportVo.setList(successList);
 		
