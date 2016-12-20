@@ -114,7 +114,8 @@ public class GoodsSelectImportBarCodeHandle implements GoodsSelectImportHandle{
 	private JSONObject getSuccessDataByBarCode(String barCode){
 		for (JSONObject goods : excelListSuccessData) {
 			String objBarCode = goods.getString("barCode");
-			if(barCode.equals(objBarCode)){
+			if(objBarCode.equals(barCode)){
+				excelListSuccessData.remove(goods);
 				return goods;
 			}
 		}
@@ -133,25 +134,28 @@ public class GoodsSelectImportBarCodeHandle implements GoodsSelectImportHandle{
 		for (int i = 0; i < excelListFullData.size(); i++) {
 			JSONObject obj = excelListFullData.get(i);
 			String objBarCode = obj.getString("barCode");
+			
+			String isGift = "";
+			if(obj.containsKey("isGift")){
+				isGift = obj.getString("isGift");
+			}
 			//条码为空
 			if(StringUtils.isBlank(objBarCode)){
 				obj.element("error", CODE_IS_BLANK);
 				continue;
 			}
 			//条码重复
-			if(barCodeSet.keySet().contains(objBarCode)){
-				
-				obj.element("error", CODE_IS_REPEAT);
+			if(barCodeSet.keySet().contains(objBarCode+isGift)){
 				//取出原来重复的数据,标记重复
-				Integer index = barCodeSet.get(objBarCode);
+				Integer index = barCodeSet.get(objBarCode+isGift);
 				JSONObject existsObj = excelListFullData.get(index);
+				obj.element("error", CODE_IS_REPEAT);
 				if(existsObj.get("error") == null){
 					existsObj.element("error", CODE_IS_REPEAT);
 				}
-				
 				continue;
 			}
-			barCodeSet.put(objBarCode,new Integer(i));
+			barCodeSet.put(objBarCode+isGift,new Integer(i));
 		}
 		
 		//刷新
@@ -185,7 +189,8 @@ public class GoodsSelectImportBarCodeHandle implements GoodsSelectImportHandle{
 			JSONObject obj = arr.getJSONObject(i);	
 			
 			String barCode = obj.getString("barCode");
-			JSONObject excelJson = getSuccessDataByBarCode(barCode);
+			JSONObject excelJson = new JSONObject();
+			excelJson = getSuccessDataByBarCode(barCode);
 			
 			//忽略第一列,合并属性
 			for (int j = 1; j < excelField.length; j++) {
