@@ -81,7 +81,7 @@
 	            <div title="采购收货单" id="processed" style="height: auto;">
 	                <table id="gridOrders"></table>
 	            </div>
-	            <div title="未收货采购订单" id="pending" style="padding: 5px; height: auto;">
+	            <div title="待处理采购订单" id="pending" style="padding: 5px; height: auto;">
 	                <table id="receiptOrderList"></table>
 	            </div> 
         	</div>
