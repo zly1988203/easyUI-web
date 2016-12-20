@@ -1362,7 +1362,7 @@ function selectGoods(searchKey){
 		 * gridHandel.setFieldFocus(gridHandel.getFieldTarget('saleAmount'));
 		 * },100)
 		 */
-    },searchKey,0,"","","","");
+    },searchKey,0,"","",$("#branchIds").val(),"");
 }
 
 
