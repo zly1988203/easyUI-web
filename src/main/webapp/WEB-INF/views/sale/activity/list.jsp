@@ -67,10 +67,6 @@
                     <div class="umar-r10 uw-80 ut-r">活动名称:</div>
                     <input class="uinp" type="text" name="activityName" id="activityName">
                 </div>
-				<div class="ub ub-ac ">
-					<div class="umar-r10 uw-80 ut-r">商品名称:</div>
-					<input class="uinp" type="text" name="skuName" id="skuName">
-				</div>
                 <div class="ub ub-ac umar-l40 uw-300">
 	                    <div class="umar-r10 uw-70 ut-r">活动状态:</div>
 	                    <div class="ub ub-ac umar-r10">
