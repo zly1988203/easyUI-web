@@ -131,8 +131,13 @@
   font-size: 18px;
   color: red; }
 .uselectw .textbox{ 
+  width:202px!important;
+ }
+ 
+  .sale .uselectw .textbox{ 
   width:302px!important;
  }
+ 
  .uselectws .textbox{ 
   width:220px!important;
  }

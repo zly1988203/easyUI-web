@@ -69,7 +69,7 @@
 	       
 	       
 	       
-	        <div class="ub umar-t8">
+	        <div class="ub umar-t8 sale">
 	           <!--  <div class="ub ub-ac ">
 	                <div class="umar-r10 uw-80 ut-r">活动编号:</div>
 	                <input class="uinp ub ub-f1" type="text" name="formNo" id="formNo">
