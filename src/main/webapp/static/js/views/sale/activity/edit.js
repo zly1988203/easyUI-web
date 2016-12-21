@@ -483,15 +483,15 @@ function initDatagridSpecial(){
 function initDatagridsortZk(){
 	gridHandel.setGridName("saleMangeadd");
     gridHandel.initKey({
-        firstName:'skuCode',
-        enterName:'skuCode',
+        firstName:'categoryCode',
+        enterName:'categoryCode',
         enterCallBack:function(arg){
             if(arg&&arg=="add"){
                 gridHandel.addRow(parseInt(gridHandel.getSelectRowIndex())+1,gridDefault);
                 setTimeout(function(){
                     gridHandel.setBeginRow(gridHandel.getSelectRowIndex()+1);
-                    gridHandel.setSelectFieldName("skuCode");
-                    gridHandel.setFieldFocus(gridHandel.getFieldTarget('skuCode'));
+                    gridHandel.setSelectFieldName("categoryCode");
+                    gridHandel.setFieldFocus(gridHandel.getFieldTarget('categoryCode'));
                 },100)
             }else{
                selectGoods(arg);
@@ -524,6 +524,7 @@ function initDatagridsortZk(){
 					        return str;
 					    },
 					},
+					{field:'categoryCode',title:'类别编码',width:'200px',align:'left',hidden:true},
 					{field:'categoryName',title:'商品类别',width:'200px',align:'left'},
 					 {field:'discount',title:'折扣',width:'80px',align:'right',
 		                formatter:function(value,row,index){
@@ -995,6 +996,7 @@ function initDatagridsortMj(){
 					        return str;
 					    },
 					},
+					{field:'categoryCode',title:'类别编码',width:'200px',align:'left',hidden:true},
 					{field:'categoryName',title:'商品类别',width:'200px',align:'left'},
           ]],
            onLoadSuccess:function(data){
@@ -2038,7 +2040,7 @@ function selectBranch() {
 //类别选择
 function getGoodsType(){
 	new publicCategoryService(function(data){
-		var nowRows = gridHandel.getRowsWhere({categoryCode:'1'});
+		var nowRows = gridHandel.getRows();
 		
         var addDefaultData  = gridHandel.addDefault(data,[{}]);
     	var keyNames = {
