@@ -1765,6 +1765,7 @@ function saveDataHandel(rows,setrows){
 	      var temp = {
 	    	  goodsSkuId: data.goodsSkuId,
 	    	  saleAmount:data.saleAmount,
+	    	  price:data.price
 	      }
 	      reqObj.detailList[i] = temp;
 	  });
@@ -1788,6 +1789,7 @@ function saveDataHandel(rows,setrows){
 	    	  limitCount: data.limitCount,
 	    	  saleAmount:data.saleAmount,
 	    	  groupNum:data.groupNum,
+	    	  price:data.price
 	      }
 	      reqObj.detailList[i] = temp;
 	  });
@@ -1814,6 +1816,7 @@ function saveDataHandel(rows,setrows){
 			      var temp = {
 			    	  goodsSkuId: data.goodsSkuId,
 			    	  discount:data.discount,
+			    	  price:data.price
 			      }
 			      reqObj.detailList[i] = temp;
 			  });
@@ -1855,6 +1858,7 @@ function saveDataHandel(rows,setrows){
 			      var fullCutData = {
 			    	  limitAmount:data.limitAmount,
 			          discountPrice:data.discountPrice,
+			          price:data.price
 			      }
 			      var goodsFullCut = $.extend({goodsSkuId:_goodsSkuId}, fullCutData);
 			      
@@ -1864,7 +1868,7 @@ function saveDataHandel(rows,setrows){
 		      
 		  });
 	  }
-	//活动状态为满减 -商品
+	//活动状态为满减 -类别
 	  else if(activityScopemj=="1"){
 		  $.each(rows,function(i,data){
 		      var _goodsCategoryId = data.goodsCategoryId;
@@ -1874,6 +1878,7 @@ function saveDataHandel(rows,setrows){
 			      var fullCutData = {
 			    	  limitAmount:data.limitAmount,
 			          discountPrice:data.discountPrice,
+//			          price:data.price
 			      }
 			      var goodsFullCut = $.extend({
 			    	  goodsCategoryId:_goodsCategoryId,

@@ -1803,6 +1803,7 @@ function saveDataHandel(rows,setrows){
 	      var temp = {
 	    	  goodsSkuId: data.goodsSkuId,
 	    	  saleAmount:data.saleAmount,
+	    	  price:data.price
 	      }
 	      reqObj.detailList[i] = temp;
 	  });
@@ -1826,6 +1827,7 @@ function saveDataHandel(rows,setrows){
 	    	  limitCount: data.limitCount,
 	    	  saleAmount:data.saleAmount,
 	    	  groupNum:data.groupNum,
+	    	  price:data.price
 	      }
 	      reqObj.detailList[i] = temp;
 	  });
@@ -1852,6 +1854,7 @@ function saveDataHandel(rows,setrows){
 			      var temp = {
 			    	  goodsSkuId: data.goodsSkuId,
 			    	  discount:data.discount,
+			    	  price:data.price
 			      }
 			      reqObj.detailList[i] = temp;
 			  });
@@ -1894,6 +1897,7 @@ function saveDataHandel(rows,setrows){
 			      var fullCutData = {
 			    	  limitAmount:data.limitAmount,
 			          discountPrice:data.discountPrice,
+			          price:data.price
 			      }
 			      var goodsFull = null;
 			      var goodsFull = $.extend(goodsFull,goods,fullCutData);
