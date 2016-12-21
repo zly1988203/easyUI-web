@@ -115,6 +115,7 @@ public class GoodsSelectImportSkuCodeHandle implements GoodsSelectImportHandle{
 		for (JSONObject goods : excelListSuccessData) {
 			String objSkuCode = goods.getString("skuCode");
 			if(skuCode.equals(objSkuCode)){
+				excelListSuccessData.remove(goods);
 				return goods;
 			}
 		}
@@ -133,17 +134,21 @@ public class GoodsSelectImportSkuCodeHandle implements GoodsSelectImportHandle{
 		for (int i = 0; i < excelListFullData.size(); i++) {
 			JSONObject obj = excelListFullData.get(i);
 			String objSkuCode = obj.getString("skuCode");
+			String isGift = "";
+			if(obj.containsKey("isGift")){
+				isGift = obj.getString("isGift");
+			}
 			//货号为空
 			if(StringUtils.isBlank(objSkuCode)){
 				obj.element("error", CODE_IS_BLANK);
 				continue;
 			}
 			//货号重复
-			if(skuCodeSet.keySet().contains(objSkuCode)){
+			if(skuCodeSet.keySet().contains(objSkuCode+isGift)){
 				
 				obj.element("error", CODE_IS_REPEAT);
 				//取出原来重复的数据,标记重复
-				Integer index = skuCodeSet.get(objSkuCode);
+				Integer index = skuCodeSet.get(objSkuCode+isGift);
 				JSONObject existsObj = excelListFullData.get(index);
 				if(existsObj.get("error") == null){
 					existsObj.element("error", CODE_IS_REPEAT);
@@ -151,7 +156,7 @@ public class GoodsSelectImportSkuCodeHandle implements GoodsSelectImportHandle{
 				
 				continue;
 			}
-			skuCodeSet.put(objSkuCode,new Integer(i));
+			skuCodeSet.put(objSkuCode+isGift,new Integer(i));
 		}
 		
 		//刷新
