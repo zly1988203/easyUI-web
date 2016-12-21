@@ -41,18 +41,18 @@ function initDateGrid() {
             		value = parseFloat(value);
             		return '<b>'+value.toFixed(2)+'</b>';
             	}
-            	return "0.00";
+            	return "<b>0.00</b>";
             }},
             {field: 'originalPrice', title: '原价', width: 80, align: 'right',
-            	formatter : function(value, row, index) {
-            		if(value){
+            	formatter : function(value) {
+            		if(value!=null){
             			return '<b>'+parseFloat(value||0.00).toFixed(2)+'</b>';
             		}
 				},
             },
             {field: 'salePrice', title: '销售价', width: 80, align: 'right',
-            	formatter : function(value, row, index) {
-            		if(value){
+            	formatter : function(value) {
+            		if(value!=null){
             			return '<b>'+parseFloat(value||0.00).toFixed(2)+'</b>';
             		}
 				},
@@ -62,14 +62,14 @@ function initDateGrid() {
             		value = parseFloat(value);
             		return '<b>'+value.toFixed(2)+'</b>';
             	}
-            	return "0.00";
+            	return "<b>0.00</b>";
             }},
             {field: 'discountAmount', title: '让利金额', width: 80, align: 'right',formatter : function(value){
     			if(value){
     				value = parseFloat(value);
     				return '<b>'+value.toFixed(2)+'</b>';
     			}
-    			return "0.00";
+    			return "<b>0.00</b>";
     		}},
     		{field: 'activityTypeName', title: '活动类型', width: 100, align: 'left'},
     		{field: 'activityCode', title: '活动编号', width: 150, align: 'left'},
