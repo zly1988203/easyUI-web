@@ -1734,7 +1734,7 @@ function saveDataHandel(rows,setrows){
   var startTime=$("#startTime").val();
   // 结束日期
   var endTime=$("#endTime").val();
-  endTime = endTime +" 23:59:59"
+  endTime = endTime +" 23:59:59";
   // 开始时间
   var dailyStartTime=Date.parse("1970-1-1 "+$("#dailyStartTime").val());
   // 结束时间
