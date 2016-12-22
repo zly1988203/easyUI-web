@@ -364,15 +364,15 @@ function initDatagridSpecial(){
 		                    }
 		                    return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		                },
-		                editor:{
-		                    type:'numberbox',
-		                    options:{
-		                        disabled:true,
-		                        min:0,
-		                        precision:2,
-		           
-		                    }
-		                },
+//		                editor:{
+//		                    type:'numberbox',
+//		                    options:{
+//		                        disabled:true,
+//		                        min:0,
+//		                        precision:2,
+//		           
+//		                    }
+//		                },
 		            },
 		            {field: 'saleAmount', title: '促销价', width: 100, align: 'right',
 		                formatter : function(value, row, index) {
@@ -547,15 +547,15 @@ function initDatagridoneZk(){
 			        }
 			        return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 			    },
-			    editor:{
-			        type:'numberbox',
-			        options:{
-			            disabled:true,
-			            min:0,
-			            precision:2,
-			
-			        }
-			    },
+//			    editor:{
+//			        type:'numberbox',
+//			        options:{
+//			            disabled:true,
+//			            min:0,
+//			            precision:2,
+//			
+//			        }
+//			    },
 			},
 			{field: 'discount', title: '折扣', width: 100, align: 'right',
 			    formatter : function(value, row, index) {
@@ -649,15 +649,15 @@ function initDatagridOddtj(){
 			        }
 			        return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 			    },
-			    editor:{
-			        type:'numberbox',
-			        options:{
-			            disabled:true,
-			            min:0,
-			            precision:2,
-			
-			        }
-			    },
+//			    editor:{
+//			        type:'numberbox',
+//			        options:{
+//			            disabled:true,
+//			            min:0,
+//			            precision:2,
+//			
+//			        }
+//			    },
 			},
 			{field: 'saleAmount', title: '偶数特价', width: 100, align: 'right',
 			    formatter : function(value, row, index) {
@@ -752,15 +752,15 @@ function initDatagridRedemption(){
 			        }
 			        return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 			    },
-			    editor:{
-			        type:'numberbox',
-			        options:{
-			            disabled:true,
-			            min:0,
-			            precision:2,
-			
-			        }
-			    },
+//			    editor:{
+//			        type:'numberbox',
+//			        options:{
+//			            disabled:true,
+//			            min:0,
+//			            precision:2,
+//			
+//			        }
+//			    },
 			},
 			{field: 'saleAmount', title: '换购价', width: 100, align: 'right',
 			    formatter : function(value, row, index) {
@@ -1061,15 +1061,15 @@ function initDatagridshopMj(){
 			        }
 			        return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 			    },
-			    editor:{
-			        type:'numberbox',
-			        options:{
-			            disabled:true,
-			            min:0,
-			            precision:2,
-			
-			        }
-			    },
+//			    editor:{
+//			        type:'numberbox',
+//			        options:{
+//			            disabled:true,
+//			            min:0,
+//			            precision:2,
+//			
+//			        }
+//			    },
 			},
         ]], 
 		onClickCell : function(rowIndex, field, value) {
@@ -1149,15 +1149,15 @@ function initDatagridCompose(){
 			        }
 			        return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 			    },
-			    editor:{
-			        type:'numberbox',
-			        options:{
-			            disabled:true,
-			            min:0,
-			            precision:2,
-			
-			        }
-			    },
+//			    editor:{
+//			        type:'numberbox',
+//			        options:{
+//			            disabled:true,
+//			            min:0,
+//			            precision:2,
+//			
+//			        }
+//			    },
 			},
 			{field: 'limitCount', title: '组合数量', width: 100, align: 'right',
 			    formatter : function(value, row, index) {
@@ -1462,7 +1462,7 @@ function saveActivity(){
 		  messager("批量折扣值在0~10之间");
 		  return;
 	  }
-	  debugger;
+	  
 	// 活动类型单品折扣验证
 	  if(activityScopedis=="0"){
 		  for(var i=0;i<rows.length;i++){
@@ -1578,7 +1578,7 @@ function saveActivity(){
 			  }
 			  for(var i=0;i<setrows.length;i++){
 				  var v = setrows[i];
-				  debugger;
+				  
 			      if(!v["limitAmount"] || v["limitAmount"]=='0.00'){
 			          messager("第"+(i+1)+"行，买满金额不能为空或0");
 			          isCheckResult = false;
