@@ -1852,15 +1852,17 @@ function saveDataHandel(rows,setrows){
 	// 活动状态为满减 -商品
 	  if(activityScopemj=="0"){
 		  $.each(rows,function(i,data){
-		      var _goodsSkuId = data.goodsSkuId;
+		      var goods = {
+			    	  goodsSkuId: data.goodsSkuId,
+			    	  price:data.price
+			      }
 		      
 		      $.each(setrows,function(i,data){
 			      var fullCutData = {
 			    	  limitAmount:data.limitAmount,
 			          discountPrice:data.discountPrice,
-			          price:data.price
 			      }
-			      var goodsFullCut = $.extend({goodsSkuId:_goodsSkuId}, fullCutData);
+			      var goodsFullCut = $.extend(goods, fullCutData);
 			      
 			      reqObj.detailList.push(goodsFullCut);
 			      
