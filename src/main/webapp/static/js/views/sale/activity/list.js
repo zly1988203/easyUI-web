@@ -112,10 +112,10 @@ function initDatagridRequire(){
       ]],
       onLoadSuccess:function(data){
 		gridHandel.setDatagridHeader("center");
-			
+
 	 }
     });
-
+	queryForm();
 }
 
 //查询入库单
@@ -125,6 +125,7 @@ function queryForm(){
 	$("#saleMange").datagrid('options').url = contextPath +'/sale/activity/listData';
 	$("#saleMange").datagrid('load', fromObjStr);
 }
+
 
 /**
  * 活动店铺名称
