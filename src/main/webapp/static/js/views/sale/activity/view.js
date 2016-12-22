@@ -413,15 +413,15 @@ function initDatagridSpecial(){
 		                    }
 		                    return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		                },
-		                editor:{
-		                    type:'numberbox',
-		                    options:{
-		                        disabled:true,
-		                        min:0,
-		                        precision:2,
-		           
-		                    }
-		                },
+//		                editor:{
+//		                    type:'numberbox',
+//		                    options:{
+//		                        disabled:true,
+//		                        min:0,
+//		                        precision:2,
+//		           
+//		                    }
+//		                },
 		            },
 		            {field: 'saleAmount', title: '促销价', width: 100, align: 'right',
 		                formatter : function(value, row, index) {
@@ -555,14 +555,14 @@ function initDatagridoneZk(){
 			        }
 			        return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 			    },
-			    editor:{
-			        type:'numberbox',
-			        options:{
-			            disabled:true,
-			            min:0,
-			            precision:2,
-			        }
-			    },
+//			    editor:{
+//			        type:'numberbox',
+//			        options:{
+//			            disabled:true,
+//			            min:0,
+//			            precision:2,
+//			        }
+//			    },
 			},
 			{field: 'discount', title: '折扣', width: 100, align: 'right',
 			    formatter : function(value, row, index) {
@@ -1399,6 +1399,7 @@ function saveDataHandel(rows,setrows){
 	      var temp = {
 	    	  goodsSkuId: data.goodsSkuId,
 	    	  saleAmount:data.saleAmount,
+	    	  price:data.price
 	      }
 	      reqObj.detailList[i] = temp;
 	  });
@@ -1424,6 +1425,7 @@ function saveDataHandel(rows,setrows){
 			      var temp = {
 			    	  goodsSkuId: data.goodsSkuId,
 			    	  discount:data.discount,
+			    	  price:data.price
 			      }
 			      reqObj.detailList[i] = temp;
 			  });
@@ -1461,6 +1463,7 @@ function saveDataHandel(rows,setrows){
 		  $.each(rows,function(i,data){
 		      var goods = {
 		    	  goodsSkuId: data.goodsSkuId,
+		    	  price:data.price
 		      }
 		      $.each(setrows,function(i,data){
 			      var fullCutData = {

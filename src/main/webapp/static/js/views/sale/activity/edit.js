@@ -435,15 +435,15 @@ function initDatagridSpecial(){
 		                    }
 		                    return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		                },
-		                editor:{
-		                    type:'numberbox',
-		                    options:{
-		                        disabled:true,
-		                        min:0,
-		                        precision:2,
-		           
-		                    }
-		                },
+//		                editor:{
+//		                    type:'numberbox',
+//		                    options:{
+//		                        disabled:true,
+//		                        min:0,
+//		                        precision:2,
+//		           
+//		                    }
+//		                },
 		            },
 		            {field: 'saleAmount', title: '促销价', width: 100, align: 'right',
 		                formatter : function(value, row, index) {
@@ -620,15 +620,15 @@ function initDatagridoneZk(){
 			        }
 			        return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 			    },
-			    editor:{
-			        type:'numberbox',
-			        options:{
-			            disabled:true,
-			            min:0,
-			            precision:2,
-			
-			        }
-			    },
+//			    editor:{
+//			        type:'numberbox',
+//			        options:{
+//			            disabled:true,
+//			            min:0,
+//			            precision:2,
+//			
+//			        }
+//			    },
 			},
 			{field: 'discount', title: '折扣', width: 100, align: 'right',
 			    formatter : function(value, row, index) {
@@ -723,15 +723,15 @@ function initDatagridOddtj(){
 			        }
 			        return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 			    },
-			    editor:{
-			        type:'numberbox',
-			        options:{
-			            disabled:true,
-			            min:0,
-			            precision:2,
-			
-			        }
-			    },
+//			    editor:{
+//			        type:'numberbox',
+//			        options:{
+//			            disabled:true,
+//			            min:0,
+//			            precision:2,
+//			
+//			        }
+//			    },
 			},
 			{field: 'saleAmount', title: '偶数特价', width: 100, align: 'right',
 			    formatter : function(value, row, index) {
@@ -827,15 +827,15 @@ function initDatagridRedemption(){
 			        }
 			        return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 			    },
-			    editor:{
-			        type:'numberbox',
-			        options:{
-			            disabled:true,
-			            min:0,
-			            precision:2,
-			
-			        }
-			    },
+//			    editor:{
+//			        type:'numberbox',
+//			        options:{
+//			            disabled:true,
+//			            min:0,
+//			            precision:2,
+//			
+//			        }
+//			    },
 			},
 			{field: 'saleAmount', title: '换购价', width: 100, align: 'right',
 			    formatter : function(value, row, index) {
@@ -1145,15 +1145,15 @@ function initDatagridshopMj(){
 			        }
 			        return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 			    },
-			    editor:{
-			        type:'numberbox',
-			        options:{
-			            disabled:true,
-			            min:0,
-			            precision:2,
-			
-			        }
-			    },
+//			    editor:{
+//			        type:'numberbox',
+//			        options:{
+//			            disabled:true,
+//			            min:0,
+//			            precision:2,
+//			
+//			        }
+//			    },
 			},
         ]], 
 		onClickCell : function(rowIndex, field, value) {
@@ -1234,15 +1234,15 @@ function initDatagridCompose(){
 			        }
 			        return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 			    },
-			    editor:{
-			        type:'numberbox',
-			        options:{
-			            disabled:true,
-			            min:0,
-			            precision:2,
-			
-			        }
-			    },
+//			    editor:{
+//			        type:'numberbox',
+//			        options:{
+//			            disabled:true,
+//			            min:0,
+//			            precision:2,
+//			
+//			        }
+//			    },
 			},
 			{field: 'limitCount', title: '组合数量', width: 100, align: 'right',
 			    formatter : function(value, row, index) {
@@ -1431,7 +1431,7 @@ function selectGoods(searchKey){
         	skuId:'goodsSkuId',
 			salePrice:'price'
         };
-		debugger;
+
         var rows = gFunUpdateKey(addDefaultData,keyNames);
         var argWhere ={skuCode:1};  //验证重复性
         var isCheck ={isGift:1 };   //只要是赠品就可以重复
@@ -1893,12 +1893,12 @@ function saveDataHandel(rows,setrows){
 		  $.each(rows,function(i,data){
 		      var goods = {
 		    	  goodsSkuId: data.goodsSkuId,
+		    	  price:data.price
 		      }
 		      $.each(setrows,function(i,data){
 			      var fullCutData = {
 			    	  limitAmount:data.limitAmount,
 			          discountPrice:data.discountPrice,
-			          price:data.price
 			      }
 			      var goodsFull = null;
 			      var goodsFull = $.extend(goodsFull,goods,fullCutData);
