@@ -1431,7 +1431,7 @@ function selectGoods(searchKey){
         	skuId:'goodsSkuId',
 			salePrice:'price'
         };
-		debugger;
+
         var rows = gFunUpdateKey(addDefaultData,keyNames);
         var argWhere ={skuCode:1};  //验证重复性
         var isCheck ={isGift:1 };   //只要是赠品就可以重复
@@ -1893,12 +1893,12 @@ function saveDataHandel(rows,setrows){
 		  $.each(rows,function(i,data){
 		      var goods = {
 		    	  goodsSkuId: data.goodsSkuId,
+		    	  price:data.price
 		      }
 		      $.each(setrows,function(i,data){
 			      var fullCutData = {
 			    	  limitAmount:data.limitAmount,
 			          discountPrice:data.discountPrice,
-			          price:data.price
 			      }
 			      var goodsFull = null;
 			      var goodsFull = $.extend(goodsFull,goods,fullCutData);

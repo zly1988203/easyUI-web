@@ -1463,12 +1463,12 @@ function saveDataHandel(rows,setrows){
 		  $.each(rows,function(i,data){
 		      var goods = {
 		    	  goodsSkuId: data.goodsSkuId,
+		    	  price:data.price
 		      }
 		      $.each(setrows,function(i,data){
 			      var fullCutData = {
 			    	  limitAmount:data.limitAmount,
 			          discountPrice:data.discountPrice,
-			          price:data.price
 			      }
 			      var goodsFullCut = $.extend(goods,fullCutData);
 			      
