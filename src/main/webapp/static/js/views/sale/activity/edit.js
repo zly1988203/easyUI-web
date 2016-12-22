@@ -435,15 +435,15 @@ function initDatagridSpecial(){
 		                    }
 		                    return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		                },
-		                editor:{
-		                    type:'numberbox',
-		                    options:{
-		                        disabled:true,
-		                        min:0,
-		                        precision:2,
-		           
-		                    }
-		                },
+//		                editor:{
+//		                    type:'numberbox',
+//		                    options:{
+//		                        disabled:true,
+//		                        min:0,
+//		                        precision:2,
+//		           
+//		                    }
+//		                },
 		            },
 		            {field: 'saleAmount', title: '促销价', width: 100, align: 'right',
 		                formatter : function(value, row, index) {
@@ -620,15 +620,15 @@ function initDatagridoneZk(){
 			        }
 			        return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 			    },
-			    editor:{
-			        type:'numberbox',
-			        options:{
-			            disabled:true,
-			            min:0,
-			            precision:2,
-			
-			        }
-			    },
+//			    editor:{
+//			        type:'numberbox',
+//			        options:{
+//			            disabled:true,
+//			            min:0,
+//			            precision:2,
+//			
+//			        }
+//			    },
 			},
 			{field: 'discount', title: '折扣', width: 100, align: 'right',
 			    formatter : function(value, row, index) {
@@ -723,15 +723,15 @@ function initDatagridOddtj(){
 			        }
 			        return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 			    },
-			    editor:{
-			        type:'numberbox',
-			        options:{
-			            disabled:true,
-			            min:0,
-			            precision:2,
-			
-			        }
-			    },
+//			    editor:{
+//			        type:'numberbox',
+//			        options:{
+//			            disabled:true,
+//			            min:0,
+//			            precision:2,
+//			
+//			        }
+//			    },
 			},
 			{field: 'saleAmount', title: '偶数特价', width: 100, align: 'right',
 			    formatter : function(value, row, index) {
@@ -827,15 +827,15 @@ function initDatagridRedemption(){
 			        }
 			        return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 			    },
-			    editor:{
-			        type:'numberbox',
-			        options:{
-			            disabled:true,
-			            min:0,
-			            precision:2,
-			
-			        }
-			    },
+//			    editor:{
+//			        type:'numberbox',
+//			        options:{
+//			            disabled:true,
+//			            min:0,
+//			            precision:2,
+//			
+//			        }
+//			    },
 			},
 			{field: 'saleAmount', title: '换购价', width: 100, align: 'right',
 			    formatter : function(value, row, index) {
@@ -1145,15 +1145,15 @@ function initDatagridshopMj(){
 			        }
 			        return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 			    },
-			    editor:{
-			        type:'numberbox',
-			        options:{
-			            disabled:true,
-			            min:0,
-			            precision:2,
-			
-			        }
-			    },
+//			    editor:{
+//			        type:'numberbox',
+//			        options:{
+//			            disabled:true,
+//			            min:0,
+//			            precision:2,
+//			
+//			        }
+//			    },
 			},
         ]], 
 		onClickCell : function(rowIndex, field, value) {
@@ -1234,15 +1234,15 @@ function initDatagridCompose(){
 			        }
 			        return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 			    },
-			    editor:{
-			        type:'numberbox',
-			        options:{
-			            disabled:true,
-			            min:0,
-			            precision:2,
-			
-			        }
-			    },
+//			    editor:{
+//			        type:'numberbox',
+//			        options:{
+//			            disabled:true,
+//			            min:0,
+//			            precision:2,
+//			
+//			        }
+//			    },
 			},
 			{field: 'limitCount', title: '组合数量', width: 100, align: 'right',
 			    formatter : function(value, row, index) {
