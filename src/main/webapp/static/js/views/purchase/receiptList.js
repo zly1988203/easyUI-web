@@ -3,14 +3,15 @@
  */
 
 var indexTab = 0;
-var tableIdName = 'gridOrders';
-var tempURL = '/form/purchase/receiptListData';
+var tableIdName = 'receiptOrderList';
+var tempURL = '/form/purchaseSelect/getPurchaseFormList';
 $(function(){
+	document.getElementById("radioItemDiv").style.visibility="hidden";
 	loadTabs();
 	toBtnDisable('btnAdd','btnDel');
 	//初始化默认条件
     initConditionParams();
-    initDatagridOrders();
+    initDatagridFormPA();
     //单据状态切换
     changeStatus();
 });
@@ -23,13 +24,16 @@ function loadTabs(){
 			// 获取选项卡下标
 			indexTab = $('#tabs').tabs('getTabIndex',$('#tabs').tabs('getSelected'));
 			if (indexTab === 0) {
+				document.getElementById("radioItemDiv").style.visibility="hidden";
 				toBtnEnable('btnAdd','btnDel');
-				setQueryDataPI();
-				initDatagridOrders();
-			} else {
-				toBtnDisable('btnAdd','btnDel');
 				setQueryDataPA();
 				initDatagridFormPA();
+			} else {
+				$("input[type='radio'][name='status']").get(0).checked = true;
+				document.getElementById("radioItemDiv").style.visibility="visible";
+				toBtnDisable('btnAdd','btnDel');
+				setQueryDataPI();
+				initDatagridOrders();
 			}
 		}
 	});
@@ -66,7 +70,7 @@ function toBtnEnable(addId,delId){
 function changeStatus(){
 	$(".radioItem").change(function(){
 		indexTab = $('#tabs').tabs('getTabIndex',$('#tabs').tabs('getSelected'));
-		if (indexTab === 0) {
+		if (indexTab === 1) {
 			query();
 		}
     });
@@ -89,7 +93,8 @@ function initDatagridOrders(){
         align:'center',
         url:contextPath+tempURL,
         queryParams : {startTime : $("#txtStartDate").val(),
-        	           endTime: $("#txtEndDate").val()
+        	           endTime: $("#txtEndDate").val(),
+        	           status : $('#radioItemDiv input[name="status"]:checked ').val()
                        },
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:false,  //单选  false多选
@@ -192,10 +197,6 @@ function receiptAdd(){
 }
 
 function query(){
-	/*$("#"+tableIdName).datagrid("options").queryParams = $("#queryForm").serializeObject();
-	$("#"+tableIdName).datagrid("options").method = "post";
-	$("#"+tableIdName).datagrid("options").url = contextPath+'/form/purchase/receiptListData';
-	$("#"+tableIdName).datagrid("load");*/
 	var fromObjStr = $('#queryForm').serializeObject();
 	$("#" + tableIdName).datagrid('load',fromObjStr);
 }
