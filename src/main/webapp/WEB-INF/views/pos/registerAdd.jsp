@@ -21,6 +21,9 @@
 	              <div class="umar-r10 uw-80 ut-r">POS机编号:</div>
 
 	             <input class="uinp deal easyui-validatebox" data-options="required:true" 
+	             
+	              onkeyup="value=value.replace(/[^0-9.]/g,'')" 
+
 	             onKeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))"
 	             type="number" maxlength="2"  oninput="if(value.length>2)value=value.slice(0,2)"  id="posNo" name="posNo" >
                 </div>
