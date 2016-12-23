@@ -58,10 +58,10 @@
 	                <input class="uinp" id="branchName" name="branchName" type="text" maxlength="50">
 	                <div class="uinp-more" onclick="selectBranch()">...</div>
 	            </div>
-	            <div class="ub ub-ac umar-r40">
+	            <div class="ub ub-ac umar-r40" id="radioItemDiv">
 	                <div class="umar-r10 uw-60 ut-r">审核状态:</div>
 	                <div class="ub ub-ac umar-r10">
-	                    <input class="radioItem" type="radio" name="status" id="status_no" value="0"/><label for="status_no">未审核 </label>
+	                    <input class="radioItem" type="radio" name="status" id="status_no" value="0" checked="checked"/><label for="status_no">未审核 </label>
 	                </div>
 	                <div class="ub ub-ac umar-r10">
 	                    <input class="radioItem" type="radio" name="status" id="status_yes" value="1"/><label for="status_yes">已审核 </label>
@@ -70,7 +70,7 @@
 	                    <input class="radioItem" type="radio" name="status" value="2"/><span>不通过 </span>
 	                </div> -->
 	                <div class="ub ub-ac umar-r10">
-	                    <input class="radioItem" type="radio" name="status" id="status_all" value="" checked="checked"/><label for="status_all">全部</label>
+	                    <input class="radioItem" type="radio" name="status" id="status_all" value="" /><label for="status_all">全部</label>
 	                </div>
 	            </div>
 	        </div>
@@ -78,12 +78,12 @@
         
       <div class="ub ub-f1  umar-t8 umar-b8">
             <div id="tabs" class="easyui-tabs" data-options="fit:true,border:false,tabWidth:120,tabHeight:25" style="">
-	            <div title="采购收货单" id="processed" style="height: auto;">
-	                <table id="gridOrders"></table>
-	            </div>
-	            <div title="待处理采购订单" id="pending" style="padding: 5px; height: auto;">
+	            <div title="待处理采购订单" id="pending" style="height: auto;">
 	                <table id="receiptOrderList"></table>
 	            </div> 
+	            <div title="采购收货单" id="processed" style="padding: 5px; height: auto;">
+	                <table id="gridOrders"></table>
+	            </div>
         	</div>
         </div>
         
