@@ -68,56 +68,47 @@ var commonItems = [ {
 }, {
 	type : "holder",
 	text : "_备注"
-},
-{
+}, {
 	type : "label",
 	text : "自定义标签"
-},
-{
+}, {
 	type : "label",
 	text : "单据编号："
-},
-{
+}, {
 	type : "holder",
 	text : "_单据编号："
-},
-{
+}, {
 	type : "label",
 	text : "制单人员："
-},
-{
+}, {
 	type : "holder",
 	text : "_制单人员"
-},{
+}, {
 	type : "label",
 	text : "制单日期："
-},
-{
+}, {
 	type : "holder",
 	text : "_制单日期"
-},{
+}, {
 	type : "label",
 	text : "审核人员："
-},
-{
+}, {
 	type : "holder",
 	text : "_审核人员"
-},{
+}, {
 	type : "label",
 	text : "审核日期："
-},
-{
+}, {
 	type : "holder",
 	text : "_审核日期"
-}]
+} ]
 
 // 打印项数据
 var defaultData = {
 	// 采购订单
-	PASheet : [ {
-		group : "通用打印项",
-		items : commonItems
-	}, {
+	PASheet : [ /*
+				 * { group : "通用打印项", items : commonItems },
+				 */{
 		group : "单据打印项",
 		items : [ {
 			type : "label",
@@ -130,16 +121,58 @@ var defaultData = {
 			text : "_供应商"
 		}, {
 			type : "label",
+			text : "供应商电话号码："
+		}, {
+			type : "holder",
+			text : "_供应商电话号码"
+		}, {
+			type : "label",
+			text : "供应商手机号码："
+		}, {
+			type : "holder",
+			text : "_供应商手机号码"
+		}, {
+			type : "label",
 			text : "下单日期："
 		}, {
 			type : "holder",
 			text : "_下单日期"
-		},{
+		}, {
 			type : "label",
 			text : "机构名称："
-		},{
+		}, {
 			type : "holder",
 			text : "_机构名称"
+		}, {
+			type : "label",
+			text : "机构联系人："
+		}, {
+			type : "holder",
+			text : "_机构联系人"
+		}, {
+			type : "label",
+			text : "机构联系电话："
+		}, {
+			type : "holder",
+			text : "_机构联系电话"
+		}, {
+			type : "label",
+			text : "机构详细地址："
+		}, {
+			type : "holder",
+			text : "_机构详细地址"
+		}, {
+			type : "label",
+			text : "送货地址："
+		}, {
+			type : "holder",
+			text : "_送货地址"
+		}, {
+			type : "label",
+			text : "备注："
+		}, {
+			type : "holder",
+			text : "_备注"
 		}, {
 			type : "label",
 			text : "订单编号："
@@ -173,32 +206,67 @@ var defaultData = {
 		} ]
 	} ],
 	// 采购收货单
-	PISheet : [ {
-		group : "通用打印项",
-		items : commonItems
-	}, {
+	PISheet : [ /*
+				 * { group : "通用打印项", items : commonItems },
+				 */{
 		group : "单据打印项",
 		items : [ {
 			type : "label",
 			text : "采购收货单"
-		}, {
+		} , {
 			type : "label",
-			text : "供应商："
+			text : "供应商电话号码："
 		}, {
 			type : "holder",
-			text : "_供应商"
+			text : "_供应商电话号码"
+		}, {
+			type : "label",
+			text : "供应商手机号码："
+		}, {
+			type : "holder",
+			text : "_供应商手机号码"
 		}, {
 			type : "label",
 			text : "下单日期："
 		}, {
 			type : "holder",
 			text : "_下单日期"
-		},{
+		}, {
 			type : "label",
 			text : "机构名称："
-		},{
+		}, {
 			type : "holder",
 			text : "_机构名称"
+		}, {
+			type : "label",
+			text : "机构联系人："
+		}, {
+			type : "holder",
+			text : "_机构联系人"
+		}, {
+			type : "label",
+			text : "机构联系电话："
+		}, {
+			type : "holder",
+			text : "_机构联系电话"
+		}, {
+			type : "label",
+			text : "机构详细地址："
+		}, {
+			type : "holder",
+			text : "_机构详细地址"
+		}, {
+			type : "label",
+			text : "送货地址："
+		}, {
+			type : "holder",
+			text : "_送货地址"
+		}, {
+			type : "label",
+			text : "备注："
+		}, {
+			type : "holder",
+			text : "_备注"
 		}, {
 			type : "label",
 			text : "订单编号："
@@ -232,20 +300,26 @@ var defaultData = {
 		} ]
 	} ],
 	// 采购退货单
-	PRSheet : [ {
+	PRSheet : [ /*{
 		group : "通用打印项",
 		items : commonItems
-	}, {
+	},*/ {
 		group : "单据打印项",
 		items : [ {
 			type : "label",
 			text : "采购退货单"
-		}, {
+		},{
 			type : "label",
-			text : "供应商："
+			text : "供应商电话号码："
 		}, {
 			type : "holder",
-			text : "_供应商"
+			text : "_供应商电话号码"
+		},{
+			type : "label",
+			text : "供应商手机号码："
+		}, {
+			type : "holder",
+			text : "_供应商手机号码"
 		}, {
 			type : "label",
 			text : "下单日期："
@@ -258,6 +332,36 @@ var defaultData = {
 		},{
 			type : "holder",
 			text : "_机构名称"
+		},{
+			type : "label",
+			text : "机构联系人："
+		},{
+			type : "holder",
+			text : "_机构联系人"
+		},{
+			type : "label",
+			text : "机构联系电话："
+		},{
+			type : "holder",
+			text : "_机构联系电话"
+		},{
+			type : "label",
+			text : "机构详细地址："
+		},{
+			type : "holder",
+			text : "_机构详细地址"
+		},{
+			type : "label",
+			text : "送货地址："
+		},{
+			type : "holder",
+			text : "_送货地址"
+		},{
+			type : "label",
+			text : "备注："
+		},{
+			type : "holder",
+			text : "_备注"
 		}, {
 			type : "label",
 			text : "订单编号："
@@ -296,7 +400,7 @@ var defaultData = {
 		items : commonItems
 	}, {
 		group : "单据打印项",
-		items : [{
+		items : [ {
 			type : "label",
 			text : "调价单："
 		}, {
@@ -323,24 +427,23 @@ var defaultData = {
 		}, {
 			type : "holder",
 			text : "_分店列表"
-		},{
+		}, {
 			type : "label",
 			text : "调价设置："
-		},{
+		}, {
 			type : "holder",
 			text : "_调价设置"
 		} ]
 	} ],
 	// 要货单
-	DASheet : [ /*{
-		group : "通用打印项",
-		items : commonItems
-	},*/ {
+	DASheet : [ /*
+				 * { group : "通用打印项", items : commonItems },
+				 */{
 		group : "单据打印项",
-		items : [{
+		items : [ {
 			type : "label",
 			text : "要货单"
-		},{
+		}, {
 			type : "label",
 			text : "单号"
 		}, {
@@ -361,19 +464,19 @@ var defaultData = {
 		}, {
 			type : "label",
 			text : "制单人员："
-		},  {
+		}, {
 			type : "holder",
 			text : "_制单人员"
 		}, {
 			type : "label",
 			text : "业务人员："
-		},  {
+		}, {
 			type : "holder",
 			text : "_业务人员"
 		}, {
 			type : "label",
 			text : "审核人员："
-		},  {
+		}, {
 			type : "holder",
 			text : "_审核人员"
 		}, {
@@ -382,51 +485,50 @@ var defaultData = {
 		}, {
 			type : "holder",
 			text : "_有效期限"
-		},{
+		}, {
 			type : "label",
 			text : "制单日期："
 		}, {
 			type : "holder",
 			text : "_制单日期"
-		},{
+		}, {
 			type : "label",
 			text : "审核日期："
 		}, {
 			type : "holder",
 			text : "_审核日期"
-		},{
+		}, {
 			type : "label",
 			text : "备注："
 		}, {
 			type : "holder",
 			text : "_备注"
-		},{
+		}, {
 			type : "label",
 			text : "人民币大写总金额："
-		},{
+		}, {
 			type : "holder",
 			text : "_人民币大写总金额"
-		},{
+		}, {
 			type : "label",
 			text : "总金额："
-		},{
+		}, {
 			type : "holder",
 			text : "_总金额"
-		},{
+		}, {
 			type : "label",
 			text : "核准："
-		},{
+		}, {
 			type : "label",
 			text : "审核："
-		}]
+		} ]
 	} ],
-	//入库单 
-	DISheet : [ /*{
-		group : "通用打印项",
-		items : commonItems
-	},*/ {
+	// 入库单
+	DISheet : [ /*
+				 * { group : "通用打印项", items : commonItems },
+				 */{
 		group : "单据打印项",
-		items : [{
+		items : [ {
 			type : "label",
 			text : "配送入库单"
 		}, {
@@ -447,31 +549,31 @@ var defaultData = {
 		}, {
 			type : "label",
 			text : "制单人员："
-		},  {
+		}, {
 			type : "holder",
 			text : "_制单人员"
 		}, {
 			type : "label",
 			text : "业务人员："
-		},  {
+		}, {
 			type : "holder",
 			text : "_业务人员"
-		},{
+		}, {
 			type : "label",
 			text : "联系人："
-		},  {
+		}, {
 			type : "holder",
 			text : "_联系人"
-		},{
+		}, {
 			type : "label",
 			text : "联系电话："
-		},  {
+		}, {
 			type : "holder",
 			text : "_联系电话"
 		}, {
 			type : "label",
 			text : "审核人员："
-		},  {
+		}, {
 			type : "holder",
 			text : "_审核人员"
 		}, {
@@ -480,76 +582,74 @@ var defaultData = {
 		}, {
 			type : "holder",
 			text : "_有效期限"
-		},{
+		}, {
 			type : "label",
 			text : "制单日期："
 		}, {
 			type : "holder",
 			text : "_制单日期"
-		},{
+		}, {
 			type : "label",
 			text : "审核日期："
 		}, {
 			type : "holder",
 			text : "_审核日期"
-		},{
+		}, {
 			type : "label",
 			text : "备注："
 		}, {
 			type : "holder",
 			text : "_备注"
-		},{
+		}, {
 			type : "label",
 			text : "人民币大写总金额："
-		},{
+		}, {
 			type : "holder",
 			text : "_人民币大写总金额"
-		},{
+		}, {
 			type : "label",
 			text : "总金额："
-		},{
+		}, {
 			type : "holder",
 			text : "_总金额"
-		},{
+		}, {
 			type : "label",
 			text : "核准："
-		},{
+		}, {
 			type : "label",
 			text : "审核："
-		},{
+		}, {
 			type : "label",
 			text : "有效期限："
-		},{
+		}, {
 			type : "holder",
 			text : "_有效期限"
-		},{
+		}, {
 			type : "label",
 			text : "返利："
-		},{
+		}, {
 			type : "holder",
 			text : "_返利"
-		},{
+		}, {
 			type : "label",
 			text : "折扣："
-		},
-		{
+		}, {
 			type : "holder",
 			text : "_折扣"
-		},{
+		}, {
 			type : "label",
 			text : "客户："
-		},{
+		}, {
 			type : "label",
 			text : "司机："
-		}]
+		} ]
 	} ],
-	//配送出库单
-	DOSheet : [/* {
-		group : "通用打印项",
-		items : commonItems
-	}, */{
+	// 配送出库单
+	DOSheet : [/*
+				 * { group : "通用打印项", items : commonItems },
+				 */{
 		group : "单据打印项",
-		items : [{
+		items : [ {
 			type : "label",
 			text : "配送出库单"
 		}, {
@@ -570,31 +670,31 @@ var defaultData = {
 		}, {
 			type : "label",
 			text : "制单人员："
-		},  {
+		}, {
 			type : "holder",
 			text : "_制单人员"
 		}, {
 			type : "label",
 			text : "业务人员："
-		},  {
+		}, {
 			type : "holder",
 			text : "_业务人员"
-		},{
+		}, {
 			type : "label",
 			text : "联系人："
-		},  {
+		}, {
 			type : "holder",
 			text : "_联系人"
-		},{
+		}, {
 			type : "label",
 			text : "联系电话："
-		},  {
+		}, {
 			type : "holder",
 			text : "_联系电话"
 		}, {
 			type : "label",
 			text : "审核人员："
-		},  {
+		}, {
 			type : "holder",
 			text : "_审核人员"
 		}, {
@@ -603,67 +703,66 @@ var defaultData = {
 		}, {
 			type : "holder",
 			text : "_有效期限"
-		},{
+		}, {
 			type : "label",
 			text : "制单日期："
 		}, {
 			type : "holder",
 			text : "_制单日期"
-		},{
+		}, {
 			type : "label",
 			text : "审核日期："
 		}, {
 			type : "holder",
 			text : "_审核日期"
-		},{
+		}, {
 			type : "label",
 			text : "备注："
 		}, {
 			type : "holder",
 			text : "_备注"
-		},{
+		}, {
 			type : "label",
 			text : "人民币大写总金额："
-		},{
+		}, {
 			type : "holder",
 			text : "_人民币大写总金额"
-		},{
+		}, {
 			type : "label",
 			text : "总金额："
-		},{
+		}, {
 			type : "holder",
 			text : "_总金额"
-		},{
+		}, {
 			type : "label",
 			text : "核准："
-		},{
+		}, {
 			type : "label",
 			text : "审核："
-		},{
+		}, {
 			type : "label",
 			text : "有效期限："
-		},{
+		}, {
 			type : "holder",
 			text : "_有效期限"
-		},{
+		}, {
 			type : "label",
 			text : "返利："
-		},{
+		}, {
 			type : "holder",
 			text : "_返利"
-		},{
+		}, {
 			type : "label",
 			text : "折扣："
-		},
-		{
+		}, {
 			type : "holder",
 			text : "_折扣"
-		},{
+		}, {
 			type : "label",
 			text : "客户："
-		},{
+		}, {
 			type : "label",
 			text : "司机："
-		}]
+		} ]
 	} ],
 }
