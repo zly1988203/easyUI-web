@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
-import com.okdeer.jxc.common.constant.Constant;
+import com.alibaba.fastjson.JSONObject;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.OrderNoUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
@@ -119,7 +119,7 @@ public class ActivityController {
 			//构建活动ActivityMain
 			ActivityMain main = new ActivityMain();
 			BeanUtils.copyProperties(activityVo, main);
-			SysUser user = (SysUser)UserUtil.getHttpSession().getAttribute(Constant.SESSION_USER);
+			SysUser user = UserUtil.getUser();
 			Date now = new Date();
 			
 			main.setId(UUIDHexGenerator.generate());
@@ -182,13 +182,17 @@ public class ActivityController {
 			String validMsg = activityVo.validate();
 			
 			if(validMsg != null){
-				return RespJson.businessError(validMsg);
+				return RespJson.argumentError(validMsg);
+			}
+			
+			if(activityVo.getId() == null){
+				return RespJson.argumentError("活动Id不能为空");
 			}
 			
 			//构建活动ActivityMain
 			ActivityMain main = new ActivityMain();
 			BeanUtils.copyProperties(activityVo, main);
-			SysUser user = (SysUser)UserUtil.getHttpSession().getAttribute(Constant.SESSION_USER);
+			SysUser user = UserUtil.getUser();
 			Date now = new Date();
 			
 			main.setUpdateUserId(user.getId());
@@ -237,11 +241,27 @@ public class ActivityController {
 	public RespJson check(String activityId) {
 		try {
 			logger.debug("审核：activityId：{}",activityId);
-			SysUser user = (SysUser)UserUtil.getHttpSession().getAttribute(Constant.SESSION_USER);
+			SysUser user = UserUtil.getUser();
 			return mainServiceApi.check(activityId, user.getId());
 		} catch (Exception e) {
 			logger.error("审核活动出现异常：",e);
 			return RespJson.error("审核活动出现异常");
+		}
+	}
+	
+	/**
+	 * 终止活动
+	 */
+	@RequestMapping(value = "delete", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson delete(String activityId) {
+		try {
+			logger.debug("删除：activityId：{}",activityId);
+			SysUser user = UserUtil.getUser();
+			return mainServiceApi.delete(activityId, user.getId());
+		} catch (Exception e) {
+			logger.error("删除活动出现异常：",e);
+			return RespJson.error("删除活动出现异常");
 		}
 	}
 	
@@ -253,7 +273,7 @@ public class ActivityController {
 	public RespJson stop(String activityId) {
 		try {
 			logger.debug("终止：activityId：{}",activityId);
-			SysUser user = (SysUser)UserUtil.getHttpSession().getAttribute(Constant.SESSION_USER);
+			SysUser user = UserUtil.getUser();
 			return mainServiceApi.stop(activityId, user.getId());
 		} catch (Exception e) {
 			logger.error("终止活动出现异常：",e);
@@ -286,10 +306,10 @@ public class ActivityController {
 	 */
 	@RequestMapping(value = "getDetail", method = RequestMethod.GET)
 	@ResponseBody
-	public PageUtils<Map<String, Object>> getDetail(String activityId){
+	public PageUtils<Map<String, Object>> getDetail(ActivityListQueryVo activityListQueryVo){
 		try {
-			logger.debug("查询活动详情：getDetail：{}",activityId);
-			PageUtils<Map<String, Object>> activityDetail = mainServiceApi.getDetail(activityId);
+			logger.debug("查询活动详情：getDetail：{}",JSONObject.toJSONString(activityListQueryVo));
+			PageUtils<Map<String, Object>> activityDetail = mainServiceApi.getDetail(activityListQueryVo);
 			return activityDetail;
 		} catch (Exception e) {
 			logger.error("查询活动详情出现异常：",e);
@@ -302,10 +322,10 @@ public class ActivityController {
 	 */
 	@RequestMapping(value = "getDetailFullCut", method = RequestMethod.GET)
 	@ResponseBody
-	public PageUtils<Map<String, Object>> getDetailFullCut(String activityId){
+	public PageUtils<Map<String, Object>> getDetailFullCut(ActivityListQueryVo activityListQueryVo){
 		try {
-			logger.debug("查询活动详情(满减)：getDetailFullCut：{}",activityId);
-			PageUtils<Map<String, Object>> activityDetail = mainServiceApi.getDetailFullCut(activityId);
+			logger.debug("查询活动详情(满减)：getDetailFullCut：{}",JSONObject.toJSONString(activityListQueryVo));
+			PageUtils<Map<String, Object>> activityDetail = mainServiceApi.getDetailFullCut(activityListQueryVo);
 			return activityDetail;
 		} catch (Exception e) {
 			logger.error("查询活动详情(满减)出现异常：",e);
@@ -334,11 +354,12 @@ public class ActivityController {
 	/**
 	 * 查询活动列表
 	 */
-	@RequestMapping(value = "listData", method = RequestMethod.GET)
+	@RequestMapping(value = "listData", method = RequestMethod.POST)
 	@ResponseBody
 	public PageUtils<Map<String, Object>> listData(ActivityListQueryVo queryVo){
 		try {
 			logger.debug("查询活动列表：listData：{}",queryVo);
+			queryVo.setSourceBranchId(UserUtil.getCurrBranchId());
 			PageUtils<Map<String, Object>> page = mainServiceApi.listPage(queryVo);
 			return page;
 		} catch (Exception e) {

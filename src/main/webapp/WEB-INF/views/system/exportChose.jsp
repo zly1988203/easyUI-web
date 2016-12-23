@@ -43,11 +43,20 @@
 		if(choose=="0"){
 			stratRow = dg.datagrid('getData').startRow ;
 			endRow = dg.datagrid('getData').endRow;
+			if(typeof(stratRow)=="undefined"){
+				stratRow = 1;
+			}
+			if(typeof(endRow)=="undefined"){
+				endRow = 20000;
+			}
 		}
 		//全部页面
 		if(choose=="1"){
 			stratRow = 1;
 			endRow = dg.datagrid('getData').total;
+			if(typeof(endRow)=="undefined"){
+				endRow = 20000;
+			}
 			if (endRow > 20000) {
 				successTip("最大导出20000条");
 				return;
@@ -72,8 +81,8 @@
 		if (stratRow === null || stratRow === 0) {
 			stratRow = 1;
 		} 
-		$("#startCount").attr("value",(stratRow - 1));
-		$("#endCount").attr("value",(endRow - (stratRow - 1)));
+		$("#startCount").val((stratRow - 1));
+		$("#endCount").val((endRow - (stratRow - 1)));
 	    // 调用导出
 		exportExcel();
 		$("#exportWin").panel('close');

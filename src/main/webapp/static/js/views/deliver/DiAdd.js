@@ -5,6 +5,7 @@
 $(function(){
 	 $("#createTime").html(new Date().format('yyyy-MM-dd hh:mm'));
     initDatagridAddRequireOrder();
+    loadFormByFormNoDO();
 });
 var gridDefault = {
     receiveNum:0,
@@ -141,6 +142,7 @@ function initDatagridAddRequireOrder(){
                     if(row.isFooter){
                         return;
                     }
+                    row.isGift = row.isGift?row.isGift:0;
                     return value=='1'?'是':(value=='0'?'否':'请选择');
                 },
                 editor:{
@@ -225,8 +227,15 @@ function onChangeLargeNum(newV,oldV){
         messager("配送规格不能为0");
         return;
     }
-    var newRealNum = (Math.round(purchaseSpecValue*newV)).toFixed(4);
-    gridHandel.setFieldValue('receiveNum',newRealNum);//数量=商品规格*箱数
+    //var newRealNum = (Math.round(purchaseSpecValue*newV)).toFixed(4);
+    /*var newRealNum = (purchaseSpecValue*newV).toFixed(4);
+     gridHandel.setFieldValue('receiveNum',newRealNum);//数量=商品规格*箱数*/
+    var realNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'receiveNum');
+    var realNumVal2 = parseFloat(purchaseSpecValue*newV).toFixed(4);//parseFloat(Math.round(purchaseSpecValue*newV*1000)/1000).toFixed(4);
+    if(realNumVal&&Math.abs(realNumVal2-realNumVal)>0.0001){
+        gridHandel.setFieldValue('receiveNum',(purchaseSpecValue*newV).toFixed(4));//数量=商品规格*箱数
+    }
+
     updateFooter();
 }
 //监听商品数量
@@ -246,7 +255,14 @@ function onChangeRealNum(newV,oldV) {
     var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
 
     gridHandel.setFieldValue('amount',priceValue*newV);                         //金额=数量*单价
-    gridHandel.setFieldValue('largeNum',(newV/purchaseSpecValue).toFixed(4));   //箱数=数量/商品规格
+
+    var largeNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'largeNum');
+    var largeNumVal2 = parseFloat(purchaseSpecValue*newV).toFixed(4);
+    if(largeNumVal&&Math.abs(largeNumVal2-largeNumVal)>0.0001){
+        var largeNumVal = parseFloat(newV/purchaseSpecValue).toFixed(4);
+        gridHandel.setFieldValue('largeNum',largeNumVal);   //箱数=数量/商品规格
+    }
+    /*gridHandel.setFieldValue('largeNum',(newV/purchaseSpecValue).toFixed(4));   //箱数=数量/商品规格*/
     updateFooter();
 }
 //监听商品单价
@@ -382,7 +398,8 @@ function saveOrder(){
         amount = parseFloat(footerRows[0]["amount"]||0.0).toFixed(4);
     }
 
-    var rows = gridHandel.getRows();
+    var rows = gridHandel.getRowsWhere({skuName:'1'});
+    $(gridHandel.getGridName()).datagrid("loadData",rows);
     if(rows.length==0){
         messager("表格不能为空");
         return;
@@ -524,7 +541,7 @@ function selectDeliver(){
 }
 function loadLists(referenceId){
 	$("#gridEditOrder").datagrid("options").method = "post";
-	$("#gridEditOrder").datagrid('options').url = contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverFormId="+referenceId + "&deliverType=DA";
+	$("#gridEditOrder").datagrid('options').url = contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverFormId="+referenceId;
 	$("#gridEditOrder").datagrid('load');
 }
 
@@ -568,4 +585,37 @@ function getImportData(data){
 //返回列表页面
 function back(){
 	location.href = contextPath+"/form/deliverForm/viewsDI";
+}
+
+// 从出库单直接加载入库单
+function loadFormByFormNoDO() {
+    var referenceId = $("#referenceId").val();
+    if (referenceId) {
+        loadLists(referenceId);
+        setData();
+    }
+}
+
+// 设置值
+function setData(){
+    $.ajax({
+        url:contextPath+"/form/deliverForm/getSourceBranchAndTargetBranchAndFormNo",
+        data:{
+            referenceId : $("#referenceId").val()
+        },
+        type:"post",
+        success:function(data){
+            if (data.code == '0') {
+                $("#referenceId").val(data.data.id);
+                $("#referenceNo").val(data.data.formNo);
+                $("#targetBranchId").val(data.data.targetBranchId);
+                $("#targetBranchName").val(data.data.targetBranchName);
+                $("#sourceBranchId").val(data.data.sourceBranchId);
+                $("#sourceBranchName").val(data.data.sourceBranchName);
+                //$("#address").html(data.data.address);
+                //$("#contacts").html(data.data.contacts);
+                //$("#mobile").html(data.data.mobile);
+            }
+        }
+    });
 }

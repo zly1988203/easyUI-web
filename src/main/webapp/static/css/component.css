@@ -257,3 +257,11 @@
 
 .uinp-more.new-right {
   right: 10px; }
+.tabs-header, .tabs-tool{
+  background-color: #f8f8f8;
+}
+
+
+.newWdate{
+	width:132px !important;
+}

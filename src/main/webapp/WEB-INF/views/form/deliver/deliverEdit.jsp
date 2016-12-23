@@ -10,7 +10,8 @@
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
 	<script src="${ctx}/static/js/views/deliver/deliverEdit.js"></script>
-    
+	<script src="${ctx}/static/js/views/deliver/deliverExport.js"></script>
+    <%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
     <div class="ub ub-ver ub-f1 umar-4  ubor">
@@ -26,17 +27,22 @@
                 	<div class="ubtns-item" onclick="check()">审核</div>
                 </shiro:hasPermission>
                 <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
-                <div class="ubtns-item-disabled" >导入</div>
-                <div class="ubtns-item-disabled" >删除</div>
-                <div class="ubtns-item-disabled" >打印</div>
+                <shiro:hasPermission name="JxcDeliverDA:delete">
+	                <div class="ubtns-item" onclick="delDeliverForm()">删除</div>
+                </shiro:hasPermission>
+                <shiro:hasPermission name="JxcDeliverDA:print">
+                    <div class="ubtns-item" onclick="printChoose('DA','/form/deliverForm/')">打印</div>
+                </shiro:hasPermission>
+                <div class="ubtns-item"  onclick="exportData('DA','gridEditRequireOrder')">导出明细</div>
                 <div class="ubtns-item" onclick="toImportproduct(0)">导入货号</div>
             	<div class="ubtns-item" onclick="toImportproduct(1)">导入条码</div>
                 <div class="ubtns-item" onclick="toClose()">关闭</div>
             </div>
         </div>
-        <div class="ub umar-t8 uc-black">【单号】:<span id="formNo">${form.formNo}</span></div>
+        <div class="ub umar-t8 uc-black">【单号】:<span>${form.formNo}</span></div>
         <div class="ub uline umar-t8"></div>
         <input type="hidden" id="formId" value="${form.deliverFormId}">
+        <input type="hidden" id="formNo" value="${form.formNo}">
         <div class="ub umar-t8">
             <div class="ub ub-ac uw-300">
                 <div class="umar-r10 uw-60 ut-r">要货机构:</div>

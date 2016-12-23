@@ -76,8 +76,9 @@ pageEncoding="UTF-8"%>
                         <option value="箱">箱</option>
                         <option value="套">套</option>
                         <option value="包">包</option>
-                        <option value="个">个</option>
+                        <option value="个" selected="selected">个</option>
                         <option value="瓶">瓶</option>
+                        <option value="千克">千克</option>
                         <option value="克">克</option>
                     </select>
                 </div>
@@ -130,8 +131,8 @@ pageEncoding="UTF-8"%>
             <div class="ub upad-4">
                 <div class="ub ub-ac uw-300">
                     <div class="umar-r10 uw-60 ut-r">经营方式:</div>
-                    <input id="saleWay" name="saleWay"   class="uinp" type="hidden" readonly="readonly">
-                    <input id="saleWayName" name="saleWayName"   class="uinp uinp-no-more" type="text" readonly="readonly">
+                    <input id="saleWay" name="saleWay" class="uinp" type="hidden" value="${supplier.saleWay}" readonly="readonly">
+                    <input id="saleWayName" name="saleWayName"   class="uinp uinp-no-more" type="text" value="${supplier.saleWayName}" readonly="readonly">
                 </div>
                 <div class="ub ub-ac uw-300">
                     <div class="umar-r10 uw-60 ut-r">联营/代销扣率:</div>

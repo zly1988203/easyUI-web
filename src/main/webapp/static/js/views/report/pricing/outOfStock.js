@@ -57,7 +57,6 @@ function checktype(){
 			$('.uinp-sourceName').removeAttr('onclick');
 			$('#formNo').removeClass('uinp-no-more');
 			$('#formNo').removeAttr("readonly");
-			
 		}
 		else if(check==true&&value=='1'){
 			$('#sourceBranchName').removeClass('uinp-no-more');
@@ -82,7 +81,7 @@ function cleardata(){
 }
 
 var gridHandel = new GridClass();
-//初始化表格
+// 明细表
 var dg;
 function initDatagridRequireOrders(){
 	gridHandel.setGridName("marketWater");
@@ -123,12 +122,17 @@ function initDatagridRequireOrders(){
 		   			}
 	           }   
             },
+			{field: 'DIFormNo', title: '入库单号', width: '150px', align: 'left',
+				formatter:function(value,row,index){
+					if(row.DIFormId){
+						var hrefStr='parent.addTab("详情","'+contextPath+'/form/deliverForm/deliverEdit?report=close&deliverFormId='+row.DIFormId+'")';
+						return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
+					}
+				}
+			},
             {field: 'skuCode', title: '货号', width: '65px', align: 'left'},
             {field: 'skuName', title: '商品名称', width: '150px', align: 'left'},
             {field: 'barCode', title: '条码', width: '150px', align: 'left'},
-            {field: 'spec', title: '规格', width: '65px', align:'center'},
-            {field: 'unit', title: '单位', width: '65px', align:'center'},
-            {field: 'categoryName', title: '商品类别', width: '85px', align:'center'},
             {field: 'defectNum', title: '缺货数', width: '85px', align: 'right',
             	formatter : function(value, row, index) {
 					if(row.defectNum){
@@ -177,7 +181,26 @@ function initDatagridRequireOrders(){
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
-            }
+            },
+			{field: 'inReceiveNum', title: '收货数量', width: '85px', align: 'right',
+				formatter : function(value, row, index) {
+					if(row.inReceiveNum){
+						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+					}
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				},
+			},
+			{field: 'DIAmount', title: '收货金额', width: '85px', align: 'right',
+				formatter:function(value,row,index){
+					if(row.DIAmount){
+						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+					}
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				}
+			},
+			{field: 'spec', title: '规格', width: '65px', align:'center'},
+			{field: 'unit', title: '单位', width: '65px', align:'center'},
+			{field: 'categoryName', title: '商品类别', width: '85px', align:'center'}
             ]],
             onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
@@ -185,7 +208,7 @@ function initDatagridRequireOrders(){
     });
 }
 
-//初始化表格
+// 汇总表
 function initDatagridByGoods(){
 	gridHandel.setGridName("marketWater");
     $("#marketWater").datagrid({
@@ -254,21 +277,37 @@ function initDatagridByGoods(){
 				},
             },
             {field: 'outDealNum', title: '发货数量', width: '85px', align: 'right',
-            	formatter : function(value, row, index) {
+				formatter : function(value, row, index) {
 					if(row.outDealNum){
 						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 					}
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
-            },
-            {field: 'outAmount', title: '发货金额', width: '85px', align: 'right',
-            	formatter:function(value,row,index){
-            		if(row.outAmount){
-            			return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                    }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                }
-            }
+			},
+			{field: 'outAmount', title: '发货金额', width: '85px', align: 'right',
+				formatter:function(value,row,index){
+					if(row.outAmount){
+						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+					}
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				}
+			},
+			{field: 'inReceiveNum', title: '收货数量', width: '85px', align: 'right',
+				formatter : function(value, row, index) {
+					if(row.inReceiveNum){
+						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+					}
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				},
+			},
+			{field: 'DIAmount', title: '收货金额', width: '85px', align: 'right',
+				formatter:function(value,row,index){
+					if(row.DIAmount){
+						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+					}
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				}
+			}
             ]],
             onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");

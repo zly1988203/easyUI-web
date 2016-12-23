@@ -21,6 +21,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.branch.vo.BranchesVo;
+import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.utils.UserUtil;
@@ -67,9 +68,9 @@ public class BranchCommonController extends BaseController<BranchCommonControlle
 	@RequestMapping(value = "viewComponent")
 	public String viewComponent(HttpServletRequest req, Model model) {
 		LOG.info("公共选择机构跳转页面参数:{}", req.toString());
-		String formType = req.getParameter("formType");
+		String deliverFormType = req.getParameter("formType");
 		String branchId = req.getParameter("branchId");
-		model.addAttribute("formType", formType);
+		model.addAttribute("deliverFormType", deliverFormType);
 		model.addAttribute("branchId", branchId);
 		return "component/publicAgency";
 	}
@@ -108,6 +109,23 @@ public class BranchCommonController extends BaseController<BranchCommonControlle
 			LOG.error("查询机构异常:", e);
 		}
 		return null;
+	}
+
+	@RequestMapping(value = "selectTargetBranchData", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson selectTargetBranchData(String branchesId) {
+		RespJson respJson = RespJson.success();
+		try {
+			LOG.info("查询机构参数:{}", branchesId);
+			Branches branches = branchesService.getBranchInfoById(branchesId);
+			respJson.put("address", branches.getAddress());
+			respJson.put("contacts", branches.getContacts());
+			respJson.put("mobile", branches.getMobile());
+		} catch (Exception e) {
+			respJson = RespJson.error();
+			LOG.error("查询机构异常:", e);
+		}
+		return respJson;
 	}
 
 }

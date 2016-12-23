@@ -483,7 +483,8 @@ function saveOrder(){
    
 
     var selectVal=$("#io").combobox('getValue');
-    var rows = gridHandel.getRows();
+    var rows = gridHandel.getRowsWhere({skuName:'1'});
+    $(gridHandel.getGridName()).datagrid("loadData",rows);
   
   //判定表格不能为空
     if(rows.length==0){
@@ -613,11 +614,6 @@ function selectOperator(){
 }
 
 
-function loadLists(referenceId){
-	$("#gridEditRequireOrder").datagrid("options").method = "post";
-	$("#gridEditRequireOrder").datagrid('options').url = contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverFormId="+referenceId;
-	$("#gridEditRequireOrder").datagrid('load');
-}
 /**
  * 机构名称
  */

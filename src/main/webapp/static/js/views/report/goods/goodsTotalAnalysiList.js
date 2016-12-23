@@ -185,6 +185,14 @@ function initGoodsTotalAnalysiGrid() {
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
+            },
+            {field: 'grossProfitRate', title: '毛利率', width:80, align: 'right',
+                formatter:function(value,row,index){
+                    if(row.grossProfitRate===''){
+                        return '';
+                    }
+                    return '<b>'+parseFloat(value).toFixed(2)+'%</b>';
+                }
             }
         ]],
 		onLoadSuccess:function(data){
@@ -252,6 +260,14 @@ function initCategoryGrid() {
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                }
+            },
+            {field: 'grossProfitRate', title: '毛利率', width:80, align: 'right',
+                formatter:function(value,row,index){
+                    if(row.grossProfitRate===''){
+                        return '';
+                    }
+                    return '<b>'+parseFloat(value).toFixed(2)+'%</b>';
                 }
             }
         ]],
@@ -321,8 +337,15 @@ function initPurReportSupplierGrid() {
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
+            },
+            {field: 'grossProfitRate', title: '毛利率', width:80, align: 'right',
+                formatter:function(value,row,index){
+                    if(row.grossProfitRate===''){
+                        return '';
+                    }
+                    return '<b>'+parseFloat(value).toFixed(2)+'%</b>';
+                }
             }
-            
         ]],
 		onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");

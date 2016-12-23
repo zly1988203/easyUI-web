@@ -44,27 +44,78 @@ function initDatagridRequire(){
         columns:[[
             {field:'activityCode',title:'活动编号',width:'220px',align:'left',
                formatter : function(value, row,index) {
-                 return "<a style='text-decoration: underline;' href='"+ contextPath +"/sale/activity/edit?activityId="+ row.id +"'>" + value + "</a>"
+                 var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看促销管理详细\',\''+contextPath+'/sale/activity/edit?activityId='+row.id+'\')">' + value + '</a>';
+                 return strHtml;
               },
             },
-            {field:'skuCode',title:'货号',width:'85px',align:'left',hidden:true},
+            {field:'id',title:'货号',width:'85px',align:'left',hidden:true},
 			{field:'activityName', title: '活动名称', width: '200px', align: 'left'},
-			{field:'activityTyep',title:'活动类型',width:'150px',align:'left'},
-			{field:'starttime',title:'开始日期',width:'115px',align:'left'},
-	        {field:'endtime',title:'结束日期',width:'115px',align:'left'},
-	        {field:'categoryName',title:'活动时段',width:'120px',align:'left'},
-	        {field:'categoryName',title:'活动状态',width:'80px',align:'left'},
-	        {field:'zdpeople',title:'制单人',width:'80px',align:'left'},
-	        {field:'categoryName',title:'审核人',width:'80px',align:'left'},
-	        {field:'categoryName',title:'审核日期',width:'115px',align:'left'},
+			{field:'activityType',title:'活动类型',width:'150px',align:'left',formatter:function(value,row,index){
+            	if(value == '1'){
+            		return '特价';
+            	}else if(value == '2'){
+            		return '折扣';
+            	}else if(value == '3'){
+            		return '偶数特价';
+            	}else if(value == '4'){
+            		return '换购';
+            	}else if(value == '5'){
+            		return '满减';
+            	}else if(value == '6'){
+            		return '组合特价';
+            	}else{
+            		return '未知类型：'+ value;
+            	}
+            }},
+			{field:'startTime',title:'开始日期',width:'150px',align:'left', formatter: function (value, row, index) {
+                if (value) {
+                	return new Date(value).format('yyyy-MM-dd');
+                }
+                return "";
+            }},
+	        {field:'endTime',title:'结束日期',width:'150px',align:'left', formatter: function (value, row, index) {
+                if (value) {
+                	return new Date(value).format('yyyy-MM-dd');
+                }
+                return "";
+            }},
+	        /*{field:'dailyStartTime',title:'活动时段',width:'80px',align:'left'},
+	        {field:'dailyEndTime',title:'活动时段',width:'80px',align:'left'},*/
+			{field:'dailyStartTime',title:'活动时段',width:'150px',align:'left', formatter: function (value, row, index) {
+				//debugger;
+				if (row) {
+					return row.dailyStartTime+"-"+row.dailyEndTime;
+				}
+				return "";
+			}},
+	        {field:'activityStatus',title:'活动状态',width:'80px',align:'left',formatter:function(value,row,index){
+            	if(value == '0'){
+            		return '未审核';
+            	}else if(value == '1'){
+            		return '已审核';
+            	}else if(value == '2'){
+            		return '已终止';
+            	}else{
+            		return '未知类型：'+ value;
+            	}
+            }},
+	        {field:'updateUserName',title:'制单人',width:'80px',align:'left'},
+	        {field:'validUserName',title:'审核人',width:'80px',align:'left'},
+	        {field:'validTime',title:'审核日期',width:'150px',align:'left', formatter: function (value, row, index) {
+                if (value) {
+                	return new Date(value).format('yyyy-MM-dd hh:mm:ss');
+                }
+                return "";
+            }},
+            
 
       ]],
       onLoadSuccess:function(data){
 		gridHandel.setDatagridHeader("center");
-			
+
 	 }
     });
-
+	queryForm();
 }
 
 //查询入库单
@@ -74,6 +125,7 @@ function queryForm(){
 	$("#saleMange").datagrid('options').url = contextPath +'/sale/activity/listData';
 	$("#saleMange").datagrid('load', fromObjStr);
 }
+
 
 /**
  * 活动店铺名称
@@ -87,7 +139,7 @@ function searchBranch(){
 
 //pos新增
 function addActivity(){
-	location.href = contextPath + "/sale/activity/add";
+	toAddTab("新增促销活动",contextPath + "/sale/activity/add");
 }
 
 //删除
@@ -97,13 +149,14 @@ function delActivity(){
 	if(rowIsNull(row)){
 		return null;
 	}
+	console.log(row.id);
 	$.messager.confirm('提示','是否要删除此条数据',function(data){
 		if(data){
 			$.ajax({
 		    	url:contextPath+"/sale/activity/delete",
 		    	type:"POST",
 		    	data:{
-		    		formId : row.deliverFormId
+		    		activityId : row.id
 		    	},
 		    	success:function(result){
 		    		if(result['code'] == 0){
@@ -129,3 +182,31 @@ var resetForm = function() {
 	 $("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
 	 $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 };
+
+// 终止
+function stop(){
+	var activityId = $("#activityId").val();
+	$.messager.confirm('提示','是否终止此活动？',function(data){
+		if(data){
+			$.ajax({
+				url : contextPath+"/sale/activity/stop",
+				type : "POST",
+				data : {
+					activityId:$("#activityId").val(),
+				},
+				success:function(result){
+					if(result['code'] == 0){
+						$.messager.alert("操作提示", "操作成功！", "info",function(){
+							location.href = contextPath +"/sale/activity/edit?activityId="+activityId;
+						});
+					}else{
+						successTip(result['message']);
+					}
+				},
+				error:function(result){
+					successTip("请求发送失败或服务器处理失败");
+				}
+			});
+		}
+	});
+}

@@ -9,6 +9,7 @@ package com.okdeer.jxc.controller.purchase;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -90,7 +91,22 @@ public class PurchaseSelectController extends BaseController<PurchaseForm> {
 			 */
 //			vo.setBranchId(UserUtil.getCurrBranchId());
 			
-			vo.setBranchCode(getCurrBranchCompleCode()); 
+			vo.setBranchCode(getCurrBranchCompleCode());
+			
+			//处理机构
+			String branchName = vo.getBranchName();
+			if(StringUtils.isNotBlank(branchName)){
+				branchName = branchName.substring(branchName.lastIndexOf("]")+1,branchName.length());
+				vo.setBranchName(branchName);
+			}
+			
+			//处理供应商
+			String supplierName = vo.getSupplierName();
+			if(StringUtils.isNotBlank(supplierName)){
+				supplierName = supplierName.substring(supplierName.lastIndexOf("]")+1,supplierName.length());
+				vo.setSupplierName(supplierName);
+			}
+			
 			/**
 			 * update by xiaoj02 2016-9-7 end
 			 */

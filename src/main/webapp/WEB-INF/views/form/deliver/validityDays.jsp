@@ -32,25 +32,28 @@
 					</div>
 				</div>
 				<div class="ub ub-ac upad-16 ">
-					<div class="ub uw-220 ut-r ">自营店要货价格直接取物流配送价:</div>
+					<div class="ub uw-220 ut-r">自营店要货价格取值:</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="ub" type="radio" id="priceSpec0" name="priceSpec" value="0"  /><span>不启用</span>
+						<input class="ub" type="radio" id="priceSpec0" name="priceSpec" value="0"  /><span>要货机构成本价</span>
 					</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="ub" type="radio" id="priceSpec1" name="priceSpec" value="1" /><span>启用</span>
+						<input class="ub" type="radio" id="priceSpec1" name="priceSpec" value="1" /><span>发货机构配送价</span>
+					</div>
+					<div class="ub ub-ac umar-r10">
+						<input class="ub" type="radio" id="priceSpec2" name="priceSpec" value="2" /><span>发货机构成本价</span>
 					</div>
 				</div>
 				<div class="ub ub-ac upad-16 ">
 					<div class="ub uw-220 ut-r ">自营店可要仓库所有对外供应商品:</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="ub" type="radio" id="selectGoodsSpec1"  name="selectGoodsSpec" value="0"/><span>不启用</span>
+						<input class="ub" type="radio" id="selectGoodsSpec0"  name="selectGoodsSpec" value="0"/><span>不启用</span>
 					</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="ub" type="radio" id="selectGoodsSpec0" name="selectGoodsSpec" value="1"/><span>启用</span>
+						<input class="ub" type="radio" id="selectGoodsSpec1" name="selectGoodsSpec" value="1"/><span>启用</span>
 					</div>
 				</div>
 			</form>
-			<!-- <div class="ub upad-10 ubor-b">
+			<%-- <div class="ub upad-10 ubor-b">
 				<div class="umar-r10 uw-280 ut-r">分店间直调必须经过总部审批:</div>
 				<div class="ub ub-ac umar-r10">
 					<input class="ub" type="radio" name="radio1" /><span>启用</span>
@@ -187,23 +190,27 @@
 				<div class="ub ub-ac umar-r10">
 					<input class="ub" type="radio" name="radio2" /><span>不启用</span>
 				</div>
-			</div> -->
+			</div> --%>
 		</div>
 	</div>
-	<!--<div class="ub umar-10">-->
-		<!--<input type="button" class="ubtn" value="保存" onclick="save()"/>-->
-		<!--<input type="button" class="ubtn" value="退出"/>-->
-	<!--</div>-->
+	<%--<div class="ub umar-10">
+		<input type="button" class="ubtn" value="保存" onclick="save()"/>
+		<input type="button" class="ubtn" value="退出"/>
+	</div>--%>
 
 </body>
 <script type="text/javascript">
 $(function(){
+	debugger;
 	var priceSpec = '${branchSpec.priceSpec}';
 	var selectGoodsSpec = '${branchSpec.selectGoodsSpec}';
+	console.log(selectGoodsSpec);
 	if (priceSpec === null || priceSpec === '0' || priceSpec === '') {
 		$("#priceSpec0").attr("checked","true");
-	} else {
+	} else if(priceSpec === '1') {
 		$("#priceSpec1").attr("checked","true");
+	} else {
+		$("#priceSpec2").attr("checked","true");
 	}
 	if (selectGoodsSpec === null || selectGoodsSpec === '0' || selectGoodsSpec === '') {
 		$("#selectGoodsSpec0").attr("checked","true");

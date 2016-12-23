@@ -28,7 +28,7 @@
             <div class="ub umar-t8">
             	<div class="ub ub-ac umar-r80">
                     <div class="umar-r10 uw-60 ut-r">采购订单:</div>
-                    <input id="refFormNo" class="uinp  easyui-validatebox" data-options="required:true" type="text"  onclick="selectPurchaseForm()" >
+                    <input id="refFormNo" class="uinp  easyui-validatebox" data-options="required:true" type="text" value="${form.formNo}" onclick="selectPurchaseForm()" >
                     <div class="uinp-more" onclick="selectPurchaseForm()">...</div>
                 </div>
                 <div class="ub ub-ac umar-r80">
@@ -47,8 +47,8 @@
             <div class="ub umar-t8">
                 <div class="ub ub-ac umar-r80">
                     <div class="umar-r10 uw-60 ut-r">收货机构:</div>
-                    <input class="uinp" name="branchId" id="branchId" type="hidden">
-                    <input id="branchName" class="uinp  easyui-validatebox" data-options="required:true,novalidate:true" readonly="readonly" type="text"  ><!-- onclick="selectBranch()"-->
+                    <input class="uinp" name="branchId" id="branchId" type="hidden" value="${form.branchId}">
+                    <input id="branchName" class="uinp  easyui-validatebox" value="${form.branchName}" data-options="required:true,novalidate:true" readonly="readonly" type="text"  ><!-- onclick="selectBranch()"-->
                     <!--<div class="uinp-more" onclick="selectBranch()">...</div>-->
                 </div>
                 <div class="ub ub-ac umar-r80">
@@ -69,8 +69,8 @@
             <div class="ub umar-t8">
                 <div class="ub ub-ac umar-r80">
                     <div class="umar-r10 uw-60 ut-r">供应商:</div>
-                    <input class="uinp" name="supplierId" id="supplierId" type="hidden">
-                    <input class="uinp easyui-validatebox" data-options="required:true,novalidate:true" id="supplierName" type="text" readonly="readonly">
+                    <input class="uinp" name="supplierId" id="supplierId" type="hidden" value="${form.supplierId}">
+                    <input class="uinp easyui-validatebox" data-options="required:true,novalidate:true" id="supplierName" value="${form.supplierName}" type="text" readonly="readonly">
                 </div>
                 <div class="ub ub-ac umar-r80">
                     <div class="umar-r10 uw-60 ut-r">经营方式:</div>
@@ -85,7 +85,7 @@
                 </div>
             </div>
         </form>
-
+  <input class="uinp" name="formId" id="formId" type="hidden" value="${form.id}">
         <div class="ub ub-f1 datagrid-edit umar-t8">
             <table id="gridEditOrder" ></table>
         </div>

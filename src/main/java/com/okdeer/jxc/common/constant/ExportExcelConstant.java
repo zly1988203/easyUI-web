@@ -180,6 +180,11 @@ String GOODS_SALE_AMOUNT_REPORT = "goodsSaleAmountReport.xlsx";
 	 * @Fields DADOFORM : DADOform.xlsx
 	 */
 	String DADOFORM = "DADOForm.xlsx";
+	
+	/**
+	 * @Fields RETURN_FORM : ReturnForm.xlsx
+	 */
+	String RETURN_FORM = "ReturnForm.xlsx";
 	/**
 	 * 商品采购货号导入模板
 	 */
@@ -291,4 +296,9 @@ String GOODS_SALE_AMOUNT_REPORT = "goodsSaleAmountReport.xlsx";
 	* @Fields 供应商机构商品关系报表
 	*/
 	String SUPPLIER_BRANCH_GOODS_REPORT = "SupplierBranchGoodsReport.xlsx";
+	
+	/**
+	 * @Fields 促销活动商品查询报表
+	 */
+	String ACTIVITY_GOODS_REPORT = "ActivityGoodsReport.xlsx";
 }

@@ -213,6 +213,17 @@ function initDatagridEditOrder(){
                     }
                 }
             },
+            {field:'actual',title:'库存',width:'80px',align:'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return
+                    }
+                    if(!row.actual){
+                        row.actual = parseFloat(value||0).toFixed(2);
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
             {field:'remark',title:'备注',width:'200px',align:'left', editor:'textbox' }
         ]],
         onClickCell:function(rowIndex,field,value){
@@ -242,8 +253,11 @@ function onChangeLargeNum(newV,oldV){
         messager("没有商品规格,请审查");
         return;
     }
-    var newRealNum = (Math.round(purchaseSpecValue*newV)).toFixed(4);
-    gridHandel.setFieldValue('realNum',newRealNum);//数量=商品规格*箱数
+    var realNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'realNum');
+    var realNumVal2 = parseFloat(purchaseSpecValue*newV).toFixed(4);
+    if(realNumVal&&Math.abs(realNumVal2-realNumVal)>0.0001){
+        gridHandel.setFieldValue('realNum',(purchaseSpecValue*newV).toFixed(4));//数量=商品规格*箱数
+    }
     updateFooter();
 }
 //监听商品数量
@@ -258,8 +272,15 @@ function onChangeRealNum(newV,oldV) {
     }
     var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
     gridHandel.setFieldValue('amount',priceValue*newV);                         //金额=数量*单价
-    gridHandel.setFieldValue('largeNum',(newV/purchaseSpecValue).toFixed(4));   //箱数=数量/商品规格
 
+    var largeNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'largeNum');
+    var largeNumVal2 = parseFloat(purchaseSpecValue*newV).toFixed(4);
+    if(largeNumVal&&Math.abs(largeNumVal2-largeNumVal)>0.0001){
+        var largeNumVal = parseFloat(newV/purchaseSpecValue).toFixed(4);
+        gridHandel.setFieldValue('largeNum',largeNumVal);   //箱数=数量/商品规格
+    }
+    /*var largeNumVal = parseFloat(newV/purchaseSpecValue);
+    gridHandel.setFieldValue('largeNum',largeNumVal);   //箱数=数量/商品规格*/
     updateFooter();
 }
 //监听商品单价
@@ -335,13 +356,13 @@ function selectGoods(searchKey){
     }
     
     new publicGoodsService("PA",function(data){
-        if(data.length==0){
+    	if(data.length==0){
             return;
         }
-        if(searchKey){
-            $("#gridEditOrder").datagrid("deleteRow", gridHandel.getSelectRowIndex());
-            $("#gridEditOrder").datagrid("acceptChanges");
-        }
+    	if(searchKey){
+	        $("#gridEditOrder").datagrid("deleteRow", gridHandel.getSelectRowIndex());
+	        $("#gridEditOrder").datagrid("acceptChanges");
+	    }
         for(var i in data){
         	var rec = data[i];
         	rec.remark = "";
@@ -405,7 +426,8 @@ function saveItemHandel(){
 
     $("#gridEditOrder").datagrid("endEdit", gridHandel.getSelectRowIndex());
 
-    var rows = gridHandel.getRows();
+    var rows = gridHandel.getRowsWhere({skuName:'1'});
+    $(gridHandel.getGridName()).datagrid("loadData",rows);
     if(rows.length==0){
         messager("表格不能为空");
         return;

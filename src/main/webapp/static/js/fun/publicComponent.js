@@ -684,6 +684,14 @@ function toClose(){
 function toAddTab(title,url){
 	window.parent.addTab(title,url);
 }
+function refreshDataGrid(datagridName){
+    $('#'+datagridName).datagrid('reload');
+}
+function toRefreshIframeDataGrid(src,datagridName){
+    var frame = window.parent.frames[src];
+    frame.contentWindow.refreshDataGrid(datagridName);
+}
+
 //返回
 function toBack(){
 	history.go(-1);
@@ -1418,6 +1426,12 @@ $.extend($.fn.validatebox.defaults.rules, {
             return value.length >= param[0];
         },
         message: '请输入至少（2）个字符.'
+    },
+    leng: {
+        validator: function (value, param) {
+            return value.length == param[0];
+        },
+        message: '请输入{0}个字符.'
     },
     length: { validator: function (value, param) {
         var len = $.trim(value).length;

@@ -10,7 +10,7 @@
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
 	<script src="${ctx}/static/js/views/purchase/returnEdit.js"></script>
 	    <script src="${ctx}/static/js/views/purchase/purchaseExport.js"></script>
-    
+	    <%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
     <div class="ub ub-ver ub-f1 umar-4  ubor">
@@ -30,9 +30,9 @@
             <shiro:hasPermission name="JxcPurchaseRefund:delete">
                 <div class="ubtns-item" onclick="orderDelete()">删除</div>
             </shiro:hasPermission>
-            <shiro:hasPermission name="JxcPurchaseRefund:print">
-                <div class="ubtns-item" onclick="printDesign()">打印</div>
-            </shiro:hasPermission>
+                <shiro:hasPermission name="JxcPurchaseRefund:print">
+                <div class="ubtns-item" onclick="printChoose('PR','/form/purchase/')">打印</div>
+                </shiro:hasPermission>
             <shiro:hasPermission name="JxcPurchaseOrder:terminate">
                 <div class="ubtns-item" onclick="stop()">终止</div>
             </shiro:hasPermission>

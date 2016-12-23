@@ -79,7 +79,7 @@
                    <input class="uinp" type="text" id="remark" name="remark">
                </div>
            </div>
-           <!--datagrid-edit-->
+           <%--datagrid-edit--%>
            <div class="ub ub-f1 datagrid-edit umar-t8">
             <table id="gridEditOrder" ></table>
         </div>

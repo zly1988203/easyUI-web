@@ -34,6 +34,25 @@ function initDatagridRequire(){
               {field:'skuCode',title: '货号', width: '55px', align: 'left'},
 			{field: 'skuName', title: '商品名称', width: '185px', align: 'left'},
 			{field: 'barCode', title: '条码', width: '100px', align: 'left'},
+            {field: 'costPrice', title: '成本价', width: '80px', align: 'right',
+            	formatter:function(value,row,index){
+            		 if(row.isFooter){
+                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                     }
+                    if(!value){
+                    	row["costPrice"] = 0.00;
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+                editor:{
+                    type:'numberbox',
+                    options:{
+                    	disabled:true,
+                        min:0,
+                        precision:2
+                    }
+                }
+            },
             {field: 'originalAmount', title: '原价金额', width: '80px', align: 'right',
             	formatter:function(value,row,index){
             		 if(row.isFooter){
@@ -183,6 +202,7 @@ function initDatagridRequire(){
                      }
                  }
             },
+            {field: 'categoryCode', title: '类别编号', width: '65px', align: 'left'},
             {field: 'categoryName', title: '类别名称', width: '65px', align: 'left'},
             {field: 'spec', title: '规格', width: '55px', align: 'left'},
             {field: 'unit', title: '单位', width: '45px', align: 'left'}
@@ -273,10 +293,6 @@ function exportExcel(){
 	var length = $("#storeSale").datagrid('getData').total;
 	if(length == 0){
 		$.messager.alert('提示',"没有数据");
-		return;
-	}
-	if(length>20000){
-		$.messager.alert('提示',"当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
 		return;
 	}
 	var fromObjStr = $('#queryForm').serializeObject();

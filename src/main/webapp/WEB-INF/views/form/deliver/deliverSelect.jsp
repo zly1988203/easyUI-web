@@ -7,7 +7,7 @@
  <%@ include file="/WEB-INF/views/include/header.jsp"%>
 </head>
 <body>
-	<!--end tab-header-form -->
+	<%--end tab-header-form --%>
 	<table id="dg"></table>
 	<a id="addForm">新增调价单</a>
 	<script type="text/javascript">
