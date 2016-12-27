@@ -219,18 +219,15 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 			} else {
 				// 如果为店铺，则只能是该机构本身，不能选择，有效时间为该店铺对应的分店的，起订金额为该店铺对应分店的
 				branchesGrow
-				.setValidityTime(branchesGrow
-						.getSourceBranchValidityNumDays() == 0 ? SysConstant.VALIDITY_DAY
+						.setValidityTime(branchesGrow.getSourceBranchValidityNumDays() == 0 ? SysConstant.VALIDITY_DAY
 								: branchesGrow.getSourceBranchValidityNumDays());
 			}
 
 			model.addAttribute("branchesGrow", branchesGrow);
 			return "form/deliver/deliverAdd";
 		} else if (FormType.DO.toString().equals(deliverType)) {
-			if (BranchTypeEnum.HEAD_QUARTERS.getCode().intValue() == type
-					.intValue()
-					|| BranchTypeEnum.BRANCH_OFFICE.getCode().intValue() == type
-					.intValue()) {
+			if (BranchTypeEnum.HEAD_QUARTERS.getCode().intValue() == type.intValue()
+					|| BranchTypeEnum.BRANCH_OFFICE.getCode().intValue() == type.intValue()) {
 				branchesGrow.setSourceBranchId("");
 				branchesGrow.setSourceBranchName("");
 			}
@@ -264,20 +261,17 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 		model.addAttribute("type", vo.getFormSources());
 		vo.setFormSources("");
 		DeliverForm form = queryDeliverFormServiceApi.queryEntity(vo);
+		form.getDaRemark();
 		model.addAttribute("form", form);
 		LOG.info(LogConstant.PAGE, form.toString());
 		// 待审核，可修改
 		if (DeliverAuditStatusEnum.WAIT_CHECK.getName()
 				.equals(form.getStatus())) {
 			if (FormType.DA.toString().equals(form.getFormType())) {
-				Branches branches = branchesServiceApi.getBranchInfoById(form
-						.getTargetBranchId());
+				Branches branches = branchesServiceApi.getBranchInfoById(form.getTargetBranchId());
 				model.addAttribute("minAmount", branches.getMinAmount());
 				model.addAttribute("targetBranchType", branches.getType());
-				model.addAttribute(
-						"salesman",
-						branches.getSalesman() == null ? "" : branches
-								.getSalesman());
+				model.addAttribute("salesman", branches.getSalesman() == null ? "" : branches.getSalesman());
 				return "form/deliver/deliverEdit";
 			} else if (FormType.DO.toString().equals(form.getFormType())) {
 				return "form/deliver/DoEdit";
@@ -293,20 +287,14 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 			}
 			// 已审核，不能修改
 			if (FormType.DA.toString().equals(form.getFormType())) {
-				Branches branches = branchesServiceApi
-						.getBranchInfoById(getCurrBranchId());
+				Branches branches = branchesServiceApi.getBranchInfoById(getCurrBranchId());
 				model.addAttribute("minAmount", branches.getMinAmount());
-				model.addAttribute(
-						"salesman",
-						branches.getSalesman() == null ? "" : branches
-								.getSalesman());
+				model.addAttribute("salesman", branches.getSalesman() == null ? "" : branches.getSalesman());
 				model.addAttribute("close", report);
 				return "form/deliver/deliverView";
 			} else if (FormType.DO.toString().equals(form.getFormType())) {
-				form.setRebateMoney(BigDecimalUtils.formatDecimal(
-						form.getRebateMoney(), 2));
-				form.setAddRebateMoney(BigDecimalUtils.formatDecimal(
-						form.getAddRebateMoney(), 2));
+				form.setRebateMoney(BigDecimalUtils.formatDecimal(form.getRebateMoney(), 2));
+				form.setAddRebateMoney(BigDecimalUtils.formatDecimal(form.getAddRebateMoney(), 2));
 				model.addAttribute("close", report);
 				return "form/deliver/DoView";
 			} else {
@@ -621,6 +609,9 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 		// 总金额
 		replaceMap.put("_总金额",BigDecimalUtils.formatTwoDecimal(deliverForm.getAmount()));
 		replaceMap.put("amount",BigDecimalUtils.formatTwoDecimal(deliverForm.getAmount()));
+
+		replaceMap.put("daRemark", deliverForm.getDaRemark() != null ? deliverForm.getDaRemark() : "");
+
 		return replaceMap;
 	}
 
