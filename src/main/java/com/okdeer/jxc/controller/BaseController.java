@@ -46,6 +46,11 @@ public class BaseController<T> {
 	protected static final String PAGE_SIZE = "10";
 
 	/**
+	 * @Fields SUCCESS : success
+	 */
+	protected static final String SUCCESS = "success";
+
+	/**
 	 * @Description: 获取当前用户信息
 	 * @return
 	 * @author liwb
