@@ -25,7 +25,6 @@ import com.okdeer.ca.api.common.SystemUserDto;
 import com.okdeer.ca.api.common.enums.SystemCodeEnum;
 import com.okdeer.ca.api.sysuser.entity.SysUserDto;
 import com.okdeer.ca.api.sysuser.service.ISysUserApi;
-import com.okdeer.jxc.common.utils.EasyUiUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.system.service.SysUserServiceApi;
@@ -145,7 +144,7 @@ public class SSOMainController extends BaseController<SSOMainController> {
 
 			// 更新本地用户密码
 			sysUserService.updatePwd(sysUserDto.getId(), loginPassword);
-			return EasyUiUtils.SUCCESS;
+			return SUCCESS;
 		} catch (ApiException e) {
 			LOG.error("调用dubboAPi失败", e);
 			return "与用户中心通信失败,请稍后再试,或联系管理员";

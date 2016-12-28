@@ -30,6 +30,7 @@ import com.okdeer.jxc.common.report.DataRecord;
 import com.okdeer.jxc.common.report.ReportService;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
+import com.okdeer.jxc.utils.UserUtil;
 import com.okdeer.jxc.utils.poi.ExcelExportUtil;
 
 /**
@@ -106,6 +107,8 @@ public abstract class ReportController extends BaseController<T>{
 		Map<String, Object> retParams = new HashMap<String, Object>(req
 				.getParameterMap().size());
 		Map<String, String[]> params = req.getParameterMap();
+		String branchCompleCode = UserUtil.getCurrentUser().getBranchCompleCode();
+		retParams.put("branchCompleCode", branchCompleCode);
 		if (null != params && params.size() > 0) {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			for (Entry<String, String[]> p : params.entrySet()) {
