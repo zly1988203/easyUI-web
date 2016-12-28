@@ -237,9 +237,6 @@ public class CashFlowReportController extends BaseController<CashFlowReportContr
 	// 导出数据特殊处理
 	private List<CashFlowReportVo> handleCashFlowReport(List<CashFlowReportVo> exportList) {
 		for (CashFlowReportVo vo : exportList) {
-			if (StringUtils.isBlank(vo.getSaleAmount())) {
-				vo.setSaleAmount("0.00");
-			}
 			if (StringUtils.isBlank(vo.getPayAmount())) {
 				vo.setPayAmount("0.00");
 			}
