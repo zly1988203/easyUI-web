@@ -91,7 +91,10 @@ function initDatagridAddRequireOrder(){
                           return "<b>"+parseFloat(value||0).toFixed(2)+"<b>";
                       }
                       if(!value||value==""||parseFloat(value)==0){
-                    	  if (!row["applyNum"] || row["applyNum"] == '') {
+                          /*if (parseFloat(row["sourceStock"]||0) <= 0) {
+                              value = 0.00;
+                          } else */
+                          if (!row["applyNum"] || row["applyNum"] == '') {
                     		  value = 0.00;
                     	  } else {
                     		  row["dealNum"] = row["applyNum"];
@@ -776,6 +779,7 @@ function loadLists(referenceId){
                 rows[i]["defectNum"] = defectNum<0?-defectNum:0;
                 rows[i]["price"] = rows[i]["isGift"]==0?rows[i]["price"]:0;
                 rows[i]["amount"] = rows[i]["isGift"]==0?rows[i]["amount"]:0;
+
             }
             $("#gridEditOrder").datagrid("loadData",rows);
             updateFooter();
@@ -964,7 +968,7 @@ function setData(){
                 $("#address").html(data.data.address);
                 $("#contacts").html(data.data.contacts);
                 $("#mobile").html(data.data.mobile);
-                $("#DAremark").val(data.data.remark);
+                $("#mobile").html(data.data.remark);
             }
         }
     });
