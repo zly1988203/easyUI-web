@@ -2,10 +2,12 @@
  * Created by zhanghuan on 2016/8/30.
  * 出库-新增
  */
+var sourceBranchType;
 $(function(){
     $("#createTime").html(new Date().format('yyyy-MM-dd hh:mm'));
     initDatagridAddRequireOrder();
     loadFormByFormNoDA();
+    sourceBranchType = $("#sourceBranchType").val();
 });
 
 
@@ -67,7 +69,7 @@ function initDatagridAddRequireOrder(){
     })
     $("#gridEditOrder").datagrid({
         //title:'普通表单-用键盘操作',
-//        method:'get',
+        //method:'get',
         align:'center',
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:false,  //单选  false多选
@@ -123,7 +125,10 @@ function initDatagridAddRequireOrder(){
                           return "<b>"+parseFloat(value||0).toFixed(2)+"<b>";
                       }
                       if(!value||value==""||parseFloat(value)==0){
-                    	  if (!row["applyNum"] || row["applyNum"] == '') {
+                          /*if (parseFloat(row["sourceStock"]||0) <= 0) {
+                              value = 0.00;
+                          } else */
+                          if (!row["applyNum"] || row["applyNum"] == '') {
                     		  value = 0.00;
                     	  } else {
                     		  row["dealNum"] = row["applyNum"];
@@ -703,20 +708,58 @@ function check(){
  * 收货机构
  */
 function selectBranches(){
-	var sourceBranchType = $("#sourceBranchType").val();
-	if(sourceBranchType != '0' && sourceBranchType != '1'){
-		return;
-	}
-	if ($("#referenceNo").val() != '') {
-		return;
-	}
-	new publicAgencyService(function(data){
-		$("#targetBranchId").val(data.branchesId);
-		$("#targetBranchName").val(data.branchName);
-		$("#address").html(data.address);
-		$("#contacts").html(data.contacts);
-		$("#mobile").html(data.mobile);
-	},'DO','');
+    if (sourceBranchType != '0' && sourceBranchType != '1') {
+        return;
+    }
+    if ($("#referenceNo").val() != '') {
+        return;
+    }
+	var tempSourceBranchType = $("#sourceBranchType").val();
+	if(tempSourceBranchType != '0' && tempSourceBranchType != '1' && tempSourceBranchType != '2'){
+        new publicAgencyService(function(data){
+            $("#targetBranchId").val(data.branchesId);
+            $("#targetBranchName").val(data.branchName);
+            $("#targetBranchType").val(data.type);
+            $("#address").html(data.address);
+            $("#contacts").html(data.contacts);
+            $("#mobile").html(data.mobile);
+        },'DZ',$("#sourceBranchId").val());
+	} else {
+        new publicAgencyService(function(data){
+            $("#targetBranchId").val(data.branchesId);
+            $("#targetBranchName").val(data.branchName);
+            $("#targetBranchType").val(data.type);
+            $("#address").html(data.address);
+            $("#contacts").html(data.contacts);
+            $("#mobile").html(data.mobile);
+        },'DO','');
+    }
+}
+
+/**
+ * 发货机构
+ */
+function selectSourchBranches(){
+    if (sourceBranchType != '0' && sourceBranchType != '1'){
+        return;
+    }
+    var targetBranchType = $("#targetBranchType").val();
+    // 如果收货机构为空，发货机构为总部或分公司则可以选择机构
+    if (targetBranchType == '' || targetBranchType == null || targetBranchType == '0' || targetBranchType == '1' || targetBranchType == '2') {
+        new publicAgencyService(function(data){
+            $("#sourceBranchId").val(data.branchesId);
+            $("#sourceBranchName").val(data.branchName);
+            $("#sourceBranchType").val(data.type);
+        },'DO','');
+    } else {
+        new publicAgencyService(function(data){
+            if($("#sourceBranchId").val()!=data.branchesId){
+                $("#sourceBranchId").val(data.branchesId);
+                $("#sourceBranchName").val(data.branchName);
+                $("#sourceBranchType").val(data.type);
+            }
+        },'DZ',$("#sourceBranchId").val());
+    }
 }
 
 /**
@@ -734,6 +777,7 @@ function selectDeliver(){
 		$("#targetBranchName").val(data.targetBranchName);
 		$("#sourceBranchId").val(data.sourceBranchId);
 		$("#sourceBranchName").val(data.sourceBranchName);
+        $("#DAremark").val(data.remark);
 		loadLists(referenceId);
 		selectTargetBranchData(data.targetBranchId);
 	});
@@ -769,6 +813,7 @@ function loadLists(referenceId){
                 rows[i]["defectNum"] = defectNum<0?-defectNum:0;
                 rows[i]["price"] = rows[i]["isGift"]==0?rows[i]["price"]:0;
                 rows[i]["amount"] = rows[i]["isGift"]==0?rows[i]["amount"]:0;
+
             }
             $("#gridEditOrder").datagrid("loadData",rows);
             updateFooter();
@@ -957,6 +1002,7 @@ function setData(){
                 $("#address").html(data.data.address);
                 $("#contacts").html(data.data.contacts);
                 $("#mobile").html(data.data.mobile);
+                $("#mobile").html(data.data.remark);
             }
         }
     });

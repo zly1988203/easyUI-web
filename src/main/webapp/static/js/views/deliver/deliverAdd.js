@@ -683,15 +683,22 @@ function getSourceBranch(branchesId) {
 function selectSourceBranch(){
 	var targetBranchType = $("#targetBranchType").val();
 	if(targetBranchType != '0' && targetBranchType != '1'){
-		return;
-	}
-	new publicAgencyService(function(data){
-        if($("#sourceBranchId").val()!=data.branchesId){
-            $("#sourceBranchId").val(data.branchesId);
-            $("#sourceBranchName").val(data.branchName);
-            gridHandel.setLoadData([$.extend({},gridDefault)]);
-        }
-	},'DA',$("#targetBranchId").val());
+        new publicAgencyService(function(data){
+            if($("#sourceBranchId").val()!=data.branchesId){
+                $("#sourceBranchId").val(data.branchesId);
+                $("#sourceBranchName").val(data.branchName);
+                gridHandel.setLoadData([$.extend({},gridDefault)]);
+            }
+        },'DZ',$("#sourceBranchId").val());
+	} else {
+        new publicAgencyService(function(data){
+            if($("#sourceBranchId").val()!=data.branchesId){
+                $("#sourceBranchId").val(data.branchesId);
+                $("#sourceBranchName").val(data.branchName);
+                gridHandel.setLoadData([$.extend({},gridDefault)]);
+            }
+        },'DA',$("#targetBranchId").val());
+    }
 }
 /**
  * 导入

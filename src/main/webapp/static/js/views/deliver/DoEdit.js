@@ -307,7 +307,7 @@ function initDatagridEditRequireOrder(){
             isFirst = true;
            
             var rows = data.rows;
-            var isError = false;
+            /*var isError = false;
             for(var i in rows){
                 var oldDefectNum = rows[i]["defectNum"]||0;
                 rows[i]["oldDefectNum"] = oldDefectNum
@@ -320,7 +320,7 @@ function initDatagridEditRequireOrder(){
             }
             if(isError){
                 messager("库存数发生改变，请先保存");
-            }
+            }*/
             $('#gridEditRequireOrder').datagrid('loadData',rows);
         	if(!oldData["grid"]){
             	oldData["grid"] = $.map(rows, function(obj){
