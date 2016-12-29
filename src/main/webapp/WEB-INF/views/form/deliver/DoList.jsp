@@ -65,9 +65,9 @@
                 </div>
             </div>
             <div class="ub umar-t8">
-                <div class="ub ub-ac" id="remarkDiv">
+                <div class="ub ub-ac uw-624" id="remarkDiv">
                     <div class="umar-r10 uw-70 ut-r">备注:</div>
-                    <input class="uinp" type="text" id="remark" name="remark">
+                    <input class="uinp ub ub-f1" type="text" id="remark" name="remark" onKeyUp="javascript:cutstr(this);" onKeyDown="javascript:cutstr(this);">
                 </div>
                 <%--<div class="umar-l32" id="checkDiv" style="visibility:visible;">
                     <input type="checkbox" id="checkboxTime" name="checkboxTime" checked="checked"/>
