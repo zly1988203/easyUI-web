@@ -1109,6 +1109,7 @@
 
 .uw {
   width: 100%; }
+  
 
 .uh {
   height: 100%; }
@@ -2266,6 +2267,15 @@
 
 .uw-636 {
   width: 636px; }
+  
+  .uw-1130 {
+  width: 1130px; }
+  
+    .uw-1370 {
+  width: 1370px; }
+  
+  .uw-p80 {
+  width: 80% }
 
 .main {
   -webkit-overflow-scrolling: touch;
