@@ -86,12 +86,11 @@ function initCashDailyallGrid(queryType) {
     			return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
     		   },
             },
-            /*1.0.0 先不计算抹零
-             * {field: 'zer', title: '抹零', width:120, align: 'right',
+            {field: 'zer', title: '抹零', width:120, align: 'right',
 				formatter : function(value, row,index) {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
-            },*/
+            },
             {field: 'yhk', title: '银行卡', width:120, align: 'right',
 				formatter : function(value, row,index) {
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -178,12 +177,11 @@ function initCashDailymdGrid(queryType) {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
 			},
-			/*1.0.0 先不计算抹零
-             * {field: 'zer', title: '抹零', width:120, align: 'right',
+		    {field: 'zer', title: '抹零', width:120, align: 'right',
 				formatter : function(value, row,index) {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
-            },*/
+            },
             {field: 'yhk', title: '银行卡', width:120, align: 'right',
 				formatter : function(value, row,index) {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -270,12 +268,11 @@ function initCashDailydateGrid(queryType) {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
 			},
-			/*1.0.0 先不计算抹零
-             * {field: 'zer', title: '抹零', width:120, align: 'right',
+			{field: 'zer', title: '抹零', width:120, align: 'right',
 				formatter : function(value, row,index) {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
-            },*/
+            },
             {field: 'yhk', title: '银行卡', width:120, align: 'right',
 				formatter : function(value, row,index) {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
