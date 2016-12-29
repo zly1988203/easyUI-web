@@ -87,9 +87,9 @@
             </div>
         </div>
         <div class="ub umar-t8">
-        	<div class="ub ub-ac umar-r80">
+        	<div class="ub ub-ac umar-r80 uw-1130">
                 <div class="umar-r10 uw-60 ut-r">备注:</div>
-                <input class="uinp" type="text" id="remark" name="remark" value="${form.remark}" readonly="readonly" />
+                <input class="uinp ub ub-f1" type="text" id="remark" name="remark" value="${form.remark}" readonly="readonly" />
             </div>
         </div>
         <div class="ub ub-f1 datagrid-edit umar-t8">
