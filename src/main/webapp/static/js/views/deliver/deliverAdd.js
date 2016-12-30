@@ -39,9 +39,9 @@ function cutstr(remark)
          }
     }
     //如果给定字符串小于指定长度，则返回源字符串；
-    if(str_length<=200){
-    	remark.value = str;
-    }
+//    if(str_length<=200){
+//    	remark.value = str;
+//    }
 }
 
 var gridDefault = {
