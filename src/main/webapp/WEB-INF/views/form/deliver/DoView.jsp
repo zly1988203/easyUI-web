@@ -97,14 +97,17 @@
 
                </div>
 
-                <div class="ub ub-ac  uw-300 umar-l20">
-                    <div class="umar-r10 uw-70 ut-r">备注:</div>
-                    <input class="uinp" type="text" id="remark" name="remark" value="${form.remark}" readonly="readonly" />
-               </div>
+
+                <div class="ub ub-ac uw-300 umar-l20">
+                <div class="umar-r10 uw-70 ut-r">折扣:</div>
+                    <input class="uinp" type="text" id="rebateMoney" name="rebateMoney" value="${form.rebateMoney}" readonly="readonly" />
+                </div>
+               
                 <div class="ub ub-ac uw-300 umar-l20">
                     <div class="uw-80 ut-r10">要货单备注:</div>
                     <input class="uinp" type="text" value="${form.daRemark}" readonly="readonly">
                 </div>
+                
                 <div class="ub ub-ac  uw-300 umar-l20">
                     <div class="umar-r10 uw-70 ut-r">收货地址:</div>
                     <div class="utxt" id="address"></div>
@@ -116,10 +119,12 @@
                 <div class="umar-r10 uw-70 ut-r">返利:</div>
                     <input class="uinp" type="text" id="addRebateMoney" name="addRebateMoney" value="${form.addRebateMoney}" readonly="readonly" />
                 </div>
-                <div class="ub ub-ac uw-300 umar-l20">
-                <div class="umar-r10 uw-70 ut-r">折扣:</div>
-                    <input class="uinp" type="text" id="rebateMoney" name="rebateMoney" value="${form.rebateMoney}" readonly="readonly" />
-                </div>
+                
+               <div class="ub ub-ac  uw-850 umar-l20">
+                    <div class="umar-r10 uw-70 ut-r">备注:</div>
+                    <input class="uinp ub ub-f1" type="text" id="remark" name="remark" value="${form.remark}" readonly="readonly" />
+               </div>
+
             </div>
            <%--datagrid-edit--%>
            <div class="ub ub-f1 datagrid-edit umar-t8">
