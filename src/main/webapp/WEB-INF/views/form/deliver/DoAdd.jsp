@@ -29,8 +29,8 @@
                    <div class="ub">
                        <input type="hidden" id="sourceBranchId" name="sourceBranchId" value="${branchesGrow.targetBranchId}"  />
                        <input type="hidden" id="sourceBranchType" name="sourceBranchType" value="${branchesGrow.targetBranchType}"  />
-                       <input class="uinp ub ub-f1" type="text" id="sourceBranchName" name="sourceBranchName" value="${branchesGrow.targetBranchName}" readonly="readonly" />
-                       <div class="uinp-more">...</div>
+                       <input class="uinp ub ub-f1" type="text" id="sourceBranchName" name="sourceBranchName" value="${branchesGrow.targetBranchName}" readonly="readonly" onclick="selectSourchBranches()" />
+                       <div class="uinp-more" onclick="selectSourchBranches()">...</div>
                    </div>
 
                </div>
@@ -53,6 +53,7 @@
                    <div class="umar-r10 uw-70 ut-r">收货机构:</div>
                    <div class="ub">
                        <input type="hidden" id="targetBranchId" name="targetBranchId" value="${branchesGrow.sourceBranchId}" />
+                        <input type="hidden" id="targetBranchType" name="targetBranchType" value="${branchesGrow.sourceBranchType}"  />
                        <input class="uinp ub ub-f1" type="text" id="targetBranchName" name="targetBranchName" onclick="selectBranches()" value="${branchesGrow.sourceBranchName}" readonly="readonly" />
                        <div class="uinp-more" onclick="selectBranches()">...</div>
                    </div>
@@ -85,6 +86,10 @@
                    <div class="umar-r10 uw-70 ut-r">备注:</div>
                    <input class="uinp" type="text" id="remark" name="remark">
                </div>
+                <div class="ub ub-ac uw-300 umar-l20">
+                    <div class="uw-80 ut-r10">要货单备注:</div>
+                    <input class="uinp" type="text" id="DAremark" name="DAremark"  readonly="readonly">
+                </div>
                 <div class="ub ub-ac umar-l20 uw-300">
                     <div class="umar-r10 uw-70 ut-r">收货地址:</div>
                     <div class="utxt" id="address"></div>

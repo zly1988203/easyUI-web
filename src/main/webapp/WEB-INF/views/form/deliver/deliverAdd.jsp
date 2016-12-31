@@ -74,9 +74,10 @@
                </div>
            </div>
            <div class="ub umar-t8">
-               <div class="ub ub-ac uw-620">
+               <div class="ub ub-ac uw-1130">
                    <div class="umar-r10 uw-70 ut-r">备注:</div>
-                   <input class="uinp" type="text" id="remark" name="remark">
+                	<input class="uinp ub ub-f1" type="text" id="remark"  name="remark">
+                  <!--<textarea rows="2" cols="100" class="uinp ub ub-f1"  id="remark" name="remark"></textarea> -->
                </div>
            </div>
            <%--datagrid-edit--%>

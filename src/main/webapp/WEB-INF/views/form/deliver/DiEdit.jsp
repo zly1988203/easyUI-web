@@ -93,9 +93,9 @@
                    </div>
 
                </div>
-               <div class="ub ub-ac uw-300 umar-l20">
+               <div class="ub ub-ac uw-490 umar-l20">
                    <div class="umar-r10 uw-70 ut-r">备注:</div>
-                   <input class="uinp" type="text" id="remark" name="remark" value="${form.remark}" >
+                   <input class="uinp ub ub-f1" type="text" id="remark" name="remark" value="${form.remark}">
                </div>
            </div>
            <!--datagrid-edit-->

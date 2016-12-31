@@ -99,6 +99,11 @@ public class BranchCommonController extends BaseController<BranchCommonControlle
 			if (StringUtils.isEmpty(vo.getBranchId())) {
 				vo.setBranchId(UserUtil.getCurrBranchId());
 			}
+			// 查询分公司、物流中心
+			if ("DZ".equals(vo.getFormType())) {
+				vo.setType(null);
+			}
+			// 查询总部、分公司
 			if ("DV".equals(vo.getFormType())) {
 				vo.setBranchId(UserUtil.getCurrBranchId());
 			}

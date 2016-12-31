@@ -64,7 +64,7 @@
 			<div class="ub umar-t8">
 	        	<div class="ub ub-ac" id="remarkDiv">
 	            	<div class="umar-r10 uw-70 ut-r">备注:</div>
-					<input class="uinp" type="text" id="remark" name="remark" />
+					<input class="uinp" type="text" id="remark" name="remark"/>
 				</div>
 	                <%--input-checkbox--%>
 	                <%--<div class="ub ub-ac umar-l40 uw-300">

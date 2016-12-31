@@ -1,5 +1,7 @@
 package com.okdeer.jxc.controller.pos;  
 
+import java.util.regex.Pattern;
+
 import org.apache.poi.ss.formula.functions.T;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -97,6 +99,11 @@ public class PosRegisterController extends BaseController<T>{
 	public RespJson addPosBind(
 			PosRegister posRegister) {
 		try{
+			//
+			   String reg = "[0-9][0-9]";
+			 if(!Pattern.compile(reg).matcher(posRegister.getPosNo()).find()){
+				return RespJson.error("pos机编号只允许俩位数字组成");
+			 }
 			posRegister.setUpdateUserId(UserUtil.getCurrUserId());
 			return posRegisterServiceApi.addPosRegister(posRegister);
 		}catch(RuntimeException e){

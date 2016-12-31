@@ -10,6 +10,34 @@ $(function(){
     targetBranchTypeTemp = $("#targetBranchType").val();
 });
 
+$(document).on('input','#remark',function(){
+	var val=$(this).val();
+	var str = val;
+	   var str_length = 0;
+	   var str_len = 0;
+	      str_cut = new String();
+	      str_len = str.length;
+	      for(var i = 0;i<str_len;i++)
+	     {
+	        a = str.charAt(i);
+	        str_length++;
+	        if(escape(a).length > 4)
+	        {
+	         //中文字符的长度经编码之后大于4
+	         str_length++;
+	         }
+	         str_cut = str_cut.concat(a);
+	         if(str_length>200)
+	         {
+	        	 str_cut.substring(0,i)
+	        	 remark.value = str_cut;
+	        	 break;
+	         }
+	    }
+	
+});
+
+
 var gridDefault = {
     applyNum:0,
     //largeNum:0,
@@ -649,15 +677,22 @@ function getSourceBranch(branchesId) {
 function selectSourceBranch(){
 	var targetBranchType = $("#targetBranchType").val();
 	if(targetBranchType != '0' && targetBranchType != '1'){
-		return;
-	}
-	new publicAgencyService(function(data){
-        if($("#sourceBranchId").val()!=data.branchesId){
-            $("#sourceBranchId").val(data.branchesId);
-            $("#sourceBranchName").val(data.branchName);
-            gridHandel.setLoadData([$.extend({},gridDefault)]);
-        }
-	},'DA',$("#targetBranchId").val());
+        new publicAgencyService(function(data){
+            if($("#sourceBranchId").val()!=data.branchesId){
+                $("#sourceBranchId").val(data.branchesId);
+                $("#sourceBranchName").val(data.branchName);
+                gridHandel.setLoadData([$.extend({},gridDefault)]);
+            }
+        },'DZ',$("#sourceBranchId").val());
+	} else {
+        new publicAgencyService(function(data){
+            if($("#sourceBranchId").val()!=data.branchesId){
+                $("#sourceBranchId").val(data.branchesId);
+                $("#sourceBranchName").val(data.branchName);
+                gridHandel.setLoadData([$.extend({},gridDefault)]);
+            }
+        },'DA',$("#targetBranchId").val());
+    }
 }
 /**
  * 导入

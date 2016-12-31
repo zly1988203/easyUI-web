@@ -59,7 +59,7 @@
 				        <select class="easyui-combobox uselect" name="payType" id="payType" data-options="editable:false">
 				            <option value="" selected="selected">全部</option>
 				            <option value="RMB">现金</option>
-				            <!-- <option value="ZER">抹零</option> -->
+				            <option value="ZER">抹零</option>
 				            <option value="YHK">银行卡</option>
 				            <option value="ZFB">支付宝</option>
 				            <option value="WZF">微支付</option>

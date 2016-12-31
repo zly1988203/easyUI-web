@@ -16,6 +16,37 @@ $(function(){
     }
     selectTargetBranchData($("#targetBranchId").val());
 });
+
+
+$(document).on('input','#remark',function(){
+	var val=$(this).val();
+	var str = val;
+	   var str_length = 0;
+	   var str_len = 0;
+	      str_cut = new String();
+	      str_len = str.length;
+	      for(var i = 0;i<str_len;i++)
+	     {
+	        a = str.charAt(i);
+	        str_length++;
+	        if(escape(a).length > 4)
+	        {
+	         //中文字符的长度经编码之后大于4
+	         str_length++;
+	         }
+	         str_cut = str_cut.concat(a);
+	         if(str_length>200)
+	         {
+	        	 str_cut.substring(0,i)
+	        	 remark.value = str_cut;
+	        	 break;
+	         }
+	    }
+	
+});
+
+
+
 var gridDefault = {
     dealNum:0,
     largeNum:0,
@@ -274,7 +305,7 @@ function initDatagridEditRequireOrder(){
             isFirst = true;
            
             var rows = data.rows;
-            var isError = false;
+            /*var isError = false;
             for(var i in rows){
                 var oldDefectNum = rows[i]["defectNum"]||0;
                 rows[i]["oldDefectNum"] = oldDefectNum
@@ -287,7 +318,7 @@ function initDatagridEditRequireOrder(){
             }
             if(isError){
                 messager("库存数发生改变，请先保存");
-            }
+            }*/
             $('#gridEditRequireOrder').datagrid('loadData',rows);
         	if(!oldData["grid"]){
             	oldData["grid"] = $.map(rows, function(obj){

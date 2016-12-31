@@ -16,6 +16,39 @@ $(function(){
 	delDivAuditStatus();
 	initDatagridRequireOrdersDA();
 });
+
+
+$(document).on('input','#remark',function(){
+	var val=$(this).val();
+	var str = val;
+	   var str_length = 0;
+	   var str_len = 0;
+	      str_cut = new String();
+	      str_len = str.length;
+	      for(var i = 0;i<str_len;i++)
+	     {
+	        a = str.charAt(i);
+	        str_length++;
+	        if(escape(a).length > 4)
+	        {
+	         //中文字符的长度经编码之后大于4
+	         str_length++;
+	         }
+	         str_cut = str_cut.concat(a);
+	         if(str_length>200)
+	         {
+	        	 str_cut.substring(0,i)
+	        	 remark.value = str_cut;
+	        	 break;
+	         }
+	    }
+	
+});
+
+
+
+
+
 var gridHandel = new GridClass();
 // 加载要货申请单
 function initDatagridRequireOrdersDA(){
