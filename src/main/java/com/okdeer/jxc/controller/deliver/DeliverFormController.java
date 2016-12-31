@@ -453,6 +453,7 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 	 * @author zhangchm
 	 * @date 2016年8月20日
 	 */
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "deleteDeliverForm", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson deleteDeliverForm(@RequestBody String formIds) {
