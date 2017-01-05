@@ -46,11 +46,15 @@
                     <input class="uinp" type="text" id="formNo" name="formNo">
                 </div>
                 <div class="ub ub-ac uw-300 umar-l40">
-	                <div class="umar-r10 uw-70 ut-r">货号:</div>
-	                <input class="uinp" name=skuCode id="skuCode" type="text">
+	                <div class="umar-r10 uw-70 ut-r">业务员:</div>
+	                <input class="uinp" name="salesman" id="salesman" type="text">
 	            </div>
 	        </div>
 			<div class="ub umar-t8">
+				<div class="ub ub-ac uw-300 umar-l40">
+					<div class="umar-r10 uw-70 ut-r">货号:</div>
+					<input class="uinp" name=skuCode id="skuCode" type="text">
+				</div>
 	            <div class="ub ub-ac uw-300">
 					<div class="umar-r10 uw-70 ut-r">商品类别:</div>
 					<div class="ub ub-ac">
