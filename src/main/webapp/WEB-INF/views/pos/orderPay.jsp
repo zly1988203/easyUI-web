@@ -25,8 +25,8 @@
 			<form id="posOrderPayForm" action="${ctx}/pos/orderPay/updateTradeOrderInfo" method="post">
 				<div class="ub ub-ac upad-16 ">
 					<div class="umar-r10 uw-60 ut-r">订单号:</div>
-					<div class="ub ub-ac umar-r10 uw-100">
-						<input type="text"  placeholder="订单号" name="orderNo" id="orderNo">
+					<div class="ub ub-ac umar-r10 uw-200" >
+						<input type="text" class="uinp ub ub-f1" placeholder="订单号" name="orderNo" id="orderNo">
 					</div>
 				</div>
 			</form>
