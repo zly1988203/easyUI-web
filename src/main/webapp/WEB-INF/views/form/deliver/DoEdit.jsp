@@ -95,9 +95,9 @@
                    <div class="umar-r10 uw-70 ut-r">要货单号:</div>
                    <div class="ub">
                        <input type="hidden" id="referenceId" name="referenceId" value="${form.referenceId}" />
-                       <input class="uinp ub ub-f1" type="text" id="referenceNo" name="referenceNo" onclick="selectDeliver()" value="${form.referenceNo}" readonly="readonly"/>
+                       <input class="uinp ub ub-f1" type="text" id="referenceNo" name="referenceNo" value="${form.referenceNo}" readonly="readonly"/>
                        <input type="hidden" id="oldReferenceNo" name="oldReferenceNo" value="${form.referenceNo}" />
-                       <div class="uinp-more" onclick="selectDeliver()">...</div>
+                       <div class="uinp-more" >...</div><%--onclick="selectDeliver()"--%>
                    </div>
 
                </div>

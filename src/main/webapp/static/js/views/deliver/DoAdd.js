@@ -730,6 +730,7 @@ function selectBranches(){
             $("#address").html(data.address);
             $("#contacts").html(data.contacts);
             $("#mobile").html(data.mobile);
+            gridHandel.setLoadData([$.extend({},gridDefault)]);
         },'DO','');
     //}
 }
@@ -748,6 +749,7 @@ function selectSourchBranches(){
             $("#sourceBranchId").val(data.branchesId);
             $("#sourceBranchName").val(data.branchName);
             $("#sourceBranchType").val(data.type);
+            gridHandel.setLoadData([$.extend({},gridDefault)]);
         },'DO','');
     //} else {
     //    new publicAgencyService(function(data){
