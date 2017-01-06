@@ -229,16 +229,28 @@ function initDatagridEditOrder(){
     });
 }
 
+
+//限制转换次数
+var n = 0;
+var m = 0;
 //监听商品箱数
 function onChangeLargeNum(newV,oldV){
+	if(m > 0){
+		m = 0;
+		return;
+	}
+	
     if(!gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuCode')){
         return;
     }
+    
     var purchaseSpecValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'purchaseSpec');
     if(!purchaseSpecValue){
         messager("没有商品规格,请审查");
         return;
     }
+    
+    n++;
 
     //var newRealNum = (Math.round(purchaseSpecValue*newV)).toFixed(4);
     /*var newRealNum = (purchaseSpecValue*newV).toFixed(4);
@@ -253,6 +265,11 @@ function onChangeLargeNum(newV,oldV){
 }
 //监听商品数量
 function onChangeRealNum(newV,oldV) {
+	if(n > 0){
+		n = 0;
+		return;
+	}
+	
     if(!gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuCode')){
         return;
     }
@@ -261,6 +278,9 @@ function onChangeRealNum(newV,oldV) {
         messager("没有商品规格,请审查");
         return;
     }
+    
+	m++;
+    
     var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
 
     gridHandel.setFieldValue('amount',priceValue*newV);                         //金额=数量*单价
