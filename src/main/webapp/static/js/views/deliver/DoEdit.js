@@ -498,11 +498,11 @@ function setDataValue(data) {
     var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
     $("#gridEditRequireOrder").datagrid("loadData",newRows);
 
-    setTimeout(function(){
+    /*setTimeout(function(){
         gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
         gridHandel.setSelectFieldName("largeNum");
         gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
-    },100)
+    },100)*/
 }
 
 //查询价格、库存

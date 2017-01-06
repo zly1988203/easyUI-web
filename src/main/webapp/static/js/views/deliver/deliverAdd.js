@@ -819,6 +819,7 @@ function updateListData(data){
      var rows = gFunUpdateKey(data,keyNames);
      for(var i in rows){
          rows[i].remark = "";
+         rows[i].isGift = 0;
          rows[i]["amount"]  = parseFloat(rows[i]["price"]||0)*parseFloat(rows[i]["applyNum"]||0);
 
          if(parseInt(rows[i]["distributionSpec"])){
