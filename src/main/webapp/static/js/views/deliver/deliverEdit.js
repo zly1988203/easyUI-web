@@ -281,8 +281,17 @@ function initDatagridEditRequireOrder(){
     });
 }
 var gVarIsInit = false;
+
+//限制转换次数
+var n = 0;
+var m = 0;
 //监听商品箱数
 function onChangeLargeNum(newV,oldV){
+	if(m > 0){
+		m = 0;
+		return;
+	}
+	
     if(!gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuName')){
         return;
     }
@@ -291,6 +300,8 @@ function onChangeLargeNum(newV,oldV){
         messager("没有配送规格,请审查");
         return;
     }
+    
+    n++;
 
     var realNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'applyNum');
     var realNumVal2 = parseFloat(purchaseSpecValue*newV).toFixed(4);//parseFloat(Math.round(purchaseSpecValue*newV*1000)/1000).toFixed(4);
@@ -302,6 +313,11 @@ function onChangeLargeNum(newV,oldV){
 }
 //监听商品数量
 function onChangeRealNum(newV,oldV) {
+	if(n > 0){
+		n = 0;
+		return;
+	}
+	
     if(!gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuName')){
         return;
     }
@@ -310,6 +326,7 @@ function onChangeRealNum(newV,oldV) {
         messager("没有配送规格,请审查");
         return;
     }
+    
     var tempNum = parseFloat(newV).toFixed(4)/parseFloat(purchaseSpecValue).toFixed(4);
     if(parseInt(tempNum) != tempNum){
         messager("输入的数量必须是商品规格("+purchaseSpecValue+")的整数倍");
@@ -318,6 +335,9 @@ function onChangeRealNum(newV,oldV) {
         gridHandel.setFieldFocus(gridHandel.getFieldTarget('applyNum'));
         return;
     }
+    
+    m++;
+    
     var priceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
     gridHandel.setFieldValue('amount',priceValue*newV);                         //金额=数量*单价
 
