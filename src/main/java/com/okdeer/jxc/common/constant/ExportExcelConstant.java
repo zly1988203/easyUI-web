@@ -301,4 +301,9 @@ String GOODS_SALE_AMOUNT_REPORT = "goodsSaleAmountReport.xlsx";
 	 * @Fields 促销活动商品查询报表
 	 */
 	String ACTIVITY_GOODS_REPORT = "ActivityGoodsReport.xlsx";
+	
+	/**
+	* @Fields GiftExchangeRecode : 积分兑换记录
+	*/
+	String GIFT_EXCHANGE_RECODE = "GiftExchangeRecode.xlsx";
 }

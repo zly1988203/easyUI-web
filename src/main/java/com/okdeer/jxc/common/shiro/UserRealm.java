@@ -24,6 +24,11 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.okdeer.ca.api.common.SysMenuPermissionDto;
+import com.okdeer.ca.api.common.SystemUserDto;
+import com.okdeer.ca.api.common.enums.SystemCodeEnum;
+import com.okdeer.ca.api.sysuser.service.ISysUserApi;
+import com.okdeer.ca.common.enums.DisabledType;
 import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.common.enums.BranchTypeEnum;
@@ -37,11 +42,6 @@ import com.okdeer.jxc.system.service.SysUserCategoryGrantServiceApi;
 import com.okdeer.jxc.system.service.SysUserServiceApi;
 import com.okdeer.jxc.utils.PriceGrantUtil;
 import com.okdeer.jxc.utils.UserUtil;
-import com.okdeer.ca.api.common.SysMenuPermissionDto;
-import com.okdeer.ca.api.common.SystemUserDto;
-import com.okdeer.ca.api.common.enums.SystemCodeEnum;
-import com.okdeer.ca.api.sysuser.service.ISysUserApi;
-import com.okdeer.ca.common.enums.DisabledType;
 
 /**
  * ClassName: UserRealm 
