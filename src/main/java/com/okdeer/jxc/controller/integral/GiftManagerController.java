@@ -177,6 +177,19 @@ public class GiftManagerController extends BaseController<GiftManagerController>
 			if(StringUtils.isNotBlank(msg)){
 				return RespJson.error(msg);
 			}
+			
+			Date nowTime = new Date();
+			Date startTime = giftManager.getStartTime();
+			Date endTime = giftManager.getEndTime();
+			if(nowTime.getTime() < startTime.getTime()){
+				giftManager.setStatus(GiftManagerEnum.INEFFECTIVE.getCode());
+			}
+			if(nowTime.getTime() > startTime.getTime() && nowTime.getTime() < endTime.getTime()){
+				giftManager.setStatus(GiftManagerEnum.EXCHANGE.getCode());
+			}
+			if(nowTime.getTime() >= endTime.getTime()){
+				giftManager.setStatus(GiftManagerEnum.EXPIRED.getCode());
+			}
 			giftManagerServiceApi.updateGiftManager(giftManager);
 			return RespJson.success();
 		} catch (Exception e) {
