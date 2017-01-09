@@ -59,7 +59,6 @@ function zTreeOnClick(event, treeId, treeNode) {
 
 //初始化表格
 function initDatagridAgency(){
-	debugger;
 	//var formType="";
 	//var branchId="";
 	//if($("#deliverFormType").val()){
