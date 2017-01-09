@@ -52,7 +52,11 @@ function initDatagridAddRequireOrder(){
         enterCallBack:function(arg){
             if(arg&&arg=="add"){
                 gridHandel.addRow(parseInt(gridHandel.getSelectRowIndex())+1,gridDefault);
-                
+                setTimeout(function(){
+                    gridHandel.setBeginRow(gridHandel.getSelectRowIndex()+1);
+                    gridHandel.setSelectFieldName("skuCode");
+                    gridHandel.setFieldFocus(gridHandel.getFieldTarget('skuCode'));
+                },100)
             }else{
             	branchId = $("#sourceBranchId").val();
                 selectGoods(arg);
@@ -154,7 +158,7 @@ function initDatagridAddRequireOrder(){
                     options:{
                         disabled:true,
                         min:0,
-                        precision:2,
+                        precision:4,
                         onChange: onChangePrice,
                     }
                 },
@@ -171,7 +175,7 @@ function initDatagridAddRequireOrder(){
                     options:{
                         disabled:true,
                         min:0,
-                        precision:2,
+                        precision:4,
                         onChange: onChangeAmount,
                     }
                 },
@@ -461,6 +465,13 @@ function setDataValue(data,type) {
          var isCheck ={isGift:1 };   //只要是赠品就可以重复
          var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
          $("#gridEditOrder").datagrid("loadData",newRows);
+         
+         gridHandel.setLoadFocus();
+         setTimeout(function(){
+             gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
+             gridHandel.setSelectFieldName("largeNum");
+             gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
+         },100)
 }
 
 // 查询已订数量

@@ -528,6 +528,9 @@ function publicGoodsService(type,callback,key,isRadio,sourceBranchId,targetBranc
 			}else{
 				publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId,supplierId);
 			}
+		},
+		error:function(){
+			 messager("数据查询失败");
 		}
 		})
     }else{
@@ -767,8 +770,8 @@ function GridClass(){
                                 }
                                 if(params&&selectFieldName==params.enterName){
                                     var target = _this.getFieldTarget(selectFieldName);
-                                    var field = getLRFiledName('right');
-                                    _this.setSelectFieldName(field);
+//                                    var field = getLRFiledName('right');
+//                                    _this.setSelectFieldName(field);
                                     params.enterCallBack($(target).textbox('getValue'));
                                     //selectGoods();
                                 }else{
@@ -1008,6 +1011,7 @@ function GridClass(){
      * @param obj  单元格对象
      */
     this.setFieldFocus = function(obj){
+    	if(null == obj) return;
         setTimeout(function(){
             $(obj).textbox('textbox').focus();
             $(obj).textbox('textbox').select();
