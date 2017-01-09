@@ -370,7 +370,7 @@ function onChangeRealNum(newV,oldV) {
     //    gridHandel.setFieldFocus(gridHandel.getFieldTarget('dealNum'));
     //    return;
     //}
-    var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
+    var priceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
     var salePriceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'salePrice');
 
     gridHandel.setFieldValue('amount',(priceValue*newV).toFixed(4));             //金额=数量*单价
@@ -713,7 +713,7 @@ function selectBranches(){
         return;
     }
 	var tempSourceBranchType = $("#sourceBranchType").val();
-	if(tempSourceBranchType != '0' && tempSourceBranchType != '1' && tempSourceBranchType != '2'){
+	/*if(tempSourceBranchType != '0' && tempSourceBranchType != '1' && tempSourceBranchType != '2'){
         new publicAgencyService(function(data){
             $("#targetBranchId").val(data.branchesId);
             $("#targetBranchName").val(data.branchName);
@@ -722,7 +722,7 @@ function selectBranches(){
             $("#contacts").html(data.contacts);
             $("#mobile").html(data.mobile);
         },'DZ',$("#sourceBranchId").val());
-	} else {
+	} else {*/
         new publicAgencyService(function(data){
             $("#targetBranchId").val(data.branchesId);
             $("#targetBranchName").val(data.branchName);
@@ -730,8 +730,9 @@ function selectBranches(){
             $("#address").html(data.address);
             $("#contacts").html(data.contacts);
             $("#mobile").html(data.mobile);
+            gridHandel.setLoadData([$.extend({},gridDefault)]);
         },'DO','');
-    }
+    //}
 }
 
 /**
@@ -743,21 +744,22 @@ function selectSourchBranches(){
     }
     var targetBranchType = $("#targetBranchType").val();
     // 如果收货机构为空，发货机构为总部或分公司则可以选择机构
-    if (targetBranchType == '' || targetBranchType == null || targetBranchType == '0' || targetBranchType == '1' || targetBranchType == '2') {
+    //if (targetBranchType == '' || targetBranchType == null || targetBranchType == '0' || targetBranchType == '1' || targetBranchType == '2') {
         new publicAgencyService(function(data){
             $("#sourceBranchId").val(data.branchesId);
             $("#sourceBranchName").val(data.branchName);
             $("#sourceBranchType").val(data.type);
+            gridHandel.setLoadData([$.extend({},gridDefault)]);
         },'DO','');
-    } else {
-        new publicAgencyService(function(data){
-            if($("#sourceBranchId").val()!=data.branchesId){
-                $("#sourceBranchId").val(data.branchesId);
-                $("#sourceBranchName").val(data.branchName);
-                $("#sourceBranchType").val(data.type);
-            }
-        },'DZ',$("#sourceBranchId").val());
-    }
+    //} else {
+    //    new publicAgencyService(function(data){
+    //        if($("#sourceBranchId").val()!=data.branchesId){
+    //            $("#sourceBranchId").val(data.branchesId);
+    //            $("#sourceBranchName").val(data.branchName);
+    //            $("#sourceBranchType").val(data.type);
+    //        }
+    //    },'DZ',$("#sourceBranchId").val());
+    //}
 }
 
 /**
@@ -946,25 +948,24 @@ function updateListData(data){
         	 rows[i]["oldPrice"] = rows[i]["price"];
         	 rows[i]["price"] = 0;
          }
-         rows[i]["amount"]  = parseFloat(rows[i]["price"]||0)*parseFloat(rows[i]["dealNum"]||0);
          if(parseInt(rows[i]["distributionSpec"])){
-        	 rows[i]["dealNum"]  = (parseFloat(rows[i]["largeNum"]||0)*parseFloat(rows[i]["distributionSpec"])).toFixed(4);
+        	 rows[i]["dealNum"] = (parseFloat(rows[i]["largeNum"]||0)*parseFloat(rows[i]["distributionSpec"])).toFixed(4);
+             rows[i]["amount"] = parseFloat(rows[i]["price"]||0)*parseFloat(rows[i]["dealNum"]||0);
          }else{
         	 rows[i]["largeNum"]  =  0;
         	 rows[i]["distributionSpec"] = 0;
+             rows[i]["amount"] = 0;
          }
-         
-        
      }
      var argWhere ={skuCode:1};  //验证重复性
      var isCheck ={isGift:1 };   //只要是赠品就可以重复
      var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
      $("#gridEditOrder").datagrid("loadData",newRows);
-     setTimeout(function(){
-        gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
-        gridHandel.setSelectFieldName("largeNum");
-        gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
-    },100)
+     //setTimeout(function(){
+     //   gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
+     //   gridHandel.setSelectFieldName("largeNum");
+     //   gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
+    //},100)
 }
 
 //返回列表页面
