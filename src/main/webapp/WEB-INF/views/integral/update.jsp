@@ -5,6 +5,11 @@ pageEncoding="UTF-8"%>
 
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <script src="${ctx}/static/js/views/integral/edit.js"></script>
+<style>
+.newWdate {
+  width: 196px !important;
+}
+</style>
 <div class="ub ub-ver  ub-f1  uw uh ufs-14 uc-black">
 	<div class="ub ub-ac upad-4">
 			<div class="ubtns">
