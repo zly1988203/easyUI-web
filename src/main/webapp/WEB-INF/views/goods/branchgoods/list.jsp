@@ -65,7 +65,7 @@
 	                
 	                <div class="umar-r10 uw-60 ut-r">机构:</div>
 	                <input class="uinp" name="branchId" id="branchId" type="hidden">
-	                <input id="branchName" name="branchName" class="uinp" readonly="readonly" type="text" onclick="selectBranch()" >
+	                <input id="branchName" name="branchName" class="uinp"  type="text">
 	                <div class="uinp-more" onclick="selectBranch()">...</div>
 	            </div>
 	            <div class="ub ub-ac umar-r40 ">

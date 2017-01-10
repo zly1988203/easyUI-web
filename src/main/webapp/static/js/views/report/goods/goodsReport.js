@@ -302,7 +302,7 @@ function initDatagridOrders(){
  */
 function searchSupplier(){
 	new publicSupplierService(function(data){
-		$("#supplierName").val(data.supplierName);
+		$("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
 	});
 }
 
@@ -311,7 +311,7 @@ function searchSupplier(){
  */
 function searchBind(){
 	new publicBrandService(function(data){
-		$("#brandName").val(data.brandName);
+		$("#brandName").val("["+data.brandCode+"]"+data.brandName);
 	});
 }
 
@@ -320,7 +320,8 @@ function searchBind(){
  */
 function searchBranch (){
 	new publicAgencyService(function(data){
-	$("#branchName").val(data.branchName);
+//	$("#branchName").val(data.branchName);
+	$("#branchName").val("["+data.branchCode+"]"+data.branchName);
 	},"","");
 }
 

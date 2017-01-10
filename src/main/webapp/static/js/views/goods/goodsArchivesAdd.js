@@ -365,6 +365,16 @@ function saveGoodsArchives(){
 		return;
 	}
 	
+	if(parseFloat($("#purchaseSpec").val().trim())===0){
+		$.messager.alert("提示","进货规格不能为0");
+		return;
+	}
+	
+	if(parseFloat($("#distributionSpec").val().trim())===0){
+		$.messager.alert("提示","配送规格不能为0");
+		return;
+	}
+	
 	//校验商品条码是否重复
 	var pricingType = $('#pricingType option:selected').val();
 	var barCode = $("#barCode").val();

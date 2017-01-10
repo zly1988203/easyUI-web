@@ -146,15 +146,15 @@ function initDatagridEditRequireOrder(){
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
-                editor:{
-                    type:'numberbox',
-                    options:{
-                        min:0,
-                        disabled:true,
-                        precision:2,
-                        onChange: onChangePrice,
-                    }
-                },
+//                editor:{
+//                    type:'numberbox',
+//                    options:{
+//                        min:0,
+//                        disabled:true,
+//                        precision:2,
+//                        onChange: onChangePrice,
+//                    }
+//                },
             },
             {field:'amount',title:'金额',width:'80px',align:'right',
                 formatter:function(value,row,index){
@@ -163,15 +163,15 @@ function initDatagridEditRequireOrder(){
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
-                editor:{
-                    type:'numberbox',
-                    options:{
-                        min:0,
-                        disabled:true,
-                        precision:2,
-                        onChange: onChangeAmount,
-                    }
-                },
+//                editor:{
+//                    type:'numberbox',
+//                    options:{
+//                        min:0,
+//                        disabled:true,
+//                        precision:2,
+//                        onChange: onChangeAmount,
+//                    }
+//                },
 
             },
             {field:'isGift',title:'赠送',width:'80px',align:'left',
