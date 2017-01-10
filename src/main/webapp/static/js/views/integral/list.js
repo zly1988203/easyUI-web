@@ -52,7 +52,7 @@ function initGrid() {
             	formatter: function (value, row, index) {
 	                if (value != null && value != '') {
 	                    var date = new Date(value);
-	                    return date.format("yyyy-MM-dd hh:mm");
+	                    return date.format("yyyy-MM-dd");
 	                }
 	                return "";
 	            }
@@ -61,7 +61,7 @@ function initGrid() {
             	formatter: function (value, row, index) {
             		if (value != null && value != '') {
             			var date = new Date(value);
-            			return date.format("yyyy-MM-dd hh:mm");
+            			return date.format("yyyy-MM-dd");
             		}
             		return "";
             	}
