@@ -156,7 +156,11 @@ function discountRows(discountNum){
 
 	for(var i = 0;i < newData.length;i++){
 
-		newData[i].promotionPrice= discountNum*newData[i].salePrice/10;
+		if(""==discountNum || 0 == discountNum){
+			newData[i].promotionPrice= newData[i].salePrice;
+		}else{
+			newData[i].promotionPrice= discountNum*newData[i].salePrice/10;
+		}
 
 		rowIndex = $("#"+datagridId).datagrid('getRowIndex',newData[i]);
 		//更新行数据
