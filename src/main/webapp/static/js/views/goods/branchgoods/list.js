@@ -195,12 +195,12 @@ function initDatagridOrders(){
             {field:'branchId',title:'机构ID',width:0,align:'left',hidden:true},
             {field:'id',title:'店铺商品ID',width:0,align:'left',hidden:true},
             {field:'skuId',title:'标准商品ID',width:0,align:'left',hidden:true},
-        	{field:'branchName',title:'机构名称',width:220,align:'left'},
+        	{field:'branchName',title:'机构名称',width:200,align:'left'},
         	{field:'branchCode',title:'机构编码',width:100,align:'left'},
             {field:'skuCode',title:'货号',width:100,align:'left'},
-            {field:'skuName',title:'商品名称',width:100,align:'left'},
+            {field:'skuName',title:'商品名称',width:150,align:'left'},
             {field:'barCode',title:'条码',width:100,align:'left'},
-            {field:'status',title:'商品状态',width:100,align:'left',formatter:function(value,row,index){
+            {field:'status',title:'商品状态',width:80,align:'left',formatter:function(value,row,index){
             	if(value == '0'){
             		return '正常';
             	}else if(value == '1'){
@@ -215,7 +215,7 @@ function initDatagridOrders(){
             		return '未知类型：'+ value;
             	}
             }},
-            {field:'salePrice',title:'零售价',width:100,align:'right', formatter:function(value,row,index){
+            {field:'salePrice',title:'零售价',width:80,align:'right', formatter:function(value,row,index){
             		return formatTwoDecimal(value);
             }},
             {field:'actual',title:'实际库存',width:100,align:'right', formatter:function(value,row,index){

@@ -612,7 +612,7 @@ function back(){
 function searchBranch (){
 	new publicAgencyService(function(data){
 	$("#branchId").val(data.branchesId);
-	$("#branchName").val(data.branchName);
+	$("#branchName").val("["+data.branchCode+"]"+data.branchName);
 	});
 }
 

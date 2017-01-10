@@ -162,15 +162,15 @@ function initDatagridEditRequireOrder(){
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
-                editor:{
-                    type:'numberbox',
-                    options:{
-                        disabled:true,
-                        min:0,
-                        precision:2,
-                        onChange: onChangeAmount,
-                    }
-                }
+//                editor:{
+//                    type:'numberbox',
+//                    options:{
+//                        disabled:true,
+//                        min:0,
+//                        precision:2,
+//                        onChange: onChangeAmount,
+//                    }
+//                }
             },
             {field:'isGift',title:'赠送',width:'80px',align:'left',
                 formatter:function(value,row){
@@ -205,11 +205,11 @@ function initDatagridEditRequireOrder(){
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
-                options:{
-                    min:0,
-                    disabled:true,
-                    precision:2,
-                }
+//                options:{
+//                    min:0,
+//                    disabled:true,
+//                    precision:2,
+//                }
             },
             {field:'taxAmount',title:'税额',width:'80px',align:'right',
                 formatter:function(value,row){
@@ -220,14 +220,14 @@ function initDatagridEditRequireOrder(){
                     row["taxAmount"] = taxAmountVal;
                     return '<b>'+parseFloat(taxAmountVal||0).toFixed(2)+'</b>';
                 },
-                editor:{
-                    type:'numberbox',
-                    options:{
-                        disabled:true,
-                        min:0,
-                        precision:2,
-                    }
-                }
+//                editor:{
+//                    type:'numberbox',
+//                    options:{
+//                        disabled:true,
+//                        min:0,
+//                        precision:2,
+//                    }
+//                }
             },
             {field:'sourceStock',title:'目标库存',width:'80px',align:'right',
                 formatter:function(value,row,index){
