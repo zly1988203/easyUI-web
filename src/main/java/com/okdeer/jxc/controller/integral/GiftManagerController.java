@@ -327,6 +327,11 @@ public class GiftManagerController extends BaseController<GiftManagerController>
 		List<GiftManager> giftManagers = new ArrayList<GiftManager>();
 		Date startTime = dto.getStartTime();
 		Date endTime = dto.getEndTime();
+		Date nowTime = new Date();
+		String status = GiftManagerEnum.INEFFECTIVE.getCode();
+		if(nowTime.getTime() >= startTime.getTime() && nowTime.getTime() < endTime.getTime()){
+			status = GiftManagerEnum.EXCHANGE.getCode();
+		}
 		List<GiftManager> skuList = dto.getDetailList();
 		List<String> branchIds = dto.getBranchIds();
 		for(String branchId : branchIds){
@@ -339,7 +344,7 @@ public class GiftManagerController extends BaseController<GiftManagerController>
         			giftManager.setBranchId(branchId);
         			giftManager.setNum(sku.getNum());
         			giftManager.setIntegral(sku.getIntegral());
-        			giftManager.setStatus(GiftManagerEnum.INEFFECTIVE.getCode());
+        			giftManager.setStatus(status);
         			giftManager.setStartTime(startTime);
         			giftManager.setEndTime(endTime);
         			giftManager.setCreateTime(new Date());
