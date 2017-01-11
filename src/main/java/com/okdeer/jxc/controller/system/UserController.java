@@ -97,6 +97,21 @@ public class UserController extends BaseController<UserController> {
 		model.addAttribute("type", type);
 		return "component/publicOperator";
 	}
+	
+	/**
+	 * @Description: 礼品兑换机构选择
+	 * @return   
+	 * @author zhangchm zhongy
+	 * @date 2017年1月11日
+	 */
+	@RequestMapping(value = "publicBranchChoose")
+	public String publicBranchChoose(String type, String check, Model model) {
+		if (StringUtils.isNotEmpty(check)) {
+			model.addAttribute("check", check);
+		}
+		model.addAttribute("type", type);
+		return "component/publicBranchChoose";
+	}
 
 	/**
 	 * @Description: 根据登录用户关联店铺查询该店铺下所有人员

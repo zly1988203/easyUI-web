@@ -336,9 +336,10 @@ function saveDataHandel(){
  * 分店列表 0 单选,1  多选
  */
 function selectBranch() {
-	new publicBranchService(function(data) {
+	new publicBranchServiceGift(function(data) {
 		var branchesId="";
 		var branchName="";
+		
 		$.each(data,function(i,k){
 			branchesId=k.branchesId+","+branchesId;
 			branchName+="["+k.branchCode+"]"+k.branchName+",";
@@ -351,7 +352,6 @@ function selectBranch() {
 		$('#gridEditOrder').datagrid('loadData', {total: 0, rows:  [$.extend({},gridDefault)]});  
 	},1);
 }
-
 
 /**
  * 商品选择

@@ -26,6 +26,8 @@ pageEncoding="UTF-8"%>
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">货号:</div>
 						<input id="id" name="id" type="hidden" value="${data.id}"> 
+						<input id="skuId" name="skuId" type="hidden" value="${data.skuId}"> 
+						<input id="branchId" name="branchId" type="hidden" value="${data.branchId}"> 
 						<input id="skuCode" name="skuCode" value="${data.skuCode}" class="uinp uinp-no-more" readonly="readonly" type="text">
 					</div>
 				</div>
