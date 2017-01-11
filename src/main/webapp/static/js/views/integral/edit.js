@@ -19,6 +19,16 @@ function chechVal(){
 	   messager("对应积分为空");
 	   return false;
    }
+   var startTime = $("#startTime").val();
+   if(!startTime){
+	   messager("开始时间为空");
+	   return false;
+   }
+   var endTime = $("#endTime").val();
+   if(!endTime){
+	   messager("结束时间为空");
+	   return false;
+   }
 	return true;
 }
 
@@ -48,7 +58,7 @@ function saveArchives(){
 		   num:num,
 		   integral:integral,
 		   startTime:startTime,
-		   endTime:endTime
+		   endTime:endTime+" 23:59:59"
     };
    var req = JSON.stringify(reqObj);
     $.ajax({
