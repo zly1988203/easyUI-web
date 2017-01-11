@@ -100,7 +100,7 @@ function initDatagrid(){
                     type:'numberbox',
                     value:'1',
                     options:{
-                        min:10,
+                        min:1,
                         precision:0,
                     }
                 },
@@ -320,6 +320,7 @@ function saveDataHandel(){
 		},
         success:function(result){
             if(result['code'] == 0){
+            	toClose();
                 $.messager.alert("操作提示", "操作成功!");
             }else{
                 successTip(result['message']);

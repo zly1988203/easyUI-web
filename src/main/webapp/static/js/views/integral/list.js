@@ -90,13 +90,13 @@ function deleteData(){
 	    $.each(rows,function(i,v){
 	    	var status = v.status;
 	    	if(status==1){
-	    	   $.messager.alert('提示','存在数据兑换中不能删除！');
 	    	   flag = false;
 	    	   return;	
 	    	}
 	    	ids+=v.id+",";
 	    });
 	if(!flag){
+	   $.messager.alert('提示','存在数据兑换中不能删除！');
 	   return;	
 	}
 	$.messager.confirm('提示','是否确定要删除选中的礼品',function(data){
