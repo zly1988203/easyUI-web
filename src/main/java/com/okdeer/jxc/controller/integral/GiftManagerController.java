@@ -29,7 +29,7 @@ import com.okdeer.base.common.utils.UuidUtils;
 import com.okdeer.ca.common.mapper.JsonMapper;
 import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
-import com.okdeer.jxc.branch.vo.BranchesVo;
+import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.enums.GiftManagerEnum;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
@@ -202,19 +202,58 @@ public class GiftManagerController extends BaseController<GiftManagerController>
 	//1 检查信息
 	private String checkEditParam(GiftManager giftManager){
 		List<String> skuIds = new ArrayList<String>();
-		
 		List<String> storeIds = new ArrayList<String>();
 		skuIds.add(giftManager.getSkuId());
 		storeIds.add(giftManager.getBranchId());
 		Date startTime = giftManager.getStartTime();
 		Date endTime = giftManager.getEndTime();
-		String id = giftManager.getId();
-		Integer count = giftManagerServiceApi.selectCountByParams(id,skuIds, storeIds, startTime, endTime);
+		//机构类型(0.总部、1.分公司、2.物流中心、3.自营店、4.加盟店B、5.加盟店C)
+		Branches branches = branchesService.getBranchInfoById(giftManager.getBranchId());
+		Integer count = 0;
 		StringBuffer sb = new StringBuffer();
-		if(count>0){
-			Branches branches = branchesService.getBranchInfoById(giftManager.getBranchId());
-			sb.append("【"+branches.getBranchName()+"】存在时间冲突礼品,请检查!");
-		}
+		//1、分公司
+	    if(Integer.valueOf(Constant.ONE) == (Integer) branches.getType()){
+		   //1.1、校验分公司时间是否重叠
+		   String parentId = branches.getBranchesId();
+		   List<String> branchIds = new ArrayList<String>();
+		   branchIds.add(parentId);
+		   count = giftManagerServiceApi.selectCountByParams(giftManager.getId(),skuIds, branchIds, startTime, endTime);
+		   if(count>0){
+			   sb.append("【"+branches.getBranchName()+"】存在时间冲突礼品,请检查!");
+			   return sb.toString();
+		   }
+		   
+		   //1.2、校验分公司下属机构时间是否重叠
+		   Integer pageNumber = Constant.ONE;
+		   Integer pageSize = Integer.MAX_VALUE;
+		   PageUtils<Branches> pageList =  branchesService.queryBranchByParentId(parentId,pageNumber,pageSize);
+		   List<Branches> childrenBranches = pageList.getList();
+		   for(Branches branche:childrenBranches){
+				List<String> storeIds1 = new ArrayList<String>();
+				storeIds1.add(branche.getBranchesId());
+				count = giftManagerServiceApi.selectCountByParams("",skuIds, storeIds1, startTime, endTime);
+				if(count>0){
+					sb.append("【"+branche.getBranchName()+"】存在时间冲突礼品,请检查!");
+					 return sb.toString();
+				}
+			}
+	   }
+	   //2、校验店铺时间是否重叠
+	   count = giftManagerServiceApi.selectCountByParams(giftManager.getId(),skuIds, storeIds, startTime, endTime);
+	   if(count>0){
+		   sb.append("【"+branches.getBranchName()+"】存在时间冲突礼品,请检查!");
+		   return sb.toString();
+	   }
+	   
+	   //3、校验分公司时间是否重叠
+	   List<String> parentBranchIds = new ArrayList<String>();
+	   parentBranchIds.add(branches.getParentId());
+	   count = giftManagerServiceApi.selectCountByParams("",skuIds, parentBranchIds, startTime, endTime);
+	   if(count>0){
+		   Branches branche = branchesService.getBranchInfoById(branches.getParentId());
+		   sb.append("【"+branche.getBranchName()+"】存在时间冲突礼品,请检查!");
+		   return sb.toString();
+	   }
 		return sb.toString();
 	}
 	
@@ -229,32 +268,32 @@ public class GiftManagerController extends BaseController<GiftManagerController>
 	 */
 	@RequestMapping(value = "addView")
 	public String addView(Model model) {
+//		BranchesVo vo = new BranchesVo();
+//		vo.setPageNumber(1);
+//		vo.setPageSize(Integer.MAX_VALUE);
+//		vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
+//		vo.setType(UserUtil.getCurrBranchType());
+//		if (StringUtils.isEmpty(vo.getBranchId())) {
+//			vo.setBranchId(UserUtil.getCurrBranchId());
+//		}
+//		// 查询分公司、物流中心
+//		if ("DZ".equals(vo.getFormType())) {
+//			vo.setType(null);
+//		}
+//		// 查询总部、分公司
+//		if ("DV".equals(vo.getFormType())) {
+//			vo.setBranchId(UserUtil.getCurrBranchId());
+//		}
 		
-		BranchesVo vo = new BranchesVo();
-		vo.setPageNumber(1);
-		vo.setPageSize(Integer.MAX_VALUE);
-		vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
-		vo.setType(UserUtil.getCurrBranchType());
-		if (StringUtils.isEmpty(vo.getBranchId())) {
-			vo.setBranchId(UserUtil.getCurrBranchId());
-		}
-		// 查询分公司、物流中心
-		if ("DZ".equals(vo.getFormType())) {
-			vo.setType(null);
-		}
-		// 查询总部、分公司
-		if ("DV".equals(vo.getFormType())) {
-			vo.setBranchId(UserUtil.getCurrBranchId());
-		}
-		PageUtils<Branches> suppliers = branchesService.queryLists(vo);
-		List<Branches> list = suppliers.getList();
-		String branchIds = "";
-		for(Branches branches : list){
-			branchIds+=branches.getBranchesId()+",";
-		}
-		if(StringUtils.isNotBlank(branchIds)){
-			branchIds= branchIds.substring(0, branchIds.length()-1);
-		}
+//		PageUtils<Branches> suppliers = branchesService.queryLists(vo);
+//		List<Branches> list = suppliers.getList();
+//		for(Branches branches : list){
+//			branchIds+=branches.getBranchesId()+",";
+//		}
+//		if(StringUtils.isNotBlank(branchIds)){
+//			branchIds= branchIds.substring(0, branchIds.length()-1);
+//		}
+		String branchIds = UserUtil.getCurrBranchId();
 		model.addAttribute("branchIds", branchIds);
 		return "integral/add";
 	}
@@ -299,19 +338,62 @@ public class GiftManagerController extends BaseController<GiftManagerController>
 			List<GiftManager> list = dto.getDetailList();
 			List<String> skuIds = getSkuIds(list);
 			List<String> branchIds = dto.getBranchIds();
-			for(String branchId:branchIds){
-				List<String> storeIds = new ArrayList<String>();
-				storeIds.add(branchId);
-				Integer count = giftManagerServiceApi.selectCountByParams("",skuIds, storeIds, startTime, endTime);
-				if(count>0){
-					Branches branches = branchesService.getBranchInfoById(branchId);
-					sb.append("【"+branches.getBranchName()+"】存在时间冲突礼品,请检查!");
-					break;
-				}
-			}
+			
+		   //1、判断机构是分公司还是机构店铺
+		   Integer count = 0;
+		   if(branchIds.size()==1){
+			   Branches branches = branchesService.getBranchInfoById(branchIds.get(0));
+			   //机构类型(0.总部、1.分公司、2.物流中心、3.自营店、4.加盟店B、5.加盟店C)
+			   if(Integer.valueOf(Constant.ONE) == (Integer) branches.getType()){
+				   //1.1、校验分公司时间是否重叠
+				   count = giftManagerServiceApi.selectCountByParams("",skuIds, branchIds, startTime, endTime);
+				   if(count>0){
+					   sb.append("【"+branches.getBranchName()+"】存在时间冲突礼品,请检查!");
+					   return sb.toString();
+				   }
+				   
+				   //1.2、校验分公司下属机构时间是否重叠
+				   String parentId = branches.getBranchesId();
+				   Integer pageNumber = Constant.ONE;
+				   Integer pageSize = Integer.MAX_VALUE;
+				   PageUtils<Branches> pageList =  branchesService.queryBranchByParentId(parentId,pageNumber , pageSize);
+				   List<Branches> childrenBranches = pageList.getList();
+				   for(Branches branche:childrenBranches){
+						List<String> storeIds = new ArrayList<String>();
+						storeIds.add(branche.getBranchesId());
+						count = giftManagerServiceApi.selectCountByParams("",skuIds, storeIds, startTime, endTime);
+						if(count>0){
+							sb.append("【"+branche.getBranchName()+"】存在时间冲突礼品,请检查!");
+							 return sb.toString();
+						}
+					}
+			   }
+		   }
+		   
+		   //2、校验分公司下属机构时间是否重叠
+		   for(String brancheId:branchIds){
+			   count = giftManagerServiceApi.selectCountByParams("",skuIds, branchIds, startTime, endTime);
+			   if(count>0){
+				   Branches branche = branchesService.getBranchInfoById(brancheId);
+				   sb.append("【"+branche.getBranchName()+"】存在时间冲突礼品,请检查!");
+				   return sb.toString();
+			   }
+		   }
+		   
+		   //3、校验分公司时间是否重叠
+		   Branches branche = branchesService.getBranchInfoById(branchIds.get(0));
+		   List<String> parentBranchIds = new ArrayList<String>();
+		   parentBranchIds.add(branche.getParentId());
+		   count = giftManagerServiceApi.selectCountByParams("",skuIds, parentBranchIds, startTime, endTime);
+		   if(count>0){
+			   Branches branche1 = branchesService.getBranchInfoById(branche.getParentId());
+			   sb.append("【"+branche1.getBranchName()+"】存在时间冲突礼品,请检查!");
+			   return sb.toString();
+		   }
 		}
 		return sb.toString();
 	}
+	
 	
 	//获取商品skuId
 	private List<String> getSkuIds(List<GiftManager> list){

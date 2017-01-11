@@ -40,10 +40,12 @@ function saveArchives(){
 		return;
 	}
    var id = $("#id").val();
+   var skuId = $("#skuId").val();
    var skuCode = $("#skuCode").val();
    var skuName = $("#skuName").val();
    var barCode = $("#barCode").val();
    var branchName = $("#branchName").val();
+   var branchId = $("#branchId").val();
    var num = $("#num").val();
    var integral = $("#integral").val();
    var startTime = $("#startTime").val();
@@ -51,10 +53,12 @@ function saveArchives(){
    
    var reqObj = {
 		   id:id,
+		   skuId:skuId,
 		   skuCode:skuCode,
 		   skuName:skuName,
 		   barCode:barCode,
 		   branchName:branchName,
+		   branchId:branchId,
 		   num:num,
 		   integral:integral,
 		   startTime:startTime,

@@ -116,6 +116,37 @@ public class BranchCommonController extends BaseController<BranchCommonControlle
 		return null;
 	}
 
+	/**
+	 * @Description:礼品兑换新增查询机构
+	 * @param vo
+	 * @param response
+	 * @param pageNumber
+	 * @param pageSize
+	 * @return 
+	 * @author zhongy
+	 * @date 2017年1月11日
+	 */
+	@RequestMapping(value = "queryComponentList", method = RequestMethod.POST)
+	@ResponseBody
+	public PageUtils<Branches> queryComponentList(BranchesVo vo,
+			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
+			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
+		try {
+			LOG.info("查询机构参数:{}", vo.toString()+"pageNumber:"+pageNumber+"pageSize:"+pageSize);
+			vo.setPageNumber(pageNumber);
+			vo.setPageSize(pageSize);
+			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
+			vo.setType(UserUtil.getCurrBranchType());
+			String parentId = UserUtil.getCurrBranchId();
+			PageUtils<Branches> suppliers = branchesService.queryBranchByParentId(parentId, pageNumber, pageSize);
+			LOG.info("机构列表：{}", suppliers);
+			return suppliers;
+		} catch (Exception e) {
+			LOG.error("查询机构异常:", e);
+		}
+		return null;
+	}
+	
 	@RequestMapping(value = "selectTargetBranchData", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson selectTargetBranchData(String branchesId) {
