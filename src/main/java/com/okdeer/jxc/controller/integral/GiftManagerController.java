@@ -29,6 +29,7 @@ import com.okdeer.base.common.utils.UuidUtils;
 import com.okdeer.ca.common.mapper.JsonMapper;
 import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
+import com.okdeer.jxc.branch.vo.BranchesVo;
 import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.enums.GiftManagerEnum;
 import com.okdeer.jxc.common.result.RespJson;
@@ -224,9 +225,11 @@ public class GiftManagerController extends BaseController<GiftManagerController>
 		   }
 		   
 		   //1.2、校验分公司下属机构时间是否重叠
-		   Integer pageNumber = Constant.ONE;
-		   Integer pageSize = Integer.MAX_VALUE;
-		   PageUtils<Branches> pageList =  branchesService.queryBranchByParentId(parentId,pageNumber,pageSize);
+		   BranchesVo vo = new BranchesVo();
+		   vo.setBranchId(parentId);
+		   vo.setPageSize(Integer.MAX_VALUE);
+		   vo.setPageNumber( Constant.ONE);
+		   PageUtils<Branches> pageList =  branchesService.queryBranchByParam(vo);
 		   List<Branches> childrenBranches = pageList.getList();
 		   for(Branches branche:childrenBranches){
 				List<String> storeIds1 = new ArrayList<String>();
@@ -354,9 +357,11 @@ public class GiftManagerController extends BaseController<GiftManagerController>
 				   
 				   //1.2、校验分公司下属机构时间是否重叠
 				   String parentId = branches.getBranchesId();
-				   Integer pageNumber = Constant.ONE;
-				   Integer pageSize = Integer.MAX_VALUE;
-				   PageUtils<Branches> pageList =  branchesService.queryBranchByParentId(parentId,pageNumber , pageSize);
+				   BranchesVo vo = new BranchesVo();
+				   vo.setBranchId(parentId);
+				   vo.setPageSize(Integer.MAX_VALUE);
+				   vo.setPageNumber( Constant.ONE);
+				   PageUtils<Branches> pageList =  branchesService.queryBranchByParam(vo);
 				   List<Branches> childrenBranches = pageList.getList();
 				   for(Branches branche:childrenBranches){
 						List<String> storeIds = new ArrayList<String>();

@@ -137,8 +137,8 @@ public class BranchCommonController extends BaseController<BranchCommonControlle
 			vo.setPageSize(pageSize);
 			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
 			vo.setType(UserUtil.getCurrBranchType());
-			String parentId = UserUtil.getCurrBranchId();
-			PageUtils<Branches> suppliers = branchesService.queryBranchByParentId(parentId, pageNumber, pageSize);
+			vo.setBranchId(UserUtil.getCurrBranchId());
+			PageUtils<Branches> suppliers = branchesService.queryBranchByParam(vo);
 			LOG.info("机构列表：{}", suppliers);
 			return suppliers;
 		} catch (Exception e) {
