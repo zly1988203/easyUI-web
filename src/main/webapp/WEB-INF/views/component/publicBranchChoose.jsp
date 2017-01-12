@@ -10,6 +10,7 @@
 			<div class="ub ub-ac upad-10 ">
 				<div class="ub ub-ac uw">
 					<div class="umar-r10">关键字:</div>
+					<input value="${branchType}" id="branchType" type="hidden">
 					<input value="${type}" id="type" type="hidden">
 					<input value="${check}" id="hiddenCheck" type="hidden">
 					<input value="${dictType}" id="dictType" type="hidden"> 

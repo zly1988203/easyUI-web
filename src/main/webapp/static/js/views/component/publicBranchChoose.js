@@ -1,5 +1,13 @@
 $(function(){
-	initDatagridBranchCheck();
+	
+	var branchType = $("#branchType").val();
+	//分公司
+	var url =　contextPath+'/common/branches/queryComponentList';
+	if(branchType!=1){
+		//店铺
+		url = contextPath+'/common/branches/getComponentList';
+	}
+	initDatagridBranchCheck(url);
     gFunSetEnterKey(cx);
 })
 
@@ -25,11 +33,11 @@ function branchClickRow(rowIndex, rowData){
 }
 
 //初始化表格 
-function initDatagridBranchCheck(){
+function initDatagridBranchCheck(url){
   $("#gridOperator").datagrid({
       method:'post',
       align:'center',
-      url:contextPath+'/common/branches/queryComponentList',
+      url:url,
       singleSelect:false,  //单选  false多选
       rownumbers:true,    //序号
       pagination:true,    //分页
