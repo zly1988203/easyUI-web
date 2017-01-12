@@ -271,31 +271,6 @@ public class GiftManagerController extends BaseController<GiftManagerController>
 	 */
 	@RequestMapping(value = "addView")
 	public String addView(Model model) {
-//		BranchesVo vo = new BranchesVo();
-//		vo.setPageNumber(1);
-//		vo.setPageSize(Integer.MAX_VALUE);
-//		vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
-//		vo.setType(UserUtil.getCurrBranchType());
-//		if (StringUtils.isEmpty(vo.getBranchId())) {
-//			vo.setBranchId(UserUtil.getCurrBranchId());
-//		}
-//		// 查询分公司、物流中心
-//		if ("DZ".equals(vo.getFormType())) {
-//			vo.setType(null);
-//		}
-//		// 查询总部、分公司
-//		if ("DV".equals(vo.getFormType())) {
-//			vo.setBranchId(UserUtil.getCurrBranchId());
-//		}
-		
-//		PageUtils<Branches> suppliers = branchesService.queryLists(vo);
-//		List<Branches> list = suppliers.getList();
-//		for(Branches branches : list){
-//			branchIds+=branches.getBranchesId()+",";
-//		}
-//		if(StringUtils.isNotBlank(branchIds)){
-//			branchIds= branchIds.substring(0, branchIds.length()-1);
-//		}
 		String branchIds = UserUtil.getCurrBranchId();
 		model.addAttribute("branchIds", branchIds);
 		return "integral/add";
@@ -336,8 +311,10 @@ public class GiftManagerController extends BaseController<GiftManagerController>
 	private String checkAddParam(GiftManagerDto dto){
 		StringBuffer sb = new StringBuffer();
 		if(dto!=null){
-			Date startTime = dto.getStartTime();
-			Date endTime = dto.getEndTime();
+			String startTime1 = dto.getStartTime();
+			String endTime1 = dto.getEndTime();
+			Date startTime = DateUtils.parse(startTime1, DateUtils.DATE_FULL_STR);
+			Date endTime = DateUtils.parse(endTime1, DateUtils.DATE_FULL_STR);
 			List<GiftManager> list = dto.getDetailList();
 			List<String> skuIds = getSkuIds(list);
 			List<String> branchIds = dto.getBranchIds();
@@ -412,8 +389,10 @@ public class GiftManagerController extends BaseController<GiftManagerController>
 	
 	private List<GiftManager> getGiftManagers(GiftManagerDto dto){
 		List<GiftManager> giftManagers = new ArrayList<GiftManager>();
-		Date startTime = dto.getStartTime();
-		Date endTime = dto.getEndTime();
+		String startTime1 = dto.getStartTime();
+		String endTime1 = dto.getEndTime();
+		Date startTime = DateUtils.parse(startTime1, DateUtils.DATE_FULL_STR);
+		Date endTime = DateUtils.parse(endTime1, DateUtils.DATE_FULL_STR);
 		Date nowTime = new Date();
 		String status = GiftManagerEnum.INEFFECTIVE.getCode();
 		if(nowTime.getTime() >= startTime.getTime() && nowTime.getTime() < endTime.getTime()){
