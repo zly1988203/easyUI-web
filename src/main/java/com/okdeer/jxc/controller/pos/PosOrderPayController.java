@@ -13,13 +13,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.alibaba.fastjson.JSON;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.pos.service.PosOrderServiceApi;
-import com.okdeer.jxc.stock.vo.StockFormVo;
-import com.okdeer.jxc.system.entity.SysUser;
-import com.okdeer.jxc.utils.UserUtil;
 
 
 /**
