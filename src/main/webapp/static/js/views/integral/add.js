@@ -320,8 +320,8 @@ function saveDataHandel(){
 		},
         success:function(result){
             if(result['code'] == 0){
-            	toClose();
-                $.messager.alert("操作提示", "操作成功!");
+            	$.messager.alert("操作提示", "操作成功!");
+            	setTimeout('toClose()',1500); 
             }else{
                 successTip(result['message']);
             }
