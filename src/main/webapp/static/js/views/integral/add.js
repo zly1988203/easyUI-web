@@ -301,8 +301,8 @@ function getParam(){
 	 branchIds =  branchId.split(",");
 	 
 	 param_obj.detailList = goodList;
-	 param_obj.startTime = txtStartDate;
-	 param_obj.endTime = txtEndDate;
+	 param_obj.startTime = txtStartDate+ " 00:00:00";
+	 param_obj.endTime = txtEndDate+ " 23:59:59";
 	 param_obj.branchIds = branchIds;
 	 return param_obj;
 }
