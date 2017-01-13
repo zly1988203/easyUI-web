@@ -57,18 +57,20 @@
 	                    <input class="uinp ub ub-f1" type="text" id="targetBranchName" name="targetBranchName" />
 	                    <div class="uinp-more" onclick="selectBranches()" >...</div>
 	                </div>
-	                <div class="ub ub-ac umar-l20">
-	                    <div class="umar-r10 uw-70 ut-r">业务人员:</div>
-	                    <input class="uinp" type="text" id="salesman" name="salesman">
-	                </div>
+	                
 	            </div>
 	            <div class="ub umar-t8">
 	                <div class="ub ub-ac ">
 	                    <div class="umar-r10 uw-70 ut-r">备注:</div>
 	                    <input class="uinp" type="text" id="remark" name="remark">
 	                </div>
+	                <div class="ub ub-ac uw-300 umar-l20">
+	                    <div class="umar-r10 uw-70 ut-r">业务人员:</div>
+	                    <input class="uinp ub ub-f1" type="text" id="salesman" name="salesman">
+	                </div>
+
 	                <!--input-checkbox-->
-	                <div class="ub ub-ac umar-l20 uw-300">
+	                <div class="ub ub-ac umar-l40 uw-300">
 	                    <div class="umar-r10 uw-70 ut-r">审核状态:</div>
 	                    <div class="ub ub-ac umar-r10">
 	                        <input class="ub" type="radio" name="deliverAuditStatus" value="0" checked="checked" onclick="queryForm()"/><span>未审核</span>
@@ -80,7 +82,8 @@
 	                        <input class="ub" type="radio" name="deliverAuditStatus" value=""  onclick="queryForm()"/><span>全部</span>
 	                    </div>
 	                </div>
-	                <div class="ub ub-ac umar-l40">
+
+	                <div class="ub ub-ac umar-l20">
 	                    <div class="umar-r10 uw-70 ut-r">单据状态:</div>
 	                    <div class="ub ub-ac umar-r10">
 	                        <input class="ub" type="radio" name="deliverStatus" value="0" onclick="queryForm()"/><span>待处理</span>

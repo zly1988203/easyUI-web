@@ -48,7 +48,7 @@ function initDatagrid(){
  */
 function searchBranch (){
 	new publicAgencyService(function(data){
-	$("#branchName").val(data.branchName);
+	$("#branchName").val("["+data.branchCode+"]"+data.branchName);
 	},"","");
 }
 
@@ -89,7 +89,11 @@ function exportExcel(){
 function query(){
 	$("#startCount").val('');
 	$("#endCount").val('');
-	$("#goodsTab").datagrid("options").queryParams = $("#queryForm").serializeObject();
+	var params = $("#queryForm").serializeObject();
+	params.branchName = params.branchName.substring(params.branchName.lastIndexOf(']')+1)
+	$("#goodsTab").datagrid("options").queryParams = params;
+	
+	
 	$("#goodsTab").datagrid("options").method = "post";
 	$("#goodsTab").datagrid("options").url = contextPath+"/integral/giftExchangeRecode/getList";
 	$("#goodsTab").datagrid("load");

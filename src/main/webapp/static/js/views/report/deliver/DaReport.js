@@ -71,6 +71,8 @@ function queryForm(){
 	$("#endCount").attr("value",null);
 	$("#deliverType").val('DA');
 	var fromObjStr = $('#queryForm').serializeObject();
+	// 去除编码
+    fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1)
 	$("#deliverFormList").datagrid("options").method = "post";
 	$("#deliverFormList").datagrid('options').url = contextPath + '/form/deliverReport/getDaForms';
 	$("#deliverFormList").datagrid('load', fromObjStr);
@@ -83,7 +85,8 @@ var branchId;
 function selectBranches(){
 	new publicAgencyService(function(data){
 //        $("#branchId").val(data.branchesId);
-        $("#branchName").val(data.branchName);
+        //$("#branchName").val(data.branchName);
+		$("#branchName").val("["+data.branchCode+"]"+data.branchName);
 	},'',branchId);
 }
 

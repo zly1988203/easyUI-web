@@ -119,6 +119,8 @@ function queryForm(){
 	$("#startCount").attr("value",null);
 	$("#endCount").attr("value",null);
 	var fromObjStr = $('#queryForm').serializeObject();
+	// 去除编码
+    fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1)
 	$("#goodsSaleNumReport").datagrid("options").method = "post";
 	$("#goodsSaleNumReport").datagrid('options').url = contextPath + '/goods/goodsSaleNum/goodsSaleNumList';
 	$("#goodsSaleNumReport").datagrid('load', fromObjStr);
@@ -130,7 +132,7 @@ function queryForm(){
 function selectBranches(){
 	new publicAgencyService(function(data){
 		$("#branchId").val(data.branchesId);
-		$("#branchName").val(data.branchName);
+		$("#branchName").val("["+data.branchCode+"]"+data.branchName);
 	},'BF','');
 }
 
