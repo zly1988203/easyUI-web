@@ -1,5 +1,8 @@
 
 $(function(){
+	toChangeDate(9);
+	$("#startTime").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
+    $("#endTime").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 	initDatagrid();
 });
 
@@ -20,12 +23,12 @@ function initDatagrid(){
 		columns:[[  
 		          {field:"id",title:"礼品兑换记录id",hidden:true},  
 		          {field:"mobile",title:"会员号",width:200},  
-		          {field:"skuCode",title:"商品货号",width:200}, 
+		          {field:"skuCode",title:"货号",width:200}, 
 		          {field:"skuName",title:"礼品名称",width:200},
 		          {field:"barCode",title:"条码",width:200},
-		          {field:"branchName",title:"机构名称",width:200},
-		          {field:"num",title:"兑换数量",width:200},
-		          {field:"integral",title:"消耗积分",width:200},
+		          {field:"branchName",title:"兑换机构",width:200},
+		          {field:"num",title:"兑换数量",width:200,align: "right",},
+		          {field:"integral",title:"消耗积分",width:200,align: "right",},
 		          {field: "createTime", title: "兑换时间", width: 150, align: "left",formatter : function(createTime){
 		    			if(createTime){
 		    				var now = new Date(createTime);
@@ -95,7 +98,9 @@ function query(){
 	$("#goodsTab").datagrid("load");
 }
 
-//重置
-function resetFrom(){
-	$("#queryForm").form('clear');
-}
+/**
+ * 重置
+ */
+var resetForm = function() {
+	location.href = contextPath + "/integral/giftExchangeRecode/view";
+};

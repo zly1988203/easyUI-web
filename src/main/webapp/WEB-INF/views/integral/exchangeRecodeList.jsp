@@ -22,8 +22,8 @@
 					<shiro:hasPermission name="jxcGiftExchangeRecod:export">
 						<div class="ubtns-item" onclick="exportData()">导出</div>
 		            </shiro:hasPermission>
-					<div class="ubtns-item" onclick="toClose()">关闭</div>
-					<div class="ubtns-item" onclick="resetFrom()">重置</div>
+					<div class="ubtns-item" onclick="gFunRefresh()">重置</div>
+					<div class="ubtns-item" onclick="toClose()">退出</div>
 				</div>
 				    <!-- 引入时间选择控件 -->
 	               <%@ include file="/WEB-INF/views/component/dateSelect.jsp"%>
