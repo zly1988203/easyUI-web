@@ -42,7 +42,7 @@ pageEncoding="UTF-8"%>
 				<div class="ub upad-4">
 				    <div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">商品条码:</div>
-					    <input id="barCode" name="barCode" value="${data.skuName}" class="uinp uinp-no-more" readonly="readonly">
+					    <input id="barCode" name="barCode" value="${data.barCode}" class="uinp uinp-no-more" readonly="readonly">
 					</div>
 				</div>
 				<div class="ub upad-4">

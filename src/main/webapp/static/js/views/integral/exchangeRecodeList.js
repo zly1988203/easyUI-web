@@ -8,6 +8,7 @@ $(function(){
 
 //初始化表格
 var dg;
+var gridHandel = new GridClass();
 function initDatagrid(){
 	dg=$("#goodsTab").datagrid({
 		//title:'普通表单-用键盘操作',
@@ -37,12 +38,10 @@ function initDatagrid(){
 		    			}
 		    			return null;
 		    		}},
-		          ]] ,
-		          toolBar:"#tg_tb",
-		          enableHeaderClickMenu: false,
-		          enableHeaderContextMenu: false,
-		          enableRowContextMenu: false
-
+		          ]],
+		          onLoadSuccess:function(data){
+		              gridHandel.setDatagridHeader("center");
+		           }
 	});
 }
 
