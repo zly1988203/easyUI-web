@@ -165,15 +165,15 @@ function initDatagridEditRequireOrder(){
                     }
                     return "<b>"+parseFloat(value||0).toFixed(2)+ "<b>";
                 },
-                editor:{
-                    type:'numberbox',
-                    options:{
-                    	disabled:true,
-                        min:0,
-                        precision:2,
-                        onChange: onChangeAmount,
-                    }
-                }
+//                editor:{
+//                    type:'numberbox',
+//                    options:{
+//                    	disabled:true,
+//                        min:0,
+//                        precision:2,
+//                        onChange: onChangeAmount,
+//                    }
+//                }
             },
             {field:'isGift',title:'赠送',width:'65px',align:'left',
                 formatter:function(value,row){
@@ -220,14 +220,14 @@ function initDatagridEditRequireOrder(){
                     row["saleAmount"] = saleAmount;
                     return "<b>"+parseFloat(saleAmount||0).toFixed(2)+ "<b>";
                 },
-                editor:{
-                    type:'numberbox',
-                    options:{
-                        disabled:true,
-                        min:0,
-                        precision:2,
-                    }
-                }
+//                editor:{
+//                    type:'numberbox',
+//                    options:{
+//                        disabled:true,
+//                        min:0,
+//                        precision:2,
+//                    }
+//                }
             },
             {field:'inputTax',title:'税率',width:'80px',align:'right',
                 formatter:function(value,row,index){
@@ -246,14 +246,14 @@ function initDatagridEditRequireOrder(){
                     row["taxAmount"] = taxAmount;
                     return "<b>"+parseFloat(taxAmount||0).toFixed(2)+ "<b>";
                 },
-                editor:{
-                    type:'numberbox',
-                    options:{
-                        disabled:true,
-                        min:0,
-                        precision:2,
-                    }
-                },
+//                editor:{
+//                    type:'numberbox',
+//                    options:{
+//                        disabled:true,
+//                        min:0,
+//                        precision:2,
+//                    }
+//                },
             },
             {field:'originPlace',title:'产地',width:'100px',align:'left'},
             {field:'sourceStock',title:'当前库存',width:'80px',align:'right',

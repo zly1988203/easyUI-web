@@ -74,6 +74,7 @@
 								<option value="DO">配送出库</option> 
 								<option value="XS">销售</option> 
 								<option value="IO">库存调整</option>
+								<option value="LP">礼品兑换</option>
 				        </select>
                 </div>
                 <div class="ub ub-ac umar-l20">

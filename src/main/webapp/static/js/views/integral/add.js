@@ -100,7 +100,7 @@ function initDatagrid(){
                     type:'numberbox',
                     value:'1',
                     options:{
-                        min:10,
+                        min:1,
                         precision:0,
                     }
                 },
@@ -301,8 +301,8 @@ function getParam(){
 	 branchIds =  branchId.split(",");
 	 
 	 param_obj.detailList = goodList;
-	 param_obj.startTime = txtStartDate;
-	 param_obj.endTime = txtEndDate;
+	 param_obj.startTime = txtStartDate+ " 00:00:00";
+	 param_obj.endTime = txtEndDate+ " 23:59:59";
 	 param_obj.branchIds = branchIds;
 	 return param_obj;
 }
@@ -320,7 +320,8 @@ function saveDataHandel(){
 		},
         success:function(result){
             if(result['code'] == 0){
-                $.messager.alert("操作提示", "操作成功!");
+            	$.messager.alert("操作提示", "操作成功!");
+            	setTimeout('toClose()',1500); 
             }else{
                 successTip(result['message']);
             }
@@ -335,9 +336,10 @@ function saveDataHandel(){
  * 分店列表 0 单选,1  多选
  */
 function selectBranch() {
-	new publicBranchService(function(data) {
+	new publicBranchServiceGift(function(data) {
 		var branchesId="";
 		var branchName="";
+		
 		$.each(data,function(i,k){
 			branchesId=k.branchesId+","+branchesId;
 			branchName+="["+k.branchCode+"]"+k.branchName+",";
@@ -350,7 +352,6 @@ function selectBranch() {
 		$('#gridEditOrder').datagrid('loadData', {total: 0, rows:  [$.extend({},gridDefault)]});  
 	},1);
 }
-
 
 /**
  * 商品选择

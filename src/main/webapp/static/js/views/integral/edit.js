@@ -19,6 +19,16 @@ function chechVal(){
 	   messager("对应积分为空");
 	   return false;
    }
+   var startTime = $("#startTime").val();
+   if(!startTime){
+	   messager("开始时间为空");
+	   return false;
+   }
+   var endTime = $("#endTime").val();
+   if(!endTime){
+	   messager("结束时间为空");
+	   return false;
+   }
 	return true;
 }
 
@@ -30,10 +40,12 @@ function saveArchives(){
 		return;
 	}
    var id = $("#id").val();
+   var skuId = $("#skuId").val();
    var skuCode = $("#skuCode").val();
    var skuName = $("#skuName").val();
    var barCode = $("#barCode").val();
    var branchName = $("#branchName").val();
+   var branchId = $("#branchId").val();
    var num = $("#num").val();
    var integral = $("#integral").val();
    var startTime = $("#startTime").val();
@@ -41,14 +53,16 @@ function saveArchives(){
    
    var reqObj = {
 		   id:id,
+		   skuId:skuId,
 		   skuCode:skuCode,
 		   skuName:skuName,
 		   barCode:barCode,
 		   branchName:branchName,
+		   branchId:branchId,
 		   num:num,
 		   integral:integral,
 		   startTime:startTime,
-		   endTime:endTime
+		   endTime:endTime+" 23:59:59"
     };
    var req = JSON.stringify(reqObj);
     $.ajax({

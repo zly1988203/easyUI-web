@@ -35,9 +35,9 @@ function initGrid() {
             {field: 'skuName', title: '礼品名称', width: '200px', align: 'left'},
             {field: 'barCode', title: '条码', width: '200px', align: 'left'},
             {field: 'branchName', title: '机构名称', width: '200px', align: 'left'},
-            {field: 'num', title: '兑换数量', width: '200px', align: 'left'},
-            {field: 'integral', title: '兑换积分值', width: '120px', align: 'left'},
-            {field: 'status', title: '礼品状态', width:'120px', align: 'left',
+            {field: 'num', title: '兑换数量', width: '200px', align: 'right'},
+            {field: 'integral', title: '兑换积分值', width: '120px', align: 'right'},
+            {field: 'status', title: '礼品状态', width:'120px', align: 'center',
                 formatter: function(value,row,index){
                     if (value==0){
                         return "未生效";
@@ -52,7 +52,7 @@ function initGrid() {
             	formatter: function (value, row, index) {
 	                if (value != null && value != '') {
 	                    var date = new Date(value);
-	                    return date.format("yyyy-MM-dd hh:mm");
+	                    return date.format("yyyy-MM-dd");
 	                }
 	                return "";
 	            }
@@ -61,7 +61,7 @@ function initGrid() {
             	formatter: function (value, row, index) {
             		if (value != null && value != '') {
             			var date = new Date(value);
-            			return date.format("yyyy-MM-dd hh:mm");
+            			return date.format("yyyy-MM-dd");
             		}
             		return "";
             	}
@@ -90,13 +90,13 @@ function deleteData(){
 	    $.each(rows,function(i,v){
 	    	var status = v.status;
 	    	if(status==1){
-	    	   $.messager.alert('提示','存在数据兑换中不能删除！');
 	    	   flag = false;
 	    	   return;	
 	    	}
 	    	ids+=v.id+",";
 	    });
 	if(!flag){
+	   $.messager.alert('提示','存在数据兑换中不能删除！');
 	   return;	
 	}
 	$.messager.confirm('提示','是否确定要删除选中的礼品',function(data){

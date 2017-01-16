@@ -254,6 +254,7 @@ public class GoodsPriceAdjustController extends
 			goodsPriceForm.setCreateBranchId(user.getBranchId());
 			goodsPriceForm.setCreateBranchCode(user.getBranchCode());
 			goodsPriceForm.setCreateTime(new Date());
+			goodsPriceForm.setStatus(Constant.ZERO);
 			// 设置商品价格单据信息
 			goodsPriceFormDetailList = setFormData(goodsPriceForm,
 					goodsPriceFormDetailList);

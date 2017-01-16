@@ -91,14 +91,15 @@ function initDatagridEditRequireOrder(){
                           }
                           return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                       },
-                      editor:{
-                          type:'numberbox',
-                          value:'0',
-                          options:{
-                          	disabled:true,
-                              precision:4,
-                          }
-                  }},
+//                      editor:{
+//                          type:'numberbox',
+//                          value:'0',
+//                          options:{
+//                          	disabled:true,
+//                              precision:4,
+//                          }
+//                      }
+                   },
                   {field:'sellable',title:'当前可销售库存',width:'100px',align:'right',
                       formatter:function(value,row,index){
                           if(row.isFooter){
@@ -106,15 +107,15 @@ function initDatagridEditRequireOrder(){
                           }
                           return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                       },
-                      editor:{
-                          type:'numberbox',
-                          value:0,
-                          options:{
-                        	  disabled:true,
-                              min:0,
-                              precision:4
-                          }
-                      },
+//                      editor:{
+//                          type:'numberbox',
+//                          value:0,
+//                          options:{
+//                        	  disabled:true,
+//                              min:0,
+//                              precision:4
+//                          }
+//                      },
                   },
                   {field:'largeNum',title:'箱数',width:'80px',align:'right',
                       formatter:function(value,row,index){
@@ -145,14 +146,14 @@ function initDatagridEditRequireOrder(){
                           }
                           return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                       },
-                      editor:{
-                          type:'numberbox',
-                          options:{
-                          	disabled:true,
-                              min:0,
-                              precision:2
-                          }
-                      },
+//                      editor:{
+//                          type:'numberbox',
+//                          options:{
+//                          	disabled:true,
+//                              min:0,
+//                              precision:2
+//                          }
+//                      },
 
                   },
                   {field:'reason',title:'调整原因',width:'200px',align:'left'},

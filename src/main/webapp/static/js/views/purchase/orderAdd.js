@@ -1,5 +1,6 @@
 /**
  * Created by huangj02 on 2016/8/9.
+ * 采购- 新增采购订单
  */
 $(function(){
 	//初始化默认条件
@@ -241,7 +242,9 @@ function initDatagridEditOrder(){
             updateFooter();
         }
     });
-    gridHandel.setLoadData([$.extend({},gridDefault)]);
+    gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
+                            $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),
+                            $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault)]);
 }
 
 //限制转换次数

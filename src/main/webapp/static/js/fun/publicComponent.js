@@ -422,6 +422,52 @@ function publicBranchService(callback,type) {
     //});
 }
 
+/**********************礼品兑换机构选择 start*******************************/
+/**
+ * 公共组件-选择机构
+ * @param callback
+ * @param type  0是单选  1是多选
+ */
+function publicBranchServiceGift(callback,type) {
+    var dalogObj = {
+        href: contextPath + "/system/user/publicBranchChoose?type=branch&check="+type,
+        width: 680,
+        height: 600,
+        title: "选择机构",
+        closable: true,
+        resizable: true,
+        onClose: function () {
+            $(dalogTemp).panel('destroy');
+        },
+        modal: true,
+    }
+    if(type==1){
+        dalogObj["buttons"] = [{
+            text:'确定',
+            handler:function(){
+                publicOperatorGetCheck(callBackHandel);
+            }
+        },{
+            text:'取消',
+            handler:function(){
+                $(dalogTemp).panel('destroy');
+            }
+        }];
+    }else{
+        dalogObj["onLoad"] = function () {
+            initBranchCallBack(callBackHandel);
+        };
+    }
+    //公有属性
+    var dalogTemp = $('<div/>').dialog(dalogObj);
+    function callBackHandel(data){
+        callback(data);
+        $(dalogTemp).panel('destroy');
+    }
+}
+
+/**********************礼品兑换机构选择 end*******************************/
+
 //公共组件-选择机构区域
 function publicBranchAreaService(callback) {
     //公有属性
@@ -528,6 +574,9 @@ function publicGoodsService(type,callback,key,isRadio,sourceBranchId,targetBranc
 			}else{
 				publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId,supplierId);
 			}
+		},
+		error:function(){
+			 messager("数据查询失败");
 		}
 		})
     }else{
@@ -767,8 +816,8 @@ function GridClass(){
                                 }
                                 if(params&&selectFieldName==params.enterName){
                                     var target = _this.getFieldTarget(selectFieldName);
-                                    var field = getLRFiledName('right');
-                                    _this.setSelectFieldName(field);
+//                                    var field = getLRFiledName('right');
+//                                    _this.setSelectFieldName(field);
                                     params.enterCallBack($(target).textbox('getValue'));
                                     //selectGoods();
                                 }else{
@@ -1008,6 +1057,7 @@ function GridClass(){
      * @param obj  单元格对象
      */
     this.setFieldFocus = function(obj){
+    	if(null == obj) return;
         setTimeout(function(){
             $(obj).textbox('textbox').focus();
             $(obj).textbox('textbox').select();

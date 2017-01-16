@@ -103,6 +103,13 @@ public class GoodsReportController extends
 			if (StringUtils.isEmpty(qo.getBranchName())) {
 				qo.setBranchId(UserUtil.getCurrBranchId());
 			}
+			String branchName = qo.getBranchName();
+			if (StringUtils.isNotBlank(branchName) && branchName.contains("[")
+					&& branchName.contains("]")) {
+				int length = branchName.indexOf("]");
+				qo.setBranchName(branchName.substring(length+1, branchName.length()));
+			}
+			
 			PageUtils<GoodsReportVo> goodsReport = goodsReportService.queryListToPage(qo);
 			return goodsReport;
 		} catch (Exception e) {
@@ -129,6 +136,12 @@ public class GoodsReportController extends
 			// 如果没有选择店铺，则查询登录人所在机构的商品
 			if (StringUtils.isEmpty(qo.getBranchName())) {
 				qo.setBranchId(UserUtil.getCurrBranchId());
+			}
+			String branchName = qo.getBranchName();
+			if (StringUtils.isNotBlank(branchName) && branchName.contains("[")
+					&& branchName.contains("]")) {
+				int length = branchName.indexOf("]");
+				qo.setBranchName(branchName.substring(length+1, branchName.length()));
 			}
 			List<GoodsReportVo> exportList = goodsReportService.queryList(qo);
             if(CollectionUtils.isNotEmpty(exportList)){

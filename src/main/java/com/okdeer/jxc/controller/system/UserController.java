@@ -21,6 +21,7 @@ import com.okdeer.jxc.system.qo.SysUserQo;
 import com.okdeer.jxc.system.service.SysRoleService;
 import com.okdeer.jxc.system.service.SysUserServiceApi;
 import com.okdeer.jxc.system.vo.SysUserVo;
+import com.okdeer.jxc.utils.UserUtil;
 
 /**
  * ClassName: UserController 
@@ -96,6 +97,23 @@ public class UserController extends BaseController<UserController> {
 		}
 		model.addAttribute("type", type);
 		return "component/publicOperator";
+	}
+	
+	/**
+	 * @Description: 礼品兑换机构选择
+	 * @return   
+	 * @author zhangchm zhongy
+	 * @date 2017年1月11日
+	 */
+	@RequestMapping(value = "publicBranchChoose")
+	public String publicBranchChoose(String type, String check, Model model) {
+		if (StringUtils.isNotEmpty(check)) {
+			model.addAttribute("check", check);
+		}
+		model.addAttribute("type", type);
+		//机构类型(0.总部、1.分公司、2.物流中心、3.自营店、4.加盟店B、5.加盟店C
+		model.addAttribute("branchType", UserUtil.getCurrBranchType());
+		return "component/publicBranchChoose";
 	}
 
 	/**
