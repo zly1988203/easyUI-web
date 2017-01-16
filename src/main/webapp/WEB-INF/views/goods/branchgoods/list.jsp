@@ -62,6 +62,7 @@
 	                <input class="uinp" name="categoryCode" id="categoryCode" type="hidden">
 	                <input class="uinp" name="brandId" id="brandId" type="hidden">
 	                <input class="uinp" name="supplierId" id="supplierId" type="hidden">
+	                <input class="uinp" name="branchType" id="branchType" type="hidden">
 	                
 	                <div class="umar-r10 uw-60 ut-r">机构:</div>
 	                <input class="uinp" name="branchId" id="branchId" type="hidden">
