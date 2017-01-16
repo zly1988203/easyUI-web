@@ -378,7 +378,8 @@ function saveGoodsArchives(){
 	}
 	
 	if(parseFloat($("#salePrice").val())< parseFloat($("#vipPrice").val())){
-		$.messager.alert("提示","零售价不能小于会员价");
+		$('#saveGoodsArchives').removeAttr("disabled");
+		messager("零售价不能小于会员价!");
 		return;
 	}
 	
