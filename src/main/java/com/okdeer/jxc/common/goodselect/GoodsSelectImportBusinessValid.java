@@ -9,9 +9,9 @@ package com.okdeer.jxc.common.goodselect;
 
 import java.util.List;
 
-import com.okdeer.jxc.goods.entity.GoodsSelect;
-
 import net.sf.json.JSONObject;
+
+import com.okdeer.jxc.goods.entity.GoodsSelect;
 
 /**
  * ClassName: GoodSelectImportBusinessValid 
@@ -26,9 +26,10 @@ import net.sf.json.JSONObject;
 
 public interface GoodsSelectImportBusinessValid {
 
-	void businessValid(List<JSONObject> list, String[] excelField);
+	void businessValid(List<JSONObject> excelListSuccessData, String[] excelField);
 	
-	void formatter(List<? extends GoodsSelect> list);
+	void formatter(List<? extends GoodsSelect> list, List<JSONObject> excelListSuccessData,
+			List<JSONObject> excelListErrorData);
 	
 	void errorDataFormatter(List<JSONObject> list);
 	

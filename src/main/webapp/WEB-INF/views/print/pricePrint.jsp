@@ -50,6 +50,7 @@
 						<option value="6">标准促销价签(72*32.5mm 4*6)</option>
 						<option value="7">标准价签(72*32.5mm 4*6)无底</option>
 						<option value="8">标准促销价签(72*32.5mm 4*6)无底</option>
+						<option value="11">标准促销价签(72*32.5mm 4*6 无底色)</option>
 						<option value="1">正常（55*25mm有底 3*10）</option>
 						<option value="2">正常（85*40mm有底 2*7）</option>
 						<option value="3">正常（85*40mm无底 1*7）</option>
@@ -60,8 +61,8 @@
 				<div class="ub ub-ac uw-200 umar-l20">
 					<div class="umar-r10 uw-100 ut-r">统一促销折扣:</div>
 					<input class="uinp ub ub-f1 deal" type="number"
-						onkeyup="if(isNaN(value))execCommand('undo')"
-						onafterpaste="if(isNaN(value))execCommand('undo')" id="discount">
+						
+						onafterpaste="if(isNaN(value)|| value > 10) {execCommand('undo');this.value=''}" id="discount">
 						<div class="umar-l10">折</div>
 				</div>
 

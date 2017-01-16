@@ -109,7 +109,6 @@ public class GoodsReportController extends
 				int length = branchName.indexOf("]");
 				qo.setBranchName(branchName.substring(length+1, branchName.length()));
 			}
-			
 			PageUtils<GoodsReportVo> goodsReport = goodsReportService.queryListToPage(qo);
 			return goodsReport;
 		} catch (Exception e) {

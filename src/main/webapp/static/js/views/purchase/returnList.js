@@ -106,6 +106,7 @@ function selectOperator(){
 	new publicOperatorService(function(data){
 //		$("#operateUserId").val(data.id);
 		$("#operateUserName").val(data.userName);
+//		$("#operateUserName").val("["+data.userCode+"]"+data.userName);
 	});
 }
 function selectBranch(){

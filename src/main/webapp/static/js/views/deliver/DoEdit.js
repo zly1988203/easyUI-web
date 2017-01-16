@@ -115,7 +115,6 @@ function initDatagridEditRequireOrder(){
                 },
                 editor:{
                     type:'numberbox',
-                    value:0,
                     options:{
                         min:0,
                         precision:4,
@@ -129,11 +128,21 @@ function initDatagridEditRequireOrder(){
                     if(row.isFooter){
                         return "<b>"+parseFloat(value||0).toFixed(2)+ "<b>";
                     }
+                    if(!value||value==""||parseFloat(value)==0){
+                        /*if (parseFloat(row["sourceStock"]||0) <= 0) {
+                            value = 0.00;
+                        } else */
+                        if (!row["applyNum"] || row["applyNum"] == '') {
+                  		  value = 0.00;
+                  	  } else {
+                  		  row["dealNum"] = row["applyNum"];
+                            value = row["dealNum"];
+                  	  }
+                    }
                     return "<b>"+parseFloat(value||0).toFixed(2)+ "<b>";
                 },
                 editor:{
                     type:'numberbox',
-                    value:'0',
                     options:{
                         min:0,
                         precision:4,
@@ -146,17 +155,23 @@ function initDatagridEditRequireOrder(){
                     if(row.isFooter){
                         return
                     }
+                    
+                    if(!row["price"]){
+                        row["price"] = 0;
+                        value = row["price"];
+                    }
+                    
                     return "<b>"+parseFloat(value||0).toFixed(2)+ "<b>";
-                }
-                /*editor:{
+                },
+                editor:{
                     type:'numberbox',
                     options:{
                     	disabled:true,
                         min:0,
-                        precision:2,
-                        onChange: onChangePrice,
+                        precision:4,
+//                        onChange: onChangePrice,
                     }
-                },*/
+                },
             },
             {field:'amount',title:'金额',width:'80px',align:'right',
                 formatter:function(value,row,index){
@@ -165,15 +180,15 @@ function initDatagridEditRequireOrder(){
                     }
                     return "<b>"+parseFloat(value||0).toFixed(2)+ "<b>";
                 },
-//                editor:{
-//                    type:'numberbox',
-//                    options:{
-//                    	disabled:true,
-//                        min:0,
-//                        precision:2,
+                editor:{
+                    type:'numberbox',
+                    options:{
+                    	disabled:true,
+                        min:0,
+                        precision:4,
 //                        onChange: onChangeAmount,
-//                    }
-//                }
+                    }
+                }
             },
             {field:'isGift',title:'赠送',width:'65px',align:'left',
                 formatter:function(value,row){
@@ -380,7 +395,7 @@ function onChangeRealNum(newV,oldV) {
         gridHandel.setFieldValue('defectNum',defectNumVal);
     }
 
-    var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
+    var priceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
     var salePriceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'salePrice');
     gridHandel.setFieldValue('amount',(priceValue*newV).toFixed(4));             //金额=数量*单价
 
@@ -475,6 +490,14 @@ function selectGoods(searchKey){
             $("#"+gridHandel.getGridName()).datagrid("acceptChanges");
         }
         selectStockAndPrice(sourceBranchId,data);
+        
+        gridHandel.setLoadFocus();
+        setTimeout(function(){
+            gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
+            gridHandel.setSelectFieldName("largeNum");
+            gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
+        },100)
+        
     },searchKey,'',sourceBranchId,targetBranchId,sourceBranchId,'');
 }
 

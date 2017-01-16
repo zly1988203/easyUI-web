@@ -252,9 +252,10 @@ function onChangeLargeNum(newV,oldV){
     
     n++;
 
-    //var newRealNum = (Math.round(purchaseSpecValue*newV)).toFixed(4);
-    /*var newRealNum = (purchaseSpecValue*newV).toFixed(4);
-     gridHandel.setFieldValue('realNum',newRealNum);//数量=商品规格*箱数*/
+    //金额 = 规格 * 单价 * 箱数
+    var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
+    gridHandel.setFieldValue('amount',parseFloat(purchaseSpecValue*priceValue*newV).toFixed(4));
+    
     var realNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'realNum');
     var realNumVal2 = parseFloat(purchaseSpecValue*newV).toFixed(4);//parseFloat(Math.round(purchaseSpecValue*newV*1000)/1000).toFixed(4);
     if(realNumVal&&Math.abs(realNumVal2-realNumVal)>0.0001){
@@ -393,11 +394,13 @@ function selectGoods(searchKey){
         var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
         $("#gridEditOrder").datagrid("loadData",newRows);
 
+        gridHandel.setLoadFocus();
         setTimeout(function(){
             gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
             gridHandel.setSelectFieldName("largeNum");
             gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
         },100)
+        
     },searchKey,0,"","",branchId,supplierId);
 }
 
@@ -582,14 +585,13 @@ function orderDelete(){
 		    	url:contextPath+"/form/purchase/delete",
 		    	type:"POST",
 		    	data:{
-		    		formId:id
+		    		formIds:id
 		    	},
 		    	success:function(result){
 		    		console.log(result);
 		    		if(result['code'] == 0){
-		    			$.messager.alert("操作提示", "操作成功！", "info",function(){
-		    				back();
-		    			});
+		    			messager("操作成功");
+		    			toClose();
 		    		}else{
 		    			successTip(result['message']);
 		    		}

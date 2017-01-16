@@ -51,24 +51,44 @@ public interface ImportExcelConstant {
 	String IMPORTMAXERRO = "导入数据不能超过10000";
 
 	/**
-	 * @Fields DELIVER_GOODS_SKUCODE : 要货申请单货号导入字段
+	 * @Fields DELIVER_GOODS_SKUCODE : 要货申请单货号导入字段、箱数
 	 */
-	String[] DELIVER_GOODS_SKUCODE = { "skuCode", "largeNum"  };
+	String[] DELIVER_GOODS_SKUCODE_LARGE_NUM = { "skuCode", "largeNum" };
 
 	/**
-	 * @Fields DELIVER_GOODS_SKUCODE_HEADERS : 要货申请单货号导入字段
+	 * @Fields DELIVER_GOODS_SKUCODE_HEADERS : 要货申请单货号导入字段、箱数
 	 */
-	String[] DELIVER_GOODS_SKUCODE_HEADERS = { "货号", "箱数" };
+	String[] DELIVER_GOODS_SKUCODE_HEADERS_LARGE_NUM = { "货号", "箱数" };
 
 	/**
-	 * @Fields DELIVER_GOODS_SKUCODE : 要货申请单条码导入字段
+	 * @Fields DELIVER_GOODS_SKUCODE : 要货申请单条码导入字段、箱数
 	 */
-	String[] DELIVER_GOODS_BARCODE = { "barCode", "largeNum" };
+	String[] DELIVER_GOODS_BARCODE_LARGE_NUM = { "barCode", "largeNum" };
+
+	/**
+	 * @Fields DELIVER_GOODS_BARCODE_HEADERS : 要货申请单货号导入字段、箱数
+	 */
+	String[] DELIVER_GOODS_BARCODE_HEADERS_NUM = { "条码", "箱数" };
+
+	/**
+	 * @Fields DELIVER_GOODS_SKUCODE : 要货申请单货号导入字段、数量
+	 */
+	String[] DELIVER_GOODS_SKUCODE_NUM = { "skuCode", "num" };
+
+	/**
+	 * @Fields DELIVER_GOODS_SKUCODE_HEADERS : 要货申请单货号导入字段、数量
+	 */
+	String[] DELIVER_GOODS_SKUCODE_HEADERS_NUM = { "货号", "数量" };
+
+	/**
+	 * @Fields DELIVER_GOODS_SKUCODE : 要货申请单条码导入字段、数量
+	 */
+	String[] DELIVER_GOODS_BARCODE_NUM = { "barCode", "num" };
 
 	/**
 	 * @Fields DELIVER_GOODS_BARCODE_HEADERS : 要货申请单货号导入字段
 	 */
-	String[] DELIVER_GOODS_BARCODE_HEADERS = { "条码", "箱数" };
+	String[] DELIVER_GOODS_BARCODE_HEADERS_LARGE_NUM = { "条码", "数量" };
 
 	/**
 	 * @Fields DELIVER_GOODS_SKUCODE_REPORT : 配送出库单货号导入字段

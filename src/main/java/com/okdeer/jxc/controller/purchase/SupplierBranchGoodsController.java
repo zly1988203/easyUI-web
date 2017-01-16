@@ -77,12 +77,13 @@ public class SupplierBranchGoodsController extends BaseController<SupplierBranch
 
 	@Reference(version = "1.0.0", check = false)
 	GoodsSkuServiceApi goodsSkuServiceApi;
-	
+
 	@Reference(version = "1.0.0", check = false)
 	GoodsSupplierBranchServiceApi goodsSupplierBranchServiceApi;
-	
+
 	@Autowired
 	private GoodsSelectImportComponent goodsSelectImportComponent;
+
 	/**
 	 * @Description: 到管理列表页面
 	 * @return
@@ -116,7 +117,7 @@ public class SupplierBranchGoodsController extends BaseController<SupplierBranch
 		}
 		return null;
 	}
-	
+
 	/**
 	 * @Description: 供应商机构商品查询
 	 * @return List<BranchGoodsSkuVo>  
@@ -127,7 +128,7 @@ public class SupplierBranchGoodsController extends BaseController<SupplierBranch
 	@ResponseBody
 	public List<BranchGoodsSkuVo> findSupplierBranchGoods(BranchGoodsSkuVo vo) {
 		try {
-			LOG.info("供应商机构商品查询请求参数,vo={}",vo);
+			LOG.info("供应商机构商品查询请求参数,vo={}", vo);
 			List<BranchGoodsSkuVo> result = goodsSupplierBranchServiceApi.querySupplierBranchGoods(vo);
 			return result;
 		} catch (Exception e) {
@@ -135,8 +136,7 @@ public class SupplierBranchGoodsController extends BaseController<SupplierBranch
 		}
 		return null;
 	}
-	
-	
+
 	/**
 	 * 保存供应商机构商品
 	 * @param validate
@@ -147,22 +147,22 @@ public class SupplierBranchGoodsController extends BaseController<SupplierBranch
 	 */
 	@RequestMapping(value = "saveSupplierBranchGoods", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String,String> saveSupplierBranchGoods(@RequestBody String jsonText) {
-		Map<String,String> map = new HashMap<String,String>();
+	public Map<String, String> saveSupplierBranchGoods(@RequestBody String jsonText) {
+		Map<String, String> map = new HashMap<String, String>();
 		try {
 			GoodsSupplierBranchVo vo = JSON.parseObject(jsonText, GoodsSupplierBranchVo.class);
 			List<String> skuIds = vo.getSkuIds();
 			String branchId = vo.getBranchId();
 			String supplierId = vo.getSupplierId();
-			goodsSupplierBranchServiceApi.batchSaveSupplierBranchGoods(skuIds,branchId,supplierId);
+			goodsSupplierBranchServiceApi.batchSaveSupplierBranchGoods(skuIds, branchId, supplierId);
 			map.put("code", "0");
 		} catch (Exception e) {
-			LOG.error("保存供应商机构商品异常",e);
+			LOG.error("保存供应商机构商品异常", e);
 			map.put("message", "保存供应商机构商品异常");
 		}
 		return map;
 	}
-	
+
 	/**
 	 * 删除供应商机构商品
 	 * @param validate
@@ -173,8 +173,8 @@ public class SupplierBranchGoodsController extends BaseController<SupplierBranch
 	 */
 	@RequestMapping(value = "delete", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String,String> delete(@RequestBody String jsonText) {
-		Map<String,String> map = new HashMap<String,String>();
+	public Map<String, String> delete(@RequestBody String jsonText) {
+		Map<String, String> map = new HashMap<String, String>();
 		try {
 			GoodsSupplierBranchVo vo = JSON.parseObject(jsonText, GoodsSupplierBranchVo.class);
 			List<String> skuIds = vo.getSkuIds();
@@ -183,12 +183,12 @@ public class SupplierBranchGoodsController extends BaseController<SupplierBranch
 			goodsSupplierBranchServiceApi.deleteSupplierBranchGoods(skuIds, branchId, supplierId);
 			map.put("code", "0");
 		} catch (Exception e) {
-			LOG.error("删除供应商机构商品异常",e);
+			LOG.error("删除供应商机构商品异常", e);
 			map.put("message", "删除供应商机构商品异常");
 		}
 		return map;
 	}
-	
+
 	/**
 	 * @Description: 供应商机构商品关系导出
 	 * @param response
@@ -200,11 +200,11 @@ public class SupplierBranchGoodsController extends BaseController<SupplierBranch
 	 */
 	@RequestMapping(value = "/exportList", method = RequestMethod.POST)
 	@ResponseBody
-	public String exportList(HttpServletResponse response,BranchGoodsSkuVo vo) {
-		LOG.info("供应商机构商品关系导出请求参数,vo={}",vo);
+	public String exportList(HttpServletResponse response, BranchGoodsSkuVo vo) {
+		LOG.info("供应商机构商品关系导出请求参数,vo={}", vo);
 		try {
 			List<BranchGoodsSkuVo> list = goodsSupplierBranchServiceApi.querySupplierBranchGoods(vo);
-			String fileName = vo.getSupplierName()+"_"+vo.getBranchName()+ "_" + DateUtils.getCurrSmallStr();
+			String fileName = vo.getSupplierName() + "_" + vo.getBranchName() + "_" + DateUtils.getCurrSmallStr();
 			String templateName = ExportExcelConstant.SUPPLIER_BRANCH_GOODS_REPORT;
 			exportListForXLSX(response, list, fileName, templateName);
 		} catch (Exception e) {
@@ -212,7 +212,7 @@ public class SupplierBranchGoodsController extends BaseController<SupplierBranch
 		}
 		return null;
 	}
-	
+
 	/**
 	 * @Description: 供应商机构商品导入模板
 	 * @param response
@@ -233,15 +233,14 @@ public class SupplierBranchGoodsController extends BaseController<SupplierBranch
 				templateName = ExportExcelConstant.GOODS_INTRODUCE_BAR_CODE_TEMPLE;
 				fileName = "条码导入模板";
 			}
-			if (StringUtils.isNotBlank(fileName)
-					&& StringUtils.isNotBlank(templateName)) {
+			if (StringUtils.isNotBlank(fileName) && StringUtils.isNotBlank(templateName)) {
 				exportListForXLSX(response, null, fileName, templateName);
 			}
 		} catch (Exception e) {
 			LOG.error("导出采购导入模板异常", e);
 		}
 	}
-	
+
 	/**
 	 * 商品导入
 	 * @param file
@@ -253,7 +252,7 @@ public class SupplierBranchGoodsController extends BaseController<SupplierBranch
 	 */
 	@RequestMapping(value = "importListEnable")
 	@ResponseBody
-	public RespJson importList(@RequestParam("file") MultipartFile file,String type) {
+	public RespJson importList(@RequestParam("file") MultipartFile file, String type) {
 		RespJson respJson = RespJson.success();
 		try {
 			if (file.isEmpty()) {
@@ -272,48 +271,43 @@ public class SupplierBranchGoodsController extends BaseController<SupplierBranch
 			String[] field = null;
 
 			if (type.equals(String.valueOf(Constant.ZERO))) {// 货号
-				field = new String[] { "skuCode"};
+				field = new String[] { "skuCode" };
 			} else if (type.equals(String.valueOf(Constant.ONE))) {// 条码
-				field = new String[] { "barCode"};
+				field = new String[] { "barCode" };
 			}
 			GoodsSelectImportVo<GoodsSelect> vo = goodsSelectImportComponent.importSelectGoods(fileName, is, field,
-							new GoodsSelectByPurchase(), null,
-							user.getId(), type,
-							"/supplierBranchGoods/downloadErrorFile",
-							new GoodsSelectImportBusinessValid() {
+					new GoodsSelectByPurchase(), null, user.getId(), type, "/supplierBranchGoods/downloadErrorFile",
+					new GoodsSelectImportBusinessValid() {
 
-								@Override
-								public void businessValid(
-										List<JSONObject> list,
-										String[] excelField) {
+						@Override
+						public void businessValid(List<JSONObject> excelListSuccessData, String[] excelField) {
+						}
+
+						/**
+						 * (non-Javadoc)
+						 * @see com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid#formatter(java.util.List)
+						 */
+						@Override
+						public void formatter(List<? extends GoodsSelect> list, List<JSONObject> excelListSuccessData,
+								List<JSONObject> excelListErrorData) {
+							for (GoodsSelect objGoods : list) {
+								GoodsSelectByPurchase obj = (GoodsSelectByPurchase) objGoods;
+
+								BigDecimal price = obj.getPrice();
+								if (price == null) {
+									obj.setPrice(obj.getPurchasePrice());
 								}
+							}
+						}
 
-								/**
-								 * (non-Javadoc)
-								 * @see com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid#formatter(java.util.List)
-								 */
-								@Override
-								public void formatter(
-										List<? extends GoodsSelect> list) {
-									for (GoodsSelect objGoods : list) {
-										GoodsSelectByPurchase obj = (GoodsSelectByPurchase) objGoods;
+						/**
+						 * (non-Javadoc)
+						 * @see com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid#errorDataFormatter(java.util.List)
+						 */
+						@Override
+						public void errorDataFormatter(List<JSONObject> list) {
 
-										BigDecimal price = obj.getPrice();
-										if (price == null) {
-											obj.setPrice(obj.getPurchasePrice());
-										}
-									}
-								}
-
-								/**
-								 * (non-Javadoc)
-								 * @see com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid#errorDataFormatter(java.util.List)
-								 */
-								@Override
-								public void errorDataFormatter(
-										List<JSONObject> list) {
-									
-								}
+						}
 					}, null);
 			respJson.put("importInfo", vo);
 
@@ -326,27 +320,26 @@ public class SupplierBranchGoodsController extends BaseController<SupplierBranch
 		}
 		return respJson;
 	}
-	
+
 	/**
 	 * @author xiaoj02
 	 * @date 2016年10月15日
 	 */
 	@RequestMapping(value = "downloadErrorFile")
-	public void downloadErrorFile(String code, String type,
-			HttpServletResponse response) {
+	public void downloadErrorFile(String code, String type, HttpServletResponse response) {
 		String reportFileName = "错误数据";
 
 		String[] headers = null;
 		String[] columns = null;
 
 		if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {// 货号
-			columns = new String[] { "skuCode"};
-			headers = new String[] { "货号"};
+			columns = new String[] { "skuCode" };
+			headers = new String[] { "货号" };
 		} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {// 条码
-			columns = new String[] { "barCode"};
-			headers = new String[] { "条码"};
+			columns = new String[] { "barCode" };
+			headers = new String[] { "条码" };
 		}
-		goodsSelectImportComponent.downloadErrorFile(code, reportFileName,headers, columns, response);
+		goodsSelectImportComponent.downloadErrorFile(code, reportFileName, headers, columns, response);
 	}
-	
+
 }

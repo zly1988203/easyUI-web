@@ -326,6 +326,15 @@ function selectGoods(searchKey){
         var newRows = gFunUpdateKey(rows,keyNames);
         console.log(newRows);
         $("#gridEditRequireOrder").datagrid("loadData",newRows);
+        
+        gridHandel.setLoadFocus();
+        setTimeout(function(){
+            gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
+            gridHandel.setSelectFieldName("largeNum");
+            gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
+        },100)
+        
+        
     },searchKey,'','','','','');
 }
 

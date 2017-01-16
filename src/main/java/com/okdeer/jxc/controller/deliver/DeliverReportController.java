@@ -272,4 +272,83 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
 		return null;
 	}
 
+	/**
+	 * @Description: 跳转BD业绩报表页面
+	 * @return   
+	 * @return String  
+	 * @throws
+	 * @author zhangchm
+	 * @date 2016年10月25日
+	 */
+	@RequestMapping(value = "viewBD")
+	public String viewBD(Model model) {
+		SysUser user = getCurrentUser();
+		Branches branchesGrow = branchesServiceApi.getBranchInfoById(user.getBranchId());
+		model.addAttribute("branchesGrow", branchesGrow);
+		return "report/deliver/BDReport";
+	}
+
+	/**
+	 * @Description: 配送BD业绩报表
+	 * @param vo
+	 * @param pageNumber
+	 * @param pageSize
+	 * @return PageUtils<PurchaseSelect>  
+	 * @throws
+	 * @author zhangchm
+	 * @date 2016年10月25日
+	 */
+	@RequestMapping(value = "getBDReport", method = RequestMethod.POST)
+	@ResponseBody
+	public PageUtils<DeliverDaAndDoFormListVo> getBDReport(DeliverFormReportQo vo,
+			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
+			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
+		LOG.info(LogConstant.OUT_PARAM, vo.toString());
+		try {
+			if (StringUtils.isNullOrEmpty(vo.getBranchId())) {
+				vo.setBranchId(UserUtil.getCurrBranchId());
+			}
+			vo.setPageNumber(pageNumber);
+			vo.setPageSize(pageSize);
+			PageUtils<DeliverDaAndDoFormListVo> page = deliverFormReportServiceApi.queryBDFormLists(vo);
+			DeliverDaAndDoFormListVo deliverDaAndDoFormListVo = deliverFormReportServiceApi.queryBDFormListsSum(vo);
+			List<DeliverDaAndDoFormListVo> footer = new ArrayList<DeliverDaAndDoFormListVo>();
+			if (deliverDaAndDoFormListVo != null) {
+				footer.add(deliverDaAndDoFormListVo);
+			}
+			page.setFooter(footer);
+			LOG.info(LogConstant.PAGE, page.toString());
+			return page;
+		} catch (Exception e) {
+			LOG.error("要货单查询数据出现异常:{}", e);
+		}
+		return null;
+	}
+
+	/**
+	 * @Description: 导出BD业绩报表
+	 * @return
+	 * @author zhangchm
+	 * @date 2016年10月25日
+	 */
+	@RequestMapping(value = "exportBDList")
+	public void exportBDList(HttpServletResponse response, DeliverFormReportQo qo) {
+		LOG.info(LogConstant.OUT_PARAM, qo.toString());
+		try {
+			if (StringUtils.isNullOrEmpty(qo.getBranchId())) {
+				qo.setBranchId(UserUtil.getCurrBranchId());
+			}
+			List<DeliverDaAndDoFormListVo> exportList = deliverFormReportServiceApi.queryBDFormList(qo);
+			DeliverDaAndDoFormListVo vo = deliverFormReportServiceApi.queryBDFormListsSum(qo);
+			vo.setSalesman("合计：");
+			exportList.add(vo);
+			String fileName = "BD业绩报表";
+			String templateName = ExportExcelConstant.DILIVER_REPORT;
+			// 导出Excel
+			exportListForXLSX(response, exportList, fileName, templateName);
+		} catch (Exception e) {
+			LOG.error("DeliverReportController:exportBDList:", e);
+		}
+	}
+
 }
