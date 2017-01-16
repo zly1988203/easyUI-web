@@ -59,6 +59,8 @@ function initDatagridRequire(){
 					}
 					else if(row.formType=="销售"){
 						return value 	
+					}else if(row.formType=="礼品兑换"){
+						return value 	
 					}
                }
             },
