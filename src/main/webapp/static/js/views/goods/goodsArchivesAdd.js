@@ -375,6 +375,11 @@ function saveGoodsArchives(){
 		return;
 	}
 	
+	if(parseFloat($("#salePrice").val())< parseFloat($("#vipPrice").val())){
+		$.messager.alert("提示","零售价不能小于会员价");
+		return;
+	}
+	
 	//校验商品条码是否重复
 	var pricingType = $('#pricingType option:selected').val();
 	var barCode = $("#barCode").val();
