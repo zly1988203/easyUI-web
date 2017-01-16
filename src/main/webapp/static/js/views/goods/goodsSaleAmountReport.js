@@ -133,7 +133,8 @@ function queryForm(){
 	$("#endCount").attr("value",null);
 	var fromObjStr = $('#queryForm').serializeObject();
 	console.log(fromObjStr);
-	
+	// 去除编码
+    fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1)
 	$("#goodsSaleAmountReport").datagrid("options").method = "post";
 	$("#goodsSaleAmountReport").datagrid('options').url = contextPath + '/goods/goodsSaleAmount/goodsSaleAmountList';
 	$("#goodsSaleAmountReport").datagrid('load', fromObjStr);
@@ -148,7 +149,8 @@ function selectBranches(){
 		$("#branchId").val(data.branchesId);
 		//转义字符
 		var baranchesId=data.branchName.replace(/&mdash;&mdash;/,"——");
-		$("#branchName").val(baranchesId);
+        console.log(baranchesId)
+        $("#branchName").val("["+data.branchCode+"]"+baranchesId);
 	},'BF','');
 }
 var dg;

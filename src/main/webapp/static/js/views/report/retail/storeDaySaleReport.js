@@ -812,16 +812,19 @@ function initDatagridRequire(){
 //查询入库单
 function queryForm(){
  if($("#branchName").val()==""){
-	        messager("请选择店铺名称");
-	        return;
-	    } 
+    messager("请选择店铺名称");
+    return;
+ } 
  $("#startCount").attr("value",null);
 	$("#endCount").attr("value",null);
 	var fromObjStr = $('#queryForm').serializeObject();
+	// 去除编码
+	fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1)
 	$("#storeDaySale").datagrid("options").method = "post";
 	$("#storeDaySale").datagrid('options').url = contextPath + '/storeDaySale/report/getStoreDaySaleList';
 	$("#storeDaySale").datagrid('load', fromObjStr);
 }
+
 
 /**
  * 店铺名称
@@ -829,7 +832,7 @@ function queryForm(){
 function searchBranch(){
 	new publicAgencyService(function(data){
 		$("#branchId").val(data.branchesId);
-		$("#branchName").val(data.branchName);
+		$("#branchName").val("["+data.branchCode+"]"+data.branchName);
 	},'BF','');
 }
 var dg;

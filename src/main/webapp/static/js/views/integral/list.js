@@ -127,6 +127,8 @@ function deleteData(){
 //查询
 function queryList(){
 	var fromObjStr = $('#searchForm').serializeObject();
+  // 去除编码
+  fromObjStr.branchNameOrCode = fromObjStr.branchNameOrCode.substring(fromObjStr.branchNameOrCode.lastIndexOf(']')+1)
 	dg.datagrid('options').method = "post";
 	dg.datagrid('options').url = contextPath+'/integral/giftManager/getList';
 	dg.datagrid('load', fromObjStr);
@@ -137,7 +139,8 @@ function queryList(){
  */
 function selectBranch (){
 	new publicAgencyService(function(data){
-		$("#branchNameOrCode").val(data.branchName);
+    console.log(data)
+		$("#branchNameOrCode").val("["+data.branchCode+"]"+data.branchName);
 	},"","");
 }
 

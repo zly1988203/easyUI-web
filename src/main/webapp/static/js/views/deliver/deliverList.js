@@ -117,6 +117,10 @@ function addDeliverForm(){
 //查询要货单
 function queryForm(){
 	var fromObjStr = $('#queryForm').serializeObject();
+	// 去除编码
+    fromObjStr.targetBranchName = fromObjStr.targetBranchName.substring(fromObjStr.targetBranchName.lastIndexOf(']')+1)
+    fromObjStr.operateUserName = fromObjStr.operateUserName.substring(fromObjStr.operateUserName.lastIndexOf(']')+1)
+
 	$("#deliverFormList").datagrid("options").method = "post";
 	$("#deliverFormList").datagrid('options').url = contextPath + '/form/deliverForm/getDeliverForms';
 	$("#deliverFormList").datagrid('load', fromObjStr);
@@ -162,7 +166,8 @@ function delDeliverForm(){
 function selectOperator(){
 	new publicOperatorService(function(data){
 //		$("#operateUserId").val(data.id);
-		$("#operateUserName").val(data.userName);
+		console.log(data.userCode)
+		$("#operateUserName").val("["+data.userCode+"]"+data.userName);
 	});
 }
 /**
@@ -171,7 +176,8 @@ function selectOperator(){
 function selectBranches(){
 	new publicAgencyService(function(data){
 //		$("#targetBranchId").val(data.branchesId);
-		$("#targetBranchName").val(data.branchName);
+		//$("#targetBranchName").val(data.branchName);
+		$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
 	},'',targetBranchId);
 }
 

@@ -191,12 +191,16 @@ function addDeliverForm(){
 //查询入库单
 function queryForm(){
 	branchName = $("#branchName").val();
+	branchName = branchName.substring(branchName.lastIndexOf(']')+1)
 	if (indexTab === 0) {
 		setQueryDataDOBranbch();
 	} else {
 		setQueryDataDIBranbch();
 	}
 	var fromObjStr = $('#queryForm').serializeObject();
+	// 去除编码
+    fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1)
+    fromObjStr.operateUserName = fromObjStr.operateUserName.substring(fromObjStr.operateUserName.lastIndexOf(']')+1)
 	//$("#deliverFormList").datagrid("options").method = "post";
 	//$("#deliverFormList").datagrid('options').url = contextPath + '/form/deliverForm/getDeliverForms';
 	$("#" + tableIdName).datagrid('load',fromObjStr);
@@ -252,8 +256,8 @@ var branchName;
 function selectBranches(){
 	new publicAgencyService(function(data){
 		//$("#sourceBranchId").val(data.branchesId);
-		branchName = data.branchName;
-		$("#branchName").val(branchName);
+		//$("#branchName").val(branchName);
+		$("#branchName").val("["+data.branchCode+"]"+data.branchName);
 	},'',targetBranchId);
 }
 
@@ -274,7 +278,9 @@ function printDesign(){
 function selectOperator(){
 	new publicOperatorService(function(data){
 //		$("#operateUserId").val(data.id);
-		$("#operateUserName").val(data.userName);
+		//$("#operateUserName").val(data.userName);
+		console.log(data)
+		$("#operateUserName").val("["+data.userCode+"]"+data.userName);
 	});
 }
 
