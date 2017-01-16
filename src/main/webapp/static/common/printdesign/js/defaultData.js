@@ -115,10 +115,10 @@ var defaultData = {
 			text : "采购订单"
 		}, {
 			type : "label",
-			text : "供应商："
+			text : "供应商名称："
 		}, {
 			type : "holder",
-			text : "_供应商"
+			text : "_供应商名称"
 		}, {
 			type : "label",
 			text : "供应商电话号码："

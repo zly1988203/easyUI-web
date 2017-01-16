@@ -64,10 +64,10 @@ function initDatagridEditOrder(){
             }
         },
     })
-    var formId = $("#formId").val();
+   
     $("#gridEditOrder").datagrid({
-    	method:'post',
-        url:contextPath+"/form/purchase/detailList?formId="+formId,
+//    	method:'post',
+//        url:contextPath+"/form/purchase/detailList?formId="+formId,
         align:'center',
         singleSelect:true,  //单选  false多选
         rownumbers:true,    //序号
@@ -126,6 +126,24 @@ function initDatagridEditOrder(){
                     }
                 },
             },
+            
+            {field:'maxlargeNum',title:'原箱数',width:'80px',align:'right',hidden:true,
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
+            {field:'maxRealNum',title:'原数据',width:'80px',align:'right',hidden:true,
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+             },
+            
             {field:'price',title:'单价',width:'80px',align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
@@ -142,6 +160,8 @@ function initDatagridEditOrder(){
                     }
                 },
             },
+            
+            
             {field:'amount',title:'金额',width:'80px',align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
@@ -191,13 +211,13 @@ function initDatagridEditOrder(){
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
-                //editor:{
-                //    type:'numberbox',
-                //    options:{
-                //        min:0,
-                //        precision:4,
-                //    }
-                //},
+                editor:{
+                    type:'numberbox',
+                    options:{
+                        min:0,
+                        precision:4,
+                    }
+                },
             },
 
             {field:'tax',title:'税率',width:'80px',align:'right',
@@ -263,25 +283,67 @@ function initDatagridEditOrder(){
                 gridHandel.setSelectFieldName("skuCode");
             }
         },
+
         onLoadSuccess : function() {
             gridHandel.setDatagridHeader("center");
+          
             updateFooter();
         }
     });
     gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
         $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),
         $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault)]);
+		
+    getGridData();
+}
+
+function getGridData(){
+	
+	 var formId = $("#formId").val();
+	
+	$.ajax({
+        method : 'Post',
+        url : contextPath+"/form/purchase/detailList?formId="+formId,
+        async : false,
+        dataType : 'json',
+        success : function(data) {
+        	//根据选择的采购单，带出采购单的信息
+    	    var keyrealNum = {
+    	        realNum:'maxRealNum',
+    	    };
+    	    
+    	    var keylargeNum = {
+    	    		largeNum:'maxlargeNum',
+        	    };
+    	    
+    	    if(data && data.rows.length > 0){
+    	        var newRows = gFunUpdateKey(data.rows,keyrealNum);
+    	        var newRows = gFunUpdateKey(newRows,keylargeNum);
+    	        $("#gridEditOrder").datagrid("loadData",newRows);
+    	    }
+        },
+        error : function() {
+            alert('error');
+        }
+    });
 }
 
 //限制转换次数
 var n = 0;
 var m = 0;
+
+var i = 0;
+var j = 0;
+
 //监听商品箱数
 function onChangeLargeNum(newV,oldV){
-	if(m > 0){
+	if(m === 1 || i===1){
 		m = 0;
+		i = 0;
 		return;
 	}
+	
+    var maxlargeNum = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'maxlargeNum');
 	
     if(!gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuCode')){
         return;
@@ -292,8 +354,20 @@ function onChangeLargeNum(newV,oldV){
         return;
     }
     
-    n++;
 
+    if(maxlargeNum&&(parseFloat(newV)>parseFloat(maxlargeNum))){
+    	i = 1;
+        messager("输入商品箱数不能大于原箱数"+maxlargeNum);
+        gridHandel.setFieldValue('largeNum',oldV);
+        return;
+    }
+    
+    n = 1;
+
+    //金额 = 规格 * 单价 * 箱数
+    var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
+    gridHandel.setFieldValue('amount',parseFloat(purchaseSpecValue*priceValue*newV).toFixed(4));
+    
     var realNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'realNum');
     var realNumVal2 = parseFloat(purchaseSpecValue*newV).toFixed(4);//parseFloat(Math.round(purchaseSpecValue*newV*1000)/1000).toFixed(4);
     if(realNumVal&&Math.abs(realNumVal2-realNumVal)>0.0001){
@@ -304,10 +378,13 @@ function onChangeLargeNum(newV,oldV){
 }
 //监听商品数量
 function onChangeRealNum(newV,oldV) {
-	if(n > 0){
+	if(n === 1 || j === 1){
 		n = 0;
+		j = 0;
 		return;
 	}
+	
+	var maxRealNum = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'maxRealNum');
 	
     if(!gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuCode')){
         return;
@@ -318,17 +395,17 @@ function onChangeRealNum(newV,oldV) {
         return;
     }
     
-    var maxRealNum = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'maxRealNum');
+  
     if(maxRealNum&&(parseFloat(newV)>parseFloat(maxRealNum))){
+    	j = 1;
         messager("输入商品数量不能大于采购数量"+maxRealNum);
-        gridHandel.setFieldValue('realNum',maxRealNum);
+        gridHandel.setFieldValue('realNum',oldV);
         return;
     }
     
-	m++;
+	m = 1;
 	
     var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
-
     gridHandel.setFieldValue('amount',priceValue*newV);                         //金额=数量*单价
 
     var largeNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'largeNum');
@@ -433,6 +510,7 @@ function selectGoods(searchKey){
 
         $("#gridEditOrder").datagrid("loadData",newRows);
 
+        gridHandel.setLoadFocus();
         setTimeout(function(){
             gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
             gridHandel.setSelectFieldName("largeNum");
@@ -591,7 +669,15 @@ function selectPurchaseForm(){
         var keyNames = {
             realNum:'maxRealNum',
         };
+        
         var newRows = gFunUpdateKey(data.list,keyNames);
+        
+	    var keylargeNum = {
+	    		largeNum:'maxlargeNum',
+    	    };
+	    
+        var newRows = gFunUpdateKey(newRows,keylargeNum);
+        
         $("#gridEditOrder").datagrid("loadData",newRows);
         //供应商
         $("#supplierId").val(data.form.supplierId);

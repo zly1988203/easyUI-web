@@ -9,9 +9,21 @@ $(function(){
 		printRows($(this).val());
 
 	})
-	$('#discount').on('keyup',function(){
+	
+	$('#discount').bind('input onblur',function(){
+		if(isNaN($(this).val()) || $(this).val() > 10){
+//			$(this).execCommand('undo');
+			$(this).val("");
+			return;
+		}
+		
 		discountRows($(this).val());
 	})
+	
+//	$('#discount').on('keyup',function(){
+//		discountRows($(this).val());
+//	})
+	
 });
 
 var gridHandel = new GridClass();
@@ -58,6 +70,7 @@ function initPricePrintGrid() {
 		        		   options:{
 		        			   min:0,
 		        			   precision:2,
+		        			   onChange: onChangeSalePrice,
 		        		   }
 		        	   },
 		        	   formatter:function(value,row,index){
@@ -70,6 +83,7 @@ function initPricePrintGrid() {
 		        		   options:{
 		        			   min:0,
 		        			   precision:2,
+		        			   onChange: onChangePromotionPrice,
 		        		   }
 		        	   },
 		        	   formatter:function(value,row,index){
@@ -102,6 +116,34 @@ function initPricePrintGrid() {
 	});
 }
 
+
+function onChangeSalePrice(newV,oldV){
+    if(!gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuName')){
+        return;
+    }
+    
+	var promotionPrice = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'promotionPrice');
+	if(parseFloat(promotionPrice) > parseFloat(newV)){
+		  messager("销售价不能小于促销价");
+		  gridHandel.setFieldValue('salePrice',oldV);
+	        return;
+	}
+}
+
+
+function onChangePromotionPrice(newV,oldV){
+	
+    if(!gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuName')){
+        return;
+    }
+	
+	var salePriceVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'salePrice');
+	if(parseFloat(newV) > parseFloat(salePriceVal)){
+		  messager("促销价不能大于销售价");
+		  gridHandel.setFieldValue('promotionPrice',oldV);
+	        return;
+	}
+}
 
 //导入
 function toImportproduct(type){
@@ -156,7 +198,11 @@ function discountRows(discountNum){
 
 	for(var i = 0;i < newData.length;i++){
 
-		newData[i].promotionPrice= discountNum*newData[i].salePrice/10;
+		if(""==discountNum || 10 == discountNum || 0 == discountNum){
+			newData[i].promotionPrice= newData[i].salePrice;
+		}else{
+			newData[i].promotionPrice= discountNum*newData[i].salePrice/10;
+		}
 
 		rowIndex = $("#"+datagridId).datagrid('getRowIndex',newData[i]);
 		//更新行数据

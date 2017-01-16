@@ -63,7 +63,11 @@ function initDatagridEditRequireOrder(){
         enterCallBack:function(arg){
             if(arg&&arg=="add"){
                 gridHandel.addRow(parseInt(gridHandel.getSelectRowIndex())+1,gridDefault);
-               
+                setTimeout(function(){
+                    gridHandel.setBeginRow(gridHandel.getSelectRowIndex()+1);
+                    gridHandel.setSelectFieldName("skuCode");
+                    gridHandel.setFieldFocus(gridHandel.getFieldTarget('skuCode'));
+                },100)
             }else{
             	branchId = $("#sourceBranchId").val();
                 selectGoods(arg);
@@ -118,11 +122,13 @@ function initDatagridEditRequireOrder(){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                     }
+                    if(!value){
+                        row["largeNum"] = parseFloat(value||0).toFixed(2);
+                    }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
                 editor:{
                     type:'numberbox',
-                    value:0,
                     options:{
                         min:0,
                         precision:4,
@@ -135,11 +141,13 @@ function initDatagridEditRequireOrder(){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                     }
+                    if(!value){
+                        row["applyNum"] = parseFloat(value||0).toFixed(2);
+                    }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
                 editor:{
                     type:'numberbox',
-                    value:'0',
                     options:{
                         min:0,
                         precision:4,
@@ -152,25 +160,43 @@ function initDatagridEditRequireOrder(){
                     if(row.isFooter){
                         return
                     }
+                    if(!row.price){
+                    	row.price = parseFloat(value||0).toFixed(2);
+                    }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                }
+                },
+                editor:{
+                    type:'numberbox',
+                    options:{
+                        disabled:true,
+                        min:0,
+                        precision:4,
+//                        onChange: onChangePrice,
+                    }
+                },
+            
             },
             {field:'amount',title:'金额',width:'80px',align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                     }
+                    
+                    if(!row.amount){
+                    	row.amount = parseFloat(value||0).toFixed(2);
+                    }
+                    
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
-//                editor:{
-//                    type:'numberbox',
-//                    options:{
-//                        disabled:true,
-//                        min:0,
-//                        precision:2,
+                editor:{
+                    type:'numberbox',
+                    options:{
+                        disabled:true,
+                        min:0,
+                        precision:4,
 //                        onChange: onChangeAmount,
-//                    }
-//                }
+                    }
+                }
             },
             {field:'isGift',title:'赠送',width:'80px',align:'left',
                 formatter:function(value,row){
@@ -205,11 +231,11 @@ function initDatagridEditRequireOrder(){
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
-//                options:{
-//                    min:0,
-//                    disabled:true,
-//                    precision:2,
-//                }
+                options:{
+                    min:0,
+                    disabled:true,
+                    precision:2,
+                }
             },
             {field:'taxAmount',title:'税额',width:'80px',align:'right',
                 formatter:function(value,row){
@@ -228,6 +254,17 @@ function initDatagridEditRequireOrder(){
 //                        precision:2,
 //                    }
 //                }
+            },
+            {field: 'targetStock', title: '店铺库存', width: '80px', align: 'right',
+                formatter: function (value, row, index) {
+                    if (row.isFooter) {
+                        return
+                    }
+                    if (!row.sourceStock) {
+                        row.sourceStock = parseFloat(value || 0).toFixed(2);
+                    }
+                    return '<b>' + parseFloat(value || 0).toFixed(2) + '</b>';
+                }
             },
             {field:'sourceStock',title:'目标库存',width:'80px',align:'right',
                 formatter:function(value,row,index){
@@ -303,10 +340,14 @@ function onChangeLargeNum(newV,oldV){
     
     n++;
 
+    //金额 = 规格 * 单价 * 箱数
+    var priceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
+    gridHandel.setFieldValue('amount',parseFloat(purchaseSpecValue*priceValue*newV).toFixed(4));
+    
     var realNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'applyNum');
     var realNumVal2 = parseFloat(purchaseSpecValue*newV).toFixed(4);//parseFloat(Math.round(purchaseSpecValue*newV*1000)/1000).toFixed(4);
     if(realNumVal&&Math.abs(realNumVal2-realNumVal)>0.0001){
-        gridHandel.setFieldValue('applyNum',(purchaseSpecValue*newV).toFixed(4));//数量=商品规格*箱数
+        gridHandel.setFieldValue('applyNum',(purchaseSpecValue*newV).toFixed(4));//数量=商品规格*箱数 
     }
 
     updateFooter();
@@ -424,6 +465,13 @@ function selectGoods(searchKey){
             $("#"+gridHandel.getGridName()).datagrid("acceptChanges");
         }
         selectStockAndPrice(data);
+        gridHandel.setLoadFocus();
+        setTimeout(function(){
+            gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
+            gridHandel.setSelectFieldName("largeNum");
+            gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
+        },100)
+        
     },searchKey,'',sourceBranchId,targetBranchId,branchId,'');
     branchId = '';
 }

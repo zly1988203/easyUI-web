@@ -10,6 +10,8 @@ package com.okdeer.jxc.controller.deliver;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONObject;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,7 +31,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.alibaba.druid.util.StringUtils;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.okdeer.jxc.branch.entity.BranchSpec;
@@ -72,6 +74,7 @@ import com.okdeer.jxc.goods.entity.GoodsSelect;
 import com.okdeer.jxc.goods.entity.GoodsSelectDeliver;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
+import com.okdeer.jxc.utils.poi.ExcelReaderUtil;
 
 /**
  * ClassName: DeliverFormController 
@@ -87,8 +90,7 @@ import com.okdeer.jxc.utils.UserUtil;
  */
 @Controller
 @RequestMapping("form/deliverForm")
-public class DeliverFormController extends
-BasePrintController<DeliverFormController, DeliverFormList> {
+public class DeliverFormController extends BasePrintController<DeliverFormController, DeliverFormList> {
 
 	@Reference(version = "1.0.0", check = false)
 	private QueryDeliverFormServiceApi queryDeliverFormServiceApi;
@@ -198,21 +200,17 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 		SysUser user = getCurrentUser();
 		String deliverType = vo.getDeliverType();
 		model.addAttribute("user", user);
-		BranchesGrow branchesGrow = branchesServiceApi.queryBranchesById(user
-				.getBranchId());
+		BranchesGrow branchesGrow = branchesServiceApi.queryBranchesById(user.getBranchId());
 		branchesGrow.setMinAmount(branchesGrow.getTargetBranchMinAmount());
 		Integer type = branchesGrow.getTargetBranchType();
 		if (FormType.DA.toString().equals(deliverType)) {
-			if (BranchTypeEnum.HEAD_QUARTERS.getCode().intValue() == type
-					.intValue()) {
+			if (BranchTypeEnum.HEAD_QUARTERS.getCode().intValue() == type.intValue()) {
 				// 如果是总店，则不让进行任何业务操作，只能查询
 				// return "form/deliver/deliverList";
-			} else if (BranchTypeEnum.BRANCH_OFFICE.getCode().intValue() == type
-					.intValue()) {
+			} else if (BranchTypeEnum.BRANCH_OFFICE.getCode().intValue() == type.intValue()) {
 				// 判断要货机构是否是分店，如果是分店，要货机构可以选择该分店下的所有机构，有效时间为该分店的，起订金额为目标机构的
 				branchesGrow
-				.setValidityTime(branchesGrow
-						.getTargetBranchValidityNumDays() == 0 ? SysConstant.VALIDITY_DAY
+						.setValidityTime(branchesGrow.getTargetBranchValidityNumDays() == 0 ? SysConstant.VALIDITY_DAY
 								: branchesGrow.getTargetBranchValidityNumDays());
 				branchesGrow.setSourceBranchId("");
 				branchesGrow.setSourceBranchName("");
@@ -265,8 +263,7 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 		model.addAttribute("form", form);
 		LOG.info(LogConstant.PAGE, form.toString());
 		// 待审核，可修改
-		if (DeliverAuditStatusEnum.WAIT_CHECK.getName()
-				.equals(form.getStatus())) {
+		if (DeliverAuditStatusEnum.WAIT_CHECK.getName().equals(form.getStatus())) {
 			if (FormType.DA.toString().equals(form.getFormType())) {
 				Branches branches = branchesServiceApi.getBranchInfoById(form.getTargetBranchId());
 				model.addAttribute("minAmount", branches.getMinAmount());
@@ -316,8 +313,7 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 	 */
 	@RequestMapping(value = "getDeliverForms", method = RequestMethod.POST)
 	@ResponseBody
-	public PageUtils<DeliverForm> getDeliverForms(
-			QueryDeliverFormVo vo,
+	public PageUtils<DeliverForm> getDeliverForms(QueryDeliverFormVo vo,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		LOG.info(LogConstant.OUT_PARAM, vo.toString());
@@ -334,8 +330,7 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 					vo.setTargetBranchId(UserUtil.getCurrBranchId());
 				}
 			}
-			PageUtils<DeliverForm> deliverForms = queryDeliverFormServiceApi
-					.queryLists(vo);
+			PageUtils<DeliverForm> deliverForms = queryDeliverFormServiceApi.queryLists(vo);
 			LOG.info(LogConstant.PAGE, deliverForms.toString());
 			return deliverForms;
 		} catch (Exception e) {
@@ -364,12 +359,11 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 			String getId = UuidUtils.getUuid();
 			String formNo = "";
 			if (StringUtils.isEmpty(vo.getBranchCode())) {
-				formNo = orderNoUtils.getOrderNo(new StringBuilder(vo
-						.getFormType()).append(UserUtil.getCurrBranchCode())
-						.toString());
+				formNo = orderNoUtils.getOrderNo(new StringBuilder(vo.getFormType()).append(
+						UserUtil.getCurrBranchCode()).toString());
 			} else {
-				formNo = orderNoUtils.getOrderNo(new StringBuilder(vo
-						.getFormType()).append(vo.getBranchCode()).toString());
+				formNo = orderNoUtils.getOrderNo(new StringBuilder(vo.getFormType()).append(vo.getBranchCode())
+						.toString());
 			}
 			// 获取单号
 			// 获取登录人
@@ -383,8 +377,7 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 			vo.setCreaterBranchId(UserUtil.getCurrBranchId());
 			vo.setValue(user.getId(), user.getId(), null, null);
 			vo.setFormSources(FormSourcesEnum.SYSTEM.getKey());
-			for (DeliverFormListVo deliverFormListVo : vo
-					.getDeliverFormListVo()) {
+			for (DeliverFormListVo deliverFormListVo : vo.getDeliverFormListVo()) {
 				deliverFormListVo.setDeliverFormListId(UuidUtils.getUuid());
 				deliverFormListVo.setFormNo(formNo);
 				deliverFormListVo.setFormId(getId);
@@ -427,8 +420,7 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 			vo.setDealStatus(DeliverStatusEnum.PENDING.getIndex());
 			vo.setStatus(DeliverAuditStatusEnum.WAIT_CHECK.getIndex());
 			vo.setDisabled(DisabledEnum.NO.getIndex());
-			for (DeliverFormListVo deliverFormListVo : vo
-					.getDeliverFormListVo()) {
+			for (DeliverFormListVo deliverFormListVo : vo.getDeliverFormListVo()) {
 				deliverFormListVo.setDeliverFormListId(UuidUtils.getUuid());
 				deliverFormListVo.setFormId(vo.getDeliverFormId());
 				deliverFormListVo.setFormNo(vo.getFormNo());
@@ -507,16 +499,13 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 	@ResponseBody
 	public RespJson getSourceBranch(String branchesId) {
 		RespJson respJson = RespJson.success();
-		BranchesGrow branchesGrow = branchesServiceApi
-				.queryBranchesById(branchesId);
+		BranchesGrow branchesGrow = branchesServiceApi.queryBranchesById(branchesId);
 		respJson.put("sourceBranchId", branchesGrow.getSourceBranchId());
 		respJson.put("sourceBranchName", branchesGrow.getSourceBranchName());
-		respJson.put(
-				"validityTime",
-				DateUtils.getDaysAfter(
-						DateUtils.getCurrDate(),
-						branchesGrow.getSourceBranchValidityNumDays() == 0 ? SysConstant.VALIDITY_DAY
-								: branchesGrow.getSourceBranchValidityNumDays()));
+		respJson.put("validityTime", DateUtils.getDaysAfter(
+				DateUtils.getCurrDate(),
+				branchesGrow.getSourceBranchValidityNumDays() == 0 ? SysConstant.VALIDITY_DAY : branchesGrow
+						.getSourceBranchValidityNumDays()));
 		respJson.put("salesman", branchesGrow.getSalesman());
 		respJson.put("minAmount", branchesGrow.getTargetBranchMinAmount());
 		return respJson;
@@ -544,38 +533,49 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 	@Override
 	protected Map<String, Object> getPrintReplace(String formNo) {
 		Map<String, Object> replaceMap = new HashMap<String, Object>();
-		DeliverForm deliverForm = deliverFormServiceApi
-				.queryDeliverFormById(formNo);
+		DeliverForm deliverForm = deliverFormServiceApi.queryDeliverFormById(formNo);
 		// 单号
 		replaceMap.put("_单号", deliverForm.getFormNo() != null ? deliverForm.getFormNo() : "");
 		replaceMap.put("_订单编号", deliverForm.getFormNo() != null ? deliverForm.getFormNo() : "");
 		replaceMap.put("formNo", deliverForm.getFormNo() != null ? deliverForm.getFormNo() : "");
 		// 要货机构
 		replaceMap.put("_要货机构", deliverForm.getTargetBranchName() != null ? deliverForm.getTargetBranchName() : "");
-		replaceMap.put("targetBranchName", deliverForm.getTargetBranchName() != null ? deliverForm.getTargetBranchName() : "");
-		replaceMap.put("targetBranchAddress", deliverForm.getTargetBranchAddress() != null ? deliverForm.getTargetBranchAddress() : "");
-		replaceMap.put("targetBranchCode", deliverForm.getTargetBranchCode() != null ? deliverForm.getTargetBranchCode() : "");
+		replaceMap.put("targetBranchName",
+				deliverForm.getTargetBranchName() != null ? deliverForm.getTargetBranchName() : "");
+		replaceMap.put("targetBranchAddress",
+				deliverForm.getTargetBranchAddress() != null ? deliverForm.getTargetBranchAddress() : "");
+		replaceMap.put("targetBranchCode",
+				deliverForm.getTargetBranchCode() != null ? deliverForm.getTargetBranchCode() : "");
 		// 发货机构
 		replaceMap.put("_发货机构", deliverForm.getSourceBranchName() != null ? deliverForm.getSourceBranchName() : "");
-		replaceMap.put("sourceBranchName", deliverForm.getSourceBranchName() != null ? deliverForm.getSourceBranchName() : "");
+		replaceMap.put("sourceBranchName",
+				deliverForm.getSourceBranchName() != null ? deliverForm.getSourceBranchName() : "");
 		// 收货机构
 		replaceMap.put("_收货机构", deliverForm.getSourceBranchName() != null ? deliverForm.getSourceBranchName() : "");
-		replaceMap.put("sourceBranchName", deliverForm.getSourceBranchName() != null ? deliverForm.getSourceBranchName() : "");
+		replaceMap.put("sourceBranchName",
+				deliverForm.getSourceBranchName() != null ? deliverForm.getSourceBranchName() : "");
 		// 有效期限
 		replaceMap.put("_有效期限", deliverForm.getValidityTime() != null ? deliverForm.getValidityTime() : "");
 		replaceMap.put("validityTime", deliverForm.getValidityTime() != null ? deliverForm.getValidityTime() : "");
 		// 备注
 		replaceMap.put("_备注", deliverForm.getTargetBranchRemark() != null ? deliverForm.getTargetBranchRemark() : "");
-		replaceMap.put("targetBranchRemark", deliverForm.getTargetBranchRemark() != null ? deliverForm.getTargetBranchRemark() : "");
+		replaceMap.put("targetBranchRemark",
+				deliverForm.getTargetBranchRemark() != null ? deliverForm.getTargetBranchRemark() : "");
 		// 制单人员
 		replaceMap.put("_制单人员", deliverForm.getCreateUserName() != null ? deliverForm.getCreateUserName() : "");
-		replaceMap.put("createUserName", deliverForm.getCreateUserName() != null ? deliverForm.getCreateUserName() : "");
+		replaceMap
+				.put("createUserName", deliverForm.getCreateUserName() != null ? deliverForm.getCreateUserName() : "");
 		// 制单日期
 		replaceMap.put("_制单日期", deliverForm.getCreateTime() != null ? deliverForm.getCreateTime() : "");
-		replaceMap.put("createTime", deliverForm.getCreateTime() != null ? DateUtils.formatDate(deliverForm.getCreateTime(), "yyyy-MM-dd") : "");
+		replaceMap.put("createTime",
+				deliverForm.getCreateTime() != null ? DateUtils.formatDate(deliverForm.getCreateTime(), "yyyy-MM-dd")
+						: "");
 		// 审核日期
 		replaceMap.put("_审核日期", deliverForm.getValidityTime() != null ? deliverForm.getValidityTime() : "");
-		replaceMap.put("validityTime", deliverForm.getValidityTime() != null ? DateUtils.formatDate(deliverForm.getValidityTime(), "yyyy-MM-dd") : "");
+		replaceMap.put(
+				"validityTime",
+				deliverForm.getValidityTime() != null ? DateUtils.formatDate(deliverForm.getValidityTime(),
+						"yyyy-MM-dd") : "");
 		// 审核人员
 		replaceMap.put("_审核人员", deliverForm.getValidUserName() != null ? deliverForm.getValidUserName() : "");
 		replaceMap.put("validUserName", deliverForm.getValidUserName() != null ? deliverForm.getValidUserName() : "");
@@ -591,7 +591,8 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 		replaceMap.put("salesmanName", deliverForm.getSalesmanName() != null ? deliverForm.getSalesmanName() : "");
 		// 申请
 		replaceMap.put("_申请人", deliverForm.getTargetBranchName() != null ? deliverForm.getTargetBranchName() : "");
-		replaceMap.put("targetBranchName", deliverForm.getTargetBranchName() != null ? deliverForm.getTargetBranchName() : "");
+		replaceMap.put("targetBranchName",
+				deliverForm.getTargetBranchName() != null ? deliverForm.getTargetBranchName() : "");
 		// 联系人
 		replaceMap.put("_联系人", deliverForm.getContacts() != null ? deliverForm.getContacts() : "");
 		replaceMap.put("contacts", deliverForm.getContacts() != null ? deliverForm.getContacts() : "");
@@ -608,8 +609,8 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 		replaceMap.put("_人民币总金额大写", NumberToCN.number2CNMontrayUnit(deliverForm.getAmount()));
 		replaceMap.put("amountCN", NumberToCN.number2CNMontrayUnit(deliverForm.getAmount()));
 		// 总金额
-		replaceMap.put("_总金额",BigDecimalUtils.formatTwoDecimal(deliverForm.getAmount()));
-		replaceMap.put("amount",BigDecimalUtils.formatTwoDecimal(deliverForm.getAmount()));
+		replaceMap.put("_总金额", BigDecimalUtils.formatTwoDecimal(deliverForm.getAmount()));
+		replaceMap.put("amount", BigDecimalUtils.formatTwoDecimal(deliverForm.getAmount()));
 
 		replaceMap.put("daRemark", deliverForm.getDaRemark() != null ? deliverForm.getDaRemark() : "");
 
@@ -624,6 +625,7 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 	protected List<DeliverFormList> getPrintDetail(String formNo) {
 		return queryDeliverFormListServiceApi.getDeliverListById(formNo);
 	}
+
 	// end by lijy02
 
 	/**
@@ -651,39 +653,155 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 			SysUser user = UserUtil.getCurrentUser();
 			// 文件流
 			InputStream is = file.getInputStream();
+			// 文件流
+			InputStream tempIs = file.getInputStream();
 			// 获取文件名
 			String fileName = file.getOriginalFilename();
+			// 获取标题
+			List<String> firstColumn = ExcelReaderUtil.readXlsxTitle(tempIs);
+
 			String[] fields = null;
 			if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {
-				fields = ImportExcelConstant.DELIVER_GOODS_SKUCODE;
+				if (firstColumn.indexOf(GoodsSelectImportHandle.LARGE_NUM) == 1) {
+					fields = ImportExcelConstant.DELIVER_GOODS_SKUCODE_LARGE_NUM;
+				} else {
+					fields = ImportExcelConstant.DELIVER_GOODS_SKUCODE_NUM;
+					type = GoodsSelectImportHandle.TYPE_SKU_CODE_NUM;
+				}
 
 			} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {
-				fields = ImportExcelConstant.DELIVER_GOODS_BARCODE;
+				if (firstColumn.indexOf(GoodsSelectImportHandle.LARGE_NUM) == 1) {
+					fields = ImportExcelConstant.DELIVER_GOODS_BARCODE_LARGE_NUM;
+				} else {
+					fields = ImportExcelConstant.DELIVER_GOODS_BARCODE_NUM;
+					type = GoodsSelectImportHandle.TYPE_BAR_CODE_NUM;
+				}
 			}
 			Map<String, String> map = new HashMap<String, String>();
 			map.put("targetBranchId", targetBranchId);
 			map.put("sourceBranchId", sourceBranchId);
+			final String finalType = type;
 			GoodsSelectImportVo<GoodsSelectDeliver> vo = goodsSelectImportComponent.importSelectGoods(fileName, is,
-					fields, new GoodsSelectDeliver(), null, user.getId(), type,
-					"/form/deliverForm/downloadErrorFile", new GoodsSelectImportBusinessValid() {
-				@Override
-				public void formatter(List<? extends GoodsSelect> list) {
-					for (GoodsSelect objGoods : list) {
-						GoodsSelectDeliver obj = (GoodsSelectDeliver) objGoods;
-						if(!StringUtils.isEmpty(obj.getLargeNum())&&obj.getDistributionSpec()!=null){
-									obj.setNum(new BigDecimal(obj.getLargeNum()).multiply(obj.getDistributionSpec())
-											.toEngineeringString());
+					fields, new GoodsSelectDeliver(), null, user.getId(), type, "/form/deliverForm/downloadErrorFile",
+					new GoodsSelectImportBusinessValid() {
+
+						@Override
+						public void formatter(List<? extends GoodsSelect> successData,
+								List<JSONObject> excelListSuccessData, List<JSONObject> excelListErrorData) {
+							if (firstColumn.indexOf(GoodsSelectImportHandle.LARGE_NUM) == 1) {
+								for (GoodsSelect objGoods : successData) {
+									GoodsSelectDeliver obj = (GoodsSelectDeliver) objGoods;
+									if (!StringUtils.isEmpty(obj.getLargeNum()) && obj.getDistributionSpec() != null) {
+										obj.setNum(new BigDecimal(obj.getLargeNum())
+												.multiply(obj.getDistributionSpec()).toEngineeringString());
+									}
+								}
+							} else {
+								Map<String, String> map = new HashMap<String, String>();
+								List<GoodsSelectDeliver> lists = new ArrayList<GoodsSelectDeliver>();
+								for (int i = 0; i < successData.size(); i++) {
+									GoodsSelectDeliver obj = (GoodsSelectDeliver) successData.get(i);
+									if (checkNumAndDistributionSpec(obj, excelListErrorData, finalType, map)) {
+										// 设置箱数
+										obj.setLargeNum(new BigDecimal(obj.getNum()).divide(obj.getDistributionSpec(),
+												4, RoundingMode.HALF_UP).toEngineeringString());
+									} else {
+										lists.add(obj);
+									}
+								}
+								for (GoodsSelectDeliver obj : lists) {
+									successData.remove(obj);
+								}
+								// 从新组织数据
+								setSuccessData(map, excelListSuccessData, finalType);
+							}
 						}
-					}
-				}
 
-				@Override
-				public void businessValid(List<JSONObject> list, String[] excelField) {
-				}
+						/**
+						 * @Description: 从新组织数据
+						 * @param map
+						 * @param excelListSuccessData
+						 * @param type
+						 * @author zhangchm
+						 * @date 2017年1月10日
+						 */
+						private void setSuccessData(Map<String, String> map, List<JSONObject> excelListSuccessData,
+								String type) {
+							for (JSONObject json : excelListSuccessData) {
+								String temp = "";
+								if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE_NUM)) {
+									temp = json.getString("skuCode");
+								} else {
+									temp = json.getString("barCode");
+								}
+								if (map.get(temp) != null) {
+									json.element("error", map.get(temp));
+								}
+							}
+						}
 
-				@Override
-				public void errorDataFormatter(List<JSONObject> list) {
-				}
+						/**
+						 * @Description: 验证数量是否是 箱数的整数倍
+						 * @param obj
+						 * @param excelListErrorData
+						 * @param type 类型
+						 * @param map
+						 * @return boolean
+						 * @author zhangchm
+						 * @date 2017年1月10日
+						 */
+						private boolean checkNumAndDistributionSpec(GoodsSelectDeliver obj,
+								List<JSONObject> excelListErrorData, String type, Map<String, String> map) {
+							JSONObject json = null;
+							BigDecimal checkNum = new BigDecimal(obj.getNum());
+							try {
+								BigDecimal realLargeNum = checkNum.divide(obj.getDistributionSpec(), 8,
+										RoundingMode.HALF_UP);
+								BigDecimal tempLargeNum = checkNum.divide(obj.getDistributionSpec(), 0,
+										RoundingMode.HALF_UP);
+								if (realLargeNum.compareTo(tempLargeNum) != 0) {
+									json = new JSONObject();
+									if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE_NUM)) {
+										json.element("skuCode", obj.getSkuCode());
+										map.put(obj.getSkuCode(), "该商品输入数量不是箱数的整数倍,规格 : " + obj.getDistributionSpec());
+									} else {
+										json.element("barCode", obj.getBarCode());
+										map.put(obj.getBarCode(), "该商品输入数量不是箱数的整数倍,规格 : " + obj.getDistributionSpec());
+									}
+									json.element("num", checkNum);
+									json.element("error", "该商品输入数量不是箱数的整数倍,规格 : " + obj.getDistributionSpec());
+									excelListErrorData.add(json);
+									return false;
+								}
+							} catch (NumberFormatException e) {
+								json = new JSONObject();
+								if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE_NUM)) {
+									json.element("skuCode", obj.getSkuCode());
+									map.put(obj.getSkuCode(), "输入的数量不是数字!");
+								} else {
+									json.element("barCode", obj.getBarCode());
+									map.put(obj.getBarCode(), "输入的数量不是数字!");
+								}
+								json.element("num", checkNum);
+								json.element("error", "输入的数量不是数字!");
+								excelListErrorData.add(json);
+								LOG.error("导入的箱数或数量不是数字:", e);
+								return false;
+							}
+							return true;
+						}
+
+						@Override
+						public void businessValid(List<JSONObject> excelListSuccessData, String[] excelField) {
+
+						}
+
+						@Override
+						public void errorDataFormatter(List<JSONObject> list) {
+							for (JSONObject json : list) {
+								LOG.info(json.toString());
+							}
+						}
 
 					}, map);
 			respJson.put("importInfo", vo);
@@ -715,12 +833,23 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 
 		if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {
 			// 货号
-			columns = ImportExcelConstant.DELIVER_GOODS_SKUCODE;
-			headers = ImportExcelConstant.DELIVER_GOODS_SKUCODE_HEADERS;
+			columns = ImportExcelConstant.DELIVER_GOODS_SKUCODE_LARGE_NUM;
+			headers = ImportExcelConstant.DELIVER_GOODS_SKUCODE_HEADERS_LARGE_NUM;
 		} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {
 			// 条码
-			columns = ImportExcelConstant.DELIVER_GOODS_BARCODE;
-			headers = ImportExcelConstant.DELIVER_GOODS_BARCODE_HEADERS;
+			columns = ImportExcelConstant.DELIVER_GOODS_BARCODE_LARGE_NUM;
+			headers = ImportExcelConstant.DELIVER_GOODS_BARCODE_HEADERS_LARGE_NUM;
+		} else if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE_NUM)) {
+			// 货号
+			columns = ImportExcelConstant.DELIVER_GOODS_SKUCODE_NUM;
+			headers = ImportExcelConstant.DELIVER_GOODS_SKUCODE_HEADERS_NUM;
+		} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE_NUM)) {
+			// 条码
+			columns = ImportExcelConstant.DELIVER_GOODS_BARCODE_NUM;
+			headers = ImportExcelConstant.DELIVER_GOODS_BARCODE_HEADERS_NUM;
+		} else {
+			LOG.warn("导入类型错误");
+			return;
 		}
 		goodsSelectImportComponent.downloadErrorFile(code, reportFileName, headers, columns, response);
 	}
@@ -817,49 +946,51 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 			GoodsSelectImportVo<GoodsSelectDeliver> vo = goodsSelectImportComponent.importSelectGoods(fileName, is,
 					fields, new GoodsSelectDeliver(), branchId, user.getId(), type, "/form/deliverForm/downloadError",
 					new GoodsSelectImportBusinessValid() {
-				@Override
-				public void formatter(List<? extends GoodsSelect> list) {
-				}
 
-				@Override
-				public void businessValid(List<JSONObject> list, String[] excelField) {
-					for (JSONObject obj : list) {
-						String num = obj.getString("largeNum");
-						try {
-							Double.parseDouble(num);
-						} catch (Exception e) {
-							obj.element("largeNum", 0);
+						@Override
+						public void formatter(List<? extends GoodsSelect> list, List<JSONObject> excelListSuccessData,
+								List<JSONObject> excelListErrorData) {
 						}
 
-						try {
-							String isGift = obj.getString("isGift");
-							if ("是".equals(isGift)) {// 如果是赠品，单价设置为0
-								obj.element("isGift", "1");
-								obj.element("price", 0);
-							} else if ("否".equals(isGift)) {
-								obj.element("isGift", "0");
-							} else {
-								obj.element("error", "是否赠品字段填写有误");
-							}
-						} catch (Exception e) {
-							obj.element("error", "是否赠品字段填写有误");
-						}
-					}
-				}
+						@Override
+						public void businessValid(List<JSONObject> excelListSuccessData, String[] excelField) {
+							for (JSONObject obj : excelListSuccessData) {
+								String num = obj.getString("largeNum");
+								try {
+									Double.parseDouble(num);
+								} catch (Exception e) {
+									obj.element("largeNum", 0);
+								}
 
-				@Override
-				public void errorDataFormatter(List<JSONObject> list) {
-					for (JSONObject obj : list) {
-						if (obj.containsKey("isGift")) {
-							String isGift = obj.getString("isGift");
-							if ("1".equals(isGift)) {
-								obj.element("isGift", "是");
-							} else if ("0".equals(isGift)) {
-								obj.element("isGift", "否");
+								try {
+									String isGift = obj.getString("isGift");
+									if ("是".equals(isGift)) {// 如果是赠品，单价设置为0
+										obj.element("isGift", "1");
+										obj.element("price", 0);
+									} else if ("否".equals(isGift)) {
+										obj.element("isGift", "0");
+									} else {
+										obj.element("error", "是否赠品字段填写有误");
+									}
+								} catch (Exception e) {
+									obj.element("error", "是否赠品字段填写有误");
+								}
 							}
 						}
-					}
-				}
+
+						@Override
+						public void errorDataFormatter(List<JSONObject> list) {
+							for (JSONObject obj : list) {
+								if (obj.containsKey("isGift")) {
+									String isGift = obj.getString("isGift");
+									if ("1".equals(isGift)) {
+										obj.element("isGift", "是");
+									} else if ("0".equals(isGift)) {
+										obj.element("isGift", "否");
+									}
+								}
+							}
+						}
 					}, null);
 			respJson.put("importInfo", vo);
 		} catch (IOException e) {
@@ -912,7 +1043,6 @@ BasePrintController<DeliverFormController, DeliverFormList> {
 		RespJson respJson = RespJson.success();
 		try {
 			Map<String, String> map = queryDeliverFormServiceApi.getSourceBranchAndTargetBranchAndFormNo(referenceId);
-			// JSONObject obj = JSONObject.fromObject(map);
 			respJson.put("data", map);
 		} catch (Exception e) {
 			respJson = RespJson.error();

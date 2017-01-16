@@ -16,6 +16,8 @@ import java.util.concurrent.TimeUnit;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONObject;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -30,8 +32,6 @@ import com.okdeer.jxc.goods.entity.GoodsSelect;
 import com.okdeer.jxc.goods.service.GoodsSelectServiceApi;
 import com.okdeer.jxc.utils.poi.ExcelExportUtil;
 import com.okdeer.jxc.utils.poi.ExcelReaderUtil;
-
-import net.sf.json.JSONObject;
 
 
 /**
@@ -136,7 +136,9 @@ public class GoodsSelectImportComponent {
 	 * @author xiaoj02
 	 * @date 2016年10月15日
 	 */
-	public <T extends GoodsSelect> GoodsSelectImportVo<T> importSelectGoodsMultiBranchWithStock(String fileName, InputStream is, String[] fields, T entity, String[] branchId, String userId, String type, String errorFileDownloadUrlPrefix ,GoodsSelectImportBusinessValid businessValid) {
+	public <T extends GoodsSelect> GoodsSelectImportVo<T> importSelectGoodsMultiBranchWithStock(String fileName,
+			InputStream is, String[] fields, T entity, String[] branchId, String userId, String type,
+			String errorFileDownloadUrlPrefix, GoodsSelectImportBusinessValid businessValid) {
 		return importSelectGoodsMultiBranch(fileName, is, fields, entity, branchId, userId, type, true,
 				errorFileDownloadUrlPrefix, businessValid, null);
 	}
@@ -162,7 +164,8 @@ public class GoodsSelectImportComponent {
 		GoodsSelectImportHandle goodsSelectImportHandle = null;
 		List<GoodsSelect> dbList = null;
 		List<GoodsSelect> dbList1 = new ArrayList<GoodsSelect>(); 
-		if(type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)){//货号
+		if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)
+				|| type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE_NUM)) {// 货号
 			//构建数据过滤对象
 			goodsSelectImportHandle = new GoodsSelectImportSkuCodeHandle(excelList, fields, businessValid);
 			
@@ -190,7 +193,8 @@ public class GoodsSelectImportComponent {
 			}
 			
 			
-		}else if(type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)){//条码
+		} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)
+				|| type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE_NUM)) {// 条码
 			//构建数据过滤对象
 			goodsSelectImportHandle = new GoodsSelectImportBarCodeHandle(excelList, fields, businessValid);
 			
@@ -225,10 +229,18 @@ public class GoodsSelectImportComponent {
 		//与数据库对比,标记处该店铺中未查询到的数据
 		goodsSelectImportHandle.checkWithDataBase(dbList);
 		
+		
+		GoodsSelectImportVo<T> goodsSelectImportVo = new GoodsSelectImportVo<T>();
+
+		@SuppressWarnings("unchecked")
+		List<T> successList = (List<T>) goodsSelectImportHandle.getSuccessData(dbList1, fields, entity);
+
+		goodsSelectImportVo.setList(successList);
+
 		Integer successNum = goodsSelectImportHandle.getExcelListSuccessData().size();
-		
+
 		Integer errorNum = goodsSelectImportHandle.getExcelListErrorData().size();
-		
+
 		StringBuffer message = new StringBuffer();
 		message.append("成功：");
 		message.append(successNum);
@@ -236,13 +248,6 @@ public class GoodsSelectImportComponent {
 		message.append("失败：");
 		message.append(errorNum);
 		message.append("条。");
-		
-		GoodsSelectImportVo<T> goodsSelectImportVo = new GoodsSelectImportVo<T>();
-		
-		@SuppressWarnings("unchecked")
-		List<T> successList = (List<T>) goodsSelectImportHandle.getSuccessData(dbList1, fields, entity);
-		
-		goodsSelectImportVo.setList(successList);
 		
 		goodsSelectImportVo.setMessage(message.toString());
 		

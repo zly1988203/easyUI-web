@@ -155,15 +155,15 @@ function initDatagridAddRequireOrder(){
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
-                /*editor:{
+                editor:{
                     type:'numberbox',
                     options:{
                         min:0,
                         disabled:true,
-                        precision:2,
-                        onChange: onChangePrice,
+                        precision:4,
+//                        onChange: onChangePrice,
                     }
-                },*/
+                },
             },
             {field:'amount',title:'金额',width:'80px',align:'right',
                 formatter:function(value,row,index){
@@ -177,8 +177,8 @@ function initDatagridAddRequireOrder(){
                     options:{
                         min:0,
                         disabled:true,
-                        precision:2,
-                        onChange: onChangeAmount,
+                        precision:4,
+//                        onChange: onChangeAmount,
                     }
                 },
 
@@ -467,6 +467,14 @@ function selectGoods(searchKey){
             $("#gridEditOrder").datagrid("acceptChanges");
         }
         selectStockAndPrice(sourceBranchId,data);
+        
+        gridHandel.setLoadFocus();
+        setTimeout(function(){
+            gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
+            gridHandel.setSelectFieldName("largeNum");
+            gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
+        },100)
+        
     },searchKey,'',sourceBranchId,targetBranchId,sourceBranchId,'');
 }
 

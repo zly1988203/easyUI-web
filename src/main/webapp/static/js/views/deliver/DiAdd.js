@@ -138,6 +138,9 @@ function initDatagridAddRequireOrder(){
                     if(row.isFooter){
                         return
                     }
+                    if(!row.price){
+                    	row.price = parseFloat(value||0).toFixed(2);
+                    }        
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
                 editor:{
@@ -145,8 +148,8 @@ function initDatagridAddRequireOrder(){
                     options:{
                     	disabled:true,
                         min:0,
-                        precision:2,
-                        onChange: onChangePrice,
+                        precision:4,
+//                        onChange: onChangePrice,
                     }
                 },
             },
@@ -162,8 +165,8 @@ function initDatagridAddRequireOrder(){
                     options:{
                     	disabled:true,
                         min:0,
-                        precision:2,
-                        onChange: onChangeAmount,
+                        precision:4,
+//                        onChange: onChangeAmount,
                     }
                 },
 
@@ -283,7 +286,7 @@ function onChangeRealNum(newV,oldV) {
         messager("配送规格不能为0");
         return;
     }
-    var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
+    var priceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
 
     gridHandel.setFieldValue('amount',priceValue*newV);                         //金额=数量*单价
 
