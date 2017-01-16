@@ -320,7 +320,7 @@ pageEncoding="UTF-8"%>
 					</div>
 					<div class="ub ub-ac umar-r40">
 						<input id="fastDeliver" name="fastDeliver" id="fastDeliver"
-							class="ub" type="checkbox" name="checkbox" /><span>是否速送商品</span>
+							class="ub" type="checkbox" name="checkbox" /><span>是否直送商品</span>
 					</div>
 				</div>
 

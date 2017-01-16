@@ -20,6 +20,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONObject;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,8 +69,6 @@ import com.okdeer.jxc.goods.entity.GoodsSelectByPurchase;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
 
-import net.sf.json.JSONObject;
-
 /**
  * ClassName: PurchaseFormController 
  * @author xiaoj02
@@ -82,8 +82,7 @@ import net.sf.json.JSONObject;
  */
 @Controller
 @RequestMapping("form/purchase")
-public class PurchaseFormController extends
-		BasePrintController<PurchaseForm, PurchaseFormDetailPO> {
+public class PurchaseFormController extends BasePrintController<PurchaseForm, PurchaseFormDetailPO> {
 
 	@Reference(version = "1.0.0", check = false)
 	private PurchaseFormServiceApi purchaseFormServiceApi;
@@ -93,7 +92,7 @@ public class PurchaseFormController extends
 
 	@Autowired
 	private OrderNoUtils orderNoUtils;
-	
+
 	/**
 	 * 跳转到新增采购单页面
 	 * @return
@@ -116,7 +115,6 @@ public class PurchaseFormController extends
 		return "form/purchase/receiptAdd";
 	}
 
-	
 	/**
 	 * @Description: 新增页面
 	 * @return   
@@ -133,7 +131,7 @@ public class PurchaseFormController extends
 		model.addAttribute("form", form);
 		return "form/purchase/receiptAdd";
 	}
-	
+
 	/**
 	 * 跳转到新增退货单页面
 	 * @return
@@ -166,20 +164,20 @@ public class PurchaseFormController extends
 		qo.setFormType(FormType.PI.toString());
 		qo.setBranchCompleCode(getCurrBranchCompleCode());
 
-		//处理供应商
+		// 处理供应商
 		String supplierName = qo.getSupplierName();
-		if(StringUtils.isNotBlank(supplierName)){
-			supplierName = supplierName.substring(supplierName.lastIndexOf("]")+1,supplierName.length());
+		if (StringUtils.isNotBlank(supplierName)) {
+			supplierName = supplierName.substring(supplierName.lastIndexOf("]") + 1, supplierName.length());
 			qo.setSupplierName(supplierName);
 		}
-		
-		//处理机构
+
+		// 处理机构
 		String branchName = qo.getBranchName();
-		if(StringUtils.isNotBlank(branchName)){
-			branchName = branchName.substring(branchName.lastIndexOf("]")+1,branchName.length());
+		if (StringUtils.isNotBlank(branchName)) {
+			branchName = branchName.substring(branchName.lastIndexOf("]") + 1, branchName.length());
 			qo.setBranchName(branchName);
 		}
-		
+
 		PageUtils<PurchaseFormPO> page = purchaseFormServiceApi.selectPage(qo);
 		return page;
 	}
@@ -198,20 +196,20 @@ public class PurchaseFormController extends
 		qo.setFormType(FormType.PR.name());
 		qo.setBranchCompleCode(getCurrBranchCompleCode());
 
-		//处理供应商
+		// 处理供应商
 		String supplierName = qo.getSupplierName();
-		if(StringUtils.isNotBlank(supplierName)){
-			supplierName = supplierName.substring(supplierName.lastIndexOf("]")+1,supplierName.length());
+		if (StringUtils.isNotBlank(supplierName)) {
+			supplierName = supplierName.substring(supplierName.lastIndexOf("]") + 1, supplierName.length());
 			qo.setSupplierName(supplierName);
 		}
-		
-		//处理机构
+
+		// 处理机构
 		String branchName = qo.getBranchName();
-		if(StringUtils.isNotBlank(branchName)){
-			branchName = branchName.substring(branchName.lastIndexOf("]")+1,branchName.length());
+		if (StringUtils.isNotBlank(branchName)) {
+			branchName = branchName.substring(branchName.lastIndexOf("]") + 1, branchName.length());
 			qo.setBranchName(branchName);
 		}
-		
+
 		PageUtils<PurchaseFormPO> page = purchaseFormServiceApi.selectPage(qo);
 		return page;
 	}
@@ -225,17 +223,16 @@ public class PurchaseFormController extends
 	 * @date 2016年8月12日
 	 */
 	@RequestMapping(value = "orderEdit")
-	public String orderEdit(String formId,String report, HttpServletRequest request) {
+	public String orderEdit(String formId, String report, HttpServletRequest request) {
 		PurchaseFormPO form = purchaseFormServiceApi.selectPOById(formId);
 		request.setAttribute("form", form);
 		if (FormStatus.CHECK_SUCCESS.getValue().equals(form.getStatus())) {// 已审核，不能修改
-			if(FormStatus.CHECK_SUCCESS.getValue().equals(form.getStatus()) 
-					&& form.getDealStatus()!=null 
-					&& form.getDealStatus()==FormDealStatus.STOP.getValue()){
+			if (FormStatus.CHECK_SUCCESS.getValue().equals(form.getStatus()) && form.getDealStatus() != null
+					&& form.getDealStatus() == FormDealStatus.STOP.getValue()) {
 				request.setAttribute("status", FormDealStatus.STOP.getLabel());
 				request.setAttribute("close", report);
 				return "form/purchase/orderView";
-			}else{
+			} else {
 				request.setAttribute("status", FormStatus.CHECK_SUCCESS.getLabel());
 				request.setAttribute("close", report);
 				return "form/purchase/orderView";
@@ -265,7 +262,7 @@ public class PurchaseFormController extends
 	 * @date 2016年8月18日
 	 */
 	@RequestMapping(value = "returnEdit")
-	public String returnEdit(String formId,String report, HttpServletRequest request) {
+	public String returnEdit(String formId, String report, HttpServletRequest request) {
 		PurchaseFormPO form = purchaseFormServiceApi.selectPOById(formId);
 		request.setAttribute("form", form);
 		if (FormStatus.CHECK_SUCCESS.getValue().equals(form.getStatus())) {// 已审核，不能修改
@@ -297,7 +294,7 @@ public class PurchaseFormController extends
 	 * @date 2016年8月12日
 	 */
 	@RequestMapping(value = "receiptEdit")
-	public String receiptEdit(String formId,String report, HttpServletRequest request) {
+	public String receiptEdit(String formId, String report, HttpServletRequest request) {
 		PurchaseFormPO form = purchaseFormServiceApi.selectPOById(formId);
 		request.setAttribute("form", form);
 		if (FormStatus.CHECK_SUCCESS.getValue().equals(form.getStatus())) {// 已审核，不能修改
@@ -383,9 +380,9 @@ public class PurchaseFormController extends
 	public RespJson delete(String formIds) {
 		SysUser user = UserUtil.getCurrentUser();
 		RespJson resp = new RespJson();
-		if(StringUtils.isNotBlank(formIds)){
+		if (StringUtils.isNotBlank(formIds)) {
 			String[] arr = formIds.split(",");
-			for(int i=0;i<arr.length;i++){
+			for (int i = 0; i < arr.length; i++) {
 				resp = purchaseFormServiceApi.delete(arr[i], user.getId());
 			}
 		}
@@ -412,8 +409,8 @@ public class PurchaseFormController extends
 		// 采购单
 		qo.setFormType(FormType.PA.toString());
 		String supplierName = qo.getSupplierName();
-		if(StringUtils.isNotBlank(supplierName)){
-			supplierName = supplierName.substring(supplierName.lastIndexOf("]")+1,supplierName.length());
+		if (StringUtils.isNotBlank(supplierName)) {
+			supplierName = supplierName.substring(supplierName.lastIndexOf("]") + 1, supplierName.length());
 			qo.setSupplierName(supplierName);
 		}
 		qo.setBranchCompleCode(getCurrBranchCompleCode());
@@ -431,8 +428,7 @@ public class PurchaseFormController extends
 	@RequestMapping(value = "detailList", method = RequestMethod.POST)
 	@ResponseBody
 	public PageUtils<PurchaseFormDetailPO> getDetailJson(String formId) {
-		PageUtils<PurchaseFormDetailPO> list = purchaseFormServiceApi
-				.selectDetail(formId);
+		PageUtils<PurchaseFormDetailPO> list = purchaseFormServiceApi.selectDetail(formId);
 		return list;
 	}
 
@@ -449,8 +445,7 @@ public class PurchaseFormController extends
 	public RespJson save(@RequestBody String jsonText) {
 		// PurchaseFormVo formVo = new PurchaseFormVo();
 
-		PurchaseFormVo formVo = JSON
-				.parseObject(jsonText, PurchaseFormVo.class);
+		PurchaseFormVo formVo = JSON.parseObject(jsonText, PurchaseFormVo.class);
 
 		PurchaseForm form = new PurchaseForm();
 
@@ -460,8 +455,7 @@ public class PurchaseFormController extends
 
 		SysUser user = UserUtil.getCurrentUser();
 
-		String formNo = orderNoUtils.getOrderNo(FormType.PA.name()
-				+ user.getBranchCode());
+		String formNo = orderNoUtils.getOrderNo(FormType.PA.name() + user.getBranchCode());
 
 		Date now = new Date();
 
@@ -523,8 +517,7 @@ public class PurchaseFormController extends
 		String formId = UUIDHexGenerator.generate();
 
 		SysUser user = UserUtil.getCurrentUser();
-		String formNo = orderNoUtils.getOrderNo(FormType.PR.name()
-				+ user.getBranchCode());
+		String formNo = orderNoUtils.getOrderNo(FormType.PR.name() + user.getBranchCode());
 
 		Date now = new Date();
 
@@ -589,8 +582,7 @@ public class PurchaseFormController extends
 
 		String formId = UUIDHexGenerator.generate();
 		SysUser user = UserUtil.getCurrentUser();
-		String formNo = orderNoUtils.getOrderNo(FormType.PI.name()
-				+ user.getBranchCode());
+		String formNo = orderNoUtils.getOrderNo(FormType.PI.name() + user.getBranchCode());
 
 		Date now = new Date();
 
@@ -651,8 +643,7 @@ public class PurchaseFormController extends
 	@ResponseBody
 	public RespJson updateOrder(@RequestBody String jsonText) {
 
-		PurchaseFormVo formVo = JSON
-				.parseObject(jsonText, PurchaseFormVo.class);
+		PurchaseFormVo formVo = JSON.parseObject(jsonText, PurchaseFormVo.class);
 
 		PurchaseForm form = new PurchaseForm();
 		BeanUtils.copyProperties(formVo, form);
@@ -793,8 +784,7 @@ public class PurchaseFormController extends
 		SysUser user = UserUtil.getCurrentUser();
 		RespJson respJson = RespJson.success();
 		try {
-			respJson = purchaseFormServiceApi.check(formId,
-					FormStatus.enumValueOf(status), user.getId());
+			respJson = purchaseFormServiceApi.check(formId, FormStatus.enumValueOf(status), user.getId());
 		} catch (RuntimeException e) {
 			LOG.error("审核出现异常，单据id：" + formId, e);
 			respJson = RespJson.error("审核出现异常，原因：" + e.getMessage());
@@ -826,7 +816,7 @@ public class PurchaseFormController extends
 		PurchaseFormPO form = purchaseFormServiceApi.selectPOById(formNo);
 		Map<String, Object> replaceMap = new HashMap<String, Object>();
 		if (null != form) {
-			//审核状态
+			// 审核状态
 			switch (form.getStatus().intValue()) {
 				case 0:
 					replaceMap.put("_审核状态", "待审核");
@@ -845,19 +835,19 @@ public class PurchaseFormController extends
 					replaceMap.put("status", "");
 					break;
 			}
-			//订单编号
+			// 订单编号
 			replaceMap.put("_订单编号", form.getFormNo() != null ? form.getFormNo() : "");
 			replaceMap.put("formNo", form.getFormNo() != null ? form.getFormNo() : "");
-			//供应商
-			replaceMap.put("_供应商", form.getSupplierName() != null ? form.getSupplierName() : "");
+			// 供应商
+			replaceMap.put("_供应商名称", form.getSupplierName() != null ? form.getSupplierName() : "");
 			replaceMap.put("supplierName", form.getSupplierName() != null ? form.getSupplierName() : "");
-			//制单人员
+			// 制单人员
 			replaceMap.put("_制单人员", form.getSalesmanName() != null ? form.getSalesmanName() : "");
 			replaceMap.put("salesmanName", form.getSalesmanName() != null ? form.getSalesmanName() : "");
-			//机构名称
+			// 机构名称
 			replaceMap.put("_机构名称", form.getBranchName() != null ? form.getBranchName() : "");
 			replaceMap.put("branchName", form.getBranchName() != null ? form.getBranchName() : "");
-			//下单日期
+			// 下单日期
 			if (form.getCreateTime() != null) {
 				replaceMap.put("_下单日期", DateUtils.formatDate(form.getCreateTime(), "yyyy-MM-dd"));
 				replaceMap.put("createTime", DateUtils.formatDate(form.getCreateTime(), "yyyy-MM-dd"));
@@ -865,10 +855,10 @@ public class PurchaseFormController extends
 				replaceMap.put("_下单日期", "");
 				replaceMap.put("createTime", "");
 			}
-			//采购人员
+			// 采购人员
 			replaceMap.put("_采购人员", form.getSalesmanName() != null ? form.getSalesmanName() : "");
 			replaceMap.put("salesmanName", form.getSalesmanName() != null ? form.getSalesmanName() : "");
-			//交货日期
+			// 交货日期
 			if (form.getDeliverTime() != null) {
 				replaceMap.put("_交货日期", DateUtils.formatDate(form.getDeliverTime(), "yyyy-MM-dd"));
 				replaceMap.put("deliverTime", DateUtils.formatDate(form.getDeliverTime(), "yyyy-MM-dd"));
@@ -876,54 +866,54 @@ public class PurchaseFormController extends
 				replaceMap.put("_交货日期", "");
 				replaceMap.put("deliverTime", "");
 			}
-			//审核人员
+			// 审核人员
 			replaceMap.put("_审核人员", form.getValidUserName() != null ? form.getValidUserName() : "");
 			replaceMap.put("validUserName", form.getValidUserName() != null ? form.getValidUserName() : "");
-			//备注
+			// 备注
 			replaceMap.put("_备注", form.getRemark());
 			replaceMap.put("remark", form.getRemark());
-			//审核日期
+			// 审核日期
 			if (form.getValidTime() != null) {
-				replaceMap.put("_审核日期", DateUtils.formatDate(form.getValidTime(),"yyyy-MM-dd"));
-				replaceMap.put("validTime", DateUtils.formatDate(form.getValidTime(),"yyyy-MM-dd"));
+				replaceMap.put("_审核日期", DateUtils.formatDate(form.getValidTime(), "yyyy-MM-dd"));
+				replaceMap.put("validTime", DateUtils.formatDate(form.getValidTime(), "yyyy-MM-dd"));
 			} else {
 				replaceMap.put("_审核日期", "");
 				replaceMap.put("validTime", "");
 			}
-			//人民币总金额大写
-			replaceMap.put("_人民币总金额大写",NumberToCN.number2CNMontrayUnit(form.getAmount()));
-			replaceMap.put("amountCN",NumberToCN.number2CNMontrayUnit(form.getAmount()));
-			//总金额
-			replaceMap.put("_总金额",BigDecimalUtils.formatTwoDecimal(form.getAmount()).toString());
-			replaceMap.put("amount",BigDecimalUtils.formatTwoDecimal(form.getAmount()).toString());
-			//合计金额
-			replaceMap.put("_合计金额",NumberToCN.number2CNMontrayUnit(form.getAmount()));
-			//打印人
+			// 人民币总金额大写
+			replaceMap.put("_人民币总金额大写", NumberToCN.number2CNMontrayUnit(form.getAmount()));
+			replaceMap.put("amountCN", NumberToCN.number2CNMontrayUnit(form.getAmount()));
+			// 总金额
+			replaceMap.put("_总金额", BigDecimalUtils.formatTwoDecimal(form.getAmount()).toString());
+			replaceMap.put("amount", BigDecimalUtils.formatTwoDecimal(form.getAmount()).toString());
+			// 合计金额
+			replaceMap.put("_合计金额", NumberToCN.number2CNMontrayUnit(form.getAmount()));
+			// 打印人
 			replaceMap.put("_打印人", getCurrentUser().getUserName());
 			replaceMap.put("printUserName", getCurrentUser().getUserName());
-			//打印时间
-			replaceMap.put("_打印时间",DateUtils.formatDate(new Date(), "yyyy-MM-dd"));
-			replaceMap.put("printTime",DateUtils.formatDate(new Date(), "yyyy-MM-dd"));
-			
+			// 打印时间
+			replaceMap.put("_打印时间", DateUtils.formatDate(new Date(), "yyyy-MM-dd"));
+			replaceMap.put("printTime", DateUtils.formatDate(new Date(), "yyyy-MM-dd"));
+
 			/**
 			 * added by zhangqin on 2016-12-01 14:36 begin
 			 * 新增供应商联系人、供应商电话号码、供应商手机号码、机构联系人、机构联系电话、机构详细地址字段
 			 */
-			//供应商联系人
+			// 供应商联系人
 			replaceMap.put("_供应商联系人", form.getSupplierContcat() != null ? form.getSupplierContcat() : "");
 			replaceMap.put("supplierContcat", form.getSupplierContcat() != null ? form.getSupplierContcat() : "");
-			//供应商电话号码
+			// 供应商电话号码
 			replaceMap.put("_供应商电话号码", form.getSupplierPhone() != null ? form.getSupplierPhone() : "");
-			//供应商手机号码
+			// 供应商手机号码
 			replaceMap.put("_供应商手机号码", form.getSupplierMobile() != null ? form.getSupplierMobile() : "");
 			replaceMap.put("supplierMobile", form.getSupplierMobile() != null ? form.getSupplierMobile() : "");
-			//机构联系人
+			// 机构联系人
 			replaceMap.put("_机构联系人", form.getBranchContacts() != null ? form.getBranchContacts() : "");
 			replaceMap.put("branchContacts", form.getBranchContacts() != null ? form.getBranchContacts() : "");
-			//机构联系电话
+			// 机构联系电话
 			replaceMap.put("_机构联系电话", form.getBranchMobile() != null ? form.getBranchMobile() : "");
 			replaceMap.put("branchMobile", form.getBranchMobile() != null ? form.getBranchMobile() : "");
-			//机构详细地址
+			// 机构详细地址
 			replaceMap.put("_机构详细地址", form.getBranchAddress() != null ? form.getBranchAddress() : "");
 			replaceMap.put("_送货地址", form.getBranchAddress() != null ? form.getBranchAddress() : "");
 			replaceMap.put("branchAddress", form.getBranchAddress() != null ? form.getBranchAddress() : "");
@@ -940,8 +930,7 @@ public class PurchaseFormController extends
 	 */
 	@Override
 	protected List<PurchaseFormDetailPO> getPrintDetail(String formNo) {
-		List<PurchaseFormDetailPO> list = purchaseFormServiceApi.selectDetail(
-				formNo).getList();
+		List<PurchaseFormDetailPO> list = purchaseFormServiceApi.selectDetail(formNo).getList();
 		return list;
 	}
 
@@ -956,8 +945,7 @@ public class PurchaseFormController extends
 	 */
 	@RequestMapping(value = "importList")
 	@ResponseBody
-	public RespJson importList(@RequestParam("file") MultipartFile file,
-			String type, String branchId) {
+	public RespJson importList(@RequestParam("file") MultipartFile file, String type, String branchId) {
 		RespJson respJson = RespJson.success();
 		try {
 			if (file.isEmpty()) {
@@ -978,87 +966,75 @@ public class PurchaseFormController extends
 			String[] field = null;
 
 			if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {// 货号
-				field = new String[] { "skuCode", "realNum", "price",
-						"ingoreAmount", "isGift" };
+				field = new String[] { "skuCode", "realNum", "price", "ingoreAmount", "isGift" };
 			} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {// 条码
-				field = new String[] { "barCode", "realNum", "price",
-						"ingoreAmount", "isGift" };
+				field = new String[] { "barCode", "realNum", "price", "ingoreAmount", "isGift" };
 			}
 
-			GoodsSelectImportVo<GoodsSelect> vo = goodsSelectImportComponent
-					.importSelectGoods(fileName, is, field,
-							new GoodsSelectByPurchase(), branchId,
-							user.getId(), type,
-							"/form/purchase/downloadErrorFile",
-							new GoodsSelectImportBusinessValid() {
+			GoodsSelectImportVo<GoodsSelect> vo = goodsSelectImportComponent.importSelectGoods(fileName, is, field,
+					new GoodsSelectByPurchase(), branchId, user.getId(), type, "/form/purchase/downloadErrorFile",
+					new GoodsSelectImportBusinessValid() {
 
-								@Override
-								public void businessValid(
-										List<JSONObject> list,
-										String[] excelField) {
-									for (JSONObject obj : list) {
-										try {
-											String realNum = obj
-													.getString("realNum");
-											Double.parseDouble(realNum);
-										} catch (Exception e) {
-											obj.element("realNum", 0);
-										}
-
-										try {
-											String isGift = obj
-													.getString("isGift");
-											if ("是".equals(isGift)) {// 如果是赠品，单价设置为0
-												obj.element("isGift", "1");
-												obj.element("price", 0);
-											} else if ("否".equals(isGift)) {
-												obj.element("isGift", "0");
-											} else {
-												obj.element("error",
-														"是否赠品字段填写有误");
-											}
-										} catch (Exception e) {
-											obj.element("error", "是否赠品字段填写有误");
-										}
-									}
+						@Override
+						public void businessValid(List<JSONObject> excelListSuccessData, String[] excelField) {
+							for (JSONObject obj : excelListSuccessData) {
+								try {
+									String realNum = obj.getString("realNum");
+									Double.parseDouble(realNum);
+								} catch (Exception e) {
+									obj.element("realNum", 0);
 								}
 
-								/**
-								 * (non-Javadoc)
-								 * @see com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid#formatter(java.util.List)
-								 */
-								@Override
-								public void formatter(
-										List<? extends GoodsSelect> list) {
-									for (GoodsSelect objGoods : list) {
-										GoodsSelectByPurchase obj = (GoodsSelectByPurchase) objGoods;
+								try {
+									String isGift = obj.getString("isGift");
+									if ("是".equals(isGift)) {// 如果是赠品，单价设置为0
+										obj.element("isGift", "1");
+										obj.element("price", 0);
+									} else if ("否".equals(isGift)) {
+										obj.element("isGift", "0");
+									} else {
+										obj.element("error", "是否赠品字段填写有误");
+									}
+								} catch (Exception e) {
+									obj.element("error", "是否赠品字段填写有误");
+								}
+							}
+						}
 
-										BigDecimal price = obj.getPrice();
-										if (price == null) {
-											obj.setPrice(obj.getPurchasePrice());
-										}
+						/**
+						 * (non-Javadoc)
+						 * @see com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid#formatter(java.util.List)
+						 */
+						@Override
+						public void formatter(List<? extends GoodsSelect> list, List<JSONObject> excelListSuccessData,
+								List<JSONObject> excelListErrorData) {
+							for (GoodsSelect objGoods : list) {
+								GoodsSelectByPurchase obj = (GoodsSelectByPurchase) objGoods;
+
+								BigDecimal price = obj.getPrice();
+								if (price == null) {
+									obj.setPrice(obj.getPurchasePrice());
+								}
+							}
+						}
+
+						/**
+						 * (non-Javadoc)
+						 * @see com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid#errorDataFormatter(java.util.List)
+						 */
+						@Override
+						public void errorDataFormatter(List<JSONObject> list) {
+							for (JSONObject obj : list) {
+								if (obj.containsKey("isGift")) {
+									String isGift = obj.getString("isGift");
+									if ("1".equals(isGift)) {
+										obj.element("isGift", "是");
+									} else if ("0".equals(isGift)) {
+										obj.element("isGift", "否");
 									}
 								}
-
-								/**
-								 * (non-Javadoc)
-								 * @see com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid#errorDataFormatter(java.util.List)
-								 */
-								@Override
-								public void errorDataFormatter(
-										List<JSONObject> list) {
-									for (JSONObject obj : list) {
-										if (obj.containsKey("isGift")) {
-											String isGift = obj
-													.getString("isGift");
-											if ("1".equals(isGift)) {
-												obj.element("isGift", "是");
-											} else if ("0".equals(isGift)) {
-												obj.element("isGift", "否");
-											}
-										}
-									}
-								}
+							}
+						}
 					}, null);
 			respJson.put("importInfo", vo);
 
@@ -1078,25 +1054,21 @@ public class PurchaseFormController extends
 	 * @date 2016年10月15日
 	 */
 	@RequestMapping(value = "downloadErrorFile")
-	public void downloadErrorFile(String code, String type,
-			HttpServletResponse response) {
+	public void downloadErrorFile(String code, String type, HttpServletResponse response) {
 		String reportFileName = "错误数据";
 
 		String[] headers = null;
 		String[] columns = null;
 
 		if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {// 货号
-			columns = new String[] { "skuCode", "realNum", "price",
-					"ingoreAmount", "isGift" };
+			columns = new String[] { "skuCode", "realNum", "price", "ingoreAmount", "isGift" };
 			headers = new String[] { "货号", "数量", "单价", "金额", "是否赠品" };
 		} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {// 条码
-			columns = new String[] { "barCode", "realNum", "price",
-					"ingoreAmount", "isGift" };
+			columns = new String[] { "barCode", "realNum", "price", "ingoreAmount", "isGift" };
 			headers = new String[] { "条码", "数量", "单价", "金额", "是否赠品" };
 		}
 
-		goodsSelectImportComponent.downloadErrorFile(code, reportFileName,
-				headers, columns, response);
+		goodsSelectImportComponent.downloadErrorFile(code, reportFileName, headers, columns, response);
 	}
 
 	/**
@@ -1107,12 +1079,10 @@ public class PurchaseFormController extends
 	 * @date 2016年8月29日
 	 */
 	@RequestMapping(value = "exportList")
-	public void exportList(HttpServletResponse response, String formId,
-			String type) {
+	public void exportList(HttpServletResponse response, String formId, String type) {
 		LOG.info("PurchaseFormController.export:" + formId);
 		try {
-			List<PurchaseFormDetailPO> exportList = purchaseFormServiceApi
-					.selectDetailById(formId);
+			List<PurchaseFormDetailPO> exportList = purchaseFormServiceApi.selectDetailById(formId);
 			String fileName = "";
 			String templateName = "";
 			if (FormType.PA.toString().equals(type)) {
@@ -1162,8 +1132,7 @@ public class PurchaseFormController extends
 				templateName = ExportExcelConstant.GOODS_INTRODUCE_BAR_CODE_TEMPLE;
 				fileName = "条码导入模板";
 			}
-			if (StringUtils.isNotBlank(fileName)
-					&& StringUtils.isNotBlank(templateName)) {
+			if (StringUtils.isNotBlank(fileName) && StringUtils.isNotBlank(templateName)) {
 				exportListForXLSX(response, null, fileName, templateName);
 			}
 		} catch (Exception e) {

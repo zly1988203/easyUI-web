@@ -3,7 +3,8 @@
  *@Author: liux01
  *@Date: 2016年10月11日 
  *@Copyright: ©2014-2020 www.yschome.com Inc. All rights reserved. 
- */    
+ */
+
 package com.okdeer.jxc.controller.stock;
 
 import java.io.IOException;
@@ -12,6 +13,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -42,9 +45,6 @@ import com.okdeer.jxc.stock.vo.StockFormVo;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
 
-import net.sf.json.JSONObject;
-
-
 /**
  * ClassName: StockAdjustController 
  * @Description: TODO
@@ -62,6 +62,7 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 
 	@Reference(version = "1.0.0", check = false)
 	private StockAdjustServiceApi stockAdjustServiceApi;
+
 	@Autowired
 	private GoodsSelectImportComponent goodsSelectImportComponent;
 
@@ -73,9 +74,10 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 	 * @date 2016年10月11日
 	 */
 	@RequestMapping(value = "/list")
-	public String list(){
+	public String list() {
 		return "/stockAdjust/list";
 	}
+
 	/**
 	 * 
 	 * @Description: 获取库存调整新增页面
@@ -84,9 +86,10 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 	 * @date 2016年10月11日
 	 */
 	@RequestMapping(value = "/add")
-	public String add(){
+	public String add() {
 		return "/stockAdjust/add";
 	}
+
 	/**
 	 * 
 	 * @Description: 获取库存调整编辑页面
@@ -94,12 +97,13 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 	 * @author liux01
 	 * @date 2016年10月11日
 	 */
-	@RequestMapping(value = "/edit" , method = RequestMethod.GET)
-	public String edit(String id,HttpServletRequest request){
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	public String edit(String id, HttpServletRequest request) {
 		StockFormVo stockFormVo = stockAdjustServiceApi.getStcokFormInfo(id);
 		request.setAttribute("stockFormVo", stockFormVo);
 		return "/stockAdjust/edit";
 	}
+
 	/**
 	 * 
 	 * @Description: 审核通过跳转页面
@@ -109,13 +113,14 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 	 * @author liux01
 	 * @date 2016年10月18日
 	 */
-	@RequestMapping(value = "/checkSuccess" , method = RequestMethod.GET)
-	public String checkSuccess(String id,String report,HttpServletRequest request){
+	@RequestMapping(value = "/checkSuccess", method = RequestMethod.GET)
+	public String checkSuccess(String id, String report, HttpServletRequest request) {
 		StockFormVo stockFormVo = stockAdjustServiceApi.getStcokFormInfo(id);
 		request.setAttribute("stockFormVo", stockFormVo);
 		request.setAttribute("close", report);
 		return "/stockAdjust/check";
 	}
+
 	/**
 	 * 
 	 * @Description: 获取单据列表信息
@@ -128,8 +133,7 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 	 */
 	@RequestMapping(value = "getStockFormList", method = RequestMethod.POST)
 	@ResponseBody
-	public PageUtils<StockFormVo> getStockFormList(
-			StockFormVo vo,
+	public PageUtils<StockFormVo> getStockFormList(StockFormVo vo,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		LOG.info(LogConstant.OUT_PARAM, vo.toString());
@@ -137,8 +141,7 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
 			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
-			PageUtils<StockFormVo> stockFormList = stockAdjustServiceApi
-					.getStockFormList(vo);
+			PageUtils<StockFormVo> stockFormList = stockAdjustServiceApi.getStockFormList(vo);
 			LOG.info(LogConstant.PAGE, stockFormList.toString());
 			return stockFormList;
 		} catch (Exception e) {
@@ -146,6 +149,7 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 		}
 		return null;
 	}
+
 	/**
 	 * 
 	 * @Description: 保存库存调整单据
@@ -161,7 +165,7 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 	public RespJson addStcokForm(@RequestBody String jsonText) {
 		RespJson resp;
 		try {
-			StockFormVo vo	= JSON.parseObject(jsonText, StockFormVo.class);
+			StockFormVo vo = JSON.parseObject(jsonText, StockFormVo.class);
 			SysUser user = UserUtil.getCurrentUser();
 			vo.setCreateUserId(user.getId());
 			return stockAdjustServiceApi.addStockForm(vo);
@@ -170,8 +174,9 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 			resp = RespJson.error("保存单据信息失败");
 		}
 		return resp;
-		
+
 	}
+
 	/**
 	 * 
 	 * @Description: 更新信息
@@ -185,7 +190,7 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 	public RespJson updateStockForm(@RequestBody String jsonText) {
 		RespJson resp;
 		try {
-			StockFormVo vo	= JSON.parseObject(jsonText, StockFormVo.class);
+			StockFormVo vo = JSON.parseObject(jsonText, StockFormVo.class);
 			SysUser user = UserUtil.getCurrentUser();
 			vo.setCreateUserId(user.getId());
 			return stockAdjustServiceApi.updateStockForm(vo);
@@ -194,9 +199,9 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 			resp = RespJson.error("更新单据信息失败");
 		}
 		return resp;
-		
+
 	}
-	
+
 	/**
 	 * 
 	 * @Description: 获取库存调整明细信息
@@ -216,6 +221,7 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 		}
 		return null;
 	}
+
 	/**
 	 * 
 	 * @Description: 审核单据信息
@@ -226,17 +232,18 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 	 */
 	@RequestMapping(value = "check", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson check(String id){
+	public RespJson check(String id) {
 		RespJson resp;
 		try {
 			SysUser user = UserUtil.getCurrentUser();
-			return stockAdjustServiceApi.check(id,user.getId());
+			return stockAdjustServiceApi.check(id, user.getId());
 		} catch (Exception e) {
 			LOG.error("审核单据信息异常:{}", e);
 			resp = RespJson.error(e.getMessage());
 		}
 		return resp;
 	}
+
 	/**
 	 * 
 	 * @Description: 删除库存调整信息
@@ -247,7 +254,7 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 	 */
 	@RequestMapping(value = "deleteStockAdjust", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson deleteStockAdjust(String id){
+	public RespJson deleteStockAdjust(String id) {
 		RespJson resp;
 		try {
 			return stockAdjustServiceApi.deleteStockAdjust(id);
@@ -257,6 +264,7 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 		}
 		return resp;
 	}
+
 	/**
 	 * 
 	 * @Description: 导出
@@ -285,6 +293,7 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 		}
 		return resp;
 	}
+
 	/**
 	 * 
 	 * @Description: 文件导入
@@ -297,68 +306,71 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 	 */
 	@RequestMapping(value = "importList")
 	@ResponseBody
-	public RespJson importList(@RequestParam("file") MultipartFile file, String branchId,String type){
+	public RespJson importList(@RequestParam("file") MultipartFile file, String branchId, String type) {
 		RespJson respJson = RespJson.success();
 		try {
-			if(file.isEmpty()){
+			if (file.isEmpty()) {
 				return RespJson.error("文件为空");
 			}
 			InputStream is = file.getInputStream();
 			// 获取文件名
 			String fileName = file.getOriginalFilename();
 			SysUser user = UserUtil.getCurrentUser();
-			String[] field = null; 
-			if(type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)){//货号
-				field = new String[]{"skuCode","realNum","largeNum"};
-			}else if(type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)){//条码
-				field = new String[]{"barCode","realNum","largeNum"};
+			String[] field = null;
+			if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {// 货号
+				field = new String[] { "skuCode", "realNum", "largeNum" };
+			} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {// 条码
+				field = new String[] { "barCode", "realNum", "largeNum" };
 			}
-			GoodsSelectImportVo<GoodsSelectByStockAdjust> vo = goodsSelectImportComponent.importSelectGoodsWithStock(fileName, is, field, new GoodsSelectByStockAdjust(), branchId,user.getId(), type,"/stock/adjust/downloadErrorFile", new GoodsSelectImportBusinessValid() {
-				
-				@Override
-				public void businessValid(List<JSONObject> list, String[] excelField) {
-					for (JSONObject obj : list) {
-						if(obj.get("realNum") != null){
-							String realNum = obj.getString("realNum");
-							try {
-								Double.parseDouble(realNum);
-							} catch (Exception e) {
-								obj.element("error", "数量必填");
+			GoodsSelectImportVo<GoodsSelectByStockAdjust> vo = goodsSelectImportComponent.importSelectGoodsWithStock(
+					fileName, is, field, new GoodsSelectByStockAdjust(), branchId, user.getId(), type,
+					"/stock/adjust/downloadErrorFile", new GoodsSelectImportBusinessValid() {
+
+						@Override
+						public void businessValid(List<JSONObject> excelListSuccessData, String[] excelField) {
+							for (JSONObject obj : excelListSuccessData) {
+								if (obj.get("realNum") != null) {
+									String realNum = obj.getString("realNum");
+									try {
+										Double.parseDouble(realNum);
+									} catch (Exception e) {
+										obj.element("error", "数量必填");
+									}
+								}
+								if (obj.get("largeNum") != null) {
+									String largeNum = obj.getString("largeNum");
+									try {
+										Double.parseDouble(largeNum);
+									} catch (Exception e) {
+										obj.element("error", "箱数必填");
+									}
+								}
+
 							}
 						}
-						if(obj.get("largeNum") != null){
-							String largeNum = obj.getString("largeNum");
-							try {
-								Double.parseDouble(largeNum);
-							} catch (Exception e) {
-								obj.element("error", "箱数必填");
-							}
+
+						/**
+						 * (non-Javadoc)
+						 * @see com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid#formatter(java.util.List)
+						 */
+						@Override
+						public void formatter(List<? extends GoodsSelect> list, List<JSONObject> excelListSuccessData,
+								List<JSONObject> excelListErrorData) {
 						}
-						
-					}
-				}
-				/**
-				 * (non-Javadoc)
-				 * @see com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid#formatter(java.util.List)
-				 */
-				@Override
-				public void formatter(List<? extends GoodsSelect> list) {
-					
-				}
-				
-				/**
-				 * (non-Javadoc)
-				 * @see com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid#errorDataFormatter(java.util.List)
-				 */
-				@Override
-				public void errorDataFormatter(List<JSONObject> list) {
-					
-				}
-				
-			});
-			
+
+						/**
+						 * (non-Javadoc)
+						 * @see com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid#errorDataFormatter(java.util.List)
+						 */
+						@Override
+						public void errorDataFormatter(List<JSONObject> list) {
+
+						}
+
+					});
+
 			respJson.put("importInfo", vo);
-			
+
 		} catch (IOException e) {
 			respJson = RespJson.error("读取Excel流异常");
 			LOG.error("读取Excel流异常:", e);
@@ -367,10 +379,9 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 			LOG.error("用户导入异常:", e);
 		}
 		return respJson;
-		
+
 	}
-	
-	
+
 	/**
 	 * 
 	 * @Description: 导出异常信息
@@ -383,20 +394,21 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 	@RequestMapping(value = "downloadErrorFile")
 	public void downloadErrorFile(String code, String type, HttpServletResponse response) {
 		String reportFileName = "错误数据";
-		
+
 		String[] headers = null;
 		String[] columns = null;
-		
-		if(type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)){//货号
-			columns = new String[]{"skuCode","realNum"};
-			headers = new String[]{"货号","数量"};
-		}else if(type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)){//条码
-			columns = new String[]{"barCode","realNum"};
-			headers = new String[]{"条码","数量"};
+
+		if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {// 货号
+			columns = new String[] { "skuCode", "realNum" };
+			headers = new String[] { "货号", "数量" };
+		} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {// 条码
+			columns = new String[] { "barCode", "realNum" };
+			headers = new String[] { "条码", "数量" };
 		}
 
-		goodsSelectImportComponent.downloadErrorFile(code, reportFileName, headers, columns , response);
+		goodsSelectImportComponent.downloadErrorFile(code, reportFileName, headers, columns, response);
 	}
+
 	/**
 	 * 
 	 * @Description: 导入模板下载
@@ -411,10 +423,10 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 			// 导出文件名称，不包括后缀名
 			String fileName = null;
 			String templateName = null;
-			if(type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)){
+			if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {
 				fileName = "库存调整货号导入模板";
 				templateName = ExportExcelConstant.STOCK_ADJUST_SKU_TEMPLE;
-			}else if(type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)){
+			} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {
 				templateName = ExportExcelConstant.STOCK_ADJUST_BAR_TEMPLE;
 				fileName = "库存调整条码导入模板";
 			}
@@ -424,5 +436,5 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 			LOG.error("库存调整导入失败:{}", e);
 		}
 	}
-	
+
 }

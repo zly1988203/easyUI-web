@@ -360,18 +360,20 @@ function setGrossProfitPercent(){
 function saveGoodsArchives(){
 	$('#saveGoodsArchives').attr("disabled","disabled");
 	var isValid = $("#formGoodsArchivesAdd").form('validate');
+	
 	if(!isValid){
 		$('#saveGoodsArchives').removeAttr("disabled");
 		return;
 	}
 	
-	if(parseFloat($("#purchaseSpec").val().trim())===0){
-		$.messager.alert("提示","进货规格不能为0");
+	if($('#purchaseSpec').val()=="0.00"){
+		$('#saveGoodsArchives').removeAttr("disabled");
+		messager("进货规格不能为0!");
 		return;
 	}
-	
-	if(parseFloat($("#distributionSpec").val().trim())===0){
-		$.messager.alert("提示","配送规格不能为0");
+	if($('#distributionSpec').val()=="0.00"){
+		$('#saveGoodsArchives').removeAttr("disabled");
+		messager("配送规格不能为0!");
 		return;
 	}
 	

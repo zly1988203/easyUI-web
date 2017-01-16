@@ -38,7 +38,7 @@
                 <div class="ub  ub-ac">
                    <div class="umar-r10 uw-70 ut-r">店铺名称:</div>
 	                    <input class="uinp ub ub-f1" type="hidden" id="branchCode" name="branchCode">
-                        <input class="uinp ub ub-f1" type="text" id="branchName"  name="branchName" onblur="cleanBranchCode();">
+                        <input class="uinp ub ub-f1" type="text" id="branchName"  name="branchName">
                    <div class="uinp-more" onclick="searchBranch()">...</div>
                 </div>
                 <div class="ub ub-ac  umar-l20">
@@ -55,7 +55,7 @@
                  <div class="ub  ub-ac">
                   <div class="umar-r10 uw-70 ut-r">审核人:</div>
                     <input class="uinp ub ub-f1" type="hidden" id="createUserId" name="createUserId">
-                       <input class="uinp ub ub-f1" type="text" id="createUserName"  readonly="readonly" name="createUserName" onblur="cleanBranchCode();">
+                       <input class="uinp ub ub-f1" type="text" id="createUserName"  name="createUserName">
                   <div class="uinp-more" onclick="selectOperator()">...</div>
                </div>
                 <div class="ub ub-ac  uselectw umar-l20">

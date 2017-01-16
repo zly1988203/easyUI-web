@@ -71,13 +71,16 @@ import com.okdeer.jxc.utils.UserUtil;
  */
 @Controller
 @RequestMapping("print")
-public class PrintController  extends BaseController<GoodsSelect>{
+public class PrintController extends BaseController<GoodsSelect> {
 
 	private static final Logger LOG = LoggerFactory.getLogger(PrintController.class);
+
 	// 价签logo的路径
 	private static String LOGO_PATH = "/template/excel/print/priceTag.png";
+
 	@Autowired
 	private GoodsSelectImportComponent goodsSelectImportComponent;
+
 	// 价签logo图片
 	private static Image logo = null;
 
@@ -115,7 +118,7 @@ public class PrintController  extends BaseController<GoodsSelect>{
 	/**
 	 * @Fields TEN : 10
 	 */
-	private	final static int TEN = Constant.TEN;
+	private final static int TEN = Constant.TEN;
 
 	/**
 	 * @Fields TWELVE : 12
@@ -150,7 +153,7 @@ public class PrintController  extends BaseController<GoodsSelect>{
 	/**
 	 * @Fields FONT10 : 10号字体
 	 */
-	private	final static Font FONT10 = new Font(getBaseFont(), TEN, Font.NORMAL);
+	private final static Font FONT10 = new Font(getBaseFont(), TEN, Font.NORMAL);
 
 	/**
 	 * @Fields FONT12 : 12号字体加粗
@@ -162,7 +165,7 @@ public class PrintController  extends BaseController<GoodsSelect>{
 	 */
 	private final static Font FONT14BOLD = new Font(getBaseFont(), FOURTEEN, Font.BOLD);
 
-	private final static	String pathName = PrintController.class.getResource("/").getPath();
+	private final static String pathName = PrintController.class.getResource("/").getPath();
 
 	private static BaseFont baseFont;
 
@@ -235,12 +238,13 @@ public class PrintController  extends BaseController<GoodsSelect>{
 					exportPdf1(response, pintList);
 				} else if ("2".equals(printNo)) {
 					exportPdf2(response, pintList);
-				}  else if ("5".equals(printNo)) {
-					JasperHelper.exportmain(request, response, null, JasperHelper.PDF_TYPE,"GoodsLabel.jrxml" , pintList, "test");
-				}else if ("6".equals(printNo)) {
-					JasperHelper.exportmain(request, response, null, JasperHelper.PDF_TYPE,"GoodsPromotionLabel.jrxml" , pintList, "test");
-				}
-				else {
+				} else if ("5".equals(printNo)) {
+					JasperHelper.exportmain(request, response, null, JasperHelper.PDF_TYPE, "GoodsLabel.jrxml",
+							pintList, "test");
+				} else if ("6".equals(printNo)) {
+					JasperHelper.exportmain(request, response, null, JasperHelper.PDF_TYPE,
+							"GoodsPromotionLabel.jrxml", pintList, "test");
+				} else {
 					JasperHelper.exportmain(request, response, null, JasperHelper.PDF_TYPE, PrintConstant.PRINT_LABEL
 							+ printNo + ".jrxml", pintList, "test");
 				}
@@ -285,7 +289,7 @@ public class PrintController  extends BaseController<GoodsSelect>{
 			int i = Constant.ZERO;
 			int totalPrintNum = printList.size();
 			for (GoodsPrint p : printList) {
-				PdfPCell mainCell = full(FONT8, p, mainTable, SMALL_ROW_HIGH, FONT12,20);
+				PdfPCell mainCell = full(FONT8, p, mainTable, SMALL_ROW_HIGH, FONT12, 20);
 				i++;
 				if (i == totalPrintNum) {
 					// 如果是最后一条记录，需要填充空白单元格到主表格中
@@ -360,7 +364,7 @@ public class PrintController  extends BaseController<GoodsSelect>{
 			int i = Constant.ZERO;
 			int totalPrintNum = printList.size();
 			for (GoodsPrint p : printList) {
-				PdfPCell mainCell = full(FONT10, p, mainTable, ROW_HIGH, FONT14BOLD,32);
+				PdfPCell mainCell = full(FONT10, p, mainTable, ROW_HIGH, FONT14BOLD, 32);
 				i++;
 				if (i == totalPrintNum) {
 					// 如果是最后一条记录，需要填充空白单元格到主表格中
@@ -479,17 +483,16 @@ public class PrintController  extends BaseController<GoodsSelect>{
 		return document;
 	}
 
-	public PdfPCell full(Font font, GoodsPrint p, PdfPTable mainTable, int hight, Font bootFont,int firstHight)
-	{
-		try{
+	public PdfPCell full(Font font, GoodsPrint p, PdfPTable mainTable, int hight, Font bootFont, int firstHight) {
+		try {
 			PdfPTable innerTable = new PdfPTable(3);
 			innerTable.setWidthPercentage(HUNDRED);
 			// 第一行是logo图片 占3列
 			addCell(innerTable, new Element[] { logo }, 3, new BaseColor(140, 189, 58), firstHight, true);
 			// 第二行品名和产地，品名占2列
 			// 品名
-			addCell(innerTable, new Element[] { new Paragraph("品名：" + clean(p.getSkuName()), font) }, Constant.TWO, hight,
-					true);
+			addCell(innerTable, new Element[] { new Paragraph("品名：" + clean(p.getSkuName()), font) }, Constant.TWO,
+					hight, true);
 			// 产地
 			addCell(innerTable, new Element[] { new Paragraph("产地：" + clean(p.getOriginPlace()), font) }, hight, true);
 
@@ -498,9 +501,12 @@ public class PrintController  extends BaseController<GoodsSelect>{
 
 			addCell(innerTable, new Element[] { new Paragraph("单位：" + clean(p.getUnit()), font) }, hight, true);
 			// 零售价占两行
-			addCell(innerTable, new Element[] { new Paragraph(" 零售价: ", font),
-					new Phrase("￥ " + (p.getSalePrice() == null ? "" : clean(p.getSalePrice().toString())), bootFont) },
-					Constant.ONE, Constant.TWO, new BaseColor(255, 245, Constant.ZERO), hight, true);
+			addCell(innerTable,
+					new Element[] {
+							new Paragraph(" 零售价: ", font),
+							new Phrase("￥ " + (p.getSalePrice() == null ? "" : clean(p.getSalePrice().toString())),
+									bootFont) }, Constant.ONE, Constant.TWO, new BaseColor(255, 245, Constant.ZERO),
+					hight, true);
 
 			// 第四行：条码
 			Image barcodeImg = null;
@@ -527,75 +533,74 @@ public class PrintController  extends BaseController<GoodsSelect>{
 			PdfPCell mainCell = new PdfPCell(innerTable);
 			mainCell.setBorder(Constant.ZERO);
 			mainCell.setPadding(1.5f);
-			mainCell.setPaddingBottom(Constant.ZERO);
+			mainCell.setPaddingBottom(1.5f);
 			// 把主表格单元添加到主表格中
 			mainTable.addCell(mainCell);
 			return mainCell;
-		}catch(Exception e){
+		} catch (Exception e) {
 			LOG.error("导出PDF时发生异常，{}", e);
 		}
 		return null;
 	}
+
 	@RequestMapping(value = "importList")
 	@ResponseBody
-	public RespJson importList(@RequestParam("file") MultipartFile file,String type){
+	public RespJson importList(@RequestParam("file") MultipartFile file, String type) {
 		RespJson respJson = RespJson.success();
 		try {
-			if(file.isEmpty()){
+			if (file.isEmpty()) {
 				return RespJson.error("文件为空");
 			}
-			
-			if(org.apache.commons.lang3.StringUtils.isBlank(type)){
+
+			if (org.apache.commons.lang3.StringUtils.isBlank(type)) {
 				return RespJson.error("导入类型为空");
 			}
-			String branchId=UserUtil.getCurrBranchId();
-			
+			String branchId = UserUtil.getCurrBranchId();
+
 			// 文件流
 			InputStream is = file.getInputStream();
 			// 获取文件名
 			String fileName = file.getOriginalFilename();
-			
+
 			SysUser user = UserUtil.getCurrentUser();
-			
-			String[] field = null; 
-			
-			if(type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)){//货号
-				field = new String[]{"skuCode","newCostPrice"};
-			}else if(type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)){//条码
-				field = new String[]{"barCode","newCostPrice"};
+
+			String[] field = null;
+
+			if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {// 货号
+				field = new String[] { "skuCode", "newCostPrice" };
+			} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {// 条码
+				field = new String[] { "barCode", "newCostPrice" };
 			}
 			GoodsSelectImportVo<GoodsSelectByCostPrice> vo = goodsSelectImportComponent.importSelectGoods(fileName, is,
-					field, 
-					new GoodsSelectByCostPrice(), 
-					branchId, user.getId(), 
-					type,
-					"/cost/costAdjust/downloadErrorFile",
-					new GoodsSelectImportBusinessValid() {
-						
+					field, new GoodsSelectByCostPrice(), branchId, user.getId(), type,
+					"/cost/costAdjust/downloadErrorFile", new GoodsSelectImportBusinessValid() {
+
 						@Override
-						public void formatter(List<? extends GoodsSelect> list) {
+						public void formatter(List<? extends GoodsSelect> list,
+								List<net.sf.json.JSONObject> excelListSuccessData,
+								List<net.sf.json.JSONObject> excelListErrorData) {
 							for (GoodsSelect objGoods : list) {
 								GoodsSelectByCostPrice obj = (GoodsSelectByCostPrice) objGoods;
 								BigDecimal newCostprice = obj.getNewCostPrice();
-								if(newCostprice == null){
+								if (newCostprice == null) {
 									obj.setNewCostPrice(obj.getCostPrice());
 								}
 							}
 						}
-						
+
 						@Override
 						public void errorDataFormatter(List<net.sf.json.JSONObject> list) {
-							
+
 						}
-						
+
 						@Override
-						public void businessValid(List<net.sf.json.JSONObject> list, String[] excelField) {
-							
+						public void businessValid(List<net.sf.json.JSONObject> excelListSuccessData, String[] excelField) {
+
 						}
-						
+
 					}, null);
 			respJson.put("importInfo", vo);
-			
+
 		} catch (IOException e) {
 			respJson = RespJson.error("读取Excel流异常");
 			LOG.error("读取Excel流异常:", e);
@@ -605,6 +610,7 @@ public class PrintController  extends BaseController<GoodsSelect>{
 		}
 		return respJson;
 	}
+
 	/**
 	 * @Description: 导出调价单模板
 	 * @param response
@@ -620,7 +626,7 @@ public class PrintController  extends BaseController<GoodsSelect>{
 			String fileName = "商品价签货号导入模板";
 			// 模板名称，包括后缀名
 			String templateName = ExportExcelConstant.SKUCODE_TEMPLE;
-			if (Constant.ZERO==type) {
+			if (Constant.ZERO == type) {
 				templateName = ExportExcelConstant.SKUCODE_TEMPLE;
 				fileName = "商品价签货号导入模板";
 			} else {

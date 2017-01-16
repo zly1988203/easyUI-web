@@ -11,11 +11,15 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.okdeer.jxc.common.enums.BranchTypeEnum;
 import com.okdeer.jxc.common.enums.GoodsStatusEnum;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.PageUtils;
@@ -31,6 +36,7 @@ import com.okdeer.jxc.goods.entity.GoodsBranchPriceVo;
 import com.okdeer.jxc.goods.qo.GoodsBranchPriceQo;
 import com.okdeer.jxc.goods.service.GoodsBranchPriceServiceApi;
 import com.okdeer.jxc.goods.service.GoodsSkuSyncServiceApi;
+import com.okdeer.jxc.goods.vo.BranchGoodsPropVo;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
 import com.okdeer.jxc.utils.poi.ExcelReaderUtil;
@@ -81,7 +87,26 @@ public class GoodsBranchPriceController {
 			qo.setStatus(0);
 		}
 		try {
-			PageUtils<GoodsBranchPriceVo> branchGoods = goodsBranchPriceService.queryBranchGoods(qo);
+			Integer branchType = null;
+			if (StringUtils.isBlank(qo.getBranchType())) {
+				branchType = UserUtil.getCurrBranchType();
+			} else {
+				branchType = Integer.valueOf(qo.getBranchType());
+			}
+			// 查询机构商品
+			PageUtils<GoodsBranchPriceVo> branchGoods = null;
+			if (BranchTypeEnum.LOGISTICS_CENTER.getCode().equals(branchType)
+					|| BranchTypeEnum.SELF_STORE.getCode().equals(branchType)
+					|| BranchTypeEnum.FRANCHISE_STORE_B.getCode().equals(branchType)
+					|| BranchTypeEnum.FRANCHISE_STORE_C.getCode().equals(branchType)) {
+				branchGoods = goodsBranchPriceService.queryBranchGoods(qo);
+			} else if (BranchTypeEnum.HEAD_QUARTERS.getCode().equals(branchType)
+					|| BranchTypeEnum.BRANCH_OFFICE.getCode().equals(branchType)) {
+				branchGoods = goodsBranchPriceService.queryBranchCompanyGoods(qo);
+			} else {
+				LOG.error("机构类型错误!");
+				return null;
+			}
 			return branchGoods;
 		} catch (Exception e) {
 			LOG.error("查询店铺商品异常:", e);
@@ -300,8 +325,32 @@ public class GoodsBranchPriceController {
 		return null;
 	}
 
+	/**
+	 * 跳转分公司商品属性编辑页
+	 * @param goodsBranchPriceId 商品机构价格表ID
+	 * @return 
+	 */
+	@RequestMapping(value = "tobranchGoodsPropEdit")
+	public String tobranchGoodsPropEdit(String goodsBranchPriceId,Model model) {
+		BranchGoodsPropVo vo = goodsBranchPriceService.queryBranchGoodsPropById(goodsBranchPriceId);
+		model.addAttribute("vo", vo);
+		return "goods/branchgoods/branchGoodsPropEdit";
+	}
 	
-	
-	
-	
+	/**
+	 * 更新分公司商品属性信息
+	 * @param branchGoodsPropVo 分公司商品属性信息VO
+	 * @param validate
+	 * @return
+	 */
+	@RequestMapping(value = "/branchGoodsPropSave", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson branchGoodsPropSave(@Valid BranchGoodsPropVo branchGoodsPropVo, BindingResult validate) {
+		if (validate.hasErrors()) {
+			String errorMessage = validate.getFieldError().getDefaultMessage();
+			LOG.warn("validate error message:{}", errorMessage);
+			return RespJson.error(errorMessage);
+		}
+		return goodsBranchPriceService.updateBranchGoodsProp(branchGoodsPropVo);
+	}
 }

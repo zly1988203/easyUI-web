@@ -363,6 +363,12 @@ function selectGoods(searchKey){
         var setdata=setTion(data);
         selectStockAndPrice(branchId,setdata);
        
+        gridHandel.setLoadFocus();
+        setTimeout(function(){
+            gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
+            gridHandel.setSelectFieldName("largeNum");
+            gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
+        },100)
       
     },searchKey,"","","",branchId,'');
 }

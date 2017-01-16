@@ -224,7 +224,8 @@ function selectBranches(){
 	new publicAgencyService(function(data){
         if($("#branchId").val()!=data.branchesId){
             $("#branchId").val(data.branchesId);
-            $("#branchName").val(data.branchName);
+//            $("#branchName").val(data.branchName);
+            $("#branchName").val("["+data.branchCode+"]"+data.branchName);
            //选择机构查询
            var supplierId = $("#supplierId").val();
            if(supplierId){
