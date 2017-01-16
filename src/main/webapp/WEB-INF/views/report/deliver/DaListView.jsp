@@ -37,7 +37,7 @@
                 </div>
             </div>
             <div class="ub ub-ac uw-300 umar-l20">
-                <div class="umar-r10 uw-60 ut-r">业务人员:</div>
+                <div class="umar-r10 uw-60 ut-r">业务人员1:</div>
                 <div class="ub">
                     <input class="uinp ub ub-f1" type="text" id="salesman" name="salesman" value="${salesman}" readonly="readonly">
                     <div class="uinp-more">...</div>

@@ -183,6 +183,7 @@ function addDeliverForm(){
 //查询要货单
 function queryForm(){
 	branchName = $("#branchName").val();
+	branchName = branchName.substring(branchName.lastIndexOf(']')+1)
 	if (indexTab === 0) {
 		setQueryDataDABranbch();
 	} else {
@@ -193,6 +194,9 @@ function queryForm(){
 	//$("#" + tableIdName).datagrid("options").queryParams = fromObjStr;
 	//$("#" + tableIdName).datagrid('options').url = contextPath + tempURL;
 	var fromObjStr = $('#queryForm').serializeObject();
+	// 去除编码
+    fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1)
+    fromObjStr.operateUserName = fromObjStr.operateUserName.substring(fromObjStr.operateUserName.lastIndexOf(']')+1)
 	$("#" + tableIdName).datagrid('load',fromObjStr);
 }
 
@@ -241,7 +245,8 @@ function selectBranches(){
 	new publicAgencyService(function(data){
 //		$("#sourceBranchId").val(data.branchesId);
 		branchName = data.branchName;
-		$("#branchName").val(branchName);
+		//$("#branchName").val(branchName);
+		$("#branchName").val("["+data.branchCode+"]"+data.branchName);
 	},'',sourceBranchId);
 }
 
@@ -251,7 +256,8 @@ function selectBranches(){
 function selectOperator(){
 	new publicOperatorService(function(data){
 //		$("#operateUserId").val(data.id);
-		$("#operateUserName").val(data.userName);
+		//$("#operateUserName").val(data.userName);
+		$("#operateUserName").val("["+data.userCode+"]"+data.userName);
 	});
 }
 
@@ -365,7 +371,7 @@ function delDivAuditStatus() {
 		deliverAuditStatus = $("#auditStatus input[name='deliverAuditStatus']:checked").val();
 		auditStatus.parentNode.removeChild(auditStatus);
 	}
-	$("#remarkDiv").after("<div class='umar-l40' id='checkDiv' style='visibility:visible;'><input type='checkbox' id='checkboxTime' name='checkboxTime'/><span class='umar-l15  umar-r10'>结束时间:</span><input class='Wdate'  readonly='readonly' name='tempEndTime' id='popupSearchDateTime' onclick=\"WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})\" /></div>");
+	$("#remarkDiv").after("<div class='umar-l40' id='checkDiv' style='visibility:visible;'><input type='checkbox' id='checkboxTime' name='checkboxTime'/><span class='umar-l15  umar-r10'>结束时间:</span><input class='Wdate' style='width:212px' readonly='readonly' name='tempEndTime' id='popupSearchDateTime' onclick=\"WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})\" /></div>");
 	setDivTime();
 }
 
