@@ -27,16 +27,23 @@ function createSheet() {
     });
 }
 
+//监控修改默认模版的权限
+var whosyourdaddy=false;
+document.onkeydown = function(e) {
+    if (event.ctrlKey && event.altKey && 80 == e.keyCode){
+        $.helper.infoAlert("您已开启隐藏功能！");
+        whosyourdaddy=true;
+    }
+}
+
 //保存模板
 function saveTemplate() {
-    /*if (gVar.templateNo == -1) {
+    if (gVar.templateNo == -1 && whosyourdaddy == false) {
         $.helper.infoAlert("默认模板不允许修改！");
         return;
-    }*/
+    }
     
 	var data = { template: JSON.stringify(getTemplate()),detailColumns: getDetailColumns() };
-    //var data = { template: getTemplate(), detailColumns: getDetailColumns() };
-    
     var url = urlSavePrintTemplate;
 
     $.helper.post(url, data, function (result) {
