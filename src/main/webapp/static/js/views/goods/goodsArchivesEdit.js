@@ -316,17 +316,24 @@ function saveGoodsArchives(){
 		return;
 	}
 	
-	if($('#purchaseSpec').val()=="0.00"){
+	if($("#purchaseSpec").val()=== '0.00'){
 		$('#updateGoodsArchives').removeAttr("disabled");
 		messager("进货规格不能为0!");
 		return;
 	}
-	if($('#distributionSpec').val()=="0.00"){
+	
+	if($("#distributionSpec").val()=== '0.00'){
 		$('#updateGoodsArchives').removeAttr("disabled");
-		messager("配送规格不能为0!");
+		messager("配送规格不能为0");
 		return;
 	}
 	
+	if(parseFloat($("#vipPrice").val()) > parseFloat($("#lowestPrice").val())){
+		$('#updateGoodsArchives').removeAttr("disabled");
+		messager("会员价不能大于最低销售价");
+		return;
+	}
+
 	//校验商品条码是否重复
 	var pricingType = $('#pricingType option:selected').val();
 	var barCode = $("#barCode").val();
