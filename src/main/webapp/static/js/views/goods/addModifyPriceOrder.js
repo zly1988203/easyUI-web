@@ -428,6 +428,7 @@ function saveModifyPriceOrder() {
 				gFunEndLoading();
 				return;
 			}
+			
 			if (datagridUtil.isCheckPrice()) {
 				gFunEndLoading();
 				if(datagridUtil.isCheckRemark()){
@@ -501,6 +502,15 @@ function updateModifyPriceOrder() {
 			gFunEndLoading();
 			return;
 		}
+		
+		for(var i=0;i<detailList.length;i++){
+			var item = detailList[i];
+		      if(parseFloat(v["newSalePrice"]) < parseFloat(v["newVipPrice"])){
+		          messager("第"+(i+1)+"行，新会员价要小于新销售价");
+		          return false;
+		      };
+		}
+		
 		if (datagridUtil.isHasDataGrid()) {
 			if(datagridUtil.isCheckRemark()){
 				var params = {
