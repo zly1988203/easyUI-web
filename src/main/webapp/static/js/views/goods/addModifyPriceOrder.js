@@ -503,12 +503,19 @@ function updateModifyPriceOrder() {
 			return;
 		}
 		
+		var isCheck = true;
 		for(var i=0;i<detailList.length;i++){
 			var item = detailList[i];
-		      if(parseFloat(v["newSalePrice"]) < parseFloat(v["newVipPrice"])){
+		      if(parseFloat(item["newSalePrice"]) < parseFloat(item["newVipPrice"])){
 		          messager("第"+(i+1)+"行，新会员价要小于新销售价");
-		          return false;
+		          isCheck = false;
+		          break;
 		      };
+		}
+		
+		if(isCheck === false){
+			gFunEndLoading();
+			return;
 		}
 		
 		if (datagridUtil.isHasDataGrid()) {
