@@ -78,6 +78,11 @@
 				<div class="umar-r10 uw-80 ut-r">货号/条码:</div>
 				<input type="text" name="skuCodeOrBarCode" id="skuCodeOrBarCode" class="uinp" />
 			  </div>
+			  
+			  <div class="ub ub-ac uw-300">
+				<div class="umar-r10 uw-80 ut-r" >单号:</div>
+				<input type="text" name="formNo" id="formNo" class="uinp" />
+			   </div>
             </div>
            
              <div class="ub umar-t8">
