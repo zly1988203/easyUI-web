@@ -21,6 +21,7 @@ pageEncoding="UTF-8"%>
             </div>
             <div class="ub ub-ver ub-f1 ">
                 <div class="ub ub-ac upad-10">
+                    <input class="uinp ub ub-f1" type="hidden" id="branchId" name="branchId" value="${branchId}"/>
                     <input class="usearch uinp ub ub-f1" type="text" id="goodsInfo"
                            placeholder="可按货号、自编码、品名、助记码等查询">
                     <input type="button" class="ubtn umar-l10" value="查询" onclick="cx()">
@@ -32,10 +33,6 @@ pageEncoding="UTF-8"%>
 
             </div>
         </div>
-        <!--<div class="ub ub-pe umar-10">-->
-        <!--<input type="button" class="ubtn usure" value="确定" onclick="toSure()">-->
-        <!--<input type="button" class="ubtn ucancle" value="取消" onclick="toCancel()">-->
-        <!--</div>-->
     </div>
 </div>
 
@@ -81,7 +78,7 @@ pageEncoding="UTF-8"%>
         }
     }
     var goodsClass = new goodsArchives();
-	//var gridHandel = new GridClass();
+
     $(function(){
         initSelectView();
         initTreeArchives();
@@ -156,7 +153,8 @@ pageEncoding="UTF-8"%>
     	   supplierId = treeNode.id;
        }
         var goodsInfo=$("#goodsInfo").val();
-        $("#gridGoods").datagrid("options").queryParams = {goodsInfo:goodsInfo,categoryCode:categoryCode,brandId:brandId,supplierId:supplierId};
+        var branchId=$("#branchId").val();
+        $("#gridGoods").datagrid("options").queryParams = {'goodsInfo':goodsInfo,'categoryCode':categoryCode,'brandId':brandId,'supplierId':supplierId,'branchId':branchId};
         $("#gridGoods").datagrid("options").method = "post";
         $("#gridGoods").datagrid("options").url =contextPath + '/goods/goodsSelect/queryGoodsSkuLists';
         $("#gridGoods").datagrid("load");
@@ -238,6 +236,8 @@ pageEncoding="UTF-8"%>
     function initSearch(key){
         if(!key){
             $("#gridGoods").datagrid("options").method = "post";
+            var branchId=$("#branchId").val();
+            $("#gridGoods").datagrid("options").queryParams = {'branchId':branchId};
             $("#gridGoods").datagrid("options").url =contextPath + '/goods/goodsSelect/queryGoodsSkuLists';
             $("#gridGoods").datagrid('load');
         }else{
@@ -250,9 +250,8 @@ pageEncoding="UTF-8"%>
     function cx(){
         setTimeout(function(){
             var goodsInfo=$("#goodsInfo").val();
-            // $("#gridGoods").datagrid("options").queryParams = {'categoryId':categoryId,'goodsInfo':goodsInfo,'formType':'${type}','sourceBranchId':'${sourceBranchId}','targetBranchId':'${targetBranchId}'};
-            // 梁利 提出左边树与右边的查询无关系
-            $("#gridGoods").datagrid("options").queryParams = {'goodsInfo':goodsInfo};
+            var branchId=$("#branchId").val();
+            $("#gridGoods").datagrid("options").queryParams = {'goodsInfo':goodsInfo,'branchId':branchId};
             $("#gridGoods").datagrid("options").method = "post";
             $("#gridGoods").datagrid("options").url =contextPath + '/goods/goodsSelect/queryGoodsSkuLists';
             $("#gridGoods").datagrid('load');

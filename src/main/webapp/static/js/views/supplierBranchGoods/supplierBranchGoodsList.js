@@ -189,6 +189,7 @@ function delLineHandel(event){
 
 //选择商品
 function selectGoods(key){
+	var branchId = $("#branchId").val();
     new publicGoodsSkuService(function(data){
         if(data.length==0){
             return;
@@ -213,7 +214,7 @@ function selectGoods(key){
 
         $("#gridSupplierArchiveList").datagrid("loadData",newRows);
         gridHandel.setLoadFocus();
-    },0,key);
+    },0,key,branchId);
 }
 
 
