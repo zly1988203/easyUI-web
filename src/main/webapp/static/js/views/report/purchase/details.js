@@ -122,6 +122,7 @@ function initPurReportDetailGrid(queryType) {
 				formatter : function(value, rowData, rowIndex) {
 					return formatDate(value,'yyyy-MM-dd hh:mm');
 				}},
+			{field: 'refFormNo', title: '引用单号', width: 130, align: 'left'},
 			{field: 'goodsCreateDate', title: '生产日期', width:115, align: 'left',
 				formatter : function(value, rowData, rowIndex) {
 					return formatDate(value,'yyyy-MM-dd');

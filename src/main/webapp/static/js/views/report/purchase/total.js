@@ -4,6 +4,7 @@
 $(function() {
 	//选择报表类型
 	changeType();
+	formNoOff();
 	initPurReportTotalGrid();
 	// 开始和结束时间
 	if(!$("#txtStartDate").val()){
@@ -33,6 +34,7 @@ function changeType(){
     		skuCodeOrBarCodeOn();
     		supplierOn();
     		formTypeOn();
+    		formNoOff();
     		categoryTypeOff();
     		initPurReportTotalGrid();
 		}else if (a=="supplierTotal") {
@@ -40,6 +42,7 @@ function changeType(){
 			supplierOn();
 			formTypeOn();
 			categoryOff();
+			formNoOff();
 			skuCodeOrBarCodeOff();
 			categoryTypeOff();
 			initPurReportSupplierGrid();
@@ -48,6 +51,7 @@ function changeType(){
 			supplierOn();
 			formTypeOn();
 			categoryOff();
+			formNoON();
 			skuCodeOrBarCodeOff();
 			categoryTypeOff();
 			initPurFormNoGrid();
@@ -56,6 +60,7 @@ function changeType(){
 			categoryOn();
 			formTypeOn();
 			categoryTypeOn();
+			formNoOff();
 			supplierOff();
 			skuCodeOrBarCodeOff();
 			initCategoryGrid();
@@ -71,6 +76,7 @@ function supplierOn(){
 	$("#supplierName").removeClass("uinp-no-more");
 	$("#supplierName").removeAttr("readonly");
 }
+
 //供应商禁用
 function supplierOff(){
     $("#supplierName").addClass("uinp-no-more");
@@ -80,6 +86,22 @@ function supplierOff(){
 	$("#supplierName").attr("readonly","readonly");
     $("#supplierName").addClass("uinp-no-more");
 }
+
+//单号查询开启
+function formNoON(){
+    $("#formNo").removeClass("uinp-no-more");
+	$("#formNo").removeClass("uinp-no-more");
+	$("#formNo").removeAttr("readonly");
+}
+
+//单号查询禁用
+function formNoOff(){
+    $("#formNo").addClass("uinp-no-more");
+	$("#formNo").val("");
+	$("#formNo").attr("readonly","readonly");
+    $("#formNo").addClass("uinp-no-more");
+}
+
 //类别开启
 function categoryOn(){
     $("#categoryName").removeClass("uinp-no-more");
