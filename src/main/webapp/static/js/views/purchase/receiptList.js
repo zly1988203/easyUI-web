@@ -6,6 +6,8 @@ var indexTab = 0;
 var tableIdName = 'receiptOrderList';
 var tempURL = '/form/purchaseSelect/getPurchaseFormList';
 $(function(){
+	$("#refFormNo").val('');
+	document.getElementById("refFormNoDiv").style.visibility="hidden";
 	document.getElementById("radioItemDiv").style.visibility="hidden";
 	loadTabs();
 	toBtnDisable('btnAdd','btnDel');
@@ -25,12 +27,15 @@ function loadTabs(){
 			indexTab = $('#tabs').tabs('getTabIndex',$('#tabs').tabs('getSelected'));
 			if (indexTab === 0) {
 				document.getElementById("radioItemDiv").style.visibility="hidden";
+				$("#refFormNo").val('');
+				document.getElementById("refFormNoDiv").style.visibility="hidden";
 				toBtnEnable('btnAdd','btnDel');
 				setQueryDataPA();
 				initDatagridFormPA();
 			} else {
 				$("input[type='radio'][name='status']").get(0).checked = true;
 				document.getElementById("radioItemDiv").style.visibility="visible";
+				document.getElementById("refFormNoDiv").style.visibility="visible";
 				toBtnDisable('btnAdd','btnDel');
 				setQueryDataPI();
 				initDatagridOrders();
@@ -131,6 +136,7 @@ function initDatagridOrders(){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
 			},
+			{field:'refFormNo',title:'采购单号',width:'200px',align:'left'},
             {field:'updateUserName',title:'操作员',width:'130px',align:'left'},
             {field:'createTime',title:'操作时间',width:'150px',align:'center', formatter: function (value, row, index) {
                 if (value) {

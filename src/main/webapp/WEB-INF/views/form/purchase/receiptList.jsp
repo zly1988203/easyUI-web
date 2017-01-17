@@ -58,6 +58,10 @@
 	                <input class="uinp" id="branchName" name="branchName" type="text" maxlength="50">
 	                <div class="uinp-more" onclick="selectBranch()">...</div>
 	            </div>
+	            <div class="ub ub-ac umar-r40" id="refFormNoDiv">
+	                <div class="umar-r10 uw-60 ut-r">采购单号:</div>
+	                <input class="uinp" name="refFormNo" id="refFormNo" type="text">
+	            </div>
 	            <div class="ub ub-ac umar-r40" id="radioItemDiv">
 	                <div class="umar-r10 uw-60 ut-r">审核状态:</div>
 	                <div class="ub ub-ac umar-r10">
