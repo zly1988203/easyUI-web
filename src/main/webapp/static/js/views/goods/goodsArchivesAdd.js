@@ -371,15 +371,16 @@ function saveGoodsArchives(){
 		messager("进货规格不能为0!");
 		return;
 	}
-	if($('#distributionSpec').val()=="0.00"){
+	
+	if($("#distributionSpec").val()=== '0.00'){
 		$('#saveGoodsArchives').removeAttr("disabled");
-		messager("配送规格不能为0!");
+		messager("配送规格不能为0");
 		return;
 	}
 	
-	if(parseFloat($("#salePrice").val())< parseFloat($("#vipPrice").val())){
+	if(parseFloat($("#vipPrice").val()) > parseFloat($("#lowestPrice").val())){
 		$('#saveGoodsArchives').removeAttr("disabled");
-		messager("零售价不能小于会员价!");
+		messager("会员价不能大于最低销售价");
 		return;
 	}
 	

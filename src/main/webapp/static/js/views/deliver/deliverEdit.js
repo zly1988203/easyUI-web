@@ -122,6 +122,7 @@ function initDatagridEditRequireOrder(){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                     }
+
                     if(!value){
                         row["largeNum"] = parseFloat(value||0).toFixed(2);
                     }
@@ -181,7 +182,7 @@ function initDatagridEditRequireOrder(){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                     }
-                    
+
                     if(!row.amount){
                     	row.amount = parseFloat(value||0).toFixed(2);
                     }
@@ -465,6 +466,7 @@ function selectGoods(searchKey){
             $("#"+gridHandel.getGridName()).datagrid("acceptChanges");
         }
         selectStockAndPrice(data);
+        
         gridHandel.setLoadFocus();
         setTimeout(function(){
             gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
