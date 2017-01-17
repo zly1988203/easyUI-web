@@ -155,15 +155,15 @@ function initDatagridAddRequireOrder(){
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
-                /*editor:{
+                editor:{
                     type:'numberbox',
                     options:{
                         min:0,
                         disabled:true,
-                        precision:2,
-                        onChange: onChangePrice,
+                        precision:4,
+//                        onChange: onChangePrice,
                     }
-                },*/
+                },
             },
             {field:'amount',title:'金额',width:'80px',align:'right',
                 formatter:function(value,row,index){
@@ -177,8 +177,8 @@ function initDatagridAddRequireOrder(){
                     options:{
                         min:0,
                         disabled:true,
-                        precision:2,
-                        onChange: onChangeAmount,
+                        precision:4,
+//                        onChange: onChangeAmount,
                     }
                 },
 
@@ -467,6 +467,14 @@ function selectGoods(searchKey){
             $("#gridEditOrder").datagrid("acceptChanges");
         }
         selectStockAndPrice(sourceBranchId,data);
+        
+        gridHandel.setLoadFocus();
+        setTimeout(function(){
+            gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
+            gridHandel.setSelectFieldName("largeNum");
+            gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
+        },100)
+        
     },searchKey,'',sourceBranchId,targetBranchId,sourceBranchId,'');
 }
 
@@ -725,7 +733,8 @@ function selectBranches(){
 	} else {*/
         new publicAgencyService(function(data){
             $("#targetBranchId").val(data.branchesId);
-            $("#targetBranchName").val(data.branchName);
+            //$("#targetBranchName").val(data.branchName);
+            $("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
             $("#targetBranchType").val(data.type);
             $("#address").html(data.address);
             $("#contacts").html(data.contacts);
@@ -747,7 +756,8 @@ function selectSourchBranches(){
     //if (targetBranchType == '' || targetBranchType == null || targetBranchType == '0' || targetBranchType == '1' || targetBranchType == '2') {
         new publicAgencyService(function(data){
             $("#sourceBranchId").val(data.branchesId);
-            $("#sourceBranchName").val(data.branchName);
+            //$("#sourceBranchName").val(data.branchName);
+            $("#sourceBranchName").val("["+data.branchCode+"]"+data.branchName);
             $("#sourceBranchType").val(data.type);
             gridHandel.setLoadData([$.extend({},gridDefault)]);
         },'DO','');

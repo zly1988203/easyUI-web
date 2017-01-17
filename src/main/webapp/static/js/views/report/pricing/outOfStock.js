@@ -329,6 +329,10 @@ function queryForm(){
 		$("#sourceBranchId").val('');
 	}
 	var fromObjStr = $('#queryForm').serializeObject();
+	// 去除编码
+    fromObjStr.targetBranchName = fromObjStr.targetBranchName.substring(fromObjStr.targetBranchName.lastIndexOf(']')+1)
+    fromObjStr.sourceBranchName = fromObjStr.sourceBranchName.substring(fromObjStr.sourceBranchName.lastIndexOf(']')+1)
+    fromObjStr.categoryName = fromObjStr.categoryName.substring(fromObjStr.categoryName.lastIndexOf(']')+1)
 	$("#marketWater").datagrid("options").queryParams = fromObjStr;
 	$('#marketWater').datagrid({showFooter:true});
 	$("#marketWater").datagrid("options").method = "post";
@@ -343,10 +347,12 @@ function searchBranch(type){
 	new publicAgencyService(function(data){
 		if(type==0){
 //			$("#targetBranchId").val(data.branchesId);
-			$("#targetBranchName").val(data.branchName);
+			//$("#targetBranchName").val(data.branchName);
+			$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
 		}else{
 //			$("#sourceBranchId").val(data.branchesId);
-			$("#sourceBranchName").val(data.branchName);
+			//$("#sourceBranchName").val(data.branchName);
+			$("#sourceBranchName").val("["+data.branchCode+"]"+data.branchName);
 		}
 	},"","");
 }
@@ -356,7 +362,9 @@ function getGoodsType(){
 	new publicCategoryService(function(data){
 //		$("#goodsCategoryId").val(data.goodsCategoryId);
 //		$("#categoryCode").val(data.categoryCode);
-		$("#categoryName").val(data.categoryName);
+		//$("#categoryName").val(data.categoryName);
+		$("#categoryName").val("["+data.categoryCode+"]"+data.categoryName);
+
 	});
 }
 

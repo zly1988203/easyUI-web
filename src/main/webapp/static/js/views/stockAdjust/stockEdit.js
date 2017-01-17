@@ -81,7 +81,15 @@ function initDatagridEditRequireOrder(){
                           	row["price"] = 0.00;
                           }
                           return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                      }
+                      },
+                      editor:{
+                          type:'numberbox',
+                          options:{
+                          	disabled:true,
+                              min:0,
+                              precision:2
+                          }
+                      },
                   },
                   {field:'stockNum',title:'当前库存',width:'80px',align:'right',
                       formatter:function(value,row,index){
@@ -354,6 +362,13 @@ function selectGoods(searchKey){
         }
         var setdata=setTion(data);
         selectStockAndPrice(branchId,setdata);
+        
+        gridHandel.setLoadFocus();
+        setTimeout(function(){
+            gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
+            gridHandel.setSelectFieldName("largeNum");
+            gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
+        },100)
       
     },searchKey,"","","",branchId,'');
 }

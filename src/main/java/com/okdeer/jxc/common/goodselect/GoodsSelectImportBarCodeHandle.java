@@ -11,16 +11,16 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
-
-import com.okdeer.jxc.common.enums.GoodsTypeEnum;
-import com.okdeer.jxc.goods.entity.GoodsSelect;
-
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.EnumMorpher;
 import net.sf.json.util.JSONUtils;
+
+import org.apache.commons.lang3.StringUtils;
+
+import com.okdeer.jxc.common.enums.GoodsTypeEnum;
+import com.okdeer.jxc.goods.entity.GoodsSelect;
 
 /**
  * ClassName: GoodsSelectImport 
@@ -47,6 +47,8 @@ public class GoodsSelectImportBarCodeHandle implements GoodsSelectImportHandle{
 	
 	GoodsSelectImportBusinessValid businessValid;
 	
+	// 临时存储数据
+	List<JSONObject> tempExcelListSuccessData = new ArrayList<JSONObject>();
 	
 	public GoodsSelectImportBarCodeHandle(List<JSONObject> excelList, String[] excelField, GoodsSelectImportBusinessValid businessValid){
 		this.excelListFullData = excelList;
@@ -55,6 +57,9 @@ public class GoodsSelectImportBarCodeHandle implements GoodsSelectImportHandle{
 		checkBarCodeIsNullAndRepeat();
 		
 		if(businessValid != null){
+
+			// 深度拷贝正确的数据
+			tempExcelListSuccessData.addAll(excelListSuccessData);
 			//业务校验
 			businessValid.businessValid(excelListSuccessData, excelField);
 			
@@ -78,8 +83,6 @@ public class GoodsSelectImportBarCodeHandle implements GoodsSelectImportHandle{
 				jsonObject.element("error", NOT_EXISTS);
 			}
 		}
-		
-		//数据库重复的数据在SQL过滤掉
 		
 		//刷新
 		refreshSuccessData();
@@ -204,8 +207,9 @@ public class GoodsSelectImportBarCodeHandle implements GoodsSelectImportHandle{
 		List<T> temp = JSONArray.toList(arr, entity, jsonConfig);
 		
 		//处理数据
-		businessValid.formatter(temp);
-		
+		businessValid.formatter(temp, tempExcelListSuccessData, excelListErrorData);
+		// 刷新
+		refreshSuccessData();
 		return temp;
 		
 	}

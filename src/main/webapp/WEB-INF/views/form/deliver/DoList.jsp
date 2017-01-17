@@ -54,7 +54,7 @@
                     <div class="uinp-more" onclick="selectOperator()">...</div>
                 </div>
                 <div class="ub ub-ac uw-300 umar-l40">
-                    <div class="umar-r10 uw-70 ut-r">机构名称:</div>
+                    <div class="umar-r10 uw-72 ut-r">机构名称:</div>
                     <input type="hidden" id="sourceBranchId" name="sourceBranchId" value="${sourceBranchId}" />
                     <input type="hidden" id="sourceBranchName" name="sourceBranchName"/>
                     <%--<input type="hidden" id="targetBranchId" name="targetBranchId"/>
@@ -65,14 +65,14 @@
                 </div>
             </div>
             <div class="ub umar-t8">
-                <div class="ub ub-ac uw-624" id="remarkDiv">
+                <div class="ub ub-ac uw-622" id="remarkDiv">
                     <div class="umar-r10 uw-70 ut-r">备注:</div>
                     <input class="uinp ub ub-f1" type="text" id="remark" name="remark">
                 </div>
                 <%--<div class="umar-l32" id="checkDiv" style="visibility:visible;">
                     <input type="checkbox" id="checkboxTime" name="checkboxTime" checked="checked"/>
                     <span class="umar-l15  umar-r10">结束时间:</span>
-                    <input class="Wdate"  readonly="readonly" name="tempEndTime" id="popupSearchDateTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" />
+                    <input class="Wdate" style="width:212px" readonly="readonly" name="tempEndTime" id="popupSearchDateTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" />
                 </div>--%>
                 <%--<div class="ub ub-ac umar-l40 uw-300" id="auditStatus" style="visibility:visible;">
                     <div class="umar-r10 uw-70 ut-r">审核状态:</div>

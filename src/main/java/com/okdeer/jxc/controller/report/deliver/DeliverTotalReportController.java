@@ -39,7 +39,7 @@ import com.okdeer.jxc.utils.UserUtil;
 public class DeliverTotalReportController extends ReportController {
 
 	/**
-	 * @Fields purchaseReportService : 采购报表service
+	 * @Fields purchaseReportService : 配送报表service
 	 */
 	@Reference(version = "1.0.0", check = false)
 	private DeliverTotalReportServiceApi deliverTotalReportServiceApi;
@@ -48,7 +48,7 @@ public class DeliverTotalReportController extends ReportController {
 	BranchesServiceApi branchesServiceApi;
 	
 	/**
-	 * @Description: 采购报表明细
+	 * @Description: 配送报表明细
 	 * @return
 	 * @author lijy02
 	 * @date 2016年10月25日
@@ -63,8 +63,8 @@ public class DeliverTotalReportController extends ReportController {
 	}
 
 	/**
-	 * @Description: 采购明细查询
-	 * @param qo 采购报名查询字段类
+	 * @Description: 配送明细查询
+	 * @param qo 配送报名查询字段类
 	 * @param pageNumber
 	 * @param pageSize
 	 * @return

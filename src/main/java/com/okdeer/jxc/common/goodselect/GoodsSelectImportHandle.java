@@ -8,9 +8,9 @@ package com.okdeer.jxc.common.goodselect;
 
 import java.util.List;
 
-import com.okdeer.jxc.goods.entity.GoodsSelect;
-
 import net.sf.json.JSONObject;
+
+import com.okdeer.jxc.goods.entity.GoodsSelect;
 
 /**
  * 商品选择excel导入处理接口
@@ -27,14 +27,29 @@ import net.sf.json.JSONObject;
 public interface GoodsSelectImportHandle {
 	
 	/**
-	 * 货号
+	 * 货号 + 箱数
 	 */
 	public static final String TYPE_SKU_CODE = "0";
+	
 	/**
-	 * 条码
+	 * 条码 + 箱数
 	 */
 	public static final String TYPE_BAR_CODE = "1";
 	
+	/**
+	 * 货号 + 数量
+	 */
+	public static final String TYPE_SKU_CODE_NUM = "2";
+
+	/**
+	 * 条码 + 数量
+	 */
+	public static final String TYPE_BAR_CODE_NUM = "3";
+
+	/**
+	 * 箱数
+	 */
+	public static final String LARGE_NUM = "箱数";
 
 	/**
 	 * @Description: TODO

@@ -310,11 +310,23 @@ function saveGoodsArchives(){
 	$('#updateGoodsArchives').attr("disabled","disabled");
 	//校验表单
 	var isValid = $("#formGoodsArchivesAdd").form('validate');
+	
 	if(!isValid){
 		$('#updateGoodsArchives').removeAttr("disabled");
 		return;
 	}
-
+	
+	if($('#purchaseSpec').val()=="0.00"){
+		$('#updateGoodsArchives').removeAttr("disabled");
+		messager("进货规格不能为0!");
+		return;
+	}
+	if($('#distributionSpec').val()=="0.00"){
+		$('#updateGoodsArchives').removeAttr("disabled");
+		messager("配送规格不能为0!");
+		return;
+	}
+	
 	//校验商品条码是否重复
 	var pricingType = $('#pricingType option:selected').val();
 	var barCode = $("#barCode").val();

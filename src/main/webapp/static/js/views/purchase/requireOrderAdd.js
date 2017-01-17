@@ -57,6 +57,7 @@ function initDatagridAddRequireOrder(){
                     options:{
                         min:0,
                         precision:0,
+//                        onChange: onChangeRealNum,
                     }
                 },
             },
@@ -360,6 +361,15 @@ function selectGoods(searchKey){
         var newRows = gFunUpdateKey(rows,keyNames);
         console.log(newRows);
         $("#gridAddRequireOrder").datagrid("loadData",newRows);
+        
+        gridHandel.setLoadFocus();
+        setTimeout(function(){
+            gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
+            gridHandel.setSelectFieldName("largeNum");
+            gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
+        },100)
+        
+        
     },searchKey,'','','','','','');
 }
 

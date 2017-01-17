@@ -44,13 +44,13 @@
 	                <div class="ub ub-ac uw-300 umar-l20">
 	                    <div class="umar-r10 uw-70 ut-r">操作员:</div>
 	                    <input class="uinp ub ub-f1" name="createUserId"  id="createUserId" type="hidden" >
-	                    <input class="uinp ub ub-f1"  type="text"  id="createUserName" readOnly  >
+	                    <input class="uinp ub ub-f1"  type="text"  id="createUserName">
 	                    <div class="uinp-more" onclick="selectOperator();">...</div>
 	                </div>
 	                <div class="ub ub-ac uw-300 umar-l40">
 	                    <div class="umar-r10 uw-70 ut-r" >制单机构:</div>
 	                    <input class="uinp ub ub-f1" name="createBranchId" type="hidden" id="createBranchId" >
-	                    <input class="uinp ub ub-f1"  type="text" id="createBranchName"  readOnly>
+	                    <input class="uinp ub ub-f1"  type="text" id="createBranchName">
 	                    <div class="uinp-more" onclick="selectBranch();">...</div>
 	                </div>
 	            </div>

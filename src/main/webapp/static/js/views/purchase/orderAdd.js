@@ -269,12 +269,15 @@ function onChangeLargeNum(newV,oldV){
     
     n++;
     
+    //金额 = 规格 * 单价 * 箱数
+    var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
+    gridHandel.setFieldValue('amount',parseFloat(purchaseSpecValue*priceValue*newV).toFixed(4));
+    
     var realNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'realNum');
     var realNumVal2 = parseFloat(purchaseSpecValue*newV).toFixed(4);
     if(realNumVal&&Math.abs(realNumVal2-realNumVal)>0.0001){
-        gridHandel.setFieldValue('realNum',(purchaseSpecValue*newV).toFixed(2));//数量=商品规格*箱数
+        gridHandel.setFieldValue('realNum',(purchaseSpecValue*newV).toFixed(4));//数量=商品规格*箱数
     }
-    
     updateFooter();
 }
 //监听商品数量
@@ -287,7 +290,6 @@ function onChangeRealNum(newV,oldV) {
     if(!gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuCode')){
         return;
     }
-    
     var purchaseSpecValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'purchaseSpec');
     if(!purchaseSpecValue){
         messager("没有商品规格,请审查");
@@ -302,7 +304,7 @@ function onChangeRealNum(newV,oldV) {
     var largeNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'largeNum');
     var largeNumVal2 = parseFloat(purchaseSpecValue*newV).toFixed(4);
     if(largeNumVal&&Math.abs(largeNumVal2-largeNumVal)>0.0001){
-        var largeNumVal = parseFloat(newV/purchaseSpecValue).toFixed(2);
+        var largeNumVal = parseFloat(newV/purchaseSpecValue).toFixed(4);
         gridHandel.setFieldValue('largeNum',largeNumVal);   //箱数=数量/商品规格
     }
     /*var largeNumVal = parseFloat(newV/purchaseSpecValue);
@@ -415,6 +417,7 @@ function selectGoods(searchKey){
             gridHandel.setSelectFieldName("largeNum");
             gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
         },100)
+        
     },searchKey,0,"","",branchId,supplierId);
 }
 

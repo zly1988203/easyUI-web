@@ -52,6 +52,15 @@
 						<input class="ub" type="radio" id="selectGoodsSpec1" name="selectGoodsSpec" value="1"/><span>启用</span>
 					</div>
 				</div>
+				<div class="ub ub-ac upad-16 ">
+					<div class="ub uw-220 ut-r ">要货单起订金额控:</div>
+					<div class="ub ub-ac umar-r10">
+						<input class="ub" type="radio" id="isMinAmount0"  name="isMinAmount" value="0"/><span>不启用</span>
+					</div>
+					<div class="ub ub-ac umar-r10">
+						<input class="ub" type="radio" id="isMinAmount1" name="isMinAmount" value="1"/><span>启用</span>
+					</div>
+				</div>
 			</form>
 			<%-- <div class="ub upad-10 ubor-b">
 				<div class="umar-r10 uw-280 ut-r">分店间直调必须经过总部审批:</div>
@@ -201,10 +210,9 @@
 </body>
 <script type="text/javascript">
 $(function(){
-	debugger;
 	var priceSpec = '${branchSpec.priceSpec}';
 	var selectGoodsSpec = '${branchSpec.selectGoodsSpec}';
-	console.log(selectGoodsSpec);
+	var isMinAmount = '${branchSpec.isMinAmount}';
 	if (priceSpec === null || priceSpec === '0' || priceSpec === '') {
 		$("#priceSpec0").attr("checked","true");
 	} else if(priceSpec === '1') {
@@ -216,6 +224,11 @@ $(function(){
 		$("#selectGoodsSpec0").attr("checked","true");
 	} else {
 		$("#selectGoodsSpec1").attr("checked","true");
+	}
+	if (isMinAmount === null || isMinAmount === '1' || isMinAmount === '') {
+		$("#isMinAmount1").attr("checked","true");
+	} else {
+		$("#isMinAmount0").attr("checked","true");
 	}
 });
 

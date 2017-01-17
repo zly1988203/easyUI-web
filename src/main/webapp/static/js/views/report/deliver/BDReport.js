@@ -1,12 +1,12 @@
 /**
  * Created by zhanghuan on 2016/8/30.
- * 要货单状态跟踪
+ * BD业绩报表
  */
 $(function(){
 	//开始和结束时间
     toChangeDatetime(10);
     initDatagridRequireOrders();
-    branchId = $("#branchId").val();
+	branchId = $("#branchId").val();
 });
 var gridHandel = new GridClass();
 
@@ -29,34 +29,26 @@ function initDatagridRequireOrders(){
 		width:'100%',
         columns:[[
 			{field:'check',checkbox:true},
-			{field:'formNo',title:'单据编号',width:'130px',align:'left',
+			{field:'salesman',title:'业务员名称',width:'130px',align:'left',
 				formatter:function(value,row,index){
-	                if(!value){
+	                if(value == null){
 	                    return '<div class="ub ub-pc ufw-b">合计</div> '
 	                }
-					var hrefStr='parent.addTab("详情","'+contextPath+'/form/deliverForm/deliverEdit?report=close&deliverFormId='+row.deliverFormId+'")';
-					return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
+					return value;
 	            }
 			},
-            {field:'sourceBranchCode',title: '发货机构编码', width: '80px', align: 'left'},
-            {field: 'sourceBranchName', title: '发货机构', width: '80px', align: 'left'},
-            {field: 'targetBranchCode', title: '要货机构编码', width: '80px', align: 'left'},
-            {field: 'targetBranchName', title: '要货机构', width: '80px', align: 'left'},
-            {field: 'amount', title: '单据金额', width: '80px', align: 'right',
-            	formatter:function(value,row,index){
-            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-            	}
-            },
-			{field: 'dealStatus', title: '单据状态', width: '60px', align: 'center'},
-			{field: 'validityTime', title: '有效期限', width: '115px', align: 'center',
-				formatter: function (value, row, index) {
-					if (value) {
-						return new Date(value).format('yyyy-MM-dd');
-					}
-					return "";
+            {field: 'targetBranchName', title: '要货机构', width: '100px', align: 'left'},
+			{field: 'num', title: '成交数量', width: '80px', align: 'right',
+				formatter:function(value,row,index){
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				}
 			},
-			{field: 'remark', title: '备注', width: '100px', align: 'left'}
+			{field: 'amount', title: '成交金额', width: '80px', align: 'right',
+				formatter:function(value,row,index){
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				}
+			},
+			{field: 'branchName', title: '所属分公司', width: '100px', align: 'left'}
         ]],
 		onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
@@ -69,24 +61,20 @@ function initDatagridRequireOrders(){
 function queryForm(){
 	$("#startCount").attr("value",null);
 	$("#endCount").attr("value",null);
-	$("#deliverType").val('DA');
+	$("#deliverType").val('DI');
 	var fromObjStr = $('#queryForm').serializeObject();
-	// 去除编码
-    fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1)
 	$("#deliverFormList").datagrid("options").method = "post";
-	$("#deliverFormList").datagrid('options').url = contextPath + '/form/deliverReport/getDaForms';
+	$("#deliverFormList").datagrid('options').url = contextPath + '/form/deliverReport/getBDReport';
 	$("#deliverFormList").datagrid('load', fromObjStr);
 }
 
 /**
  * 查询机构
  */
-var branchId;
+var targetBrancheId;
 function selectBranches(){
 	new publicAgencyService(function(data){
-//        $("#branchId").val(data.branchesId);
-        //$("#branchName").val(data.branchName);
-		$("#branchName").val("["+data.branchCode+"]"+data.branchName);
+        $("#branchName").val(data.branchName);
 	},'',branchId);
 }
 
@@ -95,7 +83,6 @@ function selectBranches(){
  */
 var resetForm = function() {
 	 $("#queryForm").form('clear');
-	 $("#deliverType").val('DA');
 };
 
 var dg;
@@ -122,10 +109,10 @@ function exportExcel(){
 	$("#exportWin").window("close");
 	$("#queryForm").form({
 		success : function(result){
-			//successTip(result);
+
 		}
 	});
-	$("#queryForm").attr("action",contextPath+'/form/deliverReport/exportList')
+	$("#queryForm").attr("action",contextPath+'/form/deliverReport/exportBDList')
 	$("#queryForm").submit();
 }
 
