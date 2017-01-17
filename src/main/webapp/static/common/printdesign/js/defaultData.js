@@ -213,7 +213,13 @@ var defaultData = {
 		items : [ {
 			type : "label",
 			text : "采购收货单"
-		} , {
+		} ,{
+			type : "label",
+			text : "供应商名称："
+		}, {
+			type : "holder",
+			text : "_供应商名称"
+		}, {
 			type : "label",
 			text : "供应商电话号码："
 		}, {
@@ -273,6 +279,12 @@ var defaultData = {
 		}, {
 			type : "holder",
 			text : "_订单编号"
+		},{
+			type : "label",
+			text : "原订单号："
+		}, {
+			type : "holder",
+			text : "_原订单号"
 		}, {
 			type : "label",
 			text : "人民币总金额大写："
@@ -308,6 +320,12 @@ var defaultData = {
 		items : [ {
 			type : "label",
 			text : "采购退货单"
+		},{
+			type : "label",
+			text : "供应商名称："
+		}, {
+			type : "holder",
+			text : "_供应商名称"
 		},{
 			type : "label",
 			text : "供应商电话号码："

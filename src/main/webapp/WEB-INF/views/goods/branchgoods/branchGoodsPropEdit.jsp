@@ -19,21 +19,21 @@ pageEncoding="UTF-8"%>
 		<div class="ub ub-ver upad-4">
 			<div class="ub upad-4">
 				<div class="ub ub-ac uw-320">
-					<div class="umar-r10 uw-80 ut-r">商品名称:</div>
+					<div class="umar-r10 uw-100 ut-r">商品名称:</div>
 					${vo.skuName }
 				</div>
 				<div class="ub ub-ac uw-320">
-					<div class="umar-r10 uw-80 ut-r">条码:</div>
+					<div class="umar-r10 uw-100 ut-r">条码:</div>
 					${vo.barCode }
 				</div>
 				<div class="ub ub-ac uw-320">
-					<div class="umar-r10 uw-80 ut-r">货号:</div>
+					<div class="umar-r10 uw-100 ut-r">货号:</div>
 					${vo.skuCode }
 				</div>
 			</div>
 			<div class="ub upad-4">
 				<div class="ub ub-ac uw-320">
-					<div class="umar-r10 uw-80 ut-r">进货规格:</div>
+					<div class="umar-r10 uw-100 ut-r">进货规格:</div>
 					<input id="purchaseSpec" name="purchaseSpec" style="width: 204px;"
 						class="uinp easyui-numberbox easyui-validatebox"
 						data-options="min:0,precision:2" type="text"
@@ -41,7 +41,7 @@ pageEncoding="UTF-8"%>
 					<i class="uc-red">*</i>
 				</div>
 				<div class="ub ub-ac uw-320">
-					<div class="umar-r10 uw-80 ut-r">配送规格:</div>
+					<div class="umar-r10 uw-100 ut-r">配送规格:</div>
 					<input id="distributionSpec" name="distributionSpec"
 						style="width: 204px;"
 						class="uinp easyui-numberbox easyui-validatebox"
@@ -50,7 +50,7 @@ pageEncoding="UTF-8"%>
 					<i class="uc-red">*</i>
 				</div>
 				<div class="ub ub-ac uw-320">
-					<div class="umar-r10 uw-80 ut-r">是否直送商品:</div>
+					<div class="umar-r10 uw-100 ut-r">是否直送商品:</div>
 					<input id="fastDeliver" name="fastDeliver" id="fastDeliver" class="ub" type="checkbox" ${vo.fastDeliver?"checked='checked'":"" } />
 				</div>
 			</div>
