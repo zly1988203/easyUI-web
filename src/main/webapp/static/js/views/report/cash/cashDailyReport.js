@@ -131,6 +131,11 @@ function initCashDailyallGrid(queryType) {
 					return getTwoDecimalB(parseFloat(value||0.00).toFixed(2));
                 },
             },
+            {field: 'qt', title: '其他', width:120, align: 'right',
+				formatter : function(value, row,index) {
+					return getTwoDecimalB(parseFloat(value||0.00).toFixed(2));
+                },
+            },
             {field: 'total', title: '合计金额', width:120, align: 'right',
 				formatter : function(value, row,index) {
 					return getTwoDecimalB(parseFloat(value||0.00).toFixed(2));
@@ -222,6 +227,11 @@ function initCashDailymdGrid(queryType) {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
             },
+            {field: 'qt', title: '其他', width:120, align: 'right',
+				formatter : function(value, row,index) {
+					return getTwoDecimalB(parseFloat(value||0.00).toFixed(2));
+                },
+            },
             {field: 'total', title: '合计金额', width:120, align: 'right',
 				formatter : function(value, row,index) {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -311,6 +321,11 @@ function initCashDailydateGrid(queryType) {
             {field: 'dxr', title: '店小二', width:120, align: 'right',
 				formatter : function(value, row,index) {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
+            {field: 'qt', title: '其他', width:120, align: 'right',
+				formatter : function(value, row,index) {
+					return getTwoDecimalB(parseFloat(value||0.00).toFixed(2));
                 },
             },
             {field: 'total', title: '合计金额', width:120, align: 'right',
