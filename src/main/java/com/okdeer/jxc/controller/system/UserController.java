@@ -75,9 +75,12 @@ public class UserController extends BaseController<UserController> {
 		try {
 			qo.setPageNumber(pageNumber);
 			qo.setPageSize(pageSize);
-
-			// 构建初始化参数
-			//qo = buildDefaultParams(qo);
+			
+			//用户未选择或输入机构，筛选当前登录机构及下属机构的所有用户
+			if(StringUtils.isBlank(qo.getBranchKeyword())){
+				String branchCompleCode = getCurrBranchCompleCode();
+				qo.setBranchCompleCode(branchCompleCode);
+			}
 
 			return sysUserService.queryUserList(qo);
 		} catch (Exception e) {
