@@ -14,8 +14,8 @@
 <body>
 <div class="contain">
 	<div class="downcon">
-		<a href="http://odqq9suf0.bkt.clouddn.com/电子秤传称工具初始包_V1.0.0_161102155747.zip">电子秤传称工具完整包</a>
-		<a href="http://odqq9suf0.bkt.clouddn.com/电子称传称工具_V1.2.0_161102160012.exe">电子称传称工具</a>
+		<a href="http://odqq9suf0.bkt.clouddn.com/okdeerDZC_V01_170119110502.exe">电子秤传称工具完整包</a>
+		<a href="http://odqq9suf0.bkt.clouddn.com/okdeerDZCW_V01_170119110122.zip">电子称传称工具</a>
 	</div>
 </div>
 </body>
