@@ -18,9 +18,11 @@ import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.system.entity.SysRole;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.system.qo.SysUserQo;
+import com.okdeer.jxc.system.qo.UserListQo;
 import com.okdeer.jxc.system.service.SysRoleService;
 import com.okdeer.jxc.system.service.SysUserServiceApi;
 import com.okdeer.jxc.system.vo.SysUserVo;
+import com.okdeer.jxc.system.vo.UserListVo;
 import com.okdeer.jxc.utils.UserUtil;
 
 /**
@@ -67,19 +69,22 @@ public class UserController extends BaseController<UserController> {
 	 */
 	@RequestMapping(value = "/json")
 	@ResponseBody
-	public PageUtils<SysUser> getData(SysUserQo qo,
+	public PageUtils<UserListVo> getData(UserListQo qo,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
 			qo.setPageNumber(pageNumber);
 			qo.setPageSize(pageSize);
+			
+			//用户未选择或输入机构，筛选当前登录机构及下属机构的所有用户
+			if(StringUtils.isBlank(qo.getBranchKeyword())){
+				String branchCompleCode = getCurrBranchCompleCode();
+				qo.setBranchCompleCode(branchCompleCode);
+			}
 
-			// 构建初始化参数
-			qo = buildDefaultParams(qo);
-
-			return sysUserService.queryLists(qo);
+			return sysUserService.queryUserList(qo);
 		} catch (Exception e) {
-			LOG.error("查询用户信息异常:", e);
+			LOG.error("查询用户信息异常:{e}", e);
 		}
 		return PageUtils.emptyPage();
 	}

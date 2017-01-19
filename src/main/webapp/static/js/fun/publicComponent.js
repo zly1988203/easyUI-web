@@ -1615,28 +1615,28 @@ $.extend($.fn.validatebox.defaults.rules, {
 
 
 //公共组件-商品选择
-function publicGoodsSkuService(callback,isRadio,key){
+function publicGoodsSkuService(callback,isRadio,key,branchId){
 	if(key){
 		var url= contextPath + '/goods/goodsSelect/queryGoodsSkuLists';
         $.ajax({
             url:url,
-            data:{skuCode:key},
+            data:{skuCode:key,"branchId":branchId},
             type:'POST',
             success:function(data){
             	if(data&&data.list&&data.list.length==1){
             		callback(data.list);
                 }else{
-                	publicGoodsSkuServiceHandel(callback,isRadio,key);
+                	publicGoodsSkuServiceHandel(callback,isRadio,key,branchId);
                 }
             }
         })
     }else{
-    	  publicGoodsSkuServiceHandel(callback,isRadio,key);
+    	  publicGoodsSkuServiceHandel(callback,isRadio,key,branchId);
     }
 	
 }
-function publicGoodsSkuServiceHandel(callback,isRadio,key){
-   var url=contextPath + "/goods/goodsSelect/goGoodsSku";
+function publicGoodsSkuServiceHandel(callback,isRadio,key,branchId){
+   var url=contextPath + "/goods/goodsSelect/goGoodsSku?branchId="+branchId;
 //公有属性
 var dalogObj = {
     href:url,

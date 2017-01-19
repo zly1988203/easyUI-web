@@ -36,6 +36,7 @@ function initDatagrid(){
             {field:'branchCode',title:'机构编号',sortable:true,width:100},
             {field:'branchTypeStr',title:'机构类型',sortable:true,width:100},
             {field:'branchName',title:'机构名称',sortable:true,width:220},
+            {field:'roleName',title:'角色名称',sortable:true,width:220},
             {field:'statusStr',title:'状态 ',sortable:true,width:60,align: 'center'},
             {field:'lastLoginTime',title:'最近使用时间',sortable:true,width:100,
             	formatter : function(value, rowData, rowIndex) {
@@ -66,19 +67,9 @@ function query(){
  */
 function searchBranch (){
 	new publicAgencyService(function(data){
-		$("#branchCode").val(data.branchCode);
-		$("#branchNameOrCode").val("["+data.branchCode+"]"+data.branchName);
+		$("#branchKeyword").val(data.branchName);
+		/*$("#branchNameOrCode").val("["+data.branchCode+"]"+data.branchName);*/
 	},"","");
-}
-
-function clearBranchCode(){
-	var branchNameOrCode = $("#branchNameOrCode").val();
-	
-	//如果修改名称
-	if(!branchNameOrCode || 
-			(branchNameOrCode && branchNameOrCode.indexOf("[")<0 && branchNameOrCode.indexOf("]")<0)){
-		$("#branchCode").val('');
-	}
 }
 
 function toAdd(){
@@ -164,4 +155,3 @@ function updateStatus(status){
         }
     });
 }
-

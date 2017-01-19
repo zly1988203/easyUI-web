@@ -529,7 +529,9 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 	 * @date 2016年11月09日
 	 */
 	@RequestMapping(value = "goGoodsSku")
-	public String goGoodsSku() {
+	public String goGoodsSku(Model model,HttpServletRequest request) {
+		String branchId = request.getParameter("branchId");
+		model.addAttribute("branchId", branchId);
 		return "component/publicGoodsSku";
 	}
 	

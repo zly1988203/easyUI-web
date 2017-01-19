@@ -75,7 +75,7 @@
                    </select>
                </div>
                <div class="ub ub-ac uw-300">
-				<div class="umar-r10 uw-80 ut-r" >单据编号:</div>
+				<div class="umar-r10 uw-80 ut-r" >单号:</div>
 				<input type="text" name="formNo" id="formNo" class="uinp" />
 			   </div>
 			  <div class="ub ub-ac uw-300">

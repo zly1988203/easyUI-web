@@ -86,19 +86,9 @@ function deleteData(){
 		return null;
 	}
 	 var ids='';
-	 var flag = true;
-	    $.each(rows,function(i,v){
-	    	var status = v.status;
-	    	if(status==1){
-	    	   flag = false;
-	    	   return;	
-	    	}
+	 $.each(rows,function(i,v){
 	    	ids+=v.id+",";
 	    });
-	if(!flag){
-	   $.messager.alert('提示','存在数据兑换中不能删除！');
-	   return;	
-	}
 	$.messager.confirm('提示','是否确定要删除选中的礼品',function(data){
 		if(data){
 			$.ajax({
