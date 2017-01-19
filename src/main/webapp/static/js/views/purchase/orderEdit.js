@@ -572,7 +572,10 @@ function check(){
     	});
 	}else{
 		 $.messager.confirm('提示','是否审核通过？',function(data){
-		    checkOrder();
+			 if(data){
+				 checkOrder();
+			 }
+		    
 		 });
 	}
 }
