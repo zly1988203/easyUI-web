@@ -2,7 +2,7 @@ $(function(){
 	
 	var branchType = $("#branchType").val();
 	//分公司
-	var url =　contextPath+'/common/branches/queryComponentList';
+	var url = contextPath+'/common/branches/queryComponentList';
 	if(branchType!=1){
 		//店铺
 		url = contextPath+'/common/branches/getComponentList';

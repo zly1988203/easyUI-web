@@ -138,7 +138,7 @@ function initDatagridRequireOrdersDI(){
 			{field:'check',checkbox:true},
 			{field:'formNo',title:'单据编号',width:'140px',align:'left',formatter:function(value,row,index){
 				if(updatePermission){
-					var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'入库单明细\',\''+ contextPath +'/form/deliverForm/deliverEdit?deliverFormId='+ row.deliverFormId +'&formType=DI\')">' + value + '</a>';
+					var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'入库单明细\',\''+ contextPath +'/form/deliverForm/deliverEdit?deliverFormId='+ row.deliverFormId +'&deliverType=DI\')">' + value + '</a>';
 					return strHtml;
 				}else{
 					return value;
