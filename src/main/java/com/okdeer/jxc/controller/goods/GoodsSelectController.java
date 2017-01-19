@@ -101,6 +101,9 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 		String sourceBranchId = req.getParameter("sourceBranchId");
 		String targetBranchId = req.getParameter("targetBranchId");
 		String branchId = req.getParameter("branchId");
+		//商品公共组件查询判断是否过滤捆绑商品
+		String flag = req.getParameter("flag");
+		model.addAttribute("flag", flag);
 		model.addAttribute("type", type);
 		model.addAttribute("searchSupplierId", supplierId);
 		model.addAttribute("sourceBranchId", sourceBranchId);

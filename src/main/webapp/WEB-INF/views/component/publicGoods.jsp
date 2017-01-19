@@ -155,6 +155,7 @@ pageEncoding="UTF-8"%>
      var categoryCode="";
      var supplierId="";
      var brandId="";
+     var flag = '${flag}';
     function zTreeOnClick(event, treeId, treeNode) {
         categoryCode=treeNode.code;
         var text =  $("#goodsType").combobox('getText');
@@ -168,7 +169,7 @@ pageEncoding="UTF-8"%>
         	brandId = "";
      	   supplierId = treeNode.id;
         }
-        $("#gridGoods").datagrid("options").queryParams = {categoryCode:categoryCode,brandId:brandId,supplierId:supplierId};
+        $("#gridGoods").datagrid("options").queryParams = {categoryCode:categoryCode,brandId:brandId,supplierId:supplierId,flag:flag};
         $("#gridGoods").datagrid("options").method = "post";
         $("#gridGoods").datagrid("options").url =contextPath + '/goods/goodsSelect/getGoodsList?formType=${type}&sourceBranchId=${sourceBranchId}&targetBranchId=${targetBranchId}&branchId=${branchId}';
         $("#gridGoods").datagrid("load");
@@ -363,7 +364,7 @@ pageEncoding="UTF-8"%>
         if(!key){
         	var searchSupplierId = $("#searchSupplierId").val();
             $("#gridGoods").datagrid("options").method = "post";
-            $("#gridGoods").datagrid("options").url =contextPath + '/goods/goodsSelect/getGoodsList?formType=${type}&sourceBranchId=${sourceBranchId}&targetBranchId=${targetBranchId}&branchId=${branchId}&supplierId='+searchSupplierId;
+            $("#gridGoods").datagrid("options").url =contextPath + '/goods/goodsSelect/getGoodsList?flag={flag}&formType=${type}&sourceBranchId=${sourceBranchId}&targetBranchId=${targetBranchId}&branchId=${branchId}&supplierId='+searchSupplierId;
             $("#gridGoods").datagrid('load');
         }else{
             cx();
@@ -382,7 +383,7 @@ pageEncoding="UTF-8"%>
             }
             // $("#gridGoods").datagrid("options").queryParams = {'categoryId':categoryId,'goodsInfo':goodsInfo,'formType':'${type}','sourceBranchId':'${sourceBranchId}','targetBranchId':'${targetBranchId}'};
             // 梁利 提出左边树与右边的查询无关系
-            $("#gridGoods").datagrid("options").queryParams = $.extend({'goodsInfo':goodsInfo,'supplierId':searchSupplierId,'formType':'${type}','sourceBranchId':'${sourceBranchId}','supplierId':searchSupplierId,'targetBranchId':'${targetBranchId}','branchId':'${branchId}'},fromParams)
+            $("#gridGoods").datagrid("options").queryParams = $.extend({'flag':'${flag}','goodsInfo':goodsInfo,'supplierId':searchSupplierId,'formType':'${type}','sourceBranchId':'${sourceBranchId}','supplierId':searchSupplierId,'targetBranchId':'${targetBranchId}','branchId':'${branchId}'},fromParams)
             $("#gridGoods").datagrid("options").method = "post";
             $("#gridGoods").datagrid("options").url =contextPath + '/goods/goodsSelect/getGoodsList';
             $("#gridGoods").datagrid('load');

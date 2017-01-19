@@ -458,7 +458,7 @@ function selectGoods(searchKey){
             gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
         },100)
     	
-    },searchKey,'',sourceBranchId,targetBranchId,branchId,'');
+    },searchKey,'',sourceBranchId,targetBranchId,branchId,'',"0");
     branchId = '';
 }
 // 设置值
