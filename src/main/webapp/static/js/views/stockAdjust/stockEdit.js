@@ -370,7 +370,7 @@ function selectGoods(searchKey){
             gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
         },100)
       
-    },searchKey,"","","",branchId,'');
+    },searchKey,"","","",branchId,'',"0");
 }
 
 //二次查询设置值

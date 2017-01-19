@@ -555,15 +555,19 @@ function callBackHandel(data){
 
 
 //公共组件-商品选择
-function publicGoodsService(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId,supplierId){
+//flag:商品公共组件查询判断是否过滤捆绑商品
+function publicGoodsService(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId,supplierId,flag){
+	if(typeof(flag)=="undefined"){ 
+		flag = "";
+	}
 	if(key){
 		var urlTemp;
 		if(type=="DA"){
 			branchId = '';
-			urlTemp = contextPath + '/goods/goodsSelect/importSkuCode?skuCodes='+key+'&branchId='+branchId+"&supplierId="+supplierId+"&type="+type+"&sourceBranchId="+sourceBranchId+"&targetBranchId="+targetBranchId;
+			urlTemp = contextPath + '/goods/goodsSelect/importSkuCode?skuCodes='+key+'&branchId='+branchId+"&supplierId="+supplierId+"&type="+type+"&sourceBranchId="+sourceBranchId+"&targetBranchId="+targetBranchId+"&flag="+flag;
 			//publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId,supplierId);
 		} else {
-			urlTemp = contextPath + '/goods/goodsSelect/importSkuCode?skuCodes='+key+'&branchId='+branchId+"&supplierId="+supplierId;
+			urlTemp = contextPath + '/goods/goodsSelect/importSkuCode?skuCodes='+key+'&branchId='+branchId+"&supplierId="+supplierId+"&flag="+flag;
 		}
 		$.ajax({
 			url:urlTemp,
@@ -572,7 +576,7 @@ function publicGoodsService(type,callback,key,isRadio,sourceBranchId,targetBranc
 				if(data&&data.length==1){
 					callback(data);
 			}else{
-				publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId,supplierId);
+				publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId,supplierId,flag);
 			}
 		},
 		error:function(){
@@ -580,14 +584,14 @@ function publicGoodsService(type,callback,key,isRadio,sourceBranchId,targetBranc
 		}
 		})
     }else{
-        publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId,supplierId);
+        publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId,supplierId,flag);
     }
 }
-function publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId,supplierId){
+function publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId,supplierId,flag){
 	if(!branchId){
-        url=contextPath + "/goods/goodsSelect/view?type="+type+"&sourceBranchId="+sourceBranchId+"&targetBranchId="+targetBranchId+"&supplierId="+supplierId;
+        url=contextPath + "/goods/goodsSelect/view?type="+type+"&sourceBranchId="+sourceBranchId+"&targetBranchId="+targetBranchId+"&supplierId="+supplierId+"&flag="+flag;
     }else{
-        url=contextPath + "/goods/goodsSelect/view?type="+type+"&branchId="+branchId+"&supplierId="+supplierId;
+        url=contextPath + "/goods/goodsSelect/view?type="+type+"&branchId="+branchId+"&supplierId="+supplierId+"&flag="+flag;
     }
     //公有属性
     var dalogObj = {

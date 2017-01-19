@@ -444,7 +444,7 @@ function selectGoods(searchKey){
             gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
         },100)
         
-    },searchKey,0,"","",branchId,supplierId);
+    },searchKey,0,"","",branchId,supplierId,"0");
 }
 
 function updateListData(data){

@@ -492,7 +492,7 @@ function selectGoods(searchKey){
             gridHandel.setSelectFieldName("largeNum");
             gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
         },100)
-    },searchKey,0,"","",branchId,supplierId);
+    },searchKey,0,"","",branchId,supplierId,"0");
 }
 
 
@@ -776,7 +776,7 @@ function orderDelete(){
 		    	url:contextPath+"/form/purchase/delete",
 		    	type:"POST",
 		    	data:{
-		    		formId:id
+		    		formIds:id
 		    	},
 		    	success:function(result){
 		    		console.log(result);
