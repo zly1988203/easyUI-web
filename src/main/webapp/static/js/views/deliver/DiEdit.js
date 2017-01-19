@@ -74,7 +74,7 @@ function initDatagridEditRequireOrder(){
     $("#gridEditRequireOrder").datagrid({
         //title:'普通表单-用键盘操作',
         method:'post',
-    	url:contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverFormId="+formId+"&deliverType=DA",
+    	url:contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverFormId="+formId+"&deliverType=DI",
         align:'center',
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:false,  //单选  false多选

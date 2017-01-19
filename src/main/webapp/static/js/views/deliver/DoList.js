@@ -134,7 +134,7 @@ function initDatagridRequireOrdersDO(){
 			{field: 'targetBranchName', title: '收货机构', width: '200px', align: 'left'},
 			{field:'referenceNo',title:'要货单号',width:'140px',align:'left',formatter:function(value,row,index){
 				if(updatePermission){
-					var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'要货单明细\',\''+ contextPath +'/form/deliverForm/deliverEdit?deliverFormId='+ row.referenceId +'&formType=DA\')">' + value + '</a>';
+					var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'要货单明细\',\''+ contextPath +'/form/deliverForm/deliverEdit?deliverFormId='+ row.referenceId +'&deliverType=DA\')">' + value + '</a>';
 					return strHtml;
 				}else{
 					return value;
