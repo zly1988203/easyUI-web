@@ -76,6 +76,16 @@ function queryForm(){
 	$("#registerList").datagrid('load', fromObjStr);
 }
 
+/**
+ * 店铺名称
+ */
+function searchBranch(){
+	new publicAgencyService(function(data){
+		$("#regBranchId").val(data.branchesId);
+		$("#branchInfo").val(data.branchName);
+	},'DP','');
+}
+
 
 //解除绑定
 function bindPosForm(){
