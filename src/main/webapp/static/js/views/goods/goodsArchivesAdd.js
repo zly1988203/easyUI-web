@@ -378,9 +378,9 @@ function saveGoodsArchives(){
 		return;
 	}
 	
-	if(parseFloat($("#vipPrice").val()) > parseFloat($("#lowestPrice").val())){
+	if(parseFloat($("#vipPrice").val()) > parseFloat($("#salePrice").val())){
 		$('#saveGoodsArchives').removeAttr("disabled");
-		messager("会员价不能大于最低销售价");
+		messager("会员价不能大于零售价");
 		return;
 	}
 	
