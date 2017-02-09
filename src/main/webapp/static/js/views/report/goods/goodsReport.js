@@ -407,16 +407,16 @@ function resetFrom(){
 }
 //打印
 function printReport(){
+	debugger;
 	var supplierId=$("#supplierId").val();
 	var categoryCode=$("#categoryCode").val();
-	var brandId=$("#brandId").val();
-	var branchId=$("#branchId").val();
+	/*var brandId=$("#brandId").val();*/
+	var branchName=$("#branchName").val();
 	var skuCode=$("#skuCode").val();
-	var barCode=$("#barCode").val();
+	/*var barCode=$("#barCode").val();*/
 	var operater=$("#operater").val();
 	var operaterNum=$("#operaterNum").val();
-	var memoryCode=$("#memoryCode").val();
-	parent.addTabPrint("reportPrint"+branchId,"打印",contextPath+"/goods/report/printReport?" +"&supplierId="+supplierId
-			+"&categoryCode="+categoryCode+"&brandId="+brandId+"&skuCode="+skuCode+"&branchId="+branchId+"&barCode="+barCode
-			+"&operater="+operater+"&operaterNum="+operaterNum+"&memoryCode="+memoryCode);
+	/*var memoryCode=$("#memoryCode").val();*/
+	parent.addTabPrint("reportPrint"+branchName,"打印",contextPath+"/goods/report/printReport?"+"&categoryCode="+categoryCode+"&skuCode="+skuCode+"&branchName="+branchName+"&barCode="+skuCode
+			+"&operater="+operater+"&operaterNum="+operaterNum);
 }

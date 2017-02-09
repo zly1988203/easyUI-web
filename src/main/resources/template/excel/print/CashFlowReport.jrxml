@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PaymentOrder" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="BlankPage" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isSummaryWithPageHeaderAndFooter="true" uuid="9aa590ec-4b5f-4eaa-bb10-b5ce33e01e43">
 	<property name="ireport.zoom" value="1.8627639691774651"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.x" value="263"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="startDate" class="java.lang.String"/>
 	<parameter name="endDate" class="java.lang.String"/>
@@ -344,7 +344,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{cashier}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="456" y="1" width="53" height="20" uuid="3eafde9d-8d21-47bf-952b-ddc6638b51b7"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif"/>

@@ -190,7 +190,7 @@ public class CashDailyReportController extends BaseController<CashDailyReportCon
 	 */
 	@RequestMapping(value = "printReport", method = RequestMethod.GET)
 	@ResponseBody
-	public void printReport(CashDailyReportQo qo, HttpServletResponse response, HttpServletRequest request,
+	public String printReport(CashDailyReportQo qo, HttpServletResponse response, HttpServletRequest request,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber) {
 		try {
 			qo.setPageNumber(pageNumber);
@@ -200,6 +200,9 @@ public class CashDailyReportController extends BaseController<CashDailyReportCon
 			LOG.debug("日结报表打印参数：{}", qo.toString());
 			PageUtils<CashDailyReportVo> cashFlowReport = cashDailyReportService.queryPageList(qo);
 			List<CashDailyReportVo> list = cashFlowReport.getList();
+			if(!CollectionUtils.isEmpty(list)&&list.size()>PrintConstant.PRINT_MAX_ROW){
+				return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
+			}
 			BigDecimal allTotal = BigDecimal.ZERO;
 			for (CashDailyReportVo cashDailyReportVo : list) {
 				allTotal = allTotal.add(cashDailyReportVo.getTotal());
@@ -214,5 +217,6 @@ public class CashDailyReportController extends BaseController<CashDailyReportCon
 		} catch (Exception e) {
 			LOG.error(PrintConstant.CASH_FLOW_PRINT_ERROR, e);
 		}
+		return null;
 	}
 }
