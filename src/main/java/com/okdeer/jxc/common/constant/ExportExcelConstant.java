@@ -311,4 +311,9 @@ String GOODS_SALE_AMOUNT_REPORT = "goodsSaleAmountReport.xlsx";
 	 * @Fields PURCHASEFORM : BD业绩报表
 	 */
 	String DILIVER_REPORT = "DiLiverReport.xlsx";
+	
+	/**
+	 * @Fields GOODS_BRAND_REPORT : 商品品牌报表
+	 */
+	String GOODS_BRAND_REPORT = "GoodsBrandReport.xlsx";
 }
