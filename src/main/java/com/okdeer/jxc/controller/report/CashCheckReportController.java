@@ -181,7 +181,7 @@ public class CashCheckReportController extends BaseController<CashCheckReportCon
 	 */
 	@RequestMapping(value = "printReport", method = RequestMethod.GET)
 	@ResponseBody
-	public void printReport(CashCheckReportQo qo, HttpServletResponse response, HttpServletRequest request,
+	public String printReport(CashCheckReportQo qo, HttpServletResponse response, HttpServletRequest request,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber) {
 		try {
 			qo.setPageNumber(pageNumber);
@@ -190,7 +190,9 @@ public class CashCheckReportController extends BaseController<CashCheckReportCon
 			LOG.info("收银对账报表打印参数:{}" + qo.toString());
 			PageUtils<CashCheckReportVo> cashCheckReportVo = cashCheckReportService.queryPageList(qo);
 			List<CashCheckReportVo> list = cashCheckReportVo.getList();
-			
+			if(!CollectionUtils.isEmpty(list)&&list.size()>PrintConstant.PRINT_MAX_ROW){
+				return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
+			}
 			CashCheckReportVo vo = cashCheckReportService.queryListSum(qo);
 			list.add(vo);
 			
@@ -203,6 +205,7 @@ public class CashCheckReportController extends BaseController<CashCheckReportCon
 		} catch (Exception e) {
 			LOG.error(PrintConstant.CASH_CHECK_PRINT_ERROR, e);
 		}
+		return null;
 	}
 	// end by lijy02
 }

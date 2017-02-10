@@ -191,22 +191,25 @@ public class CashFlowReportController extends BaseController<CashFlowReportContr
 	 */
 	@RequestMapping(value = "printReport", method = RequestMethod.GET)
 	@ResponseBody
-	public void printReport(CashFlowReportQo qo, HttpServletResponse response, HttpServletRequest request) {
+	public String printReport(CashFlowReportQo qo, HttpServletResponse response, HttpServletRequest request) {
 		try {
 			// 2、封装请求参数
 			qo = getParmas(qo);
 			LOG.debug("收银流水打印参数：{}", qo.toString());
 			List<CashFlowReportVo> list = cashFlowReportService.queryList(qo);
+			if(!CollectionUtils.isEmpty(list)&&list.size()>PrintConstant.PRINT_MAX_ROW){
+				return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
+			}
 			String path = PrintConstant.CASH_FLOW_REPORT;
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("startDate", qo.getStartTime());
 			map.put("endDate", qo.getEndTime());
 			map.put("printName", UserUtil.getCurrentUser().getUserName());
 			JasperHelper.exportmain(request, response, map, JasperHelper.PDF_TYPE, path, list, "");
-
 		} catch (Exception e) {
 			LOG.error(PrintConstant.CASH_DAILY_PRINT_ERROR, e);
 		}
+		return null;
 	}
 
 	// 价格保留两位特殊处理
