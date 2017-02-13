@@ -255,12 +255,12 @@ public class GoodsReportController extends
 	 */
 	@RequestMapping(value = "printReport", method = RequestMethod.GET)
 	@ResponseBody
-	public void printReport(GoodsReportQo qo, HttpServletResponse response,
+	public String printReport(GoodsReportQo qo, HttpServletResponse response,
 			HttpServletRequest request,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber) {
 		try {
 			// 如果没有选择店铺，则查询登录人所在机构的商品
-			if (StringUtils.isEmpty(qo.getBranchId())) {
+			if (StringUtils.isEmpty(qo.getBranchName())) {
 				qo.setBranchId(UserUtil.getCurrBranchId());
 			}
 			String branchCode = UserUtil.getCurrBranchCode();
@@ -268,6 +268,9 @@ public class GoodsReportController extends
 			qo.setPageNumber(pageNumber);
 			qo.setPageSize(PrintConstant.PRINT_MAX_LIMIT);
 			List<GoodsReportVo> list = goodsReportService.queryList(qo);
+			if(!CollectionUtils.isEmpty(list)&&list.size()>PrintConstant.PRINT_MAX_ROW){
+				return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
+			}
 			String path = PrintConstant.GOODS_REPORT;
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("printName", UserUtil.getCurrentUser().getUserName());
@@ -276,6 +279,7 @@ public class GoodsReportController extends
 		} catch (Exception e) {
 			LOG.error(PrintConstant.SALE_FLOW_PRINT_ERROR, e);
 		}
+		return null;
 	}
 	// end by lijy02
 }

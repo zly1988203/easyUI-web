@@ -233,11 +233,14 @@ public class SaleFlowReportController extends BaseController<SaleFlowReportContr
 	 */
 	@RequestMapping(value = "printReport", method = RequestMethod.GET)
 	@ResponseBody
-	public void printReport(SaleFlowReportQo qo, HttpServletResponse response, HttpServletRequest request) {
+	public String printReport(SaleFlowReportQo qo, HttpServletResponse response, HttpServletRequest request) {
 		try {
 			// 设置默认查询条件参数
 			qo = getDefultParmas(qo);
 			List<SaleFlowReportVo> list = saleFlowReportService.querySaleList(qo);
+			if(!CollectionUtils.isEmpty(list)&&list.size()>PrintConstant.PRINT_MAX_ROW){
+				return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
+			}
 			String path = PrintConstant.SALE_FLOW_REPORT;
 
 			Map<String, Object> map = new HashMap<String, Object>();
@@ -248,6 +251,7 @@ public class SaleFlowReportController extends BaseController<SaleFlowReportContr
 		} catch (Exception e) {
 			LOG.error(PrintConstant.SALE_FLOW_PRINT_ERROR, e);
 		}
+		return null;
 	}
 	// end by lijy02
 

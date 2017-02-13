@@ -79,5 +79,10 @@ public interface PrintConstant {
 	 * @Fields PRINT_LIMIT : 打印限最大数量
 	 */
 	Integer PRINT_MAX_LIMIT = 10000;
+	
+	/**
+	 * @Fields PRINT_MAX_ROW : 打印限最大数量
+	 */
+	Integer PRINT_MAX_ROW = 3000;
 
 }
