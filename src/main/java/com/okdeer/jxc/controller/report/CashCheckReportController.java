@@ -188,11 +188,14 @@ public class CashCheckReportController extends BaseController<CashCheckReportCon
 			qo.setPageSize(PrintConstant.PRINT_MAX_LIMIT);
 			qo = buildDefaultParams(qo);
 			LOG.info("收银对账报表打印参数:{}" + qo.toString());
-			PageUtils<CashCheckReportVo> cashCheckReportVo = cashCheckReportService.queryPageList(qo);
-			List<CashCheckReportVo> list = cashCheckReportVo.getList();
-			if(!CollectionUtils.isEmpty(list)&&list.size()>PrintConstant.PRINT_MAX_ROW){
+			if(cashCheckReportService.queryPageListCount(qo)>PrintConstant.PRINT_MAX_ROW){
 				return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
 			}
+			PageUtils<CashCheckReportVo> cashCheckReportVo = cashCheckReportService.queryPageList(qo);
+			List<CashCheckReportVo> list = cashCheckReportVo.getList();
+//			if(!CollectionUtils.isEmpty(list)&&list.size()>PrintConstant.PRINT_MAX_ROW){
+//				return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
+//			}
 			CashCheckReportVo vo = cashCheckReportService.queryListSum(qo);
 			list.add(vo);
 			

@@ -43,42 +43,42 @@
 			<textField evaluationTime="Report" isBlankWhenNull="false">
 				<reportElement x="438" y="37" width="20" height="20" uuid="6de2023b-f3aa-4268-a0fd-b94e675c3904"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+					<font fontName="SansSerif" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="428" y="37" width="10" height="20" uuid="ce5e6695-66ab-4a1f-9ddc-b9564d8506c7"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="宋体" isBold="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+					<font fontName="SansSerif" isBold="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[共]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="458" y="37" width="10" height="20" uuid="123bf02f-32c6-4863-a6b6-13b2944702b2"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="宋体" isBold="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+					<font fontName="SansSerif" isBold="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[页]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="378" y="37" width="12" height="20" uuid="a37082ae-a6ec-4982-b053-187383538648"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+					<font fontName="SansSerif" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[第]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="409" y="37" width="15" height="20" uuid="1d1fc1a8-57bc-466c-a3dc-d6f6aa3ef675"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="宋体" isBold="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+					<font fontName="SansSerif" isBold="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[页]]></text>
 			</staticText>
 			<textField isBlankWhenNull="false">
 				<reportElement x="390" y="37" width="19" height="20" uuid="90c429a9-4359-4826-8cee-5814a79844f8"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+					<font fontName="SansSerif" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
@@ -380,14 +380,14 @@
 			<textField pattern="yyyy/MM/dd HH:mm:ss" isBlankWhenNull="false">
 				<reportElement x="51" y="1" width="132" height="20" uuid="e2a9de46-4b4b-401d-bc9c-3a7bae99960b"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+					<font fontName="SansSerif" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="381" y="2" width="40" height="20" uuid="64d271dc-a507-4ae4-b522-46e56b38a541"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+					<font fontName="SansSerif" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[打印人：]]></text>
 			</staticText>
