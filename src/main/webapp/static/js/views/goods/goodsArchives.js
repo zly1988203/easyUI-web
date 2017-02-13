@@ -449,4 +449,3 @@ function exportExcel(){
 function resetFrom(){
 	$("#searchForm").form('clear');
 }
-
