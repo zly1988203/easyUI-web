@@ -141,7 +141,7 @@ var dateUtil = {
     },
     
     /**
-     * 获取当前日期前面几天或者后面几天
+     * 获取上一个月
      * @returns {Date}
      */
     getPreMonthDate:function(){

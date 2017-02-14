@@ -1694,3 +1694,7 @@ function getCheckGoods(){
 }
 }
 
+function publicColumnSetting(callback,columns){
+    //公有属性
+	 
+}

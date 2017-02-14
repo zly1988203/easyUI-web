@@ -3,22 +3,60 @@
  * 公共组件-列表设置
  */
 $(function(){
-    initDatagridColumn();
+//	initDatagridColumnSetting();
+//    initColumnSetting();
 });
+
+function initColumnSetting(){
+    var  dalogTemp = $('#coldialog').dialog({
+//    	href:"publicColumnSetting.jsp",
+        width:500,
+        height:580,
+        title:"设置列",
+        closable:true,
+        resizable:true,
+        closed: true,
+        onClose:function(){
+        	$(dalogTemp).panel('destroy');
+        },
+        modal:true,
+        onLoad:function(){
+        	initDatagridColumnSetting();
+        	initColumnCallback(callBackHandel)
+        },
+    });
+    function callBackHandel(data){
+        callback(data);
+        $(dalogTemp).panel('destroy');
+    }
+}
+
+var columnCallback;
+
+function initColumnCallback(row){
+	columnCallback = row;
+}
+
+function colClickRow(rowIndex, rowData){
+    if(columnCallback){
+    	columnCallback(rowData);
+    }
+}
+
 //初始化表格
-function initDatagridColumn(){
+function initDatagridColumnSetting(){
     $("#gridColumn").datagrid({
         //title:'普通表单-用键盘操作',
-        method:'get',
+//        method:'get',
         align:'center',
-        url:'../../json/component.json',
+//        url:'component.json',
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:false,  //单选  false多选
-        rownumbers:true,    //序号
-        pagination:true,    //分页
+//        rownumbers:true,    //序号
+//        pagination:true,    //分页
         fitColumns:true,    //每列占满
         //fit:true,            //占满
-        showFooter:true,
+        showFooter:false,
         height:'100%',
         columns:[[
             {field:'xs',title:'显示',   formatter : function(value, row,index) {
@@ -32,13 +70,13 @@ function initDatagridColumn(){
             {field:'mrwb',title:'默认文本',width:100,align:'center'},
              {field:'zdywb',title:'自定义文本',width:100,align:'center'},
              {field:'kd',title:'宽度',width:100,align:'center'},
-             {field:'cz',title:'操作',width:100,align:'center',
-                 formatter : function(value, row,index) {
-                     var str =  '<span name="rowUp" class="row-up" data-index="'+index+'" onclick="addLineHandel(event)" "></span>&nbsp;&nbsp;' +
-                         '&nbsp;&nbsp;<span name="rowDown" class="row-down" data-index="'+index+'" onclick="delLineHandel(event)" ></span>';
-                     return str;
-                 },
-             },
-        ]]
+        ]],
+//        onClickRow:colClickRow,
     });
+    
+    var jsonArr = '{"total":28,"rows":[{ "hh":"2016727154924","mrwb":"略","zdywb":"略","kd":"略"},{"hh":"2016727154924","mrwb":"略","zdywb":"略","kd":"略"}]}'
+
+    var data = $.parseJSON(jsonArr);  
+    
+    $('#gridColumn').datagrid('loadData', data); //将数据绑定到datagrid   
 }

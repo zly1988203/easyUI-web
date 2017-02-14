@@ -536,6 +536,17 @@ function saveOrder(){
 	        }
         }
     });
+    
+    
+    $.each(rows,function(i,v){
+   	 if(!v["realNum"]){
+            messager("第"+(i+1)+"行，数量不能为空");
+            isCheckResult = false;
+            return false;
+        };
+     
+   });
+    
     if(!isCheckResult){
         return;
     }
