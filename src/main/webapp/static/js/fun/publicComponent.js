@@ -1093,6 +1093,7 @@ function GridClass(){
         }
         return null;
     }
+    
     /**
      * 获取编辑行
      * @param gridName  表格ID
@@ -1215,6 +1216,14 @@ function GridClass(){
         $('.datagrid-header').find('div.datagrid-cell').css('text-align',str||'center');
         $('.datagrid-header').find('div.datagrid-cell').css('font-weight','bold');
     }
+    
+	this.getColumnOption = function(fieldName){
+		var opts = $('#'+gridName).datagrid('getColumnOption',fieldName)
+		if(opts){
+			return opts;
+		}
+		return null;
+	}
 
 }
 
@@ -1447,6 +1456,8 @@ var datagridCommon = {
 			}
 		}
 	},
+	
+
 };
 //禁止回车键提交
 $(window).keydown(function(event){
