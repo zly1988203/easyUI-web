@@ -237,6 +237,10 @@ public class SaleFlowReportController extends BaseController<SaleFlowReportContr
 		try {
 			// 设置默认查询条件参数
 			qo = getDefultParmas(qo);
+			if(saleFlowReportService.querySaleListCount(qo)>PrintConstant.PRINT_MAX_ROW){
+				return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
+			}
+			
 			List<SaleFlowReportVo> list = saleFlowReportService.querySaleList(qo);
 			if(!CollectionUtils.isEmpty(list)&&list.size()>PrintConstant.PRINT_MAX_ROW){
 				return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";

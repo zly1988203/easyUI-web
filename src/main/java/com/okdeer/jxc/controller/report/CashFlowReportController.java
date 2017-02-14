@@ -196,6 +196,9 @@ public class CashFlowReportController extends BaseController<CashFlowReportContr
 			// 2、封装请求参数
 			qo = getParmas(qo);
 			LOG.debug("收银流水打印参数：{}", qo.toString());
+			if(cashFlowReportService.queryListCount(qo)>PrintConstant.PRINT_MAX_ROW){
+				return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
+			}
 			List<CashFlowReportVo> list = cashFlowReportService.queryList(qo);
 			if(!CollectionUtils.isEmpty(list)&&list.size()>PrintConstant.PRINT_MAX_ROW){
 				return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
