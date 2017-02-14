@@ -44,10 +44,25 @@ function goodsArchives(){
 }
 var goodsClass = new goodsArchives();
 $(function(){
+	
+	 $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
+	 $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+	
     initView();
     initTreeArchives();
     initDatagridArchives();
+    
+    changeStatus();
 });
+
+
+//单据状态切换
+function changeStatus(){
+	$(".radioItem").change(function(){
+		queryForm();
+    });
+}
+
 function initView(){
     $('#goodsType').combobox({
         valueField:'id',
@@ -186,6 +201,11 @@ function initDatagridArchives(){
              },
              {field:'skuName',title:'商品名称',width:'200px',align:'left'},
              {field:'barCode',title:'条形码',width:'120px',align:'left'},
+             {field:'barCode',title:'申请机构',width:'120px',align:'left'},
+             {field:'barCode',title:'申请日期',width:'120px',align:'left'},
+             {field:'barCode',title:'审核时间',width:'120px',align:'left'},
+             {field:'barCode',title:'审核状态',width:'120px',align:'left'},
+
              {field:'memoryCode',title:'助记码',width:'80px',align:'left'},
              {field:'oneCategoryName',title:'商品一级类别',width:'80px',align:'left'},
              {field:'categoryName',title:'商品类别',width:'80px',align:'left'},
@@ -203,8 +223,8 @@ function initDatagridArchives(){
                  }
              },
              {field:'vaildity',title:'保质期天数',width:'80px',align:'right'},
-             {field:'originPlace',title:'产地',width:'200px',align:'left'},
-             {field:'supplierName',title:'主供应商',width:'200px',align:'left'},
+             {field:'originPlace',title:'产地',width:'100px',align:'left'},
+             {field:'supplierName',title:'主供应商',width:'100px',align:'left'},
              {field:'saleWay',title:'经营方式',width:'80px',align:'left',hidden:true},
              {field:'saleWayName',title:'经营方式',width:'100px',align:'center'},
              {field:'supplierRate',title:'联营扣率/代销扣率',width:'80px',align:'right',
@@ -278,7 +298,7 @@ function initDatagridArchives(){
                     return "1";
                 }
             },
-            {field:'remark',title:'备注',width:'200px',align:'left',hidden:true},
+            {field:'remark',title:'备注',width:'100px',align:'left'},
         ]],
         onLoadSuccess : function() {
             gridHandel.setDatagridHeader("center");
