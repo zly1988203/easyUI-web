@@ -337,6 +337,9 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 										obj.element("error", "数量必填");
 									}
 								}
+								if (obj.get("realNum") != null && Integer.parseInt(obj.getString("realNum")) == 0 ) {
+										obj.element("error", "数量不能为0");
+								}
 								if (obj.get("largeNum") != null) {
 									String largeNum = obj.getString("largeNum");
 									try {
@@ -345,6 +348,9 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 										obj.element("error", "箱数必填");
 									}
 								}
+								if (obj.get("largeNum") != null && Integer.parseInt(obj.getString("largeNum")) == 0 ) {
+									obj.element("error", "箱数不能为0");
+							}
 
 							}
 						}
