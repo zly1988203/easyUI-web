@@ -37,7 +37,7 @@ public class GoodsSelectImportSkuCodeHandle implements GoodsSelectImportHandle{
 	
 	public static final String CODE_IS_BLANK = "货号为空";
 	public static final String CODE_IS_REPEAT = "货号重复";
-	public static final String NOT_EXISTS = "找不到该商品";
+	public static final String NOT_EXISTS = "找不到该商品或该商品为捆绑商品";
 
 	List<JSONObject> excelListFullData = null;
 	List<JSONObject> excelListSuccessData = null;
@@ -81,7 +81,6 @@ public class GoodsSelectImportSkuCodeHandle implements GoodsSelectImportHandle{
 				jsonObject.element("error", NOT_EXISTS);
 			}
 		}
-		
 		//刷新
 		refreshSuccessData();
 		
