@@ -267,6 +267,9 @@ public class GoodsReportController extends
 			qo.setBranchCode(branchCode);
 			qo.setPageNumber(pageNumber);
 			qo.setPageSize(PrintConstant.PRINT_MAX_LIMIT);
+			if(goodsReportService.queryListCount(qo)>PrintConstant.PRINT_MAX_ROW){
+				return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
+			}
 			List<GoodsReportVo> list = goodsReportService.queryList(qo);
 			if(!CollectionUtils.isEmpty(list)&&list.size()>PrintConstant.PRINT_MAX_ROW){
 				return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";

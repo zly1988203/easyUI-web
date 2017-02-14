@@ -198,6 +198,10 @@ public class CashDailyReportController extends BaseController<CashDailyReportCon
 			// 初始化默认参数
 			qo = buildDefaultParams(qo);
 			LOG.debug("日结报表打印参数：{}", qo.toString());
+			int lenght=cashDailyReportService.queryPageListCount(qo);
+			if(lenght>PrintConstant.PRINT_MAX_ROW){
+				return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
+			}
 			PageUtils<CashDailyReportVo> cashFlowReport = cashDailyReportService.queryPageList(qo);
 			List<CashDailyReportVo> list = cashFlowReport.getList();
 			if(!CollectionUtils.isEmpty(list)&&list.size()>PrintConstant.PRINT_MAX_ROW){
