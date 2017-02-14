@@ -27,19 +27,37 @@
     <div class="ub ub-ver ub-f1 upad-4">
         <div class="ub ub-ac">
             <div class="ubtns">
+
             	<shiro:hasPermission name="JxcGoodsArchive:add">
 					<button class="ubtns-item" onclick="addGoodsView()">新增</button>
 			   	</shiro:hasPermission>
 			   	<shiro:hasPermission name="JxcGoodsArchive:copy">
 					<button class="ubtns-item" onclick="copyGoodsView()">复制</button>
 			   	</shiro:hasPermission>
-			   <%-- 	<shiro:hasPermission name="JxcGoodsArchive:delete">
-					<button class="ubtns-item" onclick="delGoods()">删除</button>
-			   	</shiro:hasPermission> --%>
+			   				   	<shiro:hasPermission name="JxcGoodsArchive:copy">
+					<button class="ubtns-item" onclick="checkGoodsView()">审核</button>
+			   	</shiro:hasPermission>
+
+			   	<shiro:hasPermission name="JxcGoodsArchive:export">
+					<button class="ubtns-item" onclick="importData()">导入</button>
+			   	</shiro:hasPermission>
 			   	<shiro:hasPermission name="JxcGoodsArchive:export">
 					<button class="ubtns-item" onclick="exportData()">导出</button>
 			   	</shiro:hasPermission>
+			   	<shiro:hasPermission name="JxcGoodsArchive:delete">
+					<button class="ubtns-item" onclick="delGoods()">删除</button>
+			   	</shiro:hasPermission> 
+<%-- 			   		<shiro:hasPermission name="JxcGoodsArchive:delete">
+					<button class="ubtns-item" onclick="delGoods()">重置</button>
+			   	</shiro:hasPermission>  --%>
+			   	<shiro:hasPermission name="JxcGoodsArchive:delete">
+					<button class="ubtns-item" onclick="backoff()">退出</button>
+			   	</shiro:hasPermission> 
             </div>
+
+	        	 <!-- 引入时间选择控件 -->
+	            <%@ include file="/WEB-INF/views/component/dateSelectHour.jsp"%>
+
         </div>
         <form action="" id="formGoodsArchives" method="post">
             <div class="ub umar-t4">
@@ -52,8 +70,22 @@
                     <input type="hidden" name="startCount" id="startCount" value="">
                     <input type="hidden" name="endCount" id="endCount" value="">
                     <input class="uinp uw-400" type="text" name="goodsInfo" maxlength="50" id="goodsInfo" placeholder="输入货号、条码、商品名称进行查询">
+                
                 </div>
-                <input type="button" class="ubtn  umar-r10" value="查询" onclick="goodsSearch()">
+ 				<input type="button" class="ubtn  umar-r10" value="查询" onclick="goodsSearch()">
+				<div class="ub ub-ac umar-l10">
+					<input class="ub radioItem" type="radio" name="status" value="0" /><label>未审核商品</label>
+				</div>
+				<div class="ub ub-ac umar-l10">
+					<input class="ub radioItem" type="radio" name="status" value="1" /><label>已审核商品</label>
+				</div>
+				<div class="ub ub-ac umar-l10">
+					<input class="ub radioItem" type="radio" name="status" value="2" /><label>审核不通过</label>
+				</div>
+				<div class="ub ub-ac umar-l10">
+					<input class="ub radioItem" type="radio" name="status" value="" /><label>全部商品</label>
+				</div>
+                
             </div>
         </form>
 

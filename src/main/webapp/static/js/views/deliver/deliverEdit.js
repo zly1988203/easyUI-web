@@ -272,6 +272,16 @@ function initDatagridEditRequireOrder(){
                     if(row.isFooter){
                         return
                     }
+                    
+                    if(!row.sourceStock){
+                        row.sourceStock = parseFloat(value||0).toFixed(2);
+                    }
+                    
+//                    if(parseFloat(row.applyNum)+parseFloat(row.alreadyNum) > parseFloat(row.sourceStock)){
+//                   	 return '<span style="color:red;"><b>'+parseFloat(value||0).toFixed(2)+'</b></span>';
+//	           		}else{
+//	                      
+//	           		}	
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
 //                editor:{
@@ -288,8 +298,21 @@ function initDatagridEditRequireOrder(){
                     if(row.isFooter){
                         return;
                     }
+                    if(!row.alreadyNum){
+                        row.alreadyNum = parseFloat(value||0).toFixed(2);
+                    }
+                    
+//                  if(parseFloat(row.applyNum)+parseFloat(row.alreadyNum) > parseFloat(row.sourceStock)){
+//                   	 return '<span style="color:red;"><b>'+parseFloat(value||0).toFixed(2)+'</b></span>';
+//	           		}else{
+//	           			return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+//	           		}	
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                }
+
+                },
+//                styler:function(value,row,index){
+//                	return 'color:green;'
+//                }
             },
             {field:'remark',title:'备注',width:'200px',align:'left',editor:'textbox'}
         ]],
@@ -310,14 +333,49 @@ function initDatagridEditRequireOrder(){
             	});
             }
             gridHandel.setDatagridHeader("center");
+
+            updateRowsStyle();
             updateFooter();
             /*if(!gVarIsInit){
             	gVarIsInit = true;
                 selectStockAndPrice(data.rows);
             }*/
-        }
+        },
+//    	rowStyler:function(index,row){
+//    		if(typeof(row.sourceStock) != 'undefined' && typeof(row.applyNum) != 'undefined'
+//    			&& typeof(row.alreadyNum) != 'undefined'){
+//        		if(parseFloat(row.applyNum)+parseFloat(row.alreadyNum || 0) > parseFloat(row.sourceStock)){
+//        			return 'background-color:pink;';
+//        		}	
+//    		}
+//    		
+//		}
     });
 }
+
+function updateRowsStyle(){
+	 var rows =  gridHandel.getRows();
+    $.each(rows,function(i,row){
+		if(typeof(row.sourceStock) != 'undefined' && typeof(row.applyNum) != 'undefined'
+			&& typeof(row.alreadyNum) != 'undefined'){
+    		if(parseFloat(row.applyNum)+parseFloat(row.alreadyNum) > parseFloat(row.sourceStock)){
+    			var alreadyNumopts = gridHandel.getColumnOption('alreadyNum');
+    			alreadyNumopts.styler = function(value,row,index){
+    				return "color:red";
+    			} 
+    			var sourceStockopts = gridHandel.getColumnOption('sourceStock');
+    			sourceStockopts.styler = function(value,row,index){
+    				return "color:red";
+    			} 
+    			
+    			$('#gridEditRequireOrder').datagrid('updateRow',{index:i,row:row})
+    			
+    		}	
+		}
+    });
+}
+
+
 var gVarIsInit = false;
 
 //限制转换次数
