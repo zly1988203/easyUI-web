@@ -447,9 +447,11 @@ function updateFooter(){
 
 //打印
 function printReport(){
+	debugger;
 	$("#startCount").val('');
 	$("#endCount").val('');
-	var queryType = $("input[name='queryType']").val();
+	var queryType=$('input:radio[name="queryType"]:checked').val();
+
 	var startTime = $("#txtStartDate").val();
 	var endTime = $("#txtEndDate").val();
 	var branchNameOrCode= $("#branchNameOrCode").val();

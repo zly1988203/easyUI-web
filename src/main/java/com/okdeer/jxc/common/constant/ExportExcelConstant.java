@@ -316,4 +316,9 @@ String GOODS_SALE_AMOUNT_REPORT = "goodsSaleAmountReport.xlsx";
 	 * @Fields GOODS_BRAND_REPORT : 商品品牌报表
 	 */
 	String GOODS_BRAND_REPORT = "GoodsBrandReport.xlsx";
+	
+	/**
+	 * @Fields GOODS_CATEGORY_REPORT : 商品类别报表
+	 */
+	String GOODS_CATEGORY_REPORT = "GoodsCategoryReport.xlsx";
 }
