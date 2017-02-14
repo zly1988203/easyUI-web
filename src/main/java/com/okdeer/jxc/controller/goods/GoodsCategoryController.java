@@ -211,7 +211,11 @@ public class GoodsCategoryController extends
 			String categoryLevel = goodsCategory.getCategoryLevel();
 			GoodsCategory category = goodsCategoryService.queryGoodsCategoryById(parentCategoryId);
 			String rightCode = goodsCategoryService.getMaxCategoryCode(parentCategoryId,categoryLevel);
-			categoryCode.append(category.getCategoryCode()).append(rightCode);
+			if(String.valueOf(Constant.ONE).equals(categoryLevel)){
+				categoryCode.append(rightCode);
+			}else{
+				categoryCode.append(category.getCategoryCode()).append(rightCode);
+			}
 			goodsCategory.setCategoryCode(categoryCode.toString());
 		}
 		
