@@ -396,11 +396,19 @@ function exportData(){
 function exportExcel(){
 	$("#exportWin").hide();
 	$("#exportWin").window("close");
+	var fromObjStr = $('#queryForm').serializeObject();
+    fromObjStr.targetBranchName = fromObjStr.targetBranchName.substring(fromObjStr.targetBranchName.lastIndexOf(']')+1);
+    fromObjStr.sourceBranchName = fromObjStr.sourceBranchName.substring(fromObjStr.sourceBranchName.lastIndexOf(']')+1);
+    fromObjStr.categoryName = fromObjStr.categoryName.substring(fromObjStr.categoryName.lastIndexOf(']')+1);
 	$("#queryForm").form({
 		success : function(result){
 			
 		}
 	});
+	$('#targetBranchName').val(fromObjStr.targetBranchName);
+	$('#sourceBranchName').val(fromObjStr.sourceBranchName);
+	$('#categoryName').val(fromObjStr.categoryName);
+
 	$("#queryForm").attr("action",contextPath+"/report/outOfStock/exportList");
 	$("#queryForm").submit(); 
 
