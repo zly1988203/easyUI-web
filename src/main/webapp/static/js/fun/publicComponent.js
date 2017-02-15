@@ -1709,3 +1709,28 @@ function publicColumnSetting(callback,columns){
     //公有属性
 	 
 }
+
+
+function publicActivity(callback){
+	var dalogTemp = $('<div/>').dialog({
+	        href: contextPath+"/sale/activitySelect/view",
+	        width: 940,
+	        height: 620,
+	        title: '选择活动',
+	        closable: true,
+	        resizable: true,
+	        onClose: function () {
+	            $(dalogTemp).panel('destroy');
+	        },
+	        modal: true,
+	        onLoad: function () {
+	        	disableBtn();
+	        	initactivityCallBack(callBackHandel);
+	        }
+	    })
+	    
+	    function callBackHandel(data){
+	        callback(data);
+	        $(dalogTemp).panel('destroy');
+	    }
+}

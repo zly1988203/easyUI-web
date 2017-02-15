@@ -6,6 +6,11 @@ var selectionRow = "";
 function initGoodsView(data,flag){
 	//添加页面根据列表页面选中的类别进行商品分类赋值
 	if(flag == "add"){
+		
+		$('#checkDate').css("display", "none");  
+		$('#checkUserName').css("display", "none");  
+		$('#applyDiv').css("display", "none");  
+		
 		//商品分类
 		var categoryCode = data.categoryCode;
 		if(categoryCode && categoryCode.length == 6){
