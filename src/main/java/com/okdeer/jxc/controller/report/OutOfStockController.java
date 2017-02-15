@@ -73,20 +73,21 @@ public class OutOfStockController  extends ReportController{
 	 */
 	@RequestMapping(value = "/exportList")
 	@ResponseBody
-	public String exportList(HttpServletRequest request,HttpServletResponse response) {
-		Map<String,Object> map=getParam(request);
-		map.put("startCount",Integer.parseInt( map.get("startCount").toString()));
-		map.put("endCount",Integer.parseInt( map.get("endCount").toString()));
+	public String exportList(HttpServletRequest request, HttpServletResponse response) {
+		Map<String, Object> map = getParam(request);
+		map.put("startCount", Integer.parseInt(map.get("startCount").toString()));
+		map.put("endCount", Integer.parseInt(map.get("endCount").toString()));
 		List<DataRecord> reportList=null;
 		String fileName=null;
 		String templateName=null;
 		//判断是否是汇总查询/明细
 		try {
-			DataRecord dataRecord=outOfStockServiceApi.getTotal(map);
-			if("0".equals(map.get("type"))){
+			DataRecord dataRecord = outOfStockServiceApi.getTotal(map);
+			if ("0".equals(map.get("type"))) {
 				LOG.info("导出配送缺货率分析明细导出查询参数:{}" + map.toString());
-				reportList=outOfStockServiceApi.getList(map);
-				fileName = "配送缺货率明细表" + map.get("startTime").toString().replaceAll("-", "")+'-'+map.get("endTime").toString().replaceAll("-", "");
+				reportList = outOfStockServiceApi.getList(map);
+				fileName = "配送缺货率明细表" + map.get("startTime").toString().replaceAll("-", "") + '-'
+						+ map.get("endTime").toString().replaceAll("-", "");
 				templateName = ExportExcelConstant.DELIVERY_DETAIL;
 				dataRecord.put("inFormNo", "合计");
 				
