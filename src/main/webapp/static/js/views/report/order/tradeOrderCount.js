@@ -54,6 +54,29 @@ function initDatagridRequireOrders(){
             	formatter:function(value,row,index){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
+            },{field: 'costAmount', title: '成本金额', width:80, align: 'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                }
+            },
+            {field: 'grossProfit', title: '毛利', width:80, align: 'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                }
+            },
+            {field: 'grossProfitRate', title: '毛利率', width:80, align: 'right',
+                formatter:function(value,row,index){
+                    if(row.grossProfitRate===''){
+                        return '';
+                    }
+                    return '<b>'+parseFloat(value).toFixed(2)+'%</b>';
+                }
             },
             {field:'price',title:'客单价/元',width:'80px',align:'right',
             	formatter:function(value,row,index){

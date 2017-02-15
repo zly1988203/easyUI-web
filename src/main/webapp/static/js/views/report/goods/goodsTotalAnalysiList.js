@@ -162,6 +162,14 @@ function initGoodsTotalAnalysiGrid() {
             {field: 'barCode', title: '条码', width:100, align: 'left'},
             {field: 'spec', title: '规格', width:45, align: 'left'},
             {field: 'unit', title: '单位', width:45, align: 'left'},
+            {field: 'saleNum', title: '销售数量', width:80, align: 'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                }
+            },
             {field: 'saleAmount', title: '销售金额', width:80, align: 'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
@@ -238,6 +246,14 @@ function initCategoryGrid() {
                 },
             },
             {field: 'bigCategoryName', title: '大类名称', width: 65, align: 'left'},
+            {field: 'saleNum', title: '销售数量', width:80, align: 'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                }
+            },
             {field: 'saleAmount', title: '销售金额', width:80, align: 'right',
             	formatter:function(value,row,index){
                     if(row.isFooter){	
@@ -314,6 +330,14 @@ function initPurReportSupplierGrid() {
                 },
             },
             {field: 'branchName', title: '店铺名称', width: 185, align: 'left'},
+            {field: 'saleNum', title: '销售数量', width:80, align: 'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                }
+            },
             {field: 'saleAmount', title: '销售金额', width:80, align: 'right',
             	formatter:function(value,row,index){
                     if(row.isFooter){	
