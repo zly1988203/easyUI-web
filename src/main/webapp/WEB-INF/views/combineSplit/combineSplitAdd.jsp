@@ -4,7 +4,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>组合拆分单</title>
+    <title>组合拆分单-新增</title>
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
     <%-- <script  src="${ctx}/static/js/fun/publicComponent.js"></script> --%>
     <script  src="${ctx}/static/js/views/combineSplit/combineSplitAdd.js"></script>
@@ -31,6 +31,14 @@
                      <input class="uinp ub ub-f1"  type="text" id="createBranchName">
                      <div class="uinp-more" onclick="selectBranch();">...</div>
 				</div>	
+               <div class="ub ub-ac uw-280">
+                    <div class="umar-r10 uw-70 ut-r">方式:</div>
+                       <!--select-->
+				        <select class="easyui-combobox uselect" name="io" id="io" data-options="editable:false,onChange:selectTion" >
+								<option value="1" >组合</option> 
+								<option value="2" >拆分</option>
+				        </select>
+                </div>
 				<div class="ub ub-ac uw-280 umar-l20 opa-0"></div>
 				<div class="ub ub-ac uw-140 umar-l40">
 					 <div class="umar-r10 ut-r" >制单人员: xxxxxxxxx</div>

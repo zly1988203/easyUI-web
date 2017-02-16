@@ -6,63 +6,82 @@ $(function(){
     //单据状态切换
     changeStatus();
     //初始化列表
-    initModifyPriceGrid();
-    modifyPriceOrderCx();
-    
+    initcombineSplitList();
 });
-
 //单据状态切换
 function changeStatus(){
 	$(".radioItem").change(function(){
-		modifyPriceOrderCx();
+		queryForm();
     });
 }
 var gridHandel = new GridClass();
-function initModifyPriceGrid() {
-     dg=$("#modifyPriceGrid").datagrid({
-        //title:'普通表单-用键盘操作',
-        method: 'post',
-        align: 'center',
-        url: '',
-        //toolbar: '#tb',     //工具栏 id为tb
-        singleSelect: true,  //单选  false多选
-        rownumbers: true,    //序号
-        pagination: true,    //分页
-        //fitColumns:true,    //占满
-         height:'100%',
-         pageSize:20,
-        //showFooter:true,
+function initcombineSplitList() {
+     dg=$("#combineSplitList").datagrid({
+		method : 'post',
+		align : 'center',
+		url : '',
+		singleSelect : true, // 单选 false多选
+		rownumbers : true, // 序号
+		pagination : true, // 分页
+		height : '100%',
+		pageSize : 20,
         columns: [[
-            {field: 'formNo', title: '单号编号', width: '135px', align: 'left',
-                formatter: function(value,row,index){
-                	var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看调价单详细\',\''+contextPath+'/goods/priceAdjust/showDetail?formNo='+value+'\')">' + value + '</a>';
-                	return strHtml;
-                }
-            },
-            {field: 'status', title: '审核状态', width:'90px', align: 'left',
-                formatter: function(value,row,index){
-                    if (value==1){
-                        return "已审核";
-                    } else {
-                        return "未审核";
+       			{field:'check',checkbox:true},
+                {field:'formNo',title:'单据编号',width:'140px',align:'left',formatter:function(value,row,index){
+                	if(row.status  == 0){
+                		var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'组合拆分单详情\',\''+contextPath+'/stock/combineSplit/combineSplitEdit?id='+row.id+'\')">' + value + '</a>';
+                    	return strHtml;
+                	}else if(row.status == 1){
+                		var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'组合拆分单详情\',\''+contextPath+'/stock/combineSplit/combineSplitView?id='+row.id+'\')">' + value + '</a>';
+                    	return strHtml;
+
+                	}
+                }},
+                {field:'status',title: '审核状态', width: '100px', align: 'left',formatter:function(value,row,index){
+                	if(value == '0'){
+                		return '待审核';
+                	}else if(value == '1'){
+                		return '审核通过';
+                	}else if(value == '2'){
+                		return '审核失败';
+                	}else{
+                		return '未知类型：'+ value;
+                	}
+                }},
+                {field: 'formType', title: '类型', width: '200px', align: 'left',formatter:function(value,row,index){
+                	if(value == '1'){
+                		return '组合';
+                	}else if(value == '2'){
+                		return '拆分';
+                	}else{
+                		return '未知类型：'+ value;
+                	}
+                }},
+    			//{field: 'branchCode', title: '机构编号', width: '200px', align: 'left'},
+    			{field: 'branchName', title: '机构名称', width: '220px', align: 'left'},
+    			{field: 'amount', title: '单据金额', width: '80px', align: 'right',
+    				formatter:function(value,row,index){
+                        if(row.isFooter){
+                            return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                        }
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                     }
+    			},
+                {field: 'createUserName', title: '操作人', width: '130px', align: 'left'},
+                {field: 'createTime', title: '操作时间', width: '150px', align: 'center',
+    				formatter: function (value, row, index) {
+    					if (value) {
+    						return new Date(value).format('yyyy-MM-dd hh:mm');
+    					}
+    					return "";
+    				}
+    			},
+                {field: 'validUserName', title: '审核人员', width: '130px', align: 'left'},
+                {field: 'remark', title: '备注', width: '200px', align: 'left',
+        		     onLoadSuccess:function(data){
+        			gridHandel.setDatagridHeader("center");
+        		   }
                 }
-            },
-            {field: 'status', title: '类型', width:'90px', align: 'left'},
-            {field: 'status', title: '单据金额', width:'90px', align: 'left'},
-            {field: 'branchAreaCode', title: '机构名称', width: '120px', align: 'left'},
-            {field: 'createUserName', title: '操作员', width: '120px', align: 'left'},
-            {field: 'createTime', title: '操作时间', width: '120px', align: 'left',
-            	formatter: function (value, row, index) {
-	                if (value != null && value != '') {
-	                    var date = new Date(value);
-	                    return date.format("yyyy-MM-dd hh:mm");
-	                }
-	                return "";
-	            }
-            },
-            {field: 'validUserName', title: '审核人', width: '100px', align: 'left'},
-            {field: 'remark', title: '备注', width: '130px', align: 'left'}
         ]],
          onLoadSuccess:function(data){
             gridHandel.setDatagridHeader("center");
@@ -80,8 +99,8 @@ function toCombineDetail(){
 
 //删单
 function delModifyOrderDialog(){
-	var row = $('#modifyPriceGrid').datagrid('getSelected');
-	var rowIndex = $('#modifyPriceGrid').datagrid('getRowIndex',row);
+	var row = $('#combineSplitList').datagrid('getSelected');
+	var rowIndex = $('#combineSplitList').datagrid('getRowIndex',row);
 	if(row!=null&&row.status==1){
 		 $.messager.confirm('提示','已经审核的单据不可以删除！');
 		return;
@@ -98,7 +117,7 @@ function delModifyOrderDialog(){
                     dataType: "json",
                     success: function(data){
                     	gFunEndLoading();
-                        $('#modifyPriceGrid').datagrid('deleteRow', rowIndex);
+                        $('#combineSplitList').datagrid('deleteRow', rowIndex);
                     }
                 });
             }
@@ -107,7 +126,7 @@ function delModifyOrderDialog(){
 }
 
 //datagridId datagrid的Id
-var datagridId = "modifyPriceGrid";
+var datagridId = "combineSplitList";
 //datagrid的常用操作方法
 var datagridUtil = {
     isSelectRows:function(){
@@ -121,38 +140,17 @@ var datagridUtil = {
 }
 
 //查询
-function modifyPriceOrderCx(){
+function queryForm(){
 	var isValid = $('#searchForm').form('validate');
 	if (!isValid) {
 		return isValid;
 	}
 	var fromObjStr = $('#searchForm').serializeObject();
 	dg.datagrid('options').method = "post";
-	dg.datagrid('options').url = contextPath+'/goods/priceAdjust/queryByCondition';
+	dg.datagrid('options').url = contextPath+'/stock/combineSplit/getCombineSplitList';
 	dg.datagrid('load', fromObjStr);
 }
 
-/**
- * 导出
- */
-/*function exportData(){
-	var isValid = $("#searchForm").form('validate');
-	if(!isValid){
-		return isValid;
-	}
-	var length = $("#modifyPriceGrid").datagrid('getData').total;
-	console.info($("#searchForm").serializeObject());
-	if(length == 0){
-		$.messager.alert("无数据可导");
-		return;
-	}
-	if(length>10000){
-		$.messager.alert("当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
-		return;
-	}
-	$("#searchForm").attr("action",contextPath+'/goods/priceAdjust/exportList');
-	$("#searchForm").submit();	
-}*/
 /**
  * 机构列表下拉选
  */
