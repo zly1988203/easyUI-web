@@ -2,7 +2,19 @@
  * Created by wxl on 2016/08/17.
  */
 var datagridId = "pricePrint";
+
+var options_nomal = [{value:'5',text:'标准价签(72*32.5mm 4*6)'},
+                     {value:'6',text:'标准促销价签(72*32.5mm 4*6)'},
+					{value:'7',text:'标准价签(72*32.5mm 4*6)无底'},
+					{value:'8',text:'标准促销价签(72*32.5mm 4*6)无底'},
+					{value:'11',text:'标准促销价签(72*32.5mm 4*6 无底色)'}];
+var options_promotion = [{value:'1',text:'正常（55*25mm有底 3*10）'},
+                         {value:'2',text:'正常（85*40mm有底 2*7）'},
+     					{value:'3',text:'正常（85*40mm无底 1*7）'},
+     					{value:'4',text:'促销（85*40mm无底 1*7）'}];
 $(function(){
+	//初始化类型选择
+	initjiaqType();
 	//初始化列表
 	initPricePrintGrid();
 	$('#printnum').on('input',function(){
@@ -23,8 +35,58 @@ $(function(){
 //	$('#discount').on('keyup',function(){
 //		discountRows($(this).val());
 //	})
+//	appendOptions(options_nomal);
 	
 });
+
+
+function initjiaqType(){
+	$(document).on('mousedown','.jiaqType .radioItem',function(){
+		var _this = $(this);
+		var changeType = function(){
+			_this.prop("checked",true);
+			
+			if(_this.val() === '1'){
+				$('.activity').removeClass('unhide');
+				$('.discount').removeClass('unhide');
+				appendOptions(options_nomal);
+			}else{
+				$('.activity').addClass('unhide');
+				$('.discount').addClass('unhide');
+				appendOptions(options_promotion);
+			}
+			
+		}
+		changeType();
+	})
+}
+
+function appendOptions(options){
+	$("#optionseletc option").remove();
+    $.each(options,function(i,option){
+    	var option = option;
+    	$("#optionseletc").append("<option value='"+option.value+"'>"+option.text+"</option>"); 
+    });
+}
+
+//获取当前时间并且格式化
+function getNowFormatDate() {
+    var date = new Date();
+    var seperator1 = "-";
+    var seperator2 = ":";
+    var year = date.getFullYear();
+    var month = date.getMonth() + 1;
+    var strDate = date.getDate();
+    if (month >= 1 && month <= 9) {
+        month = "0" + month;
+    }
+    if (strDate >= 0 && strDate <= 9) {
+        strDate = "0" + strDate;
+    }
+    var currentdate = year + seperator1 + month + seperator1 + strDate;
+    return currentdate;
+}
+
 
 var gridHandel = new GridClass();
 function initPricePrintGrid() {
@@ -108,13 +170,34 @@ function initPricePrintGrid() {
 		        	   },
 		        	  
 		           },
+		           
+		           {field: 'datetime', title: '活动时间', width: 180, align: 'center',
+		        	   formatter:function(value,row,index){
+		        		   if(!value){
+		                    	return getNowFormatDate();
+		                    }
+		        		   return row["datetime"];
+		        	   },
+		        	   editor:{
+		        		   type:'datebox',
+		        		   precision:200,
+		        		   options:{
+		        			   min:getNowFormatDate(),
+		        		   }
+		        	   },
+		        	  
+		           },
+		           
 		           ]],
 		           onClickCell:function(rowIndex,field,value){
 		        	   gridHandel.setBeginRow(rowIndex);
 		        	   gridHandel.setSelectFieldName(field);
 		           },
 	});
+//    gridHandel.setLoadData([$.extend({},gridDefault)]);
 }
+
+
 
 
 function onChangeSalePrice(newV,oldV){
@@ -228,12 +311,11 @@ function printtable(){
 		console.log(printdata);
 		var tabledata=JSON.stringify(printdata);
 		var printNo=$("#optionseletc").find("option:selected").val();
-		var checkText=$('#optionseletc').combobox('getValue');
 		var data=tabledata.substring(tabledata.indexOf('['),tabledata.lastIndexOf(']')+1) 
 		// 为空判断data.length的长度
 		if(data.length>=3){
 			storage.prdata=data;
-			storage.printNo=checkText;
+			storage.printNo=printNo;
 			window.open(contextPath + "/print/printGoodsView"); 
 		}
 		else {
@@ -278,3 +360,66 @@ function chooseproduct(){
 
 }
 
+
+/**
+ * 机构店铺名称
+ */
+function searchBranch(){
+	new publicAgencyService(function(data){
+		$("#branchId").val(data.branchesId);
+		$("#branchName").val(data.branchName);
+	},'BF','');
+}
+
+var dalogTemp
+
+function selectActivity(){
+	
+  new publicActivity(function(data){
+	  var data = data;
+	  $("#actionId").val(data.id);
+		$("#actionName").val(data.activityCode);
+	  getActivityGoods(data);
+  });
+	
+}
+
+function getActivityGoods(data){
+	if(data){
+		$.ajax({
+	    	url:contextPath+"/sale/activitySelect/getDetail?activityId="+data.id,
+	    	type:"GET",
+	    	success:function(result){
+	    		
+	    		if(result['code'] == 0){
+	    			var tempData = result.data;
+	    			var startDate = tempData.startTime + " " +tempData.dailyStartTime;
+	    			var endDate = tempData.endTime + " " +tempData.dailyEndTime;
+	    			 $("#pricePrint").datagrid("loadData",result.data);
+	    		}else{
+	    			successTip(result['message']);
+	    		}
+	    	},
+	    	error:function(result){
+	    		successTip("请求发送失败或服务器处理失败");
+	    	}
+	    });
+	}
+}
+
+function disableBtn(){
+	 $('#selectGoods').addClass("uinp-no-more")
+	 $('#selectGoods').removeAttr('onclick');
+	 $('#importsukcode').addClass("uinp-no-more")
+	 $('#importsukcode').removeAttr('onclick');
+	 $('#importbarcode').addClass("uinp-no-more")
+	 $('#importbarcode').removeAttr('onclick');
+	 $('#discount').attr('readonly','readonly');
+	 var e = $("#pricePrint").datagrid('getColumnOption', 'datetime');
+
+     e.editor = {disabled:true};
+}
+
+function onChangeSelect(){
+    var priceMark=$("#optionseletc").val(); 
+}

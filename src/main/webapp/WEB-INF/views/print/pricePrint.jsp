@@ -4,7 +4,7 @@
 <html>
 <head>
 <title>价签打印</title>
-<%@ include file="/WEB-INF/views/include/header.jsp"%>
+<%@ include file="/WEB-INF/views/include/header.jsp"%>	
 </head>
 <body class="ub uw uh ufs-14 uc-black">
 
@@ -12,9 +12,9 @@
 		<div class="ub ub-ac">
 			<!--buttons-->
 			<div class="ubtns">
-				<div class="ubtns-item" onclick="chooseproduct()">商品选择</div>
-				<div class="ubtns-item" id="importdetail" onclick="toImportproduct(0)">导入货号</div>
-          		<div class="ubtns-item" id="importdetail" onclick="toImportproduct(1)">导入条码</div>
+				<div class="ubtns-item" id="selectGoods" onclick="chooseproduct()">商品选择</div>
+				<div class="ubtns-item" id="importsukcode" onclick="toImportproduct(0)">导入货号</div>
+          		<div class="ubtns-item" id="importbarcode" onclick="toImportproduct(1)">导入条码</div>
 				<div class="ubtns-item" onclick="printtable()">打印</div>
 				<div class="ubtns-item" onclick="toClose()">关闭</div>
 
@@ -41,16 +41,26 @@
 		<div class="ub ub-ver umar-t12">
 
 			<div class="ub umar-t8">
+			  <div class="ub ub-ac uw-300 umar-l36">
+                   <div class="umar-r10 ut-r">机构店铺:</div>
+                   <div class="ub">
+                       <input type="hidden" id="branchId" name="branchId" value=""  />
+                       <input class="uinp ub ub-f1" type="text" id="branchName" readonly="readonly" value=""/>
+                       <div class="uinp-more" onclick="searchBranch()">...</div>
+                   </div>
+               </div>
+			
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-100 ut-r">价签样式选择:</div>
-					<!--select-->
-					<select class="easyui-combobox uselect" id="optionseletc"
+
+					<select class="uselect" id="optionseletc" onChange="onChangeSelect()"
 						name="optionseletc" data-options="editable:false">
-						<option value="5">标准价签(72*32.5mm 4*6)</option>
+						
+<!-- 						<option value="5">标准价签(72*32.5mm 4*6)</option>
 						<option value="6">标准促销价签(72*32.5mm 4*6)</option>
 						<option value="7">标准价签(72*32.5mm 4*6)无底</option>
 						<option value="8">标准促销价签(72*32.5mm 4*6)无底</option>
-						<option value="11">标准促销价签(72*32.5mm 4*6 无底色)</option>
+						<option value="11">标准促销价签(72*32.5mm 4*6 无底色)</option> -->
 						<option value="1">正常（55*25mm有底 3*10）</option>
 						<option value="2">正常（85*40mm有底 2*7）</option>
 						<option value="3">正常（85*40mm无底 1*7）</option>
@@ -58,25 +68,47 @@
 
 					</select>
 				</div>
-				<div class="ub ub-ac uw-200 umar-l20">
-					<div class="umar-r10 uw-100 ut-r">统一促销折扣:</div>
-					<input class="uinp ub ub-f1 deal" type="number"
-						
-						onafterpaste="if(isNaN(value)|| value > 10) {execCommand('undo');this.value=''}" id="discount">
-						<div class="umar-l10">折</div>
-				</div>
 
-				<div class="ub ub-ac uw-200 umar-l20">
-					<div class="umar-r10 uw-120 ut-r">批量设置打印数:</div>
+
+				<div class="ub ub-ac umar-l64 jiaqType">
+                    <div class="umar-r10 uw-70 ut-r">价签类型:</div>
+                    <div class="ub ub-ac umar-r10">
+                         <input class="radioItem" type="radio" value="0" name="status" checked="checked"><span>正常价签</span>
+                    </div>
+                    <div class="ub ub-ac umar-r10 umar-l40">
+                         <input class="radioItem" type="radio" value="1" name="status"><span>促销价签</span>
+                    </div>
+                </div>
+
+			</div>
+
+			<div class="ub umar-t8 umar-b8">
+			
+				<div class="ub ub-ac uw-288 umar-l20">
+					<div class="umar-r10  ut-r">设置打印数:</div>
 					<input class="uinp ub ub-f1 deal" type="number"
 						onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
 						onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
 						id="printnum" >
 				</div>
-
+				
+				<div class="ub ub-ac uw-300 umar-l58 activity unhide">
+                   <div class="umar-r10 uw-70 ut-r">活动编号:</div>
+                   <div class="ub">
+                       <input type="hidden" id="actionId" name="actionId" value=""  />
+                       <input class="uinp ub ub-f1" type="text" id="actionName" readonly="readonly" value=""/>
+                       <div class="uinp-more" onclick="selectActivity()">...</div>
+                   </div>
+               </div>
+				
+				<div class="ub ub-ac uw-300 umar-l12 discount unhide">
+					<div class="umar-r10 uw-100 ut-r">统一促销折扣:</div>
+					<input class="uinp ub ub-f1 deal" type="number"
+						onafterpaste="if(isNaN(value)|| value > 10) {execCommand('undo');this.value=''}" id="discount">
+						<div class="umar-l10">折</div>
+				</div>
+				
 			</div>
-
-			<div class="ub umar-t8 umar-b8">【价签打印】</div>
 			<!--datagrid-->
 			<table id="pricePrint"></table>
 		</div>
