@@ -26,6 +26,10 @@ public interface PrintConstant {
 	String CASH_DAILY_REPORT = "CashDailyReport.jrxml";
 
 	/**
+	 * @Fields GOODS_UNSALE_REPORT : 收银日报模版
+	 */
+	String GOODS_UNSALE_REPORT = "goodsUnsaleReport.jrxml";
+	/**
 	 * @Fields CASH_FLOW_REPORT : 收银流水模版
 	 */
 	String CASH_FLOW_REPORT = "CashFlowReport.jrxml";

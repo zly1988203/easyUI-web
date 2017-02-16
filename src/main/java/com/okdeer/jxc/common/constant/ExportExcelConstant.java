@@ -83,6 +83,8 @@ public interface ExportExcelConstant {
     
     String POOL_SALE_REPORT = "poolSaleReport.xlsx";
     
+    String GOODS_UNSALE_REPORT = "goodsUnsaleReport.xlsx";
+    
     String DAY_REPORT = "dayReport.xlsx";
     
     String POOL_SALE_DETAIL_REPORT = "poolSaleDetailReport.xlsx";
