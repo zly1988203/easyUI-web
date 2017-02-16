@@ -83,6 +83,8 @@ public interface ExportExcelConstant {
     
     String POOL_SALE_REPORT = "poolSaleReport.xlsx";
     
+    String GOODS_UNSALE_REPORT = "goodsUnsaleReport.xlsx";
+    
     String DAY_REPORT = "dayReport.xlsx";
     
     String POOL_SALE_DETAIL_REPORT = "poolSaleDetailReport.xlsx";
@@ -327,4 +329,17 @@ public interface ExportExcelConstant {
 	 * @Fields GOODS_CATEGORY_REPORT : 商品类别报表
 	 */
 	String GOODS_CATEGORY_REPORT = "GoodsCategoryReport.xlsx";
+	
+	/**
+	 * 库存异常查询
+	 */
+	String STOCKEXCEPTION = "stockException.xlsx";
+	/**
+	 * 库存销售周转率
+	 */
+	String SALEROTARATEREPORT = "saleRotaRateReport.xlsx";
+	/**
+	 * 库存成本周转率
+	 */
+	String COSTROTARATEREPORT = "costRotaRateReport.xlsx";
 }

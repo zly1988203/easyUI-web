@@ -149,12 +149,16 @@ function initDatagridGoodsDetail(){
 	queryGoodsDetailForm();
 }
 function queryGoodsTotalForm(){
+	$("#startCount").attr("value",null);
+	$("#endCount").attr("value",null);
 	$("#poolSaleReport").datagrid("options").queryParams = $("#queryForm").serializeObject();
 	$("#poolSaleReport").datagrid("options").method = "post";
 	$("#poolSaleReport").datagrid("options").url = contextPath+'/report/poolSale/getGoodsPoolSaleList';
 	$("#poolSaleReport").datagrid("load");
 }
 function queryGoodsDetailForm(){
+	$("#startCount").attr("value",null);
+	$("#endCount").attr("value",null);
 	$("#poolSaleReport").datagrid("options").queryParams = $("#queryForm").serializeObject();
 	$("#poolSaleReport").datagrid("options").method = "post";
 	$("#poolSaleReport").datagrid("options").url = contextPath+'/report/poolSale/getGoodsPoolSaleDetailList';
