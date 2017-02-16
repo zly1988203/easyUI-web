@@ -17,8 +17,9 @@
                         <div class="ub ub-ac upad-10 ">
                             <div class="ub ub-ac uw">
                                 <div class="umar-r10">关键字:</div>
-                            	<input type="hidden" id="deliverFormType" value="${deliverFormType}"/>
-                            	<input type="hidden" id="branchId" value="${branchId}"/>
+                            	<input type="hidden" id="deliverFormType" value="${vo.formType}"/>
+                            	<input type="hidden" id="branchId" value="${vo.branchId}"/>
+                            	<input type="hidden" id="branchType" value="${vo.branchType}"/>
                                 <input name="search" class="usearch uinp ub ub-f1" type="text" id="nameOrCode">
                                 <div class="ubtn umar-l20 umar-r10"  onclick="agencySearch()">查询</div>
                                 <div class="ub ub-ac ">

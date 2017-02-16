@@ -181,10 +181,14 @@ function publicRoleService(callback, branchCompleCode, branchType){
 }
 
 //公共组件-机构选择
-function publicAgencyService(callback,formType,branchId){
+function publicAgencyService(callback,formType,branchId, branchType){
+	if(!branchType){
+		branchType="";
+	}
     //公有属性
     var  dalogTemp = $('<div/>').dialog({
-    	href:contextPath + "/common/branches/viewComponent?formType="+formType+"&branchId="+branchId,
+    	href:contextPath + "/common/branches/viewComponent?formType="+ 
+    		formType + "&branchId=" +branchId+ "&branchType="+branchType,
         width:680,
         height:600,
         title:"机构选择",

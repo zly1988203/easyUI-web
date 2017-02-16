@@ -51,7 +51,13 @@ var branchAreaCode=null;
 function zTreeOnClick(event, treeId, treeNode) {
 	branchAreaCode=treeNode.code;
 	var nameOrCode=$("#nameOrCode").val();
-    $("#gridAgency").datagrid("options").queryParams = {branchAreaCode:branchAreaCode,nameOrCode:nameOrCode,formType:$("#deliverFormType").val(),branchId:$("#branchId").val()};
+    $("#gridAgency").datagrid("options").queryParams = {
+    		branchAreaCode:branchAreaCode,
+    		nameOrCode:nameOrCode,
+    		formType:$("#deliverFormType").val(),
+    		branchId:$("#branchId").val(),
+    		branchType:$("#branchType").val()
+    };
     $("#gridAgency").datagrid("options").method = "post";
     $("#gridAgency").datagrid("options").url =contextPath+'/common/branches/getComponentList',
     $("#gridAgency").datagrid("load");
@@ -71,7 +77,12 @@ function initDatagridAgency(){
         //title:'普通表单-用键盘操作',
         method:'POST',
         align:'center',
-        url:contextPath+'/common/branches/getComponentList?formType='+$("#deliverFormType").val()+'&branchId='+$("#branchId").val(),
+        url:contextPath+'/common/branches/getComponentList',
+        queryParams:{
+        	formType:$("#deliverFormType").val(),
+        	branchId:$("#branchId").val(),
+        	branchType:$("#branchType").val()
+        },
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:true,  //单选  false多选
         rownumbers:true,    //序号

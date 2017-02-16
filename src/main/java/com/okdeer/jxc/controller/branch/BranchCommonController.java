@@ -7,8 +7,6 @@
 
 package com.okdeer.jxc.controller.branch;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -66,12 +64,9 @@ public class BranchCommonController extends BaseController<BranchCommonControlle
 	 * @date 2016年7月28日
 	 */
 	@RequestMapping(value = "viewComponent")
-	public String viewComponent(HttpServletRequest req, Model model) {
-		LOG.info("公共选择机构跳转页面参数:{}", req.toString());
-		String deliverFormType = req.getParameter("formType");
-		String branchId = req.getParameter("branchId");
-		model.addAttribute("deliverFormType", deliverFormType);
-		model.addAttribute("branchId", branchId);
+	public String viewComponent(BranchesVo vo, Model model) {
+		LOG.info("公共选择机构跳转页面参数:{}", vo);
+		model.addAttribute("vo", vo);
 		return "component/publicAgency";
 	}
 
