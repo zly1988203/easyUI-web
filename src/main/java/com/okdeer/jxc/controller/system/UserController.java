@@ -84,7 +84,7 @@ public class UserController extends BaseController<UserController> {
 
 			return sysUserService.queryUserList(qo);
 		} catch (Exception e) {
-			LOG.error("查询用户信息异常:{e}", e);
+			LOG.error("查询用户信息异常:", e);
 		}
 		return PageUtils.emptyPage();
 	}
@@ -298,27 +298,27 @@ public class UserController extends BaseController<UserController> {
 		return respJson;
 	}
 
-	/**
-	 * @Description: 初始化默认参数
-	 * @param qo
-	 * @author liwb
-	 * @date 2016年9月23日
-	 */
-	private SysUserQo buildDefaultParams(SysUserQo qo) {
-
-		// 如果没有修改所选机构等信息，则去掉该参数
-		String branchNameOrCode = qo.getBranchNameOrCode();
-		if (StringUtils.isNotBlank(branchNameOrCode) && branchNameOrCode.contains("[")
-				&& branchNameOrCode.contains("]")) {
-			qo.setBranchNameOrCode(null);
-		}
-
-		// 默认当前机构
-		if (StringUtils.isBlank(qo.getBranchCode()) && StringUtils.isBlank(qo.getBranchNameOrCode())) {
-			qo.setBranchCompleCode(getCurrBranchCompleCode());
-		}
-
-		return qo;
-	}
+//	/**
+//	 * @Description: 初始化默认参数
+//	 * @param qo
+//	 * @author liwb
+//	 * @date 2016年9月23日
+//	 */
+//	private SysUserQo buildDefaultParams(SysUserQo qo) {
+//
+//		// 如果没有修改所选机构等信息，则去掉该参数
+//		String branchNameOrCode = qo.getBranchNameOrCode();
+//		if (StringUtils.isNotBlank(branchNameOrCode) && branchNameOrCode.contains("[")
+//				&& branchNameOrCode.contains("]")) {
+//			qo.setBranchNameOrCode(null);
+//		}
+//
+//		// 默认当前机构
+//		if (StringUtils.isBlank(qo.getBranchCode()) && StringUtils.isBlank(qo.getBranchNameOrCode())) {
+//			qo.setBranchCompleCode(getCurrBranchCompleCode());
+//		}
+//
+//		return qo;
+//	}
 
 }
