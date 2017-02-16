@@ -105,6 +105,11 @@ function initDatagridAddRequireOrder(){
                     if(row.isFooter){
                         return "<b>"+parseFloat(value||0).toFixed(2)+"<b>";
                     }
+                    
+                    if(!value || value==""){
+                        row["largeNum"] = parseFloat(value||0).toFixed(2);
+                    }
+                    
                     return "<b>"+parseFloat(value||0).toFixed(2)+"<b>";
                 },
                 editor:{
@@ -312,8 +317,26 @@ function initDatagridAddRequireOrder(){
         }
     });
 }
+
+
+//限制转换次数
+var n = 0;
+var m = 0;
+
 //监听商品箱数
 function onChangeLargeNum(newV,oldV){
+	if("" == newV){
+		m=2;
+		 messager("商品箱数输入有误");
+		 gridHandel.setFieldValue('largeNum',oldV); 
+	     return;
+	}
+	
+	if(m === 1){
+		m = 0;
+		return;
+	}
+	
     if(!gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuName')){
         return;
     }
@@ -326,10 +349,17 @@ function onChangeLargeNum(newV,oldV){
         messager("配送规格不能为0");
         return;
     }
+    
+    var priceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
+    var salePriceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'salePrice');
 
+    gridHandel.setFieldValue('amount',(purchaseSpecValue*priceValue*newV).toFixed(4));             //金额=箱数*规格*单价
+    gridHandel.setFieldValue('saleAmount',(purchaseSpecValue*salePriceValue*newV).toFixed(4));      //零售金额=箱数*规格*零售价
+    
     var realNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'dealNum');
     var realNumVal2 = parseFloat(purchaseSpecValue*newV).toFixed(4);//parseFloat(Math.round(purchaseSpecValue*newV*1000)/1000).toFixed(4);
     if(realNumVal&&Math.abs(realNumVal2-realNumVal)>0.0001){
+    	n=1;
         gridHandel.setFieldValue('dealNum',(purchaseSpecValue*newV).toFixed(4));//数量=商品规格*箱数
     }
 
@@ -337,6 +367,17 @@ function onChangeLargeNum(newV,oldV){
 }
 //监听商品数量
 function onChangeRealNum(newV,oldV) {
+	if("" == newV){
+		n=2;
+		 messager("商品数量输入有误");
+		 gridHandel.setFieldValue('dealNum',oldV);
+	     return;
+	}
+	if(n === 1){
+		n = 0;
+		return;
+	}
+	
     if(isSelectDeliver){
         var oldDeliverDealNum = gridHandel.getFieldData(gridHandel.getSelectRowIndex()||0,'oldDeliverDealNum');
         if(parseFloat(newV)>parseFloat(oldDeliverDealNum)){
@@ -379,6 +420,7 @@ function onChangeRealNum(newV,oldV) {
     var largeNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'largeNum');
     var largeNumVal2 = parseFloat(purchaseSpecValue*newV).toFixed(4);
     if(largeNumVal&&Math.abs(largeNumVal2-largeNumVal)>0.0001){
+    	m=1;
         var largeNumVal = parseFloat(newV/purchaseSpecValue).toFixed(4);
         gridHandel.setFieldValue('largeNum',largeNumVal);   //箱数=数量/商品规格
     }
