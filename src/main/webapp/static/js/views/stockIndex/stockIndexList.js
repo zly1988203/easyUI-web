@@ -53,8 +53,8 @@ function initDatagridStockIndex(){
 function initDetailStock(){
 	gridHandelDetail.setGridName('detailStockTarget');
 	gridHandelDetail.initKey({
-		firstName:'stockBegin',
-		enterName:'stockBegin',
+		firstName:'lowerLimit',
+		enterName:'lowerLimit',
 	});
 
 	//详情grid
@@ -104,7 +104,7 @@ function initDetailStock(){
 			if(target){
 				gridHandelDetail.setFieldFocus(target);
 			}else{
-				gridHandelDetail.setSelectFieldName("stockBegin");
+				gridHandelDetail.setSelectFieldName("lowerLimit");
 			}
 		},
 
@@ -113,8 +113,6 @@ function initDetailStock(){
 
 
 function onChangeStockBegin(newV,oldV){
-	console.log('newV',newV);
-	console.log('oldV',oldV);
 	var gridVData = stockDetailList.datagrid('getData');
 	var currentRow = gridVData.rows;
 	currentRow[0].upperLimit = newV;
@@ -155,10 +153,11 @@ function closeDetailDialog(){
 function saveDetailStock(){
 	var detGridData = gridHandelDetail.getRows()[0];
 	console.log('detGridData',detGridData);
-	var detBranchID = $('#detailBranchId').val();
-	var detBranchName = $('#detailBranchName').val();
-	console.log('detBranchID',detBranchID);
-	console.log('detBranchName',detBranchName);
+	if(detGridData.upperLimit < detGridData.lowerLimit ){
+		messager('库存上限不能小于库存下限');
+		return;
+	}
+
 	var reqObj = JSON.stringify([detGridData]);
 	// 调用后台保存方法，成功提示
 	$.ajax({
@@ -190,6 +189,7 @@ function queryForm(){
         return;
     } 
 	var fromObjStr = $('#queryForm').serializeObject();
+	console.log(fromObjStr)
 	$("#stockIndexList").datagrid("options").method = "post";
 	$("#stockIndexList").datagrid('options').url = contextPath + '/stock/index/getStockIndexList';
 	$("#stockIndexList").datagrid('load', fromObjStr);

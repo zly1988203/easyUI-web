@@ -39,19 +39,19 @@
 
 			<div class="ub ub-ac umar-l20">
 				<div class="umar-r10 uw-70 ut-r">商品类别:</div>
-				<input class="uinp ub ub-f1" type="hidden" id="categoryCode" />
-				<input class="uinp ub ub-f1" type="text" id="categoryNameCode" />
+				<input class="uinp ub ub-f1" type="hidden" name="categoryCode" id="categoryCode" />
+				<input class="uinp ub ub-f1" type="text" name="categoryNameCode" id="categoryNameCode" />
 				<div class="uinp-more" onClick="searchCategory()">...</div>
 			</div>
 		</div>
 		<div class="ub umar-t8">
 			<div class="ub ub-ac uw-300">
 				<div class="umar-r10 uw-70 ut-r">库存上限:</div>
-				<input class="uinp" type="text" name="stockBegin" id="stockBegin"/>
+				<input class="uinp" type="text" name="upperLimit" id="upperLimit"/>
 			</div>
 			<div class="ub ub-ac uw-300 umar-l20">
 				<div class="umar-r10 uw-70 ut-r">库存下限:</div>
-				<input class="uinp" type="text" name="stockEnd" id="stockEnd"/>
+				<input class="uinp" type="text" name="lowerLimit" id="lowerLimit"/>
 			</div>
 		</div>
 
