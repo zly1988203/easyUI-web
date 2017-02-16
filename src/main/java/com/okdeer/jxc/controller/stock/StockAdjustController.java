@@ -29,6 +29,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.LogConstant;
+import com.okdeer.jxc.common.enums.StockAdjustEnum;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportComponent;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportHandle;
@@ -141,6 +142,8 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
 			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
+			//调整类型
+			vo.setFormType(StockAdjustEnum.ADJUST.getKey());
 			PageUtils<StockFormVo> stockFormList = stockAdjustServiceApi.getStockFormList(vo);
 			LOG.info(LogConstant.PAGE, stockFormList.toString());
 			return stockFormList;
