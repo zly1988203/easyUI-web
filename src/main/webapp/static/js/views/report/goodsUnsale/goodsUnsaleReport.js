@@ -4,7 +4,7 @@
 $(function(){
     //初始化默认条件
     initConditionParams();
-    initDatagridDay();
+    initDatagridGoodsUnsale();
 });
 
 //初始化默认条件
@@ -15,9 +15,9 @@ function initConditionParams(){
 
 var gridHandel = new GridClass();
 //初始化表格
-function initDatagridDay(){
-	gridHandel.setGridName("dayReport");
-	dg = $("#dayReport").datagrid({
+function initDatagridGoodsUnsale(){
+	gridHandel.setGridName("goodsUnsale");
+	dg = $("#goodsUnsale").datagrid({
         //title:'普通表单-用键盘操作',
         method:'post',
         align:'center',
@@ -31,8 +31,7 @@ function initDatagridDay(){
 		height:'100%',
 		width:'100%',
         columns:[[
-            {field:'rptDate',title:'日期',width:'100px',align:'left'},
-            {field:'branchName',title:'机构',width:'140px',align:'left',
+            {field:'branchCode',title:'机构编号',width:'100px',align:'left',
             	formatter : function(value, row,index) {
                     var str = value;
                     if(!value){
@@ -40,24 +39,18 @@ function initDatagridDay(){
 	                }
                     return str;
                 }},
-            {field:'skuCode',title:'货号',width:'80px',align:'left'},
+            {field:'branchName',title:'机构名称',width:'140px',align:'left'},
+            {field:'categoryName',title:'商品类别',width:'80px',align:'left'},
             {field:'skuName',title:'商品名称',width:100,align:'left'},
-            {field:'barCode',title:'条码',width:100,align:'left'},
-            {field:'beginStock',title:'期初库存数',width:'130px',align:'left'},
-            {field:'beginCostAmount',title:'期初成本金额',width:'130px',align:'left'},
-            {field:'beginSaleAmount',title:'期初销售金额',width:'130px',align:'left'},
-            {field:'purchaseNum',title:'采购数量',width:'130px',align:'left'},
-            {field:'purchaseAmount',title:'采购金额',width:'130px',align:'left'},
-            {field:'dcoNum',title:'配送出库数量',width:'130px',align:'left'},
-            {field:'dcoAmount',title:'配送出库金额',width:'130px',align:'left'},
-            {field:'dciNum',title:'配送入库数量',width:'130px',align:'left'},
-            {field:'dciAmount',title:'配送入库金额',width:'130px',align:'left'},
-            {field:'otherNum',title:'其他出入库数量',width:'130px',align:'left'},
-            {field:'otherAmount',title:'其他出入库金额',width:'130px',align:'left'},
-            {field:'costChangeAmount',title:'成本调整金额',width:'150px',align:'center'},
-            {field:'endStock',title:'期末库存数',width:'130px',align:'center'},
-            {field:'endCostAmount',title:'期末成本金额',width:'200px',align:'center'},
-            {field:'endSaleAmount',title:'期末销售金额',width:'200px',align:'center'}
+            {field:'goodsStock',title:'库存',width:100,align:'left'},
+            {field:'saleNum',title:'期间销量',width:'130px',align:'left'},
+            {field:'profitAmount',title:'期间销售毛利',width:'130px',align:'left'},
+            {field:'salePrice',title:'零售价',width:'130px',align:'left'},
+            {field:'saleDate',title:'最近销售日期',width:'130px',align:'left'},
+            {field:'purchaseDate',title:'最近采购日期',width:'130px',align:'left'},
+            {field:'dcoDate',title:'最近配送日期',width:'130px',align:'left'},
+            {field:'brandName',title:'品牌',width:'130px',align:'left'},
+            {field:'pullTime',title:'引进日期',width:'130px',align:'left'}
         ]],
 		onLoadSuccess : function() {
 			gridHandel.setDatagridHeader("center");
@@ -70,10 +63,10 @@ function initDatagridDay(){
 function queryForm(){
 	$("#startCount").attr("value",null);
 	$("#endCount").attr("value",null);
-	$("#dayReport").datagrid("options").queryParams = $("#queryForm").serializeObject();
-	$("#dayReport").datagrid("options").method = "post";
-	$("#dayReport").datagrid("options").url = contextPath+'/report/day/getDayReportList';
-	$("#dayReport").datagrid("load");
+	$("#goodsUnsale").datagrid("options").queryParams = $("#queryForm").serializeObject();
+	$("#goodsUnsale").datagrid("options").method = "post";
+	$("#goodsUnsale").datagrid("options").url = contextPath+'/report/goodsUnsale/getGoodsUnsaleReportList';
+	$("#goodsUnsale").datagrid("load");
 	
 }
 
@@ -84,12 +77,19 @@ function selectBranches(){
 	},'BF','');
 }
 
+//打印
+function printReport(){
+	debugger;
+	$("#startCount").val('');
+	$("#endCount").val('');
+	parent.addTabPrint("goodsUnsaleReportPrint","打印",contextPath+"/report/goodsUnsale/printReport?"+$("#queryForm").serialize());
+}
 var dg;
 /**
  * 导出
  */
 function exportData(){
-	var length = $('#dayReport').datagrid('getData').total;
+	var length = $('#goodsUnsale').datagrid('getData').total;
 	if(length == 0){
 		successTip("无数据可导");
 		return;
@@ -107,7 +107,7 @@ function exportData(){
  * 导出
  */
 function exportExcel(){
-	var length = $("#dayReport").datagrid('getData').total;
+	var length = $("#goodsUnsale").datagrid('getData').total;
 	if(length == 0){
 		$.messager.alert('提示',"没有数据");
 		return;
@@ -123,8 +123,7 @@ function exportExcel(){
 			}
 		}
 	});
-	$("#queryForm").attr("action",contextPath+"/report/day/exportList?"+fromObjStr);
-	
+	$("#queryForm").attr("action",contextPath+"/report/goodsUnsale/exportList?"+fromObjStr);
 	$("#queryForm").submit();
 }
 /**
