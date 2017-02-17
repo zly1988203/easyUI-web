@@ -142,6 +142,7 @@ public class GoodsUnSaleReportController extends BaseController<GoodsUnSaleRepor
 			List<GoodsUnsaleReportVo> exportList = goodsUnsaleReportService.exportList(qo);
 			GoodsUnsaleReportVo goodsUnsaleReportVo = goodsUnsaleReportService.queryGoodsUnsaleReportSum(qo);
 			if(goodsUnsaleReportVo !=null){
+				goodsUnsaleReportVo.setBranchCode("合计:");
 				exportList.add(goodsUnsaleReportVo);
 			}
 			int lenght= exportList.size();
