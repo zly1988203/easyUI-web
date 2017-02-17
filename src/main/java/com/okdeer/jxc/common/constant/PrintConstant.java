@@ -89,4 +89,9 @@ public interface PrintConstant {
 	 */
 	Integer PRINT_MAX_ROW = 3000;
 
+	/**
+	 * @Fields MEMBER_ORDER_ALL_REPORT : 会员消费汇总模版
+	 */
+	String MEMBER_ORDER_ALL_REPORT = "MemberOrderAllReport.jrxml";
+
 }

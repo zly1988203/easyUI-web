@@ -352,4 +352,14 @@ public interface ExportExcelConstant {
 	 *  @Fields NEW_GOODS_APPLY_TEMPLE : 新品申请导入模板
 	 */
 	String NEW_GOODS_APPLY_TEMPLE = "NewGoodsApplyTemple.xlsx";
+
+	/**
+	 * @Fields MEMBER_ORDER_ALL : 会员消费汇总报表
+	 */
+	String MEMBER_ORDER_ALL = "memberOrderAll.xlsx";
+
+	/**
+	 * @Fields MEMBER_ORDER_LIST : 会员消费明细
+	 */
+	String MEMBER_ORDER_LIST = "MemberOrderList.xlsx";
 }
