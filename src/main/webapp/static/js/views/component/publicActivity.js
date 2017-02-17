@@ -4,7 +4,7 @@
  */
 
 $(function(){
-	initActivityGrid();
+//	initActivityGrid();
 })
 
 	var activityCallBack ;
@@ -21,11 +21,16 @@ $(function(){
 	}
 	
 
-var activitydg;
-function initActivityGrid(){
+
+function initActivityGrid(param){
+	var path = contextPath+'/sale/activitySelect/activityList';
+	
+	if(param.branchId){
+		path = path + "?branchId="+param.branchId
+	}
 	//列表
-	activitydg = $('#activitydg').datagrid({
-		url : contextPath+'/sale/activitySelect/activityList',
+	$('#activitydg').datagrid({
+		url : path,
 		fit : true,
 		fitColumns : false,
 		border : false,

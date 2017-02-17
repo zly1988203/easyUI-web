@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.sale.activity.service.ActivitySelectServiceApi;
@@ -53,12 +54,13 @@ public class ActivitySelectController extends BaseController<ActivityMain>{
 	 * @author yangyq02
 	 * @date 2016年8月8日
 	 */
-	@RequestMapping(value = "activityList")
+	@RequestMapping(value = "activityList", method = RequestMethod.POST)
 	@ResponseBody
-	public PageUtils<Map<String, Object>> getDeliverFormList(ActivityListQueryVo vo,
+	public PageUtils<Map<String, Object>> activityList(ActivityListQueryVo vo,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
+//			=new ActivityListQueryVo();
 			vo.setPage(pageNumber);
 			vo.setRows(pageSize);
 			LOG.info("制定调拨单选择页面参数:{}"+vo.toString());
@@ -79,11 +81,11 @@ public class ActivitySelectController extends BaseController<ActivityMain>{
 	}
 	@RequestMapping(value = "getDetail", method = RequestMethod.GET)
 	@ResponseBody
-	public List<Map<String, Object>> getDetail(String activityId){
+	public RespJson getDetail(String activityId){
 		try {
 			LOG.debug("查询活动详情：getDetail：{}",activityId);
 			List<Map<String, Object>> activityDetail = mainServiceApi.getDetail(activityId);
-			return activityDetail;
+			return RespJson.success( activityDetail);
 		} catch (Exception e) {
 			LOG.error("查询活动详情出现异常：",e);
 			return null;

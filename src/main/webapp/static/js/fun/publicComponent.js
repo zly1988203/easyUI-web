@@ -1711,7 +1711,7 @@ function publicColumnSetting(callback,columns){
 }
 
 
-function publicActivity(callback){
+function publicActivity(callback,param){
 	var dalogTemp = $('<div/>').dialog({
 	        href: contextPath+"/sale/activitySelect/view",
 	        width: 940,
@@ -1724,6 +1724,7 @@ function publicActivity(callback){
 	        },
 	        modal: true,
 	        onLoad: function () {
+	        	initActivityGrid(param);
 	        	disableBtn();
 	        	initactivityCallBack(callBackHandel);
 	        }
