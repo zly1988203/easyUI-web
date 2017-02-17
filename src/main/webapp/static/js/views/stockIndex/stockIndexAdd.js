@@ -270,11 +270,11 @@ function addsaveOrder(){
 }
 
 function saveDataHandel(rows){
-	
+	var branchId = $("#branchId").val();
     var jsonData = [];
     $.each(rows,function(i,data){
         var temp = {
-        	brandId: data.brandId,
+        	branchId: branchId,
         	skuId:data.skuId,
         	skuCode:data.skuCode,
         	skuName:data.skuName,
@@ -290,7 +290,7 @@ function saveDataHandel(rows){
     $.ajax({
         url:contextPath+"/stock/index/saveStockIndex",
         type:"POST",
-        data:{"jsonData":JSON.stringify(jsonData)},
+        data:{"data":JSON.stringify(jsonData)},
         success:function(result){
             if(result['code'] == 0){
                 console.log(result);
