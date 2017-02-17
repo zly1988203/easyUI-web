@@ -7,7 +7,9 @@ pageEncoding="UTF-8"%>
 <div class="ub ub-ver  ub-f1  uw uh ufs-14 uc-black">
     <div class="ub ub-ac upad-4">
         <div class="ubtns">
-            <button class="ubtns-item" onclick="saveGoodsArchives()" id="saveGoodsArchives">保存</button>
+            <shiro:hasPermission name="JxcNewGoodsApply:save">
+				<button class="ubtns-item" onclick="saveGoodsArchives()" id="saveGoodsArchives">保存</button>
+		    </shiro:hasPermission>
             <button class="ubtns-item" onclick="closeDialog()">关闭</button>
         </div>
     </div>
@@ -39,20 +41,20 @@ pageEncoding="UTF-8"%>
                 </div>
                 <div class="ub ub-ac uw-300">
                     <div class="umar-r10 uw-60 ut-r">商品类别:</div>
-                    <input id="categoryId" name="categoryId"   class="uinp" type="hidden">
-                    <input id="categoryCode" name="categoryCode"   class="uinp" type="hidden">
+                    <input id="categoryId" name="categoryId" class="uinp" type="hidden">
+                    <input id="categoryCode" name="categoryCode" class="uinp" type="hidden">
                     <div class="ub">
-                        <input id="categoryName" name="categoryName"   class="uinp uw-200 easyui-validatebox" type="text" readonly="readonly"  data-options="required:true">
-                        <div class="uinp-more " onclick="getGoodsType()">...</div>
+                        <input id="categoryName" name="categoryName" class="uinp uw-200 easyui-validatebox" type="text" readonly="readonly"  data-options="required:true">
+                        <div class="uinp-more" onclick="getGoodsType()">...</div>
                     </div>
                     <i class="uc-red">*</i>
                 </div>
                 <div class="ub ub-ac uw-300">
                     <div class="umar-r10 uw-60 ut-r">品牌:</div>
                     <input id="brandId" name="brandId" class="uinp" type="hidden" value="${goodsBrand.id}">
-                    <input id="brandCode" name="brandCode"   class="uinp" type="hidden">
+                    <input id="brandCode" name="brandCode" class="uinp" type="hidden">
                     <div class="ub">
-                        <input id="brandName" name="brandName"   class="uinp" type="text" readonly="readonly" value="${goodsBrand.brandName}">
+                        <input id="brandName" name="brandName" class="uinp" type="text" readonly="readonly" value="${goodsBrand.brandName}">
                         <div class="uinp-more" onclick="getGoodsBrand()">...</div>
                     </div>
                 </div>
@@ -132,11 +134,11 @@ pageEncoding="UTF-8"%>
                 <div class="ub ub-ac uw-300">
                     <div class="umar-r10 uw-60 ut-r">经营方式:</div>
                     <input id="saleWay" name="saleWay" class="uinp" type="hidden" value="${supplier.saleWay}" readonly="readonly">
-                    <input id="saleWayName" name="saleWayName"   class="uinp uinp-no-more" type="text" value="${supplier.saleWayName}" readonly="readonly">
+                    <input id="saleWayName1" name="saleWayName" class="uinp uinp-no-more" type="text" value="${supplier.saleWayName}" readonly="readonly">
                 </div>
                 <div class="ub ub-ac uw-300">
                     <div class="umar-r10 uw-60 ut-r">联营/代销扣率:</div>
-                    <input id="supplierRate" name="supplierRate"   class="uinp easyui-numberbox easyui-validatebox" style="width: 204px;" data-options="min:0,precision:2" type="text" onkeyup="checkSupplierRate(this);" onafterpaste="checkSupplierRate(this);">%
+                    <input id="supplierRate" name="supplierRate" class="uinp easyui-numberbox easyui-validatebox" style="width: 204px;" data-options="min:0,precision:2" type="text" onkeyup="checkSupplierRate(this);" onafterpaste="checkSupplierRate(this);">%
                 </div>
                 <div class="ub ub-ac uw-300">
                     <div class="umar-r10 uw-60 ut-r">商品类型:</div>
