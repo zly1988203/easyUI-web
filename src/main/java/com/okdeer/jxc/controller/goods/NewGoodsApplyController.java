@@ -229,6 +229,10 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 		model.addAttribute("goodpPicingType", sku.getPricingType().ordinal());
 		addEnum(model);
 
+		NewGoodsApplyEnum examineStatus = sku.getExamineStatus();
+		if(NewGoodsApplyEnum.EXAMINE_PASS.equals(examineStatus)){
+			return "newGoodsApply/viewNewGoodsApply";
+		}
 		return "newGoodsApply/updateNewGoodsApply";
 	}
 
@@ -329,7 +333,6 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 	}
 
 	/**
-	 * 
 	 * @Description: 修改商品
 	 * @param sku
 	 * @return
@@ -341,7 +344,6 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 	public RespJson copyGoods(@Valid NewGoodsApply sku, BindingResult validate) {
 		if (validate.hasErrors()) {
 			String errorMessage = validate.getFieldError().getDefaultMessage();
-			LOG.warn("validate errorMessage:" + errorMessage);
 			return RespJson.error(errorMessage);
 		}
 		try {
