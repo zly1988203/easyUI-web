@@ -90,23 +90,23 @@ public class NewGoodsApplyImportHandle implements GoodsSelectImportHandle {
 		refreshSuccessData();
 	}
 	
-	/**
-	 * 根据barCode获取集合中的数据
-	 * @param list
-	 * @param barCode
-	 * @return
-	 * @author xiaoj02
-	 * @date 2016年10月14日
-	 */
-	private GoodsSelect getByBarCode(List<? extends GoodsSelect> list, String barCode){
-		for (GoodsSelect goods : list) {
-			String objBarCode = goods.getBarCode();
-			if(barCode.equals(objBarCode)){
-				return goods;
-			}
-		}
-		return null;
-	}
+//	/**
+//	 * 根据barCode获取集合中的数据
+//	 * @param list
+//	 * @param barCode
+//	 * @return
+//	 * @author xiaoj02
+//	 * @date 2016年10月14日
+//	 */
+//	private GoodsSelect getByBarCode(List<? extends GoodsSelect> list, String barCode){
+//		for (GoodsSelect goods : list) {
+//			String objBarCode = goods.getBarCode();
+//			if(barCode.equals(objBarCode)){
+//				return goods;
+//			}
+//		}
+//		return null;
+//	}
 	
 	/**
 	 * 根据barCode获取集合中的数据
