@@ -1,6 +1,5 @@
 package com.okdeer.jxc.controller.stock;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -126,22 +125,11 @@ public class StockIndexController extends BaseController<T> {
 		if (StringUtils.isNotEmpty(data)) {
 			List<StockIndexVo> jsonList = JSON.parseArray(data, StockIndexVo.class);
 			if (jsonList != null && jsonList.size() > 0) {
-				// 区分出新增或更新列表
-				List<StockIndexVo> insertList = new ArrayList<StockIndexVo>();
-				List<StockIndexVo> updateList = new ArrayList<StockIndexVo>();
-				for (StockIndexVo siVo : jsonList) {
-					if(StringUtils.isBlank(siVo.getIndexId())){
-						insertList.add(siVo);
-					}else{
-						updateList.add(siVo);
-					}
-				}
 				Map<String,Object> paramMap = new HashMap<String,Object>();
 				paramMap.put("branchId", jsonList.get(0).getBranchId());
 				paramMap.put("userId", "10000");
-				paramMap.put("insertList", insertList);
-				paramMap.put("updateList", updateList);
-				stockIndexServiceApi.saveStockIndex(paramMap,insertList.size(),updateList.size());
+				paramMap.put("jsonList", jsonList);
+				stockIndexServiceApi.saveStockIndex(paramMap);
 			} else {
 				RespJson rep = RespJson.error("保存数据不能为空！");
 				return rep;
