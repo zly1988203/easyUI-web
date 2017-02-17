@@ -191,6 +191,11 @@ function selectSupplier(){
 
 //选择商品
 function selectGoods(searchKey){
+	if(!$("#branchId").val()){
+		 messager("请选择机构");
+	     return;
+	}
+	console.log($("#branchId").val());
     new publicGoodsService("",function(data){
         if(searchKey){
             $("#"+gridHandel.getGridName()).datagrid("deleteRow", gridHandel.getSelectRowIndex());
@@ -200,7 +205,13 @@ function selectGoods(searchKey){
         //selectStockAndPrice(branchId,setdata);
         gridHandel.setLoadFocus();
       
-    },searchKey,"","","",branchId,'',"0");
+    },searchKey,1,"","",$("#branchId").val(),'',"0");
+}
+
+//库存调整一开始选择
+function setTion(data){
+	$("#skuName").val(data[0].skuName);
+	$("#skuId").val(data[0].id);
 }
 
 var dg;

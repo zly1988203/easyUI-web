@@ -3,15 +3,18 @@
  */
 var datagridId = "pricePrint";
 
-var options_nomal = [{value:'5',text:'标准价签(72*32.5mm 4*6)'},
+var options_nomal = [
                      {value:'6',text:'标准促销价签(72*32.5mm 4*6)'},
-					{value:'7',text:'标准价签(72*32.5mm 4*6)无底'},
 					{value:'8',text:'标准促销价签(72*32.5mm 4*6)无底'},
-					{value:'11',text:'标准促销价签(72*32.5mm 4*6 无底色)'}];
-var options_promotion = [{value:'1',text:'正常（55*25mm有底 3*10）'},
+					{value:'11',text:'标准促销价签(72*32.5mm 4*6 无底色)'},
+					 {value:'4',text:'促销（85*40mm无底 1*7）'}];
+var options_promotion = [{value:'5',text:'标准价签(72*32.5mm 4*6)'},
+                         {value:'7',text:'标准价签(72*32.5mm 4*6)无底'},
+                         {value:'1',text:'正常（55*25mm有底 3*10）'},
                          {value:'2',text:'正常（85*40mm有底 2*7）'},
-     					{value:'3',text:'正常（85*40mm无底 1*7）'},
-     					{value:'4',text:'促销（85*40mm无底 1*7）'}];
+     					{value:'3',text:'正常（85*40mm无底 1*7）'}
+     					];
+
 $(function(){
 	//初始化类型选择
 	initjiaqType();
@@ -50,10 +53,14 @@ function initjiaqType(){
 				$('.activity').removeClass('unhide');
 				$('.discount').removeClass('unhide');
 				appendOptions(options_nomal);
+				$('#pricePrint').datagrid('showColumn','activityTime');
+				$('#pricePrint').datagrid('showColumn','promotionPrice');
 			}else{
 				$('.activity').addClass('unhide');
 				$('.discount').addClass('unhide');
 				appendOptions(options_promotion);
+				$('#pricePrint').datagrid('hideColumn','activityTime');
+				$('#pricePrint').datagrid('hideColumn','promotionPrice');
 			}
 			
 		}
@@ -139,7 +146,7 @@ function initPricePrintGrid() {
 		        		   return  getTwoDecimalB(value);
 		        	   },
 		           },
-		           {field: 'promotionPrice', title: '促销价', width: 100, align: 'center',
+		           {field: 'promotionPrice', title: '促销价', width: 100, align: 'center',hidden:true,
 		        	   editor:{
 		        		   type:'numberbox',
 		        		   options:{
@@ -171,12 +178,12 @@ function initPricePrintGrid() {
 		        	  
 		           },
 		           
-		           {field: 'datetime', title: '活动时间', width: 180, align: 'center',
+		           {field: 'activityTime', title: '活动时间', width: 180, align: 'center',hidden:true,
 		        	   formatter:function(value,row,index){
 		        		   if(!value){
 		                    	return;
 		                    }
-		        		   return row["datetime"];
+		        		   return row["activityTime"];
 		        	   },
 		        	   editor:{
 		        		   type:'datebox',
@@ -371,13 +378,12 @@ function searchBranch(){
 var dalogTemp
 
 function selectActivity(){
-	
   new publicActivity(function(data){
 	  var data = data;
 	  $("#actionId").val(data.id);
 		$("#actionName").val(data.activityCode);
 	  getActivityGoods(data);
-  });
+  },{branchId:$("#branchId").val()});
 	
 }
 
@@ -413,7 +419,7 @@ function disableBtn(){
 	 $('#importbarcode').addClass("uinp-no-more")
 	 $('#importbarcode').removeAttr('onclick');
 	 $('#discount').attr('readonly','readonly');
-	 var e = $("#pricePrint").datagrid('getColumnOption', 'datetime');
+	 var e = $("#pricePrint").datagrid('getColumnOption', 'activityTime');
 
      e.editor = {disabled:true};
 }

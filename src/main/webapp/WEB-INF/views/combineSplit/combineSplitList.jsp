@@ -20,7 +20,6 @@
             <div class="ubtns">
                 <div class="ubtns-item" onclick="queryForm();">查询</div>
 				<div class="ubtns-item" onclick="addCombineSplit();">新增</div>
-	            <div class="ubtns-item" onclick="toCombineDetail();">详情</div>
 	            <div class="ubtns-item" onclick="delModifyOrderDialog();">删单</div>
 	            <div class="ubtns-item" onclick="window.parent.closeTab()">退出</div>
             </div>

@@ -63,16 +63,9 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{skuName}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="2" y="60" width="59" height="7" uuid="01a84c5a-d1d0-4852-8f9d-3ec0b6514bee"/>
-				<textElement textAlignment="Center">
-					<font size="5"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{barCode}]]></textFieldExpression>
-			</textField>
 			<componentElement>
-				<reportElement x="-1" y="50" width="64" height="16" uuid="101afd7a-dd44-4c12-bda5-9b479869ae02"/>
-				<jr:Codabar xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" textPosition="none">
+				<reportElement x="-1" y="50" width="105" height="21" uuid="101afd7a-dd44-4c12-bda5-9b479869ae02"/>
+				<jr:Codabar xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" textPosition="bottom">
 					<jr:codeExpression><![CDATA[$F{barCode}]]></jr:codeExpression>
 				</jr:Codabar>
 			</componentElement>

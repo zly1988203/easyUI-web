@@ -49,13 +49,6 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{skuName}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="1" y="81" width="111" height="11" uuid="2b92857e-c403-4531-93dc-567e9a740eb8"/>
-				<textElement textAlignment="Center">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{barCode}]]></textFieldExpression>
-			</textField>
 			<staticText>
 				<reportElement x="3" y="29" width="17" height="16" uuid="127615ff-6bf0-4e3c-ab09-0e4ad8318b05"/>
 				<textElement verticalAlignment="Middle">
@@ -99,8 +92,8 @@
 				<text><![CDATA[元]]></text>
 			</staticText>
 			<componentElement>
-				<reportElement x="2" y="60" width="125" height="32" uuid="dcc865cc-c52c-4c27-8bcb-56ad54ea9c97"/>
-				<jr:Code128 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" moduleWidth="1.8" textPosition="none">
+				<reportElement x="1" y="60" width="128" height="32" uuid="dcc865cc-c52c-4c27-8bcb-56ad54ea9c97"/>
+				<jr:Code128 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" moduleWidth="1.0" textPosition="bottom">
 					<jr:codeExpression><![CDATA[$F{barCode}]]></jr:codeExpression>
 				</jr:Code128>
 			</componentElement>
