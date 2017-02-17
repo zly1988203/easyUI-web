@@ -93,7 +93,7 @@ pageEncoding="UTF-8"%>
                 </div>
                 <div class="ub ub-ac uw-300">
                     <div class="umar-r10 uw-60 ut-r">商品状态:</div>
-                    <select class="uselect easyui-combobox" style="width: 204px;" name="status" id="status" data-options="editable:false,onChange:typeChange">
+                    <select class="uselect easyui-combobox" style="width: 204px;" name="goodsStatus" id="goodsStatus" data-options="editable:false,onChange:typeChange">
                         <c:forEach items="${goodsStatus}" var="goodsStatus">
                             <option value="${goodsStatus.name}">${goodsStatus.value}</option>
                         </c:forEach>

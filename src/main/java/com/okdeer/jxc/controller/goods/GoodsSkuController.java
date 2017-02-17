@@ -398,8 +398,7 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 	@RequestMapping(value = "checkBarCodeByOrdinary", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson checkBarCodeByOrdinary(String barCode, String id) {
-		boolean isExists = goodsSkuService.isExistsBarCodeByOrdinary(barCode,
-				id);
+		boolean isExists = goodsSkuService.isExistsBarCodeByOrdinary(barCode,id);
 		if (isExists) { // 重复
 			RespJson json = RespJson.error("商品条码重复");
 			json.put("_data", barCode);
@@ -439,7 +438,7 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 	@RequestMapping(value = "getSkuCode", method = RequestMethod.POST)
 	@ResponseBody
 	public String getSkuCode(String pricingType, String categoryCode) {
-		PricingTypeEnum type = PricingTypeEnum.enumValueOf(pricingType);
+		PricingTypeEnum type = PricingTypeEnum.enumNameOf(pricingType);
 		goodsSkuService.getSkuCodeByPricingType(type, categoryCode);
 		String code = goodsSkuService.getSkuCodeByPricingType(type,
 				categoryCode);
@@ -458,7 +457,7 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 	@RequestMapping(value = "getBarCode", method = RequestMethod.POST)
 	@ResponseBody
 	public String getBarCode(String pricingType, String SkuCode) {
-		PricingTypeEnum type = PricingTypeEnum.enumValueOf(pricingType);
+		PricingTypeEnum type = PricingTypeEnum.enumNameOf(pricingType);
 		String barCode = goodsSkuService.getBarCode(type, SkuCode);
 		return barCode;
 	}
