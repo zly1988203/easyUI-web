@@ -108,7 +108,7 @@ function initDatagridAddRequireOrder(){
                     if(row.isFooter){
                         return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                     }
-                    if(!value){
+                    if(!value||value==""){
                         row["largeNum"] = parseFloat(value||0).toFixed(2);
                     }
                     return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -128,7 +128,7 @@ function initDatagridAddRequireOrder(){
                     if(row.isFooter){
                         return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                     }
-                    if(!value){
+                    if(!value||value==""){
                         row["applyNum"] = parseFloat(value||0).toFixed(2);
                     }
                     return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -331,7 +331,6 @@ function initDatagridAddRequireOrder(){
 
 
 function updateRowsStyle(){
-	
     var rows =  gridHandel.getRows();
     $.each(rows,function(i,row){
 		if(typeof(row.sourceStock) != 'undefined' && typeof(row.applyNum) != 'undefined'
@@ -347,9 +346,7 @@ function updateRowsStyle(){
     			} 
     			
     			$('#gridEditRequireOrder').datagrid('updateRow',{index:i,row:row})
-    			
 
-    			
     		}	
 		}
     });
@@ -361,7 +358,14 @@ var n = 0;
 var m = 0;
 //监听商品箱数
 function onChangeLargeNum(newV,oldV){
-	if(m > 0){
+	if("" == newV){
+		m = 2;
+		 messager("商品箱数输入有误");
+		 gridHandel.setFieldValue('largeNum',oldV); 
+	     return;
+	}
+		
+	if(m === 1){
 		m = 0;
 		return;
 	}
@@ -375,8 +379,6 @@ function onChangeLargeNum(newV,oldV){
         return;
     }
 
-    n++;          
-    
     //金额 = 规格 * 单价 * 箱数
     var priceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
     gridHandel.setFieldValue('amount',parseFloat(purchaseSpecValue*priceValue*newV).toFixed(4));
@@ -384,6 +386,7 @@ function onChangeLargeNum(newV,oldV){
     var realNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'applyNum');
     var realNumVal2 = parseFloat(purchaseSpecValue*newV).toFixed(4);//parseFloat(Math.round(purchaseSpecValue*newV*1000)/1000).toFixed(4);
     if(realNumVal&&Math.abs(realNumVal2-realNumVal)>0.0001){
+    	 n=1;     
         gridHandel.setFieldValue('applyNum',(purchaseSpecValue*newV).toFixed(4));//数量=商品规格*箱数  
     }
 
@@ -391,7 +394,14 @@ function onChangeLargeNum(newV,oldV){
 }
 //监听商品数量
 function onChangeRealNum(newV,oldV) {
-	if(n > 0){
+	if("" == newV){
+		n= 2;
+		 messager("商品数量输入有误");
+		 gridHandel.setFieldValue('applyNum',oldV);
+	     return;
+	}
+	
+	if(n === 1){
 		n = 0;
 		return;
 	}
@@ -413,15 +423,14 @@ function onChangeRealNum(newV,oldV) {
         gridHandel.setFieldFocus(gridHandel.getFieldTarget('applyNum'));
         return;
     }
-    
-	m++;
-
+   
     var priceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
     gridHandel.setFieldValue('amount',priceValue*newV);                         //金额=数量*单价
 
     var largeNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'largeNum');
     var largeNumVal2 = parseFloat(purchaseSpecValue*newV).toFixed(4);
     if(largeNumVal&&Math.abs(largeNumVal2-largeNumVal)>0.0001){
+    	m = 1;
         var largeNumVal = parseFloat(newV/purchaseSpecValue).toFixed(4);
         gridHandel.setFieldValue('largeNum',largeNumVal);   //箱数=数量/商品规格
     }

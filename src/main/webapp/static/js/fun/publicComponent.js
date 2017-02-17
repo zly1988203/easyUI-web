@@ -151,6 +151,32 @@ function publicUploadFileService(callback,params){
 }
 
 /**
+ * 新品申请批量导入
+ * @param params {url:上传地址}
+ * @param callback
+ */
+function newGoodsApplyUploadFile(callback,params){
+	var  dalogTemp = $('<div id="uploadFile"/>').dialog({
+		href:contextPath + "/common/uploadFile",
+		width:480,
+		height:320,
+		title:"新品申请导入模板",
+				closable:true,
+				resizable:true,
+				onClose:function(){
+					$(dalogTemp).panel('destroy');
+				},
+				modal:true,
+				onLoad:function(){
+					initUploadFileCallBack(callBackHandel,params)
+				},
+	});
+	function callBackHandel(data){
+		callback(data);
+	}
+}
+
+/**
  * 公共组件-选择角色
  * 必须要先选机构，才能选角色
  * @param callback 回调函数
@@ -181,10 +207,14 @@ function publicRoleService(callback, branchCompleCode, branchType){
 }
 
 //公共组件-机构选择
-function publicAgencyService(callback,formType,branchId){
+function publicAgencyService(callback,formType,branchId, branchType){
+	if(!branchType){
+		branchType="";
+	}
     //公有属性
     var  dalogTemp = $('<div/>').dialog({
-    	href:contextPath + "/common/branches/viewComponent?formType="+formType+"&branchId="+branchId,
+    	href:contextPath + "/common/branches/viewComponent?formType="+ 
+    		formType + "&branchId=" +branchId+ "&branchType="+branchType,
         width:680,
         height:600,
         title:"机构选择",

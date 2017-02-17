@@ -26,6 +26,10 @@ public interface PrintConstant {
 	String CASH_DAILY_REPORT = "CashDailyReport.jrxml";
 
 	/**
+	 * @Fields GOODS_UNSALE_REPORT : 收银日报模版
+	 */
+	String GOODS_UNSALE_REPORT = "goodsUnsaleReport.jrxml";
+	/**
 	 * @Fields CASH_FLOW_REPORT : 收银流水模版
 	 */
 	String CASH_FLOW_REPORT = "CashFlowReport.jrxml";
@@ -84,5 +88,10 @@ public interface PrintConstant {
 	 * @Fields PRINT_MAX_ROW : 打印限最大数量
 	 */
 	Integer PRINT_MAX_ROW = 3000;
+
+	/**
+	 * @Fields MEMBER_ORDER_ALL_REPORT : 会员消费汇总模版
+	 */
+	String MEMBER_ORDER_ALL_REPORT = "MemberOrderAllReport.jrxml";
 
 }

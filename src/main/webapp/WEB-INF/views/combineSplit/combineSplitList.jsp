@@ -18,9 +18,8 @@
         <div class="ub ub-ac">
             <!--buttons-->
             <div class="ubtns">
-                <div class="ubtns-item" onclick="modifyPriceOrderCx();">查询</div>
+                <div class="ubtns-item" onclick="queryForm();">查询</div>
 				<div class="ubtns-item" onclick="addCombineSplit();">新增</div>
-	            <div class="ubtns-item" onclick="toCombineDetail();">详情</div>
 	            <div class="ubtns-item" onclick="delModifyOrderDialog();">删单</div>
 	            <div class="ubtns-item" onclick="window.parent.closeTab()">退出</div>
             </div>
@@ -64,7 +63,7 @@
 	                         <label><input class="radioItem" type="radio" value="0" name="status" checked="checked"/><span>未审核</span></label>
 	                    </div>
 	                    <div class="ub ub-ac umar-r10">
-	                         <label><input class="radioItem" type="radio" value="1" name="status"/><span>审核</span></label>
+	                         <label><input class="radioItem" type="radio" value="1" name="status"/><span>已审核</span></label>
 	                    </div>
 	                    <div class="ub ub-ac umar-r10">
 	                         <label><input class="radioItem"  type="radio" value="" name="status"/><span>全部</span></label>
@@ -74,7 +73,7 @@
         </div>
 		</form>
 		<div class="ub ub-f1 umar-t8 umar-b8">
-			<table id="modifyPriceGrid"></table>
+			<table id="combineSplitList"></table>
 		</div>
     </div>
 </body>

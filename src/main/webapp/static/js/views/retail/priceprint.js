@@ -181,16 +181,13 @@ function initPricePrintGrid() {
 		           {field: 'activityTime', title: '活动时间', width: 180, align: 'center',hidden:true,
 		        	   formatter:function(value,row,index){
 		        		   if(!value){
-		                    	return getNowFormatDate();
+		                    	return;
 		                    }
 		        		   return row["activityTime"];
 		        	   },
 		        	   editor:{
 		        		   type:'datebox',
 		        		   precision:200,
-		        		   options:{
-		        			   min:getNowFormatDate(),
-		        		   }
 		        	   },
 		        	  
 		           },
@@ -401,6 +398,7 @@ function getActivityGoods(data){
 	    			var tempData = result.data;
 	    			var startDate = tempData.startTime + " " +tempData.dailyStartTime;
 	    			var endDate = tempData.endTime + " " +tempData.dailyEndTime;
+	    			result.data.datetime = startDate+"--"+endDate;
 	    			 $("#pricePrint").datagrid("loadData",result.data);
 	    		}else{
 	    			successTip(result['message']);

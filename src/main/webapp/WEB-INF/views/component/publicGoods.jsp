@@ -364,7 +364,7 @@ pageEncoding="UTF-8"%>
         if(!key){
         	var searchSupplierId = $("#searchSupplierId").val();
             $("#gridGoods").datagrid("options").method = "post";
-            $("#gridGoods").datagrid("options").url =contextPath + '/goods/goodsSelect/getGoodsList?flag={flag}&formType=${type}&sourceBranchId=${sourceBranchId}&targetBranchId=${targetBranchId}&branchId=${branchId}&supplierId='+searchSupplierId;
+            $("#gridGoods").datagrid("options").url =contextPath + '/goods/goodsSelect/getGoodsList?flag=${flag}&formType=${type}&sourceBranchId=${sourceBranchId}&targetBranchId=${targetBranchId}&branchId=${branchId}&supplierId='+searchSupplierId;
             $("#gridGoods").datagrid('load');
         }else{
             cx();

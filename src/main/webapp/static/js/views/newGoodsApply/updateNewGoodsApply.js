@@ -47,7 +47,7 @@ function initGoodsEditView(id){
 function getMemoryCode(){
 	var reqObj = {"skuName":$("#skuName").val()};
 	$.ajax({
-		url:contextPath+"/common/goods/getMemoryCode",
+		url:contextPath+"/goods/newGoodsApply/getMemoryCode",
 		type:"POST",
 		data:reqObj,
 		success:function(result){
@@ -97,7 +97,7 @@ function getSkuCodeVal(){
 function getSkuCode(pricingType,categoryCode){
 	var reqObj = {"pricingType":pricingType,"categoryCode":categoryCode};
 	$.ajax({
-		url:contextPath+"/common/goods/getSkuCode",
+		url:contextPath+"/goods/newGoodsApply/getSkuCode",
 		type:"POST",
 		data:reqObj,
 		success:function(result){
@@ -135,7 +135,7 @@ function getBarCodeVal(pricingType, skuCode){
 function getBarCode(pricingType,skuCode){
 	var reqObj = {"pricingType":pricingType,"SkuCode":skuCode};
 	$.ajax({
-		url:contextPath+"/common/goods/getBarCode",
+		url:contextPath+"/goods/newGoodsApply/getBarCode",
 		type:"POST",
 		data:reqObj,
 		success:function(result){
@@ -216,7 +216,7 @@ function setGrossProfitPercent(){
 //获取商品信息
 function getGoodsArchivesDetail(id){
 	var args = {}
-	var httpUrl = contextPath+"/common/goods/getGoodsSkuById?id="+id;
+	var httpUrl = contextPath+"/goods/newGoodsApply/getGoodsSkuById?id="+id;
 	$.get(httpUrl, args,function(data){
 		updateSku = data["_data"];
 		
@@ -225,7 +225,7 @@ function getGoodsArchivesDetail(id){
 			//普通的input
 			if($("#"+key).prop("tagName") == "INPUT"){
 				if($("#"+key).attr('type')=="checkbox"){
-					if(value){ //传到前端checkbox选中的值是true
+					if(value){
 						$("#"+key).attr("checked","checked");
 					}
 				}else{
@@ -242,7 +242,6 @@ function getGoodsArchivesDetail(id){
 						}else{
 							$("#"+key).val(value);
 						}
-
 					}
 				}
 			}
@@ -260,9 +259,6 @@ function getGoodsArchivesDetail(id){
 						$("#"+key).combobox("setValue",value);
 					}
 				}
-				
-				
-
 			}
 		});
 		$("#saleWay").val(updateSku.saleWay);
@@ -287,14 +283,13 @@ function getGoodsArchivesDetail(id){
 function checkBarCodeByOrdinary(){
 	var result = false;
 	var reqObj = {"barCode":$("#barCode").val(), "id":$("#id").val()};
-
 	$.ajax({
-		url:contextPath+"/common/goods/checkBarCodeByOrdinary",
+		url:contextPath+"/goods/newGoodsApply/checkBarCodeByOrdinary",
 		type:"POST",
 		asyn:false,
 		data:reqObj,
 		success:function(result){
-			if(result.code == 0){ //条码不重复
+			if(result.code == 0){
 				result = true;
 			}
 		},
@@ -337,37 +332,36 @@ function saveGoodsArchives(){
 	//校验商品条码是否重复
 	var pricingType = $('#pricingType option:selected').val();
 	var barCode = $("#barCode").val();
-	if(pricingType == "ORDINARY"){// 普通商品需要校验条码是否重复
-		var reqObj = reqObj = {"barCode":barCode, "id":$("#id").val()};
-
-		$.ajax({
-			url:contextPath+"/common/goods/checkBarCodeByOrdinary",
-			type:"POST",
-			data:reqObj,
-			async:false, 
-			success:function(result){
-				if(result.code == 0){
-					submitForm();
-				}else{
-					$('#updateGoodsArchives').removeAttr("disabled");
-					$.messager.alert("提示",result.message);
-				}
-			},
-			error:function(result){
-				console.log(result);
+	var skuName = $("#skuName").val();
+	// 普通商品需要校验条码是否重复
+	var reqObj = reqObj = {"barCode":barCode,"skuName":skuName, "id":$("#id").val()};
+	$.ajax({
+		url:contextPath+"/goods/newGoodsApply/checkBarCodeByOrdinary",
+		type:"POST",
+		data:reqObj,
+		async:false, 
+		success:function(result){
+			if(result.code == 0){
+				submitForm();
+			}else{
+				$('#updateGoodsArchives').removeAttr("disabled");
+				$.messager.alert("提示",result.message);
 			}
-		});
+		},
+		error:function(result){
+			console.log(result);
+		}
+	});
+	/*if(pricingType == "ORDINARY"){
 
 	}else{
 		submitForm();
-	}
-
-
+	}*/
 }
 
 //提交表单
 function submitForm(){
-	var url = contextPath+'/common/goods/updateGoods';
+	var url = contextPath+'/goods/newGoodsApply/updateGoods';
 	$('#formGoodsArchivesAdd').form("submit",{
 		url:url,
 		success:function(data){
@@ -419,18 +413,18 @@ function checkSupplierRate(obj){
 //新增
 function goodsAddView(){
 	closeDialog();
-	openDialog(contextPath+"/common/goods/addGoodsView","新增商品档案","add","");
+	openDialog(contextPath+"/goods/newGoodsApply/addGoodsView","新增商品档案","add","");
 }
 
 //复制新增
 function copyAddGoodsView(){
 	var selectionRow = ''+JSON.stringify(updateSku)+'';
 	closeDialog();
-	openDialog(contextPath+"/common/goods/addGoodsView","新增商品档案","copy",""+escape(selectionRow)+"");
+	openDialog(contextPath+"/goods/newGoodsApply/addGoodsView","新增商品档案","copy",""+escape(selectionRow)+"");
 
 //	setTimeout(function(){
 //	var data = ''+JSON.stringify(updateSku)+'';
-//	var newUrl = contextPath+"/common/goods/addGoodsView?data="+escape(data);
+//	var newUrl = contextPath+"/goods/newGoodsApply/addGoodsView?data="+escape(data);
 //	window.location.href = newUrl;
 //	},10);
 }

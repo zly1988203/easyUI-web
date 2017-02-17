@@ -387,10 +387,12 @@ function saveGoodsArchives(){
 	//校验商品条码是否重复
 	var pricingType = $('#pricingType option:selected').val();
 	var barCode = $("#barCode").val();
-	if(pricingType == "ORDINARY"){// 普通商品需要校验条码是否重复
-		var reqObj = reqObj = {"barCode":barCode, "id":$("#id").val()};
+	var skuName = $("#skuName").val();
+	// 普通商品需要校验条码是否重复
+	if(pricingType == "ORDINARY"){
+		var reqObj = reqObj = {"barCode":barCode, "skuName":skuName,"id":$("#id").val()};
 		$.ajax({
-			url:contextPath+"/common/goods/checkBarCodeByOrdinary",
+			url:contextPath+"/goods/newGoodsApply/checkBarCodeByOrdinary",
 			type:"POST",
 			data:reqObj,
 			async:false, 
@@ -414,11 +416,11 @@ function saveGoodsArchives(){
 //提交表单
 function submitForm(){
 	$('#formGoodsArchivesAdd').form("submit",{
-		url:contextPath+'/common/goods/addGoods',
+		url:contextPath+'/goods/newGoodsApply/addGoods',
 		success:function(data){
 			if(JSON.parse(data).code == 0){
 				closeDialog();
-				openDialog(contextPath+"/common/goods/updateGoodsView?id="+JSON.parse(data).id,"修改商品档案","edit",JSON.parse(data).id);
+				openDialog(contextPath+"/goods/newGoodsApply/updateGoodsView?id="+JSON.parse(data).id,"修改新品申请","edit",JSON.parse(data).id);
 				$.messager.alert("提示","保存成功");
 			}else{
 				$('#saveGoodsArchives').removeAttr("disabled");
