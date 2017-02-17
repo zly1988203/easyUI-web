@@ -200,8 +200,6 @@ public class PrintController extends BaseController<GoodsSelect> {
 		if (data.trim().length() > Constant.ZERO) {
 			list = JSONObject.parseArray(data, GoodsPrint.class);
 			List<GoodsPrint> pintList = new ArrayList<GoodsPrint>();
-			request.getParameter(data);
-
 			if (!CollectionUtils.isEmpty(list)) {
 				for (int i = Constant.ZERO; i < list.size(); i++) {
 					// 替换条码里面的空格和将数字转为俩位小数
@@ -238,13 +236,7 @@ public class PrintController extends BaseController<GoodsSelect> {
 					exportPdf1(response, pintList);
 				} else if ("2".equals(printNo)) {
 					exportPdf2(response, pintList);
-				} else if ("5".equals(printNo)) {
-					JasperHelper.exportmain(request, response, null, JasperHelper.PDF_TYPE, "GoodsLabel.jrxml",
-							pintList, "test");
-				} else if ("6".equals(printNo)) {
-					JasperHelper.exportmain(request, response, null, JasperHelper.PDF_TYPE,
-							"GoodsPromotionLabel.jrxml", pintList, "test");
-				} else {
+				}  else {
 					JasperHelper.exportmain(request, response, null, JasperHelper.PDF_TYPE, PrintConstant.PRINT_LABEL
 							+ printNo + ".jrxml", pintList, "test");
 				}
