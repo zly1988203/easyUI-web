@@ -19,17 +19,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.google.gson.JsonArray;
+import com.okdeer.ca.api.sysrole.entity.SysMenuOperDto;
 import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.common.enums.BranchTypeEnum;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
+import com.okdeer.jxc.common.utils.gson.GsonUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.system.entity.SysRole;
 import com.okdeer.jxc.system.po.SysRolePo;
 import com.okdeer.jxc.system.qo.SysRoleQo;
 import com.okdeer.jxc.system.service.SysRoleService;
+import com.okdeer.jxc.system.vo.RoleAuthVo;
 import com.okdeer.jxc.system.vo.SysRoleVo;
 
 /**
@@ -200,15 +204,76 @@ public class RoleController extends BaseController<RoleController> {
 		}
 		
 		return "system/role/roleEdit";
+	}	
+	
+	
+	/**
+	 * @Description: 跳转到分配角色页面
+	 * @param roleId
+	 * @param model
+	 * @return
+	 * @author liwb
+	 * @date 2017年2月17日
+	 */
+	@RequestMapping(value = "toProduceAuth")
+	public String toProduceAuth(String roleId, Model model) {
+		try {
+			SysRole role = sysRoleService.getRoleById(roleId);
+			List<RoleAuthVo> authList = sysRoleService.buildRoleAuth(roleId, getCurrUserId());
+			model.addAttribute("role", role);
+			model.addAttribute("authList", authList);
+		} catch (Exception e) {
+			LOG.error("获取数据异常", e);
+		}
+		
+		return "system/role/produceAuth";
 	}
 	
 	
+	/**
+	 * @Description: 分配权限保存功能
+	 * @param roleId
+	 * @param data
+	 * @return
+	 * @author liwb
+	 * @date 2017年2月17日
+	 */
+	@RequestMapping(value = "produceRoleAuth")
+	@ResponseBody
+	public RespJson produceRoleAuth(String roleId, String data){
+		LOG.info("保存角色权限，角色Id{}, 权限数据{}", roleId, GsonUtils.toJson(data));
+		RespJson respJson = RespJson.success();
+		try {
+			if(StringUtils.isBlank(data)){
+				return RespJson.error("数据异常!");
+			}
+			
+			//转换为JSON数据
+			JsonArray jArray = GsonUtils.parseJsonArray(data);
+			
+			//构建菜单操作数据列表
+			List<SysMenuOperDto> menuOpList = buildMenuOpList(jArray);
+			
+			// 新增角色信息
+			respJson = sysRoleService.produceRoleAuth(roleId, getCurrUserId(), menuOpList);
+		} catch (Exception e) {
+			LOG.error("保存角色权限异常：", e);
+			respJson = RespJson.error("保存角色权限异常!");
+		}
+		return respJson;
+	}
 	
-	@RequestMapping(value = "toProduceAuth")
-	public String toProduceAuth(String roleId, Model model) {
+	private List<SysMenuOperDto> buildMenuOpList(JsonArray jArray){
+		
+		//如果是空数据
+		if(jArray==null || jArray.size()==0){
+			return new ArrayList<SysMenuOperDto>();
+		}
+		
+		List<SysMenuOperDto> menuOpList = GsonUtils.fromJsonList(jArray, SysMenuOperDto.class);
 		
 		
-		return "system/role/produceAuth";
+		return menuOpList;
 	}
 	
 	/**
@@ -218,7 +283,7 @@ public class RoleController extends BaseController<RoleController> {
 	 * @author liwb
 	 * @date 2017年2月15日
 	 */
-	@RequestMapping(value = "/addRole")
+	@RequestMapping(value = "addRole")
 	@ResponseBody
 	public RespJson addRole(SysRoleVo roleVo) {
 		LOG.info("新增角色信息：{}", roleVo);
@@ -243,7 +308,7 @@ public class RoleController extends BaseController<RoleController> {
 	 * @author liwb
 	 * @date 2017年2月15日
 	 */
-	@RequestMapping(value = "/updateRole")
+	@RequestMapping(value = "updateRole")
 	@ResponseBody
 	public RespJson updateRole(SysRoleVo roleVo) {
 		LOG.info("修改角色信息：{}", roleVo);
@@ -268,7 +333,7 @@ public class RoleController extends BaseController<RoleController> {
 	 * @author liwb
 	 * @date 2017年2月15日
 	 */
-	@RequestMapping(value = "/deleteRole")
+	@RequestMapping(value = "deleteRole")
 	@ResponseBody
 	public RespJson deleteRole(String roleId) {
 		LOG.info("删除角色Id：{}", roleId);

@@ -12,12 +12,13 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+
+import net.sf.json.JSONObject;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,8 +63,6 @@ import com.okdeer.jxc.supplier.entity.Supplier;
 import com.okdeer.jxc.supplier.qo.SupplierQo;
 import com.okdeer.jxc.supplier.service.SupplierServiceApi;
 import com.okdeer.jxc.utils.UserUtil;
-
-import net.sf.json.JSONObject;
 
 /**
  * ClassName: NewGoodsApplyController 
