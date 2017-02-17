@@ -44,14 +44,11 @@ function goodsArchives(){
 }
 var goodsClass = new goodsArchives();
 $(function(){
-	
 	 $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
 	 $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
-	
     initView();
     initTreeArchives();
     initDatagridArchives();
-    
     changeStatus();
 });
 
@@ -59,7 +56,7 @@ $(function(){
 //单据状态切换
 function changeStatus(){
 	$(".radioItem").change(function(){
-		queryForm();
+		goodsSearch();
     });
 }
 
@@ -164,17 +161,13 @@ function gridReload(gridName,httpParams,selectTypeName){
 			httpParams.brandId = "";
 			break;
 	}
-	$("#"+gridName).datagrid("options").url = contextPath+'/common/goods/queryGoodsSku';
-	//begin by lijy02 2016.9.13
-//	$("#"+gridName).datagrid("options").url = contextPath+'/goods/goodsSelect/getGoodsList';
-	//end by lijy02
+	$("#"+gridName).datagrid("options").url = contextPath+'/goods/newGoodsApply/queryNewGoodsApply';
     $("#"+gridName).datagrid("options").queryParams = $("#formGoodsArchives").serializeObject();
     $("#"+gridName).datagrid("options").method = "post";
     $("#"+gridName).datagrid("load");
 }
 var gridHandel = new GridClass();
 //初始化表格
-
 var dg;
 function initDatagridArchives(){
 	dg = $("#gridArchives").datagrid({
@@ -182,7 +175,7 @@ function initDatagridArchives(){
         align:'center',
         url:'',
         //toolbar: '#tb',     //工具栏 id为tb
-        singleSelect:true,  //单选  false多选
+        singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
         pagination:true,    //分页
         //fitColumns:true,    //每列占满
@@ -192,127 +185,153 @@ function initDatagridArchives(){
         height:'100%',
         width:'100%',
         columns:[[
+             {field:'check',checkbox:true},
              {field:'id',hidden:true},
-             {field:'skuCode',title:'货号',width:'120px',align:'left',
-            	formatter: function(value,row,index){
-                    return "<a href='#' onclick=\"openDialog('"+contextPath+"/common/goods/updateGoodsView?id="+row.id+"','修改商品档案','edit','"+row.id+"')\" class='ualine'>"+value+"</a>";
-            		//return "<a href="+contextPath+"/common/goods/updateGoodsView?id="+row.id+" class='ualine'>"+value+"</a>";
-            	}
-             },
-             {field:'skuName',title:'商品名称',width:'200px',align:'left'},
-             {field:'barCode',title:'条形码',width:'120px',align:'left'},
-             {field:'barCode',title:'申请机构',width:'120px',align:'left'},
-             {field:'barCode',title:'申请日期',width:'120px',align:'left'},
-             {field:'barCode',title:'审核时间',width:'120px',align:'left'},
-             {field:'barCode',title:'审核状态',width:'120px',align:'left'},
-
-             {field:'memoryCode',title:'助记码',width:'80px',align:'left'},
-             {field:'oneCategoryName',title:'商品一级类别',width:'80px',align:'left'},
-             {field:'categoryName',title:'商品类别',width:'80px',align:'left'},
-             {field:'spec',title:'规格',width:'90px',align:'left'},
-             {field:'brandName',title:'品牌',width:'100px',align:'left'},
-             {field:'unit',title:'库存单位',width:'60px',align:'left'},
-             {field:'purchaseSpec',title:'采购规格',width:'80px',align:'right',
-                 formatter:function(value,row,index){
-                     return (value||0).toFixed(2);
-                 }
-             },
-             {field:'distributionSpec',title:'配送规格',width:'80px',align:'right',
-                 formatter:function(value,row,index){
-                     return (value||0).toFixed(2);
-                 }
-             },
-             {field:'vaildity',title:'保质期天数',width:'80px',align:'right'},
-             {field:'originPlace',title:'产地',width:'100px',align:'left'},
-             {field:'supplierName',title:'主供应商',width:'100px',align:'left'},
-             {field:'saleWay',title:'经营方式',width:'80px',align:'left',hidden:true},
-             {field:'saleWayName',title:'经营方式',width:'100px',align:'center'},
-             {field:'supplierRate',title:'联营扣率/代销扣率',width:'80px',align:'right',
-                 formatter:function(value,row,index){
-                     return ((value||0)*100).toFixed(0)+"%";
-                 }
-             },
-             {field:'purchasePrice',title:'进货价',width:'80px',align:'right',
-                 formatter:function(value,row,index){
-                     return (value||0).toFixed(4);
-                 }
-             },
-             {field:'salePrice',title:'零售价',width:'80px',align:'right',
-                 formatter:function(value,row,index){
-                     return (value||0).toFixed(4);
-                 }
-             },
-             {field:'distributionPrice',title:'配送价',width:'80px',align:'right',
-                 formatter:function(value,row,index){
-                     return (value||0).toFixed(4);
-                 }
-             },
-             {field:'wholesalePrice',title:'批发价',width:'80px',align:'right',
-                 formatter:function(value,row,index){
-                     return (value||0).toFixed(4);
-                 }
-             },
-             {field:'vipPrice',title:'会员价',width:'80px',align:'right',
-                 formatter:function(value,row,index){
-                     return (value||0).toFixed(4);
-                 }
-             },
-             {field:'status',title:'商品状态',width:'80px',align:'center',
-                 formatter:function(value,row,index){
-                     if(value){
-                         return value.value;
-                     }
-                     return value;
-                 }
-             },
-             {field:'pricingType',title:'计价方式',width:'80px',align:'center',
+             {field:'skuCode',title:'货号',width:'120px',align:'left'},
+             {field:'skuName',title:'商品名称',width:'200px',align:'left',
+             	formatter: function(value,row,index){
+                     return "<a href='#' onclick=\"openDialog('"+contextPath+"/goods/newGoodsApply/updateGoodsView?id="+row.id+"','修改新品申请','edit','"+row.id+"')\" class='ualine'>"+value+"</a>";
+             	}
+              },
+             {field:'barCode',title:'条码',width:'120px',align:'left'},
+             {field:'branchName',title:'申请机构',width:'120px',align:'left'},
+             {field: 'createTime', title: '申请时间', width: 150, align: 'left',formatter : function(createTime){
+            	 if(createTime){
+            		 var now = new Date(createTime);
+            		 var nowStr = now.format("yyyy-MM-dd hh:mm:ss"); 
+            		 return nowStr;
+            	 }
+            	 return null;
+             }},
+             {field: 'examineTime', title: '审核时间', width: 150, align: 'left',formatter : function(examineTime){
+     			if(examineTime){
+     				var now = new Date(examineTime);
+     				var nowStr = now.format("yyyy-MM-dd hh:mm:ss"); 
+     				return nowStr;
+     			}
+     			return null;
+     		  }},
+              {field: 'examineStatus', title: '审核状态', width: 150, align: 'center',formatter : function(examineStatus){
+            	 if(examineStatus){
+            		 return examineStatus.value;
+            	 }
+     			return null;
+     		 }},
+            {field:'memoryCode',title:'助记码',width:'80px',align:'left'},
+            {field:'categoryName',title:'商品类别',width:'80px',align:'left'},
+            {field:'spec',title:'规格',width:'90px',align:'left'},
+            {field:'brandName',title:'品牌',width:'100px',align:'left'},
+            {field:'unit',title:'库存单位',width:'60px',align:'left'},
+            {field:'purchaseSpec',title:'采购规格',width:'80px',align:'right',
                 formatter:function(value,row,index){
-                    if(value){
-                        return value.value;
-                    }
-                    return value;
+                    return (value||0).toFixed(2);
                 }
-             },
-            {field:'inputTax',title:'进项税率',width:'80px',align:'right',
-            	 formatter:function(value,row,index){
-                     if(row.inputTax){
-                         return (value||0).toFixed(2)*100+"%";
-                     }
-                     return null;
-                 }
             },
-            {field:'outputTax',title:'销项税率',width:'80px',align:'right',
-            	formatter:function(value,row,index){
-                    if(row.outputTax){
+            {field:'distributionSpec',title:'配送规格',width:'80px',align:'right',
+                formatter:function(value,row,index){
+                    return (value||0).toFixed(2);
+                }
+            },
+            {field:'vaildity',title:'保质期天数',width:'80px',align:'right'},
+            {field:'originPlace',title:'产地',width:'200px',align:'left'},
+            {field:'supplierName',title:'主供应商',width:'200px',align:'left'},
+            {field: 'saleWay', title: '经营方式', width: '80px', align: 'center',formatter : function(saleWay){
+            	if(saleWay=='A'){
+            		return '购销'
+            	}
+            	if(saleWay=='B'){
+            		return '代销'
+            	}
+            	if(saleWay=='C'){
+            		return '联营'
+            	}
+            	if(saleWay=='D'){
+            		return '扣率代销'
+            	}
+    			return null;
+    		 }},
+            {field:'supplierRate',title:'联营扣率/代销扣率',width:'80px',align:'right',
+                formatter:function(value,row,index){
+                    return ((value||0)*100).toFixed(0)+"%";
+                }
+            },
+            {field:'purchasePrice',title:'进货价',width:'80px',align:'right',
+                formatter:function(value,row,index){
+                    return (value||0).toFixed(4);
+                }
+            },
+            {field:'salePrice',title:'零售价',width:'80px',align:'right',
+                formatter:function(value,row,index){
+                    return (value||0).toFixed(4);
+                }
+            },
+            {field:'distributionPrice',title:'配送价',width:'80px',align:'right',
+                formatter:function(value,row,index){
+                    return (value||0).toFixed(4);
+                }
+            },
+            {field:'wholesalePrice',title:'批发价',width:'80px',align:'right',
+                formatter:function(value,row,index){
+                    return (value||0).toFixed(4);
+                }
+            },
+            {field:'vipPrice',title:'会员价',width:'80px',align:'right',
+                formatter:function(value,row,index){
+                    return (value||0).toFixed(4);
+                }
+            },
+            {field: 'goodsStatus', title: '商品状态', width: 150, align: 'center',formatter : function(goodsStatus){
+            	if(goodsStatus){
+            		return goodsStatus.value;
+            	}
+    			return null;
+    		 }},
+            
+            {field:'pricingType',title:'计价方式',width:'80px',align:'center',
+               formatter:function(value,row,index){
+                   if(value){
+                       return value.value;
+                   }
+                   return value;
+               }
+            },
+           {field:'inputTax',title:'进项税率',width:'80px',align:'right',
+           	 formatter:function(value,row,index){
+                    if(row.inputTax){
                         return (value||0).toFixed(2)*100+"%";
                     }
                     return null;
                 }
-            },
-            {field:'marginTax',title:'毛利率',width:'80px',align:'right',
-                formatter:function(value,row,index){
-                    if(row.salePrice&&row.purchasePrice){
-                        var vprice = (row.salePrice - row.purchasePrice)/row.salePrice *100
-                        return (vprice||0).toFixed(2)+"%";
-                    }
-                    return "1";
-                }
-            },
-            {field:'remark',title:'备注',width:'100px',align:'left'},
+           },
+           {field:'outputTax',title:'销项税率',width:'80px',align:'right',
+           	formatter:function(value,row,index){
+                   if(row.outputTax){
+                       return (value||0).toFixed(2)*100+"%";
+                   }
+                   return null;
+               }
+           },
+           {field:'marginTax',title:'毛利率',width:'80px',align:'right',
+               formatter:function(value,row,index){
+                   if(row.salePrice&&row.purchasePrice){
+                       var vprice = (row.salePrice - row.purchasePrice)/row.salePrice *100
+                       return (vprice||0).toFixed(2)+"%";
+                   }
+                   return "1";
+               }
+           },
+           {field:'remark',title:'备注',width:'200px',align:'left',hidden:true}
         ]],
         onLoadSuccess : function() {
             gridHandel.setDatagridHeader("center");
         	priceGrantUtil.grantPrice("gridArchives");
         }
-
 });
 }
 
 
-
 //选择类型
 function goodsSelectType(){
-    console.log($("#goodsType").val());
     goodsClass.selectTypeName = $("#goodsType").val();
 }
 
@@ -333,7 +352,7 @@ function goodsSearch(){
 	//去除左侧选中样式
 	$('.zTreeDemoBackground a').removeClass('curSelectedNode');
     var formParams = $("#formGoodsArchives").serializeObject();
-    $("#gridArchives").datagrid('options').url=contextPath+'/common/goods/queryGoodsSku';
+    $("#gridArchives").datagrid('options').url=contextPath+'/newGoodsApply/queryNewGoodsApply';
     gridReload("gridArchives", formParams);
     
 }
@@ -347,20 +366,21 @@ function addGoodsView(){
 			if(goodsClass.currSelectTreeParam.categoryId=="0"){
 				obj.categoryName="";
 			}
-			openDialog(contextPath+"/common/goods/addGoodsView","新增商品档案","add",obj);
+			openDialog(contextPath+"/goods/newGoodsApply/addGoodsView","新品申请","add",obj);
 		}else{
 			var obj = $.extend({},param);
 				obj.categoryName="";
-			openDialog(contextPath+"/common/goods/addGoodsView","新增商品档案","add",obj);
+			openDialog(contextPath+"/goods/newGoodsApply/addGoodsView","新品申请","add",obj);
 		}
 	}else{
 		var obj = $.extend({},param);
 		if(goodsClass.currSelectTreeParam.categoryId=="0"){
 			obj.categoryName="";
 		}
-		openDialog(contextPath+"/common/goods/addGoodsView","新增商品档案","add",obj);
+		openDialog(contextPath+"/goods/newGoodsApply/addGoodsView","新品申请","add",obj);
 	}
 }
+
 var  dalogTemp;
 //打开Dialog
 function openDialog(argUrl,argTitle,argType,params) {
@@ -383,7 +403,6 @@ function openDialog(argUrl,argTitle,argType,params) {
             }else if(argType=="copy"){
                 initGoodsView(params,"")
             }
-
         }
     })
 }
@@ -400,39 +419,102 @@ function copyGoodsView(){
     }else{
     	var selectionRow = $("#gridArchives").datagrid("getSelections");
         selectionRow = JSON.stringify(selectionRow);
-        openDialog(contextPath+"/common/goods/addGoodsView","新增商品档案","copy",""+escape(selectionRow)+"");
+        openDialog(contextPath+"/goods/newGoodsApply/addGoodsView","新品申请","copy",""+escape(selectionRow)+"");
     	setTimeout(function(){
-
-    		//window.location.href = contextPath+"/common/goods/addGoodsView?data="+escape(selectionRow);
+    		//window.location.href = contextPath+"/goods/newGoodsApply/addGoodsView?data="+escape(selectionRow);
     	},10);
     }
 }
 
-
-
 //删除
 function delGoods(){
-	var row = $("#gridArchives").datagrid('getSelected');
-	if(rowIsNull(row)) return;
-	//判断是否被引用
-	parent.$.messager.confirm('提示', '是否确认删除？', function(data){
-		if (data){
+	var rows =$("#gridArchives").datagrid("getChecked");
+	if($("#gridArchives").datagrid("getChecked").length <= 0){
+		 $.messager.alert('提示','请选中一行进行删除！');
+		return null;
+	}
+	 var ids='';
+	 var goodsSkuName = '';
+	    $.each(rows,function(i,v){
+	    	ids+=v.id+",";
+	    	if(v.examineStatus.name =='EXAMINE_PASS') {
+	  			goodsSkuName += v.skuName+",";
+	  		}
+	    });
+	    if(goodsSkuName){
+			goodsSkuName = goodsSkuName.substring(0 , goodsSkuName.length-1);
+			$.messager.alert('提示','商品名称:【'+goodsSkuName+'】审核通过,不能删除');
+			return 
+		}
+	$.messager.confirm('提示','是否要删除选中数据',function(data){
+		if(data){
 			$.ajax({
-				type:'POST',
-				url:contextPath+"/common/goods/delGoods",
-				data:{"id":row.id},
-				success: function(data){
-					if(data.code == 0){
-						$("#gridArchives").datagrid('reload');
+		    	url:contextPath+"/goods/newGoodsApply/delGoods",
+		    	type:"POST",
+		    	data:{
+		    		ids:ids
+		    	},
+		    	success:function(result){
+		    		if(result['code'] == 0){
+		    			$("#gridArchives").datagrid('reload');
 						$.messager.alert('提示',"删除成功");
-					}else{
-						$.messager.alert('提示',data.message);
-					}
-				}
-			});
-		} 
+		    		}else{
+		    			successTip(result['message']);
+		    		}
+		    	},
+		    	error:function(result){
+		    		successTip("请求发送失败或服务器处理失败");
+		    	}
+		    });
+		}
 	});
 }
+
+//审核
+function auditingGoods(){
+	var rows =$("#gridArchives").datagrid("getChecked");
+	if($("#gridArchives").datagrid("getChecked").length <= 0){
+		$.messager.alert('提示','请选中一行进行审核！');
+		return null;
+	}
+	var ids='';
+	var goodsSkuName = '';
+	$.each(rows,function(i,v){
+		ids+=v.id+",";
+  		if(v.examineStatus.name =='EXAMINE_PASS') {
+  			goodsSkuName += v.skuName+",";
+  		}
+	});
+	if(goodsSkuName){
+		goodsSkuName = goodsSkuName.substring(0 , goodsSkuName.length-1);
+		$.messager.alert('提示','商品名称:【'+goodsSkuName+'】已审核通过');
+		return 
+	}
+	
+	$.messager.confirm('提示','是否确定审核通过选中商品',function(data){
+		if(data){
+			$.ajax({
+				url:contextPath+"/goods/newGoodsApply/auditingGoods",
+				type:"POST",
+				data:{
+					ids:ids
+				},
+				success:function(result){
+					if(result['code'] == 0){
+						$("#gridArchives").datagrid('reload');
+						$.messager.alert('提示',"审核成功");
+					}else{
+						successTip(result['message']);
+					}
+				},
+				error:function(result){
+					successTip("请求发送失败或服务器处理失败");
+				}
+			});
+		}
+	});
+}
+
 
 /**
  * 导出
@@ -461,7 +543,7 @@ function exportExcel(){
 			successTip(dataObj.message);
 		}
 	});
-	$("#formGoodsArchives").attr("action",contextPath+"/common/goods/exportGoods");
+	$("#formGoodsArchives").attr("action",contextPath+"/goods/newGoodsApply/exportGoods");
 	$("#formGoodsArchives").submit();
 }
 
@@ -470,3 +552,20 @@ function resetFrom(){
 	$("#searchForm").form('clear');
 }
 
+//导入
+function toImportproduct(){
+    var param = {
+        url:contextPath+"/goods/newGoodsApply/importList",
+        tempUrl:contextPath+"/goods/newGoodsApply/exportTemp",
+        type:1,
+    }
+    new newGoodsApplyUploadFile(function(data){
+    	initDatagridArchives();
+        
+    },param)
+}
+
+//模板导出
+function exportTemp(){
+	location.href=contextPath+'/goods/newGoodsApply/exportTemp';
+}

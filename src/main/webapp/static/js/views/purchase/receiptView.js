@@ -59,6 +59,7 @@ function initDatagridEditOrder(){
             {field:'barCode',title:'国际条码',width:'130px',align:'left'},
             {field:'unit',title:'单位',width:'60px',align:'left'},
             {field:'spec',title:'规格',width:'90px',align:'left'},
+            {field:'purchaseSpec',title:'进货规格',width:'90px',align:'left'},
             {field:'largeNum',title:'箱数',width:'80px',align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){

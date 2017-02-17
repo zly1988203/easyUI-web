@@ -151,6 +151,32 @@ function publicUploadFileService(callback,params){
 }
 
 /**
+ * 新品申请批量导入
+ * @param params {url:上传地址}
+ * @param callback
+ */
+function newGoodsApplyUploadFile(callback,params){
+	var  dalogTemp = $('<div id="uploadFile"/>').dialog({
+		href:contextPath + "/common/uploadFile",
+		width:480,
+		height:320,
+		title:"新品申请导入模板",
+				closable:true,
+				resizable:true,
+				onClose:function(){
+					$(dalogTemp).panel('destroy');
+				},
+				modal:true,
+				onLoad:function(){
+					initUploadFileCallBack(callBackHandel,params)
+				},
+	});
+	function callBackHandel(data){
+		callback(data);
+	}
+}
+
+/**
  * 公共组件-选择角色
  * 必须要先选机构，才能选角色
  * @param callback 回调函数

@@ -342,4 +342,14 @@ public interface ExportExcelConstant {
 	 * 库存成本周转率
 	 */
 	String COSTROTARATEREPORT = "costRotaRateReport.xlsx";
+	
+	/**
+	 * 新品申请导出模板
+	 */
+	String NEW_GOODS_APPLY_REPORT = "newGoodsApplyReport.xlsx";
+	
+	/**
+	 *  @Fields NEW_GOODS_APPLY_TEMPLE : 新品申请导入模板
+	 */
+	String NEW_GOODS_APPLY_TEMPLE = "NewGoodsApplyTemple.xlsx";
 }
