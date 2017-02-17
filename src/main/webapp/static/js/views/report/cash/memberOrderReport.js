@@ -269,7 +269,7 @@ function printReport(){
 	}
 	parent.addTabPrint("reportPrint"+branchNameOrCode,"打印",contextPath + urlTemp + "branchId=" + branchId +
 			"&startTime=" + startTime + "&endTime=" + endTime + "&branchNameOrCode="+branchNameOrCode +
-			"buyerUserName=" + buyerUserName
+			"&buyerUserName=" + buyerUserName
 	);
 }
 /**
