@@ -94,4 +94,9 @@ public interface PrintConstant {
 	 */
 	String MEMBER_ORDER_ALL_REPORT = "MemberOrderAllReport.jrxml";
 
+	/**
+	 * @Fields MEMBER_ORDER_LIST_REPORT : 会员消费明细模版
+	 */
+	String MEMBER_ORDER_LIST_REPORT = "MemberOrderListReport.jrxml";
+
 }
