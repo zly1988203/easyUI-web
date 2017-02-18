@@ -1,7 +1,10 @@
 package com.okdeer.jxc.controller.report;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.poi.ss.formula.functions.T;
@@ -14,12 +17,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.LogConstant;
+import com.okdeer.jxc.common.constant.PrintConstant;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
+import com.okdeer.jxc.controller.print.JasperHelper;
 import com.okdeer.jxc.report.service.RotaRateReportServiceApi;
 import com.okdeer.jxc.report.vo.RotaRateReportVo;
+import com.okdeer.jxc.utils.UserUtil;
 
 /***
  * 
@@ -62,8 +68,8 @@ public class RotaRateReportController extends BaseController<T> {
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		LOG.info(LogConstant.OUT_PARAM, vo.toString());
 		try {
-			vo.setRotationDay(DateUtils.pastDays(DateUtils.parse(vo.getEndTime(), DateUtils.DATE_SMALL_STR_R),
-					DateUtils.parse(vo.getStartTime(), DateUtils.DATE_SMALL_STR_R)) + "");
+			vo.setRotationDay((DateUtils.caculateDays(DateUtils.parse(vo.getEndTime(), DateUtils.DATE_SMALL_STR_R),
+					DateUtils.parse(vo.getStartTime(), DateUtils.DATE_SMALL_STR_R)) + 1) + "");
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
 			PageUtils<RotaRateReportVo> rotaRateReportList = rotaRateReportServiceApi.getRotaRateReportList(vo);
@@ -89,8 +95,8 @@ public class RotaRateReportController extends BaseController<T> {
 	public RespJson exportList(HttpServletResponse response, RotaRateReportVo vo) {
 		RespJson resp = RespJson.success();
 		try {
-			vo.setRotationDay(DateUtils.pastDays(DateUtils.parse(vo.getEndTime(), DateUtils.DATE_SMALL_STR_R),
-					DateUtils.parse(vo.getStartTime(), DateUtils.DATE_SMALL_STR_R)) + "");
+			vo.setRotationDay((DateUtils.caculateDays(DateUtils.parse(vo.getEndTime(), DateUtils.DATE_SMALL_STR_R),
+					DateUtils.parse(vo.getStartTime(), DateUtils.DATE_SMALL_STR_R)) + 1) + "");
 			List<RotaRateReportVo> exportList = rotaRateReportServiceApi.exportRotaRateReportList(vo);
 			String fileName = "库存周转率报表";
 			String templateName = ExportExcelConstant.SALEROTARATEREPORT;
@@ -103,5 +109,50 @@ public class RotaRateReportController extends BaseController<T> {
 			resp = RespJson.error("导出 库存周转率报表");
 		}
 		return resp;
+	}
+
+	/**
+	 * 
+	 * @Description: 打印
+	 * @param qo
+	 * @param response
+	 * @param request
+	 * @param pageNumber
+	 * @return
+	 * @author xuyq
+	 * @date 2017年2月17日
+	 */
+	@RequestMapping(value = "/printRotaRateReport", method = RequestMethod.GET)
+	@ResponseBody
+	public String printRotaRateReport(RotaRateReportVo vo, HttpServletResponse response, HttpServletRequest request) {
+		try {
+			// vo.setPageNumber(pageNumber);
+			// vo.setPageSize(PrintConstant.PRINT_MAX_LIMIT);
+			vo.setRotationDay((DateUtils.caculateDays(DateUtils.parse(vo.getEndTime(), DateUtils.DATE_SMALL_STR_R),
+					DateUtils.parse(vo.getStartTime(), DateUtils.DATE_SMALL_STR_R)) + 1) + "");
+			LOG.debug("库存周转率报表打印参数：{}", vo.toString());
+			List<RotaRateReportVo> printList = rotaRateReportServiceApi.exportRotaRateReportList(vo);
+
+			if (printList.size() > PrintConstant.PRINT_MAX_ROW) {
+				return "<script>alert('打印最大行数不能超过300行');top.closeTab();</script>";
+			}
+			// BigDecimal allTotal = BigDecimal.ZERO;
+			// for (RotaRateReportVo vo : list) {
+			// allTotal = allTotal.add(vo.getTotal());
+			// }
+			String path = PrintConstant.SALE_ROTARATE_REPORT;
+			if ("2".equals(vo.getRotationType())) {
+				path = PrintConstant.COST_ROTARATE_REPORT;
+			}
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("startDate", vo.getStartTime());
+			map.put("endDate", vo.getEndTime());
+			map.put("printName", UserUtil.getCurrentUser().getUserName());
+			// map.put("allTotal", allTotal);
+			JasperHelper.exportmain(request, response, map, JasperHelper.PDF_TYPE, path, printList, "");
+		} catch (Exception e) {
+			LOG.error(PrintConstant.ROTARATE_PRINT_ERROR, e);
+		}
+		return null;
 	}
 }

@@ -120,9 +120,14 @@ public interface ExportExcelConstant {
 	 * 商品档案导出模板
 	 */
 	String GOODS_EXPORT_EXCEL = "goodsExport.xlsx";
-	
-	
-	
+	/** 
+	 * 商品存量修改-导入货号模板
+	 */
+	String STOCK_INDEX_SKU_TEMPLE = "StockIndexSkuTemple.xlsx";
+	/**
+	 * 商品存量修改-导入条码模板
+	 */
+	String STOCK_INDEX_BAR_TEMPLE = "StockIndexBarTemple.xlsx";
 	
 	/**
 	 * 商品档案导出模板
