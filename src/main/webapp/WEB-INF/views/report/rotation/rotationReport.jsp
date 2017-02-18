@@ -23,6 +23,9 @@
 					<shiro:hasPermission name="JxcRotaRateReport:search">
 						<div class="ubtns-item" onclick="queryForm()">查询</div>
 					</shiro:hasPermission>
+		             <shiro:hasPermission name="JxcRotaRateReport:print">
+	                	<div class="ubtns-item" onclick="printReport()">打印</div>
+	                 </shiro:hasPermission>
 					<shiro:hasPermission name="JxcRotaRateReport:export">
 						<input type="hidden" id="startCount" name="startCount" />
 						<input type="hidden" id="endCount" name="endCount" />

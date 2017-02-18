@@ -20,8 +20,8 @@
 		            <div class="ubtns">
 		                <div class="ubtns-item" onclick="addsaveOrder()">保存</div>
 		                <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
-		                <div class="ubtns-item" onclick="toImportproduct(0)" >导入货号</div>
-		                <div class="ubtns-item" onclick="toImportproduct(1)" >导入条码</div>
+		                <div class="ubtns-item" onclick="toImportStockIndex(0)" >导入货号</div>
+		                <div class="ubtns-item" onclick="toImportStockIndex(1)" >导入条码</div>
 		                <div class="ubtns-item" onclick="toClose()">关闭</div>
 		            </div>
 				</div>

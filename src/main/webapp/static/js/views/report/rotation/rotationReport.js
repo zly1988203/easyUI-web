@@ -124,7 +124,7 @@ function initDatagridRequire() {
 			align : 'left'
 		}, {
 //	--------------------------------------------------		
-			field : 'originalCostAmount',
+			field : 'originalSaleAmount',
 			title : '期间原价销售金额',
 			width : '65px',
 			align : 'left'
@@ -201,4 +201,36 @@ function exportExcel(){
 	});
 	$("#queryForm").attr("action",contextPath+"/report/rotation/exportRotaRateReportList?"+fromObjStr);
 	$("#queryForm").submit();
+}
+/**
+ * 打印
+ */
+function printReport(){
+	var length = $("#rotationReport").datagrid('getData').total;
+	if(length == 0){
+		$.messager.alert('提示',"没有数据");
+		return;
+	}
+	var fromObjStr = $('#queryForm').serializeObject();
+	console.log(fromObjStr);
+	var param=setParams("queryForm");
+	console.log(param);
+	parent.addTabPrint("库存周转率","打印",contextPath+"/report/rotation/printRotaRateReport?" + param);
+}
+
+function setParams(formId){  
+	var param="";
+	var arr = $('#' + formId).serializeArray();
+	if(arr != null){
+		for(var i=0;i<arr.length;i++){
+			var _val = encodeURIComponent(arr[i].value);
+			if(_val){
+				param = param + arr[i].name + "="+_val+"&";
+			}
+		}
+	}
+	if(param){
+		param = param.substring(0,param.length-1);
+	}
+	return param;
 }
