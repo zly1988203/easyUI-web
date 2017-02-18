@@ -378,15 +378,15 @@ var resetForm = function(){
 /**
  * 导入
  */
-function toImportproduct(type){
+function toImportStockIndex(type){
     var branchId = $("#branchId").val();
     if(!branchId){
         messager("请先选择机构");
         return;
     }
     var param = {
-        url:contextPath+"/goods/priceAdjust/importList",
-        tempUrl:contextPath+'/goods/priceAdjust/exportTemp',
+        url:contextPath+"/stock/index/importStockIndexList",
+        tempUrl:contextPath+'/stock/index/exportStockIndexTemp',
         type:type,
         branchId:branchId,
     }
@@ -394,26 +394,19 @@ function toImportproduct(type){
         updateListData(data);
     },param)
 }
-
 function updateListData(data){
     var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
     var addDefaultData  = gridHandel.addDefault(data,gridDefault);
     var keyNames = {
-    		purchasePrice : 'oldPurPrice',
-    		salePrice:'oldSalePrice',
-    		wholesalePrice:'oldWsPrice',
-    		vipPrice:'oldVipPrice',
-    		distributionPrice:'oldDcPrice'
+    		upperLimit : 'upperLimit',
+    		lowerLimit:'lowerLimit'
     };
     var rows = gFunUpdateKey(addDefaultData,keyNames);
     if(data.length>0){
     	var obj = data[0];
     	var arrKey = [
-    	              {"newPurPrice":"purchasePrice"},
-    	              {"newSalePrice":"retailPrice"},
-    	              {"newDcPrice":"distributionPrice"},
-    	              {"newWsPrice":"tradePrice"},
-    	              {"newVipPrice":"memberPrice"}
+    	              {"upperLimit":"upperLimit"},
+    	              {"lowerLimit":"lowerLimit"}
     	             ]
     	$.each(obj,function(key,val){
 			var d = obj;
