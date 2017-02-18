@@ -5,10 +5,6 @@ function render(node,data){
     });
 }
 	
-function resetRole(){
-	render(document.getElementById('content'),tableTreeData);
-}
-
 $(document).on('change','.parentNode,.treeItem',function(){
     var flag = $(this).prop('checked');
     if($(this).attr('class') == 'treeItem' ){
@@ -27,7 +23,7 @@ $(document).on('change','.parentNode,.treeItem',function(){
 
 
 //保存
-function saveRole(){
+function saveRoleAuth(){
     var menusIds = [];
     var treeMenus = $(".three.levelContent");
     $.each(treeMenus, function (index,obj){
@@ -39,12 +35,12 @@ function saveRole(){
                 var menuDomCheck = $(menuDom).prop('checked');
                 //菜单对象
                 var menuObj = {};
-                menuObj.menuID = $(menuDom).attr('id') ||'';
-                menuObj.operateIDs = [];
+                menuObj.menuId = $(menuDom).attr('id') ||'';
+                menuObj.operPermissions = [];
                 //子节点有勾选
                 if(checkInputs.length > 0){
                     $.each(checkInputs, function (iny,elt) {
-                        menuObj.operateIDs.push($(elt).attr('id'));
+                        menuObj.operPermissions.push($(elt).attr('id'));
                     });
                     menusIds.push(menuObj);
                 }else if(menuDomCheck){
@@ -54,5 +50,27 @@ function saveRole(){
         }
 
     });
-    console.log(JSON.stringify(menusIds));
+    
+    var roleId = $("#roleId").val();
+    var data = JSON.stringify(menusIds);
+    console.log("data:"+data);
+    
+    $.ajax({
+        url:contextPath+"/system/role/produceRoleAuth",
+        type:"POST",
+        data:{
+        	"roleId":roleId,
+        	"data":data
+        },
+        dataType:"json",  
+        success:function(result){
+            if(result){
+                successTip("保存成功！");
+                toClose();
+            }
+        },
+        error:function(result){
+            successTip("请求发送失败或服务器处理失败");
+        }
+    });
 }

@@ -27,7 +27,6 @@ function initGoodsView(data,flag){
 //		}
 //	});
 
-
 	//根据商品名称获取助记码
 	$("#skuName").on("blur",function(){
 		getMemoryCode();
@@ -156,7 +155,6 @@ function setInputValByObj(){
 	}else{
 		$('supplierRate').removeAttr('disabled');
 	}
-//	$("#skuCode").val("").removeAttr("readonly");
 	$("#createDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd hh:mm:ss"));
 	//生成毛利值，毛利率
 	setGrossProfit();
@@ -195,7 +193,6 @@ function getMemoryCode(){
 		type:"POST",
 		data:reqObj,
 		success:function(result){
-			//console.log(result);
 			$("#memoryCode").val(result); //助记码
 		},
 		error:function(result){
@@ -308,7 +305,7 @@ function getGoodsPupplier(){
 	new publicSupplierService(function(data){
 		$("#supplierId").val(data.id);
 		$("#supplierName").val(data.supplierName);
-		$("#saleWayName").val(data.saleWayName);
+		$("#saleWayName1").val(data.saleWayName);
 
 		//经营方式
 		$("#saleWay").val(data.saleWay);
@@ -422,6 +419,7 @@ function submitForm(){
 				closeDialog();
 				openDialog(contextPath+"/goods/newGoodsApply/updateGoodsView?id="+JSON.parse(data).id,"修改新品申请","edit",JSON.parse(data).id);
 				$.messager.alert("提示","保存成功");
+				$("#gridArchives").datagrid('reload');
 			}else{
 				$('#saveGoodsArchives').removeAttr("disabled");
 				$.messager.alert("提示",JSON.parse(data).message);

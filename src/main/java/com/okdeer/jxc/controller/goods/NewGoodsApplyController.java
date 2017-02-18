@@ -12,12 +12,13 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+
+import net.sf.json.JSONObject;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,8 +63,6 @@ import com.okdeer.jxc.supplier.entity.Supplier;
 import com.okdeer.jxc.supplier.qo.SupplierQo;
 import com.okdeer.jxc.supplier.service.SupplierServiceApi;
 import com.okdeer.jxc.utils.UserUtil;
-
-import net.sf.json.JSONObject;
 
 /**
  * ClassName: NewGoodsApplyController 
@@ -230,6 +229,10 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 		model.addAttribute("goodpPicingType", sku.getPricingType().ordinal());
 		addEnum(model);
 
+		NewGoodsApplyEnum examineStatus = sku.getExamineStatus();
+		if(NewGoodsApplyEnum.EXAMINE_PASS.equals(examineStatus)){
+			return "newGoodsApply/viewNewGoodsApply";
+		}
 		return "newGoodsApply/updateNewGoodsApply";
 	}
 
@@ -330,7 +333,6 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 	}
 
 	/**
-	 * 
 	 * @Description: 修改商品
 	 * @param sku
 	 * @return
@@ -342,7 +344,6 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 	public RespJson copyGoods(@Valid NewGoodsApply sku, BindingResult validate) {
 		if (validate.hasErrors()) {
 			String errorMessage = validate.getFieldError().getDefaultMessage();
-			LOG.warn("validate errorMessage:" + errorMessage);
 			return RespJson.error(errorMessage);
 		}
 		try {

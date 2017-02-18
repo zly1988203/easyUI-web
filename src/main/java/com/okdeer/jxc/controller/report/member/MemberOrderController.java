@@ -187,8 +187,8 @@ public class MemberOrderController extends BasePrintController<TradeOrderCountCo
 	 * @param qo
 	 * @param request
 	 * @param response
-	 * @author lijy02
-	 * @date 2016年9月3日
+	 * @author zhangchm
+	 * @date 2017年2月17日
 	 */
 	@RequestMapping(value = "memberOrderAllPrint", method = RequestMethod.GET)
 	@ResponseBody
@@ -212,13 +212,57 @@ public class MemberOrderController extends BasePrintController<TradeOrderCountCo
 			}
 			// 查询合计
 			MemberOrderReportVo vo = memberOrderServiceApi.queryMemberOrderAllSum(qo);
-
+			vo.setLoginName("合计：");
+			list.add(vo);
 			String path = PrintConstant.MEMBER_ORDER_ALL_REPORT;
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("startDate", qo.getStartTime());
-			map.put("endDate", qo.getEndTime());
+			map.put("startDate", DateUtils.formatDate(qo.getStartTime(), DateUtils.DATE_FULL_STR));
+			map.put("endDate", DateUtils.formatDate(qo.getEndTime(), DateUtils.DATE_FULL_STR));
 			map.put("printName", UserUtil.getCurrentUser().getUserName());
-			map.put("allTotal", vo.getAmount());
+			JasperHelper.exportmain(request, response, map, JasperHelper.PDF_TYPE, path, list, "");
+		} catch (Exception e) {
+			LOG.error(PrintConstant.CASH_FLOW_PRINT_ERROR, e);
+		}
+		return null;
+	}
+
+	/**
+	 * @Description: 会员消费明细报表打印
+	 * @param qo
+	 * @param request
+	 * @param response
+	 * @author zhangchm
+	 * @date 2017年2月17日
+	 */
+	@RequestMapping(value = "memberOrderListPrint", method = RequestMethod.GET)
+	@ResponseBody
+	public String memberOrderListPrint(MemberOrderReportQo qo, HttpServletResponse response,
+			HttpServletRequest request, @RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber) {
+		try {
+			qo.setPageNumber(pageNumber);
+			qo.setPageSize(PrintConstant.PRINT_MAX_LIMIT);
+			qo.setEndTime(DateUtils.getNextDay(qo.getEndTime()));
+			// 初始化默认参数
+			LOG.debug("会员消费明细打印参数：{}", qo.toString());
+			// 查询条数
+			int lenght = memberOrderServiceApi.queryMemberOrderListCount(qo);
+			if (lenght > PrintConstant.PRINT_MAX_ROW) {
+				return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
+			}
+			// 查询明细
+			List<MemberOrderListReportVo> list = memberOrderServiceApi.queryMemberOrderLists(qo);
+			if (!CollectionUtils.isEmpty(list) && list.size() > PrintConstant.PRINT_MAX_ROW) {
+				return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
+			}
+			// 查询合计
+			MemberOrderListReportVo vo = memberOrderServiceApi.queryMemberOrderListSum(qo);
+			vo.setLoginName("合计：");
+			list.add(vo);
+			String path = PrintConstant.MEMBER_ORDER_LIST_REPORT;
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("startDate", DateUtils.formatDate(qo.getStartTime(), DateUtils.DATE_FULL_STR));
+			map.put("endDate", DateUtils.formatDate(qo.getEndTime(), DateUtils.DATE_FULL_STR));
+			map.put("printName", UserUtil.getCurrentUser().getUserName());
 			JasperHelper.exportmain(request, response, map, JasperHelper.PDF_TYPE, path, list, "");
 		} catch (Exception e) {
 			LOG.error(PrintConstant.CASH_FLOW_PRINT_ERROR, e);

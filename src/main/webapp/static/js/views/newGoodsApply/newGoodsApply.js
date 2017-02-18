@@ -187,6 +187,10 @@ function initDatagridArchives(){
         columns:[[
              {field:'check',checkbox:true},
              {field:'id',hidden:true},
+             {field:'brandId',title:'品牌Id',hidden:true},
+             {field:'brandCode',title:'品牌编码',hidden:true},
+             {field:'supplierId',title:'供应商Id',hidden:true},
+             {field:'supplierCode',title:'供应商编码',hidden:true},
              {field:'skuCode',title:'货号',width:'120px',align:'left'},
              {field:'skuName',title:'商品名称',width:'200px',align:'left',
              	formatter: function(value,row,index){
@@ -218,6 +222,8 @@ function initDatagridArchives(){
      			return null;
      		 }},
             {field:'memoryCode',title:'助记码',width:'80px',align:'left'},
+            {field:'categoryId',title:'类别Id',hidden:true},
+            {field:'categoryCode',title:'类别编码',hidden:true},
             {field:'categoryName',title:'商品类别',width:'80px',align:'left'},
             {field:'spec',title:'规格',width:'90px',align:'left'},
             {field:'brandName',title:'品牌',width:'100px',align:'left'},
@@ -233,8 +239,8 @@ function initDatagridArchives(){
                 }
             },
             {field:'vaildity',title:'保质期天数',width:'80px',align:'right'},
-            {field:'originPlace',title:'产地',width:'200px',align:'left'},
-            {field:'supplierName',title:'主供应商',width:'200px',align:'left'},
+            {field:'originPlace',title:'产地',width:'150px',align:'left'},
+            {field:'supplierName',title:'主供应商',width:'150px',align:'left'},
             {field: 'saleWay', title: '经营方式', width: '80px', align: 'center',formatter : function(saleWay){
             	if(saleWay=='A'){
             		return '购销'
@@ -250,7 +256,8 @@ function initDatagridArchives(){
             	}
     			return null;
     		 }},
-            {field:'supplierRate',title:'联营扣率/代销扣率',width:'80px',align:'right',
+    		 
+            {field:'supplierRate',title:'联营扣率/代销扣率',width:'100px',align:'right',
                 formatter:function(value,row,index){
                     return ((value||0)*100).toFixed(0)+"%";
                 }
@@ -381,8 +388,8 @@ function addGoodsView(){
 	}
 }
 
-var  dalogTemp;
 //打开Dialog
+var  dalogTemp;
 function openDialog(argUrl,argTitle,argType,params) {
     dalogTemp = $('<div/>').dialog({
         href: argUrl,
@@ -416,14 +423,19 @@ function copyGoodsView(){
 	if($("#gridArchives").datagrid("getSelections").length <= 0){
         $.messager.alert('提示','请选中一行进行复制新增商品！');
         return false;
-    }else{
-    	var selectionRow = $("#gridArchives").datagrid("getSelections");
-        selectionRow = JSON.stringify(selectionRow);
-        openDialog(contextPath+"/goods/newGoodsApply/addGoodsView","新品申请","copy",""+escape(selectionRow)+"");
-    	setTimeout(function(){
-    		//window.location.href = contextPath+"/goods/newGoodsApply/addGoodsView?data="+escape(selectionRow);
-    	},10);
     }
+	if($("#gridArchives").datagrid("getChecked").length > 1){
+		 $.messager.alert('提示','请选中一行进行复制新增商品！');
+		return false;
+	}
+	
+	var selectionRow = $("#gridArchives").datagrid("getSelections");
+    selectionRow = JSON.stringify(selectionRow);
+    openDialog(contextPath+"/goods/newGoodsApply/addGoodsView","新品申请","copy",""+escape(selectionRow)+"");
+	setTimeout(function(){
+//    		window.location.href = contextPath+"/goods/newGoodsApply/addGoodsView?data="+escape(selectionRow);
+	},10);
+    
 }
 
 //删除

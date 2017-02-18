@@ -28,25 +28,26 @@
       <form action="" id="formGoodsArchives" method="post">
         <div class="ub ub-ac">
             <div class="ubtns">
-            	<shiro:hasPermission name="JxcGoodsArchive:add">
+            	<shiro:hasPermission name="JxcNewGoodsApply:search">
+					<div class="ubtns-item" onclick="goodsSearch()">查询</div>
+			   	</shiro:hasPermission>
+            	<shiro:hasPermission name="JxcNewGoodsApply:append">
 					<div class="ubtns-item" onclick="addGoodsView()">新增</div>
 			   	</shiro:hasPermission>
-			   	<shiro:hasPermission name="JxcGoodsArchive:copy">
+			   	<shiro:hasPermission name="JxcNewGoodsApply:copy">
 					<div class="ubtns-item" onclick="copyGoodsView()">复制</div>
 			   	</shiro:hasPermission>
-			   	
-			   	<shiro:hasPermission name="JxcGoodsArchive:copy">
+			   	<shiro:hasPermission name="JxcNewGoodsApply:audit">
 					<div class="ubtns-item" onclick="auditingGoods()">审核</div>
 			   	</shiro:hasPermission>
 			   	
-			   	<shiro:hasPermission name="JxcGoodsArchive:export">
+			   	<shiro:hasPermission name="JxcNewGoodsApply:import">
                    <div class="ubtns-item" onclick="toImportproduct()">导入</div>
 			   	</shiro:hasPermission>
-			   	
-			   	<shiro:hasPermission name="JxcGoodsArchive:export">
+			   	<shiro:hasPermission name="JxcNewGoodsApply:export">
 					<div class="ubtns-item" onclick="exportData()">导出</div>
 			   	</shiro:hasPermission>
-			   	<shiro:hasPermission name="JxcGoodsArchive:delete">
+			   	<shiro:hasPermission name="JxcNewGoodsApply:delete">
 					<div class="ubtns-item" onclick="delGoods()">删除</div>
 			   	</shiro:hasPermission> 
 					<div class="ubtns-item" onclick="toClose()">退出</div>
@@ -66,9 +67,7 @@
                     <input type="hidden" name="startCount" id="startCount" value="">
                     <input type="hidden" name="endCount" id="endCount" value="">
                     <input class="uinp uw-400" type="text" name="goodsNameOrCode" maxlength="50" id="goodsNameOrCode" placeholder="输入货号、条码、商品名称进行查询">
-                
                 </div>
- 				<input type="button" class="ubtn  umar-r10" value="查询" onclick="goodsSearch()">
  				
 				<div class="ub ub-ac umar-l10">
 					<input class="ub radioItem" type="radio" name="examineStatus" value="0" checked="checked"/><label>未审核商品</label>
