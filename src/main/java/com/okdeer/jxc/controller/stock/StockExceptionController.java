@@ -19,7 +19,6 @@ import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.report.service.StockExceptionServiceApi;
 import com.okdeer.jxc.report.vo.StockIndexVo;
-import com.okdeer.jxc.utils.UserUtil;
 
 /***
  * 
@@ -71,7 +70,6 @@ public class StockExceptionController extends BaseController<T> {
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
-			vo.setBranchId(UserUtil.getCurrBranchId());
 			PageUtils<StockIndexVo> stockExceptionList = stockExceptionServiceApi.getStockExceptionList(vo);
 			LOG.info(LogConstant.PAGE, stockExceptionList.toString());
 			return stockExceptionList;
@@ -95,7 +93,6 @@ public class StockExceptionController extends BaseController<T> {
 	public RespJson exportList(HttpServletResponse response, StockIndexVo vo) {
 		RespJson resp = RespJson.success();
 		try {
-			vo.setBranchId(UserUtil.getCurrBranchId());
 			List<StockIndexVo> exportList = stockExceptionServiceApi.exportStockExceptionList(vo);
 			String fileName = "库存异常查询数据";
 			String templateName = ExportExcelConstant.STOCKEXCEPTION;
