@@ -31,11 +31,11 @@
 	           <div class="ub umar-t8">
 	               <div class="ub ub-ac uw-300 ">
 	                   <div class="umar-r10 uw-70 ut-r">商品名称:</div>
-	                   <input class="uinp uninput" type="text" id="remark" name="remark" value="${stockFormVo.remark}" readonly="readonly">
+	                   <input class="uinp uninput" type="text" id="remark" name="remark" value="${stockFormVo.skuName}" readonly="readonly">
 	               </div>
 	               <div class="ub ub-ac uw-300 ">
 	                   <div class="umar-r10 uw-70 ut-r">单价:</div>
-	                   <input class="uinp uninput" type="text" id="remark" name="remark" value="${stockFormVo.remark}" readonly="readonly">
+	                   <input class="uinp uninput" type="text" id="remark" name="remark" value="${stockFormVo.salePrice}" readonly="readonly">
 	               </div>
 	           </div>
                <div class="ub ub-ac umar-l10">
@@ -51,11 +51,11 @@
 	           <div class="ub umar-t8">
 	               <div class="ub ub-ac uw-300 ">
 	                   <div class="umar-r10 uw-70 ut-r">金额:</div>
-	                   <input class="uinp uninput" type="text" id="remark" name="remark" value="${stockFormVo.remark}" readonly="readonly">
+	                   <input class="uinp uninput" type="text" id="amount" name="amount" value="${stockFormVo.amount}" readonly="readonly">
 	               </div>
 	               <div class="ub ub-ac uw-300 ">
 	                   <div class="umar-r10 uw-70 ut-r">数量:</div>
-	                   <input class="uinp uninput" type="text" id="remark" name="remark" value="${stockFormVo.remark}" readonly="readonly">
+	                   <input class="uinp uninput" type="text" id="totalNum" name="totalNum" value="${stockFormVo.totalNum}" readonly="readonly">
 	               </div>
 	           </div>
                <div class="ub ub-ac umar-l10">
@@ -79,7 +79,8 @@
 	           </div>
                <div class="ub ub-ac uw-300 ">
                    <div class="umar-r10 uw-70 ut-r">方式:</div>
-                   <input class="uinp uninput" type="text" id="remark" name="remark" value="${stockFormVo.remark}" readonly="readonly">
+                   <input type="hidden" id="formType" name="formType" value="${stockFormVo.formType}" >
+                   <input class="uinp uninput" type="text" id="formType_text" name="formType_text" value="${stockFormVo.formType==1?'组合':'拆分'}" readonly="readonly">
                </div>
          </div>
          <div class="ub umar-t10">

@@ -19,8 +19,36 @@ $(document).on('change','.parentNode,.treeItem',function(){
             $(obj).prop('checked',flag);
         })
     }
+    filterCheckDom();
 });
 
+function filterCheckDom(){
+	$.each($('.levelContent.three li'),function(index,obj){
+		var checkItems = $(obj).find(".levelContent input[type='checkbox']:checked");
+		if(checkItems.length > 0){
+			$($(obj).find(".threeNode")[0]).prop('checked',true);
+		}
+	});
+	
+	$.each($('.levelContent.two').children('li'),function(index,obj){
+		var checkThreeItems = $(obj).find("input.threeNode:checked");
+		if(checkThreeItems.length > 0){
+			$($(obj).find(".twoNode")[0]).prop('checked',true);
+		}else{
+			$($(obj).find(".twoNode")[0]).prop('checked',false);
+		}
+	})
+	
+	$.each($("#content li"),function(index,obj){
+		var checkInputs = $(obj).children('.levelContent.two').find('input[type="checkbox"]:checked');
+		if(checkInputs.length > 0){
+			$($(obj).find('.oneNode')[0]).prop('checked',true);
+		}else{
+			$($(obj).find('.oneNode')[0]).prop('checked',false);
+		}
+	});
+	
+}
 
 //保存
 function saveRoleAuth(){

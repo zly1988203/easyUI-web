@@ -94,4 +94,23 @@ public interface PrintConstant {
 	 */
 	String MEMBER_ORDER_ALL_REPORT = "MemberOrderAllReport.jrxml";
 
+	/**
+	 * @Fields MEMBER_ORDER_LIST_REPORT : 会员消费明细模版
+	 */
+	String MEMBER_ORDER_LIST_REPORT = "MemberOrderListReport.jrxml";
+
+	/** 
+	 * @Fields COST_ROTARATE_REPORT : 库存成本周转率
+	 */
+	String COST_ROTARATE_REPORT = "costRotaRateReport.jrxml";
+	
+	/**
+	 * @Fields SALE_ROTARATE_REPORT : 库存销售周转率
+	 */
+	String SALE_ROTARATE_REPORT = "saleRotaRateReport.jrxml";
+	
+	/**
+	 * @Fields ROTARATE_PRINT_ERROR ：库存周转率打印失败
+	 */
+	String ROTARATE_PRINT_ERROR = "库存周转率打印失败{}";
 }
