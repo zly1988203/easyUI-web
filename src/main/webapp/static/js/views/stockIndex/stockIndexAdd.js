@@ -268,7 +268,7 @@ function specialRows(id,val){
 }
 
 //保存
-function addsaveOrder(){
+function saveStockIndexs(){
     $("#"+datagridId).datagrid("endEdit", gridHandel.getSelectRowIndex());
     var rows = gridHandel.getRowsWhere({skuName:'1'});
     console.log(rows);
