@@ -8,9 +8,8 @@ var datagridId = "stockIndexAdd";
 var isClickSaveData = false;
 // datagrid对象
 var addStockIndexGridDg;
-
 var loginBranchId;
-
+var maxNum = 999999.99;
 $(function() {
 	loginBranchId = $("#loginBranchId").val();
 	// 初始化表格
@@ -23,6 +22,10 @@ $(function() {
 });
 
 function changeUppermit(newV,oldV){
+	if(newV > maxNum){
+		newV = maxNum;
+		$(this).numberbox('setValue',newV);
+	}
 	var temp_uper = $("#upperLimit").numberbox('getValue');
 	var temp_lowe = $("#lowerLimit").numberbox('getValue');
 	if(temp_uper < temp_lowe){
@@ -35,6 +38,10 @@ function changeUppermit(newV,oldV){
 }
 
 function changeLowerLimit(newV,oldV){
+	if(newV > maxNum){
+		newV = maxNum;
+		$(this).numberbox('setValue',newV);
+	}
 	var temp_uper = $("#upperLimit").numberbox('getValue');
 	var temp_lowe = $("#lowerLimit").numberbox('getValue');
 	if(temp_uper < temp_lowe){
@@ -215,6 +222,10 @@ function onChangeStockBegin(newV,oldV){
 		$(this).numberbox('setValue',oldV);
 		return;
 	}else{
+		if(newV > maxNum){
+			newV = maxNum
+			$(this).numberbox('setValue',newV);
+		}
 		gridHandel.getRows()[cuRindex].upperLimit = newV;
 	}
 	
@@ -229,6 +240,10 @@ function onChangeStockEnd(newV,oldV){
 		$(this).numberbox('setValue',oldV);
 		return;
 	}else{
+		if(newV > maxNum){
+			newV = maxNum
+			$(this).numberbox('setValue',newV);
+		}
 		gridHandel.getRows()[curRindex].lowerLimit = newV;
 	}
 	
