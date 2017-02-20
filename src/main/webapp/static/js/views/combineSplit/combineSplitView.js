@@ -47,7 +47,7 @@ function initDatacombineSplitView(){
     $("#combineSplitView").datagrid({
         //title:'普通表单-用键盘操作',
         method:'get',
-    	url:contextPath+"/stock/adjust/getStockFormDetailList?id="+formId,
+    	url:contextPath+"/stock/combineSplit/getCombineSplitDetailList?id="+formId,
         align:'center',
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号

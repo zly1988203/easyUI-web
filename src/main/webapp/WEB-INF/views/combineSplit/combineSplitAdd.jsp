@@ -19,7 +19,7 @@
 			<input type="hidden" name="skuCode" id="skuCode">
 			<div class="ub ub-ac">
 				<div class="ubtns">
-	                <div class="ubtns-item" onclick="modifyPriceOrderCx();">保存</div>
+	                <div class="ubtns-item" onclick="saveCombineSplit();">保存</div>
 					<div class="ubtns-item" onclick="selectGoods();">商品选择</div>
 		            <div class="ubtns-item" onclick="window.parent.closeTab()">关闭</div>
 	            </div>
@@ -35,7 +35,7 @@
                <div class="ub ub-ac uw-280 umar-l20">
                     <div class="umar-r10 uw-70 ut-r">方式:</div>
                        <!--select-->
-				        <select class="easyui-combobox uselect" name="io" id="io" data-options="editable:false,onChange:selectTion" >
+				        <select class="easyui-combobox uselect" name="formType" id="formType" data-options="editable:false,onChange:selectTion" >
 								<option value="1" >组合</option> 
 								<option value="2" >拆分</option>
 				        </select>
@@ -70,7 +70,7 @@
 				</div>	
 				<div class="ub ub-ac uw-280 umar-l20">
 					 <div class="umar-r10 uw-70 ut-r" >数量:</div>
-                     <input class="uinp ub ub-f1 easyui-numberbox" data-options="min:0,precision:2,onChange:changeAmount"   type="text" id="applyNum" name="applyNum">
+                     <input class="uinp ub ub-f1 easyui-numberbox" data-options="min:0,precision:2,onChange:changeAmount"   type="text" id="totalNum" name="totalNum">
 				</div>
 			</div>
 			<div class="ub umar-t8">

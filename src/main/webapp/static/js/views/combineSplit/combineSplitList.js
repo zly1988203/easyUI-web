@@ -28,14 +28,14 @@ function initcombineSplitList() {
         columns: [[
        			{field:'check',checkbox:true},
                 {field:'formNo',title:'单据编号',width:'140px',align:'left',formatter:function(value,row,index){
-                	if(row.status  == 0){
-                		var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'组合拆分单详情\',\''+contextPath+'/stock/combineSplit/combineSplitEdit?id='+row.id+'\')">' + value + '</a>';
-                    	return strHtml;
-                	}else if(row.status == 1){
-                		var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'组合拆分单详情\',\''+contextPath+'/stock/combineSplit/combineSplitView?id='+row.id+'\')">' + value + '</a>';
-                    	return strHtml;
-
-                	}
+//                	if(row.status  == 0){
+//                		var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'组合拆分单详情\',\''+contextPath+'/stock/combineSplit/combineSplitEdit?id='+row.id+'\')">' + value + '</a>';
+//                    	return strHtml;
+//                	}else if(row.status == 1){
+//
+//                	}
+                	var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'组合拆分单详情\',\''+contextPath+'/stock/combineSplit/combineSplitView?id='+row.id+'\')">' + value + '</a>';
+                	return strHtml;
                 }},
                 {field:'status',title: '审核状态', width: '100px', align: 'left',formatter:function(value,row,index){
                 	if(value == '0'){
