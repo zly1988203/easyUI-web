@@ -330,14 +330,14 @@ function initPurReportSupplierGrid() {
                 },
             },
             {field: 'branchName', title: '店铺名称', width: 185, align: 'left'},
-            {field: 'saleNum', title: '销售数量', width:80, align: 'right',
+           /* {field: 'saleNum', title: '销售数量', width:80, align: 'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
-            },
+            },*/
             {field: 'saleAmount', title: '销售金额', width:80, align: 'right',
             	formatter:function(value,row,index){
                     if(row.isFooter){	

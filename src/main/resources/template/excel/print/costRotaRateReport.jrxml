@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PaymentOrder" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isSummaryWithPageHeaderAndFooter="true" isIgnorePagination="true" uuid="9aa590ec-4b5f-4eaa-bb10-b5ce33e01e43">
 	<property name="ireport.zoom" value="5.0"/>
-	<property name="ireport.x" value="1869"/>
+	<property name="ireport.x" value="534"/>
 	<property name="ireport.y" value="96"/>
 	<parameter name="startDate" class="java.lang.String"/>
 	<parameter name="endDate" class="java.lang.String"/>
@@ -212,7 +212,7 @@
 			<staticText>
 				<reportElement x="178" y="3" width="25" height="23" uuid="6c4292dd-1166-4ded-850e-54d3fea830c3"/>
 				<textElement>
-					<font size="8"/>
+					<font size="8" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[期间天数]]></text>
 			</staticText>
@@ -236,7 +236,7 @@
 			<staticText>
 				<reportElement x="486" y="4" width="43" height="23" uuid="098fc789-8a79-4e8e-94fe-b0e349612a94"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="8"/>
+					<font size="8" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[库存周转天数]]></text>
 			</staticText>
@@ -369,7 +369,7 @@
 				<textFieldExpression><![CDATA[$F{endCostAmount}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="178" y="0" width="25" height="21" uuid="48a627e4-5c91-4b27-b10e-06bfde8efae2"/>
+				<reportElement x="178" y="0" width="26" height="21" uuid="48a627e4-5c91-4b27-b10e-06bfde8efae2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
