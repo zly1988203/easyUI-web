@@ -51,37 +51,37 @@ function initDatagridRequire() {
 		columns : [ [ {
 			field : 'branchCode',
 			title : '机构编号',
-			width : '220px',
+			width : '100px',
 			align : 'left'
 		}, {
 			field : 'branchName',
 			title : '机构名称',
-			width : '220px',
+			width : '150px',
 			align : 'left'
 		}, {
 			field : 'categoryCode',
 			title : '类别编号',
-			width : '56px',
+			width : '100px',
 			align : 'left'
 		}, {
 			field : 'categoryName',
 			title : '类别名称',
-			width : '65px',
+			width : '165px',
 			align : 'left'
 		}, {
 			field : 'skuCode',
 			title : '货号',
-			width : '65px',
+			width : '100px',
 			align : 'left'
 		}, {
 			field : 'skuName',
 			title : '商品名称',
-			width : '65px',
+			width : '165px',
 			align : 'left'
 		}, {
 			field : 'barCode',
 			title : '条码',
-			width : '65px',
+			width : '100px',
 			align : 'left'
 		}, {
 			field : 'skuSpec',
@@ -96,22 +96,22 @@ function initDatagridRequire() {
 		}, {
 			field : 'actual',
 			title : '库存数量',
-			width : '65px',
+			width : '100px',
 			align : 'left'
 		}, {
 			field : 'lowerLimit',
 			title : '库存下限',
-			width : '65px',
+			width : '100px',
 			align : 'left'
 		}, {
 			field : 'upperLimit',
 			title : '库存上限',
-			width : '65px',
+			width : '100px',
 			align : 'left'
 		}, {
 			field : 'referenceNum',
 			title : '参考进货数量',
-			width : '65px',
+			width : '100px',
 			align : 'left'
 		} ] ],
 		onLoadSuccess : function(data) {
