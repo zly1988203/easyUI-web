@@ -208,15 +208,36 @@ pageEncoding="UTF-8"%>
 							   onkeyup="checkPositiveInteger(this);"
 							   onafterpaste="checkPositiveInteger(this)">%
 					</div>
-                <div class="ub ub-ac uw-300">
+                <div id="createDate" class="ub ub-ac uw-300 ">
                     <div class="umar-r10 uw-60 ut-r">建档时间:</div>
                     <input id="createDate" name="createDate"   class="uinp uinp-no-more" type="text" readonly="readonly">
                 </div>
-                <div class="ub ub-ac uw-300">
+                <div id="createUserName" class="ub ub-ac uw-300 ">
                     <div class="umar-r10 uw-60 ut-r">建档人:</div>
                     <input id="createUserName" name="createUserName"   class="uinp uinp-no-more" type="text" readonly="readonly" >
                 </div>
+                
+ <!--                 <div id="checkDate" class="ub ub-ac uw-300 ">
+                    <div class="umar-r10 uw-60 ut-r">审核时间:</div>
+                    <input id="checkDate" name="checkDate"   class="uinp uinp-no-more" type="text" readonly="readonly">
+                </div>
+                <div id="checkUserName" class="ub ub-ac uw-300 ">
+                    <div class="umar-r10 uw-60 ut-r">审核人:</div>
+                    <input id="checkUserName" name="checkUserName"   class="uinp uinp-no-more" type="text" readonly="readonly" >
+                </div> -->
+                
             </div>
+<!--             <div id="applyDiv" class="ub upad-4 ">
+             <div class="ub ub-ac uw-300">
+                    <div class="umar-r10 uw-60 ut-r">申请时间:</div>
+                    <input id="applyDate" name="applyDate"   class="uinp uinp-no-more" type="text" readonly="readonly">
+                </div>
+                <div class="ub ub-ac uw-300">
+                    <div class="umar-r10 uw-60 ut-r">申请机构:</div>
+                    <input id="applyUserName" name="applyUserName"   class="uinp uinp-no-more" type="text" readonly="readonly" >
+                </div>
+            </div> -->
+            
             <div class="ub upad-4">
                 <div class="umar-r10 uw-60 ut-r">备注:</div>
                 <textarea id="remark" name="remark" class="uh-40 umar-r30 ubor" style="width: 800px;"maxlength="100" type="text"></textarea>
