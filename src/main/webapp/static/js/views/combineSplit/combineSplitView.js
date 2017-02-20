@@ -4,6 +4,7 @@
  */
 var splicViewGID = 'combineSplitView';
 var editNumFlag = 1;
+var maxNum = 999999.99;
 var oldData;
 $(function(){
     initDatacombineSplitView();
@@ -17,6 +18,10 @@ $(function(){
 });
 
 function changeAmount(newV,oldV){
+	if(newV > maxNum){
+		newV = maxNum;
+		$(this).numberbox('setValue',newV);
+	}
 	var temp_amout = newV*$("#salePriceMain").val() 
 	$("#amountMain").val(parseFloat(temp_amout).toFixed(4));
 	specialRows('realNum',newV);
@@ -184,11 +189,13 @@ function onChangeRealNum(newV,oldV) {
 	  messager("商品数量输入有误");
 	  gridHandel.setFieldValue('realNum',oldV);
       return;
+	}else if(newV > maxNum){
+		newV = maxNum
+		gridHandel.setFieldValue('realNum',newV);
 	}
 	var _selecIndex = gridHandel.getSelectRowIndex();
 	var _tempRows = gridHandel.getRows();
 	var _tempData = _tempRows[_selecIndex];
-	console.log(_tempData);
 	if(_tempData){
 		_tempData.amount = parseFloat(newV*_tempData.salePrice).toFixed(4);
 	}

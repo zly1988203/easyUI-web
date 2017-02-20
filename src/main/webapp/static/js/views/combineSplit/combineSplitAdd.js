@@ -1,5 +1,6 @@
 var combineSplitEditDg;
 var datagridId = "combineSplitEditGrid";
+var maxNum = 999999.99;
 $(function(){
 	$("#createBranchName").val(sessionBranchCodeName);
 	$("#createBranchId").val(sessionBranchId);
@@ -16,6 +17,10 @@ function selectTion(newV,oldV){
 }
 
 function changeAmount(newV,oldV){
+	if(newV > maxNum){
+		newV = maxNum;
+		$(this).numberbox('setValue',newV);
+	}
 	var temp_amout = newV*$("#salePriceMain").val() 
 	$("#amountMain").val(parseFloat(temp_amout).toFixed(4));
 	specialRows('componentNum',newV);
@@ -118,6 +123,9 @@ function onChangeRealNum(newV,oldV) {
 	  messager("商品数量输入有误");
 	  gridHandel.setFieldValue('componentNum',oldV);
       return;
+	}else if(newV > maxNum){
+		newV = maxNum
+		gridHandel.setFieldValue('componentNum',newV);
 	}
 	var _selecIndex = gridHandel.getSelectRowIndex();
 	var _tempRows = gridHandel.getRows();
