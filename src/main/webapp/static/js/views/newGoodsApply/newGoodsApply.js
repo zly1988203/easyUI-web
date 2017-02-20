@@ -194,7 +194,7 @@ function initDatagridArchives(){
              {field:'skuCode',title:'货号',width:'120px',align:'left'},
              {field:'skuName',title:'商品名称',width:'200px',align:'left',
              	formatter: function(value,row,index){
-                     return "<a href='#' onclick=\"openDialog('"+contextPath+"/goods/newGoodsApply/updateGoodsView?id="+row.id+"','修改新品申请','edit','"+row.id+"')\" class='ualine'>"+value+"</a>";
+                     return "<a href='#' onclick=\"openDialog('"+contextPath+"/goods/newGoodsApply/updateGoodsView?id="+row.id+"','新品申请','edit','"+row.id+"')\" class='ualine'>"+value+"</a>";
              	}
               },
              {field:'barCode',title:'条码',width:'120px',align:'left'},
@@ -513,8 +513,8 @@ function auditingGoods(){
 				},
 				success:function(result){
 					if(result['code'] == 0){
-						$("#gridArchives").datagrid('reload');
 						$.messager.alert('提示',"审核成功");
+						$("#gridArchives").datagrid('reload');
 					}else{
 						successTip(result['message']);
 					}
@@ -572,8 +572,7 @@ function toImportproduct(){
         type:1,
     }
     new newGoodsApplyUploadFile(function(data){
-    	initDatagridArchives();
-        
+    	goodsSearch();
     },param)
 }
 

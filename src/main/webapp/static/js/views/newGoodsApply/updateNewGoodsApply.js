@@ -334,7 +334,7 @@ function saveGoodsArchives(){
 	var barCode = $("#barCode").val();
 	var skuName = $("#skuName").val();
 	// 普通商品需要校验条码是否重复
-	var reqObj = reqObj = {"barCode":barCode,"skuName":skuName, "id":$("#id").val()};
+	var reqObj = {"barCode":barCode,"skuName":skuName, "id":$("#id").val()};
 	$.ajax({
 		url:contextPath+"/goods/newGoodsApply/checkBarCodeByOrdinary",
 		type:"POST",
@@ -352,11 +352,6 @@ function saveGoodsArchives(){
 			console.log(result);
 		}
 	});
-	/*if(pricingType == "ORDINARY"){
-
-	}else{
-		submitForm();
-	}*/
 }
 
 //提交表单

@@ -31,6 +31,7 @@ import com.okdeer.jxc.common.enums.GoodsStatusEnum;
 import com.okdeer.jxc.common.enums.GoodsTypeEnum;
 import com.okdeer.jxc.common.enums.PricingTypeEnum;
 import com.okdeer.jxc.common.enums.SaleWayEnum;
+import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.goods.entity.GoodsBrand;
 import com.okdeer.jxc.goods.entity.GoodsCategory;
 import com.okdeer.jxc.goods.entity.GoodsSelect;
@@ -38,6 +39,7 @@ import com.okdeer.jxc.goods.entity.NewGoodsApply;
 import com.okdeer.jxc.goods.service.GoodsBrandServiceApi;
 import com.okdeer.jxc.goods.service.GoodsCategoryServiceApi;
 import com.okdeer.jxc.goods.service.GoodsSelectServiceApi;
+import com.okdeer.jxc.goods.service.GoodsSkuServiceApi;
 import com.okdeer.jxc.goods.service.NewGoodsApplyServiceApi;
 import com.okdeer.jxc.supplier.entity.Supplier;
 import com.okdeer.jxc.supplier.service.SupplierServiceApi;
@@ -81,6 +83,9 @@ public class NewGoodsApplyImportComponent {
 	
 	@Reference(version = "1.0.0", check = false)
 	private NewGoodsApplyServiceApi newGoodsApplyService;
+	
+	@Reference(version = "1.0.0", check = false)
+	private GoodsSkuServiceApi goodsSkuService;
 	
 	@Resource 
 	private StringRedisTemplate redisTemplateTmp;
@@ -260,7 +265,7 @@ public class NewGoodsApplyImportComponent {
 	private void handelExcelSuccessData( NewGoodsApplyImportHandle goodsSelectImportHandle) {
 		List<JSONObject> successDatas =  goodsSelectImportHandle.getExcelListSuccessData();
 		for(JSONObject obj : successDatas) {
-			//类别
+			//类别校验
 			String categoryCode = obj.getString("categoryCode");
 			if(StringUtils.isBlank(categoryCode)){
 				obj.element("error", "商品类别编号为空");
@@ -276,7 +281,7 @@ public class NewGoodsApplyImportComponent {
 				}
 			}
 			
-			//品牌
+			//品牌校验
 			String brandName = obj.getString("brandName");
 			String brandCode = null;
 			GoodsBrand goodsBrand = new GoodsBrand();
@@ -295,7 +300,7 @@ public class NewGoodsApplyImportComponent {
 				obj.put("brandId", goodsBrand.getId());
 			}
 			
-			//供应商
+			//供应商校验
 			Supplier supplier = supplierService.getDefaultSupplierByBranchId(UserUtil.getCurrBranchId());
 			obj.put("supplierId", supplier.getId());
 			obj.put("supplierCode", supplier.getSupplierCode());
@@ -303,20 +308,40 @@ public class NewGoodsApplyImportComponent {
 			obj.put("branchId", UserUtil.getCurrBranchId());
 			obj.put("createUserId", UserUtil.getCurrUserId());
 			
-			//1 查询新品申请库中是否存在
-			NewGoodsApply newGoodsApply = new NewGoodsApply();
+			
+			//商品名称、条码校验
 			String barCode = obj.getString("barCode");
 			String skuName = obj.getString("skuName");
-			newGoodsApply.setBarCode(barCode.trim());
-			newGoodsApply.setSkuName(skuName.trim());
-			Integer count1 = newGoodsApplyServiceApi.checkNewGoodsApply(newGoodsApply);
-			if(count1>0) {
-				obj.element("error", "商品在新品申请库中已存在");
+			if(StringUtils.isNotBlank(skuName)) {
+				//1 检查商品名称在新品申请库中重复
+				Integer skuNameSum = newGoodsApplyServiceApi.queryCountBySkuName(skuName.trim(), "");
+				if(skuNameSum>0) {
+					obj.element("error", "商品名称在新品申请库中重复");
+					continue;
+				}
+				
+				//2 检查标准库中商品名称在标准库重复
+				boolean isExistsSkuName = goodsSkuService.isExistsBySkuName(skuName.trim(), "");
+				if (isExistsSkuName) {
+					obj.element("error", "商品名称在标准库重复");
+					continue;
+				} 
 			}
-			//2 查询标准商品库是否存在
-			Integer count2 = newGoodsApplyServiceApi.checkGoodsSku(newGoodsApply);
-			if(count2>0) {
-				obj.element("error", "商品标准库中已存在");
+			
+			if(StringUtils.isNotBlank(barCode)) {
+				//3  查询新品申请库商品条码是否存在
+				Integer barCodeSum = newGoodsApplyServiceApi.queryCountBySkuName(barCode.trim(), "");
+				if(barCodeSum>0) {
+					obj.element("error", "商品条码在新品申请库中重复");
+					continue;
+				}
+				
+				//4  查询标准库商品条码是否存在
+				boolean isExistsBarCode = goodsSkuService.isExistsBarCodeByOrdinary(barCode.trim(),"");
+				if(isExistsBarCode) {
+					obj.element("error", "商品条码在标准库中重复");
+					continue;
+				}
 			}
 		}
 	}

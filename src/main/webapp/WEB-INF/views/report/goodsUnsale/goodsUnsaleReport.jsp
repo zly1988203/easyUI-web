@@ -55,13 +55,13 @@
 	                <div class="uinp-more" onclick="selectGoods()">...</div>
                  </div>
                   <div class="ub ub-ac  umar-l20">
-                    <input  type="checkbox" name="check1" id="check1">
+                    <input  type="checkbox" name="checkStockTime" id="checkStockTime">
                     <div class="umar-r10 uw-70 ut-r">过滤掉近</div>
                     <input class="uinp ub uw-20" type="text" name="unStockTime" id="unStockTime">
                     <div class="umar-r10 uw-120 ut-r">天内无入库的商品</div>
                 </div> 
                 <div class="ub ub-ac  umar-l20">
-                    <input  type="checkbox" name="check2" id="check2">
+                    <input  type="checkbox" name="checkPullTime" id="checkPullTime">
                     <div class="umar-r10 uw-70 ut-r">过滤掉</div>
                     <input class="uinp ub uw-20" type="text" name="pullTime" id="pullTime">
                     <div class="umar-r10 uw-120 ut-r">天前引入的新品</div>

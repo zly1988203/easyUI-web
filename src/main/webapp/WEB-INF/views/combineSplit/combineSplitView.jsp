@@ -14,20 +14,92 @@
     </style>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
-    <div class="ub ub-ver ub-f1 umar-4  ubor">
-        <div class="ub ub-ac upad-4">
-            <div class="ubtns">
-            	<input type="hidden" id="close" value="${close}"/>
+    <div class="ub ub-ver ub-f1 upad-8  ubor">
+        <div class="ub ub-ac">
+			<div class="ubtns">
+	            <input type="hidden" id="close" value="${close}"/>
+	            <c:if test="${stockFormVo.status == 0}">
+	            	<div class="ubtns-item"  onclick="saveCombineSplit()">保存</div>
+	                <div class="ubtns-item"  onclick="checkCombine()">审核</div>
+	                <div class="ubtns-item"  onclick="delCombine()">删除</div>
+	            </c:if>
                 <div class="ubtns-item" id="toBackByJSButton" onclick="back()">关闭</div>
-            </div>
-        </div>
-	<div class="already-examine" id="already-examine"><span>已审核</span></div>
+	        </div>
+		</div>
+		
+		<div class="already-examine" id="already-examine"><span><c:if test="${stockFormVo.status == 0}">未审核</c:if><c:if test="${stockFormVo.status != 0}">已审核</c:if></span></div>
 
-	<form action="" id="searchForm" method="post">
+		<form action="" id="searchForm" method="post">
  			<input type="hidden"  name="id" value="${stockFormVo.id}">
  		</form>
-        <div class="ub uline umar-t10"></div>
-        <div class="ub umar-t10">
+        <div class="ub uline umar-t8"></div>
+        <div class="ub umar-t8">
+			<div class="ub ub-ac uw-280">
+			 	 <div class="umar-r10 uw-70 ut-r" >机构:</div>
+                 <input type="hidden" name="branchId" id="branchId" class="uinp" value="${stockFormVo.branchId }"/>
+		 		 <input type="hidden" id="formId" name="formId" value="${stockFormVo.id}">
+				 <input type="text" name="branchName" id="branchName"class="uinp ub ub-f1" readonly="readonly" value="${stockFormVo.branchName }" />
+				 <%-- <c:if test="${stockFormVo.status == 0}">
+				 	<div class="uinp-more" onclick="searchBranch()">...</div>
+				 </c:if> --%>
+			</div>	
+            <div class="ub ub-ac uw-280 umar-l20">
+                <div class="umar-r10 uw-70 ut-r">方式:</div>
+                <input type="hidden" id="formType" name="formType" value="${stockFormVo.formType}" >
+                <input class="uinp " type="text" id="formType_text" name="formType_text" value="${stockFormVo.formType==1?'组合':'拆分'}" readonly="readonly">
+            </div>
+			<div class="ub ub-ac umar-l10">
+				 <div class="umar-r10 uw-70 ut-r">制单人员:</div>
+                 <div class="utxt" id="validUserName">${stockFormVo.createUserName}</div>
+			</div>
+			<div class="ub ub-ac umar-l10">
+				 <div class="umar-r10 uw-60 ut-r">制单时间:</div>
+                 <div class="utxt" id="createTime"><fmt:formatDate value="${stockFormVo.createTime}" pattern="yyyy-MM-dd HH:mm"/></div>
+			</div>
+		</div>
+		<div class="ub umar-t8">
+			<div class="ub ub-ac uw-280">
+				<div class="umar-r10 uw-70 ut-r">商品:</div>
+				<input class="uinp ub ub-f1 uinp-no-more" readonly="readonly" type="text" id="skuNameMain" name="skuNameMain" value="${stockFormVo.skuName}" />
+			</div>
+			<div class="ub ub-ac uw-280 umar-l20">
+				<div class="umar-r10 uw-70 ut-r">单价:</div>
+				<input class="uinp ub ub-f1 uinp-no-more" readonly="readonly" type="text" id="salePriceMain" name="salePriceMain" value="${stockFormVo.salePrice}" />
+			</div>
+			<div class="ub ub-ac umar-l10">
+				 <div class="umar-r10 uw-70 ut-r">审核人员:</div>
+                 <div class="utxt" id="validUserName">${stockFormVo.validUserName}</div>
+			</div>
+			<div class="ub ub-ac umar-l10">
+				 <div class="umar-r10 uw-60 ut-r">审核时间:</div>
+                 <div class="utxt">${stockFormVo.validTime}</div>
+			</div>
+		</div>
+		<div class="ub umar-t8">
+			<div class="ub ub-ac uw-280">
+				 <div class="umar-r10 uw-70 ut-r" >金额:</div>
+                 <input class="uinp ub ub-f1 uinp-no-more ut-r" readonly="readonly"  type="text" id="amountMain" value="${stockFormVo.amount}" name="amountMain">
+			</div>	
+			<div class="ub ub-ac uw-280 umar-l20">
+				 <div class="umar-r10 uw-70 ut-r" >数量:</div>
+				 <c:if test="${stockFormVo.status != 0}">
+				 	<input class="uinp ub ub-f1 ut-r" readonly="readonly"  type="text" id="totalNum" value="${stockFormVo.totalNum}" name="totalNum">
+				 </c:if>
+				 <c:if test="${stockFormVo.status == 0}">
+				 	<div class="ub ub-f1">
+	                    <input class="easyui-numberbox uw" data-options="min:0,precision:2,onChange:changeAmount" value="${stockFormVo.totalNum}" type="text" id="totalNum" name="totalNum">
+					</div>
+				 </c:if>
+			</div>
+		</div>
+		<div class="ub umar-t8">
+			<div class="ub ub-ac uw-580">
+				 <div class="umar-r10 uw-70 ut-r" >备注:</div>
+                 <input class="uinp ub ub-f1" value="${stockFormVo.remark}" readonly="readonly"  type="text" id="remark" name="remark">
+			</div>	
+		</div>
+		
+        <%-- <div class="ub umar-t10">
 	           <div class="ub umar-t8">
 	               <div class="ub ub-ac uw-300 ">
 	                   <div class="umar-r10 uw-70 ut-r">商品名称:</div>
@@ -40,7 +112,7 @@
 	           </div>
                <div class="ub ub-ac umar-l10">
                    <div class="umar-r10 uw-70 ut-r">制单人员:</div>
-                   <div class="utxt">${stockFormVo.createUserName }</div>
+                   <div class="utxt">${stockFormVo.createUserName}</div>
                </div>
                <div class="ub ub-ac umar-l10">
                    <div class="umar-r10 uw-60 ut-r">制单时间:</div>
@@ -88,7 +160,7 @@
                    <div class="umar-r10 uw-70 ut-r">备注:</div>
                    <input class="uinp uninput" type="text" id="remark" name="remark" value="${stockFormVo.remark}" readonly="readonly">
                </div>
-         </div>
+         </div> --%>
            <!--datagrid-edit-->
            <div class="ub ub-f1 datagrid-edit umar-t8">
                <table id="combineSplitView" ></table>

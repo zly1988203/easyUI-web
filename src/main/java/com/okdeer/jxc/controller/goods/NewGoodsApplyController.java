@@ -454,8 +454,10 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 
 	/**
 	 * 
-	 * @Description: 普通商品验证条码是否重复  true：重复   false：不重复
+	 * @Description: 商品验证条码、名称是否重复
 	 * @param barCode
+	 * @param skuName
+	 * @param id
 	 * @return
 	 * @author zhongy
 	 * @date 2017年02月15日
@@ -463,31 +465,38 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 	@RequestMapping(value = "checkBarCodeByOrdinary", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson checkBarCodeByOrdinary(String barCode,String skuName,  String id) {
-		//1、校验标准库商品条码重复
-		boolean isExistsBarCode = goodsSkuService.isExistsBarCodeByOrdinary(barCode,id);
-		if (isExistsBarCode) {
-			RespJson json = RespJson.error("商品条码在标准库重复");
-			json.put("_data", barCode);
-			return json;
-		} 
-		//2、校验标准库商品名称重复
-		boolean isExistsSkuName = goodsSkuService.isExistsBySkuName(skuName, id);
-		if (isExistsSkuName) {
-			RespJson json = RespJson.error("商品名称在标准库重复");
-			json.put("_data", barCode);
-			return json;
-		} 
-		
-		//3、校验新品申请商品条码重复
-		NewGoodsApply newGoodsApply = new NewGoodsApply();
-		newGoodsApply.setBarCode(barCode);
-		newGoodsApply.setSkuName(skuName);
-		newGoodsApply.setId(id);
-		Integer count = newGoodsApplyService.checkNewGoodsApply(newGoodsApply);
-		if(count>0){
-			RespJson json = RespJson.error("商品名称或条码在新品申请中重复");
-			json.put("_data", barCode);
-			return json;
+		if(StringUtils.isNotBlank(barCode)){
+			//1、校验标准库商品条码重复
+			boolean isExistsBarCode = goodsSkuService.isExistsBarCodeByOrdinary(barCode.trim(),id);
+			if (isExistsBarCode) {
+				RespJson json = RespJson.error("商品条码在标准库重复");
+				json.put("_data", barCode);
+				return json;
+			} 
+			//2、校验新品申请库商品条码重复
+			Integer barCodeSum = newGoodsApplyService.queryCountByBarCode(barCode.trim(), id);
+			if(barCodeSum>0){
+				RespJson json = RespJson.error("商品条码在新品申请中重复");
+				json.put("_data", barCode);
+				return json;
+			}
+		}
+		if(StringUtils.isNotBlank(skuName)){
+			//3、校验标准库商品名称重复
+			boolean isExistsSkuName = goodsSkuService.isExistsBySkuName(skuName.trim(), id);
+			if (isExistsSkuName) {
+				RespJson json = RespJson.error("商品名称在标准库重复");
+				json.put("_data", barCode);
+				return json;
+			} 
+			
+			//4、校验新品申请库商品名称重复
+			Integer skuNameSum = newGoodsApplyService.queryCountBySkuName(skuName.trim(), id);
+			if(skuNameSum>0){
+				RespJson json = RespJson.error("商品名称在新品申请中重复");
+				json.put("_data", barCode);
+				return json;
+			}
 		}
 		RespJson json = RespJson.success();
 		json.put("_data", barCode);

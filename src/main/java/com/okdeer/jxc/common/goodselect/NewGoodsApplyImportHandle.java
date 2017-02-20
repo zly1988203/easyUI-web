@@ -257,23 +257,6 @@ public class NewGoodsApplyImportHandle implements GoodsSelectImportHandle {
 				}
 			}
 			
-			//进货价非空校验
-			/*String purchasePrice = obj.getString("purchasePrice");
-			if(StringUtils.isBlank(purchasePrice)){
-				obj.element("error", "零售价为空");
-				continue;
-			}
-			
-			//进货价数字校验
-			if(StringUtils.isNotBlank(purchasePrice)){
-				try {
-					Double.parseDouble(purchasePrice);
-				} catch (Exception e) {
-					obj.element("error", "进货价只能为数字");
-				}
-				continue;
-			}*/
-			
 			//批发价 特殊处理
 			String wholesalePrice = obj.getString("wholesalePrice");
 			if(StringUtils.isBlank(wholesalePrice)){
