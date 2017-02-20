@@ -425,12 +425,12 @@ function toImportStockIndex(type){
 }
 function updateListData(data){
     var nowRows = gridHandel.getRowsWhere({skuName:'1'});
-    var addDefaultData  = gridHandel.addDefault(data,gridDefault);
+//    var addDefaultData  = gridHandel.addDefault(data,gridDefault);
     var keyNames = {
     		unit:'skuUnit',
         	spec:'skuSpec'
     };
-    var rows = gFunUpdateKey(addDefaultData,keyNames);
+    var rows = gFunUpdateKey(data,keyNames);
     var argWhere ={skuCode:1};  //验证重复性
     var isCheck ={isGift:1 };   //只要是赠品就可以重复
     var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);

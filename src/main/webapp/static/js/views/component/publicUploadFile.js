@@ -40,6 +40,7 @@ function toUploadHandel(){
         success : function(data) {
             if(data.code==0){
                 $("#message").html(data.importInfo.message);
+                console.log(data.importInfo);
                 uploadFileCallBack(data.importInfo.list);
                 if(data.importInfo.errorFileUrl){
                     $("#errorUrl").html("<a href='"+contextPath+data.importInfo.errorFileUrl+"' target='_blank'>下载查看失败数据</a>");
