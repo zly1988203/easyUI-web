@@ -24,7 +24,7 @@ function initcombineSplitList() {
 		rownumbers : true, // 序号
 		pagination : true, // 分页
 		height : '100%',
-		pageSize : 20,
+		pageSize : 10,
         columns: [[
        			{field:'check',checkbox:true},
                 {field:'formNo',title:'单据编号',width:'140px',align:'left',formatter:function(value,row,index){
