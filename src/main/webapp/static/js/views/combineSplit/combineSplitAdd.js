@@ -1,6 +1,8 @@
 var combineSplitEditDg;
 var datagridId = "combineSplitEditGrid";
 $(function(){
+	$("#createBranchName").val(sessionBranchCodeName);
+	$("#createBranchId").val(sessionBranchId);
     //开始和结束时间
     $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
@@ -9,7 +11,7 @@ $(function(){
     
 });
 
-function selectTion(){
+function selectTion(newV,oldV){
 	
 }
 
@@ -112,8 +114,6 @@ function initCombineSplieEditGrid() {
 
 //监听商品数量
 function onChangeRealNum(newV,oldV) {
-	console.log('newV',newV);
-	console.log('oldV',oldV);
 	if("" == newV){
 	  messager("商品数量输入有误");
 	  gridHandel.setFieldValue('componentNum',oldV);
@@ -122,14 +122,9 @@ function onChangeRealNum(newV,oldV) {
 	var _selecIndex = gridHandel.getSelectRowIndex();
 	var _tempRows = gridHandel.getRows();
 	var _tempData = _tempRows[_selecIndex];
-	console.log(_tempData);
 	if(_tempData){
 		_tempData.amount = parseFloat(newV*_tempData.salePrice).toFixed(4);
-		//_tempData.componentNum = newV
-		console.log(_tempData.amount);
-		console.log('3333',_tempData);
 	}
-	
     updateFooter();
 }
 
@@ -160,24 +155,25 @@ function selectGoodsDialog(searchKey) {
 
 //商品选择 公共使用
 function gFunGoodsSelect(searchKey,branchId){
-	new publicGoodsService("PA",function(data){
-    	if(data.length==0){
-            return;
-        }
-    	if(data.length > 1){
-    		messager('只能选择一个组合商品');
-    		return;
-    	}
-    	
-    	$("#skuIdMain").val(data[0].skuId);
-    	$("#skuCodeMain").val(data[0].skuCode);
-    	$("#skuNameMain").val(data[0].skuName);
-    	$("#salePriceMain").val(data[0].salePrice);
-    	$("#totalNum").numberbox('setValue',1);
-    	$("#amountMain").val(parseFloat(data[0].salePrice).toFixed(4));
-    	//查询成分商品
-    	selectView($("#skuIdMain").val());
-    },searchKey,0,"","",branchId,"","0");
+	var comboxV = $("#formType").combobox('getValue');
+	publicNewGoodsService({goodsTypeList:comboxV},function(data){
+		  	if(data.length==0){
+	            return;
+	        }
+		  	if(data.length > 1){
+	    		messager('只能选择一个组合商品');
+	    		return;
+	    	}
+	    	
+	    	$("#skuIdMain").val(data[0].skuId);
+	    	$("#skuCodeMain").val(data[0].skuCode);
+	    	$("#skuNameMain").val(data[0].skuName);
+	    	$("#salePriceMain").val(data[0].salePrice);
+	    	$("#totalNum").numberbox('setValue',1);
+	    	$("#amountMain").val(parseFloat(data[0].salePrice).toFixed(4));
+	    	//查询成分商品
+	    	selectView($("#skuIdMain").val());
+	  });
 }
 
 /**
