@@ -13,8 +13,8 @@
     </style>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
-    <div class="ub ub-ver ub-f1 upad-8">
-		<form action="" class="umar-t12" id="searchForm" method="post">
+    <div class="ub ub-ver ub-f1 upad-4 umar-4">
+		<form action="" id="searchForm" method="post">
         <div class="ub ub-ac">
             <!--buttons-->
             <div class="ubtns">

@@ -34,10 +34,10 @@
 					<div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 					<div class="ubtns-item" onclick="toClose()">退出</div>
 				</div>
-			</div>
-			<div class="ub ub-ac umar-l20">
-				<%-- 引入时间选择控件 --%>
-				<%@ include file="/WEB-INF/views/component/dateSelectHour.jsp"%>
+				<div class="ub ub-ac umar-l20">
+					<%-- 引入时间选择控件 --%>
+					<%@ include file="/WEB-INF/views/component/dateSelectHour.jsp"%>
+				</div>
 			</div>
 			<div class="ub uline umar-t8"></div>
 			<div class="ub umar-t8">
@@ -49,12 +49,21 @@
 					<div class="uinp-more" onclick="selectBranches()">...</div>
 				</div>
 				<div class="ub ub-ac  umar-l20">
-					<div class="ub ub-ac  umar-l20">
-						<div class="umar-r10 uw-70 ut-r">货号/条码:</div>
-						<input class="uinp ub ub-f1" type="text" name="barCode"
-							id="barCode">
+					<div class="umar-r10 uw-70 ut-r">商品选择:</div>
+					<input type="hidden" name="skuId" id="skuId" />
+					<input class="uinp ub ub-f1" type="text" name="skuName" id="skuName">
+					<div class="uinp-more" onclick="selectGoods()">...</div>
+				</div>
+				<div class="ub ub-ac umar-l10">
+					<div class="umar-r10 uw-70 ut-r">报表类型</div>
+					<div class="ub ub-ac umar-r10">
+						<label> <input class="radioItem" type="radio" onClick="hiddenFiled(0)" value="0" checked name="reportType">销售周转率 </label>
+					</div>
+					<div class="ub ub-ac umar-r10">
+						<label> <input class="radioItem" type="radio" onClick="hiddenFiled(1)" value="1" name="reportType">成本周转率 </label>
 					</div>
 				</div>
+				
 			</div>
 		</form>
 		<div class="ub ub-f1 umar-t20">

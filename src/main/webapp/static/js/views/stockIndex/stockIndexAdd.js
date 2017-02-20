@@ -15,25 +15,48 @@ $(function() {
 	loginBranchId = $("#loginBranchId").val();
 	// 初始化表格
 	initStockIndexGridEdit();
-	// 初始化复选框
-	//initCheckbox();
-	$('#lowerLimit,#upperLimit').on('input',function(){
-    	var obj=$(this).attr('id');
-    	specialRows(obj,$(this).val());
-	})
-	
 	 if($("#close").val()){
     	$("#addButton").addClass("unhide");
     	$("#toBackByJSButton").attr("onclick","window.parent.closeTab()");
     }
 	
 });
+
+function changeUppermit(newV,oldV){
+	var temp_uper = $("#upperLimit").numberbox('getValue');
+	var temp_lowe = $("#lowerLimit").numberbox('getValue');
+	if(temp_uper < temp_lowe){
+		successTip('库存上限不能小于库存下限!');
+		$("#upperLimit").numberbox('setValue',oldV);
+	}else if(checkUpLowLimit()){
+		specialRows('upperLimit',newV);
+	}
+	
+}
+
+function changeLowerLimit(newV,oldV){
+	var temp_uper = $("#upperLimit").numberbox('getValue');
+	var temp_lowe = $("#lowerLimit").numberbox('getValue');
+	if(temp_uper < temp_lowe){
+		successTip('库存上限不能小于库存下限!');
+		$("#lowerLimit").numberbox('setValue',oldV);
+	}else if(checkUpLowLimit()){
+		specialRows('lowerLimit',newV);
+	}
+}
+
+function checkUpLowLimit(){
+	var rows = gridHandel.getRowsWhere({skuName:'1'});
+	if(rows.length <1){
+		return false;
+	}
+	return true;
+}
+
+
 var gridDefault = {
-//	oldPurPrice:0.00,
-//	oldDcPrice:0.00,
-//	oldVipPrice:0.00,
-//	oldWsPrice:0.00,
-//	oldSalePrice:0.00
+	lowerLimit:0,
+	upperLimit:0,
 }
 var gridHandel = new GridClass();
 // 初始化列表
@@ -63,7 +86,7 @@ function initStockIndexGridEdit() {
 		        pagination:true,    //分页
 		        fitColumns:true,    //每列占满
 		        showFooter:true,
-				height:'600px',
+		        height:'100%',
 				width:'100%',
 				data : [ {
 					"rows" : [$.extend({},gridDefault)]
@@ -169,7 +192,6 @@ function initStockIndexGridEdit() {
 					}] ],
 				onClickCell : function(rowIndex, field, value) {
 					gridHandel.setBeginRow(rowIndex);
-					//gridHandel.setSelectRowIndex(rowIndex);
 					gridHandel.setSelectFieldName(field);
 					var target = gridHandel.getFieldTarget(field);
 					if(target){
@@ -186,22 +208,29 @@ function initStockIndexGridEdit() {
 
 
 function onChangeStockBegin(newV,oldV){
-	console.log('newV1',newV);
-	console.log('oldV1',oldV);
-	console.log(gridHandel.getSelectRowIndex());
-	console.log(gridHandel.getRows());
-	var temp_index = gridHandel.getSelectRowIndex();
-	var currentDatad = $("#"+datagridId).datagrid('getRows');
+	var cuRindex = gridHandel.getSelectRowIndex();
+	var curLowLimit = gridHandel.getFieldValue(cuRindex,'lowerLimit');
+	if(newV < curLowLimit ){
+		successTip('库存上限不能小于库存下限');
+		$(this).numberbox('setValue',oldV);
+		return;
+	}else{
+		gridHandel.getRows()[cuRindex].upperLimit = newV;
+	}
 	
-//	if(currentDatad.upperLimit < currentDatad.lowerLimit ){
-//		messager('库存上限不能小于库存下限');
-//		return;
-//	}
+	
 }
 
 function onChangeStockEnd(newV,oldV){
-	console.log('newV',newV);
-	console.log('oldV',oldV);
+	var curRindex = gridHandel.getSelectRowIndex();
+	var curUpVal = gridHandel.getFieldValue(curRindex,'upperLimit');	
+	if(newV > curUpVal){
+		successTip('库存上限不能小于库存下限');
+		$(this).numberbox('setValue',oldV);
+		return;
+	}else{
+		gridHandel.getRows()[curRindex].lowerLimit = newV;
+	}
 	
 }
 
@@ -245,7 +274,7 @@ function addsaveOrder(){
     console.log(rows);
     $(gridHandel.getGridName()).datagrid("loadData",rows);
     if(rows.length==0){
-        messager("表格不能为空");
+        successTip("表格不能为空");
         return;
     }
     var isCheckResult = true;
@@ -328,7 +357,7 @@ function selectGoodsDialog(searchKey) {
 	var branchId=null;
 	//判定供应商是否存在
     if($("#branchId").val()==""){
-        messager("请先选择机构");
+        successTip("请先选择机构");
         return;
     }
     branchId=$("#branchId").val();
@@ -344,7 +373,7 @@ function gFunGoodsSelect(searchKey,branchId){
 	        $("#"+datagridId).datagrid("deleteRow", gridHandel.getSelectRowIndex());
 	        $("#"+datagridId).datagrid("acceptChanges");
 	    }
-        var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
+        var nowRows = gridHandel.getRowsWhere({skuName:'1'});
         var addDefaultData  = gridHandel.addDefault(data,gridDefault);
         var keyNames = {
         	unit:'skuUnit',
@@ -395,36 +424,17 @@ function toImportStockIndex(type){
     },param)
 }
 function updateListData(data){
-    var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
+    var nowRows = gridHandel.getRowsWhere({skuName:'1'});
     var addDefaultData  = gridHandel.addDefault(data,gridDefault);
     var keyNames = {
-    		upperLimit : 'upperLimit',
-    		lowerLimit:'lowerLimit'
+    		unit:'skuUnit',
+        	spec:'skuSpec'
     };
     var rows = gFunUpdateKey(addDefaultData,keyNames);
-    if(data.length>0){
-    	var obj = data[0];
-    	var arrKey = [
-    	              {"upperLimit":"upperLimit"},
-    	              {"lowerLimit":"lowerLimit"}
-    	             ]
-    	$.each(obj,function(key,val){
-			var d = obj;
-			var c = key;
-    		$.each(arrKey,function(i,item){
-    			if(item[key]&&obj[key]){
-    				$("#"+item[key]).attr("checked","checked");
-    				 datagridUtil.isCheckBoxChecked(item[key]);
-    			}
-    		})
-    	})
-    }
-    
     var argWhere ={skuCode:1};  //验证重复性
     var isCheck ={isGift:1 };   //只要是赠品就可以重复
     var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
-
-    $("#addModifyPriceGrid").datagrid("loadData",newRows);
+    $("#"+datagridId).datagrid("loadData",newRows);
 }
 
 /**
