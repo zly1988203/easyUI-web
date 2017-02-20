@@ -162,7 +162,12 @@ function initDatagridOrders(){
 		height:'100%',
 		columns:[[  
 		          {field:'id',title:'商品id',hidden:true},  
-		          {field:'skuCode',title:'货号'},  
+	              {field:'skuCode',title:'货号',width:'120px',align:'left',
+	            	 formatter: function(value,row,index){
+	            		 var httpUrl=contextPath + "/goods/report/toEdit"; 
+	                     return "<a href='#' onclick=\"openDialog('" + httpUrl + "','修改商品档案','" + row.skuId + "','" + row.branchId + "')\" class='ualine'>"+value+"</a>";
+	            	 }
+	              },
 		          {field:'skuName',title:'商品名称'}, 
 		          {field:"barCode",title:"条码",sortable:true,tooltip:true,width:100},
 		          {field:"memoryCode",title:"助记码",sortable:true,tooltip:true,width:80},
@@ -407,7 +412,6 @@ function resetFrom(){
 }
 //打印
 function printReport(){
-	debugger;
 	var supplierId=$("#supplierId").val();
 	var categoryCode=$("#categoryCode").val();
 	/*var brandId=$("#brandId").val();*/
@@ -420,3 +424,29 @@ function printReport(){
 	parent.addTabPrint("reportPrint"+branchName,"打印",contextPath+"/goods/report/printReport?"+"&categoryCode="+categoryCode+"&skuCode="+skuCode+"&branchName="+branchName+"&barCode="+skuCode
 			+"&operater="+operater+"&operaterNum="+operaterNum);
 }
+
+//对话框
+var dialogTemp;
+//打开对话框
+function openDialog(argUrl, argTitle, skuId,branchId) {
+	dialogTemp = $('<div/>').dialog({
+		href : argUrl,
+		width : 940,
+		height : 620,
+		title : argTitle,
+		closable : true,
+		resizable : true,
+		onClose : function() {
+			$(dialogTemp).panel('destroy');
+		},
+		modal : true,
+		onLoad : function() {
+			initGoodsInfo(skuId,branchId);
+		}
+	})
+}
+//关闭对话框
+function closeDialog() {
+	$(dialogTemp).panel('destroy');
+}
+
