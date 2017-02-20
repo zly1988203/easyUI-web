@@ -81,7 +81,7 @@ function initDatagrid(){
         showFooter:true,
         columns:[[
             {field:'check',checkbox:true},
-            {field:'roleCode',title:'角色编码',sortable:true,width:120,formatter:function(value,row,index){
+            {field:'roleCode',title:'角色编码',sortable:true,width:180,formatter:function(value,row,index){
             	if(updatePermission){
             		return "<a style='text-decoration: underline;' onClick='toUpdateRole(\""+row.id+"\")'>" + value + "</a>"
             	}else{
@@ -89,7 +89,7 @@ function initDatagrid(){
             	}
             }},    
             {field:'roleName',title:'角色名称',sortable:true,width:180},
-            {field:'branchTypeStr',title:'机构类型',sortable:true,width:180},
+            {field:'branchTypeStr',title:'机构类型',sortable:true,width:120},
             {field:'branchName',title:'机构名称',sortable:true,width:120},
             {field:'userCount',title:'关联用户',sortable:true,width:80},
             {field:'createTime',title:'创建时间',sortable:true,width:150,
