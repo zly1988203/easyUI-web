@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PaymentOrder" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isSummaryWithPageHeaderAndFooter="true" isIgnorePagination="true" uuid="9aa590ec-4b5f-4eaa-bb10-b5ce33e01e43">
-	<property name="ireport.zoom" value="2.0"/>
-	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.zoom" value="7.0"/>
+	<property name="ireport.x" value="829"/>
+	<property name="ireport.y" value="528"/>
 	<parameter name="startDate" class="java.lang.String"/>
 	<parameter name="endDate" class="java.lang.String"/>
 	<parameter name="printName" class="java.lang.String"/>
@@ -131,7 +131,7 @@
 				<reportElement x="89" y="4" width="1" height="22" uuid="28e47782-d45f-4fae-b086-79418d7ce5ec"/>
 			</line>
 			<line direction="BottomUp">
-				<reportElement x="177" y="4" width="1" height="22" uuid="7e3c9578-83e6-4d29-92ca-141a64be41fa"/>
+				<reportElement x="173" y="4" width="1" height="22" uuid="7e3c9578-83e6-4d29-92ca-141a64be41fa"/>
 			</line>
 			<line direction="BottomUp">
 				<reportElement x="246" y="4" width="1" height="22" uuid="755aa5d0-7a25-4d7d-add0-67d242be6b69"/>
@@ -208,9 +208,9 @@
 				<reportElement x="405" y="4" width="1" height="22" uuid="8c4a9eba-e006-41e7-813e-bda0b3abecb5"/>
 			</line>
 			<staticText>
-				<reportElement x="178" y="4" width="25" height="22" uuid="6c4292dd-1166-4ded-850e-54d3fea830c3"/>
+				<reportElement x="174" y="5" width="30" height="22" uuid="6c4292dd-1166-4ded-850e-54d3fea830c3"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="8"/>
+					<font size="8" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[期间天数]]></text>
 			</staticText>
@@ -234,7 +234,7 @@
 			<staticText>
 				<reportElement x="486" y="4" width="45" height="23" uuid="098fc789-8a79-4e8e-94fe-b0e349612a94"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="8"/>
+					<font size="8" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
 				</textElement>
 				<text><![CDATA[库存周转天数]]></text>
 			</staticText>
@@ -245,7 +245,7 @@
 				<reportElement x="529" y="4" width="1" height="23" uuid="3d4f30ee-7b7f-4e94-9cb0-69bdc0c08ec1"/>
 			</line>
 			<staticText>
-				<reportElement x="130" y="3" width="49" height="22" uuid="d3e9f09a-a50b-4ac9-9ad1-a448c5a4b7cc"/>
+				<reportElement x="130" y="3" width="43" height="23" uuid="d3e9f09a-a50b-4ac9-9ad1-a448c5a4b7cc"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
@@ -265,7 +265,7 @@
 				<reportElement x="89" y="-1" width="1" height="24" uuid="36bc942f-b2ad-4410-bf1c-7e1fbbb86d47"/>
 			</line>
 			<line direction="BottomUp">
-				<reportElement x="177" y="-1" width="1" height="24" uuid="04aee8d6-7be9-464c-a4e0-3e516cabbef1"/>
+				<reportElement x="173" y="-1" width="1" height="24" uuid="04aee8d6-7be9-464c-a4e0-3e516cabbef1"/>
 			</line>
 			<line direction="BottomUp">
 				<reportElement x="204" y="-1" width="1" height="24" uuid="1a6c9504-3b1b-49f6-b931-4e650d853fe2"/>
@@ -320,12 +320,12 @@
 			<textField isBlankWhenNull="true">
 				<reportElement x="90" y="0" width="40" height="21" uuid="00eb18d0-03ef-4754-be58-c142076e3ac9"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="8" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
+					<font fontName="SansSerif" size="8" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{skuCode}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="131" y="0" width="50" height="22" uuid="839b5d60-2eea-461b-91d2-1a10284a42b5"/>
+				<reportElement x="130" y="0" width="43" height="22" uuid="839b5d60-2eea-461b-91d2-1a10284a42b5"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
@@ -367,7 +367,7 @@
 				<textFieldExpression><![CDATA[$F{endSaleAmount}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="178" y="0" width="25" height="21" uuid="48a627e4-5c91-4b27-b10e-06bfde8efae2"/>
+				<reportElement x="174" y="0" width="29" height="23" uuid="48a627e4-5c91-4b27-b10e-06bfde8efae2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
@@ -395,7 +395,9 @@
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="486" y="2" width="44" height="20" uuid="f31bb5f0-4839-4962-b514-ac892ba5e7d3"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="STSong-Light"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{saleRotationDay}]]></textFieldExpression>
 			</textField>
 			<line>
