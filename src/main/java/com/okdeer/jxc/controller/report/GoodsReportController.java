@@ -28,12 +28,16 @@ import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.PrintConstant;
+import com.okdeer.jxc.common.enums.GoodsStatusEnum;
+import com.okdeer.jxc.common.enums.GoodsTypeEnum;
+import com.okdeer.jxc.common.enums.PricingTypeEnum;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.controller.print.JasperHelper;
+import com.okdeer.jxc.goods.service.GoodsBranchPriceServiceApi;
 import com.okdeer.jxc.report.qo.GoodsReportQo;
 import com.okdeer.jxc.report.service.GoodsReportService;
 import com.okdeer.jxc.report.vo.GoodsReportVo;
@@ -63,6 +67,12 @@ public class GoodsReportController extends
 	
 	@Reference(version = "1.0.0", check = false)
 	BranchesServiceApi branchesServiceApi;
+	
+	@Reference(version = "1.0.0", check = false)
+	private GoodsBranchPriceServiceApi goodsBranchPriceService;
+	
+	@Reference(version = "1.0.0", check = false)
+	private BranchesServiceApi branchesService;
 
 	/**
 	 * 
@@ -76,12 +86,69 @@ public class GoodsReportController extends
 		SysUser user = getCurrentUser();
 		Branches branchesGrow = branchesServiceApi.getBranchInfoById(user.getBranchId());
 		model.addAttribute("branchesGrow", branchesGrow);
+		/**
+		 * added by zhangqin on 2017-02-16 begin
+		 * 需求V2.2,新增计价方式、商品状态、商品类型筛选条件
+		 */
+		//计价方式
+		model.addAttribute("pricingType", PricingTypeEnum.values()); 
+		//商品状态
+		model.addAttribute("goodsStatus", GoodsStatusEnum.values()); 
+		//商品类型
+		model.addAttribute("goodsType", GoodsTypeEnum.values()); 
+		/**
+		 * added by zhangqin on 2017-02-16 end
+		 */
 		return "report/goods/goodsReport";
 	}
-
+	
 	/**
 	 * 
-	 * @Description: 库存查询
+	 * @Description: 跳转编辑页
+	 * @param model
+	 * @return String  
+	 * @author zhangq
+	 * @date 2017年2月16日
+	 */
+	@RequestMapping(value = "toEdit")
+	public String toEdit(GoodsReportQo qo,Model model){
+		//计价方式
+		model.addAttribute("pricingType", PricingTypeEnum.values()); 
+		//商品状态
+		model.addAttribute("goodsStatus", GoodsStatusEnum.values()); 
+		//商品类型
+		model.addAttribute("goodsType", GoodsTypeEnum.values()); 
+		return "report/goods/goodsEdit";
+	}
+	
+	/**
+	 * 
+	 * @Description: 查询商品信息
+	 * @param qo
+	 * @param model
+	 * @return GoodsReportVo  
+	 * @author zhangq
+	 * @date 2017年2月17日
+	 */
+	@RequestMapping(value = "getGoodsInfo", method = RequestMethod.GET)
+	@ResponseBody
+	public RespJson getGoodsInfo(GoodsReportQo qo,Model model){
+		GoodsReportVo sku = goodsReportService.queryGoodsInfo(qo);
+		//如果编辑的机构为门店，则只可以修改供应商相关信息
+		Branches branch = branchesService.getBranchInfoById(sku.getBranchId());//机构类型(0.总部、1.分公司、2.物流中心、3.自营店、4.加盟店B、5.加盟店C)
+		RespJson jesp = RespJson.success();
+		if(branch.getType()==3 || branch.getType()==4 || branch.getType()==5){
+			jesp.put("isStore", true);
+		}else{
+			jesp.put("isStore", false);
+		}
+		jesp.put("_data", sku);
+		return jesp;
+	}
+	
+	/**
+	 * 
+	 * @Description: 商品查询
 	 * @param qo
 	 * @param pageNumber
 	 * @param pageSize
@@ -109,8 +176,13 @@ public class GoodsReportController extends
 				int length = branchName.indexOf("]");
 				qo.setBranchName(branchName.substring(length+1, branchName.length()));
 			}
-			PageUtils<GoodsReportVo> goodsReport = goodsReportService.queryListToPage(qo);
-			return goodsReport;
+			
+			List<Branches> branchList = branchesService.getBranchByKeyword(qo.getBranchName());
+			if(branchList.size()==1){
+				qo.setBranchId(branchList.get(0).getBranchesId());
+				PageUtils<GoodsReportVo> goodsReport = goodsReportService.queryListToPage(qo);
+				return goodsReport;
+			}
 		} catch (Exception e) {
 			LOG.error("查询商品选择数据出现异常:", e);
 		}

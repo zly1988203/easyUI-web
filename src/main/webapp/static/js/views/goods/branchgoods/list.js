@@ -224,13 +224,14 @@ function initDatagridOrders() {
 			width : 100,
 			align : 'left',
             formatter: function(value,row,index){
-                var branchName = row.branchName;
+            	return value;
+                /*var branchName = row.branchName;
                 var status = row.status;
                 if( status != 0 || undefined == branchName || null == branchName || branchName.indexOf('分公司') < 0){
                     return value;
                 }else{
                     return "<a href='#' onclick=\"openPropEditDialog('" + row.id + "')\" class='ualine'>"+value+"</a>";
-                }
+                }*/
             }
 		}, {
 			field : 'skuName',

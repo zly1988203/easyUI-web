@@ -81,6 +81,44 @@
 					<div class="uinp-more" onclick="searchSupplier()">...</div>
 				</div>
 			</div>
+			
+			<div class="ub umar-t8">
+				<div class="ub ub-ac umar-r40">
+					<div class="umar-r10 uw-60 ut-r">商品类型:</div>
+					<select name="type" id="type" class="uselect easyui-combobox" style="width: 204px;">
+                        <option value="">全部</option>
+                        <c:forEach items="${goodsType}" var="type">
+                            <option value="${type.name}">${type.value}</option>
+                        </c:forEach>
+					</select> 
+				</div>
+				<div class="ub ub-ac umar-r40">
+					<div class="umar-r10 uw-60 ut-r">计价方式:</div>
+					<select name="pricingType" id="pricingType" class="uselect easyui-combobox" style="width: 204px;">
+                        <option value="">全部</option>
+                        <c:forEach items="${pricingType}" var="pricingType">
+                            <option value="${pricingType.name}">${pricingType.value}</option>
+                        </c:forEach>
+                    </select>
+				</div>
+				<div class="ub ub-ac umar-r40">
+					<div class="umar-r10 uw-60 ut-r">直送商品:</div>
+					<select name="fastDeliver" id="fastDeliver" class="uselect easyui-combobox" style="width: 204px;">
+                        <option value="">全部</option>
+                        <option value="1">直送商品</option>
+                        <option value="0">常规商品</option>
+                    </select>
+				</div>
+				<div class="ub ub-ac umar-r40">
+					<div class="umar-r10 uw-60 ut-r">商品状态:</div>
+					<select name="status" id="status" class="uselect easyui-combobox" style="width: 204px;">
+                        <option value="">全部</option>
+                        <c:forEach items="${goodsStatus}" var="goodsStatus">
+                            <option value="${goodsStatus.name}">${goodsStatus.value}</option>
+                        </c:forEach>
+                    </select>
+				</div>
+			</div>
 		</form>
 		 <div class="ub ">&nbsp;</div>
 		 <div class="ub ub-f1">

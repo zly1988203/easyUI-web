@@ -2,7 +2,6 @@
  * Created by zhangq on 2016/12/30
  */
 function saveProp() {
-	debugger;
 	$('#btnSave').attr("disabled","disabled");
 	var isValid = $("#formEdit").form('validate');
 	if (!isValid) {
