@@ -8,6 +8,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>组合拆分单-已审核</title>
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
+    <script>
+    	var edit = '${stockFormVo.status}';
+    </script>
 	<script  src="${ctx}/static/js/views/combineSplit/combineSplitView.js"></script>
 	<style>
     .datagrid-header .datagrid-cell {text-align: center!important;font-weight: bold;}
@@ -29,9 +32,9 @@
 		
 		<div class="already-examine" id="already-examine"><span><c:if test="${stockFormVo.status == 0}">未审核</c:if><c:if test="${stockFormVo.status != 0}">已审核</c:if></span></div>
 
-		<form action="" id="searchForm" method="post">
- 			<input type="hidden"  name="id" value="${stockFormVo.id}">
- 		</form>
+ 		<input type="hidden"  name="id" value="${stockFormVo.id}">
+ 		<input type="hidden" name="skuIdMain" id="skuIdMain" value="${stockFormVo.skuId}">
+		<input type="hidden" name="skuCodeMain" id="skuCodeMain" value="${stockFormVo.skuCode}">
         <div class="ub uline umar-t8"></div>
         <div class="ub umar-t8">
 			<div class="ub ub-ac uw-280">
@@ -39,9 +42,6 @@
                  <input type="hidden" name="branchId" id="branchId" class="uinp" value="${stockFormVo.branchId }"/>
 		 		 <input type="hidden" id="formId" name="formId" value="${stockFormVo.id}">
 				 <input type="text" name="branchName" id="branchName"class="uinp ub ub-f1" readonly="readonly" value="${stockFormVo.branchName }" />
-				 <%-- <c:if test="${stockFormVo.status == 0}">
-				 	<div class="uinp-more" onclick="searchBranch()">...</div>
-				 </c:if> --%>
 			</div>	
             <div class="ub ub-ac uw-280 umar-l20">
                 <div class="umar-r10 uw-70 ut-r">方式:</div>
@@ -63,8 +63,8 @@
 				<input class="uinp ub ub-f1 uinp-no-more" readonly="readonly" type="text" id="skuNameMain" name="skuNameMain" value="${stockFormVo.skuName}" />
 			</div>
 			<div class="ub ub-ac uw-280 umar-l20">
-				<div class="umar-r10 uw-70 ut-r">单价:</div>
-				<input class="uinp ub ub-f1 uinp-no-more" readonly="readonly" type="text" id="salePriceMain" name="salePriceMain" value="${stockFormVo.salePrice}" />
+				<div class="umar-r10 uw-70 ut-r">单价:</div><!--${stockFormVo.salePrice||'1.00'}-->
+				<input class="uinp ub ub-f1 uinp-no-more ut-r" readonly="readonly" type="text" id="salePriceMain" name="salePriceMain" value="${stockFormVo.salePrice}" />
 			</div>
 			<div class="ub ub-ac umar-l10">
 				 <div class="umar-r10 uw-70 ut-r">审核人员:</div>
