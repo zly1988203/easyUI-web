@@ -254,6 +254,9 @@
   background-color: #fff;
   box-shadow: 0 0 2px rgba(50, 50, 50, 0.2);
   color: #333; }
+  .textbox-text:read-only {
+   background-color: #efefef;
+  }
 
 .uinp-more.new-right {
   right: 10px; }

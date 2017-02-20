@@ -11,6 +11,8 @@ var addModifyPriceGridDg;
 
 var loginBranchId;
 
+var showPage = true;
+
 $(function() {
 	loginBranchId = $("#loginBranchId").val();
 	// 初始化表格
@@ -78,6 +80,7 @@ function initAddModifyPriceGridEdit() {
 		        showFooter:true,
 				height:'600px',
 				width:'100%',
+//				pageSize:50,
 				data : [ {
 					"rows" : [$.extend({},gridDefault)]
 				} ],
@@ -938,8 +941,24 @@ function gFunGoodsSelect(searchKey,branchId){
 			var newData = gFunUpdateKey(data,keyNames);
 			newData = gFunUpdateKey(newData,keyNames2);
 			var newRows = gridHandel.checkDatagrid(nowRows,newData,argWhere);
-			console.info(newRows)
-			$("#addModifyPriceGrid").datagrid("loadData",newRows);
+			var param = {
+					'total':newRows.length,
+					'rows':newRows,
+			}
+			
+			var pager = $('#'+datagridId).datagrid('getPager');
+			//设置显示一页多少条
+			$(pager).pagination('refresh',{  
+			        total:newRows.length,  
+			        pageSize:newRows.length,
+			        pageNumber:1,
+					pageList:[newRows.length],
+					showPageList:false,
+					displayMsg:'共'+newRows.length+'记录'
+			    });  
+			
+			$("#"+datagridId).datagrid("loadData",newRows);
+
 			  var fieldName = "";
 			  var fieldNames = {
 					  "purchasePrice":"newPurPrice",
@@ -949,12 +968,12 @@ function gFunGoodsSelect(searchKey,branchId){
 					  "memberPrice":"newVipPrice",
 			  }
 		      $('.priceItem:checked').each(function(i){
-		    	  debugger;
+
 		       if(0==i){
 		    	   fieldName =fieldNames[$(this).attr("id")] ;
 		       }
 		      });
-			  debugger;
+
 		      if(fieldName){
 		    	  gridHandel.setLoadFocus();
 			        setTimeout(function(){
@@ -1157,8 +1176,23 @@ function updateListData(data){
     var isCheck ={isGift:1 };   //只要是赠品就可以重复
     var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
 
-    $("#addModifyPriceGrid").datagrid("loadData",newRows);
-}
+	var pager = $('#'+datagridId).datagrid('getPager');
+	//设置显示一页多少条
+	$(pager).pagination('refresh',{  
+	        total:newRows.length,  
+	        pageSize:newRows.length,
+	        pageNumber:1,
+			pageList:[newRows.length],
+			showPageList:false,
+			displayMsg:'共'+newRows.length+'记录'
+	    });  
+	
+	var param = {
+			rows:newRows,
+	}
+	$("#"+datagridId).datagrid("loadData",newRows);
+
+	}
 //返回列表页面
 function back(){
 	toClose();
