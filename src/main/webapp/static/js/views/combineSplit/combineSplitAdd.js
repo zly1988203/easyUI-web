@@ -192,7 +192,7 @@ function selectBranch (){
 //根据选中skuid查询价格、库存
 function selectView(searchskuId){
 	$.ajax({
-		url  : contextPath + "/stock/combineSplit/getCombineSplitDetailList",
+		url  : contextPath + "/stock/combineSplit/getGoodsComponentDetailList",
 		type : "POST",
 		data : {
 			"skuId" : searchskuId,
