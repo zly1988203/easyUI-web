@@ -14,8 +14,10 @@ function selectTion(){
 }
 
 function changeAmount(newV,oldV){
-	console.log(newV);
-	
+	var temp_amout = newV*$("#salePriceMain").val() 
+	$("#amountMain").val(parseFloat(temp_amout).toFixed(4));
+	specialRows('componentNum',newV);
+	updateFooter();
 }
 
 var gridHandel = new GridClass();
@@ -25,7 +27,6 @@ var gridDefault = {
 }
 
 function initCombineSplieEditGrid() {
-	
 	gridHandel.setGridName(datagridId);
     gridHandel.initKey({
         firstName:'componentNum',
@@ -38,9 +39,6 @@ function initCombineSplieEditGrid() {
                     gridHandel.setSelectFieldName("componentNum");
                     gridHandel.setFieldFocus(gridHandel.getFieldTarget('componentNum'));
                 },100)
-            }else{
-            	branchId = $("#createBranchId").val();
-                selectGoods(arg);
             }
         },
     })
@@ -51,7 +49,6 @@ function initCombineSplieEditGrid() {
         singleSelect: true,  //单选  false多选
         rownumbers: true,    //序号
         pagination: true,    //分页
-        //fitColumns:true,    //占满
         height:'100%',
         pageSize:20,
         showFooter:true,
@@ -64,6 +61,8 @@ function initCombineSplieEditGrid() {
             	formatter : function(value, row,index) {
                    if(row.isFooter){
                     	return '<div class="ub ub-pc">合计</div> '
+                    }else{
+                    	return value;
                     }
                 }
             },
@@ -87,11 +86,6 @@ function initCombineSplieEditGrid() {
                         onChange: onChangeRealNum,
                     }
                 },
-            },
-            {field: 'skuDetailType', title: '成分类型', width:'100px', align: 'left',
-            	formatter:function(value,row,index){
-            		return  '2';
-            	}
             },
             {field: 'unit', title: '单位', width:'90px', align: 'left'},
             {field: 'salePrice', title: '单价', width:'90px', align: 'left'},
@@ -118,11 +112,24 @@ function initCombineSplieEditGrid() {
 
 //监听商品数量
 function onChangeRealNum(newV,oldV) {
+	console.log('newV',newV);
+	console.log('oldV',oldV);
 	if("" == newV){
 	  messager("商品数量输入有误");
 	  gridHandel.setFieldValue('componentNum',oldV);
       return;
 	}
+	var _selecIndex = gridHandel.getSelectRowIndex();
+	var _tempRows = gridHandel.getRows();
+	var _tempData = _tempRows[_selecIndex];
+	console.log(_tempData);
+	if(_tempData){
+		_tempData.amount = parseFloat(newV*_tempData.salePrice).toFixed(4);
+		//_tempData.componentNum = newV
+		console.log(_tempData.amount);
+		console.log('3333',_tempData);
+	}
+	
     updateFooter();
 }
 
@@ -162,14 +169,14 @@ function gFunGoodsSelect(searchKey,branchId){
     		return;
     	}
     	
-    	$("#skuId").val(data[0].skuId);
-    	$("#skuCode").val(data[0].skuCode);
-    	$("#skuName").val(data[0].skuName);
-    	$("#salePrice").val(data[0].salePrice);
-    	$("#componentNum").numberbox('setValue',1);
-    	$("#amount").val(data[0].salePrice);
+    	$("#skuIdMain").val(data[0].skuId);
+    	$("#skuCodeMain").val(data[0].skuCode);
+    	$("#skuNameMain").val(data[0].skuName);
+    	$("#salePriceMain").val(data[0].salePrice);
+    	$("#totalNum").numberbox('setValue',1);
+    	$("#amountMain").val(parseFloat(data[0].salePrice).toFixed(4));
     	//查询成分商品
-    	selectView($("#skuId").val());
+    	selectView($("#skuIdMain").val());
     },searchKey,0,"","",branchId,"","0");
 }
 
@@ -185,8 +192,7 @@ function selectBranch (){
 //根据选中skuid查询价格、库存
 function selectView(searchskuId){
 	$.ajax({
-		// url : contextPath+"/goods/component/queryComponent",
-		url : contextPath + "/stock/combineSplit/getCombineSplitDetailList",
+		url  : contextPath + "/stock/combineSplit/getCombineSplitDetailList",
 		type : "POST",
 		data : {
 			"skuId" : searchskuId,
@@ -210,27 +216,51 @@ function selectView(searchskuId){
 }
 // 二次查询设置值
 function setDataValue(data) {
-	console.log("/////////////////////");
-	console.log(data);
-    var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
-    var addDefaultData  = gridHandel.addDefault(data,gridDefault);
+	if(!data ||  data.length <1 )return;
+	data.forEach(function(obj,index){
+		if(obj){
+			obj.amount = parseFloat(obj.salePrice*obj.componentNum).toFixed(4);
+			obj.oldComponentNum = obj.componentNum;
+		}
+	})
+    var nowRows = gridHandel.getRowsWhere({skuName:'1'});
+    var addDefaultData  = gridHandel.addDefault(data);
     var keyNames ={};
     var rows = gFunUpdateKey(addDefaultData,keyNames);
-    
     var argWhere ={skuCode:1};  //验证重复性
     var isCheck ={isGift:1 };   //只要是赠品就可以重复
     var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
-    console.log('38',newRows);
     gridHandel.setLoadData(newRows);
-    $("#"+datagridId).datagrid('reload',newRows);
    
 }
+
+//批量设置
+function specialRows(id,val){
+	var rowIndex = -1;
+	var newData = $("#"+datagridId).datagrid("getRows");
+	if(id=="componentNum"){
+		for(var i = 0;i < newData.length;i++){
+			var _tempNum = parseFloat(newData[i].oldComponentNum * val);
+			newData[i].componentNum= _tempNum;
+			newData[i].amount= parseFloat(_tempNum * newData[i].salePrice).toFixed(4);
+			rowIndex = $("#"+datagridId).datagrid('getRowIndex',newData[i]);
+			// 更新行数据
+			$("#"+datagridId).datagrid('updateRow',{
+				index: rowIndex,
+				row: newData[i]
+			});
+			// 刷新行
+			$("#"+datagridId).datagrid('refreshRow',rowIndex);
+		}
+	}
+}
+
+
 
 //保存
 function saveCombineSplit(){
     $("#"+datagridId).datagrid("endEdit", gridHandel.getSelectRowIndex());
     var rows = gridHandel.getRowsWhere({skuName:'1'});
-    console.log(rows);
     $(gridHandel.getGridName()).datagrid("loadData",rows);
     if(rows.length==0){
         messager("表格不能为空");
@@ -259,21 +289,21 @@ function saveCombineSplit(){
 
 function saveDataHandel(rows){
 	// 主商品Id
-	var skuId = $("#skuId").val();
+	var skuId = $("#skuIdMain").val();
 	// 主商品编号
-	var skuCode = $("#skuCode").val();
+	var skuCode = $("#skuCodeMain").val();
 	// 机构
 	var branchId =$("#createBranchId").val();
 	// 组合或拆分
 	var formType = $("#formType").combobox('getValue');
     //商品名称
-    var skuName = $("#skuName").val();
+    var skuName = $("#skuNameMain").val();
     //数量
     var totalNum = $("#totalNum").val();
     //单价
-    var salePrice=$("#salePrice").val();
+    var salePrice=$("#salePriceMain").val();
     //金额
-    var amount=$("#amount").val();
+    var amount=$("#amountMain").val();
     // 备注
     var remark = $("#remark").val();
     // 原因
