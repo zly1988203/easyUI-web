@@ -85,7 +85,7 @@ function initDatacombineSplitView(){
                           return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                       }
                   },
-                  {field:'price',title:'单价',width:'80px',align:'right'},
+                  {field:'salePrice',title:'单价',width:'80px',align:'right'},
                   {field:'amount',title:'金额',width:'80px',align:'right'},
                   {field:'remark',title:'备注',width:'200px',align:'left'}
               ]],
