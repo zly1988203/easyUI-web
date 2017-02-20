@@ -81,7 +81,6 @@ function saveRoleAuth(){
     
     var roleId = $("#roleId").val();
     var data = JSON.stringify(menusIds);
-    console.log("data:"+data);
     
     $.ajax({
         url:contextPath+"/system/role/produceRoleAuth",
@@ -92,10 +91,12 @@ function saveRoleAuth(){
         },
         dataType:"json",  
         success:function(result){
-            if(result){
-                successTip("保存成功！");
+            if(result && result.code == 0){
+            	successTip("保存成功！");
                 toClose();
-            }
+			}else{
+				alertTip(result.message);
+			}
         },
         error:function(result){
             successTip("请求发送失败或服务器处理失败");

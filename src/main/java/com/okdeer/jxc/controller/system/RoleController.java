@@ -24,6 +24,7 @@ import com.okdeer.ca.api.sysrole.entity.SysMenuOperDto;
 import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.common.enums.BranchTypeEnum;
+import com.okdeer.jxc.common.helper.SysHelper;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
@@ -246,6 +247,11 @@ public class RoleController extends BaseController<RoleController> {
 		try {
 			if(StringUtils.isBlank(data)){
 				return RespJson.error("数据异常!");
+			}
+			
+			// 如果是系统初始化管理员，则只允许 总部管理员修改
+			if (SysHelper.isInitialRole(roleId) && !SysHelper.isSuperAdmin(getCurrUserId())) {
+				return RespJson.businessError("系统初始化管理员不允许修改！");
 			}
 			
 			//转换为JSON数据
