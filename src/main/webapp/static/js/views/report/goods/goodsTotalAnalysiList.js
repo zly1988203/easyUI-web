@@ -393,12 +393,12 @@ function purchaseTotalCx(){
 		$.messager.alert('提示', '日期不能为空');
 		return ;
 	}
-	if(categoryType!='branchTotal'){
+	/*if(categoryType!='branchTotal'){
 		if(!branchName){
 			$.messager.alert('提示', '店铺名不能为空');
 			return ;
 		}
-	}
+	}*/
 	$("#startCount").attr("value",null);
 	$("#endCount").attr("value",null);
 	var formData = $("#queryForm").serializeObject();
@@ -439,12 +439,12 @@ function exportExcel(){
 		$.messager.alert('提示', '日期不能为空');
 		return ;
 	}
-	if(categoryType!='branchTotal'){
+	/*if(categoryType!='branchTotal'){
 		if(!branchName){
 			$.messager.alert('提示', '店铺名不能为空');
 			return ;
 		}
-	}
+	}*/
 	var length = $("#goodsTotalAnalysi").datagrid('getData').total;
 	if(length == 0){
 		$.messager.alert('提示',"没有数据");
