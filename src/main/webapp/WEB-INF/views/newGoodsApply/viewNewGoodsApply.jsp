@@ -19,7 +19,7 @@ pageEncoding="UTF-8"%>
 			</div>
 	</div>
 	<div class="ub uline "></div>
-		<form id="formGoodsArchivesAdd" method="post" action="" style="font-size: 14px;">
+		<form id="formGoodsArchivesAdd" method="post"  style="font-size: 14px;">
 			<div class="ub ub-ver ub-ac upad-4">
 				<div class="ub upad-4">
 					<div class="ub ub-ac uw-300">
@@ -31,13 +31,15 @@ pageEncoding="UTF-8"%>
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">商品名称:</div>
 						<div class="ub">
-							<input id="skuName" name="skuName" class="uinp uinp-no-more" readonly="readonly" maxlength="20">
+							<input id="skuName" name="skuName" class="uinp uinp-no-more"
+								   data-options="required:true" maxlength="20">
 						</div>
 						<i class="uc-red">*</i>
 					</div>
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">商品条码:</div>
-					    <input id="barCode" name="barCode" class="uinp uinp-no-more" readonly="readonly">
+					    <input id="barCode" name="barCode" class="uinp  uinp-no-more" data-options="validType:'int'">
+						<!-- <i class="uc-red">*</i> -->
 					</div>
 				</div>
 				<div class="ub upad-4">
@@ -48,24 +50,19 @@ pageEncoding="UTF-8"%>
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">商品类别:</div>
 						<div class="ub">
-							<input id="categoryId" name="categoryId" class="uinp"
-								   type="hidden"> <input id="categoryCode"
-														 name="categoryCode" class="uinp" type="hidden"> <input
-								id="categoryName" name="categoryName" class="uinp uinp-no-more" type="text"
+							<input id="categoryId" name="categoryId" class="uinp" type="hidden"> 
+							<input id="categoryCode" name="categoryCode" class="uinp" type="hidden">
+						    <input id="categoryName" name="categoryName" class="uinp uinp-no-more" type="text"
 								readonly="readonly" data-options="required:true">
-							<div class="uinp-more " onclick="getGoodsType()">...</div>
 						</div>
 						<i class="uc-red">*</i>
 					</div>
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">品牌:</div>
 						<input id="brandId" name="brandId" class="uinp" type="hidden">
-						<input id="brandCode" name="brandCode" class="uinp " type="hidden">
+						<input id="brandCode" name="brandCode" class="uinp" type="hidden">
 						<div class="ub">
-
-							<input id="brandName" name="brandName" class="uinp uinp-no-more" type="text"
-								   readonly="readonly">
-							<div class="uinp-more" onclick="getGoodsBrand()">...</div>
+					    <input id="brandName" name="brandName" class="uinp uinp-no-more" type="text" readonly="readonly">
 						</div>
 					</div>
 				</div>
@@ -73,7 +70,6 @@ pageEncoding="UTF-8"%>
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">进货规格:</div>
 						<div class="ub">
-
 							<input id="purchaseSpec" name="purchaseSpec" style="width: 204px;"
 								   class="uinp uinp-no-more"
 								   data-options="min:0,precision:2" type="text"
@@ -88,7 +84,7 @@ pageEncoding="UTF-8"%>
 					</div>
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">库存单位:</div>
-						<select class="uselect easyui-combobox uinp-no-more" name="unit"  style="width: 204px;" id="unit" data-options="readonly:true">
+						<select class="uselect easyui-combobox" name="unit" style="width: 204px;" id="unit" data-options="readonly:true">
 							<option value="箱">箱</option>
 							<option value="套">套</option>
 							<option value="包">包</option>
@@ -106,14 +102,14 @@ pageEncoding="UTF-8"%>
 							<input id="distributionSpec" name="distributionSpec" style="width: 204px;"
 								   class="uinp uinp-no-more"
 								   data-options="min:0,precision:2" type="text"
-								   data-options="readonly:true">
+								   data-options="required:true">
 						</div>
 
 						<i class="uc-red">*</i>
 					</div>
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">商品状态:</div>
-						<select class="uselect easyui-combobox uinp-no-more" name="status"  style="width: 204px;" id="status" data-options="readonly:true">
+						<select class="uselect easyui-combobox" style="width: 204px;" name="status" id="status" data-options="readonly:true">
 							<c:forEach items="${goodsStatus}" var="goodsStatus">
 								<option value="${goodsStatus.name}">${goodsStatus.value}</option>
 							</c:forEach>
@@ -149,7 +145,7 @@ pageEncoding="UTF-8"%>
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">质保天数:</div>
 						<input id="vaildity" name="vaildity" style="width: 204px;"
-							   class="uinp easyui-validatebox uinp-no-more"
+							   class="uinp uinp-no-more"
 							   data-options="min:0,precision:0" type="text"
 							   onkeyup="checkInteger(this)" onafterpaste="checkInteger(this)">
 					</div>
@@ -159,7 +155,6 @@ pageEncoding="UTF-8"%>
 							<input id="supplierId" name="supplierId" class="uinp" type="hidden"> 
 							<input id="supplierName" name="supplierName" class="uinp uinp-no-more"
 							 type="text" readonly="readonly" data-options="required:true">
-							<!-- <div class="uinp-more new-right" onclick="getGoodsPupplier()">...</div> -->
 						</div>
 						<i class="uc-red">*</i>
 					</div>
@@ -173,14 +168,14 @@ pageEncoding="UTF-8"%>
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">联营/代销扣率:</div>
 						<input id="supplierRate" name="supplierRate" style="width: 204px;"
-							   class="uinp uinp-no-more easyui-validatebox"
-							   data-options="min:0,precision:2" type="text"
+							   class="uinp easyui-numberbox easyui-validatebox uinp-no-more"
+							   data-options="min:0,precision:2,readonly:true" type="text"
 							   onkeyup="checkSupplierRate(this);"
 							   onafterpaste="checkSupplierRate(this);">%
 					</div>
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">商品类型:</div>
-						<select class="uselect easyui-combobox uinp-no-more" name="type"  style="width: 204px;" id="type" data-options="readonly:true">
+						<select class="uselect easyui-combobox" style="width: 204px;" name="type" id="type" data-options="readonly:true">
 							<c:forEach items="${goodsType}" var="type">
 								<option value="${type.name}">${type.value}</option>
 							</c:forEach>
@@ -224,10 +219,9 @@ pageEncoding="UTF-8"%>
 					</div>
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">最低售价:</div>
-
 						<input id="lowestPrice" name="lowestPrice" style="width: 204px;"
-							   class="uinp uinp-no-more easyui-validatebox"
-							   data-options="min:0,precision:4" type="text" maxlength="10"
+							   class="uinp uinp-no-more easyui-numberbox easyui-validatebox"
+							   data-options="min:0,precision:4,readonly:true" type="text" maxlength="10"
 							   onkeyup="checkPrice(this);" onafterpaste="checkPrice(this);">
 					</div>
 					<div class="ub ub-ac uw-300">
@@ -256,8 +250,8 @@ pageEncoding="UTF-8"%>
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">销项税率:</div>
 						<input id="outputTax" name="outputTax" style="width: 204px;"
-							   class="uinp uinp-no-more easyui-validatebox"
-							   data-options="min:0,precision:2,validType:['length[0,18]']" type="text" maxlength="4"
+							   class="uinp uinp-no-more easyui-numberbox easyui-validatebox"
+							   data-options="min:0,precision:2,validType:['length[0,18]'],readonly:true" type="text" maxlength="4"
 							   onkeyup="checkPositiveInteger(this);"
 							   onafterpaste="checkPositiveInteger(this)">%
 					</div>
@@ -266,8 +260,8 @@ pageEncoding="UTF-8"%>
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">进项税率:</div>
 						<input id="inputTax" name="inputTax" value='0.00' style="width: 204px;"
-							    class="uinp uinp-no-more easyui-validatebox"
-							   data-options="min:0,precision:2,validType:['length[0,18]']" type="text" maxlength="4"
+							    class="uinp uinp-no-more easyui-numberbox easyui-validatebox"
+							   data-options="min:0,precision:2,validType:['length[0,18]'],readonly:true" type="text" maxlength="4"
 							   onkeyup="checkPositiveInteger(this);"
 							   onafterpaste="checkPositiveInteger(this)">%
 					</div>
@@ -283,8 +277,7 @@ pageEncoding="UTF-8"%>
             </div>
 				<div class="ub upad-4">
 					<div class="umar-r10 uw-60 ut-r">备注:</div>
-					<textarea id="remark" name="remark" readonly="readonly" class="uh-40 umar-r30 ubor uinp uinp-no-more" maxlength="100" style="width: 800px;">
-					</textarea>
+					<textarea id="remark" name="remark" class="uh-40 umar-r30 ubor uinp-no-more" readonly="readonly" maxlength="100" style="width: 800px;"></textarea>
 				</div>
 				<div class="ub umar-l32" style="position: absolute;left: 0px;">
 					<div class="ub ub-ac umar-r40">
@@ -307,4 +300,5 @@ pageEncoding="UTF-8"%>
 
 			</div>
 		</form>
+
 	</div>

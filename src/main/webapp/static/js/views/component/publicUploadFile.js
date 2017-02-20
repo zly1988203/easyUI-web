@@ -22,7 +22,6 @@ function fileUrlChange(event){
  * 开始上传
  */
 function toUploadHandel(){
-	debugger;
     var formData = new FormData();
     formData.append("file",$("#file")[0].files[0]);
     if (typeof(uploadFileParams.branchId)=="undefined") {
