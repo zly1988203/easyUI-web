@@ -162,7 +162,7 @@ function initDatacombineSplitView(){
         onLoadSuccess:function(data){
         	if(data && data.rows && data.rows.length > 0){
         		data.rows.forEach(function(obj,index){
-        			obj.oldRealNum = obj.realNum;
+        			obj.oldRealNum = obj.stockNum;
         		})
         	};
         	if(!oldData["grid"]){
@@ -203,12 +203,12 @@ function onChangeRealNum(newV,oldV) {
 }
 
 //删除
-function delStockForm(){
+function deleteCombineSplit(){
 	var id = $("#formId").val();
 	$.messager.confirm('提示','是否要删除此条数据',function(data){
 		if(data){
 			$.ajax({
-		    	url:contextPath+"/stock/adjust/deleteStockAdjust",
+		    	url:contextPath+"/stock/combineSplit/deleteCombineSplit",
 		    	type:"POST",
 		    	data:{
 		    		id : id
@@ -216,7 +216,7 @@ function delStockForm(){
 		    	success:function(result){
 		    		if(result['code'] == 0){
 		    			$.messager.alert("操作提示", "删除成功！", "info",function(){
-		    				location.href = contextPath +"/stock/adjust/list";
+		    				location.href = contextPath +"/stock/combineSplit/getCombineSplitList";
 		    			});
 		    		}else{
 		    			successTip(result['message']);
@@ -262,6 +262,7 @@ function saveCombineSplit(){
 }
 
 function saveDataHandel(rows){
+	var id = $("#id").val();
 	// 主商品Id
 	var skuId = $("#skuIdMain").val();
 	// 主商品编号
@@ -269,7 +270,7 @@ function saveDataHandel(rows){
 	// 机构
 	var branchId =$("#branchId").val();
 	// 组合或拆分
-	var formType = $("#formType_text").val();
+	var formType = $("#formType").val();
     //商品名称
     var skuName = $("#skuNameMain").val();
     //数量
@@ -312,6 +313,8 @@ function saveDataHandel(rows){
         tempRows.push(temp);
     });
     var jsonData = {
+    		id:id,
+    		io:1,
     		skuId:skuId,
     		skuCode:skuCode,
     		createBranchId:branchId,
@@ -325,7 +328,7 @@ function saveDataHandel(rows){
         };
     console.log('组合单',JSON.stringify(jsonData));
     $.ajax({
-        url:contextPath+"/stock/combineSplit/saveCombineSplit",
+        url:contextPath+"/stock/combineSplit/updateCombineSplit",
         type:"POST",
         data:{"data":JSON.stringify(jsonData)},
         success:function(result){
@@ -343,7 +346,7 @@ function saveDataHandel(rows){
 }
 
 //审核
-function checkCombine(){
+function auditCombineSplit(){
 	//验证数据是否修改
     $("#"+gridHandel.getGridName()).datagrid("endEdit", gridHandel.getSelectRowIndex());
     var id = $("#formId").val();
@@ -360,7 +363,7 @@ function checkCombine(){
 	$.messager.confirm('提示','是否审核通过？',function(data){
 		if(data){
 			$.ajax({
-		    	url : contextPath+"/stock/adjust/check",
+		    	url : contextPath+"/stock/combineSplit/auditCombineSplit",
 		    	type : "POST",
 		    	data : {
 		    		id : id
@@ -368,8 +371,7 @@ function checkCombine(){
 		    	success:function(result){
 		    		if(result['code'] == 0){
 		    			$.messager.alert("操作提示", "操作成功！", "info",function(){
-		    				alert(22)
-		    				location.href = contextPath +"/stock/adjust/checkSuccess?id="+id;
+		    				location.href = contextPath +"/stock/combineSplit/combineSplitView?id="+id;
 		    			});
 		    		}else{
 		    			successTip(result['message']);

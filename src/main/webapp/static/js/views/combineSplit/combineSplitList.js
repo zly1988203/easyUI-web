@@ -26,6 +26,7 @@ function initcombineSplitList() {
 		height : '100%',
 		pageSize : 10,
         columns: [[
+                {field:'id', title: 'id', hidden:true},
        			{field:'check',checkbox:true},
                 {field:'formNo',title:'单据编号',width:'140px',align:'left',formatter:function(value,row,index){
 //                	if(row.status  == 0){
@@ -98,7 +99,7 @@ function toCombineDetail(){
 }
 
 //删单
-function delModifyOrderDialog(){
+function deleteCombineSplit(){
 	var row = $('#combineSplitList').datagrid('getSelected');
 	var rowIndex = $('#combineSplitList').datagrid('getRowIndex',row);
 	if(row!=null&&row.status==1){
@@ -112,12 +113,16 @@ function delModifyOrderDialog(){
             	gFunStartLoading();
             	$.ajax({
                     type: "POST",
-                    url: contextPath+"/goods/priceAdjust/removeForm",
-                    data: {"formNo":row.formNo},
+                    url: contextPath+"/stock/combineSplit/deleteCombineSplit",
+                    data: {"id":row.id},
                     dataType: "json",
                     success: function(data){
                     	gFunEndLoading();
-                        $('#combineSplitList').datagrid('deleteRow', rowIndex);
+                    	if(data.code == 0){
+                    		successTip("删除成功");
+                    		//successTip(result['message']);
+                    		$('#combineSplitList').datagrid('deleteRow', rowIndex);
+                    	}
                     }
                 });
             }

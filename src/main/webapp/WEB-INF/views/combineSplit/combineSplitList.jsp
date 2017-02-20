@@ -20,7 +20,7 @@
             <div class="ubtns">
                 <div class="ubtns-item" onclick="queryForm();">查询</div>
 				<div class="ubtns-item" onclick="addCombineSplit();">新增</div>
-	            <div class="ubtns-item" onclick="delModifyOrderDialog();">删单</div>
+	            <div class="ubtns-item" onclick="deleteCombineSplit();">删单</div>
 	            <div class="ubtns-item" onclick="window.parent.closeTab()">退出</div>
             </div>
 			<div class="ub">
@@ -36,7 +36,7 @@
 	            <div class="ub umar-t8">
 	                <div class="ub ub-ac"> 
 	                    <div class="umar-r10 uw-70 ut-r">单据编号:</div>
-	                    <input class="uinp" name="formNo" type="text">
+	                    <input class="uinp" id="formNo" name="formNo" type="text">
 	                </div>
 	                <div class="ub ub-ac uw-300 umar-l20">
 	                    <div class="umar-r10 uw-70 ut-r">操作员:</div>

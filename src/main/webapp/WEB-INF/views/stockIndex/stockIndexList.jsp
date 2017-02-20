@@ -34,7 +34,7 @@
 
 			<div class="ub ub-ac uw-300 umar-l40">
 				<div class="umar-r10 uw-70 ut-r">货号/条码:</div>
-				<input class="uinp" type="text" id="goodsBNum">
+				<input class="uinp" type="text" id="skuCode" name="skuCode">
 			</div>
 
 			<div class="ub ub-ac umar-l20">

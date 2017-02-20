@@ -247,7 +247,7 @@ public class CombineSplitController extends BaseController<T> {
 			StockFormVo vo = JSON.parseObject(data, StockFormVo.class);
 			SysUser user = UserUtil.getCurrentUser();
 			vo.setCreateUserId(user.getId());
-			return stockAdjustServiceApi.updateStockForm(vo);
+			return stockAdjustServiceApi.updateCombineSplit(vo);
 		} catch (Exception e) {
 			LOG.error("更新单据信息异常:{}", e);
 			resp = RespJson.error("更新单据信息失败");

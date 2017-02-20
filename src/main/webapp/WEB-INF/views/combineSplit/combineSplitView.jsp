@@ -23,8 +23,8 @@
 	            <input type="hidden" id="close" value="${close}"/>
 	            <c:if test="${stockFormVo.status == 0}">
 	            	<div class="ubtns-item"  onclick="saveCombineSplit()">保存</div>
-	                <div class="ubtns-item"  onclick="checkCombine()">审核</div>
-	                <div class="ubtns-item"  onclick="delCombine()">删除</div>
+	                <div class="ubtns-item"  onclick="auditCombineSplit()">审核</div>
+	                <div class="ubtns-item"  onclick="deleteCombineSplit()">删除</div>
 	            </c:if>
                 <div class="ubtns-item" id="toBackByJSButton" onclick="back()">关闭</div>
 	        </div>
@@ -32,7 +32,7 @@
 		
 		<div class="already-examine" id="already-examine"><span><c:if test="${stockFormVo.status == 0}">未审核</c:if><c:if test="${stockFormVo.status != 0}">已审核</c:if></span></div>
 
- 		<input type="hidden"  name="id" value="${stockFormVo.id}">
+ 		<input type="hidden" id="id" name="id" value="${stockFormVo.id}">
  		<input type="hidden" name="skuIdMain" id="skuIdMain" value="${stockFormVo.skuId}">
 		<input type="hidden" name="skuCodeMain" id="skuCodeMain" value="${stockFormVo.skuCode}">
         <div class="ub uline umar-t8"></div>
