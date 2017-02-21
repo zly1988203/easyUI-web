@@ -1,9 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <div class="ub ub-ac umar-l20">
-	<input class="Wdate"  readonly="readonly" name="startTime" id="txtStartDate" onfocus="updateWdatePicker()"
-           onclick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'#F{$dp.$D(\'txtEndDate\');}'})" />&nbsp;至&nbsp;
-	<input class="Wdate"  readonly="readonly" name="endTime" id="txtEndDate" onfocus="updateWdatePicker()"
-           onclick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'txtStartDate\');}'})" />
+	<input class="Wdate"  readonly="readonly" name="startTime" id="txtStartDate" onfocus="updateWdatePicker(0)"/>&nbsp;至&nbsp;
+	<input class="Wdate"  readonly="readonly" name="endTime" id="txtEndDate" onfocus="updateWdatePicker(1)"/>
 	<div class="ub ub-ac umar-l10">
 		<input class="ub" type="radio" name="dateradio" id="today" onclick="toChangeDate(0);"/><label for="today">今天</label>
 	</div>
@@ -33,12 +31,25 @@
     </div>
 </div>
 <script>
-    function updateWdatePicker(){
-        WdatePicker(
-                {
-                    onpicked:function(dp){
-                        $("input:radio[name='dateradio']").attr("checked",false);
-                    }
-                })
+    function updateWdatePicker(type){
+    	
+    	if(type==0){
+   		 WdatePicker({
+   	                	dateFmt:'yyyy-MM-dd',
+   	                	maxDate:'#F{$dp.$D(\'txtEndDate\');}',
+   	                    onpicked:function(dp){
+   	                        $("input:radio[name='dateradio']").attr("checked",false);
+   	                    }
+   	                })
+	   	}else{
+	   		 WdatePicker({
+		   	                	dateFmt:'yyyy-MM-dd',
+		   	                	minDate:'#F{$dp.$D(\'txtStartDate\')}',
+		   	                    onpicked:function(dp){
+		   	                        $("input:radio[name='dateradio']").attr("checked",false);
+		   	                    }
+		   	                })
+	   	}
+    	
     }
 </script>
