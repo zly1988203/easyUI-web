@@ -12,6 +12,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -46,7 +47,9 @@ public class DayReportController extends BaseController<DayReportController> {
 	@Reference(version = "1.0.0", check = false)
 	private DayReportService dayReportService;
 	@RequestMapping(value = "/list")
-	public String list(){
+	public String list(Model model){
+		model.addAttribute("branchId", UserUtil.getCurrentUser().getBranchId());
+		model.addAttribute("branchName", UserUtil.getCurrentUser().getBranchName());
 		return "/report/day/dayList";
 	}
 	/**
