@@ -114,10 +114,11 @@ public class StockIndexController extends BaseController<T> {
 	public PageUtils<StockIndexVo> getstockIndexList(StockIndexVo vo,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
-		LOG.info(LogConstant.OUT_PARAM, vo.toString());
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
+			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
+			LOG.info(LogConstant.OUT_PARAM, vo.toString());
 			PageUtils<StockIndexVo> stockIndexList = stockIndexServiceApi.getStockIndexList(vo);
 			LOG.info(LogConstant.PAGE, stockIndexList.toString());
 			return stockIndexList;
