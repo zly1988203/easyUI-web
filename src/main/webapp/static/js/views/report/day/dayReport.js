@@ -28,6 +28,7 @@ function initDatagridDay(){
         fitColumns:true,    //每列占满
         //fit:true,            //占满
         showFooter:true,
+        pageSize : 50,
 		height:'100%',
 		width:'100%',
         columns:[[
@@ -113,6 +114,34 @@ function initDatagridDay(){
                                         precision:1
                                     }
                                 }},
+                                {field:'posNum',title:'销售数量',width:'130px',align:'left',
+                                	formatter:function(value,row,index){
+                    				    if(value){
+                    				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
+                    				    }
+                    				},
+                                	editor:{
+                                        type:'numberbox',
+                                        options:{
+                                        	disabled:true,
+                                            min:0,
+                                            precision:1
+                                        }
+                                    }},
+                    {field:'costAmount',title:'销售成本金额',width:'130px',align:'left',
+                                    	formatter:function(value,row,index){
+                        				    if(value){
+                        				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
+                        				    }
+                        				},
+                                    	editor:{
+                                            type:'numberbox',
+                                            options:{
+                                            	disabled:true,
+                                                min:0,
+                                                precision:1
+                                            }
+                                        }},
             {field:'dcoNum',title:'配送出库数量',width:'130px',align:'left',
                                 	formatter:function(value,row,index){
                     				    if(value){
