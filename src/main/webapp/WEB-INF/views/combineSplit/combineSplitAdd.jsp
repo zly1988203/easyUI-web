@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="com.okdeer.jxc.utils.UserUtil" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,10 +42,12 @@
 				        </select>
                 </div>
 				<div class="ub ub-ac uw-140 umar-l40">
-					 <div class="umar-r10 ut-r" >制单人员: xxxxxxxxx</div>
+					 <div class="umar-r10 ut-r" >制单人员:</div>
+					 <div class="utxt"><%=UserUtil.getCurrentUser().getUserName() %></div>
 				</div>
 				<div class="ub ub-ac uw-180 umar-l20">
-					 <div class="umar-r10 ut-r" >制单日期: 2017-02-07</div>
+					 <div class="umar-r10 ut-r" >制单日期:</div>
+					 <div class="utxt" id="createTime"></div>
 				</div>
 			</div>
 			<div class="ub umar-t8">
