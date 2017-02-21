@@ -7,7 +7,7 @@
     <title>组合拆分单</title>
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
     <%-- <script  src="${ctx}/static/js/fun/publicComponent.js"></script> --%>
-    <script  src="${ctx}/static/js/views/combineSplit/combineSplitList.js?1=1"></script>
+    <script  src="${ctx}/static/js/views/combineSplit/combineSplitList.js"></script>
     <style>
     .datagrid-header .datagrid-cell {text-align: center!important;font-weight: bold;}
     </style>
@@ -40,14 +40,16 @@
 	                </div>
 	                <div class="ub ub-ac uw-300 umar-l20">
 	                    <div class="umar-r10 uw-70 ut-r">操作员:</div>
-	                    <input class="uinp ub ub-f1" name="createUserId"  id="createUserId" type="hidden" >
-	                    <input class="uinp ub ub-f1"  type="text"  id="createUserName">
+	                    <input name="createUserId"  id="createUserId" name="createUserId" type="hidden" >
+	                    <input id="oldCreateUserName" type="hidden" >
+	                    <input class="uinp ub ub-f1" type="text" name="createUserName" id="createUserName">
 	                    <div class="uinp-more" onclick="selectOperator();">...</div>
 	                </div>
 	                <div class="ub ub-ac uw-300 uma  r-l20">
 	                    <div class="umar-r10 uw-70 ut-r" >机构:</div>
-	                    <input class="uinp ub ub-f1" name="createBranchId" type="hidden" id="createBranchId" >
-	                    <input class="uinp ub ub-f1"  type="text" id="createBranchName">
+	                    <input name="createBranchId" type="hidden" id="createBranchId" >
+	                    <input type="hidden" id="oldBranchName" >
+	                    <input class="uinp ub ub-f1"  type="text" id="createBranchName" name="branchName">
 	                    <div class="uinp-more" onclick="selectBranch();">...</div>
 	                </div>
 	            </div>

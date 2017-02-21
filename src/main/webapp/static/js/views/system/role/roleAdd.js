@@ -1,3 +1,7 @@
+$(function(){
+	changeRoleType();
+});
+
 function searchBranchInfo (){
 	var branchType = $(':radio[name=branchType]:checked').val();
 	if(!branchType){
@@ -12,6 +16,32 @@ function searchBranchInfo (){
 		$("#opBranchCode").val(data.branchCode);
 		$("#branchNameCode").val("["+data.branchCode+"]"+data.branchName);
 	},"","", branchType);
+}
+
+/**
+ * 切换角色类型事件
+ */
+function changeRoleType(){
+	$(":radio[name=branchType]").change(function(i){
+		var branchType = $(':radio[name=branchType]:checked').val();
+		
+		//只针对于总部角色
+		if(sessionBranchType!='0'){
+			return;
+		}
+		if(branchType==0){ //总部
+			$("#branchNameCode").val(sessionBranchCodeName).attr("disabled", "disabled");
+			$("#branchNameCodeMore").hide();
+			$("#opBranchCompleCode").val("");
+			$("#opBranchId").val(sessionBranchCode);
+			$("#opBranchType").val("");
+			$("#opBranchCode").val("");
+		}else{
+			$("#branchNameCode").val("");
+			$("#branchNameCodeMore").show();
+		}
+		
+	});
 }
 
 /**

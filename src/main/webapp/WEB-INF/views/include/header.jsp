@@ -57,6 +57,7 @@ var sessionUserCode = '${user.userCode}';
 var sessionBranchId = '${user.branchId}';
 var sessionBranchCode = '${user.branchCode}';
 var sessionBranchName = '${user.branchName}';
+var sessionBranchType = '${user.branchType}';
 var sessionBranchCodeName = '';
 if(sessionBranchCode && sessionBranchName){
 	sessionBranchCodeName = "["+sessionBranchCode+"]"+sessionBranchName;

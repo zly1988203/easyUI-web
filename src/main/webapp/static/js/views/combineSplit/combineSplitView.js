@@ -205,13 +205,14 @@ function onChangeRealNum(newV,oldV) {
 //删除
 function deleteCombineSplit(){
 	var id = $("#formId").val();
+	var ids = [id];
 	$.messager.confirm('提示','是否要删除此条数据',function(data){
 		if(data){
 			$.ajax({
 		    	url:contextPath+"/stock/combineSplit/deleteCombineSplit",
 		    	type:"POST",
 		    	data:{
-		    		id : id
+		    		ids : ids
 		    	},
 		    	success:function(result){
 		    		successTip(result['message']);
