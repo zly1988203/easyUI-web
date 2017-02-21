@@ -57,8 +57,7 @@ function initGoodsInfo(skuId,branchId){
 			$("#formEdit #fastDeliver").attr("disabled","disabled");
 		}
 		
-		//$("#saleWay").val(updateGoods.saleWay);
-		if(updateGoods.saleWay=='A'){
+		if(updateGoods.saleWay=='A' || updateGoods.saleWay=='B'){
 			$("#supplierRate").parent().find(".textbox-text,.validatebox-text").attr("readonly","readonly").addClass("uinp-no-more");
 		}else{
 			$("#supplierRate").parent().find(".textbox-text,.validatebox-text,.textbox-prompt").removeAttr('readonly').removeClass("uinp-no-more");
@@ -101,7 +100,7 @@ function getGoodsPupplier(){
 		$("#supplier").val(data.supplierName);
 		$("#saleWayName").val(data.saleWayName);
 		//经营方式
-		if(data.saleWayName=='购销'){
+		if(data.saleWayName=='购销'||data.saleWayName=='代销'){
 			$("#supplierRate").textbox("setValue","");
 			$("#supplierRate").parent().find(".textbox-text,.validatebox-text").attr("readonly","readonly").addClass("uinp-no-more");
 		}else{
