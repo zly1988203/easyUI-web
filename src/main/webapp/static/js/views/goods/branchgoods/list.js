@@ -482,69 +482,10 @@ function resetForm() {
 	$('#status_0').click();
 };
 
-var uploadFormType;
-function importShow(type) {
-	$('#excelFile').val("");
-	$('#filename').val("");
-	$('.uatk').show();
-	uploadFormType = type;
-	$("#temple").val(type);
-	if (type == 0) {
-		$("#temple").text("货号模板下载");
-	} else {
-		$("#temple").text("条码模板下载");
-	}
-}
-
-// 模板导出
-function exportTemp() {
-	var type = $("#temple").val();
-	if (type == 0) {
-		location.href = contextPath + '/form/purchase/exportTemp?type=2';
-	} else if (type == 1) {
-		location.href = contextPath + '/form/purchase/exportTemp?type=3';
-	}
-}
-
 $(document).on('change', '#excelFile', function() {
 	var value = $(this).val();
 	$('#filename').val(value);
 });
-function importListHandel() {
-	var branchId = $("#branchId").val();
-	if (!branchId) {
-		messager("请先选择机构");
-		return;
-	}
-	$("#uploadFormType").val(uploadFormType);
-	$("#uploadFormBranchId").val(branchId);
-	$("#uploadForm").attr("action",
-			contextPath + "/branch/goods/importListEnable");
-	gFunStartLoading();
-	$("#uploadForm").form({
-		onSubmit : function() {
-			return true;
-		},
-		success : function(data) {
-			gFunEndLoading();
-			importClose();
-			var rows = JSON.parse(data).rows;
-			$("#gridOrders").datagrid("loadData", rows);
-			messager("导入成功");
-
-		},
-		error : function(e) {
-			gFunEndLoading();
-			messager("导入失败");
-		}
-	});
-}
-
-function importClose() {
-	$('#excelFile').val("");
-	$('#filename').val("");
-	$('.uatk').hide();
-}
 
 // 隐藏显示引入、淘汰、恢复按钮
 $(document).on('change', "input[name='status']", function() {
@@ -588,3 +529,24 @@ function closeDialogHandel(){
         $(addDalogTemp).panel('destroy');
     }
 }
+
+//导入
+function toImportproduct(type){
+    var branchId = $("#branchId").val();
+    var status = $("#status_3").val();
+    if(!branchId){
+        messager("请先选择收货机构");
+        return;
+    }
+    var param = {
+        url:contextPath+"/branch/goods/importList",
+        tempUrl:contextPath+"/branch/goods/exportTemp",
+        type:type,
+        status:status,
+        branchId:branchId,
+    }
+    new publicUploadFileService(function(data){
+    	$("#gridOrders").datagrid("loadData",data);
+    },param)
+}
+

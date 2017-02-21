@@ -11,12 +11,14 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,19 +29,28 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.okdeer.jxc.common.constant.Constant;
+import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.enums.BranchTypeEnum;
 import com.okdeer.jxc.common.enums.GoodsStatusEnum;
+import com.okdeer.jxc.common.goodselect.BranchGoodsImportComponent;
+import com.okdeer.jxc.common.goodselect.BranchGoodsImportVo;
+import com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid;
+import com.okdeer.jxc.common.goodselect.GoodsSelectImportHandle;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.goods.entity.GoodsBranchPrice;
 import com.okdeer.jxc.goods.entity.GoodsBranchPriceVo;
+import com.okdeer.jxc.goods.entity.GoodsSelect;
 import com.okdeer.jxc.goods.qo.GoodsBranchPriceQo;
 import com.okdeer.jxc.goods.service.GoodsBranchPriceServiceApi;
 import com.okdeer.jxc.goods.service.GoodsSkuSyncServiceApi;
 import com.okdeer.jxc.goods.vo.BranchGoodsPropVo;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
-import com.okdeer.jxc.utils.poi.ExcelReaderUtil;
+import com.okdeer.jxc.utils.jxls.ReportExcelUtil;
+
+import net.sf.json.JSONObject;
 
 /**
  * ClassName: GoodsBranchPriceController 
@@ -62,6 +73,9 @@ public class GoodsBranchPriceController {
 	
 	@Reference(version = "1.0.0", check = false)
 	private GoodsSkuSyncServiceApi goodsSkuSyncServiceApi;
+	
+	@Autowired
+	private BranchGoodsImportComponent branchGoodsImportComponent;
 	
 	private static final Logger LOG = LoggerFactory.getLogger(GoodsBranchPriceController.class);
 	
@@ -277,55 +291,6 @@ public class GoodsBranchPriceController {
 	}
 	
 	/**
-	 * 
-	 * @Description: 导入
-	 * @param file
-	 * @return
-	 * @author xiaoj02
-	 * @date 2016年9月24日
-	 */
-	@RequestMapping(value = "/importListEnable", method = RequestMethod.POST)
-	@ResponseBody
-	public PageUtils<GoodsBranchPriceVo> importListEnable(@RequestParam("file") MultipartFile file,
-			String branchId, Integer type,Integer status) {
-		try { 
-			if (file.isEmpty()) {
-				LOG.info("file is empty");
-				return null;
-			}
-			
-			if(type == null){
-				type = 0;
-			}
-			
-			// 文件流
-			InputStream is = file.getInputStream();
-			// 获取文件名
-			String fileName = file.getOriginalFilename();
-			// 解析Excel
-			List<String> list = ExcelReaderUtil.readExcelForFirstColumn(fileName, is, new String());
-			List<String> tempList = new ArrayList<String>();
-			for (String barCode : list) {
-				if(barCode != null && barCode.indexOf(".") != -1){
-					tempList.add(barCode.substring(0,barCode.indexOf(".")));
-				}else{
-					tempList.add(barCode);
-				}
-			}
-			
-			List<GoodsBranchPriceVo> goodsList = goodsBranchPriceService.querySkuGoodsByBarCodes(tempList,branchId,type,status);
-			
-			PageUtils<GoodsBranchPriceVo> pageUtils = new PageUtils<GoodsBranchPriceVo>(goodsList);
-			return pageUtils;
-		} catch (IOException e) {
-			LOG.error("读取Excel流异常:", e);
-		} catch (Exception e) {
-			LOG.error("用户导入异常:", e);
-		}
-		return null;
-	}
-
-	/**
 	 * 跳转分公司商品属性编辑页
 	 * @param goodsBranchPriceId 商品机构价格表ID
 	 * @return 
@@ -352,5 +317,147 @@ public class GoodsBranchPriceController {
 			return RespJson.error(errorMessage);
 		}
 		return goodsBranchPriceService.updateBranchGoodsProp(branchGoodsPropVo);
+	}
+	
+/************************************修改商品导入*****************************************/
+	/**
+	 * 商品导入
+	 * @param file
+	 * @param type 0货号、1条码
+	 * @param status,0:机构已有商品,1:机构未引入商品,2:所有
+	 * @param branchId
+	 * @return
+	 * @author zhongy
+	 * @date 2017年02月21日
+	 */
+	@RequestMapping(value = "importList")
+	@ResponseBody
+	public RespJson importList(@RequestParam("file") MultipartFile file, String type, String branchId,Integer status) {
+		RespJson respJson = RespJson.success();
+		try {
+			if (file.isEmpty()) {
+				return RespJson.error("文件为空");
+			}
+
+			if (StringUtils.isBlank(type)) {
+				return RespJson.error("导入类型为空");
+			}
+
+			// 文件流
+			InputStream is = file.getInputStream();
+			// 获取文件名
+			String fileName = file.getOriginalFilename();
+
+			SysUser user = UserUtil.getCurrentUser();
+
+			String[] fields = null;
+
+			if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {
+				fields = new String[] { "skuCode"};
+			} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {
+				fields = new String[] { "barCode"};
+			}
+			String errorFileDownloadUrlPrefix = "/branch/goods/downloadErrorFile";
+			
+			BranchGoodsImportVo<GoodsBranchPriceVo> vo = branchGoodsImportComponent.importSelectGoods(fileName, is, fields,
+					new GoodsBranchPriceVo(), branchId,status, user.getId(), type, errorFileDownloadUrlPrefix ,
+					new GoodsSelectImportBusinessValid() {
+
+						@Override
+						public void businessValid(List<JSONObject> excelListSuccessData, String[] excelField) {
+						}
+
+						/**
+						 * (non-Javadoc)
+						 * @see com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid#formatter(java.util.List)
+						 */
+						@Override
+						public void formatter(List<? extends GoodsSelect> list, List<JSONObject> excelListSuccessData,
+								List<JSONObject> excelListErrorData) {
+						}
+
+						/**
+						 * (non-Javadoc)
+						 * @see com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid#errorDataFormatter(java.util.List)
+						 */
+						@Override
+						public void errorDataFormatter(List<JSONObject> list) {
+						}
+					}, null);
+			respJson.put("importInfo", vo);
+
+		} catch (IOException e) {
+			respJson = RespJson.error("读取Excel流异常");
+			LOG.error("读取Excel流异常:", e);
+		} catch (Exception e) {
+			respJson = RespJson.error("导入发生异常");
+			LOG.error("用户导入异常:", e);
+		}
+		return respJson;
+
+	}
+	
+	/**
+	 * @author zhongy
+	 * @date 2017年02月21日
+	 */
+	@RequestMapping(value = "downloadErrorFile")
+	public void downloadErrorFile(String code, String type, HttpServletResponse response) {
+		String reportFileName = "错误数据";
+
+		String[] headers = null;
+		String[] columns = null;
+
+		if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {
+			columns = new String[] { "skuCode"};
+			headers = new String[] { "货号"};
+		} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {
+			columns = new String[] { "barCode"};
+			headers = new String[] { "条码"};
+		}
+		branchGoodsImportComponent.downloadErrorFile(code, reportFileName, headers, columns, response);
+	}
+	
+	/**
+	 * @Description: 商品引入导入模板
+	 * @param response
+	 * @param type
+	 * @author zhongy
+	 * @date 2016年10月12日
+	 */
+	@RequestMapping(value = "exportTemp")
+	public void exportTemp(HttpServletResponse response, Integer type) {
+		LOG.info("商品引入导入模板请求参数,type={}", type);
+		try {
+			String fileName = "";
+			String templateName = "";
+			if (Constant.ZERO == type) {
+				templateName = ExportExcelConstant.GOODS_INTRODUCE_SKU_CODE_TEMPLE;
+				fileName = "货号导入模板";
+			} else if (Constant.ONE == type) {
+				templateName = ExportExcelConstant.GOODS_INTRODUCE_BAR_CODE_TEMPLE;
+				fileName = "条码导入模板";
+			}
+			if (StringUtils.isNotBlank(fileName) && StringUtils.isNotBlank(templateName)) {
+				exportListForXLSX(response, null, fileName, templateName);
+			}
+		} catch (Exception e) {
+			LOG.error("导出模板异常", e);
+		}
+	}
+
+	/**
+	 * @Description: 导出后缀名为“.xlsx”的Excel公用方法
+	 * @param response	
+	 * @param dataList	数据集合
+	 * @param fileName	导出文件名称，不包括后缀名
+	 * @param templateName	模板名称，包括后缀名
+	 * @author liwb
+	 * @date 2016年8月22日
+	 */
+	protected void exportListForXLSX(HttpServletResponse response,
+			List<?> dataList, String fileName, String templateName) {
+		ReportExcelUtil.exportListForXLSX(response, dataList, fileName,
+				templateName);
 	}
 }

@@ -39,12 +39,16 @@
 	                </shiro:hasPermission>
 	                <div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 	                <shiro:hasPermission name="JxcGoodsIntroduce:importBySkuCode">
-					  <div class="ubtns-item" onclick="importShow(0)">导入货号</div>
+	                  <div class="ubtns-item" onclick="toImportproduct(0)">导入货号</div>
+					 <!--  <div class="ubtns-item" onclick="importShow(0)">导入货号</div> -->
 					</shiro:hasPermission>
 					
 					<shiro:hasPermission name="JxcGoodsIntroduce:importByBarCode">
-	                <div class="ubtns-item" onclick="importShow(1)">导入条码</div>
+		            <div class="ubtns-item" onclick="toImportproduct(1)">导入条码</div>
+	               <!--  <div class="ubtns-item" onclick="importShow(1)">导入条码</div> -->
 	                </shiro:hasPermission>
+	                 
+	                 
 	                 
 	                <shiro:hasPermission name="JxcGoodsIntroduce:enabled">
 	                <div class="ubtns-item ub-enable" id="important_div" onclick="enable()">引入</div>
@@ -103,7 +107,7 @@
        </div>
 
  <!-- 导入弹框 -->
-     <div class="uabs uatk">
+      <div class="uabs uatk">
      	<div class="ubtn uw-100 umar-10" onclick="exportTemp()" id="temple"></div>
      	<form id="uploadForm" method="post" enctype="multipart/form-data">
      	<input type="hidden" name="branchId" id="uploadFormBranchId">
