@@ -222,7 +222,7 @@ function selectGoods(searchKey){
         }
         selectStockAndPrice(branchId,data);
   
-    },searchKey,0,'','',branchId,0);
+    },searchKey,0,'','',branchId,0,0);
 }
 //查询价格、库存
 function selectStockAndPrice(branchId,data){
