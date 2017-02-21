@@ -102,7 +102,7 @@ function initDatagridRequire(){
 					}
 				}
 			},
-			{field: 'costPrice', title: '进价', width: '60', align: 'right',
+			{field: 'price', title: '进价', width: '60', align: 'right',
 				formatter:function(value,row,index){
 				    if(value){
 				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
@@ -117,7 +117,7 @@ function initDatagridRequire(){
 					}
 				}
 			},
-			{field: 'costAmount', title: '进价金额', width: '80', align: 'right',
+			{field: 'priceAmount', title: '进价金额', width: '80', align: 'right',
 				formatter:function(value,row,index){
 					if(row.isFooter){
 						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
