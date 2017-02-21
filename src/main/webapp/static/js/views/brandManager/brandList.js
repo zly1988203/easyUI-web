@@ -98,7 +98,7 @@ function add(){
         queryParams:{},
         width: 400,
         height: 250,
-        title: "商品品牌-新增",
+        title: "品牌新增",
         closable: true,
         resizable: true,
         onClose: function () {
@@ -120,7 +120,7 @@ function editHandel(id){
         },
         width: 400,
         height: 300,
-        title: "商品品牌-修改",
+        title: "品牌修改",
         closable: true,
         resizable: true,
         onClose: function () {
