@@ -90,15 +90,53 @@ function initDatagridGoodsTotal(){
             {field:'skuCode',title:'货号',width:'80px',align:'left'},
             {field:'skuName',title:'商品名称',width:100,align:'left'},
             {field:'spec',title:'规格',width:'130px',align:'left'},
-            {field:'saleAmount',title:'销售金额',width:'150px',align:'center'},
-            {field:'supplierRate',title:'联营扣率',width:'130px',align:'center'},
-            {field:'rateAmount',title:'扣率金额',width:'200px',align:'center'}
+            {field:'saleAmount',title:'销售金额',width:'150px',align:'center',
+            	formatter:function(value,row,index){
+				    if(value){
+				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
+				    }
+				},
+            	editor:{
+                    type:'numberbox',
+                    options:{
+                    	disabled:true,
+                        min:0,
+                        precision:1
+                    }
+                }},
+            {field:'supplierRate',title:'联营扣率',width:'130px',align:'center',
+                	formatter:function(value,row,index){
+    				    if(value){
+    				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
+    				    }
+    				},
+                	editor:{
+                        type:'numberbox',
+                        options:{
+                        	disabled:true,
+                            min:0,
+                            precision:1
+                        }
+                    }},
+            {field:'rateAmount',title:'扣率金额',width:'200px',align:'center',
+                    	formatter:function(value,row,index){
+        				    if(value){
+        				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
+        				    }
+        				},
+                    	editor:{
+                            type:'numberbox',
+                            options:{
+                            	disabled:true,
+                                min:0,
+                                precision:1
+                            }
+                        }}
         ]],
 		onLoadSuccess : function() {
 			gridHandel.setDatagridHeader("center");
 		}
     });
-    queryGoodsTotalForm();
 }
 //初始化表格
 function initDatagridGoodsDetail(){
@@ -135,18 +173,95 @@ function initDatagridGoodsDetail(){
 		        	  {field:'spec',title:'规格',width:'130px',align:'left'},
 		        	  {field:'unit',title:'单位',width:'130px',align:'left'},
 		        	  {field:'businessType',title:'业务类型',width:'130px',align:'left'},
-		        	  {field:'saleNum',title:'数量',width:'130px',align:'left'},
-		        	  {field:'salePrice',title:'销售价',width:'130px',align:'left'},
-		        	  {field:'originalPrice',title:'原价',width:'130px',align:'left'},
-		        	  {field:'saleAmount',title:'销售金额',width:'150px',align:'center'},
-		        	  {field:'supplierRate',title:'联营扣率',width:'130px',align:'center'},
-		        	  {field:'rateAmount',title:'扣率金额',width:'200px',align:'center'}
+		        	  {field:'saleNum',title:'数量',width:'130px',align:'left',
+		              	formatter:function(value,row,index){
+						    if(value){
+						    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
+						    }
+						},
+		            	editor:{
+		                    type:'numberbox',
+		                    options:{
+		                    	disabled:true,
+		                        min:0,
+		                        precision:1
+		                    }
+		                }},
+		        	  {field:'salePrice',title:'销售价',width:'130px',align:'left',
+		                	formatter:function(value,row,index){
+		    				    if(value){
+		    				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
+		    				    }
+		    				},
+		                	editor:{
+		                        type:'numberbox',
+		                        options:{
+		                        	disabled:true,
+		                            min:0,
+		                            precision:1
+		                        }
+		                    }},
+		        	  {field:'originalPrice',title:'原价',width:'130px',align:'left',
+		                    	formatter:function(value,row,index){
+		        				    if(value){
+		        				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
+		        				    }
+		        				},
+		                    	editor:{
+		                            type:'numberbox',
+		                            options:{
+		                            	disabled:true,
+		                                min:0,
+		                                precision:1
+		                            }
+		                        }},
+		        	  {field:'saleAmount',title:'销售金额',width:'150px',align:'center',
+		                        	formatter:function(value,row,index){
+		            				    if(value){
+		            				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
+		            				    }
+		            				},
+		                        	editor:{
+		                                type:'numberbox',
+		                                options:{
+		                                	disabled:true,
+		                                    min:0,
+		                                    precision:1
+		                                }
+		                            }},
+		        	  {field:'supplierRate',title:'联营扣率',width:'130px',align:'center',
+		                            	formatter:function(value,row,index){
+		                				    if(value){
+		                				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
+		                				    }
+		                				},
+		                            	editor:{
+		                                    type:'numberbox',
+		                                    options:{
+		                                    	disabled:true,
+		                                        min:0,
+		                                        precision:1
+		                                    }
+		                                }},
+		        	  {field:'rateAmount',title:'扣率金额',width:'200px',align:'center',
+		                                	formatter:function(value,row,index){
+		                    				    if(value){
+		                    				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
+		                    				    }
+		                    				},
+		                                	editor:{
+		                                        type:'numberbox',
+		                                        options:{
+		                                        	disabled:true,
+		                                            min:0,
+		                                            precision:1
+		                                        }
+		                                    }}
 		        	  ]],
 		        	  onLoadSuccess : function() {
 		        		  gridHandel.setDatagridHeader("center");
 		        	  }
 	});
-	queryGoodsDetailForm();
 }
 function queryGoodsTotalForm(){
 	$("#startCount").attr("value",null);
