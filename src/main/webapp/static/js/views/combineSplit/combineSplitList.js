@@ -119,8 +119,7 @@ function deleteCombineSplit(){
                     success: function(data){
                     	gFunEndLoading();
                     	if(data.code == 0){
-                    		successTip("删除成功");
-                    		//successTip(result['message']);
+                    		successTip(data['message']);
                     		$('#combineSplitList').datagrid('deleteRow', rowIndex);
                     	}
                     }

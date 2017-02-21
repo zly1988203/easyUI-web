@@ -214,12 +214,9 @@ function deleteCombineSplit(){
 		    		id : id
 		    	},
 		    	success:function(result){
+		    		successTip(result['message']);
 		    		if(result['code'] == 0){
-		    			$.messager.alert("操作提示", "删除成功！", "info",function(){
-		    				location.href = contextPath +"/stock/combineSplit/getCombineSplitList";
-		    			});
-		    		}else{
-		    			successTip(result['message']);
+		    			back();
 		    		}
 		    	},
 		    	error:function(result){
