@@ -23,8 +23,9 @@ import com.google.gson.JsonArray;
 import com.okdeer.ca.api.sysrole.entity.SysMenuOperDto;
 import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
+import com.okdeer.jxc.common.constant.SysConstant;
 import com.okdeer.jxc.common.enums.BranchTypeEnum;
-import com.okdeer.jxc.common.helper.SysHelper;
+import com.okdeer.jxc.common.help.SysHelper;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
@@ -297,6 +298,11 @@ public class RoleController extends BaseController<RoleController> {
 		try {
 			// 设置创建者Id
 			roleVo.setCreateUserId(getCurrUserId());
+			
+			//如果是总部，默认为总部机构
+			if(BranchTypeEnum.HEAD_QUARTERS.getCode().equals(roleVo.getBranchType())){
+				roleVo.setBranchId(SysConstant.MANAGER_BRANCH_ID);
+			}
 
 			// 新增角色信息
 			respJson = sysRoleService.addRole(roleVo);

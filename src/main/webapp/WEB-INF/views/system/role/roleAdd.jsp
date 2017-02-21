@@ -15,14 +15,14 @@ pageEncoding="UTF-8"%>
 	<div class="ub uline"></div>
 	<form id="addRoleForm" method="post" >
 		<div class="ub ub-ver upad-4">
-			<div class="ub umar-t20">
+			<!-- <div class="ub umar-t20">
 	            <div class="ub ub-ac umar-l20">
 	                <div class="umar-r10 uw-60 ut-r">角色编码:</div>
 	                <input  id="roleCode" name="roleCode" class="uinp uw-250 easyui-validatebox" 
 	                	data-options="required:true" type="text" maxlength="50">
             	    <i class="uc-red">*</i>
 	            </div>
-          	</div>
+          	</div> -->
           	<div class="ub umar-t20">
 	            <div class="ub ub-ac umar-l20">
 	                <div class="umar-r10 uw-60 ut-r">角色名称:</div>
@@ -56,7 +56,7 @@ pageEncoding="UTF-8"%>
 		                <input type="hidden" id="opBranchCompleCode" name="opBranchCompleCode">
 		                <div class="ub ub-ac">
 		                	<input class="uinp uw-250" type="text" id="branchNameCode" name="branchNameCode" readonly="readonly" onclick="searchBranchInfo()">
-		                	<div class="uinp-more"  onclick="searchBranchInfo()">...</div>
+		                	<div class="uinp-more" id="branchNameCodeMore"  onclick="searchBranchInfo()">...</div>
 		                </div>
 		                <i class="uc-red">*</i>
 	            	</c:if>
