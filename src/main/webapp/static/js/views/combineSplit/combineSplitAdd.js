@@ -4,6 +4,7 @@ var maxNum = 999999.99;
 $(function(){
 	$("#createBranchName").val(sessionBranchCodeName);
 	$("#createBranchId").val(sessionBranchId);
+	$("#createTime").html(new Date().format('yyyy-MM-dd hh:mm'));
     //开始和结束时间
     $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
