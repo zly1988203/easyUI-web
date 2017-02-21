@@ -113,9 +113,9 @@
 					<div class="umar-r10 uw-60 ut-r">商品状态:</div>
 					<select name="status" id="status" class="uselect easyui-combobox" style="width: 204px;">
                         <option value="">全部</option>
-                        <c:forEach items="${goodsStatus}" var="goodsStatus">
-                            <option value="${goodsStatus.name}">${goodsStatus.value}</option>
-                        </c:forEach>
+                        <option value="NORMAL">正常</option>
+                        <option value="STOPSELLING">停售</option>
+                        <option value="STOPBUYING">停购</option>
                     </select>
 				</div>
 			</div>

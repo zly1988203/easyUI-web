@@ -13,7 +13,7 @@ function initGoodsInfo(skuId,branchId){
 			//普通的input
 			if($(element).prop("tagName") == "INPUT"){
 				if($(element).attr('type')=="checkbox"){
-					if(value){ //传到前端checkbox选中的值是true
+					if(1 == value){ //传到前端checkbox选中的值是true
 						$(element).attr("checked","checked");
 					}
 				}else{

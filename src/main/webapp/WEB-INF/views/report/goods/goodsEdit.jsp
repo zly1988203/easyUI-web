@@ -125,10 +125,8 @@
 				<div class="ub ub-ac uw-300">
 					<div class="umar-r10 uw-60 ut-r">主供应商:</div>
 					<div class="ub">
-						<input id="supplierId" name="supplierId" class="uinp"
-							type="hidden"> <input id="supplier" name="supplierName"
-							class="uinp" type="text" readonly="readonly"
-							data-options="required:true">
+						<input id="supplierId" name="supplierId" class="uinp" type="hidden"> 
+						<input id="supplier" name="supplierName" class="uinp" type="text" readonly="readonly" data-options="required:true">
 						<div class="uinp-more new-right" onclick="getGoodsPupplier()">...</div>
 					</div>
 					<i class="uc-red">*</i>
@@ -280,20 +278,20 @@
 			</div>
 			<div class="ub umar-l32" style="position: absolute; left: 0px;">
 				<div class="ub ub-ac umar-r40">
-					<input id="managerStock" name="managerStock" id="managerStock"
+					<input id="isManagerStock" name="isManagerStock"
 						class="ub" type="checkbox" name="checkbox" disabled="disabled" /><span>是否管理库存</span>
 				</div>
 				<div class="ub ub-ac umar-r40">
-					<input id="highValue" name="highValue" id="highValue" class="ub"
+					<input id="isHighValue" name="isHighValue" class="ub"
 						type="checkbox" name="checkbox" disabled="disabled" /><span>是否高值商品</span>
 				</div>
 				<div class="ub ub-ac umar-r40">
-					<input id="attention" name="attention" id="attention" class="ub"
+					<input id="isAttention" name="isAttention" id="attention" class="ub"
 						type="checkbox" name="checkbox" disabled="disabled" /><span>是否关注商品</span>
 				</div>
 				<div class="ub ub-ac umar-r40">
-					<input id="fastDeliver" name="fastDeliver" id="fastDeliver"
-						class="ub" type="checkbox" name="checkbox" /><span>是否直送商品</span>
+					<input id="isFastDeliver" name="fastDeliver" class="ub" type="checkbox"/>
+					<span>是否直送商品</span>
 				</div>
 			</div>
 		</div>
