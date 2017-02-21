@@ -20,7 +20,7 @@ function initcombineSplitList() {
 		method : 'post',
 		align : 'center',
 		url : '',
-		singleSelect : true, // 单选 false多选
+		singleSelect : false, // 单选 false多选
 		rownumbers : true, // 序号
 		pagination : true, // 分页
 		height : '100%',
@@ -78,11 +78,7 @@ function initcombineSplitList() {
     				}
     			},
                 {field: 'validUserName', title: '审核人员', width: '130px', align: 'left'},
-                {field: 'remark', title: '备注', width: '200px', align: 'left',
-        		     onLoadSuccess:function(data){
-        			gridHandel.setDatagridHeader("center");
-        		   }
-                }
+                {field: 'remark', title: '备注', width: '200px', align: 'left'}
         ]],
          onLoadSuccess:function(data){
             gridHandel.setDatagridHeader("center");
@@ -94,19 +90,32 @@ function addCombineSplit(){
 	toAddTab("新增组合拆分单",contextPath + "/stock/combineSplit/add");
 }
 
-function toCombineDetail(){
-	toAddTab("组合拆分详情",contextPath + "/stock/combineSplit/add");
-}
-
 //删单
 function deleteCombineSplit(){
-	var row = $('#combineSplitList').datagrid('getSelected');
-	var rowIndex = $('#combineSplitList').datagrid('getRowIndex',row);
-	if(row!=null&&row.status==1){
-		 $.messager.confirm('提示','已经审核的单据不可以删除！');
+	var rows = $('#combineSplitList').datagrid('getChecked');
+	console.log('rows',rows);
+	if(rows.length <= 0){
+		$.messager.alert('提示','没有单据可以删除，请选择一笔单据再删除？');
 		return;
 	}
-    if(datagridUtil.isSelectRows()){
+	var tempIds = [];
+	var flag = true;
+	var shLength = 0;
+	rows.forEach(function(data,index){
+		var status = data.status;
+    	if(status == 0){
+    		tempIds.push(data.id);
+	   		flag = false;
+    	}
+    	
+	})
+    
+    if(flag){
+    	messager('已经审核的单据不可以删除！');
+    	return;
+    }
+	
+    if(tempIds.length > 0){
         $.messager.confirm('提示','单据删除后将无法恢复，确认是否删除？',function(r){
             if (r){
             	//删除单据
@@ -114,13 +123,13 @@ function deleteCombineSplit(){
             	$.ajax({
                     type: "POST",
                     url: contextPath+"/stock/combineSplit/deleteCombineSplit",
-                    data: {"id":row.id},
+                    data: {"ids":tempIds},
                     dataType: "json",
                     success: function(data){
                     	gFunEndLoading();
                     	if(data.code == 0){
                     		successTip(data['message']);
-                    		$('#combineSplitList').datagrid('deleteRow', rowIndex);
+                    		queryForm();
                     	}
                     }
                 });
@@ -129,19 +138,6 @@ function deleteCombineSplit(){
     }
 }
 
-//datagridId datagrid的Id
-var datagridId = "combineSplitList";
-//datagrid的常用操作方法
-var datagridUtil = {
-    isSelectRows:function(){
-        if($("#"+datagridId).datagrid("getSelections").length <= 0){
-            $.messager.alert('提示','没有单据可以删除，请选择一笔单据再删除？');
-            return false;
-        }else{
-            return true;
-        }
-    }      
-}
 
 //查询
 function queryForm(){

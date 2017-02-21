@@ -220,10 +220,10 @@ public class CombineSplitController extends BaseController<T> {
 	 */
 	@RequestMapping(value = "deleteCombineSplit", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson deleteCombineSplit(String id) {
+	public RespJson deleteCombineSplit(@RequestParam(value = "ids[]") List<String> ids) {
 		RespJson resp;
 		try {
-			return stockAdjustServiceApi.deleteStockAdjust(id);
+			return stockAdjustServiceApi.deleteCombineSplit(ids);
 		} catch (Exception e) {
 			LOG.error("删除组合拆分单异常:{}", e);
 			resp = RespJson.error("删除组合拆分单失败");
