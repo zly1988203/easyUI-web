@@ -46,7 +46,7 @@ function initDatagridDay(){
             {field:'barCode',title:'条码',width:100,align:'left'},
             {field:'beginStock',title:'期初库存数',width:'130px',align:'left',
             	formatter:function(value,row,index){
-				    if(value){
+				    if(value || value ==0){
 				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
 				    }
 				},
@@ -60,7 +60,7 @@ function initDatagridDay(){
                 }},
             {field:'beginCostAmount',title:'期初成本金额',width:'130px',align:'left',
                 	formatter:function(value,row,index){
-    				    if(value){
+    				    if(value || value ==0){
     				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
     				    }
     				},
@@ -74,7 +74,7 @@ function initDatagridDay(){
                     }},
             {field:'beginSaleAmount',title:'期初销售金额',width:'130px',align:'left',
                     	formatter:function(value,row,index){
-        				    if(value){
+                    		 if(value || value ==0){
         				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
         				    }
         				},
@@ -88,7 +88,7 @@ function initDatagridDay(){
                         }},
             {field:'purchaseNum',title:'采购数量',width:'130px',align:'left',
                         	formatter:function(value,row,index){
-            				    if(value){
+                        		 if(value || value ==0){
             				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
             				    }
             				},
@@ -102,7 +102,7 @@ function initDatagridDay(){
                             }},
             {field:'purchaseAmount',title:'采购金额',width:'130px',align:'left',
                             	formatter:function(value,row,index){
-                				    if(value){
+                            		 if(value || value ==0){
                 				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
                 				    }
                 				},
@@ -116,7 +116,7 @@ function initDatagridDay(){
                                 }},
                                 {field:'posNum',title:'销售数量',width:'130px',align:'left',
                                 	formatter:function(value,row,index){
-                    				    if(value){
+                                		 if(value || value ==0){
                     				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
                     				    }
                     				},
@@ -130,7 +130,7 @@ function initDatagridDay(){
                                     }},
                     {field:'costAmount',title:'销售成本金额',width:'130px',align:'left',
                                     	formatter:function(value,row,index){
-                        				    if(value){
+                                    		 if(value || value ==0){
                         				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
                         				    }
                         				},
@@ -144,7 +144,7 @@ function initDatagridDay(){
                                         }},
             {field:'dcoNum',title:'配送出库数量',width:'130px',align:'left',
                                 	formatter:function(value,row,index){
-                    				    if(value){
+                                		 if(value || value ==0){
                     				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
                     				    }
                     				},
@@ -158,7 +158,7 @@ function initDatagridDay(){
                                     }},
             {field:'dcoAmount',title:'配送出库金额',width:'130px',align:'left',
                                     	formatter:function(value,row,index){
-                        				    if(value){
+                                    		 if(value || value ==0){
                         				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
                         				    }
                         				},
@@ -172,7 +172,7 @@ function initDatagridDay(){
                                         }},
             {field:'dciNum',title:'配送入库数量',width:'130px',align:'left',
                                         	formatter:function(value,row,index){
-                            				    if(value){
+                                        		 if(value || value ==0){
                             				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
                             				    }
                             				},
@@ -186,7 +186,7 @@ function initDatagridDay(){
                                             }},
             {field:'dciAmount',title:'配送入库金额',width:'130px',align:'left',
                                             	formatter:function(value,row,index){
-                                				    if(value){
+                                            		 if(value || value ==0){
                                 				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
                                 				    }
                                 				},
@@ -200,7 +200,7 @@ function initDatagridDay(){
                                                 }},
             {field:'otherNum',title:'其他出入库数量',width:'130px',align:'left',
                                                 	formatter:function(value,row,index){
-                                    				    if(value){
+                                                		 if(value || value ==0){
                                     				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
                                     				    }
                                     				},
@@ -214,7 +214,7 @@ function initDatagridDay(){
                                                     }},
             {field:'otherAmount',title:'其他出入库金额',width:'130px',align:'left',
                                                     	formatter:function(value,row,index){
-                                        				    if(value){
+                                                    		 if(value || value ==0){
                                         				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
                                         				    }
                                         				},
@@ -228,7 +228,7 @@ function initDatagridDay(){
                                                         }},
             {field:'costChangeAmount',title:'成本调整金额',width:'150px',align:'center',
                                                         	formatter:function(value,row,index){
-                                            				    if(value){
+                                                        		 if(value || value ==0){
                                             				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
                                             				    }
                                             				},
@@ -242,7 +242,7 @@ function initDatagridDay(){
                                                             }},
             {field:'endStock',title:'期末库存数',width:'130px',align:'center',
                                                             	formatter:function(value,row,index){
-                                                				    if(value){
+                                                            		 if(value || value ==0){
                                                 				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
                                                 				    }
                                                 				},
@@ -256,7 +256,7 @@ function initDatagridDay(){
                                                                 }},
             {field:'endCostAmount',title:'期末成本金额',width:'200px',align:'center',
                                                                 	formatter:function(value,row,index){
-                                                    				    if(value){
+                                                                		 if(value || value ==0){
                                                     				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
                                                     				    }
                                                     				},
@@ -270,7 +270,7 @@ function initDatagridDay(){
                                                                     }},
             {field:'endSaleAmount',title:'期末销售金额',width:'200px',align:'center',
                                                                     	formatter:function(value,row,index){
-                                                        				    if(value){
+                                                                    		 if(value || value ==0){
                                                         				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
                                                         				    }
                                                         				},
