@@ -163,27 +163,8 @@ function selectGoodsDialog(searchKey) {
 
 //商品选择 公共使用
 function gFunGoodsSelect(searchKey,branchId){
-//	new publicGoodsService("PA",function(data){
-//    	if(data.length==0){
-//            return;
-//        }
-//    	if(data.length > 1){
-//    		messager('只能选择一个组合商品');
-//    		return;
-//    	}
-//    	console.log(data);
-//    	$("#skuIdMain").val(data[0].skuId);
-//    	$("#skuCodeMain").val(data[0].skuCode);
-//    	$("#skuNameMain").val(data[0].skuName);
-//    	$("#salePriceMain").val(data[0].salePrice);
-//    	$("#totalNum").numberbox('setValue',1);
-//    	$("#amountMain").val(parseFloat(data[0].salePrice).toFixed(4));
-//    	//查询成分商品
-//    	selectView($("#skuIdMain").val());
-//    },searchKey,0,"","",branchId,"","0");
-//	
 	var comboxV = $("#formType").combobox('getValue');
-	publicNewGoodsService({goodsTypeList:comboxV},function(data){
+	publicNewGoodsService({goodsTypeList:comboxV,branchId:branchId},function(data){
 		  	if(data.length==0){
 	            return;
 	        }
