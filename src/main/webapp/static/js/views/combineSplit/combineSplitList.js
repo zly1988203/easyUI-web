@@ -23,6 +23,8 @@ function initcombineSplitList() {
 		singleSelect : false, // 单选 false多选
 		rownumbers : true, // 序号
 		pagination : true, // 分页
+		selectOnCheck:false,
+		checkOnSelect:false,
 		height : '100%',
 		pageSize : 10,
         columns: [[
@@ -80,11 +82,29 @@ function initcombineSplitList() {
                 {field: 'validUserName', title: '审核人员', width: '130px', align: 'left'},
                 {field: 'remark', title: '备注', width: '200px', align: 'left'}
         ]],
+        onCheckAll: function(rows) {  
+            $("input[type='checkbox']").each(function(index, el) {  
+                console.log(el.disabled)  
+                if (el.disabled) {  
+                    $("#combineSplitList").datagrid('uncheckRow', index - 1);//此处参考其他人的代码，原代码为unselectRow  
+                }  
+            })  
+        },
          onLoadSuccess:function(data){
+        	 disabledCheck();
             gridHandel.setDatagridHeader("center");
          }
     });
 }
+function disabledCheck(){
+	$.each($("#combineSplitList").prev('.datagrid-view2').find('.datagrid-body tr'),function(index,obj){
+		var _tempStatus = $(obj).children('td[field="status"]').children("div").text();
+		if(_tempStatus == '审核通过'){
+			$(obj).children('td[field="check"]').find('input[type="checkbox"]').prop('disabled',true);
+		}
+	})
+}
+
 //新增
 function addCombineSplit(){
 	toAddTab("新增组合拆分单",contextPath + "/stock/combineSplit/add");
@@ -145,6 +165,16 @@ function queryForm(){
 	if (!isValid) {
 		return isValid;
 	}
+	var oldBranchName = $("#oldBranchName").val();
+	var createBranchName = $("#createBranchName").val();
+	var oldCreateUserName = $("#oldCreateUserName").val();
+	var createUserName = $("#createUserName").val();
+	if(oldBranchName && oldBranchName != createBranchName){
+		$("#createBranchId").val('');
+	}
+	if(oldCreateUserName && oldCreateUserName != createUserName){
+		$("#createUserId").val('');
+	}
 	var fromObjStr = $('#searchForm').serializeObject();
 	dg.datagrid('options').method = "post";
 	dg.datagrid('options').url = contextPath+'/stock/combineSplit/getCombineSplitList';
@@ -158,6 +188,7 @@ function selectBranch (){
 	new publicAgencyService(function(data){
 		$("#createBranchId").val(data.branchesId);
 		$("#createBranchName").val("["+data.branchCode+"]"+data.branchName);
+		$("#oldBranchName").val("["+data.branchCode+"]"+data.branchName);
 	},"","");
 }
 /**
@@ -168,6 +199,7 @@ function selectOperator(){
 		//data.Id
 		$("#createUserId").val(data.id);
 		$("#createUserName").val("["+data.userCode+"]"+data.userName);
+		$("#oldCreateUserName").val("["+data.userCode+"]"+data.userName);
 	});
 }
 
