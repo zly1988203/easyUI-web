@@ -75,9 +75,9 @@
 				<div class="ub ub-ac umar-l10">
 					<input class="ub radioItem" type="radio" name="examineStatus" value="1" /><label>已审核商品</label>
 				</div>
-				<div class="ub ub-ac umar-l10">
+				<!-- <div class="ub ub-ac umar-l10">
 					<input class="ub radioItem" type="radio" name="examineStatus" value="2" /><label>审核不通过</label>
-				</div>
+				</div> -->
 				<div class="ub ub-ac umar-l10">
 					<input class="ub radioItem" type="radio" name="examineStatus" value="" /><label>全部商品</label>
 				</div>
