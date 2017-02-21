@@ -34,14 +34,14 @@
 	        <div class="ub umar-t8">
                 <div class="ub ub-ac uw-300 ">
 	                    <div class="umar-r10 uw-70 ut-r">机构名称:</div>
-	                    <input type="hidden" id="branchId" name="branchId" />
-	                    <input class="uinp ub ub-f1" type="text" id="branchName" name="branchName"/>
+	                    <input type="hidden" id="branchId" name="branchId" value="${branchId}" />
+	                    <input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" value="${branchName }"/>
 	                    <div class="uinp-more" onclick="selectBranches()" >...</div>
 	                </div>
 	               
 	                <div class="ub ub-ac  umar-l20">
                     <div class="umar-r10 uw-70 ut-r">货号/条码:</div>
-                    <input class="uinp ub ub-f1" type="text" name="skuCode" id="skuCode">
+                    <input class="uinp ub ub-f1" type="text" name="skuBarCode" id="skuBarCode">
                 </div> 
             </div>
 	

@@ -28,6 +28,7 @@ function initDatagridDay(){
         fitColumns:true,    //每列占满
         //fit:true,            //占满
         showFooter:true,
+        pageSize : 50,
 		height:'100%',
 		width:'100%',
         columns:[[
@@ -43,27 +44,249 @@ function initDatagridDay(){
             {field:'skuCode',title:'货号',width:'80px',align:'left'},
             {field:'skuName',title:'商品名称',width:100,align:'left'},
             {field:'barCode',title:'条码',width:100,align:'left'},
-            {field:'beginStock',title:'期初库存数',width:'130px',align:'left'},
-            {field:'beginCostAmount',title:'期初成本金额',width:'130px',align:'left'},
-            {field:'beginSaleAmount',title:'期初销售金额',width:'130px',align:'left'},
-            {field:'purchaseNum',title:'采购数量',width:'130px',align:'left'},
-            {field:'purchaseAmount',title:'采购金额',width:'130px',align:'left'},
-            {field:'dcoNum',title:'配送出库数量',width:'130px',align:'left'},
-            {field:'dcoAmount',title:'配送出库金额',width:'130px',align:'left'},
-            {field:'dciNum',title:'配送入库数量',width:'130px',align:'left'},
-            {field:'dciAmount',title:'配送入库金额',width:'130px',align:'left'},
-            {field:'otherNum',title:'其他出入库数量',width:'130px',align:'left'},
-            {field:'otherAmount',title:'其他出入库金额',width:'130px',align:'left'},
-            {field:'costChangeAmount',title:'成本调整金额',width:'150px',align:'center'},
-            {field:'endStock',title:'期末库存数',width:'130px',align:'center'},
-            {field:'endCostAmount',title:'期末成本金额',width:'200px',align:'center'},
-            {field:'endSaleAmount',title:'期末销售金额',width:'200px',align:'center'}
+            {field:'beginStock',title:'期初库存数',width:'130px',align:'left',
+            	formatter:function(value,row,index){
+				    if(value || value ==0){
+				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
+				    }
+				},
+            	editor:{
+                    type:'numberbox',
+                    options:{
+                    	disabled:true,
+                        min:0,
+                        precision:1
+                    }
+                }},
+            {field:'beginCostAmount',title:'期初成本金额',width:'130px',align:'left',
+                	formatter:function(value,row,index){
+    				    if(value || value ==0){
+    				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
+    				    }
+    				},
+                	editor:{
+                        type:'numberbox',
+                        options:{
+                        	disabled:true,
+                            min:0,
+                            precision:1
+                        }
+                    }},
+            {field:'beginSaleAmount',title:'期初销售金额',width:'130px',align:'left',
+                    	formatter:function(value,row,index){
+                    		 if(value || value ==0){
+        				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
+        				    }
+        				},
+                    	editor:{
+                            type:'numberbox',
+                            options:{
+                            	disabled:true,
+                                min:0,
+                                precision:1
+                            }
+                        }},
+            {field:'purchaseNum',title:'采购数量',width:'130px',align:'left',
+                        	formatter:function(value,row,index){
+                        		 if(value || value ==0){
+            				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
+            				    }
+            				},
+                        	editor:{
+                                type:'numberbox',
+                                options:{
+                                	disabled:true,
+                                    min:0,
+                                    precision:1
+                                }
+                            }},
+            {field:'purchaseAmount',title:'采购金额',width:'130px',align:'left',
+                            	formatter:function(value,row,index){
+                            		 if(value || value ==0){
+                				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
+                				    }
+                				},
+                            	editor:{
+                                    type:'numberbox',
+                                    options:{
+                                    	disabled:true,
+                                        min:0,
+                                        precision:1
+                                    }
+                                }},
+                                {field:'posNum',title:'销售数量',width:'130px',align:'left',
+                                	formatter:function(value,row,index){
+                                		 if(value || value ==0){
+                    				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
+                    				    }
+                    				},
+                                	editor:{
+                                        type:'numberbox',
+                                        options:{
+                                        	disabled:true,
+                                            min:0,
+                                            precision:1
+                                        }
+                                    }},
+                    {field:'costAmount',title:'销售成本金额',width:'130px',align:'left',
+                                    	formatter:function(value,row,index){
+                                    		 if(value || value ==0){
+                        				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
+                        				    }
+                        				},
+                                    	editor:{
+                                            type:'numberbox',
+                                            options:{
+                                            	disabled:true,
+                                                min:0,
+                                                precision:1
+                                            }
+                                        }},
+            {field:'dcoNum',title:'配送出库数量',width:'130px',align:'left',
+                                	formatter:function(value,row,index){
+                                		 if(value || value ==0){
+                    				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
+                    				    }
+                    				},
+                                	editor:{
+                                        type:'numberbox',
+                                        options:{
+                                        	disabled:true,
+                                            min:0,
+                                            precision:1
+                                        }
+                                    }},
+            {field:'dcoAmount',title:'配送出库金额',width:'130px',align:'left',
+                                    	formatter:function(value,row,index){
+                                    		 if(value || value ==0){
+                        				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
+                        				    }
+                        				},
+                                    	editor:{
+                                            type:'numberbox',
+                                            options:{
+                                            	disabled:true,
+                                                min:0,
+                                                precision:1
+                                            }
+                                        }},
+            {field:'dciNum',title:'配送入库数量',width:'130px',align:'left',
+                                        	formatter:function(value,row,index){
+                                        		 if(value || value ==0){
+                            				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
+                            				    }
+                            				},
+                                        	editor:{
+                                                type:'numberbox',
+                                                options:{
+                                                	disabled:true,
+                                                    min:0,
+                                                    precision:1
+                                                }
+                                            }},
+            {field:'dciAmount',title:'配送入库金额',width:'130px',align:'left',
+                                            	formatter:function(value,row,index){
+                                            		 if(value || value ==0){
+                                				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
+                                				    }
+                                				},
+                                            	editor:{
+                                                    type:'numberbox',
+                                                    options:{
+                                                    	disabled:true,
+                                                        min:0,
+                                                        precision:1
+                                                    }
+                                                }},
+            {field:'otherNum',title:'其他出入库数量',width:'130px',align:'left',
+                                                	formatter:function(value,row,index){
+                                                		 if(value || value ==0){
+                                    				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
+                                    				    }
+                                    				},
+                                                	editor:{
+                                                        type:'numberbox',
+                                                        options:{
+                                                        	disabled:true,
+                                                            min:0,
+                                                            precision:1
+                                                        }
+                                                    }},
+            {field:'otherAmount',title:'其他出入库金额',width:'130px',align:'left',
+                                                    	formatter:function(value,row,index){
+                                                    		 if(value || value ==0){
+                                        				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
+                                        				    }
+                                        				},
+                                                    	editor:{
+                                                            type:'numberbox',
+                                                            options:{
+                                                            	disabled:true,
+                                                                min:0,
+                                                                precision:1
+                                                            }
+                                                        }},
+            {field:'costChangeAmount',title:'成本调整金额',width:'150px',align:'center',
+                                                        	formatter:function(value,row,index){
+                                                        		 if(value || value ==0){
+                                            				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
+                                            				    }
+                                            				},
+                                                        	editor:{
+                                                                type:'numberbox',
+                                                                options:{
+                                                                	disabled:true,
+                                                                    min:0,
+                                                                    precision:1
+                                                                }
+                                                            }},
+            {field:'endStock',title:'期末库存数',width:'130px',align:'center',
+                                                            	formatter:function(value,row,index){
+                                                            		 if(value || value ==0){
+                                                				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
+                                                				    }
+                                                				},
+                                                            	editor:{
+                                                                    type:'numberbox',
+                                                                    options:{
+                                                                    	disabled:true,
+                                                                        min:0,
+                                                                        precision:1
+                                                                    }
+                                                                }},
+            {field:'endCostAmount',title:'期末成本金额',width:'200px',align:'center',
+                                                                	formatter:function(value,row,index){
+                                                                		 if(value || value ==0){
+                                                    				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
+                                                    				    }
+                                                    				},
+                                                                	editor:{
+                                                                        type:'numberbox',
+                                                                        options:{
+                                                                        	disabled:true,
+                                                                            min:0,
+                                                                            precision:1
+                                                                        }
+                                                                    }},
+            {field:'endSaleAmount',title:'期末销售金额',width:'200px',align:'center',
+                                                                    	formatter:function(value,row,index){
+                                                                    		 if(value || value ==0){
+                                                        				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
+                                                        				    }
+                                                        				},
+                                                                    	editor:{
+                                                                            type:'numberbox',
+                                                                            options:{
+                                                                            	disabled:true,
+                                                                                min:0,
+                                                                                precision:1
+                                                                            }
+                                                                        }}
         ]],
 		onLoadSuccess : function() {
 			gridHandel.setDatagridHeader("center");
 		}
     });
-    queryForm();
 }
 
 

@@ -372,6 +372,9 @@ function searchBranch(){
 	new publicAgencyService(function(data){
 		$("#branchId").val(data.branchesId);
 		$("#branchName").val(data.branchName);
+		$("#actionId").val("");
+		$("#actionName").val("");
+		gridHandel.setLoadData([]);
 	},'BF','');
 }
 

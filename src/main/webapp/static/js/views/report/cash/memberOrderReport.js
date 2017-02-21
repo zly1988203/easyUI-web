@@ -4,9 +4,8 @@
  */
 var pageSize = 50;
 $(function() {
-	// 开始和结束时间
-	$("#txtStartDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
-	$("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+	//开始和结束时间
+	toChangeDate(10);
 	// 初始化列表
 	initMemberOrderAllGrid();
 	//选择报表类型

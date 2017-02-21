@@ -20,9 +20,11 @@ function initcombineSplitList() {
 		method : 'post',
 		align : 'center',
 		url : '',
-		singleSelect : true, // 单选 false多选
+		singleSelect : false, // 单选 false多选
 		rownumbers : true, // 序号
 		pagination : true, // 分页
+		selectOnCheck:false,
+		checkOnSelect:false,
 		height : '100%',
 		pageSize : 10,
         columns: [[
@@ -78,35 +80,62 @@ function initcombineSplitList() {
     				}
     			},
                 {field: 'validUserName', title: '审核人员', width: '130px', align: 'left'},
-                {field: 'remark', title: '备注', width: '200px', align: 'left',
-        		     onLoadSuccess:function(data){
-        			gridHandel.setDatagridHeader("center");
-        		   }
-                }
+                {field: 'remark', title: '备注', width: '200px', align: 'left'}
         ]],
+        onCheckAll: function(rows) {  
+            $("input[type='checkbox']").each(function(index, el) {  
+                console.log(el.disabled)  
+                if (el.disabled) {  
+                    $("#combineSplitList").datagrid('uncheckRow', index - 1);//此处参考其他人的代码，原代码为unselectRow  
+                }  
+            })  
+        },
          onLoadSuccess:function(data){
+        	 disabledCheck();
             gridHandel.setDatagridHeader("center");
          }
     });
 }
+function disabledCheck(){
+	$.each($("#combineSplitList").prev('.datagrid-view2').find('.datagrid-body tr'),function(index,obj){
+		var _tempStatus = $(obj).children('td[field="status"]').children("div").text();
+		if(_tempStatus == '审核通过'){
+			$(obj).children('td[field="check"]').find('input[type="checkbox"]').prop('disabled',true);
+		}
+	})
+}
+
 //新增
 function addCombineSplit(){
 	toAddTab("新增组合拆分单",contextPath + "/stock/combineSplit/add");
 }
 
-function toCombineDetail(){
-	toAddTab("组合拆分详情",contextPath + "/stock/combineSplit/add");
-}
-
 //删单
 function deleteCombineSplit(){
-	var row = $('#combineSplitList').datagrid('getSelected');
-	var rowIndex = $('#combineSplitList').datagrid('getRowIndex',row);
-	if(row!=null&&row.status==1){
-		 $.messager.confirm('提示','已经审核的单据不可以删除！');
+	var rows = $('#combineSplitList').datagrid('getChecked');
+	console.log('rows',rows);
+	if(rows.length <= 0){
+		$.messager.alert('提示','没有单据可以删除，请选择一笔单据再删除？');
 		return;
 	}
-    if(datagridUtil.isSelectRows()){
+	var tempIds = [];
+	var flag = true;
+	var shLength = 0;
+	rows.forEach(function(data,index){
+		var status = data.status;
+    	if(status == 0){
+    		tempIds.push(data.id);
+	   		flag = false;
+    	}
+    	
+	})
+    
+    if(flag){
+    	messager('已经审核的单据不可以删除！');
+    	return;
+    }
+	
+    if(tempIds.length > 0){
         $.messager.confirm('提示','单据删除后将无法恢复，确认是否删除？',function(r){
             if (r){
             	//删除单据
@@ -114,13 +143,13 @@ function deleteCombineSplit(){
             	$.ajax({
                     type: "POST",
                     url: contextPath+"/stock/combineSplit/deleteCombineSplit",
-                    data: {"id":row.id},
+                    data: {"ids":tempIds},
                     dataType: "json",
                     success: function(data){
                     	gFunEndLoading();
                     	if(data.code == 0){
                     		successTip(data['message']);
-                    		$('#combineSplitList').datagrid('deleteRow', rowIndex);
+                    		queryForm();
                     	}
                     }
                 });
@@ -129,25 +158,22 @@ function deleteCombineSplit(){
     }
 }
 
-//datagridId datagrid的Id
-var datagridId = "combineSplitList";
-//datagrid的常用操作方法
-var datagridUtil = {
-    isSelectRows:function(){
-        if($("#"+datagridId).datagrid("getSelections").length <= 0){
-            $.messager.alert('提示','没有单据可以删除，请选择一笔单据再删除？');
-            return false;
-        }else{
-            return true;
-        }
-    }      
-}
 
 //查询
 function queryForm(){
 	var isValid = $('#searchForm').form('validate');
 	if (!isValid) {
 		return isValid;
+	}
+	var oldBranchName = $("#oldBranchName").val();
+	var createBranchName = $("#createBranchName").val();
+	var oldCreateUserName = $("#oldCreateUserName").val();
+	var createUserName = $("#createUserName").val();
+	if(oldBranchName && oldBranchName != createBranchName){
+		$("#createBranchId").val('');
+	}
+	if(oldCreateUserName && oldCreateUserName != createUserName){
+		$("#createUserId").val('');
 	}
 	var fromObjStr = $('#searchForm').serializeObject();
 	dg.datagrid('options').method = "post";
@@ -162,6 +188,7 @@ function selectBranch (){
 	new publicAgencyService(function(data){
 		$("#createBranchId").val(data.branchesId);
 		$("#createBranchName").val("["+data.branchCode+"]"+data.branchName);
+		$("#oldBranchName").val("["+data.branchCode+"]"+data.branchName);
 	},"","");
 }
 /**
@@ -172,6 +199,7 @@ function selectOperator(){
 		//data.Id
 		$("#createUserId").val(data.id);
 		$("#createUserName").val("["+data.userCode+"]"+data.userName);
+		$("#oldCreateUserName").val("["+data.userCode+"]"+data.userName);
 	});
 }
 
