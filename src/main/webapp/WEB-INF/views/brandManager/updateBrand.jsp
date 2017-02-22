@@ -19,21 +19,24 @@ pageEncoding="UTF-8"%>
 					<div class="umar-r10 uw-80 ut-r">品牌编号:</div>
 					<input id="id" name="id" value="${goodsBrand.id}" type="hidden">
 					<input id="sort" name="sort" value="${goodsBrand.sort}" type="hidden">
-					<input id="brandCode" name="brandCode" class="uinp easyui-validatebox uw-200" data-options="required:true,validType:'int'" readonly="readonly"  maxlength="10" value="${goodsBrand.brandCode }">
+					<input id="brandCode" name="brandCode" class="uinp uinp-no-more easyui-validatebox uw-200" data-options="required:true,validType:'int'" readonly="readonly"  maxlength="10" value="${goodsBrand.brandCode }">
 					<i class="uc-red">*</i>
 				</div>
 			</div>
 			<div class="ub upad-4">
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">品牌名称:</div>
-					<input id="brandName" name="brandName" class="uinp uw-200" class="uinp easyui-validatebox" data-options="required:true" type="text" value="${goodsBrand.brandName}" maxlength="50">
+					<input id="brandName" name="brandName" class="uinp uw-200" class="uinp easyui-validatebox" data-options="required:true" type="text" value="${goodsBrand.brandName}" maxlength="20"
+					onkeyup="value=value.replace(/[^\——\-\_\-\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')" 
+					onpaste="value=value.replace(/[^\——\-\\_\-\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')" 
+					oncontextmenu = "value=value.replace(/[^\——\-\\_\-\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')">
 					<i class="uc-red">*</i>
 				</div>
 			</div>
 			<div class="ub upad-4">
 				<div class="ub ub-ac ub-f1 umar-r36">
 					<div class="umar-r10 uw-80 ut-r">备注:</div>
-					<input id="remark" name="remark" class="uinp" type="text" value="${goodsBrand.remark }" maxlength="50">
+					<input id="remark" name="remark" class="uinp" type="text" value="${goodsBrand.remark }" maxlength="60">
 				</div>
 			</div>
 		</div>

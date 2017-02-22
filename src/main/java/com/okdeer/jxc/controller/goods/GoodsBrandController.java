@@ -146,6 +146,11 @@ public class GoodsBrandController extends BaseController<GoodsBrandController> {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
 			LOG.info("查询品牌参数:{}", vo.toString());
+			if(StringUtils.isNotBlank(vo.getBrandCodeOrName())){
+				vo.setBrandCodeOrName(vo.getBrandCodeOrName().trim());
+			}else{
+				vo.setBrandCodeOrName("");
+			}
 			PageUtils<GoodsBrand> goodsBrand = goodsBrandService.queryLists(vo);
 			LOG.info("page:" + goodsBrand.toString());
 			return goodsBrand;
@@ -191,12 +196,13 @@ public class GoodsBrandController extends BaseController<GoodsBrandController> {
 		//3 校验唯一性
 		Integer count = goodsBrandService.checkGoodsBrand(goodsBrand);
 		if(count>0) {
-			return RespJson.error("品牌名称或编码重复");
+			return RespJson.error("品牌名称重复");
 		}
 		//4 保存
 		RespJson respJson = RespJson.success();
 		try {
 			goodsBrand.setCreateUserId(super.getCurrUserId());
+			goodsBrand.setBrandName(goodsBrand.getBrandName().trim());
 			goodsBrandService.insert(goodsBrand);
 		} catch (Exception e) {
 			LOG.error("新增品牌异常：", e);
@@ -239,12 +245,13 @@ public class GoodsBrandController extends BaseController<GoodsBrandController> {
 		//2 校验唯一性
 		Integer count = goodsBrandService.checkGoodsBrand(goodsBrand);
 		if(count>0) {
-			return RespJson.error("品牌名称或编码重复");
+			return RespJson.error("品牌名称重复");
 		}
 		//3 保存
 		RespJson respJson = RespJson.success();
 		try {
 			goodsBrand.setUpdateUserId(super.getCurrUserId());
+			goodsBrand.setBrandName(goodsBrand.getBrandName().trim());
 			goodsBrandService.updateGoodsBrand(goodsBrand);
 		} catch (Exception e) {
 			LOG.error("修改品牌异常：", e);
