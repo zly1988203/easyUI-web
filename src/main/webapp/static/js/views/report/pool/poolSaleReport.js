@@ -90,7 +90,7 @@ function initDatagridGoodsTotal(){
             {field:'skuCode',title:'货号',width:'80px',align:'left'},
             {field:'skuName',title:'商品名称',width:100,align:'left'},
             {field:'spec',title:'规格',width:'130px',align:'left'},
-            {field:'saleAmount',title:'销售金额',width:'150px',align:'center',
+            {field:'saleAmount',title:'销售金额',width:'150px',align:'right',
             	formatter:function(value,row,index){
 				    if(value){
 				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
@@ -104,7 +104,7 @@ function initDatagridGoodsTotal(){
                         precision:1
                     }
                 }},
-            {field:'supplierRate',title:'联营扣率',width:'130px',align:'center',
+            {field:'supplierRate',title:'联营扣率',width:'130px',align:'right',
                 	formatter:function(value,row,index){
     				    if(value){
     				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
@@ -118,7 +118,7 @@ function initDatagridGoodsTotal(){
                             precision:1
                         }
                     }},
-            {field:'rateAmount',title:'扣率金额',width:'200px',align:'center',
+            {field:'rateAmount',title:'扣率金额',width:'200px',align:'right',
                     	formatter:function(value,row,index){
         				    if(value){
         				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
@@ -173,7 +173,7 @@ function initDatagridGoodsDetail(){
 		        	  {field:'spec',title:'规格',width:'130px',align:'left'},
 		        	  {field:'unit',title:'单位',width:'130px',align:'left'},
 		        	  {field:'businessType',title:'业务类型',width:'130px',align:'left'},
-		        	  {field:'saleNum',title:'数量',width:'130px',align:'left',
+		        	  {field:'saleNum',title:'数量',width:'130px',align:'right',
 		              	formatter:function(value,row,index){
 						    if(value){
 						    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
@@ -187,7 +187,7 @@ function initDatagridGoodsDetail(){
 		                        precision:1
 		                    }
 		                }},
-		        	  {field:'salePrice',title:'销售价',width:'130px',align:'left',
+		        	  {field:'salePrice',title:'销售价',width:'130px',align:'right',
 		                	formatter:function(value,row,index){
 		    				    if(value){
 		    				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
@@ -201,7 +201,7 @@ function initDatagridGoodsDetail(){
 		                            precision:1
 		                        }
 		                    }},
-		        	  {field:'originalPrice',title:'原价',width:'130px',align:'left',
+		        	  {field:'originalPrice',title:'原价',width:'130px',align:'right',
 		                    	formatter:function(value,row,index){
 		        				    if(value){
 		        				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
@@ -215,7 +215,7 @@ function initDatagridGoodsDetail(){
 		                                precision:1
 		                            }
 		                        }},
-		        	  {field:'saleAmount',title:'销售金额',width:'150px',align:'center',
+		        	  {field:'saleAmount',title:'销售金额',width:'150px',align:'right',
 		                        	formatter:function(value,row,index){
 		            				    if(value){
 		            				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
@@ -229,7 +229,7 @@ function initDatagridGoodsDetail(){
 		                                    precision:1
 		                                }
 		                            }},
-		        	  {field:'supplierRate',title:'联营扣率',width:'130px',align:'center',
+		        	  {field:'supplierRate',title:'联营扣率',width:'130px',align:'right',
 		                            	formatter:function(value,row,index){
 		                				    if(value){
 		                				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
@@ -243,7 +243,7 @@ function initDatagridGoodsDetail(){
 		                                        precision:1
 		                                    }
 		                                }},
-		        	  {field:'rateAmount',title:'扣率金额',width:'200px',align:'center',
+		        	  {field:'rateAmount',title:'扣率金额',width:'200px',align:'right',
 		                                	formatter:function(value,row,index){
 		                    				    if(value){
 		                    				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
