@@ -41,8 +41,8 @@ function initDatagridGoodsUnsale(){
                 }},
             {field:'branchName',title:'机构名称',width:'140px',align:'left'},
             {field:'categoryName',title:'商品类别',width:'80px',align:'left'},
-            {field:'skuName',title:'商品名称',width:100,align:'left'},
-            {field:'goodsStock',title:'库存',width:100,align:'left',
+            {field:'skuName',title:'商品名称',width:'140px',align:'left'},
+            {field:'goodsStock',title:'库存',width:100,align:'right',
             	formatter:function(value,row,index){
 				    if(value){
 				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
@@ -56,7 +56,7 @@ function initDatagridGoodsUnsale(){
                         precision:1
                     }
                 }},
-            {field:'saleNum',title:'期间销量',width:'130px',align:'left',
+            {field:'saleNum',title:'期间销量',width:'130px',align:'right',
                 	formatter:function(value,row,index){
     				    if(value){
     				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
@@ -70,7 +70,7 @@ function initDatagridGoodsUnsale(){
                             precision:1
                         }
                     }},
-            {field:'profitAmount',title:'期间销售毛利',width:'130px',align:'left',
+            {field:'profitAmount',title:'期间销售毛利',width:'130px',align:'right',
                     	formatter:function(value,row,index){
         				    if(value){
         				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
@@ -84,7 +84,7 @@ function initDatagridGoodsUnsale(){
                                 precision:1
                             }
                         }},
-            {field:'salePrice',title:'零售价',width:'130px',align:'left',
+            {field:'salePrice',title:'零售价',width:'130px',align:'right',
                         	formatter:function(value,row,index){
             				    if(value){
             				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
