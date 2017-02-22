@@ -18,6 +18,7 @@ import com.okdeer.jxc.common.constant.LogConstant;
 import com.okdeer.jxc.common.enums.StockAdjustEnum;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.PageUtils;
+import com.okdeer.jxc.common.utils.UuidUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.stock.entity.GoodsComponent;
 import com.okdeer.jxc.stock.service.GoodsComponentApi;
@@ -68,7 +69,9 @@ public class CombineSplitController extends BaseController<T> {
 	 * @date 2017年2月14日
 	 */
 	@RequestMapping(value = "/add")
-	public String add() {
+	public String add(HttpServletRequest request) {
+		String formId = UuidUtils.getUuid();
+		request.setAttribute("formId", formId);
 		return "/combineSplit/combineSplitAdd";
 	}
 
