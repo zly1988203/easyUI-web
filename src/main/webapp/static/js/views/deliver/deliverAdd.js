@@ -377,7 +377,7 @@ function onChangeLargeNum(newV,oldV){
 		return;
 	}
 	
-    if(!gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuName')){
+    if(!gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuCode')){
         return;
     }
     var purchaseSpecValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'distributionSpec');
@@ -391,8 +391,7 @@ function onChangeLargeNum(newV,oldV){
     gridHandel.setFieldValue('amount',parseFloat(purchaseSpecValue*priceValue*newV).toFixed(4));
     
     var realNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'applyNum');
-    var realNumVal2 = parseFloat(purchaseSpecValue*newV).toFixed(4);//parseFloat(Math.round(purchaseSpecValue*newV*1000)/1000).toFixed(4);
-    if(realNumVal&&Math.abs(realNumVal2-realNumVal)>0.0001){
+    if(realNumVal && oldV){
     	 n=1;     
         gridHandel.setFieldValue('applyNum',(purchaseSpecValue*newV).toFixed(4));//数量=商品规格*箱数  
     }
@@ -413,7 +412,7 @@ function onChangeRealNum(newV,oldV) {
 		return;
 	}
 	
-    if(!gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuName')){
+    if(!gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuCode')){
         return;
     }
     var purchaseSpecValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'distributionSpec');
@@ -435,8 +434,8 @@ function onChangeRealNum(newV,oldV) {
     gridHandel.setFieldValue('amount',priceValue*newV);                         //金额=数量*单价
 
     var largeNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'largeNum');
-    var largeNumVal2 = parseFloat(purchaseSpecValue*newV).toFixed(4);
-    if(largeNumVal&&Math.abs(largeNumVal2-largeNumVal)>0.0001){
+
+    if(largeNumVal && oldV){
     	m = 1;
         var largeNumVal = parseFloat(newV/purchaseSpecValue).toFixed(4);
         gridHandel.setFieldValue('largeNum',largeNumVal);   //箱数=数量/商品规格

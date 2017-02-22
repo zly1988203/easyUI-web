@@ -11,8 +11,6 @@ var addModifyPriceGridDg;
 
 var loginBranchId;
 
-var showPage = true;
-
 $(function() {
 	loginBranchId = $("#loginBranchId").val();
 	// 初始化表格
@@ -74,7 +72,7 @@ function initAddModifyPriceGridEdit() {
 				//toolbar: '#tb',     //工具栏 id为tb
 		        singleSelect:false,  //单选  false多选
 		        rownumbers:true,    //序号
-		        pagination:true,    //分页
+		        pagination:false,    //分页
 		        fitColumns:true,    //每列占满
 		        //fit:true,            //占满
 		        showFooter:true,
@@ -941,21 +939,6 @@ function gFunGoodsSelect(searchKey,branchId){
 			var newData = gFunUpdateKey(data,keyNames);
 			newData = gFunUpdateKey(newData,keyNames2);
 			var newRows = gridHandel.checkDatagrid(nowRows,newData,argWhere);
-			var param = {
-					'total':newRows.length,
-					'rows':newRows,
-			}
-			
-			var pager = $('#'+datagridId).datagrid('getPager');
-			//设置显示一页多少条
-			$(pager).pagination('refresh',{  
-			        total:newRows.length,  
-			        pageSize:newRows.length,
-			        pageNumber:1,
-					pageList:[newRows.length],
-					showPageList:false,
-					displayMsg:'共'+newRows.length+'记录'
-			    });  
 			
 			$("#"+datagridId).datagrid("loadData",newRows);
 
@@ -1176,20 +1159,6 @@ function updateListData(data){
     var isCheck ={isGift:1 };   //只要是赠品就可以重复
     var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
 
-	var pager = $('#'+datagridId).datagrid('getPager');
-	//设置显示一页多少条
-	$(pager).pagination('refresh',{  
-	        total:newRows.length,  
-	        pageSize:newRows.length,
-	        pageNumber:1,
-			pageList:[newRows.length],
-			showPageList:false,
-			displayMsg:'共'+newRows.length+'记录'
-	    });  
-	
-	var param = {
-			rows:newRows,
-	}
 	$("#"+datagridId).datagrid("loadData",newRows);
 
 	}
