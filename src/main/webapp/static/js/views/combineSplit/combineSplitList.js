@@ -82,27 +82,10 @@ function initcombineSplitList() {
                 {field: 'validUserName', title: '审核人员', width: '130px', align: 'left'},
                 {field: 'remark', title: '备注', width: '200px', align: 'left'}
         ]],
-        onCheckAll: function(rows) {  
-            $("input[type='checkbox']").each(function(index, el) {  
-                console.log(el.disabled)  
-                if (el.disabled) {  
-                    $("#combineSplitList").datagrid('uncheckRow', index - 1);//此处参考其他人的代码，原代码为unselectRow  
-                }  
-            })  
-        },
          onLoadSuccess:function(data){
-        	 disabledCheck();
             gridHandel.setDatagridHeader("center");
          }
     });
-}
-function disabledCheck(){
-	$.each($("#combineSplitList").prev('.datagrid-view2').find('.datagrid-body tr'),function(index,obj){
-		var _tempStatus = $(obj).children('td[field="status"]').children("div").text();
-		if(_tempStatus == '审核通过'){
-			$(obj).children('td[field="check"]').find('input[type="checkbox"]').prop('disabled',true);
-		}
-	})
 }
 
 //新增
