@@ -210,14 +210,20 @@ function editHandel(id){
 //删除
 function deleteCategory(){
 	var rows =$("#gridArchives").datagrid("getChecked");
+	var ids='';
 	if($("#gridArchives").datagrid("getChecked").length <= 0){
-		 $.messager.alert('提示','请选中一行进行删除！');
-		return null;
+		 var parentId = $("#parentId").val();
+		 if(parentId==0 || !parentId){
+			 $.messager.alert('提示','请选中一行进行删除！');
+			 return null;
+		 }
+		 ids = parentId;
+	}else{
+		$.each(rows,function(i,v){
+			ids+=v.goodsCategoryId+",";
+		});
 	}
-	 var ids='';
-	    $.each(rows,function(i,v){
-	    	ids+=v.goodsCategoryId+",";
-	    });
+	 
 	$.messager.confirm('提示','是否要删除选中数据',function(data){
 		if(data){
 			$.ajax({
