@@ -19,7 +19,7 @@ pageEncoding="UTF-8"%>
 					<div class="umar-r10 uw-80 ut-r">品牌编号:</div>
 					<input id="id" name="id" value="${goodsBrand.id}" type="hidden">
 					<input id="sort" name="sort" value="${goodsBrand.sort}" type="hidden">
-					<input id="brandCode" name="brandCode" class="uinp easyui-validatebox uw-200" data-options="required:true,validType:'int'" readonly="readonly"  maxlength="10" value="${goodsBrand.brandCode }">
+					<input id="brandCode" name="brandCode" class="uinp uinp-no-more easyui-validatebox uw-200" data-options="required:true,validType:'int'" readonly="readonly"  maxlength="10" value="${goodsBrand.brandCode }">
 					<i class="uc-red">*</i>
 				</div>
 			</div>
