@@ -332,6 +332,7 @@ function printtable(){
 
 //商品选择  方法
 function chooseproduct(){
+	debugger;
 	new publicGoodsService('PC',function(data){
 
 		var obj = {
@@ -360,7 +361,7 @@ function chooseproduct(){
 
 		$("#pricePrint").datagrid("loadData", newRows);
 
-	},'','','','','','');
+	},'','','','',$("#branchId").val(),'');
 
 }
 
