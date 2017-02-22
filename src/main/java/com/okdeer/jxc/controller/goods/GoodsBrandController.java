@@ -191,7 +191,7 @@ public class GoodsBrandController extends BaseController<GoodsBrandController> {
 		//3 校验唯一性
 		Integer count = goodsBrandService.checkGoodsBrand(goodsBrand);
 		if(count>0) {
-			return RespJson.error("品牌名称或编码重复");
+			return RespJson.error("品牌名称重复");
 		}
 		//4 保存
 		RespJson respJson = RespJson.success();
@@ -239,7 +239,7 @@ public class GoodsBrandController extends BaseController<GoodsBrandController> {
 		//2 校验唯一性
 		Integer count = goodsBrandService.checkGoodsBrand(goodsBrand);
 		if(count>0) {
-			return RespJson.error("品牌名称或编码重复");
+			return RespJson.error("品牌名称重复");
 		}
 		//3 保存
 		RespJson respJson = RespJson.success();
