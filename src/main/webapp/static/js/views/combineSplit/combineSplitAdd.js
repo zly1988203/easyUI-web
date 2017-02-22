@@ -293,6 +293,8 @@ function saveCombineSplit(){
 }
 
 function saveDataHandel(rows){
+	// Id
+	var id = $("#id").val();
 	// 主商品Id
 	var skuId = $("#skuIdMain").val();
 	// 主商品编号
@@ -345,6 +347,7 @@ function saveDataHandel(rows){
         tempRows.push(temp);
     });
     var jsonData = {
+    		id:id,
     		skuId:skuId,
     		skuCode:skuCode,
     		createBranchId:branchId,
@@ -363,8 +366,9 @@ function saveDataHandel(rows){
         data:{"data":JSON.stringify(jsonData)},
         success:function(result){
             if(result['code'] == 0){
-                console.log(result);
-                successTip(result['message']);
+    			$.messager.alert("操作提示", "操作成功！", "info",function(){
+    				location.href = contextPath +"/stock/combineSplit/combineSplitView?id="+id;
+    			});
             }else{
                 successTip(result['message']);
             }
