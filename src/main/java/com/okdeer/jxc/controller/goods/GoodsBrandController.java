@@ -274,18 +274,19 @@ public class GoodsBrandController extends BaseController<GoodsBrandController> {
 		try {
 		if (StringUtils.isNotBlank(ids)) {
 			String[] arr = ids.split(",");
-			StringBuffer sb = new StringBuffer();
+			StringBuffer brandName = new StringBuffer();
 			for (int i = 0; i < arr.length; i++) {
 				//1 校验品牌是否已使用，已使用不能删除
 				Integer count = goodsBrandService.checkBrandIsApply(arr[i]);
-				if(count>0){
+				if (count>0) {
 					GoodsBrand goodsBrand = goodsBrandService.queryById(arr[i]);
-					sb.append(goodsBrand.getBrandName()+",");
+					brandName.append(goodsBrand.getBrandName());
+					break;
 				}
 			  }
 			
-			if(StringUtils.isNotBlank(sb)){
-				resp = RespJson.error("品牌名称：【"+sb.substring(0, sb.length()-1)+"】在商品中已使用，不能删除!");
+			if(StringUtils.isNotBlank(brandName)){
+				resp = RespJson.error("品牌名称：【"+brandName+"】在商品中已使用，不能删除!");
 				return resp;
 			}
 			

@@ -156,6 +156,11 @@ public class GoodsCategoryController extends
 			LOG.info("查询类别参数:vo={}",vo.toString());
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
+			if(StringUtils.isNotBlank(vo.getCategoryNameOrCode())){
+				vo.setCategoryNameOrCode(vo.getCategoryNameOrCode().trim());
+			}else{
+				vo.setCategoryNameOrCode("");
+			}
 			PageUtils<GoodsCategory> goodsCategorys = goodsCategoryService.queryLists(vo);
 			return goodsCategorys;
 		} catch (Exception e) {
@@ -217,12 +222,20 @@ public class GoodsCategoryController extends
 				categoryCode.append(category.getCategoryCode()).append(rightCode);
 			}
 			goodsCategory.setCategoryCode(categoryCode.toString());
+		}else{
+			goodsCategory.setCategoryCode(goodsCategory.getCategoryCode().trim());
 		}
 		
 		//3 校验唯一性
-		Integer count = goodsCategoryService.checkGoodsCategory(goodsCategory);
-		if(count>0) {
-			return RespJson.error("类别名称或编码重复");
+		goodsCategory.setCategoryName(goodsCategory.getCategoryName().trim());
+		Integer nameCount = goodsCategoryService.queryCategoryNameCount(goodsCategory);
+		if(nameCount>0) {
+			return RespJson.error("类别名称重复");
+		}
+		
+		Integer codeCount = goodsCategoryService.queryCategoryCodeCount(goodsCategory);
+		if(codeCount>0) {
+			return RespJson.error("类别编码重复");
 		}
 		
 		//4 保存
@@ -270,10 +283,14 @@ public class GoodsCategoryController extends
 			return RespJson.error(errorMessage);
 		}
 		//2 校验唯一性
-		Integer count = goodsCategoryService.checkGoodsCategroy(goodsCategory);
-		if(count>0) {
+		if(StringUtils.isNotBlank(goodsCategory.getCategoryName())){
+			goodsCategory.setCategoryName(goodsCategory.getCategoryName().trim());
+		}
+		Integer nameCount = goodsCategoryService.queryCategoryNameCount(goodsCategory);
+		if(nameCount>0) {
 			return RespJson.error("类别名称重复");
 		}
+		
 		//3 保存
 		RespJson respJson = RespJson.success();
 		try {
@@ -334,12 +351,10 @@ public class GoodsCategoryController extends
 			Integer isChildren = goodsCategoryService.checkCategoryIsChildren(arr[i]);
 			if(isChildren>0){
 				GoodsCategory goodsCategory = goodsCategoryService.queryGoodsCategoryById(arr[i]);
-				sb.append(goodsCategory.getCategoryName()+",");
+				sb.append(goodsCategory.getCategoryName());
+				break;
 			}
 		  }
-		if (StringUtils.isNotBlank(sb.toString())) {
-			return sb.substring(0, sb.length()-1);
-		}
 		return sb.toString();
 	}
 	
@@ -352,12 +367,10 @@ public class GoodsCategoryController extends
 			Integer count = goodsCategoryService.checkCategoryIsApply(arr[i]);
 			if(count>0){
 				GoodsCategory goodsCategory = goodsCategoryService.queryGoodsCategoryById(arr[i]);
-				sb.append(goodsCategory.getCategoryName()+",");
+				sb.append(goodsCategory.getCategoryName());
+				break;
 			}
 		  }
-		if (StringUtils.isNotBlank(sb.toString())) {
-			return sb.substring(0, sb.length()-1);
-		}
 		return sb.toString();
 	}
 	
@@ -375,7 +388,7 @@ public class GoodsCategoryController extends
 		LOG.info("商品类别查询，报表导出参数：{}", vo);
 		try {
 			List<GoodsCategory> exportList = goodsCategoryService.queryExportCategory(vo);
-			String fileName = "商品类别报表" + "_" + DateUtils.getCurrSmallStr();
+			String fileName = "类别导出" + "_" + DateUtils.getCurrSmallStr();
 			String templateName = ExportExcelConstant.GOODS_CATEGORY_REPORT;
 			exportListForXLSX(response, exportList, fileName, templateName);
 		} catch (Exception e) {
