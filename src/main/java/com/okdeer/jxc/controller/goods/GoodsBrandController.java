@@ -197,6 +197,7 @@ public class GoodsBrandController extends BaseController<GoodsBrandController> {
 		RespJson respJson = RespJson.success();
 		try {
 			goodsBrand.setCreateUserId(super.getCurrUserId());
+			goodsBrand.setBrandName(goodsBrand.getBrandName().trim());
 			goodsBrandService.insert(goodsBrand);
 		} catch (Exception e) {
 			LOG.error("新增品牌异常：", e);
@@ -245,6 +246,7 @@ public class GoodsBrandController extends BaseController<GoodsBrandController> {
 		RespJson respJson = RespJson.success();
 		try {
 			goodsBrand.setUpdateUserId(super.getCurrUserId());
+			goodsBrand.setBrandName(goodsBrand.getBrandName().trim());
 			goodsBrandService.updateGoodsBrand(goodsBrand);
 		} catch (Exception e) {
 			LOG.error("修改品牌异常：", e);
