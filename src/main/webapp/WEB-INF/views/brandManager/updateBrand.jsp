@@ -36,7 +36,7 @@ pageEncoding="UTF-8"%>
 			<div class="ub upad-4">
 				<div class="ub ub-ac ub-f1 umar-r36">
 					<div class="umar-r10 uw-80 ut-r">备注:</div>
-					<input id="remark" name="remark" class="uinp" type="text" value="${goodsBrand.remark }" maxlength="50">
+					<input id="remark" name="remark" class="uinp" type="text" value="${goodsBrand.remark }" maxlength="60">
 				</div>
 			</div>
 		</div>

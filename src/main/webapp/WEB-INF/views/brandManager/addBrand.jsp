@@ -28,7 +28,7 @@ pageEncoding="UTF-8"%>
 				<div class="ub ub-ac ub-f1 umar-r36">
 					<div class="umar-r10 uw-80 ut-r">备注:</div>
 					<input id="sort" name="sort" value="1" type="hidden">
-					<input id="remark" name="remark" value="" class="uinp" maxlength="50">
+					<input id="remark" name="remark" value="" class="uinp" maxlength="60">
 				</div>
 			</div>
 			
