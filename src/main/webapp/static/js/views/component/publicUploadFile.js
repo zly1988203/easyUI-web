@@ -30,7 +30,12 @@ function toUploadHandel(){
     } else {
     	formData.append("branchId",uploadFileParams.branchId);
     }
+    if (typeof(uploadFileParams.status)!="undefined") {
+    	formData.append("status",uploadFileParams.status);
+    } 
+    
     formData.append("type",uploadFileParams.type);
+    
     $.ajax({
         url : uploadFileParams.url,//uploadFileParams.url,
         type : 'POST',

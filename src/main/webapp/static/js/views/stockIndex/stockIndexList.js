@@ -184,8 +184,8 @@ function saveDetailStock(){
 
 //查询
 function queryForm(){
-	if($("#branchName").val()==""){
-        messager("请选择机构");
+	if($("#branchName").val()=="" && $("#skuCode").val()=="" ){
+        messager("请选择机构或输入条码");
         return;
     } 
 	var fromObjStr = $('#queryForm').serializeObject();
