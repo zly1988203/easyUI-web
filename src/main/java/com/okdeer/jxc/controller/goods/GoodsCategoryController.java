@@ -180,11 +180,11 @@ public class GoodsCategoryController extends
 		String parentCategoryId = goodsCategory.getParentCategoryId();
 		//1、类别parentCategoryId等于0，表示新增一级分类
 		if(Constant.ZERO_STR.equals(parentCategoryId)){
-			goodsCategory.setCategoryName("所有");
+			goodsCategory.setCategoryName("[0]所有");
 			goodsCategory.setCategoryLevel(String.valueOf(Constant.ONE));
 		}else{
 			GoodsCategory category = goodsCategoryService.queryGoodsCategoryById(parentCategoryId);
-			goodsCategory.setCategoryName(category.getCategoryName());
+			goodsCategory.setCategoryName("["+category.getCategoryCode()+"]"+category.getCategoryName());
 			goodsCategory.setCategoryLevel(String.valueOf((Integer.valueOf(category.getCategoryLevel())+1)));
 		}
 		model.addAttribute("goodsCategory", goodsCategory);
@@ -387,6 +387,11 @@ public class GoodsCategoryController extends
 	public String exportList(GoodsCategoryVo vo, HttpServletResponse response) {
 		LOG.info("商品类别查询，报表导出参数：{}", vo);
 		try {
+			if(StringUtils.isNotBlank(vo.getCategoryNameOrCode())){
+				vo.setCategoryNameOrCode(vo.getCategoryNameOrCode().trim());
+			}else{
+				vo.setCategoryNameOrCode("");
+			}
 			List<GoodsCategory> exportList = goodsCategoryService.queryExportCategory(vo);
 			String fileName = "类别导出" + "_" + DateUtils.getCurrSmallStr();
 			String templateName = ExportExcelConstant.GOODS_CATEGORY_REPORT;
