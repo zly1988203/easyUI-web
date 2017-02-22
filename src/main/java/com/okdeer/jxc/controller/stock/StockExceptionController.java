@@ -20,6 +20,7 @@ import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.report.service.StockExceptionServiceApi;
 import com.okdeer.jxc.report.vo.StockIndexVo;
+import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
 
 /***
@@ -69,9 +70,11 @@ public class StockExceptionController extends BaseController<T> {
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
+			SysUser user = UserUtil.getCurrentUser();
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
 			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
+			vo.setBranchType(user.getBranchType() == 0 ? 1 : 2);
 			LOG.info(LogConstant.OUT_PARAM, vo.toString());
 			PageUtils<StockIndexVo> stockExceptionList = stockExceptionServiceApi.getStockExceptionList(vo);
 			LOG.info(LogConstant.PAGE, stockExceptionList.toString());
@@ -96,6 +99,9 @@ public class StockExceptionController extends BaseController<T> {
 	public RespJson exportList(HttpServletResponse response, StockIndexVo vo) {
 		RespJson resp = RespJson.success();
 		try {
+			SysUser user = UserUtil.getCurrentUser();
+			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
+			vo.setBranchType(user.getBranchType() == 0 ? 1 : 2);
 			List<StockIndexVo> exportList = stockExceptionServiceApi.exportStockExceptionList(vo);
 			String fileName = "库存异常查询" + DateUtils.getDate();
 			String templateName = ExportExcelConstant.STOCKEXCEPTION;

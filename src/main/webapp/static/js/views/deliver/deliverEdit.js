@@ -358,19 +358,26 @@ function updateRowsStyle(){
     $.each(rows,function(i,row){
 		if(typeof(row.sourceStock) != 'undefined' && typeof(row.applyNum) != 'undefined'
 			&& typeof(row.alreadyNum) != 'undefined'){
+			var alreadyNumopts = gridHandel.getColumnOption('alreadyNum');
+			var sourceStockopts = gridHandel.getColumnOption('sourceStock');
     		if(parseFloat(row.applyNum)+parseFloat(row.alreadyNum) > parseFloat(row.sourceStock)){
-    			var alreadyNumopts = gridHandel.getColumnOption('alreadyNum');
     			alreadyNumopts.styler = function(value,row,index){
     				return "color:red";
     			} 
-    			var sourceStockopts = gridHandel.getColumnOption('sourceStock');
+    			
     			sourceStockopts.styler = function(value,row,index){
     				return "color:red";
     			} 
+    		}else{
+    			alreadyNumopts.styler = function(value,row,index){
+    				return "color:black";
+    			} 
     			
-    			$('#gridEditRequireOrder').datagrid('updateRow',{index:i,row:row})
-    			
+    			sourceStockopts.styler = function(value,row,index){
+    				return "color:black";
+    			} 
     		}	
+    		$('#gridEditRequireOrder').datagrid('updateRow',{index:i,row:row})
 		}
     });
 }

@@ -115,9 +115,11 @@ public class StockIndexController extends BaseController<T> {
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
+			SysUser user = UserUtil.getCurrentUser();
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
 			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
+			vo.setBranchType(user.getBranchType() == 0 ? 1 : 2);
 			LOG.info(LogConstant.OUT_PARAM, vo.toString());
 			PageUtils<StockIndexVo> stockIndexList = stockIndexServiceApi.getStockIndexList(vo);
 			LOG.info(LogConstant.PAGE, stockIndexList.toString());
