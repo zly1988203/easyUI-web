@@ -121,6 +121,11 @@ function initDatagridEditRequireOrder(){
                           if(row.isFooter){
                               return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                           }
+                          
+                          if(!value||value==""){
+                              row["largeNum"] = parseFloat(value||0).toFixed(2);
+                          }
+                          
                           return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                       },
                       editor:{
@@ -240,7 +245,7 @@ function onChangeRealNum(newV,oldV) {
     }
     var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
 	var selectVal=$("#io").combobox('getValue');
-    var newRealNum = parseFloat(Math.round(purchaseSpecValue*newV)).toFixed(4);
+    var newRealNum = parseFloat(purchaseSpecValue*newV).toFixed(4);
     if(parseFloat(newV)>0){
         gridHandel.setNowEditFieldName("largeNum");
     }
