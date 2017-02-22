@@ -18,21 +18,24 @@ pageEncoding="UTF-8"%>
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">类别编号:</div>
 					<input id="goodsCategoryId" name="goodsCategoryId" value="${goodsCategory.goodsCategoryId}" type="hidden">
-					<input id="categoryCode" name="categoryCode" class="uinp easyui-validatebox uw-200" data-options="required:true,validType:'int'" readonly="readonly"  maxlength="10" value="${goodsCategory.categoryCode }">
+					<input id="categoryCode" name="categoryCode" class="uinp uinp-no-more easyui-validatebox uw-200" data-options="required:true,validType:'int'" readonly="readonly"  maxlength="10" value="${goodsCategory.categoryCode }">
 					<i class="uc-red">*</i>
 				</div>
 			</div>
 			<div class="ub upad-4">
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">类别名称:</div>
-					<input id="categoryName" name="categoryName" class="uinp uw-200" class="uinp easyui-validatebox" data-options="required:true" type="text" value="${goodsCategory.categoryName}" maxlength="50">
+					<input id="categoryName" name="categoryName" class="uinp uw-200" class="uinp easyui-validatebox" data-options="required:true" type="text" value="${goodsCategory.categoryName}" maxlength="20"
+					onkeyup="value=value.replace(/[^\——\-\_\-\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')" 
+					onpaste="value=value.replace(/[^\——\-\\_\-\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')" 
+					oncontextmenu = "value=value.replace(/[^\——\-\\_\-\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')">
 					<i class="uc-red">*</i>
 				</div>
 			</div>
 			<div class="ub upad-4">
 				<div class="ub ub-ac ub-f1 umar-r36">
 					<div class="umar-r10 uw-80 ut-r">备注:</div>
-					<input id="remark" name="remark" class="uinp" type="text" value="${goodsCategory.remark }" maxlength="50">
+					<input id="remark" name="remark" class="uinp" type="text" value="${goodsCategory.remark }" maxlength="60">
 				</div>
 			</div>
 		</div>
