@@ -195,7 +195,7 @@ function editHandel(id){
         },
         width: 400,
         height: 250,
-        title: "商品类别-修改",
+        title: "类别修改",
         closable: true,
         resizable: true,
         onClose: function () {
@@ -265,7 +265,7 @@ function addCategory(){
         queryParams:{categoryLevel:categoryLevel,parentCategoryId:parentCategoryId},
         width: 400,
         height: height,
-        title: "商品类别-新增",
+        title: "类别新增",
         closable: true,
         resizable: true,
         onClose: function () {

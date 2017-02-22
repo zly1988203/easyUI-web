@@ -317,6 +317,11 @@ public class GoodsBrandController extends BaseController<GoodsBrandController> {
 		LOG.info("商品品牌查询，报表导出参数：{}", vo);
 		try {
 			// 1、列表查询
+			if(StringUtils.isNotBlank(vo.getBrandCodeOrName())){
+				vo.setBrandCodeOrName(vo.getBrandCodeOrName().trim());
+			}else{
+				vo.setBrandCodeOrName("");
+			}
 			List<GoodsBrand> exportList = goodsBrandService.queryReportLists(vo);
 			String fileName = "商品品牌报表" + "_" + DateUtils.getCurrSmallStr();
 			String templateName = ExportExcelConstant.GOODS_BRAND_REPORT;

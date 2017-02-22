@@ -16,7 +16,7 @@ pageEncoding="UTF-8"%>
 		<div class="ub ub-ver upad-4">
 			<div class="ub upad-4">
 				<div class="ub ub-ac uw-320">
-					<div class="umar-r10 uw-80 ut-r">父级类别:</div>
+					<div class="umar-r10 uw-80 ut-r">类别信息:</div>
 					<input id="parentCategoryId" name="parentCategoryId" value="${goodsCategory.parentCategoryId}" type="hidden">
 					<div>${goodsCategory.categoryName}</div>
 				</div>
