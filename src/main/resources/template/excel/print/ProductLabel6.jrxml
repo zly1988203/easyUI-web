@@ -147,14 +147,14 @@
 				</jr:Code128>
 			</componentElement>
 			<textField isBlankWhenNull="true">
-				<reportElement x="130" y="75" width="71" height="16" uuid="3cb60dfd-6d6a-47e2-bde2-aa44afe7682c"/>
+				<reportElement x="123" y="75" width="78" height="16" uuid="3cb60dfd-6d6a-47e2-bde2-aa44afe7682c"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="8"/>
+					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{activityTime}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="99" y="75" width="35" height="16" uuid="bc97e04b-90bd-4d0a-a7dc-03da5f7e6266"/>
+				<reportElement x="96" y="75" width="35" height="16" uuid="bc97e04b-90bd-4d0a-a7dc-03da5f7e6266"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
