@@ -103,7 +103,7 @@ public class StockExceptionController extends BaseController<T> {
 			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
 			vo.setBranchType(user.getBranchType() == 0 ? 1 : 2);
 			List<StockIndexVo> exportList = stockExceptionServiceApi.exportStockExceptionList(vo);
-			String fileName = "库存异常查询" + DateUtils.getDate();
+			String fileName = "库存异常查询" + DateUtils.getDate("yyyyMMdd");
 			String templateName = ExportExcelConstant.STOCKEXCEPTION;
 			exportListForXLSX(response, exportList, fileName, templateName);
 		} catch (Exception e) {
