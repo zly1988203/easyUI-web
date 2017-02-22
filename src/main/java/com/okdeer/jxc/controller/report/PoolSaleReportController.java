@@ -86,7 +86,7 @@ public class PoolSaleReportController extends BaseController<PoolSaleReportContr
 			poolSaleReportList.setFooter(footer);
 			return poolSaleReportList;
 		} catch (Exception e) {
-			LOG.error(" 获取联营销售列表信息异常:{}", e);
+			LOG.error("获取联营销售列表信息异常:{}", e);
 		}
 		return null;
 	}	
@@ -137,8 +137,8 @@ public class PoolSaleReportController extends BaseController<PoolSaleReportContr
 			String templateName = ExportExcelConstant.POOL_SALE_REPORT;
 			exportListForXLSX(response, exportList, fileName, templateName);
 		} catch (Exception e) {
-			LOG.error("导出单品ABC销售额列表异常：{}", e);
-			resp = RespJson.error("导出单品ABC销售额列表异常");
+			LOG.error("导出联营报表异常：{}", e);
+			resp = RespJson.error("导出联营报表异常");
 		}
 		return resp;
 	}
@@ -165,8 +165,8 @@ public class PoolSaleReportController extends BaseController<PoolSaleReportContr
 			String templateName = ExportExcelConstant.POOL_SALE_DETAIL_REPORT;
 			exportListForXLSX(response, exportList, fileName, templateName);
 		} catch (Exception e) {
-			LOG.error("导出单品ABC销售额列表异常：{}", e);
-			resp = RespJson.error("导出单品ABC销售额列表异常");
+			LOG.error("联营销售明细导出异常：{}", e);
+			resp = RespJson.error("联营销售明细导出异常");
 		}
 		return resp;
 	}

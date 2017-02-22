@@ -32,8 +32,7 @@ function initDatagridDay(){
 		height:'100%',
 		width:'100%',
         columns:[[
-            {field:'rptDate',title:'日期',width:'100px',align:'left'},
-            {field:'branchName',title:'机构',width:'140px',align:'left',
+            {field:'rptDate',title:'日期',width:'100px',align:'left',
             	formatter : function(value, row,index) {
                     var str = value;
                     if(!value){
@@ -41,6 +40,7 @@ function initDatagridDay(){
 	                }
                     return str;
                 }},
+            {field:'branchName',title:'机构',width:'140px',align:'left'},
             {field:'skuCode',title:'货号',width:'80px',align:'left'},
             {field:'skuName',title:'商品名称',width:100,align:'left'},
             {field:'barCode',title:'条码',width:100,align:'left'},

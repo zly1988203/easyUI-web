@@ -81,7 +81,7 @@ public class DayReportController extends BaseController<DayReportController> {
 			poolSaleReportList.setFooter(footer);
 			return poolSaleReportList;
 		} catch (Exception e) {
-			LOG.error(" 获取联营销售列表信息异常:{}", e);
+			LOG.error("获取日销售列表信息异常:{}", e);
 		}
 		return null;
 	}	
@@ -108,8 +108,8 @@ public class DayReportController extends BaseController<DayReportController> {
 			String templateName = ExportExcelConstant.DAY_REPORT;
 			exportListForXLSX(response, exportList, fileName, templateName);
 		} catch (Exception e) {
-			LOG.error("导出单品ABC销售额列表异常：{}", e);
-			resp = RespJson.error("导出单品ABC销售额列表异常");
+			LOG.error("导出日进销存报表异常：{}", e);
+			resp = RespJson.error("导出日进销存报表异常");
 		}
 		return resp;
 	}

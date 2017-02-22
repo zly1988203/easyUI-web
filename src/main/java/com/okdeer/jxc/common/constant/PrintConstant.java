@@ -63,6 +63,8 @@ public interface PrintConstant {
 	 * @Fields SALE_FLOW_PRINT_ERROR ：销售流水打印失败
 	 */
 	String SALE_FLOW_PRINT_ERROR = "销售流水报表打印失败{}";
+	
+	String GOODS_UNSALE_PRINT_ERROR = "商品滞销报表打印失败{}";
 
 	/**
 	 * @Fields PRINT_LABEL : 商品打印价签名

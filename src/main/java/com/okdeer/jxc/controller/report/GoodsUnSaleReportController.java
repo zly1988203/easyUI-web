@@ -92,7 +92,7 @@ public class GoodsUnSaleReportController extends BaseController<GoodsUnSaleRepor
 			list.setFooter(footer);
 			return list;
 		} catch (Exception e) {
-			LOG.error(" 获取联营销售列表信息异常:{}", e);
+			LOG.error("获取滞销信息列表信息异常:{}", e);
 		}
 		return null;
 	}
@@ -119,8 +119,8 @@ public class GoodsUnSaleReportController extends BaseController<GoodsUnSaleRepor
 			String templateName = ExportExcelConstant.GOODS_UNSALE_REPORT;
 			exportListForXLSX(response, exportList, fileName, templateName);
 		} catch (Exception e) {
-			LOG.error("导出单品ABC销售额列表异常：{}", e);
-			resp = RespJson.error("导出单品ABC销售额列表异常");
+			LOG.error("导出滞销信息列表异常：{}", e);
+			resp = RespJson.error("导出滞销信息列表异常");
 		}
 		return resp;
 	}
@@ -156,7 +156,7 @@ public class GoodsUnSaleReportController extends BaseController<GoodsUnSaleRepor
 			String path = PrintConstant.GOODS_UNSALE_REPORT;
 			JasperHelper.exportmain(request, response, map, JasperHelper.PDF_TYPE, path, exportList, "");
 		} catch (Exception e) {
-			LOG.error(PrintConstant.CASH_FLOW_PRINT_ERROR, e);
+			LOG.error(PrintConstant.GOODS_UNSALE_PRINT_ERROR, e);
 		}
 		return null;
 	}
