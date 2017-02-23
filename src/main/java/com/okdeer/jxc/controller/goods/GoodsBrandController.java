@@ -194,11 +194,17 @@ public class GoodsBrandController extends BaseController<GoodsBrandController> {
 		goodsBrand.setBrandCode(brandCode);
 		
 		//3 校验唯一性
-		Integer count = goodsBrandService.checkGoodsBrand(goodsBrand);
-		if(count>0) {
+		Integer brandNameCount = goodsBrandService.queryBrandNameCount(goodsBrand);
+		if(brandNameCount>0) {
 			return RespJson.error("品牌名称重复");
 		}
-		//4 保存
+		
+		//4 品牌编号校验
+		Integer brandCodeCount = goodsBrandService.queryBrandCodeCount(goodsBrand);
+		if(brandCodeCount>0) {
+			return RespJson.error("品牌编号已满");
+		}
+		//5 保存
 		RespJson respJson = RespJson.success();
 		try {
 			goodsBrand.setCreateUserId(super.getCurrUserId());
@@ -243,8 +249,8 @@ public class GoodsBrandController extends BaseController<GoodsBrandController> {
 			return RespJson.error(errorMessage);
 		}
 		//2 校验唯一性
-		Integer count = goodsBrandService.checkGoodsBrand(goodsBrand);
-		if(count>0) {
+		Integer brandNameCount = goodsBrandService.queryBrandNameCount(goodsBrand);
+		if(brandNameCount>0) {
 			return RespJson.error("品牌名称重复");
 		}
 		//3 保存
