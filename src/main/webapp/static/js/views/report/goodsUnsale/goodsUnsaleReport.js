@@ -28,6 +28,7 @@ function initDatagridGoodsUnsale(){
         fitColumns:true,    //每列占满
         //fit:true,            //占满
         showFooter:true,
+        pageSize : 50,
 		height:'100%',
 		width:'100%',
         columns:[[
