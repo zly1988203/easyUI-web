@@ -209,30 +209,39 @@ public class StockIndexController extends BaseController<T> {
 						@Override
 						public void businessValid(List<JSONObject> excelListSuccessData, String[] excelField) {
 							for (JSONObject obj : excelListSuccessData) {
+								double upperDou = 0;
+								double lowerDou = 0;
 								if (obj.get("upperLimit") != null) {
-									String realNum = obj.getString("upperLimit");
+									String upperLimit = obj.getString("upperLimit");
 									try {
-										Double.parseDouble(realNum);
+										upperDou = Double.parseDouble(upperLimit);
+										if(upperDou <= 0 || upperDou > 999999.99){
+											obj.element("error", "库存上限必填，且必须大于0，小于999999.99");
+										}
 									} catch (Exception e) {
-										obj.element("error", "库存上限必填");
+										obj.element("error", "库存上限必填，且必须大于0，小于999999.99");
 									}
-								}
-								if (obj.get("upperLimit") != null && Integer.parseInt(obj.getString("upperLimit")) == 0) {
-									obj.element("error", "库存上限不能为0");
+								}else{
+									obj.element("error", "库存上限必填，且必须大于0，小于999999.99");
 								}
 								
 								if (obj.get("lowerLimit") != null) {
-									String largeNum = obj.getString("lowerLimit");
+									String lowerLimit = obj.getString("lowerLimit");
 									try {
-										Double.parseDouble(largeNum);
+										lowerDou = Double.parseDouble(lowerLimit);
+										if(lowerDou <= 0 || lowerDou > 999999.99){
+											obj.element("error", "库存下限必填，且必须大于0，小于999999.99");
+										}
 									} catch (Exception e) {
-										obj.element("error", "库存下限必填");
+										obj.element("error", "库存下限必填，且必须大于0，小于999999.99");
 									}
+								}else{
+									obj.element("error", "库存下限必填，且必须大于0，小于999999.99");
 								}
-								if (obj.get("lowerLimit") != null && Integer.parseInt(obj.getString("lowerLimit")) == 0) {
-									obj.element("error", "库存下限不能为0");
+								
+								if(upperDou < lowerDou){
+									obj.element("error", "库存上限必须大于等于库存下限");
 								}
-
 							}
 						}
 
