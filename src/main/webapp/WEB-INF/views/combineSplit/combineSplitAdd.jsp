@@ -29,7 +29,7 @@
 			<div class="ub umar-t12">
 				<div class="ub ub-ac uw-280">
 					 <div class="umar-r10 uw-70 ut-r" >机构:</div>
-                     <input name="id" type="hidden" id="id" >
+                     <input name="id" type="hidden" id="id" value="${formId}" >
                      <input name="createBranchId" type="hidden" id="createBranchId" >
                      <input class="uinp ub ub-f1" readonly="readonly"  type="text" id="createBranchName">
                      <div class="uinp-more" onclick="selectBranch();">...</div>
