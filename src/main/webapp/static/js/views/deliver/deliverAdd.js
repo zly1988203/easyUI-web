@@ -263,11 +263,11 @@ function initDatagridAddRequireOrder(){
                         row.sourceStock = parseFloat(value||0).toFixed(2);
                     }
                     
-                    if(parseFloat(row.applyNum)+parseFloat(row.alreadyNum || 0) > parseFloat(row.sourceStock)){
+                    if(parseFloat(row.applyNum)+parseFloat(row.alreadyNum) > parseFloat(row.sourceStock)){
                     	 return '<span style="color:red;"><b>'+parseFloat(value||0).toFixed(2)+'</b></span>';
-            		}else{
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-            		}	
+ 	           		}else{
+ 	           			return '<span style="color:black;"><b>'+parseFloat(value||0).toFixed(2)+'</b></span>';
+ 	           		}
                 },
 //            	editor:{
 //                    type:'numberbox',
@@ -288,10 +288,10 @@ function initDatagridAddRequireOrder(){
                     }
                     
                     if(parseFloat(row.applyNum)+parseFloat(row.alreadyNum) > parseFloat(row.sourceStock)){
-                   	 return '<span style="color:red;"><b>'+parseFloat(value||0).toFixed(2)+'</b></span>';
-	           		}else{
-	           			return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-	           		}	
+                     	 return '<span style="color:red;"><b>'+parseFloat(value||0).toFixed(2)+'</b></span>';
+  	           		}else{
+  	           			return '<span style="color:black;"><b>'+parseFloat(value||0).toFixed(2)+'</b></span>';
+  	           		}
 
                 },
             },
@@ -394,6 +394,7 @@ function onChangeLargeNum(newV,oldV){
     if(realNumVal && oldV){
     	 n=1;     
         gridHandel.setFieldValue('applyNum',(purchaseSpecValue*newV).toFixed(4));//数量=商品规格*箱数  
+//        updateRowsStyle();
     }
 
     updateFooter();
@@ -439,8 +440,10 @@ function onChangeRealNum(newV,oldV) {
     	m = 1;
         var largeNumVal = parseFloat(newV/purchaseSpecValue).toFixed(4);
         gridHandel.setFieldValue('largeNum',largeNumVal);   //箱数=数量/商品规格
+//        updateRowsStyle();
     }
     /*gridHandel.setFieldValue('largeNum',(newV/purchaseSpecValue).toFixed(4));   //箱数=数量/商品规格*/
+
     updateFooter();
 }
 

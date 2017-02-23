@@ -277,12 +277,20 @@ function initDatagridEditRequireOrder(){
                         row.sourceStock = parseFloat(value||0).toFixed(2);
                     }
                     
-//                    if(parseFloat(row.applyNum)+parseFloat(row.alreadyNum) > parseFloat(row.sourceStock)){
-//                   	 return '<span style="color:red;"><b>'+parseFloat(value||0).toFixed(2)+'</b></span>';
-//	           		}else{
-//	                      
-//	           		}	
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    if(parseFloat(row.applyNum)+parseFloat(row.alreadyNum) > parseFloat(row.sourceStock)){
+                     	 return '<span style="color:red;"><b>'+parseFloat(value||0).toFixed(2)+'</b></span>';
+  	           		}else{
+  	           			return '<span style="color:black;"><b>'+parseFloat(value||0).toFixed(2)+'</b></span>';
+  	           		}
+                    
+                },
+                styler:function(value,row,index){
+                    if(parseFloat(row.applyNum)+parseFloat(row.alreadyNum) > parseFloat(row.sourceStock)){
+                    	return 'color:red;';
+                      	 
+   	           		}else{
+   	           			return 'color:black;'
+   	           		}	
                 }
 //                editor:{
 //                    type:'numberbox',
@@ -302,17 +310,21 @@ function initDatagridEditRequireOrder(){
                         row.alreadyNum = parseFloat(value||0).toFixed(2);
                     }
                     
-//                  if(parseFloat(row.applyNum)+parseFloat(row.alreadyNum) > parseFloat(row.sourceStock)){
-//                   	 return '<span style="color:red;"><b>'+parseFloat(value||0).toFixed(2)+'</b></span>';
-//	           		}else{
-//	           			return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-//	           		}	
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    if(parseFloat(row.applyNum)+parseFloat(row.alreadyNum) > parseFloat(row.sourceStock)){
+                      	 return '<span style="color:red;"><b>'+parseFloat(value||0).toFixed(2)+'</b></span>';
+   	           		}else{
+   	           			return '<span style="color:black;"><b>'+parseFloat(value||0).toFixed(2)+'</b></span>';
+   	           		}
 
                 },
-//                styler:function(value,row,index){
-//                	return 'color:green;'
-//                }
+                styler:function(value,row,index){
+                    if(parseFloat(row.applyNum)+parseFloat(row.alreadyNum) > parseFloat(row.sourceStock)){
+                    	return 'color:red;';
+                      	 
+   	           		}else{
+   	           			return 'color:black;'
+   	           		}	
+                }
             },
             {field:'remark',title:'备注',width:'200px',align:'left',editor:'textbox'}
         ]],
@@ -420,7 +432,7 @@ function onChangeLargeNum(newV,oldV){
     	n=1;
         gridHandel.setFieldValue('applyNum',(purchaseSpecValue*newV).toFixed(4));//数量=商品规格*箱数 
     }
-
+//    updateRowsStyle();
     updateFooter();
 }
 //监听商品数量
@@ -467,6 +479,7 @@ function onChangeRealNum(newV,oldV) {
         gridHandel.setFieldValue('largeNum',largeNumVal);   //箱数=数量/商品规格
     }
     /*gridHandel.setFieldValue('largeNum',(newV/purchaseSpecValue).toFixed(4));   //箱数=数量/商品规格*/
+//    updateRowsStyle();
     updateFooter();
 }
 //监听商品单价
