@@ -9,6 +9,7 @@ function initConfirmDialogCallBack(cb){
 	confirmDialogCallBack = cb;
 }
 
+
 function confirmValue(val){
 	var param = {code:val}
 	if(confirmDialogCallBack){
@@ -16,6 +17,8 @@ function confirmValue(val){
 	}
 }
 
+
+//初始化
 function initConfirmDialog(param){
 	$("#content").html(param.content);
 }
