@@ -65,7 +65,7 @@ function initDatagridRequireOrders(){
 			},
 			{field:'grossProfit',title:'毛利',width:'80px',align:'right',
 				formatter:function(value,row,index){
-					if(!value){
+					if(!value && value == null){
 						return '';
 					}
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -73,7 +73,7 @@ function initDatagridRequireOrders(){
 			},
 			{field:'grossProfitRate',title:'毛利率',width:'80px',align:'center',
 				formatter:function(value,row,index){
-					if(!value){
+					if(!value && value == null){
 						return '';
 					}
 					return '<b>'+value+'</b>';
