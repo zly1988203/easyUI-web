@@ -49,6 +49,7 @@ public class CombineSplitController extends BaseController<T> {
 	
 	@Reference(version = "1.0.0", check = false)
 	private GoodsComponentApi goodsComponentApi;
+
 	/***
 	 * 
 	 * @Description: 跳转列表页面
@@ -110,7 +111,7 @@ public class CombineSplitController extends BaseController<T> {
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
-			//调整类型
+			// 调整类型
 			vo.setFormType(StockAdjustEnum.COMBINESPLIT.getKey());
 			PageUtils<StockFormVo> stockFormList = stockAdjustServiceApi.getStockFormList(vo);
 			LOG.info(LogConstant.PAGE, stockFormList.toString());
@@ -138,16 +139,7 @@ public class CombineSplitController extends BaseController<T> {
 		request.setAttribute("close", report);
 		return "/combineSplit/combineSplitView";
 	}
-	
-	/**
-	 * 
-	 * @Description: 获取库存调整明细信息
-	 * @param id 库存调整主键ID
-	 * @return
-	 * @author liux01
-	 * @date 2016年11月4日
-	 */
-	
+
 	/***
 	 * 
 	 * @Description:  获取成分商品明细信息
@@ -176,17 +168,25 @@ public class CombineSplitController extends BaseController<T> {
 	 * @author xuyq
 	 * @date 2017年2月18日
 	 */
-	@RequestMapping(value = "getGoodsComponentDetailList",method=RequestMethod.POST)
+	@RequestMapping(value = "getGoodsComponentDetailList", method = RequestMethod.POST)
 	@ResponseBody
-	public List<GoodsComponent>  getGoodsComponentDetailList(String skuId,String branchId) {
-		try{
-			return goodsComponentApi.getCombineSplitDetailList(skuId,branchId);
-		}catch(Exception e){
-			LOG.error("查询商品成分失败！:{}",e);
+	public List<GoodsComponent> getGoodsComponentDetailList(String skuId, String branchId) {
+		try {
+			return goodsComponentApi.getCombineSplitDetailList(skuId, branchId);
+		} catch (Exception e) {
+			LOG.error("查询商品成分失败！:{}", e);
 			return null;
 		}
 	}
-	
+
+	/**
+	 * 
+	 * @Description: 保存组合拆分
+	 * @param data
+	 * @return
+	 * @author xuyq
+	 * @date 2017年2月23日
+	 */
 	@RequestMapping(value = "/saveCombineSplit", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson saveCombineSplit(String data) {

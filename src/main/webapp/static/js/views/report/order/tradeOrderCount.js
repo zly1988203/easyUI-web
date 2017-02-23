@@ -81,7 +81,7 @@ function initDatagridRequireOrders(){
 			},
             {field:'price',title:'客单价/元',width:'80px',align:'right',
             	formatter:function(value,row,index){
-            		if(!value){
+            		if(!value && value == null){
                         return '';
                     }
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';

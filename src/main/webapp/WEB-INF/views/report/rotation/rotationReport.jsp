@@ -57,10 +57,10 @@
 				<div class="ub ub-ac umar-l10">
 					<div class="umar-r10 uw-70 ut-r">报表类型</div>
 					<div class="ub ub-ac umar-r10">
-						<label> <input class="radioItem" type="radio" onClick="hiddenFiled(0)" value="0" checked name="reportType">销售周转率 </label>
+						<label> <input class="radioItem" type="radio"  value="1" checked name="rotationType">销售周转率 </label>
 					</div>
 					<div class="ub ub-ac umar-r10">
-						<label> <input class="radioItem" type="radio" onClick="hiddenFiled(1)" value="1" name="reportType">成本周转率 </label>
+						<label> <input class="radioItem" type="radio"  value="2" name="rotationType">成本周转率 </label>
 					</div>
 				</div>
 				
