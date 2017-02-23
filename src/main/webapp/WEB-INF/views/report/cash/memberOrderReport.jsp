@@ -49,7 +49,7 @@
                </div>
                <div class="ub ub-ac umar-r40">
 				<div class="umar-r10 uw-60 ut-r">会员:</div>
-				<input type="text" name="buyerUserName" id="buyerUserName" class="uinp"/>
+				<input type="text" name="buyerUserName" id="buyerUserName" class="uinp" placeholder="输入会员名或手机号"/>
 			  </div>
             </div>
 
