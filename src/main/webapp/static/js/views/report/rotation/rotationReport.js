@@ -1,3 +1,4 @@
+
 $(function(){
 	$("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
@@ -5,23 +6,150 @@ $(function(){
     
 });
 
+var rotaType =  1;
 function hiddenFiled(type){
-	var saleFileds = ['costAmount','beginCostAmount','endCostAmount','avgCostAmount','costRotationRate','costRotationDay'];
-	var costFileds = ['originalSaleAmount','beginSaleAmount','endSaleAmount','avgSaleAmount','saleRotationRate','saleRotationDay'];
-	if(type == 0){
-		saleFileds.forEach(function(obj,index){
-			$("#rotationReport").datagrid('hideColumn',obj);
-		});
-		costFileds.forEach(function(obj,index){
-			$("#rotationReport").datagrid('showColumn',obj);
-		});
+	rotaType = type;
+	queryForm();
+}
+
+function getFiledsList(){
+	if(rotaType == 1){
+		return [ [ {
+			field : 'branchCode',
+			title : '机构编号',
+			width : '100px',
+			align : 'left'
+		}, {
+			field : 'branchName',
+			title : '机构名称',
+			width : '150px',
+			align : 'left'
+		},{
+			field : 'skuCode',
+			title : '货号',
+			width : '100px',
+			align : 'left'
+		}, {
+			field : 'skuName',
+			title : '商品名称',
+			width : '200px',
+			align : 'left'
+		}, {
+			field : 'rotationDay',
+			title : '期间天数',
+			width : '100px',
+			align : 'left'
+		}, {
+			field : 'saleNum',
+			title : '销售数量',
+			width : '100px',
+			align : 'left'
+		}, {
+			field : 'saleAmount',
+			title : '期间销售金额',
+			width : '120px',
+			align : 'left'
+		},{
+// --------------------------------------------------
+			field : 'originalSaleAmount',
+			title : '期间原价销售金额',
+			width : '120px',
+			align : 'left'
+		}, {
+			field : 'beginSaleAmount',
+			title : '期初销售金额',
+			width : '120px',
+			align : 'left'
+		}, {
+			field : 'endSaleAmount',
+			title : '期末销售金额',
+			width : '120px',
+			align : 'left'
+		}, {
+			field : 'avgSaleAmount',
+			title : '期间平均销售金额',
+			width : '120px',
+			align : 'left'
+		}, {
+			field : 'saleRotationRate',
+			title : '库存周转率',
+			width : '120px',
+			align : 'left'
+		}, {
+			field : 'saleRotationDay',
+			title : '库存周转天数',
+			width : '100px',
+			align : 'left'
+		}, ] ],
 	}else{
-		saleFileds.forEach(function(obj,index){
-			$("#rotationReport").datagrid('showColumn',obj);
-		});
-		costFileds.forEach(function(obj,index){
-			$("#rotationReport").datagrid('hideColumn',obj);
-		});
+		return [ [ {
+			field : 'branchCode',
+			title : '机构编号',
+			width : '100px',
+			align : 'left'
+		}, {
+			field : 'branchName',
+			title : '机构名称',
+			width : '150px',
+			align : 'left'
+		},{
+			field : 'skuCode',
+			title : '货号',
+			width : '100px',
+			align : 'left'
+		}, {
+			field : 'skuName',
+			title : '商品名称',
+			width : '200px',
+			align : 'left'
+		}, {
+			field : 'rotationDay',
+			title : '期间天数',
+			width : '100px',
+			align : 'left'
+		}, {
+			field : 'saleNum',
+			title : '销售数量',
+			width : '100px',
+			align : 'left'
+		}, {
+			field : 'saleAmount',
+			title : '期间销售金额',
+			width : '120px',
+			align : 'left'
+		}, {
+// --------------------------------------------------
+			field : 'costAmount',
+			title : '期间销售成本金额',
+			width : '120px',
+			align : 'left'
+		}, {
+			field : 'beginCostAmount',
+			title : '期初库存金额',
+			width : '120px',
+			align : 'left'
+		}, {
+			field : 'endCostAmount',
+			title : '期末库存金额',
+			width : '120px',
+			align : 'left'
+		}, {
+			field : 'avgCostAmount',
+			title : '期间平均库存金额',
+			width : '120px',
+			align : 'left'
+		}, {
+			field : 'costRotationRate',
+			title : '库存周转率',
+			width : '120px',
+			align : 'left'
+		}, {
+			field : 'costRotationDay',
+			title : '库存周转天数',
+			width : '100px',
+			hidden: true,
+			align : 'left'
+		} ] ]
 	}
 }
 
@@ -80,110 +208,7 @@ function initDatagridRequire() {
 		height : '100%',
 		pageSize : 50,
 		width : '100%',
-		columns : [ [ {
-			field : 'branchCode',
-			title : '机构编号',
-			width : '100px',
-			align : 'left'
-		}, {
-			field : 'branchName',
-			title : '机构名称',
-			width : '150px',
-			align : 'left'
-		},{
-			field : 'skuCode',
-			title : '货号',
-			width : '100px',
-			align : 'left'
-		}, {
-			field : 'skuName',
-			title : '商品名称',
-			width : '200px',
-			align : 'left'
-		}, {
-			field : 'rotationDay',
-			title : '期间天数',
-			width : '100px',
-			align : 'left'
-		}, {
-			field : 'saleNum',
-			title : '销售数量',
-			width : '100px',
-			align : 'left'
-		}, {
-			field : 'saleAmount',
-			title : '期间销售金额',
-			width : '120px',
-			align : 'left'
-		}, {
-//			--------------------------------------------------		
-			field : 'costAmount',
-			title : '期间销售成本金额',
-			width : '120px',
-			hidden: true,
-			align : 'left'
-		}, {
-			field : 'beginCostAmount',
-			title : '期初库存金额',
-			width : '120px',
-			hidden: true,
-			align : 'left'
-		}, {
-			field : 'endCostAmount',
-			title : '期末库存金额',
-			width : '120px',
-			hidden: true,
-			align : 'left'
-		}, {
-			field : 'avgCostAmount',
-			title : '期间平均库存金额',
-			width : '120px',
-			hidden: true,
-			align : 'left'
-		}, {
-			field : 'costRotationRate',
-			title : '库存周转率',
-			width : '120px',
-			hidden: true,
-			align : 'left'
-		}, {
-			field : 'costRotationDay',
-			title : '库存周转天数',
-			width : '100px',
-			hidden: true,
-			align : 'left'
-		}, {
-//	--------------------------------------------------		
-			field : 'originalSaleAmount',
-			title : '期间原价销售金额',
-			width : '120px',
-			align : 'left'
-		}, {
-			field : 'beginSaleAmount',
-			title : '期初销售金额',
-			width : '120px',
-			align : 'left'
-		}, {
-			field : 'endSaleAmount',
-			title : '期末销售金额',
-			width : '120px',
-			align : 'left'
-		}, {
-			field : 'avgSaleAmount',
-			title : '期间平均销售金额',
-			width : '120px',
-			align : 'left'
-		}, {
-			field : 'saleRotationRate',
-			title : '库存周转率',
-			width : '120px',
-			align : 'left'
-		}, {
-			field : 'saleRotationDay',
-			title : '库存周转天数',
-			width : '100px',
-			align : 'left'
-		}, ] ],
+		columns : getFiledsList(),
 		onLoadSuccess : function(data) {
 			gridHandel.setDatagridHeader("center");
 		}
