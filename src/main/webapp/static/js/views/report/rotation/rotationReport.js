@@ -1,16 +1,15 @@
-
+var rotaType =  1;
 $(function(){
 	$("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
     initDatagridRequire();
     
+    $(".radioItem").on("change",function(){
+    	rotaType = $(this).val();
+    	initDatagridRequire();
+    	queryForm();
+    })
 });
-
-var rotaType =  1;
-function hiddenFiled(type){
-	rotaType = type;
-	queryForm();
-}
 
 function getFiledsList(){
 	if(rotaType == 1){
@@ -50,7 +49,6 @@ function getFiledsList(){
 			width : '120px',
 			align : 'left'
 		},{
-// --------------------------------------------------
 			field : 'originalSaleAmount',
 			title : '期间原价销售金额',
 			width : '120px',
@@ -80,7 +78,7 @@ function getFiledsList(){
 			title : '库存周转天数',
 			width : '100px',
 			align : 'left'
-		}, ] ],
+		} ] ]
 	}else{
 		return [ [ {
 			field : 'branchCode',
@@ -118,7 +116,6 @@ function getFiledsList(){
 			width : '120px',
 			align : 'left'
 		}, {
-// --------------------------------------------------
 			field : 'costAmount',
 			title : '期间销售成本金额',
 			width : '120px',
@@ -147,7 +144,6 @@ function getFiledsList(){
 			field : 'costRotationDay',
 			title : '库存周转天数',
 			width : '100px',
-			hidden: true,
 			align : 'left'
 		} ] ]
 	}
