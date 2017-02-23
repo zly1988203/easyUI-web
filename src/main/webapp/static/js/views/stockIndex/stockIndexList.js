@@ -42,8 +42,16 @@ function initDatagridStockIndex(){
 			{field: 'barCode', title: '条码', width: 140, align: 'left'},
 			{field: 'skuSpec', title: '规格', width: 80, align: 'left'},
 			{field: 'skuUnit', title: '单位', width: 80, align: 'center'},
-			{field: 'lowerLimit', title: '库存下限', width: 100, align: 'left'},
-			{field: 'upperLimit', title: '库存上限', width: 100, align: 'left'}
+			{field: 'lowerLimit', title: '库存下限', width: 100, align: 'left',
+				formatter:function(value,row,index){
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				}
+			},
+			{field: 'upperLimit', title: '库存上限', width: 100, align: 'left',
+				formatter:function(value,row,index){
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				}
+			}
 		]],
 
 	});
@@ -75,22 +83,30 @@ function initDetailStock(){
 			{field: 'categoryCode', title: '类别编号', width: 100, align: 'left'},
 			{field: 'categoryName', title: '类别名称', width: 120, align: 'left'},
 			{field: 'lowerLimit', title: '库存下限', width: 100, align: 'left',
+				formatter:function(value,row,index){
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				},
 				editor:{
 					type:'numberbox',
 					value:0,
 					options:{
 						min:0,
+						max:999999.99,
 						precision:4,
 						onChange: onChangeStockEnd,
 					}
 				},
 			},
 			{field: 'upperLimit', title: '库存上限', width: 100, align: 'left',
+				formatter:function(value,row,index){
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				},
 				editor:{
 					type:'numberbox',
 					value:0,
 					options:{
 						min:0,
+						max:999999.99,
 						precision:4,
 						onChange: onChangeStockBegin,
 					}
@@ -113,17 +129,17 @@ function initDetailStock(){
 
 
 function onChangeStockBegin(newV,oldV){
-	var gridVData = stockDetailList.datagrid('getData');
+	/*var gridVData = stockDetailList.datagrid('getData');
 	var currentRow = gridVData.rows;
-	currentRow[0].upperLimit = newV;
+	currentRow[0].upperLimit = newV;*/
 }
 
 function onChangeStockEnd(newV,oldV){
 	console.log('newV',newV);
 	console.log('oldV',oldV);
-	var gridVData = stockDetailList.datagrid('getData');
+	/*var gridVData = stockDetailList.datagrid('getData');
 	var currentRow = gridVData.rows;
-	currentRow[0].lowerLimit = newV;
+	currentRow[0].lowerLimit = newV;*/
 }
 
 
@@ -151,6 +167,7 @@ function closeDetailDialog(){
 
 //保存详情
 function saveDetailStock(){
+	$("#detailStockTarget").datagrid("endEdit", gridHandelDetail.getSelectRowIndex());
 	var detGridData = gridHandelDetail.getRows()[0];
 	console.log('detGridData',detGridData);
 	if(detGridData.upperLimit < detGridData.lowerLimit ){
