@@ -7,7 +7,7 @@
     <title>库存存量指标</title>
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
     <%-- <script  src="${ctx}/static/js/fun/publicComponent.js"></script> --%>
-    <script  src="${ctx}/static/js/views/stockIndex/stockIndexAdd.js?1=1"></script>
+    <script  src="${ctx}/static/js/views/stockIndex/stockIndexAdd.js?1=54"></script>
     <style>
     .datagrid-header .datagrid-cell {text-align: center!important;font-weight: bold;}
     </style>
@@ -34,11 +34,11 @@
 				</div>
 				<div class="ub ub-ac umar-l30 uw-300">
 					<div class=" umar-r10 uw-70 ut-r">库存上限:</div>
-					<input type="text" id="upperLimit" name="upperLimit" class="uinp easyui-numberbox easyui-validatebox" data-options="min:0,precision:4,onChange:changeUppermit" />
+					<input type="text" id="upperLimit" name="upperLimit" class="uinp easyui-numberbox easyui-validatebox" maxlength="9" data-options="value:0,min:0,precision:4,max:999999.99,onChange:changeUppermit" />
 				</div>
 				<div class="ub ub-ac umar-l30 uw-300">
 					<div class=" umar-r10 uw-70 ut-r">库存下限:</div>
-					<input type="text" id="lowerLimit" name="lowerLimit" class="uinp easyui-numberbox easyui-validatebox" data-options="min:0,precision:4,onChange:changeLowerLimit" />
+					<input type="text" id="lowerLimit" name="lowerLimit" class="uinp easyui-numberbox easyui-validatebox" maxlength="9" data-options="value:0,min:0,precision:4,max:999999.99,onChange:changeLowerLimit" />
 				</div>
 			</div>
       	</form>

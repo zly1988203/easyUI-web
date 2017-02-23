@@ -10,6 +10,7 @@ var isClickSaveData = false;
 var addStockIndexGridDg;
 var loginBranchId;
 var maxNum = 999999.99;
+var selectIndex = 0;
 $(function() {
 	loginBranchId = $("#loginBranchId").val();
 	// 初始化表格
@@ -22,32 +23,20 @@ $(function() {
 });
 
 function changeUppermit(newV,oldV){
-	if(newV > maxNum){
-		newV = maxNum;
-		$(this).numberbox('setValue',newV);
-	}
+	$("#"+datagridId).datagrid("endEdit", selectIndex);
 	var temp_uper = $("#upperLimit").numberbox('getValue');
 	var temp_lowe = $("#lowerLimit").numberbox('getValue');
-	if(temp_uper < temp_lowe){
-		successTip('库存上限不能小于库存下限!');
-		$("#upperLimit").numberbox('setValue',oldV);
-	}else if(checkUpLowLimit()){
+	if((parseFloat(temp_uper) > 0 || parseFloat(temp_lowe) > 0) &&　checkUpLowLimit()){
 		specialRows('upperLimit',newV);
 	}
 	
 }
 
 function changeLowerLimit(newV,oldV){
-	if(newV > maxNum){
-		newV = maxNum;
-		$(this).numberbox('setValue',newV);
-	}
+	$("#"+datagridId).datagrid("endEdit", selectIndex);
 	var temp_uper = $("#upperLimit").numberbox('getValue');
 	var temp_lowe = $("#lowerLimit").numberbox('getValue');
-	if(temp_uper < temp_lowe){
-		successTip('库存上限不能小于库存下限!');
-		$("#lowerLimit").numberbox('setValue',oldV);
-	}else if(checkUpLowLimit()){
+	if((parseFloat(temp_uper) > 0 || parseFloat(temp_lowe) > 0) && checkUpLowLimit()){
 		specialRows('lowerLimit',newV);
 	}
 }
@@ -161,16 +150,13 @@ function initStockIndexGridEdit() {
 						width : '100px',
 						align : 'right',
 						formatter : function(value, row, index) {
-							var str=0.0000;
-							if(value){
-								str= parseFloat(value).toFixed(4);
-							}
-		    				return str;
+							return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';;
 		    			},
 						editor : {
 							type : 'numberbox',
 							options : {
 								min:0,
+								max:999999.99,
 								precision:4,
 								onChange: onChangeStockBegin,
 							}
@@ -182,22 +168,20 @@ function initStockIndexGridEdit() {
 						width : '100px',
 						align : 'right',
 						formatter : function(value, row, index) {
-							var str=0.0000;
-							if(value){
-								str= parseFloat(value).toFixed(4);
-							}
-		    				return str;
+		    				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';;
 		    			},
 						editor : {
 							type : 'numberbox',
 							options : {
 								min:0,
+								max:999999.99,
 								precision:4,
 								onChange: onChangeStockEnd,
 							}
 						}
 					}] ],
 				onClickCell : function(rowIndex, field, value) {
+					selectIndex = rowIndex;
 					gridHandel.setBeginRow(rowIndex);
 					gridHandel.setSelectFieldName(field);
 					var target = gridHandel.getFieldTarget(field);
@@ -211,41 +195,33 @@ function initStockIndexGridEdit() {
 					gridHandel.setDatagridHeader("center");
 				}
 			});
+	gridHandel.setLoadData([$.extend({},gridDefault)]);
 }
 
 
 function onChangeStockBegin(newV,oldV){
 	var cuRindex = gridHandel.getSelectRowIndex();
 	var curLowLimit = gridHandel.getFieldValue(cuRindex,'lowerLimit');
-	if(newV < curLowLimit ){
+	console.log("newV",newV);
+	console.log("curLowLimit",curLowLimit)
+	if(parseFloat(newV) < parseFloat(curLowLimit) ){
 		successTip('库存上限不能小于库存下限');
 		$(this).numberbox('setValue',oldV);
 		return;
-	}else{
-		if(newV > maxNum){
-			newV = maxNum
-			$(this).numberbox('setValue',newV);
-		}
-		gridHandel.getRows()[cuRindex].upperLimit = newV;
 	}
-	
 	
 }
 
 function onChangeStockEnd(newV,oldV){
 	var curRindex = gridHandel.getSelectRowIndex();
 	var curUpVal = gridHandel.getFieldValue(curRindex,'upperLimit');	
-	if(newV > curUpVal){
+	if(parseFloat(newV) > parseFloat(curUpVal)){
 		successTip('库存上限不能小于库存下限');
 		$(this).numberbox('setValue',oldV);
 		return;
-	}else{
-		if(newV > maxNum){
-			newV = maxNum
-			$(this).numberbox('setValue',newV);
-		}
-		gridHandel.getRows()[curRindex].lowerLimit = newV;
 	}
+	
+	
 	
 }
 
@@ -256,8 +232,13 @@ function specialRows(id,val){
 	var newData = $("#"+datagridId).datagrid("getRows");
 	if(id=="lowerLimit"){
 		for(var i = 0;i < newData.length;i++){
-			newData[i].lowerLimit= val;
+			
 			rowIndex = $("#"+datagridId).datagrid('getRowIndex',newData[i]);
+			if(parseFloat(val) > parseFloat(newData[i].upperLimit)){
+				successTip("第  "+(rowIndex+1)+" 行库存上限不能小于库存下限");
+				return;
+			}
+			newData[i].lowerLimit= val;
 			// 更新行数据
 			$("#"+datagridId).datagrid('updateRow',{
 				index: rowIndex,
@@ -269,8 +250,13 @@ function specialRows(id,val){
 	}
 	else if(id=="upperLimit"){
 		for(var i = 0;i < newData.length;i++){
-			newData[i].upperLimit= val;
+			
 			rowIndex = $("#"+datagridId).datagrid('getRowIndex',newData[i]);
+			if(parseFloat(val) < parseFloat(newData[i].lowerLimit)){
+				successTip("第  "+(rowIndex+1)+" 行库存上限不能小于库存下限");
+				return;
+			}
+			newData[i].upperLimit= val;
 			// 更新行数据
 			$("#"+datagridId).datagrid('updateRow',{
 				index: rowIndex,
@@ -440,16 +426,15 @@ function toImportStockIndex(type){
 }
 function updateListData(data){
     var nowRows = gridHandel.getRowsWhere({skuName:'1'});
-//    var addDefaultData  = gridHandel.addDefault(data,gridDefault);
     var keyNames = {
     		unit:'skuUnit',
         	spec:'skuSpec'
     };
     var rows = gFunUpdateKey(data,keyNames);
-    var argWhere ={skuCode:1};  //验证重复性
-    var isCheck ={isGift:1 };   //只要是赠品就可以重复
-    var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
-    $("#"+datagridId).datagrid("loadData",newRows);
+//    var argWhere ={skuCode:1};  //验证重复性
+//    var isCheck ={isGift:1 };   //只要是赠品就可以重复
+//    var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
+    $("#"+datagridId).datagrid("loadData",rows);
 }
 
 /**
