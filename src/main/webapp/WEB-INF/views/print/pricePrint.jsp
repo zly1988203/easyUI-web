@@ -105,7 +105,7 @@
 				
 				<div class="ub ub-ac uw-300 umar-l12 discount unhide">
 					<div class="umar-r10 uw-100 ut-r">统一促销折扣:</div>
-					<input class="uinp ub ub-f1 deal" type="number"
+					<input class="uinp ub ub-f1"  type="number"
 						onafterpaste="if(isNaN(value)|| value > 10) {execCommand('undo');this.value=''}" id="discount">
 						<div class="umar-l10">折</div>
 				</div>

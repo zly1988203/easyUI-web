@@ -56,8 +56,16 @@ function initjiaqType(){
 				$('#pricePrint').datagrid('showColumn','activityTime');
 				$('#pricePrint').datagrid('showColumn','promotionPrice');
 			}else{
+				//隐藏活动 清除数据
 				$('.activity').addClass('unhide');
-				$('.discount').addClass('unhide');
+				$('#actionId').val('');
+				$('#actionName').val('');
+				//隐藏统一促销价 恢复原状
+				$('.discount').addClass('unhide');	
+				 $('#discount').removeAttr('readonly','readonly');
+				 $('#discount').val('');
+				 $('#discount').removeClass('uinp-no-more');
+				gridHandel.setLoadData([]);
 				appendOptions(options_promotion);
 				$('#pricePrint').datagrid('hideColumn','activityTime');
 				$('#pricePrint').datagrid('hideColumn','promotionPrice');
@@ -422,7 +430,9 @@ function disableBtn(){
 	 $('#importsukcode').removeAttr('onclick');
 	 $('#importbarcode').addClass("uinp-no-more")
 	 $('#importbarcode').removeAttr('onclick');
+	 
 	 $('#discount').attr('readonly','readonly');
+	 $('#discount').addClass('uinp-no-more');
 	 var e = $("#pricePrint").datagrid('getColumnOption', 'activityTime');
 
      e.editor = {disabled:true};
