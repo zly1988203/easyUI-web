@@ -590,4 +590,16 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 		}
 		return respJson;
 	}
+	
+	/**
+	 * @Description: 公共提示框 三个按钮
+	 * @return   
+	 * @author zhaoly
+	 * @date 2017年02月23日
+	 */
+	@RequestMapping(value = "goPublicComfirmDialog")
+	public String goPublicComfirmDialog() {
+		return "component/publicComfirmDialog";
+	}
+	
 }

@@ -109,15 +109,15 @@ function initDatagridViewRequireOrder(){
 			gridHandel.setDatagridHeader("center");
 			updateFooter();
 		},
-    	rowStyler:function(index,row){
-    		if(typeof(row.sourceStock) != 'undefined' && typeof(row.applyNum) != 'undefined'
-    			&& typeof(row.alreadyNum) != 'undefined'){
-        		if(parseFloat(row.applyNum)+parseFloat(row.alreadyNum) > parseFloat(row.sourceStock)){
-        			return 'background-color:pink;';
-        		}	
-    		}
-    		
-		}
+//    	rowStyler:function(index,row){
+//    		if(typeof(row.sourceStock) != 'undefined' && typeof(row.applyNum) != 'undefined'
+//    			&& typeof(row.alreadyNum) != 'undefined'){
+//        		if(parseFloat(row.applyNum)+parseFloat(row.alreadyNum) > parseFloat(row.sourceStock)){
+//        			return 'background-color:pink;';
+//        		}	
+//    		}
+//    		
+//		}
     });
 }
 //合计
