@@ -7,8 +7,8 @@
     <title>进销存-商品档案</title>
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
     <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
+
     <script  src="${ctx}/static/js/views/goods/goodsArchives.js"></script>
-    <script src="${ctx}/static/js/views/component/publicColumnSetting.js"></script>	
 </head>
 
 <body class="ub uw uh ufs-14 uc-black">
@@ -41,9 +41,6 @@
 					<button class="ubtns-item" onclick="exportData()">导出</button>
 			   	</shiro:hasPermission>
 			   	
-<%-- 			   	<shiro:hasPermission name="JxcGoodsArchive:export">
-					<button class="ubtns-item" onclick="settingCol()">设置</button>
-			   	</shiro:hasPermission> --%>
             </div>
         </div>
         <form action="" id="formGoodsArchives" method="post">

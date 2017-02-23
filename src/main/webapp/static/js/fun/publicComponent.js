@@ -1765,3 +1765,32 @@ function publicActivity(callback,param){
 	        $(dalogTemp).panel('destroy');
 	    }
 }
+
+/*
+ * 三个按钮的提示框 是 1  否 0  取消 2
+ * param {title:'',content:''}
+*/
+
+function publicConfirmDialog(callback,param){
+	var dalogTemp = $('<div/>').dialog({
+        href: contextPath+"/goods/goodsSelect/goPublicComfirmDialog",
+        width: 300,
+        height: 155,
+        title: param.title,
+        closable: true,
+        resizable: true,
+        onClose: function () {
+            $(dalogTemp).panel('destroy');
+        },
+        modal: true,
+        onLoad: function () {
+        	initConfirmDialog(param);
+        	initConfirmDialogCallBack(callBackHandel);
+        }
+    })
+    
+    function callBackHandel(data){
+        callback(data);
+        $(dalogTemp).panel('destroy');
+    }
+}
