@@ -57,13 +57,13 @@
                   <div class="ub ub-ac  umar-l20">
                     <input  type="checkbox" name="checkStockTime" id="checkStockTime">
                     <div class="umar-r10 uw-70 ut-r">过滤掉近</div>
-                    <input class="uinp ub uw-20" type="text" name="unStockTime" id="unStockTime" value="7">
+                    <input class="uinp ub uw-20" type="text" name="unStockTime" id="unStockTime" value="14">
                     <div class="umar-r10 uw-120 ut-r">天内无入库的商品</div>
                 </div> 
                 <div class="ub ub-ac  umar-l20">
                     <input  type="checkbox" name="checkPullTime" id="checkPullTime">
                     <div class="umar-r10 uw-70 ut-r">过滤掉</div>
-                    <input class="uinp ub uw-20" type="text" name="pullTime" id="pullTime" value="14">
+                    <input class="uinp ub uw-20" type="text" name="pullTime" id="pullTime" value="7">
                     <div class="umar-r10 uw-120 ut-r">天前引入的新品</div>
                 </div> 
                 </div> 
