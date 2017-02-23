@@ -101,22 +101,34 @@ function initDatagridRequire() {
 			field : 'actual',
 			title : '库存数量',
 			width : '100px',
-			align : 'left'
+			align : 'left',
+			formatter : function(value, row, index) {
+				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';;
+			}
 		}, {
 			field : 'lowerLimit',
 			title : '库存下限',
 			width : '100px',
-			align : 'left'
+			align : 'left',
+			formatter : function(value, row, index) {
+				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';;
+			}
 		}, {
 			field : 'upperLimit',
 			title : '库存上限',
 			width : '100px',
-			align : 'left'
+			align : 'left',
+			formatter : function(value, row, index) {
+				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';;
+			}
 		}, {
 			field : 'referenceNum',
 			title : '参考进货数量',
 			width : '100px',
-			align : 'left'
+			align : 'left',
+			formatter : function(value, row, index) {
+				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';;
+			}
 		} ] ],
 		onLoadSuccess : function(data) {
 			gridHandel.setDatagridHeader("center");

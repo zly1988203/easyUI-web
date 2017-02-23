@@ -42,42 +42,66 @@ function getFiledsList(){
 			field : 'saleNum',
 			title : '销售数量',
 			width : '100px',
-			align : 'left'
+			align : 'left',
+			formatter : function(value, row, index) {
+				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';;
+			}
 		}, {
 			field : 'saleAmount',
 			title : '期间销售金额',
 			width : '120px',
-			align : 'left'
+			align : 'left',
+			formatter : function(value, row, index) {
+				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';;
+			}
 		},{
 			field : 'originalSaleAmount',
 			title : '期间原价销售金额',
 			width : '120px',
-			align : 'left'
+			align : 'left',
+			formatter : function(value, row, index) {
+				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';;
+			}
 		}, {
 			field : 'beginSaleAmount',
 			title : '期初销售金额',
 			width : '120px',
-			align : 'left'
+			align : 'left',
+			formatter : function(value, row, index) {
+				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';;
+			}
 		}, {
 			field : 'endSaleAmount',
 			title : '期末销售金额',
 			width : '120px',
-			align : 'left'
+			align : 'left',
+			formatter : function(value, row, index) {
+				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';;
+			}
 		}, {
 			field : 'avgSaleAmount',
 			title : '期间平均销售金额',
 			width : '120px',
-			align : 'left'
+			align : 'left',
+			formatter : function(value, row, index) {
+				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';;
+			}
 		}, {
 			field : 'saleRotationRate',
 			title : '库存周转率',
 			width : '120px',
-			align : 'left'
+			align : 'left',
+			formatter : function(value, row, index) {
+				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';;
+			}
 		}, {
 			field : 'saleRotationDay',
 			title : '库存周转天数',
 			width : '100px',
-			align : 'left'
+			align : 'left',
+			formatter : function(value, row, index) {
+				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';;
+			}
 		} ] ]
 	}else{
 		return [ [ {
@@ -109,42 +133,66 @@ function getFiledsList(){
 			field : 'saleNum',
 			title : '销售数量',
 			width : '100px',
-			align : 'left'
+			align : 'left',
+			formatter : function(value, row, index) {
+				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';;
+			}
 		}, {
 			field : 'saleAmount',
 			title : '期间销售金额',
 			width : '120px',
-			align : 'left'
+			align : 'left',
+			formatter : function(value, row, index) {
+				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';;
+			}
 		}, {
 			field : 'costAmount',
 			title : '期间销售成本金额',
 			width : '120px',
-			align : 'left'
+			align : 'left',
+			formatter : function(value, row, index) {
+				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';;
+			}
 		}, {
 			field : 'beginCostAmount',
 			title : '期初库存金额',
 			width : '120px',
-			align : 'left'
+			align : 'left',
+			formatter : function(value, row, index) {
+				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';;
+			}
 		}, {
 			field : 'endCostAmount',
 			title : '期末库存金额',
 			width : '120px',
-			align : 'left'
+			align : 'left',
+			formatter : function(value, row, index) {
+				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';;
+			}
 		}, {
 			field : 'avgCostAmount',
 			title : '期间平均库存金额',
 			width : '120px',
-			align : 'left'
+			align : 'left',
+			formatter : function(value, row, index) {
+				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';;
+			}
 		}, {
 			field : 'costRotationRate',
 			title : '库存周转率',
 			width : '120px',
-			align : 'left'
+			align : 'left',
+			formatter : function(value, row, index) {
+				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';;
+			}
 		}, {
 			field : 'costRotationDay',
 			title : '库存周转天数',
 			width : '100px',
-			align : 'left'
+			align : 'left',
+			formatter : function(value, row, index) {
+				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';;
+			}
 		} ] ]
 	}
 }
