@@ -229,8 +229,17 @@ function delStockForm(){
 		}
 	});
 }
+
+//限制转换次数
+var n = 0;
+var m = 0;
 //监听箱数
 function onChangeRealNum(newV,oldV) {
+	if(m === 1){
+		m = 0;
+		return;
+	}
+	
     if(!gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuName')){
         return;
     }
@@ -250,6 +259,7 @@ function onChangeRealNum(newV,oldV) {
         gridHandel.setNowEditFieldName("largeNum");
     }
     if(selectVal==1){
+    	n = 1;
         if(parseFloat(newV)>0){
 //            gridHandel.setFieldValue('largeNum',newV*-1);
             gridHandel.setFieldValue('realNum',parseFloat(newRealNum*-1).toFixed(4)); //数量=箱数*商品规格
@@ -260,6 +270,7 @@ function onChangeRealNum(newV,oldV) {
         }
     }
     else{
+    	n = 1;
         if(parseFloat(newV)<0){
 //            gridHandel.setFieldValue('largeNum',newV*-1);
             gridHandel.setFieldValue('realNum',parseFloat(newRealNum*-1).toFixed(4));    //数量=箱数*商品规格
@@ -281,6 +292,11 @@ function onChangeRealNum(newV,oldV) {
 
 //监听数量
 function totleChangePrice(newV,oldV) {
+	if(n === 1){
+		n = 0;
+		return;
+	}
+	
 	 if(!gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuName')){
 	        return;
 	 }
@@ -294,9 +310,14 @@ function totleChangePrice(newV,oldV) {
         return;
     }
     var selectVal=$("#io").combobox('getValue');
+    
+    if(parseFloat(newV)>0){
+        gridHandel.setNowEditFieldName("realNum");
+    }
 
     var price = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
 	  if(selectVal==1){
+		  m = 1;
 		  if(parseFloat(newV)>0){
 //		      gridHandel.setFieldValue('realNum',newV*-1); 
 		      gridHandel.setFieldValue('largeNum',parseFloat(newV/purchaseSpecValue*-1).toFixed(4));   //箱数=数量/商品规格
@@ -308,6 +329,7 @@ function totleChangePrice(newV,oldV) {
 		   }
 		  }
 	  else{
+		  m = 1;
 		  if(parseFloat(newV)<0){
 //			  gridHandel.setFieldValue('realNum',newV*-1); 
 		      gridHandel.setFieldValue('largeNum',parseFloat(newV/purchaseSpecValue*-1).toFixed(4));   //箱数=数量/商品规格
