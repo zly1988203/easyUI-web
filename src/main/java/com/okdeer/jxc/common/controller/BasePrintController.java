@@ -104,8 +104,7 @@ public abstract class BasePrintController<T,P> extends BaseController<T> {
 			//ReportExcelUtil.reportExcelToList(response, is, replaceMap.get("_订单编号").toString(), ReportExcelUtil.REPORT_XLSX, detailList);
 			ReportExcelUtil.reportExcelToMapAndList(response, is, replaceMap.get("_订单编号").toString(), ReportExcelUtil.REPORT_XLSX, replaceMap, detailList);
 		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
+			LOG.error("导出失败：{}", e);
 		}
 
 	}
