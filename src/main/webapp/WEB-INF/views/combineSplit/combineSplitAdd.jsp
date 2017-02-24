@@ -69,7 +69,7 @@
 				<div class="ub ub-ac uw-280 umar-l20">
 					 <div class="umar-r10 uw-70 ut-r" >数量:</div>
 					 <div class="ub ub-f1">
-	                     <input class="easyui-numberbox uw" data-options="min:0,precision:2,onChange:changeAmount" type="text" id="totalNum" name="totalNum">
+	                     <input class="easyui-numberbox uw" data-options="value:0,min:0,precision:2,onChange:changeAmount" type="text" id="totalNum" name="totalNum">
 					 </div>
 				</div>
 			</div>

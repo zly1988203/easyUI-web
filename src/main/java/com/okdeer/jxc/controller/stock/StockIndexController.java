@@ -143,7 +143,7 @@ public class StockIndexController extends BaseController<T> {
 	@RequestMapping(value = "/saveStockIndex", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson saveStockIndex(String data) {
-		LOG.debug("保存商品存量指标 ：data=" + data);
+		LOG.debug("保存商品存量指标 ：data{}", data);
 		SysUser user = UserUtil.getCurrentUser();
 		if (user == null) {
 			RespJson rep = RespJson.error("用户不能为空！");
@@ -168,7 +168,7 @@ public class StockIndexController extends BaseController<T> {
 				return rep;
 			}
 		} catch (Exception e) {
-			LOG.error("保存商品存量指标异常：", e);
+			LOG.error("保存商品存量指标异常：{}", e);
 			respJson = RespJson.error("保存商品存量指标异常!");
 		}
 		return respJson;
@@ -215,31 +215,31 @@ public class StockIndexController extends BaseController<T> {
 									String upperLimit = obj.getString("upperLimit");
 									try {
 										upperDou = Double.parseDouble(upperLimit);
-										if(upperDou <= 0 || upperDou > 999999.99){
+										if (upperDou <= 0 || upperDou > 999999.99) {
 											obj.element("error", "库存上限必填，且必须大于0，小于999999.99");
 										}
 									} catch (Exception e) {
 										obj.element("error", "库存上限必填，且必须大于0，小于999999.99");
 									}
-								}else{
+								} else {
 									obj.element("error", "库存上限必填，且必须大于0，小于999999.99");
 								}
-								
+
 								if (obj.get("lowerLimit") != null) {
 									String lowerLimit = obj.getString("lowerLimit");
 									try {
 										lowerDou = Double.parseDouble(lowerLimit);
-										if(lowerDou <= 0 || lowerDou > 999999.99){
+										if (lowerDou <= 0 || lowerDou > 999999.99) {
 											obj.element("error", "库存下限必填，且必须大于0，小于999999.99");
 										}
 									} catch (Exception e) {
 										obj.element("error", "库存下限必填，且必须大于0，小于999999.99");
 									}
-								}else{
+								} else {
 									obj.element("error", "库存下限必填，且必须大于0，小于999999.99");
 								}
-								
-								if(upperDou < lowerDou){
+
+								if (upperDou < lowerDou) {
 									obj.element("error", "库存上限必须大于等于库存下限");
 								}
 							}
@@ -298,7 +298,7 @@ public class StockIndexController extends BaseController<T> {
 			columns = new String[] { "skuCode", "upperLimit", "lowerLimit" };
 			headers = new String[] { "货号", "库存上限", "库存下限" };
 		} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {// 条码
-			columns = new String[] { "barCode", "upperLimit", "lowerLimit"};
+			columns = new String[] { "barCode", "upperLimit", "lowerLimit" };
 			headers = new String[] { "条码", "库存上限", "库存下限" };
 		}
 

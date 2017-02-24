@@ -235,10 +235,10 @@ function setDataValue(data) {
     var addDefaultData  = gridHandel.addDefault(data);
     var keyNames ={};
     var rows = gFunUpdateKey(addDefaultData,keyNames);
-    var argWhere ={skuCode:1};  //验证重复性
+   /* var argWhere ={skuCode:1};  //验证重复性
     var isCheck ={isGift:1 };   //只要是赠品就可以重复
-    var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
-    gridHandel.setLoadData(newRows);
+    var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);*/
+    gridHandel.setLoadData(rows);
    
 }
 
@@ -267,6 +267,15 @@ function specialRows(id,val){
 
 //保存
 function saveCombineSplit(){
+	var mainNum = $("#totalNum").numberbox('getValue');
+	if(!mainNum || !$.trim(mainNum)){
+		messager("请输入主商品数量");
+		return;
+	}
+	if(parseFloat(mainNum)==0){
+		messager("主商品数量不能为0");
+		return;
+	}
     $("#"+datagridId).datagrid("endEdit", gridHandel.getSelectRowIndex());
     var rows = gridHandel.getRowsWhere({skuName:'1'});
     $(gridHandel.getGridName()).datagrid("loadData",rows);

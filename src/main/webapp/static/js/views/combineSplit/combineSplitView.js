@@ -88,7 +88,11 @@ function getFiledsList(){
                  },
                  {field:'salePrice',title:'单价',width:'80px',align:'right'},
                  {field:'amount',title:'金额',width:'80px',align:'right'},
-                 {field:'remark',title:'备注',width:'200px',align:'left'}
+                 {field:'remark',title:'备注',width:'400px',align:'left',
+                	 editor:{
+                		 type:'textbox'
+                	 }
+                 }
              ]]
 	}else{
 		return [[
@@ -291,6 +295,7 @@ function saveDataHandel(rows){
     		skuId:skuId,
     		skuCode:skuCode,
     		amount:amount,
+    		remark:remark,
     		salePrice:salePrice
     };
     tempRows.push(masterStock);
@@ -305,6 +310,7 @@ function saveDataHandel(rows){
         	skuId:data.skuId,
         	skuCode:data.skuCode,
         	amount:data.amount,
+        	remark:data.remark,
         	salePrice:data.salePrice
 
         }

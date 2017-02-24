@@ -113,6 +113,12 @@ public class CombineSplitController extends BaseController<T> {
 			vo.setPageSize(pageSize);
 			// 调整类型
 			vo.setFormType(StockAdjustEnum.COMBINESPLIT.getKey());
+			if(StringUtils.isNotBlank(vo.getCreateUserId())){
+				vo.setCreateUserName(null);
+			}
+			if(StringUtils.isNotBlank(vo.getBranchId())){
+				vo.setBranchName(null);
+			}
 			PageUtils<StockFormVo> stockFormList = stockAdjustServiceApi.getStockFormList(vo);
 			LOG.info(LogConstant.PAGE, stockFormList.toString());
 			return stockFormList;
@@ -190,7 +196,7 @@ public class CombineSplitController extends BaseController<T> {
 	@RequestMapping(value = "/saveCombineSplit", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson saveCombineSplit(String data) {
-		LOG.debug("保存组合拆分单 ：data=" + data);
+		LOG.debug("保存组合拆分单 ：data{}" + data);
 		SysUser user = UserUtil.getCurrentUser();
 		if (user == null) {
 			RespJson rep = RespJson.error("用户不能为空！");
@@ -207,7 +213,7 @@ public class CombineSplitController extends BaseController<T> {
 				return rep;
 			}
 		} catch (Exception e) {
-			LOG.error("保存组合拆分单异常：", e);
+			LOG.error("保存组合拆分单异常：{}", e);
 			respJson = RespJson.error("保存组合拆分单异常!");
 		}
 		return respJson;
