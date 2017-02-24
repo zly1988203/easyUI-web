@@ -98,7 +98,10 @@ function initCombineSplieEditGrid() {
             {field: 'unit', title: '单位', width:'90px', align: 'left'},
             {field: 'salePrice', title: '单价', width:'90px', align: 'left'},
             {field: 'amount', title: '金额', width:'90px', align: 'left'},
-            {field: 'remark', title: '备注', width: '250px', align: 'left'}
+            {field: 'remark', title: '备注', width: '250px', align: 'left',
+                editor:{
+                    type:'textbox'
+                }}
         ]],
         onClickCell : function(rowIndex, field, value) {
 			gridHandel.setBeginRow(rowIndex);
@@ -177,9 +180,9 @@ function gFunGoodsSelect(searchKey,branchId){
 	    	$("#skuIdMain").val(data[0].skuId);
 	    	$("#skuCodeMain").val(data[0].skuCode);
 	    	$("#skuNameMain").val(data[0].skuName);
-	    	$("#salePriceMain").val(data[0].lowestPrice);
+	    	$("#salePriceMain").val(data[0].salePrice);
 	    	$("#totalNum").numberbox('setValue',1);
-	    	$("#amountMain").val(parseFloat(data[0].lowestPrice).toFixed(4));
+	    	$("#amountMain").val(parseFloat(data[0].salePrice).toFixed(4));
 	    	//查询成分商品
 	    	selectView($("#skuIdMain").val());
 	  });
@@ -327,6 +330,7 @@ function saveDataHandel(rows){
     		skuId:skuId,
     		skuCode:skuCode,
     		amount:amount,
+    		remark:remark,
     		salePrice:salePrice
     };
     tempRows.push(masterStock);
@@ -341,6 +345,7 @@ function saveDataHandel(rows){
         	skuId:data.componentSkuId,
         	skuCode:data.skuCode,
         	amount:data.amount,
+        	remark:data.remark,
         	salePrice:data.salePrice
 
         }

@@ -39,7 +39,7 @@
 	                    <input class="uinp" id="formNo" name="formNo" type="text">
 	                </div>
 	                <div class="ub ub-ac uw-300 umar-l20">
-	                    <div class="umar-r10 uw-70 ut-r">操作员:</div>
+	                    <div class="umar-r10 uw-76 ut-r">操作员:</div>
 	                    <input name="createUserId"  id="createUserId" name="createUserId" type="hidden" >
 	                    <input id="oldCreateUserName" type="hidden" >
 	                    <input class="uinp ub ub-f1" type="text" name="createUserName" id="createUserName">
