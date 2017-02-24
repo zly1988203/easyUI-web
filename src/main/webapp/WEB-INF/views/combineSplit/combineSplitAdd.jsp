@@ -57,7 +57,7 @@
                      <input class="uinp ub ub-f1 uinp-no-more" readonly="readonly" type="text" id="skuNameMain" name="skuNameMain">
 				</div>	
 				<div class="ub ub-ac uw-280 umar-l20">
-					 <div class="umar-r10 uw-70 ut-r" >单价:</div>
+					 <div class="umar-r10 uw-70 ut-r" >零售价:</div>
                      <input class="uinp ub ub-f1 uinp-no-more ut-r"  readonly="readonly"  type="text" id="salePriceMain" name="salePriceMain">
 				</div> 
 			</div>

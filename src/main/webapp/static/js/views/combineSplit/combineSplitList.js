@@ -40,7 +40,7 @@ function initcombineSplitList() {
                 	var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'组合拆分单详情\',\''+contextPath+'/stock/combineSplit/combineSplitView?id='+row.id+'\')">' + value + '</a>';
                 	return strHtml;
                 }},
-                {field:'status',title: '审核状态', width: '100px', align: 'left',formatter:function(value,row,index){
+                {field:'status',title: '审核状态', width: '100px', align: 'center',formatter:function(value,row,index){
                 	if(value == '0'){
                 		return '待审核';
                 	}else if(value == '1'){
@@ -51,7 +51,7 @@ function initcombineSplitList() {
                 		return '未知类型：'+ value;
                 	}
                 }},
-                {field: 'formType', title: '类型', width: '200px', align: 'left',formatter:function(value,row,index){
+                {field: 'formType', title: '类型', width: '200px', align: 'center',formatter:function(value,row,index){
                 	if(value == '1'){
                 		return '组合';
                 	}else if(value == '2'){
@@ -70,8 +70,8 @@ function initcombineSplitList() {
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                     }
     			},
-                {field: 'createUserName', title: '操作人', width: '130px', align: 'left'},
-                {field: 'createTime', title: '操作时间', width: '150px', align: 'center',
+                {field: 'createUserName', title: '操作员', width: '130px', align: 'left'},
+                {field: 'createTime', title: '操作时间', width: '150px', align: 'left',
     				formatter: function (value, row, index) {
     					if (value) {
     						return new Date(value).format('yyyy-MM-dd hh:mm');
@@ -79,7 +79,7 @@ function initcombineSplitList() {
     					return "";
     				}
     			},
-                {field: 'validUserName', title: '审核人员', width: '130px', align: 'left'},
+                {field: 'validUserName', title: '审核人', width: '130px', align: 'left'},
                 {field: 'remark', title: '备注', width: '200px', align: 'left'}
         ]],
          onLoadSuccess:function(data){

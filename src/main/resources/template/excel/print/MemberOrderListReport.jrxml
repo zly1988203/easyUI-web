@@ -15,7 +15,7 @@
 	<field name="orderNo" class="java.lang.String"/>
 	<field name="skuCode" class="java.lang.String"/>
 	<field name="branchName" class="java.lang.String"/>
-	<field name="createTime" class="java.lang.String"/>
+	<field name="expCreateTime" class="java.lang.String"/>
 	<field name="skuName" class="java.lang.String"/>
 	<field name="barCode" class="java.lang.String"/>
 	<field name="spec" class="java.lang.String"/>
@@ -349,7 +349,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="10" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{createTime}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{expCreateTime}]]></textFieldExpression>
 			</textField>
 			<line direction="BottomUp">
 				<reportElement x="21" y="0" width="1" height="24" uuid="82c5adbb-8a9f-48ce-b2b0-6e8f56765082"/>
