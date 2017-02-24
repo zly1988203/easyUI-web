@@ -11,6 +11,7 @@ var addStockIndexGridDg;
 var loginBranchId;
 var maxNum = 999999.99;
 var selectIndex = 0;
+var clickCellFlag = false;
 $(function() {
 	loginBranchId = $("#loginBranchId").val();
 	// 初始化表格
@@ -23,6 +24,11 @@ $(function() {
 });
 
 function changeUppermit(newV,oldV){
+	if(parseFloat(newV) > maxNum){
+		messager('库存上限输入值最大为  '+maxNum);
+		return;
+	}
+	
 	$("#"+datagridId).datagrid("endEdit", selectIndex);
 	var temp_uper = $("#upperLimit").numberbox('getValue');
 	var temp_lowe = $("#lowerLimit").numberbox('getValue');
@@ -33,6 +39,10 @@ function changeUppermit(newV,oldV){
 }
 
 function changeLowerLimit(newV,oldV){
+	if(parseFloat(newV) > maxNum){
+		messager('库存下限输入值最大为  '+maxNum);
+		return;
+	}
 	$("#"+datagridId).datagrid("endEdit", selectIndex);
 	var temp_uper = $("#upperLimit").numberbox('getValue');
 	var temp_lowe = $("#lowerLimit").numberbox('getValue');
@@ -89,10 +99,6 @@ function initStockIndexGridEdit() {
 				} ],
 				
 				columns : [ [
-					{
-						field : 'ck',
-						checkbox : true
-					},
 					{
 						field : 'brandId',
 						hidden : true
@@ -156,7 +162,6 @@ function initStockIndexGridEdit() {
 							type : 'numberbox',
 							options : {
 								min:0,
-								max:999999.99,
 								precision:4,
 								onChange: onChangeStockBegin,
 							}
@@ -174,7 +179,6 @@ function initStockIndexGridEdit() {
 							type : 'numberbox',
 							options : {
 								min:0,
-								max:999999.99,
 								precision:4,
 								onChange: onChangeStockEnd,
 							}
@@ -182,6 +186,7 @@ function initStockIndexGridEdit() {
 					}] ],
 				onClickCell : function(rowIndex, field, value) {
 					selectIndex = rowIndex;
+					clickCellFlag = true;
 					gridHandel.setBeginRow(rowIndex);
 					gridHandel.setSelectFieldName(field);
 					var target = gridHandel.getFieldTarget(field);
@@ -200,24 +205,41 @@ function initStockIndexGridEdit() {
 
 
 function onChangeStockBegin(newV,oldV){
+	if(clickCellFlag){
+	    clickCellFlag = false;
+		return;
+	}
+	
+	if(parseFloat(newV) > maxNum ){
+		messager('库存上限输入值最大为  '+maxNum);
+		return;
+	}
+	
 	var cuRindex = gridHandel.getSelectRowIndex();
 	var curLowLimit = gridHandel.getFieldValue(cuRindex,'lowerLimit');
-	console.log("newV",newV);
-	console.log("curLowLimit",curLowLimit)
 	if(parseFloat(newV) < parseFloat(curLowLimit) ){
 		successTip('库存上限不能小于库存下限');
-		$(this).numberbox('setValue',oldV);
+		//$(this).numberbox('setValue',oldV);
 		return;
 	}
 	
 }
 
 function onChangeStockEnd(newV,oldV){
+	if(clickCellFlag){
+	    clickCellFlag = false;
+		return;
+	}
+	if(parseFloat(newV) > maxNum ){
+		messager('库存下限输入值最大为  '+maxNum);
+		return;
+	}
+	
 	var curRindex = gridHandel.getSelectRowIndex();
 	var curUpVal = gridHandel.getFieldValue(curRindex,'upperLimit');	
 	if(parseFloat(newV) > parseFloat(curUpVal)){
 		successTip('库存上限不能小于库存下限');
-		$(this).numberbox('setValue',oldV);
+		//$(this).numberbox('setValue',oldV);
 		return;
 	}
 	
@@ -282,10 +304,24 @@ function saveStockIndexs(){
     var isChcekPrice = false;
     
     $.each(rows,function(i,v){
-        /*if(parseFloat(v["costPrice"])<=0){
-            isChcekPrice = true;
-        }*/
+    	if(parseFloat(v["upperLimit"]) > maxNum){
+    		successTip("第  "+(i+1)+" 行库存上限输入最大值为  "+maxNum);
+    		isCheckResult = false;
+    		return;
+    	}
+    	if(parseFloat(v["lowerLimit"]) > maxNum){
+    		successTip("第  "+(i+1)+" 行库存下限输入最大值为  "+maxNum);
+    		isCheckResult = false;
+    		return;
+    	}
+    	
+        if(parseFloat(v["lowerLimit"]) > parseFloat(v["upperLimit"])){
+        	successTip("第  "+(i+1)+" 行库存上限不能小于库存下限");
+        	isCheckResult = false;
+        	return;
+        }
     });
+    
     if(isCheckResult){
         if(isChcekPrice){
             $.messager.confirm('系统提示',"新单价存在为0，是否确定保存",function(r){
