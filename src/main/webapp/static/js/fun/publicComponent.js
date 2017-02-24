@@ -1755,7 +1755,6 @@ function publicActivity(callback,param){
 	        modal: true,
 	        onLoad: function () {
 	        	initActivityGrid(param);
-	        	disableBtn();
 	        	initactivityCallBack(callBackHandel);
 	        }
 	    })
