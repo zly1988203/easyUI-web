@@ -48,7 +48,7 @@
 	                </div>
 	                <div class="ub ub-ac uw-300 uma  r-l20">
 	                    <div class="umar-r10 uw-70 ut-r" >机构:</div>
-	                    <input name="createBranchId" type="hidden" id="createBranchId" >
+	                    <input name="branchId" type="hidden" id="branchId" >
 	                    <input type="hidden" id="oldBranchName" >
 	                    <input class="uinp ub ub-f1"  type="text" id="createBranchName" name="branchName">
 	                    <div class="uinp-more" onclick="selectBranch();">...</div>
