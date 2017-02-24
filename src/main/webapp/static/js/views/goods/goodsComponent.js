@@ -78,7 +78,7 @@ function initDatagridResultOrder(){
         singleSelect:true,  //单选  false多选
         rownumbers:true,    //序号
         showFooter:true,
-        height:'400px',
+        height:'380px',
         width:'100%',
         columns:[[
             {field:'cz',title:'操作',width:'60px',align:'center',

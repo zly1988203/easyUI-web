@@ -392,6 +392,7 @@ var dalogTemp
 function selectActivity(){
   new publicActivity(function(data){
 	  var data = data;
+	  disableBtn();
 	  $("#actionId").val(data.id);
 		$("#actionName").val(data.activityCode);
 	  getActivityGoods(data);
@@ -430,8 +431,9 @@ function disableBtn(){
 	 $('#importsukcode').removeAttr('onclick');
 	 $('#importbarcode').addClass("uinp-no-more")
 	 $('#importbarcode').removeAttr('onclick');
-	 
+
 	 $('#discount').attr('readonly','readonly');
+	$('#discount').val('');
 	 $('#discount').addClass('uinp-no-more');
 	 var e = $("#pricePrint").datagrid('getColumnOption', 'activityTime');
 
