@@ -17,6 +17,9 @@ var gridHandelDetail = new GridClass();
 var stockList;
 var stockDetailList;
 
+var maxNum = 999999.99;
+
+var clickCellFlag = false;
 //初始化表格
 function initDatagridStockIndex(){
 	gridHandel.setGridName('stockIndexList');
@@ -91,7 +94,6 @@ function initDetailStock(){
 					value:0,
 					options:{
 						min:0,
-						max:999999.99,
 						precision:4,
 						onChange: onChangeStockEnd,
 					}
@@ -106,7 +108,6 @@ function initDetailStock(){
 					value:0,
 					options:{
 						min:0,
-						max:999999.99,
 						precision:4,
 						onChange: onChangeStockBegin,
 					}
@@ -114,6 +115,7 @@ function initDetailStock(){
 			}
 		]],
 		onClickCell:function(rowIndex,field,value){
+			clickCellFlag = true;
 			gridHandelDetail.setBeginRow(rowIndex);
 			gridHandelDetail.setSelectFieldName(field);
 			var target = gridHandelDetail.getFieldTarget(field);
@@ -129,17 +131,25 @@ function initDetailStock(){
 
 
 function onChangeStockBegin(newV,oldV){
-	/*var gridVData = stockDetailList.datagrid('getData');
-	var currentRow = gridVData.rows;
-	currentRow[0].upperLimit = newV;*/
+	if(clickCellFlag){
+		clickCellFlag = false;
+		return;
+	}
+	if(parseFloat(newV) > maxNum ){
+		messager('库存上限输入值最大为  '+maxNum);
+		return;
+	}
 }
 
 function onChangeStockEnd(newV,oldV){
-	console.log('newV',newV);
-	console.log('oldV',oldV);
-	/*var gridVData = stockDetailList.datagrid('getData');
-	var currentRow = gridVData.rows;
-	currentRow[0].lowerLimit = newV;*/
+	if(clickCellFlag){
+		clickCellFlag = false;
+		return;
+	}
+	if(parseFloat(newV) > maxNum ){
+		messager('库存下限输入值最大为  '+maxNum);
+		return;
+	}
 }
 
 
@@ -169,8 +179,15 @@ function closeDetailDialog(){
 function saveDetailStock(){
 	$("#detailStockTarget").datagrid("endEdit", gridHandelDetail.getSelectRowIndex());
 	var detGridData = gridHandelDetail.getRows()[0];
-	console.log('detGridData',detGridData);
-	if(detGridData.upperLimit < detGridData.lowerLimit ){
+	if(parseFloat(detGridData.upperLimit) > maxNum){
+		messager('库存上限输入值最大为  '+maxNum);
+		return;
+	}
+	if(parseFloat(detGridData.lowerLimit) > maxNum){
+		messager('库存下限输入值最大为  '+maxNum);
+		return;
+	}
+	if(parseFloat(detGridData.upperLimit) < parseFloat(detGridData.lowerLimit) ){
 		messager('库存上限不能小于库存下限');
 		return;
 	}
