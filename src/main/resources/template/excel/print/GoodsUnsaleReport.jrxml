@@ -150,11 +150,11 @@
 				<text><![CDATA[机构编号]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="45" y="3" width="22" height="22" uuid="c063456e-315c-4389-bfaa-3aeaf6971dce"/>
+				<reportElement x="45" y="3" width="44" height="22" uuid="c063456e-315c-4389-bfaa-3aeaf6971dce"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
-				<text><![CDATA[机构名称]]></text>
+				<text><![CDATA[机构名称1]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="90" y="3" width="40" height="23" uuid="3f6289d6-3349-464a-9e87-322a4eacf686"/>
@@ -178,14 +178,14 @@
 				<text><![CDATA[期间销售毛利]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="289" y="4" width="29" height="22" uuid="c395dafe-615c-41d2-81c3-3d127ba9d5fa"/>
+				<reportElement x="289" y="4" width="26" height="22" uuid="c395dafe-615c-41d2-81c3-3d127ba9d5fa"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[售价]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="360" y="4" width="45" height="22" uuid="41344fe8-bc6f-473d-acf6-193818cefeb2"/>
+				<reportElement x="360" y="4" width="46" height="22" uuid="41344fe8-bc6f-473d-acf6-193818cefeb2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
@@ -256,19 +256,19 @@
 				<reportElement x="405" y="-2" width="1" height="24" uuid="8c1e7b7c-62ab-4d55-94b5-edd511a3550a"/>
 			</line>
 			<line direction="BottomUp">
-				<reportElement x="45" y="-1" width="1" height="24" uuid="4187a7fa-a57f-4300-bcbf-ab687f3d7368"/>
+				<reportElement x="45" y="0" width="1" height="23" uuid="4187a7fa-a57f-4300-bcbf-ab687f3d7368"/>
 			</line>
 			<line direction="BottomUp">
-				<reportElement x="89" y="-1" width="1" height="24" uuid="36bc942f-b2ad-4410-bf1c-7e1fbbb86d47"/>
+				<reportElement x="89" y="0" width="1" height="23" uuid="36bc942f-b2ad-4410-bf1c-7e1fbbb86d47"/>
 			</line>
 			<line direction="BottomUp">
-				<reportElement x="177" y="-1" width="1" height="24" uuid="04aee8d6-7be9-464c-a4e0-3e516cabbef1"/>
+				<reportElement x="177" y="0" width="1" height="23" uuid="04aee8d6-7be9-464c-a4e0-3e516cabbef1"/>
 			</line>
 			<line direction="BottomUp">
-				<reportElement x="204" y="-1" width="1" height="24" uuid="1a6c9504-3b1b-49f6-b931-4e650d853fe2"/>
+				<reportElement x="204" y="0" width="1" height="23" uuid="1a6c9504-3b1b-49f6-b931-4e650d853fe2"/>
 			</line>
 			<line direction="BottomUp">
-				<reportElement x="246" y="-1" width="1" height="24" uuid="04e08337-5293-439b-b8b7-3437eb56dbaa"/>
+				<reportElement x="246" y="0" width="1" height="23" uuid="04e08337-5293-439b-b8b7-3437eb56dbaa"/>
 			</line>
 			<line>
 				<reportElement mode="Opaque" x="0" y="22" width="541" height="1" uuid="584e212f-9293-4595-b163-1fa67eec9271"/>
@@ -286,34 +286,34 @@
 				<reportElement x="-389" y="-12" width="1" height="24" uuid="a56f80e1-709f-4cfb-b8f7-f1f7281d1102"/>
 			</line>
 			<line direction="BottomUp">
-				<reportElement x="315" y="-1" width="1" height="24" uuid="38135945-d388-49b1-89a4-97eb26103035"/>
+				<reportElement x="315" y="0" width="1" height="23" uuid="38135945-d388-49b1-89a4-97eb26103035"/>
 			</line>
 			<line direction="BottomUp">
-				<reportElement x="359" y="-2" width="1" height="24" uuid="30362e95-5514-49a8-b7e3-d8dff16badb8"/>
+				<reportElement x="359" y="0" width="1" height="23" uuid="30362e95-5514-49a8-b7e3-d8dff16badb8"/>
 			</line>
 			<textField isBlankWhenNull="true">
-				<reportElement x="0" y="0" width="32" height="23" uuid="6142ec89-b6b4-498c-831a-6c326557eee8"/>
+				<reportElement x="1" y="0" width="44" height="23" uuid="6142ec89-b6b4-498c-831a-6c326557eee8"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{branchCode}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="67" y="0" width="22" height="22" uuid="4248c658-09e4-4526-9913-f634254c92bc"/>
+				<reportElement x="46" y="0" width="44" height="22" uuid="4248c658-09e4-4526-9913-f634254c92bc"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{branchName}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="90" y="0" width="24" height="21" uuid="00eb18d0-03ef-4754-be58-c142076e3ac9"/>
+				<reportElement x="90" y="0" width="41" height="21" uuid="00eb18d0-03ef-4754-be58-c142076e3ac9"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{categoryName}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="131" y="0" width="31" height="22" uuid="839b5d60-2eea-461b-91d2-1a10284a42b5"/>
+				<reportElement x="131" y="0" width="47" height="22" uuid="839b5d60-2eea-461b-91d2-1a10284a42b5"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
@@ -327,7 +327,7 @@
 				<textFieldExpression><![CDATA[$F{salePrice}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="318" y="0" width="41" height="22" uuid="76ac6b92-c26b-4a4e-9e30-9ddf0f4e8d81"/>
+				<reportElement x="316" y="0" width="44" height="22" uuid="76ac6b92-c26b-4a4e-9e30-9ddf0f4e8d81"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
@@ -341,7 +341,7 @@
 				<textFieldExpression><![CDATA[$F{purchaseDate}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="179" y="0" width="24" height="23" uuid="48a627e4-5c91-4b27-b10e-06bfde8efae2"/>
+				<reportElement x="179" y="0" width="25" height="23" uuid="48a627e4-5c91-4b27-b10e-06bfde8efae2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
@@ -355,13 +355,13 @@
 				<textFieldExpression><![CDATA[$F{brandName}]]></textFieldExpression>
 			</textField>
 			<line direction="BottomUp">
-				<reportElement x="405" y="-1" width="1" height="24" uuid="e8028e13-bd71-4202-81a4-1b9d37e596a3"/>
+				<reportElement x="405" y="0" width="1" height="23" uuid="e8028e13-bd71-4202-81a4-1b9d37e596a3"/>
 			</line>
 			<line>
-				<reportElement x="288" y="-1" width="1" height="24" uuid="4534bd25-da08-42ea-8a91-10557aec6a38"/>
+				<reportElement x="288" y="0" width="1" height="23" uuid="4534bd25-da08-42ea-8a91-10557aec6a38"/>
 			</line>
 			<textField isBlankWhenNull="true">
-				<reportElement x="406" y="1" width="50" height="22" uuid="34db7655-24eb-43a0-9799-ef6ee3617063"/>
+				<reportElement x="405" y="1" width="51" height="22" uuid="34db7655-24eb-43a0-9799-ef6ee3617063"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
 				</textElement>
@@ -373,19 +373,19 @@
 				<textFieldExpression><![CDATA[$F{pullTime}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="486" y="-1" width="1" height="24" uuid="e068ea96-6853-454c-9591-fdddd7d67b63"/>
+				<reportElement x="486" y="0" width="1" height="23" uuid="e068ea96-6853-454c-9591-fdddd7d67b63"/>
 			</line>
 			<line>
-				<reportElement x="541" y="-1" width="1" height="24" uuid="906a9007-ce96-4e74-8800-522036f75a4b"/>
+				<reportElement x="541" y="0" width="1" height="23" uuid="906a9007-ce96-4e74-8800-522036f75a4b"/>
 			</line>
 			<line direction="BottomUp">
-				<reportElement x="130" y="-1" width="1" height="24" uuid="9190418c-b8fc-4919-b8ca-ad776def3144"/>
+				<reportElement x="130" y="0" width="1" height="23" uuid="9190418c-b8fc-4919-b8ca-ad776def3144"/>
 			</line>
 			<line>
-				<reportElement x="0" y="-2" width="1" height="24" uuid="4c214a12-b73e-4511-853d-772b095a2ca1"/>
+				<reportElement x="0" y="0" width="1" height="23" uuid="4c214a12-b73e-4511-853d-772b095a2ca1"/>
 			</line>
 			<textField isBlankWhenNull="true">
-				<reportElement x="205" y="1" width="41" height="20" uuid="af326194-7dff-4016-9a05-6d0f9dc345a1"/>
+				<reportElement x="205" y="1" width="42" height="20" uuid="af326194-7dff-4016-9a05-6d0f9dc345a1"/>
 				<textFieldExpression><![CDATA[$F{saleNum}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
@@ -396,7 +396,7 @@
 				<textFieldExpression><![CDATA[$F{profitAmount}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="456" y="-1" width="1" height="24" uuid="68f81ef2-3997-4a4d-b373-1d6416e34da4"/>
+				<reportElement x="456" y="0" width="1" height="23" uuid="68f81ef2-3997-4a4d-b373-1d6416e34da4"/>
 			</line>
 		</band>
 	</detail>
@@ -406,21 +406,21 @@
 	<pageFooter>
 		<band height="47" splitType="Stretch">
 			<staticText>
-				<reportElement x="1" y="20" width="50" height="20" uuid="5405c490-71a9-4487-a0fb-3bb7018c279c"/>
+				<reportElement x="0" y="20" width="45" height="20" uuid="5405c490-71a9-4487-a0fb-3bb7018c279c"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[打印时间：]]></text>
 			</staticText>
 			<textField pattern="yyyy/MM/dd HH:mm:ss" isBlankWhenNull="false">
-				<reportElement x="51" y="20" width="79" height="20" uuid="e2a9de46-4b4b-401d-bc9c-3a7bae99960b"/>
+				<reportElement x="46" y="20" width="94" height="20" uuid="e2a9de46-4b4b-401d-bc9c-3a7bae99960b"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="384" y="20" width="40" height="20" uuid="64d271dc-a507-4ae4-b522-46e56b38a541"/>
+				<reportElement x="390" y="20" width="34" height="20" uuid="64d271dc-a507-4ae4-b522-46e56b38a541"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
