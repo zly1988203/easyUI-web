@@ -1,5 +1,6 @@
 var rotaType =  1;
 $(function(){
+	$("#oldBranchName").val(sessionBranchCodeName);
 	$("#branchName").val(sessionBranchCodeName);
 	$("#branchId").val(sessionBranchId);
 	$("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
@@ -238,6 +239,7 @@ function queryForm(){
 	if(oldBranchName && oldBranchName != branchName){
 		$("#branchId").val('');
 	}
+	
 	if(oldSkuName && oldSkuName != skuName){
 		$("#skuId").val('');
 	}
