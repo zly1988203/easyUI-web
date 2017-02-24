@@ -617,6 +617,9 @@ function publicGoodsService(type,callback,key,isRadio,sourceBranchId,targetBranc
         publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId,supplierId,flag);
     }
 }
+
+var good_dalogTemp = null;
+
 function publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId,supplierId,flag){
 	if(!branchId){
         url=contextPath + "/goods/goodsSelect/view?type="+type+"&sourceBranchId="+sourceBranchId+"&targetBranchId="+targetBranchId+"&supplierId="+supplierId+"&flag="+flag;
@@ -632,7 +635,10 @@ function publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targe
         closable:true,
         resizable:true,
         onClose:function(){
-            $(dalogTemp).panel('destroy');
+        	
+        	 $(good_dalogTemp).dialog('destroy');
+        	 good_dalogTemp = null;
+//            $(good_dalogTemp).panel('destroy');
         },
         modal:true,
     }
@@ -642,7 +648,8 @@ function publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targe
             //cx();
             initGoodsRadioCallBack(function(data){
                 callback( [data]);
-                $(dalogTemp).panel('destroy')
+                $(good_dalogTemp).dialog('destroy');
+                good_dalogTemp = null;
             });
             initSearch();
         };
@@ -660,11 +667,15 @@ function publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targe
         },{
             text:'取消',
             handler:function(){
-                $(dalogTemp).panel('destroy');
+                $(good_dalogTemp).dialog('destroy');
+                good_dalogTemp = null;
             }
         }];
     }
-    var  dalogTemp = $('<div/>').dialog(dalogObj);
+    
+    if(null != good_dalogTemp) return;
+    
+     good_dalogTemp = $('<div/>').dialog(dalogObj);
     //私有方法
     function getCheckGoods(){
         publicGoodsGetCheckGoods(function(data){
@@ -673,7 +684,8 @@ function publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targe
                 return;
             }
             callback(data);
-            $(dalogTemp).panel('destroy');
+            $(good_dalogTemp).dialog('destroy');
+            good_dalogTemp = null;
         });
     }
 }
@@ -701,6 +713,8 @@ function publicNewGoodsService(params,callback){
         publicNewGoodsServiceHandel(params,callback);
     }
 }
+
+var newGoodsDalog = null;
 function publicNewGoodsServiceHandel(params,callback){
     if(!params.branchId){
         url=contextPath + "/goods/goodsSelect/view?type="+params.type+"&sourceBranchId="+params.sourceBranchId+"&targetBranchId="+params.targetBranchId;
@@ -716,7 +730,8 @@ function publicNewGoodsServiceHandel(params,callback){
         closable:true,
         resizable:true,
         onClose:function(){
-            $(dalogTemp).panel('destroy');
+            $(newGoodsDalog).panel('destroy');
+            newGoodsDalog = null;
         },
         modal:true,
     }
@@ -724,7 +739,8 @@ function publicNewGoodsServiceHandel(params,callback){
         dalogObj["onLoad"] =function(){
             initGoodsRadioCallBack(function(data){
                 callback( [data]);
-                $(dalogTemp).panel('destroy')
+                $(newGoodsDalog).panel('destroy')
+                newGoodsDalog = null;
             });
             initNewSearch(params);
         };
@@ -742,11 +758,12 @@ function publicNewGoodsServiceHandel(params,callback){
         },{
             text:'取消',
             handler:function(){
-                $(dalogTemp).panel('destroy');
+                $(newGoodsDalog).panel('destroy');
+                newGoodsDalog = null;
             }
         }];
     }
-    var  dalogTemp = $('<div/>').dialog(dalogObj);
+    newGoodsDalog = $('<div/>').dialog(dalogObj);
     //私有方法
     function getCheckGoods(){
         publicGoodsGetCheckGoods(function(data){
@@ -755,7 +772,8 @@ function publicNewGoodsServiceHandel(params,callback){
                 return;
             }
             callback(data);
-            $(dalogTemp).panel('destroy');
+            $(newGoodsDalog).panel('destroy');
+            newGoodsDalog = null;
         });
     }
 }

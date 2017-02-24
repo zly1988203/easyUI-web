@@ -313,16 +313,7 @@ function initDatagridAddRequireOrder(){
             updateRowsStyle();
             updateFooter();
         },
-//    	rowStyler:function(index,row){
-//    		if(typeof(row.sourceStock) != 'undefined' && typeof(row.applyNum) != 'undefined'
-//    			&& typeof(row.alreadyNum) != 'undefined'){
-//        		if(parseFloat(row.applyNum)+parseFloat(row.alreadyNum||0) > parseFloat(row.sourceStock)){
-//        			gridHandel.setFieldValue('sourceStock','<span style="color:red;"><b>'+row.sourceStock+'</b></span>');
-//        			return 'background-color:pink;';
-//        		}	
-//    		}
-//    		
-//		}
+
     });
     gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
         $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),
