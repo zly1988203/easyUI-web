@@ -184,11 +184,12 @@ function getGoodsPupplier(){
 		//经营方式
 		$("#saleWay").val(data.saleWay);
 		if(data.saleWay=='A'){
+			$("#supplierRate").textbox("setValue","");
 			$('#supplierRate').textbox('disable'); 
 		}else{
-			$('supplierRate').removeAttr('disabled');
+			$('#supplierRate').parent().find('.textbox-text').removeAttr('disabled');
+			$('#supplierRate').removeAttr('disabled');
 		}
-		
 	});
 }
 
@@ -269,7 +270,8 @@ function getGoodsArchivesDetail(id){
 		if(updateSku.saleWay=='A'){
 			$('#supplierRate').textbox('disable'); 
 		}else{
-			$('supplierRate').removeAttr('disabled');
+			$('#supplierRate').removeAttr('disabled');
+			$('#supplierRate').parent().find('.textbox-text').removeAttr('disabled');
 		}
 		if(updateSku.updateTime){
 			var date = new Date(updateSku.updateTime);    

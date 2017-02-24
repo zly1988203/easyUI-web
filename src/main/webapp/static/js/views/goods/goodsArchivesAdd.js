@@ -159,7 +159,8 @@ function setInputValByObj(){
 	if(selectionRow.saleWay=='A'){
 		$('#supplierRate').textbox('disable'); 
 	}else{
-		$('supplierRate').removeAttr('disabled');
+		$('#supplierRate').removeAttr('disabled');
+		$('#supplierRate').parent().find('.textbox-text').removeAttr('disabled');
 	}
 //	$("#skuCode").val("").removeAttr("readonly");
 	$("#createDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd hh:mm:ss"));
@@ -318,11 +319,11 @@ function getGoodsPupplier(){
 		//经营方式
 		$("#saleWay").val(data.saleWay);
 		if(data.saleWay=='A'){
-			$('#supplierRate').textbox('disable'); 
-			$('#supplierRate').val(''); 
 			$("#supplierRate").textbox("setValue","");
+			$('#supplierRate').textbox('disable'); 
 		}else{
-			$('supplierRate').removeAttr('disabled');
+			$('#supplierRate').parent().find('.textbox-text').removeAttr('disabled');
+			$('#supplierRate').removeAttr('disabled');
 		}
 	});
 }

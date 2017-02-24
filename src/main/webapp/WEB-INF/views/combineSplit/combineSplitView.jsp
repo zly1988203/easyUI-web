@@ -95,7 +95,8 @@
 		<div class="ub umar-t8">
 			<div class="ub ub-ac uw-580">
 				 <div class="umar-r10 uw-70 ut-r" >备注:</div>
-                 <input class="uinp ub ub-f1" value="${stockFormVo.remark}" readonly="readonly"  type="text" id="remark" name="remark">
+				 
+                 <input class="uinp ub ub-f1" value="${stockFormVo.remark}" <c:if test="${stockFormVo.status != 0}"> readonly="readonly" </c:if> maxlength="255" type="text" id="remark" name="remark">
 			</div>	
 		</div>
 		

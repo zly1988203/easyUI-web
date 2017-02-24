@@ -279,6 +279,7 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 				sku.setBarCode(sku.getSkuCode());
 			}
 			BigDecimal price = BigDecimal.ZERO;
+			
 			if (sku.getSalePrice()==null) {
 				sku.setSalePrice(price);
 			}

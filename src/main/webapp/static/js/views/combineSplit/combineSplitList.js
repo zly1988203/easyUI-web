@@ -153,7 +153,7 @@ function queryForm(){
 	var oldCreateUserName = $("#oldCreateUserName").val();
 	var createUserName = $("#createUserName").val();
 	if(oldBranchName && oldBranchName != createBranchName){
-		$("#createBranchId").val('');
+		$("#branchId").val('');
 	}
 	if(oldCreateUserName && oldCreateUserName != createUserName){
 		$("#createUserId").val('');
@@ -169,7 +169,7 @@ function queryForm(){
  */
 function selectBranch (){
 	new publicAgencyService(function(data){
-		$("#createBranchId").val(data.branchesId);
+		$("#branchId").val(data.branchesId);
 		$("#createBranchName").val("["+data.branchCode+"]"+data.branchName);
 		$("#oldBranchName").val("["+data.branchCode+"]"+data.branchName);
 	},"","");
