@@ -302,7 +302,7 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 				sku.setSalePrice(price);
 			}
 			if (sku.getVipPrice()==null) {
-				sku.setVipPrice(price);
+				sku.setVipPrice(sku.getSalePrice());
 			}
 			if (sku.getPurchasePrice()==null) {
 				sku.setPurchasePrice(price);
@@ -497,6 +497,10 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 				json.put("_data", barCode);
 				return json;
 			}
+		}else{
+			RespJson json = RespJson.error("商品名称为空");
+			json.put("_data", barCode);
+			return json;
 		}
 		RespJson json = RespJson.success();
 		json.put("_data", barCode);
@@ -649,10 +653,11 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 			//当前导入机构id
 			String branchId = UserUtil.getCurrBranchId();
 
-			String[] field =  new String[] {"skuName","barCode","categoryCode","spec","brandName","unit","purchaseSpec",
+			String[] field =  new String[] {"skuName","barCode","salePrice","purchasePrice",
+					"categoryCode","spec","brandName","unit","purchaseSpec",
 					"distributionSpec", "vaildity", "originPlace","supplierName","saleWay","pricingType", "supplierRate",
-					"type","lowestPrice","distributionPrice","wholesalePrice","salePrice","vipPrice",
-					 "status","inputTax", "outputTax","remark"};
+					"type","lowestPrice","distributionPrice","wholesalePrice","vipPrice",
+					 "inputTax", "outputTax","remark"};
 			
 			GoodsSelectImportVo<GoodsSelect> vo = newGoodsApplyImportComponent.importSelectGoods(fileName, is, field,
 					new GoodsSelectByPurchase(), branchId, userId , type, "/goods/newGoodsApply/downloadErrorFile",
@@ -660,28 +665,6 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 
 						@Override
 						public void businessValid(List<JSONObject> excelListSuccessData, String[] excelField) {
-							for (JSONObject obj : excelListSuccessData) {
-								try {
-									String realNum = obj.getString("realNum");
-									Double.parseDouble(realNum);
-								} catch (Exception e) {
-									obj.element("realNum", 0);
-								}
-
-								try {
-									String isGift = obj.getString("isGift");
-									if ("是".equals(isGift)) {// 如果是赠品，单价设置为0
-										obj.element("isGift", "1");
-										obj.element("price", 0);
-									} else if ("否".equals(isGift)) {
-										obj.element("isGift", "0");
-									} else {
-										obj.element("error", "是否赠品字段填写有误");
-									}
-								} catch (Exception e) {
-									obj.element("error", "是否赠品字段填写有误");
-								}
-							}
 						}
 
 						/**
@@ -691,13 +674,6 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 						@Override
 						public void formatter(List<? extends GoodsSelect> list, List<JSONObject> excelListSuccessData,
 								List<JSONObject> excelListErrorData) {
-							for (GoodsSelect objGoods : list) {
-								GoodsSelectByPurchase obj = (GoodsSelectByPurchase) objGoods;
-								BigDecimal price = obj.getPrice();
-								if (price == null) {
-									obj.setPrice(obj.getPurchasePrice());
-								}
-							}
 						}
 
 						/**
@@ -706,16 +682,6 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 						 */
 						@Override
 						public void errorDataFormatter(List<JSONObject> list) {
-							for (JSONObject obj : list) {
-								if (obj.containsKey("isGift")) {
-									String isGift = obj.getString("isGift");
-									if ("1".equals(isGift)) {
-										obj.element("isGift", "是");
-									} else if ("0".equals(isGift)) {
-										obj.element("isGift", "否");
-									}
-								}
-							}
 						}
 					}, null);
 			respJson.put("importInfo", vo);
@@ -739,13 +705,13 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 	@RequestMapping(value = "downloadErrorFile")
 	public void downloadErrorFile(String code, String type, HttpServletResponse response) {
 		String reportFileName = "错误数据";
-		String[] headers = new String[] { "商品名称","条码","商品类别","规格","品牌","库存单位","进货规格","配送规格","保质期天数",
-				"产地","主供应商","经营方式", "计价方式","联营扣率/代销扣率","商品类型","最低售价","配送价" ,"批发价","零售价" ,"会员价" ,
-				"商品状态", "进项税率", "销项税率" , "备注"};
-		String[] columns = new String[] { "skuName","barCode","categoryCode","spec","brandName","unit","purchaseSpec", 
+		String[] headers = new String[] { "商品名称","条形码","零售价","进货价","商品类别","规格","品牌","库存单位","采购规格","配送规格","保质期天数",
+				"产地","主供应商","经营方式", "计价方式","联营扣率/代销扣率","商品类型","最低售价","配送价" ,"批发价","会员价" ,
+				 "进项税率", "销项税率" , "备注"};
+		String[] columns = new String[] { "skuName","barCode","salePrice","purchasePrice","categoryCode","spec","brandName","unit","purchaseSpec", 
 				"distributionSpec","vaildity","originPlace","supplierName","saleWay", "pricingType","supplierRate",
-				"type","lowestPrice","distributionPrice","wholesalePrice","salePrice","vipPrice",
-				"status","inputTax", "outputTax","remark"};
+				"type","lowestPrice","distributionPrice","wholesalePrice","vipPrice",
+				"inputTax", "outputTax","remark"};
 		newGoodsApplyImportComponent.downloadErrorFile(code, reportFileName, headers, columns, response);
 	}
 	

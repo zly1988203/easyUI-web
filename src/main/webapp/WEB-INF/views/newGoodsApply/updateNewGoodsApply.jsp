@@ -35,7 +35,10 @@ pageEncoding="UTF-8"%>
 						<div class="umar-r10 uw-60 ut-r">商品名称:</div>
 						<div class="ub">
 							<input id="skuName" name="skuName" class="uinp easyui-validatebox"
-								   data-options="required:true" maxlength="20">
+								   data-options="required:true" maxlength="20"
+								   onkeyup="value=value.replace(/[^\#\\\_\-\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')" 
+								   onpaste="value=value.replace(/[^\#\\\_\-\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')" 
+								   oncontextmenu = "value=value.replace(/[^\#\\\_\-\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')">
 						</div>
 						<i class="uc-red">*</i>
 					</div>

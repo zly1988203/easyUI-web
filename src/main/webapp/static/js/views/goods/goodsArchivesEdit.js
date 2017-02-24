@@ -185,10 +185,9 @@ function getGoodsPupplier(){
 		$("#saleWay").val(data.saleWay);
 		if(data.saleWay=='A'){
 			$("#supplierRate").textbox("setValue","");
-			$('#supplierRate').textbox('disable'); 
+			$('#supplierRate').numberbox('disable');
 		}else{
-			$('#supplierRate').parent().find('.textbox-text').removeAttr('disabled');
-			$('#supplierRate').removeAttr('disabled');
+			$('#supplierRate').numberbox('enable');
 		}
 	});
 }
@@ -268,10 +267,9 @@ function getGoodsArchivesDetail(id){
 		});
 		$("#saleWay").val(updateSku.saleWay);
 		if(updateSku.saleWay=='A'){
-			$('#supplierRate').textbox('disable'); 
+			$('#supplierRate').numberbox('disable');
 		}else{
-			$('#supplierRate').removeAttr('disabled');
-			$('#supplierRate').parent().find('.textbox-text').removeAttr('disabled');
+			$('#supplierRate').numberbox('enable');
 		}
 		if(updateSku.updateTime){
 			var date = new Date(updateSku.updateTime);    

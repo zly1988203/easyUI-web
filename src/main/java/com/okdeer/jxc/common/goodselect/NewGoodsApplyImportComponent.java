@@ -16,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -193,16 +194,10 @@ public class NewGoodsApplyImportComponent {
 			Map<String, String> map_branchid) throws ServiceException {
 		//1、读取excel
 		List<JSONObject> excelList = ExcelReaderUtil.readExcel(fileName, is, fields);
-		if(excelList!=null && excelList.size()>0){
-			//移除掉头部
-			excelList.remove(0);
-		}
-		
 		List<GoodsSelect> dbList1 = new ArrayList<GoodsSelect>(); 
 		
 		//2、校验导入数据
 		NewGoodsApplyImportHandle goodsSelectImportHandle = new NewGoodsApplyImportHandle(excelList, fields, businessValid);
-		
 		
 		//3 获取到excel导入成功数据
 		handelExcelSuccessData(goodsSelectImportHandle);
@@ -266,38 +261,43 @@ public class NewGoodsApplyImportComponent {
 		List<JSONObject> successDatas =  goodsSelectImportHandle.getExcelListSuccessData();
 		for(JSONObject obj : successDatas) {
 			//类别校验
-			String categoryCode = obj.getString("categoryCode");
-			if(StringUtils.isBlank(categoryCode)){
-				obj.element("error", "商品类别编号为空");
-				continue;
-			}else{
-				List<GoodsCategory> goodsCategory = goodsCategoryService.queryByCategoryCode(categoryCode);
-				if(goodsCategory==null){
-					obj.element("error", "商品类别不存在");
-					continue;
+			boolean categoryCodeFlag = obj.containsKey("categoryCode");
+			if(categoryCodeFlag){
+				String categoryCode = obj.getString("categoryCode");
+				if(StringUtils.isNotBlank(categoryCode)){
+					List<GoodsCategory> goodsCategory = goodsCategoryService.queryByCategoryCode(categoryCode);
+					if(CollectionUtils.isNotEmpty(goodsCategory)){
+						obj.put("categoryId", goodsCategory.get(0).getGoodsCategoryId());
+						obj.put("categoryName", goodsCategory.get(0).getCategoryName());
+					}else{
+						setCategory(obj);
+					}
 				}else{
-					obj.put("categoryId", goodsCategory.get(0).getGoodsCategoryId());
-					obj.put("categoryName", goodsCategory.get(0).getCategoryName());
+					setCategory(obj);
 				}
+			}else{
+				setCategory(obj);
 			}
 			
 			//品牌校验
-			String brandName = obj.getString("brandName");
-			String brandCode = null;
+			boolean brandNameFlag = obj.containsKey("brandName");
 			GoodsBrand goodsBrand = new GoodsBrand();
-			if(StringUtils.isNotBlank(brandName)){
-				goodsBrand = goodsBrandService.queryByNameOrCode(brandName, brandCode);
-				if(goodsBrand==null){
+			String brandCode = null;
+			if(brandNameFlag){
+				String brandName = obj.getString("brandName");
+				if(StringUtils.isNotBlank(brandName)){
+					goodsBrand = goodsBrandService.queryByNameOrCode(brandName, brandCode);
+					if(goodsBrand==null){
+						goodsBrand = goodsBrandService.queryByNameOrCode("其他",brandCode);
+					}
+					setBrand(obj, goodsBrand);
+				}else{
 					goodsBrand = goodsBrandService.queryByNameOrCode("其他",brandCode);
+					setBrand(obj, goodsBrand);
 				}
-				obj.put("brandCode", goodsBrand.getBrandCode());
-				obj.put("brandName", goodsBrand.getBrandName());
-				obj.put("brandId", goodsBrand.getId());
 			}else{
-			    goodsBrand = goodsBrandService.queryByNameOrCode("其他",brandCode);
-				obj.put("brandCode", goodsBrand.getBrandCode());
-				obj.put("brandName", goodsBrand.getBrandName());
-				obj.put("brandId", goodsBrand.getId());
+				goodsBrand = goodsBrandService.queryByNameOrCode("其他",brandCode);
+				setBrand(obj, goodsBrand);
 			}
 			
 			//供应商校验
@@ -308,9 +308,7 @@ public class NewGoodsApplyImportComponent {
 			obj.put("branchId", UserUtil.getCurrBranchId());
 			obj.put("createUserId", UserUtil.getCurrUserId());
 			
-			
 			//商品名称、条码校验
-			String barCode = obj.getString("barCode");
 			String skuName = obj.getString("skuName");
 			if(StringUtils.isNotBlank(skuName)) {
 				//1 检查商品名称在新品申请库中重复
@@ -328,22 +326,40 @@ public class NewGoodsApplyImportComponent {
 				} 
 			}
 			
-			if(StringUtils.isNotBlank(barCode)) {
-				//3  查询新品申请库商品条码是否存在
-				Integer barCodeSum = newGoodsApplyServiceApi.queryCountBySkuName(barCode.trim(), "");
-				if(barCodeSum>0) {
-					obj.element("error", "商品条码在新品申请库中重复");
-					continue;
-				}
-				
-				//4  查询标准库商品条码是否存在
-				boolean isExistsBarCode = goodsSkuService.isExistsBarCodeByOrdinary(barCode.trim(),"");
-				if(isExistsBarCode) {
-					obj.element("error", "商品条码在标准库中重复");
-					continue;
+			boolean barCodeFlag = obj.containsKey("barCode");
+			if(barCodeFlag){
+				String barCode = obj.getString("barCode");
+				if(StringUtils.isNotBlank(barCode)) {
+					//3  查询新品申请库商品条码是否存在
+					Integer barCodeSum = newGoodsApplyServiceApi.queryCountBySkuName(barCode.trim(), "");
+					if(barCodeSum>0) {
+						obj.element("error", "商品条码在新品申请库中重复");
+						continue;
+					}
+					
+					//4  查询标准库商品条码是否存在
+					boolean isExistsBarCode = goodsSkuService.isExistsBarCodeByOrdinary(barCode.trim(),"");
+					if(isExistsBarCode) {
+						obj.element("error", "商品条码在标准库中重复");
+						continue;
+					}
 				}
 			}
 		}
+	}
+	
+	
+	private void setBrand(JSONObject obj,GoodsBrand goodsBrand) {
+		obj.put("brandCode", goodsBrand.getBrandCode());
+		obj.put("brandName", goodsBrand.getBrandName());
+		obj.put("brandId", goodsBrand.getId());
+	}
+	
+	//设置默认类别
+	private void setCategory(JSONObject obj){
+		List<GoodsCategory> goodsCategory = goodsCategoryService.queryByCategoryCode("990101");
+		obj.put("categoryId", goodsCategory.get(0).getGoodsCategoryId());
+		obj.put("categoryName", goodsCategory.get(0).getCategoryName());
 	}
 	
 	
@@ -391,8 +407,6 @@ public class NewGoodsApplyImportComponent {
 			
 			String type = (String)obj.get("type");
 			obj.put("type", GoodsTypeEnum.enumValueOf(type).getOrdinal());
-			String status = (String)obj.get("status");
-			obj.put("goodsStatus", GoodsStatusEnum.enumValueOf(status).getOrdinal());
 		}
 	}
 }

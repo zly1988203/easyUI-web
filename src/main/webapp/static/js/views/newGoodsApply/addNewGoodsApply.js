@@ -150,11 +150,10 @@ function setInputValByObj(){
 	}
 	$("#skuCode").val(null);
 	$("#barCode").val($("#skuCode").val()); //货号
-	if(selectionRow.saleWay=='A'){
-		$('#supplierRate').textbox('disable'); 
+	if(updateSku.saleWay=='A'){
+		$('#supplierRate').numberbox('disable');
 	}else{
-		$('#supplierRate').removeAttr('disabled');
-		$('#supplierRate').parent().find('.textbox-text').removeAttr('disabled');
+		$('#supplierRate').numberbox('enable');
 	}
 	$("#createDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd hh:mm:ss"));
 	//生成毛利值，毛利率
@@ -312,10 +311,9 @@ function getGoodsPupplier(){
 		$("#saleWay").val(data.saleWay);
 		if(data.saleWay=='A'){
 			$("#supplierRate").textbox("setValue","");
-			$('#supplierRate').textbox('disable'); 
+			$('#supplierRate').numberbox('disable');
 		}else{
-			$('#supplierRate').parent().find('.textbox-text').removeAttr('disabled');
-			$('#supplierRate').removeAttr('disabled');
+			$('#supplierRate').numberbox('enable');
 		}
 	});
 }
@@ -387,33 +385,24 @@ function saveGoodsArchives(){
 	var barCode = $("#barCode").val();
 	var skuName = $("#skuName").val();
 	// 普通商品需要校验条码是否重复
-	if(pricingType == "ORDINARY"){
-		var reqObj = {"barCode":barCode, "skuName":skuName,"id":$("#id").val()};
-		if(!barCode) {
-			messager("商品条码为空");
-			$('#saveGoodsArchives').removeAttr("disabled");
-			return;
-		}
-		$.ajax({
-			url:contextPath+"/goods/newGoodsApply/checkBarCodeByOrdinary",
-			type:"POST",
-			data:reqObj,
-			async:false, 
-			success:function(result){
-				if(result.code == 0){
-					submitForm();
-				}else{
-					$('#saveGoodsArchives').removeAttr("disabled");
-					$.messager.alert("提示",result.message);
-				}
-			},
-			error:function(result){
-				console.log(result);
+	var reqObj = {"barCode":barCode, "skuName":skuName,"id":$("#id").val()};
+	$.ajax({
+		url:contextPath+"/goods/newGoodsApply/checkBarCodeByOrdinary",
+		type:"POST",
+		data:reqObj,
+		async:false, 
+		success:function(result){
+			if(result.code == 0){
+				submitForm();
+			}else{
+				$('#saveGoodsArchives').removeAttr("disabled");
+				$.messager.alert("提示",result.message);
 			}
-		});
-	}else{
-		submitForm();
-	}
+		},
+		error:function(result){
+			console.log(result);
+		}
+	});
 }
 
 //提交表单

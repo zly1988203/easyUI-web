@@ -447,17 +447,17 @@ function delGoods(){
 	}
 	 var ids='';
 	 var goodsSkuName = '';
-	    $.each(rows,function(i,v){
-	    	ids+=v.id+",";
-	    	if(v.examineStatus.name =='EXAMINE_PASS') {
-	  			goodsSkuName += v.skuName+",";
-	  		}
-	    });
-	    if(goodsSkuName){
-			goodsSkuName = goodsSkuName.substring(0 , goodsSkuName.length-1);
-			$.messager.alert('提示','商品名称:【'+goodsSkuName+'】审核通过,不能删除');
-			return 
-		}
+    $.each(rows,function(i,v){
+    	ids+=v.id+",";
+    	if(v.examineStatus.name =='EXAMINE_PASS') {
+  			goodsSkuName = v.skuName;
+  			return;
+  		}
+    });
+    if(goodsSkuName){
+		$.messager.alert('提示','商品名称:【'+goodsSkuName+'】审核通过,不能删除');
+		return 
+	}
 	$.messager.confirm('提示','是否要删除选中数据',function(data){
 		if(data){
 			$.ajax({

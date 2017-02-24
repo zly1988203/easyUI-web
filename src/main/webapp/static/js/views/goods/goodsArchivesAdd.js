@@ -157,10 +157,9 @@ function setInputValByObj(){
 	$("#skuCode").val(null);
 	$("#barCode").val($("#skuCode").val()); //货号
 	if(selectionRow.saleWay=='A'){
-		$('#supplierRate').textbox('disable'); 
+		$('#supplierRate').numberbox('disable');
 	}else{
-		$('#supplierRate').removeAttr('disabled');
-		$('#supplierRate').parent().find('.textbox-text').removeAttr('disabled');
+		$('#supplierRate').numberbox('enable');
 	}
 //	$("#skuCode").val("").removeAttr("readonly");
 	$("#createDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd hh:mm:ss"));
@@ -320,10 +319,9 @@ function getGoodsPupplier(){
 		$("#saleWay").val(data.saleWay);
 		if(data.saleWay=='A'){
 			$("#supplierRate").textbox("setValue","");
-			$('#supplierRate').textbox('disable'); 
+			$('#supplierRate').numberbox('disable');
 		}else{
-			$('#supplierRate').parent().find('.textbox-text').removeAttr('disabled');
-			$('#supplierRate').removeAttr('disabled');
+			$('#supplierRate').numberbox('enable');
 		}
 	});
 }
