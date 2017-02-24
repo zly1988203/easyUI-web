@@ -124,7 +124,7 @@ public abstract class ReportController extends BaseController<T>{
 							retParams.put(p.getKey(), sdf.parse(values[0]));
 						} catch (ParseException e) {
 							retParams.put(p.getKey(), values);
-							e.printStackTrace();
+							LOG.error("builderParams将参数转成map失败:{}", e);
 						}
 					} else if (p.getKey().equals("queryCondition")
 							&& model.asMap().containsKey("queryCondition")) {
