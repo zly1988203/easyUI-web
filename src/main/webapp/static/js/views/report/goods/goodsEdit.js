@@ -3,6 +3,7 @@
  * 编辑商品
  */
 var updateGoods;
+var isStore;
 function initGoodsInfo(skuId,branchId){
 	var args = {}
 	var httpUrl = contextPath+"/goods/report/getGoodsInfo?skuId="+skuId+"&branchId="+branchId;
@@ -20,9 +21,9 @@ function initGoodsInfo(skuId,branchId){
 					//进项税、销项税、联营扣率要乘以100
 					if($(element).attr("id") == "outputTax" || $(element).attr("id") == "inputTax" || $(element).attr("id") == "supplierRate"){
 						if(value){
-							$(element).textbox("setValue",parseFloat((value*100).toFixed(2)));
+							$(element).numberbox("setValue",parseFloat((value*100).toFixed(2)));
 						}else{
-							$(element).textbox("setValue",0.00);
+							$(element).numberbox("setValue",0.00);
 						}
 					}else{
 						if($(element).hasClass('easyui-numberbox')){
@@ -50,7 +51,7 @@ function initGoodsInfo(skuId,branchId){
 			}
 		});
 		//门店禁止编辑配送规格、采购规格、
-		var isStore=data['isStore'];
+		isStore=data['isStore'];
 		if(isStore){
 			$("#purchaseSpec").parent().find(".textbox-text,.validatebox-text").attr("readonly","readonly").addClass("uinp-no-more");
 			$("#distributionSpec").parent().find(".textbox-text,.validatebox-text").attr("readonly","readonly").addClass("uinp-no-more");
@@ -105,8 +106,27 @@ function getGoodsPupplier(){
 			$("#supplierRate").parent().find(".textbox-text,.validatebox-text").attr("readonly","readonly").addClass("uinp-no-more");
 		}else{
 			$("#supplierRate").parent().find(".textbox-text,.validatebox-text,.textbox-prompt").removeAttr('readonly').removeClass("uinp-no-more");
+			$("#supplierRate").textbox("setValue","0.00");
 		}
 	});
+}
+
+//输入数字，保留两位小数
+function checkSupplierRate(obj){
+	obj.value =obj.value.replace(/[^0-9.]/g,'');
+	if(obj.value.indexOf(".")>-1){
+		if(obj.value.split(".").length-1>1){
+			obj.value =obj.value.substring(0, obj.value.length-1);
+		}else{
+			if(obj.value.substr(obj.value.indexOf(".")+1).length > 2){
+				obj.value =  obj.value.substring(0, obj.value.length-1);
+			}
+		}	  
+	} 
+	if(obj.value >= 100){
+		obj.value =  obj.value.substring(0, obj.value.length-1);
+	}
+	return obj.value;
 }
 
 //保存
@@ -129,16 +149,28 @@ function saveProp() {
 		return;
 	}
 	
-	if($("#supplierId").val()!==updateGoods.supplierId){
-		$.messager.confirm('提示',"是否更新下属机构相同供应商的主供应商?",function(data){
-    		if(data){
-    			submitForm();
-    		}
-    	});
+	if($("#supplierId").val() != updateGoods.supplierId && !isStore){
+		var param = {
+			title:'提示',
+			content:"是否更新下属机构相同供应商的主供应商?"
+		};
+		new publicConfirmDialog(function(data){
+			//是，更新联动下属机构
+			if(data.code === 1){
+				$("#isLinkage").val(1);
+				submitForm();
+			}
+			//否，仅更新自己
+			if(data.code === 0){
+				$("#isLinkage").val(0);
+				submitForm();
+			}
+		},param);
 	}else{
 		submitForm();
 	}
 }
+
 
 function submitForm(){
 	var formObj = $('#formEdit').serializeObject();

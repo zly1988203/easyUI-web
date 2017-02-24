@@ -18,6 +18,8 @@
 	<div class="ub uline "></div>
 	<form id="formEdit" method="post" style="font-size: 14px;">
 		<input id="branchId" name="branchId" type="hidden">
+		<input id="isLinkage" name="isLinkage" type="hidden" value="0">
+		<input id="isStore" name="isStore" type="hidden">
 		<div class="ub ub-ver ub-ac upad-4">
 			<div class="ub upad-4">
 				<div class="ub ub-ac uw-300">
@@ -290,7 +292,7 @@
 						type="checkbox" name="checkbox" disabled="disabled" /><span>是否关注商品</span>
 				</div>
 				<div class="ub ub-ac umar-r40">
-					<input id="isFastDeliver" name="fastDeliver" class="ub" type="checkbox"/>
+					<input id="fastDeliver" name="fastDeliver" class="ub" type="checkbox"/>
 					<span>是否直送商品</span>
 				</div>
 			</div>
