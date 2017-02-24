@@ -176,19 +176,18 @@ function getGoodsBrand(){
 //供应商公共组件
 function getGoodsPupplier(){
 	new publicSupplierService(function(data){
-		
-		console.info("供应商==",data);
 		$("#supplierId").val(data.id);
 		$("#supplierName").val(data.supplierName);
 		$("#saleWayName").val(data.saleWayName);
 		//经营方式
 		$("#saleWay").val(data.saleWay);
 		if(data.saleWay=='A'){
+			$("#supplierRate").textbox("setValue","");
 			$('#supplierRate').textbox('disable'); 
 		}else{
-			$('supplierRate').removeAttr('disabled');
+			$('#supplierRate').parent().find('.textbox-text').removeAttr('disabled');
+			$('#supplierRate').removeAttr('disabled');
 		}
-		
 	});
 }
 
@@ -265,7 +264,8 @@ function getGoodsArchivesDetail(id){
 		if(updateSku.saleWay=='A'){
 			$('#supplierRate').textbox('disable'); 
 		}else{
-			$('supplierRate').removeAttr('disabled');
+			$('#supplierRate').removeAttr('disabled');
+			$('#supplierRate').parent().find('.textbox-text').removeAttr('disabled');
 		}
 		if(updateSku.updateTime){
 			var date = new Date(updateSku.updateTime);    
