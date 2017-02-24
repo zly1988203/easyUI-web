@@ -57,6 +57,9 @@ function initDatagridRequire(){
 						return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';			
                     	
 					}
+					else if(row.formType=="组合拆分"){
+						return value 	
+					}
 					else if(row.formType=="销售"){
 						return value 	
 					}else if(row.formType=="礼品兑换"){

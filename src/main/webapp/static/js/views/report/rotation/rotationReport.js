@@ -1,12 +1,14 @@
 var rotaType =  1;
 $(function(){
+	$("#oldBranchName").val(sessionBranchCodeName);
+	$("#branchName").val(sessionBranchCodeName);
+	$("#branchId").val(sessionBranchId);
 	$("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
     initDatagridRequire();
     
     $(".radioItem").on("change",function(){
     	rotaType = $(this).val();
-    	initDatagridRequire();
     	queryForm();
     })
 });
@@ -37,12 +39,12 @@ function getFiledsList(){
 			field : 'rotationDay',
 			title : '期间天数',
 			width : '100px',
-			align : 'left'
+			align : 'right'
 		}, {
 			field : 'saleNum',
 			title : '销售数量',
 			width : '100px',
-			align : 'left',
+			align : 'right',
 			formatter : function(value, row, index) {
 				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';;
 			}
@@ -50,7 +52,7 @@ function getFiledsList(){
 			field : 'saleAmount',
 			title : '期间销售金额',
 			width : '120px',
-			align : 'left',
+			align : 'right',
 			formatter : function(value, row, index) {
 				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';;
 			}
@@ -58,7 +60,7 @@ function getFiledsList(){
 			field : 'originalSaleAmount',
 			title : '期间原价销售金额',
 			width : '120px',
-			align : 'left',
+			align : 'right',
 			formatter : function(value, row, index) {
 				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';;
 			}
@@ -66,7 +68,7 @@ function getFiledsList(){
 			field : 'beginSaleAmount',
 			title : '期初销售金额',
 			width : '120px',
-			align : 'left',
+			align : 'right',
 			formatter : function(value, row, index) {
 				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';;
 			}
@@ -74,7 +76,7 @@ function getFiledsList(){
 			field : 'endSaleAmount',
 			title : '期末销售金额',
 			width : '120px',
-			align : 'left',
+			align : 'right',
 			formatter : function(value, row, index) {
 				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';;
 			}
@@ -82,23 +84,23 @@ function getFiledsList(){
 			field : 'avgSaleAmount',
 			title : '期间平均销售金额',
 			width : '120px',
-			align : 'left',
+			align : 'right',
 			formatter : function(value, row, index) {
 				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';;
 			}
 		}, {
-			field : 'saleRotationRate',
+			field : 'saleRotationRateNum',
 			title : '库存周转率',
 			width : '120px',
-			align : 'left',
+			align : 'right',
 			formatter : function(value, row, index) {
-				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';;
+				return '<b>'+parseFloat(value||0).toFixed(2)+'%</b>';;
 			}
 		}, {
 			field : 'saleRotationDay',
 			title : '库存周转天数',
 			width : '100px',
-			align : 'left',
+			align : 'right',
 			formatter : function(value, row, index) {
 				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';;
 			}
@@ -128,12 +130,12 @@ function getFiledsList(){
 			field : 'rotationDay',
 			title : '期间天数',
 			width : '100px',
-			align : 'left'
+			align : 'right'
 		}, {
 			field : 'saleNum',
 			title : '销售数量',
 			width : '100px',
-			align : 'left',
+			align : 'right',
 			formatter : function(value, row, index) {
 				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';;
 			}
@@ -141,7 +143,7 @@ function getFiledsList(){
 			field : 'saleAmount',
 			title : '期间销售金额',
 			width : '120px',
-			align : 'left',
+			align : 'right',
 			formatter : function(value, row, index) {
 				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';;
 			}
@@ -149,7 +151,7 @@ function getFiledsList(){
 			field : 'costAmount',
 			title : '期间销售成本金额',
 			width : '120px',
-			align : 'left',
+			align : 'right',
 			formatter : function(value, row, index) {
 				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';;
 			}
@@ -157,7 +159,7 @@ function getFiledsList(){
 			field : 'beginCostAmount',
 			title : '期初库存金额',
 			width : '120px',
-			align : 'left',
+			align : 'right',
 			formatter : function(value, row, index) {
 				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';;
 			}
@@ -165,7 +167,7 @@ function getFiledsList(){
 			field : 'endCostAmount',
 			title : '期末库存金额',
 			width : '120px',
-			align : 'left',
+			align : 'right',
 			formatter : function(value, row, index) {
 				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';;
 			}
@@ -173,23 +175,23 @@ function getFiledsList(){
 			field : 'avgCostAmount',
 			title : '期间平均库存金额',
 			width : '120px',
-			align : 'left',
+			align : 'right',
 			formatter : function(value, row, index) {
 				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';;
 			}
 		}, {
-			field : 'costRotationRate',
+			field : 'costRotationRateNum',
 			title : '库存周转率',
 			width : '120px',
-			align : 'left',
+			align : 'right',
 			formatter : function(value, row, index) {
-				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';;
+				return '<b>'+parseFloat(value||0).toFixed(2)+'%</b>';;
 			}
 		}, {
 			field : 'costRotationDay',
 			title : '库存周转天数',
 			width : '100px',
-			align : 'left',
+			align : 'right',
 			formatter : function(value, row, index) {
 				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';;
 			}
@@ -204,6 +206,7 @@ function selectBranches() {
 	new publicAgencyService(function(data) {
 		$("#branchId").val(data.branchesId);
 		$("#branchName").val(data.branchName);
+		$("#oldBranchName").val(data.branchName);
 	}, 'BF', '');
 }
 /**
@@ -229,6 +232,18 @@ function queryForm(){
 		messager("请选择结束时间");
 		return;
 	} 
+	var oldBranchName = $("#oldBranchName").val();
+	var branchName = $("#branchName").val();
+	var oldSkuName = $("#oldSkuName").val();
+	var skuName = $("#skuName").val();
+	if(oldBranchName && oldBranchName != branchName){
+		$("#branchId").val('');
+	}
+	
+	if(oldSkuName && oldSkuName != skuName){
+		$("#skuId").val('');
+	}
+	
 	$("#startCount").attr("value",null);
 	$("#endCount").attr("value",null);
 	var fromObjStr = $('#queryForm').serializeObject();
