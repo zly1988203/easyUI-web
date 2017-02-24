@@ -24,7 +24,10 @@ pageEncoding="UTF-8"%>
                 <div class="ub ub-ac uw-300">
                     <div class="umar-r10 uw-60 ut-r">商品名称:</div>
                     <div class="ub">
-                        <input id="skuName" name="skuName" class="uinp easyui-validatebox uw-200 " data-options="required:true" maxlength="20">
+                        <input id="skuName" name="skuName" class="uinp easyui-validatebox uw-200 " data-options="required:true" maxlength="20"
+                        onkeyup="value=value.replace(/[^\#\\\_\-\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')" 
+					onpaste="value=value.replace(/[^\#\\\_\-\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')" 
+					oncontextmenu = "value=value.replace(/[^\#\\\_\-\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')">
                     </div>
                     <i class="uc-red">*</i>
                 </div>
@@ -221,7 +224,7 @@ pageEncoding="UTF-8"%>
             </div>
             <div class="ub upad-4">
                 <div class="umar-r10 uw-60 ut-r">备注:</div>
-                <textarea id="remark" name="remark" class="uh-40 umar-r30 ubor" style="width: 800px;"maxlength="100" type="text"></textarea>
+                <textarea id="remark" name="remark" class="uh-40 umar-r30 ubor" style="width: 800px;"maxlength="100" type="text">计件秤重商品对类别有特殊说明、商品为组合商品有成份关系的，请在备注中填写。</textarea>
             </div>
             <div class="ub umar-l32" style="position: absolute;left: 0px;">
                 <div class="ub ub-ac umar-r40">
