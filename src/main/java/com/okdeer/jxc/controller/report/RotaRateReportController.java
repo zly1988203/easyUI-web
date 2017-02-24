@@ -126,8 +126,6 @@ public class RotaRateReportController extends BaseController<T> {
 	@ResponseBody
 	public String printRotaRateReport(RotaRateReportVo vo, HttpServletResponse response, HttpServletRequest request) {
 		try {
-			// vo.setPageNumber(pageNumber);
-			// vo.setPageSize(PrintConstant.PRINT_MAX_LIMIT);
 			vo.setRotationDay((DateUtils.caculateDays(DateUtils.parse(vo.getEndTime(), DateUtils.DATE_SMALL_STR_R),
 					DateUtils.parse(vo.getStartTime(), DateUtils.DATE_SMALL_STR_R)) + 1) + "");
 			LOG.debug("库存周转率报表打印参数：{}", vo.toString());
@@ -136,10 +134,6 @@ public class RotaRateReportController extends BaseController<T> {
 			if (printList.size() > PrintConstant.PRINT_MAX_ROW) {
 				return "<script>alert('打印最大行数不能超过300行');top.closeTab();</script>";
 			}
-			// BigDecimal allTotal = BigDecimal.ZERO;
-			// for (RotaRateReportVo vo : list) {
-			// allTotal = allTotal.add(vo.getTotal());
-			// }
 			String path = PrintConstant.SALE_ROTARATE_REPORT;
 			if ("2".equals(vo.getRotationType())) {
 				path = PrintConstant.COST_ROTARATE_REPORT;
@@ -148,7 +142,6 @@ public class RotaRateReportController extends BaseController<T> {
 			map.put("startDate", vo.getStartTime());
 			map.put("endDate", vo.getEndTime());
 			map.put("printName", UserUtil.getCurrentUser().getUserName());
-			// map.put("allTotal", allTotal);
 			JasperHelper.exportmain(request, response, map, JasperHelper.PDF_TYPE, path, printList, "");
 		} catch (Exception e) {
 			LOG.error(PrintConstant.ROTARATE_PRINT_ERROR, e);
