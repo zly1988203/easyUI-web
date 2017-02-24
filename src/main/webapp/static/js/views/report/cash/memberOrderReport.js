@@ -59,7 +59,7 @@ function initMemberOrderAllGrid() {
             {field: 'phone', title: '会员手机号', width: 100, align: 'left',},
             {field: 'orderNo', title: '订单编号', width: 160, align: 'left'},
 			{field: 'saleType', title: '订单类型', width: 100, align: 'left'},
-            {field: 'createTime', title: '消费时间', width: 150, align: 'left'},
+            {field: 'expCreateTime', title: '消费时间', width: 150, align: 'center'},
 			{field: 'branchName', title: '消费机构', width: 100, align: 'left'},
             {field: 'amount', title: '订单金额', width: 80, align: 'right',
 				formatter : function(value, row,index) {
@@ -104,7 +104,7 @@ function initMemberOrderListGrid() {
 			{field: 'phone', title: '会员手机号', width: 100, align: 'left',},
 			{field: 'orderNo', title: '订单编号', width: 160, align: 'left'},
 			{field: 'branchName', title: '消费机构', width: 100, align: 'left'},
-			{field: 'createTime', title: '消费时间', width: 150, align: 'left'},
+			{field: 'expCreateTime', title: '消费时间', width: 150, align: 'center'},
 			{field: 'skuCode', title: '货号', width: 100, align: 'left'},
 			{field: 'skuName', title: '商品名称', width: 150, align: 'left'},
 			{field: 'barCode', title: '条码', width: 100, align: 'left'},
