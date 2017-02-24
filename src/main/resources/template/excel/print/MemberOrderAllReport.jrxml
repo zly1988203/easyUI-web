@@ -16,7 +16,7 @@
 	<field name="saleType" class="java.lang.String"/>
 	<field name="branchName" class="java.lang.String"/>
 	<field name="amount" class="java.lang.String"/>
-	<field name="createTime" class="java.lang.String"/>
+	<field name="expCreateTime" class="java.lang.String"/>
 	<variable name="index" class="java.lang.Integer" calculation="Count">
 		<variableExpression><![CDATA[$V{index}.valueOf(1)]]></variableExpression>
 		<initialValueExpression><![CDATA[1]]></initialValueExpression>
@@ -279,7 +279,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="10" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{createTime}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{expCreateTime}]]></textFieldExpression>
 			</textField>
 			<line direction="BottomUp">
 				<reportElement x="27" y="0" width="1" height="24" uuid="82c5adbb-8a9f-48ce-b2b0-6e8f56765082"/>
