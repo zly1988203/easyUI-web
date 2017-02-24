@@ -849,6 +849,8 @@ function GridClass(){
                                     }
                                 }
                                 if(params&&selectFieldName==params.enterName){
+                                	//防止快速点击时 二次弹框
+                                	if($("#"+gridName).closest("body").find('div.window-mask').length > 0)return;
                                     var target = _this.getFieldTarget(selectFieldName);
 //                                    var field = getLRFiledName('right');
 //                                    _this.setSelectFieldName(field);
