@@ -101,10 +101,13 @@ public class NewGoodsApplyImportHandle implements GoodsSelectImportHandle {
 	 */
 	private JSONObject getSuccessDataByBarCode(String barCode){
 		for (JSONObject goods : excelListSuccessData) {
-			String objBarCode = goods.getString("barCode");
-			if(objBarCode.equals(barCode)){
-				excelListSuccessData.remove(goods);
-				return goods;
+			boolean barCodeFlag = goods.containsKey("barCode");
+			if(barCodeFlag){
+				String objBarCode = goods.getString("barCode");
+				if(objBarCode.equals(barCode)){
+					excelListSuccessData.remove(goods);
+					return goods;
+				}
 			}
 		}
 		return null;
@@ -273,10 +276,11 @@ public class NewGoodsApplyImportHandle implements GoodsSelectImportHandle {
 			}
 			
 			//会员价
-			boolean vipPriceFlag = checkNotRequiredCommonPrice(obj, "vipPrice", "会员价只能为数字");
+			boolean vipPriceFlag = checkVipPrice(obj, "vipPrice", "会员价只能为数字");
 			if(!vipPriceFlag){
 				continue;
 			}
+			
 			
 			//销项税率
 			boolean outputTaxFlag = checkNotRequiredCommonPrice(obj, "outputTax", "销项税率只能为数字");
@@ -302,6 +306,37 @@ public class NewGoodsApplyImportHandle implements GoodsSelectImportHandle {
 	}
 	
 	
+	/**
+	 * @Description: 价格非必填校验
+	 * @param obj 对象
+	 * @param colkey 字段key
+	 * @param msg 提示信息
+	 * @return   
+	 * @return boolean  
+	 * @throws
+	 * @author zhongy
+	 * @date 2017年2月24日
+	 */
+	private boolean checkVipPrice(JSONObject obj,String colkey,String msg) {
+		String salePrice = obj.getString("salePrice");
+		boolean colFlag = obj.containsKey(colkey);
+		if(colFlag){
+			String price = obj.getString(colkey);
+			if(StringUtils.isBlank(price)){
+				obj.put(colkey, salePrice);
+			}else{
+				try {
+					Double.parseDouble(price);
+				} catch (Exception e) {
+					obj.element("error", msg);
+					return false;
+				}
+			}
+		}else{
+			obj.put(colkey, salePrice);
+		}
+		return true;
+	}
 	/**
 	 * @Description: 价格非必填校验
 	 * @param obj 对象
@@ -405,7 +440,10 @@ public class NewGoodsApplyImportHandle implements GoodsSelectImportHandle {
 		for (JSONObject jsonObject : excelListFullData) {
 			if(jsonObject.get("error") == null){
 				excelListSuccessData.add(jsonObject);
-				excelSuccessBarCode.add(jsonObject.getString("barCode"));
+				boolean barCodeFlag = jsonObject.containsKey("barCode");
+				if(barCodeFlag){
+					excelSuccessBarCode.add(jsonObject.getString("barCode"));
+				}
 			}else{
 				excelListErrorData.add(jsonObject);
 			}
@@ -419,9 +457,12 @@ public class NewGoodsApplyImportHandle implements GoodsSelectImportHandle {
 		for (int i = 0; i < arr.size(); i++) {
 			JSONObject obj = arr.getJSONObject(i);	
 			
-			String barCode = obj.getString("barCode");
+			boolean flagBarCode = obj.containsKey("barCode");
 			JSONObject excelJson = new JSONObject();
-			excelJson = getSuccessDataByBarCode(barCode);
+			if(flagBarCode){
+				String barCode = obj.getString("barCode");
+				excelJson = getSuccessDataByBarCode(barCode);
+			}
 			
 			//忽略第一列,合并属性
 			for (int j = 1; j < excelField.length; j++) {

@@ -301,7 +301,7 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 			if (sku.getSalePrice()==null) {
 				sku.setSalePrice(price);
 			}
-			if (sku.getVipPrice()==null) {
+			if (sku.getVipPrice()==null || sku.getVipPrice().compareTo(price)==0) {
 				sku.setVipPrice(sku.getSalePrice());
 			}
 			if (sku.getPurchasePrice()==null) {
