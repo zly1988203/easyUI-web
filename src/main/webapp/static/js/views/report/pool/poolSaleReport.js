@@ -93,7 +93,7 @@ function initDatagridGoodsTotal(){
             {field:'spec',title:'规格',width:'130px',align:'left'},
             {field:'saleAmount',title:'销售金额',width:'150px',align:'right',
             	formatter:function(value,row,index){
-				    if(value){
+				    if(value || value ==0){
 				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
 				    }
 				},
@@ -107,7 +107,7 @@ function initDatagridGoodsTotal(){
                 }},
             {field:'supplierRate',title:'联营扣率',width:'130px',align:'right',
                 	formatter:function(value,row,index){
-    				    if(value){
+    				    if(value || value ==0){
     				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
     				    }
     				},
@@ -121,7 +121,7 @@ function initDatagridGoodsTotal(){
                     }},
             {field:'rateAmount',title:'扣率金额',width:'200px',align:'right',
                     	formatter:function(value,row,index){
-        				    if(value){
+        				    if(value || value ==0){
         				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
         				    }
         				},
@@ -177,7 +177,7 @@ function initDatagridGoodsDetail(){
 		        	  {field:'businessType',title:'业务类型',width:'130px',align:'center'},
 		        	  {field:'saleNum',title:'数量',width:'130px',align:'right',
 		              	formatter:function(value,row,index){
-						    if(value){
+						    if(value || value ==0){
 						    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
 						    }
 						},
@@ -191,7 +191,7 @@ function initDatagridGoodsDetail(){
 		                }},
 		        	  {field:'salePrice',title:'销售价',width:'130px',align:'right',
 		                	formatter:function(value,row,index){
-		    				    if(value){
+		    				    if(value || value ==0){
 		    				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
 		    				    }
 		    				},
@@ -205,7 +205,7 @@ function initDatagridGoodsDetail(){
 		                    }},
 		        	  {field:'originalPrice',title:'原价',width:'130px',align:'right',
 		                    	formatter:function(value,row,index){
-		        				    if(value){
+		        				    if(value || value ==0){
 		        				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
 		        				    }
 		        				},
@@ -219,7 +219,7 @@ function initDatagridGoodsDetail(){
 		                        }},
 		        	  {field:'saleAmount',title:'销售金额',width:'150px',align:'right',
 		                        	formatter:function(value,row,index){
-		            				    if(value){
+		            				    if(value || value ==0){
 		            				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
 		            				    }
 		            				},
@@ -233,7 +233,7 @@ function initDatagridGoodsDetail(){
 		                            }},
 		        	  {field:'supplierRate',title:'联营扣率',width:'130px',align:'right',
 		                            	formatter:function(value,row,index){
-		                				    if(value){
+		                				    if(value || value ==0){
 		                				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
 		                				    }
 		                				},
@@ -247,7 +247,7 @@ function initDatagridGoodsDetail(){
 		                                }},
 		        	  {field:'rateAmount',title:'扣率金额',width:'200px',align:'right',
 		                                	formatter:function(value,row,index){
-		                    				    if(value){
+		                    				    if(value || value ==0){
 		                    				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
 		                    				    }
 		                    				},
