@@ -18,6 +18,7 @@
 	<div class="ub uline "></div>
 	<form id="formEdit" method="post" style="font-size: 14px;">
 		<input id="branchId" name="branchId" type="hidden">
+		<input id="oldSupplierId" name="oldSupplierId" class="uinp" type="hidden"> 
 		<input id="isLinkage" name="isLinkage" type="hidden" value="0">
 		<input id="isStore" name="isStore" type="hidden">
 		<div class="ub ub-ver ub-ac upad-4">
@@ -96,7 +97,7 @@
 				</div>
 				<div class="ub ub-ac uw-300">
 					<div class="umar-r10 uw-60 ut-r">商品状态:</div>
-					<select class="uselect easyui-combobox" style="width: 204px;"
+					<select class="uselect" style="width: 204px;" disabled="disabled"
 						name="status" id="status" data-options="readonly:true">
 						<c:forEach items="${goodsStatus}" var="goodsStatus">
 							<option value="${goodsStatus.name}">${goodsStatus.value}</option>
@@ -112,7 +113,7 @@
 			<div class="ub upad-4">
 				<div class="ub ub-ac uw-300">
 					<div class="umar-r10 uw-60 ut-r">计价方式:</div>
-					<select class="uselect easyui-combobox" style="width: 204px;"
+					<select class="uselect" style="width: 204px;" disabled="disabled"
 						name="pricingType" id="pricingType" data-options="readonly:true">
 						<c:forEach items="${pricingType}" var="pricingType">
 							<option value="${pricingType.name}">${pricingType.value}</option>
@@ -150,7 +151,7 @@
 				</div>
 				<div class="ub ub-ac uw-300">
 					<div class="umar-r10 uw-60 ut-r">商品类型:</div>
-					<select class="uselect easyui-combobox" style="width: 204px;"
+					<select class="uselect" style="width: 204px;" disabled="disabled" 
 						name="type" id="type" data-options="readonly:true">
 						<c:forEach items="${goodsType}" var="type">
 							<option value="${type.name}">${type.value}</option>
@@ -292,7 +293,7 @@
 						type="checkbox" name="checkbox" disabled="disabled" /><span>是否关注商品</span>
 				</div>
 				<div class="ub ub-ac umar-r40">
-					<input id="fastDeliver" name="fastDeliver" class="ub" type="checkbox"/>
+					<input id="isFastDeliver" name="fastDeliver" class="ub" type="checkbox"/>
 					<span>是否直送商品</span>
 				</div>
 			</div>
