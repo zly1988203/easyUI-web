@@ -55,7 +55,8 @@
 				</div>
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">品牌:</div>
-					<input type="text" name="brandName" id="brandName" class="uinp" maxlength="50"/>
+					<input type="text" name="brandName" id="brandName" class="uinp" maxlength="50" onblur="brandAutoComple()" onkeyup="brandAutoComple()" />
+					<input type="hidden" name="brandId" id="brandId" class="uinp" maxlength="50" />
 					<div class="uinp-more" onclick="searchBind()">...</div>
 				</div>
 			</div>
@@ -77,7 +78,8 @@
 				</div>
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">供应商:</div>
-					<input type="text" name="supplierName" id="supplierName" class="uinp" maxlength="50"/>
+					<input type="text" name="supplierName" id="supplierName" class="uinp" maxlength="50" onblur="supplierAutoComple()" onkeyup="supplierAutoComple()"/>
+					<input type="hidden" name="supplierId" id="supplierId" class="uinp" maxlength="50"/>
 					<div class="uinp-more" onclick="searchSupplier()">...</div>
 				</div>
 			</div>
