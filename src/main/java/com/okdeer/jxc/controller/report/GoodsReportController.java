@@ -214,6 +214,13 @@ public class GoodsReportController extends
 				int length = branchName.indexOf("]");
 				qo.setBranchName(branchName.substring(length+1, branchName.length()));
 			}
+			
+			List<Branches> branchList = branchesService.getBranchByKeyword(qo.getBranchName());
+			if(branchList.size()==1){
+				qo.setBranchId(branchList.get(0).getBranchesId());
+			}else{
+				return null;
+			}
 			List<GoodsReportVo> exportList = goodsReportService.queryList(qo);
             if(CollectionUtils.isNotEmpty(exportList)){
 			String fileName = "商品查询列表" + "_" + DateUtils.getCurrSmallStr();
