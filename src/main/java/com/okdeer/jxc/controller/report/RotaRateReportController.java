@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.okdeer.base.common.utils.DateUtils;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.LogConstant;
 import com.okdeer.jxc.common.constant.PrintConstant;
@@ -93,7 +94,7 @@ public class RotaRateReportController extends BaseController<T> {
 		RespJson resp = RespJson.success();
 		try {
 			List<RotaRateReportVo> exportList = rotaRateReportServiceApi.exportRotaRateReportList(vo);
-			String fileName = "库存周转率报表";
+			String fileName = "库存周转率报表" + DateUtils.getDate("yyyyMMdd");
 			String templateName = ExportExcelConstant.SALEROTARATEREPORT;
 			if ("2".equals(vo.getRotationType())) {
 				templateName = ExportExcelConstant.COSTROTARATEREPORT;
