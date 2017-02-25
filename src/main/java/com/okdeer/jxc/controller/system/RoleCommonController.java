@@ -7,17 +7,16 @@
 
 package com.okdeer.jxc.controller.system;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.okdeer.jxc.common.constant.SysConstant;
 import com.okdeer.jxc.common.enums.BranchTypeEnum;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
@@ -45,7 +44,8 @@ public class RoleCommonController extends BaseController<RoleCommonController> {
 	private SysRoleService sysRoleService;
 	
 	@RequestMapping(value = "toRoleList")
-	public String toRoleListComponent() {
+	public String toRoleListComponent(SysRoleQo qo, Model model) {
+		model.addAttribute("qo", qo);
 		return "component/publicRoleList";
 	}
 
@@ -64,14 +64,15 @@ public class RoleCommonController extends BaseController<RoleCommonController> {
 			// 获取机构类型
 			int branchType = qo.getBranchType();
 
-			// 如果不是总部，则要去除总部类型的数据
-			if (!BranchTypeEnum.HEAD_QUARTERS.getCode().equals(branchType)) {
-				List<Integer> branchTypeFilters = new ArrayList<Integer>();
-				branchTypeFilters.add(BranchTypeEnum.HEAD_QUARTERS.getCode());
-				qo.setBranchTypeFilters(branchTypeFilters);
-			}
+//			// 如果不是总部，则要去除总部类型的数据
+//			if (!BranchTypeEnum.HEAD_QUARTERS.getCode().equals(branchType)) {
+//				List<Integer> branchTypeFilters = new ArrayList<Integer>();
+//				branchTypeFilters.add(BranchTypeEnum.HEAD_QUARTERS.getCode());
+//				qo.setBranchTypeFilters(branchTypeFilters);
+//			}
 			
-			qo.setBranchType(null);
+			qo.setBranchType(branchType);
+			qo.setBranchTypeFilt(branchType);
 
 			// 如果是物流中心或者店铺，则获取父机构（分公司）的角色信息
 			if (BranchTypeEnum.LOGISTICS_CENTER.getCode().equals(branchType)
@@ -83,6 +84,12 @@ public class RoleCommonController extends BaseController<RoleCommonController> {
 
 				// 查询其父类机构（分公司）的角色信息
 				qo.setBranchCompleCode(parentCompleCode);// 机构CompleCode为父类机构CompleCode
+			}
+			
+			//如果当前机构是总部，并且传递的机构完整编码不是总部，则过滤公共角色
+			if(branchType == BranchTypeEnum.HEAD_QUARTERS.getCode() && 
+					!SysConstant.MANAGER_BRANCH_CODE.equals(qo.getBranchCompleCode())){
+				qo.setFilterCommon(1);
 			}
 
 			LOG.info("角色列表查询参数:{}", qo);
