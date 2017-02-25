@@ -168,13 +168,13 @@ function initDatagridGoodsDetail(){
 		        	  {field:'branchCode',title:'机构编码',width:'100px',align:'left'},
 		        	  {field:'supplierCode',title:'供应商编号',width:'140px',align:'left'},
 		        	  {field:'supplierName',title:'供应商名称',width:'140px',align:'left'},
-		        	  {field:'orderNo',title:'订单编号',width:'140px',align:'left'},
+		        	  {field:'orderNo',title:'订单编号',width:'180px',align:'left'},
 		        	  {field:'orderTime',title:'订单时间',width:'140px',align:'left'},
 		        	  {field:'skuCode',title:'货号',width:'80px',align:'left'},
 		        	  {field:'skuName',title:'商品名称',width:100,align:'left'},
 		        	  {field:'spec',title:'规格',width:'130px',align:'left'},
 		        	  {field:'unit',title:'单位',width:'130px',align:'left'},
-		        	  {field:'businessType',title:'业务类型',width:'130px',align:'left'},
+		        	  {field:'businessType',title:'业务类型',width:'130px',align:'center'},
 		        	  {field:'saleNum',title:'数量',width:'130px',align:'right',
 		              	formatter:function(value,row,index){
 						    if(value){

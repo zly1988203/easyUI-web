@@ -36,20 +36,20 @@
 
 	        <div class="ub uline umar-t8"></div>
 	        <div class="ub umar-t8">
-                <div class="ub ub-ac uw-300 ">
+                <div class="ub ub-ac umar-r20 ">
 	                    <div class="umar-r10 uw-70 ut-r">机构名称:</div>
 	                    <input type="hidden" id="branchId" name="branchId" />
 	                    <input class="uinp ub ub-f1" type="text" id="branchName" name="branchName"/>
 	                    <div class="uinp-more" onclick="selectBranches()" >...</div>
 	                </div>
-	                <div class="ub ub-ac umar-r40">
+	                <div class="ub ub-ac umar-r20">
 	                <div class="umar-r10 uw-60 ut-r">供应商:</div>
 	                <input class="uinp" name="supplierId" id="supplierId" type="hidden">
 	                <input class="uinp" id="supplierName" name="supplierName" type="text" maxlength="50">
 	                <div class="uinp-more" onclick="selectSupplier()">...</div>
 	            </div>
 	                <div class="ub ub-ac  umar-l20">
-                    <div class="umar-r10 uw-70 ut-r">货号:</div>
+                    <div class="umar-r10 uw-40 ut-r">货号:</div>
                     <input class="uinp ub ub-f1" type="text" name="skuCode" id="skuCode">
                 </div> 
                  <div class="ub ub-ac  umar-l20">
