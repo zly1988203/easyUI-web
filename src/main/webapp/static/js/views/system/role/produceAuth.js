@@ -80,6 +80,7 @@ function saveRoleAuth(){
     });
     
     var roleId = $("#roleId").val();
+    var branchId = $("#branchId").val();
     var data = JSON.stringify(menusIds);
     
     $.ajax({
@@ -87,6 +88,7 @@ function saveRoleAuth(){
         type:"POST",
         data:{
         	"roleId":roleId,
+        	"branchId":branchId,
         	"data":data
         },
         dataType:"json",  

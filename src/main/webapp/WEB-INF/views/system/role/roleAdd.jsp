@@ -27,7 +27,7 @@ pageEncoding="UTF-8"%>
 	            <div class="ub ub-ac umar-l20">
 	                <div class="umar-r10 uw-60 ut-r">角色名称:</div>
 	                <input  id="roleName" name="roleName" class="uinp uw-250 easyui-validatebox" 
-	                	data-options="required:true,validType:'userName'" maxlength="50" type="text">
+	                	data-options="required:true,validType:'userName'" maxlength="20" type="text">
                 	<i class="uc-red">*</i>
 	            </div>
           	</div>
@@ -44,6 +44,23 @@ pageEncoding="UTF-8"%>
 	               	</c:forEach>
 	            </div>
           	</div>
+          	<c:if test="${user.branchType eq 0 }">
+          	<div class="ub umar-t20">
+	            <div class="ub ub-ac umar-l20">
+	               	<div class="umar-r10 uw-60 ut-r">是否通用:</div>
+	               	<div class="ub ub-ac umar-r10">
+						<label>
+							<input class="ub" type="radio" name="isCommonRole" value="0" checked="checked" />机构角色
+						</label>
+					</div>
+					<div class="ub ub-ac umar-r10">
+						<label>
+							<input class="ub" type="radio" name="isCommonRole" value="1"  />通用角色
+						</label>
+					</div>
+	            </div>
+          	</div>
+          	</c:if>
 			<div class="ub umar-t20"> 
 	            <div class="ub ub-ac umar-l20">
 	            	<div class="umar-r10 uw-60 ut-r">所属机构:</div>

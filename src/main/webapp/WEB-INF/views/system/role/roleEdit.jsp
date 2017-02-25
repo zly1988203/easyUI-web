@@ -26,7 +26,7 @@ pageEncoding="UTF-8"%>
 	            <div class="ub ub-ac umar-l20">
 	                <div class="umar-r10 uw-60 ut-r">角色名称:</div>
 	                <input  id="roleName" name="roleName" class="uinp uw-250 easyui-validatebox" value="${role.roleName }"
-	                	data-options="required:true,validType:'userName'" maxlength="50" type="text">
+	                	data-options="required:true,validType:'userName'" maxlength="20" type="text">
                 	<i class="uc-red">*</i>
 	            </div>
           	</div>

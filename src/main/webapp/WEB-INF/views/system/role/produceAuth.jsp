@@ -31,6 +31,7 @@
             <div class="ub ub-ac umar-l20 uc-black ufs-16 ufw-b">角色名称：${role.roleName }</div>
 		</div>
 		<input type="hidden" name="roleId" id="roleId" value="${role.id }" />
+		<input type="hidden" name="branchId" id="branchId" value="${role.branchId }" />
 		<div class="ub uline umar-t8"></div>
 		<div class="ub ub-f1 ub-ver table-tree"> 
 		    <div class="ub ub-ac  uh-30 font-14">
