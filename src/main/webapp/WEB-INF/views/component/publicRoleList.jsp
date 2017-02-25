@@ -9,8 +9,9 @@
 			<div class="ub ub-ac upad-10 ">
 				<div class="ub ub-ac uw">
 					<div class="umar-r10">关键字:</div>
-					<input type="hidden" id="publicRoleBranchCompleCode" name="publicRoleBranchCompleCode" value="${branchCompleCode}"/>
-                    <input name="search" class="usearch uinp ub ub-f1" type="text" id="nameOrCode">
+					<input type="hidden" id="publicRoleBranchCompleCode" name="branchCompleCode" value="${qo.branchCompleCode}"/>
+					<input type="hidden" id="publicRoleBranchType" name="branchType" value="${qo.branchType}"/>
+                    <input name="nameOrCode" class="usearch uinp ub ub-f1" type="text" id="nameOrCode">
 					<div class="ubtn umar-l20" onclick="queryRoleListCommon();">查询</div>
 				</div>
 			</div>

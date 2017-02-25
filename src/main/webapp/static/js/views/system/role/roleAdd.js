@@ -1,5 +1,10 @@
 $(function(){
 	changeRoleType();
+	
+	//如果是总部
+	if(sessionBranchType=='0'){
+		changeIsCommonRole();
+	}
 });
 
 function searchBranchInfo (){
@@ -31,15 +36,40 @@ function changeRoleType(){
 		}
 		if(branchType==0){ //总部
 			$("#branchNameCode").val(sessionBranchCodeName).attr("disabled", "disabled");
+			$(':radio[name=isCommonRole][value=0]').attr("checked", "checked"); //总部默认为机构角色，所属机构为总部
+			$(':radio[name=isCommonRole]').attr("disabled", "disabled");
 			$("#branchNameCodeMore").hide();
-			$("#opBranchCompleCode").val("");
-			$("#opBranchId").val(sessionBranchCode);
-			$("#opBranchType").val("");
-			$("#opBranchCode").val("");
+			$("#opBranchId").val(sessionBranchId);
 		}else{
 			$("#branchNameCode").val("");
 			$("#branchNameCodeMore").show();
+			$("#opBranchId").val(null);
+			if(sessionBranchType=='0'){
+				$(':radio[name=isCommonRole]').removeAttr("disabled");
+			}
+			
 		}
+		
+	});
+}
+
+function changeIsCommonRole(){
+	$(":radio[name=isCommonRole]").change(function(i){
+		var isCommonRole = $(':radio[name=isCommonRole]:checked').val();
+		
+		//只针对于总部角色
+		if(sessionBranchType!='0'){
+			return;
+		}
+		if(isCommonRole==0){ //机构角色，需要选择所属机构
+			$("#branchNameCode").val("").removeAttr("disabled");
+			$("#branchNameCodeMore").show();
+			
+		}else{	//公共角色，所属机构为全部
+			$("#branchNameCode").val("所有").attr("disabled", "disabled");
+			$("#branchNameCodeMore").hide();
+		}
+		$("#opBranchId").val(null);
 		
 	});
 }
@@ -55,12 +85,13 @@ function addRole(){
 	}
 	
 	var branchType = $(':radio[name=branchType]:checked').val();
+	var isCommonRole = $(':radio[name=isCommonRole]:checked').val();
 	if(!branchType){
 		successTip("角色类型为空！");
 		return;
 	}
 	
-	if(!$("#opBranchId").val()){
+	if(isCommonRole==0 && !$("#opBranchId").val()){
 		successTip("所属机构为空！");
 		return;
 	}

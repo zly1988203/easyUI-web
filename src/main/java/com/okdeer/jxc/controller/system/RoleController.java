@@ -336,6 +336,11 @@ public class RoleController extends BaseController<RoleController> {
 		try {
 			// 设置创建者Id
 			roleVo.setCreateUserId(getCurrUserId());
+			
+			// 如果是空字符串，则设置为null
+			if(StringUtils.isBlank(roleVo.getBranchId())){
+				roleVo.setBranchId(null);
+			}
 
 			// 如果是总部，默认为总部机构
 			if (BranchTypeEnum.HEAD_QUARTERS.getCode().equals(roleVo.getBranchType())) {

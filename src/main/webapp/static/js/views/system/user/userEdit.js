@@ -16,7 +16,7 @@ function searchBranchInfo (){
 }
 
 /**
- * 机构列表下拉选
+ * 角色列表下拉选
  */
 function searchRole (){
 	var opBranchCompleCode = $("#opBranchCompleCode").val();

@@ -185,7 +185,8 @@ function newGoodsApplyUploadFile(callback,params){
 function publicRoleService(callback, branchCompleCode, branchType){
     //公有属性
     var  dalogTemp = $('<div/>').dialog({
-        href:contextPath + "/role/common/toRoleList",
+        href:contextPath + "/role/common/toRoleList?branchCompleCode="
+        	+branchCompleCode+"&branchType="+branchType,
         width:500,
         height:580,
         title:"选择角色",
