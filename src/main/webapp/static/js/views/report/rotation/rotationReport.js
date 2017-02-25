@@ -9,7 +9,8 @@ $(function(){
     
     $(".radioItem").on("change",function(){
     	rotaType = $(this).val();
-    	queryForm();
+    	initDatagridRequire();
+//    	queryForm();
     })
 });
 
