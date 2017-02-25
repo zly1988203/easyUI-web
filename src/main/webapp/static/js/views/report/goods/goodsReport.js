@@ -308,6 +308,7 @@ function initDatagridOrders(){
 function searchSupplier(){
 	new publicSupplierService(function(data){
 		$("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
+		$("#supplierId").val(data.id);
 	});
 }
 
@@ -317,6 +318,7 @@ function searchSupplier(){
 function searchBind(){
 	new publicBrandService(function(data){
 		$("#brandName").val("["+data.brandCode+"]"+data.brandName);
+		$("#brandId").val(data.id);
 	});
 }
 
@@ -450,3 +452,81 @@ function closeDialog() {
 	$(dialogTemp).panel('destroy');
 }
 
+
+//回车或失去焦点后，查询品牌
+function brandAutoComple(){
+	//非回车事件和失去焦点，不做处理(失焦时event.keyCode为undefined)
+	if(event.keyCode && event.keyCode != 13){
+		return;
+	}
+	var brandCodeOrName = $("#brandName").val();
+	//未输入值时，直接返回，无需查询
+	if("" == brandCodeOrName){
+		$("#brandId").val("");
+		return;
+	}
+	//避免用户直接输入完整格式: [编号]名称
+	var reg = /\[\d{4}\]/;
+	if(reg.test(brandCodeOrName)){
+		//取出[]里的编号，默认取已第一个[]里的值
+		reg = /\[(\d{4})\]/;
+		arr = reg.exec(brandCodeOrName);
+		brandCodeOrName = arr[1];
+	}
+	//请求数据
+	var httpUrl = contextPath + "/common/brand/getComponentList";
+	var args = {"brandCodeOrName" : brandCodeOrName};
+	$.post(httpUrl, args,function(data){
+		if(null != data && data.rows.length == 1){
+			var brandId = data.rows[0].id;
+			var brandName = data.rows[0].brandName;
+			var brandCode = data.rows[0].brandCode;
+			//完善文本显示
+			$("#brandName").val("["+brandCode+"]"+brandName);
+			//记录ID值,用于后台查询
+			$("#brandId").val(brandId);
+		} else {
+			//未查询到数据或多条数据，设置无效ID
+			$("#brandId").val("ABCDEFG");
+		}
+	});
+}
+
+//回车或失去焦点后，查询供应商
+function supplierAutoComple(){
+	//非回车事件和失去焦点，不做处理(失焦时event.keyCode为undefined)
+	if(event.keyCode && event.keyCode != 13){
+		return;
+	}
+	var supplierNameOrsupplierCode = $("#supplierName").val();
+	//未输入值时，直接返回，无需查询
+	if("" == supplierNameOrsupplierCode){
+		$("#supplierId").val("");
+		return;
+	}
+	//避免用户直接输入完整格式: [编号]名称
+	var reg = /\[\d{6}\]/;
+	if(reg.test(supplierNameOrsupplierCode)){
+		//取出[]里的编号，默认取已第一个[]里的值
+		reg = /\[(\d{6})\]/;
+		arr = reg.exec(supplierNameOrsupplierCode);
+		supplierNameOrsupplierCode = arr[1];
+	}
+	//请求数据
+	var httpUrl = contextPath + "/common/supplier/getComponentList";
+	var args = {"supplierNameOrsupplierCode" : supplierNameOrsupplierCode};
+	$.post(httpUrl, args,function(data){
+		if(null != data && data.rows.length == 1){
+			var supplierId = data.rows[0].id;
+			var supplierName = data.rows[0].supplierName;
+			var supplierCode = data.rows[0].supplierCode;
+			//完善文本显示
+			$("#supplierName").val("["+supplierCode+"]"+supplierName);
+			//记录ID值,用于后台查询
+			$("#supplierId").val(supplierId);
+		} else {
+			//未查询到数据或多条数据，设置无效ID
+			$("#supplierId").val("ABCDEFG");
+		}
+	});
+}
