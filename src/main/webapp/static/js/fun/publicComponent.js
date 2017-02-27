@@ -1791,11 +1791,11 @@ function publicActivity(callback,param){
 function publicConfirmDialog(callback,param){
 	var dalogTemp = $('<div/>').dialog({
         href: contextPath+"/goods/goodsSelect/goPublicComfirmDialog",
-        width: 300,
-        height: 155,
-        title: param.title,
+        width: 'undefined'==typeof(param.width)?300:param.width,
+        height: 'undefined'==typeof(param.height)?155:param.height,
+        title: 'undefined'==typeof(param.title)?'提示':param.title,
         closable: true,
-        resizable: true,
+        resizable: false,
         onClose: function () {
             $(dalogTemp).panel('destroy');
         },
