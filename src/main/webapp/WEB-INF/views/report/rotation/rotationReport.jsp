@@ -8,7 +8,7 @@
 <title>库存周转率报表</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
-<script src="${ctx}/static/js/views/report/rotation/rotationReport.js?1=1"></script>
+<script src="${ctx}/static/js/views/report/rotation/rotationReport.js"></script>
 <style>
 .datagrid-header-row .datagrid-cell {
 	text-align: center !important;
@@ -43,14 +43,16 @@
 			<div class="ub umar-t8">
 				<div class="ub ub-ac uw-300 ">
 					<div class="umar-r10 uw-70 ut-r">机构名称:</div>
-					<input type="hidden" id="branchId" name="branchId" /> <input
-						class="uinp ub ub-f1" type="text" id="branchName"
+					<input type="hidden" id="branchId" name="branchId" /> 
+					<input type="hidden" id="oldBranchName" name="oldBranchName" /> 
+					<input class="uinp ub ub-f1" type="text" id="branchName"
 						name="branchName" />
 					<div class="uinp-more" onclick="selectBranches()">...</div>
 				</div>
 				<div class="ub ub-ac  umar-l20">
 					<div class="umar-r10 uw-70 ut-r">商品选择:</div>
 					<input type="hidden" name="skuId" id="skuId" />
+					<input type="hidden" name="oldSkuName" id="oldSkuName" />
 					<input class="uinp ub ub-f1" type="text" name="skuName" id="skuName">
 					<div class="uinp-more" onclick="selectGoods()">...</div>
 				</div>

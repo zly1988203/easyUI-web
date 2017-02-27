@@ -3,6 +3,7 @@ pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
+<c:set var="user" value="${sessionScope.session_user}"/>
 <script  src="${ctx}/static/js/views/system/role/roleEdit.js"></script>
 <div class="ub ub-ver  ub-f1  uw uh ufs-14 uc-black">
 	<div class="ub ub-ac upad-4">
@@ -26,7 +27,7 @@ pageEncoding="UTF-8"%>
 	            <div class="ub ub-ac umar-l20">
 	                <div class="umar-r10 uw-60 ut-r">角色名称:</div>
 	                <input  id="roleName" name="roleName" class="uinp uw-250 easyui-validatebox" value="${role.roleName }"
-	                	data-options="required:true,validType:'userName'" maxlength="50" type="text">
+	                	data-options="required:true,validType:'userName'" maxlength="20" type="text">
                 	<i class="uc-red">*</i>
 	            </div>
           	</div>
@@ -43,6 +44,25 @@ pageEncoding="UTF-8"%>
 	               	</c:forEach>
 	            </div>
           	</div>
+          	<c:if test="${user.branchType eq 0 }">
+          	<div class="ub umar-t20">
+	            <div class="ub ub-ac umar-l20">
+	               	<div class="umar-r10 uw-60 ut-r">是否通用:</div>
+	               	<div class="ub ub-ac umar-r10">
+						<label>
+							<input class="ub" type="radio" name="isCommonRole" value="0" disabled="disabled"
+								<c:if test="${not empty role.branchId }">checked="checked"</c:if> />机构角色
+						</label>
+					</div>
+					<div class="ub ub-ac umar-r10">
+						<label>
+							<input class="ub" type="radio" name="isCommonRole" value="1" disabled="disabled"
+								<c:if test="${empty role.branchId }">checked="checked"</c:if> />通用角色
+						</label>
+					</div>
+	            </div>
+          	</div>
+          	</c:if>
 			<div class="ub umar-t20"> 
 	            <div class="ub ub-ac umar-l20">
 	            	<div class="umar-r10 uw-60 ut-r">所属机构:</div>
@@ -50,7 +70,7 @@ pageEncoding="UTF-8"%>
 	            	<div class="ub ub-ac">
 	                	<input class="uinp uw-250" type="text" id="branchNameCode" name="branchNameCode" disabled="disabled" 
 	                		<c:if test="${not empty role.branchId }">value="[${branch.branchCode }]${branch.branchName }" </c:if>
-	                		<c:if test="${empty role.branchId }">value="[00000]总部" </c:if>
+	                		<c:if test="${empty role.branchId }">value="所有" </c:if>
 	                		 >
 	                </div>
 	                <i class="uc-red">*</i>

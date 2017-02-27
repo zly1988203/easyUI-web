@@ -277,7 +277,8 @@ pageEncoding="UTF-8"%>
             </div>
 				<div class="ub upad-4">
 					<div class="umar-r10 uw-60 ut-r">备注:</div>
-					<textarea id="remark" name="remark" class="uh-40 umar-r30 ubor uinp-no-more" readonly="readonly" maxlength="100" style="width: 800px;"></textarea>
+					<textarea id="remark" name="remark" class="uh-40 umar-r30 ubor uinp-no-more" readonly="readonly" maxlength="100" style="width: 800px;"
+					placeholder="计件秤重商品对类别有特殊说明、商品为组合商品有成份关系的，请在备注中填写。"></textarea>
 				</div>
 				<div class="ub umar-l32" style="position: absolute;left: 0px;">
 					<div class="ub ub-ac umar-r40">

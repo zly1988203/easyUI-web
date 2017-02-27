@@ -185,7 +185,8 @@ function newGoodsApplyUploadFile(callback,params){
 function publicRoleService(callback, branchCompleCode, branchType){
     //公有属性
     var  dalogTemp = $('<div/>').dialog({
-        href:contextPath + "/role/common/toRoleList",
+        href:contextPath + "/role/common/toRoleList?branchCompleCode="
+        	+branchCompleCode+"&branchType="+branchType,
         width:500,
         height:580,
         title:"选择角色",
@@ -867,6 +868,8 @@ function GridClass(){
                                     }
                                 }
                                 if(params&&selectFieldName==params.enterName){
+                                	//防止快速点击时 二次弹框
+                                	if($("#"+gridName).closest("body").find('div.window-mask').length > 0)return;
                                     var target = _this.getFieldTarget(selectFieldName);
 //                                    var field = getLRFiledName('right');
 //                                    _this.setSelectFieldName(field);

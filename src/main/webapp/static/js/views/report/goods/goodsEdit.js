@@ -55,7 +55,7 @@ function initGoodsInfo(skuId,branchId){
 		if(isStore){
 			$("#purchaseSpec").parent().find(".textbox-text,.validatebox-text").attr("readonly","readonly").addClass("uinp-no-more");
 			$("#distributionSpec").parent().find(".textbox-text,.validatebox-text").attr("readonly","readonly").addClass("uinp-no-more");
-			$("#formEdit #fastDeliver").attr("disabled","disabled");
+			$("#formEdit #isFastDeliver").attr("disabled","disabled");
 		}
 		
 		if(updateGoods.saleWay=='A' || updateGoods.saleWay=='B'){
@@ -97,9 +97,9 @@ function setGrossProfitPercent(){
 //供应商公共组件
 function getGoodsPupplier(){
 	new publicSupplierService(function(data){
-		$("#supplierId").val(data.id);
-		$("#supplier").val(data.supplierName);
-		$("#saleWayName").val(data.saleWayName);
+		$("#formEdit #supplierId").val(data.id);
+		$("#formEdit #supplier").val(data.supplierName);
+		$("#formEdit #saleWayName").val(data.saleWayName);
 		//经营方式
 		if(data.saleWayName=='购销'||data.saleWayName=='代销'){
 			$("#supplierRate").textbox("setValue","");
@@ -152,7 +152,7 @@ function saveProp() {
 	if($("#supplierId").val() != updateGoods.supplierId && !isStore){
 		var param = {
 			title:'提示',
-			content:"是否更新下属机构相同供应商的主供应商?"
+			content:"是否同时更新门店该商品的主供应商？</br>是：更新分司及其门店原主供应商相同的该商品。</br>否：只更新分司主档供应商。</br>取消：不保存。"
 		};
 		new publicConfirmDialog(function(data){
 			//是，更新联动下属机构

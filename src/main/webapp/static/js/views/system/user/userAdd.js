@@ -26,6 +26,7 @@ function searchRole (){
 		successTip("请先选择机构！");
 		return;
 	}
+	
 	var opBranchType = $("#opBranchType").val();
 	new publicRoleService(function(data){
 		$("#opRoleId").val(data.id);

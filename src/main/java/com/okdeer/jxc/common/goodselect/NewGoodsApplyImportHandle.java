@@ -59,13 +59,6 @@ public class NewGoodsApplyImportHandle implements GoodsSelectImportHandle {
 		checkBarCodeIsNullAndRepeat();
 		
 		if(businessValid != null){
-
-			// 深度拷贝正确的数据
-//			tempExcelListSuccessData.addAll(excelListSuccessData);
-			//业务校验
-//			businessValid.businessValid(excelListSuccessData, excelField);
-			
-			//刷新
 			refreshSuccessData();
 		}
 	}
@@ -77,16 +70,6 @@ public class NewGoodsApplyImportHandle implements GoodsSelectImportHandle {
 	 */
 	@Override
 	public void checkWithDataBase(List<? extends GoodsSelect> dblist) {
-//		for (int i = 0; i < excelListSuccessData.size(); i++) {
-//			JSONObject jsonObject = excelListSuccessData.get(i);
-//			String barCode = jsonObject.getString("barCode");
-//			GoodsSelect goods = getByBarCode(dblist, barCode);
-//			if(goods == null){//数据库不存在的数据
-//				jsonObject.element("error", NOT_EXISTS);
-//			}
-//		}
-
-		//刷新
 		refreshSuccessData();
 	}
 	
@@ -118,10 +101,13 @@ public class NewGoodsApplyImportHandle implements GoodsSelectImportHandle {
 	 */
 	private JSONObject getSuccessDataByBarCode(String barCode){
 		for (JSONObject goods : excelListSuccessData) {
-			String objBarCode = goods.getString("barCode");
-			if(objBarCode.equals(barCode)){
-				excelListSuccessData.remove(goods);
-				return goods;
+			boolean barCodeFlag = goods.containsKey("barCode");
+			if(barCodeFlag){
+				String objBarCode = goods.getString("barCode");
+				if(objBarCode.equals(barCode)){
+					excelListSuccessData.remove(goods);
+					return goods;
+				}
 			}
 		}
 		return null;
@@ -138,191 +124,166 @@ public class NewGoodsApplyImportHandle implements GoodsSelectImportHandle {
 		Map<String,Integer> barCodeSet = new LinkedHashMap<String,Integer>();
 		for (int i = 0; i < excelListFullData.size(); i++) {
 			JSONObject obj = excelListFullData.get(i);
+			
 			//商品名称为空
-			String skuName = obj.getString("skuName");
-			if(StringUtils.isBlank(skuName)){
+			boolean skuNameFlag = obj.containsKey("skuName");
+			String skuName = "";
+			if(!skuNameFlag){
 				obj.element("error", "商品名称为空");
 				continue;
 			}else{
-				obj.put("skuName", skuName.trim());
-			}
-			
-			//商品名称重复
-			if(barCodeSet.keySet().contains(skuName)){
-				//取出原来重复的数据,标记重复
-				Integer index = barCodeSet.get(skuName);
-				JSONObject existsObj = excelListFullData.get(index);
-				obj.element("error", "商品名称重复");
-				if(existsObj.get("error") == null){
-					existsObj.element("error", "商品名称重复");
-				}
-				continue;
-			}
-			
-			//计价方式：0普通，1计重、2计件
-			String pricingType = obj.getString("pricingType");
-			if(StringUtils.isBlank(pricingType)){
-				obj.element("error", "计价方式为空");
-				continue;
-			}
-			
-			//计价方式错误
-			PricingTypeEnum pricingTypeEnum = PricingTypeEnum.enumValueOf(pricingType);
-			if(pricingTypeEnum == null) {
-				obj.element("error", "计价方式错误");
-				continue;
-			}
-			
-			//计价方式：0普通，1计重、2计件
-			String saleWay = obj.getString("saleWay");
-			if(StringUtils.isBlank(saleWay)){
-				obj.element("error", "经营方式为空");
-				continue;
-			}
-			
-			//计价方式错误
-			SaleWayEnum saleWayEnum = SaleWayEnum.enumValueOf(saleWay);
-			if(saleWayEnum == null) {
-				obj.element("error", "经营方式错误");
-				continue;
-			}
-			
-			//商品条码:条码（必填项）：条码不能重复,如果商品为计件、计重的商品，则条码可为空。
-			String barCode = obj.getString("barCode");
-			if(String.valueOf(PricingTypeEnum.ORDINARY.ordinal()).equals(pricingType)) {
-				if(StringUtils.isBlank(barCode)){
-					obj.element("error", "商品条码为空");
+				skuName = obj.getString("skuName");
+				if(StringUtils.isBlank(skuName)){
+					obj.element("error", "商品名称为空");
 					continue;
 				}else{
+					obj.put("skuName", skuName.trim());
+				}
+				//商品名称重复
+				if(barCodeSet.keySet().contains(skuName)){
+					//取出原来重复的数据,标记重复
+					Integer index = barCodeSet.get(skuName);
+					JSONObject existsObj = excelListFullData.get(index);
+					obj.element("error", "商品名称重复");
+					if(existsObj.get("error") == null){
+						existsObj.element("error", "商品名称重复");
+					}
+					continue;
+				}
+			}
+			
+			//计价方式：0普通，1计重、2计件
+			boolean pricingTypeFlag = obj.containsKey("pricingType");
+			String oldPricingType = "";
+			String newPricingType = "";
+			if(pricingTypeFlag){
+				oldPricingType = obj.getString("pricingType");
+				if(StringUtils.isNotBlank(oldPricingType)){
+					PricingTypeEnum pricingTypeEnum = PricingTypeEnum.enumValueOf(oldPricingType);
+					if(pricingTypeEnum == null) {
+						obj.element("error", "计价方式错误");
+						continue;
+					}
+				}else{
+					newPricingType = PricingTypeEnum.ORDINARY.getValue();
+					obj.put("pricingType",newPricingType);
+				}
+			}else{
+				newPricingType = PricingTypeEnum.ORDINARY.getValue();
+				obj.put("pricingType",newPricingType);
+			}
+			
+			//普通商品:条码（必填项）：条码不能重复,如果商品为计件、计重的商品，则条码可为空。
+			String barCode = "";
+			boolean barCodeFlag = obj.containsKey("barCode");
+			if(StringUtils.isBlank(oldPricingType)) {
+				if(!barCodeFlag){
+					obj.element("error", "商品条码为空");
+					obj.put("pricingType",oldPricingType);
+					continue;
+				}
+				barCode = obj.getString("barCode");
+				obj.put("barCode", barCode.trim());
+			}else{
+				if(barCodeFlag){
+					barCode = obj.getString("barCode");
 					obj.put("barCode", barCode.trim());
 				}
 			}
 			
 			//商品条码重复
-			if(barCodeSet.keySet().contains(barCode)){
-				obj.element("error", "商品条码重复");
-				continue;
-			}
-			
-			//商品类型（0普通商品，1制单组合，2制单拆分，3捆绑商品，4自动转货
-			String type = obj.getString("type");
-			if(StringUtils.isBlank(type)){
-				obj.element("error", "商品类型为空");
-				continue;
-			}
-			
-			//商品类型是否存在
-			GoodsTypeEnum goodsTypeEnum = GoodsTypeEnum.enumValueOf(type);
-			if(goodsTypeEnum==null){
-				obj.element("error", "商品类型不存在");
-				continue;
-			}
-			
-			//进货规格
-			String purchaseSpec = obj.getString("purchaseSpec");
-			if(StringUtils.isNotBlank(purchaseSpec)){
-				try {
-					Double.parseDouble(purchaseSpec);
-				} catch (Exception e) {
-					obj.element("error", "进货规格只能为数字");
-					continue;
-				}
-			}
-			
-			//配送规格
-			String distributionSpec = obj.getString("distributionSpec");
-			if(StringUtils.isNotBlank(distributionSpec)){
-				try {
-					Double.parseDouble(distributionSpec);
-				} catch (Exception e) {
-					obj.element("error", "配送规格只能为数字");
+			if(StringUtils.isNotBlank(barCode)){
+				if(barCodeSet.keySet().contains(barCode)){
+					obj.element("error", "商品条码重复");
 					continue;
 				}
 			}
 			
 			//零售价非空校验
-			String salePrice = obj.getString("salePrice");
-			if(StringUtils.isBlank(salePrice)){
-			    obj.element("error", "零售价为空");
+			boolean salePriceFlag = checkRequiredCommonPrice(obj, "salePrice", "零售价只能为数字", "零售价为空");
+			if(!salePriceFlag){
 				continue;
 			}
 			
-			//零售价数字校验
-			if(StringUtils.isNotBlank(salePrice)){
-				try {
-					Double.parseDouble(salePrice);
-				} catch (Exception e) {
-					obj.element("error", "零售价只能为数字");
-					continue;
+			//进货价非空校验
+			boolean purchasePriceFlag = checkRequiredCommonPrice(obj, "purchasePrice", "进货价只能为数字", "进货价为空");
+			if(!purchasePriceFlag){
+				continue;
+			}
+			
+			//经营方式：A:购销，B:代销、C:联营、D:扣率代销
+			boolean saleWayFlag = obj.containsKey("saleWay");
+			if(saleWayFlag){
+				String saleWay = obj.getString("saleWay");
+				if(StringUtils.isNotBlank(saleWay)){
+					SaleWayEnum saleWayEnum = SaleWayEnum.enumValueOf(saleWay);
+					if(saleWayEnum == null) {
+						obj.element("error", "经营方式错误");
+						continue;
+					}
 				}
 			}
 			
-			//批发价 特殊处理
-			String wholesalePrice = obj.getString("wholesalePrice");
-			if(StringUtils.isBlank(wholesalePrice)){
-				obj.put("wholesalePrice", "0.00");
-			}else{
-				try {
-					Double.parseDouble(wholesalePrice);
-				} catch (Exception e) {
-					obj.put("wholesalePrice", "0.00");
+			//商品类型（0普通商品，1制单组合，2制单拆分，3捆绑商品，4自动转货
+			boolean typeFlag = obj.containsKey("type");
+			if(typeFlag){
+				String type = obj.getString("type");
+				if(StringUtils.isNotBlank(type)){
+					GoodsTypeEnum goodsTypeEnum = GoodsTypeEnum.enumValueOf(type);
+					if(goodsTypeEnum==null){
+						obj.element("error", "商品类型不存在");
+						continue;
+					}
 				}
 			}
 			
-			//配送价 特殊处理
-			String distributionPrice = obj.getString("distributionPrice");
-			if(StringUtils.isBlank(distributionPrice)){
-				obj.put("distributionPrice", "0.00");
-			}else{
-				try {
-					Double.parseDouble(distributionPrice);
-				} catch (Exception e) {
-					obj.put("distributionPrice", "0.00");
-				}
+			//进货规格
+			boolean purchaseSpecFlag = checkCommonSpec(obj, "purchaseSpec", "进货规格只能为数字");
+			if(!purchaseSpecFlag ){
+				continue;
 			}
 			
-			//最低售价 特殊处理
-			String lowestPrice = obj.getString("lowestPrice");
-			if(StringUtils.isBlank(lowestPrice)){
-				obj.put("lowestPrice", "0.00");
-			}else{
-				try {
-					Double.parseDouble(lowestPrice);
-				} catch (Exception e) {
-					obj.put("lowestPrice", "0.00");
-				}
+			//配送规格
+			boolean distributionSpecFlag = checkCommonSpec(obj, "distributionSpec", "配送规格只能为数字");
+			if(!distributionSpecFlag ){
+				continue;
 			}
 			
-			//会员价 特殊处理
-			String vipPrice = obj.getString("vipPrice");
-			if(StringUtils.isBlank(vipPrice)){
-				obj.put("vipPrice", salePrice);
-			}else{
-				try {
-					Double.parseDouble(vipPrice);
-				} catch (Exception e) {
-					obj.put("vipPrice", salePrice);
-				}
+			
+			//批发价
+			boolean wholesalePriceFlag = checkNotRequiredCommonPrice(obj, "wholesalePrice", "批发价只能为数字");
+			if(!wholesalePriceFlag){
+				continue;
 			}
 			
-			//销项税率 特殊处理
-			String outputTax = obj.getString("outputTax");
-			if(StringUtils.isNotBlank(outputTax)){
-				try {
-					Double.parseDouble(outputTax);
-				} catch (Exception e) {
-					obj.put("outputTax", "");
-				}
+			//配送价
+			boolean distributionPriceFlag = checkNotRequiredCommonPrice(obj, "distributionPrice", "配送价只能为数字");
+			if(!distributionPriceFlag){
+				continue;
 			}
 			
-			//进项税率 特殊处理
-			String inputTax = obj.getString("inputTax");
-			if(StringUtils.isNotBlank(inputTax)){
-				try {
-					Double.parseDouble(inputTax);
-				} catch (Exception e) {
-					obj.put("inputTax", "");
-				}
+			//最低售价
+			boolean lowestPriceFlag = checkNotRequiredCommonPrice(obj, "lowestPrice", "最低售价只能为数字");
+			if(!lowestPriceFlag){
+				continue;
+			}
+			
+			//会员价
+			boolean vipPriceFlag = checkVipPrice(obj, "vipPrice", "会员价只能为数字");
+			if(!vipPriceFlag){
+				continue;
+			}
+			
+			//销项税率
+			boolean outputTaxFlag = checkNotRequiredCommonPrice(obj, "outputTax", "销项税率只能为数字");
+			if(!outputTaxFlag){
+				continue;
+			}
+			
+			//进项税率
+			boolean inputTaxFlag = checkNotRequiredCommonPrice(obj, "inputTax", "进项税率只能为数字");
+			if(!inputTaxFlag){
+				continue;
 			}
 			
 			//放入map
@@ -334,6 +295,125 @@ public class NewGoodsApplyImportHandle implements GoodsSelectImportHandle {
 		}
 		//刷新
 		refreshSuccessData();
+	}
+	
+	
+	/**
+	 * @Description: 价格非必填校验
+	 * @param obj 对象
+	 * @param colkey 字段key
+	 * @param msg 提示信息
+	 * @return   
+	 * @return boolean  
+	 * @throws
+	 * @author zhongy
+	 * @date 2017年2月24日
+	 */
+	private boolean checkVipPrice(JSONObject obj,String colkey,String msg) {
+		String salePrice = obj.getString("salePrice");
+		boolean colFlag = obj.containsKey(colkey);
+		if(colFlag){
+			String price = obj.getString(colkey);
+			if(StringUtils.isBlank(price)){
+				obj.put(colkey, salePrice);
+			}else{
+				try {
+					Double.parseDouble(price);
+				} catch (Exception e) {
+					obj.element("error", msg);
+					return false;
+				}
+			}
+		}else{
+			obj.put(colkey, salePrice);
+		}
+		return true;
+	}
+	/**
+	 * @Description: 价格非必填校验
+	 * @param obj 对象
+	 * @param colkey 字段key
+	 * @param msg 提示信息
+	 * @return   
+	 * @return boolean  
+	 * @throws
+	 * @author zhongy
+	 * @date 2017年2月24日
+	 */
+	private boolean checkNotRequiredCommonPrice(JSONObject obj,String colkey,String msg) {
+		boolean colFlag = obj.containsKey(colkey);
+		if(colFlag){
+			String price = obj.getString(colkey);
+			if(StringUtils.isNotBlank(price)){
+			try {
+				Double.parseDouble(price);
+			} catch (Exception e) {
+				obj.element("error", msg);
+				return false;
+			}
+		  }
+		}
+		return true;
+	}
+	
+	/**
+	 * @Description: 价格必填校验
+	 * @param obj 对象
+	 * @param colkey 字段key
+	 * @param msg 提示信息
+	 * @return   
+	 * @return boolean  
+	 * @throws
+	 * @author zhongy
+	 * @date 2017年2月24日
+	 */
+	private boolean checkRequiredCommonPrice(JSONObject obj,String colkey,String msg1,String msg2) {
+		boolean colFlag = obj.containsKey(colkey);
+		if(colFlag){
+			String price = obj.getString(colkey);
+			if(StringUtils.isBlank(price)){
+				obj.element("error", msg2);
+				return false;
+			}else{
+				try {
+					Double.parseDouble(price);
+				} catch (Exception e) {
+					obj.element("error", msg1);
+					return false;
+				}
+			}
+		}else{
+			obj.element("error", msg2);
+			return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * @Description: 规格校验
+	 * @param obj 对象
+	 * @param colkey 字段key
+	 * @param msg 提示信息
+	 * @return   
+	 * @return boolean  
+	 * @throws
+	 * @author zhongy
+	 * @date 2017年2月24日
+	 */
+	private boolean checkCommonSpec(JSONObject obj,String colkey,String msg) {
+		boolean flag = obj.containsKey(colkey);
+		if(flag){
+			String spec = obj.getString(colkey);
+			if(StringUtils.isNotBlank(spec)){
+				try {
+					Double.parseDouble(spec);
+				} catch (Exception e) {
+					obj.element("error", msg);
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 	
 	/**
@@ -348,7 +428,10 @@ public class NewGoodsApplyImportHandle implements GoodsSelectImportHandle {
 		for (JSONObject jsonObject : excelListFullData) {
 			if(jsonObject.get("error") == null){
 				excelListSuccessData.add(jsonObject);
-				excelSuccessBarCode.add(jsonObject.getString("barCode"));
+				boolean barCodeFlag = jsonObject.containsKey("barCode");
+				if(barCodeFlag){
+					excelSuccessBarCode.add(jsonObject.getString("barCode"));
+				}
 			}else{
 				excelListErrorData.add(jsonObject);
 			}
@@ -362,9 +445,12 @@ public class NewGoodsApplyImportHandle implements GoodsSelectImportHandle {
 		for (int i = 0; i < arr.size(); i++) {
 			JSONObject obj = arr.getJSONObject(i);	
 			
-			String barCode = obj.getString("barCode");
+			boolean flagBarCode = obj.containsKey("barCode");
 			JSONObject excelJson = new JSONObject();
-			excelJson = getSuccessDataByBarCode(barCode);
+			if(flagBarCode){
+				String barCode = obj.getString("barCode");
+				excelJson = getSuccessDataByBarCode(barCode);
+			}
 			
 			//忽略第一列,合并属性
 			for (int j = 1; j < excelField.length; j++) {

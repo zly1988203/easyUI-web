@@ -35,7 +35,10 @@ pageEncoding="UTF-8"%>
 						<div class="umar-r10 uw-60 ut-r">商品名称:</div>
 						<div class="ub">
 							<input id="skuName" name="skuName" class="uinp easyui-validatebox"
-								   data-options="required:true" maxlength="20">
+								   data-options="required:true" maxlength="20"
+								   onkeyup="value=value.replace(/[^\#\\\_\-\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')" 
+								   onpaste="value=value.replace(/[^\#\\\_\-\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')" 
+								   oncontextmenu = "value=value.replace(/[^\#\\\_\-\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')">
 						</div>
 						<i class="uc-red">*</i>
 					</div>
@@ -195,25 +198,27 @@ pageEncoding="UTF-8"%>
 				<div class="ub upad-4">
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">零售价:</div>
-						<input id="salePrice" name="salePrice" style="width: 204px;"
-							   class="uinp uinp-no-more easyui-numberbox easyui-validatebox"
-							   data-options="min:0,precision:4,readonly:true" type="text"
-							   align="right" maxlength="10" onkeyup="checkPrice(this);"
-							   onafterpaste="checkPrice(this);">
+						<div class="ub">
+	                     <input id="salePrice" name="salePrice" value="0" class="uinp easyui-numberbox easyui-validatebox uw-200"
+	                    style="width: 204px;" data-options="min:0,precision:4,required:true" type="text" maxlength="10" 
+	                    onkeyup="checkPrice(this);" onafterpaste="checkPrice(this);"  >
+	                    <i class="uc-red">*</i>
+	                   </div>
 					</div>
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">进货价:</div>
-						<input id="purchasePrice" name="purchasePrice" style="width: 204px;"
-							   class="uinp uinp-no-more easyui-numberbox easyui-validatebox"
-							   data-options="min:0,precision:4,readonly:true" type="text"
-							   maxlength="10" onkeyup="checkPrice(this);"
-							   onafterpaste="checkPrice(this);">
+						<div class="ub">
+	                      <input id="purchasePrice" name="purchasePrice" value="0" class="uinp easyui-numberbox easyui-validatebox"
+	                     style="width: 204px;" data-options="min:0,precision:4,required:true" type="text" maxlength="10" onkeyup="checkPrice(this);" 
+	                     onafterpaste="checkPrice(this);">
+		                   <i class="uc-red">*</i>
+		                 </div>
 					</div>
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">批发价:</div>
 						<input id="wholesalePrice" name="wholesalePrice" style="width: 204px;"
-							   class="uinp uinp-no-more easyui-numberbox easyui-validatebox"
-							   data-options="min:0,precision:4,readonly:true" type="text"
+							   class="uinp easyui-numberbox easyui-validatebox"
+							   data-options="min:0,precision:4" type="text"
 							   maxlength="10" onkeyup="checkPrice(this);"
 							   onafterpaste="checkPrice(this);">
 					</div>
@@ -222,8 +227,8 @@ pageEncoding="UTF-8"%>
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">配送价:</div>
 						<input id="distributionPrice" name="distributionPrice" style="width: 204px;"
-							   class="uinp uinp-no-more easyui-numberbox easyui-validatebox"
-							   data-options="min:0,precision:4,readonly:true" type="text"
+							   class="uinp easyui-numberbox easyui-validatebox"
+							   data-options="min:0,precision:4" type="text"
 							   maxlength="10" onkeyup="checkPrice(this);"
 							   onafterpaste="checkPrice(this);">
 					</div>
@@ -238,8 +243,8 @@ pageEncoding="UTF-8"%>
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">会员价:</div>
 						<input id="vipPrice" name="vipPrice" style="width: 204px;"
-							   class="uinp uinp-no-more easyui-numberbox easyui-validatebox"
-							   data-options="min:0,precision:4,readonly:true" type="text"
+							   class="uinp easyui-numberbox easyui-validatebox"
+							   data-options="min:0,precision:4" type="text"
 							   maxlength="10" onkeyup="checkPrice(this);"
 							   onafterpaste="checkPrice(this);">
 					</div>
@@ -247,16 +252,16 @@ pageEncoding="UTF-8"%>
 				<div class="ub upad-4">
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">毛利值:</div>
-						<input id="grossProfit" name="grossProfitPercent" style="width: 204px;"
+						<input id="grossProfit" name="grossProfit" style="width: 204px;"
 							   class="uinp uinp-no-more easyui-numberbox easyui-validatebox"
 							   data-options="min:0,precision:2" type="text" readonly="readonly">
 					</div>
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">毛利率:</div>
-						<input id="grossProfitPercent" name="grossProfitPercent" style="width: 204px;"
+						<input id="marginTax" name="marginTax" style="width: 204px;"
 							   class="uinp uinp-no-more easyui-numberbox easyui-validatebox"
 							   data-options="min:0,precision:2" type="text"
-							   style="text-align: right" readonly="readonly">
+							   style="text-align: right" readonly="readonly">%
 					</div>
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">销项税率:</div>
@@ -288,7 +293,8 @@ pageEncoding="UTF-8"%>
             </div>
 				<div class="ub upad-4">
 					<div class="umar-r10 uw-60 ut-r">备注:</div>
-					<textarea id="remark" name="remark" class="uh-40 umar-r30 ubor" maxlength="100" style="width: 800px;"></textarea>
+					<textarea id="remark" name="remark" class="uh-40 umar-r30 ubor" maxlength="100" style="width: 800px;"
+					placeholder="计件秤重商品对类别有特殊说明、商品为组合商品有成份关系的，请在备注中填写。"></textarea>
 				</div>
 				<div class="ub umar-l32" style="position: absolute;left: 0px;">
 					<div class="ub ub-ac umar-r40">

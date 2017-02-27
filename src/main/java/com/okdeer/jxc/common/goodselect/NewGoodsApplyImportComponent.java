@@ -8,6 +8,7 @@ package com.okdeer.jxc.common.goodselect;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ import java.util.concurrent.TimeUnit;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -27,11 +29,10 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.okdeer.base.common.exception.ServiceException;
-import com.okdeer.jxc.common.enums.GoodsStatusEnum;
+import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.enums.GoodsTypeEnum;
 import com.okdeer.jxc.common.enums.PricingTypeEnum;
 import com.okdeer.jxc.common.enums.SaleWayEnum;
-import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.goods.entity.GoodsBrand;
 import com.okdeer.jxc.goods.entity.GoodsCategory;
 import com.okdeer.jxc.goods.entity.GoodsSelect;
@@ -48,7 +49,6 @@ import com.okdeer.jxc.utils.poi.ExcelExportUtil;
 import com.okdeer.jxc.utils.poi.ExcelReaderUtil;
 
 import net.sf.json.JSONObject;
-
 
 /**
  * 商品选择，通用excel导入组件
@@ -193,16 +193,10 @@ public class NewGoodsApplyImportComponent {
 			Map<String, String> map_branchid) throws ServiceException {
 		//1、读取excel
 		List<JSONObject> excelList = ExcelReaderUtil.readExcel(fileName, is, fields);
-		if(excelList!=null && excelList.size()>0){
-			//移除掉头部
-			excelList.remove(0);
-		}
-		
 		List<GoodsSelect> dbList1 = new ArrayList<GoodsSelect>(); 
 		
 		//2、校验导入数据
 		NewGoodsApplyImportHandle goodsSelectImportHandle = new NewGoodsApplyImportHandle(excelList, fields, businessValid);
-		
 		
 		//3 获取到excel导入成功数据
 		handelExcelSuccessData(goodsSelectImportHandle);
@@ -212,7 +206,8 @@ public class NewGoodsApplyImportComponent {
 		
 		//5 将成功校验通过的数据保存在数据库中
 		List<JSONObject> list = goodsSelectImportHandle.getExcelListSuccessData();
-		handelEnumData(list);
+		
+		initDefaultData(list);
 		
 		//6 将数据保存到数据库中
 		String jsonStr = JSON.toJSONString(list);
@@ -265,52 +260,6 @@ public class NewGoodsApplyImportComponent {
 	private void handelExcelSuccessData( NewGoodsApplyImportHandle goodsSelectImportHandle) {
 		List<JSONObject> successDatas =  goodsSelectImportHandle.getExcelListSuccessData();
 		for(JSONObject obj : successDatas) {
-			//类别校验
-			String categoryCode = obj.getString("categoryCode");
-			if(StringUtils.isBlank(categoryCode)){
-				obj.element("error", "商品类别编号为空");
-				continue;
-			}else{
-				List<GoodsCategory> goodsCategory = goodsCategoryService.queryByCategoryCode(categoryCode);
-				if(goodsCategory==null){
-					obj.element("error", "商品类别不存在");
-					continue;
-				}else{
-					obj.put("categoryId", goodsCategory.get(0).getGoodsCategoryId());
-					obj.put("categoryName", goodsCategory.get(0).getCategoryName());
-				}
-			}
-			
-			//品牌校验
-			String brandName = obj.getString("brandName");
-			String brandCode = null;
-			GoodsBrand goodsBrand = new GoodsBrand();
-			if(StringUtils.isNotBlank(brandName)){
-				goodsBrand = goodsBrandService.queryByNameOrCode(brandName, brandCode);
-				if(goodsBrand==null){
-					goodsBrand = goodsBrandService.queryByNameOrCode("其他",brandCode);
-				}
-				obj.put("brandCode", goodsBrand.getBrandCode());
-				obj.put("brandName", goodsBrand.getBrandName());
-				obj.put("brandId", goodsBrand.getId());
-			}else{
-			    goodsBrand = goodsBrandService.queryByNameOrCode("其他",brandCode);
-				obj.put("brandCode", goodsBrand.getBrandCode());
-				obj.put("brandName", goodsBrand.getBrandName());
-				obj.put("brandId", goodsBrand.getId());
-			}
-			
-			//供应商校验
-			Supplier supplier = supplierService.getDefaultSupplierByBranchId(UserUtil.getCurrBranchId());
-			obj.put("supplierId", supplier.getId());
-			obj.put("supplierCode", supplier.getSupplierCode());
-			obj.put("supplierName", supplier.getSupplierName());
-			obj.put("branchId", UserUtil.getCurrBranchId());
-			obj.put("createUserId", UserUtil.getCurrUserId());
-			
-			
-			//商品名称、条码校验
-			String barCode = obj.getString("barCode");
 			String skuName = obj.getString("skuName");
 			if(StringUtils.isNotBlank(skuName)) {
 				//1 检查商品名称在新品申请库中重复
@@ -328,19 +277,23 @@ public class NewGoodsApplyImportComponent {
 				} 
 			}
 			
-			if(StringUtils.isNotBlank(barCode)) {
-				//3  查询新品申请库商品条码是否存在
-				Integer barCodeSum = newGoodsApplyServiceApi.queryCountBySkuName(barCode.trim(), "");
-				if(barCodeSum>0) {
-					obj.element("error", "商品条码在新品申请库中重复");
-					continue;
-				}
-				
-				//4  查询标准库商品条码是否存在
-				boolean isExistsBarCode = goodsSkuService.isExistsBarCodeByOrdinary(barCode.trim(),"");
-				if(isExistsBarCode) {
-					obj.element("error", "商品条码在标准库中重复");
-					continue;
+			boolean barCodeFlag = obj.containsKey("barCode");
+			if(barCodeFlag){
+				String barCode = obj.getString("barCode");
+				if(StringUtils.isNotBlank(barCode)) {
+					//3  查询新品申请库商品条码是否存在
+					Integer barCodeSum = newGoodsApplyServiceApi.queryCountBySkuName(barCode.trim(), "");
+					if(barCodeSum>0) {
+						obj.element("error", "商品条码在新品申请库中重复");
+						continue;
+					}
+					
+					//4  查询标准库商品条码是否存在
+					boolean isExistsBarCode = goodsSkuService.isExistsBarCodeByOrdinary(barCode.trim(),"");
+					if(isExistsBarCode) {
+						obj.element("error", "商品条码在标准库中重复");
+						continue;
+					}
 				}
 			}
 		}
@@ -381,18 +334,187 @@ public class NewGoodsApplyImportComponent {
 	}
 
 	//处理数据枚举类型
-	private void handelEnumData(List<JSONObject> list){
+	private void initDefaultData(List<JSONObject> list){
 		for(JSONObject obj : list) {
-			String saleWay = (String)obj.get("saleWay");
-			obj.put("saleWay", SaleWayEnum.enumValueOf(saleWay).getKey());
 			
-			String pricingType = (String)obj.get("pricingType");
-			obj.put("pricingType", PricingTypeEnum.enumValueOf(pricingType).getOrdinal());
+			//计价方式：0普通，1计重、2计件
+			boolean pricingTypeFlag = obj.containsKey("pricingType");
+			String pricingType = "";
+			if(pricingTypeFlag){
+				pricingType = obj.getString("pricingType");
+				if(StringUtils.isBlank(pricingType)){
+					pricingType = PricingTypeEnum.ORDINARY.getValue();
+					obj.put("pricingType",PricingTypeEnum.enumValueOf(pricingType).getOrdinal());
+				}else{
+					obj.put("pricingType",PricingTypeEnum.enumValueOf(pricingType).getOrdinal());
+				}
+			}else{
+				pricingType = PricingTypeEnum.ORDINARY.getValue();
+				obj.put("pricingType",PricingTypeEnum.enumValueOf(pricingType).getOrdinal());
+			}
 			
-			String type = (String)obj.get("type");
-			obj.put("type", GoodsTypeEnum.enumValueOf(type).getOrdinal());
-			String status = (String)obj.get("status");
-			obj.put("goodsStatus", GoodsStatusEnum.enumValueOf(status).getOrdinal());
+			//经营方式：A:购销，B:代销、C:联营、D:扣率代销
+			boolean saleWayFlag = obj.containsKey("saleWay");
+			if(saleWayFlag){
+				String saleWay = obj.getString("saleWay");
+				if(StringUtils.isBlank(saleWay)){
+					obj.put("saleWay", SaleWayEnum.PURCHASENSALE.getKey());
+				}else{
+					obj.put("saleWay", SaleWayEnum.PURCHASENSALE.getKey());
+				}
+			}else{
+				obj.put("saleWay", SaleWayEnum.PURCHASENSALE.getKey());
+			}
+			
+			//商品类型（0普通商品，1制单组合，2制单拆分，3捆绑商品，4自动转货
+			boolean typeFlag = obj.containsKey("type");
+			if(typeFlag){
+				String type = obj.getString("type");
+				if(StringUtils.isBlank(type)){
+					obj.put("type", GoodsTypeEnum.ORDINARY.getOrdinal());
+				}else{
+					obj.put("type", GoodsTypeEnum.enumValueOf(type).getOrdinal());
+				}
+			}else{
+				obj.put("type", GoodsTypeEnum.ORDINARY.getOrdinal());
+			}
+			
+			//批发价
+			initNotRequiredCommonPrice(obj, "wholesalePrice");
+			
+			//配送价
+			initNotRequiredCommonPrice(obj, "distributionPrice");
+			
+			//最低售价
+			initNotRequiredCommonPrice(obj, "lowestPrice");
+			
+			//会员价
+			initNotRequiredCommonPrice(obj, "vipPrice");
+						
+			//销项税率
+			initNotRequiredCommonPrice(obj, "outputTax");
+			
+			//进项税率
+			initNotRequiredCommonPrice(obj, "inputTax");
+			
+			//设置毛利率、毛利值
+			setGrossProfit(obj);
+			
+			//初始化类别
+			initCategory(obj);
+			
+			//初始化品牌
+			initBrand(obj);
+			
+			//初始化供应商
+			initSupplier(obj);
+		}
+	}
+	
+	//设置毛利率、毛利值
+	private void setGrossProfit(JSONObject obj) {
+		BigDecimal salePrice =BigDecimal.valueOf(Double.valueOf(obj.getString("salePrice")));
+		BigDecimal purchasePrice =BigDecimal.valueOf(Double.valueOf(obj.getString("purchasePrice")));
+		BigDecimal grossProfit =  salePrice.subtract(purchasePrice);
+		BigDecimal parcent = new BigDecimal("100");
+		BigDecimal marginTax  = new BigDecimal(0.00);
+		if(salePrice.compareTo(new BigDecimal(0))==0) {
+			obj.put("marginTax", marginTax);
+		}else{
+			marginTax = grossProfit.divide(salePrice, Constant.TWO);
+			obj.put("marginTax", marginTax.multiply(parcent));
+		}
+		
+		obj.put("grossProfit", String.valueOf(grossProfit));
+	    
+		
+	}
+
+	//初始化类别
+	private void initCategory(JSONObject obj) {
+		boolean categoryCodeFlag = obj.containsKey("categoryCode");
+		if(categoryCodeFlag){
+			String categoryCode = obj.getString("categoryCode");
+			if(StringUtils.isNotBlank(categoryCode)){
+				List<GoodsCategory> goodsCategory = goodsCategoryService.queryByCategoryCode(categoryCode);
+				if(CollectionUtils.isNotEmpty(goodsCategory)){
+					obj.put("categoryId", goodsCategory.get(0).getGoodsCategoryId());
+					obj.put("categoryName", goodsCategory.get(0).getCategoryName());
+				}else{
+					setCategory(obj);
+				}
+			}else{
+				setCategory(obj);
+			}
+		}else{
+			setCategory(obj);
+		}
+	}
+	
+	//初始化品牌
+	private void initBrand(JSONObject obj) {
+		boolean brandNameFlag = obj.containsKey("brandName");
+		GoodsBrand goodsBrand = new GoodsBrand();
+		String brandCode = null;
+		if(brandNameFlag){
+			String brandName = obj.getString("brandName");
+			if(StringUtils.isNotBlank(brandName)){
+				goodsBrand = goodsBrandService.queryByNameOrCode(brandName, brandCode);
+				if(goodsBrand==null){
+					goodsBrand = goodsBrandService.queryByNameOrCode("其他",brandCode);
+				}
+				setBrand(obj, goodsBrand);
+			}else{
+				goodsBrand = goodsBrandService.queryByNameOrCode("其他",brandCode);
+				setBrand(obj, goodsBrand);
+			}
+		}else{
+			goodsBrand = goodsBrandService.queryByNameOrCode("其他",brandCode);
+			setBrand(obj, goodsBrand);
+		}
+	}
+	
+	//设置默认品牌
+	private void setBrand(JSONObject obj,GoodsBrand goodsBrand) {
+		obj.put("brandCode", goodsBrand.getBrandCode());
+		obj.put("brandName", goodsBrand.getBrandName());
+		obj.put("brandId", goodsBrand.getId());
+	}
+	
+	//设置默认类别
+	private void setCategory(JSONObject obj){
+		List<GoodsCategory> goodsCategory = goodsCategoryService.queryByCategoryCode("990101");
+		obj.put("categoryId", goodsCategory.get(0).getGoodsCategoryId());
+		obj.put("categoryName", goodsCategory.get(0).getCategoryName());
+	}
+	
+	//初始化供应商
+	private void initSupplier(JSONObject obj) {
+		Supplier supplier = supplierService.getDefaultSupplierByBranchId(UserUtil.getCurrBranchId());
+		obj.put("supplierId", supplier.getId());
+		obj.put("supplierCode", supplier.getSupplierCode());
+		obj.put("supplierName", supplier.getSupplierName());
+		obj.put("branchId", UserUtil.getCurrBranchId());
+		obj.put("createUserId", UserUtil.getCurrUserId());
+	}
+	
+	/**
+	 * @Description: 初始化非必填价格
+	 * @param obj 对象
+	 * @param colkey 字段key
+	 * @throws
+	 * @author zhongy
+	 * @date 2017年2月24日
+	 */
+	private void initNotRequiredCommonPrice(JSONObject obj,String colkey) {
+		boolean colFlag = obj.containsKey(colkey);
+		if(colFlag){
+			String price = obj.getString(colkey);
+			if(StringUtils.isBlank(price)){
+				obj.put(colkey, "0.00");
+			}
+		}else{
+			obj.put(colkey, "0.00");
 		}
 	}
 }

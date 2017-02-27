@@ -235,6 +235,15 @@ function deleteCombineSplit(){
 
 //保存
 function saveCombineSplit(){
+	var mainNum = $("#totalNum").numberbox('getValue');
+	if(!mainNum || !$.trim(mainNum)){
+		messager("请输入主商品数量");
+		return;
+	}
+	if(parseFloat(mainNum)==0){
+		messager("主商品数量不能为0");
+		return;
+	}
 	$("#"+splicViewGID).datagrid("endEdit", gridHandel.getSelectRowIndex());
     var rows = gridHandel.getRowsWhere({skuName:'1'});
     $(gridHandel.getGridName()).datagrid("loadData",rows);
