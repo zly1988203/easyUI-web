@@ -324,7 +324,7 @@ function initDatagridArchives(){
                        var vprice = (row.salePrice - row.purchasePrice)/row.salePrice *100
                        return (vprice||0).toFixed(2)+"%";
                    }
-                   return "1";
+                   return "0.00";
                }
            },
            {field:'remark',title:'备注',width:'200px',align:'left',hidden:true}
@@ -572,6 +572,7 @@ function toImportproduct(){
         type:1,
     }
     new newGoodsApplyUploadFile(function(data){
+    	$(".radioItem").eq(0).prop("checked",true);
     	goodsSearch();
     },param)
 }
