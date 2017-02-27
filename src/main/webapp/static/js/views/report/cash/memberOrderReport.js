@@ -276,11 +276,6 @@ var resetForm = function(){
 	$("#queryForm")[0].reset();
 };
 
-function testData(){
-	var branchId = $("#branchId").val();
-	$("#queryForm").attr("action",contextPath+"/order/base/addOrderView/"+branchId);
-	$("#queryForm").submit();
-}
 
 
 

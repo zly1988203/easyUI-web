@@ -29,7 +29,6 @@
                 </shiro:hasPermission>
 	                <div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 	                <div class="ubtns-item" onclick="toClose()">退出</div>
-                    <div class="ubtns-item" onclick="testData()">测试</div>
                 </div>
 	           	<!-- 引入时间选择控件 -->
 	            <%@ include file="/WEB-INF/views/component/dateSelect.jsp"%>
