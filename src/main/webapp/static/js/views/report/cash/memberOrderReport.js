@@ -48,15 +48,14 @@ function initMemberOrderAllGrid() {
         showFooter:true,
         height:'100%',
         columns: [[
-            {field: 'loginName', title: '会员名称', width: 100, align: 'left',
-            	formatter:function(value,row,index){
+            {field: 'phone', title: '会员手机号', width: 100, align: 'left',
+				formatter:function(value,row,index){
 					if(!value){
-	                    return '<div class="ub ub-pc ufw-b">合计</div> '
+						return '<div class="ub ub-pc ufw-b">合计</div> '
 					}
 					return value;
 				}
-            },
-            {field: 'phone', title: '会员手机号', width: 100, align: 'left',},
+			},
             {field: 'orderNo', title: '订单编号', width: 160, align: 'left'},
 			{field: 'saleType', title: '订单类型', width: 100, align: 'left'},
             {field: 'expCreateTime', title: '消费时间', width: 150, align: 'center'},
@@ -93,7 +92,7 @@ function initMemberOrderListGrid() {
         pageSize : pageSize,
         showFooter:true,
         columns: [[
-			{field: 'loginName', title: '会员名称', width: 100, align: 'left',
+			{field: 'phone', title: '会员手机号', width: 100, align: 'left',
 				formatter:function(value,row,index){
 					if(!value){
 						return '<div class="ub ub-pc ufw-b">合计</div> '
@@ -101,7 +100,6 @@ function initMemberOrderListGrid() {
 					return value;
 				}
 			},
-			{field: 'phone', title: '会员手机号', width: 100, align: 'left',},
 			{field: 'orderNo', title: '订单编号', width: 160, align: 'left'},
 			{field: 'branchName', title: '消费机构', width: 100, align: 'left'},
 			{field: 'expCreateTime', title: '消费时间', width: 150, align: 'center'},
@@ -277,3 +275,22 @@ function printReport(){
 var resetForm = function(){
 	$("#queryForm")[0].reset();
 };
+
+function testData(){
+	var branchId = $("#branchId").val();
+	$("#queryForm").attr("action",contextPath+"/order/base/addOrderView/"+branchId);
+	$("#queryForm").submit();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
