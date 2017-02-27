@@ -154,30 +154,32 @@ public class NewGoodsApplyImportHandle implements GoodsSelectImportHandle {
 			
 			//计价方式：0普通，1计重、2计件
 			boolean pricingTypeFlag = obj.containsKey("pricingType");
-			String pricingType = "";
+			String oldPricingType = "";
+			String newPricingType = "";
 			if(pricingTypeFlag){
-				pricingType = obj.getString("pricingType");
-				if(StringUtils.isNotBlank(pricingType)){
-					PricingTypeEnum pricingTypeEnum = PricingTypeEnum.enumValueOf(pricingType);
+				oldPricingType = obj.getString("pricingType");
+				if(StringUtils.isNotBlank(oldPricingType)){
+					PricingTypeEnum pricingTypeEnum = PricingTypeEnum.enumValueOf(oldPricingType);
 					if(pricingTypeEnum == null) {
 						obj.element("error", "计价方式错误");
 						continue;
 					}
 				}else{
-					pricingType = PricingTypeEnum.ORDINARY.getValue();
-					obj.put("pricingType",pricingType);
+					newPricingType = PricingTypeEnum.ORDINARY.getValue();
+					obj.put("pricingType",newPricingType);
 				}
 			}else{
-				pricingType = PricingTypeEnum.ORDINARY.getValue();
-				obj.put("pricingType",pricingType);
+				newPricingType = PricingTypeEnum.ORDINARY.getValue();
+				obj.put("pricingType",newPricingType);
 			}
 			
 			//普通商品:条码（必填项）：条码不能重复,如果商品为计件、计重的商品，则条码可为空。
 			String barCode = "";
 			boolean barCodeFlag = obj.containsKey("barCode");
-			if(String.valueOf(PricingTypeEnum.ORDINARY.getValue()).equals(pricingType)) {
+			if(StringUtils.isBlank(oldPricingType)) {
 				if(!barCodeFlag){
 					obj.element("error", "商品条码为空");
+					obj.put("pricingType",oldPricingType);
 					continue;
 				}
 				barCode = obj.getString("barCode");
@@ -219,13 +221,8 @@ public class NewGoodsApplyImportHandle implements GoodsSelectImportHandle {
 						obj.element("error", "经营方式错误");
 						continue;
 					}
-				}else{
-					obj.put("saleWay", SaleWayEnum.PURCHASENSALE.getValue());
 				}
-			}else{
-				obj.put("saleWay", SaleWayEnum.PURCHASENSALE.getValue());
 			}
-			
 			
 			//商品类型（0普通商品，1制单组合，2制单拆分，3捆绑商品，4自动转货
 			boolean typeFlag = obj.containsKey("type");
@@ -237,11 +234,7 @@ public class NewGoodsApplyImportHandle implements GoodsSelectImportHandle {
 						obj.element("error", "商品类型不存在");
 						continue;
 					}
-				}else{
-					obj.put("type", GoodsTypeEnum.ORDINARY.getValue());
 				}
-			}else{
-				obj.put("type", GoodsTypeEnum.ORDINARY.getValue());
 			}
 			
 			//进货规格
@@ -280,7 +273,6 @@ public class NewGoodsApplyImportHandle implements GoodsSelectImportHandle {
 			if(!vipPriceFlag){
 				continue;
 			}
-			
 			
 			//销项税率
 			boolean outputTaxFlag = checkNotRequiredCommonPrice(obj, "outputTax", "销项税率只能为数字");
@@ -352,18 +344,14 @@ public class NewGoodsApplyImportHandle implements GoodsSelectImportHandle {
 		boolean colFlag = obj.containsKey(colkey);
 		if(colFlag){
 			String price = obj.getString(colkey);
-			if(StringUtils.isBlank(price)){
-				obj.put(colkey, "0.00");
-			}else{
-				try {
-					Double.parseDouble(price);
-				} catch (Exception e) {
-					obj.element("error", msg);
-					return false;
-				}
+			if(StringUtils.isNotBlank(price)){
+			try {
+				Double.parseDouble(price);
+			} catch (Exception e) {
+				obj.element("error", msg);
+				return false;
 			}
-		}else{
-			obj.put(colkey, "0.00");
+		  }
 		}
 		return true;
 	}

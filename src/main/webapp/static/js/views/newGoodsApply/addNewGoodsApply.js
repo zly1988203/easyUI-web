@@ -348,8 +348,7 @@ function setGrossProfitPercent(){
 	var salePrice = parseFloat($("#salePrice").val().trim());
 	var purchasePrice = parseFloat($("#purchasePrice").val().trim());
 	var grossProfitPercent = (salePrice - purchasePrice) / salePrice;
-//	$("#grossProfitPercent").val(grossProfitPercent.toFixed(2));
-	$("#grossProfitPercent").textbox("setValue",grossProfitPercent.toFixed(2)*100+"%");
+	$("#marginTax").numberbox("setValue",grossProfitPercent.toFixed(2)*100);
 }
 
 //商品保存

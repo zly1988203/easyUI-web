@@ -9,9 +9,9 @@ $(function(){
     
     $(".radioItem").on("change",function(){
     	rotaType = $(this).val();
-    	$('#rotationReport').datagrid('loadData',{total:0,rows:[]}); 
-//    	initDatagridRequire();
-//    	queryForm();
+    	$("#rotationReport").datagrid('options').url = "";
+    	initDatagridRequire();
+    	$('#rotationReport').datagrid({data:[]}); 
     })
 });
 

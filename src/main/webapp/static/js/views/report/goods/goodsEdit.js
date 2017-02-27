@@ -97,9 +97,9 @@ function setGrossProfitPercent(){
 //供应商公共组件
 function getGoodsPupplier(){
 	new publicSupplierService(function(data){
-		$("#supplierId").val(data.id);
-		$("#supplier").val(data.supplierName);
-		$("#saleWayName").val(data.saleWayName);
+		$("#formEdit #supplierId").val(data.id);
+		$("#formEdit #supplier").val(data.supplierName);
+		$("#formEdit #saleWayName").val(data.saleWayName);
 		//经营方式
 		if(data.saleWayName=='购销'||data.saleWayName=='代销'){
 			$("#supplierRate").textbox("setValue","");
