@@ -114,7 +114,7 @@ public class MemberOrderController extends BasePrintController<TradeOrderCountCo
 			qo.setEndTime(DateUtils.getNextDay(qo.getEndTime()));
 			List<MemberOrderReportVo> exportList = memberOrderServiceApi.queryMemberOrderAlls(qo);
 			MemberOrderReportVo vo = memberOrderServiceApi.queryMemberOrderAllSum(qo);
-			vo.setLoginName("合计：");
+			vo.setPhone("合计：");
 			exportList.add(vo);
 			String fileName = "会员消费汇总";
 			String templateName = ExportExcelConstant.MEMBER_ORDER_ALL;
@@ -171,7 +171,7 @@ public class MemberOrderController extends BasePrintController<TradeOrderCountCo
 			qo.setEndTime(DateUtils.getNextDay(qo.getEndTime()));
 			List<MemberOrderListReportVo> exportList = memberOrderServiceApi.queryMemberOrderLists(qo);
 			MemberOrderListReportVo vo = memberOrderServiceApi.queryMemberOrderListSum(qo);
-			vo.setLoginName("合计：");
+			vo.setPhone("合计：");
 			exportList.add(vo);
 			String fileName = "会员消费明细";
 			String templateName = ExportExcelConstant.MEMBER_ORDER_LIST;
@@ -212,7 +212,7 @@ public class MemberOrderController extends BasePrintController<TradeOrderCountCo
 			}
 			// 查询合计
 			MemberOrderReportVo vo = memberOrderServiceApi.queryMemberOrderAllSum(qo);
-			vo.setLoginName("合计：");
+			vo.setPhone("合计：");
 			list.add(vo);
 			String path = PrintConstant.MEMBER_ORDER_ALL_REPORT;
 			Map<String, Object> map = new HashMap<String, Object>();
@@ -256,7 +256,7 @@ public class MemberOrderController extends BasePrintController<TradeOrderCountCo
 			}
 			// 查询合计
 			MemberOrderListReportVo vo = memberOrderServiceApi.queryMemberOrderListSum(qo);
-			vo.setLoginName("合计：");
+			vo.setPhone("合计：");
 			list.add(vo);
 			String path = PrintConstant.MEMBER_ORDER_LIST_REPORT;
 			Map<String, Object> map = new HashMap<String, Object>();
