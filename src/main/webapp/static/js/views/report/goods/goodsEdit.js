@@ -161,9 +161,12 @@ function saveProp() {
 				submitForm();
 			}
 			//否，仅更新自己
-			if(data.code === 0){
+			else if(data.code === 0){
 				$("#isLinkage").val(0);
 				submitForm();
+			}else{
+				//取消 重新激活保存按钮
+				$('#btnSave').removeAttr("disabled");
 			}
 		},param);
 	}else{
