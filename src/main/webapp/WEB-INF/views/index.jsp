@@ -10,6 +10,9 @@
 </head>
 <body>
 
+<iframe width="0" height="0" src="${ctx}/sessionKeeper">
+</iframe>
+
 <!--mleft-menu-two-->
 <div id="left_menu_two"></div>
 <!--end left-menu-two-->
