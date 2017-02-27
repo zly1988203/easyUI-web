@@ -152,7 +152,11 @@ function initStockIndexGridEdit() {
 						width : '100px',
 						align : 'right',
 						formatter : function(value, row, index) {
-							return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';;
+							if(row.validFlag){
+								return '<b style="color:#f00">'+parseFloat(value||0).toFixed(2)+'</b>';
+							}else{
+								return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+							}
 		    			},
 						editor : {
 							type : 'numberbox',
@@ -169,7 +173,11 @@ function initStockIndexGridEdit() {
 						width : '100px',
 						align : 'right',
 						formatter : function(value, row, index) {
-		    				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';;
+		    				if(row.validFlag){
+								return '<b style="color:#f00">'+parseFloat(value||0).toFixed(2)+'</b>';
+							}else{
+								return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+							}
 		    			},
 						editor : {
 							type : 'numberbox',
@@ -219,6 +227,9 @@ function onChangeStockBegin(newV,oldV){
 		return;
 	}
 	
+	var newData = $("#"+datagridId).datagrid("getRows")[selectIndex];
+	newData.validFlag = false;
+	
 }
 
 function onChangeStockEnd(newV,oldV){
@@ -239,7 +250,8 @@ function onChangeStockEnd(newV,oldV){
 		return;
 	}
 	
-	
+	var newData = $("#"+datagridId).datagrid("getRows")[selectIndex];
+	newData.validFlag = false;
 	
 }
 
@@ -254,18 +266,20 @@ function specialRows(id,val){
 			rowIndex = $("#"+datagridId).datagrid('getRowIndex',newData[i]);
 			if(parseFloat(val) > parseFloat(newData[i].upperLimit)){
 				//successTip("第  "+(rowIndex+1)+" 行库存上限不能小于库存下限");
+				newData[i].validFlag = true;
 				errorIndex.push(rowIndex+1); 
 				//return;
 			}else{
+				newData[i].validFlag = false;
 				newData[i].lowerLimit= val;
 				// 更新行数据
-				$("#"+datagridId).datagrid('updateRow',{
-					index: rowIndex,
-					row: newData[i]
-				});
-				// 刷新行
-				$("#"+datagridId).datagrid('refreshRow',rowIndex);
 			}
+			$("#"+datagridId).datagrid('updateRow',{
+				index: rowIndex,
+				row: newData[i]
+			});
+			// 刷新行
+			$("#"+datagridId).datagrid('refreshRow',rowIndex);
 		}
 	}
 	else if(id=="upperLimit"){
@@ -273,24 +287,26 @@ function specialRows(id,val){
 			rowIndex = $("#"+datagridId).datagrid('getRowIndex',newData[i]);
 			if(parseFloat(val) < parseFloat(newData[i].lowerLimit)){
 				//successTip("第  "+(rowIndex+1)+" 行库存上限不能小于库存下限");
+				newData[i].validFlag = true;
 				errorIndex.push(rowIndex+1); 
 				//return;
 			}else{
+				newData[i].validFlag = false;
 				newData[i].upperLimit= val;
 				// 更新行数据
-				$("#"+datagridId).datagrid('updateRow',{
-					index: rowIndex,
-					row: newData[i]
-				});
-				// 刷新行
-				$("#"+datagridId).datagrid('refreshRow',rowIndex);
 			}
+			$("#"+datagridId).datagrid('updateRow',{
+				index: rowIndex,
+				row: newData[i]
+			});
+			// 刷新行
+			$("#"+datagridId).datagrid('refreshRow',rowIndex);
 		}
 	}
 	
 	if(errorIndex.length > 0){
 		//successTip("第  "+(errorIndex.join(","))+" 行库存上限不能小于库存下限");
-		$.messager.confirm("提示","第  "+(errorIndex.join(","))+" 行库存上限不能小于库存下限",function(e){
+		$.messager.confirm("提示","库存上限不能小于库存下限",function(e){
 			gridHandel.setBeginRow(errorIndex[0]-1);
 			gridHandel.setSelectFieldName('upperLimit');
 			var target = gridHandel.getFieldTarget('upperLimit');
@@ -434,11 +450,11 @@ function gFunGoodsSelect(searchKey,branchId){
         	spec:'skuSpec'
         };
         var rows = gFunUpdateKey(addDefaultData,keyNames);
-        var argWhere ={skuCode:1};  //验证重复性
+       /* var argWhere ={skuCode:1};  //验证重复性
         var isCheck ={isGift:1 };   //只要是赠品就可以重复
-        var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
+        var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);*/
 
-        $("#"+datagridId).datagrid("loadData",newRows);
+        $("#"+datagridId).datagrid("loadData",rows);
 
         gridHandel.setLoadFocus();
         setTimeout(function(){
