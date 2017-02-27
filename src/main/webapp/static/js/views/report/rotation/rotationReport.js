@@ -208,7 +208,7 @@ function getFiledsList(){
 function selectBranches() {
 	new publicAgencyService(function(data) {
 		$("#branchId").val(data.branchesId);
-		$("#branchCompleCode").val(data.branchCompleCode);
+		$("#branchCompleCode").val(data.branchCode);
 		$("#branchName").val(data.branchName);
 		$("#oldBranchName").val(data.branchName);
 	}, 'BF', '');
