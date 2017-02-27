@@ -30,9 +30,7 @@ function changeUppermit(newV,oldV){
 	}
 	
 	$("#"+datagridId).datagrid("endEdit", selectIndex);
-	var temp_uper = $("#upperLimit").numberbox('getValue');
-	var temp_lowe = $("#lowerLimit").numberbox('getValue');
-	if((parseFloat(temp_uper) > 0 || parseFloat(temp_lowe) > 0) &&　checkUpLowLimit()){
+	if((parseFloat(newV) > 0) &&　checkUpLowLimit()){
 		specialRows('upperLimit',newV);
 	}
 	
@@ -44,9 +42,7 @@ function changeLowerLimit(newV,oldV){
 		return;
 	}
 	$("#"+datagridId).datagrid("endEdit", selectIndex);
-	var temp_uper = $("#upperLimit").numberbox('getValue');
-	var temp_lowe = $("#lowerLimit").numberbox('getValue');
-	if((parseFloat(temp_uper) > 0 || parseFloat(temp_lowe) > 0) && checkUpLowLimit()){
+	if((parseFloat(newV) > 0) && checkUpLowLimit()){
 		specialRows('lowerLimit',newV);
 	}
 }
@@ -303,7 +299,11 @@ function specialRows(id,val){
 			}else{
 				gridHandel.setSelectFieldName("skuCode");
 			}
-		})
+		});
+		
+		if(errorIndex.length == newData.length){
+			$("#"+id).numberbox('setValue',0);
+		}
 	}
 }
 
