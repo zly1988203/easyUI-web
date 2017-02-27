@@ -360,7 +360,7 @@ public class NewGoodsApplyImportComponent {
 				if(StringUtils.isBlank(saleWay)){
 					obj.put("saleWay", SaleWayEnum.PURCHASENSALE.getKey());
 				}else{
-					obj.put("saleWay", SaleWayEnum.PURCHASENSALE.getKey());
+					obj.put("saleWay", SaleWayEnum.enumValueOf(saleWay).getKey());
 				}
 			}else{
 				obj.put("saleWay", SaleWayEnum.PURCHASENSALE.getKey());
