@@ -8,7 +8,7 @@
 <title>库存周转率报表</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
-<script src="${ctx}/static/js/views/report/rotation/rotationReport.js"></script>
+<script src="${ctx}/static/js/views/report/rotation/rotationReport.js?v=1.255"></script>
 <style>
 .datagrid-header-row .datagrid-cell {
 	text-align: center !important;
@@ -44,6 +44,7 @@
 				<div class="ub ub-ac uw-300 ">
 					<div class="umar-r10 uw-70 ut-r">机构名称:</div>
 					<input type="hidden" id="branchId" name="branchId" /> 
+					<input type="hidden" id="branchCompleCode" name="branchCompleCode" /> 
 					<input type="hidden" id="oldBranchName" name="oldBranchName" /> 
 					<input class="uinp ub ub-f1" type="text" id="branchName"
 						name="branchName" />

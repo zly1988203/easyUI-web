@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
@@ -87,20 +86,6 @@ public class StockIndexController extends BaseController<T> {
 
 	/**
 	 * 
-	 * @Description: 跳转修改页面
-	 * @param id
-	 * @param request
-	 * @return
-	 * @author xuyq
-	 * @date 2017年2月14日
-	 */
-	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public String edit(String id, HttpServletRequest request) {
-		return "/stockIndex/stockIndexEdit";
-	}
-
-	/**
-	 * 
 	 * @Description: 查询列表
 	 * @param vo
 	 * @param pageNumber
@@ -144,29 +129,27 @@ public class StockIndexController extends BaseController<T> {
 	@ResponseBody
 	public RespJson saveStockIndex(String data) {
 		LOG.debug("保存商品存量指标 ：data{}", data);
+		RespJson respJson = RespJson.success();
 		SysUser user = UserUtil.getCurrentUser();
 		if (user == null) {
-			RespJson rep = RespJson.error("用户不能为空！");
-			return rep;
+			respJson = RespJson.error("用户不能为空！");
+			return respJson;
 		}
-		RespJson respJson = RespJson.success();
 		try {
-			if (StringUtils.isNotEmpty(data)) {
-				List<StockIndexVo> jsonList = JSON.parseArray(data, StockIndexVo.class);
-				if (jsonList != null && jsonList.size() > 0) {
-					Map<String, Object> paramMap = new HashMap<String, Object>();
-					paramMap.put("branchId", jsonList.get(0).getBranchId());
-					paramMap.put("userId", user.getId());
-					paramMap.put("jsonList", jsonList);
-					stockIndexServiceApi.saveStockIndex(paramMap);
-				} else {
-					RespJson rep = RespJson.error("保存数据不能为空！");
-					return rep;
-				}
-			} else {
-				RespJson rep = RespJson.error("保存数据不能为空！");
-				return rep;
+			if (StringUtils.isBlank(data)) {
+				respJson = RespJson.error("保存数据不能为空！");
+				return respJson;
 			}
+			List<StockIndexVo> jsonList = JSON.parseArray(data, StockIndexVo.class);
+			if(jsonList.isEmpty()){
+				respJson = RespJson.error("保存数据不能为空！");
+				return respJson;
+			}
+			Map<String, Object> paramMap = new HashMap<String, Object>();
+			paramMap.put("branchId", jsonList.get(0).getBranchId());
+			paramMap.put("userId", user.getId());
+			paramMap.put("jsonList", jsonList);
+			stockIndexServiceApi.saveStockIndex(paramMap);
 		} catch (Exception e) {
 			LOG.error("保存商品存量指标异常：{}", e);
 			respJson = RespJson.error("保存商品存量指标异常!");
@@ -211,32 +194,33 @@ public class StockIndexController extends BaseController<T> {
 							for (JSONObject obj : excelListSuccessData) {
 								double upperDou = 0;
 								double lowerDou = 0;
-								if (obj.get("upperLimit") != null) {
-									String upperLimit = obj.getString("upperLimit");
-									try {
-										upperDou = Double.parseDouble(upperLimit);
-										if (upperDou <= 0 || upperDou > 999999.99) {
-											obj.element("error", "库存上限必填，且必须大于0，小于999999.99");
-										}
-									} catch (Exception e) {
+								
+								// 校验空
+								if (obj.get("upperLimit") == null || obj.get("lowerLimit") == null) {
+									obj.element("error", "库存上，下限必填，且必须大于0，小于999999.99");
+									continue;
+								} 
+								// 校验上限
+								String upperLimit = obj.getString("upperLimit");
+								try {
+									upperDou = Double.parseDouble(upperLimit);
+									if (upperDou <= 0 || upperDou > 999999.99) {
 										obj.element("error", "库存上限必填，且必须大于0，小于999999.99");
 									}
-								} else {
+								} catch (Exception e) {
 									obj.element("error", "库存上限必填，且必须大于0，小于999999.99");
+									LOG.error("数字转换异常:", e);
 								}
-
-								if (obj.get("lowerLimit") != null) {
-									String lowerLimit = obj.getString("lowerLimit");
-									try {
-										lowerDou = Double.parseDouble(lowerLimit);
-										if (lowerDou <= 0 || lowerDou > 999999.99) {
-											obj.element("error", "库存下限必填，且必须大于0，小于999999.99");
-										}
-									} catch (Exception e) {
+								// 校验下限
+								String lowerLimit = obj.getString("lowerLimit");
+								try {
+									lowerDou = Double.parseDouble(lowerLimit);
+									if (lowerDou <= 0 || lowerDou > 999999.99) {
 										obj.element("error", "库存下限必填，且必须大于0，小于999999.99");
 									}
-								} else {
+								} catch (Exception e) {
 									obj.element("error", "库存下限必填，且必须大于0，小于999999.99");
+									LOG.error("数字转换异常:", e);
 								}
 
 								if (upperDou < lowerDou) {
@@ -252,6 +236,7 @@ public class StockIndexController extends BaseController<T> {
 						@Override
 						public void formatter(List<? extends GoodsSelect> list, List<JSONObject> excelListSuccessData,
 								List<JSONObject> excelListErrorData) {
+							LOG.info("formatter");
 						}
 
 						/**
@@ -260,7 +245,7 @@ public class StockIndexController extends BaseController<T> {
 						 */
 						@Override
 						public void errorDataFormatter(List<JSONObject> list) {
-
+							LOG.info("errorDataFormatter");
 						}
 
 					});
