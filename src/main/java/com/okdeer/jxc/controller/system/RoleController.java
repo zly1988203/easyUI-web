@@ -293,6 +293,11 @@ public class RoleController extends BaseController<RoleController> {
 					&& !branchId.equals(getCurrBranchId())) {
 				return RespJson.businessError("只允许修改本机构下的角色信息！");
 			}
+			
+			//通用角色只有总部可以维护
+			if(StringUtils.isBlank(branchId) && !SysConstant.MANAGER_BRANCH_ID.equals(getCurrBranchId())){
+				return RespJson.businessError("通用角色只有总部可以维护！");
+			}
 
 			// 转换为JSON数据
 			JsonArray jArray = GsonUtils.parseJsonArray(data);
