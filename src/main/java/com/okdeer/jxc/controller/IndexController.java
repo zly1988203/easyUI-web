@@ -12,4 +12,9 @@ public class IndexController {
 	public String toReport() {
 		return "index";
 	}
+	
+	@RequestMapping(value = "/sessionKeeper", method = RequestMethod.GET)
+	public String toKeepSession(){
+		return "sessionKeeper";
+	}
 }
