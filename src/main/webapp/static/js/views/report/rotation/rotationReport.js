@@ -2,6 +2,7 @@ var rotaType =  1;
 $(function(){
 	$("#oldBranchName").val(sessionBranchCodeName);
 	$("#branchName").val(sessionBranchCodeName);
+	$("#branchCompleCode").val(sessionBranchCode);
 	$("#branchId").val(sessionBranchId);
 	$("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
@@ -207,6 +208,7 @@ function getFiledsList(){
 function selectBranches() {
 	new publicAgencyService(function(data) {
 		$("#branchId").val(data.branchesId);
+		$("#branchCompleCode").val(data.branchCode);
 		$("#branchName").val(data.branchName);
 		$("#oldBranchName").val(data.branchName);
 	}, 'BF', '');
