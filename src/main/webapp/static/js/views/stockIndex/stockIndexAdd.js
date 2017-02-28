@@ -435,7 +435,8 @@ function selectGoodsDialog(searchKey) {
 }
 //商品选择 公共使用
 function gFunGoodsSelect(searchKey,branchId){
-	new publicGoodsService("PA",function(data){
+	new publicGoodsService("",function(data){
+	//new publicGoodsService("PA",function(data){
     	if(data.length==0){
             return;
         }
@@ -450,11 +451,11 @@ function gFunGoodsSelect(searchKey,branchId){
         	spec:'skuSpec'
         };
         var rows = gFunUpdateKey(addDefaultData,keyNames);
-       /* var argWhere ={skuCode:1};  //验证重复性
+        var argWhere ={skuCode:1};  //验证重复性
         var isCheck ={isGift:1 };   //只要是赠品就可以重复
-        var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);*/
+        var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
 
-        $("#"+datagridId).datagrid("loadData",rows);
+        $("#"+datagridId).datagrid("loadData",newRows);
 
         gridHandel.setLoadFocus();
         setTimeout(function(){

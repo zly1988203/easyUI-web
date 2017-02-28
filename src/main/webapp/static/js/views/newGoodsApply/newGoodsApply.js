@@ -50,6 +50,7 @@ $(function(){
     initTreeArchives();
     initDatagridArchives();
     changeStatus();
+    goodsSearch();
 });
 
 
@@ -142,7 +143,6 @@ function zTreeOnClick(event, treeId, treeNode) {
     }
     $("#startCount").val('');
 	$("#endCount").val('');
-    //var formParams = $("#formGoodsArchives").serializeObject();
     gridReload("gridArchives",goodsClass.treeParam,goodsClass.selectTypeName);
 };
 

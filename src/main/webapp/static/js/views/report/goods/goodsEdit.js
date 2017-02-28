@@ -65,7 +65,7 @@ function initGoodsInfo(skuId,branchId){
 		}
 		if(updateGoods.updateTime){
 			var date = new Date(updateGoods.updateTime);    
-			$("#createTimeUpdate").val(date.format("yyyy-MM-dd hh:mm:ss"));
+			$("#updateTime").val(date.format("yyyy-MM-dd hh:mm:ss"));
 		}
 		var createTime = new Date(updateGoods.createTime);    
 		$("#createTime").val(createTime.format("yyyy-MM-dd hh:mm:ss"));

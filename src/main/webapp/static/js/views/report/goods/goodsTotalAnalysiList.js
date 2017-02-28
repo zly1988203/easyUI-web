@@ -73,6 +73,7 @@ function branchOff(){
 	 $("#branchName").addClass("uinp-no-more");
 	 $("#branchSelect").removeAttr("onclick");
 	 $("#branchName").val("");
+	 $("#branchCompleCode").val("");
 	 $("#branchId").val("");
 }
 //类别开启
@@ -434,6 +435,7 @@ function exportExcel(){
 	var startDate = $("#txtStartDate").val();
 	var endDate = $("#txtEndDate").val();
 	var branchName = $("#branchName").val();
+	var branchCompleCode = $("#branchCompleCode").val();
 	var categoryType=$('input[name="searchType"]:checked ').val();
 	if(!(startDate && endDate)){
 		$.messager.alert('提示', '日期不能为空');
@@ -463,6 +465,7 @@ function exportExcel(){
 function searchBranch (){
 	new publicAgencyService(function(data){
 		$("#branchId").val(data.branchesId);
+		$("#branchCompleCode").val(data.branchCompleCode);
 		$("#branchName").val("["+data.branchCode+"]"+data.branchName);
 	},"","");
 }
