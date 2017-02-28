@@ -244,7 +244,11 @@ function updateFooter(){
 
 //打印
 function printReport(){
-	debugger;
+	var length = $('#memberOrderData').datagrid('getData').rows.length;
+	if(length == 0){
+		successTip("无数据可打印");
+		return;
+	}
 	$("#startCount").val('');
 	$("#endCount").val('');
 	var queryType=$('input:radio[name="queryType"]:checked').val();
