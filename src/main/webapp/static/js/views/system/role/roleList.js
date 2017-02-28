@@ -127,7 +127,7 @@ function openDialog(argUrl,argTitle,argType) {
   dalogTemp = $('<div/>').dialog({
       href: argUrl,
       top:200,
-      width:580,
+//      width:580,
 //      height: 400,
       title: argTitle,
       closable: true,

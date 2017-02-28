@@ -59,6 +59,7 @@ function checkUpLowLimit(){
 var gridDefault = {
 	lowerLimit:0,
 	upperLimit:0,
+	isGift:0,
 }
 var gridHandel = new GridClass();
 // 初始化列表
@@ -460,8 +461,8 @@ function gFunGoodsSelect(searchKey,branchId){
         gridHandel.setLoadFocus();
         setTimeout(function(){
             gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
-            gridHandel.setSelectFieldName("skuCode");
-            gridHandel.setFieldFocus(gridHandel.getFieldTarget('skuCode'));
+            gridHandel.setSelectFieldName("upperLimit");
+            gridHandel.setFieldFocus(gridHandel.getFieldTarget('upperLimit'));
         },100)
         
     },searchKey,0,"","",branchId,"","0");

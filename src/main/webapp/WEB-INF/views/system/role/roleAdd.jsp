@@ -36,10 +36,11 @@ pageEncoding="UTF-8"%>
 	               	<div class="umar-r10 uw-60 ut-r">角色类型:</div>
 	               	<c:forEach var="i" items="${typeList }">
 		               	<div class="ub ub-ac umar-r10">
-							<label>
+							
 								<input class="ub" type="radio" name="branchType" value="${i.code }" 
-									<c:if test="${user.branchType gt 1 }"> checked="checked"</c:if> />${i.desc }
-							</label>
+									<c:if test="${user.branchType gt 1 }"> checked="checked"</c:if> />
+									<span>${i.desc }</span>
+							
 						</div>
 	               	</c:forEach>
 	            </div>
@@ -49,14 +50,16 @@ pageEncoding="UTF-8"%>
 	            <div class="ub ub-ac umar-l20">
 	               	<div class="umar-r10 uw-60 ut-r">是否通用:</div>
 	               	<div class="ub ub-ac umar-r10">
-						<label>
-							<input class="ub" type="radio" name="isCommonRole" value="0" checked="checked" />机构角色
-						</label>
+					
+							<input class="ub" type="radio" name="isCommonRole" value="0" checked="checked" />
+							<span>机构角色</span>
+						
 					</div>
 					<div class="ub ub-ac umar-r10">
-						<label>
-							<input class="ub" type="radio" name="isCommonRole" value="1"  />通用角色
-						</label>
+						
+							<input class="ub" type="radio" name="isCommonRole" value="1"  />
+							<span>通用角色</span>
+						
 					</div>
 	            </div>
           	</div>
