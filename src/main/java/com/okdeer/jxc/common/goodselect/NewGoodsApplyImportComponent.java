@@ -404,6 +404,10 @@ public class NewGoodsApplyImportComponent {
 				obj.put("type", GoodsTypeEnum.ORDINARY.getOrdinal());
 			}
 			
+			//设置进货规格、配送规格
+			setSpec(obj, "purchaseSpec");
+			setSpec(obj, "distributionSpec");
+			
 			//批发价
 			initNotRequiredCommonPrice(obj, "wholesalePrice");
 			
@@ -433,6 +437,25 @@ public class NewGoodsApplyImportComponent {
 			
 			//初始化供应商
 			initSupplier(obj);
+		}
+	}
+	
+	//设置配送规格、进货规格
+	private void setSpec(JSONObject obj,String key) {
+		boolean specFlag = obj.containsKey(key);
+		if(specFlag) {
+			String purchaseSpec = obj.getString(key);
+			if(StringUtils.isNotBlank(purchaseSpec)){
+				try {
+					Double.parseDouble(purchaseSpec);
+				} catch (Exception e) {
+					obj.put(key, "1");
+				}
+			}else{
+				obj.put(key, "1");
+			}
+		}else{
+			obj.put(key, "1");
 		}
 	}
 	

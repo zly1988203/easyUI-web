@@ -198,13 +198,13 @@ public class NewGoodsApplyImportHandle implements GoodsSelectImportHandle {
 			}
 			
 			//零售价非空校验
-			boolean salePriceFlag = checkRequiredCommonPrice(obj, "salePrice", "零售价只能为数字", "零售价为空");
+			boolean salePriceFlag = checkRequiredCommonPrice(obj, "salePrice", "零售价只能为数字", "零售价为空","零售价需大于0,小于9999999999");
 			if(!salePriceFlag){
 				continue;
 			}
 			
 			//进货价非空校验
-			boolean purchasePriceFlag = checkRequiredCommonPrice(obj, "purchasePrice", "进货价只能为数字", "进货价为空");
+			boolean purchasePriceFlag = checkRequiredCommonPrice(obj, "purchasePrice", "进货价只能为数字", "进货价为空","进货价需大于0,小于9999999999");
 			if(!purchasePriceFlag){
 				continue;
 			}
@@ -221,19 +221,6 @@ public class NewGoodsApplyImportHandle implements GoodsSelectImportHandle {
 					}
 				}
 			}
-			
-			//进货规格
-			boolean purchaseSpecFlag = checkCommonSpec(obj, "purchaseSpec", "进货规格只能为数字");
-			if(!purchaseSpecFlag ){
-				continue;
-			}
-			
-			//配送规格
-			boolean distributionSpecFlag = checkCommonSpec(obj, "distributionSpec", "配送规格只能为数字");
-			if(!distributionSpecFlag ){
-				continue;
-			}
-			
 			
 			//批发价
 			boolean wholesalePriceFlag = checkNotRequiredCommonPrice(obj, "wholesalePrice", "批发价只能为数字");
@@ -333,7 +320,7 @@ public class NewGoodsApplyImportHandle implements GoodsSelectImportHandle {
 	 * @author zhongy
 	 * @date 2017年2月24日
 	 */
-	private boolean checkRequiredCommonPrice(JSONObject obj,String colkey,String msg1,String msg2) {
+	private boolean checkRequiredCommonPrice(JSONObject obj,String colkey,String msg1,String msg2,String msg3) {
 		boolean colFlag = obj.containsKey(colkey);
 		if(colFlag){
 			String price = obj.getString(colkey);
@@ -343,6 +330,12 @@ public class NewGoodsApplyImportHandle implements GoodsSelectImportHandle {
 			}else{
 				try {
 					Double.parseDouble(price);
+					if(price.compareTo("0.00")==0 
+					|| price.compareTo("0.00") <0 
+					|| price.compareTo("9999999999") > 0) {
+						obj.element("error", msg3);
+						return false;
+					}
 				} catch (Exception e) {
 					obj.element("error", msg1);
 					return false;
