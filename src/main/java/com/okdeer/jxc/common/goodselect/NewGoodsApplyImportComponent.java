@@ -288,7 +288,7 @@ public class NewGoodsApplyImportComponent {
 				String barCode = obj.getString("barCode");
 				if(StringUtils.isNotBlank(barCode)) {
 					//3  查询新品申请库商品条码是否存在
-					Integer barCodeSum = newGoodsApplyServiceApi.queryCountBySkuName(barCode.trim(), "");
+					Integer barCodeSum = newGoodsApplyServiceApi.queryCountByBarCode(barCode.trim(), "");
 					if(barCodeSum>0) {
 						obj.element("error", "商品条码在新品申请库中重复");
 						continue;
