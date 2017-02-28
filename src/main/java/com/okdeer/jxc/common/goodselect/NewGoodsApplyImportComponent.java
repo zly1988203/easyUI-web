@@ -501,23 +501,23 @@ public class NewGoodsApplyImportComponent {
 	
 	//初始化品牌
 	private void initBrand(JSONObject obj) {
-		boolean brandNameFlag = obj.containsKey("brandName");
+		boolean brandCodeFlag = obj.containsKey("brandCode");
 		GoodsBrand goodsBrand = new GoodsBrand();
 		String brandCode = null;
-		if(brandNameFlag){
-			String brandName = obj.getString("brandName");
-			if(StringUtils.isNotBlank(brandName)){
-				goodsBrand = goodsBrandService.queryByNameOrCode(brandName, brandCode);
+		if(brandCodeFlag){
+			brandCode = obj.getString("brandCode");
+			if(StringUtils.isNotBlank(brandCode)){
+				goodsBrand = goodsBrandService.queryByNameOrCode("", brandCode.trim());
 				if(goodsBrand==null){
-					goodsBrand = goodsBrandService.queryByNameOrCode("其他",brandCode);
+					goodsBrand = goodsBrandService.queryByNameOrCode("其他",null);
 				}
 				setBrand(obj, goodsBrand);
 			}else{
-				goodsBrand = goodsBrandService.queryByNameOrCode("其他",brandCode);
+				goodsBrand = goodsBrandService.queryByNameOrCode("其他",null);
 				setBrand(obj, goodsBrand);
 			}
 		}else{
-			goodsBrand = goodsBrandService.queryByNameOrCode("其他",brandCode);
+			goodsBrand = goodsBrandService.queryByNameOrCode("其他",null);
 			setBrand(obj, goodsBrand);
 		}
 	}
