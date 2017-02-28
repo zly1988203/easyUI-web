@@ -9,7 +9,7 @@
 <div class="ub ub-ver  ub-f1  uw uh ufs-14 uc-black">
 	<div class="ub ub-ac upad-4">
 		<div class="ubtns">
-			<shiro:hasPermission name="JxcGoodsArchive:save">
+			<shiro:hasPermission name="JxcGoodsQuery:save">
 				<button class="ubtns-item" onclick="saveProp()" id="btnSave">保存</button>
 			</shiro:hasPermission>
 			<button class="ubtns-item" onclick="closeDialog()">关闭</button>
@@ -256,18 +256,17 @@
 				<div class="ub ub-ac uw-300">
 					<div class="umar-r10 uw-60 ut-r">修改人:</div>
 					<input id="updateUserName" name="updateUserName"
-						class="uinp uinp-no-more" type="text" readonly="readonly"
-						value="${updateUserName }">
+						class="uinp uinp-no-more" type="text" readonly="readonly">
 				</div>
 			</div>
 			<div class="ub upad-4">
 				<div class="ub ub-ac uw-300">
-					<div class="umar-r10 uw-60 ut-r">建档时间:</div>
+					<div class="umar-r10 uw-60 ut-r">引入时间:</div>
 					<input id="createTime" name="createTime" class="uinp uinp-no-more"
 						type="text" readonly="readonly">
 				</div>
 				<div class="ub ub-ac uw-300">
-					<div class="umar-r10 uw-60 ut-r">建档人:</div>
+					<div class="umar-r10 uw-60 ut-r">引入人:</div>
 					<input id="createUserName" name="createUserName"
 						class="uinp uinp-no-more" type="text" readonly="readonly">
 				</div>
