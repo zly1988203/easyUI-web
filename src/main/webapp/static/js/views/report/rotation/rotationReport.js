@@ -2,7 +2,7 @@ var rotaType =  1;
 $(function(){
 	$("#oldBranchName").val(sessionBranchCodeName);
 	$("#branchName").val(sessionBranchCodeName);
-	$("#branchCompleCode").val(sessionBranchCode);
+	$("#branchCompleCode").val(sessionBranchCompleCode);
 	$("#branchId").val(sessionBranchId);
 	$("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
