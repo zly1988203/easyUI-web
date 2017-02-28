@@ -120,6 +120,7 @@ public class CombineSplitController extends BaseController<T> {
 			if(StringUtils.isNotBlank(vo.getBranchId())){
 				vo.setBranchName(null);
 			}
+			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
 			PageUtils<StockFormVo> stockFormList = stockAdjustServiceApi.getStockFormList(vo);
 			LOG.info(LogConstant.PAGE, stockFormList.toString());
 			return stockFormList;
