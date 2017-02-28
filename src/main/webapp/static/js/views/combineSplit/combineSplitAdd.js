@@ -14,7 +14,13 @@ $(function(){
 });
 
 function selectTion(newV,oldV){
-	
+	$("#skuIdMain").val("");
+	$("#skuCodeMain").val("");
+	$("#skuNameMain").val("");
+	$("#salePriceMain").val("");
+	$("#totalNum").numberbox('clear');
+	$("#amountMain").val("");
+	$("#"+datagridId).datagrid({data:[]});
 }
 
 function changeAmount(newV,oldV){
@@ -176,7 +182,21 @@ function gFunGoodsSelect(searchKey,branchId){
 	    		messager('只能选择一个组合商品');
 	    		return;
 	    	}
-	    	
+		  	var type = data[0].type? data[0].type.name:'';
+	    	if(type=='MAKINGCOMBINATION'){
+	    		type = 1;
+	    	}
+	    	if(type=='MAKINGRESOLUTION'){
+	    		type = 2;
+	    	}
+	    	if(comboxV == 1 && type != comboxV){
+	    		messager('选择商品不是组合商品');
+	    		return;
+	    	}
+	    	if(comboxV == 2 && type != comboxV){
+	    		messager('选择商品不是拆分商品');
+	    		return;
+	    	}
 	    	$("#skuIdMain").val(data[0].skuId);
 	    	$("#skuCodeMain").val(data[0].skuCode);
 	    	$("#skuNameMain").val(data[0].skuName);

@@ -106,16 +106,16 @@ function initDatagridRequire() {
 				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';;
 			}
 		}, {
-			field : 'lowerLimit',
-			title : '库存下限',
+			field : 'upperLimit',
+			title : '库存上限',
 			width : '100px',
 			align : 'left',
 			formatter : function(value, row, index) {
 				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';;
 			}
 		}, {
-			field : 'upperLimit',
-			title : '库存上限',
+			field : 'lowerLimit',
+			title : '库存下限',
 			width : '100px',
 			align : 'left',
 			formatter : function(value, row, index) {
