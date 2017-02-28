@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.okdeer.base.common.utils.StringUtils;
 import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.common.result.RespJson;
@@ -83,23 +84,28 @@ public class SupplierCommonController extends BaseController<SupplierCommonContr
 		try {
 			qo.setPageNumber(pageNumber);
 			qo.setPageSize(pageSize);
-			// begin added by lijy02 2016.9.12:添加过滤条件
-			String branchId = UserUtil.getCurrBranchId();
-			Integer branchType = UserUtil.getCurrBranchType();
-			if (branchId != null) {
-				qo.setBranchId(branchId);
-				// 如果机构类型不是 0 1 需要查询他们的分公司 找到他们分公司的供应商
-				if (branchType != 0 && branchType != 1) {
-					// 查询店铺的分公司
-					Branches branches = branchesService
-							.getBranchInfoById(branchId);
-					if (branches != null && branches.getParentId() != null) {
-						// 把父级的id加入条件查询分公司的供应商
-						qo.setBranchId(branches.getParentId());
+			
+			String branchId  = qo.getBranchId();
+			if(StringUtils.isNullOrEmpty(branchId)){
+				// begin added by lijy02 2016.9.12:添加过滤条件
+				branchId = UserUtil.getCurrBranchId();
+				Integer branchType = UserUtil.getCurrBranchType();
+				if (branchId != null) {
+					qo.setBranchId(branchId);
+					// 如果机构类型不是 0 1 需要查询他们的分公司 找到他们分公司的供应商
+					if (branchType != 0 && branchType != 1) {
+						// 查询店铺的分公司
+						Branches branches = branchesService
+								.getBranchInfoById(branchId);
+						if (branches != null && branches.getParentId() != null) {
+							// 把父级的id加入条件查询分公司的供应商
+							qo.setBranchId(branches.getParentId());
+						}
 					}
 				}
+				// end added by lijy02
 			}
-			// end added by lijy02
+
 			LOG.info("vo:" + qo.toString());
 			PageUtils<Supplier> suppliers = supplierService.queryLists(qo);
 			LOG.info("page" + suppliers.toString());
