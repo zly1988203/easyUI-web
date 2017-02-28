@@ -1,5 +1,6 @@
 package com.okdeer.jxc.controller.stock;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -158,12 +159,13 @@ public class CombineSplitController extends BaseController<T> {
 	@ResponseBody
 	public List<StockFormDetailVo> getCombineSplitDetailList(String id) {
 		LOG.info(LogConstant.OUT_PARAM, id);
+		List<StockFormDetailVo> detailList = new ArrayList<StockFormDetailVo>();
 		try {
-			return stockAdjustServiceApi.getCombineSplitDetailList(id);
+			detailList = stockAdjustServiceApi.getCombineSplitDetailList(id);
 		} catch (Exception e) {
 			LOG.error("获取单据信息异常:{}", e);
 		}
-		return null;
+		return detailList;
 	}
 	
 	/**
@@ -177,12 +179,14 @@ public class CombineSplitController extends BaseController<T> {
 	@RequestMapping(value = "getGoodsComponentDetailList", method = RequestMethod.POST)
 	@ResponseBody
 	public List<GoodsComponent> getGoodsComponentDetailList(String skuId, String branchId) {
+		List<GoodsComponent> comList = new ArrayList<GoodsComponent>();
 		try {
-			return goodsComponentApi.getCombineSplitDetailList(skuId, branchId);
+			comList = goodsComponentApi.getCombineSplitDetailList(skuId, branchId);
+			return comList;
 		} catch (Exception e) {
 			LOG.error("查询商品成分失败！:{}", e);
-			return null;
 		}
+		return comList;
 	}
 
 	/**
@@ -196,22 +200,21 @@ public class CombineSplitController extends BaseController<T> {
 	@RequestMapping(value = "/saveCombineSplit", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson saveCombineSplit(String data) {
+		RespJson respJson = RespJson.success();
 		LOG.debug("保存组合拆分单 ：data{}" + data);
 		SysUser user = UserUtil.getCurrentUser();
 		if (user == null) {
-			RespJson rep = RespJson.error("用户不能为空！");
-			return rep;
+			respJson = RespJson.error("用户不能为空！");
+			return respJson;
 		}
-		RespJson respJson = RespJson.success();
 		try {
-			if (StringUtils.isNotEmpty(data)) {
-				StockFormVo vo = JSON.parseObject(data, StockFormVo.class);
-				vo.setCreateUserId(user.getId());
-				return stockAdjustServiceApi.addCombineSplitStockForm(vo);
-			} else {
-				RespJson rep = RespJson.error("保存数据不能为空！");
-				return rep;
+			if (StringUtils.isBlank(data)) {
+				respJson = RespJson.error("保存数据不能为空！");
+				return respJson;
 			}
+			StockFormVo vo = JSON.parseObject(data, StockFormVo.class);
+			vo.setCreateUserId(user.getId());
+			return stockAdjustServiceApi.addCombineSplitStockForm(vo);
 		} catch (Exception e) {
 			LOG.error("保存组合拆分单异常：{}", e);
 			respJson = RespJson.error("保存组合拆分单异常!");
@@ -253,6 +256,10 @@ public class CombineSplitController extends BaseController<T> {
 	public RespJson updateCombineSplit(String data) {
 		RespJson resp;
 		try {
+			if (StringUtils.isBlank(data)) {
+				resp = RespJson.error("更新数据不能为空！");
+				return resp;
+			}
 			StockFormVo vo = JSON.parseObject(data, StockFormVo.class);
 			SysUser user = UserUtil.getCurrentUser();
 			vo.setCreateUserId(user.getId());

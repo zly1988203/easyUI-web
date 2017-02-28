@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.result.RespJson;
+import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.report.qo.DayReportQo;
@@ -104,7 +105,7 @@ public class DayReportController extends BaseController<DayReportController> {
 			DayReportVo dayReportVo = dayReportService.queryDayReportSum(vo);
 			dayReportVo.setRptDate("合计:");
 			exportList.add(dayReportVo);
-			String fileName = "日进销存报表";
+			String fileName = "日进销存查询报表_"+DateUtils.getCurrSmallStr();
 			String templateName = ExportExcelConstant.DAY_REPORT;
 			exportListForXLSX(response, exportList, fileName, templateName);
 		} catch (Exception e) {

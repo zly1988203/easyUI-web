@@ -263,7 +263,7 @@ function initDatagridAddRequireOrder(){
                         row.sourceStock = parseFloat(value||0).toFixed(2);
                     }
                     
-                    if(parseFloat(row.applyNum)+parseFloat(row.alreadyNum) > parseFloat(row.sourceStock)){
+                    if(parseFloat(row.applyNum)+parseFloat(row.alreadyNum || 0) > parseFloat(row.sourceStock)){
                     	 return '<span style="color:red;"><b>'+parseFloat(value||0).toFixed(2)+'</b></span>';
  	           		}else{
  	           			return '<span style="color:black;"><b>'+parseFloat(value||0).toFixed(2)+'</b></span>';
