@@ -11,5 +11,14 @@
 </head>
 <body>
 hello,world!
+<script id=Back language=javascript></script>
+<script language=javascript>   
+function keepsession(){   
+	document.all["Back"].src="${ctx}/sessionKeeper?RandStr="+Math.random();
+	//这里的RandStr=Math.random只是为了让每次back.src的值不同，防止同一地址刷新无效的情况   
+	window.setTimeout("keepsession()",600000); //每隔900秒调用一下本身   
+}   
+keepsession();
+</script>
 </body>
 </html>
