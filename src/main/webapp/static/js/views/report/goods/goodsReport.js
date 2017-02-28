@@ -328,7 +328,7 @@ function searchBind(){
 function searchBranch (){
 	new publicAgencyService(function(data){
 	$("#branchName").val(data.branchName);
-//	$("#branchName").val("["+data.branchCode+"]"+data.branchName);
+	$("#branchId").val(data.branchesId);
 	},"","");
 }
 
@@ -499,6 +499,7 @@ function supplierAutoComple(){
 		return;
 	}
 	var supplierNameOrsupplierCode = $("#supplierName").val();
+	var branchId=$("#branchId").val();
 	//未输入值时，直接返回，无需查询
 	if("" == supplierNameOrsupplierCode){
 		$("#supplierId").val("");
@@ -514,7 +515,7 @@ function supplierAutoComple(){
 	}
 	//请求数据
 	var httpUrl = contextPath + "/common/supplier/getComponentList";
-	var args = {"supplierNameOrsupplierCode" : supplierNameOrsupplierCode};
+	var args = {"supplierNameOrsupplierCode" : supplierNameOrsupplierCode,"branchId" : branchId};
 	$.post(httpUrl, args,function(data){
 		if(null != data && data.rows.length == 1){
 			var supplierId = data.rows[0].id;
