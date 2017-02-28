@@ -45,12 +45,12 @@ function initDatagridStockIndex(){
 			{field: 'barCode', title: '条码', width: 140, align: 'left'},
 			{field: 'skuSpec', title: '规格', width: 80, align: 'left'},
 			{field: 'skuUnit', title: '单位', width: 80, align: 'center'},
-			{field: 'lowerLimit', title: '库存下限', width: 100, align: 'left',
+			{field: 'upperLimit', title: '库存上限', width: 100, align: 'left',
 				formatter:function(value,row,index){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				}
 			},
-			{field: 'upperLimit', title: '库存上限', width: 100, align: 'left',
+			{field: 'lowerLimit', title: '库存下限', width: 100, align: 'left',
 				formatter:function(value,row,index){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				}
