@@ -116,7 +116,7 @@ public class MemberOrderController extends BasePrintController<TradeOrderCountCo
 			MemberOrderReportVo vo = memberOrderServiceApi.queryMemberOrderAllSum(qo);
 			vo.setPhone("合计：");
 			exportList.add(vo);
-			String fileName = "会员消费汇总";
+			String fileName = "会员消费汇总" + "_" + DateUtils.getCurrSmallStr();
 			String templateName = ExportExcelConstant.MEMBER_ORDER_ALL;
 			// 导出Excel
 			exportListForXLSX(response, exportList, fileName, templateName);
@@ -173,7 +173,7 @@ public class MemberOrderController extends BasePrintController<TradeOrderCountCo
 			MemberOrderListReportVo vo = memberOrderServiceApi.queryMemberOrderListSum(qo);
 			vo.setPhone("合计：");
 			exportList.add(vo);
-			String fileName = "会员消费明细";
+			String fileName = "会员消费明细" + "_" + DateUtils.getCurrSmallStr();
 			String templateName = ExportExcelConstant.MEMBER_ORDER_LIST;
 			// 导出Excel
 			exportListForXLSX(response, exportList, fileName, templateName);
