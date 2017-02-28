@@ -80,7 +80,7 @@ public class RoleCommonController extends BaseController<RoleCommonController> {
 
 				// 获取父类机构（分公司）的完整编码
 				StringBuffer branchCompleCode = new StringBuffer(qo.getBranchCompleCode());
-				String parentCompleCode = branchCompleCode.substring(0, 9);
+				String parentCompleCode = branchCompleCode.substring(0, branchCompleCode.length()-5);
 
 				// 查询其父类机构（分公司）的角色信息
 				qo.setParentCompleCode(parentCompleCode);// 机构CompleCode为父类机构CompleCode
