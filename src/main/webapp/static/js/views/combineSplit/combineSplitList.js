@@ -86,6 +86,7 @@ function initcombineSplitList() {
             gridHandel.setDatagridHeader("center");
          }
     });
+    queryForm();
 }
 
 //新增
