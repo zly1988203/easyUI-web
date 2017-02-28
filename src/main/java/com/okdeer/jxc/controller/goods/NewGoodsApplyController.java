@@ -32,8 +32,11 @@ import org.springframework.web.multipart.MultipartFile;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.base.common.exception.ServiceException;
 import com.okdeer.base.common.utils.UuidUtils;
+import com.okdeer.jxc.branch.entity.Branches;
+import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
+import com.okdeer.jxc.common.enums.BranchTypeEnum;
 import com.okdeer.jxc.common.enums.GoodsStatusEnum;
 import com.okdeer.jxc.common.enums.GoodsTypeEnum;
 import com.okdeer.jxc.common.enums.NewGoodsApplyEnum;
@@ -91,6 +94,9 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 	@Reference(version = "1.0.0", check = false)
 	private GoodsSkuServiceApi goodsSkuService;
 	
+	@Reference(version = "1.0.0", check = false)
+	private BranchesServiceApi branchesServiceApi;
+	
 	@Autowired
 	private NewGoodsApplyImportComponent newGoodsApplyImportComponent;
 	
@@ -133,6 +139,9 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 		if (qo.getEndTime() != null) {
 			qo.setEndTime(DateUtils.getNextDay(qo.getEndTime()));
 		}
+		// 默认当前机构
+		qo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
+		
 		qo.setPageNumber(pageNumber);
 		qo.setPageSize(pageSize);
 		PageUtils<NewGoodsApply> page = newGoodsApplyService.queryPageByParams(qo);
@@ -161,15 +170,24 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 		model.addAttribute("goodsBrand", goodsBrands.getList().get(0));
 		
 		//供应商查询
-		SupplierQo supplier = new SupplierQo();
-		supplier.setSupplierName("默认供应商");
-		String branchId = UserUtil.getCurrBranchId();
-		supplier.setBranchId(branchId);
-		supplier.setPageNumber(Constant.ONE);
-		supplier.setPageSize(Constant.ONE);
-		PageUtils<Supplier> suppliers = supplierService.queryLists(supplier);
-		model.addAttribute("supplier", suppliers.getList().get(0));
+		String branchId = "";
+		List<Supplier> suppliers = new ArrayList<Supplier>();
+		Integer branchType = UserUtil.getCurrBranchType();
+		if(branchType.compareTo(BranchTypeEnum.SELF_STORE.getCode()) == 0 
+		 ||branchType.compareTo(BranchTypeEnum.FRANCHISE_STORE_B.getCode()) == 0 
+		 ||branchType.compareTo(BranchTypeEnum.FRANCHISE_STORE_C.getCode()) == 0 ){
+			branchId = UserUtil.getCurrBranchId();
+			suppliers = findSupplier(branchId);
+			if(CollectionUtils.isEmpty(suppliers)){
+				Branches branches =	branchesServiceApi.getBranchInfoById(UserUtil.getCurrBranchId());
+				suppliers = findSupplier(branches.getParentId());
+			}
+		}else{
+			branchId = UserUtil.getCurrBranchId();
+			suppliers = findSupplier(branchId);
+		}
 		
+		model.addAttribute("supplier", suppliers.get(0));
 		// 将计价方式，商品状态，商品类型的枚举放入model中
 		addEnum(model);
 
@@ -184,6 +202,17 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 		return "newGoodsApply/addNewGoodsApply";
 	}
 
+	private List<Supplier> findSupplier(String branchId) {
+		SupplierQo supplier = new SupplierQo();
+		supplier.setSupplierName("默认供应商");
+		supplier.setBranchId(branchId);
+		supplier.setPageNumber(Constant.ONE);
+		supplier.setPageSize(Constant.ONE);
+		PageUtils<Supplier> suppliers = supplierService.queryLists(supplier);
+		List<Supplier> list = suppliers.getList();
+		return list;
+	}
+	
 	/**
 	 * 
 	 * @Description: 商品复制跳转页
@@ -584,6 +613,8 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 			if (qo.getEndTime() != null) {
 				qo.setEndTime(DateUtils.getNextDay(qo.getEndTime()));
 			}
+			qo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
+			
 			List<NewGoodsApply> list = newGoodsApplyService.queryListByParams(qo);
 			if (CollectionUtils.isNotEmpty(list)) {
 				handleDateReport(list);
@@ -653,11 +684,11 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 			//当前导入机构id
 			String branchId = UserUtil.getCurrBranchId();
 
-			String[] field =  new String[] {"skuName","barCode","salePrice","purchasePrice",
-					"categoryCode","spec","brandName","unit","purchaseSpec",
-					"distributionSpec", "vaildity", "originPlace","supplierName","saleWay","pricingType", "supplierRate",
-					"type","lowestPrice","distributionPrice","wholesalePrice","vipPrice",
-					 "inputTax", "outputTax","remark"};
+			String[] field =  new String[] {
+					"skuName","barCode","purchasePrice","salePrice","vipPrice","distributionPrice","wholesalePrice",
+					"categoryCode","spec","unit","purchaseSpec","distributionSpec","brandCode","vaildity",
+					"originPlace","pricingType","type","remark"
+					};
 			
 			GoodsSelectImportVo<GoodsSelect> vo = newGoodsApplyImportComponent.importSelectGoods(fileName, is, field,
 					new GoodsSelectByPurchase(), branchId, userId , type, "/goods/newGoodsApply/downloadErrorFile",
@@ -705,13 +736,12 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 	@RequestMapping(value = "downloadErrorFile")
 	public void downloadErrorFile(String code, String type, HttpServletResponse response) {
 		String reportFileName = "错误数据";
-		String[] headers = new String[] { "商品名称","条形码","零售价","进货价","商品类别","规格","品牌","库存单位","采购规格","配送规格","保质期天数",
-				"产地","主供应商","经营方式", "计价方式","联营扣率/代销扣率","商品类型","最低售价","配送价" ,"批发价","会员价" ,
-				 "进项税率", "销项税率" , "备注"};
-		String[] columns = new String[] { "skuName","barCode","salePrice","purchasePrice","categoryCode","spec","brandName","unit","purchaseSpec", 
-				"distributionSpec","vaildity","originPlace","supplierName","saleWay", "pricingType","supplierRate",
-				"type","lowestPrice","distributionPrice","wholesalePrice","vipPrice",
-				"inputTax", "outputTax","remark"};
+		String[] headers = new String[] { "商品名称","条形码","进货价","零售价","会员价","配送价","批发价","小类编码",
+				                          "规格","库存单位","采购规格","配送规格","品牌编码","保质期天数","产地","计价方式",
+				                          "商品类型","备注"};
+		String[] columns = new String[] {"skuName","barCode","purchasePrice","salePrice","vipPrice","distributionPrice","wholesalePrice",
+									     "categoryCode","spec","unit","purchaseSpec","distributionSpec","brandCode","vaildity",
+									     "originPlace","pricingType","type","remark"};
 		newGoodsApplyImportComponent.downloadErrorFile(code, reportFileName, headers, columns, response);
 	}
 	
