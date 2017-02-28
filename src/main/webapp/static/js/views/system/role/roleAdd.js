@@ -36,7 +36,8 @@ function changeRoleType(){
 		}
 		if(branchType==0){ //总部
 			$("#branchNameCode").val(sessionBranchCodeName).attr("disabled", "disabled");
-			$(':radio[name=isCommonRole][value=0]').attr("checked", "checked"); //总部默认为机构角色，所属机构为总部
+			$(':radio[name=isCommonRole][value=1]').removeAttr("checked"); //总部默认为机构角色，所属机构为总部
+			$(':radio[name=isCommonRole][value=0]').prop('checked', true); //总部默认为机构角色，所属机构为总部
 			$(':radio[name=isCommonRole]').attr("disabled", "disabled");
 			$("#branchNameCodeMore").hide();
 			$("#opBranchId").val(sessionBranchId);
@@ -103,6 +104,7 @@ function addRole(){
         success:function(result){
         	if(result){
 				alertTip(result.message, reloadDataGrid);
+				initTreeRoles();
 			}
         },
         error:function(result){

@@ -83,7 +83,7 @@ public class RoleCommonController extends BaseController<RoleCommonController> {
 				String parentCompleCode = branchCompleCode.substring(0, 9);
 
 				// 查询其父类机构（分公司）的角色信息
-				qo.setBranchCompleCode(parentCompleCode);// 机构CompleCode为父类机构CompleCode
+				qo.setParentCompleCode(parentCompleCode);// 机构CompleCode为父类机构CompleCode
 			}
 			
 			//如果当前机构是总部，并且传递的机构完整编码不是总部，则过滤公共角色

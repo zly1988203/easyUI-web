@@ -15,6 +15,7 @@ function updateRole(){
         success:function(result){
         	if(result){
 				alertTip(result.message, reloadDataGrid);
+				initTreeRoles();
 			}
         },
         error:function(result){
