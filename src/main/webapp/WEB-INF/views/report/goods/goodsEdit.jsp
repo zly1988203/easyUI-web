@@ -251,8 +251,7 @@
 				</div>
 				<div class="ub ub-ac uw-300">
 					<div class="umar-r10 uw-60 ut-r">修改时间:</div>
-					<input id="createTimeUpdate" name="createTimeUpdate"
-						class="uinp uinp-no-more" type="text" readonly="readonly">
+					<input id="updateTime" name="updateTime" class="uinp uinp-no-more" type="text" readonly="readonly">
 				</div>
 				<div class="ub ub-ac uw-300">
 					<div class="umar-r10 uw-60 ut-r">修改人:</div>

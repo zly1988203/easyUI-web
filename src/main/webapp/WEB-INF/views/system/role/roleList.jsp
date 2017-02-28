@@ -12,7 +12,7 @@
 <body class="ub uw uh ufs-14 uc-black">
 <div class="ub  ub-f1 umar-4 upad-4">
 	<!--left-->
-	<div class="ub ub-ver ubor">
+	<div class="ub ub-ver ubor uw-220">
 		<div class="ub upad-4 ub-f1 uscroll">
 			<div class="zTreeDemoBackground left">
 				<ul id="treeBranchRoles" class="ztree"></ul>

@@ -316,6 +316,7 @@ public class GoodsBranchPriceController {
 			LOG.warn("validate error message:{}", errorMessage);
 			return RespJson.error(errorMessage);
 		}
+		branchGoodsPropVo.setUpdateUserId(UserUtil.getCurrUserId());
 		return goodsBranchPriceService.updateBranchGoodsProp(branchGoodsPropVo);
 	}
 	
