@@ -84,7 +84,7 @@ public class GoodsTotalAnalsiController extends ReportController {
 	@Override
 	public Map<String, Object> getParam(HttpServletRequest request) {
 		Map<String, Object> map= this.builderParams(request, null);
-		if(!map.containsKey("branchId")){
+		if(!map.containsKey("branchCompleCode")){
 			map.put("branchCompleCode", UserUtil.getCurrBranchCompleCode());
 		}
 		return map;
