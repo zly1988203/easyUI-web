@@ -320,7 +320,7 @@ function gFunGoodsSelect(searchKey,branchId){
     	$("#skuId").val(data[0].skuId);
     	$("#skuName").val(data[0].skuName);
         
-    },searchKey,0,"","",branchId,"","0");
+    },searchKey,1,"","",branchId,"","0");
 }
 
 
