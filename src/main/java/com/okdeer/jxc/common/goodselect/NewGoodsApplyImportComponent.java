@@ -29,7 +29,10 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.okdeer.base.common.exception.ServiceException;
+import com.okdeer.jxc.branch.entity.Branches;
+import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.common.constant.Constant;
+import com.okdeer.jxc.common.enums.BranchTypeEnum;
 import com.okdeer.jxc.common.enums.GoodsTypeEnum;
 import com.okdeer.jxc.common.enums.PricingTypeEnum;
 import com.okdeer.jxc.common.enums.SaleWayEnum;
@@ -80,6 +83,9 @@ public class NewGoodsApplyImportComponent {
 	
 	@Reference(version = "1.0.0", check = false)
 	private SupplierServiceApi supplierService;
+	
+	@Reference(version = "1.0.0", check = false)
+	private BranchesServiceApi branchesServiceApi;
 	
 	@Reference(version = "1.0.0", check = false)
 	private NewGoodsApplyServiceApi newGoodsApplyService;
@@ -296,6 +302,25 @@ public class NewGoodsApplyImportComponent {
 					}
 				}
 			}
+			
+			//类别校验
+			boolean categoryCodeFlag = obj.containsKey("categoryCode");
+			if(categoryCodeFlag){
+				String categoryCode = obj.getString("categoryCode");
+				if(StringUtils.isNotBlank(categoryCode)){
+					List<GoodsCategory> goodsCategory = goodsCategoryService.queryByCategoryCode(categoryCode);
+					if(CollectionUtils.isEmpty(goodsCategory)){
+						obj.element("error", "商品类别不存在");
+						continue;
+					}
+				}else{
+					obj.element("error", "商品类别为空");
+					continue;
+				}
+			}else{
+				obj.element("error", "商品类别为空");
+				continue;
+			}
 		}
 	}
 	
@@ -379,6 +404,10 @@ public class NewGoodsApplyImportComponent {
 				obj.put("type", GoodsTypeEnum.ORDINARY.getOrdinal());
 			}
 			
+			//设置进货规格、配送规格
+			setSpec(obj, "purchaseSpec");
+			setSpec(obj, "distributionSpec");
+			
 			//批发价
 			initNotRequiredCommonPrice(obj, "wholesalePrice");
 			
@@ -408,6 +437,25 @@ public class NewGoodsApplyImportComponent {
 			
 			//初始化供应商
 			initSupplier(obj);
+		}
+	}
+	
+	//设置配送规格、进货规格
+	private void setSpec(JSONObject obj,String key) {
+		boolean specFlag = obj.containsKey(key);
+		if(specFlag) {
+			String purchaseSpec = obj.getString(key);
+			if(StringUtils.isNotBlank(purchaseSpec)){
+				try {
+					Double.parseDouble(purchaseSpec);
+				} catch (Exception e) {
+					obj.put(key, "1");
+				}
+			}else{
+				obj.put(key, "1");
+			}
+		}else{
+			obj.put(key, "1");
 		}
 	}
 	
@@ -490,12 +538,33 @@ public class NewGoodsApplyImportComponent {
 	
 	//初始化供应商
 	private void initSupplier(JSONObject obj) {
-		Supplier supplier = supplierService.getDefaultSupplierByBranchId(UserUtil.getCurrBranchId());
+		String branchId = "";
+		Supplier supplier = null;
+		Integer branchType = UserUtil.getCurrBranchType();
+		if(branchType.compareTo(BranchTypeEnum.SELF_STORE.getCode()) == 0 
+		 ||branchType.compareTo(BranchTypeEnum.FRANCHISE_STORE_B.getCode()) == 0 
+		 ||branchType.compareTo(BranchTypeEnum.FRANCHISE_STORE_C.getCode()) == 0 ){
+			branchId = UserUtil.getCurrBranchId();
+			supplier = findSupplier(branchId);
+			if(supplier == null) {
+				Branches branches =	branchesServiceApi.getBranchInfoById(UserUtil.getCurrBranchId());
+				supplier = findSupplier(branches.getParentId());
+			}
+		}else{
+			supplier = findSupplier(UserUtil.getCurrBranchId());
+		}
 		obj.put("supplierId", supplier.getId());
 		obj.put("supplierCode", supplier.getSupplierCode());
 		obj.put("supplierName", supplier.getSupplierName());
 		obj.put("branchId", UserUtil.getCurrBranchId());
 		obj.put("createUserId", UserUtil.getCurrUserId());
+		//设置默认经营方式
+		obj.put("saleWay", supplier.getSaleWay());
+	}
+	
+	
+	private Supplier findSupplier(String branchId) {
+		return supplierService.getDefaultSupplierByBranchId(branchId);
 	}
 	
 	/**

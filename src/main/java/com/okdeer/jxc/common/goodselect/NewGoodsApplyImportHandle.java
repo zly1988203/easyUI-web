@@ -15,7 +15,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.okdeer.jxc.common.enums.GoodsTypeEnum;
 import com.okdeer.jxc.common.enums.PricingTypeEnum;
-import com.okdeer.jxc.common.enums.SaleWayEnum;
 import com.okdeer.jxc.goods.entity.GoodsSelect;
 
 import net.sf.json.JSONArray;
@@ -154,32 +153,31 @@ public class NewGoodsApplyImportHandle implements GoodsSelectImportHandle {
 			
 			//计价方式：0普通，1计重、2计件
 			boolean pricingTypeFlag = obj.containsKey("pricingType");
-			String oldPricingType = "";
-			String newPricingType = "";
+			String pricingType = "";
 			if(pricingTypeFlag){
-				oldPricingType = obj.getString("pricingType");
-				if(StringUtils.isNotBlank(oldPricingType)){
-					PricingTypeEnum pricingTypeEnum = PricingTypeEnum.enumValueOf(oldPricingType);
+				pricingType = obj.getString("pricingType");
+				if(StringUtils.isNotBlank(pricingType)){
+					PricingTypeEnum pricingTypeEnum = PricingTypeEnum.enumValueOf(pricingType);
 					if(pricingTypeEnum == null) {
 						obj.element("error", "计价方式错误");
 						continue;
 					}
 				}else{
-					newPricingType = PricingTypeEnum.ORDINARY.getValue();
-					obj.put("pricingType",newPricingType);
+					obj.element("error", "计价方式为空");
+					continue;
 				}
 			}else{
-				newPricingType = PricingTypeEnum.ORDINARY.getValue();
-				obj.put("pricingType",newPricingType);
+				obj.element("error", "计价方式为空");
+				continue;
 			}
 			
 			//普通商品:条码（必填项）：条码不能重复,如果商品为计件、计重的商品，则条码可为空。
 			String barCode = "";
 			boolean barCodeFlag = obj.containsKey("barCode");
-			if(StringUtils.isBlank(oldPricingType)) {
+			if(StringUtils.isBlank(pricingType)) {
 				if(!barCodeFlag){
 					obj.element("error", "商品条码为空");
-					obj.put("pricingType",oldPricingType);
+					obj.put("pricingType",pricingType);
 					continue;
 				}
 				barCode = obj.getString("barCode");
@@ -200,28 +198,15 @@ public class NewGoodsApplyImportHandle implements GoodsSelectImportHandle {
 			}
 			
 			//零售价非空校验
-			boolean salePriceFlag = checkRequiredCommonPrice(obj, "salePrice", "零售价只能为数字", "零售价为空");
+			boolean salePriceFlag = checkRequiredCommonPrice(obj, "salePrice", "零售价只能为数字", "零售价为空","零售价需大于0,小于9999999999");
 			if(!salePriceFlag){
 				continue;
 			}
 			
 			//进货价非空校验
-			boolean purchasePriceFlag = checkRequiredCommonPrice(obj, "purchasePrice", "进货价只能为数字", "进货价为空");
+			boolean purchasePriceFlag = checkRequiredCommonPrice(obj, "purchasePrice", "进货价只能为数字", "进货价为空","进货价需大于0,小于9999999999");
 			if(!purchasePriceFlag){
 				continue;
-			}
-			
-			//经营方式：A:购销，B:代销、C:联营、D:扣率代销
-			boolean saleWayFlag = obj.containsKey("saleWay");
-			if(saleWayFlag){
-				String saleWay = obj.getString("saleWay");
-				if(StringUtils.isNotBlank(saleWay)){
-					SaleWayEnum saleWayEnum = SaleWayEnum.enumValueOf(saleWay);
-					if(saleWayEnum == null) {
-						obj.element("error", "经营方式错误");
-						continue;
-					}
-				}
 			}
 			
 			//商品类型（0普通商品，1制单组合，2制单拆分，3捆绑商品，4自动转货
@@ -237,19 +222,6 @@ public class NewGoodsApplyImportHandle implements GoodsSelectImportHandle {
 				}
 			}
 			
-			//进货规格
-			boolean purchaseSpecFlag = checkCommonSpec(obj, "purchaseSpec", "进货规格只能为数字");
-			if(!purchaseSpecFlag ){
-				continue;
-			}
-			
-			//配送规格
-			boolean distributionSpecFlag = checkCommonSpec(obj, "distributionSpec", "配送规格只能为数字");
-			if(!distributionSpecFlag ){
-				continue;
-			}
-			
-			
 			//批发价
 			boolean wholesalePriceFlag = checkNotRequiredCommonPrice(obj, "wholesalePrice", "批发价只能为数字");
 			if(!wholesalePriceFlag){
@@ -261,28 +233,9 @@ public class NewGoodsApplyImportHandle implements GoodsSelectImportHandle {
 			if(!distributionPriceFlag){
 				continue;
 			}
-			
-			//最低售价
-			boolean lowestPriceFlag = checkNotRequiredCommonPrice(obj, "lowestPrice", "最低售价只能为数字");
-			if(!lowestPriceFlag){
-				continue;
-			}
-			
 			//会员价
 			boolean vipPriceFlag = checkVipPrice(obj, "vipPrice", "会员价只能为数字");
 			if(!vipPriceFlag){
-				continue;
-			}
-			
-			//销项税率
-			boolean outputTaxFlag = checkNotRequiredCommonPrice(obj, "outputTax", "销项税率只能为数字");
-			if(!outputTaxFlag){
-				continue;
-			}
-			
-			//进项税率
-			boolean inputTaxFlag = checkNotRequiredCommonPrice(obj, "inputTax", "进项税率只能为数字");
-			if(!inputTaxFlag){
 				continue;
 			}
 			
@@ -367,7 +320,7 @@ public class NewGoodsApplyImportHandle implements GoodsSelectImportHandle {
 	 * @author zhongy
 	 * @date 2017年2月24日
 	 */
-	private boolean checkRequiredCommonPrice(JSONObject obj,String colkey,String msg1,String msg2) {
+	private boolean checkRequiredCommonPrice(JSONObject obj,String colkey,String msg1,String msg2,String msg3) {
 		boolean colFlag = obj.containsKey(colkey);
 		if(colFlag){
 			String price = obj.getString(colkey);
@@ -377,6 +330,12 @@ public class NewGoodsApplyImportHandle implements GoodsSelectImportHandle {
 			}else{
 				try {
 					Double.parseDouble(price);
+					if(price.compareTo("0.00")==0 
+					|| price.compareTo("0.00") <0 
+					|| price.compareTo("9999999999") > 0) {
+						obj.element("error", msg3);
+						return false;
+					}
 				} catch (Exception e) {
 					obj.element("error", msg1);
 					return false;
