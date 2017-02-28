@@ -29,9 +29,9 @@
                 <div class="ubtns-item" id="toBackByJSButton" onclick="back()">关闭</div>
 	        </div>
 		</div>
-		
-		<div class="already-examine" id="already-examine"><span><c:if test="${stockFormVo.status == 0}">未审核</c:if><c:if test="${stockFormVo.status != 0}">已审核</c:if></span></div>
-
+		<c:if test="${stockFormVo.status != 0}">
+		<div class="already-examine" id="already-examine"><span>已审核</span></div>
+		</c:if>
  		<input type="hidden" id="id" name="id" value="${stockFormVo.id}">
  		<input type="hidden" name="skuIdMain" id="skuIdMain" value="${stockFormVo.skuId}">
 		<input type="hidden" name="skuCodeMain" id="skuCodeMain" value="${stockFormVo.skuCode}">
