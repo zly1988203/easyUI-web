@@ -30,7 +30,7 @@ function changeUppermit(newV,oldV){
 	}
 	
 	$("#"+datagridId).datagrid("endEdit", selectIndex);
-	if((parseFloat(newV) > 0) &&　checkUpLowLimit()){
+	if((parseFloat(newV) > 0) && checkUpLowLimit()){
 		specialRows('upperLimit',newV);
 	}
 	
