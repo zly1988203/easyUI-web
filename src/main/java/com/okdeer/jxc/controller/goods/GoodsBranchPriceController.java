@@ -16,8 +16,6 @@ import javax.validation.Valid;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,6 +37,7 @@ import com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportHandle;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.PageUtils;
+import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.goods.entity.GoodsBranchPrice;
 import com.okdeer.jxc.goods.entity.GoodsBranchPriceVo;
 import com.okdeer.jxc.goods.entity.GoodsSelect;
@@ -66,7 +65,7 @@ import net.sf.json.JSONObject;
 
 @Controller
 @RequestMapping("branch/goods")
-public class GoodsBranchPriceController {
+public class GoodsBranchPriceController extends BaseController<GoodsBranchPriceController>{
 
 	@Reference(version = "1.0.0", check = false)
 	private GoodsBranchPriceServiceApi goodsBranchPriceService;
@@ -76,8 +75,6 @@ public class GoodsBranchPriceController {
 	
 	@Autowired
 	private BranchGoodsImportComponent branchGoodsImportComponent;
-	
-	private static final Logger LOG = LoggerFactory.getLogger(GoodsBranchPriceController.class);
 	
 	/**
 	 * 列表

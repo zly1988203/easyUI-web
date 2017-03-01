@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.poi.ss.formula.functions.T;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,7 +43,7 @@ import com.okdeer.jxc.utils.UserUtil;
  */
 @Controller
 @RequestMapping("scale/scale")
-public class ScaleController extends BaseController<T> {
+public class ScaleController extends BaseController<ScaleController> {
 
 	@Reference(version = "1.0.0", check = false)
 	ScaleServiceApi scaleServiceApi;

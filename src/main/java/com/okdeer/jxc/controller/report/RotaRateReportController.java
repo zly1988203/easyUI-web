@@ -41,7 +41,7 @@ import com.okdeer.jxc.utils.UserUtil;
  */
 @Controller
 @RequestMapping("/report/rotation")
-public class RotaRateReportController extends BaseController<T> {
+public class RotaRateReportController extends BaseController<RotaRateReportController> {
 
 	/**
 	 * RotaRateReportServiceApi

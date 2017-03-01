@@ -6,7 +6,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.ss.formula.functions.T;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -43,7 +42,7 @@ import com.okdeer.jxc.utils.UserUtil;
  */
 @Controller
 @RequestMapping("/stock/combineSplit")
-public class CombineSplitController extends BaseController<T> {
+public class CombineSplitController extends BaseController<CombineSplitController> {
 
 	@Reference(version = "1.0.0", check = false)
 	private StockAdjustServiceApi stockAdjustServiceApi;
