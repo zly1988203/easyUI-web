@@ -11,6 +11,8 @@ var gridDefault = {
     largeNum:0,
     isGift:0,
 }
+var clickLargeNumChangeFg = false; //防止 行点击触发 numberbox chang事件 引起反算关系 造成bug 
+var clickRealNumChangeFg = false; //防止 行点击触发 numberbox chang事件 引起反算关系 造成bug 
 var gridHandel = new GridClass();
 function initDatagridAddRequireOrder(){
     gridHandel.setGridName("gridEditOrder");
@@ -176,6 +178,8 @@ function initDatagridAddRequireOrder(){
             {field:'remark',title:'备注',width:'200px',align:'left',editor:'textbox'}
         ]],
         onClickCell:function(rowIndex,field,value){
+        	clickLargeNumChangeFg = true;
+        	clickRealNumChangeFg = true;
             gridHandel.setBeginRow(rowIndex);
             gridHandel.setSelectFieldName(field);
             var target = gridHandel.getFieldTarget(field);
@@ -202,6 +206,11 @@ var n = 0;
 var m = 0;
 //监听箱数
 function onChangeRealNum(newV,oldV) {
+	//clickLargeNumChangeFg = true;
+	if(clickLargeNumChangeFg){
+		clickLargeNumChangeFg = false;
+		return ;
+	}
 	if(m === 1){
 		m = 0;
 		return;
@@ -220,6 +229,7 @@ function onChangeRealNum(newV,oldV) {
         messager("配送规格不能为0");
         return;
     }
+    debugger;
     var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
 	var selectVal=$("#io").combobox('getValue');
     var newRealNum = parseFloat(purchaseSpecValue*newV).toFixed(4);
@@ -260,6 +270,10 @@ function onChangeRealNum(newV,oldV) {
 
 //监听数量
 function totleChangePrice(newV,oldV) {
+	if(clickRealNumChangeFg){
+		clickRealNumChangeFg = false;
+		return ;
+	}
 	if(n === 1){
 		n = 0;
 		return;
@@ -268,6 +282,7 @@ function totleChangePrice(newV,oldV) {
 	 if(!gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuCode')){
 	        return;
 	 }
+	 
     var purchaseSpecValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'purchaseSpec');
     if(!purchaseSpecValue){
         messager("没有配送规格,请审查");
