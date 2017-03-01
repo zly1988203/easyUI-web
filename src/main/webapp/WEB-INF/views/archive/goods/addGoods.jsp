@@ -185,7 +185,7 @@ pageEncoding="UTF-8"%>
                 </div>
                 <div class="ub ub-ac uw-300">
                     <div class="umar-r10 uw-60 ut-r">毛利率:</div>
-                    <input id="grossProfitPercent" name="" value="0" class="uinp uinp-no-more easyui-numberbox easyui-validatebox" style="width: 204px;" data-options="min:0,precision:2" type="text" readonly="readonly">
+                    <input id="grossProfitPercent" name="" value="0" class="uinp uinp-no-more easyui-numberbox easyui-validatebox" style="width: 204px;" data-options="min:0,precision:2" type="text" readonly="readonly">%
                 </div>
                 <div class="ub ub-ac uw-300">
                     <div class="umar-r10 uw-60 ut-r">销项税率:</div>
