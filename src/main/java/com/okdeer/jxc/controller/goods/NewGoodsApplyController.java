@@ -55,11 +55,11 @@ import com.okdeer.jxc.goods.entity.GoodsSelect;
 import com.okdeer.jxc.goods.entity.GoodsSelectByPurchase;
 import com.okdeer.jxc.goods.entity.GoodsSku;
 import com.okdeer.jxc.goods.entity.NewGoodsApply;
+import com.okdeer.jxc.goods.qo.GoodsBrandQo;
 import com.okdeer.jxc.goods.qo.NewGoodsApplyQo;
 import com.okdeer.jxc.goods.service.GoodsBrandServiceApi;
 import com.okdeer.jxc.goods.service.GoodsSkuServiceApi;
 import com.okdeer.jxc.goods.service.NewGoodsApplyServiceApi;
-import com.okdeer.jxc.goods.vo.GoodsBrandVo;
 import com.okdeer.jxc.supplier.entity.Supplier;
 import com.okdeer.jxc.supplier.qo.SupplierQo;
 import com.okdeer.jxc.supplier.service.SupplierServiceApi;
@@ -162,7 +162,7 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 		model.addAttribute("action", "create");
 		
 		//品牌查询
-		GoodsBrandVo  brand = new GoodsBrandVo();
+		GoodsBrandQo  brand = new GoodsBrandQo();
 		brand.setBrandCodeOrName("其他");
 		brand.setPageNumber(Constant.ONE);
 		brand.setPageSize(Constant.ONE);
