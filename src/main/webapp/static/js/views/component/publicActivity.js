@@ -74,7 +74,7 @@ function initActivityGrid(param){
 			}
 		}, {
 			field : 'endTime',
-			title : '活动开始日期',
+			title : '活动结束日期',
 			width : 100,
 			align : "center",
 			formatter: function (value, row, index) {
