@@ -9,7 +9,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,7 +51,7 @@ import net.sf.json.JSONObject;
  */
 @Controller
 @RequestMapping("/stock/index")
-public class StockIndexController extends BaseController<T> {
+public class StockIndexController extends BaseController<StockIndexController> {
 
 	@Reference(version = "1.0.0", check = false)
 	private StockIndexServiceApi stockIndexServiceApi;

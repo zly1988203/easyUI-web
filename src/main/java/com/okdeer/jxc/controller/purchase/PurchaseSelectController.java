@@ -20,7 +20,6 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
-import com.okdeer.jxc.form.entity.PurchaseForm;
 import com.okdeer.jxc.form.entity.PurchaseSelect;
 import com.okdeer.jxc.form.purchase.qo.PurchaseFormDetailPO;
 import com.okdeer.jxc.form.purchase.qo.PurchaseFormPO;
@@ -41,7 +40,7 @@ import com.okdeer.jxc.form.purchase.vo.PurchaseSelectVo;
  */
 @Controller
 @RequestMapping("form/purchaseSelect")
-public class PurchaseSelectController extends BaseController<PurchaseForm> {
+public class PurchaseSelectController extends BaseController<PurchaseSelectController> {
 
 	/**
 	 * @Fields purchaseSelectServiceApi : 采购订单选择API
@@ -110,10 +109,10 @@ public class PurchaseSelectController extends BaseController<PurchaseForm> {
 			/**
 			 * update by xiaoj02 2016-9-7 end
 			 */
-			LOG.info("vo:" + vo.toString());
+			LOG.info("vo:{}", vo.toString());
 			PageUtils<PurchaseSelect> suppliers = purchaseSelectServiceApi
 					.queryLists(vo);
-			LOG.info("page" + suppliers.toString());
+			LOG.info("page:{}", suppliers.toString());
 			return suppliers;
 		} catch (Exception e) {
 			LOG.error("采购订单选择查询数据出现异常:", e);

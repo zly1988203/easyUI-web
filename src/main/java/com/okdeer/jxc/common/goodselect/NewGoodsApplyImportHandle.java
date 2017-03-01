@@ -348,32 +348,6 @@ public class NewGoodsApplyImportHandle implements GoodsSelectImportHandle {
 		return true;
 	}
 	
-	/**
-	 * @Description: 规格校验
-	 * @param obj 对象
-	 * @param colkey 字段key
-	 * @param msg 提示信息
-	 * @return   
-	 * @return boolean  
-	 * @throws
-	 * @author zhongy
-	 * @date 2017年2月24日
-	 */
-	private boolean checkCommonSpec(JSONObject obj,String colkey,String msg) {
-		boolean flag = obj.containsKey(colkey);
-		if(flag){
-			String spec = obj.getString(colkey);
-			if(StringUtils.isNotBlank(spec)){
-				try {
-					Double.parseDouble(spec);
-				} catch (Exception e) {
-					obj.element("error", msg);
-					return false;
-				}
-			}
-		}
-		return true;
-	}
 	
 	/**
 	 * 更新有效的数据列表

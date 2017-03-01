@@ -71,7 +71,7 @@ import com.okdeer.jxc.utils.UserUtil;
  */
 @Controller
 @RequestMapping("print")
-public class PrintController extends BaseController<GoodsSelect> {
+public class PrintController extends BaseController<PrintController> {
 
 	private static final Logger LOG = LoggerFactory.getLogger(PrintController.class);
 

@@ -48,7 +48,7 @@ import com.okdeer.jxc.utils.UserUtil;
 
 /**
  * ClassName: StockAdjustController 
- * @Description: TODO
+ * @Description: 商品库存调整
  * @author liux01
  * @date 2016年10月11日
  *

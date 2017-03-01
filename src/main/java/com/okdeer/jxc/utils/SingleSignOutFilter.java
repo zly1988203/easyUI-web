@@ -15,6 +15,8 @@ import javax.servlet.http.HttpSession;
 import org.jasig.cas.client.session.SessionMappingStorage;
 import org.jasig.cas.client.session.SingleSignOutHandler;
 import org.jasig.cas.client.util.AbstractConfigurationFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.okdeer.jxc.common.constant.Constant;
 
@@ -26,7 +28,12 @@ import com.okdeer.jxc.common.constant.Constant;
  * @since 3.1
  */
 public final class SingleSignOutFilter extends AbstractConfigurationFilter {
-
+	
+	/**
+	 * logger 日志
+	 */
+	private static final Logger logger = LoggerFactory.getLogger(SingleSignOutFilter.class);
+	
 	private static final SingleSignOutHandler HANDLER = new SingleSignOutHandler();
 
 	public void init(final FilterConfig filterConfig) throws ServletException {
@@ -62,7 +69,7 @@ public final class SingleSignOutFilter extends AbstractConfigurationFilter {
 			// Do not continue up filter chain
 			return;
 		} else {
-			log.trace("Ignoring URI " + request.getRequestURI());
+			logger.trace("Ignoring URI:{}",request.getRequestURI());
 
 			// 登陆url
 			String contextPath = request.getContextPath();
@@ -80,7 +87,7 @@ public final class SingleSignOutFilter extends AbstractConfigurationFilter {
 					writer.close();
 					return;
 				} catch (Exception e) {
-					log.warn("输出会话异常错误", e);
+					logger.warn("输出会话异常错误", e);
 				}
 			}
 		}
