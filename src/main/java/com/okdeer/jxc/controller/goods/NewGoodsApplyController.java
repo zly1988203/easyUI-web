@@ -494,6 +494,8 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 	@RequestMapping(value = "checkBarCodeByOrdinary", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson checkBarCodeByOrdinary(String barCode,String skuName,  String id) {
+		
+		String currBranchId = UserUtil.getCurrBranchId();
 		if(StringUtils.isNotBlank(barCode)){
 			//1、校验标准库商品条码重复
 			boolean isExistsBarCode = goodsSkuService.isExistsBarCodeByOrdinary(barCode.trim(),id);
@@ -503,7 +505,7 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 				return json;
 			} 
 			//2、校验新品申请库商品条码重复
-			Integer barCodeSum = newGoodsApplyService.queryCountByBarCode(barCode.trim(), id);
+			Integer barCodeSum = newGoodsApplyService.queryCountByBarCode(barCode.trim(), id,currBranchId);
 			if(barCodeSum>0){
 				RespJson json = RespJson.error("商品条码在新品申请中重复");
 				json.put("_data", barCode);
@@ -520,7 +522,7 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 			} 
 			
 			//4、校验新品申请库商品名称重复
-			Integer skuNameSum = newGoodsApplyService.queryCountBySkuName(skuName.trim(), id);
+			Integer skuNameSum = newGoodsApplyService.queryCountBySkuName(skuName.trim(), id,currBranchId);
 			if(skuNameSum>0){
 				RespJson json = RespJson.error("商品名称在新品申请中重复");
 				json.put("_data", barCode);

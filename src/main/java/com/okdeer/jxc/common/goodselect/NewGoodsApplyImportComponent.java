@@ -265,11 +265,12 @@ public class NewGoodsApplyImportComponent {
 	//处理excel校验成功的数据
 	private void handelExcelSuccessData( NewGoodsApplyImportHandle goodsSelectImportHandle) {
 		List<JSONObject> successDatas =  goodsSelectImportHandle.getExcelListSuccessData();
+		String currBranchId = UserUtil.getCurrBranchId();
 		for(JSONObject obj : successDatas) {
 			String skuName = obj.getString("skuName");
 			if(StringUtils.isNotBlank(skuName)) {
 				//1 检查商品名称在新品申请库中重复
-				Integer skuNameSum = newGoodsApplyServiceApi.queryCountBySkuName(skuName.trim(), "");
+				Integer skuNameSum = newGoodsApplyServiceApi.queryCountBySkuName(skuName.trim(), "",currBranchId);
 				if(skuNameSum>0) {
 					obj.element("error", "商品名称在新品申请库中重复");
 					continue;
@@ -288,7 +289,7 @@ public class NewGoodsApplyImportComponent {
 				String barCode = obj.getString("barCode");
 				if(StringUtils.isNotBlank(barCode)) {
 					//3  查询新品申请库商品条码是否存在
-					Integer barCodeSum = newGoodsApplyServiceApi.queryCountByBarCode(barCode.trim(), "");
+					Integer barCodeSum = newGoodsApplyServiceApi.queryCountByBarCode(barCode.trim(), "",currBranchId);
 					if(barCodeSum>0) {
 						obj.element("error", "商品条码在新品申请库中重复");
 						continue;
