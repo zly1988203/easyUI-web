@@ -18,10 +18,10 @@
 		<form id="queryForm" action="" method="post">
 			<div class="ub ub-ac">
 	            <div class="ubtns">
-	            <shiro:hasPermission name="JxcSaleFlow:search">
+	            <shiro:hasPermission name="goodsSaleNumReport:search">
 	                <div class="ubtns-item" onclick="queryForm()">查询</div>
 	            </shiro:hasPermission>
-	            <shiro:hasPermission name="JxcSaleFlow:export">
+	            <shiro:hasPermission name="goodsSaleNumReport:export">
 	            <input type="hidden" id="startCount" name="startCount" />
 				<input type="hidden" id="endCount" name="endCount" />
 	                <div class="ubtns-item" onclick="exportData()">导出</div>
