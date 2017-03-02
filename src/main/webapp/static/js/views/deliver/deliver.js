@@ -1,5 +1,4 @@
 
-var deliverStatus = 'add'
 var targetBranchTypeTemp = "";
 var branchId = '';	
 var gridDefault = {
@@ -13,12 +12,12 @@ var oldData = {};
 var gridName = "gridRequireOrder";
 
 $(function(){
-	deliverStatus = $('#deliverStatus').val();
-	if(deliverStatus==='add'){
+	var deliverStatus = $('#deliverStatus').val();
+	if(deliverStatus === 'add'){
 		  $("#createTime").html(new Date().format('yyyy-MM-dd hh:mm')); 
 		  initDatagridRequireOrder();
 		    targetBranchTypeTemp = $("#targetBranchType").val();
-	}else if(deliverStatus==='edit'){
+	}else if(deliverStatus === 'edit'){
 		var formId = $("#formId").val();
 		url = contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverFormId="+formId+"&deliverType=DA";
 		initDatagridRequireOrder();
@@ -523,7 +522,19 @@ function selectGoods(searchKey){
         messager("请先选择发货机构");
         return;
     }
-    new publicGoodsService("DA",function(data){
+    var param = {
+    		type:'DA',
+    		key:searchKey,
+    		branchId:branchId,
+    		sourceBranchId:sourceBranchId,
+    		targetBranchId:targetBranchId,
+    		isRadio:'',
+    		supplierId:'',
+    		flag:'0'
+    		
+    }
+    
+    new publicNewGoodsService(param,function(data){
     	if(searchKey){
 	        $("#"+gridName).datagrid("deleteRow", gridHandel.getSelectRowIndex());
 	        $("#"+gridName).datagrid("acceptChanges");
@@ -537,7 +548,7 @@ function selectGoods(searchKey){
             gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
         },100)
     	
-    },searchKey,'',sourceBranchId,targetBranchId,branchId,'',"0");
+    });
     branchId = '';
 }
 
