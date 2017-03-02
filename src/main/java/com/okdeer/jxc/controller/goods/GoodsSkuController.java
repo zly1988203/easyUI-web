@@ -36,10 +36,10 @@ import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.goods.entity.GoodsBrand;
 import com.okdeer.jxc.goods.entity.GoodsSku;
+import com.okdeer.jxc.goods.qo.GoodsBrandQo;
 import com.okdeer.jxc.goods.qo.GoodsSkuQo;
 import com.okdeer.jxc.goods.service.GoodsBrandServiceApi;
 import com.okdeer.jxc.goods.service.GoodsSkuServiceApi;
-import com.okdeer.jxc.goods.vo.GoodsBrandVo;
 import com.okdeer.jxc.goods.vo.GoodsSkuVo;
 import com.okdeer.jxc.supplier.entity.Supplier;
 import com.okdeer.jxc.supplier.qo.SupplierQo;
@@ -135,7 +135,7 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 		model.addAttribute("action", "create");
 		
 		//品牌查询
-		GoodsBrandVo  brand = new GoodsBrandVo();
+		GoodsBrandQo  brand = new GoodsBrandQo();
 		brand.setBrandCodeOrName("其他");
 		brand.setPageNumber(Constant.ONE);
 		brand.setPageSize(Constant.ONE);
