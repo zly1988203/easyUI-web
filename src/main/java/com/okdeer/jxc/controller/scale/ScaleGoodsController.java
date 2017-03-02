@@ -20,9 +20,9 @@ import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.goods.entity.GoodsCategory;
 import com.okdeer.jxc.goods.entity.GoodsSelect;
+import com.okdeer.jxc.goods.qo.GoodsCategoryQo;
 import com.okdeer.jxc.goods.service.GoodsCategoryServiceApi;
 import com.okdeer.jxc.goods.service.GoodsSelectServiceApi;
-import com.okdeer.jxc.goods.vo.GoodsCategoryVo;
 import com.okdeer.jxc.goods.vo.GoodsSelectVo;
 import com.okdeer.jxc.utils.UserUtil;
 
@@ -118,7 +118,7 @@ public class ScaleGoodsController extends BaseController<ScaleGoodsController> {
 			if (UserUtil.getCurrentUser() == null) {
 				return Message.getNotLogged();
 			}
-			GoodsCategoryVo vo = JSON.parseObject(categoryVoJson, GoodsCategoryVo.class);
+			GoodsCategoryQo vo = JSON.parseObject(categoryVoJson, GoodsCategoryQo.class);
 			LOG.info("vo:" + vo.toString());
 			PageUtils<GoodsCategory> suppliers = goodsCategoryService.queryLists(vo);
 			LOG.info("page" + suppliers.toString());

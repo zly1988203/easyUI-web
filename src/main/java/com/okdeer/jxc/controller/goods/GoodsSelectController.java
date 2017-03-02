@@ -46,10 +46,10 @@ import com.okdeer.jxc.form.enums.FormType;
 import com.okdeer.jxc.goods.entity.GoodsCategory;
 import com.okdeer.jxc.goods.entity.GoodsSelect;
 import com.okdeer.jxc.goods.entity.GoodsSelectDeliver;
+import com.okdeer.jxc.goods.qo.GoodsCategoryQo;
 import com.okdeer.jxc.goods.service.GoodsCategoryServiceApi;
 import com.okdeer.jxc.goods.service.GoodsSelectServiceApi;
 import com.okdeer.jxc.goods.service.GoodsSupplierBranchServiceApi;
-import com.okdeer.jxc.goods.vo.GoodsCategoryVo;
 import com.okdeer.jxc.goods.vo.GoodsSelectVo;
 import com.okdeer.jxc.goods.vo.GoodsSkuVo;
 import com.okdeer.jxc.goods.vo.GoodsStockVo;
@@ -383,7 +383,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 	public Message getComponentList(String categoryVoJson) {
 		Message msg = new Message();
 		try {
-			GoodsCategoryVo vo = JSON.parseObject(categoryVoJson, GoodsCategoryVo.class);
+			GoodsCategoryQo vo = JSON.parseObject(categoryVoJson, GoodsCategoryQo.class);
 			LOG.info("vo:" + vo.toString());
 			PageUtils<GoodsCategory> suppliers = goodsCategoryService.queryLists(vo);
 			LOG.info("page" + suppliers.toString());

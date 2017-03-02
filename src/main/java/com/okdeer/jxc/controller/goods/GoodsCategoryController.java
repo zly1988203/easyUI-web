@@ -32,8 +32,8 @@ import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.goods.entity.GoodsCategory;
+import com.okdeer.jxc.goods.qo.GoodsCategoryQo;
 import com.okdeer.jxc.goods.service.GoodsCategoryServiceApi;
-import com.okdeer.jxc.goods.vo.GoodsCategoryVo;
 
 /**
  * ClassName: SupplierAreaController 
@@ -76,11 +76,11 @@ public class GoodsCategoryController extends
 	 */
 	@RequestMapping(value = "getGoodsCategoryToTree")
 	@ResponseBody
-	public String getGoodsCategoryToTree(GoodsCategoryVo vo) {
+	public String getGoodsCategoryToTree(GoodsCategoryQo qo) {
 		try {
-			LOG.info("类别树结构参数:" + vo.toString());
+			LOG.info("类别树结构参数:" + qo.toString());
 			String categoryTree = goodsCategoryService
-					.queryGoodsCategoryToTree(vo);
+					.queryGoodsCategoryToTree(qo);
 			LOG.info("categoryTree:" + categoryTree);
 			return categoryTree;
 		} catch (Exception e) {
@@ -102,20 +102,20 @@ public class GoodsCategoryController extends
 	@RequestMapping(value = "getComponentList", method = RequestMethod.POST)
 	@ResponseBody
 	public PageUtils<GoodsCategory> getComponentList(
-			GoodsCategoryVo vo,String categoryType,
+			GoodsCategoryQo qo,String categoryType,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
 			//判断类别类型1.goodsTotal 商品汇总 2.categoryTotal 类别汇总
 			if("goodsTotal".equals(categoryType)) {
-				vo.setCategoryLevel("3");
+				qo.setCategoryLevel("3");
 			}
 			if("categoryTotal".equals(categoryType)) {
-				vo.setCategoryLevel("1");
+				qo.setCategoryLevel("1");
 			}
-			vo.setPageNumber(pageNumber);
-			vo.setPageSize(pageSize);
-			PageUtils<GoodsCategory> suppliers = goodsCategoryService.queryLists(vo);
+			qo.setPageNumber(pageNumber);
+			qo.setPageSize(pageSize);
+			PageUtils<GoodsCategory> suppliers = goodsCategoryService.queryLists(qo);
 			return suppliers;
 		} catch (Exception e) {
 			LOG.error("查询类别异常:", e);
@@ -149,19 +149,19 @@ public class GoodsCategoryController extends
 	@RequestMapping(value = "queryChildrenCategryList", method = RequestMethod.POST)
 	@ResponseBody
 	public PageUtils<GoodsCategory> queryChildrenCategryList(
-			GoodsCategoryVo vo,
+			GoodsCategoryQo qo,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
-			LOG.info("查询类别参数:vo={}",vo.toString());
-			vo.setPageNumber(pageNumber);
-			vo.setPageSize(pageSize);
-			if(StringUtils.isNotBlank(vo.getCategoryNameOrCode())){
-				vo.setCategoryNameOrCode(vo.getCategoryNameOrCode().trim());
+			LOG.info("查询类别参数:vo={}",qo.toString());
+			qo.setPageNumber(pageNumber);
+			qo.setPageSize(pageSize);
+			if(StringUtils.isNotBlank(qo.getCategoryNameOrCode())){
+				qo.setCategoryNameOrCode(qo.getCategoryNameOrCode().trim());
 			}else{
-				vo.setCategoryNameOrCode("");
+				qo.setCategoryNameOrCode("");
 			}
-			PageUtils<GoodsCategory> goodsCategorys = goodsCategoryService.queryLists(vo);
+			PageUtils<GoodsCategory> goodsCategorys = goodsCategoryService.queryLists(qo);
 			return goodsCategorys;
 		} catch (Exception e) {
 			LOG.error("查询类别异常:", e);
@@ -384,15 +384,15 @@ public class GoodsCategoryController extends
 	 */
 	@RequestMapping(value = "/exportList", method = RequestMethod.POST)
 	@ResponseBody
-	public String exportList(GoodsCategoryVo vo, HttpServletResponse response) {
-		LOG.info("商品类别查询，报表导出参数：{}", vo);
+	public String exportList(GoodsCategoryQo qo, HttpServletResponse response) {
+		LOG.info("商品类别查询，报表导出参数：{}", qo);
 		try {
-			if(StringUtils.isNotBlank(vo.getCategoryNameOrCode())){
-				vo.setCategoryNameOrCode(vo.getCategoryNameOrCode().trim());
+			if(StringUtils.isNotBlank(qo.getCategoryNameOrCode())){
+				qo.setCategoryNameOrCode(qo.getCategoryNameOrCode().trim());
 			}else{
-				vo.setCategoryNameOrCode("");
+				qo.setCategoryNameOrCode("");
 			}
-			List<GoodsCategory> exportList = goodsCategoryService.queryExportCategory(vo);
+			List<GoodsCategory> exportList = goodsCategoryService.queryExportCategory(qo);
 			String fileName = "类别导出" + "_" + DateUtils.getCurrSmallStr();
 			String templateName = ExportExcelConstant.GOODS_CATEGORY_REPORT;
 			exportListForXLSX(response, exportList, fileName, templateName);
