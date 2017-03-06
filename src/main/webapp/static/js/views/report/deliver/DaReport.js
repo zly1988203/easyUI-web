@@ -120,6 +120,10 @@ function exportData(){
 function exportExcel(){
 	$("#exportWin").hide();
 	$("#exportWin").window("close");
+	var fromObjStr = $('#queryForm').serializeObject();
+	// 去除编码
+    fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1);
+    $('#branchName').val(fromObjStr.branchName);
 	$("#queryForm").form({
 		success : function(result){
 			//successTip(result);
