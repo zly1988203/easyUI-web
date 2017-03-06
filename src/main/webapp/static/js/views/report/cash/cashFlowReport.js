@@ -76,7 +76,9 @@ function initCashWaterGrid() {
     				}
     				if(orderType =='2') {
     					return "POS订单";
-    				}
+    				}else if(orderType=="3"){
+        				return "APP";
+        			}
     			}
     			return null;
     		}},
