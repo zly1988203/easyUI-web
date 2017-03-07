@@ -9,11 +9,13 @@
     <title>要货单-编辑</title>
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-	<script src="${ctx}/static/js/views/deliver/deliverEdit.js"></script>
+	<%-- <script src="${ctx}/static/js/views/deliver/deliverEdit.js"></script> --%>
+	<script src="${ctx}/static/js/views/deliver/deliver.js"></script>
 	<script src="${ctx}/static/js/views/deliver/deliverExport.js"></script>
     <%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
+<input type='hidden' id="deliverStatus" value="edit">
     <div class="ub ub-ver ub-f1 umar-4  ubor">
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
@@ -33,7 +35,7 @@
                 <shiro:hasPermission name="JxcDeliverDA:print">
                     <div class="ubtns-item" onclick="printChoose('DA','/form/deliverForm/')">打印</div>
                 </shiro:hasPermission>
-                <div class="ubtns-item"  onclick="exportData('DA','gridEditRequireOrder')">导出明细</div>
+                <div class="ubtns-item"  onclick="exportData('DA','gridRequireOrder')">导出明细</div>
                 <div class="ubtns-item" onclick="toImportproduct(0)">导入货号</div>
             	<div class="ubtns-item" onclick="toImportproduct(1)">导入条码</div>
                 <div class="ubtns-item" onclick="toClose()">关闭</div>
@@ -101,24 +103,9 @@
             </div>
         </div>
         <div class="ub ub-f1 datagrid-edit umar-t8">
-            <table id="gridEditRequireOrder" ></table>
+            <table id=gridRequireOrder ></table>
         </div>
     </div>
-	 <!-- 导入弹框 -->
-    <div class="uabs uatk">
-     	<div class="uatit">导入文件选择</div>
-         <div class="uacon">
-	         <input class="uinp ub" id="filename" type="text">
-	         <label class="ualable">选择文件
-	         	<input type="file" class="uafile" value=""  name="xlfile" id="xlf" />
-	         </label>
-         </div>
-         
-         <div class="uabtns ">
-     	 		<button class="uabtn umar-r30" onclick="importHandel('gridEditOrder')">导入</button>
-     	 	<button class="uabtn" onclick="uaclose()" >取消</button>
-     	 </div>
 
-     </div>
 </body>
 </html>

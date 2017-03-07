@@ -3,6 +3,10 @@
  * 公共组件接口的封装
  */
 //公共组件-弹出框
+
+var top = $(window).height()/2;
+var left = $(window).width()/2;
+
 function messager(msg,title){
     $.messager.show({
         title:title||'系统提示',
@@ -584,21 +588,19 @@ function callBackHandel(data){
 }
 }
 
-
-//公共组件-商品选择
-//flag:商品公共组件查询判断是否过滤捆绑商品
-function publicGoodsService(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId,supplierId,flag){
-	if(typeof(flag)=="undefined"){ 
-		flag = "";
+//临时方案
+function publicGoodsServiceTem(param,callback){
+	if(typeof(param.flag)=="undefined"){ 
+		param.flag = "";
 	}
-	if(key){
+	if(param.key){
 		var urlTemp;
-		if(type=="DA"){
-			branchId = '';
-			urlTemp = contextPath + '/goods/goodsSelect/importSkuCode?skuCodes='+key+'&branchId='+branchId+"&supplierId="+supplierId+"&type="+type+"&sourceBranchId="+sourceBranchId+"&targetBranchId="+targetBranchId+"&flag="+flag;
+		if(param.type=="DA"){
+			param.branchId = '';
+			urlTemp = contextPath + '/goods/goodsSelect/importSkuCode?skuCodes='+param.key+'&branchId='+param.branchId+"&supplierId="+param.supplierId+"&type="+param.type+"&sourceBranchId="+param.sourceBranchId+"&targetBranchId="+param.targetBranchId+"&flag="+param.flag;
 			//publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId,supplierId);
 		} else {
-			urlTemp = contextPath + '/goods/goodsSelect/importSkuCode?skuCodes='+key+'&branchId='+branchId+"&supplierId="+supplierId+"&flag="+flag;
+			urlTemp = contextPath + '/goods/goodsSelect/importSkuCode?skuCodes='+param.key+'&branchId='+param.branchId+"&supplierId="+param.supplierId+"&flag="+param.flag;
 		}
 		$.ajax({
 			url:urlTemp,
@@ -607,7 +609,7 @@ function publicGoodsService(type,callback,key,isRadio,sourceBranchId,targetBranc
 				if(data&&data.length==1){
 					callback(data);
 			}else{
-				publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId,supplierId,flag);
+				publicGoodsServiceHandel(param,callback);
 			}
 		},
 		error:function(){
@@ -615,17 +617,64 @@ function publicGoodsService(type,callback,key,isRadio,sourceBranchId,targetBranc
 		}
 		})
     }else{
-        publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId,supplierId,flag);
+        publicGoodsServiceHandel(param,callback);
+    }
+}
+
+
+//公共组件-商品选择
+//flag:商品公共组件查询判断是否过滤捆绑商品
+function publicGoodsService(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId,supplierId,flag){
+	
+    var param = {
+    		type:type,
+    		key:key,
+    		isRadio:isRadio,
+    		sourceBranchId:sourceBranchId,
+    		targetBranchId:targetBranchId,
+    		branchId:branchId,
+    		supplierId:supplierId,
+    		flag:flag
+    }
+	
+	if(typeof(param.flag)=="undefined"){ 
+		param.flag = "";
+	}
+	if(param.key){
+		var urlTemp;
+		if(param.type=="DA"){
+			param.branchId = '';
+			urlTemp = contextPath + '/goods/goodsSelect/importSkuCode?skuCodes='+param.key+'&branchId='+param.branchId+"&supplierId="+param.supplierId+"&type="+param.type+"&sourceBranchId="+param.sourceBranchId+"&targetBranchId="+param.targetBranchId+"&flag="+param.flag;
+			//publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId,supplierId);
+		} else {
+			urlTemp = contextPath + '/goods/goodsSelect/importSkuCode?skuCodes='+param.key+'&branchId='+param.branchId+"&supplierId="+param.supplierId+"&flag="+param.flag;
+		}
+		$.ajax({
+			url:urlTemp,
+			type:'POST',
+			success:function(data){
+				if(data&&data.length==1){
+					callback(data);
+			}else{
+				publicGoodsServiceHandel(param,callback);
+			}
+		},
+		error:function(){
+			 messager("数据查询失败");
+		}
+		})
+    }else{
+        publicGoodsServiceHandel(param,callback);
     }
 }
 
 var good_dalogTemp = null;
 
-function publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId,supplierId,flag){
-	if(!branchId){
-        url=contextPath + "/goods/goodsSelect/view?type="+type+"&sourceBranchId="+sourceBranchId+"&targetBranchId="+targetBranchId+"&supplierId="+supplierId+"&flag="+flag;
+function publicGoodsServiceHandel(param,callback){
+	if(!param.branchId){
+        url=contextPath + "/goods/goodsSelect/view?type="+param.type+"&sourceBranchId="+param.sourceBranchId+"&targetBranchId="+param.ltargetBranchId+"&supplierId="+param.supplierId+"&flag="+param.flag;
     }else{
-        url=contextPath + "/goods/goodsSelect/view?type="+type+"&branchId="+branchId+"&supplierId="+supplierId+"&flag="+flag;
+        url=contextPath + "/goods/goodsSelect/view?type="+param.type+"&branchId="+param.branchId+"&supplierId="+param.supplierId+"&flag="+param.flag;
     }
     //公有属性
     var dalogObj = {
@@ -657,8 +706,8 @@ function publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targe
     }else{
         dalogObj["onLoad"] =function(){
             initGoodsRadioCallBack();
-            $("#goodsInfo").val(key);
-            initSearch(key);
+            $("#goodsInfo").val(param.key);
+            initSearch(param.key);
         };
         dalogObj["buttons"] =[{
             text:'确定',

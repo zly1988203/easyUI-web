@@ -348,20 +348,7 @@ function initDatagridEditRequireOrder(){
 
             updateRowsStyle();
             updateFooter();
-            /*if(!gVarIsInit){
-            	gVarIsInit = true;
-                selectStockAndPrice(data.rows);
-            }*/
         },
-//    	rowStyler:function(index,row){
-//    		if(typeof(row.sourceStock) != 'undefined' && typeof(row.applyNum) != 'undefined'
-//    			&& typeof(row.alreadyNum) != 'undefined'){
-//        		if(parseFloat(row.applyNum)+parseFloat(row.alreadyNum || 0) > parseFloat(row.sourceStock)){
-//        			return 'background-color:pink;';
-//        		}	
-//    		}
-//    		
-//		}
     });
 }
 
@@ -375,8 +362,7 @@ function updateRowsStyle(){
     		if(parseFloat(row.applyNum)+parseFloat(row.alreadyNum) > parseFloat(row.sourceStock)){
     			alreadyNumopts.styler = function(value,row,index){
     				return "color:red";
-    			} 
-    			
+    			}
     			sourceStockopts.styler = function(value,row,index){
     				return "color:red";
     			} 
@@ -393,9 +379,6 @@ function updateRowsStyle(){
 		}
     });
 }
-
-
-var gVarIsInit = false;
 
 //限制转换次数
 var n = 0;
@@ -803,32 +786,6 @@ function toFooter(){
 	$('#gridEditRequireOrder').datagrid('reloadFooter',[{"isFooter":true,"receivablesAccount":$('#receivablesAccount').val()||0,"collectAccount":$('#collectAccount').val()||0}]);
 }
 
-//删除
-function delDeliverForm(){
-	$.messager.confirm('提示','是否要删除此条数据',function(data){
-		if(data){
-			$.ajax({
-		    	url:contextPath+"/form/deliverForm/deleteDeliverForm",
-		    	type:"POST",
-		    	data:{
-		    		formId : $("#formId").val()
-		    	},
-		    	success:function(result){
-		    		if(result['code'] == 0){
-		    			successTip("删除成功");
-		    			back();
-		    		}else{
-		    			successTip(result['message']);
-		    		}
-		    	},
-		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
-		    	}
-		    });
-		}
-	});
-}
-
 /**
  * 要货机构
  */
@@ -889,42 +846,7 @@ function selectSourceBranch(){
 function back(){
 	location.href = contextPath+"/form/deliverForm/viewsDA";
 }
-/**
- * 导入
- */
-function importHandel(){
-	postelsxDeliver('gridEditOrder','/goods/goodsSelect',$("#sourceBranchId").val(),$("#targetBranchId").val(),"DA");
-}
 
-/**
- * 获取导入的数据
- * @param data
- */
-function getImportData(data){
-    $.each(data,function(i,val){
-        data[i]["oldPurPrice"] = data[i]["purchasePrice"];
-        data[i]["oldSalePrice"]=data[i]["salePrice"];
-        data[i]["oldWsPrice"]=data[i]["wholesalePrice"];
-        data[i]["oldVipPrice"]=data[i]["vipPrice"];
-        data[i]["oldDcPrice"]=data[i]["distributionPrice"];
-        data[i]["price"] = data[i]["oldPurPrice"];
-        data[i]["applyNum"]=data[i]["applyNum"]||0;
-        data[i]["amount"]  = parseFloat(data[i]["price"]||0)*parseFloat(data[i]["applyNum"]||0);
-        if(parseInt(data[i]["distributionSpec"])){
-        	 data[i]["largeNum"]  = (parseFloat(data[i]["applyNum"]||0)/parseFloat(data[i]["distributionSpec"])).toFixed(4);
-        }else{
-        	 data[i]["largeNum"]  =  0;
-        	 data[i]["distributionSpec"] = 0;
-        }
-        
-    });
-    var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
-    var argWhere ={skuCode:1};  //验证重复性
-    var newRows = gridHandel.checkDatagrid(nowRows,data,argWhere,{});
-
-    $("#"+gridHandel.getGridName()).datagrid("loadData",newRows);
-    messager("导入成功");
-}
 
 //新的导入功能 货号(0)、条码(1)导入
 function toImportproduct(type){
