@@ -672,7 +672,7 @@ var good_dalogTemp = null;
 
 function publicGoodsServiceHandel(param,callback){
 	if(!param.branchId){
-        url=contextPath + "/goods/goodsSelect/view?type="+param.type+"&sourceBranchId="+param.sourceBranchId+"&targetBranchId="+param.ltargetBranchId+"&supplierId="+param.supplierId+"&flag="+param.flag;
+        url=contextPath + "/goods/goodsSelect/view?type="+param.type+"&sourceBranchId="+param.sourceBranchId+"&targetBranchId="+param.targetBranchId+"&supplierId="+param.supplierId+"&flag="+param.flag;
     }else{
         url=contextPath + "/goods/goodsSelect/view?type="+param.type+"&branchId="+param.branchId+"&supplierId="+param.supplierId+"&flag="+param.flag;
     }
@@ -1865,3 +1865,35 @@ function publicConfirmDialog(callback,param){
         $(dalogTemp).panel('destroy');
     }
 }
+
+var StockDialog = null;
+function publicStocktakingDialog(param,callback){
+		if(null != StockDialog) return;
+		
+		StockDialog = $('<div/>').dialog({
+        href: contextPath+"/goods/goodsSelect/goPublicComfirmDialog",
+        title: '盘点批号选择',
+        top:335,
+        left:625,
+        closable: true,
+        resizable: false,
+        onClose: function () {
+            $(dalogTemp).panel('destroy');
+            StockDialog = null;
+        },
+        modal: true,
+        onLoad: function () {
+        	initStocktaking(param);
+        	initStockCallBack(callBackHandel);
+        }
+    })
+    
+    function callBackHandel(data){
+        callback(data);
+        $(dalogTemp).panel('destroy');
+        StockDialog = null;
+    }
+}
+
+
+

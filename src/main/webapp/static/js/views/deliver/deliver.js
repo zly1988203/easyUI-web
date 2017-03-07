@@ -531,7 +531,7 @@ function selectGoods(searchKey){
     		targetBranchId:targetBranchId,
     		branchId:branchId,
     		supplierId:'',
-    		flag:'0'
+    		flag:'0',
     }
 
     new publicGoodsServiceTem(param,function(data){
