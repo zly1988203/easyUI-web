@@ -522,22 +522,22 @@ function selectGoods(searchKey){
         messager("请先选择发货机构");
         return;
     }
+    
     var param = {
     		type:'DA',
     		key:searchKey,
-    		branchId:branchId,
+    		isRadio:'',
     		sourceBranchId:sourceBranchId,
     		targetBranchId:targetBranchId,
-    		isRadio:'',
+    		branchId:branchId,
     		supplierId:'',
     		flag:'0'
-    		
     }
-    
-    new publicNewGoodsService(param,function(data){
+
+    new publicGoodsServiceTem(param,function(data){
     	if(searchKey){
-	        $("#"+gridName).datagrid("deleteRow", gridHandel.getSelectRowIndex());
-	        $("#"+gridName).datagrid("acceptChanges");
+	        $("#gridEditOrder").datagrid("deleteRow", gridHandel.getSelectRowIndex());
+	        $("#gridEditOrder").datagrid("acceptChanges");
 	    }
     	selectStockAndPrice(data);
     	

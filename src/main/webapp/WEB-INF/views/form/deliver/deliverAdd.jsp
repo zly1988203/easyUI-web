@@ -8,9 +8,11 @@
     <title>要货单-新增</title>
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-	<script src="${ctx}/static/js/views/deliver/deliverAdd.js"></script>
+	<%-- <script src="${ctx}/static/js/views/deliver/deliverAdd.js"></script> --%>
+	<script src="${ctx}/static/js/views/deliver/deliver.js"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
+<input type='hidden' id="deliverStatus" value="add">
     <div class="ub ub-ver ub-f1 umar-4  ubor">
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
@@ -82,22 +84,9 @@
            </div>
            <%--datagrid-edit--%>
            <div class="ub ub-f1 datagrid-edit umar-t8">
-            <table id="gridEditOrder" ></table>
+            <table id="gridRequireOrder" ></table>
         </div>
     </div>
-     <!-- 导入弹框 -->
-    <div class="uabs uatk">
-     	<div class="uatit">导入文件选择</div>
-         <div class="uacon">
-         	<input class="uinp ub" id="filename" type="text">
-         	<label class="ualable">选择文件
-         		<input type="file" class="uafile" value=""  name="xlfile" id="xlf" />
-         	</label>
-         </div>
-         <div class="uabtns ">
-     	 	<button class="uabtn umar-r30" onclick="importHandel()">导入</button>
-     	 	<button class="uabtn" onclick="uaclose()" >取消</button>
-     	 </div>
-     </div>
+
 </body>
 </html>
