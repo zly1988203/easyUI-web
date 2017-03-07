@@ -367,4 +367,8 @@ public interface ExportExcelConstant {
 	 * @Fields MEMBER_ORDER_LIST : 会员消费明细
 	 */
 	String MEMBER_ORDER_LIST = "MemberOrderList.xlsx";
+	/**
+	 * 最大值数值
+	 */
+	double MAXNUM = 999999.99;
 }
