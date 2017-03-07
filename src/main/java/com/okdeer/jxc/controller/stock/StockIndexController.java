@@ -38,7 +38,7 @@ import com.okdeer.jxc.utils.UserUtil;
 import net.sf.json.JSONObject;
 
 /***
- * 
+ * <p></p>
  * ClassName: StockIndexController 
  * @Description: 商品存量指标Controller
  * @author xuyq
@@ -53,16 +53,23 @@ import net.sf.json.JSONObject;
 @RequestMapping("/stock/index")
 public class StockIndexController extends BaseController<StockIndexController> {
 
+	/**
+	 * @Fields stockIndexServiceApi : stockIndexServiceApi
+	 */
 	@Reference(version = "1.0.0", check = false)
 	private StockIndexServiceApi stockIndexServiceApi;
 
+	
+	/**
+	 * @Fields goodsSelectImportComponent : goodsSelectImportComponent
+	 */
 	@Autowired
 	private GoodsSelectImportComponent goodsSelectImportComponent;
 
 	/**
 	 * 
 	 * @Description: 跳转列表页面
-	 * @return
+	 * @return String
 	 * @author xuyq
 	 * @date 2017年2月14日
 	 */
@@ -74,7 +81,7 @@ public class StockIndexController extends BaseController<StockIndexController> {
 	/**
 	 * 
 	 * @Description: 跳转新增页面
-	 * @return
+	 * @return String
 	 * @author xuyq
 	 * @date 2017年2月14日
 	 */
@@ -86,10 +93,10 @@ public class StockIndexController extends BaseController<StockIndexController> {
 	/**
 	 * 
 	 * @Description: 查询列表
-	 * @param vo
-	 * @param pageNumber
-	 * @param pageSize
-	 * @return
+	 * @param vo 参数VO
+	 * @param pageNumber 页码
+	 * @param pageSize 页数
+	 * @return PageUtils
 	 * @author xuyq
 	 * @date 2017年2月14日
 	 */
@@ -117,9 +124,8 @@ public class StockIndexController extends BaseController<StockIndexController> {
 	/***
 	 * 
 	 * @Description: 保存商品存量指标
-	 * @param vo
-	 * @param validate
-	 * @return
+	 * @param data 数据
+	 * @return RespJson
 	 * @author xuyq
 	 * @date 2017年2月15日
 	 */
@@ -140,7 +146,7 @@ public class StockIndexController extends BaseController<StockIndexController> {
 				return respJson;
 			}
 			List<StockIndexVo> jsonList = JSON.parseArray(data, StockIndexVo.class);
-			if(jsonList.isEmpty()){
+			if (jsonList.isEmpty()) {
 				respJson = RespJson.error("保存数据不能为空！");
 				return respJson;
 			}
@@ -159,10 +165,10 @@ public class StockIndexController extends BaseController<StockIndexController> {
 	/***
 	 * 
 	 * @Description: 导入商品存量指标
-	 * @param file
-	 * @param branchId
-	 * @param type
-	 * @return
+	 * @param file 导入文件
+	 * @param branchId 机构ID
+	 * @param type 导入类型
+	 * @return RespJson
 	 * @author xuyq
 	 * @date 2017年2月17日
 	 */
@@ -179,9 +185,11 @@ public class StockIndexController extends BaseController<StockIndexController> {
 			String fileName = file.getOriginalFilename();
 			SysUser user = UserUtil.getCurrentUser();
 			String[] field = null;
-			if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {// 货号
+			if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {
+				// 货号
 				field = new String[] { "skuCode", "upperLimit", "lowerLimit" };
-			} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {// 条码
+			} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {
+				// 条码
 				field = new String[] { "barCode", "upperLimit", "lowerLimit" };
 			}
 			GoodsSelectImportVo<GoodsSelectByStockIndex> vo = goodsSelectImportComponent.importSelectGoodsWithStock(
@@ -203,7 +211,7 @@ public class StockIndexController extends BaseController<StockIndexController> {
 								String upperLimit = obj.getString("upperLimit");
 								try {
 									upperDou = Double.parseDouble(upperLimit);
-									if (upperDou <= 0 || upperDou > 999999.99) {
+									if (upperDou <= 0 || upperDou > ExportExcelConstant.MAXNUM) {
 										obj.element("error", "库存上限必填，且必须大于0，小于999999.99");
 									}
 								} catch (Exception e) {
@@ -214,7 +222,7 @@ public class StockIndexController extends BaseController<StockIndexController> {
 								String lowerLimit = obj.getString("lowerLimit");
 								try {
 									lowerDou = Double.parseDouble(lowerLimit);
-									if (lowerDou <= 0 || lowerDou > 999999.99) {
+									if (lowerDou <= 0 || lowerDou > ExportExcelConstant.MAXNUM) {
 										obj.element("error", "库存下限必填，且必须大于0，小于999999.99");
 									}
 								} catch (Exception e) {
@@ -265,9 +273,9 @@ public class StockIndexController extends BaseController<StockIndexController> {
 	/**
 	 * 
 	 * @Description: 导出异常信息
-	 * @param code
-	 * @param type
-	 * @param response
+	 * @param code 编码
+	 * @param type 类型
+	 * @param response HttpServletResponse
 	 * @author liux01
 	 * @date 2016年10月15日
 	 */
@@ -278,10 +286,12 @@ public class StockIndexController extends BaseController<StockIndexController> {
 		String[] headers = null;
 		String[] columns = null;
 
-		if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {// 货号
+		if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {
+			// 货号
 			columns = new String[] { "skuCode", "upperLimit", "lowerLimit" };
 			headers = new String[] { "货号", "库存上限", "库存下限" };
-		} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {// 条码
+		} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {
+			// 条码
 			columns = new String[] { "barCode", "upperLimit", "lowerLimit" };
 			headers = new String[] { "条码", "库存上限", "库存下限" };
 		}
@@ -292,11 +302,12 @@ public class StockIndexController extends BaseController<StockIndexController> {
 	/**
 	 * 
 	 * @Description: 导入模板下载
-	 * @param response
-	 * @param type
+	 * @param response response
+	 * @param type type
 	 * @author liux01
 	 * @date 2016年10月15日
 	 */
+	
 	@RequestMapping(value = "exportStockIndexTemp")
 	public void exportTemp(HttpServletResponse response, String type) {
 		try {

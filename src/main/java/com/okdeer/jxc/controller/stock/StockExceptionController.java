@@ -23,7 +23,7 @@ import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
 
 /***
- * 
+ *  <p></p>
  * ClassName: StockExceptionController 
  * @Description: 库存异常查询Controller
  * @author xuyq
@@ -38,13 +38,16 @@ import com.okdeer.jxc.utils.UserUtil;
 @RequestMapping("/stock/exception")
 public class StockExceptionController extends BaseController<StockExceptionController> {
 
+	/**
+	 * @Fields stockExceptionServiceApi : stockExceptionServiceApi
+	 */
 	@Reference(version = "1.0.0", check = false)
 	private StockExceptionServiceApi stockExceptionServiceApi;
 
 	/**
 	 * 
 	 * @Description: 跳转列表页面
-	 * @return
+	 * @return String
 	 * @author xuyq
 	 * @date 2017年2月14日
 	 */
@@ -56,10 +59,10 @@ public class StockExceptionController extends BaseController<StockExceptionContr
 	/**
 	 * 
 	 * @Description: 查询列表
-	 * @param vo
-	 * @param pageNumber
-	 * @param pageSize
-	 * @return
+	 * @param vo 参数VO
+	 * @param pageNumber 页码
+	 * @param pageSize 页数
+	 * @return PageUtils
 	 * @author xuyq
 	 * @date 2017年2月14日
 	 */
@@ -87,9 +90,9 @@ public class StockExceptionController extends BaseController<StockExceptionContr
 	/***
 	 * 
 	 * @Description: 导出列表
-	 * @param response
-	 * @param vo
-	 * @return
+	 * @param response HttpServletResponse
+	 * @param vo 参数VO
+	 * @return RespJson
 	 * @author xuyq
 	 * @date 2017年2月14日
 	 */
