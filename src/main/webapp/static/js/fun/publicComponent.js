@@ -588,7 +588,7 @@ function callBackHandel(data){
 }
 }
 
-//临时方案
+//临时方法
 function publicGoodsServiceTem(param,callback){
 	if(typeof(param.flag)=="undefined"){ 
 		param.flag = "";

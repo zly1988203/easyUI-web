@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>存货盘点</title>
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-    <script  src="${ctx}/static/js/views/takeStock/operate/operateList.js"></script>
+    <script  src="${ctx}/static/js/views/stocktaking/operate/operateList.js"></script>
     <style>
     .datagrid-header .datagrid-cell {text-align: center!important;font-weight: bold;}
     </style>
@@ -24,7 +24,6 @@
             </div>
 			<div class="ub">
 				<div class="ub ub-ac">
-					<div class="umar-r10 uw-70 ut-r">日期:</div>
 					<%@ include file="/WEB-INF/views/component/dateSelect.jsp"%>
 				</div>
 			</div>
@@ -35,7 +34,7 @@
 				<div class="umar-r10 uw-70 ut-r">单号:</div>
 				<input class="uinp" type="text" id="takeStockNO" name="takeStockNO">
 			</div>
-			<div class="ub ub-ac">
+			<div class="ub ub-ac umar-l10">
 				<div class="umar-r10 uw-70 ut-r">机构:</div>
 				<input type="hidden" id="branchId" name="branchId" />
 				<input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" maxlength="50"/>
@@ -48,7 +47,7 @@
 				<input class="uinp" type="text" id="createUserId" name="createUserId">
 			</div>
             <div class="ub ub-ac umar-l10">
-                <div class="umar-r10 uw-70 ut-r">审核状态:</div>
+                <div class="umar-r10 uw-70 ut-r">单据状态:</div>
                 <div class="ub ub-ac umar-r10">
                      <label><input class="radioItem" type="radio" value="0" name="status" checked="checked"/><span>未审核</span></label>
                 </div>
@@ -61,9 +60,9 @@
             </div>
 		</div>
 		<div class="ub umar-t8">
-			<div class="ub ub-ac uw-300 umar-l40">
+			<div class="ub ub-ac uw-590 umar-l40">
 				<div class="umar-r10 uw-70 ut-r">备注:</div>
-				<input class="uinp" type="text" id="remark" name="remark">
+				<input class="uinp ub ub-f1" type="text" id="remark" name="remark">
 			</div>
 		</div>
       	</form>

@@ -137,7 +137,7 @@ function delDeliverForm(){
 	if(rowIsNull(row)){
 		return null;
 	}
-	$.messager.confirm('提示','是否要删除此条数据',function(data){
+	$.messager.confirm('提示','是否要删除选中数据',function(data){
 		if(data){
 			$.ajax({
 		    	url:contextPath+"/form/deliverForm/deleteDeliverForm",
