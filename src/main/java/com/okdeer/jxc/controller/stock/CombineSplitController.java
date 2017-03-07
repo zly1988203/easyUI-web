@@ -29,7 +29,7 @@ import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
 
 /***
- * 
+ * <p></p>
  * ClassName: CombineSplitController 
  * @Description: 组合拆分单Controller
  * @author xuyq
@@ -44,16 +44,22 @@ import com.okdeer.jxc.utils.UserUtil;
 @RequestMapping("/stock/combineSplit")
 public class CombineSplitController extends BaseController<CombineSplitController> {
 
+	/**
+	 * @Fields stockAdjustServiceApi : stockAdjustServiceApi
+	 */
 	@Reference(version = "1.0.0", check = false)
 	private StockAdjustServiceApi stockAdjustServiceApi;
 	
+	/**
+	 * @Fields goodsComponentApi : goodsComponentApi
+	 */
 	@Reference(version = "1.0.0", check = false)
 	private GoodsComponentApi goodsComponentApi;
 
 	/***
 	 * 
 	 * @Description: 跳转列表页面
-	 * @return
+	 * @return String
 	 * @author xuyq
 	 * @date 2017年2月14日
 	 */
@@ -65,7 +71,7 @@ public class CombineSplitController extends BaseController<CombineSplitControlle
 	/***
 	 * 
 	 * @Description: 跳转新增页面
-	 * @return
+	 * @return String
 	 * @author xuyq
 	 * @date 2017年2月14日
 	 */
@@ -79,9 +85,9 @@ public class CombineSplitController extends BaseController<CombineSplitControlle
 	/***
 	 * 
 	 * @Description: 跳转修改页面
-	 * @param id
-	 * @param request
-	 * @return
+	 * @param id 记录ID
+	 * @param request HttpServletRequest
+	 * @return String
 	 * @author xuyq
 	 * @date 2017年2月14日
 	 */
@@ -95,10 +101,10 @@ public class CombineSplitController extends BaseController<CombineSplitControlle
 	/***
 	 * 
 	 * @Description: 查询列表
-	 * @param vo
-	 * @param pageNumber
-	 * @param pageSize
-	 * @return
+	 * @param vo 参数VO
+	 * @param pageNumber 页码
+	 * @param pageSize 页数
+	 * @return PageUtils
 	 * @author xuyq
 	 * @date 2017年2月16日
 	 */
@@ -113,10 +119,10 @@ public class CombineSplitController extends BaseController<CombineSplitControlle
 			vo.setPageSize(pageSize);
 			// 调整类型
 			vo.setFormType(StockAdjustEnum.COMBINESPLIT.getKey());
-			if(StringUtils.isNotBlank(vo.getCreateUserId())){
+			if (StringUtils.isNotBlank(vo.getCreateUserId())) {
 				vo.setCreateUserName(null);
 			}
-			if(StringUtils.isNotBlank(vo.getBranchId())){
+			if (StringUtils.isNotBlank(vo.getBranchId())) {
 				vo.setBranchName(null);
 			}
 			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
@@ -132,10 +138,10 @@ public class CombineSplitController extends BaseController<CombineSplitControlle
 	/***
 	 * 
 	 * @Description: 详细
-	 * @param id
-	 * @param report
-	 * @param request
-	 * @return
+	 * @param id 记录ID
+	 * @param report 关闭状态
+	 * @param request HttpServletRequest
+	 * @return String
 	 * @author xuyq
 	 * @date 2017年2月16日
 	 */
@@ -150,8 +156,8 @@ public class CombineSplitController extends BaseController<CombineSplitControlle
 	/***
 	 * 
 	 * @Description:  获取成分商品明细信息
-	 * @param id
-	 * @return
+	 * @param id 记录ID
+	 * @return List
 	 * @author xuyq
 	 * @date 2017年2月19日
 	 */
@@ -171,8 +177,8 @@ public class CombineSplitController extends BaseController<CombineSplitControlle
 	/**
 	 * 
 	 * @Description: 查询组合商品成分
-	 * @param skuId
-	 * @return
+	 * @param skuId 商品ID
+	 * @return List
 	 * @author xuyq
 	 * @date 2017年2月18日
 	 */
@@ -192,8 +198,8 @@ public class CombineSplitController extends BaseController<CombineSplitControlle
 	/**
 	 * 
 	 * @Description: 保存组合拆分
-	 * @param data
-	 * @return
+	 * @param data 保存数据
+	 * @return RespJson
 	 * @author xuyq
 	 * @date 2017年2月23日
 	 */
@@ -225,8 +231,8 @@ public class CombineSplitController extends BaseController<CombineSplitControlle
 	/**
 	 * 
 	 * @Description: 删除组合拆分
-	 * @param id
-	 * @return
+	 * @param ids 记录IDS
+	 * @return RespJson
 	 * @author xuyq
 	 * @date 2017年2月19日
 	 */
@@ -246,8 +252,8 @@ public class CombineSplitController extends BaseController<CombineSplitControlle
 	/**
 	 * 
 	 * @Description:  更新组合拆分
-	 * @param jsonText
-	 * @return
+	 * @param data 更新JSON
+	 * @return RespJson
 	 * @author xuyq
 	 * @date 2017年2月19日
 	 */
@@ -275,8 +281,8 @@ public class CombineSplitController extends BaseController<CombineSplitControlle
 	/**
 	 * 
 	 * @Description: 审核组合拆分
-	 * @param id
-	 * @return
+	 * @param id 记录ID
+	 * @return RespJson
 	 * @author xuyq
 	 * @date 2017年2月19日
 	 */
