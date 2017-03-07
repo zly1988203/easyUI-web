@@ -5,19 +5,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.okdeer.jxc.controller.BaseController;
 
+/**
+ * <p></p>
+ * ClassName: StocktakingDiffSearchController 
+ * @Description: 盘点差异查询
+ * @author xuyq
+ * @date 2017年3月7日
+ *
+ * =================================================================================================
+ *     Task ID			  Date			     Author		      Description
+ * ----------------+----------------+-------------------+-------------------------------------------
+ *
+ */
 @Controller
-@RequestMapping("/takeStock/diffSearch")
-public class TakeStockDiffSearchController extends BaseController<TakeStockDiffSearchController> {
+@RequestMapping("/stocktaking/diffSearch")
+public class StocktakingDiffSearchController extends BaseController<StocktakingDiffSearchController> {
 
 	/**
 	 * 
 	 * @Description: 跳转列表页面
-	 * @return
+	 * @return String
 	 * @author xuyq
-	 * @date 2017年2月14日
+	 * @date 2017年3月7日
 	 */
 	@RequestMapping(value = "/list")
 	public String list() {
-		return "/takeStock/diffSearch/diffSearchList";
+		return "/stocktaking/diffSearch/diffSearchList";
 	}
 }
