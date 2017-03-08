@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -241,5 +242,18 @@ public class GoodsStatusController extends BaseController<GoodsStatusController>
 		}
 		return respJson;
 		
+	}
+	/**
+	 * 
+	 * @Description: 跳转到淘汰向导页面
+	 * @param model
+	 * @return
+	 * @author liux01
+	 * @date 2017年3月8日
+	 */
+	@RequestMapping(value = "toOutGuide")
+	public String toAddRole(Model model) {
+		model.addAttribute("branchType", UserUtil.getCurrBranchType());
+		return "goods/goodsStatus/outGuide";
 	}
 }

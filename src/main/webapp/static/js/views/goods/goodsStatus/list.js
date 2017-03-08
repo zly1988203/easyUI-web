@@ -343,3 +343,28 @@ function stop(type){
 		}
 	});
 }
+
+function outGuide(){
+	openDialog(contextPath+"/goods/status/toOutGuide","淘汰向导","add");
+}
+
+var  dalogTemp;
+//打开Dialog
+function openDialog(argUrl,argTitle) {
+dalogTemp = $('<div/>').dialog({
+    href: argUrl,
+    top:200,
+//    width:580,
+//    height: 400,
+    title: argTitle,
+    closable: true,
+    resizable: true,
+    onClose: function () {
+        $(dalogTemp).panel('destroy');
+    },
+    modal: true,
+    onLoad: function () {
+
+    }
+})
+}
