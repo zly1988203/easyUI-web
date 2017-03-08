@@ -10,7 +10,7 @@ $(function(){
     changeStatus();
     //初始化列表
     initBranchPriceAdjustGrid();
-   // modifyPriceOrderCx();
+    //modifyPriceOrderCx();
     
 });
 
@@ -26,7 +26,7 @@ function initBranchPriceAdjustGrid() {
         //title:'普通表单-用键盘操作',
         method: 'post',
         align: 'center',
-        url: contextPath+'/goods/branchPriceAdjust/getGoodsBranchPriceAdjustList',
+        url: '',
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect: true,  //单选  false多选
         rownumbers: true,    //序号
