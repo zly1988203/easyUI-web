@@ -97,6 +97,9 @@ public interface ExportExcelConstant {
 	String STOCK_ADJUST_SKU_TEMPLE = "StockAdjustSkuTemple.xlsx";
 	
 	String STOCK_ADJUST_BAR_TEMPLE = "StockAdjustBarTemple.xlsx";
+	String GOODS_STATUS_SKU_TEMPLE = "GoodsStatusSkuTemple.xlsx";
+	
+	String GOODS_STATUS_BAR_TEMPLE = "GoodsStatusBarTemple.xlsx";
 	/**
 	 * @Fields BARCODE_TEMPLE_TYPE : 条形码模板类型
 	 */
