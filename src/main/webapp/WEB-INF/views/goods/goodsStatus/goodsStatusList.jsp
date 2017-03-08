@@ -93,5 +93,83 @@
 		 </div>
 	 </div>
 	</div>
+	
+	<!-- 淘汰向导 选择页面 -->	
+	<div id="outGuideDailog" class="easyui-dialog" title="淘汰向导" style="width:520px;height:270px;" data-options="modal:true,buttons:'#outGdBtn'">
+		<div class="ub ub-ver upad-10 ufs-14">
+			<div class="ub ub-ver upad-l20 ">
+			    <div class="ub ub-ac">
+					<div class="ut-r umar-r8">范围:</div>
+	                <div class="ub ub-ac umar-r10">
+	                    <input class="ub radioItem" type="radio" name="guideStatus"  value="0" checked="checked"/><span>当前机构</span>
+	                </div>
+	                <div class="ub ub-ac umar-r10">
+	                    <input class="ub radioItem" type="radio" name="guideStatus" value="2" /><span>所有自营店</span>
+	                </div>
+	                <div class="ub ub-ac umar-r10">
+	                   <input class="ub radioItem" type="radio" name="guideStatus" value="1" /><span>所有加盟店</span>
+	                </div>
+				</div>
+				<div class="ub ub-ac umar-t8 ">
+	                <input class="ub radioItem umar-r8" type="radio" name="guideChoose"  value="0" checked="checked"/><span>选择已经停购，且库存为0的商品。</span>
+				</div>
+				<div class="ub ub-ac umar-t8 ">
+	                <input class="ub radioItem umar-r8" type="radio" name="guideChoose"  value="1" /><span>选择主档已经停购或淘汰且库存为0的商品。</span>
+				</div>
+				<div class="ub ub-ac umar-t8 ">
+	                <input class="ub radioItem umar-r8" type="radio" name="guideChoose"  value="2" />
+	                <input class="uinp easyui-numberbox" data-options="min:0" style="width:100px;" id="guideDate" name="guideDate" type="text" > 天内未产生销售，且库存为0的商
+				</div>
+			</div>
+			
+			<div class="ub ub-ac ub-pe umar-t30">
+				<div class="ubtns">
+					<div class="ubtns-item" onClick="checkOutGuide()">确定</div>
+					<div class="ubtns-item" onClick="closeOutGuideDialog()">取消</div>
+				</div>
+			</div>
+			<div class="ub uc-red umar-t8">注：每次最多只能筛选1000条商品数据。</div>
+		</div>
+	</div>
+	
+	<!-- 停购向导 选择页面 -->	
+	<div id="stopGuideDailog" class="easyui-dialog" title="停购向导" style="width:520px;height:270px;" data-options="modal:true,buttons:'#outGdBtn'">
+		<div class="ub ub-ver upad-10 ufs-14">
+			<div class="ub ub-ver upad-l20 umar-t10">
+			    <div class="ub ub-ac">
+					<div class="ut-r umar-r8">范围:</div>
+	                <div class="ub ub-ac umar-r10">
+	                    <input class="ub radioItem" type="radio" name="stGuideStatus"  value="0" checked="checked"/><span>当前机构</span>
+	                </div>
+	                <div class="ub ub-ac umar-r10">
+	                    <input class="ub radioItem" type="radio" name="stGuideStatus" value="2" /><span>所有自营店</span>
+	                </div>
+	                <div class="ub ub-ac umar-r10">
+	                   <input class="ub radioItem" type="radio" name="stGuideStatus" value="1" /><span>所有加盟店</span>
+	                </div>
+				</div>
+				<div class="ub ub-ac umar-t10 ">
+	                <input class="ub radioItem umar-r8" type="radio" name="stGuideChoose"  value="0" />
+	                                                选择
+	                <input class="uinp easyui-numberbox umar-l4" data-options="min:0" style="width:100px;" id="stguideDate" name="guideDate" type="text" > 
+	                                                天内销售数量
+	                <input class="uinp easyui-numberbox umar-l4" data-options="min:0" style="width:100px;" id="stguideNum" name="guideDate" type="text" >
+					的商品
+				</div>
+				<div class="ub ub-ac umar-t10 ">
+	                <input class="ub radioItem umar-r8" type="radio" name="stGuideChoose"  value="1" /><span>选择主档已经停购或淘汰的商品。</span>
+				</div>
+			</div>
+			
+			<div class="ub ub-ac ub-pe umar-t30">
+				<div class="ubtns">
+					<div class="ubtns-item" onClick="checkStopGuide()">确定</div>
+					<div class="ubtns-item" onClick="closeStopGuideDialog()">取消</div>
+				</div>
+			</div>
+			<div class="ub uc-red umar-t8">注：每次最多只能筛选1000条商品数据。</div>
+		</div>
+	</div>
+	
 </body>
 </html>
