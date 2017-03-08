@@ -34,7 +34,7 @@ function initDgTakeStockOperate(){
 function queryForm(){
 	var fromObjStr = $('#queryForm').serializeObject();
 	// 去除编码
-    fromObjStr.targetBranchName = fromObjStr.targetBranchName.substring(fromObjStr.targetBranchName.lastIndexOf(']')+1)
+    fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1)
     fromObjStr.operateUserName = fromObjStr.operateUserName.substring(fromObjStr.operateUserName.lastIndexOf(']')+1)
 
 	$("#operateList").datagrid("options").method = "post";
@@ -87,13 +87,22 @@ function toDelete(){
 	
 }
 
-function toExport(){
-}
-
+//选择机构
 function selectBranches(){
 	new publicAgencyService(function(data){
 		$("#branchId").val(data.branchesId);
 		$("#branchName").val(data.branchName);
+	});
+}
+
+/**
+ * 操作员
+ */
+function selectOperator(){
+	new publicOperatorService(function(data){
+//		$("#operateUserId").val(data.id);
+		console.log(data.userCode)
+		$("#operateUserName").val("["+data.userCode+"]"+data.userName);
 	});
 }
 
