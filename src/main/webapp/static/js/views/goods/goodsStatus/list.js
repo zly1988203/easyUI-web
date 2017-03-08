@@ -63,6 +63,10 @@ function goodsArchives(){
 var goodsClass = new goodsArchives();
 
 $(function(){
+	//关闭初始化淘汰向导页面
+	closeOutGuideDialog();
+	closeStopGuideDialog();
+	
 	initView();
 	initTreeArchives();
 	initDatagridOrders();
@@ -280,6 +284,8 @@ function closeDialog() {
 	$(dialogTemp).panel('destroy');
 }
 
+
+
 /**
  * 导入
  */
@@ -342,4 +348,82 @@ function stop(type){
 		    });
 		}
 	});
+}
+
+function outGuide(){
+	
+	resetGuideData();
+	
+	$("#outGuideDailog").dialog('open');
+}
+
+//关闭淘汰向导
+function closeOutGuideDialog(){
+	$("#outGuideDailog").dialog('close');
+}
+//确认淘汰向导
+function checkOutGuide(){
+	var guideStatus = $("input[name='guideStatus']").prop("checked");
+	var guideStatus = $("input[name='guideChoose']").prop("checked");
+	var guideDate = $("#guideDate").numberbox('getValue');
+	
+	$("#outGuideDailog").dialog('close');
+}
+//初始化数据
+function resetGuideData(){
+	$("input[name='guideStatus']").prop("checked",false).eq(0).prop("checked",true);
+	$("input[name='guideChoose']").prop("checked",false).eq(0).prop("checked",true);
+	$("#guideDate").numberbox('clear');
+}
+
+function stopGuide(){
+	
+	resetStopGuideData();
+	
+	$("#stopGuideDailog").dialog('open');
+}
+
+//关闭淘汰向导
+function closeStopGuideDialog(){
+	$("#stopGuideDailog").dialog('close');
+}
+//确认淘汰向导
+function checkStopGuide(){
+	var st_guideStatus = $("input[name='stGuideStatus']").prop("checked");
+	var st_guideStatus = $("input[name='stGuideChoose']").prop("checked");
+	var st_guideDate = $("#stguideDate").numberbox('getValue');
+	var st_guideNum = $("#stguideNum").numberbox('getValue');
+	
+	$("#stopGuideDailog").dialog('close');
+}
+
+//初始化数据
+function resetStopGuideData(){
+	$("input[name='stGuideStatus']").prop("checked",false).eq(0).prop("checked",true);
+	$("input[name='stGuideChoose']").prop("checked",false).eq(0).prop("checked",true);
+	$("#stguideDate").numberbox('clear');
+	$("#stguideNum").numberbox('clear');
+}
+
+
+
+var  dalogTemp;
+//打开Dialog
+function openDialog(argUrl,argTitle) {
+dalogTemp = $('<div/>').dialog({
+    href: argUrl,
+    top:200,
+//    width:580,
+//    height: 400,
+    title: argTitle,
+    closable: true,
+    resizable: true,
+    onClose: function () {
+        $(dalogTemp).panel('destroy');
+    },
+    modal: true,
+    onLoad: function () {
+
+    }
+})
 }

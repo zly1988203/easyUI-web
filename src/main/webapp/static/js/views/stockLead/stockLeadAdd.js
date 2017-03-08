@@ -1,11 +1,12 @@
 /**
  * 领用单-新增
  */
+var dataGridId = "stockLeadAddForm";
 $(function(){
 	$("#branchName").val(sessionBranchCodeName);
 	$("#branchId").val(sessionBranchId);
 	$("#createTime").html(new Date().format('yyyy-MM-dd hh:mm'));
-    initDatagridAddRequireOrder();
+    initDatagridStockLead();
 });
 var gridDefault = {
     realNum:0,
@@ -15,7 +16,7 @@ var gridDefault = {
 var clickLargeNumChangeFg = false; // 防止 行点击触发 numberbox chang事件 引起反算关系 造成bug
 var clickRealNumChangeFg = false; // 防止 行点击触发 numberbox chang事件 引起反算关系 造成bug
 var gridHandel = new GridClass();
-function initDatagridAddRequireOrder(){
+function initDatagridStockLead(){
     gridHandel.setGridName("stockLeadAddForm");
     gridHandel.initKey({
         firstName:'skuCode',
@@ -33,9 +34,7 @@ function initDatagridAddRequireOrder(){
             }
         },
     })
-    $("#stockLeadAddForm").datagrid({
-        // title:'普通表单-用键盘操作',
-// method:'get',
+    $("#"+dataGridId).datagrid({
         align:'center',
         // toolbar: '#tb', //工具栏 id为tb
         singleSelect:false,  // 单选 false多选
@@ -116,6 +115,7 @@ function initDatagridAddRequireOrder(){
                     value:'0',
                     options:{
                         precision:4,
+                        min:0,
                         onChange: onChangeRealNum,
                     }
                 },
@@ -136,6 +136,7 @@ function initDatagridAddRequireOrder(){
                     value:'0',
                     options:{
                         precision:4,
+                        min:0,
                         onChange: totleChangePrice,
                     }
                 },
@@ -187,16 +188,15 @@ var n = 0;
 var m = 0;
 // 监听箱数
 function onChangeRealNum(newV,oldV) {
-	// clickLargeNumChangeFg = true;
-	if(clickLargeNumChangeFg){
-		clickLargeNumChangeFg = false;
-		return ;
-	}
 	if(m === 1){
 		m = 0;
 		return;
 	}
 	
+	if( parseFloat(newV)<0 ){
+		gridHandel.setFieldValue('largeNum',parseFloat(newV*-1).toFixed(4));
+		return;
+	}
     if(!gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuCode')){
         return;
     }
@@ -210,36 +210,48 @@ function onChangeRealNum(newV,oldV) {
         messager("配送规格不能为0");
         return;
     }
-    debugger;
+    
     var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
-    var newRealNum = parseFloat(purchaseSpecValue*newV).toFixed(4);
+    
+    var _temNewNum = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'tmpLargeNum');
+    var temp_new = newV;
+    if(Math.abs(temp_new) > 0 && !oldV){
+    	newV = _temNewNum;
+    };
+    
+    var _tempNewRealNum = parseFloat(purchaseSpecValue*newV);
+    var newRealNum = parseFloat(_tempNewRealNum).toFixed(4);
+    
     if(parseFloat(newV)>0){
         gridHandel.setNowEditFieldName("largeNum");
     }
+    
     n = 1;
-    // gridHandel.setFieldValue('largeNum',parseFloat(newV).toFixed(4));
-    gridHandel.setFieldValue('realNum',parseFloat(newRealNum).toFixed(4));    // 数量=箱数*商品规格
-    var realNumValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'realNum');
-    gridHandel.setFieldValue('amount',parseFloat(priceValue*realNumValue).toFixed(4));
+    gridHandel.setFieldValue('amount',parseFloat(priceValue*_tempNewRealNum).toFixed(4));//金额=数量*单价
+    gridHandel.setFieldValue('realNum',parseFloat(newRealNum).toFixed(4)); //数量=箱数*商品规格
+    
     updateFooter();
 }
 
 // 监听数量
 function totleChangePrice(newV,oldV) {
-	if(clickRealNumChangeFg){
-		clickRealNumChangeFg = false;
-		return ;
-	}
+	var purchaseSpecValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'purchaseSpec');
 	if(n === 1){
+		var _tempLargeNum = parseFloat(newV)/parseFloat(purchaseSpecValue);
+		gridHandel.setFieldsData({tmpLargeNum:_tempLargeNum}); // 保留除法值   防止toFixed(4) 四舍五入做乘法时比原值大的问题
 		n = 0;
 		return;
 	}
 	
-	 if(!gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuCode')){
+	if(parseFloat(newV)< 0){
+		gridHandel.setFieldValue('realNum',parseFloat(newV*-1).toFixed(4));
+		return;
+	}
+	
+	if(!gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuCode')){
 	        return;
-	 }
+	}
 	 
-    var purchaseSpecValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'purchaseSpec');
     if(!purchaseSpecValue){
         messager("没有配送规格,请审查");
         return;
@@ -248,18 +260,20 @@ function totleChangePrice(newV,oldV) {
         messager("配送规格不能为0");
         return;
     }
-
+    
     var price = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
-
+    gridHandel.setFieldValue('amount',parseFloat(price*newV).toFixed(4)); //金额=数量*单价 出库负数 入库正数
+    
     if(parseFloat(newV)>0){
         gridHandel.setNowEditFieldName("realNum");
     }
     
     m = 1;
-    // gridHandel.setFieldValue('realNum',parseFloat(newV).toFixed(4));
-	gridHandel.setFieldValue('largeNum',parseFloat(newV/purchaseSpecValue).toFixed(4));   // 箱数=数量/商品规格
-	gridHandel.setFieldValue('amount',parseFloat(price*newV).toFixed(4));    
-	updateFooter();
+	var _tempLargeNum = parseFloat(newV)/parseFloat(purchaseSpecValue);
+	gridHandel.setFieldsData({tmpLargeNum:_tempLargeNum}); // 保留除法值   防止toFixed(4) 四舍五入做乘法时比原值大的问题
+	gridHandel.setFieldValue('largeNum',_tempLargeNum.toFixed(4));   //箱数=数量/商品规格
+	
+	updateFooter(); 
 }
 
 // 监听是否赠品
@@ -273,12 +287,12 @@ function onSelectIsGift(data){
         var targetPrice = gridHandel.getFieldTarget('price');
         if(data.id=="1"){
             var priceVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
-            $('#stockLeadAddForm').datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"] = priceVal;
+            $("#"+dataGridId).datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"] = priceVal;
             $(targetPrice).numberbox('setValue',0);
             $(targetPrice).numberbox('disable');
         }else{
             $(targetPrice).numberbox('enable');
-            var oldPrice =  $('#stockLeadAddForm').datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"];
+            var oldPrice =  $("#"+dataGridId).datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"];
             if(oldPrice){
                 $(targetPrice).numberbox('setValue',oldPrice);
             }
@@ -380,13 +394,14 @@ function setDataValue(data) {
         io:'',
         inputTax:'tax',
         sourceStock:'sellable',
-        actual:'stockNum'
+        actual:'stockNum',
+        largeNum:'tmpLargeNum',
     };
     var rows = gFunUpdateKey(addDefaultData,keyNames);
     var argWhere ={skuCode:1};  // 验证重复性
     var isCheck ={isGift:1 };   // 只要是赠品就可以重复
     var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
-    $("#stockLeadAddForm").datagrid("loadData",newRows);
+    $("#"+dataGridId).datagrid("loadData",newRows);
     setTimeout(function(){
         gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
         gridHandel.setSelectFieldName("largeNum");
@@ -409,18 +424,6 @@ function setTion(datas){
 	})
 	return datas;
 }
-// 领用单为负数
-function selectTion(){
-	
-	var rows = $('#stockLeadAddForm').datagrid('getRows');
-	$.each(rows, function (index, el) {
-		var realNum = el.realNum;
-		var largeNum = el.largeNum;
-			el["realNum"] = parseFloat(realNum);
-			el["largeNum"] = parseFloat(largeNum);
-	})
-	$("#stockLeadAddForm").datagrid("loadData", rows);
-}
 
 // 保存
 function saveStockLead(){
@@ -433,9 +436,9 @@ function saveStockLead(){
     // 备注
     var remark = $("#remark").val();
     // 验证表格数据
-    $("#stockLeadAddForm").datagrid("endEdit", gridHandel.getSelectRowIndex());
+    $("#"+dataGridId).datagrid("endEdit", gridHandel.getSelectRowIndex());
 
-    var footerRows = $("#stockLeadAddForm").datagrid("getFooterRows");
+    var footerRows = $("#"+dataGridId).datagrid("getFooterRows");
     if(footerRows){
         totalNum = parseFloat(footerRows[0]["realNum"]||0.0).toFixed(4);
         amount = parseFloat(footerRows[0]["amount"]||0.0).toFixed(4);
@@ -622,7 +625,7 @@ function updateListData(data){
     		   }
     	}
 	  })
-    $("#stockLeadAddForm").datagrid("loadData",data);
+    $("#"+dataGridId).datagrid("loadData",data);
 }
 
 /**
@@ -661,7 +664,7 @@ function getImportData(data){
  * 导出
  */
 function exportData(){
-	var length = $('#stockLeadAddForm').datagrid('getData').rows.length;
+	var length = $("#"+dataGridId).datagrid('getData').rows.length;
 	if(length == 0){
 		successTip("无数据可导");
 		return;
@@ -679,7 +682,7 @@ function exportData(){
  * 导出
  */
 function exportExcel(){
-	var length = $("#stockLeadAddForm").datagrid('getData').total;
+	var length = $("#"+dataGridId).datagrid('getData').total;
 	if(length == 0){
 		$.messager.alert('提示',"无数据可导");
 		return;
