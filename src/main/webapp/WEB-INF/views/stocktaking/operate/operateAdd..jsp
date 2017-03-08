@@ -35,7 +35,7 @@
                 </div>
                <div class="ub ub-ac umar-l40 uw-300 ">
                    <div class="umar-r10 uw-70 ut-r">制单人员:</div>
-                   <div class="utxt"><%=UserUtil.getCurrentUser().getUserName() %></div>
+                   <div class="utxt">${sessionScope.session_user.userName }</div>
                </div>
                <div class="ub ub-ac umar-l10">
                    <div class="umar-r10 uw-60 ut-r">制单日:</div>
