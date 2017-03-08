@@ -24,7 +24,8 @@ pageEncoding="UTF-8"%>
 				</div>
 				<div class="ub ub-ac uw-300 umar-l40">
 					<div class="umar-r10 uw-60 ut-r">盘点范围:</div>
-					<select class="uselect" name="scope" id="scope">
+					<select class="uselect easyui-combobox" style="width: 204px;" name="scope" id="scope" 
+					data-options="editable:false,onChange:scopeChange">
 						<option value="">--请选择--</option>
 						<option value="1">全场盘点</option>
 						<option value="2">类别盘点</option>
@@ -34,9 +35,9 @@ pageEncoding="UTF-8"%>
 			<div class="ub upad-4 umar-t10">
 				<div class="ub ub-ac uw-590">
 					<div class="umar-r10 uw-70 ut-r">类别:</div>
-					<input class="uinp ub ub-f1" type="hidden" name="categoryId" id="categoryId" />
-					<input class="uinp ub ub-f1" type="text" name="categoryShows" id="categoryShows" />
-					<div class="uinp-more" onClick="searchCategory()">...</div>
+					<input class="uinp ub ub-f1" type="hidden" name=categoryIds id="categoryIds" />
+					<input class="uinp ub ub-f1" type="text" name="categoryShows" id="categoryShows" readOnly/>
+					<div id='categoryDiv' class="uinp-more category"  onClick="searchCategory()">...</div>
 				</div>
 			</div>
 			<div class="ub upad-4 umar-t10">

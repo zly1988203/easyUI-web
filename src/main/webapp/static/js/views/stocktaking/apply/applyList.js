@@ -58,10 +58,14 @@ function selectCategory(){
 //新增
 var addDalogTemp;
 function toAdd(){
+	var top = $(window).height()/4;
+	var left = $(window).width()/4;
     addDalogTemp = $('<div/>').dialog({
         href: contextPath+"/stocktaking/apply/add",
         queryParams:{},
 //        width: 700,
+        top:top,
+        left:left,
         height: 350,
         title: "申请盘点批号",
         closable: true,
@@ -71,6 +75,13 @@ function toAdd(){
         },
         modal: true,
         onLoad: function () {
+        	initAddData();
+        	initCallback(applyCallback);
         }
     })
+}
+
+function applyCallback(){
+	 $(addDalogTemp).panel('destroy');
+	 queryForm();
 }

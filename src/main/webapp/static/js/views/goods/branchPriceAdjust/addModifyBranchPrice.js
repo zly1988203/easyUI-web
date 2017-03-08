@@ -22,13 +22,14 @@ $(function() {
 	    	$("#toBackByJSButton").attr("onclick","window.parent.closeTab()");
 	    }
 	
-	var formNo = $("#formNo").text();
-	if (formNo != null && formNo != '') {
+	var formId = $("#formId").val();
+	console.log(formId);
+	if (formId != null && formId != '') {
 		addModifyPriceGridDg.datagrid('options').queryParams = {
-			formNo : formNo
+			formId : formId
 		};
 		addModifyPriceGridDg.datagrid('options').url = contextPath
-			+ "/goods/priceAdjust/queryDetailsByformNo";
+			+ "/goods/branchPriceAdjust/getBranchPriceDetailsById";
 		addModifyPriceGridDg.datagrid('load');
 	}
 	// 已审核
@@ -234,7 +235,7 @@ function addModifyDataGrid() {
 	if (datagridUtil.isSaveData()) {
 		if (isClickSaveData) {
 			window.location.href = contextPath
-				+ "/goods/priceAdjust/addFormView";
+				+ "/goods/branchPriceAdjust/addFormView";
 		} else {
 			var d = $("<div />")
 				.dialog(
@@ -251,7 +252,7 @@ function addModifyDataGrid() {
 								text : '是',
 								handler : function() {
 									window.location.href = contextPath
-										+ "/goods/priceAdjust/addFormView";
+										+ "/goods/branchPriceAdjust/addFormView";
 								}
 							}, {
 								text : '否',
@@ -274,14 +275,14 @@ function addModifyDataGrid() {
 function delModifyOrderDialog() {
 	// 是否选择的datagrid的行，选择为true，未选择为false，则提示用户选择
 	// 确定删除，调用后台删除方法
-	var formNo = $('#formNo').text();
+	var formNo = $('#formNoInput').val();
 	if (formNo) {
 		$.messager.confirm('提示', '单据删除后将无法恢复，确认是否删除？', function(r) {
 			if (r) {
 				//删除单据
 				$.ajax({
 					type: "POST",
-					url: contextPath+"/goods/priceAdjust/removeForm",
+					url: contextPath+"/goods/branchPriceAdjust/deleteForm",
 					data: {"formNo":formNo},
 					dataType: "json",
 					success: function(data){
@@ -319,8 +320,7 @@ function saveModifyPriceOrder() {
 				if(datagridUtil.isCheckRemark()){
 					var params = {
 							goodsPriceForm:formData,
-							goodsPriceFormDetailList:detailList,
-							branchIds:$("#branchId").val()
+							goodsPriceFormDetailList:detailList
 						}
 					var reqObj = JSON.stringify(params);
 			// 调用后台保存方法，成功提示
@@ -336,14 +336,15 @@ function saveModifyPriceOrder() {
 							isClickSaveData = true;
 							// 代表点击过保存单据数据
 							$.messager.alert('提示','单据保存成功！',"info",function() {
-										addModifyPriceGridDg.datagrid('options').queryParams = {formNo : data.goodsPriceForm.formNo};
-										addModifyPriceGridDg.datagrid('options').url = contextPath+ "/goods/priceAdjust/getForm";
-										addModifyPriceGridDg.datagrid('load');
+								$("#id").text(data.goodsPriceForm.formId);
 										$("#formNo").text(data.goodsPriceForm.formNo);
-										$("#formNoInput").val(data.goodsPriceForm.formNo);
-										$("#createUserId").text(data.createUserName);
-										$("#createUserDate").text(data.createUserDate);
+										$("#formNoInput").text(data.goodsPriceForm.formNo);
+										$("#createUserName").text(data.goodsPriceForm.createUserName);
+										$("#createUserDate").text(data.goodsPriceForm.createTime);
 										$("#id").val(data.goodsPriceForm.id);
+										addModifyPriceGridDg.datagrid('options').queryParams = {formNo : data.goodsPriceForm.formNo};
+										addModifyPriceGridDg.datagrid('options').url = contextPath+ "/goods/branchPriceAdjust/getForm";
+										addModifyPriceGridDg.datagrid('load');
 										$("#saveModifyPriceOrder").attr("onclick","updateModifyPriceOrder();");
 									});
 						} else {
@@ -359,8 +360,6 @@ function saveModifyPriceOrder() {
 // 修改调价单
 function updateModifyPriceOrder() {
 	gFunStartLoading();
-	// 判断用户是否选择区域，选择为true，未选择为false，则提示用户选择
-	if (datagridUtil.isSelectArea()) {
 		// datagrid是否存在数据，存在为true，不存在为false，则提示用户输入
 		var formData = $('#searchForm').serializeObject();
 		var detailList =  getDatagridRows();
@@ -394,14 +393,13 @@ function updateModifyPriceOrder() {
 			if(datagridUtil.isCheckRemark()){
 				var params = {
 						goodsPriceForm:formData,
-						goodsPriceFormDetailList:detailList,
-						branchIds:$("#branchId").val()
+						goodsPriceFormDetailList:detailList
 						}
 				var reqObj = JSON.stringify(params);
 			// 调用后台保存方法，成功提示
 			$.ajax({
 					type : "POST",
-					url : contextPath + "/goods/priceAdjust/updateForm",
+					url : contextPath + "/goods/branchPriceAdjust/updateForm",
 					contentType : "application/json",
 					data : reqObj,
 					//dataType : "json",
@@ -411,23 +409,9 @@ function updateModifyPriceOrder() {
 							isClickSaveData = true;
 							// 代表点击过保存单据数据
 							$.messager.alert('提示','单据保存成功！',"info",function() {
-										// window.location.href =
-										// contextPath+"/goods/priceAdjust/showDetail?formNo="+data.formNo;
 										addModifyPriceGridDg.datagrid('options').queryParams = {formNo : data.goodsPriceForm.formNo};
-										addModifyPriceGridDg.datagrid('options').url = contextPath+ "/goods/priceAdjust/getForm";
+										addModifyPriceGridDg.datagrid('options').url = contextPath+ "/goods/branchPriceAdjust/getForm";
 										addModifyPriceGridDg.datagrid('load');
-										$("#formNo").text(data.goodsPriceForm.formNo);
-										$("#formNoInput").val(data.goodsPriceForm.formNo);
-										/*$.messager.confirm('提示','是否审核，请确认？',function(r) {
-													if (r) {
-														// 确定审核，调用后台的审核方法，成功提示
-														// 审核成功跳转到已审核页面，加上已审核标志
-														// 得到新的生效时间
-														var effectDate = $("#effectDate").val();
-														var status = 1;
-														var result = checkForm(data.goodsPriceForm.formNo,status,effectDate);
-													}
-												});*/
 									});
 						} else {
 							// 失败提示
@@ -438,26 +422,23 @@ function updateModifyPriceOrder() {
 			}
 		}
 	}
-}
 
 /**
  * 审核
  */
 function check() {
-	var formNo = $("#formNo").text();
+	var formNo = $("#formNoInput").val();
 	// 通过审核
-	var status = 1;
 	var effectDate = $("#effectDate").val();
-	checkForm(formNo, status,effectDate);
+	checkForm(formNo,effectDate);
 }
 // 审核
-function checkForm(formNo, status,effectDate) {
+function checkForm(formNo,effectDate) {
 	$.ajax({
 		type : "POST",
-		url : contextPath + "/goods/priceAdjust/checkForm",
+		url : contextPath + "/goods/branchPriceAdjust/checkForm",
 		data : {
 			formNo : formNo,
-			status : status,
 			effectDate:effectDate
 		},
 		dataType : "json",
@@ -468,7 +449,7 @@ function checkForm(formNo, status,effectDate) {
 			} else {
 				$.messager.alert('提示', '单据审核成功！', "info", function() {
 					window.location.href = contextPath
-						+ "/goods/priceAdjust/showDetail?formNo=" + formNo;
+						+ "/goods/branchPriceAdjust/getForm?formNo=" + formNo;
 
 				});
 			}
@@ -485,9 +466,7 @@ var datagridUtil = {
 	 * @returns {boolean}
 	 */
 	isSaveData : function() {
-		if ($("#areaInput").val().trim() != ""
-			&& $("#branchId").val().trim() != ""
-			&& $("#" + datagridId).datagrid("getData").rows.length > 0) {
+		if ($("#" + datagridId).datagrid("getData").rows.length > 0) {
 			return true;
 		} else {
 			return false;
@@ -854,8 +833,8 @@ function printDesign(formNo){
 }
 //验证表格数据 删除不合格数据
 function getDatagridRows(){
-  $("#addModifyPriceGrid").datagrid("unselectAll");
-  $("#addModifyPriceGrid").datagrid("endEdit", gridHandel.getSelectRowIndex());
+  $("#addModifyBranchPriceGrid").datagrid("unselectAll");
+  $("#addModifyBranchPriceGrid").datagrid("endEdit", gridHandel.getSelectRowIndex());
   var rows = gridHandel.getRows();
   $.each(rows,function(i,val){
       if(!val["skuCode"]||!val["skuName"]){
@@ -887,8 +866,8 @@ function toImportproduct(type){
         return;
     }
     var param = {
-        url:contextPath+"/goods/priceAdjust/importList",
-        tempUrl:contextPath+'/goods/priceAdjust/exportTemp',
+        url:contextPath+"/goods/branchPriceAdjust/importList",
+        tempUrl:contextPath+'/goods/branchPriceAdjust/exportTemp',
         type:type,
         branchId:branchId,
     }

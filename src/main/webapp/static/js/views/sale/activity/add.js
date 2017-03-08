@@ -1988,6 +1988,10 @@ function selectBranch() {
 
 // 类别选择
 function getGoodsType(){
+	var param = {
+			categoryType:"",
+			type:1
+	}
 	new publicCategoryService(function(data){
 		var nowRows = gridHandel.getRowsWhere({categoryCode:'1'});
 		
@@ -2000,7 +2004,7 @@ function getGoodsType(){
         var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere);
         $('#'+datagridId).datagrid("loadData",newRows);
 		
-	},"",1);
+	},param);
 }
 
 // 返回列表页面

@@ -4,9 +4,9 @@
  */
 var categoryType='';
 var isSingleSelect = true;
-function initCategoryView(data,type){
-	categoryType=data;
-	isSingleSelect = type==1?false:true;
+function initCategoryView(param){
+	categoryType=param.categoryType;
+	isSingleSelect = param.type==1?false:true;
     gFunSetEnterKey(categorySearch);
     initTreeCategory(); //初始树
     initDatagridCategory(categoryType); //初始化表格
