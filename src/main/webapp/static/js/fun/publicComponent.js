@@ -1865,7 +1865,7 @@ function publicConfirmDialog(callback,param){
         $(dalogTemp).panel('destroy');
     }
 }
-
+  
 var StockDialog = null;
 function publicStocktakingDialog(param,callback){
 		if(null != StockDialog) return;
