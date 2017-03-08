@@ -146,6 +146,9 @@ function getBarCode(pricingType,skuCode){
 //监听方法
 //商品分类
 function getGoodsType(){
+	var param = {
+			categoryType:'goodsTotal'
+	}
 	new publicCategoryService(function(data){
 		//console.log("商品分类==",data);
 		$("#categoryId").val(data.goodsCategoryId);
@@ -154,7 +157,7 @@ function getGoodsType(){
 
 		//商品自动生成货号
 		getSkuCodeVal();
-	},'goodsTotal');
+	},param);
 }
 
 //品牌

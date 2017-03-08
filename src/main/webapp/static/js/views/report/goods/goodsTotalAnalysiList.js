@@ -474,11 +474,14 @@ function searchBranch (){
  */
 function searchCategory(){
 	var categoryType=$('input[name="searchType"]:checked ').val();
+	var param = {
+			categoryType:categoryType
+	}
 	new publicCategoryService(function(data){
 		console.info(data);
 //		$("#categoryCode").val(data.categoryCode);
 		$("#categoryCode").val(data.categoryName);
-	},categoryType);
+	},param);
 }
 /**
  * 重置
