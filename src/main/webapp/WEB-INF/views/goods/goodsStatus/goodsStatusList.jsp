@@ -37,8 +37,8 @@
 					<div class="ubtns-item" onclick="stop(0)">停购</div>
 					<div class="ubtns-item" onclick="stop(1)">停售</div>
 					<div class="ubtns-item" onclick="stop(2)">淘汰</div>
-					<div class="ubtns-item" onclick="">淘汰向导</div>
-					<div class="ubtns-item" onclick="">停购向导</div>
+					<div class="ubtns-item" onclick="outGuide()">淘汰向导</div>
+					<div class="ubtns-item" onclick="stopGuide()">停购向导</div>
 					<div class="ubtns-item" onclick="">恢复</div>
 					<div class="ubtns-item" onclick="toClose()">关闭</div>
 				</div>
