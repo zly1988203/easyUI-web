@@ -50,6 +50,11 @@ function selectBranches(){
 		$("#branchCompleCode").val(data.branchCompleCode);
 	},'BF','');
 }
+
+function selectCategory(){
+	
+}
+
 //新增
 var addDalogTemp;
 function toAdd(){
