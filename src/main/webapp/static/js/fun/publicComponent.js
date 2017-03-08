@@ -606,7 +606,7 @@ function publicGoodsServiceTem(param,callback){
 			urlTemp = contextPath + '/goods/goodsSelect/importSkuCode?skuCodes='+param.key+'&branchId='+param.branchId+"&supplierId="+param.supplierId+"&type="+param.type+"&sourceBranchId="+param.sourceBranchId+"&targetBranchId="+param.targetBranchId+"&flag="+param.flag;
 			//publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId,supplierId);
 		} else {
-			urlTemp = contextPath + '/goods/goodsSelect/importSkuCode?skuCodes='+param.key+'&branchId='+param.branchId+"&supplierId="+param.supplierId+"&flag="+param.flag;
+			urlTemp = contextPath + '/goods/goodsSelect/importSkuCode?skuCodes='+param.key+"&type="+param.type+'&branchId='+param.branchId+"&supplierId="+param.supplierId+"&flag="+param.flag;
 		}
 		$.ajax({
 			url:urlTemp,

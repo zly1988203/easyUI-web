@@ -64,7 +64,7 @@ public class ScaleGoodsController extends BaseController<ScaleGoodsController> {
 				return Message.getNotLogged();
 			}
 			List<GoodsSelect> goodsList = goodsSelectServiceApi.queryByCodeLists(skuCodes, UserUtil.getCurrBranchId(),
-					null);
+					null, false);
 			LOG.info("page" + goodsList.toString());
 			return Message.getSuccessMsg(goodsList);
 		} catch (Exception e) {
