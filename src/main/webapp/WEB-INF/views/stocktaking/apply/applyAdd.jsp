@@ -14,7 +14,7 @@ pageEncoding="UTF-8"%>
 	<div class="ub uline"></div>
 	<form id="formAdd" method="post"  style="font-size: 14px;" >
 		<div class="ub ub-ver upad-4">
-			<div class="ub upad-4">
+			<div class="ub upad-4 umar-t10">
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">机构名称:</div>
 					<input type="hidden" id="addbranchId" name="branchId" />
@@ -22,27 +22,28 @@ pageEncoding="UTF-8"%>
 					<input class="uinp ub ub-f1" type="text" id="addbranchName" name="branchName" maxlength="50"/>
 					<div class="uinp-more" onclick="selectBranches()" >...</div>
 				</div>
-				<div class="ub ub-ac uw-300">
+				<div class="ub ub-ac uw-300 umar-l40">
 					<div class="umar-r10 uw-60 ut-r">盘点范围:</div>
-					<select class="uselect" style="width: 204px;" name="scope" id="scope">
+					<select class="uselect" name="scope" id="scope">
 						<option value="">--请选择--</option>
 						<option value="1">全场盘点</option>
 						<option value="2">类别盘点</option>
 					</select>
 				</div>
 			</div>
-			<div class="ub upad-4">
-				<div class="ub ub-ac">
+			<div class="ub upad-4 umar-t10">
+				<div class="ub ub-ac uw-590">
 					<div class="umar-r10 uw-70 ut-r">类别:</div>
 					<input class="uinp ub ub-f1" type="hidden" name="categoryId" id="categoryId" />
 					<input class="uinp ub ub-f1" type="text" name="categoryShows" id="categoryShows" />
 					<div class="uinp-more" onClick="searchCategory()">...</div>
 				</div>
 			</div>
-			<div class="ub upad-4">
-				<div class="ub ub-ac ub-f1 umar-r36">
-					<div class="umar-r10 uw-80 ut-r">备注:</div>
-					<input id="remark" name="remark" value="" class="uinp" maxlength="60">
+			<div class="ub upad-4 umar-t10">
+				<div class="ub ub-ac uw-590">
+					<div class="umar-r10 uw-70 ut-r">备注:</div>
+			
+					<input id="remark" name="remark" value="" class="uinp ub ub-f1" maxlength="60">
 				</div>
 			</div>
 		</div>

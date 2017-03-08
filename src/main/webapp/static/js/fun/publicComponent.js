@@ -692,7 +692,7 @@ function publicGoodsServiceHandel(param,callback){
         },
         modal:true,
     }
-    if(isRadio&&isRadio==1){
+    if(param.isRadio&&param.isRadio==1){
         dalogObj["onLoad"] =function(){
             //$("#goodsInfo").val(key);
             //cx();
