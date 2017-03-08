@@ -1877,10 +1877,12 @@ function publicStocktakingDialog(param,callback){
 		if(null != StockDialog) return;
 		
 		StockDialog = $('<div/>').dialog({
-        href: contextPath+"/goods/goodsSelect/goPublicComfirmDialog",
+        href: contextPath+"/stocktaking/operate/publicStocktaking",
         title: '盘点批号选择',
-        top:335,
-        left:625,
+        top:300,
+        left:600,
+        width:750,
+        height:650,
         closable: true,
         resizable: false,
         onClose: function () {
@@ -1896,7 +1898,7 @@ function publicStocktakingDialog(param,callback){
     
     function callBackHandel(data){
         callback(data);
-        $(dalogTemp).panel('destroy');
+        $(StockDialog).panel('destroy');
         StockDialog = null;
     }
 }

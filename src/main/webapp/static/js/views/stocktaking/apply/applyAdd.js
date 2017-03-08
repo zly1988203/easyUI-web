@@ -25,6 +25,7 @@ function save() {
 			if(result.code == 0){
 				alertTip(result.message);
 				closeDialogHandel();
+				//alertTip(result.message, initDgTakeStockApply);
 			}else{
 				$('#saveBtn').removeAttr("disabled");
 				alertTip(result.message);
@@ -81,10 +82,10 @@ function searchCategory(){
 	}
 	new publicCategoryService(function(data){
 		var categoryIds = []
-		var categorytxt="";
+		var categorytxt=[];
 		$.each(data,function(index,item){
 			categoryIds.push(item.goodsCategoryId);
-			categorytxt = categorytxt +"["+item.categoryCode+"]"+item.categoryName +",";
+			categorytxt.push(item.categoryCode);
 		})
 		$("#categoryIds").val(categoryIds);
 		$("#categoryShows").val(categorytxt) ;
