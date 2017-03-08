@@ -742,7 +742,17 @@ function selectGoodsDialog(searchKey) {
 }
 //商品选择 公共使用
 function gFunGoodsSelect(searchKey,branchId){
-	 new publicGoodsService('PS', function(data) {
+	var param = {
+			type:'PS',
+			key:searchKey,
+			isRadio:0,
+			sourceBranchId:'',
+			targetBranchId:'',
+			branchId:branchId,
+			supplierId:'',
+			flag:'0'
+	}
+	 new publicGoodsServiceTem(param, function(data) {
 			if(searchKey){
 				$("#addModifyBranchPriceGrid").datagrid("deleteRow", gridHandel.getSelectRowIndex());
 				$("#addModifyBranchPriceGrid").datagrid("acceptChanges");

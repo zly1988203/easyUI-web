@@ -158,6 +158,10 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 			if(FormType.PX.name().equals(vo.getFormType())){
 				vo.setAllowActivity(true);
 			}
+			//如果是促销活动页面查询商品，需要过滤掉不参加促销的商品
+			if(FormType.PS.name().equals(vo.getFormType())){
+				vo.setAllowAdjustPrice(true);
+			}
 			PageUtils<GoodsSelect> suppliers = null;
 			if(FormType.PA.name().equals(vo.getFormType()) || FormType.PR.name().equals(vo.getFormType())){
 				if(StringUtils.isNotBlank(vo.getSupplierId())){
@@ -325,7 +329,11 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 				if(FormType.PX.name().equals(type)){
 					alowActivity = true;
 				}
-				
+				//如果是门店商品调价单页面，需要过滤掉不参加调价的商品
+				boolean allowAdjustPrice = false;
+				if(FormType.PS.name().equals(type)){
+					allowAdjustPrice = true;
+				}
 				if (StringUtils.isEmpty(branchId)) {
 					branchId = UserUtil.getCurrBranchId();
 				}
@@ -336,7 +344,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 					branchId = "";
 				}
 				// 根据有无skuCodes传来数据 空表示是导入货号 有数据表示导入数据
-				suppliers = goodsSelectServiceApi.queryByCodeLists(skuCodes, branchId, branchIds,alowActivity);
+				suppliers = goodsSelectServiceApi.queryByCodeLists(skuCodes, branchId, branchIds,alowActivity,allowAdjustPrice);
 			}
 			LOG.info("根据货号查询商品:{}" + suppliers.toString());
 			return suppliers;
