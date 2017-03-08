@@ -70,6 +70,21 @@ public interface ExportExcelConstant {
 	 * 库存调整
 	 */
 	String STOCKADJUST = "StockAdjust.xlsx";
+
+	/**
+	 * @Fields STOCK_LEAD_SKU_TEMPLE : 领用单货号导入模板
+	 */
+	String STOCK_LEAD_SKU_TEMPLE = "StockLeadSkuTemple.xlsx";
+	
+	/**
+	 * @Fields STOCK_LEAD_BAR_TEMPLE : 领用单条码导入模板
+	 */
+	String STOCK_LEAD_BAR_TEMPLE = "StockLeadBarTemple.xlsx";
+	/**
+	 * @Fields STOCKLEAD : 领用单导出模板
+	 */
+	String STOCKLEAD = "StockLead.xlsx";
+	
 	/**
 	 * 商品销售汇总
 	 */
