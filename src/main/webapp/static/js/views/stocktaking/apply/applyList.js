@@ -56,8 +56,8 @@ function toAdd(){
     addDalogTemp = $('<div/>').dialog({
         href: contextPath+"/stocktaking/apply/add",
         queryParams:{},
-        width: 700,
-        height: 450,
+//        width: 700,
+        height: 350,
         title: "申请盘点批号",
         closable: true,
         resizable: true,
