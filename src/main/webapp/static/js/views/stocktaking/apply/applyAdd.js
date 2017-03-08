@@ -56,8 +56,12 @@ function selectBranches(){
  * 类别选择
  */
 function searchCategory(){
+	var param = {
+			categoryType:'',
+			type:1
+	}
 	new publicCategoryService(function(data){
 		$("#categoryId").val(data.categoryId);
 		$("#categoryShows").val(data.categoryCode);
-	});
+	},param);
 }

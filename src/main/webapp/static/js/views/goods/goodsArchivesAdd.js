@@ -290,13 +290,16 @@ function getBarCode(pricingType,skuCode){
 //监听方法
 //商品分类
 function getGoodsType(){
+	var param = {
+			categoryType:'goodsTotal'
+	}
 	new publicCategoryService(function(data){
 		$("#categoryId").val(data.goodsCategoryId);
 		$("#categoryCode").val(data.categoryCode);
 		$("#categoryName").val(data.categoryName);
 		//商品自动生成货号
 //		getSkuCodeVal();
-	},'goodsTotal');
+	},param);
 }
 
 //品牌

@@ -274,8 +274,19 @@ function publicBrandService(callback){
 }
 
 //公共组件-选择商品类别
-function publicCategoryService(callback,categoryType,type){
-	var type = type?type:0;
+//param {categoryType,type}
+function publicCategoryService(callback,param){
+	if('undefined' === typeof(param)){
+		param = {
+				categoryType:'',
+				type:0
+		}
+	}else if('undefined' === typeof(param.categoryType)){
+		param.categoryType = "";
+	}else if('undefined' === typeof(param.type)){
+		param.type = 0;
+	}
+	
     //公有属性
     var dalogObj = {
 		href: contextPath + "/common/category/views",
@@ -290,9 +301,9 @@ function publicCategoryService(callback,categoryType,type){
         modal:true,
         };
    
-    if(type==1){
+    if(param.type==1){
     	 dalogObj["onLoad"] = function () {
-        	 initCategoryView(categoryType,type);
+        	 initCategoryView(param);
         };
     	dalogObj["buttons"] = [{
             text:'确定',
@@ -307,7 +318,7 @@ function publicCategoryService(callback,categoryType,type){
         }];
     }else{
         dalogObj["onLoad"] = function () {
-        	 initCategoryView(categoryType,type);
+        	 initCategoryView(param);
              initCategoryCallBack(callBackHandel)
         };
     }
@@ -318,11 +329,6 @@ function publicCategoryService(callback,categoryType,type){
           $(dalogTemp).panel('destroy');
     }
     
-    
-    //调用方式
-    //new publicCategoryService(function(data){
-    //    console.log(data);
-    //});
 }
 
 //公共组件-选择供应商
