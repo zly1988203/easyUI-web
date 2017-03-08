@@ -1,6 +1,7 @@
 /**
  * 领用单-新增
  */
+var dataGridId = "stockLeadAddForm";
 $(function(){
 	$("#branchName").val(sessionBranchCodeName);
 	$("#branchId").val(sessionBranchId);
@@ -33,9 +34,7 @@ function initDatagridAddRequireOrder(){
             }
         },
     })
-    $("#stockLeadAddForm").datagrid({
-        // title:'普通表单-用键盘操作',
-// method:'get',
+    $("#"+dataGridId).datagrid({
         align:'center',
         // toolbar: '#tb', //工具栏 id为tb
         singleSelect:false,  // 单选 false多选
@@ -273,12 +272,12 @@ function onSelectIsGift(data){
         var targetPrice = gridHandel.getFieldTarget('price');
         if(data.id=="1"){
             var priceVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
-            $('#stockLeadAddForm').datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"] = priceVal;
+            $("#"+dataGridId).datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"] = priceVal;
             $(targetPrice).numberbox('setValue',0);
             $(targetPrice).numberbox('disable');
         }else{
             $(targetPrice).numberbox('enable');
-            var oldPrice =  $('#stockLeadAddForm').datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"];
+            var oldPrice =  $("#"+dataGridId).datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"];
             if(oldPrice){
                 $(targetPrice).numberbox('setValue',oldPrice);
             }
@@ -386,7 +385,7 @@ function setDataValue(data) {
     var argWhere ={skuCode:1};  // 验证重复性
     var isCheck ={isGift:1 };   // 只要是赠品就可以重复
     var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
-    $("#stockLeadAddForm").datagrid("loadData",newRows);
+    $("#"+dataGridId).datagrid("loadData",newRows);
     setTimeout(function(){
         gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
         gridHandel.setSelectFieldName("largeNum");
@@ -412,14 +411,14 @@ function setTion(datas){
 // 领用单为负数
 function selectTion(){
 	
-	var rows = $('#stockLeadAddForm').datagrid('getRows');
+	var rows = $("#"+dataGridId).datagrid('getRows');
 	$.each(rows, function (index, el) {
 		var realNum = el.realNum;
 		var largeNum = el.largeNum;
 			el["realNum"] = parseFloat(realNum);
 			el["largeNum"] = parseFloat(largeNum);
 	})
-	$("#stockLeadAddForm").datagrid("loadData", rows);
+	$("#"+dataGridId).datagrid("loadData", rows);
 }
 
 // 保存
@@ -433,9 +432,9 @@ function saveStockLead(){
     // 备注
     var remark = $("#remark").val();
     // 验证表格数据
-    $("#stockLeadAddForm").datagrid("endEdit", gridHandel.getSelectRowIndex());
+    $("#"+dataGridId).datagrid("endEdit", gridHandel.getSelectRowIndex());
 
-    var footerRows = $("#stockLeadAddForm").datagrid("getFooterRows");
+    var footerRows = $("#"+dataGridId).datagrid("getFooterRows");
     if(footerRows){
         totalNum = parseFloat(footerRows[0]["realNum"]||0.0).toFixed(4);
         amount = parseFloat(footerRows[0]["amount"]||0.0).toFixed(4);
@@ -622,7 +621,7 @@ function updateListData(data){
     		   }
     	}
 	  })
-    $("#stockLeadAddForm").datagrid("loadData",data);
+    $("#"+dataGridId).datagrid("loadData",data);
 }
 
 /**
@@ -661,7 +660,7 @@ function getImportData(data){
  * 导出
  */
 function exportData(){
-	var length = $('#stockLeadAddForm').datagrid('getData').rows.length;
+	var length = $("#"+dataGridId).datagrid('getData').rows.length;
 	if(length == 0){
 		successTip("无数据可导");
 		return;
@@ -679,7 +678,7 @@ function exportData(){
  * 导出
  */
 function exportExcel(){
-	var length = $("#stockLeadAddForm").datagrid('getData').total;
+	var length = $("#"+dataGridId).datagrid('getData').total;
 	if(length == 0){
 		$.messager.alert('提示',"无数据可导");
 		return;

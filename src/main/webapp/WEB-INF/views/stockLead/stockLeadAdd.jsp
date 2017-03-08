@@ -39,10 +39,10 @@
 				<div class="ub ub-ac uw-300">
 					<div class="umar-r10 uw-70 ut-r">领用机构:</div>
 					<input type="hidden" name="branchId" id="branchId" class="uinp" />
-					<input type="text" name="branchName" id="branchName"
-						class="uinp  ub ub-f1" readonly="readonly" />
+					<input type="text" name="branchName" id="branchName"class="uinp  ub ub-f1" readonly="readonly" />
 					<div class="uinp-more" onclick="searchBranch()">...</div>
 				</div>
+				<div class="ub ub-ac uw-300 umar-l40">&nbsp;</div>
 				<div class="ub ub-ac uw-300  umar-l40">
 					<div class="umar-r10 uw-80 ut-r">制单人员:</div>
 					<div class="utxt"><%=UserUtil.getCurrentUser().getUserName()%></div>
@@ -53,11 +53,8 @@
 				</div>
 			</div>
 			<div class="ub umar-t8">
-				<div class="ub ub-ac uw-300">
-					<div class="umar-r10 uw-70 ut-r">备注:</div>
-					<input class="uinp uninput" type="text" id="remark" name="remark">
-				</div>
-				<div class="ub ub-ac uw-300 umar-l40">
+				<div class="ub ub-ac uw-600">&nbsp;</div>
+				<div class="ub ub-ac uw-300 umar-l80">
 					<div class="umar-r10 uw-80 ut-r">最后修改人:</div>
 					<div class="utxt"></div>
 				</div>
@@ -67,7 +64,11 @@
 				</div>
 			</div>
 			<div class="ub umar-t8">
-				<div class="ub ub-ac uw-300 umar-l300">
+				<div class="ub ub-ac uw-600">
+					<div class="umar-r10 uw-70 ut-r">备注:</div>
+					<input class="uinp ub ub-f1" type="text" id="remark" name="remark">
+				</div>
+				<div class="ub ub-ac uw-300 umar-l80">
 					<div class="umar-r10 uw-80 ut-r">审核人员:</div>
 					<div class="utxt"></div>
 				</div>
@@ -84,14 +85,12 @@
 	</div>
 	<!-- 导入弹框 -->
 	<div class="uabs uatk">
-
-		<div class="uatit">导入文件选择</div>
+		<div class="uatit">导入文1件选择</div>
 		<div class="uacon">
 			<input class="uinp ub" id="filename" type="text"><label
 				class="ualable">选择文件<input type="file" class="uafile"
 				value="" name="xlfile" id="xlf" /></label>
 		</div>
-
 		<div class="uabtns">
 			<button class="uabtn umar-r30"
 				onclick="importHandel('gridEditOrder')">导入数量</button>
