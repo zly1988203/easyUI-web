@@ -1339,7 +1339,24 @@ function selectGoods(searchKey){
 		messager("请先选择活动分店！");
 		return;
 	}
-    new publicGoodsService("",function(data){
+	
+	if(typeof(searchKey)=="undefined"){ 
+		searchKey = "";
+	}
+	
+	var param = {
+			type:'PX',
+			key:searchKey,
+			isRadio:'',
+			sourceBranchId:'',
+			targetBranchId:'',
+			branchId:$("#branchIds").val(),
+			supplierId:'',
+			flag:'0'
+	}
+
+	//借用一下type值，用来活动商品选择时，过滤不参加促销的商品
+    new publicGoodsServiceTem(param,function(data){
         if(searchKey){
             $("#saleMangeadd").datagrid("deleteRow", gridHandel.getSelectRowIndex());
             $("#saleMangeadd").datagrid("acceptChanges");
@@ -1362,7 +1379,7 @@ function selectGoods(searchKey){
 		 * gridHandel.setFieldFocus(gridHandel.getFieldTarget('saleAmount'));
 		 * },100)
 		 */
-    },searchKey,0,"","",$("#branchIds").val(),"");
+    });
 }
 
 
