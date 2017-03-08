@@ -1,4 +1,13 @@
 
+var applyAddcallback;
+function initAddData(){
+	$('#categoryDiv').css('display','none');
+}
+
+function initCallback(cb){
+	applyAddcallback = cb;
+}
+
 function save() {
 	$('#saveBtn').attr("disabled","disabled");
 	var isValid = $("#formAdd").form('validate');
@@ -14,12 +23,13 @@ function save() {
 		data : formObj,
 		success : function(result) {
 			if(result.code == 0){
-				alertTip(result.message, initDataGrid);
+				alertTip(result.message);
 				closeDialogHandel();
 			}else{
 				$('#saveBtn').removeAttr("disabled");
 				alertTip(result.message);
 			}
+			applyAddcallback();
 		},
 		error : function(result) {
 			successTip("请求发送失败或服务器处理失败");
@@ -52,6 +62,15 @@ function selectBranches(){
 	},'BF','');
 }
 
+function scopeChange(){
+	var val = $("#formAdd #scope").combobox('getValue');
+	if(val != ""){
+		$('#categoryDiv').css('display','block');
+	}else{
+		$('#categoryDiv').css('display','none');
+	}
+}
+
 /**
  * 类别选择
  */
@@ -61,7 +80,14 @@ function searchCategory(){
 			type:1
 	}
 	new publicCategoryService(function(data){
-		$("#categoryId").val(data.categoryId);
-		$("#categoryShows").val(data.categoryCode);
+		var categoryIds = []
+		var categorytxt="";
+		$.each(data,function(index,item){
+			categoryIds.push(item.goodsCategoryId);
+			categorytxt = categorytxt +"["+item.categoryCode+"]"+item.categoryName +",";
+		})
+		$("#categoryIds").val(categoryIds);
+		$("#categoryShows").val(categorytxt) ;
+		
 	},param);
 }
