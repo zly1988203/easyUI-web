@@ -23,7 +23,6 @@
             </div>
 			<div class="ub">
 				<div class="ub ub-ac">
-					<div class="umar-r10 uw-70 ut-r">日期:</div>
 					<%@ include file="/WEB-INF/views/component/dateSelect.jsp"%>
 				</div>
 			</div>
@@ -38,22 +37,32 @@
 				<div class="uinp-more" onclick="selectBranches()" >...</div>
 			</div>
 			<div class="ub ub-ac uw-300 umar-l40">
-				<div class="umar-r10 uw-70 ut-r">盘点批号:</div>
+				<div class="umar-r10 uw-70 ut-r">单据编号:</div>
 				<input class="uinp" type="text" id="batchNo" name="batchNo">
 			</div>
 		</div>
 		<div class="ub umar-t8">
-			<div class="umar-r10 uw-60 ut-r">盘点范围:</div>
+		<div class="ub ub-ac">
+		<div class="umar-r10 uw-70 ut-r">盘点范围:</div>
 			<select class="uselect" style="width: 204px;" name="scope" id="scope">
 				<option value="">--请选择--</option>
 				<option value="0">全场盘点</option>
 				<option value="1">类别盘点</option>
 			</select>
 		</div>
+		<div class="ub ub-ac">
+				<div class="umar-r10 umar-l40 uw-70 ut-r">类别:</div>
+				<input type="hidden" id="categoryId" name="categoryId" />
+				<input class="uinp" type="text" id="CategoryName" name="CategoryName">
+				<div class="uinp-more" onclick="selectCategory()" >...</div>
+				
+		</div>
+			
+		</div>
 		<div class="ub umar-t8">
-			<div class="ub ub-ac uw-300">
+			<div class="ub ub-ac uw-602">
 				<div class="umar-r10 uw-70 ut-r">备注:</div>
-				<input class="uinp" type="text" id="remark" name="remark">
+				<input class="uinp ub ub-f1" type="text" id="remark" name="remark">
 			</div>
 		</div>
       	</form>
