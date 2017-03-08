@@ -14,21 +14,58 @@ function initDgTakeStockApply(){
 		width:'100%',
 		columns:[[
 			{field:'check',checkbox:true},
-			{field: 'branchCode', title: '机构编号', width: 100, align: 'left'},
-			{field: 'branchName', title: '机构名称', width: 180, align: 'left'},
-			{field: 'categoryCode', title: '类别编号', width: 100, align: 'left'},
-			{field: 'categoryName', title: '类别名称', width: 120, align: 'left'},
-			{field: 'skuName', title: '商品名称', width: 180, align: 'left'},
-			{field: 'barCode', title: '条码', width: 140, align: 'left'},
+			{field: 'batchNo', title: '盘点批号', width: 100, align: 'left'},
+			{field: 'createTime', title: '申请时间', width: 100, align: 'left'},
+			{field: 'branchName', title: '机构', width: 180, align: 'left'},
+			{field: 'createUserName', title: '操作员', width: 100, align: 'left'},
+			{field: 'scope', title: '盘点范围', width: 100, align: 'left'},
+			{field: 'categoryShows', title: '类别', width: 120, align: 'left'},
+			{field: 'remark', title: '备注', width: 180, align: 'left'},
 		]],
 
 	});
 }
+//查询
 function queryForm(){
+	var fromObjStr = $('#queryForm').serializeObject();
+	console.log(fromObjStr)
+	$("#applyList").datagrid("options").method = "post";
+	$("#applyList").datagrid('options').url = contextPath + '/stocktaking/apply/getApplyList';
+	$("#applyList").datagrid('load', fromObjStr);
 }
-function gFunRefresh(){
+/**
+ * 重置
+ */
+var resetForm = function() {
+	 $("#queryForm").form('clear');
+};
+
+/**
+ * 机构名称
+ */
+function selectBranches(){
+	new publicAgencyService(function(data){
+		$("#branchId").val(data.branchesId);
+		$("#branchName").val(data.branchName);
+		$("#branchCompleCode").val(data.branchCompleCode);
+	},'BF','');
 }
-function toClose(){
-}
+//新增
+var addDalogTemp;
 function toAdd(){
+    addDalogTemp = $('<div/>').dialog({
+        href: contextPath+"/stocktaking/apply/add",
+        queryParams:{},
+        width: 700,
+        height: 450,
+        title: "申请盘点批号",
+        closable: true,
+        resizable: true,
+        onClose: function () {
+            $(addDalogTemp).panel('destroy');
+        },
+        modal: true,
+        onLoad: function () {
+        }
+    })
 }

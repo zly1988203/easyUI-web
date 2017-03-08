@@ -33,25 +33,22 @@
 			<div class="ub ub-ac">
 				<div class="umar-r10 uw-70 ut-r">机构名称:</div>
 				<input type="hidden" id="branchId" name="branchId" />
+				<input type="hidden" id="branchCompleCode" name="branchCompleCode" />
 				<input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" maxlength="50"/>
 				<div class="uinp-more" onclick="selectBranches()" >...</div>
 			</div>
 			<div class="ub ub-ac uw-300 umar-l40">
-				<div class="umar-r10 uw-70 ut-r">单据编号:</div>
-				<input class="uinp" type="text" id="takeStockNO" name="takeStockNO">
+				<div class="umar-r10 uw-70 ut-r">盘点批号:</div>
+				<input class="uinp" type="text" id="batchNo" name="batchNo">
 			</div>
 		</div>
 		<div class="ub umar-t8">
-			<div class="ub ub-ac uw-300">
-				<div class="umar-r10 uw-70 ut-r">盘点范围:</div>
-				<input class="uinp" type="text" id="takeStockScope" name="takeStockScope">
-			</div>
-			<div class="ub ub-ac">
-				<div class="umar-r10 uw-70 ut-r">类别:</div>
-				<input class="uinp ub ub-f1" type="hidden" name="categoryCode" id="categoryCode" />
-				<input class="uinp ub ub-f1" type="text" name="categoryNameCode" id="categoryNameCode" />
-				<div class="uinp-more" onClick="searchCategory()">...</div>
-			</div>
+			<div class="umar-r10 uw-60 ut-r">盘点范围:</div>
+			<select class="uselect" style="width: 204px;" name="scope" id="scope">
+				<option value="">--请选择--</option>
+				<option value="0">全场盘点</option>
+				<option value="1">类别盘点</option>
+			</select>
 		</div>
 		<div class="ub umar-t8">
 			<div class="ub ub-ac uw-300">
