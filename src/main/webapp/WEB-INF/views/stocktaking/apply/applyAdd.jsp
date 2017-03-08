@@ -27,8 +27,8 @@ pageEncoding="UTF-8"%>
 					<select class="uselect easyui-combobox" style="width: 204px;" name="scope" id="scope" 
 					data-options="editable:false,onChange:scopeChange">
 						<option value="">--请选择--</option>
-						<option value="1">全场盘点</option>
-						<option value="2">类别盘点</option>
+						<option value="0">全场盘点</option>
+						<option value="1">类别盘点</option>
 					</select>
 				</div>
 			</div>

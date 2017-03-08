@@ -32,11 +32,12 @@
 		<div class="ub umar-t8">
 			<div class="ub ub-ac uw-300 umar-l10">
 				<div class="umar-r10 uw-70 ut-r">单号:</div>
-				<input class="uinp ub ub-f1" type="text" id="takeStockNO" name="takeStockNO" placeholder="请输入盘点单号/盘点批号">
+				<input class="uinp ub ub-f1" type="text" id="batchNo" name="batchNo" placeholder="请输入盘点单号/盘点批号">
 			</div>
 			<div class="ub ub-ac umar-l10">
 				<div class="umar-r10 uw-70 ut-r">机构:</div>
 				<input type="hidden" id="branchId" name="branchId" />
+				<input type="hidden" id="branchCompleCode" name="branchCompleCode" />
 				<input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" maxlength="50"/>
 				<div class="uinp-more" onclick="selectBranches()" >...</div>
 			</div>
@@ -44,8 +45,8 @@
 		<div class="ub umar-t8">
 			<div class="ub ub-ac uw-300 umar-l10">
 				<div class="umar-r10 uw-70 ut-r">制单人员:</div>
-				<input type="hidden" id="operateUserId" name="operateUserId" />
-				<input class="uinp ub ub-f1" type="text" id="operateUserName" name="operateUserName">
+				<input type="hidden" id="createUserId" name="createUserId" />
+				<input class="uinp ub ub-f1" type="text" id="createUserName" name="createUserName">
 				<div class="uinp-more" onclick="selectOperator()" >...</div>
 			</div>
             <div class="ub ub-ac umar-l10">
