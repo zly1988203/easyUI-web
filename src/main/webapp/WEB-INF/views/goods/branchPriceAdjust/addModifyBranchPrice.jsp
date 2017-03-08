@@ -7,7 +7,7 @@
     <title>档案-新增调价单</title>
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
     
- <script  src="${ctx}/static/js/views/goods/branchPriceAdjust/addModifyBranchPrice.js"></script>
+
     
 </head>
 <body class="ub uw uh ufs-14 uc-black">
@@ -34,30 +34,32 @@
 			</shiro:hasPermission>
 				
 				 <c:if test="${goodsPriceForm.status !=1 }">
+				 <c:if test="${goodsPriceForm.formNo!=''&&goodsPriceForm.formNo!=null}">
 				 <shiro:hasPermission name="JxcPriceAdjust:delete">
 	           			 <div class="ubtns-item" id="delModifyOrderDialog" onclick="delModifyOrderDialog();">删单</div>
 	           		 </shiro:hasPermission>
 					 <shiro:hasPermission name="JxcPriceAdjust:audit">
 				 	     <div class="ubtns-item" id="check" onclick="check();">审核</div>
 				 	 </shiro:hasPermission>
+				 	 </c:if>
 				 	     <div class="ubtns-item" id="selectGoodsDialog" onclick="selectGoodsDialog();">商品选择</div>
 				 </c:if>
 				<shiro:hasPermission name="JxcPriceAdjust:exportDetail">
-					 <c:if test="${goodsPriceForm.status ==1 }">
-					 	<div class="ubtns-item"  onclick="exportData();">导出明细</div>
+					 <c:if test="${goodsPriceForm.status ==1 || goodsPriceForm.status ==0}">
+					 	<div class="ubtns-item"  onclick="exportData();">导出</div>
+					 	<div class="ubtns-item" onclick="printDesign('${goodsPriceForm.formNo}')">打印</div> 
 					 </c:if>
 				</shiro:hasPermission>
 			<!-- 	 <div class="ubtns-item"  onclick="exportTemplate()">导出模版下载</div> -->
 			
 	                <c:if test="${goodsPriceForm.status !=1 }">
-	                	<!-- <div class="ubtns-item" id="importdetail" onclick="toImportproduct(0)">导入货号</div> -->
 	                	<shiro:hasPermission name="JxcPriceAdjust:importDetail">
 		                	<div class="ubtns-item" id="importdetail" onclick="toImportproduct(0)">导入货号</div>
 		               		<div class="ubtns-item" id="importdetail" onclick="toImportproduct(1)">导入条码</div>
 		               	 </shiro:hasPermission>
 		               		<div class="ubtns-item" id="set" onclick="gFunRefresh()">重置</div>
 	                </c:if>
-               <%--  <div class="ubtns-item" onclick="printDesign('${goodsPriceForm.formNo}')">打印</div> --%>
+                 
                 <div class="ubtns-item" id="toBackByJSButton" onclick="back()">关闭</div>
                 <input type="hidden" id="close" value="${close}"/>
             </div>
@@ -66,6 +68,7 @@
           	 <div class="ub  uc-black" >【单号】:</div>
           	 <div class="ub " id="formNo">${goodsPriceForm.formNo}</div>
           	 <input value="${goodsPriceForm.status}" type="hidden" id="status"/>
+          	 <input id="formId" name="formId" value="${goodsPriceForm.id}" type="hidden">
         </div>
        	 <div class="ub uline umar-t8" ></div>
 		<form action="" id="searchForm" method="post">
@@ -90,7 +93,7 @@
                 </div>
                 <div class="ub ub-ac umar-l20 uw-200">
                     <div class="umar-r10 uw-70 ut-r">制单人员:</div>
-                    <div class="utxt"  id="createUserId">${goodsPriceForm.createUserName}</div>
+                    <div class="utxt"  id="createUserName">${goodsPriceForm.createUserName}</div>
                 </div>
                 <div class="ub ub-ac umar-l20 uw-200" >
                     <div class="umar-r10 uw-70 ut-r" >制单时间:</div>
@@ -152,4 +155,5 @@
         </form>
     </div>
 </body>
+ <script  src="${ctx}/static/js/views/goods/branchPriceAdjust/addModifyBranchPrice.js"></script>
 </html>
