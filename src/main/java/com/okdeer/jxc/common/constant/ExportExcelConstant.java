@@ -57,6 +57,15 @@ public interface ExportExcelConstant {
 	String GOODS_PRICE_ADJUST_FORM_TEMPLE_BARCODE = "priceAdjustBarTemp.xlsx";
 	
 	/**
+         * @Fields GOODS_BRANCH_PRICE_ADJUST_TEMPLE_SKUCODE : 门店调价单货号导入模板
+	 */
+	String GOODS_BRANCH_PRICE_ADJUST_TEMPLE_SKUCODE = "branchPriceAdjustSkuTemp.xlsx";
+	/**
+	 * @Fields GOODS_BRANCH_PRICE_ADJUST_TEMPLE_BARCODE : 门店调价单货号导入模板
+	 */
+	String GOODS_BRANCH_PRICE_ADJUST_TEMPLE_BARCODE = "branchPriceAdjustBarTemp.xlsx";
+	
+	/**
 	 * @Fields GOODS_PRICE_ADJUST_FORM_TEMPLE_SKUCODE : 成本调价单货号导入模板
 	 */
 	String COST_GOODS_PRICE_ADJUST_FORM_TEMPLE_SKUCODE = "costPriceAdjustSkuTemp.xlsx";

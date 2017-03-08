@@ -38,7 +38,7 @@ function initBranchPriceAdjustGrid() {
         columns: [[
             {field: 'formNo', title: '单号', width: '135px', align: 'left',
                 formatter: function(value,row,index){
-                	var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看调价单详细\',\''+contextPath+'/goods/priceAdjust/showDetail?formNo='+value+'\')">' + value + '</a>';
+                	var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看调价单详细\',\''+contextPath+'/goods/branchPriceAdjust/getForm?formNo='+value+'\')">' + value + '</a>';
                 	return strHtml;
                 }
             },
