@@ -1,12 +1,21 @@
-
+/**
+ * 库存盘货单
+ */
 var gridName = "operateGrid";
+var isdisabled = false;
 
 $(function(){
 	var operateStatus = $('#operateStatus').val();
 	if(operateStatus === 'add'){
 	
 	}else if(operateStatus === 'edit'){
+		$('#already-examine').css('display','none');
+		$('#btnCheck').css('display','black');
 	
+	}else if(operateStatus === 'check'){
+		isdisabled = true;
+		$('#already-examine').css('display','black');
+		$('#btnCheck').css('display','none');
 	}
 }
 )
@@ -56,35 +65,21 @@ function initOperateDataGrid(){
 			    }
 			},
             {field:'rowNo',hidden:'true'},
-            {field:'skuCode',title:'货号',width: '70px',align:'left',editor:'textbox'},
+            {field:'skuCode',title:'货号',width: '70px',align:'left',
+            	editor:{
+	                type:'textbox',
+	                options:{
+	                	disabled:isdisabled,
+	                }
+            	}
+            },
             {field:'skuName',title:'商品名称',width:'200px',align:'left'},
 
             {field:'unit',title:'单位',width:'60px',align:'left'},
             {field:'spec',title:'规格',width:'90px',align:'left'},
-            /*{field:'twoCategoryCode',title:'类别编号',width:'90px',align:'left'},
-            {field:'twoCategoryName',title:'类别名称',width:'90px',align:'left'},*/
-            {field:'distributionSpec',title:'配送规格',width:'90px',align:'left'},
-            {field:'largeNum',title:'箱数',width:'80px',align:'right',
-                formatter:function(value,row,index){
-                    if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                    }
+            {field:'spec',title:'品牌',width:'90px',align:'left'},
 
-                    if(!value){
-                        row["largeNum"] = parseFloat(value||0).toFixed(2);
-                    }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-                editor:{
-                    type:'numberbox',
-                    options:{
-                        min:0,
-                        precision:4,
-                        onChange: onChangeLargeNum,
-                    }
-                }
-            },
-            {field:'applyNum',title:'数量',width:'80px',align:'right',
+            {field:'applyNum',title:'实际盘点数量',width:'80px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -97,13 +92,14 @@ function initOperateDataGrid(){
                 editor:{
                     type:'numberbox',
                     options:{
+                    	disabled:isdisabled,
                         min:0,
                         precision:4,
                         onChange: onChangeRealNum,
                     }
                 }
             },
-            {field:'price',title:'单价',width:'80px',align:'right',
+            {field:'price',title:'零售价',width:'80px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
                         return
@@ -112,19 +108,10 @@ function initOperateDataGrid(){
                     	row.price = parseFloat(value||0).toFixed(2);
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-                editor:{
-                    type:'numberbox',
-                    options:{
-                        disabled:true,
-                        min:0,
-                        precision:4,
-//                        onChange: onChangePrice,
-                    }
-                },
+                }
             
             },
-            {field:'amount',title:'金额',width:'80px',align:'right',
+            {field:'amount',title:'零售金额',width:'80px',align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -135,21 +122,19 @@ function initOperateDataGrid(){
                     }
                     
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-                editor:{
-                    type:'numberbox',
-                    options:{
-                        disabled:true,
-                        min:0,
-                        precision:4,
-//                        onChange: onChangeAmount,
-                    }
                 }
             },
 
 
 
-            {field:'remark',title:'备注',width:'200px',align:'left',editor:'textbox'}
+            {field:'remark',title:'备注',width:'200px',align:'left', 
+            	editor:{
+	                type:'textbox',
+	                options:{
+	                	disabled:isdisabled,
+	                }
+            	}
+            }
         ]],
         onClickCell:function(rowIndex,field,value){
             gridHandel.setBeginRow(rowIndex);
@@ -200,10 +185,10 @@ function delLineHandel(event){
 
 //选择商品
 function selectGoods(searchKey){
-	var sourceBranchId = $("#sourceBranchId").val();
-	var targetBranchId = $("#targetBranchId").val();
+	var branchId = $("#branchId").val();
+	var takeStockId = $('#takeStockId').val();
     //判定发货分店是否存在
-    if($("#sourceBranchId").val()==""){
+    if($("#branchId").val()==""){
         messager("请先选择发货机构");
         return;
     }
@@ -212,11 +197,12 @@ function selectGoods(searchKey){
     		type:'DA',
     		key:searchKey,
     		isRadio:'',
-    		sourceBranchId:sourceBranchId,
-    		targetBranchId:targetBranchId,
+    		sourceBranchId:branchId,
+    		targetBranchId:"",
     		branchId:branchId,
     		supplierId:'',
-    		flag:'0'
+    		flag:'0',
+    		takeStockId:takeStockId,
     }
 
     new publicGoodsServiceTem(param,function(data){
@@ -236,21 +222,19 @@ function selectGoods(searchKey){
     branchId = '';
 }
 
-function toImportproduct(type){
-	// 机构id
-	var branchId = $("#branchId").val();
-	// id
-    var sourceBranchId = $("#sourceBranchId").val();
-    if(sourceBranchId === '' || sourceBranchId === null){
-        messager("请先选择发货机构");
+//导入
+function toImportOperate(type){
+
+    var takeStockId = $("#takeStockId").val();
+    if(takeStockId === '' || takeStockId === null){
+        messager("请先选择盘点批号");
         return;
     }
     var param = {
         url:contextPath+"/form/deliverForm/importList",
         tempUrl:contextPath+"/form/deliverForm/exportTemp",
         type:type,
-        targetBranchId:targetBranchId,
-        sourceBranchId:sourceBranchId
+
     }
     new publicUploadFileService(function(data){
     	if (data.length != 0) {

@@ -30,9 +30,9 @@
 		</div>
 		<div class="ub uline umar-t8"></div>
 		<div class="ub umar-t8">
-			<div class="ub ub-ac uw-300 umar-l40">
+			<div class="ub ub-ac uw-300 umar-l10">
 				<div class="umar-r10 uw-70 ut-r">单号:</div>
-				<input class="uinp" type="text" id="takeStockNO" name="takeStockNO">
+				<input class="uinp ub ub-f1" type="text" id="takeStockNO" name="takeStockNO" placeholder="请输入盘点单号/盘点批号">
 			</div>
 			<div class="ub ub-ac umar-l10">
 				<div class="umar-r10 uw-70 ut-r">机构:</div>
@@ -42,25 +42,27 @@
 			</div>
 		</div>
 		<div class="ub umar-t8">
-			<div class="ub ub-ac uw-300 umar-l40">
+			<div class="ub ub-ac uw-300 umar-l10">
 				<div class="umar-r10 uw-70 ut-r">制单人员:</div>
-				<input class="uinp" type="text" id="createUserId" name="createUserId">
+				<input type="hidden" id="operateUserId" name="operateUserId" />
+				<input class="uinp ub ub-f1" type="text" id="operateUserName" name="operateUserName">
+				<div class="uinp-more" onclick="selectOperator()" >...</div>
 			</div>
             <div class="ub ub-ac umar-l10">
                 <div class="umar-r10 uw-70 ut-r">单据状态:</div>
                 <div class="ub ub-ac umar-r10">
-                     <label><input class="radioItem" type="radio" value="0" name="status" checked="checked"/><span>未审核</span></label>
+                     <label><input class="radioItem" type="radio" value="0" name="status" checked="checked" onclick="queryForm()"/><span>未审核</span></label>
                 </div>
                 <div class="ub ub-ac umar-r10">
-                     <label><input class="radioItem" type="radio" value="1" name="status"/><span>已审核</span></label>
+                     <label><input class="radioItem" type="radio" value="1" name="status" onclick="queryForm()"/><span>已审核</span></label>
                 </div>
                 <div class="ub ub-ac umar-r10">
-                     <label><input class="radioItem"  type="radio" value="" name="status"/><span>全部</span></label>
+                     <label><input class="radioItem"  type="radio" value="" name="status" onclick="queryForm()"/><span>全部</span></label>
                 </div>
             </div>
 		</div>
 		<div class="ub umar-t8">
-			<div class="ub ub-ac uw-590 umar-l40">
+			<div class="ub ub-ac uw-590 umar-l10">
 				<div class="umar-r10 uw-70 ut-r">备注:</div>
 				<input class="uinp ub ub-f1" type="text" id="remark" name="remark">
 			</div>

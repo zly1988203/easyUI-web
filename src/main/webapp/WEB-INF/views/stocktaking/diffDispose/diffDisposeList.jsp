@@ -17,13 +17,12 @@
 		<div class="ub ub-ac">
             <div class="ubtns">
                 <div class="ubtns-item" onclick="queryForm()">查询</div>
-                <div class="ubtns-item" onclick="toDelete()">删除</div>
+                <div class="ubtns-item" onclick="toDelete()">删单</div>
                 <div class="ubtns-item" id="set" onclick="gFunRefresh()" >重置</div>
                 <div class="ubtns-item" onclick="toClose()">退出</div>
             </div>
 			<div class="ub">
 				<div class="ub ub-ac">
-					<div class="umar-r10 uw-70 ut-r">日期:</div>
 					<%@ include file="/WEB-INF/views/component/dateSelect.jsp"%>
 				</div>
 			</div>
@@ -44,7 +43,9 @@
 		<div class="ub umar-t8">
 			<div class="ub ub-ac uw-300 umar-l40">
 				<div class="umar-r10 uw-70 ut-r">制单人员:</div>
-				<input class="uinp" type="text" id="createUserId" name="createUserId">
+				<input type="hidden" id="operateUserId" name="operateUserId" />
+				<input class="uinp ub ub-f1" type="text" id="operateUserName" name="operateUserName">
+				<div class="uinp-more" onclick="selectOperator()" >...</div>
 			</div>
             <div class="ub ub-ac umar-l10">
                 <div class="umar-r10 uw-70 ut-r">审核状态:</div>
