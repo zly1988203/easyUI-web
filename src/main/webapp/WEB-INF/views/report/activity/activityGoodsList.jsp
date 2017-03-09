@@ -66,6 +66,8 @@
 	              <label><input type="checkbox" value="4" name="activityType1" onclick="selectedTypeItem()">换购</label>
 	              <label><input type="checkbox" value="5" name="activityType1" onclick="selectedTypeItem()">满减</label>
 	              <label><input type="checkbox" value="6" name="activityType1" onclick="selectedTypeItem()">组合特价</label>
+	              <label><input type="checkbox" value="8" name="activityType1" onclick="selectedTypeItem()">手工折扣</label>
+	              <label><input type="checkbox" value="9" name="activityType1" onclick="selectedTypeItem()">手工议价</label>
                 </div>
            </div>
        	</form>
