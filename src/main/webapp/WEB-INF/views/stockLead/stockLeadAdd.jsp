@@ -18,9 +18,6 @@
 					<shiro:hasPermission name="JxcStockLead:add">
 						<div class="ubtns-item" onclick="saveStockLead()">保存</div>
 					</shiro:hasPermission>
-					<shiro:hasPermission name="JxcStockLead:audit">
-						<div class="ubtns-item-disabled">审核</div>
-					</shiro:hasPermission>
 					<div class="ubtns-item" onclick="selectGoods()">商品选择</div>
 					<shiro:hasPermission name="JxcStockLead:import">
 						<div class="ubtns-item" onclick="importHandel(0)">导入货号</div>
@@ -35,7 +32,6 @@
 					<div class="ubtns-item" onclick="back()">关闭</div>
 				</div>
 			</div>
-			<div class="ub umar-t8 uc-black">【单号】:<span >55555555555</span></div>
 			<div class="ub umar-t8 uline"></div>
 			<div class="ub umar-t10">
 				<div class="ub ub-ac uw-300">
