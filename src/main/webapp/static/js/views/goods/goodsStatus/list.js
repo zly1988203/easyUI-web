@@ -74,6 +74,50 @@ $(function(){
 	localStorageUtil.clearStorageItem();
 });
 
+//状态切换
+$(document).on("click","input[name='status']",function(){
+	var statusValue = $("input[name='status']:checked").val();
+	console.log('statusValue',statusValue)
+	switch(statusValue){
+		case '0': //正常
+			$("#btn_stop01").removeClass("unhide");
+			$("#btn_stop02").removeClass("unhide");
+			$("#btn_stopout").removeClass("unhide");
+			$("#btn_weedout01").removeClass("unhide");
+			$("#btn_weedout02").removeClass("unhide");
+			
+			$("#recover").addClass("unhide");
+			break;
+		case '2': //停购
+			$("#btn_stop01").addClass("unhide");
+			$("#btn_stop02").addClass("unhide");
+			$("#btn_stopout").addClass("unhide");
+			
+			$("#recover").removeClass("unhide");
+			$("#btn_weedout01").removeClass("unhide");
+			$("#btn_weedout02").removeClass("unhide");
+			
+			break;
+		case '3': //淘汰
+		case '1': //停售
+			$("#btn_stop01").addClass("unhide");
+			$("#btn_stop02").addClass("unhide");
+			$("#btn_stopout").addClass("unhide");
+			$("#btn_weedout01").addClass("unhide");
+			$("#btn_weedout02").addClass("unhide");
+			
+			$("#recover").removeClass("unhide");
+			break;
+		default:
+			$("#btn_stop01").addClass("unhide");
+			$("#btn_stop02").addClass("unhide");
+			$("#btn_stopout").addClass("unhide");
+			$("#btn_weedout01").addClass("unhide");
+			$("#btn_weedout02").addClass("unhide");
+			$("#recover").addClass("unhide");
+			
+	}
+})
 
 function initView(){
     $('#goodsType').combobox({
