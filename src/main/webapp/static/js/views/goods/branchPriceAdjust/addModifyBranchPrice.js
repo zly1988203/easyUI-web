@@ -6,6 +6,8 @@ var datagridId = "addModifyBranchPriceGrid";
 
 // 是否保存过添加的单据数据的标志位
 var isClickSaveData = false;
+//是否审核过添加的单据数据的标志位
+var isClickCheckData = false;
 // datagrid对象
 var addModifyPriceGridDg;
 
@@ -231,12 +233,18 @@ function initCheckbox(){
 
 // 新增
 function addModifyDataGrid() {
+	if (isClickCheckData) {
+		window.location.href = contextPath
+			+ "/goods/branchPriceAdjust/addFormView";
+	}
 	// 如果页面为空，则不需要提示，只有页面都输入值，才校验是否保存过数据
 	if (datagridUtil.isSaveData()) {
+		var content = '';
 		if (isClickSaveData) {
-			window.location.href = contextPath
-				+ "/goods/branchPriceAdjust/addFormView";
-		} else {
+			content = "<div class='upad-12 ufs-14'>单据已经变更，是否保存？</div>"
+		}else{
+			content = "<div class='upad-12 ufs-14'>单据未保存，是否取消编辑并新增?</div>"
+		}
 			var d = $("<div />")
 				.dialog(
 					{
@@ -246,7 +254,7 @@ function addModifyDataGrid() {
 						height : 150,
 						maximizable : false,
 						modal : true,
-						content : "<div class='upad-12 ufs-14'>页面内容有修改,是否保存? 点击是:保存,点击否:不保存,或点击取消不做任何处理...</div>",
+						content : content,
 						buttons : [
 							{
 								text : '是',
@@ -266,7 +274,7 @@ function addModifyDataGrid() {
 								}
 							} ]
 					});
-		}
+		
 	} else {
 		window.location.href = contextPath + "/goods/branchPriceAdjust/addFormView";
 	}
@@ -447,6 +455,8 @@ function checkForm(formNo,effectDate) {
 			if (data.code > 0) {
 				$.messager.alert('提示', data.message, "info");
 			} else {
+				//审核过
+				isClickCheckData = true;
 				$.messager.alert('提示', '单据审核成功！', "info", function() {
 					window.location.href = contextPath
 						+ "/goods/branchPriceAdjust/getForm?formNo=" + formNo;
