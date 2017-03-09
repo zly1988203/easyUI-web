@@ -31,20 +31,21 @@ import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.goods.entity.GoodsBrand;
+import com.okdeer.jxc.goods.qo.GoodsBrandQo;
 import com.okdeer.jxc.goods.service.GoodsBrandServiceApi;
-import com.okdeer.jxc.goods.vo.GoodsBrandVo;
 
 /**
  * ClassName: GoodsBrandController 
- * @Description: TODO
- * @author taomm
- * @date 2016年8月15日
+ * @Description: 品牌管理
+ * @author zhong
+ * @date 2017年02月10日
  *
  * =================================================================================================
  *     Task ID			  Date			     Author		      Description
  * ----------------+----------------+-------------------+-------------------------------------------
  *
  */
+
 @Controller
 @RequestMapping("common/brand")
 public class GoodsBrandController extends BaseController<GoodsBrandController> {
@@ -96,15 +97,14 @@ public class GoodsBrandController extends BaseController<GoodsBrandController> {
 	@RequestMapping(value = "getComponentList", method = RequestMethod.POST)
 	@ResponseBody
 	public PageUtils<GoodsBrand> getComponentList(
-			GoodsBrandVo vo,
+			GoodsBrandQo qo,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
-			vo.setPageNumber(pageNumber);
-			vo.setPageSize(pageSize);
-			LOG.info("查询品牌参数:{}", vo.toString());
-			PageUtils<GoodsBrand> goodsBrand = goodsBrandService.queryLists(vo);
-			LOG.info("page:" + goodsBrand.toString());
+			LOG.info("查询品牌参数:{}", qo);
+			qo.setPageNumber(pageNumber);
+			qo.setPageSize(pageSize);
+			PageUtils<GoodsBrand> goodsBrand = goodsBrandService.queryLists(qo);
 			return goodsBrand;
 		} catch (Exception e) {
 			LOG.error("查询查询品牌异常:", e);
@@ -139,20 +139,19 @@ public class GoodsBrandController extends BaseController<GoodsBrandController> {
 	@RequestMapping(value = "queryBrandList", method = RequestMethod.POST)
 	@ResponseBody
 	public PageUtils<GoodsBrand> queryBrandList(
-			GoodsBrandVo vo,
+			GoodsBrandQo qo,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
-			vo.setPageNumber(pageNumber);
-			vo.setPageSize(pageSize);
-			LOG.info("查询品牌参数:{}", vo.toString());
-			if(StringUtils.isNotBlank(vo.getBrandCodeOrName())){
-				vo.setBrandCodeOrName(vo.getBrandCodeOrName().trim());
+			LOG.info("查询品牌参数,qo={}", qo);
+			qo.setPageNumber(pageNumber);
+			qo.setPageSize(pageSize);
+			if(StringUtils.isNotBlank(qo.getBrandCodeOrName())){
+				qo.setBrandCodeOrName(qo.getBrandCodeOrName().trim());
 			}else{
-				vo.setBrandCodeOrName("");
+				qo.setBrandCodeOrName("");
 			}
-			PageUtils<GoodsBrand> goodsBrand = goodsBrandService.queryLists(vo);
-			LOG.info("page:" + goodsBrand.toString());
+			PageUtils<GoodsBrand> goodsBrand = goodsBrandService.queryLists(qo);
 			return goodsBrand;
 		} catch (Exception e) {
 			LOG.error("查询查询品牌异常:", e);
@@ -161,7 +160,7 @@ public class GoodsBrandController extends BaseController<GoodsBrandController> {
 	}
 	
 	/**
-	 * @Description: 进入品牌管理页面
+	 * @Description: 进入品牌新增页面
 	 * @return   
 	 * @author zhongy
 	 * @date 2017年02月08日
@@ -218,7 +217,7 @@ public class GoodsBrandController extends BaseController<GoodsBrandController> {
 	}
 	
 	/**
-	 * @Description: 到修改页面
+	 * @Description: 跳转到品牌修改页面
 	 * @return
 	 * @author zhongy
 	 * @date 2017年02月09日
@@ -308,8 +307,7 @@ public class GoodsBrandController extends BaseController<GoodsBrandController> {
 	}
 	
 	/**
-	 * 
-	 * @Description: 报表导出
+	 * @Description: 品牌导出
 	 * @param request
 	 * @param response
 	 * @param vo
@@ -318,17 +316,16 @@ public class GoodsBrandController extends BaseController<GoodsBrandController> {
 	 */
 	@RequestMapping(value = "/exportList", method = RequestMethod.POST)
 	@ResponseBody
-	public String exportList(GoodsBrandVo vo, HttpServletResponse response) {
+	public String exportList(GoodsBrandQo qo, HttpServletResponse response) {
 
-		LOG.info("商品品牌查询，报表导出参数：{}", vo);
+		LOG.info("商品品牌查询，报表导出参数：{}", qo);
 		try {
-			// 1、列表查询
-			if(StringUtils.isNotBlank(vo.getBrandCodeOrName())){
-				vo.setBrandCodeOrName(vo.getBrandCodeOrName().trim());
+			if(StringUtils.isNotBlank(qo.getBrandCodeOrName())){
+				qo.setBrandCodeOrName(qo.getBrandCodeOrName().trim());
 			}else{
-				vo.setBrandCodeOrName("");
+				qo.setBrandCodeOrName("");
 			}
-			List<GoodsBrand> exportList = goodsBrandService.queryReportLists(vo);
+			List<GoodsBrand> exportList = goodsBrandService.queryReportLists(qo);
 			String fileName = "商品品牌报表" + "_" + DateUtils.getCurrSmallStr();
 			String templateName = ExportExcelConstant.GOODS_BRAND_REPORT;
 			exportListForXLSX(response, exportList, fileName, templateName);

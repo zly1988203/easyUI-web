@@ -259,7 +259,7 @@ pageEncoding="UTF-8"%>
 						<input id="grossProfitPercent" name="grossProfitPercent" style="width: 204px;"
 							   class="uinp uinp-no-more easyui-numberbox easyui-validatebox"
 							   data-options="min:0,precision:2" type="text"
-							   style="text-align: right" readonly="readonly">
+							   style="text-align: right" readonly="readonly">%
 					</div>
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">销项税率:</div>

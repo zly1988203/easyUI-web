@@ -99,6 +99,8 @@ function initMarketWaterGrid() {
     				return "微信";
     			}else if(orderType=="2"){
     				return "线下POS";
+    			}else if(orderType=="3"){
+    				return "APP";
     			}
     			return null;
     		}},

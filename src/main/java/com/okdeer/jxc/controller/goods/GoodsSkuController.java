@@ -36,10 +36,10 @@ import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.goods.entity.GoodsBrand;
 import com.okdeer.jxc.goods.entity.GoodsSku;
+import com.okdeer.jxc.goods.qo.GoodsBrandQo;
 import com.okdeer.jxc.goods.qo.GoodsSkuQo;
 import com.okdeer.jxc.goods.service.GoodsBrandServiceApi;
 import com.okdeer.jxc.goods.service.GoodsSkuServiceApi;
-import com.okdeer.jxc.goods.vo.GoodsBrandVo;
 import com.okdeer.jxc.goods.vo.GoodsSkuVo;
 import com.okdeer.jxc.supplier.entity.Supplier;
 import com.okdeer.jxc.supplier.qo.SupplierQo;
@@ -135,7 +135,7 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 		model.addAttribute("action", "create");
 		
 		//品牌查询
-		GoodsBrandVo  brand = new GoodsBrandVo();
+		GoodsBrandQo  brand = new GoodsBrandQo();
 		brand.setBrandCodeOrName("其他");
 		brand.setPageNumber(Constant.ONE);
 		brand.setPageSize(Constant.ONE);
@@ -266,29 +266,39 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 	public RespJson addGoods(@Valid GoodsSkuVo sku, BindingResult validate) {
 		if (validate.hasErrors()) {
 			String errorMessage = validate.getFieldError().getDefaultMessage();
-			LOG.warn("validate errorMessage:" + errorMessage);
+			LOG.warn("validate errorMessage:" , errorMessage);
 			return RespJson.error(errorMessage);
 		}
 		if(StringUtils.isEmpty(sku.getCategoryCode())){
 			return RespJson.error("请选择商品类别！");
 		}
+		
+		//校验零售价
+		BigDecimal salePrice = sku.getSalePrice();
+		if(salePrice == null){
+			return RespJson.error("零售价不能为空");
+		}
+		BigDecimal price = BigDecimal.ZERO;
+		if(salePrice.compareTo(price) == 0) {
+			return RespJson.error("零售价必须大于0");
+		}
+		
+		
 		try {
 			// 如果非普通商品没有设置条码，则把当前商品代码
 			if (StringUtils.isEmpty(sku.getBarCode())
 					&& !PricingTypeEnum.ORDINARY.equals(sku.getPricingType())) {
 				sku.setBarCode(sku.getSkuCode());
 			}
-			BigDecimal price = BigDecimal.ZERO;
 			
-			if (sku.getSalePrice()==null) {
-				sku.setSalePrice(price);
+			if (sku.getVipPrice()==null || sku.getVipPrice().compareTo(price)==0) {
+				sku.setVipPrice(sku.getSalePrice());
 			}
-			if (sku.getVipPrice()==null) {
-				sku.setVipPrice(price);
-			}
+			
 			if (sku.getPurchasePrice()==null) {
 				sku.setPurchasePrice(price);
 			}
+			
 			if (sku.getDistributionPrice()==null) {
 				sku.setDistributionPrice(price);
 			}
@@ -323,16 +333,23 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 	public RespJson copyGoods(@Valid GoodsSkuVo sku, BindingResult validate) {
 		if (validate.hasErrors()) {
 			String errorMessage = validate.getFieldError().getDefaultMessage();
-			LOG.warn("validate errorMessage:" + errorMessage);
+			LOG.warn("validate errorMessage:", errorMessage);
 			return RespJson.error(errorMessage);
 		}
+		
+		//校验零售价
+		BigDecimal salePrice = sku.getSalePrice();
+		if(salePrice == null){
+			return RespJson.error("零售价不能为空");
+		}
+		BigDecimal price = BigDecimal.ZERO;
+		if(salePrice.compareTo(price) == 0) {
+			return RespJson.error("零售价必须大于0");
+		}
+		
 		try {
-			BigDecimal price = BigDecimal.ZERO;
-			if (sku.getSalePrice()==null) {
-				sku.setSalePrice(price);
-			}
-			if (sku.getVipPrice()==null) {
-				sku.setVipPrice(price);
+			if (sku.getVipPrice()==null || sku.getVipPrice().compareTo(price) == 0) {
+				sku.setVipPrice(sku.getSalePrice());
 			}
 			if (sku.getPurchasePrice()==null) {
 				sku.setPurchasePrice(price);

@@ -69,7 +69,7 @@ public class ActivitySelectController extends BaseController<ActivityMain>{
 				vo.setBranchId(UserUtil.getCurrBranchId());
 			}
 			vo.setActivityStatus(ActivityStatus.CHECK_SUCCESS.getValue());//只查询已审核的
-			vo.setEndTime(new Date());//活动有效
+			vo.setStartTime(new Date());//活动有效期大于当前时间
 			vo.setActivityType(ActivityType.SALE_PRICE.getValue());
 			PageUtils<Map<String, Object>>  map = mainServiceApi.listPage(vo);
 			LOG.info("page" + map.toString());
