@@ -276,34 +276,6 @@ function totleChangePrice(newV,oldV) {
 	updateFooter(); 
 }
 
-// 监听是否赠品
-function onSelectIsGift(data){
-    var checkObj = {
-        skuCode: gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'skuCode'),
-        isGift:data.id,
-    };
-    var arrs = gridHandel.searchDatagridFiled(gridHandel.getSelectRowIndex(),checkObj);
-    if(arrs.length==0){
-        var targetPrice = gridHandel.getFieldTarget('price');
-        if(data.id=="1"){
-            var priceVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
-            $("#"+dataGridId).datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"] = priceVal;
-            $(targetPrice).numberbox('setValue',0);
-            $(targetPrice).numberbox('disable');
-        }else{
-            $(targetPrice).numberbox('enable');
-            var oldPrice =  $("#"+dataGridId).datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"];
-            if(oldPrice){
-                $(targetPrice).numberbox('setValue',oldPrice);
-            }
-        }
-        updateFooter();
-    }else{
-        var targetIsGift = gridHandel.getFieldTarget('isGift');
-        $(targetIsGift).combobox('select', data.id=='1'?'0':'1');
-        messager(data.id=='1'?'已存在相同赠品':'已存在相同商品');
-    }
-}
 // 合计
 function updateFooter(){
     var fields = {stockNum:0,largeNum:0,realNum:0,amount:0};
@@ -478,14 +450,8 @@ function saveStockLead(){
     if(!isCheckResult){
         return;
     }
-   // var saveData = JSON.stringify(rows);
-   // var stockFormDetailList =
-	// tableArrayFormatter(rows,"stockFormDetailList");
-   /*
-	 * var reqObj = $.extend({ io:io, createBranchId:branchId, reason:reason,
-	 * remark:remark, }, stockFormDetailList);
-	 */
     var reqObj = {
+    		io:'1',
         	createBranchId:branchId,
             remark:remark,
             stockFormDetailList:rows
@@ -511,34 +477,6 @@ function saveStockLead(){
     });
 }
 
-// 审核
-function checkStockLead(){
-	var deliverFormId = $("#formId").val();
-	$.messager.confirm('提示','是否审核通过？',function(data){
-		if(data){
-			$.ajax({
-		    	url : contextPath+"/stock/lead/check",
-		    	type : "POST",
-		    	data : {
-		    		deliverFormId : $("#formId").val(),
-		    		stockType : 'IU'
-		    	},
-		    	success:function(result){
-		    		if(result['code'] == 0){
-		    			$.messager.alert("操作提示", "操作成功！", "info",function(){
-		    				contextPath +"/stock/lead/list";
-		    			});
-		    		}else{
-		    			successTip(result['message']);
-		    		}
-		    	},
-		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
-		    	}
-		    });
-		}
-	});
-}
 /**
  * 返回领用单
  */
@@ -600,29 +538,14 @@ function updateListData(data){
     // 导入箱数计算
     $.each(data, function (index, el) {	
     		if(parseFloat(el["realNum"])){
-    			if(parseFloat(el["realNum"])>0){
-    			  el["realNum"]=el["realNum"]*-1;
-    			  el["largeNum"] =parseFloat(el["realNum"])/parseFloat(el["purchaseSpec"]);
-    			  el["amount"] =parseFloat(el["realNum"])*parseFloat(el["price"]);
-    			  
-    			}
-    			else{
-    			  el["realNum"]=el["realNum"];
-       			  el["largeNum"] =parseFloat(el["realNum"])/parseFloat(el["purchaseSpec"]);
-       			  el["amount"] =parseFloat(el["realNum"])*parseFloat(el["price"]);
-    			}
+			   el["realNum"]=el["realNum"];
+   			   el["largeNum"] =parseFloat(el["realNum"])/parseFloat(el["purchaseSpec"]);
+   			   el["amount"] =parseFloat(el["realNum"])*parseFloat(el["price"]);
     		 }
     	   if(parseFloat(el["largeNum"])){
-    		   if(parseFloat(el["largeNum"])>0){
-    			   el["largeNum"]=el["largeNum"]*-1;
-        		   el["realNum"] =parseFloat(el["largeNum"])*parseFloat(el["purchaseSpec"]);
-        		   el["amount"] =parseFloat(el["largeNum"])*parseFloat(el["price"])*parseFloat(el["purchaseSpec"]);
-    		   }
-    		   else{
-    			   el["largeNum"]=el["largeNum"];
-      			   el["realNum"] =parseFloat(el["largeNum"])*parseFloat(el["purchaseSpec"]);
-      			  el["amount"] =parseFloat(el["largeNum"])*parseFloat(el["price"])*parseFloat(el["purchaseSpec"]);
-    		   }
+			   el["largeNum"]=el["largeNum"];
+  			   el["realNum"] =parseFloat(el["largeNum"])*parseFloat(el["purchaseSpec"]);
+  			   el["amount"] =parseFloat(el["largeNum"])*parseFloat(el["price"])*parseFloat(el["purchaseSpec"]);
     	}
 	  })
     $("#"+dataGridId).datagrid("loadData",data);

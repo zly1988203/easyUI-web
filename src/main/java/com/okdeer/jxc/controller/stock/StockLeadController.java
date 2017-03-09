@@ -28,7 +28,6 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.LogConstant;
-import com.okdeer.jxc.common.enums.IOEnum;
 import com.okdeer.jxc.common.enums.StockAdjustEnum;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportComponent;
@@ -80,7 +79,7 @@ public class StockLeadController extends BaseController<StockLeadController> {
 	 * @author zhengwj
 	 * @date 2017年3月6日
 	 */
-	@RequestMapping(value = "/list")
+	@RequestMapping(value = "list")
 	public String list() {
 		return "/stockLead/stockLeadList";
 	}
@@ -117,7 +116,7 @@ public class StockLeadController extends BaseController<StockLeadController> {
 	 * @date 2017年3月6日
 	 */
 	@RequiresPermissions("JxcStockLead:add")
-	@RequestMapping(value = "/add")
+	@RequestMapping(value = "add")
 	public String add() {
 		return "/stockLead/stockLeadAdd";
 	}
@@ -137,7 +136,6 @@ public class StockLeadController extends BaseController<StockLeadController> {
 			SysUser user = UserUtil.getCurrentUser();
 			vo.setCreateUserId(user.getId());
 			vo.setFormType(StockAdjustEnum.LEAD.getKey());
-			vo.setIo(Integer.parseInt(IOEnum.O.getIndex()));
 			return stockAdjustServiceApi.addStockForm(vo);
 		} catch (Exception e) {
 			LOG.error("保存领用单信息异常:{}", e);
