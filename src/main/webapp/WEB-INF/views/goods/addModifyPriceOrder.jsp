@@ -138,7 +138,7 @@
 								 <label><input  class="priceItem" type="checkbox" name="isModifyWsPrice"  id="tradePrice"/><span>批发价</span></label>
 		                    </div>
 		                    <div class="ub ub-ac umar-r10">
-								 <label><input  class="priceItem" type="checkbox" name="isModifyVipPrice"  id="memberPrice"/><span>会员价</span></label>
+								 <label><input  class="priceItem" type="checkbox" name="isModifyVipPrice"  checked="checked" id="memberPrice"/><span>会员价</span></label>
 		                    </div>
                     	</c:if>
                     	

@@ -321,6 +321,13 @@ function stop(type){
 	console.log(rows);
 	var ids = '';
 	$.each(rows,function(i,v){
+		//淘汰操作
+		if(type ==2){
+			if(v.actual == 0){
+				$.messager.alert('提示','淘汰商品库存必须为0！');
+				return;
+			}
+		}
 		ids+=v.branchSkuId+",";
 	});
 	console.log(ids);
@@ -363,11 +370,37 @@ function closeOutGuideDialog(){
 }
 //确认淘汰向导
 function checkOutGuide(){
-	var guideStatus = $("input[name='guideStatus']").prop("checked");
-	var guideStatus = $("input[name='guideChoose']").prop("checked");
+	var guideType = $("input[name='guideType']:checked").val();
+	var guideChoose = $("input[name='guideChoose']:checked").val();
 	var guideDate = $("#guideDate").numberbox('getValue');
-	
+	var params = {
+			guideType:guideType,
+			guideChoose:guideChoose,
+			guideDate:guideDate
+	};
+	$("#goodsStatus").datagrid("options").queryParams = params;
+	$("#goodsStatus").datagrid("options").method = "post";
+	$("#goodsStatus").datagrid("options").url = contextPath+"/goods/status/getOutGuideList";
+	$("#goodsStatus").datagrid("load");
 	$("#outGuideDailog").dialog('close');
+}
+
+function checkStopGuide(){
+	var guideType = $("input[name='stGuideType']:checked").val();
+	var guideChoose = $("input[name='stGuideChoose']:checked").val();
+	var guideDate = $("#stGuideDate").numberbox('getValue');
+	var guideNum = $("#stGuideNum").numberbox('getValue');
+	var params = {
+			guideType:guideType,
+			guideChoose:guideChoose,
+			guideDate:guideDate,
+			guideNum:guideNum
+	};
+	$("#goodsStatus").datagrid("options").queryParams = params;
+	$("#goodsStatus").datagrid("options").method = "post";
+	$("#goodsStatus").datagrid("options").url = contextPath+"/goods/status/getStopGuideList";
+	$("#goodsStatus").datagrid("load");
+	$("#stopGuideDailog").dialog('close');
 }
 //初始化数据
 function resetGuideData(){
@@ -387,16 +420,6 @@ function stopGuide(){
 function closeStopGuideDialog(){
 	$("#stopGuideDailog").dialog('close');
 }
-//确认淘汰向导
-function checkStopGuide(){
-	var st_guideStatus = $("input[name='stGuideStatus']").prop("checked");
-	var st_guideStatus = $("input[name='stGuideChoose']").prop("checked");
-	var st_guideDate = $("#stguideDate").numberbox('getValue');
-	var st_guideNum = $("#stguideNum").numberbox('getValue');
-	
-	$("#stopGuideDailog").dialog('close');
-}
-
 //初始化数据
 function resetStopGuideData(){
 	$("input[name='stGuideStatus']").prop("checked",false).eq(0).prop("checked",true);

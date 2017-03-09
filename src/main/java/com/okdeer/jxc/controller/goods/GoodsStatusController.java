@@ -69,7 +69,8 @@ public class GoodsStatusController extends BaseController<GoodsStatusController>
 	 * @date 2017年3月6日
 	 */
 	@RequestMapping(value = "list")
-	public String list() {
+	public String list(Model model) {
+		model.addAttribute("branchType", UserUtil.getCurrBranchType());
 		return "goods/goodsStatus/goodsStatusList";
 	}
 	/**
@@ -93,6 +94,50 @@ public class GoodsStatusController extends BaseController<GoodsStatusController>
 			vo.setPageSize(pageSize);
 			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
 			PageUtils<GoodsStatusVo> list = goodsStatusService.getGoodsStatusList(vo);
+			return list;
+		} catch (Exception e) {
+			LOG.error("获取滞销信息列表信息异常:{}", e);
+		}
+		return null;
+	}
+	/**
+	 * 
+	 * @Description: 淘汰向导查询
+	 * @param vo
+	 * @param pageNumber
+	 * @param pageSize
+	 * @return
+	 * @author liux01
+	 * @date 2017年3月9日
+	 */
+	@RequestMapping(value = "getOutGuideList", method = RequestMethod.POST)
+	@ResponseBody
+	public PageUtils<GoodsStatusVo> getOutGuideList(
+			GoodsStatusQo vo,
+			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
+			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
+		try {
+			vo.setPageNumber(pageNumber);
+			vo.setPageSize(pageSize);
+			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
+			PageUtils<GoodsStatusVo> list = goodsStatusService.getOutGuideList(vo);
+			return list;
+		} catch (Exception e) {
+			LOG.error("获取滞销信息列表信息异常:{}", e);
+		}
+		return null;
+	}
+	@RequestMapping(value = "getStopGuideList", method = RequestMethod.POST)
+	@ResponseBody
+	public PageUtils<GoodsStatusVo> getStopGuideList(
+			GoodsStatusQo vo,
+			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
+			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
+		try {
+			vo.setPageNumber(pageNumber);
+			vo.setPageSize(pageSize);
+			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
+			PageUtils<GoodsStatusVo> list = goodsStatusService.getStopGuideList(vo);
 			return list;
 		} catch (Exception e) {
 			LOG.error("获取滞销信息列表信息异常:{}", e);
@@ -242,18 +287,5 @@ public class GoodsStatusController extends BaseController<GoodsStatusController>
 		}
 		return respJson;
 		
-	}
-	/**
-	 * 
-	 * @Description: 跳转到淘汰向导页面
-	 * @param model
-	 * @return
-	 * @author liux01
-	 * @date 2017年3月8日
-	 */
-	@RequestMapping(value = "toOutGuide")
-	public String toAddRole(Model model) {
-		model.addAttribute("branchType", UserUtil.getCurrBranchType());
-		return "goods/goodsStatus/outGuide";
 	}
 }
