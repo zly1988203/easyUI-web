@@ -246,6 +246,25 @@ public class GoodsBranchPriceAdjustController extends BaseController<GoodsBranch
 		}
 		return RespJson.success();
 	}
+	@RequestMapping(value = "/bacthDeleteForm", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson bacthDeleteForm(String ids) {
+		try {
+			// 获取当前用户
+			SysUser user = UserUtil.getCurrentUser();
+			// 修改人
+			String updateUserId = user.getId();
+			if(StringUtils.isBlank(ids)){
+				return RespJson.error("未选择单据");
+			}
+			String[] idArray = ids.split(",");
+			return goodsBranchPriceAdjustService.bacthDeleteForm(idArray, updateUserId);
+		} catch (Exception e) {
+			LOG.error(GoodsPriceFormConst.DELETE_GOODS_PRICE_FOMR_ERRO, e);
+			RespJson respJson = RespJson.error(GoodsPriceFormConst.DELETE_GOODS_PRICE_FOMR_ERRO);
+			return respJson;
+		}
+	}
 	/**
 	 * 
 	 * @Description: 导入模板

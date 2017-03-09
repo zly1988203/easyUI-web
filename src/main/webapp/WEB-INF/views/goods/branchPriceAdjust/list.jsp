@@ -16,7 +16,7 @@
             <div class="ubtns">
                 <div class="ubtns-item" onclick="modifyPriceOrderCx();">查询</div>
 				<div class="ubtns-item" onclick="addModifyDataGrid();">新增</div>
-	            <div class="ubtns-item" onclick="delModifyOrderDialog();">删除</div>
+	            <div class="ubtns-item" onclick="delModifyPriceDialog();">删除</div>
 	            <div class="ubtns-item" onclick="gFunRefresh()">设置</div>
 	            <div class="ubtns-item" onclick="window.parent.closeTab()">关闭</div>
             </div>
