@@ -171,6 +171,7 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 			StockFormVo vo = JSON.parseObject(jsonText, StockFormVo.class);
 			SysUser user = UserUtil.getCurrentUser();
 			vo.setCreateUserId(user.getId());
+			vo.setFormType(StockAdjustEnum.ADJUST.getKey());
 			return stockAdjustServiceApi.addStockForm(vo);
 		} catch (Exception e) {
 			LOG.error("保存单据信息异常:{}", e);

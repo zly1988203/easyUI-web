@@ -28,6 +28,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.LogConstant;
+import com.okdeer.jxc.common.enums.IOEnum;
 import com.okdeer.jxc.common.enums.StockAdjustEnum;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportComponent;
@@ -40,7 +41,6 @@ import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.goods.entity.GoodsSelect;
 import com.okdeer.jxc.goods.entity.GoodsSelectByStockAdjust;
 import com.okdeer.jxc.stock.service.StockAdjustServiceApi;
-import com.okdeer.jxc.stock.service.StockLeadServiceApi;
 import com.okdeer.jxc.stock.vo.StockFormDetailVo;
 import com.okdeer.jxc.stock.vo.StockFormVo;
 import com.okdeer.jxc.system.entity.SysUser;
@@ -62,12 +62,6 @@ import net.sf.json.JSONObject;
 @Controller
 @RequestMapping("/stock/lead")
 public class StockLeadController extends BaseController<StockLeadController> {
-
-	/**
-	 * @Fields stockLeadService : 领用单service
-	 */
-	@Reference(version = "1.0.0", check = false)
-	private StockLeadServiceApi stockLeadServiceApi;
 
 	/**
 	 * @Fields stockAdjustServiceApi : 库存调整service
@@ -142,13 +136,50 @@ public class StockLeadController extends BaseController<StockLeadController> {
 			StockFormVo vo = JSON.parseObject(jsonText, StockFormVo.class);
 			SysUser user = UserUtil.getCurrentUser();
 			vo.setCreateUserId(user.getId());
+			vo.setFormType(StockAdjustEnum.LEAD.getKey());
+			vo.setIo(Integer.parseInt(IOEnum.O.getIndex()));
 			return stockAdjustServiceApi.addStockForm(vo);
 		} catch (Exception e) {
 			LOG.error("保存领用单信息异常:{}", e);
 			resp = RespJson.error("保存领用单信息失败");
 		}
 		return resp;
+	}
 
+	/**
+	 * @Description: 删除领用单
+	 * @author zhengwj
+	 * @date 2017年3月8日
+	 */
+	@RequiresPermissions("JxcStockLead:delete")
+	@RequestMapping(value = "delete", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson deleteStockForm(@RequestParam(value = "ids[]") List<String> ids) {
+		LOG.info(LogConstant.OUT_PARAM_LISTS, ids);
+		RespJson resp;
+		try {
+			return stockAdjustServiceApi.deleteCombineSplit(ids);
+		} catch (Exception e) {
+			LOG.error("删除领用单信息异常:{}", e);
+			resp = RespJson.error("删除领用单信息失败");
+		}
+		return resp;
+	}
+
+	/**
+	 * @Description: 获取领用单详情列表
+	 * @author zhengwj
+	 * @date 2017年3月8日
+	 */
+	@RequestMapping(value = "getStockFormDetailList", method = RequestMethod.GET)
+	@ResponseBody
+	public List<StockFormDetailVo> getStockFormDetailList(String id) {
+		try {
+			return stockAdjustServiceApi.getStcokFormDetailList(id);
+		} catch (Exception e) {
+			LOG.error("获取领用单信息异常:{}", e);
+		}
+		return null;
 	}
 
 	/**
@@ -166,7 +197,48 @@ public class StockLeadController extends BaseController<StockLeadController> {
 		} catch (Exception e) {
 			LOG.error("领用单查询详情错误:{}", e);
 		}
-		return "/stockLead/stockLeadEdit";
+		return "/stockLead/stockLeadView";
+	}
+
+	/**
+	 * @Description: 保存领用单
+	 * @author zhengwj
+	 * @date 2017年3月8日
+	 */
+	@RequiresPermissions("JxcStockLead:edit")
+	@RequestMapping(value = "update", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson updateStockForm(@RequestBody String jsonText) {
+		RespJson resp;
+		try {
+			StockFormVo vo = JSON.parseObject(jsonText, StockFormVo.class);
+			SysUser user = UserUtil.getCurrentUser();
+			vo.setCreateUserId(user.getId());
+			return stockAdjustServiceApi.updateStockForm(vo);
+		} catch (Exception e) {
+			LOG.error("更新领用单信息异常:{}", e);
+			resp = RespJson.error("更新领用单信息失败");
+		}
+		return resp;
+	}
+
+	/**
+	 * @Description: 审核领用单
+	 * @author zhengwj
+	 * @date 2017年3月8日
+	 */
+	@RequestMapping(value = "check", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson check(String id) {
+		RespJson resp;
+		try {
+			SysUser user = UserUtil.getCurrentUser();
+			return stockAdjustServiceApi.check(id, user.getId());
+		} catch (Exception e) {
+			LOG.error("审核领用单信息异常:{}", e);
+			resp = RespJson.error(e.getMessage());
+		}
+		return resp;
 	}
 
 	/**
