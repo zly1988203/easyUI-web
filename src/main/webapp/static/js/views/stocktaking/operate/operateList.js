@@ -14,13 +14,13 @@ function initDgTakeStockOperate(){
 		width:'100%',
 		columns:[[
 			{field:'check',checkbox:true},
-			{field: 'branchCode', title: '盘点单', width: 100, align: 'left'},
-			{field: 'branchName', title: '状态', width: 180, align: 'left'},
-			{field: 'categoryCode', title: '机构编码', width: 100, align: 'left'},
-			{field: 'categoryName', title: '机构名称', width: 120, align: 'left'},
-			{field: 'skuName', title: '盘点批号', width: 180, align: 'left'},
-			{field: 'barCode', title: '制单人员', width: 140, align: 'left'},
-			{field: 'barCode', title: '操作日期', width: 140, align: 'left'},
+			{field: 'formNo', title: '盘点单', width: 100, align: 'left'},
+			{field: 'status', title: '状态', width: 180, align: 'left'},
+			{field: 'branchCode', title: '机构编码', width: 100, align: 'left'},
+			{field: 'branchName', title: '机构名称', width: 120, align: 'left'},
+			{field: 'batchNo', title: '盘点批号', width: 180, align: 'left'},
+			{field: 'createUserId', title: '制单人员', width: 140, align: 'left'},
+			{field: 'createTime', title: '操作日期', width: 140, align: 'left'},
 			{field: 'remark', title: '备注', width: 140, align: 'left'},
 		]],
 		onLoadSuccess:function(data){
@@ -35,10 +35,10 @@ function queryForm(){
 	var fromObjStr = $('#queryForm').serializeObject();
 	// 去除编码
     fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1)
-    fromObjStr.operateUserName = fromObjStr.operateUserName.substring(fromObjStr.operateUserName.lastIndexOf(']')+1)
+    fromObjStr.createUserName = fromObjStr.createUserName.substring(fromObjStr.createUserName.lastIndexOf(']')+1)
 
 	$("#operateList").datagrid("options").method = "post";
-	$("#operateList").datagrid('options').url = contextPath + '/form/deliverForm/getDeliverForms';
+    $("#operateList").datagrid('options').url = contextPath + '/stocktaking/operate/getStocktakingFormList';
 	$("#operateList").datagrid('load', fromObjStr);
 }
 
@@ -49,7 +49,7 @@ function gFunRefresh(){
 
 //新增存货盘点单
 function toAdd(){
-	toAddTab("新增存货盘点单",contextPath + "/form/deliverForm/addDeliverForm?deliverType=DA");
+	toAddTab("新增存货盘点单",contextPath + "/stocktaking/operate/add");
 }
 
 //
@@ -92,6 +92,7 @@ function selectBranches(){
 	new publicAgencyService(function(data){
 		$("#branchId").val(data.branchesId);
 		$("#branchName").val(data.branchName);
+		$("#branchCompleCode").val(data.branchCompleCode);
 	});
 }
 
@@ -100,9 +101,8 @@ function selectBranches(){
  */
 function selectOperator(){
 	new publicOperatorService(function(data){
-//		$("#operateUserId").val(data.id);
-		console.log(data.userCode)
-		$("#operateUserName").val("["+data.userCode+"]"+data.userName);
+		$("#createUserId").val(data.id);
+		$("#createUserName").val("["+data.userCode+"]"+data.userName);
 	});
 }
 

@@ -4,6 +4,11 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <%@ include file="/WEB-INF/views/include/header.jsp"%>
+    <script  src="${ctx}/static/js/views/stocktaking/operate/operate.js"></script>
+    <style>
+    .datagrid-header .datagrid-cell {text-align: center!important;font-weight: bold;}
+    </style>
 <title>新增库存盘点</title>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
@@ -15,7 +20,7 @@
              <shiro:hasPermission name="JxcCostAdjust:add">
                 <div class="ubtns-item" onclick="addsaveOrder()">保存</div>
              </shiro:hasPermission>
-                <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
+                <div class="ubtns-item" onclick="selectGoods(5)">商品选择</div>
                 <div class="ubtns-item" id="importdetail" onclick="toImportOperate()">导入</div>
                 <div class="ubtns-item" onclick="toClose()">关闭</div>
             </div>
@@ -29,10 +34,10 @@
 					<input type="text" name="branchName" id="branchName"class="uinp ub ub-f1" readonly="readonly"  />
 					<div class="uinp-more" onclick="searchBranch()">...</div>
 	           </div>
-	            <div class="ub ub-ac uselectw umar-l00">
+	            <div class="ub ub-ac uselectw umar-l00 umar-l10">
                     <div class="umar-r10 uw-70 ut-r">盘点批号:</div>
-     				<input type="hidden" name=takeStockId id="takeStockId" class="uinp" />
-					<input type="text" name="takeStockName" id="takeStockName"class="uinp ub ub-f1" readonly="readonly"  />
+     				<input type="hidden" name=batchId id="batchId" class="uinp" />
+					<input type="text" name="batchNo" id="batchNo"class="uinp ub ub-f1" readonly="readonly"  />
 					<div class="uinp-more" onclick="searchTakeStock()">...</div>
                 </div>
                <div class="ub ub-ac umar-l40 uw-300 ">
@@ -40,21 +45,20 @@
                    <div class="utxt">${sessionScope.session_user.userName }</div>
                </div>
                <div class="ub ub-ac umar-l10">
-                   <div class="umar-r10 uw-60 ut-r">制单日:</div>
+                   <div class="umar-r10 uw-60 ut-r">制单日期:</div>
                    <div class="utxt" id="createTime"></div>
                </div>
            </div>
            
            <div class="ub umar-t8">
-            <div class="ub ub-ac" >
+            <div class="ub ub-ac uw-300" >
                    <div class="umar-r10 uw-70 ut-r">盘点范围:</div>
                     <input class="uinp ub ub-f1" type="hidden" name="scopeId" id="scopeId" />
-                   <input class="uinp ub ub-f1" type="text" id="scopeName" name="scopeName" readonly="readonly">
+                   <input class="uinp ub ub-f1" type="text" id="scope" name="scope" readonly="readonly">
                </div>
                
-                <div class="ub ub-ac" >
+                <div class="ub ub-ac umar-l10" >
                    <div class="umar-r10 uw-70 ut-r">类别:</div>
-                   <input class="uinp ub ub-f1" type="hidden" name="categoryIds" id="categoryIds" />
                    <input class="uinp ub ub-f1" type="text" id="categoryShows" name="categoryShows" readonly="readonly">
                </div>
            
@@ -63,7 +67,7 @@
                    <div class="utxt"></div>
                </div>
                <div class="ub ub-ac uw-300">
-                   <div class="umar-r10 uw-70 ut-r">审核时间:</div>
+                   <div class="umar-r10 uw-70 ut-r">制单日期:</div>
                    <div class="utxt"></div>
                </div>
            </div>

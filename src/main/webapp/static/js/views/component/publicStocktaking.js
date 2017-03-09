@@ -1,8 +1,4 @@
-
-
 var stockCallBack;
-
-
 
 //$(function(){
 //	initStocktaking();
@@ -15,9 +11,10 @@ function initStockCallBack(cb){
 
 
 //搜索
-function brandSearch(){
+function stocktSearch(){
     $("#gridStock").datagrid("options").queryParams = $("#formStock").serializeObject();
     $("#gridStock").datagrid("options").method = "post";
+    $("#gridStock").datagrid('options').url = contextPath + '/stocktaking/apply/getApplyList';
     $("#gridStock").datagrid("load");
 }
 
@@ -26,7 +23,7 @@ function initStocktaking(param){
         //title:'普通表单-用键盘操作',
         method:'post',
         align:'center',
-        url:contextPath+'/common/brand/getComponentList',
+        url:contextPath+'/stocktaking/apply/getApplyList',
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:true,  //单选  false多选
         rownumbers:true,    //序号
@@ -37,10 +34,20 @@ function initStocktaking(param){
         height:'100%',
         width:'100%',
         columns:[[
-            {field:'brandCode',title:'盘点批号',width:100,align:'left'},
-            {field:'brandName',title:'盘点机构',width:100,align:'left'},
-            {field:'brandCode',title:'盘点范围',width:100,align:'left'},
-            {field:'brandName',title:'类别',width:100,align:'left'},
+            {field:'id',hidden:true},
+            {field:'branchId',hidden:true},
+            {field:'batchNo',title:'盘点批号',width:100,align:'left'},
+            {field:'branchName',title:'盘点机构',width:100,align:'left'},
+            {field:'scope',title:'盘点范围',width:100,align:'left',formatter:function(value,row,index){
+                	if(value == '0'){
+                		return '全场盘点';
+                	}else if(value == '1'){
+                		return '类别盘点';
+                	}else{
+                		return '未知类型：'+ value;
+                	}
+             }},
+            {field:'categoryShowsStr',title:'类别',width:100,align:'left'},
         ]],
         onLoadSuccess:function(data){
         	 $('.datagrid-header').find('div.datagrid-cell').css('text-align','center');
