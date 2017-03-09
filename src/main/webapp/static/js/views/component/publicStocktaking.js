@@ -1,4 +1,5 @@
 var stockCallBack;
+var branchId = "";
 
 //$(function(){
 //	initStocktaking();
@@ -12,18 +13,27 @@ function initStockCallBack(cb){
 
 //搜索
 function stocktSearch(){
-    $("#gridStock").datagrid("options").queryParams = $("#formStock").serializeObject();
+	
+    $("#gridStock").datagrid("options").queryParams = {
+		branchId:branchId,
+		dlgSearchStr:$("#dlgSearchStr").val()
+    };
+   
     $("#gridStock").datagrid("options").method = "post";
     $("#gridStock").datagrid('options').url = contextPath + '/stocktaking/apply/getApplyList';
     $("#gridStock").datagrid("load");
 }
 
 function initStocktaking(param){
+	
+	branchId = param.branchId?param.branchId:'';
+	
+	var url = contextPath+'/stocktaking/apply/getApplyList?branchId='+branchId
     $("#gridStock").datagrid({
         //title:'普通表单-用键盘操作',
         method:'post',
         align:'center',
-        url:contextPath+'/stocktaking/apply/getApplyList',
+        url:url,
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:true,  //单选  false多选
         rownumbers:true,    //序号

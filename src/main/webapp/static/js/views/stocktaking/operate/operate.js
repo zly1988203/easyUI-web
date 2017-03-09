@@ -190,29 +190,46 @@ function selectGoods(searchKey){
         messager("请先选择机构");
         return;
     }
+    //控制弹框
+	if(typeof(searchKey)=="undefined"){ 
+		searchKey = "";
+	}
     
     var param = {
-    		type:'DA',
+    		type:'',
     		key:searchKey,
     		isRadio:'',
     		branchId:branchId,
-    		sourceBranchId:sourceBranchId,
-    		targetBranchId:targetBranchId,
+    		sourceBranchId:'',
+    		targetBranchId:'',
     		supplierId:'',
     		flag:'0'
     }
-    console.log('param:',param);
+    
     new publicGoodsServiceTem(param,function(data){
     	if(searchKey){
-	        $("#gridEditOrder").datagrid("deleteRow", gridHandel.getSelectRowIndex());
-	        $("#gridEditOrder").datagrid("acceptChanges");
+	        $("#"+gridName).datagrid("deleteRow", gridHandel.getSelectRowIndex());
+	        $("#"+gridName).datagrid("acceptChanges");
 	    }
+    	
+    	 var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
+         var addDefaultData  = gridHandel.addDefault(data,gridDefault);
+         var keyNames = {
+         		skuId:'goodsSkuId',
+         		salePrice:'price'
+         };
+         var rows = gFunUpdateKey(addDefaultData,keyNames);
+         var argWhere ={skuCode:1};  // 验证重复性
+         var isCheck ={isGift:1 };   // 只要是赠品就可以重复
+         var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
+         $("#"+gridName).datagrid("loadData",newRows);
+    	
     	
         gridHandel.setLoadFocus();
         setTimeout(function(){
             gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
-            gridHandel.setSelectFieldName("largeNum");
-            gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
+            gridHandel.setSelectFieldName("stocktakingNum");
+            gridHandel.setFieldFocus(gridHandel.getFieldTarget('stocktakingNum'));
         },100)
     	
     });
@@ -241,7 +258,11 @@ function toImportOperate(type){
 }
 
 function searchTakeStock(){
-	new publicStocktakingDialog(null,function(data){
+	var branchId = $('#branchId').val();
+	var param = {
+			branchId:branchId
+	}
+	new publicStocktakingDialog(param,function(data){
 		console.log(data);
 		$("#branchId").val(data.branchId);
 		$("#branchName").val(data.branchName);
