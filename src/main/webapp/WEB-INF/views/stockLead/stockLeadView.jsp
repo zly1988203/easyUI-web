@@ -11,7 +11,7 @@
 <script>
 	var edit = '${stockFormVo.status == 1 ? 1 : 0}';
 </script>
-<script src="${ctx}/static/js/views/stockLead/stockLeadView.js"></script>
+<script src="${ctx}/static/js/views/stockLead/stockLeadView.js?1=1"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
 	<div class="ub ub-ver ub-f1 umar-4  ubor">
@@ -20,27 +20,32 @@
 			<input type="hidden" id="formType" value="${stockFormVo.formType}">
 			<div class="ub ub-ac upad-4">
 				<div class="ubtns">
-					<div class="ubtns-item" onclick="addStockLead()">新增</div>
-					<shiro:hasPermission name="JxcStockLead:add">
-						<div class="ubtns-item" onclick="updateStockLead()">保存</div>
-					</shiro:hasPermission>
-					<shiro:hasPermission name="JxcStockLead:audit">
-						<div class="ubtns-item" onclick="checkStockLead()">审核</div>
-					</shiro:hasPermission>
-					<div class="ubtns-item" onclick="selectGoods()">商品选择</div>
-					<shiro:hasPermission name="JxcStockLead:import">
-						<div class="ubtns-item" onclick="importHandel(0)">导入货号</div>
-						<div class="ubtns-item" onclick="importHandel(1)">导入条码</div>
-					</shiro:hasPermission>
-					<shiro:hasPermission name="JxcStockLead:export">
-						<div class="ubtns-item" onclick="exportData()">导出</div>
-					</shiro:hasPermission>
-					<shiro:hasPermission name="JxcStockLead:setting">
-						<div class="ubtns-item-disabled">设置</div>
-					</shiro:hasPermission>
+					<c:if test="${stockFormVo.status == 0}">
+						<div class="ubtns-item" onclick="addStockLead()">新增</div>
+						<shiro:hasPermission name="JxcStockLead:add">
+							<div class="ubtns-item" onclick="updateStockLead()">保存</div>
+						</shiro:hasPermission>
+						<shiro:hasPermission name="JxcStockLead:audit">
+							<div class="ubtns-item" onclick="checkStockLead()">审核</div>
+						</shiro:hasPermission>
+						<div class="ubtns-item" onclick="selectGoods()">商品选择</div>
+						<shiro:hasPermission name="JxcStockLead:import">
+							<div class="ubtns-item" onclick="importHandel(0)">导入货号</div>
+							<div class="ubtns-item" onclick="importHandel(1)">导入条码</div>
+						</shiro:hasPermission>
+						<shiro:hasPermission name="JxcStockLead:export">
+							<div class="ubtns-item" onclick="exportData()">导出</div>
+						</shiro:hasPermission>
+						<shiro:hasPermission name="JxcStockLead:setting">
+							<div class="ubtns-item-disabled">设置</div>
+						</shiro:hasPermission>
+					</c:if>
 					<div class="ubtns-item" onclick="back()">关闭</div>
 				</div>
 			</div>
+			<c:if test="${stockFormVo.status == 1}">
+				<div class="already-examine" id="already-examine"><span>已审核</span></div>
+			</c:if>
 			<div class="ub umar-t8 uc-black">【单号】:<span >${stockFormVo.formNo}</span></div>
 			<div class="ub umar-t8 uline"></div>
 			<div class="ub umar-t10">
@@ -48,7 +53,9 @@
 					<div class="umar-r10 uw-70 ut-r">领用机构:</div>
 					<input type="hidden" name="branchId" id="branchId" class="uinp" value="${stockFormVo.branchId}"/>
 					<input type="text" name="branchName" id="branchName"class="uinp  ub ub-f1" readonly="readonly"  value="${stockFormVo.branchName}"/>
-					<div class="uinp-more" onclick="searchBranch()">...</div>
+					<c:if test="${stockFormVo.status == 0}">
+						<div class="uinp-more" onclick="searchBranch()">...</div>
+					</c:if>
 				</div>
 				<div class="ub ub-ac uw-300 umar-l40">&nbsp;</div>
 				<div class="ub ub-ac uw-300  umar-l40">
@@ -74,7 +81,7 @@
 			<div class="ub umar-t8">
 				<div class="ub ub-ac uw-600">
 					<div class="umar-r10 uw-70 ut-r">备注:</div>
-					<input class="uinp ub ub-f1" type="text" id="remark" name="remark" value="${stockFormVo.remark}"/>
+					<input class="uinp ub ub-f1" type="text" id="remark" name="remark" <c:if test="${stockFormVo.status != 0}">readonly</c:if>  value="${stockFormVo.remark}"/>
 				</div>
 				<div class="ub ub-ac uw-300 umar-l80">
 					<div class="umar-r10 uw-80 ut-r">审核人员:</div>
