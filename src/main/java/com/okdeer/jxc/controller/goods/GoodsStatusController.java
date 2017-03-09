@@ -70,6 +70,9 @@ public class GoodsStatusController extends BaseController<GoodsStatusController>
 	 */
 	@RequestMapping(value = "list")
 	public String list(Model model) {
+		model.addAttribute("branchId", UserUtil.getCurrBranchId());
+		model.addAttribute("branchCode", UserUtil.getCurrBranchCompleCode());
+		model.addAttribute("branchName", "["+UserUtil.getCurrBranchCode()+"]"+UserUtil.getCurrentUser().getBranchName());
 		model.addAttribute("branchType", UserUtil.getCurrBranchType());
 		return "goods/goodsStatus/goodsStatusList";
 	}
@@ -266,7 +269,7 @@ public class GoodsStatusController extends BaseController<GoodsStatusController>
 	 * 
 	 * @Description: 更新店铺商品状态
 	 * @param ids 店铺商品ID集合
-	 * @param type 操作类型（0：停售 1：停购 2：淘汰）
+	 * @param type 操作类型（0：停售 1：停购 2：淘汰，3：恢复）
 	 * @return
 	 * @author liux01
 	 * @date 2017年3月6日

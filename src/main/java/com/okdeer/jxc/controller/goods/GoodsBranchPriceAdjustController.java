@@ -123,7 +123,7 @@ public class GoodsBranchPriceAdjustController extends BaseController<GoodsBranch
 	@RequestMapping(value = "/addFormView", method = RequestMethod.GET)
 	public String addFormView(Model model, HttpServletRequest request) {
 		model.addAttribute("branchId", UserUtil.getCurrentUser().getBranchId());
-		model.addAttribute("branchName", UserUtil.getCurrentUser().getBranchName());
+		model.addAttribute("branchName",UserUtil.getCurrBranchCompleName());
 		return "goods/branchPriceAdjust/addModifyBranchPrice";
 	}
 	/**

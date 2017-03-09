@@ -253,7 +253,7 @@ function initDatagridOrders(){
 function searchBranch (){
 	new publicAgencyService(function(data){
 		console.log(data);
-	$("#branchName").val(data.branchName);
+	$("#branchName").val('['+data.branchCode+']'+data.branchName);
 	$("#branchCode").val(data.branchCompleCode);
 	$("#branchId").val(data.branchesId);
 	},"","");
@@ -355,8 +355,8 @@ function importHandel(type){
 function updateListData(data){
 	    $("#goodsStatus").datagrid("loadData",data);
 	}
-//停购（type：0）、停售（type：1）、淘汰（type：2）
-function stop(type){
+//停购（type：0）、停售（type：1）、淘汰（type：2）、恢复（type：3）
+function update(type){
 	var rows = $('#goodsStatus').datagrid('getChecked');
 	if(rows == null){
 		$.messager.alert('提示','请至少选中一行！');
