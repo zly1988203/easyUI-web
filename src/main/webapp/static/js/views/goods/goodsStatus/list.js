@@ -367,7 +367,7 @@ function update(type){
 	$.each(rows,function(i,v){
 		//淘汰操作
 		if(type ==2){
-			if(v.actual == 0){
+			if(v.actual != 0){
 				$.messager.alert('提示','淘汰商品库存必须为0！');
 				return;
 			}
