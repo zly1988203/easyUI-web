@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <%@ include file="/WEB-INF/views/include/header.jsp"%>
-    <script  src="${ctx}/static/js/views/stocktaking/operate/operate.js"></script>
+    <script  src="${ctx}/static/js/views/stocktaking/operate/operate.js?v=1.87"></script>
     <style>
     .datagrid-header .datagrid-cell {text-align: center!important;font-weight: bold;}
     </style>
@@ -13,12 +13,13 @@
 </head>
 <body class="ub uw uh ufs-14 uc-black">
 <input type='hidden' id="operateStatus" value="add">
+<input type='hidden' id="formId" name="id">
   <div class="ub ub-ver ub-f1 umar-4  ubor">
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
             <div class="ubtns-item" onclick="addOperate()">新增</div>
              <shiro:hasPermission name="JxcCostAdjust:add">
-                <div class="ubtns-item" onclick="addsaveOrder()">保存</div>
+                <div class="ubtns-item" onclick="saveStocktakingForm(1)">保存</div>
              </shiro:hasPermission>
                 <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
                 <div class="ubtns-item" id="importdetail" onclick="toImportOperate()">导入</div>
@@ -30,9 +31,10 @@
            <div class="ub umar-t10">
                <div class="ub ub-ac uw-300">
 	                <div class="umar-r10 uw-70 ut-r">机构名称:</div> 
-                    <input type="hidden" name="branchId" id="branchId" class="uinp" />
+                    <input type="hidden" name="branchId" id="branchId" />
+                    <input type="hidden" name="branchCode" id="branchCode" />
 					<input type="text" name="branchName" id="branchName"class="uinp ub ub-f1" readonly="readonly"  />
-					<div class="uinp-more" onclick="searchBranch()">...</div>
+					<div class="uinp-more" onclick="selectBranches()">...</div>
 	           </div>
 	            <div class="ub ub-ac uselectw umar-l00 umar-l10">
                     <div class="umar-r10 uw-70 ut-r">盘点批号:</div>
