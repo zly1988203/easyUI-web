@@ -389,5 +389,16 @@ public class GoodsBranchPriceAdjustController extends BaseController<GoodsBranch
 			return RespJson.error("审核调价单失败");
 		}
 	}
+	/**
+	 * 
+	 * @Description: 跳转到调价公司页面
+	 * @return
+	 * @author liux01
+	 * @date 2017年3月9日
+	 */
+	@RequestMapping(value = "/modifyPriceDialog", method = RequestMethod.GET)
+	public String modifyPriceDialog() {
+		return "goods/branchPriceAdjust/modifyPriceDialog";
+	}
 
 }
