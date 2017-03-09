@@ -29,17 +29,23 @@ function initStocktaking(param){
 	branchId = param.branchId?param.branchId:'';
 	
 	var url = contextPath+'/stocktaking/apply/getApplyList?branchId='+branchId
-    $("#gridStock").datagrid({
+	
+    $("#gridStockDialog").datagrid({
         //title:'普通表单-用键盘操作',
-        method:'post',
-        align:'center',
         url:url,
-        //toolbar: '#tb',     //工具栏 id为tb
+        fit : true,
+		fitColumns : false,
+		border : false,
+		idField : 'id',
+		striped : true,
         singleSelect:true,  //单选  false多选
         rownumbers:true,    //序号
         pagination:true,    //分页
-        fitColumns:true,    //每列占满
-        //fit:true,            //占满
+        rownumbers : true,
+		pageNumber : 1,
+		pageSize : 20,
+		pageList : [ 5, 10, 20, 50, 100 ],
+		singleSelect : true,
         showFooter:true,
         height:'100%',
         width:'100%',
@@ -60,8 +66,8 @@ function initStocktaking(param){
             {field:'categoryShowsStr',title:'类别',width:100,align:'left'},
         ]],
         onLoadSuccess:function(data){
-        	 $('.datagrid-header').find('div.datagrid-cell').css('text-align','center');
-        },
+       	 $('.datagrid-header').find('div.datagrid-cell').css('text-align','center');
+       },
         onClickRow:stockClickRow,
     });
 }

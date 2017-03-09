@@ -1886,7 +1886,7 @@ function publicStocktakingDialog(param,callback){
         closable: true,
         resizable: false,
         onClose: function () {
-            $(dalogTemp).panel('destroy');
+            $(StockDialog).panel('destroy');
             StockDialog = null;
         },
         modal: true,
