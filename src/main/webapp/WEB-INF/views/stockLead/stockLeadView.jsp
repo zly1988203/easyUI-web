@@ -13,13 +13,15 @@
 <body class="ub uw uh ufs-14 uc-black">
 	<div class="ub ub-ver ub-f1 umar-4  ubor">
 		<form action="" id="queryForm" method="post">
+			<input type="hidden" id="formId" value="${stockFormVo.formNo}">
 			<div class="ub ub-ac upad-4">
 				<div class="ubtns">
+					<div class="ubtns-item" onclick="addStockForm()">新增</div>
 					<shiro:hasPermission name="JxcStockLead:add">
 						<div class="ubtns-item" onclick="saveStockLead()">保存</div>
 					</shiro:hasPermission>
 					<shiro:hasPermission name="JxcStockLead:audit">
-						<div class="ubtns-item-disabled">审核</div>
+						<div class="ubtns-item">审核</div>
 					</shiro:hasPermission>
 					<div class="ubtns-item" onclick="selectGoods()">商品选择</div>
 					<shiro:hasPermission name="JxcStockLead:import">
@@ -82,7 +84,7 @@
 		</form>
 		<!--datagrid-edit-->
 		<div class="ub ub-f1 datagrid-edit umar-t8">
-			<table id="stockLeadAddForm"></table>
+			<table id="stockLeadViewForm"></table>
 		</div>
 	</div>
 	<!-- 导入弹框 -->
