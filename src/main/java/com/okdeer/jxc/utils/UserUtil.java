@@ -178,6 +178,17 @@ public class UserUtil {
 	}
 
 	/**
+	 * 
+	 * @Description: 获取当前登录用户编号+名称
+	 * @return
+	 * @author liux01
+	 * @date 2017年3月9日
+	 */
+	public static String getCurrBranchCompleName(){
+		SysUser sysUser = getCurrentUser();
+		return sysUser == null ? null : "["+sysUser.getBranchCode()+"]"+sysUser.getBranchName();
+	}
+	/**
 	 * @Description: 获取当前登录用户机构类型
 	 * @return
 	 * @author liwb

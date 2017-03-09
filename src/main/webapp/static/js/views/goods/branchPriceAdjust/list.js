@@ -42,7 +42,7 @@ function initBranchPriceAdjustGrid() {
                 	return strHtml;
                 }
             },
-            {field: 'status', title: '审核状态', width:'90px', align: 'left',
+            {field: 'status', title: '审核状态', width:'90px', align: 'center',
                 formatter: function(value,row,index){
                     if (value==1){
                         return "已审核";
@@ -58,13 +58,13 @@ function initBranchPriceAdjustGrid() {
             	formatter: function (value, row, index) {
 	                if (value != null && value != '') {
 	                    var date = new Date(value);
-	                    return date.format("yyyy-MM-dd hh:mm");
+	                    return date.format("yyyy-MM-dd hh:mm:ss");
 	                }
 	                return "";
 	            }
             },
             {field: 'validUserName', title: '审核人', width: '160px', align: 'left'},
-            {field: 'validTime', title: '生效日期', width: '100px', align: 'left',
+            {field: 'validTime', title: '生效日期', width: '100px', align: 'center',
             	formatter: function (value, row, index) {
 	                if (value != null && value != '') {
 	                    var date = new Date(value);

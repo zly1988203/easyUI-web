@@ -34,12 +34,12 @@
 					<div class="ubtns-item" onclick="resetFrom()">重置</div>
 					<div class="ubtns-item" onclick="importHandel(0)">导入货号</div>
                     <div class="ubtns-item" onclick="importHandel(1)">导入条码</div>
-					<div class="ubtns-item" id="btn_stop01" onclick="stop(0)">停购</div>
-					<div class="ubtns-item" id="btn_stop02" onclick="stop(1)">停售</div>
-					<div class="ubtns-item" id="btn_weedout01" onclick="stop(2)">淘汰</div>
+					<div class="ubtns-item" id="btn_stop01" onclick="update(0)">停购</div>
+					<div class="ubtns-item" id="btn_stop02" onclick="update(1)">停售</div>
+					<div class="ubtns-item" id="btn_weedout01" onclick="update(2)">淘汰</div>
 					<div class="ubtns-item" id="btn_weedout02" onclick="outGuide()">淘汰向导</div>
 					<div class="ubtns-item" id="btn_stopout" onclick="stopGuide()">停购向导</div>
-					<div class="ubtns-item unhide" id="recover" >恢复</div>
+					<div class="ubtns-item unhide" id="recover" onclick="update(3)">恢复</div>
 					<div class="ubtns-item" onclick="toClose()">关闭</div>
 				</div>
 			</div>
@@ -52,9 +52,9 @@
 					
 					<input type="hidden" name="categoryCode" id="categoryCode" class="uinp" />
 					<div class="umar-r10 uw-60 ut-r">机构:</div>
-					<input type="text" name="branchName" id="branchName" class="uinp" value="${branchesGrow.branchName}" maxlength="50"/>
-					<input type="hidden" name="branchCode" id="branchCode" value="${branchesGrow.branchCode}">
-					<input type="hidden" name="branchId" id="branchId" value="${branchesGrow.branchId}">
+					<input type="text" name="branchName" id="branchName" class="uinp" value="${branchName}" maxlength="50"/>
+					<input type="hidden" name="branchCode" id="branchCode" value="${branchCode}">
+					<input type="hidden" name="branchId" id="branchId" value="${branchId}">
 					<div class="uinp-more" onclick="searchBranch()">...</div>
 				</div>
 				<div class="ub ub-ac umar-r40">
