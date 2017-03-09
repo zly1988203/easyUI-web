@@ -22,12 +22,21 @@ function initdgOrderList(){
         showFooter:true,
         columns:[[
 			{field:'ck',checkbox:true},
-        	{field:'supplierName',title:'订单单号',width:180,align:'left'},
-            {field:'branchName',title:'状态',width:80,align:'left'},
-            {field:'skuCode',title:'供应商',width:120,align:'left'},
-            {field:'skuName',title:'收货机构',width:100,align:'center'},
-            {field:'barCode',title:'单据金额',width:120,align:'left'},
-            {field:'skuUnit',title:'制单时间',width:60,align:'left'},
+        	{field:'formNo',title:'订单单号',width:180,align:'left',
+				formatter:function(value,row,index){
+	            	if(updatePermission){
+	            		var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看采购详细\',\''+ contextPath +'/okdeerjxc/form/purchase/orderEdit?formNo='+ row.formNo +'\')">' + value + '</a>';
+	            		return strHtml;
+	            	}else{
+	            		return value;
+	            	}
+	            }
+        	},
+            {field:'statusStr ',title:'状态',width:80,align:'left'},
+            {field:'supplierName',title:'供应商',width:120,align:'left'},
+            {field:'branchName',title:'收货机构',width:100,align:'center'},
+            {field:'amount',title:'单据金额',width:120,align:'left'},
+            {field:'createTime',title:'制单时间',width:60,align:'left'},
             {field:'remark',title:'备注',width:120,align:'left',editor:"textbox"}
         ]],
 
