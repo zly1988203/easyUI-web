@@ -18,10 +18,10 @@
 		<form id="queryForm" action="" method="post">
 			<div class="ub ub-ac">
 	            <div class="ubtns">
-	            <shiro:hasPermission name="JxcCashDaily:search">
+	            <shiro:hasPermission name="JxcDLTotalReport:search">
 	                <div class="ubtns-item" onclick="query()">查询</div>
 	            </shiro:hasPermission>
-	            <shiro:hasPermission name="JxcCashDaily:export">
+	            <shiro:hasPermission name="JxcDLTotalReport:export">
 	            	<input type="hidden" id="startCount" name="startCount" />
 					<input type="hidden" id="endCount" name="endCount" />
 	                <div class="ubtns-item" onclick="exportData()">导出</div>
@@ -33,9 +33,6 @@
 	           	<!-- 引入时间选择控件 -->
 	            <%@ include file="/WEB-INF/views/component/dateSelect.jsp"%>
             </div>
-	               
-	      <!--   <div class="ub umar-t8 uc-black">【配送汇总查询】</div>
-	        <div class="ub uline umar-t8"></div> -->
 	        
           <div class="ub umar-t8">
                <div class="ub ub-ac umar-r60">
