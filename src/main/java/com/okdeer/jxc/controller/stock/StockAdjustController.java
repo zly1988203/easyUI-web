@@ -9,6 +9,7 @@ package com.okdeer.jxc.controller.stock;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -341,7 +342,7 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 										obj.element("error", "数量必填");
 									}
 								}
-								if (obj.get("realNum") != null && Integer.parseInt(obj.getString("realNum")) == 0 ) {
+								if (obj.get("realNum") != null && BigDecimal.ZERO.compareTo(new BigDecimal(obj.getString("realNum")))== 0 ) {
 										obj.element("error", "数量不能为0");
 								}
 								if (obj.get("largeNum") != null) {
@@ -352,7 +353,7 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 										obj.element("error", "箱数必填");
 									}
 								}
-								if (obj.get("largeNum") != null && Integer.parseInt(obj.getString("largeNum")) == 0 ) {
+								if (obj.get("largeNum") != null && BigDecimal.ZERO.compareTo(new BigDecimal(obj.getString("largeNum")))== 0 ) {
 									obj.element("error", "箱数不能为0");
 							}
 

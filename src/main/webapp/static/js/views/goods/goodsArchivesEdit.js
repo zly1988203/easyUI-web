@@ -201,7 +201,6 @@ function setGrossProfit(){
 	var purchasePrice = parseFloat($("#purchasePrice").val().trim() || 0);
 	if(salePrice != "" && purchasePrice != ""){
 		var grossProfit = salePrice - purchasePrice;
-		//$("#grossProfit").val(grossProfit);
 		$("#grossProfit").textbox("setValue",grossProfit.toFixed(2));
 		setGrossProfitPercent();
 	}
@@ -211,9 +210,8 @@ function setGrossProfit(){
 function setGrossProfitPercent(){
 	var salePrice = parseFloat($("#salePrice").val().trim());
 	var purchasePrice = parseFloat($("#purchasePrice").val().trim());
-	var grossProfitPercent = (salePrice - purchasePrice) / salePrice *100;
-//	$("#grossProfitPercent").val(grossProfitPercent.toFixed(2)+"%");
-	$("#grossProfitPercent").textbox("setValue",grossProfitPercent.toFixed(2)+"%");
+	var grossProfitPercent = (salePrice - purchasePrice) / salePrice;
+	$("#grossProfitPercent").numberbox("setValue",(grossProfitPercent*100).toFixed(2));
 }
 
 //获取商品信息

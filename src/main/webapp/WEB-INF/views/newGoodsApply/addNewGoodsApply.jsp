@@ -158,18 +158,18 @@ pageEncoding="UTF-8"%>
                 <div class="ub ub-ac uw-300">
                     <div class="umar-r10 uw-60 ut-r">零售价:</div>
                     <div class="ub">
-                     <input id="salePrice" name="salePrice" value="0" class="uinp easyui-numberbox easyui-validatebox uw-200" data-options="required:true"
-                    style="width: 204px;" data-options="min:0,precision:4" type="text" maxlength="10" 
-                    onkeyup="checkPrice(this);" onafterpaste="checkPrice(this);"  >
+                    <input id="salePrice" name="salePrice" value="0" class="uinp easyui-numberbox easyui-validatebox uw-200"
+	                    style="width: 204px;" data-options="min:0,precision:4,required:true" type="text" maxlength="10" 
+	                    onkeyup="checkPrice(this);" onafterpaste="checkPrice(this);"  >
                     <i class="uc-red">*</i>
                    </div>
                 </div>
                 <div class="ub ub-ac uw-300">
                     <div class="umar-r10 uw-60 ut-r">进货价:</div>
                      <div class="ub">
-                      <input id="purchasePrice" name="purchasePrice" value="0" class="uinp easyui-numberbox easyui-validatebox" data-options="required:true"
-                     style="width: 204px;" data-options="min:0,precision:4" type="text" maxlength="10" onkeyup="checkPrice(this);" 
-                     onafterpaste="checkPrice(this);"  >
+                      <input id="purchasePrice" name="purchasePrice" value="0" class="uinp easyui-numberbox easyui-validatebox"
+	                     style="width: 204px;" data-options="min:0,precision:4,required:true" type="text" maxlength="10" onkeyup="checkPrice(this);" 
+	                     onafterpaste="checkPrice(this);">
 	                   <i class="uc-red">*</i>
 	                 </div>
                 </div>
@@ -185,7 +185,8 @@ pageEncoding="UTF-8"%>
                 </div>
                 <div class="ub ub-ac uw-300">
                     <div class="umar-r10 uw-60 ut-r">最低售价:</div>
-                    <input id="lowestPrice" name="lowestPrice" value="0" class="uinp easyui-numberbox easyui-validatebox" style="width: 204px;" data-options="min:0,precision:4" type="text" maxlength="10" onkeyup="checkPrice(this);" onafterpaste="checkPrice(this);">
+                    <input id="lowestPrice" name="lowestPrice" value="0" class="uinp easyui-numberbox easyui-validatebox" style="width: 204px;" 
+                    data-options="min:0,precision:4" type="text" maxlength="10" onkeyup="checkPrice(this);" onafterpaste="checkPrice(this);">
                 </div>
                 <div class="ub ub-ac uw-300">
                     <div class="umar-r10 uw-60 ut-r">会员价:</div>
