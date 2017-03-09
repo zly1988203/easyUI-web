@@ -1,12 +1,14 @@
 /**
- * 领用单-新增
+ * 领用单-详情
  */
 var dataGridId = "stockLeadViewForm";
 $(function(){
-	$("#branchName").val(sessionBranchCodeName);
-	$("#branchId").val(sessionBranchId);
-	$("#createTime").html(new Date().format('yyyy-MM-dd hh:mm'));
     initDatagridStockLeadView();
+    oldData = {
+           	branchId:$("#branchId").val(), //机构id
+            remark:$("#remark").val(),                  // 备注
+            formNo:$("#formNo").html(),                 // 单号
+        }
 });
 var gridDefault = {
     realNum:0,
@@ -14,7 +16,7 @@ var gridDefault = {
     isGift:0,
 }
 
-var edit = '0';
+var oldData = {};
 function getFiledsList(){
 	if(edit == '0'){
 		return [[
@@ -194,7 +196,12 @@ function initDatagridStockLeadView(){
                 gridHandel.setSelectFieldName("skuCode");
             }
         },
-        onLoadSuccess:function(data){
+        onLoadSuccess:function(data){        	
+        	if(!oldData["grid"]){
+	        	oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
+	        		return $.extend(true,{},obj);//返回对象的深拷贝
+	        	});
+        	}
             gridHandel.setDatagridHeader("center");
             updateFooter();
         }
@@ -299,7 +306,7 @@ function totleChangePrice(newV,oldV) {
 
 
 //新增领用单
-function addStockForm() {
+function addStockLead() {
 	toAddTab("新增领用单", contextPath + "/stock/lead/add");
 }
 
@@ -453,7 +460,7 @@ function setTion(datas){
 }
 
 // 保存
-function saveStockLead(){
+function updateStockLead(){
     // 商品总数量
     var totalNum = 0;
     // 总金额
@@ -505,21 +512,17 @@ function saveStockLead(){
     if(!isCheckResult){
         return;
     }
-   // var saveData = JSON.stringify(rows);
-   // var stockFormDetailList =
-	// tableArrayFormatter(rows,"stockFormDetailList");
-   /*
-	 * var reqObj = $.extend({ io:io, createBranchId:branchId, reason:reason,
-	 * remark:remark, }, stockFormDetailList);
-	 */
     var reqObj = {
+    		io:'1',
+    		id:$("#formId").val(),
+    		formType:$("#formType").val(),
         	createBranchId:branchId,
             remark:remark,
             stockFormDetailList:rows
         };
     var req = JSON.stringify(reqObj);
     $.ajax({
-        url:contextPath+"/stock/lead/save",
+        url:contextPath+"/stock/lead/update",
         type:"POST",
         data:req,
         contentType:"application/json",
@@ -540,20 +543,34 @@ function saveStockLead(){
 
 // 审核
 function checkStockLead(){
-	var deliverFormId = $("#formId").val();
+	//验证数据是否修改
+    $("#"+gridHandel.getGridName()).datagrid("endEdit", gridHandel.getSelectRowIndex());
+    var id = $("#formId").val();
+    var newData = {
+            branchId:$("#branchId").val(), // 机构id
+            remark:$("#remark").val(),                  // 备注
+            formNo:$("#formNo").val(),                 // 单号
+            grid:gridHandel.getRows(),
+        }
+
+    
+    if(!gFunComparisonArray(oldData,newData)){
+        messager("数据已修改，请先保存再审核");
+        return;
+    }
+    
 	$.messager.confirm('提示','是否审核通过？',function(data){
 		if(data){
 			$.ajax({
 		    	url : contextPath+"/stock/lead/check",
 		    	type : "POST",
 		    	data : {
-		    		deliverFormId : $("#formId").val(),
-		    		stockType : 'IU'
+		    		id : id
 		    	},
 		    	success:function(result){
 		    		if(result['code'] == 0){
 		    			$.messager.alert("操作提示", "操作成功！", "info",function(){
-		    				contextPath +"/stock/lead/list";
+		    				location.href = contextPath +"/stock/lead/edit?id=" + id;
 		    			});
 		    		}else{
 		    			successTip(result['message']);

@@ -17,17 +17,16 @@
 </style>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
-
 	<div class="ub ub-ver ub-f1 umar-4 upad-4">
 		<form id="queryForm" action="" method="post">
 			<div class="ub ub-ac">
 				<div class="ubtns">
 					<div class="ubtns-item" onclick="queryForm()">查询</div>
 					<shiro:hasPermission name="JxcStockLead:add">
-						<div class="ubtns-item" onclick="addStockForm()">新增</div>
+						<div class="ubtns-item" onclick="addStockLead()">新增</div>
 					</shiro:hasPermission>
 					<shiro:hasPermission name="JxcStockLead:delete">
-						<div class="ubtns-item" onclick="delStockForm()">删除</div>
+						<div class="ubtns-item" onclick="deleteStockLead()">删除</div>
 					</shiro:hasPermission>
 					<shiro:hasPermission name="JxcStockLead:print">
 						<div class="ubtns-item-disabled">打印</div>

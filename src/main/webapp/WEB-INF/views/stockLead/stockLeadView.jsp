@@ -6,22 +6,26 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>领用单-新增</title>
+<title>领用单-详情</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
+<script>
+	var edit = '${stockFormVo.status == 1 ? 1 : 0}';
+</script>
 <script src="${ctx}/static/js/views/stockLead/stockLeadView.js"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
 	<div class="ub ub-ver ub-f1 umar-4  ubor">
 		<form action="" id="queryForm" method="post">
-			<input type="hidden" id="formId" value="${stockFormVo.formNo}">
+			<input type="hidden" id="formId" value="${stockFormVo.id}">
+			<input type="hidden" id="formType" value="${stockFormVo.formType}">
 			<div class="ub ub-ac upad-4">
 				<div class="ubtns">
-					<div class="ubtns-item" onclick="addStockForm()">新增</div>
+					<div class="ubtns-item" onclick="addStockLead()">新增</div>
 					<shiro:hasPermission name="JxcStockLead:add">
-						<div class="ubtns-item" onclick="saveStockLead()">保存</div>
+						<div class="ubtns-item" onclick="updateStockLead()">保存</div>
 					</shiro:hasPermission>
 					<shiro:hasPermission name="JxcStockLead:audit">
-						<div class="ubtns-item">审核</div>
+						<div class="ubtns-item" onclick="checkStockLead()">审核</div>
 					</shiro:hasPermission>
 					<div class="ubtns-item" onclick="selectGoods()">商品选择</div>
 					<shiro:hasPermission name="JxcStockLead:import">
@@ -42,43 +46,43 @@
 			<div class="ub umar-t10">
 				<div class="ub ub-ac uw-300">
 					<div class="umar-r10 uw-70 ut-r">领用机构:</div>
-					<input type="hidden" name="branchId" id="branchId" class="uinp" />
-					<input type="text" name="branchName" id="branchName"class="uinp  ub ub-f1" readonly="readonly" />
+					<input type="hidden" name="branchId" id="branchId" class="uinp" value="${stockFormVo.branchId}"/>
+					<input type="text" name="branchName" id="branchName"class="uinp  ub ub-f1" readonly="readonly"  value="${stockFormVo.branchName}"/>
 					<div class="uinp-more" onclick="searchBranch()">...</div>
 				</div>
 				<div class="ub ub-ac uw-300 umar-l40">&nbsp;</div>
 				<div class="ub ub-ac uw-300  umar-l40">
 					<div class="umar-r10 uw-80 ut-r">制单人员:</div>
-					<div class="utxt"><%=UserUtil.getCurrentUser().getUserName()%></div>
+					<div class="utxt">${stockFormVo.createUserName}</div>
 				</div>
 				<div class="ub ub-ac umar-l10">
 					<div class="umar-r10 uw-60 ut-r">制单时间:</div>
-					<div class="utxt" id="createTime"></div>
+					<div class="utxt" id="createTime"><fmt:formatDate value="${stockFormVo.createTime}" pattern="yyyy-MM-dd HH:mm"/></div>
 				</div>
 			</div>
 			<div class="ub umar-t8">
 				<div class="ub ub-ac uw-600">&nbsp;</div>
 				<div class="ub ub-ac uw-300 umar-l80">
 					<div class="umar-r10 uw-80 ut-r">最后修改人:</div>
-					<div class="utxt"></div>
+					<div class="utxt">${stockFormVo.updateUserName}</div>
 				</div>
 				<div class="ub ub-ac uw-300">
 					<div class="umar-r10 uw-70 ut-r">修改时间:</div>
-					<div class="utxt"></div>
+					<div class="utxt"><fmt:formatDate value="${stockFormVo.updateTime}" pattern="yyyy-MM-dd HH:mm"/></div>
 				</div>
 			</div>
 			<div class="ub umar-t8">
 				<div class="ub ub-ac uw-600">
 					<div class="umar-r10 uw-70 ut-r">备注:</div>
-					<input class="uinp ub ub-f1" type="text" id="remark" name="remark">
+					<input class="uinp ub ub-f1" type="text" id="remark" name="remark" value="${stockFormVo.remark}"/>
 				</div>
 				<div class="ub ub-ac uw-300 umar-l80">
 					<div class="umar-r10 uw-80 ut-r">审核人员:</div>
-					<div class="utxt"></div>
+					<div class="utxt">${stockFormVo.validUserName}</div>
 				</div>
 				<div class="ub ub-ac uw-300">
 					<div class="umar-r10 uw-70 ut-r">审核时间:</div>
-					<div class="utxt"></div>
+					<div class="utxt">${stockFormVo.validTime}</div>
 				</div>
 			</div>
 		</form>

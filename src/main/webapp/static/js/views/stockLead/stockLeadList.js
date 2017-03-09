@@ -132,29 +132,40 @@ function queryForm() {
 }
 
 // 新增领用单
-function addStockForm() {
+function addStockLead() {
 	toAddTab("新增领用单", contextPath + "/stock/lead/add");
 }
 
 //删除领用单
-function orderDelete(){
-	var rows =$("#queryForm").datagrid("getChecked");
-	if($("#queryForm").datagrid("getChecked").length <= 0){
+function deleteStockLead(){
+	var rows =$("#stockLeadList").datagrid("getChecked");
+	if(rows.length <= 0){
 		 $.messager.alert('提示','请选中一行进行删除！');
 		return null;
 	}
-	 var formIds='';
-	    $.each(rows,function(i,v){
-	    	formIds+=v.id+",";
-	    });
 	
+	var tempIds = [];
+	var flag = true;
+	rows.forEach(function(data,index){
+		var status = data.status;
+    	if(status == 0){
+    		tempIds.push(data.id);
+	   		flag = false;
+    	}
+    	
+	})
+    
+    if(flag){
+    	messager('已经审核的单据不可以删除！');
+    	return;
+    }
 	$.messager.confirm('提示','是否要删除选中数据',function(data){
 		if(data){
 			$.ajax({
 		    	url:contextPath+"/stock/lead/delete",
 		    	type:"POST",
 		    	data:{
-		    		formIds:formIds
+		    		ids:tempIds
 		    	},
 		    	success:function(result){
 		    		console.log(result);
@@ -163,7 +174,7 @@ function orderDelete(){
 		    		}else{
 		    			successTip(result['message']);
 		    		}
-		    		$("#queryForm").datagrid('reload');
+		    		$("#stockLeadList").datagrid('reload');
 		    	},
 		    	error:function(result){
 		    		successTip("请求发送失败或服务器处理失败");
