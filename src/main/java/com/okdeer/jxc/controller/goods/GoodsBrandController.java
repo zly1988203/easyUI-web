@@ -218,7 +218,7 @@ public class GoodsBrandController extends BaseController<GoodsBrandController> {
 	}
 	
 	/**
-	 * @Description: 到修改页面
+	 * @Description: 跳转到品牌修改页面
 	 * @return
 	 * @author zhongy
 	 * @date 2017年02月09日

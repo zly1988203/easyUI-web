@@ -58,7 +58,7 @@ public class GoodsCategoryController extends
 	/**
 	 * @Description: 公共选择类别
 	 * @return   
-	 * @author zhangchm lijunyi
+	 * @author zhangchm
 	 * @date 2016年7月21日
 	 */
 	@RequestMapping(value = "views")
@@ -138,7 +138,7 @@ public class GoodsCategoryController extends
 	
 	/**
 	 * @Description 根据上级类别Id查询子级类别列表
-	 * @param vo
+	 * @param qo
 	 * @param response
 	 * @param pageNumber
 	 * @param pageSize
