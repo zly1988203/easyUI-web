@@ -7,13 +7,20 @@ $(function(){
 
 
 function initdgOrderList(){
+	var guideNo = $("#guideNo").val();
+	if(!guideNo){
+		successTip("数据异常！");
+		return;
+	}
 	
 	$("#dgGuideOrderList").datagrid({
         method:'post',
         align:'center',
-        url:contextPath+'/form/purchaseGuide/getGoodsList',
-        queryParams:formData,
-        singleSelect:true,  //单选  false多选
+        url:contextPath+'/form/purchaseGuide/getOrderList',
+        queryParams:{
+        	guideNo:guideNo
+        },
+//        singleSelect:true,  //单选  false多选
         rownumbers:true,    //序号
         //pagination:true,    //分页
         //pageSize:10,
@@ -32,11 +39,15 @@ function initdgOrderList(){
 	            	}
 	            }
         	},
-            {field:'statusStr ',title:'状态',width:80,align:'left'},
-            {field:'supplierName',title:'供应商',width:120,align:'left'},
-            {field:'branchName',title:'收货机构',width:100,align:'center'},
+            {field:'statusStr',title:'状态',width:80,align:'left'},
+            {field:'supplierName',title:'供应商',width:150,align:'left'},
+            {field:'branchName',title:'收货机构',width:150,align:'center'},
             {field:'amount',title:'单据金额',width:120,align:'left'},
-            {field:'createTime',title:'制单时间',width:60,align:'left'},
+            {field:'createTime',title:'制单时间',width:150,align:'left',
+            	formatter : function(value, rowData, rowIndex) {
+            		return formatDate(value);
+            	}
+            },
             {field:'remark',title:'备注',width:120,align:'left',editor:"textbox"}
         ]],
 
@@ -48,24 +59,26 @@ function initdgOrderList(){
 }
 
 function chekData(){
-	var deliverFormId = $("#formId").val();
-	$.messager.confirm('提示','是否审核通过？',function(data){
+	var rows =$("#dgGuideOrderList").datagrid("getChecked");
+	if(rowIsNull(rows)){
+		return null;
+	}
+	var formIds='';
+    $.each(rows,function(i,v){
+    	formIds+=v.formId+",";
+    });
+    
+    $.messager.confirm('提示','确认审核所有所选数据？',function(data){
 		if(data){
 			$.ajax({
-		    	url : contextPath+"/form/deliverForm/check",
-		    	type : "POST",
-		    	data : {
-		    		deliverFormId : $("#formId").val(),
-		    		deliverType : 'DA'
+		    	url:contextPath+"/form/purchase/batchCheck",
+		    	type:"POST",
+		    	data:{
+		    		formIds:formIds,
+		    		status : 1
 		    	},
 		    	success:function(result){
-		    		if(result['code'] == 0){
-		    			$.messager.alert("操作提示", "操作成功！", "info",function(){
-		    				contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + deliverFormId;
-		    			});
-		    		}else{
-		    			successTip(result['message']);
-		    		}
+		    		successTip(result.message, $("#dgGuideOrderList"));
 		    	},
 		    	error:function(result){
 		    		successTip("请求发送失败或服务器处理失败");
@@ -73,33 +86,30 @@ function chekData(){
 		    });
 		}
 	});
+    
 }
 
 
 function delData(){
-	var dg = $("#dgGuideOrderList");
-	var row = dg.datagrid("getChecked");
-	var ids = [];
-	for(var i=0; i<row.length; i++){
-		ids.push(row[i].deliverFormId);
-	}
-	if(rowIsNull(row)){
+	var rows =$("#dgGuideOrderList").datagrid("getChecked");
+	if(rowIsNull(rows)){
 		return null;
 	}
+	var formIds='';
+    $.each(rows,function(i,v){
+    	formIds+=v.formId+",";
+    });
+	
 	$.messager.confirm('提示','是否要删除选中数据',function(data){
 		if(data){
 			$.ajax({
-		    	url:contextPath+"/form/deliverForm/deleteDeliverForm",
+		    	url:contextPath+"/form/purchase/delete",
 		    	type:"POST",
-		    	contentType:"application/json",
-		    	data:JSON.stringify(ids),
+		    	data:{
+		    		formIds:formIds
+		    	},
 		    	success:function(result){
-		    		if(result['code'] == 0){
-		    			successTip("删除成功");
-		    			dg.datagrid('reload');
-		    		}else{
-		    			successTip(result['message']);
-		    		}
+		    		successTip(result.message, $("#dgGuideOrderList"));
 		    	},
 		    	error:function(result){
 		    		successTip("请求发送失败或服务器处理失败");
@@ -110,5 +120,5 @@ function delData(){
 }
 
 function finish(){
-	
+	window.location = contextPath+'/form/purchaseGuide/toGuideForm';
 }
