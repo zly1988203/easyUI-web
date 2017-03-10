@@ -198,6 +198,19 @@ public class UserUtil {
 		SysUser sysUser = getCurrentUser();
 		return sysUser == null ? null : sysUser.getBranchType();
 	}
+	/**
+	 * @Description: 获取当前登录用户父机构
+	 * @return   
+	 * @return String  
+	 * @throws
+	 * @author yangyq02
+	 * @date 2017年3月10日
+	 */
+	public static String getCurrBranchParentId() {
+		SysUser sysUser = getCurrentUser();
+		return sysUser == null ? null : sysUser.getBranchParentId();
+	}
+	
 
 	/**
 	 * @Description: 根据key值获取session当中的对象

@@ -102,6 +102,14 @@ public class BranchCommonController extends BaseController<BranchCommonControlle
 			if ("DV".equals(vo.getFormType())) {
 				vo.setBranchId(UserUtil.getCurrBranchId());
 			}
+			
+			//3.自营店、4.加盟店B、5.加盟店C
+			if ("DD".equals(vo.getFormType())) {
+				vo.setBranchId(UserUtil.getCurrBranchParentId());
+				vo.setBranchType(null);
+				vo.setBranchTypes(new int[]{3,4,5});
+			}
+			
 			PageUtils<Branches> suppliers = branchesService.queryLists(vo);
 			LOG.info("机构列表：{}", suppliers);
 			return suppliers;
