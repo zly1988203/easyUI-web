@@ -95,6 +95,19 @@ public interface ExportExcelConstant {
 	String STOCKLEAD = "StockLead.xlsx";
 	
 	/**
+	 * @Fields STOCK_REIMBURSE_SKU_TEMPLE : 报损单货号导入模板
+	 */
+	String STOCK_REIMBURSE_SKU_TEMPLE = "StockReimburseSkuTemple.xlsx";
+	/**
+	 * @Fields STOCK_REIMBURSE_BAR_TEMPLE : 报损单条码导入模板
+	 */
+	String STOCK_REIMBURSE_BAR_TEMPLE = "StockReimburseBarTemple.xlsx";
+	/**
+	 * @Fields STOCKREIMBURSE : 报损单导出模板
+	 */
+	String STOCKREIMBURSE = "StockReimburse.xlsx";
+	
+	/**
 	 * 商品销售汇总
 	 */
 	String 	GOODS_SALE_REPORT = "goodsSaleReport.xlsx";

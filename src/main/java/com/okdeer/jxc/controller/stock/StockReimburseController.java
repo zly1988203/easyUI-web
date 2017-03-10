@@ -48,8 +48,8 @@ import com.okdeer.jxc.utils.UserUtil;
 import net.sf.json.JSONObject;
 
 /**
- * ClassName: StockLeadController 
- * @Description: 领用单
+ * ClassName: StockReimburseController 
+ * @Description: 报损单
  * @author zhengwj
  * @date 2017年3月6日
  *
@@ -59,8 +59,8 @@ import net.sf.json.JSONObject;
  *
  */
 @Controller
-@RequestMapping("/stock/lead")
-public class StockLeadController extends BaseController<StockLeadController> {
+@RequestMapping("/stock/reimburse")
+public class StockReimburseController extends BaseController<StockReimburseController> {
 
 	/**
 	 * @Fields stockAdjustServiceApi : 库存调整service
@@ -75,17 +75,17 @@ public class StockLeadController extends BaseController<StockLeadController> {
 	private GoodsSelectImportComponent goodsSelectImportComponent;
 
 	/**
-	 * @Description: 领用单列表页面
+	 * @Description: 报损单列表页面
 	 * @author zhengwj
 	 * @date 2017年3月6日
 	 */
 	@RequestMapping(value = "list")
 	public String list() {
-		return "/stockLead/stockLeadList";
+		return "/stockReimburse/stockReimburseList";
 	}
 
 	/**
-	 * @Description: 获取领用单列表
+	 * @Description: 获取报损单列表
 	 * @author zhengwj
 	 * @date 2017年3月8日
 	 */
@@ -100,33 +100,33 @@ public class StockLeadController extends BaseController<StockLeadController> {
 			vo.setPageSize(pageSize);
 			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
 			// 调整类型
-			vo.setFormType(StockAdjustEnum.LEAD.getKey());
+			vo.setFormType(StockAdjustEnum.REIMBURSE.getKey());
 			PageUtils<StockFormVo> stockFormList = stockAdjustServiceApi.getStockFormList(vo);
 			LOG.info(LogConstant.PAGE, stockFormList.toString());
 			return stockFormList;
 		} catch (Exception e) {
-			LOG.error("获取领用单列表信息异常:{}", e);
+			LOG.error("获取报损单列表信息异常:{}", e);
 		}
 		return null;
 	}
 
 	/**
-	 * @Description: 领用单新增页面
+	 * @Description: 报损单新增页面
 	 * @author zhengwj
 	 * @date 2017年3月6日
 	 */
-	@RequiresPermissions("JxcStockLead:add")
+	@RequiresPermissions("JxcStockReimburse:add")
 	@RequestMapping(value = "add")
 	public String add() {
-		return "/stockLead/stockLeadAdd";
+		return "/stockReimburse/stockReimburseAdd";
 	}
 
 	/**
-	 * @Description: 保存领用单
+	 * @Description: 保存报损单
 	 * @author zhengwj
 	 * @date 2017年3月8日
 	 */
-	@RequiresPermissions("JxcStockLead:add")
+	@RequiresPermissions("JxcStockReimburse:add")
 	@RequestMapping(value = "save", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson addStcokForm(@RequestBody String jsonText) {
@@ -135,21 +135,21 @@ public class StockLeadController extends BaseController<StockLeadController> {
 			StockFormVo vo = JSON.parseObject(jsonText, StockFormVo.class);
 			SysUser user = UserUtil.getCurrentUser();
 			vo.setCreateUserId(user.getId());
-			vo.setFormType(StockAdjustEnum.LEAD.getKey());
+			vo.setFormType(StockAdjustEnum.REIMBURSE.getKey());
 			return stockAdjustServiceApi.addStockForm(vo);
 		} catch (Exception e) {
-			LOG.error("保存领用单信息异常:{}", e);
-			resp = RespJson.error("保存领用单信息失败");
+			LOG.error("保存报损单信息异常:{}", e);
+			resp = RespJson.error("保存报损单信息失败");
 		}
 		return resp;
 	}
 
 	/**
-	 * @Description: 删除领用单
+	 * @Description: 删除报损单
 	 * @author zhengwj
 	 * @date 2017年3月8日
 	 */
-	@RequiresPermissions("JxcStockLead:delete")
+	@RequiresPermissions("JxcStockReimburse:delete")
 	@RequestMapping(value = "delete", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson deleteStockForm(@RequestParam(value = "ids[]") List<String> ids) {
@@ -158,14 +158,14 @@ public class StockLeadController extends BaseController<StockLeadController> {
 		try {
 			return stockAdjustServiceApi.deleteCombineSplit(ids);
 		} catch (Exception e) {
-			LOG.error("删除领用单信息异常:{}", e);
-			resp = RespJson.error("删除领用单信息失败");
+			LOG.error("删除报损单信息异常:{}", e);
+			resp = RespJson.error("删除报损单信息失败");
 		}
 		return resp;
 	}
 
 	/**
-	 * @Description: 获取领用单详情列表
+	 * @Description: 获取报损单详情列表
 	 * @author zhengwj
 	 * @date 2017年3月8日
 	 */
@@ -175,17 +175,17 @@ public class StockLeadController extends BaseController<StockLeadController> {
 		try {
 			return stockAdjustServiceApi.getStcokFormDetailList(id);
 		} catch (Exception e) {
-			LOG.error("获取领用单信息异常:{}", e);
+			LOG.error("获取报损单信息异常:{}", e);
 		}
 		return null;
 	}
 
 	/**
-	 * @Description: 领用单编辑页面
+	 * @Description: 报损单编辑页面
 	 * @author zhengwj
 	 * @date 2017年3月7日
 	 */
-	@RequiresPermissions("JxcStockLead:edit")
+	@RequiresPermissions("JxcStockReimburse:edit")
 	@RequestMapping(value = "edit", method = RequestMethod.GET)
 	public String edit(String id, HttpServletRequest request) {
 		StockFormVo stockFormVo;
@@ -193,17 +193,17 @@ public class StockLeadController extends BaseController<StockLeadController> {
 			stockFormVo = stockAdjustServiceApi.getStcokFormInfo(id);
 			request.setAttribute("stockFormVo", stockFormVo);
 		} catch (Exception e) {
-			LOG.error("领用单查询详情错误:{}", e);
+			LOG.error("报损单查询详情错误:{}", e);
 		}
-		return "/stockLead/stockLeadView";
+		return "/stockReimburse/stockReimburseView";
 	}
 
 	/**
-	 * @Description: 保存领用单
+	 * @Description: 保存报损单
 	 * @author zhengwj
 	 * @date 2017年3月8日
 	 */
-	@RequiresPermissions("JxcStockLead:edit")
+	@RequiresPermissions("JxcStockReimburse:edit")
 	@RequestMapping(value = "update", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson updateStockForm(@RequestBody String jsonText) {
@@ -214,14 +214,14 @@ public class StockLeadController extends BaseController<StockLeadController> {
 			vo.setCreateUserId(user.getId());
 			return stockAdjustServiceApi.updateStockForm(vo);
 		} catch (Exception e) {
-			LOG.error("更新领用单信息异常:{}", e);
-			resp = RespJson.error("更新领用单信息失败");
+			LOG.error("更新报损单信息异常:{}", e);
+			resp = RespJson.error("更新报损单信息失败");
 		}
 		return resp;
 	}
 
 	/**
-	 * @Description: 审核领用单
+	 * @Description: 审核报损单
 	 * @author zhengwj
 	 * @date 2017年3月8日
 	 */
@@ -233,7 +233,7 @@ public class StockLeadController extends BaseController<StockLeadController> {
 			SysUser user = UserUtil.getCurrentUser();
 			return stockAdjustServiceApi.check(id, user.getId());
 		} catch (Exception e) {
-			LOG.error("审核领用单信息异常:{}", e);
+			LOG.error("审核报损单信息异常:{}", e);
 			resp = RespJson.error(e.getMessage());
 		}
 		return resp;
@@ -245,7 +245,7 @@ public class StockLeadController extends BaseController<StockLeadController> {
 	 * @author zhengwj
 	 * @date 2017年3月8日
 	 */
-	@RequiresPermissions("JxcStockLead:import")
+	@RequiresPermissions("JxcStockReimburse:import")
 	@RequestMapping(value = "exportTemp")
 	public void exportTemp(HttpServletResponse response, String type) {
 		try {
@@ -253,16 +253,16 @@ public class StockLeadController extends BaseController<StockLeadController> {
 			String fileName = null;
 			String templateName = null;
 			if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {
-				fileName = "领用单货号导入模板";
-				templateName = ExportExcelConstant.STOCK_LEAD_SKU_TEMPLE;
+				fileName = "报损单货号导入模板";
+				templateName = ExportExcelConstant.STOCK_REIMBURSE_SKU_TEMPLE;
 			} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {
-				templateName = ExportExcelConstant.STOCK_LEAD_BAR_TEMPLE;
-				fileName = "领用单条码导入模板";
+				templateName = ExportExcelConstant.STOCK_REIMBURSE_BAR_TEMPLE;
+				fileName = "报损单条码导入模板";
 			}
 			// 导出Excel
 			exportListForXLSX(response, null, fileName, templateName);
 		} catch (Exception e) {
-			LOG.error("领用单导入失败:{}", e);
+			LOG.error("报损单导入失败:{}", e);
 		}
 	}
 
@@ -274,7 +274,7 @@ public class StockLeadController extends BaseController<StockLeadController> {
 	 * @author zhengwj
 	 * @date 2017年3月8日
 	 */
-	@RequiresPermissions("JxcStockLead:import")
+	@RequiresPermissions("JxcStockReimburse:import")
 	@RequestMapping(value = "importList")
 	@ResponseBody
 	public RespJson importList(@RequestParam("file") MultipartFile file, String branchId, String type) {
@@ -297,7 +297,7 @@ public class StockLeadController extends BaseController<StockLeadController> {
 			}
 			GoodsSelectImportVo<GoodsSelectByStockAdjust> vo = goodsSelectImportComponent.importSelectGoodsWithStock(
 					fileName, is, field, new GoodsSelectByStockAdjust(), branchId, user.getId(), type,
-					"/stock/lead/downloadErrorFile", new GoodsSelectImportBusinessValid() {
+					"/stock/reimburse/downloadErrorFile", new GoodsSelectImportBusinessValid() {
 
 						@Override
 						public void businessValid(List<JSONObject> excelListSuccessData, String[] excelField) {
@@ -366,7 +366,7 @@ public class StockLeadController extends BaseController<StockLeadController> {
 	 * @author zhengwj
 	 * @date 2017年3月8日
 	 */
-	@RequiresPermissions("JxcStockLead:import")
+	@RequiresPermissions("JxcStockReimburse:import")
 	@RequestMapping(value = "downloadErrorFile")
 	public void downloadErrorFile(String code, String type, HttpServletResponse response) {
 		String reportFileName = "错误数据";
@@ -392,15 +392,15 @@ public class StockLeadController extends BaseController<StockLeadController> {
 	 * @author zhengwj
 	 * @date 2017年3月8日
 	 */
-	@RequiresPermissions("JxcStockLead:export")
+	@RequiresPermissions("JxcStockReimburse:export")
 	@RequestMapping(value = "exportList", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson exportList(HttpServletResponse response, StockFormVo vo) {
 		RespJson resp = RespJson.success();
 		try {
 			List<StockFormDetailVo> exportList = stockAdjustServiceApi.exportList(vo);
-			String fileName = "领用单" + "_" + DateUtils.getCurrSmallStr();
-			String templateName = ExportExcelConstant.STOCKLEAD;
+			String fileName = "报损单" + "_" + DateUtils.getCurrSmallStr();
+			String templateName = ExportExcelConstant.STOCKREIMBURSE;
 			// 导出时将负数转为正数
 			if (null != exportList && !exportList.isEmpty()) {
 				for (StockFormDetailVo stockFormDetailVo : exportList) {
@@ -411,8 +411,8 @@ public class StockLeadController extends BaseController<StockLeadController> {
 			}
 			exportListForXLSX(response, exportList, fileName, templateName);
 		} catch (Exception e) {
-			LOG.error("导出领用单商品异常：{}", e);
-			resp = RespJson.error("导出领用单商品异常");
+			LOG.error("导出报损单商品异常：{}", e);
+			resp = RespJson.error("导出报损单商品异常");
 		}
 		return resp;
 	}
