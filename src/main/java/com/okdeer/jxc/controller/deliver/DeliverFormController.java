@@ -272,7 +272,9 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 				return "form/deliver/deliverEdit";
 			} else if (FormType.DO.toString().equals(form.getFormType())) {
 				return "form/deliver/DoEdit";
-			} else {
+			}else if(FormType.DD.toString().equals(form.getFormType())){
+				return "form/deliver/DDEdit";
+			}else {
 				return "form/deliver/DiEdit";
 			}
 		} else {
@@ -294,7 +296,10 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 				form.setAddRebateMoney(BigDecimalUtils.formatDecimal(form.getAddRebateMoney(), 2));
 				model.addAttribute("close", report);
 				return "form/deliver/DoView";
-			} else {
+			}else if(FormType.DD.toString().equals(form.getFormType())){
+				return "form/deliver/DDEdit";
+			}
+			else {
 				model.addAttribute("close", report);
 				return "form/deliver/DiView";
 			}
