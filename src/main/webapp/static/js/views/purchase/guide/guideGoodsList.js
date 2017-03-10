@@ -7,16 +7,17 @@ var isType_three = false;
 
 var formData;
 $(function(){
+	
 	formData = $("#formData").val();
 	formData = $.parseJSON(formData);
 	
 	var guideType = formData.guideType;
-	guideType = '3'
-	if(guideType === '1'){
+	
+	if(guideType === 1){
 		isType_one = false;
 		isType_two = true;
 		isType_three = true;
-	}else if(guideType === '2'){
+	}else if(guideType === 2){
 		isType_one = true;
 		isType_two = false;
 		isType_three = true;
@@ -162,55 +163,31 @@ function delLineHandel(event){
 
 //上一步
 function lastStep(){
-	 var param = {
-			 brancheId:formData.brancheId,
-				branchCode:formData.branchCode,
-				branchName:formData.branchName,
-				supplierId:formData.supplierId,
-				supplierName:formData.supplierName,
-				categoryId:formData.categoryId,
-				categoryShows:formData.categoryShows,
-				deliverStartDate:formData.deliverStartDate,
-				deliverEndDate:formData.deliverEndDate,
-				guideType:formData.guideType,
-				ignore:formData.ignore,
-	 }
-	 
-	    $.ajax({
-	        url:contextPath+"/form/deliverForm/insertDeliverForm",
-	        type:"POST",
-	        contentType:"application/json",
-	        data:JSON.stringify(param),
-	        success:function(result){
-	            if(result['code'] == 0){
-	                    location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
-	            }else{
-	                successTip(result['message'] +","+strResult);
-	            }
-	        },
-	        error:function(result){
-	            successTip("请求发送失败或服务器处理失败");
-	        }
-	    });
+	//返回到上一步
+	$.StandardPost(contextPath+"/form/purchaseGuide/toGuideForm", formData);
+
 }
 
 //下一步
 function nextStep (){
+	
 	 var rows = gridHandel.getRowsWhere({skuName:'1'});
 	 
 	 var param = {
 			rows:rows 
 	 }
     $.ajax({
-        url:contextPath+"/form/deliverForm/insertDeliverForm",
+        url:contextPath+"/form/purchaseGuide/generFormList",
         type:"POST",
         contentType:"application/json",
         data:JSON.stringify(param),
         success:function(result){
-            if(result['code'] == 0){
-                    location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
+            if(result.code == 0){
+            	var guideNo = result.data;
+            	//提交参数并跳转到第三步
+            	$.StandardPost(contextPath+"/form/purchaseGuide/guideOrderList", guideNo);
             }else{
-                successTip(result['message'] +","+strResult);
+                successTip(result.message);
             }
         },
         error:function(result){

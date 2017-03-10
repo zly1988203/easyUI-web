@@ -31,18 +31,19 @@ $(function(){
 
 //为页面赋值
 function setFormValue(formData){
-	$("#branchId").val(formData.branchId)
-	$("#branchCode").val(formData.branchCode)
-	$("#branchName").val(formData.branchName)
-	$("#supplierId").val(formData.supplierId)
-	$("#supplierName").val(formData.supplierName)
-	$("#categoryIds").val(formData.categoryIds)
-	$("#categoryShows").val(formData.categoryShows)
-	$('#startTime').val(formData.branchId)
-	$('#endTime').val(formData.branchId)
-	$('#guideType').val(formData.guideType)
+	$("#branchId").val(formData.branchId);
+	$("#branchCompleCode").val(formData.branchCompleCode);
+	$("#branchCodeName").val(formData.branchCodeName);
+	$("#branchType").val(formData.branchType);
+	$("#supplierId").val(formData.supplierId);
+	$("#supplierCodeName").val(formData.supplierCodeName);
+	$("#categoryCode").val(formData.categoryCode);
+	$("#categoryCodeName").val(formData.categoryCodeName);
+	$('#startTime').val(formData.deliverStartDate);
+	$('#endTime').val(formData.deliverEndDate);
+	$(':radio[name=guideType]').eq(formData.guideType - 1).prop('checked', true);
 	if(formData.ignore === '1'){
-		$('#ignore').prop('checked','checked')
+		$('#ignore').prop('checked','checked');
 	}
 	
 }
@@ -54,74 +55,67 @@ function selectBranches(){
 	new publicAgencyService(function(data){
 		$("#branchId").val(data.branchesId);
 		$("#branchCode").val(data.branchCode);
-		$("#branchName").val("["+data.branchCode+"]"+data.branchName);
+		$("#branchCompleCode").val(data.branchCompleCode);
+		$("#branchType").val(data.type);
+		$("#branchCodeName").val("["+data.branchCode+"]"+data.branchName);
 	},'BF','');
 }
 
 function selectSupplier(){
 	new publicSupplierService(function(data){
 		$("#supplierId").val(data.id);
-		$("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
+		$("#supplierCodeName").val("["+data.supplierCode+"]"+data.supplierName);
 	});
 }
 /**
  * 类别选择
  */
 function searchCategory(){
-	var param = {
-			categoryType:'',
-			type:0
-	}
+	
 	new publicCategoryService(function(data){
-		var categoryIds = []
-		var categorytxt=[];
-		$.each(data,function(index,item){
-			categoryIds.push(item.goodsCategoryId);
-			categorytxt.push(item.categoryCode);
-		})
-		$("#categoryIds").val(categoryIds);
-		$("#categoryShows").val(categorytxt) ;
-		
-	},param);
+		$("#categoryCode").val(data.categoryCode);
+		$("#categoryCodeName").val("["+data.categoryCode+"]"+data.categoryName);
+	});
 }
 
 //下一步
 function nextStep (){
+	
+	var branchType = $("#branchType").val();
+	var branchId = $("#branchId").val();
+	var branchCodeName = $("#branchCodeName").val();
+	if(!branchCodeName|| !branchType || !branchId){
+		successTip("机构信息为空");
+		return;
+	}
+	
+	if(branchType==0){
+		successTip("不能选择总部类型的机构");
+		return;
+	}
+	
 	var ignore = 0;
 	if($('#ignore').is(':checked')) {
 		ignore = 1;
 	 }
 	
 	var param = {
-			brancheId:$("#branchId").val(),
-			branchCode:$("#branchCode").val(),
-			branchName:$("#branchName").val(),
+			branchId:branchId,
+			branchCompleCode:$("#branchCompleCode").val(),
+			branchType:branchType,
+			branchCodeName:branchCodeName,
 			supplierId:$("#supplierId").val(),
-			supplierName:$("#supplierName").val(),
-			categoryId:$("#categoryIds").val(),
-			categoryShows:$("#categoryShows").val(),
+			supplierCodeName:$("#supplierCodeName").val(),
+			categoryCode:$("#categoryCode").val(),
+			categoryCodeName:$("#categoryCodeName").val(),
 			deliverStartDate:$('#startTime').val(),
 			deliverEndDate:$('#endTime').val(),
-			guideType:$('#guideType').val(),
+			guideType:$(':radio[name=guideType]:checked').val(),
 			ignore:ignore
 	}
 	
-    $.ajax({
-        url:contextPath+"/form/deliverForm/insertDeliverForm",
-        type:"POST",
-        contentType:"application/json",
-        data:JSON.stringify(param),
-        success:function(result){
-            if(result['code'] == 0){
-                    location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
-            }else{
-                successTip(result['message'] +","+strResult);
-            }
-        },
-        error:function(result){
-            successTip("请求发送失败或服务器处理失败");
-        }
-    });
+	//提交参数并跳转到第二步
+	$.StandardPost(contextPath+"/form/purchaseGuide/toGuideGoodsList", param);
 	
 }
 
