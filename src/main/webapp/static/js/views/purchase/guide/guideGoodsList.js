@@ -198,6 +198,7 @@ function nextStep (){
         data:JSON.stringify(gridRows),
         success:function(result){
             if(result.code == 0){
+            	
             	var guideNo = result.data;
             	//提交参数并跳转到第三步
             	$.StandardPost(contextPath+"/form/purchaseGuide/guideOrderList", guideNo);
