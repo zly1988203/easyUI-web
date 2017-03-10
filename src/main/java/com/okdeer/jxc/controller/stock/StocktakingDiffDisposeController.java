@@ -102,8 +102,8 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 		try {
 			return stocktakingApplyServiceApi.deleteStocktakingBatch(ids);
 		} catch (Exception e) {
-			LOG.error("删除组合拆分单异常:{}", e);
-			resp = RespJson.error("删除组合拆分单失败");
+			LOG.error("删除申请批次异常:{}", e);
+			resp = RespJson.error("删除申请批次失败");
 		}
 		return resp;
 	}
