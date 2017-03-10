@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>存货盘点单详情</title>
   <%@ include file="/WEB-INF/views/include/header.jsp"%>
-    <script  src="${ctx}/static/js/views/stocktaking/operate/operate.js"></script>
+    <script  src="${ctx}/static/js/views/stocktaking/operate/operate.js?V=1.2"></script>
     <style>
     .datagrid-header .datagrid-cell {text-align: center!important;font-weight: bold;}
     </style>
@@ -22,9 +22,8 @@
              	<div class="ubtns-item" onclick="toAdd()">新增</div>
                 <div class="ubtns-item" onclick="saveStocktakingForm(2)">保存</div>
                 <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
-                <div class="ubtns-item" onclick="importHandel()">导入货号</div>
-                 <div class="ubtns-item" onclick="delStockForm()">删单</div>
-
+                <div class="ubtns-item" onclick="importHandel()">导入</div>
+                 <div class="ubtns-item" onclick="deleteStocktakingForm()">删单</div>
                 <div class="ubtns-item" onclick="back()">关闭</div>
             </div>
         </div>

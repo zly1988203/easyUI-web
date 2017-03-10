@@ -87,7 +87,7 @@ function initOperateDataGrid(){
             {field:'spec',title:'规格',width:'90px',align:'left'},
             {field:'spec',title:'品牌',width:'90px',align:'left'},
 
-            {field:'stocktakingNum',title:'实际盘点数量',width:'80px',align:'right',
+            {field:'stocktakingNum',title:'实际盘点数量',width:'100px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -106,7 +106,7 @@ function initOperateDataGrid(){
                     }
                 }
             },
-            {field:'price',title:'零售价',width:'80px',align:'right',
+            {field:'price',title:'零售价',width:'100px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
                         return
@@ -118,7 +118,7 @@ function initOperateDataGrid(){
                 }
             
             },
-            {field:'amount',title:'零售金额',width:'80px',align:'right',
+            {field:'amount',title:'零售金额',width:'100px',align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -383,3 +383,34 @@ function selectBranches(){
 	},'BF','');
 }
 
+//删除
+function deleteStocktakingForm(){
+	var formId = $("#formId").val();
+	var ids = [formId];
+	$.messager.confirm('提示','是否要删除此条数据',function(data){
+		if(data){
+			$.ajax({
+		    	url:contextPath+"/stocktaking/operate/deleteStocktakingForm",
+		    	type:"POST",
+		    	data:{
+		    		ids : ids
+		    	},
+		    	success:function(result){
+		    		successTip(result['message']);
+		    		if(result['code'] == 0){
+		    			back();
+		    		}
+		    	},
+		    	error:function(result){
+		    		successTip("请求发送失败或服务器处理失败");
+		    	}
+		    });
+		}
+	});
+}
+/**
+ * 关闭
+ */
+function back(){
+	toClose();
+}
