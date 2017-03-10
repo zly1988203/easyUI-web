@@ -19,14 +19,16 @@
         </div>
     </div>
     <input type="hidden" name="formData" id="formData" value='${formData}' />
-     <form id="addForm" action="" method="post">
+    <form id="addForm" action="" method="post">
     <div class="ub ub-ver umar-l20">
     	<div class="ub umar-t20">
     			<div class="ub ub-ac uw-520">
 					<div class="umar-r10 uw-70 ut-r">采购机构:</div>
 					<input type="hidden" id="branchId" name="branchId" />
 					<input type="hidden" id="branchCode" name="branchCode" />
-					<input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" maxlength="50" readOnly required="required"/>
+					<input type="hidden" id="branchCompleCode" name="branchCompleCode" />
+					<input type="hidden" id="branchType" name="branchType" />
+					<input class="uinp ub ub-f1" type="text" id="branchCodeName" name="branchCodeName" maxlength="50" readOnly required="required"/>
 					<div class="uinp-more" onclick="selectBranches()" >...</div>
 					<i class="uc-red">*</i>
 				</div>
@@ -35,8 +37,8 @@
     	<div class="ub umar-t20">
     		<div class="ub ub-ac uw-520">
 					<div class="umar-r10 uw-70 ut-r">商品类别:</div>
-					<input type="hidden" id="categoryIds" name="categoryIds" />
-					<input class="uinp ub ub-f1" type="text" id="categoryShows" name="categoryShows" maxlength="50" required="required"/>
+					<input type="hidden" id="categoryCode" name="categoryCode" />
+					<input class="uinp ub ub-f1" type="text" id="categoryCodeName" name="categoryCodeName" maxlength="50" required="required"/>
 					<div class="uinp-more" onclick="searchCategory()" >...</div>
 					<i class="uc-red">*</i>
 				</div>
@@ -46,7 +48,7 @@
     	    	<div class="ub ub-ac uw-520">
 					<div class="umar-r10 uw-70 ut-r">供应商:</div>
 					<input type="hidden" id="supplierId" name="supplierId" />
-					<input class="uinp ub ub-f1" type="text" id="supplierName" name="supplierName" maxlength="50" required="required"/>
+					<input class="uinp ub ub-f1" type="text" id="supplierCodeName" name="supplierCodeName" maxlength="50" required="required"/>
 					<div class="uinp-more" onclick="selectSupplier()" >...</div>
 					<i class="uc-red">*</i>
 				</div>
@@ -69,21 +71,21 @@
     	<div class="ub umar-t20">
     		<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">选择模式:</div>
-					<input type="radio" class="radioItem" name="pattern" value="1" checked>[常规商品]按库存存量指标采购	
+					<input type="radio" class="radioItem" name="guideType" value="1" checked>[常规商品]按库存存量指标采购	
 			</div>
     	</div>
     	
     	<div class="ub umar-t20">
 			<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r"></div>
-					<input type="radio" class="radioItem" name="pattern" value="2">[常规商品]按安全库存采购
+					<input type="radio" class="radioItem" name="guideType" value="2">[常规商品]按安全库存采购
 			</div>
 		</div>
     	
     	<div class="ub umar-t20">
 						<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r"></div>
-					<input type="radio" class="radioItem" name="pattern" value="3">[常规商品]按门店要货单采购
+					<input type="radio" class="radioItem" name="guideType" value="3">[常规商品]按门店要货单采购
 			
 			</div>
 		</div>
@@ -91,7 +93,7 @@
 		<div class="ub umar-t20">
 			<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r"></div>
-					<input type="radio" class="radioItem" name="pattern" value="4">[直送商品]按门店直送要货单汇总采购
+					<input type="radio" class="radioItem" name="guideType" value="4">[直送商品]按门店直送要货单汇总采购
 			
 			</div>
 		</div>
@@ -99,13 +101,12 @@
 		<div class="ub umar-t20">
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r"></div>
-					<input type="radio" class="radioItem" name="pattern" value="5">[直送商品]按门店直送要货单分别采购(按门店生产订货)
+					<input type="radio" class="radioItem" name="guideType" value="5">[直送商品]按门店直送要货单分别采购(按门店生产订货)
 			
 				</div>
 			</div>
 	
     </div>
-    <input type="hidden" id="guidePattern" name="guidePattern" value="1"> 
     </form>
     
 	</div>
