@@ -24,7 +24,6 @@
             </div>
 			<div class="ub">
 				<div class="ub ub-ac">
-					<div class="umar-r10 uw-70 ut-r">日期:</div>
 					<%@ include file="/WEB-INF/views/component/dateSelect.jsp"%>
 				</div>
 			</div>
@@ -34,45 +33,43 @@
 			<div class="ub ub-ac">
 				<div class="umar-r10 uw-70 ut-r">机构:</div>
 				<input type="hidden" id="branchId" name="branchId" />
-				<input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" maxlength="50"/>
+				<input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" maxlength="50" readonly="readonly"/>
 				<div class="uinp-more" onclick="selectBranches()" >...</div>
 			</div>
-			<div class="ub ub-ac uw-300 umar-l40">
+			<div class="ub ub-ac uw-300 umar-l20">
 				<div class="umar-r10 uw-70 ut-r">盘点批号:</div>
-				<input class="uinp ub ub-f1" type="text" name="batchNo" id="batchNo" />
+				<input class="uinp ub ub-f1" type="text" name="batchNo" id="batchNo" readonly="readonly"/>
 				<div class="uinp-more" onClick="searchTakeStock()">...</div>
+
 			</div>
+				<div class='umar-t10 umar-l10' id="divEqualZero" hidden="true">
+					<input class="checkItem" type="checkbox">显示差异为0的商品
+				</div>
+			
 		</div>
 		<div class="ub umar-t8">
-			<div class="ub ub-ac umar-l20">
+			<div class="ub ub-ac">
 				<div class="umar-r10 uw-70 ut-r">商品选择:</div>
 				<input class="uinp ub ub-f1" type="hidden" name="skuId" id="skuId" />
-				<input class="uinp ub ub-f1" type="text" name="skuName" id="skuName" />
-				<div class="uinp-more" onClick="selectGoods()">...</div>
+				<input class="uinp ub ub-f1" type="text" name="skuName" id="skuName"  disabled="disabled"/>
+				<div class="uinp-more" id="divgood" onClick="selectGoods()" hidden="true">...</div>
 			</div>
-			<div class="ub ub-ac umar-l20">
+			<div class="ub ub-ac uw-300 umar-l20">
 				<div class="umar-r10 uw-70 ut-r">类别:</div>
 				<input class="uinp ub ub-f1" type="hidden" name="categoryCode" id="categoryCode" />
-				<input class="uinp ub ub-f1" type="text" name="categoryNameCode" id="categoryNameCode" />
-				<div class="uinp-more" onClick="searchCategory()">...</div>
+				<input class="uinp ub ub-f1" type="text" name="categoryNameCode" id="categoryNameCode" disabled="disabled"/>
 			</div>
-			<div class="ub ub-ac umar-l20">
-				显示差异为0的商品equalZero
-			</div>
-		</div>
-		<div class="ub umar-t8">
-			<div class="ub ub-ac uw-300">
-				<div class="umar-r10 uw-70 ut-r">货号:</div>
-				<input class="uinp" type="text" id="skuCode" name="skuCode">
-			</div>
+			
 			<div class="ub ub-ac umar-l10">
 				<div class="ub ub-ac umar-r10">
-					<label> <input class="radioItem" type="radio"  value="1" checked name="rotationType">汇总</label>
+					<label> <input class="radioItem" type="radio"  value="1" checked name="rotation">汇总</label>
 				</div>
 				<div class="ub ub-ac umar-r10">
-					<label> <input class="radioItem" type="radio"  value="2" name="rotationType">商品明细 </label>
+					<label> <input class="radioItem" type="radio"  value="2" name="rotation">商品明细 </label>
 				</div>
+				<input type="hidden" id="rotationType" name="rotationType" value='1'/>
 			</div>
+			
 
 		</div>
       	</form>

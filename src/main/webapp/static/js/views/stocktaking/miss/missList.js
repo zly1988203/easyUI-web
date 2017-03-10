@@ -8,12 +8,13 @@ function initDgTakeStockMiss(){
 		align:'center',
 		singleSelect:false,  //单选  false多选
 		rownumbers:true,    //序号
-		pagination:true,    //分页
+//		pagination:true,    //分页
 		fitColumns:true,    //每列占满
 		height:'100%',
 		width:'100%',
 		columns:[[
-			{field:'check',checkbox:true},
+//			{field:'check',checkbox:true},
+			{field: 'branchCode', title: '机构编号', width: 100, align: 'left'},
 			{field: 'branchCode', title: '机构编号', width: 100, align: 'left'},
 			{field: 'branchName', title: '机构名称', width: 180, align: 'left'},
 			{field: 'categoryCode', title: '类别编号', width: 100, align: 'left'},

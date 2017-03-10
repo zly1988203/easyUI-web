@@ -1,14 +1,38 @@
-var rotaType =  1;
+var rotaType = '1';
 //初始化表格
 $(function(){
 	initDgTakeStockDiffSearch();
     $(".radioItem").on("change",function(){
-    	rotaType = $(this).val();
     	$("#diffSearchList").datagrid('options').url = "";
-    	initDatagridRequire();
+    	rotaType = $(this).val()
+    	initDgTakeStockDiffSearch();
     	$('#diffSearchList').datagrid({data:[]}); 
+//    	页面控制
+    	pageChange(rotaType);
+    	
     })
 });
+
+//页面元素控制
+function pageChange(rotaType){
+	$('#rotationType').val(rotaType);
+	if(rotaType === '1'){
+		$('#skuName').prop('disabled','disabled');
+		$('#categoryNameCode').prop('disabled','disabled');
+		$('#divgood').prop('hidden',true);
+		$('#divEqualZero').css('display','none');
+		$('#skuId').val("");
+    	$('#skuName').val("");
+    	$('#categoryNameCode').val("");
+		
+	}else{
+		$('#skuName').removeProp('disabled');
+		$('#categoryNameCode').removeProp('disabled');
+		$('#divgood').prop('hidden',false);
+		$('#divEqualZero').css('display','block');
+	}
+}
+
 
 function initDgTakeStockDiffSearch(){
 	stockList = $("#diffSearchList").datagrid({
@@ -27,7 +51,7 @@ function initDgTakeStockDiffSearch(){
 	});
 }
 function getFiledsList(){
-	if(rotaType == 1){
+	if(rotaType === '1'){
 		return [ [
 		          {field:'check',checkbox:true},
 		          {field: 'branchCode', title: '机构编号', width: 100, align: 'left'},
@@ -42,9 +66,6 @@ function getFiledsList(){
 	}else{
 		return [ [
 		          {field:'check',checkbox:true},
-		          {field: 'branchCode', title: '机构编号', width: 100, align: 'left'},
-		          {field: 'branchName', title: '机构名称', width: 120, align: 'left'},
-		          {field: 'batchNo', title: '盘点批号', width: 180, align: 'left'},
 		          {field: 'branchCode', title: '机构编号', width: 100, align: 'left'},
 		          {field: 'branchName', title: '机构名称', width: 120, align: 'left'},
 		          {field: 'batchNo', title: '盘点批号', width: 180, align: 'left'},
@@ -69,6 +90,7 @@ function queryForm(){
 	var fromObjStr = $('#queryForm').serializeObject();
 	// 去除编码
     fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1)
+    fromObjStr.equalZero = $('.checkItem').is(':checked')?'0':'';
 
 	$("#diffSearchList").datagrid("options").method = "post";
 	$("#diffSearchList").datagrid('options').url = contextPath + '/stocktaking/diffSearch/getDiffSearchList';
@@ -106,7 +128,7 @@ function searchTakeStock(){
 	})
 }
 //选择商品
-function selectGoods(searchKey){
+function selectGoods(){
 	var branchId = $("#branchId").val();
 	var sourceBranchId = branchId;
 	var targetBranchId = branchId;
@@ -114,15 +136,11 @@ function selectGoods(searchKey){
         messager("请先选择机构");
         return;
     }
-    //控制弹框
-	if(typeof(searchKey)=="undefined"){ 
-		searchKey = "";
-	}
     
     var param = {
     		type:'',
-    		key:searchKey,
-    		isRadio:'',
+    		key:"",
+    		isRadio:'1',
     		branchId:branchId,
     		sourceBranchId:'',
     		targetBranchId:'',
@@ -131,31 +149,33 @@ function selectGoods(searchKey){
     }
     
     new publicGoodsServiceTem(param,function(data){
-    	if(searchKey){
-	        $("#"+gridName).datagrid("deleteRow", gridHandel.getSelectRowIndex());
-	        $("#"+gridName).datagrid("acceptChanges");
-	    }
-    	
-    	 var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
-         var addDefaultData  = gridHandel.addDefault(data,gridDefault);
-         var keyNames = {
-         		skuId:'goodsSkuId',
-         		salePrice:'price'
-         };
-         var rows = gFunUpdateKey(addDefaultData,keyNames);
-         var argWhere ={skuCode:1};  // 验证重复性
-         var isCheck ={isGift:1 };   // 只要是赠品就可以重复
-         var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
-         $("#"+gridName).datagrid("loadData",newRows);
-    	
-    	
-        gridHandel.setLoadFocus();
-        setTimeout(function(){
-            gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
-            gridHandel.setSelectFieldName("stocktakingNum");
-            gridHandel.setFieldFocus(gridHandel.getFieldTarget('stocktakingNum'));
-        },100)
-    	
+    	$('#skuId').val(data[0].skuId);
+    	$('#skuName').val(data[0].skuName);
     });
-    branchId = '';
 }
+
+/**
+ * 导出
+ */
+function toExport(){
+	var length = $("#diffSearchList").datagrid('getData').total;
+	if(length == 0){
+		$.messager.alert('提示',"没有数据");
+		return;
+	}
+	var fromObjStr = $('#queryForm').serializeObject();
+	console.log(fromObjStr);
+	$("#queryForm").form({
+		success : function(data){
+			if(data==null){
+				$.messager.alert('提示',"导出数据成功！");
+			}else{
+				$.messager.alert('提示',JSON.parse(data).message);
+			}
+		}
+	});
+	$("#queryForm").attr("action",contextPath+"/stocktaking/diffSearch/exportDiffSearchList?"+fromObjStr);
+	$("#queryForm").submit();
+}
+
+
