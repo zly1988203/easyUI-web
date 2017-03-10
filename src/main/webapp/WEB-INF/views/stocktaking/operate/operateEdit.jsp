@@ -60,7 +60,7 @@
          <div class="ub umar-t8">
                <div class="ub ub-ac" >
                    <div class="umar-r10 uw-70 ut-r">盘点范围:</div>
-                   <input class="uinp ub ub-f1" type="text" id="scope" name="scope" value="${stocktakingFormVo.scope==1 ?'类别盘点':'全场盘点' }" readonly="readonly">
+                   <input class="uinp ub ub-f1" type="text" id="scope" name="scope" value="${stocktakingFormVo.scope==1 ?'类别盘点':'全场盘点'}" readonly="readonly">
                </div>
                
                 <div class="ub ub-ac" >

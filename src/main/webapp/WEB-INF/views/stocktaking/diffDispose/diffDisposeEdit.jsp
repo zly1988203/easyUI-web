@@ -7,86 +7,78 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>盘点差异处理详情</title>
   <%@ include file="/WEB-INF/views/include/header.jsp"%>
-    <script  src="${ctx}/static/js/views/stocktaking/operate/operate.js"></script>
+    <script  src="${ctx}/static/js/views/stocktaking/diffDispose/diffDispose.js"></script>
     <style>
     .datagrid-header .datagrid-cell {text-align: center!important;font-weight: bold;}
     </style>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
-<input type='hidden' id="disposeStatus" value="${stockFormVo.status}">
+<input type='hidden' id="disposeStatus" value="${batchVo.status}">
+<input type='hidden' id="batchId" name="id" value="${batchVo.id}">
     <div class="ub ub-ver ub-f1 umar-4  ubor">
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
-             	<div class="ubtns-item" onclick="toAdd()">新增</div>
-                <div class="ubtns-item" onclick="saveOrder()">保存</div>
-                <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
-               
-                <div class="ubtns-item" id="btnCheck" onclick="check()">审核</div>
-
-<!-- 				<div class="ubtns-item" onClick="exportExcel()">导出</div> -->
-                <div class="ubtns-item" onclick="importHandel()">导入货号</div>
-                 <div class="ubtns-item" onclick="delStockForm()">删单</div>
-
-                <div class="ubtns-item" onclick="back()">关闭</div>
-            </div>
+				<div class="ubtns-item" onclick="saveOrder()">保存</div>
+				<div class="ubtns-item" id="btnCheck" onclick="check()">审核</div>
+				<div class="ubtns-item" onclick="delStockForm()">删单</div>
+				<div class="ubtns-item" onclick="delStockForm()">打印</div>
+				<div class="ubtns-item" onclick="back()">关闭</div>
+			</div>
         </div>
- <div class="ub umar-t8 uc-black">【盘点号】:<span id="formNo">${stockFormVo.formNo}</span></div>
+ <div class="ub umar-t8 uc-black">【盘点批号】:<span>${batchVo.batchNo}</span></div>
    <div class="already-examine" id="already-examine"><span>已审核</span></div>
 
 	<form action="" id="searchForm" method="post">
- 			<input type="hidden"  name="id" value="${stockFormVo.id}">
+ 			<input type="hidden"  name="id" value="${batchVo.id}">
  		</form>
         <div class="ub uline umar-t10"></div>
         <div class="ub umar-t10">
-               <div class="ub ub-ac uw-300">
-	                <div class="umar-r10 uw-70 ut-r">机构名称:</div>
-	                <input type="hidden" name="branchId" id="branchId" class="uinp" value="${stockFormVo.branchId }"/>
-					<input type="text" name="branchName" id="branchName"class="uinp ub ub-f1" readonly="readonly" value="${stockFormVo.branchName }" />
-	                             <c:if test="${stockFormVo.status == 0}">
-                        	</c:if>
-	           </div>
 	            <div class="ub ub-ac uselectws umar-l40">
                     <div class="umar-r10 uw-70 ut-r">盘点批号:</div>
-     				<input type="hidden" name=takeStockId id="takeStockId" class="uinp" value="${stockFormVo.takeStockId }"/>
-					<input type="text" name="takeStockName" id="takeStockName"class="uinp ub ub-f1" 
-					value="${stockFormVo.takeStockName }"
+					<input type="text" name="batchNo" id="batchNo"class="uinp ub ub-f1" 
+					value="${batchVo.batchNo }"
 					readonly="readonly"  />
                 </div>
+               <div class="ub ub-ac uw-300">
+	                <div class="umar-r10 uw-70 ut-r">机构:</div>
+	                <input type="hidden" name="branchId" id="branchId" class="uinp" value="${batchVo.branchId }"/>
+					<input type="text" name="branchName" id="branchName"class="uinp ub ub-f1" readonly="readonly" value="${batchVo.branchName }" />
+	                             <c:if test="${batchVo.status == 0}">
+                        	</c:if>
+	           </div>
                <div class="ub ub-ac umar-l10">
                    <div class="umar-r10 uw-70 ut-r">制单人员:</div>
-                   <div class="utxt">${stockFormVo.createUserName }</div>
+                   <div class="utxt">${batchVo.createUserName }</div>
                </div>
                <div class="ub ub-ac umar-l10">
                    <div class="umar-r10 uw-60 ut-r">制单时间:</div>
-                   <div class="utxt" id="createTime"><fmt:formatDate value="${stockFormVo.createTime}" pattern="yyyy-MM-dd HH:mm"/></div>
+                   <div class="utxt" id="createTime">${batchVo.createTime}</div>
                </div>
            </div>
          <div class="ub umar-t8">
                <div class="ub ub-ac" >
                    <div class="umar-r10 uw-70 ut-r">盘点范围:</div>
-                    <input class="uinp ub ub-f1" type="hidden" name="scopeId" id="scopeId" value="${stockFormVo.scopeId }"/>
-                   <input class="uinp ub ub-f1" type="text" id="scopeName" name="scopeName" value="${stockFormVo.scopeName }" readonly="readonly">
+                   <input class="uinp ub ub-f1" type="text" id="scopeName" name="scopeName" value="${batchVo.scope==1 ?'类别盘点':'全场盘点' }" readonly="readonly">
                </div>
                
                 <div class="ub ub-ac" >
                    <div class="umar-r10 uw-70 ut-r">类别:</div>
-                   <input class="uinp ub ub-f1" type="hidden" name="categoryIds" id="categoryIds" value="${stockFormVo.categoryIds }"/>
-                   <input class="uinp ub ub-f1" type="text" id="categoryShows" name="categoryShows" value="${stockFormVo.categoryShows }" readonly="readonly">
+                   <input class="uinp ub ub-f1" type="text" id="categoryShows" name="categoryShows" value="${batchVo.categoryShowsStr }" readonly="readonly">
                </div>
                
                <div class="ub ub-ac uw-300 umar-l300">
                    <div class="umar-r10 uw-70 ut-r">审核人员:</div>
-                   <div class="utxt" id="validUserName">${stockFormVo.validUserName}</div>
+                   <div class="utxt" id="validUserName">${batchVo.validUserName}</div>
                </div>
                <div class="ub ub-ac uw-300">
                    <div class="umar-r10 uw-60 ut-r">审核时间:</div>
-                   <div class="utxt"><fmt:formatDate value="${stockFormVo.validTime}" pattern="yyyy-MM-dd HH:mm"/></div>
+                   <div class="utxt">${batchVo.validTime}</div>
                </div>
            </div>
            <div class="ub umar-t8">
                <div class="ub ub-ac uw-300 ">
                    <div class="umar-r10 uw-70 ut-r">备注:</div>
-                   <input class="uinp uninput" type="text" id="remark" name="remark" value="${stockFormVo.remark}" >
+                   <input class="uinp uninput" type="text" id="remark" name="remark" value="${batchVo.remark}" >
                </div>
            </div>
            <!--datagrid-edit-->
