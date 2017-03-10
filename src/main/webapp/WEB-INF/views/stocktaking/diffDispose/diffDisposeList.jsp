@@ -29,7 +29,7 @@
 		</div>
 		<div class="ub uline umar-t8"></div>
 		<div class="ub umar-t8">
-			<div class="ub ub-ac uw-300 umar-l40">
+			<div class="ub ub-ac uw-300 umar-l20">
 				<div class="umar-r10 uw-70 ut-r">盘点批号:</div>
 				<input class="uinp" type="text" id="batchNo" name="batchNo">
 			</div>
@@ -41,7 +41,7 @@
 			</div>
 		</div>
 		<div class="ub umar-t8">
-			<div class="ub ub-ac uw-300 umar-l40">
+			<div class="ub ub-ac uw-300 umar-l20">
 				<div class="umar-r10 uw-70 ut-r">制单人员:</div>
 				<input type="hidden" id="createUserId" name="createUserId" />
 				<input class="uinp ub ub-f1" type="text" id="createUserName" name="createUserName">
@@ -61,7 +61,7 @@
             </div>
 		</div>
 		<div class="ub umar-t8">
-			<div class="ub ub-ac uw-300 umar-l40">
+			<div class="ub ub-ac uw-300 umar-l20">
 				<div class="umar-r10 uw-70 ut-r">备注:</div>
 				<input class="uinp" type="text" id="remark" name="remark">
 			</div>
