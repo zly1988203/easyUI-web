@@ -185,7 +185,7 @@ pageEncoding="UTF-8"%>
                 </div>
                 <div class="ub ub-ac uw-300">
                     <div class="umar-r10 uw-60 ut-r">毛利率:</div>
-                    <input id="grossProfitPercent" name="" value="0" class="uinp uinp-no-more easyui-numberbox easyui-validatebox" style="width: 204px;" data-options="min:0,precision:2" type="text" readonly="readonly">%
+                    <input id="grossProfitPercent" name="" value="0" class="uinp uinp-no-more easyui-numberbox easyui-validatebox" style="width: 204px;" data-options="min:0,precision:2" type="text" readonly="readonly">
                 </div>
                 <div class="ub ub-ac uw-300">
                     <div class="umar-r10 uw-60 ut-r">销项税率:</div>
@@ -211,15 +211,21 @@ pageEncoding="UTF-8"%>
 							   onkeyup="checkPositiveInteger(this);"
 							   onafterpaste="checkPositiveInteger(this)">%
 					</div>
-                <div id="createDate" class="ub ub-ac uw-300 ">
-                    <div class="umar-r10 uw-60 ut-r">建档时间:</div>
-                    <input id="createDate" name="createDate"   class="uinp uinp-no-more" type="text" readonly="readonly">
-                </div>
+					
+				<div class="ub ub-ac uw-300">
+						<div class="umar-r10 uw-60 ut-r">安全库存系数:</div>
+						<input id="safetyCoefficient" name="safetyCoefficient" value='1' style="width: 204px;"
+							    class="uinp uinp-no-more easyui-numberbox easyui-validatebox"
+							   data-options="min:0.1,max:999.9,precision:2,validType:['length[0,18]']" type="text" maxlength="4"
+							   >
+				</div>	
+               
                 <div id="createUserName" class="ub ub-ac uw-300 ">
                     <div class="umar-r10 uw-60 ut-r">建档人:</div>
                     <input id="createUserName" name="createUserName"   class="uinp uinp-no-more" type="text" readonly="readonly" >
                 </div>
-                
+              
+              
  <!--                 <div id="checkDate" class="ub ub-ac uw-300 ">
                     <div class="umar-r10 uw-60 ut-r">审核时间:</div>
                     <input id="checkDate" name="checkDate"   class="uinp uinp-no-more" type="text" readonly="readonly">
@@ -228,7 +234,16 @@ pageEncoding="UTF-8"%>
                     <div class="umar-r10 uw-60 ut-r">审核人:</div>
                     <input id="checkUserName" name="checkUserName"   class="uinp uinp-no-more" type="text" readonly="readonly" >
                 </div> -->
-                
+            </div>
+            <div class="ub upad-4">
+            	<div class="ub ub-ac uw-300">
+						<div class="umar-r10 uw-60 ut-r">创建时间:</div>
+                    <input id="createDate" name="createDate"   class="uinp uinp-no-more" type="text" readonly="readonly">
+                </div>
+               <div class="ub ub-ac uw-300 ">
+               </div>
+               <div class="ub ub-ac uw-300 ">
+               </div>
             </div>
 <!--             <div id="applyDiv" class="ub upad-4 ">
              <div class="ub ub-ac uw-300">
@@ -258,6 +273,14 @@ pageEncoding="UTF-8"%>
                 <div class="ub ub-ac umar-r40">
                     <input id="fastDeliver" name="fastDeliver"   class="ub" type="checkbox" name="checkbox" /><span>是否直送商品</span>
                 </div>
+                <div class="ub ub-ac umar-r40">
+						<input id="allowActivity" name="allowActivity"
+							class="ub" type="checkbox" name="checkbox" checked="checked"/><span>是否参与促销</span>
+					</div>
+					<div class="ub ub-ac umar-r40">
+						<input id="allowAdjust" name="allowActivity"
+							class="ub" type="checkbox" name="checkbox" checked="checked" /><span>分店调价</span>
+					</div>
             </div>
 
         </div>

@@ -123,7 +123,11 @@ public class DeliverFormListController extends BaseController<DeliverFormListCon
 			} else if (FormType.DO.toString().equals(type)) {
 				// 导出文件名称，不包括后缀名
 				fileName = "出库单" + "_" + DateUtils.getCurrSmallStr();
-			} else {
+			}else if (FormType.DD.toString().equals(type)){
+				// 导出文件名称，不包括后缀名
+				fileName = "店间配送单" + "_" + DateUtils.getCurrSmallStr();
+			}
+			else {
 				// 导出文件名称，不包括后缀名
 				fileName = "入库单" + "_" + DateUtils.getCurrSmallStr();
 			}
@@ -138,6 +142,10 @@ public class DeliverFormListController extends BaseController<DeliverFormListCon
 				}else if (FormType.DO.toString().equals(type)) {
 					// 模板名称，包括后缀名
 					templateName = ExportExcelConstant.DELIVERFORM_DO;
+				}
+				else if (FormType.DD.toString().equals(type)) {
+					// 模板名称，包括后缀名
+					templateName = ExportExcelConstant.DELIVERFORM_DD;
 				}
 				else{
 					templateName = ExportExcelConstant.DELIVERFORM_DI;
