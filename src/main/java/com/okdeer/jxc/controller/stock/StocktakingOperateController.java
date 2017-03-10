@@ -99,7 +99,7 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 	
 	/***
 	 * 
-	 * @Description:  获取成分商品明细信息
+	 * @Description:  获取明细信息
 	 * @param id 记录ID
 	 * @return List
 	 * @author xuyq
