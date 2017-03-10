@@ -33,9 +33,9 @@
 	            <div class="ub umar-t8">
 	                <div class="ub ub-ac">
 	                    <div class="umar-r10 uw-70 ut-r" >机构:</div>
-	                    <input class="uinp ub ub-f1" name="branchId" type="hidden" id="branchId" >
-	                    <input class="uinp ub ub-f1" name="branchCode" type="hidden" id="branchCode" >
-	                    <input class="uinp ub ub-f1"  type="text" id="branchName" name="branchName">
+	                    <input class="uinp ub ub-f1" name="branchId" type="hidden" id="branchId" value="${branchId }">
+	                    <input class="uinp ub ub-f1" name="branchCode" type="hidden" id="branchCode" value="${branchCode }">
+	                    <input class="uinp ub ub-f1"  type="text" id="branchName" name="branchName" value="${branchName }">
 	                    <div class="uinp-more" onclick="selectBranch();">...</div>
 	                </div>
 	                <div class="ub ub-ac uw-300 umar-l20">
