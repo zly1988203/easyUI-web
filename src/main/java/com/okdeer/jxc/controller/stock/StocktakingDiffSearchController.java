@@ -1,5 +1,9 @@
 package com.okdeer.jxc.controller.stock;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -8,7 +12,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.utils.StringUtils;
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.okdeer.base.common.utils.DateUtils;
+import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.LogConstant;
+import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.stock.service.StocktakingOperateServiceApi;
@@ -75,5 +82,36 @@ public class StocktakingDiffSearchController extends BaseController<StocktakingD
 			LOG.error("盘点申请查询列表信息异常:{}", e);
 		}
 		return null;
+	}
+	/***
+	 * 
+	 * @Description: 导出列表
+	 * @param response HttpServletResponse
+	 * @param vo 参数VO
+	 * @return RespJson
+	 * @author xuyq
+	 * @date 2017年2月14日
+	 */
+	@RequestMapping(value = "/exportDiffSearchList", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson exportDiffSearchList(HttpServletResponse response, StocktakingDifferenceVo diffVo) {
+		RespJson resp = RespJson.success();
+		try {
+			if (StringUtils.isBlank(diffVo.getBranchCompleCode())) {
+				diffVo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
+			}
+			List<StocktakingDifferenceVo> exportList = stocktakingOperateServiceApi.exportDiffSearchList(diffVo);
+			
+			String fileName = "盘点差异查询" + DateUtils.getDate("yyyyMMdd");
+			String templateName = ExportExcelConstant.DIFFSEARCHSUMMARIZING;
+			if ("2".equals(diffVo.getRotationType())) {
+				templateName = ExportExcelConstant.DIFFSEARCHDETAIL;
+			}
+			exportListForXLSX(response, exportList, fileName, templateName);
+		} catch (Exception e) {
+			LOG.error("导出库存异常查询异常：{}", e);
+			resp = RespJson.error("导出库存异常查询异常");
+		}
+		return resp;
 	}
 }

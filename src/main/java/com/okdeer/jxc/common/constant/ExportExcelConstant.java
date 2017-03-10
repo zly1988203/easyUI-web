@@ -376,6 +376,14 @@ public interface ExportExcelConstant {
 	 * 库存成本周转率
 	 */
 	String COSTROTARATEREPORT = "costRotaRateReport.xlsx";
+	/**
+	 * 盘点差异查询-汇总
+	 */
+	String DIFFSEARCHSUMMARIZING = "diffSearchSummarizing.xlsx";
+	/**
+	 * 盘点差异查询-明细
+	 */
+	String DIFFSEARCHDETAIL = "diffSearchDetail.xlsx";
 	
 	/**
 	 * 新品申请导出模板
