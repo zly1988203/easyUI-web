@@ -5,7 +5,7 @@ $(function(){
 	//获取数据对象 第二部返回到这一步 进行数据回显
 	formData = $("#formData").val();
 	
-	if('undefined' != typeof(formData) || null != formData){
+	if('undefined' != typeof(formData) && "" != formData){
 		formData = $.parseJSON(formData);
 		setFormValue(formData);
 	}	

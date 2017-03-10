@@ -172,15 +172,30 @@ function lastStep(){
 function nextStep (){
 	
 	 var rows = gridHandel.getRowsWhere({skuName:'1'});
+	 var gridRows = [];
+	 $.each(rows,function(i,data){
+		 var param = {
+					branchId:data.branchId,
+					supplierId:data.supplierId,
+					skuId:data.skuId,
+					skuCode:data.skuCode,
+					purchaseNum:data.purchaseNum,
+					purchasePrice:data.purchasePrice,
+					purchaseSpec:data.purchaseSpec,
+					salePrice:data.salePrice,
+					totalAmount:data.totalAmount,
+					inputTax:data.inputTax,
+					remark:data.remark,
+					deliverId:data.deliverId
+		 }
+		 gridRows[i] = param;
+	 });
 	 
-	 var param = {
-			rows:rows 
-	 }
     $.ajax({
         url:contextPath+"/form/purchaseGuide/generFormList",
         type:"POST",
         contentType:"application/json",
-        data:JSON.stringify(param),
+        data:JSON.stringify(gridRows),
         success:function(result){
             if(result.code == 0){
             	var guideNo = result.data;

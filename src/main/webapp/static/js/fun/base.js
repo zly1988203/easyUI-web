@@ -3,6 +3,7 @@
  */
 $.extend({
     StandardPost:function(url,args){
+
         var form = $("<form method='post'></form>"),
             input;
         form.attr({"action":url});
@@ -12,6 +13,7 @@ $.extend({
             input.val(value);
             form.append(input);
         });
+        $(document.body).append(form);
         form.submit();
     }
 });
