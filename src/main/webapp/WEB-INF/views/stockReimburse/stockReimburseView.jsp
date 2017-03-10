@@ -6,12 +6,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>领用单-详情</title>
+<title>报损单-详情</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <script>
 	var edit = '${stockFormVo.status == 1 ? 1 : 0}';
 </script>
-<script src="${ctx}/static/js/views/stockLead/stockLeadView.js?1=3"></script>
+<script src="${ctx}/static/js/views/stockReimburse/stockReimburseView.js?1=3"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
 	<div class="ub ub-ver ub-f1 umar-4  ubor">
@@ -20,26 +20,26 @@
 			<input type="hidden" id="formType" name="formType" value="${stockFormVo.formType}">
 			<div class="ub ub-ac upad-4">
 				<div class="ubtns">
-					<shiro:hasPermission name="JxcStockLead:add">
-						<div class="ubtns-item" onclick="addStockLead()">新增</div>
+					<shiro:hasPermission name="JxcStockReimburse:add">
+						<div class="ubtns-item" onclick="addStockReimburse()">新增</div>
 					</shiro:hasPermission>
 					<c:if test="${stockFormVo.status == 0}">
-						<shiro:hasPermission name="JxcStockLead:edit">
-							<div class="ubtns-item" onclick="updateStockLead()">保存</div>
+						<shiro:hasPermission name="JxcStockReimburse:edit">
+							<div class="ubtns-item" onclick="updateStockReimburse()">保存</div>
 						</shiro:hasPermission>
-						<shiro:hasPermission name="JxcStockLead:audit">
-							<div class="ubtns-item" onclick="checkStockLead()">审核</div>
+						<shiro:hasPermission name="JxcStockReimburse:audit">
+							<div class="ubtns-item" onclick="checkStockReimburse()">审核</div>
 						</shiro:hasPermission>
 						<div class="ubtns-item" onclick="selectGoods()">商品选择</div>
-						<shiro:hasPermission name="JxcStockLead:import">
+						<shiro:hasPermission name="JxcStockReimburse:import">
 							<div class="ubtns-item" onclick="importHandel(0)">导入货号</div>
 							<div class="ubtns-item" onclick="importHandel(1)">导入条码</div>
 						</shiro:hasPermission>
-						<shiro:hasPermission name="JxcStockLead:setting">
+						<shiro:hasPermission name="JxcStockReimburse:setting">
 							<div class="ubtns-item-disabled">设置</div>
 						</shiro:hasPermission>
 					</c:if>
-					<shiro:hasPermission name="JxcStockLead:export">
+					<shiro:hasPermission name="JxcStockReimburse:export">
 						<div class="ubtns-item" onclick="exportExcel()">导出</div>
 					</shiro:hasPermission>
 					<div class="ubtns-item" onclick="back()">关闭</div>
@@ -52,7 +52,7 @@
 			<div class="ub umar-t8 uline"></div>
 			<div class="ub umar-t10">
 				<div class="ub ub-ac uw-300">
-					<div class="umar-r10 uw-70 ut-r">领用机构:</div>
+					<div class="umar-r10 uw-70 ut-r">报损机构:</div>
 					<input type="hidden" name="branchId" id="branchId" class="uinp" value="${stockFormVo.branchId}"/>
 					<input type="text" name="branchName" id="branchName"class="uinp  ub ub-f1" readonly="readonly"  value="[${stockFormVo.branchCode}]${stockFormVo.branchName}"/>
 					
@@ -95,7 +95,7 @@
 		</form>
 		<!--datagrid-edit-->
 		<div class="ub ub-f1 datagrid-edit umar-t8">
-			<table id="stockLeadViewForm"></table>
+			<table id="stockReimburseViewForm"></table>
 		</div>
 	</div>
 	<!-- 导入弹框 -->

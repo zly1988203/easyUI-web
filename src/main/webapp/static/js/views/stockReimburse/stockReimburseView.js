@@ -1,11 +1,11 @@
 /**
- * 领用单-详情
+ * 报损单-详情
  */
-var dataGridId = "stockLeadViewForm";
+var dataGridId = "stockReimburseViewForm";
 var oldData = {};
 
 $(function(){
-    initDatagridStockLeadView();
+    initDatagridStockReimburseView();
     oldData = {
        	branchId:$("#branchId").val(), //机构id
         remark:$("#remark").val(),                  // 备注
@@ -201,8 +201,8 @@ function getFiledsList(){
 }
 
 var gridHandel = new GridClass();
-function initDatagridStockLeadView(){
-    gridHandel.setGridName("stockLeadViewForm");
+function initDatagridStockReimburseView(){
+    gridHandel.setGridName("stockReimburseViewForm");
     gridHandel.initKey({
         firstName:'skuCode',
         enterName:'skuCode',
@@ -224,7 +224,7 @@ function initDatagridStockLeadView(){
         align:'center',
         method:'get',
         // toolbar: '#tb', //工具栏 id为tb
-        url:contextPath+"/stock/lead/getStockFormDetailList?id="+formId,
+        url:contextPath+"/stock/reimburse/getStockFormDetailList?id="+formId,
         singleSelect:false,  // 单选 false多选
         rownumbers:true,    // 序号
         // pagination:true, //分页
@@ -453,7 +453,7 @@ function setDataValue(data) {
         gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
     },100)
 }
-// 领用单一开始选择
+// 报损单一开始选择
 function setTion(datas){
 	$.each(datas, function (index, el) {
 		var realNum = el.realNum;
@@ -471,7 +471,7 @@ function setTion(datas){
 }
 
 // 保存
-function updateStockLead(){
+function updateStockReimburse(){
     // 商品总数量
     var totalNum = 0;
     // 总金额
@@ -533,14 +533,14 @@ function updateStockLead(){
         };
     var req = JSON.stringify(reqObj);
     $.ajax({
-        url:contextPath+"/stock/lead/update",
+        url:contextPath+"/stock/reimburse/update",
         type:"POST",
         data:req,
         contentType:"application/json",
         success:function(result){
             if(result['code'] == 0){
                 $.messager.alert("操作提示", "操作成功！", "info",function(){
-                	location.href = contextPath +"/stock/lead/edit?id=" + result["formId"];
+                	location.href = contextPath +"/stock/reimburse/edit?id=" + result["formId"];
                 });
             }else{
                successTip(result['message']);
@@ -552,8 +552,8 @@ function updateStockLead(){
     });
 }
 
-//新增领用单
-function addStockLead() {
+//新增报损单
+function addStockReimburse() {
 	var newData = {
 		branchId:$("#branchId").val(), //机构id
 	    remark:$("#remark").val(),                  // 备注
@@ -566,12 +566,12 @@ function addStockLead() {
         return;
     }
 	
-	toAddTab("新增领用单", contextPath + "/stock/lead/add");
+	toAddTab("新增报损单", contextPath + "/stock/reimburse/add");
 }
 
 
 // 审核
-function checkStockLead(){
+function checkStockReimburse(){
 	//验证数据是否修改
     $("#"+gridHandel.getGridName()).datagrid("endEdit", gridHandel.getSelectRowIndex());
     var id = $("#formId").val();
@@ -591,7 +591,7 @@ function checkStockLead(){
 	$.messager.confirm('提示','是否审核通过？',function(data){
 		if(data){
 			$.ajax({
-		    	url : contextPath+"/stock/lead/check",
+		    	url : contextPath+"/stock/reimburse/check",
 		    	type : "POST",
 		    	data : {
 		    		id : id
@@ -599,7 +599,7 @@ function checkStockLead(){
 		    	success:function(result){
 		    		if(result['code'] == 0){
 		    			$.messager.alert("操作提示", "操作成功！", "info",function(){
-		    				location.href = contextPath +"/stock/lead/edit?id=" + id;
+		    				location.href = contextPath +"/stock/reimburse/edit?id=" + id;
 		    			});
 		    		}else{
 		    			successTip(result['message']);
@@ -613,7 +613,7 @@ function checkStockLead(){
 	});
 }
 /**
- * 返回领用单
+ * 返回报损单
  */
 function back(){
 	toClose();
@@ -642,8 +642,8 @@ function importHandel(type){
 	    }
 	    
 	    var param = {
-	        url:contextPath+"/stock/lead/importList",
-	        tempUrl:contextPath+"/stock/lead/exportTemp",
+	        url:contextPath+"/stock/reimburse/importList",
+	        tempUrl:contextPath+"/stock/reimburse/exportTemp",
 	        branchId:branchId,
 	        type:type
 	    }
@@ -764,7 +764,7 @@ function exportExcel(){
 		$.messager.alert('提示',"当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
 		return;
 	}
-	$("#queryForm").attr("action",contextPath+"/stock/lead/exportList");
+	$("#queryForm").attr("action",contextPath+"/stock/reimburse/exportList");
 	$("#queryForm").submit(); 
 
 }

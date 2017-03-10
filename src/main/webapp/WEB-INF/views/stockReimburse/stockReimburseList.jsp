@@ -5,10 +5,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>领用单</title>
+<title>报损单</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <%-- <script  src="${ctx}/static/js/fun/publicComponent.js"></script> --%>
-<script src="${ctx}/static/js/views/stockLead/stockLeadList.js"></script>
+<script src="${ctx}/static/js/views/stockReimburse/stockReimburseList.js"></script>
 <style>
 .datagrid-header .datagrid-cell {
 	text-align: center !important;
@@ -22,16 +22,16 @@
 			<div class="ub ub-ac">
 				<div class="ubtns">
 					<div class="ubtns-item" onclick="queryForm()">查询</div>
-					<shiro:hasPermission name="JxcStockLead:add">
-						<div class="ubtns-item" onclick="addStockLead()">新增</div>
+					<shiro:hasPermission name="JxcStockReimburse:add">
+						<div class="ubtns-item" onclick="addStockReimburse()">新增</div>
 					</shiro:hasPermission>
-					<shiro:hasPermission name="JxcStockLead:delete">
-						<div class="ubtns-item" onclick="deleteStockLead()">删除</div>
+					<shiro:hasPermission name="JxcStockReimburse:delete">
+						<div class="ubtns-item" onclick="deleteStockReimburse()">删除</div>
 					</shiro:hasPermission>
-					<shiro:hasPermission name="JxcStockLead:print">
+					<shiro:hasPermission name="JxcStockReimburse:print">
 						<div class="ubtns-item-disabled">打印</div>
 					</shiro:hasPermission>
-					<shiro:hasPermission name="JxcStockLead:setting">
+					<shiro:hasPermission name="JxcStockReimburse:setting">
 						<div class="ubtns-item-disabled">设置</div>
 					</shiro:hasPermission>
 					<div class="ubtns-item" id="set" onclick="gFunRefresh()">重置</div>
@@ -44,7 +44,7 @@
 			<div class="ub uline umar-t8"></div>
 			<div class="ub umar-t8">
 				<div class="ub ub-ac">
-					<div class="umar-r10 uw-70 ut-r">领用机构:</div>
+					<div class="umar-r10 uw-70 ut-r">报损机构:</div>
 					<input type="hidden" id="createBranchId" name="createBranchId" />
 					<input class="uinp ub ub-f1" type="text" id="branchName"
 						name="branchName" maxlength="50" />
@@ -86,7 +86,7 @@
 
 		</form>
 		<div class="ub ub-f1  umar-t8 umar-b8">
-			<table id="stockLeadList"></table>
+			<table id="stockReimburseList"></table>
 		</div>
 	</div>
 
