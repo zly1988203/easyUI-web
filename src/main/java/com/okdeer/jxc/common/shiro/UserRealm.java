@@ -157,6 +157,7 @@ public class UserRealm extends CasRealm {
 		sysUser.setBranchCompleCode(branch.getBranchCompleCode());
 		sysUser.setBranchName(branch.getBranchName());
 		sysUser.setBranchType(branch.getType());
+		sysUser.setBranchParentId(branch.getParentId());
 
 		// 获取当前机构默认供应商，如果是总部或者分公司，则直接取当前机构的供应商，如果是店铺则获取父节点分公司的供应商
 		String branchId = null;

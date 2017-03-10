@@ -285,6 +285,14 @@ function initDatagridOrders(){
 		        		  }
 		        		  return null;
 		        	  }	
+		          },
+		          {field:"safetyCoefficient",title:"安全系数",sortable:true,tooltip:true,width:80,align:'right',
+		        	  formatter : function(value,row,index){
+		        		  if(value){
+		        			  return ((parseFloat(value))).toFixed(2);
+		        		  }
+		        		  return null;
+		        	  }
 		          }
 		          ]] ,
 		          toolBar : "#tg_tb",

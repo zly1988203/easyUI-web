@@ -250,16 +250,25 @@
 						onafterpaste="checkPositiveInteger(this)" readonly="readonly">%
 				</div>
 				<div class="ub ub-ac uw-300">
+						<div class="umar-r10 uw-60 ut-r">安全库存系数:</div>
+						<input id="safetyCoefficient" name="safetyCoefficient" value='1' style="width: 204px;"
+							    class="uinp uinp-no-more easyui-numberbox easyui-validatebox"
+							   data-options="min:0.1,max:999.9,precision:2,validType:['length[0,18]']" type="text" maxlength="4"
+							   >
+				</div>	
+				
+				<div class="ub ub-ac uw-300">
 					<div class="umar-r10 uw-60 ut-r">修改时间:</div>
 					<input id="updateTime" name="updateTime" class="uinp uinp-no-more" type="text" readonly="readonly">
 				</div>
-				<div class="ub ub-ac uw-300">
+				
+			</div>
+			<div class="ub upad-4">
+			<div class="ub ub-ac uw-300">
 					<div class="umar-r10 uw-60 ut-r">修改人:</div>
 					<input id="updateUserName" name="updateUserName"
 						class="uinp uinp-no-more" type="text" readonly="readonly">
 				</div>
-			</div>
-			<div class="ub upad-4">
 				<div class="ub ub-ac uw-300">
 					<div class="umar-r10 uw-60 ut-r">引入时间:</div>
 					<input id="createTime" name="createTime" class="uinp uinp-no-more"
@@ -270,7 +279,6 @@
 					<input id="createUserName" name="createUserName"
 						class="uinp uinp-no-more" type="text" readonly="readonly">
 				</div>
-				<div class="ub ub-ac uw-300"></div>
 			</div>
 			<div class="ub upad-4">
 				<div class="umar-r10 uw-60 ut-r">备注:</div>
@@ -294,6 +302,15 @@
 					<input id="isFastDeliver" name="fastDeliver" class="ub" type="checkbox"/>
 					<span>是否直送商品</span>
 				</div>
+				
+				<div class="ub ub-ac umar-r40">
+						<input id="allowActivity" name="allowActivity"
+							class="ub" type="checkbox" name="checkbox" /><span>是否参与促销</span>
+					</div>
+					<div class="ub ub-ac umar-r40">
+						<input id="allowAdjust" name="allowActivity"
+							class="ub" type="checkbox" name="checkbox" /><span>分店调价</span>
+					</div>
 			</div>
 		</div>
 	</form>

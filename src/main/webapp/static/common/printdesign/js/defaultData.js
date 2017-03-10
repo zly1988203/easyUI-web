@@ -783,4 +783,125 @@ var defaultData = {
 			text : "司机："
 		} ]
 	} ],
+	//店间配送申请单
+	DDSheet : [/*
+				 * { group : "通用打印项", items : commonItems },
+				 */{
+		group : "单据打印项",
+		items : [ {
+			type : "label",
+			text : "配送出库单"
+		}, {
+			type : "label",
+			text : "_单号"
+		}, {
+			type : "label",
+			text : "要货机构："
+		}, {
+			type : "holder",
+			text : "_要货机构"
+		}, {
+			type : "label",
+			text : "发货机构："
+		}, {
+			type : "holder",
+			text : "_发货机构"
+		}, {
+			type : "label",
+			text : "制单人员："
+		}, {
+			type : "holder",
+			text : "_制单人员"
+		}, {
+			type : "label",
+			text : "业务人员："
+		}, {
+			type : "holder",
+			text : "_业务人员"
+		}, {
+			type : "label",
+			text : "联系人："
+		}, {
+			type : "holder",
+			text : "_联系人"
+		}, {
+			type : "label",
+			text : "联系电话："
+		}, {
+			type : "holder",
+			text : "_联系电话"
+		}, {
+			type : "label",
+			text : "审核人员："
+		}, {
+			type : "holder",
+			text : "_审核人员"
+		}, {
+			type : "label",
+			text : "有效期限："
+		}, {
+			type : "holder",
+			text : "_有效期限"
+		}, {
+			type : "label",
+			text : "制单日期："
+		}, {
+			type : "holder",
+			text : "_制单日期"
+		}, {
+			type : "label",
+			text : "审核日期："
+		}, {
+			type : "holder",
+			text : "_审核日期"
+		}, {
+			type : "label",
+			text : "备注："
+		}, {
+			type : "holder",
+			text : "_备注"
+		}, {
+			type : "label",
+			text : "人民币大写总金额："
+		}, {
+			type : "holder",
+			text : "_人民币大写总金额"
+		}, {
+			type : "label",
+			text : "总金额："
+		}, {
+			type : "holder",
+			text : "_总金额"
+		}, {
+			type : "label",
+			text : "核准："
+		}, {
+			type : "label",
+			text : "审核："
+		}, {
+			type : "label",
+			text : "有效期限："
+		}, {
+			type : "holder",
+			text : "_有效期限"
+		}, {
+			type : "label",
+			text : "返利："
+		}, {
+			type : "holder",
+			text : "_返利"
+		}, {
+			type : "label",
+			text : "折扣："
+		}, {
+			type : "holder",
+			text : "_折扣"
+		}, {
+			type : "label",
+			text : "客户："
+		}, {
+			type : "label",
+			text : "司机："
+		} ]
+	} ],
 }
