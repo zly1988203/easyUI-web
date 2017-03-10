@@ -935,7 +935,37 @@ function updateListData(data){
 
 //新增要货单
 function addDeliverForm(){
-	toAddTab("新增店间配送申请单",contextPath + "/form/deliverDDForm/addView");
+	debugger;
+    var newData = {
+            targetBranchId:$("#targetBranchId").val(), // 要活分店id
+            sourceBranchId:$("#sourceBranchId").val(), //发货分店id
+            validityTime:$("#validityTime").val(),      //生效日期
+            remark:$("#remark").val(),                  // 备注
+            formNo:$("#formNo").val(),                 // 单号
+            grid:gridHandel.getRows(),
+        }
+	
+    if(!gFunComparisonArray(oldData,newData)){
+    	//单据已经变更，是否保存
+    	var param = {
+    			title:'是否保存',
+    			content:'单据已经变更，是否保存?'
+    	}
+    	new publicConfirmDialog(function(data){
+    		if(data.code === 1){
+    			saveOrder();
+    			location.href = contextPath +"/form/deliverDDForm/addView";
+//    			toAddTab("新增店间配送申请单",contextPath + "/form/deliverDDForm/addView");
+    		}else if(data.code === 0){
+    			location.href = contextPath +"/form/deliverDDForm/addView";
+//    			toAddTab("新增店间配送申请单",contextPath + "/form/deliverDDForm/addView");
+    		}
+    	},param);
+    }else{
+    	toAddTab("新增店间配送申请单",contextPath + "/form/deliverDDForm/addView");
+    }
+	
+	
 }
 
 //删除

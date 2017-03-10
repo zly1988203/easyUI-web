@@ -24,7 +24,6 @@
             </div>
 			<div class="ub">
 				<div class="ub ub-ac">
-					<div class="umar-r10 uw-70 ut-r">日期:</div>
 					<%@ include file="/WEB-INF/views/component/dateSelect.jsp"%>
 				</div>
 			</div>
@@ -39,7 +38,8 @@
 			</div>
 			<div class="ub ub-ac uw-300 umar-l20">
 				<div class="umar-r10 uw-70 ut-r">盘点批号:</div>
-				<input class="uinp" type="text" id="takeStockLotNO" name="takeStockLotNO">
+				<input class="uinp" type="text" id="batchNo" name="batchNo">
+				<div class="uinp-more" onClick="searchTakeStock()">...</div>
 			</div>
 		</div>
 		<div class="ub umar-t8">
@@ -47,7 +47,7 @@
 				<div class="umar-r10 uw-70 ut-r">商品选择:</div>
 				<input class="uinp ub ub-f1" type="hidden" name="skuId" id="skuId" />
 				<input class="uinp ub ub-f1" type="text" name="skuName" id="skuName" />
-				<div class="uinp-more" onClick="searchCategory()">...</div>
+				<div class="uinp-more" onClick="selectGoods()">...</div>
 			</div>
 			<div class="ub ub-ac umar-l20">
 				<div class="umar-r10 uw-70 ut-r">类别:</div>

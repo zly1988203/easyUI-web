@@ -127,6 +127,7 @@ function searchTakeStock(){
 		$("#categoryShows").val(data.categoryShowsStr);
 	})
 }
+
 //选择商品
 function selectGoods(){
 	var branchId = $("#branchId").val();
