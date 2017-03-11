@@ -1,9 +1,12 @@
 package com.okdeer.jxc.controller.stock;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,9 +17,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.dubbo.common.utils.StringUtils;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.constant.LogConstant;
+import com.okdeer.jxc.common.constant.PrintConstant;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
+import com.okdeer.jxc.controller.print.JasperHelper;
 import com.okdeer.jxc.stock.service.StocktakingApplyServiceApi;
 import com.okdeer.jxc.stock.service.StocktakingOperateServiceApi;
 import com.okdeer.jxc.stock.vo.StocktakingBatchVo;
@@ -145,5 +150,38 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 			LOG.error("获取单据信息异常:{}", e);
 		}
 		return diffList;
+	}
+	
+	/**
+	 * 
+	 * @Description: 打印
+	 * @param qo
+	 * @param response
+	 * @param request
+	 * @param pageNumber
+	 * @return
+	 * @author xuyq
+	 * @date 2017年2月17日
+	 */
+	@RequestMapping(value = "/printDiffDispose", method = RequestMethod.GET)
+	@ResponseBody
+	public String printDiffDispose(StocktakingBatchVo vo, HttpServletResponse response, HttpServletRequest request) {
+		try {
+			LOG.debug("查询详情打印参数：{}", vo.toString());
+			List<StocktakingDifferenceVo> printList = stocktakingOperateServiceApi.getStocktakingDifferenceList(vo.getId());
+
+			if (printList.size() > PrintConstant.PRINT_MAX_ROW) {
+				return "<script>alert('打印最大行数不能超过300行');top.closeTab();</script>";
+			}
+			String path = PrintConstant.DIFF_DISPOSE_DETAIL;
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("startDate", vo.getCreateTime());
+			map.put("endDate", vo.getCreateTime());
+			map.put("printName", UserUtil.getCurrentUser().getUserName());
+			JasperHelper.exportmain(request, response, map, JasperHelper.PDF_TYPE, path, printList, "");
+		} catch (Exception e) {
+			LOG.error(PrintConstant.ROTARATE_PRINT_ERROR, e);
+		}
+		return null;
 	}
 }
