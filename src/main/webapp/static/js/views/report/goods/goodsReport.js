@@ -441,8 +441,8 @@ var dialogTemp;
 function openDialog(argUrl, argTitle, skuId,branchId) {
 	dialogTemp = $('<div/>').dialog({
 		href : argUrl,
-		width : 940,
-		height : 620,
+		width : 1000,
+		height : 680,
 		title : argTitle,
 		closable : true,
 		resizable : true,

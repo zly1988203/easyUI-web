@@ -5,6 +5,10 @@
 var updateGoods;
 var isStore;
 function initGoodsInfo(skuId,branchId){
+
+	$('#tab2').css('display','none');
+	 $('#btnbase').css('background-color','#95B8E7');
+	 
 	var args = {}
 	var httpUrl = contextPath+"/goods/report/getGoodsInfo?skuId="+skuId+"&branchId="+branchId;
 	$.get(httpUrl, args,function(data){
@@ -194,3 +198,19 @@ function submitForm(){
 		}
 	});
 }
+
+ function clickTab(code){
+	 
+	 if(code === 1){
+		 $('#btnbase').css('background-color','#95B8E7');
+		 $('#btnprice').css('background-color','#fff');
+		 $('#tab1').css('display','block');
+		 $('#tab2').css('display','none');
+		 
+	 }else{
+		 $('#btnbase').css('background-color','#fff');
+		 $('#btnprice').css('background-color','#95B8E7');
+		 $('#tab1').css('display','none');
+		 $('#tab2').css('display','block');
+	 }
+ }
