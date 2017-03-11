@@ -88,7 +88,8 @@ public class PurchaseGuideController extends BaseController<PurchaseGuideControl
 	 * @date 2017年3月8日
 	 */
 	@RequestMapping(value = "toGuideOrderList")
-	public String guideOrderList(String guideNo, Model model) {
+	public String toGuideOrderList(String guideNo, Model model) {
+		LOG.info("跳转到第三步采购订单列表页，采购向导批次号：{}", guideNo);
 		model.addAttribute("guideNo", guideNo);
 		return "form/purchase/guide/guideOrderList";
 	}
@@ -104,7 +105,7 @@ public class PurchaseGuideController extends BaseController<PurchaseGuideControl
 	@ResponseBody
 	public RespJson generFormList(@RequestBody String dataList) {
 		
-		RespJson respJson = RespJson.success();
+		RespJson respJson = RespJson.error();
 		
 		LOG.info("采购向导生成采购订单数据参数：{}", dataList);
 		
@@ -147,6 +148,13 @@ public class PurchaseGuideController extends BaseController<PurchaseGuideControl
 		return PageUtils.emptyPage();
 	}
 	
+	/**
+	 * @Description: 第三步，获取采购向导生成的订单数据
+	 * @param guideNo
+	 * @return
+	 * @author liwb
+	 * @date 2017年3月10日
+	 */
 	@RequestMapping(value = "getOrderList")
 	@ResponseBody
 	public PageUtils<PurchaseGuideOrderPo> getOrderList(String guideNo) {

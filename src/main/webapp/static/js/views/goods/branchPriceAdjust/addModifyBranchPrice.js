@@ -857,12 +857,7 @@ function selectBranch() {
 }
 //导出
 function exportData(){
-	var length = $("#addModifyPriceGrid").datagrid('getData').total;
-	var status=$("#status").val();
-	if(status==0){
-		$.messager.alert('提示',"订单未通过审核");
-		return;
-	}
+	var length = $("#addModifyBranchPriceGrid").datagrid('getData').total;
 	if(length == 0){
 		$.messager.alert('提示',"没有数据");
 		return;
@@ -872,8 +867,10 @@ function exportData(){
 		return;
 	}
 	var formNo=$("#formNoInput").val();
-	$("#searchForm").attr("action",contextPath+'/goods/priceAdjust/exportList?formNo='+formNo);
+	$("#searchForm").attr("action",contextPath+'/goods/branchPriceAdjust/exportList?formNo='+formNo);
+	
 	$("#searchForm").submit();	
+
 }
 
 //打印

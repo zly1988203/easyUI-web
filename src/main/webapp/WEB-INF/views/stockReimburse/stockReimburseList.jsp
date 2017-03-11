@@ -29,7 +29,7 @@
 						<div class="ubtns-item" onclick="deleteStockReimburse()">删除</div>
 					</shiro:hasPermission>
 					<shiro:hasPermission name="JxcStockReimburse:print">
-						<div class="ubtns-item-disabled">打印</div>
+						<div class="ubtns-item" onclick="printList()">打印</div>
 					</shiro:hasPermission>
 					<shiro:hasPermission name="JxcStockReimburse:setting">
 						<div class="ubtns-item-disabled">设置</div>

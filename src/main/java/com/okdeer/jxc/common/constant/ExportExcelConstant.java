@@ -39,6 +39,10 @@ public interface ExportExcelConstant {
 	 * @Fields GOODS_PRICE_ADJUST_FORM : 调价单模版名称“GoodsPriceAdjustForm.xlsx”
 	 */
 	String GOODS_PRICE_ADJUST_FORM = "GoodsPriceAdjustForm.xlsx";
+	/**
+	 * @Fields GOODS_BRANCH_PRICE_ADJUST_FORM : 调价单模版名称“GoodsBranchPriceAdjustForm.xlsx”
+	 */
+	String GOODS_BRANCH_PRICE_ADJUST_FORM = "GoodsBranchPriceAdjustForm.xlsx";
 	
 	/**
 	 * @Fields GOODS_PRICE_ADJUST_FORM : 采购明细表
@@ -93,7 +97,6 @@ public interface ExportExcelConstant {
 	 * @Fields STOCKLEAD : 领用单导出模板
 	 */
 	String STOCKLEAD = "StockLead.xlsx";
-	
 	/**
 	 * @Fields STOCK_REIMBURSE_SKU_TEMPLE : 报损单货号导入模板
 	 */
@@ -106,6 +109,7 @@ public interface ExportExcelConstant {
 	 * @Fields STOCKREIMBURSE : 报损单导出模板
 	 */
 	String STOCKREIMBURSE = "StockReimburse.xlsx";
+	
 	
 	/**
 	 * 商品销售汇总
@@ -228,8 +232,8 @@ public interface ExportExcelConstant {
 	
 	String DELIVERFORM_DI = "DeliverFormDI.xlsx";
 	
-	String DELIVERFORM_DD = "DeliverFormDD.xlsx";
 	
+	String DELIVERFORM_DD = "DeliverFormDD.xlsx";
 
 	/**
 	 * @Fields DADOFORM : DADOform.xlsx

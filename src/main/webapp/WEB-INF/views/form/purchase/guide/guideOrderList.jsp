@@ -7,7 +7,7 @@
     <title>采购向导——采购订单列表</title>
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-    
+    <script src="${ctx}/static/js/views/purchase/guide/guideOrderList.js"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
 	<div class="ub ub-ver ub-f1 umar-4 upad-4">
@@ -17,13 +17,16 @@
         	<div class="ubtns-item" onclick="chekData()">审核</div>
         	<div class="ubtns-item" onclick="delData()">删除</div>
         	<div class="ubtns-item" onclick="finish()">完成</div>
+        	<div id="updatePermission" class="none">
+				<shiro:hasPermission name="JxcPurchaseGuide:update" >修改</shiro:hasPermission>
+			</div>
         </div>
         	<div class="umar-l50 divMsg">
         		
         	</div>
     </div>
     
-		<input type="hidden" name="formData" id="formData" value='${formData }' />
+		<input type="hidden" name="guideNo" id="guideNo" value='${guideNo }' />
 
 		<div class="ub umar-t8 ub-f1">
 			<table id="dgGuideOrderList"></table>

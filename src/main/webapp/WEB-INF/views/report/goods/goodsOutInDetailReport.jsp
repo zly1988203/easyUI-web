@@ -72,6 +72,9 @@
 								<option value="IO">库存调整</option>
 								<option value="LP">礼品兑换</option>
 								<option value="IX">组合拆分</option>
+								<option value="ID">报损单</option>
+								<option value="IU">领用单</option>
+								<option value="PD">盘点单</option>
 				        </select>
                 </div>
                 <div class="ub ub-ac umar-l20">

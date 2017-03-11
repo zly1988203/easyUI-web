@@ -791,6 +791,46 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 		}
 		return respJson;
 	}
+	
+	/**
+	 * @Description: 批量审核
+	 * @param formId
+	 * @param status
+	 * @return
+	 * @author liwb
+	 * @date 2017年3月10日
+	 */
+	@RequestMapping(value = "batchCheck", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson batchCheck(String formIds, Integer status) {
+		
+		LOG.info("单据Id列表：{}，审核状态：{}", formIds, status);
+		RespJson respJson = RespJson.success();
+		try {
+			if(StringUtils.isBlank(formIds)){
+				return RespJson.argumentError("单据Id不能为空！");
+			}
+			
+			if(status==null){
+				return RespJson.argumentError("审核状态不能为空！");
+			}
+			
+			String[] ids = formIds.split(",");
+			for(String id : ids){
+				respJson = purchaseFormServiceApi.check(id, FormStatus.enumValueOf(status), getCurrUserId());
+				if(!respJson.isSuccess()){
+					LOG.error("采购订单审核失败，订单Id：{},失败消息：{}", id, respJson.getMessage());
+					return respJson;
+				}else{
+					LOG.info("采购订单审核成功，订单Id：{}", id);
+				}
+			}
+		} catch (Exception e) {
+			LOG.error("批量审核采购订单异常：", e);
+			respJson = RespJson.error("审核出现异常，原因：" + e.getMessage());
+		}
+		return respJson;
+	}
 
 	/**
 	 * 终止

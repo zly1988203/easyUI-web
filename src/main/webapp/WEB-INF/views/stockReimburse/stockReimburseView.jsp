@@ -11,12 +11,14 @@
 <script>
 	var edit = '${stockFormVo.status == 1 ? 1 : 0}';
 </script>
-<script src="${ctx}/static/js/views/stockReimburse/stockReimburseView.js?1=3"></script>
+<script src="${ctx}/static/js/views/stockReimburse/stockReimburseView.js"></script>
+<%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
 	<div class="ub ub-ver ub-f1 umar-4  ubor">
 		<form action="" id="queryForm" method="post">
 			<input type="hidden" id="formId" name="id" value="${stockFormVo.id}">
+			<input type="hidden" id="formNo" name="id" value="${stockFormVo.formNo}">
 			<input type="hidden" id="formType" name="formType" value="${stockFormVo.formType}">
 			<div class="ub ub-ac upad-4">
 				<div class="ubtns">
@@ -35,10 +37,13 @@
 							<div class="ubtns-item" onclick="importHandel(0)">导入货号</div>
 							<div class="ubtns-item" onclick="importHandel(1)">导入条码</div>
 						</shiro:hasPermission>
-						<shiro:hasPermission name="JxcStockReimburse:setting">
-							<div class="ubtns-item-disabled">设置</div>
-						</shiro:hasPermission>
 					</c:if>
+					<shiro:hasPermission name="JxcStockReimburse:print">
+						<div class="ubtns-item" onclick="printChoose('ID','/stock/reimburse/')">打印</div>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="JxcStockReimburse:setting">
+						<div class="ubtns-item-disabled">设置</div>
+					</shiro:hasPermission>
 					<shiro:hasPermission name="JxcStockReimburse:export">
 						<div class="ubtns-item" onclick="exportExcel()">导出</div>
 					</shiro:hasPermission>

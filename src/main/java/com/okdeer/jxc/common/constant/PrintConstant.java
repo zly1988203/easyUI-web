@@ -110,9 +110,44 @@ public interface PrintConstant {
 	 * @Fields SALE_ROTARATE_REPORT : 库存销售周转率
 	 */
 	String SALE_ROTARATE_REPORT = "saleRotaRateReport.jrxml";
-	
+
+	/**
+	 * @Fields DIFF_DISPOSE_DETAIL : 差异详情
+	 */
+	String DIFF_DISPOSE_DETAIL = "diffDisposeDetail.jrxml";
+
+	/**
+	 * @Fields DIFF_SEARCH_DETAIL : 差异查询明细
+	 */
+	String DIFF_SEARCH_DETAIL = "diffSearchDetail.jrxml";
+
+	/**
+	 * @Fields DIFF_SEARCH_SUMMARIZING : 差异查询汇总
+	 */
+	String DIFF_SEARCH_SUMMARIZING = "diffSearchSummarizing.jrxml";
+
 	/**
 	 * @Fields ROTARATE_PRINT_ERROR ：库存周转率打印失败
 	 */
 	String ROTARATE_PRINT_ERROR = "库存周转率打印失败{}";
+
+	/**
+	 * @Fields STOCK_LEAD : 领用单列表模板
+	 */
+	String STOCK_LEAD = "StockLead.jrxml";
+
+	/**
+	 * @Fields STOCK_LEAD_ERROR ：领用单列表打印失败
+	 */
+	String STOCK_LEAD_ERROR = "领用单列表打印失败{}";
+
+	/**
+	 * @Fields STOCK_REIMBURSE : 报损单列表模板
+	 */
+	String STOCK_REIMBURSE = "StockReimburse.jrxml";
+
+	/**
+	 * @Fields STOCK_REIMBURSE_ERROR ：报损单列表打印失败
+	 */
+	String STOCK_REIMBURSE_ERROR = "领用单列表打印失败{}";
 }

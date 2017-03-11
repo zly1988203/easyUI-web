@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>盘点差异查询</title>
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-    <script  src="${ctx}/static/js/views/stocktaking/diffSearch/diffSearchList.js"></script>
+    <script  src="${ctx}/static/js/views/stocktaking/diffSearch/diffSearchList.js?v=1.5"></script>
     <style>
     .datagrid-header .datagrid-cell {text-align: center!important;font-weight: bold;}
     </style>
@@ -17,7 +17,7 @@
 		<div class="ub ub-ac">
             <div class="ubtns">
                 <div class="ubtns-item" onclick="queryForm()">查询</div>
-                <div class="ubtns-item" onclick="toPrint()">打印</div>
+                <div class="ubtns-item" onclick="printDiffSearchList()">打印</div>
                 <div class="ubtns-item" onclick="toExport()">导出</div>
                 <div class="ubtns-item" id="set" onclick="gFunRefresh()" >重置</div>
                 <div class="ubtns-item" onclick="toClose()">退出</div>
