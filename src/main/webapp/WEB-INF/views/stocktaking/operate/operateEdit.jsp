@@ -22,7 +22,7 @@
              	<div class="ubtns-item" onclick="toAdd()">新增</div>
                 <div class="ubtns-item" onclick="saveStocktakingForm(2)">保存</div>
                 <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
-                <div class="ubtns-item" onclick="importHandel()">导入</div>
+                <div class="ubtns-item" onclick="importStocktakingForm(1)">导入</div>
                  <div class="ubtns-item" onclick="deleteStocktakingForm()">删单</div>
                 <div class="ubtns-item" onclick="back()">关闭</div>
             </div>
