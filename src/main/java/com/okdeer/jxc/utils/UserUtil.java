@@ -165,6 +165,16 @@ public class UserUtil {
 		SysUser sysUser = getCurrentUser();
 		return sysUser == null ? null : sysUser.getBranchCode();
 	}
+	/**
+	 * @Description: 获取当前登录用户机构名称
+	 * @return
+	 * @author lijy02
+	 * @date 2016年8月5日
+	 */
+	public static String getCurrBranchName() {
+		SysUser sysUser = getCurrentUser();
+		return sysUser == null ? null : sysUser.getBranchName();
+	}
 
 	/**
 	 * @Description: 获取当前登录用户机构完整code

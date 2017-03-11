@@ -598,6 +598,7 @@ function selectBranches(){
  * 单据选择
  */
 function selectDeliver(){
+	
 	var referenceId = "";
 	new publicDeliverFormService ("DO",function(data){
 		referenceId = data.id;
@@ -607,6 +608,13 @@ function selectDeliver(){
 		$("#sourceBranchName").val(data.sourceBranchName);
 		$("#targetBranchId").val(data.targetBranchId);
 		$("#targetBranchName").val(data.targetBranchName);
+		if(data.formType=="DD"){
+			$("#typeDD").attr("checked","checked");
+			$("#typeDA").attr("checked",false);
+		}else{
+			$("#typeDA").attr("checked","checked");
+			$("#typeDD").attr("checked",false);
+		}
 		loadLists(referenceId);
 	});
 }
@@ -683,6 +691,14 @@ function setData(){
                 $("#targetBranchName").val(data.data.targetBranchName);
                 $("#sourceBranchId").val(data.data.sourceBranchId);
                 $("#sourceBranchName").val(data.data.sourceBranchName);
+                debugger;
+                if(data.data.formType=="DD"){
+        			$("#typeDD").attr("checked","checked");
+        			$("#typeDA").attr("checked",false);
+        		}else{
+        			$("#typeDA").attr("checked","checked");
+        			$("#typeDD").attr("checked",false);
+        		}
                 //$("#address").html(data.data.address);
                 //$("#contacts").html(data.data.contacts);
                 //$("#mobile").html(data.data.mobile);

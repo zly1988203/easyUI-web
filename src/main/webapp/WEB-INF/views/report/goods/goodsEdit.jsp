@@ -2,19 +2,31 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
-
+  
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <script src="${ctx}/static/js/views/report/goods/goodsEdit.js"></script>
 
-<div class="ub ub-ver  ub-f1  uw uh ufs-14 uc-black">
-	<div class="ub ub-ac upad-4">
-		<div class="ubtns">
-			<shiro:hasPermission name="JxcGoodsQuery:save">
-				<button class="ubtns-item" onclick="saveProp()" id="btnSave">保存</button>
-			</shiro:hasPermission>
-			<button class="ubtns-item" onclick="closeDialog()">关闭</button>
+<div>
+	<div id="divTab">
+		<div class="ub ub-ac upad-4 umar-l10 umar-t10">
+			<button id="btnbase" class="btnTab" onclick="clickTab(1)">基本信息</button>
+			<button id="btnprice" class="btnTab umar-l20" onclick="clickTab(2)">分店价格</button>
+			
 		</div>
 	</div>
+
+	<div class="ub uline-tab "></div> 
+	
+
+	<div id="tab1">
+		<div class="ub ub-ac upad-4">
+			<div class="ubtns">
+				<shiro:hasPermission name="JxcGoodsQuery:save">
+					<button class="ubtns-item" onclick="saveProp()" id="btnSave">保存</button>
+				</shiro:hasPermission>
+				<button class="ubtns-item" onclick="closeDialog()">关闭</button>
+			</div>
+		</div> 
 	<div class="ub uline "></div>
 	<form id="formEdit" method="post" style="font-size: 14px;">
 		<input id="branchId" name="branchId" type="hidden">
@@ -314,4 +326,27 @@
 			</div>
 		</div>
 	</form>
+	</div>
+	
+	<div id="tab2">
+			<div class="ub ub-ac upad-4">
+				<div class="ubtns">
+					<button class="ubtns-item" onclick="saveSafetyCoefficient()" id="saveSafetyCoefficient()">保存</button>
+					<button class="ubtns-item" onclick="closeDialog()">关闭</button>
+					<div class="ub ub-ac uw-288 umar-l20">
+					<div class="umar-r10  ut-r">批量设置安全库存系数:</div>
+					<input class="uinp ub ub-f1 deal" type="number" id="printnum" class="uinp uinp-no-more easyui-numberbox easyui-validatebox"
+							   data-options="min:0.1,max:999.9,precision:2,validType:['length[0,18]']" type="text" maxlength="4">
+				</div>
+				</div>
+			</div> 
+		<div class="ub uline "></div>
+		
+		<table id="dgPrice" class="ub ub-f1 umar-t100"></table>
+	</div> 
+
+       
+ 
 </div>
+
+
