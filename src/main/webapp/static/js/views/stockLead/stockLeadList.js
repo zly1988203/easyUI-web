@@ -205,13 +205,11 @@ function selectOperator() {
 }
 
 // 打印
-/*
- * function printDesign() { var dg = $("#stockLeadList"); var row =
- * dg.datagrid("getSelected"); if (rowIsNull(row)) { return null; } // 弹出打印页面
- * parent .addTabPrint( 'PASheet' + row.id, row.formNo + '单据打印', contextPath +
- * '/printdesign/design?page=PASheet&controller=/form/purchase&template=-1&sheetNo=' +
- * row.id + '&gridFlag=PAGrid', ''); }
- */
+function printList() {
+	var fromObjStr = $('#queryForm').serialize();
+	console.log(fromObjStr);
+	parent.addTabPrint("StockLeadPrint","领用单列表打印",contextPath+"/stock/lead/print?"+fromObjStr);
+}
 
 /**
  * 重置

@@ -9,11 +9,15 @@ package com.okdeer.jxc.controller.stock;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,6 +32,8 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.LogConstant;
+import com.okdeer.jxc.common.constant.PrintConstant;
+import com.okdeer.jxc.common.controller.BasePrintController;
 import com.okdeer.jxc.common.enums.StockAdjustEnum;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportComponent;
@@ -36,7 +42,7 @@ import com.okdeer.jxc.common.goodselect.GoodsSelectImportVo;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
-import com.okdeer.jxc.controller.BaseController;
+import com.okdeer.jxc.controller.print.JasperHelper;
 import com.okdeer.jxc.goods.entity.GoodsSelect;
 import com.okdeer.jxc.goods.entity.GoodsSelectByStockAdjust;
 import com.okdeer.jxc.stock.service.StockAdjustServiceApi;
@@ -60,7 +66,7 @@ import net.sf.json.JSONObject;
  */
 @Controller
 @RequestMapping("/stock/reimburse")
-public class StockReimburseController extends BaseController<StockReimburseController> {
+public class StockReimburseController extends BasePrintController<StockReimburseController, StockFormDetailVo> {
 
 	/**
 	 * @Fields stockAdjustServiceApi : 库存调整service
@@ -415,6 +421,130 @@ public class StockReimburseController extends BaseController<StockReimburseContr
 			resp = RespJson.error("导出报损单商品异常");
 		}
 		return resp;
+	}
+
+	/**
+	 * @Description: 打印报损单列表
+	 * @author zhengwj
+	 * @date 2017年3月10日
+	 */
+	@RequiresPermissions("JxcStockReimburse:print")
+	@RequestMapping(value = "print", method = RequestMethod.GET)
+	@ResponseBody
+	public String printReport(StockFormVo vo, HttpServletResponse response, HttpServletRequest request,
+			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber) {
+		try {
+			vo.setPageNumber(1);
+			vo.setPageSize(PrintConstant.PRINT_MAX_LIMIT);
+			LOG.debug("报损单打印参数：{}", vo.toString());
+			int lenght = stockAdjustServiceApi.queryPageListCount(vo);
+			if (lenght > PrintConstant.PRINT_MAX_ROW) {
+				return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
+			}
+			vo.setFormType(StockAdjustEnum.REIMBURSE.getKey());
+			PageUtils<StockFormVo> stockFormList = stockAdjustServiceApi.getStockFormList(vo);
+			List<StockFormVo> list = stockFormList.getList();
+			if (!CollectionUtils.isEmpty(list) && list.size() > PrintConstant.PRINT_MAX_ROW) {
+				return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
+			}
+			String path = PrintConstant.STOCK_REIMBURSE;
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("startDate", vo.getStartTime());
+			map.put("endDate", vo.getEndTime());
+			map.put("printName", UserUtil.getCurrentUser().getUserName());
+			JasperHelper.exportmain(request, response, map, JasperHelper.PDF_TYPE, path, list, "");
+		} catch (Exception e) {
+			LOG.error(PrintConstant.STOCK_REIMBURSE_ERROR, e);
+		}
+		return null;
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * @see com.okdeer.jxc.common.controller.BasePrintController#getPrintReplace(java.lang.String)
+	 */
+	@Override
+	protected Map<String, Object> getPrintReplace(String id) {
+		StockFormVo form = stockAdjustServiceApi.getStcokFormInfo(id);
+		Map<String, Object> replaceMap = new HashMap<String, Object>();
+		if (null != form) {
+			// 单号
+			replaceMap.put("_单号", form.getFormNo() != null ? form.getFormNo() : "");
+			replaceMap.put("formNo", form.getFormNo() != null ? form.getFormNo() : "");
+			// 报损机构
+			replaceMap.put("_报损机构", form.getBranchCode() != null && form.getBranchName() != null
+					? "[" + form.getBranchCode() + "]" + form.getBranchName() : "");
+			replaceMap.put("branchName", form.getBranchCode() != null && form.getBranchName() != null
+					? "[" + form.getBranchCode() + "]" + form.getBranchName() : "");
+			// 备注
+			replaceMap.put("_备注", form.getRemark());
+			replaceMap.put("remark", form.getRemark());
+			// 制单人员
+			replaceMap.put("_制单人员", form.getCreateUserName() != null ? form.getCreateUserName() : "");
+			replaceMap.put("createUserName", form.getCreateUserName() != null ? form.getCreateUserName() : "");
+			// 最后修改人
+			replaceMap.put("_最后修改人", form.getUpdateUserName() != null ? form.getUpdateUserName() : "");
+			replaceMap.put("updateUserName", form.getUpdateUserName() != null ? form.getUpdateUserName() : "");
+			// 审核人员
+			replaceMap.put("_审核人员", form.getValidUserName() != null ? form.getValidUserName() : "");
+			replaceMap.put("validUserName", form.getValidUserName() != null ? form.getValidUserName() : "");
+			// 制单时间
+			if (form.getCreateTime() != null) {
+				replaceMap.put("_制单时间", DateUtils.formatDate(form.getCreateTime(), "yyyy-MM-dd HH:mm"));
+				replaceMap.put("createTime", DateUtils.formatDate(form.getCreateTime(), "yyyy-MM-dd HH:mm"));
+			} else {
+				replaceMap.put("_制单时间", "");
+				replaceMap.put("createTime", "");
+			}
+			// 修改时间
+			if (form.getUpdateTime() != null) {
+				replaceMap.put("_修改时间", DateUtils.formatDate(form.getUpdateTime(), "yyyy-MM-dd HH:mm"));
+				replaceMap.put("updateTime", DateUtils.formatDate(form.getUpdateTime(), "yyyy-MM-dd HH:mm"));
+			} else {
+				replaceMap.put("_修改时间", "");
+				replaceMap.put("updateTime", "");
+			}
+			// 审核时间
+			if (form.getValidTime() != null) {
+				replaceMap.put("_审核时间", form.getValidTime());
+				replaceMap.put("validTime", form.getValidTime());
+			} else {
+				replaceMap.put("_审核时间", "");
+				replaceMap.put("validTime", "");
+			}
+		}
+		return replaceMap;
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * @see com.okdeer.jxc.common.controller.BasePrintController#getPrintDetail(java.lang.String)
+	 */
+	@Override
+	protected List<StockFormDetailVo> getPrintDetail(String id) {
+		List<StockFormDetailVo> list = stockAdjustServiceApi.getStcokFormDetailList(id);
+		// 合计
+		BigDecimal totalLargeNum = BigDecimal.ZERO;
+		BigDecimal totalRealNum = BigDecimal.ZERO;
+		BigDecimal totalAmount = BigDecimal.ZERO;
+		if (null != list && !list.isEmpty()) {
+			for (StockFormDetailVo stockFormDetailVo : list) {
+				// 打印时将负数转为正数
+				stockFormDetailVo.setLargeNum(stockFormDetailVo.getLargeNum().substring(1));
+				stockFormDetailVo.setRealNum(stockFormDetailVo.getRealNum().substring(1));
+				stockFormDetailVo.setAmount(stockFormDetailVo.getAmount().substring(1));
+				totalLargeNum = totalLargeNum.add(new BigDecimal(stockFormDetailVo.getLargeNum()));
+				totalRealNum = totalRealNum.add(new BigDecimal(stockFormDetailVo.getRealNum()));
+				totalAmount = totalAmount.add(new BigDecimal(stockFormDetailVo.getAmount()));
+			}
+			StockFormDetailVo total = new StockFormDetailVo();
+			total.setSkuCode("合计");
+			total.setLargeNum(totalLargeNum.toString());
+			total.setRealNum(totalRealNum.toString());
+			total.setAmount(totalAmount.toString());
+			list.add(total);
+		}
+		return list;
 	}
 
 }

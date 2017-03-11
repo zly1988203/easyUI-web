@@ -205,13 +205,11 @@ function selectOperator() {
 }
 
 // 打印
-/*
- * function printDesign() { var dg = $("#stockReimburseList"); var row =
- * dg.datagrid("getSelected"); if (rowIsNull(row)) { return null; } // 弹出打印页面
- * parent .addTabPrint( 'PASheet' + row.id, row.formNo + '单据打印', contextPath +
- * '/printdesign/design?page=PASheet&controller=/form/purchase&template=-1&sheetNo=' +
- * row.id + '&gridFlag=PAGrid', ''); }
- */sssss
+function printList() {
+	var fromObjStr = $('#queryForm').serialize();
+	console.log(fromObjStr);
+	parent.addTabPrint("StockReimbursePrint","报损单列表打印",contextPath+"/stock/reimburse/print?"+fromObjStr);
+}
 
 /**
  * 重置

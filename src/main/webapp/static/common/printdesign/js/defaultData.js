@@ -904,4 +904,132 @@ var defaultData = {
 			text : "司机："
 		} ]
 	} ],
+	// 领用单
+	IUSheet : [/*
+				 * { group : "通用打印项", items : commonItems },
+				 */{
+		group : "单据打印项",
+		items : [ {
+			type : "label",
+			text : "领用单"
+		}, {
+			type : "label",
+			text : "单号："
+		}, {
+			type : "holder",
+			text : "_单号"
+		}, {
+			type : "label",
+			text : "领用机构："
+		}, {
+			type : "holder",
+			text : "_领用机构"
+		}, {
+			type : "label",
+			text : "备注："
+		}, {
+			type : "holder",
+			text : "_备注"
+		}, {
+			type : "label",
+			text : "制单人员："
+		}, {
+			type : "holder",
+			text : "_制单人员"
+		}, {
+			type : "label",
+			text : "最后修改人："
+		}, {
+			type : "holder",
+			text : "_最后修改人"
+		}, {
+			type : "label",
+			text : "审核人员："
+		}, {
+			type : "holder",
+			text : "_审核人员"
+		}, {
+			type : "label",
+			text : "制单时间："
+		}, {
+			type : "holder",
+			text : "_制单时间"
+		}, {
+			type : "label",
+			text : "修改时间："
+		}, {
+			type : "holder",
+			text : "_修改时间"
+		}, {
+			type : "label",
+			text : "审核时间："
+		}, {
+			type : "holder",
+			text : "_审核时间"
+		} ]
+	} ],
+	// 报损单
+	IDSheet : [/*
+				 * { group : "通用打印项", items : commonItems },
+				 */{
+		group : "单据打印项",
+		items : [ {
+			type : "label",
+			text : "报损单"
+		}, {
+			type : "label",
+			text : "单号："
+		}, {
+			type : "holder",
+			text : "_单号"
+		}, {
+			type : "label",
+			text : "报损机构："
+		}, {
+			type : "holder",
+			text : "_报损机构"
+		}, {
+			type : "label",
+			text : "备注："
+		}, {
+			type : "holder",
+			text : "_备注"
+		}, {
+			type : "label",
+			text : "制单人员："
+		}, {
+			type : "holder",
+			text : "_制单人员"
+		}, {
+			type : "label",
+			text : "最后修改人："
+		}, {
+			type : "holder",
+			text : "_最后修改人"
+		}, {
+			type : "label",
+			text : "审核人员："
+		}, {
+			type : "holder",
+			text : "_审核人员"
+		}, {
+			type : "label",
+			text : "制单时间："
+		}, {
+			type : "holder",
+			text : "_制单时间"
+		}, {
+			type : "label",
+			text : "修改时间："
+		}, {
+			type : "holder",
+			text : "_修改时间"
+		}, {
+			type : "label",
+			text : "审核时间："
+		}, {
+			type : "holder",
+			text : "_审核时间"
+		} ]
+	} ],
 }
