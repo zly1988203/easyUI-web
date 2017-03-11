@@ -12,7 +12,7 @@
     </style>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
-   <div class="ub ub-ver ub-f1 umar-4 upad-4">
+   <div class="ub ub-ver ub-f1 umar-4 upad-4 ubor">
 	<form id="queryForm" action="" method="post">
 		<div class="ub ub-ac">
             <div class="ubtns">

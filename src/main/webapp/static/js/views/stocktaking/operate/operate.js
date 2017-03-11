@@ -262,6 +262,7 @@ function searchTakeStock(){
 	new publicStocktakingDialog(param,function(data){
 		console.log(data);
 		$("#branchId").val(data.branchId);
+		$("#branchCode").val(data.branchId);
 		$("#branchName").val(data.branchName);
 		$("#batchId").val(data.id);
 		$("#batchNo").val(data.batchNo);
