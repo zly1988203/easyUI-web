@@ -424,6 +424,7 @@ function saveStockLead(){
     }
    var isCheckResult = true;
    $.each(rows,function(i,v){
+	   v["rowNo"] = i+1;
     	if(!v["skuCode"]){
              messager("第"+(i+1)+"行，货号不能为空");
              isCheckResult = false;

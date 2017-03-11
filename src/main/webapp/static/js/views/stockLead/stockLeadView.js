@@ -152,13 +152,26 @@ function getFiledsList(){
 		        ]]
 	}else{
 		return [[
-		            {field:'skuCode',title:'货号',width:'70px',align:'left'},
+		            {field:'skuCode',title:'货号',width:'70px',align:'left',
+		            	 formatter : function(value, row,index) {
+		            		 var str = "";
+			                    if(row.isFooter){
+			                        str ='<div class="ub ub-pc">合计</div> '
+			                    }else{
+			                        str = value;
+			                    }
+			                    return str;
+		            	 }
+		            },
 		            {field:'skuName',title:'商品名称',width:'200px',align:'left'},
 		            {field:'barCode',title:'国际条码',width:'150px',align:'left'},
 		            {field:'unit',title:'单位',width:'60px',align:'left'},
 		            {field:'spec',title:'规格',width:'90px',align:'left'},
 		            {field:'price',title:'成本价',width:'80px',align:'right',
 		            	formatter:function(value,row,index){
+		            		if(row.isFooter){
+		                        return
+		                    }
 		            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		            	}
 		            },
@@ -191,11 +204,7 @@ function getFiledsList(){
 		            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		            	}
 		            },
-		            {field:'remark',title:'备注',width:'200px',align:'left',
-		            	formatter:function(value,row,index){
-		            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-		            	}	
-		            }
+		            {field:'remark',title:'备注',width:'200px',align:'left'}
 		        ]]
 	}
 }
@@ -497,6 +506,7 @@ function updateStockLead(){
     }
    var isCheckResult = true;
    $.each(rows,function(i,v){
+	   v["rowNo"] = i+1;
     	if(!v["skuCode"]){
              messager("第"+(i+1)+"行，货号不能为空");
              isCheckResult = false;
