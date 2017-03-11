@@ -181,3 +181,61 @@ function setParams(formId){
 	}
 	return param;
 }
+
+function saveDiffDispose(){
+    $("#"+gridName).datagrid("endEdit", gridHandel.getSelectRowIndex());
+    var rows = gridHandel.getRowsWhere({skuName:'1'});
+    $(gridHandel.getGridName()).datagrid("loadData",rows);
+    if(rows.length==0){
+        messager("表格不能为空");
+        return;
+    }
+    
+    var isCheckResult = true;
+    var isChcekPrice = false;
+    
+    if(isCheckResult){
+        if(isChcekPrice){
+            $.messager.confirm('系统提示',"盘点数存在为0，是否确定保存",function(r){
+                if (r){
+                    saveDataHandel(rows);
+                }
+            });
+        }else{
+            saveDataHandel(rows);
+        }
+    }
+}
+
+function saveDataHandel(rows){
+	//批次Id
+	var batchId=$("#batchId").val();
+    //机构
+    var branchId=$("#branchId").val();
+    
+    var jsonData = {
+    		id:batchId,
+			branchId:branchId,
+			diffDetailList:rows
+        };
+    console.log('差异处理详情：',JSON.stringify(jsonData));
+    $.ajax({
+        url:contextPath+"/stocktaking/diffDispose/saveDiffDispose",
+        type:"POST",
+        data:{"data":JSON.stringify(jsonData)},
+        success:function(result){
+        	console.log('result',result);
+            if(result['code'] == 0){
+    			$.messager.alert("操作提示", "操作成功！", "info",function(){
+    				location.href = contextPath +"/stocktaking/diffDispose/stocktakingBatchView?id="+result['batchId'];
+    			});
+            }else{
+                successTip(result['message']);
+            }
+        },
+        error:function(result){
+            successTip("请求发送失败或服务器处理失败");
+        }
+    });
+}
+
