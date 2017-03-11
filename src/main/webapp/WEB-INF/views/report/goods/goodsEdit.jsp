@@ -6,15 +6,24 @@
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <script src="${ctx}/static/js/views/report/goods/goodsEdit.js"></script>
 
-<div class="ub ub-ver  ub-f1  uw uh ufs-14 uc-black">
-	<div class="ub ub-ac upad-4">
-		<div class="ubtns">
-			<shiro:hasPermission name="JxcGoodsQuery:save">
-				<button class="ubtns-item" onclick="saveProp()" id="btnSave">保存</button>
-			</shiro:hasPermission>
-			<button class="ubtns-item" onclick="closeDialog()">关闭</button>
-		</div>
+<div id="divTab">
+	<div class="ub ub-ac upad-4 umar-l10 umar-t10">
+		<a id="btnbase" class="btnTab" onclick="clickTab(1)">基本信息</a>
+		<a id="btnprice" class="btnTab umar-l20" onclick="clickTab(2)">分店价格</a>
+		
 	</div>
+	<div class="ub uline-tab "></div> 
+	
+
+	<div id="tab1">
+		<div class="ub ub-ac upad-4">
+			<div class="ubtns">
+				<shiro:hasPermission name="JxcGoodsQuery:save">
+					<button class="ubtns-item" onclick="saveProp()" id="btnSave">保存</button>
+				</shiro:hasPermission>
+				<button class="ubtns-item" onclick="closeDialog()">关闭</button>
+			</div>
+		</div> 
 	<div class="ub uline "></div>
 	<form id="formEdit" method="post" style="font-size: 14px;">
 		<input id="branchId" name="branchId" type="hidden">
@@ -314,4 +323,23 @@
 			</div>
 		</div>
 	</form>
+	</div>
+	
+	<div id="tab2">
+			<div class="ub ub-ac upad-4">
+			<div class="ubtns">
+			
+				<button class="ubtns-item" onclick="saveProp()" id="btnSave">保存</button>
+				
+				<button class="ubtns-item" onclick="closeDialog()">关闭</button>
+			</div>
+		</div> 
+		<div class="ub uline "></div>
+		<table id=""></table>
+	</div> 
+
+       
+ 
 </div>
+
+

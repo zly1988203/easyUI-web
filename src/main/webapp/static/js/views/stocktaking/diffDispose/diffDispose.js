@@ -11,12 +11,12 @@ $(function(){
 	}else if(operateStatus === '0'){
 		url = contextPath +"/stocktaking/diffDispose/stocktakingDifferenceList?batchId=" + batchId;
 		$('#already-examine').css('display','none');
-		$('#btnCheck').css('display','black');
+		$('#btnCheck').css('display','block');
 	
 	}else if(operateStatus === '1'){
 		url = contextPath +"/stocktaking/diffDispose/stocktakingDifferenceList?batchId=" + batchId;
 		isdisabled = true;
-		$('#already-examine').css('display','black');
+		$('#already-examine').css('display','block');
 		$('#btnCheck').css('display','none');
 	}
 	initOperateDataGrid();
