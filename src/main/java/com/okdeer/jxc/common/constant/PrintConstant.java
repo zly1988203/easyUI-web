@@ -130,6 +130,31 @@ public interface PrintConstant {
 	 * @Fields ROTARATE_PRINT_ERROR ：库存周转率打印失败
 	 */
 	String ROTARATE_PRINT_ERROR = "库存周转率打印失败{}";
+
+	/**
+	 * @Fields STOCK_LEAD : 领用单列表模板
+	 */
+	String STOCK_LEAD = "StockLead.jrxml";
+
+	/**
+	 * @Fields STOCK_LEAD_ERROR ：领用单列表打印失败
+	 */
+	String STOCK_LEAD_ERROR = "领用单列表打印失败{}";
+
+	/**
+	 * @Fields STOCK_REIMBURSE : 报损单列表模板
+	 */
+	String STOCK_REIMBURSE = "StockReimburse.jrxml";
+
+	/**
+	 * @Fields STOCK_REIMBURSE_ERROR ：报损单列表打印失败
+	 */
+	String STOCK_REIMBURSE_ERROR = "领用单列表打印失败{}";
+	
+	/**
+	 * @Fields STOCK_TAKING_MISS_GOODS : 漏盘商品列表
+	 */
+	String STOCK_TAKING_MISS_GOODS = "stockTakingMissGoods.jrxml";
 	
 	/**
 	 * @Fields OVERDUE_APPLY_REPORT : 调价订单申请打印
@@ -137,5 +162,4 @@ public interface PrintConstant {
 	String OVERDUE_APPLY_REPORT ="overdueApply.jrxml";
 	
 	String OVERDUE_APPROVED_REPORT ="overdueApproved.jrxml";
-	
 }
