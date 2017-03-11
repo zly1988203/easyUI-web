@@ -403,6 +403,11 @@ public interface ExportExcelConstant {
 	String DIFFSEARCHDETAIL = "diffSearchDetail.xlsx";
 	
 	/**
+	 * @Fields STOCK_TAKING_MISS_GOODS : 漏盘商品查询
+	 */
+	String STOCK_TAKING_MISS_GOODS = "stockTakingMissGoods.xlsx";
+	
+	/**
 	 * 新品申请导出模板
 	 */
 	String NEW_GOODS_APPLY_REPORT = "newGoodsApplyReport.xlsx";
