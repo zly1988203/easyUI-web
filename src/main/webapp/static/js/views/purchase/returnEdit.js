@@ -1,7 +1,14 @@
 /**
  * Created by huangj02 on 2016/8/9.
  */
+var isEdit = true;
 $(function(){
+    //是否允许改价
+    var allowUpdatePrice = $('#allowUpdatePrice').val();
+    if('undefined' != typeof(allowUpdatePrice)){
+    	isEdit = false;
+    }
+    
     initDatagridEditOrder();
     
     var refFormNo = $("#refFormNo").val();
@@ -134,6 +141,7 @@ function initDatagridEditOrder(){
                     options:{
                         min:0,
                         precision:4,
+                        disabled:isEdit,
                         onChange: onChangePrice,
                     }
                 },
@@ -150,6 +158,7 @@ function initDatagridEditOrder(){
                     options:{
                         min:0,
                         precision:4,
+                        disabled:isEdit,
                         onChange: onChangeAmount,
                     }
                 },
