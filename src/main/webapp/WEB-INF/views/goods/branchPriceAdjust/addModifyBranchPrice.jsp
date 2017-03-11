@@ -47,7 +47,7 @@
 				<shiro:hasPermission name="JxcPriceAdjust:exportDetail">
 					 <c:if test="${goodsPriceForm.status ==1 || goodsPriceForm.status ==0}">
 					 	<div class="ubtns-item"  onclick="exportData();">导出</div>
-					 	<div class="ubtns-item" onclick="printDesign('${goodsPriceForm.formNo}')">打印</div> 
+					 
 					 </c:if>
 				</shiro:hasPermission>
 			<!-- 	 <div class="ubtns-item"  onclick="exportTemplate()">导出模版下载</div> -->
@@ -71,8 +71,9 @@
           	 <input id="formId" name="formId" value="${goodsPriceForm.id}" type="hidden">
         </div>
        	 <div class="ub uline umar-t8" ></div>
-       	 <form action="" id="searchForm" method="post">
+       	 
 		 <input id="formNoInput" name="formNo" value="${goodsPriceForm.formNo}" type="hidden">
+<form action="" id="searchForm" method="post">
 		 <input id="id" name="id" value="${goodsPriceForm.id}" type="hidden">
         <div class="ub ub-ver umar-t12">
             <div class="ub">
