@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>盘点差异处理详情</title>
   <%@ include file="/WEB-INF/views/include/header.jsp"%>
-    <script  src="${ctx}/static/js/views/stocktaking/diffDispose/diffDispose.js"></script>
+    <script  src="${ctx}/static/js/views/stocktaking/diffDispose/diffDispose.js?v=1.52"></script>
     <style>
     .datagrid-header .datagrid-cell {text-align: center!important;font-weight: bold;}
     </style>
@@ -17,15 +17,14 @@
     <div class="ub ub-ver ub-f1 umar-4  ubor">
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
-				<div class="ubtns-item" onclick="saveOrder()">保存</div>
+				<div class="ubtns-item" onclick="saveDiffDispose()">保存</div>
 				<div class="ubtns-item" id="btnCheck" onclick="check()">审核</div>
 				<div class="ubtns-item" onclick="deleteDiffDispose()">删单</div>
 				<div class="ubtns-item" onclick="printDiffDispose()">打印</div>
 				<div class="ubtns-item" onclick="back()">关闭</div>
 			</div>
         </div>
- <div class="ub umar-t8 uc-black">【盘点批号】:<span>${batchVo.batchNo}</span></div>
-   <div class="already-examine" id="already-examine"><span>已审核</span></div>
+    <div class="already-examine" id="already-examine"><span>已审核</span></div>
 
 	<form action="" id="searchForm" method="post">
  			<input type="hidden" id="batchId" name="id" value="${batchVo.id}">
