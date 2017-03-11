@@ -115,4 +115,12 @@ public interface PrintConstant {
 	 * @Fields ROTARATE_PRINT_ERROR ：库存周转率打印失败
 	 */
 	String ROTARATE_PRINT_ERROR = "库存周转率打印失败{}";
+	
+	/**
+	 * @Fields OVERDUE_APPLY_REPORT : 调价订单申请打印
+	 */
+	String OVERDUE_APPLY_REPORT ="overdueApply.jrxml";
+	
+	String OVERDUE_APPROVED_REPORT ="overdueApproved.jrxml";
+	
 }
