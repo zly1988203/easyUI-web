@@ -150,4 +150,9 @@ public interface PrintConstant {
 	 * @Fields STOCK_REIMBURSE_ERROR ：报损单列表打印失败
 	 */
 	String STOCK_REIMBURSE_ERROR = "领用单列表打印失败{}";
+	
+	/**
+	 * @Fields STOCK_TAKING_MISS_GOODS : 漏盘商品列表
+	 */
+	String STOCK_TAKING_MISS_GOODS = "stockTakingMissGoods.jrxml";
 }
