@@ -132,29 +132,40 @@ function queryForm() {
 }
 
 // 新增领用单
-function addStockForm() {
+function addStockLead() {
 	toAddTab("新增领用单", contextPath + "/stock/lead/add");
 }
 
 //删除领用单
-function orderDelete(){
-	var rows =$("#queryForm").datagrid("getChecked");
-	if($("#queryForm").datagrid("getChecked").length <= 0){
+function deleteStockLead(){
+	var rows =$("#stockLeadList").datagrid("getChecked");
+	if(rows.length <= 0){
 		 $.messager.alert('提示','请选中一行进行删除！');
 		return null;
 	}
-	 var formIds='';
-	    $.each(rows,function(i,v){
-	    	formIds+=v.id+",";
-	    });
 	
+	var tempIds = [];
+	var flag = true;
+	rows.forEach(function(data,index){
+		var status = data.status;
+    	if(status == 0){
+    		tempIds.push(data.id);
+	   		flag = false;
+    	}
+    	
+	})
+    
+    if(flag){
+    	messager('已经审核的单据不可以删除！');
+    	return;
+    }
 	$.messager.confirm('提示','是否要删除选中数据',function(data){
 		if(data){
 			$.ajax({
 		    	url:contextPath+"/stock/lead/delete",
 		    	type:"POST",
 		    	data:{
-		    		formIds:formIds
+		    		ids:tempIds
 		    	},
 		    	success:function(result){
 		    		console.log(result);
@@ -163,7 +174,7 @@ function orderDelete(){
 		    		}else{
 		    			successTip(result['message']);
 		    		}
-		    		$("#queryForm").datagrid('reload');
+		    		$("#stockLeadList").datagrid('reload');
 		    	},
 		    	error:function(result){
 		    		successTip("请求发送失败或服务器处理失败");
@@ -194,13 +205,11 @@ function selectOperator() {
 }
 
 // 打印
-/*
- * function printDesign() { var dg = $("#stockLeadList"); var row =
- * dg.datagrid("getSelected"); if (rowIsNull(row)) { return null; } // 弹出打印页面
- * parent .addTabPrint( 'PASheet' + row.id, row.formNo + '单据打印', contextPath +
- * '/printdesign/design?page=PASheet&controller=/form/purchase&template=-1&sheetNo=' +
- * row.id + '&gridFlag=PAGrid', ''); }
- */
+function printList() {
+	var fromObjStr = $('#queryForm').serialize();
+	console.log(fromObjStr);
+	parent.addTabPrint("StockLeadPrint","领用单列表打印",contextPath+"/stock/lead/print?"+fromObjStr);
+}
 
 /**
  * 重置

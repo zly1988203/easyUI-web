@@ -39,6 +39,10 @@ public interface ExportExcelConstant {
 	 * @Fields GOODS_PRICE_ADJUST_FORM : 调价单模版名称“GoodsPriceAdjustForm.xlsx”
 	 */
 	String GOODS_PRICE_ADJUST_FORM = "GoodsPriceAdjustForm.xlsx";
+	/**
+	 * @Fields GOODS_BRANCH_PRICE_ADJUST_FORM : 调价单模版名称“GoodsBranchPriceAdjustForm.xlsx”
+	 */
+	String GOODS_BRANCH_PRICE_ADJUST_FORM = "GoodsBranchPriceAdjustForm.xlsx";
 	
 	/**
 	 * @Fields GOODS_PRICE_ADJUST_FORM : 采购明细表
@@ -93,6 +97,19 @@ public interface ExportExcelConstant {
 	 * @Fields STOCKLEAD : 领用单导出模板
 	 */
 	String STOCKLEAD = "StockLead.xlsx";
+	/**
+	 * @Fields STOCK_REIMBURSE_SKU_TEMPLE : 报损单货号导入模板
+	 */
+	String STOCK_REIMBURSE_SKU_TEMPLE = "StockReimburseSkuTemple.xlsx";
+	/**
+	 * @Fields STOCK_REIMBURSE_BAR_TEMPLE : 报损单条码导入模板
+	 */
+	String STOCK_REIMBURSE_BAR_TEMPLE = "StockReimburseBarTemple.xlsx";
+	/**
+	 * @Fields STOCKREIMBURSE : 报损单导出模板
+	 */
+	String STOCKREIMBURSE = "StockReimburse.xlsx";
+	
 	
 	/**
 	 * 商品销售汇总
@@ -215,6 +232,8 @@ public interface ExportExcelConstant {
 	
 	String DELIVERFORM_DI = "DeliverFormDI.xlsx";
 	
+	
+	String DELIVERFORM_DD = "DeliverFormDD.xlsx";
 
 	/**
 	 * @Fields DADOFORM : DADOform.xlsx
@@ -374,6 +393,19 @@ public interface ExportExcelConstant {
 	 * 库存成本周转率
 	 */
 	String COSTROTARATEREPORT = "costRotaRateReport.xlsx";
+	/**
+	 * 盘点差异查询-汇总
+	 */
+	String DIFFSEARCHSUMMARIZING = "diffSearchSummarizing.xlsx";
+	/**
+	 * 盘点差异查询-明细
+	 */
+	String DIFFSEARCHDETAIL = "diffSearchDetail.xlsx";
+	
+	/**
+	 * @Fields STOCK_TAKING_MISS_GOODS : 漏盘商品查询
+	 */
+	String STOCK_TAKING_MISS_GOODS = "stockTakingMissGoods.xlsx";
 	
 	/**
 	 * 新品申请导出模板

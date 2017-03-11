@@ -1,7 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
+<style> 
+.datagrid-header-row .datagrid-cell{text-align: center!important;}
+</style>
 <script src="${ctx}/static/js/views/component/publicStocktaking.js"></script>
 <div class="ub ub-ver ub-pc  uw uh ub-f1">
     <div class="ub ub-ver uw ub-f1 uh">
@@ -14,8 +17,9 @@
                 </div>
             </div>
         </form>
-        <div class="ub uw uh ub-f1">
-            <table id="gridStock" ></table>
-        </div>
+                <div class="ub  ub-f1 ">
+                    <table id="gridStockDialog"></table>
+                </div>
+
     </div>
 </div>

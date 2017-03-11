@@ -7,7 +7,7 @@
     <title>档案-新增调价单</title>
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
     
-
+	<script  src="${ctx}/static/js/views/goods/branchPriceAdjust/addModifyBranchPrice.js?1=1"></script>
     
 </head>
 <body class="ub uw uh ufs-14 uc-black">
@@ -47,7 +47,7 @@
 				<shiro:hasPermission name="JxcPriceAdjust:exportDetail">
 					 <c:if test="${goodsPriceForm.status ==1 || goodsPriceForm.status ==0}">
 					 	<div class="ubtns-item"  onclick="exportData();">导出</div>
-					 	<div class="ubtns-item" onclick="printDesign('${goodsPriceForm.formNo}')">打印</div> 
+					 
 					 </c:if>
 				</shiro:hasPermission>
 			<!-- 	 <div class="ubtns-item"  onclick="exportTemplate()">导出模版下载</div> -->
@@ -71,8 +71,9 @@
           	 <input id="formId" name="formId" value="${goodsPriceForm.id}" type="hidden">
         </div>
        	 <div class="ub uline umar-t8" ></div>
-		<form action="" id="searchForm" method="post">
+       	 
 		 <input id="formNoInput" name="formNo" value="${goodsPriceForm.formNo}" type="hidden">
+<form action="" id="searchForm" method="post">
 		 <input id="id" name="id" value="${goodsPriceForm.id}" type="hidden">
         <div class="ub ub-ver umar-t12">
             <div class="ub">
@@ -147,13 +148,13 @@
             <div class="already-examine uhide" id="already-examine"><span>已审核</span></div>
             <div class="ub uw umar-t8 uc-red"><!-- *选择区域进行调价时，默认价格取区域内某个店的价格；对加盟店进行调价，不处理进价列的调价；改变调价机构,将清空所选商品。 --></div>
             <div class="ub umar-t8 umar-b8">【明细信息】</div>
+            </form>
             <!--datagrid-edit-->
             <div class="ub uw datagrid-edit">
                 <table id="addModifyBranchPriceGrid"></table>
             </div>
         </div>
-        </form>
-    </div>
+        
 </body>
- <script  src="${ctx}/static/js/views/goods/branchPriceAdjust/addModifyBranchPrice.js"></script>
+ 
 </html>

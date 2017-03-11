@@ -7,7 +7,6 @@
 
 package com.okdeer.jxc.controller.report;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -60,17 +59,17 @@ import com.okdeer.jxc.utils.UserUtil;
 @Controller
 @RequestMapping("goods/report")
 public class GoodsReportController extends
-		BaseController<GoodsReportController> {
+BaseController<GoodsReportController> {
 
 	@Reference(version = "1.0.0", check = false)
 	private GoodsReportService goodsReportService;
-	
+
 	@Reference(version = "1.0.0", check = false)
 	BranchesServiceApi branchesServiceApi;
-	
+
 	@Reference(version = "1.0.0", check = false)
 	private GoodsBranchPriceServiceApi goodsBranchPriceService;
-	
+
 	@Reference(version = "1.0.0", check = false)
 	private BranchesServiceApi branchesService;
 
@@ -101,7 +100,7 @@ public class GoodsReportController extends
 		 */
 		return "report/goods/goodsReport";
 	}
-	
+
 	/**
 	 * 
 	 * @Description: 跳转编辑页
@@ -120,7 +119,7 @@ public class GoodsReportController extends
 		model.addAttribute("goodsType", GoodsTypeEnum.values()); 
 		return "report/goods/goodsEdit";
 	}
-	
+
 	/**
 	 * 
 	 * @Description: 查询商品信息
@@ -145,7 +144,7 @@ public class GoodsReportController extends
 		jesp.put("_data", sku);
 		return jesp;
 	}
-	
+
 	/**
 	 * 
 	 * @Description: 商品查询
@@ -169,20 +168,22 @@ public class GoodsReportController extends
 			// 如果没有选择店铺，则查询登录人所在机构的商品
 			if (StringUtils.isEmpty(qo.getBranchName())) {
 				qo.setBranchId(UserUtil.getCurrBranchId());
-			}
-			String branchName = qo.getBranchName();
-			if (StringUtils.isNotBlank(branchName) && branchName.contains("[")
-					&& branchName.contains("]")) {
-				int length = branchName.indexOf("]");
-				qo.setBranchName(branchName.substring(length+1, branchName.length()));
-			}
-			
-			List<Branches> branchList = branchesService.getBranchByKeyword(qo.getBranchName());
-			if(branchList.size()==1){
-				qo.setBranchId(branchList.get(0).getBranchesId());
-				PageUtils<GoodsReportVo> goodsReport = goodsReportService.queryListToPage(qo);
-				return goodsReport;
-			}
+			}else{
+				String branchName = qo.getBranchName();
+				if (StringUtils.isNotBlank(branchName) && branchName.contains("[")
+						&& branchName.contains("]")) {
+					int length = branchName.indexOf("]");
+					qo.setBranchName(branchName.substring(length+1, branchName.length()));
+				}
+
+				List<Branches> branchList = branchesService.getBranchByKeyword(qo.getBranchName());
+				if(branchList.size()==1){
+					qo.setBranchId(branchList.get(0).getBranchesId());
+				}
+			}	
+			PageUtils<GoodsReportVo> goodsReport = goodsReportService.queryListToPage(qo);
+			return goodsReport;
+
 		} catch (Exception e) {
 			LOG.error("查询商品选择数据出现异常:", e);
 		}
@@ -214,7 +215,7 @@ public class GoodsReportController extends
 				int length = branchName.indexOf("]");
 				qo.setBranchName(branchName.substring(length+1, branchName.length()));
 			}
-			
+
 			List<Branches> branchList = branchesService.getBranchByKeyword(qo.getBranchName());
 			if(branchList.size()==1){
 				qo.setBranchId(branchList.get(0).getBranchesId());
@@ -222,12 +223,12 @@ public class GoodsReportController extends
 				return null;
 			}
 			List<GoodsReportVo> exportList = goodsReportService.queryList(qo);
-            if(CollectionUtils.isNotEmpty(exportList)){
-			String fileName = "商品查询列表" + "_" + DateUtils.getCurrSmallStr();
+			if(CollectionUtils.isNotEmpty(exportList)){
+				String fileName = "商品查询列表" + "_" + DateUtils.getCurrSmallStr();
 
-			String templateName = ExportExcelConstant.GOODSREPORT;
+				String templateName = ExportExcelConstant.GOODSREPORT;
 
-			exportListForXLSX(response, exportList, fileName, templateName);
+				exportListForXLSX(response, exportList, fileName, templateName);
 			} else {
 				RespJson json = RespJson.error("无数据可导");
 				return json;

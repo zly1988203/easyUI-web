@@ -28,7 +28,7 @@ function initBranchPriceAdjustGrid() {
         align: 'center',
         url: '',
         //toolbar: '#tb',     //工具栏 id为tb
-        singleSelect: true,  //单选  false多选
+        singleSelect: false,  //单选  false多选
         rownumbers: true,    //序号
         pagination: true,    //分页
         //fitColumns:true,    //占满
@@ -36,13 +36,15 @@ function initBranchPriceAdjustGrid() {
          pageSize:20,
         //showFooter:true,
         columns: [[
+            {field : 'formId',hidden : true},
+            {field:'check',checkbox:true},
             {field: 'formNo', title: '单号', width: '135px', align: 'left',
                 formatter: function(value,row,index){
                 	var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看调价单详细\',\''+contextPath+'/goods/branchPriceAdjust/getForm?formNo='+value+'\')">' + value + '</a>';
                 	return strHtml;
                 }
             },
-            {field: 'status', title: '审核状态', width:'90px', align: 'left',
+            {field: 'status', title: '审核状态', width:'90px', align: 'center',
                 formatter: function(value,row,index){
                     if (value==1){
                         return "已审核";
@@ -58,13 +60,13 @@ function initBranchPriceAdjustGrid() {
             	formatter: function (value, row, index) {
 	                if (value != null && value != '') {
 	                    var date = new Date(value);
-	                    return date.format("yyyy-MM-dd hh:mm");
+	                    return date.format("yyyy-MM-dd hh:mm:ss");
 	                }
 	                return "";
 	            }
             },
             {field: 'validUserName', title: '审核人', width: '160px', align: 'left'},
-            {field: 'validTime', title: '生效日期', width: '100px', align: 'left',
+            {field: 'validTime', title: '生效日期', width: '100px', align: 'center',
             	formatter: function (value, row, index) {
 	                if (value != null && value != '') {
 	                    var date = new Date(value);
@@ -82,34 +84,6 @@ function initBranchPriceAdjustGrid() {
 //新增
 function addModifyDataGrid(){
 	toAddTab("新增门店调价单",contextPath + "/goods/branchPriceAdjust/addFormView");
-}
-
-//删单
-function delModifyOrderDialog(){
-	var row = $('#branchPriceAdjustGrid').datagrid('getSelected');
-	var rowIndex = $('#branchPriceAdjustGrid').datagrid('getRowIndex',row);
-	if(row!=null&&row.status==1){
-		 $.messager.confirm('提示','已经审核的单据不可以删除！');
-		return;
-	}
-    if(datagridUtil.isSelectRows()){
-        $.messager.confirm('提示','单据删除后将无法恢复，确认是否删除？',function(r){
-            if (r){
-            	//删除单据
-            	gFunStartLoading();
-            	$.ajax({
-                    type: "POST",
-                    url: contextPath+"/goods/priceAdjust/removeForm",
-                    data: {"formNo":row.formNo},
-                    dataType: "json",
-                    success: function(data){
-                    	gFunEndLoading();
-                        $('#branchPriceAdjustGrid').datagrid('deleteRow', rowIndex);
-                    }
-                });
-            }
-        });
-    }
 }
 
 //datagridId datagrid的Id
@@ -157,7 +131,31 @@ function selectOperator(){
 		$("#createUserName").val("["+data.userCode+"]"+data.userName);
 	});
 }
-
+function delModifyPriceDialog() {
+	// 是否选择的datagrid的行，选择为true，未选择为false，则提示用户选择
+	// 确定删除，调用后台删除方法
+	var rows = $('#branchPriceAdjustGrid').datagrid('getSelections');
+	if(datagridUtil.isSelectRows()){
+		var ids = '';
+		 $.each(rows,function(i,val){
+			 ids+=val.formId+",";
+		 });
+			$.messager.confirm('提示', '单据删除后将无法恢复，确认是否删除？', function(r) {
+				if (r) {
+					//删除单据
+					$.ajax({
+						type: "POST",
+						url: contextPath+"/goods/branchPriceAdjust/bacthDeleteForm",
+						data: {ids:ids},
+						dataType: "json",
+						success: function(data){
+							modifyPriceOrderCx();
+						}
+					});
+				}
+			});
+	}
+}
 /**
  * 重置
  */

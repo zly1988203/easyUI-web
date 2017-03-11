@@ -1,6 +1,8 @@
 
 package com.okdeer.jxc.controller.system;
 
+import java.math.BigDecimal;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
+import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
@@ -156,7 +159,6 @@ public class UserController extends BaseController<UserController> {
 	 */
 	@RequestMapping(value = "/toAddUser")
 	public String toAddUser() {
-
 		return "system/userAdd";
 	}
 
@@ -170,6 +172,12 @@ public class UserController extends BaseController<UserController> {
 	public String toEditUser(String userId, Model model) {
 
 		SysUser user = sysUserService.getUserById(userId);
+		//最大折扣比率，需乘以100
+		if(null != user.getMaxDiscountRadio()){
+			BigDecimal maxDiscountRadio = user.getMaxDiscountRadio().multiply(
+					new BigDecimal(Constant.STRING_ONE_HUNDRED));
+			user.setMaxDiscountRadio(maxDiscountRadio);
+		}
 		Branches branch = branchService.getBranchInfoById(user.getBranchId());
 		SysRole role = roleService.getRoleByUserId(userId);
 

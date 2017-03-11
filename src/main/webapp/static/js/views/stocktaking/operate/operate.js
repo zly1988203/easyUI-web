@@ -8,13 +8,16 @@ var operateStatus = 'add';
 
 $(function(){
 	operateStatus = $('#operateStatus').val();
+	var formId = $('#formId').val();
 	if(operateStatus === 'add'){
 	
-	}else if(operateStatus === 'edit'){
+	}else if(operateStatus === '0'){
+		url = contextPath +"/stocktaking/operate/stocktakingFormDetailList?formId=" + formId;
 		$('#already-examine').css('display','none');
 		$('#btnCheck').css('display','black');
 	
-	}else if(operateStatus === 'check'){
+	}else if(operateStatus === '1'){
+		url = contextPath +"/stocktaking/operate/stocktakingFormDetailList?formId=" + formId;
 		isdisabled = true;
 		$('#already-examine').css('display','black');
 		$('#btnCheck').css('display','none');
@@ -45,7 +48,7 @@ function initOperateDataGrid(){
 	    })
 	    
 	    $("#"+gridName).datagrid({
-        method:'post',
+        method:'get',
     	url:url,
         align:'center',
         singleSelect:false,  // 单选 false多选
@@ -68,6 +71,8 @@ function initOperateDataGrid(){
 			    }
 			},
             {field:'rowNo',hidden:'true'},
+            {field:'skuId',hidden:'true'},
+            {field:'barCode',hidden:'true'},
             {field:'skuCode',title:'货号',width: '70px',align:'left',
             	editor:{
 	                type:'textbox',
@@ -82,7 +87,7 @@ function initOperateDataGrid(){
             {field:'spec',title:'规格',width:'90px',align:'left'},
             {field:'spec',title:'品牌',width:'90px',align:'left'},
 
-            {field:'stocktakingNum',title:'实际盘点数量',width:'80px',align:'right',
+            {field:'stocktakingNum',title:'实际盘点数量',width:'100px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -101,7 +106,7 @@ function initOperateDataGrid(){
                     }
                 }
             },
-            {field:'price',title:'零售价',width:'80px',align:'right',
+            {field:'price',title:'零售价',width:'100px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
                         return
@@ -113,7 +118,7 @@ function initOperateDataGrid(){
                 }
             
             },
-            {field:'amount',title:'零售金额',width:'80px',align:'right',
+            {field:'amount',title:'零售金额',width:'100px',align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -125,14 +130,6 @@ function initOperateDataGrid(){
                     
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
-            },
-            {field:'remark',title:'备注',width:'200px',align:'left', 
-            	editor:{
-	                type:'textbox',
-	                options:{
-	                	disabled:isdisabled,
-	                }
-            	}
             }
         ]],
         onClickCell:function(rowIndex,field,value){
@@ -271,4 +268,149 @@ function searchTakeStock(){
 		$("#scope").val(data.scope==1 ? "类别盘点" : "全场盘点");
 		$("#categoryShows").val(data.categoryShowsStr);
 	})
+}
+
+function saveStocktakingForm(opType){
+	var branchId = $("#branchId").val();
+	var batchId = $("#batchId").val();
+	var batchNo = $("#batchNo").val();
+	if(!branchId || !$.trim(branchId)){
+		messager("请选择机构");
+		return;
+	}
+	if(!batchId || !$.trim(batchId)){
+		messager("请选择盘点批次");
+		return;
+	}
+    $("#"+datagridId).datagrid("endEdit", gridHandel.getSelectRowIndex());
+    var rows = gridHandel.getRowsWhere({skuName:'1'});
+    $(gridHandel.getGridName()).datagrid("loadData",rows);
+    if(rows.length==0){
+        messager("表格不能为空");
+        return;
+    }
+    var isCheckResult = true;
+    var isChcekPrice = false;
+    
+    $.each(rows,function(i,v){
+        if(parseFloat(v["stocktakingNum"])<=0){
+            isChcekPrice = true;
+        }
+    });
+    if(isCheckResult){
+        if(isChcekPrice){
+            $.messager.confirm('系统提示',"盘点数存在为0，是否确定保存",function(r){
+                if (r){
+                    saveDataHandel(rows,opType);
+                }
+            });
+        }else{
+            saveDataHandel(rows,opType);
+        }
+    }
+}
+
+function saveDataHandel(rows,opType){
+	//机构
+	var formId=$("#formId").val();
+    //机构
+    var branchId=$("#branchId").val();
+    //机构Code
+    var branchCode=$("#branchCode").val();
+    //批次ID
+    var batchId=$("#batchId").val();
+    //批次号
+    var batchNo=$("#batchNo").val();
+    // 备注
+    var remark = $("#remark").val();
+
+			
+    var tempRows = [];
+    // 商品明细
+    $.each(rows,function(i,data){
+        var temp = {
+			skuId:data.skuId,
+			skuCode:data.skuCode,
+			skuName:data.skuName,
+			barCode:data.barCode,
+			unit:data.unit,
+			spec:data.spec,
+			stocktakingNum:data.stocktakingNum
+        }
+        tempRows.push(temp);
+    });
+    var jsonData = {
+    		id:formId,
+			branchId:branchId,
+			branchCode:branchCode,
+			batchId:batchId,
+			batchNo:batchNo,
+			remark:remark,
+			mode:0,
+			terminalId:'',
+			operateType:opType,
+            detailList:tempRows
+        };
+    console.log('盘点单',JSON.stringify(jsonData));
+    $.ajax({
+        url:contextPath+"/stocktaking/operate/saveStocktakingForm",
+        type:"POST",
+        data:{"data":JSON.stringify(jsonData)},
+        success:function(result){
+        	console.log('result',result);
+            if(result['code'] == 0){
+    			$.messager.alert("操作提示", "操作成功！", "info",function(){
+    				location.href = contextPath +"/stocktaking/operate/stocktakingFormView?id="+result['formId'];
+    			});
+            }else{
+                successTip(result['message']);
+            }
+        },
+        error:function(result){
+            successTip("请求发送失败或服务器处理失败");
+        }
+    });
+}
+
+/**
+ * 机构名称
+ */
+function selectBranches(){
+	new publicAgencyService(function(data){
+		$("#branchId").val(data.branchesId);
+		$("#branchCode").val(data.branchCode);
+		$("#branchName").val(data.branchName);
+	},'BF','');
+}
+
+//删除
+function deleteStocktakingForm(){
+	var formId = $("#formId").val();
+	var ids = [formId];
+	$.messager.confirm('提示','是否要删除此条数据',function(data){
+		if(data){
+			$.ajax({
+		    	url:contextPath+"/stocktaking/operate/deleteStocktakingForm",
+		    	type:"POST",
+		    	data:{
+		    		ids : ids
+		    	},
+		    	success:function(result){
+		    		successTip(result['message']);
+		    		if(result['code'] == 0){
+		    			back();
+		    		}
+		    	},
+		    	error:function(result){
+		    		successTip("请求发送失败或服务器处理失败");
+		    	}
+		    });
+		}
+	});
+}
+/**
+ * 关闭
+ */
+function back(){
+	toClose();
 }

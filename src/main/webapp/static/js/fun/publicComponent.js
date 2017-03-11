@@ -1886,7 +1886,7 @@ function publicStocktakingDialog(param,callback){
         closable: true,
         resizable: false,
         onClose: function () {
-            $(dalogTemp).panel('destroy');
+            $(StockDialog).panel('destroy');
             StockDialog = null;
         },
         modal: true,
@@ -1901,6 +1901,67 @@ function publicStocktakingDialog(param,callback){
         $(StockDialog).panel('destroy');
         StockDialog = null;
     }
+}
+
+/**
+ * 判断页面表单数据是否发生变化
+ */
+function checkUtil(){
+	var formId;//表单id
+	var oldData = {}; //旧数据
+	var newData = {}; //新数据
+	
+	this.setFormId = function(arg){
+		formId = arg;
+	}
+	
+	this.getFormId = function(){
+		return formId;
+	}
+	
+	this.getOldData = function(){
+		return oldData;
+	}
+	this.setOldData = function(obj){
+		oldData = obj;
+	}
+	
+	this.getNewData = function(){
+		return newData;
+	}
+	this.setNewData = function(obj){
+		newData = obj;
+	}
+	
+	this.initOldData = function(){
+		oldData = this.serizeFromData(oldData);
+	}
+	
+	this.initNewData = function(){
+		newData = this.serizeFromData(newData);
+	}
+	
+	//自定义序列化表单对象
+	this.serizeFromData = function(source){
+		var _serizeObj = $("#"+formId).serializeArray();
+		if(_serizeObj && _serizeObj.length > 0){
+			//表单值
+			_serizeObj.forEach(function(obj,inx){
+				source[""+obj.name+""] = obj.value||"";
+			});
+			
+			return source;
+		}
+	}
+	
+	//是否发送变化
+	this.ifChange = function(){
+		if(!gFunComparisonArray(oldData,newData)){
+			return false;
+		}
+		return true;
+	}
+		
 }
 
 

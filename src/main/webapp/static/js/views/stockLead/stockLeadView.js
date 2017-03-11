@@ -1,12 +1,16 @@
 /**
- * 领用单-新增
+ * 领用单-详情
  */
 var dataGridId = "stockLeadViewForm";
+var oldData = {};
+
 $(function(){
-	$("#branchName").val(sessionBranchCodeName);
-	$("#branchId").val(sessionBranchId);
-	$("#createTime").html(new Date().format('yyyy-MM-dd hh:mm'));
     initDatagridStockLeadView();
+    oldData = {
+       	branchId:$("#branchId").val(), //机构id
+        remark:$("#remark").val(),                  // 备注
+        formNo:$("#formId").val(),                 // 单号
+    }
 });
 var gridDefault = {
     realNum:0,
@@ -14,7 +18,6 @@ var gridDefault = {
     isGift:0,
 }
 
-var edit = '0';
 function getFiledsList(){
 	if(edit == '0'){
 		return [[
@@ -44,6 +47,7 @@ function getFiledsList(){
 		                    if(!value){
 		                    	row["price"] = 0.00;
 		                    }
+		                    
 		                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		                },
 		                editor:{
@@ -81,6 +85,11 @@ function getFiledsList(){
 		                        row["largeNum"] = parseFloat(value||0).toFixed(2);
 		                    }
 		                    
+		                    if(value && parseFloat(value) < 0){
+		                    	value = value*-1;
+		                    	row["largeNum"] = value;
+		                    }
+		                    
 		                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		                },
 		                editor:{
@@ -100,8 +109,13 @@ function getFiledsList(){
 		                    }
 		                    if(!value||value==""||parseFloat(value)==0.0){
 		                    	row["realNum"] = row["dealNum"];
-		                  	  value = row["realNum"];
+		                  	    value = row["realNum"];
 		                    }
+		                    if(value && parseFloat(value) < 0){
+		                    	value = value*-1;
+		                    	row["realNum"] = value;
+		                    }
+		                    
 		                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		                },
 		                editor:{
@@ -119,6 +133,10 @@ function getFiledsList(){
 		                    if(row.isFooter){
 		                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		                    }
+		                    if(value && parseFloat(value) < 0){
+		                    	value = value*-1;
+		                    	row["amount"] = value;
+		                    }
 		                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		                },
 		                editor:{
@@ -134,22 +152,62 @@ function getFiledsList(){
 		        ]]
 	}else{
 		return [[
-		            
-		            {field:'skuCode',title:'货号',width:'70px',align:'left',editor:'textbox'},
+		            {field:'skuCode',title:'货号',width:'70px',align:'left',
+		            	 formatter : function(value, row,index) {
+		            		 var str = "";
+			                    if(row.isFooter){
+			                        str ='<div class="ub ub-pc">合计</div> '
+			                    }else{
+			                        str = value;
+			                    }
+			                    return str;
+		            	 }
+		            },
 		            {field:'skuName',title:'商品名称',width:'200px',align:'left'},
 		            {field:'barCode',title:'国际条码',width:'150px',align:'left'},
 		            {field:'unit',title:'单位',width:'60px',align:'left'},
 		            {field:'spec',title:'规格',width:'90px',align:'left'},
-		            {field:'price',title:'成本价',width:'80px',align:'right'},
-		            {field:'stockNum',title:'当前库存',width:'80px',align:'right'},
-		            {field:'largeNum',title:'箱数',width:'80px',align:'right'},
-		            {field:'realNum',title:'数量',width:'80px',align:'right'},
-		            {field:'amount',title:'金额',width:'80px',align:'right'},
-		            {field:'remark',title:'备注',width:'200px',align:'left',editor:'textbox'}
+		            {field:'price',title:'成本价',width:'80px',align:'right',
+		            	formatter:function(value,row,index){
+		            		if(row.isFooter){
+		                        return
+		                    }
+		            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		            	}
+		            },
+		            {field:'stockNum',title:'当前库存',width:'80px',align:'right',
+		            	formatter:function(value,row,index){
+		            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		            	}	
+		            },
+		            {field:'largeNum',title:'箱数',width:'80px',align:'right',
+		            	formatter:function(value,row,index){
+		            		if(value && parseFloat(value) < 0){
+		                    	value = value*-1;
+		                    }
+		            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		            	}
+		            },
+		            {field:'realNum',title:'数量',width:'80px',align:'right',
+		            	formatter:function(value,row,index){
+		            		if(value && parseFloat(value) < 0){
+		                    	value = value*-1;
+		                    }
+		            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		            	}
+		            },
+		            {field:'amount',title:'金额',width:'80px',align:'right',
+		            	formatter:function(value,row,index){
+		            		if(value && parseFloat(value) < 0){
+		                    	value = value*-1;
+		                    }
+		            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		            	}
+		            },
+		            {field:'remark',title:'备注',width:'200px',align:'left'}
 		        ]]
 	}
 }
-
 
 var gridHandel = new GridClass();
 function initDatagridStockLeadView(){
@@ -194,14 +252,17 @@ function initDatagridStockLeadView(){
                 gridHandel.setSelectFieldName("skuCode");
             }
         },
-        onLoadSuccess:function(data){
+        onLoadSuccess:function(data){        	
+        	if(!oldData["grid"]){
+	        	oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
+	        		return $.extend(true,{},obj);//返回对象的深拷贝
+	        	});
+        	}
             gridHandel.setDatagridHeader("center");
             updateFooter();
         }
 
     });
-
-   
 }
 
 // 限制转换次数
@@ -297,40 +358,6 @@ function totleChangePrice(newV,oldV) {
 	updateFooter(); 
 }
 
-
-//新增领用单
-function addStockForm() {
-	toAddTab("新增领用单", contextPath + "/stock/lead/add");
-}
-
-// 监听是否赠品
-function onSelectIsGift(data){
-    var checkObj = {
-        skuCode: gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'skuCode'),
-        isGift:data.id,
-    };
-    var arrs = gridHandel.searchDatagridFiled(gridHandel.getSelectRowIndex(),checkObj);
-    if(arrs.length==0){
-        var targetPrice = gridHandel.getFieldTarget('price');
-        if(data.id=="1"){
-            var priceVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
-            $("#"+dataGridId).datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"] = priceVal;
-            $(targetPrice).numberbox('setValue',0);
-            $(targetPrice).numberbox('disable');
-        }else{
-            $(targetPrice).numberbox('enable');
-            var oldPrice =  $("#"+dataGridId).datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"];
-            if(oldPrice){
-                $(targetPrice).numberbox('setValue',oldPrice);
-            }
-        }
-        updateFooter();
-    }else{
-        var targetIsGift = gridHandel.getFieldTarget('isGift');
-        $(targetIsGift).combobox('select', data.id=='1'?'0':'1');
-        messager(data.id=='1'?'已存在相同赠品':'已存在相同商品');
-    }
-}
 // 合计
 function updateFooter(){
     var fields = {stockNum:0,largeNum:0,realNum:0,amount:0};
@@ -453,7 +480,7 @@ function setTion(datas){
 }
 
 // 保存
-function saveStockLead(){
+function updateStockLead(){
     // 商品总数量
     var totalNum = 0;
     // 总金额
@@ -479,6 +506,7 @@ function saveStockLead(){
     }
    var isCheckResult = true;
    $.each(rows,function(i,v){
+	   v["rowNo"] = i+1;
     	if(!v["skuCode"]){
              messager("第"+(i+1)+"行，货号不能为空");
              isCheckResult = false;
@@ -505,21 +533,17 @@ function saveStockLead(){
     if(!isCheckResult){
         return;
     }
-   // var saveData = JSON.stringify(rows);
-   // var stockFormDetailList =
-	// tableArrayFormatter(rows,"stockFormDetailList");
-   /*
-	 * var reqObj = $.extend({ io:io, createBranchId:branchId, reason:reason,
-	 * remark:remark, }, stockFormDetailList);
-	 */
     var reqObj = {
+    		io:'1',
+    		id:$("#formId").val(),
+    		formType:$("#formType").val(),
         	createBranchId:branchId,
             remark:remark,
             stockFormDetailList:rows
         };
     var req = JSON.stringify(reqObj);
     $.ajax({
-        url:contextPath+"/stock/lead/save",
+        url:contextPath+"/stock/lead/update",
         type:"POST",
         data:req,
         contentType:"application/json",
@@ -538,22 +562,54 @@ function saveStockLead(){
     });
 }
 
+//新增领用单
+function addStockLead() {
+	var newData = {
+		branchId:$("#branchId").val(), //机构id
+	    remark:$("#remark").val(),                  // 备注
+	    formNo:$("#formId").val(),                 // 单号
+        grid:gridHandel.getRows(),
+    }
+    
+    if(!gFunComparisonArray(oldData,newData)){
+        messager("数据已修改，请先保存再新增");
+        return;
+    }
+	
+	toAddTab("新增领用单", contextPath + "/stock/lead/add");
+}
+
+
 // 审核
 function checkStockLead(){
-	var deliverFormId = $("#formId").val();
+	//验证数据是否修改
+    $("#"+gridHandel.getGridName()).datagrid("endEdit", gridHandel.getSelectRowIndex());
+    var id = $("#formId").val();
+    var newData = {
+            branchId:$("#branchId").val(), // 机构id
+            remark:$("#remark").val(),                  // 备注
+            formNo:$("#formId").val(),                 // 单号
+            grid:gridHandel.getRows(),
+        }
+
+    
+    if(!gFunComparisonArray(oldData,newData)){
+        messager("数据已修改，请先保存再审核");
+        return;
+    }
+    
 	$.messager.confirm('提示','是否审核通过？',function(data){
 		if(data){
 			$.ajax({
 		    	url : contextPath+"/stock/lead/check",
 		    	type : "POST",
 		    	data : {
-		    		deliverFormId : $("#formId").val(),
-		    		stockType : 'IU'
+		    		id : id
 		    	},
 		    	success:function(result){
 		    		if(result['code'] == 0){
 		    			$.messager.alert("操作提示", "操作成功！", "info",function(){
-		    				contextPath +"/stock/lead/list";
+		    				location.href = contextPath +"/stock/lead/edit?id=" + id;
 		    			});
 		    		}else{
 		    			successTip(result['message']);

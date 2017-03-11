@@ -33,6 +33,7 @@ import com.okdeer.jxc.common.goodselect.GoodsSelectImportComponent;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportHandle;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportVo;
 import com.okdeer.jxc.common.result.RespJson;
+import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.goods.entity.GoodsPriceForm;
@@ -81,7 +82,10 @@ public class GoodsBranchPriceAdjustController extends BaseController<GoodsBranch
 	 * @date 2017年3月6日
 	 */
 	@RequestMapping(value = "list")
-	public String list() {
+	public String list(Model model) {
+		model.addAttribute("branchId", UserUtil.getCurrBranchId());
+		model.addAttribute("branchCode", UserUtil.getCurrBranchCompleCode());
+		model.addAttribute("branchName", UserUtil.getCurrBranchCompleName());
 		return "goods/branchPriceAdjust/list";
 	}
 	/**
@@ -123,7 +127,7 @@ public class GoodsBranchPriceAdjustController extends BaseController<GoodsBranch
 	@RequestMapping(value = "/addFormView", method = RequestMethod.GET)
 	public String addFormView(Model model, HttpServletRequest request) {
 		model.addAttribute("branchId", UserUtil.getCurrentUser().getBranchId());
-		model.addAttribute("branchName", UserUtil.getCurrentUser().getBranchName());
+		model.addAttribute("branchName",UserUtil.getCurrBranchCompleName());
 		return "goods/branchPriceAdjust/addModifyBranchPrice";
 	}
 	/**
@@ -245,6 +249,25 @@ public class GoodsBranchPriceAdjustController extends BaseController<GoodsBranch
 			return respJson;
 		}
 		return RespJson.success();
+	}
+	@RequestMapping(value = "/bacthDeleteForm", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson bacthDeleteForm(String ids) {
+		try {
+			// 获取当前用户
+			SysUser user = UserUtil.getCurrentUser();
+			// 修改人
+			String updateUserId = user.getId();
+			if(StringUtils.isBlank(ids)){
+				return RespJson.error("未选择单据");
+			}
+			String[] idArray = ids.split(",");
+			return goodsBranchPriceAdjustService.bacthDeleteForm(idArray, updateUserId);
+		} catch (Exception e) {
+			LOG.error(GoodsPriceFormConst.DELETE_GOODS_PRICE_FOMR_ERRO, e);
+			RespJson respJson = RespJson.error(GoodsPriceFormConst.DELETE_GOODS_PRICE_FOMR_ERRO);
+			return respJson;
+		}
 	}
 	/**
 	 * 
@@ -401,4 +424,27 @@ public class GoodsBranchPriceAdjustController extends BaseController<GoodsBranch
 		return "goods/branchPriceAdjust/modifyPriceDialog";
 	}
 
+	/**
+	 * 
+	 * @Description: 导出
+	 * @param response
+	 * @param formNo
+	 * @author liux01
+	 * @date 2017年3月10日
+	 */
+	@RequestMapping(value = "exportList")
+	public void exportList(HttpServletResponse response, String formNo) {
+		LOG.info("GoodsPriceAdjustController:exportList:" + formNo);
+		try {
+			List<GoodsPriceFormDetail> exportList = goodsPriceAdustService.queryDetailsByFormNo(formNo);
+			// 导出文件名称，不包括后缀名
+			String fileName = "门店调价单" + "_" + DateUtils.getCurrSmallStr();
+			// 模板名称，包括后缀名
+			String templateName = ExportExcelConstant.GOODS_BRANCH_PRICE_ADJUST_FORM;
+			// 导出Excel
+			exportListForXLSX(response, exportList, fileName, templateName);
+		} catch (Exception e) {
+			LOG.error("GoodsPriceAdjustController:exportList:", e);
+		}
+	}
 }

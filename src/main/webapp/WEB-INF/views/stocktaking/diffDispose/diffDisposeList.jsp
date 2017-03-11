@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>盘点差异处理</title>
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-    <script  src="${ctx}/static/js/views/stocktaking/diffDispose/diffDisposeList.js"></script>
+    <script  src="${ctx}/static/js/views/stocktaking/diffDispose/diffDisposeList.js?v=1.16"></script>
     <style>
     .datagrid-header .datagrid-cell {text-align: center!important;font-weight: bold;}
     </style>
@@ -17,7 +17,7 @@
 		<div class="ub ub-ac">
             <div class="ubtns">
                 <div class="ubtns-item" onclick="queryForm()">查询</div>
-                <div class="ubtns-item" onclick="toDelete()">删单</div>
+                <div class="ubtns-item" onclick="deleteStocktakingBatch()">删单</div>
                 <div class="ubtns-item" id="set" onclick="gFunRefresh()" >重置</div>
                 <div class="ubtns-item" onclick="toClose()">退出</div>
             </div>
@@ -29,9 +29,9 @@
 		</div>
 		<div class="ub uline umar-t8"></div>
 		<div class="ub umar-t8">
-			<div class="ub ub-ac uw-300 umar-l40">
+			<div class="ub ub-ac uw-300 umar-l20">
 				<div class="umar-r10 uw-70 ut-r">盘点批号:</div>
-				<input class="uinp" type="text" id="takeStockLotNO" name="takeStockLotNO">
+				<input class="uinp" type="text" id="batchNo" name="batchNo">
 			</div>
 			<div class="ub ub-ac">
 				<div class="umar-r10 uw-70 ut-r">机构:</div>
@@ -41,10 +41,10 @@
 			</div>
 		</div>
 		<div class="ub umar-t8">
-			<div class="ub ub-ac uw-300 umar-l40">
+			<div class="ub ub-ac uw-300 umar-l20">
 				<div class="umar-r10 uw-70 ut-r">制单人员:</div>
-				<input type="hidden" id="operateUserId" name="operateUserId" />
-				<input class="uinp ub ub-f1" type="text" id="operateUserName" name="operateUserName">
+				<input type="hidden" id="createUserId" name="createUserId" />
+				<input class="uinp ub ub-f1" type="text" id="createUserName" name="createUserName">
 				<div class="uinp-more" onclick="selectOperator()" >...</div>
 			</div>
             <div class="ub ub-ac umar-l10">
@@ -61,7 +61,7 @@
             </div>
 		</div>
 		<div class="ub umar-t8">
-			<div class="ub ub-ac uw-300 umar-l40">
+			<div class="ub ub-ac uw-300 umar-l20">
 				<div class="umar-r10 uw-70 ut-r">备注:</div>
 				<input class="uinp" type="text" id="remark" name="remark">
 			</div>

@@ -6,12 +6,18 @@ var datagridId = "addModifyBranchPriceGrid";
 
 // 是否保存过添加的单据数据的标志位
 var isClickSaveData = false;
+//是否审核过添加的单据数据的标志位
+var isClickCheckData = false;
 // datagrid对象
 var addModifyPriceGridDg;
 
+var checkUtil = new checkUtil();
 
 
 $(function() {
+	checkUtil.setFormId('searchForm');
+	checkUtil.initOldData();
+	
 	// 初始化表格
 	initAddModifyPriceGridEdit();
 	// 初始化复选框
@@ -23,8 +29,9 @@ $(function() {
 	    }
 	
 	var formId = $("#formId").val();
-	console.log(formId);
 	if (formId != null && formId != '') {
+		isClickSaveData = true;
+		initTmpData();
 		addModifyPriceGridDg.datagrid('options').queryParams = {
 			formId : formId
 		};
@@ -37,8 +44,21 @@ $(function() {
 	if (status == 1) {
 		// input禁用,a标签移除事件，增加“已审核”标志
 		datagridUtil.readOnlyInput();
+		isClickCheckData = true;
 	}
 });
+
+function initTmpData(){
+	checkUtil.initOldData();
+	checkUtil.initNewData();
+	var _newData = checkUtil.getNewData();
+	_newData['grid'] = '';
+	var _oldData = checkUtil.getOldData();
+	_oldData['grid'] = '';
+	checkUtil.setOldData(_oldData);
+	checkUtil.setNewData(_newData);
+}
+
 var gridDefault = {
 //	oldPurPrice:0.00,
 //	oldDcPrice:0.00,
@@ -210,6 +230,10 @@ function initAddModifyPriceGridEdit() {
 					}
 				},
 				onLoadSuccess : function() {
+					if(!checkUtil.getOldData()["grid"]){
+						checkUtil.getOldData()["grid"] =  gridHandel.getRows();
+		            }
+					
 					gridHandel.setDatagridHeader("center");
 					datagridUtil.isCheckBoxChecked("retailPrice");// 零售价
 					datagridUtil.isCheckBoxChecked("memberPrice");// 会员价
@@ -231,12 +255,28 @@ function initCheckbox(){
 
 // 新增
 function addModifyDataGrid() {
+	
+	if (isClickCheckData) {
+		window.location.href = contextPath
+			+ "/goods/branchPriceAdjust/addFormView";
+	}
+	$("#"+datagridId).datagrid("endEdit",gridHandel.getSelectRowIndex());
+	console.log('oldDate',JSON.stringify(checkUtil.getOldData()))
+	console.log('newDate',JSON.stringify(checkUtil.getNewData()))
+	
+	checkUtil.initNewData();
+	checkUtil.getNewData()['grid'] = gridHandel.getRows();
+	
+	
+	
 	// 如果页面为空，则不需要提示，只有页面都输入值，才校验是否保存过数据
-	if (datagridUtil.isSaveData()) {
+	if (!checkUtil.ifChange()) {
+		var content = '';
 		if (isClickSaveData) {
-			window.location.href = contextPath
-				+ "/goods/branchPriceAdjust/addFormView";
-		} else {
+			content = "<div class='upad-12 ufs-14'>单据已经变更，是否保存？</div>"
+		}else{
+			content = "<div class='upad-12 ufs-14'>单据未保存，是否取消编辑并新增?</div>"
+		}
 			var d = $("<div />")
 				.dialog(
 					{
@@ -246,7 +286,7 @@ function addModifyDataGrid() {
 						height : 150,
 						maximizable : false,
 						modal : true,
-						content : "<div class='upad-12 ufs-14'>页面内容有修改,是否保存? 点击是:保存,点击否:不保存,或点击取消不做任何处理...</div>",
+						content : content,
 						buttons : [
 							{
 								text : '是',
@@ -266,7 +306,7 @@ function addModifyDataGrid() {
 								}
 							} ]
 					});
-		}
+		
 	} else {
 		window.location.href = contextPath + "/goods/branchPriceAdjust/addFormView";
 	}
@@ -334,19 +374,11 @@ function saveModifyPriceOrder() {
 						gFunEndLoading();
 						if (data.code == 0) {
 							isClickSaveData = true;
-							// 代表点击过保存单据数据
-							$.messager.alert('提示','单据保存成功！',"info",function() {
-								$("#id").text(data.goodsPriceForm.formId);
-										$("#formNo").text(data.goodsPriceForm.formNo);
-										$("#formNoInput").text(data.goodsPriceForm.formNo);
-										$("#createUserName").text(data.goodsPriceForm.createUserName);
-										$("#createUserDate").text(data.goodsPriceForm.createTime);
-										$("#id").val(data.goodsPriceForm.id);
-										addModifyPriceGridDg.datagrid('options').queryParams = {formNo : data.goodsPriceForm.formNo};
-										addModifyPriceGridDg.datagrid('options').url = contextPath+ "/goods/branchPriceAdjust/getForm";
-										addModifyPriceGridDg.datagrid('load');
-										$("#saveModifyPriceOrder").attr("onclick","updateModifyPriceOrder();");
-									});
+							initTmpData();
+							
+							$.messager.alert("操作提示", "操作成功！", "info",function(){
+			    				location.href = contextPath +"//goods/branchPriceAdjust/getForm?formNo="+data.goodsPriceForm.formNo;
+			    			});
 						} else {
 							// 失败提示
 							$.messager.alert('提示', data.message);
@@ -407,12 +439,12 @@ function updateModifyPriceOrder() {
 						gFunEndLoading();
 						if (data.code == 0) {
 							isClickSaveData = true;
-							// 代表点击过保存单据数据
-							$.messager.alert('提示','单据保存成功！',"info",function() {
-										addModifyPriceGridDg.datagrid('options').queryParams = {formNo : data.goodsPriceForm.formNo};
-										addModifyPriceGridDg.datagrid('options').url = contextPath+ "/goods/branchPriceAdjust/getForm";
-										addModifyPriceGridDg.datagrid('load');
-									});
+							initTmpData();
+							
+							$.messager.alert("操作提示", "操作成功！", "info",function(){
+			    				location.href = contextPath +"//goods/branchPriceAdjust/getForm?formNo="+data.goodsPriceForm.formNo;
+			    			});
+							
 						} else {
 							// 失败提示
 							$.messager.alert('提示', data.message);
@@ -427,6 +459,17 @@ function updateModifyPriceOrder() {
  * 审核
  */
 function check() {
+	
+	checkUtil.initNewData();
+	checkUtil.getNewData()['grid'] = gridHandel.getRows();
+	
+	console.log('oldDate',JSON.stringify(checkUtil.getOldData()))
+	console.log('newDate',JSON.stringify(checkUtil.getNewData()))
+	// 如果页面为空，则不需要提示，只有页面都输入值，才校验是否保存过数据
+	if (!checkUtil.ifChange()) {
+		 messager("数据已修改，请先保存再审核");
+	     return;
+	}
 	var formNo = $("#formNoInput").val();
 	// 通过审核
 	var effectDate = $("#effectDate").val();
@@ -447,6 +490,8 @@ function checkForm(formNo,effectDate) {
 			if (data.code > 0) {
 				$.messager.alert('提示', data.message, "info");
 			} else {
+				//审核过
+				isClickCheckData = true;
 				$.messager.alert('提示', '单据审核成功！', "info", function() {
 					window.location.href = contextPath
 						+ "/goods/branchPriceAdjust/getForm?formNo=" + formNo;
@@ -812,12 +857,7 @@ function selectBranch() {
 }
 //导出
 function exportData(){
-	var length = $("#addModifyPriceGrid").datagrid('getData').total;
-	var status=$("#status").val();
-	if(status==0){
-		$.messager.alert('提示',"订单未通过审核");
-		return;
-	}
+	var length = $("#addModifyBranchPriceGrid").datagrid('getData').total;
 	if(length == 0){
 		$.messager.alert('提示',"没有数据");
 		return;
@@ -827,8 +867,10 @@ function exportData(){
 		return;
 	}
 	var formNo=$("#formNoInput").val();
-	$("#searchForm").attr("action",contextPath+'/goods/priceAdjust/exportList?formNo='+formNo);
+	$("#searchForm").attr("action",contextPath+'/goods/branchPriceAdjust/exportList?formNo='+formNo);
+	
 	$("#searchForm").submit();	
+
 }
 
 //打印

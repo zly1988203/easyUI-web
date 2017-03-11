@@ -81,6 +81,39 @@
   .ubtns .ubtns-item:hover {
     color: #f0a314;
     background-color: #c9c9c9; }
+    
+    .btnTab{
+    	 display: -webkit-box !important;
+    /* Chrome, WebKit Safari */
+    display: -moz-box !important;
+    /* Firefox */
+    display: -ms-flexbox !important;
+    /* IE10 */
+    display: box !important;
+    position: relative;
+    -webkit-box-pack: center;
+    -moz-box-pack: center;
+    -ms-box-pack: center;
+    box-pack: center;
+    font-size: 14px;
+    width: 72px;
+    height: 32px;
+    line-height: 32px;
+    color: #393939;
+    border: none;
+    border-right: 1px solid #95B8E7;
+    border-left: 1px solid #95B8E7;
+    border-top: 1px solid #95B8E7;
+    background-color: #fff; 
+    margin-bottom:-4px;
+    border-radios:50px;
+    }
+    .btnTab:hover{
+    	background-color: #95B8E7; 
+    }
+     .btnTab:focus{
+    	background-color: #95B8E7; 
+    }
 
 /*==========================line from huangjiang to 2016-8-4 17:48:32===========================*/
 .uline {
@@ -92,6 +125,12 @@
   width: 1px;
   height: 100%;
   background-color: #c9c9c9; }
+  
+  .uline-tab{
+  width: 100%;
+  height: 1px;
+  background-color: #95B8E7; 
+  }
 
 /*==========================input from huangjiang to 2016-8-4 17:48:32===========================*/
 .upublic {

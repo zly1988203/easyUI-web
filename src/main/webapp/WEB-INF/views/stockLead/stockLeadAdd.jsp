@@ -23,9 +23,6 @@
 						<div class="ubtns-item" onclick="importHandel(0)">导入货号</div>
 						<div class="ubtns-item" onclick="importHandel(1)">导入条码</div>
 					</shiro:hasPermission>
-					<shiro:hasPermission name="JxcStockLead:export">
-						<div class="ubtns-item" onclick="exportData()">导出</div>
-					</shiro:hasPermission>
 					<shiro:hasPermission name="JxcStockLead:setting">
 						<div class="ubtns-item-disabled">设置</div>
 					</shiro:hasPermission>
