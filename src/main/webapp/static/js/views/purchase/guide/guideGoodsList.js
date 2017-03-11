@@ -201,7 +201,8 @@ function nextStep (){
             	
             	var guideNo = result.data;
             	//提交参数并跳转到第三步
-            	$.StandardPost(contextPath+"/form/purchaseGuide/guideOrderList", guideNo);
+            	location.href = contextPath+"/form/purchaseGuide/toGuideOrderList?guideNo="+guideNo;
+            	//$.StandardPost(contextPath+"/form/purchaseGuide/guideOrderList", {guideNo:guideNo});
             }else{
                 successTip(result.message);
             }
