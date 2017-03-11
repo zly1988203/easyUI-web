@@ -110,7 +110,22 @@ public interface PrintConstant {
 	 * @Fields SALE_ROTARATE_REPORT : 库存销售周转率
 	 */
 	String SALE_ROTARATE_REPORT = "saleRotaRateReport.jrxml";
-	
+
+	/**
+	 * @Fields DIFF_DISPOSE_DETAIL : 差异详情
+	 */
+	String DIFF_DISPOSE_DETAIL = "diffDisposeDetail.jrxml";
+
+	/**
+	 * @Fields DIFF_SEARCH_DETAIL : 差异查询明细
+	 */
+	String DIFF_SEARCH_DETAIL = "diffSearchDetail.jrxml";
+
+	/**
+	 * @Fields DIFF_SEARCH_SUMMARIZING : 差异查询汇总
+	 */
+	String DIFF_SEARCH_SUMMARIZING = "diffSearchSummarizing.jrxml";
+
 	/**
 	 * @Fields ROTARATE_PRINT_ERROR ：库存周转率打印失败
 	 */

@@ -148,3 +148,36 @@ function deleteDiffDispose(){
 function back(){
 	toClose();
 }
+
+/**
+ * 打印
+ */
+function printDiffDispose(){
+	var length = $("#"+gridName).datagrid('getData').total;
+	if(length == 0){
+		$.messager.alert('提示',"没有数据");
+		return;
+	}
+	var fromObjStr = $('#searchForm').serializeObject();
+	console.log(fromObjStr);
+	var param=setParams("searchForm");
+	console.log(param);
+	parent.addTabPrint("差异详情","打印",contextPath+"/stocktaking/diffDispose/printDiffDispose?" + param);
+}
+
+function setParams(formId){  
+	var param="";
+	var arr = $('#' + formId).serializeArray();
+	if(arr != null){
+		for(var i=0;i<arr.length;i++){
+			var _val = encodeURIComponent(arr[i].value);
+			if(_val){
+				param = param + arr[i].name + "="+_val+"&";
+			}
+		}
+	}
+	if(param){
+		param = param.substring(0,param.length-1);
+	}
+	return param;
+}
