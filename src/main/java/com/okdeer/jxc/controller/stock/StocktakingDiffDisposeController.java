@@ -175,8 +175,17 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 			}
 			String path = PrintConstant.DIFF_DISPOSE_DETAIL;
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("startDate", vo.getCreateTime());
-			map.put("endDate", vo.getCreateTime());
+			map.put("startDate", StringUtils.isBlank(vo.getCreateTime())?"":vo.getCreateTime());
+			map.put("endDate", StringUtils.isBlank(vo.getCreateTime())?"":vo.getCreateTime());
+			map.put("batchNo", StringUtils.isBlank(vo.getBatchNo())?"":vo.getBatchNo());
+			map.put("branchName", StringUtils.isBlank(vo.getBranchName())?"":vo.getBranchName());
+			map.put("createUserName", StringUtils.isBlank(vo.getCreateUserName())?"":vo.getCreateUserName());
+			map.put("createTime", StringUtils.isBlank(vo.getCreateTime())?"":vo.getCreateTime());
+			map.put("scope", StringUtils.isBlank(vo.getScope())?"":vo.getScope());
+			map.put("categoryShowsStr", StringUtils.isBlank(vo.getCategoryShowsStr())?"":vo.getCategoryShowsStr());
+			map.put("validUserName", StringUtils.isBlank(vo.getValidUserName())?"":vo.getValidUserName());
+			map.put("validTime", StringUtils.isBlank(vo.getValidTime())?"":vo.getValidTime());
+			map.put("remark", StringUtils.isBlank(vo.getRemark())?"":vo.getRemark());
 			map.put("printName", UserUtil.getCurrentUser().getUserName());
 			JasperHelper.exportmain(request, response, map, JasperHelper.PDF_TYPE, path, printList, "");
 		} catch (Exception e) {

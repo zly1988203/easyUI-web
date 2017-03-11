@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>盘点差异处理详情</title>
   <%@ include file="/WEB-INF/views/include/header.jsp"%>
-    <script  src="${ctx}/static/js/views/stocktaking/diffDispose/diffDispose.js?v=1.266"></script>
+    <script  src="${ctx}/static/js/views/stocktaking/diffDispose/diffDispose.js"></script>
     <style>
     .datagrid-header .datagrid-cell {text-align: center!important;font-weight: bold;}
     </style>
@@ -29,7 +29,6 @@
 
 	<form action="" id="searchForm" method="post">
  			<input type="hidden" id="batchId" name="id" value="${batchVo.id}">
- 		</form>
         <div class="ub uline umar-t10"></div>
         <div class="ub umar-t10">
 	            <div class="ub ub-ac uselectws umar-l40">
@@ -87,6 +86,7 @@
                    <input class="uinp uninput" type="text" id="remark" name="remark" value="${batchVo.remark}" >
                </div>
            </div>
+           </form>
            <!--datagrid-edit-->
            <div class="ub ub-f1 datagrid-edit umar-t8">
                <table id="operateGrid" ></table>

@@ -146,8 +146,8 @@ public class StocktakingDiffSearchController extends BaseController<StocktakingD
 				path = PrintConstant.DIFF_SEARCH_DETAIL;
 			}
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("startDate", diffVo.getStartTime());
-			map.put("endDate", diffVo.getEndTime());
+			map.put("startDate", StringUtils.isBlank(diffVo.getStartTime())?"":diffVo.getStartTime());
+			map.put("endDate", StringUtils.isBlank(diffVo.getEndTime())?"":diffVo.getEndTime());
 			map.put("printName", UserUtil.getCurrentUser().getUserName());
 			JasperHelper.exportmain(request, response, map, JasperHelper.PDF_TYPE, path, printList, "");
 		} catch (Exception e) {

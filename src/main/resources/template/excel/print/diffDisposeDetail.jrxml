@@ -7,6 +7,15 @@
 	<parameter name="endDate" class="java.lang.String"/>
 	<parameter name="printName" class="java.lang.String"/>
 	<parameter name="allTotal" class="java.lang.String"/>
+	<parameter name="batchNo" class="java.lang.String"/>
+	<parameter name="scope" class="java.lang.String"/>
+	<parameter name="remark" class="java.lang.String"/>
+	<parameter name="branchName" class="java.lang.String"/>
+	<parameter name="categoryShowsStr" class="java.lang.String"/>
+	<parameter name="createUserName" class="java.lang.String"/>
+	<parameter name="validUserName" class="java.lang.String"/>
+	<parameter name="createTime" class="java.lang.String"/>
+	<parameter name="validTime" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[select remarks from mfo_dtl]]>
 	</queryString>
@@ -171,63 +180,63 @@
 				<textElement verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{startDate}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{batchNo}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="75" y="77" width="62" height="20" uuid="3d15b248-0755-4479-91a7-c8f0b25a05a7"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{startDate}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{scope}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="75" y="95" width="62" height="20" uuid="6da38392-9de5-45bd-974d-cee4c3cbc721"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{startDate}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{remark}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="182" y="57" width="62" height="20" uuid="a5c54f1b-2181-472f-96b1-93f5fb4b91b8"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{startDate}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{branchName}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="182" y="77" width="62" height="20" uuid="5c0c1f20-dcb7-4867-8280-cd0de853d1f1"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{startDate}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{categoryShowsStr}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="315" y="57" width="62" height="20" uuid="11a6f256-4f27-415b-b21d-dc86a7b6c376"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{startDate}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{createUserName}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="318" y="77" width="62" height="20" uuid="bac0a749-655a-4af1-84cb-ea1a30acbb27"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{startDate}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{validUserName}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="458" y="57" width="62" height="20" uuid="8b73b629-fa2d-457a-b5d7-a1de31607fd1"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{startDate}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{createTime}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="458" y="75" width="62" height="20" uuid="b47938eb-c262-42f2-b73d-1c9a21f8a637"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{startDate}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{validTime}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
@@ -301,7 +310,7 @@
 				<text><![CDATA[盘点金额（成本价）]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="409" y="3" width="69" height="22" uuid="41344fe8-bc6f-473d-acf6-193818cefeb2"/>
+				<reportElement x="424" y="3" width="41" height="22" uuid="41344fe8-bc6f-473d-acf6-193818cefeb2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
@@ -349,7 +358,7 @@
 				<text><![CDATA[盘点数量]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="269" y="3" width="46" height="22" uuid="8dabc075-913b-4dfc-9b9b-bcb49fb7277d"/>
+				<reportElement x="275" y="3" width="32" height="22" uuid="8dabc075-913b-4dfc-9b9b-bcb49fb7277d"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
