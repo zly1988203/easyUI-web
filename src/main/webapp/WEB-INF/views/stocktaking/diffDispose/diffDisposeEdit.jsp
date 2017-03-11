@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>盘点差异处理详情</title>
   <%@ include file="/WEB-INF/views/include/header.jsp"%>
-    <script  src="${ctx}/static/js/views/stocktaking/diffDispose/diffDispose.js?v=1.52"></script>
+    <script  src="${ctx}/static/js/views/stocktaking/diffDispose/diffDispose.js"></script>
     <style>
     .datagrid-header .datagrid-cell {text-align: center!important;font-weight: bold;}
     </style>
@@ -18,7 +18,7 @@
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
 				<div class="ubtns-item" onclick="saveDiffDispose()">保存</div>
-				<div class="ubtns-item" id="btnCheck" onclick="check()">审核</div>
+				<div class="ubtns-item" id="btnCheck" onclick="auditDiffDispose()">审核</div>
 				<div class="ubtns-item" onclick="deleteDiffDispose()">删单</div>
 				<div class="ubtns-item" onclick="printDiffDispose()">打印</div>
 				<div class="ubtns-item" onclick="back()">关闭</div>

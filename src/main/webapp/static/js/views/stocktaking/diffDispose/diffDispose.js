@@ -2,8 +2,11 @@ var gridName = "operateGrid";
 var isdisabled = false;
 var url;
 var operateStatus = 'add';
-
+var oldData;
 $(function(){
+    oldData = {
+    		differenceReason:$("#differenceReason").val()
+    }
 	operateStatus = $('#disposeStatus').val();
 	var batchId = $('#batchId').val();
 	if(operateStatus === 'add'){
@@ -54,7 +57,10 @@ function initOperateDataGrid(){
         height:'100%',
         width:'100%',
         columns:[[
-			{field:'ck',checkbox:true},
+			{field:'handle',checkbox:true,
+			    formatter : function(value, row,index) {
+			        return true;
+			    }},
             {field:'skuId',hidden:'true'},
             {field:'barCode',hidden:'true'},
             {field:'skuCode',title:'货号',width: '100px',align:'left',
@@ -85,6 +91,12 @@ function initOperateDataGrid(){
             {field:'profitLossCostAmount',title:'盈亏金额（成本价）',width:'200px',align:'left'},
             {field:'profitLossSaleAmount',title:'盈亏金额（售价）',width:'200px',align:'left'},
         ]],
+        onCheck:function(rowIndex,rowData){
+        	rowData.handle = '1';
+        },
+        onUncheck:function(rowIndex,rowData){
+        	rowData.handle = '0';
+        },
         onClickCell:function(rowIndex,field,value){
             gridHandel.setBeginRow(rowIndex);
             gridHandel.setSelectFieldName(field);
@@ -96,7 +108,18 @@ function initOperateDataGrid(){
             }
         },
         onLoadSuccess:function(data){
-
+        	if(!oldData["grid"]){
+            	oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
+            		return $.extend(true,{},obj);//返回对象的深拷贝
+            	});
+            }
+        	var rowData = data.rows;  
+            $.each(rowData,function(idx,val){//遍历JSON  
+                  if(val.handle==='1'){  
+                    $("#"+gridName).datagrid("selectRow", idx);//如果数据行为已选中则选中改行  
+                  }  
+            }); 
+            
             gridHandel.setDatagridHeader("center");
         
             updateFooter();
@@ -239,3 +262,38 @@ function saveDataHandel(rows){
     });
 }
 
+//审核
+function auditDiffDispose(){
+	var rows = gridHandel.getRows();
+	//批次Id
+	var batchId=$("#batchId").val();
+    //机构
+    var branchId=$("#branchId").val();
+    
+    var jsonData = {
+    		id:batchId,
+			branchId:branchId,
+			diffDetailList:rows
+        };
+	$.messager.confirm('提示','是否审核通过？',function(data){
+		if(data){
+			$.ajax({
+		    	url : contextPath+"/stocktaking/diffDispose/auditDiffDispose",
+		    	type : "POST",
+		    	data:{"data":JSON.stringify(jsonData)},
+		    	success:function(result){
+		    		if(result['code'] == 0){
+		    			$.messager.alert("操作提示", "操作成功！", "info",function(){
+		    				location.href = contextPath +"/stocktaking/diffDispose/stocktakingBatchView?id="+result['batchId'];
+		    			});
+		    		}else{
+		    			successTip(result['message']);
+		    		}
+		    	},
+		    	error:function(result){
+		    		successTip("请求发送失败或服务器处理失败");
+		    	}
+		    });
+		}
+	});
+}
