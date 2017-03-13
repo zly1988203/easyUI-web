@@ -12,7 +12,7 @@
             <div class="ub ub-ac upad-10 ">
                 <div class="ub ub-ac uw">
                     <div class="umar-r10">关键字:</div>
-                    <input name="dlgSearchStr" id="dlgSearchStr" class="usearch uinp ub ub-f1" type="text" >
+                    <input name="dlgSearchStr" id="dlgSearchStr" class="usearch uinp ub ub-f1" type="text" placeholder="输入盘点批次号、机构编码、机构名称进行查询">
                     <div class="ubtn umar-l20" onclick="stocktSearch()">查询</div>
                 </div>
             </div>

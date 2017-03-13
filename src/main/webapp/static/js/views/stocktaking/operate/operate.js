@@ -272,8 +272,10 @@ function toImportOperate(type){
 
 function searchTakeStock(){
 	var branchId = $('#branchId').val();
+	var branchCompleCode = $("#branchCompleCode").val();
 	var param = {
-			branchId:branchId
+			branchId:branchId,
+			branchCompleCode:branchCompleCode
 	}
 	new publicStocktakingDialog(param,function(data){
 		console.log(data);
@@ -403,6 +405,7 @@ function selectBranches(){
 	new publicAgencyService(function(data){
 		$("#branchId").val(data.branchesId);
 		$("#branchCode").val(data.branchCode);
+		$("#branchCompleCode").val(data.branchCompleCode);
 		$("#branchName").val(data.branchName);
 	},'BF','');
 }
