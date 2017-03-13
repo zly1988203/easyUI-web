@@ -820,16 +820,16 @@ function selectTargetBranch(){
         branchCode = data.branchCode;
         $("#targetBranchType").val(data.type);
         // 为店铺时
-        if (data.type != '1' && data.type != '0') {
+        /*if (data.type != '1' && data.type != '0') {
         	getSourceBranch(data.branchesId);
         }
         if (data.type == '1') {
         	$("#salesman").val(data.salesman);
-        	/*$("#spanMinAmount").html(data.minAmount);*/
-        	/*$("#minAmount").val(data.minAmount);*/
+        	$("#spanMinAmount").html(data.minAmount);
+        	$("#minAmount").val(data.minAmount);
         	$("#sourceBranchId").val('');
             $("#sourceBranchName").val('');
-        }
+        }*/
 	},'DD','',"3");
 }
 
@@ -872,7 +872,7 @@ function selectSourceBranch(){
                 $("#sourceBranchName").val("["+data.branchCode+"]"+data.branchName);
                 gridHandel.setLoadData([$.extend({},gridDefault)]);
             }
-        },'DD',"","3");
+        },'',"","");
 	} else {
         new publicAgencyService(function(data){
             if($("#sourceBranchId").val()!=data.branchesId){
@@ -881,7 +881,7 @@ function selectSourceBranch(){
                 $("#sourceBranchName").val("["+data.branchCode+"]"+data.branchName);
                 gridHandel.setLoadData([$.extend({},gridDefault)]);
             }
-        },'DD',"","3");
+        },'',"","");
     }
 }
 

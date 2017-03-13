@@ -19,7 +19,7 @@
     <div class="ub ub-ver ub-f1 umar-4  ubor">
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
-            	<shiro:hasPermission name="JxcDeliverDA:add">
+            	<%-- <shiro:hasPermission name="JxcDeliverDA:add">
 					<div class="ubtns-item" onclick="addDeliverForm()">新增</div>
 				</shiro:hasPermission>
 				<shiro:hasPermission name="JxcDeliverDA:add">
@@ -34,7 +34,17 @@
                 </shiro:hasPermission>
                 <shiro:hasPermission name="JxcDeliverDA:print">
                     <div class="ubtns-item" onclick="printChoose('DA','/form/deliverForm/')">打印</div>
-                </shiro:hasPermission>
+                </shiro:hasPermission> --%>
+                <div class="ubtns-item" onclick="addDeliverForm()">新增</div>
+                <div class="ubtns-item" onclick="saveOrder()">保存</div>
+                <div class="ubtns-item" onclick="check()">审核</div>
+                 <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
+                 <div class="ubtns-item" onclick="delDeliverForm()">删除</div>
+                 <div class="ubtns-item" onclick="printChoose('DA','/form/deliverForm/')">打印</div>
+                 
+                 
+                 
+                 
                 <div class="ubtns-item"  onclick="exportData('DA','gridRequireOrder')">导出明细</div>
                 <div class="ubtns-item" onclick="toImportproduct(0)">导入货号</div>
             	<div class="ubtns-item" onclick="toImportproduct(1)">导入条码</div>

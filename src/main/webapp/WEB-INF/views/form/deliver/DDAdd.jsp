@@ -16,7 +16,7 @@
     <div class="ub ub-ver ub-f1 umar-4  ubor">
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
-            	<shiro:hasPermission name="JxcDeliverDO:add">
+            	<%-- <shiro:hasPermission name="JxcDeliverDO:add">
             		<div class="ubtns-item-disabled">新增</div>
             	</shiro:hasPermission>
             	<shiro:hasPermission name="JxcDeliverDO:add">
@@ -27,8 +27,12 @@
                 </shiro:hasPermission>
                 <shiro:hasPermission name="JxcDeliverDO:audit">
                 		<div class="ubtns-item-disabled">终止</div>
-                </shiro:hasPermission>
+                </shiro:hasPermission> --%>
+                <div class="ubtns-item-disabled">新增</div>
+                <div class="ubtns-item" onclick="saveOrder()">保存</div>
                 <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
+                <div class="ubtns-item-disabled">审核</div>
+                <div class="ubtns-item-disabled">终止</div>
               <%--   <shiro:hasPermission name="JxcDeliverDO:delete">
 					<div class="ubtns-item" onclick="delDeliverForm()">删单</div>
 			   	</shiro:hasPermission> --%>
@@ -64,8 +68,9 @@
                <div class="ub ub-ac uw-300">
                    <div class="umar-r10 uw-70 ut-r">发货机构:</div>
                    <div class="ub">
-                       <input type="hidden" id="sourceBranchId" name="sourceBranchId" value="${form.sourceBranchId}"/>
-                       <input class="uinp ub ub-f1" type="text" id="sourceBranchName" name="sourceBranchName" value="${form.sourceBranchName}" readonly="readonly" onclick="selectSourceBranch()"/>
+                  		<input type="hidden" id="formType" name="formType" value="DD" />
+                       <input type="hidden" id="sourceBranchId" name="sourceBranchId" value="${sourceBranchId}"/>
+                       <input class="uinp ub ub-f1" type="text" id="sourceBranchName" name="sourceBranchName" value="[${sourceBranchCode}]${sourceBranchName}" readonly="readonly" onclick="selectSourceBranch()"/>
                        <div class="uinp-more" onclick="selectSourceBranch()">...</div>
                    </div>
 

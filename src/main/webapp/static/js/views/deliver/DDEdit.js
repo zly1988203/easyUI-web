@@ -759,7 +759,7 @@ function check(){
 		    	type : "POST",
 		    	data : {
 		    		deliverFormId : $("#formId").val(),
-		    		deliverType : 'DA'
+		    		deliverType : 'DD'
 		    	},
 		    	success:function(result){
                     gFunEndLoading();
@@ -790,11 +790,12 @@ function toFooter(){
  * 要货机构
  */
 function selectTargetBranch(){
+	debugger;
 	new publicAgencyService(function(data){
         $("#targetBranchId").val(data.branchesId);
-        $("#targetBranchName").val(data.branchName);
+        $("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
         // 为店铺时
-        if (data.type != '1' && data.type != '0') {
+        /*if (data.type != '1' && data.type != '0') {
         	getSourceBranch(data.branchesId);
         }
         if (data.type == '1') {
@@ -802,8 +803,8 @@ function selectTargetBranch(){
         	$("#spanMinAmount").html(data.minAmount);
         	$("#sourceBranchId").val('');
             $("#sourceBranchName").val('');
-        }
-	},'DD',"","3");
+        }*/
+	},'DD',"");
 }
 
 function getSourceBranch(branchesId) {
@@ -840,7 +841,7 @@ function selectSourceBranch(){
             $("#sourceBranchName").val(data.branchName);
             gridHandel.setLoadData([$.extend({},gridDefault)]);
         }
-	},'DD',"","3");
+	},'',"","");
 }
 //返回列表页面
 function back(){

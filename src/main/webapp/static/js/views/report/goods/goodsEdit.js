@@ -4,11 +4,18 @@
  */
 var updateGoods;
 var isStore;
+var flag = true;
+var dgPrice = null;
 function initGoodsInfo(skuId,branchId){
+	if(flag===true){
+		$('#tab2').css('display','none');
+		 $('#btnbase').css('background-color','#95B8E7');
 
-	$('#tab2').css('display','none');
-	 $('#btnbase').css('background-color','#95B8E7');
-	 
+	}else{
+		$('#divTab').css('display','none');
+		$('#tab2').css('display','none');
+	}
+	
 	var args = {}
 	var httpUrl = contextPath+"/goods/report/getGoodsInfo?skuId="+skuId+"&branchId="+branchId;
 	$.get(httpUrl, args,function(data){
@@ -212,5 +219,157 @@ function submitForm(){
 		 $('#btnprice').css('background-color','#95B8E7');
 		 $('#tab1').css('display','none');
 		 $('#tab2').css('display','block');
+		 
+		 	if(dgPrice != null)return;
+			//初始化表格
+			initDatagridEditRequireOrder();
+			$('#printnum').on('input',function(){
+				printRows($(this).val());
+
+			})
 	 }
+ }
+
+ function initDatagridEditRequireOrder(){
+	 dgPrice = $("#dgPrice").datagrid({
+	        method:'post',
+	    	url:contextPath+"/goods/report/querySkuBranchBySkuId?skuId="+$("#skuId").val(),
+	        align:'center',
+	        singleSelect:false,  //单选  false多选
+	        rownumbers:true,    //序号
+	        showFooter:false,
+	        fit: true,  
+	        height:'100%',
+	        width:'100%',
+	        columns:[[			
+                {field:'skuId',hidden:true,title:'skuId'},
+	            {field:'skuId',hidden:true,title:'skuId'},
+	            {field:'branchCode',title:'店铺编号',width: '70px',align:'left',editor:'textbox'},
+	            {field:'branchName',title:'店铺名称',width:'200px',align:'left'},
+	           
+	            {field:'purchasePrice',title:'进货价',width:'80px',align:'right',
+	                formatter:function(value,row,index){
+	                    if(row.isFooter){
+	                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+	                    }
+
+	                    if(!value){
+	                        row["purchasePrice"] = parseFloat(value||0).toFixed(2);
+	                    }
+	                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+	                },
+	            },
+	            {field:'salePrice',title:'零售价',width:'80px',align:'right',
+	                formatter:function(value,row,index){
+	                    if(row.isFooter){
+	                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+	                    }
+	                    if(!value){
+	                        row["salePrice"] = parseFloat(value||0).toFixed(2);
+	                    }
+	                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+	                },
+	            },
+	            {field:'distributionPrice',title:'配送价',width:'80px',align:'right',
+	                formatter:function(value,row,index){
+	                    if(row.isFooter){
+	                        return
+	                    }
+	                    if(!row.price){
+	                    	row.price = parseFloat(value||0).toFixed(2);
+	                    }
+	                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+	                },
+	            
+	            },
+	            {field:'wholesalePrice',title:'批发价',width:'80px',align:'right',
+	                formatter : function(value, row, index) {
+
+	                    
+	                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+	                },
+	            },
+	            {field:'vipPrice',title:'会员价',width:'80px',align:'right',
+	                formatter : function(value, row, index) {
+	                 
+	                    
+	                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+	                },
+	                
+	            },
+	            
+	           
+	            {field: 'safetyCoefficient', title: '安全系数', width: '80px', align: 'right',
+	                formatter: function (value, row, index) {
+	                   return '<b>' + parseFloat(value || 0).toFixed(2) + '</b>';
+	                },
+	            editor:{  
+                    type:'numberspinner',  
+                    options: {  
+                        increment:10,  
+                        min:0.1,  
+                        max:999.9  
+                    }  
+                }  
+	            }
+	        ]],
+	       /* onLoadSuccess:function(data){
+	        	
+	        	 $("#dgPrice").datagrid("loadData",data);
+	            if(!oldData["grid"]){
+	            	oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
+	            		return $.extend(true,{},obj);//返回对象的深拷贝
+	            	});
+	            }
+	            gridHandel.setDatagridHeader("center");
+	        },*/
+	    });
+ }
+ 
+//安全系数
+ function printRows(printNum){
+ 	// 获取选中行的Index的值
+ 	var rowIndex = -1;
+ 	var newData = $("#dgPrice").datagrid("getRows");
+ 	for(var i = 0;i < newData.length;i++){
+ 		newData[i].safetyCoefficient= printNum;
+
+ 		rowIndex = $("#dgPrice").datagrid('getRowIndex',newData[i]);
+ 		//更新行数据
+ 		$("#dgPrice").datagrid('updateRow',{
+ 			index: rowIndex,
+ 			row: newData[i]
+ 		});
+ 		//刷新行
+ 		$("#dgPrice").datagrid('refreshRow',rowIndex);
+ 	}
+ }
+ function saveSafetyCoefficient(){
+	 debugger;
+	 var data = $("#dgPrice").datagrid("getRows");
+	 var newData = [];
+	 for(var i = 0;i < data.length;i++){
+		 var temp = {
+		    		id : data[i].id,
+		    		safetyCoefficient : data[i].safetyCoefficient
+		    	}
+			newData[i] = temp;
+	 }
+	 
+	 $.ajax({
+	        url:contextPath+"/goods/report/saveBranchsafetyCoefficient",
+	        type:"POST",
+	        contentType:"application/json",
+	        data:JSON.stringify(newData),
+	        success:function(result){
+	            if(result['code'] == 0){
+	                $.messager.alert("操作提示", "操作成功！");
+	            }else{
+	                successTip(result['message'] +","+strResult);
+	            }
+	        },
+	        error:function(result){
+	            successTip("请求发送失败或服务器处理失败");
+	        }
+	    });
  }

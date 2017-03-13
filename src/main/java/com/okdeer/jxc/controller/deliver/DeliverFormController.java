@@ -297,7 +297,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 				model.addAttribute("close", report);
 				return "form/deliver/DoView";
 			}else if(FormType.DD.toString().equals(form.getFormType())){
-				return "form/deliver/DDEdit";
+				return "form/deliver/DDView";
 			}
 			else {
 				model.addAttribute("close", report);
@@ -329,7 +329,12 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 				if (StringUtils.isEmpty(vo.getSourceBranchId())) {
 					vo.setSourceBranchId(UserUtil.getCurrBranchId());
 				}
-			} else {
+			}else if (FormType.DD.toString().equals(vo.getDeliverType())) {
+				if (StringUtils.isEmpty(vo.getSourceBranchId())) {
+					vo.setSourceBranchId(UserUtil.getCurrBranchId());
+				}
+			}  
+			else {
 				// 获取机构ID
 				if (StringUtils.isEmpty(vo.getTargetBranchId())) {
 					vo.setTargetBranchId(UserUtil.getCurrBranchId());
