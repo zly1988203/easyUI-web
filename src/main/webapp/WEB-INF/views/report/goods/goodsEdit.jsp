@@ -35,6 +35,7 @@
 		<input id="oldSupplierId" name="oldSupplierId" class="uinp" type="hidden"> 
 		<input id="isLinkage" name="isLinkage" type="hidden" value="0">
 		<input id="isStore" name="isStore" type="hidden">
+		<input id="branchType" name="branchType" type="hidden" value="${branchType}">
 		<div class="ub ub-ver ub-ac upad-4">
 			<div class="ub upad-4">
 				<div class="ub ub-ac uw-300">
@@ -323,7 +324,8 @@
 					</div>
 					<div class="ub ub-ac umar-r40">
 						<input id="allowAdjust" name="allowActivity"
-							class="ub" type="checkbox" name="checkbox" /><span>分店调价</span>
+							class="ub" type="checkbox" name="checkbox" 
+							/><span>分店调价</span>
 					</div>
 			</div>
 		</div>
@@ -338,7 +340,11 @@
 					<div class="ub ub-ac uw-288 umar-l20">
 					<div class="umar-r10  ut-r">批量设置安全库存系数:</div>
 					<input class="uinp ub ub-f1 deal" type="number" id="printnum" class="uinp uinp-no-more easyui-numberbox easyui-validatebox"
-							   data-options="min:0.1,max:999.9,precision:2,validType:['length[0,18]']" type="text" maxlength="4">
+							   data-options="min:0.1,max:999.9,precision:2,validType:['length[0,18]']" type="text" maxlength="4"
+						   <c:if test="${branchType==3||branchType==4||branchType==5}">
+							   readonly="readonly"
+						   </c:if>
+						>
 				</div>
 				</div>
 			</div> 
