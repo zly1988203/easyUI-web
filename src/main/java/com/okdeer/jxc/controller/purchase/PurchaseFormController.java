@@ -378,12 +378,14 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 	@RequestMapping(value = "delete", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson delete(String formIds) {
+		LOG.info("删除采购订单Id列表：{}", formIds);
 		SysUser user = UserUtil.getCurrentUser();
 		RespJson resp = new RespJson();
 		if (StringUtils.isNotBlank(formIds)) {
 			String[] arr = formIds.split(",");
 			for (int i = 0; i < arr.length; i++) {
 				resp = purchaseFormServiceApi.delete(arr[i], user.getId());
+				LOG.info("订单号：{}，删除执行结果，{}", arr[i], resp.getMessage());
 			}
 		}
 		return resp;

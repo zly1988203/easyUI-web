@@ -8,9 +8,9 @@ package com.okdeer.jxc.common.goodselect;
 
 import java.util.List;
 
-import com.okdeer.jxc.goods.entity.GoodsBranchPriceVo;
-
 import net.sf.json.JSONObject;
+
+import com.okdeer.jxc.goods.entity.GoodsBranchPriceVo;
 
 /**
  * 商品选择excel导入处理接口
