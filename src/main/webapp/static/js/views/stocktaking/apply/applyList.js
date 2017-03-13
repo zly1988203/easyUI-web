@@ -3,7 +3,7 @@ $(function(){
 });
 //初始化表格
 function initDgTakeStockApply(){
-	stockList = $("#applyList").datagrid({
+	$("#applyList").datagrid({
 		method:'post',
 		align:'center',
 		singleSelect:false,  //单选  false多选

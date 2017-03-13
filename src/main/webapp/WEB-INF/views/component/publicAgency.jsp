@@ -28,7 +28,7 @@
                             </div>
                         </div>
                     </form>
-                    <div class="ub  uw uh ub-f1">
+                    <div class="ub uw uh ub-f1">
                         <table id="gridAgency" style="width: 100%;"></table>
                     </div>
                 </div>
