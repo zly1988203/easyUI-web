@@ -117,8 +117,10 @@ function selectBranches(){
 
 function searchTakeStock(){
 	var branchId = $('#branchId').val();
+	var branchCompleCode = $('#branchCompleCode').val();
 	var param = {
-			branchId:branchId
+			status:1,
+			branchCompleCode:branchCompleCode
 	}
 	new publicStocktakingDialog(param,function(data){
 		console.log(data);
