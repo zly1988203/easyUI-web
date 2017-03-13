@@ -77,10 +77,10 @@
 
 			
     	</div>
-    			<div class="ub">
+    	<div class="ub">
 		<div class="ub ub-ac">
 			<div class="umar-r10 uw-70 ut-r"></div>
-			<p>订货数量 ＝ 存量指标上限－当前库存，取进货规格整数倍（大于订货数量的值）</p>
+			<label class="uc-main">订货数量 ＝ 存量指标上限－当前库存，取进货规格整数倍（大于订货数量的值）</label>
 			</div>
 		</div>
     	
@@ -91,9 +91,9 @@
 			</div>
 		</div>
 		<div class="ub">
-		<div class="ub ub-ac">
-			<div class="umar-r10 uw-70 ut-r"></div>
-			订货数量＝订货周期*安全系数*MAX（上周日均销量，前周日均销量）－当前库存   
+			<div class="ub ub-ac">
+				<div class="umar-r10 uw-70 ut-r"></div>
+				<label class="uc-main">订货数量＝订货周期*安全系数*MAX（上周日均销量，前周日均销量）－当前库存</label>   
 			</div>
 		</div>
 		
@@ -107,7 +107,7 @@
 		<div class="ub">
 		<div class="ub ub-ac">
 			<div class="umar-r10 uw-70 ut-r"></div>
-			订货数量＝ 要货总数－当前库存
+				<label class="uc-main">订货数量＝ 要货总数－当前库存</label>
 			</div>
 		</div>
 		
