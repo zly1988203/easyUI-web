@@ -18,7 +18,7 @@
             <div class="ubtns">
                 <div class="ubtns-item" onclick="queryForm()">查询</div>
                 <div class="ubtns-item" onclick="toAdd()">新增</div>
-                <div class="ubtns-item" id="set" onclick="gFunRefresh()" >重置</div>
+                <div class="ubtns-item" id="set" onclick="resetForm()" >重置</div>
                 <div class="ubtns-item" onclick="toClose()">退出</div>
             </div>
 			<div class="ub">
@@ -34,7 +34,7 @@
 				<input type="hidden" id="branchId" name="branchId" />
 				<input type="hidden" id="branchCompleCode" name="branchCompleCode" />
 				<input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" maxlength="50"/>
-				<div class="uinp-more" onclick="selectBranches()" >...</div>
+				<div class="uinp-more" onclick="selectListBranches()" >...</div>
 			</div>
 			<div class="ub ub-ac uw-300 umar-l40">
 				<div class="umar-r10 uw-70 ut-r">盘点批号:</div>
@@ -44,7 +44,7 @@
 		<div class="ub umar-t8">
 		<div class="ub ub-ac">
 		<div class="umar-r10 uw-70 ut-r">盘点范围:</div>
-			<select class="uselect" style="width: 204px;" name="scope" id="scope">
+			<select class="uselect easyui-combobox" style="width: 204px;" name="scope" id="scope">
 				<option value="">--请选择--</option>
 				<option value="0">全场盘点</option>
 				<option value="1">类别盘点</option>
