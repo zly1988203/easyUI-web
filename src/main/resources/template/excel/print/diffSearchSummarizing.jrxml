@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PaymentOrder" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isSummaryWithPageHeaderAndFooter="true" isIgnorePagination="true" uuid="9aa590ec-4b5f-4eaa-bb10-b5ce33e01e43">
-	<property name="ireport.zoom" value="2.3132597365771987"/>
+	<property name="ireport.zoom" value="3.725527938354946"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="161"/>
 	<parameter name="startDate" class="java.lang.String"/>
 	<parameter name="endDate" class="java.lang.String"/>
 	<parameter name="printName" class="java.lang.String"/>
@@ -20,6 +20,8 @@
 	<field name="profitLossNum" class="java.lang.String"/>
 	<field name="profitLossCostAmount" class="java.lang.String"/>
 	<field name="profitLossSaleAmount" class="java.lang.String"/>
+	<field name="stocktakingNumHandle" class="java.lang.String"/>
+	<field name="costAmountHandle" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -122,13 +124,13 @@
 				<reportElement x="66" y="4" width="1" height="22" uuid="219c07dc-aa66-4ad0-b949-2beaeee42ffd"/>
 			</line>
 			<line direction="BottomUp">
-				<reportElement x="216" y="4" width="1" height="22" uuid="66e373a7-0ae8-4767-a878-c7c4a0aa64e0"/>
+				<reportElement x="207" y="4" width="1" height="22" uuid="66e373a7-0ae8-4767-a878-c7c4a0aa64e0"/>
 			</line>
 			<line direction="BottomUp">
 				<reportElement x="143" y="4" width="1" height="22" uuid="28e47782-d45f-4fae-b086-79418d7ce5ec"/>
 			</line>
 			<line direction="BottomUp">
-				<reportElement x="265" y="4" width="1" height="22" uuid="755aa5d0-7a25-4d7d-add0-67d242be6b69"/>
+				<reportElement x="247" y="4" width="1" height="22" uuid="755aa5d0-7a25-4d7d-add0-67d242be6b69"/>
 			</line>
 			<staticText>
 				<reportElement x="14" y="4" width="36" height="19" uuid="ef12eb2d-6501-4b99-9adb-afb7e90d777f"/>
@@ -138,13 +140,13 @@
 				<text><![CDATA[机构编号]]></text>
 			</staticText>
 			<line direction="BottomUp">
-				<reportElement x="402" y="4" width="1" height="22" uuid="89e8fe0c-a535-4832-b1a1-c3a81148922f"/>
+				<reportElement x="344" y="4" width="1" height="22" uuid="89e8fe0c-a535-4832-b1a1-c3a81148922f"/>
 			</line>
 			<line direction="BottomUp">
-				<reportElement x="479" y="3" width="1" height="22" uuid="c0235800-f761-4b9c-900f-a500cf3329e9"/>
+				<reportElement x="400" y="3" width="1" height="22" uuid="c0235800-f761-4b9c-900f-a500cf3329e9"/>
 			</line>
 			<line direction="BottomUp">
-				<reportElement x="325" y="4" width="1" height="22" uuid="cc4f4e4e-23a0-4480-ab66-903059bdf90a"/>
+				<reportElement x="298" y="4" width="1" height="22" uuid="cc4f4e4e-23a0-4480-ab66-903059bdf90a"/>
 			</line>
 			<staticText>
 				<reportElement x="81" y="3" width="42" height="22" uuid="c063456e-315c-4389-bfaa-3aeaf6971dce"/>
@@ -161,44 +163,64 @@
 				<text><![CDATA[盘点批号]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="221" y="3" width="32" height="22" uuid="8dabc075-913b-4dfc-9b9b-bcb49fb7277d"/>
+				<reportElement x="212" y="3" width="34" height="22" uuid="8dabc075-913b-4dfc-9b9b-bcb49fb7277d"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[系统库存]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="276" y="3" width="39" height="22" uuid="c395dafe-615c-41d2-81c3-3d127ba9d5fa"/>
+				<reportElement x="258" y="3" width="34" height="22" uuid="c395dafe-615c-41d2-81c3-3d127ba9d5fa"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[盘点数量]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="345" y="2" width="45" height="23" uuid="7fce27fc-881d-460d-9c4b-a880a662ed3c"/>
+				<reportElement x="309" y="2" width="33" height="23" uuid="7fce27fc-881d-460d-9c4b-a880a662ed3c"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[盈亏数量]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="401" y="2" width="78" height="23" uuid="96df7cee-985c-4b44-8765-d2c8e511d2b4"/>
+				<reportElement x="349" y="2" width="48" height="23" uuid="96df7cee-985c-4b44-8765-d2c8e511d2b4"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[盈亏金额（成本价）]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="510" y="4" width="41" height="20" uuid="f72141b8-a649-4a5d-9f1a-a4490335af11"/>
+				<reportElement x="400" y="4" width="41" height="20" uuid="f72141b8-a649-4a5d-9f1a-a4490335af11"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[盈亏金额(售价)]]></text>
 			</staticText>
+			<line direction="BottomUp">
+				<reportElement x="457" y="5" width="1" height="22" uuid="23c88897-7b99-466e-ad89-f1f79c43708e"/>
+			</line>
+			<line direction="BottomUp">
+				<reportElement x="506" y="5" width="1" height="22" uuid="4fb76546-eb85-47a5-b52d-5661a34f7d7c"/>
+			</line>
+			<staticText>
+				<reportElement x="458" y="4" width="41" height="20" uuid="0a757e8f-2edd-44b6-8ba2-31ed8733fc85"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[实际处理数量]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="510" y="5" width="41" height="20" uuid="99eff56c-3d20-41b5-a0a2-1fbf91795755"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[实际处理金额（成本价）]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="46" splitType="Stretch">
+		<band height="23" splitType="Stretch">
 			<line direction="BottomUp">
 				<reportElement x="66" y="-1" width="1" height="24" uuid="4187a7fa-a57f-4300-bcbf-ab687f3d7368"/>
 			</line>
@@ -206,7 +228,7 @@
 				<reportElement x="143" y="-1" width="1" height="24" uuid="36bc942f-b2ad-4410-bf1c-7e1fbbb86d47"/>
 			</line>
 			<line direction="BottomUp">
-				<reportElement x="265" y="-1" width="1" height="24" uuid="04e08337-5293-439b-b8b7-3437eb56dbaa"/>
+				<reportElement x="247" y="-1" width="1" height="24" uuid="04e08337-5293-439b-b8b7-3437eb56dbaa"/>
 			</line>
 			<line direction="BottomUp">
 				<reportElement x="551" y="-1" width="1" height="24" uuid="c61e6334-8a51-4088-8cb1-308547cb9c04"/>
@@ -230,7 +252,7 @@
 				<reportElement x="-389" y="-12" width="1" height="24" uuid="a56f80e1-709f-4cfb-b8f7-f1f7281d1102"/>
 			</line>
 			<line direction="BottomUp">
-				<reportElement x="402" y="-1" width="1" height="24" uuid="38135945-d388-49b1-89a4-97eb26103035"/>
+				<reportElement x="344" y="-1" width="1" height="24" uuid="38135945-d388-49b1-89a4-97eb26103035"/>
 			</line>
 			<textField isBlankWhenNull="true">
 				<reportElement x="8" y="1" width="53" height="22" uuid="6142ec89-b6b4-498c-831a-6c326557eee8"/>
@@ -240,7 +262,7 @@
 				<textFieldExpression><![CDATA[$F{branchCode}]]></textFieldExpression>
 			</textField>
 			<line direction="BottomUp">
-				<reportElement x="216" y="0" width="1" height="22" uuid="9190418c-b8fc-4919-b8ca-ad776def3144"/>
+				<reportElement x="207" y="0" width="1" height="22" uuid="9190418c-b8fc-4919-b8ca-ad776def3144"/>
 			</line>
 			<textField isBlankWhenNull="true">
 				<reportElement x="67" y="0" width="62" height="20" uuid="4248c658-09e4-4526-9913-f634254c92bc"/>
@@ -250,31 +272,31 @@
 				<textFieldExpression><![CDATA[$F{branchName}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="269" y="3" width="56" height="19" uuid="c9d28027-3df2-4e61-80c1-5370ede658fd"/>
+				<reportElement x="251" y="3" width="41" height="19" uuid="c9d28027-3df2-4e61-80c1-5370ede658fd"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{stocktakingNum}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="341" y="1" width="49" height="21" uuid="34db7655-24eb-43a0-9799-ef6ee3617063"/>
+				<reportElement x="314" y="1" width="37" height="21" uuid="34db7655-24eb-43a0-9799-ef6ee3617063"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{profitLossNum}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="325" y="0" width="1" height="22" uuid="4534bd25-da08-42ea-8a91-10557aec6a38"/>
+				<reportElement x="298" y="0" width="1" height="22" uuid="4534bd25-da08-42ea-8a91-10557aec6a38"/>
 			</line>
 			<textField isBlankWhenNull="true">
-				<reportElement x="510" y="1" width="38" height="20" uuid="35fc0d8e-0663-4c2a-a3c9-ca4476d9115d"/>
+				<reportElement x="400" y="1" width="38" height="20" uuid="35fc0d8e-0663-4c2a-a3c9-ca4476d9115d"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{profitLossSaleAmount}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="410" y="1" width="48" height="16" uuid="f31bb5f0-4839-4962-b514-ac892ba5e7d3"/>
+				<reportElement x="352" y="1" width="48" height="16" uuid="f31bb5f0-4839-4962-b514-ac892ba5e7d3"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
@@ -288,15 +310,35 @@
 				<textFieldExpression><![CDATA[$F{batchNo}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="221" y="3" width="44" height="20" uuid="76ac6b92-c26b-4a4e-9e30-9ddf0f4e8d81"/>
+				<reportElement x="212" y="3" width="34" height="20" uuid="76ac6b92-c26b-4a4e-9e30-9ddf0f4e8d81"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{snapshootStockNum}]]></textFieldExpression>
 			</textField>
 			<line direction="BottomUp">
-				<reportElement x="479" y="-1" width="1" height="24" uuid="30362e95-5514-49a8-b7e3-d8dff16badb8"/>
+				<reportElement x="400" y="-1" width="1" height="24" uuid="30362e95-5514-49a8-b7e3-d8dff16badb8"/>
 			</line>
+			<line direction="BottomUp">
+				<reportElement x="457" y="0" width="1" height="22" uuid="63128aa1-f9d5-4040-8aef-eff8de847c02"/>
+			</line>
+			<line direction="BottomUp">
+				<reportElement x="506" y="0" width="1" height="22" uuid="11f6dc6a-f5e5-4c9b-862b-0ad10d282198"/>
+			</line>
+			<textField isBlankWhenNull="true">
+				<reportElement x="461" y="1" width="38" height="20" uuid="6d8642bc-31f3-44d9-9f30-bc0a5fed99da"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{stocktakingNumHandle}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="510" y="0" width="38" height="20" uuid="11901322-f7f2-4ab9-83d5-66c6b5110d0a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{costAmountHandle}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<columnFooter>

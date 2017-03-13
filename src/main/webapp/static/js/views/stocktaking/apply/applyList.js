@@ -34,6 +34,7 @@ function initDgTakeStockApply(){
 		]],
 
 	});
+	queryForm();
 }
 //查询
 function queryForm(){

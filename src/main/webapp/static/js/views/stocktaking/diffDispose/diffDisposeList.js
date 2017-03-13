@@ -39,6 +39,7 @@ function initDgTakeStockDiffDispose(){
 		]],
 
 	});
+	queryForm();
 }
 
 //查询

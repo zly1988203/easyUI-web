@@ -62,7 +62,9 @@ function getFiledsList(){
 		          {field: 'stocktakingNum', title: '盘点数量', width: 180, align: 'left'},
 		          {field: 'profitLossNum', title: '盈亏数量', width: 180, align: 'left'},
 		          {field: 'profitLossCostAmount', title: '盈亏金额（成本价）', width: 140, align: 'left'},
-		          {field: 'profitLossSaleAmount', title: '盈亏金额（售价）', width: 140, align: 'left'}
+		          {field: 'profitLossSaleAmount', title: '盈亏金额（售价）', width: 140, align: 'left'},
+		          {field: 'stocktakingNumHandle', title: '实际处理数量', width: 160, align: 'left'},
+		          {field: 'costAmountHandle', title: '实际处理金额（成本价）', width: 200, align: 'left'}
 		          ] ]
 	}else{
 		return [ [
