@@ -5,7 +5,9 @@
   
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <script src="${ctx}/static/js/views/report/goods/goodsEdit.js"></script>
-
+<style> 
+.datagrid-header-row .datagrid-cell{text-align: center!important;}
+</style>
 <div>
 	<div id="divTab">
 		<div class="ub ub-ac upad-4 umar-l10 umar-t10">
@@ -348,7 +350,9 @@
 			</div> 
 		<div class="ub uline "></div>
 		
-		<table id="dgPrice" class="ub ub-f1 umar-t100"></table>
+		<table id="dgPrice"></table>
+	
+		
 	</div> 
 
        

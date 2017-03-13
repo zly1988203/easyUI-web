@@ -267,14 +267,11 @@ function auditDiffDispose(){
 	var rows = gridHandel.getRows();
 	//批次Id
 	var batchId=$("#batchId").val();
-	//批次No
-	var batchNo=$("#batchNo").val();
     //机构
     var branchId=$("#branchId").val();
     
     var jsonData = {
     		id:batchId,
-    		batchNo:batchNo,
 			branchId:branchId,
 			diffDetailList:rows
         };

@@ -81,17 +81,30 @@ function searchCategory(){
 //下一步
 function nextStep (){
 	
-	var branchType = $("#branchType").val();
-	var branchId = $("#branchId").val();
-	var branchCodeName = $("#branchCodeName").val();
-	if(!branchCodeName|| !branchType || !branchId){
-		successTip("机构信息为空");
+	$('#btnNext').attr("disabled","disabled");
+	var isValid = $("#addForm").form('validate');
+	
+	if(!isValid){
+		$('#btnNext').removeAttr("disabled");
 		return;
 	}
 	
+	var branchType = $("#branchType").val();
+	var branchId = $("#branchId").val();
+	var branchCodeName = $("#branchCodeName").val();
+	
 	if(branchType==0){
 		successTip("不能选择总部类型的机构");
+		$('#btnNext').removeAttr("disabled");
 		return;
+	}
+	
+	if($('#guideType').val() != '1' && $('#guideType').val() != "2"){
+		if($('#startTime').val() ==="" || $('#endTime').val() === ""){
+			successTip("请选择要货日期");
+			$('#btnNext').removeAttr("disabled");
+			return;
+		}
 	}
 	
 	var ignore = 0;

@@ -230,18 +230,23 @@ function submitForm(){
 			})
 	 }
  }
-
+ 
+ var gridHandel = new GridClass();
  function initDatagridEditRequireOrder(){
+	 gridHandel.setGridName("dgPrice");
+	 
 	 dgPrice = $("#dgPrice").datagrid({
 	        method:'post',
 	    	url:contextPath+"/goods/report/querySkuBranchBySkuId?skuId="+$("#skuId").val(),
 	        align:'center',
-	        singleSelect:false,  //单选  false多选
+	        singleSelect:true,  //单选  false多选
 	        rownumbers:true,    //序号
-	        showFooter:false,
+	        showFooter:true,
 	        fit: true,  
+	        fitColumns:true,    //每列占满
 	        height:'100%',
 	        width:'100%',
+	        pagination:true,
 	        columns:[[			
                 {field:'skuId',hidden:true,title:'skuId'},
 	            {field:'skuId',hidden:true,title:'skuId'},
@@ -292,39 +297,52 @@ function submitForm(){
 	            },
 	            {field:'vipPrice',title:'会员价',width:'80px',align:'right',
 	                formatter : function(value, row, index) {
-	                 
-	                    
 	                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 	                },
 	                
 	            },
 	            
 	           
-	            {field: 'safetyCoefficient', title: '安全系数', width: '80px', align: 'right',
-	                formatter: function (value, row, index) {
-	                   return '<b>' + parseFloat(value || 0).toFixed(2) + '</b>';
+	            {field: 'safetyCoefficient', title: '安全系数', width: '120px', align: 'left',
+	                formatter: function (value, row, index) { 	
+	                   return '<b>' + parseFloat(value || 0.10).toFixed(2) + '</b>';
 	                },
 	            editor:{  
                     type:'numberspinner',  
                     options: {  
                         increment:10,  
-                        min:0.1,  
-                        max:999.9  
+                        min:0.10,  
+                        max:999.90,  
+                        editable:true,
+                        onChange: onChangeCoefficient,
                     }  
                 }  
 	            }
 	        ]],
-	       /* onLoadSuccess:function(data){
-	        	
-	        	 $("#dgPrice").datagrid("loadData",data);
-	            if(!oldData["grid"]){
-	            	oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
-	            		return $.extend(true,{},obj);//返回对象的深拷贝
-	            	});
+	        onLoadSuccess : function() {
+	          	
+	          },
+	        onClickCell:function(rowIndex,field,value){
+	            gridHandel.setBeginRow(rowIndex);
+	            gridHandel.setSelectFieldName(field);
+	            var target = gridHandel.getFieldTarget(field);
+	            if(target){
+	                gridHandel.setFieldFocus(target);
+	            }else{
+	                gridHandel.setSelectFieldName("safetyCoefficient");
 	            }
-	            gridHandel.setDatagridHeader("center");
-	        },*/
+	        }
+
 	    });
+ }
+ 
+ function onChangeCoefficient(newV,oldV){
+     if(newV > 999.90 || newV < 0.10){
+    	 successTip("安全系数在0.10到999.90之间");
+    	 gridHandel.setFieldSpinnerValue('safetyCoefficient',0.10);
+    	 return;
+    }
+	 gridHandel.setFieldSpinnerValue('safetyCoefficient',newV);
  }
  
 //安全系数
