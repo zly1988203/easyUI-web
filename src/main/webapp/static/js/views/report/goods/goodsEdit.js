@@ -4,7 +4,8 @@
  */
 var updateGoods;
 var isStore;
-var flag = true;
+debugger;
+var flag = ($("#branchType").val()==1);
 var dgPrice = null;
 function initGoodsInfo(skuId,branchId){
 	if(flag===true){

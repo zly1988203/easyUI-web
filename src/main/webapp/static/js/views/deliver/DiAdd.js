@@ -117,6 +117,7 @@ function initDatagridAddRequireOrder(){
                 },
             },
             {field:'dealNum',hidden:true},
+            {field:'applyNum',title:'申请数量',hidden:true},
             {field:'receiveNum',title:'数量',width:'80px',align:'right',
             	formatter:function(value,row){
                     if(row.isFooter){
@@ -522,6 +523,7 @@ function saveOrder(){
     		barCode : data.barCode,
     		spec : data.spec,
     		rowNo : data.rowNo,
+    		applyNum : data.applyNum,
     		dealNum : data.dealNum,
     		receiveNum : data.receiveNum,
     		largeNum : data.largeNum,
@@ -637,6 +639,7 @@ function importHandel(){
  */
 function getImportData(data){
     $.each(data,function(i,val){
+    	debugger;
         data[i]["oldPurPrice"] = data[i]["purchasePrice"];
         data[i]["oldSalePrice"]=data[i]["salePrice"];
         data[i]["oldWsPrice"]=data[i]["wholesalePrice"];

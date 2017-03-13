@@ -391,6 +391,10 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 				deliverFormListVo.setDeliverFormListId(UuidUtils.getUuid());
 				deliverFormListVo.setFormNo(formNo);
 				deliverFormListVo.setFormId(getId);
+				//如果是店间配送单，配送出库数量等于 申请数量
+				if(FormType.DD.toString().equals(vo.getFormType())){
+					deliverFormListVo.setDealNum(deliverFormListVo.getApplyNum());
+				}
 			}
 			respJson = deliverFormServiceApi.insertForm(vo);
 			if (respJson.getStatus() != 0) {
@@ -434,6 +438,9 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 				deliverFormListVo.setDeliverFormListId(UuidUtils.getUuid());
 				deliverFormListVo.setFormId(vo.getDeliverFormId());
 				deliverFormListVo.setFormNo(vo.getFormNo());
+				if(FormType.DD.toString().equals(vo.getFormType())){
+					deliverFormListVo.setDealNum(deliverFormListVo.getApplyNum());
+				}
 			}
 
 			respJson = deliverFormServiceApi.updateForm(vo);
