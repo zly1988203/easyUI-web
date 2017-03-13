@@ -14,7 +14,9 @@
 	<div class="ub ub-ver ub-f1 umar-4  ubor">
 	<div class="ub ub-ac upad-4">
         <div class="ubtns umar-l20 umar-t10">
-            <div id="btnNext" class="ubtns-item" onclick="nextStep()">下一步</div>
+        	<shiro:hasPermission name="JxcPurchaseGuide:nextStep">
+                <div id="btnNext" class="ubtns-item" onclick="nextStep()">下一步</div>
+            </shiro:hasPermission>
 			<div class="ubtns-item" onclick="toClose()">关闭</div>
         </div>
     </div>
@@ -38,9 +40,8 @@
     		<div class="ub ub-ac uw-520">
 					<div class="umar-r10 uw-70 ut-r">商品类别:</div>
 					<input type="hidden" id="categoryCode" name="categoryCode" />
-					<input class="uinp ub ub-f1 easyui-validatebox" type="text" id="categoryCodeName" name="categoryCodeName" maxlength="50" readOnly data-options="required:true"/>
+					<input class="uinp ub ub-f1" type="text" id="categoryCodeName" name="categoryCodeName" maxlength="50" readOnly/>
 					<div class="uinp-more" onclick="searchCategory()" >...</div>
-					<i class="uc-red">*</i>
 				</div>
     	</div>
     	
@@ -48,9 +49,8 @@
     	    	<div class="ub ub-ac uw-520">
 					<div class="umar-r10 uw-70 ut-r">供应商:</div>
 					<input type="hidden" id="supplierId" name="supplierId" />
-					<input class="uinp ub ub-f1 easyui-validatebox" type="text" id="supplierCodeName" name="supplierCodeName" maxlength="50" readOnly data-options="required:true"/>
+					<input class="uinp ub ub-f1" type="text" id="supplierCodeName" name="supplierCodeName" maxlength="50" readOnly/>
 					<div class="uinp-more" onclick="selectSupplier()" >...</div>
-					<i class="uc-red">*</i>
 				</div>
     	</div>
     	
