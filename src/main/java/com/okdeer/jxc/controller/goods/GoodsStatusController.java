@@ -130,6 +130,16 @@ public class GoodsStatusController extends BaseController<GoodsStatusController>
 		}
 		return null;
 	}
+	/**
+	 * 
+	 * @Description: 停购向导查询
+	 * @param vo
+	 * @param pageNumber  当前页
+	 * @param pageSize 每页显示数
+	 * @return
+	 * @author liux01
+	 * @date 2017年3月13日
+	 */
 	@RequestMapping(value = "getStopGuideList", method = RequestMethod.POST)
 	@ResponseBody
 	public PageUtils<GoodsStatusVo> getStopGuideList(

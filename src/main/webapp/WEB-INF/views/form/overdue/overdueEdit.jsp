@@ -74,7 +74,7 @@
 	        columns:[[
 	        	{field:'rowNo',title:'行号',hidden:true},
 	        	{field:'id',title:'主键',hidden:true},
-	        	<c:if test='${form.status == 3}'>
+	        	<shiro:lacksPermission name="JxcOverdueApply:audit">
 	            {field:'cz',title:'操作',width:'60px',align:'center'
 	        		
 	        		,
@@ -90,16 +90,16 @@
 	                }
 	        	  
 	            },
-	            </c:if>
+	            </shiro:lacksPermission>
 	            {field:'skuCode',title:'货号',width: '70px',align:'left'
-	            	<c:if test='${form.status == 3}'>,editor:'textbox'</c:if>
+	            	<shiro:lacksPermission name="JxcOverdueApply:audit">,editor:'textbox'</shiro:lacksPermission>
 	            },
 	            {field:'skuName',title:'商品名称',width:'200px',align:'left'},
 	            {field:'barCode',title:'条码',width:'130px',align:'left'},
 	            {field:'unit',title:'单位',width:'60px',align:'left'},
 	            {field:'spec',title:'规格',width:'90px',align:'left'},
 	            {field:'applyNum',title:'数量',width:'80px',align:'right'
-	            	<c:if test='${form.status == 3}'>,
+	            	<shiro:lacksPermission name="JxcOverdueApply:audit">,
 	                formatter : function(value, row, index) {
 	                    if(row.isFooter){
 	                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -119,9 +119,9 @@
 	                        precision:4,
 	                        onChange: onChangeLargeNum,
 	                    }
-	                }</c:if>
+	                }</shiro:lacksPermission>
 	            },
-	            {field:'applyPrice',title:'单价',width:'80px',align:'right'<c:if test='${form.status == 3}'>,
+	            {field:'applyPrice',title:'单价',width:'80px',align:'right'<shiro:lacksPermission name="JxcOverdueApply:audit">,
 	                formatter : function(value, row, index) {
 	                    if(row.isFooter){
 	                        return;
@@ -138,9 +138,9 @@
 	                        precision:4,
 	                        onChange: onChangePrice,
 	                    }
-	                }</c:if>
+	                }</shiro:lacksPermission>
 	            },
-	            {field:'applyAmount',title:'金额',width:'80px',align:'right'<c:if test='${form.status == 3}'>,
+	            {field:'applyAmount',title:'金额',width:'80px',align:'right'<shiro:lacksPermission name="JxcOverdueApply:audit">,
 	                formatter : function(value, row, index) {
 	                    if(row.isFooter){
 	                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -154,14 +154,14 @@
 	                        precision:4,
 	                        onChange: onChangeAmount,
 	                    }
-	                }</c:if>
+	                }</shiro:lacksPermission>
 
 	            },
-	            {field:'applyDesc',title:'申请说明',width:'200px',align:'left'<c:if test='${form.status == 3}'>,editor:'textbox'</c:if>},
+	            {field:'applyDesc',title:'申请说明',width:'200px',align:'left'<shiro:lacksPermission name="JxcOverdueApply:audit">,editor:'textbox'</shiro:lacksPermission>},
 	            {field:'auditDesc',title:'处理意见',width:'200px',align:'left'
-	            	<c:if test='${form.status == 0}'>
+	            	<shiro:hasPermission name="JxcOverdueApply:audit">
 	            	,editor:'textbox'
-	            	</c:if>
+	            	</shiro:hasPermission>
 	            }
 	        ]],
 	        onClickCell:function(rowIndex,field,value){
@@ -462,6 +462,8 @@
 	        return;
 	    }
 	    var isCheckResult = true;
+	    var ids = new Array();
+	    var auditDescs = new Array();
 	    var num=0;
 	    $.each(rows,function(i,v){
 	        v["rowNo"] = i+1;
@@ -469,7 +471,10 @@
 	            messager("第"+(i+1)+"行，处理意见不能为空!");
 	            isCheckResult = false;
 	            return false;
-	        };
+	        }else{
+	        	ids.push(v["id"]);
+	        	auditDescs.push(v["auditDesc"]);
+	        }
 	       
 	    });
 	    
@@ -478,7 +483,7 @@
 	    }else{
 			 $.messager.confirm('提示','是否审核通过？',function(data){
 				 if(data){
-					 checkOrder();
+					 checkOrder(ids,auditDescs);
 				 }
 			    
 			 });
@@ -486,14 +491,16 @@
 	}
 
 	//审核调价单
-	function checkOrder(){
+	function checkOrder( ids,auditDescs){
 		 var id = $("#formId").val();
 		 $.ajax({
 	         url:contextPath+"/form/overdue/check",
 	         type:"POST",
 	         data:{
 	             formId:id,
-	             status:1
+	             status:1,
+	             ids:ids,
+	             auditDescs:auditDescs
 	         },
 	         success:function(result){
 	             console.log(result);
@@ -557,19 +564,6 @@
 		},0);
 	}
 
-	//打印
-	function printDesign(){
-		var id = $("#formId").val();
-		var formNo = $("#formNo").val();
-	     //弹出打印页面
-	     parent.addTabPrint('PASheet' + id,formNo+'单据打印',contextPath + '/printdesign/design?page=PASheet&controller=/form/purchase&template=-1&sheetNo=' + id + '&gridFlag=PAGrid','');
-	}
-
-
-	function back(){
-		location.href = contextPath+"/form/purchase/orderList";
-	}
-
 	function toImportproduct(type){
 	    var branchId = $("#branchId").val();
 	    if(!branchId){
@@ -577,11 +571,11 @@
 	        return;
 	    }
 	    var param = {
-	        url:contextPath+"/form/purchase/importList",
-	        tempUrl:contextPath+"/form/purchase/exportTemp",
-	        type:type,
-	        branchId:branchId,
-	    }
+	        url:contextPath+"/form/overdue/import/list",
+	        tempUrl:contextPath+"/form/overdue/export/templ",
+	        type:0,
+	        branchId:branchId
+	    };
 	    new publicUploadFileService(function(data){
 	        updateListData(data);
 	        
@@ -615,14 +609,7 @@
 
 	//模板导出
 	function exportTemp(){
-		var type = $("#temple").attr("value");
-		//导入货号
-		if(type==0){
-			location.href=contextPath+'/form/purchase/exportTemp?type='+type;
-		//导入条码
-		}else if(type==1){
-			location.href=contextPath+'/form/purchase/exportTemp?type='+type;
-		}
+		location.href=contextPath+'/form/overdue/export/templ';
 	}
 
 	/**
@@ -658,7 +645,7 @@
 
 	function exportDetail(){
 		var formId = $("#formId").val();
-		window.location.href = contextPath + '/form/purchase/exportSheet?page=PASheet&sheetNo='+formId;
+		window.location.href = contextPath + '/form/overdue/exports?id='+formId;
 	}
 	
 	var commit = function(){
@@ -763,25 +750,18 @@
                 <div class="ubtns-item" onclick="orderDelete()">删单</div>
              </shiro:hasPermission>
              <shiro:hasPermission name="JxcOverdueApply:delete">
-                <c:choose>
-		      	<c:when test="${form.status == 3}">
+               <%--  <c:choose>
+		      	<c:when test="${form.status == 3}"> --%>
 		      		<div class="ubtns-item" onclick="commit()" >提交</div>
-		      	</c:when>
+		      	<%-- </c:when>
 		      	<c:otherwise>
 		      		<div class="ubtns-item-disabled">提交</div>
 		      	</c:otherwise>
-		      </c:choose>
+		      </c:choose> --%>
              </shiro:hasPermission>
-            <%-- <shiro:hasPermission name="JxcOverdueApply:audit"> --%>
-                <c:choose>
-		      	<c:when test="${form.status == 0}">
+            <shiro:hasPermission name="JxcOverdueApply:audit">
 		      		<div class="ubtns-item" onclick="check()" >审核</div>
-		      	</c:when>
-		      	<c:otherwise>
-		      		<div class="ubtns-item-disabled">审核</div>
-		      	</c:otherwise>
-		      </c:choose>
-            <%-- </shiro:hasPermission> --%>
+            </shiro:hasPermission>
              <c:choose>
 		      	<c:when test="${form.status == 0}">
 		      		<div class="ubtns-item-disabled">商品选择</div>

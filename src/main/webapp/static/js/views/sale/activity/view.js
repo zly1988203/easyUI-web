@@ -16,11 +16,11 @@ $(function(){
     // 禁止按钮点击事件
     disableGoods('','GoodsType');
     // 加载进行批量特价设置
-    $('#special,#discount,#batchcount').on('input',function(){
+   /* $('#special,#discount,#batchcount').on('input',function(){
     	var obj=$(this).attr('id');
     	specialRows(obj,$(this).val());
 
-	})
+	})*/
 	var priceValone=$("#activityType").combobox('getValue');
 	editstart(priceValone);
     
@@ -32,6 +32,27 @@ $(function(){
 	})
 	
 });
+
+//特价
+function changeSpecNum(newV,oldV){
+	if(newV && newV>0){
+		specialRows('special',newV);
+	}
+}
+
+//折扣
+function changeDisNum(newV,oldV){
+	if(newV && newV>0){
+		specialRows('discount',newV);
+	}
+}
+
+//偶数特价
+function changeOddprice(newV,oldV){
+	if(newV && newV>0){
+		specialRows('batchcount',newV);
+	}
+}
 
 // 编辑请求数据
 function  editstart(selectType){
