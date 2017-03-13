@@ -360,7 +360,7 @@ function updateListData(data){
 //停购（type：0）、停售（type：1）、淘汰（type：2）、恢复（type：3）
 function update(type){
 	var rows = $('#goodsStatus').datagrid('getChecked');
-	if(rows == null){
+	if(rows.length == 0){
 		$.messager.alert('提示','请至少选中一行！');
 		return;
 	}
@@ -376,7 +376,6 @@ function update(type){
 		}
 		ids+=v.branchSkuId+",";
 	});
-	console.log(ids);
 	$.messager.confirm('提示','是否要处理选中数据',function(data){
 		if(data){
 			$.ajax({
