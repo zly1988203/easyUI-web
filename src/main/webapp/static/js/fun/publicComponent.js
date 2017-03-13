@@ -595,6 +595,21 @@ function callBackHandel(data){
 }
 
 //临时方法
+/****
+ *     var param = {
+    		type:'',  DA, PR ,PA ,PC
+    		key:searchKey,
+    		isRadio:'',是否单选
+    		branchId:branchId,
+    		sourceBranchId:'',
+    		targetBranchId:'',
+    		supplierId:'',机构
+    		flag:'0',
+    		categoryShows:categoryShows  类别 新增库存盘点单
+    }
+ * 
+ * 
+ * *****/
 function publicGoodsServiceTem(param,callback){
 	if(typeof(param.flag)=="undefined"){ 
 		param.flag = "";
@@ -679,8 +694,10 @@ var good_dalogTemp = null;
 function publicGoodsServiceHandel(param,callback){
 	if(!param.branchId){
         url=contextPath + "/goods/goodsSelect/view?type="+param.type+"&sourceBranchId="+param.sourceBranchId+"&targetBranchId="+param.targetBranchId+"&supplierId="+param.supplierId+"&flag="+param.flag;
+    }else if(param.categoryShows){ //商品类别
+        url=contextPath + "/goods/goodsSelect/view?type="+param.type+"&branchId="+param.branchId+"&supplierId="+param.supplierId+"&flag="+param.flag+"&categoryShows="+param.categoryShows;
     }else{
-        url=contextPath + "/goods/goodsSelect/view?type="+param.type+"&branchId="+param.branchId+"&supplierId="+param.supplierId+"&flag="+param.flag;
+    	url=contextPath + "/goods/goodsSelect/view?type="+param.type+"&branchId="+param.branchId+"&supplierId="+param.supplierId+"&flag="+param.flag;
     }
     //公有属性
     var dalogObj = {

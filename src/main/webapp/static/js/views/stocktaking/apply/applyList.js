@@ -1,4 +1,7 @@
 $(function(){
+    //开始和结束时间
+    $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
+    $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 	initDgTakeStockApply();
 });
 //初始化表格
@@ -33,6 +36,7 @@ function initDgTakeStockApply(){
 		]],
 
 	});
+	queryForm();
 }
 //查询
 function queryForm(){
@@ -52,7 +56,7 @@ var resetForm = function() {
 /**
  * 机构名称
  */
-function selectBranches(){
+function selectListBranches(){
 	new publicAgencyService(function(data){
 		$("#branchId").val(data.branchesId);
 		$("#branchName").val(data.branchName);
@@ -72,10 +76,10 @@ function toAdd(){
     addDalogTemp = $('<div/>').dialog({
         href: contextPath+"/stocktaking/apply/add",
         queryParams:{},
-//        width: 700,
         top:top,
         left:left,
         height: 350,
+        width: 700,
         title: "申请盘点批号",
         closable: true,
         resizable: true,
@@ -92,5 +96,4 @@ function toAdd(){
 
 function applyCallback(){
 	 $(addDalogTemp).panel('destroy');
-	 queryForm();
 }

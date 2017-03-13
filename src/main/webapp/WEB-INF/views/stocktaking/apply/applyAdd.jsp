@@ -20,7 +20,7 @@ pageEncoding="UTF-8"%>
 					<input type="hidden" id="addbranchId" name="branchId" />
 					<input type="hidden" id="addbranchCode" name="branchCode" />
 					<input class="uinp ub ub-f1" type="text" id="addbranchName" name="branchName" maxlength="50"/>
-					<div class="uinp-more" onclick="selectBranches()" >...</div>
+					<div class="uinp-more" onclick="selecAddtBranches()" >...</div>
 				</div>
 				<div class="ub ub-ac uw-300 umar-l40">
 					<div class="umar-r10 uw-60 ut-r">盘点范围:</div>
@@ -43,7 +43,6 @@ pageEncoding="UTF-8"%>
 			<div class="ub upad-4 umar-t10">
 				<div class="ub ub-ac uw-590">
 					<div class="umar-r10 uw-70 ut-r">备注:</div>
-			
 					<input id="remark" name="remark" value="" class="uinp ub ub-f1" maxlength="60">
 				</div>
 			</div>

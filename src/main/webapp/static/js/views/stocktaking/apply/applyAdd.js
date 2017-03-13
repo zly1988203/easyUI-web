@@ -23,14 +23,13 @@ function save() {
 		data : formObj,
 		success : function(result) {
 			if(result.code == 0){
-				alertTip(result.message);
-				closeDialogHandel();
-				//alertTip(result.message, initDgTakeStockApply);
+				alertTip(result.message, queryForm);
+				applyAddcallback();
 			}else{
 				$('#saveBtn').removeAttr("disabled");
 				alertTip(result.message);
 			}
-			applyAddcallback();
+		
 		},
 		error : function(result) {
 			successTip("请求发送失败或服务器处理失败");
@@ -38,24 +37,10 @@ function save() {
 	});
 }
 
-//清空表单
-function cleanForm(){
-	$("#brandCode").val('');
-	$("#brandName").val('');
-	$("#remark").val('');
-}
-
-//关闭属性编辑窗口
-function closeDialogHandel(){
-    if(addDalogTemp){
-        $(addDalogTemp).panel('destroy');
-    }
-}
-
 /**
  * 机构名称
  */
-function selectBranches(){
+function selecAddtBranches(){
 	new publicAgencyService(function(data){
 		$("#addbranchId").val(data.branchesId);
 		$("#addbranchCode").val(data.branchCode);
@@ -68,6 +53,7 @@ function scopeChange(){
 	if(val != ""){
 		$('#categoryDiv').css('display','block');
 	}else{
+		
 		$('#categoryDiv').css('display','none');
 	}
 }
