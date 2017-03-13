@@ -32,8 +32,8 @@ function initdgOrderList(){
         	{field:'formNo',title:'订单单号',width:180,align:'left',
 				formatter:function(value,row,index){
 	            	if(updatePermission){
-	            		var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看采购详细\',\''+contextPath+'/form/purchase/orderEdit?formId='+row.formId+'\')">' + value + '</a>';
-	                	return strHtml;
+	            		var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看采购详细\',\''+ contextPath +'/okdeerjxc/form/purchase/orderEdit?formNo='+ row.formNo +'\')">' + value + '</a>';
+	            		return strHtml;
 	            	}else{
 	            		return value;
 	            	}

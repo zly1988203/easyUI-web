@@ -57,8 +57,8 @@ function initOperateDataGrid(){
         height:'100%',
         width:'100%',
         columns:[[
-			{field:'ck',checkbox:true},
-			{field:'cz',title:'操作',width:'60px',align:'center',
+			{field:'ck',checkbox:true,hidden:isdisabled},
+			{field:'cz',title:'操作',width:'60px',align:'center',hidden:isdisabled,
 			    formatter : function(value, row,index) {
 			        var str = "";
 			        if(row.isFooter){

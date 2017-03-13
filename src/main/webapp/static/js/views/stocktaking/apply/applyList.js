@@ -1,12 +1,9 @@
 $(function(){
-    //开始和结束时间
-    $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
-    $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 	initDgTakeStockApply();
 });
 //初始化表格
 function initDgTakeStockApply(){
-	stockList = $("#applyList").datagrid({
+	$("#applyList").datagrid({
 		method:'post',
 		align:'center',
 		singleSelect:false,  //单选  false多选
@@ -36,7 +33,6 @@ function initDgTakeStockApply(){
 		]],
 
 	});
-	queryForm();
 }
 //查询
 function queryForm(){
@@ -76,10 +72,10 @@ function toAdd(){
     addDalogTemp = $('<div/>').dialog({
         href: contextPath+"/stocktaking/apply/add",
         queryParams:{},
+//        width: 700,
         top:top,
         left:left,
         height: 350,
-        width: 700,
         title: "申请盘点批号",
         closable: true,
         resizable: true,

@@ -4,8 +4,8 @@
  */
 //公共组件-弹出框
 
-var top = $(window).height()/2;
-var left = $(window).width()/2;
+var top = $(window).height()/3;
+var left = $(window).width()/4;
 
 function messager(msg,title){
     $.messager.show({
@@ -1159,6 +1159,13 @@ function GridClass(){
             $(target).numberbox('setValue',val);
         }
     }
+    
+    this.setFieldSpinnerValue = function(fieldName,val){
+        var target = _this.getFieldTarget(fieldName);
+        if(target){
+            $(target).numberspinner('setValue',val);
+        }
+    }
     /**
      * 设置单元格非编辑框值 可以修改多个
      * @param fieldName 单元格名称
@@ -1888,7 +1895,8 @@ function publicConfirmDialog(callback,param){
         $(dalogTemp).panel('destroy');
     }
 }
-  
+
+//盘点批号选择
 var StockDialog = null;
 function publicStocktakingDialog(param,callback){
 		if(null != StockDialog) return;
@@ -1896,8 +1904,8 @@ function publicStocktakingDialog(param,callback){
 		StockDialog = $('<div/>').dialog({
         href: contextPath+"/stocktaking/operate/publicStocktaking",
         title: '盘点批号选择',
-        top:300,
-        left:600,
+        top:top,
+        left:left,
         width:750,
         height:650,
         closable: true,

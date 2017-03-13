@@ -13,8 +13,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.json.JSONObject;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -40,6 +38,8 @@ import com.okdeer.jxc.goods.service.GoodsStatusService;
 import com.okdeer.jxc.goods.vo.GoodsStatusVo;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
+
+import net.sf.json.JSONObject;
 
 
 /**

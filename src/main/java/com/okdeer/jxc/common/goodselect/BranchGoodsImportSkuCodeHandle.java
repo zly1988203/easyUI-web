@@ -11,16 +11,16 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+
+import com.okdeer.jxc.common.enums.GoodsTypeEnum;
+import com.okdeer.jxc.goods.entity.GoodsBranchPriceVo;
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.EnumMorpher;
 import net.sf.json.util.JSONUtils;
-
-import org.apache.commons.lang3.StringUtils;
-
-import com.okdeer.jxc.common.enums.GoodsTypeEnum;
-import com.okdeer.jxc.goods.entity.GoodsBranchPriceVo;
 
 /**
  * ClassName: GoodsSelectImport 

@@ -14,12 +14,8 @@
 	
 	<div class="ub ub-ac upad-4">
         <div class="ubtns umar-l20 umar-t10">
-        	<shiro:hasPermission name="JxcPurchaseGuide:audit" >
-            	<div class="ubtns-item" onclick="chekData()">审核</div>
-            </shiro:hasPermission>
-            <shiro:hasPermission name="JxcPurchaseGuide:delete" >
-            	<div class="ubtns-item" onclick="delData()">删除</div>
-            </shiro:hasPermission>
+        	<div class="ubtns-item" onclick="chekData()">审核</div>
+        	<div class="ubtns-item" onclick="delData()">删除</div>
         	<div class="ubtns-item" onclick="finish()">完成</div>
         	<div id="updatePermission" class="none">
 				<shiro:hasPermission name="JxcPurchaseGuide:update" >修改</shiro:hasPermission>
