@@ -38,13 +38,13 @@ import com.okdeer.jxc.utils.UserUtil;
  * ----------------+----------------+-------------------+-------------------------------------------
  *
  */
- 
+
 @Controller
 @RequestMapping("form/deliverDDForm")
 public class DeliverDDFormController extends BasePrintController<DeliverDDFormController, DeliverFormList> {
 	@Reference(version = "1.0.0", check = false)
 	private DeliverFormServiceApi deliverFormServiceApi;
-	
+
 	@RequestMapping(value = "view")
 	public String viewDA(Model model) {
 		model.addAttribute("targetBranchId", getCurrBranchId());
@@ -61,11 +61,14 @@ public class DeliverDDFormController extends BasePrintController<DeliverDDFormCo
 	}
 	@RequestMapping(value = "addView")
 	public String addView(QueryDeliverFormVo vo, Model model) {
-			return "form/deliver/DDAdd";
+		model.addAttribute("sourceBranchId", getCurrBranchId());
+		model.addAttribute("sourceBranchName", UserUtil.getCurrBranchName());
+		model.addAttribute("sourceBranchCode", UserUtil.getCurrBranchCode());
+		return "form/deliver/DDAdd";
 	}
 	@RequestMapping(value = "editView")
 	public String editView(QueryDeliverFormVo vo, Model model) {
-			return "form/deliver/DDEdit";
+		return "form/deliver/DDEdit";
 	}
 	@RequestMapping(value = "toEnd", method = RequestMethod.POST)
 	@ResponseBody
@@ -73,52 +76,53 @@ public class DeliverDDFormController extends BasePrintController<DeliverDDFormCo
 		LOG.info(LogConstant.OUT_PARAM, vo.toString());
 		SysUser user = UserUtil.getCurrentUser();
 		vo.setUpdateUserId(user.getId());
+		vo.setFormType("DD");
 		return deliverFormServiceApi.toEnd(vo);
 	}
-	
-//	@RequestMapping(value = "insertDeliverForm", method = RequestMethod.POST)
-//	@ResponseBody
-//	public RespJson insertDeliverForm(@RequestBody String formVo) {
-//		RespJson respJson = RespJson.success();
-//		LOG.info(LogConstant.OUT_PARAM, formVo);
-//		try {
-//			DeliverFormVo vo = new ObjectMapper().readValue(formVo, DeliverFormVo.class);
-//
-//			String getId = UuidUtils.getUuid();
-//			String formNo = "";
-//			if (StringUtils.isEmpty(vo.getBranchCode())) {
-//				formNo = orderNoUtils.getOrderNo(new StringBuilder(vo.getFormType()).append(
-//						UserUtil.getCurrBranchCode()).toString());
-//			} else {
-//				formNo = orderNoUtils.getOrderNo(new StringBuilder(vo.getFormType()).append(vo.getBranchCode())
-//						.toString());
-//			}
-//			// 获取单号
-//			// 获取登录人
-//			SysUser user = UserUtil.getCurrentUser();
-//			// 设置值
-//			vo.setDeliverFormId(getId);
-//			vo.setFormNo(formNo);
-//			vo.setStatus(DeliverAuditStatusEnum.WAIT_CHECK.getIndex());
-//			vo.setDealStatus(DeliverStatusEnum.PENDING.getIndex());
-//			vo.setIsReference(IsReference.NO.getIndex());
-//			vo.setCreaterBranchId(UserUtil.getCurrBranchId());
-//			vo.setValue(user.getId(), user.getId(), null, null);
-//			vo.setFormSources(FormSourcesEnum.SYSTEM.getKey());
-//			for (DeliverFormListVo deliverFormListVo : vo.getDeliverFormListVo()) {
-//				deliverFormListVo.setDeliverFormListId(UuidUtils.getUuid());
-//				deliverFormListVo.setFormNo(formNo);
-//				deliverFormListVo.setFormId(getId);
-//			}
-//			respJson = deliverFormServiceApi.insertForm(vo);
-//			if (respJson.getStatus() != 0) {
-//				return respJson;
-//			}
-//			respJson.put("formId", getId);
-//		} catch (Exception e) {
-//			LOG.error("保存要货申请单出现异常:{}", e);
-//			respJson = RespJson.error("添加要货申请单失败！");
-//		}
-//		return respJson;
-//	}
+
+	//	@RequestMapping(value = "insertDeliverForm", method = RequestMethod.POST)
+	//	@ResponseBody
+	//	public RespJson insertDeliverForm(@RequestBody String formVo) {
+	//		RespJson respJson = RespJson.success();
+	//		LOG.info(LogConstant.OUT_PARAM, formVo);
+	//		try {
+	//			DeliverFormVo vo = new ObjectMapper().readValue(formVo, DeliverFormVo.class);
+	//
+	//			String getId = UuidUtils.getUuid();
+	//			String formNo = "";
+	//			if (StringUtils.isEmpty(vo.getBranchCode())) {
+	//				formNo = orderNoUtils.getOrderNo(new StringBuilder(vo.getFormType()).append(
+	//						UserUtil.getCurrBranchCode()).toString());
+	//			} else {
+	//				formNo = orderNoUtils.getOrderNo(new StringBuilder(vo.getFormType()).append(vo.getBranchCode())
+	//						.toString());
+	//			}
+	//			// 获取单号
+	//			// 获取登录人
+	//			SysUser user = UserUtil.getCurrentUser();
+	//			// 设置值
+	//			vo.setDeliverFormId(getId);
+	//			vo.setFormNo(formNo);
+	//			vo.setStatus(DeliverAuditStatusEnum.WAIT_CHECK.getIndex());
+	//			vo.setDealStatus(DeliverStatusEnum.PENDING.getIndex());
+	//			vo.setIsReference(IsReference.NO.getIndex());
+	//			vo.setCreaterBranchId(UserUtil.getCurrBranchId());
+	//			vo.setValue(user.getId(), user.getId(), null, null);
+	//			vo.setFormSources(FormSourcesEnum.SYSTEM.getKey());
+	//			for (DeliverFormListVo deliverFormListVo : vo.getDeliverFormListVo()) {
+	//				deliverFormListVo.setDeliverFormListId(UuidUtils.getUuid());
+	//				deliverFormListVo.setFormNo(formNo);
+	//				deliverFormListVo.setFormId(getId);
+	//			}
+	//			respJson = deliverFormServiceApi.insertForm(vo);
+	//			if (respJson.getStatus() != 0) {
+	//				return respJson;
+	//			}
+	//			respJson.put("formId", getId);
+	//		} catch (Exception e) {
+	//			LOG.error("保存要货申请单出现异常:{}", e);
+	//			respJson = RespJson.error("添加要货申请单失败！");
+	//		}
+	//		return respJson;
+	//	}
 }

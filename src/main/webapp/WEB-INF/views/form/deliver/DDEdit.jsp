@@ -17,7 +17,10 @@
     <div class="ub ub-ver ub-f1 umar-4  ubor">
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
-            	<shiro:hasPermission name="JxcDeliverDO:add">
+            <div class="ubtns-item" onclick="addDeliverForm()">新增</div>
+            <div class="ubtns-item" onclick="saveOrder()">保存</div>
+            <div class="ubtns-item" onclick="check()">审核</div>
+            	<%-- <shiro:hasPermission name="JxcDeliverDO:add">
             		<div class="ubtns-item" onclick="addDeliverForm()">新增</div>
             	</shiro:hasPermission>
             	<shiro:hasPermission name="JxcDeliverDO:add">
@@ -25,7 +28,7 @@
                 </shiro:hasPermission>
                 <shiro:hasPermission name="JxcDeliverDO:audit">
                 	<div class="ubtns-item" onclick="check()">审核</div>
-                </shiro:hasPermission>
+                </shiro:hasPermission> --%>
                 <div class="ubtns-item-disabled" onclick="toEnd()">终止</div>
                 <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
                 
@@ -48,7 +51,7 @@
                    <div class="ub">
                        <input type="hidden" id="targetBranchId" name="targetBranchId" value="${form.targetBranchId}"  />
                       <%--  <input type="hidden" id="targetBranchType" name="targetBranchType" value="${form.targetBranchType}"  /> --%>
-                       <input class="uinp ub ub-f1" type="text" id="targetBranchName" name="targetBranchName" value="${form.targetBranchName}" readonly="readonly" onclick="selectTargetBranch()" />
+                       <input class="uinp ub ub-f1" type="text" id="targetBranchName" name="targetBranchName" value="[${form.targetBranchCode}]${form.targetBranchName}" readonly="readonly" onclick="selectTargetBranch()" />
                        <div class="uinp-more" onclick="selectTargetBranch()">...</div>
                    </div>
 
@@ -73,7 +76,7 @@
                     <input type="hidden" id="formType" name="formType" value="${form.formType}" />
                        <input type="hidden" id="sourceBranchId" name="sourceBranchId" value="${form.sourceBranchId}" />
                         <input type="hidden" id="sourceBranchType" name="sourceBranchType" value="${form.sourceBranchType}"  />
-                       <input class="uinp ub ub-f1" type="text" id="sourceBranchName" name="sourceBranchName" onclick="selectSourceBranch()" value="${form.sourceBranchName}" readonly="readonly" />
+                       <input class="uinp ub ub-f1" type="text" id="sourceBranchName" name="sourceBranchName" onclick="selectSourceBranch()" value="[${form.sourceBranchCode}]${form.sourceBranchName}" readonly="readonly" />
                        <div class="uinp-more" onclick="selectSourceBranch()">...</div>
                    </div>
                </div>

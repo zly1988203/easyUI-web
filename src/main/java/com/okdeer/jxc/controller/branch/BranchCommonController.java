@@ -108,6 +108,7 @@ public class BranchCommonController extends BaseController<BranchCommonControlle
 				vo.setBranchId(UserUtil.getCurrBranchParentId());
 				vo.setBranchType(null);
 				vo.setBranchTypes(new int[]{3,4,5});
+				vo.setBranchCompleCode(null);
 			}
 			
 			PageUtils<Branches> suppliers = branchesService.queryLists(vo);

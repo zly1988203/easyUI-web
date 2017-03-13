@@ -9,7 +9,7 @@
     <title>出库单-编辑</title>
 
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-	<script src="${ctx}/static/js/views/deliver/DDEdit.js"></script>
+	<script src="${ctx}/static/js/views/deliver/DDView.js"></script>
     <script src="${ctx}/static/js/views/deliver/deliverExport.js"></script>
     <%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
 </head>
@@ -20,17 +20,14 @@
             	<shiro:hasPermission name="JxcDeliverDO:add">
             		<div class="ubtns-item" onclick="addDeliverForm()">新增</div>
             	</shiro:hasPermission>
-            	<shiro:hasPermission name="JxcDeliverDO:add">
-                	<div class="ubtns-item" onclick="saveOrder()">保存</div>
-                </shiro:hasPermission>
-                <shiro:hasPermission name="JxcDeliverDO:audit">
-                	<div class="ubtns-item" onclick="check()">审核</div>
-                </shiro:hasPermission>
-                <div class="ubtns-item-disabled" onclick="toEnd()">终止</div>
-                <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
-                
-                <div class="ubtns-item" onclick="toImportproduct(0)">导入货号</div>
-            	<div class="ubtns-item" onclick="toImportproduct(1)">导入条码</div>
+               <div class="ubtns-item-disabled">保存</div>
+               
+               	<div class="ubtns-item-disabled">审核</div>
+               	
+                <div class="ubtns-item" onclick="toEnd()">终止</div>
+                <div class="ubtns-item-disabled" >商品选择</div>
+                <div class="ubtns-item-disabled" >导入货号</div>
+            	<div class="ubtns-item-disabled" >导入条码</div>
             	<div class="ubtns-item"  onclick="exportData('DD','gridEditRequireOrder')">导出</div>
             	<shiro:hasPermission name="JxcDeliverDO:print">
                     <div class="ubtns-item" onclick="printChoose('DD','/form/deliverForm/')">打印</div>

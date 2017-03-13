@@ -17,12 +17,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.alibaba.fastjson.JSON;
 import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
@@ -36,6 +38,9 @@ import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.controller.print.JasperHelper;
+import com.okdeer.jxc.goods.entity.GoodsBranchPrice;
+import com.okdeer.jxc.goods.entity.GoodsBranchPriceVo;
+import com.okdeer.jxc.goods.qo.GoodsBranchPriceQo;
 import com.okdeer.jxc.goods.service.GoodsBranchPriceServiceApi;
 import com.okdeer.jxc.report.qo.GoodsReportQo;
 import com.okdeer.jxc.report.service.GoodsReportService;
@@ -281,4 +286,42 @@ BaseController<GoodsReportController> {
 		}
 		return null;
 	}
+	@RequestMapping(value = "querySkuBranchBySkuId", method = RequestMethod.POST)
+	@ResponseBody
+	public PageUtils<GoodsBranchPriceVo> querySkuBranchBySkuIdCodes(GoodsBranchPriceQo qo){
+		try{
+			qo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
+			List<GoodsBranchPriceVo> branchList = goodsBranchPriceService.querySkuBranchBySkuId(qo);
+			
+			PageUtils<GoodsBranchPriceVo> goodsReport = new PageUtils<GoodsBranchPriceVo>(branchList);
+			return goodsReport;
+		}catch(Exception e){
+			LOG.error("查询商品各机构信息失败", e);
+			return null;
+		}
+	}
+	/**
+	 * @Description: TODO
+	 * @param qo
+	 * @return   
+	 * @return PageUtils<GoodsBranchPriceVo>  
+	 * @throws
+	 * @author yangyq02
+	 * @date 2017年3月12日
+	 */
+	@RequestMapping(value = "saveBranchsafetyCoefficient", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson saveBranchsafetyCoefficient(@RequestBody String json){
+		try{
+			List<GoodsBranchPrice> list=JSON.parseArray(json, GoodsBranchPrice.class);
+			for(GoodsBranchPrice goodsBranchPrice:list){
+				goodsBranchPrice.setUpdateUserId(UserUtil.getCurrUserId());
+			}
+			return goodsBranchPriceService.saveBranchsafetyCoefficient(list);
+		}catch(Exception e){
+			LOG.error("查询商品各机构信息失败", e);
+			return RespJson.error("保存机构安全系数失败");
+		}
+	}
+	
 }
