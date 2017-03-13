@@ -1,7 +1,4 @@
 $(function(){
-    //开始和结束时间
-    $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
-    $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 	initSearchParams();
 	
 	initDgTakeStockMiss();
@@ -31,8 +28,9 @@ function initDgTakeStockMiss(){
 		align:'center',
 		singleSelect:false,  //单选  false多选
 		rownumbers:true,    //序号
-//		pagination:true,    //分页
+		pagination:true,    //分页
 		fitColumns:true,    //每列占满
+		showFooter:true,
 		height:'100%',
 		width:'100%',
 		columns:[[
@@ -93,9 +91,7 @@ function toPrint(){
 		return;
 	}
 	var fromObjStr = $('#queryForm').serializeObject();
-	console.log(fromObjStr);
 	var param=setParams("queryForm");
-	console.log(param);
 	parent.addTabPrint("异常查询","打印",contextPath+"/stocktaking/miss/printMissList?" + param);
 }
 
@@ -118,9 +114,9 @@ function setParams(formId){
 
 //盘点批号
 function searchTakeStock(){
-	var branchId = $('#branchId').val();
+	var branchCompleCode = $('#branchCompleCode').val();
 	var param = {
-			branchId:branchId
+			branchCompleCode:branchCompleCode
 	}
 	new publicStocktakingDialog(param,function(data){
 		$("#batchNo").val(data.batchNo);

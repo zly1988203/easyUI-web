@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.okdeer.ca.api.sysuser.entity.SysUserItemDto;
+import com.okdeer.ca.common.enums.DisabledType;
 import com.okdeer.jxc.common.constant.SysConstant;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.system.entity.SysUser;
@@ -25,8 +27,6 @@ import com.okdeer.jxc.system.service.SysUserCategoryGrantServiceApi;
 import com.okdeer.jxc.system.service.SysUserServiceApi;
 import com.okdeer.jxc.utils.PriceGrantUtil;
 import com.okdeer.jxc.utils.UserUtil;
-import com.okdeer.ca.api.sysuser.entity.SysUserItemDto;
-import com.okdeer.ca.common.enums.DisabledType;
 
 /**
  * ClassName: SacleLogin 
