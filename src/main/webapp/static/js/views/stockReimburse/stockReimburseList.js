@@ -191,7 +191,7 @@ function selectBranches() {
 	new publicAgencyService(function(data) {
 		// $("#createBranchId").val(data.branchesId);
 		$("#branchName").val(data.branchName);
-	}, 'IU', '');
+	}, 'ID', '');
 }
 
 /**
