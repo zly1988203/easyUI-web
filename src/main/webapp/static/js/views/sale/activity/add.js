@@ -9,11 +9,11 @@ $(function(){
     // 禁止按钮点击事件
     disableGoods('','GoodsType');
     // 加载进行批量特价设置
-    $('#special,#discount,#batchcount').on('input',function(){
+    /*$('#special,#discount,#batchcount').on('input',function(){
     	var obj=$(this).attr('id');
     	specialRows(obj,$(this).val());
 
-	})
+	})*/
 	//一周星期获取和初始化
 	  weekCheckDay();
 	$(document).on('click','#weekday .ubcheckweek',function(){
@@ -22,6 +22,27 @@ $(function(){
 	})
 	
 });
+
+//特价
+function changeSpecNum(newV,oldV){
+	if(newV && newV>0){
+		specialRows('special',newV);
+	}
+}
+
+//折扣
+function changeDisNum(newV,oldV){
+	if(newV && newV>0){
+		specialRows('discount',newV);
+	}
+}
+
+//偶数特价
+function changeOddprice(newV,oldV){
+	if(newV && newV>0){
+		specialRows('batchcount',newV);
+	}
+}
 
 // select 选择切换
 var gVarLastActivityType = "1";
@@ -1243,43 +1264,20 @@ function specialRows(id,val){
 	if(id=="special"){
 		for(var i = 0;i < newData.length;i++){
 			newData[i].saleAmount= val;
-			rowIndex = $("#"+datagridId).datagrid('getRowIndex',newData[i]);
-			// 更新行数据
-			$("#"+datagridId).datagrid('updateRow',{
-				index: rowIndex,
-				row: newData[i]
-			});
-			// 刷新行
-			$("#"+datagridId).datagrid('refreshRow',rowIndex);
 		}
+		$("#"+datagridId).datagrid({data:newData})
 	}
 	else if(id=="discount"){
 		for(var i = 0;i < newData.length;i++){
 			newData[i].discount= val;
-			rowIndex = $("#"+datagridId).datagrid('getRowIndex',newData[i]);
-			// 更新行数据
-			$("#"+datagridId).datagrid('updateRow',{
-				index: rowIndex,
-				row: newData[i]
-			});
-			// 刷新行
-			$("#"+datagridId).datagrid('refreshRow',rowIndex);
 		}
 	}
 	else if(id=="batchcount"){
 		for(var i = 0;i < newData.length;i++){
 			newData[i].saleAmount= val;
-			rowIndex = $("#"+datagridId).datagrid('getRowIndex',newData[i]);
-			// 更新行数据
-			$("#"+datagridId).datagrid('updateRow',{
-				index: rowIndex,
-				row: newData[i]
-			});
-			// 刷新行
-			$("#"+datagridId).datagrid('refreshRow',rowIndex);
 		}
 	}
-	
+	$("#"+datagridId).datagrid({data:newData})
 }
 // 插入动态行
 function addrowsdt(){

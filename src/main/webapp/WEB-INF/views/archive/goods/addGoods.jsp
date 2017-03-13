@@ -279,7 +279,7 @@ pageEncoding="UTF-8"%>
 					</div>
 					<div class="ub ub-ac umar-r40">
 						<input id="allowAdjust" name="allowActivity"
-							class="ub" type="checkbox" name="checkbox" checked="checked" /><span>分店调价</span>
+							class="ub" type="checkbox" name="checkbox"  /><span>分店调价</span>
 					</div>
             </div>
 

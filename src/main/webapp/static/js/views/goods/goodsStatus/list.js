@@ -117,6 +117,8 @@ $(document).on("click","input[name='status']",function(){
 			$("#recover").addClass("unhide");
 			
 	}
+	
+	query();
 })
 
 function initView(){
@@ -358,7 +360,7 @@ function updateListData(data){
 //停购（type：0）、停售（type：1）、淘汰（type：2）、恢复（type：3）
 function update(type){
 	var rows = $('#goodsStatus').datagrid('getChecked');
-	if(rows == null){
+	if(rows.length == 0){
 		$.messager.alert('提示','请至少选中一行！');
 		return;
 	}
@@ -374,7 +376,6 @@ function update(type){
 		}
 		ids+=v.branchSkuId+",";
 	});
-	console.log(ids);
 	$.messager.confirm('提示','是否要处理选中数据',function(data){
 		if(data){
 			$.ajax({
@@ -416,7 +417,7 @@ function closeOutGuideDialog(){
 function checkOutGuide(){
 	var guideType = $("input[name='guideType']:checked").val();
 	var guideChoose = $("input[name='guideChoose']:checked").val();
-	var guideDate = $("#guideDate").numberbox('getValue');
+	var guideDate = $("#guideDatew").numberbox('getValue');
 	var params = {
 			guideType:guideType,
 			guideChoose:guideChoose,
@@ -450,7 +451,7 @@ function checkStopGuide(){
 function resetGuideData(){
 	$("input[name='guideStatus']").prop("checked",false).eq(0).prop("checked",true);
 	$("input[name='guideChoose']").prop("checked",false).eq(0).prop("checked",true);
-	$("#guideDate").numberbox('clear');
+	$("#guideDatew").numberbox('setValue',15);
 }
 
 function stopGuide(){
