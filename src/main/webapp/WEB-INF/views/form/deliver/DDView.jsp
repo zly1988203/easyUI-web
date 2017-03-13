@@ -9,7 +9,7 @@
     <title>出库单-编辑</title>
 
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-	<script src="${ctx}/static/js/views/deliver/DDView.js"></script>
+	<script src="${ctx}/static/js/views/deliver/DDView.js?1=1"></script>
     <script src="${ctx}/static/js/views/deliver/deliverExport.js"></script>
     <%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
 </head>
@@ -36,6 +36,7 @@
             </div>
         </div>
         <div class="ub umar-t8 uc-black">【单号】:<span>${form.formNo}</span></div>
+        <div class="already-examine" id="already-examine"><span>已审核</span></div>
         <div class="ub uline umar-t8"></div>
         <div class="ub">
                <div class="ub ub-ac uw-300">
@@ -45,8 +46,7 @@
                    <div class="ub">
                        <input type="hidden" id="targetBranchId" name="targetBranchId" value="${form.targetBranchId}"  />
                       <%--  <input type="hidden" id="targetBranchType" name="targetBranchType" value="${form.targetBranchType}"  /> --%>
-                       <input class="uinp ub ub-f1" type="text" id="targetBranchName" name="targetBranchName" value="${form.targetBranchName}" readonly="readonly" onclick="selectTargetBranch()" />
-                       <div class="uinp-more" onclick="selectTargetBranch()">...</div>
+                       <input class="uinp ub ub-f1" type="text" id="targetBranchName" name="targetBranchName" value="${form.targetBranchName}" readonly="readonly" />
                    </div>
 
                </div>
@@ -70,8 +70,7 @@
                     <input type="hidden" id="formType" name="formType" value="${form.formType}" />
                        <input type="hidden" id="sourceBranchId" name="sourceBranchId" value="${form.sourceBranchId}" />
                         <input type="hidden" id="sourceBranchType" name="sourceBranchType" value="${form.sourceBranchType}"  />
-                       <input class="uinp ub ub-f1" type="text" id="sourceBranchName" name="sourceBranchName" onclick="selectSourceBranch()" value="${form.sourceBranchName}" readonly="readonly" />
-                       <div class="uinp-more" onclick="selectSourceBranch()">...</div>
+                       <input class="uinp ub ub-f1" type="text" id="sourceBranchName" name="sourceBranchName" value="${form.sourceBranchName}" readonly="readonly" />
                    </div>
                </div>
 
@@ -92,7 +91,7 @@
            	  
                 <div class="ub ub-ac uw-300 umar">
                     <div class="umar-r10 uw-70 ut-r">备注:</div>
-                    <input class="uinp" type="text" id="remark" name="remark" value="${form.remark}" >
+                    <input class="uinp" type="text" readonly="readonly" id="remark" name="remark" value="${form.remark}" >
                 </div>
                 <div class="ub ub-ac uw-300 umar-l20">
                    <div class="umar-r10 uw-70 ut-r">审核人员:</div>
