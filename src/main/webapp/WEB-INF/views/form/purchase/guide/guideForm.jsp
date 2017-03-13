@@ -74,24 +74,41 @@
 					<div class="umar-r10 uw-70 ut-r">选择模式:</div>
 					<input type="radio" class="radioItem" name="guideType" value="1" checked>[常规商品]按库存存量指标采购	
 			</div>
-			订货数量 ＝ 存量指标上限－当前库存，取进货规格整数倍（大于订货数量的值）
+
+			
     	</div>
+    			<div class="ub">
+		<div class="ub ub-ac">
+			<div class="umar-r10 uw-70 ut-r"></div>
+			<p>订货数量 ＝ 存量指标上限－当前库存，取进货规格整数倍（大于订货数量的值）</p>
+			</div>
+		</div>
     	
     	<div class="ub umar-t20">
 			<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r"></div>
 					<input type="radio" class="radioItem" name="guideType" value="2">[常规商品]按安全库存采购
 			</div>
-			订货数量＝订货周期*安全系数*MAX（上周日均销量，前周日均销量）－当前库存   
 		</div>
-    	
+		<div class="ub">
+		<div class="ub ub-ac">
+			<div class="umar-r10 uw-70 ut-r"></div>
+			订货数量＝订货周期*安全系数*MAX（上周日均销量，前周日均销量）－当前库存   
+			</div>
+		</div>
+		
     	<div class="ub umar-t20">
-						<div class="ub ub-ac">
+			<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r"></div>
 					<input type="radio" class="radioItem" name="guideType" value="3">[常规商品]按门店要货单采购
-			
 			</div>
+		</div>
+		
+		<div class="ub">
+		<div class="ub ub-ac">
+			<div class="umar-r10 uw-70 ut-r"></div>
 			订货数量＝ 要货总数－当前库存
+			</div>
 		</div>
 		
 <!-- 		<div class="ub umar-t20">
