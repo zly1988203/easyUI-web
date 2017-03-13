@@ -99,7 +99,7 @@ function initDatagridEditRequireOrder(){
 			    }
 			},
             {field:'rowNo',hidden:'true'},
-            {field:'skuCode',title:'货号',width: '70px',align:'left',editor:'textbox'},
+            {field:'skuCode',title:'货号',width: '70px',align:'left'},
             {field:'skuName',title:'商品名称',width:'200px',align:'left'},
             {field:'barCode',title:'条码',width:'150px',align:'left',
                /* formatter:function(value,row,index){
@@ -127,14 +127,6 @@ function initDatagridEditRequireOrder(){
                         row["largeNum"] = parseFloat(value||0).toFixed(2);
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-                editor:{
-                    type:'numberbox',
-                    options:{
-                        min:0,
-                        precision:4,
-                        onChange: onChangeLargeNum,
-                    }
                 }
             },
             {field:'applyNum',title:'数量',width:'80px',align:'right',
@@ -146,14 +138,6 @@ function initDatagridEditRequireOrder(){
                         row["applyNum"] = parseFloat(value||0).toFixed(2);
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-                editor:{
-                    type:'numberbox',
-                    options:{
-                        min:0,
-                        precision:4,
-                        onChange: onChangeRealNum,
-                    }
                 }
             },
             {field:'price',title:'单价',width:'80px',align:'right',
@@ -165,16 +149,7 @@ function initDatagridEditRequireOrder(){
                     	row.price = parseFloat(value||0).toFixed(2);
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-                editor:{
-                    type:'numberbox',
-                    options:{
-                        disabled:true,
-                        min:0,
-                        precision:4,
-//                        onChange: onChangePrice,
-                    }
-                },
+                }
             
             },
             {field:'amount',title:'金额',width:'80px',align:'right',
@@ -188,15 +163,6 @@ function initDatagridEditRequireOrder(){
                     }
                     
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-                editor:{
-                    type:'numberbox',
-                    options:{
-                        disabled:true,
-                        min:0,
-                        precision:4,
-//                        onChange: onChangeAmount,
-                    }
                 }
             },
             {field:'isGift',title:'赠送',width:'80px',hidden:true,align:'left',
@@ -206,23 +172,6 @@ function initDatagridEditRequireOrder(){
                     }
                     row.isGift = row.isGift?row.isGift:0;
                     return value=='1'?'是':(value=='0'?'否':'请选择');
-                },
-                editor:{
-                    type:'combobox',
-                    options:{
-                        valueField: 'id',
-                        textField: 'text',
-                        editable:false,
-                        required:true,
-                        data: [{
-                            "id":'1',
-                            "text":"是",
-                        },{
-                            "id":'0',
-                            "text":"否",
-                        }],
-//                        onSelect:onSelectIsGift
-                    }
                 }
             },
             {field:'inputTax',title:'税率',width:'80px',hidden:true,align:'right',
@@ -246,15 +195,7 @@ function initDatagridEditRequireOrder(){
                     var taxAmountVal = (row.inputTax*(row.amount/(1+parseFloat(row.inputTax)))||0.0000).toFixed(2);
                     row["taxAmount"] = taxAmountVal;
                     return '<b>'+parseFloat(taxAmountVal||0).toFixed(2)+'</b>';
-                },
-//                editor:{
-//                    type:'numberbox',
-//                    options:{
-//                        disabled:true,
-//                        min:0,
-//                        precision:2,
-//                    }
-//                }
+                }
             },
             {field: 'targetStock', title: '店铺库存', width: '80px', hidden:true,align: 'right',
                 formatter: function (value, row, index) {
@@ -292,14 +233,6 @@ function initDatagridEditRequireOrder(){
    	           			return 'color:black;'
    	           		}	
                 }
-//                editor:{
-//                    type:'numberbox',
-//                    options:{
-//                        disabled:true,
-//                        min:0,
-//                        precision:2,
-//                    }
-//                }
             },
             {field:'alreadyNum',title:'已订数量',width:'80px',hidden:true,align:'right',
                 formatter : function(value, row, index) {
@@ -326,7 +259,7 @@ function initDatagridEditRequireOrder(){
    	           		}	
                 }
             },
-            {field:'remark',title:'备注',width:'200px',align:'left',editor:'textbox'}
+            {field:'remark',title:'备注',width:'200px',align:'left'}
         ]],
         onClickCell:function(rowIndex,field,value){
             gridHandel.setBeginRow(rowIndex);
