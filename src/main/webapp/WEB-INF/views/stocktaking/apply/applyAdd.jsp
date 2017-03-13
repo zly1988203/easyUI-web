@@ -43,7 +43,7 @@ pageEncoding="UTF-8"%>
 			<div class="ub upad-4 umar-t10">
 				<div class="ub ub-ac uw-590">
 					<div class="umar-r10 uw-70 ut-r">备注:</div>
-					<input id="remark" name="remark" value="" class="uinp ub ub-f1" maxlength="60">
+					<input id="remark" name="remark" value="" class="uinp ub ub-f1" maxlength="40">
 				</div>
 			</div>
 		</div>
