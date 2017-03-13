@@ -275,12 +275,12 @@ function specialRows(id,val){
 				newData[i].lowerLimit= val;
 				// 更新行数据
 			}
-			$("#"+datagridId).datagrid('updateRow',{
+			/*$("#"+datagridId).datagrid('updateRow',{
 				index: rowIndex,
 				row: newData[i]
 			});
 			// 刷新行
-			$("#"+datagridId).datagrid('refreshRow',rowIndex);
+			$("#"+datagridId).datagrid('refreshRow',rowIndex);*/
 		}
 	}
 	else if(id=="upperLimit"){
@@ -296,14 +296,16 @@ function specialRows(id,val){
 				newData[i].upperLimit= val;
 				// 更新行数据
 			}
-			$("#"+datagridId).datagrid('updateRow',{
+			/*$("#"+datagridId).datagrid('updateRow',{
 				index: rowIndex,
 				row: newData[i]
 			});
 			// 刷新行
-			$("#"+datagridId).datagrid('refreshRow',rowIndex);
+			$("#"+datagridId).datagrid('refreshRow',rowIndex);*/
 		}
 	}
+	
+	$("#"+datagridId).datagrid({data:newData})
 	
 	if(errorIndex.length > 0){
 		//successTip("第  "+(errorIndex.join(","))+" 行库存上限不能小于库存下限");
