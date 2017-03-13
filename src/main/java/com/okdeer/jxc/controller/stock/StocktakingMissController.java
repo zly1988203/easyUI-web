@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
@@ -69,7 +70,12 @@ public class StocktakingMissController extends BaseController<StocktakingMissCon
 	 */
 	@RequestMapping(value = "/getMissList")
 	@ResponseBody
-	public PageUtils<StockTakingMissPo> getMissList(StocktakingMissQo qo) {
+	public PageUtils<StockTakingMissPo> getMissList(StocktakingMissQo qo,
+			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
+			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
+
+		qo.setPageNumber(pageNumber);
+		qo.setPageSize(pageSize);
 
 		LOG.info("漏盘列表查询参数：{}", qo);
 		try {
@@ -77,9 +83,7 @@ public class StocktakingMissController extends BaseController<StocktakingMissCon
 			// 构建查询参数
 			buildSearchParams(qo);
 
-			List<StockTakingMissPo> list = stocktakingOperateService.getMissList(qo);
-
-			return new PageUtils<StockTakingMissPo>(list);
+			return stocktakingOperateService.getMissListForPage(qo);
 		} catch (Exception e) {
 			LOG.error("查询漏盘商品列表异常:", e);
 		}

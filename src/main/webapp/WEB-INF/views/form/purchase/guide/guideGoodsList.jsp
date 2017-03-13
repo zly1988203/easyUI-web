@@ -16,7 +16,9 @@
 	<div class="ub ub-ac upad-4">
         <div class="ubtns umar-l20 umar-t10">
         	<div class="ubtns-item" onclick="lastStep()">上一步</div>
-        	<div class="ubtns-item" onclick="nextStep()">下一步</div>
+        	<shiro:hasPermission name="JxcPurchaseGuide:nextStep">
+                <div class="ubtns-item" onclick="nextStep()">下一步</div>
+            </shiro:hasPermission>
         </div>
         	<div class="umar-l50 divMsg">
         		
