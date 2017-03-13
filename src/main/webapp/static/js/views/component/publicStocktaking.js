@@ -16,6 +16,7 @@ function stocktSearch(){
 	
     $("#gridStock").datagrid("options").queryParams = {
 		branchId:branchId,
+		branchCompleCode:branchCompleCode,
 		dlgSearchStr:$("#dlgSearchStr").val()
     };
    
@@ -27,9 +28,8 @@ function stocktSearch(){
 function initStocktaking(param){
 	
 	branchId = param.branchId?param.branchId:'';
-	
-	var url = contextPath+'/stocktaking/apply/getApplyList?branchId='+branchId
-	
+	branchCompleCode = param.branchCompleCode?param.branchCompleCode:'';
+	var url = contextPath+'/stocktaking/apply/getApplyList?branchCompleCode='+branchCompleCode
     $("#gridStockDialog").datagrid({
         //title:'普通表单-用键盘操作',
         url:url,
