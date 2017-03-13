@@ -102,10 +102,6 @@ var datagridUtil = {
 
 //查询
 function modifyPriceOrderCx(){
-	var isValid = $('#searchForm').form('validate');
-	if (!isValid) {
-		return isValid;
-	}
 	var fromObjStr = $('#searchForm').serializeObject();
 	dg.datagrid('options').method = "post";
 	dg.datagrid('options').url = contextPath+'/goods/branchPriceAdjust/getGoodsBranchPriceAdjustList';

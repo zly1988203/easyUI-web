@@ -53,6 +53,7 @@
 					<input type="hidden" name="categoryCode" id="categoryCode" class="uinp" />
 					<div class="umar-r10 uw-60 ut-r">机构:</div>
 					<input type="text" name="branchName" id="branchName" class="uinp" value="${branchName}" maxlength="50"/>
+					<input type="hidden"  id="oldBranchName" value="${branchName}">
 					<input type="hidden" name="branchCode" id="branchCode" value="${branchCode}">
 					<input type="hidden" name="branchId" id="branchId" value="${branchId}">
 					<div class="uinp-more" onclick="searchBranch()">...</div>
