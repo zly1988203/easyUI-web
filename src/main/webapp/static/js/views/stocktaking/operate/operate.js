@@ -62,7 +62,7 @@ function initOperateDataGrid(){
 			    formatter : function(value, row,index) {
 			        var str = "";
 			        if(row.isFooter){
-			            str ='<div class="ub ub-pc">合计</div> '
+			            
 			        }else{
 			            str =  '<a name="add" class="add-line" data-index="'+index+'" onclick="addLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>&nbsp;&nbsp;' +
 			                '&nbsp;&nbsp;<a name="del" class="del-line" data-index="'+index+'" onclick="delLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>';
@@ -74,6 +74,12 @@ function initOperateDataGrid(){
             {field:'skuId',hidden:'true'},
             {field:'barCode',hidden:'true'},
             {field:'skuCode',title:'货号',width: '70px',align:'left',
+            	formatter:function(value,row,index){
+            		if(row.isFooter){
+            			return '<div class="ub ub-pc">合计</div> '
+            		}
+            		return value;
+            	},
             	editor:{
 	                type:'textbox',
 	                options:{
@@ -197,7 +203,7 @@ function selectGoods(searchKey){
 	var branchId = $("#branchId").val();
 	var sourceBranchId = branchId;
 	var targetBranchId = branchId;
-	var categoryShows = $('#categoryShows').val();
+	var categoryCodes = $('#categoryShows').val();
 	var batchId = $("#batchId").val();
 	var batchNo = $("#batchNo").val();
 	if(!branchId || !$.trim(branchId)){
@@ -222,7 +228,7 @@ function selectGoods(searchKey){
     		targetBranchId:'',
     		supplierId:'',
     		flag:'0',
-    		categoryShows:categoryShows
+    		categoryCodes:categoryCodes
     }
     
     new publicGoodsServiceTem(param,function(data){

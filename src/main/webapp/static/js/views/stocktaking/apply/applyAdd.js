@@ -53,7 +53,6 @@ function scopeChange(){
 	if(val != ""){
 		$('#categoryDiv').css('display','block');
 	}else{
-		
 		$('#categoryDiv').css('display','none');
 	}
 }

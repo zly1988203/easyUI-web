@@ -156,6 +156,27 @@ function selectGoods(){
 }
 
 /**
+ * 类别选择
+ */
+function searchCategory(){
+    var param = {
+        categoryType:'',
+        type:1
+    }
+    new publicCategoryService(function(data){
+        var categoryIds = []
+        var categorytxt=[];
+        $.each(data,function(index,item){
+            categoryIds.push(item.goodsCategoryId);
+            categorytxt.push(item.categoryCode);
+        })
+        $("#categoryIds").val(categoryIds);
+        $("#categoryShows").val(categorytxt) ;
+
+    },param);
+}
+
+/**
  * 导出
  */
 function toExport(){

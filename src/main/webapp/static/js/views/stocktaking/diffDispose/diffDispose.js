@@ -21,6 +21,8 @@ $(function(){
 		isdisabled = true;
 		$('#already-examine').css('display','block');
 		$('#btnCheck').css('display','none');
+        $('#btnSave').css('display','none');
+        $('#btndelete').css('display','none');
 	}
 	initOperateDataGrid();
  }
@@ -57,10 +59,11 @@ function initOperateDataGrid(){
         height:'100%',
         width:'100%',
         columns:[[
-			{field:'handle',checkbox:true,
+			{field:'handle',checkbox:true,hidden:isdisabled,
 			    formatter : function(value, row,index) {
 			        return true;
-			    }},
+			    }
+			},
             {field:'skuId',hidden:'true'},
             {field:'barCode',hidden:'true'},
             {field:'skuCode',title:'货号',width: '100px',align:'left',
@@ -75,9 +78,39 @@ function initOperateDataGrid(){
 			    }
             },
             {field:'skuName',title:'商品名称',width:'200px',align:'left'},
-            {field:'snapshootStockNum',title:'系统库存',width:'100px',align:'left'},
-            {field:'stocktakingNum',title:'盘点数量',width:'100px',align:'left'},
-            {field:'profitLossNum',title:'盈亏数量',width:'100px',align:'left'},
+            {field:'snapshootStockNum',title:'系统库存',width:'100px',align:'left',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    if(!value){
+                        row["snapshootStockNum"] = parseFloat(value||0).toFixed(2);
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+			},
+            {field:'stocktakingNum',title:'盘点数量',width:'100px',align:'left',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    if(!value){
+                        row["stocktakingNum"] = parseFloat(value||0).toFixed(2);
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+			},
+            {field:'profitLossNum',title:'盈亏数量',width:'100px',align:'left',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    if(!value){
+                        row["profitLossNum"] = parseFloat(value||0).toFixed(2);
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+			},
             {field:'differenceReason',title:'差异原因',width:'200px',align:'left',
             	editor:{
 	                type:'textbox',
@@ -85,11 +118,61 @@ function initOperateDataGrid(){
 	                	disabled:isdisabled,
 	                }
             	}},
-            {field:'snapshootCostPrice',title:'原库存成本价',width:'200px',align:'left'},
-            {field:'costAmount',title:'原库存金额（成本价）',width:'200px',align:'left'},
-            {field:'stocktakingCostAmount',title:'盘点金额（成本价）',width:'200px',align:'left'},
-            {field:'profitLossCostAmount',title:'盈亏金额（成本价）',width:'200px',align:'left'},
-            {field:'profitLossSaleAmount',title:'盈亏金额（售价）',width:'200px',align:'left'},
+            {field:'snapshootCostPrice',title:'原库存成本价',width:'200px',align:'left',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    if(!value){
+                        row["snapshootCostPrice"] = parseFloat(value||0).toFixed(2);
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+			},
+            {field:'costAmount',title:'原库存金额（成本价）',width:'200px',align:'left',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    if(!value){
+                        row["costAmount"] = parseFloat(value||0).toFixed(2);
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+			},
+            {field:'stocktakingCostAmount',title:'盘点金额（成本价）',width:'200px',align:'left',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    if(!value){
+                        row["stocktakingCostAmount"] = parseFloat(value||0).toFixed(2);
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+			},
+            {field:'profitLossCostAmount',title:'盈亏金额（成本价）',width:'200px',align:'left',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    if(!value){
+                        row["profitLossCostAmount"] = parseFloat(value||0).toFixed(2);
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+			},
+            {field:'profitLossSaleAmount',title:'盈亏金额（售价）',width:'200px',align:'left',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    if(!value){
+                        row["profitLossSaleAmount"] = parseFloat(value||0).toFixed(2);
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+			},
         ]],
         onCheck:function(rowIndex,rowData){
         	rowData.handle = '1';
@@ -135,7 +218,9 @@ function initOperateDataGrid(){
 
 // 合计
 function updateFooter(){
-    var fields = {largeNum:0,applyNum:0,amount:0,isGift:0, };
+    var fields = {snapshootStockNum:0,stocktakingNum:0,profitLossNum:0,
+        snapshootCostPrice:0,costAmount:0,
+        stocktakingCostAmount:0,profitLossCostAmount:0,profitLossSaleAmount:0,isGift:0, };
     var argWhere = {name:'isGift',value:0}
     gridHandel.updateFooter(fields,argWhere);
 }
