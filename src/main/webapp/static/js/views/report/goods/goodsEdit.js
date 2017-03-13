@@ -219,7 +219,7 @@ function submitForm(){
 		 $('#btnbase').css('background-color','#fff');
 		 $('#btnprice').css('background-color','#95B8E7');
 		 $('#tab1').css('display','none');
-		 $('#tab2').css('display','block');
+		 $('#tab2').css({'display':'block','height':'90%'});
 		 
 		 	if(dgPrice != null)return;
 			//初始化表格
