@@ -17,6 +17,8 @@ import java.util.concurrent.TimeUnit;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONObject;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -50,8 +52,6 @@ import com.okdeer.jxc.supplier.service.SupplierServiceApi;
 import com.okdeer.jxc.utils.UserUtil;
 import com.okdeer.jxc.utils.poi.ExcelExportUtil;
 import com.okdeer.jxc.utils.poi.ExcelReaderUtil;
-
-import net.sf.json.JSONObject;
 
 /**
  * 商品选择，通用excel导入组件

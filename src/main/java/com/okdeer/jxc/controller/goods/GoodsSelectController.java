@@ -17,6 +17,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import net.sf.json.JSONArray;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
@@ -54,8 +56,6 @@ import com.okdeer.jxc.goods.vo.GoodsSelectVo;
 import com.okdeer.jxc.goods.vo.GoodsSkuVo;
 import com.okdeer.jxc.goods.vo.GoodsStockVo;
 import com.okdeer.jxc.utils.UserUtil;
-
-import net.sf.json.JSONArray;
 
 /**
  * ClassName: GoodsSelectController 
