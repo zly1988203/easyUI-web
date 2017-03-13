@@ -69,6 +69,12 @@
 			<groupId>com.okdeer.jxc</groupId>
 			<artifactId>okdeer-jxc-api</artifactId>
 			<version>${parents.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-validator</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.jxls</groupId>
@@ -279,7 +285,24 @@
 		  <artifactId>jbarcode</artifactId>
 		  <version>0.2.8</version>
 		</dependency>
-		
+		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-validator</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>org.glassfish.web</groupId>
+		    <artifactId>el-impl</artifactId>
+		    <version>2.2</version>
+		    <exclusions>
+		    	<groupId>javax.el</groupId>
+    			<artifactId>javax.el-api</artifactId>
+		    </exclusions>
+		</dependency>
+		<dependency>
+		    <groupId>javax.el</groupId>
+		    <artifactId>javax.el-api</artifactId>
+		    <version>3.0.0</version>
+		</dependency>
 	</dependencies>
 
 	<dependencyManagement>

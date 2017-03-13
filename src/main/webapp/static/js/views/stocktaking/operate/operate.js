@@ -262,6 +262,7 @@ function searchTakeStock(){
 	new publicStocktakingDialog(param,function(data){
 		console.log(data);
 		$("#branchId").val(data.branchId);
+		$("#branchCode").val(data.branchCode);
 		$("#branchName").val(data.branchName);
 		$("#batchId").val(data.id);
 		$("#batchNo").val(data.batchNo);
@@ -413,4 +414,39 @@ function deleteStocktakingForm(){
  */
 function back(){
 	toClose();
+}
+/**
+ * 导入
+ */
+function importStocktakingForm(type){
+	alert(type);
+	var branchId = $("#branchId").val();
+	var batchId = $("#batchId").val();
+	var batchNo = $("#batchNo").val();
+	if(!branchId || !$.trim(branchId)){
+		messager("请选择机构");
+		return;
+	}
+	if(!batchId || !$.trim(batchId)){
+		messager("请选择盘点批次");
+		return;
+	}
+    var param = {
+        url:contextPath+"/stocktaking/operate/importStocktakingForm",
+        tempUrl:'',
+        type:type,
+        branchId:branchId,
+    }
+    new publicUploadFileService(function(data){
+        updateListData(data);
+    },param)
+}
+function updateListData(data){
+    var nowRows = gridHandel.getRowsWhere({skuName:'1'});
+    var keyNames = {
+    		unit:'skuUnit',
+        	spec:'skuSpec'
+    };
+    var rows = gFunUpdateKey(data,keyNames);
+    $("#"+datagridId).datagrid("loadData",rows);
 }

@@ -1,28 +1,42 @@
 package com.okdeer.jxc.controller.stock;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.dubbo.common.utils.StringUtils;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
+import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.LogConstant;
+import com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid;
+import com.okdeer.jxc.common.goodselect.GoodsSelectImportHandle;
+import com.okdeer.jxc.common.goodselect.GoodsSelectImportTxt;
+import com.okdeer.jxc.common.goodselect.GoodsSelectImportVo;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
+import com.okdeer.jxc.goods.entity.GoodsSelect;
+import com.okdeer.jxc.goods.entity.GoodsSelectByStockIndex;
 import com.okdeer.jxc.stock.service.StocktakingOperateServiceApi;
 import com.okdeer.jxc.stock.vo.StocktakingFormDetailVo;
 import com.okdeer.jxc.stock.vo.StocktakingFormVo;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
+
+import net.sf.json.JSONObject;
 
 /**
  * <p></p>
@@ -42,6 +56,9 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 
 	@Reference(version = "1.0.0", check = false)
 	private StocktakingOperateServiceApi stocktakingOperateServiceApi;
+
+	@Autowired
+	private GoodsSelectImportTxt goodsSelectImportTxt;
 
 	/**
 	 * 
@@ -78,7 +95,7 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 	public String publicStocktaking() {
 		return "/component/publicStocktaking";
 	}
-	
+
 	/***
 	 * 
 	 * @Description: 详细
@@ -96,7 +113,7 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 		request.setAttribute("close", report);
 		return "/stocktaking/operate/operateEdit";
 	}
-	
+
 	/***
 	 * 
 	 * @Description:  获取明细信息
@@ -117,7 +134,7 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 		}
 		return detailList;
 	}
-	
+
 	/**
 	 * @Description: 查询列表
 	 * @param vo 参数VO
@@ -171,12 +188,12 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 				return respJson;
 			}
 			StocktakingFormVo vo = JSON.parseObject(data, StocktakingFormVo.class);
-			if("1".equals(vo.getOperateType())){
+			if ("1".equals(vo.getOperateType())) {
 				// 新增
 				vo.setCreateUserId(user.getId());
 				vo.setCreateUserName(user.getUserName());
 				return stocktakingOperateServiceApi.saveStocktakingForm(vo);
-			}else{
+			} else {
 				// 修改
 				vo.setUpdateUserId(user.getId());
 				vo.setUpdateUserName(user.getUserName());
@@ -188,7 +205,7 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 		}
 		return respJson;
 	}
-	
+
 	/**
 	 * 
 	 * @Description: 删除
@@ -208,5 +225,125 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 			resp = RespJson.error("删除组合拆分单失败");
 		}
 		return resp;
+	}
+
+	/**
+	 * @Description: 导入文件
+	 * @param file
+	 * @param branchId
+	 * @param type
+	 * @return
+	 * @author xuyq
+	 * @date 2017年3月11日
+	 */
+	@RequestMapping(value = "importStocktakingForm")
+	@ResponseBody
+	public RespJson importStocktakingForm(@RequestParam("file") MultipartFile file, String branchId, String type) {
+		RespJson respJson = RespJson.success();
+		try {
+			if (file.isEmpty()) {
+				return RespJson.error("文件为空");
+			}
+			InputStream is = file.getInputStream();
+			// 获取文件名
+			String fileName = file.getOriginalFilename();
+			SysUser user = UserUtil.getCurrentUser();
+			String[] field = null;
+			if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {
+				// 货号
+				field = new String[] { "skuCode", "stockTakingNum" };
+			} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {
+				// 条码
+				field = new String[] { "barCode", "stockTakingNum" };
+			}
+			GoodsSelectImportVo<GoodsSelectByStockIndex> vo = goodsSelectImportTxt.importSelectGoodsWithStockTxt(
+					fileName, is, field, new GoodsSelectByStockIndex(), branchId, user.getId(), type,
+					"/stocktaking/operate/downloadErrorFile", new GoodsSelectImportBusinessValid() {
+
+						@Override
+						public void businessValid(List<JSONObject> excelListSuccessData, String[] excelField) {
+							for (JSONObject obj : excelListSuccessData) {
+								double stockTakingNum = 0;
+
+								// 校验空
+								if (obj.get("stockTakingNum") == null || obj.get("stockTakingNum") == null) {
+									obj.element("error", "库存数量必须为大于0的数字");
+									continue;
+								}
+								// 校验上限
+								String upperLimit = obj.getString("stockTakingNum");
+								try {
+									stockTakingNum = Double.parseDouble(upperLimit);
+									if (stockTakingNum <= 0 || stockTakingNum > ExportExcelConstant.MAXNUM) {
+										obj.element("error", "库存数量必须为大于0的数字");
+									}
+								} catch (Exception e) {
+									obj.element("error", "库存数量必须为大于0的数字");
+									LOG.error("数字转换异常:", e);
+								}
+							}
+						}
+
+						/**
+						 * (non-Javadoc)
+						 * @see com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid#formatter(java.util.List)
+						 */
+						@Override
+						public void formatter(List<? extends GoodsSelect> list, List<JSONObject> excelListSuccessData,
+								List<JSONObject> excelListErrorData) {
+							LOG.info("formatter");
+						}
+
+						/**
+						 * (non-Javadoc)
+						 * @see com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid#errorDataFormatter(java.util.List)
+						 */
+						@Override
+						public void errorDataFormatter(List<JSONObject> list) {
+							LOG.info("errorDataFormatter");
+						}
+
+					});
+
+			respJson.put("importInfo", vo);
+
+		} catch (IOException e) {
+			respJson = RespJson.error("读取TXT流异常");
+			LOG.error("读取TXT流异常:", e);
+		} catch (Exception e) {
+			respJson = RespJson.error("导入发生异常");
+			LOG.error("用户导入异常:", e);
+		}
+		return respJson;
+
+	}
+
+	/**
+	 * 
+	 * @Description: 导出异常信息
+	 * @param code 编码
+	 * @param type 类型
+	 * @param response HttpServletResponse
+	 * @author liux01
+	 * @date 2016年10月15日
+	 */
+	@RequestMapping(value = "downloadErrorFile")
+	public void downloadErrorFile(String code, String type, HttpServletResponse response) {
+		String reportFileName = "错误数据";
+
+		String[] headers = null;
+		String[] columns = null;
+
+		if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {
+			// 货号
+			columns = new String[] { "skuCode", "stockTakingNum" };
+			headers = new String[] { "货号", "库存数量" };
+		} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {
+			// 条码
+			columns = new String[] { "barCode", "stockTakingNum" };
+			headers = new String[] { "条码", "库存数量" };
+		}
+
+		goodsSelectImportTxt.downloadErrorFile(code, reportFileName, headers, columns, response);
 	}
 }

@@ -30,40 +30,35 @@
 		</div>
 		<div class="ub uline umar-t8"></div>
 		<div class="ub umar-t8">
-			<div class="ub ub-ac">
+			<div class="ub ub-ac uw-300 umar-l20">
 				<div class="umar-r10 uw-70 ut-r">机构:</div>
-				<input type="hidden" id="branchId" name="branchId" />
-				<input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" maxlength="50"/>
-				<div class="uinp-more" onclick="selectBranches()" >...</div>
+				<input type="hidden" id="branchCompleCode" name="branchCompleCode" />
+				<input class="uinp ub ub-f1" type="text" id="branchCodeName" name="branchCodeName" maxlength="50" readonly="readonly" />
+				<div class="uinp-more" onclick="selectBranches()" id="selectBranchMore" >...</div>
 			</div>
 			<div class="ub ub-ac uw-300 umar-l20">
 				<div class="umar-r10 uw-70 ut-r">盘点批号:</div>
-				<input class="uinp" type="text" id="batchNo" name="batchNo">
+				<input class="uinp ub ub-f1" type="text" id="batchNo" name="batchNo">
 				<div class="uinp-more" onClick="searchTakeStock()">...</div>
 			</div>
 		</div>
 		<div class="ub umar-t8">
-			<div class="ub ub-ac">
+			<div class="ub ub-ac uw-300 umar-l20">
 				<div class="umar-r10 uw-70 ut-r">商品选择:</div>
-				<input class="uinp ub ub-f1" type="hidden" name="skuId" id="skuId" />
-				<input class="uinp ub ub-f1" type="text" name="skuName" id="skuName" />
+				<input type="hidden" name="skuId" id="skuId" />
+				<input class="uinp ub ub-f1" type="text" name="skuCodeOrName" id="skuCodeOrName" />
 				<div class="uinp-more" onClick="selectGoods()">...</div>
 			</div>
-			<div class="ub ub-ac umar-l20">
+			<div class="ub ub-ac uw-300 umar-l20">
 				<div class="umar-r10 uw-70 ut-r">类别:</div>
-				<input class="uinp ub ub-f1" type="hidden" name="categoryCode" id="categoryCode" />
-				<input class="uinp ub ub-f1" type="text" name="categoryNameCode" id="categoryNameCode" />
-			</div>
-		</div>
-		<div class="ub umar-t8">
-			<div class="ub ub-ac uw-300">
-				<div class="umar-r10 uw-70 ut-r">货号:</div>
-				<input class="uinp" type="text" id="skuCode" name="skuCode">
+				<input type="hidden" name="categoryCode" id="categoryCode" />
+				<input class="uinp ub ub-f1" type="text" name="categoryCodeOrName" id="categoryCodeOrName" />
+				<div class="uinp-more" onClick="searchCategory()">...</div>
 			</div>
 		</div>
       	</form>
        <div class="ub ub-f1  umar-t8 umar-b8">
-		<table id="missList"></table>
+		<table id="dgMissList"></table>
 	</div>
    </div>
 </body>
