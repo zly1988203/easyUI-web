@@ -52,7 +52,7 @@ var resetForm = function() {
 /**
  * 机构名称
  */
-function selectBranches(){
+function selectListBranches(){
 	new publicAgencyService(function(data){
 		$("#branchId").val(data.branchesId);
 		$("#branchName").val(data.branchName);
@@ -92,5 +92,4 @@ function toAdd(){
 
 function applyCallback(){
 	 $(addDalogTemp).panel('destroy');
-	 queryForm();
 }

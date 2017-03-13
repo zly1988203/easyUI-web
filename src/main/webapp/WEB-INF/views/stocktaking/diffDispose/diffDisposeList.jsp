@@ -29,11 +29,11 @@
 		</div>
 		<div class="ub uline umar-t8"></div>
 		<div class="ub umar-t8">
-			<div class="ub ub-ac uw-300 umar-l20">
+			<div class="ub ub-ac uw-300">
 				<div class="umar-r10 uw-70 ut-r">盘点批号:</div>
-				<input class="uinp" type="text" id="batchNo" name="batchNo">
+				<input class="uinp ub ub-f1" type="text" id="batchNo" name="batchNo">
 			</div>
-			<div class="ub ub-ac">
+			<div class="ub ub-ac uw-300 umar-l10">
 				<div class="umar-r10 uw-70 ut-r">机构:</div>
 				<input type="hidden" id="branchId" name="branchId" />
 				<input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" maxlength="50"/>
@@ -41,13 +41,13 @@
 			</div>
 		</div>
 		<div class="ub umar-t8">
-			<div class="ub ub-ac uw-300 umar-l20">
+			<div class="ub ub-ac uw-300">
 				<div class="umar-r10 uw-70 ut-r">制单人员:</div>
 				<input type="hidden" id="createUserId" name="createUserId" />
 				<input class="uinp ub ub-f1" type="text" id="createUserName" name="createUserName">
 				<div class="uinp-more" onclick="selectOperator()" >...</div>
 			</div>
-            <div class="ub ub-ac umar-l10">
+            <div class="ub ub-ac uw-300 umar-l10">
                 <div class="umar-r10 uw-70 ut-r">审核状态:</div>
                 <div class="ub ub-ac umar-r10">
                      <label><input class="radioItem" type="radio" value="0" name="status" checked="checked"/><span>未审核</span></label>
@@ -61,9 +61,9 @@
             </div>
 		</div>
 		<div class="ub umar-t8">
-			<div class="ub ub-ac uw-300 umar-l20">
+			<div class="ub ub-ac uw-610">
 				<div class="umar-r10 uw-70 ut-r">备注:</div>
-				<input class="uinp" type="text" id="remark" name="remark">
+				<input class="uinp ub ub-f1" type="text" id="remark" name="remark">
 			</div>
 		</div>
       	</form>

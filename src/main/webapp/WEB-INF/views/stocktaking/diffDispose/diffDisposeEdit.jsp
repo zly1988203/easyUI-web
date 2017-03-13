@@ -30,7 +30,7 @@
  			<input type="hidden" id="batchId" name="id" value="${batchVo.id}">
         <div class="ub uline umar-t10"></div>
         <div class="ub umar-t10">
-	            <div class="ub ub-ac uselectws umar-l40">
+	            <div class="ub ub-ac uw-300">
                     <div class="umar-r10 uw-70 ut-r">盘点批号:</div>
 					<input type="text" name="batchNo" id="batchNo"class="uinp ub ub-f1" 
 					value="${batchVo.batchNo }"
@@ -55,19 +55,19 @@
                </div>
            </div>
          <div class="ub umar-t8">
-               <div class="ub ub-ac" >
+               <div class="ub ub-ac uw-300" >
                    <input type="hidden" id="scope" name="scope" value="${batchVo.scope==1 ?'类别盘点':'全场盘点' }"/>
                    <div class="umar-r10 uw-70 ut-r">盘点范围:</div>
                    <input class="uinp ub ub-f1" type="text" id="scopeName" name="scopeName" value="${batchVo.scope==1 ?'类别盘点':'全场盘点' }" readonly="readonly">
                </div>
                
-                <div class="ub ub-ac" >
+                <div class="ub ub-ac uw-300" >
                    <div class="umar-r10 uw-70 ut-r">类别:</div>
                    <input type="hidden" id="categoryShowsStr" name="categoryShowsStr" value="${batchVo.categoryShowsStr }"/>
                    <input class="uinp ub ub-f1" type="text" id="categoryShows" name="categoryShows" value="${batchVo.categoryShowsStr }" readonly="readonly">
                </div>
                
-               <div class="ub ub-ac uw-300 umar-l300">
+               <div class="ub ub-ac uw-300 umar-l10">
                    <input type="hidden" id="validUserName" name="validUserName" value="${batchVo.validUserName }"/>
                    <div class="umar-r10 uw-70 ut-r">审核人员:</div>
                    <div class="utxt" id="validUserName">${batchVo.validUserName}</div>
@@ -79,10 +79,10 @@
                </div>
            </div>
            <div class="ub umar-t8">
-               <div class="ub ub-ac uw-300 ">
+               <div class="ub ub-ac uw-600 ">
                    <input type="hidden" id="remark" name="remark" value="${batchVo.remark }"/>
                    <div class="umar-r10 uw-70 ut-r">备注:</div>
-                   <input class="uinp uninput" type="text" id="remark" name="remark" value="${batchVo.remark}" >
+                   <input class="uinp ub ub-f1" type="text" id="remark" name="remark"  value="${batchVo.remark}" readonly="readonly">
                </div>
            </div>
            </form>
