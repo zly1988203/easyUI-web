@@ -442,7 +442,7 @@ function updateModifyPriceOrder() {
 							initTmpData();
 							
 							$.messager.alert("操作提示", "操作成功！", "info",function(){
-			    				location.href = contextPath +"//goods/branchPriceAdjust/getForm?formNo="+data.goodsPriceForm.formNo;
+			    				location.href = contextPath +"/goods/branchPriceAdjust/getForm?formNo="+data.goodsPriceForm.formNo;
 			    			});
 							
 						} else {
@@ -867,7 +867,7 @@ function exportData(){
 		return;
 	}
 	var formNo=$("#formNoInput").val();
-	$("#searchForm").attr("action",contextPath+'/goods/branchPriceAdjust/exportList?formNo='+formNo);
+	$("#searchForm").attr("action",contextPath+'/goods/branchPriceAdjust/exportList');
 	
 	$("#searchForm").submit();	
 

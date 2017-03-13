@@ -15,8 +15,12 @@
             <!--buttons-->
             <div class="ubtns">
                 <div class="ubtns-item" onclick="modifyPriceOrderCx();">查询</div>
+            <shiro:hasPermission name="JxcBranchPriceAdjust:append">
 				<div class="ubtns-item" onclick="addModifyDataGrid();">新增</div>
+            </shiro:hasPermission>
+            <shiro:hasPermission name="JxcBranchPriceAdjust:delete">
 	            <div class="ubtns-item" onclick="delModifyPriceDialog();">删除</div>
+	        </shiro:hasPermission>
 	            <div class="ubtns-item" onclick="gFunRefresh()">设置</div>
 	            <div class="ubtns-item" onclick="window.parent.closeTab()">关闭</div>
             </div>
