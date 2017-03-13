@@ -197,7 +197,7 @@ function selectGoods(searchKey){
 	var branchId = $("#branchId").val();
 	var sourceBranchId = branchId;
 	var targetBranchId = branchId;
-	var categoryShows = $('#categoryShows').val();
+	var categoryCodes = $('#categoryShows').val();
 	var batchId = $("#batchId").val();
 	var batchNo = $("#batchNo").val();
 	if(!branchId || !$.trim(branchId)){
@@ -222,7 +222,7 @@ function selectGoods(searchKey){
     		targetBranchId:'',
     		supplierId:'',
     		flag:'0',
-    		categoryShows:categoryShows
+    		categoryCodes:categoryCodes
     }
     
     new publicGoodsServiceTem(param,function(data){
