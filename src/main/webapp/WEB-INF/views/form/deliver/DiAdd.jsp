@@ -36,7 +36,7 @@
 				<div class="ub ub-ac uw-300">
                    <div class="umar-r10 uw-70 ut-r">原单类型:</div>
                    <div class="ub">
-                       <input type="radio" id="typeDO" disabled="disabled" /><label for="typeDO">配送出库单</label>
+                       <input type="radio" id="typeDA" disabled="disabled" /><label for="typeDA">配送出库单</label>
                        <input type="radio" id="typeDD" disabled="disabled"/><label for="typeDD">店间配送单</label>
                        <!-- <div class="uinp-more" onclick="selectDeliver()">...</div> -->
                    </div>

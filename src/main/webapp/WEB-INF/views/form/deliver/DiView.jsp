@@ -44,6 +44,14 @@
                    <input class="uinp ub ub-f1" type="text" id="sourceBranchName" name="sourceBranchName" value="${form.sourceBranchName}" readonly="readonly" />
                    <div class="uinp-more">...</div>
                </div>
+                <div class="ub ub-ac uw-300">
+                   <div class="umar-r10 uw-70 ut-r">原单类型:</div>
+                   <div class="ub">
+                       <input type="radio" id="typeDO" disabled="disabled"  <c:if test='${"DD" ne (form.referenceType) }'>checked="checked" </c:if>/><label for="typeDO">配送出库单</label>
+                       <input type="radio" id="typeDD" disabled="disabled" <c:if test='${"DD" eq (form.referenceType)  }'>checked="checked" </c:if>/><label for="typeDD">店间配送单</label>
+                       <!-- <div class="uinp-more" onclick="selectDeliver()">...</div> -->
+                   </div>
+               </div>
                <div class="ub ub-ac umar-l20">
                    <div class="umar-r10 uw-70 ut-r">制单人员:</div>
                    <div class="utxt">${form.createUserName}</div>
@@ -60,6 +68,12 @@
                    <input class="uinp ub ub-f1" type="text" id="targetBranchName" name="targetBranchName" value="${form.targetBranchName}" readonly="readonly"/>
                    <div class="uinp-more">...</div>
                </div>
+               <div class="ub ub-ac uw-300">
+                   <div class="umar-r10 uw-70 ut-r">配送单号:</div>
+                   <input type="hidden" id="referenceId" name="referenceId" value="${form.referenceId}" />
+                   <input class="uinp ub ub-f1" type="text" id="referenceNo" name="referenceNo" value="${form.referenceNo}" readonly="readonly"/>
+                   <div class="uinp-more">...</div>
+               </div>
                <div class="ub ub-ac umar-l20">
                    <div class="umar-r10 uw-70 ut-r">审核人员:</div>
                    <div class="utxt" id="validUserName">${form.validUserName}</div>
@@ -71,12 +85,7 @@
                </div>
            </div>
            <div class="ub umar-t8">
-           	   <div class="ub ub-ac uw-300">
-                   <div class="umar-r10 uw-70 ut-r">配送单号:</div>
-                   <input type="hidden" id="referenceId" name="referenceId" value="${form.referenceId}" />
-                   <input class="uinp ub ub-f1" type="text" id="referenceNo" name="referenceNo" value="${form.referenceNo}" readonly="readonly"/>
-                   <div class="uinp-more">...</div>
-               </div>
+           	   
                <div class="ub ub-ac uw-490 umar-l20">
                    <div class="umar-r10 uw-70 ut-r">备注:</div>
                    <input class="uinp ub ub-f1" type="text" id="remark" name="remark" value="${form.remark}" readonly="readonly"/>

@@ -302,7 +302,7 @@ BaseController<GoodsReportController> {
 		}
 	}
 	/**
-	 * @Description: TODO
+	 * @Description: 保存分公司安全库存
 	 * @param qo
 	 * @return   
 	 * @return PageUtils<GoodsBranchPriceVo>  
