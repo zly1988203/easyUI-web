@@ -60,7 +60,8 @@ function initdgOrderList(){
 
 function chekData(){
 	var rows =$("#dgGuideOrderList").datagrid("getChecked");
-	if(rowIsNull(rows)){
+	if(rows.length==0){
+		successTip("请选择行数据！");
 		return null;
 	}
 	var formIds='';
@@ -92,7 +93,8 @@ function chekData(){
 
 function delData(){
 	var rows =$("#dgGuideOrderList").datagrid("getChecked");
-	if(rowIsNull(rows)){
+	if(rows.length==0){
+		successTip("请选择行数据！");
 		return null;
 	}
 	var formIds='';

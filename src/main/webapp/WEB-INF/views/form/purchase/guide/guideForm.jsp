@@ -30,7 +30,8 @@
 					<input type="hidden" id="branchCode" name="branchCode" />
 					<input type="hidden" id="branchCompleCode" name="branchCompleCode" />
 					<input type="hidden" id="branchType" name="branchType" />
-					<input class="uinp ub ub-f1 easyui-validatebox" type="text" id="branchCodeName" name="branchCodeName" maxlength="50" readOnly data-options="required:true"/>
+					<input class="uinp ub ub-f1 easyui-validatebox" type="text" id="branchCodeName" name="branchCodeName" 
+						maxlength="50" readOnly data-options="required:true" onclick="selectBranches()" />
 					<div class="uinp-more" onclick="selectBranches()" >...</div>
 					<i class="uc-red">*</i>
 				</div>
@@ -40,7 +41,8 @@
     		<div class="ub ub-ac uw-520">
 					<div class="umar-r10 uw-70 ut-r">商品类别:</div>
 					<input type="hidden" id="categoryCode" name="categoryCode" />
-					<input class="uinp ub ub-f1" type="text" id="categoryCodeName" name="categoryCodeName" maxlength="50" readOnly/>
+					<input class="uinp ub ub-f1" type="text" id="categoryCodeName" name="categoryCodeName" maxlength="50" readOnly
+						 onclick="searchCategory()" />
 					<div class="uinp-more" onclick="searchCategory()" >...</div>
 				</div>
     	</div>
@@ -49,7 +51,8 @@
     	    	<div class="ub ub-ac uw-520">
 					<div class="umar-r10 uw-70 ut-r">供应商:</div>
 					<input type="hidden" id="supplierId" name="supplierId" />
-					<input class="uinp ub ub-f1" type="text" id="supplierCodeName" name="supplierCodeName" maxlength="50" readOnly/>
+					<input class="uinp ub ub-f1" type="text" id="supplierCodeName" name="supplierCodeName" maxlength="50" readOnly
+						 onclick="selectSupplier()" />
 					<div class="uinp-more" onclick="selectSupplier()" >...</div>
 				</div>
     	</div>
@@ -72,7 +75,7 @@
     	<div class="ub umar-t20">
     		<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">选择模式:</div>
-					<input type="radio" class="radioItem" name="guideType" value="1" checked>[常规商品]按库存存量指标采购	
+					<label><input type="radio" class="radioItem" name="guideType" value="1" checked>[常规商品]按库存存量指标采购</label>	
 			</div>
 
 			
@@ -87,7 +90,7 @@
     	<div class="ub umar-t20">
 			<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r"></div>
-					<input type="radio" class="radioItem" name="guideType" value="2">[常规商品]按安全库存采购
+					<label><input type="radio" class="radioItem" name="guideType" value="2">[常规商品]按安全库存采购</label>	
 			</div>
 		</div>
 		<div class="ub">
@@ -100,7 +103,7 @@
     	<div class="ub umar-t20">
 			<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r"></div>
-					<input type="radio" class="radioItem" name="guideType" value="3">[常规商品]按门店要货单采购
+					<label><input type="radio" class="radioItem" name="guideType" value="3">[常规商品]按门店要货单采购</label>	
 			</div>
 		</div>
 		
