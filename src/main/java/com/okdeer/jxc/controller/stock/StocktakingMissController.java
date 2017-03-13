@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
@@ -69,17 +70,20 @@ public class StocktakingMissController extends BaseController<StocktakingMissCon
 	 */
 	@RequestMapping(value = "/getMissList")
 	@ResponseBody
-	public PageUtils<StockTakingMissPo> getMissList(StocktakingMissQo qo) {
+	public PageUtils<StockTakingMissPo> getMissList(StocktakingMissQo qo,
+			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
+			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 
 		LOG.info("漏盘列表查询参数：{}", qo);
 		try {
+			
+			qo.setPageNumber(pageNumber);
+			qo.setPageSize(pageSize);
 
 			// 构建查询参数
 			buildSearchParams(qo);
 
-			List<StockTakingMissPo> list = stocktakingOperateService.getMissList(qo);
-
-			return new PageUtils<StockTakingMissPo>(list);
+			return stocktakingOperateService.getMissListForPage(qo);
 		} catch (Exception e) {
 			LOG.error("查询漏盘商品列表异常:", e);
 		}
@@ -116,6 +120,8 @@ public class StocktakingMissController extends BaseController<StocktakingMissCon
 				// 如果是自己填写的信息，则清空商品Id
 				qo.setSkuId(null);
 			}
+		}else{
+			qo.setSkuId(null);
 		}
 
 		String categoryCodeOrName = qo.getCategoryCodeOrName();
@@ -129,8 +135,10 @@ public class StocktakingMissController extends BaseController<StocktakingMissCon
 				// 如果是自己填写的信息，则清空分类编号
 				qo.setCategoryCode(null);
 			}
+		}else{
+			qo.setCategoryCode(null);
 		}
-
+		
 		// 结束日期延后一天
 		if (qo.getEndTime() != null) {
 			qo.setEndTime(DateUtils.getDayAfter(qo.getEndTime()));

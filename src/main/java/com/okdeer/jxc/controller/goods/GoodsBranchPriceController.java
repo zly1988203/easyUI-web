@@ -14,6 +14,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import net.sf.json.JSONObject;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,8 +50,6 @@ import com.okdeer.jxc.goods.vo.BranchGoodsPropVo;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
 import com.okdeer.jxc.utils.jxls.ReportExcelUtil;
-
-import net.sf.json.JSONObject;
 
 /**
  * ClassName: GoodsBranchPriceController 

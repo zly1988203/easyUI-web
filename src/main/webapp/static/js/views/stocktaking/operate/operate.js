@@ -103,6 +103,7 @@ function initOperateDataGrid(){
                     	disabled:isdisabled,
                         min:0,
                         precision:4,
+                        onChange: onChangeStockNum,
                     }
                 }
             },
@@ -115,7 +116,8 @@ function initOperateDataGrid(){
                     	row.price = parseFloat(value||0).toFixed(2);
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                }
+                },
+
             
             },
             {field:'amount',title:'零售金额',width:'100px',align:'right',
@@ -129,6 +131,14 @@ function initOperateDataGrid(){
                     }
                     
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+                editor:{
+                    type:'numberbox',
+                    options:{
+                        disabled:true,
+                        min:0,
+                        precision:4,
+                    }
                 }
             }
         ]],
@@ -143,9 +153,7 @@ function initOperateDataGrid(){
             }
         },
         onLoadSuccess:function(data){
-
             gridHandel.setDatagridHeader("center");
-        
             updateFooter();
         },
     });
@@ -156,10 +164,16 @@ function initOperateDataGrid(){
     }
 }
 
+//计算金额
+function onChangeStockNum(newV,oldV){
+	  var priceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
+	    gridHandel.setFieldValue('amount',priceValue*newV);    
+	    updateFooter();
+}
 
 // 合计
 function updateFooter(){
-    var fields = {largeNum:0,applyNum:0,amount:0,isGift:0, };
+    var fields = {stocktakingNum:0,amount:0,isGift:0};
     var argWhere = {name:'isGift',value:0}
     gridHandel.updateFooter(fields,argWhere);
 }
@@ -183,6 +197,7 @@ function selectGoods(searchKey){
 	var branchId = $("#branchId").val();
 	var sourceBranchId = branchId;
 	var targetBranchId = branchId;
+	var categoryShows = $('#categoryShows').val();
     if(branchId == ""){
         messager("请先选择机构");
         return;
@@ -200,7 +215,8 @@ function selectGoods(searchKey){
     		sourceBranchId:'',
     		targetBranchId:'',
     		supplierId:'',
-    		flag:'0'
+    		flag:'0',
+    		categoryShows:categoryShows
     }
     
     new publicGoodsServiceTem(param,function(data){
@@ -256,8 +272,10 @@ function toImportOperate(type){
 
 function searchTakeStock(){
 	var branchId = $('#branchId').val();
+	var branchCompleCode = $("#branchCompleCode").val();
 	var param = {
-			branchId:branchId
+			branchId:branchId,
+			branchCompleCode:branchCompleCode
 	}
 	new publicStocktakingDialog(param,function(data){
 		console.log(data);
@@ -311,6 +329,13 @@ function saveStocktakingForm(opType){
     }
 }
 
+//新增
+function addOperate(){
+	toAddTab("新增存货盘点单",contextPath + "/stocktaking/operate/add");
+}
+
+
+//保存
 function saveDataHandel(rows,opType){
 	//机构
 	var formId=$("#formId").val();
@@ -380,6 +405,7 @@ function selectBranches(){
 	new publicAgencyService(function(data){
 		$("#branchId").val(data.branchesId);
 		$("#branchCode").val(data.branchCode);
+		$("#branchCompleCode").val(data.branchCompleCode);
 		$("#branchName").val(data.branchName);
 	},'BF','');
 }
@@ -409,17 +435,11 @@ function deleteStocktakingForm(){
 		}
 	});
 }
-/**
- * 关闭
- */
-function back(){
-	toClose();
-}
+
 /**
  * 导入
  */
 function importStocktakingForm(type){
-	alert(type);
 	var branchId = $("#branchId").val();
 	var batchId = $("#batchId").val();
 	var batchNo = $("#batchNo").val();
@@ -448,5 +468,5 @@ function updateListData(data){
         	spec:'skuSpec'
     };
     var rows = gFunUpdateKey(data,keyNames);
-    $("#"+datagridId).datagrid("loadData",rows);
+    $("#"+gridName).datagrid("loadData",rows);
 }

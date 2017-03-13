@@ -7,13 +7,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import net.sf.json.JSONObject;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.okdeer.jxc.utils.poi.ExcelReaderUtil;
-
-import net.sf.json.JSONObject;
 
 public class TxtReadUtil {
 

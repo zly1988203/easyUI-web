@@ -8,6 +8,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONObject;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,8 +36,6 @@ import com.okdeer.jxc.report.service.StockIndexServiceApi;
 import com.okdeer.jxc.report.vo.StockIndexVo;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
-
-import net.sf.json.JSONObject;
 
 /***
  * <p></p>
