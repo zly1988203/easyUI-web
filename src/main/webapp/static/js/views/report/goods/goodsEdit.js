@@ -310,7 +310,8 @@ function submitForm(){
 	            editor:{  
                     type:'numberspinner',  
                     options: {  
-                        increment:10,  
+                        increment:10,
+                        precision:2,
                         min:0.10,  
                         max:999.90,  
                         editable:true,
