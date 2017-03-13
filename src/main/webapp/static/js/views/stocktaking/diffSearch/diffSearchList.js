@@ -1,9 +1,6 @@
 var rotaType = '1';
 //初始化表格
 $(function(){
-    //开始和结束时间
-    $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
-    $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 	initDgTakeStockDiffSearch();
     $(".radioItem").on("change",function(){
     	$("#diffSearchList").datagrid('options').url = "";
@@ -117,10 +114,8 @@ function selectBranches(){
 
 function searchTakeStock(){
 	var branchId = $('#branchId').val();
-	var branchCompleCode = $('#branchCompleCode').val();
 	var param = {
-			status:1,
-			branchCompleCode:branchCompleCode
+			branchId:branchId
 	}
 	new publicStocktakingDialog(param,function(data){
 		console.log(data);

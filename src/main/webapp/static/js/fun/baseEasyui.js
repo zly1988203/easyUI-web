@@ -537,7 +537,7 @@ String.prototype.format = function(args) {
 * 是否选择行数据
 */
 function rowIsNull(row) {
-	if (row && row.length>0) {
+	if (row) {
 		return false;
 	} else {
 		$.messager.show({

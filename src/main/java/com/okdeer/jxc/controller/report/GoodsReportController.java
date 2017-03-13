@@ -120,6 +120,7 @@ BaseController<GoodsReportController> {
 		model.addAttribute("pricingType", PricingTypeEnum.values()); 
 		//商品状态
 		model.addAttribute("goodsStatus", GoodsStatusEnum.values()); 
+		model.addAttribute("branchType", UserUtil.getCurrBranchType()); 
 		//商品类型
 		model.addAttribute("goodsType", GoodsTypeEnum.values()); 
 		return "report/goods/goodsEdit";
