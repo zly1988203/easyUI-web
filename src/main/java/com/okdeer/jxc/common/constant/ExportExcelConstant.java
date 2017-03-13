@@ -430,4 +430,14 @@ public interface ExportExcelConstant {
 	 * 最大值数值
 	 */
 	double MAXNUM = 999999.99;
+	
+	/**
+	 * 调价订单详情导出
+	 */
+	String OVERDUE_APPROVED_DETAIL = "overdueApprovedDetail.xlsx";
+	
+	/**
+	 * 查看调价订单货号导入模板
+	 */
+	String OVERDUE_APPROVED_SKUCODE_TEMPLE = "overdueApprovedSkucodeTemple.xlsx";
 }

@@ -590,7 +590,7 @@
 
 	function exportDetail(){
 		var formId = $("#formId").val();
-		window.location.href = contextPath + '/form/purchase/exportSheet?page=PASheet&sheetNo='+formId;
+		window.location.href = contextPath + '/form/overdue/exports?id='+formId;
 	}
 	</script>
     
