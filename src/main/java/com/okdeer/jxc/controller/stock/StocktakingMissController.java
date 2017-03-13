@@ -116,6 +116,8 @@ public class StocktakingMissController extends BaseController<StocktakingMissCon
 				// 如果是自己填写的信息，则清空商品Id
 				qo.setSkuId(null);
 			}
+		}else{
+			qo.setSkuId(null);
 		}
 
 		String categoryCodeOrName = qo.getCategoryCodeOrName();
@@ -129,8 +131,10 @@ public class StocktakingMissController extends BaseController<StocktakingMissCon
 				// 如果是自己填写的信息，则清空分类编号
 				qo.setCategoryCode(null);
 			}
+		}else{
+			qo.setCategoryCode(null);
 		}
-
+		
 		// 结束日期延后一天
 		if (qo.getEndTime() != null) {
 			qo.setEndTime(DateUtils.getDayAfter(qo.getEndTime()));

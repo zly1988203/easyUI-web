@@ -17,8 +17,12 @@
 		<div class="ub ub-ac">
             <div class="ubtns">
                 <div class="ubtns-item" onclick="queryForm()">查询</div>
-                <div class="ubtns-item" onclick="toPrint()">打印</div>
-                <div class="ubtns-item" onclick="toExport()">导出</div>
+                <shiro:hasPermission name="stocktakingMiss:print" >
+	            	<div class="ubtns-item" onclick="toPrint()">打印</div>
+	            </shiro:hasPermission>
+                <shiro:hasPermission name="stocktakingMiss:export" >
+	            	<div class="ubtns-item" onclick="toExport()">导出</div>
+	            </shiro:hasPermission>
                 <div class="ubtns-item" id="set" onclick="gFunRefresh()" >重置</div>
                 <div class="ubtns-item" onclick="toClose()">退出</div>
             </div>
