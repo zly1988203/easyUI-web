@@ -80,7 +80,7 @@
            <div class="ub umar-t8">
                <div class="ub ub-ac uw-300 ">
                    <div class="umar-r10 uw-70 ut-r">备注:</div>
-                   <input class="uinp uninput" type="text" id="remark" name="remark" value="${stocktakingFormVo.remark}" readonly="readonly">
+                   <input class="uinp uninput" type="text" id="remark" name="remark" value="${stocktakingFormVo.remark}" maxlength="40" readonly="readonly">
                </div>
            </div>
            <!--datagrid-edit-->

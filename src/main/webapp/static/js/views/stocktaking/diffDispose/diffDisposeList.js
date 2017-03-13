@@ -10,6 +10,7 @@ function initDgTakeStockDiffDispose(){
 		rownumbers:true,    //序号
 		pagination:true,    //分页
 		fitColumns:true,    //每列占满
+        pageSize:50,
 		height:'100%',
 		width:'100%',
 		columns:[[

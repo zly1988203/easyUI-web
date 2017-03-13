@@ -80,7 +80,7 @@
            
                <div class="ub ub-ac uw-592" >
                    <div class="umar-r10 uw-70 ut-r">备注:</div>
-                   <input class="uinp ub ub-f1" type="text" id="remark" name="remark">
+                   <input class="uinp ub ub-f1" type="text" id="remark" name="remark" maxlength="40">
                </div>
            </div>
            
