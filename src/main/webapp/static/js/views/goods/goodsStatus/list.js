@@ -288,7 +288,18 @@ function query(){
 	cleanLeftParam();
 	$("#startCount").val('');
 	$("#endCount").val('');
-	
+	var oldBranchName = $("#oldBranchName").val();
+	var branchName = $("#branchName").val();
+	if(branchName && branchName != oldBranchName ){
+		$("#branchId").val('');
+	}
+	var branchName = $("#branchName").val();
+	var skuBarCode = $("#skuBarCode").val();
+	var skuName = $("#skuName").val();
+	if(!branchName && !skuBarCode && !skuName){
+		messager("机构与条码或名称必须输入其中一个条件.");
+		return;
+	}
 	//将左侧查询条件设置缓存中
 	setLocalStorage();
 	
