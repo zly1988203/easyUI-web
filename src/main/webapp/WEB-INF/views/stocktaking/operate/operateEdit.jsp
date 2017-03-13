@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>存货盘点单详情</title>
   <%@ include file="/WEB-INF/views/include/header.jsp"%>
-    <script  src="${ctx}/static/js/views/stocktaking/operate/operate.js?V=1.2"></script>
+    <script  src="${ctx}/static/js/views/stocktaking/operate/operate.js?V=1.266"></script>
     <style>
     .datagrid-header .datagrid-cell {text-align: center!important;font-weight: bold;}
     </style>
@@ -73,7 +73,7 @@
                </div>
                <div class="ub ub-ac uw-300">
                    <div class="umar-r10 uw-60 ut-r">审核时间:</div>
-                   <div class="utxt"><fmt:formatDate value="${stocktakingFormVo.validTime}" pattern="yyyy-MM-dd HH:mm"/></div>
+                   <div class="utxt">${stocktakingFormVo.validTime}</div>
                </div>
                </c:if>
            </div>
