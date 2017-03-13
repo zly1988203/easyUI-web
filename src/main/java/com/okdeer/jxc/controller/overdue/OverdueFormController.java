@@ -8,6 +8,8 @@
  */
 package com.okdeer.jxc.controller.overdue;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashMap;
@@ -19,7 +21,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,8 +29,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.dubbo.config.annotation.Reference;
@@ -39,6 +40,9 @@ import com.alibaba.fastjson.TypeReference;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.PrintConstant;
 import com.okdeer.jxc.common.controller.BasePrintController;
+import com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid;
+import com.okdeer.jxc.common.goodselect.GoodsSelectImportComponent;
+import com.okdeer.jxc.common.goodselect.GoodsSelectImportVo;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.OrderNoUtils;
@@ -49,11 +53,13 @@ import com.okdeer.jxc.form.overdue.entity.OverdueForm;
 import com.okdeer.jxc.form.overdue.service.OverdueFormDetailService;
 import com.okdeer.jxc.form.overdue.service.OverdueFormService;
 import com.okdeer.jxc.form.overdue.vo.OverdueFormDetailVo;
+import com.okdeer.jxc.form.overdue.vo.OverdueFormImportVo;
 import com.okdeer.jxc.form.overdue.vo.OverdueFormVo;
-import com.okdeer.jxc.report.qo.CashCheckReportQo;
-import com.okdeer.jxc.report.vo.CashCheckReportVo;
+import com.okdeer.jxc.goods.entity.GoodsSelect;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
+
+import net.sf.json.JSONObject;
 
 /**
  * @ClassName: OverdueFormController
@@ -85,6 +91,9 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
     
     @Resource
     private OrderNoUtils orderNoUtils;
+    
+    @Resource
+    private GoodsSelectImportComponent goodsSelectImportComponent;
     
     /**
      * 
@@ -258,7 +267,7 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
     }
     
     @RequestMapping(value = "/check", method = RequestMethod.POST)
-    public RespJson check(String formId,Byte status){
+    public RespJson check(String formId,Byte status,@RequestParam(value = "ids[]")String[] ids,@RequestParam(value = "auditDescs[]")String[] auditDescs){
 	if(StringUtils.isNotBlank(formId)){
 	    OverdueFormVo vo = new OverdueFormVo();
 	    vo.setId(formId);
@@ -266,7 +275,8 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
 	    vo.setUpdateTime(new Date());
 	    vo.setValidUserId(UserUtil.getUser().getId());
 	    vo.setValidUserName(UserUtil.getUser().getUserName());
-	    overdueFormService.update(vo);
+	    vo.setValidTime(new Date());
+	    overdueFormService.update(vo,ids,auditDescs);
 	    return RespJson.success();
 	}
 	return RespJson.error();
@@ -274,16 +284,6 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
     
     @RequestMapping(value = "/commit", method = RequestMethod.POST)
     public RespJson commit(@RequestBody String jsonText){
-	/*if(StringUtils.isNotBlank(formId)){
-	    OverdueFormVo vo = new OverdueFormVo();
-	    vo.setId(formId);
-	    vo.setStatus(status);
-	    vo.setUpdateTime(new Date());
-	    vo.setValidUserId(UserUtil.getUser().getId());
-	    vo.setValidUserName(UserUtil.getUser().getUserName());
-	    overdueFormService.update(vo);
-	    return RespJson.success();
-	}*/
 	if(StringUtils.isNotBlank(jsonText)){
 	    Map<String,Object> mapType = JSON.parseObject(jsonText,new TypeReference<Map<String,Object>>(){}); 
     	    String detailListStr = ((JSONArray)mapType.get("detailList")).toJSONString();
@@ -378,54 +378,131 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
 	return null;
     }
     
-    @RequestMapping(value = "/exportList")
-    public RespJson exportList(HttpServletResponse response) {
+    @RequestMapping(value = "/exports")
+    public RespJson exportList(OverdueFormVo vo,HttpServletResponse response) {
 	try {
-	    // qo = buildDefaultParams(qo);
-	    /*List<CashCheckReportVo> exportList = cashCheckReportService.queryList(qo);
-	    if (CollectionUtils.isNotEmpty(exportList)) {
-		CashCheckReportVo vo = cashCheckReportService.queryListSum(qo);
-		exportList.add(vo);
-		String fileName = "收银对账" + "_" + DateUtils.getCurrSmallStr();
-		String templateName = ExportExcelConstant.CASHCHECKREPORT;
-		exportListForXLSX(response, exportList, fileName, templateName);
-	    } else {
-		RespJson json = RespJson.error("无数据可导");
-		return json;
-	    }*/
+	    Optional<OverdueFormVo> optional = Optional.ofNullable(vo);
+		vo = optional.orElse(new OverdueFormVo());
+		vo.setPageNumber(Integer.valueOf(PAGE_NO));
+		vo.setPageSize(PrintConstant.PRINT_MAX_LIMIT);
+		// 默认当前机构
+		if (StringUtils.isBlank(vo.getBranchCode()) && StringUtils.isBlank(vo.getBranchName())) {
+		    vo.setBranchCode(getCurrBranchCompleCode());
+		}
+		PageUtils<OverdueFormDto> suppliers;
+		suppliers = overdueFormService.selectApprovedList(vo);
+		List<OverdueFormDto> list = suppliers.getList();
+		if(!list.isEmpty()&&list.size()>0){
+    			String fileName = "调价订单详情" + "_" + DateUtils.getCurrSmallStr();
+    			String templateName = ExportExcelConstant.OVERDUE_APPROVED_DETAIL;
+    			exportListForXLSX(response, list, fileName, templateName);
+		}else{
+		    return RespJson.error("无数据可导");
+		}
 	} catch (Exception e) {
-	    LOG.error("收银对账导出查询异常:", e);
+	    LOG.error("调价订单详情导出异常:", e);
 	    RespJson json = RespJson.error("导出失败");
 	    return json;
 	}
 	return null;
     }
     
+    @RequestMapping(value = "/export/templ")
+    public void exportTemp(HttpServletResponse response) {
+	try {
+	    String fileName = "调价订单货号导入模板";
+	    String templateName = ExportExcelConstant.OVERDUE_APPROVED_SKUCODE_TEMPLE;
+	    exportListForXLSX(response, null, fileName, templateName);
+	} catch (Exception e) {
+	    LOG.error("查看调价订单导入模板异常", e);
+	}
+    }
+    
+    @RequestMapping(value = "/import/list")
+    public RespJson exportList(@RequestParam("file") MultipartFile file, String type, String branchId) {
+	RespJson respJson = RespJson.success();
+	try {
+	    if (file.isEmpty()) {
+		return RespJson.error("文件为空");
+	    }
+
+	    if (StringUtils.isBlank(type)) {
+		return RespJson.error("导入类型为空");
+	    }
+
+	    // 文件流
+	    InputStream is = file.getInputStream();
+	    // 获取文件名
+	    String fileName = file.getOriginalFilename();
+
+	    SysUser user = UserUtil.getCurrentUser();
+
+	    String[] field = new String[] { "skuCode", "applyNum", "applyPrice", "applyAmount"};
+
+	    GoodsSelectImportVo<GoodsSelect> vo = goodsSelectImportComponent.importSelectGoods(fileName, is, field,
+		    new OverdueFormImportVo(), branchId, user.getId(), type, "/form/overdue/download/error",
+		    new GoodsSelectImportBusinessValid() {
+
+			@Override
+			public void businessValid(List<JSONObject> excelListSuccessData, String[] excelField) {
+			    for (JSONObject obj : excelListSuccessData) {
+				try {
+				    String realNum = obj.getString("applyNum");
+				    Double.parseDouble(realNum);
+				} catch (Exception e) {
+				    obj.element("applyNum", 0);
+				}
+
+			    }
+			}
+
+			/**
+			 * (non-Javadoc)
+			 * 
+			 * @see com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid#formatter(java.util.List)
+			 */
+			@Override
+			public void formatter(List<? extends GoodsSelect> list, List<JSONObject> excelListSuccessData,
+				List<JSONObject> excelListErrorData) {
+			}
+
+			/**
+			 * (non-Javadoc)
+			 * 
+			 * @see com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid#errorDataFormatter(java.util.List)
+			 */
+			@Override
+			public void errorDataFormatter(List<JSONObject> list) {
+			    
+			}
+		    }, null);
+	    respJson.put("importInfo", vo);
+
+	} catch (IOException e) {
+	    respJson = RespJson.error("读取Excel流异常");
+	    LOG.error("读取Excel流异常:", e);
+	} catch (Exception e) {
+	    respJson = RespJson.error("导入发生异常");
+	    LOG.error("用户导入异常:", e);
+	}
+	return respJson;
+    }
+    
+    @RequestMapping(value = "/download/error")
+	public void downloadErrorFile(String code, String type, HttpServletResponse response) {
+		String reportFileName = "错误数据";
+		String[] headers = new String[] { "货号", "数量", "单价", "金额"};
+		String[] columns =  new String[] { "skuCode", "applyNum", "applyPrice", "applyAmount",};
+		goodsSelectImportComponent.downloadErrorFile(code, reportFileName, headers, columns, response);
+	}
+    
     @Override
     protected Map<String, Object> getPrintReplace(String formNo) {
-	if (logger.isDebugEnabled()) {
-	    logger.debug("getPrintReplace(String) - start"); //$NON-NLS-1$
-	}
-
-	// TODO Auto-generated method stub
-
-	if (logger.isDebugEnabled()) {
-	    logger.debug("getPrintReplace(String) - end"); //$NON-NLS-1$
-	}
 	return null;
     }
 
     @Override
     protected List<OverdueFormDto> getPrintDetail(String formNo) {
-	if (logger.isDebugEnabled()) {
-	    logger.debug("getPrintDetail(String) - start"); //$NON-NLS-1$
-	}
-
-	// TODO Auto-generated method stub
-
-	if (logger.isDebugEnabled()) {
-	    logger.debug("getPrintDetail(String) - end"); //$NON-NLS-1$
-	}
 	return null;
     }
 
