@@ -22,7 +22,7 @@
                 <div class="ubtns-item" onclick="saveStocktakingForm(1)">保存</div>
              </shiro:hasPermission>
                 <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
-                <div class="ubtns-item" id="importdetail" onclick="toImportOperate()">导入</div>
+                <div class="ubtns-item" id="importdetail" onclick="importStocktakingForm(1)">导入</div>
                 <div class="ubtns-item" onclick="toClose()">关闭</div>
             </div>
         </div>
@@ -38,7 +38,7 @@
 	           </div>
 	            <div class="ub ub-ac uselectw umar-l00 umar-l10">
                     <div class="umar-r10 uw-70 ut-r">盘点批号:</div>
-     				<input type="hidden" name=batchId id="batchId" class="uinp" />
+     				<input type="hidden" name=batchId id="batchId" />
 					<input type="text" name="batchNo" id="batchNo"class="uinp ub ub-f1" readonly="readonly"  />
 					<div class="uinp-more" onclick="searchTakeStock()">...</div>
                 </div>

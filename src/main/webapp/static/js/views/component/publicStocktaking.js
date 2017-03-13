@@ -52,8 +52,9 @@ function initStocktaking(param){
         columns:[[
             {field:'id',hidden:true},
             {field:'branchId',hidden:true},
-            {field:'batchNo',title:'盘点批号',width:100,align:'left'},
-            {field:'branchName',title:'盘点机构',width:100,align:'left'},
+            {field:'branchCode',hidden:true},
+            {field:'batchNo',title:'盘点批号',width:200,align:'left'},
+            {field:'branchName',title:'盘点机构',width:200,align:'left'},
             {field:'scope',title:'盘点范围',width:100,align:'left',formatter:function(value,row,index){
                 	if(value == '0'){
                 		return '全场盘点';
@@ -63,7 +64,7 @@ function initStocktaking(param){
                 		return '未知类型：'+ value;
                 	}
              }},
-            {field:'categoryShowsStr',title:'类别',width:100,align:'left'},
+            {field:'categoryShowsStr',title:'类别',width:300,align:'left'},
         ]],
         onLoadSuccess:function(data){
        	 $('.datagrid-header').find('div.datagrid-cell').css('text-align','center');

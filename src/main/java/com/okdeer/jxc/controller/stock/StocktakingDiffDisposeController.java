@@ -209,7 +209,7 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 	@ResponseBody
 	public RespJson saveDiffDispose(String data) {
 		RespJson respJson = RespJson.success();
-		LOG.debug("保存存货盘点 ：data{}" + data);
+		LOG.debug("保存差异详情 ：data{}" + data);
 		SysUser user = UserUtil.getCurrentUser();
 		if (user == null) {
 			respJson = RespJson.error("用户不能为空！");
@@ -231,5 +231,42 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 		}
 		return respJson;
 	}
-
+	
+	/**
+	 * @Description: 审核差异处理
+	 * @param id
+	 * @return
+	 * @author xuyq
+	 * @date 2017年3月11日
+	 */
+	@RequestMapping(value = "/auditDiffDispose", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson auditDiffDispose(String data) {
+		RespJson respJson = RespJson.success();
+		try {
+			LOG.debug("审核差异处理详情 ：data{}" + data);
+			SysUser user = UserUtil.getCurrentUser();
+			if (user == null) {
+				respJson = RespJson.error("用户不能为空！");
+				return respJson;
+			}
+			if (StringUtils.isBlank(data)) {
+				respJson = RespJson.error("保存数据不能为空！");
+				return respJson;
+			}
+			StocktakingBatchVo vo = JSON.parseObject(data, StocktakingBatchVo.class);
+			if(vo == null){
+				respJson = RespJson.error("保存数据不能为空！");
+				return respJson;
+			}
+			vo.setValidUserId(user.getId());
+			vo.setValidUserName(user.getUserName());
+			vo.setValidTime(DateUtils.getCurrFullStr());
+			return stocktakingOperateServiceApi.auditDiffDispose(vo);
+		} catch (Exception e) {
+			LOG.error("审核差异处理信息异常:{}", e);
+			respJson = RespJson.error(e.getMessage());
+		}
+		return respJson;
+	}
 }
