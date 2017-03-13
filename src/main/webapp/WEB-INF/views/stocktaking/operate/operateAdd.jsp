@@ -48,6 +48,7 @@
                </div>
                <div class="ub ub-ac umar-l10">
                    <div class="umar-r10 uw-60 ut-r">制单日期:</div>
+                   <input type="hidden" name=createTime id="hidcreateTime" />
                    <div class="utxt" id="createTime"></div>
                </div>
            </div>
