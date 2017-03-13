@@ -63,7 +63,7 @@
                     <input class="Wdate uw-300 uinp-no-more"  readonly="readonly" disabled="disabled" name="endTime" id="endTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'startTime\');}'})" /> 
 					<i class="uc-red">*</i>
 					<div class="umar-l20">
-						<input type="checkbox" id="ignore" disabled="disabled">忽略已经执行过向导的要货单
+						<input type="checkbox" id="ignore" disabled="disabled">统计已经执行过向导的要货单
 					</div>
 			</div>
     	</div>
@@ -74,6 +74,7 @@
 					<div class="umar-r10 uw-70 ut-r">选择模式:</div>
 					<input type="radio" class="radioItem" name="guideType" value="1" checked>[常规商品]按库存存量指标采购	
 			</div>
+			订货数量 ＝ 存量指标上限－当前库存，取进货规格整数倍（大于订货数量的值）
     	</div>
     	
     	<div class="ub umar-t20">
@@ -81,6 +82,7 @@
 					<div class="umar-r10 uw-70 ut-r"></div>
 					<input type="radio" class="radioItem" name="guideType" value="2">[常规商品]按安全库存采购
 			</div>
+			订货数量＝订货周期*安全系数*MAX（上周日均销量，前周日均销量）－当前库存   
 		</div>
     	
     	<div class="ub umar-t20">
@@ -89,9 +91,10 @@
 					<input type="radio" class="radioItem" name="guideType" value="3">[常规商品]按门店要货单采购
 			
 			</div>
+			订货数量＝ 要货总数－当前库存
 		</div>
 		
-		<div class="ub umar-t20">
+<!-- 		<div class="ub umar-t20">
 			<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r"></div>
 					<input type="radio" class="radioItem" name="guideType" value="4">[直送商品]按门店直送要货单汇总采购
@@ -105,7 +108,7 @@
 					<input type="radio" class="radioItem" name="guideType" value="5">[直送商品]按门店直送要货单分别采购(按门店生产订货)
 			
 				</div>
-			</div>
+		</div> -->
 	
     </div>
     </form>
