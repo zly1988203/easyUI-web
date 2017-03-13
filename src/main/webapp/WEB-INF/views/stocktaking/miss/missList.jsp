@@ -17,8 +17,12 @@
 		<div class="ub ub-ac">
             <div class="ubtns">
                 <div class="ubtns-item" onclick="queryForm()">查询</div>
-                <div class="ubtns-item" onclick="toPrint()">打印</div>
-                <div class="ubtns-item" onclick="toExport()">导出</div>
+                <shiro:hasPermission name="stocktakingMiss:print">
+	                <div class="ubtns-item" onclick="toPrint()">打印</div>
+	            </shiro:hasPermission>
+	            <shiro:hasPermission name="stocktakingMiss:export">
+	                <div class="ubtns-item" onclick="toExport()">导出</div>
+	            </shiro:hasPermission>
                 <div class="ubtns-item" id="set" onclick="gFunRefresh()" >重置</div>
                 <div class="ubtns-item" onclick="toClose()">退出</div>
             </div>
@@ -44,7 +48,7 @@
 		</div>
 		<div class="ub umar-t8">
 			<div class="ub ub-ac uw-300 umar-l20">
-				<div class="umar-r10 uw-70 ut-r">商品选择:</div>
+				<div class="umar-r10 uw-70 ut-r">商品:</div>
 				<input type="hidden" name="skuId" id="skuId" />
 				<input class="uinp ub ub-f1" type="text" name="skuCodeOrName" id="skuCodeOrName" />
 				<div class="uinp-more" onClick="selectGoods()">...</div>
