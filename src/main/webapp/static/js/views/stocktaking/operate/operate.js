@@ -198,10 +198,16 @@ function selectGoods(searchKey){
 	var sourceBranchId = branchId;
 	var targetBranchId = branchId;
 	var categoryShows = $('#categoryShows').val();
-    if(branchId == ""){
-        messager("请先选择机构");
-        return;
-    }
+	var batchId = $("#batchId").val();
+	var batchNo = $("#batchNo").val();
+	if(!branchId || !$.trim(branchId)){
+		messager("请选择机构");
+		return;
+	}
+	if(!batchId || !$.trim(batchId)){
+		messager("请选择盘点批次");
+		return;
+	}
     //控制弹框
 	if(typeof(searchKey)=="undefined"){ 
 		searchKey = "";
@@ -274,7 +280,7 @@ function searchTakeStock(){
 	var branchId = $('#branchId').val();
 	var branchCompleCode = $("#branchCompleCode").val();
 	var param = {
-			branchId:branchId,
+			status:0,
 			branchCompleCode:branchCompleCode
 	}
 	new publicStocktakingDialog(param,function(data){
