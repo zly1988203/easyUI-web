@@ -16,23 +16,23 @@
     <div class="ub ub-ver ub-f1 umar-4  ubor">
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
-            	<%-- <shiro:hasPermission name="JxcDeliverDO:add">
+            	 <shiro:hasPermission name="JxcDeliverDD:add">
             		<div class="ubtns-item-disabled">新增</div>
             	</shiro:hasPermission>
-            	<shiro:hasPermission name="JxcDeliverDO:add">
+            	<shiro:hasPermission name="JxcDeliverDD:add">
                 	<div class="ubtns-item" onclick="saveOrder()">保存</div>
                 </shiro:hasPermission>
-                <shiro:hasPermission name="JxcDeliverDO:audit">
+                <shiro:hasPermission name="JxcDeliverDD:audit">
                 	<div class="ubtns-item-disabled">审核</div>
                 </shiro:hasPermission>
-                <shiro:hasPermission name="JxcDeliverDO:audit">
+                <shiro:hasPermission name="JxcDeliverDD:audit">
                 		<div class="ubtns-item-disabled">终止</div>
-                </shiro:hasPermission> --%>
-                <div class="ubtns-item-disabled">新增</div>
+                </shiro:hasPermission> 
+               <!--  <div class="ubtns-item-disabled">新增</div>
                 <div class="ubtns-item" onclick="saveOrder()">保存</div>
                 <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
                 <div class="ubtns-item-disabled">审核</div>
-                <div class="ubtns-item-disabled">终止</div>
+                <div class="ubtns-item-disabled">终止</div> -->
               <%--   <shiro:hasPermission name="JxcDeliverDO:delete">
 					<div class="ubtns-item" onclick="delDeliverForm()">删单</div>
 			   	</shiro:hasPermission> --%>
