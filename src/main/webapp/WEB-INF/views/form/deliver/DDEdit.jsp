@@ -20,13 +20,13 @@
             <!-- <div class="ubtns-item" onclick="addDeliverForm()">新增</div>
             <div class="ubtns-item" onclick="saveOrder()">保存</div>
             <div class="ubtns-item" onclick="check()">审核</div> -->
-            	 <shiro:hasPermission name="JxcDeliverDO:add">
+            	 <shiro:hasPermission name="JxcDeliverDD:add">
             		<div class="ubtns-item" onclick="addDeliverForm()">新增</div>
             	</shiro:hasPermission>
-            	<shiro:hasPermission name="JxcDeliverDO:add">
+            	<shiro:hasPermission name="JxcDeliverDD:add">
                 	<div class="ubtns-item" onclick="saveOrder()">保存</div>
                 </shiro:hasPermission>
-                <shiro:hasPermission name="JxcDeliverDO:audit">
+                <shiro:hasPermission name="JxcDeliverDD:audit">
                 	<div class="ubtns-item" onclick="check()">审核</div>
                 </shiro:hasPermission> 
               <!--   <div class="ubtns-item-disabled" >终止</div>
@@ -35,7 +35,7 @@
                 <div class="ubtns-item" onclick="toImportproduct(0)">导入货号</div>
             	<div class="ubtns-item" onclick="toImportproduct(1)">导入条码</div>
             	<div class="ubtns-item"  onclick="exportData('DD','gridEditRequireOrder')">导出</div>
-            	<shiro:hasPermission name="JxcDeliverDO:print">
+            	<shiro:hasPermission name="JxcDeliverDD:print">
                     <div class="ubtns-item" onclick="printChoose('DD','/form/deliverForm/')">打印</div>
                 </shiro:hasPermission>
                 <div class="ubtns-item" onclick="toClose()">关闭</div>
