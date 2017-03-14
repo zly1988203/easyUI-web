@@ -2,6 +2,7 @@ package com.okdeer.jxc.controller.stock;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +30,7 @@ import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.goods.entity.GoodsSelect;
-import com.okdeer.jxc.goods.entity.GoodsSelectByStockIndex;
+import com.okdeer.jxc.goods.entity.GoodsSelectByStockTaking;
 import com.okdeer.jxc.stock.service.StocktakingOperateServiceApi;
 import com.okdeer.jxc.stock.vo.StocktakingFormDetailVo;
 import com.okdeer.jxc.stock.vo.StocktakingFormVo;
@@ -251,30 +252,30 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 			String[] field = null;
 			if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {
 				// 货号
-				field = new String[] { "skuCode", "stockTakingNum" };
+				field = new String[] { "skuCode", "stocktakingNum" };
 			} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {
 				// 条码
-				field = new String[] { "barCode", "stockTakingNum" };
+				field = new String[] { "barCode", "stocktakingNum" };
 			}
-			GoodsSelectImportVo<GoodsSelectByStockIndex> vo = goodsSelectImportTxt.importSelectGoodsWithStockTxt(
-					fileName, is, field, new GoodsSelectByStockIndex(), branchId, user.getId(), type,
+			GoodsSelectImportVo<GoodsSelectByStockTaking> vo = goodsSelectImportTxt.importSelectGoodsWithStockTxt(
+					fileName, is, field, new GoodsSelectByStockTaking(), branchId, user.getId(), type,
 					"/stocktaking/operate/downloadErrorFile", new GoodsSelectImportBusinessValid() {
 
 						@Override
 						public void businessValid(List<JSONObject> excelListSuccessData, String[] excelField) {
 							for (JSONObject obj : excelListSuccessData) {
-								double stockTakingNum = 0;
+								double stocktakingNum = 0;
 
 								// 校验空
-								if (obj.get("stockTakingNum") == null || obj.get("stockTakingNum") == null) {
+								if (obj.get("stocktakingNum") == null || obj.get("stocktakingNum") == null) {
 									obj.element("error", "库存数量必须为大于0的数字");
 									continue;
 								}
 								// 校验上限
-								String upperLimit = obj.getString("stockTakingNum");
+								String upperLimit = obj.getString("stocktakingNum");
 								try {
-									stockTakingNum = Double.parseDouble(upperLimit);
-									if (stockTakingNum <= 0 || stockTakingNum > ExportExcelConstant.MAXNUM) {
+									stocktakingNum = Double.parseDouble(upperLimit);
+									if (stocktakingNum <= 0 || stocktakingNum > ExportExcelConstant.MAXNUM) {
 										obj.element("error", "库存数量必须为大于0的数字");
 									}
 								} catch (Exception e) {
@@ -305,6 +306,13 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 
 					});
 
+			// 作金额计算
+			List<GoodsSelectByStockTaking> stcoktakingVos = vo.getList();
+			for (GoodsSelectByStockTaking staking : stcoktakingVos) {
+				BigDecimal result = staking.getSalePrice().multiply(staking.getStocktakingNum());
+				result.setScale(4, BigDecimal.ROUND_HALF_UP);
+				staking.setAmount(result);
+			}
 			respJson.put("importInfo", vo);
 
 		} catch (IOException e) {
@@ -336,11 +344,11 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 
 		if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {
 			// 货号
-			columns = new String[] { "skuCode", "stockTakingNum" };
+			columns = new String[] { "skuCode", "stocktakingNum" };
 			headers = new String[] { "货号", "库存数量" };
 		} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {
 			// 条码
-			columns = new String[] { "barCode", "stockTakingNum" };
+			columns = new String[] { "barCode", "stocktakingNum" };
 			headers = new String[] { "条码", "库存数量" };
 		}
 
