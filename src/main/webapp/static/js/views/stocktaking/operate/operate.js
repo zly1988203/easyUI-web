@@ -5,13 +5,22 @@ var gridName = "operateGrid";
 var isdisabled = false;
 var url;
 var operateStatus = 'add';
-
+var oldData = {};
 $(function(){
 	operateStatus = $('#operateStatus').val();
 	var formId = $('#formId').val();
 	if(operateStatus === 'add'){
-	
+	oldData = {
+        branchName:$('#branchName').val(),
+        batchNo:$('#batchNo').val(),
+        remark:$('#remark').val()
+	}
 	}else if(operateStatus === '0'){
+        oldData = {
+            branchName:$('#branchName').val(),
+            batchNo:$('#batchNo').val(),
+            remark:$('#remark').val()
+        }
 		url = contextPath +"/stocktaking/operate/stocktakingFormDetailList?formId=" + formId;
 		$('#already-examine').css('display','none');
 		$('#btnCheck').css('display','black');
@@ -91,8 +100,6 @@ function initOperateDataGrid(){
 
             {field:'unit',title:'单位',width:'60px',align:'left'},
             {field:'spec',title:'规格',width:'90px',align:'left'},
-            {field:'spec',title:'品牌',width:'90px',align:'left'},
-
             {field:'stocktakingNum',title:'实际盘点数量',width:'100px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
@@ -159,6 +166,13 @@ function initOperateDataGrid(){
             }
         },
         onLoadSuccess:function(data){
+            if(operateStatus==='0'){
+                if(!oldData["grid"]){
+                    oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
+                        return $.extend(true,{},obj);//返回对象的深拷贝
+                    });
+                }
+            }
             gridHandel.setDatagridHeader("center");
             updateFooter();
         },
@@ -343,7 +357,20 @@ function saveStocktakingForm(opType){
 
 //新增
 function addOperate(){
-	toAddTab("新增存货盘点单",contextPath + "/stocktaking/operate/add");
+	var newData = {
+        branchName:$('#branchName').val(),
+        batchNo:$('#batchNo').val(),
+        remark:$('#remark').val(),
+        grid:gridHandel.getRows(),
+    }
+
+    if(!gFunComparisonArray(oldData,newData)){
+        messager("数据已修改，请先保存");
+        return;
+    }else{
+        toAddTab("新增存货盘点单",contextPath + "/stocktaking/operate/add");
+	}
+
 }
 
 
@@ -476,8 +503,7 @@ function importStocktakingForm(type){
 function updateListData(data){
     var nowRows = gridHandel.getRowsWhere({skuName:'1'});
     var keyNames = {
-    		unit:'skuUnit',
-        	spec:'skuSpec'
+    		salePrice:'price'
     };
     var rows = gFunUpdateKey(data,keyNames);
     $("#"+gridName).datagrid("loadData",rows);

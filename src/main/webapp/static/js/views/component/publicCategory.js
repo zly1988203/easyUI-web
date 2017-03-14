@@ -4,15 +4,21 @@
  */
 var categoryType='';
 var isSingleSelect = true;
+var amount = 0;
 function initCategoryView(param){
 	categoryType=param.categoryType;
 	isSingleSelect = param.type==1?false:true;
+    amount = param.amount?param.amount:0;
     gFunSetEnterKey(categorySearch);
     initTreeCategory(); //初始树
     initDatagridCategory(categoryType); //初始化表格
 }
 function publicCategoryGetCheck(cb){
     var row =  $("#gridCategory").datagrid("getChecked");
+    if(amount > 0 && row.length > amount){
+        messager("类型已选择"+row.length+"个,不能超过"+amount+"个");
+        return;
+    }
     cb(row);
 }
 var categoryCallBack ;

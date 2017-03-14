@@ -82,6 +82,7 @@
                     <div class="ub ub-ac umar-r10 umar-l40">
                          <input class="radioItem" type="radio" value="1" name="status"><span>促销价签</span>
                     </div>
+					<input type="hidden" id="priceType" name="priceType" value="0"/>
                 </div>
 
 			</div>
@@ -113,8 +114,11 @@
 				</div>
 				
 			</div>
-			<!--datagrid-->
-			<table id="pricePrint"></table>
+
+		</div>
+
+		<div class="ub ub-f1">
+		<table id="pricePrint"></table>
 		</div>
 	</div>
 </body>

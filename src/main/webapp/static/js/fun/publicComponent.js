@@ -274,7 +274,7 @@ function publicBrandService(callback){
 }
 
 //公共组件-选择商品类别
-//param {categoryType,type}
+//param {categoryType,type,amount:限制数量}
 function publicCategoryService(callback,param){
 	if('undefined' === typeof(param)){
 		param = {
@@ -695,7 +695,6 @@ function publicGoodsServiceHandel(param,callback){
 	if(!param.branchId){
         url=contextPath + "/goods/goodsSelect/view?type="+param.type+"&sourceBranchId="+param.sourceBranchId+"&targetBranchId="+param.targetBranchId+"&supplierId="+param.supplierId+"&flag="+param.flag;
     }else if(param.categoryCodes){ //商品类别
-    	alert(param.categoryCodes);
         url=contextPath + "/goods/goodsSelect/view?type="+param.type+"&branchId="+param.branchId+"&supplierId="+param.supplierId+"&flag="+param.flag+"&categoryCodes="+param.categoryCodes;
     }else{
     	url=contextPath + "/goods/goodsSelect/view?type="+param.type+"&branchId="+param.branchId+"&supplierId="+param.supplierId+"&flag="+param.flag;
