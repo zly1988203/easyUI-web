@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -146,7 +147,7 @@ public class StockIndexController extends BaseController<StockIndexController> {
 				return respJson;
 			}
 			List<StockIndexVo> jsonList = JSON.parseArray(data, StockIndexVo.class);
-			if (jsonList.isEmpty()) {
+			if (CollectionUtils.isEmpty(jsonList)) {
 				respJson = RespJson.error("保存数据不能为空！");
 				return respJson;
 			}
@@ -177,7 +178,7 @@ public class StockIndexController extends BaseController<StockIndexController> {
 	public RespJson importStockIndexList(@RequestParam("file") MultipartFile file, String branchId, String type) {
 		RespJson respJson = RespJson.success();
 		try {
-			if (file.isEmpty()) {
+			if (file ==null || file.isEmpty()) {
 				return RespJson.error("文件为空");
 			}
 			InputStream is = file.getInputStream();
