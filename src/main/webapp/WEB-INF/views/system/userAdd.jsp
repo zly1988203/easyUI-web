@@ -86,7 +86,7 @@
 				<div class="ub ub-ac umar-l20">
 					<div class="umar-r10 uw-60 ut-r">最大折扣比率:</div>
 					<input id="maxDiscountRadio" name="maxDiscountRadio" class="uinp uw-230 easyui-numberbox easyui-validatebox" 
-						data-options="required:true,min:0,precision:0" type="text">
+						data-options="required:true,min:0,precision:0" type="text" value="100">
 					%
 					<i class="uc-red">*</i>
 				</div>

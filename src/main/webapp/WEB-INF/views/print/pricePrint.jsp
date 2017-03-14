@@ -77,10 +77,10 @@
 				<div class="ub ub-ac umar-l64 jiaqType">
                     <div class="umar-r10 uw-70 ut-r">价签类型:</div>
                     <div class="ub ub-ac umar-r10">
-                         <input class="radioItem" type="radio" value="0" name="status" checked="checked"><span>正常价签</span>
+                         <input class="radioItem" type="radio" value="0" name="status" checked="checked" /><span>正常价签</span>
                     </div>
                     <div class="ub ub-ac umar-r10 umar-l40">
-                         <input class="radioItem" type="radio" value="1" name="status"><span>促销价签</span>
+                         <input class="radioItem" type="radio" value="1" name="status" /><span>促销价签</span>
                     </div>
 					<input type="hidden" id="priceType" name="priceType" value="0"/>
                 </div>
@@ -91,10 +91,11 @@
 			
 				<div class="ub ub-ac uw-288 umar-l20">
 					<div class="umar-r10  ut-r">设置打印数:</div>
-					<input class="uinp ub ub-f1 deal" type="number"
+					<input type="text" id="printnum" class="uinp easyui-numberbox" data-options="min:1,onChange:changePrintNum"  />
+					<!-- <input class="uinp ub ub-f1 deal" type="number"
 						onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
 						onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
-						id="printnum" >
+						id="printnum" > -->
 				</div>
 				
 				<div class="ub ub-ac uw-300 umar-l58 activity unhide">
@@ -108,8 +109,9 @@
 				
 				<div class="ub ub-ac uw-300 umar-l12 discount unhide">
 					<div class="umar-r10 uw-100 ut-r">统一促销折扣:</div>
-					<input class="uinp ub ub-f1"  type="number"
-						onafterpaste="if(isNaN(value)|| value > 10) {execCommand('undo');this.value=''}" id="discount">
+					<input type="text" id="discount" class="uinp easyui-numberbox" data-options="min:0,precision:2,max:10,onChange:changeDiscount"  />
+					<!-- <input class="uinp ub ub-f1"  type="number"
+						onafterpaste="if(isNaN(value)|| value > 10) {execCommand('undo');this.value=''}" id="discount"> -->
 						<div class="umar-l10">折</div>
 				</div>
 				
