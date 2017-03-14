@@ -31,10 +31,10 @@
            <div class="ub umar-t10">
                <div class="ub ub-ac uw-300">
 	                <div class="umar-r10 uw-70 ut-r">机构名称:</div> 
-                    <input type="hidden" name="branchId" id="branchId" />
-                    <input type="hidden" name="branchCode" id="branchCode" />
-                    <input type="hidden" name="branchCompleCode" id="branchCompleCode" />
-					<input type="text" name="branchName" id="branchName"class="uinp ub ub-f1" readonly="readonly"  />
+                    <input type="hidden" name="branchId" id="branchId" value="${stocktakingFormVo.branchId}"/>
+                    <input type="hidden" name="branchCode" id="branchCode" value="${stocktakingFormVo.branchCode}"/>
+                    <input type="hidden" name="branchCompleCode" id="branchCompleCode" value="${stocktakingFormVo.branchCompleCode}"/>
+					<input type="text" name="branchName" id="branchName"class="uinp ub ub-f1" value="${stocktakingFormVo.branchName}" readonly="readonly"  />
 					<div class="uinp-more" onclick="selectBranches()">...</div>
 	           </div>
 	            <div class="ub ub-ac uselectw umar-l00 umar-l10">
