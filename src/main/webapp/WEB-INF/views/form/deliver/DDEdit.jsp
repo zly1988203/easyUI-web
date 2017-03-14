@@ -20,10 +20,10 @@
             <!-- <div class="ubtns-item" onclick="addDeliverForm()">新增</div>
             <div class="ubtns-item" onclick="saveOrder()">保存</div>
             <div class="ubtns-item" onclick="check()">审核</div> -->
-            	 <shiro:hasPermission name="JxcDeliverDD:add">
+            	 <shiro:hasPermission name="JxcDeliverDD:append">
             		<div class="ubtns-item" onclick="addDeliverForm()">新增</div>
             	</shiro:hasPermission>
-            	<shiro:hasPermission name="JxcDeliverDD:add">
+            	<shiro:hasPermission name="JxcDeliverDD:append">
                 	<div class="ubtns-item" onclick="saveOrder()">保存</div>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="JxcDeliverDD:audit">
