@@ -376,17 +376,21 @@ function update(type){
 		return;
 	}
 	console.log(rows);
+	var flag = false;
 	var ids = '';
 	$.each(rows,function(i,v){
 		//淘汰操作
 		if(type ==2){
 			if(v.actual != 0){
-				$.messager.alert('提示','淘汰商品库存必须为0！');
-				return;
+				flag = true;
 			}
 		}
 		ids+=v.branchSkuId+",";
 	});
+	if(flag){
+		$.messager.alert('提示','淘汰商品库存必须为0！');
+		return;
+	}
 	$.messager.confirm('提示','是否要处理选中数据',function(data){
 		if(data){
 			$.ajax({
