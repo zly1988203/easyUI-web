@@ -36,6 +36,7 @@
 			<div class="ub ub-ac uw-300 umar-l10">
 				<div class="umar-r10 uw-70 ut-r">机构:</div>
 				<input type="hidden" id="branchId" name="branchId" />
+				<input type="hidden" id="branchCompleCode" name="branchCompleCode"/>
 				<input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" maxlength="50"/>
 				<div class="uinp-more" onclick="selectBranches()" >...</div>
 			</div>

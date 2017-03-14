@@ -1,4 +1,9 @@
 $(function(){
+	//$("#branchCode").val(sessionBranchCode);
+	$("#branchName").val(sessionBranchName);
+	$("#branchId").val(sessionBranchId);
+	$("#branchCompleCode").val(sessionBranchCompleCode);
+	
     //开始和结束时间
     $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
@@ -58,11 +63,6 @@ function queryForm(){
 	$("#operateList").datagrid("options").method = "post";
     $("#operateList").datagrid('options').url = contextPath + '/stocktaking/operate/getStocktakingFormList';
 	$("#operateList").datagrid('load', fromObjStr);
-}
-
-//重置
-function gFunRefresh(){
-	$("#queryForm").form('clear');
 }
 
 //新增存货盘点单
