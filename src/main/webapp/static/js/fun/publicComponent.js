@@ -1513,6 +1513,17 @@ function isValidString(obj){
   return obj.value;
 }
 
+//过滤特殊字符
+function stripscript(s)
+{
+    var pattern = new RegExp("[`~!@#$%^&*()=|{}':;',\\[\\].<>/?~！@#￥%……&*（）——|{}【】‘；：”“'。，、？]")
+    var rs = "";
+    for (var i = 0; i < s.length; i++) {
+        rs = rs+s.substr(i, 1).replace(pattern, '');
+    }
+    return rs;
+}
+
 
 /**
  * 获取枚举显示名称，enumObj为空则返回空字符串

@@ -40,7 +40,10 @@ function save(){
 		"<div class='uc umar-l40 umar-b20'>暂停出入库业务，是否继续保存？</div>",function(r){
         if (r){
             saveDataHandel();
-        }
+        }else{
+            $('#saveBtn').removeAttr("disabled");
+            return;
+		}
     });
 }
 
