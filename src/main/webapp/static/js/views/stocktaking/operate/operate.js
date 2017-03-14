@@ -100,8 +100,6 @@ function initOperateDataGrid(){
 
             {field:'unit',title:'单位',width:'60px',align:'left'},
             {field:'spec',title:'规格',width:'90px',align:'left'},
-            {field:'spec',title:'品牌',width:'90px',align:'left'},
-
             {field:'stocktakingNum',title:'实际盘点数量',width:'100px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
@@ -505,8 +503,7 @@ function importStocktakingForm(type){
 function updateListData(data){
     var nowRows = gridHandel.getRowsWhere({skuName:'1'});
     var keyNames = {
-    		unit:'skuUnit',
-        	spec:'skuSpec'
+    		salePrice:'price'
     };
     var rows = gFunUpdateKey(data,keyNames);
     $("#"+gridName).datagrid("loadData",rows);
