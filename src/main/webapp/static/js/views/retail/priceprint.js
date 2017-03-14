@@ -27,19 +27,12 @@ $(function(){
 	
 	$('#discount').bind('input onblur',function(){
 		if(isNaN($(this).val()) || $(this).val() > 10){
-//			$(this).execCommand('undo');
 			$(this).val("");
 			return;
 		}
 		
 		discountRows($(this).val());
 	})
-	
-//	$('#discount').on('keyup',function(){
-//		discountRows($(this).val());
-//	})
-//	appendOptions(options_nomal);
-	
 });
 
 
@@ -48,10 +41,11 @@ function initjiaqType(){
 		var _this = $(this);
 		var changeType = function(){
 			_this.prop("checked",true);
-			
+			$('#priceType').val(_this.val());
 			if(_this.val() === '1'){
 				$('.activity').removeClass('unhide');
 				$('.discount').removeClass('unhide');
+                gridHandel.setLoadData([]);
 				appendOptions(options_nomal);
 				$('#pricePrint').datagrid('showColumn','activityTime');
 				$('#pricePrint').datagrid('showColumn','promotionPrice');
@@ -126,14 +120,10 @@ function initPricePrintGrid() {
 		//title:'普通表单-用键盘操作',
 		method: 'get',
 		align: 'center',
-//		data:{"rows":[{"skuCode":"1","skuName":"s","promotionPrice":"50","printCount":"5"},{"skuCode":"2","skuName":"s","promotionPrice":"40","printCount":"6"},{"skuCode":"3","skuName":"s","promotionPrice":"30","printCount":"7"},{"skuCode":"4","skuName":"s","promotionPrice":"20","printCount":"8"}]},
-		//url: '../../json/component.json',
-		//toolbar: '#tb',     //工具栏 id为tb
 		singleSelect: false,  //单选  false多选
 		rownumbers: true,    //序号
-		//pagination: true,    //分页
-		//fitColumns:true,    //占满
-		//showFooter:true,
+		width:'100%',
+		height:'100%',
 		columns: [[
 		           {field: 'skuCode', title: '货号', width: 200, align: 'center',  },
 		           {field: 'skuName', title: '商品名称', width: 200, align: 'center',},
@@ -218,7 +208,8 @@ function onChangeSalePrice(newV,oldV){
     }
     
 	var promotionPrice = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'promotionPrice');
-	if(parseFloat(promotionPrice) > parseFloat(newV)){
+
+	if($('#priceType').val() === '1' && parseFloat(promotionPrice) > parseFloat(newV)){
 		  messager("销售价不能小于促销价");
 		  gridHandel.setFieldValue('salePrice',oldV);
 	        return;
@@ -233,7 +224,7 @@ function onChangePromotionPrice(newV,oldV){
     }
 	
 	var salePriceVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'salePrice');
-	if(parseFloat(newV) > parseFloat(salePriceVal)){
+	if($('#priceType').val() === '1' && parseFloat(newV) > parseFloat(salePriceVal)){
 		  messager("促销价不能大于销售价");
 		  gridHandel.setFieldValue('promotionPrice',oldV);
 	        return;
