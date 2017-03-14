@@ -218,6 +218,7 @@ public class GoodsBranchPriceController {
 	@RequestMapping(value = "eliminateGoodsStoreSku", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson eliminateGoodsStoreSku(String goodsStoreSkuIds, String branchId) {
+		SysUser user = UserUtil.getCurrentUser();
 		if(StringUtils.isBlank(goodsStoreSkuIds)){
 			return RespJson.error("批量淘汰商品");
 		}
@@ -234,13 +235,12 @@ public class GoodsBranchPriceController {
 		for (int i = 0; i < skuIdArray.length; i++) {
 			skuIdList.add(skuIdArray[i]);
 		}
-		SysUser user = UserUtil.getCurrentUser();
 		
 		if(StringUtils.isBlank(branchId)){
 			branchId = user.getBranchId();
 		}
 		try {
-			goodsSkuSyncServiceApi.eliminateGoodsStoreSkuToMq(branchId, skuIdList);
+			goodsSkuSyncServiceApi.eliminateGoodsStoreSkuToMq(branchId, skuIdList,user.getId());
 		} catch (Exception e) {
 			return RespJson.error(e.getLocalizedMessage());
 		}

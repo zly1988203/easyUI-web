@@ -307,6 +307,22 @@ function initDatagridOrders() {
 			formatter : function(value, row, index) {
 				return formatTwoDecimal(value);
 			}
+		},{
+			field : 'updateUserName',
+			title : '操作人',
+			width : 100,
+			align : 'left'
+		},{
+			field : 'updateTime',
+			title : '操作时间',
+			width : 120,
+			align : 'left',
+			formatter: function (value, row, index) {
+                if (value) {
+                	return new Date(value).format('yyyy-MM-dd hh:mm:ss');
+                }
+                return "";
+            }
 		} ] ],
 		onLoadSuccess : function() {
 			gridHandel.setDatagridHeader("center");
