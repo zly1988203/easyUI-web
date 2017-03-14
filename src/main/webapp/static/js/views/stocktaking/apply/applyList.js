@@ -1,4 +1,11 @@
 $(function(){
+	//$("#branchCode").val(sessionBranchCode);
+	$("#branchName").val(sessionBranchName);
+	$("#branchId").val(sessionBranchId);
+	$("#branchCompleCode").val(sessionBranchCompleCode);
+    //开始和结束时间
+    $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
+    $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 	initDgTakeStockApply();
 });
 //初始化表格
@@ -44,12 +51,6 @@ function queryForm(){
 	$("#applyList").datagrid('options').url = contextPath + '/stocktaking/apply/getApplyList';
 	$("#applyList").datagrid('load', fromObjStr);
 }
-/**
- * 重置
- */
-var resetForm = function() {
-	 $("#queryForm").form('clear');
-};
 
 /**
  * 机构名称
@@ -74,7 +75,7 @@ function toAdd(){
     addDalogTemp = $('<div/>').dialog({
         href: contextPath+"/stocktaking/apply/add",
         queryParams:{},
-//        width: 700,
+        width: 700,
         top:top,
         left:left,
         height: 350,
