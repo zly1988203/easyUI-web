@@ -63,7 +63,8 @@ function scopeChange(){
 function searchCategory(){
 	var param = {
 			categoryType:'',
-			type:1
+			type:1,
+        	amount:30
 	}
 	new publicCategoryService(function(data){
 		var categoryIds = []
@@ -76,4 +77,9 @@ function searchCategory(){
 		$("#categoryShows").val(categorytxt) ;
 		
 	},param);
+}
+
+//重置
+function gFunRefresh(){
+    $("#formAdd").form('clear');
 }
