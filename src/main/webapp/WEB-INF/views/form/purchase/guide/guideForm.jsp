@@ -75,7 +75,7 @@
     	<div class="ub umar-t20">
     		<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">选择模式:</div>
-					<label><input type="radio" class="radioItem" name="guideType" value="1" checked>[常规商品]按库存存量指标采购</label>	
+					<label><input type="radio" class="radioItem" name="guideType" value="1" checked>[常规商品]按库存存量指标采购</label>
 			</div>
 
 			

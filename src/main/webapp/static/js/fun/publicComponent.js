@@ -274,7 +274,7 @@ function publicBrandService(callback){
 }
 
 //公共组件-选择商品类别
-//param {categoryType,type}
+//param {categoryType,type,amount:限制数量}
 function publicCategoryService(callback,param){
 	if('undefined' === typeof(param)){
 		param = {
