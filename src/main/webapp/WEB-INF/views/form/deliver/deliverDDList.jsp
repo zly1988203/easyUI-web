@@ -19,12 +19,13 @@
 	            	<shiro:hasPermission name="JxcDeliverDA:search">
 						<div class="ubtns-item" onclick="queryForm()">查询</div>
 				   	</shiro:hasPermission>
-	            	<shiro:hasPermission name="JxcDeliverDA:add">
+	            	<shiro:hasPermission name="JxcDeliverDD:append">
 						<div class="ubtns-item" onclick="addDeliverForm()">新增</div>
 				   	</shiro:hasPermission>
 	            	<shiro:hasPermission name="JxcDeliverDA:delete">
-						<div class="ubtns-item" onclick="delDeliverForm()">删单</div>
+						<div class="ubtns-item" onclick="delDeliverForm()">删除</div>
 				   	</shiro:hasPermission>
+				   	<div class="ubtns-item-disabled">打印</div>
 	            	<shiro:hasPermission name="JxcDeliverDA:setting">
 						<div class="ubtns-item-disabled">设置</div>
 				   	</shiro:hasPermission>
