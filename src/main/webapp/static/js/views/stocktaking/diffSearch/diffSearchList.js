@@ -1,6 +1,12 @@
 var rotaType = '1';
 //初始化表格
 $(function(){
+	$("#branchName").val(sessionBranchName);
+	$("#branchId").val(sessionBranchId);
+	$("#branchCompleCode").val(sessionBranchCompleCode);
+    //开始和结束时间
+    $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
+    $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 	initDgTakeStockDiffSearch();
     $(".radioItem").on("change",function(){
     	$("#diffSearchList").datagrid('options').url = "";
@@ -100,25 +106,23 @@ function queryForm(){
 	$("#diffSearchList").datagrid('load', fromObjStr);
 }
 
-//重置
-function gFunRefresh(){
-	$("#queryForm").form('clear');
-}
 /**
  * 机构名称
  */
 function selectBranches(){
 	new publicAgencyService(function(data){
 		$("#branchId").val(data.branchesId);
-		$("#branchCode").val(data.branchCode);
+		$("#branchCompleCode").val(data.branchCompleCode);
 		$("#branchName").val(data.branchName);
 	},'BF','');
 }
 
 function searchTakeStock(){
 	var branchId = $('#branchId').val();
+	var branchCompleCode = $("#branchCompleCode").val();
 	var param = {
-			branchId:branchId
+			status:1,
+			branchCompleCode:branchCompleCode
 	}
 	new publicStocktakingDialog(param,function(data){
 		console.log(data);
