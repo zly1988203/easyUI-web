@@ -4,16 +4,36 @@
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
   
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
-<script src="${ctx}/static/js/views/report/goods/goodsEdit.js?1=1"></script>
+<script src="${ctx}/static/js/views/report/goods/goodsEdit.js?1=13"></script>
 <style> 
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
+.tab-like{
+  outline:none;border: 1px solid #95B8E7; 
+  width:79px;
+  height:25px;
+  line-height:25px;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 5px 5px 0 0;
+  color: #0E2D5F;
+  background-color: #E0ECFF;
+  background: -webkit-linear-gradient(top,#EFF5FF 0,#E0ECFF 100%);
+  background: -moz-linear-gradient(top,#EFF5FF 0,#E0ECFF 100%);
+  background: -o-linear-gradient(top,#EFF5FF 0,#E0ECFF 100%);
+  background: linear-gradient(to bottom,#EFF5FF 0,#E0ECFF 100%);
+  background-repeat: repeat-x;
+}
+.tab-like.active{
+  border-bottom: 1px solid #fff;
+  background: #fff;
+}
 </style>
 
 <div class="uh">
 	<div id="divTab">
-		<div class="ub ub-ac upad-4 umar-l10 upad-t10">
-			<button id="btnbase" class="btnTab" onclick="clickTab(1)">基本信息</button>
-			<button id="btnprice" class="btnTab umar-l20" onclick="clickTab(2)">分店价格</button>
+		<div class="ub ub-ac upad-4 umar-l10 upad-t10" style="padding-bottom:1px;">
+			<button id="btnbase" class="tab-like" onclick="clickTab(1)">基本信息</button>
+			<button id="btnprice" class="tab-like umar-l4" onclick="clickTab(2)">分店价格</button>
 		</div>
 	</div>
 	<div class="ub uline-tab "></div> 
@@ -326,16 +346,17 @@
 				<div class="ubtns">
 					<button class="ubtns-item" onclick="saveSafetyCoefficient()" id="saveSafetyCoefficient()">保存</button>
 					<button class="ubtns-item" onclick="closeDialog()">关闭</button>
-					<div class="ub ub-ac uw-288 umar-l20">
+				</div>
+				<div class="ub ub-ac ub-pe ub-f1">
 					<div class="umar-r10  ut-r">批量设置安全库存系数:</div>
-					<input class="uinp ub ub-f1 deal" type="number" id="printnum" class="uinp uinp-no-more easyui-numberbox easyui-validatebox"
-							   data-options="min:0.1,max:999.9,precision:2,validType:['length[0,18]']" type="text" maxlength="4"
+					<input type="text" id="printnum11"  class="uinp uw-120 easyui-numberbox easyui-validatebox"
+							   data-options="min:0.1,max:999.9,onChange:changePrint, precision:2,validType:['length[0,18]']
 						   <c:if test="${branchType==3||branchType==4||branchType==5}">
-							   readonly="readonly"
-						   </c:if>
+							   ,disabled:true
+						   </c:if>"
 						>
 				</div>
-				</div>
+				<div class="ub uw-160"></div>
 			</div>
 			<div class="ub uline "></div>
 			<div class="ub ub-f1">

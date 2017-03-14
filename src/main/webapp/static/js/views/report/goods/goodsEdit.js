@@ -4,14 +4,13 @@
  */
 var updateGoods;
 var isStore;
-debugger;
 var flag = ($("#branchType").val()==1);
 var dgPrice = null;
 function initGoodsInfo(skuId,branchId){
 	if(flag===true){
-		$('#tab2').css('display','none');
-		 $('#btnbase').css('background-color','#95B8E7');
-
+		 $('#tab2').css('display','none');
+		 //$('#btnbase').css('background-color','#95B8E7');
+		 $('#btnbase').addClass('active')
 	}else{
 		$('#divTab').css('display','none');
 		$('#tab2').css('display','none');
@@ -210,24 +209,33 @@ function submitForm(){
  function clickTab(code){
 	 
 	 if(code === 1){
-		 $('#btnbase').css('background-color','#95B8E7');
-		 $('#btnprice').css('background-color','#fff');
+//		 $('#btnbase').css('background-color','#95B8E7');
+//		 $('#btnprice').css('background-color','#fff');
+		 $('#btnbase').addClass('active');
+		 $('#btnprice').removeClass('active');
 		 $('#tab1').css('display','block');
 		 $('#tab2').css('display','none');
 		 
 	 }else{
-		 $('#btnbase').css('background-color','#fff');
-		 $('#btnprice').css('background-color','#95B8E7');
+//		 $('#btnbase').css('background-color','#fff');
+//		 $('#btnprice').css('background-color','#95B8E7');
+		 $('#btnbase').removeClass('active');
+		 $('#btnprice').addClass('active');
 		 $('#tab1').css('display','none');
 		 $('#tab2').css({'display':'block','height':'90%'});
 		 
 		 	if(dgPrice != null)return;
 			//初始化表格
 			initDatagridEditRequireOrder();
-			$('#printnum').on('input',function(){
+			/*$('#printnum').on('input',function(){
 				printRows($(this).val());
-
-			})
+			})*/
+	 }
+ }
+ 
+ function changePrint(newV,oldV){
+	 if(newV && newV >= 0.1 && newV <= 999.90){
+		 printRows(newV);
 	 }
  }
  
@@ -353,16 +361,9 @@ function submitForm(){
  	var newData = $("#dgPrice").datagrid("getRows");
  	for(var i = 0;i < newData.length;i++){
  		newData[i].safetyCoefficient= printNum;
-
- 		rowIndex = $("#dgPrice").datagrid('getRowIndex',newData[i]);
- 		//更新行数据
- 		$("#dgPrice").datagrid('updateRow',{
- 			index: rowIndex,
- 			row: newData[i]
- 		});
- 		//刷新行
- 		$("#dgPrice").datagrid('refreshRow',rowIndex);
  	}
+ 	$("#dgPrice").datagrid('options').url = '';
+ 	$("#dgPrice").datagrid({data:newData})
  }
  function saveSafetyCoefficient(){
 	 debugger;
