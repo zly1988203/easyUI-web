@@ -78,7 +78,7 @@ function initOperateDataGrid(){
 			    }
             },
             {field:'skuName',title:'商品名称',width:'200px',align:'left'},
-            {field:'snapshootStockNum',title:'系统库存',width:'100px',align:'left',
+            {field:'snapshootStockNum',title:'系统库存',width:'100px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -89,7 +89,7 @@ function initOperateDataGrid(){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
 			},
-            {field:'stocktakingNum',title:'盘点数量',width:'100px',align:'left',
+            {field:'stocktakingNum',title:'盘点数量',width:'100px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -100,7 +100,7 @@ function initOperateDataGrid(){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
 			},
-            {field:'profitLossNum',title:'盈亏数量',width:'100px',align:'left',
+            {field:'profitLossNum',title:'盈亏数量',width:'100px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -118,7 +118,7 @@ function initOperateDataGrid(){
 	                	disabled:isdisabled,
 	                }
             	}},
-            {field:'snapshootCostPrice',title:'原库存成本价',width:'200px',align:'left',
+            {field:'snapshootCostPrice',title:'原库存成本价',width:'200px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -129,7 +129,7 @@ function initOperateDataGrid(){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
 			},
-            {field:'costAmount',title:'原库存金额（成本价）',width:'200px',align:'left',
+            {field:'costAmount',title:'原库存金额（成本价）',width:'200px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -140,7 +140,7 @@ function initOperateDataGrid(){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
 			},
-            {field:'stocktakingCostAmount',title:'盘点金额（成本价）',width:'200px',align:'left',
+            {field:'stocktakingCostAmount',title:'盘点金额（成本价）',width:'200px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -151,7 +151,7 @@ function initOperateDataGrid(){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
 			},
-            {field:'profitLossCostAmount',title:'盈亏金额（成本价）',width:'200px',align:'left',
+            {field:'profitLossCostAmount',title:'盈亏金额（成本价）',width:'200px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -162,7 +162,7 @@ function initOperateDataGrid(){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
 			},
-            {field:'profitLossSaleAmount',title:'盈亏金额（售价）',width:'200px',align:'left',
+            {field:'profitLossSaleAmount',title:'盈亏金额（售价）',width:'200px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
