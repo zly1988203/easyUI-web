@@ -17,7 +17,7 @@
 	        <div class="ub ub-ac">
 	            <div class="ubtns">
 					<div class="ubtns-item" onclick="query()">查询</div>
-				<shiro:hasPermission name="JxcOverdueApply:add">
+				<shiro:hasPermission name="JxcOverdueApply:append">
 	                <div class="ubtns-item" onclick="orderAdd()">新增</div>
 	            </shiro:hasPermission>
 	            <shiro:hasPermission name="JxcOverdueApply:delete">
@@ -27,7 +27,7 @@
 	                <div class="ubtns-item" onclick="printReport()">打印</div>
 	            </shiro:hasPermission>
 	                <div class="ubtns-item" onclick="gFunRefresh()">重置</div>
-	                <div class="ubtns-item" onclick="toClose()">退出</div>
+	                <div class="ubtns-item" onclick="toClose()">关闭</div>
 	            </div>
 	            
 	            <!-- 引入时间选择控件 -->
