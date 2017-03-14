@@ -23,8 +23,13 @@
                <div class="ubtns-item-disabled">保存</div>
                
                	<div class="ubtns-item-disabled">审核</div>
-               	
-                <div class="ubtns-item" onclick="toEnd()">终止</div>
+               	<!--如果有引用单号说明已经被处理了，不能终止-->
+               	<c:if test="${form.referenceNo==null }">
+                	<div class="ubtns-item" onclick="toEnd()">终止</div>
+                </c:if>
+                	<c:if test="${form.referenceNo!=null }">
+                	<div class="ubtns-item-disabled" >终止</div>
+                </c:if>
                 <div class="ubtns-item-disabled" >商品选择</div>
                 <div class="ubtns-item-disabled" >导入货号</div>
             	<div class="ubtns-item-disabled" >导入条码</div>
