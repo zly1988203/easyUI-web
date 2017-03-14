@@ -34,12 +34,12 @@
 					<div class="ubtns-item" onclick="resetFrom()">重置</div>
 					<div class="ubtns-item" onclick="importHandel(0)">导入货号</div>
                     <div class="ubtns-item" onclick="importHandel(1)">导入条码</div>
-					<div class="ubtns-item" id="btn_stop01" onclick="update(0)">停购</div>
-					<div class="ubtns-item" id="btn_stop02" onclick="update(1)">停售</div>
-					<div class="ubtns-item" id="btn_weedout01" onclick="update(2)">淘汰</div>
-					<div class="ubtns-item" id="btn_weedout02" onclick="outGuide()">淘汰向导</div>
-					<div class="ubtns-item" id="btn_stopout" onclick="stopGuide()">停购向导</div>
-					<div class="ubtns-item unhide" id="recover" onclick="update(3)">恢复</div>
+					<div class="ubtns-item" id="btn_stop01" onclick="update(0,this)">停购</div>
+					<div class="ubtns-item" id="btn_stop02" onclick="update(1,this)">停售</div>
+					<div class="ubtns-item" id="btn_weedout01" onclick="update(2,this)">淘汰</div>
+					<div class="ubtns-item" id="btn_weedout02" onclick="outGuide(this)">淘汰向导</div>
+					<div class="ubtns-item" id="btn_stopout" onclick="stopGuide(this)">停购向导</div>
+					<div class="ubtns-item-disabled" id="recover" onclick="update(3,this)">恢复</div>
 					<div class="ubtns-item" onclick="toClose()">关闭</div>
 				</div>
 			</div>
