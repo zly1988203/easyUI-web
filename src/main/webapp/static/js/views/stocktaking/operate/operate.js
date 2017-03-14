@@ -10,11 +10,13 @@ $(function(){
 	operateStatus = $('#operateStatus').val();
 	var formId = $('#formId').val();
 	if(operateStatus === 'add'){
-	oldData = {
-        branchName:$('#branchName').val(),
-        batchNo:$('#batchNo').val(),
-        remark:$('#remark').val()
-	}
+		$("#branchName").val(sessionBranchName);
+		$("#branchId").val(sessionBranchId);
+		oldData = {
+	        branchName:$('#branchName').val(),
+	        batchNo:$('#batchNo').val(),
+	        remark:$('#remark').val()
+		}
 	}else if(operateStatus === '0'){
         oldData = {
             branchName:$('#branchName').val(),

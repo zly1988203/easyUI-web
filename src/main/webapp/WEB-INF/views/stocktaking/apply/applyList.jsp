@@ -19,7 +19,7 @@
             <div class="ubtns">
                 <div class="ubtns-item" onclick="queryForm()">查询</div>
                 <div class="ubtns-item" onclick="toAdd()">新增</div>
-                <div class="ubtns-item" id="set" onclick="resetForm()" >重置</div>
+                <div class="ubtns-item" id="set" onclick="gFunRefresh()" >重置</div>
                 <div class="ubtns-item" onclick="toClose()">退出</div>
             </div>
 			<div class="ub">

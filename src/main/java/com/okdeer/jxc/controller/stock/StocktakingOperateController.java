@@ -265,21 +265,21 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 						public void businessValid(List<JSONObject> excelListSuccessData, String[] excelField) {
 							for (JSONObject obj : excelListSuccessData) {
 								double stocktakingNum = 0;
-
+								String errorStr = "盘点数量必须为0到" + ExportExcelConstant.MAXNUM + "的数字";
 								// 校验空
 								if (obj.get("stocktakingNum") == null || obj.get("stocktakingNum") == null) {
-									obj.element("error", "库存数量必须为大于0的数字");
+									obj.element("error", errorStr);
 									continue;
 								}
 								// 校验上限
 								String upperLimit = obj.getString("stocktakingNum");
 								try {
 									stocktakingNum = Double.parseDouble(upperLimit);
-									if (stocktakingNum <= 0 || stocktakingNum > ExportExcelConstant.MAXNUM) {
-										obj.element("error", "库存数量必须为大于0的数字");
+									if (stocktakingNum < 0 || stocktakingNum > ExportExcelConstant.MAXNUM) {
+										obj.element("error", errorStr);
 									}
 								} catch (Exception e) {
-									obj.element("error", "库存数量必须为大于0的数字");
+									obj.element("error", errorStr);
 									LOG.error("数字转换异常:", e);
 								}
 							}
@@ -345,11 +345,11 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 		if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {
 			// 货号
 			columns = new String[] { "skuCode", "stocktakingNum" };
-			headers = new String[] { "货号", "库存数量" };
+			headers = new String[] { "货号", "盘点数量" };
 		} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {
 			// 条码
 			columns = new String[] { "barCode", "stocktakingNum" };
-			headers = new String[] { "条码", "库存数量" };
+			headers = new String[] { "条码", "盘点数量" };
 		}
 
 		goodsSelectImportTxt.downloadErrorFile(code, reportFileName, headers, columns, response);

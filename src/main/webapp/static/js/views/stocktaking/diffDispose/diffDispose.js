@@ -4,6 +4,10 @@ var url;
 var operateStatus = 'add';
 var oldData;
 $(function(){
+	
+	$("#addbranchName").val(sessionBranchName);
+	$("#addbranchId").val(sessionBranchId);
+	
     oldData = {
     		differenceReason:$("#differenceReason").val()
     }
