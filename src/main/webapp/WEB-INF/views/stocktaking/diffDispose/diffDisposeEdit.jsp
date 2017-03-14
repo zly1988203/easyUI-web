@@ -79,7 +79,7 @@
                </div>
            </div>
            <div class="ub umar-t8">
-               <div class="ub ub-ac uw-600 ">
+               <div class="ub ub-ac uw-600">
                    <input type="hidden" id="remark" name="remark" value="${batchVo.remark }"/>
                    <div class="umar-r10 uw-70 ut-r">备注:</div>
                    <input class="uinp ub ub-f1" type="text" id="remark" name="remark"  value="${batchVo.remark}" maxlength="40">
