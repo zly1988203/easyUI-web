@@ -12,6 +12,7 @@ $(function(){
 	if(operateStatus === 'add'){
 		$("#branchName").val(sessionBranchName);
 		$("#branchId").val(sessionBranchId);
+		$("#branchCompleCode").val(sessionBranchCompleCode);
 		oldData = {
 	        branchName:$('#branchName').val(),
 	        batchNo:$('#batchNo').val(),
