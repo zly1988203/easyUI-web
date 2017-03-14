@@ -82,10 +82,6 @@ public class StocktakingApplyController extends BaseController<StocktakingApplyC
 			if(StringUtils.isBlank(vo.getBranchCompleCode())){
 				vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
 			}
-			// 默认未审核记录
-			if(StringUtils.isBlank(vo.getStatus())){
-				vo.setStatus("0");
-			}
 			LOG.info(LogConstant.OUT_PARAM, vo.toString());
 			PageUtils<StocktakingBatchVo> stocktakingBatchList = stocktakingApplyServiceApi.getStocktakingBatchList(vo);
 			LOG.info(LogConstant.PAGE, stocktakingBatchList.toString());

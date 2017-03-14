@@ -155,10 +155,6 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 			if (StringUtils.isBlank(vo.getBranchCompleCode())) {
 				vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
 			}
-			// 默认未审核记录
-			if(StringUtils.isBlank(vo.getStatus())){
-				vo.setStatus("0");
-			}
 			LOG.info(LogConstant.OUT_PARAM, vo.toString());
 			PageUtils<StocktakingFormVo> StocktakingFormList = stocktakingOperateServiceApi.getStocktakingFormList(vo);
 			LOG.info(LogConstant.PAGE, StocktakingFormList.toString());
