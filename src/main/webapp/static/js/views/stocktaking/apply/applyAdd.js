@@ -16,7 +16,21 @@ function initCallback(cb){
 
 function save(){
     $('#saveBtn').attr("disabled","disabled");
-    var isValid = $("#formAdd").form('validate');
+    var isValid = true;
+
+    if($('#addbranchName').val()===""){
+        messager("请选择机构");
+        isValid = false;
+	}
+
+    if($("#formAdd #scope").combobox('getValue')===''){
+        messager("请选择盘点范围");
+        isValid = false;
+    }else if($("#formAdd #scope").combobox('getValue')==='1' && $('#formAdd #categoryShows').val()===""){
+        messager("请选择类别");
+        isValid = false;
+	}
+
     if (!isValid) {
         $('#saveBtn').removeAttr("disabled");
         return;
@@ -61,15 +75,20 @@ function selecAddtBranches(){
 	new publicAgencyService(function(data){
 		$("#addbranchId").val(data.branchesId);
 		$("#addbranchCode").val(data.branchCode);
-		$("#addbranchName").val(data.branchName);
+		$("#addbranchName").val("["+data.branchCode+"]"+data.branchName);
 	},'BF','');
 }
 
 function scopeChange(){
 	var val = $("#formAdd #scope").combobox('getValue');
-	if(val != ""){
+	$('#categoryIds').val();
+    $("#categoryShows").val('');
+    // $("#categoryShows").textbox("setValue","");
+	if(val === "1"){
+		$('#categoryShows').removeClass('uinp-no-more');
 		$('#categoryDiv').css('display','block');
 	}else{
+        $('#categoryShows').addClass('uinp-no-more')
 		$('#categoryDiv').css('display','none');
 	}
 }

@@ -508,5 +508,26 @@ function updateListData(data){
     		salePrice:'price'
     };
     var rows = gFunUpdateKey(data,keyNames);
-    $("#"+gridName).datagrid("loadData",rows);
+    var tempRows = [];
+    var isContain = false;
+        $.each(rows,function (i,newItem) {
+                $.each(nowRows,function (j,item) {
+                    if(item.skuId === newItem.skuId){
+                        isContain = true;
+                        item.stocktakingNum = item.stocktakingNum + newItem.stocktakingNum;
+                        item.amount = item.amount + newItem.amount;
+                        return false;
+                    }else {
+                        isContain = false;
+                    }
+                })
+
+                if(isContain == false){
+                    tempRows.push(newItem);
+                }
+        })
+
+    var newRows = nowRows.concat(tempRows);
+
+    $("#"+gridName).datagrid("loadData",newRows);
 }
