@@ -22,6 +22,10 @@ function fileUrlChange(event){
  * 开始上传
  */
 function toUploadHandel(){
+	if(!$("#file").val()){
+		$.messager.alert('提示','请选择文件！');
+		return;
+	}
     var formData = new FormData();
     formData.append("file",$("#file")[0].files[0]);
     if (typeof(uploadFileParams.branchId)=="undefined") {
@@ -36,6 +40,7 @@ function toUploadHandel(){
     
     formData.append("type",uploadFileParams.type);
     
+    gFunStartLoading('正在导入，请稍后...');
     $.ajax({
         url : uploadFileParams.url,//uploadFileParams.url,
         type : 'POST',
@@ -43,6 +48,7 @@ function toUploadHandel(){
         processData : false,
         contentType : false,
         success : function(data) {
+        	gFunEndLoading();
             if(data.code==0){
                 $("#message").html(data.importInfo.message);
                 console.log(data.importInfo);
@@ -56,6 +62,7 @@ function toUploadHandel(){
             }
         },
         error : function(responseStr) {
+        	gFunEndLoading();
             console.log("error");
         }
     });
