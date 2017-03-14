@@ -7,7 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>商品状态查询</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="${ctx}/static/js/views/goods/goodsStatus/list.js?1=1"></script>
+<script src="${ctx}/static/js/views/goods/goodsStatus/list.js"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
     <div class="ub  ub-f1 umar-4 upad-4">
