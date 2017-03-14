@@ -72,12 +72,12 @@
         </div>
        	 <div class="ub uline umar-t8" ></div>
        	 
-<form action="" id="searchForm" method="post">
+		<form action="" id="searchForm" method="post">
 		 <input id="formNoInput" name="formNo" value="${goodsPriceForm.formNo}" type="hidden">
 		 <input id="id" name="id" value="${goodsPriceForm.id}" type="hidden">
         <div class="ub ub-ver umar-t12">
             <div class="ub">
-            <div class="ub ub-ac uw-300">
+            	<div class="ub ub-ac uw-300">
                     <div class="umar-r10 uw-70 ut-r">机构列表:</div>
                     <input class="uinp ub ub-f1" name="branchId" type="hidden" id="branchId"  value="${branchId}">
                     <input class="uinp ub ub-f1" name="branchName" type="text" id="branchName" value="${branchName}" onmouseout="this.title=this.value"  onclick="selectBranch();" id="branchShopName" readonly>
@@ -108,10 +108,10 @@
                     <input class="uinp ub ub-f1" name="remark" value="${goodsPriceForm.remark}" type="text" id="remark">
                 </div>
                  <div class="ub ub-ac umar-l20 uw-200">
-                    <div class="umar-r10 uw-70 ut-r" >最后修改人:</div>
+                    <div class="umar-r10 uw-90 ut-r" >最后修改人:</div>
                     <div class="utxt" id="checkUser">${goodsPriceForm.updateUserName}</div>
                 </div>
-                <div class="ub ub-ac umar-l20  uw-200">
+                <div class="ub ub-ac umar-l40  uw-200">
                     <div class="umar-r10 uw-70 ut-r" >修改时间:</div>
                     <div class="utxt" id="checkDate"><fmt:formatDate value='${goodsPriceForm.updateTime}' pattern='yyyy-MM-dd HH:mm' /></div>
                 </div>

@@ -80,44 +80,43 @@ $(document).on("click","input[name='status']",function(){
 	console.log('statusValue',statusValue)
 	switch(statusValue){
 		case '0': //正常
-			$("#btn_stop01").removeClass("unhide");
-			$("#btn_stop02").removeClass("unhide");
-			$("#btn_stopout").removeClass("unhide");
-			$("#btn_weedout01").removeClass("unhide");
-			$("#btn_weedout02").removeClass("unhide");
+			//
+			$("#btn_stop01").removeClass("ubtns-item-disabled").addClass("ubtns-item");
+			$("#btn_stop02").removeClass("ubtns-item-disabled").addClass("ubtns-item");
+			$("#btn_stopout").removeClass("ubtns-item-disabled").addClass("ubtns-item");
+			$("#btn_weedout01").removeClass("ubtns-item-disabled").addClass("ubtns-item");
+			$("#btn_weedout02").removeClass("ubtns-item-disabled").addClass("ubtns-item");
 			
-			$("#recover").addClass("unhide");
+			$("#recover").removeClass("ubtns-item").addClass("ubtns-item-disabled");
 			break;
 		case '2': //停购
-			$("#btn_stop01").addClass("unhide");
-			$("#btn_stop02").addClass("unhide");
-			$("#btn_stopout").addClass("unhide");
+			$("#btn_stop01").removeClass("ubtns-item").addClass("ubtns-item-disabled");
+			$("#btn_stop02").removeClass("ubtns-item").addClass("ubtns-item-disabled");
+			$("#btn_stopout").removeClass("ubtns-item").addClass("ubtns-item-disabled");
 			
-			$("#recover").removeClass("unhide");
-			$("#btn_weedout01").removeClass("unhide");
-			$("#btn_weedout02").removeClass("unhide");
+			$("#recover").removeClass("ubtns-item-disabled").addClass("ubtns-item");
+			$("#btn_weedout01").removeClass("ubtns-item-disabled").addClass("ubtns-item");
+			$("#btn_weedout02").removeClass("ubtns-item-disabled").addClass("ubtns-item");
 			
 			break;
 		case '3': //淘汰
 		case '1': //停售
-			$("#btn_stop01").addClass("unhide");
-			$("#btn_stop02").addClass("unhide");
-			$("#btn_stopout").addClass("unhide");
-			$("#btn_weedout01").addClass("unhide");
-			$("#btn_weedout02").addClass("unhide");
+			$("#btn_stop01").removeClass("ubtns-item").addClass("ubtns-item-disabled");
+			$("#btn_stop02").removeClass("ubtns-item").addClass("ubtns-item-disabled");
+			$("#btn_stopout").removeClass("ubtns-item").addClass("ubtns-item-disabled");
+			$("#btn_weedout01").removeClass("ubtns-item").addClass("ubtns-item-disabled");
+			$("#btn_weedout02").removeClass("ubtns-item").addClass("ubtns-item-disabled");
 			
-			$("#recover").removeClass("unhide");
+			$("#recover").removeClass("ubtns-item-disabled").addClass("ubtns-item");
 			break;
 		default:
-			$("#btn_stop01").addClass("unhide");
-			$("#btn_stop02").addClass("unhide");
-			$("#btn_stopout").addClass("unhide");
-			$("#btn_weedout01").addClass("unhide");
-			$("#btn_weedout02").addClass("unhide");
-			$("#recover").addClass("unhide");
-			
+			$("#btn_stop01").removeClass("ubtns-item").addClass("ubtns-item-disabled");
+			$("#btn_stop02").removeClass("ubtns-item").addClass("ubtns-item-disabled");
+			$("#btn_stopout").removeClass("ubtns-item").addClass("ubtns-item-disabled");
+			$("#btn_weedout01").removeClass("ubtns-item").addClass("ubtns-item-disabled");
+			$("#btn_weedout02").removeClass("ubtns-item").addClass("ubtns-item-disabled");
+			$("#recover").removeClass("ubtns-item").addClass("ubtns-item-disabled");
 	}
-	
 	query();
 })
 
@@ -369,7 +368,8 @@ function updateListData(data){
 	    $("#goodsStatus").datagrid("loadData",data);
 	}
 //停购（type：0）、停售（type：1）、淘汰（type：2）、恢复（type：3）
-function update(type){
+function update(type,obj){
+	if($(obj).hasClass('ubtns-item-disabled'))return;
 	var rows = $('#goodsStatus').datagrid('getChecked');
 	if(rows.length == 0){
 		$.messager.alert('提示','请至少选中一行！');
@@ -417,8 +417,8 @@ function update(type){
 	});
 }
 
-function outGuide(){
-	
+function outGuide(obj){
+	if($(obj).hasClass('ubtns-item-disabled'))return;
 	resetGuideData();
 	
 	$("#outGuideDailog").dialog('open');
@@ -470,7 +470,7 @@ function resetGuideData(){
 }
 
 function stopGuide(){
-	
+	if($(obj).hasClass('ubtns-item-disabled'))return;
 	resetStopGuideData();
 	
 	$("#stopGuideDailog").dialog('open');
