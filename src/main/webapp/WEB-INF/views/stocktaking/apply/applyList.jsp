@@ -14,6 +14,7 @@
 <body class="ub uw uh ufs-14 uc-black">
    <div class="ub ub-ver ub-f1 umar-4 upad-4">
 	<form id="queryForm" action="" method="post">
+	<input type="hidden" value="0" id ="status" name="status"/>
 		<div class="ub ub-ac">
             <div class="ubtns">
                 <div class="ubtns-item" onclick="queryForm()">查询</div>
