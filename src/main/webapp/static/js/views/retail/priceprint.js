@@ -20,21 +20,33 @@ $(function(){
 	initjiaqType();
 	//初始化列表
 	initPricePrintGrid();
-	$('#printnum').on('input',function(){
+	/*$('#printnum').on('input',function(){
 		printRows($(this).val());
 
-	})
+	})*/
 	
-	$('#discount').bind('input onblur',function(){
+	/*$('#discount').bind('input onblur',function(){
 		if(isNaN($(this).val()) || $(this).val() > 10){
 			$(this).val("");
 			return;
 		}
-		
 		discountRows($(this).val());
-	})
+	})*/
 });
 
+//监听打印数
+function changePrintNum(vewV,oldV){
+	if(vewV && vewV > 0){
+		printRows(vewV);
+	}
+}
+
+//监听折扣
+function changeDiscount(newV,oldV){
+	if(vewV){
+		discountRows(vewV)
+	}
+}
 
 function initjiaqType(){
 	$(document).on('mousedown','.jiaqType .radioItem',function(){
@@ -265,16 +277,17 @@ function printRows(printNum){
 	var newData = $("#"+datagridId).datagrid("getRows");
 	for(var i = 0;i < newData.length;i++){
 		newData[i].printCount= printNum;
-
-		rowIndex = $("#"+datagridId).datagrid('getRowIndex',newData[i]);
+		/*rowIndex = $("#"+datagridId).datagrid('getRowIndex',newData[i]);
 		//更新行数据
 		$("#"+datagridId).datagrid('updateRow',{
 			index: rowIndex,
 			row: newData[i]
 		});
 		//刷新行
-		$("#"+datagridId).datagrid('refreshRow',rowIndex);
+		$("#"+datagridId).datagrid('refreshRow',rowIndex);*/
 	}
+	$("#"+datagridId).datagrid({data:newData})
+	
 }
 //打折 表格列数同步
 function discountRows(discountNum){
@@ -289,16 +302,16 @@ function discountRows(discountNum){
 		}else{
 			newData[i].promotionPrice= discountNum*newData[i].salePrice/10;
 		}
-
-		rowIndex = $("#"+datagridId).datagrid('getRowIndex',newData[i]);
-		//更新行数据
-		$("#"+datagridId).datagrid('updateRow',{
-			index: rowIndex,
-			row: newData[i]
-		});
-		//刷新行
-		$("#"+datagridId).datagrid('refreshRow',rowIndex);
+//		rowIndex = $("#"+datagridId).datagrid('getRowIndex',newData[i]);
+//		//更新行数据
+//		$("#"+datagridId).datagrid('updateRow',{
+//			index: rowIndex,
+//			row: newData[i]
+//		});
+//		//刷新行
+//		$("#"+datagridId).datagrid('refreshRow',rowIndex);
 	}
+	$("#"+datagridId).datagrid({data:newData})
 }
 
 //打印的数据
