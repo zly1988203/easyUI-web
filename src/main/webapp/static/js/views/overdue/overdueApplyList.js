@@ -89,11 +89,20 @@ function orderDelete(){
 		 $.messager.alert('提示','请选中一行进行删除！');
 		return null;
 	}
+	var checkFlag = false; //审核标示
+	
+
 	 var formIds='';
 	    $.each(rows,function(i,v){
 	    	formIds+=v.id+",";
+	    	if(rows[i].status == '1'){
+				checkFlag = true;
+			}
 	    });
-	
+	    if(checkFlag){
+			$.messager.alert("提示","不能删除已审核的单据！");
+			return;
+		}
 	$.messager.confirm('提示','是否要删除选中数据',function(data){
 		if(data){
 			$.ajax({

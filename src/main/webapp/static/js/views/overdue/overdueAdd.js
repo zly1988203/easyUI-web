@@ -369,6 +369,7 @@ function saveItemHandel(){
     var isChcekPrice = false;
     var isChcekNum = false;
     var isApplyDesc =false;
+    var isCheckAmount=false;
     $.each(rows,function(i,v){
         v["rowNo"] = i+1;
         if(!v["skuName"]){
@@ -376,11 +377,14 @@ function saveItemHandel(){
             isCheckResult = false;
             return false;
         };
-        if(parseFloat(v["applyPrice"])<=0){
+        if(!v["applyPrice"] || parseFloat(v["applyPrice"])<0){
             isChcekPrice = true;
         }
+        if(!v["applyAmount"] || parseFloat(v["applyAmount"])<0){
+            isCheckAmount = true;
+        }
         //数量判断
-        if(parseFloat(v["applyNum"])<=0){
+        if(!v["applyNum"] || parseFloat(v["applyNum"])<=0){
         	isChcekNum = true;
         }
         if (v["applyDesc"].replace(/(^s*)|(s*$)/g, "").length ==0){
@@ -389,7 +393,7 @@ function saveItemHandel(){
     });
     if(isCheckResult){
     	
-        if(isChcekPrice){
+       /* if(isChcekPrice){
             $.messager.confirm('系统提示',"单价存在为0，重新修改",function(r){
                 if (r){
                     return ;
@@ -397,7 +401,7 @@ function saveItemHandel(){
                 	 saveDataHandel(rows);
                 }
             });
-        }else{
+        }else{*/
         	if(isChcekNum){
        		/* $.messager.confirm('提示','存在数量为0的商品,是否继续保存?',function(data){
        			if(data){
@@ -407,10 +411,15 @@ function saveItemHandel(){
         		messager("存在数量为0的商品,不能保存！");
          	}else if(isApplyDesc){
         		messager("存在商品没有申请说明,不能保存,请填写申请说明！");
-        	}else{
+        	}else if(isChcekPrice){
+        		messager("存在单价为0的商品,不能保存！");
+        	}else if(isCheckAmount){
+        		messager("金额存在为空，请重新修改！");
+        	}
+        	else{
          		saveDataHandel(rows);
          	}
-        }
+        //}
     }
 }
 
