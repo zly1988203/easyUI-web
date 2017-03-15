@@ -65,7 +65,7 @@
 				</div>
 				<!--input-checkbox-->
 				<div class="ub ub-ac uw-300">
-					<div class="umar-r10 uw-70 ut-r">单据状态:</div>
+					<div class="umar-r10 uw-70 ut-r">审核状态:</div>
 					<div class="ub ub-ac umar-r10">
 						<input class="ub radioItem" type="radio" name="status" value="0" checked="checked" /><span>未审核</span>
 					</div>
