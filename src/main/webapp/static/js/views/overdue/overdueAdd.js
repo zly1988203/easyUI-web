@@ -380,10 +380,10 @@ function saveItemHandel(){
             isCheckResult = false;
             return false;
         };
-        if(!v["applyPrice"] || parseFloat(v["applyPrice"])<0){
+        if(!/^\d+(\.\d+)?$/.test(v["applyPrice"]) || parseFloat(v["applyPrice"])<0){
             isChcekPrice = true;
         }
-        if(!v["applyAmount"] || parseFloat(v["applyAmount"])<0){
+        if(!/^\d+(\.\d+)?$/.test(v["applyAmount"]) || parseFloat(v["applyAmount"])<0){
             isCheckAmount = true;
         }
         //数量判断
@@ -415,7 +415,7 @@ function saveItemHandel(){
          	}else if(isApplyDesc){
         		messager("存在商品没有申请说明,不能保存,请填写申请说明！");
         	}else if(isChcekPrice){
-        		messager("存在单价为0的商品,不能保存！");
+        		messager("存在单价为空的商品,不能保存！");
         	}else if(isCheckAmount){
         		messager("金额存在为空，请重新修改！");
         	}

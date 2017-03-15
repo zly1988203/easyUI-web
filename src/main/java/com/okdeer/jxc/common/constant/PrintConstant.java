@@ -161,5 +161,14 @@ public interface PrintConstant {
 	 */
 	String OVERDUE_APPLY_REPORT ="overdueApply.jrxml";
 	
+	/**
+	 * @Fields OVERDUE_APPROVED_REPORT : 调价订单申请打印
+	 */
 	String OVERDUE_APPROVED_REPORT ="overdueApproved.jrxml";
+	
+	/**
+	 * @Fields OVERDUE_APPROVED_REPORT_DETAIL : 调价订单申请详情打印
+	 */
+	String OVERDUE_APPROVED_REPORT_DETAIL ="overdueApprovedDetail.jrxml";
+
 }
