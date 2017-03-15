@@ -469,7 +469,7 @@ function resetGuideData(){
 	$("#guideDatew").numberbox('setValue',15);
 }
 
-function stopGuide(){
+function stopGuide(obj){
 	if($(obj).hasClass('ubtns-item-disabled'))return;
 	resetStopGuideData();
 	

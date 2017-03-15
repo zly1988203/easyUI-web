@@ -283,6 +283,11 @@ public class RoleController extends BaseController<RoleController> {
 			if (StringUtils.isBlank(data)) {
 				return RespJson.error("数据异常!");
 			}
+			
+			// 总部不允许修改
+			if (SysConstant.ROLE_HEAD_QUARTERS_ID.equals(roleId)) {
+				return RespJson.businessError("总部管理员不允许修改！");
+			}
 
 			// 如果是系统初始化管理员，则只允许 总部管理员修改
 			if (SysHelper.isInitialRole(roleId) && !SysHelper.isSuperAdmin(getCurrUserId())) {

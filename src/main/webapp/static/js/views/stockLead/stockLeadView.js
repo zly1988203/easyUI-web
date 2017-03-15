@@ -98,6 +98,7 @@ function getFiledsList(){
 		                    options:{
 		                        precision:4,
 		                        min:0,
+		                        max:999999.99,
 		                        onChange: onChangeRealNum,
 		                    }
 		                },
@@ -124,6 +125,7 @@ function getFiledsList(){
 		                    options:{
 		                        precision:4,
 		                        min:0,
+		                        max:999999.99,
 		                        onChange: totleChangePrice,
 		                    }
 		                },

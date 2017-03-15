@@ -17,10 +17,10 @@
                         <div class="ub ub-ac upad-10 ">
                             <div class="ub ub-ac uw">
                                 <div class="umar-r10">关键字:</div>
-                            	<input type="hidden" id="deliverFormType" value="${vo.formType}"/>
-                            	<input type="hidden" id="branchId" value="${vo.branchId}"/>
-                            	<input type="hidden" id="branchType" value="${vo.branchType}"/>
-                                <input name="search" class="usearch uinp ub ub-f1" type="text" id="nameOrCode">
+                            	<input type="hidden" name="deliverFormType" value="${vo.formType}" />
+                            	<input type="hidden" name="branchId" value="${vo.branchId}" />
+                            	<input type="hidden" name="branchType" value="${vo.branchType}" />
+                                <input name="nameOrCode" class="usearch uinp ub ub-f1" type="text" />
                                 <div class="ubtn umar-l20 umar-r10"  onclick="agencySearch()">查询</div>
                                 <div class="ub ub-ac ">
                                   <!--   <input class="ub" type="checkbox" name="hideAgency" checked="checked"/><span>不显示仓库</span> -->

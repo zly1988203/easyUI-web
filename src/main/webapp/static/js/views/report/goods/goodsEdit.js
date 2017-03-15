@@ -193,10 +193,11 @@ function submitForm(){
 		type : "POST",
 		data : formObj,
 		success : function(result) {
+			$('#btnSave').removeAttr("disabled");
 			if(result){
 				successTip("保存成功");
 			}else{
-				$('#btnSave').removeAttr("disabled");
+				//$('#btnSave').removeAttr("disabled");
 				successTip("保存失败");
 			}
 		},

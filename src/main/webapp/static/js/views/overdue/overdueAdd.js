@@ -10,8 +10,11 @@ function initConditionParams(){
 	$("#createTime").html(new Date().format('yyyy-MM-dd hh:mm'));
 	
 	 //初始化机构ID，机构名称
-    $("#branchId").val(sessionBranchId);
-	$("#branchName").val(sessionBranchCodeName);
+    if(sessionBranchType!=1){
+    	 $("#branchId").val(sessionBranchId);
+    	 $("#branchName").val(sessionBranchCodeName);
+    }
+	
 	
 	//设置默认供应商信息
 	$("#supplierId").val(sessionSupplierId);
@@ -171,7 +174,7 @@ var m = 0;
 //监听商品箱数
 function onChangeLargeNum(newV,oldV){
 	if("" == newV){
-		 messager("商品箱数输入有误");
+		 messager("商品数量输入有误");
 		 gridHandel.setFieldValue('applyNum',oldV); 
 	     return;
 	}
@@ -283,7 +286,7 @@ function selectGoods(searchKey){
     }
     var branchId = $("#branchId").val();
     if(!branchId){
-    	messager("请先选择收货机构");
+    	messager("请先选择申请机构");
         return;
     }
     
@@ -369,6 +372,7 @@ function saveItemHandel(){
     var isChcekPrice = false;
     var isChcekNum = false;
     var isApplyDesc =false;
+    var isCheckAmount=false;
     $.each(rows,function(i,v){
         v["rowNo"] = i+1;
         if(!v["skuName"]){
@@ -376,11 +380,14 @@ function saveItemHandel(){
             isCheckResult = false;
             return false;
         };
-        if(parseFloat(v["applyPrice"])<=0){
+        if(!v["applyPrice"] || parseFloat(v["applyPrice"])<0){
             isChcekPrice = true;
         }
+        if(!v["applyAmount"] || parseFloat(v["applyAmount"])<0){
+            isCheckAmount = true;
+        }
         //数量判断
-        if(parseFloat(v["applyNum"])<=0){
+        if(!v["applyNum"] || parseFloat(v["applyNum"])<=0){
         	isChcekNum = true;
         }
         if (v["applyDesc"].replace(/(^s*)|(s*$)/g, "").length ==0){
@@ -389,7 +396,7 @@ function saveItemHandel(){
     });
     if(isCheckResult){
     	
-        if(isChcekPrice){
+       /* if(isChcekPrice){
             $.messager.confirm('系统提示',"单价存在为0，重新修改",function(r){
                 if (r){
                     return ;
@@ -397,7 +404,7 @@ function saveItemHandel(){
                 	 saveDataHandel(rows);
                 }
             });
-        }else{
+        }else{*/
         	if(isChcekNum){
        		/* $.messager.confirm('提示','存在数量为0的商品,是否继续保存?',function(data){
        			if(data){
@@ -407,10 +414,15 @@ function saveItemHandel(){
         		messager("存在数量为0的商品,不能保存！");
          	}else if(isApplyDesc){
         		messager("存在商品没有申请说明,不能保存,请填写申请说明！");
-        	}else{
+        	}else if(isChcekPrice){
+        		messager("存在单价为0的商品,不能保存！");
+        	}else if(isCheckAmount){
+        		messager("金额存在为空，请重新修改！");
+        	}
+        	else{
          		saveDataHandel(rows);
          	}
-        }
+        //}
     }
 }
 

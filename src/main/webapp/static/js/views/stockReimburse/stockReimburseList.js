@@ -58,7 +58,7 @@ function initDatagridRequire() {
 								},
 								{
 									field : 'status',
-									title : '状态',
+									title : '审核状态',
 									width : '100px',
 									align : 'left',
 									formatter : function(value, row, index) {
