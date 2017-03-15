@@ -216,6 +216,12 @@ function publicRoleService(callback, branchCompleCode, branchType){
 
 //公共组件-机构选择
 function publicAgencyService(callback,formType,branchId, branchType){
+	if(!formType){
+		formType="";
+	}
+	if(!branchId){
+		branchId="";
+	}
 	if(!branchType){
 		branchType="";
 	}
