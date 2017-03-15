@@ -10,8 +10,11 @@ function initConditionParams(){
 	$("#createTime").html(new Date().format('yyyy-MM-dd hh:mm'));
 	
 	 //初始化机构ID，机构名称
-    $("#branchId").val(sessionBranchId);
-	$("#branchName").val(sessionBranchCodeName);
+    if(sessionBranchType!=1){
+    	 $("#branchId").val(sessionBranchId);
+    	 $("#branchName").val(sessionBranchCodeName);
+    }
+	
 	
 	//设置默认供应商信息
 	$("#supplierId").val(sessionSupplierId);
@@ -171,7 +174,7 @@ var m = 0;
 //监听商品箱数
 function onChangeLargeNum(newV,oldV){
 	if("" == newV){
-		 messager("商品箱数输入有误");
+		 messager("商品数量输入有误");
 		 gridHandel.setFieldValue('applyNum',oldV); 
 	     return;
 	}
@@ -283,7 +286,7 @@ function selectGoods(searchKey){
     }
     var branchId = $("#branchId").val();
     if(!branchId){
-    	messager("请先选择收货机构");
+    	messager("请先选择申请机构");
         return;
     }
     

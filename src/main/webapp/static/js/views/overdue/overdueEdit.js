@@ -200,7 +200,7 @@ $(function(){
 	//监听商品箱数
 	function onChangeLargeNum(newV,oldV){
 		if("" == newV){
-			 messager("商品箱数输入有误");
+			 messager("商品数量输入有误");
 			  gridHandel.setFieldValue('applyNum',oldV); 
 		     return;
 		}
@@ -551,8 +551,11 @@ $(function(){
 			    	success:function(result){
 			    		console.log(result);
 			    		if(result['code'] == 0){
-			    			messager("操作成功");
-			    			toClose();
+			    			/*messager("操作成功");
+			    			toClose();*/
+			    			$.messager.alert("操作提示", "操作成功！", "info",function(){
+			                     location.href = contextPath +"/form/overdue/add/";
+			                 });
 			    		}else{
 			    			successTip(result['message']);
 			    		}
@@ -665,7 +668,7 @@ $(function(){
 
 	function exportDetail(){
 		var formId = $("#formId").val();
-		window.location.href = contextPath + '/form/overdue/exports?id='+formId;
+		window.location.href = contextPath + '/form/overdue/exports?id='+formId+'&formNo='+$("#formNo").val();
 	}
 	
 	var commit = function(){
