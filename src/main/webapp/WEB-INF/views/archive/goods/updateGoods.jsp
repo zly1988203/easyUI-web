@@ -283,7 +283,7 @@ pageEncoding="UTF-8"%>
 						<div class="umar-r10 uw-60 ut-r">安全库存系数:</div>
 						<input id="safetyCoefficient" name="safetyCoefficient" value='0.00' style="width: 204px;"
 							    class="uinp uinp-no-more easyui-numberbox easyui-validatebox"
-							   data-options="min:0,precision:2,validType:['length[0,18]']" type="text" maxlength="4"
+							   data-options="min:0.1,precision:2,max:999.9,validType:['length[0,18]']" type="text" maxlength="4"
 							   >
 					</div>
 				 	

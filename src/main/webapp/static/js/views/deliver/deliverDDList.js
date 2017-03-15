@@ -4,9 +4,25 @@
  */
 $(function(){
 	//开始和结束时间
-	toChangeDatetime(0);
+	/*toChangeDatetime(0);*/
+	
+	
     initDatagridRequireOrders();
     sourceBranchId = $("#sourceBranchId").val();
+    
+ // 开始和结束时间
+	if(!$("#txtStartDate").val()){
+		// 开始和结束时间
+		$("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd hh:mm"));
+		$("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd hh:mm"));
+	    $("#categoryTypeDiv").hide();
+		$("#categoryType").combobox("disable");
+		
+	}else{
+		flushFlg = true;
+		$('input:radio[name=searchType]')[0].checked = true;
+		$('input:radio[name=searchType]')[0].click();
+	}
 });
 
 $(document).on('input','#remark',function(){
@@ -42,7 +58,7 @@ var sourceBranchId;
 var gridHandel = new GridClass();
 //初始化表格
 function initDatagridRequireOrders(){
-	var updatePermission = $("#updatePermission").html().trim();
+	var updatePermission = $("#updatePermission").html()?$("#updatePermission").html().trim() :'';
     $("#deliverFormList").datagrid({
         //title:'普通表单-用键盘操作',
         method:'post',
@@ -123,9 +139,22 @@ function delDeliverForm(){
 	var dg = $("#deliverFormList");
 	var row = dg.datagrid("getChecked");
 	var ids = [];
+	if(row.length <= 0){
+		$.messager.alert("提示","请先选择数据！");
+		return;
+	}
+	var checkFlag = false; //审核标示
 	for(var i=0; i<row.length; i++){
 		ids.push(row[i].deliverFormId);
+		if(row[i].status == '审核通过'){
+			checkFlag = true;
+		}
 	}
+	if(checkFlag){
+		$.messager.alert("提示","不能删除已审核的单据！");
+		return;
+	}
+	
 	if(rowIsNull(row)){
 		return null;
 	}

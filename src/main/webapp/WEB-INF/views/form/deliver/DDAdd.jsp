@@ -85,7 +85,7 @@
                    <div class="utxt"></div>
                </div>
                <div class="ub ub-ac umar uw-300">
-                   <div class="umar-r10 uw-70 ut-r">修改时间:</div>
+                   <div class="umar-r10 uw-60 ut-r">修改时间:</div>
                    <div class="utxt"></div>
                </div>
               
