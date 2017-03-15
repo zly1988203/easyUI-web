@@ -18,8 +18,8 @@ function initDgTakeStockApply(){
 			{field: 'batchNo', title: '盘点批号', width: 100, align: 'left'},
 			{field: 'createTime', title: '申请时间', width: 100, align: 'left'},
 			{field: 'branchName', title: '机构', width: 180, align: 'left'},
-			{field: 'createUserName', title: '操作员', width: 100, align: 'left'},
-			{field: 'scope', title: '盘点范围', width: 100, align: 'left',formatter:function(value,row,index){
+			{field: 'createUserName', title: '操作员', width: 80, align: 'left'},
+			{field: 'scope', title: '盘点范围', width: 80, align: 'left',formatter:function(value,row,index){
             	if(value == '0'){
             		return '全场盘点';
             	}else if(value == '1'){
@@ -28,7 +28,7 @@ function initDgTakeStockApply(){
             		return '未知类型：'+ value;
             	}
             }},
-			{field: 'categoryShowsStr', title: '类别', width: 120, align: 'left'},
+			{field: 'categoryShowsStr', title: '类别', width: 150, align: 'left'},
 
 			{field: 'remark', title: '备注', width: 180, align: 'left'},
 		]],

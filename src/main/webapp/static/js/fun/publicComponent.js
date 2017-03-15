@@ -1079,7 +1079,7 @@ function GridClass(){
         var newRows = [];
         $.each(rows,function(i,row){
             $.each(argWhere,function(key,val){
-                if(row[key]){
+                if(row[key]=== val){
                     newRows.push(row);
                 }
             })

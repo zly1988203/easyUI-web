@@ -3,6 +3,7 @@ var isdisabled = false;
 var url;
 var operateStatus = 'add';
 var oldData;
+var isSingleSelect = false;
 $(function(){
 	
 	$("#addbranchName").val(sessionBranchName);
@@ -23,10 +24,15 @@ $(function(){
 	}else if(operateStatus === '1'){
 		url = contextPath +"/stocktaking/diffDispose/stocktakingDifferenceList?batchId=" + batchId;
 		isdisabled = true;
+        isSingleSelect = true;
 		$('#already-examine').css('display','block');
-		$('#btnCheck').css('display','none');
-        $('#btnSave').css('display','none');
-        $('#btndelete').css('display','none');
+		$('#btnCheck').addClass('uinp-no-more');
+        $('#btnCheck').prop('disabled','disabled ')
+        $('#btnSave').addClass('uinp-no-more');
+        $('#btnSave').prop('disabled','disabled ')
+        $('#btndelete').addClass('uinp-no-more');
+        $('#btndelete').prop('disabled','disabled ')
+        $("#"+gridName).prop("readOnly",'readOnly')
 	}
 	initOperateDataGrid();
  }
@@ -57,16 +63,18 @@ function initOperateDataGrid(){
         method:'get',
     	url:url,
         align:'center',
-        singleSelect:false,  // 单选 false多选
+        singleSelect:isSingleSelect,  // 单选 false多选
         rownumbers:true,    // 序号
         showFooter:true,
+        pageSize:10000,
+        view:scrollview,
         height:'100%',
         width:'100%',
         columns:[[
 			{field:'handle',checkbox:true,hidden:isdisabled,
 			    formatter : function(value, row,index) {
-			        return true;
-			    }
+			        return value;
+			    },
 			},
             {field:'skuId',hidden:'true'},
             {field:'barCode',hidden:'true'},
@@ -115,14 +123,14 @@ function initOperateDataGrid(){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
 			},
-            {field:'differenceReason',title:'差异原因',width:'200px',align:'left',
+            {field:'differenceReason',title:'差异原因',width:'250px',align:'left',
             	editor:{
 	                type:'textbox',
 	                options:{
 	                	disabled:isdisabled,
 	                }
             	}},
-            {field:'snapshootCostPrice',title:'原库存成本价',width:'200px',align:'right',
+            {field:'snapshootCostPrice',title:'原库存成本价',width:'150px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -133,7 +141,7 @@ function initOperateDataGrid(){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
 			},
-            {field:'costAmount',title:'原库存金额（成本价）',width:'200px',align:'right',
+            {field:'costAmount',title:'原库存金额（成本价）',width:'150px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -144,7 +152,7 @@ function initOperateDataGrid(){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
 			},
-            {field:'stocktakingCostAmount',title:'盘点金额（成本价）',width:'200px',align:'right',
+            {field:'stocktakingCostAmount',title:'盘点金额（成本价）',width:'150px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -155,7 +163,7 @@ function initOperateDataGrid(){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
 			},
-            {field:'profitLossCostAmount',title:'盈亏金额（成本价）',width:'200px',align:'right',
+            {field:'profitLossCostAmount',title:'盈亏金额（成本价）',width:'150px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -166,7 +174,7 @@ function initOperateDataGrid(){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
 			},
-            {field:'profitLossSaleAmount',title:'盈亏金额（售价）',width:'200px',align:'right',
+            {field:'profitLossSaleAmount',title:'盈亏金额（售价）',width:'150px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -178,6 +186,12 @@ function initOperateDataGrid(){
                 },
 			},
         ]],
+        rowStyler:function(rowIndex,rowData){
+            if(operateStatus != '1') return;
+            if(rowData.handle === '1'){
+                return  'background-color:pink;';
+            }
+        },
         onCheck:function(rowIndex,rowData){
         	rowData.handle = '1';
         },
@@ -185,13 +199,14 @@ function initOperateDataGrid(){
         	rowData.handle = '0';
         },
         onClickCell:function(rowIndex,field,value){
+            if(operateStatus === '1') return;
             gridHandel.setBeginRow(rowIndex);
             gridHandel.setSelectFieldName(field);
             var target = gridHandel.getFieldTarget(field);
             if(target){
                 gridHandel.setFieldFocus(target);
             }else{
-                gridHandel.setSelectFieldName("skuCode");
+                gridHandel.setSelectFieldName("differenceReason");
             }
         },
         onLoadSuccess:function(data){
@@ -200,12 +215,15 @@ function initOperateDataGrid(){
             		return $.extend(true,{},obj);//返回对象的深拷贝
             	});
             }
-        	var rowData = data.rows;  
-            $.each(rowData,function(idx,val){//遍历JSON  
-                  if(val.handle==='1'){  
-                    $("#"+gridName).datagrid("selectRow", idx);//如果数据行为已选中则选中改行  
-                  }  
-            }); 
+            if(operateStatus === '0'){
+                var rowData = data.rows;
+                $.each(rowData,function(idx,val){//遍历JSON
+                    if(val.handle==='1'){
+                        $("#"+gridName).datagrid("selectRow", idx);//如果数据行为已选中则选中改行
+                    }
+                });
+            }
+
             
             gridHandel.setDatagridHeader("center");
         
@@ -296,8 +314,21 @@ function setParams(formId){
 
 function saveDiffDispose(){
     $("#"+gridName).datagrid("endEdit", gridHandel.getSelectRowIndex());
-    var rows = gridHandel.getRowsWhere({skuName:'1'});
-    $(gridHandel.getGridName()).datagrid("loadData",rows);
+    var rows = gridHandel.getRows();
+    var newRows = [];
+    $.each(rows,function(i,row){
+            if(row['handle'] === '1' || row['differenceReason'] != null){
+                var param = {
+                    skuCode:row.skuCode,
+                    handle:row.handle,
+                    differenceReason:row.differenceReason
+                }
+                newRows.push(param);
+            }
+    });
+
+
+    // $("#"+gridName).datagrid("loadData",rows);
     if(rows.length==0){
         messager("表格不能为空");
         return;
@@ -310,11 +341,11 @@ function saveDiffDispose(){
         if(isChcekPrice){
             $.messager.confirm('系统提示',"盘点数存在为0，是否确定保存",function(r){
                 if (r){
-                    saveDataHandel(rows);
+                    saveDataHandel(newRows);
                 }
             });
         }else{
-            saveDataHandel(rows);
+            saveDataHandel(newRows);
         }
     }
 }
@@ -336,7 +367,6 @@ function saveDataHandel(rows){
         type:"POST",
         data:{"data":JSON.stringify(jsonData)},
         success:function(result){
-        	console.log('result',result);
             if(result['code'] == 0){
     			$.messager.alert("操作提示", "操作成功！", "info",function(){
     				location.href = contextPath +"/stocktaking/diffDispose/stocktakingBatchView?id="+result['batchId'];

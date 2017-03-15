@@ -19,7 +19,7 @@
     <div class="ub ub-ver ub-f1 umar-4  ubor">
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
-             	<div class="ubtns-item" onclick="toAdd()">新增</div>
+             	<div class="ubtns-item" onclick="addOperate()">新增</div>
                 <div class="ubtns-item" onclick="saveStocktakingForm(2)">保存</div>
                 <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
                 <div class="ubtns-item" onclick="importStocktakingForm(1)">导入</div>

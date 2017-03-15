@@ -42,7 +42,18 @@ function initDgTakeStockMiss(){
 			{field: 'branchName', title: '机构名称', width: 180, align: 'left'},
 			{field: 'skuCode', title: '货号', width: 100, align: 'left'},
 			{field: 'skuName', title: '商品名称', width: 180, align: 'left'},
-			{field: 'snapshootStock', title: '系统库存', width: 120, align: 'left'},
+			{field: 'snapshootStock', title: '系统库存', width: 120, align: 'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return;
+                    }
+
+                    if(!row.snapshootStock){
+                        row.snapshootStock = parseFloat(value||0).toFixed(2);
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+			},
 			{field: 'categoryCode', title: '类别编号', width: 100, align: 'left'},
 			{field: 'categoryName', title: '类别名称', width: 150, align: 'left'}
 		]],
@@ -63,7 +74,7 @@ function queryForm(){
 }
 
 function gFunRefresh(){
-	 
+    $("#queryForm").form('clear');
 }
 
 /**

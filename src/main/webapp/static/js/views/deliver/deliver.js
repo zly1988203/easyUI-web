@@ -10,9 +10,9 @@ var gridDefault = {
 var url = "";
 var oldData = {};
 var gridName = "gridRequireOrder";
-
+var deliverStatus = "add"
 $(function(){
-	var deliverStatus = $('#deliverStatus').val();
+    deliverStatus = $('#deliverStatus').val();
 	if(deliverStatus === 'add'){
 		  $("#createTime").html(new Date().format('yyyy-MM-dd hh:mm')); 
 		  initDatagridRequireOrder();
@@ -333,8 +333,9 @@ function initDatagridRequireOrder(){
         	if(deliverStatus==='edit'){
                 if(!oldData["grid"]){
                 	oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
-                		return $.extend(true,{},obj);//返回对象的深拷贝
-                	});
+                        return $.extend(true,{},obj);//返回对象的深拷贝
+                    });
+
                 }
         	}
 
@@ -571,10 +572,6 @@ function setDataValue(data) {
         var isCheck ={isGift:1 };   //只要是赠品就可以重复
         var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
         $("#"+gridName).datagrid("loadData",newRows);
-
-        oldData["grid"] = $.map(rows, function(obj){
-            return $.extend(true,{},obj);//返回对象的深拷贝
-        });
 }
 
 //查询价格、库存
@@ -732,11 +729,13 @@ function check(){
         validityTime:$("#validityTime").val(),      //生效日期
         remark:$("#remark").val(),                  // 备注
         formNo:$("#formNo").val(),                 // 单号
-        grid:gridHandel.getRows(),
+        grid: $.map(gridHandel.getRows(), function(obj){
+            return $.extend(true,{},obj);//返回对象的深拷贝
+        })
     }
 
     if(!gFunComparisonArray(oldData,newData)){
-        messager("数据已修改，请先保存再审核");
+        messager("数据有修改，请先保存再审核");
         return;
     }
 	$.messager.confirm('提示','是否审核通过？',function(data){

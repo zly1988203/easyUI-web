@@ -112,6 +112,7 @@ function searchCategory(){
 			categoryIds.push(item.goodsCategoryId);
 			categorytxt.push(item.categoryCode);
 		})
+
 		$("#categoryIds").val(categoryIds);
 		$("#categoryShows").val(categorytxt) ;
 		
