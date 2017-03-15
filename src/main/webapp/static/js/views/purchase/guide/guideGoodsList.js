@@ -171,7 +171,7 @@ function lastStep(){
 //下一步
 function nextStep (){
 	
-	 var rows = gridHandel.getRowsWhere({skuName:'1'});
+	 var rows = gridHandel.getRows();
 	 var gridRows = [];
 	 $.each(rows,function(i,data){
 		 var param = {
@@ -190,6 +190,11 @@ function nextStep (){
 		 }
 		 gridRows[i] = param;
 	 });
+	 
+	 if(gridRows.length==0){
+		 successTip("商品数据为空!");
+		 return;
+	 }
 	 
     $.ajax({
         url:contextPath+"/form/purchaseGuide/generFormList",
