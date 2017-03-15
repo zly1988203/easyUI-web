@@ -115,14 +115,14 @@
 	                </c:if>
 				</div>
 				<div class="ub ub-ac umar-t10 ">
-	                <input class="ub radioItem umar-r8" type="radio" name="guideChoose"  value=0 checked="checked"/><span>选择已经停购，且库存为0的商品。</span>
+	                <input class="ub radioItem umar-r8" type="radio" name="guideChoose"  value=0 checked="checked"/><span>选择已经停售，且库存为0的商品。</span>
 				</div>
 				<div class="ub ub-ac umar-t10 ">
 	                <input class="ub radioItem umar-r8" type="radio" name="guideChoose"  value=1 /><span>选择主档已经停购或淘汰且库存为0的商品。</span>
 				</div>
 				<div class="ub ub-ac umar-t10 ">
-	                <input class="ub radioItem umar-r8" type="radio" name="guideChoose"  value=2 />
-	                <input class="uinp easyui-numberbox" data-options="min:0,max:999,value:15"  style="width:100px;" id="guideDatew" name="guideDate" type="text" > 天内未产生销售，且库存为0的商
+	                <input class="ub radioItem umar-r8" type="radio" name="guideChoose"  value=2 />选择
+	                <input class="uinp easyui-numberbox" data-options="min:0,max:999,value:15"  style="width:100px;" id="guideDatew" name="guideDate" type="text" > 天内未产生销售，且库存为0的商品。
 				</div>
 			</div>
 			
@@ -160,7 +160,7 @@
 	                <input class="uinp easyui-numberbox umar-l4" data-options="min:0,max:999" style="width:100px;" id="stGuideDate" name="stGuideDate" type="text" value="15" > 
 	                                                天内销售数量小于
 	                <input class="uinp easyui-numberbox umar-l4" data-options="min:0,max:999" style="width:100px;" id="stGuideNum" name="stGuideNum" type="text" value="5">
-					的商品
+					的商品。
 				</div>
 				<div class="ub ub-ac umar-t10 ">
 	                <input class="ub radioItem umar-r8" type="radio" name="stGuideChoose"  value="1" /><span>选择主档已经停购或淘汰的商品。</span>
