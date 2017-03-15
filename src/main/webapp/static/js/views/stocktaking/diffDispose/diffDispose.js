@@ -358,10 +358,13 @@ function auditDiffDispose(){
 	var batchId=$("#batchId").val();
     //机构
     var branchId=$("#branchId").val();
+    //批次
+    var batchNo=$("#batchNo").val();
     
     var jsonData = {
     		id:batchId,
 			branchId:branchId,
+			batchNo:batchNo,
 			diffDetailList:rows
         };
 	$.messager.confirm('提示','是否审核通过？',function(data){
