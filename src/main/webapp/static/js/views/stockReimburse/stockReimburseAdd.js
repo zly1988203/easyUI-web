@@ -399,6 +399,11 @@ function setTion(datas){
 	return datas;
 }
 
+//新增报损单
+function addStockReimburse() {
+	toAddTab("新增报损单", contextPath + "/stock/reimburse/add");
+}
+
 // 保存
 function saveStockReimburse(){
     // 商品总数量

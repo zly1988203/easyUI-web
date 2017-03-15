@@ -70,6 +70,9 @@ function initDatagridRequire(){
 					else if(row.formType=="报损"){
 						return value 	
 					}
+					else if(row.formType=="盘点"){
+						return value 	
+					}
                }
             },
             {field:'skuCode',title: '货号', width: '55', align: 'left'},

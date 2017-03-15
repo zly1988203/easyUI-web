@@ -399,6 +399,11 @@ function setTion(datas){
 	return datas;
 }
 
+//新增领用单
+function addStockLead() {
+	toAddTab("新增领用单", contextPath + "/stock/lead/add");
+}
+
 // 保存
 function saveStockLead(){
     // 商品总数量
