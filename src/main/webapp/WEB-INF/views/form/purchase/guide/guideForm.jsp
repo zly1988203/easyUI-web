@@ -100,7 +100,7 @@
 				<div class="umar-r10 uw-70 ut-r"></div>
 				<label class="uc-main">按订货周期，安全库存系数与机构出库数（销售或配送）统计建议订货数据。</label>
 				<br/>
-				<label class="uc-main">订货数量＝订货周期*安全系数*MAX（上周日均销量，前周日均销量）－当前库存</label>   
+				<label class="uc-main">订货数量＝订货周期*安全系数*MAX（上周日均销量，前周日均销量）－当前库存，取进货规格整数倍（大于订货数量的值）</label>   
 			</div>
 		</div>
 		
@@ -116,7 +116,7 @@
 			<div class="umar-r10 uw-70 ut-r"></div>
 				<label class="uc-main">按各门店要货数量汇总进行采购。</label>
 				<br/>
-				<label class="uc-main">订货数量＝ 要货总数－当前库存</label>
+				<label class="uc-main">订货数量＝ 要货总数－当前库存，取进货规格整数倍（大于订货数量的值）</label>
 			</div>
 		</div>
 		
