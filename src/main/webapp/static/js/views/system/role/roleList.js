@@ -126,9 +126,10 @@ var  dalogTemp;
 function openDialog(argUrl,argTitle,argType) {
   dalogTemp = $('<div/>').dialog({
       href: argUrl,
-      top:200,
-//      width:580,
-//      height: 400,
+//      top:200,
+//      left:500,
+      width:580,
+      height: 420,
       title: argTitle,
       closable: true,
       resizable: true,
@@ -139,7 +140,7 @@ function openDialog(argUrl,argTitle,argType) {
       onLoad: function () {
 
       }
-  })
+  });
 }
 function reloadDataGrid(){
     $("#dg").datagrid('reload');
