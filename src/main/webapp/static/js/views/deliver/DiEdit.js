@@ -121,6 +121,7 @@ function initDatagridEditRequireOrder(){
                 },
             },
             {field:'dealNum',hidden:true},
+            {field:'applyNum',title:'申请数量'},
             {field:'receiveNum',title:'数量',width:'80px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
@@ -525,6 +526,7 @@ function saveOrder(){
     		spec : data.spec,
     		rowNo : data.rowNo,
     		dealNum : data.dealNum,
+    		applyNum : data.applyNum,
     		receiveNum : data.receiveNum,
     		largeNum : data.largeNum,
     		price : data.price,
