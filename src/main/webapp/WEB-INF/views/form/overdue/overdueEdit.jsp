@@ -50,6 +50,9 @@
             <shiro:hasPermission name="JxcOverdueApply:audit">
 		      		<div class="ubtns-item" onclick="check()" >审核</div>
             </shiro:hasPermission>
+            <shiro:lacksPermission name="JxcOverdueApply:audit">
+            		<div class="ubtns-item-disabled" >审核</div>
+            </shiro:lacksPermission>
              <c:choose>
 		      	<c:when test="${form.status == 0}">
 		      		<div class="ubtns-item-disabled">商品选择</div>
@@ -59,7 +62,8 @@
 		      	</c:otherwise>
 		      </c:choose>
              
-                <div class="ubtns-item" onclick="toImportproduct(0)">导入</div>
+                <div class="ubtns-item" onclick="toImportproduct(0)">导入货号</div>
+                <div class="ubtns-item" onclick="toImportproduct(1)">导入条码</div>
                 <div class="ubtns-item" onclick="exportDetail();">导出</div>
             <shiro:hasPermission name="JxcPurchaseOrder:print">
                 <div class="ubtns-item" onclick="printReport()">打印</div>

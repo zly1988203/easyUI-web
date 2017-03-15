@@ -590,13 +590,13 @@ $(function(){
 	function toImportproduct(type){
 	    var branchId = $("#branchId").val();
 	    if(!branchId){
-	        messager("请先选择收货机构");
+	        messager("请先选择机构");
 	        return;
 	    }
 	    var param = {
 	        url:contextPath+"/form/overdue/import/list",
 	        tempUrl:contextPath+"/form/overdue/export/templ",
-	        type:0,
+	        type:type,
 	        branchId:branchId
 	    };
 	    new publicUploadFileService(function(data){
@@ -609,10 +609,10 @@ $(function(){
 		   // var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
 		    //var addDefaultData  = gridHandel.addDefault(data,gridDefault);
 	        $.each(data,function(i,val){
-	        	data[i]["remark"] = "";
-	            data[i]["realNum"]=data[i]["realNum"]||0;
-	            data[i]["largeNum"]  = (parseFloat(data[i]["realNum"]||0)/parseFloat(data[i]["purchaseSpec"])).toFixed(4);
-	            data[i]["amount"]  = parseFloat(data[i]["purchasePrice"]||0)*parseFloat(data[i]["realNum"]||0);
+	        	data[i]["applyDesc"] = "";
+	            data[i]["applyNum"]=data[i]["applyNum"]||0;
+	            data[i]["applyPrice"]=data[i]["applyPrice"]||0;
+	            data[i]["applyAmount"]  = parseFloat(data[i]["applyPrice"]||0)*parseFloat(data[i]["applyNum"]||0);
 	        });
 		    var keyNames = {
 		        purchasePrice:'price',
@@ -692,14 +692,14 @@ $(function(){
 		            isCheckResult = false;
 		            return false;
 		        };
-		        if(!v["applyPrice"] || parseFloat(v["applyPrice"])<0){
+		        if(!/^\d+(\.\d+)?$/.test(v["applyPrice"]) || parseFloat(v["applyPrice"])<0){
 		            isChcekPrice = true;
 		        }
-		        if(!v["applyAmount"] || parseFloat(v["applyAmount"])<0){
+		        if(!/^\d+(\.\d+)?$/.test(v["applyAmount"]) || parseFloat(v["applyAmount"])<0){
 		            isCheckAmount = true;
 		        }
 		        //数量判断
-		        if(!v["applyNum"] || parseFloat(v["applyNum"])<=0){
+		        if( !v["applyNum"] || parseFloat(v["applyNum"])<=0){
 		        	isChcekNum = true;
 		        }
 		        if (v["applyDesc"].replace(/(^s*)|(s*$)/g, "").length ==0){

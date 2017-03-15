@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-03-15T11:20:37 -->
+<!-- 2017-03-15T14:53:38 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PaymentOrder" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="BlankPage" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isSummaryWithPageHeaderAndFooter="true" uuid="9aa590ec-4b5f-4eaa-bb10-b5ce33e01e43">
 	<property name="ireport.zoom" value="2.253944402704733"/>
 	<property name="ireport.x" value="0"/>
@@ -27,16 +27,12 @@
 	</field>
 	<field name="validUserName" class="java.lang.String"/>
 	<background>
-		<band splitType="Stretch">
-			<line direction="BottomUp">
-				<reportElement x="573" y="-73" width="1" height="22" uuid="5c46605f-56b6-4901-a352-6759c7b432c8"/>
-			</line>
-		</band>
+		<band splitType="Stretch"/>
 	</background>
 	<pageHeader>
 		<band height="60" splitType="Stretch">
 			<staticText>
-				<reportElement x="32" y="0" width="555" height="37" uuid="67004985-6a67-486b-872e-0573a80c73c7"/>
+				<reportElement x="1" y="0" width="570" height="37" uuid="67004985-6a67-486b-872e-0573a80c73c7"/>
 				<textElement textAlignment="Center">
 					<font fontName="SansSerif" size="24" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
@@ -116,14 +112,17 @@
 	</pageHeader>
 	<columnHeader>
 		<band height="28" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<line>
-				<reportElement mode="Opaque" x="0" y="4" width="574" height="1" uuid="0c5fbd16-2ede-441d-8cf8-e90d9e98da10"/>
+				<reportElement mode="Opaque" x="0" y="4" width="573" height="1" uuid="0c5fbd16-2ede-441d-8cf8-e90d9e98da10">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
 			</line>
 			<line direction="BottomUp">
 				<reportElement x="0" y="4" width="1" height="22" uuid="bbab9f38-5ea1-4ecb-9b58-83337b778a7e"/>
 			</line>
 			<line>
-				<reportElement mode="Opaque" x="0" y="26" width="574" height="1" uuid="d077a6c0-1469-4472-96b1-440f6bd4dc07">
+				<reportElement mode="Opaque" x="0" y="26" width="573" height="1" uuid="d077a6c0-1469-4472-96b1-440f6bd4dc07">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 			</line>
@@ -191,19 +190,22 @@
 				<text><![CDATA[制单时间]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="371" y="4" width="55" height="22" uuid="c395dafe-615c-41d2-81c3-3d127ba9d5fa"/>
+				<reportElement x="367" y="4" width="60" height="22" uuid="c395dafe-615c-41d2-81c3-3d127ba9d5fa"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[审核人]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="429" y="4" width="143" height="23" uuid="7fce27fc-881d-460d-9c4b-a880a662ed3c"/>
+				<reportElement x="428" y="4" width="143" height="23" uuid="7fce27fc-881d-460d-9c4b-a880a662ed3c"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[备注]]></text>
 			</staticText>
+			<line direction="BottomUp">
+				<reportElement x="572" y="4" width="1" height="22" uuid="2f183ac1-a5af-4c27-9ac6-61e73ba72329"/>
+			</line>
 		</band>
 	</columnHeader>
 	<detail>
@@ -227,16 +229,18 @@
 				<reportElement x="365" y="-1" width="1" height="24" uuid="04e08337-5293-439b-b8b7-3437eb56dbaa"/>
 			</line>
 			<line direction="BottomUp">
-				<reportElement x="573" y="-1" width="1" height="24" uuid="c61e6334-8a51-4088-8cb1-308547cb9c04"/>
+				<reportElement x="572" y="-1" width="1" height="24" uuid="c61e6334-8a51-4088-8cb1-308547cb9c04"/>
 			</line>
 			<line direction="BottomUp">
 				<reportElement x="427" y="-2" width="1" height="25" uuid="ed74874f-68bc-45d6-9c10-0fe6c1fb14dd"/>
 			</line>
 			<line direction="BottomUp">
-				<reportElement x="0" y="-1" width="1" height="24" uuid="1ae413f9-4dea-436c-a686-8060dc2c1a2f"/>
+				<reportElement x="0" y="-2" width="1" height="24" uuid="1ae413f9-4dea-436c-a686-8060dc2c1a2f"/>
 			</line>
 			<line>
-				<reportElement mode="Opaque" x="0" y="22" width="574" height="2" uuid="584e212f-9293-4595-b163-1fa67eec9271"/>
+				<reportElement mode="Opaque" x="0" y="22" width="573" height="2" uuid="584e212f-9293-4595-b163-1fa67eec9271">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
 			</line>
 			<textField pattern="" isBlankWhenNull="true">
 				<reportElement x="0" y="0" width="73" height="22" uuid="6142ec89-b6b4-498c-831a-6c326557eee8"/>
@@ -299,9 +303,6 @@
 	</detail>
 	<pageFooter>
 		<band height="26" splitType="Stretch">
-			<line>
-				<reportElement mode="Opaque" x="0" y="-3" width="574" height="2" uuid="edf1fe62-6279-4442-8b94-7cf27f54098c"/>
-			</line>
 			<staticText>
 				<reportElement x="1" y="4" width="50" height="20" uuid="5405c490-71a9-4487-a0fb-3bb7018c279c"/>
 				<textElement verticalAlignment="Middle">

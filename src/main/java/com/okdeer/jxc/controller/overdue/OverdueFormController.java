@@ -42,6 +42,7 @@ import com.okdeer.jxc.common.constant.PrintConstant;
 import com.okdeer.jxc.common.controller.BasePrintController;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportComponent;
+import com.okdeer.jxc.common.goodselect.GoodsSelectImportHandle;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportVo;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
@@ -366,7 +367,7 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
 	if(list.size()>PrintConstant.PRINT_MAX_ROW){
 		return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
 	}
-	String path = PrintConstant.OVERDUE_APPROVED_REPORT;
+	String path = PrintConstant.OVERDUE_APPROVED_REPORT_DETAIL;
 	Map<String, Object> map = new HashMap<String, Object>();
 	map.put("endDate", DateUtils.formatDate(new Date(), DateUtils.DATE_SMALL_STR_R));
 	map.put("printName", getCurrentUser().getUserName());
@@ -405,10 +406,17 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
     }
     
     @RequestMapping(value = "/export/templ")
-    public void exportTemp(HttpServletResponse response) {
+    public void exportTemp(HttpServletResponse response,String type) {
 	try {
-	    String fileName = "调价订单货号导入模板";
-	    String templateName = ExportExcelConstant.OVERDUE_APPROVED_SKUCODE_TEMPLE;
+	    String fileName ;
+	    String templateName;
+	    if(StringUtils.equalsIgnoreCase(GoodsSelectImportHandle.TYPE_SKU_CODE, type)){
+		fileName= "调价订单货号导入模板";
+		templateName = ExportExcelConstant.OVERDUE_APPROVED_SKUCODE_TEMPLE;
+	    }else{
+		fileName= "调价订单条码导入模板";
+		templateName = ExportExcelConstant.OVERDUE_APPROVED_BARCODE_TEMPLE;
+	    }
 	    exportListForXLSX(response, null, fileName, templateName);
 	} catch (Exception e) {
 	    LOG.error("查看调价订单导入模板异常", e);
@@ -433,8 +441,13 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
 	    String fileName = file.getOriginalFilename();
 
 	    SysUser user = UserUtil.getCurrentUser();
-
-	    String[] field = new String[] { "skuCode", "applyNum", "applyPrice", "applyAmount"};
+	    
+	    String[] field;
+	    if(StringUtils.equalsIgnoreCase(GoodsSelectImportHandle.TYPE_SKU_CODE, type)){
+		field = new String[] { "skuCode", "applyNum"};
+	    }else{
+		field = new String[] { "barCode", "applyNum"};
+	    }
 
 	    GoodsSelectImportVo<GoodsSelect> vo = goodsSelectImportComponent.importSelectGoods(fileName, is, field,
 		    new OverdueFormImportVo(), branchId, user.getId(), type, "/form/overdue/download/error",
@@ -470,7 +483,9 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
 			 */
 			@Override
 			public void errorDataFormatter(List<JSONObject> list) {
-			    
+			    for (JSONObject json : list) {
+				LOG.info(json.toString());
+			    }
 			}
 		    }, null);
 	    respJson.put("importInfo", vo);
@@ -488,8 +503,15 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
     @RequestMapping(value = "/download/error")
 	public void downloadErrorFile(String code, String type, HttpServletResponse response) {
 		String reportFileName = "错误数据";
-		String[] headers = new String[] { "货号", "数量", "单价", "金额"};
-		String[] columns =  new String[] { "skuCode", "applyNum", "applyPrice", "applyAmount",};
+		String[] headers;
+		String[] columns;
+		if(StringUtils.equalsIgnoreCase(GoodsSelectImportHandle.TYPE_SKU_CODE, type)){
+			headers = new String[] { "货号", "数量"};
+			columns =  new String[] { "skuCode", "applyNum"};
+		}else{
+		    	headers = new String[] { "条码", "数量"};
+			columns =  new String[] { "barCode", "applyNum"};
+		}
 		goodsSelectImportComponent.downloadErrorFile(code, reportFileName, headers, columns, response);
 	}
     

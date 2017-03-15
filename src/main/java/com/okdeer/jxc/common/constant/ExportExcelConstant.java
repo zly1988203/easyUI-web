@@ -437,7 +437,12 @@ public interface ExportExcelConstant {
 	String OVERDUE_APPROVED_DETAIL = "overdueApprovedDetail.xlsx";
 	
 	/**
-	 * 查看调价订单货号导入模板
+	 * 查看调价订单货号导入模板 SkuCode
 	 */
-	String OVERDUE_APPROVED_SKUCODE_TEMPLE = "overdueApprovedSkucodeTemple.xlsx";
+	String OVERDUE_APPROVED_SKUCODE_TEMPLE = "overdueApprovedSkuCodeTemple.xlsx";
+	
+	/**
+	 * 查看调价订单货号导入模板Barcode
+	 */
+	String OVERDUE_APPROVED_BARCODE_TEMPLE = "overdueApprovedBarCodeTemple.xlsx";
 }
