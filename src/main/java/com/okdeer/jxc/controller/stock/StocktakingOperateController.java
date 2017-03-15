@@ -153,9 +153,6 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
-			if (StringUtils.isBlank(vo.getBranchCompleCode())) {
-				vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
-			}
 			LOG.info(LogConstant.OUT_PARAM, vo.toString());
 			PageUtils<StocktakingFormVo> StocktakingFormList = stocktakingOperateServiceApi.getStocktakingFormList(vo);
 			LOG.info(LogConstant.PAGE, StocktakingFormList.toString());

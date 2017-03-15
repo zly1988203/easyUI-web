@@ -4,6 +4,7 @@ $(function(){
 	$("#branchName").val(sessionBranchName);
 	$("#branchId").val(sessionBranchId);
 	$("#branchCompleCode").val(sessionBranchCompleCode);
+	$("#oldBranchName").val(sessionBranchName);
     //开始和结束时间
     $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
@@ -244,6 +245,12 @@ function getFiledsList(){
 
 //查询
 function queryForm(){
+	var oldBranchName = $("#oldBranchName").val();
+	var branchName = $("#branchName").val();
+	if(oldBranchName && oldBranchName != branchName){
+		$("#branchId").val('');
+		$("#branchCompleCode").val('');
+	}
 	var fromObjStr = $('#queryForm').serializeObject();
 	// 去除编码
     fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1)
@@ -266,6 +273,7 @@ function selectBranches(){
 		$("#branchId").val(data.branchesId);
 		$("#branchCompleCode").val(data.branchCompleCode);
 		$("#branchName").val(data.branchName);
+		$("#oldBranchName").val(data.branchName);
 	},'BF','');
 }
 

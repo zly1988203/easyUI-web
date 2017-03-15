@@ -245,6 +245,7 @@ function selectGoods(searchKey){
     		targetBranchId:'',
     		supplierId:'',
     		flag:'0',
+    		isManagerStock:1,
     		categoryCodes:categoryCodes
     }
     
