@@ -50,19 +50,24 @@ function initDatagridRequire(){
                 	else if(row.formType=="配送入库"){
                 		hrefStr='parent.addTab("详情","'+contextPath+'/form/deliverForm/deliverEdit?report=close&deliverFormId='+row.formId+'")';
                 		return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';			
-                    	
                 	}
 					else if(row.formType=="配送出库"){
 						hrefStr='parent.addTab("详情","'+contextPath+'/form/deliverForm/deliverEdit?report=close&deliverFormId='+row.formId+'")';  
 						return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';			
-                    	
 					}
 					else if(row.formType=="组合拆分"){
 						return value 	
 					}
 					else if(row.formType=="销售"){
 						return value 	
-					}else if(row.formType=="礼品兑换"){
+					}
+					else if(row.formType=="礼品兑换"){
+						return value 	
+					}
+					else if(row.formType=="领用"){
+						return value 	
+					}
+					else if(row.formType=="报损"){
 						return value 	
 					}
                }

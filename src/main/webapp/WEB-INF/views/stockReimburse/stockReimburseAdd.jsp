@@ -16,12 +16,24 @@
 			<div class="ub ub-ac upad-4">
 				<div class="ubtns">
 					<shiro:hasPermission name="JxcStockReimburse:add">
+						<div class="ubtns-item-disabled">新增</div>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="JxcStockReimburse:add">
 						<div class="ubtns-item" onclick="saveStockReimburse()">保存</div>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="JxcStockReimburse:audit">
+						<div class="ubtns-item-disabled">审核</div>
 					</shiro:hasPermission>
 					<div class="ubtns-item" onclick="selectGoods()">商品选择</div>
 					<shiro:hasPermission name="JxcStockReimburse:import">
 						<div class="ubtns-item" onclick="importHandel(0)">导入货号</div>
 						<div class="ubtns-item" onclick="importHandel(1)">导入条码</div>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="JxcStockReimburse:export">
+						<div class="ubtns-item-disabled">导出</div>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="JxcStockReimburse:print">
+						<div class="ubtns-item-disabled">打印</div>
 					</shiro:hasPermission>
 					<shiro:hasPermission name="JxcStockReimburse:setting">
 						<div class="ubtns-item-disabled">设置</div>
@@ -37,8 +49,7 @@
 					<input type="text" name="branchName" id="branchName"class="uinp  ub ub-f1" readonly="readonly" />
 					<div class="uinp-more" onclick="searchBranch()">...</div>
 				</div>
-				<div class="ub ub-ac uw-300 umar-l40">&nbsp;</div>
-				<div class="ub ub-ac uw-300  umar-l40">
+				<div class="ub ub-ac uw-240  umar-l20">
 					<div class="umar-r10 uw-80 ut-r">制单人员:</div>
 					<div class="utxt"><%=UserUtil.getCurrentUser().getUserName()%></div>
 				</div>
@@ -48,8 +59,11 @@
 				</div>
 			</div>
 			<div class="ub umar-t8">
-				<div class="ub ub-ac uw-600">&nbsp;</div>
-				<div class="ub ub-ac uw-300 umar-l80">
+				<div class="ub ub-ac uw-300">
+					<div class="umar-r10 uw-70 ut-r">备注:</div>
+					<input class="uinp ub ub-f1" type="text" id="remark" name="remark">
+				</div>
+				<div class="ub ub-ac uw-240 umar-l20">
 					<div class="umar-r10 uw-80 ut-r">最后修改人:</div>
 					<div class="utxt"></div>
 				</div>
@@ -59,11 +73,8 @@
 				</div>
 			</div>
 			<div class="ub umar-t8">
-				<div class="ub ub-ac uw-600">
-					<div class="umar-r10 uw-70 ut-r">备注:</div>
-					<input class="uinp ub ub-f1" type="text" id="remark" name="remark">
-				</div>
-				<div class="ub ub-ac uw-300 umar-l80">
+				<div class="ub ub-ac uw-300">&nbsp;</div>
+				<div class="ub ub-ac uw-240 umar-l20">
 					<div class="umar-r10 uw-80 ut-r">审核人员:</div>
 					<div class="utxt"></div>
 				</div>

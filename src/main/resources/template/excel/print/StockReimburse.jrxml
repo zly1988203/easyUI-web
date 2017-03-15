@@ -30,7 +30,7 @@
 				<text><![CDATA[报损单列表]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="32" y="37" width="35" height="20" uuid="963c913e-7c4b-4c33-ad8b-53074a8fc70a"/>
+				<reportElement x="13" y="37" width="35" height="20" uuid="963c913e-7c4b-4c33-ad8b-53074a8fc70a"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="SansSerif" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
@@ -79,14 +79,14 @@
 				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="140" y="37" width="22" height="20" uuid="e790b756-fef9-4dfa-b97f-e6b82c87bafe"/>
+				<reportElement x="140" y="37" width="29" height="20" uuid="e790b756-fef9-4dfa-b97f-e6b82c87bafe"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="SansSerif" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[至：]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="67" y="37" width="62" height="20" uuid="7d0db3da-a526-4336-b7c9-23c358fa7c10"/>
+				<reportElement x="48" y="37" width="92" height="20" uuid="7d0db3da-a526-4336-b7c9-23c358fa7c10"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="SansSerif" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
@@ -116,13 +116,13 @@
 				<reportElement x="554" y="4" width="1" height="22" uuid="5c46605f-56b6-4901-a352-6759c7b432c8"/>
 			</line>
 			<line direction="BottomUp">
-				<reportElement x="83" y="4" width="1" height="22" uuid="219c07dc-aa66-4ad0-b949-2beaeee42ffd"/>
+				<reportElement x="96" y="4" width="1" height="22" uuid="219c07dc-aa66-4ad0-b949-2beaeee42ffd"/>
 			</line>
 			<line direction="BottomUp">
-				<reportElement x="178" y="4" width="1" height="22" uuid="66e373a7-0ae8-4767-a878-c7c4a0aa64e0"/>
+				<reportElement x="187" y="4" width="1" height="22" uuid="66e373a7-0ae8-4767-a878-c7c4a0aa64e0"/>
 			</line>
 			<line direction="BottomUp">
-				<reportElement x="128" y="4" width="1" height="22" uuid="28e47782-d45f-4fae-b086-79418d7ce5ec"/>
+				<reportElement x="142" y="4" width="1" height="22" uuid="28e47782-d45f-4fae-b086-79418d7ce5ec"/>
 			</line>
 			<line direction="BottomUp">
 				<reportElement x="329" y="4" width="1" height="22" uuid="755aa5d0-7a25-4d7d-add0-67d242be6b69"/>
@@ -134,28 +134,28 @@
 				<reportElement x="409" y="4" width="1" height="22" uuid="2dd7414b-137d-4677-9dcd-fbede65db1cf"/>
 			</line>
 			<staticText>
-				<reportElement x="1" y="3" width="82" height="23" uuid="ef12eb2d-6501-4b99-9adb-afb7e90d777f"/>
+				<reportElement x="1" y="3" width="95" height="23" uuid="ef12eb2d-6501-4b99-9adb-afb7e90d777f"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[单据编号]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="84" y="4" width="45" height="22" uuid="c063456e-315c-4389-bfaa-3aeaf6971dce"/>
+				<reportElement x="97" y="4" width="45" height="22" uuid="c063456e-315c-4389-bfaa-3aeaf6971dce"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[审核状态]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="129" y="3" width="49" height="23" uuid="3f6289d6-3349-464a-9e87-322a4eacf686"/>
+				<reportElement x="142" y="3" width="45" height="23" uuid="3f6289d6-3349-464a-9e87-322a4eacf686"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[机构编号]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="179" y="4" width="89" height="22" uuid="d3e9f09a-a50b-4ac9-9ad1-a448c5a4b7cc"/>
+				<reportElement x="188" y="4" width="80" height="22" uuid="d3e9f09a-a50b-4ac9-9ad1-a448c5a4b7cc"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
@@ -197,13 +197,13 @@
 	<detail>
 		<band height="25" splitType="Stretch">
 			<line direction="BottomUp">
-				<reportElement x="83" y="-1" width="1" height="24" uuid="4187a7fa-a57f-4300-bcbf-ab687f3d7368"/>
+				<reportElement x="96" y="-1" width="1" height="24" uuid="4187a7fa-a57f-4300-bcbf-ab687f3d7368"/>
 			</line>
 			<line direction="BottomUp">
-				<reportElement x="128" y="-1" width="1" height="24" uuid="36bc942f-b2ad-4410-bf1c-7e1fbbb86d47"/>
+				<reportElement x="142" y="-1" width="1" height="24" uuid="36bc942f-b2ad-4410-bf1c-7e1fbbb86d47"/>
 			</line>
 			<line direction="BottomUp">
-				<reportElement x="178" y="-1" width="1" height="24" uuid="9190418c-b8fc-4919-b8ca-ad776def3144"/>
+				<reportElement x="187" y="-1" width="1" height="24" uuid="9190418c-b8fc-4919-b8ca-ad776def3144"/>
 			</line>
 			<line direction="BottomUp">
 				<reportElement x="268" y="-1" width="1" height="24" uuid="1a6c9504-3b1b-49f6-b931-4e650d853fe2"/>
@@ -239,28 +239,28 @@
 				<reportElement x="477" y="-1" width="1" height="24" uuid="38135945-d388-49b1-89a4-97eb26103035"/>
 			</line>
 			<textField isBlankWhenNull="true">
-				<reportElement x="0" y="0" width="83" height="22" uuid="6142ec89-b6b4-498c-831a-6c326557eee8"/>
+				<reportElement x="0" y="0" width="96" height="22" uuid="6142ec89-b6b4-498c-831a-6c326557eee8"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{formNo}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="84" y="-1" width="45" height="24" uuid="4248c658-09e4-4526-9913-f634254c92bc"/>
+				<reportElement x="97" y="-1" width="45" height="24" uuid="4248c658-09e4-4526-9913-f634254c92bc"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{statusPrint}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="129" y="0" width="49" height="22" uuid="00eb18d0-03ef-4754-be58-c142076e3ac9"/>
+				<reportElement x="142" y="0" width="45" height="22" uuid="00eb18d0-03ef-4754-be58-c142076e3ac9"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{branchCode}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="179" y="0" width="89" height="22" uuid="839b5d60-2eea-461b-91d2-1a10284a42b5"/>
+				<reportElement x="188" y="0" width="80" height="22" uuid="839b5d60-2eea-461b-91d2-1a10284a42b5"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
