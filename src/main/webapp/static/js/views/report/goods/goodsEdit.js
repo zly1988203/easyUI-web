@@ -256,7 +256,7 @@ function submitForm(){
 	        width:'100%',
 	        pagination:true,
 	        columns:[[			
-	            {field:'branchType',title:'机构类别',width: '120px'},
+	            {field:'branchType',title:'机构类型',width: '120px'},
                 {field:'skuId',hidden:true,title:'skuId'},
 	            {field:'skuId',hidden:true,title:'skuId'},
 	            {field:'branchCode',title:'店铺编号',width: '70px',align:'left',editor:'textbox'},
