@@ -38,8 +38,8 @@
 	        <div class="ub umar-t8">
            <div class="ub ub-ac umar-r40" style="width: 664px;">
 	                <div class="umar-r10 uw-60 ut-r">申请机构:</div>
-	                <input class="uinp" name="branchId" id="branchId" type="hidden" value='<c:out value="${form.branchId}"></c:out>'>
-	                <input class="uinp" id="branchName" name="branchName" type="text" maxlength="50" value="[${form.branchCode}]${form.branchName} " >
+	                <input class="uinp" name="branchId" id="branchId" type="hidden" value=''>
+	                <input class="uinp" id="branchName" name="branchName" type="text" maxlength="50" value="" >
 	                <div class="uinp-more" onclick="searchBranch()" style="position: inherit;margin-left: -20px;">...</div>
 	            </div>
             <div class="ub ub-ac umar-r80">

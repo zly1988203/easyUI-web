@@ -45,7 +45,6 @@ import com.okdeer.jxc.common.goodselect.GoodsSelectImportComponent;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportVo;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
-import com.okdeer.jxc.common.utils.OrderNoUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.print.JasperHelper;
 import com.okdeer.jxc.form.overdue.dto.OverdueFormDto;
@@ -81,16 +80,11 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
      */
     private static final Logger logger = LoggerFactory.getLogger(OverdueFormController.class);
 
-    private static final String PREFIX = "BA";
-    
     @Reference(version = "1.0.0", check = false)
     private OverdueFormService overdueFormService;
     
     @Reference(version = "1.0.0", check = false)
     private OverdueFormDetailService overdueFormDetailService;
-    
-    @Resource
-    private OrderNoUtils orderNoUtils;
     
     @Resource
     private GoodsSelectImportComponent goodsSelectImportComponent;
@@ -110,10 +104,7 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
     
     @RequestMapping(value = "/add")
     public ModelAndView add() {
-	Map<String, String> map = new HashMap<>();
-	SysUser user = UserUtil.getCurrentUser();
-	map.put("formNo", orderNoUtils.getExpireGoodsOrderNo(PREFIX, user.getBranchCode(), 4));
-	return new ModelAndView("form/overdue/overdueAdd",map);
+	return new ModelAndView("form/overdue/overdueAdd");
     }
     
     /**
@@ -384,12 +375,13 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
     }
     
     @RequestMapping(value = "/exports")
-    public RespJson exportList(OverdueFormVo vo,HttpServletResponse response) {
+    public RespJson export(OverdueFormVo vo,HttpServletResponse response) {
 	try {
 	    Optional<OverdueFormVo> optional = Optional.ofNullable(vo);
 		vo = optional.orElse(new OverdueFormVo());
 		vo.setPageNumber(Integer.valueOf(PAGE_NO));
 		vo.setPageSize(PrintConstant.PRINT_MAX_LIMIT);
+		vo.setDisabled(Byte.valueOf("0"));
 		// 默认当前机构
 		if (StringUtils.isBlank(vo.getBranchCode()) && StringUtils.isBlank(vo.getBranchName())) {
 		    vo.setBranchCode(getCurrBranchCompleCode());
