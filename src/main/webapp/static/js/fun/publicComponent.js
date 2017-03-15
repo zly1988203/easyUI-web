@@ -702,7 +702,7 @@ function publicGoodsServiceHandel(param,callback){
 	if(!param.branchId){
         url=contextPath + "/goods/goodsSelect/view?type="+param.type+"&sourceBranchId="+param.sourceBranchId+"&targetBranchId="+param.targetBranchId+"&supplierId="+param.supplierId+"&flag="+param.flag;
     }else if(param.categoryCodes){ //商品类别
-        url=contextPath + "/goods/goodsSelect/view?type="+param.type+"&branchId="+param.branchId+"&supplierId="+param.supplierId+"&flag="+param.flag+"&categoryCodes="+param.categoryCodes;
+    	url=contextPath + "/goods/goodsSelect/view?type="+param.type+"&branchId="+param.branchId+"&supplierId="+param.supplierId+"&flag="+param.flag+"&categoryCodes="+param.categoryCodes+"&isManagerStock="+param.isManagerStock;
     }else{
     	url=contextPath + "/goods/goodsSelect/view?type="+param.type+"&branchId="+param.branchId+"&supplierId="+param.supplierId+"&flag="+param.flag;
     }
