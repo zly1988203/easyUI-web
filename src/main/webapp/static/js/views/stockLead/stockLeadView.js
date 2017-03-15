@@ -213,7 +213,7 @@ function getFiledsList(){
 
 var gridHandel = new GridClass();
 function initDatagridStockLeadView(){
-    gridHandel.setGridName("stockLeadViewForm");
+    gridHandel.setGridName(dataGridId);
     gridHandel.initKey({
         firstName:'skuCode',
         enterName:'skuCode',

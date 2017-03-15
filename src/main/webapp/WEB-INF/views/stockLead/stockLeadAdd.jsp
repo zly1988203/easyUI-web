@@ -16,7 +16,7 @@
 			<div class="ub ub-ac upad-4">
 				<div class="ubtns">
 					<shiro:hasPermission name="JxcStockLead:add">
-						<div class="ubtns-item-disabled">新增</div>
+						<div class="ubtns-item" onclick="addStockLead()">新增</div>
 					</shiro:hasPermission>
 					<shiro:hasPermission name="JxcStockLead:add">
 						<div class="ubtns-item" onclick="saveStockLead()">保存</div>
@@ -49,7 +49,8 @@
 					<input type="text" name="branchName" id="branchName"class="uinp  ub ub-f1" readonly="readonly" />
 					<div class="uinp-more" onclick="searchBranch()">...</div>
 				</div>
-				<div class="ub ub-ac uw-240  umar-l20">
+				<div class="ub ub-ac uw-300 umar-l40">&nbsp;</div>
+				<div class="ub ub-ac uw-300  umar-l40">
 					<div class="umar-r10 uw-80 ut-r">制单人员:</div>
 					<div class="utxt"><%=UserUtil.getCurrentUser().getUserName()%></div>
 				</div>
@@ -59,11 +60,8 @@
 				</div>
 			</div>
 			<div class="ub umar-t8">
-				<div class="ub ub-ac uw-300">
-					<div class="umar-r10 uw-70 ut-r">备注:</div>
-					<input class="uinp ub ub-f1" type="text" id="remark" name="remark">
-				</div>
-				<div class="ub ub-ac uw-240 umar-l20">
+				<div class="ub ub-ac uw-600">&nbsp;</div>
+				<div class="ub ub-ac uw-300 umar-l80">
 					<div class="umar-r10 uw-80 ut-r">最后修改人:</div>
 					<div class="utxt"></div>
 				</div>
@@ -73,8 +71,11 @@
 				</div>
 			</div>
 			<div class="ub umar-t8">
-				<div class="ub ub-ac uw-300">&nbsp;</div>
-				<div class="ub ub-ac uw-240 umar-l20">
+				<div class="ub ub-ac uw-600">
+					<div class="umar-r10 uw-70 ut-r">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注:</div>
+					<input class="uinp ub ub-f1" type="text" id="remark" name="remark">
+				</div>
+				<div class="ub ub-ac uw-300 umar-l80">
 					<div class="umar-r10 uw-80 ut-r">审核人员:</div>
 					<div class="utxt"></div>
 				</div>

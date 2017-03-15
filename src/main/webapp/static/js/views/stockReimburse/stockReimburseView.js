@@ -213,7 +213,7 @@ function getFiledsList(){
 
 var gridHandel = new GridClass();
 function initDatagridStockReimburseView(){
-    gridHandel.setGridName("stockReimburseViewForm");
+    gridHandel.setGridName(dataGridId);
     gridHandel.initKey({
         firstName:'skuCode',
         enterName:'skuCode',

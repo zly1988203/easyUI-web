@@ -88,7 +88,8 @@
 					<input type="hidden" name="branchId" id="branchId" class="uinp" value="${stockFormVo.branchId}"/>
 					<input type="text" name="branchName" id="branchName"class="uinp  ub ub-f1" readonly="readonly"  value="[${stockFormVo.branchCode}]${stockFormVo.branchName}"/>
 				</div>
-				<div class="ub ub-ac uw-240  umar-l20">
+				<div class="ub ub-ac uw-300 umar-l40">&nbsp;</div>
+				<div class="ub ub-ac uw-300  umar-l40">
 					<div class="umar-r10 uw-80 ut-r">制单人员:</div>
 					<div class="utxt">${stockFormVo.createUserName}</div>
 				</div>
@@ -98,11 +99,8 @@
 				</div>
 			</div>
 			<div class="ub umar-t8">
-				<div class="ub ub-ac uw-300">
-					<div class="umar-r10 uw-70 ut-r">备注:</div>
-					<input class="uinp ub ub-f1" type="text" id="remark" name="remark" <c:if test="${stockFormVo.status != 0}">readonly</c:if>  value="${stockFormVo.remark}"/>
-				</div>
-				<div class="ub ub-ac uw-240 umar-l20">
+				<div class="ub ub-ac uw-600">&nbsp;</div>
+				<div class="ub ub-ac uw-300 umar-l80">
 					<div class="umar-r10 uw-80 ut-r">最后修改人:</div>
 					<div class="utxt">${stockFormVo.updateUserName}</div>
 				</div>
@@ -112,8 +110,11 @@
 				</div>
 			</div>
 			<div class="ub umar-t8">
-				<div class="ub ub-ac uw-300">&nbsp;</div>
-				<div class="ub ub-ac uw-240 umar-l20">
+				<div class="ub ub-ac uw-600">
+					<div class="umar-r10 uw-70 ut-r">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注:</div>
+					<input class="uinp ub ub-f1" type="text" id="remark" name="remark" <c:if test="${stockFormVo.status != 0}">readonly</c:if>  value="${stockFormVo.remark}"/>
+				</div>
+				<div class="ub ub-ac uw-300 umar-l80">
 					<div class="umar-r10 uw-80 ut-r">审核人员:</div>
 					<div class="utxt">${stockFormVo.validUserName}</div>
 				</div>
