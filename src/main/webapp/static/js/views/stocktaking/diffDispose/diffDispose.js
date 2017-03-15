@@ -76,6 +76,7 @@ function initOperateDataGrid(){
 			        return value;
 			    },
 			},
+			{field:'id',hidden:'true'},
             {field:'skuId',hidden:'true'},
             {field:'barCode',hidden:'true'},
             {field:'skuCode',title:'货号',width: '100px',align:'left',
@@ -317,14 +318,12 @@ function saveDiffDispose(){
     var rows = gridHandel.getRows();
     var newRows = [];
     $.each(rows,function(i,row){
-            if(row['handle'] === '1' || row['differenceReason'] != null){
                 var param = {
-                    skuCode:row.skuCode,
+                    id:row.id,
                     handle:row.handle,
                     differenceReason:row.differenceReason
                 }
                 newRows.push(param);
-            }
     });
 
 
@@ -394,8 +393,7 @@ function auditDiffDispose(){
     var jsonData = {
     		id:batchId,
 			branchId:branchId,
-			batchNo:batchNo,
-			diffDetailList:rows
+			batchNo:batchNo
         };
 	$.messager.confirm('提示','是否审核通过？',function(data){
 		if(data){

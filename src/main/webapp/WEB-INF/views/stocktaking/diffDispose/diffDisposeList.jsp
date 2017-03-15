@@ -37,14 +37,16 @@
 				<div class="umar-r10 uw-70 ut-r">机构:</div>
 				<input type="hidden" id="branchId" name="branchId" />
 				<input type="hidden" id="branchCompleCode" name="branchCompleCode"/>
+				<input type="hidden" id="oldBranchName" >
 				<input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" maxlength="50"/>
-				<div class="uinp-more" onclick="selectBranches()" >...</div>
+				<div class="uinp-more" onclick="selectListBranches()" >...</div>
 			</div>
 		</div>
 		<div class="ub umar-t8">
 			<div class="ub ub-ac uw-300">
 				<div class="umar-r10 uw-70 ut-r">制单人员:</div>
 				<input type="hidden" id="createUserId" name="createUserId" />
+				<input type="hidden" id="oldCreateUserName" name="oldCreateUserName" />
 				<input class="uinp ub ub-f1" type="text" id="createUserName" name="createUserName">
 				<div class="uinp-more" onclick="selectOperator()" >...</div>
 			</div>

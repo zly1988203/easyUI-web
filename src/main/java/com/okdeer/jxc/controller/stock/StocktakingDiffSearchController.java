@@ -75,9 +75,6 @@ public class StocktakingDiffSearchController extends BaseController<StocktakingD
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
-			if (StringUtils.isBlank(vo.getBranchCompleCode())) {
-				vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
-			}
 			LOG.info(LogConstant.OUT_PARAM, vo.toString());
 			PageUtils<StocktakingDifferenceVo> stocktakingBatchList = stocktakingOperateServiceApi
 					.getDiffSearchList(vo);

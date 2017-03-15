@@ -1,6 +1,7 @@
 $(function(){
 	//$("#branchCode").val(sessionBranchCode);
 	$("#branchName").val(sessionBranchName);
+	$("#oldBranchName").val(sessionBranchName);
 	$("#branchId").val(sessionBranchId);
 	$("#branchCompleCode").val(sessionBranchCompleCode);
     //开始和结束时间
@@ -22,7 +23,7 @@ function initDgTakeStockDiffDispose(){
 		width:'100%',
 		columns:[[
 			{field:'check',checkbox:true},
-			{field: 'batchNo', title: '盘点批号', width: 100, align: 'left',formatter:function(value,row,index){
+			{field: 'batchNo', title: '盘点批号', width: 200, align: 'left',formatter:function(value,row,index){
 	        	var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'差异详情\',\''+contextPath +'/stocktaking/diffDispose/stocktakingBatchView?id='+row.id+'\')">' + value + '</a>';
 	        	return strHtml;
 				}},
@@ -51,6 +52,17 @@ function initDgTakeStockDiffDispose(){
 
 //查询
 function queryForm(){
+	var oldBranchName = $("#oldBranchName").val();
+	var branchName = $("#branchName").val();
+	if(oldBranchName && oldBranchName != branchName){
+		$("#branchId").val('');
+		$("#branchCompleCode").val('');
+	}
+	var oldCreateUserName = $("#oldCreateUserName").val();
+	var createUserName = $("#createUserName").val();
+	if(oldCreateUserName && oldCreateUserName != createUserName){
+		$("#createUserId").val('');
+	}
 	var fromObjStr = $('#queryForm').serializeObject();
 	// 去除编码
     fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1)
@@ -95,11 +107,16 @@ function toDelete(){
 }
 
 //选择机构
-function selectBranches(){
+/**
+ * 机构名称
+ */
+function selectListBranches(){
 	new publicAgencyService(function(data){
 		$("#branchId").val(data.branchesId);
 		$("#branchName").val(data.branchName);
-	});
+		$("#branchCompleCode").val(data.branchCompleCode);
+		$("#oldBranchName").val(data.branchName);
+	},'BF','');
 }
 
 /**
@@ -108,7 +125,8 @@ function selectBranches(){
 function selectOperator(){
 	new publicOperatorService(function(data){
 		$("#createUserId").val(data.id);
-		$("#createUserName").val("["+data.userCode+"]"+data.userName);
+		$("#createUserName").val(data.userName);
+		$("#oldCreateUserName").val(data.userName);
 	});
 }
 
