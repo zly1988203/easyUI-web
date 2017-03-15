@@ -20,17 +20,17 @@
             <!-- <div class="ubtns-item" onclick="addDeliverForm()">新增</div>
             <div class="ubtns-item" onclick="saveOrder()">保存</div>
             <div class="ubtns-item" onclick="check()">审核</div> -->
-            	 <shiro:hasPermission name="JxcDeliverDD:add">
+            	 <shiro:hasPermission name="JxcDeliverDD:append">
             		<div class="ubtns-item" onclick="addDeliverForm()">新增</div>
             	</shiro:hasPermission>
-            	<shiro:hasPermission name="JxcDeliverDD:add">
+            	<shiro:hasPermission name="JxcDeliverDD:append">
                 	<div class="ubtns-item" onclick="saveOrder()">保存</div>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="JxcDeliverDD:audit">
                 	<div class="ubtns-item" onclick="check()">审核</div>
                 </shiro:hasPermission> 
-              <!--   <div class="ubtns-item-disabled" >终止</div>
-                <div class="ubtns-item" onclick="selectGoods()">商品选择</div> -->
+                <div class="ubtns-item-disabled" >终止</div>
+                <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
                 
                 <div class="ubtns-item" onclick="toImportproduct(0)">导入货号</div>
             	<div class="ubtns-item" onclick="toImportproduct(1)">导入条码</div>

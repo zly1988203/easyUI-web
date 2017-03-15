@@ -31,15 +31,16 @@
 				<div class="ubtns">
 					<div class="ubtns-item" onclick="query()">查询</div>
 					<!-- <div class="ubtns-item" onclick="printReport()">打印</div> -->
-					<div class="ubtns-item" onclick="resetFrom()">重置</div>
+					
 					<div class="ubtns-item" onclick="importHandel(0)">导入货号</div>
                     <div class="ubtns-item" onclick="importHandel(1)">导入条码</div>
-					<div class="ubtns-item" id="btn_stop01" onclick="update(0)">停购</div>
-					<div class="ubtns-item" id="btn_stop02" onclick="update(1)">停售</div>
-					<div class="ubtns-item" id="btn_weedout01" onclick="update(2)">淘汰</div>
-					<div class="ubtns-item" id="btn_weedout02" onclick="outGuide()">淘汰向导</div>
-					<div class="ubtns-item" id="btn_stopout" onclick="stopGuide()">停购向导</div>
-					<div class="ubtns-item unhide" id="recover" onclick="update(3)">恢复</div>
+					<div class="ubtns-item" id="btn_stop01" onclick="update(0,this)">停购</div>
+					<div class="ubtns-item" id="btn_stop02" onclick="update(1,this)">停售</div>
+					<div class="ubtns-item" id="btn_weedout01" onclick="update(2,this)">淘汰</div>
+					<div class="ubtns-item" id="btn_weedout02" onclick="outGuide(this)">淘汰向导</div>
+					<div class="ubtns-item" id="btn_stopout" onclick="stopGuide(this)">停购向导</div>
+					<div class="ubtns-item-disabled" id="recover" onclick="update(3,this)">恢复</div>
+                                        <div class="ubtns-item" onclick="resetFrom()">重置</div>
 					<div class="ubtns-item" onclick="toClose()">关闭</div>
 				</div>
 			</div>
@@ -69,7 +70,7 @@
 					<input type="text" name="skuName" id="skuName" class="uinp" maxlength="50"/>
 				</div>
 				<div class="ub ub-ac umar-r40">
-					<div class="umar-r10 uw-70 ut-r">单据状态:</div>
+					<div class="umar-r10 uw-70 ut-r">商品状态:</div>
 	                    <div class="ub ub-ac umar-r10">
 	                        <input class="ub radioItem" type="radio" name="status"  value="0" checked="checked"/><span>正常</span>
 	                    </div>
@@ -100,7 +101,7 @@
 		<div class="ub ub-ver upad-10 ufs-14">
 			<div class="ub ub-ver upad-l20 ">
 			    <div class="ub ub-ac umar-t10">
-			      <c:if test="${branchType == 1 || branchType == 0}">
+			      <c:if test="${branchType != 1 && branchType != 0}">
 					<div class="ut-r umar-r10">范围:</div>
 	                <div class="ub ub-ac umar-r10">
 	                    <input class="ub radioItem" type="radio" name="guideType"  value=0 checked="checked"/><span>当前机构</span>
@@ -114,14 +115,14 @@
 	                </c:if>
 				</div>
 				<div class="ub ub-ac umar-t10 ">
-	                <input class="ub radioItem umar-r8" type="radio" name="guideChoose"  value=0 checked="checked"/><span>选择已经停购，且库存为0的商品。</span>
+	                <input class="ub radioItem umar-r8" type="radio" name="guideChoose"  value=0 checked="checked"/><span>选择已经停售，且库存为0的商品。</span>
 				</div>
 				<div class="ub ub-ac umar-t10 ">
 	                <input class="ub radioItem umar-r8" type="radio" name="guideChoose"  value=1 /><span>选择主档已经停购或淘汰且库存为0的商品。</span>
 				</div>
 				<div class="ub ub-ac umar-t10 ">
-	                <input class="ub radioItem umar-r8" type="radio" name="guideChoose"  value=2 />
-	                <input class="uinp easyui-numberbox" data-options="min:0,max:999,value:15"  style="width:100px;" id="guideDatew" name="guideDate" type="text" > 天内未产生销售，且库存为0的商
+	                <input class="ub radioItem umar-r8" type="radio" name="guideChoose"  value=2 />选择
+	                <input class="uinp easyui-numberbox" data-options="min:0,max:999,value:15"  style="width:100px;" id="guideDatew" name="guideDate" type="text" > 天内未产生销售，且库存为0的商品。
 				</div>
 			</div>
 			
@@ -140,7 +141,7 @@
 		<div class="ub ub-ver upad-10 ufs-14">
 			<div class="ub ub-ver upad-l20 umar-t10">
 			    <div class="ub ub-ac">
-			    <c:if test="${branchType == 1 || branchType == 0}">
+			   <c:if test="${branchType != 1 && branchType != 0}">
 					<div class="ut-r umar-r8">范围:</div>
 	                <div class="ub ub-ac umar-r10">
 	                    <input class="ub radioItem" type="radio" name="stGuideType"  value="0" checked="checked"/><span>当前机构</span>
@@ -159,7 +160,7 @@
 	                <input class="uinp easyui-numberbox umar-l4" data-options="min:0,max:999" style="width:100px;" id="stGuideDate" name="stGuideDate" type="text" value="15" > 
 	                                                天内销售数量小于
 	                <input class="uinp easyui-numberbox umar-l4" data-options="min:0,max:999" style="width:100px;" id="stGuideNum" name="stGuideNum" type="text" value="5">
-					的商品
+					的商品。
 				</div>
 				<div class="ub ub-ac umar-t10 ">
 	                <input class="ub radioItem umar-r8" type="radio" name="stGuideChoose"  value="1" /><span>选择主档已经停购或淘汰的商品。</span>

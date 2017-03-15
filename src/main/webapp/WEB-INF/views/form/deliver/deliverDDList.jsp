@@ -7,7 +7,7 @@
     <title>店间配送申请</title>
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-    <script  src="${ctx}/static/js/views/deliver/deliverDDList.js"></script>
+    <script  src="${ctx}/static/js/views/deliver/deliverDDList.js?1=1"></script>
     
 </head>
 <body class="ub uw uh ufs-14 uc-black">
@@ -16,21 +16,20 @@
 		<form id="queryForm" action="" method="post">
 			<div class="ub ub-ac">
 	            <div class="ubtns">
-	            	<shiro:hasPermission name="JxcDeliverDA:search">
 						<div class="ubtns-item" onclick="queryForm()">查询</div>
-				   	</shiro:hasPermission>
-	            	<shiro:hasPermission name="JxcDeliverDA:add">
+	            	<shiro:hasPermission name="JxcDeliverDD:append">
 						<div class="ubtns-item" onclick="addDeliverForm()">新增</div>
 				   	</shiro:hasPermission>
-	            	<shiro:hasPermission name="JxcDeliverDA:delete">
-						<div class="ubtns-item" onclick="delDeliverForm()">删单</div>
+	            	<shiro:hasPermission name="JxcDeliverDD:delete">
+						<div class="ubtns-item" onclick="delDeliverForm()">删除</div>
 				   	</shiro:hasPermission>
+				   	<div class="ubtns-item-disabled">打印</div>
 	            	<shiro:hasPermission name="JxcDeliverDA:setting">
 						<div class="ubtns-item-disabled">设置</div>
 				   	</shiro:hasPermission>
-				   	<div id="updatePermission" class="none">
-						<shiro:hasPermission name="JxcDeliverDA:update">修改</shiro:hasPermission>
-					</div>
+				    	<div id="updatePermission" class="none">
+						 <shiro:hasPermission name="JxcDeliverDD:append">修改</shiro:hasPermission> 
+						</div> 
 	                <div class="ubtns-item" id="set" onclick="gFunRefresh()" >重置</div>
 	                <div class="ubtns-item" onclick="toClose()">退出</div>
 	            </div>
@@ -38,6 +37,7 @@
 	        	 <!-- 引入时间选择控件 -->
 	            <%@ include file="/WEB-INF/views/component/dateSelectHour.jsp"%>
 	            </div>
+	            
 			</div>
 	            <div class="ub umar-t8">
 	                <div class="ub ub-ac">

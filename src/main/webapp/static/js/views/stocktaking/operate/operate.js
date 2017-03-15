@@ -322,7 +322,13 @@ function saveStocktakingForm(opType){
 	var branchId = $("#branchId").val();
 	var batchId = $("#batchId").val();
 	var batchNo = $("#batchNo").val();
+    //机构Code
+    var branchCode=$("#branchCode").val();
 	if(!branchId || !$.trim(branchId)){
+		messager("请选择机构");
+		return;
+	}
+	if(opType == 1 && (!branchCode || !$.trim(branchCode))){
 		messager("请选择机构");
 		return;
 	}
@@ -341,7 +347,7 @@ function saveStocktakingForm(opType){
     var isChcekPrice = false;
     
     $.each(rows,function(i,v){
-        if(parseFloat(v["stocktakingNum"])<=0){
+        if(parseFloat(v["stocktakingNum"])==0){
             isChcekPrice = true;
         }
     });
@@ -356,6 +362,9 @@ function saveStocktakingForm(opType){
             saveDataHandel(rows,opType);
         }
     }
+//    else{
+//    	$.messager.alert('提示','存在盘点数小于0的记录，请修改后保存')
+//    }
 }
 
 //新增

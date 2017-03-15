@@ -21,9 +21,7 @@
 		            <shiro:hasPermission name="JxcOverdueOrder:print">
 		                <div class="ubtns-item" onclick="printReport()">打印</div>
 		            </shiro:hasPermission>
-	                <%-- <shiro:hasPermission name="JxcPurchaseOrder:add">
-		                <div class="ubtns-item">设置</div>
-		            </shiro:hasPermission> --%>
+		                <div class="ubtns-item-disabled" >设置</div>
 	                <div class="ubtns-item" onclick="toClose()">关闭</div>
 	            </div>
 	            

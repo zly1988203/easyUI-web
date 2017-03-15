@@ -50,7 +50,7 @@
 				<div class="uinp-more" onclick="selectOperator()" >...</div>
 			</div>
             <div class="ub ub-ac umar-l10">
-                <div class="umar-r10 uw-70 ut-r">单据状态:</div>
+                <div class="umar-r10 uw-70 ut-r">审核状态:</div>
                 <div class="ub ub-ac umar-r10">
                      <label><input class="radioItem" type="radio" value="0" name="status" checked="checked" onclick="queryForm()"/><span>未审核</span></label>
                 </div>

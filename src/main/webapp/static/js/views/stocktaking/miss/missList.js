@@ -21,10 +21,10 @@ function initSearchParams(){
 	$("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 }
 
-
+var dg;
 //初始化表格
 function initDgTakeStockMiss(){
-	stockList = $("#dgMissList").datagrid({
+	dg = $("#dgMissList").datagrid({
 		method:'post',
 		align:'center',
 		singleSelect:false,  //单选  false多选
@@ -77,15 +77,28 @@ function gFunRefresh(){
     $("#queryForm").form('clear');
 }
 
+function exportData(){
+	var length = dg.datagrid('getData').rows.length;
+	if(length == 0){
+		successTip("无数据可导");
+		return;
+	}
+	$('#exportWin').window({
+		top:($(window).height()-300) * 0.5,   
+	    left:($(window).width()-500) * 0.5
+	});
+	$("#exportWin").show();
+	$("#totalRows").html(dg.datagrid('getData').total);
+	$("#exportWin").window("open");
+}
+
 /**
  * 导出
  */
-function toExport(){
-	var length = $("#dgMissList").datagrid('getData').total;
-	if(length == 0){
-		successTip("没有数据");
-		return;
-	}
+function exportExcel(){
+	$("#exportWin").hide();
+	$("#exportWin").window("close");
+
 	var fromObjStr = $('#queryForm').serializeObject();
 	$("#queryForm").form({
 		success : function(data){

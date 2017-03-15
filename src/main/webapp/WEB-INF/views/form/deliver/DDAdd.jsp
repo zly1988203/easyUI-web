@@ -16,10 +16,10 @@
     <div class="ub ub-ver ub-f1 umar-4  ubor">
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
-            	 <shiro:hasPermission name="JxcDeliverDD:add">
+            	 <shiro:hasPermission name="JxcDeliverDD:append">
             		<div class="ubtns-item-disabled">新增</div>
             	</shiro:hasPermission>
-            	<shiro:hasPermission name="JxcDeliverDD:add">
+            	<shiro:hasPermission name="JxcDeliverDD:append">
                 	<div class="ubtns-item" onclick="saveOrder()">保存</div>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="JxcDeliverDD:audit">
@@ -36,7 +36,7 @@
               <%--   <shiro:hasPermission name="JxcDeliverDO:delete">
 					<div class="ubtns-item" onclick="delDeliverForm()">删单</div>
 			   	</shiro:hasPermission> --%>
-                
+                <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
                 <div class="ubtns-item" onclick="toImportproduct(0)">导入货号</div>
             	<div class="ubtns-item" onclick="toImportproduct(1)">导入条码</div>
             	<div class="ubtns-item-disabled">导出</div>
@@ -85,7 +85,7 @@
                    <div class="utxt"></div>
                </div>
                <div class="ub ub-ac umar uw-300">
-                   <div class="umar-r10 uw-70 ut-r">修改时间:</div>
+                   <div class="umar-r10 uw-60 ut-r">修改时间:</div>
                    <div class="utxt"></div>
                </div>
               

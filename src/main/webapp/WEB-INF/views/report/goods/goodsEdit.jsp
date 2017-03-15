@@ -333,7 +333,7 @@
 						<input id="allowActivity" name="allowActivity" class="ub" type="checkbox" name="checkbox" /><span>是否参与促销</span>
 					</div>
 					<div class="ub ub-ac umar-r40">
-						<input id="allowAdjust" name="allowActivity" class="ub" type="checkbox" name="checkbox"/><span>分店调价</span>
+						<input id="allowAdjust" name="allowAdjust" class="ub" type="checkbox" name="checkbox"/><span>分店调价</span>
 					</div>
 				</div>
 			</div>

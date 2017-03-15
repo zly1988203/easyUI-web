@@ -1,4 +1,11 @@
 $(function(){
+	//$("#branchCode").val(sessionBranchCode);
+	$("#branchName").val(sessionBranchName);
+	$("#branchId").val(sessionBranchId);
+	$("#branchCompleCode").val(sessionBranchCompleCode);
+    //开始和结束时间
+    $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
+    $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 	initDgTakeStockDiffDispose();
 });
 //初始化表格
@@ -21,7 +28,7 @@ function initDgTakeStockDiffDispose(){
 				}},
 			{field: 'status', title: '状态', width: 60, align: 'center',formatter:function(value,row,index){
             	if(value == '0'){
-            		return '待审核';
+            		return '未审核';
             	}else if(value == '1'){
             		return '审核通过';
             	}else if(value == '2'){
@@ -53,12 +60,6 @@ function queryForm(){
 	$("#diffDisposeList").datagrid('options').url = contextPath + '/stocktaking/diffDispose/getDiffDisposeList';
 	$("#diffDisposeList").datagrid('load', fromObjStr);
 }
-
-//重置
-function gFunRefresh(){
-	$("#queryForm").form('clear');
-}
-
 
 function toDelete(){
 	var dg = $("#diffDisposeList");

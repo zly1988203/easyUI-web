@@ -48,7 +48,7 @@ function initDatagridOrders(){
             }},
             {field:'status',title:'状态',width:'100px',align:'center',formatter:function(value,row,index){
             	if(value == '0'){
-            		return '待审核';
+            		return '未审核';
             	}else if(value == '1'){
             		return '审核通过';
             	}else if(value == '2'){
@@ -89,11 +89,20 @@ function orderDelete(){
 		 $.messager.alert('提示','请选中一行进行删除！');
 		return null;
 	}
+	var checkFlag = false; //审核标示
+	
+
 	 var formIds='';
 	    $.each(rows,function(i,v){
 	    	formIds+=v.id+",";
+	    	if(rows[i].status == '1'){
+				checkFlag = true;
+			}
 	    });
-	
+	    if(checkFlag){
+			$.messager.alert("提示","不能删除已审核的单据！");
+			return;
+		}
 	$.messager.confirm('提示','是否要删除选中数据',function(data){
 		if(data){
 			$.ajax({

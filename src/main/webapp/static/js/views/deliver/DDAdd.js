@@ -544,7 +544,7 @@ function setDataValue(data) {
 function selectStockAndPrice(data){
 	//setDataValue(data);
 	var GoodsStockVo = {
-            branchId : $("#targetBranchId").val(),
+            branchId : $("#sourceBranchId").val(),
             fieldName : 'id',
 			goodsSkuVo : []
 		}; 
@@ -913,7 +913,7 @@ function toImportproduct(type){
 function selectStockAndPriceImport(data){
 	//updateListData(data);
     var GoodsStockVo = {
-        branchId : $("#targetBranchId").val(),
+        branchId : $("#sourceBranchId").val(),
         fieldName : 'id',
         goodsSkuVo : []
     };
