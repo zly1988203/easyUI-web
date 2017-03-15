@@ -9,7 +9,7 @@ pageEncoding="UTF-8"%>
 		<div class="ubtns">
 			<button class="ubtns-item" onclick="save()" id="saveBtn">保存</button>
 			<button class="ubtns-item" onclick="gFunRefresh()">重置</button>
-			<button class="ubtns-item" onclick="closeDialogHandel()">关闭</button>
+			<button class="ubtns-item" onclick="toClose()">关闭</button>
 		</div>
 	</div>
 	<div class="ub uline"></div>
@@ -37,16 +37,16 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="ub upad-4 umar-t10">
-				<div class="ub ub-ac uw-590">
+				<div class="ub ub-ac uw-608">
 					<div class="umar-r10 uw-70 ut-r">类别:</div>
 					<input class="uinp ub ub-f1" type="hidden" name="categoryIds" id="categoryIds" />
-					<input class="uinp ub ub-f1 uinp-no-more" type="text" name="categoryShows" id="categoryShows" onClick="searchCategory()" readOnly/>
+					<input class="uinp ub ub-f1 uinp-no-more" type="text" name="categoryShows" Placeholder='最多允许选择30种,自动过滤重复选择' id="categoryShows" readOnly/>
 					<div id='categoryDiv' class="uinp-more category"  onClick="searchCategory()">...</div>
 					<i class="uc-red">*</i>
 				</div>
 			</div>
 			<div class="ub upad-4 umar-t10">
-				<div class="ub ub-ac uw-590">
+				<div class="ub ub-ac uw-600">
 					<div class="umar-r10 uw-70 ut-r">备注:</div>
 					<input id="remark" name="remark" value="" class="uinp ub ub-f1" maxlength="40">
 				</div>

@@ -206,9 +206,9 @@ function getFiledsList(){
 						},
 					},
 
-		          {field: 'handle', title: '是否处理', width: 180, align: 'right'},
+		          {field: 'handle', title: '是否处理', width: 180, align: 'left'},
 
-				{field: 'profitLossCostAmount', title: '盈亏金额（成本价）', width: 140, align: 'right',
+				{field: 'profitLossCostAmount', title: '盈亏金额（成本价）', width: 140, align: 'left',
 					formatter : function(value, row, index) {
 						if(row.isFooter){
 							return;
