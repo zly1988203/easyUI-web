@@ -171,7 +171,7 @@ pageEncoding="UTF-8"%>
         }
         $("#gridGoods").datagrid("options").queryParams = {categoryCode:categoryCode,brandId:brandId,supplierId:supplierId,flag:flag};
         $("#gridGoods").datagrid("options").method = "post";
-        $("#gridGoods").datagrid("options").url =contextPath + '/goods/goodsSelect/getGoodsList?formType=${type}&sourceBranchId=${sourceBranchId}&targetBranchId=${targetBranchId}&branchId=${branchId}&categoryCodes=${categoryCodes}';
+        $("#gridGoods").datagrid("options").url =contextPath + '/goods/goodsSelect/getGoodsList?formType=${type}&sourceBranchId=${sourceBranchId}&targetBranchId=${targetBranchId}&branchId=${branchId}&categoryCodes=${categoryCodes}&isManagerStock=${isManagerStock}';
         $("#gridGoods").datagrid("load");
 
     };
@@ -364,7 +364,7 @@ pageEncoding="UTF-8"%>
         if(!key){
         	var searchSupplierId = $("#searchSupplierId").val();
             $("#gridGoods").datagrid("options").method = "post";
-            $("#gridGoods").datagrid("options").url =contextPath + '/goods/goodsSelect/getGoodsList?flag=${flag}&formType=${type}&sourceBranchId=${sourceBranchId}&targetBranchId=${targetBranchId}&branchId=${branchId}&categoryCodes=${categoryCodes}&supplierId='+searchSupplierId;
+            $("#gridGoods").datagrid("options").url =contextPath + '/goods/goodsSelect/getGoodsList?flag=${flag}&formType=${type}&sourceBranchId=${sourceBranchId}&targetBranchId=${targetBranchId}&branchId=${branchId}&categoryCodes=${categoryCodes}&isManagerStock=${isManagerStock}&supplierId='+searchSupplierId;
             $("#gridGoods").datagrid('load');
         }else{
             cx();
