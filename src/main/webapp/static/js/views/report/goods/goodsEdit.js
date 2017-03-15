@@ -259,8 +259,8 @@ function submitForm(){
 	            {field:'branchType',title:'机构类型',width: '120px'},
                 {field:'skuId',hidden:true,title:'skuId'},
 	            {field:'skuId',hidden:true,title:'skuId'},
-	            {field:'branchCode',title:'店铺编号',width: '70px',align:'left',editor:'textbox'},
-	            {field:'branchName',title:'店铺名称',width:'200px',align:'left'},
+	            {field:'branchCode',title:'店铺编号',width: '70px',align:'left'},
+	            {field:'branchName',title:'店铺名称',width:'80px',align:'left'},
 	           
 	            {field:'purchasePrice',title:'进货价',width:'80px',align:'right',
 	                formatter:function(value,row,index){
@@ -309,6 +309,16 @@ function submitForm(){
 	                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 	                },
 	                
+	            },
+	            {field:'status',title:'商品状态',hidden:true,width:'80px',align:'right',
+		               /* formatter : function(value, row, index) {
+		                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		                },*/
+		            },
+	            {field:'statusDesc',title:'商品状态',width:'80px',align:'right',
+	               /* formatter : function(value, row, index) {
+	                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+	                },*/
 	            },
 	            
 	           
