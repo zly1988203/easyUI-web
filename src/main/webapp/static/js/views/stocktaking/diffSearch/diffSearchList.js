@@ -64,13 +64,13 @@ function getFiledsList(){
 		          {field: 'branchCode', title: '机构编号', width: 100, align: 'left'},
 		          {field: 'branchName', title: '机构名称', width: 120, align: 'left'},
 		          {field: 'batchNo', title: '盘点批号', width: 180, align: 'left'},
-		          {field: 'snapshootStockNum', title: '系统库存', width: 140, align: 'left'},
-		          {field: 'stocktakingNum', title: '盘点数量', width: 180, align: 'left'},
-		          {field: 'profitLossNum', title: '盈亏数量', width: 180, align: 'left'},
-		          {field: 'profitLossCostAmount', title: '盈亏金额（成本价）', width: 140, align: 'left'},
-		          {field: 'profitLossSaleAmount', title: '盈亏金额（售价）', width: 140, align: 'left'},
-		          {field: 'stocktakingNumHandle', title: '实际处理数量', width: 160, align: 'left'},
-		          {field: 'costAmountHandle', title: '实际处理金额（成本价）', width: 200, align: 'left'}
+		          {field: 'snapshootStockNum', title: '系统库存', width: 140, align: 'right'},
+		          {field: 'stocktakingNum', title: '盘点数量', width: 180, align: 'right'},
+		          {field: 'profitLossNum', title: '盈亏数量', width: 180, align: 'right'},
+		          {field: 'profitLossCostAmount', title: '盈亏金额（成本价）', width: 140, align: 'right'},
+		          {field: 'profitLossSaleAmount', title: '盈亏金额（售价）', width: 140, align: 'right'},
+		          {field: 'stocktakingNumHandle', title: '实际处理数量', width: 160, align: 'right'},
+		          {field: 'costAmountHandle', title: '实际处理金额（成本价）', width: 200, align: 'right'}
 		          ] ]
 	}else{
 		return [ [
@@ -81,15 +81,15 @@ function getFiledsList(){
 		          {field: 'validUserName', title: '审核人', width: 180, align: 'left'},
 		          {field: 'skuCode', title: '货号', width: 180, align: 'left'},
 		          {field: 'skuName', title: '商品名称', width: 180, align: 'left'},
-		          {field: 'snapshootStockNum', title: '系统库存', width: 140, align: 'left'},
-		          {field: 'stocktakingNum', title: '盘点数量', width: 180, align: 'left'},
-		          {field: 'profitLossNum', title: '盈亏数量', width: 180, align: 'left'},
-		          {field: 'handle', title: '是否处理', width: 180, align: 'left'},
-		          {field: 'profitLossCostAmount', title: '盈亏金额（成本价）', width: 140, align: 'left'},
-		          {field: 'profitLossSaleAmount', title: '盈亏金额（售价）', width: 140, align: 'left'},
-		          {field: 'differenceReason', title: '差异原因', width: 140, align: 'left'},
-		          {field: 'categoryCode', title: '类别编码', width: 140, align: 'left'},
-		          {field: 'categoryName', title: '类别名称', width: 140, align: 'left'}
+		          {field: 'snapshootStockNum', title: '系统库存', width: 140, align: 'right'},
+		          {field: 'stocktakingNum', title: '盘点数量', width: 180, align: 'right'},
+		          {field: 'profitLossNum', title: '盈亏数量', width: 180, align: 'right'},
+		          {field: 'handle', title: '是否处理', width: 180, align: 'right'},
+		          {field: 'profitLossCostAmount', title: '盈亏金额（成本价）', width: 140, align: 'right'},
+		          {field: 'profitLossSaleAmount', title: '盈亏金额（售价）', width: 140, align: 'right'},
+		          {field: 'differenceReason', title: '差异原因', width: 140, align: 'right'},
+		          {field: 'categoryCode', title: '类别编码', width: 140, align: 'right'},
+		          {field: 'categoryName', title: '类别名称', width: 140, align: 'right'}
 		          ] ]
 	}
 }
