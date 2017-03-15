@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-03-11T15:27:39 -->
+<!-- 2017-03-14T15:29:04 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PaymentOrder" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="BlankPage" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isSummaryWithPageHeaderAndFooter="true" uuid="9aa590ec-4b5f-4eaa-bb10-b5ce33e01e43">
 	<property name="ireport.zoom" value="2.253944402704733"/>
 	<property name="ireport.x" value="0"/>
@@ -253,14 +253,14 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="7" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{formNo}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{formNo}!=null?$F{formNo}:""]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="74" y="1" width="55" height="22" uuid="4248c658-09e4-4526-9913-f634254c92bc"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{branchName}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{branchName}!=null?$F{branchName}:""]]></textFieldExpression>
 				<patternExpression><![CDATA[($F{status}.equals(new Integer("0"))?"未审核":($F{status}.equals(new Integer("2")))?"已审核":"审核不通过")]]></patternExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
@@ -275,14 +275,14 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{branchCode}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{branchCode}!=null?$F{branchCode}:""]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="240" y="0" width="50" height="22" uuid="4b5b42e5-1557-469c-8fb4-1acde836fd5a"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{createUserName}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{createUserName}!=null?$F{createUserName}:""]]></textFieldExpression>
 			</textField>
 			<textField pattern="yyyyMMdd hh:mm" isBlankWhenNull="true">
 				<reportElement x="293" y="-1" width="72" height="22" uuid="aaf8c0b2-8da7-4fc5-a271-dff3faaea306"/>
@@ -296,14 +296,14 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{validUserName}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{validUserName}!=null?$F{validUserName}:""]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="428" y="-1" width="144" height="22" uuid="34db7655-24eb-43a0-9799-ef6ee3617063"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{remark}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{remark}!=null?$F{remark}:""]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

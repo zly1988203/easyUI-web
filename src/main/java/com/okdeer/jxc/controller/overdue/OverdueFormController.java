@@ -276,6 +276,9 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
 	    vo.setValidUserId(UserUtil.getUser().getId());
 	    vo.setValidUserName(UserUtil.getUser().getUserName());
 	    vo.setValidTime(new Date());
+	    vo.setUpdateTime(new Date());
+	    vo.setUpdateUserId(UserUtil.getUser().getId());
+	    vo.setUpdateUserName(UserUtil.getUser().getUserName());
 	    overdueFormService.update(vo,ids,auditDescs);
 	    return RespJson.success();
 	}
@@ -304,6 +307,7 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
 	vo = optional.orElse(new OverdueFormVo());
 	vo.setPageNumber(Integer.valueOf(PAGE_NO));
 	vo.setPageSize(PrintConstant.PRINT_MAX_LIMIT);
+	Date date = vo.getEndTime();
 	// 默认当前机构
 	if (StringUtils.isBlank(vo.getBranchCode()) && StringUtils.isBlank(vo.getBranchName())) {
 	    vo.setBranchCode(getCurrBranchCompleCode());
@@ -319,7 +323,7 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
 	String path = PrintConstant.OVERDUE_APPLY_REPORT;
 	Map<String, Object> map = new HashMap<String, Object>();
 	map.put("startDate", DateUtils.formatDate(vo.getStartTime(), DateUtils.DATE_SMALL_STR_R) );
-	map.put("endDate", DateUtils.formatDate(vo.getEndTime(), DateUtils.DATE_SMALL_STR_R));
+	map.put("endDate", DateUtils.formatDate(date, DateUtils.DATE_SMALL_STR_R));
 	map.put("printName", getCurrentUser().getUserName());
 	JasperHelper.exportmain(request, response, map, JasperHelper.PDF_TYPE, path, list, "");
 	return null;
@@ -332,6 +336,7 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
 	vo.setPageNumber(Integer.valueOf(PAGE_NO));
 	vo.setPageSize(PrintConstant.PRINT_MAX_LIMIT);
 	vo.setStatus(Byte.valueOf("1"));
+	Date date = vo.getEndTime();
 	// 默认当前机构
 	if (StringUtils.isBlank(vo.getBranchCode()) && StringUtils.isBlank(vo.getBranchName())) {
 	    vo.setBranchCode(getCurrBranchCompleCode());
@@ -347,7 +352,7 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
 	String path = PrintConstant.OVERDUE_APPROVED_REPORT;
 	Map<String, Object> map = new HashMap<String, Object>();
 	map.put("startDate", DateUtils.formatDate(vo.getStartTime(), DateUtils.DATE_SMALL_STR_R) );
-	map.put("endDate", DateUtils.formatDate(vo.getEndTime(), DateUtils.DATE_SMALL_STR_R));
+	map.put("endDate", DateUtils.formatDate(date, DateUtils.DATE_SMALL_STR_R));
 	map.put("printName", getCurrentUser().getUserName());
 	JasperHelper.exportmain(request, response, map, JasperHelper.PDF_TYPE, path, list, "");
 	return null;
