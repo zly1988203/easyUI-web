@@ -584,6 +584,11 @@ function saveOrder(){
     var amount=0;
 	// 要活分店id
 	var targetBranchId = $("#targetBranchId").val();
+	if(targetBranchId==""){
+		 messager("要货机构不能为空");
+	        return;
+	}
+	
 	//发货分店id
     var sourceBranchId = $("#sourceBranchId").val();
     //生效日期
