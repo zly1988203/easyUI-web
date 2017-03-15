@@ -99,18 +99,29 @@ function scopeChange(){
 /**
  * 类别选择
  */
+var categoryIds = [];
+var categorytxt = [];
 function searchCategory(){
+    if(categoryIds.length == 30){
+        alertTip('类型已选30个，不可再选');
+        return;
+    }
+
 	var param = {
 			categoryType:'',
 			type:1,
         	amount:30
 	}
 	new publicCategoryService(function(data){
-		var categoryIds = []
-		var categorytxt=[];
+		var idsStrs = $("#categoryIds").val();
+		var txtStrs = $("#categoryShows").val();
 		$.each(data,function(index,item){
-			categoryIds.push(item.goodsCategoryId);
-			categorytxt.push(item.categoryCode);
+            if(idsStrs.indexOf(item.goodsCategoryId)=== -1){
+                categoryIds.push(item.goodsCategoryId);
+            }
+            if(txtStrs.indexOf(item.categoryCode)=== -1){
+                categorytxt.push(item.categoryCode);
+            }
 		})
 
 		$("#categoryIds").val(categoryIds);
