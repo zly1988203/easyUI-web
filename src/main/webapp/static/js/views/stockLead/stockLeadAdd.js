@@ -116,6 +116,7 @@ function initDatagridStockLead(){
                     options:{
                         precision:4,
                         min:0,
+                        max:999999.99,
                         onChange: onChangeRealNum,
                     }
                 },
@@ -137,6 +138,7 @@ function initDatagridStockLead(){
                     options:{
                         precision:4,
                         min:0,
+                        max:999999.99,
                         onChange: totleChangePrice,
                     }
                 },
@@ -490,8 +492,15 @@ function back(){
  */
 function searchBranch(){
 	new publicAgencyService(function(data){
-	$("#branchId").val(data.branchesId);
-	$("#branchName").val("["+data.branchCode+"]"+data.branchName);
+		$.messager.confirm('提示','修改领用机构后会清空明细，需要重新录入，是否要修改？',function(r){
+		    if (r){
+		    	$("#branchId").val(data.branchesId);
+				$("#branchName").val("["+data.branchCode+"]"+data.branchName);
+				gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
+				                        $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),
+				                        $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault)]);
+		    }
+		});
 	});
 }
 
