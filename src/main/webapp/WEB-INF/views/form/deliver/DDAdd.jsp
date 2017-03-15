@@ -36,7 +36,7 @@
               <%--   <shiro:hasPermission name="JxcDeliverDO:delete">
 					<div class="ubtns-item" onclick="delDeliverForm()">删单</div>
 			   	</shiro:hasPermission> --%>
-                
+                <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
                 <div class="ubtns-item" onclick="toImportproduct(0)">导入货号</div>
             	<div class="ubtns-item" onclick="toImportproduct(1)">导入条码</div>
             	<div class="ubtns-item-disabled">导出</div>
