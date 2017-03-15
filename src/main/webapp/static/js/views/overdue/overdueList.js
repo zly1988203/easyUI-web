@@ -68,7 +68,7 @@ function initDatagridOrders(){
             {field:'applyPrice',title:'售价',width:'80px',align:'right'},
             {field:'applyAmount',title:'金额',width:'80px',align:'right'},
             {field:'applyDesc',title:'申请说明',width:'80px',align:'right'},
-            {field:'auditDesc',title:'申请意见',width:'80px',align:'right'},
+            {field:'auditDesc',title:'处理意见',width:'80px',align:'right'},
             {field:'formNo',title:'单号',width:'80px',align:'right'},
             /*
 				formatter : function(value, row, index) {
