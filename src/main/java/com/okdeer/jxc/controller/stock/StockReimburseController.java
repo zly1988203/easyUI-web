@@ -407,12 +407,19 @@ public class StockReimburseController extends BasePrintController<StockReimburse
 			List<StockFormDetailVo> exportList = stockAdjustServiceApi.exportList(vo);
 			String fileName = "报损单" + "_" + DateUtils.getCurrSmallStr();
 			String templateName = ExportExcelConstant.STOCKREIMBURSE;
-			// 导出时将负数转为正数
+			// 导出时将箱数、数量、金额的负数转为正数，并将所有数据格式化为两位小数
 			if (null != exportList && !exportList.isEmpty()) {
 				for (StockFormDetailVo stockFormDetailVo : exportList) {
-					stockFormDetailVo.setLargeNum(stockFormDetailVo.getLargeNum().substring(1));
-					stockFormDetailVo.setRealNum(stockFormDetailVo.getRealNum().substring(1));
-					stockFormDetailVo.setAmount(stockFormDetailVo.getAmount().substring(1));
+					stockFormDetailVo.setPrice(new BigDecimal(stockFormDetailVo.getPrice())
+							.setScale(2, BigDecimal.ROUND_HALF_UP).toString());
+					stockFormDetailVo.setStockNum(new BigDecimal(stockFormDetailVo.getStockNum())
+							.setScale(2, BigDecimal.ROUND_HALF_UP).toString());
+					stockFormDetailVo.setLargeNum(new BigDecimal(stockFormDetailVo.getLargeNum()).abs()
+							.setScale(2, BigDecimal.ROUND_HALF_UP).toString());
+					stockFormDetailVo.setRealNum(new BigDecimal(stockFormDetailVo.getRealNum()).abs()
+							.setScale(2, BigDecimal.ROUND_HALF_UP).toString());
+					stockFormDetailVo.setAmount(new BigDecimal(stockFormDetailVo.getAmount()).abs()
+							.setScale(2, BigDecimal.ROUND_HALF_UP).toString());
 				}
 			}
 			exportListForXLSX(response, exportList, fileName, templateName);

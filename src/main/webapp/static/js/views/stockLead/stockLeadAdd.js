@@ -2,10 +2,15 @@
  * 领用单-新增
  */
 var dataGridId = "stockLeadAddForm";
+var oldData= {};
 $(function(){
 	$("#branchName").val(sessionBranchCodeName);
 	$("#branchId").val(sessionBranchId);
 	$("#createTime").html(new Date().format('yyyy-MM-dd hh:mm'));
+    oldData = {
+       	branchId:$("#branchId").val(), //机构id
+        remark:$("#remark").val()                  // 备注
+    }
     initDatagridStockLead();
 });
 var gridDefault = {
@@ -174,6 +179,9 @@ function initDatagridStockLead(){
             }
         },
         onLoadSuccess:function(data){
+        	if(!oldData["grid"]){
+            	oldData["grid"] = gridHandel.getRows();
+        	}
             gridHandel.setDatagridHeader("center");
             updateFooter();
         }
@@ -183,6 +191,8 @@ function initDatagridStockLead(){
     gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
         $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),
         $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault)]);
+    
+    
 }
 
 // 限制转换次数
@@ -401,7 +411,21 @@ function setTion(datas){
 
 //新增领用单
 function addStockLead() {
-	toAddTab("新增领用单", contextPath + "/stock/lead/add");
+	$("#"+dataGridId).datagrid("endEdit", gridHandel.getSelectRowIndex());
+	var newData = {
+		branchId:$("#branchId").val(), //机构id
+	    remark:$("#remark").val(),                  // 备注
+        grid:gridHandel.getRows(),
+    }
+    if(!gFunComparisonArray(oldData,newData)){
+        $.messager.confirm("提示","单据未保存，是否取消编辑并新增?",function(r){
+        	if(r){
+        		toAddTab("新增领用单", contextPath + "/stock/lead/add");
+        	}
+        });
+    }else{    	
+    	toAddTab("新增领用单", contextPath + "/stock/lead/add");
+    }
 }
 
 // 保存
@@ -497,15 +521,28 @@ function back(){
  */
 function searchBranch(){
 	new publicAgencyService(function(data){
-		$.messager.confirm('提示','修改领用机构后会清空明细，需要重新录入，是否要修改？',function(r){
-		    if (r){
-		    	$("#branchId").val(data.branchesId);
-				$("#branchName").val("["+data.branchCode+"]"+data.branchName);
-				gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
-				                        $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),
-				                        $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault)]);
-		    }
-		});
+		var newData = {
+			branchId:$("#branchId").val(), //机构id
+		    remark:$("#remark").val(),                  // 备注
+	        grid:gridHandel.getRows(),
+	    }
+	    if(!gFunComparisonArray(oldData,newData)){
+	    	$.messager.confirm('提示','修改领用机构后会清空明细，需要重新录入，是否要修改？',function(r){
+			    if (r){
+			    	$("#branchId").val(data.branchesId);
+					$("#branchName").val("["+data.branchCode+"]"+data.branchName);
+					gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
+					                        $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),
+					                        $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault)]);
+			    }
+			});
+	    }else{
+	    	$("#branchId").val(data.branchesId);
+			$("#branchName").val("["+data.branchCode+"]"+data.branchName);
+			gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
+			                        $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),
+			                        $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault)]);
+	    }
 	});
 }
 
