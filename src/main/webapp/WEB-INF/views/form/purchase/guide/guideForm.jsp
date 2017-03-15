@@ -83,6 +83,8 @@
     	<div class="ub">
 		<div class="ub ub-ac">
 			<div class="umar-r10 uw-70 ut-r"></div>
+			<label class="uc-main">按采购机构的设置的库存存量指标采购，统计库存低于存量指标下限的商品，并按指标上限与进货规格给出订货数量建议。</label>
+			<br/>
 			<label class="uc-main">订货数量 ＝ 存量指标上限－当前库存，取进货规格整数倍（大于订货数量的值）</label>
 			</div>
 		</div>
@@ -96,6 +98,8 @@
 		<div class="ub">
 			<div class="ub ub-ac">
 				<div class="umar-r10 uw-70 ut-r"></div>
+				<label class="uc-main">按订货周期，安全库存系数与机构出库数（销售或配送）统计建议订货数据。</label>
+				<br/>
 				<label class="uc-main">订货数量＝订货周期*安全系数*MAX（上周日均销量，前周日均销量）－当前库存</label>   
 			</div>
 		</div>
@@ -110,6 +114,8 @@
 		<div class="ub">
 		<div class="ub ub-ac">
 			<div class="umar-r10 uw-70 ut-r"></div>
+				<label class="uc-main">按各门店要货数量汇总进行采购。</label>
+				<br/>
 				<label class="uc-main">订货数量＝ 要货总数－当前库存</label>
 			</div>
 		</div>
@@ -118,7 +124,6 @@
 			<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r"></div>
 					<input type="radio" class="radioItem" name="guideType" value="4">[直送商品]按门店直送要货单汇总采购
-			
 			</div>
 		</div>
 		

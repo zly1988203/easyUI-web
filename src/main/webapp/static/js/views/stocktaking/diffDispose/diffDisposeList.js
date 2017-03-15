@@ -16,17 +16,17 @@ function initDgTakeStockDiffDispose(){
 		singleSelect:false,  //单选  false多选
 		rownumbers:true,    //序号
 		pagination:true,    //分页
-		fitColumns:true,    //每列占满
         pageSize:50,
+        // view:scrollview,
 		height:'100%',
 		width:'100%',
 		columns:[[
 			{field:'check',checkbox:true},
-			{field: 'batchNo', title: '盘点批号', width: 180, align: 'left',formatter:function(value,row,index){
+			{field: 'batchNo', title: '盘点批号', width: 100, align: 'left',formatter:function(value,row,index){
 	        	var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'差异详情\',\''+contextPath +'/stocktaking/diffDispose/stocktakingBatchView?id='+row.id+'\')">' + value + '</a>';
 	        	return strHtml;
 				}},
-			{field: 'status', title: '状态', width: 100, align: 'center',formatter:function(value,row,index){
+			{field: 'status', title: '状态', width: 60, align: 'center',formatter:function(value,row,index){
             	if(value == '0'){
             		return '未审核';
             	}else if(value == '1'){
@@ -38,11 +38,11 @@ function initDgTakeStockDiffDispose(){
             	}
             }},
 			{field: 'branchCode', title: '机构编号', width: 100, align: 'left'},
-			{field: 'branchName', title: '机构名称', width: 120, align: 'left'},
-			{field: 'createUserName', title: '制单员', width: 140, align: 'left'},
+			{field: 'branchName', title: '机构名称', width: 150, align: 'left'},
+			{field: 'createUserName', title: '制单员', width: 100, align: 'left'},
 			{field: 'createTime', title: '操作日期', width: 180, align: 'left'},
-			{field: 'validUserName', title: '审核人', width: 180, align: 'left'},
-			{field: 'remark', title: '备注', width: 140, align: 'left'},
+			{field: 'validUserName', title: '审核人', width: 100, align: 'left'},
+			{field: 'remark', title: '备注', width: 200, align: 'left'},
 		]],
 
 	});

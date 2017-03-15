@@ -17,9 +17,9 @@
     <div class="ub ub-ver ub-f1 umar-4  ubor">
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
-				<div id="btnSave" class="ubtns-item" onclick="saveDiffDispose()">保存</div>
-				<div id="btnCheck" class="ubtns-item"  onclick="auditDiffDispose()">审核</div>
-				<div id="btndelete" class="ubtns-item" onclick="deleteDiffDispose()">删单</div>
+				<button id="btnSave" class="ubtns-item" onclick="saveDiffDispose()">保存</button>
+				<button id="btnCheck" class="ubtns-item"  onclick="auditDiffDispose()">审核</button>
+				<button id="btndelete" class="ubtns-item" onclick="deleteDiffDispose()">删单</button>
 				<div class="ubtns-item" onclick="printDiffDispose()">打印</div>
 				<div class="ubtns-item" onclick="back()">关闭</div>
 			</div>

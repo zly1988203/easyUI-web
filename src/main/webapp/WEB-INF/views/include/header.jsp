@@ -32,7 +32,7 @@
 <!--easyui-->
 <script  src="${ctx}/static/libs/easyui/js/jquery.easyui.min.js"></script>
 <script  src="${ctx}/static/libs/easyui/js/easyui-lang-zh_CN.js"></script>
-
+<script type="text/javascript" src="${ctx}/static/libs/easyui/js/datagrid-scrollview.js"></script>
 <!--datepicker-->
 <script  src="${ctx}/static/libs/datepicker/WdatePicker.js"></script>
 
