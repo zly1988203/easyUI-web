@@ -28,7 +28,7 @@ function initDgTakeStockDiffDispose(){
 				}},
 			{field: 'status', title: '状态', width: 100, align: 'center',formatter:function(value,row,index){
             	if(value == '0'){
-            		return '待审核';
+            		return '未审核';
             	}else if(value == '1'){
             		return '审核通过';
             	}else if(value == '2'){
