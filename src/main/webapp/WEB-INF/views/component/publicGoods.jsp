@@ -286,7 +286,20 @@ pageEncoding="UTF-8"%>
 			           }
 			        },
 		     </c:when>
-			        
+	        <c:when test="${type == 'DD' }">
+		        {field:'costPrice',title:'成本价',align:'right',width:100,
+			        formatter : function(value, row, index) {
+				        var str=(value||0).toFixed(2);
+				        return str;
+				    }
+				 },
+				 {field:'salePrice',title:'零售价',align:'right',width:100,
+				        formatter : function(value, row, index) {
+					        var str=(value||0).toFixed(2);
+					        return str;
+					    }
+					 },
+	        </c:when>
 		     <c:otherwise>
 				     {field:'salePrice',title:'零售价',align:'right',width:100,
 				        formatter : function(value, row, index) {

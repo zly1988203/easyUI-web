@@ -20,7 +20,10 @@ $(function(){
 	initjiaqType();
 	//初始化列表
 	initPricePrintGrid();
+	$('#printnum').on('input',function(){
+		printRows($(this).val());
 
+	});
 });
 
 //监听打印数
@@ -266,14 +269,14 @@ function printRows(printNum){
 	var newData = $("#"+datagridId).datagrid("getRows");
 	for(var i = 0;i < newData.length;i++){
 		newData[i].printCount= printNum;
-		/*rowIndex = $("#"+datagridId).datagrid('getRowIndex',newData[i]);
+		rowIndex = $("#"+datagridId).datagrid('getRowIndex',newData[i]);
 		//更新行数据
 		$("#"+datagridId).datagrid('updateRow',{
 			index: rowIndex,
 			row: newData[i]
 		});
 		//刷新行
-		$("#"+datagridId).datagrid('refreshRow',rowIndex);*/
+		/*$("#"+datagridId).datagrid('refreshRow',rowIndex);*/
 	}
 	$("#"+datagridId).datagrid({data:newData})
 	
@@ -333,7 +336,6 @@ function printtable(){
 
 //商品选择  方法
 function chooseproduct(){
-	debugger;
 	new publicGoodsService('PC',function(data){
 
 		var obj = {
