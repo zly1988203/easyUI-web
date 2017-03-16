@@ -14,6 +14,7 @@
 </head>
 <body class="ub uw uh ufs-14 uc-black">
    <div class="ub ub-ver ub-f1 umar-4 upad-4">
+	<form id="queryForm" action="" method="post">
 		<div class="ub ub-ac">
             <div class="ubtns">
                 <div class="ubtns-item" onclick="queryForm()">查询</div>
@@ -33,13 +34,12 @@
 			</div>
 		</div>
 		<div class="ub uline umar-t8"></div>
-		<form id="queryForm" action="" method="post">
 		<div class="ub umar-t8">
 			<div class="ub ub-ac uw-300 umar-l20">
 				<div class="umar-r10 uw-70 ut-r">机构:</div>
 				<input type="hidden" id="branchCompleCode" name="branchCompleCode" value="${batchVo.branchCompleCode}"/>
-				<input class="uinp ub ub-f1" type="text" id="branchCodeName" name="branchCodeName" value="${batchVo.branchCodeName}" 
-					maxlength="50" readonly="readonly" onclick="selectBranches()" />
+				<input class="uinp ub ub-f1" type="text" id="branchCodeName" name="branchCodeName" value="${batchVo.branchCodeName}" maxlength="50"
+					 onblur="clearBranchCode()" />
 				<div class="uinp-more" onclick="selectBranches()" id="selectBranchMore" >...</div>
 				<input type="hidden" id="startCount" name="startCount" >
 				<input type="hidden" id="endCount" name="endCount" >
@@ -54,13 +54,13 @@
 			<div class="ub ub-ac uw-300 umar-l20">
 				<div class="umar-r10 uw-70 ut-r">商品:</div>
 				<input type="hidden" name="skuId" id="skuId" />
-				<input class="uinp ub ub-f1" type="text" name="skuCodeOrName" id="skuCodeOrName" />
+				<input class="uinp ub ub-f1" type="text" name="skuCodeOrName" id="skuCodeOrName" onblur="clearSkuCode()" />
 				<div class="uinp-more" onClick="selectGoods()">...</div>
 			</div>
 			<div class="ub ub-ac uw-300 umar-l20">
 				<div class="umar-r10 uw-70 ut-r">类别:</div>
 				<input type="hidden" name="categoryCode" id="categoryCode" />
-				<input class="uinp ub ub-f1" type="text" name="categoryCodeOrName" id="categoryCodeOrName" />
+				<input class="uinp ub ub-f1" type="text" name="categoryCodeOrName" id="categoryCodeOrName" onblur="clearCategoryCode()" />
 				<div class="uinp-more" onClick="searchCategory()">...</div>
 			</div>
 		</div>
