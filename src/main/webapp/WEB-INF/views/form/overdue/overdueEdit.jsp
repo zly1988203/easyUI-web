@@ -54,16 +54,17 @@
             		<div class="ubtns-item-disabled" >审核</div>
             </shiro:lacksPermission>
              <c:choose>
-		      	<c:when test="${form.status == 0}">
+		      	<c:when test="${form.status == 0 || form.status == 1}">
 		      		<div class="ubtns-item-disabled">商品选择</div>
+		      		<div class="ubtns-item-disabled">导入货号</div>
+                	<div class="ubtns-item-disabled">导入条码</div>
 		      	</c:when>
 		      	<c:otherwise>
 		      		<div class="ubtns-item" onclick="selectGoods()" >商品选择</div>
+		      		<div class="ubtns-item" onclick="toImportproduct(0)">导入货号</div>
+                	<div class="ubtns-item" onclick="toImportproduct(1)">导入条码</div>
 		      	</c:otherwise>
 		      </c:choose>
-             
-                <div class="ubtns-item" onclick="toImportproduct(0)">导入货号</div>
-                <div class="ubtns-item" onclick="toImportproduct(1)">导入条码</div>
                 <div class="ubtns-item" onclick="exportDetail();">导出</div>
             <shiro:hasPermission name="JxcPurchaseOrder:print">
                 <div class="ubtns-item" onclick="printReport()">打印</div>
@@ -141,7 +142,7 @@
 	     </div>
         
     </div>
-
+<input id="hiddenStatus" type="hidden" name="hiddenStatus" value='<c:out value="${form.status}"></c:out>'>
 <shiro:lacksPermission name="JxcOverdueApply:audit">
 	<input id="hiddenEdit" type="hidden" name="hiddenEdit" value="0">
 </shiro:lacksPermission>
