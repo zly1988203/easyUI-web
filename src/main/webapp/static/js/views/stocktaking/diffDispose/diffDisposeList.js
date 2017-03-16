@@ -1,14 +1,18 @@
 $(function(){
-	//$("#branchCode").val(sessionBranchCode);
-	$("#branchName").val(sessionBranchName);
-	$("#oldBranchName").val(sessionBranchName);
-	$("#branchId").val(sessionBranchId);
-	$("#branchCompleCode").val(sessionBranchCompleCode);
+    initData();
+	initDgTakeStockDiffDispose();
+});
+
+function initData(){
+    $("#branchName").val(sessionBranchName);
+    $("#oldBranchName").val(sessionBranchName);
+    $("#branchId").val(sessionBranchId);
+    $("#branchCompleCode").val(sessionBranchCompleCode);
     //开始和结束时间
     $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
-	initDgTakeStockDiffDispose();
-});
+}
+
 //初始化表格
 function initDgTakeStockDiffDispose(){
 	stockList = $("#diffDisposeList").datagrid({

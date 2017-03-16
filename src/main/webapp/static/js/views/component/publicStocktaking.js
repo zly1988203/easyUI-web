@@ -1,5 +1,7 @@
 var stockCallBack;
 var branchId = "";
+var branchCompleCode ;
+var status = 0;
 
 //$(function(){
 //	initStocktaking();
@@ -14,18 +16,20 @@ function initStockCallBack(cb){
 //搜索
 function stocktSearch(){
 	
-    $("#gridStock").datagrid("options").queryParams = {
-		status:0,
+    $("#gridStockDialog").datagrid("options").queryParams = {
+		status:status,
 		branchCompleCode:branchCompleCode,
 		dlgSearchStr:$("#dlgSearchStr").val()
     };
    
-    $("#gridStock").datagrid("options").method = "post";
-    $("#gridStock").datagrid('options').url = contextPath + '/stocktaking/apply/getApplyList';
-    $("#gridStock").datagrid("load");
+    $("#gridStockDialog").datagrid("options").method = "post";
+    $("#gridStockDialog").datagrid('options').url = contextPath + '/stocktaking/apply/getApplyList';
+    $("#gridStockDialog").datagrid("load");
 }
 
 function initStocktaking(param){
+    branchCompleCode = param.branchCompleCode;
+    status = param.status;
 	var url = contextPath+'/stocktaking/apply/getApplyList';
 	
     $("#gridStockDialog").datagrid({

@@ -300,6 +300,7 @@ function toImportOperate(type){
     },param)
 }
 
+//选择盘点批号
 function searchTakeStock(){
 	var branchId = $('#branchId').val();
 	var branchCompleCode = $("#branchCompleCode").val();
@@ -308,14 +309,31 @@ function searchTakeStock(){
 			branchCompleCode:branchCompleCode
 	}
 	new publicStocktakingDialog(param,function(data){
-		console.log(data);
-		$("#branchId").val(data.branchId);
-		$("#branchCode").val(data.branchCode);
-		$("#branchName").val(data.branchName);
-		$("#batchId").val(data.id);
-		$("#batchNo").val(data.batchNo);
-		$("#scope").val(data.scope==1 ? "类别盘点" : "全场盘点");
-		$("#categoryShows").val(data.categoryShowsStr);
+	    if($("#batchId").val() === ''){
+            $("#branchId").val(data.branchId);
+            $("#branchCode").val(data.branchCode);
+            $("#branchName").val(data.branchName);
+            $("#batchId").val(data.id);
+            $("#batchNo").val(data.batchNo);
+            $("#scope").val(data.scope==1 ? "类别盘点" : "全场盘点");
+            $("#categoryShows").val(data.categoryShowsStr);
+        } else if( data.id != $("#batchId").val()){
+            $.messager.confirm('提示','修改盘点批号后会清空明细，需要重新录入，是否要修改？',function(r){
+                if (r){
+                    $("#branchId").val(data.branchId);
+                    $("#branchCode").val(data.branchCode);
+                    $("#branchName").val(data.branchName);
+                    $("#batchId").val(data.id);
+                    $("#batchNo").val(data.batchNo);
+                    $("#scope").val(data.scope==1 ? "类别盘点" : "全场盘点");
+                    $("#categoryShows").val(data.categoryShowsStr);
+
+                    gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
+                        $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),
+                        $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault)]);
+                }
+            });
+        }
 	})
 }
 
@@ -455,10 +473,29 @@ function saveDataHandel(rows,opType){
  */
 function selectBranches(){
 	new publicAgencyService(function(data){
-		$("#branchId").val(data.branchesId);
-		$("#branchCode").val(data.branchCode);
-		$("#branchCompleCode").val(data.branchCompleCode);
-		$("#branchName").val(data.branchName);
+	    if($("#branchId").val() === ''){
+            $("#branchId").val(data.branchesId);
+            $("#branchCode").val(data.branchCode);
+            $("#branchCompleCode").val(data.branchCompleCode);
+            $("#branchName").val(data.branchName);
+        }else if($("#branchId").val() != data.branchesId){
+            $.messager.confirm('提示','修改机构后会清空明细，需要重新录入，是否要修改？',function(r){
+                if (r){
+                    $("#branchId").val(data.branchesId);
+                    $("#branchCode").val(data.branchCode);
+                    $("#branchCompleCode").val(data.branchCompleCode);
+                    $("#branchName").val(data.branchName);
+                    $("#batchId").val("");
+                    $("#batchNo").val("");
+                    $("#scope").val("");
+                    $("#categoryShows").val("");
+
+                    gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
+                        $.extend({},gridDefault),$.extend({},gridDefault)]);
+                }
+            });
+        }
+
 	},'BF','');
 }
 
@@ -508,6 +545,7 @@ function importStocktakingForm(type){
         tempUrl:'',
         type:type,
         branchId:branchId,
+        isBtnTemple:false
     }
     new publicUploadFileService(function(data){
         updateListData(data);
