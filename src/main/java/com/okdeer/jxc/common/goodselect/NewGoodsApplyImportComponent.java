@@ -344,6 +344,8 @@ public class NewGoodsApplyImportComponent {
 					obj.element("error", "采购规格只能填写数字");
 					continue;
 				}
+			} else {
+				obj.put("purchaseSpec", 1);
 			}
 
 			// 配送规格
@@ -353,8 +355,9 @@ public class NewGoodsApplyImportComponent {
 					obj.element("error", "配送规格只能填写数字");
 					continue;
 				}
+			} else {
+				obj.put("distributionSpec", 1);
 			}
-
 		}
 	}
 
