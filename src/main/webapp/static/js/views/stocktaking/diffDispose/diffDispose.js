@@ -355,15 +355,17 @@ function saveDiffDispose(){
 function saveDataHandel(rows){
 	//批次Id
 	var batchId=$("#batchId").val();
+	//remark
+	var remark=$("#remark").val();
     //机构
     var branchId=$("#branchId").val();
     
     var jsonData = {
     		id:batchId,
 			branchId:branchId,
+			remark:remark,
 			diffDetailList:rows
         };
-    console.log('差异处理详情：',JSON.stringify(jsonData));
     $.ajax({
         url:contextPath+"/stocktaking/diffDispose/saveDiffDispose",
         type:"POST",

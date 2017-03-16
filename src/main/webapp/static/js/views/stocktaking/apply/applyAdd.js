@@ -94,6 +94,9 @@ function scopeChange(){
         $('#categoryShows').addClass('uinp-no-more')
 		$('#categoryDiv').css('display','none');
 	}
+	categoryIds = [];
+    categorytxt = [];
+
 }
 
 /**
@@ -133,4 +136,8 @@ function searchCategory(){
 //重置
 function gFunRefresh(){
     $("#formAdd").form('clear');
+}
+
+function closeDialog() {
+    $(addDalogTemp).panel('destroy');
 }

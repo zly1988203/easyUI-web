@@ -221,6 +221,7 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 
 			vo.setUpdateUserId(user.getId());
 			vo.setUpdateTime(DateUtils.getCurrFullStr());
+			vo.setUpdateUserName(user.getUserName());
 			return stocktakingOperateServiceApi.saveDiffDispose(vo);
 		} catch (Exception e) {
 			LOG.error("保存存货盘点异常：{}", e);

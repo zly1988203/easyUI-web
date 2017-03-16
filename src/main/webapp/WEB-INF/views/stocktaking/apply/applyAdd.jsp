@@ -9,7 +9,7 @@ pageEncoding="UTF-8"%>
 		<div class="ubtns">
 			<button class="ubtns-item" onclick="save()" id="saveBtn">保存</button>
 			<button class="ubtns-item" onclick="gFunRefresh()">重置</button>
-			<button class="ubtns-item" onclick="toClose()">关闭</button>
+			<button class="ubtns-item" onclick="closeDialog()">关闭</button>
 		</div>
 	</div>
 	<div class="ub uline"></div>
