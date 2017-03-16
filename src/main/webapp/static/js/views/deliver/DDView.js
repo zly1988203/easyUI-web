@@ -731,7 +731,7 @@ function toEnd(){
         messager("数据已修改，请先保存再审核");
         return;
     }
-	$.messager.confirm('提示','是否审核通过？',function(data){
+	$.messager.confirm('提示','是否终止该订单？',function(data){
 		if(data){
             gFunStartLoading();
 			$.ajax({
