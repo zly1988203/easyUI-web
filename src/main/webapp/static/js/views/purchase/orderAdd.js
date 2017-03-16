@@ -464,10 +464,10 @@ function updateListData(data){
     	data[i]["remark"] = "";
         data[i]["realNum"]=data[i]["realNum"]||0;
         data[i]["largeNum"]  = (parseFloat(data[i]["realNum"]||0)/parseFloat(data[i]["purchaseSpec"])).toFixed(4);
-        data[i]["amount"]  = parseFloat(data[i]["purchasePrice"]||0)*parseFloat(data[i]["realNum"]||0);
+        data[i]["amount"]  = parseFloat(data[i]["price"]||0)*parseFloat(data[i]["realNum"]||0);
     });
     var keyNames = {
-        purchasePrice:'price',
+        //purchasePrice:'price',
         id:'skuId',
         disabled:'',
         pricingType:'',

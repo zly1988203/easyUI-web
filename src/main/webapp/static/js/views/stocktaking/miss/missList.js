@@ -14,7 +14,8 @@ function initSearchParams(){
 		$("#branchCompleCode").val(sessionBranchCompleCode);
 	}else{
 		$("#selectBranchMore").hide();
-		$("#branchCodeName").attr("disabled", true);
+		$("#branchCodeName").prop('disabled','disabled');
+		$("#branchCodeName").unbind("click");
 	}
 	
 	$("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));

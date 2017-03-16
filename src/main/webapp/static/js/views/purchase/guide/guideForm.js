@@ -1,4 +1,19 @@
 //采购向导 第一步
+window.localStorageUtil = {
+   setLocalStorageItem:function(localName,localObj){ //设置存储数据，传入key和value；key是任意的字符串，value是一个object
+      localStorage.setItem(localName,JSON.stringify(localObj));
+   },
+   getLocalStorageItem:function(localName){ //获取存储数据，传入之前设置的key
+      var data = JSON.parse(localStorage.getItem(localName));
+      return data;
+   },
+   delLocalStorageItem:function(localName){ //删除存储数据，传入之前设置的key
+	   localStorage.removeItem(localName);
+   },
+   clearStorageItem:function(){ //清空所有存储数据
+      localStorage.clear()
+   }
+}
 
 var formData;
 $(function(){
@@ -7,7 +22,14 @@ $(function(){
 	
 	if('undefined' != typeof(formData) && "" != formData){
 		formData = $.parseJSON(formData);
-		setFormValue(formData);
+		
+		if($.isEmptyObject(formData)){
+			initFormValue();
+		}else{
+			setFormValue(formData);
+		}
+	}else{
+		initFormValue();
 	}	
 	
 	$('.radioItem').change(function(){
@@ -27,7 +49,15 @@ $(function(){
 			$('#ignore').removeProp('disabled');
 		}
 	})
-})
+});
+
+//初始化条件信息
+function initFormValue(){
+	$("#branchId").val(sessionBranchId);
+	$("#branchCompleCode").val(sessionBranchCompleCode);
+	$("#branchCodeName").val(sessionBranchCodeName);
+	$("#branchType").val(sessionBranchType);
+}
 
 //为页面赋值
 function setFormValue(formData){
@@ -62,19 +92,139 @@ function selectBranches(){
 }
 
 function selectSupplier(){
+	
+	var supplierCodeName = $("#supplierCodeName").val(); 
+	var supplierId = $("#supplierId").val();
+	
+	if(supplierId){
+		supplierCodeName = null;
+	}
+	
 	new publicSupplierService(function(data){
 		$("#supplierId").val(data.id);
 		$("#supplierCodeName").val("["+data.supplierCode+"]"+data.supplierName);
-	});
+	}, null, supplierCodeName);
 }
+
 /**
  * 类别选择
  */
 function searchCategory(){
 	
+	var categoryCodeName = $("#categoryCodeName").val();
+	var categoryCode = $("#categoryCode").val();
+	
+	var param = null;
+	
+	//如果编码为空，则需要快捷查询类别信息
+	if(!categoryCode){
+		param = { categoryNameOrCode:categoryCodeName };
+	}
+	
 	new publicCategoryService(function(data){
 		$("#categoryCode").val(data.categoryCode);
 		$("#categoryCodeName").val("["+data.categoryCode+"]"+data.categoryName);
+	}, param);
+}
+
+//回车或失去焦点后，查询供应商
+function supplierAutoComple(){
+	//非回车事件和失去焦点，不做处理(失焦时event.keyCode为undefined)
+	if(event.keyCode && event.keyCode != 13){
+		return;
+	}
+	var supplierNameOrsupplierCode = $("#supplierCodeName").val();
+	var branchId=$("#branchId").val();
+	//未输入值时，直接返回，无需查询
+	if("" == supplierNameOrsupplierCode){
+		$("#supplierId").val("");
+		return;
+	}
+	//避免用户直接输入完整格式: [编号]名称
+	var reg = /\[\d{6}\]/;
+	if(reg.test(supplierNameOrsupplierCode)){
+		//取出[]里的编号，默认取已第一个[]里的值
+		reg = /\[(\d{6})\]/;
+		arr = reg.exec(supplierNameOrsupplierCode);
+		supplierNameOrsupplierCode = arr[1];
+	}
+	//请求数据
+	var httpUrl = contextPath + "/common/supplier/getComponentList";
+	var args = {"supplierNameOrsupplierCode" : supplierNameOrsupplierCode,"branchId" : branchId};
+	$.post(httpUrl, args,function(data){
+		if(!data || data.rows.length == 0){
+			//未查询到数据，设置ID为空
+			$("#supplierId").val("");
+			return;
+		}
+
+		//如果精确匹配到一条数据
+		if(data.rows.length == 1){
+			var rec = data.rows[0];
+			var supplierId = rec.id;
+			var supplierName = rec.supplierName;
+			var supplierCode = rec.supplierCode;
+			//完善文本显示
+			$("#supplierCodeName").val("["+supplierCode+"]"+supplierName);
+			//记录ID值,用于后台查询
+			$("#supplierId").val(supplierId);
+		}
+
+		//如果有多条数据
+		if(data.rows.length > 1){
+			selectSupplier();
+		}
+	});
+}
+
+//回车或失去焦点后，查询商品类别
+function categoryAutoComple(){
+	//非回车事件和失去焦点，不做处理(失焦时event.keyCode为undefined)
+	if(event.keyCode && event.keyCode != 13){
+		return;
+	}
+	
+	var categoryCodeName = $("#categoryCodeName").val();
+	var categoryCode=$("#categoryCode").val();
+	//未输入值时，直接返回，无需查询
+	if("" == categoryCodeName){
+		$("#categoryCode").val("");
+		return;
+	}
+	//避免用户直接输入完整格式: [编号]名称
+	var reg = /\[\d{6}\]/;
+	if(reg.test(categoryCodeName)){
+		//取出[]里的编号，默认取已第一个[]里的值
+		reg = /\[(\d{6})\]/;
+		arr = reg.exec(categoryCodeName);
+		categoryCodeName = arr[1];
+	}
+	//请求数据
+	var httpUrl = contextPath + '/common/category/getComponentList';
+	var args = {"categoryNameOrCode" : categoryCodeName,"categoryCode" : categoryCode};
+	$.post(httpUrl, args,function(data){
+		if(!data || data.rows.length == 0){
+			//未查询到数据，设置ID为空
+			$("#categoryCode").val("");
+			return;
+		}
+		
+		//如果只有一条数据
+		if(data.rows.length == 1){
+			var rec = data.rows[0];
+			var categoryCode = rec.categoryCode;
+			var categoryName = rec.categoryName;
+			//完善文本显示
+			$("#categoryCodeName").val("["+categoryCode+"]"+categoryName);
+			//记录ID值,用于后台查询
+			$("#categoryCode").val(categoryCode);
+			return;
+		}
+		
+		//如果有多条数据，则弹出层选
+		if(data.rows.length > 1){
+			searchCategory();
+		}
 	});
 }
 
@@ -105,6 +255,22 @@ function nextStep (){
 			$('#btnNext').removeAttr("disabled");
 			return;
 		}
+	}
+	
+	var categoryCodeName = $("#categoryCodeName").val();
+	var categoryCode = $("#categoryCode").val();
+	if(categoryCodeName && !categoryCode){
+		successTip("商品类别信息不存在，请重新筛选！");
+		$('#btnNext').removeAttr("disabled");
+		return;
+	}
+	
+	var supplierCodeName = $("#supplierCodeName").val(); 
+	var supplierId = $("#supplierId").val();
+	if(supplierCodeName && !supplierId){
+		successTip("供应商信息不存在，请重新筛选！");
+		$('#btnNext').removeAttr("disabled");
+		return;
 	}
 	
 	var ignore = 0;

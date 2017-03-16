@@ -137,7 +137,7 @@ function initDatagridDeliverForm(type){
         width:'100%',
         columns:[[
             {field:'formNo',title:'单号',width:135,align:'center'},
-            {field:'status',title:'单据状态',width:100,align:'center',
+            {field:'status',title:'审核状态',width:100,align:'center',
             	 formatter: function(value,row,index){
             		 if(value == '0'){
                   		return '待审核';

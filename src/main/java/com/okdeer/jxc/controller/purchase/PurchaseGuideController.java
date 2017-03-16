@@ -57,7 +57,7 @@ public class PurchaseGuideController extends BaseController<PurchaseGuideControl
 	public String guideForm(PurchaseGuideQo qo, Model model) {
 		LOG.info("第一步默认条件筛选信息：{}", qo);
 		String formData = GsonUtils.toJson(qo);
-
+		
 		model.addAttribute("formData", formData);
 		return "form/purchase/guide/guideForm";
 	}

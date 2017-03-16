@@ -237,7 +237,7 @@ function selectGoods(searchKey){
 	}
     
     var param = {
-    		type:'',
+    		type:'PP',
     		key:searchKey,
     		isRadio:'',
     		branchId:branchId,
