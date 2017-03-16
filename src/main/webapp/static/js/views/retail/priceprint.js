@@ -31,7 +31,11 @@ $(function(){
 			return;
 		}
 		discountRows($(this).val());
+<<<<<<< HEAD
 	})*/
+=======
+	})
+>>>>>>> refs/remotes/upstream/V2.2.2
 });
 
 //监听打印数

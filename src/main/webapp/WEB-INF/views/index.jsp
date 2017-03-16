@@ -83,7 +83,7 @@
 <script type="text/javascript">
 	document.onkeydown = function(e) {
 	    if (event.ctrlKey && event.altKey && 67 == e.keyCode){
-	        alert("当前版本:V2.2.0_A26");
+	        alert("当前版本:V2.2.2_A04");
 	    }
 	}
 </script>
