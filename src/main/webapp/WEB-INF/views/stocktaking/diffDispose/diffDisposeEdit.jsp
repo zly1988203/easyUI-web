@@ -88,6 +88,7 @@
            </form>
            <!--datagrid-edit-->
            <div class="ub ub-f1 datagrid-edit umar-t8">
+                <input type="hidden" id="sumStocktakingNum"/>
                <table id="operateGrid" ></table>
            </div>
     </div>

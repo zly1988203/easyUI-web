@@ -94,6 +94,7 @@ function initOperateDataGrid(){
             {field:'snapshootStockNum',title:'系统库存',width:'100px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
+                        $('#sumStocktakingNum').val(parseFloat(value||0).toFixed(2));
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                     }
                     if(!value){
@@ -199,6 +200,7 @@ function initOperateDataGrid(){
         onUncheck:function(rowIndex,rowData){
         	rowData.handle = '0';
         },
+           
         onClickCell:function(rowIndex,field,value){
             if(operateStatus === '1') return;
             gridHandel.setBeginRow(rowIndex);
@@ -209,8 +211,8 @@ function initOperateDataGrid(){
             }else{
                 gridHandel.setSelectFieldName("differenceReason");
             }
-        },
-        onClickRow:gridClickRow,
+        }, 
+
         onLoadSuccess:function(data){
         	if((data.rows).length <= 0)return;
         	
@@ -228,7 +230,6 @@ function initOperateDataGrid(){
                 });
             }
 
-            
             gridHandel.setDatagridHeader("center");
         
             updateFooter();
@@ -239,12 +240,6 @@ function initOperateDataGrid(){
     	 gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
     	                         $.extend({},gridDefault),$.extend({},gridDefault)]);
     }
-}
-var oldRow = null;
-function  gridClickRow (index,rowData) {
-    oldRow = rowData;
-    $("#"+gridName).datagrid("beginEdit",index);
-    $("#"+gridName).datagrid("endEdit",index);
 }
 
 
@@ -325,6 +320,7 @@ function setParams(formId){
 function saveDiffDispose(){
     $("#"+gridName).datagrid("endEdit", gridHandel.getSelectRowIndex());
     var rows = gridHandel.getRows();
+    // var changeRows =  $("#"+gridName).datagrid("getChanges");
     var newRows = [];
     $.each(rows,function(i,row){
                 var param = {
@@ -335,8 +331,6 @@ function saveDiffDispose(){
                 newRows.push(param);
     });
 
-
-    // $("#"+gridName).datagrid("loadData",rows);
     if(rows.length==0){
         messager("表格不能为空");
         return;
@@ -403,6 +397,7 @@ function auditDiffDispose(){
     		id:batchId,
 			branchId:branchId,
 			batchNo:batchNo,
+            sumStocktakingNum:$('#sumStocktakingNum').val(),
 			diffDetailList:rows
         };
 	$.messager.confirm('提示','是否审核通过？',function(data){
