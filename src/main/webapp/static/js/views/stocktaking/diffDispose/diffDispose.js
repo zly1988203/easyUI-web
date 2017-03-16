@@ -94,7 +94,6 @@ function initOperateDataGrid(){
             {field:'snapshootStockNum',title:'系统库存',width:'100px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
-                        $('#sumStocktakingNum').val(parseFloat(value||0).toFixed(2));
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                     }
                     if(!value){
@@ -106,6 +105,7 @@ function initOperateDataGrid(){
             {field:'stocktakingNum',title:'盘点数量',width:'100px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
+                    	$('#sumStocktakingNum').val(parseFloat(value||0).toFixed(4));
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                     }
                     if(!value){
@@ -397,8 +397,7 @@ function auditDiffDispose(){
     		id:batchId,
 			branchId:branchId,
 			batchNo:batchNo,
-            sumStocktakingNum:$('#sumStocktakingNum').val(),
-			diffDetailList:rows
+            sumStocktakingNum:$('#sumStocktakingNum').val()
         };
 	$.messager.confirm('提示','是否审核通过？',function(data){
 		if(data){

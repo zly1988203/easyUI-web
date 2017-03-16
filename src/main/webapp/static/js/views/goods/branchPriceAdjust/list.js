@@ -102,6 +102,12 @@ var datagridUtil = {
 
 //查询
 function modifyPriceOrderCx(){
+	var oldBranchName = $("#oldBranchName").val();
+	var branchName = $("#branchName").val();
+	if(!branchName && branchName != oldBranchName ){
+		$("#branchId").val('');
+		$("#branchCode").val('');
+	}
 	var fromObjStr = $('#searchForm').serializeObject();
 	dg.datagrid('options').method = "post";
 	dg.datagrid('options').url = contextPath+'/goods/branchPriceAdjust/getGoodsBranchPriceAdjustList';

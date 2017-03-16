@@ -508,20 +508,40 @@ function selectBranch(){
 function toImportproduct(type){
     var branchId = $("#branchId").val();
     if(!branchId){
-        messager("请先选择收货机构");
+        messager("请先选择机构");
         return;
     }
     var param = {
-        url:contextPath+"/form/purchase/importList",
-        tempUrl:contextPath+"/form/purchase/exportTemp",
+        url:contextPath+"/form/overdue/import/list",
+        tempUrl:contextPath+"/form/overdue/export/templ",
         type:type,
-        branchId:branchId,
-    }
+        branchId:branchId
+    };
     new publicUploadFileService(function(data){
-        updateListData(data);
+    	$.each(data,function(i,val){
+        	data[i]["applyDesc"] = "";
+            data[i]["applyNum"]=data[i]["applyNum"]||0;
+            data[i]["applyPrice"]=data[i]["applyPrice"]||0;
+            data[i]["applyAmount"]  = parseFloat(data[i]["applyPrice"]||0)*parseFloat(data[i]["applyNum"]||0);
+        });
+	    var keyNames = {
+	        purchasePrice:'price',
+	        id:'skuId',
+	        disabled:'',
+	        pricingType:'',
+	        inputTax:'tax'
+	    };
+	    var rows = gFunUpdateKey(data,keyNames);
+
+	    var argWhere ={skuCode:1};  //验证重复性
+	    var isCheck ={isGift:1 };   //只要是赠品就可以重复
+	    var newRows = gridHandel.checkDatagrid(rows,argWhere,isCheck);
+
+	    $("#gridEditOrder").datagrid("loadData",rows);
         
     },param)
 }
+
 
 function back(){
 	location.href = contextPath+"/form/purchase/orderList";

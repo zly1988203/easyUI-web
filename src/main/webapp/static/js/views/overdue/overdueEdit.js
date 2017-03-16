@@ -1,5 +1,7 @@
 var hiddenEdit=true;
+var hiddenStatus;
 $(function(){
+	hiddenStatus = $("#hiddenStatus").val();
 	if($("#hiddenEdit").val()==="0") hiddenEdit=false;
 	    initDatagridEditOrder();
 	    $("div").delegate("button","click",function(){
@@ -69,7 +71,7 @@ $(function(){
 		        		
 		        		,
 		                formatter : function(value, row,index) {
-		                	if(hiddenEdit){
+		                	if(hiddenEdit||!(hiddenStatus==="3")){
 		                		 $('#gridEditOrder').datagrid('hideColumn', 'cz');
 		                	}else{
 		                		 var str = "";
@@ -90,7 +92,7 @@ $(function(){
 	            	,editor:{
 	            		type:'textbox',
 	            		options:{
-	                        disabled:hiddenEdit
+	                        disabled:hiddenEdit||!(hiddenStatus==="3")
 	                    }
 	            	}
 	            },
@@ -117,7 +119,7 @@ $(function(){
 	                        min:0,
 	                        precision:4,
 	                        onChange: onChangeLargeNum,
-	                        disabled:hiddenEdit
+	                        disabled:hiddenEdit||!(hiddenStatus==="3")
 	                    }
 	                }
 	            },
@@ -137,7 +139,7 @@ $(function(){
 	                        min:0,
 	                        precision:4,
 	                        onChange: onChangePrice,
-	                        disabled:hiddenEdit
+	                        disabled:hiddenEdit||!(hiddenStatus==="3")
 	                    }
 	                }
 	            },
@@ -154,7 +156,7 @@ $(function(){
 	                        min:0,
 	                        precision:4,
 	                        onChange: onChangeAmount,
-	                        disabled:hiddenEdit
+	                        disabled:hiddenEdit||!(hiddenStatus==="3")
 	                    }
 	                }
 
@@ -163,7 +165,7 @@ $(function(){
 	            	editor:{
 	            		type:'textbox',
 	            		options:{
-	                        disabled:hiddenEdit
+	                        disabled:hiddenEdit||!(hiddenStatus==="3")
 	                    }
 	            	}
 	            },
@@ -464,7 +466,9 @@ $(function(){
 	        success:function(result){
 	            console.log(result);
 	            if(result['code'] == 0){
-	                $.messager.alert("操作提示", "操作成功！", "info");
+	                $.messager.alert("操作提示", "操作成功！", "info",function(){
+	                	location.reload();
+	                });
 	            }else{
 	                successTip(result['message']);
 	            }
@@ -736,7 +740,9 @@ $(function(){
 		        			        success:function(result){
 		        			            console.log(result);
 		        			            if(result['code'] == 0){
-		        			                $.messager.alert("操作提示", "操作成功！", "info");
+		        			                $.messager.alert("操作提示", "操作成功！", "info",function(){
+		        			                	location.reload();
+		        			                });
 		        			            }else{
 		        			                successTip(result['message']);
 		        			            }

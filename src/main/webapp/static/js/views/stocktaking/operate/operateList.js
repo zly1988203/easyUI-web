@@ -44,11 +44,7 @@ function initDgTakeStockOperate(){
 			{field: 'createUserName', title: '制单人员', width: 140, align: 'left'},
 			{field: 'createTime', title: '操作日期', width: 140, align: 'left'},
 			{field: 'remark', title: '备注', width: 140, align: 'left'},
-		]],
-		onLoadSuccess:function(data){
-			gridHandel.setDatagridHeader("center");
-		}
-
+		]]
 	});
 	queryForm();
 }
