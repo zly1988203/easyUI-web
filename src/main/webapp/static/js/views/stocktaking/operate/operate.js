@@ -325,11 +325,11 @@ function saveStocktakingForm(opType){
 	var batchNo = $("#batchNo").val();
     //机构Code
     var branchCode=$("#branchCode").val();
-	if(!branchId || !$.trim(branchId)){
+	if(branchId === '' || branchId == null){
 		messager("请选择机构");
 		return;
 	}
-	if(opType == 1 && (!branchCode || !$.trim(branchCode))){
+	if(opType == 1 && (branchId === '' || branchId == null)){
 		messager("请选择机构");
 		return;
 	}

@@ -360,11 +360,17 @@ pageEncoding="UTF-8"%>
         var row =  $("#gridGoods").datagrid("getChecked");
         cb(row);
     }
-    function initSearch(key){
-        if(!key){
+    function initSearch(param){
+    $("#goodsInfo").val(param.key);
+        if(!param.key){
         	var searchSupplierId = $("#searchSupplierId").val();
             $("#gridGoods").datagrid("options").method = "post";
-            $("#gridGoods").datagrid("options").url =contextPath + '/goods/goodsSelect/getGoodsList?flag=${flag}&formType=${type}&sourceBranchId=${sourceBranchId}&targetBranchId=${targetBranchId}&branchId=${branchId}&categoryCodes=${categoryCodes}&isManagerStock=${isManagerStock}&supplierId='+searchSupplierId;
+            $("#gridGoods").datagrid("options").queryParams = $.extend({'flag':'${flag}','supplierId':searchSupplierId,
+                                                                    'formType':'${type}','sourceBranchId':'${sourceBranchId}',
+                                                                    'targetBranchId':'${targetBranchId}','branchId':'${branchId}',
+                                                                    'categoryCodes':'${categoryCodes}','isManagerStock':'${isManagerStock}'},
+                                                                    fromParams)
+            $("#gridGoods").datagrid("options").url =contextPath + '/goods/goodsSelect/getGoodsList';
             $("#gridGoods").datagrid('load');
         }else{
             cx();
@@ -383,7 +389,11 @@ pageEncoding="UTF-8"%>
             }
             // $("#gridGoods").datagrid("options").queryParams = {'categoryId':categoryId,'goodsInfo':goodsInfo,'formType':'${type}','sourceBranchId':'${sourceBranchId}','targetBranchId':'${targetBranchId}'};
             // 梁利 提出左边树与右边的查询无关系
-            $("#gridGoods").datagrid("options").queryParams = $.extend({'flag':'${flag}','goodsInfo':goodsInfo,'supplierId':searchSupplierId,'formType':'${type}','sourceBranchId':'${sourceBranchId}','supplierId':searchSupplierId,'targetBranchId':'${targetBranchId}','branchId':'${branchId}'},fromParams)
+            $("#gridGoods").datagrid("options").queryParams = $.extend({'flag':'${flag}','goodsInfo':goodsInfo,'supplierId':searchSupplierId,
+                                                                            'formType':'${type}','sourceBranchId':'${sourceBranchId}',
+                                                                            'targetBranchId':'${targetBranchId}','branchId':'${branchId}',
+                                                                            'categoryCodes':'${categoryCodes}','isManagerStock':'${isManagerStock}'},
+                                                                           fromParams)
             $("#gridGoods").datagrid("options").method = "post";
             $("#gridGoods").datagrid("options").url =contextPath + '/goods/goodsSelect/getGoodsList';
             $("#gridGoods").datagrid('load');
