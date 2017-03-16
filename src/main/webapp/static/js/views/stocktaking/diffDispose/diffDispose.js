@@ -66,6 +66,7 @@ function initOperateDataGrid(){
         singleSelect:isSingleSelect,  // 单选 false多选
         rownumbers:true,    // 序号
         showFooter:true,
+        checkOnSelect:false,
         pageSize:10000,
         view:scrollview,
         height:'100%',
@@ -76,7 +77,6 @@ function initOperateDataGrid(){
 			        return value;
 			    },
 			},
-			{field:'id',hidden:'true'},
             {field:'skuId',hidden:'true'},
             {field:'barCode',hidden:'true'},
             {field:'skuCode',title:'货号',width: '100px',align:'left',
@@ -210,7 +210,10 @@ function initOperateDataGrid(){
                 gridHandel.setSelectFieldName("differenceReason");
             }
         },
+        onClickRow:gridClickRow,
         onLoadSuccess:function(data){
+        	if((data.rows).length <= 0)return;
+        	
         	if(!oldData["grid"]){
             	oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
             		return $.extend(true,{},obj);//返回对象的深拷贝
@@ -236,6 +239,12 @@ function initOperateDataGrid(){
     	 gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
     	                         $.extend({},gridDefault),$.extend({},gridDefault)]);
     }
+}
+var oldRow = null;
+function  gridClickRow (index,rowData) {
+    oldRow = rowData;
+    $("#"+gridName).datagrid("beginEdit",index);
+    $("#"+gridName).datagrid("endEdit",index);
 }
 
 
@@ -393,7 +402,8 @@ function auditDiffDispose(){
     var jsonData = {
     		id:batchId,
 			branchId:branchId,
-			batchNo:batchNo
+			batchNo:batchNo,
+			diffDetailList:rows
         };
 	$.messager.confirm('提示','是否审核通过？',function(data){
 		if(data){
