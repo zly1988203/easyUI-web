@@ -37,6 +37,8 @@
 			successTip("请选择导出项");
 			return;
 		}
+		
+		debugger;
 		var stratRow = 1;
 		var endRow = dg.datagrid('getData').endRow;
 		//当前页

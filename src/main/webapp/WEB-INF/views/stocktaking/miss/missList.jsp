@@ -38,7 +38,8 @@
 			<div class="ub ub-ac uw-300 umar-l20">
 				<div class="umar-r10 uw-70 ut-r">机构:</div>
 				<input type="hidden" id="branchCompleCode" name="branchCompleCode" value="${batchVo.branchCompleCode}"/>
-				<input class="uinp ub ub-f1" type="text" id="branchCodeName" name="branchCodeName" value="${batchVo.branchCodeName}" maxlength="50" readonly="readonly" />
+				<input class="uinp ub ub-f1" type="text" id="branchCodeName" name="branchCodeName" value="${batchVo.branchCodeName}" 
+					maxlength="50" readonly="readonly" onclick="selectBranches()" />
 				<div class="uinp-more" onclick="selectBranches()" id="selectBranchMore" >...</div>
 				<input type="hidden" id="startCount" name="startCount" >
 				<input type="hidden" id="endCount" name="endCount" >

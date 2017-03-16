@@ -282,8 +282,11 @@ function publicBrandService(callback){
 
 //公共组件-选择商品类别
 //param {categoryType,type,amount:限制数量}
+var categoryDalog = null;
 function publicCategoryService(callback,param){
-	if('undefined' === typeof(param)){
+	if(null != categoryDalog) return;
+	
+	if(!param || 'undefined' === typeof(param)){
 		param = {
 				categoryType:'',
 				type:0
@@ -303,7 +306,8 @@ function publicCategoryService(callback,param){
         closable:true,
         resizable:true,
         onClose:function(){
-            $(dalogTemp).panel('destroy');
+            $(categoryDalog).panel('destroy');
+            categoryDalog = null;
         },
         modal:true,
         };
@@ -320,7 +324,8 @@ function publicCategoryService(callback,param){
         },{
             text:'取消',
             handler:function(){
-                $(dalogTemp).panel('destroy');
+                $(categoryDalog).panel('destroy');
+                categoryDalog = null;
             }
         }];
     }else{
@@ -330,18 +335,23 @@ function publicCategoryService(callback,param){
         };
     }
     //公有属性
-    var dalogTemp = $('<div/>').dialog(dalogObj);
+    categoryDalog = $('<div/>').dialog(dalogObj);
     function callBackHandel(data){
     	  callback(data);
-          $(dalogTemp).panel('destroy');
+          $(categoryDalog).panel('destroy');
+          categoryDalog = null;
     }
     
 }
 
+var supplierDalog = null;
+
 //公共组件-选择供应商
-function publicSupplierService(callback,model) {
+function publicSupplierService(callback,model, supplierCodeOrName) {
+	if(null != supplierDalog) return;
+	
     //公有属性
-    var dalogTemp = $('<div/>').dialog({
+	supplierDalog = $('<div/>').dialog({
         href: contextPath + "/common/supplier/views?model="+model,
         width: 600,
         height: dialogHeight,
@@ -350,16 +360,18 @@ function publicSupplierService(callback,model) {
         resizable: true,
         onClose: function () {
             $(this).dialog('destroy');
+            supplierDalog = null;
         },
         modal: true,
         onLoad: function () {
-            initSupplierView();
+            initSupplierView(supplierCodeOrName);
             initSupplierCallBack(callBackHandel)
         },
     });
     function callBackHandel(data){
         callback(data);
-        $(dalogTemp).panel('destroy');
+        $(supplierDalog).panel('destroy');
+        supplierDalog = null;
     }
     //调用方式
     //new publicSupplierService(function(data){
