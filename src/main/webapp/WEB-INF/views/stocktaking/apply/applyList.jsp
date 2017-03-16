@@ -46,7 +46,7 @@
 		<div class="ub umar-t8">
 		<div class="ub ub-ac">
 		<div class="umar-r10 uw-70 ut-r">盘点范围:</div>
-			<select class="uselect easyui-combobox" style="width: 204px;" name="scope" id="scope">
+			<select class="uselect easyui-combobox" style="width: 204px;" data-options="editable:false" name="scope" id="scope">
 				<option value="">--请选择--</option>
 				<option value="0">全场盘点</option>
 				<option value="1">类别盘点</option>
