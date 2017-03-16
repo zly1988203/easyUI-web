@@ -472,7 +472,7 @@ function checkStopGuide(){
 }
 //初始化数据
 function resetGuideData(){
-	$("input[name='guideStatus']").prop("checked",false).eq(0).prop("checked",true);
+	$("input[name='guideType']").prop("checked",false).eq(0).prop("checked",true);
 	$("input[name='guideChoose']").prop("checked",false).eq(0).prop("checked",true);
 	$("#guideDatew").numberbox('setValue',15);
 }
@@ -490,10 +490,10 @@ function closeStopGuideDialog(){
 }
 //初始化数据
 function resetStopGuideData(){
-	$("input[name='stGuideStatus']").prop("checked",false).eq(0).prop("checked",true);
+	$("input[name='stGuideType']").prop("checked",false).eq(0).prop("checked",true);
 	$("input[name='stGuideChoose']").prop("checked",false).eq(0).prop("checked",true);
-	$("#stguideDate").numberbox('clear');
-	$("#stguideNum").numberbox('clear');
+	$("#stGuideDate").numberbox('setValue',15);
+	$("#stGuideNum").numberbox('setValue',5);
 }
 
 
