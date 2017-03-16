@@ -7,6 +7,13 @@ var isSingleSelect = true;
 var amount = 0;
 function initCategoryView(param){
 	categoryType=param.categoryType;
+	
+	//如果不为空，则赋值参数
+	var categoryNameOrCode = param.categoryNameOrCode;
+	if(categoryNameOrCode){
+		$("#categoryNameOrCode").val(categoryNameOrCode);
+	}
+	
 	isSingleSelect = param.type==1?false:true;
     amount = param.amount?param.amount:0;
     gFunSetEnterKey(categorySearch);
@@ -83,7 +90,11 @@ function initDatagridCategory(categoryType){
         //title:'普通表单-用键盘操作',
         method:'post',
         align:'center',
-        url:contextPath + "/common/category/getComponentList?categoryType="+categoryType,
+        url:contextPath + "/common/category/getComponentList",
+        queryParams:{
+        	categoryType:categoryType,
+        	categoryNameOrCode:$("#categoryNameOrCode").val()
+        },
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:isSingleSelect,  //单选  false多选
         rownumbers:true,    //序号
