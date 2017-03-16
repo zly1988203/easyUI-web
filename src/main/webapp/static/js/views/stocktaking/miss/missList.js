@@ -73,9 +73,9 @@ function queryForm(){
 	$("#dgMissList").datagrid('load', fromObjStr);
 }
 
-function gFunRefresh(){
-    $("#queryForm").form('clear');
-}
+// function gFunRefresh(){
+//     $("#queryForm").form('clear');
+// }
 
 function exportData(){
 	var length = dg.datagrid('getData').rows.length;

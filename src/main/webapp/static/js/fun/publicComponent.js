@@ -131,7 +131,8 @@ function toChangeDatetime(index){
 /**
  * 批量导入货号或条码
  * @param params {type:0 货号 1条码,url:上传地址,}
- * @param callback
+ *  isBtnTemple 是否需要模板下载按钮 默认true
+  * @param callback
  */
 function publicUploadFileService(callback,params){
     //公有属性
@@ -1310,7 +1311,7 @@ function GridClass(){
         },10)
     }
     /**
-     * 删除当前行
+     * 结束编辑当前行
      * @param index     当前行号
      */
     this.endEditRow = function(){

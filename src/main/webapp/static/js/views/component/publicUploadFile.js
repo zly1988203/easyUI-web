@@ -6,6 +6,9 @@ var uploadFileParams;
 var uploadFileCallBack ;
 //初始化回调函数
 function initUploadFileCallBack(cb,params){
+    if(params.isBtnTemple == false){
+        $('#btnTemple').hide();
+    }
     uploadFileParams = params;
     uploadFileCallBack = cb;
 }

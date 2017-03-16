@@ -7,7 +7,7 @@
 <div class="ub ub-ver ub-pc ub-ac uw uh ub-f1" >
         <div class="ub ub-ver uw uh ub-f1">
             <!-- 导入弹框 -->
-            <div class="ubtn uw-100 umar-10" onclick="downExportFile()" id="temple">导入模版下载</div>
+            <div class="ubtn uw-100 umar-10" onclick="downExportFile()" id="btnTemple">导入模版下载</div>
             <div class="uacon">
                 <input  id="filelink" class="uinp ub"  type="text" readonly="readonly">
                 <label class="ualable">选择文件<input id="file" name="file" type="file" class="uafile" value=""  onchange="fileUrlChange(event)" readonly="readonly" /></label>

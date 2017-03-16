@@ -1,13 +1,13 @@
 
 var applyAddcallback;
 $(function(){
-	$("#addbranchCode").val(sessionBranchCode);
-	$("#addbranchName").val(sessionBranchName);
-	$("#addbranchId").val(sessionBranchId);
+    initAddData();
 	//$("#branchCompleCode").val(sessionBranchCompleCode);
 });
 function initAddData(){
-	$('#categoryDiv').css('display','none');
+    $("#addbranchCode").val(sessionBranchCode);
+    $("#addbranchName").val(sessionBranchName);
+    $("#addbranchId").val(sessionBranchId);
 }
 
 function initCallback(cb){
@@ -136,6 +136,7 @@ function searchCategory(){
 //重置
 function gFunRefresh(){
     $("#formAdd").form('clear');
+    initAddData();
 }
 
 function closeDialog() {

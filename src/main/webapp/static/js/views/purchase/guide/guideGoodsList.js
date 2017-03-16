@@ -170,8 +170,8 @@ function lastStep(){
 
 //下一步
 function nextStep (){
-	
-	 var rows = gridHandel.getRows();
+    gridHandel.endEditRow(gridHandel.getSelectRowIndex());
+    var rows = gridHandel.getRows();
 	 var gridRows = [];
 	 $.each(rows,function(i,data){
 		 var param = {
