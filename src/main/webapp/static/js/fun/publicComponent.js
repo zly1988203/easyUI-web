@@ -736,8 +736,7 @@ function publicGoodsServiceHandel(param,callback){
     }else{
         dalogObj["onLoad"] =function(){
             initGoodsRadioCallBack();
-            $("#goodsInfo").val(param.key);
-            initSearch(param.key);
+            initSearch(param);
         };
         dalogObj["buttons"] =[{
             text:'确定',
