@@ -108,6 +108,15 @@ public class StocktakingMissController extends BaseController<StocktakingMissCon
 				qo.setBranchCompleCode(getCurrBranchCompleCode());
 			}
 		}
+		
+		String branchCodeName = qo.getBranchCodeName();
+		if (StringUtils.isNotBlank(branchCodeName)) {
+
+			// 如果是选择的机构信息，清空机构名称
+			if (branchCodeName.contains("[") && branchCodeName.contains("]")) {
+				qo.setBranchCodeName(null);
+			}
+		}
 
 		String skuCodeOrName = qo.getSkuCodeOrName();
 		if (StringUtils.isNotBlank(skuCodeOrName)) {
@@ -194,8 +203,8 @@ public class StocktakingMissController extends BaseController<StocktakingMissCon
 			}
 			String path = PrintConstant.STOCK_TAKING_MISS_GOODS;
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("startDate", qo.getStartTime());
-			map.put("endDate", qo.getEndTime());
+			map.put("startDate", DateUtils.getSmallRStr(qo.getStartTime()));
+			map.put("endDate", DateUtils.getSmallRStr(qo.getEndTime()));
 			map.put("printName", getCurrentUser().getUserName());
 			JasperHelper.exportmain(request, response, map, JasperHelper.PDF_TYPE, path, printList, "");
 		} catch (Exception e) {
