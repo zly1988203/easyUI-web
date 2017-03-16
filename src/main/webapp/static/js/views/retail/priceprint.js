@@ -20,18 +20,7 @@ $(function(){
 	initjiaqType();
 	//初始化列表
 	initPricePrintGrid();
-	/*$('#printnum').on('input',function(){
-		printRows($(this).val());
 
-	})*/
-	
-	/*$('#discount').bind('input onblur',function(){
-		if(isNaN($(this).val()) || $(this).val() > 10){
-			$(this).val("");
-			return;
-		}
-		discountRows($(this).val());
-	})*/
 });
 
 //监听打印数

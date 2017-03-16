@@ -5,7 +5,7 @@
 //公共组件-弹出框
 
 var top = $(window).height()/3;
-var topw = top;//用于设置弹出dialog组件距离顶部距离 设置为null则不设置
+var dialogHeight = $(window).height()*(2/3);
 var left = $(window).width()/4;
 
 function messager(msg,title){
@@ -138,8 +138,7 @@ function publicUploadFileService(callback,params){
     var  dalogTemp = $('<div id="uploadFile"/>').dialog({
         href:contextPath + "/common/uploadFile",
         width:480,
-        height:320,
-        top:topw,
+        height:dialogHeight,
         title:params.type==1?"导入条码":"导入货号",
         closable:true,
         resizable:true,
@@ -194,8 +193,7 @@ function publicRoleService(callback, branchCompleCode, branchType){
         href:contextPath + "/role/common/toRoleList?branchCompleCode="
         	+branchCompleCode+"&branchType="+branchType,
         width:500,
-        height:580,
-        top:topw,
+        height:dialogHeight,
         title:"选择角色",
         closable:true,
         resizable:true,
@@ -216,6 +214,12 @@ function publicRoleService(callback, branchCompleCode, branchType){
 
 //公共组件-机构选择
 function publicAgencyService(callback,formType,branchId, branchType){
+	if(!formType){
+		formType="";
+	}
+	if(!branchId){
+		branchId="";
+	}
 	if(!branchType){
 		branchType="";
 	}
@@ -224,9 +228,8 @@ function publicAgencyService(callback,formType,branchId, branchType){
     	href:contextPath + "/common/branches/viewComponent?formType="+ 
     		formType + "&branchId=" +branchId+ "&branchType="+branchType,
         width:680,
-        height:600,
+        height:$(window).height()*(2/3),
         title:"机构选择",
-        top:topw,
         closable:true,
         resizable:true,
         onClose:function(){
@@ -254,8 +257,7 @@ function publicBrandService(callback){
     var  dalogTemp = $('<div/>').dialog({
         href:contextPath + "/common/brand/views",
         width:680,
-        height:600,
-        top:topw,
+        height:dialogHeight,
         title:"选择品牌",
         closable:true,
         resizable:true,
@@ -342,8 +344,7 @@ function publicSupplierService(callback,model) {
     var dalogTemp = $('<div/>').dialog({
         href: contextPath + "/common/supplier/views?model="+model,
         width: 600,
-        height: 500,
-        top:topw,
+        height: dialogHeight,
         title: "选择供应商",
         closable: true,
         resizable: true,
@@ -372,8 +373,7 @@ function publicOperatorService(callback) {
     var dalogTemp = $('<div/>').dialog({
         href: contextPath + "/system/user/views?type=operate",
         width: 680,
-        height: 600,
-        top:topw,
+        height: dialogHeight,
         title: "选择操作员",
         closable: true,
         resizable: true,
@@ -401,8 +401,7 @@ function publicDictService(dictType,callback) {
   var dalogTemp = $('<div/>').dialog({
       href: contextPath + "/common/dict/views/dict?dictType="+dictType,
       width: 680,
-      height: 600,
-      top:topw,
+      height: dialogHeight,
       title: "选择字典",
       closable: true,
       resizable: true,
@@ -433,8 +432,7 @@ function publicBranchService(callback,type) {
     var dalogObj = {
         href: contextPath + "/system/user/views?type=branch&check="+type,
         width: 680,
-        height: 600,
-        top:topw,
+        height: dialogHeight,
         title: "选择机构",
         closable: true,
         resizable: true,
@@ -482,8 +480,7 @@ function publicBranchServiceGift(callback,type) {
     var dalogObj = {
         href: contextPath + "/system/user/publicBranchChoose?type=branch&check="+type,
         width: 680,
-        height: 600,
-        top:topw,
+        height: dialogHeight,
         title: "选择机构",
         closable: true,
         resizable: true,
@@ -525,8 +522,7 @@ function publicBranchAreaService(callback) {
     var dalogTemp = $('<div/>').dialog({
         href: contextPath + "/system/user/views?type=branchArea",
         width: 680,
-        height: 600,
-        top:topw,
+        height: dialogHeight,
         title: "选择机构区域",
         closable: true,
         resizable: true,
@@ -554,8 +550,7 @@ function publicPurchaseFormService(type,callback){
   var  dalogTemp = $('<div/>').dialog({
       href:contextPath + "/form/purchaseSelect/view?type="+type,
       width:1200,
-      height:600,
-      top:topw,
+      height:dialogHeight,
       title:"单据选择",
       closable:true,
       resizable:true,
@@ -587,8 +582,7 @@ function publicDeliverFormService(type,callback){
 var  dalogTemp = $('<div/>').dialog({
     href:contextPath + "/form/deliverSelect/view?type="+type,
     width:1200,
-    height:600,
-    top:topw,
+    height:dialogHeight,
     title:"单据选择",
     closable:true,
     resizable:true,
@@ -707,8 +701,8 @@ var good_dalogTemp = null;
 function publicGoodsServiceHandel(param,callback){
 	if(!param.branchId){
         url=contextPath + "/goods/goodsSelect/view?type="+param.type+"&sourceBranchId="+param.sourceBranchId+"&targetBranchId="+param.targetBranchId+"&supplierId="+param.supplierId+"&flag="+param.flag;
-    }else if(param.categoryCodes){ //商品类别
-        url=contextPath + "/goods/goodsSelect/view?type="+param.type+"&branchId="+param.branchId+"&supplierId="+param.supplierId+"&flag="+param.flag+"&categoryCodes="+param.categoryCodes;
+    }else if(param.categoryCodes || param.isManagerStock){ //商品类别
+    	url=contextPath + "/goods/goodsSelect/view?type="+param.type+"&branchId="+param.branchId+"&supplierId="+param.supplierId+"&flag="+param.flag+"&categoryCodes="+param.categoryCodes+"&isManagerStock="+param.isManagerStock;
     }else{
     	url=contextPath + "/goods/goodsSelect/view?type="+param.type+"&branchId="+param.branchId+"&supplierId="+param.supplierId+"&flag="+param.flag;
     }
@@ -716,8 +710,7 @@ function publicGoodsServiceHandel(param,callback){
     var dalogObj = {
         href:url,
         width:1200,
-        height:600,
-        top:topw,
+        height:dialogHeight,
         title:"商品选择",
         closable:true,
         resizable:true,
@@ -812,8 +805,7 @@ function publicNewGoodsServiceHandel(params,callback){
     var dalogObj = {
         href:url,
         width:1200,
-        height:600,
-        top:topw,
+        height:dialogHeight,
         title:"商品选择",
         closable:true,
         resizable:true,
@@ -1812,8 +1804,7 @@ function publicGoodsSkuServiceHandel(callback,isRadio,key,branchId){
 var dalogObj = {
     href:url,
     width:1200,
-    height:600,
-    top:topw,
+    height:dialogHeight,
     title:"商品选择",
     closable:true,
     resizable:true,

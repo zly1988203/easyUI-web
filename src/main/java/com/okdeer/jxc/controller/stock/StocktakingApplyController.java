@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.dubbo.common.utils.StringUtils;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.constant.LogConstant;
 import com.okdeer.jxc.common.result.RespJson;
@@ -18,7 +17,6 @@ import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.stock.service.StocktakingApplyServiceApi;
 import com.okdeer.jxc.stock.vo.StocktakingBatchVo;
 import com.okdeer.jxc.system.entity.SysUser;
-import com.okdeer.jxc.utils.UserUtil;
 
 /**
  * <p></p>
@@ -79,9 +77,6 @@ public class StocktakingApplyController extends BaseController<StocktakingApplyC
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
-			if(StringUtils.isBlank(vo.getBranchCompleCode())){
-				vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
-			}
 			LOG.info(LogConstant.OUT_PARAM, vo.toString());
 			PageUtils<StocktakingBatchVo> stocktakingBatchList = stocktakingApplyServiceApi.getStocktakingBatchList(vo);
 			LOG.info(LogConstant.PAGE, stocktakingBatchList.toString());

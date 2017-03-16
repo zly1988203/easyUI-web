@@ -102,6 +102,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 		String targetBranchId = req.getParameter("targetBranchId");
 		String branchId = req.getParameter("branchId");
 		String categoryCodes = req.getParameter("categoryCodes");
+		String isManagerStock = req.getParameter("isManagerStock");
 		//商品公共组件查询判断是否过滤捆绑商品
 		String flag = req.getParameter("flag");
 		model.addAttribute("flag", flag);
@@ -111,6 +112,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 		model.addAttribute("targetBranchId", targetBranchId);
 		model.addAttribute("branchId", branchId);
 		model.addAttribute("categoryCodes", categoryCodes);
+		model.addAttribute("isManagerStock", isManagerStock);
 		return "component/publicGoods";
 	}
 

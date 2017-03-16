@@ -33,7 +33,8 @@
 			<div class="ub ub-ac">
 				<div class="umar-r10 uw-70 ut-r">机构名称:</div>
 				<input type="hidden" id="branchId" name="branchId" value="${stocktakingFormVo.branchId}"/>
-				<input type="hidden" id="branchCompleCode" name="branchCompleCode" value="${stocktakingFormVo.branchCompleCode}"/>
+				<input type="hidden" id="branchCompleCode" name="branchCompleCode" />
+				<input type="hidden" id="oldBranchName" >
 				<input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" value="${stocktakingFormVo.branchName}" maxlength="50"/>
 				<div class="uinp-more" onclick="selectListBranches()" >...</div>
 			</div>
@@ -45,7 +46,7 @@
 		<div class="ub umar-t8">
 		<div class="ub ub-ac">
 		<div class="umar-r10 uw-70 ut-r">盘点范围:</div>
-			<select class="uselect easyui-combobox" style="width: 204px;" name="scope" id="scope">
+			<select class="uselect easyui-combobox" style="width: 204px;" data-options="editable:false" name="scope" id="scope">
 				<option value="">--请选择--</option>
 				<option value="0">全场盘点</option>
 				<option value="1">类别盘点</option>

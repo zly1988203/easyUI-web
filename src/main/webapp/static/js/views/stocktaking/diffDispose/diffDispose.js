@@ -66,6 +66,7 @@ function initOperateDataGrid(){
         singleSelect:isSingleSelect,  // 单选 false多选
         rownumbers:true,    // 序号
         showFooter:true,
+        checkOnSelect:false,
         pageSize:10000,
         view:scrollview,
         height:'100%',
@@ -104,6 +105,7 @@ function initOperateDataGrid(){
             {field:'stocktakingNum',title:'盘点数量',width:'100px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
+                    	$('#sumStocktakingNum').val(parseFloat(value||0).toFixed(4));
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                     }
                     if(!value){
@@ -198,6 +200,7 @@ function initOperateDataGrid(){
         onUncheck:function(rowIndex,rowData){
         	rowData.handle = '0';
         },
+           
         onClickCell:function(rowIndex,field,value){
             if(operateStatus === '1') return;
             gridHandel.setBeginRow(rowIndex);
@@ -208,8 +211,11 @@ function initOperateDataGrid(){
             }else{
                 gridHandel.setSelectFieldName("differenceReason");
             }
-        },
+        }, 
+
         onLoadSuccess:function(data){
+        	if((data.rows).length <= 0)return;
+        	
         	if(!oldData["grid"]){
             	oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
             		return $.extend(true,{},obj);//返回对象的深拷贝
@@ -224,7 +230,6 @@ function initOperateDataGrid(){
                 });
             }
 
-            
             gridHandel.setDatagridHeader("center");
         
             updateFooter();
@@ -315,20 +320,17 @@ function setParams(formId){
 function saveDiffDispose(){
     $("#"+gridName).datagrid("endEdit", gridHandel.getSelectRowIndex());
     var rows = gridHandel.getRows();
+    // var changeRows =  $("#"+gridName).datagrid("getChanges");
     var newRows = [];
     $.each(rows,function(i,row){
-            if(row['handle'] === '1' || row['differenceReason'] != null){
                 var param = {
-                    skuCode:row.skuCode,
+                    id:row.id,
                     handle:row.handle,
                     differenceReason:row.differenceReason
                 }
                 newRows.push(param);
-            }
     });
 
-
-    // $("#"+gridName).datagrid("loadData",rows);
     if(rows.length==0){
         messager("表格不能为空");
         return;
@@ -395,7 +397,7 @@ function auditDiffDispose(){
     		id:batchId,
 			branchId:branchId,
 			batchNo:batchNo,
-			diffDetailList:rows
+            sumStocktakingNum:$('#sumStocktakingNum').val()
         };
 	$.messager.confirm('提示','是否审核通过？',function(data){
 		if(data){

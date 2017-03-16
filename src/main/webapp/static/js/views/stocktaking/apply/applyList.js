@@ -1,6 +1,7 @@
 $(function(){
 	//$("#branchCode").val(sessionBranchCode);
 	$("#branchName").val(sessionBranchName);
+	$("#oldBranchName").val(sessionBranchName);
 	$("#branchId").val(sessionBranchId);
 	$("#branchCompleCode").val(sessionBranchCompleCode);
     //开始和结束时间
@@ -45,6 +46,13 @@ function initDgTakeStockApply(){
 }
 //查询
 function queryForm(){
+	var oldBranchName = $("#oldBranchName").val();
+	var branchName = $("#branchName").val();
+	if(oldBranchName && oldBranchName != branchName){
+		$("#branchId").val('');
+		$("#branchCompleCode").val('');
+	}
+	
 	var fromObjStr = $('#queryForm').serializeObject();
 	console.log(fromObjStr)
 	$("#applyList").datagrid("options").method = "post";
@@ -60,6 +68,7 @@ function selectListBranches(){
 		$("#branchId").val(data.branchesId);
 		$("#branchName").val(data.branchName);
 		$("#branchCompleCode").val(data.branchCompleCode);
+		$("#oldBranchName").val(data.branchName);
 	},'BF','');
 }
 

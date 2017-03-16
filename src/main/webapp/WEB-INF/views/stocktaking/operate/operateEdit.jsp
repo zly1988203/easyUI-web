@@ -24,7 +24,7 @@
                 <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
                 <div class="ubtns-item" onclick="importStocktakingForm(1)">导入</div>
                  <div class="ubtns-item" onclick="deleteStocktakingForm()">删单</div>
-                <div class="ubtns-item" onclick="back()">关闭</div>
+                <div class="ubtns-item" onclick="toClose()">关闭</div>
             </div>
         </div>
  <div class="ub umar-t8 uc-black">【盘点号】:<span id="formNo">${stocktakingFormVo.formNo}</span></div>
@@ -80,7 +80,7 @@
            <div class="ub umar-t8">
                <div class="ub ub-ac uw-592 ">
                    <div class="umar-r10 uw-70 ut-r">备注:</div>
-                   <input class="uinp ub ub-f1" type="text" id="remark" name="remark" value="${stocktakingFormVo.remark}" maxlength="40" readonly="readonly">
+                   <input class="uinp ub ub-f1" type="text" id="remark" name="remark" value="${stocktakingFormVo.remark}" maxlength="40">
                </div>
            </div>
            <!--datagrid-edit-->

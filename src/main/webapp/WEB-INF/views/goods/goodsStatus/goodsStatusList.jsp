@@ -101,7 +101,7 @@
 		<div class="ub ub-ver upad-10 ufs-14">
 			<div class="ub ub-ver upad-l20 ">
 			    <div class="ub ub-ac umar-t10">
-			      <c:if test="${branchType != 1 && branchType != 0}">
+			      <c:if test="${branchType == 1 || branchType == 0}">
 					<div class="ut-r umar-r10">范围:</div>
 	                <div class="ub ub-ac umar-r10">
 	                    <input class="ub radioItem" type="radio" name="guideType"  value=0 checked="checked"/><span>当前机构</span>
@@ -115,7 +115,7 @@
 	                </c:if>
 				</div>
 				<div class="ub ub-ac umar-t10 ">
-	                <input class="ub radioItem umar-r8" type="radio" name="guideChoose"  value=0 checked="checked"/><span>选择已经停售，且库存为0的商品。</span>
+	                <input class="ub radioItem umar-r8" type="radio" name="guideChoose"  value=0 checked="checked"/><span>选择已经停购，且库存为0的商品。</span>
 				</div>
 				<div class="ub ub-ac umar-t10 ">
 	                <input class="ub radioItem umar-r8" type="radio" name="guideChoose"  value=1 /><span>选择主档已经停购或淘汰且库存为0的商品。</span>
@@ -141,7 +141,7 @@
 		<div class="ub ub-ver upad-10 ufs-14">
 			<div class="ub ub-ver upad-l20 umar-t10">
 			    <div class="ub ub-ac">
-			   <c:if test="${branchType != 1 && branchType != 0}">
+			      <c:if test="${branchType == 1 || branchType == 0}">
 					<div class="ut-r umar-r8">范围:</div>
 	                <div class="ub ub-ac umar-r10">
 	                    <input class="ub radioItem" type="radio" name="stGuideType"  value="0" checked="checked"/><span>当前机构</span>

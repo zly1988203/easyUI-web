@@ -348,7 +348,6 @@ public class NewGoodsApplyImportHandle implements GoodsSelectImportHandle {
 		return true;
 	}
 	
-	
 	/**
 	 * 更新有效的数据列表
 	 * @author xiaoj02

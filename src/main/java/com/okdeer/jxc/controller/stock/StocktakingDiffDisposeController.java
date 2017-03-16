@@ -82,9 +82,6 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
-			if (StringUtils.isBlank(vo.getBranchCompleCode())) {
-				vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
-			}
 			LOG.info(LogConstant.OUT_PARAM, vo.toString());
 			PageUtils<StocktakingBatchVo> stocktakingBatchList = stocktakingApplyServiceApi.getStocktakingBatchList(vo);
 			LOG.info(LogConstant.PAGE, stocktakingBatchList.toString());
