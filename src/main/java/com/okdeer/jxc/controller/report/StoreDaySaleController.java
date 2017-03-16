@@ -67,7 +67,7 @@ public class StoreDaySaleController extends BaseController<StoreDaySaleControlle
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
 			vo.setSourceBranchId(UserUtil.getCurrBranchId());
-			PageUtils<StoreDaySaleReportVo> goodsSaleReportList = storeDaySaleReportServiceApi.getStoreDaySaleList(vo);
+			PageUtils<StoreDaySaleReportVo> goodsSaleReportList = storeDaySaleReportServiceApi.getStoreDaySale(vo);
 			LOG.info(LogConstant.PAGE, goodsSaleReportList.toString());
 			return goodsSaleReportList;
 		} catch (Exception e) {

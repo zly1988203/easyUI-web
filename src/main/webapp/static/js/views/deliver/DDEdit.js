@@ -156,7 +156,7 @@ function initDatagridEditRequireOrder(){
                     }
                 }
             },
-            {field:'applyNum',title:'数量',width:'80px',align:'right',
+            {field:'applyNum',title:'数量',width:'80px',hidden:true,align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
