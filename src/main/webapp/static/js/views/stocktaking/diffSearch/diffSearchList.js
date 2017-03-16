@@ -14,7 +14,9 @@ $(function(){
     	rotaType = $(this).val()
     	initDgTakeStockDiffSearch();
     	$('#diffSearchList').datagrid({data:[]}); 
-//    	页面控制
+    	// 更新页脚行并载入新数据
+    	$('#diffSearchList').datagrid('reloadFooter',[]);
+    	// 页面控制
     	pageChange(rotaType);
     	
     })
@@ -41,8 +43,9 @@ function pageChange(rotaType){
 }
 
 
+var dg;
 function initDgTakeStockDiffSearch(){
-	stockList = $("#diffSearchList").datagrid({
+	dg = $("#diffSearchList").datagrid({
 		method:'post',
 		align:'center',
 		singleSelect:false,  //单选  false多选
@@ -50,6 +53,7 @@ function initDgTakeStockDiffSearch(){
 		pagination:true,    //分页
         pageSize:50,
 		fitColumns:true,    //每列占满
+		showFooter:true,
 		height:'100%',
 		width:'100%',
 		columns:getFiledsList(),
@@ -342,11 +346,28 @@ function searchCategory(){
 
     },param);
 }
+/**
+ * 导出
+ */
+function exportDiffSearchData(){
+	var length = $('#diffSearchList').datagrid('getData').total;
+	if(length == 0){
+		successTip("无数据可导");
+		return;
+	}
+	$('#exportWin').window({
+		top:($(window).height()-300) * 0.5,   
+	    left:($(window).width()-500) * 0.5
+	});
+	$("#exportWin").show();
+	$("#totalRows").html(dg.datagrid('getData').total);
+	$("#exportWin").window("open");
+}
 
 /**
  * 导出
  */
-function toExport(){
+function exportExcel(){
 	var length = $("#diffSearchList").datagrid('getData').total;
 	if(length == 0){
 		$.messager.alert('提示',"没有数据");
