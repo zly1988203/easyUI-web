@@ -115,7 +115,7 @@
 	                </c:if>
 				</div>
 				<div class="ub ub-ac umar-t10 ">
-	                <input class="ub radioItem umar-r8" type="radio" name="guideChoose"  value=0 checked="checked"/><span>选择已经停售，且库存为0的商品。</span>
+	                <input class="ub radioItem umar-r8" type="radio" name="guideChoose"  value=0 checked="checked"/><span>选择已经停购，且库存为0的商品。</span>
 				</div>
 				<div class="ub ub-ac umar-t10 ">
 	                <input class="ub radioItem umar-r8" type="radio" name="guideChoose"  value=1 /><span>选择主档已经停购或淘汰且库存为0的商品。</span>
