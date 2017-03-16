@@ -330,23 +330,29 @@ public class NewGoodsApplyImportComponent {
 
 			// 保质期
 			String vaildity = obj.getString("vaildity");
-			if (!pattern.matcher(vaildity).matches()) {
-				obj.element("error", "保质期只能填写数字");
-				continue;
+			if (StringUtils.isNotEmpty(vaildity)) {
+				if (!pattern.matcher(vaildity).matches()) {
+					obj.element("error", "保质期只能填写数字");
+					continue;
+				}
 			}
 
 			// 采购规格
 			String purchaseSpec = obj.getString("purchaseSpec");
-			if (!pattern.matcher(purchaseSpec).matches()) {
-				obj.element("error", "采购规格只能填写数字");
-				continue;
+			if (StringUtils.isNotEmpty(purchaseSpec)) {
+				if (!pattern.matcher(purchaseSpec).matches()) {
+					obj.element("error", "采购规格只能填写数字");
+					continue;
+				}
 			}
 
 			// 配送规格
 			String distributionSpec = obj.getString("distributionSpec");
-			if (!pattern.matcher(distributionSpec).matches()) {
-				obj.element("error", "配送规格只能填写数字");
-				continue;
+			if (StringUtils.isNotEmpty(distributionSpec)) {
+				if (!pattern.matcher(distributionSpec).matches()) {
+					obj.element("error", "配送规格只能填写数字");
+					continue;
+				}
 			}
 
 		}
