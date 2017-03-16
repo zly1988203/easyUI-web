@@ -71,7 +71,7 @@ $(function(){
 		        		
 		        		,
 		                formatter : function(value, row,index) {
-		                	if(hiddenEdit||!(hiddenStatus==="3")){
+		                	if((hiddenStatus==="3")? false :hiddenEdit){
 		                		 $('#gridEditOrder').datagrid('hideColumn', 'cz');
 		                	}else{
 		                		 var str = "";
@@ -92,7 +92,7 @@ $(function(){
 	            	,editor:{
 	            		type:'textbox',
 	            		options:{
-	                        disabled:hiddenEdit||!(hiddenStatus==="3")
+	                        disabled:(hiddenStatus==="3")? false :hiddenEdit
 	                    }
 	            	}
 	            },
@@ -119,7 +119,7 @@ $(function(){
 	                        min:0,
 	                        precision:4,
 	                        onChange: onChangeLargeNum,
-	                        disabled:hiddenEdit||!(hiddenStatus==="3")
+	                        disabled:(hiddenStatus==="3")? false :hiddenEdit
 	                    }
 	                }
 	            },
@@ -139,7 +139,7 @@ $(function(){
 	                        min:0,
 	                        precision:4,
 	                        onChange: onChangePrice,
-	                        disabled:hiddenEdit||!(hiddenStatus==="3")
+	                        disabled:(hiddenStatus==="3")? false :hiddenEdit
 	                    }
 	                }
 	            },
@@ -156,7 +156,7 @@ $(function(){
 	                        min:0,
 	                        precision:4,
 	                        onChange: onChangeAmount,
-	                        disabled:hiddenEdit||!(hiddenStatus==="3")
+	                        disabled:(hiddenStatus==="3")? false :hiddenEdit
 	                    }
 	                }
 
@@ -165,7 +165,7 @@ $(function(){
 	            	editor:{
 	            		type:'textbox',
 	            		options:{
-	                        disabled:hiddenEdit||!(hiddenStatus==="3")
+	                        disabled:(hiddenStatus==="3")? false :hiddenEdit
 	                    }
 	            	}
 	            },
@@ -173,7 +173,7 @@ $(function(){
 	            	,editor:{
 	            		type:'textbox',
 	            		options:{
-	                        disabled:!hiddenEdit
+	                        disabled:!hiddenEdit||!(hiddenStatus==="0")
 	                    }
 	            	}
 	            }
