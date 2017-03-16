@@ -167,8 +167,8 @@ function deleteStocktakingBatch(){
                     dataType: "json",
                     success: function(data){
                     	gFunEndLoading();
+                    	successTip(data['message']);
                     	if(data.code == 0){
-                    		successTip(data['message']);
                     		queryForm();
                     	}
                     }
