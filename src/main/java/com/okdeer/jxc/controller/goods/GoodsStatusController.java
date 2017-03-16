@@ -9,7 +9,9 @@ package com.okdeer.jxc.controller.goods;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -169,11 +171,14 @@ public class GoodsStatusController extends BaseController<GoodsStatusController>
 	 */
 	@RequestMapping(value = "importList")
 	@ResponseBody
-	public RespJson importList(@RequestParam("file") MultipartFile file, String branchId, String type) {
+	public RespJson importList(@RequestParam("file") MultipartFile file, String branchId, String type,String status) {
 		RespJson respJson = RespJson.success();
 		try {
 			if (file.isEmpty()) {
 				return RespJson.error("文件为空");
+			}
+			if(StringUtils.isBlank(status)){
+				return RespJson.error("商品状态为空");
 			}
 			InputStream is = file.getInputStream();
 			// 获取文件名
@@ -185,6 +190,8 @@ public class GoodsStatusController extends BaseController<GoodsStatusController>
 			} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {// 条码
 				field = new String[] {"barCode"};
 			}
+			Map<String,String> map = new HashMap<String,String>();
+			map.put("status", status);
 			GoodsSelectImportVo<GoodsSelect> vo = goodsSelectImportComponent.importSelectGoodsWithStock(
 					fileName, is, field, new GoodsSelect(), branchId, user.getId(), type,
 					"/goods/status/downloadErrorFile", new GoodsSelectImportBusinessValid() {
@@ -210,7 +217,7 @@ public class GoodsStatusController extends BaseController<GoodsStatusController>
 						public void errorDataFormatter(List<JSONObject> list) {
 
 						}
-					});
+					},map);
 			respJson.put("importInfo", vo);
 		} catch (IOException e) {
 			respJson = RespJson.error("读取Excel流异常");

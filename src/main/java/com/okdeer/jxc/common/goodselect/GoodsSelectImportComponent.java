@@ -120,6 +120,26 @@ public class GoodsSelectImportComponent {
 		return importSelectGoodsMultiBranch(fileName, is, fields, entity, branchIds, userId, type, true,
 				errorFileDownloadUrlPrefix, businessValid, null);
 	}
+	/**
+	 * 导入excel，查询商品和库存(单个机构)
+	 * @param fileName 文件名，用于识别excel文件版本
+	 * @param is	文件流
+	 * @param fields	属性数组，excel数据列所对应实体类属性
+	 * @param entity	业务实体类
+	 * @param branchId 机构
+	 * @param userId 用户
+	 * @param type 导入类型，（0货号、1条码）
+	 * @param errorFileDownloadUrlPrefix  失败文件下载地址前缀
+	 * @param businessValid 业务验证回调
+	 * @return
+	 * @author xiaoj02
+	 * @date 2016年10月15日
+	 */
+	public <T extends GoodsSelect> GoodsSelectImportVo<T> importSelectGoodsWithStock(String fileName, InputStream is, String[] fields, T entity, String branchId, String userId, String type, String errorFileDownloadUrlPrefix ,GoodsSelectImportBusinessValid businessValid,Map<String, String> map_branchid) {
+		String[] branchIds = {branchId};
+		return importSelectGoodsMultiBranch(fileName, is, fields, entity, branchIds, userId, type, true,
+				errorFileDownloadUrlPrefix, businessValid, map_branchid);
+	}
 	
 	/**
 	 * 导入excel，查询商品和库存(多个机构)

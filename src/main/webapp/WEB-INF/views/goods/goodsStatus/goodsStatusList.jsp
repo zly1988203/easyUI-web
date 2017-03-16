@@ -32,8 +32,8 @@
 					<div class="ubtns-item" onclick="query()">查询</div>
 					<!-- <div class="ubtns-item" onclick="printReport()">打印</div> -->
 					
-					<div class="ubtns-item" onclick="importHandel(0)">导入货号</div>
-                    <div class="ubtns-item" onclick="importHandel(1)">导入条码</div>
+					<div class="ubtns-item importbtn" id="importSkuCode" onclick="importHandel(0,this)">导入货号</div>
+                    <div class="ubtns-item importbtn" id="importBarCode" onclick="importHandel(1,this)">导入条码</div>
 					<div class="ubtns-item" id="btn_stop01" onclick="update(0,this)">停购</div>
 					<div class="ubtns-item" id="btn_stop02" onclick="update(1,this)">停售</div>
 					<div class="ubtns-item" id="btn_weedout01" onclick="update(2,this)">淘汰</div>
@@ -72,19 +72,19 @@
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-70 ut-r">商品状态:</div>
 	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub radioItem" type="radio" name="status"  value="0" checked="checked"/><span>正常</span>
+	                        <input class="ub radioItem" type="radio" name="status" id="status" value="0" checked="checked"/><span>正常</span>
 	                    </div>
 	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub radioItem" type="radio" name="status" value="2" /><span>停购</span>
+	                        <input class="ub radioItem" type="radio" name="status" id="status" value="2" /><span>停购</span>
 	                    </div>
 	                    <div class="ub ub-ac umar-r10">
-	                       <input class="ub radioItem" type="radio" name="status" value="1" /><span>停售</span>
+	                       <input class="ub radioItem" type="radio" name="status" id="status" value="1" /><span>停售</span>
 	                    </div>
 	                     <div class="ub ub-ac umar-r10">
-	                       <input class="ub radioItem" type="radio" name="status" value="3" /><span>淘汰</span>
+	                       <input class="ub radioItem" type="radio" name="status" id="status" value="3" /><span>淘汰</span>
 	                    </div>
 	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub radioItem" type="radio" name="status" value=""  /><span>全部</span>
+	                        <input class="ub radioItem" type="radio" name="status" id="status" value=""  /><span>全部</span>
 	                    </div>
 				</div>
 			</div>

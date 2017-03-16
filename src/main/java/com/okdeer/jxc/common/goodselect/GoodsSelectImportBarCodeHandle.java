@@ -37,7 +37,7 @@ public class GoodsSelectImportBarCodeHandle implements GoodsSelectImportHandle{
 	
 	public static final String CODE_IS_BLANK = "条码为空";
 	public static final String CODE_IS_REPEAT = "条码重复";
-	public static final String NOT_EXISTS = "找不到该商品或者存在多个条码重复的商品";
+	public static final String NOT_EXISTS = "找不到该商品或者该商品状态不正确";
 
 	List<JSONObject> excelListFullData = null;
 	List<JSONObject> excelListSuccessData = null;
