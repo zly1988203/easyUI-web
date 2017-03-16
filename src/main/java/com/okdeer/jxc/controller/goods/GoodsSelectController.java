@@ -149,12 +149,12 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 
 			//如果formType 是属于配送中的数据 说明不需要管理库存
 			if(FormType.DA.name().equals(vo.getFormType())||FormType.DO.name().equals(vo.getFormType())
-					||FormType.DI.name().equals(vo.getFormType())||FormType.DR.name().equals(vo.getFormType())) {
+					||FormType.DI.name().equals(vo.getFormType())||FormType.DR.name().equals(vo.getFormType())||FormType.DD.name().equals(vo.getFormType())) {
 				vo.setIsManagerStock(1);
 			}
 			LOG.info("商品查询参数:{}" + vo.toString());
 			// 要货单商品资料查询、价格查询
-			if (FormType.DA.name().equals(vo.getFormType())) {
+			if (FormType.DA.name().equals(vo.getFormType())||FormType.DD.name().equals(vo.getFormType())) {
 				PageUtils<GoodsSelect> goodsSelects = getGoodsListDA(vo);
 				return goodsSelects;
 			}
@@ -192,6 +192,12 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 	 * @date 2016年11月28日
 	 */
 	private PageUtils<GoodsSelect> getGoodsListDA(GoodsSelectVo vo) {
+		
+		// 店间配送单
+		if (FormType.DD.name().equals(vo.getFormType())) {
+			return goodsSelectServiceApi.queryCostBranch(vo);
+		}
+		
 		// 查询要货机构类型、配送设置
 		BranchesGrow targetBranch = branchesService.queryBranchesAndSpecByBranchId(vo.getTargetBranchId());
 		if (StringUtils.isEmpty(targetBranch.getPriceSpec())) {
@@ -212,6 +218,8 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 				|| BranchTypeEnum.LOGISTICS_CENTER.getCode().equals(targetBranch.getBranchType())) {
 			return queryByBranchTypeGetGoodsAndPrice_A_Source(vo, targetBranch);
 		}
+		
+		
 		return null;
 	}
 
