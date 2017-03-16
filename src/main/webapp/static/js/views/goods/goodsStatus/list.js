@@ -289,8 +289,9 @@ function query(){
 	$("#endCount").val('');
 	var oldBranchName = $("#oldBranchName").val();
 	var branchName = $("#branchName").val();
-	if(branchName && branchName != oldBranchName ){
+	if(!branchName && branchName != oldBranchName ){
 		$("#branchId").val('');
+		$("#branchCode").val('');
 	}
 	var branchName = $("#branchName").val();
 	var skuBarCode = $("#skuBarCode").val();
