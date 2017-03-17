@@ -72,6 +72,12 @@ function setFormValue(formData){
 	$('#startTime').val(formData.deliverStartDate);
 	$('#endTime').val(formData.deliverEndDate);
 	$(':radio[name=guideType]').eq(formData.guideType - 1).prop('checked', true);
+	if(formData.guideType != '1' || formData.guideType != '2'){
+        $('#startTime').removeProp('disabled');
+        $('#startTime').removeClass('uinp-no-more');
+        $('#endTime').removeProp('disabled');
+        $('#endTime').removeClass('uinp-no-more');
+	}
 	if(formData.ignore === '1'){
 		$('#ignore').prop('checked','checked');
 	}

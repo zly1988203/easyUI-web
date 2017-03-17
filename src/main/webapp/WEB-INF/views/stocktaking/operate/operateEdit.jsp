@@ -20,10 +20,10 @@
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
              	<div class="ubtns-item" onclick="addOperate()">新增</div>
-                <div class="ubtns-item" onclick="saveStocktakingForm(2)">保存</div>
-                <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
-                <div class="ubtns-item" onclick="importStocktakingForm(1)">导入</div>
-                 <div class="ubtns-item" onclick="deleteStocktakingForm()">删单</div>
+                <button class="ubtns-item" id="btnSave" onclick="saveStocktakingForm(2)">保存</button>
+                <button class="ubtns-item" id="btnSelgoods" onclick="selectGoods()">商品选择</button>
+                <button class="ubtns-item" id="btnImport" onclick="importStocktakingForm(1)">导入</button>
+                 <button class="ubtns-item" id="btndelete" onclick="deleteStocktakingForm()">删单</button>
                 <div class="ubtns-item" onclick="toClose()">关闭</div>
             </div>
         </div>
@@ -67,11 +67,11 @@
                    <input class="uinp ub ub-f1" type="text" id="categoryShows" name="categoryShows" value="${stocktakingFormVo.categoryShowsStr }" readonly="readonly">
                </div>
                <c:if test="${stocktakingFormVo.status == 1}">
-               <div class="ub ub-ac uw-300 umar-l300">
+               <div class="ub ub-ac  umar-l10">
                    <div class="umar-r10 uw-70 ut-r">审核人员:</div>
                    <div class="utxt" id="validUserName">${stocktakingFormVo.validUserName}</div>
                </div>
-               <div class="ub ub-ac uw-300">
+               <div class="ub ub-ac umar-l10">
                    <div class="umar-r10 uw-60 ut-r">审核时间:</div>
                    <div class="utxt">${stocktakingFormVo.validTime}</div>
                </div>

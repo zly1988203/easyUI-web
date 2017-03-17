@@ -32,7 +32,6 @@ $(function(){
         $('#btnSave').prop('disabled','disabled ')
         $('#btndelete').addClass('uinp-no-more');
         $('#btndelete').prop('disabled','disabled ')
-        $("#"+gridName).prop("readOnly",'readOnly')
 	}
 	initOperateDataGrid();
  }
@@ -66,7 +65,7 @@ function initOperateDataGrid(){
         singleSelect:isSingleSelect,  // 单选 false多选
         rownumbers:true,    // 序号
         showFooter:true,
-        checkOnSelect:false,
+        // checkOnSelect:false,
         pageSize:10000,
         view:scrollview,
         height:'100%',
@@ -204,6 +203,7 @@ function initOperateDataGrid(){
         onClickCell:function(rowIndex,field,value){
             if(operateStatus === '1') return;
             gridHandel.setBeginRow(rowIndex);
+            $("#"+gridName).datagrid('unselectRow',rowIndex);
             gridHandel.setSelectFieldName(field);
             var target = gridHandel.getFieldTarget(field);
             if(target){
@@ -388,6 +388,19 @@ function saveDataHandel(rows){
 //审核
 function auditDiffDispose(){
 	var rows = gridHandel.getRows();
+
+	var newData = {
+        differenceReason:$("#differenceReason").val(),
+        grid : $.map(gridHandel.getRows(), function(obj){
+            return $.extend(true,{},obj);//返回对象的深拷贝
+        })
+    }
+
+    if(!gFunComparisonArray(oldData,newData)){
+        messager("数据已修改，请先保存");
+        return;
+    }
+
 	//批次Id
 	var batchId=$("#batchId").val();
     //机构
