@@ -370,48 +370,8 @@ public class GoodsBranchPriceController extends BaseController<GoodsBranchPriceC
 
 						@Override
 						public void businessValid(List<JSONObject> excelListSuccessData, String[] excelField) {
-							//机构已经引入验证
-							
-							//上级未引入验证
-							GoodsBranchPriceQo qo = new GoodsBranchPriceQo();
-							qo.setStatus(0);
-							qo.setPage(1);
-							PageUtils<GoodsBranchPriceVo> page = null;
-							Branches branch = branchesServiceApi.getBranchInfoById(branchId);//机构类型(0.总部、1.分公司、2.物流中心、3.自营店、4.加盟店B、5.加盟店C)
-							if(branch.getType()==3 || branch.getType()==4 || branch.getType()==5){
-								qo.setBranchId(branch.getParentId());
-								qo.setRows(1);
-								page = goodsBranchPriceService.queryBranchGoods(qo);
-								qo.setRows((int)page.getTotal());
-								page = goodsBranchPriceService.queryBranchGoods(qo);
-								List<GoodsBranchPriceVo> list = page.getList();
-								Map<String,GoodsBranchPriceVo> map = new HashMap<String,GoodsBranchPriceVo>();
-								if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {
-									for (GoodsBranchPriceVo vo : list) {
-											map.put(vo.getSkuCode(), vo);
-									}
-								} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {
-									for (GoodsBranchPriceVo vo : list) {
-										map.put(vo.getBarCode(), vo);
-									}
-								}
-								
-								//上级未引入验证
-								for (JSONObject obj : excelListSuccessData) {
-									if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {
-										String skuCode = obj.getString("skuCode");
-										if(!map.containsKey(skuCode)){
-											obj.element("error", "分公司未引入或已淘汰该商品!");
-										}
-									}else{
-										String barCode = obj.getString("barCode");
-										if(!map.containsKey(barCode)){
-											obj.element("error", "分公司未引入或已淘汰该商品!");
-										}
-									}
-								}
-							}
-
+							ImportValidParentExist(excelListSuccessData,branchId,type);
+							ImportValidExists(excelListSuccessData,branchId,type);
 						}
 
 						/**
@@ -441,7 +401,124 @@ public class GoodsBranchPriceController extends BaseController<GoodsBranchPriceC
 			LOG.error("用户导入异常:", e);
 		}
 		return respJson;
+	}
+	
+	/**
+	 * 
+	 * @Description: 导入验证，上级是否引入
+	 * @param excelListSuccessData
+	 * @param branchId
+	 * @param type   
+	 * @return void  
+	 * @author zhangq
+	 * @date 2017年3月17日
+	 */
+	public void ImportValidParentExist(List<JSONObject> excelListSuccessData,String branchId,String type){
+		GoodsBranchPriceQo qo = new GoodsBranchPriceQo();
+		qo.setStatus(0);
+		qo.setPage(1);
+		PageUtils<GoodsBranchPriceVo> page = null;
+		Branches branch = branchesServiceApi.getBranchInfoById(branchId);//机构类型(0.总部、1.分公司、2.物流中心、3.自营店、4.加盟店B、5.加盟店C)
+		if(branch.getType()==3 || branch.getType()==4 || branch.getType()==5){
+			qo.setBranchId(branch.getParentId());
+			qo.setRows(1);
+			page = goodsBranchPriceService.queryBranchGoods(qo);
+			qo.setRows((int)page.getTotal());
+			page = goodsBranchPriceService.queryBranchGoods(qo);
+			List<GoodsBranchPriceVo> list = page.getList();
+			Map<String,GoodsBranchPriceVo> map = new HashMap<String,GoodsBranchPriceVo>();
+			if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {
+				for (GoodsBranchPriceVo vo : list) {
+						map.put(vo.getSkuCode(), vo);
+				}
+			} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {
+				for (GoodsBranchPriceVo vo : list) {
+					map.put(vo.getBarCode(), vo);
+				}
+			}
+			
+			//上级未引入验证
+			for (JSONObject obj : excelListSuccessData) {
+				if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {
+					String skuCode = obj.getString("skuCode");
+					if(!map.containsKey(skuCode)){
+						obj.element("error", "分公司未引入或已淘汰该商品!");
+					}
+				}else{
+					String barCode = obj.getString("barCode");
+					if(!map.containsKey(barCode)){
+						obj.element("error", "分公司未引入或已淘汰该商品!");
+					}
+				}
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 * @Description: 导入验证，验证机构是否已存在
+	 * @param excelListSuccessData
+	 * @param branchId
+	 * @param type   
+	 * @return void  
+	 * @throws
+	 * @author zhangq
+	 * @date 2017年3月17日
+	 */
+	public void ImportValidExists(List<JSONObject> excelListSuccessData,String branchId,String type){
+		GoodsBranchPriceQo qo = new GoodsBranchPriceQo();
+		qo.setStatus(0);
+		qo.setPage(1);
+		qo.setRows(excelListSuccessData.size());
+		qo.setBranchId(branchId);
 
+		//条码或货号列表
+		List<String> list = new ArrayList<String>();
+		if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {
+			for (JSONObject obj : excelListSuccessData) {
+				String skuCode = obj.getString("skuCode");
+				list.add(skuCode);
+			}
+			qo.setSkuCodeList(list);
+		} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {
+			for (JSONObject obj : excelListSuccessData) {
+				String barCode = obj.getString("barCode");
+				list.add(barCode);
+			}
+			qo.setBarCodeList(list);
+		}
+		
+		PageUtils<GoodsBranchPriceVo> page = null;
+		Branches branch = branchesServiceApi.getBranchInfoById(branchId);//机构类型(0.总部、1.分公司、2.物流中心、3.自营店、4.加盟店B、5.加盟店C)
+		if(branch.getType()==3 || branch.getType()==4 || branch.getType()==5){
+			page = goodsBranchPriceService.queryBranchGoods(qo);
+		}else{
+			page = goodsBranchPriceService.queryBranchCompanyGoods(qo);
+		}
+		
+		//已引入数据
+		List<GoodsBranchPriceVo> existsList = page.getList();
+		Map<String,GoodsBranchPriceVo> existsMap = new HashMap<String,GoodsBranchPriceVo>();
+		for (GoodsBranchPriceVo goodsBranchPriceVo : existsList) {
+			if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {
+				existsMap.put(goodsBranchPriceVo.getSkuCode(), goodsBranchPriceVo);	
+			}else{
+				existsMap.put(goodsBranchPriceVo.getBarCode(), goodsBranchPriceVo);
+			}
+		}
+		
+		//处理异常
+		for (JSONObject obj : excelListSuccessData) {
+			if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {
+				if(existsMap.containsKey(obj.getString("skuCode"))){
+					obj.element("error", "机构已存在!");
+				}
+			}else{
+				if(existsMap.containsKey(obj.getString("barCode"))){
+					obj.element("error", "机构已存在!");
+				}
+			}
+		}
 	}
 	
 	/**
