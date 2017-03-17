@@ -9,10 +9,9 @@
     <title>调价订单-修改</title>
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-	<script src="${ctx}/static/js/views/overdue/overdueEdit.js"></script>
+	<script src="${ctx}/static/js/views/overdue/overdueEdit.js?1=3"></script>
     
-<%--     <script src="${ctx}/static/js/views/purchase/purchaseExport.js"></script>
- --%>    <%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
+    <%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
     <style type="text/css">
     	.uw-60 {
 		    width: 76px;

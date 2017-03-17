@@ -645,17 +645,22 @@ function publicGoodsServiceTem(param,callback){
 		param.flag = "";
 	}
 	if(param.key){
+	    //后台参数是 skuCodes
+        param.skuCodes = param.key;
 		var urlTemp;
 		if(param.type=="DA"){
 			param.branchId = '';
-			urlTemp = contextPath + '/goods/goodsSelect/importSkuCode?skuCodes='+param.key+'&branchId='+param.branchId+"&supplierId="+param.supplierId+"&type="+param.type+"&sourceBranchId="+param.sourceBranchId+"&targetBranchId="+param.targetBranchId+"&flag="+param.flag;
-			//publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId,supplierId);
+
+			//urlTemp = contextPath + '/goods/goodsSelect/importSkuCode?skuCodes='+param.key+'&branchId='+param.branchId+"&supplierId="+param.supplierId+"&type="+param.type+"&sourceBranchId="+param.sourceBranchId+"&targetBranchId="+param.targetBranchId+"&flag="+param.flag;
+            urlTemp = contextPath + '/goods/goodsSelect/importSkuCode';
 		} else {
-			urlTemp = contextPath + '/goods/goodsSelect/importSkuCode?skuCodes='+param.key+"&type="+param.type+'&branchId='+param.branchId+"&supplierId="+param.supplierId+"&flag="+param.flag;
+			//urlTemp = contextPath + '/goods/goodsSelect/importSkuCode?skuCodes='+param.key+"&type="+param.type+'&branchId='+param.branchId+"&supplierId="+param.supplierId+"&flag="+param.flag;
+            urlTemp = contextPath + '/goods/goodsSelect/importSkuCode';
 		}
 		$.ajax({
 			url:urlTemp,
 			type:'POST',
+            data:param,
 			success:function(data){
 				if(data&&data.length==1){
 					callback(data);
@@ -754,7 +759,7 @@ function publicGoodsServiceHandel(param,callback){
                 $(good_dalogTemp).dialog('destroy');
                 good_dalogTemp = null;
             });
-            initSearch();
+            initSearch(param);
         };
     }else{
         dalogObj["onLoad"] =function(){

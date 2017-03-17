@@ -36,17 +36,19 @@
 				<input type="hidden" id="branchId" name="branchId" value="${batchVo.branchId }"/>
 				<input type="hidden" id="branchCompleCode" name="branchCompleCode"/>
 				<input type="hidden" id="oldBranchName" >
-				<input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" value="${batchVo.branchName }" maxlength="50" readonly="readonly"/>
+				<input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" value="${batchVo.branchName }" maxlength="50"/>
 				<div class="uinp-more" onclick="selectBranches()" >...</div>
 			</div>
 			<div class="ub ub-ac uw-300 umar-l20">
 				<div class="umar-r10 uw-70 ut-r">盘点批号:</div>
-				<input class="uinp ub ub-f1" type="text" name="batchNo" id="batchNo" readonly="readonly"/>
+				<input type="hidden" id="oldbatchNo" >
+				<input type="hidden" id="batchId" >
+				<input class="uinp ub ub-f1" type="text" name="batchNo" id="batchNo"/>
 				<div class="uinp-more" onClick="searchTakeStock()">...</div>
 
 			</div>
 				<div class='umar-t10 umar-l10' id="divEqualZero" hidden="true">
-					<input class="checkItem" type="checkbox" id="equalZero" name="equalZero">显示差异为0的商品
+					<input class="checkItem" type="checkbox" id="equalZero" name="equalZero" value="0">显示差异为0的商品
 				</div>
 			
 		</div>
@@ -54,15 +56,17 @@
 		<div class="ub umar-t8">
 			<div class="ub ub-ac">
 				<div class="umar-r10 uw-70 ut-r">商品选择:</div>
+				<input type="hidden" id="oldskuName" >
 				<input class="uinp ub ub-f1" type="hidden" name="skuId" id="skuId" />
 				<input class="uinp ub ub-f1" type="text" name="skuName" id="skuName"  disabled="disabled"/>
 				<div class="uinp-more" id="divgood" onClick="selectGoods()" hidden="true">...</div>
 			</div>
 			<div class="ub ub-ac uw-300 umar-l20">
 				<div class="umar-r10 uw-70 ut-r">类别:</div>
+				<input type="hidden" id="oldcategoryShows" >
 				<input class="uinp ub ub-f1" type="hidden" name="categoryIds" id="categoryIds" />
-				<input class="uinp ub ub-f1" type="text" name="categoryShows" id="categoryShows" readOnly/>
-				<div id='categoryDiv' class="uinp-more category"  onClick="searchCategory()">...</div>
+				<input class="uinp ub ub-f1" type="text" name="categoryShows" id="categoryShows" disabled="disabled"/>
+				<div id='categoryDiv' class="uinp-more category"  onClick="searchCategory()" hidden="true">...</div>
 			</div>
 			
 			<div class="ub ub-ac umar-l10">

@@ -117,7 +117,12 @@ function initTreeArchives(){
 var categoryCode="";
 var supplierId="";
 var brandId="";
-
+/***
+ *
+ *
+ *
+ *
+ * **/
 function zTreeOnClick(event, treeId, treeNode) {
     categoryCode=treeNode.code;
     var text =  $("#goodsType").combobox('getText');
@@ -132,11 +137,16 @@ function zTreeOnClick(event, treeId, treeNode) {
         supplierId = treeNode.id;
     }
 
+    /***
+     * 'categoryCode':categoryCode, 点击树节点的类别值
+     * 'categoryCodes':$('#categoryCodes').val(), 外部传人的业务类别 数组
+     *
+     * **/
     $("#gridGoods").datagrid("options").queryParams = $.extend({'flag':$('#flag').val(),
             'goodsInfo':$('#goodsInfo').val(),'supplierId':supplierId,
             'formType':$('#type').val(),'sourceBranchId':$('#sourceBranchId').val(),
             'targetBranchId':$('#targetBranchId').val(),'branchId':brandId,
-            'categoryCodes':categoryCode,'isManagerStock':$('#isManagerStock').val()},
+            'categoryCode':categoryCode,'categoryCodes':$('#categoryCodes').val(),'isManagerStock':$('#isManagerStock').val()},
         fromParams)
 
     $("#gridGoods").datagrid("options").method = "post";
@@ -146,7 +156,6 @@ function zTreeOnClick(event, treeId, treeNode) {
 };
 
 function getFiledsList(type) {
-    debugger;
     var arrColumns = [
         {field:'skuCode',title:'货号',align:'left',width:100,},
         {field:'barCode',title:'条码',align:'left',width:100,},
@@ -255,6 +264,22 @@ function getFiledsList(type) {
             },
         ]
         arrColumns = arrColumns.concat(tempCol)
+    }else if(type == 'DD'){
+    	var tempCol = [
+    	               {field:'salePrice',title:'零售价',align:'right',width:100,
+    	                   formatter : function(value, row, index) {
+    	                       var str=(value||0).toFixed(2);
+    	                       return str;
+    	                   }
+    	               },
+    	               {field:'costPrice',title:'成本价',align:'right',width:100,
+    	                   formatter : function(value, row, index) {
+    	                       var str=(value||0).toFixed(2);
+    	                       return str;
+    	                   }
+    	               },
+    	           ]
+    	arrColumns = arrColumns.concat(tempCol)
     }else {
         var tempCol = [
             {field:'salePrice',title:'零售价',align:'right',width:100,
@@ -364,7 +389,6 @@ function initSearch(param){
  */
 function cx(){
     setTimeout(function(){
-        var goodsInfo=$("#goodsInfo").val();
         var text =  $("#goodsType").combobox('getText');
         var searchSupplierId = '';
         if(text=='供应商'){
@@ -373,7 +397,7 @@ function cx(){
         // $("#gridGoods").datagrid("options").queryParams = {'categoryId':categoryId,'goodsInfo':goodsInfo,'formType':'${type}','sourceBranchId':'${sourceBranchId}','targetBranchId':'${targetBranchId}'};
         // 梁利 提出左边树与右边的查询无关系
         $("#gridGoods").datagrid("options").queryParams = $.extend({'flag':$('#flag').val(),
-                'goodsInfo':goodsInfo,'supplierId':searchSupplierId,
+                'goodsInfo':$("#goodsInfo").val(),'supplierId':searchSupplierId,
                 'formType':$('#type').val(),'sourceBranchId':$('#sourceBranchId').val(),
                 'targetBranchId':$('#targetBranchId').val(),'branchId':$('#branchId').val(),
                 'categoryCodes':$('#categoryCodes').val(),'isManagerStock':$('#isManagerStock').val()},
