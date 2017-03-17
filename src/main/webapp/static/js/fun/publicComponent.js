@@ -130,8 +130,18 @@ function toChangeDatetime(index){
 
 /**
  * 批量导入货号或条码
- * @param params {type:0 货号 1条码,url:上传地址,}
+ * @param params {
  *  isBtnTemple 是否需要模板下载按钮 默认true
+        url:contextPath+"/form/deliverForm/importList",上传地址,
+        tempUrl:contextPath+"/form/deliverForm/exportTemp",
+        type:type, 0 货号 1 条码导入
+        formType:'DD', 单据类型
+        targetBranchId:targetBranchId, 要货机构
+        sourceBranchId:sourceBranchId, 发货机构
+        branchId:branchId  机构ID  
+        status:status
+ *  }
+ *  
   * @param callback
  */
 function publicUploadFileService(callback,params){
