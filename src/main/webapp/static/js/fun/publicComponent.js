@@ -645,9 +645,12 @@ function publicGoodsServiceTem(param,callback){
 		param.flag = "";
 	}
 	if(param.key){
+	    //后台参数是 skuCodes
+        param.skuCodes = param.key;
 		var urlTemp;
 		if(param.type=="DA"){
 			param.branchId = '';
+
 			//urlTemp = contextPath + '/goods/goodsSelect/importSkuCode?skuCodes='+param.key+'&branchId='+param.branchId+"&supplierId="+param.supplierId+"&type="+param.type+"&sourceBranchId="+param.sourceBranchId+"&targetBranchId="+param.targetBranchId+"&flag="+param.flag;
             urlTemp = contextPath + '/goods/goodsSelect/importSkuCode';
 		} else {
