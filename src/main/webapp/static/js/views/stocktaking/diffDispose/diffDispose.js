@@ -37,8 +37,11 @@ $(function(){
 		  toClose();
 	}
 	initOperateDataGrid();
+	initQueryData(url);
  }
 )
+
+
 
 var gridHandel = new GridClass();
 function initOperateDataGrid(){
@@ -62,8 +65,8 @@ function initOperateDataGrid(){
 	    })
 	    
 	    $("#"+gridName).datagrid({
-        method:'get',
-    	url:url,
+//        method:'get',
+//    	url:url,
         align:'center',
         singleSelect:isSingleSelect,  // 单选 false多选
         rownumbers:true,    // 序号
@@ -227,6 +230,7 @@ function initOperateDataGrid(){
         }, 
 
         onLoadSuccess:function(data){
+        	gFunEndLoading();
         	if((data.rows).length <= 0)return;
         	
         	if(!oldData["grid"]){
@@ -254,6 +258,20 @@ function initOperateDataGrid(){
     	 gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
     	                         $.extend({},gridDefault),$.extend({},gridDefault)]);
     }
+}
+
+function initQueryData(url){
+	$.ajax({
+    	url:url,
+    	type:"GET",
+    	success:function(result){
+    		gFunStartLoading();
+    		 $("#"+gridName).datagrid("loadData",result);
+    	},
+    	error:function(result){
+    		successTip("请求发送失败或服务器处理失败");
+    	}
+    });
 }
 
 
