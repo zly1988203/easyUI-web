@@ -156,25 +156,6 @@ function initDatagridEditRequireOrder(){
                     }
                 }
             },
-            {field:'applyNum',title:'数量',width:'80px',hidden:true,align:'right',
-                formatter:function(value,row,index){
-                    if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                    }
-                    if(!value){
-                        row["applyNum"] = parseFloat(value||0).toFixed(2);
-                    }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-                editor:{
-                    type:'numberbox',
-                    options:{
-                        min:0,
-                        precision:4,
-                        onChange: onChangeRealNum,
-                    }
-                }
-            },
             {field:'price',title:'单价',width:'80px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
@@ -185,16 +166,14 @@ function initDatagridEditRequireOrder(){
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
-                editor:{
-                    type:'numberbox',
-                    options:{
-                        disabled:true,
-                        min:0,
-                        precision:4,
-//                        onChange: onChangePrice,
-                    }
-                },
-            
+	            editor:{
+	                type:'numberbox',
+	                options:{
+	                    disabled:true,
+	                    min:0,
+	                    precision:4,
+	                }
+	            }
             },
             {field:'amount',title:'金额',width:'80px',align:'right',
                 formatter : function(value, row, index) {
@@ -214,135 +193,7 @@ function initDatagridEditRequireOrder(){
                         disabled:true,
                         min:0,
                         precision:4,
-//                        onChange: onChangeAmount,
                     }
-                }
-            },
-            {field:'isGift',title:'赠送',width:'80px',hidden:true,align:'left',
-                formatter:function(value,row){
-                    if(row.isFooter){
-                        return;
-                    }
-                    row.isGift = row.isGift?row.isGift:0;
-                    return value=='1'?'是':(value=='0'?'否':'请选择');
-                },
-                editor:{
-                    type:'combobox',
-                    options:{
-                        valueField: 'id',
-                        textField: 'text',
-                        editable:false,
-                        required:true,
-                        data: [{
-                            "id":'1',
-                            "text":"是",
-                        },{
-                            "id":'0',
-                            "text":"否",
-                        }],
-//                        onSelect:onSelectIsGift
-                    }
-                }
-            },
-            {field:'inputTax',title:'税率',width:'80px',hidden:true,align:'right',
-                formatter:function(value,row,index){
-                    if(row.isFooter){
-                        return
-                    }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-                options:{
-                    min:0,
-                    disabled:true,
-                    precision:2,
-                }
-            },
-            {field:'taxAmount',title:'税额',width:'80px',hidden:true,align:'right',
-                formatter:function(value,row){
-                    if(row.isFooter){
-                        return;
-                    }
-                    var taxAmountVal = (row.inputTax*(row.amount/(1+parseFloat(row.inputTax)))||0.0000).toFixed(2);
-                    row["taxAmount"] = taxAmountVal;
-                    return '<b>'+parseFloat(taxAmountVal||0).toFixed(2)+'</b>';
-                },
-//                editor:{
-//                    type:'numberbox',
-//                    options:{
-//                        disabled:true,
-//                        min:0,
-//                        precision:2,
-//                    }
-//                }
-            },
-            {field: 'targetStock', title: '店铺库存', width: '80px', hidden:true,align: 'right',
-                formatter: function (value, row, index) {
-                    if (row.isFooter) {
-                        return
-                    }
-                    if (!row.sourceStock) {
-                        row.sourceStock = parseFloat(value || 0).toFixed(2);
-                    }
-                    return '<b>' + parseFloat(value || 0).toFixed(2) + '</b>';
-                }
-            },
-            {field:'sourceStock',title:'目标库存',width:'80px',hidden:true,align:'right',
-                formatter:function(value,row,index){
-                    if(row.isFooter){
-                        return
-                    }
-                    
-                    if(!row.sourceStock){
-                        row.sourceStock = parseFloat(value||0).toFixed(2);
-                    }
-                    
-                    if(parseFloat(row.applyNum)+parseFloat(row.alreadyNum) > parseFloat(row.sourceStock)){
-                     	 return '<span style="color:red;"><b>'+parseFloat(value||0).toFixed(2)+'</b></span>';
-  	           		}else{
-  	           			return '<span style="color:black;"><b>'+parseFloat(value||0).toFixed(2)+'</b></span>';
-  	           		}
-                    
-                },
-                styler:function(value,row,index){
-                    if(parseFloat(row.applyNum)+parseFloat(row.alreadyNum) > parseFloat(row.sourceStock)){
-                    	return 'color:red;';
-                      	 
-   	           		}else{
-   	           			return 'color:black;'
-   	           		}	
-                }
-//                editor:{
-//                    type:'numberbox',
-//                    options:{
-//                        disabled:true,
-//                        min:0,
-//                        precision:2,
-//                    }
-//                }
-            },
-            {field:'alreadyNum',title:'已订数量',width:'80px',hidden:true,align:'right',
-                formatter : function(value, row, index) {
-                    if(row.isFooter){
-                        return;
-                    }
-                    if(!row.alreadyNum){
-                        row.alreadyNum = parseFloat(value||0).toFixed(2);
-                    }
-                    
-                    if(parseFloat(row.applyNum)+parseFloat(row.alreadyNum) > parseFloat(row.sourceStock)){
-                      	 return '<span style="color:red;"><b>'+parseFloat(value||0).toFixed(2)+'</b></span>';
-   	           		}else{
-   	           			return '<span style="color:black;"><b>'+parseFloat(value||0).toFixed(2)+'</b></span>';
-   	           		}
-
-                },
-                styler:function(value,row,index){
-                    if(parseFloat(row.applyNum)+parseFloat(row.alreadyNum) > parseFloat(row.sourceStock)){
-                    	return 'color:red;';
-                      	 
-   	           		}else{
-   	           			return 'color:black;'
-   	           		}	
                 }
             },
             {field:'remark',title:'备注',width:'200px',align:'left',editor:'textbox'}
@@ -378,22 +229,6 @@ function updateRowsStyle(){
 			&& typeof(row.alreadyNum) != 'undefined'){
 			var alreadyNumopts = gridHandel.getColumnOption('alreadyNum');
 			var sourceStockopts = gridHandel.getColumnOption('sourceStock');
-    		if(parseFloat(row.applyNum)+parseFloat(row.alreadyNum) > parseFloat(row.sourceStock)){
-    			alreadyNumopts.styler = function(value,row,index){
-    				return "color:red";
-    			}
-    			sourceStockopts.styler = function(value,row,index){
-    				return "color:red";
-    			} 
-    		}else{
-    			alreadyNumopts.styler = function(value,row,index){
-    				return "color:black";
-    			} 
-    			
-    			sourceStockopts.styler = function(value,row,index){
-    				return "color:black";
-    			} 
-    		}	
     		$('#gridEditRequireOrder').datagrid('updateRow',{index:i,row:row})
 		}
     });
@@ -579,7 +414,7 @@ function setDataValue(data) {
         var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
         var addDefaultData = gridHandel.addDefault(data,gridDefault);
         var keyNames = {
-            distributionPrice:'price',
+            costPrice:'price',
             id:'skuId',
             disabled:'',
             pricingType:''
@@ -931,7 +766,7 @@ function selectStockAndPriceImport(data){
 
 function updateListData(data){
      var keyNames = {
-		 distributionPrice:'price',
+		 costPrice:'price',
          id:'skuId',
          disabled:'',
          pricingType:'',
