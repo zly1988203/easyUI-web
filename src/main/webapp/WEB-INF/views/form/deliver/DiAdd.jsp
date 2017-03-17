@@ -73,7 +73,7 @@
                    <div class="utxt"></div>
                </div>
                <div class="ub ub-ac uw-300">
-                   <div class="umar-r10 uw-70 ut-r">审核时间:</div>
+                   <div class="umar-r10 uw-80 ut-r">审核时间:</div>
                    <div class="utxt"></div>
                </div>
            </div>
