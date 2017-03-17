@@ -341,12 +341,13 @@ function saveDataHandel(rows){
         }
         jsonData.stockCostFormDetailList[i] = temp;
     });
-
+    gFunStartLoading();
     $.ajax({
         url:contextPath+"/cost/costAdjust/addCostForm",
         type:"POST",
         data:{"jsonData":JSON.stringify(jsonData)},
         success:function(result){
+        	gFunEndLoading();
             if(result['code'] == 0){
                 console.log(result);
                 $.messager.alert("操作提示", "操作成功！", "info",function(){
@@ -357,6 +358,7 @@ function saveDataHandel(rows){
             }
         },
         error:function(result){
+        	gFunEndLoading();
             successTip("请求发送失败或服务器处理失败");
         }
     });
