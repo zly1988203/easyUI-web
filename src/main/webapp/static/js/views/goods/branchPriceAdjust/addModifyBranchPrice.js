@@ -338,8 +338,8 @@ function delModifyOrderDialog() {
 
 // 保存单据
 function saveModifyPriceOrder() {
-	gFunStartLoading();
-	// 判断用户是否选择区域，选择为true，未选择为false，则提示用户选择
+	    gFunStartLoading();
+	    // 判断用户是否选择区域，选择为true，未选择为false，则提示用户选择
 		// datagrid是否存在数据，存在为true，不存在为false，则提示用户输入
 		if (datagridUtil.isHasDataGrid()) {
 			var formData = $('#searchForm').serializeObject();
@@ -356,35 +356,36 @@ function saveModifyPriceOrder() {
 			}
 			
 			if (datagridUtil.isCheckPrice()) {
-				gFunEndLoading();
+				
 				if(datagridUtil.isCheckRemark()){
 					var params = {
 							goodsPriceForm:formData,
 							goodsPriceFormDetailList:detailList
 						}
 					var reqObj = JSON.stringify(params);
-			// 调用后台保存方法，成功提示
-			$.ajax({
-					type : "POST",
-					url : contextPath + "/goods/branchPriceAdjust/saveForm",
-					data :reqObj,
-					dataType:"json",
-					contentType : "application/json",
-					success : function(data) {
-						gFunEndLoading();
-						if (data.code == 0) {
-							isClickSaveData = true;
-							initTmpData();
-							
-							$.messager.alert("操作提示", "操作成功！", "info",function(){
-			    				location.href = contextPath +"/goods/branchPriceAdjust/getForm?formNo="+data.goodsPriceForm.formNo;
-			    			});
-						} else {
-							// 失败提示
-							$.messager.alert('提示', data.message);
-						}
-					}
-				});
+					// 调用后台保存方法，成功提示
+					$.ajax({
+							type : "POST",
+							url : contextPath + "/goods/branchPriceAdjust/saveForm",
+							data :reqObj,
+							dataType:"json",
+							contentType : "application/json",
+							success : function(data) {
+								gFunEndLoading();
+								if (data.code == 0) {
+									isClickSaveData = true;
+									initTmpData();
+									$.messager.alert("操作提示", "操作成功！", "info",function(){
+					    				location.href = contextPath +"/goods/branchPriceAdjust/getForm?formNo="+data.goodsPriceForm.formNo;
+					    			});
+								} else {
+									// 失败提示
+									$.messager.alert('提示', data.message);
+								}
+							},error:function(){
+								gFunEndLoading();
+							}
+						});
 			}
 			}
      }
@@ -871,7 +872,7 @@ function exportData(){
 		return;
 	}
 	var formNo=$("#formNoInput").val();
-	$("#searchForm").attr("action",contextPath+'/goods/branchPriceAdjust/exportList');
+	$("#searchForm").attr("action",contextPath+'/goods/branchPriceAdjust/exportList?formNo='+formNo);
 	
 	$("#searchForm").submit();	
 
