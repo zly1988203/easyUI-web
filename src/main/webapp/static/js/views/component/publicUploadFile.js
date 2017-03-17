@@ -40,6 +40,9 @@ function toUploadHandel(){
     if (typeof(uploadFileParams.status)!="undefined") {
     	formData.append("status",uploadFileParams.status);
     } 
+    if (typeof(uploadFileParams.formType)!="undefined") {
+    	formData.append("formType",uploadFileParams.formType);
+    }
     
     formData.append("type",uploadFileParams.type);
     

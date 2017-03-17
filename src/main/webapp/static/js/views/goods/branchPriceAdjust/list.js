@@ -103,10 +103,15 @@ var datagridUtil = {
 //查询
 function modifyPriceOrderCx(){
 	var oldBranchName = $("#oldBranchName").val();
+	var oldCreateUserName = $("#oldCreateUserName").val();
 	var branchName = $("#branchName").val();
+	var createUserName = $("#createUserName").val();
 	if(!branchName && branchName != oldBranchName ){
 		$("#branchId").val('');
 		$("#branchCode").val('');
+	}
+	if(!createUserName && createUserName != oldCreateUserName ){
+		$("#createUserId").val('');
 	}
 	var fromObjStr = $('#searchForm').serializeObject();
 	dg.datagrid('options').method = "post";
@@ -120,6 +125,7 @@ function selectBranch (){
 	new publicAgencyService(function(data){
 		$("#branchId").val(data.branchesId);
 		$("#branchCode").val(data.branchCompleCode);
+		$("#oldBranchName").val("["+data.branchCode+"]"+data.branchName);
 		$("#branchName").val("["+data.branchCode+"]"+data.branchName);
 	},"","");
 }
@@ -130,6 +136,7 @@ function selectOperator(){
 	new publicOperatorService(function(data){
 		//data.Id
 		$("#createUserId").val(data.id);
+		$("#oldCreateUserName").val(data.userName);
 		$("#createUserName").val("["+data.userCode+"]"+data.userName);
 	});
 }

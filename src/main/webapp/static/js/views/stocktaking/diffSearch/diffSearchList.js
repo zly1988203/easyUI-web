@@ -26,19 +26,34 @@ $(function(){
 function pageChange(rotaType){
 	$('#rotationType').val(rotaType);
 	if(rotaType === '1'){
-		$('#skuName').prop('disabled','disabled');
-		$('#categoryNameCode').prop('disabled','disabled');
-		$('#divgood').prop('hidden',true);
-		$('#divEqualZero').css('display','none');
+
 		$('#skuId').val("");
     	$('#skuName').val("");
-    	$('#categoryNameCode').val("");
+    	$('#skuName').prop('disabled','disabled');
+    	
+		$('#divgood').prop('hidden',true);
+		$('#divEqualZero').css('display','none');
+		
+
+    	$('#categoryIds').val('');
+		$('#categoryShows').val('');
+		$('#categoryShows').prop('disabled','disabled');
+    	$('#categoryDiv').prop('hidden',true);
 		
 	}else{
+		$('#skuId').val("");
+    	$('#skuName').val("");
 		$('#skuName').removeProp('disabled');
-		$('#categoryNameCode').removeProp('disabled');
+
 		$('#divgood').prop('hidden',false);
 		$('#divEqualZero').css('display','block');
+		$('#equalZero').removeProp('checked');
+		
+		$('#categoryIds').val('');
+		$('#categoryShows').val('');
+		$('#categoryShows').removeProp('disabled');
+		$('#categoryDiv').prop('hidden',false);
+		
 	}
 }
 
@@ -289,12 +304,12 @@ function searchTakeStock(){
 	}
 	new publicStocktakingDialog(param,function(data){
 		console.log(data);
-		$("#branchId").val(data.branchId);
-		$("#branchName").val(data.branchName);
+//		$("#branchId").val(data.branchId);
+//		$("#branchName").val(data.branchName);
 		$("#batchId").val(data.id);
 		$("#batchNo").val(data.batchNo);
 		$("#scope").val(data.scope==1 ? "类别盘点" : "全场盘点");
-		$("#categoryShows").val(data.categoryShowsStr);
+//		$("#categoryShows").val(data.categoryShowsStr);
 	})
 }
 
