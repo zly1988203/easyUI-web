@@ -61,9 +61,9 @@
 	    	<div class="ub ub-ac uw-516">
 					<div class="umar-r10 uw-70 ut-r">要货日期:</div>
 
-					<input class="Wdate uw-300 uinp-no-more"  readonly="readonly" disabled="disabled" name="startTime" id="startTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d',maxDate:'#F{$dp.$D(\'endTime\');}'})" />
+					<input class="Wdate uw-300 uinp-no-more"  readonly="readonly" disabled="disabled" name="startTime" id="startTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d',minDate:'#F{$dp.$D(\'startTime\');}'})" />
 					&nbsp;至&nbsp;
-                    <input class="Wdate uw-300 uinp-no-more"  readonly="readonly" disabled="disabled" name="endTime" id="endTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'startTime\');}'})" /> 
+                    <input class="Wdate uw-300 uinp-no-more"  readonly="readonly" disabled="disabled" name="endTime" id="endTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'startTime\');}',maxDate:'%y-%M-%d'})" />
 					<i class="uc-red">*</i>
 					<div class="umar-l20">
 						<input type="checkbox" id="ignore" disabled="disabled">统计已经执行过向导的要货单

@@ -149,7 +149,7 @@ function publicUploadFileService(callback,params){
     var  dalogTemp = $('<div id="uploadFile"/>').dialog({
         href:contextPath + "/common/uploadFile",
         width:480,
-        height:dialogHeight,
+        height:320,
         title:params.type==1?"导入条码":"导入货号",
         closable:true,
         resizable:true,
@@ -2030,4 +2030,22 @@ function checkUtil(){
 }
 
 
-
+function publicErrorDialog(param){
+	var dialogTemp = $('<div/>').dialog({
+        href: contextPath+"/component/dialog/error",
+		width : 'undefined' == typeof (param.width) ? '' : param.width,
+		height : 'undefined' == typeof (param.height) ? '' : param.height,
+		title : 'undefined' == typeof (param.title) ? '提示' : param.title,
+        top:335,
+        left:625,
+        closable: true,
+        resizable: false,
+        onClose: function () {
+            $(dialogTemp).panel('destroy');
+        },
+        modal: true,
+        onLoad: function () {
+        	initErrorDialog(dialogTemp,param);
+        }
+    });
+}

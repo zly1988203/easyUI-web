@@ -72,6 +72,7 @@
 					<input type="hidden" id="roleIdOld" name="roleIdOld"
 						value="${role.id }"> <input type="hidden" id="roleCodeOld"
 						name="roleCodeOld" value="${role.roleCode }">
+					<input id="roleBranchType" value="${role.branchType }" type="hidden" />
 					<div class="ub ub-ac">
 						<input class="uinp uw-250" type="text" id="roleCodeOrName"
 							name="roleCodeOrName" value="${role.roleName }"

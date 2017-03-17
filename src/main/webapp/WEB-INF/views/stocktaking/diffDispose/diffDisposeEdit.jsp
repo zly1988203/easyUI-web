@@ -67,12 +67,12 @@
                    <input class="uinp ub ub-f1" type="text" id="categoryShows" name="categoryShows" value="${batchVo.categoryShowsStr }" readonly="readonly">
                </div>
                
-               <div class="ub ub-ac uw-300 umar-l10">
+               <div class="ub ub-ac  umar-l10">
                    <input type="hidden" id="validUserName" name="validUserName" value="${batchVo.validUserName }"/>
                    <div class="umar-r10 uw-70 ut-r">审核人员:</div>
                    <div class="utxt" id="validUserName">${batchVo.validUserName}</div>
                </div>
-               <div class="ub ub-ac uw-300">
+               <div class="ub ub-ac  umar-l10">
                    <input type="hidden" id="validTime" name="validTime" value="${batchVo.validTime }"/>
                    <div class="umar-r10 uw-60 ut-r">审核时间:</div>
                    <div class="utxt">${batchVo.validTime}</div>

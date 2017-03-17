@@ -32,7 +32,15 @@ $(function(){
 		url = contextPath +"/stocktaking/operate/stocktakingFormDetailList?formId=" + formId;
 		isdisabled = true;
 		$('#already-examine').css('display','black');
-		$('#btnCheck').css('display','none');
+        $('#remark').prop('readOnly','readOnly');
+        $('#btnSelgoods').addClass('uinp-no-more');
+        $('#btnSelgoods').prop('disabled','disabled ')
+        $('#btnSave').addClass('uinp-no-more');
+        $('#btnSave').prop('disabled','disabled ')
+        $('#btndelete').addClass('uinp-no-more');
+        $('#btndelete').prop('disabled','disabled ')
+        $('#btnImport').addClass('uinp-no-more');
+        $('#btnImport').prop('disabled','disabled ')
 	}
 	initOperateDataGrid();
  }
@@ -395,13 +403,17 @@ function addOperate(){
         grid:gridHandel.getRows(),
     }
 
-    if(!gFunComparisonArray(oldData,newData)){
-        messager("数据已修改，请先保存");
-        return;
-    }else{
+    if(operateStatus === '1'){
         toAddTab("新增存货盘点单",contextPath + "/stocktaking/operate/add");
-	}
-
+        return;
+    }else {
+        if(!gFunComparisonArray(oldData,newData)){
+            messager("数据已修改，请先保存");
+            return;
+        }else{
+            toAddTab("新增存货盘点单",contextPath + "/stocktaking/operate/add");
+        }
+    }
 }
 
 
@@ -514,7 +526,7 @@ function deleteStocktakingForm(){
 		    	success:function(result){
 		    		successTip(result['message']);
 		    		if(result['code'] == 0){
-		    			back();
+		    			toClose();
 		    		}
 		    	},
 		    	error:function(result){

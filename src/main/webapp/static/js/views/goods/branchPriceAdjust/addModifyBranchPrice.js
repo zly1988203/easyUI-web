@@ -377,7 +377,7 @@ function saveModifyPriceOrder() {
 							initTmpData();
 							
 							$.messager.alert("操作提示", "操作成功！", "info",function(){
-			    				location.href = contextPath +"//goods/branchPriceAdjust/getForm?formNo="+data.goodsPriceForm.formNo;
+			    				location.href = contextPath +"/goods/branchPriceAdjust/getForm?formNo="+data.goodsPriceForm.formNo;
 			    			});
 						} else {
 							// 失败提示
@@ -477,6 +477,7 @@ function check() {
 }
 // 审核
 function checkForm(formNo,effectDate) {
+	console.log('---------开始审核------------');
 	$.ajax({
 		type : "POST",
 		url : contextPath + "/goods/branchPriceAdjust/checkForm",
@@ -487,18 +488,21 @@ function checkForm(formNo,effectDate) {
 		dataType : "json",
 		success : function(data) {
 			console.info(data);
+			console.log('---------结束审核------------',JSON.stringify(data));
 			if (data.code > 0) {
 				$.messager.alert('提示', data.message, "info");
 			} else {
 				//审核过
 				isClickCheckData = true;
 				$.messager.alert('提示', '单据审核成功！', "info", function() {
-					window.location.href = contextPath
-						+ "/goods/branchPriceAdjust/getForm?formNo=" + formNo;
+					window.location.href = contextPath+"/goods/branchPriceAdjust/getForm?formNo=" + formNo;
 
 				});
 			}
 
+		},
+		error:function(err){
+			console.log('------------审核异常------------',err)
 		}
 	});
 }
