@@ -70,6 +70,7 @@
                    <div class="ub">
                   		<input type="hidden" id="formType" name="formType" value="DD" />
                        <input type="hidden" id="sourceBranchId" name="sourceBranchId" value="${sourceBranchId}"/>
+                       <input type="hidden" id="branchCode" name="branchCode" value="${sourceBranchCode}">
                        <input class="uinp ub ub-f1" type="text" id="sourceBranchName" name="sourceBranchName" value="[${sourceBranchCode}]${sourceBranchName}" readonly="readonly" onclick="selectSourceBranch()"/>
                        <div class="uinp-more" onclick="selectSourceBranch()">...</div>
                    </div>

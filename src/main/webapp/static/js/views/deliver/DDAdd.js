@@ -164,15 +164,6 @@ function initDatagridRequireOrder(){
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
-                editor:{
-                    type:'numberbox',
-                    options:{
-                        disabled:true,
-                        min:0,
-                        precision:4,
-//                        onChange: onChangePrice,
-                    }
-                },
             
             },
             {field:'amount',title:'金额',width:'80px',align:'right',
@@ -524,7 +515,7 @@ function setDataValue(data) {
         var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
         var addDefaultData = gridHandel.addDefault(data,gridDefault);
         var keyNames = {
-            distributionPrice:'price',
+            costPrice:'price',
             id:'skuId',
             disabled:'',
             pricingType:''
@@ -640,7 +631,7 @@ function saveOrder(){
         totalNum:totalNum,
         amount:amount,
         remark:remark,
-        branchCode:branchCode,
+        branchCode:$("#branchCode").val(),
         deliverFormListVo : []
     };
     
@@ -822,7 +813,7 @@ function selectTargetBranch(){
         $("#targetBranchId").val(data.branchesId);
         //$("#targetBranchName").val(data.branchName);
         $("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
-        branchCode = data.branchCode;
+        /*branchCode = data.branchCode;*/
         $("#targetBranchType").val(data.type);
         // 为店铺时
         /*if (data.type != '1' && data.type != '0') {
@@ -954,7 +945,7 @@ function selectStockAndPriceImport(data){
 
 function updateListData(data){
      var keyNames = {
-		 distributionPrice:'price',
+		 costPrice:'price',
          id:'skuId',
          disabled:'',
          pricingType:'',

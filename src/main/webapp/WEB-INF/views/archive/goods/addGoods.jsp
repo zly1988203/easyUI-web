@@ -278,7 +278,7 @@ pageEncoding="UTF-8"%>
 							class="ub" type="checkbox" name="checkbox" checked="checked"/><span>是否参与促销</span>
 					</div>
 					<div class="ub ub-ac umar-r40">
-						<input id="allowAdjust" name="allowActivity"
+						<input id="allowAdjust" name="allowAdjust"
 							class="ub" type="checkbox" name="checkbox"  /><span>分店调价</span>
 					</div>
             </div>
