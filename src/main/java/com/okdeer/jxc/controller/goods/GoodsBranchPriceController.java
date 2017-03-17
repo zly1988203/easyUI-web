@@ -9,10 +9,14 @@ package com.okdeer.jxc.controller.goods;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+
+import net.sf.json.JSONObject;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -27,6 +31,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.okdeer.jxc.branch.entity.Branches;
+import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.enums.BranchTypeEnum;
@@ -48,8 +54,6 @@ import com.okdeer.jxc.goods.vo.BranchGoodsPropVo;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
 import com.okdeer.jxc.utils.jxls.ReportExcelUtil;
-
-import net.sf.json.JSONObject;
 
 /**
  * ClassName: GoodsBranchPriceController 
@@ -75,6 +79,9 @@ public class GoodsBranchPriceController extends BaseController<GoodsBranchPriceC
 	
 	@Autowired
 	private BranchGoodsImportComponent branchGoodsImportComponent;
+	
+	@Reference(version = "1.0.0", check = false)
+	BranchesServiceApi branchesServiceApi;
 	
 	/**
 	 * 列表
@@ -363,6 +370,48 @@ public class GoodsBranchPriceController extends BaseController<GoodsBranchPriceC
 
 						@Override
 						public void businessValid(List<JSONObject> excelListSuccessData, String[] excelField) {
+							//机构已经引入验证
+							
+							//上级未引入验证
+							GoodsBranchPriceQo qo = new GoodsBranchPriceQo();
+							qo.setStatus(0);
+							qo.setPage(1);
+							PageUtils<GoodsBranchPriceVo> page = null;
+							Branches branch = branchesServiceApi.getBranchInfoById(branchId);//机构类型(0.总部、1.分公司、2.物流中心、3.自营店、4.加盟店B、5.加盟店C)
+							if(branch.getType()==3 || branch.getType()==4 || branch.getType()==5){
+								qo.setBranchId(branch.getParentId());
+								qo.setRows(1);
+								page = goodsBranchPriceService.queryBranchGoods(qo);
+								qo.setRows((int)page.getTotal());
+								page = goodsBranchPriceService.queryBranchGoods(qo);
+								List<GoodsBranchPriceVo> list = page.getList();
+								Map<String,GoodsBranchPriceVo> map = new HashMap<String,GoodsBranchPriceVo>();
+								if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {
+									for (GoodsBranchPriceVo vo : list) {
+											map.put(vo.getSkuCode(), vo);
+									}
+								} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {
+									for (GoodsBranchPriceVo vo : list) {
+										map.put(vo.getBarCode(), vo);
+									}
+								}
+								
+								//上级未引入验证
+								for (JSONObject obj : excelListSuccessData) {
+									if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {
+										String skuCode = obj.getString("skuCode");
+										if(!map.containsKey(skuCode)){
+											obj.element("error", "分公司未引入或已淘汰该商品!");
+										}
+									}else{
+										String barCode = obj.getString("barCode");
+										if(!map.containsKey(barCode)){
+											obj.element("error", "分公司未引入或已淘汰该商品!");
+										}
+									}
+								}
+							}
+
 						}
 
 						/**
