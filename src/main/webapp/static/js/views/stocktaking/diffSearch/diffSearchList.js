@@ -1,13 +1,7 @@
 var rotaType = '1';
 //初始化表格
 $(function(){
-	$("#branchName").val(sessionBranchName);
-	$("#branchId").val(sessionBranchId);
-	$("#branchCompleCode").val(sessionBranchCompleCode);
-	$("#oldBranchName").val(sessionBranchName);
-    //开始和结束时间
-    $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
-    $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+    initPageData();
 	initDgTakeStockDiffSearch();
     $(".radioItem").on("change",function(){
     	$("#diffSearchList").datagrid('options').url = "";
@@ -22,6 +16,19 @@ $(function(){
     })
 });
 
+function  initPageData() {
+    $("#branchName").val(sessionBranchName);
+    $("#branchId").val(sessionBranchId);
+    $("#branchCompleCode").val(sessionBranchCompleCode);
+    $("#oldBranchName").val(sessionBranchName);
+    //开始和结束时间
+    $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
+    $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+    $("input[name=rotation]:eq(0)").prop('checked','checked')
+    $('#rotationType').val('1');
+
+}
+
 //页面元素控制
 function pageChange(rotaType){
 	$('#rotationType').val(rotaType);
@@ -33,7 +40,8 @@ function pageChange(rotaType){
     	
 		$('#divgood').prop('hidden',true);
 		$('#divEqualZero').css('display','none');
-		
+
+        $('#equalZero').removeProp('checked');
 
     	$('#categoryIds').val('');
 		$('#categoryShows').val('');
@@ -47,7 +55,7 @@ function pageChange(rotaType){
 
 		$('#divgood').prop('hidden',false);
 		$('#divEqualZero').css('display','block');
-		$('#equalZero').removeProp('checked');
+
 		
 		$('#categoryIds').val('');
 		$('#categoryShows').val('');
@@ -270,6 +278,19 @@ function queryForm(){
 		$("#branchId").val('');
 		$("#branchCompleCode").val('');
 	}
+	
+	if(oldbatchNo && oldbatchNo != batchNo){
+		$("#batchId").val('');
+	}
+	
+	if(oldskuName && oldskuName != skuName){
+		$("#skuId").val('');
+	}
+	
+	if(oldcategoryShows && oldcategoryShows != categoryShows){
+		$("#categoryIds").val('');
+	}
+	
 	var fromObjStr = $('#queryForm').serializeObject();
 	// 去除编码
     fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1)
@@ -282,6 +303,7 @@ function queryForm(){
 //重置
 function gFunRefresh(){
 	$("#queryForm").form('clear');
+    initPageData();
 }
 /**
  * 机构名称

@@ -104,6 +104,7 @@ function initDatagridCategory(categoryType){
         showFooter:true,
         height:'100%',
         width:'100%',
+        idField:'categoryCode',
         columns:[[
             {field:'categoryCode',title:'类别编码',width:100,align:'left'},
             {field:'categoryName',title:'名称',width:100,align:'left'},
