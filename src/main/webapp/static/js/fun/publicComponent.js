@@ -139,7 +139,7 @@ function publicUploadFileService(callback,params){
     var  dalogTemp = $('<div id="uploadFile"/>').dialog({
         href:contextPath + "/common/uploadFile",
         width:480,
-        height:dialogHeight,
+        height:320,
         title:params.type==1?"导入条码":"导入货号",
         closable:true,
         resizable:true,
