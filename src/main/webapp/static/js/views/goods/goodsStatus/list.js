@@ -353,7 +353,7 @@ function closeDialog() {
 function importHandel(type,obj){
 	    if($(obj).hasClass('ubtns-item-disabled'))return;
 	    var branchId = $("#branchId").val();
-	    var status = $("#status").val();
+	    var status = $('input[name="status"]:checked ').val();
 	    //判定发货分店是否存在  
 		//JIANGSHAO
 	    if($("#branchId").val()==""){   
