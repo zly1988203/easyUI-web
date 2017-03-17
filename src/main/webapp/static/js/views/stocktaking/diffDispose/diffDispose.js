@@ -32,6 +32,9 @@ $(function(){
         $('#btnSave').prop('disabled','disabled ')
         $('#btndelete').addClass('uinp-no-more');
         $('#btndelete').prop('disabled','disabled ')
+	}else{
+		  messager("数据查询异常");
+		  toClose();
 	}
 	initOperateDataGrid();
  }
@@ -65,7 +68,8 @@ function initOperateDataGrid(){
         singleSelect:isSingleSelect,  // 单选 false多选
         rownumbers:true,    // 序号
         showFooter:true,
-        // checkOnSelect:false,
+         checkOnSelect:false,
+         selectOnCheck:false,
         pageSize:10000,
         view:scrollview,
         height:'100%',
@@ -199,11 +203,20 @@ function initOperateDataGrid(){
         onUncheck:function(rowIndex,rowData){
         	rowData.handle = '0';
         },
-           
+        onCheckAll:function(rows){
+        	$.each(rows,function(index,item){
+        		item.handle = '1';
+        	})
+        },
+        onUncheckAll:function(rows){
+        	$.each(rows,function(index,item){
+        		item.handle = '0';
+        	})
+        },
         onClickCell:function(rowIndex,field,value){
             if(operateStatus === '1') return;
             gridHandel.setBeginRow(rowIndex);
-            $("#"+gridName).datagrid('unselectRow',rowIndex);
+//            $("#"+gridName).datagrid('unselectRow',rowIndex);
             gridHandel.setSelectFieldName(field);
             var target = gridHandel.getFieldTarget(field);
             if(target){
@@ -225,7 +238,8 @@ function initOperateDataGrid(){
                 var rowData = data.rows;
                 $.each(rowData,function(idx,val){//遍历JSON
                     if(val.handle==='1'){
-                        $("#"+gridName).datagrid("selectRow", idx);//如果数据行为已选中则选中改行
+                    	 $("#"+gridName).datagrid('checkRow', idx);
+                       // $("#"+gridName).datagrid("selectRow", idx);//如果数据行为已选中则选中改行
                     }
                 });
             }
@@ -387,6 +401,7 @@ function saveDataHandel(rows){
 
 //审核
 function auditDiffDispose(){
+	 $("#"+gridName).datagrid("endEdit", gridHandel.getSelectRowIndex());
 	var rows = gridHandel.getRows();
 
 	var newData = {

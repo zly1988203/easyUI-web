@@ -46,7 +46,7 @@
 
 			</div>
 				<div class='umar-t10 umar-l10' id="divEqualZero" hidden="true">
-					<input class="checkItem" type="checkbox">显示差异为0的商品
+					<input class="checkItem" type="checkbox" id="equalZero" name="equalZero">显示差异为0的商品
 				</div>
 			
 		</div>
