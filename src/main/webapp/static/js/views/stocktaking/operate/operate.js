@@ -317,16 +317,9 @@ function searchTakeStock(){
 			branchCompleCode:branchCompleCode
 	}
 	new publicStocktakingDialog(param,function(data){
-	    if($("#batchId").val() === ''){
-            $("#branchId").val(data.branchId);
-            $("#branchCode").val(data.branchCode);
-            $("#branchName").val(data.branchName);
-            $("#batchId").val(data.id);
-            $("#batchNo").val(data.batchNo);
-            $("#scope").val(data.scope==1 ? "类别盘点" : "全场盘点");
-            $("#categoryShows").val(data.categoryShowsStr);
-        } else if( data.id != $("#batchId").val()){
-            $.messager.confirm('提示','修改盘点批号后会清空明细，需要重新录入，是否要修改？',function(r){
+		var rows = gridHandel.getRowsWhere({skuName:'1'});
+		if(rows.length > 0){
+			$.messager.confirm('提示','修改盘点批号后会清空明细，需要重新录入，是否要修改？',function(r){
                 if (r){
                     $("#branchId").val(data.branchId);
                     $("#branchCode").val(data.branchCode);
@@ -341,7 +334,15 @@ function searchTakeStock(){
                         $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault)]);
                 }
             });
-        }
+		}else{
+			$("#branchId").val(data.branchId);
+            $("#branchCode").val(data.branchCode);
+            $("#branchName").val(data.branchName);
+            $("#batchId").val(data.id);
+            $("#batchNo").val(data.batchNo);
+            $("#scope").val(data.scope==1 ? "类别盘点" : "全场盘点");
+            $("#categoryShows").val(data.categoryShowsStr);
+		}
 	})
 }
 
@@ -485,13 +486,8 @@ function saveDataHandel(rows,opType){
  */
 function selectBranches(){
 	new publicAgencyService(function(data){
-	    if($("#branchId").val() === ''){
-            $("#branchId").val(data.branchesId);
-            $("#branchCode").val(data.branchCode);
-            $("#branchCompleCode").val(data.branchCompleCode);
-            $("#branchName").val(data.branchName);
-        }else if($("#branchId").val() != data.branchesId){
-            $.messager.confirm('提示','修改机构后会清空明细，需要重新录入，是否要修改？',function(r){
+		if($.trim($('#batchId').val())){
+			$.messager.confirm('提示','修改机构后会清空明细，需要重新录入，是否要修改？',function(r){
                 if (r){
                     $("#branchId").val(data.branchesId);
                     $("#branchCode").val(data.branchCode);
@@ -506,8 +502,12 @@ function selectBranches(){
                         $.extend({},gridDefault),$.extend({},gridDefault)]);
                 }
             });
-        }
-
+		}else{
+			$("#branchId").val(data.branchesId);
+            $("#branchCode").val(data.branchCode);
+            $("#branchCompleCode").val(data.branchCompleCode);
+            $("#branchName").val(data.branchName);
+		}
 	},'BF','');
 }
 

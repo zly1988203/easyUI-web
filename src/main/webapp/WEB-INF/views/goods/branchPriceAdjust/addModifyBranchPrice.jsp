@@ -129,7 +129,7 @@
                     <div class="umar-r10 uw-70 ut-r">制单人员:</div>
                     <div class="utxt"  id="createUserName">${goodsPriceForm.createUserName}</div>
                 </div>
-                <div class="ub ub-ac umar-l20 uw-200" >
+                <div class="ub ub-ac umar-l50 uw-200" >
                     <div class="umar-r10 uw-70 ut-r" >制单时间:</div>
                     <div class="utxt" id="createUserDate"><fmt:formatDate value='${goodsPriceForm.createTime}' pattern='yyyy-MM-dd HH:mm' /></div>
                 </div>
@@ -144,7 +144,7 @@
                     <div class="umar-r10 uw-90 ut-r" >最后修改人:</div>
                     <div class="utxt" id="checkUser">${goodsPriceForm.updateUserName}</div>
                 </div>
-                <div class="ub ub-ac umar-l40  uw-200">
+                <div class="ub ub-ac umar-l70  uw-200">
                     <div class="umar-r10 uw-70 ut-r" >修改时间:</div>
                     <div class="utxt" id="checkDate"><fmt:formatDate value='${goodsPriceForm.updateTime}' pattern='yyyy-MM-dd HH:mm' /></div>
                 </div>
@@ -155,10 +155,10 @@
                     <div class="umar-r10 uw-70 ut-r">调价设置:</div>
                      <!-- 如果价格设置不是为空 -->
 	                    <div class="ub ub-ac umar-r30">
-								  <label><input class="priceItem"  type="checkbox" name="isModifySalePrice" checked="checked" id="retailPrice"/><span>零售价</span></label>
+								  <label><input class="priceItem"  type="checkbox" name="isModifySalePrice" <c:if test="${empty goodsPriceForm.formNo ||  goodsPriceForm.isModifySalePrice == 1}"> checked="checked" </c:if> id="retailPrice"/><span>零售价</span></label>
 	                    </div>
 	                    <div class="ub ub-ac umar-r30">
-								 <label><input class="priceItem"  type="checkbox" name="isModifyVipPrice"  id="memberPrice" checked="checked"/><span>会员价</span></label>
+								 <label><input class="priceItem"  type="checkbox" name="isModifyVipPrice" <c:if test="${empty goodsPriceForm.formNo ||  goodsPriceForm.isModifyVipPrice == 1}"> checked="checked" </c:if>  id="memberPrice" /><span>会员价</span></label>
 	                    </div>	
 	                    <div class="umar-r10 uw-300 ut-r">
                     <c:if test="${goodsPriceForm.status !=1}">
@@ -171,7 +171,7 @@
                     <div class="umar-r10 uw-70 ut-r" >审核人员:</div>
                     <div class="utxt" id="checkUser">${goodsPriceForm.validUserName}</div>
                 </div>
-                <div class="ub ub-ac umar-l20  uw-200">
+                <div class="ub ub-ac umar-l50  uw-200">
                     <div class="umar-r10 uw-70 ut-r" >审核时间:</div>
                     <div class="utxt" id="checkDate"><fmt:formatDate value='${goodsPriceForm.validTime}' pattern='yyyy-MM-dd HH:mm' /></div>
                 </div>
