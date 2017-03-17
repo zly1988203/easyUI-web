@@ -872,7 +872,7 @@ function exportData(){
 		return;
 	}
 	var formNo=$("#formNoInput").val();
-	$("#searchForm").attr("action",contextPath+'/goods/branchPriceAdjust/exportList');
+	$("#searchForm").attr("action",contextPath+'/goods/branchPriceAdjust/exportList?formNo='+formNo);
 	
 	$("#searchForm").submit();	
 
