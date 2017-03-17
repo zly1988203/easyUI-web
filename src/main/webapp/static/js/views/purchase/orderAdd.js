@@ -585,7 +585,10 @@ function saveDataHandel(rows){
                     location.href = contextPath +"/form/purchase/orderEdit?formId=" + result["formId"];
                 });
             }else{
-                successTip(result['message']);
+            	new publicErrorDialog({
+            		"title":"保存失败",
+            		"error":result['message']
+            	});
             }
         },
         error:function(result){
