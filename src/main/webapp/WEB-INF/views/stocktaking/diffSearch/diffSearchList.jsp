@@ -61,8 +61,8 @@
 			<div class="ub ub-ac uw-300 umar-l20">
 				<div class="umar-r10 uw-70 ut-r">类别:</div>
 				<input class="uinp ub ub-f1" type="hidden" name="categoryIds" id="categoryIds" />
-				<input class="uinp ub ub-f1" type="text" name="categoryShows" id="categoryShows" readOnly/>
-				<div id='categoryDiv' class="uinp-more category"  onClick="searchCategory()">...</div>
+				<input class="uinp ub ub-f1" type="text" name="categoryShows" id="categoryShows" disabled="disabled"/>
+				<div id='categoryDiv' class="uinp-more category"  onClick="searchCategory()" hidden="true">...</div>
 			</div>
 			
 			<div class="ub ub-ac umar-l10">
