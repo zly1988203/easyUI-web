@@ -663,7 +663,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	@RequestMapping(value = "importList")
 	@ResponseBody
 	public RespJson importList(@RequestParam("file") MultipartFile file, String type, String targetBranchId,
-			String sourceBranchId) {
+			String sourceBranchId,String formType) {
 		RespJson respJson = RespJson.success();
 		try {
 			if (file.isEmpty()) {
@@ -702,6 +702,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 			Map<String, String> map = new HashMap<String, String>();
 			map.put("targetBranchId", targetBranchId);
 			map.put("sourceBranchId", sourceBranchId);
+			map.put("formType", formType);
 			final String finalType = type;
 			GoodsSelectImportVo<GoodsSelectDeliver> vo = goodsSelectImportComponent.importSelectGoods(fileName, is,
 					fields, new GoodsSelectDeliver(), null, user.getId(), type, "/form/deliverForm/downloadErrorFile",
