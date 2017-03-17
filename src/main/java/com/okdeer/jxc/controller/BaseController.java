@@ -49,6 +49,16 @@ public class BaseController<T> {
 	 * @Fields SUCCESS : success
 	 */
 	protected static final String SUCCESS = "success";
+	
+	/**
+	 * @Fields PAGE_500 : 500页面
+	 */
+	protected static final String PAGE_500 = "/error/500";
+	
+	/**
+	 * @Fields error_Msg : 500页面错误提示消息key值
+	 */
+	protected static final String ERROR_MSG = "errorMsg";
 
 	/**
 	 * @Description: 获取当前用户信息
