@@ -1,17 +1,17 @@
-var rotaType = '1';
+
 //初始化表格
 $(function(){
     initPageData();
 	initDgTakeStockDiffSearch();
     $(".radioItem").on("change",function(){
     	$("#diffSearchList").datagrid('options').url = "";
-    	rotaType = $(this).val()
+        $('#rotationType').val($(this).val());
     	initDgTakeStockDiffSearch();
     	$('#diffSearchList').datagrid({data:[]}); 
     	// 更新页脚行并载入新数据
     	$('#diffSearchList').datagrid('reloadFooter',[]);
     	// 页面控制
-    	pageChange(rotaType);
+    	pageChange();
     	
     })
 });
@@ -26,12 +26,16 @@ function  initPageData() {
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
     $("input[name=rotation]:eq(0)").prop('checked','checked')
     $('#rotationType').val('1');
-
+    initDgTakeStockDiffSearch();
+    $('#diffSearchList').datagrid({data:[]});
+    // 更新页脚行并载入新数据
+    $('#diffSearchList').datagrid('reloadFooter',[]);
+    pageChange();
 }
 
 //页面元素控制
-function pageChange(rotaType){
-	$('#rotationType').val(rotaType);
+function pageChange(){
+	var rotaType = $('#rotationType').val();
 	if(rotaType === '1'){
 
 		$('#skuId').val("");
@@ -86,7 +90,7 @@ function initDgTakeStockDiffSearch(){
 	});
 }
 function getFiledsList(){
-	if(rotaType === '1'){
+	if($('#rotationType').val() === '1'){
 		return [ [
 		          {field:'check',checkbox:true},
 		          {field: 'branchCode', title: '机构编号', width: 100, align: 'left'},
