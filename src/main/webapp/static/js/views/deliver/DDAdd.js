@@ -900,10 +900,12 @@ function toImportproduct(type){
         messager("请先选择发货机构");
         return;
     }
+    debugger;
     var param = {
         url:contextPath+"/form/deliverForm/importList",
         tempUrl:contextPath+"/form/deliverForm/exportTemp",
         type:type,
+        formType:'DD',
         targetBranchId:targetBranchId,
         sourceBranchId:sourceBranchId
     }
