@@ -67,7 +67,7 @@ function initPurchaseGuideGoodsListDg(){
             {field:'barCode',title:'条码',width:120,align:'left'},
             {field:'skuUnit',title:'单位',width:60,align:'left'},
             {field:'skuSpec',title:'规格',width:60,align:'left'},
-            {field:'purchaseSpec',title:'采购规格',width:60,align:'left'},
+            {field:'purchaseSpec',title:'进货规格',width:60,align:'left'},
             {field:'purchasePrice',title:'进价',width:120,align:'left'},
             
             {field:'upperLimit',title:'库存上限',width:120,align:'left',hidden:isType_one},
