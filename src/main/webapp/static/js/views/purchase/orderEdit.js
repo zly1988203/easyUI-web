@@ -539,7 +539,10 @@ function saveDataHandel(rows){
             if(result['code'] == 0){
                 $.messager.alert("操作提示", "操作成功！", "info");
             }else{
-                successTip(result['message']);
+            	new publicErrorDialog({
+            		"title":"保存失败",
+            		"error":result['message']
+            	});
             }
         },
         error:function(result){
@@ -607,7 +610,10 @@ function checkOrder(){
                      location.href = contextPath +"/form/purchase/orderEdit?formId=" + id;
                  });
              }else{
-                 successTip(result['message']);
+             	new publicErrorDialog({
+            		"title":"审核失败",
+            		"error":result['message']
+            	});
              }
          },
          error:function(result){

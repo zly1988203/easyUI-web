@@ -36,6 +36,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
+import com.okdeer.jxc.branch.entity.Branches;
+import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.LogConstant;
@@ -64,8 +66,11 @@ import com.okdeer.jxc.form.purchase.vo.PurchaseFormDetailVo;
 import com.okdeer.jxc.form.purchase.vo.PurchaseFormVo;
 import com.okdeer.jxc.form.purchase.vo.ReceiptFormVo;
 import com.okdeer.jxc.form.purchase.vo.ReturnFormVo;
+import com.okdeer.jxc.goods.entity.GoodsBranchPriceVo;
 import com.okdeer.jxc.goods.entity.GoodsSelect;
 import com.okdeer.jxc.goods.entity.GoodsSelectByPurchase;
+import com.okdeer.jxc.goods.qo.GoodsBranchPriceQo;
+import com.okdeer.jxc.goods.service.GoodsBranchPriceServiceApi;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
 
@@ -86,12 +91,18 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 
 	@Reference(version = "1.0.0", check = false)
 	private PurchaseFormServiceApi purchaseFormServiceApi;
+	
+	@Reference(version = "1.0.0", check = false)
+	private GoodsBranchPriceServiceApi goodsBranchPriceService;
 
 	@Autowired
 	private GoodsSelectImportComponent goodsSelectImportComponent;
 
 	@Autowired
 	private OrderNoUtils orderNoUtils;
+	
+	@Reference(version = "1.0.0", check = false)
+	BranchesServiceApi branchesServiceApi;
 
 	/**
 	 * 跳转到新增采购单页面
@@ -446,6 +457,12 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 		// PurchaseFormVo formVo = new PurchaseFormVo();
 
 		PurchaseFormVo formVo = JSON.parseObject(jsonText, PurchaseFormVo.class);
+		
+		//验证
+		RespJson resp = saveValid(formVo);
+		if(!resp.isSuccess()){
+			return resp;
+		}
 
 		PurchaseForm form = new PurchaseForm();
 
@@ -644,6 +661,11 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 	public RespJson updateOrder(@RequestBody String jsonText) {
 
 		PurchaseFormVo formVo = JSON.parseObject(jsonText, PurchaseFormVo.class);
+		//验证
+		RespJson resp = saveValid(formVo);
+		if(!resp.isSuccess()){
+			return resp;
+		}
 
 		PurchaseForm form = new PurchaseForm();
 		BeanUtils.copyProperties(formVo, form);
@@ -781,6 +803,12 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 	@RequestMapping(value = "check", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson check(String formId, Integer status) {
+		//验证数据
+		RespJson resp = auditValid(formId);
+		if(!resp.isSuccess()){
+			return resp;
+		}
+		
 		SysUser user = UserUtil.getCurrentUser();
 		RespJson respJson = RespJson.success();
 		try {
@@ -1180,5 +1208,117 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 		} catch (Exception e) {
 			LOG.error("导出采购导入模板异常", e);
 		}
+	}
+	
+	/**
+	 * 
+	 * @Description: 采购订单保存验证
+	 * @return RespJson  
+	 * @author zhangq
+	 * @date 2017年3月16日
+	 */
+	public RespJson saveValid(PurchaseFormVo vo){
+		//订单明细商品是否有停购或淘汰情况
+		GoodsBranchPriceQo qo = new GoodsBranchPriceQo();
+		
+		//所有商品ID
+		List<String> skuIds = new ArrayList<String>();
+		List<PurchaseFormDetailVo> detailList = vo.getDetailList();
+		for (PurchaseFormDetailVo detailVo : detailList) {
+			skuIds.add(detailVo.getSkuId());
+		}
+		qo.setGoodsStoreSkuIds(skuIds);
+		
+		//机构ID
+		String branchId = vo.getBranchId();
+		qo.setBranchId(branchId);
+		
+		//其他参数
+		qo.setPage(1);
+		qo.setRows(detailList.size());
+		
+		//查询商品信息
+		PageUtils<GoodsBranchPriceVo> page = null;
+		Branches branch = branchesServiceApi.getBranchInfoById(branchId);//机构类型(0.总部、1.分公司、2.物流中心、3.自营店、4.加盟店B、5.加盟店C)
+		if(branch.getType()==3 || branch.getType()==4 || branch.getType()==5){
+			page = goodsBranchPriceService.queryBranchGoods(qo);
+		}else{
+			page = goodsBranchPriceService.queryBranchCompanyGoods(qo);
+		}
+		List<GoodsBranchPriceVo> list = page.getList();
+		
+		//处理结果
+		StringBuilder sb = new StringBuilder();
+		for (GoodsBranchPriceVo branchGoodsVo : list) {
+			//停购
+			if(branchGoodsVo.getStatus().equals("2")){
+				sb.append(branchGoodsVo.getSkuName()+"["+branchGoodsVo.getSkuCode()+"]已停购；\n");
+			}
+			//淘汰
+			if(branchGoodsVo.getStatus().equals("3")){
+				sb.append(branchGoodsVo.getSkuName()+"["+branchGoodsVo.getSkuCode()+"]已淘汰；\n");
+			}
+		}
+		if(!sb.toString().equals("")){
+			return RespJson.error(sb.toString());
+		}
+		return RespJson.success();
+	}
+	
+	/**
+	 * 
+	 * @Description: 审核验证
+	 * @param formId
+	 * @return RespJson  
+	 * @author zhangq
+	 * @date 2017年3月17日
+	 */
+	public RespJson auditValid(String formId){
+		//订单明细商品是否有停购或淘汰情况
+		GoodsBranchPriceQo qo = new GoodsBranchPriceQo();
+		
+		//所有商品ID
+		List<String> skuIds = new ArrayList<String>();
+		List<PurchaseFormDetailPO> detailList = purchaseFormServiceApi.selectDetailById(formId);
+		for (PurchaseFormDetailPO detailVo : detailList) {
+			skuIds.add(detailVo.getSkuId());
+		}
+		qo.setGoodsStoreSkuIds(skuIds);
+		
+		//机构ID
+		PurchaseFormPO po = purchaseFormServiceApi.selectPOById(formId);
+		String branchId = po.getBranchId();
+		qo.setBranchId(branchId);
+		
+		//其他参数
+		qo.setPage(1);
+		qo.setRows(detailList.size());
+		
+		//查询商品信息
+		PageUtils<GoodsBranchPriceVo> page = null;
+		Branches branch = branchesServiceApi.getBranchInfoById(branchId);//机构类型(0.总部、1.分公司、2.物流中心、3.自营店、4.加盟店B、5.加盟店C)
+		if(branch.getType()==3 || branch.getType()==4 || branch.getType()==5){
+			page = goodsBranchPriceService.queryBranchGoods(qo);
+		}else{
+			page = goodsBranchPriceService.queryBranchCompanyGoods(qo);
+		}
+		List<GoodsBranchPriceVo> list = page.getList();
+		
+		//处理结果
+		StringBuilder sb = new StringBuilder();
+		for (GoodsBranchPriceVo branchGoodsVo : list) {
+			//停购
+			if(branchGoodsVo.getStatus().equals("2")){
+				sb.append(branchGoodsVo.getSkuName()+"["+branchGoodsVo.getSkuCode()+"]已停购；\n");
+			}
+			//淘汰
+			if(branchGoodsVo.getStatus().equals("3")){
+				sb.append(branchGoodsVo.getSkuName()+"["+branchGoodsVo.getSkuCode()+"]已淘汰；\n");
+			}
+		}
+		if(!sb.toString().equals("")){
+			return RespJson.error(sb.toString());
+		}
+		return RespJson.success();
 	}
 }

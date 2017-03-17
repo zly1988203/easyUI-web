@@ -1,5 +1,5 @@
 $(function(){
-    //initDatagrid();
+
 });
 
 
@@ -8,10 +8,10 @@ $(function(){
  */
 function searchBranchInfo (){
 	new publicAgencyService(function(data){
-		$("#opBranchCompleCode").val(data.branchCompleCode);
-		$("#opBranchId").val(data.branchesId);
-		$("#opBranchType").val(data.type);
-		$("#branchNameCode").val("["+data.branchCode+"]"+data.branchName);
+		$("#editUserForm #opBranchCompleCode").val(data.branchCompleCode);
+		$("#editUserForm #opBranchId").val(data.branchesId);
+		$("#editUserForm #opBranchType").val(data.type);
+		$("#editUserForm #branchNameCode").val("["+data.branchCode+"]"+data.branchName);
 	},"","");
 }
 
@@ -19,16 +19,25 @@ function searchBranchInfo (){
  * 角色列表下拉选
  */
 function searchRole (){
-	var opBranchCompleCode = $("#opBranchCompleCode").val();
+	var opBranchCompleCode = $("#editUserForm #opBranchCompleCode").val();
 	if(!opBranchCompleCode){
 		$.messager.alert("提示", "请先选择机构！","warning");
 		return;
 	}
-	var opBranchType = $("#opBranchType").val();
+	var opBranchType = $("#editUserForm #opBranchType").val();
 	new publicRoleService(function(data){
-		$("#opRoleId").val(data.id);
-		$("#opRoleCode").val(data.roleCode);
-		$("#roleCodeOrName").val(data.roleName);
+		$("#editUserForm #opRoleId").val(data.id);
+		$("#editUserForm #opRoleCode").val(data.roleCode);
+		$("#editUserForm #roleCodeOrName").val(data.roleName);
+		
+		//只有门店角色可以编辑最大折扣率
+		var branchType = data.branchType;
+		if(branchType==3||branchType==4||branchType==5){
+			$("#maxDiscountRadio").numberbox({readonly: false});
+		}else{
+			$("#maxDiscountRadio").numberbox("setValue",100);
+			$("#maxDiscountRadio").numberbox({readonly: true});
+		}
 	}, opBranchCompleCode, opBranchType);
 }
 
