@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.result.RespJson;
+import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.gson.GsonUtils;
 import com.okdeer.jxc.controller.BaseController;
@@ -140,6 +141,11 @@ public class PurchaseGuideController extends BaseController<PurchaseGuideControl
 			// 必填参数
 			if(StringUtils.isBlank(qo.getBranchId()) || qo.getBranchType()==null){
 				LOG.error("机构信息为空，系统异常！");
+			}
+			
+			// 结束日期加一天
+			if (qo.getDeliverEndDate() != null) {
+				qo.setDeliverEndDate(DateUtils.getDayAfter(qo.getDeliverEndDate()));
 			}
 			return purchaseGuideService.getGoodsList(qo);
 		} catch (Exception e) {

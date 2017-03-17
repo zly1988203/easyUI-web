@@ -195,3 +195,34 @@ function searchCategory(){
 		$("#categoryCodeOrName").val("["+data.categoryCode+"]"+data.categoryName);
 	});
 }
+
+
+function clearBranchCode(){
+	var branchCodeName = $("#branchCodeName").val();
+	
+	//如果修改名称
+	if(!branchCodeName || 
+			(branchCodeName && branchCodeName.indexOf("[")<0 && branchCodeName.indexOf("]")<0)){
+		$("#branchCompleCode").val('');
+	}
+}
+
+function clearSkuCode(){
+	var skuCodeOrName = $("#skuCodeOrName").val();
+	
+	//如果修改名称
+	if(!skuCodeOrName || 
+			(skuCodeOrName && skuCodeOrName.indexOf("[")<0 && skuCodeOrName.indexOf("]")<0)){
+		$("#skuId").val('');
+	}
+}
+
+function clearCategoryCode(){
+	var categoryCodeOrName = $("#categoryCodeOrName").val();
+	
+	//如果修改名称
+	if(!categoryCodeOrName || 
+			(categoryCodeOrName && categoryCodeOrName.indexOf("[")<0 && categoryCodeOrName.indexOf("]")<0)){
+		$("#categoryCode").val('');
+	}
+}

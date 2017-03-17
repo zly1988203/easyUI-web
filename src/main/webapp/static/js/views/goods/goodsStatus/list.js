@@ -81,6 +81,7 @@ $(document).on("click","input[name='status']",function(){
 	switch(statusValue){
 		case '0': //正常
 			//
+			$(".importbtn").removeClass("ubtns-item-disabled").addClass("ubtns-item");
 			$("#btn_stop01").removeClass("ubtns-item-disabled").addClass("ubtns-item");
 			$("#btn_stop02").removeClass("ubtns-item-disabled").addClass("ubtns-item");
 			$("#btn_stopout").removeClass("ubtns-item-disabled").addClass("ubtns-item");
@@ -90,6 +91,7 @@ $(document).on("click","input[name='status']",function(){
 			$("#recover").removeClass("ubtns-item").addClass("ubtns-item-disabled");
 			break;
 		case '2': //停购
+			$(".importbtn").removeClass("ubtns-item-disabled").addClass("ubtns-item");
 			$("#btn_stop01").removeClass("ubtns-item").addClass("ubtns-item-disabled");
 			$("#btn_stop02").removeClass("ubtns-item").addClass("ubtns-item-disabled");
 			$("#btn_stopout").removeClass("ubtns-item").addClass("ubtns-item-disabled");
@@ -101,6 +103,7 @@ $(document).on("click","input[name='status']",function(){
 			break;
 		case '3': //淘汰
 		case '1': //停售
+			$(".importbtn").removeClass("ubtns-item-disabled").addClass("ubtns-item");
 			$("#btn_stop01").removeClass("ubtns-item").addClass("ubtns-item-disabled");
 			$("#btn_stop02").removeClass("ubtns-item").addClass("ubtns-item-disabled");
 			$("#btn_stopout").removeClass("ubtns-item").addClass("ubtns-item-disabled");
@@ -110,6 +113,7 @@ $(document).on("click","input[name='status']",function(){
 			$("#recover").removeClass("ubtns-item-disabled").addClass("ubtns-item");
 			break;
 		default:
+			$(".importbtn").removeClass("ubtns-item").addClass("ubtns-item-disabled");
 			$("#btn_stop01").removeClass("ubtns-item").addClass("ubtns-item-disabled");
 			$("#btn_stop02").removeClass("ubtns-item").addClass("ubtns-item-disabled");
 			$("#btn_stopout").removeClass("ubtns-item").addClass("ubtns-item-disabled");
@@ -346,8 +350,10 @@ function closeDialog() {
 /**
  * 导入
  */
-function importHandel(type){
+function importHandel(type,obj){
+	    if($(obj).hasClass('ubtns-item-disabled'))return;
 	    var branchId = $("#branchId").val();
+	    var status = $("#status").val();
 	    //判定发货分店是否存在  
 		//JIANGSHAO
 	    if($("#branchId").val()==""){   
@@ -358,7 +364,8 @@ function importHandel(type){
 	        url:contextPath+"/goods/status/importList",
 	        tempUrl:contextPath+"/goods/status/exportTemp",
 	        branchId:branchId,
-	        type:type
+	        type:type,
+	        status:status
 	    }
 	    new publicUploadFileService(function(data){
 	        updateListData(data);
@@ -465,7 +472,7 @@ function checkStopGuide(){
 }
 //初始化数据
 function resetGuideData(){
-	$("input[name='guideStatus']").prop("checked",false).eq(0).prop("checked",true);
+	$("input[name='guideType']").prop("checked",false).eq(0).prop("checked",true);
 	$("input[name='guideChoose']").prop("checked",false).eq(0).prop("checked",true);
 	$("#guideDatew").numberbox('setValue',15);
 }
@@ -483,10 +490,10 @@ function closeStopGuideDialog(){
 }
 //初始化数据
 function resetStopGuideData(){
-	$("input[name='stGuideStatus']").prop("checked",false).eq(0).prop("checked",true);
+	$("input[name='stGuideType']").prop("checked",false).eq(0).prop("checked",true);
 	$("input[name='stGuideChoose']").prop("checked",false).eq(0).prop("checked",true);
-	$("#stguideDate").numberbox('clear');
-	$("#stguideNum").numberbox('clear');
+	$("#stGuideDate").numberbox('setValue',15);
+	$("#stGuideNum").numberbox('setValue',5);
 }
 
 
