@@ -173,6 +173,7 @@ function nextStep (){
     gridHandel.endEditRow(gridHandel.getSelectRowIndex());
     var rows = gridHandel.getRows();
 	 var gridRows = [];
+	 var indexs=[] ;
 	 $.each(rows,function(i,data){
 		 var param = {
 					branchId:data.branchId,
@@ -188,14 +189,36 @@ function nextStep (){
 					remark:data.remark,
 					deliverId:data.deliverId
 		 }
-		 gridRows[i] = param;
+
+		 if(parseFloat(data.purchaseNum) === 0){
+             indexs.push((i+1));
+		 }else{
+             gridRows.push(param);
+		 }
 	 });
 	 
 	 if(gridRows.length==0){
 		 successTip("商品数据为空!");
 		 return;
 	 }
+
+	 if(indexs.length > 0){
+
+         $.messager.confirm('系统提示',"<p>第" +JSON.stringify(indexs) +"行共"+indexs.length+"行数据订货数量为0,</p>" +
+             "<div class='uc umar-l40 umar-b20'>是否移除并继续生产订单？</div>",function(r){
+             if (r){
+                 saveDataHandel(gridRows);
+             }else{
+                 $('#saveBtn').removeAttr("disabled");
+                 return;
+             }
+         });
+	 }
 	 
+
+}
+
+function saveDataHandel (gridRows) {
     $.ajax({
         url:contextPath+"/form/purchaseGuide/generFormList",
         type:"POST",
@@ -203,11 +226,11 @@ function nextStep (){
         data:JSON.stringify(gridRows),
         success:function(result){
             if(result.code == 0){
-            	
-            	var guideNo = result.data;
-            	//提交参数并跳转到第三步
-            	location.href = contextPath+"/form/purchaseGuide/toGuideOrderList?guideNo="+guideNo;
-            	//$.StandardPost(contextPath+"/form/purchaseGuide/guideOrderList", {guideNo:guideNo});
+
+                var guideNo = result.data;
+                //提交参数并跳转到第三步
+                location.href = contextPath+"/form/purchaseGuide/toGuideOrderList?guideNo="+guideNo;
+                //$.StandardPost(contextPath+"/form/purchaseGuide/guideOrderList", {guideNo:guideNo});
             }else{
                 successTip(result.message);
             }
