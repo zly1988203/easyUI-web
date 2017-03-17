@@ -321,8 +321,12 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 	 */
 	@RequestMapping(value = "importSkuCode", method = RequestMethod.POST)
 	@ResponseBody
-	public List<GoodsSelect> importSkuCode(String[] skuCodes, String branchId, String type, String sourceBranchId,
-			String targetBranchId) {
+	public List<GoodsSelect> importSkuCode(GoodsSelectVo paramVo) {
+		List<String> skuCodes = paramVo.getSkuCodes();
+		String branchId = paramVo.getBranchId();
+		String type = paramVo.getType(); 
+		String sourceBranchId = paramVo.getSourceBranchId();
+		String targetBranchId = paramVo.getTargetBranchId();
 		List<GoodsSelect> suppliers = null;
 		try {
 			if (FormType.DA.name().equals(type)) {
@@ -330,7 +334,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 				vo.setIsManagerStock(1);
 				vo.setTargetBranchId(targetBranchId);
 				vo.setSourceBranchId(sourceBranchId);
-				vo.setSkuCodesOrBarCodes(Arrays.asList(skuCodes));
+				vo.setSkuCodesOrBarCodes(skuCodes);
 				vo.setPageNumber(1);
 				vo.setPageSize(50);
 				PageUtils<GoodsSelect> goodsSelects = getGoodsListDA(vo);
@@ -356,7 +360,10 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 					branchId = "";
 				}
 				// 根据有无skuCodes传来数据 空表示是导入货号 有数据表示导入数据
-				suppliers = goodsSelectServiceApi.queryByCodeLists(skuCodes, branchId, branchIds,alowActivity,allowAdjustPrice);
+				paramVo.setAllowActivity(alowActivity);
+				paramVo.setAllowAdjustPrice(allowAdjustPrice);
+				paramVo.setBranchIds(branchIds);
+				suppliers = goodsSelectServiceApi.queryByCodeListsByVo(paramVo);
 			}
 			LOG.info("根据货号查询商品:{}" + suppliers.toString());
 			return suppliers;
