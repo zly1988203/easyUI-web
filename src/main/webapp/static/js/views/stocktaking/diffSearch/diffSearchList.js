@@ -47,9 +47,9 @@ function pageChange(){
 
         $('#equalZero').removeProp('checked');
 
-    	$('#categoryIds').val('');
-		$('#categoryShows').val('');
-		$('#categoryShows').prop('disabled','disabled');
+    	$('#categoryId').val('');
+		$('#categoryName').val('');
+		$('#categoryName').prop('disabled','disabled');
     	$('#categoryDiv').prop('hidden',true);
 		
 	}else{
@@ -61,9 +61,9 @@ function pageChange(){
 		$('#divEqualZero').css('display','block');
 
 		
-		$('#categoryIds').val('');
-		$('#categoryShows').val('');
-		$('#categoryShows').removeProp('disabled');
+		$('#categoryId').val('');
+		$('#categoryName').val('');
+		$('#categoryName').removeProp('disabled');
 		$('#categoryDiv').prop('hidden',false);
 		
 	}
@@ -291,8 +291,10 @@ function queryForm(){
 		$("#skuId").val('');
 	}
 	
-	if(oldcategoryShows && oldcategoryShows != categoryShows){
-		$("#categoryIds").val('');
+	var oldCategoryName = $("#oldCategoryName").val();
+	var categoryName = $("#categoryName").val();	
+	if(oldCategoryName && oldCategoryName != categoryName){
+		$("#categoryId").val('');
 	}
 	
 	var fromObjStr = $('#queryForm').serializeObject();
@@ -370,21 +372,11 @@ function selectGoods(){
  * 类别选择
  */
 function searchCategory(){
-    var param = {
-        categoryType:'',
-        type:1
-    }
-    new publicCategoryService(function(data){
-        var categoryIds = []
-        var categorytxt=[];
-        $.each(data,function(index,item){
-            categoryIds.push(item.goodsCategoryId);
-            categorytxt.push(item.categoryCode);
-        })
-        $("#categoryIds").val(categoryIds);
-        $("#categoryShows").val(categorytxt) ;
-
-    },param);
+	new publicCategoryService(function(data){
+		$("#categoryId").val(data.categoryId);
+		$("#categoryName").val(data.categoryName);
+		$("#oldCategoryName").val(data.categoryName);
+	});
 }
 /**
  * 导出
