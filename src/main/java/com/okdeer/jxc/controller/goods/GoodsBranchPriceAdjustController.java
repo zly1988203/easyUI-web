@@ -386,8 +386,7 @@ public class GoodsBranchPriceAdjustController extends BaseController<GoodsBranch
 		String[] columns = null;
 
 		if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {// 货号
-			columns = new String[] { "skuCode", "ignoreSkuName", "ignoreSpec", "newPurPrice", "newSalePrice",
-					"newDcPrice", "newWsPrice", "newVipPrice" };
+			columns = new String[] { "skuCode", "ignoreSkuName", "ignoreSpec",  "newSalePrice","newVipPrice" };
 			headers = new String[] { "货号", "商品名称", "规格","新零售价","新会员价" };
 		} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {// 条码
 			columns = new String[] { "barCode", "ignoreSkuName", "ignoreSpec", "newSalePrice","newVipPrice" };

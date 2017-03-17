@@ -12,7 +12,8 @@
 
 	//记录日志
 	Logger logger = LoggerFactory.getLogger("500.jsp");
-	logger.error(ex.getMessage(), ex);
+	if(ex!=null)
+		logger.error(ex.getMessage(), ex);
 %>
 
 <!DOCTYPE html>
@@ -22,6 +23,10 @@
 </head>
 
 <body>
+	<h1>500页面 - 系统内部错误</h1>
 	<h2>系统内部错误，请通知管理员或稍后重试</h2>
+	<c:if test="${not empty errorMsg }">
+		<h3>${errorMsg }</h3>
+	</c:if>
 </body>
 </html>

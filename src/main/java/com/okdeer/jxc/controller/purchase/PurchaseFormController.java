@@ -49,6 +49,7 @@ import com.okdeer.jxc.common.goodselect.GoodsSelectImportVo;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.BigDecimalUtils;
 import com.okdeer.jxc.common.utils.DateUtils;
+import com.okdeer.jxc.common.utils.Disabled;
 import com.okdeer.jxc.common.utils.NumberToCN;
 import com.okdeer.jxc.common.utils.OrderNoUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
@@ -236,6 +237,22 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 	@RequestMapping(value = "orderEdit")
 	public String orderEdit(String formId, String report, HttpServletRequest request) {
 		PurchaseFormPO form = purchaseFormServiceApi.selectPOById(formId);
+		
+		if(form == null){
+			String errorMsg = String.format("采购订单不存在或已删除！单据Id：%s", formId);
+			LOG.error(errorMsg);
+			request.setAttribute(ERROR_MSG, errorMsg);
+			return PAGE_500;
+		}
+		
+		//如果已删除
+		if(Disabled.INVALID.ordinal() == form.getDisabled().intValue() ){
+			String errorMsg = String.format("采购订单已删除！单据Id：%s", formId);
+			LOG.error(errorMsg);
+			request.setAttribute(ERROR_MSG, errorMsg);
+			return PAGE_500;
+		}
+		
 		request.setAttribute("form", form);
 		if (FormStatus.CHECK_SUCCESS.getValue().equals(form.getStatus())) {// 已审核，不能修改
 			if (FormStatus.CHECK_SUCCESS.getValue().equals(form.getStatus()) && form.getDealStatus() != null
@@ -275,6 +292,17 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 	@RequestMapping(value = "returnEdit")
 	public String returnEdit(String formId, String report, HttpServletRequest request) {
 		PurchaseFormPO form = purchaseFormServiceApi.selectPOById(formId);
+		if(form == null){
+			LOG.error("采购订单数据为空：订单Id：{}", formId);
+			return "/error/500";
+		}
+		
+		//如果已删除
+		if(Disabled.INVALID.ordinal() == form.getDisabled().intValue() ){
+			LOG.error("采购订已删除：订单Id：{}", formId);
+			return "/error/500";
+		}
+		
 		request.setAttribute("form", form);
 		if (FormStatus.CHECK_SUCCESS.getValue().equals(form.getStatus())) {// 已审核，不能修改
 			request.setAttribute("status", FormStatus.CHECK_SUCCESS.getLabel());
@@ -307,6 +335,18 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 	@RequestMapping(value = "receiptEdit")
 	public String receiptEdit(String formId, String report, HttpServletRequest request) {
 		PurchaseFormPO form = purchaseFormServiceApi.selectPOById(formId);
+		
+		if(form == null){
+			LOG.error("采购订单数据为空：订单Id：{}", formId);
+			return "/error/500";
+		}
+		
+		//如果已删除
+		if(Disabled.INVALID.ordinal() == form.getDisabled().intValue() ){
+			LOG.error("采购订已删除：订单Id：{}", formId);
+			return "/error/500";
+		}
+		
 		request.setAttribute("form", form);
 		if (FormStatus.CHECK_SUCCESS.getValue().equals(form.getStatus())) {// 已审核，不能修改
 			request.setAttribute("status", FormStatus.CHECK_SUCCESS.getLabel());
