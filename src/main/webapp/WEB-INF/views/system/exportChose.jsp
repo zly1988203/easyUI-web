@@ -38,7 +38,6 @@
 			return;
 		}
 		
-		debugger;
 		var stratRow = 1;
 		var endRow = dg.datagrid('getData').endRow;
 		//当前页

@@ -358,8 +358,19 @@ function publicCategoryService(callback,param){
 var supplierDalog = null;
 
 //公共组件-选择供应商
-function publicSupplierService(callback,model, supplierCodeOrName) {
+function publicSupplierService(callback,model, param) {
 	if(null != supplierDalog) return;
+	
+	if(!param || 'undefined' === typeof(param)){
+		param = {
+				supplierCodeOrName:'',
+				branchId:''
+		}
+	}else if('undefined' === typeof(param.supplierCodeOrName)){
+		param.supplierCodeOrName = '';
+	}else if('undefined' === typeof(param.branchCompleCode)){
+		param.branchCompleCode = '';
+	}
 	
     //公有属性
 	supplierDalog = $('<div/>').dialog({
@@ -375,7 +386,7 @@ function publicSupplierService(callback,model, supplierCodeOrName) {
         },
         modal: true,
         onLoad: function () {
-            initSupplierView(supplierCodeOrName);
+            initSupplierView(param);
             initSupplierCallBack(callBackHandel)
         },
     });

@@ -445,4 +445,9 @@ public interface ExportExcelConstant {
 	 * 查看调价订单货号导入模板Barcode
 	 */
 	String OVERDUE_APPROVED_BARCODE_TEMPLE = "overdueApprovedBarCodeTemple.xlsx";
+	
+	/**
+	 * @Fields PURCHASE_REPLENISH_ANALY_REPORT : 店铺补货分析报表导出模板
+	 */
+	String PURCHASE_REPLENISH_ANALY_REPORT = "purchaseReplenishAnalyReport.xlsx";
 }
