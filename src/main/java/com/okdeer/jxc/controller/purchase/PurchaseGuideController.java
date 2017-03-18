@@ -141,6 +141,7 @@ public class PurchaseGuideController extends BaseController<PurchaseGuideControl
 			// 必填参数
 			if(StringUtils.isBlank(qo.getBranchId()) || qo.getBranchType()==null){
 				LOG.error("机构信息为空，系统异常！");
+				return PageUtils.emptyPage(); 
 			}
 			
 			// 结束日期加一天

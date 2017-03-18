@@ -4,7 +4,11 @@
  */
 var saleWayNot="";
 var branchId="";
-function initSupplierView(supplierCodeOrName){
+function initSupplierView(param){
+	
+	debugger;
+	
+	var supplierCodeOrName = param.supplierCodeOrName;
 	
 	if(supplierCodeOrName){
 		$("#supplierNameOrsupplierCode").val(supplierCodeOrName);
@@ -12,11 +16,15 @@ function initSupplierView(supplierCodeOrName){
 		supplierCodeOrName = "";
 	}
 	
+	var branchId = param.branchId;
+	if(!branchId){
+		branchId=$("#branchId").val();
+	}
+	
     gFunSetEnterKey(supplierSearch);
     saleWayNot=$("#saleWayNot").val();
-    branchId=$("#branchId").val();
     initTreeSupplier(); //初始树
-    initDatagridSupplier(saleWayNot,branchId,supplierCodeOrName); //初始化表格
+    initDatagridSupplier(saleWayNot,branchId, supplierCodeOrName); //初始化表格
 }
 var supplierCallBack ;
 //初始化回调函数
