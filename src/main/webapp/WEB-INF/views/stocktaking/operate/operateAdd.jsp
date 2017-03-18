@@ -39,7 +39,7 @@
 	           </div>
 	            <div class="ub ub-ac uselectw umar-l00 umar-l10">
                     <div class="umar-r10 uw-70 ut-r">盘点批号:</div>
-     				<input type="hidden" name=batchId id="batchId" />
+     				<input type="hidden" name="batchId" id="batchId" />
 					<input type="text" name="batchNo" id="batchNo"class="uinp ub ub-f1" readonly="readonly"  />
 					<div class="uinp-more" onclick="searchTakeStock()">...</div>
                 </div>

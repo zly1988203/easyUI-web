@@ -211,7 +211,7 @@ function onChangeRealNum(newV,oldV) {
         return;
     }
 
-    var purchaseSpecValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'purchaseSpec');
+    var purchaseSpecValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'spec');
     if(!purchaseSpecValue){
         messager("没有配送规格,请审查");
         return;
@@ -245,7 +245,7 @@ function onChangeRealNum(newV,oldV) {
 
 // 监听数量
 function totleChangePrice(newV,oldV) {
-	var purchaseSpecValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'purchaseSpec');
+	var purchaseSpecValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'spec');
 	if(n === 1){
 		var _tempLargeNum = parseFloat(newV)/parseFloat(purchaseSpecValue);
 		gridHandel.setFieldsData({tmpLargeNum:_tempLargeNum}); // 保留除法值   防止toFixed(4) 四舍五入做乘法时比原值大的问题

@@ -69,8 +69,8 @@ function setFormValue(formData){
 	$("#supplierCodeName").val(formData.supplierCodeName);
 	$("#categoryCode").val(formData.categoryCode);
 	$("#categoryCodeName").val(formData.categoryCodeName);
-	$('#startTime').val(formData.deliverStartDate);
-	$('#endTime').val(formData.deliverEndDate);
+	$('#startTime').val((formData.deliverStartDate).substr(0,10));
+	$('#endTime').val((formData.deliverEndDate).substr(0,10));
 	$(':radio[name=guideType]').eq(formData.guideType - 1).prop('checked', true);
 	if(formData.guideType != '1' || formData.guideType != '2'){
         $('#startTime').removeProp('disabled');

@@ -85,8 +85,7 @@
                </div>
            </div>
            <div class="ub umar-t8">
-           	   
-               <div class="ub ub-ac uw-490 umar-l20">
+           	   <div class="ub ub-ac uw-600">
                    <div class="umar-r10 uw-70 ut-r">备注:</div>
                    <input class="uinp ub ub-f1" type="text" id="remark" name="remark" value="${form.remark}" readonly="readonly"/>
                </div>

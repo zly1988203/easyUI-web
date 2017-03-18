@@ -1,17 +1,17 @@
-var rotaType = '1';
+
 //初始化表格
 $(function(){
     initPageData();
 	initDgTakeStockDiffSearch();
     $(".radioItem").on("change",function(){
     	$("#diffSearchList").datagrid('options').url = "";
-    	rotaType = $(this).val()
+        $('#rotationType').val($(this).val());
     	initDgTakeStockDiffSearch();
     	$('#diffSearchList').datagrid({data:[]}); 
     	// 更新页脚行并载入新数据
     	$('#diffSearchList').datagrid('reloadFooter',[]);
     	// 页面控制
-    	pageChange(rotaType);
+    	pageChange();
     	
     })
 });
@@ -26,12 +26,16 @@ function  initPageData() {
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
     $("input[name=rotation]:eq(0)").prop('checked','checked')
     $('#rotationType').val('1');
-
+    initDgTakeStockDiffSearch();
+    $('#diffSearchList').datagrid({data:[]});
+    // 更新页脚行并载入新数据
+    $('#diffSearchList').datagrid('reloadFooter',[]);
+    pageChange();
 }
 
 //页面元素控制
-function pageChange(rotaType){
-	$('#rotationType').val(rotaType);
+function pageChange(){
+	var rotaType = $('#rotationType').val();
 	if(rotaType === '1'){
 
 		$('#skuId').val("");
@@ -43,9 +47,9 @@ function pageChange(rotaType){
 
         $('#equalZero').removeProp('checked');
 
-    	$('#categoryIds').val('');
-		$('#categoryShows').val('');
-		$('#categoryShows').prop('disabled','disabled');
+    	$('#categoryId').val('');
+		$('#categoryName').val('');
+		$('#categoryName').prop('disabled','disabled');
     	$('#categoryDiv').prop('hidden',true);
 		
 	}else{
@@ -57,9 +61,9 @@ function pageChange(rotaType){
 		$('#divEqualZero').css('display','block');
 
 		
-		$('#categoryIds').val('');
-		$('#categoryShows').val('');
-		$('#categoryShows').removeProp('disabled');
+		$('#categoryId').val('');
+		$('#categoryName').val('');
+		$('#categoryName').removeProp('disabled');
 		$('#categoryDiv').prop('hidden',false);
 		
 	}
@@ -86,7 +90,7 @@ function initDgTakeStockDiffSearch(){
 	});
 }
 function getFiledsList(){
-	if(rotaType === '1'){
+	if($('#rotationType').val() === '1'){
 		return [ [
 		          {field:'check',checkbox:true},
 		          {field: 'branchCode', title: '机构编号', width: 100, align: 'left'},
@@ -287,8 +291,10 @@ function queryForm(){
 		$("#skuId").val('');
 	}
 	
-	if(oldcategoryShows && oldcategoryShows != categoryShows){
-		$("#categoryIds").val('');
+	var oldCategoryName = $("#oldCategoryName").val();
+	var categoryName = $("#categoryName").val();	
+	if(oldCategoryName && oldCategoryName != categoryName){
+		$("#categoryId").val('');
 	}
 	
 	var fromObjStr = $('#queryForm').serializeObject();
@@ -366,21 +372,11 @@ function selectGoods(){
  * 类别选择
  */
 function searchCategory(){
-    var param = {
-        categoryType:'',
-        type:1
-    }
-    new publicCategoryService(function(data){
-        var categoryIds = []
-        var categorytxt=[];
-        $.each(data,function(index,item){
-            categoryIds.push(item.goodsCategoryId);
-            categorytxt.push(item.categoryCode);
-        })
-        $("#categoryIds").val(categoryIds);
-        $("#categoryShows").val(categorytxt) ;
-
-    },param);
+	new publicCategoryService(function(data){
+		$("#categoryId").val(data.categoryId);
+		$("#categoryName").val(data.categoryName);
+		$("#oldCategoryName").val(data.categoryName);
+	});
 }
 /**
  * 导出
