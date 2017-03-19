@@ -710,7 +710,11 @@ function saveOrder(){
                         strResult += item.goodsName+" ,库存数量： "+item.number+",";
                     })
                 }
-                successTip(result['message'] +","+strResult);
+                //successTip(result['message'] +","+strResult);
+            	new publicErrorDialog({
+            		"title":"审核失败",
+            		"error":result['message']+strResult
+            	});
             }
         },
         error:function(result){
@@ -755,7 +759,10 @@ function check(){
 		    				location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
 		    			});
 		    		}else{
-		    			successTip(result['message']);
+		            	new publicErrorDialog({
+		            		"title":"审核失败",
+		            		"error":result['message']
+		            	});
 		    		}
 		    	},
 		    	error:function(result){
