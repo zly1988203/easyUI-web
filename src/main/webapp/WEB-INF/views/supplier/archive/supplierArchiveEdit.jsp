@@ -177,7 +177,7 @@ pageEncoding="UTF-8"%>
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">送货周期:</div>
 					<input id="diliveCycle" name="diliveCycle" value="${supplier.diliveCycle }" class="uinp easyui-validatebox" 
-						data-options="validType:'int'" maxlength="3">
+						data-options="validType:'intNum'" maxlength="3">
 					<i class="uc-red">*</i>
 				</div>
 				<div class="ub ub-ac uw-320">
@@ -215,13 +215,13 @@ pageEncoding="UTF-8"%>
 
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">结算周期:</div>
-					<input id="balanceCycle" name="balanceCycle" value="${supplier.balanceCycle }" data-options="validType:'int'"
+					<input id="balanceCycle" name="balanceCycle" value="${supplier.balanceCycle }" data-options="validType:'intNum'"
 						 class="uinp uw-200 easyui-validatebox"  type="text" maxlength="3">
 					<i class="uc-red">*</i>
 				</div>
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">月结账日期:</div>
-					<input id="balanceDate" name="balanceDate" value="${supplier.balanceDate }" data-options="validType:'int'" 
+					<input id="balanceDate" name="balanceDate" value="${supplier.balanceDate }" data-options="validType:'intNum'" 
 						class="uinp uw-200 easyui-validatebox"  type="text"  maxlength="3">
 					<i class="uc-red">*</i>
 				</div>
@@ -249,7 +249,7 @@ pageEncoding="UTF-8"%>
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">SKU数:</div>
 					<input id="skuNum" name="skuNum" value="${supplier.skuNum }" class="uinp uw-200 easyui-validatebox" 
-						data-options="validType:'int'" type="text"  maxlength="10">
+						data-options="validType:'intNum'" type="text"  maxlength="10">
 				</div>
 			</div>
 			<div class="ub upad-4">

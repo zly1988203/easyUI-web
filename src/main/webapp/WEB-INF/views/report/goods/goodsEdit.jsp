@@ -72,7 +72,7 @@
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">商品条码:</div>
 						<input id="barCode" name="barCode" class="uinp  uinp-no-more"
-							readonly="readonly" data-options="validType:'int'">
+							readonly="readonly" data-options="validType:'intNum'">
 					</div>
 				</div>
 				<div class="ub upad-4">

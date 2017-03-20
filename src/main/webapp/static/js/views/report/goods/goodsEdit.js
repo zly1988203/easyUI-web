@@ -378,7 +378,7 @@ function submitForm(){
  	$("#dgPrice").datagrid({data:newData})
  }
  function saveSafetyCoefficient(){
-	 debugger;
+	 
 	 var data = $("#dgPrice").datagrid("getRows");
 	 var newData = [];
 	 for(var i = 0;i < data.length;i++){

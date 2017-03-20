@@ -447,7 +447,7 @@ function updateFooter(){
 
 //打印
 function printReport(){
-	debugger;
+	
 	$("#startCount").val('');
 	$("#endCount").val('');
 	var queryType=$('input:radio[name="queryType"]:checked').val();

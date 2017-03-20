@@ -557,6 +557,7 @@ function importStocktakingForm(type){
         tempUrl:'',
         type:type,
         branchId:branchId,
+        batchId:batchId,
         isBtnTemple:false
     }
     new publicUploadFileService(function(data){

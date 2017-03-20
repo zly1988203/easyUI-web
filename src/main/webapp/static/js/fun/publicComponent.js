@@ -1715,7 +1715,7 @@ $.extend($.fn.validatebox.defaults.rules, {
         },
         message: '请输入数字，并确保格式正确'
     },
-    int: {// 验证整数
+    intNum: {// 验证整数
         validator: function (value) {
             return /^\d+(\d+)?$/i.test(value);
         },

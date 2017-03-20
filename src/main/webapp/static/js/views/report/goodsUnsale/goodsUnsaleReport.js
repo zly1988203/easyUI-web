@@ -156,7 +156,7 @@ function setTion(data){
 
 //打印
 function printReport(){
-	debugger;
+	
 	$("#startCount").val('');
 	$("#endCount").val('');
 	parent.addTabPrint("goodsUnsaleReportPrint","打印",contextPath+"/report/goodsUnsale/printReport?"+$("#queryForm").serialize());

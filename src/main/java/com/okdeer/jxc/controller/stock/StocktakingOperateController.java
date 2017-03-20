@@ -55,9 +55,15 @@ import net.sf.json.JSONObject;
 @RequestMapping("/stocktaking/operate")
 public class StocktakingOperateController extends BaseController<StocktakingOperateController> {
 
+	/**
+	 * @Fields stocktakingOperateServiceApi : stocktakingOperateServiceApi
+	 */
 	@Reference(version = "1.0.0", check = false)
 	private StocktakingOperateServiceApi stocktakingOperateServiceApi;
 
+	/**
+	 * @Fields goodsSelectImportTxt : goodsSelectImportTxt
+	 */
 	@Autowired
 	private GoodsSelectImportTxt goodsSelectImportTxt;
 
@@ -118,7 +124,7 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 	/***
 	 * 
 	 * @Description:  获取明细信息
-	 * @param id 记录ID
+	 * @param formId 记录ID
 	 * @return List
 	 * @author xuyq
 	 * @date 2017年2月19日
@@ -154,9 +160,9 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
 			LOG.info(LogConstant.OUT_PARAM, vo.toString());
-			PageUtils<StocktakingFormVo> StocktakingFormList = stocktakingOperateServiceApi.getStocktakingFormList(vo);
-			LOG.info(LogConstant.PAGE, StocktakingFormList.toString());
-			return StocktakingFormList;
+			PageUtils<StocktakingFormVo> stocktakingFormList = stocktakingOperateServiceApi.getStocktakingFormList(vo);
+			LOG.info(LogConstant.PAGE, stocktakingFormList.toString());
+			return stocktakingFormList;
 		} catch (Exception e) {
 			LOG.error("存货盘点查询列表信息异常:{}", e);
 		}
@@ -165,8 +171,8 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 
 	/**
 	 * @Description: 保存盘点单
-	 * @param data
-	 * @return
+	 * @param data 保存JSON数据
+	 * @return RespJson
 	 * @author xuyq
 	 * @date 2017年3月9日
 	 */
@@ -219,28 +225,31 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 		try {
 			return stocktakingOperateServiceApi.deleteStocktakingForm(ids);
 		} catch (Exception e) {
-			LOG.error("删除组合拆分单异常:{}", e);
-			resp = RespJson.error("删除组合拆分单失败");
+			LOG.error("删除盘点单异常:{}", e);
+			resp = RespJson.error("删除盘点单失败");
 		}
 		return resp;
 	}
 
 	/**
 	 * @Description: 导入文件
-	 * @param file
-	 * @param branchId
-	 * @param type
-	 * @return
+	 * @param file 文件对象
+	 * @param branchId 批次ID
+	 * @param type 导入类型
+	 * @return RespJson
 	 * @author xuyq
 	 * @date 2017年3月11日
 	 */
 	@RequestMapping(value = "importStocktakingForm")
 	@ResponseBody
-	public RespJson importStocktakingForm(@RequestParam("file") MultipartFile file, String branchId, String type) {
+	public RespJson importStocktakingForm(@RequestParam("file") MultipartFile file, String branchId, String type,String batchId) {
 		RespJson respJson = RespJson.success();
 		try {
 			if (file.isEmpty()) {
 				return RespJson.error("文件为空");
+			}
+			if (StringUtils.isBlank(batchId)) {
+				return RespJson.error("文件导入盘点批次为空");
 			}
 			InputStream is = file.getInputStream();
 			// 获取文件名
@@ -301,7 +310,7 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 							LOG.info("errorDataFormatter");
 						}
 
-					});
+					},batchId);
 
 			// 作金额计算
 			List<GoodsSelectByStockTaking> stcoktakingVos = vo.getList();

@@ -34,9 +34,12 @@ import com.okdeer.jxc.system.entity.SysUser;
 @RequestMapping("/stocktaking/apply")
 public class StocktakingApplyController extends BaseController<StocktakingApplyController> {
 
+	/**
+	 * @Fields stocktakingApplyServiceApi : stocktakingApplyServiceApi
+	 */
 	@Reference(version = "1.0.0", check = false)
 	private StocktakingApplyServiceApi stocktakingApplyServiceApi;
-	
+
 	/**
 	 * 
 	 * @Description: 跳转列表页面
@@ -48,7 +51,7 @@ public class StocktakingApplyController extends BaseController<StocktakingApplyC
 	public String list() {
 		return "/stocktaking/apply/applyList";
 	}
-	
+
 	/**
 	 * 
 	 * @Description: 跳转新增页面
@@ -60,6 +63,7 @@ public class StocktakingApplyController extends BaseController<StocktakingApplyC
 	public String add() {
 		return "/stocktaking/apply/applyAdd";
 	}
+
 	/**
 	 * @Description: 查询列表
 	 * @param vo 参数VO
@@ -86,19 +90,19 @@ public class StocktakingApplyController extends BaseController<StocktakingApplyC
 		}
 		return null;
 	}
-	
+
 	/**
 	 * @Description: 保存
-	 * @param vo
-	 * @param validate
-	 * @return
+	 * @param vo 条件VO
+	 * @param validate 验证结果
+	 * @return RespJson
 	 * @author xuyq
 	 * @date 2017年3月7日
 	 */
 	@RequestMapping(value = "/saveStocktakingBatch", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson saveStocktakingBatch(@Valid StocktakingBatchVo vo, BindingResult validate) {
-		//1 校验是否必填
+		// 1 校验是否必填
 		if (validate.hasErrors()) {
 			String errorMessage = validate.getFieldError().getDefaultMessage();
 			LOG.warn("validate errorMessage:{}", errorMessage);

@@ -21,6 +21,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -203,12 +204,17 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
 	//modelAndView.addObject(attributeName, attributeValue)
 	if(StringUtils.isNotBlank(formId)){
 	    OverdueFormVo  vo = overdueFormService.getOverdueFormById(formId);
-	    if(StringUtils.equalsIgnoreCase("1", vo.getStatus()+"")){
-		modelAndView.setViewName("form/overdue/overdueView");
+	    if(vo!=null){
+        	    if(StringUtils.equalsIgnoreCase("1", vo.getStatus()+"")){
+        		modelAndView.setViewName("form/overdue/overdueView");
+        	    }else{
+            	        modelAndView.setViewName("form/overdue/overdueEdit");
+        	    }
+        	    modelAndView.addObject("form", vo);
 	    }else{
-    	        modelAndView.setViewName("form/overdue/overdueEdit");
+		modelAndView.setViewName("error/500");
+		modelAndView.addObject("errorMsg","商品调价订单不存在！");
 	    }
-	    modelAndView.addObject("form", vo);
 	}
 	return modelAndView;
     }
@@ -235,9 +241,16 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
     public RespJson updateDetail(@RequestBody String jsonText) {
 	if(StringUtils.isNotBlank(jsonText)){
         	Map<String,Object> mapType = JSON.parseObject(jsonText,new TypeReference<Map<String,Object>>(){}); 
-        	String detailListStr = ((JSONArray)mapType.get("detailList")).toJSONString();
-        	List<Map<String,Object>> detailLists = JSON.parseObject(detailListStr,new TypeReference<List<Map<String,Object>>>(){});
-        	return overdueFormDetailService.updateDetail(mapType.get("id").toString(),detailLists);
+        	if(mapType!=null && !mapType.isEmpty()){
+                	String detailListStr = ((JSONArray)mapType.get("detailList")).toJSONString();
+                	
+                	List<Map<String,Object>> detailLists = JSON.parseObject(detailListStr,new TypeReference<List<Map<String,Object>>>(){});
+                	if(CollectionUtils.isEmpty(detailLists)){
+                	    return overdueFormDetailService.updateDetail(mapType.get("id").toString(),detailLists);
+                	}
+        	}else{
+        	    return RespJson.error();
+        	}
 	}
 	return RespJson.error();
     }
@@ -246,14 +259,13 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
     public RespJson save(@RequestBody String jsonText) {
 	if(StringUtils.isNotBlank(jsonText)){
 	    Map<String,Object> mapType = JSON.parseObject(jsonText,new TypeReference<Map<String,Object>>(){}); 
-	    //mapType.put("userId", UserUtil.getUser().getId());
-	    //mapType.put("userName", UserUtil.getUser().getUserName());
-    	    String detailListStr = ((JSONArray)mapType.get("detailList")).toJSONString();
-    	    List<Map<String,Object>> detailLists = JSON.parseObject(detailListStr,new TypeReference<List<Map<String,Object>>>(){});
-    	    if(!detailLists.isEmpty()&&detailLists.size()>0){
-    		return overdueFormService.saveOverdue(mapType,detailLists);
-    	    }
-    	    return RespJson.error("调价详情列表为空,不能保存！");
+	    if(mapType!=null && !mapType.isEmpty()){
+    	    	String detailListStr = ((JSONArray)mapType.get("detailList")).toJSONString();
+    	    	List<Map<String,Object>> detailLists = JSON.parseObject(detailListStr,new TypeReference<List<Map<String,Object>>>(){});
+    	    	if(CollectionUtils.isEmpty(detailLists)){
+    	    	    return overdueFormService.saveOverdue(mapType,detailLists);
+    	    	}
+	    }
 	}
 	return RespJson.error();
     }
@@ -281,14 +293,15 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
     public RespJson commit(@RequestBody String jsonText){
 	if(StringUtils.isNotBlank(jsonText)){
 	    Map<String,Object> mapType = JSON.parseObject(jsonText,new TypeReference<Map<String,Object>>(){}); 
-    	    String detailListStr = ((JSONArray)mapType.get("detailList")).toJSONString();
-    	    List<Map<String,Object>> detailLists = JSON.parseObject(detailListStr,new TypeReference<List<Map<String,Object>>>(){});
-    	    if(!detailLists.isEmpty()&&detailLists.size()>0){
-    		 mapType.put("userId", UserUtil.getUser().getId());
-    		 mapType.put("userName", UserUtil.getUser().getUserName());
-    		return overdueFormService.commitOverdue(mapType,detailLists);
-    	    }
-    	    return RespJson.error("调价详情列表为空,不能保存！");
+	    if(mapType!=null && !mapType.isEmpty()){
+		String detailListStr = ((JSONArray)mapType.get("detailList")).toJSONString();
+    	    	List<Map<String,Object>> detailLists = JSON.parseObject(detailListStr,new TypeReference<List<Map<String,Object>>>(){});
+    	    	if(!detailLists.isEmpty()&&detailLists.size()>0){
+    	    	    mapType.put("userId", UserUtil.getUser().getId());
+    	    	    mapType.put("userName", UserUtil.getUser().getUserName());
+    	    	    return overdueFormService.commitOverdue(mapType,detailLists);
+    	    	}
+	    }
 	}
 	return RespJson.error();
     }
