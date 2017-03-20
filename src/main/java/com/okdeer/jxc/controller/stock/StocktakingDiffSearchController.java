@@ -43,6 +43,9 @@ import com.okdeer.jxc.utils.UserUtil;
 @RequestMapping("/stocktaking/diffSearch")
 public class StocktakingDiffSearchController extends BaseController<StocktakingDiffSearchController> {
 
+	/**
+	 * @Fields stocktakingOperateServiceApi : stocktakingOperateServiceApi
+	 */
 	@Reference(version = "1.0.0", check = false)
 	private StocktakingOperateServiceApi stocktakingOperateServiceApi;
 
@@ -85,11 +88,12 @@ public class StocktakingDiffSearchController extends BaseController<StocktakingD
 		}
 		return null;
 	}
+
 	/***
 	 * 
 	 * @Description: 导出列表
 	 * @param response HttpServletResponse
-	 * @param vo 参数VO
+	 * @param diffVo 参数VO
 	 * @return RespJson
 	 * @author xuyq
 	 * @date 2017年2月14日
@@ -103,7 +107,7 @@ public class StocktakingDiffSearchController extends BaseController<StocktakingD
 				diffVo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
 			}
 			List<StocktakingDifferenceVo> exportList = stocktakingOperateServiceApi.exportDiffSearchList(diffVo);
-			
+
 			String fileName = "盘点差异查询" + DateUtils.getDate("yyyyMMdd");
 			String templateName = ExportExcelConstant.DIFFSEARCHSUMMARIZING;
 			if ("2".equals(diffVo.getRotationType())) {
@@ -111,30 +115,30 @@ public class StocktakingDiffSearchController extends BaseController<StocktakingD
 			}
 			exportListForXLSX(response, exportList, fileName, templateName);
 		} catch (Exception e) {
-			LOG.error("导出库存异常查询异常：{}", e);
-			resp = RespJson.error("导出库存异常查询异常");
+			LOG.error("导出盘点差异查询异常：{}", e);
+			resp = RespJson.error("导出盘点差异查询异常");
 		}
 		return resp;
 	}
-	
+
 	/**
 	 * 
 	 * @Description: 打印
-	 * @param qo
-	 * @param response
-	 * @param request
-	 * @param pageNumber
-	 * @return
+	 * @param diffVo 参数VO
+	 * @param response response
+	 * @param request request
+	 * @return String
 	 * @author xuyq
 	 * @date 2017年2月17日
 	 */
 	@RequestMapping(value = "/printDiffSearchList", method = RequestMethod.GET)
 	@ResponseBody
-	public String printDiffSearchList(StocktakingDifferenceVo diffVo, HttpServletResponse response, HttpServletRequest request) {
+	public String printDiffSearchList(StocktakingDifferenceVo diffVo, HttpServletResponse response,
+			HttpServletRequest request) {
 		try {
 			LOG.debug("差异查询打印参数：{}", diffVo.toString());
 			List<StocktakingDifferenceVo> printList = stocktakingOperateServiceApi.exportDiffSearchList(diffVo);
-			
+
 			if (printList.size() > PrintConstant.PRINT_MAX_ROW) {
 				return "<script>alert('打印最大行数不能超过300行');top.closeTab();</script>";
 			}
@@ -143,8 +147,8 @@ public class StocktakingDiffSearchController extends BaseController<StocktakingD
 				path = PrintConstant.DIFF_SEARCH_DETAIL;
 			}
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("startDate", StringUtils.isBlank(diffVo.getStartTime())?"":diffVo.getStartTime());
-			map.put("endDate", StringUtils.isBlank(diffVo.getEndTime())?"":diffVo.getEndTime());
+			map.put("startDate", StringUtils.isBlank(diffVo.getStartTime()) ? "" : diffVo.getStartTime());
+			map.put("endDate", StringUtils.isBlank(diffVo.getEndTime()) ? "" : diffVo.getEndTime());
 			map.put("printName", UserUtil.getCurrentUser().getUserName());
 			JasperHelper.exportmain(request, response, map, JasperHelper.PDF_TYPE, path, printList, "");
 		} catch (Exception e) {

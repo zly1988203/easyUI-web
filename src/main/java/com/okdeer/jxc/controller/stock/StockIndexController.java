@@ -178,7 +178,7 @@ public class StockIndexController extends BaseController<StockIndexController> {
 	public RespJson importStockIndexList(@RequestParam("file") MultipartFile file, String branchId, String type) {
 		RespJson respJson = RespJson.success();
 		try {
-			if (file ==null || file.isEmpty()) {
+			if (file == null || file.isEmpty()) {
 				return RespJson.error("文件为空");
 			}
 			InputStream is = file.getInputStream();

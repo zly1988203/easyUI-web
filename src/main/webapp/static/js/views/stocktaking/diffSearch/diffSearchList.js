@@ -49,6 +49,7 @@ function pageChange(){
 
     	$('#categoryId').val('');
 		$('#categoryName').val('');
+		$('#categoryCode').val('');
 		$('#categoryName').prop('disabled','disabled');
     	$('#categoryDiv').prop('hidden',true);
 		
@@ -63,6 +64,7 @@ function pageChange(){
 		
 		$('#categoryId').val('');
 		$('#categoryName').val('');
+		$('#categoryCode').val('');
 		$('#categoryName').removeProp('disabled');
 		$('#categoryDiv').prop('hidden',false);
 		
@@ -295,6 +297,7 @@ function queryForm(){
 	var categoryName = $("#categoryName").val();	
 	if(oldCategoryName && oldCategoryName != categoryName){
 		$("#categoryId").val('');
+		$("#categoryCode").val('');
 	}
 	
 	var fromObjStr = $('#queryForm').serializeObject();
@@ -374,6 +377,7 @@ function selectGoods(){
 function searchCategory(){
 	new publicCategoryService(function(data){
 		$("#categoryId").val(data.categoryId);
+		$("#categoryCode").val(data.categoryCode);
 		$("#categoryName").val(data.categoryName);
 		$("#oldCategoryName").val(data.categoryName);
 	});

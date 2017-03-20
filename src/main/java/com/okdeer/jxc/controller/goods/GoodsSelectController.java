@@ -195,6 +195,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 		
 		// 店间配送单
 		if (FormType.DD.name().equals(vo.getFormType())) {
+			vo.setBranchId(vo.getSourceBranchId());
 			return goodsSelectServiceApi.queryCostBranch(vo);
 		}
 		
@@ -329,7 +330,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 		String targetBranchId = paramVo.getTargetBranchId();
 		List<GoodsSelect> suppliers = null;
 		try {
-			if (FormType.DA.name().equals(type)) {
+			if (FormType.DA.name().equals(type)||FormType.DD.name().equals(type)) {
 				GoodsSelectVo vo = new GoodsSelectVo();
 				vo.setIsManagerStock(1);
 				vo.setTargetBranchId(targetBranchId);
@@ -337,9 +338,11 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 				vo.setSkuCodesOrBarCodes(skuCodes);
 				vo.setPageNumber(1);
 				vo.setPageSize(50);
+				vo.setFormType(type);
 				PageUtils<GoodsSelect> goodsSelects = getGoodsListDA(vo);
 				suppliers = goodsSelects.getList();
-			} else {
+			}
+			else {
 				//如果是促销活动页面查询商品，需要过滤掉不参加促销的商品
 				boolean alowActivity = false;
 				if(FormType.PX.name().equals(type)){
