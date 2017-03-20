@@ -449,10 +449,12 @@ function selectOperator(){
         $("#operateUserName").val(data.userName);
     });
 }
-function selectBranch(){
+
+function searchBranch(){
     new publicBranchService(function(data){
         $("#branchId").val(data.branchesId);
         $("#branchName").val("["+data.branchCode+"]"+data.branchName);
+        gridHandel.setLoadData([$.extend({},gridDefault)]);
     },0);
 }
 

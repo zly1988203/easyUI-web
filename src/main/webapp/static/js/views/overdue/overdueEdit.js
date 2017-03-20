@@ -41,6 +41,7 @@ $(function(){
 	        firstName:'skuCode',
 	        enterName:'skuCode',
 	        enterCallBack:function(arg){
+	        	if(hiddenStatus === '0' || hiddenStatus === '1' )return;
 	            if(arg&&arg=="add"){
 	                gridHandel.addRow(parseInt(gridHandel.getSelectRowIndex())+1,gridDefault);
 	                setTimeout(function(){
@@ -540,10 +541,11 @@ $(function(){
 			$("#operateUserName").val(data.userName);
 		});
 	}
-	function selectBranch(){
+	function searchBranch(){
 		new publicBranchService(function(data){
 			$("#branchId").val(data.branchesId);
 			$("#branchName").val("["+data.branchCode+"]"+data.branchName);
+			gridHandel.setLoadData([$.extend({},gridDefault)]);
 		},0);
 	}
 

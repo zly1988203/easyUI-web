@@ -81,8 +81,10 @@
            <div class="ub ub-ac umar-r40" style="width: 664px;">
 	                <div class="umar-r10 uw-60 ut-r">申请机构:</div>
 	                <input class="uinp" name="branchId" id="branchId" type="hidden" value='<c:out value="${form.branchId}"></c:out>'>
-	                <input class="uinp" id="branchName" name="branchName" type="text" maxlength="50" value="[${form.branchCode}]${form.branchName} " >
-	                <div class="uinp-more" onclick="searchBranch()" style="position: inherit;margin-left: -20px;">...</div>
+	                <input class="uinp" id="branchName" name="branchName" type="text" maxlength="50" <c:if test="${form.status != 3}">readonly="readonly"</c:if> value="[${form.branchCode}]${form.branchName} " >
+	                <c:if test="${form.status == 3}">
+		                <div class="uinp-more" onclick="searchBranch()" style="position: inherit;margin-left: -20px;">...</div>
+	                </c:if>
 	            </div>
 	           
             <div class="ub ub-ac umar-r80">
@@ -109,7 +111,12 @@
          <div class="ub umar-t8">
                <div class="ub ub-ac uw-610 umar-r80" style="width: 624px;">
 	                    <div class="umar-r10 uw-60 ut-r">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注:</div>
-	                    <input class="uinp ub ub-f1 easyui-validatebox" data-options="required:true" name="remark" id="remark" type="text" onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')" onpaste="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')" oncontextmenu = "value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')" maxlength="100" value="${form.remark}">
+	                    <c:if test="${form.status == 3}">
+		                    <input class="uinp ub ub-f1 easyui-validatebox" data-options="required:true" name="remark" id="remark" type="text" onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')" onpaste="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')" oncontextmenu = "value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')" maxlength="100" value="${form.remark}">
+	                    </c:if>
+	                    <c:if test="${form.status != 3}">
+	                    	<input class="uinp ub ub-f1" readonly="readonly"  value="${form.remark}" />
+	                    </c:if>
 	           </div>
 	           <div class="ub ub-ac umar-r80">
                 <div class="umar-r10 uw-60 ut-r">审核人员:</div>
