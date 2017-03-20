@@ -115,8 +115,8 @@ public class StocktakingDiffSearchController extends BaseController<StocktakingD
 			}
 			exportListForXLSX(response, exportList, fileName, templateName);
 		} catch (Exception e) {
-			LOG.error("导出库存异常查询异常：{}", e);
-			resp = RespJson.error("导出库存异常查询异常");
+			LOG.error("导出盘点差异查询异常：{}", e);
+			resp = RespJson.error("导出盘点差异查询异常");
 		}
 		return resp;
 	}
