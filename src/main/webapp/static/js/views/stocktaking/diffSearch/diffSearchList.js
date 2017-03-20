@@ -1,13 +1,17 @@
 
 //初始化表格
 $(function(){
+    initDgTakeStockDiffSearch();
+    // $("#diffSearchList").datagrid('options').url = "";
+    $('#diffSearchList').datagrid('loadData',[]);
+
     initPageData();
-	initDgTakeStockDiffSearch();
+
     $(".radioItem").on("change",function(){
     	$("#diffSearchList").datagrid('options').url = "";
         $('#rotationType').val($(this).val());
     	initDgTakeStockDiffSearch();
-    	$('#diffSearchList').datagrid({data:[]}); 
+        $('#diffSearchList').datagrid('loadData',[]);
     	// 更新页脚行并载入新数据
     	$('#diffSearchList').datagrid('reloadFooter',[]);
     	// 页面控制
@@ -26,10 +30,6 @@ function  initPageData() {
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
     $("input[name=rotation]:eq(0)").prop('checked','checked')
     $('#rotationType').val('1');
-    initDgTakeStockDiffSearch();
-    $('#diffSearchList').datagrid({data:[]});
-    // 更新页脚行并载入新数据
-    $('#diffSearchList').datagrid('reloadFooter',[]);
     pageChange();
 }
 
@@ -59,13 +59,11 @@ function pageChange(){
 
 		$('#divgood').prop('hidden',false);
 		$('#divEqualZero').css('display','block');
-
 		
 		$('#categoryId').val('');
 		$('#categoryName').val('');
 		$('#categoryName').removeProp('disabled');
 		$('#categoryDiv').prop('hidden',false);
-		
 	}
 }
 
@@ -79,13 +77,11 @@ function initDgTakeStockDiffSearch(){
 		rownumbers:true,    //序号
 		pagination:true,    //分页
         pageSize:50,
-		fitColumns:true,    //每列占满
 		showFooter:true,
 		height:'100%',
-		width:'100%',
 		columns:getFiledsList(),
 		onLoadSuccess : function(data) {
-			gridHandel.setDatagridHeader("center");
+
 		}
 	});
 }
@@ -278,6 +274,8 @@ function getFiledsList(){
 function queryForm(){
 	var oldBranchName = $("#oldBranchName").val();
 	var branchName = $("#branchName").val();
+	var oldbatchNo = $('#oldbatchNo').val();
+	var oldskuName = $('#oldskuName').val();
 	if(oldBranchName && oldBranchName != branchName){
 		$("#branchId").val('');
 		$("#branchCompleCode").val('');
@@ -308,7 +306,10 @@ function queryForm(){
 
 //重置
 function gFunRefresh(){
-	$("#queryForm").form('clear');
+    $("#diffSearchList").datagrid('options').url = "";
+    initDgTakeStockDiffSearch();
+    // $("#diffSearchList").datagrid('options').url = "";
+    $('#diffSearchList').datagrid('loadData',[]);
     initPageData();
 }
 /**
@@ -361,7 +362,7 @@ function selectGoods(){
     		supplierId:'',
     		flag:'0'
     }
-    
+    	
     new publicGoodsServiceTem(param,function(data){
     	$('#skuId').val(data[0].skuId);
     	$('#skuName').val(data[0].skuName);
@@ -430,9 +431,7 @@ function printDiffSearchList(){
 		return;
 	}
 	var fromObjStr = $('#queryForm').serializeObject();
-	console.log(fromObjStr);
 	var param=setParams("queryForm");
-	console.log(param);
 	parent.addTabPrint("异常查询","打印",contextPath+"/stocktaking/diffSearch/printDiffSearchList?" + param);
 }
 

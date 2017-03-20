@@ -754,20 +754,16 @@ function publicGoodsServiceHandel(param,callback){
         closable:true,
         resizable:true,
         onClose:function(){
-        	
         	 $(good_dalogTemp).dialog('destroy');
         	 good_dalogTemp = null;
-//            $(good_dalogTemp).panel('destroy');
         },
         modal:true,
     }
     if(param.isRadio&&param.isRadio==1){
         dalogObj["onLoad"] =function(){
-            //$("#goodsInfo").val(key);
-            //cx();
             initGoodsRadioCallBack(function(data){
                 callback( [data]);
-                $(good_dalogTemp).dialog('destroy');
+                $(good_dalogTemp).dialog('close');
                 good_dalogTemp = null;
             });
             initSearch(param);
@@ -802,7 +798,7 @@ function publicGoodsServiceHandel(param,callback){
                 return;
             }
             callback(data);
-            $(good_dalogTemp).dialog('destroy');
+            $(good_dalogTemp).dialog('close');
             good_dalogTemp = null;
         });
     }
@@ -1194,7 +1190,7 @@ function GridClass(){
         return "";
     }
     /**
-     * 设置单元格编辑框值
+     * 设置numberbox单元格编辑框值
      * @param fieldName 单元格名称
      * @returns {*}
      */
@@ -1204,6 +1200,16 @@ function GridClass(){
             $(target).numberbox('setValue',val);
         }
     }
+
+    /*
+    *设置文本框的值
+    * */
+    this.setFieldTextValue = function(fieldName,val){
+        var target = _this.getFieldTarget(fieldName);
+        if(target){
+            $(target).textbox('setValue',val);
+        }
+    }
     
     this.setFieldSpinnerValue = function(fieldName,val){
         var target = _this.getFieldTarget(fieldName);
@@ -1211,6 +1217,7 @@ function GridClass(){
             $(target).numberspinner('setValue',val);
         }
     }
+
     /**
      * 设置单元格非编辑框值 可以修改多个
      * @param fieldName 单元格名称
@@ -2045,7 +2052,6 @@ function checkUtil(){
 		
 }
 
-
 function publicErrorDialog(param){
 	var dialogTemp = $('<div/>').dialog({
         href: contextPath+"/component/dialog/error",
@@ -2056,6 +2062,12 @@ function publicErrorDialog(param){
         left:625,
         closable: true,
         resizable: false,
+        buttons:[{
+            text:'关闭',
+            handler:function(){
+                $(dialogTemp).panel('destroy');
+            },
+        }],
         onClose: function () {
             $(dialogTemp).panel('destroy');
         },
