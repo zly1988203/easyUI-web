@@ -213,6 +213,8 @@ function nextStep (){
                  return;
              }
          });
+	 }else{
+         saveDataHandel(gridRows);
 	 }
 	 
 
