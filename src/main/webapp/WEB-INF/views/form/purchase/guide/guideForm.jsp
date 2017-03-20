@@ -66,7 +66,7 @@
                     <input class="Wdate uw-300 uinp-no-more"  readonly="readonly" disabled="disabled" name="endTime" id="endTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'startTime\');}',maxDate:'%y-%M-%d'})" />
 					<i class="uc-red">*</i>
 					<div class="umar-l20">
-						<input type="checkbox" id="ignore" disabled="disabled">统计已经执行过向导的要货单
+						<label><input type="checkbox" id="ignore" disabled="disabled">统计已经执行过向导的要货单</label>
 					</div>
 			</div>
     	</div>

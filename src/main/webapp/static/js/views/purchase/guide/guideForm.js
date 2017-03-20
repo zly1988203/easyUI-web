@@ -83,9 +83,10 @@ function setFormValue(formData){
         $('#startTime').removeClass('uinp-no-more');
         $('#endTime').removeProp('disabled');
         $('#endTime').removeClass('uinp-no-more');
+        $('#ignore').removeProp('disabled');
 	}
-	if(formData.ignore === '1'){
-		$('#ignore').prop('checked','checked');
+	if(formData.ignore === 1){
+		$('#ignore').prop('checked', true);
 	}
 	
 }
@@ -105,17 +106,30 @@ function selectBranches(){
 
 function selectSupplier(){
 	
+	var param = null;
+	
 	var supplierCodeName = $("#supplierCodeName").val(); 
 	var supplierId = $("#supplierId").val();
 	
-	if(supplierId){
-		supplierCodeName = null;
+	var branchId=$("#branchId").val();
+	
+	//如果是店铺类型，则取父节点分公司的数据
+	if(parseInt($("#branchType").val())>=3){
+		branchId = $("#branchParentId").val();
+	}
+	
+	if(!supplierId){
+		param = {
+				supplierCodeOrName : supplierCodeName,
+				branchId : branchId
+		};
 	}
 	
 	new publicSupplierService(function(data){
 		$("#supplierId").val(data.id);
 		$("#supplierCodeName").val("["+data.supplierCode+"]"+data.supplierName);
-	}, null, supplierCodeName);
+	}, null, param);
+	
 }
 
 /**
