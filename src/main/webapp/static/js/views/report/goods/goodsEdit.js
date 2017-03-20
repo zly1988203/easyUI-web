@@ -255,7 +255,7 @@ function submitForm(){
 	        fitColumns:true,    //每列占满
 	        height:'100%',
 	        width:'100%',
-	        pagination:true,
+	        //pagination:true,
 	        columns:[[			
 	            {field:'branchType',title:'机构类型',width: '120px'},
                 {field:'skuId',hidden:true,title:'skuId'},
