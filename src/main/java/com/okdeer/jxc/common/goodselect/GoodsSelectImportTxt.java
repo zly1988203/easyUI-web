@@ -9,6 +9,7 @@ package com.okdeer.jxc.common.goodselect;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -29,6 +30,9 @@ import com.alibaba.fastjson.JSONArray;
 import com.okdeer.jxc.common.utils.gson.GsonUtils;
 import com.okdeer.jxc.goods.entity.GoodsSelect;
 import com.okdeer.jxc.goods.service.GoodsSelectServiceApi;
+import com.okdeer.jxc.goods.vo.GoodsSelectVo;
+import com.okdeer.jxc.stock.service.StocktakingApplyServiceApi;
+import com.okdeer.jxc.stock.vo.StocktakingBatchVo;
 import com.okdeer.jxc.utils.TxtReadUtil;
 import com.okdeer.jxc.utils.poi.ExcelExportUtil;
 
@@ -53,6 +57,8 @@ public class GoodsSelectImportTxt {
 	
 	@Reference(version = "1.0.0", check = false)
 	private GoodsSelectServiceApi goodsSelectServiceApi;
+	@Reference(version = "1.0.0", check = false)
+	private StocktakingApplyServiceApi stocktakingApplyServiceApi;
 	
 	@Resource 
 	private StringRedisTemplate redisTemplateTmp;
@@ -72,10 +78,10 @@ public class GoodsSelectImportTxt {
 	 * @author xiaoj02
 	 * @date 2016年10月15日
 	 */
-	public <T extends GoodsSelect> GoodsSelectImportVo<T> importSelectGoodsWithStockTxt(String fileName, InputStream is, String[] fields, T entity, String branchId, String userId, String type, String errorFileDownloadUrlPrefix ,GoodsSelectImportBusinessValid businessValid) {
+	public <T extends GoodsSelect> GoodsSelectImportVo<T> importSelectGoodsWithStockTxt(String fileName, InputStream is, String[] fields, T entity, String branchId, String userId, String type, String errorFileDownloadUrlPrefix ,GoodsSelectImportBusinessValid businessValid,String batchId) {
 		String[] branchIds = {branchId};
 		return importSelectGoodsMultiBranchTxt(fileName, is, fields, entity, branchIds, userId, type, true,
-				errorFileDownloadUrlPrefix, businessValid, null);
+				errorFileDownloadUrlPrefix, businessValid, null,batchId);
 	}
 	
 	/**
@@ -119,7 +125,7 @@ public class GoodsSelectImportTxt {
 	private <T extends GoodsSelect> GoodsSelectImportVo<T> importSelectGoodsMultiBranchTxt(String fileName,
 			InputStream is, String[] fields, T entity, String[] branchId, String userId, String type,
 			Boolean withStock, String errorFileDownloadUrlPrefix, GoodsSelectImportBusinessValid businessValid,
-			Map<String, String> map_branchid) {
+			Map<String, String> map_branchid,String batchId) {
 		if(StringUtils.isBlank(type)){
 			LOG.error("导入类型为空");
 			throw new RuntimeException("导入类型为空");
@@ -128,16 +134,16 @@ public class GoodsSelectImportTxt {
 		List<JSONObject> txtList = TxtReadUtil.readTxtFile(fileName,is,fields);
 		LOG.info("读取txt:{}",GsonUtils.toJson(txtList));
 		
-		GoodsSelectImportHandle goodsSelectImportHandle = null;
+		StocktakingGoodsImportHandle stocktakingGoodsImportHandle = null;
 		List<GoodsSelect> dbList = null;
 		List<GoodsSelect> dbList1 = new ArrayList<GoodsSelect>(); 
 		if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)
 				|| type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE_NUM)) {// 货号
 			//构建数据过滤对象
-			goodsSelectImportHandle = new GoodsSelectImportSkuCodeHandle(txtList, fields, businessValid);
+			stocktakingGoodsImportHandle = new StocktakingGoodsImportHandle(txtList, fields, businessValid);
 			
 			//获取已验证成功的数据的货号
-			List<String> list = goodsSelectImportHandle.getExcelSuccessCode();
+			List<String> list = stocktakingGoodsImportHandle.getExcelSuccessCode();
 			
 			if(CollectionUtils.isEmpty(list)){
 				dbList1 = new ArrayList<GoodsSelect>();
@@ -145,7 +151,7 @@ public class GoodsSelectImportTxt {
 				//根据货号查询商品
 				dbList = goodsSelectServiceApi.queryListBySkuCode(list.toArray(new String[list.size()]), branchId, withStock,map_branchid);
 				//-----------------------------新增一校验成功数据为准--------------------------//
-				List<JSONObject> successData = goodsSelectImportHandle.getExcelListSuccessData();
+				List<JSONObject> successData = stocktakingGoodsImportHandle.getExcelListSuccessData();
 				for (int i = 0; i < successData.size(); i++) {
 					JSONObject obj = successData.get(i);	
 					String skuCode = obj.getString("skuCode");
@@ -163,19 +169,29 @@ public class GoodsSelectImportTxt {
 		} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)
 				|| type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE_NUM)) {// 条码
 			//构建数据过滤对象
-			goodsSelectImportHandle = new GoodsSelectImportBarCodeHandle(txtList, fields, businessValid);
+			stocktakingGoodsImportHandle = new StocktakingGoodsImportHandle(txtList, fields, businessValid);
 			
 			//获取已验证成功的数据的条码
-			List<String> list = goodsSelectImportHandle.getExcelSuccessCode();
+			List<String> list = stocktakingGoodsImportHandle.getExcelSuccessCode();
 			
 			if(CollectionUtils.isEmpty(list)){
 				dbList1 = new ArrayList<GoodsSelect>();
 			}else{
 				//根据条码查询商品，过滤掉条码重复的商品
-				dbList = goodsSelectServiceApi.queryListByBarCode(list.toArray(new String[list.size()]), branchId, withStock,map_branchid);
-				
+				//dbList = goodsSelectServiceApi.queryListByBarCode(list.toArray(new String[list.size()]), branchId, withStock,map_branchid);
+				GoodsSelectVo paramVo = new GoodsSelectVo();
+				paramVo.setBarCodes(list);
+				paramVo.setBranchIds(Arrays.asList(branchId));
+				paramVo.setIsManagerStock(1);
+				StocktakingBatchVo batchVo = stocktakingApplyServiceApi.getStocktakingBatchVoById(batchId);
+				if(batchVo != null && StringUtils.isNotBlank(batchVo.getCategoryShowsStr())){
+					// 过滤类别条件
+					List<String> categoryCodes = Arrays.asList(batchVo.getCategoryShowsStr().split(","));
+					paramVo.setCategoryCodes(categoryCodes);
+				}
+				dbList = goodsSelectServiceApi.queryByCodeListsByVo(paramVo);
 				//---------------------------新增一校验成功数据为准----------------------------//
-				List<JSONObject> successData = goodsSelectImportHandle.getExcelListSuccessData();
+				List<JSONObject> successData = stocktakingGoodsImportHandle.getExcelListSuccessData();
 				for (int i = 0; i < successData.size(); i++) {
 					JSONObject obj = successData.get(i);	
 					String barCode = obj.getString("barCode");
@@ -194,19 +210,19 @@ public class GoodsSelectImportTxt {
 		}
 		
 		//与数据库对比,标记处该店铺中未查询到的数据
-		goodsSelectImportHandle.checkWithDataBase(dbList);
+		stocktakingGoodsImportHandle.checkWithDataBase(dbList);
 		
 		
 		GoodsSelectImportVo<T> goodsSelectImportVo = new GoodsSelectImportVo<T>();
 
 		@SuppressWarnings("unchecked")
-		List<T> successList = (List<T>) goodsSelectImportHandle.getSuccessData(dbList1, fields, entity);
+		List<T> successList = (List<T>) stocktakingGoodsImportHandle.getSuccessData(dbList1, fields, entity);
 
 		goodsSelectImportVo.setList(successList);
 
-		Integer successNum = goodsSelectImportHandle.getExcelListSuccessData().size();
+		Integer successNum = stocktakingGoodsImportHandle.getExcelListSuccessData().size();
 
-		Integer errorNum = goodsSelectImportHandle.getExcelListErrorData().size();
+		Integer errorNum = stocktakingGoodsImportHandle.getExcelListErrorData().size();
 
 		StringBuffer message = new StringBuffer();
 		message.append("成功：");
@@ -218,7 +234,7 @@ public class GoodsSelectImportTxt {
 		
 		goodsSelectImportVo.setMessage(message.toString());
 		
-		List<JSONObject> errorList = goodsSelectImportHandle.getExcelListErrorData();
+		List<JSONObject> errorList = stocktakingGoodsImportHandle.getExcelListErrorData();
 		
 		if(errorList != null && errorList.size() > 0){//有错误数据
 			//列转换处理
