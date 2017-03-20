@@ -430,6 +430,10 @@ $(function(){
 	    });
 	}
 	function check(){
+		if((hiddenStatus==="3")){
+			messager("请先点击提交再审核!");
+	        return;
+		}
 	    $("#gridEditOrder").datagrid("endEdit", gridHandel.getSelectRowIndex());
 	    var rows = gridHandel.getRows();
 	    if(rows.length==0){
