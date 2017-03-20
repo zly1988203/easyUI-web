@@ -106,7 +106,7 @@
        	 <div class="ub uline umar-t8" ></div>
        	 
 		<form action="" id="searchForm" method="post">
-		 <input id="formNoInput" name="formNo" value="${goodsPriceForm.formNo}" type="hidden">
+		 <input id="formNoInput" name="formNoInput" value="${goodsPriceForm.formNo}" type="hidden">
 		 <input id="id" name="id" value="${goodsPriceForm.id}" type="hidden">
         <div class="ub ub-ver umar-t12">
             <div class="ub">
