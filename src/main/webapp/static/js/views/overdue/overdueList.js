@@ -7,7 +7,9 @@ $(function(){
     //单据状态切换
     changeStatus();
 });
-
+var	cleaeBranchId=function(){
+	$("#branchId").val("");
+};
 
 //单据状态切换
 function changeStatus(){

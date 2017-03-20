@@ -2,6 +2,7 @@ var hiddenEdit=true;
 var hiddenStatus;
 $(function(){
 	hiddenStatus = $("#hiddenStatus").val();
+	
 	if($("#hiddenEdit").val()==="0") hiddenEdit=false;
 	    initDatagridEditOrder();
 	    $("div").delegate("button","click",function(){
@@ -713,3 +714,8 @@ $(function(){
 		    
 		    
 	}
+	
+	
+var	cleaeBranchId=function(){
+		$("#branchId").val("");
+	};
