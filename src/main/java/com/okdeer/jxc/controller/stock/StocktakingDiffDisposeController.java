@@ -47,9 +47,15 @@ import com.okdeer.jxc.utils.UserUtil;
 @RequestMapping("/stocktaking/diffDispose")
 public class StocktakingDiffDisposeController extends BaseController<StocktakingDiffDisposeController> {
 
+	/**
+	 * @Fields stocktakingApplyServiceApi : stocktakingApplyServiceApi
+	 */
 	@Reference(version = "1.0.0", check = false)
 	private StocktakingApplyServiceApi stocktakingApplyServiceApi;
 
+	/**
+	 * @Fields stocktakingOperateServiceApi : stocktakingOperateServiceApi
+	 */
 	@Reference(version = "1.0.0", check = false)
 	private StocktakingOperateServiceApi stocktakingOperateServiceApi;
 
@@ -134,7 +140,7 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 	/***
 	 * 
 	 * @Description:  获取明细信息
-	 * @param id 记录ID
+	 * @param batchId 批次ID
 	 * @return List
 	 * @author xuyq
 	 * @date 2017年2月19日
@@ -155,11 +161,10 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 	/**
 	 * 
 	 * @Description: 打印
-	 * @param qo
-	 * @param response
-	 * @param request
-	 * @param pageNumber
-	 * @return
+	 * @param vo 条件vo
+	 * @param response response
+	 * @param request request
+	 * @return String
 	 * @author xuyq
 	 * @date 2017年2月17日
 	 */
@@ -174,7 +179,6 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 			if (printList.size() > PrintConstant.PRINT_MAX_ROW) {
 				return "<script>alert('打印最大行数不能超过300行');top.closeTab();</script>";
 			}
-			String path = PrintConstant.DIFF_DISPOSE_DETAIL;
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("startDate", StringUtils.isBlank(vo.getCreateTime()) ? "" : vo.getCreateTime());
 			map.put("endDate", StringUtils.isBlank(vo.getCreateTime()) ? "" : vo.getCreateTime());
@@ -188,7 +192,7 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 			map.put("validTime", StringUtils.isBlank(vo.getValidTime()) ? "" : vo.getValidTime());
 			map.put("remark", StringUtils.isBlank(vo.getRemark()) ? "" : vo.getRemark());
 			map.put("printName", UserUtil.getCurrentUser().getUserName());
-			JasperHelper.exportmain(request, response, map, JasperHelper.PDF_TYPE, path, printList, "");
+			JasperHelper.exportmain(request, response, map, JasperHelper.PDF_TYPE, PrintConstant.DIFF_DISPOSE_DETAIL, printList, "");
 		} catch (Exception e) {
 			LOG.error(PrintConstant.ROTARATE_PRINT_ERROR, e);
 		}
@@ -197,8 +201,8 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 
 	/**
 	 * @Description: 保存差异详情
-	 * @param data
-	 * @return
+	 * @param data 保存JSON数据
+	 * @return RespJson
 	 * @author xuyq
 	 * @date 2017年3月11日
 	 */
@@ -229,11 +233,11 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 		}
 		return respJson;
 	}
-	
+
 	/**
 	 * @Description: 审核差异处理
-	 * @param id
-	 * @return
+	 * @param data 保存JSON数据
+	 * @return RespJson
 	 * @author xuyq
 	 * @date 2017年3月11日
 	 */
@@ -253,7 +257,7 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 				return respJson;
 			}
 			StocktakingBatchVo vo = JSON.parseObject(data, StocktakingBatchVo.class);
-			if(vo == null){
+			if (vo == null) {
 				respJson = RespJson.error("保存数据不能为空！");
 				return respJson;
 			}

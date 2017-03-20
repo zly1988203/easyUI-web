@@ -55,9 +55,15 @@ import net.sf.json.JSONObject;
 @RequestMapping("/stocktaking/operate")
 public class StocktakingOperateController extends BaseController<StocktakingOperateController> {
 
+	/**
+	 * @Fields stocktakingOperateServiceApi : stocktakingOperateServiceApi
+	 */
 	@Reference(version = "1.0.0", check = false)
 	private StocktakingOperateServiceApi stocktakingOperateServiceApi;
 
+	/**
+	 * @Fields goodsSelectImportTxt : goodsSelectImportTxt
+	 */
 	@Autowired
 	private GoodsSelectImportTxt goodsSelectImportTxt;
 
@@ -118,7 +124,7 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 	/***
 	 * 
 	 * @Description:  获取明细信息
-	 * @param id 记录ID
+	 * @param formId 记录ID
 	 * @return List
 	 * @author xuyq
 	 * @date 2017年2月19日
@@ -154,9 +160,9 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
 			LOG.info(LogConstant.OUT_PARAM, vo.toString());
-			PageUtils<StocktakingFormVo> StocktakingFormList = stocktakingOperateServiceApi.getStocktakingFormList(vo);
-			LOG.info(LogConstant.PAGE, StocktakingFormList.toString());
-			return StocktakingFormList;
+			PageUtils<StocktakingFormVo> stocktakingFormList = stocktakingOperateServiceApi.getStocktakingFormList(vo);
+			LOG.info(LogConstant.PAGE, stocktakingFormList.toString());
+			return stocktakingFormList;
 		} catch (Exception e) {
 			LOG.error("存货盘点查询列表信息异常:{}", e);
 		}
@@ -165,8 +171,8 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 
 	/**
 	 * @Description: 保存盘点单
-	 * @param data
-	 * @return
+	 * @param data 保存JSON数据
+	 * @return RespJson
 	 * @author xuyq
 	 * @date 2017年3月9日
 	 */
@@ -227,10 +233,10 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 
 	/**
 	 * @Description: 导入文件
-	 * @param file
-	 * @param branchId
-	 * @param type
-	 * @return
+	 * @param file 文件对象
+	 * @param branchId 批次ID
+	 * @param type 导入类型
+	 * @return RespJson
 	 * @author xuyq
 	 * @date 2017年3月11日
 	 */
