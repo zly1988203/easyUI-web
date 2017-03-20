@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.constant.LogConstant;
 import com.okdeer.jxc.common.result.RespJson;
+import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.stock.service.StocktakingApplyServiceApi;
@@ -81,6 +82,10 @@ public class StocktakingApplyController extends BaseController<StocktakingApplyC
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
+			// 结束日期延后一天
+			if (vo.getEndTime() != null) {
+				vo.setEndTime(DateUtils.getDayAfter(vo.getEndTime()));
+			}
 			LOG.info(LogConstant.OUT_PARAM, vo.toString());
 			PageUtils<StocktakingBatchVo> stocktakingBatchList = stocktakingApplyServiceApi.getStocktakingBatchList(vo);
 			LOG.info(LogConstant.PAGE, stocktakingBatchList.toString());
@@ -88,7 +93,7 @@ public class StocktakingApplyController extends BaseController<StocktakingApplyC
 		} catch (Exception e) {
 			LOG.error("盘点申请查询列表信息异常:{}", e);
 		}
-		return null;
+		return PageUtils.emptyPage();
 	}
 
 	/**
@@ -105,7 +110,7 @@ public class StocktakingApplyController extends BaseController<StocktakingApplyC
 		// 1 校验是否必填
 		if (validate.hasErrors()) {
 			String errorMessage = validate.getFieldError().getDefaultMessage();
-			LOG.warn("validate errorMessage:{}", errorMessage);
+			LOG.info("validate errorMessage:{}", errorMessage);
 			return RespJson.error(errorMessage);
 		}
 		SysUser user = getCurrentUser();

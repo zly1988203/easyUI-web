@@ -88,14 +88,18 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
-			LOG.info(LogConstant.OUT_PARAM, vo.toString());
+			// 结束日期延后一天
+			if (vo.getEndTime() != null) {
+				vo.setEndTime(DateUtils.getDayAfter(vo.getEndTime()));
+			}
+			LOG.info(LogConstant.OUT_PARAM, vo);
 			PageUtils<StocktakingBatchVo> stocktakingBatchList = stocktakingApplyServiceApi.getStocktakingBatchList(vo);
 			LOG.info(LogConstant.PAGE, stocktakingBatchList.toString());
 			return stocktakingBatchList;
 		} catch (Exception e) {
 			LOG.error("盘点申请查询列表信息异常:{}", e);
 		}
-		return null;
+		return PageUtils.emptyPage();
 	}
 
 	/**
@@ -172,12 +176,12 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 	@ResponseBody
 	public String printDiffDispose(StocktakingBatchVo vo, HttpServletResponse response, HttpServletRequest request) {
 		try {
-			LOG.debug("查询详情打印参数：{}", vo.toString());
+			LOG.info("查询详情打印参数：{}", vo);
 			List<StocktakingDifferenceVo> printList = stocktakingOperateServiceApi
 					.getStocktakingDifferenceList(vo.getId());
 
 			if (printList.size() > PrintConstant.PRINT_MAX_ROW) {
-				return "<script>alert('打印最大行数不能超过300行');top.closeTab();</script>";
+				return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
 			}
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("startDate", StringUtils.isBlank(vo.getCreateTime()) ? "" : vo.getCreateTime());
@@ -210,7 +214,7 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 	@ResponseBody
 	public RespJson saveDiffDispose(String data) {
 		RespJson respJson = RespJson.success();
-		LOG.debug("保存差异详情 ：data{}" + data);
+		LOG.info("保存差异详情 ：data{}" + data);
 		SysUser user = UserUtil.getCurrentUser();
 		if (user == null) {
 			respJson = RespJson.error("用户不能为空！");
@@ -246,7 +250,7 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 	public RespJson auditDiffDispose(String data) {
 		RespJson respJson = RespJson.success();
 		try {
-			LOG.debug("审核差异处理详情 ：data{}" + data);
+			LOG.info("审核差异处理详情 ：data{}" + data);
 			SysUser user = UserUtil.getCurrentUser();
 			if (user == null) {
 				respJson = RespJson.error("用户不能为空！");
