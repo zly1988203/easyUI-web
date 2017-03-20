@@ -3,8 +3,9 @@
  *@Author: liwb
  *@Date: 2017年3月17日 
  *@Copyright: ©2014-2020 www.okdeer.com Inc. All rights reserved. 
- */    
-package com.okdeer.jxc.controller.purchase;  
+ */
+
+package com.okdeer.jxc.controller.purchase;
 
 import java.util.List;
 
@@ -28,7 +29,6 @@ import com.okdeer.jxc.form.purchase.po.PurchaseGuideGoodsPo;
 import com.okdeer.jxc.form.purchase.qo.PurchaseReplenishAnalyQo;
 import com.okdeer.jxc.form.purchase.service.PurchaseReplenishAnalyService;
 
-
 /**
  * ClassName: PurchaseReplenishAnalyController 
  * @Description: 门店补货分析报表Controller
@@ -43,10 +43,10 @@ import com.okdeer.jxc.form.purchase.service.PurchaseReplenishAnalyService;
 @Controller
 @RequestMapping("purchaseReplenishAnaly")
 public class PurchaseReplenishAnalyController extends BaseController<PurchaseReplenishAnalyController> {
-	
+
 	@Reference(version = "1.0.0", check = false)
 	private PurchaseReplenishAnalyService purchaseReplenishAnalyService;
-	
+
 	/**
 	 * @Description: 跳转门店补货分析报表页面
 	 * @return
@@ -57,7 +57,7 @@ public class PurchaseReplenishAnalyController extends BaseController<PurchaseRep
 	public String toReportList() {
 		return "form/purchase/report/purchaseReplenishAnaly";
 	}
-	
+
 	/**
 	 * @Description: 根据条件获取分页数据
 	 * @param qo
@@ -72,32 +72,35 @@ public class PurchaseReplenishAnalyController extends BaseController<PurchaseRep
 	public PageUtils<PurchaseGuideGoodsPo> getReportList(PurchaseReplenishAnalyQo qo,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
-		
+
 		qo.setPageNumber(pageNumber);
 		qo.setPageSize(pageSize);
-		
+
 		LOG.info("门店补货分析报表查询条件：{}", qo);
-		
+
 		try {
-			
+
 			// 必填参数
-			if(StringUtils.isBlank(qo.getBranchId()) || qo.getBranchType()==null){
+			if (StringUtils.isBlank(qo.getBranchId()) || qo.getBranchType() == null) {
 				LOG.error("机构信息为空，前端查询条件参数错误！");
 				return PageUtils.emptyPage();
 			}
-			
-			if(!BranchTypeEnum.isStore(qo.getBranchType())){
+
+			if (!BranchTypeEnum.isStore(qo.getBranchType())) {
 				LOG.error("所选机构不是店铺，请重新选择！");
 				return PageUtils.emptyPage();
 			}
-			
+
+			// 构建查询条件信息
+			buldSearchParams(qo);
+
 			return purchaseReplenishAnalyService.getReplenishAnalyReportPage(qo);
 		} catch (Exception e) {
 			LOG.error("门店补货分析报表分页获取数据异常:", e);
 		}
 		return PageUtils.emptyPage();
 	}
-	
+
 	/**
 	 * @Description: 导出报表数据 
 	 * @param response
@@ -113,15 +116,18 @@ public class PurchaseReplenishAnalyController extends BaseController<PurchaseRep
 		RespJson resp = RespJson.success();
 		try {
 			// 必填参数
-			if(StringUtils.isBlank(qo.getBranchId()) || qo.getBranchType()==null){
+			if (StringUtils.isBlank(qo.getBranchId()) || qo.getBranchType() == null) {
 				LOG.error("机构信息为空，前端查询条件参数错误！");
 				return RespJson.businessError("机构信息为空，前端查询条件参数错误！");
 			}
-			
-			if(!BranchTypeEnum.isStore(qo.getBranchType())){
+
+			if (!BranchTypeEnum.isStore(qo.getBranchType())) {
 				LOG.error("所选机构不是店铺，请重新选择！");
 				return RespJson.businessError("所选机构不是店铺，请重新选择！");
 			}
+
+			// 构建查询条件信息
+			buldSearchParams(qo);
 
 			List<PurchaseGuideGoodsPo> exportList = purchaseReplenishAnalyService.getReplenishAnalyReportList(qo);
 
@@ -133,6 +139,28 @@ public class PurchaseReplenishAnalyController extends BaseController<PurchaseRep
 			resp = RespJson.error("门店补货分析报表导出异常");
 		}
 		return resp;
+	}
+
+	/**
+	 * @Description: 构建查询条件信息
+	 * @param qo
+	 * @author liwb
+	 * @date 2017年3月20日
+	 */
+	private void buldSearchParams(PurchaseReplenishAnalyQo qo) {
+
+		String supplierCodeName = qo.getSupplierCodeName();
+		if (StringUtils.isNotBlank(supplierCodeName)) {
+
+			// 如果是选择的供应商信息，清空供应商名称
+			if (supplierCodeName.contains("[") && supplierCodeName.contains("]")) {
+				qo.setSupplierCodeName(null);
+			} else {
+
+				// 如果是自己填写的供应商信息，则清空供应商Id
+				qo.setSupplierId(null);
+			}
+		}
 	}
 
 }

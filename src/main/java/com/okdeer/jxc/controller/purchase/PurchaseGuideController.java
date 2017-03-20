@@ -9,7 +9,6 @@ package com.okdeer.jxc.controller.purchase;
 
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,6 +20,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
+import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.common.utils.gson.GsonUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.form.purchase.po.PurchaseGuideGoodsPo;
@@ -58,7 +58,7 @@ public class PurchaseGuideController extends BaseController<PurchaseGuideControl
 	public String guideForm(PurchaseGuideQo qo, Model model) {
 		LOG.info("第一步默认条件筛选信息：{}", qo);
 		String formData = GsonUtils.toJson(qo);
-		
+
 		model.addAttribute("formData", formData);
 		return "form/purchase/guide/guideForm";
 	}
@@ -94,7 +94,7 @@ public class PurchaseGuideController extends BaseController<PurchaseGuideControl
 		model.addAttribute("guideNo", guideNo);
 		return "form/purchase/guide/guideOrderList";
 	}
-	
+
 	/**
 	 * @Description: 生成采购订单数据
 	 * @param dataList
@@ -105,24 +105,24 @@ public class PurchaseGuideController extends BaseController<PurchaseGuideControl
 	@RequestMapping(value = "generFormList", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson generFormList(@RequestBody String dataList) {
-		
+
 		RespJson respJson = RespJson.error();
-		
+
 		LOG.info("采购向导生成采购订单数据参数：{}", dataList);
-		
+
 		try {
 			List<PurchaseGuideGoodsVo> goodsVoList = GsonUtils.fromJsonList(dataList, PurchaseGuideGoodsVo.class);
-			
+
 			respJson = purchaseGuideService.generPurchaseFormList(goodsVoList, getCurrentUser());
-			if(!respJson.isSuccess()){
+			if (!respJson.isSuccess()) {
 				LOG.error(respJson.getMessage());
-			}else{
+			} else {
 				LOG.info("采购向导批次号为：{}", respJson.getData().toString());
 			}
 		} catch (Exception e) {
 			LOG.error("生成采购订单失败：", e);
 		}
-		
+
 		return respJson;
 	}
 
@@ -139,22 +139,60 @@ public class PurchaseGuideController extends BaseController<PurchaseGuideControl
 		LOG.info("获取采购向导商品清单条件信息：{}", qo);
 		try {
 			// 必填参数
-			if(StringUtils.isBlank(qo.getBranchId()) || qo.getBranchType()==null){
+			if (StringUtils.isBlank(qo.getBranchId()) || qo.getBranchType() == null) {
 				LOG.error("机构信息为空，系统异常！");
-				return PageUtils.emptyPage(); 
+				return PageUtils.emptyPage();
 			}
-			
-			// 结束日期加一天
-			if (qo.getDeliverEndDate() != null) {
-				qo.setDeliverEndDate(DateUtils.getDayAfter(qo.getDeliverEndDate()));
-			}
+
+			// 构建查询条件信息
+			buldSearchParams(qo);
+
 			return purchaseGuideService.getGoodsList(qo);
 		} catch (Exception e) {
 			LOG.error("获取采购向导商品清单异常:", e);
 		}
 		return PageUtils.emptyPage();
 	}
-	
+
+	/**
+	 * @Description: 构建查询条件信息
+	 * @param qo
+	 * @author liwb
+	 * @date 2017年3月20日
+	 */
+	private void buldSearchParams(PurchaseGuideQo qo) {
+		// 结束日期加一天
+		if (qo.getDeliverEndDate() != null) {
+			qo.setDeliverEndDate(DateUtils.getDayAfter(qo.getDeliverEndDate()));
+		}
+
+		String supplierCodeName = qo.getSupplierCodeName();
+		if (StringUtils.isNotBlank(supplierCodeName)) {
+
+			// 如果是选择的供应商信息，清空供应商名称
+			if (supplierCodeName.contains("[") && supplierCodeName.contains("]")) {
+				qo.setSupplierCodeName(null);
+			} else {
+
+				// 如果是自己填写的供应商信息，则清空供应商Id
+				qo.setSupplierId(null);
+			}
+		}
+
+		String categoryCodeName = qo.getCategoryCodeName();
+		if (StringUtils.isNotBlank(categoryCodeName)) {
+
+			// 如果是选择的类别信息，清空类别名称
+			if (categoryCodeName.contains("[") && categoryCodeName.contains("]")) {
+				qo.setCategoryCodeName(null);
+			} else {
+
+				// 如果是自己填写的信息，则清空分类编号
+				qo.setCategoryCode(null);
+			}
+		}
+	}
+
 	/**
 	 * @Description: 第三步，获取采购向导生成的订单数据
 	 * @param guideNo
@@ -173,6 +211,5 @@ public class PurchaseGuideController extends BaseController<PurchaseGuideControl
 		}
 		return PageUtils.emptyPage();
 	}
-	
 
 }
