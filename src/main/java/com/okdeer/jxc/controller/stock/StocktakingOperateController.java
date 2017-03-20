@@ -22,11 +22,13 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.LogConstant;
+import com.okdeer.jxc.common.enums.OperateTypeEnum;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportHandle;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportTxt;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportVo;
 import com.okdeer.jxc.common.result.RespJson;
+import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.goods.entity.GoodsSelect;
@@ -159,14 +161,18 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
-			LOG.info(LogConstant.OUT_PARAM, vo.toString());
+			// 结束日期延后一天
+			if (vo.getEndTime() != null) {
+				vo.setEndTime(DateUtils.getDayAfter(vo.getEndTime()));
+			}
+			LOG.info(LogConstant.OUT_PARAM, vo);
 			PageUtils<StocktakingFormVo> stocktakingFormList = stocktakingOperateServiceApi.getStocktakingFormList(vo);
 			LOG.info(LogConstant.PAGE, stocktakingFormList.toString());
 			return stocktakingFormList;
 		} catch (Exception e) {
 			LOG.error("存货盘点查询列表信息异常:{}", e);
 		}
-		return null;
+		return PageUtils.emptyPage();
 	}
 
 	/**
@@ -180,7 +186,7 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 	@ResponseBody
 	public RespJson saveStocktakingForm(String data) {
 		RespJson respJson = RespJson.success();
-		LOG.debug("保存存货盘点 ：data{}" + data);
+		LOG.info("保存存货盘点 ：data{}" + data);
 		SysUser user = UserUtil.getCurrentUser();
 		if (user == null) {
 			respJson = RespJson.error("用户不能为空！");
@@ -192,7 +198,7 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 				return respJson;
 			}
 			StocktakingFormVo vo = JSON.parseObject(data, StocktakingFormVo.class);
-			if ("1".equals(vo.getOperateType())) {
+			if (OperateTypeEnum.ADD.getIndex().equals(vo.getOperateType())) {
 				// 新增
 				vo.setCreateUserId(user.getId());
 				vo.setCreateUserName(user.getUserName());
@@ -245,7 +251,7 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 	public RespJson importStocktakingForm(@RequestParam("file") MultipartFile file, String branchId, String type,String batchId) {
 		RespJson respJson = RespJson.success();
 		try {
-			if (file.isEmpty()) {
+			if (file == null || file.isEmpty()) {
 				return RespJson.error("文件为空");
 			}
 			if (StringUtils.isBlank(batchId)) {
