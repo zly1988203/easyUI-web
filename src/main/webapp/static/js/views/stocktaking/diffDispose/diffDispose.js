@@ -132,10 +132,20 @@ function initOperateDataGrid(){
                 },
 			},
             {field:'differenceReason',title:'差异原因',width:'250px',align:'left',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return;
+                    }
+                    if(undefined != value && value.trim().length > 40){
+                        value = value.substr(0,40);
+                    }
+                    return value;
+                },
             	editor:{
 	                type:'textbox',
 	                options:{
 	                	disabled:isdisabled,
+                        onChange:reasonChange
 	                }
             	}},
             {field:'snapshootCostPrice',title:'原库存成本价',width:'150px',align:'right',
@@ -274,6 +284,13 @@ function initQueryData(url){
     });
 }
 
+function reasonChange(newVal,oldVal){
+    if(undefined != newVal && newVal.trim().length > 40){
+        messager('原因最多输入40个字符')
+        newVal = newVal.substr(0,40);
+    }
+    gridHandel.setFieldTextValue('differenceReason',newVal);
+}
 
 // 合计
 function updateFooter(){
