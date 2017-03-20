@@ -639,7 +639,7 @@ function importHandel(){
  */
 function getImportData(data){
     $.each(data,function(i,val){
-    	debugger;
+    	
         data[i]["oldPurPrice"] = data[i]["purchasePrice"];
         data[i]["oldSalePrice"]=data[i]["salePrice"];
         data[i]["oldWsPrice"]=data[i]["wholesalePrice"];
@@ -694,7 +694,7 @@ function setData(){
                 $("#targetBranchName").val(data.data.targetBranchName);
                 $("#sourceBranchId").val(data.data.sourceBranchId);
                 $("#sourceBranchName").val(data.data.sourceBranchName);
-                debugger;
+                
                 if(data.data.formType=="DD"){
         			$("#typeDD").attr("checked","checked");
         			$("#typeDA").attr("checked",false);

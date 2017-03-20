@@ -82,7 +82,7 @@ function initDatagridRequire(){
 	        /*{field:'dailyStartTime',title:'活动时段',width:'80px',align:'left'},
 	        {field:'dailyEndTime',title:'活动时段',width:'80px',align:'left'},*/
 			{field:'dailyStartTime',title:'活动时段',width:'150px',align:'left', formatter: function (value, row, index) {
-				//debugger;
+				//
 				if (row) {
 					return row.dailyStartTime+"-"+row.dailyEndTime;
 				}

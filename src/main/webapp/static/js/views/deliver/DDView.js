@@ -915,7 +915,7 @@ function updateListData(data){
 
 //新增要货单
 function addDeliverForm(){
-	debugger;
+	
     var newData = {
             targetBranchId:$("#targetBranchId").val(), // 要活分店id
             sourceBranchId:$("#sourceBranchId").val(), //发货分店id

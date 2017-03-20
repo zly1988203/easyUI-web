@@ -644,7 +644,7 @@ function toFooter(){
  * 要货机构
  */
 function selectTargetBranch(){
-	debugger;
+	
 	new publicAgencyService(function(data){
         $("#targetBranchId").val(data.branchesId);
         $("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
@@ -713,7 +713,7 @@ function toImportproduct(type){
         messager("请先选择发货机构");
         return;
     }
-    debugger;
+    
     var param = {
         url:contextPath+"/form/deliverForm/importList",
         tempUrl:contextPath+"/form/deliverForm/exportTemp",
@@ -792,7 +792,7 @@ function updateListData(data){
 
 //新增要货单
 function addDeliverForm(){
-	debugger;
+	
     var newData = {
             targetBranchId:$("#targetBranchId").val(), // 要活分店id
             sourceBranchId:$("#sourceBranchId").val(), //发货分店id

@@ -6,7 +6,7 @@ var saleWayNot="";
 var branchId="";
 function initSupplierView(param){
 	
-	debugger;
+	
 	
 	var supplierCodeOrName = param.supplierCodeOrName;
 	
