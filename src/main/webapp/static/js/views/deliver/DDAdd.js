@@ -10,9 +10,9 @@ var gridDefault = {
 var url = "";
 var oldData = {};
 var gridName = "gridRequireOrder";
-
+var deliverStatus;
 $(function(){
-	var deliverStatus = $('#deliverStatus').val();
+	deliverStatus = $('#deliverStatus').val();
 	if(deliverStatus === 'add'){
 		  $("#createTime").html(new Date().format('yyyy-MM-dd hh:mm')); 
 		  initDatagridRequireOrder();
@@ -493,14 +493,14 @@ function selectGoods(searchKey){
 	        $("#gridEditOrder").datagrid("deleteRow", gridHandel.getSelectRowIndex());
 	        $("#gridEditOrder").datagrid("acceptChanges");
 	    }
-    	selectStockAndPrice(data);
+    	setDataValue(data);
     	
         gridHandel.setLoadFocus();
         setTimeout(function(){
             gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
             gridHandel.setSelectFieldName("largeNum");
             gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
-        },100)
+        },500)
     	
     });
     branchId = '';
@@ -522,8 +522,8 @@ function setDataValue(data) {
         };
         var rows = gFunUpdateKey(addDefaultData,keyNames);
         var argWhere ={skuCode:1};  //验证重复性
-        var isCheck ={isGift:1 };   //只要是赠品就可以重复
-        var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
+        var isCheck ={};   //只要是赠品就可以重复
+        var newRows = gridHandel.checkDatagrid(data,rows,argWhere,isCheck);
         $("#"+gridName).datagrid("loadData",newRows);
 
         oldData["grid"] = $.map(rows, function(obj){
