@@ -38,7 +38,7 @@
 	            <div class="ub ub-ac umar-r40">
 	                <div class="umar-r10 uw-60 ut-r">申请机构:</div>
 	                <input class="uinp" name="branchId" id="branchId" type="hidden">
-	                <input class="uinp" id="branchName" name="branchName" type="text" maxlength="50">
+	                <input class="uinp" id="branchName" name="branchName" type="text" maxlength="50" onblur="cleaeBranchId();">
 	                <div class="uinp-more" onclick="searchBranch()">...</div>
 	            </div>
 	            <div class="ub ub-ac umar-r40">

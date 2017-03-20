@@ -8,12 +8,17 @@
  */
 package com.okdeer.jxc.controller.overdue;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.anyOf;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.fail;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 
 import java.time.LocalDateTime;
 
@@ -40,6 +45,7 @@ import org.springframework.web.context.WebApplicationContext;
 import com.okdeer.jxc.Application;
 import com.okdeer.jxc.config.test.ResourceConfig;
 import com.okdeer.jxc.config.test.ShiroConfiguration;
+import com.okdeer.jxc.util.ShiroTestUtils;
 
 /**
  * @ClassName: OverdueFormControllerTest
@@ -148,38 +154,92 @@ public class OverdueFormControllerTest {
     }
 
     @Test
-    public void testEdit() {
-	fail("Not yet implemented");
+    public void testEdit() throws Exception {
+	MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/form/overdue/edit/12"))  
+	            .andExpect(MockMvcResultMatchers.view().name(anyOf(equalTo("form/overdue/overdueView"),equalTo("form/overdue/overdueEdit"),equalTo("error/500"))))  
+	            .andDo(MockMvcResultHandlers.print())
+	            .andExpect(model().attributeExists("errorMsg")) //验证存在错误的属性
+	            .andExpect(model().attribute("errorMsg", "商品调价订单不存在！")) //验证属性相等性  
+	            .andReturn();  
+	int status = result.getResponse().getStatus();  
+	Assert.assertTrue("错误，正确的返回值为200", status == 200);  
+	Assert.assertFalse("错误，正确的返回值为200", status != 200); 
     }
 
     @Test
-    public void testDetailList() {
-	fail("Not yet implemented");
+    public void testDetailList() throws Exception {
+	MvcResult result = mockMvc.perform(post("/form/overdue/detail/list/123").contentType(MediaType.APPLICATION_JSON)
+		.accept(MediaType.APPLICATION_JSON)) // 执行请求
+		.andDo(print()) // print request and response to Console
+		.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))// 验证响应contentType
+		.andExpect(jsonPath("$.pageNum", is(0)))// http://goessner.net/articles/JsonPath/
+		.andExpect(jsonPath("$.pageSize", is(10)))
+		.andExpect(jsonPath("$.list", hasSize(0)))
+		.andReturn(); 
+	int status = result.getResponse().getStatus();  
+	Assert.assertTrue("错误，正确的返回值为200", status == 200);  
+	Assert.assertFalse("错误，正确的返回值为200", status != 200);  
     }
 
     @Test
-    public void testUpdateDetail() {
-	fail("Not yet implemented");
+    public void testUpdateDetail() throws Exception {
+	MvcResult result = mockMvc.perform(post("/form/overdue/detail/update").content("{}"))
+		.andDo(print()) // print request and response to Console
+		.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))// 验证响应contentType
+		.andExpect(jsonPath("$.message", equalTo("error")))// http://goessner.net/articles/JsonPath/
+		.andReturn(); 
+	int status = result.getResponse().getStatus();  
+	Assert.assertTrue("错误，正确的返回值为200", status == 200);  
+	Assert.assertFalse("错误，正确的返回值为200", status != 200);  
     }
 
     @Test
-    public void testSave() {
-	fail("Not yet implemented");
+    public void testSave() throws Exception {
+	MvcResult result = mockMvc.perform(post("/form/overdue/save").content("{}"))
+		.andDo(print()) // print request and response to Console
+		.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))// 验证响应contentType
+		.andExpect(jsonPath("$.message", equalTo("error")))// http://goessner.net/articles/JsonPath/
+		.andReturn(); 
+	int status = result.getResponse().getStatus();  
+	Assert.assertTrue("错误，正确的返回值为200", status == 200);  
+	Assert.assertFalse("错误，正确的返回值为200", status != 200);  
     }
 
     @Test
-    public void testCheck() {
-	fail("Not yet implemented");
+    public void testCheck() throws Exception {
+	MvcResult result = mockMvc.perform(post("/form/overdue/check").contentType(MediaType.APPLICATION_JSON)
+		.param("formId", "").param("ids[]", "").param("auditDescs[]", "").param("status", "1")
+		.accept(MediaType.APPLICATION_JSON))
+		.andDo(print()) // print request and response to Console
+		.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))// 验证响应contentType
+		.andExpect(jsonPath("$.message", equalTo("error")))// http://goessner.net/articles/JsonPath/
+		.andReturn(); 
+	int status = result.getResponse().getStatus();  
+	Assert.assertTrue("错误，正确的返回值为200", status == 200);  
+	Assert.assertFalse("错误，正确的返回值为200", status != 200);  
     }
 
     @Test
-    public void testCommit() {
-	fail("Not yet implemented");
+    public void testCommit() throws Exception {
+	MvcResult result = mockMvc.perform(post("/form/overdue/commit").content("{}"))
+		.andDo(print()) // print request and response to Console
+		.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))// 验证响应contentType
+		.andExpect(jsonPath("$.message", equalTo("error")))// http://goessner.net/articles/JsonPath/
+		.andReturn(); 
+	int status = result.getResponse().getStatus();  
+	Assert.assertTrue("错误，正确的返回值为200", status == 200);  
+	Assert.assertFalse("错误，正确的返回值为200", status != 200);  
     }
 
     @Test
-    public void testPrintReport() {
-	fail("Not yet implemented");
+    public void testPrintReport() throws Exception {
+	ShiroTestUtils.mockSubject("jxc_admin");
+	MvcResult result = mockMvc.perform(get("/form/overdue/report/print"))
+		.andDo(print()) // print request and response to Console
+		.andReturn(); 
+	int status = result.getResponse().getStatus();  
+	Assert.assertTrue("错误，正确的返回值为200", status == 200);  
+	Assert.assertFalse("错误，正确的返回值为200", status != 200);  
     }
 
     @Test

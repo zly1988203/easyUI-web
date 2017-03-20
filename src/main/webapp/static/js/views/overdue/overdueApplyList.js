@@ -8,7 +8,9 @@ $(function(){
     changeStatus();
 });
 
-
+var cleaeBranchId=function(){
+	$("#branchId").val("");
+};
 //单据状态切换
 function changeStatus(){
 	$(".radioItem").change(function(){
