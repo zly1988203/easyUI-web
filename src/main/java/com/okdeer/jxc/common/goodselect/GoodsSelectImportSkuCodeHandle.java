@@ -135,6 +135,10 @@ public class GoodsSelectImportSkuCodeHandle implements GoodsSelectImportHandle{
 		Map<String,Integer> skuCodeSet = new LinkedHashMap<String,Integer>();
 		for (int i = 0; i < excelListFullData.size(); i++) {
 			JSONObject obj = excelListFullData.get(i);
+			if(!obj.containsKey("skuCode")){
+				obj.element("error", CODE_IS_BLANK);
+				continue;
+			}
 			String objSkuCode = obj.getString("skuCode");
 			String isGift = "";
 			if(obj.containsKey("isGift")){
