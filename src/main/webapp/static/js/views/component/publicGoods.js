@@ -133,7 +133,7 @@ PublicGoods.prototype = function(){
         categoryCode=treeNode.code;
         var text =  $("#goodsType").combobox('getText');
         if(text =='类别'){
-            brandId = $('#brandId').val()?$('#brandId').val():"";
+            brandId = $('#branchId').val()?$('#branchId').val():"";
             supplierId = "";
         }else if(text =="品牌"){
             brandId = treeNode.id;
