@@ -190,7 +190,7 @@ function getGoodsPupplier(){
 //毛利值 = 零售价-进货价
 function setGrossProfit(newV,oldV){
 	
-	debugger;
+	
 	var salePrice = parseFloat($("#salePrice").val().trim() || 0);
 	var purchasePrice = parseFloat($("#purchasePrice").val().trim() || 0);
 	if(salePrice != "" && purchasePrice != ""){

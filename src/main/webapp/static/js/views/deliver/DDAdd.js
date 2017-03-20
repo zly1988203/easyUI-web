@@ -858,7 +858,7 @@ function getSourceBranch(branchesId) {
  * 发货机构
  */
 function selectSourceBranch(){
-	debugger;
+	
 	var targetBranchType = $("#targetBranchType").val();
 	if(targetBranchType != '0' && targetBranchType != '1'){
         new publicAgencyService(function(data){
@@ -891,7 +891,7 @@ function toImportproduct(type){
         messager("请先选择发货机构");
         return;
     }
-    debugger;
+    
     var param = {
         url:contextPath+"/form/deliverForm/importList",
         tempUrl:contextPath+"/form/deliverForm/exportTemp",

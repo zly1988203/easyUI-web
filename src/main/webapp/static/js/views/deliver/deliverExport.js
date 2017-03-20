@@ -5,7 +5,7 @@ function exportData(type,grid,pattern){
 		$.messager.alert('提示',"导出成功");
 		return;
 	}
-	debugger;
+	
 	if(length>10000){
 		$.messager.alert("当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
 		return;

@@ -38,7 +38,7 @@ pageEncoding="UTF-8"%>
 					</div>
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">商品条码:</div>
-					    <input id="barCode" name="barCode" class="uinp  uinp-no-more" data-options="validType:'int'">
+					    <input id="barCode" name="barCode" class="uinp  uinp-no-more" data-options="validType:'intNum'">
 						<!-- <i class="uc-red">*</i> -->
 					</div>
 				</div>

@@ -94,7 +94,7 @@ function bindPosForm(){
 	if(rowIsNull(row)){
 		return null;
 	}
-	debugger;
+	
 	if(row.status==0){
 		$.messager.alert("提示","当前记录未绑定，请选择已绑定的记录后重试");
 		return null;

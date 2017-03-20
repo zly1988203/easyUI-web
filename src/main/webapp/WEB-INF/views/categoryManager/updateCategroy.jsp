@@ -18,7 +18,7 @@ pageEncoding="UTF-8"%>
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">类别编号:</div>
 					<input id="goodsCategoryId" name="goodsCategoryId" value="${goodsCategory.goodsCategoryId}" type="hidden">
-					<input id="categoryCode" name="categoryCode" class="uinp uinp-no-more easyui-validatebox uw-200" data-options="required:true,validType:'int'" readonly="readonly"  maxlength="10" value="${goodsCategory.categoryCode }">
+					<input id="categoryCode" name="categoryCode" class="uinp uinp-no-more easyui-validatebox uw-200" data-options="required:true,validType:'intNum'" readonly="readonly"  maxlength="10" value="${goodsCategory.categoryCode }">
 					<i class="uc-red">*</i>
 				</div>
 			</div>
