@@ -8,6 +8,7 @@
  */
 package com.okdeer.jxc.util;
 
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.subject.support.SubjectThreadState;
 import org.apache.shiro.util.ThreadState;
@@ -31,11 +32,13 @@ public class ShiroTestUtils {
 	/**
 	 * 用Mockito快速創建一個已認證的用户.
 	 */
-	public static void mockSubject(Object principal) {
+	public static  <T> void mockSubject(Object principal,String key,T t) {
 		Subject subject = Mockito.mock(Subject.class);
+		Session session = Mockito.mock(Session.class);
 		Mockito.when(subject.isAuthenticated()).thenReturn(true);
 		Mockito.when(subject.getPrincipal()).thenReturn(principal);
-
+		Mockito.when(subject.getSession()).thenReturn(session);
+		Mockito.when(session.getAttribute(key)).thenReturn(t);
 		bindSubject(subject);
 	}
 

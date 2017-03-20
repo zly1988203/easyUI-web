@@ -20,8 +20,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 
+import java.io.File;
 import java.time.LocalDateTime;
 
+import javax.annotation.Resource;
+
+import org.apache.commons.io.FileUtils;
 import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Assert;
@@ -43,8 +47,11 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.okdeer.jxc.Application;
+import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.config.test.ResourceConfig;
 import com.okdeer.jxc.config.test.ShiroConfiguration;
+import com.okdeer.jxc.system.entity.SysUser;
+import com.okdeer.jxc.system.service.SysUserServiceApi;
 import com.okdeer.jxc.util.ShiroTestUtils;
 
 /**
@@ -68,6 +75,9 @@ public class OverdueFormControllerTest {
     private WebApplicationContext wac;
     private MockMvc mockMvc;
 
+    @Resource(name = "sysUserService")
+    private SysUserServiceApi sysUserService;
+    
     @Before
     public void setUp() throws Exception {
 	mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
@@ -233,28 +243,60 @@ public class OverdueFormControllerTest {
 
     @Test
     public void testPrintReport() throws Exception {
-	ShiroTestUtils.mockSubject("jxc_admin");
+	SysUser sysUser = sysUserService.getUserByCode("jxc_admin");
+	ShiroTestUtils.mockSubject("jxc_admin",Constant.SESSION_USER,sysUser);
 	MvcResult result = mockMvc.perform(get("/form/overdue/report/print"))
-		.andDo(print()) // print request and response to Console
+		.andExpect(content().contentType("application/pdf"))// 验证响应contentType
 		.andReturn(); 
+	byte[] io = result.getResponse().getContentAsByteArray();
+	FileUtils.writeByteArrayToFile(new File(System.getProperty("user.dir")+"/src/test/resources/tmp/test.pdf"), io);
 	int status = result.getResponse().getStatus();  
 	Assert.assertTrue("错误，正确的返回值为200", status == 200);  
 	Assert.assertFalse("错误，正确的返回值为200", status != 200);  
     }
 
     @Test
-    public void testApprovedPrintReport() {
-	fail("Not yet implemented");
+    public void testApprovedPrintReport() throws Exception {
+	SysUser sysUser = sysUserService.getUserByCode("jxc_admin");
+	ShiroTestUtils.mockSubject("jxc_admin",Constant.SESSION_USER,sysUser);
+	MvcResult result = mockMvc.perform(get("/form/overdue/approved/report/print"))
+		.andExpect(content().contentType("application/pdf"))// 验证响应contentType
+		.andReturn(); 
+	byte[] io = result.getResponse().getContentAsByteArray();
+	FileUtils.writeByteArrayToFile(new File(System.getProperty("user.dir")+"/src/test/resources/tmp/test.pdf"), io);
+	int status = result.getResponse().getStatus();  
+	Assert.assertTrue("错误，正确的返回值为200", status == 200);  
+	Assert.assertFalse("错误，正确的返回值为200", status != 200);  
     }
 
     @Test
-    public void testEditPrintReport() {
-	fail("Not yet implemented");
+    public void testEditPrintReport() throws Exception {
+	SysUser sysUser = sysUserService.getUserByCode("jxc_admin");
+	ShiroTestUtils.mockSubject("jxc_admin",Constant.SESSION_USER,sysUser);
+	MvcResult result = mockMvc.perform(get("/form/overdue/edit/report/print"))
+		.andExpect(content().contentType("application/pdf"))// 验证响应contentType
+		.andReturn(); 
+	byte[] io = result.getResponse().getContentAsByteArray();
+	FileUtils.writeByteArrayToFile(new File(System.getProperty("user.dir")+"/src/test/resources/tmp/test.pdf"), io);
+	int status = result.getResponse().getStatus();  
+	Assert.assertTrue("错误，正确的返回值为200", status == 200);  
+	Assert.assertFalse("错误，正确的返回值为200", status != 200); 
     }
 
     @Test
-    public void testExportOverdueFormVoHttpServletResponse() {
-	fail("Not yet implemented");
+    public void testExportOverdueFormVo() throws Exception {
+	SysUser sysUser = sysUserService.getUserByCode("jxc_admin");
+	ShiroTestUtils.mockSubject("jxc_admin",Constant.SESSION_USER,sysUser);
+	MvcResult result = mockMvc.perform(post("/form/overdue/exports"))
+		.andDo(print()) // print request and response to Console
+		.andReturn(); 
+	String filename = result.getResponse().getHeaderValue("filename").toString();
+	Assert.assertNotNull(filename);
+	byte[] io = result.getResponse().getContentAsByteArray();
+	FileUtils.writeByteArrayToFile(new File(System.getProperty("user.dir")+"/src/test/resources/tmp/"+filename), io);
+	int status = result.getResponse().getStatus();  
+	Assert.assertTrue("错误，正确的返回值为200", status == 200);  
+	Assert.assertFalse("错误，正确的返回值为200", status != 200);  
     }
 
     @Test
