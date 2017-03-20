@@ -61,24 +61,144 @@ function initPurchaseGuideGoodsListDg(){
 			    },
 			},
         	{field:'supplierName',title:'供应商',width:180,align:'left'},
-            {field:'branchName',title:'收货机构',width:80,align:'left'},
-            {field:'skuCode',title:'货号',width:120,align:'left'},
-            {field:'skuName',title:'商品名称',width:100,align:'center'},
+            {field:'branchName',title:'收货机构',width:180,align:'left'},
+            {field:'skuCode',title:'货号',width:70,align:'left'},
+            {field:'skuName',title:'商品名称',width:180,align:'center'},
             {field:'barCode',title:'条码',width:120,align:'left'},
             {field:'skuUnit',title:'单位',width:60,align:'left'},
             {field:'skuSpec',title:'规格',width:60,align:'left'},
             {field:'purchaseSpec',title:'进货规格',width:60,align:'left'},
-            {field:'purchasePrice',title:'进价',width:120,align:'left'},
+            {field:'purchasePrice',title:'进价',width:100,align:'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return;
+                    }
+
+                    if(!value){
+                        row["purchasePrice"] = parseFloat(value||0).toFixed(2);
+                    }
+
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+                editor:{
+                    type:'numberbox',
+                    options:{
+                        min:0,
+                        precision:4,
+                        disabled:true,
+                    }
+                },
+			},
             
-            {field:'upperLimit',title:'库存上限',width:120,align:'left',hidden:isType_one},
-            {field:'lowerLimit',title:'库存下限',width:120,align:'left',hidden:isType_one},
+            {field:'upperLimit',title:'库存上限',width:100,align:'right',hidden:isType_one,
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return;
+                    }
+
+                    if(!value){
+                        row["upperLimit"] = parseFloat(value||0).toFixed(2);
+                    }
+
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+                editor:{
+                    type:'numberbox',
+                    options:{
+                        min:0,
+                        precision:4,
+                        disabled:true,
+                    }
+                },
+			},
+            {field:'lowerLimit',title:'库存下限',width:100,align:'right',hidden:isType_one,
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return;
+                    }
+
+                    if(!value){
+                        row["lowerLimit"] = parseFloat(value||0).toFixed(2);
+                    }
+
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+                editor:{
+                    type:'numberbox',
+                    options:{
+                        min:0,
+                        precision:4,
+                        disabled:true,
+                    }
+                },
+			},
             
-            {field:'diliveCycle',title:'订货周期',width:120,align:'left',hidden:isType_two},
-            {field:'safetyCoefficient',title:'安全系数',width:120,align:'left',hidden:isType_two},
+            {field:'diliveCycle',title:'订货周期',width:100,align:'right',hidden:isType_two,
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return;
+                    }
+
+                    if(!value){
+                        row["safetyCoefficient"] = parseFloat(value||0).toFixed(2);
+                    }
+
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+                editor:{
+                    type:'numberbox',
+                    options:{
+                        min:0,
+                        precision:4,
+                        disabled:true,
+                    }
+                },
+			},
+            {field:'safetyCoefficient',title:'安全系数',width:100,align:'right',hidden:isType_two,
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return;
+                    }
+
+                    if(!value){
+                        row["safetyCoefficient"] = parseFloat(value||0).toFixed(2);
+                    }
+
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+                editor:{
+                    type:'numberbox',
+                    options:{
+                        min:0,
+                        precision:4,
+                        disabled:true,
+                    }
+                },
+			},
             
-            {field:'totalNum',title:'要贷数量',width:120,align:'left',hidden:isType_three},
+            {field:'totalNum',title:'要贷数量',width:100,align:'right',hidden:isType_three,
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return;
+                    }
+
+                    if(!value){
+                        row["totalNum"] = parseFloat(value||0).toFixed(2);
+                    }
+
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+                editor:{
+                    type:'numberbox',
+                    options:{
+                        min:0,
+                        precision:4,
+                        disabled:true,
+                    }
+                },
+			},
             
-            {field:'purchaseNum',title:'订货数量',width:120,align:'left',
+            {field:'purchaseNum',title:'订货数量',width:100,align:'right',
 			    formatter : function(value, row, index) {
 			        if(row.isFooter){
 			            return;
@@ -99,7 +219,7 @@ function initPurchaseGuideGoodsListDg(){
 			        }
 			    },
             },
-            {field:'totalAmount',title:'金额',width:120,align:'left',
+            {field:'totalAmount',title:'金额',width:100,align:'right',
             	formatter : function(value, row, index) {
 			        if(row.isFooter){
 			            return;
@@ -121,11 +241,71 @@ function initPurchaseGuideGoodsListDg(){
 			    },
             },
             
-            {field:'lastWeekAvgSales',title:'上周日销量',width:120,align:'left',hidden:isType_two},
-            {field:'previousWeekAvgSales',title:'前周日销量',width:120,align:'left',hidden:isType_two},
+            {field:'lastWeekAvgSales',title:'上周日销量',width:100,align:'right',hidden:isType_two,
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return;
+                    }
+
+                    if(!value){
+                        row["lastWeekAvgSales"] = parseFloat(value||0).toFixed(2);
+                    }
+
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+                editor:{
+                    type:'numberbox',
+                    options:{
+                        min:0,
+                        precision:4,
+                        disabled:true,
+                    }
+                },
+			},
+            {field:'previousWeekAvgSales',title:'前周日销量',width:100,align:'right',hidden:isType_two,
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return;
+                    }
+
+                    if(!value){
+                        row["previousWeekAvgSales"] = parseFloat(value||0).toFixed(2);
+                    }
+
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+                editor:{
+                    type:'numberbox',
+                    options:{
+                        min:0,
+                        precision:4,
+                        disabled:true,
+                    }
+                },
+			},
             
-            {field:'actualStock',title:'库存',width:120,align:'left'},
-            {field:'remark',title:'备注',width:120,align:'left',editor:"textbox"}
+            {field:'actualStock',title:'库存',width:100,align:'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return;
+                    }
+
+                    if(!value){
+                        row["actualStock"] = parseFloat(value||0).toFixed(2);
+                    }
+
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+                editor:{
+                    type:'numberbox',
+                    options:{
+                        min:0,
+                        precision:4,
+                        disabled:true,
+                    }
+                },
+			},
+            {field:'remark',title:'备注',width:150,align:'left',editor:"textbox"}
         ]],
         onClickCell:function(rowIndex,field,value){
             gridHandel.setBeginRow(rowIndex);
