@@ -499,7 +499,12 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 		PurchaseFormVo formVo = JSON.parseObject(jsonText, PurchaseFormVo.class);
 		
 		//验证
-		RespJson resp = saveValid(formVo);
+		List<String> skuIds = new ArrayList<String>();
+		List<PurchaseFormDetailVo> detailList = formVo.getDetailList();
+		for (PurchaseFormDetailVo detailVo : detailList) {
+			skuIds.add(detailVo.getSkuId());
+		}
+		RespJson resp = saveValid(skuIds,formVo.getBranchId());
 		if(!resp.isSuccess()){
 			return resp;
 		}
@@ -633,6 +638,20 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 	public RespJson saveReceipt(@RequestBody String jsonText) {
 
 		ReceiptFormVo formVo = JSON.parseObject(jsonText, ReceiptFormVo.class);
+		
+		//不是引用订单收货，需要验证
+		/*if(!com.okdeer.jxc.common.utils.StringUtils.isBlank(formVo.getRefFormNo())){
+			List<String> skuIds = new ArrayList<String>();
+			List<PurchaseFormDetailVo> detailList = formVo.getDetailList();
+			for (PurchaseFormDetailVo detailVo : detailList) {
+				skuIds.add(detailVo.getSkuId());
+			}
+			RespJson resp = saveValid(skuIds,formVo.getBranchId());
+			if(!resp.isSuccess()){
+				return resp;
+			}
+		}*/
+
 
 		PurchaseForm form = new PurchaseForm();
 		BeanUtils.copyProperties(formVo, form);
@@ -702,7 +721,12 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 
 		PurchaseFormVo formVo = JSON.parseObject(jsonText, PurchaseFormVo.class);
 		//验证
-		RespJson resp = saveValid(formVo);
+		List<String> skuIds = new ArrayList<String>();
+		List<PurchaseFormDetailVo> detailList = formVo.getDetailList();
+		for (PurchaseFormDetailVo detailVo : detailList) {
+			skuIds.add(detailVo.getSkuId());
+		}
+		RespJson resp = saveValid(skuIds,formVo.getBranchId());
 		if(!resp.isSuccess()){
 			return resp;
 		}
@@ -751,6 +775,19 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 	public RespJson updateReceipt(@RequestBody String jsonText) {
 
 		ReceiptFormVo formVo = JSON.parseObject(jsonText, ReceiptFormVo.class);
+		
+		//不是引用订单收货，需要验证
+		/*if(!com.okdeer.jxc.common.utils.StringUtils.isBlank(formVo.getRefFormNo())){
+			List<String> skuIds = new ArrayList<String>();
+			List<PurchaseFormDetailVo> detailList = formVo.getDetailList();
+			for (PurchaseFormDetailVo detailVo : detailList) {
+				skuIds.add(detailVo.getSkuId());
+			}
+			RespJson resp = saveValid(skuIds,formVo.getBranchId());
+			if(!resp.isSuccess()){
+				return resp;
+			}
+		}*/
 
 		PurchaseForm form = new PurchaseForm();
 		BeanUtils.copyProperties(formVo, form);
@@ -843,10 +880,19 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 	@RequestMapping(value = "check", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson check(String formId, Integer status) {
-		//验证数据
-		RespJson resp = auditValid(formId);
-		if(!resp.isSuccess()){
-			return resp;
+		PurchaseFormPO po = purchaseFormServiceApi.selectPOById(formId);
+		if(po.getFormType().equals(FormType.PA)){
+			//所有商品ID
+			List<String> skuIds = new ArrayList<String>();
+			List<PurchaseFormDetailPO> detailList = purchaseFormServiceApi.selectDetailById(formId);
+			for (PurchaseFormDetailPO detailVo : detailList) {
+				skuIds.add(detailVo.getSkuId());
+			}
+			
+			RespJson resp = saveValid(skuIds,po.getBranchId());
+			if(!resp.isSuccess()){
+				return resp;
+			}
 		}
 		
 		SysUser user = UserUtil.getCurrentUser();
@@ -1257,82 +1303,19 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 	 * @author zhangq
 	 * @date 2017年3月16日
 	 */
-	public RespJson saveValid(PurchaseFormVo vo){
+	public RespJson saveValid(List<String> skuIds,String branchId){
 		//订单明细商品是否有停购或淘汰情况
 		GoodsBranchPriceQo qo = new GoodsBranchPriceQo();
 		
 		//所有商品ID
-		List<String> skuIds = new ArrayList<String>();
-		List<PurchaseFormDetailVo> detailList = vo.getDetailList();
-		for (PurchaseFormDetailVo detailVo : detailList) {
-			skuIds.add(detailVo.getSkuId());
-		}
 		qo.setGoodsStoreSkuIds(skuIds);
 		
 		//机构ID
-		String branchId = vo.getBranchId();
 		qo.setBranchId(branchId);
 		
 		//其他参数
 		qo.setPage(1);
-		qo.setRows(detailList.size());
-		
-		//查询商品信息
-		PageUtils<GoodsBranchPriceVo> page = null;
-		Branches branch = branchesServiceApi.getBranchInfoById(branchId);//机构类型(0.总部、1.分公司、2.物流中心、3.自营店、4.加盟店B、5.加盟店C)
-		if(branch.getType()==3 || branch.getType()==4 || branch.getType()==5){
-			page = goodsBranchPriceService.queryBranchGoods(qo);
-		}else{
-			page = goodsBranchPriceService.queryBranchCompanyGoods(qo);
-		}
-		List<GoodsBranchPriceVo> list = page.getList();
-		
-		//处理结果
-		StringBuilder sb = new StringBuilder();
-		for (GoodsBranchPriceVo branchGoodsVo : list) {
-			//停购
-			if(branchGoodsVo.getStatus().equals("2")){
-				sb.append(branchGoodsVo.getSkuName()+"["+branchGoodsVo.getSkuCode()+"]已停购；\n");
-			}
-			//淘汰
-			if(branchGoodsVo.getStatus().equals("3")){
-				sb.append(branchGoodsVo.getSkuName()+"["+branchGoodsVo.getSkuCode()+"]已淘汰；\n");
-			}
-		}
-		if(!sb.toString().equals("")){
-			return RespJson.error(sb.toString());
-		}
-		return RespJson.success();
-	}
-	
-	/**
-	 * 
-	 * @Description: 审核验证
-	 * @param formId
-	 * @return RespJson  
-	 * @author zhangq
-	 * @date 2017年3月17日
-	 */
-	public RespJson auditValid(String formId){
-		//订单明细商品是否有停购或淘汰情况
-		GoodsBranchPriceQo qo = new GoodsBranchPriceQo();
-		
-		//所有商品ID
-		List<String> skuIds = new ArrayList<String>();
-		List<PurchaseFormDetailPO> detailList = purchaseFormServiceApi.selectDetailById(formId);
-		for (PurchaseFormDetailPO detailVo : detailList) {
-			skuIds.add(detailVo.getSkuId());
-		}
-		qo.setGoodsStoreSkuIds(skuIds);
-		
-		//机构ID
-		PurchaseFormPO po = purchaseFormServiceApi.selectPOById(formId);
-		String branchId = po.getBranchId();
-		qo.setBranchId(branchId);
-		
-		//其他参数
-		qo.setPage(1);
-		qo.setRows(detailList.size());
+		qo.setRows(skuIds.size());
 		
 		//查询商品信息
 		PageUtils<GoodsBranchPriceVo> page = null;
