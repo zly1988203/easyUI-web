@@ -151,7 +151,7 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
 	} catch (Exception e) {
 	   logger.error("加载临期商品审核列表失败！",e);
 	}
-	return null;
+	return PageUtils.emptyPage();
     }
     
     /**
@@ -182,7 +182,7 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
 	} catch (Exception e) {
 	   logger.error("加载临期商品审核列表失败！",e);
 	}
-	return null;
+	return PageUtils.emptyPage();
     }
     
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
@@ -234,7 +234,7 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
 		logger.error("加载临期商品审核列表详情失败！",e);
 	    }
 	}
-	return  null;
+	return  PageUtils.emptyPage();
     }
     
     @RequestMapping(value = "/detail/update", method = RequestMethod.POST)
@@ -312,12 +312,13 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
 	vo = optional.orElse(new OverdueFormVo());
 	vo.setPageNumber(Integer.valueOf(PAGE_NO));
 	vo.setPageSize(PrintConstant.PRINT_MAX_LIMIT);
-	Date date = vo.getEndTime();
+	Date endDate = vo.getEndTime()==null?new Date():vo.getEndTime();
+	Date startDate = vo.getStartTime()==null?new Date():vo.getStartTime();
 	// 默认当前机构
 	if (StringUtils.isBlank(vo.getBranchCode()) && StringUtils.isBlank(vo.getBranchName())) {
 	    vo.setBranchCode(getCurrBranchCompleCode());
 	}
-	vo.setEndTime( Date.from(vo.getEndTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().plusDays(1).atZone(ZoneId.systemDefault()).toInstant()));
+	vo.setEndTime( Date.from(endDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().plusDays(1).atZone(ZoneId.systemDefault()).toInstant()));
 	PageUtils<OverdueFormDto> suppliers;
 	suppliers = overdueFormService.selectApprovedListData(vo);
 	List<OverdueFormDto> list = suppliers.getList();
@@ -327,8 +328,8 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
 	}
 	String path = PrintConstant.OVERDUE_APPLY_REPORT;
 	Map<String, Object> map = new HashMap<String, Object>();
-	map.put("startDate", DateUtils.formatDate(vo.getStartTime(), DateUtils.DATE_SMALL_STR_R) );
-	map.put("endDate", DateUtils.formatDate(date, DateUtils.DATE_SMALL_STR_R));
+	map.put("startDate", DateUtils.formatDate(startDate, DateUtils.DATE_SMALL_STR_R) );
+	map.put("endDate", DateUtils.formatDate(endDate, DateUtils.DATE_SMALL_STR_R));
 	map.put("printName", getCurrentUser().getUserName());
 	JasperHelper.exportmain(request, response, map, JasperHelper.PDF_TYPE, path, list, "");
 	return null;
@@ -341,12 +342,13 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
 	vo.setPageNumber(Integer.valueOf(PAGE_NO));
 	vo.setPageSize(PrintConstant.PRINT_MAX_LIMIT);
 	vo.setStatus(Byte.valueOf("1"));
-	Date date = vo.getEndTime();
+	Date endDate = vo.getEndTime()==null?new Date():vo.getEndTime();
+	Date startDate = vo.getStartTime()==null?new Date():vo.getStartTime();
 	// 默认当前机构
 	if (StringUtils.isBlank(vo.getBranchCode()) && StringUtils.isBlank(vo.getBranchName())) {
 	    vo.setBranchCode(getCurrBranchCompleCode());
 	}
-	vo.setEndTime( Date.from(vo.getEndTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().plusDays(1).atZone(ZoneId.systemDefault()).toInstant()));
+	vo.setEndTime( Date.from(endDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().plusDays(1).atZone(ZoneId.systemDefault()).toInstant()));
 	PageUtils<OverdueFormDto> suppliers;
 	suppliers = overdueFormService.selectApprovedList(vo);
 	List<OverdueFormDto> list = suppliers.getList();
@@ -356,8 +358,8 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
 	}
 	String path = PrintConstant.OVERDUE_APPROVED_REPORT;
 	Map<String, Object> map = new HashMap<String, Object>();
-	map.put("startDate", DateUtils.formatDate(vo.getStartTime(), DateUtils.DATE_SMALL_STR_R) );
-	map.put("endDate", DateUtils.formatDate(date, DateUtils.DATE_SMALL_STR_R));
+	map.put("startDate", DateUtils.formatDate(startDate, DateUtils.DATE_SMALL_STR_R) );
+	map.put("endDate", DateUtils.formatDate(endDate, DateUtils.DATE_SMALL_STR_R));
 	map.put("printName", getCurrentUser().getUserName());
 	JasperHelper.exportmain(request, response, map, JasperHelper.PDF_TYPE, path, list, "");
 	return null;
@@ -514,19 +516,19 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
     }
     
     @RequestMapping(value = "/download/error")
-	public void downloadErrorFile(String code, String type, HttpServletResponse response) {
-		String reportFileName = "错误数据";
-		String[] headers;
-		String[] columns;
-		if(StringUtils.equalsIgnoreCase(GoodsSelectImportHandle.TYPE_SKU_CODE, type)){
-			headers = new String[] { "货号", "数量"};
-			columns =  new String[] { "skuCode", "applyNum"};
-		}else{
-		    	headers = new String[] { "条码", "数量"};
-			columns =  new String[] { "barCode", "applyNum"};
-		}
-		goodsSelectImportComponent.downloadErrorFile(code, reportFileName, headers, columns, response);
+    public void downloadErrorFile(String code, String type, HttpServletResponse response) {
+	String reportFileName = "错误数据";
+	String[] headers;
+	String[] columns;
+	if (StringUtils.equalsIgnoreCase(GoodsSelectImportHandle.TYPE_SKU_CODE, type)) {
+	    headers = new String[] { "货号", "数量" };
+	    columns = new String[] { "skuCode", "applyNum" };
+	} else {
+	    headers = new String[] { "条码", "数量" };
+	    columns = new String[] { "barCode", "applyNum" };
 	}
+	goodsSelectImportComponent.downloadErrorFile(code, reportFileName, headers, columns, response);
+    }
     
     @Override
     protected Map<String, Object> getPrintReplace(String formNo) {
