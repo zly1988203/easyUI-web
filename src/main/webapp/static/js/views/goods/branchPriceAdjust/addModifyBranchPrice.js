@@ -255,7 +255,6 @@ function initCheckbox(){
 
 // 新增
 function addModifyDataGrid() {
-	
 	if (isClickCheckData) {
 		window.location.href = contextPath
 			+ "/goods/branchPriceAdjust/addFormView";
@@ -429,7 +428,7 @@ function updateModifyPriceOrder() {
 		          messager("第"+(i+1)+"行，新会员价要小于新销售价");
 		          isCheck = false;
 		          break;
-		      };
+		      }
 		}
 		
 		if(isCheck === false){
