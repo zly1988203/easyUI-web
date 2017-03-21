@@ -134,14 +134,6 @@ $(function(){
 	                    	row.price = parseFloat(value||0).toFixed(2);
 	                    }
 	                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-	                },
-	                editor:{
-	                    type:'numberbox',
-	                    options:{
-	                        min:0,
-	                        precision:4,
-	                        disabled:true
-	                    }
 	                }
 	            },
 	            {field:'applyAmount',title:'金额',width:'80px',align:'right',
@@ -223,19 +215,13 @@ $(function(){
 	    n++;
 
 	    //金额 = 单价 * 数量
-	    var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'applyPrice');
+	    var priceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'applyPrice');
 	    priceValue  = !priceValue ? 0 :parseFloat(priceValue);
 	    gridHandel.setFieldValue('applyAmount',parseFloat(priceValue*newV).toFixed(4));
 
 	    updateFooter();
 	}
 	
-	//监听商品单价
-	function onChangePrice(newV,oldV) {
-	    var realNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'applyNum');
-	    gridHandel.setFieldValue('applyAmount',realNumVal*newV);                          //金额=数量*单价
-	    updateFooter();
-	}
 	
 	//合计
 	function updateFooter(){
