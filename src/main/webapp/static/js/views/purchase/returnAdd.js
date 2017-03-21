@@ -702,8 +702,8 @@ function selectForm(){
 			referenceId = data.id;
 			$("#refFormId").val(referenceId);
 			$("#refFormNo").val(data.formNo);
-			$("#branchId").val(data.sourceBranchId);
-			$("#branchName").val(data.sourceBranchName);
+			$("#branchId").val(data.targetBranchId);
+			$("#branchName").val(data.targetBranchName);
 			loadLists(referenceId);
 		});
 	}
@@ -711,7 +711,7 @@ function selectForm(){
 
 function loadLists(referenceId){
 	$("#gridEditOrder").datagrid("options").method = "post";
-	$("#gridEditOrder").datagrid('options').url = contextPath+"/form/deliverFormList/getDeliverFormLists?deliverFormId="+referenceId + "&formType=DI";
+	$("#gridEditOrder").datagrid('options').url = contextPath+"/form/deliverFormList/getDeliverFormLists?deliverFormId="+referenceId + "&deliverType=DI";
 	$("#gridEditOrder").datagrid('load');
 }
 
