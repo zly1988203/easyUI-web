@@ -196,6 +196,9 @@ function getFiledsList(){
 		          {field: 'batchNo', title: '盘点批号', width: 180, align: 'left'},
 		          {field: 'validUserName', title: '审核人', width: 180, align: 'left'},
 		          {field: 'skuCode', title: '货号', width: 80, align: 'left'},
+		          {field:'barCode',title:'条码',width:'120px',align:'left'},
+		          {field:'spec',title:'规格',width:'60px',align:'left'},
+		          {field:'unit',title:'单位',width:'60px',align:'left'},
 		          {field: 'skuName', title: '商品名称', width: 180, align: 'left'},
 
 					{field: 'snapshootStockNum', title: '系统库存', width: 100, align: 'right',
@@ -239,7 +242,28 @@ function getFiledsList(){
 					},
 
 		          {field: 'handle', title: '是否处理', width: 80, align: 'left'},
-
+		            {field:'snapshootCostPrice',title:'原库存成本价',width:'120px',align:'right',
+		                formatter:function(value,row,index){
+		                    if(row.isFooter){
+		                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		                    }
+		                    if(!value){
+		                        row["snapshootCostPrice"] = parseFloat(value||0).toFixed(2);
+		                    }
+		                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		                },
+					},
+					{field:'snapshootSalePrice',title:'零售价',width:'120px',align:'right',
+						formatter:function(value,row,index){
+							if(row.isFooter){
+								return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+							}
+							if(!value){
+								row["snapshootCostPrice"] = parseFloat(value||0).toFixed(2);
+							}
+							return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+						},
+					},
 				{field: 'profitLossCostAmount', title: '盈亏金额（成本价）', width: 140, align: 'right',
 					formatter : function(value, row, index) {
 						if(row.isFooter){
