@@ -299,7 +299,6 @@ function initPurchaseGuideGoodsListDg(){
                 editor:{
                     type:'numberbox',
                     options:{
-                        min:0,
                         precision:4,
                         disabled:true,
                     }

@@ -612,13 +612,6 @@ function selectStockAndPrice(data){
 
 //保存
 function saveOrder(){
-    new publicErrorDialog({
-        width:380,
-        height:220,
-        "title":"保存失败",
-        "error":'收到了发生了地方会计师fgddddddddddd快福建省的离开福建省理科的副驾驶了打开附件是了打开附件是打开附件水电费了凯撒'
-    });
-    return;
     //商品总数量
     var totalNum = 0;
     //总金额

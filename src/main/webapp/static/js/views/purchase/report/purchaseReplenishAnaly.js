@@ -6,6 +6,9 @@ $(function() {
 	
 	//初始化Datagrid
     initPurchaseReplenishAnalyDg();
+
+    //初始化时间的限制时间 最多选到明天
+    $("#replenishEndDate").val(dateUtil.addStartTime(dateUtil.getCurrDayPreOrNextDay("next",1)).format("yyyy-MM-dd"));
     
 });
 
