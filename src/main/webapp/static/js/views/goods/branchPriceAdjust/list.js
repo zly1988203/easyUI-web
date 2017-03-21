@@ -161,7 +161,7 @@ function delModifyPriceDialog() {
 		}
 	}
 	if(checkFlag){
-		$.messager.alert("提示","已经审核的单据不可以删除”");
+		$.messager.alert("提示","已经审核的单据不可以删除");
 		return;
 	}
 	
