@@ -184,6 +184,7 @@ function initAddModifyPriceGridEdit() {
 							options : {
 								min:0,
 								precision:4,
+                                onChange:changeNewSalePrice
 							}
 						}
 					}, {
@@ -216,6 +217,7 @@ function initAddModifyPriceGridEdit() {
 							options : {
 								min:0,
 								precision:4,
+								onChange:changeNewVipPrice
 							}
 						}
 					} ] ],
@@ -251,6 +253,26 @@ function initCheckbox(){
 	$("#memberPrice").on("click", function() {
 		datagridUtil.isCheckBoxChecked("memberPrice");
 	});
+}
+
+//设置新售价
+function changeNewSalePrice(newVal,oldVal) {
+	var newVipPrice = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'newVipPrice');
+	if(parseFloat(newVal) < parseFloat(newVipPrice)){
+		messager('新零售价不能小于新会员价')
+        gridHandel.setFieldValue('newSalePrice',parseFloat(oldVal))
+        return;
+	}
+}
+
+//设置新会员价
+function  changeNewVipPrice(newVal,oldVal) {
+	var newSalePrice = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'newSalePrice')
+    if(parseFloat(newVal) > parseFloat(newSalePrice)){
+        messager('新会员价不能大于新零售价')
+        gridHandel.setFieldValue('newVipPrice',parseFloat(oldVal))
+        return;
+    }
 }
 
 // 新增
