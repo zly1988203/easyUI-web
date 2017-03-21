@@ -11,6 +11,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.okdeer.jxc.common.enums.GoodsTypeEnum;
@@ -52,6 +53,10 @@ public class NewGoodsApplyImportHandle implements GoodsSelectImportHandle {
 	List<JSONObject> tempExcelListSuccessData = new ArrayList<JSONObject>();
 	
 	public NewGoodsApplyImportHandle(List<JSONObject> excelList, String[] excelField, GoodsSelectImportBusinessValid businessValid){
+		// 不需要判断货号条码模板，直接去除第一行标题行
+		if (!CollectionUtils.isEmpty(excelList)) {
+			excelList.remove(0);
+		}
 		this.excelListFullData = excelList;
 		this.businessValid = businessValid;
 		

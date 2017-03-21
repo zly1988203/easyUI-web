@@ -104,7 +104,7 @@
 			      <c:if test="${branchType == 1 || branchType == 0}">
 					<div class="ut-r umar-r10">范围:</div>
 	                <div class="ub ub-ac umar-r10">
-	                    <input class="ub radioItem" type="radio" name="guideType"  value=0 checked="checked"/><span>当前机构</span>
+	                    <input class="ub radioItem" type="radio" name="guideType"  value=0 checked="checked"/><span id="outGuideCurrBranch">当前机构</span>
 	                </div>
 	                <div class="ub ub-ac umar-r10">
 	                    <input class="ub radioItem" type="radio" name="guideType" value=1 /><span>所有自营店</span>
@@ -144,7 +144,7 @@
 			      <c:if test="${branchType == 1 || branchType == 0}">
 					<div class="ut-r umar-r8">范围:</div>
 	                <div class="ub ub-ac umar-r10">
-	                    <input class="ub radioItem" type="radio" name="stGuideType"  value="0" checked="checked"/><span>当前机构</span>
+	                    <input class="ub radioItem" type="radio" name="stGuideType"  value="0" checked="checked"/><span id="stopGuideCurrBranch">当前机构</span>
 	                </div>
 	                <div class="ub ub-ac umar-r10">
 	                    <!-- <input class="ub radioItem" type="radio" name="stGuideType" value="2" /><span>所有自营店</span> -->

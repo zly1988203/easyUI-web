@@ -434,6 +434,7 @@ function update(type,obj){
 function outGuide(obj){
 	if($(obj).hasClass('ubtns-item-disabled'))return;
 	resetGuideData();
+	$("#outGuideCurrBranch").html($("#branchName").val());
 	
 	$("#outGuideDailog").dialog('open');
 }
@@ -447,10 +448,12 @@ function checkOutGuide(){
 	var guideType = $("input[name='guideType']:checked").val();
 	var guideChoose = $("input[name='guideChoose']:checked").val();
 	var guideDate = $("#guideDatew").numberbox('getValue');
+	var branchCode = $("#branchCode").val();
 	var params = {
 			guideType:guideType,
 			guideChoose:guideChoose,
-			guideDate:guideDate
+			guideDate:guideDate,
+			branchCompleCode:branchCode
 	};
 	$("#goodsStatus").datagrid("options").queryParams = params;
 	$("#goodsStatus").datagrid("options").method = "post";
@@ -488,7 +491,7 @@ function resetGuideData(){
 function stopGuide(obj){
 	if($(obj).hasClass('ubtns-item-disabled'))return;
 	resetStopGuideData();
-	
+	$("#stopGuideCurrBranch").html($("#branchName").val());
 	$("#stopGuideDailog").dialog('open');
 }
 

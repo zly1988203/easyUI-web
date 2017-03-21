@@ -718,7 +718,8 @@ function check(){
 		    			});
 		    		}else{
 		            	new publicErrorDialog({
-                            width:300,
+                            width:380,
+                            height:220,
 		            		"title":"审核失败",
 		            		"error":result['message']
 		            	});
