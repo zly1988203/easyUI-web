@@ -27,8 +27,9 @@
 	            
 	            <div class="ub ub-ac umar-l20">
 	           	 	<div class="umar-r10 uw-70 ut-r">补货时间:</div>
+					<input id="replenishEndDate" name="replenishEndDate" type="hidden">
 	            	<input class="Wdate" readonly="readonly" name="replenishDate" id="replenishDate" 
-	            		onclick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})"/>
+	            		onclick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'#F{$dp.$D(\'replenishEndDate\');}'})"/>
 	            </div>
 	        </div>
 	

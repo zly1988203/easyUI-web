@@ -309,14 +309,6 @@ function queryForm(){
 	$("#diffSearchList").datagrid('load', fromObjStr);
 }
 
-//重置
-function gFunRefresh(){
-    $("#diffSearchList").datagrid('options').url = "";
-    initDgTakeStockDiffSearch();
-    // $("#diffSearchList").datagrid('options').url = "";
-    $('#diffSearchList').datagrid('loadData',[]);
-    initPageData();
-}
 /**
  * 机构名称
  */
