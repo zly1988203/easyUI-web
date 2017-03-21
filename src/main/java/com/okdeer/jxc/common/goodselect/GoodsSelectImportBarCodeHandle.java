@@ -17,6 +17,7 @@ import net.sf.json.JsonConfig;
 import net.sf.json.util.EnumMorpher;
 import net.sf.json.util.JSONUtils;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.okdeer.jxc.common.enums.GoodsTypeEnum;
@@ -38,6 +39,7 @@ public class GoodsSelectImportBarCodeHandle implements GoodsSelectImportHandle{
 	public static final String CODE_IS_BLANK = "条码为空";
 	public static final String CODE_IS_REPEAT = "条码重复";
 	public static final String NOT_EXISTS = "找不到该商品或者该商品状态不正确";
+	public static final String ERROR_TEMPLATE = "模板使用错误";
 
 	List<JSONObject> excelListFullData = null;
 	List<JSONObject> excelListSuccessData = null;
@@ -51,18 +53,33 @@ public class GoodsSelectImportBarCodeHandle implements GoodsSelectImportHandle{
 	List<JSONObject> tempExcelListSuccessData = new ArrayList<JSONObject>();
 	
 	public GoodsSelectImportBarCodeHandle(List<JSONObject> excelList, String[] excelField, GoodsSelectImportBusinessValid businessValid){
-		this.excelListFullData = excelList;
+		// 第一条记录为标题行，取出第一条记录用于判断模板
+		if (!CollectionUtils.isEmpty(excelList)) {
+			JSONObject title = excelList.get(0);
+			// 没有货号字段，视为错误模板
+			if (!title.containsValue("条码")) {
+				for (int i = 0; i < excelList.size(); i++) {
+					JSONObject obj = excelList.get(i);
+					obj.element("error", ERROR_TEMPLATE);
+				}
+			}
+			// 去除标题行，留下数据
+			excelList.remove(0);
+			this.excelListFullData = excelList;
+			//刷新
+			refreshSuccessData();
+		} else {
+			this.excelListFullData = excelList;
+		}
 		this.businessValid = businessValid;
 		//检验标记出BarCode重复或者为空的数据
 		checkBarCodeIsNullAndRepeat();
 		
 		if(businessValid != null){
-
 			// 深度拷贝正确的数据
 			tempExcelListSuccessData.addAll(excelListSuccessData);
 			//业务校验
 			businessValid.businessValid(excelListSuccessData, excelField);
-			
 			//刷新
 			refreshSuccessData();
 		}
@@ -134,8 +151,8 @@ public class GoodsSelectImportBarCodeHandle implements GoodsSelectImportHandle{
 	private void checkBarCodeIsNullAndRepeat(){
 		
 		Map<String,Integer> barCodeSet = new LinkedHashMap<String,Integer>();
-		for (int i = 0; i < excelListFullData.size(); i++) {
-			JSONObject obj = excelListFullData.get(i);
+		for (int i = 0; i < excelListSuccessData.size(); i++) {
+			JSONObject obj = excelListSuccessData.get(i);
 			String objBarCode = obj.getString("barCode");
 			
 			String isGift = "";
@@ -151,7 +168,7 @@ public class GoodsSelectImportBarCodeHandle implements GoodsSelectImportHandle{
 			if(barCodeSet.keySet().contains(objBarCode+isGift)){
 				//取出原来重复的数据,标记重复
 				Integer index = barCodeSet.get(objBarCode+isGift);
-				JSONObject existsObj = excelListFullData.get(index);
+				JSONObject existsObj = excelListSuccessData.get(index);
 				obj.element("error", CODE_IS_REPEAT);
 				if(existsObj.get("error") == null){
 					existsObj.element("error", CODE_IS_REPEAT);
