@@ -626,7 +626,7 @@ function saveOrder(){
                         strResult += item.goodsName+" ,库存数量： "+item.number+",";
                     })
                 }
-                successTip(result['message'] +","+strResult);
+                successTip(result['message']);
             }
         },
         error:function(result){
