@@ -37,14 +37,14 @@
                 <div class="ubtns-item" onclick="orderDelete()">删单</div>
              </shiro:hasPermission>
              <shiro:hasPermission name="JxcOverdueApply:delete">
-               <%--  <c:choose>
-		      	<c:when test="${form.status == 3}"> --%>
+               <c:choose>
+		      	<c:when test="${form.status == 3}">
 		      		<div class="ubtns-item" onclick="commit()" >提交</div>
-		      	<%-- </c:when>
+		      	</c:when>
 		      	<c:otherwise>
 		      		<div class="ubtns-item-disabled">提交</div>
 		      	</c:otherwise>
-		      </c:choose> --%>
+		      </c:choose>
              </shiro:hasPermission>
             <shiro:hasPermission name="JxcOverdueApply:audit">
 		      		<div class="ubtns-item" onclick="check()" >审核</div>
