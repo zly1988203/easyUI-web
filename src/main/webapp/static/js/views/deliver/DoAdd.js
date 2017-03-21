@@ -827,7 +827,10 @@ function selectSourchBranches(){
 var isSelectDeliver = false;    //true导入的是要货单号
 function selectDeliver(){
 	var referenceId = "";
-	new publicDeliverFormService("DA",function(data){
+    var param = {
+        type:'DA'
+    }
+	new publicDeliverFormService(param,function(data){
         isSelectDeliver = true;
 		referenceId = data.id;
 		$("#referenceId").val(referenceId);

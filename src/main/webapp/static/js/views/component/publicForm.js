@@ -17,21 +17,25 @@ $(function(){
 
 var formCallBack ;
 var deliverFormCallBack;
+var param = null;
 //初始化回调函数
 function initFormCallBack(cb){
     formCallBack = cb;
 }
 //初始化回调函数
-function initDeliverFormCallBack(cb){
+function initDeliverFormCallBack(cb,param){
 	deliverFormCallBack = cb;
+    param = param;
 }
 //搜索
 function formCx(){
 	var formNo=$("#formNo").val();
 	var type = $("#type").val();
+
 	if($("#type").val()=='DA'||$("#type").val()=='DO'||$("#type").val()=='DI'){
 		var endTime=$("#popupSearchDateTime").val();
-		$("#gridForm").datagrid("options").queryParams = {formNo:formNo,endTime:endTime,formType:type};
+		var targetBranchId = param.targetBranchId?param.targetBranchId:"";
+		$("#gridForm").datagrid("options").queryParams = {formNo:formNo,endTime:endTime,formType:type,targetBranchId:targetBranchId};
 		$("#gridForm").datagrid("options").url = contextPath+'/form/deliverSelect/getDeliverFormList';
 	}else{
 		  $("#gridForm").datagrid("options").queryParams = {formNo:formNo,formType:type};
@@ -118,7 +122,8 @@ function initDatagridDeliverForm(type){
 		var endTime=$("#popupSearchDateTime").val();
 		data = {endTime:endTime,formType:type};
 	}else{
-		data = {formType:type};
+        var targetBranchId = param.targetBranchId?param.targetBranchId:"";
+		data = {formType:type,targetBranchId:targetBranchId};
 	}
     $("#gridForm").datagrid({
         //title:'普通表单-用键盘操作',

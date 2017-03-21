@@ -818,7 +818,10 @@ function selectDeliver(){
 		return;
 	}
 	var referenceId = "";
-	new publicDeliverFormService ("DA",function(data){
+    var param = {
+        type:'DA'
+    }
+	new publicDeliverFormService (param,function(data){
 		referenceId = data.id;
 		$("#referenceId").val(referenceId);
 		$("#referenceNo").val(data.formNo);

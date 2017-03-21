@@ -358,7 +358,7 @@ function saveModifyPriceOrder() {
             for(var i=0;i<detailList.length;i++){
                 var item = detailList[i];
                 if(parseFloat(item["newSalePrice"]) < parseFloat(item["newVipPrice"])){
-                    messager("第"+(i+1)+"行，新会员价要小于新销售价");
+                    messager("第"+(i+1)+"行，新会员价只能小于或等于新销售价");
                     isCheck = false;
                     break;
                 };
@@ -406,7 +406,7 @@ function saveModifyPriceOrder() {
   }
 // 修改调价单
 function updateModifyPriceOrder() {
-	gFunStartLoading();
+		gFunStartLoading();
 		// datagrid是否存在数据，存在为true，不存在为false，则提示用户输入
 		var formData = $('#searchForm').serializeObject();
 		var detailList =  getDatagridRows();
@@ -425,7 +425,7 @@ function updateModifyPriceOrder() {
 		for(var i=0;i<detailList.length;i++){
 			var item = detailList[i];
 		      if(parseFloat(item["newSalePrice"]) < parseFloat(item["newVipPrice"])){
-		          messager("第"+(i+1)+"行，新会员价要小于新销售价");
+		          messager("第"+(i+1)+"行，新会员价只能小于或等于新销售价");
 		          isCheck = false;
 		          break;
 		      }
