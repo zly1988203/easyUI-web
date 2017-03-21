@@ -56,7 +56,7 @@
 		            	<c:forEach var="i2" items="${i1.child }">
 		                <li class="ub ">
 		                    <div class="ub level">
-		                        <div class="ub ub-ac ub-pc uw-128 bor-rb">
+		                        <div class="ub ub-ac upad-l10 uw-128 bor-rb">
 		                            <label>
 		                            	<input type="checkbox" id="${i2.id }" parentId="${i2.parentId }" level="${i2.level }" 
 		                            		class="parentNode twoNode" <c:if test="${i2.checked eq true }"> checked=checked </c:if> />${i2.name }
@@ -66,7 +66,7 @@
 		                    <ul class="ub ub-ver levelContent three">
 		                        <c:forEach var="i3" items="${i2.child }">
 		                        <li class="ub">
-		                            <div class="ub ub-ac ub-pc uw-150 bor-rb level">
+		                            <div class="ub ub-ac uw-150 upad-l10 bor-rb level">
 		                                <label>
 		                                	<input type="checkbox" id="${i3.id }" parentId="${i3.parentId }" level="${i3.level }" 
 		                            			class="parentNode threeNode" <c:if test="${i3.checked eq true }"> checked=checked </c:if> />${i3.name }
