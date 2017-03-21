@@ -78,7 +78,7 @@ function setFormValue(formData){
     }
 
 	$(':radio[name=guideType]').eq(formData.guideType - 1).prop('checked', true);
-	if(formData.guideType != '1' || formData.guideType != '2'){
+	if(formData.guideType === 3){
         $('#startTime').removeProp('disabled');
         $('#startTime').removeClass('uinp-no-more');
         $('#endTime').removeProp('disabled');
@@ -97,6 +97,7 @@ function setFormValue(formData){
 function selectBranches(){
 	new publicAgencyService(function(data){
 		$("#branchId").val(data.branchesId);
+		$("#branchParentId").val(data.parentId);
 		$("#branchCode").val(data.branchCode);
 		$("#branchCompleCode").val(data.branchCompleCode);
 		$("#branchType").val(data.type);
@@ -120,8 +121,12 @@ function selectSupplier(){
 	
 	if(!supplierId){
 		param = {
-				supplierCodeOrName : supplierCodeName,
-				branchId : branchId
+			supplierCodeOrName : supplierCodeName,
+			branchId : branchId
+		};
+	}else{
+		param = {
+			branchId : branchId
 		};
 	}
 	

@@ -330,7 +330,7 @@ function submitForm(){
 	            editor:{  
                     type:'numberspinner',  
                     options: {  
-                        increment:10,
+                        increment:0.1,
                         precision:2,
                         min:0.10,  
                         max:999.90,  

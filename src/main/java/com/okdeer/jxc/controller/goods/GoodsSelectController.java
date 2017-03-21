@@ -204,7 +204,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 		if (StringUtils.isEmpty(targetBranch.getPriceSpec())) {
 			targetBranch.setPriceSpec(BranchPriceSpecEnum.COST_PRICE.getKey());
 		}
-		// 要货机构:自营店A
+		// 要货机构:自营店A\物流中心
 		if (BranchTypeEnum.SELF_STORE.getCode().equals(targetBranch.getBranchType())) {
 			return queryByBranchTypeGetGoodsAndPrice_A_Target(vo, targetBranch);
 		}
@@ -214,13 +214,11 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 			vo.setPriceSpec(BranchPriceSpecEnum.DISTRIBUTION_PRICE.getKey());
 			return goodsSelectServiceApi.queryByBranchTypeGetGoodsAndPrice_A_SourceBranch_Target(vo);
 		}
-		// 要货机构:为分公司、物流中心
+		// 要货机构:为分公司\物流中心
 		if (BranchTypeEnum.BRANCH_OFFICE.getCode().equals(targetBranch.getBranchType())
 				|| BranchTypeEnum.LOGISTICS_CENTER.getCode().equals(targetBranch.getBranchType())) {
 			return queryByBranchTypeGetGoodsAndPrice_A_Source(vo, targetBranch);
 		}
-		
-		
 		return null;
 	}
 
@@ -240,6 +238,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 		BranchesGrow sourceBranch = branchesService.queryBranchesAndSpecByBranchId(vo.getSourceBranchId());
 		// 自营店A 发货机构与要货机构并集
 		if (BranchTypeEnum.SELF_STORE.getCode().equals(sourceBranch.getBranchType())) {
+			// 默认进货机构和发货机构的交集
 			if (StringUtils.isEmpty(targetBranch.getSelectGoodsSpec())
 					|| BranchSelectGoodsSpecEnum.INTERSECTION_SELECT_GOODS.getKey().equals(
 							targetBranch.getSelectGoodsSpec())) {
@@ -260,7 +259,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 	}
 
 	/**
-	 * @Description: 要货机构:自营店A，根据配送设置取要货机构成本价或发货机构配送价，根据配送设置取发货机构商品或发货机构与要货机构并集,
+	 * @Description: 要货机构:自营店A，根据配送设置取要货机构成本价或发货机构配送价，根据配送设置取发货机构商品或发货机构与要货机构交集,
 	 * 				  	        自营店要货价格直接取物流配送价；（不启用则默认为自身成本价）,
 	 * 				  	        自营店要货可以要仓库所有对外供应商品；（不启用则只能要仓库供应且自身有卖的商品）
 	 * 				 要货机构:加盟店B\C，发货机构配送价， 发货机构商品
@@ -273,7 +272,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 	private PageUtils<GoodsSelect> queryByBranchTypeGetGoodsAndPrice_A_Target(GoodsSelectVo vo,
 			BranchesGrow targetBranch) {
 		vo.setPriceSpec(targetBranch.getPriceSpec());
-		// 发货机构与要货机构并集
+		// 默认进货机构和发货机构的交集
 		if (StringUtils.isEmpty(targetBranch.getSelectGoodsSpec())
 				|| BranchSelectGoodsSpecEnum.INTERSECTION_SELECT_GOODS.getKey().equals(
 						targetBranch.getSelectGoodsSpec())) {
