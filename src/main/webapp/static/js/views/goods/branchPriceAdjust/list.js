@@ -141,9 +141,30 @@ function selectOperator(){
 	});
 }
 function delModifyPriceDialog() {
+	debugger;
 	// 是否选择的datagrid的行，选择为true，未选择为false，则提示用户选择
 	// 确定删除，调用后台删除方法
 	var rows = $('#branchPriceAdjustGrid').datagrid('getSelections');
+	
+	var dg = $("#branchPriceAdjustGrid");
+	var row = dg.datagrid("getChecked");
+	var ids = [];
+	if(row.length <= 0){
+		$.messager.alert("提示","请先选择数据！");
+		return;
+	}
+	var checkFlag = false; //审核标示
+	for(var i=0; i<row.length; i++){
+		ids.push(row[i].deliverFormId);
+		if(row[i].status == '1'){
+			checkFlag = true;
+		}
+	}
+	if(checkFlag){
+		$.messager.alert("提示","已经审核的单据不可以删除”");
+		return;
+	}
+	
 	if(datagridUtil.isSelectRows()){
 		var ids = '';
 		 $.each(rows,function(i,val){
