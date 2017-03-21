@@ -30,6 +30,7 @@
 					<input type="hidden" id="branchCode" name="branchCode" />
 					<input type="hidden" id="branchCompleCode" name="branchCompleCode" />
 					<input type="hidden" id="branchType" name="branchType" />
+					<input type="hidden" id="branchParentId" name="branchParentId" />
 					<input class="uinp ub ub-f1 easyui-validatebox" type="text" id="branchCodeName" name="branchCodeName" 
 						maxlength="50" readOnly data-options="required:true" onclick="selectBranches()" />
 					<div class="uinp-more" onclick="selectBranches()" >...</div>

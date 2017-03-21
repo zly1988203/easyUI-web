@@ -16,7 +16,7 @@ function initSupplierView(param){
 		supplierCodeOrName = "";
 	}
 	
-	var branchId = param.branchId;
+	branchId = param.branchId;
 	if(!branchId){
 		branchId=$("#branchId").val();
 	}
@@ -74,7 +74,12 @@ var supplierAreaCode=null;
 function zTreeOnClick(event, treeId, treeNode) {
 	supplierAreaCode=treeNode.code;
 	var supplierNameOrsupplierCode=$("#supplierNameOrsupplierCode").val();
-   $("#gridSupplier").datagrid("options").queryParams = {supplierAreaCode:supplierAreaCode,saleWayNot:saleWayNot,supplierNameOrsupplierCode:supplierNameOrsupplierCode};
+   $("#gridSupplier").datagrid("options").queryParams = {
+	   	supplierAreaCode:supplierAreaCode,
+	   	saleWayNot:saleWayNot,
+    	branchId:branchId,
+    	supplierNameOrsupplierCode:supplierNameOrsupplierCode
+   };
    $("#gridSupplier").datagrid("options").method = "post";
    $("#gridSupplier").datagrid("options").url =contextPath + "/common/supplier/getComponentList",
    $("#gridSupplier").datagrid("load");
