@@ -10,6 +10,7 @@ package com.okdeer.jxc.controller.stock;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -113,7 +114,7 @@ public class StockLeadController extends BasePrintController<StockLeadController
 		} catch (Exception e) {
 			LOG.error("获取领用单列表信息异常:{}", e);
 		}
-		return null;
+		return PageUtils.emptyPage();
 	}
 
 	/**
@@ -183,7 +184,7 @@ public class StockLeadController extends BasePrintController<StockLeadController
 		} catch (Exception e) {
 			LOG.error("获取领用单信息异常:{}", e);
 		}
-		return null;
+		return new ArrayList<>();
 	}
 
 	/**

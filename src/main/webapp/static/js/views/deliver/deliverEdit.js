@@ -283,14 +283,6 @@ function initDatagridEditRequireOrder(){
   	           			return '<span style="color:black;"><b>'+parseFloat(value||0).toFixed(2)+'</b></span>';
   	           		}
                     
-                },
-                styler:function(value,row,index){
-                    if(parseFloat(row.applyNum)+parseFloat(row.alreadyNum) > parseFloat(row.sourceStock)){
-                    	return 'color:red;';
-                      	 
-   	           		}else{
-   	           			return 'color:black;'
-   	           		}	
                 }
 //                editor:{
 //                    type:'numberbox',
@@ -316,14 +308,6 @@ function initDatagridEditRequireOrder(){
    	           			return '<span style="color:black;"><b>'+parseFloat(value||0).toFixed(2)+'</b></span>';
    	           		}
 
-                },
-                styler:function(value,row,index){
-                    if(parseFloat(row.applyNum)+parseFloat(row.alreadyNum) > parseFloat(row.sourceStock)){
-                    	return 'color:red;';
-                      	 
-   	           		}else{
-   	           			return 'color:black;'
-   	           		}	
                 }
             },
             {field:'remark',title:'备注',width:'200px',align:'left',editor:'textbox'}
@@ -346,39 +330,12 @@ function initDatagridEditRequireOrder(){
             }
             gridHandel.setDatagridHeader("center");
 
-            updateRowsStyle();
+            //updateRowsStyle();
             updateFooter();
         },
     });
 }
 
-function updateRowsStyle(){
-	 var rows =  gridHandel.getRows();
-    $.each(rows,function(i,row){
-		if(typeof(row.sourceStock) != 'undefined' && typeof(row.applyNum) != 'undefined'
-			&& typeof(row.alreadyNum) != 'undefined'){
-			var alreadyNumopts = gridHandel.getColumnOption('alreadyNum');
-			var sourceStockopts = gridHandel.getColumnOption('sourceStock');
-    		if(parseFloat(row.applyNum)+parseFloat(row.alreadyNum) > parseFloat(row.sourceStock)){
-    			alreadyNumopts.styler = function(value,row,index){
-    				return "color:red";
-    			}
-    			sourceStockopts.styler = function(value,row,index){
-    				return "color:red";
-    			} 
-    		}else{
-    			alreadyNumopts.styler = function(value,row,index){
-    				return "color:black";
-    			} 
-    			
-    			sourceStockopts.styler = function(value,row,index){
-    				return "color:black";
-    			} 
-    		}	
-    		$('#gridEditRequireOrder').datagrid('updateRow',{index:i,row:row})
-		}
-    });
-}
 
 //限制转换次数
 var n = 0;
@@ -415,7 +372,6 @@ function onChangeLargeNum(newV,oldV){
     	n=1;
         gridHandel.setFieldValue('applyNum',(purchaseSpecValue*newV).toFixed(4));//数量=商品规格*箱数 
     }
-//    updateRowsStyle();
     updateFooter();
 }
 //监听商品数量
@@ -462,7 +418,6 @@ function onChangeRealNum(newV,oldV) {
         gridHandel.setFieldValue('largeNum',largeNumVal);   //箱数=数量/商品规格
     }
     /*gridHandel.setFieldValue('largeNum',(newV/purchaseSpecValue).toFixed(4));   //箱数=数量/商品规格*/
-//    updateRowsStyle();
     updateFooter();
 }
 //监听商品单价
