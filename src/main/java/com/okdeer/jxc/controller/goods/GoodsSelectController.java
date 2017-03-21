@@ -17,6 +17,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import net.sf.json.JSONArray;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
@@ -54,8 +56,6 @@ import com.okdeer.jxc.goods.vo.GoodsSelectVo;
 import com.okdeer.jxc.goods.vo.GoodsSkuVo;
 import com.okdeer.jxc.goods.vo.GoodsStockVo;
 import com.okdeer.jxc.utils.UserUtil;
-
-import net.sf.json.JSONArray;
 
 /**
  * ClassName: GoodsSelectController 
@@ -219,7 +219,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 				|| BranchTypeEnum.LOGISTICS_CENTER.getCode().equals(targetBranch.getBranchType())) {
 			return queryByBranchTypeGetGoodsAndPrice_A_Source(vo, targetBranch);
 		}
-		return null;
+		return PageUtils.emptyPage();
 	}
 
 	/**
@@ -254,7 +254,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 			return goodsSelectServiceApi.queryByBranchTypeGetGoodsAndPrice_A_SourceBranch_Source(vo);
 		} else {
 			LOG.error("发货机构类型错误！");
-			return null;
+			return PageUtils.emptyPage();
 		}
 	}
 

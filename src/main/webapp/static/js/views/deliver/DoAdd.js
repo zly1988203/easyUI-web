@@ -502,8 +502,15 @@ function selectGoods(searchKey){
         messager("已选要货单号，不允许添加其他商品");
         return;
     }
-    
-    new publicGoodsService("DO",function(data){
+    var param = {
+        type:'DO',
+        key:searchKey,
+        branchId:sourceBranchId,
+        sourceBranchId:sourceBranchId,
+        targetBranchId:targetBranchId,
+        flag:'0'
+    }
+    new publicGoodsServiceTem(param,function(data){
         if(searchKey){
             $("#gridEditOrder").datagrid("deleteRow", gridHandel.getSelectRowIndex());
             $("#gridEditOrder").datagrid("acceptChanges");
@@ -517,7 +524,7 @@ function selectGoods(searchKey){
             gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
         },100)
         
-    },searchKey,'',sourceBranchId,targetBranchId,sourceBranchId,'',"0");
+    });
 }
 
 //二次查询设置值
@@ -872,22 +879,7 @@ function loadLists(referenceId){
         }
     });
 }
-/**
- * 调用导入功能 0导入货号 1导入明细
- * @param type
- */
-function toImportproduct(type){
-    var branchId = $("#targetBranchId").val();
-    if(!branchId){
-        messager("请先选择收货机构");
-        return;
-    }
-    if(type==0){
-        importproduct();
-    }else{
-        importproductAll();
-    }
-}
+
 /**
  * 导入
  */
