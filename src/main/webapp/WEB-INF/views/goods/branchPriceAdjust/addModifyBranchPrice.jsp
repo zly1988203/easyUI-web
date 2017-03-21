@@ -97,6 +97,7 @@
              <input type="hidden" id="close" value="${close}"/>
             </div>
         </div>
+        <form action="" id="searchForm" method="post">
         <div class="ub ub-ac umar-t8">
           	 <div class="ub  uc-black" >【单号】:</div>
           	 <div class="ub " id="formNo">${goodsPriceForm.formNo}</div>
@@ -105,7 +106,7 @@
         </div>
        	 <div class="ub uline umar-t8" ></div>
        	 
-		<form action="" id="searchForm" method="post">
+       	 <input id="formNoInput" name="formNo" value="${goodsPriceForm.formNo}" type="hidden">
 		 <input id="formNoInput" name="formNoInput" value="${goodsPriceForm.formNo}" type="hidden">
 		 <input id="id" name="id" value="${goodsPriceForm.id}" type="hidden">
         <div class="ub ub-ver umar-t12">

@@ -21,7 +21,7 @@
             <shiro:hasPermission name="JxcBranchPriceAdjust:delete">
 	            <div class="ubtns-item" onclick="delModifyPriceDialog();">删除</div>
 	        </shiro:hasPermission>
-	            <div class="ubtns-item" onclick="gFunRefresh()">设置</div>
+	            <div class="ubtns-item-disabled" >设置</div>
 	            <div class="ubtns-item" onclick="window.parent.closeTab()">关闭</div>
             </div>
 			<div class="ub">
