@@ -144,6 +144,7 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
 	vo.setPageSize(pageSize);
 	vo.setEndTime(Date.from(vo.getEndTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().plusDays(1).atZone(ZoneId.systemDefault()).toInstant()));
 	vo.setStatus(Byte.valueOf("1"));
+	vo.setUserBranchCode(getCurrentUser().getBranchCode());
 	PageUtils<OverdueFormDto> suppliers;
 	try {
 	    suppliers = overdueFormService.selectApprovedList(vo);
@@ -175,6 +176,7 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
 	vo.setPageNumber(pageNumber);
 	vo.setPageSize(pageSize);
 	vo.setEndTime( Date.from(vo.getEndTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().plusDays(1).atZone(ZoneId.systemDefault()).toInstant()));
+	vo.setUserBranchCode(getCurrentUser().getBranchCode());
 	PageUtils<OverdueFormDto> suppliers;
 	try {
 	    suppliers = overdueFormService.selectApprovedListData(vo);
