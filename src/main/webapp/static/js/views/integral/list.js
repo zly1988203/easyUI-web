@@ -29,7 +29,7 @@ function initGrid() {
             {field: 'picUrl', title: '标准商品图片url', width: '0px;', hidden:true},
             {field:'skuCode',title:'货号',width:'200px',align:'left',
             	formatter: function(value,row,index){
-                    return "<a href='#' onclick=\"openDialog('"+contextPath+"/integral/giftManager/updateView?id="+row.id+"')\" class='ualine'>"+value+"</a>";
+                    return "<a  onclick=\"openDialog('"+contextPath+"/integral/giftManager/updateView?id="+row.id+"')\" class='ualine'>"+value+"</a>";
             	}
              },
             {field: 'skuName', title: '礼品名称', width: '200px', align: 'left'},
