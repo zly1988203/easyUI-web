@@ -82,7 +82,6 @@ function initOperateDataGrid(){
 			    },
 			},
             {field:'skuId',hidden:'true'},
-            {field:'barCode',hidden:'true'},
             {field:'skuCode',title:'货号',width: '100px',align:'left',
 			    formatter : function(value, row,index) {
 			        var str = "";
@@ -94,6 +93,9 @@ function initOperateDataGrid(){
 			        return str;
 			    }
             },
+            {field:'barCode',title:'条码',width:'120px',align:'left'},
+            {field:'spec',title:'规格',width:'60px',align:'left'},
+            {field:'unit',title:'单位',width:'60px',align:'left'},
             {field:'skuName',title:'商品名称',width:'200px',align:'left'},
             {field:'snapshootStockNum',title:'系统库存',width:'100px',align:'right',
                 formatter:function(value,row,index){
@@ -146,7 +148,7 @@ function initOperateDataGrid(){
                         onChange:reasonChange
 	                }
             	}},
-            {field:'snapshootCostPrice',title:'原库存成本价',width:'150px',align:'right',
+            {field:'snapshootCostPrice',title:'原库存成本价',width:'120px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -156,6 +158,17 @@ function initOperateDataGrid(){
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
+			},
+			{field:'snapshootSalePrice',title:'零售价',width:'120px',align:'right',
+				formatter:function(value,row,index){
+					if(row.isFooter){
+						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+					}
+					if(!value){
+						row["snapshootCostPrice"] = parseFloat(value||0).toFixed(2);
+					}
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				},
 			},
             {field:'costAmount',title:'原库存金额（成本价）',width:'150px',align:'right',
                 formatter:function(value,row,index){

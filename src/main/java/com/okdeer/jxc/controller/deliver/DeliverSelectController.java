@@ -51,9 +51,10 @@ public class DeliverSelectController extends BaseController<PurchaseForm> {
 	 * @date 2016年8月11日
 	 */
 	@RequestMapping(value = "view")
-	public String view(String type, Model model) {
+	public String view(String type,String targetBranchId, Model model) {
 		LOG.info("制定调拨单选择页面参数:{}"+type);
 		model.addAttribute("type", type);
+		model.addAttribute("targetBranchId", targetBranchId);
 		return "component/publicForm";
 	}
 
@@ -95,7 +96,9 @@ public class DeliverSelectController extends BaseController<PurchaseForm> {
 				// 如果是配送出库说明登录店铺是根据出库单收货，登录店铺id就是target_branch_id
 				vo.setTargetBranchId(UserUtil.getCurrBranchId());
 			} else if (FormType.DI.toString().equals(vo.getFormType())) {
-				vo.setTargetBranchId(UserUtil.getCurrBranchId());
+				if(StringUtils.isBlank(vo.getTargetBranchId())){
+					vo.setTargetBranchId(UserUtil.getCurrBranchId());
+				}
 			} else {
 				LOG.warn("查询配送单号类型错误!");
 				return null;

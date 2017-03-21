@@ -60,9 +60,8 @@ public class PurchaseSelectController extends BaseController<PurchaseSelectContr
 	 * @date 2016年8月6日
 	 */
 	@RequestMapping(value = "view")
-	public String view(String type,String targetBranchId, Model model) {
+	public String view(String type, Model model) {
 		model.addAttribute("type", type);
-		model.addAttribute("targetBranchId", targetBranchId);
 		return "component/publicForm";
 	}
 
