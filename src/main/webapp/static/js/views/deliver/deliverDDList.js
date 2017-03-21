@@ -99,7 +99,7 @@ function initDatagridRequireOrders(){
 			},*/
             {field: 'targetBranchName', title: '收货机构', width: '200px', align: 'left'},
             {field: 'createUserName', title: '制单人员', width: '130px', align: 'left'},
-            {field: 'createTime', title: '制单时间', width: '120px', align: 'center',
+            {field: 'createTime', title: '制单时间', width: '150px', align: 'center',
 				formatter: function (value, row, index) {
 					if (value) {
 						return new Date(value).format('yyyy-MM-dd hh:mm:ss');
