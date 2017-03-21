@@ -918,9 +918,11 @@ function getImportData(data){
 
 //新的导入功能 货号(0)、条码(1)导入
 function toImportproduct(type){
+    // 要货机构id
+    var targetBranchId = $("#targetBranchId").val();
+    // 发货机构id
+    var sourceBranchId = $("#sourceBranchId").val();
 	//判定收货机构是否存在
-	var sourceBranchId = $("#sourceBranchId").val();
-	var targetBranchId = $("#targetBranchId").val();
     if(targetBranchId == ""){
         messager("请先选择收货机构");
         return;
@@ -933,7 +935,9 @@ function toImportproduct(type){
         url:contextPath+"/form/deliverForm/reportList",
         tempUrl:contextPath+"/form/deliverForm/exportReport",
         type:type,
-        branchId:sourceBranchId,
+        targetBranchId : targetBranchId,
+        sourceBranchId : sourceBranchId,
+        formType:'DO'
     }
     new publicUploadFileService(function(data){
     	if (data.length != 0) {
