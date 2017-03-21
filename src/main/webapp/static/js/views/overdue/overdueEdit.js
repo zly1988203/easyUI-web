@@ -259,11 +259,7 @@ $(function(){
 	//选择商品
 	function selectGoods(searchKey){
 	    //判定供应商是否存在
-		var supplierId = $("#supplierId").val();
-	    if(supplierId==""){
-	        messager("请先选择供应商");
-	        return;
-	    }
+		var supplierId = "";
 	    
 	    var branchId = $("#branchId").val();
 	    if(!branchId){
