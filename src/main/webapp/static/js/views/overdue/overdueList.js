@@ -63,15 +63,32 @@ function initDatagridOrders(){
             {field:'branchName',title:'机构名称',width:'140px',align:'left'},
             {field:'skuCode',title:'货号',width:'120px',align:'left'},
             {field:'skuName',title:'名称',width:'140px',align:'left'},
-            {field:'barCode',title:'条码',width:'80px',align:'right'},
-            {field:'unit',title:'单位',width:'80px',align:'right'},
-            {field:'spec',title:'规格',width:'80px',align:'right'},
-            {field:'applyNum',title:'数量',width:'80px',align:'right'},
-            {field:'applyPrice',title:'售价',width:'80px',align:'right'},
-            {field:'applyAmount',title:'金额',width:'80px',align:'right'},
-            {field:'applyDesc',title:'申请说明',width:'80px',align:'right'},
-            {field:'auditDesc',title:'处理意见',width:'80px',align:'right'},
-            {field:'formNo',title:'单号',width:'80px',align:'right'},
+            {field:'barCode',title:'条码',width:'120px',align:'left'},
+            {field:'unit',title:'单位',width:'80px',align:'left'},
+            {field:'spec',title:'规格',width:'80px',align:'left'},
+            
+            {field:'applyNum',title:'数量',width:'80px',align:'right',formatter : function(value, row, index) {
+				if(row.isFooter){
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				}
+				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+			}},
+            {field:'applyPrice',title:'零售价',width:'80px',align:'right',formatter : function(value, row, index) {
+				if(row.isFooter){
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				}
+				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+			}},
+            {field:'applyAmount',title:'金额',width:'80px',align:'right',formatter : function(value, row, index) {
+				if(row.isFooter){
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				}
+				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+			}},
+            
+            {field:'applyDesc',title:'申请说明',width:'200px',align:'left'},
+            {field:'auditDesc',title:'处理意见',width:'200px',align:'left'},
+            {field:'formNo',title:'单号',width:'200px',align:'left'},
             /*
 				formatter : function(value, row, index) {
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -86,7 +103,7 @@ function initDatagridOrders(){
                 }
                 return "";
             }},*/
-            {field:'validUserName',title:'审核人',width:'130px',align:'left'},
+            {field:'validUserName',title:'审核人',width:'80px',align:'left'},
             {field:'remark',title:'备注',width:'200px',align:'left'}
         ]],
 		onLoadSuccess : function() {

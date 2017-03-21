@@ -25,6 +25,7 @@ import java.time.LocalDateTime;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.codec.net.URLCodec;
 import org.apache.commons.io.FileUtils;
 import org.hamcrest.Matchers;
 import org.junit.After;
@@ -48,6 +49,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.okdeer.jxc.Application;
 import com.okdeer.jxc.common.constant.Constant;
+import com.okdeer.jxc.common.goodselect.GoodsSelectImportHandle;
 import com.okdeer.jxc.config.test.ResourceConfig;
 import com.okdeer.jxc.config.test.ShiroConfiguration;
 import com.okdeer.jxc.system.entity.SysUser;
@@ -290,7 +292,9 @@ public class OverdueFormControllerTest {
 	MvcResult result = mockMvc.perform(post("/form/overdue/exports"))
 		.andDo(print()) // print request and response to Console
 		.andReturn(); 
-	String filename = result.getResponse().getHeaderValue("filename").toString();
+	String contentDisposition =  result.getResponse().getHeaders("Content-Disposition").get(0);
+	Assert.assertNotNull(contentDisposition);
+	String filename = new String(URLCodec.decodeUrl(contentDisposition.replace("attachment;filename=", "").getBytes()));
 	Assert.assertNotNull(filename);
 	byte[] io = result.getResponse().getContentAsByteArray();
 	FileUtils.writeByteArrayToFile(new File(System.getProperty("user.dir")+"/src/test/resources/tmp/"+filename), io);
@@ -300,8 +304,13 @@ public class OverdueFormControllerTest {
     }
 
     @Test
-    public void testExportTemp() {
-	fail("Not yet implemented");
+    public void testExportTemp() throws Exception {
+	MvcResult result = mockMvc.perform(post("/form/overdue/export/templ").content(GoodsSelectImportHandle.TYPE_SKU_CODE))
+		.andDo(print()) // print request and response to Console
+		.andReturn(); 
+	int status = result.getResponse().getStatus();  
+	Assert.assertTrue("错误，正确的返回值为200", status == 200);  
+	Assert.assertFalse("错误，正确的返回值为200", status != 200);  
     }
 
     @Test

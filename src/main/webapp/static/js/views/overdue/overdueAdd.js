@@ -107,7 +107,7 @@ function initDatagridEditOrder(){
                     }
                 },
             },
-            {field:'applyPrice',title:'单价',width:'80px',align:'right',
+            {field:'applyPrice',title:'零售价',width:'80px',align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return;
@@ -122,9 +122,9 @@ function initDatagridEditOrder(){
                     options:{
                         min:0,
                         precision:4,
-                        onChange: onChangePrice,
+                        disabled:true
                     }
-                },
+                }
             },
             {field:'applyAmount',title:'金额',width:'80px',align:'right',
                 formatter : function(value, row, index) {
@@ -256,7 +256,8 @@ function selectGoods(searchKey){
             id:'skuId',
             disabled:'',
             pricingType:'',
-            inputTax:'tax'
+            inputTax:'tax' ,
+            salePrice:'applyPrice'
         };
         var rows = gFunUpdateKey(addDefaultData,keyNames);
         var argWhere ={skuCode:1};  //验证重复性
