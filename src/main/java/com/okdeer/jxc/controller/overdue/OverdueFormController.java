@@ -21,8 +21,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -245,14 +245,16 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
                 	String detailListStr = ((JSONArray)mapType.get("detailList")).toJSONString();
                 	
                 	List<Map<String,Object>> detailLists = JSON.parseObject(detailListStr,new TypeReference<List<Map<String,Object>>>(){});
-                	if(CollectionUtils.isEmpty(detailLists)){
+                	if(detailLists!=null && detailLists.size()>0){
                 	    return overdueFormDetailService.updateDetail(mapType.get("id").toString(),detailLists);
                 	}
         	}else{
-        	    return RespJson.error();
+        	    logger.error("更新调价单失败!" + ToStringBuilder.reflectionToString(mapType));
+        	    return RespJson.error("更新调价单失败!");
         	}
 	}
-	return RespJson.error();
+	logger.error("更新调价单失败!"+jsonText);
+	return RespJson.error("更新调价单失败!");
     }
     
     @RequestMapping(value = "/save", method = RequestMethod.POST)
@@ -262,12 +264,13 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
 	    if(mapType!=null && !mapType.isEmpty()){
     	    	String detailListStr = ((JSONArray)mapType.get("detailList")).toJSONString();
     	    	List<Map<String,Object>> detailLists = JSON.parseObject(detailListStr,new TypeReference<List<Map<String,Object>>>(){});
-    	    	if(CollectionUtils.isEmpty(detailLists)){
+    	    	if(detailLists!=null && detailLists.size()>0){
     	    	    return overdueFormService.saveOverdue(mapType,detailLists);
     	    	}
 	    }
 	}
-	return RespJson.error();
+	logger.error("保存调价单失败!"+jsonText);
+	return RespJson.error("保存调价单失败!");
     }
     
     @RequestMapping(value = "/check", method = RequestMethod.POST)
@@ -296,13 +299,14 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
 	    if(mapType!=null && !mapType.isEmpty()){
 		String detailListStr = ((JSONArray)mapType.get("detailList")).toJSONString();
     	    	List<Map<String,Object>> detailLists = JSON.parseObject(detailListStr,new TypeReference<List<Map<String,Object>>>(){});
-    	    	if(!detailLists.isEmpty()&&detailLists.size()>0){
+    	    	if(detailLists!=null&&detailLists.size()>0){
     	    	    mapType.put("userId", UserUtil.getUser().getId());
     	    	    mapType.put("userName", UserUtil.getUser().getUserName());
     	    	    return overdueFormService.commitOverdue(mapType,detailLists);
     	    	}
 	    }
 	}
+	logger.error("提交调价单失败!"+jsonText);
 	return RespJson.error();
     }
     
@@ -413,7 +417,7 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
 		    return RespJson.error("无数据可导");
 		}
 	} catch (Exception e) {
-	    LOG.error("调价订单详情导出异常:", e);
+	    logger.error("调价订单详情导出异常:", e);
 	    RespJson json = RespJson.error("导出失败");
 	    return json;
 	}
@@ -434,7 +438,7 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
 	    }
 	    exportListForXLSX(response, null, fileName, templateName);
 	} catch (Exception e) {
-	    LOG.error("查看调价订单导入模板异常", e);
+	    logger.error("查看调价订单导入模板异常", e);
 	}
     }
     
@@ -507,10 +511,10 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
 
 	} catch (IOException e) {
 	    respJson = RespJson.error("读取Excel流异常");
-	    LOG.error("读取Excel流异常:", e);
+	    logger.error("读取Excel流异常:", e);
 	} catch (Exception e) {
 	    respJson = RespJson.error("导入发生异常");
-	    LOG.error("用户导入异常:", e);
+	    logger.error("用户导入异常:", e);
 	}
 	return respJson;
     }
