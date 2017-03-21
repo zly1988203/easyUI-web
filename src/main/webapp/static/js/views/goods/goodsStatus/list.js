@@ -125,19 +125,25 @@ $(document).on("click","input[name='status']",function(){
 })
 
 function initView(){
-    $('#goodsType').combobox({
-        valueField:'id',
-        textField:'text',
-        data: [{
-            id: 'categoryCode',
-            text: '类别',
-            selected:true,
-        }],
-        onSelect: function(record){
-            goodsClass.selectTypeName = record.id;
-            initTreeArchives();
-        },
-    });
+	$('#goodsType').combobox({
+		valueField:'id',
+		textField:'text',
+		data: [{
+			id: 'categoryCode',
+			text: '类别',
+			selected:true,
+		},{
+			id: 'brandId',
+			text: '品牌'
+		},{
+			id: 'supplierId',
+			text: '供应商'
+		}],
+		onSelect: function(record){
+			goodsClass.selectTypeName = record.id;
+			initTreeArchives();
+		},
+	});
 }
 
 //初始树
