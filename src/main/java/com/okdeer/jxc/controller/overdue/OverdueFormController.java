@@ -144,7 +144,7 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
 	vo.setPageSize(pageSize);
 	vo.setEndTime(Date.from(vo.getEndTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().plusDays(1).atZone(ZoneId.systemDefault()).toInstant()));
 	vo.setStatus(Byte.valueOf("1"));
-	vo.setUserBranchCode(getCurrentUser().getBranchCode());
+	vo.setUserBranchCode(getCurrentUser().getBranchCompleCode());
 	PageUtils<OverdueFormDto> suppliers;
 	try {
 	    suppliers = overdueFormService.selectApprovedList(vo);
@@ -176,7 +176,7 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
 	vo.setPageNumber(pageNumber);
 	vo.setPageSize(pageSize);
 	vo.setEndTime( Date.from(vo.getEndTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().plusDays(1).atZone(ZoneId.systemDefault()).toInstant()));
-	vo.setUserBranchCode(getCurrentUser().getBranchCode());
+	vo.setUserBranchCode(getCurrentUser().getBranchCompleCode());
 	PageUtils<OverdueFormDto> suppliers;
 	try {
 	    suppliers = overdueFormService.selectApprovedListData(vo);
@@ -318,6 +318,7 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
 	vo = optional.orElse(new OverdueFormVo());
 	vo.setPageNumber(Integer.valueOf(PAGE_NO));
 	vo.setPageSize(PrintConstant.PRINT_MAX_LIMIT);
+	vo.setUserBranchCode(getCurrentUser().getBranchCompleCode());
 	Date endDate = vo.getEndTime()==null?new Date():vo.getEndTime();
 	Date startDate = vo.getStartTime()==null?new Date():vo.getStartTime();
 	// 默认当前机构
@@ -348,6 +349,7 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
 	vo.setPageNumber(Integer.valueOf(PAGE_NO));
 	vo.setPageSize(PrintConstant.PRINT_MAX_LIMIT);
 	vo.setStatus(Byte.valueOf("1"));
+	vo.setUserBranchCode(getCurrentUser().getBranchCompleCode());
 	Date endDate = vo.getEndTime()==null?new Date():vo.getEndTime();
 	Date startDate = vo.getStartTime()==null?new Date():vo.getStartTime();
 	// 默认当前机构
@@ -377,6 +379,7 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
 	vo = optional.orElse(new OverdueFormVo());
 	vo.setPageNumber(Integer.valueOf(PAGE_NO));
 	vo.setPageSize(PrintConstant.PRINT_MAX_LIMIT);
+	vo.setUserBranchCode(getCurrentUser().getBranchCompleCode());
 	// 默认当前机构
 	if (StringUtils.isBlank(vo.getBranchCode()) && StringUtils.isBlank(vo.getBranchName())) {
 	    vo.setBranchCode(getCurrBranchCompleCode());
@@ -404,6 +407,7 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
 		vo.setPageNumber(Integer.valueOf(PAGE_NO));
 		vo.setPageSize(PrintConstant.PRINT_MAX_LIMIT);
 		vo.setDisabled(Byte.valueOf("0"));
+		vo.setUserBranchCode(getCurrentUser().getBranchCompleCode());
 		// 默认当前机构
 		if (StringUtils.isBlank(vo.getBranchCode()) && StringUtils.isBlank(vo.getBranchName())) {
 		    vo.setBranchCode(getCurrBranchCompleCode());

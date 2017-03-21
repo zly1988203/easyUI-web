@@ -22,6 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.io.File;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -113,6 +114,8 @@ public class OverdueFormControllerTest {
 
     @Test
     public void testOverdueApplyList() throws Exception {
+	SysUser sysUser = sysUserService.getUserByCode("jxc_admin");
+	ShiroTestUtils.mockSubject("jxc_admin",Constant.SESSION_USER,sysUser);
 	MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/form/overdue/apply/list"))  
 	            .andExpect(MockMvcResultMatchers.view().name("form/overdue/overdueApplyList"))  
 	            .andDo(MockMvcResultHandlers.print())  
@@ -124,6 +127,8 @@ public class OverdueFormControllerTest {
 
     @Test
     public void testOverdueApprovedList() throws Exception {
+	SysUser sysUser = sysUserService.getUserByCode("jxc_admin");
+	ShiroTestUtils.mockSubject("jxc_admin",Constant.SESSION_USER,sysUser);
 	MvcResult result = mockMvc.perform(post("/form/overdue/approved/list").contentType(MediaType.APPLICATION_JSON)
 		.param("endTime", LocalDateTime.now().toString()).accept(MediaType.APPLICATION_JSON)) // 执行请求
 		.andDo(print()) // print request and response to Console
@@ -180,6 +185,7 @@ public class OverdueFormControllerTest {
 
     @Test
     public void testDetailList() throws Exception {
+	
 	MvcResult result = mockMvc.perform(post("/form/overdue/detail/list/123").contentType(MediaType.APPLICATION_JSON)
 		.accept(MediaType.APPLICATION_JSON)) // 执行请求
 		.andDo(print()) // print request and response to Console
@@ -198,7 +204,7 @@ public class OverdueFormControllerTest {
 	MvcResult result = mockMvc.perform(post("/form/overdue/detail/update").content("{}"))
 		.andDo(print()) // print request and response to Console
 		.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))// 验证响应contentType
-		.andExpect(jsonPath("$.message", equalTo("error")))// http://goessner.net/articles/JsonPath/
+		.andExpect(jsonPath("$.message", equalTo("更新调价单失败!")))// http://goessner.net/articles/JsonPath/
 		.andReturn(); 
 	int status = result.getResponse().getStatus();  
 	Assert.assertTrue("错误，正确的返回值为200", status == 200);  
@@ -210,7 +216,7 @@ public class OverdueFormControllerTest {
 	MvcResult result = mockMvc.perform(post("/form/overdue/save").content("{}"))
 		.andDo(print()) // print request and response to Console
 		.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))// 验证响应contentType
-		.andExpect(jsonPath("$.message", equalTo("error")))// http://goessner.net/articles/JsonPath/
+		.andExpect(jsonPath("$.message", equalTo("保存调价单失败!")))// http://goessner.net/articles/JsonPath/
 		.andReturn(); 
 	int status = result.getResponse().getStatus();  
 	Assert.assertTrue("错误，正确的返回值为200", status == 200);  
@@ -290,11 +296,11 @@ public class OverdueFormControllerTest {
 	SysUser sysUser = sysUserService.getUserByCode("jxc_admin");
 	ShiroTestUtils.mockSubject("jxc_admin",Constant.SESSION_USER,sysUser);
 	MvcResult result = mockMvc.perform(post("/form/overdue/exports"))
-		.andDo(print()) // print request and response to Console
 		.andReturn(); 
-	String contentDisposition =  result.getResponse().getHeaders("Content-Disposition").get(0);
+	List<String> contentDisposition =  result.getResponse().getHeaders("Content-Disposition");
 	Assert.assertNotNull(contentDisposition);
-	String filename = new String(URLCodec.decodeUrl(contentDisposition.replace("attachment;filename=", "").getBytes()));
+	Assert.assertTrue(contentDisposition.size()>0);
+	String filename = new String(URLCodec.decodeUrl(contentDisposition.get(0).replace("attachment;filename=", "").getBytes()));
 	Assert.assertNotNull(filename);
 	byte[] io = result.getResponse().getContentAsByteArray();
 	FileUtils.writeByteArrayToFile(new File(System.getProperty("user.dir")+"/src/test/resources/tmp/"+filename), io);
@@ -306,8 +312,13 @@ public class OverdueFormControllerTest {
     @Test
     public void testExportTemp() throws Exception {
 	MvcResult result = mockMvc.perform(post("/form/overdue/export/templ").content(GoodsSelectImportHandle.TYPE_SKU_CODE))
-		.andDo(print()) // print request and response to Console
 		.andReturn(); 
+	String contentDisposition =  result.getResponse().getHeaders("Content-Disposition").get(0);
+	Assert.assertNotNull(contentDisposition);
+	String filename = new String(URLCodec.decodeUrl(contentDisposition.replace("attachment;filename=", "").getBytes()));
+	Assert.assertNotNull(filename);
+	byte[] io = result.getResponse().getContentAsByteArray();
+	FileUtils.writeByteArrayToFile(new File(System.getProperty("user.dir")+"/src/test/resources/tmp/"+filename), io);
 	int status = result.getResponse().getStatus();  
 	Assert.assertTrue("错误，正确的返回值为200", status == 200);  
 	Assert.assertFalse("错误，正确的返回值为200", status != 200);  
