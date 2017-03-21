@@ -53,7 +53,7 @@
 			</div>
 			<div class="ub umar-t8">
 				<div class="ub ub-ac umar-r80">
-					<div class="umar-r10 uw-60 ut-r">收货机构:</div>
+					<div class="umar-r10 uw-60 ut-r">退货机构:</div>
 					<input class="uinp" name="branchId" id="branchId" type="hidden">
 					<input id="branchName" class="uinp  easyui-validatebox"
 						data-options="required:true" type="text" onclick="selectBranch()">
