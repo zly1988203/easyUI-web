@@ -128,6 +128,12 @@ function selectSupplier(){
 		branchId = $("#branchParentId").val();
 	}
 	
+	//关键词取编号
+	var reg = /\[\d{6}\]/;
+	if(reg.test(supplierCodeName)){
+		supplierCodeName = "";
+	}
+	
 	if(!supplierId){
 		param = {
 			supplierCodeOrName : supplierCodeName,
@@ -164,6 +170,7 @@ function supplierAutoComple(){
 		$("#supplierId").val("");
 		return;
 	}
+	
 	//避免用户直接输入完整格式: [编号]名称
 	var reg = /\[\d{6}\]/;
 	if(reg.test(supplierNameOrsupplierCode)){
@@ -179,6 +186,7 @@ function supplierAutoComple(){
 		if(!data || data.rows.length == 0){
 			//未查询到数据，设置ID为空
 			$("#supplierId").val("");
+			$("#supplierCodeName").val("");
 			return;
 		}
 
