@@ -310,7 +310,7 @@ function initDatagridAddRequireOrder(){
         },
         onLoadSuccess:function(data){
             gridHandel.setDatagridHeader("center");
-            updateRowsStyle();
+            //updateRowsStyle();
             updateFooter();
         },
 
@@ -318,36 +318,6 @@ function initDatagridAddRequireOrder(){
     gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
         $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),
         $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault)]);
-}
-
-
-function updateRowsStyle(){
-    var rows =  gridHandel.getRows();
-    $.each(rows,function(i,row){
-		if(typeof(row.sourceStock) != 'undefined' && typeof(row.applyNum) != 'undefined'
-			&& typeof(row.alreadyNum) != 'undefined'){
-			var alreadyNumopts = gridHandel.getColumnOption('alreadyNum');
-			var sourceStockopts = gridHandel.getColumnOption('sourceStock');
-    		if(parseFloat(row.applyNum)+parseFloat(row.alreadyNum) > parseFloat(row.sourceStock)){
-    			alreadyNumopts.styler = function(value,row,index){
-    				return "color:red";
-    			} 
-    			sourceStockopts.styler = function(value,row,index){
-    				return "color:red";
-    			} 
-
-    		}else{
-    			alreadyNumopts.styler = function(value,row,index){
-    				return "color:black";
-    			} 
-    			
-    			sourceStockopts.styler = function(value,row,index){
-    				return "color:black";
-    			} 
-    		}	
-    		$('#gridEditOrder').datagrid('updateRow',{index:i,row:row})
-		}
-    });
 }
 
 
@@ -385,7 +355,6 @@ function onChangeLargeNum(newV,oldV){
     if(realNumVal && oldV){
     	 n=1;     
         gridHandel.setFieldValue('applyNum',(purchaseSpecValue*newV).toFixed(4));//数量=商品规格*箱数  
-//        updateRowsStyle();
     }
 
     updateFooter();
@@ -431,7 +400,6 @@ function onChangeRealNum(newV,oldV) {
     	m = 1;
         var largeNumVal = parseFloat(newV/purchaseSpecValue).toFixed(4);
         gridHandel.setFieldValue('largeNum',largeNumVal);   //箱数=数量/商品规格
-//        updateRowsStyle();
     }
     /*gridHandel.setFieldValue('largeNum',(newV/purchaseSpecValue).toFixed(4));   //箱数=数量/商品规格*/
 
