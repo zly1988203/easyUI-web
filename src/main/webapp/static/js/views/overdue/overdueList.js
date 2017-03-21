@@ -110,7 +110,7 @@ function initDatagridOrders(){
 			gridHandel.setDatagridHeader("center");
 		}
     });
-    query();
+    //query();
 }
 function orderAdd(){
 	toAddTab("新增采购订单",contextPath + "/form/purchase/orderAdd");
