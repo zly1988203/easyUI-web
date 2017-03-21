@@ -73,7 +73,7 @@ $(function(){
 		        		
 		        		,
 		                formatter : function(value, row,index) {
-		                	if((hiddenStatus==="3")? false :hiddenEdit){
+		                	if((hiddenStatus==="3")? false :true){
 		                		 $('#gridEditOrder').datagrid('hideColumn', 'cz');
 		                	}else{
 		                		 var str = "";
@@ -94,7 +94,7 @@ $(function(){
 	            	,editor:{
 	            		type:'textbox',
 	            		options:{
-	                        disabled:(hiddenStatus==="3")? false :hiddenEdit
+	                        disabled:(hiddenStatus==="3")? false :true
 	                    }
 	            	}
 	            },
@@ -121,7 +121,7 @@ $(function(){
 	                        min:0,
 	                        precision:4,
 	                        onChange: onChangeLargeNum,
-	                        disabled:(hiddenStatus==="3")? false :hiddenEdit
+	                        disabled:(hiddenStatus==="3")? false :true
 	                    }
 	                }
 	            },
@@ -163,7 +163,7 @@ $(function(){
 	            	editor:{
 	            		type:'textbox',
 	            		options:{
-	                        disabled:(hiddenStatus==="3")? false :hiddenEdit
+	                        disabled:(hiddenStatus==="3")? false :true
 	                    }
 	            	}
 	            },
