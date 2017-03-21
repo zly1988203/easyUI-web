@@ -511,22 +511,10 @@ function selectGoods(searchKey){
 
 //二次查询设置值
 function setDataValue(data) {
-		try{
-			console.time('6666');
-			for(var i in data){
-				var rec = data[i];
-				rec.remark = "";
-			}
-			console.timeEnd('6666');
-		}catch(e){
-			console.log('rrr',e)
+		for(var i in data){
+			var rec = data[i];
+			rec.remark = "";
 		}
-		
-    	/*data.forEach(function(obj,inx){
-    		rec.remark = "";
-    	})*/
-    	
-		console.time('7777');
         var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
         var addDefaultData = gridHandel.addDefault(data,gridDefault);
         var keyNames = {
@@ -538,11 +526,8 @@ function setDataValue(data) {
         var rows = gFunUpdateKey(addDefaultData,keyNames);
         var argWhere ={skuCode:1};  //验证重复性
         var isCheck ={isGift:1};   //只要是赠品就可以重复
-        
         var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
-        console.timeEnd('7777');
         $("#"+gridName).datagrid({data:newRows});
-        console.timeEnd('start');
 }
 
 //查询价格、库存
@@ -566,7 +551,6 @@ function selectStockAndPrice(data){
     		goodsStockVo : JSON.stringify(GoodsStockVo)
     	},
     	success:function(result){
-    		console.time('55555');
             $.each(data,function(i,val){
                 $.each(result.data,function(j,obj){
                     if(val.skuId==obj.skuId){
@@ -574,7 +558,6 @@ function selectStockAndPrice(data){
                     }
                 })
             })
-            console.timeEnd('55555');
     		setDataValue(data);
     	},
     	error:function(result){
@@ -941,7 +924,6 @@ function updateListData(data){
      var argWhere ={skuCode:1};  //验证重复性
      var isCheck ={isGift:1 };   //只要是赠品就可以重复
      var newRows = gridHandel.checkDatagrid(data,rows,argWhere,isCheck);
-     console.log(newRows);
      $("#"+gridName).datagrid("loadData",newRows);
  
 }
