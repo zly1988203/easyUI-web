@@ -851,11 +851,12 @@ function toImportproduct(type){
         return;
     }
     var param = {
-        url:contextPath+"/form/deliverForm/importList",
-        tempUrl:contextPath+"/form/deliverForm/exportTemp",
+        url : contextPath+"/form/deliverForm/importList",
+        tempUrl : contextPath+"/form/deliverForm/exportTemp",
         type:type,
-        targetBranchId:targetBranchId,
-        sourceBranchId:sourceBranchId
+        targetBranchId : targetBranchId,
+        sourceBranchId : sourceBranchId,
+        formType : 'DA'
     }
     new publicUploadFileService(function(data){
     	if (data.length != 0) {
