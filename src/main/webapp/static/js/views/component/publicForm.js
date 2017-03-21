@@ -23,18 +23,17 @@ function initFormCallBack(cb){
     formCallBack = cb;
 }
 //初始化回调函数
-function initDeliverFormCallBack(cb,param){
+function initDeliverFormCallBack(cb){
 	deliverFormCallBack = cb;
-    param = param;
 }
 //搜索
 function formCx(){
 	var formNo=$("#formNo").val();
 	var type = $("#type").val();
-
+    var targetBranchId = $('#targetBranchId').val();
 	if($("#type").val()=='DA'||$("#type").val()=='DO'||$("#type").val()=='DI'){
 		var endTime=$("#popupSearchDateTime").val();
-		var targetBranchId = param.targetBranchId?param.targetBranchId:"";
+
 		$("#gridForm").datagrid("options").queryParams = {formNo:formNo,endTime:endTime,formType:type,targetBranchId:targetBranchId};
 		$("#gridForm").datagrid("options").url = contextPath+'/form/deliverSelect/getDeliverFormList';
 	}else{
@@ -118,11 +117,11 @@ function initDatagridForm(type){
 //初始化表格 单据选择（调拨）
 function initDatagridDeliverForm(type){
 	var data = "";
+    var targetBranchId = $('#targetBranchId').val();
 	if($("#type").val()=='DA'){
 		var endTime=$("#popupSearchDateTime").val();
 		data = {endTime:endTime,formType:type};
 	}else{
-        var targetBranchId = param.targetBranchId?param.targetBranchId:"";
 		data = {formType:type,targetBranchId:targetBranchId};
 	}
     $("#gridForm").datagrid({

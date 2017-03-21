@@ -623,9 +623,11 @@ function publicPurchaseFormService(type,callback){
 *
 * */
 function publicDeliverFormService(param,callback){
+    var targetBranchId = 'undefined'!=typeof(param.targetBranchId)?param.targetBranchId:'';
+    var type = 'undefined'!=typeof(param.type)?param.type:'';
 //公有属性
 var  dalogTemp = $('<div/>').dialog({
-    href:contextPath + "/form/deliverSelect/view?type="+param.type,
+    href:contextPath + "/form/deliverSelect/view?type="+type+"&targetBranchId="+targetBranchId,
     width:1200,
     height:dialogHeight,
     title:"单据选择",
@@ -636,7 +638,7 @@ var  dalogTemp = $('<div/>').dialog({
     },
     modal:true,
     onLoad:function(){
-        initDeliverFormCallBack(callBackHandel,param);
+        initDeliverFormCallBack(callBackHandel);
     }
 });
 //私有方法
