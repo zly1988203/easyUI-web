@@ -127,8 +127,12 @@ function selectSupplier(){
 	
 	if(!supplierId){
 		param = {
-				supplierCodeOrName : supplierCodeName,
-				branchId : branchId
+			supplierCodeOrName : supplierCodeName,
+			branchId : branchId
+		};
+	}else{
+		param = {
+			branchId : branchId
 		};
 	}
 	
