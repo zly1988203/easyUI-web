@@ -184,7 +184,6 @@ function initAddModifyPriceGridEdit() {
 							options : {
 								min:0,
 								precision:4,
-                                onChange:changeNewSalePrice
 							}
 						}
 					}, {
@@ -217,7 +216,6 @@ function initAddModifyPriceGridEdit() {
 							options : {
 								min:0,
 								precision:4,
-								onChange:changeNewVipPrice
 							}
 						}
 					} ] ],
@@ -255,29 +253,8 @@ function initCheckbox(){
 	});
 }
 
-//设置新售价
-function changeNewSalePrice(newVal,oldVal) {
-	var newVipPrice = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'newVipPrice');
-	if(parseFloat(newVal) < parseFloat(newVipPrice)){
-		messager('新零售价不能小于新会员价')
-        gridHandel.setFieldValue('newSalePrice',parseFloat(oldVal))
-        return;
-	}
-}
-
-//设置新会员价
-function  changeNewVipPrice(newVal,oldVal) {
-	var newSalePrice = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'newSalePrice')
-    if(parseFloat(newVal) > parseFloat(newSalePrice)){
-        messager('新会员价不能大于新零售价')
-        gridHandel.setFieldValue('newVipPrice',parseFloat(oldVal))
-        return;
-    }
-}
-
 // 新增
 function addModifyDataGrid() {
-	
 	if (isClickCheckData) {
 		window.location.href = contextPath
 			+ "/goods/branchPriceAdjust/addFormView";
@@ -376,6 +353,21 @@ function saveModifyPriceOrder() {
 				gFunEndLoading();
 				return;
 			}
+
+            var isCheck = true;
+            for(var i=0;i<detailList.length;i++){
+                var item = detailList[i];
+                if(parseFloat(item["newSalePrice"]) < parseFloat(item["newVipPrice"])){
+                    messager("第"+(i+1)+"行，新会员价要小于新销售价");
+                    isCheck = false;
+                    break;
+                };
+            }
+
+            if(isCheck === false){
+                gFunEndLoading();
+                return;
+            }
 			
 			if (datagridUtil.isCheckPrice()) {
 				
@@ -436,7 +428,7 @@ function updateModifyPriceOrder() {
 		          messager("第"+(i+1)+"行，新会员价要小于新销售价");
 		          isCheck = false;
 		          break;
-		      };
+		      }
 		}
 		
 		if(isCheck === false){

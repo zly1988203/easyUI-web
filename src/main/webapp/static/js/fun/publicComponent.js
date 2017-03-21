@@ -662,6 +662,7 @@ function publicGoodsServiceTem(param,callback){
 	if(param.key){
 	    //后台参数是 skuCodes
         param.skuCodes = param.key;
+        param.formType = param.type;
 		var urlTemp;
 		if(param.type=="DA"){
 			param.branchId = '';

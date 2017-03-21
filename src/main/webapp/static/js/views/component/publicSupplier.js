@@ -119,7 +119,11 @@ function initDatagridSupplier(saleWayNot, branchId, supplierNameOrsupplierCode){
 //搜索
 function supplierSearch(){
 	var supplierNameOrsupplierCode=$("#supplierNameOrsupplierCode").val();
-	$("#gridSupplier").datagrid("options").queryParams = {supplierAreaCode:supplierAreaCode,supplierNameOrsupplierCode:supplierNameOrsupplierCode};
+	$("#gridSupplier").datagrid("options").queryParams = {
+		supplierAreaCode:supplierAreaCode,
+		branchId:branchId,
+    	supplierNameOrsupplierCode:supplierNameOrsupplierCode
+	};
 	$("#gridSupplier").datagrid("options").method = "post";
 	$("#gridSupplier").datagrid("options").url =contextPath+"/common/supplier/getComponentList",
 	$("#gridSupplier").datagrid('load');

@@ -502,8 +502,15 @@ function selectGoods(searchKey){
         messager("已选要货单号，不允许添加其他商品");
         return;
     }
-    
-    new publicGoodsService("DO",function(data){
+    var param = {
+        type:'DO',
+        key:searchKey,
+        branchId:sourceBranchId,
+        sourceBranchId:sourceBranchId,
+        targetBranchId:targetBranchId,
+        flag:'0'
+    }
+    new publicGoodsServiceTem(param,function(data){
         if(searchKey){
             $("#gridEditOrder").datagrid("deleteRow", gridHandel.getSelectRowIndex());
             $("#gridEditOrder").datagrid("acceptChanges");
@@ -517,7 +524,7 @@ function selectGoods(searchKey){
             gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
         },100)
         
-    },searchKey,'',sourceBranchId,targetBranchId,sourceBranchId,'',"0");
+    });
 }
 
 //二次查询设置值
@@ -872,22 +879,7 @@ function loadLists(referenceId){
         }
     });
 }
-/**
- * 调用导入功能 0导入货号 1导入明细
- * @param type
- */
-function toImportproduct(type){
-    var branchId = $("#targetBranchId").val();
-    if(!branchId){
-        messager("请先选择收货机构");
-        return;
-    }
-    if(type==0){
-        importproduct();
-    }else{
-        importproductAll();
-    }
-}
+
 /**
  * 导入
  */
@@ -926,9 +918,11 @@ function getImportData(data){
 
 //新的导入功能 货号(0)、条码(1)导入
 function toImportproduct(type){
+    // 要货机构id
+    var targetBranchId = $("#targetBranchId").val();
+    // 发货机构id
+    var sourceBranchId = $("#sourceBranchId").val();
 	//判定收货机构是否存在
-	var sourceBranchId = $("#sourceBranchId").val();
-	var targetBranchId = $("#targetBranchId").val();
     if(targetBranchId == ""){
         messager("请先选择收货机构");
         return;
@@ -941,7 +935,9 @@ function toImportproduct(type){
         url:contextPath+"/form/deliverForm/reportList",
         tempUrl:contextPath+"/form/deliverForm/exportReport",
         type:type,
-        branchId:sourceBranchId,
+        targetBranchId : targetBranchId,
+        sourceBranchId : sourceBranchId,
+        formType:'DO'
     }
     new publicUploadFileService(function(data){
     	if (data.length != 0) {
