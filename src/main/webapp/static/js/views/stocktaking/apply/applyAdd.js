@@ -48,14 +48,14 @@ function save(){
 }
 
 function saveDataHandel() {
+    gFunStartLoading();
     var formObj = $('#formAdd').serializeObject();
-    console.log('保存盘点批次申请单',formObj);
-
 	$.ajax({
 		url : contextPath + "/stocktaking/apply/saveStocktakingBatch",
 		type : "POST",
 		data : formObj,
 		success : function(result) {
+            gFunEndLoading();
 			if(result.code == 0){
 				alertTip(result.message, queryForm);
 				applyAddcallback();
