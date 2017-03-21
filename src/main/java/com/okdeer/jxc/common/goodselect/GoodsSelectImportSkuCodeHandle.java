@@ -11,16 +11,17 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+
+import com.okdeer.jxc.common.enums.GoodsTypeEnum;
+import com.okdeer.jxc.goods.entity.GoodsSelect;
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.EnumMorpher;
 import net.sf.json.util.JSONUtils;
-
-import org.apache.commons.lang3.StringUtils;
-
-import com.okdeer.jxc.common.enums.GoodsTypeEnum;
-import com.okdeer.jxc.goods.entity.GoodsSelect;
 
 /**
  * ClassName: GoodsSelectImport 
@@ -38,6 +39,7 @@ public class GoodsSelectImportSkuCodeHandle implements GoodsSelectImportHandle{
 	public static final String CODE_IS_BLANK = "货号为空";
 	public static final String CODE_IS_REPEAT = "货号重复";
 	public static final String NOT_EXISTS = "找不到该商品或该商品状态不正确";
+	public static final String ERROR_TEMPLATE = "模板使用错误";
 
 	List<JSONObject> excelListFullData = null;
 	List<JSONObject> excelListSuccessData = null;
@@ -51,7 +53,24 @@ public class GoodsSelectImportSkuCodeHandle implements GoodsSelectImportHandle{
 	List<JSONObject> tempExcelListSuccessData = new ArrayList<JSONObject>();
 	
 	public GoodsSelectImportSkuCodeHandle(List<JSONObject> excelList, String[] excelField, GoodsSelectImportBusinessValid businessValid){
-		this.excelListFullData = excelList;
+		// 第一条记录为标题行，取出第一条记录用于判断模板
+		if (!CollectionUtils.isEmpty(excelList)) {
+			JSONObject title = excelList.get(0);
+			// 没有货号字段，视为错误模板
+			if (!title.containsValue("货号")) {
+				for (int i = 0; i < excelList.size(); i++) {
+					JSONObject obj = excelList.get(i);
+					obj.element("error", ERROR_TEMPLATE);
+				}
+			}
+			// 去除标题行，留下数据
+			excelList.remove(0);
+			this.excelListFullData = excelList;
+			//刷新
+			refreshSuccessData();
+		} else {			
+			this.excelListFullData = excelList;
+		}
 		this.businessValid = businessValid;
 		//检验标记出SkuCode重复或者为空的数据
 		checkSkuCodeIsNullAndRepeat();
@@ -133,8 +152,8 @@ public class GoodsSelectImportSkuCodeHandle implements GoodsSelectImportHandle{
 	private void checkSkuCodeIsNullAndRepeat(){
 		
 		Map<String,Integer> skuCodeSet = new LinkedHashMap<String,Integer>();
-		for (int i = 0; i < excelListFullData.size(); i++) {
-			JSONObject obj = excelListFullData.get(i);
+		for (int i = 0; i < excelListSuccessData.size(); i++) {
+			JSONObject obj = excelListSuccessData.get(i);
 			if(!obj.containsKey("skuCode")){
 				obj.element("error", CODE_IS_BLANK);
 				continue;
@@ -155,7 +174,7 @@ public class GoodsSelectImportSkuCodeHandle implements GoodsSelectImportHandle{
 				obj.element("error", CODE_IS_REPEAT);
 				//取出原来重复的数据,标记重复
 				Integer index = skuCodeSet.get(objSkuCode+isGift);
-				JSONObject existsObj = excelListFullData.get(index);
+				JSONObject existsObj = excelListSuccessData.get(index);
 				if(existsObj.get("error") == null){
 					existsObj.element("error", CODE_IS_REPEAT);
 				}
