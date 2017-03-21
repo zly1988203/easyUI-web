@@ -333,7 +333,7 @@ pageEncoding="UTF-8"%>
 					</div>
 					<div class="ub ub-ac umar-r40">
 						<input id="allowActivity" name="allowActivity"
-							class="ub" type="checkbox" name="checkbox" /><span>是否参与促销1</span>
+							class="ub" type="checkbox" name="checkbox" /><span>是否参与促销</span>
 					</div>
 					<div class="ub ub-ac umar-r40">
 						<input id="allowAdjust" name="allowAdjust"
