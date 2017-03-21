@@ -694,7 +694,10 @@ function selectForm(){
             $("#operateUserName").val(data.form.salesmanName);
 		});
 	}else if(refFormNoType == 'DI'){
-		new publicDeliverFormService("DI",function(data){
+	    var param = {
+	        type:'DI'
+        }
+		new publicDeliverFormService(param,function(data){
 			var referenceId = "";
 			referenceId = data.id;
 			$("#refFormId").val(referenceId);

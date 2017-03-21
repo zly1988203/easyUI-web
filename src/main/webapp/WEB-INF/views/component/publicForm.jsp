@@ -11,6 +11,7 @@
                     <div class="ub ub-ac uw">
                         <div class="umar-r10">关键字:</div>
                         <input type="hidden" id="type" value="${type}">
+                        <input type="hidden" id="targetBranchId" value="${targetBranchId}">
                         <input class="usearch uinp ub ub-f1" id="formNo" type="text" placeholder="输入编号/名称" >
                         <c:if test="${type=='DA'}">
                         	<div class="umar-l10">

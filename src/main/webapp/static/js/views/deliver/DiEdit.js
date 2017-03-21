@@ -665,7 +665,10 @@ function selectOperator(){
  */
 function selectDeliver(){
 	var referenceId = "";
-	new publicDeliverFormService ("DO",function(data){
+    var param = {
+        type:'DA'
+    }
+	new publicDeliverFormService (param,function(data){
 		referenceId = data.id;
 		$("#referenceId").val(referenceId);
 		$("#referenceNo").val(data.formNo);
