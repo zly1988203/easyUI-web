@@ -45,7 +45,7 @@ function initDatagridOrders(){
         columns:[[
             {field:'check',checkbox:true},
             {field:'formNo',title:'单号',width:'140px',align:'left',formatter:function(value,row,index){
-            	var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看调价单详细\',\''+contextPath+'/form/overdue/edit/'+row.id+'\')">' + value + '</a>';
+            	var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看调价申请单\',\''+contextPath+'/form/overdue/edit/'+row.id+'\')">' + value + '</a>';
             	return strHtml;
             }},
             {field:'status',title:'状态',width:'100px',align:'center',formatter:function(value,row,index){
@@ -74,7 +74,7 @@ function initDatagridOrders(){
     query();
 }
 function orderAdd(){
-	toAddTab("新增调价单",contextPath + "/form/overdue/add");
+	toAddTab("新增调价申请单",contextPath + "/form/overdue/add");
 }
 
 function query(){
