@@ -320,7 +320,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	public PageUtils<DeliverForm> getDeliverForms(QueryDeliverFormVo vo,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
-		LOG.info(LogConstant.OUT_PARAM, vo.toString());
+		LOG.info(LogConstant.OUT_PARAM, vo);
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
@@ -418,7 +418,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	@ResponseBody
 	public RespJson updateDeliverForm(@RequestBody String formVo) {
 		RespJson respJson = RespJson.success();
-		LOG.info(LogConstant.OUT_PARAM, formVo.toString());
+		LOG.info(LogConstant.OUT_PARAM, formVo);
 		try {
 			DeliverFormVo vo = new ObjectMapper().readValue(formVo, DeliverFormVo.class);
 			// 获取登录人
