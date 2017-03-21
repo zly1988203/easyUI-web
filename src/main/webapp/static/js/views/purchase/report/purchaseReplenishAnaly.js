@@ -55,15 +55,51 @@ function initPurchaseReplenishAnalyDg(){
            {field:'isFastDeliverStr',title:'是否直送',width:80,align:'left'},
            {field:'skuUnit',title:'单位',width:60,align:'left'},
            {field:'skuSpec',title:'规格',width:60,align:'left'},
-           {field:'purchaseSpec',title:'进货规格',width:80,align:'left'},
-           {field:'purchasePrice',title:'进价',width:120,align:'left'},
-           {field:'diliveCycle',title:'订货周期',width:120,align:'left'},
-           {field:'safetyCoefficient',title:'安全系数',width:120,align:'left'},
-           {field:'purchaseNum',title:'订货数量',width:120,align:'left'},
-           {field:'totalAmount',title:'金额',width:120,align:'left' },
-           {field:'lastWeekAvgSales',title:'上周日销量',width:120,align:'left'},
-           {field:'previousWeekAvgSales',title:'前周日销量',width:120,align:'left'},
-           {field:'actualStock',title:'库存',width:120,align:'left'}
+           {field:'purchaseSpec',title:'进货规格',width:80,align:'right',
+        	   formatter:function(value,row,index){
+        		   return parseFloat(value||0).toFixed(2);
+        	   }    
+           },
+           {field:'purchasePrice',title:'进价',width:120,align:'right',
+        	   formatter:function(value,row,index){
+        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+        	   }
+           },
+           {field:'diliveCycle',title:'订货周期',width:120,align:'right',
+        	   formatter:function(value,row,index){
+        		   return parseFloat(value||0).toFixed(2);
+        	   }    
+           },
+           {field:'safetyCoefficient',title:'安全系数',width:120,align:'right',
+        	   formatter:function(value,row,index){
+        		   return parseFloat(value||0).toFixed(2);
+        	   }    
+           },
+           {field:'purchaseNum',title:'订货数量',width:120,align:'right',
+        	   formatter:function(value,row,index){
+        		   return parseFloat(value||0).toFixed(2);
+        	   }    
+           },
+           {field:'totalAmount',title:'金额',width:120,align:'right',
+        	   formatter:function(value,row,index){
+        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+        	   }
+           },
+           {field:'lastWeekAvgSales',title:'上周日销量',width:120,align:'right',
+        	   formatter:function(value,row,index){
+        		   return parseFloat(value||0).toFixed(2);
+        	   }    
+           },
+           {field:'previousWeekAvgSales',title:'前周日销量',width:120,align:'right',
+        	   formatter:function(value,row,index){
+        		   return parseFloat(value||0).toFixed(2);
+        	   } 
+           },
+           {field:'actualStock',title:'库存',width:120,align:'right',
+        	   formatter:function(value,row,index){
+        		   return parseFloat(value||0).toFixed(2);
+        	   }    
+           }
        ]],
        onLoadSuccess : function() {
 			gridHandel.setDatagridHeader("center");
