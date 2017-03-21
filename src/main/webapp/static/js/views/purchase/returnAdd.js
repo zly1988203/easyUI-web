@@ -696,7 +696,7 @@ function selectForm(){
 	}else if(refFormNoType == 'DI'){
 	    var param = {
 	        type:'DI',
-            targetBranchId:$('branchId').val()
+            targetBranchId:$('#branchId').val()
         }
 		new publicDeliverFormService(param,function(data){
 			var referenceId = "";
