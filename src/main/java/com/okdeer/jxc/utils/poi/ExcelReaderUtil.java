@@ -365,8 +365,8 @@ public class ExcelReaderUtil {
 	 */
 	private static void readRow(Sheet sheet, String[] fields, JSONArray jArray) {
 		int rowCount = sheet.getLastRowNum();
-		// Read the Row，循环遍历Excel行数,从第1行开始读取，第0行为标题
-		for (int rowNum = 1; rowNum <= rowCount; rowNum++) {
+		// Read the Row，循环遍历Excel行数,从第0行开始读取，第0行为标题，用于判断货号和条码，判断模板是否正确
+		for (int rowNum = 0; rowNum <= rowCount; rowNum++) {
 			Row row = sheet.getRow(rowNum);
 			if (row == null) {
 				continue;

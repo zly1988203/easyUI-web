@@ -216,23 +216,12 @@ function initDatagridEditRequireOrder(){
             }
             gridHandel.setDatagridHeader("center");
 
-            updateRowsStyle();
+            //updateRowsStyle();
             updateFooter();
         },
     });
 }
 
-function updateRowsStyle(){
-	 var rows =  gridHandel.getRows();
-    $.each(rows,function(i,row){
-		if(typeof(row.sourceStock) != 'undefined' && typeof(row.applyNum) != 'undefined'
-			&& typeof(row.alreadyNum) != 'undefined'){
-			var alreadyNumopts = gridHandel.getColumnOption('alreadyNum');
-			var sourceStockopts = gridHandel.getColumnOption('sourceStock');
-    		$('#gridEditRequireOrder').datagrid('updateRow',{index:i,row:row})
-		}
-    });
-}
 
 //限制转换次数
 var n = 0;
@@ -269,7 +258,6 @@ function onChangeLargeNum(newV,oldV){
     	n=1;
         gridHandel.setFieldValue('applyNum',(purchaseSpecValue*newV).toFixed(4));//数量=商品规格*箱数 
     }
-//    updateRowsStyle();
     updateFooter();
 }
 //监听商品数量
@@ -316,7 +304,6 @@ function onChangeRealNum(newV,oldV) {
         gridHandel.setFieldValue('largeNum',largeNumVal);   //箱数=数量/商品规格
     }
     /*gridHandel.setFieldValue('largeNum',(newV/purchaseSpecValue).toFixed(4));   //箱数=数量/商品规格*/
-//    updateRowsStyle();
     updateFooter();
 }
 //监听商品单价

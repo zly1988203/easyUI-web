@@ -25,6 +25,8 @@ function  initPageData() {
     $("#branchId").val(sessionBranchId);
     $("#branchCompleCode").val(sessionBranchCompleCode);
     $("#oldBranchName").val(sessionBranchName);
+    $('#batchId').val('');
+    $('#batchNo').val('');
     //开始和结束时间
     $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
@@ -307,14 +309,6 @@ function queryForm(){
 	$("#diffSearchList").datagrid('load', fromObjStr);
 }
 
-//重置
-function gFunRefresh(){
-    $("#diffSearchList").datagrid('options').url = "";
-    initDgTakeStockDiffSearch();
-    // $("#diffSearchList").datagrid('options').url = "";
-    $('#diffSearchList').datagrid('loadData',[]);
-    initPageData();
-}
 /**
  * 机构名称
  */

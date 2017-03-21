@@ -119,6 +119,12 @@ function selectSupplier(){
 		branchId = $("#branchParentId").val();
 	}
 	
+	//关键词取编号
+	var reg = /\[\d{6}\]/;
+	if(reg.test(supplierCodeName)){
+		supplierCodeName = "";
+	}
+	
 	if(!supplierId){
 		param = {
 			supplierCodeOrName : supplierCodeName,
@@ -166,11 +172,18 @@ function supplierAutoComple(){
 	}
 	var supplierNameOrsupplierCode = $("#supplierCodeName").val();
 	var branchId=$("#branchId").val();
+	
 	//未输入值时，直接返回，无需查询
 	if("" == supplierNameOrsupplierCode){
 		$("#supplierId").val("");
 		return;
 	}
+	
+//	//如果是包含中括号，即已选择过供应商信息的，直接return
+//	if(supplierNameOrsupplierCode && supplierNameOrsupplierCode.indexOf("[")>=0 && supplierNameOrsupplierCode.indexOf("]")>=0){
+//		return;
+//	}
+	
 	//避免用户直接输入完整格式: [编号]名称
 	var reg = /\[\d{6}\]/;
 	if(reg.test(supplierNameOrsupplierCode)){
@@ -186,6 +199,7 @@ function supplierAutoComple(){
 		if(!data || data.rows.length == 0){
 			//未查询到数据，设置ID为空
 			$("#supplierId").val("");
+			$("#supplierCodeName").val("");
 			return;
 		}
 

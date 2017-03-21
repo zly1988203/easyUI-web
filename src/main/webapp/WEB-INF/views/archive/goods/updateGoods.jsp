@@ -93,7 +93,7 @@ pageEncoding="UTF-8"%>
 					</div>
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">库存单位:</div>
-						<select class="uselect easyui-combobox" name="unit" style="width: 204px;" id="unit" data-options="onChange:onChangeUnit">
+						<select class="uselect easyui-combobox easyui-validatebox" name="unit" style="width: 204px;" id="unit" data-options="onChange:onChangeUnit,validType:'length[0,10]'">
 							<option value="箱">箱</option>
 							<option value="套">套</option>
 							<option value="包">包</option>
