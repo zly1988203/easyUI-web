@@ -147,10 +147,10 @@
 	                    <input class="ub radioItem" type="radio" name="stGuideType"  value="0" checked="checked"/><span>当前机构</span>
 	                </div>
 	                <div class="ub ub-ac umar-r10">
-	                    <input class="ub radioItem" type="radio" name="stGuideType" value="2" /><span>所有自营店</span>
+	                    <!-- <input class="ub radioItem" type="radio" name="stGuideType" value="2" /><span>所有自营店</span> -->
 	                </div>
 	                <div class="ub ub-ac umar-r10">
-	                   <input class="ub radioItem" type="radio" name="stGuideType" value="1" /><span>所有加盟店</span>
+	                   <!-- <input class="ub radioItem" type="radio" name="stGuideType" value="1" /><span>所有加盟店</span> -->
 	                </div>
 	                </c:if>
 				</div>

@@ -364,6 +364,14 @@ function saveGoodsArchives(){
 		return;
 	}
 	
+	var salePriceV = $("#salePrice").numberbox("getValue");
+	
+	if(parseFloat(salePriceV || 0) <= 0){
+		$('#saveGoodsArchives').removeAttr("disabled");
+		$.messager.alert("提示","零售价必须大于0!");
+		return;
+	}
+	
 	if($('#purchaseSpec').val()=="0.00"){
 		$('#saveGoodsArchives').removeAttr("disabled");
 		messager("进货规格不能为0!");

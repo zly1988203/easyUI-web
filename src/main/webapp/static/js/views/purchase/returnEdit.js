@@ -665,12 +665,15 @@ function selectForm(){
             $("#operateUserName").val(data.form.salesmanName);
 		});
 	}else if(refFormNoType == 'DI'){
-		new publicDeliverFormService("DI",function(data){
+        var param = {
+            type:'DI'
+        }
+		new publicDeliverFormService(param,function(data){
 			var referenceId = "";
 			referenceId = data.id;
 			$("#refFormNo").val(data.formNo);
-			$("#branchId").val(data.sourceBranchId);
-			$("#branchName").val(data.sourceBranchName);
+			$("#branchId").val(data.targetBranchId);
+			$("#branchName").val(data.targetBranchName);
 			loadLists(referenceId);
 		});
 	}
@@ -678,7 +681,7 @@ function selectForm(){
 
 function loadLists(referenceId){
 	$("#gridEditOrder").datagrid("options").method = "post";
-	$("#gridEditOrder").datagrid('options').url = contextPath+"/form/deliverFormList/getDeliverFormLists?deliverFormId="+referenceId + "&formType=DI";
+	$("#gridEditOrder").datagrid('options').url = contextPath+"/form/deliverFormList/getDeliverFormLists?deliverFormId="+referenceId + "&deliverType=DI";
 	$("#gridEditOrder").datagrid('load');
 }
 

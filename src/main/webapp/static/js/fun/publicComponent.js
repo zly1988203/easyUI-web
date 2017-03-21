@@ -615,10 +615,17 @@ function publicPurchaseFormService(type,callback){
 
 
 //公共组件-单据选择(调拨单)
-function publicDeliverFormService(type,callback){
+/*
+* param{
+* targetBranchId
+* type
+* }
+*
+* */
+function publicDeliverFormService(param,callback){
 //公有属性
 var  dalogTemp = $('<div/>').dialog({
-    href:contextPath + "/form/deliverSelect/view?type="+type,
+    href:contextPath + "/form/deliverSelect/view?type="+param.type,
     width:1200,
     height:dialogHeight,
     title:"单据选择",
@@ -629,7 +636,7 @@ var  dalogTemp = $('<div/>').dialog({
     },
     modal:true,
     onLoad:function(){
-        initDeliverFormCallBack(callBackHandel);
+        initDeliverFormCallBack(callBackHandel,param);
     }
 });
 //私有方法
@@ -662,6 +669,7 @@ function publicGoodsServiceTem(param,callback){
 	if(param.key){
 	    //后台参数是 skuCodes
         param.skuCodes = param.key;
+        param.formType = param.type;
 		var urlTemp;
 		if(param.type=="DA"){
 			param.branchId = '';
@@ -1211,7 +1219,7 @@ function GridClass(){
     this.setFieldTextValue = function(fieldName,val){
         var target = _this.getFieldTarget(fieldName);
         if(target){
-            $(target).textbox('setValue',val);
+            $(target).textbox('setText',val);
         }
     }
     

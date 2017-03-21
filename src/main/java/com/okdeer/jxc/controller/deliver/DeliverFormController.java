@@ -210,15 +210,15 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 			} else if (BranchTypeEnum.BRANCH_OFFICE.getCode().intValue() == type.intValue()) {
 				// 判断要货机构是否是分店，如果是分店，要货机构可以选择该分店下的所有机构，有效时间为该分店的，起订金额为目标机构的
 				branchesGrow
-				.setValidityTime(branchesGrow.getTargetBranchValidityNumDays() == 0 ? SysConstant.VALIDITY_DAY
-						: branchesGrow.getTargetBranchValidityNumDays());
+						.setValidityTime(branchesGrow.getTargetBranchValidityNumDays() == 0 ? SysConstant.VALIDITY_DAY
+								: branchesGrow.getTargetBranchValidityNumDays());
 				branchesGrow.setSourceBranchId("");
 				branchesGrow.setSourceBranchName("");
 			} else {
 				// 如果为店铺，则只能是该机构本身，不能选择，有效时间为该店铺对应的分店的，起订金额为该店铺对应分店的
 				branchesGrow
-				.setValidityTime(branchesGrow.getSourceBranchValidityNumDays() == 0 ? SysConstant.VALIDITY_DAY
-						: branchesGrow.getSourceBranchValidityNumDays());
+						.setValidityTime(branchesGrow.getSourceBranchValidityNumDays() == 0 ? SysConstant.VALIDITY_DAY
+								: branchesGrow.getSourceBranchValidityNumDays());
 			}
 
 			model.addAttribute("branchesGrow", branchesGrow);
@@ -272,9 +272,9 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 				return "form/deliver/deliverEdit";
 			} else if (FormType.DO.toString().equals(form.getFormType())) {
 				return "form/deliver/DoEdit";
-			}else if(FormType.DD.toString().equals(form.getFormType())){
+			} else if (FormType.DD.toString().equals(form.getFormType())) {
 				return "form/deliver/DDEdit";
-			}else {
+			} else {
 				return "form/deliver/DiEdit";
 			}
 		} else {
@@ -296,10 +296,9 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 				form.setAddRebateMoney(BigDecimalUtils.formatDecimal(form.getAddRebateMoney(), 2));
 				model.addAttribute("close", report);
 				return "form/deliver/DoView";
-			}else if(FormType.DD.toString().equals(form.getFormType())){
+			} else if (FormType.DD.toString().equals(form.getFormType())) {
 				return "form/deliver/DDView";
-			}
-			else {
+			} else {
 				model.addAttribute("close", report);
 				return "form/deliver/DiView";
 			}
@@ -329,12 +328,11 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 				if (StringUtils.isEmpty(vo.getSourceBranchId())) {
 					vo.setSourceBranchId(UserUtil.getCurrBranchId());
 				}
-			}else if (FormType.DD.toString().equals(vo.getDeliverType())) {
+			} else if (FormType.DD.toString().equals(vo.getDeliverType())) {
 				if (StringUtils.isEmpty(vo.getSourceBranchId())) {
 					vo.setSourceBranchId(UserUtil.getCurrBranchId());
 				}
-			}  
-			else {
+			} else {
 				// 获取机构ID
 				if (StringUtils.isEmpty(vo.getTargetBranchId())) {
 					vo.setTargetBranchId(UserUtil.getCurrBranchId());
@@ -391,8 +389,8 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 				deliverFormListVo.setDeliverFormListId(UuidUtils.getUuid());
 				deliverFormListVo.setFormNo(formNo);
 				deliverFormListVo.setFormId(getId);
-				//如果是店间配送单，配送出库数量等于 申请数量
-				if(FormType.DD.toString().equals(vo.getFormType())){
+				// 如果是店间配送单，配送出库数量等于 申请数量
+				if (FormType.DD.toString().equals(vo.getFormType())) {
 					deliverFormListVo.setDealNum(deliverFormListVo.getApplyNum());
 				}
 			}
@@ -438,7 +436,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 				deliverFormListVo.setDeliverFormListId(UuidUtils.getUuid());
 				deliverFormListVo.setFormId(vo.getDeliverFormId());
 				deliverFormListVo.setFormNo(vo.getFormNo());
-				if(FormType.DD.toString().equals(vo.getFormType())){
+				if (FormType.DD.toString().equals(vo.getFormType())) {
 					deliverFormListVo.setDealNum(deliverFormListVo.getApplyNum());
 				}
 			}
@@ -500,12 +498,12 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	@ResponseBody
 	public RespJson check(QueryDeliverFormVo vo) {
 		LOG.info(LogConstant.OUT_PARAM, vo.toString());
-		try{
+		try {
 			SysUser user = UserUtil.getCurrentUser();
 			vo.setUpdateUserId(user.getId());
 			return deliverFormServiceApi.check(vo);
-		}catch(Exception e){
-			LOG.error("配送单审核操作失败！{}",e);
+		} catch (Exception e) {
+			LOG.error("配送单审核操作失败！{}", e);
 			return RespJson.error("审核操作失败！");
 		}
 	}
@@ -586,7 +584,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		// 制单人员
 		replaceMap.put("_制单人员", deliverForm.getCreateUserName() != null ? deliverForm.getCreateUserName() : "");
 		replaceMap
-		.put("createUserName", deliverForm.getCreateUserName() != null ? deliverForm.getCreateUserName() : "");
+				.put("createUserName", deliverForm.getCreateUserName() != null ? deliverForm.getCreateUserName() : "");
 		// 制单日期
 		replaceMap.put("_制单日期", deliverForm.getCreateTime() != null ? deliverForm.getCreateTime() : "");
 		replaceMap.put("createTime",
@@ -651,7 +649,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	// end by lijy02
 
 	/**
-	 * @Description: 导入功能
+	 * @Description: 要货单导入功能
 	 * @param file
 	 * @param type 0货号、1条码
 	 * @param targetBranchId
@@ -663,7 +661,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	@RequestMapping(value = "importList")
 	@ResponseBody
 	public RespJson importList(@RequestParam("file") MultipartFile file, String type, String targetBranchId,
-			String sourceBranchId,String formType) {
+			String sourceBranchId, String formType) {
 		RespJson respJson = RespJson.success();
 		try {
 			if (file.isEmpty()) {
@@ -705,128 +703,128 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 			map.put("formType", formType);
 			final String finalType = type;
 			GoodsSelectImportVo<GoodsSelectDeliver> vo = goodsSelectImportComponent.importSelectGoods(fileName, is,
-					fields, new GoodsSelectDeliver(), null, user.getId(), type, "/form/deliverForm/downloadErrorFile",
-					new GoodsSelectImportBusinessValid() {
+					fields, new GoodsSelectDeliver(), sourceBranchId, user.getId(), type,
+					"/form/deliverForm/downloadErrorFile", new GoodsSelectImportBusinessValid() {
 
-				@Override
-				public void formatter(List<? extends GoodsSelect> successData,
-						List<JSONObject> excelListSuccessData, List<JSONObject> excelListErrorData) {
-					if (firstColumn.indexOf(GoodsSelectImportHandle.LARGE_NUM) == 1) {
-						for (GoodsSelect objGoods : successData) {
-							GoodsSelectDeliver obj = (GoodsSelectDeliver) objGoods;
-							if (!StringUtils.isEmpty(obj.getLargeNum()) && obj.getDistributionSpec() != null) {
-								obj.setNum(new BigDecimal(obj.getLargeNum())
-								.multiply(obj.getDistributionSpec()).toEngineeringString());
-							}
-						}
-					} else {
-						Map<String, String> map = new HashMap<String, String>();
-						List<GoodsSelectDeliver> lists = new ArrayList<GoodsSelectDeliver>();
-						for (int i = 0; i < successData.size(); i++) {
-							GoodsSelectDeliver obj = (GoodsSelectDeliver) successData.get(i);
-							if (checkNumAndDistributionSpec(obj, excelListErrorData, finalType, map)) {
-								// 设置箱数
-								obj.setLargeNum(new BigDecimal(obj.getNum()).divide(obj.getDistributionSpec(),
-										4, RoundingMode.HALF_UP).toEngineeringString());
+						@Override
+						public void formatter(List<? extends GoodsSelect> successData,
+								List<JSONObject> excelListSuccessData, List<JSONObject> excelListErrorData) {
+							if (firstColumn.indexOf(GoodsSelectImportHandle.LARGE_NUM) == 1) {
+								for (GoodsSelect objGoods : successData) {
+									GoodsSelectDeliver obj = (GoodsSelectDeliver) objGoods;
+									if (!StringUtils.isEmpty(obj.getLargeNum()) && obj.getDistributionSpec() != null) {
+										obj.setNum(new BigDecimal(obj.getLargeNum())
+												.multiply(obj.getDistributionSpec()).toEngineeringString());
+									}
+								}
 							} else {
-								lists.add(obj);
+								Map<String, String> map = new HashMap<String, String>();
+								List<GoodsSelectDeliver> lists = new ArrayList<GoodsSelectDeliver>();
+								for (int i = 0; i < successData.size(); i++) {
+									GoodsSelectDeliver obj = (GoodsSelectDeliver) successData.get(i);
+									if (checkNumAndDistributionSpec(obj, excelListErrorData, finalType, map)) {
+										// 设置箱数
+										obj.setLargeNum(new BigDecimal(obj.getNum()).divide(obj.getDistributionSpec(),
+												4, RoundingMode.HALF_UP).toEngineeringString());
+									} else {
+										lists.add(obj);
+									}
+								}
+								for (GoodsSelectDeliver obj : lists) {
+									successData.remove(obj);
+								}
+								// 从新组织数据
+								setSuccessData(map, excelListSuccessData, finalType);
 							}
 						}
-						for (GoodsSelectDeliver obj : lists) {
-							successData.remove(obj);
-						}
-						// 从新组织数据
-						setSuccessData(map, excelListSuccessData, finalType);
-					}
-				}
 
-				/**
-				 * @Description: 从新组织数据
-				 * @param map
-				 * @param excelListSuccessData
-				 * @param type
-				 * @author zhangchm
-				 * @date 2017年1月10日
-				 */
-				private void setSuccessData(Map<String, String> map, List<JSONObject> excelListSuccessData,
-						String type) {
-					for (JSONObject json : excelListSuccessData) {
-						String temp = "";
-						if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE_NUM)) {
-							temp = json.getString("skuCode");
-						} else {
-							temp = json.getString("barCode");
-						}
-						if (map.get(temp) != null) {
-							json.element("error", map.get(temp));
-						}
-					}
-				}
-
-				/**
-				 * @Description: 验证数量是否是 箱数的整数倍
-				 * @param obj
-				 * @param excelListErrorData
-				 * @param type 类型
-				 * @param map
-				 * @return boolean
-				 * @author zhangchm
-				 * @date 2017年1月10日
-				 */
-				private boolean checkNumAndDistributionSpec(GoodsSelectDeliver obj,
-						List<JSONObject> excelListErrorData, String type, Map<String, String> map) {
-					JSONObject json = null;
-					BigDecimal checkNum = new BigDecimal(obj.getNum());
-					try {
-						BigDecimal realLargeNum = checkNum.divide(obj.getDistributionSpec(), 8,
-								RoundingMode.HALF_UP);
-						BigDecimal tempLargeNum = checkNum.divide(obj.getDistributionSpec(), 0,
-								RoundingMode.HALF_UP);
-						if (realLargeNum.compareTo(tempLargeNum) != 0) {
-							json = new JSONObject();
-							if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE_NUM)) {
-								json.element("skuCode", obj.getSkuCode());
-								map.put(obj.getSkuCode(), "该商品输入数量不是箱数的整数倍,规格 : " + obj.getDistributionSpec());
-							} else {
-								json.element("barCode", obj.getBarCode());
-								map.put(obj.getBarCode(), "该商品输入数量不是箱数的整数倍,规格 : " + obj.getDistributionSpec());
+						/**
+						 * @Description: 从新组织数据
+						 * @param map
+						 * @param excelListSuccessData
+						 * @param type
+						 * @author zhangchm
+						 * @date 2017年1月10日
+						 */
+						private void setSuccessData(Map<String, String> map, List<JSONObject> excelListSuccessData,
+								String type) {
+							for (JSONObject json : excelListSuccessData) {
+								String temp = "";
+								if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE_NUM)) {
+									temp = json.getString("skuCode");
+								} else {
+									temp = json.getString("barCode");
+								}
+								if (map.get(temp) != null) {
+									json.element("error", map.get(temp));
+								}
 							}
-							json.element("num", checkNum);
-							json.element("error", "该商品输入数量不是箱数的整数倍,规格 : " + obj.getDistributionSpec());
-							excelListErrorData.add(json);
-							return false;
 						}
-					} catch (NumberFormatException e) {
-						json = new JSONObject();
-						if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE_NUM)) {
-							json.element("skuCode", obj.getSkuCode());
-							map.put(obj.getSkuCode(), "输入的数量不是数字!");
-						} else {
-							json.element("barCode", obj.getBarCode());
-							map.put(obj.getBarCode(), "输入的数量不是数字!");
+
+						/**
+						 * @Description: 验证数量是否是 箱数的整数倍
+						 * @param obj
+						 * @param excelListErrorData
+						 * @param type 类型
+						 * @param map
+						 * @return boolean
+						 * @author zhangchm
+						 * @date 2017年1月10日
+						 */
+						private boolean checkNumAndDistributionSpec(GoodsSelectDeliver obj,
+								List<JSONObject> excelListErrorData, String type, Map<String, String> map) {
+							JSONObject json = null;
+							BigDecimal checkNum = new BigDecimal(obj.getNum());
+							try {
+								BigDecimal realLargeNum = checkNum.divide(obj.getDistributionSpec(), 8,
+										RoundingMode.HALF_UP);
+								BigDecimal tempLargeNum = checkNum.divide(obj.getDistributionSpec(), 0,
+										RoundingMode.HALF_UP);
+								if (realLargeNum.compareTo(tempLargeNum) != 0) {
+									json = new JSONObject();
+									if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE_NUM)) {
+										json.element("skuCode", obj.getSkuCode());
+										map.put(obj.getSkuCode(), "该商品输入数量不是箱数的整数倍,规格 : " + obj.getDistributionSpec());
+									} else {
+										json.element("barCode", obj.getBarCode());
+										map.put(obj.getBarCode(), "该商品输入数量不是箱数的整数倍,规格 : " + obj.getDistributionSpec());
+									}
+									json.element("num", checkNum);
+									json.element("error", "该商品输入数量不是箱数的整数倍,规格 : " + obj.getDistributionSpec());
+									excelListErrorData.add(json);
+									return false;
+								}
+							} catch (NumberFormatException e) {
+								json = new JSONObject();
+								if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE_NUM)) {
+									json.element("skuCode", obj.getSkuCode());
+									map.put(obj.getSkuCode(), "输入的数量不是数字!");
+								} else {
+									json.element("barCode", obj.getBarCode());
+									map.put(obj.getBarCode(), "输入的数量不是数字!");
+								}
+								json.element("num", checkNum);
+								json.element("error", "输入的数量不是数字!");
+								excelListErrorData.add(json);
+								LOG.error("导入的箱数或数量不是数字:", e);
+								return false;
+							}
+							return true;
 						}
-						json.element("num", checkNum);
-						json.element("error", "输入的数量不是数字!");
-						excelListErrorData.add(json);
-						LOG.error("导入的箱数或数量不是数字:", e);
-						return false;
-					}
-					return true;
-				}
 
-				@Override
-				public void businessValid(List<JSONObject> excelListSuccessData, String[] excelField) {
+						@Override
+						public void businessValid(List<JSONObject> excelListSuccessData, String[] excelField) {
 
-				}
+						}
 
-				@Override
-				public void errorDataFormatter(List<JSONObject> list) {
-					for (JSONObject json : list) {
-						LOG.info(json.toString());
-					}
-				}
+						@Override
+						public void errorDataFormatter(List<JSONObject> list) {
+							for (JSONObject json : list) {
+								LOG.info(json.toString());
+							}
+						}
 
-			}, map);
+					}, map);
 			respJson.put("importInfo", vo);
 		} catch (IOException e) {
 			respJson = RespJson.error("读取Excel流异常");
@@ -936,7 +934,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	}
 
 	/**
-	 * @Description: 导入功能
+	 * @Description: 出库单导入功能
 	 * @param file
 	 * @param type 0货号、1条码
 	 * @param branchId
@@ -946,7 +944,8 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	 */
 	@RequestMapping(value = "reportList")
 	@ResponseBody
-	public RespJson reportList(@RequestParam("file") MultipartFile file, String type, String branchId) {
+	public RespJson reportList(@RequestParam("file") MultipartFile file, String type, String sourceBranchId,
+			String targetBranchId, String formType) {
 		RespJson respJson = RespJson.success();
 		try {
 			if (file.isEmpty()) {
@@ -966,55 +965,60 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 			} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {
 				fields = ImportExcelConstant.DELIVER_GOODS_BARCODE_REPORT;
 			}
+
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("targetBranchId", targetBranchId);
+			map.put("formType", formType);
+
 			GoodsSelectImportVo<GoodsSelectDeliver> vo = goodsSelectImportComponent.importSelectGoods(fileName, is,
-					fields, new GoodsSelectDeliver(), branchId, user.getId(), type, "/form/deliverForm/downloadError",
-					new GoodsSelectImportBusinessValid() {
+					fields, new GoodsSelectDeliver(), sourceBranchId, user.getId(), type,
+					"/form/deliverForm/downloadError", new GoodsSelectImportBusinessValid() {
 
-				@Override
-				public void formatter(List<? extends GoodsSelect> list, List<JSONObject> excelListSuccessData,
-						List<JSONObject> excelListErrorData) {
-				}
-
-				@Override
-				public void businessValid(List<JSONObject> excelListSuccessData, String[] excelField) {
-					for (JSONObject obj : excelListSuccessData) {
-						String num = obj.getString("largeNum");
-						try {
-							Double.parseDouble(num);
-						} catch (Exception e) {
-							obj.element("largeNum", 0);
+						@Override
+						public void formatter(List<? extends GoodsSelect> list, List<JSONObject> excelListSuccessData,
+								List<JSONObject> excelListErrorData) {
 						}
 
-						try {
-							String isGift = obj.getString("isGift");
-							if ("是".equals(isGift)) {// 如果是赠品，单价设置为0
-								obj.element("isGift", "1");
-								obj.element("price", 0);
-							} else if ("否".equals(isGift)) {
-								obj.element("isGift", "0");
-							} else {
-								obj.element("error", "是否赠品字段填写有误");
-							}
-						} catch (Exception e) {
-							obj.element("error", "是否赠品字段填写有误");
-						}
-					}
-				}
+						@Override
+						public void businessValid(List<JSONObject> excelListSuccessData, String[] excelField) {
+							for (JSONObject obj : excelListSuccessData) {
+								String num = obj.getString("largeNum");
+								try {
+									Double.parseDouble(num);
+								} catch (Exception e) {
+									obj.element("largeNum", 0);
+								}
 
-				@Override
-				public void errorDataFormatter(List<JSONObject> list) {
-					for (JSONObject obj : list) {
-						if (obj.containsKey("isGift")) {
-							String isGift = obj.getString("isGift");
-							if ("1".equals(isGift)) {
-								obj.element("isGift", "是");
-							} else if ("0".equals(isGift)) {
-								obj.element("isGift", "否");
+								try {
+									String isGift = obj.getString("isGift");
+									if ("是".equals(isGift)) {// 如果是赠品，单价设置为0
+										obj.element("isGift", "1");
+										obj.element("price", 0);
+									} else if ("否".equals(isGift)) {
+										obj.element("isGift", "0");
+									} else {
+										obj.element("error", "是否赠品字段填写有误");
+									}
+								} catch (Exception e) {
+									obj.element("error", "是否赠品字段填写有误");
+								}
 							}
 						}
-					}
-				}
-			}, null);
+
+						@Override
+						public void errorDataFormatter(List<JSONObject> list) {
+							for (JSONObject obj : list) {
+								if (obj.containsKey("isGift")) {
+									String isGift = obj.getString("isGift");
+									if ("1".equals(isGift)) {
+										obj.element("isGift", "是");
+									} else if ("0".equals(isGift)) {
+										obj.element("isGift", "否");
+									}
+								}
+							}
+						}
+					}, map);
 			respJson.put("importInfo", vo);
 		} catch (IOException e) {
 			respJson = RespJson.error("读取Excel流异常");

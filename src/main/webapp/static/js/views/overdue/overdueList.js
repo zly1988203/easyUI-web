@@ -59,9 +59,9 @@ function initDatagridOrders(){
             		return '未知类型：'+ value;
             	}
             }},*/
-            {field:'branchCode',title:'机构编码',width:'140px',align:'left'},
+            {field:'branchCode',title:'机构编码',width:'80px',align:'left'},
             {field:'branchName',title:'机构名称',width:'140px',align:'left'},
-            {field:'skuCode',title:'货号',width:'120px',align:'left'},
+            {field:'skuCode',title:'货号',width:'80px',align:'left'},
             {field:'skuName',title:'名称',width:'140px',align:'left'},
             {field:'barCode',title:'条码',width:'120px',align:'left'},
             {field:'unit',title:'单位',width:'80px',align:'left'},

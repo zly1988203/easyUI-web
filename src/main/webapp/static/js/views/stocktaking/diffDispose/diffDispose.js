@@ -41,8 +41,6 @@ $(function(){
  }
 )
 
-
-
 var gridHandel = new GridClass();
 function initOperateDataGrid(){
 	 gridHandel.setGridName(gridName);
