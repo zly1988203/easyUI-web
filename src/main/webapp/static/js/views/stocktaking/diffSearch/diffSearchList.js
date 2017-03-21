@@ -25,6 +25,8 @@ function  initPageData() {
     $("#branchId").val(sessionBranchId);
     $("#branchCompleCode").val(sessionBranchCompleCode);
     $("#oldBranchName").val(sessionBranchName);
+    $('#batchId').val('');
+    $('#batchNo').val('');
     //开始和结束时间
     $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
