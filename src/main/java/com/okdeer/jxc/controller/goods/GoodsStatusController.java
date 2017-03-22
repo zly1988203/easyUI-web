@@ -154,8 +154,8 @@ public class GoodsStatusController extends BaseController<GoodsStatusController>
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
-			if(com.okdeer.jxc.common.utils.StringUtils.isBlank(vo.getBranchId())){
-				vo.setBranchId(UserUtil.getCurrBranchId());
+			if(com.okdeer.jxc.common.utils.StringUtils.isBlank(vo.getBranchCompleCode())){
+				vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
 			}
 			//vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
 			PageUtils<GoodsStatusVo> list = goodsStatusService.getStopGuideList(vo);

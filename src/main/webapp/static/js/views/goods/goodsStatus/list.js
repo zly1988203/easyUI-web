@@ -467,13 +467,13 @@ function checkStopGuide(){
 	var guideChoose = $("input[name='stGuideChoose']:checked").val();
 	var guideDate = $("#stGuideDate").numberbox('getValue');
 	var guideNum = $("#stGuideNum").numberbox('getValue');
-	var branchId = $("#branchId").val();
+	var branchCode = $("#branchCode").val();
 	var params = {
 			guideType:guideType,
 			guideChoose:guideChoose,
 			guideDate:guideDate,
 			guideNum:guideNum,
-			branchId:branchId
+			branchCompleCode:branchCode
 	};
 	$("#goodsStatus").datagrid("options").queryParams = params;
 	$("#goodsStatus").datagrid("options").method = "post";
