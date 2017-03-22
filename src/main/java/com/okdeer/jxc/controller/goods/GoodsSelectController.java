@@ -33,12 +33,8 @@ import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.okdeer.base.common.exception.ServiceException;
 import com.okdeer.jxc.branch.entity.Branches;
-import com.okdeer.jxc.branch.entity.BranchesGrow;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.common.constant.Constant;
-import com.okdeer.jxc.common.enums.BranchPriceSpecEnum;
-import com.okdeer.jxc.common.enums.BranchSelectGoodsSpecEnum;
-import com.okdeer.jxc.common.enums.BranchTypeEnum;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.result.ResultCodeEnum;
 import com.okdeer.jxc.common.utils.PageUtils;
@@ -155,7 +151,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 			LOG.info("商品查询参数:{}" + vo.toString());
 			// 要货单商品资料查询、价格查询
 			if (FormType.DA.name().equals(vo.getFormType())||FormType.DD.name().equals(vo.getFormType())) {
-				PageUtils<GoodsSelect> goodsSelects = getGoodsListDA(vo);
+				PageUtils<GoodsSelect> goodsSelects = goodsSelectServiceApi.getGoodsListDA(vo);
 				return goodsSelects;
 			}
 			//如果是促销活动页面查询商品，需要过滤掉不参加促销的商品
@@ -182,105 +178,6 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 			LOG.error("查询商品选择数据出现异常:", e);
 		}
 		return PageUtils.emptyPage();
-	}
-
-	/**
-	 * @Description: 要货单商品资料查询、价格查询
-	 * @param vo
-	 * @return
-	 * @author zhangchm
-	 * @date 2016年11月28日
-	 */
-	private PageUtils<GoodsSelect> getGoodsListDA(GoodsSelectVo vo) {
-		
-		// 店间配送单
-		if (FormType.DD.name().equals(vo.getFormType())) {
-			vo.setBranchId(vo.getSourceBranchId());
-			return goodsSelectServiceApi.queryCostBranch(vo);
-		}
-		
-		// 查询要货机构类型、配送设置
-		BranchesGrow targetBranch = branchesService.queryBranchesAndSpecByBranchId(vo.getTargetBranchId());
-		if (StringUtils.isEmpty(targetBranch.getPriceSpec())) {
-			targetBranch.setPriceSpec(BranchPriceSpecEnum.COST_PRICE.getKey());
-		}
-		// 要货机构:自营店A\物流中心
-		if (BranchTypeEnum.SELF_STORE.getCode().equals(targetBranch.getBranchType())) {
-			return queryByBranchTypeGetGoodsAndPrice_A_Target(vo, targetBranch);
-		}
-		// 要货机构:加盟店B\加盟店C (发货机构配送价、发货机构商品)
-		if (BranchTypeEnum.FRANCHISE_STORE_B.getCode().equals(targetBranch.getBranchType())
-				|| BranchTypeEnum.FRANCHISE_STORE_C.getCode().equals(targetBranch.getBranchType())) {
-			vo.setPriceSpec(BranchPriceSpecEnum.DISTRIBUTION_PRICE.getKey());
-			return goodsSelectServiceApi.queryByBranchTypeGetGoodsAndPrice_A_SourceBranch_Target(vo);
-		}
-		// 要货机构:为分公司\物流中心
-		if (BranchTypeEnum.BRANCH_OFFICE.getCode().equals(targetBranch.getBranchType())
-				|| BranchTypeEnum.LOGISTICS_CENTER.getCode().equals(targetBranch.getBranchType())) {
-			return queryByBranchTypeGetGoodsAndPrice_A_Source(vo, targetBranch);
-		}
-		return PageUtils.emptyPage();
-	}
-
-	/**
-	 * @Description: 发货机构:自营店A，根据配送设置取要货机构成本价或要货机构配送价 ，根据配送设置取发货机构商品或发货机构与要货机构并集
-	 *               发货机构:加盟店B\C，要货机构配送价， 发货机构商品
-	 * @param vo
-	 * @param targetBranch
-	 * @return
-	 * @author zhangchm
-	 * @date 2016年11月28日
-	 */
-	private PageUtils<GoodsSelect> queryByBranchTypeGetGoodsAndPrice_A_Source(GoodsSelectVo vo,
-			BranchesGrow targetBranch) {
-		vo.setPriceSpec(targetBranch.getPriceSpec());
-		// 获取 发货机构
-		BranchesGrow sourceBranch = branchesService.queryBranchesAndSpecByBranchId(vo.getSourceBranchId());
-		// 自营店A 发货机构与要货机构并集
-		if (BranchTypeEnum.SELF_STORE.getCode().equals(sourceBranch.getBranchType())) {
-			// 默认进货机构和发货机构的交集
-			if (StringUtils.isEmpty(targetBranch.getSelectGoodsSpec())
-					|| BranchSelectGoodsSpecEnum.INTERSECTION_SELECT_GOODS.getKey().equals(
-							targetBranch.getSelectGoodsSpec())) {
-				return goodsSelectServiceApi.queryByBranchTypeGetGoodsAndPrice_A_SourceBranchAndTargetBranch_Source(vo);
-			} else {
-				// 发货机构商品
-				return goodsSelectServiceApi.queryByBranchTypeGetGoodsAndPrice_A_SourceBranch_Source(vo);
-			}
-		} else if (BranchTypeEnum.FRANCHISE_STORE_B.getCode().equals(sourceBranch.getBranchType())
-				|| BranchTypeEnum.FRANCHISE_STORE_C.getCode().equals(sourceBranch.getBranchType())) {
-			// 发货机构商品
-			vo.setPriceSpec(BranchPriceSpecEnum.DISTRIBUTION_PRICE.getKey());
-			return goodsSelectServiceApi.queryByBranchTypeGetGoodsAndPrice_A_SourceBranch_Source(vo);
-		} else {
-			LOG.error("发货机构类型错误！");
-			return PageUtils.emptyPage();
-		}
-	}
-
-	/**
-	 * @Description: 要货机构:自营店A，根据配送设置取要货机构成本价或发货机构配送价，根据配送设置取发货机构商品或发货机构与要货机构交集,
-	 * 				  	        自营店要货价格直接取物流配送价；（不启用则默认为自身成本价）,
-	 * 				  	        自营店要货可以要仓库所有对外供应商品；（不启用则只能要仓库供应且自身有卖的商品）
-	 * 				 要货机构:加盟店B\C，发货机构配送价， 发货机构商品
-	 * @param vo
-	 * @param targetBranch
-	 * @return
-	 * @author zhangchm
-	 * @date 2016年11月28日
-	 */
-	private PageUtils<GoodsSelect> queryByBranchTypeGetGoodsAndPrice_A_Target(GoodsSelectVo vo,
-			BranchesGrow targetBranch) {
-		vo.setPriceSpec(targetBranch.getPriceSpec());
-		// 默认进货机构和发货机构的交集
-		if (StringUtils.isEmpty(targetBranch.getSelectGoodsSpec())
-				|| BranchSelectGoodsSpecEnum.INTERSECTION_SELECT_GOODS.getKey().equals(
-						targetBranch.getSelectGoodsSpec())) {
-			return goodsSelectServiceApi.queryByBranchTypeGetGoodsAndPrice_A_SourceBranchAndTargetBranch_Target(vo);
-		} else {
-			// 发货机构商品
-			return goodsSelectServiceApi.queryByBranchTypeGetGoodsAndPrice_A_SourceBranch_Target(vo);
-		}
 	}
 
 	//根据机构id判断查询采购商品
@@ -338,7 +235,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 				vo.setPageNumber(1);
 				vo.setPageSize(50);
 				vo.setFormType(type);
-				PageUtils<GoodsSelect> goodsSelects = getGoodsListDA(vo);
+				PageUtils<GoodsSelect> goodsSelects = goodsSelectServiceApi.getGoodsListDA(vo);
 				suppliers = goodsSelects.getList();
 			}
 			else {
