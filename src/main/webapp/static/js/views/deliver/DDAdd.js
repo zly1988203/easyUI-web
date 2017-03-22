@@ -831,7 +831,7 @@ function selectSourceBranch(){
                 $("#sourceBranchName").val("["+data.branchCode+"]"+data.branchName);
                 gridHandel.setLoadData([$.extend({},gridDefault)]);
             }
-        },'',"","");
+        },'DD',"","");
     }
 }
 
