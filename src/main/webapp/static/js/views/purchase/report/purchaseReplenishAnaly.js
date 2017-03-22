@@ -15,14 +15,14 @@ $(function() {
 //初始化默认条件
 function initSearchParams(){
 	$("#replenishDate").val(dateUtil.getCurrentDateDay());
-    $("#branchCodeName").val(sessionBranchCodeName);
-    $("#branchType").val(sessionBranchType);
-    $("#branchId").val(sessionBranchId);
-    $("#branchCompleCode").val(sessionBranchCompleCode);
-    $("#branchParentId").val(sessionBranchParentId);
     
     //如果是门店，则只能查看当前店铺数据
 	if(sessionBranchType >= 3){
+		$("#branchCodeName").val(sessionBranchCodeName);
+	    $("#branchType").val(sessionBranchType);
+	    $("#branchId").val(sessionBranchId);
+	    $("#branchCompleCode").val(sessionBranchCompleCode);
+	    $("#branchParentId").val(sessionBranchParentId);
 		$("#selectBranchMore").hide();
 		$("#branchCodeName").prop('disabled','disabled');
 		$("#branchCodeName").unbind("click");
@@ -116,6 +116,12 @@ function initPurchaseReplenishAnalyDg(){
 function searchForm(){
 	$("#startCount").val('');
 	$("#endCount").val('');
+	
+	var branchId = $("#branchId").val();
+	if(!branchId){
+		successTip("请选择店铺信息!");
+		return;
+	}
 	
 	var branchType = $("#branchType").val();
 	if(branchType<3){
