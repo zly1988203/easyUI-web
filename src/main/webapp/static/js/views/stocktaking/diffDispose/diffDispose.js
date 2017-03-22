@@ -354,9 +354,7 @@ function printDiffDispose(){
 		return;
 	}
 	var fromObjStr = $('#searchForm').serializeObject();
-	console.log(fromObjStr);
 	var param=setParams("searchForm");
-	console.log(param);
 	parent.addTabPrint("差异详情","打印",contextPath+"/stocktaking/diffDispose/printDiffDispose?" + param);
 }
 
@@ -413,6 +411,7 @@ function saveDiffDispose(){
 }
 
 function saveDataHandel(rows){
+	gFunStartLoading();
 	//批次Id
 	var batchId=$("#batchId").val();
 	//remark
@@ -431,6 +430,7 @@ function saveDataHandel(rows){
         type:"POST",
         data:{"data":JSON.stringify(jsonData)},
         success:function(result){
+        	gFunEndLoading();
             if(result['code'] == 0){
     			$.messager.alert("操作提示", "操作成功！", "info",function(){
     				location.href = contextPath +"/stocktaking/diffDispose/stocktakingBatchView?id="+result['batchId'];
@@ -475,13 +475,15 @@ function auditDiffDispose(){
 			batchNo:batchNo,
             sumStocktakingNum:$('#sumStocktakingNum').val()
         };
-	$.messager.confirm('提示','是否审核通过？',function(data){
-		if(data){
+	$.messager.confirm('提示','是否审核通过？',function(r){
+		if(r){
+			gFunStartLoading();
 			$.ajax({
 		    	url : contextPath+"/stocktaking/diffDispose/auditDiffDispose",
 		    	type : "POST",
 		    	data:{"data":JSON.stringify(jsonData)},
 		    	success:function(result){
+		    		gFunEndLoading();
 		    		if(result['code'] == 0){
 		    			$.messager.alert("操作提示", "操作成功！", "info",function(){
 		    				location.href = contextPath +"/stocktaking/diffDispose/stocktakingBatchView?id="+result['batchId'];

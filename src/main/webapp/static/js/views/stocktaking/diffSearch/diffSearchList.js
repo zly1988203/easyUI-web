@@ -353,7 +353,6 @@ function searchTakeStock(){
 			branchCompleCode:branchCompleCode
 	}
 	new publicStocktakingDialog(param,function(data){
-		console.log(data);
 //		$("#branchId").val(data.branchId);
 //		$("#branchName").val(data.branchName);
 		$("#batchId").val(data.id);
@@ -429,7 +428,6 @@ function exportExcel(){
 		return;
 	}
 	var fromObjStr = $('#queryForm').serializeObject();
-	console.log(fromObjStr);
 	$("#queryForm").form({
 		success : function(data){
 			if(data==null){
