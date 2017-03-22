@@ -16,7 +16,7 @@
 	        <div class="ub ub-ac">
 	            <div class="ubtns"> 
 	            <shiro:hasPermission name="JxcPurchaseReplenish:search">
-					<div class="ubtns-item" onclick="queryForm()">查询</div>
+					<div class="ubtns-item" onclick="searchForm()">查询</div>
 				</shiro:hasPermission>
 	            <shiro:hasPermission name="JxcPurchaseReplenish:export">
 	                <div class="ubtns-item" onclick="exportData()">导出</div>

@@ -107,13 +107,15 @@ function initPurchaseReplenishAnalyDg(){
 	});
 	
 	//如果当前机构是店铺，则直接获取当前数据
-	if(sessionBranchType>2){
-		queryForm();
+	if(sessionBranchType>=3){
+		searchForm();
 	}
 }
 
 //查询
-function queryForm(){
+function searchForm(){
+	$("#startCount").val('');
+	$("#endCount").val('');
 	
 	var branchType = $("#branchType").val();
 	if(branchType<3){
@@ -245,13 +247,6 @@ function supplierAutoComple(){
 	});
 }
 
-/**
- * 重置
- */
-function resetForm(){
-	$("#queryForm").form('clear');
-	$("#replenishDate").val(dateUtil.getCurrentDateDay());
-};
 
 /**
  * 导出
@@ -275,12 +270,17 @@ function exportExcel(){
 	$("#exportWin").hide();
 	$("#exportWin").window("close");
 	$("#queryForm").form({
+		url:contextPath+"/purchaseReplenishAnaly/exportReportList",
+		onSubmit: function(){    
+			// do some check    
+			// return false to prevent submit;    
+		},   
 		success : function(result){
 			var dataObj=eval("("+result+")");
 			successTip(dataObj.message);
 		}
 	});
-	$("#queryForm").attr("action",contextPath+"/purchaseReplenishAnaly/exportReportList");
+	//$("#queryForm").attr("action",contextPath+"/purchaseReplenishAnaly/exportReportList");
 	$("#queryForm").submit();
 }
 
