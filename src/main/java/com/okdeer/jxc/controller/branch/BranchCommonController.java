@@ -106,12 +106,10 @@ public class BranchCommonController extends BaseController<BranchCommonControlle
 			
 			//3.自营店、4.加盟店B、5.加盟店C
 			if ("DD".equals(vo.getFormType())) {
-//				vo.setBranchesId(UserUtil.getCurrBranchParentId());
+				vo.setBranchId(UserUtil.getCurrBranchParentId());
 				vo.setBranchType(null);
 				vo.setBranchTypes(new int[]{3,4,5});
-				//根据分公司获取数据
-				String parentCompleCode = currBranchCompleCode.substring(0, currBranchCompleCode.length()-5);
-				vo.setBranchCompleCode(parentCompleCode);
+				vo.setBranchCompleCode(null);
 			}
 			
 			//根据当前分公司获取所有店铺数据
