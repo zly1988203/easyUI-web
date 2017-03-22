@@ -89,7 +89,8 @@ public class BranchCommonController extends BaseController<BranchCommonControlle
 			LOG.info("查询机构参数:{}", vo.toString()+"pageNumber:"+pageNumber+"pageSize:"+pageSize);
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
-			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
+			String currBranchCompleCode = getCurrBranchCompleCode();
+			vo.setBranchCompleCode(currBranchCompleCode);
 			vo.setType(UserUtil.getCurrBranchType());
 			if (StringUtils.isEmpty(vo.getBranchId())) {
 				vo.setBranchId(UserUtil.getCurrBranchId());
@@ -105,10 +106,18 @@ public class BranchCommonController extends BaseController<BranchCommonControlle
 			
 			//3.自营店、4.加盟店B、5.加盟店C
 			if ("DD".equals(vo.getFormType())) {
-				vo.setBranchId(UserUtil.getCurrBranchParentId());
+//				vo.setBranchesId(UserUtil.getCurrBranchParentId());
 				vo.setBranchType(null);
 				vo.setBranchTypes(new int[]{3,4,5});
-				vo.setBranchCompleCode(null);
+				//根据分公司获取数据
+				String parentCompleCode = currBranchCompleCode.substring(0, currBranchCompleCode.length()-5);
+				vo.setBranchCompleCode(parentCompleCode);
+			}
+			
+			//根据当前分公司获取所有店铺数据
+			if("FD".equals(vo.getFormType())){
+				vo.setBranchType(null);
+				vo.setBranchTypes(new int[]{3,4,5});
 			}
 			
 			PageUtils<Branches> suppliers = branchesService.queryLists(vo);

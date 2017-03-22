@@ -145,7 +145,7 @@ function setParams(formId){
 function searchTakeStock(){
 	var branchCompleCode = $('#branchCompleCode').val();
 	var param = {
-			status:1,
+			status:'',
 			branchCompleCode:branchCompleCode
 	}
 	new publicStocktakingDialog(param,function(data){
