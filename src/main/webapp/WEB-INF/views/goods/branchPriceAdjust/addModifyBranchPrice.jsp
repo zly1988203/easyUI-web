@@ -19,7 +19,7 @@
 				  	<div class="ubtns-item"onclick="addModifyDataGrid();">新增</div>
 			   </shiro:hasPermission>
 			   
-			   <shiro:hasPermission name="JxcPriceAdjust:save">
+			   <shiro:hasPermission name="JxcBranchPriceAdjust:save">
 	                <c:choose>
 					   <c:when test="${empty goodsPriceForm.formNo}">
 					    	<div class="ubtns-item" id="saveModifyPriceOrder" onclick="saveModifyPriceOrder();">保存</div>
@@ -35,7 +35,7 @@
 					</c:choose>
 			   </shiro:hasPermission>
 				
-		       <shiro:hasPermission name="JxcPriceAdjust:delete">
+		       <shiro:hasPermission name="JxcBranchPriceAdjust:delete">
 	          		 <c:choose>
 	      			 	<c:when test="${empty goodsPriceForm.formNo || goodsPriceForm.status ==1 }">
 		 	 				<div class="ubtns-item-disabled">删单</div>
@@ -48,7 +48,7 @@
 	      			 </c:choose>
 	          </shiro:hasPermission>
 	          
-			  <shiro:hasPermission name="JxcPriceAdjust:audit">
+			  <shiro:hasPermission name="JxcBranchPriceAdjust:audit">
 			 	 <c:choose>
       			 	<c:when test="${empty goodsPriceForm.formNo || goodsPriceForm.status == 1}">
 						 <div class="ubtns-item-disabled">审核</div>
@@ -68,7 +68,7 @@
 		 	 	</c:otherwise>
 		 	 </c:choose>
 		 	 
-	       	 <shiro:hasPermission name="JxcPriceAdjust:importDetail">
+	       	 <shiro:hasPermission name="JxcBranchPriceAdjust:importDetail">
 	       		<c:if test="${goodsPriceForm.status !=1 }">
 	         		<div class="ubtns-item" id="importdetail" onclick="toImportproduct(0)">导入货号</div>
 	        		<div class="ubtns-item" id="importdetail" onclick="toImportproduct(1)">导入条码</div>
@@ -79,7 +79,7 @@
 	       		</c:if>
 	       	 </shiro:hasPermission>
 	       	 
-	       	 <shiro:hasPermission name="JxcPriceAdjust:exportDetail">
+	       	 <shiro:hasPermission name="JxcBranchPriceAdjust:exportDetail">
 				 <c:if test="${goodsPriceForm.status ==1 || goodsPriceForm.status ==0}">
 				 	<div class="ubtns-item"  onclick="exportData();">导出</div>
 				 </c:if>
