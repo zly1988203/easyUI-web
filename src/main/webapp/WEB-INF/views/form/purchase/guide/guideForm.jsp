@@ -24,7 +24,7 @@
     <form id="addForm" action="" method="post">
     <div class="ub ub-ver umar-l20">
     	<div class="ub umar-t20">
-    			<div class="ub ub-ac uw-522">
+    			<div class="ub ub-ac uw-516">
 					<div class="umar-r10 uw-70 ut-r">采购机构:</div>
 					<input type="hidden" id="branchId" name="branchId" />
 					<input type="hidden" id="branchCode" name="branchCode" />
@@ -34,8 +34,9 @@
 					<input class="uinp ub ub-f1 easyui-validatebox" type="text" id="branchCodeName" name="branchCodeName" 
 						maxlength="50" readOnly data-options="required:true" onclick="selectBranches()" />
 					<div class="uinp-more" onclick="selectBranches()" >...</div>
-					<i class="uc-red">*</i>
+
 				</div>
+				<div class="umar-l4"><i class="uc-red">*</i></div>
     	</div>
     	
     	<div class="ub umar-t20">

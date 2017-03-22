@@ -98,11 +98,19 @@ $(
                  * 'categoryCodes':$('#categoryCodes').val(), 外部传人的业务类别 数组
                  *
                  * **/
-                $("#gridGoods").datagrid("options").queryParams = $.extend({'flag':$('#flag').val(),
-                        'goodsInfo':$('#goodsInfo').val(),'supplierId':supplierId,
-                        'formType':$('#type').val(),'sourceBranchId':$('#sourceBranchId').val(),
-                        'targetBranchId':$('#targetBranchId').val(),'brandId':brandId,'branchId': $('#branchId').val(),
-                        'categoryCode':categoryCode,'categoryCodes':$('#categoryCodes').val(),'isManagerStock':$('#isManagerStock').val()},
+                $("#gridGoods").datagrid("options").queryParams = $.extend({
+                        'flag':$('#flag').val()==undefined?"":$('#flag').val(),
+                        'goodsInfo':$('#goodsInfo').val()==undefined?"":$('#goodsInfo').val(),
+                        'supplierId':supplierId,
+                        'formType':$('#type').val()==undefined?"":$('#type').val(),
+                        'sourceBranchId':$('#sourceBranchId').val()==undefined?"":$('#sourceBranchId').val(),
+                        'targetBranchId':$('#targetBranchId').val()==undefined?'':$('#targetBranchId').val(),
+                        'brandId':brandId,
+                        'branchId': $('#branchId').val()==undefined?"":$('#branchId').val(),
+                        'categoryCode':categoryCode,
+                        'categoryCodes':$('#categoryCodes').val()==undefined?"":$('#categoryCodes').val(),
+                        'isManagerStock':$('#isManagerStock').val()==undefined?"":$('#isManagerStock').val()
+                },
                     fromParams)
 
                 $("#gridGoods").datagrid("options").method = "post";
@@ -336,11 +344,17 @@ $(
                     }
                     // $("#gridGoods").datagrid("options").queryParams = {'categoryId':categoryId,'goodsInfo':goodsInfo,'formType':'${type}','sourceBranchId':'${sourceBranchId}','targetBranchId':'${targetBranchId}'};
                     // 梁利 提出左边树与右边的查询无关系
-                    $("#gridGoods").datagrid("options").queryParams = $.extend({'flag':$('#flag').val(),
-                            'goodsInfo':$("#goodsInfo").val(),'supplierId':searchSupplierId,
-                            'formType':$('#type').val(),'sourceBranchId':$('#sourceBranchId').val(),
-                            'targetBranchId':$('#targetBranchId').val(),'branchId':$('#branchId').val(),
-                            'categoryCodes':$('#categoryCodes').val(),'isManagerStock':$('#isManagerStock').val()},
+                    $("#gridGoods").datagrid("options").queryParams = $.extend({
+                            'flag':$('#flag').val()==undefined?"":$('#flag').val(),
+                            'goodsInfo':$("#goodsInfo").val()==undefined?"":$("#goodsInfo").val(),
+                            'supplierId':searchSupplierId,
+                            'formType':$('#type').val()==undefined?"":$('#type').val(),
+                            'sourceBranchId':$('#sourceBranchId').val()==undefined?"":$('#sourceBranchId').val(),
+                            'targetBranchId':$('#targetBranchId').val()==undefined?"":$('#targetBranchId').val(),
+                            'branchId':$('#branchId').val()==undefined?"":$('#branchId').val(),
+                            'categoryCodes':$('#categoryCodes').val()==undefined?"":$('#categoryCodes').val(),
+                            'isManagerStock':$('#isManagerStock').val()==undefined?"":$('#isManagerStock').val()
+                    },
                         fromParams)
                     $("#gridGoods").datagrid("options").method = "post";
                     $("#gridGoods").datagrid("options").url =contextPath + '/goods/goodsSelect/getGoodsList';
@@ -355,10 +369,16 @@ $(
                 if(!param.key){
                     // var searchSupplierId = $("#searchSupplierId").val();
                     $("#gridGoods").datagrid("options").method = "post";
-                    $("#gridGoods").datagrid("options").queryParams = $.extend({'flag':$('#flag').val(),'supplierId':$("#searchSupplierId").val(),
-                            'formType':$('#type').val(),'sourceBranchId':$('#sourceBranchId').val(),
-                            'targetBranchId':$('#targetBranchId').val(),'branchId':$('#branchId').val(),
-                            'categoryCodes':$('#categoryCodes').val(),'isManagerStock':$('#isManagerStock').val()},
+                    $("#gridGoods").datagrid("options").queryParams = $.extend({
+                            'flag':$('#flag').val()==undefined?"":$('#flag').val(),
+                            'supplierId':$("#searchSupplierId").val()==undefined?"":$("#searchSupplierId").val(),
+                            'formType':$('#type').val()==undefined?"":$('#type').val(),
+                            'sourceBranchId':$('#sourceBranchId').val()==undefined?"":$('#sourceBranchId').val(),
+                            'targetBranchId':$('#targetBranchId').val()==undefined?"":$('#targetBranchId').val(),
+                            'branchId':$('#branchId').val()==undefined?"":$('#branchId').val(),
+                            'categoryCodes':$('#categoryCodes').val()==undefined?"":$('#categoryCodes').val(),
+                            'isManagerStock':$('#isManagerStock').val()==undefined?"":$('#isManagerStock').val()
+                    },
                         fromParams)
                     $("#gridGoods").datagrid("options").url =contextPath + '/goods/goodsSelect/getGoodsList';
                     $("#gridGoods").datagrid('load');
