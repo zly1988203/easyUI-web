@@ -833,10 +833,10 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 			respJson.put("importInfo", vo);
 		} catch (IOException e) {
 			respJson = RespJson.error("读取Excel流异常");
-			LOG.error("读取Excel流异常:", e);
+			LOG.error("读取Excel流异常:{}", e);
 		} catch (Exception e) {
 			respJson = RespJson.error("导入发生异常");
-			LOG.error("用户导入异常:", e);
+			LOG.error("用户导入异常:{}", e);
 		}
 		return respJson;
 
@@ -905,7 +905,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 				exportListForXLSX(response, null, fileName, templateName);
 			}
 		} catch (Exception e) {
-			LOG.error("导出要货申请单导入模板异常", e);
+			LOG.error("导出要货申请单导入模板异常:{}", e);
 		}
 	}
 
@@ -934,7 +934,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 				exportListForXLSX(response, null, fileName, templateName);
 			}
 		} catch (Exception e) {
-			LOG.error("导出配送出库单导入模板异常", e);
+			LOG.error("导出配送出库单导入模板异常:{}", e);
 		}
 	}
 
@@ -1028,10 +1028,10 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 			respJson.put("importInfo", vo);
 		} catch (IOException e) {
 			respJson = RespJson.error("读取Excel流异常");
-			LOG.error("读取Excel流异常:", e);
+			LOG.error("读取Excel流异常:{}", e);
 		} catch (Exception e) {
 			respJson = RespJson.error("导入发生异常");
-			LOG.error("用户导入异常:", e);
+			LOG.error("用户导入异常:{}", e);
 		}
 		return respJson;
 	}
@@ -1079,7 +1079,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 			respJson.put("data", map);
 		} catch (Exception e) {
 			respJson = RespJson.error();
-			LOG.error("查询发货机构信息,要货机构信息，单据信息异常", e);
+			LOG.error("查询发货机构信息,要货机构信息，单据信息异常:{}", e);
 		}
 		return respJson;
 	}
