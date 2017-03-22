@@ -374,7 +374,7 @@ function selectGoods(searchKey){
         messager("请先选择发货机构");
         return;
     }
-    new publicGoodsService("DA",function(data){
+    new publicGoodsService("DD",function(data){
         if(searchKey){
             $("#"+gridHandel.getGridName()).datagrid("deleteRow", gridHandel.getSelectRowIndex());
             $("#"+gridHandel.getGridName()).datagrid("acceptChanges");
