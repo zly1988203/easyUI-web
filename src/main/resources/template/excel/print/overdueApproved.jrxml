@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-03-21T17:48:44 -->
+<!-- 2017-03-22T14:49:55 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PaymentOrder" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="BlankPage" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isSummaryWithPageHeaderAndFooter="true" uuid="9aa590ec-4b5f-4eaa-bb10-b5ce33e01e43">
 	<property name="ireport.zoom" value="2.253944402704733"/>
 	<property name="ireport.x" value="0"/>
@@ -124,7 +124,7 @@
 				<textElement textAlignment="Center">
 					<font fontName="SansSerif" size="24" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
-				<text><![CDATA[调价订单申请]]></text>
+				<text><![CDATA[调价单申请]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="32" y="37" width="35" height="20" uuid="963c913e-7c4b-4c33-ad8b-53074a8fc70a"/>
