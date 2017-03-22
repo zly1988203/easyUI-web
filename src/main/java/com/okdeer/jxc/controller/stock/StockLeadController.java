@@ -380,12 +380,12 @@ public class StockLeadController extends BasePrintController<StockLeadController
 
 		if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {
 			// 货号
-			columns = new String[] { "skuCode", "realNum" };
-			headers = new String[] { "货号", "数量" };
+			columns = new String[] { "skuCode", "realNum", "largeNum" };
+			headers = new String[] { "货号", "数量", "箱数" };
 		} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {
 			// 条码
-			columns = new String[] { "barCode", "realNum" };
-			headers = new String[] { "条码", "数量" };
+			columns = new String[] { "barCode", "realNum", "largeNum" };
+			headers = new String[] { "条码", "数量", "箱数" };
 		}
 
 		goodsSelectImportComponent.downloadErrorFile(code, reportFileName, headers, columns, response);
