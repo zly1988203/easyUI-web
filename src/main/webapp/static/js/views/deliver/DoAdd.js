@@ -508,7 +508,8 @@ function selectGoods(searchKey){
         branchId:sourceBranchId,
         sourceBranchId:sourceBranchId,
         targetBranchId:targetBranchId,
-        flag:'0'
+        flag:'0',
+        supplierId:""
     }
     new publicGoodsServiceTem(param,function(data){
         if(searchKey){
