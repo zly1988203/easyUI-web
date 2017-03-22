@@ -682,7 +682,7 @@ function selectSourceBranch(){
             $("#sourceBranchName").val(data.branchName);
             gridHandel.setLoadData([$.extend({},gridDefault)]);
         }
-	},'',"","");
+	},'DD',"","");
 }
 //返回列表页面
 function back(){

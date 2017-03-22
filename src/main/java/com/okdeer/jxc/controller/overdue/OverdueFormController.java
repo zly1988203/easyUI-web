@@ -41,6 +41,8 @@ import com.alibaba.fastjson.TypeReference;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.PrintConstant;
 import com.okdeer.jxc.common.controller.BasePrintController;
+import com.okdeer.jxc.common.enums.DisabledEnum;
+import com.okdeer.jxc.common.enums.StatusEnum;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportComponent;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportHandle;
@@ -201,21 +203,26 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
     }
 
     @RequestMapping(value = "/edit/{formId}", method = RequestMethod.GET)
-    public ModelAndView edit(@PathVariable("formId") String formId){
+    public ModelAndView edit(@PathVariable("formId") String formId, HttpServletResponse response){
 	ModelAndView modelAndView = new ModelAndView();
 	//modelAndView.addObject(attributeName, attributeValue)
 	if(StringUtils.isNotBlank(formId)){
 	    OverdueFormVo  vo = overdueFormService.getOverdueFormById(formId);
 	    if(vo!=null){
-        	    if(StringUtils.equalsIgnoreCase("1", vo.getStatus()+"")){
+		if(DisabledEnum.YES.getIndex()!=Integer.valueOf(vo.getDisabled())){
+        	    if(StringUtils.equalsIgnoreCase(StatusEnum.DISABLE.getValue(), vo.getStatus()+"")){
         		modelAndView.setViewName("form/overdue/overdueView");
         	    }else{
             	        modelAndView.setViewName("form/overdue/overdueEdit");
         	    }
         	    modelAndView.addObject("form", vo);
+		}else{
+		    modelAndView.setViewName("error/info");
+		    modelAndView.addObject("errorMsg","该商品调价单已被删除！");
+		}
 	    }else{
 		modelAndView.setViewName("error/500");
-		modelAndView.addObject("errorMsg","商品调价订单不存在！");
+		modelAndView.addObject("errorMsg","该商品调价单不存在！");
 	    }
 	}
 	return modelAndView;

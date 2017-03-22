@@ -344,7 +344,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		} catch (Exception e) {
 			LOG.error("要货单查询数据出现异常:{}", e);
 		}
-		return null;
+		return PageUtils.emptyPage();
 	}
 
 	/**
@@ -360,10 +360,10 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	@ResponseBody
 	public RespJson insertDeliverForm(@RequestBody String formVo) {
 		RespJson respJson = RespJson.success();
+		long start = System.currentTimeMillis();
 		LOG.info(LogConstant.OUT_PARAM, formVo);
 		try {
 			DeliverFormVo vo = new ObjectMapper().readValue(formVo, DeliverFormVo.class);
-
 			String getId = UuidUtils.getUuid();
 			String formNo = "";
 			if (StringUtils.isEmpty(vo.getBranchCode())) {
@@ -403,11 +403,13 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 			LOG.error("保存要货申请单出现异常:{}", e);
 			respJson = RespJson.error("添加要货申请单失败！");
 		}
+		long end = System.currentTimeMillis();
+		LOG.info("保存配送单据所用时间{}", (end - start));
 		return respJson;
 	}
 
 	/**
-	 * @Description: 修改要货单
+	 * @Description: 修改配送单
 	 * @param vo
 	 * @param validate
 	 * @return
@@ -418,6 +420,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	@ResponseBody
 	public RespJson updateDeliverForm(@RequestBody String formVo) {
 		RespJson respJson = RespJson.success();
+		long start = System.currentTimeMillis();
 		LOG.info(LogConstant.OUT_PARAM, formVo);
 		try {
 			DeliverFormVo vo = new ObjectMapper().readValue(formVo, DeliverFormVo.class);
@@ -447,9 +450,11 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 			}
 			respJson.put("formId", vo.getDeliverFormId());
 		} catch (Exception e) {
-			LOG.error("保存要货申请单出现异常:{}", e);
-			respJson = RespJson.error("添加要货申请单失败！");
+			LOG.error("修改配送单出现异常:{}", e);
+			respJson = RespJson.error("修改配送单失败！");
 		}
+		long end = System.currentTimeMillis();
+		LOG.info("修改配送单据所用时间{}", (end - start));
 		return respJson;
 	}
 
@@ -968,6 +973,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 
 			Map<String, String> map = new HashMap<String, String>();
 			map.put("targetBranchId", targetBranchId);
+			map.put("sourceBranchId", sourceBranchId);
 			map.put("formType", formType);
 
 			GoodsSelectImportVo<GoodsSelectDeliver> vo = goodsSelectImportComponent.importSelectGoods(fileName, is,

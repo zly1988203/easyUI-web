@@ -35,7 +35,7 @@
 	
 	        <div class="ub umar-t8">
 	             <div class="ub  ub-ac umar-r40">
-                   <div class="umar-r10 uw-70 ut-r">机构:</div>
+                   <div class="umar-r10 uw-70 ut-r">店&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;铺:</div>
                    		<input type="hidden" id="branchId" name="branchId" />
 						<input type="hidden" id="branchCode" name="branchCode" />
 						<input type="hidden" id="branchCompleCode" name="branchCompleCode" />
@@ -49,7 +49,7 @@
 						<input type="hidden" name="endCount" id="endCount" value="">
                 </div>
 	            <div class="ub ub-ac umar-r40">
-	                <div class="umar-r10 uw-60 ut-r">供应商:</div>
+	                <div class="umar-r10 uw-60 ut-r">供&nbsp;应&nbsp;商:</div>
 					<input type="hidden" id="supplierId" name="supplierId" />
 					<input class="uinp" type="text" id="supplierCodeName" name="supplierCodeName" maxlength="50" 
 						onblur="supplierAutoComple()" onkeyup="supplierAutoComple()" />

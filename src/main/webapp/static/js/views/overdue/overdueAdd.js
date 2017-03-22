@@ -178,11 +178,11 @@ function onChangeLargeNum(newV,oldV){
         return;
     }
     
-    var purchaseSpecValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'spec');
+    /*var purchaseSpecValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'spec');
     if(!purchaseSpecValue){
         messager("没有商品规格,请审查");
-        return;
-    }
+        //return;
+    }*/
     
     n++;
     
@@ -298,7 +298,7 @@ function saveItemHandel(){
         if(!v["applyNum"] || parseFloat(v["applyNum"])<=0){
         	isChcekNum = true;
         }
-        if (v["applyDesc"].replace(/(^s*)|(s*$)/g, "").length ==0){
+        if (!$.trim(v["applyDesc"]) ){
         	isApplyDesc = true;
         }
     });
@@ -439,7 +439,8 @@ function toImportproduct(type){
 	        id:'skuId',
 	        disabled:'',
 	        pricingType:'',
-	        inputTax:'tax'
+	        inputTax:'tax',
+	        salePrice:'applyPrice'
 	    };
 	    var rows = gFunUpdateKey(data,keyNames);
 

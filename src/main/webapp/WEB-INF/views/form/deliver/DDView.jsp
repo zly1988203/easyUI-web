@@ -25,7 +25,16 @@
                	<div class="ubtns-item-disabled">审核</div>
                	<!--如果有引用单号说明已经被处理了，不能终止-->
                	<c:if test="${form.referenceNo==null }">
-                	<div class="ubtns-item" onclick="toEnd()">终止</div>
+                	
+                	 <c:choose>
+			      		<c:when test="${form.dealStatus eq '终止'}">
+			      		<div class="ubtns-item-disabled">终止</div>
+			      		</c:when>
+				       <c:otherwise>
+				      <div class="ubtns-item" onclick="toEnd()">终止</div>
+				       </c:otherwise>
+					</c:choose>
+                	
                 </c:if>
                 	<c:if test="${form.referenceNo!=null }">
                 	<div class="ubtns-item-disabled" >终止</div>
@@ -40,8 +49,18 @@
                 <div class="ubtns-item" onclick="toClose()">关闭</div>
             </div>
         </div>
-        <div class="ub umar-t8 uc-black">【单号】:<span>${form.formNo}</span></div>
-        <div class="already-examine" id="already-examine"><span>已审核</span></div>
+       
+         <div class="ub umar-t8 uc-black">【单号】:<span>${form.formNo}</span></div>
+         
+         <c:choose>
+      		<c:when test="${form.dealStatus eq '终止'}">
+      		<div class="already-examine" id="already-examine"><span>已终止</span></div>
+      		</c:when>
+	       <c:otherwise>
+	       <div class="already-examine" id="already-examine"><span>已审核</span></div>
+	       </c:otherwise>
+		</c:choose>
+        
         <div class="ub uline umar-t8"></div>
         <div class="ub">
                <div class="ub ub-ac uw-300">
