@@ -54,7 +54,6 @@ function queryForm(){
 	}
 	
 	var fromObjStr = $('#queryForm').serializeObject();
-	console.log(fromObjStr)
 	$("#applyList").datagrid("options").method = "post";
 	$("#applyList").datagrid('options').url = contextPath + '/stocktaking/apply/getApplyList';
 	$("#applyList").datagrid('load', fromObjStr);
