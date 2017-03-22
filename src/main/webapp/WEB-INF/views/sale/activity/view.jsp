@@ -126,19 +126,19 @@
 	              <div class="ub ub-ac uw-390 umar-l10 special unhide">
 					<div class="umar-r10 uw-80 ut-r">批量特价:</div>
 					<!-- <input class="uinp ub ub-f1 deal" type="number" onkeyup="if(isNaN(value))execCommand('undo')" readonly="readonly" onafterpaste="if(isNaN(value))execCommand('undo')" id="special"> -->
-					<input class="uinp easyui-numberbox" data-options="min:0,onChange:changeSpecNum" type="text"  id="special">	
+					<input class="uinp easyui-numberbox" data-options="min:0,precision:2,onChange:changeSpecNum" type="text"  id="special">	
 						<div class="umar-l10">元</div>
 				  </div>
 				   <div class="ub ub-ac uw-390 umar-l10 discount unhide">
 					<div class="umar-r10 uw-80 ut-r">批量折扣:</div>
 					<!-- <input class="uinp ub ub-f1 deal" type="number" readonly="readonly" onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')" id="discount"> -->
-					<input class="uinp  easyui-numberbox" data-options="min:0,onChange:changeDisNum" type="text" id="discount">	
+					<input class="uinp  easyui-numberbox" data-options="min:0,precision:2,onChange:changeDisNum" type="text" id="discount">	
 						<div class="umar-l10">折</div>
 				  </div>
 				  <div class="ub ub-ac uw-390 umar-l10 oddprice unhide">
 					<div class="umar-r10 uw-80 ut-r">批量偶数特价:</div>
 					<!-- <input class="uinp ub ub-f1 deal" type="number" readonly="readonly" onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')" id="batchcount"> -->
-					<input class="uinp  easyui-numberbox" data-options="min:0,onChange:changeOddprice" type="text"  id="batchcount">
+					<input class="uinp  easyui-numberbox" data-options="min:0,precision:2,onChange:changeOddprice" type="text"  id="batchcount">
 						<div class="umar-l10">元</div>
 				   </div>
 	          </div>
