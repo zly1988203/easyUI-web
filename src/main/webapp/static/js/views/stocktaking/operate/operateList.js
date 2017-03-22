@@ -138,7 +138,6 @@ function selectOperator(){
 //删单
 function deleteStocktakingForm(){
 	var rows = $("#operateList").datagrid('getChecked');
-	console.log('rows',rows);
 	if(rows.length <= 0){
 		$.messager.alert('提示','没有单据可以删除，请选择一笔单据再删除？');
 		return;

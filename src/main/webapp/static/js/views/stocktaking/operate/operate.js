@@ -420,6 +420,7 @@ function addOperate(){
 
 //保存
 function saveDataHandel(rows,opType){
+	gFunStartLoading();
 	//机构
 	var formId=$("#formId").val();
     //机构
@@ -460,13 +461,12 @@ function saveDataHandel(rows,opType){
 			operateType:opType,
             detailList:tempRows
         };
-    console.log('盘点单',JSON.stringify(jsonData));
     $.ajax({
         url:contextPath+"/stocktaking/operate/saveStocktakingForm",
         type:"POST",
         data:{"data":JSON.stringify(jsonData)},
         success:function(result){
-        	console.log('result',result);
+        	gFunEndLoading();
             if(result['code'] == 0){
     			$.messager.alert("操作提示", "操作成功！", "info",function(){
     				location.href = contextPath +"/stocktaking/operate/stocktakingFormView?id="+result['formId'];
