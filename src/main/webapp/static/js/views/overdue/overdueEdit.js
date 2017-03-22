@@ -58,7 +58,7 @@ $(function(){
 	    $("#gridEditOrder").datagrid({
 	        //title:'普通表单-用键盘操作',
 	        method:'post',
-	    	url:contextPath+"/form/overdue/detail/list/"+formId,
+	    	url:contextPath+"/form/overdue/detail/list/"+formId+"?str=all",
 	        align:'center',
 	        singleSelect:true,  //单选  false多选
 	        rownumbers:true,    //序号
@@ -607,7 +607,7 @@ $(function(){
 	}
 
 	function orderAdd(){
-		toAddTab("新增调价订单",contextPath + "/form/overdue/add");
+		toAddTab("新增调价申请单",contextPath + "/form/overdue/add");
 	}
 
 

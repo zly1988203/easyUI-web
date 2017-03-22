@@ -230,12 +230,12 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
     
     @RequestMapping(value = "/detail/list/{formId}")
     public PageUtils<OverdueFormDetailVo> detailList(@PathVariable("formId") String formId,@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
-	    @RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize){
+	    @RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize,String str){
 	if(StringUtils.isNotBlank(formId)){
 	    OverdueFormDetailVo vo = new OverdueFormDetailVo();
 	    vo.setFormId(formId);
 	    vo.setPageNumber(pageNumber);
-	    vo.setPageSize(pageSize);
+	    vo.setPageSize(StringUtils.equalsIgnoreCase("all", str)?Integer.MAX_VALUE:pageSize);
 	    try {
 		PageUtils<OverdueFormDetailVo> list = overdueFormDetailService.selectDetailList(vo);
 		return list;
