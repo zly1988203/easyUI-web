@@ -34,7 +34,7 @@ pageEncoding="UTF-8"%>
 
             </div>
         </div>
-    <input type="hidden" name="supplierId" id="searchSupplierId" value="${searchSupplierId}">
+    <input type="hidden" name="searchSupplierId" id="searchSupplierId" value="${searchSupplierId}">
     <input type="hidden" id="type" value="${type}"/>
     <input type="hidden" id="flag" value="${flag}"/>
     <input type="hidden" id="sourceBranchId" value="${sourceBranchId}"/>

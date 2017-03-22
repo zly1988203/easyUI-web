@@ -664,10 +664,9 @@ function callBackHandel(data){
  * 
  * 
  * *****/
+
 function publicGoodsServiceTem(param,callback){
-	if(typeof(param.flag)=="undefined"){ 
-		param.flag = "";
-	}
+	var param = setParam(param);
 	if(param.key){
 	    //后台参数是 skuCodes
         param.skuCodes = param.key;
@@ -700,6 +699,41 @@ function publicGoodsServiceTem(param,callback){
     }else{
         publicGoodsServiceHandel(param,callback);
     }
+}
+
+/*
+* 设置前台没有传入的参数
+* */
+function setParam(param) {
+    if(typeof(param.flag)==="undefined"){
+        param.flag = "";
+    }
+    if(typeof(param.type)==="undefined"){
+        param.type = "";
+    }
+
+    if(typeof(param.key)==="undefined"){
+        param.key = "";
+    }
+    if(typeof(param.isRadio)==="undefined"){
+        param.isRadio = "";
+    }
+    if(typeof(param.branchId)==="undefined"){
+        param.branchId = "";
+    }
+    if(typeof(param.sourceBranchId)==="undefined"){
+        param.sourceBranchId = "";
+    }
+    if(typeof(param.targetBranchId)==="undefined"){
+        param.targetBranchId = "";
+    }
+    if(typeof(param.supplierId)==="undefined"){
+        param.supplierId = "";
+    }
+    if(typeof(param.categoryShows)==="undefined"){
+        param.categoryShows = "";
+    }
+    return param;
 }
 
 
@@ -1855,8 +1889,8 @@ function publicGoodsSkuService(callback,isRadio,key,branchId){
     }else{
     	  publicGoodsSkuServiceHandel(callback,isRadio,key,branchId);
     }
-	
 }
+
 function publicGoodsSkuServiceHandel(callback,isRadio,key,branchId){
    var url=contextPath + "/goods/goodsSelect/goGoodsSku?branchId="+branchId;
 //公有属性
@@ -1917,7 +1951,10 @@ function publicColumnSetting(callback,columns){
 	 
 }
 
-
+/*
+* 选择活动
+* branchId
+* */
 function publicActivity(callback,param){
 	var dalogTemp = $('<div/>').dialog({
 	        href: contextPath+"/sale/activitySelect/view",
@@ -2066,6 +2103,7 @@ function checkUtil(){
 		
 }
 
+//错误的弹框 只有关闭
 function publicErrorDialog(param){
 	var dialogTemp = $('<div/>').dialog({
         href: contextPath+"/component/dialog/error",
