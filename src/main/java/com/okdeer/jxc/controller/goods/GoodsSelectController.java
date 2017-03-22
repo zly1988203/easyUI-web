@@ -175,7 +175,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 			}
 			return suppliers;
 		} catch (Exception e) {
-			LOG.error("查询商品选择数据出现异常:", e);
+			LOG.error("查询商品选择数据出现异常:{}", e);
 		}
 		return PageUtils.emptyPage();
 	}
@@ -267,7 +267,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 			LOG.info("根据货号查询商品:{}" + suppliers.toString());
 			return suppliers;
 		} catch (Exception e) {
-			LOG.error("查询商品选择数据出现异常:", e);
+			LOG.error("查询商品选择数据出现异常:{}", e);
 		}
 		return Collections.emptyList();
 	}
@@ -299,7 +299,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 		} catch (Exception e) {
 			msg.setSuccess(Message.FAIT);
 			msg.setMessage(e.getMessage());
-			LOG.error("查询商品选择数据出现异常:", e);
+			LOG.error("查询商品选择数据出现异常:{}", e);
 		}
 		return msg;
 	}
@@ -328,7 +328,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 		} catch (Exception e) {
 			msg.setMessage(e.getMessage());
 			msg.setSuccess(Message.FAIT);
-			LOG.error("查询查询类别异常:", e);
+			LOG.error("查询查询类别异常:{}", e);
 		}
 		return msg;
 	}
@@ -376,7 +376,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 			List<GoodsSelectDeliver> goodsSelectDeliver = new ArrayList<GoodsSelectDeliver>(0);
 			goodsSelectDeliverTemp = getGoodsSelectDeliverLists(goodsStockVos, goodsSelect, goodsSelectDeliver, true);
 		} catch (IOException e) {
-			LOG.error("获取商品库存、价格 异常:", e);
+			LOG.error("获取商品库存、价格 异常:{}", e);
 		}
 		return goodsSelectDeliverTemp;
 	}
@@ -497,7 +497,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 			PageUtils<GoodsSelect> suppliers = goodsSelectServiceApi.queryGoodsSkuLists(vo);
 			return suppliers;
 		} catch (Exception e) {
-			LOG.error("标准查询商品选择数据出现异常:", e);
+			LOG.error("标准查询商品选择数据出现异常:{}", e);
 		}
 		return PageUtils.emptyPage();
 	}
@@ -522,7 +522,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 			respJson.put("data", jsonObject);
 		} catch (IOException e) {
 			respJson.put(RespJson.KEY_CODE, ResultCodeEnum.FAIL.getCode());
-			LOG.error("获取商品库存、价格 异常:", e);
+			LOG.error("获取商品库存、价格 异常:{}", e);
 		}
 		return respJson;
 	}
