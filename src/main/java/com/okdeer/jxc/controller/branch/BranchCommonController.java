@@ -19,6 +19,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.branch.vo.BranchesVo;
+import com.okdeer.jxc.common.enums.BranchTypeEnum;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
@@ -106,7 +107,12 @@ public class BranchCommonController extends BaseController<BranchCommonControlle
 			
 			//3.自营店、4.加盟店B、5.加盟店C
 			if ("DD".equals(vo.getFormType())) {
-				vo.setBranchId(UserUtil.getCurrBranchParentId());
+				if (UserUtil.getCurrBranchType().compareTo(BranchTypeEnum.HEAD_QUARTERS.getCode()) != 0
+						&& UserUtil.getCurrBranchType().compareTo(BranchTypeEnum.BRANCH_OFFICE.getCode()) != 0){
+					vo.setBranchId(UserUtil.getCurrBranchParentId());
+				}else{
+					vo.setBranchId(UserUtil.getCurrBranchId());
+				}
 				vo.setBranchType(null);
 				vo.setBranchTypes(new int[]{3,4,5});
 				vo.setBranchCompleCode(null);
