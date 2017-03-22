@@ -492,19 +492,10 @@ function selectGoods(searchKey){
 
     new publicGoodsServiceTem(param,function(data){
     	if(searchKey){
-	        $("#gridEditOrder").datagrid("deleteRow", gridHandel.getSelectRowIndex());
-	        $("#gridEditOrder").datagrid("acceptChanges");
+            $('#'+gridName).datagrid("deleteRow", gridHandel.getSelectRowIndex());
+            $('#'+gridName).datagrid("acceptChanges");
 	    }
-    	console.time('start');
     	selectStockAndPrice(data);
-    	
-        gridHandel.setLoadFocus();
-        setTimeout(function(){
-            gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
-            gridHandel.setSelectFieldName("largeNum");
-            gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
-        },100)
-    	
     });
     branchId = '';
 }
@@ -528,6 +519,13 @@ function setDataValue(data) {
         var isCheck ={isGift:1};   //只要是赠品就可以重复
         var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
         $("#"+gridName).datagrid({data:newRows});
+
+    gridHandel.setLoadFocus();
+    setTimeout(function(){
+        gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
+        gridHandel.setSelectFieldName("largeNum");
+        gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
+    },100)
 }
 
 //查询价格、库存

@@ -516,14 +516,6 @@ function selectGoods(searchKey){
             $("#gridEditOrder").datagrid("acceptChanges");
         }
         selectStockAndPrice(sourceBranchId,data);
-        
-        gridHandel.setLoadFocus();
-        setTimeout(function(){
-            gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
-            gridHandel.setSelectFieldName("largeNum");
-            gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
-        },100)
-        
     });
 }
 
@@ -547,7 +539,8 @@ function setDataValue(data) {
     var isCheck ={isGift:1 };   //只要是赠品就可以重复
     var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
     $("#gridEditOrder").datagrid("loadData",newRows);
-    
+
+    gridHandel.setLoadFocus();
     setTimeout(function(){
         gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
         gridHandel.setSelectFieldName("largeNum");
