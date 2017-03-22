@@ -310,28 +310,25 @@ public class StockReimburseController extends BasePrintController<StockReimburse
 						public void businessValid(List<JSONObject> excelListSuccessData, String[] excelField) {
 							for (JSONObject obj : excelListSuccessData) {
 								if (obj.get("realNum") != null) {
-									String realNum = obj.getString("realNum");
 									try {
-										Double.parseDouble(realNum);
+										double realNum = Double.parseDouble(obj.getString("realNum"));
+										if (realNum == 0) {
+											obj.element("error", "数量不能为0");
+										}
 									} catch (Exception e) {
-										obj.element("error", "数量必填");
+										obj.element("error", "数量必须为数字");
 									}
-								}
-								if (obj.get("realNum") != null && Integer.parseInt(obj.getString("realNum")) == 0) {
-									obj.element("error", "数量不能为0");
 								}
 								if (obj.get("largeNum") != null) {
-									String largeNum = obj.getString("largeNum");
 									try {
-										Double.parseDouble(largeNum);
+										double largeNum = Double.parseDouble(obj.getString("largeNum"));
+										if (largeNum == 0) {
+											obj.element("error", "箱数不能为0");
+										}
 									} catch (Exception e) {
-										obj.element("error", "箱数必填");
+										obj.element("error", "箱数必须为数字");
 									}
 								}
-								if (obj.get("largeNum") != null && Integer.parseInt(obj.getString("largeNum")) == 0) {
-									obj.element("error", "箱数不能为0");
-								}
-
 							}
 						}
 
