@@ -584,7 +584,7 @@
 	}
 
 	function orderAdd(){
-		toAddTab("新增调价订单",contextPath + "/form/overdue/add");
+		toAddTab("新增调价申请单",contextPath + "/form/overdue/add");
 	}
 
 
