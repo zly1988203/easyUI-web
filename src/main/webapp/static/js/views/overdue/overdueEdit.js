@@ -563,7 +563,8 @@ $(function(){
 		        id:'skuId',
 		        disabled:'',
 		        pricingType:'',
-		        inputTax:'tax'
+		        inputTax:'tax',
+		        salePrice:'applyPrice'
 		    };
 		    var rows = gFunUpdateKey(data,keyNames);
 
