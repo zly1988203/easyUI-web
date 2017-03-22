@@ -96,12 +96,12 @@ public class DeliverFormListController extends BaseController<DeliverFormListCon
 			PageUtils<DeliverFormList> deliverFormLists = queryDeliverFormListServiceApi
 					.getDeliverFormListsAndStockByIdOrFormNo(vo);
 			LOG.info("page:{}" + deliverFormLists.toString());
+			long end = System.currentTimeMillis();
+			LOG.info("配送查询明细所用时间:{}" + (end - start));
 			return deliverFormLists;
 		} catch (Exception e) {
 			LOG.error("要货单查询明细数据出现异常:{}", e);
 		}
-		long end = System.currentTimeMillis();
-		LOG.info("配送查询明细所用时间:{}" + (end - start));
 		return PageUtils.emptyPage();
 	}
 
