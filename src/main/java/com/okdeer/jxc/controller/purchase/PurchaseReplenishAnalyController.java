@@ -11,7 +11,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,6 +23,7 @@ import com.okdeer.jxc.common.enums.BranchTypeEnum;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
+import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.form.purchase.po.PurchaseGuideGoodsPo;
 import com.okdeer.jxc.form.purchase.qo.PurchaseReplenishAnalyQo;

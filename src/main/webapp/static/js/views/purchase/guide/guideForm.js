@@ -53,10 +53,14 @@ $(function(){
 
 //初始化条件信息
 function initFormValue(){
-	$("#branchId").val(sessionBranchId);
-	$("#branchCompleCode").val(sessionBranchCompleCode);
-	$("#branchCodeName").val(sessionBranchCodeName);
-	$("#branchType").val(sessionBranchType);
+	//不能选择总部
+	if(sessionBranchType > 0){
+		$("#branchId").val(sessionBranchId);
+		$("#branchCompleCode").val(sessionBranchCompleCode);
+		$("#branchCodeName").val(sessionBranchCodeName);
+		$("#branchType").val(sessionBranchType);
+	}
+	
 }
 
 //为页面赋值
@@ -287,6 +291,12 @@ function nextStep (){
 	var branchType = $("#branchType").val();
 	var branchId = $("#branchId").val();
 	var branchCodeName = $("#branchCodeName").val();
+	
+	if(!branchId){
+		successTip("请选择机构信息");
+		$('#btnNext').removeAttr("disabled");
+		return;
+	}
 	
 	if(branchType==0){
 		successTip("不能选择总部类型的机构");
