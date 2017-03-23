@@ -15,6 +15,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.common.constant.Constant;
+import com.okdeer.jxc.common.exception.BusinessException;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
@@ -230,7 +231,10 @@ public class UserController extends BaseController<UserController> {
 
 			// 修改用户信息
 			respJson = sysUserService.updateUser(userVo);
-		} catch (Exception e) {
+		} catch (BusinessException e) {
+			LOG.error("修改用户异常：", e);
+			respJson = RespJson.error(e.getMessage());
+		}catch (Exception e) {
 			LOG.error("修改用户异常：", e);
 			respJson = RespJson.error("修改用户异常!");
 		}
