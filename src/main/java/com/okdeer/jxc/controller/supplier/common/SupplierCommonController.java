@@ -93,16 +93,18 @@ public class SupplierCommonController extends BaseController<SupplierCommonContr
 				// end added by lijy02
 			}
 			if (branchId != null) {
-				Integer branchType = UserUtil.getCurrBranchType();
 				qo.setBranchId(branchId);
-				// 如果机构类型不是 0 1 需要查询他们的分公司 找到他们分公司的供应商
-				if (branchType != 0 && branchType != 1) {
-					// 查询店铺的分公司
-					Branches branches = branchesService
-							.getBranchInfoById(branchId);
-					if (branches != null && branches.getParentId() != null) {
-						// 把父级的id加入条件查询分公司的供应商
-						qo.setBranchId(branches.getParentId());
+				Branches branches = branchesService
+						.getBranchInfoById(branchId);
+				if (branches != null && branches.getParentId() != null) {
+					// 如果机构类型不是 0 1 需要查询他们的分公司 找到他们分公司的供应商
+					if (branches.getType() != 0 && branches.getType() != 1) {
+						// 查询店铺的分公司
+
+						if (branches != null && branches.getParentId() != null) {
+							// 把父级的id加入条件查询分公司的供应商
+							qo.setBranchId(branches.getParentId());
+						}
 					}
 				}
 			}
