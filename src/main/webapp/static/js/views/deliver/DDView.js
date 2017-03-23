@@ -425,7 +425,7 @@ function selectGoods(searchKey){
             $("#"+gridHandel.getGridName()).datagrid("deleteRow", gridHandel.getSelectRowIndex());
             $("#"+gridHandel.getGridName()).datagrid("acceptChanges");
         }
-        selectStockAndPrice(data);
+        setDataValue(data);
         
         gridHandel.setLoadFocus();
         setTimeout(function(){
@@ -444,7 +444,7 @@ function setDataValue(data) {
 	        var rec = data[i];
 	        rec.remark = "";
         }
-        var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
+        var nowRows = gridHandel.getRowsWhere({skuName:'1'});
         var addDefaultData = gridHandel.addDefault(data,gridDefault);
         var keyNames = {
             distributionPrice:'price',
@@ -454,49 +454,13 @@ function setDataValue(data) {
         };
         var rows = gFunUpdateKey(addDefaultData,keyNames);
         var argWhere ={skuCode:1};  //验证重复性
-        var isCheck ={isGift:1 };   //只要是赠品就可以重复
+        var isCheck ={isGift:1};   //只要是赠品就可以重复
         var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
         $("#gridEditRequireOrder").datagrid("loadData",newRows);
 
         oldData["grid"] = $.map(rows, function(obj){
             return $.extend(true,{},obj);//返回对象的深拷贝
         });
-}
-
-//查询价格、库存
-function selectStockAndPrice(data){
-	//setDataValue(data);
-	var GoodsStockVo = {
-            branchId : $("#targetBranchId").val(),
-            fieldName : 'id',
-			goodsSkuVo : []
-		}; 
-	$.each(data,function(i,val){
-		var temp = {
-				id : val.skuId
-		};
-		GoodsStockVo.goodsSkuVo[i] = temp;
-	});
-	$.ajax({
-    	url : contextPath+"/goods/goodsSelect/queryAlreadyNum",
-    	type : "POST",
-    	data : {
-    		goodsStockVo : JSON.stringify(GoodsStockVo)
-    	},
-    	success:function(result){
-            $.each(data,function(i,val){
-                $.each(result.data,function(j,obj){
-                    if(val.skuId==obj.skuId){
-                        data[i].alreadyNum = obj.alreadyNum;
-                    }
-                })
-            })
-    		setDataValue(data);
-    	},
-    	error:function(result){
-    		successTip("请求发送失败或服务器处理失败");
-    	}
-    });
 }
 
 
