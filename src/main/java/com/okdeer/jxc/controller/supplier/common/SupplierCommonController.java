@@ -84,26 +84,27 @@ public class SupplierCommonController extends BaseController<SupplierCommonContr
 		try {
 			qo.setPageNumber(pageNumber);
 			qo.setPageSize(pageSize);
-			
+
 			String branchId  = qo.getBranchId();
 			if(StringUtils.isNullOrEmpty(branchId)){
 				// begin added by lijy02 2016.9.12:添加过滤条件
 				branchId = UserUtil.getCurrBranchId();
+
+				// end added by lijy02
+			}
+			if (branchId != null) {
 				Integer branchType = UserUtil.getCurrBranchType();
-				if (branchId != null) {
-					qo.setBranchId(branchId);
-					// 如果机构类型不是 0 1 需要查询他们的分公司 找到他们分公司的供应商
-					if (branchType != 0 && branchType != 1) {
-						// 查询店铺的分公司
-						Branches branches = branchesService
-								.getBranchInfoById(branchId);
-						if (branches != null && branches.getParentId() != null) {
-							// 把父级的id加入条件查询分公司的供应商
-							qo.setBranchId(branches.getParentId());
-						}
+				qo.setBranchId(branchId);
+				// 如果机构类型不是 0 1 需要查询他们的分公司 找到他们分公司的供应商
+				if (branchType != 0 && branchType != 1) {
+					// 查询店铺的分公司
+					Branches branches = branchesService
+							.getBranchInfoById(branchId);
+					if (branches != null && branches.getParentId() != null) {
+						// 把父级的id加入条件查询分公司的供应商
+						qo.setBranchId(branches.getParentId());
 					}
 				}
-				// end added by lijy02
 			}
 			//公共组件默认带出总部的供应商
 			qo.setDataType(1);

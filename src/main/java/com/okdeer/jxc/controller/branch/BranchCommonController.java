@@ -19,7 +19,6 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.branch.vo.BranchesVo;
-import com.okdeer.jxc.common.enums.BranchTypeEnum;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
@@ -90,8 +89,7 @@ public class BranchCommonController extends BaseController<BranchCommonControlle
 			LOG.info("查询机构参数:{}", vo.toString()+"pageNumber:"+pageNumber+"pageSize:"+pageSize);
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
-			String currBranchCompleCode = getCurrBranchCompleCode();
-			vo.setBranchCompleCode(currBranchCompleCode);
+			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
 			vo.setType(UserUtil.getCurrBranchType());
 			if (StringUtils.isEmpty(vo.getBranchId())) {
 				vo.setBranchId(UserUtil.getCurrBranchId());
@@ -107,21 +105,14 @@ public class BranchCommonController extends BaseController<BranchCommonControlle
 			
 			//3.自营店、4.加盟店B、5.加盟店C
 			if ("DD".equals(vo.getFormType())) {
-				if (UserUtil.getCurrBranchType().compareTo(BranchTypeEnum.HEAD_QUARTERS.getCode()) != 0
-						&& UserUtil.getCurrBranchType().compareTo(BranchTypeEnum.BRANCH_OFFICE.getCode()) != 0){
-					vo.setBranchId(UserUtil.getCurrBranchParentId());
-				}else{
-					vo.setBranchId(UserUtil.getCurrBranchId());
+//				vo.setBranchId(UserUtil.getCurrBranchParentId());
+				vo.setBranchType(null);
+				vo.setBranchTypes(new int[]{3,4,5});
+				String branchCompleCode=UserUtil.getCurrBranchCompleCode();
+				if(org.apache.commons.lang3.StringUtils.isNoneEmpty(branchCompleCode)&&branchCompleCode.length()>5){
+					branchCompleCode=branchCompleCode.substring(0,branchCompleCode.length()-5);
 				}
-				vo.setBranchType(null);
-				vo.setBranchTypes(new int[]{3,4,5});
-				vo.setBranchCompleCode(null);
-			}
-			
-			//根据当前分公司获取所有店铺数据
-			if("FD".equals(vo.getFormType())){
-				vo.setBranchType(null);
-				vo.setBranchTypes(new int[]{3,4,5});
+				vo.setBranchCompleCode(branchCompleCode);
 			}
 			
 			PageUtils<Branches> suppliers = branchesService.queryLists(vo);
