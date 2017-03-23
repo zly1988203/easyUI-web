@@ -155,7 +155,7 @@ function selectBranches(){
 		$("#branchType").val(data.type);
 		$("#branchCodeName").val("["+data.branchCode+"]"+data.branchName);
 		$("#branchParentId").val(data.parentId);
-	},'DD','');
+	},'FD','');
 }
 
 function selectSupplier(){

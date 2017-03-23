@@ -67,6 +67,8 @@ function initGoodsInfo(skuId,branchId){
 			$("#purchaseSpec").parent().find(".textbox-text,.validatebox-text").attr("readonly","readonly").addClass("uinp-no-more");
 			$("#distributionSpec").parent().find(".textbox-text,.validatebox-text").attr("readonly","readonly").addClass("uinp-no-more");
 			$("#formEdit #isFastDeliver").attr("disabled","disabled");
+			$("#formEdit #allowActivity").attr("disabled","disabled");
+			$("#formEdit #allowAdjust").attr("disabled","disabled");
 		}
 		
 		if(updateGoods.saleWay=='A' || updateGoods.saleWay=='B'){
