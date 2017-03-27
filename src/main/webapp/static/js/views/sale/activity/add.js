@@ -1350,7 +1350,7 @@ function selectGoods(searchKey){
 			targetBranchId:'',
 			branchId:$("#branchIds").val(),
 			supplierId:'',
-			flag:'0'
+			flag:''
 	}
 
 	//借用一下type值，用来活动商品选择时，过滤不参加促销的商品
