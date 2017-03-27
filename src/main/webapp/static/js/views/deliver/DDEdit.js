@@ -285,13 +285,13 @@ function onChangeRealNum(newV,oldV) {
     }
     
     var tempNum = parseFloat(newV).toFixed(4)/parseFloat(purchaseSpecValue).toFixed(4);
-    if(parseInt(tempNum) != tempNum){
+  /*  if(parseInt(tempNum) != tempNum){
         messager("输入的数量必须是商品规格("+purchaseSpecValue+")的整数倍");
         gridHandel.setFieldValue('applyNum',0.0000);
         gridHandel.setSelectFieldName("applyNum");
         gridHandel.setFieldFocus(gridHandel.getFieldTarget('applyNum'));
         return;
-    }
+    }*/
     
     var priceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
     gridHandel.setFieldValue('amount',priceValue*newV);                         //金额=数量*单价
