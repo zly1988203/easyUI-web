@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ProductSalesPlan" language="groovy" columnCount="3" printOrder="Horizontal" pageWidth="595" pageHeight="842" columnWidth="170" leftMargin="42" rightMargin="43" topMargin="0" bottomMargin="2" isSummaryWithPageHeaderAndFooter="true" uuid="00831878-d208-460c-a1e1-15e96cc9ea5e">
 	<property name="ireport.zoom" value="4.0"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.x" value="104"/>
 	<property name="ireport.y" value="40"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["D:\\workspace_kasa\\PrintTest\\src\\com\\test\\"]]></defaultValueExpression>
@@ -16,6 +16,7 @@
 	<field name="spec" class="java.lang.String"/>
 	<field name="unit" class="java.lang.String"/>
 	<field name="originPlace" class="java.lang.String"/>
+	<field name="promotionPrice" class="java.math.BigDecimal"/>
 	<columnHeader>
 		<band height="74"/>
 	</columnHeader>
@@ -26,7 +27,7 @@
 				<textElement>
 					<font size="21" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{salePrice}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{promotionPrice}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="32" y="45" width="24" height="12" uuid="587cdc15-7710-454f-b218-847a8bfc7ee3"/>
@@ -91,14 +92,14 @@
 				</jr:Code128>
 			</componentElement>
 			<staticText>
-				<reportElement x="8" y="67" width="20" height="12" uuid="a1127639-662d-4a9b-b326-eace38680251"/>
+				<reportElement x="8" y="66" width="20" height="12" uuid="a1127639-662d-4a9b-b326-eace38680251"/>
 				<textElement verticalAlignment="Middle">
 					<font size="6" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[货   号:]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="32" y="68" width="24" height="12" uuid="d6c4fb34-2034-4272-829f-b3b669b15243"/>
+				<reportElement x="32" y="66" width="24" height="12" uuid="d6c4fb34-2034-4272-829f-b3b669b15243"/>
 				<textElement verticalAlignment="Middle">
 					<font size="6"/>
 				</textElement>
@@ -112,14 +113,14 @@
 				<text><![CDATA[原价:￥]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="80" y="26" width="27" height="16" uuid="48a4024a-b731-4eb4-a97b-bd3db9a44f31"/>
+				<reportElement x="80" y="26" width="33" height="16" uuid="48a4024a-b731-4eb4-a97b-bd3db9a44f31"/>
 				<textElement verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{salePrice}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="59" y="30" width="45" height="10" forecolor="#666666" uuid="0ce43cfa-2f83-4a3a-a8d6-72d762b96c28"/>
+				<reportElement x="59" y="30" width="43" height="8" forecolor="#666666" uuid="0ce43cfa-2f83-4a3a-a8d6-72d762b96c28"/>
 			</line>
 		</band>
 	</detail>
