@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ProductSalesPlan" language="groovy" columnCount="4" printOrder="Horizontal" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="198" leftMargin="24" rightMargin="24" topMargin="32" bottomMargin="0" isSummaryWithPageHeaderAndFooter="true" uuid="00831878-d208-460c-a1e1-15e96cc9ea5e">
+	<property name="ireport.zoom" value="4.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["D:\\workspace_kasa\\PrintTest\\src\\com\\test\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select remarks from mfo_dtl]]>
+	</queryString>
+	<field name="skuCode" class="java.lang.String"/>
+	<field name="skuName" class="java.lang.String"/>
+	<field name="barCode" class="java.lang.String"/>
+	<field name="salePrice" class="java.math.BigDecimal"/>
+	<field name="spec" class="java.lang.String"/>
+	<field name="unit" class="java.lang.String"/>
+	<field name="originPlace" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="90" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="126" y="35" width="76" height="46" uuid="e68a3531-d432-4223-a289-0de53dd371cf"/>
+				<textElement textAlignment="Center">
+					<font size="21" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{salePrice}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="85" y="24" width="24" height="12" forecolor="#333333" uuid="587cdc15-7710-454f-b218-847a8bfc7ee3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="黑体" size="9" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{unit}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="27" y="24" width="29" height="12" forecolor="#333333" uuid="026eebf7-f655-4a6e-b7ad-1ad2420f5212"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="黑体" size="9" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{spec}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="49" y="-5" width="142" height="25" forecolor="#333333" uuid="9d73442d-ec15-414b-9a38-19b2c5ed2bf9"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="黑体" size="12" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{skuName}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="27" y="37" width="73" height="12" forecolor="#333333" uuid="b8bdf814-74a4-4589-9a6a-330fe80bfa83"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="黑体" size="9" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{originPlace}]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement x="0" y="51" width="126" height="29" uuid="781551ac-33dc-498c-b551-6896ac378382"/>
+				<jr:Code128 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" moduleWidth="1.0" textPosition="bottom">
+					<jr:codeExpression><![CDATA[$F{barCode}]]></jr:codeExpression>
+				</jr:Code128>
+			</componentElement>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
