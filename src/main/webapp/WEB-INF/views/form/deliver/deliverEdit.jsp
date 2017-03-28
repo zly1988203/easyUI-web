@@ -36,7 +36,7 @@
                     <div class="ubtns-item" onclick="printChoose('DA','/form/deliverForm/')">打印</div>
                 </shiro:hasPermission> --%>
                 <div class="ubtns-item" onclick="addDeliverForm()">新增</div>
-                <div class="ubtns-item" onclick="saveOrder()">保存</div>
+                <div class="ubtns-item" onclick="updateOrder()">保存</div>
                 <div class="ubtns-item" onclick="check()">审核</div>
                  <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
                  <div class="ubtns-item" onclick="delDeliverForm()">删除</div>
