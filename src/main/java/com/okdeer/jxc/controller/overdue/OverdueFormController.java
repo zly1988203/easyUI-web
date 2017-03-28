@@ -21,6 +21,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.slf4j.Logger;
@@ -273,7 +274,7 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
 	    if(mapType!=null && !mapType.isEmpty()){
     	    	String detailListStr = ((JSONArray)mapType.get("detailList")).toJSONString();
     	    	List<Map<String,Object>> detailLists = JSON.parseObject(detailListStr,new TypeReference<List<Map<String,Object>>>(){});
-    	    	if(detailLists!=null && detailLists.size()>0){
+    	    	if(CollectionUtils.isNotEmpty(detailLists)){
     	    	    return overdueFormService.saveOverdue(mapType,detailLists);
     	    	}
 	    }
@@ -308,7 +309,7 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
 	    if(mapType!=null && !mapType.isEmpty()){
 		String detailListStr = ((JSONArray)mapType.get("detailList")).toJSONString();
     	    	List<Map<String,Object>> detailLists = JSON.parseObject(detailListStr,new TypeReference<List<Map<String,Object>>>(){});
-    	    	if(detailLists!=null&&detailLists.size()>0){
+    	    	if(CollectionUtils.isNotEmpty(detailLists)){
     	    	    mapType.put("userId", UserUtil.getUser().getId());
     	    	    mapType.put("userName", UserUtil.getUser().getUserName());
     	    	    return overdueFormService.commitOverdue(mapType,detailLists);
