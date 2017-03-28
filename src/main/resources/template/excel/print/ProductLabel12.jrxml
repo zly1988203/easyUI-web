@@ -31,28 +31,28 @@
 			<textField isBlankWhenNull="true">
 				<reportElement x="85" y="24" width="24" height="12" forecolor="#333333" uuid="587cdc15-7710-454f-b218-847a8bfc7ee3"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="黑体" size="9" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+					<font fontName="SansSerif" size="9" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{unit}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="27" y="24" width="29" height="12" forecolor="#333333" uuid="026eebf7-f655-4a6e-b7ad-1ad2420f5212"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="黑体" size="9" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+					<font fontName="SansSerif" size="9" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{spec}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="49" y="-5" width="142" height="25" forecolor="#333333" uuid="9d73442d-ec15-414b-9a38-19b2c5ed2bf9"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="黑体" size="12" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+					<font fontName="SansSerif" size="12" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{skuName}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="27" y="37" width="73" height="12" forecolor="#333333" uuid="b8bdf814-74a4-4589-9a6a-330fe80bfa83"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="黑体" size="9" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+					<font fontName="SansSerif" size="9" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{originPlace}]]></textFieldExpression>
 			</textField>
