@@ -193,7 +193,7 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public RespJson delete(String formIds) {
 	
-	RespJson resp = new RespJson();
+	RespJson resp = RespJson.success();
 	
 	if(StringUtils.isNotBlank(formIds)){
         	//SysUser user = UserUtil.getCurrentUser();
@@ -238,8 +238,7 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
 	    vo.setPageNumber(pageNumber);
 	    vo.setPageSize(StringUtils.equalsIgnoreCase("all", str)?Integer.MAX_VALUE:pageSize);
 	    try {
-		PageUtils<OverdueFormDetailVo> list = overdueFormDetailService.selectDetailList(vo);
-		return list;
+		return overdueFormDetailService.selectDetailList(vo);
 	    } catch (Exception e) {
 		logger.error("加载临期商品审核列表详情失败！",e);
 	    }
