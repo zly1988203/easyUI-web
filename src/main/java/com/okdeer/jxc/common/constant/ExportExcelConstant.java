@@ -450,4 +450,17 @@ public interface ExportExcelConstant {
 	 * @Fields PURCHASE_REPLENISH_ANALY_REPORT : 店铺补货分析报表导出模板
 	 */
 	String PURCHASE_REPLENISH_ANALY_REPORT = "purchaseReplenishAnalyReport.xlsx";
+	
+	/**
+	 * @Fields OVER_SHORT_REPORT1 : 长短款导出模板   长短款日报表
+	 */
+	String OVER_SHORT_REPORT1 = "overShortReport1.xlsx";
+	/**
+	 * @Fields OVER_SHORT_REPORT2 : 长短款导出模板   长短款日报表（日汇总）
+	 */
+	String OVER_SHORT_REPORT2 = "overShortReport2.xlsx";
+	/**
+	 * @Fields OVER_SHORT_REPORT3 : 长短款导出模板   入袋记录报表
+	 */
+	String OVER_SHORT_REPORT3 = "overShortReport3.xlsx";
 }
