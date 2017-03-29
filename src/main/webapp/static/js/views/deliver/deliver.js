@@ -647,12 +647,14 @@ function saveOrder(){
     	}
     	reqObj.deliverFormListVo[i] = temp;
 	});
+    gFunStartLoading();
     $.ajax({
         url:contextPath+"/form/deliverForm/insertDeliverForm",
         type:"POST",
         contentType:"application/json",
         data:JSON.stringify(reqObj),
         success:function(result){
+        	 gFunEndLoading();
             if(result['code'] == 0){
                 $.messager.alert("操作提示", "操作成功！", "info",function(){
                     location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
@@ -674,10 +676,134 @@ function saveOrder(){
             }
         },
         error:function(result){
+        	gFunEndLoading();
             successTip("请求发送失败或服务器处理失败");
         }
     });
 }
+
+
+//修改订单
+function updateOrder(){
+    //商品总数量
+    var totalNum = 0;
+    //总金额
+    var amount=0;
+	// 要活分店id
+    var targetBranchId = $("#targetBranchId").val();
+	//发货分店id
+    var sourceBranchId = $("#sourceBranchId").val();
+    //生效日期
+    var validityTime = $("#validityTime").val();
+    // 备注
+    var remark = $("#remark").val();
+    // 单号
+    var formNo = $("#formNo").val();
+    //验证表格数据
+    $("#"+gridHandel.getGridName()).datagrid("endEdit", gridHandel.getSelectRowIndex());
+
+    var footerRows = $("#"+gridHandel.getGridName()).datagrid("getFooterRows");
+    if(footerRows){
+        totalNum = parseFloat(footerRows[0]["applyNum"]||0.0).toFixed(4);
+        amount = parseFloat(footerRows[0]["amount"]||0.0).toFixed(4);
+    }
+
+    var rows = gridHandel.getRowsWhere({skuName:'1'});
+    $(gridHandel.getGridName()).datagrid("loadData",rows);
+    if(rows.length==0){
+        messager("表格不能为空");
+        return;
+    }
+    var isCheckResult = true;
+    $.each(rows,function(i,v){
+        if(!v["skuCode"]){
+            messager("第"+(i+1)+"行，货号不能为空");
+            isCheckResult = false;
+            return false;
+        };
+        if(v["largeNum"]<=0){
+            messager("第"+(i+1)+"行，箱数必须大于0");
+            isCheckResult = false;
+            return false;
+        }
+        if(v["applyNum"]<=0){
+            messager("第"+(i+1)+"行，数量必须大于0");
+            isCheckResult = false;
+            return false;
+        }
+        v["rowNo"] = i+1;
+    });
+    if(!isCheckResult){
+        return;
+    }
+    var saveData = JSON.stringify(rows);
+    //var deliverFormListVo = tableArrayFormatter(rows,"deliverFormListVo");
+    var reqObj = {
+    	sourceBranchId : sourceBranchId,
+    	deliverFormId : $("#formId").val(),
+        targetBranchId : targetBranchId,
+        validityTime : validityTime,
+        totalNum : totalNum,
+        amount : amount,
+        remark : remark,
+        formType : "DA",
+        formNo : formNo,
+        deliverFormListVo : []
+       };
+    
+    $.each(rows,function(i,data){
+    	var temp = {
+    		skuId : data.skuId,
+    		skuCode : data.skuCode,
+    		skuName : data.skuName,
+    		barCode : data.barCode,
+    		spec : data.spec,
+    		rowNo : data.rowNo,
+    		applyNum : data.applyNum,
+    		largeNum : data.largeNum,
+    		price : data.price,
+    		amount : data.amount,
+    		inputTax : data.inputTax,
+    		isGift : data.isGift,
+    		remark : data.remark,
+    		originPlace : data.originPlace,
+    		distributionSpec : data.distributionSpec,
+    		formId : data.formId
+    	}
+    	reqObj.deliverFormListVo[i] = temp;
+	});
+    
+    gFunStartLoading();
+    $.ajax({
+        url:contextPath+"/form/deliverForm/updateDeliverForm",
+        type:"POST",
+        contentType:"application/json",
+        data:JSON.stringify(reqObj),
+        success:function(result){
+            gFunEndLoading();
+            if(result['code'] == 0){
+            	$.messager.alert("操作提示", "操作成功！", "info");
+                oldData = {
+                    targetBranchId:$("#targetBranchId").val(), // 要活分店id
+                    sourceBranchId:$("#sourceBranchId").val(), //发货分店id
+                    validityTime:$("#validityTime").val(),      //生效日期
+                    remark:$("#remark").val(),                  // 备注
+                    formNo:$("#formNo").val(),                 // 单号
+                }
+                oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
+            		return $.extend(true,{},obj);//返回对象的深拷贝
+            	});
+            }else{
+                successTip(result['message']);
+            }
+        },
+        error:function(result){
+            gFunEndLoading();
+            successTip("请求发送失败或服务器处理失败");
+        }
+    });
+}
+
 
 //审核
 function check(){
