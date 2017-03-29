@@ -264,6 +264,12 @@ pageEncoding="UTF-8"%>
 					<input id="remark" name="remark" class="uinp ub ub-f1" type="text" value="${supplier.remark }">
 				</div>
 			</div>
+			<div class="ub upad-4">
+				<div class="ub ub-ac uw-320">
+					<div class="umar-r10 uw-80 ut-r"></div>
+					<label><input id="isDirect" name="isDirect" type="checkbox" <c:if test="${supplier.isDirect}">checked="checked"</c:if> >直送供应商</label>
+				</div>
+			</div>
 			
 		</div>
 	</form>
