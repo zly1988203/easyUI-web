@@ -329,6 +329,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 			} else if (FormType.DD.toString().equals(form.getFormType())) {
 				return "form/deliver/DDView";
 			} else if (FormType.DR.toString().equals(form.getFormType())) {
+				model.addAttribute("close", report);
 				return "form/deliver/refund/DrView";
 			} else {
 				model.addAttribute("close", report);
@@ -356,11 +357,13 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
-			if (FormType.DO.toString().equals(vo.getDeliverType())) {
-				if (StringUtils.isEmpty(vo.getSourceBranchId())) {
-					vo.setSourceBranchId(UserUtil.getCurrBranchId());
-				}
-			} else if (FormType.DD.toString().equals(vo.getDeliverType())) {
+			
+			String deliverType = vo.getDeliverType();
+			
+			//如果是出库单/要货单/退货单
+			if (FormType.DO.toString().equals(deliverType) ||
+				FormType.DD.toString().equals(deliverType) || 
+				FormType.DR.toString().equals(deliverType)) {
 				if (StringUtils.isEmpty(vo.getSourceBranchId())) {
 					vo.setSourceBranchId(UserUtil.getCurrBranchId());
 				}
@@ -400,14 +403,14 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 			String formNo = "";
 			if (StringUtils.isEmpty(vo.getBranchCode())) {
 				formNo = orderNoUtils.getOrderNo(new StringBuilder(vo.getFormType()).append(
-						UserUtil.getCurrBranchCode()).toString());
+						getCurrBranchCode()).toString());
 			} else {
 				formNo = orderNoUtils.getOrderNo(new StringBuilder(vo.getFormType()).append(vo.getBranchCode())
 						.toString());
 			}
 			// 获取单号
 			// 获取登录人
-			SysUser user = UserUtil.getCurrentUser();
+			SysUser user = getCurrentUser();
 			// 设置值
 			vo.setDeliverFormId(getId);
 			vo.setFormNo(formNo);
@@ -432,8 +435,8 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 			}
 			respJson.put("formId", getId);
 		} catch (Exception e) {
-			LOG.error("保存要货申请单出现异常:{}", e);
-			respJson = RespJson.error("添加要货申请单失败！");
+			LOG.error("保存配送申请单出现异常:{}", e);
+			respJson = RespJson.error("添加配送申请单失败！");
 		}
 		long end = System.currentTimeMillis();
 		LOG.info("保存配送单据所用时间{}", (end - start));
