@@ -1,4 +1,4 @@
-package com.okdeer.jxc.controller.setting;  
+package com.okdeer.jxc.controller.branch;  
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,14 +25,25 @@ public class BranchSettingController extends BaseController<BranchSettingControl
 	
 	/**
 	 * 
-	 * @Description: 跳转抹零设置页面
+	 * @Description: 跳转销售设置页面
 	 * @return String  
 	 * @author zhangq
 	 * @date 2017年3月29日
 	 */
 	@RequestMapping(value = "/toSaleSetting")
-	public String toCentComputeSettingsPage(){
+	public String toSaleSettingPage(){
 		return "setting/saleSetting";
+	}
+	
+	/**
+	 * 
+	 * @Description: 跳转采购设置页面
+	 * @return String  
+	 * @author zhangq
+	 * @date 2017年3月30日
+	 */
+	public String toPurchasePage(){
+		return "setting/purchaseSetting";
 	}
 	
 	/**

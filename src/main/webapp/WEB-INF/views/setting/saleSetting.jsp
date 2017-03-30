@@ -4,7 +4,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>抹零设置</title>
+	<title>销售设置</title>
 	
 	<%@ include file="/WEB-INF/views/include/header.jsp"%>
 </head>
