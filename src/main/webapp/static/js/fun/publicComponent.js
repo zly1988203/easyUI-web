@@ -1255,6 +1255,7 @@ function GridClass(){
     this.setFieldTextValue = function(fieldName,val){
         var target = _this.getFieldTarget(fieldName);
         if(target){
+            $(target).textbox({'value':val})
             $(target).textbox('setText',val);
         }
     }
