@@ -94,6 +94,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 
 	@Reference(version = "1.0.0", check = false)
 	private QueryDeliverFormServiceApi queryDeliverFormServiceApi;
+	
 
 	@Reference(version = "1.0.0", check = false)
 	private DeliverFormServiceApi deliverFormServiceApi;
@@ -153,6 +154,19 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	public String viewsDI(Model model) {
 		model.addAttribute("targetBranchId", getCurrBranchId());
 		return "form/deliver/DiList";
+	}
+	
+	/**
+	 * @Description: 跳转退货申请单
+	 * @param model
+	 * @return
+	 * @author liwb
+	 * @date 2017年3月30日
+	 */
+	@RequestMapping(value = "viewsDR")
+	public String viewsDR(Model model) {
+		model.addAttribute("targetBranchId", getCurrBranchId());
+		return "form/deliver/refund/DrList";
 	}
 
 	/**
@@ -235,6 +249,20 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 				model.addAttribute("referenceId", vo.getDeliverFormId());
 			}
 			return "form/deliver/DoAdd";
+		} else if (FormType.DR.toString().equals(deliverType)) { //退货申请
+			
+			
+			if (BranchTypeEnum.HEAD_QUARTERS.getCode().intValue() == type.intValue()
+					|| BranchTypeEnum.BRANCH_OFFICE.getCode().intValue() == type.intValue()) {
+				branchesGrow.setSourceBranchId("");
+				branchesGrow.setSourceBranchName("");
+			}
+			model.addAttribute("branchesGrow", branchesGrow);
+			// 需求修改，点击要货单生成出库单，将要货单id传入
+			if (!StringUtils.isEmpty(vo.getDeliverFormId())) {
+				model.addAttribute("referenceId", vo.getDeliverFormId());
+			}
+			return "form/deliver/refund/DrAdd";
 		} else {
 			// 需求修改，点击要货单生成出库单，将要货单id传入
 			if (!StringUtils.isEmpty(vo.getDeliverFormId())) {
@@ -274,6 +302,8 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 				return "form/deliver/DoEdit";
 			} else if (FormType.DD.toString().equals(form.getFormType())) {
 				return "form/deliver/DDEdit";
+			}  else if (FormType.DR.toString().equals(form.getFormType())) {
+				return "form/deliver/refund/DrEdit";
 			} else {
 				return "form/deliver/DiEdit";
 			}
@@ -298,6 +328,8 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 				return "form/deliver/DoView";
 			} else if (FormType.DD.toString().equals(form.getFormType())) {
 				return "form/deliver/DDView";
+			} else if (FormType.DR.toString().equals(form.getFormType())) {
+				return "form/deliver/refund/DrView";
 			} else {
 				model.addAttribute("close", report);
 				return "form/deliver/DiView";
