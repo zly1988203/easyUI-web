@@ -90,10 +90,10 @@
 		
 		//单选框点击事件
 		$("#isSupplierCascadeGoodsP0").click(function (){
-			isSupplierCascadeGoods();
+			changeIsSupplierCascadeGoods();
 		});
 		$("#isSupplierCascadeGoodsP1").click(function (){
-			isSupplierCascadeGoods();
+			changeIsSupplierCascadeGoods();
 		});
 	});
 	
@@ -132,7 +132,7 @@
 			$("#isSupplierCascadeGoodsPm").attr("checked","true");
 		}
 		
-		isSupplierCascadeGoods();
+		changeIsSupplierCascadeGoods();
 	}
 	
 	//禁用保存
@@ -141,7 +141,7 @@
 	}
 	
 	//单选框点击事件
-	function isSupplierCascadeGoods(){
+	function changeIsSupplierCascadeGoods(){
 		if($("#isSupplierCascadeGoodsP0").is(':checked')){
 			//启用
 			$("#isSupplierCascadeGoodsPa").removeAttr("disabled");
