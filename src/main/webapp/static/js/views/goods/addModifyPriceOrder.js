@@ -25,12 +25,8 @@ $(function() {
 	
 	var formNo = $("#formNo").text();
 	if (formNo != null && formNo != '') {
-		addModifyPriceGridDg.datagrid('options').queryParams = {
-			formNo : formNo
-		};
-		addModifyPriceGridDg.datagrid('options').url = contextPath
-			+ "/goods/priceAdjust/queryDetailsByformNo";
-		addModifyPriceGridDg.datagrid('load');
+		gFunStartLoading();
+        initGridData(formNo);
 	}
 	// 已审核
 	var status = $("#status").val();
@@ -39,12 +35,39 @@ $(function() {
 		datagridUtil.readOnlyInput();
 	}
 });
+
+//加载数据
+function initGridData(formNo){
+    $.ajax({
+        type : "POST",
+        url : contextPath + "/goods/priceAdjust/queryDetailsByformNo",
+        data : {
+            "formNo" : formNo
+        },
+        dataType : "json",
+        success : function(data) {
+        	gFunEndLoading();
+            if (data != null || data != '') {
+                //计算原毛利率、新毛利率
+                $.each(data,function (index,item) {
+                    item.oldSaleRate = ((item.oldSalePrice-item.oldPurPrice)/item.oldSalePrice*100).toFixed(2)+"%";
+                    item.newSaleRate = ((item.newSalePrice-item.newPurPrice)/item.newSalePrice*100).toFixed(2)+"%"
+                })
+                $("#"+datagridId).datagrid("loadData",data);
+            }
+
+        }
+    });
+}
+
 var gridDefault = {
 //	oldPurPrice:0.00,
 //	oldDcPrice:0.00,
 //	oldVipPrice:0.00,
 //	oldWsPrice:0.00,
 //	oldSalePrice:0.00
+		oldSaleRate:"0%",
+		newSaleRate:"0%"
 }
 var gridHandel = new GridClass();
 // 初始化列表
@@ -68,21 +91,13 @@ function initAddModifyPriceGridEdit() {
 	        },
 	});
 	addModifyPriceGridDg = $("#" + datagridId).datagrid({
-				align : 'center',
-				//toolbar: '#tb',     //工具栏 id为tb
-		        singleSelect:false,  //单选  false多选
+        		singleSelect:false,  //单选  false多选
 		        rownumbers:true,    //序号
 		        pagination:false,    //分页
 		        fitColumns:true,    //每列占满
-		        //fit:true,            //占满
+        		align:'center',       //占满
 		        showFooter:true,
-				height:'600px',
 				width:'100%',
-//				pageSize:50,
-				data : [ {
-					"rows" : [$.extend({},gridDefault)]
-				} ],
-				
 				columns : [ [
 					{
 						field : 'ck',
@@ -144,12 +159,19 @@ function initAddModifyPriceGridEdit() {
 						width : '120px',
 						align : 'right',
 						formatter : function(value, row, index) {
-							var str=0.00;
-							if(value){
-								str= parseFloat(value).toFixed(2);
-							}
-		    				return str;
-		    			}
+                            if(!value){
+                                row["oldPurPrice"] = parseFloat(value||0).toFixed(2);
+                            }
+                            return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		    			},
+                        editor:{
+                            type:'numberbox',
+                            options:{
+                                disabled:true,
+                                min:0,
+                                precision:4,
+                            }
+                        }
 					}, // 进价
 					{
 						field : 'newPurPrice',
@@ -157,62 +179,112 @@ function initAddModifyPriceGridEdit() {
 						width : '120px',
 						align : 'right',
 						formatter : function(value, row, index) {
-							var str=0.0000;
-							if(value){
-								str= parseFloat(value).toFixed(4);
-							}
-		    				return str;
+                            if(!value){
+                                row["newPurPrice"] = parseFloat(value||0).toFixed(2);
+                            }
+                            return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		    			},
 						editor : {
 							type : 'numberbox',
 							options : {
 								min:0,
 								precision:4,
+                                onChange:changeNewPurPrice
 							}
 						}
-					}, {
+					},
+					{
 						field : 'oldSalePrice',
 						title : '原零售价',
 						width : '120px',
 						align : 'right',
 						formatter : function(value, row, index) {
-							var str=0.0000;
-							if(value){
-								str= parseFloat(value).toFixed(4);
-							}
-		    				return str;
-		    			}
-					}, // 售价
+                            if(!value){
+                                row["oldSalePrice"] = parseFloat(value||0).toFixed(2);
+                            }
+                            return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		    			},
+                        editor:{
+                            type:'numberbox',
+                            options:{
+                                disabled:true,
+                                min:0,
+                                precision:4,
+                            }
+                        }
+					}, 
+					{
+						field : 'oldSaleRate',
+						title : '原毛利率',
+						width : '120px',
+						align : 'right',
+                        formatter:function(value,row,index){
+                            if(row.isFooter){
+                                return
+                            }
+                            if(!value){
+                                value = "0%";
+                            }else{
+                                row['oldSaleRate'] = value;
+                            }
+                            return '<b>'+value+'</b>';
+                        },
+					},
+					
+					// 售价
 					{
 						field : 'newSalePrice',
 						title : '新零售价',
 						width : '120px',
 						align : 'right',
 						formatter : function(value, row, index) {
-							var str=0.0000;
-							if(value){
-								str= parseFloat(value).toFixed(4);
-							}
-		    				return str;
+                            if(!value){
+                                row["newSalePrice"] = parseFloat(value||0).toFixed(2);
+                            }
+                            return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		    			},
 						editor : {
 							type : 'numberbox',
 							options : {
 								min:0,
 								precision:4,
+                                onChange:changeNewSalePrice
 							}
 						}
-					}, {
+					},
+                    {
+                        field : 'newSaleRate',
+                        title : '新毛利率',
+                        width : '120px',
+                        align : 'right',
+                        formatter:function(value,row,index){
+                            if(row.isFooter){
+                                return
+                            }
+                            if(!value){
+                                value = "0%";
+                            }else{
+                            	row['newSaleRate'] = value;
+							}
+                            return '<b>'+value+'</b>';
+                        },
+                        editor : {
+                            type : 'textbox',
+                            options:{
+                                disabled:true,
+                            }
+                        }
+                    },
+                    {
 						field : 'oldDcPrice',
 						title : '原配送价',
 						width : '120px',
 						align : 'right',
 						formatter : function(value, row, index) {
-							var str=0.0000;
-							if(value){
-								str= parseFloat(value).toFixed(4);
-							}
-		    				return str;
+                            if(!value){
+                                row["oldDcPrice"] = parseFloat(value||0).toFixed(2);
+                            }
+                            return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		    			}
 					}, // 配送价
 					{
@@ -221,11 +293,10 @@ function initAddModifyPriceGridEdit() {
 						width : '120px',
 						align : 'right',
 						formatter : function(value, row, index) {
-							var str=0.0000;
-							if(value){
-								str= parseFloat(value).toFixed(4);
-							}
-		    				return str;
+                            if(!value){
+                                row["newDcPrice"] = parseFloat(value||0).toFixed(2);
+                            }
+                            return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		    			},
 						editor : {
 							type : 'numberbox',
@@ -240,11 +311,10 @@ function initAddModifyPriceGridEdit() {
 						width : '120px',
 						align : 'right',
 						formatter : function(value, row, index) {
-							var str=0.0000;
-							if(value){
-								str= parseFloat(value).toFixed(4);
-							}
-		    				return str;
+                            if(!value){
+                                row["oldWsPrice"] = parseFloat(value||0).toFixed(2);
+                            }
+                            return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		    			}
 					}, // 批发价
 					{
@@ -253,11 +323,13 @@ function initAddModifyPriceGridEdit() {
 						width : '120px',
 						align : 'right',
 						formatter : function(value, row, index) {
-							var str=0.0000;
-							if(value){
-								str= parseFloat(value).toFixed(4);
-							}
-		    				return str;
+                            if(row.isFooter){
+                                return ;
+                            }
+                            if(!value){
+                                row["newWsPrice"] = parseFloat(value||0).toFixed(2);
+                            }
+                            return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		    			},
 						editor : {
 							type : 'numberbox',
@@ -272,11 +344,10 @@ function initAddModifyPriceGridEdit() {
 						width : '120px',
 						align : 'right',
 						formatter : function(value, row, index) {
-							var str=0.0000;
-							if(value){
-								str= parseFloat(value).toFixed(4);
-							}
-		    				return str;
+                            if(!value){
+                                row["oldVipPrice"] = parseFloat(value||0).toFixed(2);
+                            }
+                            return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		    			}
 					}, // 会员价
 					{
@@ -285,11 +356,10 @@ function initAddModifyPriceGridEdit() {
 						width : '120px',
 						align : 'right',
 						formatter : function(value, row, index) {
-							var str=0.0000;
-							if(value){
-								str= parseFloat(value).toFixed(4);
-							}
-		    				return str;
+                            if(!value){
+                                row["newVipPrice"] = parseFloat(value||0).toFixed(2);
+                            }
+                            return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		    			},
 						editor : {
 							type : 'numberbox',
@@ -318,6 +388,19 @@ function initAddModifyPriceGridEdit() {
 					datagridUtil.isCheckBoxChecked("distributionPrice");// 配送价
 				}
 			});
+}
+//新进货价
+function changeNewPurPrice(newVal,oldVal) {
+    var newSalePrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'newSalePrice');
+    var newSaleRate = ((newSalePrice-newVal)/newSalePrice*100).toFixed(2)+"%"
+    gridHandel.setFieldTextValue('newSaleRate',newSaleRate);
+}
+//新零售价
+function changeNewSalePrice(newVal,oldVal) {
+    var newPurPrice = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'newPurPrice');
+    var newSaleRate = ((newVal-newPurPrice)/newVal*100).toFixed(2)+"%"
+    gridHandel.setFieldTextValue('newSaleRate',newSaleRate);
+	
 }
 //初始化复选框
 function initCheckbox(){
@@ -748,10 +831,10 @@ var datagridUtil = {
 		var fieldArr = []; // field的数组
 		switch (checkboxId) {
 			case "purchasePrice": // 进价
-				fieldArr = [ "oldPurPrice", "newPurPrice" ];
+				fieldArr = [ "oldPurPrice", "newPurPrice","oldSaleRate","newSaleRate" ];
 				break;
 			case "retailPrice": // 零售价
-				fieldArr = [ "oldSalePrice", "newSalePrice" ];
+				fieldArr = [ "oldSalePrice", "newSalePrice" ,"oldSaleRate","newSaleRate" ];
 				break;
 			case "tradePrice": // 批发价
 				fieldArr = [ "oldWsPrice", "newWsPrice" ];
@@ -955,6 +1038,11 @@ function gFunGoodsSelect(searchKey,branchId){
 			var newData = gFunUpdateKey(data,keyNames);
 			newData = gFunUpdateKey(newData,keyNames2);
 			var newRows = gridHandel.checkDatagrid(nowRows,newData,argWhere);
+			//计算原毛利率、新毛利率
+			$.each(newRows,function (index,item) {
+                item.oldSaleRate = ((item.oldSalePrice-item.oldPurPrice)/item.oldSalePrice*100).toFixed(2)+"%";
+                item.newSaleRate = ((item.newSalePrice-item.newPurPrice)/item.newSalePrice*100).toFixed(2)+"%"
+            })
 			
 			$("#"+datagridId).datagrid("loadData",newRows);
 
@@ -1174,7 +1262,11 @@ function updateListData(data){
     var argWhere ={skuCode:1};  //验证重复性
     var isCheck ={isGift:1 };   //只要是赠品就可以重复
     var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
-
+    //计算原毛利率、新毛利率
+    $.each(newRows,function (index,item) {
+        item.oldSaleRate = ((item.oldSalePrice-item.oldPurPrice)/item.oldSalePrice*100).toFixed(2)+"%";
+        item.newSaleRate = ((item.newSalePrice-item.newPurPrice)/item.newSalePrice*100).toFixed(2)+"%"
+    })
 	$("#"+datagridId).datagrid("loadData",newRows);
 
 	}

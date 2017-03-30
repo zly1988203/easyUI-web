@@ -277,11 +277,14 @@
             <div class="ub uw umar-t8 uc-red"><!-- *选择区域进行调价时，默认价格取区域内某个店的价格；对加盟店进行调价，不处理进价列的调价；改变调价机构,将清空所选商品。 --></div>
             <div class="ub umar-t8 umar-b8">【明细信息】</div>
             <!--datagrid-edit-->
-            <div class="ub uw datagrid-edit">
-                <table id="addModifyPriceGrid"></table>
-            </div>
+
+
+
         </div>
         </form>
+	<div class="ub ub-f1  umar-t8 umar-b8">
+		<table id="addModifyPriceGrid"></table>
+	</div>
     </div>
 </body>
 </html>

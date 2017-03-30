@@ -411,6 +411,46 @@ function initDatagridSpecial(){
 		                    }
 		                },
 		            },
+            {
+                field : 'oldSaleRate',
+                title : '原毛利率',
+                width : '120px',
+                align : 'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return
+                    }
+                    if(!value){
+                        value = "0%";
+                    }else{
+                        row['oldSaleRate'] = value;
+                    }
+                    return '<b>'+value+'</b>';
+                },
+            },
+            {
+                field : 'newSaleRate',
+                title : '新毛利率',
+                width : '120px',
+                align : 'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return
+                    }
+                    if(!value){
+                        value = "0%";
+                    }else{
+                        row['newSaleRate'] = value;
+                    }
+                    return '<b>'+value+'</b>';
+                },
+                editor : {
+                    type : 'textbox',
+                    options:{
+                        disabled:true,
+                    }
+                }
+            },
         ]],
 		onClickCell : function(rowIndex, field, value) {
 			gridHandel.setBeginRow(rowIndex);
@@ -593,6 +633,48 @@ function initDatagridoneZk(){
 			        }
 			    },
 			},
+            {
+                field : 'oldSaleRate',
+                title : '原毛利率',
+                width : '120px',
+                align : 'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return
+                    }
+                    if(!value){
+                        value = "0%";
+                    }else{
+                        row['oldSaleRate'] = value;
+                    }
+                    return '<b>'+value+'</b>';
+                },
+            },
+            {
+                field : 'newSaleRate',
+                title : '新毛利率',
+                width : '120px',
+                align : 'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return
+                    }
+                    if(!value){
+                        value = "0%";
+                    }else{
+                        row['newSaleRate'] = value;
+                    }
+                    return '<b>'+value+'</b>';
+                },
+                editor : {
+                    type : 'textbox',
+                    options:{
+                        disabled:true,
+                    }
+                }
+            },
+
+
           ]],
   		onClickCell : function(rowIndex, field, value) {
 			gridHandel.setBeginRow(rowIndex);
@@ -696,6 +778,46 @@ function initDatagridOddtj(){
 			        }
 			    },
 			},
+            {
+                field : 'oldSaleRate',
+                title : '原毛利率',
+                width : '120px',
+                align : 'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return
+                    }
+                    if(!value){
+                        value = "0%";
+                    }else{
+                        row['oldSaleRate'] = value;
+                    }
+                    return '<b>'+value+'</b>';
+                },
+            },
+            {
+                field : 'newSaleRate',
+                title : '新毛利率',
+                width : '120px',
+                align : 'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return
+                    }
+                    if(!value){
+                        value = "0%";
+                    }else{
+                        row['newSaleRate'] = value;
+                    }
+                    return '<b>'+value+'</b>';
+                },
+                editor : {
+                    type : 'textbox',
+                    options:{
+                        disabled:true,
+                    }
+                }
+            },
           ]],
   		onClickCell : function(rowIndex, field, value) {
 			gridHandel.setBeginRow(rowIndex);
@@ -1263,18 +1385,25 @@ function specialRows(id,val){
 	var newData = $("#"+datagridId).datagrid("getRows");
 	if(id=="special"){
 		for(var i = 0;i < newData.length;i++){
-			newData[i].saleAmount= val;
+			var item = newData[i];
+            item.saleAmount= val;
+            // item.oldSaleRate = ((item.oldSalePrice-item.oldPurPrice)/item.oldSalePrice*100).toFixed(2)+"%";
+            // item.newSaleRate = ((item.newSalePrice-item.newPurPrice)/item.newSalePrice*100).toFixed(2)+"%"
 		}
 		$("#"+datagridId).datagrid({data:newData})
 	}
 	else if(id=="discount"){
 		for(var i = 0;i < newData.length;i++){
 			newData[i].discount= val;
+            // item.oldSaleRate = ((item.oldSalePrice-item.oldPurPrice)/item.oldSalePrice*100).toFixed(2)+"%";
+            // item.newSaleRate = ((item.newSalePrice-item.newPurPrice)/item.newSalePrice*100).toFixed(2)+"%"
 		}
 	}
 	else if(id=="batchcount"){
 		for(var i = 0;i < newData.length;i++){
 			newData[i].saleAmount= val;
+            // item.oldSaleRate = ((item.oldSalePrice-item.oldPurPrice)/item.oldSalePrice*100).toFixed(2)+"%";
+            // item.newSaleRate = ((item.newSalePrice-item.newPurPrice)/item.newSalePrice*100).toFixed(2)+"%"
 		}
 	}
 	$("#"+datagridId).datagrid({data:newData})
