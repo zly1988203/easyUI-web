@@ -92,8 +92,24 @@ public class OverShortReportController extends BaseController<OverShortReportCon
 		RespJson resp = RespJson.success();
 		try {
 			List<OverShortReportVo> exportList = overShortReportApi.exportReportList(vo);
-			String fileName = "长短款报表" + DateUtils.getDate("yyyyMMdd");
-			String templateName = ExportExcelConstant.OVER_SHORT_REPORT;
+			String fileName = "现金长短款报表" + DateUtils.getDate("yyyyMMdd");
+			String templateName = null;
+			switch (vo.getReportType()) {
+				case 1:
+					// 长短款日报表
+					templateName = ExportExcelConstant.OVER_SHORT_REPORT1;
+					break;
+				case 2:
+					// 长短款日报表（日汇总）
+					templateName = ExportExcelConstant.OVER_SHORT_REPORT2;
+					break;
+				case 3:
+					// 入袋记录报表
+					templateName = ExportExcelConstant.OVER_SHORT_REPORT3;
+					break;
+				default:
+					break;
+			}
 			exportListForXLSX(response, exportList, fileName, templateName);
 		} catch (Exception e) {
 			LOG.error("导出长短款报表异常：{}", e);
