@@ -46,6 +46,7 @@ function initjiaqType(){
 	$(document).on('mousedown','.jiaqType .radioItem',function(){
 		var _this = $(this);
 		var changeType = function(){
+			debugger;
 			_this.prop("checked",true);
 			$('#priceType').val(_this.val());
 			if(_this.val() === '1'){
@@ -56,6 +57,14 @@ function initjiaqType(){
 				$('#pricePrint').datagrid('showColumn','activityTime');
 				$('#pricePrint').datagrid('showColumn','promotionPrice');
 			}else{
+				$("#selectGoods").attr("onclick","chooseproduct()");
+				$("#importsukcode").attr("onclick","toImportproduct(0)");
+				$("#importbarcode").attr("onclick","toImportproduct(1)");
+				
+				$("#selectGoods").removeClass("uinp-no-more");
+				$("#importsukcode").removeClass("uinp-no-more");
+				$("#importbarcode").removeClass("uinp-no-more");
+				
 				//隐藏活动 清除数据
 				$('.activity').addClass('unhide');
 				$('#actionId').val('');
@@ -436,6 +445,8 @@ function disableBtn(){
 
      e.editor = {disabled:true};
 }
+
+
 
 function onChangeSelect(){
     var priceMark=$("#optionseletc").val(); 
