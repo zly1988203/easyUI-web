@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ProductSalesPlan" language="groovy" columnCount="3" printOrder="Horizontal" pageWidth="595" pageHeight="842" columnWidth="170" leftMargin="42" rightMargin="43" topMargin="0" bottomMargin="2" isSummaryWithPageHeaderAndFooter="true" uuid="00831878-d208-460c-a1e1-15e96cc9ea5e">
+	<property name="ireport.zoom" value="4.0"/>
+	<property name="ireport.x" value="104"/>
+	<property name="ireport.y" value="40"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["D:\\workspace_kasa\\PrintTest\\src\\com\\test\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select remarks from mfo_dtl]]>
+	</queryString>
+	<field name="skuCode" class="java.lang.String"/>
+	<field name="skuName" class="java.lang.String"/>
+	<field name="barCode" class="java.lang.String"/>
+	<field name="salePrice" class="java.math.BigDecimal"/>
+	<field name="spec" class="java.lang.String"/>
+	<field name="unit" class="java.lang.String"/>
+	<field name="originPlace" class="java.lang.String"/>
+	<field name="promotionPrice" class="java.math.BigDecimal"/>
+	<field name="activityTime" class="java.lang.String"/>
+	<columnHeader>
+		<band height="74"/>
+	</columnHeader>
+	<detail>
+		<band height="82" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="98" y="28" width="66" height="30" uuid="e68a3531-d432-4223-a289-0de53dd371cf"/>
+				<textElement>
+					<font size="21" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{promotionPrice}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="29" y="45" width="24" height="12" uuid="587cdc15-7710-454f-b218-847a8bfc7ee3"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="6" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{unit}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="29" y="34" width="24" height="12" uuid="026eebf7-f655-4a6e-b7ad-1ad2420f5212"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="6" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{spec}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="56" y="9" width="111" height="17" uuid="9d73442d-ec15-414b-9a38-19b2c5ed2bf9"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{skuName}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="8" y="34" width="20" height="12" uuid="127615ff-6bf0-4e3c-ab09-0e4ad8318b05"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[规   格:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="8" y="68" width="20" height="12" uuid="a0105d75-4951-4a98-9dd1-3eb10cc844a8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[产   地:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="29" y="68" width="32" height="12" uuid="b8bdf814-74a4-4589-9a6a-330fe80bfa83"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="6" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{originPlace}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="8" y="45" width="20" height="12" uuid="ea6741d2-a585-4499-aaaa-a00e681a7b4e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[单   位:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="56" y="41" width="36" height="12" uuid="26b3fc3c-310e-4b18-9528-de97f5351339"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[促销价:￥]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="8" y="56" width="20" height="12" uuid="a1127639-662d-4a9b-b326-eace38680251"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[货   号:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="29" y="56" width="24" height="12" uuid="d6c4fb34-2034-4272-829f-b3b669b15243"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{skuCode}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="56" y="25" width="20" height="12" uuid="62a4b322-6db0-4e62-a6bc-2cf6fec094f7"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[原价:￥]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="76" y="23" width="33" height="16" uuid="48a4024a-b731-4eb4-a97b-bd3db9a44f31"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{salePrice}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="56" y="27" width="46" height="7" forecolor="#666666" uuid="0ce43cfa-2f83-4a3a-a8d6-72d762b96c28"/>
+			</line>
+			<textField isBlankWhenNull="true">
+				<reportElement x="95" y="51" width="68" height="10" uuid="82563c5b-a054-4c46-9157-e4aca31d1751"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{activityTime}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="56" y="51" width="36" height="10" uuid="0be6c29c-96fa-4b9c-8acf-05c784f2e9b3"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[促销时间：]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement x="52" y="63" width="105" height="12" uuid="cdc08444-452f-46bb-b0a4-0c5726a1a8ca"/>
+				<jr:Code128 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" moduleWidth="1.0" textPosition="none">
+					<jr:codeExpression><![CDATA[$F{barCode}]]></jr:codeExpression>
+				</jr:Code128>
+			</componentElement>
+			<textField isBlankWhenNull="true">
+				<reportElement x="53" y="72" width="103" height="10" uuid="03a5595e-cf22-4843-b945-1d1293a7fcd9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{barCode}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

@@ -420,9 +420,11 @@ function onChangeRealNum(newV,oldV) {
     }
     var applyNum = gridHandel.getFieldData(gridHandel.getSelectRowIndex()||0,'applyNum');
     if(parseFloat(newV)>parseFloat(applyNum)){
-        messager("数量不能大于要货数量("+applyNum+")");
-        gridHandel.setFieldValue('dealNum',applyNum);
-        return;
+    	if($("#referenceNo").val()){
+    		messager("数量不能大于要货数量("+applyNum+")");
+    		gridHandel.setFieldValue('dealNum',applyNum);
+    		return;
+    	}
     }else{
         var sourceStockVal = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'sourceStock');
         var defectNum = parseFloat(sourceStockVal||0)-parseFloat(newV||0);

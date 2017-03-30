@@ -3,12 +3,14 @@
  */
 var datagridId = "pricePrint";
 
-var options_nomal = [
+var options_nomal = [{value:'14',text:'新促销价签(58*28.5mm 3*9)'},
                      {value:'6',text:'标准促销价签(72*32.5mm 4*6)'},
 					{value:'8',text:'标准促销价签(72*32.5mm 4*6)无底'},
 					{value:'11',text:'标准促销价签(72*32.5mm 4*6 无底色)'},
-					 {value:'4',text:'促销（85*40mm无底 1*7）'}];
-var options_promotion = [{value:'5',text:'标准价签(72*32.5mm 4*6)'},
+					 {value:'4',text:'促销（85*40mm无底 1*7）'}
+					];
+var options_promotion = [{value:'13',text:'新标准价签(58*28.5mm 3*9)'},
+                         {value:'5',text:'标准价签(72*32.5mm 4*6)'},
                          {value:'7',text:'标准价签(72*32.5mm 4*6)无底'},
                          {value:'1',text:'正常（55*25mm有底 3*10）'},
                          {value:'2',text:'正常（85*40mm有底 2*7）'},
@@ -44,6 +46,7 @@ function initjiaqType(){
 	$(document).on('mousedown','.jiaqType .radioItem',function(){
 		var _this = $(this);
 		var changeType = function(){
+			debugger;
 			_this.prop("checked",true);
 			$('#priceType').val(_this.val());
 			if(_this.val() === '1'){
@@ -54,6 +57,14 @@ function initjiaqType(){
 				$('#pricePrint').datagrid('showColumn','activityTime');
 				$('#pricePrint').datagrid('showColumn','promotionPrice');
 			}else{
+				$("#selectGoods").attr("onclick","chooseproduct()");
+				$("#importsukcode").attr("onclick","toImportproduct(0)");
+				$("#importbarcode").attr("onclick","toImportproduct(1)");
+				
+				$("#selectGoods").removeClass("uinp-no-more");
+				$("#importsukcode").removeClass("uinp-no-more");
+				$("#importbarcode").removeClass("uinp-no-more");
+				
 				//隐藏活动 清除数据
 				$('.activity').addClass('unhide');
 				$('#actionId').val('');
@@ -434,6 +445,8 @@ function disableBtn(){
 
      e.editor = {disabled:true};
 }
+
+
 
 function onChangeSelect(){
     var priceMark=$("#optionseletc").val(); 

@@ -358,7 +358,9 @@ function onSelectIsGift(data){
             $(targetPrice).numberbox('setValue',0);
             $(targetPrice).numberbox('disable');
         }else{
-            $(targetPrice).numberbox('enable');
+            if(isEdit == false){
+        		$(targetPrice).numberbox('enable');
+        	}
             var oldPrice =  $('#gridEditOrder').datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"];
             if(oldPrice){
                 $(targetPrice).numberbox('setValue',oldPrice);
