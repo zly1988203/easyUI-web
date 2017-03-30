@@ -52,8 +52,14 @@ function queryForm(){
 		$("#branchId").val('');
 		$("#branchCompleCode").val('');
 	}
-	
+	var oldCreateUserName = $("#oldCreateUserName").val();
+	var createUserName = $("#createUserName").val();
+	if(oldCreateUserName && oldCreateUserName != createUserName){
+		$("#createUserId").val('');
+	}
 	var fromObjStr = $('#queryForm').serializeObject();
+    fromObjStr.createUserName = fromObjStr.createUserName.substring(fromObjStr.createUserName.lastIndexOf(']')+1)
+
 	$("#applyList").datagrid("options").method = "post";
 	$("#applyList").datagrid('options').url = contextPath + '/stocktaking/apply/getApplyList';
 	$("#applyList").datagrid('load', fromObjStr);
@@ -100,7 +106,16 @@ function toAdd(){
         }
     })
 }
-
+/**
+ * 操作员
+ */
+function selectOperator(){
+	new publicOperatorService(function(data){
+		$("#createUserId").val(data.id);
+		$("#createUserName").val(data.userName);
+		$("#oldCreateUserName").val(data.userName);
+	});
+}
 function applyCallback(){
 	 $(addDalogTemp).panel('destroy');
 }
