@@ -37,13 +37,14 @@ public class BranchSettingController extends BaseController<BranchSettingControl
 	
 	/**
 	 * 
-	 * @Description: 跳转采购设置页面
+	 * @Description: 跳转系统设置页面
 	 * @return String  
 	 * @author zhangq
 	 * @date 2017年3月30日
 	 */
-	public String toPurchasePage(){
-		return "setting/purchaseSetting";
+	@RequestMapping(value = "/toSystemSetting")
+	public String toSystemPage(){
+		return "setting/systemSetting";
 	}
 	
 	/**
