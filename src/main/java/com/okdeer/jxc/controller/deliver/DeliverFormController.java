@@ -127,6 +127,18 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		model.addAttribute("targetBranchId", getCurrBranchId());
 		return "form/deliver/deliverList";
 	}
+	/**
+	 * @Description: 跳转直送要货单页面
+	 * @param model
+	 * @return
+	 * @author xuyq
+	 * @date 2017年3月30日
+	 */
+	@RequestMapping(value = "viewsDY")
+	public String viewsDY(Model model) {
+		model.addAttribute("targetBranchId", getCurrBranchId());
+		return "form/deliver/deliverDyList";
+	}
 
 	/**
 	 * @Description: 跳转出库单
@@ -263,6 +275,26 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 				model.addAttribute("referenceId", vo.getDeliverFormId());
 			}
 			return "form/deliver/refund/DrAdd";
+		} else if (FormType.DY.toString().equals(deliverType)) { //直送要货
+			if (BranchTypeEnum.HEAD_QUARTERS.getCode().intValue() == type.intValue()) {
+				// 如果是总店，则不让进行任何业务操作，只能查询
+				// return "form/deliver/deliverList";
+			} else if (BranchTypeEnum.BRANCH_OFFICE.getCode().intValue() == type.intValue()) {
+				// 判断要货机构是否是分店，如果是分店，要货机构可以选择该分店下的所有机构，有效时间为该分店的，起订金额为目标机构的
+				branchesGrow
+						.setValidityTime(branchesGrow.getTargetBranchValidityNumDays() == 0 ? SysConstant.VALIDITY_DAY
+								: branchesGrow.getTargetBranchValidityNumDays());
+				branchesGrow.setSourceBranchId("");
+				branchesGrow.setSourceBranchName("");
+			} else {
+				// 如果为店铺，则只能是该机构本身，不能选择，有效时间为该店铺对应的分店的，起订金额为该店铺对应分店的
+				branchesGrow
+						.setValidityTime(branchesGrow.getSourceBranchValidityNumDays() == 0 ? SysConstant.VALIDITY_DAY
+								: branchesGrow.getSourceBranchValidityNumDays());
+			}
+
+			model.addAttribute("branchesGrow", branchesGrow);
+			return "form/deliver/deliverDyAdd";
 		} else {
 			// 需求修改，点击要货单生成出库单，将要货单id传入
 			if (!StringUtils.isEmpty(vo.getDeliverFormId())) {
@@ -304,6 +336,8 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 				return "form/deliver/DDEdit";
 			}  else if (FormType.DR.toString().equals(form.getFormType())) {
 				return "form/deliver/refund/DrEdit";
+			}  else if (FormType.DY.toString().equals(form.getFormType())) {
+				return "form/deliver/deliverDyEdit";
 			} else {
 				return "form/deliver/DiEdit";
 			}
