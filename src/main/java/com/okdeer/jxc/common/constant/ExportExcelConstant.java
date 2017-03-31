@@ -232,6 +232,7 @@ public interface ExportExcelConstant {
 	
 	String DELIVERFORM_DI = "DeliverFormDI.xlsx";
 	
+	String DELIVERFORM_DY = "DeliverFormDY.xlsx";
 	
 	String DELIVERFORM_DD = "DeliverFormDD.xlsx";
 

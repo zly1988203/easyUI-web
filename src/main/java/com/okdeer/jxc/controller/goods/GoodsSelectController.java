@@ -150,7 +150,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 			}
 			LOG.info("商品查询参数:{}" + vo.toString());
 			// 要货单商品资料查询、价格查询
-			if (FormType.DA.name().equals(vo.getFormType())||FormType.DD.name().equals(vo.getFormType())) {
+			if (FormType.DA.name().equals(vo.getFormType())||FormType.DD.name().equals(vo.getFormType())||FormType.DY.name().equals(vo.getFormType())) {
 				PageUtils<GoodsSelect> goodsSelects = goodsSelectServiceApi.getGoodsListDA(vo);
 				return goodsSelects;
 			}
