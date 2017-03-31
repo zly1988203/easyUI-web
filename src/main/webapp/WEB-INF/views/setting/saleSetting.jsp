@@ -20,7 +20,7 @@
 	<div class="ub ub-ver ub-f1 umar-4 ubor upad-10">
 		<div class="ub ub-ver umar-t20">
 			<form id="settingForm" action="${ctx}/branchSetting/save" method="post">
-				<input type="hidden" id="id" name="id">
+				<input type="hidden" id="branchId" name="branchId">
 				<div class="ub ub-ac upad-16 ">
 					<div class="ub uw-110 ut-r">抹零设置:</div>
 					<div class="ub uw-110 ub-ac umar-r10">
@@ -64,11 +64,11 @@
 	//初始页面
 	function init(data){
 		//获取值
-		var id = data.id;
+		var branchId = data.branchId;
 		var centComputeType = data.centComputeType;
 		
 		//页面赋值
-		$("#id").val(id);
+		$("#branchId").val(branchId);
 		if(centComputeType == 0){
 			$("#centComputeType0").attr("checked","true");
 		}else{

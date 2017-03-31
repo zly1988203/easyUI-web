@@ -20,7 +20,7 @@
 	<div class="ub ub-ver ub-f1 umar-4 ubor upad-10">
 		<div class="ub ub-ver umar-t20">
 			<form id="settingForm" action="${ctx}/branchSetting/save" method="post">
-				<input type="hidden" id="id" name="id">
+				<input type="hidden" id="branchId" name="branchId">
 				<div class="ub ub-ac upad-16 ">
 					<div class="ub uw-200 ut-r">后台单据允许负库存出库:</div>
 					<div class="ub uw-110 ub-ac umar-r10">
@@ -87,12 +87,12 @@
 	//初始页面
 	function init(data){
 		//获取值
-		var id = data.id;
+		var branchId = data.branchId;
 		var isAllowMinusStock = data.isAllowMinusStock;
 		var monthReportDay = data.monthReportDay;
 		
 		//页面赋值
-		$("#id").val(id);
+		$("#branchId").val(branchId);
 		//后台单据允许负库存出库
 		if(isAllowMinusStock == 0){
 			$("#isAllowMinusStock0").attr("checked",true);
