@@ -21,22 +21,26 @@
 			<div class="ub ub-ac">
 				<div class="ubtns">
 					<div class="ubtns-item" onclick="queryForm()">查询</div>
-					<shiro:hasPermission name="JxcStockReimburse:add">
-						<div class="ubtns-item" onclick="addSaleReturn()">新增</div>
+					<shiro:hasPermission name="JxcDeliverDR:add">
+						<div class="ubtns-item" onclick="addDeliverReturn()">新增</div>
 					</shiro:hasPermission>
-					<shiro:hasPermission name="JxcStockReimburse:delete">
-						<div class="ubtns-item" onclick="deleteSaleReturn()">删除</div>
+					<shiro:hasPermission name="JxcDeliverDR:delete">
+						<div class="ubtns-item" onclick="delDeliverReturn()">删除</div>
 					</shiro:hasPermission>
-					<shiro:hasPermission name="JxcStockReimburse:print">
-						<div class="ubtns-item-disabled">打印</div>
+					<shiro:hasPermission name="JxcDeliverDR:setting">
+						<div class="ubtns-item-disabled">设置</div>
 					</shiro:hasPermission>
+					<div id="updatePermission" class="none">
+						<shiro:hasPermission name="JxcDeliverDR:update">修改</shiro:hasPermission>
+					</div>
 					<div class="ubtns-item" id="set" onclick="gFunRefresh()">重置</div>
 					<div class="ubtns-item" onclick="toClose()">关闭</div>
 				</div>
 				<!-- 引入时间选择控件 -->
-				<%@ include file="/WEB-INF/views/component/dateSelect.jsp"%>
+				<%@ include file="/WEB-INF/views/component/dateSelectHour.jsp"%>
 			</div>
 			<div class="ub uline umar-t8"></div>
+			<input type="hidden" id="deliverType" name="deliverType" value="DR"/>
 			<div class="ub umar-t8">
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">发货机构:</div>
