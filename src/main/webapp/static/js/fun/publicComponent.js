@@ -1108,6 +1108,7 @@ function GridClass(){
                             case 39: //右键
                                 var field = getLRFiledName('right');
                                 var target = _this.getFieldTarget(field);
+                                var row = _this.getEditRow(gridName,rowIndex);
                                 while($(target).prop('readonly') || $(target).prop('disabled'))
                                 {
                                 	//修复如果最后一列是不可读的表单造成的页面卡掉bug20180
