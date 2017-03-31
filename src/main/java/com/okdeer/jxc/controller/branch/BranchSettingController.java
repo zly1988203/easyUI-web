@@ -37,14 +37,14 @@ public class BranchSettingController extends BaseController<BranchSettingControl
 	
 	/**
 	 * 
-	 * @Description: 跳转系统设置页面
+	 * @Description: 跳转配送设置页面
 	 * @return String  
 	 * @author zhangq
-	 * @date 2017年3月30日
+	 * @date 2017年3月29日
 	 */
-	@RequestMapping(value = "/toSystemSetting")
-	public String toSystemPage(){
-		return "setting/systemSetting";
+	@RequestMapping(value = "/toDelivelSetting")
+	public String toDelivelSettingPage(){
+		return "setting/delivelSetting";
 	}
 	
 	/**
@@ -58,6 +58,20 @@ public class BranchSettingController extends BaseController<BranchSettingControl
 	public String toPurchaseSettingsPage(){
 		return "setting/purchaseSetting";
 	}
+	
+	/**
+	 * 
+	 * @Description: 跳转系统设置页面
+	 * @return String  
+	 * @author zhangq
+	 * @date 2017年3月30日
+	 */
+	@RequestMapping(value = "/toSystemSetting")
+	public String toSystemPage(){
+		return "setting/systemSetting";
+	}
+	
+
 	
 	/**
 	 * 
