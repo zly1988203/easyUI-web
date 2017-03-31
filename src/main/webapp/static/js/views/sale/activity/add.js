@@ -423,6 +423,7 @@ function initDatagridSpecial(){
                     options:{
                         min:0,
                         precision:2,
+                        disabled:true,
                     }
                 },
             },
@@ -645,6 +646,7 @@ function initDatagridoneZk(){
                     options:{
                         min:0,
                         precision:2,
+						disabled:true,
                     }
                 },
             },
@@ -804,6 +806,7 @@ function initDatagridOddtj(){
                     options:{
                         min:0,
                         precision:2,
+                        disabled:true,
                     }
                 },
             },
