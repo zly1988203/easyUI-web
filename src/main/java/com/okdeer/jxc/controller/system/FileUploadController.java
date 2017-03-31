@@ -5,7 +5,7 @@
  *@Copyright: ©2014-2020 www.okdeer.com Inc. All rights reserved. 
  */
 
-package com.okdeer.jxc.controller.branch;
+package com.okdeer.jxc.controller.system;
 
 import java.util.Iterator;
 import java.util.List;
@@ -22,17 +22,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.alibaba.dubbo.config.annotation.Reference;
-import com.okdeer.jxc.branch.entity.BranchSpec;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.service.FileUploadService;
 import com.okdeer.jxc.controller.BaseController;
-import com.okdeer.jxc.form.deliver.service.DeliverConfigServiceApi;
 import com.okdeer.jxc.utils.poi.ExcelExportUtil;
 
 /**
- * ClassName: TemplateUploadController 
- * @Description: 出库单模板设置
+ * ClassName: FileUploadController 
+ * @Description: 文件上传controller
  * @author zhengwj
  * @date 2017年3月28日
  *
@@ -42,11 +39,8 @@ import com.okdeer.jxc.utils.poi.ExcelExportUtil;
  *
  */
 @Controller
-@RequestMapping("templateUpload")
-public class TemplateUploadController extends BaseController<TemplateUploadController> {
-
-	@Reference(version = "1.0.0", check = false)
-	private DeliverConfigServiceApi deliverConfigServiceApi;
+@RequestMapping("fileUpload")
+public class FileUploadController extends BaseController<FileUploadController> {
 
 	/**
 	 * @Fields fileUploadService : 文件上传service
@@ -61,13 +55,15 @@ public class TemplateUploadController extends BaseController<TemplateUploadContr
 	private String uploadToken;
 
 	/**
-	 * 出库单模板上传，指定了工作空间，上传可查看SysPictureInfoService
-	 * @param request
-	 * @return
+	 * @Description: 出库单模板上传，指定了工作空间
+	 * @param request 上传的文件
+	 * @return 七牛文件路径
+	 * @author zhengwj
+	 * @date 2017年3月30日
 	 */
-	@RequestMapping(value = "/DOsheet", method = RequestMethod.POST)
+	@RequestMapping(value = "/templateUpload", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson uploadDOsheet(MultipartHttpServletRequest request, String branchId) {
+	public RespJson templateUpload(MultipartHttpServletRequest request) {
 		// 最大文件大小
 		long maxSize = 1000000;
 
@@ -91,7 +87,7 @@ public class TemplateUploadController extends BaseController<TemplateUploadContr
 			// 检查扩展名
 			String fileExt = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
 			if (!ExcelExportUtil.REPORT_XLS.equals(fileExt) || ExcelExportUtil.REPORT_XLSX.equals(fileExt)) {
-				return RespJson.error("上传文件扩展名是不允许的扩展名。\n只允许excel格式。");
+				return RespJson.error("不支持该文件类型，请上传excel表格。");
 			}
 		}
 
@@ -100,15 +96,9 @@ public class TemplateUploadController extends BaseController<TemplateUploadContr
 		if (CollectionUtils.isEmpty(filePaths)) {
 			return RespJson.error("模板上传失败");
 		}
-		// 保存该用户的模板设置
-		BranchSpec branchSpec = deliverConfigServiceApi.querySpecByBranchId(branchId);
-		if (null == branchSpec) {
-			branchSpec = new BranchSpec();
-			//branchSpec.set
-		} else {
-			
-		}
-		//return deliverConfigServiceApi.saveBranchSpec((branchId, validityDay).saveTemplatePath(filePaths.get(0), branchId);
-		return RespJson.success();
+		// 返回七牛文件路径
+		RespJson respJson = RespJson.success();
+		respJson.put("filePath", filePaths.get(0));
+		return respJson;
 	}
 }
