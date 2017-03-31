@@ -23,10 +23,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.okdeer.jxc.branch.service.TemplateUploadServiceApi;
+import com.okdeer.jxc.branch.entity.BranchSpec;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.service.FileUploadService;
 import com.okdeer.jxc.controller.BaseController;
+import com.okdeer.jxc.form.deliver.service.DeliverConfigServiceApi;
 import com.okdeer.jxc.utils.poi.ExcelExportUtil;
 
 /**
@@ -45,7 +46,7 @@ import com.okdeer.jxc.utils.poi.ExcelExportUtil;
 public class TemplateUploadController extends BaseController<TemplateUploadController> {
 
 	@Reference(version = "1.0.0", check = false)
-	private TemplateUploadServiceApi templateUploadServiceApi;
+	private DeliverConfigServiceApi deliverConfigServiceApi;
 
 	/**
 	 * @Fields fileUploadService : 文件上传service
@@ -100,6 +101,14 @@ public class TemplateUploadController extends BaseController<TemplateUploadContr
 			return RespJson.error("模板上传失败");
 		}
 		// 保存该用户的模板设置
-		return templateUploadServiceApi.saveTemplatePath(filePaths.get(0), branchId);
+		BranchSpec branchSpec = deliverConfigServiceApi.querySpecByBranchId(branchId);
+		if (null == branchSpec) {
+			branchSpec = new BranchSpec();
+			//branchSpec.set
+		} else {
+			
+		}
+		//return deliverConfigServiceApi.saveBranchSpec((branchId, validityDay).saveTemplatePath(filePaths.get(0), branchId);
+		return RespJson.success();
 	}
 }
