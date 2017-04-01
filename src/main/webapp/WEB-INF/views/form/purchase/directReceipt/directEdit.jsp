@@ -5,11 +5,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>编辑直送收货单</title>
+<%@ include file="/WEB-INF/views/include/header.jsp"%>
+<script src="${ctx}/static/js/views/purchase/directReceipt/directReceipt.js"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
 	<input type='hidden' id="directStatus" value="edit">
 	<input type='hidden' id="formId" name="id">
-	<div class="ub ub-ver ub-f1 umar-4  ubor">
+	  <div class="ub ub-ver ub-f1 umar-4  ubor">
 		<div class="ub ub-ac upad-4">
 			<div class="ubtns">
 				<shiro:hasPermission name="JxcDirectReceipt:add">
@@ -18,7 +20,7 @@
 				<shiro:hasPermission name="JxcDirectReceipt:edit">
 					<div class="ubtns-item" onclick="saveDirectForm()">保存</div>
 				</shiro:hasPermission>
-				<shiro:hasPermission name="JxcDirectReceipt:check">
+				<shiro:hasPermission name="JxcDirectReceipt:audit">
 					<div class="ubtns-item" onclick="checkDirectForm()">审核</div>
 				</shiro:hasPermission>
 				<div class="ubtns-item" onclick="selectGoods()">商品选择</div>
@@ -27,12 +29,14 @@
 					<div class="ubtns-item" onclick="importDirectForm(1)">导入条码</div>
 				</shiro:hasPermission>				
 				<shiro:hasPermission name="JxcDirectReceipt:export">
-					<div class="ubtns-item" id="exportdetail" onclick="exportDirectForm(1)">导出</div>
+					<div class="ubtns-item" id="exportdetail" onclick="exportDirectForm()">导出</div>
 				</shiro:hasPermission>
 				<shiro:hasPermission name="JxcDirectReceipt:print">
 					<div class="ubtns-item" onclick="toPrintPreview('PM','/directReceipt/')">打印</div>
 				</shiro:hasPermission>
-				<div class="ubtns-item">设置</div>
+				<shiro:hasPermission name="JxcDirectReceipt:setting">
+					<div class="ubtns-item">设置</div>
+				</shiro:hasPermission>
 				<div class="ubtns-item" onclick="toClose()">关闭</div>
 			</div>
 		</div>
@@ -103,14 +107,14 @@
 					<div class="utxt"></div>
 				</div>
 				<div class="ub ub-ac uw-300">
-					<div class="umar-r10 uw-70 ut-r">制单时间:</div>
+					<div class="umar-r10 uw-70 ut-r">审核时间:</div>
 					<div class="utxt"></div>
 				</div>
 			</div>
 
 		</form>
 		<!--datagrid-edit-->
-		<div class="ub ub-f1 datagrid-edit umar-t8">
+		 <div class="ub ub-f1 datagrid-edit umar-t8">
 			<table id="gridDirectDetail"></table>
 		</div>
 	</div>

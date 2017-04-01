@@ -231,10 +231,13 @@ function searchBranch (){
  * 供应商公共组件
  */
 function searchSupplier(){
+	var param = {
+			saleWayNot:"purchase"
+	}
 	new publicSupplierService(function(data){
 //		$("#supplierId").val(data.id);
 		$("#supplierName").val(data.supplierName);
-	},"purchase");
+	},param);
 }
 /**
  * 商品类别

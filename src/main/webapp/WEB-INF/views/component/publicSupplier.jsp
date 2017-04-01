@@ -14,6 +14,7 @@
                 <div class="ub ub-ver uw uh ub-f1">
                     <form action="" id="formSupplier">
                      <input type="hidden" name="saleWayNot" value="${saleWayNot}" id="saleWayNot">
+                     <input type="hidden" name="isDirect" value="${isDirect}" id="isDirect">
                         <div class="ub ub-ac upad-10 ">
                             <div class="ub ub-ac uw">
                                 <div class="umar-r10">关键字:</div>

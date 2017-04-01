@@ -362,23 +362,32 @@ function publicCategoryService(callback,param){
 var supplierDalog = null;
 
 //公共组件-选择供应商
-function publicSupplierService(callback,model, param) {
+/**
+ * param
+ * 
+ * **/
+function publicSupplierService(callback,param) {
 	if(null != supplierDalog) return;
-	
 	if(!param || 'undefined' === typeof(param)){
 		param = {
 				supplierCodeOrName:'',
-				branchId:''
+				branchId:'',
+				saleWayNot:'',
+				isDirect:''
 		}
 	}else if('undefined' === typeof(param.supplierCodeOrName)){
 		param.supplierCodeOrName = '';
 	}else if('undefined' === typeof(param.branchCompleCode)){
 		param.branchCompleCode = '';
+	}else if('undefined' === typeof(param.saleWayNot)){
+		param.saleWayNot = '';
+	}else if('undefined' === typeof(param.isDirect)){
+		param.isDirect = '';
 	}
-	
+
     //公有属性
 	supplierDalog = $('<div/>').dialog({
-        href: contextPath + "/common/supplier/views?model="+model,
+        href: contextPath + "/common/supplier/views?saleWayNot="+param.saleWayNot+"&isDirect="+param.isDirect,
         width: 600,
         height: dialogHeight,
         title: "选择供应商",

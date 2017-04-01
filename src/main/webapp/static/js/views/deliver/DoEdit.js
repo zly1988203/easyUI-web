@@ -993,7 +993,8 @@ function addDeliverForm(){
 
 function exportDetail(){
 	var formId = $("#formId").val();
-	window.location.href = contextPath + '/form/deliverForm/exportSheet?page=DOSheet&sheetNo='+formId;
+	var sourceBranchId = $("#sourceBranchId").val();
+	window.location.href = contextPath + '/form/deliverForm/exportSheet?page=DOSheet&sheetNo='+formId+'&branchId='+sourceBranchId;
 }
 
 //删除

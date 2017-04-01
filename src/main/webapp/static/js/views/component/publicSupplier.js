@@ -4,6 +4,7 @@
  */
 var saleWayNot="";
 var branchId="";
+var isDirect = "";
 function initSupplierView(param){
 	
 	
@@ -23,8 +24,9 @@ function initSupplierView(param){
 	
     gFunSetEnterKey(supplierSearch);
     saleWayNot=$("#saleWayNot").val();
+    isDirect = $("#isDirect").val();
     initTreeSupplier(); //初始树
-    initDatagridSupplier(saleWayNot,branchId, supplierCodeOrName); //初始化表格
+    initDatagridSupplier(saleWayNot,isDirect,branchId, supplierCodeOrName); //初始化表格
 }
 var supplierCallBack ;
 //初始化回调函数
@@ -77,6 +79,7 @@ function zTreeOnClick(event, treeId, treeNode) {
    $("#gridSupplier").datagrid("options").queryParams = {
 	   	supplierAreaCode:supplierAreaCode,
 	   	saleWayNot:saleWayNot,
+	   	isDirect:isDirect,
     	branchId:branchId,
     	supplierNameOrsupplierCode:supplierNameOrsupplierCode
    };
@@ -86,7 +89,7 @@ function zTreeOnClick(event, treeId, treeNode) {
 };
 
 //初始化表格
-function initDatagridSupplier(saleWayNot, branchId, supplierNameOrsupplierCode){
+function initDatagridSupplier(saleWayNot, isDirect, branchId, supplierNameOrsupplierCode){
     $("#gridSupplier").datagrid({
         //title:'普通表单-用键盘操作',
         method:'post',
@@ -94,6 +97,7 @@ function initDatagridSupplier(saleWayNot, branchId, supplierNameOrsupplierCode){
         url:contextPath + "/common/supplier/getComponentList",
         queryParams:{
         	saleWayNot:saleWayNot,
+        	isDirect:isDirect,
         	branchId:branchId,
         	supplierNameOrsupplierCode:supplierNameOrsupplierCode
         },
@@ -121,6 +125,8 @@ function supplierSearch(){
 	var supplierNameOrsupplierCode=$("#supplierNameOrsupplierCode").val();
 	$("#gridSupplier").datagrid("options").queryParams = {
 		supplierAreaCode:supplierAreaCode,
+	   	saleWayNot:saleWayNot,
+	   	isDirect:isDirect,
 		branchId:branchId,
     	supplierNameOrsupplierCode:supplierNameOrsupplierCode
 	};
