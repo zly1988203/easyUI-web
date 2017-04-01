@@ -494,4 +494,9 @@ public interface ExportExcelConstant {
 	 * @Fields DOSHEET2 : 出库单模板二
 	 */
 	String DOSHEET2 = "DOSheet2.xlsx";
+	
+	/**
+	 * @Fields NEW_GOODS_SALE_ANALYSIS_report : 新品销售分析
+	 */
+	String NEW_GOODS_SALE_ANALYSIS_REPORT = "newGoodsSaleAnalysis.xlsx";
 }

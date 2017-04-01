@@ -35,14 +35,40 @@ function initNewGoodsTotalAnalysiGrid() {
         showFooter:true,
         height:'100%',
         columns: [[
-			{field: 'branchCode', title: '店铺名称', width:80, align: 'left'},
-			{field: 'branchName', title: '店铺编号', width:100, align: 'left'},
-            {field: 'skuCode', title: '货号', width:55, align: 'left'},
+			{field: 'branchCode', title: '店铺编号', width:60, align: 'left'},
+			{field: 'branchName', title: '店铺名称', width:120, align: 'left'},
+            {field: 'skuCode', title: '货号', width:60, align: 'left'},
             {field: 'skuName', title: '商品名称', width:185, align: 'left'},
             {field: 'barCode', title: '条码', width:100, align: 'left'},
-            {field: 'spec', title: '规格', width:45, align: 'left'},
             {field: 'unit', title: '单位', width:45, align: 'left'},
+            {field: 'spec', title: '规格', width:45, align: 'left'},
+            {field: 'categoryCode', title: '类别编号', width:60, align: 'left'},
+            {field: 'categoryName', title: '类别名称', width:80, align: 'left'},
+            {field: 'actualStock', title: '库存', width:80, align: 'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                }
+            },
             {field: 'saleNum', title: '销售数量', width:80, align: 'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                }
+            },
+            {field: 'salePrice', title: '平均售价', width:80, align: 'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                }
+            },
+            {field: 'costPrice', title: '平均零售价', width:80, align: 'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -107,7 +133,7 @@ function purchaseTotalCx(){
 	$("#"+datagridName).datagrid({showFooter:true});
 	$("#"+datagridName).datagrid("options").queryParams = formData;
 	$("#"+datagridName).datagrid("options").method = "post";
-	$("#"+datagridName).datagrid("options").url =  contextPath+"/report/goodsTotalAnalysi/reportListPage";
+	$("#"+datagridName).datagrid("options").url =  contextPath+"/report/newGoodsSaleAnalysis/reportListPage";
 	$("#"+datagridName).datagrid("load");
 }
 var dg;
@@ -156,7 +182,7 @@ function exportExcel(){
 		$.messager.alert("当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
 		return;
 	}
-	$("#queryForm").attr("action",contextPath+'/report/goodsTotalAnalysi/exportGoodsAnalsisExcel');
+	$("#queryForm").attr("action",contextPath+'/report/newGoodsSaleAnalysis/exportExcelList');
 	$("#queryForm").submit();	
 }
 /**
