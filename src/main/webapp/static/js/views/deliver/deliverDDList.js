@@ -6,7 +6,10 @@ $(function(){
 	//开始和结束时间
 	/*toChangeDatetime(0);*/
 	
-	
+	 if(getUrlQueryString('message')=='0'){
+			$("#txtStartDate").val('');
+			 initDatagridRequireOrders();
+	    }else{
     initDatagridRequireOrders();
     sourceBranchId = $("#sourceBranchId").val();
     
@@ -23,6 +26,7 @@ $(function(){
 		$('input:radio[name=searchType]')[0].checked = true;
 		$('input:radio[name=searchType]')[0].click();
 	}
+	    }
 });
 
 $(document).on('input','#remark',function(){
