@@ -29,10 +29,9 @@
 					<div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 					<div class="ubtns-item" onclick="toClose()">关闭</div>
 				</div>
-				<div class="ub ub-ac umar-l20">
 					<%-- 引入时间选择控件 --%>
 					<%@ include file="/WEB-INF/views/component/dateSelect.jsp"%>
-				</div>
+
 			</div>
 			<div class="ub uline umar-t8"></div>
 			<div class="ub umar-t8">

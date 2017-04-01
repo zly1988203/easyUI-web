@@ -2,7 +2,6 @@
  *
  * 现金长短款报表
  *
- *
  * *******/
 
 var gridName = "gridOverShortReport";
@@ -58,8 +57,8 @@ function selectBranches(){
     new publicAgencyService(function(data){
         $("#branchId").val(data.branchesId);
         $("#branchCompleCode").val(data.branchCompleCode);
-        $("#branchName").val(data.branchName);
-        $("#oldBranchName").val(data.branchName);
+        $("#branchName").val("["+data.branchCode+"]"+data.branchName);
+        $("#oldBranchName").val("["+data.branchCode+"]"+data.branchName);
     },'','');
 }
 
