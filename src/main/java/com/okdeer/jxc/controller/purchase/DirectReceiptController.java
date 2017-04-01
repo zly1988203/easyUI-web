@@ -182,12 +182,7 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 	 */
 	@RequiresPermissions("JxcDirectReceipt:add")
 	@RequestMapping(value = "add")
-	public String add(String branchId, HttpServletRequest request) {
-		// 查询是否需要自动加载商品
-		BranchSpecVo vo = branchSpecServiceApi.queryByBranchId(branchId);
-		if (null != vo) {
-			request.setAttribute("cascadeGoods", vo.getIsSupplierCascadeGoodsPm());
-		}
+	public String add() {
 		return "form/purchase/directReceipt/directAdd";
 	}
 
