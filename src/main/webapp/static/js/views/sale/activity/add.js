@@ -662,6 +662,7 @@ function initDatagridoneZk(){
 			        options:{
 			            min:0,
 			            precision:2,
+						onChange:changeDiscount
 			        }
 			    },
 			},
@@ -726,6 +727,17 @@ function initDatagridoneZk(){
     
     gridHandel.setLoadData([$.extend({},gridDefault)])
    }
+
+//单品折扣 计算新毛利率
+function changeDiscount(newVal,oldVal) {
+    var salePrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
+    var purchasePrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'purchasePrice');
+    var discountPrice = ((salePrice*newVal)/10).toFixed(2);
+    var newSaleRate = ((discountPrice-purchasePrice)/discountPrice*100).toFixed(2)+"%";
+    gridHandel.setFieldTextValue('newSaleRate',newSaleRate);
+}
+
+
 
 // 初始化表格-偶数特价
 function initDatagridOddtj(){
@@ -1435,7 +1447,7 @@ function specialRows(id,val){
 		for(var i = 0;i < newData.length;i++){
 			var item = newData[i];
             item.saleAmount= val;
-            item.oldSaleRate = ((item.salePrice-item.purchasePrice)/item.salePrice*100).toFixed(2)+"%";
+            //计算新毛利率
             item.newSaleRate = ((item.saleAmount-item.purchasePrice)/item.saleAmount*100).toFixed(2)+"%"
 		}
 		$("#"+datagridId).datagrid({data:newData})
@@ -1445,7 +1457,6 @@ function specialRows(id,val){
 			var item = newData[i];
             item.discount= val;
             var discountPrice = ((item.salePrice*item.discount)/10).toFixed(2);
-            item.oldSaleRate = ((item.salePrice-item.purchasePrice)/item.salePrice*100).toFixed(2)+"%";
             item.newSaleRate = ((discountPrice-item.purchasePrice)/discountPrice*100).toFixed(2)+"%"
 		}
 	}
@@ -1453,7 +1464,6 @@ function specialRows(id,val){
 		for(var i = 0;i < newData.length;i++){
             var item = newData[i];
             item.saleAmount= val;
-            item.oldSaleRate = ((item.salePrice-item.purchasePrice)/(2*item.salePrice)*100).toFixed(2)+"%";
             item.newSaleRate = ((item.saleAmount-item.purchasePrice)/(2*item.saleAmount)*100).toFixed(2)+"%"
 		}
 	}
@@ -1549,6 +1559,24 @@ function selectGoods(searchKey){
         var argWhere ={skuCode:1};  // 验证重复性
         var isCheck ={isGift:1 };   // 只要是赠品就可以重复
         var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
+        //选择商品的时候计算老毛利率
+        if(activityType==="1"){
+        	//特价
+			$.each(newRows,function (index,item) {
+                item.oldSaleRate = ((item.price-item.purchasePrice)/item.price*100).toFixed(2)+"%";
+            })
+		}else if(activityType==="2" && $('#activityScopedis').val()==="0"){
+        	//折扣 单品折扣
+            $.each(newRows,function (index,item) {
+                item.oldSaleRate = ((item.price-item.purchasePrice)/item.price*100).toFixed(2)+"%";
+            })
+		}else if(activityType==="3"){
+			//偶数特价
+            $.each(newRows,function (index,item) {
+                item.oldSaleRate = ((item.price-item.purchasePrice)/(2*item.price)*100).toFixed(2)+"%";
+            })
+		}
+
         $("#saleMangeadd").datagrid("loadData",newRows);
         /*
 		 * setTimeout(function(){
@@ -2212,5 +2240,10 @@ function saleAmountOnChange(newV,oldV){
 //		messager("促销价格为0");
 //		return;
 //	}
+	//计算新毛利率
+    var purchasePrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'purchasePrice');
+    var newSaleRate = ((newV-purchasePrice)/(2*newV)*100).toFixed(2)+"%";
+    gridHandel.setFieldTextValue('newSaleRate',newSaleRate);
+
 	gridHandel.setFieldValue('saleAmount',newV);
 }
