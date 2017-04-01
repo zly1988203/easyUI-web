@@ -60,6 +60,7 @@ $(
                         }
                     };
                     $.fn.zTree.init($("#treeGoodsType"), setting, JSON.parse(data));
+
                     var treeObj = $.fn.zTree.getZTreeObj("treeGoodsType");
                     var nodes = treeObj.getNodes();
                     if (nodes.length>0) {
@@ -420,7 +421,7 @@ $(
 function goodsArchives(){
     var type = $('#type').val();
 
-    if(type=='PA' || type=='PR'){
+    if(type=='PA' || type=='PR'|| type=='PM'){
         this.selectTypeName = "supplierId";
     }else{
         this.selectTypeName = "categoryCode";
