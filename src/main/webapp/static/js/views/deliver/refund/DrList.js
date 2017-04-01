@@ -47,7 +47,7 @@ function initDatagridSaleReturnList() {
 			            	}
 			            }},
 						{field: 'status',title: '审核状态', width: '100px', align: 'center'},
-						{field: 'dealStatus', title: '单据状态', width: '60px', align: 'center'},
+						{field: 'dealStatus', title: '单据状态', width: '100px', align: 'center'},
 						{field: 'sourceBranchName', title: '退货机构', width: '200px', align: 'left'},
 						{field: 'targetBranchName', title: '收货机构', width: '200px', align: 'left'},
 						{field: 'createUserName', title: '制单人员', width: '130px', align: 'left'},
@@ -128,10 +128,15 @@ function delDeliverReturn(){
 /**
  * 机构名称
  */
-function selectBranches() {
+function selectBranches(type) {
 	new publicAgencyService(function(data) {
-		// $("#createBranchId").val(data.branchesId);
-		$("#branchName").val(data.branchName);
+		if(type == '1'){
+			$("#createBranchId").val(data.branchesId);
+			$("#branchName").val(data.branchName);
+		}else{
+			$("#createBranchId01").val(data.branchesId);
+			$("#branchName01").val(data.branchName);
+		}
 	}, 'ID', '');
 }
 

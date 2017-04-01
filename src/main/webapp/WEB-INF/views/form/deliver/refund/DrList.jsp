@@ -43,16 +43,14 @@
 			<input type="hidden" id="deliverType" name="deliverType" value="DR"/>
 			<div class="ub umar-t8">
 				<div class="ub ub-ac">
-					<div class="umar-r10 uw-70 ut-r">发货机构:</div>
-					<input type="hidden" id="createBranchId" name="createBranchId" />
-					<input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" maxlength="50" />
-					<div class="uinp-more" onclick="selectBranches(1)">...</div>
-				</div>
-				<div class="ub ub-ac umar-l40">
 					<div class="umar-r10 uw-70 ut-r">退货机构:</div>
 					<input type="hidden" id="createBranchId01" name="createBranchId01" />
 					<input class="uinp ub ub-f1" type="text" id="branchName01" name="branchName01" maxlength="50" />
 					<div class="uinp-more" onclick="selectBranches(2)">...</div>
+				</div>
+				<div class="ub ub-ac umar-l40">
+					<div class="umar-r10 uw-70 ut-r">单据编号:</div>
+					<input class="uinp" type="text" id="formNo" name="formNo">
 				</div>
 				<div class="ub ub-ac umar-l40">
 					<div class="umar-r10 uw-70 ut-r">制单人:</div>
@@ -62,12 +60,14 @@
 				</div>
 			</div>
 			<div class="ub umar-t8">
-				<div class="ub ub-ac umar-r40">
-					<div class="umar-r10 uw-70 ut-r">单据编号:</div>
-					<input class="uinp" type="text" id="formNo" name="formNo">
-				</div>
+				<div class="ub ub-ac">
+					<div class="umar-r10 uw-70 ut-r">发货机构:</div>
+					<input type="hidden" id="createBranchId" name="createBranchId" />
+					<input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" maxlength="50" />
+					<div class="uinp-more" onclick="selectBranches(1)">...</div>
+				</div> 
 				<!--input-checkbox-->
-				<div class="ub ub-ac uw-300">
+				<div class="ub ub-ac uw-300 umar-l40">
 					<div class="umar-r10 uw-70 ut-r">审核状态:</div>
 					<div class="ub ub-ac umar-r10">
 						<input class="ub radioItem" type="radio" name="status" value="0" id="status_1" checked="checked" /><label for="status_1">未审核</label>
@@ -77,6 +77,19 @@
 					</div>
 					<div class="ub ub-ac umar-r10">
 						<input class="ub radioItem" type="radio" name="status" value="" id="status_3" /><label for="status_3">全部</label>
+					</div>
+				</div>
+				
+				<div class="ub ub-ac uw-300 umar-l40">
+					<div class="umar-r10 uw-70 ut-r">单据状态:</div>
+					<div class="ub ub-ac umar-r10">
+						<input class="ub radioItem" type="radio" name="order_status" value="0" id="orstatus_1" checked="checked" /><label for="orstatus_1">未处理</label>
+					</div>
+					<div class="ub ub-ac umar-r10">
+						<input class="ub radioItem" type="radio" name="order_status" value="1" id="orstatus_2" /><label for="orstatus_2">未同意</label>
+					</div>
+					<div class="ub ub-ac umar-r10">
+						<input class="ub radioItem" type="radio" name="order_status" value="" id="orstatus_3" /><label for="orstatus_3">已同意</label>
 					</div>
 				</div>
 			</div>

@@ -475,8 +475,6 @@ function addDeliverDR(){
         formNo:$("#formNo").val()||'',                 // 单号
         grid:gridHandel.getRows(),
     }
-	console.log('oldData',JSON.stringify(oldData))
-	console.log('newData',JSON.stringify(newData))
     if(!gFunComparisonArray(oldData,newData)){
         $.messager.confirm("提示","单据未保存，是否取消编辑并新增?",function(r){
         	if(r){
