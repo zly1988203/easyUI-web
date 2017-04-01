@@ -10,7 +10,6 @@
 </head>
 <body class="ub uw uh ufs-14 uc-black">
 	<input type='hidden' id="directStatus" value="add">
-	<input type='hidden' id="formId" name="id">
 	<input type='hidden' id="cascadeGoods" name="cascadeGoods" value="cascadeGoods">
 	<div class="ub ub-ver ub-f1 umar-4  ubor">
 		<div class="ub ub-ac upad-4">
@@ -19,7 +18,7 @@
 					<div class="ubtns-item" onclick="addDirect()">新增</div>
 				</shiro:hasPermission>
 				<shiro:hasPermission name="JxcDirectReceipt:add">
-					<div class="ubtns-item" onclick="saveDirectForm(1)">保存</div>
+					<div class="ubtns-item" onclick="saveDirectForm()">保存</div>
 				</shiro:hasPermission>
 				<shiro:hasPermission name="JxcDirectReceipt:audit">
 					<div class="ubtns-item-disabled">审核</div>
@@ -46,14 +45,13 @@
 				<div class="ub ub-ac uw-300">
 					<div class="umar-r10 uw-60 ut-r">供应商:</div>
 					<input class="uinp" name="supplierId" id="supplierId" type="hidden" > 
-					<input class="uinp easyui-validatebox" data-options="required:true" id="supplierName" type="text" onclick="selectSupplier()"
-						value="${form.supplierName}" readonly="readonly">
+					<input class="uinp easyui-validatebox" data-options="required:true" id="supplierName" type="text" onclick="selectSupplier()" readonly="readonly">
 					<div class="uinp-more" onclick="selectSupplier()">...</div>
-
 				</div>
 				<div class="ub ub-ac uselectw umar-l00 umar-l10">
 					<div class="umar-r10 uw-70 ut-r">经营方式:</div>
-					<input type="hidden" name="" id="" /> <input type="text" name="" id="" class="uinp ub ub-f1" readonly="readonly" />
+					<input type="hidden" name="saleWay" id="saleWay" /> 
+					<input type="text" name="saleWayName" id="saleWayName" class="uinp ub ub-f1" readonly="readonly" />
 				</div>
 				<div class="ub ub-ac umar-l40 uw-300 ">
 					<div class="umar-r10 uw-70 ut-r">制单人员:</div>
