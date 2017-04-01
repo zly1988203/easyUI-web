@@ -23,14 +23,18 @@ $(function(){
 		$("#branchId").val(sessionBranchId);
 		$("#createTime").html(new Date().format('yyyy-MM-dd hh:mm'));
 		oldData = {
-				   branchName:$('#branchName').val(),
-		           remark:$('#remark').val()
-				}
+				    branchName:$('#branchName').val(),
+                    supplierId:$("#supplierId").val(),
+                    saleWay:$("#saleWay").val(),
+                    remark:$("#remark").val(),
+        }
 	}else if(directStatus === 'edit'){
 		oldData = {
 		            branchName:$('#branchName').val(),
-		            remark:$('#remark').val()
-		        }
+                    supplierId:$("#supplierId").val(),
+                    saleWay:$("#saleWay").val(),
+                    remark:$("#remark").val(),
+        }
 		
 		url = contextPath +"/directReceipt/getDetailList?formId=" + formId;
 		$('#already-examine').css('display','none');
@@ -377,23 +381,40 @@ function delLineHandel(event){
 
 //新增直送收货单
 function addDirect(){
+    //验证数据是否修改
+    $("#"+gridName).datagrid("endEdit", gridHandel.getSelectRowIndex());
+    var newData = {
+        supplierId:$("#supplierId").val(),
+        saleWay:$("#saleWay").val(),
+        remark:$("#remark").val(),                  // 备注
+        grid: $.map(gridHandel.getRows(), function(obj){
+            return $.extend(true,{},obj);//返回对象的深拷贝
+        })
+    }
+
+    if(directStatus === "check"){
+
+    }
+
+    if(!gFunComparisonArray(oldData,newData)){
+        messager("数据有修改，请先保存再审核");
+        return;
+    }
 	toAddTab("新增直送收货单",contextPath + "/directReceipt/add");
 }
 
+//新增保存
 function saveDirectForm(){
-    var isValid = $("#addqueryForm").form('validate');
-    if(!isValid){
-        return;
-    }
-
-    $("#"+gridName).datagrid("endEdit", gridHandel.getSelectRowIndex());
+    gFunStartLoading();
+    $("#"+datagridId).datagrid("endEdit", gridHandel.getSelectRowIndex());
     var rows = gridHandel.getRowsWhere({skuName:'1'});
-    $(gridHandel.getGridName()).datagrid("loadData",rows);
     if(rows.length==0){
         messager("表格不能为空");
         return;
     }
-    var isCheckResult = true;
+    
+    
+        var isCheckResult = true;
     var isChcekPrice = false;
     $.each(rows,function(i,v){
         v["rowNo"] = i+1;
@@ -419,6 +440,7 @@ function saveDirectForm(){
             saveDataHandel(rows, "/directReceipt/save");
         }
     }
+
 }
 
 function saveDataHandel(rows, url){
@@ -439,6 +461,13 @@ function saveDataHandel(rows, url){
     if(footerRows){
         totalNum = parseFloat(footerRows[0]["realNum"]||0.0).toFixed(4);
         amount = parseFloat(footerRows[0]["amount"]||0.0).toFixed(4);
+    }
+    
+     var jsonData = {
+        supplierId:$('#supplierId').val(),
+        saleWay:$("#saleWay").val(),
+        branchId:$("#branchId").val(),
+        remark:$("#remark").val(),                  // 备注
     }
 
     var id = $("#formId").val();
@@ -475,17 +504,22 @@ function saveDataHandel(rows, url){
     });
 }
 
-//更新直送收货单
-function updateDirectForm() {
 
-    $("#gridEditOrder").datagrid("endEdit", gridHandel.getSelectRowIndex());
+
+
+
+//查看 保存修改
+function updateDirectForm() {
+    gFunStartLoading();
+    $("#"+datagridId).datagrid("endEdit", gridHandel.getSelectRowIndex());
     var rows = gridHandel.getRowsWhere({skuName:'1'});
     $(gridHandel.getGridName()).datagrid("loadData",rows);
     if(rows.length==0){
         messager("表格不能为空");
         return;
     }
-    var isCheckResult = true;
+
+  var isCheckResult = true;
     var isChcekPrice = false;
     $.each(rows,function(i,v){
         v["rowNo"] = i+1;
@@ -511,47 +545,61 @@ function updateDirectForm() {
             saveDataHandel(rows, "/directReceipt/update");
         }
     }
+    
 }
 
 function checkDirectForm(){
+	gFunStartLoading();
+    //验证数据是否修改
     $("#"+gridName).datagrid("endEdit", gridHandel.getSelectRowIndex());
     var newData = {
-        branchName:$('#branchName').val(),
-        remark:$('#remark').val(),
-        grid:gridHandel.getRows(),
+        supplierId:$("#supplierId").val(),
+        saleWay:$("#saleWay").val(),
+        remark:$("#remark").val(),                  // 备注
+        grid: $.map(gridHandel.getRows(), function(obj){
+            return $.extend(true,{},obj);//返回对象的深拷贝
+        })
     }
 
     if(!gFunComparisonArray(oldData,newData)){
-        messager("数据已修改，请先保存再审核");
+        messager("数据有修改，请先保存再审核");
         return;
     }
-    
+
 	var id = $("#formId").val();
-	$.messager.confirm('提示','是否审核通过？',function(data){
-		if(data){
-			$.ajax({
-		    	url:contextPath+"/directReceipt/check",
-		    	type:"POST",
+    $.messager.confirm('提示','是否审核通过？',function(data){
+        if(data){
+            gFunStartLoading();
+            $.ajax({
+                url:contextPath+"/directReceipt/check",
+                type : "POST",
 		    	data:{
 		    		formId:id,
 		    		status:1
 		    	},
-		    	success:function(result){
-		    		console.log(result);
-		    		if(result['code'] == 0){
-		    			$.messager.alert("操作提示", "操作成功！", "info",function(){
-		    				location.href = contextPath +"/directReceipt/edit?formId=" + id;
-		    			});
-		    		}else{
-		    			successTip(result['message']);
-		    		}
-		    	},
-		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
-		    	}
-		    });
-		}
-	});
+                success:function(result){
+                    gFunEndLoading();
+                    if(result['code'] == 0){
+                        $.messager.alert("操作提示", "操作成功！", "info",function(){
+                            		    				location.href = contextPath +"/directReceipt/edit?formId=" + id;
+                        });
+                    }else{
+                        new publicErrorDialog({
+                            width:380,
+                            height:220,
+                            "title":"审核失败",
+                            "error":result['message']
+                        });
+                    }
+                },
+                error:function(result){
+                    gFunEndLoading();
+                    successTip("请求发送失败或服务器处理失败");
+                }
+            });
+        }
+    });
+	
 }
 
 //选择供应商
@@ -561,9 +609,14 @@ function selectSupplier(){
 			isDirect:1
 	}
     new publicSupplierService(function(data){
-        $("#supplierId").val(data.id);
-        $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
-        $("#saleWay").val(data.saleWay);
+        // 切换供应商后清除商品数据
+        if( $("#supplierId").val() != "" && data.id != $("#supplierId").val()){
+            // TODO
+            $.messager.confirm('提示','修改供应商后会清空明细，是否要修改？',function(r){
+                if (r){
+                    $("#supplierId").val(data.id);
+                    $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
+      $("#saleWay").val(data.saleWay);
         if(data.saleWay == 'A'){
         	$("#saleWayName").val('购销');
         }else if(data.saleWay == 'B'){
@@ -573,20 +626,72 @@ function selectSupplier(){
 		}else if(data.saleWay == 'D'){
 			$("#saleWayName").val('扣率代销');        	
 		}
-        // 切换供应商后清除商品数据
-        // TODO
-        // 是否自动加载商品
-        if($("#cascadeGoods")){
-        	// TODO
+                    // 是否自动加载商品
+                    if($("#cascadeGoods").val()){
+                        // TODO
+                        queryGoodsList();
+                    }
+                }
+            });
+        }else{
+            $("#supplierId").val(data.id);
+            $("#oldsupplierId").val(data.id);
+            $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
+                  $("#saleWay").val(data.saleWay);
+        if(data.saleWay == 'A'){
+        	$("#saleWayName").val('购销');
+        }else if(data.saleWay == 'B'){
+        	$("#saleWayName").val('代销');        	
+	    }else if(data.saleWay == 'C'){
+	    	$("#saleWayName").val('联营');        	
+		}else if(data.saleWay == 'D'){
+			$("#saleWayName").val('扣率代销');        	
+		}
+            
+            // 是否自动加载商品
+            if($("#cascadeGoods").val()){
+                // TODO
+                queryGoodsList();
+            }
         }
+
     },param);
+}
+
+function queryGoodsList() {
+    $("#"+gridName).datagrid("options").queryParams = {
+            'supplierId':$("#supplierId").val(),
+            'branchId': $('#branchId').val()
+        };
+
+    $("#"+gridName).datagrid("options").method = "post";
+    $("#"+gridName).datagrid("options").url =contextPath + '/goods/goodsSelect/getGoodsList';
+    $("#"+gridName).datagrid("load");
 }
 
 //收货机构
 function selectBranch(){
     new publicBranchService(function(data){
-        $("#branchId").val(data.branchesId);
-        $("#branchName").val("["+data.branchCode+"]"+data.branchName);
+        if( $("#supplierId").val() != "" && data.id != $("#supplierId").val()){
+            $.messager.confirm('提示','修改收货机构后会清空明细，是否要修改？',function(r){
+                if (r){
+                    $("#branchId").val(data.branchesId);
+                    $("#branchName").val("["+data.branchCode+"]"+data.branchName);
+                    $("#supplierId").val();
+                    $("#supplierName").val();
+                    $("#saleWay").val();
+                }
+            });
+        }else{
+            $("#branchId").val(data.branchesId);
+            $("#branchName").val("["+data.branchCode+"]"+data.branchName);
+            $("#supplierId").val();
+            $("#supplierName").val();
+            $("#saleWay").val();
+        }
+
+
+
     },0);
 }
 
@@ -608,7 +713,7 @@ function selectGoods(searchKey){
 	}
 
     //控制弹框
-	if(typeof(searchKey)=="undefined"){
+	if(typeof(searchKey)=="undefined"){ 
 		searchKey = "";
 	}
     
