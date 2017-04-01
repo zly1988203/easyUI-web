@@ -58,10 +58,14 @@ public class SupplierCommonController extends BaseController<SupplierCommonContr
 	 * @date 2016年7月21日
 	 */
 	@RequestMapping(value = "views")
-	public String views(HttpServletRequest req,Model model) {
-		String str = req.getParameter("model");
-		if("purchase".equals(str)) {
-			model.addAttribute("saleWayNot", str);
+	public String views(HttpServletRequest req, Model model) {
+		String saleWayNot = req.getParameter("saleWayNot");
+		String isDirect = req.getParameter("isDirect");
+		if("purchase".equals(saleWayNot)) {
+			model.addAttribute("saleWayNot", saleWayNot);
+		}
+		if (StringUtils.isNotBlank(isDirect)) {
+			model.addAttribute("isDirect", isDirect);		
 		}
 		return "component/publicSupplier";
 	}

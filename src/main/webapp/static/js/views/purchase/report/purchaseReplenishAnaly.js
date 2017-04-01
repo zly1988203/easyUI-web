@@ -192,7 +192,7 @@ function selectSupplier(){
 	new publicSupplierService(function(data){
 		$("#supplierId").val(data.id);
 		$("#supplierCodeName").val("["+data.supplierCode+"]"+data.supplierName);
-	}, null, param);
+	},param);
 }
 
 //回车或失去焦点后，查询供应商

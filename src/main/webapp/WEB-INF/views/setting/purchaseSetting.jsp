@@ -20,7 +20,7 @@
 	<div class="ub ub-ver ub-f1 umar-4 ubor upad-10">
 		<div class="ub ub-ver umar-t20">
 			<form id="settingForm" action="${ctx}/branchSetting/save" method="post">
-				<input type="hidden" id="id" name="id">
+				<input type="hidden" id="branchId" name="branchId">
 				<div class="ub ub-ac upad-16 ">
 					<div class="ub uw-200 ut-r">选择供应商后自动列出商品：</div>
 					<div class="ub uw-110 ub-ac umar-r10">
@@ -90,17 +90,17 @@
 		
 		//单选框点击事件
 		$("#isSupplierCascadeGoodsP0").click(function (){
-			isSupplierCascadeGoods();
+			changeIsSupplierCascadeGoods();
 		});
 		$("#isSupplierCascadeGoodsP1").click(function (){
-			isSupplierCascadeGoods();
+			changeIsSupplierCascadeGoods();
 		});
 	});
 	
 	//初始页面
 	function init(data){
 		//获取值
-		var id = data.id;
+		var branchId = data.branchId;
 		var isSupplierCascadeGoodsP = data.isSupplierCascadeGoodsP;
 		var isSupplierCascadeGoodsPa = data.isSupplierCascadeGoodsPa;
 		var isSupplierCascadeGoodsPi = data.isSupplierCascadeGoodsPi;
@@ -108,7 +108,7 @@
 		var isSupplierCascadeGoodsPm = data.isSupplierCascadeGoodsPm;
 		
 		//页面赋值
-		$("#id").val(id);
+		$("#branchId").val(branchId);
 		//选择供应商后自动列出商品
 		if(isSupplierCascadeGoodsP == 1){
 			$("#isSupplierCascadeGoodsP0").attr("checked","true");
@@ -132,7 +132,7 @@
 			$("#isSupplierCascadeGoodsPm").attr("checked","true");
 		}
 		
-		isSupplierCascadeGoods();
+		changeIsSupplierCascadeGoods();
 	}
 	
 	//禁用保存
@@ -141,7 +141,7 @@
 	}
 	
 	//单选框点击事件
-	function isSupplierCascadeGoods(){
+	function changeIsSupplierCascadeGoods(){
 		if($("#isSupplierCascadeGoodsP0").is(':checked')){
 			//启用
 			$("#isSupplierCascadeGoodsPa").removeAttr("disabled");

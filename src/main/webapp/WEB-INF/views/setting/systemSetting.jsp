@@ -4,7 +4,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>销售设置</title>
+	<title>系统设置</title>
 	
 	<%@ include file="/WEB-INF/views/include/header.jsp"%>
 </head>
@@ -22,12 +22,27 @@
 			<form id="settingForm" action="${ctx}/branchSetting/save" method="post">
 				<input type="hidden" id="branchId" name="branchId">
 				<div class="ub ub-ac upad-16 ">
-					<div class="ub uw-110 ut-r">抹零设置:</div>
+					<div class="ub uw-200 ut-r">后台单据允许负库存出库:</div>
 					<div class="ub uw-110 ub-ac umar-r10">
-						<input class="ub" type="radio" id="centComputeType0" name="centComputeType" value="0" /><span>四舍五入到角</span>
+						<input class="ub" type="radio" id="isAllowMinusStock1" name="isAllowMinusStock" value="1" /><span>启用</span>
 					</div>
 					<div class="ub uw-110 ub-ac umar-r10">
-						<input class="ub" type="radio" id="centComputeType1" name="centComputeType" value="1" /><span>角以下抹去</span>
+						<input class="ub" type="radio" id="isAllowMinusStock0" name="isAllowMinusStock" value="0" /><span>不启用</span>
+					</div>
+				</div>
+				<div class="ub ub-ac upad-16 ">
+					<div class="ub uw-200 ut-r">系统月结日:</div>
+					<div class="ub uw-110 ub-ac umar-r10">
+						<input class="ub" type="radio" id="isNaturalMonth0" name="isNaturalMonth" /><span>自然月</span>
+					</div>
+				</div>
+				<div class="ub ub-ac upad-16">
+					<div class="ub uw-200 ut-r"></div>
+					<div class="ub uw-110 ub-ac umar-r10">
+						<input class="ub" type="radio" id="isNaturalMonth1" name="isNaturalMonth" value="0" /><span>指定日期</span>
+					</div>
+					<div class="ub uw-110 ub-ac umar-r10">
+						<input id="monthReportDay" name="monthReportDay" style="width:100px" class="easyui-numberbox easyui-validatebox" data-options="min:0,precision:0,max:28" type="text">
 					</div>
 				</div>
 			</form>
@@ -59,26 +74,57 @@
 		$("#btnSave").click(function (){
 			save();
 		});
+		
+		//切换是否为自然月
+		$("#isNaturalMonth0").click(function (){
+			changeIsNaturalMonth();
+		});
+		$("#isNaturalMonth1").click(function (){
+			changeIsNaturalMonth();
+		});
 	});
 	
 	//初始页面
 	function init(data){
 		//获取值
 		var branchId = data.branchId;
-		var centComputeType = data.centComputeType;
+		var isAllowMinusStock = data.isAllowMinusStock;
+		var monthReportDay = data.monthReportDay;
 		
 		//页面赋值
 		$("#branchId").val(branchId);
-		if(centComputeType == 0){
-			$("#centComputeType0").attr("checked","true");
+		//后台单据允许负库存出库
+		if(isAllowMinusStock == 0){
+			$("#isAllowMinusStock0").attr("checked",true);
 		}else{
-			$("#centComputeType1").attr("checked","true");
+			$("#isAllowMinusStock1").attr("checked",true);
 		}
+		//月结日（0-28），0为自然月
+		if(monthReportDay==0){
+			$("#isNaturalMonth0").attr("checked",true);
+		}else{
+			$("#isNaturalMonth1").attr("checked",true);
+			$("#monthReportDay").numberbox("setValue",monthReportDay);
+		}
+		//切换是否为自然月
+		changeIsNaturalMonth();
 	}
 	
 	//禁用保存
 	function disableSaveBtn(){
 		$("#btnSave").removeClass("ubtns-item").addClass("ubtns-item-disabled").unbind("click");
+	}
+	
+	//切换是否为自然月
+	function changeIsNaturalMonth(){
+		if($("#isNaturalMonth0").is(':checked')){
+			//自然月
+			$("#monthReportDay").numberbox("setValue","0");
+			$("#monthReportDay").numberbox("readonly");
+		}else{
+			//指定日期
+			$("#monthReportDay").numberbox("readonly", false);
+		}
 	}
 	
 	//保存

@@ -3,12 +3,12 @@ var gridName = "gridDirectList";
 
 $(function(){
 	initConditionParams();
+	initDirectDatagrid();
 	changeStatus();
 })
 
 //初始化默认条件
 function initConditionParams(){
-    
 	$("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
 	$("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 }
@@ -48,7 +48,7 @@ function query(){
 	
 	$("#"+gridName).datagrid("options").queryParams = $("#queryForm").serializeObject();
 	$("#"+gridName).datagrid("options").method = "post";
-	$("#"+gridName).datagrid("options").url = contextPath+'/form/purchase/directReceipt/listData';
+	$("#"+gridName).datagrid("options").url = contextPath+'/directReceipt/getList';
 	$("#"+gridName).datagrid("load");
 }
 
@@ -79,7 +79,7 @@ function selectSupplier(){
 
 //新增直送收货单
 function directAdd(){
-		toAddTab("新增直送收货单",contextPath + "/form/purchase/directReceipt/directReceiptAdd");
+		toAddTab("新增直送收货单",contextPath + "/directReceipt/add?branchId=" + sessionBranchId);
 }
 
 //删除直送收货单 批量
@@ -89,15 +89,25 @@ function directDelete(){
 		 $.messager.alert('提示','请选中一行进行删除！');
 		return null;
 	}
-	 var formIds='';
-	    $.each(rows,function(i,v){
-	    	formIds+=v.id+",";
-	    });
+	
+    var formIds = [];
+	var flag = true;
+	rows.forEach(function(data,index){
+		var status = data.status;
+    	if(status == 0){
+    		formIds.push(data.id);
+	   		flag = false;
+    	}
+	});
+    if(flag){
+    	messager('已经审核的单据不可以删除！');
+    	return;
+    }
 	
 	$.messager.confirm('提示','是否要删除选中数据',function(data){
 		if(data){
 			$.ajax({
-		    	url:contextPath+"/form/purchase/directReceipt/delete",
+		    	url:contextPath+"/directReceipt/delete",
 		    	type:"POST",
 		    	data:{
 		    		formIds:formIds
@@ -136,7 +146,7 @@ function initDirectDatagrid(){
         columns:[[
             {field:'check',checkbox:true},
             {field:'formNo',title:'单据编号',width:'140px',align:'left',formatter:function(value,row,index){
-            	var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看收货单详细\',\''+contextPath+'/form/purchase/directReceipt/directReceiptEdit?formId='+row.id+'\')">' + value + '</a>';
+            	var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'直送收货单详细\',\''+contextPath+'/directReceipt/edit?formId='+row.id+'?branchId='+sessionBranchId+'\')">' + value + '</a>';
             	return strHtml;
             }},
             {field:'status',title:'审核状态',width:'100px',align:'center',formatter:function(value,row,index){
@@ -169,6 +179,13 @@ function initDirectDatagrid(){
 		}
     });
     query();
+}
+
+//打印
+function printList() {
+	var fromObjStr = $('#queryForm').serialize();
+	console.log(fromObjStr);
+	parent.addTabPrint("DirectReceiptPrint","直送收货单列表打印",contextPath+"/directReceipt/print?"+fromObjStr);
 }
 
 
