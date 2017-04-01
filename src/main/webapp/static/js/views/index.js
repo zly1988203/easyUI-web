@@ -27,8 +27,8 @@ $(function(){
 
     //绑定tab页右键菜单
     tabMenuEven();
-
-    setInterval("synchronousMessage()", 5000*60);  
+    synchronousMessage();
+    setInterval("synchronousMessage()", 10000);  
     //加载首页 
     //openNewTab('首页','purchase/paymentOrder/index','null');
 
@@ -37,7 +37,9 @@ $(function(){
 var synchronousMessage = function(){
 	//alert(menuData);
 	$.get("message/",function(data){
-		
+		if(data.message==="success"){
+			$("#messageAllCount").text(data.data);
+		}
 	});
 };
 

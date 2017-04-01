@@ -6,12 +6,16 @@ $(function(){
     //开始和结束时间
 	$("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+   
     //单据状态切换
     changeStatus();
     //初始化列表
     initBranchPriceAdjustGrid();
-    //modifyPriceOrderCx();
-    
+    //
+    if(getUrlQueryString('message')=='0'){
+		$("#txtStartDate").val('');
+		modifyPriceOrderCx();
+    }
 });
 
 //单据状态切换

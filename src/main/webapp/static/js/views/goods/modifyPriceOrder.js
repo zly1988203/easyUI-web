@@ -8,10 +8,12 @@ $(function(){
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
     //单据状态切换
     changeStatus();
+    if(getUrlQueryString('message')=='0'){
+		$("#txtStartDate").val('');
+    }
     //初始化列表
     initModifyPriceGrid();
     modifyPriceOrderCx();
-    
 });
 
 //单据状态切换
