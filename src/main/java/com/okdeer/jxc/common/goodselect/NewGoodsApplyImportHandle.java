@@ -63,6 +63,11 @@ public class NewGoodsApplyImportHandle implements GoodsSelectImportHandle {
 		checkBarCodeIsNullAndRepeat();
 		
 		if(businessValid != null){
+			// 深度拷贝正确的数据
+			tempExcelListSuccessData.addAll(excelListSuccessData);
+			//业务校验
+			businessValid.businessValid(excelListSuccessData, excelField);
+			
 			refreshSuccessData();
 		}
 	}

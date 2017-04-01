@@ -694,7 +694,7 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 			String[] field =  new String[] {
 					"skuName","barCode","purchasePrice","salePrice","vipPrice","distributionPrice","wholesalePrice",
 					"categoryCode","spec","unit","purchaseSpec","distributionSpec","brandCode","vaildity",
-					"originPlace","pricingType","type","remark"
+					"originPlace","pricingType","type","managerStock","fastDeliver","allowActivity","allowAdjust","remark"
 					};
 			
 			GoodsSelectImportVo<GoodsSelect> vo = newGoodsApplyImportComponent.importSelectGoods(fileName, is, field,
@@ -703,6 +703,20 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 
 						@Override
 						public void businessValid(List<JSONObject> excelListSuccessData, String[] excelField) {
+							for (JSONObject obj : excelListSuccessData) {
+								String type = obj.getString("type");
+								boolean managerStock= obj.getString("managerStock").equals("是");
+								GoodsTypeEnum typeEnum = GoodsTypeEnum.ORDINARY;
+								if (!StringUtils.isBlank(type)) {
+									typeEnum = GoodsTypeEnum.enumValueOf(type);
+								}
+								if(typeEnum==GoodsTypeEnum.BIND && managerStock){
+									obj.element("error", "捆绑商品不可以管理库存");
+								}
+								if(typeEnum==GoodsTypeEnum.AUTOMATICTRANSFER && managerStock){
+									obj.element("error", "自动转货不可以管理库存");
+								}
+							}
 						}
 
 						/**
