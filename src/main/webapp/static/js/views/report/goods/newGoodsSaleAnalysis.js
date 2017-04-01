@@ -1,148 +1,25 @@
 /**
  * Created by wxl on 2016/08/17.
- * 新品销售分析
+ * 新品销售分享
  */
 $(function() {
-	//选择报表类型
-	changeType();
-	initGoodsTotalAnalysiGrid();
+	initNewGoodsTotalAnalysiGrid();
+	
 	// 开始和结束时间
-	if(!$("#txtStartDate").val()){
-		// 开始和结束时间
-		$("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
-		$("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
-	    $("#categoryTypeDiv").hide();
-		$("#categoryType").combobox("disable");
-		
-	}else{
-		flushFlg = true;
-		$('input:radio[name=searchType]')[0].checked = true;
-		$('input:radio[name=searchType]')[0].click();
-	}
+	$("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
+	$("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+	
 });
 
-var flushFlg = false;
-function changeType(){
-	$(".radioItem").on("click",function(){
-		flushFlg = true;
-		resetCondition();
-    	var a = $(this).val();
-    	$("#goodsTotalAnalysi").datagrid("options").url = "";
-    	if (a=="goodsTotal") {
-			//  按商品汇总
-    		skuNameOn();
-    		categoryOn();
-    		skuCodeOrBarCodeOn();
-    		branchOn();
-    		initGoodsTotalAnalysiGrid();
-		}else if (a=="branchTotal") {
-			//初始化列表按店铺汇总
-			skuNameOff();
-			categoryOff();
-			skuCodeOrBarCodeOff();
-			branchOn();
-			initPurReportSupplierGrid();
-		}  else if (a=="categoryTotal") {
-			// 初始化列表按类别汇总
-			skuNameOff();
-			categoryOn();
-			skuCodeOrBarCodeOff();
-			branchOn();
-			initCategoryGrid();
-		}
-    	$("#goodsTotalAnalysi").datagrid('loadData', { total: 0, rows: [] });
-    	$('#goodsTotalAnalysi').datagrid({showFooter:false});
-    });
-}
-//重置条件
-function resetCondition(){
-//	 $("#branchName").val("");
-//	 $("#branchId").val("");
-	 $("#categoryName").val("");
-	 $("#categoryCode").val("");
-	 $("#skuName").val('');
-	 $("#skuCodeOrBarCode").val("");
-}
-//店铺开启
-function branchOn(){
-	$("#branchName").removeClass("uinp-no-more");
-	$("#branchSelect").attr("onclick","searchBranch()");
-}
-//店铺禁用
-function branchOff(){
-	 $("#branchName").addClass("uinp-no-more");
-	 $("#branchSelect").removeAttr("onclick");
-	 $("#branchName").val("");
-	 $("#branchCompleCode").val("");
-	 $("#branchId").val("");
-}
-//类别开启
-function categoryOn(){
-    $("#categoryCode").removeClass("uinp-no-more");
-	$("#categorySelect").attr("onclick","searchCategory()");
-    $("#categoryCode").removeAttr("readonly");
-}
-//类别禁用
-function categoryOff(){
-    $("#categoryCode").addClass("uinp-no-more");
-	$("#categorySelect").removeAttr("onclick");
-	$("#categoryCode").attr("readonly","readonly");
-	$("#categoryCode").val("");
-}
-//商品名称开
-function skuNameOn(){
-	 $("#skuName").removeClass("uinp-no-more");
-	 $("#skuName").removeAttr("readonly");
-}
-//关
-function skuNameOff(){
-	$("#skuName").attr("readonly","readonly");
-    $("#skuName").addClass("uinp-no-more");
-    $("#skuName").val('');
-}
-//货号开启
-function skuCodeOrBarCodeOn(){
-    $("#skuCodeOrBarCode").removeClass("uinp-no-more");
-	$("#skuCodeOrBarCode").removeAttr("readonly");
-}
-//货号禁用
-function skuCodeOrBarCodeOff(){
-	$("#skuCodeOrBarCode").attr("readonly","readonly");
-    $("#skuCodeOrBarCode").addClass("uinp-no-more");
-    $("#skuCodeOrBarCode").val("");
-}
-//三级分类开启
-function categoryTypeOn(){
-    $("#categoryTypeDiv").show();
-	$("#categoryType").combobox("enable");
-}
-//三级分类禁用
-function categoryTypeOff(){
-    $("#categoryTypeDiv").hide();
-	$("#categoryType").combobox("disable");
-}
-
-var gridHandel = new GridClass();
-/**
- * 单据类型
- * @param newV
- * @param oldV
- */
-function onChangeFormType(newV,oldV){
-	$("#formType").combobox("setValue",newV);
-}
-function onChangeCategoryType(newV,oldV){
-    $("#categoryName").val("");
-    $("#categoryId").val("");
-}
+var datagridName = 'newgoodsTotalAnalysi';
 var gridHandel = new GridClass();
 /**
  * 初始化表格按  商品
  * @param queryType
  */
-function initGoodsTotalAnalysiGrid() {
-	gridHandel.setGridName("goodsTotalAnalysi");
-   dg =  $("#goodsTotalAnalysi").datagrid({
+function initNewGoodsTotalAnalysiGrid() {
+	gridHandel.setGridName(datagridName);
+   dg =  $("#"+datagridName).datagrid({
         //title:'普通表单-用键盘操作',
         method: 'post',
         align: 'center',
@@ -158,6 +35,8 @@ function initGoodsTotalAnalysiGrid() {
         showFooter:true,
         height:'100%',
         columns: [[
+			{field: 'branchCode', title: '店铺名称', width:80, align: 'left'},
+			{field: 'branchName', title: '店铺编号', width:100, align: 'left'},
             {field: 'skuCode', title: '货号', width:55, align: 'left'},
             {field: 'skuName', title: '商品名称', width:185, align: 'left'},
             {field: 'barCode', title: '条码', width:100, align: 'left'},
@@ -206,12 +85,8 @@ function initGoodsTotalAnalysiGrid() {
         ]],
 		onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
-			//updateFooter();
 		}
     });
-   /* if(flushFlg){
-    	purchaseTotalCx();
-    }*/
 }
 
 
@@ -221,34 +96,26 @@ function initGoodsTotalAnalysiGrid() {
 function purchaseTotalCx(){
 	var startDate = $("#txtStartDate").val();
 	var endDate = $("#txtEndDate").val();
-	var branchName = $("#branchName").val();
-	var categoryType=$('input[name="searchType"]:checked ').val();
 	if(!(startDate && endDate)){
 		$.messager.alert('提示', '日期不能为空');
 		return ;
 	}
-	/*if(categoryType!='branchTotal'){
-		if(!branchName){
-			$.messager.alert('提示', '店铺名不能为空');
-			return ;
-		}
-	}*/
 	$("#startCount").attr("value",null);
 	$("#endCount").attr("value",null);
 	var formData = $("#queryForm").serializeObject();
-	$("#goodsTotalAnalysi").datagrid("options").url = "";
-	$('#goodsTotalAnalysi').datagrid({showFooter:true});
-	$("#goodsTotalAnalysi").datagrid("options").queryParams = formData;
-	$("#goodsTotalAnalysi").datagrid("options").method = "post";
-	$("#goodsTotalAnalysi").datagrid("options").url =  contextPath+"/report/goodsTotalAnalysi/reportListPage";
-	$("#goodsTotalAnalysi").datagrid("load");
+	$("#"+datagridName).datagrid("options").url = "";
+	$("#"+datagridName).datagrid({showFooter:true});
+	$("#"+datagridName).datagrid("options").queryParams = formData;
+	$("#"+datagridName).datagrid("options").method = "post";
+	$("#"+datagridName).datagrid("options").url =  contextPath+"/report/goodsTotalAnalysi/reportListPage";
+	$("#"+datagridName).datagrid("load");
 }
 var dg;
 /**
  * 导出
  */
 function exportData(){
-	var length = $('#goodsTotalAnalysi').datagrid('getData').total;
+	var length = $("#"+datagridName).datagrid('getData').total;
 	if(length == 0){
 		successTip("无数据可导");
 		return;
@@ -280,7 +147,7 @@ function exportExcel(){
 			return ;
 		}
 	}*/
-	var length = $("#goodsTotalAnalysi").datagrid('getData').total;
+	var length = $("#"+datagridName).datagrid('getData').total;
 	if(length == 0){
 		$.messager.alert('提示',"没有数据");
 		return;
@@ -311,9 +178,8 @@ function searchCategory(){
 			categoryType:categoryType
 	}
 	new publicCategoryService(function(data){
-		console.info(data);
-//		$("#categoryCode").val(data.categoryCode);
-		$("#categoryCode").val(data.categoryName);
+		$("#categoryCode").val(data.categoryCode);
+		$("#categoryName").val('['+data.categoryCode+']'+data.categoryName);
 	},param);
 }
 /**
