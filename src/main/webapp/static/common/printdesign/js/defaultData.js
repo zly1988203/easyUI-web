@@ -1,4 +1,4 @@
-﻿/**
+﻿﻿/**
  * 打印项数据,详细类别： CGSheet：采购订单
  * 
  * FileName: defaultData.js
@@ -541,6 +541,94 @@ var defaultData = {
 			text : "审核："
 		} ]
 	} ],
+	// 直送要货单
+	DYSheet : [ /*
+	 * { group : "通用打印项", items : commonItems },
+	 */{
+		 group : "单据打印项",
+		 items : [ {
+			 type : "label",
+			 text : "要货单"
+		 }, {
+			 type : "label",
+			 text : "单号"
+		 }, {
+			 type : "label",
+			 text : "_单号"
+		 }, {
+			 type : "label",
+			 text : "要货机构："
+		 }, {
+			 type : "holder",
+			 text : "_要货机构"
+		 }, {
+			 type : "label",
+			 text : "发货机构："
+		 }, {
+			 type : "holder",
+			 text : "_发货机构"
+		 }, {
+			 type : "label",
+			 text : "制单人员："
+		 }, {
+			 type : "holder",
+			 text : "_制单人员"
+		 }, {
+			 type : "label",
+			 text : "业务人员："
+		 }, {
+			 type : "holder",
+			 text : "_业务人员"
+		 }, {
+			 type : "label",
+			 text : "审核人员："
+		 }, {
+			 type : "holder",
+			 text : "_审核人员"
+		 }, {
+			 type : "label",
+			 text : "有效期限："
+		 }, {
+			 type : "holder",
+			 text : "_有效期限"
+		 }, {
+			 type : "label",
+			 text : "制单日期："
+		 }, {
+			 type : "holder",
+			 text : "_制单日期"
+		 }, {
+			 type : "label",
+			 text : "审核日期："
+		 }, {
+			 type : "holder",
+			 text : "_审核日期"
+		 }, {
+			 type : "label",
+			 text : "备注："
+		 }, {
+			 type : "holder",
+			 text : "_备注"
+		 }, {
+			 type : "label",
+			 text : "人民币大写总金额："
+		 }, {
+			 type : "holder",
+			 text : "_人民币大写总金额"
+		 }, {
+			 type : "label",
+			 text : "总金额："
+		 }, {
+			 type : "holder",
+			 text : "_总金额"
+		 }, {
+			 type : "label",
+			 text : "核准："
+		 }, {
+			 type : "label",
+			 text : "审核："
+		 } ]
+	 } ],
 	// 入库单
 	DISheet : [ /*
 				 * { group : "通用打印项", items : commonItems },

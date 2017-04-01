@@ -365,6 +365,12 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 			} else if (FormType.DR.toString().equals(form.getFormType())) {
 				model.addAttribute("close", report);
 				return "form/deliver/refund/DrView";
+			} else if (FormType.DY.toString().equals(form.getFormType())) {
+				Branches branches = branchesServiceApi.getBranchInfoById(getCurrBranchId());
+				model.addAttribute("minAmount", branches.getMinAmount());
+				model.addAttribute("salesman", branches.getSalesman() == null ? "" : branches.getSalesman());
+				model.addAttribute("close", report);
+				return "form/deliver/deliverDyView";
 			} else {
 				model.addAttribute("close", report);
 				return "form/deliver/DiView";
