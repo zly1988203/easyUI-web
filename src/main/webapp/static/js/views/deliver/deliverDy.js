@@ -15,29 +15,66 @@ $(function(){
     deliverStatus = $('#deliverStatus').val();
 	if(deliverStatus === 'add'){
 		  $("#createTime").html(new Date().format('yyyy-MM-dd hh:mm')); 
+		  //用于新旧数据比较
+		  oldData = {
+		        targetBranchId:$("#targetBranchId").val(), // 要活分店id
+		        sourceBranchId:$("#sourceBranchId").val(), //发货分店id
+		        validityTime:$("#validityTime").val()||'',
+		        remark:$("#remark").val()||'',                  // 备注
+		        formNo:$("#formNo").val()||'',                 // 单号
+		  }
 		  initDatagridRequireOrder();
-		    targetBranchTypeTemp = $("#targetBranchType").val();
+		  targetBranchTypeTemp = $("#targetBranchType").val();
 	}else if(deliverStatus === 'edit'){
 		var formId = $("#formId").val();
 		url = contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverFormId="+formId+"&deliverType=DY";
-		initDatagridRequireOrder();
-	    $("div").delegate("button","click",function(){
-	    	$("p").slideToggle();
-	    });
-	    oldData = {
+		oldData = {
 	        targetBranchId:$("#targetBranchId").val(), // 要活分店id
 	        sourceBranchId:$("#sourceBranchId").val(), //发货分店id
 	        validityTime:$("#validityTime").val(),      //生效日期
 	        remark:$("#remark").val(),                  // 备注
 	        formNo:$("#formNo").val(),                 // 单号
 	    }
+		initDatagridRequireOrder();
+	    $("div").delegate("button","click",function(){
+	    	$("p").slideToggle();
+	    });
+	    
 	}
 })
+
+$(document).on('click','input[name="numDeal"]',function(){
+	specialRows($(this).val());
+});
+
+//批量设置
+function specialRows(val){
+	// 获取选中行的Index的值
+	var rowIndex = -1;
+	var newData = $("#"+gridName).datagrid("getRows");
+	for(var i = 0;i < newData.length;i++){
+		var item = newData[i];
+		//数量 重新归零
+        if(val == '1'){ 
+        	item.applyNum = 0;
+        	item.largeNum = 0;
+        	item.amount = 0;
+        }
+        //建议订货数量
+        if(val == '0'){ 
+        	item.applyNum = item.jyPlayNum;
+        	item.tmpLargeNum = parseFloat(item.applyNum)/parseFloat(item.distributionSpec);
+        	item.largeNum = (item.tmpLargeNum).toFixed(4); 
+        	item.amount = (parseFloat(item.applyNum)*parseFloat(item.price)).toFixed(4); //金额： 数量*价格
+        }
+	}
+	$("#"+gridName).datagrid({data:newData})
+}
 
 $(document).on('input','#remark',function(){
 	var val=$(this).val();
 	var str = val;
-	   var str_length = 0;
+	   var str_length = 0; 
 	   var str_len = 0;
 	      str_cut = new String();
 	      str_len = str.length;
@@ -123,7 +160,15 @@ function initDatagridRequireOrder(){
             {field:'spec',title:'规格',width:'90px',align:'left'},
             /*{field:'twoCategoryCode',title:'类别编号',width:'90px',align:'left'},
             {field:'twoCategoryName',title:'类别名称',width:'90px',align:'left'},*/
-            {field:'distributionSpec',title:'配送规格',width:'90px',align:'left'},
+            {field:'distributionSpec',title:'进货规格',width:'90px',align:'left'},
+            {field:'jyPlayNum',title:'建议订货数量',width:'90px',align:'left',
+            	formatter:function(value,row,index){
+            		if(!value){
+            			row['jyPlayNum'] = 3;
+            		}
+            		return value||3;
+            	}
+            },
             {field:'largeNum',title:'箱数',width:'80px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
@@ -179,7 +224,6 @@ function initDatagridRequireOrder(){
                         disabled:true,
                         min:0,
                         precision:4,
-//                        onChange: onChangePrice,
                     }
                 },
             
@@ -202,7 +246,6 @@ function initDatagridRequireOrder(){
                         disabled:true,
                         min:0,
                         precision:4,
-//                        onChange: onChangeAmount,
                     }
                 }
             },
@@ -232,6 +275,17 @@ function initDatagridRequireOrder(){
                     }
                 }
             },
+            {field: 'targetStock', title: '库存', width: '80px', align: 'right',
+                formatter: function (value, row, index) {
+                    if (row.isFooter) {
+                        return
+                    }
+                    if (!row.sourceStock) {
+                        row.sourceStock = parseFloat(value || 0).toFixed(2);
+                    }
+                    return '<b>' + parseFloat(value || 0).toFixed(2) + '</b>';
+                }
+            },
             {field:'inputTax',title:'税率',width:'80px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
@@ -254,52 +308,6 @@ function initDatagridRequireOrder(){
                     row["taxAmount"] = taxAmountVal;
                     return '<b>'+parseFloat(taxAmountVal||0).toFixed(2)+'</b>';
                 },
-            },
-            {field: 'targetStock', title: '店铺库存', width: '80px', align: 'right',
-                formatter: function (value, row, index) {
-                    if (row.isFooter) {
-                        return
-                    }
-                    if (!row.sourceStock) {
-                        row.sourceStock = parseFloat(value || 0).toFixed(2);
-                    }
-                    return '<b>' + parseFloat(value || 0).toFixed(2) + '</b>';
-                }
-            },
-            {field:'sourceStock',title:'目标库存',width:'80px',align:'right',
-                formatter:function(value,row,index){
-                    if(row.isFooter){
-                        return
-                    }
-                    
-                    if(!row.sourceStock){
-                        row.sourceStock = parseFloat(value||0).toFixed(2);
-                    }
-                    
-                    if(parseFloat(row.applyNum)+parseFloat(row.alreadyNum) > parseFloat(row.sourceStock)){
-                     	 return '<span style="color:red;"><b>'+parseFloat(value||0).toFixed(2)+'</b></span>';
-  	           		}else{
-  	           			return '<span style="color:black;"><b>'+parseFloat(value||0).toFixed(2)+'</b></span>';
-  	           		}
-                    
-                }
-            },
-            {field:'alreadyNum',title:'已订数量',width:'80px',align:'right',
-                formatter : function(value, row, index) {
-                    if(row.isFooter){
-                        return;
-                    }
-                    if(!row.alreadyNum){
-                        row.alreadyNum = parseFloat(value||0).toFixed(2);
-                    }
-                    
-                    if(parseFloat(row.applyNum)+parseFloat(row.alreadyNum) > parseFloat(row.sourceStock)){
-                      	 return '<span style="color:red;"><b>'+parseFloat(value||0).toFixed(2)+'</b></span>';
-   	           		}else{
-   	           			return '<span style="color:black;"><b>'+parseFloat(value||0).toFixed(2)+'</b></span>';
-   	           		}
-
-                }
             },
             {field:'remark',title:'备注',width:'200px',align:'left',editor:'textbox'}
         ]],
@@ -333,6 +341,9 @@ function initDatagridRequireOrder(){
     	 gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
     	                         $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),
     	                         $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault)]);
+    	 if(!oldData["grid"]){
+          	oldData["grid"] = gridHandel.getRows();
+      	 }
     }
 }
 
@@ -363,6 +374,20 @@ function onChangeLargeNum(newV,oldV){
         return;
     }
 
+    var _temNewNum = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'tmpLargeNum');
+    var temp_new = newV;
+    if(Math.abs(temp_new) > 0 && !oldV){
+    	newV = _temNewNum;
+    };
+    
+    var _tempNewRealNum = parseFloat(purchaseSpecValue*newV);
+    var newRealNum = parseFloat(_tempNewRealNum).toFixed(4);
+    
+    n = 1;
+    gridHandel.setFieldValue('amount',parseFloat(purchaseSpecValue*_tempNewRealNum).toFixed(4));//金额=数量*单价
+    gridHandel.setFieldValue('applyNum',parseFloat(newRealNum).toFixed(4)); //数量=箱数*商品规格
+    updateFooter();
+    /*
     //金额 = 规格 * 单价 * 箱数
     var priceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
     gridHandel.setFieldValue('amount',parseFloat(purchaseSpecValue*priceValue*newV).toFixed(4));
@@ -371,20 +396,26 @@ function onChangeLargeNum(newV,oldV){
     if(realNumVal&& oldV){
     	n=1;
         gridHandel.setFieldValue('applyNum',(purchaseSpecValue*newV).toFixed(4));//数量=商品规格*箱数 
-    }
-    updateFooter();
+    }*/
+    
 }
 //监听商品数量
 function onChangeRealNum(newV,oldV) {
 	
 	if("" == newV){
-		n= 2;
+		 n= 2;
 		 messager("商品数量输入有误");
 		 gridHandel.setFieldValue('applyNum',oldV);
 	     return;
 	}
 	
+	var purchaseSpecValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'distributionSpec');
+	
 	if(n > 0){
+		
+		var _tempLargeNum = parseFloat(newV)/parseFloat(purchaseSpecValue);
+		gridHandel.setFieldsData({tmpLargeNum:_tempLargeNum}); // 保留除法值   防止toFixed(4) 四舍五入做乘法时比原值大的问题
+		
 		n = 0;
 		return;
 	}
@@ -392,32 +423,21 @@ function onChangeRealNum(newV,oldV) {
     if(!gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuCode')){
         return;
     }
-    var purchaseSpecValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'distributionSpec');
+    
     if(!purchaseSpecValue){
         messager("没有配送规格,请审查");
         return;
     }
     
-    var tempNum = parseFloat(newV).toFixed(4)/parseFloat(purchaseSpecValue).toFixed(4);
-    if(parseInt(tempNum) != tempNum){
-        messager("输入的数量必须是商品规格("+purchaseSpecValue+")的整数倍");
-        gridHandel.setFieldValue('applyNum',0.0000);
-        gridHandel.setSelectFieldName("applyNum");
-        gridHandel.setFieldFocus(gridHandel.getFieldTarget('applyNum'));
-        return;
-    }
+    m=1;
     
     var priceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
     gridHandel.setFieldValue('amount',priceValue*newV);                         //金额=数量*单价
+    
+    var tempNum = parseFloat(newV)/parseFloat(purchaseSpecValue);
+    gridHandel.setFieldValue('largeNum',tempNum.toFixed(4));   //箱数=数量/商品规格
+    gridHandel.setFieldsData({tmpLargeNum:tempNum}); // 保留除法值   防止toFixed(4) 四舍五入做乘法时比原值大的问题
 
-    var largeNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'largeNum');
-
-    if(largeNumVal&& oldV){
-    	m=1;
-        var largeNumVal = parseFloat(newV/purchaseSpecValue).toFixed(4);
-        gridHandel.setFieldValue('largeNum',largeNumVal);   //箱数=数量/商品规格
-    }
-    /*gridHandel.setFieldValue('largeNum',(newV/purchaseSpecValue).toFixed(4));   //箱数=数量/商品规格*/
     updateFooter();
 }
 
@@ -512,7 +532,8 @@ function setDataValue(data) {
             distributionPrice:'price',
             id:'skuId',
             disabled:'',
-            pricingType:''
+            pricingType:'',
+            largeNum:'tmpLargeNum',
         };
         var rows = gFunUpdateKey(addDefaultData,keyNames);
         var argWhere ={skuCode:1};  //验证重复性
@@ -1060,6 +1081,24 @@ function back(){
 
 //新增要货单
 function addDeliverForm(){
-	toAddTab("新增要货单",contextPath + "/form/deliverForm/addDeliverForm?deliverType=DY");
+	$("#"+gridName).datagrid("endEdit", gridHandel.getSelectRowIndex());
+	var newData = {
+        targetBranchId:$("#targetBranchId").val(), // 要活分店id
+        sourceBranchId:$("#sourceBranchId").val(), //发货分店id
+        validityTime:$("#validityTime").val()||'',
+        remark:$("#remark").val()||'',                  // 备注
+        formNo:$("#formNo").val()||'',                 // 单号
+        grid:gridHandel.getRows(),
+    }
+	if(!gFunComparisonArray(oldData,newData)){
+        $.messager.confirm("提示","单据未保存，是否取消编辑并新增?",function(r){
+        	if(r){
+        		toAddTab("新增直送要货单",contextPath + "/form/deliverForm/addDeliverForm?deliverType=DY");
+        	}
+        });
+    }else{    	
+    	toAddTab("新增直送要货单",contextPath + "/form/deliverForm/addDeliverForm?deliverType=DY");
+    }
+	
 }
 
