@@ -650,6 +650,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		replaceMap.put("_发货机构", deliverForm.getSourceBranchName() != null ? deliverForm.getSourceBranchName() : "");
 		replaceMap.put("sourceBranchName",
 				deliverForm.getSourceBranchName() != null ? deliverForm.getSourceBranchName() : "");
+		
 		// 收货机构
 		replaceMap.put("_收货机构", deliverForm.getSourceBranchName() != null ? deliverForm.getSourceBranchName() : "");
 		replaceMap.put("sourceBranchName",
@@ -713,6 +714,26 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		replaceMap.put("amount", BigDecimalUtils.formatTwoDecimal(deliverForm.getAmount()));
 
 		replaceMap.put("daRemark", deliverForm.getDaRemark() != null ? deliverForm.getDaRemark() : "");
+		
+		//退货单
+		if(FormType.DR.toString().equals(deliverForm.getFormType())){
+			
+			// 退货机构
+			replaceMap.put("_退货机构", deliverForm.getSourceBranchName() != null ? deliverForm.getSourceBranchName() : "");
+			replaceMap.put("sourceBranchName", deliverForm.getSourceBranchName() != null ? deliverForm.getSourceBranchName() : "");
+			
+			// 收货机构
+			replaceMap.put("_收货机构", deliverForm.getTargetBranchName() != null ? deliverForm.getTargetBranchName() : "");
+			replaceMap.put("targetBranchName", deliverForm.getTargetBranchName() != null ? deliverForm.getTargetBranchName() : "");
+			
+			//备注
+			replaceMap.put("_备注", deliverForm.getRemark() != null ? deliverForm.getRemark() : "");
+			replaceMap.put("reamrk", deliverForm.getRemark() != null ? deliverForm.getRemark() : "");
+			
+			//制单日期
+			replaceMap.put("_制单日期", deliverForm.getCreateTime() != null ? DateUtils.formatDate(deliverForm.getCreateTime(), "yyyy-MM-dd") : "");
+			replaceMap.put("createTime", deliverForm.getCreateTime() != null ? DateUtils.formatDate(deliverForm.getCreateTime(), "yyyy-MM-dd") : "");
+		}
 
 		return replaceMap;
 	}
