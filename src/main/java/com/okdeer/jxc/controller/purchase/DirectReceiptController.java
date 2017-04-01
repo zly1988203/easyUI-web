@@ -807,4 +807,13 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 		}
 	}
 
+	/**
+	 * (non-Javadoc)
+	 * @see com.okdeer.jxc.common.controller.BasePrintController#getBranchSpecService()
+	 */
+	@Override
+	protected BranchSpecServiceApi getBranchSpecService() {
+		return null;
+	}
+
 }
