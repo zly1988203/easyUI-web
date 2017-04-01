@@ -159,7 +159,8 @@ function back(){
 
 function exportDetail(){
 	var formId = $("#formId").val();
-	window.location.href = contextPath + '/form/deliverForm/exportSheet?page=DOSheet&sheetNo='+formId;
+	var sourceBranchId = $("#sourceBranchId").val();
+	window.location.href = contextPath + '/form/deliverForm/exportSheet?page=DOSheet&sheetNo='+formId+'&branchId='+sourceBranchId;
 }
 
 // 查询要货机构的资料

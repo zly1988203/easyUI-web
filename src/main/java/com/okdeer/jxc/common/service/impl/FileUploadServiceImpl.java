@@ -76,8 +76,6 @@ public class FileUploadServiceImpl extends BaseServiceImpl<FileUploadServiceImpl
 				byte[] data = mpf.getBytes();
 				// 产生实例
 				Auth auth = Auth.create(accessKey, secretKey);
-				// 删除旧文件
-				// FileUtil.deleteFileName(auth, uploadToken, key);
 				uploadFile uploadFile = new uploadFile();
 				// 获取xml文件：uc-config.properties文件工作空间
 				String token = auth.uploadToken(uploadToken);

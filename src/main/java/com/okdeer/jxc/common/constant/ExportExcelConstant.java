@@ -217,6 +217,11 @@ public interface ExportExcelConstant {
 	 * @Fields PURCHASEFORM : 采购单 退货单 收货单
 	 */
 	String PURCHASEFORM = "purchaseForm.xlsx";
+	
+	/**
+	 * @Fields DIRECTRECEIPTFORM : 直送收货单
+	 */
+	String DIRECTRECEIPTFORM = "DirectReceiptForm.xlsx";
 
 	/**
 	 * @Fields PURCHASEFORMHH : 采购单 退货单 收货单 货号模版
@@ -254,6 +259,15 @@ public interface ExportExcelConstant {
 	 * 商品采购条码导入模板
 	 */
 	String PURCHASE_GOODS_BARCODE_TEMPLE = "PurchaseGoodsBarCodeTemple.xlsx";
+	/**
+	 * 直送收货货号导入模板
+	 */
+	String DIRECT_RECEIPT_SKUCODE_TEMPLE = "DirectReceiptSkuCodeTemple.xlsx";
+	
+	/**
+	 * 直送收货条码导入模板
+	 */
+	String DIRECT_RECEIPT_BARCODE_TEMPLE = "DirectReceiptBarCodeTemple.xlsx";
 	
 	/**
 	 * 商品引入货号导入模板
@@ -464,4 +478,14 @@ public interface ExportExcelConstant {
 	 * @Fields OVER_SHORT_REPORT3 : 长短款导出模板   入袋记录报表
 	 */
 	String OVER_SHORT_REPORT3 = "overShortReport3.xlsx";
+	
+	/**
+	 * @Fields DOSHEET1 : 出库单模板一
+	 */
+	String DOSHEET1 = "DOSheet1.xlsx";
+	
+	/**
+	 * @Fields DOSHEET2 : 出库单模板二
+	 */
+	String DOSHEET2 = "DOSheet2.xlsx";
 }

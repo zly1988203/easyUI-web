@@ -19,6 +19,9 @@ $(function(){
 	//修改页面的单据id
 	var formId = $('#formId').val();
 	if(directStatus === 'add'){
+		$("#branchName").val(sessionBranchCodeName);
+		$("#branchId").val(sessionBranchId);
+		$("#createTime").html(new Date().format('yyyy-MM-dd hh:mm'));
 		oldData = {
 				   branchName:$('#branchName').val(),
 		           remark:$('#remark').val()
@@ -29,19 +32,19 @@ $(function(){
 		            remark:$('#remark').val()
 		        }
 		
-		url = contextPath +"/form/purchase/directReceipt/directReceiptFormDetailList?formId=" + formId;
+		url = contextPath +"/directReceipt/getDetailList?formId=" + formId;
 		$('#already-examine').css('display','none');
 		$('#btnCheck').css('display','black');
 		
 	}else if(directStatus === 'check'){
-		url = contextPath +"/form/purchase/directReceipt/directReceiptFormDetailList?formId=" + formId;
+		url = contextPath +"/directReceipt/getDetailList?formId=" + formId;
 		isdisabled = true;
 		$('#already-examine').css('display','black');
         $('#remark').prop('readOnly','readOnly');
 	}else{
 		
 	}
-	
+	initDirectDataGrid();
 })
 
 var gridDefault = {
@@ -130,7 +133,7 @@ function initDirectDataGrid(){
                    	disabled:isdisabled,
                        min:0,
                        precision:4,
-                       onChange: onChangerealNum,
+//                       onChange: onChangerealNum,
                    }
                }
            },
@@ -247,13 +250,6 @@ function initDirectDataGrid(){
            }
        },
        onLoadSuccess:function(data){
-           if(operateStatus==='0'){
-               if(!oldData["grid"]){
-                   oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
-                       return $.extend(true,{},obj);//返回对象的深拷贝
-                   });
-               }
-           }
            gridHandel.setDatagridHeader("center");
            updateFooter();
        },
@@ -341,7 +337,7 @@ function delLineHandel(event){
 
 //新增直送收货单
 function addDirect(){
-	toAddTab("新增直送收货单",contextPath + "/form/purchase/directReceipt/directReceiptAdd");
+	toAddTab("新增直送收货单",contextPath + "/directReceipt/add?branchId=" + sessionBranchId);
 }
 
 function saveDirectForm(){
@@ -355,10 +351,20 @@ function checkDirectForm(){
 
 //选择供应商
 function selectSupplier(){
+	var param = {
+			saleWayNot:'purchase',
+			isDirect:1
+	}
     new publicSupplierService(function(data){
         $("#supplierId").val(data.id);
         $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
-    });
+        // 切换供应商后清除商品数据
+        // TODO
+        // 是否自动加载商品
+        if($("#cascadeGoods")){
+        	// TODO
+        }
+    },param);
 }
 
 //收货机构
@@ -371,6 +377,7 @@ function selectBranch(){
 
 //选择商品
 function selectGoods(searchKey){
+	// TODO  加控制
 	var branchId = $("#branchId").val();
 	var sourceBranchId = branchId;
 	var targetBranchId = branchId;
@@ -386,7 +393,7 @@ function selectGoods(searchKey){
 	}
     
     var param = {
-    		type:'PP',
+    		type:'PM',
     		key:searchKey,
     		isRadio:'',
     		branchId:branchId,
@@ -432,10 +439,47 @@ function toPrintPreview(){
 	
 }
 
-function importDirectForm(){
-	
+/**
+ * 导入商品
+ * @param type 0货号  1条码
+ */
+function importDirectForm(type){
+    var branchId = $("#branchId").val();
+    // 判定机构是否存在
+    if($("#branchId").val()==""){
+        messager("请选择机构");
+        return;
+    }
+    // 判定供应商是否存在
+    if($("#supplierId").val()==""){
+    	messager("请选择供应商");
+    	return;
+    }
+    
+    var param = {
+        url:contextPath+"/directReceipt/importList",
+        tempUrl:contextPath+"/directReceipt/exportTemp",
+        branchId:branchId,
+        type:type
+    }
+    new publicUploadFileService(function(data){
+        updateListData(data);
+    },param)
 }
 
+/**
+ * 导出表单
+ */
 function exportDirectForm(){
-	
+	var length = $("#"+dataGridId).datagrid('getData').total;
+	if(length == 0){
+		$.messager.alert('提示',"无数据可导");
+		return;
+	}
+	if(length>10000){
+		$.messager.alert('提示',"当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
+		return;
+	}
+	$("#queryForm").attr("action",contextPath+"/directReceipt/exportList");
+	$("#queryForm").submit(); 
 }

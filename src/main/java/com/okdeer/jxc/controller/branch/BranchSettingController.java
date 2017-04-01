@@ -1,4 +1,9 @@
-package com.okdeer.jxc.controller.branch;  
+
+package com.okdeer.jxc.controller.branch;
+
+import java.util.ArrayList;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.branch.service.BranchSpecServiceApi;
 import com.okdeer.jxc.branch.vo.BranchSpecVo;
+import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.exception.BusinessException;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
@@ -17,12 +23,13 @@ import com.okdeer.jxc.utils.UserUtil;
 @Controller
 @RequestMapping("branchSetting")
 public class BranchSettingController extends BaseController<BranchSettingController> {
+
 	/**
 	 * 机构设置Dubbo接口
 	 */
 	@Reference(version = "1.0.0", check = false)
 	private BranchSpecServiceApi branchSpecServiceApi;
-	
+
 	/**
 	 * 
 	 * @Description: 跳转销售设置页面
@@ -31,10 +38,10 @@ public class BranchSettingController extends BaseController<BranchSettingControl
 	 * @date 2017年3月29日
 	 */
 	@RequestMapping(value = "/toSaleSetting")
-	public String toSaleSettingPage(){
+	public String toSaleSettingPage() {
 		return "setting/saleSetting";
 	}
-	
+
 	/**
 	 * 
 	 * @Description: 跳转配送设置页面
@@ -43,10 +50,10 @@ public class BranchSettingController extends BaseController<BranchSettingControl
 	 * @date 2017年3月29日
 	 */
 	@RequestMapping(value = "/toDelivelSetting")
-	public String toDelivelSettingPage(){
+	public String toDelivelSettingPage() {
 		return "setting/delivelSetting";
 	}
-	
+
 	/**
 	 * 
 	 * @Description: 跳转采购设置页面
@@ -55,10 +62,10 @@ public class BranchSettingController extends BaseController<BranchSettingControl
 	 * @date 2017年3月29日
 	 */
 	@RequestMapping(value = "/toPurchaseSetting")
-	public String toPurchaseSettingsPage(){
+	public String toPurchaseSettingsPage() {
 		return "setting/purchaseSetting";
 	}
-	
+
 	/**
 	 * 
 	 * @Description: 跳转系统设置页面
@@ -67,12 +74,10 @@ public class BranchSettingController extends BaseController<BranchSettingControl
 	 * @date 2017年3月30日
 	 */
 	@RequestMapping(value = "/toSystemSetting")
-	public String toSystemPage(){
+	public String toSystemPage() {
 		return "setting/systemSetting";
 	}
-	
 
-	
 	/**
 	 * 
 	 * @Description: 获取机构设置
@@ -80,9 +85,9 @@ public class BranchSettingController extends BaseController<BranchSettingControl
 	 * @author zhangq
 	 * @date 2017年3月29日
 	 */
-	@RequestMapping(value = "getSetting", method=RequestMethod.POST)
+	@RequestMapping(value = "getSetting", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson getBranchSetting(){
+	public RespJson getBranchSetting() {
 		String branchId = UserUtil.getCurrBranchId();
 		try {
 			BranchSpecVo vo = branchSpecServiceApi.queryByBranchId(branchId);
@@ -92,7 +97,7 @@ public class BranchSettingController extends BaseController<BranchSettingControl
 			return RespJson.error(e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @Description: 保存配置
@@ -106,16 +111,40 @@ public class BranchSettingController extends BaseController<BranchSettingControl
 	public RespJson saveSetting(BranchSpecVo vo) {
 		LOG.info("更新机构配置，{}", vo);
 		try {
-			//额外复制
+			// 额外复制
 			vo.setBranchId(UserUtil.getCurrBranchId());
 			vo.setUpdateUserId(UserUtil.getCurrUserId());
 			vo.setUpdateTime(DateUtils.getCurrDate());
-			
-			//更新
+
+			// 更新
 			return branchSpecServiceApi.update(vo);
 		} catch (Exception e) {
 			LOG.error("保存机构配置失败{}", e);
 			return RespJson.error("保存机构配置失败！");
+		}
+	}
+
+	/**
+	 * @Description: 出库单模板导出
+	 * @param type 模板类型
+	 * @author zhengwj
+	 * @date 2017年3月31日
+	 */
+	@RequestMapping(value = "exportTemp")
+	public void exportTemp(HttpServletResponse response, int type) {
+		try {
+			// 导出文件名称，不包括后缀名
+			String fileName = "出库单导出模板";
+			String templateName = null;
+			if (type == 1) {
+				templateName = ExportExcelConstant.DOSHEET1;
+			} else if (type == 2) {
+				templateName = ExportExcelConstant.DOSHEET2;
+			}
+			// 导出Excel
+			exportListForXLSX(response, new ArrayList<>(), fileName, templateName);
+		} catch (Exception e) {
+			LOG.error("下载出库单模板失败:{}", e);
 		}
 	}
 }

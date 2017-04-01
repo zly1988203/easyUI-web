@@ -25,7 +25,7 @@
 	            <shiro:hasPermission name="JxcDirectReceipt:print">
 	                <div class="ubtns-item" onclick="printList()">打印</div>
 	            </shiro:hasPermission>
-	            <div class="ubtns-item" >设置</div>
+	            <div class="ubtns-item" onclick="gFunRefresh()">设置</div>
 	            <div class="ubtns-item" onclick="toClose()">关闭</div>
 	            </div>
 	            

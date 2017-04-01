@@ -429,8 +429,7 @@ public class StockReimburseController extends BasePrintController<StockReimburse
 	@RequiresPermissions("JxcStockReimburse:print")
 	@RequestMapping(value = "print", method = RequestMethod.GET)
 	@ResponseBody
-	public String printReport(StockFormVo vo, HttpServletResponse response, HttpServletRequest request,
-			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber) {
+	public String printReport(StockFormVo vo, HttpServletResponse response, HttpServletRequest request) {
 		try {
 			vo.setPageNumber(1);
 			vo.setPageSize(PrintConstant.PRINT_MAX_LIMIT);

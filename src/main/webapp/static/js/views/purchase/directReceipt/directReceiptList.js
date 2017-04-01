@@ -9,7 +9,6 @@ $(function(){
 
 //初始化默认条件
 function initConditionParams(){
-    
 	$("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
 	$("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 }
@@ -80,7 +79,7 @@ function selectSupplier(){
 
 //新增直送收货单
 function directAdd(){
-		toAddTab("新增直送收货单",contextPath + "/directReceipt/add");
+		toAddTab("新增直送收货单",contextPath + "/directReceipt/add?branchId=" + sessionBranchId);
 }
 
 //删除直送收货单 批量
@@ -147,7 +146,7 @@ function initDirectDatagrid(){
         columns:[[
             {field:'check',checkbox:true},
             {field:'formNo',title:'单据编号',width:'140px',align:'left',formatter:function(value,row,index){
-            	var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'直送收货单详细\',\''+contextPath+'/directReceipt/edit?formId='+row.id+'\')">' + value + '</a>';
+            	var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'直送收货单详细\',\''+contextPath+'/directReceipt/edit?formId='+row.id+'?branchId='+sessionBranchId+'\')">' + value + '</a>';
             	return strHtml;
             }},
             {field:'status',title:'审核状态',width:'100px',align:'center',formatter:function(value,row,index){
@@ -180,6 +179,13 @@ function initDirectDatagrid(){
 		}
     });
     query();
+}
+
+//打印
+function printList() {
+	var fromObjStr = $('#queryForm').serialize();
+	console.log(fromObjStr);
+	parent.addTabPrint("DirectReceiptPrint","直送收货单列表打印",contextPath+"/directReceipt/print?"+fromObjStr);
 }
 
 
