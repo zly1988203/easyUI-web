@@ -610,9 +610,10 @@ function inserRow(){
 
 
 function removeRow() {
-   var editIndex = $('#dgPrice').datagrid('getRows').length-1 ;
-    $('#dgPrice').datagrid('deleteRow', editIndex);
-    editIndex = undefined;
+	var data = $("#dgPrice").datagrid("getChecked");
+	for(var i = 0;i < data.length;i++){
+		 $('#dgPrice').datagrid('deleteRow', i);
+	 }
 }
 
 function saveBarCode(){
