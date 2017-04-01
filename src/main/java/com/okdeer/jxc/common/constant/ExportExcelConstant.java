@@ -396,6 +396,10 @@ public interface ExportExcelConstant {
 	String GOODS_CATEGORY_REPORT = "GoodsCategoryReport.xlsx";
 	
 	/**
+	 * 时段客单
+	 */
+	String TIMESECTIONSALEREPORT = "timeSectionSellReport.xlsx";
+	/**
 	 * 库存异常查询
 	 */
 	String STOCKEXCEPTION = "stockException.xlsx";
