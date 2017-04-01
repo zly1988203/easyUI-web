@@ -512,7 +512,7 @@ function initDatagridEditRequireOrder(){
 					}
 	            },
 	        ]],
-		 onClickCell:function(rowIndex,field,value){
+		/* onClickCell:function(rowIndex,field,value){
 			 gridHandel.setBeginRow(rowIndex);
 			 gridHandel.setSelectFieldName(field);
 			 var target = gridHandel.getFieldTarget(field);
@@ -521,7 +521,7 @@ function initDatagridEditRequireOrder(){
 			 }else{
 				 gridHandel.setSelectFieldName("goodsbarCode");
 			 }
-		 },
+		 },*/
 		 onLoadSuccess : function() {
 		 },
 	 });
@@ -553,7 +553,7 @@ function checkRepeat(newVal){
 
 	var flag = true;
 	$.each(newRows,function(index,item){
-		if(newVal.substr(0,16) != item.barCode){
+		if(newVal.substr(0,20) != item.barCode){
 			flag = true;
 		}else{
 			flag = false;
@@ -561,9 +561,9 @@ function checkRepeat(newVal){
 	})
 
 	if(flag){
-		gridHandel.setFieldValue('barCode',newVal.substr(0,16));
+		gridHandel.setFieldValue('barCode',newVal.substr(0,20));
 	}else {
-		messager("条码"+newVal.substr(0,16)+"重复");
+		messager("条码"+newVal.substr(0,20)+"重复");
 		return;
 	}
 }
@@ -573,18 +573,19 @@ function inserRow(){
 	if($("#newBarCode").val().trim() != ""){
 		barCode = checkNum({value:$("#newBarCode").val()})
 		if(barCode==""){
-			messager("请输入数字,最多只能是16位数字")
+			messager("请输入数字,最多只能是20位数字")
 			return;
 		}
 	}else{
-		messager("请输入条码,最多只能是16位数字")
+		messager("请输入条码,最多只能是20位数字")
 		return;
 	}
 
 	var newRow = {
 			skuId:$("#id").val(),
 			skuCode:$("#skuCode").val(),
-			barCode:barCode.substr(0,16),
+			barCode:barCode.substr(0,20),
+			updateUserName:sessionUserName,
 			updateTime:new Date()
 	};
 	

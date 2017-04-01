@@ -55,6 +55,7 @@ var contextPath = '${ctx}';
 var priceGrantStr = '${priceGrantStr}';
 var sessionUserId = '${user.id}';
 var sessionUserCode = '${user.userCode}';
+var sessionUserName = '${user.userName}';
 var sessionBranchId = '${user.branchId}';
 var sessionBranchCode = '${user.branchCode}';
 var sessionBranchName = '${user.branchName}';

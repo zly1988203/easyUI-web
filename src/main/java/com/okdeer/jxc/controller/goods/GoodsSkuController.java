@@ -422,7 +422,7 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 		/**
 		 * 2.4 新增条码表，判断是否重复要在条码表取值
 		 */
-		boolean isExists = goodsBarcodeService.barCodeIsExist(barCode);
+		boolean isExists = goodsBarcodeService.barCodeIsExist(barCode,id);
 		if (isExists) { // 重复
 			RespJson json = RespJson.error("商品条码重复");
 			json.put("_data", barCode);
