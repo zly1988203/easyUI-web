@@ -28,7 +28,7 @@ $(function(){
                     saleWay:$("#saleWay").val(),
                     remark:$("#remark").val(),
         }
-	}else if(directStatus === 'edit'){
+	}else if(directStatus === '0'){
 		oldData = {
 		            branchName:$('#branchName').val(),
                     supplierId:$("#supplierId").val(),
@@ -49,7 +49,7 @@ $(function(){
 		}else if(saleWay == 'D'){
 			$("#saleWayName").val('扣率代销');        	
 		}
-	}else if(directStatus === 'check'){
+	}else if(directStatus === '1'){
 		url = contextPath +"/directReceipt/getDetailList?formId=" + formId;
 		isdisabled = true;
 		$('#already-examine').css('display','black');
@@ -489,6 +489,7 @@ function saveDataHandel(rows, url){
         contentType:'application/json',
         data:req,
         success:function(result){
+            gFunEndLoading();
             console.log(result);
             if(result['code'] == 0){
                 $.messager.alert("操作提示", "操作成功！", "info",function(){
@@ -499,6 +500,7 @@ function saveDataHandel(rows, url){
             }
         },
         error:function(result){
+            gFunEndLoading();
             successTip("请求发送失败或服务器处理失败");
         }
     });
@@ -549,7 +551,6 @@ function updateDirectForm() {
 }
 
 function checkDirectForm(){
-	gFunStartLoading();
     //验证数据是否修改
     $("#"+gridName).datagrid("endEdit", gridHandel.getSelectRowIndex());
     var newData = {
@@ -616,16 +617,16 @@ function selectSupplier(){
                 if (r){
                     $("#supplierId").val(data.id);
                     $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
-      $("#saleWay").val(data.saleWay);
-        if(data.saleWay == 'A'){
-        	$("#saleWayName").val('购销');
-        }else if(data.saleWay == 'B'){
-        	$("#saleWayName").val('代销');        	
-	    }else if(data.saleWay == 'C'){
-	    	$("#saleWayName").val('联营');        	
-		}else if(data.saleWay == 'D'){
-			$("#saleWayName").val('扣率代销');        	
-		}
+                  $("#saleWay").val(data.saleWay);
+                    if(data.saleWay == 'A'){
+                        $("#saleWayName").val('购销');
+                    }else if(data.saleWay == 'B'){
+                        $("#saleWayName").val('代销');
+                    }else if(data.saleWay == 'C'){
+                        $("#saleWayName").val('联营');
+                    }else if(data.saleWay == 'D'){
+                        $("#saleWayName").val('扣率代销');
+		            }
                     // 是否自动加载商品
                     if($("#cascadeGoods").val()){
                         // TODO
@@ -660,8 +661,14 @@ function selectSupplier(){
 
 function queryGoodsList() {
     $("#"+gridName).datagrid("options").queryParams = {
+            formType:'PM',
+            key:"",
+            isRadio:'',
             'supplierId':$("#supplierId").val(),
-            'branchId': $('#branchId').val()
+            'branchId': $('#branchId').val(),
+            sourceBranchId:'',
+            targetBranchId:'',
+            flag:'0',
         };
 
     $("#"+gridName).datagrid("options").method = "post";
@@ -672,22 +679,23 @@ function queryGoodsList() {
 //收货机构
 function selectBranch(){
     new publicBranchService(function(data){
-        if( $("#supplierId").val() != "" && data.id != $("#supplierId").val()){
+        if( $("#branchId").val() != "0" && data.branchesId != $("#branchId").val()){
             $.messager.confirm('提示','修改收货机构后会清空明细，是否要修改？',function(r){
                 if (r){
                     $("#branchId").val(data.branchesId);
                     $("#branchName").val("["+data.branchCode+"]"+data.branchName);
-                    $("#supplierId").val();
-                    $("#supplierName").val();
-                    $("#saleWay").val();
+                    $("#supplierId").val("");
+                    $("#supplierName").val("");
+                    $("#saleWay").val("");
+                    $("#saleWayName").val("");
+                    gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
+                        $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),
+                        $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault)]);
                 }
             });
         }else{
             $("#branchId").val(data.branchesId);
             $("#branchName").val("["+data.branchCode+"]"+data.branchName);
-            $("#supplierId").val();
-            $("#supplierName").val();
-            $("#saleWay").val();
         }
 
 
