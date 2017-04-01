@@ -17,7 +17,7 @@
 			<div class="ub ub-ac upad-4">
 				<div class="ubtns">
 					<shiro:hasPermission name="JxcStockReimburse:add">
-						<div class="ubtns-item-disabled">新增</div>
+						<div class="ubtns-item" onClick="addDeliverDR()">新增</div>
 					</shiro:hasPermission>
 					<shiro:hasPermission name="JxcStockReimburse:add">
 						<div class="ubtns-item" onclick="saveOrder()">保存</div>
