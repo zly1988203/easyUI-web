@@ -79,7 +79,7 @@ function selectSupplier(){
 
 //新增直送收货单
 function directAdd(){
-		toAddTab("新增直送收货单",contextPath + "/directReceipt/add?branchId=" + sessionBranchId);
+		toAddTab("新增直送收货单",contextPath + "/directReceipt/add");
 }
 
 //删除直送收货单 批量
@@ -146,7 +146,7 @@ function initDirectDatagrid(){
         columns:[[
             {field:'check',checkbox:true},
             {field:'formNo',title:'单据编号',width:'140px',align:'left',formatter:function(value,row,index){
-            	var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'直送收货单详细\',\''+contextPath+'/directReceipt/edit?formId='+row.id+'?branchId='+sessionBranchId+'\')">' + value + '</a>';
+            	var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'直送收货单详细\',\''+contextPath+'/directReceipt/edit?formId='+row.id+'\')">' + value + '</a>';
             	return strHtml;
             }},
             {field:'status',title:'审核状态',width:'100px',align:'center',formatter:function(value,row,index){
