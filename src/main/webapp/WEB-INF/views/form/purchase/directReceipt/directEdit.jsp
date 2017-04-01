@@ -61,7 +61,7 @@
 				</div>
 				<div class="ub ub-ac uselectw umar-l00 umar-l10">
 					<div class="umar-r10 uw-70 ut-r">经营方式:</div>
-					<input id="saleWay" class="uinp" type="hidden" value="${form.saleWay}"> 
+					<input id="saleWay" class="uinp" type="hidden" value="${form.saleWay}">
 					<input id="saleWayName" class="uinp" type="text" readonly="readonly">
 				</div>
 				<div class="ub ub-ac umar-l40 uw-300 ">
