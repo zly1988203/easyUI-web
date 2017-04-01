@@ -34,7 +34,7 @@
 					<div class="ubtns-item" onclick="toImportproduct(0)">导入货号</div>
 					<div class="ubtns-item" onclick="toImportproduct(1)">导入条码</div>
 					<shiro:hasPermission name="JxcDeliverDR:export">
-						<div class="ubtns-item" onclick="exportData('DR','gridRequireOrder')">导出</div>
+						<div class="ubtns-item" onclick="exportData('DR','saleReturnAddForm')">导出</div>
 					</shiro:hasPermission>
 					<shiro:hasPermission name="JxcDeliverDR:print">
 						<div class="ubtns-item" onclick="printChoose('DR','/form/deliverForm/')">打印</div>

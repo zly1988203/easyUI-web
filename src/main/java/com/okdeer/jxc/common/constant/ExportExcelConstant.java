@@ -240,6 +240,8 @@ public interface ExportExcelConstant {
 	String DELIVERFORM_DY = "DeliverFormDY.xlsx";
 	
 	String DELIVERFORM_DD = "DeliverFormDD.xlsx";
+	
+	String DELIVERFORM_DR = "DeliverFormDR.xlsx";
 
 	/**
 	 * @Fields DADOFORM : DADOform.xlsx

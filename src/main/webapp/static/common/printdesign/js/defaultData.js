@@ -1,4 +1,4 @@
-﻿﻿/**
+﻿﻿﻿/**
  * 打印项数据,详细类别： CGSheet：采购订单
  * 
  * FileName: defaultData.js
@@ -1224,6 +1224,128 @@ var defaultData = {
 		}, {
 			type : "label",
 			text : "采购："
+		} ]
+	} ],
+	
+	// 配送退货单
+	DRSheet : [
+	 { group : "通用打印项", items : commonItems },
+	 {
+		group : "单据打印项",
+		items : [ {
+			type : "label",
+			text : "配送退货单"
+		}, {
+			type : "label",
+			text : "_单号"
+		}, {
+			type : "label",
+			text : "退货机构："
+		}, {
+			type : "holder",
+			text : "_退货机构"
+		}, {
+			type : "label",
+			text : "收货机构："
+		}, {
+			type : "holder",
+			text : "_收货机构"
+		}, {
+			type : "label",
+			text : "制单人员："
+		}, {
+			type : "holder",
+			text : "_制单人员"
+		}, {
+			type : "label",
+			text : "业务人员："
+		}, {
+			type : "holder",
+			text : "_业务人员"
+		}, {
+			type : "label",
+			text : "制单人员："
+		}, {
+			type : "holder",
+			text : "_制单人员"
+		}, {
+			type : "label",
+			text : "联系电话："
+		}, {
+			type : "holder",
+			text : "_联系电话"
+		}, {
+			type : "label",
+			text : "审核人员："
+		}, {
+			type : "holder",
+			text : "_审核人员"
+		}, {
+			type : "label",
+			text : "有效期限："
+		}, {
+			type : "holder",
+			text : "_有效期限"
+		}, {
+			type : "label",
+			text : "制单日期："
+		}, {
+			type : "holder",
+			text : "_制单日期"
+		}, {
+			type : "label",
+			text : "审核日期："
+		}, {
+			type : "holder",
+			text : "_审核日期"
+		}, {
+			type : "label",
+			text : "备注："
+		}, {
+			type : "holder",
+			text : "_备注"
+		}, {
+			type : "label",
+			text : "人民币大写总金额："
+		}, {
+			type : "holder",
+			text : "_人民币大写总金额"
+		}, {
+			type : "label",
+			text : "总金额："
+		}, {
+			type : "holder",
+			text : "_总金额"
+		}, {
+			type : "label",
+			text : "核准："
+		}, {
+			type : "label",
+			text : "审核："
+		}, {
+			type : "label",
+			text : "有效期限："
+		}, {
+			type : "holder",
+			text : "_有效期限"
+		}, {
+			type : "label",
+			text : "返利："
+		}, {
+			type : "holder",
+			text : "_返利"
+		}, {
+			type : "label",
+			text : "折扣："
+		}, {
+			type : "holder",
+			text : "_折扣"
+		}, {
+			type : "label",
+			text : "客户："
+		}, {
+			type : "label",
+			text : "司机："
 		} ]
 	} ],
 }
