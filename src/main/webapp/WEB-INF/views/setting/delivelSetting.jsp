@@ -67,6 +67,36 @@
 						<span>启用</span>
 					</div>
 				</div>
+				<div class="ub ub-ac upad-16 ">
+					<div class="ub uw-220 ut-r ">出库单导出模板设置:</div>
+					<div class="ub ub-ac umar-r10">
+						<input class="ub" type="radio" id="dosheetTemplate1" name="dosheetTemplate" value="1" />
+						<span>模板一</span>
+					</div>
+					<div class="ub ub-ac umar-r10">
+						<a href="javascript:void(0)" class="easyui-linkbutton" onclick = "exportTemp('1')">下载后预览</a>
+					</div>
+				</div>
+				<div class="ub ub-ac upad-16 ">
+					<div class="ub uw-220 ut-r "></div>
+					<div class="ub ub-ac umar-r10">
+						<input class="ub" type="radio" id="dosheetTemplate2" name="dosheetTemplate" value="2" />
+						<span>模板二</span>
+					</div>
+					<div class="ub ub-ac umar-r10">
+						<a href="javascript:void(0)" class="easyui-linkbutton" onclick = "exportTemp('2')">下载后预览</a>
+					</div>
+				</div>
+				<div class="ub ub-ac upad-16 ">
+					<div class="ub uw-220 ut-r "></div>
+					<div class="ub ub-ac umar-r10">
+						<input class="ub" type="radio" id="dosheetTemplate" name="dosheetTemplate" />
+						<span>自定义模板</span>
+					</div>
+					<div class="ub ub-ac umar-r10">
+						<a href="javascript:void(0)" class="easyui-linkbutton" onclick = "uploadFile()">请上传自定义模板</a>
+					</div>
+				</div>
 			</form>
 		</div>
 	</div>
@@ -149,6 +179,16 @@
 		});
 		
 		$("#settingForm").submit();
+	}
+	
+	// 下载模板
+	function exportTemp(type) {
+		location.href = contextPath + "/branchSetting/exportTemp?type=" + type;
+	}
+	
+	// 上传模板
+	function uploadFile {
+		// contextPath + "/fileUpload/templateUpload";
 	}
 </script>
 </html>

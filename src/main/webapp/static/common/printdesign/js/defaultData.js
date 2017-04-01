@@ -1032,4 +1032,110 @@ var defaultData = {
 			text : "_审核时间"
 		} ]
 	} ],
+	// 直送收货单
+	PMSheet : [ /*
+				 * { group : "通用打印项", items : commonItems },
+				 */{
+		group : "单据打印项",
+		items : [ {
+			type : "label",
+			text : "直送收货单"
+		} ,{
+			type : "label",
+			text : "供应商名称："
+		}, {
+			type : "holder",
+			text : "_供应商名称"
+		}, {
+			type : "label",
+			text : "供应商电话号码："
+		}, {
+			type : "holder",
+			text : "_供应商电话号码"
+		}, {
+			type : "label",
+			text : "供应商手机号码："
+		}, {
+			type : "holder",
+			text : "_供应商手机号码"
+		}, {
+			type : "label",
+			text : "下单日期："
+		}, {
+			type : "holder",
+			text : "_下单日期"
+		}, {
+			type : "label",
+			text : "机构名称："
+		}, {
+			type : "holder",
+			text : "_机构名称"
+		}, {
+			type : "label",
+			text : "机构联系人："
+		}, {
+			type : "holder",
+			text : "_机构联系人"
+		}, {
+			type : "label",
+			text : "机构联系电话："
+		}, {
+			type : "holder",
+			text : "_机构联系电话"
+		}, {
+			type : "label",
+			text : "机构详细地址："
+		}, {
+			type : "holder",
+			text : "_机构详细地址"
+		}, {
+			type : "label",
+			text : "送货地址："
+		}, {
+			type : "holder",
+			text : "_送货地址"
+		}, {
+			type : "label",
+			text : "备注："
+		}, {
+			type : "holder",
+			text : "_备注"
+		}, {
+			type : "label",
+			text : "订单编号："
+		}, {
+			type : "holder",
+			text : "_订单编号"
+		},{
+			type : "label",
+			text : "原订单号："
+		}, {
+			type : "holder",
+			text : "_原订单号"
+		}, {
+			type : "label",
+			text : "人民币总金额大写："
+		}, {
+			type : "holder",
+			text : "_人民币总金额大写"
+		}, {
+			type : "label",
+			text : "总金额："
+		}, {
+			type : "holder",
+			text : "_总金额"
+		}, {
+			type : "label",
+			text : "厂家回签："
+		}, {
+			type : "label",
+			text : "核准："
+		}, {
+			type : "label",
+			text : "审核："
+		}, {
+			type : "label",
+			text : "采购："
+		} ]
+	} ],
 }

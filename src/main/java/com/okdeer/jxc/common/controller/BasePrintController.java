@@ -23,8 +23,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.alibaba.dubbo.config.annotation.Reference;
+import com.okdeer.jxc.branch.service.BranchSpecServiceApi;
+import com.okdeer.jxc.branch.vo.BranchSpecVo;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
+import com.okdeer.jxc.common.exception.BusinessException;
 import com.okdeer.jxc.common.utils.JsonMapper;
+import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.utils.IOStreamUtils;
 import com.okdeer.jxc.utils.jxls.ReportExcelUtil;
@@ -42,6 +47,12 @@ import com.okdeer.jxc.utils.jxls.ReportExcelUtil;
  */
 
 public abstract class BasePrintController<T, P> extends BaseController<T> {
+
+	/**
+	 * 机构设置Dubbo接口
+	 */
+	@Reference(version = "1.0.0", check = false)
+	private BranchSpecServiceApi branchSpecServiceApi;
 
 	/**
 	 * 
@@ -100,7 +111,7 @@ public abstract class BasePrintController<T, P> extends BaseController<T> {
 	}
 
 	@RequestMapping(value = "exportSheet")
-	public void export(HttpServletResponse response, String page, String sheetNo) {
+	public void export(HttpServletResponse response, String page, String sheetNo, String branchId) {
 		// 获取打印占位JSON
 		Map<String, Object> replaceMap = getPrintReplace(sheetNo);
 		// 获取打印表格明细JSON
@@ -110,7 +121,7 @@ public abstract class BasePrintController<T, P> extends BaseController<T> {
 		try {
 			// 出库单根据设置选择导出模板
 			if ("DOSheet".equalsIgnoreCase(page)) {
-				is = IOStreamUtils.getExcelExportPathInputStream(getExportFile(page));
+				is = IOStreamUtils.getExcelExportPathInputStream(getExportFile(page, branchId));
 			} else {
 				is = IOStreamUtils.getExcelExportPathInputStream(page + ".xlsx");
 			}
@@ -137,9 +148,14 @@ public abstract class BasePrintController<T, P> extends BaseController<T> {
 	 * @author zhengwj
 	 * @date 2017年3月28日
 	 */
-	private String getExportFile(String page) {
-		// TODO 查询当前用户使用的模板
-		String key = "";
+	private String getExportFile(String page, String branchId) {
+		// 获取机构的出库单模板设置
+		BranchSpecVo vo = branchSpecServiceApi.queryByBranchId(branchId);
+		if (null == vo || StringUtils.isBlank(vo.getDosheetTemplate())) {
+			LOG.error("出库单模板设置为空，不能导出,branchId:{}", branchId);
+			throw new BusinessException("出库单模板设置为空，不能导出");
+		}
+		String key = vo.getDosheetTemplate();
 		String filePath = ExportExcelConstant.TEMPLATE_EXPORT_DIR + page + key + ".xlsx";
 		File file = new File(filePath);
 		// 判断模板是否存在，不存在的需要下载
