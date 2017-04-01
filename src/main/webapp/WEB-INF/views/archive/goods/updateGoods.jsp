@@ -383,11 +383,11 @@ pageEncoding="UTF-8"%>
 					<button class="ubtns-item" onclick="saveBarCode()" id="saveBarCode">保存</button>
 					<button class="ubtns-item" onclick="closeDialog()">关闭</button>
 				</div>
-				<div class="umar-r10  ut-r">商品附加条码:</div>
-					<input type="text" id="newBarCode" class="uinp uw-250" maxlength="16">
-					<div class="ubtns">
+				<div class="umar-r10 umar-l20 ut-r">商品附加条码:</div>
+					<input type="text" id="newBarCode" class="uinp uw-250 " maxlength="20">
+					<div class="ubtns umar-l20">
 					<button class="ubtns-item" onclick="inserRow()" >增加条码</button>
-					<button class="ubtns-item" onclick="removeRow()">删除条码</button>
+					<button class="ubtns-item " onclick="removeRow()">删除条码</button>
 					</div>
 				<div class="ub uw-160"></div>
 			</div>
