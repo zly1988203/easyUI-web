@@ -138,14 +138,11 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 	}
 
 	/**
-	 * @Description: 获取直送收货单列表
-	 * @param qo 查询条件
+	 * @Description: 处理查询参数
 	 * @author zhengwj
-	 * @date 2017年3月30日
+	 * @date 2017年4月1日
 	 */
-	@RequestMapping(value = "getList", method = RequestMethod.POST)
-	@ResponseBody
-	public PageUtils<PurchaseFormPO> getList(FormQueryQo qo) {
+	private FormQueryQo getParam(FormQueryQo qo) {
 		if (qo.getEndTime() != null) {
 			// 结束日期加一天
 			Calendar cal = Calendar.getInstance();
@@ -170,7 +167,19 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 			branchName = branchName.substring(branchName.lastIndexOf("]") + 1, branchName.length());
 			qo.setBranchName(branchName);
 		}
+		return qo;
+	}
 
+	/**
+	 * @Description: 获取直送收货单列表
+	 * @param qo 查询条件
+	 * @author zhengwj
+	 * @date 2017年3月30日
+	 */
+	@RequestMapping(value = "getList", method = RequestMethod.POST)
+	@ResponseBody
+	public PageUtils<PurchaseFormPO> getList(FormQueryQo qo) {
+		qo = getParam(qo);
 		PageUtils<PurchaseFormPO> page = purchaseFormServiceApi.selectPage(qo);
 		return page;
 	}
@@ -182,7 +191,14 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 	 */
 	@RequiresPermissions("JxcDirectReceipt:add")
 	@RequestMapping(value = "add")
-	public String add() {
+	public String add(HttpServletRequest request) {
+		if (!UserUtil.getCurrBranchType().equals(BranchTypeEnum.HEAD_QUARTERS.getCode())) {
+			// 查询是否需要自动加载商品
+			BranchSpecVo vo = branchSpecServiceApi.queryByBranchId(UserUtil.getCurrBranchId());
+			if (null != vo) {
+				request.setAttribute("cascadeGoods", vo.getIsSupplierCascadeGoodsPm());
+			}
+		}
 		return "form/purchase/directReceipt/directAdd";
 	}
 
@@ -364,7 +380,7 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 	 */
 	@RequiresPermissions("JxcDirectReceipt:edit")
 	@RequestMapping(value = "edit")
-	public String edit(String branchId, String formId, HttpServletRequest request) {
+	public String edit(String formId, HttpServletRequest request) {
 		PurchaseFormPO form = purchaseFormServiceApi.selectPOById(formId);
 		if (form == null) {
 			LOG.error("直送收货单数据为空：订单Id：{}", formId);
@@ -375,10 +391,12 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 			LOG.error("直送收货单已删除：订单Id：{}", formId);
 			return "/error/500";
 		}
-		// 查询是否需要自动加载商品
-		BranchSpecVo vo = branchSpecServiceApi.queryByBranchId(branchId);
-		if (null != vo) {
-			request.setAttribute("cascadeGoods", vo.getIsSupplierCascadeGoodsPm());
+		if (!UserUtil.getCurrBranchType().equals(BranchTypeEnum.HEAD_QUARTERS.getCode())) {
+			// 查询是否需要自动加载商品
+			BranchSpecVo vo = branchSpecServiceApi.queryByBranchId(UserUtil.getCurrBranchId());
+			if (null != vo) {
+				request.setAttribute("cascadeGoods", vo.getIsSupplierCascadeGoodsPm());
+			}
 		}
 		request.setAttribute("form", form);
 		return "form/purchase/directReceipt/directEdit";
@@ -426,7 +444,12 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 			list.add(purchaseFormDetail);
 		}
 
+		form.setUpdateUserId(user.getId());
+		form.setUpdateTime(now);
 		RespJson respJson = purchaseFormServiceApi.update(form, list);
+		if (respJson.isSuccess()) {
+			respJson.put("formId", formId);
+		}
 		return respJson;
 	}
 
@@ -453,24 +476,24 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 	@ResponseBody
 	public String print(FormQueryQo qo, HttpServletResponse response, HttpServletRequest request) {
 		try {
-			qo.setPageNumber(1);
-			qo.setPageSize(PrintConstant.PRINT_MAX_LIMIT);
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("startDate", DateUtils.formatDate(qo.getStartTime(), "yyyy-MM-dd"));
+			map.put("endDate", DateUtils.formatDate(qo.getEndTime(), "yyyy-MM-dd"));
+			map.put("printName", UserUtil.getCurrentUser().getUserName());
+			qo.setPage(1);
+			qo.setRows(PrintConstant.PRINT_MAX_LIMIT);
+			qo = getParam(qo);
 			LOG.debug("直送收货单打印参数：{}", qo);
 			int lenght = purchaseFormServiceApi.queryPageListCount(qo);
 			if (lenght > PrintConstant.PRINT_MAX_ROW) {
 				return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
 			}
-			qo.setFormType(FormType.PM.toString());
 			PageUtils<PurchaseFormPO> pageList = purchaseFormServiceApi.selectPage(qo);
 			List<PurchaseFormPO> list = pageList.getList();
 			if (!CollectionUtils.isEmpty(list) && list.size() > PrintConstant.PRINT_MAX_ROW) {
 				return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
 			}
 			String path = PrintConstant.DIRECT_RECEIPT;
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("startDate", qo.getStartTime());
-			map.put("endDate", qo.getEndTime());
-			map.put("printName", UserUtil.getCurrentUser().getUserName());
 			JasperHelper.exportmain(request, response, map, JasperHelper.PDF_TYPE, path, list, "");
 		} catch (Exception e) {
 			LOG.error(PrintConstant.DIRECT_RECEIPT_ERROR, e);
@@ -510,7 +533,7 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 			replaceMap.put("_订单编号", form.getFormNo() != null ? form.getFormNo() : "");
 			replaceMap.put("formNo", form.getFormNo() != null ? form.getFormNo() : "");
 			// 供应商
-			replaceMap.put("_供应商名称", form.getSupplierName() != null ? form.getSupplierName() : "");
+			replaceMap.put("_供应商", form.getSupplierName() != null ? form.getSupplierName() : "");
 			replaceMap.put("supplierName", form.getSupplierName() != null ? form.getSupplierName() : "");
 			// 制单人员
 			replaceMap.put("_制单人员", form.getSalesmanName() != null ? form.getSalesmanName() : "");
@@ -635,6 +658,8 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 				// 条码
 				field = new String[] { "barCode", "realNum", "price", "ingoreAmount", "isGift" };
 			}
+			Map<String, String> mapBranchid = new HashMap<>();
+			mapBranchid.put("formType", "PM");
 
 			GoodsSelectImportVo<GoodsSelect> vo = goodsSelectImportComponent.importSelectGoods(fileName, is, field,
 					new GoodsSelectByPurchase(), branchId, user.getId(), type, "/directReceipt/downloadErrorFile",
@@ -700,7 +725,7 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 								}
 							}
 						}
-					}, null);
+					}, mapBranchid);
 			respJson.put("importInfo", vo);
 		} catch (IOException e) {
 			respJson = RespJson.error("读取Excel流异常");

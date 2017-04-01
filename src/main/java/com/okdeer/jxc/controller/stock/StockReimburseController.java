@@ -440,12 +440,13 @@ public class StockReimburseController extends BasePrintController<StockReimburse
 		try {
 			vo.setPageNumber(1);
 			vo.setPageSize(PrintConstant.PRINT_MAX_LIMIT);
+			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
+			vo.setFormType(StockAdjustEnum.REIMBURSE.getKey());
 			LOG.debug("报损单打印参数：{}", vo.toString());
 			int lenght = stockAdjustServiceApi.queryPageListCount(vo);
 			if (lenght > PrintConstant.PRINT_MAX_ROW) {
 				return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
 			}
-			vo.setFormType(StockAdjustEnum.REIMBURSE.getKey());
 			PageUtils<StockFormVo> stockFormList = stockAdjustServiceApi.getStockFormList(vo);
 			List<StockFormVo> list = stockFormList.getList();
 			if (!CollectionUtils.isEmpty(list) && list.size() > PrintConstant.PRINT_MAX_ROW) {
