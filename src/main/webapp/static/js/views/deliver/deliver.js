@@ -89,7 +89,7 @@ function initDatagridRequireOrder(){
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
         showFooter:true,
-        height:'100%',
+        height:"100%",
         width:'100%',
         columns:[[
 			{field:'ck',checkbox:true},

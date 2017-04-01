@@ -38,6 +38,7 @@ import com.okdeer.jxc.goods.entity.GoodsBrand;
 import com.okdeer.jxc.goods.entity.GoodsSku;
 import com.okdeer.jxc.goods.qo.GoodsBrandQo;
 import com.okdeer.jxc.goods.qo.GoodsSkuQo;
+import com.okdeer.jxc.goods.service.GoodsBarcodeService;
 import com.okdeer.jxc.goods.service.GoodsBrandServiceApi;
 import com.okdeer.jxc.goods.service.GoodsSkuServiceApi;
 import com.okdeer.jxc.goods.vo.GoodsSkuVo;
@@ -69,7 +70,9 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 	
 	@Reference(version = "1.0.0", check = false)
 	private SupplierServiceApi supplierService;
-
+	
+	@Reference(version = "1.0.0", check = false)
+	private GoodsBarcodeService goodsBarcodeService;
 	/**
 	 * 
 	 * @Description: 商品档案跳转页面
@@ -316,7 +319,7 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 			return json;
 		} catch (Exception e) {
 			LOG.error("新增商品异常:", e);
-			return RespJson.error(e.toString());
+			return RespJson.error("新增商品异常");
 		}
 	}
 
@@ -367,7 +370,7 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 					.getCurrentUser().getId());
 		} catch (Exception e) {
 			LOG.error("修改商品异常:", e);
-			return RespJson.error(e.toString());
+			return RespJson.error("修改商品异常");
 		}
 	}
 
@@ -388,7 +391,7 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 
 		} catch (Exception e) {
 			LOG.error("删除商品失败:", e);
-			return RespJson.error(e.toString());
+			return RespJson.error("删除商品失败:");
 		}
 	}
 
@@ -416,7 +419,10 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 	@RequestMapping(value = "checkBarCodeByOrdinary", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson checkBarCodeByOrdinary(String barCode, String id) {
-		boolean isExists = goodsSkuService.isExistsBarCodeByOrdinary(barCode,id);
+		/**
+		 * 2.4 新增条码表，判断是否重复要在条码表取值
+		 */
+		boolean isExists = goodsBarcodeService.barCodeIsExist(barCode);
 		if (isExists) { // 重复
 			RespJson json = RespJson.error("商品条码重复");
 			json.put("_data", barCode);

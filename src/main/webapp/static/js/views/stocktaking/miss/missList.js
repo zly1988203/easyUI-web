@@ -43,6 +43,9 @@ function initDgTakeStockMiss(){
 			{field: 'branchName', title: '机构名称', width: 180, align: 'left'},
 			{field: 'skuCode', title: '货号', width: 100, align: 'left'},
 			{field: 'skuName', title: '商品名称', width: 180, align: 'left'},
+			{field: 'barCode', title: '条码', width: 100, align: 'left'},
+			{field: 'unit', title: '单位', width: 60, align: 'left'},
+			{field: 'spec', title: '规格', width: 60, align: 'left'},
 			{field: 'snapshootStock', title: '系统库存', width: 120, align: 'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){

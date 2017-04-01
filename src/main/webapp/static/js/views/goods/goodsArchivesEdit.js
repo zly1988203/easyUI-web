@@ -3,7 +3,9 @@
  * 编辑商品
  */
 var updateSku;
+var dgPrice = null;
 function initGoodsEditView(id){
+	 $('#tab2').css('display','none');
 	//获取编辑商品的数据
 	getGoodsArchivesDetail(id);
 
@@ -434,4 +436,222 @@ function copyAddGoodsView(){
 //	var newUrl = contextPath+"/common/goods/addGoodsView?data="+escape(data);
 //	window.location.href = newUrl;
 //	},10);
+}
+
+
+function clickTab(code){
+	 if(code === 1){
+		 $('#btnbase').addClass('active');
+		 $('#btnprice').removeClass('active');
+		 $('#tab1').css('display','block');
+		 $('#tab2').css('display','none');
+		 
+	 }else{
+		 $('#btnbase').removeClass('active');
+		 $('#btnprice').addClass('active');
+		 $('#tab1').css('display','none');
+		 $('#tab2').css({'display':'block','height':'90%'});
+		 if(dgPrice != null)return;
+			//初始化表格
+			initDatagridEditRequireOrder();
+	 }
+}
+
+var gridHandel = new GridClass();
+function initDatagridEditRequireOrder(){
+	 gridHandel.setGridName("dgPrice");
+	gridHandel.initKey({
+		firstName:'barCode',
+		enterName:'barCode',
+	})
+	 
+	 dgPrice = $("#dgPrice").datagrid({
+	        method:'post',
+	    	url:contextPath+"/goods/goodsBarcode/querySkuBarCodeBySkuId?skuId="+$("#id").val(),
+	        align:'center',
+	        singleSelect:false,  //单选  false多选
+	        rownumbers:true,    //序号
+	        showFooter:true,
+	        fit: true,  
+	        fitColumns:true,    //每列占满
+	        height:'100%',
+	        width:'100%',
+	        //pagination:true,
+	        columns:[[
+                {field:'check',checkbox:true},
+	            {field:'skuId',title:'skuId',hidden:true},
+	            {field:'barCode',title:'商品条码',width: '120px',align:'left',
+					formatter:function(value,row,index){
+						if(row.isFooter){
+							return;
+						}
+						if(!value){
+							return 0;
+						}
+						var bar = {
+							value:value
+						}
+						return checkNum(bar)
+					},
+					editor:{
+						type:'numberbox',
+						options:{
+							min:0,
+							precision:0,
+							onChange:changeBarCode
+						}
+					}
+				},
+	            {field:'updateUserName',title:'修改人',width: '120px',align:'left'},
+	            {field:'updateTime',title:'修改时间',width: '150px',align:'center',
+	            	formatter: function (value, row, index) {
+						if (value) {
+							return new Date(value).format('yyyy-MM-dd hh:mm:ss');
+						}
+						return "";
+					}
+	            },
+	        ]],
+		 onClickCell:function(rowIndex,field,value){
+			 gridHandel.setBeginRow(rowIndex);
+			 gridHandel.setSelectFieldName(field);
+			 var target = gridHandel.getFieldTarget(field);
+			 if(target){
+				 gridHandel.setFieldFocus(target);
+			 }else{
+				 gridHandel.setSelectFieldName("goodsbarCode");
+			 }
+		 },
+		 onLoadSuccess : function() {
+		 },
+	 });
+}
+
+function changeBarCode (newVal,oldVal){
+	var barCode
+	if(newVal.trim() != ""){
+		barCode = checkNum({value:newVal})
+		if(barCode==""){
+			messager("请输入数字,最多只能是16位数字")
+			return;
+		}else{
+			checkRepeat(newVal,oldVal);
+		}
+	}else{
+		//gridHandel.setFieldTextValue('barCode',oldVal);
+		messager("请输入条码,最多只能是16位数字")
+		return;
+	}
+}
+
+
+function checkRepeat(newVal){
+	var newRows = $.map(gridHandel.getRows(), function(obj){
+		return $.extend(true,{},obj);//返回对象的深拷贝
+	});
+	newRows.splice(gridHandel.getSelectRowIndex(),1);
+
+	var flag = true;
+	$.each(newRows,function(index,item){
+		if(newVal.substr(0,16) != item.barCode){
+			flag = true;
+		}else{
+			flag = false;
+		}
+	})
+
+	if(flag){
+		gridHandel.setFieldValue('barCode',newVal.substr(0,16));
+	}else {
+		messager("条码"+newVal.substr(0,16)+"重复");
+		return;
+	}
+}
+
+function inserRow(){
+	var barCode
+	if($("#newBarCode").val().trim() != ""){
+		barCode = checkNum({value:$("#newBarCode").val()})
+		if(barCode==""){
+			messager("请输入数字,最多只能是16位数字")
+			return;
+		}
+	}else{
+		messager("请输入条码,最多只能是16位数字")
+		return;
+	}
+
+	var newRow = {
+			skuId:$("#id").val(),
+			skuCode:$("#skuCode").val(),
+			barCode:barCode.substr(0,16),
+			updateTime:new Date()
+	};
+	
+	var rows = $('#dgPrice').datagrid('getRows');
+	var flag = true;
+	$.each(rows,function(index,item){
+		if(barCode != item.barCode){
+			flag = true;
+		}else{
+			flag = false;
+		}
+	})
+
+	if(flag){
+		rows.push(newRow);
+		$('#dgPrice').datagrid('loadData',rows);
+	}else{
+		messager("条码不能重复");
+		return;
+	}
+}
+
+
+
+function removeRow() {
+   var editIndex = $('#dgPrice').datagrid('getRows').length-1 ;
+    $('#dgPrice').datagrid('deleteRow', editIndex);
+    editIndex = undefined;
+}
+
+function saveBarCode(){
+
+	$("#dgPrice").datagrid("endEdit", gridHandel.getSelectRowIndex());
+	var map = {}; // Map map = new HashMap();
+
+	 var data = $("#dgPrice").datagrid("getRows");
+	 var newData = [];
+	 var skuId= $("#id").val();
+	 var skuCode= $("#skuCode").val();
+	 for(var i = 0;i < data.length;i++){
+		 if(data[i].barCode in map){
+			 messager("条码"+data[i].barCode+"重复");
+			 return;
+		 }
+		 map[data[i].barCode] = data[i].barCode;
+		 var temp = {
+		    		skuId : skuId,
+		    		barCode : data[i].barCode,
+		    		skuCode : skuCode
+		    	}
+			newData[i] = temp;
+	 }
+	 
+	 $.ajax({
+	        url:contextPath+"/goods/goodsBarcode/saveSkuBarCode",
+	        type:"POST",
+	        contentType:"application/json",
+	        data:JSON.stringify(newData),
+	        success:function(result){
+	            if(result['code'] == 0){
+	                $.messager.alert("操作提示", "操作成功！");
+	            }else{
+	                successTip(result['message']);
+	            }
+	        },
+	        error:function(result){
+	            successTip("请求发送失败或服务器处理失败");
+	        }
+	    });
 }

@@ -73,6 +73,9 @@ public class OverShortReportController extends BaseController<OverShortReportCon
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
 			PageUtils<OverShortReportVo> reportList = overShortReportApi.getReportList(vo);
+			// 查询合计
+			List<OverShortReportVo> footer = overShortReportApi.getReportListSum(vo);
+			reportList.setFooter(footer);
 			LOG.info(LogConstant.PAGE, reportList.toString());
 			return reportList;
 		} catch (Exception e) {
@@ -92,18 +95,18 @@ public class OverShortReportController extends BaseController<OverShortReportCon
 		RespJson resp = RespJson.success();
 		try {
 			List<OverShortReportVo> exportList = overShortReportApi.exportReportList(vo);
-			String fileName = "现金长短款报表" + DateUtils.getDate("yyyyMMdd");
+			String fileName = "现金长短款报表_" + DateUtils.getDate("yyyyMMdd");
 			String templateName = null;
 			switch (vo.getReportType()) {
-				case 1:
+				case "1":
 					// 长短款日报表
 					templateName = ExportExcelConstant.OVER_SHORT_REPORT1;
 					break;
-				case 2:
+				case "2":
 					// 长短款日报表（日汇总）
 					templateName = ExportExcelConstant.OVER_SHORT_REPORT2;
 					break;
-				case 3:
+				case "3":
 					// 入袋记录报表
 					templateName = ExportExcelConstant.OVER_SHORT_REPORT3;
 					break;

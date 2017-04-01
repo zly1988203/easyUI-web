@@ -30,7 +30,7 @@
 	</div><!--end logo -->
     
     <div class="header-load">
-    	<span>消息提醒（<a onClick="openMsg()" title="点击查看" class="uc-red">36</a>）</span>
+    	<span>消息提醒（<a onClick="openMsg()" title="点击查看" class="uc-red" style="color: #ff0000 !important;" id="messageAllCount">36</a>）</span>
     	<a class="header-load-link"><span class="name">  ${user.userName }, 您好 </span> <i class="iconfont">&#xe606;</i></a>
         <div class="linkdiv">
         	<a href="${ctx}/system/logout">退出</a>
@@ -65,7 +65,7 @@
 				<!--end 内容区 -->
                 
                 <!--消息提醒 start-->
-			<div id="msgDialog" class="easyui-dialog" title="消息提醒" style="width:600px;height:550px;"data-options="modal:true">   
+			<div id="msgDialog" class="easyui-dialog" title="消息提醒" style="width:600px;height:600px;display: none;"data-options="modal:true,closed:true">   
 			   		<div class="ub uh ub-ver ufs-14 ubgc-bg">
 			   		
 			   			<div class="ub ub-ver ubgc-while">
@@ -73,9 +73,7 @@
 				   			<p class="ub uline">
 				   			<div class="ub upad-t10 upad-b10 upad-8">
 				   				<ul class="msg-ul crbox">
-				   					<li class="msg-li"><a class="">异常库存商品（<em class="uc-red">12</em>）</a></li>
-				   					<li class="msg-li"><a class="">异常库存商品（<em class="uc-red">12</em>）</a></li>
-				   					<li class="msg-li"><a class="">异常库存商品（<em class="uc-red">12</em>）</a></li>
+				   					<li class="msg-li"><a class="" href="javascript:openNewTab('库存异常查询','stock/exception/list');">异常库存商品（<em class="uc-red" id="oneExceptionCount">0</em>）</a></li>
 				   				</ul>
 				   			</div>
 			   			</div><!-- end 异常库存提醒 -->
@@ -85,19 +83,8 @@
 				   			<p class="ub uline">
 				   			<div class="ub upad-t10 upad-b10 upad-8">
 				   				<ul class="msg-ul crbox">
-				   					<li class="msg-li"><a class="">采购收货提醒（<em class="uc-red">12</em>）</a></li>
-				   					<li class="msg-li"><a class="">配送收货提醒（<em class="uc-red">12</em>）</a></li>
-				   				</ul>
-				   			</div>
-			   			</div><!-- end 收货提醒 -->
-			   			
-			   			<div class="ub ub-ver umar-t10 ubgc-while">
-				   			<p class="ub ufs-16 ufw-b upad-8">收货提醒</p>
-				   			<p class="ub uline">
-				   			<div class="ub upad-t10 upad-b10 upad-8">
-				   				<ul class="msg-ul crbox">
-				   					<li class="msg-li"><a class="">采购收货提醒（<em class="uc-red">12</em>）</a></li>
-				   					<li class="msg-li"><a class="">配送收货提醒（<em class="uc-red">12</em>）</a></li>
+				   					<li class="msg-li"><a class="">采购收货提醒（<em class="uc-red" id="twoPurchaseCount">0</em>）</a></li>
+				   					<li class="msg-li"><a class="">配送收货提醒（<em class="uc-red" id="twoDeliverFormCount">0</em>）</a></li>
 				   				</ul>
 				   			</div>
 			   			</div><!-- end 收货提醒 -->
@@ -107,27 +94,27 @@
 				   			<p class="ub uline">
 				   			<div class="ub upad-t10 upad-b10 upad-8">
 				   				<ul class="msg-ul crbox">
-				   					<li class="msg-li"><a class="">调价单（<em class="uc-red">12</em>）</a></li>
-				   					<li class="msg-li"><a class="">领用单（<em class="uc-red">12</em>）</a></li>
-				   					<li class="msg-li"><a class="">门店调价单（<em class="uc-red">12</em>）</a></li>
-				   					<li class="msg-li"><a class="">组合拆分单（<em class="uc-red">12</em>）</a></li>
-				   					<li class="msg-li"><a class="">采购订单（<em class="uc-red">12</em>）</a></li>
-				   					<li class="msg-li"><a class="">活动管理（<em class="uc-red">12</em>）</a></li>
-				   					<li class="msg-li"><a class="">采购收货（<em class="uc-red">12</em>）</a></li>
-				   					<li class="msg-li"><a class="">新品审核（<em class="uc-red">12</em>）</a></li>
+				   				
+				   					<shiro:hasPermission name="JxcPriceAdjust:audit"><li class="msg-li"><a class="">调价单（<em class="uc-red" id="priceAdjustMess">0</em>）</a></li></shiro:hasPermission>
+				   					<shiro:hasPermission name="JxcStockLead:audit"><li class="msg-li"><a class="">领用单（<em class="uc-red" id="stockLeadMess">0</em>）</a></li></shiro:hasPermission>
+				   					<shiro:hasPermission name="JxcBranchPriceAdjust:audit"><li class="msg-li"><a class="">门店调价单（<em class="uc-red" id="branchPriceAdjustMess">0</em>）</a></li></shiro:hasPermission>
+				   					<shiro:hasPermission name="JxcCombineSplit:audit"><li class="msg-li"><a class="">组合拆分单（<em class="uc-red" id="combineSplitMess">0</em>）</a></li></shiro:hasPermission>
+				   					<shiro:hasPermission name="JxcPurchaseOrder:audit"><li class="msg-li"><a class="">采购订单（<em class="uc-red" id="purchaseOrderMess">0</em>）</a></li></shiro:hasPermission>
+				   					<shiro:hasPermission name="activityList:audit"><li class="msg-li"><a class="">活动管理（<em class="uc-red" id="activityListMess">0</em>）</a></li></shiro:hasPermission>
+				   					<shiro:hasPermission name="JxcPurchaseReceipt:audit"><li class="msg-li"><a class="">采购收货（<em class="uc-red" id="purchaseReceiptMess">0</em>）</a></li></shiro:hasPermission>
+				   					<shiro:hasPermission name="JxcNewGoodsApply:audit"><li class="msg-li"><a class="">新品审核（<em class="uc-red" id="newGoodsApplyMess">0</em>）</a></li></shiro:hasPermission>
 				   					
-				   					<li class="msg-li"><a class="">采购退货（<em class="uc-red">12</em>）</a></li>
-				   					<li class="msg-li"><a class="">要货申请（<em class="uc-red">12</em>）</a></li>
-				   					<li class="msg-li"><a class="">成本调价单（<em class="uc-red">12</em>）</a></li>
-				   					<li class="msg-li"><a class="">退货申请（<em class="uc-red">12</em>）</a></li>
-				   					<li class="msg-li"><a class="">报损单（<em class="uc-red">12</em>）</a></li>
-				   					<li class="msg-li"><a class="">配送入库（<em class="uc-red">12</em>）</a></li>
-				   					<li class="msg-li"><a class="">直调出库单（<em class="uc-red">12</em>）</a></li>
-				   					<li class="msg-li"><a class="">配送出库（<em class="uc-red">12</em>）</a></li>
+				   					<shiro:hasPermission name="JxcPurchaseRefund:audit"><li class="msg-li"><a class="">采购退货（<em class="uc-red" id="purchaseRefundMess">0</em>）</a></li></shiro:hasPermission>
+				   					<shiro:hasPermission name="JxcDeliverDA:audit"><li class="msg-li"><a class="">要货申请（<em class="uc-red" id="deliverDAMess">0</em>）</a></li></shiro:hasPermission>
+				   					<shiro:hasPermission name="JxcCostAdjust:audit"><li class="msg-li"><a class="">成本调价单（<em class="uc-red" id="costAdjustMess">0</em>）</a></li></shiro:hasPermission>
+				   					<shiro:hasPermission name="JxcDeliverDR:audit"><li class="msg-li"><a class="">退货申请（<em class="uc-red" id="deliverDRMess">0</em>）</a></li></shiro:hasPermission>
+				   					<shiro:hasPermission name="JxcStockReimburse:audit"><li class="msg-li"><a class="">报损单（<em class="uc-red" id="stockReimburseMess">0</em>）</a></li></shiro:hasPermission>
+				   					<shiro:hasPermission name="JxcDeliverDI:audit"><li class="msg-li"><a class="">配送入库（<em class="uc-red" id="deliverDIMess">0</em>）</a></li></shiro:hasPermission>
+				   					<shiro:hasPermission name="JxcDeliverDO:audit"><li class="msg-li"><a class="">配送出库（<em class="uc-red" id="deliverDOMess">0</em>）</a></li></shiro:hasPermission>
 				   					
-				   					<li class="msg-li"><a class="">商品调价单（<em class="uc-red">12</em>）</a></li>
-				   					<li class="msg-li"><a class="">店间配送（<em class="uc-red">12</em>）</a></li>
-				   					<li class="msg-li"><a class="">库存调整单（<em class="uc-red">12</em>）</a></li>
+				   					<shiro:hasPermission name="JxcOverdueApply:audit"><li class="msg-li"><a class="">商品调价单（<em class="uc-red" id="overdueApplyMess">0</em>）</a></li></shiro:hasPermission>
+				   					<shiro:hasPermission name="JxcDeliverDD:audit"><li class="msg-li"><a class="">店间配送（<em class="uc-red" id="deliverDDMess">0</em>）</a></li></shiro:hasPermission>
+				   					<shiro:hasPermission name="JxcStockAdjust:audit"><li class="msg-li"><a class="">库存调整单（<em class="uc-red" id="stockAdjustMess">0</em>）</a></li></shiro:hasPermission>
 				   				</ul>
 				   			</div>
 			   			</div><!-- end 未审核单据 -->
@@ -166,11 +153,11 @@
 	
 	/* -- 消息提醒 start ------- */
 	$(function(){
-		$("#msgDialog").dialog("close");//默认关闭 
+		//$("#msgDialog").dialog("close");//默认关闭 
 	});
 	
 	function openMsg(){
-		$("#msgDialog").dialog('open');
+		$("#msgDialog").show().dialog('open');
 	}
 		
 	/* -- 消息提醒 end ------- */

@@ -35,8 +35,8 @@
 		</div>
 		<div class="ub uline umar-t8"></div>
 		<div class="ub umar-t8">
-			<div class="ub ub-ac uw-300 umar-l20">
-				<div class="umar-r10 uw-70 ut-r">机构:</div>
+			<div class="ub ub-ac uw-300">
+				<div class="umar-r10 uw-40 ut-r">机构:</div>
 				<input type="hidden" id="branchCompleCode" name="branchCompleCode" value="${batchVo.branchCompleCode}"/>
 				<input class="uinp ub ub-f1" type="text" id="branchCodeName" name="branchCodeName" value="${batchVo.branchCodeName}" maxlength="50"
 					 onblur="clearBranchCode()" />
@@ -51,11 +51,13 @@
 			</div>
 		</div>
 		<div class="ub umar-t8">
-			<div class="ub ub-ac uw-300 umar-l20">
-				<div class="umar-r10 uw-70 ut-r">商品:</div>
-				<input type="hidden" name="skuId" id="skuId" />
-				<input class="uinp ub ub-f1" type="text" name="skuCodeOrName" id="skuCodeOrName" onblur="clearSkuCode()" />
-				<div class="uinp-more" onClick="selectGoods()">...</div>
+			<div class="ub ub-ac uw-300">
+<!-- 				<div class="umar-r10 uw-40 ut-r">商品:</div> -->
+<!-- 				<input type="hidden" name="skuId" id="skuId" /> -->
+<!-- 				<input class="uinp ub ub-f1" type="text" name="skuCodeOrName" id="skuCodeOrName" onblur="clearSkuCode()" /> -->
+<!-- 				<div class="uinp-more" onClick="selectGoods()">...</div> -->
+				<div class="umar-r10 uw-70 ut-r">条码/货号:</div>
+				<input class="uinp ub ub-f1" type="text" name="skuCodeOrName" id="skuCodeOrName" />
 			</div>
 			<div class="ub ub-ac uw-300 umar-l20">
 				<div class="umar-r10 uw-70 ut-r">类别:</div>

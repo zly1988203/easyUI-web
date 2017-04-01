@@ -3,7 +3,8 @@
  *@Author: zhangq
  *@Date: 2016年8月24日 
  *@Copyright: ©2014-2020 www.okdeer.com Inc. All rights reserved. 
- */    
+ */
+
 package com.okdeer.jxc.common.controller;
 
 import java.io.ByteArrayOutputStream;
@@ -28,7 +29,6 @@ import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.utils.IOStreamUtils;
 import com.okdeer.jxc.utils.jxls.ReportExcelUtil;
 
-
 /**
  * ClassName: BasePrintController 
  * @Description: 打印BaseController
@@ -41,7 +41,7 @@ import com.okdeer.jxc.utils.jxls.ReportExcelUtil;
  * 商业管理系统1.0.0	2016年8月24日                  zhangq              创建打印Base Controller
  */
 
-public abstract class BasePrintController<T,P> extends BaseController<T> {
+public abstract class BasePrintController<T, P> extends BaseController<T> {
 
 	/**
 	 * 
@@ -52,7 +52,7 @@ public abstract class BasePrintController<T,P> extends BaseController<T> {
 	 * @date 2016年8月29日
 	 */
 	protected abstract Map<String, Object> getPrintReplace(String formNo);
-	
+
 	/**
 	 * 
 	 * @Description: 获取打印表格明细JSON
@@ -62,7 +62,7 @@ public abstract class BasePrintController<T,P> extends BaseController<T> {
 	 * @date 2016年8月29日
 	 */
 	protected abstract List<P> getPrintDetail(String formNo);
-	
+
 	/**
 	 * 
 	 * @Description: 打印预览页面
@@ -75,57 +75,61 @@ public abstract class BasePrintController<T,P> extends BaseController<T> {
 	 * @date 2016年8月29日
 	 */
 	@RequestMapping(value = "/preview")
-	public ModelAndView preview(String page, String template, String sheetNo,HttpServletRequest request, ModelAndView model){
+	public ModelAndView preview(String page, String template, String sheetNo, HttpServletRequest request,
+			ModelAndView model) {
 		String controllerUrl = request.getRequestURI().replace("/okdeerjxc/", "/").replace("/preview", "/");
 		JsonMapper jsonMapper = new JsonMapper();
 		// 页签
 		String tabId = "prev_" + page + "_" + sheetNo;
 		model.addObject("tabId", tabId);
 		model.addObject("sheetNo", sheetNo);
-		
+
 		model.addObject("page", page);
 		model.addObject("controllerUrl", controllerUrl);
-		//获取打印占位JSON
+		// 获取打印占位JSON
 		Map<String, Object> replaceMap = getPrintReplace(sheetNo);
 		String jsonReplace = jsonMapper.toJson(replaceMap);
 		model.addObject("jsonReplace", jsonReplace);
-		//获取打印表格明细JSON
+		// 获取打印表格明细JSON
 		List<P> detailList = getPrintDetail(sheetNo);
 		String jsonDetail = jsonMapper.toJson(detailList);
 		model.addObject("jsonDetail", jsonDetail);
-		//页面跳转
+		// 页面跳转
 		model.setViewName("component/publicPrintPreview");
 		return model;
 	}
-	
+
 	@RequestMapping(value = "exportSheet")
-	public void export(HttpServletResponse response,String page,String sheetNo){
-		//获取打印占位JSON
+	public void export(HttpServletResponse response, String page, String sheetNo) {
+		// 获取打印占位JSON
 		Map<String, Object> replaceMap = getPrintReplace(sheetNo);
-		//获取打印表格明细JSON
+		// 获取打印表格明细JSON
 		List<P> detailList = getPrintDetail(sheetNo);
-		
+
 		InputStream is = null;
 		try {
 			// 出库单根据设置选择导出模板
 			if ("DOSheet".equalsIgnoreCase(page)) {
 				is = IOStreamUtils.getExcelExportPathInputStream(getExportFile(page));
-			} else {				
-				is = IOStreamUtils.getExcelExportPathInputStream(page+".xlsx");
+			} else {
+				is = IOStreamUtils.getExcelExportPathInputStream(page + ".xlsx");
 			}
-			//ReportExcelUtil.reportExcelToList(response, is, replaceMap.get("_订单编号").toString(), ReportExcelUtil.REPORT_XLSX, detailList);
-			ReportExcelUtil.reportExcelToMapAndList(response, is, replaceMap.get("_订单编号").toString(), ReportExcelUtil.REPORT_XLSX, replaceMap, detailList);
+			// ReportExcelUtil.reportExcelToList(response, is,
+			// replaceMap.get("_订单编号").toString(), ReportExcelUtil.REPORT_XLSX,
+			// detailList);
+			ReportExcelUtil.reportExcelToMapAndList(response, is, replaceMap.get("_订单编号").toString(),
+					ReportExcelUtil.REPORT_XLSX, replaceMap, detailList);
 		} catch (Exception e) {
 			LOG.error("导出失败：{}", e);
 		}
 	}
-	
+
 	/**
 	 * @Fields filePrefix : 七牛文件路径前缀
 	 */
 	@Value("${filePrefix}")
 	private String filePrefix;
-	
+
 	/**
 	 * @Description: 下载导出模板到本地
 	 * @param page 单据类型

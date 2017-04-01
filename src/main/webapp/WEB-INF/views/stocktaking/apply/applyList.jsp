@@ -51,6 +51,13 @@
 				<option value="0">全场盘点</option>
 				<option value="1">类别盘点</option>
 			</select>
+			<div class="ub ub-ac umar-l40">
+				<div class="umar-r10 uw-70 ut-r">制单人员:</div>
+				<input type="hidden" id="createUserId" name="createUserId" />
+				<input type="hidden" id="oldCreateUserName" name="oldCreateUserName" />
+				<input class="uinp ub ub-f1" type="text" id="createUserName" name="createUserName">
+				<div class="uinp-more" onclick="selectOperator()" >...</div>
+			</div>
 		</div>
 		</div>
 		<div class="ub umar-t8">

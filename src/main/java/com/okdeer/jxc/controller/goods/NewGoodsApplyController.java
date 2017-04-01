@@ -57,6 +57,7 @@ import com.okdeer.jxc.goods.entity.GoodsSku;
 import com.okdeer.jxc.goods.entity.NewGoodsApply;
 import com.okdeer.jxc.goods.qo.GoodsBrandQo;
 import com.okdeer.jxc.goods.qo.NewGoodsApplyQo;
+import com.okdeer.jxc.goods.service.GoodsBarcodeService;
 import com.okdeer.jxc.goods.service.GoodsBrandServiceApi;
 import com.okdeer.jxc.goods.service.GoodsSkuServiceApi;
 import com.okdeer.jxc.goods.service.NewGoodsApplyServiceApi;
@@ -99,7 +100,8 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 	
 	@Autowired
 	private NewGoodsApplyImportComponent newGoodsApplyImportComponent;
-	
+	@Reference(version = "1.0.0", check = false)
+	private GoodsBarcodeService goodsBarcodeService;
 	/**
 	 * 
 	 * @Description: 新品申请调整页面
@@ -498,7 +500,10 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 		String currBranchId = UserUtil.getCurrBranchId();
 		if(StringUtils.isNotBlank(barCode)){
 			//1、校验标准库商品条码重复
-			boolean isExistsBarCode = goodsSkuService.isExistsBarCodeByOrdinary(barCode.trim(),id);
+			/**
+			 * 2.4 新增条码表，判断是否重复要在条码表取值
+			 */
+			boolean isExistsBarCode =goodsBarcodeService.barCodeIsExist(barCode);//   goodsSkuService.isExistsBarCodeByOrdinary(barCode.trim(),id);
 			if (isExistsBarCode) {
 				RespJson json = RespJson.error("商品条码在标准库重复");
 				json.put("_data", barCode);
