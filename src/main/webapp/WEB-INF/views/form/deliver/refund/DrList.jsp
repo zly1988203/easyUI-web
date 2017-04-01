@@ -44,9 +44,10 @@
 			<div class="ub umar-t8">
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">退货机构:</div>
-					<input type="hidden" id="createBranchId01" name="createBranchId01" />
-					<input class="uinp ub ub-f1" type="text" id="branchName01" name="branchName01" maxlength="50" />
-					<div class="uinp-more" onclick="selectBranches(2)">...</div>
+					<input type="hidden" id="sourceBranchId" name="sourceBranchId" />
+					<input type="hidden" id="sourceBranchType" name="sourceBranchType" />
+					<input class="uinp ub ub-f1" type="text" id="sourceBranchName" name="sourceBranchName" maxlength="50"/>
+					<div class="uinp-more" onclick="selectSourceBranch()">...</div>
 				</div>
 				<div class="ub ub-ac umar-l40">
 					<div class="umar-r10 uw-70 ut-r">单据编号:</div>
@@ -54,42 +55,49 @@
 				</div>
 				<div class="ub ub-ac umar-l40">
 					<div class="umar-r10 uw-70 ut-r">制单人:</div>
-					<input class="uinp" name="salesmanId" id="salesmanId" type="hidden">
-					<input class="uinp ub ub-f1" id="createUserName" name="createUserName" type="text" maxlength="50">
+					<input class="uinp" name="operateUserId" id="operateUserId" type="hidden">
+					<input class="uinp ub ub-f1" id="operateUserName" name="operateUserName" type="text" maxlength="50">
 					<div class="uinp-more" onclick="selectOperator()">...</div>
 				</div>
 			</div>
 			<div class="ub umar-t8">
 				<div class="ub ub-ac">
-					<div class="umar-r10 uw-70 ut-r">发货机构:</div>
-					<input type="hidden" id="createBranchId" name="createBranchId" />
-					<input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" maxlength="50" />
-					<div class="uinp-more" onclick="selectBranches(1)">...</div>
+					<div class="umar-r10 uw-70 ut-r">收货机构:</div>
+					<input type="hidden" id="targetBranchId" name="targetBranchId" />
+					<input type="hidden" id="targetBranchType" name="targetBranchType" />
+					<input class="uinp ub ub-f1" type="text" id="targetBranchName" name="targetBranchName" maxlength="50" />
+					<div class="uinp-more" onclick="selectTargetBranch()">...</div>
 				</div> 
 				<!--input-checkbox-->
 				<div class="ub ub-ac uw-300 umar-l40">
 					<div class="umar-r10 uw-70 ut-r">审核状态:</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="ub radioItem" type="radio" name="status" value="0" id="status_1" checked="checked" /><label for="status_1">未审核</label>
+						<input class="ub radioItem" type="radio" name="deliverAuditStatus" value="0" id="status_1" checked="checked" /><label for="status_1">未审核</label>
 					</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="ub radioItem" type="radio" name="status" value="1" id="status_2" /><label for="status_2">已审核</label>
+						<input class="ub radioItem" type="radio" name="deliverAuditStatus" value="1" id="status_2" /><label for="status_2">已审核</label>
 					</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="ub radioItem" type="radio" name="status" value="" id="status_3" /><label for="status_3">全部</label>
+						<input class="ub radioItem" type="radio" name="deliverAuditStatus" value="" id="status_3" /><label for="status_3">全部</label>
 					</div>
 				</div>
 				
 				<div class="ub ub-ac uw-300 umar-l40">
 					<div class="umar-r10 uw-70 ut-r">单据状态:</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="ub radioItem" type="radio" name="order_status" value="0" id="orstatus_1" checked="checked" /><label for="orstatus_1">未处理</label>
+						<input class="ub radioItem" type="radio" name="deliverStatus" value="0" id="orstatus_1" checked="checked" /><label for="orstatus_1">未处理</label>
 					</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="ub radioItem" type="radio" name="order_status" value="1" id="orstatus_2" /><label for="orstatus_2">未同意</label>
+						<input class="ub radioItem" type="radio" name="deliverStatus" value="1" id="orstatus_2" /><label for="orstatus_2">部分发货</label>
 					</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="ub radioItem" type="radio" name="order_status" value="" id="orstatus_3" /><label for="orstatus_3">已同意</label>
+						<input class="ub radioItem" type="radio" name="deliverStatus" value="2" id="orstatus_3" /><label for="orstatus_3">全部发货</label>
+					</div>
+					<div class="ub ub-ac umar-r10">
+						<input class="ub radioItem" type="radio" name="deliverStatus" value="3" id="orstatus_4" /><label for="orstatus_4">终止</label>
+					</div>
+					<div class="ub ub-ac umar-r10">
+						<input class="ub radioItem" type="radio" name="deliverStatus" value="" id="orstatus_5" /><label for="orstatus_5">全部</label>
 					</div>
 				</div>
 			</div>

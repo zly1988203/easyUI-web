@@ -47,7 +47,7 @@
                  <div class="ub ub-ac umar-l20">
 					<div class="umar-r10 uw-60 ut-r">店铺类型:</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="radioItem" type="radio" name="branchesType" id="allType" value="0" checked="checked"><label for="allType">所有 </label>
+						<input class="radioItem" type="radio" name="branchesType" id="allType" value="-1" checked="checked"><label for="allType">所有 </label>
 					</div>
 					<div class="ub ub-ac umar-r10">
 						<input class="radioItem" type="radio" name="branchesType" id="OWN_STORE" value="3"><label for="OWN_STORE">直营店 </label>
@@ -63,7 +63,7 @@
             <div class="ub umar-t8">
 	              <div class="ub ub-ac">
 					  <div class="umar-r10 uw-70 ut-r">商品名称:</div>
-					  <input type="text" name="skuCode" id="skuCode" class="uinp" placeholder="输入货号、条码" maxlength="20"/>
+					  <input type="text" name="skuName" id="skuName" class="uinp" placeholder="输入商品名称" maxlength="20"/>
 				   </div>
 				   <div class="ub ub-ac umar-l40">
 					    <div class="umar-r10 uw-70 ut-r">商品类别:</div>
@@ -73,7 +73,7 @@
 				   </div>
                    <div class="ub ub-ac  umar-l20">
 	                    <div class="umar-r10 uw-30 ut-r">最近</div>
-	                    <input class="uinp uw-30 easyui-numberbox" type="text" data-options="min:0" name="unStockTime" id="unStockTime" value="7">
+	                    <input class="uinp uw-30 easyui-numberbox" type="text" data-options="min:0" name="dayNum" id="dayNum" value="7">
 	                    <div class="umar-l10  ut-r">天引入的商品视为新品</div>
 	               </div> 
              </div>

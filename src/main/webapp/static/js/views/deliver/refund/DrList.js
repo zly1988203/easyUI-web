@@ -126,18 +126,28 @@ function delDeliverReturn(){
 }
 
 /**
- * 机构名称
+ * 制单机构、退货机构
  */
-function selectBranches(type) {
-	new publicAgencyService(function(data) {
-		if(type == '1'){
-			$("#createBranchId").val(data.branchesId);
-			$("#branchName").val(data.branchName);
-		}else{
-			$("#createBranchId01").val(data.branchesId);
-			$("#branchName01").val(data.branchName);
-		}
-	}, 'ID', '');
+function selectSourceBranch(){
+	var targetBranchType = parseInt($("#targetBranchType").val());
+    new publicAgencyService(function(data){
+        if($("#sourceBranchId").val()!=data.branchesId){
+            $("#sourceBranchId").val(data.branchesId);
+            $("#sourceBranchName").val("["+data.branchCode+"]"+data.branchName);
+            $("#sourceBranchType").val(data.type);
+        }
+    },'DD');
+}
+
+/**
+ * 收货机构
+ */
+function selectTargetBranch(){
+	new publicAgencyService(function(data){
+        $("#targetBranchId").val(data.branchesId);
+        $("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
+        $("#targetBranchType").val(data.type);
+	},'DZ',$("#sourceBranchId").val());
 }
 
 /**
@@ -145,8 +155,8 @@ function selectBranches(type) {
  */
 function selectOperator() {
 	new publicOperatorService(function(data) {
-		// $("#salesmanId").val(data.id);
-		$("#createUserName").val(data.userName);
+		$("#operateUserId").val(data.id);
+		$("#operateUserName").val(data.userName);
 	});
 }
 
