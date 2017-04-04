@@ -143,7 +143,7 @@ function selectSupplier(){
 	new publicSupplierService(function(data){
 		$("#supplierId").val(data.id);
 		$("#supplierCodeName").val("["+data.supplierCode+"]"+data.supplierName);
-	}, null, param);
+	},param);
 	
 }
 

@@ -16,17 +16,17 @@
 	        <div class="ub ub-ac">
 	            <div class="ubtns">
 					<div class="ubtns-item" onclick="query()">查询</div>
-				<shiro:hasPermission name="JxcPurchaseOrder:add">
+				<shiro:hasPermission name="JxcDirectReceipt:add">
 	                <div class="ubtns-item" onclick="directAdd()">新增</div>
 	            </shiro:hasPermission>
-	            <shiro:hasPermission name="JxcPurchaseOrder:delete">
+	            <shiro:hasPermission name="JxcDirectReceipt:delete">
 	                <div class="ubtns-item" onclick="directDelete()">删除</div>
 	            </shiro:hasPermission>
-	            <shiro:hasPermission name="JxcPurchaseOrder:print">
-	                <div class="ubtns-item" onclick="toPrintPreview('PA','/form/purchase/')">打印</div>
+	            <shiro:hasPermission name="JxcDirectReceipt:print">
+	                <div class="ubtns-item" onclick="printList()">打印</div>
 	            </shiro:hasPermission>
-	                <div class="ubtns-item" >设置</div>
-	                <div class="ubtns-item" onclick="toClose()">关闭</div>
+	            <div class="ubtns-item" onclick="gFunRefresh()">设置</div>
+	            <div class="ubtns-item" onclick="toClose()">关闭</div>
 	            </div>
 	            
 	            <!-- 引入时间选择控件 -->
@@ -65,12 +65,12 @@
 	        </div>
 	        
 	        <div class="ub umar-t8">
-               <div class="ub ub-ac uw-610" style="width: 624px;">
+               <div class="ub ub-ac uw-584">
 	                    <div class="umar-r10 uw-60 ut-r">备注:</div>
 	                    <input class="uinp ub ub-f1" name="remark" id="remark" type="text" onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')" onpaste="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')" oncontextmenu = "value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')" maxlength="40">
 	           </div>
 	           
-	          <div class="ub ub-ac umar-r40">
+	          <div class="ub ub-ac umar-l20">
 	                <div class="umar-r10 uw-60 ut-r">审核状态:</div>
 	                <div class="ub ub-ac umar-r10">
 	                    <input class="radioItem" type="radio" name="status" id="status_no" value="0" checked="checked"/><label for="status_no">未审核 </label>

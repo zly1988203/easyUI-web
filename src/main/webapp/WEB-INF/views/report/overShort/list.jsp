@@ -24,15 +24,14 @@
 						<div class="ubtns-item" onclick="queryForm()">查询</div>
 					</shiro:hasPermission>
 					<shiro:hasPermission name="JxcOverShort:export">
-						<div class="ubtns-item" onclick="exportData()">导出</div>
+						<div class="ubtns-item" onclick="exportExcel()">导出</div>
 					</shiro:hasPermission>
 					<div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 					<div class="ubtns-item" onclick="toClose()">关闭</div>
 				</div>
-				<div class="ub ub-ac umar-l20">
 					<%-- 引入时间选择控件 --%>
 					<%@ include file="/WEB-INF/views/component/dateSelect.jsp"%>
-				</div>
+
 			</div>
 			<div class="ub uline umar-t8"></div>
 			<div class="ub umar-t8">
@@ -46,9 +45,9 @@
 				</div>
 				<div class="ub ub-ac  umar-l20">
 					<div class="umar-r10 uw-70 ut-r">收银员:</div>
-					<input type="hidden" name="cashierId" id="cashierId" class="uinp" />
-					<input type="hidden" name="oldcashierName" id="oldcashierName" class="uinp"/>
-					<input type="text" name="cashierNameOrCode" id="cashierNameOrCode" class="uinp"/>
+					<input type="hidden" name="userId" id="userId" class="uinp" />
+					<input type="hidden" name="oldUserName" id="oldUserName" class="uinp"/>
+					<input type="text" name="userNameOrCode" id="userNameOrCode" class="uinp"/>
 					<div class="uinp-more" id="cashierIdSelect" onclick="searchCashierId()">...</div>
 				</div>
 				<div class="ub ub-ac umar-l10">

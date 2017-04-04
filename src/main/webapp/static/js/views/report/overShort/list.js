@@ -2,7 +2,6 @@
  *
  * 现金长短款报表
  *
- *
  * *******/
 
 var gridName = "gridOverShortReport";
@@ -11,10 +10,13 @@ $(function () {
     initData();
     radioChange();
     initGridOverShortReport();
+    queryForm();
 })
 
 //初始化数据
 function initData(){
+	$("#branchName").val(sessionBranchCodeName);
+	$("#branchId").val(sessionBranchId);
     //开始和结束时间
     $("#txtStartDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
@@ -36,16 +38,16 @@ function radioChange(){
 }
 
 function showCashier(){
-    $("#cashierNameOrCode").removeAttr("disabled");
-    $("#cashierIdSelect").show();
+    $("#userNameOrCode").removeAttr("disabled");
+    $("#userIdSelect").show();
 }
 
 function hideCashier(){
-    $("#cashierId").val('');
-    $("#cashierNameOrCode").val('');
-    $("#oldcashierName").val('');
-    $("#cashierNameOrCode").prop("disabled","disabled");
-    $("#cashierIdSelect").hide();
+    $("#userId").val('');
+    $("#userNameOrCode").val('');
+    $("#oldUserName").val('');
+    $("#userNameOrCode").prop("disabled","disabled");
+    $("#userIdSelect").hide();
 }
 
 /**
@@ -55,9 +57,9 @@ function selectBranches(){
     new publicAgencyService(function(data){
         $("#branchId").val(data.branchesId);
         $("#branchCompleCode").val(data.branchCompleCode);
-        $("#branchName").val(data.branchName);
-        $("#oldBranchName").val(data.branchName);
-    },'BF','');
+        $("#branchName").val("["+data.branchCode+"]"+data.branchName);
+        $("#oldBranchName").val("["+data.branchCode+"]"+data.branchName);
+    },'','');
 }
 
 /**
@@ -65,9 +67,9 @@ function selectBranches(){
  */
 function searchCashierId(){
     new publicOperatorService(function(data){
-        $("#cashierId").val(data.id);
-        $("#cashierNameOrCode").val("["+data.userCode+"]"+data.userName);
-        $("#oldcashierName").val("["+data.userCode+"]"+data.userName);
+        $("#userId").val(data.id);
+        $("#userNameOrCode").val("["+data.userCode+"]"+data.userName);
+        $("#oldUserName").val("["+data.userCode+"]"+data.userName);
     });
 
 }
@@ -77,18 +79,17 @@ function setgridColumns(){
         return [[
             {field: 'branchCode', title: '机构编码', width: 80, align: 'left',
                 formatter : function(value, row,index) {
-                    var str = "";
                     if(row.isFooter){
-                        str ='<div class="ub ub-pc">合计</div> '
+                        return '<div class="ub ub-pc">合计</div> '
                     }
-                    return str;
+                    return value;
                 }
             },
             {field: 'branchName', title: '机构名称', width: 250, align: 'left'},
-            {field: 'cashierCode', title: '收银员编号', width: 120, align: 'left'},
-            {field: 'cashier', title: '收银员', width: 150, align: 'left'},
-            {field: 'saleDate', title: '销售日期', width:200, align: 'left'},
-            {field: 'saleDate', title: '销售总额(含抹零)', width: 200, align: 'right',
+            {field: 'userCode', title: '收银员编号', width: 120, align: 'left'},
+            {field: 'userName', title: '收银员', width: 150, align: 'left'},
+            {field: 'saleTime', title: '销售日期', width:200, align: 'left'},
+            {field: 'saleAmount', title: '销售总额', width: 200, align: 'right',
                 formatter : function(value, row,index) {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -96,7 +97,7 @@ function setgridColumns(){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
-            {field: 'saleDate', title: '销售总额(不含抹零)', width: 200, align: 'right',
+            {field: 'payInAmount', title: '入袋金额', width: 100, align: 'right',
                 formatter : function(value, row,index) {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -104,15 +105,7 @@ function setgridColumns(){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
-            {field: 'saleDate', title: '入袋金额', width: 100, align: 'right',
-                formatter : function(value, row,index) {
-                    if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                    }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                }
-            },
-            {field: 'saleDate', title: '长短款差额', width: 160, align: 'right',
+            {field: 'difference', title: '长短款差额', width: 160, align: 'right',
                 formatter : function(value, row,index) {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -131,16 +124,15 @@ function setgridColumns(){
        return [[
             {field: 'branchCode', title: '机构编码', width: 80, align: 'left',
                 formatter : function(value, row,index) {
-                    var str = "";
                     if(row.isFooter){
-                        str ='<div class="ub ub-pc">合计</div> '
+                        return '<div class="ub ub-pc">合计</div> '
                     }
-                    return str;
+                    return value;
                 }
             },
             {field: 'branchName', title: '机构名称', width: 250, align: 'left'},
-            {field: 'saleDate', title: '销售日期', width: 200, align: 'left'},
-            {field: 'saleDate', title: '销售总额(含抹零)', width: 200, align: 'right',
+            {field: 'saleTime', title: '销售日期', width: 200, align: 'left'},
+            {field: 'saleAmount', title: '销售总额', width: 200, align: 'right',
                 formatter : function(value, row,index) {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -148,7 +140,7 @@ function setgridColumns(){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
-            {field: 'saleDate', title: '销售总额(不含抹零)', width: 200, align: 'right',
+            {field: 'payInAmount', title: '入袋金额', width: 100, align: 'right',
                 formatter : function(value, row,index) {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -156,15 +148,7 @@ function setgridColumns(){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
-            {field: 'saleDate', title: '入袋金额', width: 100, align: 'right',
-                formatter : function(value, row,index) {
-                    if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                    }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                }
-            },
-            {field: 'saleDate', title: '长短款差额', width: 200, align: 'right',
+            {field: 'difference', title: '长短款差额', width: 200, align: 'right',
                 formatter : function(value, row,index) {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -182,18 +166,17 @@ function setgridColumns(){
        return [[
             {field: 'branchCode', title: '机构编码', width: 80, align: 'left',
                 formatter : function(value, row,index) {
-                    var str = "";
                     if(row.isFooter){
-                        str ='<div class="ub ub-pc">合计</div> '
+                        return '<div class="ub ub-pc">合计</div> '
                     }
-                    return str;
+                    return value;
                 }
             },
             {field: 'branchName', title: '机构名称', width: 250, align: 'left'},
-           {field: 'cashierCode', title: '收银员编号', width: 120, align: 'left'},
-           {field: 'cashier', title: '收银员', width: 150, align: 'left'},
-            {field: 'saleDate', title: '销售日期', width: 200, align: 'left'},
-            {field: 'saleDate', title: '入袋金额', width: 100, align: 'right',
+           {field: 'userCode', title: '收银员编号', width: 120, align: 'left'},
+           {field: 'userName', title: '收银员', width: 150, align: 'left'},
+            {field: 'saleTime', title: '销售日期', width: 200, align: 'left'},
+            {field: 'payInAmount', title: '入袋金额', width: 100, align: 'right',
                 formatter : function(value, row,index) {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -224,22 +207,11 @@ function initGridOverShortReport() {
         columns:setgridColumns(),
         onLoadSuccess:function (data) {
             gridHandel.setDatagridHeader("center");
-            updateFooter();
         }
 
         })
 
 }
-
-// 合计
-function updateFooter(){
-    var fields = {snapshootStockNum:0,stocktakingNum:0,profitLossNum:0,
-        snapshootCostPrice:0,costAmount:0,
-        stocktakingCostAmount:0,profitLossCostAmount:0,profitLossSaleAmount:0,isGift:0, };
-    var argWhere = {name:'isGift',value:0}
-    gridHandel.updateFooter(fields,argWhere);
-}
-
 
 function queryForm() {
     var oldBranchName = $("#oldBranchName").val();
@@ -248,16 +220,16 @@ function queryForm() {
         $("#branchId").val('');
         $("#branchCompleCode").val('');
     }
-    var oldcashierName = $("#oldcashierName").val();
-    var cashierNameOrCode = $("#cashierNameOrCode").val();
-    if(oldcashierName && oldcashierName != cashierNameOrCode){
-        $("#cashierId").val('');
+    var oldUserName = $("#oldUserName").val();
+    var userNameOrCode = $("#userNameOrCode").val();
+    if(oldUserName && oldUserName != userNameOrCode){
+        $("#userId").val('');
     }
 
     var fromObjStr = $('#queryForm').serializeObject();
 
     $("#"+gridName).datagrid("options").method = "post";
-    $("#"+gridName).datagrid('options').url = contextPath + '';
+    $("#"+gridName).datagrid('options').url = contextPath + '/report/overShort/getReportList';
     $("#"+gridName).datagrid('load', fromObjStr);
 }
 
@@ -288,6 +260,6 @@ function exportExcel(){
             successTip(dataObj.message);
         }
     });
-    $("#queryForm").attr("action",contextPath+"/cashDaily/report/exportList");
+    $("#queryForm").attr("action",contextPath+"/report/overShort/exportReportList");
     $("#queryForm").submit();
 }

@@ -429,17 +429,17 @@ public class StockLeadController extends BasePrintController<StockLeadController
 	@RequiresPermissions("JxcStockLead:print")
 	@RequestMapping(value = "print", method = RequestMethod.GET)
 	@ResponseBody
-	public String printReport(StockFormVo vo, HttpServletResponse response, HttpServletRequest request,
-			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber) {
+	public String printReport(StockFormVo vo, HttpServletResponse response, HttpServletRequest request) {
 		try {
 			vo.setPageNumber(1);
 			vo.setPageSize(PrintConstant.PRINT_MAX_LIMIT);
+			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
+			vo.setFormType(StockAdjustEnum.LEAD.getKey());
 			LOG.debug("领用单打印参数：{}", vo.toString());
 			int lenght = stockAdjustServiceApi.queryPageListCount(vo);
 			if (lenght > PrintConstant.PRINT_MAX_ROW) {
 				return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
 			}
-			vo.setFormType(StockAdjustEnum.LEAD.getKey());
 			PageUtils<StockFormVo> stockFormList = stockAdjustServiceApi.getStockFormList(vo);
 			List<StockFormVo> list = stockFormList.getList();
 			if (!CollectionUtils.isEmpty(list) && list.size() > PrintConstant.PRINT_MAX_ROW) {

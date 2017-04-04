@@ -170,6 +170,37 @@ function publicUploadFileService(callback,params){
     }
 }
 
+
+/***
+ *
+ * //上传数据模板
+ * url
+ * formType   出库单Do
+ * title
+ * **/
+function publicUploadFileService(callback,params){
+    //公有属性
+    var  dalogTemp = $('<div id="uploadFile"/>').dialog({
+        href:contextPath + "/common/uploadTemplate",
+        width:480,
+        height:320,
+        title:params.title?params.title:"上传自定义模板",
+        closable:true,
+        resizable:true,
+        onClose:function(){
+            $(dalogTemp).panel('destroy');
+        },
+        modal:true,
+        onLoad:function(){
+            initUploadTemplateCallBack(callBackHandel,params)
+        },
+    });
+    function callBackHandel(data){
+        callback(data);
+    }
+}
+
+
 /**
  * 新品申请批量导入
  * @param params {url:上传地址}
@@ -362,23 +393,32 @@ function publicCategoryService(callback,param){
 var supplierDalog = null;
 
 //公共组件-选择供应商
-function publicSupplierService(callback,model, param) {
+/**
+ * param
+ * 
+ * **/
+function publicSupplierService(callback,param) {
 	if(null != supplierDalog) return;
-	
 	if(!param || 'undefined' === typeof(param)){
 		param = {
 				supplierCodeOrName:'',
-				branchId:''
+				branchId:'',
+				saleWayNot:'',
+				isDirect:''
 		}
 	}else if('undefined' === typeof(param.supplierCodeOrName)){
 		param.supplierCodeOrName = '';
 	}else if('undefined' === typeof(param.branchCompleCode)){
 		param.branchCompleCode = '';
+	}else if('undefined' === typeof(param.saleWayNot)){
+		param.saleWayNot = '';
+	}else if('undefined' === typeof(param.isDirect)){
+		param.isDirect = '';
 	}
-	
+
     //公有属性
 	supplierDalog = $('<div/>').dialog({
-        href: contextPath + "/common/supplier/views?model="+model,
+        href: contextPath + "/common/supplier/views?saleWayNot="+param.saleWayNot+"&isDirect="+param.isDirect,
         width: 600,
         height: dialogHeight,
         title: "选择供应商",
