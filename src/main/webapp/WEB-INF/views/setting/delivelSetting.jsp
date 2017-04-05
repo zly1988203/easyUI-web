@@ -24,6 +24,7 @@
 		<div class="ub ub-ver umar-t20">
 			<form id="settingForm" action="${ctx}/branchSetting/save" method="post">
 				<input type="hidden" id="branchId" name="branchId">
+				<input type="hidden" id="dosheetTemplate" name="dosheetTemplate">
 				<div class="ub ub-ac upad-16 ">
 					<div class="umar-r10 uw-60 ut-r">有效天数:</div>
 					<div class="ub ub-ac umar-r10">
@@ -70,7 +71,7 @@
 				<div class="ub ub-ac upad-16 ">
 					<div class="ub uw-220 ut-r ">出库单导出模板设置:</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="ub" type="radio" id="dosheetTemplate1" name="dosheetTemplate" value="1" />
+						<input class="ub radioItem" type="radio" name="template" id="dosheetTemplate1" value="1" />
 						<span>模板一</span>
 					</div>
 					<div class="ub ub-ac umar-r10">
@@ -80,7 +81,7 @@
 				<div class="ub ub-ac upad-16 ">
 					<div class="ub uw-220 ut-r "></div>
 					<div class="ub ub-ac umar-r10">
-						<input class="ub" type="radio" id="dosheetTemplate2" name="dosheetTemplate" value="2" />
+						<input class="ub radioItem" type="radio" name="template" id="dosheetTemplate2" value="2" />
 						<span>模板二</span>
 					</div>
 					<div class="ub ub-ac umar-r10">
@@ -90,11 +91,15 @@
 				<div class="ub ub-ac upad-16 ">
 					<div class="ub uw-220 ut-r "></div>
 					<div class="ub ub-ac umar-r10">
-						<input class="ub" type="radio" id="dosheetTemplate" name="dosheetTemplate" />
-						<span>自定义模板</span>
+						<input class="ub radioItem" type="radio" name="template" id="dosheetTemplate3" value="3"/>
+						<label>自定义模板</label>
 					</div>
-					<div class="ub ub-ac umar-r10">
-						<a href="javascript:void(0)" class="easyui-linkbutton" onclick = "uploadFile()">请上传自定义模板</a>
+					<div id="dvTemp" class="ub ub-ac umar-r10 unhide">
+						
+						<a href="javascript:void(0)" class="easyui-linkbutton" onclick = "uploadFile()">
+						<label id="lbTxt"></label>
+						
+						</a>
 					</div>
 				</div>
 			</form>
@@ -104,6 +109,7 @@
 </body>
 <script type="text/javascript">
 	$(function() {
+		$("#lbTxt").html("请上传自定义模板")
 		//初始页面
 		$.ajax({
 			url : contextPath + "/branchSetting/getSetting",
@@ -121,6 +127,18 @@
 				successTip("请求发送失败或服务器处理失败");
 			}
 		});
+		
+		
+		$(".radioItem").on('change',function(){
+			if($(this).val() === "3"){
+				$("#lbTxt").html("请上传自定义模板")
+				$("#dvTemp").removeClass("unhide");
+				$("#dosheetTemplate").val("");
+			}else{
+				$("#dvTemp").addClass("unhide");
+				$("#dosheetTemplate").val($(this).val());
+			}
+		})
 	});
 	
 	//初始页面
@@ -130,6 +148,7 @@
 		var selectGoodsSpec = data.selectGoodsSpec;
 		var isMinAmount = data.isMinAmount;
 		var validityDay= data.validityDay;
+		var dosheetTemplate= data.dosheetTemplate;
 		//页面赋值
 		$("#branchId").val(branchId);
 		$("#validityDay").numberbox("setValue",validityDay);
@@ -150,6 +169,15 @@
 		} else {
 			$("#isMinAmount0").attr("checked", "true");
 		}
+		if (dosheetTemplate === '1') {
+			$("#dosheetTemplate1").attr("checked", "true");
+		} else if (dosheetTemplate === '2') {
+			$("#dosheetTemplate2").attr("checked", "true");
+		} else {
+			$("#lbTxt").html("上传新模板")
+			$("#dosheetTemplate3").attr("checked", "true");
+		}
+			$("#dosheetTemplate").val(dosheetTemplate);
 	}
 	
 	//禁用保存
@@ -159,6 +187,12 @@
 
 	//保存
 	function save() {
+		
+		if($('#dosheetTemplate').val() === ""){
+			messager("自定义模板未上传.");
+			return;
+		}
+		
 		$("#settingForm").form({
 			onSubmit : function() {
 				gFunStartLoading('正在保存，请稍后...');
@@ -187,8 +221,15 @@
 	}
 	
 	// 上传模板
-	function uploadFile {
-		// contextPath + "/fileUpload/templateUpload";
+	function uploadFile() {
+		var param = {
+				url:contextPath + "/fileUpload/templateUpload",
+				formType:"DO"
+		}
+		new publicUploadTemplateService(function(data) {
+			$("#dosheetTemplate").val(data);
+			$("#lbTxt").html("上传新模板")
+		},param)
 	}
 </script>
 </html>

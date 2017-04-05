@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.okdeer.jxc.branch.service.BranchSpecServiceApi;
 import com.okdeer.jxc.common.constant.LogConstant;
 import com.okdeer.jxc.common.controller.BasePrintController;
 import com.okdeer.jxc.common.result.RespJson;
@@ -78,6 +79,14 @@ public class DeliverDDFormController extends BasePrintController<DeliverDDFormCo
 		vo.setUpdateUserId(user.getId());
 		vo.setFormType("DD");
 		return deliverFormServiceApi.toEnd(vo);
+	}
+	/**
+	 * (non-Javadoc)
+	 * @see com.okdeer.jxc.common.controller.BasePrintController#getBranchSpecService()
+	 */
+	@Override
+	protected BranchSpecServiceApi getBranchSpecService() {
+		return null;
 	}
 
 	//	@RequestMapping(value = "insertDeliverForm", method = RequestMethod.POST)

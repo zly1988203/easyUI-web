@@ -30,8 +30,14 @@ import com.okdeer.jxc.controller.BaseController;
 @Controller
 @RequestMapping("common")
 public class CommonController extends BaseController<CommonController> {
+
 	@RequestMapping(value = "uploadFile")
 	public String view(HttpServletRequest req, Model model) {
 		return "component/publicUploadFile";
+	}
+
+	@RequestMapping(value = "uploadTemplate")
+	public String uploadTemplateView(HttpServletRequest req, Model model) {
+		return "component/publicUploadTemplate";
 	}
 }

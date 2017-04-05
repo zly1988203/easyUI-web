@@ -37,6 +37,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.okdeer.jxc.branch.entity.Branches;
+import com.okdeer.jxc.branch.service.BranchSpecServiceApi;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
@@ -1343,5 +1344,14 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 			return RespJson.error(sb.toString());
 		}
 		return RespJson.success();
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * @see com.okdeer.jxc.common.controller.BasePrintController#getBranchSpecService()
+	 */
+	@Override
+	protected BranchSpecServiceApi getBranchSpecService() {
+		return null;
 	}
 }
