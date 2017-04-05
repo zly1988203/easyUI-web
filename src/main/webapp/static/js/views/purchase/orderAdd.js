@@ -435,7 +435,7 @@ function selectGoods(searchKey){
     };
 
     
-    new publicGoodsServiceTem(param,function(data){
+    new publicGoodsServiceTem(queryParams,function(data){
     	if(data.length==0){
             return;
         }

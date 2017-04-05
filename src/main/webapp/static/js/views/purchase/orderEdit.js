@@ -405,8 +405,19 @@ function selectGoods(searchKey){
     if(!branchId){
     	messager("请先选择收货机构");
     }
-    
-    new publicGoodsService("PA",function(data){
+
+    var queryParams = {
+        type:'PA',
+        key:searchKey,
+        isRadio:0,
+        'supplierId':$("#supplierId").val(),
+        'branchId': $('#branchId').val(),
+        sourceBranchId:'',
+        targetBranchId:'',
+        flag:'0',
+    };
+
+    new publicGoodsServiceTem(queryParams,function(data){
         if(data.length==0){
             return;
         }
@@ -440,7 +451,7 @@ function selectGoods(searchKey){
             gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
         },100)
         
-    },searchKey,0,"","",branchId,supplierId,"0");
+    });
 }
 
 //保存
