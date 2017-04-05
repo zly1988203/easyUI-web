@@ -37,11 +37,14 @@ import org.springframework.web.multipart.MultipartFile;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.okdeer.jxc.branch.entity.Branches;
+import com.okdeer.jxc.branch.service.BranchSpecServiceApi;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
+import com.okdeer.jxc.branch.vo.BranchSpecVo;
 import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.LogConstant;
 import com.okdeer.jxc.common.controller.BasePrintController;
+import com.okdeer.jxc.common.enums.BranchTypeEnum;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportComponent;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportHandle;
@@ -106,13 +109,26 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 	BranchesServiceApi branchesServiceApi;
 
 	/**
+	 * 机构设置Dubbo接口
+	 */
+	@Reference(version = "1.0.0", check = false)
+	private BranchSpecServiceApi branchSpecServiceApi;
+	
+	/**
 	 * 跳转到新增采购单页面
 	 * @return
 	 * @author xiaoj02
 	 * @date 2016年8月12日
 	 */
 	@RequestMapping(value = "orderAdd")
-	public String viewAdd() {
+	public String viewAdd(HttpServletRequest request) {
+		if (!UserUtil.getCurrBranchType().equals(BranchTypeEnum.HEAD_QUARTERS.getCode())) {
+			// 查询是否需要自动加载商品
+			BranchSpecVo vo = branchSpecServiceApi.queryByBranchId(UserUtil.getCurrBranchId());
+			if (null != vo) {
+				request.setAttribute("cascadeGoods", vo.getIsSupplierCascadeGoodsPm());
+			}
+		}
 		return "form/purchase/orderAdd";
 	}
 
@@ -151,7 +167,14 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 	 * @date 2016年8月12日
 	 */
 	@RequestMapping(value = "returnAdd")
-	public String viewAddReturn() {
+	public String viewAddReturn(HttpServletRequest request) {
+		if (!UserUtil.getCurrBranchType().equals(BranchTypeEnum.HEAD_QUARTERS.getCode())) {
+			// 查询是否需要自动加载商品
+			BranchSpecVo vo = branchSpecServiceApi.queryByBranchId(UserUtil.getCurrBranchId());
+			if (null != vo) {
+				request.setAttribute("cascadeGoods", vo.getIsSupplierCascadeGoodsPm());
+			}
+		}
 		return "form/purchase/returnAdd";
 	}
 
@@ -1343,5 +1366,14 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 			return RespJson.error(sb.toString());
 		}
 		return RespJson.success();
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * @see com.okdeer.jxc.common.controller.BasePrintController#getBranchSpecService()
+	 */
+	@Override
+	protected BranchSpecServiceApi getBranchSpecService() {
+		return null;
 	}
 }

@@ -43,9 +43,9 @@ function toUploadHandel(){
         success : function(data) {
             gFunEndLoading();
             if(data.code==0){
-                $("#message").html(data.importInfo.message);
-                console.log(data.importInfo);
-                uploadTemplateCallBack(data.importInfo.list);
+            	messager("文件上传成功");
+            	 $('#uploadFile').panel('destroy');
+                uploadTemplateCallBack(data.filePath);
             }else{
                 $("#message").html(data.message);
 

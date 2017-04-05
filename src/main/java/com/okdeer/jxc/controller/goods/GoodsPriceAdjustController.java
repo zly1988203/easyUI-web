@@ -34,6 +34,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
+import com.okdeer.jxc.branch.service.BranchSpecServiceApi;
 import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.controller.BasePrintController;
@@ -716,5 +717,14 @@ public class GoodsPriceAdjustController extends BasePrintController<GoodsPriceAd
 		// 根据formNo得到详情数据
 		List<GoodsPriceFormDetail> goodsPriceFormDetailList = goodsPriceAdustService.queryDetailsByFormNo(formNo);
 		return goodsPriceFormDetailList;
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * @see com.okdeer.jxc.common.controller.BasePrintController#getBranchSpecService()
+	 */
+	@Override
+	protected BranchSpecServiceApi getBranchSpecService() {
+		return null;
 	}
 }
