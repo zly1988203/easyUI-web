@@ -7,11 +7,8 @@
 
 package com.okdeer.jxc.common.controller;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
@@ -23,10 +20,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.branch.service.BranchSpecServiceApi;
 import com.okdeer.jxc.branch.vo.BranchSpecVo;
-import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.exception.BusinessException;
 import com.okdeer.jxc.common.utils.JsonMapper;
 import com.okdeer.jxc.common.utils.StringUtils;
@@ -47,12 +42,6 @@ import com.okdeer.jxc.utils.jxls.ReportExcelUtil;
  */
 
 public abstract class BasePrintController<T, P> extends BaseController<T> {
-
-	/**
-	 * 机构设置Dubbo接口
-	 */
-	@Reference(version = "1.0.0", check = false)
-	private BranchSpecServiceApi branchSpecServiceApi;
 
 	/**
 	 * 
@@ -121,7 +110,7 @@ public abstract class BasePrintController<T, P> extends BaseController<T> {
 		try {
 			// 出库单根据设置选择导出模板
 			if ("DOSheet".equalsIgnoreCase(page)) {
-				is = IOStreamUtils.getExcelExportPathInputStream(getExportFile(page, branchId));
+				is = getExportExcelInputStream(page, branchId);
 			} else {
 				is = IOStreamUtils.getExcelExportPathInputStream(page + ".xlsx");
 			}
@@ -142,57 +131,36 @@ public abstract class BasePrintController<T, P> extends BaseController<T> {
 	private String filePrefix;
 
 	/**
-	 * @Description: 下载导出模板到本地
-	 * @param page 单据类型
-	 * @return 模板名称
+	 * @Description: 获取七牛文件流
 	 * @author zhengwj
+	 * @throws IOException 
 	 * @date 2017年3月28日
 	 */
-	private String getExportFile(String page, String branchId) {
+	private InputStream getExportExcelInputStream(String page, String branchId) throws IOException {
 		// 获取机构的出库单模板设置
-		BranchSpecVo vo = branchSpecServiceApi.queryByBranchId(branchId);
+		BranchSpecVo vo = getBranchSpecService().queryByBranchId(branchId);
 		if (null == vo || StringUtils.isBlank(vo.getDosheetTemplate())) {
 			LOG.error("出库单模板设置为空，不能导出,branchId:{}", branchId);
 			throw new BusinessException("出库单模板设置为空，不能导出");
 		}
+		// 出库单模板设置
 		String key = vo.getDosheetTemplate();
-		String filePath = ExportExcelConstant.TEMPLATE_EXPORT_DIR + page + key + ".xlsx";
-		File file = new File(filePath);
-		// 判断模板是否存在，不存在的需要下载
-		if (!file.exists()) {
-			try {
-				URL url = new URL(filePrefix + key);
-				HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-				// 设置超时间为3秒
-				conn.setConnectTimeout(3 * 1000);
-				// 防止屏蔽程序抓取而返回403错误
-				// conn.setRequestProperty("User-Agent", "Mozilla/4.0
-				// (compatible; MSIE 5.0; Windows NT; DigExt)");
 
-				// 得到输入流
-				InputStream inputStream = conn.getInputStream();
-				// 获取自己数组
-				byte[] buffer = new byte[1024];
-				int len = 0;
-				ByteArrayOutputStream bos = new ByteArrayOutputStream();
-				while ((len = inputStream.read(buffer)) != -1) {
-					bos.write(buffer, 0, len);
-				}
-				bos.close();
-				byte[] getData = bos.toByteArray();
-
-				FileOutputStream fos = new FileOutputStream(file);
-				fos.write(getData);
-				if (fos != null) {
-					fos.close();
-				}
-				if (inputStream != null) {
-					inputStream.close();
-				}
-			} catch (Exception e) {
-				LOG.error("七牛下载导出模板错误:{}", e);
-			}
+		// 系统模板
+		if ("1".equals(key) || "2".equals(key)) {
+			return IOStreamUtils.getExcelExportPathInputStream(page + key + ".xlsx");
 		}
-		return page + key + ".xlsx";
+		// 自定义模板
+		URL url = new URL(filePrefix + key + ".xlsx");
+		InputStream is = url.openStream();
+		return is;
 	}
+
+	/**
+	 * @Description: 获取机构配置服务，使用下载单据明细时需要实现
+	 * @return
+	 * @author zhengwj
+	 * @date 2017年4月1日
+	 */
+	protected abstract BranchSpecServiceApi getBranchSpecService();
 }

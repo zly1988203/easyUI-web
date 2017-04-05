@@ -85,8 +85,8 @@ public class FileUploadController extends BaseController<FileUploadController> {
 				return RespJson.error("上传文件大小超过限制。");
 			}
 			// 检查扩展名
-			String fileExt = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
-			if (!ExcelExportUtil.REPORT_XLS.equals(fileExt) || ExcelExportUtil.REPORT_XLSX.equals(fileExt)) {
+			String fileExt = fileName.substring(fileName.lastIndexOf(".")).toLowerCase();
+			if (!ExcelExportUtil.REPORT_XLS.equals(fileExt) && !ExcelExportUtil.REPORT_XLSX.equals(fileExt)) {
 				return RespJson.error("不支持该文件类型，请上传excel表格。");
 			}
 		}
@@ -98,7 +98,7 @@ public class FileUploadController extends BaseController<FileUploadController> {
 		}
 		// 返回七牛文件路径
 		RespJson respJson = RespJson.success();
-		respJson.put("filePath", filePaths.get(0));
+		respJson.put("filePath", filePaths.get(0).substring(0, filePaths.get(0).lastIndexOf(".")));
 		return respJson;
 	}
 }

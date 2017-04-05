@@ -178,7 +178,7 @@ function publicUploadFileService(callback,params){
  * formType   出库单Do
  * title
  * **/
-function publicUploadFileService(callback,params){
+function publicUploadTemplateService(callback,params){
     //公有属性
     var  dalogTemp = $('<div id="uploadFile"/>').dialog({
         href:contextPath + "/common/uploadTemplate",

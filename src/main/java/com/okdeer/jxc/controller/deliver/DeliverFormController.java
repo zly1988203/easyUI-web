@@ -35,6 +35,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.okdeer.jxc.branch.entity.BranchSpec;
 import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.entity.BranchesGrow;
+import com.okdeer.jxc.branch.service.BranchSpecServiceApi;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
@@ -113,6 +114,12 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	@Autowired
 	private GoodsSelectImportComponent goodsSelectImportComponent;
 
+	/**
+	 * 机构设置Dubbo接口
+	 */
+	@Reference(version = "1.0.0", check = false)
+	private BranchSpecServiceApi branchSpecServiceApi;
+	
 	/**
 	 * @Description: 跳转要货单页面
 	 * @return   
@@ -1203,4 +1210,14 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		}
 		return respJson;
 	}
+
+	/**
+	 * (non-Javadoc)
+	 * @see com.okdeer.jxc.common.controller.BasePrintController#getBranchSpecService()
+	 */
+	@Override
+	protected BranchSpecServiceApi getBranchSpecService() {
+		return branchSpecServiceApi;
+	}
+	
 }
