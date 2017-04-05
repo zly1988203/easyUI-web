@@ -20,6 +20,7 @@ var gridDefault = {
     realNum:0,
     isGift:0,
 }
+var gridName = "gridEditOrder";
 var gridHandel = new GridClass();
 function initDatagridEditOrder(){
     gridHandel.setGridName("gridEditOrder");
@@ -651,10 +652,48 @@ function orderDelete(){
 	});
 }
 
+//直接查询商品
+function queryGoodsList() {
+    var queryParams = {
+        formType:'PA',
+        key:"",
+        isRadio:'',
+        'supplierId':$("#supplierId").val(),
+        'branchId': $('#branchId').val(),
+        sourceBranchId:'',
+        targetBranchId:'',
+        flag:'0',
+    };
+    var url =  contextPath + '/goods/goodsSelect/getGoodsList';
+    $.ajax({
+        url:url,
+        type:'POST',
+        data:queryParams,
+        success:function(data){
+            if(data && data.rows){
+                var addDefaultData  = gridHandel.addDefault(data.rows,gridDefault);
+                var keyNames = {
+                    salePrice:'price'
+                };
+                var rows = gFunUpdateKey(addDefaultData,keyNames);
+                $("#"+gridName).datagrid("loadData",rows);
+            }
+        },
+        error:function(){
+            messager("数据查询失败");
+        }
+    })
+}
+
 function selectSupplier(){
 	new publicSupplierService(function(data){
 		$("#supplierId").val(data.id);
 		$("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
+        // 是否自动加载商品
+        if($("#cascadeGoods").val() == 'true'){
+            queryGoodsList();
+        }
+
 	});
 }
 function selectOperator(){
