@@ -44,7 +44,7 @@
 			  <div class="ub ub-ac uw-300 umar-l36">
                    <div class="umar-r10 ut-r">机构店铺:</div>
                    <div class="ub">
-                       <input type="hidden" id="branchId" name="branchId" value=""  />
+                       <input type="hidden" id="branchId" name="branchId" value="${branchId}"  />
                        <input class="uinp ub ub-f1" type="text" id="branchName" readonly="readonly" value=""/>
                        <div class="uinp-more" onclick="searchBranch()">...</div>
                    </div>
