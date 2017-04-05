@@ -86,7 +86,7 @@ public class FileUploadController extends BaseController<FileUploadController> {
 			}
 			// 检查扩展名
 			String fileExt = fileName.substring(fileName.lastIndexOf(".")).toLowerCase();
-			if (!ExcelExportUtil.REPORT_XLS.equals(fileExt) && !ExcelExportUtil.REPORT_XLSX.equals(fileExt)) {
+			if (!ExcelExportUtil.REPORT_XLSX.equals(fileExt)) {
 				return RespJson.error("不支持该文件类型，请上传excel表格。");
 			}
 		}
