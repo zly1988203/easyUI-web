@@ -52,7 +52,7 @@ import com.okdeer.jxc.utils.UserUtil;
 public class GoodsBatchUpdateController extends BaseController<GoodsBatchUpdateController> {
 
 	@Autowired
-	private GoodsSelectImportComponent goodsSelectImportComponent;
+	private GoodsSelectImportComponent goodsSelectImportComponent; 
 	
 	@Reference(version = "1.0.0", check = false)
 	private GoodsBatchUpdateServiceApi goodsBatchUpdateServiceApi;
