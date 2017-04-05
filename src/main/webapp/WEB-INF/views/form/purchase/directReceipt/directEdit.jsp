@@ -19,15 +19,15 @@
 					<div class="ubtns-item" onclick="addDirect()">新增</div>
 				</shiro:hasPermission>
 				<shiro:hasPermission name="JxcDirectReceipt:edit">
-					<div class="ubtns-item" onclick="updateDirectForm()">保存</div>
+					<button id="btnSave" class="ubtns-item" onclick="updateDirectForm()">保存</button>
 				</shiro:hasPermission>
 				<shiro:hasPermission name="JxcDirectReceipt:audit">
-					<div class="ubtns-item" onclick="checkDirectForm()">审核</div>
+					<button id="btnCheck" class="ubtns-item" onclick="checkDirectForm()">审核</button>
 				</shiro:hasPermission>
-				<div class="ubtns-item" onclick="selectGoods()">商品选择</div>
+				<button id="btnSelect" class="ubtns-item" onclick="selectGoods()">商品选择</button>
 				<shiro:hasPermission name="JxcDirectReceipt:import">
-					<div class="ubtns-item" onclick="importDirectForm(1)">导入货号</div>
-					<div class="ubtns-item" onclick="importDirectForm(1)">导入条码</div>
+					<button id="btnImpSkuCode" class="ubtns-item" onclick="importDirectForm(1)">导入货号</button>
+					<button id="btnImpBarCode" class="ubtns-item" onclick="importDirectForm(1)">导入条码</button>
 				</shiro:hasPermission>				
 				<shiro:hasPermission name="JxcDirectReceipt:export">
 					<div class="ubtns-item" id="exportdetail" onclick="exportDirectForm()">导出</div>
