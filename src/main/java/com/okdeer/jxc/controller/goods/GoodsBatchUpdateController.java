@@ -2,7 +2,12 @@ package com.okdeer.jxc.controller.goods;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONObject;
 
@@ -21,6 +26,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
+import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportComponent;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportHandle;
@@ -32,6 +38,9 @@ import com.okdeer.jxc.goods.entity.GoodsSelect;
 import com.okdeer.jxc.goods.service.GoodsBatchUpdateServiceApi;
 import com.okdeer.jxc.goods.vo.GoodsBatchUpdateImportVo;
 import com.okdeer.jxc.goods.vo.GoodsBatchUpdateVo;
+import com.okdeer.jxc.report.qo.GoodsReportQo;
+import com.okdeer.jxc.report.service.GoodsReportService;
+import com.okdeer.jxc.report.vo.GoodsReportVo;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
 
@@ -59,6 +68,9 @@ public class GoodsBatchUpdateController extends BaseController<GoodsBatchUpdateC
 	
 	@Reference(version = "1.0.0", check = false)
 	private BranchesServiceApi branchesServiceApi;
+	
+	@Reference(version = "1.0.0", check = false)
+	private GoodsReportService goodsReportService;
 	
 	/**
 	 * 
@@ -111,7 +123,7 @@ public class GoodsBatchUpdateController extends BaseController<GoodsBatchUpdateC
 			}
 			
 			//错误下载地址
-			String errorFileDownloadUrlPrefix = "/branch/goods/downloadErrorFile";
+			String errorFileDownloadUrlPrefix = "/goods/batchUpdate/download/downloadErrorFile";
 			
 			GoodsSelectImportVo<GoodsSelect> vo = goodsSelectImportComponent.importSelectGoods(fileName, is, fields,
 				new GoodsBatchUpdateImportVo(), branchId, user.getId(), type, errorFileDownloadUrlPrefix,
@@ -131,7 +143,26 @@ public class GoodsBatchUpdateController extends BaseController<GoodsBatchUpdateC
 						
 					}
 				}, null);
-			respJson.put("importInfo", vo);
+			
+			//barcode 列表
+			List<String> barCodeList= new ArrayList<String>();
+			List<GoodsSelect> list = vo.getList();
+			for (GoodsSelect goodsSelect : list) {
+				barCodeList.add(goodsSelect.getBarCode());
+			}
+			
+			//导入列表
+			GoodsReportQo qo = new GoodsReportQo();
+			qo.setBranchId(branchId);
+			qo.setBarCodeList(barCodeList);
+			List<GoodsReportVo> importList = goodsReportService.queryList(qo);
+			
+			
+			Map<String,Object> newVo = new HashMap<String,Object>();
+			newVo.put("list",importList);
+			newVo.put("message",vo.getMessage());
+			newVo.put("errorFileUrl",vo.getErrorFileUrl());
+			respJson.put("importInfo", newVo);
 
 		} catch (IOException e) {
 			respJson = RespJson.error("读取Excel流异常");
@@ -142,6 +173,58 @@ public class GoodsBatchUpdateController extends BaseController<GoodsBatchUpdateC
 		}
 		return respJson;
 	}
+	
+	/**
+	 * 
+	 * @Description: 导入模版下载
+	 * @param response
+	 * @return void  
+	 * @author zhangq
+	 * @date 2017年4月5日
+	 */
+    @RequestMapping(value = "/importTemplate")
+    public void exportTemp(HttpServletResponse response,String type) {
+		try {
+			String fileName;
+			String templateName;
+			if (StringUtils.equalsIgnoreCase(GoodsSelectImportHandle.TYPE_SKU_CODE, type)) {
+				fileName = "货号导入模板";
+				templateName = ExportExcelConstant.SKUCODE_TEMPLE_TYPE;
+			} else {
+				fileName = "条码导入模板";
+				templateName = ExportExcelConstant.BARCODE_TEMPLE_TYPE;
+			}
+			exportListForXLSX(response, null, fileName, templateName);
+		} catch (Exception e) {
+			LOG.error("查看调价订单导入模板异常", e);
+		}
+	}
+    
+    /**
+     * 
+     * @Description: 下载错误信息
+     * @param code
+     * @param type
+     * @param response   
+     * @return void  
+     * @author zhangq
+     * @date 2017年4月5日
+     */
+	@RequestMapping(value = "/download/downloadErrorFile")
+	public void downloadErrorFile(String code, String type, HttpServletResponse response) {
+		String reportFileName = "错误数据";
+		String[] headers;
+		String[] columns;
+		if (StringUtils.equalsIgnoreCase(GoodsSelectImportHandle.TYPE_SKU_CODE, type)) {
+			headers = new String[] { "货号", "数量" };
+			columns = new String[] { "skuCode", "applyNum" };
+		} else {
+			headers = new String[] { "条码", "数量" };
+			columns = new String[] { "barCode", "applyNum" };
+		}
+		goodsSelectImportComponent.downloadErrorFile(code, reportFileName, headers, columns, response);
+	}
+   
 	
 	/**
 	 * 
