@@ -218,6 +218,7 @@ public class GoodsSelectImportComponent {
 			//构建数据过滤对象
 			goodsSelectImportHandle = new GoodsSelectImportBarCodeHandle(excelList, fields, businessValid);
 			Map<String, GoodsSelect> map = ((GoodsSelectImportBarCodeHandle)goodsSelectImportHandle).getGoodsMap();
+			Map<String, JSONObject> importMap = ((GoodsSelectImportBarCodeHandle)goodsSelectImportHandle).getImportMap();
 			//获取已验证成功的数据的条码
 			List<String> list = goodsSelectImportHandle.getExcelSuccessCode();
 
@@ -241,6 +242,8 @@ public class GoodsSelectImportComponent {
 							dbList1.add(goodsSelect);
 							map.put(goodsSelect.getBarCode(), goodsSelect);
 							map.put(barCode, goodsSelect);
+							importMap.put(goodsSelect.getBarCode(), obj);
+							importMap.put(barCode, obj);
 							break;
 						}
 					}
