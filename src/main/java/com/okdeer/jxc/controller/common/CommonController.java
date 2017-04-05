@@ -37,15 +37,20 @@ import com.okdeer.jxc.utils.UserUtil;
 @Controller
 @RequestMapping("common")
 public class CommonController extends BaseController<CommonController> {
-	
+
 	@Reference(version = "1.0.0", check = false)
 	private BranchesServiceApi branchesServiceApi;
-	
+
 	@RequestMapping(value = "uploadFile")
 	public String view(HttpServletRequest req, Model model) {
 		return "component/publicUploadFile";
 	}
-	
+
+	@RequestMapping(value = "uploadTemplate")
+	public String uploadTemplateView(HttpServletRequest req, Model model) {
+		return "component/publicUploadTemplate";
+	}
+
 	/**
 	 * 
 	 * @Description: 获取当前机构信息
@@ -53,9 +58,9 @@ public class CommonController extends BaseController<CommonController> {
 	 * @author zhangq
 	 * @date 2017年4月4日
 	 */
-	@RequestMapping(value = "getCurrentBranch",method=RequestMethod.POST)
+	@RequestMapping(value = "getCurrentBranch", method = RequestMethod.POST)
 	@ResponseBody
-	private RespJson getCurrentBranch(){
+	private RespJson getCurrentBranch() {
 		String branchId = UserUtil.getCurrBranchId();
 		Branches branch = branchesServiceApi.getBranchInfoById(branchId);
 		return RespJson.success(branch, "success");

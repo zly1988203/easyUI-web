@@ -612,7 +612,6 @@ function selectSupplier(){
     new publicSupplierService(function(data){
         // 切换供应商后清除商品数据
         if( $("#supplierId").val() != "" && data.id != $("#supplierId").val()){
-            // TODO
             $.messager.confirm('提示','修改供应商后会清空明细，是否要修改？',function(r){
                 if (r){
                     $("#supplierId").val(data.id);
@@ -628,8 +627,7 @@ function selectSupplier(){
                         $("#saleWayName").val('扣率代销');
 		            }
                     // 是否自动加载商品
-                    if($("#cascadeGoods").val()){
-                        // TODO
+                    if($("#cascadeGoods").val() == 'true'){
                         queryGoodsList();
                     }
                 }
@@ -638,22 +636,21 @@ function selectSupplier(){
             $("#supplierId").val(data.id);
             $("#oldsupplierId").val(data.id);
             $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
-                  $("#saleWay").val(data.saleWay);
-        if(data.saleWay == 'A'){
-        	$("#saleWayName").val('购销');
-        }else if(data.saleWay == 'B'){
-        	$("#saleWayName").val('代销');        	
-	    }else if(data.saleWay == 'C'){
-	    	$("#saleWayName").val('联营');        	
-		}else if(data.saleWay == 'D'){
-			$("#saleWayName").val('扣率代销');        	
-		}
-            
-            // 是否自动加载商品
-            if($("#cascadeGoods").val()){
-                // TODO
-                queryGoodsList();
-            }
+            $("#saleWay").val(data.saleWay);
+	        if(data.saleWay == 'A'){
+	        	$("#saleWayName").val('购销');
+	        }else if(data.saleWay == 'B'){
+	        	$("#saleWayName").val('代销');        	
+		    }else if(data.saleWay == 'C'){
+		    	$("#saleWayName").val('联营');        	
+			}else if(data.saleWay == 'D'){
+				$("#saleWayName").val('扣率代销');        	
+			}
+	            
+	        // 是否自动加载商品
+	        if($("#cascadeGoods").val() == 'true'){
+	            queryGoodsList();
+	        }
         }
 
     },param);
@@ -705,7 +702,6 @@ function selectBranch(){
 
 //选择商品
 function selectGoods(searchKey){
-	// TODO  加控制
 	var branchId = $("#branchId").val();
 	var sourceBranchId = branchId;
 	var targetBranchId = branchId;
