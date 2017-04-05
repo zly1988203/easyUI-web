@@ -1,6 +1,6 @@
 
 var targetBranchTypeTemp = "";
-var branchId = '';	
+
 var gridDefault = {
 	    applyNum:0,
 	    largeNum:0,
@@ -76,7 +76,6 @@ function initDatagridRequireOrder(){
                     gridHandel.setFieldFocus(gridHandel.getFieldTarget('skuCode'));
                 },100)
             }else{
-            	branchId = $("#sourceBranchId").val();
                 selectGoods(arg);
             }
         },
@@ -485,7 +484,7 @@ function selectGoods(searchKey){
     		isRadio:'',
     		sourceBranchId:sourceBranchId,
     		targetBranchId:targetBranchId,
-    		branchId:branchId,
+    		branchId:sourceBranchId,
     		supplierId:'',
     		flag:'0',
     }
@@ -497,7 +496,6 @@ function selectGoods(searchKey){
 	    }
     	selectStockAndPrice(data);
     });
-    branchId = '';
 }
 
 //二次查询设置值
