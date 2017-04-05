@@ -308,7 +308,17 @@ function delLineHandel(event){
 }
 //选择商品
 function selectGoods(searchKey){
-    new publicGoodsService("",function(data){
+    var queryParams = {
+        type:'',
+        key:searchKey,
+        isRadio:0,
+        'supplierId':'',
+        'branchId': "",
+        sourceBranchId:'',
+        targetBranchId:'',
+        flag:'0',
+    };
+    new publicGoodsServiceTem(queryParams,function(data){
         if(searchKey){
             $("#gridEditRequireOrder").datagrid("deleteRow", editRowIndex);
             $("#gridEditRequireOrder").datagrid("acceptChanges");
@@ -333,9 +343,8 @@ function selectGoods(searchKey){
             gridHandel.setSelectFieldName("largeNum");
             gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
         },100)
-        
-        
-    },searchKey,'','','','','');
+
+    });
 }
 
 //表格添加默认值
