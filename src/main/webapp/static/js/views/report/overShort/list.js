@@ -151,14 +151,17 @@ function setgridColumns(){
             {field: 'difference', title: '长短款差额', width: 200, align: 'right',
                 formatter : function(value, row,index) {
                     if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                        if(value < 0){
+                        	return '<b><span style="color: red;">'+parseFloat(value||0).toFixed(2)+'</span></b>';
+                        }else{
+                        	return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                        }
                     }
                     if(value < 0){
                         return '<b><span style="color: red;">'+parseFloat(value||0).toFixed(2)+'</span></b>';
                     }else{
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                     }
-
                 }
             },
         ]]
@@ -217,7 +220,7 @@ function queryForm() {
     var oldBranchName = $("#oldBranchName").val();
     var branchName = $("#branchName").val();
     if(oldBranchName && oldBranchName != branchName){
-        $("#branchId").val('');
+        $("#branchId").val(sessionBranchId);
         $("#branchCompleCode").val('');
     }
     var oldUserName = $("#oldUserName").val();

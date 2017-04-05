@@ -47,7 +47,7 @@
 					<div class="umar-r10 uw-70 ut-r">收银员:</div>
 					<input type="hidden" name="userId" id="userId" class="uinp" />
 					<input type="hidden" name="oldUserName" id="oldUserName" class="uinp"/>
-					<input type="text" name="userNameOrCode" id="userNameOrCode" class="uinp"/>
+					<input type="text" name="userName" id="userNameOrCode" class="uinp"/>
 					<div class="uinp-more" id="cashierIdSelect" onclick="searchCashierId()">...</div>
 				</div>
 				<div class="ub ub-ac umar-l10">
