@@ -17,9 +17,11 @@
 					<div class="ubtns">
 						<div class="ubtns-item" onclick="query()">查询</div>
 						<div class="ubtns-item" onclick="gFunRefresh()">重置</div>
-						<div class="ubtns-item" onclick="importExcel(0)">导入货号</div>
-						<div class="ubtns-item" onclick="importExcel(1)">导入条码</div>
-						<div class="ubtns-item" onclick="save()">修改</div>
+						<shiro:hasPermission name="JxcGoodsBatchUpdate:save">
+							<div class="ubtns-item" onclick="importExcel(0)">导入货号</div>
+							<div class="ubtns-item" onclick="importExcel(1)">导入条码</div>
+							<div class="ubtns-item" onclick="save()">修改</div>
+						</shiro:hasPermission>
 						<div class="ubtns-item" onclick="toClose()">关闭</div>
 					</div>
 				</div>
