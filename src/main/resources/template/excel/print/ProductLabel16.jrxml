@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ProductSalesPlan" language="groovy" columnCount="3" printOrder="Horizontal" pageWidth="595" pageHeight="842" columnWidth="170" leftMargin="42" rightMargin="43" topMargin="0" bottomMargin="2" isSummaryWithPageHeaderAndFooter="true" uuid="00831878-d208-460c-a1e1-15e96cc9ea5e">
 	<property name="ireport.zoom" value="4.0"/>
-	<property name="ireport.x" value="56"/>
+	<property name="ireport.x" value="100"/>
 	<property name="ireport.y" value="39"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["D:\\workspace_kasa\\PrintTest\\src\\com\\test\\"]]></defaultValueExpression>
@@ -116,7 +116,7 @@
 				<textFieldExpression><![CDATA[$F{barCode}]]></textFieldExpression>
 			</textField>
 			<image scaleImage="FillFrame" hAlign="Center">
-				<reportElement x="1" y="32" width="52" height="50" uuid="14f0da7e-c55b-4707-a6af-2a428dd39ed4"/>
+				<reportElement x="1" y="29" width="52" height="50" uuid="14f0da7e-c55b-4707-a6af-2a428dd39ed4"/>
 				<imageExpression><![CDATA[com.google.zxing.client.j2se.MatrixToImageWriter.toBufferedImage(new com.google.zxing.qrcode.QRCodeWriter().encode($F{qrCodeInfo}, com.google.zxing.BarcodeFormat.QR_CODE, 100, 100))]]></imageExpression>
 			</image>
 			<textField isBlankWhenNull="true">
