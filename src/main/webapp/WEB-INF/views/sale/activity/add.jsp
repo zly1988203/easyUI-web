@@ -76,16 +76,20 @@
                 <div class="ub ub-ac uselectw umar-r10">
                     <div class="umar-r10 uw-90 ut-r">活动类型:</div>
                        <!--select-->
-				        <select class="easyui-combobox uselect" name="activityType" id="activityType" data-options="editable:false,onChange:onChangeSelect">
+				        <select class="uselect easyui-combobox " name="activityType" id="activityType" data-options="editable:false,onChange:onChangeSelect">
 							    <option value="1">特价</option> 
 								<option value="2">折扣</option> 
 								<option value="3">偶数特价</option> 
 								<option value="4">换购</option> 
 								<option value="5">满减</option> 
 								<option value="6">组合特价</option>
+								<option value="7">买满送</option>
 				        </select>
                 </div>
                 <div class="ub ub-ac umar-l10  discountTypechoose unhide">
+                		<div class="ub ub-ac umar-r10">
+	                        <input class="ub disradio disstatusChange" type="radio" id="allZk" name="disstatus"  value="2"/><span>全场折扣</span>
+	                    </div>
 	                    <div class="ub ub-ac umar-r10">
 	                        <input class="ub disradio disstatusChange" type="radio" id="sortZk" name="disstatus"  value="1"/><span>类别折扣</span>
 	                    </div>
@@ -104,14 +108,24 @@
 						<div class="ub ub-ac umar-r10">
 							<input class="ub mjradio" type="radio" id="goodsMj" name="mjstatus" value="0" /><span>商品</span>
 						</div>
-	                    
-
 	                     <input class="uinp" type="hidden" id="activityScopemj" value="2"  name="activityScopemj">
+	            </div>
+	            <!--买满送-->
+	            <div class="ub ub-ac umar-l10  mmsTypechoose unhide">
+					<div class="ub ub-ac umar-r10">
+						<input class="ub mmradio" type="radio"  name="mmsstatus"  value="2" checked="checked"/><span>全场</span>
+					</div>
+                    <div class="ub ub-ac umar-r10">
+                        <input class="ub mmradio" type="radio"  name="mmsstatus" value="1" /><span>类别</span>
+                    </div>
+					<div class="ub ub-ac umar-r10">
+						<input class="ub mmradio" type="radio"  name="mmsstatus" value="0" /><span>商品</span>
+					</div>
+                    <input class="uinp" type="hidden" id="activityScopemms" value="2"  name="activityScopemms">
 	            </div>
 	           
             </div>
 	         
-	     
 	          <div class="ub umar-t8">
 	             <div class="ub  ub-ac uw-384">
 	                   <div class="umar-r10 uw-70 ut-r">活动分店:</div>
@@ -134,17 +148,74 @@
 					<input class="uinp  easyui-numberbox" data-options="min:0,precision:2,onChange:changeOddprice" type="text"  id="batchcount">
 						<div class="umar-l10">元</div>
 				   </div>
-	          </div>
+				   
+				   <!--买满条件 -->
+				   <div class="ub ub-ac uw-390 uselectw umar-l10 mmstype unhide">
+					<div class="umar-r10 uw-80 ut-r">活动条件:</div>
+					<select class="uselect easyui-combobox " name="activitymmsType" id="activitymmsType" data-options="editable:false,value:1,onChange:onChangemmsSelect">
+						    <option value="1">买满金额</option> 
+							<option value="2">买满数量</option> 
+			        </select>
+			        <div class="ub ub-ac umar-l10 ">
+						<div class="ub ub-ac umar-r10">
+							<input class="ub mmradioAct" type="checkbox" id="status_1"  name="mmsofactType"  value="2" /><label for="status_1">促销商品参与</label>
+						</div>
+	                    <div class="ub ub-ac umar-r10">
+	                        <input class="ub mmradioAct" type="checkbox" id="status_2" name="mmsofactType" value="1" /><label for="status_2">倍数送</label>
+	                    </div>
+	                    <input class="uinp" type="hidden" id="mmsofactTypeVal" value=""  name="mmsofactTypeVal">
+		            </div>
+	          	  </div>
+	        </div>
        	</form>
            
       
-      <div id="consaleadd" class="ub uw ub-f1 umar-t20" style="min-height:50%;">
+      <div id="consaleadd" class="ub uw ub-f1 umar-t20 " style="min-height:50%;">
 			 <table id="saleMangeadd"></table>
 		</div>
 		 
       <div id="consalesetmj" class="ub uw ub-f1 umar-t20  unhide ">
 			 <table id="salesetmj"></table>
 	  </div>
+	  
+	  <!-- 买满送  -->
+	  <div id="consolemms" class="ub uw ub-ver ub-f1  unhide" >
+	  		<div class="ub uline umar-t10 umar-b10"></div>
+	  		<div class="ub unhide" id="mmsTab">
+	  			<ul class="tabs" style="height: 26px;">
+		  			<li class="tabs-selected" onClick="clickmmsTab(1)">
+			  			<a  class="tabs-inner" style="height: 25px; line-height: 23px;">
+				  			<span class="tabs-title tabs-closable" id="tabone">类别信息</span>
+				  			<span class="tabs-icon"></span>
+			  			</a>
+		  			</li>
+		  			<li class="" onClick="clickmmsTab(2)">
+			  			<a  class="tabs-inner" style="height: 25px; line-height: 23px;">
+				  			<span class="tabs-title tabs-closable">赠品信息</span>
+				  			<span class="tabs-icon"></span>
+			  			</a>
+		  			</li>
+	  			</ul>
+	  		</div>
+	  		<div class="ub uw ub-f1 unhide umar-t8" id="area1" style="height:300px;">
+	  			 <table id="mmscommonList"></table>
+	  		</div>
+	  		<div class="ub ub-ver uw ub-f1" id="area2">
+				<div id="consolemms01" class="ub uw ub-ver  ub-f1 " >
+				    <p class="ub">买满条件：</p>
+				    <div class="ub uw umar-t8" style="height:300px;">
+						<table id="mmspriceList"></table>
+				    </div>
+				</div>
+				<div id="consolemms02" class="ub uw ub-f1 ub-ver  umar-t10 ">
+					<p class="ub">赠品信息：</p>
+					<div class="ub uw  umar-t8" style="height:300px;">
+						<table id="mmsgoodList"></table>
+					</div>
+				</div>
+	  		</div>
+	  </div>
+	  
     </div>
 
 </body>
