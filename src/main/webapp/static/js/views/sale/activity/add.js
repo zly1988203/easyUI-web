@@ -400,13 +400,17 @@ function initDatagridSpecial(){
 		                    if(row.isFooter){
 		                        return;
 		                    }
+                            if(!value){
+                                row["saleAmount"] = parseFloat(value||0).toFixed(2);
+                            }
+
 		                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		                },
 		                editor:{
 		                    type:'numberbox',
 		                    options:{
 		                        min:0,
-		                        precision:2,
+		                        precision:4,
 								onChange:saleAmountOnChange,
 		                    }
 		                },
@@ -827,13 +831,18 @@ function initDatagridOddtj(){
 			        if(row.isFooter){
 			        	  return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 			        }
+
+                    if(!value){
+                        row["saleAmount"] = parseFloat(value||0).toFixed(2);
+                    }
+
 			        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 			    },
 			    editor:{
 			        type:'numberbox',
 			        options:{
 			            min:0,
-			            precision:2,
+			            precision:4,
 						onChange:saleAmountOnChange,
 			        }
 			    },
@@ -970,13 +979,16 @@ function initDatagridRedemption(){
 			        if(row.isFooter){
 			        	 return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 			        }
+                    if(!value){
+                        row["saleAmount"] = parseFloat(value||0).toFixed(2);
+                    }
 			        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 			    },
 			    editor:{
 			        type:'numberbox',
 			        options:{
 			            min:0,
-			            precision:2,
+			            precision:4,
 						onChange:saleAmountOnChange,
 			        }
 			    },
@@ -1560,6 +1572,7 @@ function selectGoods(searchKey){
         var isCheck ={isGift:1 };   // 只要是赠品就可以重复
         var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
         //选择商品的时候计算老毛利率
+        var activityType=$("#activityType").combobox('getValue');
         if(activityType==="1"){
         	//特价
 			$.each(newRows,function (index,item) {
