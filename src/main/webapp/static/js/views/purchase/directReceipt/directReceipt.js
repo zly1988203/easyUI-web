@@ -561,23 +561,47 @@ function selectSupplier(){
 			isDirect:1
 	}
     new publicSupplierService(function(data){
-        $("#supplierId").val(data.id);
-        $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
-        $("#saleWay").val(data.saleWay);
-        if(data.saleWay == 'A'){
-        	$("#saleWayName").val('购销');
-        }else if(data.saleWay == 'B'){
-        	$("#saleWayName").val('代销');        	
-	    }else if(data.saleWay == 'C'){
-	    	$("#saleWayName").val('联营');        	
-		}else if(data.saleWay == 'D'){
-			$("#saleWayName").val('扣率代销');        	
-		}
         // 切换供应商后清除商品数据
-        // TODO
-        // 是否自动加载商品
-        if($("#cascadeGoods")){
-        	// TODO
+        if( $("#supplierId").val() != "" && data.id != $("#supplierId").val()){
+            $.messager.confirm('提示','修改供应商后会清空明细，是否要修改？',function(r){
+                if (r){
+                    $("#supplierId").val(data.id);
+                    $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
+                  $("#saleWay").val(data.saleWay);
+                    if(data.saleWay == 'A'){
+                        $("#saleWayName").val('购销');
+                    }else if(data.saleWay == 'B'){
+                        $("#saleWayName").val('代销');
+                    }else if(data.saleWay == 'C'){
+                        $("#saleWayName").val('联营');
+                    }else if(data.saleWay == 'D'){
+                        $("#saleWayName").val('扣率代销');
+		            }
+                    // 是否自动加载商品
+                    if($("#cascadeGoods").val() == 'true'){
+                        queryGoodsList();
+                    }
+                }
+            });
+        }else{
+            $("#supplierId").val(data.id);
+            $("#oldsupplierId").val(data.id);
+            $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
+            $("#saleWay").val(data.saleWay);
+	        if(data.saleWay == 'A'){
+	        	$("#saleWayName").val('购销');
+	        }else if(data.saleWay == 'B'){
+	        	$("#saleWayName").val('代销');        	
+		    }else if(data.saleWay == 'C'){
+		    	$("#saleWayName").val('联营');        	
+			}else if(data.saleWay == 'D'){
+				$("#saleWayName").val('扣率代销');        	
+			}
+	            
+	        // 是否自动加载商品
+	        if($("#cascadeGoods").val() == 'true'){
+	            queryGoodsList();
+	        }
         }
     },param);
 }
@@ -592,7 +616,6 @@ function selectBranch(){
 
 //选择商品
 function selectGoods(searchKey){
-	// TODO  加控制
 	var branchId = $("#branchId").val();
 	var sourceBranchId = branchId;
 	var targetBranchId = branchId;
