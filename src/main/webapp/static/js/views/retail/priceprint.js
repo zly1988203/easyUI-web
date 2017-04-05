@@ -3,13 +3,16 @@
  */
 var datagridId = "pricePrint";
 
-var options_nomal = [{value:'14',text:'新促销价签(58*28.5mm 3*9)'},
+var options_nomal = [{value:'16',text:'二维码促销价签(58*28.5mm 3*9)'},
+                     {value:'14',text:'新促销价签(58*28.5mm 3*9)'},
                      {value:'6',text:'标准促销价签(72*32.5mm 4*6)'},
 					{value:'8',text:'标准促销价签(72*32.5mm 4*6)无底'},
 					{value:'11',text:'标准促销价签(72*32.5mm 4*6 无底色)'},
 					 {value:'4',text:'促销（85*40mm无底 1*7）'}
 					];
-var options_promotion = [{value:'13',text:'新标准价签(58*28.5mm 3*9)'},
+var options_promotion = [
+					{value:'15',text:'二维码价签(58*28.5mm 3*9)'},
+                         {value:'13',text:'新标准价签(58*28.5mm 3*9)'},
                          {value:'5',text:'标准价签(72*32.5mm 4*6)'},
                          {value:'7',text:'标准价签(72*32.5mm 4*6)无底'},
                          {value:'1',text:'正常（55*25mm有底 3*10）'},
@@ -330,10 +333,13 @@ function printtable(){
 		console.log(printdata);
 		var tabledata=JSON.stringify(printdata);
 		var printNo=$("#optionseletc").find("option:selected").val();
-		var data=tabledata.substring(tabledata.indexOf('['),tabledata.lastIndexOf(']')+1) 
+		var data=tabledata.substring(tabledata.indexOf('['),tabledata.lastIndexOf(']')+1)
+		debugger;
+		var branchId=$("#branchId").val();
 		// 为空判断data.length的长度
 		if(data.length>=3){
 			storage.prdata=data;
+			storage.branchId=branchId;
 			storage.printNo=printNo;
 			window.open(contextPath + "/print/printGoodsView"); 
 		}

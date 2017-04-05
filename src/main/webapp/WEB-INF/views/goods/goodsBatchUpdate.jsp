@@ -294,14 +294,50 @@
 			        		return null;
 			        	}
 			        },
-		            {field:'validUserName',title:'类别',width:'80px',align:'left'},
+		            {field:'category',title:'类别',width:'80px',align:'left'},
 		            {field:"brand",title:"品牌",sortable:true,tooltip:true,width:80},
 		            {field:"supplier",title:"主供应商",sortable:true,tooltip:true,width:140},
-		            {field:'validUserName',title:'安全库存系数',width:'80px',align:'left'},
-		            {field:'validUserName',title:'管理库存',width:'80px',align:'left'},
-		            {field:'validUserName',title:'参与促销',width:'80px',align:'left'},
-		            {field:'validUserName',title:'分店调价',width:'80px',align:'left'},
-		            {field:'validUserName',title:'直送商品',width:'80px',align:'left'}
+		            {field:'safetyCoefficient',title:'安全库存系数',width:'80px',align:'left'},
+		            {
+		            	field:'isManagerStock',title:'管理库存',width:'80px',align:'left',
+		            	formatter : function(value,row,index){
+			        		if(value == 1){
+			        			return "是";
+			        		}else{
+			        			return "否";
+			        		}
+			        	}
+		            },
+		            {
+		            	field:'allowActivity',title:'参与促销',width:'80px',align:'left',
+		            	formatter : function(value,row,index){
+			        		if(value == true){
+			        			return "是";
+			        		}else{
+			        			return "否";
+			        		}
+			        	}
+		            },
+		            {
+		            	field:'allowAdjust',title:'分店调价',width:'80px',align:'left',
+		            	formatter : function(value,row,index){
+			        		if(value == true){
+			        			return "是";
+			        		}else{
+			        			return "否";
+			        		}
+			        	}
+		            },
+		            {
+		            	field:'isFastDeliver',title:'直送商品',width:'80px',align:'left',
+		            	formatter : function(value,row,index){
+			        		if(value == 1){
+			        			return "是";
+			        		}else{
+			        			return "否";
+			        		}
+			        	}
+		            }
 		        ]],
 				onLoadSuccess : function() {
 					gridHandel.setDatagridHeader("center");
@@ -473,17 +509,13 @@
 		    }
 		    var param = {
 		        url:contextPath + "/goods/batchUpdate/import",
-		        tempUrl:contextPath+"/form/overdue/export/templ",
+		        tempUrl:contextPath+"/goods/batchUpdate/importTemplate",
 		        type:type,
 		        branchId:branchId
 		    };
 		    new publicUploadFileService(function(data){
 			    var keyNames = {
-			        purchasePrice:'price',
-			        id:'skuId',
-			        disabled:'',
-			        pricingType:'',
-			        inputTax:'tax'
+			    		
 			    };
 			    var rows = gFunUpdateKey(data,keyNames);
 			    //var argWhere ={skuCode:1};  //验证重复性
