@@ -21,6 +21,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.slf4j.Logger;
@@ -193,7 +194,7 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public RespJson delete(String formIds) {
 	
-	RespJson resp = new RespJson();
+	RespJson resp = RespJson.success();
 	
 	if(StringUtils.isNotBlank(formIds)){
         	//SysUser user = UserUtil.getCurrentUser();
@@ -238,8 +239,7 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
 	    vo.setPageNumber(pageNumber);
 	    vo.setPageSize(StringUtils.equalsIgnoreCase("all", str)?Integer.MAX_VALUE:pageSize);
 	    try {
-		PageUtils<OverdueFormDetailVo> list = overdueFormDetailService.selectDetailList(vo);
-		return list;
+		return overdueFormDetailService.selectDetailList(vo);
 	    } catch (Exception e) {
 		logger.error("加载临期商品审核列表详情失败！",e);
 	    }
@@ -274,7 +274,7 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
 	    if(mapType!=null && !mapType.isEmpty()){
     	    	String detailListStr = ((JSONArray)mapType.get("detailList")).toJSONString();
     	    	List<Map<String,Object>> detailLists = JSON.parseObject(detailListStr,new TypeReference<List<Map<String,Object>>>(){});
-    	    	if(detailLists!=null && detailLists.size()>0){
+    	    	if(CollectionUtils.isNotEmpty(detailLists)){
     	    	    return overdueFormService.saveOverdue(mapType,detailLists);
     	    	}
 	    }
@@ -309,7 +309,7 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
 	    if(mapType!=null && !mapType.isEmpty()){
 		String detailListStr = ((JSONArray)mapType.get("detailList")).toJSONString();
     	    	List<Map<String,Object>> detailLists = JSON.parseObject(detailListStr,new TypeReference<List<Map<String,Object>>>(){});
-    	    	if(detailLists!=null&&detailLists.size()>0){
+    	    	if(CollectionUtils.isNotEmpty(detailLists)){
     	    	    mapType.put("userId", UserUtil.getUser().getId());
     	    	    mapType.put("userName", UserUtil.getUser().getUserName());
     	    	    return overdueFormService.commitOverdue(mapType,detailLists);

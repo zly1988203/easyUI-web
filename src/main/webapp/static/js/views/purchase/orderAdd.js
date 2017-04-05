@@ -608,6 +608,10 @@ function selectSupplier(){
         $("#supplierId").val(data.id);
         $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
         $("#deliverTime").val(new Date(new Date().getTime() + 24*60*60*1000*data.diliveCycle).format('yyyy-MM-dd'));
+        // 是否自动加载商品
+        if($("#cascadeGoods").val() == 'true'){
+            
+        }
     });
 }
 function selectOperator(){

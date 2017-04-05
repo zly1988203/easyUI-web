@@ -594,6 +594,10 @@ function selectSupplier(){
 	new publicSupplierService(function(data){
 		$("#supplierId").val(data.id);
 		$("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
+        // 是否自动加载商品
+        if($("#cascadeGoods").val() == 'true'){
+            
+        }
 	});
 }
 function selectOperator(){
