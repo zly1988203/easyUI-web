@@ -727,6 +727,7 @@ function selectSupplier(){
     },param);
 }
 
+//直接查询商品
 function queryGoodsList() {
    var queryParams = {
             formType:'PM',
