@@ -42,7 +42,7 @@
 			</div>
 		</div>
 		<div class="ub umar-t8 uc-black umar-l16">【单号】:<span>${form.formNo}</span></div>
-		<c:if test="${stocktakingFormVo.status != 0}">
+		<c:if test="${form.status != 0}">
 			<div class="already-examine" id="already-examine">
 				<span>已审核</span>
 			</div>
