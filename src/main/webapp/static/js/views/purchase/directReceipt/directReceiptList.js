@@ -151,11 +151,9 @@ function initDirectDatagrid(){
             }},
             {field:'status',title:'审核状态',width:'100px',align:'center',formatter:function(value,row,index){
             	if(value == '0'){
-            		return '待审核';
+            		return '未审核';
             	}else if(value == '1'){
-            		return '审核通过';
-            	}else if(value == '2'){
-            		return '审核失败';
+            		return '已审核';
             	}else{
             		return '未知类型：'+ value;
             	}
@@ -163,8 +161,7 @@ function initDirectDatagrid(){
             {field:'branchCode',title:'机构编号',width:'120px',align:'left'},
             {field:'branchName',title:'机构名称',width:'140px',align:'left'},
             {field:'supplierName',title:'供应商',width:'140px',align:'left'},
-   
-            {field:'updateUserName',title:'制单人',width:'130px',align:'left'},
+            {field:'createUserName',title:'制单人',width:'130px',align:'left'},
             {field:'createTime',title:'制单时间',width:'150px',align:'center', formatter: function (value, row, index) {
                 if (value) {
                 	return new Date(value).format('yyyy-MM-dd hh:mm');
