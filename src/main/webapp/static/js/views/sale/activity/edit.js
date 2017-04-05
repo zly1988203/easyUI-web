@@ -479,6 +479,7 @@ function initDatagridSpecial(){
 							options:{
 								min:0,
 								precision:2,
+                                disabled:true,
 							}
 						},
 					},
@@ -494,6 +495,7 @@ function initDatagridSpecial(){
 		                    options:{
 		                        min:0,
 		                        precision:2,
+								onChange:changSaleAmount,
 		                    }
 		                },
 		            },
@@ -549,11 +551,25 @@ function initDatagridSpecial(){
 			}
 		},
       onLoadSuccess:function(data){
+			if(data.list && data.list.length > 0){
+                $.each(data.list,function (index,item) {
+                    item.oldSaleRate = ((item.price-item.purchasePrice)/item.price*100).toFixed(2)+"%";
+                    item.newSaleRate = ((item.saleAmount-item.purchasePrice)/item.saleAmount*100).toFixed(2)+"%"
+                })
+			}
+
 		gridHandel.setDatagridHeader("center");
 				
-		 }
+	  }
     });
     gridHandel.setLoadData([$.extend({},gridDefault)]) 
+}
+
+//特价  新毛利率
+function  changSaleAmount(newVal,oldVal) {
+	var purchasePrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'purchasePrice');
+    var newSaleRate = ((newVal-purchasePrice)/newVal*100).toFixed(2)+"%"
+    gridHandel.setFieldTextValue('newSaleRate',newSaleRate);
 }
 
 //初始化表格-类别折扣
@@ -615,7 +631,6 @@ function initDatagridsortZk(){
 		                    options:{
 		                        min:0,
 		                        precision:2,
-		           
 		                    }
 		                },
 		            }, 
@@ -719,6 +734,7 @@ function initDatagridoneZk(){
                     options:{
                         min:0,
                         precision:2,
+                        disabled:true,
                     }
                 },
             },
@@ -734,6 +750,7 @@ function initDatagridoneZk(){
 			        options:{
 			            min:0,
 			            precision:2,
+						onChange:changeDiscount
 			        }
 			    },
 			},
@@ -789,11 +806,27 @@ function initDatagridoneZk(){
 			}
 		},
       onLoadSuccess:function(data){
+          if(data.list && data.list.length > 0) {
+              $.each(data.list, function (index, item) {
+                  var discountPrice = ((item.price * item.discount) / 10).toFixed(2);
+                  item.oldSaleRate = ((item.price - item.purchasePrice) / item.price * 100).toFixed(2) + "%";
+                  item.newSaleRate = ((discountPrice - item.purchasePrice) / discountPrice * 100).toFixed(2) + "%"
+              })
+          }
 			gridHandel.setDatagridHeader("center");
 				
 		 }
     });
     gridHandel.setLoadData([$.extend({},gridDefault)])
+   }
+
+   //单品折扣 计算新毛利率
+   function changeDiscount(newVal,oldVal) {
+		var salePrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
+		var purchasePrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'purchasePrice');
+       var discountPrice = ((salePrice*newVal)/10).toFixed(2);
+       var newSaleRate = ((discountPrice-purchasePrice)/discountPrice*100).toFixed(2)+"%";
+       gridHandel.setFieldTextValue('newSaleRate',newSaleRate);
    }
 
 //初始化表格-偶数特价
@@ -865,7 +898,7 @@ function initDatagridOddtj(){
 //			        }
 //			    },
 			},
-            {field: 'purchasePrice', title: '成本价', width: 100, align: 'right',
+            {field: 'purchasePrice', title: '成本价', width: '100px', align: 'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return;
@@ -877,10 +910,11 @@ function initDatagridOddtj(){
                     options:{
                         min:0,
                         precision:2,
+                        disabled:true,
                     }
                 },
             },
-			{field: 'saleAmount', title: '偶数特价', width: 100, align: 'right',
+			{field: 'saleAmount', title: '偶数特价', width: '100px', align: 'right',
 			    formatter : function(value, row, index) {
 			        if(row.isFooter){
 			        	return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -892,6 +926,7 @@ function initDatagridOddtj(){
 			        options:{
 			            min:0,
 			            precision:2,
+						onChange:changeSaleAmount
 			        }
 			    },
 			},
@@ -948,11 +983,23 @@ function initDatagridOddtj(){
 			}
 		},
       onLoadSuccess:function(data){
+          if(data.list && data.list.length > 0) {
+              $.each(data.list, function (index, item) {
+                  item.oldSaleRate = ((item.price - item.purchasePrice) / (2 * item.price) * 100).toFixed(2) + "%";
+                  item.newSaleRate = ((item.saleAmount - item.purchasePrice) / (2 * item.saleAmount) * 100).toFixed(2) + "%"
+              })
+          }
 			gridHandel.setDatagridHeader("center");
 				
 		 }
     });
     gridHandel.setLoadData([$.extend({},gridDefault)])
+}
+//改变偶数特价 计算新毛利率
+function changeSaleAmount(newVal,oldVal) {
+	var purchasePrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'purchasePrice');
+    var newSaleRate = ((newVal-purchasePrice)/(2*newVal)*100).toFixed(2)+"%";
+    gridHandel.setFieldTextValue('newSaleRate',newSaleRate);
 }
 
 

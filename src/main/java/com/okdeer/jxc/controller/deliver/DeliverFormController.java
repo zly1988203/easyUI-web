@@ -20,7 +20,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONObject;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -60,6 +59,7 @@ import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.NumberToCN;
 import com.okdeer.jxc.common.utils.OrderNoUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
+import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.common.utils.UuidUtils;
 import com.okdeer.jxc.form.deliver.entity.DeliverForm;
 import com.okdeer.jxc.form.deliver.entity.DeliverFormList;
@@ -95,7 +95,6 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 
 	@Reference(version = "1.0.0", check = false)
 	private QueryDeliverFormServiceApi queryDeliverFormServiceApi;
-	
 
 	@Reference(version = "1.0.0", check = false)
 	private DeliverFormServiceApi deliverFormServiceApi;
@@ -136,6 +135,19 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	}
 
 	/**
+	 * @Description: 跳转直送要货单页面
+	 * @param model
+	 * @return
+	 * @author xuyq
+	 * @date 2017年3月30日
+	 */
+	@RequestMapping(value = "viewsDY")
+	public String viewsDY(Model model) {
+		model.addAttribute("targetBranchId", getCurrBranchId());
+		return "form/deliver/deliverDyList";
+	}
+
+	/**
 	 * @Description: 跳转出库单
 	 * @return   
 	 * @return String  
@@ -162,7 +174,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		model.addAttribute("targetBranchId", getCurrBranchId());
 		return "form/deliver/DiList";
 	}
-	
+
 	/**
 	 * @Description: 跳转退货申请单
 	 * @param model
@@ -256,9 +268,8 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 				model.addAttribute("referenceId", vo.getDeliverFormId());
 			}
 			return "form/deliver/DoAdd";
-		} else if (FormType.DR.toString().equals(deliverType)) { //退货申请
-			
-			
+		} else if (FormType.DR.toString().equals(deliverType)) { // 退货申请
+
 			if (BranchTypeEnum.HEAD_QUARTERS.getCode().intValue() == type.intValue()
 					|| BranchTypeEnum.BRANCH_OFFICE.getCode().intValue() == type.intValue()) {
 				branchesGrow.setSourceBranchId("");
@@ -270,6 +281,26 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 				model.addAttribute("referenceId", vo.getDeliverFormId());
 			}
 			return "form/deliver/refund/DrAdd";
+		} else if (FormType.DY.toString().equals(deliverType)) { // 直送要货
+			if (BranchTypeEnum.HEAD_QUARTERS.getCode().intValue() == type.intValue()) {
+				// 如果是总店，则不让进行任何业务操作，只能查询
+				// return "form/deliver/deliverList";
+			} else if (BranchTypeEnum.BRANCH_OFFICE.getCode().intValue() == type.intValue()) {
+				// 判断要货机构是否是分店，如果是分店，要货机构可以选择该分店下的所有机构，有效时间为该分店的，起订金额为目标机构的
+				branchesGrow
+						.setValidityTime(branchesGrow.getTargetBranchValidityNumDays() == 0 ? SysConstant.VALIDITY_DAY
+								: branchesGrow.getTargetBranchValidityNumDays());
+				branchesGrow.setSourceBranchId("");
+				branchesGrow.setSourceBranchName("");
+			} else {
+				// 如果为店铺，则只能是该机构本身，不能选择，有效时间为该店铺对应的分店的，起订金额为该店铺对应分店的
+				branchesGrow
+						.setValidityTime(branchesGrow.getSourceBranchValidityNumDays() == 0 ? SysConstant.VALIDITY_DAY
+								: branchesGrow.getSourceBranchValidityNumDays());
+			}
+
+			model.addAttribute("branchesGrow", branchesGrow);
+			return "form/deliver/deliverDyAdd";
 		} else {
 			// 需求修改，点击要货单生成出库单，将要货单id传入
 			if (!StringUtils.isEmpty(vo.getDeliverFormId())) {
@@ -309,8 +340,10 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 				return "form/deliver/DoEdit";
 			} else if (FormType.DD.toString().equals(form.getFormType())) {
 				return "form/deliver/DDEdit";
-			}  else if (FormType.DR.toString().equals(form.getFormType())) {
+			} else if (FormType.DR.toString().equals(form.getFormType())) {
 				return "form/deliver/refund/DrEdit";
+			} else if (FormType.DY.toString().equals(form.getFormType())) {
+				return "form/deliver/deliverDyEdit";
 			} else {
 				return "form/deliver/DiEdit";
 			}
@@ -338,6 +371,12 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 			} else if (FormType.DR.toString().equals(form.getFormType())) {
 				model.addAttribute("close", report);
 				return "form/deliver/refund/DrView";
+			} else if (FormType.DY.toString().equals(form.getFormType())) {
+				Branches branches = branchesServiceApi.getBranchInfoById(getCurrBranchId());
+				model.addAttribute("minAmount", branches.getMinAmount());
+				model.addAttribute("salesman", branches.getSalesman() == null ? "" : branches.getSalesman());
+				model.addAttribute("close", report);
+				return "form/deliver/deliverDyView";
 			} else {
 				model.addAttribute("close", report);
 				return "form/deliver/DiView";
@@ -364,13 +403,12 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
-			
+
 			String deliverType = vo.getDeliverType();
-			
-			//如果是出库单/要货单/退货单
-			if (FormType.DO.toString().equals(deliverType) ||
-				FormType.DD.toString().equals(deliverType) || 
-				FormType.DR.toString().equals(deliverType)) {
+
+			// 如果是出库单/要货单/退货单
+			if (FormType.DO.toString().equals(deliverType) || FormType.DD.toString().equals(deliverType)
+					|| FormType.DR.toString().equals(deliverType)) {
 				if (StringUtils.isEmpty(vo.getSourceBranchId())) {
 					vo.setSourceBranchId(UserUtil.getCurrBranchId());
 				}
@@ -378,6 +416,24 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 				// 获取机构ID
 				if (StringUtils.isEmpty(vo.getTargetBranchId())) {
 					vo.setTargetBranchId(UserUtil.getCurrBranchId());
+				}
+			}
+
+			String sourceBranchName = vo.getSourceBranchName();
+			String targetBranchName = vo.getTargetBranchName();
+			if (StringUtils.isNotEmpty(sourceBranchName)) {
+				if (sourceBranchName.contains("[") && sourceBranchName.contains("]")) {
+					vo.setSourceBranchName(null);
+				} else {
+					vo.setSourceBranchId(null);
+				}
+			}
+
+			if (StringUtils.isNotEmpty(targetBranchName)) {
+				if (targetBranchName.contains("[") && targetBranchName.contains("]")) {
+					vo.setTargetBranchName(null);
+				} else {
+					vo.setTargetBranchId(null);
 				}
 			}
 			PageUtils<DeliverForm> deliverForms = queryDeliverFormServiceApi.queryLists(vo);
@@ -409,8 +465,8 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 			String getId = UuidUtils.getUuid();
 			String formNo = "";
 			if (StringUtils.isEmpty(vo.getBranchCode())) {
-				formNo = orderNoUtils.getOrderNo(new StringBuilder(vo.getFormType()).append(
-						getCurrBranchCode()).toString());
+				formNo = orderNoUtils.getOrderNo(new StringBuilder(vo.getFormType()).append(getCurrBranchCode())
+						.toString());
 			} else {
 				formNo = orderNoUtils.getOrderNo(new StringBuilder(vo.getFormType()).append(vo.getBranchCode())
 						.toString());
@@ -617,6 +673,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		replaceMap.put("_发货机构", deliverForm.getSourceBranchName() != null ? deliverForm.getSourceBranchName() : "");
 		replaceMap.put("sourceBranchName",
 				deliverForm.getSourceBranchName() != null ? deliverForm.getSourceBranchName() : "");
+
 		// 收货机构
 		replaceMap.put("_收货机构", deliverForm.getSourceBranchName() != null ? deliverForm.getSourceBranchName() : "");
 		replaceMap.put("sourceBranchName",
@@ -680,6 +737,34 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		replaceMap.put("amount", BigDecimalUtils.formatTwoDecimal(deliverForm.getAmount()));
 
 		replaceMap.put("daRemark", deliverForm.getDaRemark() != null ? deliverForm.getDaRemark() : "");
+
+		// 退货单
+		if (FormType.DR.toString().equals(deliverForm.getFormType())) {
+
+			// 退货机构
+			replaceMap.put("_退货机构", deliverForm.getSourceBranchName() != null ? deliverForm.getSourceBranchName() : "");
+			replaceMap.put("sourceBranchName",
+					deliverForm.getSourceBranchName() != null ? deliverForm.getSourceBranchName() : "");
+
+			// 收货机构
+			replaceMap.put("_收货机构", deliverForm.getTargetBranchName() != null ? deliverForm.getTargetBranchName() : "");
+			replaceMap.put("targetBranchName",
+					deliverForm.getTargetBranchName() != null ? deliverForm.getTargetBranchName() : "");
+
+			// 备注
+			replaceMap.put("_备注", deliverForm.getRemark() != null ? deliverForm.getRemark() : "");
+			replaceMap.put("reamrk", deliverForm.getRemark() != null ? deliverForm.getRemark() : "");
+
+			// 制单日期
+			replaceMap.put(
+					"_制单日期",
+					deliverForm.getCreateTime() != null ? DateUtils.formatDate(deliverForm.getCreateTime(),
+							"yyyy-MM-dd") : "");
+			replaceMap.put(
+					"createTime",
+					deliverForm.getCreateTime() != null ? DateUtils.formatDate(deliverForm.getCreateTime(),
+							"yyyy-MM-dd") : "");
+		}
 
 		return replaceMap;
 	}

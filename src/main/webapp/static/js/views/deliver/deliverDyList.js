@@ -5,9 +5,6 @@
 $(function(){
 	//开始和结束时间
 	toChangeDatetime(0);
-	if(getUrlQueryString('message')=='0'){
-		$("#txtStartDate").val('');
-	}
     initDatagridRequireOrders();
     targetBranchId = $("#targetBranchId").val();
 });
@@ -64,9 +61,8 @@ function initDatagridRequireOrders(){
 			{field:'check',checkbox:true},
             {field:'formNo',title:'单据编号',width:'140px',align:'left',formatter:function(value,row,index){
             	if(updatePermission){
-            		var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'要货单明细\',\''+ contextPath +'/form/deliverForm/deliverEdit?deliverFormId='+ row.deliverFormId +'&deliverType=DA\')">' + value + '</a>';
+            		var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'直送要货单明细\',\''+ contextPath +'/form/deliverForm/deliverEdit?deliverFormId='+ row.deliverFormId +'&deliverType=DY\')">' + value + '</a>';
             		return strHtml;
-            		//return "<a style='text-decoration: underline;' href='"+ contextPath +"/form/deliverForm/deliverEdit?deliverFormId="+ row.deliverFormId +"'>" + value + "</a>";
             	}else{
             		return value;
             	}
@@ -114,15 +110,15 @@ function initDatagridRequireOrders(){
 
 //新增要货单
 function addDeliverForm(){
-	toAddTab("新增要货单",contextPath + "/form/deliverForm/addDeliverForm?deliverType=DA");
+	toAddTab("新增直送要货单",contextPath + "/form/deliverForm/addDeliverForm?deliverType=DY");
 }
 
 //查询要货单
 function queryForm(){
 	var fromObjStr = $('#queryForm').serializeObject();
 	// 去除编码
-    fromObjStr.targetBranchName = fromObjStr.targetBranchName.substring(fromObjStr.targetBranchName.lastIndexOf(']')+1)
-    fromObjStr.operateUserName = fromObjStr.operateUserName.substring(fromObjStr.operateUserName.lastIndexOf(']')+1)
+    /*fromObjStr.targetBranchName = fromObjStr.targetBranchName.substring(fromObjStr.targetBranchName.lastIndexOf(']')+1)
+    fromObjStr.operateUserName = fromObjStr.operateUserName.substring(fromObjStr.operateUserName.lastIndexOf(']')+1)*/
 
 	$("#deliverFormList").datagrid("options").method = "post";
 	$("#deliverFormList").datagrid('options').url = contextPath + '/form/deliverForm/getDeliverForms';
@@ -168,11 +164,32 @@ function delDeliverForm(){
  */
 function selectOperator(){
 	new publicOperatorService(function(data){
-//		$("#operateUserId").val(data.id);
+		$("#operateUserId").val(data.id);
 		console.log(data.userCode)
 		$("#operateUserName").val("["+data.userCode+"]"+data.userName);
 	});
 }
+
+/**
+ * 制单人
+ */
+function selectOperator() {
+	new publicOperatorService(function(data) {
+		// $("#salesmanId").val(data.id);
+		$("#createUserName").val(data.userName);
+	});
+}
+
+/**
+ * 供应商选择
+ */
+function selectSupplier(){
+	new publicSupplierService(function(data){
+		$("#supplierId").val(data.id);
+		$("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
+	});
+}
+
 /**
  * 机构
  */

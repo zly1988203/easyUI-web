@@ -237,8 +237,11 @@ public interface ExportExcelConstant {
 	
 	String DELIVERFORM_DI = "DeliverFormDI.xlsx";
 	
+	String DELIVERFORM_DY = "DeliverFormDY.xlsx";
 	
 	String DELIVERFORM_DD = "DeliverFormDD.xlsx";
+	
+	String DELIVERFORM_DR = "DeliverFormDR.xlsx";
 
 	/**
 	 * @Fields DADOFORM : DADOform.xlsx
@@ -491,4 +494,9 @@ public interface ExportExcelConstant {
 	 * @Fields DOSHEET2 : 出库单模板二
 	 */
 	String DOSHEET2 = "DOSheet2.xlsx";
+	
+	/**
+	 * @Fields NEW_GOODS_SALE_ANALYSIS_report : 新品销售分析
+	 */
+	String NEW_GOODS_SALE_ANALYSIS_REPORT = "newGoodsSaleAnalysis.xlsx";
 }

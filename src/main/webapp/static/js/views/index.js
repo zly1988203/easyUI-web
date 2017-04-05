@@ -27,11 +27,22 @@ $(function(){
 
     //绑定tab页右键菜单
     tabMenuEven();
-
-    //加载首页
+    synchronousMessage();
+    setInterval("synchronousMessage()", 10000);  
+    //加载首页 
     //openNewTab('首页','purchase/paymentOrder/index','null');
 
 });
+
+var synchronousMessage = function(){
+	//alert(menuData);
+	$.get("message/",function(data){
+		if(data.message==="success"){
+			$("#messageAllCount").text(data.data);
+		}
+	});
+};
+
 function initMenuOne(){
     
 	//加载菜单控件
@@ -102,6 +113,7 @@ function loadLeftMenu(){
                 window.location=contextPath+'/system/logout';
                 return ;
             }
+           
             //data = initData;
             menuData = data;
             var menuHtml = "";

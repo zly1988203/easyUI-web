@@ -17,7 +17,7 @@
 			<div class="ub ub-ac upad-4">
 				<div class="ubtns">
 					<shiro:hasPermission name="JxcStockReimburse:add">
-						<div class="ubtns-item" onclick="addStoreYH()">新增</div>
+						<div class="ubtns-item" onClick="addDeliverDR()">新增</div>
 					</shiro:hasPermission>
 					<shiro:hasPermission name="JxcStockReimburse:add">
 						<div class="ubtns-item" onclick="saveOrder()">保存</div>
@@ -49,10 +49,10 @@
 			<div class="ub umar-t10">
 				<div class="ub ub-ac uw-300">
 					<div class="umar-r10 uw-70 ut-r">制单机构:</div>
-					<input type="hidden" name="targetBranchId" id="targetBranchId" class="uinp" />
-					<input type="hidden" id="targetBranchType" name="targetBranchType" />
-					<input type="text" name="targetBranchName" id="targetBranchName"class="uinp  ub ub-f1" readonly="readonly" />
-					<div class="uinp-more" onclick="selectTargetBranch()">...</div>
+					<input type="hidden" name="sourceBranchId" id="sourceBranchId" class="uinp" />
+					<input type="hidden" id="sourceBranchType" name="sourceBranchType" />
+					<input type="text" name="sourceBranchName" id="sourceBranchName"class="uinp  ub ub-f1" readonly="readonly" onclick="selectSourceBranch()"/>
+					<div class="uinp-more" onclick="selectSourceBranch()">...</div>
 				</div>
 				<div class="ub ub-ac uw-300  umar-l80">
 					<div class="umar-r10 uw-80 ut-r">制单人员:</div>
@@ -67,12 +67,13 @@
 				<div class="ub ub-ac uw-300">
 					<div class="umar-r10 uw-70 ut-r">收货机构:</div>
 					<!--注意修改收货机构的name id-->
-					<input type="hidden" name="sourceBranchId" id="sourceBranchId" class="uinp" />
-					<input type="text" name="sourceBranchName" id="sourceBranchName"class="uinp  ub ub-f1" readonly="readonly" />
-					<div class="uinp-more" onclick="selectSourceBranch()">...</div>
+					<input type="hidden" name="targetBranchId" id="targetBranchId" class="uinp" />
+					<input type="hidden" id="targetBranchType" name="targetBranchType" />
+					<input type="text" name="targetBranchName" id="targetBranchName"class="uinp  ub ub-f1" readonly="readonly" onclick="selectTargetBranch()" />
+					<div class="uinp-more" onclick="selectTargetBranch()">...</div>
 				</div>
 				<div class="ub ub-ac uw-300 umar-l80">
-					<div class="umar-r10 uw-80 ut-r">最后修改人:</div>
+					<div class="umar-r10 uw-80 ut-r">修改人员:</div>
 					<div class="utxt"></div>
 				</div>
 				<div class="ub ub-ac uw-300">

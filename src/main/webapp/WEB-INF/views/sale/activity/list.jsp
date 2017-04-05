@@ -39,27 +39,16 @@
 	                 </div>
 	                 <div class="ub ub-ac umar-l40 uw-300">
 	                    <div class="umar-r10 uw-70 ut-r">活动类型:</div>
-	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub" type="radio" name="activityType" value="" checked="checked" /><span>全部</span>
-	                    </div>
-	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub" type="radio" name="activityType"  value="1" /><span>特价</span>
-	                    </div>
-	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub" type="radio" name="activityType" value="2" /><span>折扣</span>
-	                    </div>
-	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub" type="radio" name="activityType" value="3"  /><span>偶数特价</span>
-	                    </div>
-	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub" type="radio" name="activityType" value="4"  /><span>换购</span>
-	                    </div>
-	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub" type="radio" name="activityType" value="5"  /><span>满减</span>
-	                    </div>
-	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub" type="radio" name="activityType" value="6"  /><span>组合特价</span>
-	                    </div>
+	                    <select class="uselect easyui-combobox" name="activityType" data-options="editable:false" >
+						  <option value="">全部</option>
+						  <option value="1">特价</option>
+						  <option value="2">折扣</option>
+						  <option value="3">偶数特价</option>
+						  <option value="4">换购</option>
+						  <option value="5">满减</option>
+						  <option value="7">满送</option>
+						  <option value="6">组合特价</option>
+						</select>
 	                </div>
             </div>
 	        <div class="ub umar-t8">

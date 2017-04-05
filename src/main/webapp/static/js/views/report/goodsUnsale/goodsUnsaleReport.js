@@ -41,8 +41,20 @@ function initDatagridGoodsUnsale(){
                     return str;
                 }},
             {field:'branchName',title:'机构名称',width:'140px',align:'left'},
-            {field:'categoryName',title:'商品类别',width:'80px',align:'left'},
+            {field:'categoryCode',title:'类别编号',width:'80px',align:'left'},
+            {field:'categoryName',title:'类别名称',width:'80px',align:'left'},
+            {field:'skuCode',title:'货号',width:'80px',align:'left'},
             {field:'skuName',title:'商品名称',width:'140px',align:'left'},
+            {field:'barCode',title:'条码',width:'80px',align:'left'},
+            {field:'spec',title:'规格',width:'80px',align:'left'},
+            {field:'unit',title:'单位',width:'80px',align:'center'},
+            {field:'costPrice',title:'成本价',width:100,align:'right',formatter:function(value,row,index){
+			    if(value){
+			    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
+			    }else{
+			    	return '<b>0.00</b>';
+			    }
+			}},
             {field:'goodsStock',title:'库存',width:100,align:'right',
             	formatter:function(value,row,index){
 				    if(value){
@@ -57,6 +69,13 @@ function initDatagridGoodsUnsale(){
                         precision:1
                     }
                 }},
+             {field:'costAmount',title:'库存金额',width:100,align:'right',formatter:function(value,row,index){
+			    if(value){
+			    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
+			    }else{
+			    	return '<b>0.00</b>';
+			    }
+			}},
             {field:'saleNum',title:'期间销量',width:'130px',align:'right',
                 	formatter:function(value,row,index){
     				    if(value){

@@ -261,3 +261,5 @@ html,body{width: 100%;height: 100%;padding: 0;margin: 0;}
 .textbox-text{margin-right: 0 !important;}
 
 .window-proxy-mask, .window-mask{background:#eee;}
+
+.ubtns .ubtns-item.init{width:auto;padding:0 6px;}

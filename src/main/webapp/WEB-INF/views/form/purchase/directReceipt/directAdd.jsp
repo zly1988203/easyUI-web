@@ -44,15 +44,13 @@
 			<div class="ub umar-t10">
 				<div class="ub ub-ac uw-300">
 					<div class="umar-r10 uw-60 ut-r">供应商:</div>
-					<input class="uinp" name="supplierId" id="supplierId" type="hidden" >
-					<input class="uinp ub ub-f1"  id="supplierName" type="text" onclick="selectSupplier()"
-						value="${form.supplierName}" readonly="readonly">
+					<input class="uinp" name="supplierId" id="supplierId" type="hidden" > 
+					<input class="uinp easyui-validatebox" data-options="required:true" id="supplierName" type="text" onclick="selectSupplier()" readonly="readonly">
 					<div class="uinp-more" onclick="selectSupplier()">...</div>
-
 				</div>
 				<div class="ub ub-ac uselectw umar-l00 umar-l10">
 					<div class="umar-r10 uw-70 ut-r">经营方式:</div>
-					<input type="hidden" name="saleWay" id="saleWay" />
+					<input type="hidden" name="saleWay" id="saleWay" /> 
 					<input type="text" name="saleWayName" id="saleWayName" class="uinp ub ub-f1" readonly="readonly" />
 				</div>
 				<div class="ub ub-ac umar-l40 uw-300 ">
@@ -70,17 +68,17 @@
 				<div class="ub ub-ac uw-300">
 					<div class="umar-r10 uw-60 ut-r">收货机构:</div>
 					<input class="uinp" name="branchId" id="branchId" type="hidden">
-					<input id="branchName" class="uinp ub ub-f1" type="text" readonly="readonly"   re onclick="selectBranch()">
+					<input id="branchName" class="uinp easyui-validatebox" data-options="required:true" type="text" onclick="selectBranch()">
 					<div class="uinp-more" onclick="selectBranch()">...</div>
 				</div>
 
-				<div class="ub ub-ac uw-300 umar-l10"></div>
+				<div class="ub ub-ac umar-l10"></div>
 
-				<div class="ub ub-ac umar-l10 uw-300">
-					<div class="umar-r10 uw-80 ut-r">最后修改人:</div>
+				<div class="ub ub-ac umar-l40 uw-300">
+					<div class="umar-r10 uw-70 ut-r">最后修改人:</div>
 					<div class="utxt"></div>
 				</div>
-				<div class="ub ub-ac uw-300 umar-l10">
+				<div class="ub ub-ac uw-300">
 					<div class="umar-r10 uw-70 ut-r">修改时间:</div>
 					<div class="utxt"></div>
 				</div>

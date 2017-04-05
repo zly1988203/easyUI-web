@@ -13,6 +13,16 @@ $(function(){
 	toBtnDisable('btnAdd','btnDel');
 	initDatagridRequireOrdersDO();
 	targetBranchId = $("#targetBranchId").val();
+	if(getUrlQueryString('message')=='0'){
+		$("#txtStartDate").val('');
+    	$('#tabs').tabs({'selected':1});
+    }else{
+    	$("#txtStartDate").val('');
+    	toBtnDisable('btnAdd','btnDel');
+		setQueryDataDO();
+		delDivAuditStatus();
+		initDatagridRequireOrdersDO();
+    }
 });
 
 $(document).on('input','#remark',function(){

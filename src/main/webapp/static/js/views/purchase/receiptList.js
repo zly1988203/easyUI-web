@@ -16,6 +16,18 @@ $(function(){
     initDatagridFormPA();
     //单据状态切换
     changeStatus();
+    if(getUrlQueryString('message')=='0'){
+    	$("#txtStartDate").val('');
+    	$('#tabs').tabs({'selected':1});
+    }else{
+    	$("#txtStartDate").val('');
+    	document.getElementById("radioItemDiv").style.visibility="hidden";
+		$("#refFormNo").val('');
+		document.getElementById("refFormNoDiv").style.visibility="hidden";
+		toBtnEnable('btnAdd','btnDel');
+		setQueryDataPA();
+		initDatagridFormPA();
+    }
 });
 
 //加载选项卡

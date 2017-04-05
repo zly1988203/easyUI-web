@@ -92,18 +92,9 @@ function initMarketWaterGrid() {
             {field: 'categoryName', title: '类别名称', width: 150, align: 'left'},
             {field: 'cashier', title: '收银员', width: 100, align: 'left'},
             {field: 'discount', title: '折扣', width: 100, align: 'right'},
-            {field: 'orderType', title: '订单类型', width: 100, align: 'center',formatter : function(orderType){
-    			if(orderType=="0"){
-    				return "APP";
-    			}else if(orderType=="1"){
-    				return "微信";
-    			}else if(orderType=="2"){
-    				return "线下POS";
-    			}else if(orderType=="3"){
-    				return "APP";
-    			}
-    			return null;
-    		}},
+            {field: 'orderTypeStr', title: '订单类型', width: 100, align: 'center' },
+            {field: 'ticketNo', title: '小票号', width: 180, align: 'center' },
+            {field: 'orderWayStr', title: '销售方式', width: 100, align: 'center' },
             {field: 'remark', title: '备注', width: 150, align: 'left'}
         ]]
     });

@@ -14,6 +14,9 @@ $(function(){
 	toBtnDisable('btnAdd','btnDel');
 	setQueryDataDA();
 	delDivAuditStatus();
+	if(getUrlQueryString('message')=='0'){
+		$("#txtStartDate").val('');
+    }
 	initDatagridRequireOrdersDA();
 });
 
