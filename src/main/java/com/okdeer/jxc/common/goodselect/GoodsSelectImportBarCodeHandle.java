@@ -45,7 +45,12 @@ public class GoodsSelectImportBarCodeHandle implements GoodsSelectImportHandle{
 	/**
 	 * @Fields goodsMap : 条码和商品的缓存
 	 */
-	private Map<String,GoodsSelect> goodsMap;	
+	private Map<String,GoodsSelect> goodsMap;
+	
+	/**
+	 * @Fields importMap : 导入缓存
+	 */
+	private Map<String,JSONObject> importMap;
 	
 	List<JSONObject> excelListFullData = null;
 	List<JSONObject> excelListSuccessData = null;
@@ -68,6 +73,19 @@ public class GoodsSelectImportBarCodeHandle implements GoodsSelectImportHandle{
 
 	public void setGoodsMap(Map<String, GoodsSelect> goodsMap) {
 		this.goodsMap = goodsMap;
+	}
+
+	
+	public Map<String, JSONObject> getImportMap() {
+		if(importMap==null){
+			importMap=new HashMap<String,JSONObject>();
+		}
+		return importMap;
+	}
+
+	
+	public void setImportMap(Map<String, JSONObject> importMap) {
+		this.importMap = importMap;
 	}
 
 	public GoodsSelectImportBarCodeHandle(List<JSONObject> excelList, String[] excelField, GoodsSelectImportBusinessValid businessValid){
@@ -238,7 +256,7 @@ public class GoodsSelectImportBarCodeHandle implements GoodsSelectImportHandle{
 			JSONObject excelJson = new JSONObject();
 			excelJson = getSuccessDataByBarCode(barCode);
 			if(excelJson==null){
-				excelJson=JSONObject.fromObject(this.getGoodsMap().get(barCode));
+				excelJson=this.getImportMap().get(barCode);
 			}
 			//忽略第一列,合并属性
 			for (int j = 1; j < excelField.length; j++) {
