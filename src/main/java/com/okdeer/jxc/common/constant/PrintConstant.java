@@ -182,4 +182,8 @@ public interface PrintConstant {
 	 */
 	String DIRECT_RECEIPT_ERROR = "直送收货列表打印失败{}";
 
+	/**
+	 * @Fields SUPPLIER_MONTHLY_REPORT : 供应商进销存月报表
+	 */
+	String SUPPLIER_MONTHLY_REPORT = "SupplierMonthlyReport.jrxml";
 }

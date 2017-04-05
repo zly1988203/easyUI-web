@@ -499,4 +499,9 @@ public interface ExportExcelConstant {
 	 * @Fields NEW_GOODS_SALE_ANALYSIS_report : 新品销售分析
 	 */
 	String NEW_GOODS_SALE_ANALYSIS_REPORT = "newGoodsSaleAnalysis.xlsx";
+	
+	/**
+	 * @Fields SUPPLIER_MONTHLY_REPORT : 供应商进销存月报表
+	 */
+	String SUPPLIER_MONTHLY_REPORT = "SupplierMonthlyReport.xlsx";
 }
