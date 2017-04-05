@@ -787,7 +787,7 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 	 * @date 2016年10月12日
 	 */
 	@RequestMapping(value = "exportTemp")
-	public void exportTemp(HttpServletResponse response, Integer type) {
+	public void exportTemp(HttpServletResponse response, String type) {
 		LOG.info("导出采购导入模板请求参数,type={}", type);
 		try {
 			String fileName = "";
