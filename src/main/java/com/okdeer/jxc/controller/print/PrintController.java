@@ -22,6 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -52,7 +53,6 @@ import com.okdeer.jxc.common.goodselect.GoodsSelectImportHandle;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportVo;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.controller.BaseController;
-import com.okdeer.jxc.goods.entity.GoodsPrint;
 import com.okdeer.jxc.goods.entity.GoodsSelect;
 import com.okdeer.jxc.goods.entity.GoodsSelectByCostPrice;
 import com.okdeer.jxc.system.entity.SysUser;
@@ -93,7 +93,8 @@ public class PrintController extends BaseController<PrintController> {
 	 * @date 2016年8月25日
 	 */
 	@RequestMapping(value = "view")
-	public String view() {
+	public String view(Model model) {
+		model.addAttribute("branchId", getCurrBranchId());
 		return "print/pricePrint";
 	}
 
@@ -194,7 +195,7 @@ public class PrintController extends BaseController<PrintController> {
 	 */
 	@RequestMapping(value = "printLabel", method = RequestMethod.POST)
 	@ResponseBody
-	public void printLabel(String printNo, String data, HttpServletRequest request, HttpServletResponse response) {
+	public void printLabel(String printNo, String data,String branchId, HttpServletRequest request, HttpServletResponse response) {
 		List<GoodsPrint> list;
 		String pathName = getClass().getResource("/").getPath();
 		if (data.trim().length() > Constant.ZERO) {
@@ -202,6 +203,7 @@ public class PrintController extends BaseController<PrintController> {
 			List<GoodsPrint> pintList = new ArrayList<GoodsPrint>();
 			if (!CollectionUtils.isEmpty(list)) {
 				for (int i = Constant.ZERO; i < list.size(); i++) {
+					list.get(i).setBranchId(branchId);
 					// 替换条码里面的空格和将数字转为俩位小数
 					if (StringUtils.isNotEmpty(list.get(i).getBarCode())) {
 						list.get(i).setBarCode(list.get(i).getBarCode().trim().replaceAll(" ", ""));
