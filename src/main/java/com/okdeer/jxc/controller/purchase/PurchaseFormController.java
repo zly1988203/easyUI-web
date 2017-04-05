@@ -299,7 +299,14 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 			request.setAttribute("status", FormDealStatus.STOP.getLabel());
 			return "form/purchase/orderView";
 		}
-
+		
+		if (!UserUtil.getCurrBranchType().equals(BranchTypeEnum.HEAD_QUARTERS.getCode())) {
+			// 查询是否需要自动加载商品
+			BranchSpecVo vo = branchSpecServiceApi.queryByBranchId(UserUtil.getCurrBranchId());
+			if (null != vo) {
+				request.setAttribute("cascadeGoods", vo.getIsSupplierCascadeGoodsPm());
+			}
+		}
 		return "form/purchase/orderEdit";
 
 	}
@@ -343,6 +350,13 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 			return "form/purchase/returnView";
 		}
 
+		if (!UserUtil.getCurrBranchType().equals(BranchTypeEnum.HEAD_QUARTERS.getCode())) {
+			// 查询是否需要自动加载商品
+			BranchSpecVo vo = branchSpecServiceApi.queryByBranchId(UserUtil.getCurrBranchId());
+			if (null != vo) {
+				request.setAttribute("cascadeGoods", vo.getIsSupplierCascadeGoodsPm());
+			}
+		}
 		return "form/purchase/returnEdit";
 
 	}

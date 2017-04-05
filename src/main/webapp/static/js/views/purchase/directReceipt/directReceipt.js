@@ -55,15 +55,25 @@ $(function(){
 		$('#already-examine').css('display','black');
         $('#remark').prop('readOnly','readOnly');
         $('#btnSave').addClass("uinp-no-more");
-        $('#btnSave').prop('disabled','disabled ')
-        $('#btnCheck').addClass("uinp-no-more")
-        $('#btnCheck').prop('disabled','disabled ')
-        $('#btnSelect').addClass("uinp-no-more")
-        $('#btnSelect').prop('disabled','disabled ')
-        $('#btnImpSkuCode').addClass("uinp-no-more")
-        $('#btnImpSkuCode').prop('disabled','disabled ')
-        $('#btnImpBarCode').addClass("uinp-no-more")
-        $('#btnImpBarCode').prop('disabled','disabled ')
+        $('#btnSave').prop('disabled','disabled ');
+        $('#btnCheck').addClass("uinp-no-more");
+        $('#btnCheck').prop('disabled','disabled ');
+        $('#btnSelect').addClass("uinp-no-more");
+        $('#btnSelect').prop('disabled','disabled ');
+        $('#btnImpSkuCode').addClass("uinp-no-more");
+        $('#btnImpSkuCode').prop('disabled','disabled ');
+        $('#btnImpBarCode').addClass("uinp-no-more");
+        $('#btnImpBarCode').prop('disabled','disabled ');
+		var saleWay = $('#saleWay').val();
+        if(saleWay == 'A'){
+        	$("#saleWayName").val('购销');
+        }else if(saleWay == 'B'){
+        	$("#saleWayName").val('代销');        	
+	    }else if(saleWay == 'C'){
+	    	$("#saleWayName").val('联营');        	
+		}else if(saleWay == 'D'){
+			$("#saleWayName").val('扣率代销');        	
+		}
 	}else{
 		
 	}
@@ -340,7 +350,7 @@ function onChangeLargeNum(newV,oldV) {
         return;
     }
 
-    var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
+    var priceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
     gridHandel.setFieldValue('amount',parseFloat(purchaseSpecValue*priceValue*newV).toFixed(4)); //金额=箱数*单价*规格
 
 
@@ -377,7 +387,7 @@ function onChangeRealNum(newV,oldV) {
         return;
     }
     
-    var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
+    var priceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
     gridHandel.setFieldValue('amount',priceValue*newV);                         //金额=数量*单价
 
     var largeNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'largeNum');
