@@ -727,6 +727,7 @@ function selectSupplier(){
     },param);
 }
 
+//直接查询商品
 function queryGoodsList() {
    var queryParams = {
             formType:'PM',
@@ -872,6 +873,31 @@ function importDirectForm(type){
     new publicUploadFileService(function(data){
         updateListData(data);
     },param)
+}
+
+function updateListData(data){
+
+    $.each(data,function(i,val){
+        data[i]["remark"] = "";
+        data[i]["realNum"]=data[i]["realNum"]||0;
+        data[i]["largeNum"]  = (parseFloat(data[i]["realNum"]||0)/parseFloat(data[i]["purchaseSpec"])).toFixed(4);
+        data[i]["amount"]  = parseFloat(data[i]["price"]||0)*parseFloat(data[i]["realNum"]||0);
+    });
+
+    var keyNames = {
+        //purchasePrice:'price',
+        id:'skuId',
+        disabled:'',
+        pricingType:'',
+        inputTax:'tax'
+    };
+    var rows = gFunUpdateKey(data,keyNames);
+
+    var argWhere ={skuCode:1};  //验证重复性
+    var isCheck ={isGift:1 };   //只要是赠品就可以重复
+    var newRows = gridHandel.checkDatagrid([],rows,argWhere,isCheck);
+    $("#"+gridName).datagrid("loadData",newRows);
+
 }
 
 /**

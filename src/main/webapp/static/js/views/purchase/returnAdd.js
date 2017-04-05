@@ -36,6 +36,7 @@ var gridDefault = {
     realNum:0,
     isGift:0,
 }
+var gridName = "gridEditOrder";
 var gridHandel = new GridClass();
 function initDatagridEditOrder(){
     gridHandel.setGridName("gridEditOrder");
@@ -433,8 +434,19 @@ function selectGoods(searchKey){
     if(!branchId){
     	messager("请先选择收货机构");
     }
-    
-    new publicGoodsService("PR",function(data){
+
+    var queryParams = {
+        type:'PR',
+        key:searchKey,
+        isRadio:0,
+        'supplierId':$("#supplierId").val(),
+        'branchId': $('#branchId').val(),
+        sourceBranchId:'',
+        targetBranchId:'',
+        flag:'0',
+    };
+
+    new publicGoodsServiceTem(queryParams,function(data){
         if(data.length==0){
             return;
         }
@@ -468,7 +480,7 @@ function selectGoods(searchKey){
             gridHandel.setSelectFieldName("largeNum");
             gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
         },100)
-    },searchKey,0,"","",branchId,supplierId,"0");
+    });
 }
 //保存
 function saveItemHandel(){
@@ -590,13 +602,48 @@ function saveDataHandel(rows){
         }
     });
 }
+
+//直接查询商品
+function queryGoodsList() {
+    var queryParams = {
+        formType:'PR',
+        key:"",
+        isRadio:'',
+        'supplierId':$("#supplierId").val(),
+        'branchId': $('#branchId').val(),
+        sourceBranchId:'',
+        targetBranchId:'',
+        flag:'0',
+    };
+    var url =  contextPath + '/goods/goodsSelect/getGoodsList';
+    $.ajax({
+        url:url,
+        type:'POST',
+        data:queryParams,
+        success:function(data){
+            if(data && data.rows){
+                var addDefaultData  = gridHandel.addDefault(data.rows,gridDefault);
+                var keyNames = {
+                    salePrice:'price'
+                };
+                var rows = gFunUpdateKey(addDefaultData,keyNames);
+                $("#"+gridName).datagrid("loadData",rows);
+            }
+        },
+        error:function(){
+            messager("数据查询失败");
+        }
+    })
+}
+
+
 function selectSupplier(){
 	new publicSupplierService(function(data){
 		$("#supplierId").val(data.id);
 		$("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
         // 是否自动加载商品
         if($("#cascadeGoods").val() == 'true'){
-            
+            queryGoodsList();
         }
 	});
 }

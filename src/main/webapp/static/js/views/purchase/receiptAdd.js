@@ -492,7 +492,19 @@ function selectGoods(searchKey){
         messager("请先选择供应商");
         return;
     }
-    new publicGoodsService("PI",function(data){
+
+    var queryParams = {
+        type:'PI',
+        key:searchKey,
+        isRadio:0,
+        'supplierId':$("#supplierId").val(),
+        'branchId': "",
+        sourceBranchId:'',
+        targetBranchId:'',
+        flag:'0',
+    };
+
+    new publicGoodsServiceTem(queryParams,function(data){
         if(data.length==0){
             return;
         }
@@ -526,7 +538,7 @@ function selectGoods(searchKey){
             gridHandel.setSelectFieldName("largeNum");
             gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
         },100)
-    },searchKey,'','','','','');
+    });
 }
 
 

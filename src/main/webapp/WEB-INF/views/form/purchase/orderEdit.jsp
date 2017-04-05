@@ -42,6 +42,7 @@
 			</div>
 		</div>
 		<div class="ub umar-t8 uc-black">
+		<input type='hidden' id="cascadeGoods" name="cascadeGoods" value="${cascadeGoods}">
 			【单号】:<span>${form.formNo}</span>
 		</div>
 		<div class="ub uline umar-t8"></div>

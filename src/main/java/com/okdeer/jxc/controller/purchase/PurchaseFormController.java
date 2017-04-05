@@ -126,7 +126,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 			// 查询是否需要自动加载商品
 			BranchSpecVo vo = branchSpecServiceApi.queryByBranchId(UserUtil.getCurrBranchId());
 			if (null != vo) {
-				request.setAttribute("cascadeGoods", vo.getIsSupplierCascadeGoodsPm());
+				request.setAttribute("cascadeGoods", vo.getIsSupplierCascadeGoodsPa());
 			}
 		}
 		return "form/purchase/orderAdd";
@@ -172,7 +172,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 			// 查询是否需要自动加载商品
 			BranchSpecVo vo = branchSpecServiceApi.queryByBranchId(UserUtil.getCurrBranchId());
 			if (null != vo) {
-				request.setAttribute("cascadeGoods", vo.getIsSupplierCascadeGoodsPm());
+				request.setAttribute("cascadeGoods", vo.getIsSupplierCascadeGoodsPr());
 			}
 		}
 		return "form/purchase/returnAdd";
@@ -304,7 +304,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 			// 查询是否需要自动加载商品
 			BranchSpecVo vo = branchSpecServiceApi.queryByBranchId(UserUtil.getCurrBranchId());
 			if (null != vo) {
-				request.setAttribute("cascadeGoods", vo.getIsSupplierCascadeGoodsPm());
+				request.setAttribute("cascadeGoods", vo.getIsSupplierCascadeGoodsPa());
 			}
 		}
 		return "form/purchase/orderEdit";
@@ -354,7 +354,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 			// 查询是否需要自动加载商品
 			BranchSpecVo vo = branchSpecServiceApi.queryByBranchId(UserUtil.getCurrBranchId());
 			if (null != vo) {
-				request.setAttribute("cascadeGoods", vo.getIsSupplierCascadeGoodsPm());
+				request.setAttribute("cascadeGoods", vo.getIsSupplierCascadeGoodsPr());
 			}
 		}
 		return "form/purchase/returnEdit";
