@@ -13,7 +13,7 @@
 		<div class="ub umar-t10">
 			<div class="ub ub-ac">
 				<div class="umar-r10 uw-70 ut-r">机&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;构:</div>
-				<input type="hidden" id="createBranchId" name="createBranchId" /> <input
+				<input type="hidden" id="branchId" name="branchId" /> <input
 					class="uinp ub ub-f1" type="text" id="branchName" name="branchName"
 					maxlength="50" />
 				<div class="uinp-more" onclick="selectBranches()">...</div>
@@ -37,31 +37,41 @@
 		</div>
 	</div>
 	<script>
+			$(function(){
+				$("#branchName").val(sessionBranchName);
+				$("#branchId").val(sessionBranchId);
+				// 获得上月月结期间
+		   		getUpMonthReportDay(sessionBranchId);
+			});
 		   /**
 		    * 机构名称
 		    */
 		   function selectBranches() {
 			   	new publicAgencyService(function(data) {
-			   		$("#createBranchId").val(data.branchesId);
+			   		$("#branchId").val(data.branchesId);
 			   		$("#branchName").val(data.branchName);
-			   		
-				    $.ajax({
-				        url:contextPath+"/report/monthStatement/getUpMonthReportDay",
-				        type:"POST",
-				        data:{"branchId":data.branchesId},
-				        success:function(result){
-				        	var maxRptDate = result['data'].maxRptDate;
-				        	alert(maxRptDate);
-				        	$("#maxRptDate").html(maxRptDate);
-				        },
-				        error:function(result){
-				            successTip("请求发送失败或服务器处理失败");
-				        }
-				    });
+			   		// 获得上月月结期间
+			   		getUpMonthReportDay(data.branchesId);
 			   	}, 'IU', '');
 			   	
 		   }
-		   
+		   function getUpMonthReportDay(branchId){
+			    $.ajax({
+			        url:contextPath+"/report/monthStatement/getUpMonthReportDay",
+			        type:"POST",
+			        data:{"branchId":branchId},
+			        success:function(result){
+			        	var maxRptDate = result['data'].maxRptDate;
+			        	if(!maxRptDate){
+			        		maxRptDate = "该机构尚无月结数据";
+			        	}
+			        	$("#maxRptDate").html(maxRptDate);
+			        },
+			        error:function(result){
+			            successTip("请求发送失败或服务器处理失败");
+			        }
+			    });
+		   }
 		   function updateWdatePicker(){
 			   WdatePicker({
 	              	dateFmt:'yyyy-MM',
@@ -72,30 +82,43 @@
 		   }
 		   
 		   function monthStatement(){
-			   	var branchId = $("#createBranchId").val();
+			    var isValid = true;
+			    
+			   	var branchId = $("#branchId").val();
+			    if(branchId===""){
+			        messager("请选择机构");
+			        isValid = false;
+				}
 			   	var rptDate = $("#rptDate").val();
-			   	
+			    if(rptDate===""){
+			        messager("请选择月结期间");
+			        isValid = false;
+				}
+			    if (!isValid) {
+			        return;
+			    }
 		    	var jsonData = {
 		    		branchId:branchId,
 		    		rptDate:rptDate
 		        };
 			    console.log('monthStatement：',JSON.stringify(jsonData));
-			    
+			    gFunStartLoading();
 			    $.ajax({
 			        url:contextPath+"/report/monthStatement/executeMonthStatement",
 			        type:"POST",
-			        data:{"data":JSON.stringify(jsonData)},
+			        data:jsonData,
 			        success:function(result){
+			        	gFunEndLoading();
 			            if(result['code'] == 0){
-			            	$.messager.alert('操作提示','操作成功！')
-// 			    			$.messager.alert("操作提示", "操作成功！", "info",function(){
-// 			    				location.href = contextPath +"/stock/combineSplit/combineSplitView?id="+id;
-// 			    			});
+			            	// 获得上月月结期间
+					   		getUpMonthReportDay(branchId);
+			            	$.messager.alert('操作提示','月结成功！')
 			            }else{
 			                successTip(result['message']);
 			            }
 			        },
 			        error:function(result){
+			        	gFunEndLoading();
 			            successTip("请求发送失败或服务器处理失败");
 			        }
 			    });
