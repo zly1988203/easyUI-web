@@ -715,10 +715,8 @@ function publicGoodsServiceTem(param,callback){
 		if(param.type=="DA"){
 			param.branchId = '';
 
-			//urlTemp = contextPath + '/goods/goodsSelect/importSkuCode?skuCodes='+param.key+'&branchId='+param.branchId+"&supplierId="+param.supplierId+"&type="+param.type+"&sourceBranchId="+param.sourceBranchId+"&targetBranchId="+param.targetBranchId+"&flag="+param.flag;
             urlTemp = contextPath + '/goods/goodsSelect/importSkuCode';
 		} else {
-			//urlTemp = contextPath + '/goods/goodsSelect/importSkuCode?skuCodes='+param.key+"&type="+param.type+'&branchId='+param.branchId+"&supplierId="+param.supplierId+"&flag="+param.flag;
             urlTemp = contextPath + '/goods/goodsSelect/importSkuCode';
 		}
 		$.ajax({
@@ -799,10 +797,9 @@ function publicGoodsService(type,callback,key,isRadio,sourceBranchId,targetBranc
 		var urlTemp;
 		if(param.type=="DA"){
 			param.branchId = '';
-			urlTemp = contextPath + '/goods/goodsSelect/importSkuCode?skuCodes='+param.key+'&branchId='+param.branchId+"&supplierId="+param.supplierId+"&type="+param.type+"&sourceBranchId="+param.sourceBranchId+"&targetBranchId="+param.targetBranchId+"&flag="+param.flag;
-			//publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId,supplierId);
+			urlTemp = contextPath + '/goods/goodsSelect/importSkuCode?skuCodesOrBarCodes='+param.key+'&branchId='+param.branchId+"&supplierId="+param.supplierId+"&type="+param.type+"&sourceBranchId="+param.sourceBranchId+"&targetBranchId="+param.targetBranchId+"&flag="+param.flag;
 		} else {
-			urlTemp = contextPath + '/goods/goodsSelect/importSkuCode?skuCodes='+param.key+'&branchId='+param.branchId+"&supplierId="+param.supplierId+"&flag="+param.flag;
+			urlTemp = contextPath + '/goods/goodsSelect/importSkuCode?skuCodesOrBarCodes='+param.key+'&branchId='+param.branchId+"&supplierId="+param.supplierId+"&flag="+param.flag;
 		}
 		$.ajax({
 			url:urlTemp,
@@ -899,7 +896,7 @@ function publicGoodsServiceHandel(param,callback){
  */
 function publicNewGoodsService(params,callback){
     if(params.key){
-        var url= contextPath + '/goods/goodsSelect/importSkuCode?skuCodes='+params.key+'&branchId='+params.branchId;
+        var url= contextPath + '/goods/goodsSelect/importSkuCode?skuCodesOrBarCodes='+params.key+'&branchId='+params.branchId;
         $.ajax({
             url:url,
             type:'POST',
