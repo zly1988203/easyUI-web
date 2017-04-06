@@ -578,11 +578,6 @@ function selectGoods(searchKey){
 			gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
 		},100)
 	},searchKey,0,"","","");*/
-	publicNewGoodsService({'goodsTypeList':'0,1','branchId':'123123'},function(data){
-
-	})
-	
-	
 }
 var branchId;
 
