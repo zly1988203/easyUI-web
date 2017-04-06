@@ -26,30 +26,30 @@
 					</div>
 				</div>
 				<div class="ub umar-t8">
-		            <div class="ub ub-ac umar-r40">
-		                <div class="umar-r10 uw-60 ut-r">机构:</div>
-		                <input class="uinp" name="branchId" id="branchId" type="hidden">
-		                <input class="uinp" id="branchName" name="branchName" type="text" maxlength="50">
-		                <div class="uinp-more" onclick="chooseBranch()">...</div>
-		            </div>
-		            <div class="ub ub-ac umar-r40">
-		                <div class="umar-r10 uw-60 ut-r" style="width: 70px !important;">货号/条码:</div>
-		                <input class="uinp" id="createUserName" name ="createUserName" type="text"  maxlength="50">
-		            </div>
+					<div class="ub ub-ac umar-r40">
+						<div class="umar-r10 uw-60 ut-r">机构:</div>
+						<input class="uinp" name="branchId" id="branchId" type="hidden">
+						<input class="uinp" id="branchName" name="branchName" type="text" maxlength="50">
+						<div class="uinp-more" onclick="chooseBranch('queryForm')">...</div>
+					</div>
+					<div class="ub ub-ac umar-r40">
+						<div class="umar-r10 uw-60 ut-r" style="width: 70px !important;">货号/条码:</div>
+						<input class="uinp" id="skuCode" name ="skuCode" type="text"  maxlength="50">
+					</div>
 				</div>
 				<div class="ub umar-t8">
-		            <div class="ub ub-ac umar-r40">
-		                <div class="umar-r10 uw-60 ut-r">类别:</div>
-		                <input class="uinp" id="categoryId" name="categoryId" type="hidden">
-		                <input class="uinp" id="categoryName" name="categoryName" type="text" maxlength="50">
-		                <div class="uinp-more" onclick="chooseGoodsCategory()">...</div>
-		            </div>
-		            <div class="ub ub-ac umar-r40">
-		                <div class="umar-r10 uw-60 ut-r" style="width: 70px !important;">供应商:</div>
-		                <input class="uinp" name="supplierId" id="supplierId" type="hidden">
-		                <input class="uinp" id="supplierName" name="supplierName" type="text" maxlength="50">
-		                <div class="uinp-more" onclick="chooseSupplier()">...</div>
-		            </div>
+				<div class="ub ub-ac umar-r40">
+					<div class="umar-r10 uw-60 ut-r">类别:</div>
+						<input class="uinp" id="categoryCode" name="categoryCode" type="hidden">
+						<input class="uinp" id="categoryName" name="categoryName" type="text" maxlength="50">
+						<div class="uinp-more" onclick="chooseGoodsCategoryForQueryForm()">...</div>
+					</div>
+					<div class="ub ub-ac umar-r40">
+					<div class="umar-r10 uw-60 ut-r" style="width: 70px !important;">供应商:</div>
+						<input class="uinp" name="supplierId" id="supplierId" type="hidden">
+						<input class="uinp" id="supplierName" name="supplierName" type="text" maxlength="50">
+						<div class="uinp-more" onclick="chooseSupplier('queryForm')">...</div>
+					</div>
 				</div>
 			</form>
 		</div>
@@ -147,7 +147,7 @@
 						<input id="supplierId" name="supplierId"   class="uinp" type="hidden" value="${supplier.id}">
 						<div class="ub">
 							<input id="supplierName" name="supplierName" class="uinp easyui-validatebox" type="text" readonly="readonly" data-options="required:true">
-							<div class="uinp-more " onclick="getGoodsPupplier()">...</div>
+							<div class="uinp-more " onclick="chooseSupplier('batchUpdateForm')">...</div>
 						</div>
 					</div>
 					<div class="ub uw-160 ub-ac umar-r10">
@@ -180,10 +180,10 @@
 					<div class="ub uw-200 ub-ac umar-r10">
 						<input id="categoryId" name="categoryId" class="uinp" type="hidden">
 						<input id="categoryCode" name="categoryCode" class="uinp" type="hidden">
-	                    <div class="ub">
-	                        <input id="categoryName" name="categoryName" class="uinp uw-200 easyui-validatebox" type="text" readonly="readonly"  data-options="required:true">
-	                        <div class="uinp-more " onclick="getGoodsType()">...</div>
-	                    </div>
+						<div class="ub">
+							<input id="categoryName" name="categoryName" class="uinp uw-200 easyui-validatebox" type="text" readonly="readonly"  data-options="required:true">
+							<div class="uinp-more " onclick="chooseGoodsCategoryForUpdateForm()">...</div>
+						</div>
 					</div>
 				</div>
 				
@@ -208,11 +208,11 @@
 						修改商品品牌
 					</div>
 					<div class="ub uw-200 ub-ac umar-r10">
-	                    <input id="brandId" name="brandId" class="uinp" type="hidden" value="${goodsBrand.id}">
+	                    <input id="brandId" name="brandId" class="uinp" type="hidden">
 	                    <input id="brandCode" name="brandCode"   class="uinp" type="hidden">
 	                    <div class="ub">
-	                        <input id="brandName" name="brandName" class="uinp" type="text" readonly="readonly" value="${goodsBrand.brandName}">
-	                        <div class="uinp-more" onclick="getGoodsBrand()">...</div>
+	                        <input id="brandName" name="brandName" class="uinp" type="text" readonly="readonly">
+	                        <div class="uinp-more" onclick="chooseGoodsBrand('batchUpdateForm')">...</div>
 	                    </div>
 					</div>
 				</div>
@@ -348,10 +348,10 @@
 		}
 		
 		//选择机构
-		function chooseBranch (){
+		function chooseBranch (formId){
 			new publicAgencyService(function(data){
-				$("#branchId").val(data.branchesId);
-				$("#branchName").val("["+data.branchCode+"]"+data.branchName);
+				$("#" + formId + " #branchId").val(data.branchesId);
+				$("#" + formId + " #branchName").val("["+data.branchCode+"]"+data.branchName);
 				changeBranchType(data.type);
 				
 				//清空表格
@@ -359,111 +359,169 @@
 			},"","");
 		}
 		
-		//选择商品列表
-		function chooseGoodsCategory(){
+		//选择商品类别（查询表单）
+		function chooseGoodsCategoryForQueryForm(){
 			new publicCategoryService(function(data){
-				$("#categoryId").val(data.goodsCategoryId);
-				$("#categoryName").val("["+data.categoryCode+"]"+data.categoryName);
+				$("#queryForm #categoryCode").val(data.categoryCode);
+				$("#queryForm #categoryName").val("["+data.categoryCode+"]"+data.categoryName);
 			},null);
 		}
 		
+		//选择商品类别（提交表单）
+		function chooseGoodsCategoryForUpdateForm(){
+			var param = {
+				categoryType:'goodsTotal'
+			};
+			new publicCategoryService(function(data){
+				$("#batchUpdateForm #categoryId").val(data.goodsCategoryId);
+				$("#batchUpdateForm #categoryName").val("["+data.categoryCode+"]"+data.categoryName);
+			},param);
+		}
+		
+		//选择商品品牌
+		function chooseGoodsBrand(formId){
+			new publicBrandService(function(data){
+				$("#" + formId + " #brandId").val(data.id);
+				$("#" + formId + " #brandName").val("["+data.brandCode+"]"+data.brandName);
+			});
+		}
+		
 		//选择供应商
-		function chooseSupplier(){
+		function chooseSupplier(formId){
 			new publicSupplierService(function(data){
-				$("#supplierId").val(data.id);
-				$("#supplierName").val(data.supplierName);
+				$("#" + formId + " #supplierId").val(data.id);
+				$("#" + formId + " #supplierName").val(data.supplierName);
 			});
 		}
 		
 		//处理页面元素禁用与启用状态
 		function changeElementStatus(input){
-			//是否管理库存
-			if($("#managerStockChecked").is(':checked') && undefined != input && input.id == "managerStockChecked"){
-				$("#managerStockChecked").val(true);
-				$("input[name='managerStock']").removeAttr("disabled");
-			}else{
-				$("#managerStockChecked").val(false);
-				$("input[name='managerStock']").attr("disabled",true);
-			}
-			//是否参与促销
-			if($("#allowActivityChecked").is(':checked') && undefined != input && input.id == "allowActivityChecked"){
-				$("#allowActivityChecked").val(true);
-				$("input[name='allowActivity']").removeAttr("disabled");
-			}else{
-				$("#allowActivityChecked").val(false);
-				$("input[name='allowActivity']").attr("disabled",true);
-			}
-			//是否直送商品
-			if($("#fastDeliverChecked").is(':checked') && undefined != input && input.id == "fastDeliverChecked"){
-				$("#fastDeliverChecked").val(true);
-				$("input[name='fastDeliver']").removeAttr("disabled");
-			}else{
-				$("#fastDeliverChecked").val(false);
-				$("input[name='fastDeliver']").attr("disabled",true);
-			}
-			//是否高值商品
-			if($("#highValueChecked").is(':checked') && undefined != input && input.id == "highValueChecked"){
-				$("#highValueChecked").val(true);
-				$("input[name='highValue']").removeAttr("disabled");
-			}else{
-				$("#highValueChecked").val(false);
-				$("input[name='highValue']").attr("disabled",true);
-			}
-			//是否关注商品
-			if($("#attentionChecked").is(':checked') && undefined != input && input.id == "attentionChecked"){
-				$("#attentionChecked").val(true);
-				$("input[name='attention']").removeAttr("disabled");
-			}else{
-				$("#attentionChecked").val(false);
-				$("input[name='attention']").attr("disabled",true);
-			}
-			//分店调价
-			if($("#allowAdjustChecked").is(':checked') && undefined != input && input.id == "allowAdjustChecked"){
-				$("#allowAdjustChecked").val(true);
-				$("input[name='allowAdjust']").removeAttr("disabled");
-			}else{
-				$("#allowAdjustChecked").val(false);
-				$("input[name='allowAdjust']").attr("disabled",true);
-			}
-			//安全库存系数
-			if($("#safetyCoefficientChecked").is(':checked') && undefined != input && input.id == "safetyCoefficientChecked"){
-				$("#safetyCoefficientChecked").val(true);
-				//$("#safetyCoefficient").numberbox("disabled",false);
-				$("input[name='safetyCoefficientCascadeChecked']").removeAttr("disabled");
-			}else{
-				$("#safetyCoefficientChecked").val(false);
-				//$("#safetyCoefficient").numberbox("disabled", true);
+			//input为空时，禁用页面元素
+			if(undefined == input){
+				$("input:radio").attr("disabled",true);
 				$("input[name='safetyCoefficientCascadeChecked']").attr("disabled",true);
+				$("input[name='supplierCascadeChecked']").attr("disabled",true);
+				return;
 			}
+			
+			//是否管理库存
+			if(input.id == "managerStockChecked"){
+				if($("#managerStockChecked").is(':checked')){
+					$("#managerStockChecked").val(true);
+					$("input[name='managerStock']").removeAttr("disabled");
+				}else{
+					$("#managerStockChecked").val(false);
+					$("input[name='managerStock']").attr("disabled",true);
+				}
+			}
+
+			//是否参与促销
+			if(input.id == "allowActivityChecked"){
+				if($("#allowActivityChecked").is(':checked')){
+					$("#allowActivityChecked").val(true);
+					$("input[name='allowActivity']").removeAttr("disabled");
+				}else{
+					$("#allowActivityChecked").val(false);
+					$("input[name='allowActivity']").attr("disabled",true);
+				}
+			}
+
+			//是否直送商品
+			if(input.id == "fastDeliverChecked"){
+				if($("#fastDeliverChecked").is(':checked')){
+					$("#fastDeliverChecked").val(true);
+					$("input[name='fastDeliver']").removeAttr("disabled");
+				}else{
+					$("#fastDeliverChecked").val(false);
+					$("input[name='fastDeliver']").attr("disabled",true);
+				}
+			}
+
+			//是否高值商品
+			if(input.id == "highValueChecked"){
+				if($("#highValueChecked").is(':checked')){
+					$("#highValueChecked").val(true);
+					$("input[name='highValue']").removeAttr("disabled");
+				}else{
+					$("#highValueChecked").val(false);
+					$("input[name='highValue']").attr("disabled",true);
+				}
+			}
+
+			//是否关注商品
+			if(input.id == "attentionChecked"){
+				if($("#attentionChecked").is(':checked')){
+					$("#attentionChecked").val(true);
+					$("input[name='attention']").removeAttr("disabled");
+				}else{
+					$("#attentionChecked").val(false);
+					$("input[name='attention']").attr("disabled",true);
+				}
+			}
+
+			//分店调价
+			if(input.id == "allowAdjustChecked"){
+				if($("#allowAdjustChecked").is(':checked')){
+					$("#allowAdjustChecked").val(true);
+					$("input[name='allowAdjust']").removeAttr("disabled");
+				}else{
+					$("#allowAdjustChecked").val(false);
+					$("input[name='allowAdjust']").attr("disabled",true);
+				}
+			}
+
+			//安全库存系数
+			if(input.id == "safetyCoefficientChecked"){
+				if($("#safetyCoefficientChecked").is(':checked')){
+					$("#safetyCoefficientChecked").val(true);
+					//$("#safetyCoefficient").numberbox("disabled",false);
+					$("input[name='safetyCoefficientCascadeChecked']").removeAttr("disabled");
+				}else{
+					$("#safetyCoefficientChecked").val(false);
+					//$("#safetyCoefficient").numberbox("disabled", true);
+					$("input[name='safetyCoefficientCascadeChecked']").attr("disabled",true);
+				}
+			}
+			
 			if($("#safetyCoefficientCascadeChecked").is(':checked')){
 				$("#safetyCoefficientCascadeChecked").val(true);
 			}else{
 				$("#safetyCoefficientCascadeChecked").val(false);
 			}
+			
 			//修改主供应商
-			if($("#supplierChecked").is(':checked') && undefined != input && input.id == "supplierChecked"){
-				$("#supplierChecked").val(true);
-				$("input[name='supplierCascadeChecked']").removeAttr("disabled");
-			}else{
-				$("#supplierChecked").val(false);
-				$("input[name='supplierCascadeChecked']").attr("disabled",true);
+			if(input.id == "supplierChecked"){
+				if($("#supplierChecked").is(':checked')){
+					$("#supplierChecked").val(true);
+					$("input[name='supplierCascadeChecked']").removeAttr("disabled");
+				}else{
+					$("#supplierChecked").val(false);
+					$("input[name='supplierCascadeChecked']").attr("disabled",true);
+				}
 			}
+
 			if($("#supplierCascadeChecked").is(':checked')){
 				$("#supplierCascadeChecked").val(true);
 			}else{
 				$("#supplierCascadeChecked").val(false);
 			}
+			
 			//修改商品类别
-			if($("#categoryChecked").is(':checked') && undefined != input && input.id == "categoryChecked"){
-				$("#categoryChecked").val(true);
-			}else{
-				$("#categoryChecked").val(false);
+			if(input.id == "categoryChecked"){
+				if($("#categoryChecked").is(':checked')){
+					$("#categoryChecked").val(true);
+				}else{
+					$("#categoryChecked").val(false);
+				}
 			}
+
 			//修改商品品牌
-			if($("#brandChecked").is(':checked') && undefined != input && input.id == "brandChecked"){
-				$("#brandChecked").val(true);
-			}else{
-				$("#brandChecked").val(false);
+			if(input.id == "brandChecked"){
+				if($("#brandChecked").is(':checked')){
+					$("#brandChecked").val(true);
+				}else{
+					$("#brandChecked").val(false);
+				}
 			}
 		}
 		
