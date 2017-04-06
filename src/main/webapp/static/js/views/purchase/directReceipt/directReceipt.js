@@ -739,6 +739,9 @@ function queryGoodsList() {
             sourceBranchId:'',
             targetBranchId:'',
             flag:'0',
+            pageSize:1,
+            page:1,
+            rows:10000
         };
     var url =  contextPath + '/goods/goodsSelect/getGoodsList';
     $.ajax({
