@@ -14,6 +14,10 @@ $(function(){
     }
     
     initDatagridEditOrder();
+    // 是否自动加载商品
+    if($("#cascadeGoods").val() == 'true'){
+        queryGoodsList();
+    }
 });
 
 //初始化默认条件
@@ -615,6 +619,7 @@ function saveDataHandel(rows){
 
 //直接查询商品
 function queryGoodsList() {
+    gFunStartLoading();
     var queryParams = {
         formType:'PA',
         key:"",
@@ -631,6 +636,7 @@ function queryGoodsList() {
         type:'POST',
         data:queryParams,
         success:function(data){
+            gFunEndLoading();
             if(data && data.rows){
                 var addDefaultData  = gridHandel.addDefault(data.rows,gridDefault);
                 var keyNames = {
@@ -650,12 +656,17 @@ function queryGoodsList() {
 //选择供应商
 function selectSupplier(){
     new publicSupplierService(function(data){
-        $("#supplierId").val(data.id);
-        $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
-        $("#deliverTime").val(new Date(new Date().getTime() + 24*60*60*1000*data.diliveCycle).format('yyyy-MM-dd'));
-        // 是否自动加载商品
-        if($("#cascadeGoods").val() == 'true'){
-            queryGoodsList();
+        if( $("#supplierId").val() != "" && data.id != $("#supplierId").val()){
+            $.messager.confirm('提示','修改供应商后会清空明细，是否要修改？',function(r){
+                if(r){
+                    $("#supplierId").val(data.id);
+                    $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
+                    // 是否自动加载商品
+                    if($("#cascadeGoods").val() == 'true'){
+                        queryGoodsList();
+                    }
+                }
+            })
         }
     });
 }
