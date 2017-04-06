@@ -27,9 +27,8 @@
 						<div class="ubtns-item" id="set" onclick="gFunRefresh()">重置</div>
 		                <div class="ubtns-item" onclick="toClose()">退出</div>
 		            </div>
-		        	<div class="ub ub-ac umar-l20">
 		              	 <%@ include file="/WEB-INF/views/component/dateSelect.jsp"%>
-		            </div>
+
 				</div>
 	            <div class="ub umar-t8">
 	                <div class="ub ub-ac uw-300">

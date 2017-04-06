@@ -12,6 +12,7 @@ function initGoodsInfo(skuId,branchId){
 		 $('#tab2').css('display','none');
 	}else{
 		$('#btnprice').css('display','none');
+        $('#tab3').css('display','none');
 		$('#tab2').css('display','none');
 	}
 	
