@@ -527,6 +527,11 @@ public interface ExportExcelConstant {
 	 * @Fields SUPPLIER_MONTHLY_REPORT : 供应商进销存月报表
 	 */
 	String SUPPLIER_MONTHLY_REPORT = "SupplierMonthlyReport.xlsx";
+	
+	/**
+	 * @Fields MONTHLY_REPORT : 月进销存报表
+	 */
+	String MONTHLY_REPORT = "MonthlyReport.xlsx";
 
 	/**
 	 * @Fields ACTIVITY_DETAIL_QUERY_FOR_GOODS : 商品促销方案详情

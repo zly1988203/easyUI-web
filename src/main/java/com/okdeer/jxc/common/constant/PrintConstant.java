@@ -186,4 +186,9 @@ public interface PrintConstant {
 	 * @Fields SUPPLIER_MONTHLY_REPORT : 供应商进销存月报表
 	 */
 	String SUPPLIER_MONTHLY_REPORT = "SupplierMonthlyReport.jrxml";
+	
+	/**
+	 * @Fields MONTHLY_REPORT : 月进销存报表
+	 */
+	String MONTHLY_REPORT = "MonthlyReport.jrxml";
 }

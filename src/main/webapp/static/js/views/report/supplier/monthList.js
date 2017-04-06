@@ -50,47 +50,47 @@ function initDatagridGYYueJXC(){
 			{field: 'supplierName', title: '供应商名称', width: 100, align: 'left'},
 			{field: 'saleWay', title: '经营方式', width: 100, align: 'left'},
 			{field: 'beginStock', title: '期初库存数量', width: 100, align: 'right',
-				fomatter:function(value,row,index){
+				formatter:function(value,row,index){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				}
 			},
 			{field: 'beginSaleAmount', title: '期初库存金额', width: 100, align: 'right',
-				fomatter:function(value,row,index){
+				formatter:function(value,row,index){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				}
 			},
 			{field: 'beginCostAmount', title: '期初成本金额', width: 100, align: 'right',
-				fomatter:function(value,row,index){
+				formatter:function(value,row,index){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				}	
 			},
 			{field: 'posNum', title: '销售数量', width: 100, align: 'right',
-				fomatter:function(value,row,index){
+				formatter:function(value,row,index){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				}	
 			},
 			{field: 'posAmount', title: '销售金额', width: 100, align: 'right',
-				fomatter:function(value,row,index){
+				formatter:function(value,row,index){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				}
 			},
 			{field: 'costAmount', title: '销售成本', width: 100, align: 'right',
-				fomatter:function(value,row,index){
+				formatter:function(value,row,index){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				}
 			},
 			{field: 'profitAmount', title: '销售毛利', width: 100, align: 'right',
-				fomatter:function(value,row,index){
+				formatter:function(value,row,index){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				}
 			},
 			{field: 'endStock', title: '期末库存数量', width: 100, align: 'right',
-				fomatter:function(value,row,index){
+				formatter:function(value,row,index){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				}
 			},
 			{field: 'endCostAmount', title: '期末库存金额', width: 100, align: 'right',
-				fomatter:function(value,row,index){
+				formatter:function(value,row,index){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				}
 			}		
