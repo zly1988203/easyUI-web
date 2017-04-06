@@ -40,15 +40,15 @@ function initDatagridRequireOrders(){
 				}
 			},
             {field: 'areaName', title: '所在区域', width: '86px', align: 'left'},
-            {field: 'totalAmount', title: '销额/元', width: '80px', align: 'right',
-            	formatter:function(value,row,index){
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                }
-            },
             {field: 'totalSaleNum', title: '销量', width: '80px', align: 'right',
             	formatter:function(value,row,index){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
+            },
+            {field: 'totalAmount', title: '总销额/元', width: '80px', align: 'right',
+            	formatter:function(value,row,index){
+            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+            	}
             },
             {field: 'totalNum', title: '总订单数', width: '80px', align: 'right',
             	formatter:function(value,row,index){
@@ -87,6 +87,30 @@ function initDatagridRequireOrders(){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
+            {field:'dayAvgNum',title:'日均客单数',width:'80px',align:'right',
+            	formatter:function(value,row,index){
+            		if(!value && value == null){
+            			return '';
+            		}
+            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+            	}
+            },
+            {field:'totalOffLineNum',title:'线下客单数',width:'80px',align:'right',
+            	formatter:function(value,row,index){
+            		if(!value && value == null){
+            			return '';
+            		}
+            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+            	}
+            },
+            {field:'offLinePrice',title:'线下客单价/元',width:'100px',align:'right',
+            	formatter:function(value,row,index){
+            		if(!value && value == null){
+                        return '';
+                    }
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                }
+            },
             {field: 'totalLineAmount', title: '线上销额/元', width: '80px', align: 'right',
             	formatter:function(value,row,index){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -95,6 +119,22 @@ function initDatagridRequireOrders(){
             {field: 'totalLineSaleNum', title: '线上销量', width: '80px', align: 'right',
             	formatter:function(value,row,index){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                }
+            },
+            {field:'totalLineNum',title:'线上客单数',width:'80px',align:'right',
+            	formatter:function(value,row,index){
+            		if(!value && value == null){
+            			return '';
+            		}
+            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+            	}
+            },
+            {field:'linePrice',title:'线上客单价/元',width:'100px',align:'right',
+            	formatter:function(value,row,index){
+            		if(!value && value == null){
+                        return '';
+                    }
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
             {field: 'rowNo', title: '排名', width: '80px', align: 'right'}
