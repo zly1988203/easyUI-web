@@ -195,7 +195,7 @@ function setgridColumns(){
 var gridHandel = new GridClass();
 function initGridOverShortReport() {
     gridHandel.setGridName(gridName);
-    $('#'+gridName).datagrid({
+    dg = $('#'+gridName).datagrid({
         method: 'post',
         align: 'center',
         pageSize : 50,
@@ -220,7 +220,7 @@ function queryForm() {
     var oldBranchName = $("#oldBranchName").val();
     var branchName = $("#branchName").val();
     if(oldBranchName && oldBranchName != branchName){
-        $("#branchId").val(sessionBranchId);
+        $("#branchId").val('');
         $("#branchCompleCode").val('');
     }
     var oldUserName = $("#oldUserName").val();
@@ -236,6 +236,7 @@ function queryForm() {
     $("#"+gridName).datagrid('load', fromObjStr);
 }
 
+var dg;
 /**
  * 导出
  */
