@@ -1,5 +1,7 @@
 package com.okdeer.jxc.controller.report.month;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.ui.Model;
@@ -36,12 +38,27 @@ public class MonthStatementController extends BaseController<TimeSectionSaleRepo
 
 	@Reference(version = "1.0.0", check = false)
 	private MonthStatementService monthStatementService;
-	
+
+	/**
+	 * @Description: 跳转月结页
+	 * @param model
+	 * @return
+	 * @author xuyq
+	 * @date 2017年4月6日
+	 */
 	@RequestMapping(value = "list")
 	public ModelAndView monthStatement(Model model) {
 		return new ModelAndView("report/month/monthStatement");
 	}
 
+	/**
+	 * @Description: 月结处理
+	 * @param mr
+	 * @param validate
+	 * @return
+	 * @author xuyq
+	 * @date 2017年4月6日
+	 */
 	@RequestMapping(value = "/executeMonthStatement", method = RequestMethod.POST)
 	public RespJson executeMonthStatement(@Valid MonthlyReport mr, BindingResult validate) {
 		SysUser user = getCurrentUser();
@@ -49,7 +66,7 @@ public class MonthStatementController extends BaseController<TimeSectionSaleRepo
 		try {
 			mr.setCreateUserId(user.getId());
 			mr.setUpdateUserId(user.getId());
-			
+
 			respJson = monthStatementService.executeMonthStatement(mr);
 		} catch (Exception e) {
 			LOG.error("月结处理异常：", e);
@@ -57,4 +74,26 @@ public class MonthStatementController extends BaseController<TimeSectionSaleRepo
 		}
 		return respJson;
 	}
+
+	/**
+	 * @Description: 获得机构月结配置及数据
+	 * @param branchId
+	 * @return
+	 * @author xuyq
+	 * @date 2017年4月6日
+	 */
+	@RequestMapping(value = "/getUpMonthReportDay", method = RequestMethod.POST)
+	public RespJson getUpMonthReportDay(String branchId) {
+		RespJson respJson = RespJson.success();
+		try {
+			List<MonthlyReport> branchSpecList = monthStatementService.getBranchLastMonthAndReportDay(branchId, null);
+			MonthlyReport mReport = branchSpecList.get(0);
+			respJson = RespJson.success(mReport);
+		} catch (Exception e) {
+			LOG.error("获得机构月结配置及数据异常：", e);
+			respJson = RespJson.error("获得机构月结配置及数据异常!");
+		}
+		return respJson;
+	}
+
 }
