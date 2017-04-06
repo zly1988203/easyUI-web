@@ -711,13 +711,13 @@ function selectSupplier(){
 	        if(data.saleWay == 'A'){
 	        	$("#saleWayName").val('购销');
 	        }else if(data.saleWay == 'B'){
-	        	$("#saleWayName").val('代销');        	
+	        	$("#saleWayName").val('代销');
 		    }else if(data.saleWay == 'C'){
-		    	$("#saleWayName").val('联营');        	
+		    	$("#saleWayName").val('联营');
 			}else if(data.saleWay == 'D'){
-				$("#saleWayName").val('扣率代销');        	
+				$("#saleWayName").val('扣率代销');
 			}
-	            
+
 	        // 是否自动加载商品
 	        if($("#cascadeGoods").val() == 'true'){
 	            queryGoodsList();
@@ -729,6 +729,7 @@ function selectSupplier(){
 
 //直接查询商品
 function queryGoodsList() {
+    gFunStartLoading();
    var queryParams = {
             formType:'PM',
             key:"",
@@ -745,6 +746,7 @@ function queryGoodsList() {
         type:'POST',
         data:queryParams,
         success:function(data){
+            gFunEndLoading();
             if(data && data.rows){
                 var addDefaultData  = gridHandel.addDefault(data.rows,gridDefault);
                 var keyNames = {
