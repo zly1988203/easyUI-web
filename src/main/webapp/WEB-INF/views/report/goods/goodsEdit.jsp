@@ -377,9 +377,11 @@
 
 	<div id="tab3">
 	<div class="ub ub-ver uh uw">
-			<div class="ubtns">
-					<button class="ubtns-item" onclick="closeDialog()">关闭</button>
+		<div class="ub ub-ac upad-4">
+				<div class="ubtns">
+						<button class="ubtns-item" onclick="closeDialog()">关闭</button>
 				</div>
+		</div>
 			<div class="ub uline "></div>
 			<div class="ub ub-f1">
 				<table id="barCodeTable"></table>
