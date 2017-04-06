@@ -1,5 +1,6 @@
 package com.okdeer.jxc.controller.report.month;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.alibaba.dubbo.common.utils.StringUtils;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.controller.BaseController;
@@ -54,7 +56,6 @@ public class MonthStatementController extends BaseController<TimeSectionSaleRepo
 	/**
 	 * @Description: 月结处理
 	 * @param mr
-	 * @param validate
 	 * @return
 	 * @author xuyq
 	 * @date 2017年4月6日
@@ -64,9 +65,14 @@ public class MonthStatementController extends BaseController<TimeSectionSaleRepo
 		SysUser user = getCurrentUser();
 		RespJson respJson = RespJson.success();
 		try {
+			if(StringUtils.isBlank(mr.getBranchId()) || StringUtils.isBlank(mr.getRptDate())){
+				respJson = RespJson.error("机构或月结期间不能为空！");
+				return respJson;
+			}
 			mr.setCreateUserId(user.getId());
 			mr.setUpdateUserId(user.getId());
-
+			mr.setEndDate(new Date());
+			
 			respJson = monthStatementService.executeMonthStatement(mr);
 		} catch (Exception e) {
 			LOG.error("月结处理异常：", e);
