@@ -44,21 +44,22 @@
 			   	new publicAgencyService(function(data) {
 			   		$("#createBranchId").val(data.branchesId);
 			   		$("#branchName").val(data.branchName);
+			   		
+				    $.ajax({
+				        url:contextPath+"/report/monthStatement/getUpMonthReportDay",
+				        type:"POST",
+				        data:{"branchId":data.branchesId},
+				        success:function(result){
+				        	var maxRptDate = result['data'].maxRptDate;
+				        	alert(maxRptDate);
+				        	$("#maxRptDate").html(maxRptDate);
+				        },
+				        error:function(result){
+				            successTip("请求发送失败或服务器处理失败");
+				        }
+				    });
 			   	}, 'IU', '');
 			   	
-			    $.ajax({
-			        url:contextPath+"/report/monthStatement/getUpMonthReportDay",
-			        type:"POST",
-			        data:{"branchId":$("#createBranchId").val()},
-			        success:function(result){
-			        	var maxRptDate = result['data'].maxRptDate;
-			        	alert(maxRptDate);
-			        	$("#maxRptDate").html(maxRptDate);
-			        },
-			        error:function(result){
-			            successTip("请求发送失败或服务器处理失败");
-			        }
-			    });
 		   }
 		   
 		   function updateWdatePicker(){
