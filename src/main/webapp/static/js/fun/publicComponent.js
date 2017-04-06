@@ -708,8 +708,8 @@ function callBackHandel(data){
 function publicGoodsServiceTem(param,callback){
 	var param = setParam(param);
 	if(param.key){
-	    //后台参数是 skuCodes
-        param.skuCodes = param.key;
+	    //后台参数是 skuCodesOrBarCodes
+        param.skuCodesOrBarCodes = param.key;
         param.formType = param.type;
 		var urlTemp;
 		if(param.type=="DA"){
