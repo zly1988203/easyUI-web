@@ -28,6 +28,7 @@ import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.LogConstant;
 import com.okdeer.jxc.common.controller.BasePrintController;
+import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.StringUtils;
@@ -89,19 +90,19 @@ public class TradeOrderCountController extends BasePrintController<TradeOrderCou
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		LOG.info(LogConstant.OUT_PARAM, vo.toString());
 		try {
-			if (vo.getEndTime() != null) {
-				Date time = DateUtils.getNextDay(vo.getEndTime());
-				vo.setEndTime(time);
+			if (null == vo.getStartTime() || null == vo.getEndTime()) {
+				LOG.info("店铺销售排序查询时间段为空，不可查询");
+				return PageUtils.emptyPage();
 			}
+			Date time = DateUtils.getNextDay(vo.getEndTime());
+			vo.setEndTime(time);
 			if (StringUtils.isNullOrEmpty(vo.getBranchId())) {
 				vo.setBranchId(getCurrBranchId());
 			}
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
 			PageUtils<TradeOrderCountVo> tradeOrderCountVos = tradeOrderCountServiceApi.queryLists(vo);
-
 			TradeOrderCountVo tradeOrderCountVo = tradeOrderCountServiceApi.queryTradeOrderCountSum(vo);
-
 			List<TradeOrderCountVo> footer = new ArrayList<TradeOrderCountVo>();
 			if (tradeOrderCountVo != null) {
 				footer.add(tradeOrderCountVo);
@@ -113,7 +114,7 @@ public class TradeOrderCountController extends BasePrintController<TradeOrderCou
 		} catch (Exception e) {
 			LOG.error("店铺销售排名列表查询出现异常:{}", e);
 		}
-		return null;
+		return PageUtils.emptyPage();
 	}
 
 	/**
@@ -123,14 +124,18 @@ public class TradeOrderCountController extends BasePrintController<TradeOrderCou
 	 * @author zhangchm
 	 * @date 2016年10月25日
 	 */
-	@RequestMapping(value = "exportList")
-	public void exportList(HttpServletResponse response, TradeOrderCountQo vo) {
+	@RequestMapping(value = "exportList", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson exportList(HttpServletResponse response, TradeOrderCountQo vo) {
 		LOG.info(LogConstant.OUT_PARAM, vo.toString());
+		RespJson resp = RespJson.success();
 		try {
-			if (vo.getEndTime() != null) {
-				Date time = DateUtils.getNextDay(vo.getEndTime());
-				vo.setEndTime(time);
+			if (null == vo.getStartTime() || null == vo.getEndTime()) {
+				LOG.info("店铺销售排序查询时间段为空，不可导出");
+				return RespJson.error("请选择查询时间段");
 			}
+			Date time = DateUtils.getNextDay(vo.getEndTime());
+			vo.setEndTime(time);
 			if (StringUtils.isNullOrEmpty(vo.getBranchId())) {
 				vo.setBranchId(getCurrBranchId());
 			}
@@ -144,8 +149,11 @@ public class TradeOrderCountController extends BasePrintController<TradeOrderCou
 			exportListForXLSX(response, exportList, fileName, templateName);
 		} catch (Exception e) {
 			LOG.error("TradeOrderCountController:exportList:", e);
+			resp = RespJson.error("导出店铺销售排名异常");
 		}
+		return resp;
 	}
+
 	@Override
 	protected Map<String, Object> getPrintReplace(String formNo) {
 		return null;
