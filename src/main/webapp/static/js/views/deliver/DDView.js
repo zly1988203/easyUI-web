@@ -420,7 +420,18 @@ function selectGoods(searchKey){
         messager("请先选择发货机构");
         return;
     }
-    new publicGoodsService("DA",function(data){
+
+    var param = {
+        type:'DD',
+        key:searchKey,
+        isRadio:'',
+        branchId:sourceBranchId,
+        sourceBranchId:sourceBranchId,
+        targetBranchId:targetBranchId,
+        supplierId:'',
+        flag:'0',
+    }
+    new publicGoodsServiceTem(param,function(data){
         if(searchKey){
             $("#"+gridHandel.getGridName()).datagrid("deleteRow", gridHandel.getSelectRowIndex());
             $("#"+gridHandel.getGridName()).datagrid("acceptChanges");
@@ -434,8 +445,8 @@ function selectGoods(searchKey){
             gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
         },100)
         
-    },searchKey,'',sourceBranchId,targetBranchId,branchId,'',"0");
-    branchId = '';
+    });
+
 }
 
 //二次查询设置值

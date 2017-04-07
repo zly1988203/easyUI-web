@@ -215,14 +215,25 @@ function selectGoods(searchKey){
 		messager("请先选择机构名称");
 		return;
 	}
-    new publicGoodsService("",function(data){
+
+    var param = {
+        type:'',
+        key:searchKey,
+        isRadio:'',
+        branchId:branchId,
+        sourceBranchId:'',
+        targetBranchId:'',
+        supplierId:0,
+        flag:'0',
+    }
+    new publicGoodsServiceTem(param,function(data){
         if(searchKey){
             $("#gridEditRequireOrder").datagrid("deleteRow", gridHandel.getSelectRowIndex());
             $("#gridEditRequireOrder").datagrid("acceptChanges");
         }
         selectStockAndPrice(branchId,data);
   
-    },searchKey,0,'','',branchId,'',0);
+    });
 }
 //查询价格、库存
 function selectStockAndPrice(branchId,data){

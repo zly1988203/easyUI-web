@@ -407,7 +407,19 @@ function selectGoods(searchKey){
         messager("已选配送单号，不允许添加其他商品");
         return;
     }
-    new publicGoodsService("",function(data){
+
+    var param = {
+        type:'',
+        key:searchKey,
+        isRadio:0,
+        branchId:'',
+        sourceBranchId:'',
+        targetBranchId:'',
+        supplierId:'',
+        flag:'0',
+    }
+
+    new publicGoodsServiceTem(param,function(data){
         if(searchKey){
             $("#"+gridHandel.getGridName()).datagrid("deleteRow", gridHandel.getSelectRowIndex());
             $("#"+gridHandel.getGridName()).datagrid("acceptChanges");
@@ -438,7 +450,7 @@ function selectGoods(searchKey){
             gridHandel.setSelectFieldName("largeNum");
             gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
         },100)
-    },searchKey,'','','','','','');
+    });
 }
 //保存
 function saveOrder(){
