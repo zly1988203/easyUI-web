@@ -6,6 +6,7 @@ var updateSku;
 var dgPrice = null;
 function initGoodsEditView(id){
 	 $('#tab2').css('display','none');
+    $('#btnbase').addClass('active');
 	//获取编辑商品的数据
 	getGoodsArchivesDetail(id);
 

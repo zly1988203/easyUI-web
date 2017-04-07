@@ -134,9 +134,9 @@ public class OverShortReportController extends BaseController<OverShortReportCon
 	 * @date 2017年3月30日
 	 */
 	private OverShortReportVo getParam(OverShortReportVo vo) {
-		// 机构id为空，在当前机构下模糊搜索，否则按照选择的机构id查询
-		if (StringUtils.isBlank(vo.getBranchId())) {
-			vo.setBranchId(UserUtil.getCurrBranchId());
+		// 机构完整编码为空，在当前机构下模糊搜索，否则按照选择的机构完整编码查询
+		if (StringUtils.isBlank(vo.getBranchCompleCode())) {
+			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
 		} else {
 			vo.setBranchName(null);
 		}

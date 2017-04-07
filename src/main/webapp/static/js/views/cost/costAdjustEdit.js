@@ -22,7 +22,7 @@ $(function(){
 var gridDefault = {
 		//receiveNum:0,
 		//largeNum:0,
-		isGift:0,
+		// isGift:0,
 }
 var oldData = {};
 var gridHandel = new GridClass();
