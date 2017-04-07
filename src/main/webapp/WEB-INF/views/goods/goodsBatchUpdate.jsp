@@ -374,6 +374,7 @@
 			};
 			new publicCategoryService(function(data){
 				$("#batchUpdateForm #categoryId").val(data.goodsCategoryId);
+				$("#batchUpdateForm #categoryCode").val(data.categoryCode);
 				$("#batchUpdateForm #categoryName").val("["+data.categoryCode+"]"+data.categoryName);
 			},param);
 		}
@@ -618,7 +619,6 @@
 				contentType : 'application/json',
 				data : req,
 				success : function(result) {
-					console.log(result);
 					if (result['code'] == 0) {
 						$.messager.alert("操作提示", "操作成功！", "info", function() {
 							
