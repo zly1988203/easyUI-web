@@ -165,7 +165,12 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 				vo.setAllowAdjustPrice(true);
 			}
 			PageUtils<GoodsSelect> suppliers = null;
-			if(FormType.PA.name().equals(vo.getFormType()) || FormType.PR.name().equals(vo.getFormType())){
+			if(FormType.PA.name().equals(vo.getFormType()) || FormType.PR.name().equals(vo.getFormType()) 
+					|| FormType.PM.name().equals(vo.getFormType())){
+				// 直送收货需要过滤非淘汰、非停购的直送商品
+				if (FormType.PM.name().equals(vo.getFormType())) {
+					vo.setIsFastDeliver(1);
+				}
 				if(StringUtils.isNotBlank(vo.getSupplierId())){
 					//根据机构id判断查询采购商品
 					suppliers = queryPurchaseGoods(vo);
