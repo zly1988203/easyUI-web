@@ -505,6 +505,7 @@ function saveItemHandel(){
     }
 }
 function saveDataHandel(rows){
+    gFunStartLoading();
     //供应商
     var supplierId = $("#supplierId").val();
     //收货机构
@@ -549,7 +550,7 @@ function saveDataHandel(rows){
         contentType:'application/json',
         data:req,
         success:function(result){
-            console.log(result);
+            gFunEndLoading();
             if(result['code'] == 0){
                 $.messager.alert("操作提示", "操作成功！", "info");
             }else{
@@ -675,6 +676,8 @@ function queryGoodsList() {
         sourceBranchId:'',
         targetBranchId:'',
         flag:'0',
+        page:1,
+        rows:10000
     };
     var url =  contextPath + '/goods/goodsSelect/getGoodsList';
     $.ajax({

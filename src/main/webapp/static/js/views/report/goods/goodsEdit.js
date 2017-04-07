@@ -66,17 +66,18 @@ function initGoodsInfo(skuId,branchId){
 		//门店禁止编辑配送规格、采购规格、
 		isStore=data['isStore'];
 		if(isStore){
-			$("#purchaseSpec").parent().find(".textbox-text,.validatebox-text").attr("readonly","readonly").addClass("uinp-no-more");
-			$("#distributionSpec").parent().find(".textbox-text,.validatebox-text").attr("readonly","readonly").addClass("uinp-no-more");
+            $('#formEdit #purchaseSpec').numberbox('disable');
+            $('#formEdit #distributionSpec').numberbox('disable');
+
 			$("#formEdit #isFastDeliver").attr("disabled","disabled");
 			$("#formEdit #allowActivity").attr("disabled","disabled");
 			$("#formEdit #allowAdjust").attr("disabled","disabled");
 		}
 		
 		if(updateGoods.saleWay=='A' || updateGoods.saleWay=='B'){
-			$("#supplierRate").parent().find(".textbox-text,.validatebox-text").attr("readonly","readonly").addClass("uinp-no-more");
+            $('#formEdit #supplierRate').numberbox('disable');
 		}else{
-			$("#supplierRate").parent().find(".textbox-text,.validatebox-text,.textbox-prompt").removeAttr('readonly').removeClass("uinp-no-more");
+            $('#formEdit #supplierRate').numberbox('enable');
 		}
 		if(updateGoods.updateTime){
 			var date = new Date(updateGoods.updateTime);    
@@ -112,17 +113,32 @@ function setGrossProfitPercent(){
 //供应商公共组件
 function getGoodsPupplier(){
 	new publicSupplierService(function(data){
+		debugger;
 		$("#formEdit #supplierId").val(data.id);
 		$("#formEdit #supplier").val(data.supplierName);
 		$("#formEdit #saleWayName").val(data.saleWayName);
+        //经营方式
+        $("#formEdit #saleWay").val(data.saleWay);
+        var pricingType = 	$('#type').val();
 		//经营方式
-		if(data.saleWayName=='购销'||data.saleWayName=='代销'){
-			$("#supplierRate").textbox("setValue","");
-			$("#supplierRate").parent().find(".textbox-text,.validatebox-text").attr("readonly","readonly").addClass("uinp-no-more");
+		if(data.saleWay=='A'||data.saleWay=='B'){
+            $("#supplierRate").textbox("setValue","");
+            $('#supplierRate').numberbox('disable');
+            if(pricingType == "BIND"|| pricingType == "AUTOMATICTRANSFER"){
+                $("#isManagerStock").removeProp("checked");
+            }else{
+                $("#isManagerStock").prop("checked","checked");
+            }
 		}else{
-			$("#supplierRate").parent().find(".textbox-text,.validatebox-text,.textbox-prompt").removeAttr('readonly').removeClass("uinp-no-more");
+            $('#supplierRate').numberbox('enable');
 			$("#supplierRate").textbox("setValue","0.00");
-		}
+            if(data.saleWay=='C' || pricingType == "BIND"|| pricingType == "AUTOMATICTRANSFER"){
+                $("#isManagerStock").removeProp("checked");
+            }else{
+                $("#isManagerStock").prop("checked","checked");
+            }
+
+        }
 	});
 }
 

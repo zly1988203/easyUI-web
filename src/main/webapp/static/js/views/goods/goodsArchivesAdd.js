@@ -26,14 +26,6 @@ function initGoodsView(data,flag){
 		//获取列表复制的值
 		getSelectionRow(data);
 	}
-//	$("#pricingType").combobox({
-//		value:''
-//		onChange: function (newV,oldV) {
-//			alert("BBBBBBB!");
-//			getSkuCodeVal();
-//		}
-//	});
-
 
 	//根据商品名称获取助记码
 	$("#skuName").on("blur",function(){
@@ -48,7 +40,6 @@ function initGoodsView(data,flag){
 		getSkuCodeVal();
 	});
 
-	
 	//商品类型
 	$('#type').on("type",function(){
 		//商品自动生成货号
@@ -322,11 +313,28 @@ function getGoodsPupplier(){
 
 		//经营方式
 		$("#saleWay").val(data.saleWay);
+		//商品类型
+        var pricingType = 	$('#type').combobox("getValue");
 		if(data.saleWay=='A'){
 			$("#supplierRate").textbox("setValue","");
 			$('#supplierRate').numberbox('disable');
-		}else{
-			$('#supplierRate').numberbox('enable');
+            if(pricingType == "BIND"|| pricingType == "AUTOMATICTRANSFER"){
+                $("#managerStock").removeAttr("checked");
+                $("#managerStock").prop("disabled","disabled");
+            }else{
+                $("#managerStock").prop("checked","checked");
+                $("#managerStock").removeProp("disabled");
+            }
+		}else {
+        	if(data.saleWay=='C' || pricingType == "BIND"|| pricingType == "AUTOMATICTRANSFER"){
+                $("#managerStock").removeAttr("checked");
+                $("#managerStock").prop("disabled","disabled");
+            }else{
+                $("#managerStock").prop("checked","checked");
+                $("#managerStock").removeProp("disabled");
+			}
+
+            $('#supplierRate').numberbox('enable');
 		}
 	});
 }
@@ -466,21 +474,18 @@ function typeChange(){
 	if(pricingType == ""){
 		return false;
 	}else{
-		//计件方式为“普通”
+		//为捆绑商品 自动转换 联营商品时不管理库存
 		if(pricingType == "BIND"||pricingType == "AUTOMATICTRANSFER"){
-//			$("#barCode").removeAttr("readonly");
-//			$("#managerStock").attr("checked",false);
 			$("#managerStock").removeAttr("checked");
-			
-			$("#managerStock").attr("disabled","disabled");
-		}else{ //“其他”计件方式
-			$("#managerStock").removeAttr("disabled");
-			$("#managerStock").attr("checked","checked");
-			$("#managerStock").attr("checked");
-		/*	$("#managerStock").attr("checked", true);*/
-			
-//			$("#barCode").attr("readonly","readonly");
-//			$("#barCode").val($("#skuCode").val()); //货号
+			$("#managerStock").prop("disabled","disabled");
+		}else{
+			if( $("#saleWay").val() == "C"){
+                $("#managerStock").removeAttr("checked");
+                $("#managerStock").prop("disabled","disabled");
+			}else{
+                $("#managerStock").prop("checked","checked");
+                $("#managerStock").removeProp("disabled");
+			}
 		}
 	}
 }

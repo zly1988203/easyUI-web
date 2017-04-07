@@ -558,6 +558,7 @@ function saveItemHandel(){
 }
 
 function saveDataHandel(rows){
+    gFunStartLoading();
     //商品总数量
     var totalNum = 0;
     //总金额
@@ -598,7 +599,7 @@ function saveDataHandel(rows){
         contentType:'application/json',
         data:req,
         success:function(result){
-            console.log(result);
+           gFunEndLoading();
             if(result['code'] == 0){
                 $.messager.alert("操作提示", "操作成功！", "info",function(){
                     location.href = contextPath +"/form/purchase/orderEdit?formId=" + result["formId"];
@@ -629,6 +630,8 @@ function queryGoodsList() {
         sourceBranchId:'',
         targetBranchId:'',
         flag:'0',
+        page:1,
+        rows:10000
     };
     var url =  contextPath + '/goods/goodsSelect/getGoodsList';
     $.ajax({
