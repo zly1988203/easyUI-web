@@ -59,7 +59,9 @@ public class GoodsBarcodeController extends BaseController<GoodsBarcodeControlle
 				barCode.setUpdateUserId(UserUtil.getCurrUserId());
 				barCode.setCreateUserId(UserUtil.getCurrUserId());
 			}
-			return goodsBarcodeService.saveGoodsBarcode(list, list.get(0).getSkuId());
+			return	goodsBarcodeService.saveGoodsBarcode(list, list.get(0).getSkuId());
+		}catch(RuntimeException e){
+			return RespJson.error(e.getMessage());
 		}catch(Exception e){
 			LOG.error("保存附加条码失败", e);
 			return RespJson.error("保存附加条码失败");
