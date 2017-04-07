@@ -518,8 +518,8 @@ function setDataValue(data) {
         var argWhere ={skuCode:1};  //验证重复性
         var isCheck ={isGift:1};   //只要是赠品就可以重复
         var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
-        $("#"+gridName).datagrid({data:newRows});
-
+        $("#"+gridName).datagrid("loadData",newRows);
+        
     gridHandel.setLoadFocus();
     setTimeout(function(){
         gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
