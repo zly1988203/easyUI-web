@@ -144,11 +144,22 @@ public class MessageController {
 	map.put("branchId", UserUtil.getCurrBranchId());
 	map.put("branchCompleCode", UserUtil.getCurrBranchCompleCode());
 	List<Integer> detailsCount = messageService.countDetailsMessage(map);
-	map = Maps.newHashMap();
+	Map<String, Integer> datas = Maps.newHashMap();
+	Integer allCount = Integer.valueOf(0);
 	for(int i = 0 ;i<messages.size();++i){
-	    map.put(messages.get(i), detailsCount.get(i));
+	    datas.put(messages.get(i), detailsCount.get(i));
+	    allCount +=detailsCount.get(i);
 	}
-	respJson.setData(map);
+	if(datas.get("oneExceptionCount")==0){
+	    datas.put("sumOne", 0);
+	}
+	if(datas.get("twoPurchaseCount")+ datas.get("twoPurchaseCount")==0){
+	    datas.put("sumTwo", 0);
+	}
+	if(allCount-datas.get("oneExceptionCount")-datas.get("twoPurchaseCount")-datas.get("twoPurchaseCount")==0){
+	    datas.put("sumOther", 0);
+	}
+	respJson.setData(datas);
 	return respJson;
     }
     
