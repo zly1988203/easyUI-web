@@ -15,6 +15,7 @@ $(function () {
 //初始化数据
 function initData(){
 	$("#branchName").val(sessionBranchCodeName);
+	$("#branchCompleCode").val(sessionBranchCompleCode);
 	$("#branchId").val(sessionBranchId);
     //开始和结束时间
     $("#txtStartDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
