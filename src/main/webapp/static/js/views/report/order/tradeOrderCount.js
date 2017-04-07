@@ -7,6 +7,7 @@ $(function(){
     toChangeDate(9);
     $("#startTime").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
     $("#endTime").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+	$("#branchCompleCode").val(sessionBranchCompleCode);
     initDatagridRequireOrders();
     branchId = $("#branchId").val();
 });
@@ -169,6 +170,7 @@ var branchId;
 function selectBranches(){
 	new publicAgencyService(function(data){
         $("#branchId").val(data.branchesId);
+    	$("#branchCompleCode").val(data.branchCompleCode);
         $("#branchName").val("["+data.branchCode+"]"+data.branchName);
 	},'DV',branchId);
 }
@@ -203,7 +205,8 @@ function exportExcel(){
 	$("#exportWin").window("close");
 	$("#queryForm").form({
 		success : function(result){
-			//successTip(result);
+			var dataObj=eval("("+result+")");
+            successTip(dataObj.message);
 		}
 	});
 	$("#queryForm").attr("action",contextPath+'/bill/tradeOrderCount/exportList')
