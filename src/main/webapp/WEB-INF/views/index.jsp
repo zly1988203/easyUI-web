@@ -74,6 +74,7 @@
 				   			<div class="ub upad-t10 upad-b10 upad-8">
 				   				<ul class="msg-ul crbox">
 				   					<li class="msg-li"><a class="" href="javascript:openNewTab('库存异常查询','stock/exception/list?message=0');closeMsg();">异常库存商品（<em class="uc-red" id="oneExceptionCount">0</em>）</a></li>
+				   					<li class="msg-li" id="sumOne" style="display: none;">暂无提醒事项！</li>
 				   				</ul>
 				   			</div>
 			   			</div><!-- end 异常库存提醒 -->
@@ -85,6 +86,7 @@
 				   				<ul class="msg-ul crbox">
 				   					<li class="msg-li"><a class="" href="javascript:openNewTab('采购收货','form/purchase/receiptList?message=1');closeMsg();">采购收货提醒（<em class="uc-red" id="twoPurchaseCount">0</em>）</a></li>
 				   					<li class="msg-li"><a class="" href="javascript:openNewTab('配送入库','form/deliverForm/viewsDI?message=1');closeMsg();">配送收货提醒（<em class="uc-red" id="twoDeliverFormCount">0</em>）</a></li>
+				   					<li class="msg-li" id="sumTwo" style="display: none;">暂无提醒事项！</li>
 				   				</ul>
 				   			</div>
 			   			</div><!-- end 收货提醒 -->
@@ -115,6 +117,7 @@
 				   					<shiro:hasPermission name="JxcOverdueApply:audit"><li class="msg-li"><a class="" href="javascript:openNewTab('商品调价单','form/overdue/apply/list?message=0');closeMsg();">商品调价单（<em class="uc-red" id="jxcOverdueApply">0</em>）</a></li></shiro:hasPermission>
 				   					<shiro:hasPermission name="JxcDeliverDD:audit"><li class="msg-li"><a class="" href="javascript:openNewTab('店间配送','form/deliverDDForm/view?message=0');closeMsg();">店间配送（<em class="uc-red" id="jxcDeliverDD">0</em>）</a></li></shiro:hasPermission>
 				   					<shiro:hasPermission name="JxcStockAdjust:audit"><li class="msg-li"><a class="" href="javascript:openNewTab('库存调整单','stock/adjust/list?message=0');closeMsg();">库存调整单（<em class="uc-red" id="jxcStockAdjust">0</em>）</a></li></shiro:hasPermission>
+				   					<li class="msg-li" id="sumOther" style="display: none;">暂无提醒事项！</li>
 				   				</ul>
 				   			</div>
 			   			</div><!-- end 未审核单据 -->
@@ -160,8 +163,21 @@
 		$("#msgDialog").show().dialog('open');
 		$.get("message/details",function(data){
 			if(data.message==="success"){
+				$("#sumOne").hide();
+				$("#sumTwo").hide();
+				$("#sumOther").hide();
 				var datas = data.data;
 				for(var key in datas){
+					if(key==="sumOne"){
+						$("#sumOne").show();
+						continue;
+					}else if(key==="sumTwo"){
+						$("#sumTwo").show();
+						continue;
+					}else if(key===""){
+						$("#sumOther").show();
+						continue;
+					}
 					if(datas[key]===0){
 						$("#"+key+"").parents(".msg-li").first().hide();
 					}else{
