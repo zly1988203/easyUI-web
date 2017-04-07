@@ -10,7 +10,6 @@ $(function () {
     initData();
     radioChange();
     initGridOverShortReport();
-    queryForm();
 })
 
 //初始化数据
@@ -33,13 +32,13 @@ function radioChange(){
             showCashier();
         }
         initGridOverShortReport();
-        queryForm();
     })
 }
 
 function showCashier(){
     $("#userNameOrCode").removeAttr("disabled");
     $("#userIdSelect").show();
+    $('#cashierIdSelect').prop('hidden',false);
 }
 
 function hideCashier(){
@@ -47,7 +46,7 @@ function hideCashier(){
     $("#userNameOrCode").val('');
     $("#oldUserName").val('');
     $("#userNameOrCode").prop("disabled","disabled");
-    $("#userIdSelect").hide();
+    $('#cashierIdSelect').prop('hidden',true);
 }
 
 /**
@@ -199,6 +198,7 @@ function initGridOverShortReport() {
         method: 'post',
         align: 'center',
         pageSize : 50,
+        url:"",
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect: false,  //单选  false多选
         rownumbers: true,    //序号
@@ -213,7 +213,7 @@ function initGridOverShortReport() {
         }
 
         })
-
+    gridHandel.setLoadData([]);
 }
 
 function queryForm() {

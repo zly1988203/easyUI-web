@@ -10,10 +10,12 @@ function initGoodsInfo(skuId,branchId){
 	 $('#btnbase').addClass('active')
 	if(flag===true){
 		 $('#tab2').css('display','none');
+		$('#tab3').css('display','none');
 	}else{
-		$('#btnprice').css('display','none');
+        $('#btnprice').css('display','none');
+        $('#tab1').css('display','block');
+        $('#tab2').css('display','none');
         $('#tab3').css('display','none');
-		$('#tab2').css('display','none');
 	}
 	
 	var args = {}
