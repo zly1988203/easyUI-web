@@ -1,6 +1,5 @@
 package com.okdeer.jxc.controller.goods;  
 
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -14,10 +13,8 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.PageUtils;
-import com.okdeer.jxc.common.utils.UuidUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.goods.entity.GoodsBarcode;
-import com.okdeer.jxc.goods.entity.GoodsBranchPrice;
 import com.okdeer.jxc.goods.qo.GoodsBarcodeQo;
 import com.okdeer.jxc.goods.service.GoodsBarcodeService;
 import com.okdeer.jxc.utils.UserUtil;
@@ -62,7 +59,9 @@ public class GoodsBarcodeController extends BaseController<GoodsBarcodeControlle
 				barCode.setUpdateUserId(UserUtil.getCurrUserId());
 				barCode.setCreateUserId(UserUtil.getCurrUserId());
 			}
-			return goodsBarcodeService.saveGoodsBarcode(list, list.get(0).getSkuId());
+			return	goodsBarcodeService.saveGoodsBarcode(list, list.get(0).getSkuId());
+		}catch(RuntimeException e){
+			return RespJson.error(e.getMessage());
 		}catch(Exception e){
 			LOG.error("保存附加条码失败", e);
 			return RespJson.error("保存附加条码失败");

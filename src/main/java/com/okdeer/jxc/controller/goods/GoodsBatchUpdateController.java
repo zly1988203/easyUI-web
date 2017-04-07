@@ -189,10 +189,10 @@ public class GoodsBatchUpdateController extends BaseController<GoodsBatchUpdateC
 			String templateName;
 			if (StringUtils.equalsIgnoreCase(GoodsSelectImportHandle.TYPE_SKU_CODE, type)) {
 				fileName = "货号导入模板";
-				templateName = ExportExcelConstant.SKUCODE_TEMPLE_TYPE;
+				templateName = ExportExcelConstant.SKUCODE_TEMPLE;
 			} else {
 				fileName = "条码导入模板";
-				templateName = ExportExcelConstant.BARCODE_TEMPLE_TYPE;
+				templateName = ExportExcelConstant.BARCODE_TEMPLE;
 			}
 			exportListForXLSX(response, null, fileName, templateName);
 		} catch (Exception e) {
@@ -281,6 +281,25 @@ public class GoodsBatchUpdateController extends BaseController<GoodsBatchUpdateC
 			return RespJson.error("安全库存系数、修改主供应商,请至少勾选一项。");
 		}
 		
+		//安全库存系数未填写
+		if(vo.isSafetyCoefficientChecked() && null == vo.getSafetyCoefficient()){
+			return RespJson.error("安全库存系数未填写。");
+		}
+		
+		//商品类别未选择
+		if(vo.isCategoryChecked() && StringUtils.isBlank(vo.getCategoryId())){
+			return RespJson.error("商品类别未选择。");
+		}
+		
+		//商品品牌未选择
+		if(vo.isBrandChecked() && StringUtils.isBlank(vo.getBrandId())){
+			return RespJson.error("商品品牌未选择。");
+		}
+		
+		//主供应商未选择
+		if(vo.isSupplierChecked() && StringUtils.isBlank(vo.getSupplierId())){
+			return RespJson.error("主供应商未选择。");
+		}
 		return RespJson.success();
 	}
 
