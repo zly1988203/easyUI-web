@@ -45,6 +45,19 @@
 						<input id="monthReportDay" name="monthReportDay" style="width:100px" class="easyui-numberbox easyui-validatebox" data-options="min:0,precision:0,max:28" type="text">
 					</div>
 				</div>
+				<div class="ub ub-ac upad-16 ">
+					<div class="ub uw-200 ut-r">订货安全系数设置:</div>
+					<div class="ub uw-110 ub-ac umar-r100">
+						<label><input class="ub" type="radio" id="isAllowMinusStock1" name="safetyCoefficientType" value="0" />取商品档案安全系数</label>
+					</div>
+					<div class="ub uw-110 ub-ac umar-r100">
+						<label><input class="ub" type="radio" id="isAllowMinusStock0" name="safetyCoefficientType" value="1" />取供应商送货周期，转换关系：1天0.5倍，2天1倍，3－4天1.5倍， 5天以上2倍</label>
+					</div>
+					<div class="ub uw-110 ub-ac umar-r100">
+						<label><input class="ub" type="radio" id="isAllowMinusStock0" name="safetyCoefficientType" value="2" />
+						仓库平均送货周期 <input class="uinp uw-30 easyui-numberbox" type="text" data-options="min:0" name="safetyCoefficientValue" id="safetyCoefficientValue" value="7">天，转换关系：1天0.5倍，2天1倍，3－4天1.5倍， 5天以上2倍</label>
+					</div>
+				</div>
 			</form>
 		</div>
 	</div>

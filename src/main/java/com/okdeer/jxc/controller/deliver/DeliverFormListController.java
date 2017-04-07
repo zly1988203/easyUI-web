@@ -23,8 +23,11 @@ import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
+import com.okdeer.jxc.form.deliver.entity.DeliverFormGoods;
 import com.okdeer.jxc.form.deliver.entity.DeliverFormList;
+import com.okdeer.jxc.form.deliver.service.DeliverSuggestNumService;
 import com.okdeer.jxc.form.deliver.service.QueryDeliverFormListServiceApi;
+import com.okdeer.jxc.form.deliver.vo.DeliverSuggestNumVo;
 import com.okdeer.jxc.form.deliver.vo.QueryDeliverFormVo;
 import com.okdeer.jxc.form.enums.FormType;
 
@@ -45,6 +48,9 @@ public class DeliverFormListController extends BaseController<DeliverFormListCon
 
 	@Reference(version = "1.0.0", check = false)
 	private QueryDeliverFormListServiceApi queryDeliverFormListServiceApi;
+	
+	@Reference(version = "1.0.0", check = false)
+	private DeliverSuggestNumService deliverSuggestNumService;
 
 	/**
 	 * @Description: 引入单据明细查询，单价查询
@@ -171,5 +177,19 @@ public class DeliverFormListController extends BaseController<DeliverFormListCon
 		} catch (Exception e) {
 			LOG.error("GoodsPriceAdjustController:exportList:", e);
 		}
+	}
+	
+	@RequestMapping(value = "getDeliverSuggestNumItemList", method = RequestMethod.POST)
+	@ResponseBody
+	public PageUtils<DeliverFormGoods> getDeliverSuggestNumItemList(DeliverSuggestNumVo vo) {
+		LOG.info("配送建议数量，获取商品信息列表参数", vo);
+		try {
+			
+			List<DeliverFormGoods> itemList =  deliverSuggestNumService.getFormGoodsListSuggest(vo);
+			return new PageUtils<DeliverFormGoods>(itemList);
+		} catch (Exception e) {
+			LOG.error("配送建议数量，获取商品信息列表异常:{}", e);
+		}
+		return PageUtils.emptyPage();
 	}
 }
