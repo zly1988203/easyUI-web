@@ -384,7 +384,7 @@ pageEncoding="UTF-8"%>
 					<button class="ubtns-item" onclick="closeDialog()">关闭</button>
 				</div>
 				<div class="umar-r10 umar-l20 ut-r">商品附加条码:</div>
-					<input type="text" id="newBarCode" class="uinp uw-250 " maxlength="20">
+					<input type="text" id="newBarCode" class="uinp uw-250 " maxlength="20" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
 					<div class="ubtns umar-l20">
 					<button class="ubtns-item" onclick="inserRow()" >增加条码</button>
 					<button class="ubtns-item " onclick="removeRow()">删除条码</button>
