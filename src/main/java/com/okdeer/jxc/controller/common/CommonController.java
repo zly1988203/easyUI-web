@@ -7,6 +7,8 @@
 
 package com.okdeer.jxc.controller.common;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
@@ -64,5 +66,20 @@ public class CommonController extends BaseController<CommonController> {
 		String branchId = UserUtil.getCurrBranchId();
 		Branches branch = branchesServiceApi.getBranchInfoById(branchId);
 		return RespJson.success(branch, "success");
+	}
+	
+	/**
+	 * 
+	 * @Description: 根据关键字查询机构信息
+	 * 关键字支持：货号、条码
+	 * @return RespJson  
+	 * @author zhangq
+	 * @date 2017年4月7日
+	 */
+	@RequestMapping(value = "getBranchListByKeyword", method = RequestMethod.POST)
+	@ResponseBody
+	private RespJson getBranchListByKeyword(String keyword) {
+		List<Branches> branchList = branchesServiceApi.getBranchByKeyword(keyword);
+		return RespJson.success(branchList, "success");
 	}
 }
