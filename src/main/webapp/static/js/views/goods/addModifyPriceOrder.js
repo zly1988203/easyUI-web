@@ -1040,7 +1040,12 @@ function gFunGoodsSelect(searchKey,branchId){
         var newRows = gridHandel.checkDatagrid(nowRows,newData,argWhere);
         //计算原毛利率、新毛利率
         $.each(newRows,function (index,item) {
-            item.oldSaleRate = ((item.oldSalePrice-item.oldPurPrice)/item.oldSalePrice*100).toFixed(2)+"%";
+            //兼容老数据 如果原零售价为0
+            if(item.oldSalePrice === '0' || item.oldSalePrice == 0 ){
+                item.oldSaleRate = "0%";
+            }else{
+                item.oldSaleRate = ((item.oldSalePrice-item.oldPurPrice)/item.oldSalePrice*100).toFixed(2)+"%";
+            }
             item.newSaleRate = ((item.newSalePrice-item.newPurPrice)/item.newSalePrice*100).toFixed(2)+"%"
         })
 
@@ -1264,7 +1269,12 @@ function updateListData(data){
     var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
     //计算原毛利率、新毛利率
     $.each(newRows,function (index,item) {
-        item.oldSaleRate = ((item.oldSalePrice-item.oldPurPrice)/item.oldSalePrice*100).toFixed(2)+"%";
+        //兼容老数据 如果原零售价为0
+        if(item.oldSalePrice === '0' || item.oldSalePrice == 0 ){
+            item.oldSaleRate = "0%";
+        }else{
+            item.oldSaleRate = ((item.oldSalePrice-item.oldPurPrice)/item.oldSalePrice*100).toFixed(2)+"%";
+        }
         item.newSaleRate = ((item.newSalePrice-item.newPurPrice)/item.newSalePrice*100).toFixed(2)+"%"
     })
     $("#"+datagridId).datagrid("loadData",newRows);
