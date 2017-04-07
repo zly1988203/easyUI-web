@@ -332,7 +332,7 @@ $(
                 var row =  $("#gridGoods").datagrid("getChecked");
                 cb(row);
             }
-
+            var fromParams = {};
             /*
              * 查询
              */
@@ -366,6 +366,7 @@ $(
             }
 
             initSearch=function(param){
+                fromParams = param;
                 $("#goodsInfo").val(param.key);
                 if(!param.key){
                     // var searchSupplierId = $("#searchSupplierId").val();
@@ -388,24 +389,9 @@ $(
                 }
             }
 
-            var fromParams = {};
-//永亲专用，请勿修改
-            initNewSearch= function(params){
-                fromParams = params;
-                if(!params.key){
-                    $("#gridGoods").datagrid("options").method = "post";
-                    $("#gridGoods").datagrid("options").queryParams = params;
-                    $("#gridGoods").datagrid("options").url =contextPath + '/goods/goodsSelect/getGoodsList';
-                    $("#gridGoods").datagrid('load');
-                }else{
-                    cx()
-                }
-            }
-
             return{
                 initGoodsRadioCallBack:initGoodsRadioCallBack,
                 initSearch:initSearch,
-                initNewSearch:initNewSearch,
                 publicGoodsGetCheckGoods:publicGoodsGetCheckGoods,
                 cx:cx,
                 initSelectView:initSelectView,
