@@ -217,8 +217,17 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 		// 验证商品
 		List<String> skuIds = new ArrayList<String>();
 		List<PurchaseFormDetailVo> detailList = formVo.getDetailList();
+		// 处理结果
+		StringBuilder sb = new StringBuilder();
 		for (PurchaseFormDetailVo detailVo : detailList) {
 			skuIds.add(detailVo.getSkuId());
+			// 非赠送，单价为0
+			if (detailVo.getIsGift() == 0 && BigDecimal.ZERO.compareTo(detailVo.getPrice()) == 0) {
+				sb.append("[" + detailVo.getSkuCode() + "]单价为0，请重新修改；\n");
+			}
+		}
+		if (!sb.toString().equals("")) {
+			return RespJson.error(sb.toString());
 		}
 		RespJson resp = saveValid(skuIds, formVo.getBranchId());
 		if (!resp.isSuccess()) {
@@ -416,8 +425,17 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 		// 验证商品
 		List<String> skuIds = new ArrayList<String>();
 		List<PurchaseFormDetailVo> detailList = formVo.getDetailList();
+		// 处理结果
+		StringBuilder sb = new StringBuilder();
 		for (PurchaseFormDetailVo detailVo : detailList) {
 			skuIds.add(detailVo.getSkuId());
+			// 非赠送，单价为0
+			if (detailVo.getIsGift() == 0 && BigDecimal.ZERO.compareTo(detailVo.getPrice()) == 0) {
+				sb.append("[" + detailVo.getSkuCode() + "]单价为0，请重新修改；\n");
+			}
+		}
+		if (!sb.toString().equals("")) {
+			return RespJson.error(sb.toString());
 		}
 		RespJson resp = saveValid(skuIds, formVo.getBranchId());
 		if (!resp.isSuccess()) {

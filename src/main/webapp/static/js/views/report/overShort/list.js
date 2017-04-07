@@ -226,6 +226,8 @@ function updateFooter(){
 }
 
 function queryForm() {
+	$("#startCount").attr("value",null);
+	$("#endCount").attr("value",null);
     var oldBranchName = $("#oldBranchName").val();
     var branchName = $("#branchName").val();
     if(oldBranchName && oldBranchName != branchName){
