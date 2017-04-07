@@ -40,9 +40,9 @@ function initNewGoodsTotalAnalysiGrid() {
             {field: 'skuCode', title: '货号', width:60, align: 'left'},
             {field: 'skuName', title: '商品名称', width:185, align: 'left'},
             {field: 'barCode', title: '条码', width:100, align: 'left'},
-            {field: 'unit', title: '单位', width:45, align: 'left'},
-            {field: 'spec', title: '规格', width:45, align: 'left'},
-            {field: 'categoryCode', title: '类别编号', width:60, align: 'left'},
+            {field: 'unit', title: '单位', width:60, align: 'left'},
+            {field: 'spec', title: '规格', width:60, align: 'left'},
+            {field: 'categoryCode', title: '类别编号', width:80, align: 'left'},
             {field: 'categoryName', title: '类别名称', width:80, align: 'left'},
             {field: 'actualStock', title: '库存', width:80, align: 'right',
                 formatter:function(value,row,index){

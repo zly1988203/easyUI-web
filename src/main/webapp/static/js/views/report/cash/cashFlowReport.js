@@ -45,17 +45,7 @@ function initCashWaterGrid() {
     			}
     			return null;
     		}},
-            {field: 'businessType', title: '业务类型', width: 150, align: 'center',formatter : function(businessType){
-    			if(businessType){
-    				if(businessType =='A') {
-    					return "销售";
-    				}
-    				if(businessType =='B') {
-    					return "退货";
-    				}
-    			}
-    			return null;
-    		}},
+            {field: 'businessTypeStr', title: '业务类型', width: 150, align: 'center'},
             {field: 'payAmount', title: '付款金额', width: 120, align: 'right',formatter : function(payAmount){
     			if(payAmount){
     				payAmount = parseFloat(payAmount);
