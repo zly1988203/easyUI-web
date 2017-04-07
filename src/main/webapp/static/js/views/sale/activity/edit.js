@@ -4,7 +4,10 @@ var activtype="";
 var activityType="";
 var activityScopedis="";
 var activityScopemj="";
-
+var gridDefault = {
+    oldSaleRate:"0%",
+    newSaleRate:"0%"
+}
 $(function(){
 	optionHide();
 	//开始和结束时间
@@ -554,9 +557,11 @@ function initDatagridSpecial(){
       onLoadSuccess:function(data){
 			if(data.list && data.list.length > 0){
                 $.each(data.list,function (index,item) {
-                    item.oldSaleRate = ((item.price-item.purchasePrice)/item.price*100).toFixed(2)+"%";
-
-                    // item.newSaleRate = ((item.saleAmount-item.purchasePrice)/item.saleAmount*100).toFixed(2)+"%"
+                    if(item.price === '0' || item.price == 0 ){
+                        item.oldSaleRate = "0%";
+                    }else{
+                        item.oldSaleRate = ((item.price-item.purchasePrice)/item.price*100).toFixed(2)+"%";
+                    }
                 })
                 gridHandel.setLoadData(data.list);
             }
@@ -812,8 +817,11 @@ function initDatagridoneZk(){
           if(data.list && data.list.length > 0) {
               $.each(data.list, function (index, item) {
                   var discountPrice = ((item.price * item.discount) / 10).toFixed(2);
-                  item.oldSaleRate = ((item.price - item.purchasePrice) / item.price * 100).toFixed(2) + "%";
-                  // item.newSaleRate = ((discountPrice - item.purchasePrice) / discountPrice * 100).toFixed(2) + "%"
+                  if(item.price === '0' || item.price == 0 ){
+                      item.oldSaleRate = "0%";
+                  }else{
+                      item.oldSaleRate = ((item.price - item.purchasePrice) / item.price * 100).toFixed(2) + "%";
+                  }
               })
               gridHandel.setLoadData(data.list);
           }
@@ -989,8 +997,11 @@ function initDatagridOddtj(){
       onLoadSuccess:function(data){
           if(data.list && data.list.length > 0) {
               $.each(data.list, function (index, item) {
-                  item.oldSaleRate = ((item.price - item.purchasePrice) / (2 * item.price) * 100).toFixed(2) + "%";
-                  // item.newSaleRate = ((item.saleAmount - item.purchasePrice) / (2 * item.saleAmount) * 100).toFixed(2) + "%"
+                  if(item.price === '0' || item.price == 0 ){
+                      item.oldSaleRate = "0%";
+                  }else{
+                      item.oldSaleRate = ((item.price - item.purchasePrice) / (2 * item.price) * 100).toFixed(2) + "%";
+                  }
               })
               gridHandel.setLoadData(data.list);
           }
@@ -1569,7 +1580,6 @@ function specialRows(id,val){
 		for(var i = 0;i < newData.length;i++){
             var item = newData[i];
             item.saleAmount= val;
-            // item.oldSaleRate = ((item.salePrice-item.purchasePrice)/item.salePrice*100).toFixed(2)+"%";
             item.newSaleRate = ((item.saleAmount-item.purchasePrice)/item.saleAmount*100).toFixed(2)+"%"
 			rowIndex = $("#"+datagridId).datagrid('getRowIndex',item);
 			//更新行数据
@@ -1586,7 +1596,6 @@ function specialRows(id,val){
             var item = newData[i];
             item.discount= val;
             var discountPrice = ((item.salePrice*item.discount)/10).toFixed(2);
-            // item.oldSaleRate = ((item.salePrice-item.purchasePrice)/item.salePrice*100).toFixed(2)+"%";
             item.newSaleRate = ((discountPrice-item.purchasePrice)/discountPrice*100).toFixed(2)+"%"
 			rowIndex = $("#"+datagridId).datagrid('getRowIndex',item);
 			//更新行数据
@@ -1602,7 +1611,6 @@ function specialRows(id,val){
 		for(var i = 0;i < newData.length;i++){
             var item = newData[i];
             item.saleAmount= val;
-            // item.oldSaleRate = ((item.salePrice-item.purchasePrice)/(2*item.salePrice)*100).toFixed(2)+"%";
             item.newSaleRate = ((item.saleAmount-item.purchasePrice)/(2*item.saleAmount)*100).toFixed(2)+"%"
 			rowIndex = $("#"+datagridId).datagrid('getRowIndex',item);
 			//更新行数据
@@ -1705,17 +1713,31 @@ function selectGoods(searchKey){
         if(activityType==="1"){
             //特价
             $.each(newRows,function (index,item) {
-                item.oldSaleRate = ((item.price-item.purchasePrice)/item.price*100).toFixed(2)+"%";
+                if(item.price === '0' || item.price == 0 ){
+                    item.oldSaleRate = "0%";
+                }else{
+                    item.oldSaleRate = ((item.price-item.purchasePrice)/item.price*100).toFixed(2)+"%";
+                }
+
             })
         }else if(activityType==="2" && $('#activityScopedis').val()==="0"){
             //折扣 单品折扣
             $.each(newRows,function (index,item) {
-                item.oldSaleRate = ((item.price-item.purchasePrice)/item.price*100).toFixed(2)+"%";
+                if(item.price === '0' || item.price == 0 ){
+                    item.oldSaleRate = "0%";
+                }else{
+                    item.oldSaleRate = ((item.price-item.purchasePrice)/item.price*100).toFixed(2)+"%";
+                }
+
             })
         }else if(activityType==="3"){
             //偶数特价
             $.each(newRows,function (index,item) {
-                item.oldSaleRate = ((item.price-item.purchasePrice)/(2*item.price)*100).toFixed(2)+"%";
+                if(item.price === '0' || item.price == 0 ){
+                    item.oldSaleRate = "0%";
+                }else{
+                    item.oldSaleRate = ((item.price-item.purchasePrice)/(2*item.price)*100).toFixed(2)+"%";
+                }
             })
         }
 

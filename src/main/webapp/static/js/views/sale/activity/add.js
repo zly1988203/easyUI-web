@@ -1,4 +1,8 @@
 var datagridId = "saleMangeadd";
+var gridDefault = {
+    oldSaleRate:"0%",
+    newSaleRate:"0%"
+}
 $(function(){
 	// 开始和结束时间
 // $("#startTime").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
@@ -2043,17 +2047,35 @@ function selectGoods(searchKey){
         if(activityType==="1"){
         	//特价
 			$.each(newRows,function (index,item) {
-                item.oldSaleRate = ((item.price-item.purchasePrice)/item.price*100).toFixed(2)+"%";
+                //兼容老数据 如果原零售价为0
+                if(item.price === '0' || item.price == 0 ){
+                    item.oldSaleRate = "0%";
+                }else{
+                    item.oldSaleRate = ((item.price-item.purchasePrice)/item.price*100).toFixed(2)+"%";
+                }
+
             })
 		}else if(activityType==="2" && $('#activityScopedis').val()==="0"){
         	//折扣 单品折扣
             $.each(newRows,function (index,item) {
-                item.oldSaleRate = ((item.price-item.purchasePrice)/item.price*100).toFixed(2)+"%";
+                //兼容老数据 如果原零售价为0
+                if(item.price === '0' || item.price == 0 ){
+                    item.oldSaleRate = "0%";
+                }else{
+                    item.oldSaleRate = ((item.price-item.purchasePrice)/item.price*100).toFixed(2)+"%";
+                }
+
             })
 		}else if(activityType==="3"){
 			//偶数特价
             $.each(newRows,function (index,item) {
-                item.oldSaleRate = ((item.price-item.purchasePrice)/(2*item.price)*100).toFixed(2)+"%";
+                //兼容老数据 如果原零售价为0
+                if(item.price === '0' || item.price == 0 ){
+                    item.oldSaleRate = "0%";
+                }else{
+                    item.oldSaleRate = ((item.price-item.purchasePrice)/(2*item.price)*100).toFixed(2)+"%";
+                }
+
             })
 		}
 
