@@ -214,6 +214,14 @@ function initGridOverShortReport() {
 
         })
     gridHandel.setLoadData([]);
+    updateFooter();
+}
+
+//合计
+function updateFooter(){
+    var fields = {saleAmount:0,difference:0,payInAmount:0, };
+    var argWhere = {name:'isGift',value:""}
+    gridHandel.updateFooter(fields,argWhere);
 }
 
 function queryForm() {
