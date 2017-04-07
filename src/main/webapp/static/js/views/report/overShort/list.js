@@ -10,7 +10,6 @@ $(function () {
     initData();
     radioChange();
     initGridOverShortReport();
-    queryForm();
 })
 
 //初始化数据
@@ -33,13 +32,13 @@ function radioChange(){
             showCashier();
         }
         initGridOverShortReport();
-        queryForm();
     })
 }
 
 function showCashier(){
     $("#userNameOrCode").removeAttr("disabled");
     $("#userIdSelect").show();
+    $('#cashierIdSelect').prop('hidden',false);
 }
 
 function hideCashier(){
@@ -47,7 +46,7 @@ function hideCashier(){
     $("#userNameOrCode").val('');
     $("#oldUserName").val('');
     $("#userNameOrCode").prop("disabled","disabled");
-    $("#userIdSelect").hide();
+    $('#cashierIdSelect').prop('hidden',true);
 }
 
 /**
@@ -151,14 +150,17 @@ function setgridColumns(){
             {field: 'difference', title: '长短款差额', width: 200, align: 'right',
                 formatter : function(value, row,index) {
                     if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                        if(value < 0){
+                        	return '<b><span style="color: red;">'+parseFloat(value||0).toFixed(2)+'</span></b>';
+                        }else{
+                        	return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                        }
                     }
                     if(value < 0){
                         return '<b><span style="color: red;">'+parseFloat(value||0).toFixed(2)+'</span></b>';
                     }else{
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                     }
-
                 }
             },
         ]]
@@ -192,10 +194,11 @@ function setgridColumns(){
 var gridHandel = new GridClass();
 function initGridOverShortReport() {
     gridHandel.setGridName(gridName);
-    $('#'+gridName).datagrid({
+    dg = $('#'+gridName).datagrid({
         method: 'post',
         align: 'center',
         pageSize : 50,
+        url:"",
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect: false,  //单选  false多选
         rownumbers: true,    //序号
@@ -210,7 +213,7 @@ function initGridOverShortReport() {
         }
 
         })
-
+    gridHandel.setLoadData([]);
 }
 
 function queryForm() {
@@ -233,6 +236,7 @@ function queryForm() {
     $("#"+gridName).datagrid('load', fromObjStr);
 }
 
+var dg;
 /**
  * 导出
  */

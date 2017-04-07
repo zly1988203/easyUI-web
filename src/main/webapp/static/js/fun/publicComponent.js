@@ -708,17 +708,15 @@ function callBackHandel(data){
 function publicGoodsServiceTem(param,callback){
 	var param = setParam(param);
 	if(param.key){
-	    //后台参数是 skuCodes
-        param.skuCodes = param.key;
+	    //后台参数是 skuCodesOrBarCodes
+        param.skuCodesOrBarCodes = param.key;
         param.formType = param.type;
 		var urlTemp;
 		if(param.type=="DA"){
 			param.branchId = '';
 
-			//urlTemp = contextPath + '/goods/goodsSelect/importSkuCode?skuCodes='+param.key+'&branchId='+param.branchId+"&supplierId="+param.supplierId+"&type="+param.type+"&sourceBranchId="+param.sourceBranchId+"&targetBranchId="+param.targetBranchId+"&flag="+param.flag;
             urlTemp = contextPath + '/goods/goodsSelect/importSkuCode';
 		} else {
-			//urlTemp = contextPath + '/goods/goodsSelect/importSkuCode?skuCodes='+param.key+"&type="+param.type+'&branchId='+param.branchId+"&supplierId="+param.supplierId+"&flag="+param.flag;
             urlTemp = contextPath + '/goods/goodsSelect/importSkuCode';
 		}
 		$.ajax({
@@ -799,10 +797,9 @@ function publicGoodsService(type,callback,key,isRadio,sourceBranchId,targetBranc
 		var urlTemp;
 		if(param.type=="DA"){
 			param.branchId = '';
-			urlTemp = contextPath + '/goods/goodsSelect/importSkuCode?skuCodes='+param.key+'&branchId='+param.branchId+"&supplierId="+param.supplierId+"&type="+param.type+"&sourceBranchId="+param.sourceBranchId+"&targetBranchId="+param.targetBranchId+"&flag="+param.flag;
-			//publicGoodsServiceHandel(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId,supplierId);
+			urlTemp = contextPath + '/goods/goodsSelect/importSkuCode?skuCodesOrBarCodes='+param.key+'&branchId='+param.branchId+"&supplierId="+param.supplierId+"&type="+param.type+"&sourceBranchId="+param.sourceBranchId+"&targetBranchId="+param.targetBranchId+"&flag="+param.flag;
 		} else {
-			urlTemp = contextPath + '/goods/goodsSelect/importSkuCode?skuCodes='+param.key+'&branchId='+param.branchId+"&supplierId="+param.supplierId+"&flag="+param.flag;
+			urlTemp = contextPath + '/goods/goodsSelect/importSkuCode?skuCodesOrBarCodes='+param.key+'&branchId='+param.branchId+"&supplierId="+param.supplierId+"&flag="+param.flag;
 		}
 		$.ajax({
 			url:urlTemp,
@@ -892,93 +889,6 @@ function publicGoodsServiceHandel(param,callback){
     }
 }
 
-/**
- * 公共组件-商品选择-新
- * @param params  传参对象
- * @param callback 回调函数
- */
-function publicNewGoodsService(params,callback){
-    if(params.key){
-        var url= contextPath + '/goods/goodsSelect/importSkuCode?skuCodes='+params.key+'&branchId='+params.branchId;
-        $.ajax({
-            url:url,
-            type:'POST',
-            success:function(data){
-                if(data&&data.length==1){
-                    callback(data);
-                }else{
-                    publicNewGoodsServiceHandel(params,callback);
-                }
-            }
-        })
-    }else{
-        publicNewGoodsServiceHandel(params,callback);
-    }
-}
-
-var newGoodsDalog = null;
-function publicNewGoodsServiceHandel(params,callback){
-    if(!params.branchId){
-        url=contextPath + "/goods/goodsSelect/view?type="+params.type+"&sourceBranchId="+params.sourceBranchId+"&targetBranchId="+params.targetBranchId;
-    }else{
-        url=contextPath + "/goods/goodsSelect/view?type="+params.type+"&branchId="+params.branchId;
-    }
-    //公有属性
-    var dalogObj = {
-        href:url,
-        width:1200,
-        height:dialogHeight,
-        title:"商品选择",
-        closable:true,
-        resizable:true,
-        onClose:function(){
-            $(newGoodsDalog).panel('destroy');
-            newGoodsDalog = null;
-        },
-        modal:true,
-    }
-    if(params.isRadio&&params.isRadio==1){
-        dalogObj["onLoad"] =function(){
-            initGoodsRadioCallBack(function(data){
-                callback( [data]);
-                $(newGoodsDalog).panel('destroy')
-                newGoodsDalog = null;
-            });
-            initNewSearch(params);
-        };
-    }else{
-        dalogObj["onLoad"] =function(){
-            initGoodsRadioCallBack();
-            $("#goodsInfo").val(params.key);
-            initNewSearch(params);
-        };
-        dalogObj["buttons"] =[{
-            text:'确定',
-            handler:function(){
-                getCheckGoods();
-            }
-        },{
-            text:'取消',
-            handler:function(){
-                $(newGoodsDalog).panel('destroy');
-                newGoodsDalog = null;
-            }
-        }];
-    }
-    newGoodsDalog = $('<div/>').dialog(dalogObj);
-    //私有方法
-    function getCheckGoods(){
-        publicGoodsGetCheckGoods(function(data){
-            if(data.length==0){
-                messager("请选择数据");
-                return;
-            }
-            callback(data);
-            $(newGoodsDalog).panel('destroy');
-            newGoodsDalog = null;
-        });
-    }
-}
 //公共组件-公共方法
 //关闭
 function toClose(){

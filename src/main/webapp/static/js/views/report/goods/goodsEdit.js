@@ -7,13 +7,15 @@ var isStore;
 var flag = ($("#branchType").val()==1);
 var dgPrice = null;
 function initGoodsInfo(skuId,branchId){
+	 $('#btnbase').addClass('active')
 	if(flag===true){
 		 $('#tab2').css('display','none');
-		 //$('#btnbase').css('background-color','#95B8E7');
-		 $('#btnbase').addClass('active')
+		$('#tab3').css('display','none');
 	}else{
-		$('#divTab').css('display','none');
-		$('#tab2').css('display','none');
+        $('#btnprice').css('display','none');
+        $('#tab1').css('display','block');
+        $('#tab2').css('display','none');
+        $('#tab3').css('display','none');
 	}
 	
 	var args = {}
@@ -212,27 +214,33 @@ function submitForm(){
  function clickTab(code){
 	 
 	 if(code === 1){
-//		 $('#btnbase').css('background-color','#95B8E7');
-//		 $('#btnprice').css('background-color','#fff');
 		 $('#btnbase').addClass('active');
 		 $('#btnprice').removeClass('active');
+		 $('#btnbarCode').removeClass('active');
 		 $('#tab1').css('display','block');
 		 $('#tab2').css('display','none');
+		 $('#tab3').css('display','none');
 		 
-	 }else{
-//		 $('#btnbase').css('background-color','#fff');
-//		 $('#btnprice').css('background-color','#95B8E7');
+	 }else if(code === 2){
 		 $('#btnbase').removeClass('active');
 		 $('#btnprice').addClass('active');
+		 $('#btnbarCode').removeClass('active');
 		 $('#tab1').css('display','none');
 		 $('#tab2').css({'display':'block','height':'90%'});
+		 $('#tab3').css('display','none');
 		 
 		 	if(dgPrice != null)return;
 			//初始化表格
 			initDatagridEditRequireOrder();
-			/*$('#printnum').on('input',function(){
-				printRows($(this).val());
-			})*/
+
+	 }else{
+		$('#btnbase').removeClass('active');
+		 $('#btnprice').removeClass('active');
+		 $('#btnbarCode').addClass('active');
+		 $('#tab1').css('display','none');
+		 $('#tab2').css('display','none');
+		 $('#tab3').css({'display':'block','height':'90%'});
+		 initDatagridEdit();
 	 }
  }
  
@@ -407,4 +415,48 @@ function submitForm(){
 	            successTip("请求发送失败或服务器处理失败");
 	        }
 	    });
+ }
+ 
+ 
+function initDatagridEdit(){
+	 barCodeTable = $("#barCodeTable").datagrid({
+ 	        method:'post',
+ 	    	url:contextPath+"/goods/goodsBarcode/querySkuBarCodeBySkuId?skuId="+$("#skuId").val(),
+ 	        align:'center',
+ 	        singleSelect:false,  //单选  false多选
+ 	        rownumbers:true,    //序号
+ 	        showFooter:true,
+ 	        fit: true,  
+ 	        fitColumns:true,    //每列占满
+ 	        height:'100%',
+ 	        width:'100%',
+ 	        //pagination:true,
+ 	        columns:[[
+                /* {field:'check',checkbox:true},*/
+ 	            {field:'skuId',title:'skuId',hidden:true},
+ 	            {field:'barCode',title:'商品条码',width: '120px',align:'left',
+ 				},
+ 	            {field:'updateUserName',title:'修改人',width: '120px',align:'left'},
+ 	            {field:'updateTime',title:'修改时间',width: '150px',align:'center',
+ 	            	formatter: function (value, row, index) {
+ 						if (value) {
+ 							return new Date(value).format('yyyy-MM-dd hh:mm:ss');
+ 						}
+ 						return "";
+ 					}
+ 	            },
+ 	        ]],
+ 		/* onClickCell:function(rowIndex,field,value){
+ 			 gridHandel.setBeginRow(rowIndex);
+ 			 gridHandel.setSelectFieldName(field);
+ 			 var target = gridHandel.getFieldTarget(field);
+ 			 if(target){
+ 				 gridHandel.setFieldFocus(target);
+ 			 }else{
+ 				 gridHandel.setSelectFieldName("goodsbarCode");
+ 			 }
+ 		 },*/
+ 		 onLoadSuccess : function() {
+ 		 },
+ 	 });
  }

@@ -266,12 +266,12 @@ public class GoodsBatchUpdateController extends BaseController<GoodsBatchUpdateC
 		Branches branch = branchesServiceApi.getBranchInfoById(vo.getBranchId());
 		
 		//总部仅可修改：是否管理库存、是否高值商品、是否关注商品、修改商品类别、修改商品品牌
-		if(branch.getType() == 0 && !(vo.isManagerStockChecked() || vo.isHighValueChecked() || vo.isCategoryChecked() || vo.isBrandChecked())){
+		if(branch.getType() == 0 && !(vo.isManagerStockChecked() || vo.isHighValueChecked() || vo.isAttentionChecked() || vo.isCategoryChecked() || vo.isBrandChecked())){
 			return RespJson.error("是否管理库存、是否高值商品、是否关注商品、修改商品类别、修改商品品牌,请至少勾选一项。");
 		}
 		
 		//分公司仅可修改：是否参与促销、是否直送商品、分店调价、安全库存系数、修改主供应商
-		if(branch.getType() == 1 && !(vo.isAllowActivityChecked() || vo.isFastDeliverChecked() || vo.isAttentionChecked() || vo.isSafetyCoefficientChecked() || vo.isSupplierChecked())){
+		if(branch.getType() == 1 && !(vo.isAllowActivityChecked() || vo.isFastDeliverChecked() || vo.isSafetyCoefficientChecked() || vo.isSupplierChecked())){
 			return RespJson.error("是否参与促销、是否直送商品、分店调价、安全库存系数、修改主供应商,请至少勾选一项。");
 		}
 		

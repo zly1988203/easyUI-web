@@ -15,13 +15,13 @@
 		<div class="ub ub-ac upad-4">
 			<div class="ubtns">
 				<shiro:hasPermission name="JxcDirectReceipt:add">
-					<div class="ubtns-item" onclick="addDirect()">新增</div>
+					<div  class="ubtns-item" onclick="addDirect()">新增</div>
 				</shiro:hasPermission>
 				<shiro:hasPermission name="JxcDirectReceipt:add">
-					<div class="ubtns-item" onclick="saveDirectForm()">保存</div>
+					<div  class="ubtns-item" onclick="saveDirectForm()">保存</div>
 				</shiro:hasPermission>
 				<shiro:hasPermission name="JxcDirectReceipt:audit">
-					<div class="ubtns-item-disabled">审核</div>
+					<div  class="ubtns-item-disabled">审核</div>
 				</shiro:hasPermission>
 				<div class="ubtns-item" onclick="selectGoods()">商品选择</div>
 				<shiro:hasPermission name="JxcDirectReceipt:import">

@@ -342,7 +342,19 @@ function selectGoods(searchKey){
         messager("请先选择发货分店");
         return;
     }
-    new publicGoodsService("",function(data){
+
+    var queryParams = {
+        type:'',
+        key:searchKey,
+        isRadio:0,
+        'supplierId':'',
+        'branchId': "",
+        sourceBranchId:'',
+        targetBranchId:'',
+        flag:'0',
+    };
+
+    new publicGoodsServiceTem(queryParams,function(data){
         if(searchKey){
             $("#gridAddRequireOrder").datagrid("deleteRow", editRowIndex);
             $("#gridAddRequireOrder").datagrid("acceptChanges");
@@ -368,9 +380,8 @@ function selectGoods(searchKey){
             gridHandel.setSelectFieldName("largeNum");
             gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
         },100)
-        
-        
-    },searchKey,'','','','','','');
+
+    });
 }
 
 

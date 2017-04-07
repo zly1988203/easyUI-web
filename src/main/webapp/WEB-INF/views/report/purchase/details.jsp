@@ -72,6 +72,7 @@
                    		<option value="">全部</option>
                    		<option value="PI">采购收货单</option>
                         <option value="PR">采购退货单</option>
+                        <option value="PM">直送收货单</option>
                    </select>
                </div>
                <div class="ub ub-ac uw-300">

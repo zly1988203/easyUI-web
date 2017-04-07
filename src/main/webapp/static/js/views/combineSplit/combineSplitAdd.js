@@ -174,7 +174,8 @@ function selectGoodsDialog(searchKey) {
 //商品选择 公共使用
 function gFunGoodsSelect(searchKey,branchId){
 	var comboxV = $("#formType").combobox('getValue');
-	publicNewGoodsService({goodsTypeList:comboxV,branchId:branchId,isRadio:1},function(data){
+	var param = {goodsTypeList:comboxV,branchId:branchId,isRadio:1}
+    new publicGoodsServiceTem(param,function(data){
 		  	if(data.length==0){
 	            return;
 	        }

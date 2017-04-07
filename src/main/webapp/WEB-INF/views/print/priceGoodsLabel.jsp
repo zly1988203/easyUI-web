@@ -15,7 +15,9 @@
 				
 			 var  data=storage.prdata;
 			 var  printNo=storage.printNo;
+			 var  branchId=storage.branchId;
 			$('#printNo').val(printNo);
+			$('#branchId').val(branchId);
 			console.log()
 		    $('#data').val(data);
 		}
@@ -28,6 +30,7 @@
 
  <form id="printdata" action="${ctx}/print/printLabel" method="post">
   <input type="hidden" id="printNo" name='printNo' value=""/>
+    <input type="hidden" id="branchId" name='branchId' value=""/>
   <input type="hidden" id="data" name='data' value=""/>
  </form>
 </body>
