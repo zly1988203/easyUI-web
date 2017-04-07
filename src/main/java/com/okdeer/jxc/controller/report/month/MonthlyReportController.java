@@ -12,10 +12,12 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -31,10 +33,12 @@ import org.springframework.web.servlet.ModelAndView;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.google.common.collect.Maps;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
+import com.okdeer.jxc.common.constant.PrintConstant;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
+import com.okdeer.jxc.controller.print.JasperHelper;
 import com.okdeer.jxc.report.service.MonthStatementService;
 import com.okdeer.jxc.report.vo.MonthlyReportVo;
 
@@ -224,5 +228,33 @@ public class MonthlyReportController extends BaseController<MonthlyReportControl
 	    logger.debug("exportList(HttpServletResponse, MonthlyReportVo) - end"); //$NON-NLS-1$
 	}
 	return returnRespJson;
+    }
+    
+    @RequestMapping(value = "/print", method = RequestMethod.GET)
+    public String printReport(  MonthlyReportVo vo, HttpServletResponse response, HttpServletRequest request){
+	Optional<MonthlyReportVo> optional = Optional.ofNullable(vo);
+	vo = optional.orElse(new MonthlyReportVo());
+	vo.setPageNumber(Integer.valueOf(PAGE_NO));
+	vo.setPageSize(PrintConstant.PRINT_MAX_LIMIT);
+	// 默认当前机构
+	if (StringUtils.isBlank(vo.getBranchId()) && StringUtils.isBlank(vo.getBranchName())) {
+	    vo.setBranchId(getCurrBranchId());
+	}
+	if (StringUtils.isNotBlank(vo.getStartTime())) {
+	    vo.setRptDate(
+		    LocalDate.parse(vo.getStartTime()).format(DateTimeFormatter.ofPattern(DateUtils.DATE_JFP_STR_R)));
+	} else {
+	    vo.setRptDate(LocalDate.now().format(DateTimeFormatter.ofPattern(DateUtils.DATE_JFP_STR_R)));
+	}
+	List<MonthlyReportVo> exportList = monthStatementService.exportMonthList(vo);
+	if (exportList.size() > PrintConstant.PRINT_MAX_ROW) {
+	    return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
+	}
+	String path = PrintConstant.MONTHLY_REPORT;
+	Map<String, Object> map = new HashMap<String, Object>();
+	map.put("startDate", vo.getRptDate());
+	map.put("printName", getCurrentUser().getUserName());
+	JasperHelper.exportmain(request, response, map, JasperHelper.PDF_TYPE, path, exportList, "");
+	return null;
     }
 }
