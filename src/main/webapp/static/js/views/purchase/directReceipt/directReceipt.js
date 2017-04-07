@@ -753,7 +753,8 @@ function queryGoodsList() {
             if(data && data.rows){
                 var addDefaultData  = gridHandel.addDefault(data.rows,gridDefault);
                 var keyNames = {
-                    salePrice:'price'
+                    salePrice:'price',
+                    inputTax:'tax'
                 };
                 var rows = gFunUpdateKey(addDefaultData,keyNames);
                 $("#"+gridName).datagrid("loadData",rows);
@@ -833,8 +834,8 @@ function selectGoods(searchKey){
     	 var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
          var addDefaultData  = gridHandel.addDefault(data,gridDefault);
          var keyNames = {
-         		skuId:'goodsSkuId',
-         		salePrice:'price'
+         		salePrice:'price',
+                inputTax:'tax'
          };
          var rows = gFunUpdateKey(addDefaultData,keyNames);
          var argWhere ={skuCode:1};  // 验证重复性
