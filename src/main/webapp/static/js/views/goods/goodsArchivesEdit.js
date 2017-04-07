@@ -614,7 +614,8 @@ function inserRow(){
 function removeRow() {
 	var data = $("#dgPrice").datagrid("getChecked");
 	for(var i = 0;i < data.length;i++){
-		 $('#dgPrice').datagrid('deleteRow', i);
+		 var rowIndex = $('#dgPrice').datagrid('getRowIndex', data[i]);
+         $('#dgPrice').datagrid('deleteRow', rowIndex);  
 	 }
 }
 
@@ -658,3 +659,4 @@ function saveBarCode(){
 	        }
 	    });
 }
+
