@@ -38,15 +38,15 @@
 	               <div class="umar-r10 uw-60 ut-r">收货机构:</div>
 						<input class="uinp" name="branchId" id="branchId" type="hidden">
 						<input type="hidden" id="oldBranchName" >
-						<input id="branchName" class="uinp ub ub-f1" type="text">
+						<input id="branchName" name="branchName" class="uinp ub ub-f1" type="text" maxlength="50">
 						<div class="uinp-more" onclick="selectBranch()">...</div>
 	            </div>
 	            <div class="ub ub-ac umar-r40">
 	                <div class="umar-r10 uw-60 ut-r">制单人:</div>
-	               <input class="uinp" name="salesmanId" id="salesmanId" type="hidden">
-	                <input type="hidden" id="oldUserName" >
-					<input id="operateUserName" class="uinp ub ub-f1" type="text">
-						<div class="uinp-more" onclick="selectOperator()">...</div>
+	                <input class="uinp" name="operateUserId" id="operateUserId" type="hidden">
+	                <input type="hidden" id="oldOperateUserName" >
+	                <input class="uinp" id="operateUserName" name ="operateUserName" type="text" maxlength="50">
+					<div class="uinp-more" onclick="selectOperator()">...</div>
 	            </div>
 	        </div>
 	        
@@ -58,8 +58,8 @@
 	            <div class="ub ub-ac umar-r40">
 	               <div class="umar-r10 uw-60 ut-r">供应商:</div>
 						<input class="uinp" name="supplierId" id="supplierId" type="hidden">
-						<input type="hidden" id="oldsupplierName"/>
-						<input class="uinp ub ub-f1" type="text" id="supplierName">
+						<input type="hidden" id="oldSupplierName"/>
+						<input class="uinp ub ub-f1" type="text" id="supplierName" name="supplierName" maxlength="50">
 						<div class="uinp-more" onclick="selectSupplier()">...</div>
 	            </div>
 	        </div>

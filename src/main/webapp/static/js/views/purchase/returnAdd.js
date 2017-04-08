@@ -634,7 +634,11 @@ function queryGoodsList() {
             if(data && data.rows){
                 var addDefaultData  = gridHandel.addDefault(data.rows,gridDefault);
                 var keyNames = {
-                    salePrice:'price'
+                    purchasePrice:'price',
+                    id:'skuId',
+                    disabled:'',
+                    pricingType:'',
+                    inputTax:'tax'
                 };
                 var rows = gFunUpdateKey(addDefaultData,keyNames);
                 $("#"+gridName).datagrid("loadData",rows);

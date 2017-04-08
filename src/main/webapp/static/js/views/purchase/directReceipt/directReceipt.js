@@ -253,7 +253,7 @@ function initDirectDataGrid(){
                    if(row.isFooter){
                        return;
                    }
-                   return value;
+                   return value?new Date(value).format('yyyy-MM-dd'):"";
                },
                editor:{
                    type:'datebox',
@@ -486,6 +486,7 @@ function saveDirectForm(){
 
     var isCheckResult = true;
     var isChcekPrice = false;
+    var isChcekNum = false;
     $.each(rows,function(i,v){
         v["rowNo"] = i+1;
         if(!v["skuName"]){
@@ -495,6 +496,10 @@ function saveDirectForm(){
         };
         if(parseFloat(v["price"])<=0&&v["isGift"]==0){
             isChcekPrice = true;
+        }
+        //数量判断
+        if(parseFloat(v["realNum"])<=0){
+        	isChcekNum = true;
         }
     });
     if(isCheckResult){
@@ -507,7 +512,15 @@ function saveDirectForm(){
                 }
             });
         }else{
-            saveDataHandel(rows, "/directReceipt/save");
+        	if(isChcekNum){
+          		 $.messager.confirm('提示','存在数量为0的商品,是否继续保存?',function(data){
+          			if(data){
+          				saveDataHandel(rows, "/directReceipt/save");
+          		    }
+          		 });
+        	}else{
+        		saveDataHandel(rows, "/directReceipt/save");
+        	}
         }
     }
 
@@ -591,8 +604,9 @@ function updateDirectForm() {
         return;
     }
 
-  var isCheckResult = true;
+    var isCheckResult = true;
     var isChcekPrice = false;
+    var isChcekNum = false;
     $.each(rows,function(i,v){
         v["rowNo"] = i+1;
         if(!v["skuName"]){
@@ -602,6 +616,10 @@ function updateDirectForm() {
         };
         if(parseFloat(v["price"])<=0&&v["isGift"]==0){
             isChcekPrice = true;
+        }
+        //数量判断
+        if(parseFloat(v["realNum"])<=0){
+        	isChcekNum = true;
         }
     });
     if(isCheckResult){
@@ -614,7 +632,15 @@ function updateDirectForm() {
                 }
             });
         }else{
-            saveDataHandel(rows, "/directReceipt/update");
+        	if(isChcekNum){
+         		 $.messager.confirm('提示','存在数量为0的商品,是否继续保存?',function(data){
+         			if(data){
+         	            saveDataHandel(rows, "/directReceipt/update");
+         		    }
+         		 });
+	       	}else{
+	            saveDataHandel(rows, "/directReceipt/update");
+	       	}
         }
     }
     
@@ -623,6 +649,11 @@ function updateDirectForm() {
 function checkDirectForm(){
     //验证数据是否修改
     $("#"+gridName).datagrid("endEdit", gridHandel.getSelectRowIndex());
+    var rows = gridHandel.getRows();
+    if(rows.length==0){
+        messager("表格不能为空");
+        return;
+    }
     var newData = {
         branchName:$('#branchName').val(),
         supplierId:$("#supplierId").val(),
@@ -638,40 +669,61 @@ function checkDirectForm(){
         return;
     }
 
-	var id = $("#formId").val();
-    $.messager.confirm('提示','是否审核通过？',function(data){
-        if(data){
-            gFunStartLoading();
-            $.ajax({
-                url:contextPath+"/directReceipt/check",
-                type : "POST",
-		    	data:{
-		    		formId:id,
-		    		status:1
-		    	},
-                success:function(result){
-                    gFunEndLoading();
-                    if(result['code'] == 0){
-                        $.messager.alert("操作提示", "操作成功！", "info",function(){
-                            		    				location.href = contextPath +"/directReceipt/edit?formId=" + id;
-                        });
-                    }else{
-                        new publicErrorDialog({
-                            width:380,
-                            height:220,
-                            "title":"审核失败",
-                            "error":result['message']
-                        });
-                    }
-                },
-                error:function(result){
-                    gFunEndLoading();
-                    successTip("请求发送失败或服务器处理失败");
-                }
-            });
+    var num=0;
+    $.each(rows,function(i,v){
+        if(parseFloat(v["realNum"])<=0){
+        	num++;
         }
     });
-	
+    if(num==rows.length){
+   	 	messager("采购商品数量全部为0");
+		return;
+	}else if(parseFloat(num)>0){
+		$.messager.confirm('提示',"是否清除单据中数量为0的商品记录?",function(data){
+	 		if(data){
+	 		    checkOrder();
+	 		}	
+		});
+	}else{
+		 $.messager.confirm('提示','是否审核通过？',function(data){
+			 if(data){
+				 checkOrder();
+			 }
+		    
+		 });
+	}
+}
+
+function checkOrder(){
+    gFunStartLoading();
+    var id = $("#formId").val();
+    $.ajax({
+        url:contextPath+"/directReceipt/check",
+        type : "POST",
+    	data:{
+    		formId:id,
+    		status:1
+    	},
+        success:function(result){
+            gFunEndLoading();
+            if(result['code'] == 0){
+                $.messager.alert("操作提示", "操作成功！", "info",function(){
+                    location.href = contextPath +"/directReceipt/edit?formId=" + id;
+                });
+            }else{
+                new publicErrorDialog({
+                    width:380,
+                    height:220,
+                    "title":"审核失败",
+                    "error":result['message']
+                });
+            }
+        },
+        error:function(result){
+            gFunEndLoading();
+            successTip("请求发送失败或服务器处理失败");
+        }
+    });
 }
 
 //选择供应商
@@ -753,7 +805,7 @@ function queryGoodsList() {
             if(data && data.rows){
                 var addDefaultData  = gridHandel.addDefault(data.rows,gridDefault);
                 var keyNames = {
-                    salePrice:'price',
+                	purchasePrice:'price',
                     inputTax:'tax'
                 };
                 var rows = gFunUpdateKey(addDefaultData,keyNames);
@@ -831,11 +883,11 @@ function selectGoods(searchKey){
 	        $("#"+gridName).datagrid("acceptChanges");
 	    }
     	
-    	 var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
-         var addDefaultData  = gridHandel.addDefault(data,gridDefault);
-         var keyNames = {
-         		salePrice:'price',
-                inputTax:'tax'
+		 var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
+		 var addDefaultData  = gridHandel.addDefault(data,gridDefault);
+		 var keyNames = {
+		    purchasePrice:'price',
+            inputTax:'tax'
          };
          var rows = gFunUpdateKey(addDefaultData,keyNames);
          var argWhere ={skuCode:1};  // 验证重复性
@@ -891,10 +943,7 @@ function updateListData(data){
     });
 
     var keyNames = {
-        //purchasePrice:'price',
-        id:'skuId',
-        disabled:'',
-        pricingType:'',
+	    purchasePrice:'price',
         inputTax:'tax'
     };
     var rows = gFunUpdateKey(data,keyNames);

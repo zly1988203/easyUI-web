@@ -401,12 +401,15 @@ function initPurFormNoGrid() {
             	formatter:function(value,row,index){
             		var hrefStr = '';
             		if(row.formId){
-            			hrefStr='parent.addTab("详情","'+contextPath+'/form/purchase/receiptEdit?report=close&formId='+row.formId+'")';
-            			if(row.type=="PI"){
+            			if(row.formNo.substr(0,2)=="PI"){
+            				hrefStr='parent.addTab("详情","'+contextPath+'/form/purchase/receiptEdit?report=close&formId='+row.formId+'")';
             				return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
-            			}else{
+            			}else if(row.formNo.substr(0,2)=="PR"){
             				hrefStr='parent.addTab("详情","'+contextPath+'/form/purchase/returnEdit?report=close&formId='+row.formId+'")'
             				return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
+            			}else if(row.formNo.substr(0,2)=="PM"){
+            				hrefStr='parent.addTab("详细","'+contextPath+'/directReceipt/edit?formId='+row.formId+'")';
+                        	return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
             			}
             		}else{
             			return "";
@@ -416,7 +419,7 @@ function initPurFormNoGrid() {
             {field: 'refFormNo', title: '引用单号', width: 135, align: 'left',
             	formatter:function(value,row,index){
             		var hrefStr = '';
-            		if(row.formId){
+            		if(row.refFormId){
             			hrefStr='parent.addTab("详情","'+contextPath+'/form/purchase/orderEdit?report=close&formId='+row.refFormId+'")';
             			return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
             		}else{

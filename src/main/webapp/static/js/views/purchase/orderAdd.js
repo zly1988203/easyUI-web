@@ -486,7 +486,7 @@ function updateListData(data){
         data[i]["amount"]  = parseFloat(data[i]["price"]||0)*parseFloat(data[i]["realNum"]||0);
     });
     var keyNames = {
-        //purchasePrice:'price',
+        purchasePrice:'price',
         id:'skuId',
         disabled:'',
         pricingType:'',
@@ -643,7 +643,11 @@ function queryGoodsList() {
             if(data && data.rows){
                 var addDefaultData  = gridHandel.addDefault(data.rows,gridDefault);
                 var keyNames = {
-                    salePrice:'price'
+                    purchasePrice:'price',
+                    id:'skuId',
+                    disabled:'',
+                    pricingType:'',
+                    inputTax:'tax'
                 };
                 var rows = gFunUpdateKey(addDefaultData,keyNames);
                 $("#"+gridName).datagrid("loadData",rows);
