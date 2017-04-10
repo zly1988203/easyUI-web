@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchSpecServiceApi;
+import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.branch.vo.BranchSpecVo;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.exception.BusinessException;
@@ -29,6 +31,12 @@ public class BranchSettingController extends BaseController<BranchSettingControl
 	 */
 	@Reference(version = "1.0.0", check = false)
 	private BranchSpecServiceApi branchSpecServiceApi;
+	
+	/**
+	 * 机构Dubbo接口
+	 */
+	@Reference(version = "1.0.0", check = false)
+	private BranchesServiceApi branchesServiceApi;
 
 	/**
 	 * 
@@ -90,12 +98,46 @@ public class BranchSettingController extends BaseController<BranchSettingControl
 	public RespJson getBranchSetting() {
 		String branchId = UserUtil.getCurrBranchId();
 		try {
+			RespJson resp = validPermissions();
+			if(!resp.isSuccess()){
+				return resp;
+			}
 			BranchSpecVo vo = branchSpecServiceApi.queryByBranchId(branchId);
 			return RespJson.success(vo, "success");
 		} catch (BusinessException e) {
 			LOG.warn(e.getMessage());
 			return RespJson.error(e.getMessage());
 		}
+	}
+	
+	/**
+	 * 
+	 * @Description: 验证
+	 * @return RespJson  
+	 * @author zhangq
+	 * @date 2017年4月10日
+	 */
+	private RespJson validPermissions(){
+		String branchId = UserUtil.getCurrBranchId();
+		//机构类型(0.总部、1.分公司、2.物流中心、3.自营店、4.加盟店B、5.加盟店C) 
+		Branches branch = branchesServiceApi.getBranchInfoById(branchId);
+		
+		//机构不存在
+		if(null == branch){
+			return RespJson.error("机构不存在");
+		}
+		
+		//总部不可以设置
+		if(branch.getType() == 0){
+			return RespJson.error("总部不可以设置");
+		}
+		
+		//门店取分公司配置，否则取自己
+		if(branch.getType() == 3 || branch.getType() == 4 || branch.getType() == 5){
+			return RespJson.error("门店不可以设置");
+		}
+		
+		return RespJson.success();
 	}
 
 	/**
@@ -111,6 +153,10 @@ public class BranchSettingController extends BaseController<BranchSettingControl
 	public RespJson saveSetting(BranchSpecVo vo) {
 		LOG.info("更新机构配置，{}", vo);
 		try {
+			RespJson resp = validPermissions();
+			if(!resp.isSuccess()){
+				return resp;
+			}
 			// 额外复制
 			vo.setBranchId(UserUtil.getCurrBranchId());
 			vo.setUpdateUserId(UserUtil.getCurrUserId());
