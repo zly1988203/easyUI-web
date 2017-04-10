@@ -560,4 +560,13 @@ public interface ExportExcelConstant {
 	 * @Fields ACTIVITY_DETAIL_QUERY_FOR_FULLREDUCTION : 满减促销方案详情
 	 */
 	String ACTIVITY_DETAIL_QUERY_FOR_FULLREDUCTION = "activityDetailQueryForFullReduction.xlsx";
+	
+	/**
+	 * @Fields STOCK_TAKING_MISS_GOODS : 盘点明细
+	 */
+	String STOCKTAKING_PPDETAIL = "stockTakingPPDetail.xlsx";
+	/**
+	 * @Fields STOCK_TAKING_MISS_GOODS : 差异处理明细
+	 */
+	String STOCKTAKING_DIFFDETAIL = "stockTakingDiffDetail.xlsx";
 }
