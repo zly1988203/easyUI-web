@@ -350,8 +350,8 @@ function supplierAutoComple(){
 
 //禁用表单所有元素
 function diabledAll(){
-	$("input:radio").attr("disabled",true);
-	$("input:checkbox").attr("disabled",true).removeAttr("checked");
+	$("#batchUpdateForm input:radio").attr("disabled",true);
+	$("#batchUpdateForm input:checkbox").attr("disabled",true).removeAttr("checked");
 	
 	//隐藏打开弹窗的...
 	$("#openSupplierMore").prop('hidden',true);

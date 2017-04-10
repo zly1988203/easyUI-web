@@ -271,7 +271,8 @@ public class GoodsBatchUpdateController extends BaseController<GoodsBatchUpdateC
 		}
 		
 		//分公司仅可修改：是否参与促销、是否直送商品、分店调价、安全库存系数、修改主供应商
-		if(branch.getType() == 1 && !(vo.isAllowActivityChecked() || vo.isFastDeliverChecked() || vo.isSafetyCoefficientChecked() || vo.isSupplierChecked())){
+		if(branch.getType() == 1 && 
+			!(vo.isAllowActivityChecked() || vo.isFastDeliverChecked() || vo.isAllowAdjustChecked() ||vo.isSafetyCoefficientChecked() || vo.isSupplierChecked())){
 			return RespJson.error("是否参与促销、是否直送商品、分店调价、安全库存系数、修改主供应商,请至少勾选一项。");
 		}
 		
