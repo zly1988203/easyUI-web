@@ -251,6 +251,9 @@ public class GoodsSelectImportBarCodeHandle implements GoodsSelectImportHandle{
 
 		for (int i = 0; i < arr.size(); i++) {
 			JSONObject obj = arr.getJSONObject(i);	
+			if(obj.containsKey("error")){
+				continue;
+			}
 
 			String barCode = obj.getString("barCode");
 			JSONObject excelJson = new JSONObject();

@@ -239,20 +239,27 @@ public class GoodsSelectImportComponent {
 					String barCode = obj.getString("barCode");
 					for(GoodsSelect goodsSelect : dbList){
 						if(barCode.equals(goodsSelect.getBarCode())||(goodsSelect.getBarCodes()!=null&&goodsSelect.getBarCodes().indexOf(barCode)>=0)){
-							dbList1.add(goodsSelect);
-							map.put(goodsSelect.getBarCode(), goodsSelect);
-							map.put(barCode, goodsSelect);
-							importMap.put(goodsSelect.getBarCode(), obj);
-							importMap.put(barCode, obj);
+							if(importMap.containsKey(goodsSelect.getBarCode())){
+								obj.element("error", GoodsSelectImportBarCodeHandle.CODE_IS_REPEAT);
+								importMap.get(goodsSelect.getBarCode()).element("error", GoodsSelectImportBarCodeHandle.CODE_IS_REPEAT);
+								dbList1.remove( map.get(goodsSelect.getBarCode()) );
+							}else{
+								importMap.put(goodsSelect.getBarCode(), obj);
+								importMap.put(barCode, obj);
+								dbList1.add(goodsSelect);
+								map.put(goodsSelect.getBarCode(), goodsSelect);
+								map.put(barCode, goodsSelect);
+								String[] barCodes=goodsSelect.getBarCodes().split(",");
+								for(int z=0;z<barCodes.length;z++){
+									importMap.put(barCodes[z], obj);
+									map.put(barCodes[z], goodsSelect);
+								}
+								
+							}
 							break;
 						}
 					}
 				}
-				/*for(GoodsSelect goodsSelect : dbList){
-						dbList1.add(goodsSelect);
-						break;
-					}*/
-
 				//----------------------------新增一校验成功数据为准---------------------------//
 			}
 
