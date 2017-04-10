@@ -259,7 +259,7 @@ function publicRoleService(callback, branchCompleCode, branchType){
 }
 
 //公共组件-机构选择
-function publicAgencyService(callback,formType,branchId, branchType){
+function publicAgencyService(callback,formType,branchId, branchType,isOpenStock){
 	if(!formType){
 		formType="";
 	}
@@ -269,10 +269,13 @@ function publicAgencyService(callback,formType,branchId, branchType){
 	if(!branchType){
 		branchType="";
 	}
+	if(!isOpenStock){
+		isOpenStock="";
+	}
     //公有属性
     var  dalogTemp = $('<div/>').dialog({
     	href:contextPath + "/common/branches/viewComponent?formType="+ 
-    		formType + "&branchId=" +branchId+ "&branchType="+branchType,
+    		formType + "&branchId=" +branchId+ "&branchType="+branchType + "&isOpenStock="+isOpenStock,
         width:680,
         height:$(window).height()*(2/3),
         title:"机构选择",
