@@ -83,6 +83,7 @@ $(function(){
 var gridDefault = {
     realNum:0,
     isGift:0,
+    goodsCreateDate:new Date().format('yyyy-MM-dd')
 }
 
 var gridHandel = new GridClass();
@@ -253,7 +254,7 @@ function initDirectDataGrid(){
                    if(row.isFooter){
                        return;
                    }
-                   return value?new Date(value).format('yyyy-MM-dd'):"";
+                   return value?new Date(value).format('yyyy-MM-dd'):""
                },
                editor:{
                    type:'datebox',
@@ -306,7 +307,14 @@ function initDirectDataGrid(){
                gridHandel.setSelectFieldName("skuCode");
            }
        },
-       onLoadSuccess:function(data){        	
+       onLoadSuccess:function(data){
+           if(data.rows.length>0){
+               var config = {
+                   date:['goodsCreateDate']
+               }
+               gFunFormatData(data.rows,config);
+           }
+
     	   if(!oldData["grid"]){
 		       	oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
 		    		return $.extend(true,{},obj);//返回对象的深拷贝
