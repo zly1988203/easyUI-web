@@ -75,6 +75,7 @@
 								<option value="ID">报损单</option>
 								<option value="IU">领用单</option>
 								<option value="PD">盘点单</option>
+								<option value="PM">直送收货</option>
 				        </select>
                 </div>
                 <div class="ub ub-ac umar-l20">

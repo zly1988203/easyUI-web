@@ -167,6 +167,13 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 			branchName = branchName.substring(branchName.lastIndexOf("]") + 1, branchName.length());
 			qo.setBranchName(branchName);
 		}
+
+		// 处理制单人
+		String operateUserName = qo.getOperateUserName();
+		if (StringUtils.isNotBlank(operateUserName)) {
+			operateUserName = operateUserName.substring(operateUserName.lastIndexOf("]") + 1, operateUserName.length());
+			qo.setOperateUserName(operateUserName);
+		}
 		return qo;
 	}
 
