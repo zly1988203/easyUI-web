@@ -504,4 +504,13 @@ public interface ExportExcelConstant {
 	 * @Fields DOSHEET2 : 出库单模板二
 	 */
 	String DOSHEET2 = "DOSheet2.xlsx";
+	
+	/**
+	 * @Fields STOCK_TAKING_MISS_GOODS : 盘点明细
+	 */
+	String STOCKTAKING_PPDETAIL = "stockTakingPPDetail.xlsx";
+	/**
+	 * @Fields STOCK_TAKING_MISS_GOODS : 差异处理明细
+	 */
+	String STOCKTAKING_DIFFDETAIL = "stockTakingDiffDetail.xlsx";
 }

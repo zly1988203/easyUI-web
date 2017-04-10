@@ -20,13 +20,14 @@
 				<button id="btnSave" class="ubtns-item" onclick="saveDiffDispose()">保存</button>
 				<button id="btnCheck" class="ubtns-item"  onclick="auditDiffDispose()">审核</button>
 				<button id="btndelete" class="ubtns-item" onclick="deleteDiffDispose()">删单</button>
+				<div class="ubtns-item" onclick="exportData()">导出</div>
 				<div class="ubtns-item" onclick="printDiffDispose()">打印</div>
 				<div class="ubtns-item" onclick="back()">关闭</div>
 			</div>
         </div>
     <div class="already-examine" id="already-examine"><span>已审核</span></div>
 
-	<form action="" id="searchForm" method="post">
+	<form action="" id="diffForm" method="post">
  			<input type="hidden" id="batchId" name="id" value="${batchVo.id}">
         <div class="ub uline umar-t10"></div>
         <div class="ub umar-t10">

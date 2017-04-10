@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.dubbo.common.utils.StringUtils;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
+import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.LogConstant;
 import com.okdeer.jxc.common.constant.PrintConstant;
 import com.okdeer.jxc.common.result.RespJson;
@@ -274,5 +275,34 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 			respJson = RespJson.error(e.getMessage());
 		}
 		return respJson;
+	}
+	
+	/**
+	 * @Description: 导出
+	 * @param response
+	 * @param batchId
+	 * @param batchNo
+	 * @return
+	 * @author xuyq
+	 * @date 2017年4月10日
+	 */
+	@RequestMapping(value = "/exportDiffDetailList", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson exportDiffDetailList(HttpServletResponse response,StocktakingBatchVo vo) {
+		String batchId = vo.getId();
+		String batchNo = vo.getBatchNo();
+		
+		LOG.info("差异详情列表导出参数batchId：{}", batchId);
+		RespJson resp = RespJson.success();
+		try {
+			List<StocktakingDifferenceVo> diffList = stocktakingOperateServiceApi.getStocktakingDifferenceList(batchId);
+			String fileName = batchNo + "差异详情" + DateUtils.getCurrSmallStr();
+			String templateName = ExportExcelConstant.STOCKTAKING_DIFFDETAIL;
+			exportListForXLSX(response, diffList, fileName, templateName);
+		} catch (Exception e) {
+			LOG.error("差异详情列表导出异常：{}", e);
+			resp = RespJson.error("差异详情列表导出异常");
+		}
+		return resp;
 	}
 }
