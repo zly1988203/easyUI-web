@@ -509,9 +509,12 @@ function publicDictService(dictType,callback) {
  * @param callback
  * @param type  0是单选  1是多选
  */
-function publicBranchService(callback,type) {
+function publicBranchService(callback,type,isOpenStock) {
+	if(!isOpenStock){
+		isOpenStock = "";
+	}
     var dalogObj = {
-        href: contextPath + "/system/user/views?type=branch&check="+type,
+        href: contextPath + "/system/user/views?type=branch&check="+type+"&isOpenStock="+isOpenStock,
         width: 680,
         height: dialogHeight,
         title: "选择机构",

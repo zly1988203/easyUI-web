@@ -803,7 +803,7 @@ function selectSourchBranches(){
             $("#sourceBranchName").val("["+data.branchCode+"]"+data.branchName);
             $("#sourceBranchType").val(data.type);
             gridHandel.setLoadData([$.extend({},gridDefault)]);
-        },'DO','');
+        },'DO','','',1);
     //} else {
     //    new publicAgencyService(function(data){
     //        if($("#sourceBranchId").val()!=data.branchesId){
