@@ -217,6 +217,19 @@ public interface ExportExcelConstant {
 	* @Fields CASHDAILYREPORT : 收银日报
 	*/
 	String CASHDAILYREPORT = "CashDailyReport.xlsx";
+	
+	/**
+	* @Fields CASHDAILYREPORT : 收银日报
+	*/
+	String CASHDAILYREPORT_SYY = "CashDailyReport_SYY.xlsx";
+	/**
+	* @Fields CASHDAILYREPORT : 收银日报
+	*/
+	String CASHDAILYREPORT_MD = "CashDailyReport_MD.xlsx";
+	/**
+	* @Fields CASHDAILYREPORT : 收银日报
+	*/
+	String CASHDAILYREPORT_RQ = "CashDailyReport_RQ.xlsx";
 
 	/**
 	* @Fields CASHCHECKREPORT : 收银对账

@@ -370,8 +370,11 @@ public class GoodsBranchPriceController extends BaseController<GoodsBranchPriceC
 
 						@Override
 						public void businessValid(List<JSONObject> excelListSuccessData, String[] excelField) {
-							ImportValidParentExist(excelListSuccessData,branchId,type);
-							ImportValidExists(excelListSuccessData,branchId,type);
+							//未引入的商品，需要验证上级是否引入及自身是否引入
+							if(status == 1){
+								ImportValidParentExist(excelListSuccessData,branchId,type);
+								ImportValidExists(excelListSuccessData,branchId,type);
+							}
 						}
 
 						/**
