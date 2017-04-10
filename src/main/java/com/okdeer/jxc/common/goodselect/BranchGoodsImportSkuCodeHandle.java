@@ -7,21 +7,22 @@
 package com.okdeer.jxc.common.goodselect;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-
-import com.okdeer.jxc.common.enums.GoodsTypeEnum;
-import com.okdeer.jxc.goods.entity.GoodsBranchPriceVo;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.EnumMorpher;
 import net.sf.json.util.JSONUtils;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+
+import com.okdeer.jxc.common.enums.GoodsTypeEnum;
+import com.okdeer.jxc.goods.entity.GoodsBranchPriceVo;
 
 /**
  * ClassName: GoodsSelectImport 
@@ -54,6 +55,9 @@ public class BranchGoodsImportSkuCodeHandle implements BranchGoodsImportHandle{
 	
 	// 临时存储数据
 	List<JSONObject> tempExcelListSuccessData = new ArrayList<JSONObject>();
+	
+	
+	HashMap<String,JSONObject> tempMap =new HashMap<String, JSONObject>(); ;
 	
 	public BranchGoodsImportSkuCodeHandle(String type,List<JSONObject> excelList, String[] excelField, GoodsSelectImportBusinessValid businessValid){
 		// 不需要判断货号条码模板，直接去除第一行标题行
@@ -134,8 +138,15 @@ public class BranchGoodsImportSkuCodeHandle implements BranchGoodsImportHandle{
 	private GoodsBranchPriceVo getByBarCode(List<? extends GoodsBranchPriceVo> list, String barCode){
 		for (GoodsBranchPriceVo goods : list) {
 			String objbarCode = goods.getBarCode();
+			
+			String[] barCodes=goods.getBarCodes().split(",");
 			if(barCode.equals(objbarCode)){
 				return goods;
+			}
+			for(int i=0;i<barCodes.length;i++){
+				if(barCodes[i].equals(barCode)){
+					return goods;
+				}
 			}
 		}
 		return null;
