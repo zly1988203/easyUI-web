@@ -467,21 +467,6 @@ function initDatagridSpecial(){
 //		                    }
 //		                },
 		            },
-					{field: 'purchasePrice', title: '成本价', width: 100, align: 'right',
-						formatter : function(value, row, index) {
-							if(row.isFooter){
-								return;
-							}
-							return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-						},
-						editor:{
-							type:'numberbox',
-							options:{
-								min:0,
-								precision:2,
-							}
-						},
-					},
 		            {field: 'saleAmount', title: '促销价', width: 100, align: 'right',
 		                formatter : function(value, row, index) {
 		                    if(row.isFooter){
@@ -497,46 +482,6 @@ function initDatagridSpecial(){
 		                    }
 		                },
 		            },
-            {
-                field : 'oldSaleRate',
-                title : '原毛利率',
-                width : '120px',
-                align : 'right',
-                formatter:function(value,row,index){
-                    if(row.isFooter){
-                        return
-                    }
-                    if(!value){
-                        value = "0%";
-                    }else{
-                        row['oldSaleRate'] = value;
-                    }
-                    return '<b>'+value+'</b>';
-                },
-            },
-            {
-                field : 'newSaleRate',
-                title : '新毛利率',
-                width : '120px',
-                align : 'right',
-                formatter:function(value,row,index){
-                    if(row.isFooter){
-                        return
-                    }
-                    if(!value){
-                        value = "0%";
-                    }else{
-                        row['newSaleRate'] = value;
-                    }
-                    return '<b>'+value+'</b>';
-                },
-                editor : {
-                    type : 'textbox',
-                    options:{
-                        disabled:true,
-                    }
-                }
-            },
         ]],
 		onClickCell : function(rowIndex, field, value) {
 			gridHandel.setBeginRow(rowIndex);
@@ -707,21 +652,6 @@ function initDatagridoneZk(){
 //			        }
 //			    },
 			},
-            {field: 'purchasePrice', title: '成本价', width: 100, align: 'right',
-                formatter : function(value, row, index) {
-                    if(row.isFooter){
-                        return;
-                    }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-                editor:{
-                    type:'numberbox',
-                    options:{
-                        min:0,
-                        precision:2,
-                    }
-                },
-            },
 			{field: 'discount', title: '折扣', width: 100, align: 'right',
 			    formatter : function(value, row, index) {
 			        if(row.isFooter){
@@ -737,46 +667,6 @@ function initDatagridoneZk(){
 			        }
 			    },
 			},
-            {
-                field : 'oldSaleRate',
-                title : '原毛利率',
-                width : '120px',
-                align : 'right',
-                formatter:function(value,row,index){
-                    if(row.isFooter){
-                        return
-                    }
-                    if(!value){
-                        value = "0%";
-                    }else{
-                        row['oldSaleRate'] = value;
-                    }
-                    return '<b>'+value+'</b>';
-                },
-            },
-            {
-                field : 'newSaleRate',
-                title : '新毛利率',
-                width : '120px',
-                align : 'right',
-                formatter:function(value,row,index){
-                    if(row.isFooter){
-                        return
-                    }
-                    if(!value){
-                        value = "0%";
-                    }else{
-                        row['newSaleRate'] = value;
-                    }
-                    return '<b>'+value+'</b>';
-                },
-                editor : {
-                    type : 'textbox',
-                    options:{
-                        disabled:true,
-                    }
-                }
-            },
           ]],
   		onClickCell : function(rowIndex, field, value) {
 			gridHandel.setBeginRow(rowIndex);
@@ -865,21 +755,6 @@ function initDatagridOddtj(){
 //			        }
 //			    },
 			},
-            {field: 'purchasePrice', title: '成本价', width: 100, align: 'right',
-                formatter : function(value, row, index) {
-                    if(row.isFooter){
-                        return;
-                    }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-                editor:{
-                    type:'numberbox',
-                    options:{
-                        min:0,
-                        precision:2,
-                    }
-                },
-            },
 			{field: 'saleAmount', title: '偶数特价', width: 100, align: 'right',
 			    formatter : function(value, row, index) {
 			        if(row.isFooter){
@@ -895,47 +770,6 @@ function initDatagridOddtj(){
 			        }
 			    },
 			},
-
-            {
-                field : 'oldSaleRate',
-                title : '原毛利率',
-                width : '120px',
-                align : 'right',
-                formatter:function(value,row,index){
-                    if(row.isFooter){
-                        return
-                    }
-                    if(!value){
-                        value = "0%";
-                    }else{
-                        row['oldSaleRate'] = value;
-                    }
-                    return '<b>'+value+'</b>';
-                },
-            },
-            {
-                field : 'newSaleRate',
-                title : '新毛利率',
-                width : '120px',
-                align : 'right',
-                formatter:function(value,row,index){
-                    if(row.isFooter){
-                        return
-                    }
-                    if(!value){
-                        value = "0%";
-                    }else{
-                        row['newSaleRate'] = value;
-                    }
-                    return '<b>'+value+'</b>';
-                },
-                editor : {
-                    type : 'textbox',
-                    options:{
-                        disabled:true,
-                    }
-                }
-            },
           ]],
   		onClickCell : function(rowIndex, field, value) {
 			gridHandel.setBeginRow(rowIndex);
@@ -1517,8 +1351,6 @@ function specialRows(id,val){
 		for(var i = 0;i < newData.length;i++){
             var item = newData[i];
             item.saleAmount= val;
-            item.oldSaleRate = ((item.salePrice-item.purchasePrice)/item.salePrice*100).toFixed(2)+"%";
-            item.newSaleRate = ((item.saleAmount-item.purchasePrice)/item.saleAmount*100).toFixed(2)+"%"
 			rowIndex = $("#"+datagridId).datagrid('getRowIndex',item);
 			//更新行数据
 			$("#"+datagridId).datagrid('updateRow',{
@@ -1533,9 +1365,6 @@ function specialRows(id,val){
 		for(var i = 0;i < newData.length;i++){
             var item = newData[i];
             item.discount= val;
-            var discountPrice = ((item.salePrice*item.discount)/10).toFixed(2);
-            item.oldSaleRate = ((item.salePrice-item.purchasePrice)/item.salePrice*100).toFixed(2)+"%";
-            item.newSaleRate = ((discountPrice-item.purchasePrice)/discountPrice*100).toFixed(2)+"%"
 			rowIndex = $("#"+datagridId).datagrid('getRowIndex',item);
 			//更新行数据
 			$("#"+datagridId).datagrid('updateRow',{
@@ -1550,8 +1379,6 @@ function specialRows(id,val){
 		for(var i = 0;i < newData.length;i++){
             var item = newData[i];
             item.saleAmount= val;
-            item.oldSaleRate = ((item.salePrice-item.purchasePrice)/(2*item.salePrice)*100).toFixed(2)+"%";
-            item.newSaleRate = ((item.saleAmount-item.purchasePrice)/(2*item.saleAmount)*100).toFixed(2)+"%"
 			rowIndex = $("#"+datagridId).datagrid('getRowIndex',item);
 			//更新行数据
 			$("#"+datagridId).datagrid('updateRow',{

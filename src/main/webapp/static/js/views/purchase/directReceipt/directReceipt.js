@@ -83,7 +83,6 @@ $(function(){
 var gridDefault = {
     realNum:0,
     isGift:0,
-    goodsCreateDate:new Date().format('yyyy-MM-dd')
 }
 
 var gridHandel = new GridClass();
