@@ -764,7 +764,7 @@ function selectSourceBranch(){
                 $("#sourceBranchName").val("["+data.branchCode+"]"+data.branchName);
                 gridHandel.setLoadData([$.extend({},gridDefault)]);
             }
-        },'DZ',$("#sourceBranchId").val());
+        },'DZ',$("#sourceBranchId").val(),1);
 	} else {
         new publicAgencyService(function(data){
             if($("#sourceBranchId").val()!=data.branchesId){
@@ -773,7 +773,7 @@ function selectSourceBranch(){
                 $("#sourceBranchName").val("["+data.branchCode+"]"+data.branchName);
                 gridHandel.setLoadData([$.extend({},gridDefault)]);
             }
-        },'DA',$("#targetBranchId").val());
+        },'DA',$("#targetBranchId").val(),1);
     }
 }
 

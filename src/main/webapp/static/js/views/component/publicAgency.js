@@ -7,11 +7,13 @@ var nameOrCode=null;
 var formType=null;
 var branchId=null;
 var branchType=null;
+var isOpenStock=null;
 function initAgencyView(){
 	nameOrCode=$("#formAgency :text[name=nameOrCode]").val();
 	formType=$("#formAgency :hidden[name=deliverFormType]").val();
 	branchId=$("#formAgency :hidden[name=branchId]").val();
 	branchType=$("#formAgency :hidden[name=branchType]").val();
+	isOpenStock=$("#formAgency :hidden[name=isOpenStock]").val();
 	
     gFunSetEnterKey(agencySearch);
     initTreeAgency(); //初始树
@@ -66,7 +68,8 @@ function zTreeOnClick(event, treeId, treeNode) {
     		nameOrCode:nameOrCode,
     		formType:formType,
     		branchId:branchId,
-    		branchType:branchType
+    		branchType:branchType,
+    		isOpenStock:isOpenStock
     };
     $("#gridAgency").datagrid("options").method = "post";
     $("#gridAgency").datagrid("options").url =contextPath+'/common/branches/getComponentList',
