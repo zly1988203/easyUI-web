@@ -32,18 +32,16 @@ function query(){
 		$("#branchCompleCode").val('');
 	}
 	
-	var oldUserName = $("#oldUserName").val();
+	var oldOperateUserName = $("#oldOperateUserName").val();
 	var operateUserName = $("#operateUserName").val();
-	if(oldUserName && oldUserName != operateUserName){
-		$("#salesmanId").val('');
-		$("#operateUserName").val('');
+	if(oldOperateUserName && oldOperateUserName != operateUserName){
+		$("#operateUserId").val('');
 	}
 	
-	var oldsupplierName = $("#oldsupplierName").val();
+	var oldSupplierName = $("#oldSupplierName").val();
 	var supplierName = $("#supplierName").val();
-	if(oldsupplierName && oldsupplierName != supplierName){
+	if(oldSupplierName && oldSupplierName != supplierName){
 		$("#supplierId").val('');
-		$("#supplierName").val('');
 	}
 	
 	$("#"+gridName).datagrid("options").queryParams = $("#queryForm").serializeObject();
@@ -57,14 +55,16 @@ function selectBranch(){
     new publicBranchService(function(data){
         $("#branchId").val(data.branchesId);
         $("#branchName").val("["+data.branchCode+"]"+data.branchName);
+        $("#oldBranchName").val("["+data.branchCode+"]"+data.branchName);
     },0);
 }
 
 //制单人
 function selectOperator(){
     new publicOperatorService(function(data){
-        $("#salesmanId").val(data.id);
-        $("#operateUserName").val(data.userName);
+        $("#operateUserId").val(data.id);
+        $("#operateUserName").val("["+data.userCode+"]"+data.userName);
+        $("#oldOperateUserName").val("["+data.userCode+"]"+data.userName);
     });
 }
 
@@ -73,7 +73,7 @@ function selectSupplier(){
     new publicSupplierService(function(data){
         $("#supplierId").val(data.id);
         $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
-        $("#deliverTime").val(new Date(new Date().getTime() + 24*60*60*1000*data.diliveCycle).format('yyyy-MM-dd'));
+        $("#oldSupplierName").val("["+data.supplierCode+"]"+data.supplierName);
     });
 }
 

@@ -33,8 +33,33 @@ function initGoodsEditView(id){
 	 setGrossProfit();
 	 }
 	 });
-	
-	//限制备注最大长度
+
+    //商品类型
+    $('#type').change(function(){
+        typeChange();
+    });
+}
+
+function typeChange(){
+    var pricingType = 	$('#type').val();
+    //计件方式为“普通”，需要商品类别生成货号，其他不需要，直接生成货号，并且货号全部都是只可读
+    if(pricingType == ""){
+        return false;
+    }else{
+        //为捆绑商品 自动转换 联营商品时不管理库存
+        if(pricingType == "BIND"||pricingType == "AUTOMATICTRANSFER"){
+            $("#managerStock").removeAttr("checked");
+            $("#managerStock").prop("disabled","disabled");
+        }else{
+            if( $("#saleWay").val() == "C"){
+                $("#managerStock").removeAttr("checked");
+                $("#managerStock").prop("disabled","disabled");
+            }else{
+                $("#managerStock").prop("checked","checked");
+                $("#managerStock").removeProp("disabled");
+            }
+        }
+    }
 }
 
 //根据商品名称获取助记码
@@ -178,11 +203,27 @@ function getGoodsPupplier(){
 		$("#saleWayName").val(data.saleWayName);
 		//经营方式
 		$("#saleWay").val(data.saleWay);
+        var pricingType = 	$('#type').val();
 		if(data.saleWay=='A'){
 			$("#supplierRate").textbox("setValue","");
 			$('#supplierRate').numberbox('disable');
+            if(pricingType == "BIND"|| pricingType == "AUTOMATICTRANSFER"){
+                $("#managerStock").removeProp("checked");
+                $("#managerStock").prop("disabled","disabled");
+            }else{
+                $("#managerStock").prop("checked","checked");
+                $("#managerStock").removeProp("disabled");
+            }
 		}else{
-			$('#supplierRate').numberbox('enable');
+            if(data.saleWay=='C' || pricingType == "BIND"|| pricingType == "AUTOMATICTRANSFER"){
+                $("#managerStock").removeProp("checked");
+                $("#managerStock").prop("disabled","disabled");
+            }else{
+                $("#managerStock").prop("checked","checked");
+                $("#managerStock").removeProp("disabled");
+            }
+
+            $('#supplierRate').numberbox('enable');
 		}
 	});
 }
@@ -263,6 +304,13 @@ function getGoodsArchivesDetail(id){
 		}else{
 			$('#supplierRate').numberbox('enable');
 		}
+
+        var pricingType = 	$('#type').val();
+        if(updateSku.saleWay=='C' || pricingType == "BIND"|| pricingType == "AUTOMATICTRANSFER"){
+            $("#managerStock").removeAttr("checked");
+            $("#managerStock").prop("disabled","disabled");
+        }
+
 		if(updateSku.updateTime){
 			var date = new Date(updateSku.updateTime);    
 			$("#createTimeUpdate").val(date.format("yyyy-MM-dd hh:mm:ss"));
