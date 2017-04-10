@@ -687,7 +687,7 @@ function selectBranch(){
     new publicBranchService(function(data){
         $("#branchId").val(data.branchesId);
         $("#branchName").val("["+data.branchCode+"]"+data.branchName);
-    },0);
+    },0,1);
 }
 
 function toImportproduct(type){

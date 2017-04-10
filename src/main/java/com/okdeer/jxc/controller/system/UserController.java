@@ -100,11 +100,12 @@ public class UserController extends BaseController<UserController> {
 	 * @date 2016年7月21日 2016年8月18日
 	 */
 	@RequestMapping(value = "views")
-	public String views(String type, String check, Model model) {
+	public String views(String type, String check,String isOpenStock, Model model) {
 		if (StringUtils.isNotEmpty(check)) {
 			model.addAttribute("check", check);
 		}
 		model.addAttribute("type", type);
+		model.addAttribute("isOpenStock", isOpenStock);
 		return "component/publicOperator";
 	}
 	

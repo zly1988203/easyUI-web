@@ -95,6 +95,7 @@ function initDatagridAgency(){
         	nameOrCode:nameOrCode,
         	formType:formType,
     		branchId:branchId,
+    		isOpenStock:isOpenStock,
     		branchType:branchType
         },
         //toolbar: '#tb',     //工具栏 id为tb
@@ -131,7 +132,7 @@ function agencySearch(){
 	//去除左侧选中样式
 	$('.zTreeDemoBackground a').removeClass('curSelectedNode');
 	//点击搜索清除左侧数据
-	$("#gridAgency").datagrid("options").queryParams = {nameOrCode:nameOrCode,formType:formType,branchId:branchId,branchType:branchType};
+	$("#gridAgency").datagrid("options").queryParams = {nameOrCode:nameOrCode,formType:formType,branchId:branchId,branchType:branchType,isOpenStock:isOpenStock};
 //	$("#gridAgency").datagrid("options").queryParams = {branchAreaCode:branchAreaCode,nameOrCode:nameOrCode,formType:$("#formType").val(),branchId:$("#branchId").val()};
 	$("#gridAgency").datagrid("options").method = "post";
 	$("#gridAgency").datagrid("options").url =contextPath+'/common/branches/getComponentList',
