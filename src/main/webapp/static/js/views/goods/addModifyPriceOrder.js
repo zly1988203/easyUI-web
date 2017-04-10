@@ -48,11 +48,6 @@ function initGridData(formNo){
         success : function(data) {
             gFunEndLoading();
             if (data != null || data != '') {
-                //计算原毛利率、新毛利率
-                $.each(data,function (index,item) {
-                    item.oldSaleRate = ((item.oldSalePrice-item.oldPurPrice)/item.oldSalePrice*100).toFixed(2)+"%";
-                    item.newSaleRate = ((item.newSalePrice-item.newPurPrice)/item.newSalePrice*100).toFixed(2)+"%"
-                })
                 $("#"+datagridId).datagrid("loadData",data);
             }
 
@@ -66,8 +61,6 @@ var gridDefault = {
 //	oldVipPrice:0.00,
 //	oldWsPrice:0.00,
 //	oldSalePrice:0.00
-    oldSaleRate:"0%",
-    newSaleRate:"0%"
 }
 var gridHandel = new GridClass();
 // 初始化列表
@@ -213,23 +206,6 @@ function initAddModifyPriceGridEdit() {
                     }
                 }
             },
-            {
-                field : 'oldSaleRate',
-                title : '原毛利率',
-                width : '120px',
-                align : 'right',
-                formatter:function(value,row,index){
-                    if(row.isFooter){
-                        return
-                    }
-                    if(!value){
-                        value = "0%";
-                    }else{
-                        row['oldSaleRate'] = value;
-                    }
-                    return '<b>'+value+'</b>';
-                },
-            },
 
             // 售价
             {
@@ -252,29 +228,7 @@ function initAddModifyPriceGridEdit() {
                     }
                 }
             },
-            {
-                field : 'newSaleRate',
-                title : '新毛利率',
-                width : '120px',
-                align : 'right',
-                formatter:function(value,row,index){
-                    if(row.isFooter){
-                        return
-                    }
-                    if(!value){
-                        value = "0%";
-                    }else{
-                        row['newSaleRate'] = value;
-                    }
-                    return '<b>'+value+'</b>';
-                },
-                editor : {
-                    type : 'textbox',
-                    options:{
-                        disabled:true,
-                    }
-                }
-            },
+
             {
                 field : 'oldDcPrice',
                 title : '原配送价',
@@ -516,11 +470,19 @@ function saveModifyPriceOrder() {
             var isCheck = true;
             for(var i=0;i<detailList.length;i++){
                 var item = detailList[i];
+
+                if(parseFloat(item["newVipPrice"]) <= 0){
+                    messager("第"+(i+1)+"行，新会员价不能小于等于0");
+                    isCheck = false;
+                    break;
+                };
+
                 if(parseFloat(item["newSalePrice"]) < parseFloat(item["newVipPrice"])){
                     messager("第"+(i+1)+"行，新会员价要小于新销售价");
                     isCheck = false;
                     break;
                 };
+
             }
 
             if(isCheck === false){
@@ -831,10 +793,10 @@ var datagridUtil = {
         var fieldArr = []; // field的数组
         switch (checkboxId) {
             case "purchasePrice": // 进价
-                fieldArr = [ "oldPurPrice", "newPurPrice","oldSaleRate","newSaleRate" ];
+                fieldArr = [ "oldPurPrice", "newPurPrice"];
                 break;
             case "retailPrice": // 零售价
-                fieldArr = [ "oldSalePrice", "newSalePrice" ,"oldSaleRate","newSaleRate" ];
+                fieldArr = [ "oldSalePrice", "newSalePrice"];
                 break;
             case "tradePrice": // 批发价
                 fieldArr = [ "oldWsPrice", "newWsPrice" ];
@@ -1038,11 +1000,6 @@ function gFunGoodsSelect(searchKey,branchId){
         var newData = gFunUpdateKey(data,keyNames);
         newData = gFunUpdateKey(newData,keyNames2);
         var newRows = gridHandel.checkDatagrid(nowRows,newData,argWhere);
-        //计算原毛利率、新毛利率
-        $.each(newRows,function (index,item) {
-            item.oldSaleRate = ((item.oldSalePrice-item.oldPurPrice)/item.oldSalePrice*100).toFixed(2)+"%";
-            item.newSaleRate = ((item.newSalePrice-item.newPurPrice)/item.newSalePrice*100).toFixed(2)+"%"
-        })
 
         $("#"+datagridId).datagrid("loadData",newRows);
 
@@ -1262,11 +1219,6 @@ function updateListData(data){
     var argWhere ={skuCode:1};  //验证重复性
     var isCheck ={isGift:1 };   //只要是赠品就可以重复
     var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
-    //计算原毛利率、新毛利率
-    $.each(newRows,function (index,item) {
-        item.oldSaleRate = ((item.oldSalePrice-item.oldPurPrice)/item.oldSalePrice*100).toFixed(2)+"%";
-        item.newSaleRate = ((item.newSalePrice-item.newPurPrice)/item.newSalePrice*100).toFixed(2)+"%"
-    })
     $("#"+datagridId).datagrid("loadData",newRows);
 
 }
