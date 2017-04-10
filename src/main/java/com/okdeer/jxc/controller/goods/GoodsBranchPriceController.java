@@ -425,11 +425,27 @@ public class GoodsBranchPriceController extends BaseController<GoodsBranchPriceC
 		if(branch.getType()==3 || branch.getType()==4 || branch.getType()==5){
 			qo.setBranchId(branch.getParentId());
 			qo.setRows(1);
+			
+			List<String> codeList=new ArrayList<String>();
+			if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {
+				for (JSONObject obj : excelListSuccessData) {
+					codeList.add(obj.getString("skuCode"));
+				}
+				qo.setSkuCodeList(codeList);
+			} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {
+				for (JSONObject obj : excelListSuccessData) {
+					codeList.add(obj.getString("barCode"));
+				}
+				qo.setBarCodeList(codeList);
+			}
+			//不需要查询上级门店所有的，只需要查询要导入的
 			page = goodsBranchPriceService.queryBranchGoods(qo);
-			qo.setRows((int)page.getTotal());
-			page = goodsBranchPriceService.queryBranchGoods(qo);
+			
 			List<GoodsBranchPriceVo> list = page.getList();
 			Map<String,GoodsBranchPriceVo> map = new HashMap<String,GoodsBranchPriceVo>();
+			//用于一品多码进行匹配
+			Map<String,GoodsBranchPriceVo> allBarCode = new HashMap<String,GoodsBranchPriceVo>();
+			
 			if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {
 				for (GoodsBranchPriceVo vo : list) {
 						map.put(vo.getSkuCode(), vo);
@@ -437,6 +453,11 @@ public class GoodsBranchPriceController extends BaseController<GoodsBranchPriceC
 			} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {
 				for (GoodsBranchPriceVo vo : list) {
 					map.put(vo.getBarCode(), vo);
+					String[] barCodes=vo.getBarCodes().split(",");
+					for(int i=0;i<barCodes.length;i++){
+						allBarCode.put(barCodes[i], vo);
+					}
+					
 				}
 			}
 			
@@ -449,7 +470,7 @@ public class GoodsBranchPriceController extends BaseController<GoodsBranchPriceC
 					}
 				}else{
 					String barCode = obj.getString("barCode");
-					if(!map.containsKey(barCode)){
+					if(!map.containsKey(barCode)&&!allBarCode.containsKey(barCode)){
 						obj.element("error", "分公司未引入或已淘汰该商品!");
 					}
 				}

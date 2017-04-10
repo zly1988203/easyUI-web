@@ -208,10 +208,18 @@ public class BranchGoodsImportComponent {
 				for (int i = 0; i < successData.size(); i++) {
 					JSONObject obj = successData.get(i);	
 					String barCode = obj.getString("barCode");
-					for(GoodsBranchPriceVo goodsSelect : dbList){
+					//跳出外层循环标示
+					one: for(GoodsBranchPriceVo goodsSelect : dbList){
 						if(barCode.equals(goodsSelect.getBarCode())){
 							dbList1.add(goodsSelect);
 							break;
+						}
+						String[] barCodes=goodsSelect.getBarCodes().split(",");
+						for(int z=0;z<barCodes.length;z++){
+							if(barCodes[z].equals(barCode)){
+								dbList1.add(goodsSelect);
+								break one;
+							}
 						}
 					}
 				}
