@@ -233,7 +233,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 				vo.setIsManagerStock(1);
 				vo.setTargetBranchId(targetBranchId);
 				vo.setSourceBranchId(sourceBranchId);
-				vo.setSkuCodesOrBarCodes(skuCodes);
+				vo.setSkuCodesOrBarCodes(paramVo.getSkuCodesOrBarCodes());
 				vo.setPageNumber(1);
 				vo.setPageSize(50);
 				vo.setFormType(type);
