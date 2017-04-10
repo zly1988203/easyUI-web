@@ -19,8 +19,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.json.JSONObject;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -38,6 +36,7 @@ import com.okdeer.jxc.branch.service.BranchSpecServiceApi;
 import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.controller.BasePrintController;
+import com.okdeer.jxc.common.enums.MqMessageType;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportComponent;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportHandle;
@@ -58,8 +57,11 @@ import com.okdeer.jxc.goods.entity.GoodsSelectPriceAdjst;
 import com.okdeer.jxc.goods.service.GoodsPriceAdustServiceApi;
 import com.okdeer.jxc.goods.vo.GoodsPriceFormConst;
 import com.okdeer.jxc.goods.vo.GoodsPriceFormVo;
+import com.okdeer.jxc.sale.goods.service.ModifyPriceOrderService;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
+
+import net.sf.json.JSONObject;
 
 /**
  * ClassName: GoodsPriceAdjustController 
@@ -88,6 +90,9 @@ public class GoodsPriceAdjustController extends BasePrintController<GoodsPriceAd
 	// 导入
 	@Autowired
 	private GoodsSelectImportComponent goodsSelectImportComponent;
+	
+	@Reference(version = "1.0.0", check = false)
+	private ModifyPriceOrderService modifyPriceOrderService;
 
 	/**
 	 * @Description: 调价单页面展示
@@ -489,6 +494,10 @@ public class GoodsPriceAdjustController extends BasePrintController<GoodsPriceAd
 				return RespJson.error("生效时间比今天小");
 			} else {
 				goodsPriceAdustService.checkForm(goodsPriceForm);
+				if(status==Integer.valueOf(1)){
+    					//审核通过通知pos机
+        				modifyPriceOrderService.sendMessage(goodsPriceForm, MqMessageType.PRICEADJUSTING);
+				}
 			}
 		} catch (Exception e) {
 			LOG.error("审核调价单失败", e);
