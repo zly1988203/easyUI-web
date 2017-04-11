@@ -62,10 +62,9 @@
 		</div>
 		
 		<!-- 批量设置区域 -->
-		<div class="ub ub-ver umar-t20">
+		<div class="ub ub-ver umar-t5">
 			<form id="batchUpdateForm">
 				<div class="ub ub-ac upad-8">
-					<!-- 是否管理库存 -->
 					<div class="ub uw-120 ub-ac umar-r10">
 						<b>选择修改的属性</b>
 					</div>
@@ -76,7 +75,6 @@
 						
 					</div>
 					
-					<!-- 分店调价 -->
 					<div class="ub uw-120 ub-ac umar-r10">
 						<b>选择修改的属性</b>
 					</div>
@@ -101,34 +99,6 @@
 						<input class="ub" type="radio" id="managerStock0" name="managerStock" value="0" /><span>不启用</span>
 					</div>
 					
-					<!-- 分店调价 -->
-					<div class="ub uw-120 ub-ac umar-r10">
-						<input id="allowAdjustChecked" name="allowAdjustChecked" class="ub" type="checkbox" name="checkbox" />
-						&nbsp;
-						分店调价
-					</div>
-					<div class="ub uw-80 ub-ac umar-r10">
-						<input class="ub" type="radio" id="allowAdjust1" name="allowAdjust" value="1" /><span>启用</span>
-					</div>
-					<div class="ub uw-300 ub-ac umar-r10">
-						<input class="ub" type="radio" id="allowAdjust0" name="allowAdjust" value="0" checked="checked" /><span>不启用</span>
-					</div>
-				</div>
-				
-				<div class="ub ub-ac upad-8">
-					<!-- 是否参与促销 -->
-					<div class="ub uw-120 ub-ac umar-r10">
-						<input id="allowActivityChecked" name="allowActivityChecked" class="ub" type="checkbox" name="checkbox" />
-						&nbsp;
-						是否参与促销
-					</div>
-					<div class="ub uw-80 ub-ac umar-r10">
-						<input class="ub" type="radio" id="allowActivity1" name="allowActivity" value="1" checked="checked" /><span>启用</span>
-					</div>
-					<div class="ub uw-300 ub-ac umar-r10">
-						<input class="ub" type="radio" id="allowActivity0" name="allowActivity" value="0" /><span>不启用</span>
-					</div>
-					
 					<!-- 安全库存系数 -->
 					<div class="ub uw-120 ub-ac umar-r10">
 						<input id="safetyCoefficientChecked" name="safetyCoefficientChecked" class="ub" type="checkbox" name="checkbox" />
@@ -148,6 +118,41 @@
 				</div>
 				
 				<div class="ub ub-ac upad-8">
+					<!-- 是否参与促销 -->
+					<div class="ub uw-120 ub-ac umar-r10">
+						<input id="allowActivityChecked" name="allowActivityChecked" class="ub" type="checkbox" name="checkbox" />
+						&nbsp;
+						是否参与促销
+					</div>
+					<div class="ub uw-80 ub-ac umar-r10">
+						<input class="ub" type="radio" id="allowActivity1" name="allowActivity" value="1" checked="checked" /><span>启用</span>
+					</div>
+					<div class="ub uw-300 ub-ac umar-r10">
+						<input class="ub" type="radio" id="allowActivity0" name="allowActivity" value="0" /><span>不启用</span>
+					</div>
+					
+					<!-- 修改主供应商 -->
+					<div class="ub uw-120 ub-ac umar-r10">
+						<input id="supplierChecked" name="supplierChecked" class="ub" type="checkbox" name="checkbox"  />
+						&nbsp;
+						修改主供应商
+					</div>
+					<div class="ub uw-200 ub-ac umar-r10">
+						<input id="supplierId" name="supplierId" class="uinp" type="hidden">
+						<input id="saleWay" name="saleWay" class="uinp" type="hidden" value="">
+						<div class="ub">
+							<input id="supplierName" name="supplierName" class="uinp easyui-validatebox" type="text" readonly="readonly" data-options="required:true">
+							<div id="openSupplierMore" class="uinp-more " onclick="chooseSupplier('batchUpdateForm')">...</div>
+						</div>
+					</div>
+					<div class="ub uw-160 ub-ac umar-r10">
+						<input id="supplierCascadeChecked" name="supplierCascadeChecked" class="ub" type="checkbox" checked="checked" value="true" />
+						&nbsp;
+						同时更新门店主供应商
+					</div>
+				</div>
+				
+				<div class="ub ub-ac upad-8">
 					<!-- 是否直送商品 -->
 					<div class="ub uw-120 ub-ac umar-r10">
 						<input id="fastDeliverChecked" name="fastDeliverChecked" class="ub" type="checkbox" name="checkbox" />
@@ -161,23 +166,22 @@
 						<input class="ub" type="radio" id="fastDeliver0" name="fastDeliver" value="0" checked="checked" /><span>不启用</span>
 					</div>
 					
-					<!-- 修改主供应商 -->
+					<!-- 修改联营扣率 -->
 					<div class="ub uw-120 ub-ac umar-r10">
-						<input id="supplierChecked" name="supplierChecked" class="ub" type="checkbox" name="checkbox"  />
+						<input id="supplierRateChecked" name="supplierRateChecked" class="ub" type="checkbox" name="checkbox" />
 						&nbsp;
-						修改主供应商
+						修改联营扣率
 					</div>
 					<div class="ub uw-200 ub-ac umar-r10">
-						<input id="supplierId" name="supplierId"   class="uinp" type="hidden">
-						<div class="ub">
-							<input id="supplierName" name="supplierName" class="uinp easyui-validatebox" type="text" readonly="readonly" data-options="required:true">
-							<div id="openSupplierMore" class="uinp-more " onclick="chooseSupplier('batchUpdateForm')">...</div>
-						</div>
+						<input id="supplierRate" name="supplierRate" value="0" style="width: 182px;" 
+							class="uinp uinp-no-more easyui-numberbox easyui-validatebox"
+							data-options="min:0,max:100,precision:2,validType:['length[0,18]']" type="text" maxlength="4">
+							%
 					</div>
 					<div class="ub uw-160 ub-ac umar-r10">
-						<input id="supplierCascadeChecked" name="supplierCascadeChecked" class="ub" type="checkbox" checked="checked" value="true" />
+						<input id="supplierRateCascadeChecked" name="supplierRateCascadeChecked" class="ub" type="checkbox" checked="checked" value="true" />
 						&nbsp;
-						同时更新门店主供应商
+						同时更新门店联营扣率
 					</div>
 				</div>
 				
@@ -238,6 +242,22 @@
 							<input id="brandName" name="brandName" class="uinp" type="text" readonly="readonly">
 							<div id="openBrandMore" class="uinp-more" onclick="chooseGoodsBrand('batchUpdateForm')">...</div>
 						</div>
+					</div>
+				</div>
+				
+				
+				<div class="ub ub-ac upad-8">
+					<!-- 分店调价 -->
+					<div class="ub uw-120 ub-ac umar-r10">
+						<input id="allowAdjustChecked" name="allowAdjustChecked" class="ub" type="checkbox" name="checkbox" />
+						&nbsp;
+						分店调价
+					</div>
+					<div class="ub uw-80 ub-ac umar-r10">
+						<input class="ub" type="radio" id="allowAdjust1" name="allowAdjust" value="1" /><span>启用</span>
+					</div>
+					<div class="ub uw-300 ub-ac umar-r10">
+						<input class="ub" type="radio" id="allowAdjust0" name="allowAdjust" value="0" checked="checked" /><span>不启用</span>
 					</div>
 				</div>
 			</form>

@@ -424,7 +424,7 @@ public class GoodsBranchPriceController extends BaseController<GoodsBranchPriceC
 		Branches branch = branchesServiceApi.getBranchInfoById(branchId);//机构类型(0.总部、1.分公司、2.物流中心、3.自营店、4.加盟店B、5.加盟店C)
 		if(branch.getType()==3 || branch.getType()==4 || branch.getType()==5){
 			qo.setBranchId(branch.getParentId());
-			qo.setRows(1);
+			qo.setRows(excelListSuccessData.size());
 			
 			List<String> codeList=new ArrayList<String>();
 			if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {

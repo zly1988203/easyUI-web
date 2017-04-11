@@ -23,6 +23,7 @@
                 <button class="ubtns-item" id="btnSave" onclick="saveStocktakingForm(2)">保存</button>
                 <button class="ubtns-item" id="btnSelgoods" onclick="selectGoods()">商品选择</button>
                 <button class="ubtns-item" id="btnImport" onclick="importStocktakingForm(1)">导入</button>
+	            <div class="ubtns-item" onclick="exportData()">导出</div>
                  <button class="ubtns-item" id="btndelete" onclick="deleteStocktakingForm()">删单</button>
                 <div class="ubtns-item" onclick="toClose()">关闭</div>
             </div>
@@ -31,9 +32,9 @@
  	<c:if test="${stocktakingFormVo.status != 0}">
    <div class="already-examine" id="already-examine"><span>已审核</span></div>
 	</c:if>
-	<form action="" id="searchForm" method="post">
- 			<input type="hidden"  name="id" value="${stocktakingFormVo.id}">
- 		</form>
+	<form action="" id="operateForm" method="post">
+ 			<input type="hidden" id = "id" name="id" value="${stocktakingFormVo.id}">
+ 			<input type="hidden" id = "formNo" name="formNo" value="${stocktakingFormVo.formNo}">
         <div class="ub uline umar-t10"></div>
         <div class="ub umar-t10">
                <div class="ub ub-ac uw-300">
@@ -84,6 +85,7 @@
                    <input class="uinp ub ub-f1" type="text" id="remark" name="remark" value="${stocktakingFormVo.remark}" maxlength="40">
                </div>
            </div>
+    </form>
            <!--datagrid-edit-->
            <div class="ub ub-f1 datagrid-edit umar-t8">
                <table id="operateGrid" ></table>
