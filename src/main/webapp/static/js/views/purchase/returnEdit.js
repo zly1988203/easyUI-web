@@ -55,6 +55,7 @@ function initDatagridEditOrder(){
         showFooter:true,
         height:'100%',
         width:'100%',
+        pageSize:10000,
         view:scrollview,
         columns:[[
             {field:'cz',title:'操作',width:'60px',align:'center',
@@ -272,6 +273,8 @@ function initDatagridEditOrder(){
             }
         },
         onLoadSuccess:function(data){
+            if((data.rows).length <= 0)return;
+            gFunEndLoading();
             if(data.rows.length>0){
                 var config = {
                     date:['goodsCreateDate','goodsExpiryDate']
@@ -295,6 +298,7 @@ function getGridData(){
        async : false,
        dataType : 'json',
        success : function(data) {
+           gFunStartLoading();
        	//根据选择的采购单，带出采购单的信息
    	    var keyrealNum = {
    	        realNum:'maxRealNum',
@@ -311,7 +315,8 @@ function getGridData(){
    	    }
        },
        error : function() {
-           alert('error');
+           gFunEndLoading();
+           messager("请求发送失败或服务器处理失败")
        }
    });
 }
