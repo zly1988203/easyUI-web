@@ -287,12 +287,18 @@ function radioSetdis(radioVal){
 	$('.disradio').prop('checked',false);
 	$('#disradio'+radioVal).prop('checked',true);
 	$('#activityScopedis').val(radioVal);
+	//类别折扣
 	if(radioVal=="1"){
   	  initDatagridsortZk();
   	  //禁止按钮点击事件
   	  disableGoods('SelectGoods','');
-	   }
+    }else if(radioVal=="2"){
+      //全场折扣
+      initDatagridallZk();
+      disableGoods('SelectGoods','GoodsType');
+    }
     else{
+      //单品折扣	 
   	  initDatagridoneZk();
   	  //禁止按钮点击事件
   	  disableGoods('','GoodsType');
@@ -579,6 +585,59 @@ function  changSaleAmount(newVal,oldVal) {
     var newSaleRate = ((newVal-purchasePrice)/newVal*100).toFixed(2)+"%"
     gridHandel.setFieldTextValue('newSaleRate',newSaleRate);
 }
+
+//初始化表格-全场折扣
+function initDatagridallZk(){
+	gridHandel.setGridName("saleMangeadd");
+    $("#saleMangeadd").datagrid({
+        align:'center',
+        // toolbar: '#tb', //工具栏 id为tb
+        singleSelect:false,  // 单选 false多选
+        rownumbers:true,    // 序号
+        fitColumns:true,    // 每列占满
+        // fit:true, //占满
+        showFooter:true,
+		height:'100%',
+		pageSize:50,
+		width:'100%',
+        columns:[[
+					{field:'actType',title:'活动类型',width:'200px',align:'left',
+						formatter:function(value,row,index){
+							return "全场折扣";
+						}
+					},
+					{field:'discount',title:'折扣',width:'80px',align:'right',
+		                formatter:function(value,row,index){
+		                    if(row.isFooter){
+		                    	return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		                    }
+		                    return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		                },
+		                editor:{
+		                    type:'numberbox',
+		                    options:{
+		                        min:0,
+		                        precision:2,
+		                    }
+		                },
+		            }, 
+          ]],
+  		onClickCell : function(rowIndex, field, value) {
+			gridHandel.setBeginRow(rowIndex);
+			gridHandel.setSelectFieldName(field);
+			var target = gridHandel.getFieldTarget(field);
+			if(target){
+				gridHandel.setFieldFocus(target);
+			}else{
+				gridHandel.setSelectFieldName("discount");
+			}
+		},
+      onLoadSuccess:function(data){
+			gridHandel.setDatagridHeader("center");
+				
+		 }
+    });
+ }
 
 //初始化表格-类别折扣
 function initDatagridsortZk(){
@@ -1830,6 +1889,17 @@ function saveActivity(){
 		      };
 		  }
 		  saveDataHandel(rows);
+	  }else if(activityScopedis=="2"){
+		//全场折扣
+		  for(var i=0;i<rows.length;i++){
+			  var v = rows[i];
+			  if(!v["discount"] || v["discount"]=='0.00'){
+		          messager("第"+(i+1)+"行，折扣不能为空或0");
+		          isCheckResult = false;
+		          return false;
+		      };
+		  }
+		  saveDataHandel(rows);
 	  }
 	// 活动类型类别折扣验证
 	  else{
@@ -2162,6 +2232,14 @@ function saveDataHandel(rows,setrows){
 			    	  goodsSkuId: data.goodsSkuId,
 			    	  discount:data.discount,
 			    	  price:data.price
+			      }
+			      reqObj.detailList[i] = temp;
+			  });
+	   }else if(activityScopedis=="2"){
+		   //全场折扣
+		   $.each(rows,function(i,data){
+			      var temp = {
+			    	  discount:data.discount,
 			      }
 			      reqObj.detailList[i] = temp;
 			  });
