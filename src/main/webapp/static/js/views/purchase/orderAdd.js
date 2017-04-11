@@ -16,7 +16,6 @@ $(function(){
     initDatagridEditOrder();
     // 是否自动加载商品
     if($("#cascadeGoods").val() == 'true'){
-
         queryGoodsList();
     }
 });
@@ -645,7 +644,7 @@ function queryGoodsList() {
         data:queryParams,
         success:function(data){
             gFunStartLoading();
-            if(data && data.rows){
+            if(data && data.rows.length > 0){
                 var addDefaultData  = gridHandel.addDefault(data.rows,gridDefault);
                 var keyNames = {
                     purchasePrice:'price',
@@ -656,6 +655,9 @@ function queryGoodsList() {
                 };
                 var rows = gFunUpdateKey(addDefaultData,keyNames);
                 $("#"+gridName).datagrid("loadData",rows);
+            }else {
+                gFunEndLoading();
+                gridHandel.setLoadData([$.extend({},gridDefault)]);
             }
         },
         error:function(){
@@ -669,7 +671,8 @@ function queryGoodsList() {
 //选择供应商
 function selectSupplier(){
     new publicSupplierService(function(data){
-        if( $("#supplierId").val() != "" && data.id != $("#supplierId").val()){
+        var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
+        if( $("#supplierId").val() != "" && data.id != $("#supplierId").val() && nowRows.length > 0){
             $.messager.confirm('提示','修改供应商后会清空明细，是否要修改？',function(r){
                 if(r){
                     $("#supplierId").val(data.id);
@@ -680,6 +683,13 @@ function selectSupplier(){
                     }
                 }
             })
+        }else  if( $("#supplierId").val() != "" && data.id != $("#supplierId").val() && nowRows.length == 0){
+            $("#supplierId").val(data.id);
+            $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
+            // 是否自动加载商品
+            if($("#cascadeGoods").val() == 'true'){
+                queryGoodsList();
+            }
         }
     });
 }
@@ -691,8 +701,29 @@ function selectOperator(){
 }
 function selectBranch(){
     new publicBranchService(function(data){
-        $("#branchId").val(data.branchesId);
-        $("#branchName").val("["+data.branchCode+"]"+data.branchName);
+        var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
+        if( $("#branchId").val() != "" && data.branchesId != $("#branchId").val() && nowRows.length > 0){
+
+            $.messager.confirm('提示','修改机构后会清空明细，是否要修改？',function(r){
+                if(r){
+                    $("#branchId").val(data.branchesId);
+                    $("#branchName").val("["+data.branchCode+"]"+data.branchName);
+                    // 是否自动加载商品
+                    if($("#cascadeGoods").val() == 'true'){
+                        queryGoodsList();
+                    }
+                }
+            })
+
+        }else  if( $("#branchId").val() != "" && data.branchesId != $("#branchId").val() && nowRows.length == 0){
+            $("#branchId").val(data.branchesId);
+            $("#branchName").val("["+data.branchCode+"]"+data.branchName);
+            // 是否自动加载商品
+            if($("#cascadeGoods").val() == 'true'){
+                queryGoodsList();
+            }
+        }
+
     },0);
 }
 
