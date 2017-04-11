@@ -2,6 +2,7 @@ package com.okdeer.jxc.controller.goods;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +27,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
+import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportComponent;
@@ -249,6 +251,9 @@ public class GoodsBatchUpdateController extends BaseController<GoodsBatchUpdateC
 		//其他参数
 		vo.setUpdateUserId(UserUtil.getCurrUserId());
 		vo.setUpdateTime(DateUtils.getCurrDate());
+		if(null != vo.getSupplierRate()){
+			vo.setSupplierRate(vo.getSupplierRate().divide(new BigDecimal(Constant.STRING_ONE_HUNDRED)));
+		}
 		
 		return goodsBatchUpdateServiceApi.batchUpdate(vo);
 	}
