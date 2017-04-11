@@ -226,7 +226,6 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 	@RequestMapping(value = "importSkuCode", method = RequestMethod.POST)
 	@ResponseBody
 	public List<GoodsSelect> importSkuCode(GoodsSelectVo paramVo) {
-		List<String> skuCodes = paramVo.getSkuCodes();
 		String branchId = paramVo.getBranchId();
 		String type = paramVo.getType(); 
 		String sourceBranchId = paramVo.getSourceBranchId();
