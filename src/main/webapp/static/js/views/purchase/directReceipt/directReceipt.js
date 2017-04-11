@@ -114,7 +114,7 @@ function initDirectDataGrid(){
        showFooter:true,
        height:'100%',
        width:'100%',
-       columns:[[
+          columns:[[
 			{field:'ck',checkbox:true,hidden:isdisabled},
 			{field:'cz',title:'操作',width:'60px',align:'center',hidden:isdisabled,
 			    formatter : function(value, row,index) {
