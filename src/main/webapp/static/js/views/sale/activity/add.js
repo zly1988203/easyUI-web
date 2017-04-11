@@ -1167,22 +1167,6 @@ function initDatagridsortZk(){
 //初始化表格-全场折扣
 function initDatagridallZk(){
 	gridHandel.setGridName("saleMangeadd");
-    gridHandel.initKey({
-        firstName:'categoryCode',
-        enterName:'categoryCode',
-        enterCallBack:function(arg){
-            if(arg&&arg=="add"){
-                gridHandel.addRow(parseInt(gridHandel.getSelectRowIndex())+1,gridDefault);
-                setTimeout(function(){
-                    gridHandel.setBeginRow(gridHandel.getSelectRowIndex()+1);
-                    gridHandel.setSelectFieldName("categoryCode");
-                    gridHandel.setFieldFocus(gridHandel.getFieldTarget('categoryCode'));
-                },100)
-            }else{
-               selectGoods(arg);
-            }
-        },
-    })
     $("#saleMangeadd").datagrid({
         align:'center',
         // toolbar: '#tb', //工具栏 id为tb
@@ -1223,7 +1207,7 @@ function initDatagridallZk(){
 			if(target){
 				gridHandel.setFieldFocus(target);
 			}else{
-				gridHandel.setSelectFieldName("skuCode");
+				gridHandel.setSelectFieldName("discount");
 			}
 		},
       onLoadSuccess:function(data){
@@ -2976,23 +2960,25 @@ function saveDataHandel(rows,setrows){
 	// 活动状态为满减 -商品
 	  if(activityScopemj=="0"){
 		  $.each(rows,function(i,data){
-		      var goods = {
-			    	  goodsSkuId: data.goodsSkuId,
-			    	  price:data.price
-			      }
+			  var goodsSkuId = data.goodsSkuId;
+		      var price = data.price;
 		      
-		      $.each(setrows,function(i,data){
+		      $.each(setrows,function(j,data1){
 			      var fullCutData = {
-			    	  limitAmount:data.limitAmount,
-			          discountPrice:data.discountPrice,
+			    	  limitAmount:data1.limitAmount,
+			          discountPrice:data1.discountPrice,
 			      }
-			      var goodsFullCut = $.extend(goods, fullCutData);
+			      var goodsFullCut = $.extend({
+					  goodsSkuId:goodsSkuId,
+					  price:price
+			      },fullCutData);
 			      
 			      reqObj.detailList.push(goodsFullCut);
 			      
 			  });
 		      
 		  });
+		  
 	  }
 	//活动状态为满减 -类别
 	  else if(activityScopemj=="1"){
