@@ -517,11 +517,11 @@ function updateStockLead(){
              return false;
         };
       
-        if(parseFloat(v["stockNum"])-parseFloat(v["realNum"])<0){
+        /*if(parseFloat(v["stockNum"])-parseFloat(v["realNum"])<0){
         	messager("领用数量不允许超过当前库存数量！");
         	isCheckResult = false;
           	return false;
-        }
+        }*/
    });
     
     
