@@ -85,7 +85,7 @@ function onChangeSelect(){
 			    initDatagridCompose();
 			    disableGoods('','GoodsType');
 			    break;
-		    case "7": //买满送
+		    case "10": //买满送
 		    	selectOptionmms();
 			    break;
 	    }
@@ -105,10 +105,24 @@ function onChangeSelect(){
 	}
 }
 
+var cheFlag = false;
 //选择买满金额 买满数量
 function onChangemmsSelect(newV,oldV){
-	gridTitleName = newV == '1' ? '买满金额':'买满数量';
-	initDatagridmmsTYPE()
+	var _this = $(this);
+	if(cheFlag){
+		cheFlag = false;
+		return;
+	}
+	$.messager.confirm("提示","更换活动类型将清空当前列表信息，是否更换？",function(b){
+		if(b){
+			gridTitleName = newV == '0' ? '买满金额':'买满数量';
+			initDatagridmmsTJ();
+		}else{
+			cheFlag = true;
+			$(_this).combobox('setValue',oldV);
+		}
+	})
+	
 }
 
 // 特价状态选择隐藏
@@ -133,29 +147,43 @@ function selectOptionmms(){
 	$('#consolemms').addClass('ub-f1');
 	$('#consolemms').removeClass('unhide');
 	
-	
-	//全场 类别 商品 选择事件
-	$('.mmradio').on("click",function(){
-		var mmsstatusV = $(this).val();
-		// 2 全场
-		if(mmsstatusV == '2'){
-			choosemmsTab(mmsstatusV);
-			
-		}else if(mmsstatusV == '1'){
-			//1类别
-			choosemmsTab(mmsstatusV);
-			$("#tabone").text("类别信息");
-			initDatagridmmjComLB();
-		}else{
-			//0  商品  
-			choosemmsTab(mmsstatusV);
-			$("#tabone").text("商品信息");
-			initDatagridmmjComLG();
-		}
+	//先移除事件
+	$(document).off('mousedown','input[name="mmsstatus"]');
+	//买满送 --- 全场 类别 商品 选择事件
+	$(document).on('mousedown','input[name="mmsstatus"]',function(){
+		var _this = $(this);
+		$.messager.confirm("","更换活动类型将清空当1前列表信息，是否更换？",function(b){
+			if(b){
+				//重置 买满送 内部tab标示 
+				hasClickTab = false;
+				
+				$(_this).prop('checked',true);
+				
+				var mmsstatusV = $(_this).val();
+				// 2 全场
+				if(mmsstatusV == '2'){
+					choosemmsTab(mmsstatusV);
+				}else if(mmsstatusV == '1'){
+					//1类别
+					choosemmsTab(mmsstatusV);
+					$("#tabone").text("类别信息");
+					disableGoods('SelectGoods','');
+					initDatagridmmjComLB();
+				}else{
+					//0  商品  
+					choosemmsTab(mmsstatusV);
+					$("#tabone").text("商品信息");
+					disableGoods('','GoodsType');
+					initDatagridmmjComLG();
+				}
+			}else{
+				return false;
+			}
+		})
 	})
 	
 	//初始化买满送 梯度datagrid
-	initDatagridmmsTYPE();
+	initDatagridmmsTJ();
 	//买满送 礼品列表
 	initDatagridmmsGOOD();
 }
@@ -179,17 +207,33 @@ function choosemmsTab(type){
 		//显示 第二个 div datagrid 
 		$("#area2").addClass("unhide");
 	}
+	
 }
 
+var hasClickTab = false;
 //点击买满送tab 控制页面内容显示
 function clickmmsTab(type){
 	$("#mmsTab").find("li").removeClass("tabs-selected").eq(type-1).addClass("tabs-selected");
+	var tabtext = $("#mmsTab").find("li.tabs-selected .tabs-title").text();
+	//类别 - 商品
 	if(type == 1){
 		$("#area1").removeClass("unhide");
 		$("#area2").addClass("unhide");
+		if(tabtext == '类别信息'){
+			disableGoods('SelectGoods','');
+		}
 	}else{
+		disableGoods('','GoodsType');
+		//赠品信息
 		$("#area1").addClass("unhide");
 		$("#area2").removeClass("unhide");
+		if(!hasClickTab){
+			hasClickTab = true;
+			console.log('----------------------999-----------------------');
+			gridHandelT.setLoadData([$.extend({},mmsTJDefault)]);
+			gridHandel.setLoadData([$.extend({},gridDefaultG)]);
+			
+		}
 	}
 }
 
@@ -216,34 +260,33 @@ function initDatagridmmjComLB(){
 					        if(row.isFooter){
 					            str ='<div class="ub ub-pc">合计</div> '
 					        }else{
-					            str =  '<a name="add" class="add-line" data-index="'+index+'" onclick="addLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>&nbsp;&nbsp;' +
-					                '&nbsp;&nbsp;<a name="del" class="del-line" data-index="'+index+'" onclick="delLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>';
+					            str =  '<a name="add" class="add-line" data-index="'+index+'" onclick="addLineHandelmmscomB(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>&nbsp;&nbsp;' +
+					                '&nbsp;&nbsp;<a name="del" class="del-line" data-index="'+index+'" onclick="delLineHandelmmscomB(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>';
 					        }
 					        return str;
 					    },
 					},
-					{field:'categoryCode',title:'类别编码',width:'200px',align:'left'},
-					{field:'categoryName',title:'类别名称',width:'200px',align:'left'},
+					{field:'categoryCode',title:'类别编码',width:'140',align:'left'},
+					{field:'categoryName',title:'类别名称',width:'140',align:'left'},
 					
         ]],
-  		onClickCell : function(rowIndex, field, value) {
-  			gridHandelB.setBeginRow(rowIndex);
-  			gridHandelB.setSelectFieldName(field);
-			var target = gridHandelB.getFieldTarget(field);
-			if(target){
-				gridHandelB.setFieldFocus(target);
-			}else{
-				gridHandelB.setSelectFieldName("skuCode");
-			}
-		},
-      onLoadSuccess:function(data){
+        onAfterRender:function(target){
+        	console.log('target',target);
+        },
+        onLoadSuccess:function(data){
     	  gridHandelB.setDatagridHeader("center");
-	  }
+        }
     });
-	gridHandelB.setLoadData([$.extend({},gridDefault)])
+    gridHandelB.setLoadData([$.extend({},gridDefault)])
  }
 
 var gridHandelG = new GridClass();
+
+// 初始化表格-买满送 礼品默认数据
+var gridDefaultG = {
+	limitCount:0,	
+	limitAmount:0,
+}
 //初始化表格-买满送 主设置 -商品
 function initDatagridmmjComLG(){
 	gridHandelG.setGridName("mmscommonList");
@@ -252,14 +295,14 @@ function initDatagridmmjComLG(){
         enterName:'skuCode',
         enterCallBack:function(arg){
             if(arg&&arg=="add"){
-            	gridHandelG.addRow(parseInt(gridHandelG.getSelectRowIndex())+1,gridDefault);
+            	gridHandelG.addRow(parseInt(gridHandelG.getSelectRowIndex())+1,gridDefaultG);
                 setTimeout(function(){
                 	gridHandelG.setBeginRow(gridHandelG.getSelectRowIndex()+1);
                     gridHandelG.setSelectFieldName("skuCode");
                     gridHandelG.setFieldFocus(gridHandelG.getFieldTarget('skuCode'));
                 },100)
             }else{
-               selectGoods(arg);
+            	selectGoodsComG(arg);
             }
         },
     })
@@ -271,7 +314,6 @@ function initDatagridmmjComLG(){
       rownumbers:true,    // 序号
       fitColumns:true,    // 每列占满
       fit:true, //占满
-      showFooter:true,
 		height:'50%',
 		pageSize:50,
 		width:'100%',
@@ -294,25 +336,7 @@ function initDatagridmmjComLG(){
 		            	formatter:function(value,row,index){
 		                    return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		                },
-		            }, 
-					{field:'giftNum',title:'数量',width:'100px',align:'right',
-		                editor:{
-		                    type:'numberbox',
-		                    options:{
-		                        min:0,
-		                        precision:2,
-		                    }
-		                },
-		            }, 
-					{field:'giftPrice',title:'增加金额',width:'80px',align:'right',
-		                editor:{
-		                    type:'numberbox',
-		                    options:{
-		                        min:0,
-		                        precision:2,
-		                    }
-		                },
-		            } 
+		            }
         ]],
 		onClickCell : function(rowIndex, field, value) {
 			gridHandelG.setBeginRow(rowIndex);
@@ -328,42 +352,66 @@ function initDatagridmmjComLG(){
     	gridHandelG.setDatagridHeader("center");
 	  }
   });
-	gridHandelG.setLoadData([$.extend({},gridDefault)])
+	gridHandelG.setLoadData([$.extend({},gridDefaultG)])
 }
 
 
 var gridHandelT = new GridClass();
 var gridTitleName = "买满金额"; //买满送梯度标题设置
-//初始化表格-买满送  梯度
-function initDatagridmmsTYPE(){
-	gridHandelT.setGridName("mmspriceList");
+
+//买满条件默认数据
+var mmsTJDefault={
+	 mmid:getUUID('mmid'),
+	 limitCount:0,
+	 limitAmount:0,
+}
+var temGflag = false;
+//初始化表格-买满送条件  梯度
+function initDatagridmmsTJ(){
+	gridHandelT.setGridName("mmsgradedList");
 	gridHandelT.initKey({
-        firstName:'discount',
-        enterName:'discount',
+		firstName:gridTitleName == '买满数量' ? 'limitCount':'limitAmount',
         enterCallBack:function(arg){
             if(arg&&arg=="add"){
-            	gridHandelT.addRow(parseInt(gridHandelT.getSelectRowIndex())+1,gridDefault);
+            	var giftGoodsList = $("#mmsgoodList").datagrid('getRows');
+//            	var flg = initmmTJGoodParams(gridHandelT.getSelectRowIndex(),true);
+//            	if(!flg) return;
+            		
+            	gridHandelT.addRow(parseInt(gridHandelT.getSelectRowIndex())+1,mmsTJDefault);
                 setTimeout(function(){
                 	gridHandelT.setBeginRow(gridHandelT.getSelectRowIndex()+1);
-                	gridHandelT.setSelectFieldName("discount");
-                	gridHandelT.setFieldFocus(gridHandelT.getFieldTarget('discount'));
+                	if(gridTitleName == '买满数量'){
+                		gridHandelT.setSelectFieldName("limitCount");
+                    	gridHandelT.setFieldFocus(gridHandelT.getFieldTarget('limitCount'));
+                	}else{
+                		gridHandelT.setSelectFieldName("limitAmount");
+                    	gridHandelT.setFieldFocus(gridHandelT.getFieldTarget('limitAmount'));
+                	}
+                	
                 },100)
             }
         },
     })
-    $("#mmspriceList").datagrid({
+    $("#mmsgradedList").datagrid({
         align:'center',
         // toolbar: '#tb', //工具栏 id为tb
-        singleSelect:false,  // 单选 false多选
+        singleSelect:true,  // 单选 false多选
         rownumbers:true,    // 序号
         fitColumns:true,    // 每列占满
         fit:true, //占满
-        showFooter:true,
+//        showFooter:true,
 		height:'50%',
 		pageSize:50,
 		width:'100%',
         columns:[[
                   	{field:'ck',checkbox:true},
+                  	{field:'mmid',hidden:true,
+                  		formatter:function(value,row,index){
+                  			if(!value){
+                  				row['mmid'] = getUUID('mmid')
+                  			}
+                  		}
+                  	},
 					{field:'cz',title:'操作',width:'60px',align:'center',
 					    formatter : function(value, row,index) {
 					        var str = "";
@@ -372,7 +420,19 @@ function initDatagridmmsTYPE(){
 					        return str;
 					    },
 					},
-					{field:'discount',title:gridTitleName,width:'80px',align:'right',
+					{field:'limitCount',title:'买满数量',width:'80px',align:'right',hidden:gridTitleName =='买满数量'?false:true,
+		                formatter:function(value,row,index){
+		                    return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		                },
+		                editor:{
+		                    type:'numberbox',
+		                    options:{
+		                        min:0,
+		                        precision:2,
+		                    }
+		                },
+		            }, 
+		            {field:'limitAmount',title:'买满金额',width:'80px',align:'right',hidden:gridTitleName =='买满金额'?false:true,
 		                formatter:function(value,row,index){
 		                    return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		                },
@@ -385,6 +445,49 @@ function initDatagridmmsTYPE(){
 		                },
 		            }, 
           ]],
+       onEndEdit:function(rowIndex, rowData){
+    	    var _this = this;
+    	    console.log('onEndEdit rowData '+rowIndex+'',rowData);
+//	        var ro = gridHandel.getRowsWhere({skuName:'1'});
+//     	    if(ro.length > 0 ){
+//     	    	$.messager.confirm("","更换买满条件会清空当前赠品列表信息，是否先保存当前赠品信息？",function(b){
+//	  			   if(b){
+//	  				   $(_this).datagrid('cancelEdit')
+//	  			   }
+//	  		    })
+//     		   
+//     	   }
+	        
+       },
+       onBeginEdit:function(rowIndex, rowData){
+        	
+            console.log('onBeginEdit rowData '+rowIndex+'',rowData);
+            if(rowData && rowData.goodsGiftList){
+            	if(rowData.goodsGiftList.length > 0){
+            		gridHandel.setLoadData(rowData.goodsGiftList)
+            	}
+	      	}else{
+	      		gridHandel.setLoadData([$.extend({},gridDefaultG)])
+	      	}
+     	   //initmmTJGoodParams(rowIndex,false);
+     	   /*var ro = gridHandel.getRowsWhere({skuName:'1'});
+     	   if(ro.length > 0){
+     		   $.messager.confirm("","更换买满条件会清空当前赠品列表信息，是否更换？",function(b){
+     			   if(!b){
+     				   gridHandelT.setBeginRow(rowIndex);
+     				   var temS = gridTitleName =='买满金额'?'limitAmount':'limitCount';
+     		  		   gridHandelT.setSelectFieldName(temS);
+     				   var target = gridHandelT.getFieldTarget(temS);
+     				   if(target){
+     					  gridHandelT.setFieldFocus(target);
+     				   }else{
+     						
+     						gridHandelT.setSelectFieldName(temS);
+     				   }
+     			   }
+     		   })
+     	   }*/
+        }, 
   		onClickCell : function(rowIndex, field, value) {
   			gridHandelT.setBeginRow(rowIndex);
   			gridHandelT.setSelectFieldName(field);
@@ -392,17 +495,32 @@ function initDatagridmmsTYPE(){
 			if(target){
 				gridHandelT.setFieldFocus(target);
 			}else{
-				gridHandelT.setSelectFieldName("skuCode");
+				var temS = gridTitleName =='买满金额'?'limitAmount':'limitCount';
+				gridHandelT.setSelectFieldName(temS);
 			}
 		},
-      onLoadSuccess:function(data){
+        onLoadSuccess:function(data){
+           var _this = this;
+    	   console.log('data1',data);
+    	   $(_this).datagrid('resize',{width:'100%',height:'300px'})
+//    	   gridHandelT.setBeginRow(data.total - 1);
+//		   var temS = gridTitleName =='买满金额'?'limitAmount':'limitCount';
+//  		   gridHandelT.setSelectFieldName(temS);
+//		   var target = gridHandelT.getFieldTarget(temS);
+//		   if(target){
+//			  gridHandelT.setFieldFocus(target);
+//		   }else{
+//				
+//				gridHandelT.setSelectFieldName(temS);
+//		   }
     	  gridHandelT.setDatagridHeader("center");
 	  }
     });
-	gridHandelT.setLoadData([$.extend({},gridDefault)])
+	gridHandelT.setLoadData([$.extend({},mmsTJDefault)]);
  }
 
-//初始化表格-买满送  商品
+
+//初始化表格-买满送 赠品 商品
 function initDatagridmmsGOOD(){
 	gridHandel.setGridName("mmsgoodList");
     gridHandel.initKey({
@@ -410,14 +528,14 @@ function initDatagridmmsGOOD(){
         enterName:'skuCode',
         enterCallBack:function(arg){
             if(arg&&arg=="add"){
-                gridHandel.addRow(parseInt(gridHandel.getSelectRowIndex())+1,gridDefault);
+                gridHandel.addRow(parseInt(gridHandel.getSelectRowIndex())+1,gridDefaultG);
                 setTimeout(function(){
                     gridHandel.setBeginRow(gridHandel.getSelectRowIndex()+1);
                     gridHandel.setSelectFieldName("skuCode");
                     gridHandel.setFieldFocus(gridHandel.getFieldTarget('skuCode'));
                 },100)
             }else{
-               selectGoods(arg);
+               selectGoodsG(arg);
             }
         },
     })
@@ -430,7 +548,7 @@ function initDatagridmmsGOOD(){
         fit:true, //占满
         showFooter:true,
 		height:'100%',
-		pageSize:50,
+//		pageSize:50,
 		width:'100%',
         columns:[[
                     {field:'ck',checkbox:true},
@@ -453,6 +571,12 @@ function initDatagridmmsGOOD(){
 		                },
 		            }, 
 					{field:'giftNum',title:'数量',width:'100px',align:'right',
+		            	formatter:function(value,row,index){
+		            		if(!value){
+		            			row['giftNum'] = 0;
+		            		}
+		                    return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		                },
 		                editor:{
 		                    type:'numberbox',
 		                    options:{
@@ -461,17 +585,25 @@ function initDatagridmmsGOOD(){
 		                    }
 		                },
 		            }, 
-					{field:'giftPrice',title:'增加金额',width:'80px',align:'right',
+					{field:'giftAmount',title:'增加金额',width:'80px',align:'right',
+		            	formatter:function(value,row,index){
+		            		if(!value){
+		            			row['giftAmount'] = 0;
+		            		}
+		                    return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		                },
 		                editor:{
 		                    type:'numberbox',
 		                    options:{
 		                        min:0,
 		                        precision:2,
+		                        onChange:changeGiftPrice
 		                    }
 		                },
 		            } 
           ]],
   		onClickCell : function(rowIndex, field, value) {
+  			
 			gridHandel.setBeginRow(rowIndex);
 			gridHandel.setSelectFieldName(field);
 			var target = gridHandel.getFieldTarget(field);
@@ -487,8 +619,99 @@ function initDatagridmmsGOOD(){
 				
 		 }
     });
-    gridHandel.setLoadData([$.extend({},gridDefault)])
+    gridHandel.setLoadData([$.extend({},gridDefaultG)])
  }
+
+
+//买满送 金额改变监听
+function changeGiftPrice(newV,oldV){
+	var _this = this;
+	var tempPrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
+	if(parseFloat(newV||0) > parseFloat(tempPrice||0)){
+		$.messager.alert('提示','新增金额不得大于零售价','',function(){
+			$(_this).numberbox('setValue',(oldV||0));
+		});
+	}
+	//gridHandel
+}
+
+//买满送 参数保存
+var mmsParams={
+		actList:[],//活动列表
+};
+
+//赠品信息 暂时保存
+function saveTempGiftGoods(){
+	
+	initmmTJGoodParams(gridHandelT.getSelectRowIndex(),true);
+}
+
+function resetGiftGoods(){
+	var mmsTJObj = $("#mmsgradedList").datagrid('getRows')[gridHandelT.getSelectRowIndex()];
+	delete mmsTJObj.goodsGiftList;
+	gridHandel.setLoadData([$.extend({},gridDefaultG)]);
+}
+
+//封装 买满送 条件梯度和对于礼品参数  showAlert-->true进行提示  false不进行提示
+function initmmTJGoodParams(index,showAlert){
+	var curIndex = index||0;
+	console.log('curIndex',curIndex);
+	$("#mmsgradedList").datagrid('endEdit',curIndex);
+	$("#mmsgoodList").datagrid('endEdit',gridHandel.getSelectRowIndex())
+	//获取买满条件当前梯度
+	var checkRows = $("#mmsgradedList").datagrid('getChecked');
+	console.log('checkRows',JSON.stringify(checkRows));
+	if(checkRows.length <= 0){
+		if(showAlert)$.messager.alert('提示','请选择买满条件','',function(){});
+		return false;
+	}
+	var mmsTJObj = checkRows[0];
+	if(gridTitleName == '买满金额' && parseFloat(mmsTJObj.limitAmount||0)<= 0){
+		if(showAlert)$.messager.alert('提示','当前买满金额不能小于等于0','',function(){});
+		return false;
+	}
+	if(gridTitleName == '买满数量' && parseFloat(mmsTJObj.limitCount||0)<= 0){
+		if(showAlert)$.messager.alert('提示','当前买满数量不能小于等于0','',function(){});
+		return false;
+	}
+	
+	//获取赠品信息的数据
+	var giftGoods = gridHandel.getRowsWhere({skuName:'1'}) //$("#mmsgoodList").datagrid('getRows');
+	if(giftGoods.length <= 0){
+		if(showAlert)$.messager.alert('提示','请选择赠品信息','',function(){});
+		return false;
+	}
+	
+	var tempErrorIndexs = [];
+	giftGoods.forEach(function(obj,index){
+		//判断礼品数量
+		if(parseFloat(obj.giftNum||0) <= 0){
+			tempErrorIndexs.push(index);
+		}
+	});
+	
+	if(tempErrorIndexs.length <= 0){
+		mmsTJObj.goodsGiftList = giftGoods;
+		return true;
+	}else{
+		if(showAlert){
+			$.messager.alert('提示','第'+tempErrorIndexs.join(',')+'行赠品数量不能小于等于0','',function(){
+				gridHandel.setBeginRow(tempErrorIndexs[0]);
+				gridHandel.setSelectFieldName('giftNum');
+				var target = gridHandel.getFieldTarget('giftNum');
+				if(target){
+					gridHandel.setFieldFocus(target);
+				}else{
+					gridHandel.setSelectFieldName("giftNum");
+				}
+			})
+		};
+		return false;
+	}
+	
+	
+}
+
 
 // 折扣状态选择隐藏
 function selectOptionzk(){
@@ -663,7 +886,7 @@ function initmmsDom(){
 	//初始化 倍数送 促销商品参与
 	$("input[name='mmsofactType']").prop('checked',false);
 	//初始化活动条件
-	$("#activitymmsType").combobox('setValue',1)
+	$("#activitymmsType").combobox('setValue',0)
 	
 	choosemmsTab(2);
 }
@@ -1961,14 +2184,21 @@ function addLineHandel(event){
 function addLineHandelmstd(event){
     event.stopPropagation(event);
     var index = $(event.target).attr('data-index')||0;
-    gridHandelT.addRow(index,gridDefault);
+    gridHandelT.addRow(index,mmsTJDefault);
 }
 
-//满送梯度插入一行
+//满送 主设置 商品  插入一行
 function addLineHandelmmscomG(event){
     event.stopPropagation(event);
     var index = $(event.target).attr('data-index')||0;
-    gridHandelG.addRow(index,gridDefault);
+    gridHandelG.addRow(index,gridDefaultG);
+}
+
+//满送 主设置 类别  插入一行
+function addLineHandelmmscomB(event){
+    event.stopPropagation(event);
+    var index = $(event.target).attr('data-index')||0;
+    gridHandelB.addRow(index,{});
 }
 
 // 减速设置插入一行
@@ -1990,22 +2220,97 @@ function delLineHandelmj(event){
     gridHandelMj.delRow(index);
 }
 
-//满送设置删除一行
+//满送 买满条件设置 删除一行
 function delLineHandelmstd(event){
     event.stopPropagation();
     var index = $(event.target).attr('data-index');
     gridHandelT.delRow(index);
 }
 
-//满送主设置商品  删除一行
+//满送 主设置商品  删除一行
 function delLineHandelmmscomG(event){
     event.stopPropagation();
     var index = $(event.target).attr('data-index');
     gridHandelG.delRow(index);
 }
 
+//满送 主设置商品  删除一行
+function delLineHandelmmscomB(event){
+    event.stopPropagation();
+    var index = $(event.target).attr('data-index');
+    gridHandelB.delRow(index);
+}
+
+
+//商品选择 买满送 主商品 选择
+function selectGoodsComG(searchKey){
+	
+	var param = {
+			type:'PX',
+			key:searchKey,
+			isRadio:'',
+			sourceBranchId:'',
+			targetBranchId:'',
+			branchId:$("#branchIds").val(),
+			supplierId:'',
+			flag:''
+	}
+	
+	//借用一下type值，用来活动商品选择时，过滤不参加促销的商品
+    new publicGoodsServiceTem(param,function(data){
+    	if(searchKey){
+            $("#mmscommonList").datagrid("deleteRow", gridHandelG.getSelectRowIndex());
+            $("#mmscommonList").datagrid("acceptChanges");
+        }
+        var nowRows = gridHandelG.getRowsWhere({skuName:'1'});
+        var addDefaultData  = gridHandelG.addDefault(data,[{}]);
+        var keyNames = {
+        		skuId:'goodsSkuId',
+        		salePrice:'price'
+        };
+        var rows = gFunUpdateKey(addDefaultData,keyNames);
+        var argWhere ={skuCode:1};  // 验证重复性
+        var isCheck ={isGift:1};   // 只要是赠品就可以重复
+        var newRows = gridHandelG.checkDatagrid(nowRows,rows,argWhere,isCheck);
+        $("#mmscommonList").datagrid("loadData",newRows);
+    })
+}
+
+//商品选择 买满送 礼品
+function selectGoodsG(searchKey){
+	var param = {
+			type:'PX',
+			key:searchKey,
+			isRadio:'',
+			sourceBranchId:'',
+			targetBranchId:'',
+			branchId:$("#branchIds").val(),
+			supplierId:'',
+			flag:''
+	}
+	
+	//借用一下type值，用来活动商品选择时，过滤不参加促销的商品
+    new publicGoodsServiceTem(param,function(data){
+    	if(searchKey){
+            $("#mmsgoodList").datagrid("deleteRow", gridHandel.getSelectRowIndex());
+            $("#mmsgoodList").datagrid("acceptChanges");
+        }
+        var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
+        var addDefaultData  = gridHandel.addDefault(data,gridDefaultG);
+        var keyNames = {
+        		skuId:'goodsSkuId',
+        		salePrice:'price'
+        };
+        var rows = gFunUpdateKey(addDefaultData,keyNames);
+        var argWhere ={skuCode:1};  // 验证重复性
+        var isCheck ={isGift:1};   // 只要是赠品就可以重复
+        var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
+        $("#mmsgoodList").datagrid("loadData",newRows);
+    })
+}
 // 选择商品
 function selectGoods(searchKey){
+	
 	if($("#branchName").val()==" "){ //是否选择活动机构的校验
 		messager("请先选择活动分店！");
 		return;
@@ -2013,6 +2318,22 @@ function selectGoods(searchKey){
 	
 	if(typeof(searchKey)=="undefined"){ 
 		searchKey = "";
+	}
+	
+	var activityT=$("#activityType").combobox('getValue');
+	//买满送调用  赠品 selectGoodsG方法
+	if(activityT == '10'){
+		//全场 类别 商品下 区分 主商品 和 赠品 商品选择要区分
+		//是否显示了 tab
+		var isHasTab = $("#mmsTab").hasClass('unhide');
+		var tabtext = $("#mmsTab").find("li.tabs-selected .tabs-title").text();
+		if(!isHasTab && tabtext == '商品信息'){
+			selectGoodsComG(searchKey)
+		}else{
+			//赠品 商品 选择
+			selectGoodsG(searchKey);
+		}
+		return;
 	}
 	
 	var param = {
@@ -2078,8 +2399,9 @@ function selectGoods(searchKey){
 
             })
 		}
-
+        
         $("#saleMangeadd").datagrid("loadData",newRows);
+
         /*
 		 * setTimeout(function(){
 		 * gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
@@ -2126,6 +2448,10 @@ function saveActivity(){
   }
   // 获取非空的数据
   var rows= gridHandel.getRows();// $('#saleMangeadd').datagrid('getRows');
+  if(rows.length==0){
+	  messager("表格不能为空");
+	  return;
+  }
   // 重新加载数据，去除空数据
   $("#saleMangeadd").datagrid("loadData",rows);
   
@@ -2150,10 +2476,6 @@ function saveActivity(){
 		return;
 	}
 
-  if(rows.length==0){
-      messager("表格不能为空");
-      return;
-  }
   
   var isCheckResult = true;
   // 活动类型特价验证
@@ -2446,6 +2768,63 @@ function saveActivity(){
 	  
 	  saveDataHandel(rows);
 	 
+  //买满送	  
+  }else if(activityType=="10"){
+	  //全场(2)  类别(1)  商品(0) 
+	  var mmstype = $("input[name='mmsstatus']:checked").val();
+	  var setRows = [];
+	  if(mmstype == '1'){
+		  var lbRows = gridHandelB.getRowsWhere({categoryName:'1'});
+		  if(lbRows.length <= 0){
+			  $.messager.alert('提示','请选择类别！','',function(){});
+			  return;
+		  }
+		  setRows = lbRows;
+	  }
+	  if(mmstype == '0'){
+		  var spRows = gridHandelG.getRowsWhere({skuName:'1'});
+		  if(spRows.length <= 0){
+			  $.messager.alert('提示','请选择商品！','',function(){});
+			  return;
+		  }
+		  setRows = spRows;
+	  }
+	  
+	  //买满条件
+	  gridHandelT.endEditRow();
+	  gridHandel.endEditRow();
+	  //买满条件 梯度检查
+	  var tjRows = gridHandelT.getRows();
+	  if(tjRows.length <= 0){
+		  $.messager.alert('提示','请设置买满条件！','',function(){});
+		  return;
+	  }
+	  for(var i = 0; i<tjRows.length ; i++){
+		  var mmsTJObj = tjRows[i];
+		  if(gridTitleName == '买满金额' && parseFloat(mmsTJObj.limitAmount||0)<= 0){
+			$.messager.alert('提示','第'+(i+1)+'行，买满金额不能小于等于0','',function(){});
+			return false;
+		  }
+		  if(gridTitleName == '买满数量' && parseFloat(mmsTJObj.limitCount||0)<= 0){
+			$.messager.alert('提示','第'+(i+1)+'行，买满数量不能小于等于0','',function(){});
+			return false;
+		  }
+		  
+		  if(!(mmsTJObj.goodsGiftList && mmsTJObj.goodsGiftList.length >0)){
+			  $.messager.alert('提示','买满条件第'+(i+1)+'行，未选择赠品！','',function(){});
+			  return false;
+		  }else{
+			  var gifts = mmsTJObj.goodsGiftList;
+			  for(var x = 0; x < gifts.length ; x++){
+				  var gifObj = gifts[x];
+				  if(gifObj && gifObj.giftNum <= 0){
+					  $.messager.alert('提示','买满条件第'+(i+1)+'行，存在赠品数量小于等于0','',function(){});
+					  return;
+				  }
+			  }
+		  }
+	  }
+	  saveDataHandel(tjRows,setRows);
   }
   else{
 	  saveDataHandel(rows);
@@ -2637,7 +3016,7 @@ function saveDataHandel(rows,setrows){
 			  });  
 		  });
 	  } 
-//满减全场类型
+      //满减全场类型
 	  else if(activityScopemj=="2"){
 		  $.each(rows,function(i,data){
 		      var temp = {
@@ -2647,19 +3026,40 @@ function saveDataHandel(rows,setrows){
 		      reqObj.detailList[i] = temp
 		  });
 	  }
+  //买满送
+  }else if(activityType=="10"){
+	  //全场(2)  类别(1)  商品(0) 
+	  var actScope = $("input[name='mmsstatus']:checked").val()||'';
+	  
+	  var reqObj = {
+	          branchIds:branchIds,
+	          activityName:activityName,
+	          activityType:activityType,
+	          startTime:startTime,
+	          endTime:endTime,
+	          dailyStartTime:dailyStartTime,
+	          dailyEndTime:dailyEndTime,
+	          weeklyActivityDay:weeklyActivityDay,
+	          activityScope:actScope,
+	          activityPattern:$('#activitymmsType').combobox('getValue')||'',
+	          allowActivity:$("#mmsofactType1").is(":checked")?1:0,
+	          allowMultiple:$("#mmsofactType2").is(":checked")?1:0,
+	          detailList:setrows, //活动范围数据集合
+	          gradientList:rows //梯度集合
+	  };
+	  
   }
+  
   var req = JSON.stringify(reqObj);
-  console.log('req',JSON.stringify(req));
+  console.log('req',req);
+//  return; 
   $.ajax({
       url:contextPath+"/sale/activity/save",
       type:"POST",
       contentType:'application/json',
       data:req,
       success:function(result){
-    	  console.log(result)
           if(result['code'] == 0){
-              console.log(result);
-              console.log(result);
               $.messager.alert("操作提示", "操作成功！", "info", function(){
             		  location.href = contextPath +"/sale/activity/edit?activityId="+result["activityId"]; 
               });
@@ -2714,8 +3114,35 @@ function selectBranch() {
 	},1);
 }
 
+//类别选择  ---> 买满送
+function getGoodsTypeG(){
+	var param = {
+			categoryType:"",
+			type:1
+	}
+	new publicCategoryService(function(data){
+		var nowRows = gridHandelB.getRowsWhere({categoryCode:'1'});
+		
+        var addDefaultData  = gridHandelB.addDefault(data,[{}]);
+    	var keyNames = {
+    			categoryCode:'goodsCategoryCode'
+        };
+        var rows = gFunUpdateKey(addDefaultData,keyNames);
+        var argWhere ={categoryCode:1};  // 验证重复性
+        var newRows = gridHandelB.checkDatagrid(nowRows,rows,argWhere);
+        gridHandelB.setLoadData(newRows)
+	},param);
+}
+
 // 类别选择
 function getGoodsType(){
+	var activityT=$("#activityType").combobox('getValue');
+	//买满送调用 selectGoodsG方法
+	if(activityT == '10'){
+		getGoodsTypeG();
+		return;
+	}
+	
 	var param = {
 			categoryType:"",
 			type:1
@@ -2769,3 +3196,10 @@ function saleAmountOnChange(newV,oldV){
 
 	gridHandel.setFieldValue('saleAmount',newV);
 }
+
+//生成一个唯一id
+function getUUID(headString) {
+    var tempId = '';
+    tempId = (headString || '') + Math.round((new Date().valueOf() * Math.random())) + '';
+    return tempId;
+};
