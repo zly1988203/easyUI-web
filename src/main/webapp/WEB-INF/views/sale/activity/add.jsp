@@ -7,7 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>促销活动设置</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="${ctx}/static/js/views/sale/activity/add.js"></script>
+<script src="${ctx}/static/js/views/sale/activity/add.js?1=54"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
 </style>
@@ -83,7 +83,7 @@
 								<option value="4">换购</option> 
 								<option value="5">满减</option> 
 								<option value="6">组合特价</option>
-								<option value="7">买满送</option>
+								<option value="10">买满送</option>
 				        </select>
                 </div>
                 <div class="ub ub-ac umar-l10  discountTypechoose unhide">
@@ -115,7 +115,7 @@
 					<div class="ub ub-ac umar-r10">
 						<input class="ub mmradio" type="radio"  name="mmsstatus"  value="2" checked="checked"/><span>全场</span>
 					</div>
-                    <div class="ub ub-ac umar-r10">
+                    <div class="ub ub-ac umar-r10"> 
                         <input class="ub mmradio" type="radio"  name="mmsstatus" value="1" /><span>类别</span>
                     </div>
 					<div class="ub ub-ac umar-r10">
@@ -152,18 +152,17 @@
 				   <!--买满条件 -->
 				   <div class="ub ub-ac uw-390 uselectw umar-l10 mmstype unhide">
 					<div class="umar-r10 uw-80 ut-r">活动条件:</div>
-					<select class="uselect easyui-combobox " name="activitymmsType" id="activitymmsType" data-options="editable:false,value:1,onChange:onChangemmsSelect">
-						    <option value="1">买满金额</option> 
-							<option value="2">买满数量</option> 
+					<select class="uselect easyui-combobox " name="activitymmsType" id="activitymmsType" data-options="editable:false,value:0,onChange:onChangemmsSelect">
+						    <option value="0">买满金额</option> 
+							<option value="1">买满数量</option> 
 			        </select>
 			        <div class="ub ub-ac umar-l10 ">
 						<div class="ub ub-ac umar-r10">
-							<input class="ub mmradioAct" type="checkbox" id="status_1"  name="mmsofactType"  value="2" /><label for="status_1">促销商品参与</label>
+							<input class="ub mmradioAct" type="checkbox" id="mmsofactType1"  name="mmsofactType1"  value="2" /><label for="mmsofactType1">促销商品参与</label>
 						</div>
 	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub mmradioAct" type="checkbox" id="status_2" name="mmsofactType" value="1" /><label for="status_2">倍数送</label>
+	                        <input class="ub mmradioAct" type="checkbox" id="mmsofactType2" name="mmsofactType2" value="1" /><label for="mmsofactType2">倍数送</label>
 	                    </div>
-	                    <input class="uinp" type="hidden" id="mmsofactTypeVal" value=""  name="mmsofactTypeVal">
 		            </div>
 	          	  </div>
 	        </div>
@@ -203,13 +202,19 @@
 	  		<div class="ub ub-ver uw ub-f1" id="area2">
 				<div id="consolemms01" class="ub uw ub-ver  ub-f1 " >
 				    <p class="ub">买满条件：</p>
-				    <div class="ub uw umar-t8" style="height:300px;">
-						<table id="mmspriceList"></table>
+				    <div class="ub uw umar-t8" style="height:300px;width:100%;">
+						<table id="mmsgradedList"></table>
 				    </div>
 				</div>
 				<div id="consolemms02" class="ub uw ub-f1 ub-ver  umar-t10 ">
-					<p class="ub">赠品信息：</p>
-					<div class="ub uw  umar-t8" style="height:300px;">
+					<div class="ub ub-ac upad-t20">
+						<span class="ub">赠品信息：</span>
+						<div class="ubtns">
+				             <div class="ubtns-item" onclick="saveTempGiftGoods()">保存</div>
+				             <div class="ubtns-item" onclick="resetGiftGoods()">重置</div>
+			            </div>
+					</div>
+					<div class="ub uw  umar-t8" style="height:300px;width:100%;">
 						<table id="mmsgoodList"></table>
 					</div>
 				</div>
