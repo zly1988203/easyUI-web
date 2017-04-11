@@ -10,6 +10,7 @@ $(function(){
     }
     
     initDatagridEditOrder();
+    initQueryData();
     $("div").delegate("button","click",function(){
     	$("p").slideToggle();
     });
@@ -40,15 +41,14 @@ function initDatagridEditOrder(){
             }
         },
     })
-	var formId = $("#formId").val();
+
     $("#gridEditOrder").datagrid({
         //title:'普通表单-用键盘操作',
-        method:'post',
-    	url:contextPath+"/form/purchase/detailList?formId="+formId,
         align:'center',
         singleSelect:true,  //单选  false多选
         rownumbers:true,    //序号
         showFooter:true,
+        pageSize:10000,
         height:'100%',
         width:'100%',
         view:scrollview,
@@ -248,8 +248,28 @@ function initDatagridEditOrder(){
             }
         },
         onLoadSuccess:function(data){
+            if((data.rows).length <= 0)return;
+            gFunEndLoading();
             gridHandel.setDatagridHeader("center");
             updateFooter();
+        }
+    });
+}
+
+function initQueryData(){
+    var formId = $("#formId").val();
+    $.ajax({
+        url:contextPath+"/form/purchase/detailList?formId="+formId,
+        type:"post",
+        success:function(result){
+            gFunStartLoading();
+            if(result && result.rows.length > 0){
+                $("#"+gridName).datagrid("loadData",result.rows);
+            }
+        },
+        error:function(result){
+            gFunEndLoading();
+            successTip("请求发送失败或服务器处理失败");
         }
     });
 }
@@ -667,7 +687,6 @@ function orderDelete(){
 
 //直接查询商品
 function queryGoodsList() {
-    gFunStartLoading();
     var queryParams = {
         formType:'PA',
         key:"",

@@ -287,10 +287,14 @@ function initQueryData(url){
     	url:url,
     	type:"GET",
     	success:function(result){
-    		gFunStartLoading();
-    		 $("#"+gridName).datagrid("loadData",result);
+            gFunStartLoading();
+            if(result && result.length > 0){
+                $("#"+gridName).datagrid("loadData",result);
+            }
+
     	},
     	error:function(result){
+            gFunEndLoading();
     		successTip("请求发送失败或服务器处理失败");
     	}
     });

@@ -16,6 +16,7 @@ $(function(){
     initDatagridEditOrder();
     // 是否自动加载商品
     if($("#cascadeGoods").val() == 'true'){
+
         queryGoodsList();
     }
 });
@@ -78,6 +79,7 @@ function initDatagridEditOrder(){
         showFooter:true,
         height:'100%',
         width:'100%',
+        pageSize:10000,
         view:scrollview,
         columns:[[
             {field:'cz',title:'操作',width:'60px',align:'center',
@@ -266,7 +268,9 @@ function initDatagridEditOrder(){
                 gridHandel.setSelectFieldName("skuCode");
             }
         },
-        onLoadSuccess : function() {
+        onLoadSuccess : function(data) {
+            if((data.rows).length <= 0)return;
+            gFunEndLoading();
             gridHandel.setDatagridHeader("center");
             updateFooter();
         }
@@ -621,7 +625,7 @@ function saveDataHandel(rows){
 
 //直接查询商品
 function queryGoodsList() {
-    gFunStartLoading();
+
     var queryParams = {
         formType:'PA',
         key:"",
@@ -640,7 +644,7 @@ function queryGoodsList() {
         type:'POST',
         data:queryParams,
         success:function(data){
-            gFunEndLoading();
+            gFunStartLoading();
             if(data && data.rows){
                 var addDefaultData  = gridHandel.addDefault(data.rows,gridDefault);
                 var keyNames = {
@@ -655,6 +659,7 @@ function queryGoodsList() {
             }
         },
         error:function(){
+            gFunEndLoading();
             messager("数据查询失败");
         }
     })
