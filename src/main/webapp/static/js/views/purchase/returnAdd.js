@@ -68,6 +68,7 @@ function initDatagridEditOrder(){
         showFooter:true,
         height:'100%',
         width:'100%',
+        view:scrollview,
         columns:[[
             {field:'cz',title:'操作',width:'60px',align:'center',
                 formatter : function(value, row,index) {
