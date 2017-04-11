@@ -737,6 +737,7 @@ function selectSupplier(){
                 if(r){
                     $("#supplierId").val(data.id);
                     $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
+                    gridHandel.setLoadData([$.extend({},gridDefault)]);
                     // 是否自动加载商品
                     if($("#cascadeGoods").val() == 'true'){
                         queryGoodsList();
@@ -746,6 +747,7 @@ function selectSupplier(){
         }else if($("#supplierId").val() != "" && data.id != $("#supplierId").val() && nowRows.length == 0){
             $("#supplierId").val(data.id);
             $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
+            gridHandel.setLoadData([$.extend({},gridDefault)]);
             // 是否自动加载商品
             if($("#cascadeGoods").val() == 'true'){
                 queryGoodsList();
@@ -769,6 +771,7 @@ function selectBranch(){
                 if(r){
                     $("#branchId").val(data.branchesId);
                     $("#branchName").val("["+data.branchCode+"]"+data.branchName);
+                    gridHandel.setLoadData([$.extend({},gridDefault)]);
                     // 是否自动加载商品
                     if($("#cascadeGoods").val() == 'true'){
                         queryGoodsList();
@@ -779,6 +782,7 @@ function selectBranch(){
         }else  if( $("#branchId").val() != "" && data.branchesId != $("#branchId").val() && nowRows.length == 0){
             $("#branchId").val(data.branchesId);
             $("#branchName").val("["+data.branchCode+"]"+data.branchName);
+            gridHandel.setLoadData([$.extend({},gridDefault)]);
             // 是否自动加载商品
             if($("#cascadeGoods").val() == 'true'){
                 queryGoodsList();
