@@ -7,7 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>促销活动设置-审核</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="${ctx}/static/js/views/sale/activity/view.js?1=12"></script>
+<script src="${ctx}/static/js/views/sale/activity/view.js?1=1"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
 </style>
@@ -160,16 +160,16 @@
 				   <!--买满条件 -->
 				   <div class="ub ub-ac uw-390 uselectw umar-l10 mmstype unhide">
 					<div class="umar-r10 uw-80 ut-r">活动条件:</div>
-					<select class="uselect easyui-combobox " name="activitymmsType" id="activitymmsType" data-options="editable:false,value:0">
+					<select class="uselect easyui-combobox " name="activitymmsType" id="activitymmsType" data-options="editable:false,disabled:true,value:0">
 						    <option value="0">买满金额</option> 
 							<option value="1">买满数量</option> 
 			        </select>
 			        <div class="ub ub-ac umar-l10 ">
 						<div class="ub ub-ac umar-r10">
-							<input class="ub mmradioAct" type="checkbox" id="mmsofactType1"  name="mmsofactType1"  value="2" /><label for="mmsofactType1">促销商品参与</label>
+							<input class="ub mmradioAct" type="checkbox" id="mmsofactType1" readonly="readonly"  name="mmsofactType"  value="2" /><label for="mmsofactType1">促销商品参与</label>
 						</div>
 	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub mmradioAct" type="checkbox" id="mmsofactType2" name="mmsofactType2" value="1" /><label for="mmsofactType2">倍数送</label>
+	                        <input class="ub mmradioAct" type="checkbox" id="mmsofactType2" readonly="readonly" name="mmsofactType" value="1" /><label for="mmsofactType2">倍数送</label>
 	                    </div>
 		            </div>
 	          	  </div>
@@ -215,7 +215,7 @@
 				    </div>
 				</div>
 				<div id="consolemms02" class="ub uw ub-f1 ub-ver  umar-t10 ">
-					<div class="ub ub-ac upad-t20">
+					<div class="ub ub-ac upad-t20 unhide">
 						<span class="ub">赠品信息：</span>
 						<div class="ubtns">
 				             <div class="ubtns-item" onclick="saveTempGiftGoods()">保存</div>

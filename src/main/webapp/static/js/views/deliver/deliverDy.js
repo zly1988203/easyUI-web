@@ -825,7 +825,7 @@ function updateOrder(){
     });
 }
 
-function suggestSelectGoods(type){
+function suggestSelectGoods(){
 	// 要货机构
 	var targetBranchId = $("#targetBranchId").val();
 	// 发货机构
@@ -842,18 +842,18 @@ function suggestSelectGoods(type){
     	return;
     }
     		
-	var tempRows = [];
-	if(type == 1){
-		var rows = gridHandel.getRowsWhere({skuName:'1'});
-		$.each(rows,function(i,data){
-			tempRows.push(data.skuId);
-		});
-	}
+//	var tempRows = [];
+//	if(type == 1){
+//		var rows = gridHandel.getRowsWhere({skuName:'1'});
+//		$.each(rows,function(i,data){
+//			tempRows.push(data.skuId);
+//		});
+//	}
     var jsonData = {
     		isFastDeliver:1,//直送商品
     		sourceBranchId:sourceBranchId,
-    		targetBranchId:targetBranchId,
-            skuIdList:tempRows
+    		targetBranchId:targetBranchId
+//            skuIdList:tempRows
         };
 	$.ajax({
     	url : contextPath+"/form/deliverFormList/getDeliverSuggestNumItemList",
