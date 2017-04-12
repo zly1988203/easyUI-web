@@ -3007,7 +3007,7 @@ function saveDataHandel(rows,setrows){
   }else if(activityType=="10"){
 	  rows.forEach(function(obj,index){
 		  var tempgifts = [];//rows;
-		  if(obj.goodsGiftList &&　obj.goodsGiftList.length >0){
+		  if(obj.goodsGiftList && obj.goodsGiftList.length >0){
 			  obj.goodsGiftList.forEach(function(obx,indej){
 				  var temgood = {
 						  skuId :  obx.skuId,
