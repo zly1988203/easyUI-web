@@ -514,20 +514,20 @@ function saveModifyPriceOrder() {
             }
 
             var isCheck = true;
-            for(var i=0;i<detailList.length;i++){
-                var item = detailList[i];
-
-                if(parseFloat(item["newVipPrice"]) <= 0){
-                    messager("第"+(i+1)+"行，新会员价不能小于等于0");
-                    isCheck = false;
-                    break;
-                };
-
-                if(parseFloat(item["newSalePrice"]) < parseFloat(item["newVipPrice"])){
-                    messager("第"+(i+1)+"行，新会员价要小于新销售价");
-                    isCheck = false;
-                    break;
-                };
+            if($('#memberPrice').is(':checked')){
+                for(var i=0;i<detailList.length;i++){
+                    var item = detailList[i];
+                    if(parseFloat(item["newVipPrice"]) <= 0){
+                        messager("第"+(i+1)+"行，新会员价不能小于等于0");
+                        isCheck = false;
+                        break;
+                    };
+	                if(parseFloat(item["newSalePrice"]) < parseFloat(item["newVipPrice"])){
+	                    messager("第"+(i+1)+"行，新会员价要小于新销售价");
+	                    isCheck = false;
+	                    break;
+	                };
+            	}
             }
 
             if(isCheck === false){
@@ -567,16 +567,7 @@ function saveModifyPriceOrder() {
                                     $("#createUserDate").text(data.createUserDate);
                                     $("#id").val(data.goodsPriceForm.id);
                                     $("#saveModifyPriceOrder").attr("onclick","updateModifyPriceOrder();");
-									/*$.messager.confirm('提示','是否审核，请确认？',function(r) {
-									 if (r) {
-									 // 确定审核，调用后台的审核方法，成功提示
-									 // 审核成功跳转到已审核页面，加上已审核标志
-									 // 得到新的生效时间
-									 var effectDate = $("#effectDate").val();
-									 var status = 1;
-									 var result = checkForm(data.goodsPriceForm.formNo,status,effectDate);
-									 }
-									 });*/
+
                                 });
                             } else {
                                 // 失败提示
@@ -611,20 +602,22 @@ function updateModifyPriceOrder() {
         }
 
         var isCheck = true;
-        for(var i=0;i<detailList.length;i++){
-            var item = detailList[i];
-            if(parseFloat(item["newVipPrice"]) <= 0){
-                messager("第"+(i+1)+"行，新会员价不能小于等于0");
-                isCheck = false;
-                break;
-            }
-            if(parseFloat(item["newSalePrice"]) < parseFloat(item["newVipPrice"])){
-                messager("第"+(i+1)+"行，新会员价要小于新销售价");
-                isCheck = false;
-                break;
-            };
-        }
+        if($('#memberPrice').is(':checked')){
+            for(var i=0;i<detailList.length;i++){
+                var item = detailList[i];
+                if(parseFloat(item["newVipPrice"]) <= 0){
+                    messager("第"+(i+1)+"行，新会员价不能小于等于0");
+                    isCheck = false;
+                    break;
+                };
 
+                if(parseFloat(item["newSalePrice"]) < parseFloat(item["newVipPrice"])){
+                    messager("第"+(i+1)+"行，新会员价要小于新销售价");
+                    isCheck = false;
+                    break;
+                }
+            }
+        }
         if(isCheck === false){
             gFunEndLoading();
             return;
@@ -658,16 +651,6 @@ function updateModifyPriceOrder() {
                                 addModifyPriceGridDg.datagrid('load');
                                 $("#formNo").text(data.goodsPriceForm.formNo);
                                 $("#formNoInput").val(data.goodsPriceForm.formNo);
-								/*$.messager.confirm('提示','是否审核，请确认？',function(r) {
-								 if (r) {
-								 // 确定审核，调用后台的审核方法，成功提示
-								 // 审核成功跳转到已审核页面，加上已审核标志
-								 // 得到新的生效时间
-								 var effectDate = $("#effectDate").val();
-								 var status = 1;
-								 var result = checkForm(data.goodsPriceForm.formNo,status,effectDate);
-								 }
-								 });*/
                             });
                         } else {
                             // 失败提示
@@ -1010,16 +993,6 @@ function selectGoodsDialog(searchKey) {
     }
     branchId=$("#branchId").val();
     gFunGoodsSelect(searchKey,branchId);
-	/*var bool = $("#branchId").val().indexOf(",");
-	 if(bool<0){
-	 // 没有逗号表示机构id只有一个值 查询本机构中的商品
-	 branchId=$("#branchId").val();
-	 gFunGoodsSelect(searchKey,branchId);
-	 }else{
-	 //查询登录机构下商品
-	 branchId=loginBranchId;
-	 gFunGoodsSelect(searchKey,branchId);
-	 }*/
 }
 //商品选择 公共使用
 function gFunGoodsSelect(searchKey,branchId){
@@ -1287,11 +1260,13 @@ function updateListData(data){
         }else{
             item.oldSaleRate = ((item.oldSalePrice-item.oldPurPrice)/item.oldSalePrice*100).toFixed(2)+"%";
         }
-        item.newSaleRate = ((item.newSalePrice-item.newPurPrice)/item.newSalePrice*100).toFixed(2)+"%"
-    })
+        item.newSaleRate = ((item.newSalePrice-item.newPurPrice)/item.newSalePrice*100).toFixed(2)+"%";
+    });
+    
     $("#"+datagridId).datagrid("loadData",newRows);
 
 }
+
 //返回列表页面
 function back(){
     toClose();
