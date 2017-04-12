@@ -37,7 +37,7 @@ function radioChange(){
 }
 
 function showCashier(){
-    $("#userNameOrCode").removeAttr("disabled");
+    $("#userNameOrCode").removeProp("disabled");
     $("#userIdSelect").show();
     $('#cashierIdSelect').prop('hidden',false);
 }
