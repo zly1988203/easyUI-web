@@ -164,9 +164,9 @@ function initDatagridRequireOrder(){
             {field:'jyPlayNum',title:'建议订货数量',width:'90px',align:'left',
             	formatter:function(value,row,index){
             		if(!value){
-            			row['jyPlayNum'] = 3;
+            			row['jyPlayNum'] = 0;
             		}
-            		return value||3;
+            		return value||0;
             	}
             },
             {field:'largeNum',title:'箱数',width:'80px',align:'right',
@@ -825,7 +825,51 @@ function updateOrder(){
     });
 }
 
+function suggestSelectGoods(type){
+	// 要货机构
+	var targetBranchId = $("#targetBranchId").val();
+	// 发货机构
+	var sourceBranchId = $("#sourceBranchId").val();
 
+    //判定发货分店是否存在
+    if(sourceBranchId==""){
+        messager("请先选择发货机构");
+        return;
+    }
+    
+    if(targetBranchId==""){
+    	messager("请先选择要货机构");
+    	return;
+    }
+    		
+	var tempRows = [];
+	if(type == 1){
+		var rows = gridHandel.getRowsWhere({skuName:'1'});
+		$.each(rows,function(i,data){
+			tempRows.push(data.skuId);
+		});
+	}
+    var jsonData = {
+    		isFastDeliver:1,//直送商品
+    		sourceBranchId:sourceBranchId,
+    		targetBranchId:targetBranchId,
+            skuIdList:tempRows
+        };
+	$.ajax({
+    	url : contextPath+"/form/deliverFormList/getDeliverSuggestNumItemList",
+    	type : "POST",
+    	data : jsonData,
+    	success:function(result){
+    		 console.log('建议商品',result);
+//            $.each(data,function(i,val){
+//            	
+//            })
+    	},
+    	error:function(result){
+    		successTip("请求发送失败或服务器处理失败");
+    	}
+    });
+}
 //审核
 function check(){
     //验证数据是否修改

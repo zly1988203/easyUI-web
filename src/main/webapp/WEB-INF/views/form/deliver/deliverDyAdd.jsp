@@ -8,7 +8,6 @@
     <title>直送要货单-新增</title>
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-	<%-- <script src="${ctx}/static/js/views/deliver/deliverDyAdd.js"></script> --%>
 	<script src="${ctx}/static/js/views/deliver/deliverDy.js?v=<%=new java.util.Date().getTime()%>"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
@@ -21,7 +20,7 @@
 				<div class="ubtns-item-disabled">审核</div>
 				<div class="ubtns-item-disabled">终止</div>
 				<div class="ubtns-item" onclick="selectGoods()">商品选择</div>
-				<div class="ubtns-item init" onclick="selectGoods()">建议订货商品</div>
+				<div class="ubtns-item init" onclick="suggestSelectGoods(1)">建议订货商品</div>
 				<div class="ubtns-item" onclick="toImportproduct(0)">导入货号</div>
 				<div class="ubtns-item" onclick="toImportproduct(1)">导入条码</div>
 				<div class="ubtns-item-disabled">导出</div>
@@ -36,6 +35,7 @@
 				<div class="umar-r10 uw-70 ut-r">要货机构:</div>
 				<input type="hidden" name="targetBranchId" id="targetBranchId" class="uinp" value="${branchesGrow.targetBranchId}" />
 				<input type="hidden" id="targetBranchType" name="targetBranchType"  value="${branchesGrow.targetBranchType}" />
+				<input type="hidden" id="minAmount" name="minAmount" value="${branchesGrow.minAmount}"  />
 				<input type="text" name="targetBranchName" id="targetBranchName"class="uinp  ub ub-f1" readonly="readonly" />
 				<div class="uinp-more" onclick="selectTargetBranch()">...</div>
 			</div>
@@ -51,7 +51,7 @@
 		</div>
 		<div class="ub umar-t8">
 			<div class="ub ub-ac uw-300">
-				<div class="umar-r10 uw-70 ut-r">收货机构:</div>
+				<div class="umar-r10 uw-70 ut-r">发货机构:</div>
 				<!--注意修改收货机构的name id-->
 				<input type="hidden" name="sourceBranchId" id="sourceBranchId" class="uinp"  value="${branchesGrow.sourceBranchId}" />
 				<input type="text" name="sourceBranchName" id="sourceBranchName"class="uinp  ub ub-f1" value="${branchesGrow.sourceBranchName}" readonly="readonly" />
