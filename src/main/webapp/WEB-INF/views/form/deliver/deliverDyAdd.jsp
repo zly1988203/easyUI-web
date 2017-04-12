@@ -20,7 +20,7 @@
 				<div class="ubtns-item-disabled">审核</div>
 				<div class="ubtns-item-disabled">终止</div>
 				<div class="ubtns-item" onclick="selectGoods()">商品选择</div>
-				<div class="ubtns-item init" onclick="suggestSelectGoods(1)">建议订货商品</div>
+				<div class="ubtns-item init" onclick="suggestSelectGoods()">建议订货商品</div>
 				<div class="ubtns-item" onclick="toImportproduct(0)">导入货号</div>
 				<div class="ubtns-item" onclick="toImportproduct(1)">导入条码</div>
 				<div class="ubtns-item-disabled">导出</div>

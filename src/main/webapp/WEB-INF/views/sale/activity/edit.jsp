@@ -117,7 +117,7 @@
 	            <!--买满送-->
 	            <div class="ub ub-ac umar-l10  mmsTypechoose unhide">
 					<div class="ub ub-ac umar-r10">
-						<input class="ub mmradio" type="radio" readonly="readonly"  name="mmsstatus"  value="2" checked="checked"/><span>全场</span>
+						<input class="ub mmradio" type="radio"  name="mmsstatus"  value="2" checked="checked"/><span>全场</span>
 					</div>
                     <div class="ub ub-ac umar-r10"> 
                         <input class="ub mmradio" type="radio" name="mmsstatus" value="1" /><span>类别</span>
@@ -169,7 +169,7 @@
 			        </select>
 			        <div class="ub ub-ac umar-l10 ">
 						<div class="ub ub-ac umar-r10">
-							<input class="ub mmradioAct" type="checkbox" id="mmsofactType1" name="mmsofactType"  value="2" /><label for="mmsofactType1">促销商品参与</label>
+							<input class="ub mmradioAct" type="checkbox" id="mmsofactType1" readonly="readonly" name="mmsofactType"  value="2" /><label for="mmsofactType1">促销商品参与</label>
 						</div>
 	                    <div class="ub ub-ac umar-r10">
 	                        <input class="ub mmradioAct" type="checkbox" id="mmsofactType2"  name="mmsofactType" value="1" /><label for="mmsofactType2">倍数送</label>
