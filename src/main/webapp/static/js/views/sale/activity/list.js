@@ -63,6 +63,8 @@ function initDatagridRequire(){
             		return '满减';
             	}else if(value == '6'){
             		return '组合特价';
+            	}else if(value == '10'){
+            		return '买满送';
             	}else{
             		return '未知类型：'+ value;
             	}

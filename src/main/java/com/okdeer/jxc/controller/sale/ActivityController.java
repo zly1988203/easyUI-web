@@ -17,6 +17,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.jfree.util.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -113,13 +114,14 @@ public class ActivityController {
 	public RespJson save(@RequestBody String jsonText) {
 		RespJson resp = RespJson.success();
 		try {
-			logger.debug("json:{}", jsonText);
+			logger.debug("保存促销活动参数信息:{}", jsonText);
 			// 转换Json数据
 			ActivityVo activityVo = JSON.parseObject(jsonText, ActivityVo.class);
 			// 数据验证
 			String validMsg = activityVo.validate();
 
 			if (validMsg != null) {
+				Log.warn(validMsg);
 				return RespJson.businessError(validMsg);
 			}
 
@@ -147,19 +149,29 @@ public class ActivityController {
 			// 买满送活动需要重新组装活动详情数据
 			if (activityVo.getActivityType() == ActivityType.BUY_FULL_GIVE.getValue()) {
 				List<ActivityGradientVo> gradientList = activityVo.getGradientList();
+				
+				// 全场活动
+				if(activityVo.getActivityScope() == 2){
+					ActivityDetailVo fullCourt = new ActivityDetailVo();
+					listVo.clear();
+					listVo.add(fullCourt);
+				}
 
 				// 将梯度数据排序
 				sortGradientList(gradientList, activityVo.getActivityPattern());
 
 				// 促销详情记录数 = 促销活动记录数 * 促销梯度记录数
-				for (int i = 1; i <= gradientList.size(); i++) {
+				for (int i = 0; i < gradientList.size(); i++) {
 					ActivityGradientVo gradientVo = gradientList.get(i);
+					
+					//梯度编号
+					int groupNum = i + 1;
 
 					// 构建买满送促销详情数据
-					buildFullGiveDetailList(main, detailList, listVo, i, gradientVo);
+					buildFullGiveDetailList(main, detailList, listVo, groupNum, gradientVo);
 
 					// 构建买满送礼品信息数据
-					buildGoodsGiftList(main.getId(), i, gradientVo.getGoodsGiftList(), goodsGiftList);
+					buildGoodsGiftList(main.getId(), groupNum, gradientVo.getGoodsGiftList(), goodsGiftList);
 				}
 
 			} else {
@@ -217,8 +229,7 @@ public class ActivityController {
 			BeanUtils.copyProperties(activityDetailVo, activityDetail);
 			BeanUtils.copyProperties(gradientVo, activityDetail); // 复制买满金额/买满数量信息
 
-			String detailId = UUIDHexGenerator.generate();
-			activityDetail.setId(detailId);
+			activityDetail.setId(UUIDHexGenerator.generate());
 			activityDetail.setActivityId(main.getId());
 			activityDetail.setGroupNum(i); // 梯度编号
 
@@ -246,11 +257,11 @@ public class ActivityController {
 				if (activityPattern == 0) {
 					BigDecimal limitAmount = o1.getLimitAmount();
 					BigDecimal otherimitAmount = o2.getLimitAmount();
-					return otherimitAmount.compareTo(limitAmount);
+					return limitAmount.compareTo(otherimitAmount);
 				} else {
 					BigDecimal limitCount = o1.getLimitCount();
 					BigDecimal otherimitCount = o2.getLimitCount();
-					return otherimitCount.compareTo(limitCount);
+					return limitCount.compareTo(otherimitCount);
 				}
 
 			}

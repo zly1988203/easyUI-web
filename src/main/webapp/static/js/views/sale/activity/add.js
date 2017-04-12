@@ -2756,7 +2756,7 @@ function saveActivity(){
   }else if(activityType=="10"){
 	  //全场(2)  类别(1)  商品(0) 
 	  var mmstype = $("input[name='mmsstatus']:checked").val();
-	  var setRows = [];
+	  var setRows = [{goodsSkuId:"000000"}];
 	  if(mmstype == '1'){
 		  var lbRows = gridHandelB.getRowsWhere({categoryName:'1'});
 		  if(lbRows.length <= 0){
