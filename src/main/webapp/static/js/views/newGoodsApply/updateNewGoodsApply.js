@@ -356,12 +356,17 @@ function saveGoodsArchives(){
 	}
 	
 	var salePriceV = $("#salePrice").numberbox("getValue");
-	
+    var vipPrice = $("#vipPrice").numberbox("getValue");
 	if(parseFloat(salePriceV || 0) <= 0){
 		$('#saveGoodsArchives').removeAttr("disabled");
 		$.messager.alert("提示","零售价必须大于0!");
 		return;
 	}
+    if(parseFloat(vipPrice || 0) <= 0){
+        $('#saveGoodsArchives').removeAttr("disabled");
+        $.messager.alert("提示","会员价必须大于0!");
+        return;
+    }
 	
 	if($("#purchaseSpec").val()=== '0.00'){
 		$('#updateGoodsArchives').removeAttr("disabled");
