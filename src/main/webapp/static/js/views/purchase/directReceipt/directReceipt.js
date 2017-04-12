@@ -861,7 +861,7 @@ function selectBranch(){
 
                     gridHandel.setLoadData([$.extend({},gridDefault)]);
                     // 是否自动加载商品
-                    if($("#cascadeGoods").val() == 'true'){
+                    if($("#cascadeGoods").val() == 'true' && $("#supplierId").val() != ""){
                         queryGoodsList();
                     }
                 }
@@ -871,13 +871,18 @@ function selectBranch(){
             $("#branchName").val("["+data.branchCode+"]"+data.branchName);
             gridHandel.setLoadData([$.extend({},gridDefault)]);
             // 是否自动加载商品
-            if($("#cascadeGoods").val() == 'true'){
+            if($("#cascadeGoods").val() == 'true' && $("#supplierId").val() != ""){
+                queryGoodsList();
+            }
+        }else{
+            $("#branchId").val(data.branchesId);
+            $("#branchName").val("["+data.branchCode+"]"+data.branchName);
+            gridHandel.setLoadData([$.extend({},gridDefault)]);
+            // 是否自动加载商品
+            if($("#cascadeGoods").val() == 'true' && $("#supplierId").val() != ""){
                 queryGoodsList();
             }
         }
-
-
-
     },0);
 }
 
