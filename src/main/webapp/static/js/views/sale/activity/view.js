@@ -402,9 +402,7 @@ function clickmmsTab(type){
 		if(!hasClickTab){
 			console.log('------999889999--------')
 			hasClickTab = true;
-			//gridHandelT.setLoadData([$.extend({},mmsTJDefault)]);
-			initmmsDatagrid(activityId);
-			gridHandel.setLoadData([$.extend({},gridDefaultG)]);
+			$("#mmsgradedList").datagrid("load");
 			
 			
 		}
@@ -466,10 +464,6 @@ function selectOptionmms(activityScope,activityPattern,allowActivity,allowMultip
 	//买满送 礼品列表
 	initDatagridmmsGOOD(activityId);
 	
-	if(activityScope == 2){
-		initmmsDatagrid(activityId);
-	}
-	
 }
 
 var gridHandelT = new GridClass();
@@ -485,7 +479,11 @@ var temGflag = false;
 function initDatagridmmsTJ(activityId){
     $("#mmsgradedList").datagrid({
         align:'center',
-        //url:contextPath+"/sale/activity/getGradientForFullGive?activityId="+activityId,
+        method:'post',
+        queryParams:{
+        	activityId:activityId
+        },
+        url:contextPath+"/sale/activity/getGradientForFullGive",
         // toolbar: '#tb', //工具栏 id为tb
         singleSelect:true,  // 单选 false多选
         rownumbers:true,    // 序号
@@ -721,13 +719,6 @@ function initmjFullDatagrid(activityId){
     $("#saleMangeadd").datagrid("load");
 }
 
-//买满送 条件梯度 请求方法 
-function initmmsDatagrid(activityId){
-	$("#mmsgradedList").datagrid("options").method = "post";
-	$("#mmsgradedList").datagrid("options").queryParams = {activityId:activityId};
-    $("#mmsgradedList").datagrid("options").url =contextPath+"/sale/activity/getGradientForFullGive";
-    $("#mmsgradedList").datagrid("load");
-}
 
 var datagridObj;
 // 初始化表格-特价

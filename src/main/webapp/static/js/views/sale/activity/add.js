@@ -2270,7 +2270,7 @@ function selectGoodsG(searchKey){
             $("#mmsgoodList").datagrid("deleteRow", gridHandel.getSelectRowIndex());
             $("#mmsgoodList").datagrid("acceptChanges");
         }
-        var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
+        var nowRows = gridHandel.getRowsWhere({skuName:'1'});
         var addDefaultData  = gridHandel.addDefault(data,gridDefaultG);
         var keyNames = {
         		skuId:'goodsSkuId',
