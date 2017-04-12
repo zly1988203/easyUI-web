@@ -1876,17 +1876,18 @@ function saveDataHandel(rows,setrows){
 	// 活动状态为满减 -商品
 	  if(activityScopemj=="0"){
 		  $.each(rows,function(i,data){
-		      var goods = {
-			    	  goodsSkuId: data.goodsSkuId,
-			    	  price:data.price
-			      }
+			  var goodsSkuId = data.goodsSkuId;
+		      var price = data.price;
 		      
-		      $.each(setrows,function(i,data){
+		      $.each(setrows,function(j,data1){
 			      var fullCutData = {
-			    	  limitAmount:data.limitAmount,
-			          discountPrice:data.discountPrice,
+			    	  limitAmount:data1.limitAmount,
+			          discountPrice:data1.discountPrice,
 			      }
-			      var goodsFullCut = $.extend(goods, fullCutData);
+			      var goodsFullCut = $.extend({
+					  goodsSkuId:goodsSkuId,
+					  price:price
+			      },fullCutData);
 			      
 			      reqObj.detailList.push(goodsFullCut);
 			      
