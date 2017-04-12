@@ -394,13 +394,8 @@ function clickmmsTab(type){
 		$("#area1").addClass("unhide");
 		$("#area2").removeClass("unhide");
 		if(!hasClickTab){
-			console.log('------999889999--------')
 			hasClickTab = true;
-			//gridHandelT.setLoadData([$.extend({},mmsTJDefault)]);
-			initmmsDatagrid(activityId);
-			gridHandel.setLoadData([$.extend({},gridDefaultG)]);
-			
-			
+			$("#mmsgradedList").datagrid("load");
 		}
 	}
 }
@@ -460,9 +455,7 @@ function selectOptionmms(activityScope,activityPattern,allowActivity,allowMultip
 	//买满送 礼品列表
 	initDatagridmmsGOOD(activityId);
 	
-	if(activityScope == 2){
-		initmmsDatagrid(activityId);
-	}
+
 	
 }
 
@@ -502,7 +495,11 @@ function initDatagridmmsTJ(activityId){
     })
     $("#mmsgradedList").datagrid({
         align:'center',
-        //url:contextPath+"/sale/activity/getGradientForFullGive?activityId="+activityId,
+        method:'post',
+        queryParams:{
+        	activityId:activityId
+        },
+        url:contextPath+"/sale/activity/getGradientForFullGive",
         // toolbar: '#tb', //工具栏 id为tb
         singleSelect:true,  // 单选 false多选
         rownumbers:true,    // 序号
@@ -578,19 +575,14 @@ function initDatagridmmsTJ(activityId){
         onLoadSuccess:function(data){
         	var _this = this;
      	   if(data.list && data.list.length > 0){
-     		  /*data.list.forEach(function(obj,ind){
-     			 obj.goodsGiftList = obj.giftPoList;
-     			 delete obj.giftPoList;
-     		  }) */
      		  gridHandel.setLoadData(data.list[0].giftPoList);
      	   }
-     	  console.log('data1334',data);	   
+     	   console.log('data1334',data);	   
      	   $(_this).datagrid('resize',{width:'100%',height:'300px'})
      	   
     	  gridHandelT.setDatagridHeader("center");
 	  }
     });
-	gridHandelT.setLoadData([$.extend({},mmsTJDefault)]);
  }
 
 //初始化表格-买满送 礼品默认数据
@@ -965,13 +957,6 @@ function initmjFullDatagrid(activityId){
     $("#saleMangeadd").datagrid("load");
 }
 
-//买满送 条件梯度 请求方法 
-function initmmsDatagrid(activityId){
-	$("#mmsgradedList").datagrid("options").method = "post";
-	$("#mmsgradedList").datagrid("options").queryParams = {activityId:activityId};
-    $("#mmsgradedList").datagrid("options").url =contextPath+"/sale/activity/getGradientForFullGive";
-    $("#mmsgradedList").datagrid("load");
-}
 
 var datagridObj;
 //初始化表格-特价
@@ -2345,11 +2330,96 @@ function delLineHandelmmscomB(event){
     gridHandelB.delRow(index);
 }
 
+//商品选择 买满送 主商品 选择
+function selectGoodsComG(searchKey){
+	
+	var param = {
+			type:'PX',
+			key:searchKey,
+			isRadio:'',
+			sourceBranchId:'',
+			targetBranchId:'',
+			branchId:$("#branchIds").val(),
+			supplierId:'',
+			flag:''
+	}
+	
+	//借用一下type值，用来活动商品选择时，过滤不参加促销的商品
+    new publicGoodsServiceTem(param,function(data){
+    	if(searchKey){
+            $("#mmscommonList").datagrid("deleteRow", gridHandelG.getSelectRowIndex());
+            $("#mmscommonList").datagrid("acceptChanges");
+        }
+        var nowRows = gridHandelG.getRowsWhere({skuName:'1'});
+        var addDefaultData  = gridHandelG.addDefault(data,[{}]);
+        var keyNames = {
+        		skuId:'goodsSkuId',
+        		salePrice:'price'
+        };
+        var rows = gFunUpdateKey(addDefaultData,keyNames);
+        var argWhere ={skuCode:1};  // 验证重复性
+        var isCheck ={isGift:1};   // 只要是赠品就可以重复
+        var newRows = gridHandelG.checkDatagrid(nowRows,rows,argWhere,isCheck);
+        $("#mmscommonList").datagrid("loadData",newRows);
+    })
+}
+
+//商品选择 买满送 礼品
+function selectGoodsG(searchKey){
+	var param = {
+			type:'PX',
+			key:searchKey,
+			isRadio:'',
+			sourceBranchId:'',
+			targetBranchId:'',
+			branchId:$("#branchIds").val(),
+			supplierId:'',
+			flag:''
+	}
+	
+	//借用一下type值，用来活动商品选择时，过滤不参加促销的商品
+    new publicGoodsServiceTem(param,function(data){
+    	if(searchKey){
+            $("#mmsgoodList").datagrid("deleteRow", gridHandel.getSelectRowIndex());
+            $("#mmsgoodList").datagrid("acceptChanges");
+        }
+        var nowRows = gridHandel.getRowsWhere({skuName:'1'});
+        var addDefaultData  = gridHandel.addDefault(data,gridDefaultG);
+        var keyNames = {
+        		skuId:'goodsSkuId',
+        		salePrice:'price'
+        };
+        var rows = gFunUpdateKey(addDefaultData,keyNames);
+        var argWhere ={skuCode:1};  // 验证重复性
+        var isCheck ={isGift:1};   // 只要是赠品就可以重复
+        var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
+        $("#mmsgoodList").datagrid("loadData",newRows);
+    })
+}
+
+
 //选择商品
 function selectGoods(searchKey){
 	if(typeof(searchKey)=="undefined"){ 
 		searchKey = "";
 	}
+	
+	var activityT=$("#activityType").combobox('getValue');
+	//买满送调用  赠品 selectGoodsG方法
+	if(activityT == '10'){
+		//全场 类别 商品下 区分 主商品 和 赠品 商品选择要区分
+		//是否显示了 tab
+		var isHasTab = $("#mmsTab").hasClass('unhide');
+		var tabtext = $("#mmsTab").find("li.tabs-selected .tabs-title").text();
+		if(!isHasTab && tabtext == '商品信息'){
+			selectGoodsComG(searchKey)
+		}else{
+			//赠品 商品 选择
+			selectGoodsG(searchKey);
+		}
+		return;
+	}
+	
 	var param = {
 			type:'PX',
 			key:searchKey,
