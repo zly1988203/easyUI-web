@@ -2990,7 +2990,7 @@ function saveDataHandel(rows,setrows){
 	  
 	  rows.forEach(function(obj,index){
 		  var tempgifts = [];//rows;
-		  if(obj.giftPoList &&　obj.giftPoList.length >0){
+		  if(obj.giftPoList && obj.giftPoList.length >0){
 			  obj.giftPoList.forEach(function(obx,indej){
 				  var temgood = {
 						  skuId :  obx.skuId,
