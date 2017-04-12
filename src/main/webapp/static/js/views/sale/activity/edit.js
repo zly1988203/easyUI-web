@@ -709,7 +709,11 @@ function initDatagridmmjComLB(activityId){
 	gridHandelB.setGridName("mmscommonList");
   $("#mmscommonList").datagrid({
       align:'center',
-      url:contextPath+"/sale/activity/getDetailFullGive?activityId="+activityId,
+      method:'post',
+      queryParams:{
+    	  activityId : activityId
+      },
+      url:contextPath+"/sale/activity/getDetailFullGive",
       // toolbar: '#tb', //工具栏 id为tb
       singleSelect:false,  // 单选 false多选
       rownumbers:true,    // 序号
@@ -745,7 +749,6 @@ function initDatagridmmjComLB(activityId){
   	  gridHandelB.setDatagridHeader("center");
       }
   });
-  gridHandelB.setLoadData([$.extend({},gridDefault)])
 }
 
 var gridHandelG = new GridClass();
@@ -771,13 +774,17 @@ function initDatagridmmjComLG(activityId){
     })
     
     $("#mmscommonList").datagrid({
-      align:'center',
-      url:contextPath+"/sale/activity/getDetailFullGive?activityId="+activityId,
-      // toolbar: '#tb', //工具栏 id为tb
-      singleSelect:false,  // 单选 false多选
-      rownumbers:true,    // 序号
-      fitColumns:true,    // 每列占满
-      fit:true, //占满
+    	method:'post',
+		queryParams:{
+    	  activityId : activityId
+		},
+		align:'center',
+		url:contextPath+"/sale/activity/getDetailFullGive",
+		// toolbar: '#tb', //工具栏 id为tb
+		singleSelect:false,  // 单选 false多选
+		rownumbers:true,    // 序号
+		fitColumns:true,    // 每列占满
+		fit:true, //占满
 		height:'50%',
 		pagination:true,
 		pageSize:50,
@@ -817,7 +824,6 @@ function initDatagridmmjComLG(activityId){
     	gridHandelG.setDatagridHeader("center");
 	  }
   });
-	gridHandelG.setLoadData([$.extend({},gridDefaultG)])
 }
 
 //买满送 金额改变监听
@@ -2990,7 +2996,7 @@ function saveDataHandel(rows,setrows){
 	  
 	  rows.forEach(function(obj,index){
 		  var tempgifts = [];//rows;
-		  if(obj.giftPoList &&　obj.giftPoList.length >0){
+		  if(obj.giftPoList && obj.giftPoList.length >0){
 			  obj.giftPoList.forEach(function(obx,indej){
 				  var temgood = {
 						  skuId :  obx.skuId,

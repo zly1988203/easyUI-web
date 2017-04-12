@@ -569,4 +569,22 @@ public interface ExportExcelConstant {
 	 * @Fields STOCK_TAKING_MISS_GOODS : 差异处理明细
 	 */
 	String STOCKTAKING_DIFFDETAIL = "stockTakingDiffDetail.xlsx";
+	
+	/*** 特价活动商品引入货号导入模板  */
+	String ACTIVITY_SPECIAL_GOODS_SKUCODE_TEMPLATE = "activitySpecialGoodsSkuCodeTemplate.xlsx";
+
+	/*** 特价活动商品引入条码导入模板  */
+	String ACTIVITY_SPECIAL_GOODS_BARCODE_TEMPLATE = "activitySpecialGoodsBarCodeTemplate.xlsx";
+	
+	/*** 折扣活动商品引入货号导入模板  */
+	String ACTIVITY_DISCOUNT_GOODS_SKUCODE_TEMPLATE = "activityDiscountGoodsSkuCodeTemplate.xlsx";
+	
+	/*** 折扣活动商品引入条码导入模板  */
+	String ACTIVITY_DISCOUNT_GOODS_BARCODE_TEMPLATE = "activityDiscountGoodsBarCodeTemplate.xlsx";
+	
+	/*** 偶数特价活动商品引入货号导入模板  */
+	String ACTIVITY_EVEN_GOODS_SKUCODE_TEMPLATE = "activityEvenGoodsSkuCodeTemplate.xlsx";
+	
+	/*** 偶数特价活动商品引入条码导入模板  */
+	String ACTIVITY_EVEN_GOODS_BARCODE_TEMPLATE = "activityEvenGoodsBarCodeTemplate.xlsx";
 }
