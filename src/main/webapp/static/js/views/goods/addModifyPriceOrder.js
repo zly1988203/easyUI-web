@@ -516,6 +516,13 @@ function saveModifyPriceOrder() {
             var isCheck = true;
             for(var i=0;i<detailList.length;i++){
                 var item = detailList[i];
+
+                if(parseFloat(item["newVipPrice"]) <= 0){
+                    messager("第"+(i+1)+"行，新会员价不能小于等于0");
+                    isCheck = false;
+                    break;
+                };
+
                 if(parseFloat(item["newSalePrice"]) < parseFloat(item["newVipPrice"])){
                     messager("第"+(i+1)+"行，新会员价要小于新销售价");
                     isCheck = false;
@@ -606,6 +613,11 @@ function updateModifyPriceOrder() {
         var isCheck = true;
         for(var i=0;i<detailList.length;i++){
             var item = detailList[i];
+            if(parseFloat(item["newVipPrice"]) <= 0){
+                messager("第"+(i+1)+"行，新会员价不能小于等于0");
+                isCheck = false;
+                break;
+            }
             if(parseFloat(item["newSalePrice"]) < parseFloat(item["newVipPrice"])){
                 messager("第"+(i+1)+"行，新会员价要小于新销售价");
                 isCheck = false;

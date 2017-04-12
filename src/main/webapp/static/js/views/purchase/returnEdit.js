@@ -55,6 +55,8 @@ function initDatagridEditOrder(){
         showFooter:true,
         height:'100%',
         width:'100%',
+        pageSize:10000,
+        view:scrollview,
         columns:[[
             {field:'cz',title:'操作',width:'60px',align:'center',
                 formatter : function(value, row,index) {
@@ -271,6 +273,8 @@ function initDatagridEditOrder(){
             }
         },
         onLoadSuccess:function(data){
+            if((data.rows).length <= 0)return;
+            gFunEndLoading();
             if(data.rows.length>0){
                 var config = {
                     date:['goodsCreateDate','goodsExpiryDate']
@@ -294,6 +298,7 @@ function getGridData(){
        async : false,
        dataType : 'json',
        success : function(data) {
+           gFunStartLoading();
        	//根据选择的采购单，带出采购单的信息
    	    var keyrealNum = {
    	        realNum:'maxRealNum',
@@ -310,7 +315,8 @@ function getGridData(){
    	    }
        },
        error : function() {
-           alert('error');
+           gFunEndLoading();
+           messager("请求发送失败或服务器处理失败")
        }
    });
 }
@@ -659,7 +665,7 @@ function queryGoodsList() {
         data:queryParams,
         success:function(data){
             gFunEndLoading();
-            if(data && data.rows){
+            if(data && data.rows.length > 0){
                 var addDefaultData  = gridHandel.addDefault(data.rows,gridDefault);
                 var keyNames = {
                     purchasePrice:'price',
@@ -670,6 +676,9 @@ function queryGoodsList() {
                 };
                 var rows = gFunUpdateKey(addDefaultData,keyNames);
                 $("#"+gridName).datagrid("loadData",rows);
+            }else {
+                gFunEndLoading();
+                gridHandel.setLoadData([$.extend({},gridDefault)]);
             }
         },
         error:function(){
@@ -680,7 +689,8 @@ function queryGoodsList() {
 
 function selectSupplier(){
 	new publicSupplierService(function(data){
-        if( $("#supplierId").val() != "" && data.id != $("#supplierId").val()){
+        var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
+        if( $("#supplierId").val() != "" && data.id != $("#supplierId").val() && nowRows.length > 0){
             $.messager.confirm('提示','修改供应商后会清空明细，是否要修改？',function(r){
                 if(r){
                     $("#supplierId").val(data.id);
@@ -691,6 +701,13 @@ function selectSupplier(){
                     }
                 }
             })
+        }else if($("#supplierId").val() != "" && data.id != $("#supplierId").val() && nowRows.length == 0){
+            $("#supplierId").val(data.id);
+            $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
+            // 是否自动加载商品
+            if($("#cascadeGoods").val() == 'true'){
+                queryGoodsList();
+            }
         }
 	});
 }
@@ -702,8 +719,28 @@ function selectOperator(){
 }
 function selectBranch(){
 	new publicBranchService(function(data){
-		$("#branchId").val(data.branchesId);
-		$("#branchName").val("["+data.branchCode+"]"+data.branchName);
+        var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
+        if( $("#branchId").val() != "" && data.branchesId != $("#branchId").val() && nowRows.length > 0){
+
+            $.messager.confirm('提示','修改机构后会清空明细，是否要修改？',function(r){
+                if(r){
+                    $("#branchId").val(data.branchesId);
+                    $("#branchName").val("["+data.branchCode+"]"+data.branchName);
+                    // 是否自动加载商品
+                    if($("#cascadeGoods").val() == 'true'){
+                        queryGoodsList();
+                    }
+                }
+            })
+
+        }else  if( $("#branchId").val() != "" && data.branchesId != $("#branchId").val() && nowRows.length == 0){
+            $("#branchId").val(data.branchesId);
+            $("#branchName").val("["+data.branchCode+"]"+data.branchName);
+            // 是否自动加载商品
+            if($("#cascadeGoods").val() == 'true'){
+                queryGoodsList();
+            }
+        }
 	},0);
 }
 

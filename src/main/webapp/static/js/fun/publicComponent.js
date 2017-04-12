@@ -135,7 +135,7 @@ function toChangeDatetime(index){
 /**
  * 批量导入货号或条码
  * @param params {
- *  isBtnTemple 是否需要模板下载按钮 默认true
+        isBtnTemple 是否需要模板下载按钮 默认true
         url:contextPath+"/form/deliverForm/importList",上传地址,
         tempUrl:contextPath+"/form/deliverForm/exportTemp",
         type:type, 0 货号 1 条码导入
