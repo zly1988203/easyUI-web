@@ -229,7 +229,6 @@ function clickmmsTab(type){
 		$("#area2").removeClass("unhide");
 		if(!hasClickTab){
 			hasClickTab = true;
-			console.log('----------------------999-----------------------');
 			gridHandelT.setLoadData([$.extend({},mmsTJDefault)]);
 			gridHandel.setLoadData([$.extend({},gridDefaultG)]);
 			
@@ -361,7 +360,6 @@ var gridTitleName = "买满金额"; //买满送梯度标题设置
 
 //买满条件默认数据
 var mmsTJDefault={
-	 mmid:getUUID('mmid'),
 	 limitCount:0,
 	 limitAmount:0,
 }
@@ -404,14 +402,7 @@ function initDatagridmmsTJ(){
 		pageSize:50,
 		width:'100%',
         columns:[[
-                  	{field:'ck',checkbox:true},
-                  	{field:'mmid',hidden:true,
-                  		formatter:function(value,row,index){
-                  			if(!value){
-                  				row['mmid'] = getUUID('mmid')
-                  			}
-                  		}
-                  	},
+        			{field:'ck',checkbox:true},
 					{field:'cz',title:'操作',width:'60px',align:'center',
 					    formatter : function(value, row,index) {
 					        var str = "";
@@ -743,7 +734,7 @@ function selectOptionzk(){
 			    //全场折扣
 				initDatagridallZk()
 				// 禁止按钮点击事件
-				disableGoods('','GoodsType');
+				disableGoods('SelectGoods','GoodsType');
 			}
 		}
 		
@@ -3014,6 +3005,22 @@ function saveDataHandel(rows,setrows){
 	  }
   //买满送
   }else if(activityType=="10"){
+	  rows.forEach(function(obj,index){
+		  var tempgifts = [];//rows;
+		  if(obj.goodsGiftList &&　obj.goodsGiftList.length >0){
+			  obj.goodsGiftList.forEach(function(obx,indej){
+				  var temgood = {
+						  skuId :  obx.skuId,
+						  skuCode :  obx.skuCode,
+						  giftNum :  obx.giftNum,
+						  giftAmount :  obx.giftAmount,
+				  }
+				  tempgifts.push(temgood);
+			  })
+			  obj.goodsGiftList = tempgifts;
+		  }
+	  })
+	  
 	  //全场(2)  类别(1)  商品(0) 
 	  var actScope = $("input[name='mmsstatus']:checked").val()||'';
 	  
