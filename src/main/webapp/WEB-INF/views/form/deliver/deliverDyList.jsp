@@ -43,7 +43,7 @@
 			<div class="ub uline umar-t8"></div>
 	            <div class="ub umar-t8">
 					<div class="ub ub-ac">
-						<div class="umar-r10 uw-70 ut-r">收货机构:</div>
+						<div class="umar-r10 uw-70 ut-r">要货机构:</div>
 						<input type="hidden" id="createBranchId" name="createBranchId" />
 						<input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" maxlength="50" />
 						<div class="uinp-more" onclick="selectBranches()">...</div>
@@ -71,7 +71,7 @@
 				</div>
 				<div class="ub umar-t8">
 					<div class="ub ub-ac uw-630">
-						<div class="umar-r10 uw-70 ut-r">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注:</div>
+						<div class="umar-r10 uw-70 ut-r">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注:</div>
 						<input class="uinp ub ub-f1" type="text" id="remark" name="remark">
 					</div>
 					<div class="ub ub-ac umar-l40 uw-300">
