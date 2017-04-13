@@ -45,7 +45,7 @@
 					<div class="uinp-more" onclick="searchBranch()">...</div>
                         	</c:if>
 	           </div>
-	            <div class="ub ub-ac uselectws umar-l40">
+	            <div class="ub ub-ac uselectws umar-l20">
                     <div class="umar-r10 uw-70 ut-r">调整原因:</div>
                        <!--select-->
 				        <select class="easyui-combobox uselect" name="reason" id="reason" data-options="editable:false" >
@@ -71,7 +71,7 @@
 				        </select>
 				         <input type="hidden" name="stockcl" id="stockcl" class="uinp" />
                 </div>
-               <div class="ub ub-ac uw-300 umar-l300">
+               <div class="ub ub-ac uw-300 umar-l335">
                    <div class="umar-r10 uw-70 ut-r">审核人员:</div>
                    <div class="utxt" id="validUserName">${stockFormVo.validUserName}</div>
                </div>

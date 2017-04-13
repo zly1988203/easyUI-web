@@ -1105,12 +1105,18 @@
 
 .umar-r100 {
   margin-right: 100px; }
+  .umar-r200 {
+  margin-right: 200px; }
 
 .umar-b100 {
   margin-bottom: 100px; }
 
 .umar-l100 {
   margin-left: 100px; }
+  
+  .umar-l335{ 
+	margin-left:335px
+	}
 
 .uw {
   width: 100%; }

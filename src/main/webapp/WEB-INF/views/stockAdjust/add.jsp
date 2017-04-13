@@ -52,7 +52,7 @@
 								<option value="1">出库</option>
 				        </select>
                 </div>
-               <div class="ub ub-ac uw-300 umar-l300">
+               <div class="ub ub-ac uw-300 umar-l335">
                    <div class="umar-r10 uw-70 ut-r">审核人员:</div>
                    <div class="utxt"></div>
                </div>

@@ -437,12 +437,14 @@ function printReport(){
 
 //对话框
 var dialogTemp;
+var dialogHeight = $(window).height()*(4/5);
+var dialogWidth = $(window).width()*(5/9);
 //打开对话框
 function openDialog(argUrl, argTitle, skuId,branchId) {
 	dialogTemp = $('<div/>').dialog({
 		href : argUrl,
-		width : 1000,
-		height : 680,
+		width : dialogWidth,
+		height : dialogHeight,
 		title : argTitle,
 		closable : true,
 		resizable : true,
