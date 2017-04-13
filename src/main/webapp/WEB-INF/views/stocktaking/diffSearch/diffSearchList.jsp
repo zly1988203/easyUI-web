@@ -33,6 +33,8 @@
 		<div class="ub umar-t8">
 			<div class="ub ub-ac">
 				<div class="umar-r10 uw-70 ut-r">机构:</div>
+                <input type="hidden" name="startCount" id="startCount" value="">
+                <input type="hidden" name="endCount" id="endCount" value="">
 				<input type="hidden" id="branchId" name="branchId" value="${batchVo.branchId }"/>
 				<input type="hidden" id="branchCompleCode" name="branchCompleCode"/>
 				<input type="hidden" id="oldBranchName" >

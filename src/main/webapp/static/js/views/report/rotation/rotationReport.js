@@ -224,6 +224,8 @@ var resetForm = function() {
  * 查询置
  */
 function queryForm(){
+	$("#startCount").val('');
+	$("#endCount").val('');
 	if($("#branchName").val()==""){
         messager("请选择机构");
         return;
@@ -351,6 +353,8 @@ function exportExcel(){
  * 打印
  */
 function printReport(){
+	$("#startCount").val('');
+	$("#endCount").val('');
 	var length = $("#rotationReport").datagrid('getData').total;
 	if(length == 0){
 		$.messager.alert('提示',"没有数据");
