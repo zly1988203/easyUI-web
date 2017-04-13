@@ -18,8 +18,8 @@
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
             	<input type="hidden" id="close" value="${close}"/>
-            	<%-- <shiro:hasPermission name="JxcDeliverDY:add">
-            		<div class="ubtns-item" id="addButton" onclick="addDeliverForm()">新1增</div>
+            	<shiro:hasPermission name="JxcDeliverDY:add">
+            		<div class="ubtns-item" id="addButton" onclick="addDeliverForm()">新增</div>
             	</shiro:hasPermission>
             	<shiro:hasPermission name="JxcDeliverDY:terminate">
             		<div class="ubtns-item" onclick="stop()">终止</div>
@@ -29,21 +29,21 @@
             	</shiro:hasPermission>
             	<div class="ubtns-item"  onclick="exportData('DY','gridViewRequireOrder')">导出明细</div>
             	<div class="ubtns-item"  onclick="exportData('DY','gridViewRequireOrder',1)">导出货号</div>
-                <div class="ubtns-item" onclick="toClose()">关闭</div> --%>
-                <div class="ubtns-item" onclick="addDeliverForm()">新增</div>
-				<div class="ubtns-item-disabled" >保存</div>
-				<div class="ubtns-item-disabled" >审核</div>
-				<div class="ubtns-item-disabled" >终止</div>
-				<div class="ubtns-item-disabled" >商品选择</div>
-				<div class="ubtns-item-disabled init" >建议订货商品</div>
-				<div class="ubtns-item-disabled" >导入货号</div>
-				<div class="ubtns-item-disabled" >导入条码</div>
-				<!-- <div class="ubtns-item" onclick="delDeliverForm()">删除</div> -->
-				<div class="ubtns-item"  onclick="exportData('DY','gridViewRequireOrder')">导出明细</div>
-            	<div class="ubtns-item"  onclick="exportData('DY','gridViewRequireOrder',1)">导出货号</div>
-				<div class="ubtns-item" onclick="printChoose('DY','/form/deliverForm/')">打印</div>
-				<div class="ubtns-item-disabled">设置</div>
-				<div class="ubtns-item" onclick="toClose()">关闭</div>
+                <div class="ubtns-item" onclick="toClose()">关闭</div>
+<!--                 <div class="ubtns-item" onclick="addDeliverForm()">新增</div> -->
+<!-- 				<div class="ubtns-item-disabled" >保存</div> -->
+<!-- 				<div class="ubtns-item-disabled" >审核</div> -->
+<!-- 				<div class="ubtns-item-disabled" >终止</div> -->
+<!-- 				<div class="ubtns-item-disabled" >商品选择</div> -->
+<!-- 				<div class="ubtns-item-disabled init" >建议订货商品</div> -->
+<!-- 				<div class="ubtns-item-disabled" >导入货号</div> -->
+<!-- 				<div class="ubtns-item-disabled" >导入条码</div> -->
+<!-- 				<div class="ubtns-item" onclick="delDeliverForm()">删除</div> -->
+<!-- 				<div class="ubtns-item"  onclick="exportData('DY','gridViewRequireOrder')">导出明细</div> -->
+<!--             	<div class="ubtns-item"  onclick="exportData('DY','gridViewRequireOrder',1)">导出货号</div> -->
+<!-- 				<div class="ubtns-item" onclick="printChoose('DY','/form/deliverForm/')">打印</div> -->
+<!-- 				<div class="ubtns-item-disabled">设置</div> -->
+<!-- 				<div class="ubtns-item" onclick="toClose()">关闭</div> -->
             </div>
         </div>
         <div class="ub umar-t8 uc-black">【单号】:${form.formNo}</div>
@@ -79,21 +79,22 @@
                     <div class="uinp-more" ></div>
                 </div>
             </div>
-            <div class="ub ub-ac umar-l40">
-                <div class="umar-r10 uw-60 ut-r">数量处理:</div>
-                <div class="ub ub-ac umar-r10">
-                    <input class="radioItem" type="radio" name="numDeal" id="status_1" value="0"><label for="status_1">设置为建议订货数量 </label>
-                </div>
-                <div class="ub ub-ac umar-r10">
-                    <input class="radioItem" type="radio" name="numDeal" id="status_2" value="1"><label for="status_2">重新归零 </label>
-                </div>
-            </div>
+<!--             <div class="ub ub-ac umar-l40"> -->
+<!--                 <div class="umar-r10 uw-60 ut-r">数量处理:</div> -->
+<!--                 <div class="ub ub-ac umar-r10"> -->
+<!--                     <input class="radioItem" type="radio" name="numDeal" id="status_1" value="0"><label for="status_1">设置为建议订货数量 </label> -->
+<!--                 </div> -->
+<!--                 <div class="ub ub-ac umar-r10"> -->
+<!--                     <input class="radioItem" type="radio" name="numDeal" id="status_2" value="1"><label for="status_2">重新归零 </label> -->
+<!--                 </div> -->
+<!--             </div> -->
             <div class="ub ub-ac uw-300 umar-l70">
-				<div class="umar-r10 uw-80 ut-r">最后修改人:</div>
+				<div class="umar-r10 uw-420 ut-r">最后修改人:</div>
 				<div class="utxt"></div>
 			</div>
+			<div class="already-examine" id="already-examine"><span>${status}</span></div>
 			<div class="ub ub-ac uw-300">
-				<div class="umar-r10 uw-70 ut-r">修改时间:</div>
+				<div class="umar-r10 uw-410 ut-r">修改时间:</div>
 				<div class="utxt"></div>
 			</div>
         </div>

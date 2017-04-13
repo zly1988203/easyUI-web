@@ -138,7 +138,7 @@ function stop(){
 				type : "POST",
 				data : {
 					deliverFormId : $("#formId").val(),
-					deliverType : 'DA'
+					deliverType : 'DY'
 				},
 				success:function(result){
 					if(result['code'] == 0){
