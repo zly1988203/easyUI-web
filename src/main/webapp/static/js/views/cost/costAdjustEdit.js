@@ -545,7 +545,8 @@ function getImportData(data){
 	});
 	var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
 	var argWhere ={skuCode:1};  //验证重复性
-	var newRows = gridHandel.checkDatagrid(nowRows,data,argWhere,{});
+    var isCheck ={isGift:1 };   //只要是赠品就可以重复
+	var newRows = gridHandel.checkDatagrid(nowRows,data,argWhere,isCheck);
 
 	$("#"+gridHandel.getGridName()).datagrid("loadData",newRows);
 	messager("导入成功");
