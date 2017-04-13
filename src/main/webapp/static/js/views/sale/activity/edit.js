@@ -8,6 +8,8 @@ var gridDefault = {
     oldSaleRate:"0%",
     newSaleRate:"0%"
 }
+var sUrl =  getUrlQueryString('from'); //获取url from='toCopy' 参数 == 促销活动标示
+
 $(function(){
 	optionHide();
 	//开始和结束时间
@@ -465,7 +467,6 @@ var gridTitleName = "买满金额"; //买满送梯度标题设置
 
 //买满条件默认数据
 var mmsTJDefault={
-	 mmid:getUUID('mmid'),
 	 limitCount:0,
 	 limitAmount:0,
 }
@@ -3106,17 +3107,27 @@ function saveDataHandel(rows,setrows){
   
   reqObj['id'] = $("#activityId").val();
   var req = JSON.stringify(reqObj);
-  console.log(req);
+  var temUrl = contextPath+"/sale/activity/update";
+  //复制功能
+  if(sUrl == 'toCopy'){
+	  delete reqObj.id;
+	  temUrl = contextPath+"/sale/activity/save";
+  }
+  
 //  return;
   $.ajax({
-      url:contextPath+"/sale/activity/update",
+      url:temUrl,
       type:"POST",
       contentType:'application/json',
       data:req,
       success:function(result){
     	  console.log(result)
     	  if(result['code'] == 0){
-              $.messager.alert("操作提示", "操作成功！", "info");
+              $.messager.alert("操作提示", "操作成功！", "info",function(){
+            	  if(sUrl == 'toCopy'){
+            		  location.href = contextPath +"/sale/activity/edit?activityId="+result["activityId"];
+            	  }
+              });
           }else{
               successTip(result['message']);
           }
@@ -3231,9 +3242,10 @@ function back(){
 	toClose();
 }
 
-//生成一个唯一id
-function getUUID(headString) {
-    var tempId = '';
-    tempId = (headString || '') + Math.round((new Date().valueOf() * Math.random())) + '';
-    return tempId;
-};
+//复制活动
+function copyActivity(){
+	var activityId = $("#activityId").val();
+	if(activityId){
+		toAddTab("复制促销活动",contextPath + "/sale/activity/toCopy?from=toCopy&activityId="+activityId);
+	}
+}

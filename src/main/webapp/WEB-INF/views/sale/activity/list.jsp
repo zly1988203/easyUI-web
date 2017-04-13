@@ -7,7 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>促销管理</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="${ctx}/static/js/views/sale/activity/list.js"></script>
+<script src="${ctx}/static/js/views/sale/activity/list.js?1=13"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
 </style>
@@ -19,6 +19,7 @@
 	            <div class="ubtns">
 	                <div class="ubtns-item" onclick="queryForm()">查询</div>
 					<div class="ubtns-item" onclick="addActivity()">新增</div>
+					<div class="ubtns-item" onclick="copyActivity()">复制</div>
 					<div class="ubtns-item" onclick="delActivity()">删除</div>
 	                <div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 	                <div class="ubtns-item" onclick="toClose()">退出</div>

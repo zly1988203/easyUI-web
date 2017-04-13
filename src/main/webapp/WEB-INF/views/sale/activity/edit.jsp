@@ -7,7 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>促销活动设置-编辑</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="${ctx}/static/js/views/sale/activity/edit.js?1=13"></script>
+<script src="${ctx}/static/js/views/sale/activity/edit.js?1=31"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
 </style>
@@ -20,6 +20,7 @@
 	             <div class="ubtns-item" id="SelectGoods" onclick="selectGoods()">商品选择</div>
 	             <div class="ubtns-item" id="GoodsType" onclick="getGoodsType()">类别选择</div>
 	             <div class="ubtns-item" onclick="saveActivity()">保存</div>
+	             <div class="ubtns-item" onclick="copyActivity()">复制</div>
 	             <div class="ubtns-item" onclick="check()">审核</div>
 	             <div class="ubtns-item" onclick="toClose()">关闭</div>
 	             </div>
@@ -136,10 +137,8 @@
 	             <div class="ub  ub-ac uw-384">
 	                   <div class="umar-r10 uw-70 ut-r">活动分店:</div>
 		                    <input class="uinp ub ub-f1" type="hidden" id="branchIds" name="branchIds" value=" ">
-		                    <!-- onclick="selectBranch()" -->
-	                        <input class="uinp ub ub-f1 uw-400" type="text" id="branchName" readonly="readonly" value=" " name="branchName" >
-	                   		<!-- onclick="selectBranch()" -->
-	                   		<div class="uinp-more" >...</div>
+	                        <input class="uinp ub ub-f1 uw-400" type="text" id="branchName" readonly="readonly" value=" " name="branchName"  onclick="selectBranch()">
+	                   		<div class="uinp-more" id="selectBranch" onclick="selectBranch()" >...</div>
 	             </div>
 	              <div class="ub ub-ac uw-390 umar-l10 special">
 					<div class="umar-r10 uw-80 ut-r">批量特价:</div>
