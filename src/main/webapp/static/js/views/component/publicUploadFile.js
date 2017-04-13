@@ -46,6 +46,14 @@ function toUploadHandel(){
     if (typeof(uploadFileParams.batchId)!="undefined") {
     	formData.append("batchId",uploadFileParams.batchId);
     }
+    debugger;
+    if (typeof(uploadFileParams.branchIds)!="undefined") {
+    	formData.append("branchIds",uploadFileParams.branchIds);
+    }
+    if (typeof(uploadFileParams.activityType)!="undefined") {
+    	formData.append("activityType",uploadFileParams.activityType);
+    }
+    
     
     formData.append("type",uploadFileParams.type);
     
@@ -87,6 +95,10 @@ function toCancel(){
  * 下载模板文件
  */
 function downExportFile(){
+	if(uploadFileParams.activityType){
+		location.href=uploadFileParams.tempUrl;
+		return;
+	}
     if(uploadFileParams.type==0){//导入货号
         location.href=uploadFileParams.tempUrl+"?type="+uploadFileParams.type;
     }else if(uploadFileParams.type==1){//导入条码
