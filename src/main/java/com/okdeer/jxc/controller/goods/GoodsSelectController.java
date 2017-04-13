@@ -232,7 +232,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 		String targetBranchId = paramVo.getTargetBranchId();
 		List<GoodsSelect> suppliers = null;
 		try {
-			if (FormType.DA.name().equals(type)||FormType.DD.name().equals(type)) {
+			if (FormType.DA.name().equals(type)||FormType.DD.name().equals(type)||FormType.DY.name().equals(type)) {
 				GoodsSelectVo vo = new GoodsSelectVo();
 				vo.setIsManagerStock(1);
 				vo.setTargetBranchId(targetBranchId);

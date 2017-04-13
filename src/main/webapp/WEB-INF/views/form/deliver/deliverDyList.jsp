@@ -7,7 +7,7 @@
     <title>要货申请</title>
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-    <script  src="${ctx}/static/js/views/deliver/deliverDyList.js?v=<%=new java.util.Date().getTime()%>"></script>
+    <script  src="${ctx}/static/js/views/deliver/deliverDyList.js"></script>
     
 </head>
 <body class="ub uw uh ufs-14 uc-black">
