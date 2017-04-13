@@ -291,28 +291,28 @@ pageEncoding="UTF-8"%>
 	                    <input id="createTime" name="createTime" class="uinp uinp-no-more" type="text" readonly="readonly">
 	                </div>
 				</div>
-            </div>
+
 				<div class="ub upad-4">
-					<div class="umar-r10 uw-60 ut-r">备注:</div>
+				<div class="umar-r10 uw-60 ut-r">备注:</div>
 					<textarea id="remark" name="remark" class="uh-40 umar-r30 ubor" maxlength="100" style="width: 800px;"
 					placeholder="计件秤重商品对类别有特殊说明、商品为组合商品有成份关系的，请在备注中填写。"></textarea>
 				</div>
-				<div class="ub umar-l32" style="position: absolute;left: 0px;">
+				<div class="ub upad-4 umar-r200">
 					<div class="ub ub-ac umar-r40">
-						<input id="managerStock" name="managerStock"
-							class="ub" type="checkbox" name="checkbox" /><span>是否管理库存</span>
+					<input id="managerStock" name="managerStock"
+					class="ub" type="checkbox" name="checkbox" /><span>是否管理库存</span>
 					</div>
 					<div class="ub ub-ac umar-r40">
-						<input id="highValue" name="highValue" class="ub"
-							type="checkbox" name="checkbox" /><span>是否高值商品</span>
+					<input id="highValue" name="highValue" class="ub"
+					type="checkbox" name="checkbox" /><span>是否高值商品</span>
 					</div>
 					<div class="ub ub-ac umar-r40">
-						<input id="attention" name="attention" class="ub"
-							type="checkbox" name="checkbox" /><span>是否关注商品</span>
+					<input id="attention" name="attention" class="ub"
+					type="checkbox" name="checkbox" /><span>是否关注商品</span>
 					</div>
 					<div class="ub ub-ac umar-r40">
-						<input id="fastDeliver" name="fastDeliver"
-							class="ub" type="checkbox" name="checkbox" /><span>是否直送商品</span>
+					<input id="fastDeliver" name="fastDeliver"
+					class="ub" type="checkbox" name="checkbox" /><span>是否直送商品</span>
 					</div>
 					<div class="ub ub-ac umar-r40">
 						<input id="allowActivity" name="allowActivity" class="ub" type="checkbox" name="checkbox"/><span>是否参与促销</span>
@@ -321,8 +321,8 @@ pageEncoding="UTF-8"%>
 						<input id="allowAdjust" name="allowAdjust" class="ub" type="checkbox" name="checkbox" /><span>分店调价</span>
 					</div>
 				</div>
+            </div>
 
-			</div>
 		</form>
 
 	</div>
