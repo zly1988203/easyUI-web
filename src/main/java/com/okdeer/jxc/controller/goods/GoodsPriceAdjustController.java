@@ -10,11 +10,17 @@ package com.okdeer.jxc.controller.goods;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -79,6 +85,8 @@ import net.sf.json.JSONObject;
 @RequestMapping("goods/priceAdjust")
 public class GoodsPriceAdjustController extends BasePrintController<GoodsPriceAdjustController, GoodsPriceFormDetail> {
 
+    	ExecutorService executor = Executors.newSingleThreadExecutor();
+    
 	// 商品调整服务类
 	@Reference(version = "1.0.0", check = false)
 	private GoodsPriceAdustServiceApi goodsPriceAdustService;
@@ -464,6 +472,7 @@ public class GoodsPriceAdjustController extends BasePrintController<GoodsPriceAd
 	@RequestMapping(value = "/checkForm")
 	@ResponseBody
 	public RespJson checkForm(String formNo, Integer status, String effectDate) {
+	    Future<Boolean> strFuture = null;
 		try {
 			// 判断获得的生效时间是否为null 生效时间是空说明生效时间小于所填时间 要返回给用户错误信息
 			if (StringUtils.isEmpty(effectDate)) {
@@ -496,7 +505,18 @@ public class GoodsPriceAdjustController extends BasePrintController<GoodsPriceAd
 				goodsPriceAdustService.checkForm(goodsPriceForm);
 				if(status==Integer.valueOf(1)){
     					//审核通过通知pos机
-        				modifyPriceOrderService.sendMessage(goodsPriceForm, MqMessageType.PRICEADJUSTING);
+				    strFuture = executor.submit(new Callable<Boolean>(){
+					@Override
+					public Boolean call() throws Exception {
+					    if(LocalDate.now().getMonthValue() == goodsPriceForm.getEffectDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getMonthValue()){
+						    modifyPriceOrderService.sendMessage(goodsPriceForm, MqMessageType.PRICEADJUSTING);
+					    }else{
+						    modifyPriceOrderService.sendMessage(goodsPriceForm, MqMessageType.NOTSTARTPRICEADJUST);
+					    }
+					    return Boolean.TRUE;
+					}
+				    });
+        				
 				}
 			}
 		} catch (Exception e) {
@@ -506,6 +526,14 @@ public class GoodsPriceAdjustController extends BasePrintController<GoodsPriceAd
 		RespJson resp = RespJson.success();
 		resp.put("formNo", formNo);
 		resp.put("status", Constant.CHECK_STATUS);
+		try {
+		    if(strFuture!=null){
+			LOG.info("异步调用pos消息接口:"+strFuture.get());
+			executor.shutdown();
+		    }
+		} catch (Exception e) {
+		    LOG.error("异步调用pos消息接口失败!", e);
+		}
 		return resp;
 	}
 
