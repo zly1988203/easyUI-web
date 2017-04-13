@@ -82,11 +82,11 @@
             </div>
             <div class="ub ub-ac umar-l1">
                 <div class="umar-r10 uw-80 ut-r">最后修改人:</div>
-                <div class="utxt"></div>
+                <div class="utxt">${form.updateUserName}</div>
             </div>
             <div class="ub ub-ac umar-l20">
                 <div class="umar-r10 uw-60 ut-r">修改时间:</div>
-                <div class="utxt"></div>
+                <div class="utxt"><fmt:formatDate value="${form.updateTime}" pattern="yyyy-MM-dd HH:mm"/></div>
             </div>
         </div>
         <div class="ub umar-t8">

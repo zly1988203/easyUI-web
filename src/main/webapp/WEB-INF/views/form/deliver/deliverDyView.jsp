@@ -67,7 +67,7 @@
 			</div>
             <div class="ub ub-ac umar-l10">
 				<div class="umar-r10 uw-60 ut-r">制单时间:</div>
-				<div class="utxt" id="createTime"<fmt:formatDate value="${form.createTime}" pattern="yyyy-MM-dd HH:mm"/>></div>
+				<div class="utxt" ><fmt:formatDate value="${form.createTime}" pattern="yyyy-MM-dd HH:mm"/></div>
 			</div>
         </div>
         <div class="ub umar-t8">
@@ -90,12 +90,12 @@
 <!--             </div> -->
             <div class="ub ub-ac uw-300 umar-l70">
 				<div class="umar-r10 uw-420 ut-r">最后修改人:</div>
-				<div class="utxt"></div>
+				<div class="utxt">${form.updateUserName}</div>
 			</div>
 			<div class="already-examine" id="already-examine"><span>${status}</span></div>
 			<div class="ub ub-ac uw-300">
 				<div class="umar-r10 uw-410 ut-r">修改时间:</div>
-				<div class="utxt"></div>
+				<div class="utxt"><fmt:formatDate value="${form.updateTime}" pattern="yyyy-MM-dd HH:mm"/></div>
 			</div>
         </div>
         <div class="ub umar-t8">
