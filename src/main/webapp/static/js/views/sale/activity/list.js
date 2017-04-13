@@ -144,6 +144,16 @@ function addActivity(){
 	toAddTab("新增促销活动",contextPath + "/sale/activity/add");
 }
 
+//复制活动
+function copyActivity(){
+	var selectedObj = $("#saleMange").datagrid("getSelected");
+	if(selectedObj){
+		toAddTab("复制促销活动",contextPath + "/sale/activity/toCopy?from=toCopy&activityId="+selectedObj.id);
+	}else{
+		$.messager.alert('提示','请先一个选择活动记录');
+	}
+}
+
 //删除
 function delActivity(){
 	var dg = $("#saleMange");
