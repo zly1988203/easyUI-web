@@ -58,6 +58,7 @@
 							<label><input class="ub" type="radio" id="isAllowMinusStock0" name="safetyCoefficientType" value="2" />
 							仓库平均送货周期 <input class="uinp uw-30 easyui-numberbox" type="text" data-options="min:0" name="safetyCoefficientValue" id="safetyCoefficientValue" value="7">天，转换关系：1天0.5倍，2天1倍，3－4天1.5倍， 5天以上2倍</label>
 						</div>
+						<div class="ub  ub-ac umar-t10">订货标准＝每日销量*（订货周期+送货周期） + 每日销量*安全库存系数－（实际库存+未送达订货）</div>
 					</div>
 				</div>
 			</form>

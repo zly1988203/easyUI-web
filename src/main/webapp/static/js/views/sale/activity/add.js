@@ -12,12 +12,6 @@ $(function(){
     initDatagridSpecial();
     // 禁止按钮点击事件
     disableGoods('','GoodsType');
-    // 加载进行批量特价设置
-    /*$('#special,#discount,#batchcount').on('input',function(){
-    	var obj=$(this).attr('id');
-    	specialRows(obj,$(this).val());
-
-	})*/
 	//一周星期获取和初始化
 	  weekCheckDay();
 	$(document).on('click','#weekday .ubcheckweek',function(){
@@ -132,6 +126,9 @@ function selectOptionSpecial(){
 	optionHide();
 	$("#consaleadd").removeClass('unhide');
 	$('.special').removeClass('unhide');
+	
+	$('.importGood').removeClass('unhide');
+	
 	initDatagridSpecial();
 }
 
@@ -719,6 +716,7 @@ function selectOptionzk(){
 	$('.discountTypechoose').removeClass('unhide');
 	$(document).on('mousedown','.discountTypechoose .disradio',function(){
 		var _this = $(this);
+		$(".discount").removeClass('unhide');
 		$('#activityScopedis').val(_this.val());
 		var changeDisType = function(){
 			_this.prop("checked",true);
@@ -728,11 +726,13 @@ function selectOptionzk(){
 				disableGoods('SelectGoods','');
 			}else if(_this.val()==="0"){
 				initDatagridoneZk();
+				$(".importGood").removeClass('unhide');
 				// 禁止按钮点击事件
 				disableGoods('','GoodsType');
 			}else if(_this.val()==="2"){
 			    //全场折扣
-				initDatagridallZk()
+				initDatagridallZk();
+				$(".discount").addClass('unhide');
 				// 禁止按钮点击事件
 				disableGoods('SelectGoods','GoodsType');
 			}
@@ -760,6 +760,7 @@ function selectOptionOdd(){
     disableGoods('','GoodsType');
 	optionHide();
 	$("#consaleadd").removeClass('unhide');
+	$(".importGood").removeClass('unhide');
 	initDatagridOddtj();
     $('.oddprice ').removeClass('unhide');
 }
@@ -860,6 +861,7 @@ function optionHide(){
 	$('.discountTypechoose').addClass('unhide');
 	$('.mjTypechoose').addClass('unhide');
 	$('#consalesetmj').addClass('unhide');
+	$(".importGood").addClass('unhide');
 	
 	initmmsDom();	
 	
@@ -3190,9 +3192,112 @@ function saleAmountOnChange(newV,oldV){
 	gridHandel.setFieldValue('saleAmount',newV);
 }
 
-//生成一个唯一id
-function getUUID(headString) {
-    var tempId = '';
-    tempId = (headString || '') + Math.round((new Date().valueOf() * Math.random())) + '';
-    return tempId;
-};
+//新的导入功能 货号(0)、条码(1)导入
+function toImportproduct(type){
+	// 要货机构id
+	var branchIds = $("#branchIds").val();
+	// 发货机构id
+    if(!branchIds){
+        messager("请先活动分店");
+        return;
+    }
+    var param = {
+        url : contextPath+"/sale/activity/importList",
+        tempUrl : contextPath+"/sale/activity/exportTemp",
+        type:type,
+        branchId : branchIds,
+        formType : 'DA'
+    }
+    new publicUploadFileService(function(data){
+    	if (data.length != 0) {
+    		selectStockAndPriceImport(data);
+    	}
+    },param)
+}
+
+//查询价格、库存
+function selectStockAndPriceImport(data){
+	//updateListData(data);
+    var GoodsStockVo = {
+        branchId : $("#branchIds").val(),
+        fieldName : 'id',
+        goodsSkuVo : []
+    };
+    $.each(data,function(i,val){
+        var temp = {
+            id : val.skuId
+        };
+        GoodsStockVo.goodsSkuVo[i] = temp;
+    });
+    $.ajax({
+        url : contextPath+"/goods/goodsSelect/queryAlreadyNum",
+        type : "POST",
+        data : {
+            goodsStockVo : JSON.stringify(GoodsStockVo)
+        },
+        success:function(result){
+            $.each(data,function(i,val){
+                $.each(result.data,function(j,obj){
+                    if(val.skuId==obj.skuId){
+                        data[i].alreadyNum = obj.alreadyNum;
+                    }
+                })
+            })
+            updateListData(data);
+        },
+        error:function(result){
+            successTip("请求发送失败或服务器处理失败");
+        }
+    });
+}
+
+function updateListData(data){
+	var keyNames = {
+    		skuId:'goodsSkuId',
+    		salePrice:'price'
+    };
+     var rows = gFunUpdateKey(data,keyNames);
+     var argWhere ={skuCode:1};  //验证重复性
+     var isCheck ={isGift:1 };   //只要是赠品就可以重复
+     var newRows = gridHandel.checkDatagrid(data,rows,argWhere,isCheck);
+     //选择商品的时候计算老毛利率
+     var activityType=$("#activityType").combobox('getValue');
+     //特价
+     if(activityType==="1"){
+		//特价
+		$.each(newRows,function (index,item) {
+			//兼容老数据 如果原零售价为0
+			if(item.price === '0' || item.price == 0 ){
+				item.oldSaleRate = "0%";
+			}else{
+				item.oldSaleRate = ((item.price-item.purchasePrice)/item.price*100).toFixed(2)+"%";
+			}
+
+		})
+	}else if(activityType==="2" && $('#activityScopedis').val()==="0"){
+		//折扣 单品折扣
+		$.each(newRows,function (index,item) {
+			//兼容老数据 如果原零售价为0
+			if(item.price === '0' || item.price == 0 ){
+				item.oldSaleRate = "0%";
+			}else{
+				item.oldSaleRate = ((item.price-item.purchasePrice)/item.price*100).toFixed(2)+"%";
+			}
+
+		})
+	}else if(activityType==="3"){
+		//偶数特价
+		$.each(newRows,function (index,item) {
+			//兼容老数据 如果原零售价为0
+			if(item.price === '0' || item.price == 0 ){
+				item.oldSaleRate = "0%";
+			}else{
+				item.oldSaleRate = ((item.price-item.purchasePrice)/(2*item.price)*100).toFixed(2)+"%";
+			}
+
+		})
+	}
+     
+    $("#saleMangeadd").datagrid("loadData",newRows);
+ 
+}

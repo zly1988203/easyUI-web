@@ -276,6 +276,7 @@ function radioSetdis(radioVal){
     }else if(radioVal=="2"){
       //全场折扣
       initDatagridallZk();
+      $(".discount").addClass('unhide');
       disableGoods('SelectGoods','GoodsType');
     }
     else{

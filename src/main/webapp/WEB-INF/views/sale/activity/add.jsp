@@ -7,7 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>促销活动设置</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="${ctx}/static/js/views/sale/activity/add.js?1=542"></script>
+<script src="${ctx}/static/js/views/sale/activity/add.js?1=54"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
 </style>
@@ -19,6 +19,8 @@
 	            <div class="ubtns">
 	             <div class="ubtns-item" id="SelectGoods" onclick="selectGoods()">商品选择</div>
 	             <div class="ubtns-item" id="GoodsType" onclick="getGoodsType()">类别选择</div>
+	             <div class="ubtns-item importGood" onclick="toImportproduct(0)">导入货号</div>
+            	 <div class="ubtns-item importGood" onclick="toImportproduct(1)">导入条码</div>
 	             <div class="ubtns-item" onclick="saveActivity()">保存</div>
 	             <div class="ubtns-item" onclick="toClose()">关闭</div>
 	             </div>
