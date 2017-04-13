@@ -38,13 +38,13 @@
                <div class="ub ub-ac umar-l40">
 					<div class="umar-r10 uw-60 ut-r">原单类型:</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="radioItem" type="radio" name="order_status" id="status_1" value="0"><label for="status_1">要货单 </label>
+						<input class="radioItem" type="radio" name="order_status" id="status_1" value="DA" checked="checked" ><label for="status_1">要货单 </label>
 					</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="radioItem" type="radio" name="order_status" id="status_2" value="1"><label for="status_2">直送要货单 </label>
+						<input class="radioItem" type="radio" name="order_status" id="status_2" value="DY"><label for="status_2">直送要货单 </label>
 					</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="radioItem" type="radio" name="order_status" id="status_5" value="2"><label for="status_5">退货申请单 </label>
+						<input class="radioItem" type="radio" name="order_status" id="status_5" value="DR"><label for="status_5">退货申请单 </label>
 					</div>
 				</div>
 
