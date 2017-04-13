@@ -9,7 +9,7 @@
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
     <!-- new java.util.Date().getTime()  -->
-	<script src="${ctx}/static/js/views/deliver/deliverDy.js?v=1"></script>
+	<script src="${ctx}/static/js/views/deliver/deliverDy.js?v=2"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
 <input type='hidden' id="deliverStatus" value="add">

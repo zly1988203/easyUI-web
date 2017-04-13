@@ -848,6 +848,12 @@ function suggestSelectGoods(){
     	messager("请先选择要货机构");
     	return;
     }
+    
+    var targetBranchType = $("#targetBranchType").val();
+    if(targetBranchType==='0'){
+        messager("要货机构不能选择总部");
+        return;
+    }
     		
     var jsonData = {
     		isFastDeliver:1,//直送商品
