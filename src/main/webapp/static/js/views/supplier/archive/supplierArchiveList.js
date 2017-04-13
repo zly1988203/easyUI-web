@@ -118,7 +118,7 @@ function addHandel(){
         	supplierAreaId : gVarSupplierAreaId
         },
         width: 1000,
-        height: 600,
+        height: 620,
         title: "供应商档案-新增",
         closable: true,
         resizable: true,
@@ -147,7 +147,7 @@ function copyHandel(){
         	supplierAreaId : gVarSupplierAreaId
         },
         width: 1000,
-        height: 600,
+        height: 620,
         title: "供应商档案-新增",
         closable: true,
         resizable: true,
@@ -171,7 +171,7 @@ function editHandel(id){
         	supplierAreaId : gVarSupplierAreaId
         },
         width: 1000,
-        height: 600,
+        height: 620,
         title: "供应商档案-修改",
         closable: true,
         resizable: true,

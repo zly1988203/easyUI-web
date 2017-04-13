@@ -538,8 +538,7 @@ public class GoodsPrint implements Serializable {
 	}
 
 	public String getQrCodeInfo() {
-		qrCodeInfo=  MessageFormat.format( qrCodeUrl+"?type=1&branchId={0}&barCode={1}",this.branchId,this.barCode);
-		 return qrCodeInfo;
+		 return  MessageFormat.format( qrCodeUrl+"?type=1&branchId={0}&barCode={1}",this.branchId,this.barCode);
 	}
 
 	public void setQrCodeInfo(String qrCodeInfo) {

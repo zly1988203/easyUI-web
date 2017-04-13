@@ -1,6 +1,6 @@
 
 var targetBranchTypeTemp = "";
-var branchId = '';	
+
 var gridDefault = {
 	    applyNum:0,
 	    largeNum:0,
@@ -76,7 +76,6 @@ function initDatagridRequireOrder(){
                     gridHandel.setFieldFocus(gridHandel.getFieldTarget('skuCode'));
                 },100)
             }else{
-            	branchId = $("#sourceBranchId").val();
                 selectGoods(arg);
             }
         },
@@ -89,7 +88,7 @@ function initDatagridRequireOrder(){
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
         showFooter:true,
-        height:'100%',
+        height:"100%",
         width:'100%',
         columns:[[
 			{field:'ck',checkbox:true},
@@ -485,7 +484,7 @@ function selectGoods(searchKey){
     		isRadio:'',
     		sourceBranchId:sourceBranchId,
     		targetBranchId:targetBranchId,
-    		branchId:branchId,
+    		branchId:sourceBranchId,
     		supplierId:'',
     		flag:'0',
     }
@@ -497,7 +496,6 @@ function selectGoods(searchKey){
 	    }
     	selectStockAndPrice(data);
     });
-    branchId = '';
 }
 
 //二次查询设置值
@@ -519,7 +517,7 @@ function setDataValue(data) {
         var isCheck ={isGift:1};   //只要是赠品就可以重复
         var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
         $("#"+gridName).datagrid("loadData",newRows);
-        
+
     gridHandel.setLoadFocus();
     setTimeout(function(){
         gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);

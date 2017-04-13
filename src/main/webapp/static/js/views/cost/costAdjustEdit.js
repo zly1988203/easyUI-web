@@ -22,7 +22,7 @@ $(function(){
 var gridDefault = {
 		//receiveNum:0,
 		//largeNum:0,
-		isGift:0,
+		// isGift:0,
 }
 var oldData = {};
 var gridHandel = new GridClass();
@@ -222,7 +222,7 @@ function selectGoods(searchKey){
         }
         selectStockAndPrice(branchId,data);
   
-    },searchKey,0,'','',branchId,0,0);
+    },searchKey,0,'','',branchId,'',0);
 }
 //查询价格、库存
 function selectStockAndPrice(branchId,data){
@@ -534,7 +534,8 @@ function getImportData(data){
 	});
 	var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
 	var argWhere ={skuCode:1};  //验证重复性
-	var newRows = gridHandel.checkDatagrid(nowRows,data,argWhere,{});
+    var isCheck ={isGift:1 };   //只要是赠品就可以重复
+	var newRows = gridHandel.checkDatagrid(nowRows,data,argWhere,isCheck);
 
 	$("#"+gridHandel.getGridName()).datagrid("loadData",newRows);
 	messager("导入成功");

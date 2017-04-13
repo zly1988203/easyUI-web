@@ -54,8 +54,8 @@ i, em {font-style: normal;}
 .logo a {display: inline-block; font: 14px/50px microsoft YaHei;}
 .logo a img {float: left; height: 50px;}
 
-.header-load {position: absolute; top: 0; right: 0; height: 50px; border-left: 1px solid #008fbf;}
-.header-load-link {display: inline-block; padding: 0 15px; height: 100%;}
+.header-load {position: absolute; top: 0; right: 0; height: 50px; }
+.header-load-link {display: inline-block; padding: 0 15px; height: 100%;border-left: 1px solid #008fbf;}
 .header-load-link .iconfont {display: inline-block; transition: transform 0.2s ease 0s;}
 .header-load-link:hover {background-color:  #008fbf;}
 

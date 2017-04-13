@@ -62,8 +62,8 @@ import com.okdeer.jxc.utils.UserUtil;
  * =================================================================================================
  *     Task ID			  Date			     Author		      Description
  * ----------------+----------------+-------------------+-------------------------------------------
-  *	进销存V2.0.0		2016年8月3日			       杨永钦  			           商品选择Controller类
-  *	商业管理系统		2016.9.17			   李俊义				商品选择Controller类修改
+ *	进销存V2.0.0		2016年8月3日			       杨永钦  			           商品选择Controller类
+ *	商业管理系统		2016.9.17			   李俊义				商品选择Controller类修改
  */
 @Controller
 @RequestMapping("goods/goodsSelect")
@@ -74,10 +74,10 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 
 	@Reference(version = "1.0.0", check = false)
 	private GoodsCategoryServiceApi goodsCategoryService;
-	
+
 	@Reference(version = "1.0.0", check = false)
 	private BranchesServiceApi branchesService;
-	
+
 	@Reference(version = "1.0.0", check = false)
 	GoodsSupplierBranchServiceApi goodsSupplierBranchServiceApi;
 
@@ -138,9 +138,11 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 				vo.setBranchId(UserUtil.getCurrBranchId());
 			}
 			// 多机构查询
-			if (branchId.indexOf(",") != -1) {
-				vo.setBranchId("");
-				vo.setBranchIds(Arrays.asList(branchId.split(",")));
+			if(branchId!=null){
+				if (branchId.indexOf(",") != -1) {
+					vo.setBranchId("");
+					vo.setBranchIds(Arrays.asList(branchId.split(",")));
+				}
 			}
 
 			//如果formType 是属于配送中的数据 说明不需要管理库存
@@ -163,7 +165,12 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 				vo.setAllowAdjustPrice(true);
 			}
 			PageUtils<GoodsSelect> suppliers = null;
-			if(FormType.PA.name().equals(vo.getFormType()) || FormType.PR.name().equals(vo.getFormType())){
+			if(FormType.PA.name().equals(vo.getFormType()) || FormType.PR.name().equals(vo.getFormType()) 
+					|| FormType.PM.name().equals(vo.getFormType())){
+				// 直送收货需要过滤非淘汰、非停购的直送商品
+				if (FormType.PM.name().equals(vo.getFormType())) {
+					vo.setIsFastDeliver(1);
+				}
 				if(StringUtils.isNotBlank(vo.getSupplierId())){
 					//根据机构id判断查询采购商品
 					suppliers = queryPurchaseGoods(vo);
@@ -205,8 +212,8 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 		}
 		return suppliers;
 	}
-	
-	
+
+
 	/**
 	 * @Description: 根据货号批量查询商品
 	 * @param skuCodes
@@ -231,7 +238,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 				vo.setIsManagerStock(1);
 				vo.setTargetBranchId(targetBranchId);
 				vo.setSourceBranchId(sourceBranchId);
-				vo.setSkuCodesOrBarCodes(skuCodes);
+				vo.setSkuCodesOrBarCodes(paramVo.getSkuCodesOrBarCodes());
 				vo.setPageNumber(1);
 				vo.setPageSize(50);
 				vo.setFormType(type);
@@ -457,8 +464,8 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 		}
 		return map;
 	}
-	
-	
+
+
 	/**
 	 * @Description: 商品选择view
 	 * @param  model
@@ -473,7 +480,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 		model.addAttribute("branchId", branchId);
 		return "component/publicGoodsSku";
 	}
-	
+
 	/**
 	 * @Description: 查询商品列表
 	 * @param vo GoodsSelectVo商品选择VO
@@ -526,7 +533,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 		}
 		return respJson;
 	}
-	
+
 	/**
 	 * @Description: 公共提示框 三个按钮
 	 * @return   
@@ -537,5 +544,5 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 	public String goPublicComfirmDialog() {
 		return "component/publicComfirmDialog";
 	}
-	
+
 }

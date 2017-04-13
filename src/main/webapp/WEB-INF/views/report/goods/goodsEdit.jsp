@@ -34,6 +34,7 @@
 		<div class="ub ub-ac upad-4 umar-l10 upad-t10" style="padding-bottom:1px;">
 			<button id="btnbase" class="tab-like" onclick="clickTab(1)">基本信息</button>
 			<button id="btnprice" class="tab-like umar-l4" onclick="clickTab(2)">分店价格</button>
+			<button id="btnbarCode" class="tab-like umar-l4" onclick="clickTab(3)">附加条码</button>
 		</div>
 	</div>
 	<div class="ub uline-tab "></div> 
@@ -170,6 +171,7 @@
 				<div class="ub upad-4">
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">经营方式:</div>
+						<input id="saleWay" name="saleWay" class="uinp" type="hidden" value="" readonly="readonly">
 						<input id="saleWayName" name="saleWayName"
 							class="uinp uinp-no-more" type="text" readonly="readonly">
 					</div>
@@ -372,6 +374,21 @@
 			</div>
 		</div>
 	</div> 
+
+
+	<div id="tab3">
+	<div class="ub ub-ver uh uw">
+		<div class="ub ub-ac upad-4">
+				<div class="ubtns">
+						<button class="ubtns-item" onclick="closeDialog()">关闭</button>
+				</div>
+		</div>
+			<div class="ub uline "></div>
+			<div class="ub ub-f1">
+				<table id="barCodeTable"></table>
+			</div>
+		</div>
+	</div>
 </div>
 
 

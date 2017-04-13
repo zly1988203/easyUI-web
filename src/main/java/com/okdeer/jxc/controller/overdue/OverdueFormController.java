@@ -21,6 +21,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.slf4j.Logger;
@@ -38,6 +39,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.TypeReference;
+import com.okdeer.jxc.branch.service.BranchSpecServiceApi;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.PrintConstant;
 import com.okdeer.jxc.common.controller.BasePrintController;
@@ -192,7 +194,7 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public RespJson delete(String formIds) {
 	
-	RespJson resp = new RespJson();
+	RespJson resp = RespJson.success();
 	
 	if(StringUtils.isNotBlank(formIds)){
         	//SysUser user = UserUtil.getCurrentUser();
@@ -237,8 +239,7 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
 	    vo.setPageNumber(pageNumber);
 	    vo.setPageSize(StringUtils.equalsIgnoreCase("all", str)?Integer.MAX_VALUE:pageSize);
 	    try {
-		PageUtils<OverdueFormDetailVo> list = overdueFormDetailService.selectDetailList(vo);
-		return list;
+		return overdueFormDetailService.selectDetailList(vo);
 	    } catch (Exception e) {
 		logger.error("加载临期商品审核列表详情失败！",e);
 	    }
@@ -273,7 +274,7 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
 	    if(mapType!=null && !mapType.isEmpty()){
     	    	String detailListStr = ((JSONArray)mapType.get("detailList")).toJSONString();
     	    	List<Map<String,Object>> detailLists = JSON.parseObject(detailListStr,new TypeReference<List<Map<String,Object>>>(){});
-    	    	if(detailLists!=null && detailLists.size()>0){
+    	    	if(CollectionUtils.isNotEmpty(detailLists)){
     	    	    return overdueFormService.saveOverdue(mapType,detailLists);
     	    	}
 	    }
@@ -308,7 +309,7 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
 	    if(mapType!=null && !mapType.isEmpty()){
 		String detailListStr = ((JSONArray)mapType.get("detailList")).toJSONString();
     	    	List<Map<String,Object>> detailLists = JSON.parseObject(detailListStr,new TypeReference<List<Map<String,Object>>>(){});
-    	    	if(detailLists!=null&&detailLists.size()>0){
+    	    	if(CollectionUtils.isNotEmpty(detailLists)){
     	    	    mapType.put("userId", UserUtil.getUser().getId());
     	    	    mapType.put("userName", UserUtil.getUser().getUserName());
     	    	    return overdueFormService.commitOverdue(mapType,detailLists);
@@ -556,5 +557,14 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
     protected List<OverdueFormDto> getPrintDetail(String formNo) {
 	return null;
     }
+
+	/**
+	 * (non-Javadoc)
+	 * @see com.okdeer.jxc.common.controller.BasePrintController#getBranchSpecService()
+	 */
+	@Override
+	protected BranchSpecServiceApi getBranchSpecService() {
+		return null;
+	}
 
 }

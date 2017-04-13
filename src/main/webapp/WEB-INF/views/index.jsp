@@ -7,6 +7,10 @@
 	<title>友门鹿·零售管理系统</title>
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
 	<script src="${ctx}/static/js/views/index.js"></script>
+	<style>
+		.msg-ul{width:100%;overflow:hidden;}
+		.msg-li{float:left;width:33.333%;margin-bottom:6px;}
+	</style>
 </head>
 <body>
 
@@ -58,12 +62,12 @@
                     <%--</div>--%>
                 </div>  
 				<!--end 内容区 -->
-                
-
-                
             </div><!--end scroll-y-box -->
         </div><!--end basic-main -->
-	</div><!--end basic-right -->    
+	</div><!--end basic-right --> 
+	
+	
+		   
 </div><!--end basic-body -->
 
 <div id="mm" class="easyui-menu" style="width:120px;">
@@ -86,6 +90,7 @@
 	        alert("当前版本:V2.3.0_A30");
 	    }
 	}
+	
 </script>
 </body>
 </html>

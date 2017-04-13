@@ -29,6 +29,7 @@ public interface PrintConstant {
 	 * @Fields GOODS_UNSALE_REPORT : 收银日报模版
 	 */
 	String GOODS_UNSALE_REPORT = "goodsUnsaleReport.jrxml";
+
 	/**
 	 * @Fields CASH_FLOW_REPORT : 收银流水模版
 	 */
@@ -63,7 +64,7 @@ public interface PrintConstant {
 	 * @Fields SALE_FLOW_PRINT_ERROR ：销售流水打印失败
 	 */
 	String SALE_FLOW_PRINT_ERROR = "销售流水报表打印失败{}";
-	
+
 	String GOODS_UNSALE_PRINT_ERROR = "商品滞销报表打印失败{}";
 
 	/**
@@ -85,7 +86,7 @@ public interface PrintConstant {
 	 * @Fields PRINT_LIMIT : 打印限最大数量
 	 */
 	Integer PRINT_MAX_LIMIT = 10000;
-	
+
 	/**
 	 * @Fields PRINT_MAX_ROW : 打印限最大数量
 	 */
@@ -105,7 +106,7 @@ public interface PrintConstant {
 	 * @Fields COST_ROTARATE_REPORT : 库存成本周转率
 	 */
 	String COST_ROTARATE_REPORT = "costRotaRateReport.jrxml";
-	
+
 	/**
 	 * @Fields SALE_ROTARATE_REPORT : 库存销售周转率
 	 */
@@ -150,25 +151,35 @@ public interface PrintConstant {
 	 * @Fields STOCK_REIMBURSE_ERROR ：报损单列表打印失败
 	 */
 	String STOCK_REIMBURSE_ERROR = "领用单列表打印失败{}";
-	
+
 	/**
 	 * @Fields STOCK_TAKING_MISS_GOODS : 漏盘商品列表
 	 */
 	String STOCK_TAKING_MISS_GOODS = "stockTakingMissGoods.jrxml";
-	
+
 	/**
 	 * @Fields OVERDUE_APPLY_REPORT : 调价订单申请打印
 	 */
-	String OVERDUE_APPLY_REPORT ="overdueApply.jrxml";
-	
+	String OVERDUE_APPLY_REPORT = "overdueApply.jrxml";
+
 	/**
 	 * @Fields OVERDUE_APPROVED_REPORT : 调价订单申请打印
 	 */
-	String OVERDUE_APPROVED_REPORT ="overdueApproved.jrxml";
-	
+	String OVERDUE_APPROVED_REPORT = "overdueApproved.jrxml";
+
 	/**
 	 * @Fields OVERDUE_APPROVED_REPORT_DETAIL : 调价订单申请详情打印
 	 */
-	String OVERDUE_APPROVED_REPORT_DETAIL ="overdueApprovedDetail.jrxml";
+	String OVERDUE_APPROVED_REPORT_DETAIL = "overdueApprovedDetail.jrxml";
+
+	/**
+	 * @Fields DIRECT_RECEIPT : 直送收货列表
+	 */
+	String DIRECT_RECEIPT = "DirectReceipt.jrxml";
+
+	/**
+	 * @Fields DIRECT_RECEIPT_ERROR : 直送收货列表打印失败
+	 */
+	String DIRECT_RECEIPT_ERROR = "直送收货列表打印失败{}";
 
 }

@@ -40,38 +40,32 @@ function initDatagridRequire(){
             			return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
                 	}else if(row.formType=="采购收货"){
                 		hrefStr='parent.addTab("详情","'+contextPath+'/form/purchase/receiptEdit?report=close&formId='+row.formId+'")';
-                		return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';	
-                	}
-                	else if(row.formType=="采购退货"){
+                		return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
+                	}else if(row.formType=="采购退货"){
                 		hrefStr='parent.addTab("详情","'+contextPath+'/form/purchase/returnEdit?report=close&formId='+row.formId+'")'
-                		return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';		
-                    		
-                	}
-                	else if(row.formType=="配送入库"){
+                		return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
+                	}else if(row.formType=="配送入库"){
                 		hrefStr='parent.addTab("详情","'+contextPath+'/form/deliverForm/deliverEdit?report=close&deliverFormId='+row.formId+'")';
-                		return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';			
-                	}
-					else if(row.formType=="配送出库"){
+                		return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
+                	}else if(row.formType=="配送出库"){
 						hrefStr='parent.addTab("详情","'+contextPath+'/form/deliverForm/deliverEdit?report=close&deliverFormId='+row.formId+'")';  
-						return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';			
-					}
-					else if(row.formType=="组合拆分"){
-						return value 	
-					}
-					else if(row.formType=="销售"){
-						return value 	
-					}
-					else if(row.formType=="礼品兑换"){
-						return value 	
-					}
-					else if(row.formType=="领用"){
-						return value 	
-					}
-					else if(row.formType=="报损"){
-						return value 	
-					}
-					else if(row.formType=="盘点"){
-						return value 	
+						return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
+					}else if(row.formType=="组合拆分"){
+						return value
+					}else if(row.formType=="销售"){
+						return value
+					}else if(row.formType=="礼品兑换"){
+						return value
+					}else if(row.formType=="领用"){
+						return value
+					}else if(row.formType=="报损"){
+						return value
+					}else if(row.formType=="盘点"){
+						return value
+					}else if(row.formType=="直送收货"){
+						return value
+					}else{
+						return value
 					}
                }
             },

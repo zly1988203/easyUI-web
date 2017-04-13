@@ -27,14 +27,14 @@
 						<div class="ubtns-item" id="set" onclick="gFunRefresh()">重置</div>
 		                <div class="ubtns-item" onclick="toClose()">退出</div>
 		            </div>
-		        	<div class="ub ub-ac umar-l20">
 		              	 <%@ include file="/WEB-INF/views/component/dateSelect.jsp"%>
-		            </div>
+
 				</div>
 	            <div class="ub umar-t8">
 	                <div class="ub ub-ac uw-300">
 	                    <div class="umar-r10 uw-70 ut-r">机构名称:</div>
 	                    <input type="hidden" id="branchId" name="branchId" value="${branchesGrow.branchesId}"/>
+						<input type="hidden" id="branchCompleCode" name="branchCompleCode" />
 	                    <input type="hidden" id="brancheType" name="brancheType" value="${branchesGrow.type}"/>
 	                    <input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" value="${branchesGrow.branchName}" />
 	                    <div class="uinp-more" onclick="selectBranches()" >...</div>

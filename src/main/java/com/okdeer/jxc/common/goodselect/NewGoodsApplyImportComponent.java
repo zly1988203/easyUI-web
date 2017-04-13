@@ -474,6 +474,22 @@ public class NewGoodsApplyImportComponent {
 
 			// 初始化供应商
 			initSupplier(obj);
+			
+			//是否管理库存
+			boolean managerStock = "是".equals(obj.getString("managerStock"));
+			obj.put("managerStock", managerStock);
+			
+			//是否参与促销
+			boolean allowActivity = "是".equals(obj.getString("allowActivity"));
+			obj.put("allowActivity", allowActivity);
+			
+			//是否直送
+			boolean fastDeliver = "是".equals(obj.getString("fastDeliver"));
+			obj.put("fastDeliver", fastDeliver);
+			
+			//是否允许分公司调价
+			boolean allowAdjust = "是".equals(obj.getString("allowAdjust"));
+			obj.put("allowAdjust", allowAdjust);
 		}
 	}
 

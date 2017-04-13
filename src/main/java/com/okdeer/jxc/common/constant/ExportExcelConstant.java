@@ -207,6 +207,19 @@ public interface ExportExcelConstant {
 	* @Fields CASHDAILYREPORT : 收银日报
 	*/
 	String CASHDAILYREPORT = "CashDailyReport.xlsx";
+	
+	/**
+	* @Fields CASHDAILYREPORT : 收银日报
+	*/
+	String CASHDAILYREPORT_SYY = "CashDailyReport_SYY.xlsx";
+	/**
+	* @Fields CASHDAILYREPORT : 收银日报
+	*/
+	String CASHDAILYREPORT_MD = "CashDailyReport_MD.xlsx";
+	/**
+	* @Fields CASHDAILYREPORT : 收银日报
+	*/
+	String CASHDAILYREPORT_RQ = "CashDailyReport_RQ.xlsx";
 
 	/**
 	* @Fields CASHCHECKREPORT : 收银对账
@@ -217,6 +230,11 @@ public interface ExportExcelConstant {
 	 * @Fields PURCHASEFORM : 采购单 退货单 收货单
 	 */
 	String PURCHASEFORM = "purchaseForm.xlsx";
+	
+	/**
+	 * @Fields DIRECTRECEIPTFORM : 直送收货单
+	 */
+	String DIRECTRECEIPTFORM = "DirectReceiptForm.xlsx";
 
 	/**
 	 * @Fields PURCHASEFORMHH : 采购单 退货单 收货单 货号模版
@@ -253,6 +271,15 @@ public interface ExportExcelConstant {
 	 * 商品采购条码导入模板
 	 */
 	String PURCHASE_GOODS_BARCODE_TEMPLE = "PurchaseGoodsBarCodeTemple.xlsx";
+	/**
+	 * 直送收货货号导入模板
+	 */
+	String DIRECT_RECEIPT_SKUCODE_TEMPLE = "DirectReceiptSkuCodeTemple.xlsx";
+	
+	/**
+	 * 直送收货条码导入模板
+	 */
+	String DIRECT_RECEIPT_BARCODE_TEMPLE = "DirectReceiptBarCodeTemple.xlsx";
 	
 	/**
 	 * 商品引入货号导入模板
@@ -382,6 +409,10 @@ public interface ExportExcelConstant {
 	String GOODS_CATEGORY_REPORT = "GoodsCategoryReport.xlsx";
 	
 	/**
+	 * 时段客单
+	 */
+	String TIMESECTIONSALEREPORT = "timeSectionSellReport.xlsx";
+	/**
 	 * 库存异常查询
 	 */
 	String STOCKEXCEPTION = "stockException.xlsx";
@@ -450,4 +481,36 @@ public interface ExportExcelConstant {
 	 * @Fields PURCHASE_REPLENISH_ANALY_REPORT : 店铺补货分析报表导出模板
 	 */
 	String PURCHASE_REPLENISH_ANALY_REPORT = "purchaseReplenishAnalyReport.xlsx";
+	
+	/**
+	 * @Fields OVER_SHORT_REPORT1 : 长短款导出模板   长短款日报表
+	 */
+	String OVER_SHORT_REPORT1 = "overShortReport1.xlsx";
+	/**
+	 * @Fields OVER_SHORT_REPORT2 : 长短款导出模板   长短款日报表（日汇总）
+	 */
+	String OVER_SHORT_REPORT2 = "overShortReport2.xlsx";
+	/**
+	 * @Fields OVER_SHORT_REPORT3 : 长短款导出模板   入袋记录报表
+	 */
+	String OVER_SHORT_REPORT3 = "overShortReport3.xlsx";
+	
+	/**
+	 * @Fields DOSHEET1 : 出库单模板一
+	 */
+	String DOSHEET1 = "DOSheet1.xlsx";
+	
+	/**
+	 * @Fields DOSHEET2 : 出库单模板二
+	 */
+	String DOSHEET2 = "DOSheet2.xlsx";
+	
+	/**
+	 * @Fields STOCK_TAKING_MISS_GOODS : 盘点明细
+	 */
+	String STOCKTAKING_PPDETAIL = "stockTakingPPDetail.xlsx";
+	/**
+	 * @Fields STOCK_TAKING_MISS_GOODS : 差异处理明细
+	 */
+	String STOCKTAKING_DIFFDETAIL = "stockTakingDiffDetail.xlsx";
 }

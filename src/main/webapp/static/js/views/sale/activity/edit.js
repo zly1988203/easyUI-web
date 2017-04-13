@@ -1349,12 +1349,13 @@ function specialRows(id,val){
 	var newData = $("#"+datagridId).datagrid("getRows");
 	if(id=="special"){
 		for(var i = 0;i < newData.length;i++){
-			newData[i].saleAmount= val;
-			rowIndex = $("#"+datagridId).datagrid('getRowIndex',newData[i]);
+            var item = newData[i];
+            item.saleAmount= val;
+			rowIndex = $("#"+datagridId).datagrid('getRowIndex',item);
 			//更新行数据
 			$("#"+datagridId).datagrid('updateRow',{
 				index: rowIndex,
-				row: newData[i]
+				row: item
 			});
 			//刷新行
 			$("#"+datagridId).datagrid('refreshRow',rowIndex);
@@ -1362,12 +1363,13 @@ function specialRows(id,val){
 	}
 	else if(id=="discount"){
 		for(var i = 0;i < newData.length;i++){
-			newData[i].discount= val;
-			rowIndex = $("#"+datagridId).datagrid('getRowIndex',newData[i]);
+            var item = newData[i];
+            item.discount= val;
+			rowIndex = $("#"+datagridId).datagrid('getRowIndex',item);
 			//更新行数据
 			$("#"+datagridId).datagrid('updateRow',{
 				index: rowIndex,
-				row: newData[i]
+				row: item
 			});
 			//刷新行
 			$("#"+datagridId).datagrid('refreshRow',rowIndex);
@@ -1375,12 +1377,13 @@ function specialRows(id,val){
 	}
 	else if(id=="batchcount"){
 		for(var i = 0;i < newData.length;i++){
-			newData[i].saleAmount= val;
-			rowIndex = $("#"+datagridId).datagrid('getRowIndex',newData[i]);
+            var item = newData[i];
+            item.saleAmount= val;
+			rowIndex = $("#"+datagridId).datagrid('getRowIndex',item);
 			//更新行数据
 			$("#"+datagridId).datagrid('updateRow',{
 				index: rowIndex,
-				row: newData[i]
+				row: item
 			});
 			//刷新行
 			$("#"+datagridId).datagrid('refreshRow',rowIndex);

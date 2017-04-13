@@ -31,6 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
+import com.okdeer.jxc.branch.service.BranchSpecServiceApi;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.LogConstant;
 import com.okdeer.jxc.common.constant.PrintConstant;
@@ -408,16 +409,9 @@ public class StockLeadController extends BasePrintController<StockLeadController
 			// 导出时将箱数、数量、金额的负数转为正数，并将所有数据格式化为两位小数
 			if (null != exportList && !exportList.isEmpty()) {
 				for (StockFormDetailVo stockFormDetailVo : exportList) {
-					stockFormDetailVo.setPrice(new BigDecimal(stockFormDetailVo.getPrice())
-							.setScale(2, BigDecimal.ROUND_HALF_UP).toString());
-					stockFormDetailVo.setStockNum(new BigDecimal(stockFormDetailVo.getStockNum())
-							.setScale(2, BigDecimal.ROUND_HALF_UP).toString());
-					stockFormDetailVo.setLargeNum(new BigDecimal(stockFormDetailVo.getLargeNum()).abs()
-							.setScale(2, BigDecimal.ROUND_HALF_UP).toString());
-					stockFormDetailVo.setRealNum(new BigDecimal(stockFormDetailVo.getRealNum()).abs()
-							.setScale(2, BigDecimal.ROUND_HALF_UP).toString());
-					stockFormDetailVo.setAmount(new BigDecimal(stockFormDetailVo.getAmount()).abs()
-							.setScale(2, BigDecimal.ROUND_HALF_UP).toString());
+					stockFormDetailVo.setLargeNum(new BigDecimal(stockFormDetailVo.getLargeNum()).abs().toString());
+					stockFormDetailVo.setRealNum(new BigDecimal(stockFormDetailVo.getRealNum()).abs().toString());
+					stockFormDetailVo.setAmount(new BigDecimal(stockFormDetailVo.getAmount()).abs().toString());
 				}
 			}
 			exportListForXLSX(response, exportList, fileName, templateName);
@@ -436,17 +430,17 @@ public class StockLeadController extends BasePrintController<StockLeadController
 	@RequiresPermissions("JxcStockLead:print")
 	@RequestMapping(value = "print", method = RequestMethod.GET)
 	@ResponseBody
-	public String printReport(StockFormVo vo, HttpServletResponse response, HttpServletRequest request,
-			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber) {
+	public String printReport(StockFormVo vo, HttpServletResponse response, HttpServletRequest request) {
 		try {
 			vo.setPageNumber(1);
 			vo.setPageSize(PrintConstant.PRINT_MAX_LIMIT);
+			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
+			vo.setFormType(StockAdjustEnum.LEAD.getKey());
 			LOG.debug("领用单打印参数：{}", vo.toString());
 			int lenght = stockAdjustServiceApi.queryPageListCount(vo);
 			if (lenght > PrintConstant.PRINT_MAX_ROW) {
 				return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
 			}
-			vo.setFormType(StockAdjustEnum.LEAD.getKey());
 			PageUtils<StockFormVo> stockFormList = stockAdjustServiceApi.getStockFormList(vo);
 			List<StockFormVo> list = stockFormList.getList();
 			if (!CollectionUtils.isEmpty(list) && list.size() > PrintConstant.PRINT_MAX_ROW) {
@@ -550,6 +544,15 @@ public class StockLeadController extends BasePrintController<StockLeadController
 			list.add(total);
 		}
 		return list;
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * @see com.okdeer.jxc.common.controller.BasePrintController#getBranchSpecService()
+	 */
+	@Override
+	protected BranchSpecServiceApi getBranchSpecService() {
+		return null;
 	}
 
 }

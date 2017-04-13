@@ -411,6 +411,7 @@ function initDatagridSpecial(){
 		                    }
 		                },
 		            },
+
         ]],
 		onClickCell : function(rowIndex, field, value) {
 			gridHandel.setBeginRow(rowIndex);
@@ -578,6 +579,7 @@ function initDatagridoneZk(){
 //			        }
 //			    },
 			},
+
 			{field: 'discount', title: '折扣', width: 100, align: 'right',
 			    formatter : function(value, row, index) {
 			        if(row.isFooter){
@@ -593,6 +595,9 @@ function initDatagridoneZk(){
 			        }
 			    },
 			},
+
+
+
           ]],
   		onClickCell : function(rowIndex, field, value) {
 			gridHandel.setBeginRow(rowIndex);
@@ -680,6 +685,7 @@ function initDatagridOddtj(){
 //			        }
 //			    },
 			},
+
 			{field: 'saleAmount', title: '偶数特价', width: 100, align: 'right',
 			    formatter : function(value, row, index) {
 			        if(row.isFooter){
@@ -1263,18 +1269,21 @@ function specialRows(id,val){
 	var newData = $("#"+datagridId).datagrid("getRows");
 	if(id=="special"){
 		for(var i = 0;i < newData.length;i++){
-			newData[i].saleAmount= val;
+			var item = newData[i];
+            item.saleAmount= val;
 		}
 		$("#"+datagridId).datagrid({data:newData})
 	}
 	else if(id=="discount"){
 		for(var i = 0;i < newData.length;i++){
-			newData[i].discount= val;
+			var item = newData[i];
+            item.discount= val;
 		}
 	}
 	else if(id=="batchcount"){
 		for(var i = 0;i < newData.length;i++){
-			newData[i].saleAmount= val;
+            var item = newData[i];
+            item.saleAmount= val;
 		}
 	}
 	$("#"+datagridId).datagrid({data:newData})
@@ -1867,17 +1876,18 @@ function saveDataHandel(rows,setrows){
 	// 活动状态为满减 -商品
 	  if(activityScopemj=="0"){
 		  $.each(rows,function(i,data){
-		      var goods = {
-			    	  goodsSkuId: data.goodsSkuId,
-			    	  price:data.price
-			      }
+			  var goodsSkuId = data.goodsSkuId;
+		      var price = data.price;
 		      
-		      $.each(setrows,function(i,data){
+		      $.each(setrows,function(j,data1){
 			      var fullCutData = {
-			    	  limitAmount:data.limitAmount,
-			          discountPrice:data.discountPrice,
+			    	  limitAmount:data1.limitAmount,
+			          discountPrice:data1.discountPrice,
 			      }
-			      var goodsFullCut = $.extend(goods, fullCutData);
+			      var goodsFullCut = $.extend({
+					  goodsSkuId:goodsSkuId,
+					  price:price
+			      },fullCutData);
 			      
 			      reqObj.detailList.push(goodsFullCut);
 			      

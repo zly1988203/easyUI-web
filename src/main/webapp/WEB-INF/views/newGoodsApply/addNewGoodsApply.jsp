@@ -253,6 +253,12 @@ pageEncoding="UTF-8"%>
                 <div class="ub ub-ac umar-r40">
                     <input id="fastDeliver" name="fastDeliver"   class="ub" type="checkbox" name="checkbox" /><span>是否直送商品</span>
                 </div>
+				<div class="ub ub-ac umar-r40">
+					<input id="allowActivity" name="allowActivity" class="ub" type="checkbox" name="checkbox" checked="checked"/><span>是否参与促销</span>
+				</div>
+				<div class="ub ub-ac umar-r40">
+					<input id="allowAdjust" name="allowAdjust" class="ub" type="checkbox" name="checkbox" /><span>分店调价</span>
+				</div>
             </div>
 
         </div>

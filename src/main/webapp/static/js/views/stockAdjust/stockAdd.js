@@ -527,13 +527,13 @@ function saveOrder(){
              return false;
          };
       
-        if(selectVal==1){
+        /*if(selectVal==1){
 	        if(parseFloat(v["sellable"])+parseFloat(v["realNum"])<0){
 	          messager("调整扣减数量不允许超过当前可销售库存数量！");
 	          isCheckResult = false;
 	          return false;
 	        }
-        }
+        }*/
     });
     
     

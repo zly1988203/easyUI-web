@@ -47,6 +47,7 @@ $(function(){
 )
 
 var gridHandel = new GridClass();
+var dg;
 function initOperateDataGrid(){
 	 gridHandel.setGridName(gridName);
 	    gridHandel.initKey({
@@ -67,7 +68,7 @@ function initOperateDataGrid(){
 	        },
 	    })
 	    
-	    $("#"+gridName).datagrid({
+	   dg = $("#"+gridName).datagrid({
         method:'get',
     	url:url,
         align:'center',
@@ -592,4 +593,24 @@ function updateListData(data){
     var newRows = nowRows.concat(tempRows);
 
     $("#"+gridName).datagrid("loadData",newRows);
+}
+
+/**
+ * 导出
+ */
+function exportData(){
+	var length = dg.datagrid('getData').total;
+	if(length == 0){
+		$.messager.alert('提示',"没有数据");
+		return;
+	}
+	var fromObjStr = $('#operateForm').serializeObject();
+	console.log(fromObjStr);
+	$("#operateForm").form({
+		success : function(data){
+			successTip(data.message);
+		}
+	});
+	$("#operateForm").attr("action",contextPath+"/stocktaking/operate/exportPPDetailList?"+fromObjStr);
+	$("#operateForm").submit();
 }

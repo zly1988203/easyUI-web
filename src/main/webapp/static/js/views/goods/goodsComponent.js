@@ -67,8 +67,7 @@ function initDatagridResultOrder(){
             if(arg&&arg=="add"){
                 gridHandel.addRow(parseInt(gridHandel.getSelectRowIndex())+1,gridDefault);
                
-            }else{    
-            	
+            }else{
                 selectGoods(arg);
             }
         },
@@ -274,7 +273,8 @@ function selectGoods(searchKey){
 		messager("请选择捆绑商品");
 		 return;
 	   }
-	  publicNewGoodsService({goodsTypeList:'0,1,2'},function(data){
+	   var param = {goodsTypeList:'0,1,2',key:searchKey}
+        new publicGoodsServiceTem(param,function(data){
 		  if(data.length==0){
 	            return;
 	        }

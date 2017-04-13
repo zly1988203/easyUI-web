@@ -33,18 +33,6 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{skuName}]]></textFieldExpression>
 			</textField>
-			<line>
-				<reportElement x="0" y="0" width="204" height="1" forecolor="#285400" backcolor="#285400" uuid="31b7b7c6-160c-46b7-a590-1e314b6d0b21"/>
-			</line>
-			<line>
-				<reportElement x="203" y="0" width="1" height="91" forecolor="#285400" backcolor="#285400" uuid="551ee809-994c-4c19-9b58-72d05cb8ebad"/>
-			</line>
-			<line>
-				<reportElement x="-1" y="0" width="1" height="91" forecolor="#285400" backcolor="#285400" uuid="e593e0e7-55fa-4f6d-ae24-7af8e8b3094f"/>
-			</line>
-			<line>
-				<reportElement x="0" y="90" width="204" height="1" forecolor="#285400" backcolor="#285400" uuid="13a4ea42-f668-4afe-91a4-e4f69b81bc46"/>
-			</line>
 			<textField isBlankWhenNull="true">
 				<reportElement x="22" y="27" width="28" height="16" uuid="c6e52b13-7641-4c14-bedd-55131206b432"/>
 				<textElement verticalAlignment="Middle">

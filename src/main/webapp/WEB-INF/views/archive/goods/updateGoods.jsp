@@ -5,8 +5,39 @@ pageEncoding="UTF-8"%>
 
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <script src="${ctx}/static/js/views/goods/goodsArchivesEdit.js"></script>
+<style> 
+.datagrid-header-row .datagrid-cell{text-align: center!important;}
+.tab-like{
+  outline:none;border: 1px solid #95B8E7; 
+  width:79px;
+  height:25px;
+  line-height:25px;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 5px 5px 0 0;
+  color: #0E2D5F;
+  background-color: #E0ECFF;
+  background: -webkit-linear-gradient(top,#EFF5FF 0,#E0ECFF 100%);
+  background: -moz-linear-gradient(top,#EFF5FF 0,#E0ECFF 100%);
+  background: -o-linear-gradient(top,#EFF5FF 0,#E0ECFF 100%);
+  background: linear-gradient(to bottom,#EFF5FF 0,#E0ECFF 100%);
+  background-repeat: repeat-x;
+}
+.tab-like.active{
+  border-bottom: 1px solid #fff;
+  background: #fff;
+}
+</style>
 
-<div class="ub ub-ver  ub-f1  uw uh ufs-14 uc-black">
+<div class="uh">
+	<div id="divTab">
+		<div class="ub ub-ac upad-4 umar-l10 upad-t10" style="padding-bottom:1px;">
+			<button id="btnbase" class="tab-like" onclick="clickTab(1)">基本信息</button>
+			<button id="btnprice" class="tab-like umar-l4" onclick="clickTab(2)">附加条码</button>
+		</div>
+	</div>
+	<div class="ub uline-tab "></div> 
+		<div id="tab1">
 	<div class="ub ub-ac upad-4">
 			<div class="ubtns">
 			<shiro:hasPermission name="JxcGoodsArchive:save">
@@ -343,5 +374,27 @@ pageEncoding="UTF-8"%>
 
 			</div>
 		</form>
+</div>
 
+	<div id="tab2">
+<div class="ub ub-ver uh uw">
+			<div class="ub ub-ac upad-4">
+				<div class="ubtns">
+					<button class="ubtns-item" onclick="saveBarCode()" id="saveBarCode">保存</button>
+					<button class="ubtns-item" onclick="closeDialog()">关闭</button>
+				</div>
+				<div class="umar-r10 umar-l20 ut-r">商品附加条码:</div>
+					<input type="text" id="newBarCode" class="uinp uw-250 " maxlength="20" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+					<div class="ubtns umar-l20">
+					<button class="ubtns-item" onclick="inserRow()" >增加条码</button>
+					<button class="ubtns-item " onclick="removeRow()">删除条码</button>
+					</div>
+				<div class="ub uw-160"></div>
+			</div>
+			<div class="ub uline "></div>
+			<div class="ub ub-f1">
+				<table id="dgPrice"></table>
+			</div>
+		</div>
+	</div>
 	</div>

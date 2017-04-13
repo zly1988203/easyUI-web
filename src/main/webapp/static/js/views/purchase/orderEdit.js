@@ -10,6 +10,7 @@ $(function(){
     }
     
     initDatagridEditOrder();
+    initQueryData();
     $("div").delegate("button","click",function(){
     	$("p").slideToggle();
     });
@@ -20,6 +21,7 @@ var gridDefault = {
     realNum:0,
     isGift:0,
 }
+var gridName = "gridEditOrder";
 var gridHandel = new GridClass();
 function initDatagridEditOrder(){
     gridHandel.setGridName("gridEditOrder");
@@ -39,17 +41,17 @@ function initDatagridEditOrder(){
             }
         },
     })
-	var formId = $("#formId").val();
+
     $("#gridEditOrder").datagrid({
         //title:'普通表单-用键盘操作',
-        method:'post',
-    	url:contextPath+"/form/purchase/detailList?formId="+formId,
         align:'center',
         singleSelect:true,  //单选  false多选
         rownumbers:true,    //序号
         showFooter:true,
+        pageSize:10000,
         height:'100%',
         width:'100%',
+        view:scrollview,
         columns:[[
             {field:'cz',title:'操作',width:'60px',align:'center',
                 formatter : function(value, row,index) {
@@ -246,8 +248,28 @@ function initDatagridEditOrder(){
             }
         },
         onLoadSuccess:function(data){
+            if((data.rows).length <= 0)return;
+            gFunEndLoading();
             gridHandel.setDatagridHeader("center");
             updateFooter();
+        }
+    });
+}
+
+function initQueryData(){
+    var formId = $("#formId").val();
+    $.ajax({
+        url:contextPath+"/form/purchase/detailList?formId="+formId,
+        type:"post",
+        success:function(result){
+            gFunStartLoading();
+            if(result && result.rows.length > 0){
+                $("#"+gridName).datagrid("loadData",result.rows);
+            }
+        },
+        error:function(result){
+            gFunEndLoading();
+            successTip("请求发送失败或服务器处理失败");
         }
     });
 }
@@ -404,8 +426,19 @@ function selectGoods(searchKey){
     if(!branchId){
     	messager("请先选择收货机构");
     }
-    
-    new publicGoodsService("PA",function(data){
+
+    var queryParams = {
+        type:'PA',
+        key:searchKey,
+        isRadio:0,
+        'supplierId':$("#supplierId").val(),
+        'branchId': $('#branchId').val(),
+        sourceBranchId:'',
+        targetBranchId:'',
+        flag:'0',
+    };
+
+    new publicGoodsServiceTem(queryParams,function(data){
         if(data.length==0){
             return;
         }
@@ -439,7 +472,7 @@ function selectGoods(searchKey){
             gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
         },100)
         
-    },searchKey,0,"","",branchId,supplierId,"0");
+    });
 }
 
 //保存
@@ -493,6 +526,7 @@ function saveItemHandel(){
     }
 }
 function saveDataHandel(rows){
+    gFunStartLoading();
     //供应商
     var supplierId = $("#supplierId").val();
     //收货机构
@@ -537,7 +571,7 @@ function saveDataHandel(rows){
         contentType:'application/json',
         data:req,
         success:function(result){
-            console.log(result);
+            gFunEndLoading();
             if(result['code'] == 0){
                 $.messager.alert("操作提示", "操作成功！", "info");
             }else{
@@ -651,10 +685,75 @@ function orderDelete(){
 	});
 }
 
+//直接查询商品
+function queryGoodsList() {
+    var queryParams = {
+        formType:'PA',
+        key:"",
+        isRadio:'',
+        'supplierId':$("#supplierId").val(),
+        'branchId': $('#branchId').val(),
+        sourceBranchId:'',
+        targetBranchId:'',
+        flag:'0',
+        page:1,
+        rows:10000
+    };
+    var url =  contextPath + '/goods/goodsSelect/getGoodsList';
+    $.ajax({
+        url:url,
+        type:'POST',
+        data:queryParams,
+        success:function(data){
+            gFunStartLoading();
+            if(data && data.rows.length > 0){
+                var addDefaultData  = gridHandel.addDefault(data.rows,gridDefault);
+                var keyNames = {
+                    purchasePrice:'price',
+                    id:'skuId',
+                    disabled:'',
+                    pricingType:'',
+                    inputTax:'tax'
+                };
+                var rows = gFunUpdateKey(addDefaultData,keyNames);
+                $("#"+gridName).datagrid("loadData",rows);
+            }else {
+                gFunEndLoading();
+                gridHandel.setLoadData([$.extend({},gridDefault)]);
+            }
+        },
+        error:function(){
+            gFunEndLoading();
+            messager("数据查询失败");
+        }
+    })
+}
+
 function selectSupplier(){
 	new publicSupplierService(function(data){
-		$("#supplierId").val(data.id);
-		$("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
+        var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
+        if( $("#supplierId").val() != "" && data.id != $("#supplierId").val() && nowRows.length > 0){
+            $.messager.confirm('提示','修改供应商后会清空明细，是否要修改？',function(r){
+                if(r){
+                    $("#supplierId").val(data.id);
+                    $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
+                    gridHandel.setLoadData([$.extend({},gridDefault)]);
+                    // 是否自动加载商品
+                    if($("#cascadeGoods").val() == 'true'){
+                        queryGoodsList();
+                    }
+                }
+            })
+        }else if($("#supplierId").val() != "" && data.id != $("#supplierId").val() && nowRows.length == 0){
+            $("#supplierId").val(data.id);
+            $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
+            gridHandel.setLoadData([$.extend({},gridDefault)]);
+            // 是否自动加载商品
+            if($("#cascadeGoods").val() == 'true'){
+                queryGoodsList();
+            }
+        }
+
 	});
 }
 function selectOperator(){
@@ -665,8 +764,30 @@ function selectOperator(){
 }
 function selectBranch(){
 	new publicBranchService(function(data){
-		$("#branchId").val(data.branchesId);
-		$("#branchName").val("["+data.branchCode+"]"+data.branchName);
+        var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
+        if( $("#branchId").val() != "" && data.branchesId != $("#branchId").val() && nowRows.length > 0){
+
+            $.messager.confirm('提示','修改机构后会清空明细，是否要修改？',function(r){
+                if(r){
+                    $("#branchId").val(data.branchesId);
+                    $("#branchName").val("["+data.branchCode+"]"+data.branchName);
+                    gridHandel.setLoadData([$.extend({},gridDefault)]);
+                    // 是否自动加载商品
+                    if($("#cascadeGoods").val() == 'true'){
+                        queryGoodsList();
+                    }
+                }
+            })
+
+        }else  if( $("#branchId").val() != "" && data.branchesId != $("#branchId").val() && nowRows.length == 0){
+            $("#branchId").val(data.branchesId);
+            $("#branchName").val("["+data.branchCode+"]"+data.branchName);
+            gridHandel.setLoadData([$.extend({},gridDefault)]);
+            // 是否自动加载商品
+            if($("#cascadeGoods").val() == 'true'){
+                queryGoodsList();
+            }
+        }
 	},0);
 }
 

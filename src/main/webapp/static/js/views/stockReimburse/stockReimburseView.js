@@ -517,11 +517,11 @@ function updateStockReimburse(){
              return false;
         };
       
-        if(parseFloat(v["stockNum"])-parseFloat(v["realNum"])<0){
+        /*if(parseFloat(v["stockNum"])-parseFloat(v["realNum"])<0){
         	messager("报损数量不允许超过当前库存数量！");
         	isCheckResult = false;
           	return false;
-        }
+        }*/
    });
     
     
