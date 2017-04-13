@@ -8,7 +8,8 @@
     <title>直送要货单-新增</title>
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-	<script src="${ctx}/static/js/views/deliver/deliverDy.js?v=<%=new java.util.Date().getTime()%>"></script>
+    <!-- new java.util.Date().getTime()  -->
+	<script src="${ctx}/static/js/views/deliver/deliverDy.js?v=1"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
 <input type='hidden' id="deliverStatus" value="add">
@@ -89,7 +90,6 @@
 				<div class="utxt"></div>
 			</div>
 		</div>
-           <%--datagrid-edit--%>
         <div class="ub ub-f1 datagrid-edit umar-t8">
             <table id="gridRequireOrder" ></table>
         </div>

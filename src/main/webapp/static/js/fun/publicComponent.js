@@ -1149,9 +1149,10 @@ function GridClass(){
      * @param arrs 现有数据
      * @param data 新增数据
      * @param argWhere 合并条件
+     * @param ifReset  对于重复数据  要替换的属性值的字段
      * @returns 返回合并后数据
      */
-    this.checkDatagrid = function(arrs,data,argWhere,isCheck){
+    this.checkDatagrid = function(arrs,data,argWhere,isCheck,ifReset){
 
         var newData = [];
         $.each(data,function(i,val){
@@ -1160,10 +1161,20 @@ function GridClass(){
                 if(argWhere&&argWhere!={}){
                     $.each(argWhere,function(key,argVal){
                         if(val[key]==val1[key]){
+                        	
+                        	if(ifReset && $.isArray(ifReset) && ifReset.length > 0){
+                        		$.each(ifReset,function(inx,arKey){
+                        			if(arKey){
+                        				val1[arKey] = val[arKey];
+                        			}
+                        		})
+                        	}
+                        	
                             isRepeat = true;
                         }
                     });
                 }
+                
                if(isCheck&&isCheck!={}){
                    $.each(isCheck,function(checkKey,checkVal){
                        if(val1[checkKey]==checkVal||val[checkKey]!=val1[checkKey]){

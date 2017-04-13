@@ -9,6 +9,9 @@ $(function(){
     	$("#toBackByJSButton").attr("onclick","window.parent.closeTab()");
     }
 });
+$(document).on('click','input[name="numDeal"]',function(){
+	return false;
+});
 var gridHandel = new GridClass();
 function initDatagridViewRequireOrder(){
 	gridHandel.setGridName("gridViewRequireOrder");
