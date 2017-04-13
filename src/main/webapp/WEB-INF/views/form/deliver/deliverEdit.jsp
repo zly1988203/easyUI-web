@@ -10,7 +10,7 @@
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
 	<%-- <script src="${ctx}/static/js/views/deliver/deliverEdit.js"></script> --%>
-	<script src="${ctx}/static/js/views/deliver/deliver.js"></script>
+	<script src="${ctx}/static/js/views/deliver/deliver.js?1=1"></script>
 	<script src="${ctx}/static/js/views/deliver/deliverExport.js"></script>
     <%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
 </head>
@@ -19,32 +19,13 @@
     <div class="ub ub-ver ub-f1 umar-4  ubor">
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
-            	<%-- <shiro:hasPermission name="JxcDeliverDA:add">
-					<div class="ubtns-item" onclick="addDeliverForm()">新增</div>
-				</shiro:hasPermission>
-				<shiro:hasPermission name="JxcDeliverDA:add">
-                	<div class="ubtns-item" onclick="saveOrder()">保存</div>
-                </shiro:hasPermission>
-                <shiro:hasPermission name="JxcDeliverDA:audit">
-                	<div class="ubtns-item" onclick="check()">审核</div>
-                </shiro:hasPermission>
-                <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
-                <shiro:hasPermission name="JxcDeliverDA:delete">
-	                <div class="ubtns-item" onclick="delDeliverForm()">删除</div>
-                </shiro:hasPermission>
-                <shiro:hasPermission name="JxcDeliverDA:print">
-                    <div class="ubtns-item" onclick="printChoose('DA','/form/deliverForm/')">打印</div>
-                </shiro:hasPermission> --%>
                 <div class="ubtns-item" onclick="addDeliverForm()">新增</div>
                 <div class="ubtns-item" onclick="updateOrder()">保存</div>
                 <div class="ubtns-item" onclick="check()">审核</div>
-                 <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
-                 <div class="ubtns-item" onclick="delDeliverForm()">删除</div>
-                 <div class="ubtns-item" onclick="printChoose('DA','/form/deliverForm/')">打印</div>
-                 
-                 
-                 
-                 
+                <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
+                <div class="ubtns-item init" onclick="suggestSelectGoods()">建议订货商品</div>
+                <div class="ubtns-item" onclick="delDeliverForm()">删除</div>
+                <div class="ubtns-item" onclick="printChoose('DA','/form/deliverForm/')">打印</div>
                 <div class="ubtns-item"  onclick="exportData('DA','gridRequireOrder')">导出明细</div>
                 <div class="ubtns-item" onclick="toImportproduct(0)">导入货号</div>
             	<div class="ubtns-item" onclick="toImportproduct(1)">导入条码</div>
@@ -97,20 +78,39 @@
                 <div class="umar-r10 uw-60 ut-r">有效期限:</div>
                 <input id="validityTime" class="Wdate" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" value="<fmt:formatDate value="${form.validityTime}" pattern="yyyy-MM-dd"/>"/>
             </div>
-            <div class="ub ub-ac umar-l20">
-                <div class="umar-r10 uw-60 ut-r">审核人员:</div>
-                <div class="utxt" id="validUserName">${form.validUserName}</div>
+            <div class="ub ub-ac umar-l1">
+                <div class="umar-r10 uw-80 ut-r">最后修改人:</div>
+                <div class="utxt"></div>
             </div>
             <div class="ub ub-ac umar-l20">
-                <div class="umar-r10 uw-60 ut-r">审核时间:</div>
-                <div class="utxt"><fmt:formatDate value="${form.validTime}" pattern="yyyy-MM-dd HH:mm"/></div>
+                <div class="umar-r10 uw-60 ut-r">修改时间:</div>
+                <div class="utxt"></div>
             </div>
         </div>
         <div class="ub umar-t8">
-        	<div class="ub ub-ac uw-1130">
-                <div class="umar-r10 uw-60 ut-r">备注:</div>
-                <input class="uinp ub ub-f1" type="text" id="remark" name="remark"  value="${form.remark}">
+        	<div class="ub ub-ac uw-300">
+                <div class="umar-r10 uw-60 ut-r">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注:</div>
+                <input class="uinp ub " type="text" id="remark" name="remark"  value="${form.remark}">
             </div>
+            <div class="ub ub-ac umar-l20">
+                <div class="umar-r10 uw-60 ut-r">数量处理:</div>
+                <div class="ub ub-ac umar-r10">
+                    <input class="radioItem" type="radio" name="numDeal" id="status_1" value="0"><label for="status_1">设置为建议订货数量 </label>
+                </div>
+                <div class="ub ub-ac umar-r10">
+                    <input class="radioItem" type="radio" name="numDeal" id="status_2" value="1"><label for="status_2">重新归零 </label>
+                </div>
+           </div>
+	           
+           <div class="ub ub-ac umar-l12">
+               <div class="umar-r10 uw-70 ut-r">审核人员:</div>
+               <div class="utxt">${form.validUserName}</div>
+           </div>
+           <div class="ub ub-ac umar-l20">
+               <div class="umar-r10 uw-60 ut-r">审核时间:</div>
+               <div class="utxt"><fmt:formatDate value="${form.validTime}" pattern="yyyy-MM-dd HH:mm"/></div>
+           </div>
+               
         </div>
         <div class="ub ub-f1 datagrid-edit umar-t8">
             <table id=gridRequireOrder ></table>
