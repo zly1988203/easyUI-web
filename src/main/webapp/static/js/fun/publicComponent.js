@@ -135,7 +135,7 @@ function toChangeDatetime(index){
 /**
  * 批量导入货号或条码
  * @param params {
- *  isBtnTemple 是否需要模板下载按钮 默认true
+        isBtnTemple 是否需要模板下载按钮 默认true
         url:contextPath+"/form/deliverForm/importList",上传地址,
         tempUrl:contextPath+"/form/deliverForm/exportTemp",
         type:type, 0 货号 1 条码导入
@@ -259,7 +259,7 @@ function publicRoleService(callback, branchCompleCode, branchType){
 }
 
 //公共组件-机构选择
-function publicAgencyService(callback,formType,branchId, branchType){
+function publicAgencyService(callback,formType,branchId, branchType,isOpenStock){
 	if(!formType){
 		formType="";
 	}
@@ -269,10 +269,13 @@ function publicAgencyService(callback,formType,branchId, branchType){
 	if(!branchType){
 		branchType="";
 	}
+	if(!isOpenStock){
+		isOpenStock="";
+	}
     //公有属性
     var  dalogTemp = $('<div/>').dialog({
     	href:contextPath + "/common/branches/viewComponent?formType="+ 
-    		formType + "&branchId=" +branchId+ "&branchType="+branchType,
+    		formType + "&branchId=" +branchId+ "&branchType="+branchType + "&isOpenStock="+isOpenStock,
         width:680,
         height:$(window).height()*(2/3),
         title:"机构选择",
@@ -506,9 +509,12 @@ function publicDictService(dictType,callback) {
  * @param callback
  * @param type  0是单选  1是多选
  */
-function publicBranchService(callback,type) {
+function publicBranchService(callback,type,isOpenStock) {
+	if(!isOpenStock){
+		isOpenStock = "";
+	}
     var dalogObj = {
-        href: contextPath + "/system/user/views?type=branch&check="+type,
+        href: contextPath + "/system/user/views?type=branch&check="+type+"&isOpenStock="+isOpenStock,
         width: 680,
         height: dialogHeight,
         title: "选择机构",
@@ -1143,9 +1149,10 @@ function GridClass(){
      * @param arrs 现有数据
      * @param data 新增数据
      * @param argWhere 合并条件
+     * @param ifReset  对于重复数据  要替换的属性值的字段
      * @returns 返回合并后数据
      */
-    this.checkDatagrid = function(arrs,data,argWhere,isCheck){
+    this.checkDatagrid = function(arrs,data,argWhere,isCheck,ifReset){
 
         var newData = [];
         $.each(data,function(i,val){
@@ -1154,10 +1161,20 @@ function GridClass(){
                 if(argWhere&&argWhere!={}){
                     $.each(argWhere,function(key,argVal){
                         if(val[key]==val1[key]){
+                        	
+                        	if(ifReset && $.isArray(ifReset) && ifReset.length > 0){
+                        		$.each(ifReset,function(inx,arKey){
+                        			if(arKey){
+                        				val1[arKey] = val[arKey];
+                        			}
+                        		})
+                        	}
+                        	
                             isRepeat = true;
                         }
                     });
                 }
+                
                if(isCheck&&isCheck!={}){
                    $.each(isCheck,function(checkKey,checkVal){
                        if(val1[checkKey]==checkVal||val[checkKey]!=val1[checkKey]){

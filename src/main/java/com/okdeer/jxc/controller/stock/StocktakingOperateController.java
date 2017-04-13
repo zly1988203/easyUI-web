@@ -366,4 +366,34 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 
 		goodsSelectImportTxt.downloadErrorFile(code, reportFileName, headers, columns, response);
 	}
+	
+	/**
+	 * @Description: 导出
+	 * @param response
+	 * @param formId
+	 * @param formNo
+	 * @return
+	 * @author xuyq
+	 * @date 2017年4月10日
+	 */
+	@RequestMapping(value = "/exportPPDetailList", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson exportPPDetailList(HttpServletResponse response,StocktakingFormVo vo) {
+		String formId = vo.getId();
+		String formNo = vo.getFormNo();
+		
+		LOG.info("盘点详细列表导出参数：{}", formId);
+		RespJson resp = RespJson.success();
+		try {
+			List<StocktakingFormDetailVo> detailList = stocktakingOperateServiceApi.getStocktakingFormDetailList(formId);
+
+			String fileName = formNo + "盘点详情" + DateUtils.getCurrSmallStr();
+			String templateName = ExportExcelConstant.STOCKTAKING_PPDETAIL;
+			exportListForXLSX(response, detailList, fileName, templateName);
+		} catch (Exception e) {
+			LOG.error("盘点详细列表导出异常：{}", e);
+			resp = RespJson.error("盘点详细列表导出异常");
+		}
+		return resp;
+	}
 }

@@ -9,7 +9,7 @@ $(function(){
 var gridDefault = {
     //actual:0,
 	//costPrice:0,
-    isGift:0,
+    // isGift:0,
 }
 var gridHandel = new GridClass();
 function initDatagridAddRequireOrder(){
@@ -412,8 +412,8 @@ function toImportproduct(type){
     },param)
 }
 function updateListData(data){
-	   /* var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
-	    var addDefaultData  = gridHandel.addDefault(data,gridDefault);*/
+	    var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
+	    // var addDefaultData  = gridHandel.addDefault(data,gridDefault);
 
 	    var keyNames = {
 	        id:'skuId',
@@ -423,9 +423,9 @@ function updateListData(data){
 	    var rows = gFunUpdateKey(data,keyNames);
 	    var argWhere ={skuCode:1};  //验证重复性
 	    var isCheck ={isGift:1 };   //只要是赠品就可以重复
-	    var newRows = gridHandel.checkDatagrid(data,rows,argWhere,isCheck);
+	    var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
 
-	    $("#gridEditOrder").datagrid("loadData",data);
+	    $("#gridEditOrder").datagrid("loadData",newRows);
 	}
 
 

@@ -42,6 +42,7 @@ $(function(){
 )
 
 var gridHandel = new GridClass();
+var dg;
 function initOperateDataGrid(){
 	 gridHandel.setGridName(gridName);
 	    gridHandel.initKey({
@@ -62,7 +63,7 @@ function initOperateDataGrid(){
 	        },
 	    })
 	    
-	    $("#"+gridName).datagrid({
+	    dg = $("#"+gridName).datagrid({
 //        method:'get',
 //    	url:url,
         align:'center',
@@ -286,10 +287,14 @@ function initQueryData(url){
     	url:url,
     	type:"GET",
     	success:function(result){
-    		gFunStartLoading();
-    		 $("#"+gridName).datagrid("loadData",result);
+            gFunStartLoading();
+            if(result && result.length > 0){
+                $("#"+gridName).datagrid("loadData",result);
+            }
+
     	},
     	error:function(result){
+            gFunEndLoading();
     		successTip("请求发送失败或服务器处理失败");
     	}
     });
@@ -498,4 +503,23 @@ function auditDiffDispose(){
 		    });
 		}
 	});
+}
+/**
+ * 导出
+ */
+function exportData(){
+	var length = dg.datagrid('getData').total;
+	if(length == 0){
+		$.messager.alert('提示',"没有数据");
+		return;
+	}
+	var fromObjStr = $('#diffForm').serializeObject();
+	console.log(fromObjStr);
+	$("#diffForm").form({
+		success : function(data){
+			successTip(data.message);
+		}
+	});
+	$("#diffForm").attr("action",contextPath+"/stocktaking/diffDispose/exportDiffDetailList?"+fromObjStr);
+	$("#diffForm").submit();
 }

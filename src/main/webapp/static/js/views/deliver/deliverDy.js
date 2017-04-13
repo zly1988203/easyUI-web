@@ -60,15 +60,15 @@ function specialRows(val){
         	item.largeNum = 0;
         	item.amount = 0;
         }
-        //建议订货数量
-        if(val == '0'){ 
-        	item.applyNum = item.jyPlayNum;
+        //建议订货数量 只对建议数量大于o的商品设置
+        if(val == '0' && parseFloat(item.suggestNum) > 0){ 
+        	item.applyNum = item.suggestNum;
         	item.tmpLargeNum = parseFloat(item.applyNum)/parseFloat(item.distributionSpec);
         	item.largeNum = (item.tmpLargeNum).toFixed(4); 
         	item.amount = (parseFloat(item.applyNum)*parseFloat(item.price)).toFixed(4); //金额： 数量*价格
         }
 	}
-	$("#"+gridName).datagrid({data:newData})
+	gridHandel.setLoadData(newData);
 }
 
 $(document).on('input','#remark',function(){
@@ -161,12 +161,13 @@ function initDatagridRequireOrder(){
             /*{field:'twoCategoryCode',title:'类别编号',width:'90px',align:'left'},
             {field:'twoCategoryName',title:'类别名称',width:'90px',align:'left'},*/
             {field:'distributionSpec',title:'进货规格',width:'90px',align:'left'},
-            {field:'jyPlayNum',title:'建议订货数量',width:'90px',align:'left',
+            {field:'suggestNum',title:'建议订货数量',width:'90px',align:'right',
             	formatter:function(value,row,index){
             		if(!value){
-            			row['jyPlayNum'] = 3;
+            			row['suggestNum'] = 0;
             		}
-            		return value||3;
+            		//return value||0;
+            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
             	}
             },
             {field:'largeNum',title:'箱数',width:'80px',align:'right',
@@ -521,12 +522,12 @@ function selectGoods(searchKey){
 }
 
 //二次查询设置值
-function setDataValue(data) {
+function setDataValue(data,fromClick) {
 		for(var i in data){
 			var rec = data[i];
 			rec.remark = "";
 		}
-        var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
+        var nowRows = gridHandel.getRowsWhere({skuName:'1'});
         var addDefaultData = gridHandel.addDefault(data,gridDefault);
         var keyNames = {
             distributionPrice:'price',
@@ -537,9 +538,15 @@ function setDataValue(data) {
         };
         var rows = gFunUpdateKey(addDefaultData,keyNames);
         var argWhere ={skuCode:1};  //验证重复性
+        //建议订货数量 没有此业务 请删除该逻辑
+        var ifReset= [];
+        if(fromClick == 'suggestSelectGoods'){ //点击建议订货数量
+        	ifReset = ['suggestNum'];  //对于重复数据  要更新的字段
+        }
         var isCheck ={isGift:1};   //只要是赠品就可以重复
-        var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
-        $("#"+gridName).datagrid({data:newRows});
+        var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck,ifReset);
+        //$("#"+gridName).datagrid({data:newRows});
+        gridHandel.setLoadData(newRows);
 
     gridHandel.setLoadFocus();
     setTimeout(function(){
@@ -825,7 +832,51 @@ function updateOrder(){
     });
 }
 
+function suggestSelectGoods(){
+	// 要货机构
+	var targetBranchId = $("#targetBranchId").val();
+	// 发货机构
+	var sourceBranchId = $("#sourceBranchId").val();
 
+    //判定发货分店是否存在
+    if(sourceBranchId==""){
+        messager("请先选择发货机构");
+        return;
+    }
+    
+    if(targetBranchId==""){
+    	messager("请先选择要货机构");
+    	return;
+    }
+    
+    var targetBranchType = $("#targetBranchType").val();
+    if(targetBranchType==='0'){
+        messager("要货机构不能选择总部");
+        return;
+    }
+    		
+    var jsonData = {
+    		isFastDeliver:1,//直送商品
+    		sourceBranchId:sourceBranchId,
+    		targetBranchId:targetBranchId
+        };
+	$.ajax({
+    	url : contextPath+"/form/deliverFormList/getDeliverSuggestNumItemList",
+    	type : "POST",
+    	data : jsonData,
+    	success:function(result){
+    		 console.log('建议商品',result);
+    		 if(result.length > 0){
+    			 setDataValue(result,'suggestSelectGoods');
+    		 }else{
+    			 $.messager.alert('提示','暂无建议订货商品','',function(){});
+    		 }
+    	},
+    	error:function(result){
+    		successTip("请求发送失败或服务器处理失败");
+    	}
+    });
+}
 //审核
 function check(){
     //验证数据是否修改

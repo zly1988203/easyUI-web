@@ -63,13 +63,24 @@ function initDgTakeStockMiss(){
 		]],
 
 	});
-	queryForm();
+	//queryForm();
 }
 
 //查询
 function queryForm(){
 	$("#startCount").val('');
 	$("#endCount").val('');
+	var branchCompleCode = $("#branchCompleCode").val();
+	var batchNo = $("#batchNo").val();
+	
+    if(branchCompleCode==""){
+        messager("请先选择机构");
+        return;
+    }
+	if(batchNo==""){
+		messager("请先选择盘点批号");
+        return;
+	}
 	var fromObjStr = $('#queryForm').serializeObject();
 	// 去除编码
     //fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1)

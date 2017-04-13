@@ -217,6 +217,19 @@ public interface ExportExcelConstant {
 	* @Fields CASHDAILYREPORT : 收银日报
 	*/
 	String CASHDAILYREPORT = "CashDailyReport.xlsx";
+	
+	/**
+	* @Fields CASHDAILYREPORT : 收银日报
+	*/
+	String CASHDAILYREPORT_SYY = "CashDailyReport_SYY.xlsx";
+	/**
+	* @Fields CASHDAILYREPORT : 收银日报
+	*/
+	String CASHDAILYREPORT_MD = "CashDailyReport_MD.xlsx";
+	/**
+	* @Fields CASHDAILYREPORT : 收银日报
+	*/
+	String CASHDAILYREPORT_RQ = "CashDailyReport_RQ.xlsx";
 
 	/**
 	* @Fields CASHCHECKREPORT : 收银对账
@@ -547,4 +560,31 @@ public interface ExportExcelConstant {
 	 * @Fields ACTIVITY_DETAIL_QUERY_FOR_FULLREDUCTION : 满减促销方案详情
 	 */
 	String ACTIVITY_DETAIL_QUERY_FOR_FULLREDUCTION = "activityDetailQueryForFullReduction.xlsx";
+	
+	/**
+	 * @Fields STOCK_TAKING_MISS_GOODS : 盘点明细
+	 */
+	String STOCKTAKING_PPDETAIL = "stockTakingPPDetail.xlsx";
+	/**
+	 * @Fields STOCK_TAKING_MISS_GOODS : 差异处理明细
+	 */
+	String STOCKTAKING_DIFFDETAIL = "stockTakingDiffDetail.xlsx";
+	
+	/*** 特价活动商品引入货号导入模板  */
+	String ACTIVITY_SPECIAL_GOODS_SKUCODE_TEMPLATE = "activitySpecialGoodsSkuCodeTemplate.xlsx";
+
+	/*** 特价活动商品引入条码导入模板  */
+	String ACTIVITY_SPECIAL_GOODS_BARCODE_TEMPLATE = "activitySpecialGoodsBarCodeTemplate.xlsx";
+	
+	/*** 折扣活动商品引入货号导入模板  */
+	String ACTIVITY_DISCOUNT_GOODS_SKUCODE_TEMPLATE = "activityDiscountGoodsSkuCodeTemplate.xlsx";
+	
+	/*** 折扣活动商品引入条码导入模板  */
+	String ACTIVITY_DISCOUNT_GOODS_BARCODE_TEMPLATE = "activityDiscountGoodsBarCodeTemplate.xlsx";
+	
+	/*** 偶数特价活动商品引入货号导入模板  */
+	String ACTIVITY_EVEN_GOODS_SKUCODE_TEMPLATE = "activityEvenGoodsSkuCodeTemplate.xlsx";
+	
+	/*** 偶数特价活动商品引入条码导入模板  */
+	String ACTIVITY_EVEN_GOODS_BARCODE_TEMPLATE = "activityEvenGoodsBarCodeTemplate.xlsx";
 }

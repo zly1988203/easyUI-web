@@ -345,18 +345,23 @@ $(
                     }
                     // $("#gridGoods").datagrid("options").queryParams = {'categoryId':categoryId,'goodsInfo':goodsInfo,'formType':'${type}','sourceBranchId':'${sourceBranchId}','targetBranchId':'${targetBranchId}'};
                     // 梁利 提出左边树与右边的查询无关系
-                    $("#gridGoods").datagrid("options").queryParams = $.extend({
-                            'flag':$('#flag').val()==undefined?"":$('#flag').val(),
-                            'goodsInfo':$("#goodsInfo").val()==undefined?"":$("#goodsInfo").val(),
-                            'supplierId':searchSupplierId,
-                            'formType':$('#type').val()==undefined?"":$('#type').val(),
-                            'sourceBranchId':$('#sourceBranchId').val()==undefined?"":$('#sourceBranchId').val(),
-                            'targetBranchId':$('#targetBranchId').val()==undefined?"":$('#targetBranchId').val(),
-                            'branchId':$('#branchId').val()==undefined?"":$('#branchId').val(),
-                            'categoryCodes':$('#categoryCodes').val()==undefined?"":$('#categoryCodes').val(),
-                            'isManagerStock':$('#isManagerStock').val()==undefined?"":$('#isManagerStock').val()
-                    },
-                        fromParams)
+                    var queryParams=$.extend({
+                        'flag':$('#flag').val()==undefined?"":$('#flag').val(),
+                                'goodsInfo':$("#goodsInfo").val()==undefined?"":$("#goodsInfo").val(),
+                                'supplierId':searchSupplierId,
+                                'formType':$('#type').val()==undefined?"":$('#type').val(),
+                                'sourceBranchId':$('#sourceBranchId').val()==undefined?"":$('#sourceBranchId').val(),
+                                'targetBranchId':$('#targetBranchId').val()==undefined?"":$('#targetBranchId').val(),
+                                'branchId':$('#branchId').val()==undefined?"":$('#branchId').val(),
+                                'categoryCodes':$('#categoryCodes').val()==undefined?"":$('#categoryCodes').val(),
+                                'isManagerStock':$('#isManagerStock').val()==undefined?"":$('#isManagerStock').val()
+                        },
+                            fromParams);
+                    
+                    if(text!='供应商'){
+                    	queryParams.supplierId = "";
+                    }
+                    $("#gridGoods").datagrid("options").queryParams = queryParams;
                     $("#gridGoods").datagrid("options").method = "post";
                     $("#gridGoods").datagrid("options").url =contextPath + '/goods/goodsSelect/getGoodsList';
                     $("#gridGoods").datagrid('load');

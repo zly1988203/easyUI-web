@@ -18,7 +18,7 @@ $(function(){
 
 //绑定元素的事件
 function bindElementEvent(){
-	$("#managerStockChecked,#allowActivityChecked,#fastDeliverChecked,#highValueChecked,#attentionChecked").click(function (){
+	$("#managerStockChecked,#allowActivityChecked,#fastDeliverChecked,#highValueChecked,#attentionChecked,#supplierRateChecked").click(function (){
 		changeElementStatus(this);
 	});
 	$("#allowAdjustChecked,#safetyCoefficientChecked,#supplierChecked,#categoryChecked,#brandChecked,#safetyCoefficientCascadeChecked,#supplierCascadeChecked").click(function (){
@@ -305,6 +305,10 @@ function chooseSupplier(formId){
 	new publicSupplierService(function(data){
 		$("#" + formId + " #supplierId").val(data.id);
 		$("#" + formId + " #supplierName").val(data.supplierName);
+		$("#" + formId + " #saleWay").val(data.saleWay)
+		
+		//级联联营扣率
+		changeSupplierRateElement();
 	});
 }
 
@@ -350,8 +354,8 @@ function supplierAutoComple(){
 
 //禁用表单所有元素
 function diabledAll(){
-	$("input:radio").attr("disabled",true);
-	$("input:checkbox").attr("disabled",true).removeAttr("checked");
+	$("#batchUpdateForm input:radio").attr("disabled",true);
+	$("#batchUpdateForm input:checkbox").attr("disabled",true).removeAttr("checked");
 	
 	//隐藏打开弹窗的...
 	$("#openSupplierMore").prop('hidden',true);
@@ -360,6 +364,8 @@ function diabledAll(){
 	
 	//禁用安全库存系数
 	$("#safetyCoefficient").numberbox("readonly", true);
+	//禁用联营扣率
+	$("#supplierRate").numberbox("readonly", true);
 }
 
 //处理页面元素禁用与启用状态
@@ -441,11 +447,11 @@ function changeElementStatus(input){
 		if($("#safetyCoefficientChecked").is(':checked')){
 			$("#safetyCoefficientChecked").val(true);
 			$("#safetyCoefficient").numberbox("readonly",false);
-			$("input[name='safetyCoefficientCascadeChecked']").removeAttr("disabled");
+			$("input[name='safetyCoefficientCascadeChecked']").removeAttr("disabled").prop("checked","checked");
 		}else{
 			$("#safetyCoefficientChecked").val(false);
 			$("#safetyCoefficient").numberbox("readonly", true);
-			$("input[name='safetyCoefficientCascadeChecked']").attr("disabled",true);
+			$("input[name='safetyCoefficientCascadeChecked']").attr("disabled",true).removeAttr("checked");
 		}
 	}
 	
@@ -459,19 +465,38 @@ function changeElementStatus(input){
 	if(input.id == "supplierChecked"){
 		if($("#supplierChecked").is(':checked')){
 			$("#supplierChecked").val(true);
-			$("input[name='supplierCascadeChecked']").removeAttr("disabled");
+			$("input[name='supplierCascadeChecked']").removeAttr("disabled").prop("checked","checked");
 			$("#openSupplierMore").prop('hidden',false);
 		}else{
 			$("#supplierChecked").val(false);
-			$("input[name='supplierCascadeChecked']").attr("disabled",true);
+			$("input[name='supplierCascadeChecked']").attr("disabled",true).removeAttr("checked");
 			$("#openSupplierMore").prop('hidden',true);
 		}
+		
+		//级联联营扣率
+		changeSupplierRateElement();
+	}
+	
+	//修改联营扣率
+	if(input.id == "supplierRateChecked"){
+		if($("#supplierRateChecked").is(':checked')){
+			$("#supplierRateChecked").val(true);
+		}else{
+			$("#supplierRateChecked").val(false);
+		}
+		
+		//级联联营扣率
+		changeSupplierRateElement();
 	}
 
 	if($("#supplierCascadeChecked").is(':checked')){
 		$("#supplierCascadeChecked").val(true);
+		//级联联营扣率
+		changeSupplierRateElement();
 	}else{
 		$("#supplierCascadeChecked").val(false);
+		//级联联营扣率
+		changeSupplierRateElement();
 	}
 	
 	//修改商品类别
@@ -494,6 +519,38 @@ function changeElementStatus(input){
 			$("#brandChecked").val(false);
 			$("#openBrandMore").prop('hidden',true);
 		}
+	}
+}
+
+function changeSupplierRateElement(){
+	//是否勾选修改供应商
+	var supplierChecked = $("#supplierChecked").is(':checked');
+	//是否勾选同时修改门店供应商
+	var supplierCascadeChecked = $("#supplierCascadeChecked").is(':checked');
+	//是否勾选修改联营扣率
+	var supplierRateChecked = $("#supplierRateChecked").is(':checked');
+	//供应商类型
+	var saleWay = $("#saleWay").val();
+	
+	//勾选了修改供应商，且供应商类型为联营或扣率代销时，才可以勾选修改联营扣率
+	if(supplierChecked && (saleWay == 'C' || saleWay == 'D')){
+		$("#supplierRateChecked").removeAttr("disabled");
+	}else{
+		$("#supplierRateChecked").attr("disabled",true).removeAttr("checked");
+	}
+	
+	//勾选了修改供应商，且勾选了修改联营扣率，且供应商类型为联营或扣率代销时，联营扣率才可修改
+	if(supplierChecked && supplierRateChecked && (saleWay == 'C' || saleWay == 'D')){
+		$("#supplierRate").numberbox("readonly",false);
+		//是否同时修改联营扣率跟随是否同时更新门店主供应商
+		if(supplierCascadeChecked){
+			$("input[name='supplierRateCascadeChecked']").prop("checked","checked");
+		}else{
+			$("input[name='supplierRateCascadeChecked']").removeAttr("checked");
+		}
+	}else{
+		$("#supplierRate").numberbox("readonly",true);
+		$("input[name='supplierRateCascadeChecked']").removeAttr("checked");
 	}
 }
 

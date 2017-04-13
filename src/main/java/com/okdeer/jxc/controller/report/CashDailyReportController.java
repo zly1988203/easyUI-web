@@ -166,7 +166,18 @@ public class CashDailyReportController extends BaseController<CashDailyReportCon
 				}
 				list.add(cashDailyReportVo);
 				String fileName = "收银日报" + "_" + DateUtils.getCurrSmallStr();
+				
 				String templateName = ExportExcelConstant.CASHDAILYREPORT;
+				if(qo.getQueryType().equals("cashier")){
+					templateName = ExportExcelConstant.CASHDAILYREPORT_SYY;
+				}
+				if(qo.getQueryType().equals("branch")){
+					templateName = ExportExcelConstant.CASHDAILYREPORT_MD;
+				}
+				if(qo.getQueryType().equals("date")){
+					templateName = ExportExcelConstant.CASHDAILYREPORT_RQ;
+				}
+				
 				exportListForXLSX(response, list, fileName, templateName);
 			}else{
 				RespJson json = RespJson.error("无数据可导");

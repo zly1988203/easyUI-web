@@ -105,7 +105,8 @@ var scrollview = $.extend({}, $.fn.datagrid.defaults.view, {
         table.push('</tbody></table>');
         table.push('<div class="datagrid-btable-bottom"></div>');
 
-        $(container).html(table.join(''));
+//        $(container).html(table.join(''));
+        $(container)[0].innerHTML = table.join("");  
     },
 
     renderRow: function(target, fields, frozen, rowIndex, rowData){

@@ -7,6 +7,7 @@
 
 package com.okdeer.jxc.controller.deliver;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -179,17 +180,24 @@ public class DeliverFormListController extends BaseController<DeliverFormListCon
 		}
 	}
 	
+	/**
+	 * @Description: 配送建议数量列表
+	 * @param vo
+	 * @return
+	 * @author xuyq
+	 * @date 2017年4月12日
+	 */
 	@RequestMapping(value = "getDeliverSuggestNumItemList", method = RequestMethod.POST)
 	@ResponseBody
-	public PageUtils<DeliverFormGoods> getDeliverSuggestNumItemList(DeliverSuggestNumVo vo) {
-		LOG.info("配送建议数量，获取商品信息列表参数", vo);
+	public List<DeliverFormGoods> getDeliverSuggestNumItemList(DeliverSuggestNumVo vo) {
+		LOG.info("配送建议数量，获取商品信息列表参数:{}", vo);
+		List<DeliverFormGoods> itemList = new ArrayList<DeliverFormGoods>();
 		try {
-			
-			List<DeliverFormGoods> itemList =  deliverSuggestNumService.getFormGoodsListSuggest(vo);
-			return new PageUtils<DeliverFormGoods>(itemList);
+			itemList =  deliverSuggestNumService.getFormGoodsListSuggest(vo);
+			return itemList;
 		} catch (Exception e) {
 			LOG.error("配送建议数量，获取商品信息列表异常:{}", e);
 		}
-		return PageUtils.emptyPage();
+		return itemList;
 	}
 }
