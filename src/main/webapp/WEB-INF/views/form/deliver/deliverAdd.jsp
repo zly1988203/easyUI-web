@@ -19,7 +19,9 @@
                 	<div class="ubtns-item" onclick="saveOrder()">保存</div>
                 </shiro:hasPermission>
                 <div class="ubtns-item" id="selectGoods" onclick="selectGoods()">商品选择</div>
+                <shiro:hasPermission name="JxcDeliverDA:suggest">
                 <div class="ubtns-item init" onclick="suggestSelectGoods()">建议订货商品</div>
+                </shiro:hasPermission>
                 <div class="ubtns-item" id="importsukcode" onclick="toImportproduct(0)">导入货号</div>
             	<div class="ubtns-item" id="importbarcode" onclick="toImportproduct(1)">导入条码</div>
                 <div class="ubtns-item" onclick="toClose()">关闭</div>

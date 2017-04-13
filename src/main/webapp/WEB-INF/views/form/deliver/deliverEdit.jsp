@@ -23,7 +23,9 @@
                 <div class="ubtns-item" onclick="updateOrder()">保存</div>
                 <div class="ubtns-item" onclick="check()">审核</div>
                 <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
+                <shiro:hasPermission name="JxcDeliverDA:suggest">
                 <div class="ubtns-item init" onclick="suggestSelectGoods()">建议订货商品</div>
+                </shiro:hasPermission>
                 <div class="ubtns-item" onclick="delDeliverForm()">删除</div>
                 <div class="ubtns-item" onclick="printChoose('DA','/form/deliverForm/')">打印</div>
                 <div class="ubtns-item"  onclick="exportData('DA','gridRequireOrder')">导出明细</div>

@@ -22,12 +22,14 @@
 				<div class="ubtns-item" onclick="check()">审核</div>
 				<div class="ubtns-item-disabled" >终止</div>
 				<div class="ubtns-item" onclick="selectGoods()">商品选择</div>
+				<shiro:hasPermission name="JxcDeliverDY:suggest">
 				<div class="ubtns-item init" onclick="suggestSelectGoods()">建议订货商品</div>
-				<div class="ubtns-item" onclick="toImportproduct(0)">导入货号</div>
-				<div class="ubtns-item" onclick="toImportproduct(1)">导入条码</div>
-				<!-- <div class="ubtns-item" onclick="delDeliverForm()">删除</div> -->
+				</shiro:hasPermission>
+				<div class="ubtns-item" onclick="delDeliverForm()">删除</div>
 				<div class="ubtns-item" onclick="exportData('DY','gridRequireOrder')">导出</div>
 				<div class="ubtns-item" onclick="printChoose('DY','/form/deliverForm/')">打印</div>
+				<div class="ubtns-item" onclick="toImportproduct(0)">导入货号</div>
+				<div class="ubtns-item" onclick="toImportproduct(1)">导入条码</div>
 				<div class="ubtns-item-disabled">设置</div>
 				<div class="ubtns-item" onclick="toClose()">关闭</div>
 			</div>
