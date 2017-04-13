@@ -38,13 +38,16 @@ import com.okdeer.jxc.system.entity.SysUser;
 @RequestMapping("report/monthStatement")
 public class MonthStatementController extends BaseController<TimeSectionSaleReportController> {
 
+	/**
+	 * @Fields monthStatementService : MonthStatementService
+	 */
 	@Reference(version = "1.0.0", check = false)
 	private MonthStatementService monthStatementService;
 
 	/**
 	 * @Description: 跳转月结页
-	 * @param model
-	 * @return
+	 * @param model Model
+	 * @return ModelAndView
 	 * @author xuyq
 	 * @date 2017年4月6日
 	 */
@@ -55,8 +58,8 @@ public class MonthStatementController extends BaseController<TimeSectionSaleRepo
 
 	/**
 	 * @Description: 月结处理
-	 * @param mr
-	 * @return
+	 * @param mr 参数对象
+	 * @return RespJson
 	 * @author xuyq
 	 * @date 2017年4月6日
 	 */
@@ -65,7 +68,7 @@ public class MonthStatementController extends BaseController<TimeSectionSaleRepo
 		SysUser user = getCurrentUser();
 		RespJson respJson = RespJson.success();
 		try {
-			if(StringUtils.isBlank(mr.getBranchId()) || StringUtils.isBlank(mr.getRptDate())){
+			if (StringUtils.isBlank(mr.getBranchId()) || StringUtils.isBlank(mr.getRptDate())) {
 				respJson = RespJson.error("机构或月结期间不能为空！");
 				return respJson;
 			}
@@ -83,8 +86,8 @@ public class MonthStatementController extends BaseController<TimeSectionSaleRepo
 
 	/**
 	 * @Description: 获得机构月结配置及数据
-	 * @param branchId
-	 * @return
+	 * @param branchId 机构ID
+	 * @return RespJson
 	 * @author xuyq
 	 * @date 2017年4月6日
 	 */
@@ -93,8 +96,8 @@ public class MonthStatementController extends BaseController<TimeSectionSaleRepo
 		RespJson respJson = RespJson.success();
 		try {
 			List<MonthlyReport> branchSpecList = monthStatementService.getBranchLastMonthAndReportDay(branchId, null);
-			MonthlyReport mReport = branchSpecList.get(0);
-			respJson = RespJson.success(mReport);
+			MonthlyReport monReport = branchSpecList.get(0);
+			respJson = RespJson.success(monReport);
 		} catch (Exception e) {
 			LOG.error("获得机构月结配置及数据异常：", e);
 			respJson = RespJson.error("获得机构月结配置及数据异常!");
