@@ -75,6 +75,7 @@
 		   function updateWdatePicker(){
 			   WdatePicker({
 	              	dateFmt:'yyyy-MM',
+	              	maxDate:'%y-%M',
 	                onpicked:function(dp){
 	                    $("input:radio[name='dateradio']").attr("checked",false);
 	                }
