@@ -3198,57 +3198,35 @@ function toImportproduct(type){
 	var branchIds = $("#branchIds").val();
 	// 发货机构id
     if(!branchIds){
-        messager("请先活动分店");
+        messager("请先选择活动分店");
         return;
     }
+    
+    var activityType=$("#activityType").combobox('getValue');
+    
+    //只支持特价、折扣、偶数特价类型的活动
+    if(activityType!=='1' && activityType!=='2' && activityType!=='3'){
+    	 messager("只支持特价、折扣、偶数特价类型的活动");
+         return;
+    }
+    
     var param = {
         url : contextPath+"/sale/activity/importList",
-        tempUrl : contextPath+"/sale/activity/exportTemp",
+        tempUrl : contextPath+"/sale/activity/exportTemp?type="+type+"&activityType="+activityType,
         type:type,
-        branchId : branchIds,
-        formType : 'DA'
+        branchIds : branchIds,
+        activityType : activityType
     }
     new publicUploadFileService(function(data){
     	if (data.length != 0) {
-    		selectStockAndPriceImport(data);
+    		$("#"+datagridId).datagrid("loadData",data);
     	}
     },param)
 }
 
-//查询价格、库存
-function selectStockAndPriceImport(data){
-	//updateListData(data);
-    var GoodsStockVo = {
-        branchId : $("#branchIds").val(),
-        fieldName : 'id',
-        goodsSkuVo : []
-    };
-    $.each(data,function(i,val){
-        var temp = {
-            id : val.skuId
-        };
-        GoodsStockVo.goodsSkuVo[i] = temp;
-    });
-    $.ajax({
-        url : contextPath+"/goods/goodsSelect/queryAlreadyNum",
-        type : "POST",
-        data : {
-            goodsStockVo : JSON.stringify(GoodsStockVo)
-        },
-        success:function(result){
-            $.each(data,function(i,val){
-                $.each(result.data,function(j,obj){
-                    if(val.skuId==obj.skuId){
-                        data[i].alreadyNum = obj.alreadyNum;
-                    }
-                })
-            })
-            updateListData(data);
-        },
-        error:function(result){
-            successTip("请求发送失败或服务器处理失败");
-        }
-    });
+//重新渲染datagrid
+function setDataValue(data){
+	messager("重新渲染datagrid");
 }
 
 function updateListData(data){

@@ -789,13 +789,13 @@ public class ActivityController extends BaseController<ActivityController> {
 	 * @date 2016年10月12日
 	 */
 	@RequestMapping(value = "exportTemp")
-	public void exportTemp(HttpServletResponse response, Integer type, Integer activityType) {
+	public void exportTemp(HttpServletResponse response, String type, Integer activityType) {
 		LOG.info("导出活动商品导入模板参数,type:{}, activityType:{}", type, activityType);
 		try {
 			String fileName = "";
 			String templateName = "";
 			
-			if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {// 货号
+			if (GoodsSelectImportHandle.TYPE_SKU_CODE.equals(type)) {// 货号
 				if(activityType==ActivityType.SALE_PRICE.getValue()){ //特价
 					templateName = ExportExcelConstant.ACTIVITY_SPECIAL_GOODS_SKUCODE_TEMPLATE;
 					fileName = "特价活动货号导入模板";
@@ -809,7 +809,7 @@ public class ActivityController extends BaseController<ActivityController> {
 					LOG.warn("活动类型不正确");
 					return;
 				}
-			} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {// 条码
+			} else if (GoodsSelectImportHandle.TYPE_BAR_CODE.equals(type)) {// 条码
 				if(activityType==ActivityType.SALE_PRICE.getValue()){ //特价
 					templateName = ExportExcelConstant.ACTIVITY_SPECIAL_GOODS_BARCODE_TEMPLATE;
 					fileName = "特价活动条码导入模板";
