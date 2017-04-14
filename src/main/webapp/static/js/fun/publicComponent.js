@@ -300,6 +300,102 @@ function publicAgencyService(callback,formType,branchId, branchType,isOpenStock)
     //});
 }
 
+/**
+ * 公共组件-选择机构
+ * @param callback
+ * @param type  0是单选  1是多选
+ */
+function publicBranchService(callback,type,isOpenStock, formType) {
+	if(!isOpenStock){
+		isOpenStock = "";
+	}
+    var dalogObj = {
+        href: contextPath + "/system/user/views?type=branch&check="+type+"&isOpenStock="+isOpenStock+"&formType="+formType,
+        width: 680,
+        height: dialogHeight,
+        title: "选择机构",
+        closable: true,
+        resizable: true,
+        onClose: function () {
+            $(dalogTemp).panel('destroy');
+        },
+        modal: true,
+    }
+    if(type==1){
+        dalogObj["buttons"] = [{
+            text:'确定',
+            handler:function(){
+                publicOperatorGetCheck(callBackHandel);
+            }
+        },{
+            text:'取消',
+            handler:function(){
+                $(dalogTemp).panel('destroy');
+            }
+        }];
+    }else{
+        dalogObj["onLoad"] = function () {
+            initBranchCallBack(callBackHandel);
+        };
+    }
+    //公有属性
+    var dalogTemp = $('<div/>').dialog(dalogObj);
+    function callBackHandel(data){
+        callback(data);
+        $(dalogTemp).panel('destroy');
+    }
+    //调用方式
+    //new publicStoreService(function(data){
+    //    console.log(data);
+    //});
+}
+
+/**********************礼品兑换机构选择 start*******************************/
+/**
+ * 公共组件-选择机构
+ * @param callback
+ * @param type  0是单选  1是多选
+ */
+function publicBranchServiceGift(callback,type) {
+    var dalogObj = {
+        href: contextPath + "/system/user/publicBranchChoose?type=branch&check="+type,
+        width: 680,
+        height: dialogHeight,
+        title: "选择机构",
+        closable: true,
+        resizable: true,
+        onClose: function () {
+            $(dalogTemp).panel('destroy');
+        },
+        modal: true,
+    }
+    if(type==1){
+        dalogObj["buttons"] = [{
+            text:'确定',
+            handler:function(){
+                publicOperatorGetCheck(callBackHandel);
+            }
+        },{
+            text:'取消',
+            handler:function(){
+                $(dalogTemp).panel('destroy');
+            }
+        }];
+    }else{
+        dalogObj["onLoad"] = function () {
+            initBranchCallBack(callBackHandel);
+        };
+    }
+    //公有属性
+    var dalogTemp = $('<div/>').dialog(dalogObj);
+    function callBackHandel(data){
+        callback(data);
+        $(dalogTemp).panel('destroy');
+    }
+}
+
+/**********************礼品兑换机构选择 end*******************************/
+
 //公共组件-选择品牌
 function publicBrandService(callback){
     //公有属性
@@ -504,101 +600,7 @@ function publicDictService(dictType,callback) {
   //});
 }
 
-/**
- * 公共组件-选择机构
- * @param callback
- * @param type  0是单选  1是多选
- */
-function publicBranchService(callback,type,isOpenStock) {
-	if(!isOpenStock){
-		isOpenStock = "";
-	}
-    var dalogObj = {
-        href: contextPath + "/system/user/views?type=branch&check="+type+"&isOpenStock="+isOpenStock,
-        width: 680,
-        height: dialogHeight,
-        title: "选择机构",
-        closable: true,
-        resizable: true,
-        onClose: function () {
-            $(dalogTemp).panel('destroy');
-        },
-        modal: true,
-    }
-    if(type==1){
-        dalogObj["buttons"] = [{
-            text:'确定',
-            handler:function(){
-                publicOperatorGetCheck(callBackHandel);
-            }
-        },{
-            text:'取消',
-            handler:function(){
-                $(dalogTemp).panel('destroy');
-            }
-        }];
-    }else{
-        dalogObj["onLoad"] = function () {
-            initBranchCallBack(callBackHandel);
-        };
-    }
-    //公有属性
-    var dalogTemp = $('<div/>').dialog(dalogObj);
-    function callBackHandel(data){
-        callback(data);
-        $(dalogTemp).panel('destroy');
-    }
-    //调用方式
-    //new publicStoreService(function(data){
-    //    console.log(data);
-    //});
-}
 
-/**********************礼品兑换机构选择 start*******************************/
-/**
- * 公共组件-选择机构
- * @param callback
- * @param type  0是单选  1是多选
- */
-function publicBranchServiceGift(callback,type) {
-    var dalogObj = {
-        href: contextPath + "/system/user/publicBranchChoose?type=branch&check="+type,
-        width: 680,
-        height: dialogHeight,
-        title: "选择机构",
-        closable: true,
-        resizable: true,
-        onClose: function () {
-            $(dalogTemp).panel('destroy');
-        },
-        modal: true,
-    }
-    if(type==1){
-        dalogObj["buttons"] = [{
-            text:'确定',
-            handler:function(){
-                publicOperatorGetCheck(callBackHandel);
-            }
-        },{
-            text:'取消',
-            handler:function(){
-                $(dalogTemp).panel('destroy');
-            }
-        }];
-    }else{
-        dalogObj["onLoad"] = function () {
-            initBranchCallBack(callBackHandel);
-        };
-    }
-    //公有属性
-    var dalogTemp = $('<div/>').dialog(dalogObj);
-    function callBackHandel(data){
-        callback(data);
-        $(dalogTemp).panel('destroy');
-    }
-}
-
-/**********************礼品兑换机构选择 end*******************************/
 
 //公共组件-选择机构区域
 function publicBranchAreaService(callback) {

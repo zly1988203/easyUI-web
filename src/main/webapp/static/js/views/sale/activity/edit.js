@@ -3214,7 +3214,7 @@ function selectBranch() {
 		$("#areaInput").val("");
 		//清空列表数据
 		$('#addModifyPriceGrid').datagrid('loadData', {total: 0, rows:  [$.extend({},gridDefault)]});  
-	},1);
+	},1, null, 'DP');
 }
 
 //类别选择

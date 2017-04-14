@@ -15,6 +15,7 @@
 					<input value="${check}" id="hiddenCheck" type="hidden">
 					<input value="${dictType}" id="dictType" type="hidden"> 
 					<input value="${isOpenStock}" id="isOpenStock" name="isOpenStock" type="hidden"> 
+					<input value="${formType}" id="formType" name="formType" type="hidden"> 
 					<input class="usearch uinp ub ub-f1" type="text" placeholder="输入编号/名称"
 						name="nameOrCode">
 					<div class="ubtn umar-l20" onclick="cx()">查询</div>
