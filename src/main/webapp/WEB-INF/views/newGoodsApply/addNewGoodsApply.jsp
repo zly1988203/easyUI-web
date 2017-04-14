@@ -240,7 +240,7 @@ pageEncoding="UTF-8"%>
                 style="width: 800px;" maxlength="100" type="text"
                  placeholder="计件秤重商品对类别有特殊说明、商品为组合商品有成份关系的，请在备注中填写。"></textarea>
             </div>
-            <div class="ub umar-l32" style="position: absolute;left: 0px;">
+            <div class="ub upad-4 umar-r200">
                 <div class="ub ub-ac umar-r40">
                     <input id="managerStock" name="managerStock"  class="ub" type="checkbox" name="checkbox" checked="checked" readonly="readonly" /><span>是否管理库存</span>
                 </div>

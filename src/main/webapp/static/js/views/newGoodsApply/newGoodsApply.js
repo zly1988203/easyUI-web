@@ -393,11 +393,13 @@ function addGoodsView(){
 
 //打开Dialog
 var  dalogTemp;
+var dialogHeight = $(window).height()*(4/5);
+var dialogWidth = $(window).width()*(5/9);
 function openDialog(argUrl,argTitle,argType,params) {
     dalogTemp = $('<div/>').dialog({
         href: argUrl,
-        width: 940,
-        height: 620,
+        width: dialogWidth,
+        height: dialogHeight,
         title: argTitle,
         closable: true,
         resizable: true,

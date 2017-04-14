@@ -76,21 +76,41 @@
                 <div class="umar-r10 uw-60 ut-r">有效期限:</div>
                 <input id="validityTime" class="Wdate" type="text" value="<fmt:formatDate value="${form.validityTime}" pattern="yyyy-MM-dd"/>" readonly="readonly"/>
             </div>
-            <div class="ub ub-ac umar-l20">
-                <div class="umar-r10 uw-60 ut-r">审核人员:</div>
-                <div class="utxt" id="validUserName">${form.validUserName}</div>
+            <div class="ub ub-ac umar-l1">
+                <div class="umar-r10 uw-80 ut-r">最后修改人:</div>
+                <div class="utxt"></div>
             </div>
             <div class="already-examine" id="already-examine"><span>${status}</span></div>
             <div class="ub ub-ac umar-l20">
-                <div class="umar-r10 uw-60 ut-r">审核时间:</div>
-                <div class="utxt"><fmt:formatDate value="${form.validTime}" pattern="yyyy-MM-dd HH:mm"/></div>
+                <div class="umar-r10 uw-60 ut-r">修改时间:</div>
+                <div class="utxt"></div>
             </div>
+            
         </div>
         <div class="ub umar-t8">
-        	<div class="ub ub-ac umar-r80 uw-1130">
-                <div class="umar-r10 uw-60 ut-r">备注:</div>
-                <input class="uinp ub ub-f1" type="text" id="remark" name="remark" value="${form.remark}" readonly="readonly" />
+        	<div class="ub ub-ac uw-300">
+                <div class="umar-r10 uw-60 ut-r">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注:</div>
+                <input class="uinp ub " type="text" id="remark" name="remark" value="${form.remark}" readonly="readonly" />
             </div>
+<!--             <div class="ub ub-ac umar-l20"> -->
+<!--                 <div class="umar-r10 uw-60 ut-r">数量处理:</div> -->
+<!--                 <div class="ub ub-ac umar-r10"> -->
+<!--                     <input class="radioItem" type="radio" name="numDeal" id="status_1" value="0"><label for="status_1">设置为建议订货数量 </label> -->
+<!--                 </div> -->
+<!--                 <div class="ub ub-ac umar-r10"> -->
+<!--                     <input class="radioItem" type="radio" name="numDeal" id="status_2" value="1"><label for="status_2">重新归零 </label> -->
+<!--                 </div> -->
+<!--            </div> -->
+	           
+           <div class="ub ub-ac umar-l12">
+               <div class="umar-r10 uw-70 ut-r">审核人员:</div>
+               <div class="utxt">${form.validUserName}</div>
+           </div>
+           <div class="ub ub-ac umar-l20">
+               <div class="umar-r10 uw-88 ut-r">审核时间:</div>
+               <div class="utxt"><fmt:formatDate value="${form.validTime}" pattern="yyyy-MM-dd HH:mm"/></div>
+           </div>
+           
         </div>
         <div class="ub ub-f1 datagrid-edit umar-t8">
             <table id="gridViewRequireOrder" ></table>

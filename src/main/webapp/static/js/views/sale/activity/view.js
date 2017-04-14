@@ -2066,4 +2066,13 @@ function addActivity(){
 	toAddTab("新增促销活动",contextPath + "/sale/activity/add");
 }
 
+//复制活动
+function copyActivity(){
+	var activityId = $("#activityId").val();
+	if(activityId){
+		toAddTab("复制促销活动",contextPath + "/sale/activity/toCopy?from=toCopy&activityId="+activityId);
+	}
+}
+
+
 

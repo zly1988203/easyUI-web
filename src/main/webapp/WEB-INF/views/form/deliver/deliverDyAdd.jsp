@@ -8,7 +8,8 @@
     <title>直送要货单-新增</title>
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-	<script src="${ctx}/static/js/views/deliver/deliverDy.js?v=<%=new java.util.Date().getTime()%>"></script>
+    <!-- new java.util.Date().getTime()  -->
+	<script src="${ctx}/static/js/views/deliver/deliverDy.js"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
 <input type='hidden' id="deliverStatus" value="add">
@@ -16,16 +17,20 @@
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
 				<div class="ubtns-item" onclick="addDeliverForm()">新增</div>
+            <shiro:hasPermission name="JxcDeliverDY:add">
 				<div class="ubtns-item" onclick="saveOrder()">保存</div>
-				<div class="ubtns-item-disabled">审核</div>
-				<div class="ubtns-item-disabled">终止</div>
+			</shiro:hasPermission>
+<!-- 				<div class="ubtns-item-disabled">审核</div> -->
+<!-- 				<div class="ubtns-item-disabled">终止</div> -->
 				<div class="ubtns-item" onclick="selectGoods()">商品选择</div>
+            <shiro:hasPermission name="JxcDeliverDY:suggest">
 				<div class="ubtns-item init" onclick="suggestSelectGoods()">建议订货商品</div>
+			</shiro:hasPermission>
 				<div class="ubtns-item" onclick="toImportproduct(0)">导入货号</div>
 				<div class="ubtns-item" onclick="toImportproduct(1)">导入条码</div>
-				<div class="ubtns-item-disabled">导出</div>
-				<div class="ubtns-item-disabled">打印</div>
-				<div class="ubtns-item-disabled">设置</div>
+<!-- 				<div class="ubtns-item-disabled">导出</div> -->
+<!-- 				<div class="ubtns-item-disabled">打印</div> -->
+<!-- 				<div class="ubtns-item-disabled">设置</div> -->
 				<div class="ubtns-item" onclick="back()">关闭</div>
             </div>
         </div>
@@ -33,11 +38,11 @@
           <div class="ub umar-t10">
 			<div class="ub ub-ac uw-300">
 				<div class="umar-r10 uw-70 ut-r">要货机构:</div>
-				<input type="hidden" name="targetBranchId" id="targetBranchId" class="uinp" value="${branchesGrow.targetBranchId}" />
-				<input type="hidden" id="targetBranchType" name="targetBranchType"  value="${branchesGrow.targetBranchType}" />
-				<input type="hidden" id="minAmount" name="minAmount" value="${branchesGrow.minAmount}"  />
-				<input type="text" name="targetBranchName" id="targetBranchName"class="uinp  ub ub-f1" readonly="readonly" />
-				<div class="uinp-more" onclick="selectTargetBranch()">...</div>
+                 <input type="hidden" id="targetBranchId" name="targetBranchId" value="${branchesGrow.targetBranchId}"  />
+                 <input type="hidden" id="targetBranchType" name="targetBranchType" value="${branchesGrow.targetBranchType}"  />
+                 <input type="hidden" id="minAmount" name="minAmount" value="${branchesGrow.minAmount}"  />
+                 <input class="uinp ub ub-f1" type="text" id="targetBranchName" readonly="readonly" value="${branchesGrow.targetBranchName}" onclick="selectTargetBranch()" />
+                 <div class="uinp-more" onclick="selectTargetBranch()">...</div>
 			</div>
 			<div class="ub uw-330">&nbsp;</div>
 			<div class="ub ub-ac uw-300  umar-l80">
@@ -89,7 +94,6 @@
 				<div class="utxt"></div>
 			</div>
 		</div>
-           <%--datagrid-edit--%>
         <div class="ub ub-f1 datagrid-edit umar-t8">
             <table id="gridRequireOrder" ></table>
         </div>

@@ -90,7 +90,9 @@ public class DeliverSelectController extends BaseController<PurchaseForm> {
 				vo.setEndTime(null);
 			}
 			// 如果是要货单说明登录店铺是根据要货单出库，登录店铺id就是source_branch_id
-			if (FormType.DA.toString().equals(vo.getFormType())) {
+			if (FormType.DA.toString().equals(vo.getFormType()) 
+					|| FormType.DY.toString().equals(vo.getFormType()) 
+					|| FormType.DR.toString().equals(vo.getFormType())) {
 				vo.setSourceBranchId(UserUtil.getCurrBranchId());
 			} else if (FormType.DO.toString().equals(vo.getFormType())) {
 				// 如果是配送出库说明登录店铺是根据出库单收货，登录店铺id就是target_branch_id

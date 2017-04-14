@@ -9,6 +9,9 @@ $(function(){
     	$("#toBackByJSButton").attr("onclick","window.parent.closeTab()");
     }
 });
+$(document).on('click','input[name="numDeal"]',function(){
+	return false;
+});
 var gridHandel = new GridClass();
 function initDatagridViewRequireOrder(){
 	gridHandel.setGridName("gridViewRequireOrder");
@@ -135,7 +138,7 @@ function stop(){
 				type : "POST",
 				data : {
 					deliverFormId : $("#formId").val(),
-					deliverType : 'DA'
+					deliverType : 'DY'
 				},
 				success:function(result){
 					if(result['code'] == 0){

@@ -300,6 +300,8 @@ function getFiledsList(){
 
 //查询
 function queryForm(){
+	$("#startCount").val('');
+	$("#endCount").val('');
 	var oldBranchName = $("#oldBranchName").val();
 	var branchName = $("#branchName").val();
 	var oldbatchNo = $('#oldbatchNo').val();
@@ -346,6 +348,8 @@ function selectBranches(){
 }
 
 function searchTakeStock(){
+	$("#startCount").val('');
+	$("#endCount").val('');
 	var branchId = $('#branchId').val();
 	var branchCompleCode = $("#branchCompleCode").val();
 	var param = {
@@ -404,6 +408,8 @@ function searchCategory(){
  * 导出
  */
 function exportDiffSearchData(){
+	$("#startCount").val('');
+	$("#endCount").val('');
 	var length = $('#diffSearchList').datagrid('getData').total;
 	if(length == 0){
 		successTip("无数据可导");
@@ -445,6 +451,8 @@ function exportExcel(){
  * 打印
  */
 function printDiffSearchList(){
+	$("#startCount").val('');
+	$("#endCount").val('');
 	var length = $("#diffSearchList").datagrid('getData').total;
 	if(length == 0){
 		$.messager.alert('提示',"没有数据");

@@ -1,4 +1,4 @@
-﻿﻿﻿/**
+﻿﻿﻿﻿/**
  * 打印项数据,详细类别： CGSheet：采购订单
  * 
  * FileName: defaultData.js
@@ -548,7 +548,7 @@ var defaultData = {
 		 group : "单据打印项",
 		 items : [ {
 			 type : "label",
-			 text : "要货单"
+			 text : "直送要货单"
 		 }, {
 			 type : "label",
 			 text : "单号"
