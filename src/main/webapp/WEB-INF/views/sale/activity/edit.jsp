@@ -7,7 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>促销活动设置-编辑</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="${ctx}/static/js/views/sale/activity/edit.js?1=31"></script>
+<script src="${ctx}/static/js/views/sale/activity/edit.js?1=11"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
 </style>
@@ -19,6 +19,8 @@
 	            <div class="ubtns">
 	             <div class="ubtns-item" id="SelectGoods" onclick="selectGoods()">商品选择</div>
 	             <div class="ubtns-item" id="GoodsType" onclick="getGoodsType()">类别选择</div>
+	             <div class="ubtns-item importGood unhide" onclick="toImportproduct(0)">导入货号</div>
+            	 <div class="ubtns-item importGood unhide" onclick="toImportproduct(1)">导入条码</div>
 	             <div class="ubtns-item" onclick="saveActivity()">保存</div>
 	             <div class="ubtns-item" onclick="copyActivity()">复制</div>
 	             <div class="ubtns-item" onclick="check()">审核</div>
@@ -218,9 +220,10 @@
 				    </div>
 				</div>
 				<div id="consolemms02" class="ub uw ub-f1 ub-ver  umar-t10 ">
-					<div class="ub ub-ac upad-t20">
+					<!-- upad-t20  -->
+					<div class="ub ub-ac ">
 						<span class="ub">赠品信息：</span>
-						<div class="ubtns">
+						<div class="ubtns unhide">
 				             <div class="ubtns-item" onclick="saveTempGiftGoods()">保存</div>
 				             <div class="ubtns-item" onclick="resetGiftGoods()">重置</div>
 			            </div>
