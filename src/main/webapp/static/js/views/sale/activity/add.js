@@ -368,10 +368,6 @@ function initDatagridmmsTJ(){
 		firstName:gridTitleName == '买满数量' ? 'limitCount':'limitAmount',
         enterCallBack:function(arg){
             if(arg&&arg=="add"){
-            	var giftGoodsList = $("#mmsgoodList").datagrid('getRows');
-//            	var flg = initmmTJGoodParams(gridHandelT.getSelectRowIndex(),true);
-//            	if(!flg) return;
-            		
             	gridHandelT.addRow(parseInt(gridHandelT.getSelectRowIndex())+1,mmsTJDefault);
                 setTimeout(function(){
                 	gridHandelT.setBeginRow(gridHandelT.getSelectRowIndex()+1);
@@ -436,45 +432,18 @@ function initDatagridmmsTJ(){
        onEndEdit:function(rowIndex, rowData){
     	    var _this = this;
     	    console.log('onEndEdit rowData '+rowIndex+'',rowData);
-//	        var ro = gridHandel.getRowsWhere({skuName:'1'});
-//     	    if(ro.length > 0 ){
-//     	    	$.messager.confirm("","更换买满条件会清空当前赠品列表信息，是否先保存当前赠品信息？",function(b){
-//	  			   if(b){
-//	  				   $(_this).datagrid('cancelEdit')
-//	  			   }
-//	  		    })
-//     		   
-//     	   }
+    	    gridHandel.endEditRow();
+    	    rowData.goodsGiftList = gridHandel.getRowsWhere({skuName:'1'});
 	        
        },
        onBeginEdit:function(rowIndex, rowData){
-        	
             console.log('onBeginEdit rowData '+rowIndex+'',rowData);
-            if(rowData && rowData.goodsGiftList){
-            	if(rowData.goodsGiftList.length > 0){
-            		gridHandel.setLoadData(rowData.goodsGiftList)
-            	}
+            if(rowData && rowData.goodsGiftList && rowData.goodsGiftList.length > 0){
+            		gridHandel.setLoadData(rowData.goodsGiftList);
 	      	}else{
 	      		gridHandel.setLoadData([$.extend({},gridDefaultG)])
 	      	}
-     	   //initmmTJGoodParams(rowIndex,false);
-     	   /*var ro = gridHandel.getRowsWhere({skuName:'1'});
-     	   if(ro.length > 0){
-     		   $.messager.confirm("","更换买满条件会清空当前赠品列表信息，是否更换？",function(b){
-     			   if(!b){
-     				   gridHandelT.setBeginRow(rowIndex);
-     				   var temS = gridTitleName =='买满金额'?'limitAmount':'limitCount';
-     		  		   gridHandelT.setSelectFieldName(temS);
-     				   var target = gridHandelT.getFieldTarget(temS);
-     				   if(target){
-     					  gridHandelT.setFieldFocus(target);
-     				   }else{
-     						
-     						gridHandelT.setSelectFieldName(temS);
-     				   }
-     			   }
-     		   })
-     	   }*/
+     	  
         }, 
   		onClickCell : function(rowIndex, field, value) {
   			gridHandelT.setBeginRow(rowIndex);
@@ -491,16 +460,6 @@ function initDatagridmmsTJ(){
            var _this = this;
     	   console.log('data1',data);
     	   $(_this).datagrid('resize',{width:'100%',height:'300px'})
-//    	   gridHandelT.setBeginRow(data.total - 1);
-//		   var temS = gridTitleName =='买满金额'?'limitAmount':'limitCount';
-//  		   gridHandelT.setSelectFieldName(temS);
-//		   var target = gridHandelT.getFieldTarget(temS);
-//		   if(target){
-//			  gridHandelT.setFieldFocus(target);
-//		   }else{
-//				
-//				gridHandelT.setSelectFieldName(temS);
-//		   }
     	  gridHandelT.setDatagridHeader("center");
 	  }
     });
@@ -561,14 +520,14 @@ function initDatagridmmsGOOD(){
 					{field:'giftNum',title:'数量',width:'100px',align:'right',
 		            	formatter:function(value,row,index){
 		            		if(!value){
-		            			row['giftNum'] = 0;
+		            			row['giftNum'] = 1;
 		            		}
-		                    return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		                    return  '<b>'+parseFloat(value||1).toFixed(2)+'</b>';
 		                },
 		                editor:{
 		                    type:'numberbox',
 		                    options:{
-		                        min:0,
+		                        min:1,
 		                        precision:2,
 		                    }
 		                },
@@ -2255,6 +2214,12 @@ function selectGoodsComG(searchKey){
 
 //商品选择 买满送 礼品
 function selectGoodsG(searchKey){
+	var gradRows = $("#mmsgradedList").datagrid('getChecked');
+	if(gradRows.length <= 0){
+		$.messager.alert('提示','请先选择买满条件');
+		return;
+	}
+	
 	var param = {
 			type:'PX',
 			key:searchKey,
@@ -2282,6 +2247,7 @@ function selectGoodsG(searchKey){
         var argWhere ={skuCode:1};  // 验证重复性
         var isCheck ={isGift:1};   // 只要是赠品就可以重复
         var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
+        gradRows[0].goodsGiftList = newRows;
         $("#mmsgoodList").datagrid("loadData",newRows);
     })
 }
@@ -2439,15 +2405,15 @@ function saveActivity(){
 	
 	if(!$("#dailyStartTime").val() || !$("#dailyStartTime").val()){
 		messager("<活动时段>不能为空");
-		return;
-	}
-  
-    if(!$("#activityName").val()){
+			return;
+		}
+	  
+	    if(!$("#activityName").val()){
 	    messager("<活动名称>不能为空");
 	    return;
-    }
-
-
+	}
+	
+	
 	if(!$("#branchName").val().trim()){
 		messager("<活动分店>不能为空");
 		return;
@@ -2770,6 +2736,12 @@ function saveActivity(){
 	  //买满条件
 	  gridHandelT.endEditRow();
 	  gridHandel.endEditRow();
+	  
+	  var temTJObj = $('#mmsgradedList').datagrid('getChecked');
+	  if(temTJObj.length > 0){
+	  	temTJObj[0].goodsGiftList = gridHandel.getRowsWhere({skuName:'1'});
+	  }
+	  
 	  //买满条件 梯度检查
 	  var tjRows = gridHandelT.getRows();
 	  if(tjRows.length <= 0){
@@ -2801,6 +2773,7 @@ function saveActivity(){
 			  }
 		  }
 	  }
+	  //return;
 	  saveDataHandel(tjRows,setRows);
   }
   else{
@@ -3014,6 +2987,7 @@ function saveDataHandel(rows,setrows){
 				  var temgood = {
 						  skuId :  obx.skuId,
 						  skuCode :  obx.skuCode,
+						  skuName :  obx.skuName,
 						  giftNum :  obx.giftNum,
 						  giftAmount :  obx.giftAmount,
 				  }
@@ -3047,7 +3021,7 @@ function saveDataHandel(rows,setrows){
   
   var req = JSON.stringify(reqObj);
   console.log('req',req);
-//  return; 
+ // return; 
   $.ajax({
       url:contextPath+"/sale/activity/save",
       type:"POST",
@@ -3219,15 +3193,12 @@ function toImportproduct(type){
     }
     new publicUploadFileService(function(data){
     	if (data.length != 0) {
-    		$("#"+datagridId).datagrid("loadData",data);
+    		updateListData(data);
+    		//$("#"+datagridId).datagrid("loadData",data);
     	}
     },param)
 }
 
-//重新渲染datagrid
-function setDataValue(data){
-	messager("重新渲染datagrid");
-}
 
 function updateListData(data){
 	var keyNames = {
