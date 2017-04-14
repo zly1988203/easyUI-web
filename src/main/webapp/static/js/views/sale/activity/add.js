@@ -413,6 +413,7 @@ function initDatagridmmsTJ(){
 		                    options:{
 		                        min:0,
 		                        precision:2,
+		                        onChange:changeLimitCount
 		                    }
 		                },
 		            }, 
@@ -425,6 +426,7 @@ function initDatagridmmsTJ(){
 		                    options:{
 		                        min:0,
 		                        precision:2,
+		                        onChange:changeLimitAmount
 		                    }
 		                },
 		            }, 
@@ -466,6 +468,25 @@ function initDatagridmmsTJ(){
 	gridHandelT.setLoadData([$.extend({},mmsTJDefault)]);
  }
 
+//买满数量
+function changeLimitCount(newV,oldV){
+	var _this = this;
+	if(parseFloat(newV||0) > 9999.99){
+		$.messager.alert('提示','买满数量不得大于9999.99','',function(){
+			$(_this).numberbox('setValue',(oldV||0));
+		});
+	}
+}
+
+//买满金额
+function changeLimitAmount(newV,oldV){
+	var _this = this;
+	if(parseFloat(newV||0) > 9999.99){
+		$.messager.alert('提示','买满金额不得大于9999.99','',function(){
+			$(_this).numberbox('setValue',(oldV||0));
+		});
+	}
+}
 
 //初始化表格-买满送 赠品 商品
 function initDatagridmmsGOOD(){
@@ -529,6 +550,7 @@ function initDatagridmmsGOOD(){
 		                    options:{
 		                        min:1,
 		                        precision:2,
+		                        onChange:changeGiftNum
 		                    }
 		                },
 		            }, 
@@ -569,6 +591,15 @@ function initDatagridmmsGOOD(){
     gridHandel.setLoadData([$.extend({},gridDefaultG)])
  }
 
+//赠品数量
+function changeGiftNum(newV,oldV){
+	var _this = this;
+	if(parseFloat(newV||0) > 9999.99){
+		$.messager.alert('提示','赠品数量不得大于9999.99','',function(){
+			$(_this).numberbox('setValue',(oldV||0));
+		});
+	}
+}
 
 //买满送 金额改变监听
 function changeGiftPrice(newV,oldV){
@@ -579,7 +610,6 @@ function changeGiftPrice(newV,oldV){
 			$(_this).numberbox('setValue',(oldV||0));
 		});
 	}
-	//gridHandel
 }
 
 //买满送 参数保存
