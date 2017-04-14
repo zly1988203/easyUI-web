@@ -174,7 +174,7 @@
 					}else if(key==="sumTwo"){
 						$("#sumTwo").show();
 						continue;
-					}else if(key===""){
+					}else if(key==="sumOther"){
 						$("#sumOther").show();
 						continue;
 					}

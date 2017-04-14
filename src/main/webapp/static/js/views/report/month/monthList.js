@@ -9,7 +9,7 @@ $(function(){
 
 function updateWdatePicker(){
 	   WdatePicker({
-       	dateFmt:'yyyy-MM-dd',
+       	dateFmt:'yyyy-MM',
          onpicked:function(dp){
              $("input:radio[name='dateradio']").attr("checked",false);
          }

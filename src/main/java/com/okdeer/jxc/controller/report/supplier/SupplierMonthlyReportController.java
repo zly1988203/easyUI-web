@@ -41,7 +41,6 @@ import com.okdeer.jxc.controller.report.DayReportController;
 import com.okdeer.jxc.report.qo.DayReportQo;
 import com.okdeer.jxc.report.service.DayReportService;
 import com.okdeer.jxc.report.vo.SupplierMonthReportVo;
-import com.okdeer.jxc.utils.UserUtil;
 
 /**
  * @ClassName: SupplierMonthlyReportController
@@ -64,9 +63,9 @@ public class SupplierMonthlyReportController  extends BaseController<DayReportCo
     @RequestMapping(value = "/list")
     public ModelAndView add() {
 	Map<String, String> model = Maps.newHashMap(); 
-	model.put("branchId", UserUtil.getCurrentUser().getBranchId());
-	model.put("branchName", UserUtil.getCurrentUser().getBranchName());
-	model.put("startTime", LocalDate.now().format(DateTimeFormatter.ofPattern(DateUtils.DATE_SMALL_STR_R)));
+	//model.put("branchId", UserUtil.getCurrentUser().getBranchId());
+	//model.put("branchName", UserUtil.getCurrentUser().getBranchName());
+	model.put("startTime", LocalDate.now().minusMonths(1).format(DateTimeFormatter.ofPattern(DateUtils.DATE_JFP_STR_R)));
 	return new ModelAndView("report/supplier/monthlylist",model);
     }
     
