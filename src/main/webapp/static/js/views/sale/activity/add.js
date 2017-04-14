@@ -3080,7 +3080,7 @@ function selectBranch() {
 		$("#areaName").val("自定义");
 		$("#areaInput").val("");
 		 
-	},1);
+	},1, null, 'DP'); //只查询店铺数据
 }
 
 //类别选择  ---> 买满送

@@ -136,7 +136,7 @@ function searchBranch(){
 	new publicAgencyService(function(data){
 		$("#branchId").val(data.branchesId);
 		$("#branchName").val(data.branchName);
-	},'BF','');
+	},'DP','');
 }
 
 //pos新增

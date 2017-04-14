@@ -42,25 +42,25 @@
 	              <div class="ub ub-ac " id="weekday">
 	               <div class="umar-r10 uw-70 ut-r">活动日:</div>
 	               <div class="ub ub-ac umar-l10 ubcheckweek">
-                        <input class="ub" type="checkbox" name="weekcheckbox" value="1" checked="checked" /><span class="umar-l10">一</span>
+                        <label><input class="radioItem" type="checkbox" name="weekcheckbox" value="1" checked="checked" /><span class="umar-l10">一</span></label>
                    </div>
                    <div class="ub ub-ac umar-l10 ubcheckweek">
-                        <input class="ub " type="checkbox" name="weekcheckbox" value="2" checked="checked" /><span class="umar-l10">二</span>
+                        <label><input class="radioItem " type="checkbox" name="weekcheckbox" value="2" checked="checked" /><span class="umar-l10">二</span></label>
                    </div>
                    <div class="ub ub-ac umar-l10 ubcheckweek">
-                        <input class="ub " type="checkbox" name="weekcheckbox" value="3" checked="checked" /><span class="umar-l10">三</span>
+                        <label><input class="radioItem " type="checkbox" name="weekcheckbox" value="3" checked="checked" /><span class="umar-l10">三</span></label>
                    </div>
                     <div class="ub ub-ac umar-l10 ubcheckweek">
-                        <input class="ub " type="checkbox" name="weekcheckbox" value="4" checked="checked" /><span class="umar-l10">四</span>
+                        <label><input class="radioItem " type="checkbox" name="weekcheckbox" value="4" checked="checked" /><span class="umar-l10">四</span></label>
                    </div>
                     <div class="ub ub-ac umar-l10 ubcheckweek">
-                        <input class="ub " type="checkbox" name="weekcheckbox" value="5" checked="checked" /><span class="umar-l10">五</span>
+                        <label><input class="radioItem " type="checkbox" name="weekcheckbox" value="5" checked="checked" /><span class="umar-l10">五</span></label>
                    </div>
                     <div class="ub ub-ac umar-l10 ubcheckweek">
-                        <input class="ub " type="checkbox" name="weekcheckbox" value="6" checked="checked" /><span class="umar-l10">六</span>
+                        <label><input class="radioItem " type="checkbox" name="weekcheckbox" value="6" checked="checked" /><span class="umar-l10">六</span></label>
                    </div>
                     <div class="ub ub-ac umar-l10 ubcheckweek">
-                        <input class="ub " type="checkbox" name="weekcheckbox" value="7" checked="checked" /><span class="umar-l10">日</span>
+                        <label><input class="radioItem " type="checkbox" name="weekcheckbox" value="7" checked="checked" /><span class="umar-l10">日</span></label>
                    </div>
                    <input class="uinp ub ub-f1" type="hidden" id="weeklyActivityDay" name="weeklyActivityDay" value=" ">
                   </div>
@@ -90,38 +90,38 @@
                 </div>
                 <div class="ub ub-ac umar-l10  discountTypechoose unhide">
                 		<div class="ub ub-ac umar-r10">
-	                        <input class="ub disradio disstatusChange" type="radio" id="allZk" name="disstatus"  value="2"/><span>全场折扣</span>
+	                        <label><input class="radioItem disradio disstatusChange" type="radio" id="allZk" name="disstatus"  value="2"/><span>全场折扣</span></label>
 	                    </div>
 	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub disradio disstatusChange" type="radio" id="sortZk" name="disstatus"  value="1"/><span>类别折扣</span>
+	                        <label><input class="radioItem disradio disstatusChange" type="radio" id="sortZk" name="disstatus"  value="1"/><span>类别折扣</span></label>
 	                    </div>
 						<div class="ub ub-ac umar-r10">
-							<input class="ub disradio disstatusChange" type="radio" id="goodsZk" name="disstatus" value="0" /><span>单品折扣</span>
+							<label><input class="radioItem disradio disstatusChange" type="radio" id="goodsZk" name="disstatus" value="0" /><span>单品折扣</span></label>
 						</div>
 	                     <input class="uinp" type="hidden" id="activityScopedis" value="1"  name="activityScopedis">
 	            </div>
                 <div class="ub ub-ac umar-l10  mjTypechoose unhide">
 						<div class="ub ub-ac umar-r10">
-							<input class="ub mjradio" type="radio" id="allMj" name="mjstatus"  value="2" /><span>全场</span>
+							<label><input class="radioItem mjradio" type="radio" id="allMj" name="mjstatus"  value="2" /><span>全场</span></label>
 						</div>
 	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub mjradio" type="radio" id="sortMj" name="mjstatus" value="1" /><span>类别</span>
+	                        <label><input class="radioItem mjradio" type="radio" id="sortMj" name="mjstatus" value="1" /><span>类别</span></label>
 	                    </div>
 						<div class="ub ub-ac umar-r10">
-							<input class="ub mjradio" type="radio" id="goodsMj" name="mjstatus" value="0" /><span>商品</span>
+							<label><input class="radioItem mjradio" type="radio" id="goodsMj" name="mjstatus" value="0" /><span>商品</span></label>
 						</div>
 	                     <input class="uinp" type="hidden" id="activityScopemj" value="2"  name="activityScopemj">
 	            </div>
 	            <!--买满送-->
 	            <div class="ub ub-ac umar-l10  mmsTypechoose unhide">
 					<div class="ub ub-ac umar-r10">
-						<input class="ub mmradio" type="radio"  name="mmsstatus"  value="2" checked="checked"/><span>全场</span>
+						<label><input class="radioItem mmradio" type="radio"  name="mmsstatus"  value="2" checked="checked"/><span>全场</span></label>
 					</div>
                     <div class="ub ub-ac umar-r10"> 
-                        <input class="ub mmradio" type="radio"  name="mmsstatus" value="1" /><span>类别</span>
+                        <label><input class="radioItem mmradio" type="radio"  name="mmsstatus" value="1" /><span>类别</span></label>
                     </div>
 					<div class="ub ub-ac umar-r10">
-						<input class="ub mmradio" type="radio"  name="mmsstatus" value="0" /><span>商品</span>
+						<label><input class="radioItem mmradio" type="radio"  name="mmsstatus" value="0" /><span>商品</span></label>
 					</div>
                     <input class="uinp" type="hidden" id="activityScopemms" value="2"  name="activityScopemms">
 	            </div>
