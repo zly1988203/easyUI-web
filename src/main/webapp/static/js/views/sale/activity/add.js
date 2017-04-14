@@ -9,6 +9,18 @@ $(function(){
 // $("#endTime").val("2016-11-18");
     $("#dailyStartTime").val("00:00:00");
     $("#dailyEndTime").val("23:59:59");
+    
+    
+    //如果是门店，则只能查看当前店铺数据
+	if(sessionBranchType >= 3){
+		$("#branchName").val(sessionBranchCodeName);
+	    $("#branchIds").val(sessionBranchId);
+		$("#selectBranchMore").hide();
+		$("#branchName").prop('disabled','disabled');
+		$("#branchName").unbind("click");
+	}
+    
+    
     initDatagridSpecial();
     // 禁止按钮点击事件
     disableGoods('','GoodsType');
