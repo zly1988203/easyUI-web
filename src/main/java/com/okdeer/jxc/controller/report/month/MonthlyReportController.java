@@ -74,7 +74,7 @@ public class MonthlyReportController extends BaseController<MonthlyReportControl
 	Map<String, String> model = Maps.newHashMap(); 
 	//model.put("branchId", UserUtil.getCurrentUser().getBranchId());
 	//model.put("branchName", UserUtil.getCurrentUser().getBranchName());
-	model.put("startTime", LocalDate.now().format(DateTimeFormatter.ofPattern(DateUtils.DATE_SMALL_STR_R)));
+	model.put("startTime", LocalDate.now().minusMonths(1).format(DateTimeFormatter.ofPattern(DateUtils.DATE_JFP_STR_R)));
 	ModelAndView returnModelAndView = new ModelAndView("report/month/monthlylist", model);
 	if (logger.isDebugEnabled()) {
 	    logger.debug("add() - end"); //$NON-NLS-1$

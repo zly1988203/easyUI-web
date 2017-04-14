@@ -53,9 +53,9 @@
                 <div class="ub ub-ac umar-r10">
                     <input class="radioItem" type="radio" name="saleWay" id="saleWay_5" value="C"><label for="status_5">联营 </label>
                 </div>
-                <div class="ub ub-ac umar-r10">
+               <!--  <div class="ub ub-ac umar-r10">
                     <input class="radioItem" type="radio" name="saleWay" id="saleWay_3" value="D"><label for="status_3">扣率代销</label>
-                </div>
+                </div> -->
                 <div class="ub ub-ac umar-r10">
                     <input class="radioItem" type="radio" name="saleWay" id="saleWay_4" value="" checked="checked"><label for="status_4">全部</label>
                 </div>
