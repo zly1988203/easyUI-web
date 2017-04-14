@@ -570,7 +570,7 @@ function setDataValue(data,fromClick) {
 }
 
 //查询价格、库存
-function selectStockAndPrice(data){
+function selectStockAndPrice(data,fromClick){
 	//setDataValue(data);
 	var GoodsStockVo = {
             branchId : $("#targetBranchId").val(),
@@ -597,7 +597,7 @@ function selectStockAndPrice(data){
                     }
                 })
             })
-    		setDataValue(data);
+    		setDataValue(data,fromClick);
     	},
     	error:function(result){
     		successTip("请求发送失败或服务器处理失败");
@@ -640,7 +640,7 @@ function suggestSelectGoods(){
     	success:function(result){
     		 console.log('建议商品',result);
     		 if(result.length > 0){
-    			 setDataValue(result,'suggestSelectGoods');
+    			 selectStockAndPrice(result,'suggestSelectGoods');
     		 }else{
     			 $.messager.alert('提示','暂无建议订货商品','',function(){});
     		 }
