@@ -30,7 +30,7 @@
 	</div><!--end logo -->
     
     <div class="header-load">
-    	<span> <i class="reload-png" title="刷新消息" onclick="synchronousMessage()"></i> 消息提醒（<a onClick="openMsg()" title="点击查看" class="uc-red" style="color: #ff0000 !important;" id="messageAllCount"><c:out value="${allMessageCount }"></c:out></a>）</span>
+    	<span> <i class="reload-png" title="刷新消息" onclick="synchronousMessage()"></i> <a onClick="openMsg()" title="点击查看"  id="messageAllCount">消息提醒（<span class="uc-red" style="color: #ff0000 !important;"><c:out value="${allMessageCount }"></c:out></span>）</a></span>
     	<a class="header-load-link"><span class="name">  ${user.userName }, 您好 </span> <i class="iconfont">&#xe606;</i></a>
         <div class="linkdiv">
         	<a href="${ctx}/system/logout">退出</a>
