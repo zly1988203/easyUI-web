@@ -1216,7 +1216,7 @@ function initDatagridsortZk(){
 					        return str;
 					    },
 					},
-					{field:'categoryCode',title:'类别编码',width:'200px',align:'left',hidden:true},
+					{field:'goodsCategoryCode',title:'类别编码',width:'200px',align:'left'},
 					{field:'categoryName',title:'商品类别',width:'200px',align:'left'},
 					 {field:'discount',title:'折扣',width:'80px',align:'right',
 		                formatter:function(value,row,index){
