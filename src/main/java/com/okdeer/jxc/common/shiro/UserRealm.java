@@ -27,7 +27,6 @@ import com.okdeer.ca.api.common.SysMenuPermissionDto;
 import com.okdeer.ca.api.common.SystemUserDto;
 import com.okdeer.ca.api.common.enums.SystemCodeEnum;
 import com.okdeer.ca.api.sysuser.service.ISysUserApi;
-import com.okdeer.ca.common.enums.DisabledType;
 import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.common.enums.BranchTypeEnum;
@@ -116,7 +115,7 @@ public class UserRealm extends CasRealm {
 			}
 
 			// 登录账号被禁用
-			if (DisabledType.Delete.getKey().equals(caUser.getStatus())) {
+			if (caUser.getStatus().intValue() == 1) {
 				throw new LockedAccountException("登录账号被禁用");
 			}
 
