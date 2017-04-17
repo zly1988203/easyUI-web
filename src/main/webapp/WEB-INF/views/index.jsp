@@ -30,7 +30,7 @@
 	</div><!--end logo -->
     
     <div class="header-load">
-    	<span> <i class="reload-png" title="刷新消息" onclick="synchronousMessage()"></i> 消息提醒（<a onClick="openMsg()" title="点击查看" class="uc-red" style="color: #ff0000 !important;" id="messageAllCount">0</a>）</span>
+    	<span> <i class="reload-png" title="刷新消息" onclick="synchronousMessage()"></i> 消息提醒（<a onClick="openMsg()" title="点击查看" class="uc-red" style="color: #ff0000 !important;" id="messageAllCount"><c:out value="${allMessageCount }"></c:out></a>）</span>
     	<a class="header-load-link"><span class="name">  ${user.userName }, 您好 </span> <i class="iconfont">&#xe606;</i></a>
         <div class="linkdiv">
         	<a href="${ctx}/system/logout">退出</a>
@@ -67,25 +67,29 @@
                 <!--消息提醒 start-->
 			<div id="msgDialog" class="easyui-dialog" title="消息提醒" style="width:600px;height:auto;top:25%;display: none;"data-options="modal:true,closed:true">   
 			   		<div class="ub uh ub-ver ufs-14 ubgc-bg">
-			   		
-			   			<div class="ub ub-ver ubgc-while">
-				   			<p class="ub ufs-16 ufw-b upad-8">异常库存提醒</p>
-				   			<p class="ub uline">
-				   			<div class="ub upad-t10 upad-b10 upad-8">
-				   				<ul class="msg-ul crbox">
-				   					<li class="msg-li"><a class="" href="javascript:openNewTab('库存异常查询','stock/exception/list?message=0');closeMsg();">异常库存商品（<em class="uc-red" id="oneExceptionCount">0</em>）</a></li>
-				   					<li class="msg-li" id="sumOne" style="display: none;">暂无提醒事项！</li>
-				   				</ul>
-				   			</div>
-			   			</div><!-- end 异常库存提醒 -->
-			   			
+			   			<shiro:hasPermission name="JxcStockException:search">
+				   			<div class="ub ub-ver ubgc-while">
+					   			<p class="ub ufs-16 ufw-b upad-8">异常库存提醒</p>
+					   			<p class="ub uline">
+					   			<div class="ub upad-t10 upad-b10 upad-8">
+					   				<ul class="msg-ul crbox">
+					   					<li class="msg-li"><a class="" href="javascript:openNewTab('库存异常查询','stock/exception/list?message=0');closeMsg();">异常库存商品（<em class="uc-red" id="JxcStockException">0</em>）</a></li>
+					   					<li class="msg-li" id="sumOne" style="display: none;">暂无提醒事项！</li>
+					   				</ul>
+					   			</div>
+				   			</div><!-- end 异常库存提醒 -->
+			   			</shiro:hasPermission>
 			   			<div class="ub ub-ver umar-t10 ubgc-while">
 				   			<p class="ub ufs-16 ufw-b upad-8">收货提醒</p>
 				   			<p class="ub uline">
 				   			<div class="ub upad-t10 upad-b10 upad-8">
 				   				<ul class="msg-ul crbox">
-				   					<li class="msg-li"><a class="" href="javascript:openNewTab('采购收货','form/purchase/receiptList?message=1');closeMsg();">采购收货提醒（<em class="uc-red" id="twoPurchaseCount">0</em>）</a></li>
-				   					<li class="msg-li"><a class="" href="javascript:openNewTab('配送入库','form/deliverForm/viewsDI?message=1');closeMsg();">配送收货提醒（<em class="uc-red" id="twoDeliverFormCount">0</em>）</a></li>
+				   				<shiro:hasPermission name="JxcPurchaseReceipt:search">
+				   					<li class="msg-li"><a class="" href="javascript:openNewTab('采购收货','form/purchase/receiptList?message=1');closeMsg();">采购收货提醒（<em class="uc-red" id="JxcPurchaseReceipt">0</em>）</a></li>
+				   				</shiro:hasPermission>
+				   				<shiro:hasPermission name="JxcDeliverDI:search">
+				   					<li class="msg-li"><a class="" href="javascript:openNewTab('配送入库','form/deliverForm/viewsDI?message=1');closeMsg();">配送收货提醒（<em class="uc-red" id="JxcDeliverDI">0</em>）</a></li>
+				   				</shiro:hasPermission>
 				   					<li class="msg-li" id="sumTwo" style="display: none;">暂无提醒事项！</li>
 				   				</ul>
 				   			</div>
@@ -169,14 +173,20 @@
 				var datas = data.data;
 				for(var key in datas){
 					if(key==="sumOne"){
-						$("#sumOne").show();
-						continue;
+						if(datas[key]<=0){
+							$("#sumOne").show();
+							continue;
+						}
 					}else if(key==="sumTwo"){
-						$("#sumTwo").show();
-						continue;
+						if(datas[key]<=0){
+							$("#sumTwo").show();
+							continue;
+						}
 					}else if(key==="sumOther"){
-						$("#sumOther").show();
-						continue;
+						if(datas[key]<=0){
+							$("#sumOther").show();
+							continue;
+						}
 					}
 					if(datas[key]===0){
 						$("#"+key+"").parents(".msg-li").first().hide();
