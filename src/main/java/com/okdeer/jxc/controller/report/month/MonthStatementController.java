@@ -5,8 +5,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -64,19 +64,19 @@ public class MonthStatementController extends BaseController<TimeSectionSaleRepo
 	 * @date 2017年4月6日
 	 */
 	@RequestMapping(value = "/executeMonthStatement", method = RequestMethod.POST)
-	public RespJson executeMonthStatement(@Valid MonthlyReport mr, BindingResult validate) {
+	public RespJson executeMonthStatement(@Valid MonthlyReport monthlyReport) {
 		SysUser user = getCurrentUser();
 		RespJson respJson = RespJson.success();
 		try {
-			if (StringUtils.isBlank(mr.getBranchId()) || StringUtils.isBlank(mr.getRptDate())) {
+			if (StringUtils.isBlank(monthlyReport.getBranchId()) || StringUtils.isBlank(monthlyReport.getRptDate())) {
 				respJson = RespJson.error("机构或月结期间不能为空！");
 				return respJson;
 			}
-			mr.setCreateUserId(user.getId());
-			mr.setUpdateUserId(user.getId());
-			mr.setEndDate(new Date());
-			
-			respJson = monthStatementService.executeMonthStatement(mr);
+			monthlyReport.setCreateUserId(user.getId());
+			monthlyReport.setUpdateUserId(user.getId());
+			monthlyReport.setEndDate(new Date());
+
+			respJson = monthStatementService.executeMonthStatement(monthlyReport);
 		} catch (Exception e) {
 			LOG.error("月结处理异常：", e);
 			respJson = RespJson.error("月结处理异常!");
@@ -94,9 +94,12 @@ public class MonthStatementController extends BaseController<TimeSectionSaleRepo
 	@RequestMapping(value = "/getUpMonthReportDay", method = RequestMethod.POST)
 	public RespJson getUpMonthReportDay(String branchId) {
 		RespJson respJson = RespJson.success();
+		MonthlyReport monReport = new MonthlyReport();
 		try {
 			List<MonthlyReport> branchSpecList = monthStatementService.getBranchLastMonthAndReportDay(branchId, null);
-			MonthlyReport monReport = branchSpecList.get(0);
+			if (CollectionUtils.isNotEmpty(branchSpecList)) {
+				monReport = branchSpecList.get(0);
+			}
 			respJson = RespJson.success(monReport);
 		} catch (Exception e) {
 			LOG.error("获得机构月结配置及数据异常：", e);
