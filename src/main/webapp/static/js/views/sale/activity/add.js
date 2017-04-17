@@ -157,11 +157,11 @@ function selectOptionmms(){
 	$('#consolemms').removeClass('unhide');
 	
 	//先移除事件
-	$(document).off('mousedown','input[name="mmsstatus"]');
+	$(document).off('mousedown','.mmradioLabel');
 	//买满送 --- 全场 类别 商品 选择事件
-	$(document).on('mousedown','input[name="mmsstatus"]',function(){
-		var _this = $(this);
-		$.messager.confirm("","更换活动类型将清空当1前列表信息，是否更换？",function(b){
+	$(document).on('mousedown','.mmradioLabel',function(){
+		var _this = $(this).find('input[type="radio"]');
+		$.messager.confirm("","更换活动类型将清空当前列表信息，是否更换？",function(b){
 			if(b){
 				//重置 买满送 内部tab标示 
 				hasClickTab = false;
@@ -706,20 +706,24 @@ function initmmTJGoodParams(index,showAlert){
 function selectOptionzk(){
 	optionHide();
 	$("#consaleadd").removeClass("unhide");
-	initDatagridsortZk();
+	initDatagridallZk();
 	//disableGoods('','GoodsType');
 	disableGoods('SelectGoods','');
 	//初始化为 类型折扣
-	$('#sortZk').prop('checked',true);
-	$('#activityScopedis').val('1');
+//	$('#sortZk').prop('checked',true);
+//	$('#activityScopedis').val('1');
+	//初始化 全场折扣
+	$('#allZk').prop('checked',true);
+	$('#activityScopedis').val('2');
+	disableGoods('SelectGoods','GoodsType');
 	
-	$('.discount').removeClass('unhide');
+	//$('.discount').removeClass('unhide');
 	$('.discountTypechoose').removeClass('unhide');
-	$(document).on('mousedown','.discountTypechoose .disradio',function(){
-		var _this = $(this);
+	$(document).on('mousedown','.discountTypechoose .disradioLabel',function(){
+		var _this = $(this).find('input[type="radio"]');
 		$(".discount").removeClass('unhide');
-		$('#activityScopedis').val(_this.val());
 		var changeDisType = function(){
+			$('#activityScopedis').val(_this.val());
 			_this.prop("checked",true);
 			if(_this.val()==="1"){
 				initDatagridsortZk();
@@ -784,11 +788,12 @@ function selectOptionMj(){
 	initDatagridsortSet();
 
 
-	$(document).on('mousedown','.mjTypechoose .mjradio',function(){
+	$(document).on('mousedown','.mjTypechoose .mjradioLabel',function(){
 
-		var _this = $(this);
-		$('#activityScopemj').val(_this.val());
+		var _this = $(this).find('input[type="radio"]');
+		
 		var changeDisType =  function(){
+			$('#activityScopemj').val(_this.val());
 			_this.prop("checked",true);
 			
 			if(_this.val()=="2"){
@@ -832,8 +837,8 @@ function selectOptionMj(){
 			}
 
 		}
-		  // 保存结束编辑
-		  $("#saleMangeadd").datagrid("endEdit", gridHandel.getSelectRowIndex());
+		    // 保存结束编辑
+		    $("#saleMangeadd").datagrid("endEdit", gridHandel.getSelectRowIndex());
 			var rows= gridHandel.getRows();
 			 $("#salesetmj").datagrid("endEdit", gridHandelMj.getSelectRowIndex());
 			var setrows=$('#salesetmj').datagrid('getRows');
@@ -2525,6 +2530,11 @@ function saveActivity(){
 		          messager("第"+(i+1)+"行，折扣不能为空或0");
 		          isCheckResult = false;
 		          return false;
+		      }
+			  if(parseFloat(v["discount"]) >= 10 || parseFloat(v["discount"]) <=0){
+		    	  messager("第"+(i+1)+"行，批量折扣值在0~10之间");
+		          isCheckResult = false;
+		          return false;
 		      };
 		  }
 		  saveDataHandel(rows);
@@ -3092,7 +3102,7 @@ function weekCheckDay(){
   var len=$('#weekday .ubcheckweek').length;
   var str="";
   for(var i=0;i<len;i++){
-	 var elemt=$('#weekday .ubcheckweek').eq(i).find('.ub');
+	 var elemt=$('#weekday .ubcheckweek').eq(i).find('.radioItem');
 	 var check= elemt.prop("checked");
 	  if(check){
 		str+=elemt.val()

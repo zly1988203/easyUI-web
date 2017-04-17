@@ -3231,7 +3231,7 @@ function weekCheckDay(){
   var len=$('#weekday .ubcheckweek').length;
   var str="";
   for(var i=0;i<len;i++){
-	 var elemt=$('#weekday .ubcheckweek').eq(i).find('.ub');
+	 var elemt=$('#weekday .ubcheckweek').eq(i).find('.radioItem');
 	 var check= elemt.prop("checked");
 	  console.log(check)
 	  if(check){
@@ -3245,10 +3245,10 @@ function weekCheckDay(){
  * 星期拆分字符串赋值checkbox  
  */
 function StrweekCheckDay(weekstr){
-	$(".ubcheckweek .ub").prop("checked",false);
+	$(".ubcheckweek .radioItem").prop("checked",false);
 	var arrWeek = weekstr.split("");
 	$.each(arrWeek,function(i,val){
-		$("#weekcheckbox"+val+".ub").prop("checked",true);
+		$("#weekcheckbox"+val).prop("checked",true);
 	})
 	
 }
