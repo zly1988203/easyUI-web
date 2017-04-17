@@ -80,9 +80,9 @@ public class SupplierMonthlyReportController  extends BaseController<DayReportCo
 	vo.setPageSize(pageSize);
 	if (StringUtils.isNotBlank(vo.getStartTime())) {
 	    // 月的第一天
-	    LocalDate firstDayOfMonth = LocalDate.parse(vo.getStartTime()).with(TemporalAdjusters.firstDayOfMonth());
+	    LocalDate firstDayOfMonth = LocalDate.parse(vo.getStartTime()+"-01").with(TemporalAdjusters.firstDayOfMonth());
 	    // 月的最后一天
-	    LocalDate lastDayOfMonth = LocalDate.parse(vo.getStartTime()).with(TemporalAdjusters.lastDayOfMonth());
+	    LocalDate lastDayOfMonth = LocalDate.parse(vo.getStartTime()+"-01").with(TemporalAdjusters.lastDayOfMonth());
 
 	    vo.setFirstDayOfMonth(firstDayOfMonth.format(DateTimeFormatter.ofPattern(DateUtils.DATE_SMALL_STR_R)));
 	    vo.setLastDayOfMonth(lastDayOfMonth.format(DateTimeFormatter.ofPattern(DateUtils.DATE_SMALL_STR_R)));
@@ -141,9 +141,9 @@ public class SupplierMonthlyReportController  extends BaseController<DayReportCo
 	vo = optional.orElse(new DayReportQo());
 	if (StringUtils.isNotBlank(vo.getStartTime())) {
 	    // 月的第一天
-	    LocalDate firstDayOfMonth = LocalDate.parse(vo.getStartTime()).with(TemporalAdjusters.firstDayOfMonth());
+	    LocalDate firstDayOfMonth = LocalDate.parse(vo.getStartTime()+"-01").with(TemporalAdjusters.firstDayOfMonth());
 	    // 月的最后一天
-	    LocalDate lastDayOfMonth = LocalDate.parse(vo.getStartTime()).with(TemporalAdjusters.lastDayOfMonth());
+	    LocalDate lastDayOfMonth = LocalDate.parse(vo.getStartTime()+"-01").with(TemporalAdjusters.lastDayOfMonth());
 
 	    vo.setFirstDayOfMonth(firstDayOfMonth.format(DateTimeFormatter.ofPattern(DateUtils.DATE_SMALL_STR_R)));
 	    vo.setLastDayOfMonth(lastDayOfMonth.format(DateTimeFormatter.ofPattern(DateUtils.DATE_SMALL_STR_R)));
@@ -168,9 +168,9 @@ public class SupplierMonthlyReportController  extends BaseController<DayReportCo
 	}
 	if (StringUtils.isNotBlank(vo.getStartTime())) {
 	    // 月的第一天
-	    LocalDate firstDayOfMonth = LocalDate.parse(vo.getStartTime()).with(TemporalAdjusters.firstDayOfMonth());
+	    LocalDate firstDayOfMonth = LocalDate.parse(vo.getStartTime()+"-01").with(TemporalAdjusters.firstDayOfMonth());
 	    // 月的最后一天
-	    LocalDate lastDayOfMonth = LocalDate.parse(vo.getStartTime()).with(TemporalAdjusters.lastDayOfMonth());
+	    LocalDate lastDayOfMonth = LocalDate.parse(vo.getStartTime()+"-01").with(TemporalAdjusters.lastDayOfMonth());
 
 	    vo.setFirstDayOfMonth(firstDayOfMonth.format(DateTimeFormatter.ofPattern(DateUtils.DATE_SMALL_STR_R)));
 	    vo.setLastDayOfMonth(lastDayOfMonth.format(DateTimeFormatter.ofPattern(DateUtils.DATE_SMALL_STR_R)));

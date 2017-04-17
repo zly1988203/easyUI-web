@@ -96,8 +96,7 @@ public class MonthlyReportController extends BaseController<MonthlyReportControl
 	vo.setPageNumber(pageNumber);
 	vo.setPageSize(pageSize);
 	if (StringUtils.isNotBlank(vo.getStartTime())) {
-	    vo.setRptDate(
-		    LocalDate.parse(vo.getStartTime()).format(DateTimeFormatter.ofPattern(DateUtils.DATE_JFP_STR_R)));
+	    vo.setRptDate(vo.getStartTime());
 	} else {
 	    vo.setRptDate(LocalDate.now().format(DateTimeFormatter.ofPattern(DateUtils.DATE_JFP_STR_R)));
 	}
@@ -205,8 +204,7 @@ public class MonthlyReportController extends BaseController<MonthlyReportControl
 	Optional<MonthlyReportVo> optional = Optional.ofNullable(vo);
 	vo = optional.orElse(new MonthlyReportVo());
 	if (StringUtils.isNotBlank(vo.getStartTime())) {
-	    vo.setRptDate(
-		    LocalDate.parse(vo.getStartTime()).format(DateTimeFormatter.ofPattern(DateUtils.DATE_JFP_STR_R)));
+	    vo.setRptDate(vo.getStartTime());
 	} else {
 	    vo.setRptDate(LocalDate.now().format(DateTimeFormatter.ofPattern(DateUtils.DATE_JFP_STR_R)));
 	}
@@ -241,8 +239,7 @@ public class MonthlyReportController extends BaseController<MonthlyReportControl
 	    vo.setBranchId(getCurrBranchId());
 	}
 	if (StringUtils.isNotBlank(vo.getStartTime())) {
-	    vo.setRptDate(
-		    LocalDate.parse(vo.getStartTime()).format(DateTimeFormatter.ofPattern(DateUtils.DATE_JFP_STR_R)));
+	    vo.setRptDate(vo.getStartTime());
 	} else {
 	    vo.setRptDate(LocalDate.now().format(DateTimeFormatter.ofPattern(DateUtils.DATE_JFP_STR_R)));
 	}

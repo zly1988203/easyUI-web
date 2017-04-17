@@ -38,7 +38,7 @@ var synchronousMessage = function(){
 	//alert(menuData);
 	$.get("message/",function(data){
 		if(data.message==="success"){
-			$("#messageAllCount").text(data.data);
+			$("#messageAllCount span").text(data.data);
 		}
 	});
 };
