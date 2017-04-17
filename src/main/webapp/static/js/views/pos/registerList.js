@@ -79,7 +79,7 @@ function queryForm(){
 /**
  * 店铺名称
  */
-function searchBranch(){
+function selectBranches(){
 	new publicAgencyService(function(data){
 		$("#regBranchId").val(data.branchesId);
 		$("#branchInfo").val(data.branchName);
@@ -158,13 +158,4 @@ function delPosForm(){
 	});
 }
 
-/**
- * 机构名称
- */
-function selectBranches(){
-	new publicAgencyService(function(data){
-		$("#branchId").val(data.branchesId);
-		$("#branchName").val(data.branchName);
-	},'DO','');
-}
 

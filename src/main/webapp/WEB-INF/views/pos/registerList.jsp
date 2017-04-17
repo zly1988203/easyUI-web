@@ -27,7 +27,7 @@
 	                    <div class="umar-r10 uw-50 ut-r">店铺:</div>
 	                    <input class="uinp ub ub-f1" type="hidden" id="regBranchId" name="branchId">
 	                    <input class="uinp" type="text" id="branchInfo" name="branchInfo"  placeholder="编号/名称">
-	                    <div class="uinp-more" onclick="searchBranch()">...</div>
+	                    <div class="uinp-more" onclick="selectBranches()">...</div>
 	                </div>
 	           </div>
        	</form>
