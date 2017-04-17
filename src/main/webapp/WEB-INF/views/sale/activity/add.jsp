@@ -7,7 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>促销活动设置</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="${ctx}/static/js/views/sale/activity/add.js?1=55"></script>
+<script src="${ctx}/static/js/views/sale/activity/add.js?1=54"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
 </style>
@@ -90,40 +90,40 @@
                 </div>
                 <div class="ub ub-ac umar-l10  discountTypechoose unhide">
                 		<div class="ub ub-ac umar-r10">
-	                        <label><input class="radioItem disradio disstatusChange" type="radio" id="allZk" name="disstatus"  value="2"/><span>全场折扣</span></label>
+	                        <label class="disradioLabel"><input class="radioItem disradio disstatusChange" type="radio" id="allZk" name="disstatus"  value="2"/><span>全场折扣</span></label>
 	                    </div>
 	                    <div class="ub ub-ac umar-r10">
-	                        <label><input class="radioItem disradio disstatusChange" type="radio" id="sortZk" name="disstatus"  value="1"/><span>类别折扣</span></label>
+	                        <label class="disradioLabel"><input class="radioItem disradio disstatusChange" type="radio" id="sortZk" name="disstatus"  value="1"/><span>类别折扣</span></label>
 	                    </div>
 						<div class="ub ub-ac umar-r10">
-							<label><input class="radioItem disradio disstatusChange" type="radio" id="goodsZk" name="disstatus" value="0" /><span>单品折扣</span></label>
+							<label class="disradioLabel"><input class="radioItem disradio disstatusChange" type="radio" id="goodsZk" name="disstatus" value="0" /><span>单品折扣</span></label>
 						</div>
-	                     <input class="uinp" type="hidden" id="activityScopedis" value="1"  name="activityScopedis">
+	                     <input class="uinp" type="hidden" id="activityScopedis" value="2"  name="activityScopedis">
 	            </div>
                 <div class="ub ub-ac umar-l10  mjTypechoose unhide">
 						<div class="ub ub-ac umar-r10">
-							<label><input class="radioItem mjradio" type="radio" id="allMj" name="mjstatus"  value="2" /><span>全场</span></label>
+							<label class="mjradioLabel"><input class="radioItem mjradio" type="radio" id="allMj" name="mjstatus"  value="2" /><span>全场</span></label>
 						</div>
 	                    <div class="ub ub-ac umar-r10">
-	                        <label><input class="radioItem mjradio" type="radio" id="sortMj" name="mjstatus" value="1" /><span>类别</span></label>
+	                        <label class="mjradioLabel"><input class="radioItem mjradio" type="radio" id="sortMj" name="mjstatus" value="1" /><span>类别</span></label>
 	                    </div>
 						<div class="ub ub-ac umar-r10">
-							<label><input class="radioItem mjradio" type="radio" id="goodsMj" name="mjstatus" value="0" /><span>商品</span></label>
+							<label class="mjradioLabel"><input class="radioItem mjradio" type="radio" id="goodsMj" name="mjstatus" value="0" /><span>商品</span></label>
 						</div>
 	                     <input class="uinp" type="hidden" id="activityScopemj" value="2"  name="activityScopemj">
 	            </div>
 	            <!--买满送-->
 	            <div class="ub ub-ac umar-l10  mmsTypechoose unhide">
 					<div class="ub ub-ac umar-r10">
-						<label><input class="radioItem mmradio" type="radio"  name="mmsstatus"  value="2" checked="checked"/><span>全场</span></label>
+						<label class="mmradioLabel"><input class="radioItem mmradio" type="radio"  name="mmsstatus"  value="2" checked="checked"/><span>全场</span></label>
 					</div>
                     <div class="ub ub-ac umar-r10"> 
-                        <label><input class="radioItem mmradio" type="radio"  name="mmsstatus" value="1" /><span>类别</span></label>
+                        <label class="mmradioLabel"><input class="radioItem mmradio" type="radio"  name="mmsstatus" value="1" /><span>类别</span></label>
                     </div>
 					<div class="ub ub-ac umar-r10">
-						<label><input class="radioItem mmradio" type="radio"  name="mmsstatus" value="0" /><span>商品</span></label>
+						<label class="mmradioLabel"><input class="radioItem mmradio" type="radio"  name="mmsstatus" value="0" /><span>商品</span></label>
 					</div>
-                    <input class="uinp" type="hidden" id="activityScopemms" value="2"  name="activityScopemms">
+<!--                     <input class="uinp" type="hidden" id="activityScopemms" value="2"  name="activityScopemms"> -->
 	            </div>
 	           
             </div>
