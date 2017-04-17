@@ -10,8 +10,6 @@ package com.okdeer.jxc.controller.goods;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -38,7 +36,6 @@ import com.okdeer.jxc.branch.service.BranchSpecServiceApi;
 import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.controller.BasePrintController;
-import com.okdeer.jxc.common.enums.MqMessageType;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportComponent;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportHandle;
@@ -496,14 +493,6 @@ public class GoodsPriceAdjustController extends BasePrintController<GoodsPriceAd
 				return RespJson.error("生效时间比今天小");
 			} else {
 				goodsPriceAdustService.checkForm(goodsPriceForm);
-				
-				if(status==Integer.valueOf(1)){
-				    if(LocalDate.now().getMonthValue() == goodsPriceForm.getEffectDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getMonthValue()){
-					modifyPriceOrderService.sendMessage(goodsPriceForm, MqMessageType.PRICEADJUSTING);
-				    }else{
-					modifyPriceOrderService.sendMessage(goodsPriceForm, MqMessageType.NOTSTARTPRICEADJUST);
-				    }
-				}
 			}
 		} catch (Exception e) {
 			LOG.error("审核调价单失败", e);
