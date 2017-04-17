@@ -18,8 +18,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.json.JSONObject;
-
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,6 +37,7 @@ import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.entity.BranchesGrow;
 import com.okdeer.jxc.branch.service.BranchSpecServiceApi;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
+import com.okdeer.jxc.branch.vo.BranchSpecVo;
 import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.ImportExcelConstant;
@@ -59,7 +60,6 @@ import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.NumberToCN;
 import com.okdeer.jxc.common.utils.OrderNoUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
-import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.common.utils.UuidUtils;
 import com.okdeer.jxc.form.deliver.entity.DeliverForm;
 import com.okdeer.jxc.form.deliver.entity.DeliverFormList;
@@ -76,6 +76,8 @@ import com.okdeer.jxc.goods.entity.GoodsSelectDeliver;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
 import com.okdeer.jxc.utils.poi.ExcelReaderUtil;
+
+import net.sf.json.JSONObject;
 
 /**
  * ClassName: DeliverFormController 
@@ -609,6 +611,52 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 			LOG.error("配送单审核操作失败！{}", e);
 			return RespJson.error("审核操作失败！");
 		}
+	}
+	
+	/**
+	 * @Description: 配送出库审核前判断是否允许负库存出库，允许并存在负库存需要提示
+	 * @author zhengwj
+	 * @date 2017年4月17日
+	 */
+	@RequestMapping(value = "checkValid", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson checkValid(QueryDeliverFormVo vo) {
+		LOG.info(LogConstant.OUT_PARAM, vo.toString());
+		try {
+			BranchSpecVo branchSpecVo = branchSpecServiceApi.queryByBranchId(vo.getSourceBranchId());
+			// 不允许负库存出库，直接审核，否则判断是否存在负库存需要提示
+			if (branchSpecVo.getIsAllowMinusStock() == 0) {
+				return RespJson.success();
+			}
+			vo.setPageNumber(1);
+			vo.setPageSize(999999);
+			LOG.info("vo:{}" + vo.toString());
+			PageUtils<DeliverFormList> deliverFormLists = queryDeliverFormListServiceApi
+					.getDeliverFormListsAndStockByIdOrFormNo(vo);
+			LOG.info("page:{}" + deliverFormLists.toString());
+			List<DeliverFormList> list = deliverFormLists.getList();
+			if (CollectionUtils.isEmpty(list)) {
+				return RespJson.error("审核操作失败！");
+			}
+			// 校验是否负库存
+			boolean checkValid = false;
+			for (DeliverFormList deliverFormList : list) {
+				// 当前库存-数量
+				int result = deliverFormList.getSourceStock().subtract(deliverFormList.getDealNum())
+						.compareTo(BigDecimal.ZERO);
+				// 存在负库存
+				if (result < 0) {
+					checkValid = true;
+					break;
+				}
+			}
+			if (checkValid) {
+				return RespJson.businessError("需要确认负库存出库！");
+			}
+		} catch (Exception e) {
+			LOG.error("要货单查询明细数据出现异常:{}", e);
+		}
+		return RespJson.success();
 	}
 
 	/**
