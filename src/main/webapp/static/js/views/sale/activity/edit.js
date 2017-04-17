@@ -680,14 +680,14 @@ function initDatagridmmsGOOD(){
 					{field:'giftNum',title:'数量',width:'100px',align:'right',
 		            	formatter:function(value,row,index){
 		            		if(!value){
-		            			row['giftNum'] = 1;
+		            			row['giftNum'] = 0;
 		            		}
-		                    return  '<b>'+parseFloat(value||1).toFixed(2)+'</b>';
+		                    return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		                },
 		                editor:{
 		                    type:'numberbox',
 		                    options:{
-		                        min:1,
+		                        min:0,
 		                        precision:2,
 		                        onChange:changeGiftNum
 		                    }
@@ -876,77 +876,13 @@ function changeGiftPrice(newV,oldV){
 	//gridHandel
 }
 
-//赠品信息 暂时保存
-function saveTempGiftGoods(){
-	
-	initmmTJGoodParams(gridHandelT.getSelectRowIndex(),true);
-}
-
+//重置 礼品信息
 function resetGiftGoods(){
 	var mmsTJObj = $("#mmsgradedList").datagrid('getRows')[gridHandelT.getSelectRowIndex()];
 	delete mmsTJObj.giftPoList;
 	gridHandel.setLoadData([$.extend({},gridDefaultG)]);
 }
 
-//封装 买满送 条件梯度和对于礼品参数  showAlert-->true进行提示  false不进行提示
-function initmmTJGoodParams(index,showAlert){
-	var curIndex = index||0;
-	console.log('curIndex',curIndex);
-	$("#mmsgradedList").datagrid('endEdit',curIndex);
-	$("#mmsgoodList").datagrid('endEdit',gridHandel.getSelectRowIndex())
-	//获取买满条件当前梯度
-	var checkRows = $("#mmsgradedList").datagrid('getChecked');
-	console.log('checkRows',JSON.stringify(checkRows));
-	if(checkRows.length <= 0){
-		if(showAlert)$.messager.alert('提示','请选择买满条件','',function(){});
-		return false;
-	}
-	var mmsTJObj = checkRows[0];
-	if(gridTitleName == '买满金额' && parseFloat(mmsTJObj.limitAmount||0)<= 0){
-		if(showAlert)$.messager.alert('提示','当前买满金额不能小于等于0','',function(){});
-		return false;
-	}
-	if(gridTitleName == '买满数量' && parseFloat(mmsTJObj.limitCount||0)<= 0){
-		if(showAlert)$.messager.alert('提示','当前买满数量不能小于等于0','',function(){});
-		return false;
-	}
-	
-	//获取赠品信息的数据
-	var giftGoods = gridHandel.getRowsWhere({skuName:'1'}) //$("#mmsgoodList").datagrid('getRows');
-	if(giftGoods.length <= 0){
-		if(showAlert)$.messager.alert('提示','请选择赠品信息','',function(){});
-		return false;
-	}
-	
-	var tempErrorIndexs = [];
-	giftGoods.forEach(function(obj,index){
-		//判断礼品数量
-		if(parseFloat(obj.giftNum||0) <= 0){
-			tempErrorIndexs.push(index);
-		}
-	});
-	
-	if(tempErrorIndexs.length <= 0){
-		mmsTJObj.giftPoList = giftGoods;
-		return true;
-	}else{
-		if(showAlert){
-			$.messager.alert('提示','第'+tempErrorIndexs.join(',')+'行赠品数量不能小于等于0','',function(){
-				gridHandel.setBeginRow(tempErrorIndexs[0]);
-				gridHandel.setSelectFieldName('giftNum');
-				var target = gridHandel.getFieldTarget('giftNum');
-				if(target){
-					gridHandel.setFieldFocus(target);
-				}else{
-					gridHandel.setSelectFieldName("giftNum");
-				}
-			})
-		};
-		return false;
-	}
-	
-	
-}
 
 //状态初始化 禁止点击
 function disableGoods(idone,idtow){
