@@ -7,39 +7,27 @@
             http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 			http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
-	<dubbo:application name="${dubbo.application.name}" />
+	<dubbo:application name="${dubbo.application.name}"  />
 
 	<!-- 使用zookeeper注册中心暴露服务地址 -->
 	<dubbo:registry protocol="zookeeper" address="${dubbo.registry.address}"
 		file="${dubbo.registry.file}" />
 	<dubbo:consumer timeout="${dubbo.consumer.timeout}"
-		check="false" retries="${dubbo.consumer.retries}" />
+		check="false" retries="${dubbo.consumer.retries}"/>
 
 	<!-- 扫描dubbo注解 -->
-	<dubbo:annotation package="com.okdeer.jxc" />
+	<dubbo:annotation package="com.okdeer.jxc"  />
 
-	<!-- 特殊情况 -->
-	<!-- <dubbo:reference id="sysUserApi" interface="com.yschome.ca.api.sysuser.service.ISysUserApi" 
-		version="1.0.0" check="false" /> -->
-
-	<dubbo:reference id="sysUserApi"
-		interface="com.okdeer.ca.api.sysuser.service.ISysUserApi"
-		version="1.0.0" check="false" />
-		
-	<dubbo:reference id="sysUserService"
-		interface="com.okdeer.jxc.system.service.SysUserServiceApi"
-		version="1.0.0" check="false" />
-		
-	<dubbo:reference id="sysUserCategoryGrantService"
-		interface="com.okdeer.jxc.system.service.SysUserCategoryGrantServiceApi"
-		version="1.0.0" check="false" />
-		
-	<dubbo:reference id="branchesService"
-		interface="com.okdeer.jxc.branch.service.BranchesServiceApi"
-		version="1.0.0" check="false" />
-		
-	<dubbo:reference id="supplierService"
-		interface="com.okdeer.jxc.supplier.service.SupplierServiceApi"
-		version="1.0.0" check="false" />
+	<dubbo:provider filter="catTransaction"></dubbo:provider>
+	
+	<!-- 
+		使用注解扫描方式会导致shiro的filter比dubbo的扫描先执行，
+		以下配置解决dubbo+shiro导致dubbo无法注入的问题
+	 -->
+	<dubbo:reference id="sysUserApi" interface="com.okdeer.ca.api.sysuser.service.ISysUserApi" version="1.0.0" check="false" />
+	<dubbo:reference id="sysUserService" interface="com.okdeer.jxc.system.service.SysUserServiceApi" version="1.0.0" check="false" />
+	<dubbo:reference id="sysUserCategoryGrantService" interface="com.okdeer.jxc.system.service.SysUserCategoryGrantServiceApi" version="1.0.0" check="false" />
+	<dubbo:reference id="branchesService" interface="com.okdeer.jxc.branch.service.BranchesServiceApi" version="1.0.0" check="false" />
+	<dubbo:reference id="supplierService" interface="com.okdeer.jxc.supplier.service.SupplierServiceApi" version="1.0.0" check="false" />
 
 </beans>

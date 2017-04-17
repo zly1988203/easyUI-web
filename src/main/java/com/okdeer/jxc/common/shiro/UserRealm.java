@@ -9,8 +9,6 @@ package com.okdeer.jxc.common.shiro;
 
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -23,6 +21,7 @@ import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.okdeer.ca.api.common.SysMenuPermissionDto;
 import com.okdeer.ca.api.common.SystemUserDto;
@@ -46,6 +45,10 @@ import com.okdeer.jxc.utils.UserUtil;
 /**
  * ClassName: UserRealm 
  * @Description: 用户登录授权(UserRealm)
+ * 
+ * 该文件使用注解的形式会导致dubbo无法注入，请在spring-jxc-dubbo.xml用配置XML的方式注入
+ * dubbo不要用注解扫描@Reference，而是直接使用@Autowired
+ * 
  * @author liwb
  * @date 2016年8月5日
  *
@@ -65,25 +68,31 @@ public class UserRealm extends CasRealm {
 	/**
 	 * 用户中心系统用户接口api
 	 */
-	@Resource(name = "sysUserApi")
+	@Autowired
 	private ISysUserApi sysUserApi;
 
 	/**
-	 * 系统用户service对外接口
+	 * 用户dubbo接口
 	 */
-	@Resource(name = "sysUserService")
+	@Autowired
 	private SysUserServiceApi sysUserService;
 
 	/**
-	 * 系统用户类别权限Service对外接口
+	 * 用户类别权限Dubbo接口
 	 */
-	@Resource(name = "sysUserCategoryGrantService")
+	@Autowired
 	private SysUserCategoryGrantServiceApi sysUserCategoryGrantServiceApi;
 
-	@Resource(name = "branchesService")
+	/**
+	 * 机构Dubbo接口
+	 */
+	@Autowired
 	private BranchesServiceApi branchesService;
 
-	@Resource(name = "supplierService")
+	/**
+	 * 供应商Dubbo接口
+	 */
+	@Autowired
 	private SupplierServiceApi supplierService;
 
 	/**

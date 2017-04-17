@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,7 +54,7 @@ public class SSOMainController extends BaseController<SSOMainController> {
 	@Reference(version = "1.0.0", check = false)
 	private SysUserServiceApi sysUserService;
 
-	@Autowired
+	@Reference(version = "1.0.0", check = false)
 	private ISysUserApi sysUserApi;
 
 	/**
