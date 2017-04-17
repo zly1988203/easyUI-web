@@ -17,6 +17,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,6 +40,7 @@ import com.okdeer.jxc.utils.UserUtil;
  * ----------------+----------------+-------------------+-------------------------------------------
  *     V2.5         	2017年3月31日		  songwj		在线消息提醒 
  */
+@Controller
 @RestController
 @RequestMapping("message")
 public class MessageController {
@@ -57,7 +59,13 @@ public class MessageController {
 	if (logger.isDebugEnabled()) {
 	    logger.debug("init() - start"); //$NON-NLS-1$
 	}
-
+	
+	permissions.put("JxcStockException:search", "JxcStockException");
+	
+	permissions.put("JxcPurchaseReceipt:search", "JxcPurchaseReceipt");
+	
+	permissions.put("JxcDeliverDI:search", "JxcDeliverDI");
+	
 	//调价单审核权限
 	permissions.put("JxcPriceAdjust:audit","jxcPriceAdjust");
 	//领用单权限
@@ -129,14 +137,11 @@ public class MessageController {
     public RespJson detailsCount() {
 	RespJson respJson = RespJson.success();
 	Map<String, Object> map = Maps.newHashMap();
-	List<String> messages = Lists.newArrayList();
-	messages.add("oneExceptionCount");
-	messages.add("twoPurchaseCount");
-	messages.add("twoDeliverFormCount");
+	List<String> list = Lists.newArrayList();
 	for (Map.Entry<String, String> entry : permissions.entrySet()) {
 	    if(isPermitted(entry.getKey())){
 		map.put(entry.getValue(), Boolean.TRUE);
-		messages.add(entry.getValue());
+		list.add(entry.getValue());
 	    }else{
 		map.put(entry.getValue(), Boolean.FALSE);
 	    }
@@ -146,19 +151,29 @@ public class MessageController {
 	List<Integer> detailsCount = messageService.countDetailsMessage(map);
 	Map<String, Integer> datas = Maps.newHashMap();
 	Integer allCount = Integer.valueOf(0);
-	for(int i = 0 ;i<messages.size();++i){
-	    datas.put(messages.get(i), detailsCount.get(i));
+	for(int i = 0 ;i<detailsCount.size();++i){
+	    datas.put(list.get(i), detailsCount.get(i));
 	    allCount +=detailsCount.get(i);
 	}
-	if(datas.get("oneExceptionCount")==0){
-	    datas.put("sumOne", 0);
-	}
-	if(datas.get("twoPurchaseCount")+ datas.get("twoPurchaseCount")==0){
-	    datas.put("sumTwo", 0);
-	}
-	if(allCount-datas.get("oneExceptionCount")-datas.get("twoPurchaseCount")-datas.get("twoPurchaseCount")==0){
-	    datas.put("sumOther", 0);
-	}
+	    if(map.get("JxcStockException")!=null&&(boolean)map.get("JxcStockException")){
+		datas.put("sumOne", detailsCount.get(0));
+	    }else{
+		datas.put("sumOne", 0);
+	    }
+	    if(map.get("JxcPurchaseReceipt")!=null || map.get("JxcDeliverDI")!=null){
+		int one = 0;
+		int two = 0;
+		if((boolean)map.get("JxcStockException")){
+		    one = detailsCount.get(1);
+		}
+		if((boolean)map.get("JxcDeliverDI")){
+		    two =  detailsCount.get(2);
+		}
+		datas.put("sumTwo", one+two);
+	    }else{
+		datas.put("sumTwo", 0);
+	    }
+	    datas.put("sumOther", allCount-datas.get("sumOne")-datas.get("sumTwo"));
 	respJson.setData(datas);
 	return respJson;
     }
