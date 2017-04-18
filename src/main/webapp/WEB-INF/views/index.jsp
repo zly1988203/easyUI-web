@@ -82,22 +82,23 @@
 					   			</div>
 				   			</div><!-- end 异常库存提醒 -->
 			   			</shiro:hasPermission>
-			   			<div class="ub ub-ver umar-t10 ubgc-while">
-				   			<p class="ub ufs-16 ufw-b upad-8">收货提醒</p>
-				   			<p class="ub uline">
-				   			<div class="ub upad-t10 upad-b10 upad-8">
-				   				<ul class="msg-ul crbox">
-				   				<shiro:hasPermission name="JxcPurchaseReceipt:search">
-				   					<li class="msg-li"><a class="" href="javascript:openNewTab('采购收货','form/purchase/receiptList?message=1');closeMsg();">采购收货提醒（<em class="uc-red" id="JxcPurchaseReceipt">...</em>）</a></li>
-				   				</shiro:hasPermission>
-				   				<shiro:hasPermission name="JxcDeliverDI:search">
-				   					<li class="msg-li"><a class="" href="javascript:openNewTab('配送入库','form/deliverForm/viewsDI?message=1');closeMsg();">配送收货提醒（<em class="uc-red" id="JxcDeliverDI">...</em>）</a></li>
-				   				</shiro:hasPermission>
-				   					<li class="msg-li" id="sumTwo" style="display: none;">暂无提醒事项！</li>
-				   				</ul>
-				   			</div>
-			   			</div><!-- end 收货提醒 -->
-			   			
+			   			<shiro:hasPermission name="JxcPurchaseReceipt:search || JxcDeliverDI:search">
+				   			<div class="ub ub-ver umar-t10 ubgc-while">
+					   			<p class="ub ufs-16 ufw-b upad-8">收货提醒</p>
+					   			<p class="ub uline">
+					   			<div class="ub upad-t10 upad-b10 upad-8">
+					   				<ul class="msg-ul crbox">
+					   				<shiro:hasPermission name="JxcPurchaseReceipt:search">
+					   					<li class="msg-li"><a class="" href="javascript:openNewTab('采购收货','form/purchase/receiptList?message=1');closeMsg();">采购收货提醒（<em class="uc-red" id="JxcPurchaseReceipt">...</em>）</a></li>
+					   				</shiro:hasPermission>
+					   				<shiro:hasPermission name="JxcDeliverDI:search">
+					   					<li class="msg-li"><a class="" href="javascript:openNewTab('配送入库','form/deliverForm/viewsDI?message=1');closeMsg();">配送收货提醒（<em class="uc-red" id="JxcDeliverDI">...</em>）</a></li>
+					   				</shiro:hasPermission>
+					   					<li class="msg-li" id="sumTwo" style="display: none;">暂无提醒事项！</li>
+					   				</ul>
+					   			</div>
+				   			</div><!-- end 收货提醒 -->
+			   			</shiro:hasPermission>
 			   			<div class="ub ub-ver umar-t10 ubgc-while">
 				   			<p class="ub ufs-16 ufw-b upad-8">未审核单据</p>
 				   			<p class="ub uline">
