@@ -8,6 +8,24 @@ $(function(){
     initDatagridAddRequireOrder();
     loadFormByFormNoDA();
     sourceBranchType = $("#sourceBranchType").val();
+    
+    $(".radioItem").on("change",function(){
+    	$("#referenceId").val("");
+    	$("#referenceNo").val("");
+    	
+    	$("#sourceBranchId").val(oldBid);
+		$("#sourceBranchType").val(oldBtype);
+		$("#sourceBranchName").val(oldBname);
+		$("#targetBranchId").val("");
+		$("#targetBranchType").val("");
+		$("#targetBranchName").val("");
+		
+		$("#DAremark").val("");
+    	$("#address").html('');
+		$("#contacts").html('');
+		$("#mobile").html('');
+    	$('#gridEditOrder').datagrid('loadData',[]);
+    })
 });
 
 
