@@ -96,9 +96,83 @@ function onChangeSelect(){
 			    break;
 	    }
 	};
-    var rows = gridHandel.getRows();
-    console.log('rows',rows)
-	if(rows.length==0 || JSON.stringify(rows[0])==JSON.stringify({oldPurPrice:0})){
+	$("#saleMangeadd").datagrid("endEdit", gridHandel.getSelectRowIndex());
+	var rows = [];
+	var setrows = [];
+	//1特价 3偶数特价 4换购  6 组合特价
+	if(gVarLastActivityType == '1' || gVarLastActivityType == '3' || gVarLastActivityType == '4' || gVarLastActivityType == '6' ){
+		rows = gridHandel.getRowsWhere({skuName:'1'});
+	}
+	//折扣
+	if(gVarLastActivityType == '2'){
+		var _thisV	= $("#activityScopedis").val();
+		//全场折扣
+		if(_thisV == '2'){
+			rows= gridHandel.getRows();
+			if(parseFloat(rows[0].discount) == 0) rows = [];
+		}
+		//类别折扣
+		if(_thisV == '1'){
+			rows= gridHandel.getRowsWhere({categoryName:'1'});
+		}
+		//单品折扣
+		if(_thisV == '0'){
+			rows= gridHandel.getRowsWhere({skuName:'1'});
+		}
+	}
+	//满减
+	if(gVarLastActivityType == '5'){
+		var _tempScomj = $("#activityScopemj").val();
+		$("#salesetmj").datagrid("endEdit", gridHandelMj.getSelectRowIndex());
+		setrows=$('#salesetmj').datagrid('getRows');
+		//全场满减
+		if(_tempScomj == '2'){
+			setrows = [];
+			rows= $("#saleMangeadd").datagrid('getRows');
+			if(rows.length == 1 && !rows[0].discountPrice && !rows[0].limitAmount)rows = [];
+		}
+		//类别满减
+		if(_tempScomj == '1'){
+			rows = gridHandel.getRowsWhere({categoryName:'1'});;
+			if(setrows.length == 1 && !setrows[0].discountPrice && !setrows[0].limitAmount)setrows = [];
+		}
+		//商品满减
+		if(_tempScomj == '0'){
+			rows = gridHandel.getRowsWhere({skuName:'1'});
+			if(setrows.length == 1 && !setrows[0].discountPrice && !setrows[0].limitAmount)setrows = [];
+		}
+	}
+	//买满送
+	if(gVarLastActivityType == '10'){
+		gridHandelT.endEditRow();
+		var curV = $("#activityScopemms").val();
+		//买满条件grid
+		var rowstj = [];
+		//赠品grid
+		var rowsgif = [];
+		//类别商品grid
+		var rowsother = [];
+		rowstj = gridHandelT.getRows();
+		rowsgif = gridHandel.getRowsWhere({skuName:'1'});
+		if(rowstj.length ==1 && rowstj[0].limitAmount == 0 && rowstj[0].limitCount == 0)rowstj = [];
+		//类别满送 
+		if(curV== '1'){
+			gridHandelB.endEditRow();
+			rowsother = gridHandelB.getRowsWhere({categoryName:'1'});
+		}
+		//商品满送
+		if(curV== '0'){
+			gridHandelG.endEditRow();
+			rowsother = gridHandelG.getRowsWhere({skuName:'1'});
+		}
+		if(rowstj.length == 0 && rowsgif.length == 0 && rowsother.length == 0){
+			rows= [];
+		}else{
+			rows= [{}];
+		}
+	}
+	
+	if(rows.length==0 && setrows.length ==0){
 		changeType();
 	}else{
 		$.messager.confirm("","更换活动类型将清空当前列表信息，是否更换？",function(b){
@@ -120,15 +194,32 @@ function onChangemmsSelect(newV,oldV){
 		cheFlag = false;
 		return;
 	}
-	$.messager.confirm("提示","更换活动类型将清空当前列表信息，是否更换？",function(b){
-		if(b){
-			gridTitleName = newV == '0' ? '买满金额':'买满数量';
-			initDatagridmmsTJ();
-		}else{
-			cheFlag = true;
-			$(_this).combobox('setValue',oldV);
-		}
-	})
+	var curVa = $("#activityScopemms").val();
+	gridHandelT.endEditRow();
+	gridHandel.endEditRow();
+	//买满条件grid
+	var rowstj = [];
+	//赠品grid
+	var rowsgif = [];
+	rowstj = gridHandelT.getRows();
+	rowsgif = gridHandel.getRowsWhere({skuName:'1'});
+	if(rowstj.length ==1 && rowstj[0].limitAmount == 0 && rowstj[0].limitCount == 0)rowstj = [];
+	
+	if(rowstj.length ==0 && rowsgif.length ==0){
+		gridTitleName = newV == '0' ? '买满金额':'买满数量';
+		initDatagridmmsTJ();
+	}else{
+		$.messager.confirm("提示","更换活动类型将清空当前列表信息，是否更换？",function(b){
+			if(b){
+				gridTitleName = newV == '0' ? '买满金额':'买满数量';
+				initDatagridmmsTJ();
+				initDatagridmmsGOOD();
+			}else{
+				cheFlag = true;
+				$(_this).combobox('setValue',oldV);
+			}
+		})
+	}
 	
 }
 
@@ -162,40 +253,88 @@ function selectOptionmms(){
 	//买满送 --- 全场 类别 商品 选择事件
 	$(document).on('mousedown','.mmradioLabel',function(){
 		var _this = $(this).find('input[type="radio"]');
-		$.messager.confirm("","更换活动类型将清空当前列表信息，是否更换？",function(b){
-			if(b){
-				//重置 买满送 内部tab标示 
-				hasClickTab = false;
-				
-				$(_this).prop('checked',true);
-				
-				var mmsstatusV = $(_this).val();
-				// 2 全场
-				if(mmsstatusV == '2'){
-					choosemmsTab(mmsstatusV);
-				}else if(mmsstatusV == '1'){
-					//1类别
-					choosemmsTab(mmsstatusV);
-					$("#tabone").text("类别信息");
-					disableGoods('SelectGoods','');
-					initDatagridmmjComLB();
-				}else{
-					//0  商品  
-					choosemmsTab(mmsstatusV);
-					$("#tabone").text("商品信息");
-					disableGoods('','GoodsType');
-					initDatagridmmjComLG();
-				}
-			}else{
-				return false;
+		var curVal = $("#activityScopemms").val();
+		
+		var changeDismsType =  function(){
+			//重置 买满送 内部tab标示 
+			hasClickTab = false;
+			
+			$(_this).prop('checked',true);
+			
+			var mmsstatusV = $(_this).val();
+			$("#activityScopemms").val(mmsstatusV);
+			//全场满送
+			if(_this.val()=="2"){
+				choosemmsTab(mmsstatusV);
 			}
-		})
+			//类别满送
+			else if(_this.val()=="1"){
+				//1类别
+				choosemmsTab(mmsstatusV);
+				$("#tabone").text("类别信息");
+				disableGoods('SelectGoods','');
+				initDatagridmmjComLB();
+			}
+			//商品送
+			else {
+				choosemmsTab(mmsstatusV);
+				$("#tabone").text("商品信息");
+				disableGoods('','GoodsType');
+				initDatagridmmjComLG();
+
+			}
+
+		}
+		
+		gridHandelT.endEditRow();
+		gridHandel.endEditRow();
+		//买满条件grid
+		var rowstj = [];
+		//赠品grid
+		var rowsgif = [];
+		//类别商品grid
+		var rowsother = [];
+		rowstj = gridHandelT.getRows();
+		rowsgif = gridHandel.getRowsWhere({skuName:'1'});
+		if(rowstj.length ==1 && rowstj[0].limitAmount == 0 && rowstj[0].limitCount == 0)rowstj = [];
+		//类别满送 
+		if(curVal== '1'){
+			gridHandelB.endEditRow();
+			rowsother = gridHandelB.getRowsWhere({categoryName:'1'});
+		}
+		//商品满送
+		if(curVal== '0'){
+			gridHandelG.endEditRow();
+			rowsother = gridHandelG.getRowsWhere({skuName:'1'});
+		}
+		if(rowstj.length == 0 && rowsgif.length == 0 && rowsother.length == 0){
+			changeDismsType();
+		}else{
+			$.messager.confirm("","更换活动类型将清空当前列表信息，是否更换？",function(b){
+				if(b){
+					gridHandelT.setLoadData([$.extend({},mmsTJDefault)]);
+					gridHandel.setLoadData([$.extend({},gridDefaultG)]);
+					
+					hasClickTab = false;
+					changeDismsType();
+				}
+			})
+		}
+		
 	})
 	
 	//初始化买满送 梯度datagrid
 	initDatagridmmsTJ();
 	//买满送 礼品列表
 	initDatagridmmsGOOD();
+	
+	if(gridHandelB){
+		gridHandelB.setLoadData([$.extend({},gridDefault)])
+	}
+	if(gridHandelG){
+		gridHandelG.setLoadData([$.extend({},gridDefaultG)])
+	}
+	
 }
 
 
@@ -279,9 +418,6 @@ function initDatagridmmjComLB(){
 					{field:'categoryName',title:'类别名称',width:'140',align:'left'},
 					
         ]],
-        onAfterRender:function(target){
-        	console.log('target',target);
-        },
         onLoadSuccess:function(data){
     	  gridHandelB.setDatagridHeader("center");
         }
@@ -596,7 +732,7 @@ function initDatagridmmsGOOD(){
 			}
 		},
       onLoadSuccess:function(data){
-    	  
+    	   $(this).datagrid('resize',{width:'100%',height:'300px'})
 			gridHandel.setDatagridHeader("center");
 				
 		 }
@@ -654,9 +790,12 @@ function selectOptionzk(){
 	
 	//$('.discount').removeClass('unhide');
 	$('.discountTypechoose').removeClass('unhide');
+	$(document).off('mousedown','.discountTypechoose .disradioLabel');
 	$(document).on('mousedown','.discountTypechoose .disradioLabel',function(){
 		var _this = $(this).find('input[type="radio"]');
+		var thisValue = $("#activityScopedis").val();
 		$(".discount").removeClass('unhide');
+		$(".importGood").addClass('unhide');
 		var changeDisType = function(){
 			$('#activityScopedis').val(_this.val());
 			_this.prop("checked",true);
@@ -677,11 +816,25 @@ function selectOptionzk(){
 				disableGoods('SelectGoods','GoodsType');
 			}
 		}
+		 // 保存结束编辑
+		$("#saleMangeadd").datagrid("endEdit", gridHandel.getSelectRowIndex());
+		var rows = [];
+		//全场折扣
+		if(thisValue == '2'){
+			rows= gridHandel.getRows();
+			if(parseFloat(rows[0].discount) == 0) rows = [];
+		}
+		//类别折扣
+		if(thisValue == '1'){
+			rows= gridHandel.getRowsWhere({categoryName:'1'});
+		}
+		//单品折扣
+		if(thisValue == '0'){
+			rows= gridHandel.getRowsWhere({skuName:'1'});
+		}
+		console.log('000--rows',rows) 
 		
-		  // 保存结束编辑
-		  $("#saleMangeadd").datagrid("endEdit", gridHandel.getSelectRowIndex());
-			var rows= gridHandel.getRows();
-		if(rows.length==0 || JSON.stringify(rows[0])==JSON.stringify({oldPurPrice:0})){
+		if(rows.length==0){
 			changeDisType();
 		}else{
 			$.messager.confirm("","更换活动类型将清空当前列表信息，是否更换？",function(b){
@@ -722,15 +875,15 @@ function selectOptionMj(){
 	initDatagridallMj();
 	initDatagridsortSet();
 
-
+	$(document).off('mousedown','.mjTypechoose .mjradioLabel')
 	$(document).on('mousedown','.mjTypechoose .mjradioLabel',function(){
 
 		var _this = $(this).find('input[type="radio"]');
-		
+		var _tempScomjV = $('#activityScopemj').val();
 		var changeDisType =  function(){
 			$('#activityScopemj').val(_this.val());
 			_this.prop("checked",true);
-			
+			//全场
 			if(_this.val()=="2"){
 				$("#consaleadd").addClass('ub-f1');
 				$('#consaleadd').removeClass('unhide');
@@ -743,6 +896,7 @@ function selectOptionMj(){
 				initDatagridallMj();
 				initDatagridsortSet();
 			}
+			//类别
 			else if(_this.val()=="1"){
 				$("#consaleadd").addClass('ub-f1');
 				$('#consaleadd').removeClass('unhide');
@@ -756,6 +910,7 @@ function selectOptionMj(){
 				initDatagridsortMj();
 				initDatagridsortSet();
 			}
+			//商品
 			else {
 				$("#consaleadd").removeClass('ub-f1');
 				$('#consaleadd').removeClass('unhide');
@@ -772,24 +927,44 @@ function selectOptionMj(){
 			}
 
 		}
-		    // 保存结束编辑
-		    $("#saleMangeadd").datagrid("endEdit", gridHandel.getSelectRowIndex());
-			var rows= gridHandel.getRows();
-			 $("#salesetmj").datagrid("endEdit", gridHandelMj.getSelectRowIndex());
-			var setrows=$('#salesetmj').datagrid('getRows');
-			
-			if((rows.length==0 || JSON.stringify(rows[0])==JSON.stringify({oldPurPrice:0})) &&
-					(setrows.length == 0  || JSON.stringify(setrows[0])==JSON.stringify({oldPurPrice:0}))){
-						changeDisType();
-			}else{
-				$.messager.confirm("","更换满减类型将清空当前列表信息，是否更换？",function(b){
-					if(!b){
-						return;
-					}else{
-						changeDisType();
-					}
-				});
-			}
+		 // 保存结束编辑
+		$("#saleMangeadd").datagrid("endEdit", gridHandel.getSelectRowIndex());
+		var rows= [];// $("#saleMangeadd").datagrid('getRows');
+		 $("#salesetmj").datagrid("endEdit", gridHandelMj.getSelectRowIndex());
+		var setrows=$('#salesetmj').datagrid('getRows');
+		
+		//全场满减
+		if(_tempScomjV == '2'){
+			setrows = [];
+			rows= $("#saleMangeadd").datagrid('getRows');
+			if(rows.length == 1 && !rows[0].discountPrice && !rows[0].limitAmount)rows = [];
+		}
+	    
+		//类别满减
+		if(_tempScomjV == '1'){
+			rows = gridHandel.getRowsWhere({categoryName:'1'});;
+			if(setrows.length == 1 && !setrows[0].discountPrice && !setrows[0].limitAmount)setrows = [];
+		}
+		
+		//商品满减
+		if(_tempScomjV == '0'){
+			rows= gridHandel.getRowsWhere({skuName:'1'});
+			if(setrows.length == 1 && !setrows[0].discountPrice && !setrows[0].limitAmount)setrows = [];
+		}
+		
+	    console.log('rows',rows)
+		
+		if((rows.length==0) && (setrows.length == 0)){
+					changeDisType();
+		}else{
+			$.messager.confirm("","更换满减类型将清空当前列表信息，是否更换？",function(b){
+				if(!b){
+					return;
+				}else{
+					changeDisType();
+				}
+			});
+		}
 	     
 	   })
 }
@@ -1120,9 +1295,9 @@ function initDatagridallZk(){
 					},
 					{field:'discount',title:'折扣',width:'80px',align:'right',
 		                formatter:function(value,row,index){
-		                    if(row.isFooter){
-		                    	return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-		                    }
+		                	if(!value){
+		                		row.discount = 0;
+		                	}
 		                    return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		                },
 		                editor:{
@@ -1150,7 +1325,7 @@ function initDatagridallZk(){
 				
 		 }
     });
-    gridHandel.setLoadData([$.extend({},gridDefault)])
+    gridHandel.setLoadData([{discount:0}]);
  }
 
 // 初始化表格-单品折扣
@@ -1857,16 +2032,7 @@ function initDatagridshopMj(){
 			        	 return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 			        }
 			        return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-			    },
-//			    editor:{
-//			        type:'numberbox',
-//			        options:{
-//			            disabled:true,
-//			            min:0,
-//			            precision:2,
-//			
-//			        }
-//			    },
+			    }
 			},
         ]], 
 		onClickCell : function(rowIndex, field, value) {

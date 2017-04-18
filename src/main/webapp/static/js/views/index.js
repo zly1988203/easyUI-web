@@ -35,10 +35,13 @@ $(function(){
 });
 
 var synchronousMessage = function(){
-	//alert(menuData);
+	if($('#reload-btn').hasClass('refresh'))return; //加载中 防止重复加载
+	$('#reload-btn').addClass('refresh');
+	$("#mtext").text('...');
 	$.get("message/",function(data){
+		$('#reload-btn').removeClass('refresh');
 		if(data.message==="success"){
-			$("#messageAllCount span").text(data.data);
+			$("#mtext").text(data.data);
 		}
 	});
 };
