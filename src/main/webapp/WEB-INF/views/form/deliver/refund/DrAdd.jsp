@@ -16,31 +16,28 @@
 		<form action="" id="queryForm" method="post">
 			<div class="ub ub-ac upad-4">
 				<div class="ubtns">
-					<shiro:hasPermission name="JxcStockReimburse:add">
+					<shiro:hasPermission name="JxcDeliverDR:add">
 						<div class="ubtns-item" onClick="addDeliverDR()">新增</div>
 					</shiro:hasPermission>
-					<shiro:hasPermission name="JxcStockReimburse:add">
+					<shiro:hasPermission name="JxcDeliverDR:add">
 						<div class="ubtns-item" onclick="saveOrder()">保存</div>
 					</shiro:hasPermission>
-					<shiro:hasPermission name="JxcStockReimburse:audit">
+					<shiro:hasPermission name="JxcDeliverDR:audit">
 						<div class="ubtns-item-disabled">审核</div>
 					</shiro:hasPermission>
-					<shiro:hasPermission name="JxcStockReimburse:delete">
+					<shiro:hasPermission name="JxcDeliverDR:delete">
 						<div class="ubtns-item-disabled">删除</div>
 					</shiro:hasPermission>
 					<div class="ubtns-item" onclick="selectGoods()">商品选择</div>
-					<shiro:hasPermission name="JxcStockReimburse:import">
+					<shiro:hasPermission name="JxcDeliverDR:import">
 						<div class="ubtns-item" onclick="toImportproduct(0)">导入货号</div>
 						<div class="ubtns-item" onclick="toImportproduct(1)">导入条码</div>
 					</shiro:hasPermission>
-					<shiro:hasPermission name="JxcStockReimburse:export">
+					<shiro:hasPermission name="JxcDeliverDR:export">
 						<div class="ubtns-item-disabled">导出</div>
 					</shiro:hasPermission>
-					<shiro:hasPermission name="JxcStockReimburse:print">
+					<shiro:hasPermission name="JxcDeliverDR:print">
 						<div class="ubtns-item-disabled">打印</div>
-					</shiro:hasPermission>
-					<shiro:hasPermission name="JxcStockReimburse:setting">
-						<div class="ubtns-item-disabled">设置</div>
 					</shiro:hasPermission>
 					<div class="ubtns-item" onclick="back()">关闭</div>
 				</div>
