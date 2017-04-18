@@ -79,7 +79,7 @@ function  editstart(selectType){
 	      success:function(data){
 	    	  if(data['code'] == 0){
 	    		var listinfo=data['obj'];
-	    		 console.log(data);
+	    		 //console.log(data);
 	    		 
 	    		if(undefined == listinfo){
 	    			 successTip("服务器返回数据异常.");
@@ -96,7 +96,7 @@ function  editstart(selectType){
 	    		    }
 	    		    
 		    		//活动名称
-	    		    console.log(data.obj.activityName);
+	    		    //console.log(data.obj.activityName);
 		    		$('#activityName').val(data.obj.activityName);
 		    		//日期转换格式
 		    	    var startTimeedit= new Date(listinfo.startTime);
@@ -469,8 +469,6 @@ function selectOptionmms(activityScope,activityPattern,allowActivity,allowMultip
 	//买满送 礼品列表
 	initDatagridmmsGOOD(activityId);
 	
-
-	
 }
 
 var gridHandelT = new GridClass();
@@ -592,7 +590,7 @@ function initDatagridmmsTJ(activityId){
      	   if(data.list && data.list.length > 0){
      		  gridHandel.setLoadData(data.list[0].giftPoList);
      	   }
-     	   console.log('data1334',data);	   
+     	   //console.log('data1334',data);	   
      	   $(_this).datagrid('resize',{width:'100%',height:'300px'})
      	   
     	  gridHandelT.setDatagridHeader("center");
@@ -3108,6 +3106,7 @@ function saveDataHandel(rows,setrows){
 	  temUrl = contextPath+"/sale/activity/save";
   }
   //console.log(req);
+  gFunStartLoading();
   //return;
   $.ajax({
       url:temUrl,
@@ -3115,18 +3114,23 @@ function saveDataHandel(rows,setrows){
       contentType:'application/json',
       data:req,
       success:function(result){
-    	  console.log(result)
+    	  //console.log(result)
+    	  gFunEndLoading();
     	  if(result['code'] == 0){
               $.messager.alert("操作提示", "操作成功！", "info",function(){
+            	  var actId = $("#activityId").val();
             	  if(sUrl == 'toCopy'){
-            		  location.href = contextPath +"/sale/activity/edit?activityId="+result["activityId"];
+            		  actId = result["activityId"];
             	  }
+            	  console.log('actId',actId);
+            	  location.href = contextPath +"/sale/activity/edit?activityId="+actId;
               });
           }else{
               successTip(result['message']);
           }
       },
       error:function(result){
+    	  gFunEndLoading();
           successTip("请求发送失败或服务器处理失败");
       }
   });
@@ -3169,7 +3173,6 @@ function weekCheckDay(){
   for(var i=0;i<len;i++){
 	 var elemt=$('#weekday .ubcheckweek').eq(i).find('.radioItem');
 	 var check= elemt.prop("checked");
-	  console.log(check)
 	  if(check){
 		str+=elemt.val()
 	   }
