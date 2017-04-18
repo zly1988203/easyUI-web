@@ -48,7 +48,7 @@ function initActivityCX() {
         columns: [[
             {field: 'branchName', title: '活动店铺', width:120, align: 'left'},
             {field: 'activityTypeStr', title: '活动类型', width:120, align: 'center',hidden:cxType != 'fullReduction'?false:true},
-            {field: 'fullReductionTypeStr', title: '满减类型', width:120, align: 'center',hidden:cxType == 'fullReduction'?false:true},
+            {field: 'activityScopeStr', title: '满减类型', width:120, align: 'center',hidden:cxType == 'fullReduction'?false:true},
             {field: 'goodCategoryName', title: '商品类别', width:120, align: 'center',hidden:cxType != 'goods'?false:true},
             {field: 'goodCategoryCode', title: '类别编码', width:120, align: 'center',hidden:cxType == 'category'?false:true},
             {field: 'skuCode', title: '货号', width:80, align: 'left',hidden:cxType != 'category'?false:true},

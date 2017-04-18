@@ -133,7 +133,7 @@ function initDatagridStoreYHOrder(){
                 formatter:function(value,row,index){
                     var str = "";
                     if(row.isFooter){
-                        str ='<div class="ub ub-pc" style="color:red;">起订金额：'+ $("#minAmount").val() +'</div> '
+                        str =''
                     }else{
                         str = value;
                     }
@@ -829,7 +829,7 @@ function toImportproduct(type){
     }
     var param = {
         url : contextPath+"/form/deliverForm/importList",
-        tempUrl : contextPath+"/form/deliverForm/exportTemp",
+        tempUrl : contextPath+"/form/deliverForm/exportTempDr",
         type:type,
         targetBranchId : targetBranchId,
         sourceBranchId : sourceBranchId,
