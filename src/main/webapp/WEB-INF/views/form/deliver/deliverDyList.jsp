@@ -86,6 +86,24 @@
 	                        <input class="ub" type="radio" name="deliverAuditStatus" value="" onclick="queryForm()"/><span>全部</span>
 	                    </div>
 	                </div>
+	                <div class="ub ub-ac umar-l20">
+	                    <div class="umar-r10 uw-70 ut-r">单据状态:</div>
+	                    <div class="ub ub-ac umar-r10">
+	                        <input class="ub" type="radio" name="deliverStatus" value="0" onclick="queryForm()"/><span>待处理</span>
+	                    </div>
+	                    <div class="ub ub-ac umar-r10">
+	                        <input class="ub" type="radio" name="deliverStatus" value="1" onclick="queryForm()"/><span>部分发货</span>
+	                    </div>
+	                    <div class="ub ub-ac umar-r10">
+	                        <input class="ub" type="radio" name="deliverStatus" value="2" onclick="queryForm()"/><span>全部发货</span>
+	                    </div>
+	                    <div class="ub ub-ac umar-r10">
+	                        <input class="ub" type="radio" name="deliverStatus" value="3" onclick="queryForm()"/><span>终止</span>
+	                    </div>
+	                    <div class="ub ub-ac umar-r10">
+	                        <input class="ub" type="radio" name="deliverStatus" value="" checked="checked" onclick="queryForm()"/><span>全部</span>
+	                    </div>
+	                </div>
 				</div>
 				
        	</form>
