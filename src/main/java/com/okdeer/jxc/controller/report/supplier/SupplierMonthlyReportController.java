@@ -108,16 +108,16 @@ public class SupplierMonthlyReportController extends BaseController<DayReportCon
 			BigDecimal posAmount = BigDecimal.ZERO;
 			BigDecimal profitAmount = BigDecimal.ZERO;
 			for (SupplierMonthReportVo reportVo : vos) {
-				beginStock = beginStock.add(reportVo.getBeginStock());
-				beginCostAmount = beginCostAmount.add(reportVo.getBeginCostAmount());
-				beginSaleAmount = beginSaleAmount.add(reportVo.getBeginSaleAmount());
-				endStock = endStock.add(reportVo.getEndStock());
-				endCostAmount = endCostAmount.add(reportVo.getEndCostAmount());
-				endSaleAmount = endSaleAmount.add(reportVo.getEndSaleAmount());
-				posNum = posNum.add(reportVo.getPosNum());
-				costAmount = costAmount.add(reportVo.getCostAmount());
-				posAmount = posAmount.add(reportVo.getPosAmount());
-				profitAmount = profitAmount.add(reportVo.getProfitAmount());
+				beginStock = beginStock.add(reportVo.getBeginStock()==null?BigDecimal.ZERO:reportVo.getBeginStock());
+				beginCostAmount = beginCostAmount.add(reportVo.getBeginCostAmount()==null?BigDecimal.ZERO:reportVo.getBeginCostAmount());
+				beginSaleAmount = beginSaleAmount.add(reportVo.getBeginSaleAmount()==null?BigDecimal.ZERO:reportVo.getBeginSaleAmount());
+				endStock = endStock.add(reportVo.getEndStock()==null?BigDecimal.ZERO:reportVo.getEndStock());
+				endCostAmount = endCostAmount.add(reportVo.getEndCostAmount()==null?BigDecimal.ZERO:reportVo.getEndCostAmount());
+				endSaleAmount = endSaleAmount.add(reportVo.getEndSaleAmount()==null?BigDecimal.ZERO:reportVo.getEndSaleAmount());
+				posNum = posNum.add(reportVo.getPosNum()==null?BigDecimal.ZERO:reportVo.getPosNum());
+				costAmount = costAmount.add(reportVo.getCostAmount()==null?BigDecimal.ZERO:reportVo.getCostAmount());
+				posAmount = posAmount.add(reportVo.getPosAmount()==null?BigDecimal.ZERO:reportVo.getPosAmount());
+				profitAmount = profitAmount.add(reportVo.getProfitAmount()==null?BigDecimal.ZERO:reportVo.getProfitAmount());
 			}
 			List<SupplierMonthReportVo> footer = new ArrayList<SupplierMonthReportVo>();
 			if (pageUtils != null) {
