@@ -182,7 +182,7 @@ public class ActivityController extends BaseController<ActivityController> {
 			List<ActivityDetailVo> listVo = activityVo.getDetailList();
 
 			// 买满送活动需要重新组装活动详情数据
-			if (activityVo.getActivityType() == ActivityType.BUY_FULL_GIVE.getValue()) {
+			if (ActivityType.BUY_FULL_GIVE.getValue().equals(activityVo.getActivityType())) {
 
 				// 构建买满送数据
 				buildFullGiveData(activityVo, main, detailList, goodsGiftList, listVo);
@@ -335,7 +335,7 @@ public class ActivityController extends BaseController<ActivityController> {
 			List<ActivityDetailVo> listVo = activityVo.getDetailList();
 
 			// 买满送活动需要重新组装活动详情数据
-			if (activityVo.getActivityType() == ActivityType.BUY_FULL_GIVE.getValue()) {
+			if (ActivityType.BUY_FULL_GIVE.getValue().equals(activityVo.getActivityType())) {
 
 				// 构建买满送数据
 				buildFullGiveData(activityVo, main, detailList, goodsGiftList, listVo);
@@ -709,21 +709,21 @@ public class ActivityController extends BaseController<ActivityController> {
 	private String[] buildFields(String type, Integer activityType) {
 		String[] field = null;
 		if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {// 货号
-			if(activityType==ActivityType.SALE_PRICE.getValue()){ //特价
+			if(ActivityType.SALE_PRICE.getValue().equals(activityType)){ //特价
 				field = new String[] { "skuCode", "saleAmount"};
-			}else if(activityType==ActivityType.DISCOUNT.getValue()){ //折扣
+			}else if(ActivityType.DISCOUNT.getValue().equals(activityType)){ //折扣
 				field = new String[] { "skuCode", "discount"};
-			}else if(activityType==ActivityType.EVEN_SALE.getValue()){ //偶数特价
+			}else if(ActivityType.EVEN_SALE.getValue().equals(activityType)){ //偶数特价
 				field = new String[] { "skuCode", "saleAmount"};
 			}else{
 				return null;
 			}
 		} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {// 条码
-			if(activityType==ActivityType.SALE_PRICE.getValue()){ //特价
+			if(ActivityType.SALE_PRICE.getValue().equals(activityType)){ //特价
 				field = new String[] { "barCode", "saleAmount"};
-			}else if(activityType==ActivityType.DISCOUNT.getValue()){ //折扣
+			}else if(ActivityType.DISCOUNT.getValue().equals(activityType)){ //折扣
 				field = new String[] { "barCode", "discount"};
-			}else if(activityType==ActivityType.EVEN_SALE.getValue()){ //偶数特价
+			}else if(ActivityType.EVEN_SALE.getValue().equals(activityType)){ //偶数特价
 				field = new String[] { "barCode", "saleAmount"};
 			}else{
 				return null;
@@ -749,13 +749,13 @@ public class ActivityController extends BaseController<ActivityController> {
 		String[] columns = null;
 
 		if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {// 货号
-			if(activityType==ActivityType.SALE_PRICE.getValue()){ //特价
+			if(ActivityType.SALE_PRICE.getValue().equals(activityType)){ //特价
 				columns = new String[] { "skuCode", "saleAmount"};
 				headers = new String[] { "货号", "特价"};
-			}else if(activityType==ActivityType.DISCOUNT.getValue()){ //折扣
+			}else if(ActivityType.DISCOUNT.getValue().equals(activityType)){ //折扣
 				columns = new String[] { "skuCode", "discount"};
 				headers = new String[] { "货号", "折扣"};
-			}else if(activityType==ActivityType.EVEN_SALE.getValue()){ //偶数特价
+			}else if(ActivityType.EVEN_SALE.getValue().equals(activityType)){ //偶数特价
 				columns = new String[] { "skuCode", "saleAmount"};
 				headers = new String[] { "货号", "偶数特价"};
 			}else{
@@ -763,13 +763,13 @@ public class ActivityController extends BaseController<ActivityController> {
 				return;
 			}
 		} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {// 条码
-			if(activityType==ActivityType.SALE_PRICE.getValue()){ //特价
+			if(ActivityType.SALE_PRICE.getValue().equals(activityType)){ //特价
 				columns = new String[] { "barCode", "saleAmount"};
 				headers = new String[] { "条码", "特价"};
-			}else if(activityType==ActivityType.DISCOUNT.getValue()){ //折扣
+			}else if(ActivityType.DISCOUNT.getValue().equals(activityType)){ //折扣
 				columns = new String[] { "barCode", "discount"};
 				headers = new String[] { "条码", "折扣"};
-			}else if(activityType==ActivityType.EVEN_SALE.getValue()){ //偶数特价
+			}else if(ActivityType.EVEN_SALE.getValue().equals(activityType)){ //偶数特价
 				columns = new String[] { "barCode", "saleAmount"};
 				headers = new String[] { "条码", "偶数特价"};
 			}else{
@@ -796,13 +796,13 @@ public class ActivityController extends BaseController<ActivityController> {
 			String templateName = "";
 			
 			if (GoodsSelectImportHandle.TYPE_SKU_CODE.equals(type)) {// 货号
-				if(activityType==ActivityType.SALE_PRICE.getValue()){ //特价
+				if(ActivityType.SALE_PRICE.getValue().equals(activityType)){ //特价
 					templateName = ExportExcelConstant.ACTIVITY_SPECIAL_GOODS_SKUCODE_TEMPLATE;
 					fileName = "特价活动货号导入模板";
-				}else if(activityType==ActivityType.DISCOUNT.getValue()){ //折扣
+				}else if(ActivityType.DISCOUNT.getValue().equals(activityType)){ //折扣
 					templateName = ExportExcelConstant.ACTIVITY_DISCOUNT_GOODS_SKUCODE_TEMPLATE;
 					fileName = "折扣活动货号导入模板";
-				}else if(activityType==ActivityType.EVEN_SALE.getValue()){ //偶数特价
+				}else if(ActivityType.EVEN_SALE.getValue().equals(activityType)){ //偶数特价
 					templateName = ExportExcelConstant.ACTIVITY_EVEN_GOODS_SKUCODE_TEMPLATE;
 					fileName = "偶数特价活动货号导入模板";
 				}else{
@@ -810,13 +810,13 @@ public class ActivityController extends BaseController<ActivityController> {
 					return;
 				}
 			} else if (GoodsSelectImportHandle.TYPE_BAR_CODE.equals(type)) {// 条码
-				if(activityType==ActivityType.SALE_PRICE.getValue()){ //特价
+				if(ActivityType.SALE_PRICE.getValue().equals(activityType)){ //特价
 					templateName = ExportExcelConstant.ACTIVITY_SPECIAL_GOODS_BARCODE_TEMPLATE;
 					fileName = "特价活动条码导入模板";
-				}else if(activityType==ActivityType.DISCOUNT.getValue()){ //折扣
+				}else if(ActivityType.DISCOUNT.getValue().equals(activityType)){ //折扣
 					templateName = ExportExcelConstant.ACTIVITY_DISCOUNT_GOODS_BARCODE_TEMPLATE;
 					fileName = "折扣活动条码导入模板";
-				}else if(activityType==ActivityType.EVEN_SALE.getValue()){ //偶数特价
+				}else if(ActivityType.EVEN_SALE.getValue().equals(activityType)){ //偶数特价
 					templateName = ExportExcelConstant.ACTIVITY_EVEN_GOODS_BARCODE_TEMPLATE;
 					fileName = "偶数特价活动条码导入模板";
 				}else{

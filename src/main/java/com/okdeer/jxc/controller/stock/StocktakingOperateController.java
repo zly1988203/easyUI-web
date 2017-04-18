@@ -322,7 +322,7 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 			List<GoodsSelectByStockTaking> stcoktakingVos = vo.getList();
 			for (GoodsSelectByStockTaking staking : stcoktakingVos) {
 				BigDecimal result = staking.getSalePrice().multiply(staking.getStocktakingNum());
-				result.setScale(4, BigDecimal.ROUND_HALF_UP);
+				result = result.setScale(4, BigDecimal.ROUND_HALF_UP);
 				staking.setAmount(result);
 			}
 			respJson.put("importInfo", vo);

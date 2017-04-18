@@ -29,6 +29,7 @@ import com.okdeer.ca.api.common.enums.SystemCodeEnum;
 import com.okdeer.ca.api.sysuser.service.ISysUserApi;
 import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
+import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.enums.BranchTypeEnum;
 import com.okdeer.jxc.common.enums.StatusEnum;
 import com.okdeer.jxc.common.exception.BusinessException;
@@ -115,7 +116,7 @@ public class UserRealm extends CasRealm {
 			}
 
 			// 登录账号被禁用
-			if (caUser.getStatus().intValue() == 1) {
+			if (caUser.getStatus().intValue() == Constant.ONE) {
 				throw new LockedAccountException("登录账号被禁用");
 			}
 

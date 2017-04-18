@@ -9,6 +9,7 @@ package com.okdeer.jxc.controller.common;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -113,7 +114,7 @@ public abstract class ReportController extends BaseController<T>{
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			for (Entry<String, String[]> p : params.entrySet()) {
 				if (null == p.getValue()
-						|| StringUtils.isEmpty(p.getValue().toString()))
+						|| StringUtils.isEmpty(Arrays.toString(p.getValue())))
 					continue;
 				// 只转换一个参数，多个参数不转换
 				String values[] = (String[]) p.getValue();

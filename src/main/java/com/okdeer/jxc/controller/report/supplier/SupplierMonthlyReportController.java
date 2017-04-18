@@ -6,6 +6,7 @@
  *@Date: 2017年3月30日 下午2:32:11
  *注意：本内容仅限于友门鹿公司内部传阅，禁止外泄以及用于其他的商业目的
  */
+
 package com.okdeer.jxc.controller.report.supplier;
 
 import java.math.BigDecimal;
@@ -55,135 +56,146 @@ import com.okdeer.jxc.report.vo.SupplierMonthReportVo;
  */
 @RestController
 @RequestMapping("report/supplier/month")
-public class SupplierMonthlyReportController  extends BaseController<DayReportController> {
+public class SupplierMonthlyReportController extends BaseController<DayReportController> {
 
-    @Reference(version = "1.0.0", check = false)
-    private DayReportService dayReportService;
-    
-    @RequestMapping(value = "/list")
-    public ModelAndView add() {
-	Map<String, String> model = Maps.newHashMap(); 
-	//model.put("branchId", UserUtil.getCurrentUser().getBranchId());
-	//model.put("branchName", UserUtil.getCurrentUser().getBranchName());
-	model.put("startTime", LocalDate.now().minusMonths(1).format(DateTimeFormatter.ofPattern(DateUtils.DATE_JFP_STR_R)));
-	return new ModelAndView("report/supplier/monthlylist",model);
-    }
-    
-    @RequestMapping(value = "details/list", method = RequestMethod.POST)
-    public PageUtils<SupplierMonthReportVo> getReportList(
-			DayReportQo vo,
+	@Reference(version = "1.0.0", check = false)
+	private DayReportService dayReportService;
+
+	@RequestMapping(value = "/list")
+	public ModelAndView add() {
+		Map<String, String> model = Maps.newHashMap();
+		// model.put("branchId", UserUtil.getCurrentUser().getBranchId());
+		// model.put("branchName", UserUtil.getCurrentUser().getBranchName());
+		model.put("startTime",
+				LocalDate.now().minusMonths(1).format(DateTimeFormatter.ofPattern(DateUtils.DATE_JFP_STR_R)));
+		return new ModelAndView("report/supplier/monthlylist", model);
+	}
+
+	@RequestMapping(value = "details/list", method = RequestMethod.POST)
+	public PageUtils<SupplierMonthReportVo> getReportList(DayReportQo vo,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
-	Optional<DayReportQo> optional = Optional.ofNullable(vo);
-	vo = optional.orElse(new DayReportQo());
-	vo.setPageNumber(pageNumber);
-	vo.setPageSize(pageSize);
-	if (StringUtils.isNotBlank(vo.getStartTime())) {
-	    // 月的第一天
-	    LocalDate firstDayOfMonth = LocalDate.parse(vo.getStartTime()+"-01").with(TemporalAdjusters.firstDayOfMonth());
-	    // 月的最后一天
-	    LocalDate lastDayOfMonth = LocalDate.parse(vo.getStartTime()+"-01").with(TemporalAdjusters.lastDayOfMonth());
+		Optional<DayReportQo> optional = Optional.ofNullable(vo);
+		vo = optional.orElse(new DayReportQo());
+		vo.setPageNumber(pageNumber);
+		vo.setPageSize(pageSize);
+		if (StringUtils.isNotBlank(vo.getStartTime())) {
+			// 月的第一天
+			LocalDate firstDayOfMonth = LocalDate.parse(vo.getStartTime() + "-01").with(
+					TemporalAdjusters.firstDayOfMonth());
+			// 月的最后一天
+			LocalDate lastDayOfMonth = LocalDate.parse(vo.getStartTime() + "-01").with(
+					TemporalAdjusters.lastDayOfMonth());
 
-	    vo.setFirstDayOfMonth(firstDayOfMonth.format(DateTimeFormatter.ofPattern(DateUtils.DATE_SMALL_STR_R)));
-	    vo.setLastDayOfMonth(lastDayOfMonth.format(DateTimeFormatter.ofPattern(DateUtils.DATE_SMALL_STR_R)));
-	    PageUtils<SupplierMonthReportVo> pageUtils = dayReportService.getSupplierMonthReportList(vo);
-	    //汇总合计
-	    List<SupplierMonthReportVo> vos = pageUtils.getRows();
-	    BigDecimal beginStock = BigDecimal.ZERO;
-	    BigDecimal beginCostAmount= BigDecimal.ZERO;
-	    BigDecimal beginSaleAmount= BigDecimal.ZERO;
-	    BigDecimal endStock= BigDecimal.ZERO;
-	    BigDecimal endCostAmount= BigDecimal.ZERO;
-	    BigDecimal endSaleAmount= BigDecimal.ZERO;
-	    BigDecimal posNum= BigDecimal.ZERO;
-	    BigDecimal costAmount= BigDecimal.ZERO;
-	    BigDecimal posAmount= BigDecimal.ZERO;
-	    BigDecimal profitAmount= BigDecimal.ZERO;
-	    for(SupplierMonthReportVo reportVo : vos){
-		beginStock = beginStock.add(reportVo.getBeginStock());
-		beginCostAmount = beginCostAmount.add(reportVo.getBeginCostAmount());
-		beginSaleAmount = beginSaleAmount.add(reportVo.getBeginSaleAmount());
-		endStock = endStock.add(reportVo.getEndStock());
-		endCostAmount = endCostAmount.add(reportVo.getEndCostAmount());
-		endSaleAmount = endSaleAmount.add(reportVo.getEndSaleAmount());
-		posNum = posNum.add(reportVo.getPosNum());
-		costAmount = costAmount.add(reportVo.getCostAmount());
-		posAmount = posAmount.add(reportVo.getPosAmount());
-		profitAmount = profitAmount.add(reportVo.getProfitAmount());
-	    }
-	    List<SupplierMonthReportVo> footer = new ArrayList<SupplierMonthReportVo>();
-	    if (pageUtils != null) {
-		SupplierMonthReportVo reportVo = new SupplierMonthReportVo();
-		reportVo.setBranchCode("SUM");
-		reportVo.setBeginCostAmount(beginCostAmount);
-		reportVo.setBeginSaleAmount(beginSaleAmount);
-		reportVo.setBeginStock(beginStock);
-		reportVo.setCostAmount(costAmount);
-		reportVo.setEndCostAmount(endCostAmount);
-		reportVo.setEndSaleAmount(endSaleAmount);
-		reportVo.setEndStock(endStock);
-		reportVo.setPosAmount(posAmount);
-		reportVo.setPosNum(posNum);
-		reportVo.setProfitAmount(profitAmount);
-		footer.add(reportVo);
-	    }
-	    pageUtils.setFooter(footer);
+			vo.setFirstDayOfMonth(firstDayOfMonth.format(DateTimeFormatter.ofPattern(DateUtils.DATE_SMALL_STR_R)));
+			vo.setLastDayOfMonth(lastDayOfMonth.format(DateTimeFormatter.ofPattern(DateUtils.DATE_SMALL_STR_R)));
+			PageUtils<SupplierMonthReportVo> pageUtils = dayReportService.getSupplierMonthReportList(vo);
+			
+			if(pageUtils==null){
+				return PageUtils.emptyPage();
+			}
+			
+			// 汇总合计
+			List<SupplierMonthReportVo> vos = pageUtils.getRows();
+			BigDecimal beginStock = BigDecimal.ZERO;
+			BigDecimal beginCostAmount = BigDecimal.ZERO;
+			BigDecimal beginSaleAmount = BigDecimal.ZERO;
+			BigDecimal endStock = BigDecimal.ZERO;
+			BigDecimal endCostAmount = BigDecimal.ZERO;
+			BigDecimal endSaleAmount = BigDecimal.ZERO;
+			BigDecimal posNum = BigDecimal.ZERO;
+			BigDecimal costAmount = BigDecimal.ZERO;
+			BigDecimal posAmount = BigDecimal.ZERO;
+			BigDecimal profitAmount = BigDecimal.ZERO;
+			for (SupplierMonthReportVo reportVo : vos) {
+				beginStock = beginStock.add(reportVo.getBeginStock());
+				beginCostAmount = beginCostAmount.add(reportVo.getBeginCostAmount());
+				beginSaleAmount = beginSaleAmount.add(reportVo.getBeginSaleAmount());
+				endStock = endStock.add(reportVo.getEndStock());
+				endCostAmount = endCostAmount.add(reportVo.getEndCostAmount());
+				endSaleAmount = endSaleAmount.add(reportVo.getEndSaleAmount());
+				posNum = posNum.add(reportVo.getPosNum());
+				costAmount = costAmount.add(reportVo.getCostAmount());
+				posAmount = posAmount.add(reportVo.getPosAmount());
+				profitAmount = profitAmount.add(reportVo.getProfitAmount());
+			}
+			List<SupplierMonthReportVo> footer = new ArrayList<SupplierMonthReportVo>();
+			if (pageUtils != null) {
+				SupplierMonthReportVo reportVo = new SupplierMonthReportVo();
+				reportVo.setBranchCode("SUM");
+				reportVo.setBeginCostAmount(beginCostAmount);
+				reportVo.setBeginSaleAmount(beginSaleAmount);
+				reportVo.setBeginStock(beginStock);
+				reportVo.setCostAmount(costAmount);
+				reportVo.setEndCostAmount(endCostAmount);
+				reportVo.setEndSaleAmount(endSaleAmount);
+				reportVo.setEndStock(endStock);
+				reportVo.setPosAmount(posAmount);
+				reportVo.setPosNum(posNum);
+				reportVo.setProfitAmount(profitAmount);
+				footer.add(reportVo);
+			}
+			pageUtils.setFooter(footer);
 
-	    return pageUtils;
+			return pageUtils;
+		}
+		return PageUtils.emptyPage();
 	}
-	return PageUtils.emptyPage();
-    }
-    
-    @RequestMapping(value = "/export/list", method = RequestMethod.POST)
-    public RespJson exportList(HttpServletResponse response, DayReportQo vo) {
-	RespJson resp = RespJson.success();
-	Optional<DayReportQo> optional = Optional.ofNullable(vo);
-	vo = optional.orElse(new DayReportQo());
-	if (StringUtils.isNotBlank(vo.getStartTime())) {
-	    // 月的第一天
-	    LocalDate firstDayOfMonth = LocalDate.parse(vo.getStartTime()+"-01").with(TemporalAdjusters.firstDayOfMonth());
-	    // 月的最后一天
-	    LocalDate lastDayOfMonth = LocalDate.parse(vo.getStartTime()+"-01").with(TemporalAdjusters.lastDayOfMonth());
 
-	    vo.setFirstDayOfMonth(firstDayOfMonth.format(DateTimeFormatter.ofPattern(DateUtils.DATE_SMALL_STR_R)));
-	    vo.setLastDayOfMonth(lastDayOfMonth.format(DateTimeFormatter.ofPattern(DateUtils.DATE_SMALL_STR_R)));
-	    List<SupplierMonthReportVo> exportList = dayReportService.exportSupplierMonthList(vo);
-	    String fileName = "供应商进销存月报表_"+DateUtils.getCurrSmallStr();
-	    String templateName = ExportExcelConstant.SUPPLIER_MONTHLY_REPORT;
-	    exportListForXLSX(response, exportList, fileName, templateName);
-	}
-	resp = RespJson.error();
-	return resp;
-    }
+	@RequestMapping(value = "/export/list", method = RequestMethod.POST)
+	public RespJson exportList(HttpServletResponse response, DayReportQo vo) {
+		RespJson resp = RespJson.success();
+		Optional<DayReportQo> optional = Optional.ofNullable(vo);
+		vo = optional.orElse(new DayReportQo());
+		if (StringUtils.isNotBlank(vo.getStartTime())) {
+			// 月的第一天
+			LocalDate firstDayOfMonth = LocalDate.parse(vo.getStartTime() + "-01").with(
+					TemporalAdjusters.firstDayOfMonth());
+			// 月的最后一天
+			LocalDate lastDayOfMonth = LocalDate.parse(vo.getStartTime() + "-01").with(
+					TemporalAdjusters.lastDayOfMonth());
 
-    @RequestMapping(value = "/print", method = RequestMethod.GET)
-    public String printReport(  DayReportQo vo, HttpServletResponse response, HttpServletRequest request){
-	Optional<DayReportQo> optional = Optional.ofNullable(vo);
-	vo = optional.orElse(new DayReportQo());
-	vo.setPageNumber(Integer.valueOf(PAGE_NO));
-	vo.setPageSize(PrintConstant.PRINT_MAX_LIMIT);
-	// 默认当前机构
-	if (StringUtils.isBlank(vo.getBranchId()) && StringUtils.isBlank(vo.getBranchName())) {
-	    vo.setBranchId(getCurrBranchId());
+			vo.setFirstDayOfMonth(firstDayOfMonth.format(DateTimeFormatter.ofPattern(DateUtils.DATE_SMALL_STR_R)));
+			vo.setLastDayOfMonth(lastDayOfMonth.format(DateTimeFormatter.ofPattern(DateUtils.DATE_SMALL_STR_R)));
+			List<SupplierMonthReportVo> exportList = dayReportService.exportSupplierMonthList(vo);
+			String fileName = "供应商进销存月报表_" + DateUtils.getCurrSmallStr();
+			String templateName = ExportExcelConstant.SUPPLIER_MONTHLY_REPORT;
+			exportListForXLSX(response, exportList, fileName, templateName);
+		}
+		resp = RespJson.error();
+		return resp;
 	}
-	if (StringUtils.isNotBlank(vo.getStartTime())) {
-	    // 月的第一天
-	    LocalDate firstDayOfMonth = LocalDate.parse(vo.getStartTime()+"-01").with(TemporalAdjusters.firstDayOfMonth());
-	    // 月的最后一天
-	    LocalDate lastDayOfMonth = LocalDate.parse(vo.getStartTime()+"-01").with(TemporalAdjusters.lastDayOfMonth());
 
-	    vo.setFirstDayOfMonth(firstDayOfMonth.format(DateTimeFormatter.ofPattern(DateUtils.DATE_SMALL_STR_R)));
-	    vo.setLastDayOfMonth(lastDayOfMonth.format(DateTimeFormatter.ofPattern(DateUtils.DATE_SMALL_STR_R)));
-	    List<SupplierMonthReportVo> exportList = dayReportService.exportSupplierMonthList(vo);
-	    if(exportList.size()>PrintConstant.PRINT_MAX_ROW){
-		return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
-	    }
-	    String path = PrintConstant.SUPPLIER_MONTHLY_REPORT;
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("startDate",firstDayOfMonth.getMonthValue()+"月");
-		map.put("printName", getCurrentUser().getUserName());
-		JasperHelper.exportmain(request, response, map, JasperHelper.PDF_TYPE, path, exportList, "");
+	@RequestMapping(value = "/print", method = RequestMethod.GET)
+	public String printReport(DayReportQo vo, HttpServletResponse response, HttpServletRequest request) {
+		Optional<DayReportQo> optional = Optional.ofNullable(vo);
+		vo = optional.orElse(new DayReportQo());
+		vo.setPageNumber(Integer.valueOf(PAGE_NO));
+		vo.setPageSize(PrintConstant.PRINT_MAX_LIMIT);
+		// 默认当前机构
+		if (StringUtils.isBlank(vo.getBranchId()) && StringUtils.isBlank(vo.getBranchName())) {
+			vo.setBranchId(getCurrBranchId());
+		}
+		if (StringUtils.isNotBlank(vo.getStartTime())) {
+			// 月的第一天
+			LocalDate firstDayOfMonth = LocalDate.parse(vo.getStartTime() + "-01").with(
+					TemporalAdjusters.firstDayOfMonth());
+			// 月的最后一天
+			LocalDate lastDayOfMonth = LocalDate.parse(vo.getStartTime() + "-01").with(
+					TemporalAdjusters.lastDayOfMonth());
+
+			vo.setFirstDayOfMonth(firstDayOfMonth.format(DateTimeFormatter.ofPattern(DateUtils.DATE_SMALL_STR_R)));
+			vo.setLastDayOfMonth(lastDayOfMonth.format(DateTimeFormatter.ofPattern(DateUtils.DATE_SMALL_STR_R)));
+			List<SupplierMonthReportVo> exportList = dayReportService.exportSupplierMonthList(vo);
+			if (exportList.size() > PrintConstant.PRINT_MAX_ROW) {
+				return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
+			}
+			String path = PrintConstant.SUPPLIER_MONTHLY_REPORT;
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("startDate", firstDayOfMonth.getMonthValue() + "月");
+			map.put("printName", getCurrentUser().getUserName());
+			JasperHelper.exportmain(request, response, map, JasperHelper.PDF_TYPE, path, exportList, "");
+		}
+		return null;
 	}
-	return null;
-    }
 }

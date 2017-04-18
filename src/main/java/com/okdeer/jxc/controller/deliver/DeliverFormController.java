@@ -327,7 +327,6 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		model.addAttribute("type", vo.getFormSources());
 		vo.setFormSources("");
 		DeliverForm form = queryDeliverFormServiceApi.queryEntity(vo);
-		form.getDaRemark();
 		model.addAttribute("form", form);
 		LOG.info(LogConstant.PAGE, form.toString());
 		// 待审核，可修改

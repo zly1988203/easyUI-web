@@ -279,7 +279,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 		request.setAttribute("form", form);
 		if (FormStatus.CHECK_SUCCESS.getValue().equals(form.getStatus())) {// 已审核，不能修改
 			if (FormStatus.CHECK_SUCCESS.getValue().equals(form.getStatus()) && form.getDealStatus() != null
-					&& form.getDealStatus() == FormDealStatus.STOP.getValue()) {
+					&& FormDealStatus.STOP.getValue().equals(form.getDealStatus())) {
 				request.setAttribute("status", FormDealStatus.STOP.getLabel());
 				request.setAttribute("close", report);
 				return "form/purchase/orderView";
