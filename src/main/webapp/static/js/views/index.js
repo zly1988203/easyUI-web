@@ -2,6 +2,9 @@
  * Created by huangj02 on 2016/8/9.
  */
 $(function(){
+	
+	$("#mst").css('right',$('#head-right').width()+1);
+	
     initMenuOne();      //初始化一级菜单
     initMenuTwo();      //初始化二级菜单
     //顶部右侧登录
@@ -31,6 +34,11 @@ $(function(){
     setInterval("synchronousMessage()", 1000*60*15);  
     //加载首页 
     //openNewTab('首页','purchase/paymentOrder/index','null');
+    
+    //加载中 不跳转
+    $('.msg-li a').on('click',function(){
+    	return $(this).find('em').text() != '...';
+    })
 
 });
 
@@ -363,3 +371,46 @@ function closeTabPrint(subtitle) {
      }
 }
 
+/* -- 消息提醒 start ------- */
+function openMsg(){
+	if($('#reload-btn').hasClass('refresh'))return;
+	$("#msgDialog").show().dialog('open');
+	$.get("message/details",function(data){
+		if(data.message==="success"){
+			$("#sumOne").hide();
+			$("#sumTwo").hide();
+			$("#sumOther").hide();
+			var datas = data.data;
+			for(var key in datas){
+				if(key==="sumOne"){
+					if(datas[key]<=0){
+						$("#sumOne").show();
+						continue;
+					}
+				}else if(key==="sumTwo"){
+					if(datas[key]<=0){
+						$("#sumTwo").show();
+						continue;
+					}
+				}else if(key==="sumOther"){
+					if(datas[key]<=0){
+						$("#sumOther").show();
+						continue;
+					}
+				}
+				if(datas[key]===0){
+					$("#"+key+"").parents(".msg-li").first().hide();
+				}else{
+					$("#"+key+"").parents(".msg-li").first().show();
+					$("#"+key+"").text(datas[key]);
+				}
+			}
+		}
+	});
+}
+
+function closeMsg(){
+	$("#msgDialog").hide().dialog('close');
+}
+
+/* -- 消息提醒 end ------- */
