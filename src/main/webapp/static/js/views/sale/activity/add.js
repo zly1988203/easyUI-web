@@ -3174,6 +3174,7 @@ function saveDataHandel(rows,setrows){
   
   var req = JSON.stringify(reqObj);
   console.log('req',req);
+  gFunStartLoading();
  // return; 
   $.ajax({
       url:contextPath+"/sale/activity/save",
@@ -3181,6 +3182,7 @@ function saveDataHandel(rows,setrows){
       contentType:'application/json',
       data:req,
       success:function(result){
+    	  gFunEndLoading();
           if(result['code'] == 0){
               $.messager.alert("操作提示", "操作成功！", "info", function(){
             		  location.href = contextPath +"/sale/activity/edit?activityId="+result["activityId"]; 
@@ -3190,6 +3192,7 @@ function saveDataHandel(rows,setrows){
           }
       },
       error:function(result){
+    	  gFunEndLoading();
           successTip("请求发送失败或服务器处理失败");
       }
   });
