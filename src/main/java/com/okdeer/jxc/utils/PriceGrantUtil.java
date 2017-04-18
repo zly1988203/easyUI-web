@@ -59,6 +59,7 @@ public class PriceGrantUtil {
 	 */
 	private static StringRedisTemplate redisTemplate;
 
+	
 	/**
 	 * @Description: 过滤价格权限
 	 * @param handler
@@ -263,10 +264,19 @@ public class PriceGrantUtil {
 	public void setRedisTemplateTmp(StringRedisTemplate redisTemplateTmp) {
 		this.redisTemplateTmp = redisTemplateTmp;
 	}
+	
+	public static StringRedisTemplate getRedisTemplate() {
+		return redisTemplate;
+	}
+
+	
+	public static void setRedisTemplate(StringRedisTemplate redisTemplate) {
+		PriceGrantUtil.redisTemplate = redisTemplate;
+	}
 
 	@PostConstruct
 	public void init() {
-		redisTemplate = this.redisTemplateTmp;
+		setRedisTemplate(this.redisTemplateTmp);
 	}
 
 }

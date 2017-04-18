@@ -371,7 +371,7 @@ public class PurchaseReportController extends
 				qo.setBranchName(branchName);
 			}
 			
-			List<PurchaseReportPo> list = null;
+			List<PurchaseReportPo> list = new ArrayList<PurchaseReportPo>();
 			// 2、查询合计
 			PurchaseReportPo vo =null;
 			// 导出文件名称，不包括后缀名

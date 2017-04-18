@@ -31,6 +31,7 @@ import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.branch.vo.BranchesVo;
 import com.okdeer.jxc.common.constant.Constant;
+import com.okdeer.jxc.common.enums.BranchTypeEnum;
 import com.okdeer.jxc.common.enums.GiftManagerEnum;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
@@ -117,22 +118,20 @@ public class GiftManagerController extends BaseController<GiftManagerController>
 	 * @author zhongy
 	 * @date 2016年12月31日
 	 */
-	@SuppressWarnings("static-access")
 	@RequestMapping(value = "delete", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson delete(String ids) {
-		RespJson resp = new RespJson();
 		try {
 			if(StringUtils.isNotBlank(ids)){
 				String[] arr = ids.split(",");
 				giftManagerServiceApi.deleteByIds(Arrays.asList(arr));
-				return resp.success();
+				return RespJson.success();
 			}
 		} catch (Exception e) {
 			LOG.error("积分礼品删除异常:", e);
-			return resp.error("删除失败");
+			return RespJson.error("删除失败");
 		}
-		return null;
+		return RespJson.error();
 	}
 	
 	
@@ -213,7 +212,7 @@ public class GiftManagerController extends BaseController<GiftManagerController>
 		Integer count = 0;
 		StringBuffer sb = new StringBuffer();
 		//1、分公司
-	    if(Integer.valueOf(Constant.ONE) == (Integer) branches.getType()){
+	    if(BranchTypeEnum.BRANCH_OFFICE.getCode().equals(branches.getType())){
 		   //1.1、校验分公司时间是否重叠
 		   String parentId = branches.getBranchesId();
 		   List<String> branchIds = new ArrayList<String>();
@@ -324,7 +323,7 @@ public class GiftManagerController extends BaseController<GiftManagerController>
 		   if(branchIds.size()==1){
 			   Branches branches = branchesService.getBranchInfoById(branchIds.get(0));
 			   //机构类型(0.总部、1.分公司、2.物流中心、3.自营店、4.加盟店B、5.加盟店C)
-			   if(Integer.valueOf(Constant.ONE) == (Integer) branches.getType()){
+			   if(BranchTypeEnum.BRANCH_OFFICE.getCode().equals(branches.getType())){
 				   //1.1、校验分公司时间是否重叠
 				   count = giftManagerServiceApi.selectCountByParams("",skuIds, branchIds, startTime, endTime);
 				   if(count>0){
