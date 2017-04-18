@@ -67,10 +67,10 @@ function initDatagridRequireOrders(){
             		return value;
             	}
             }},
-            {field:'status',title: '审核状态', width: '100px', align: 'center'},
+            {field:'status',title: '状态', width: '100px', align: 'center'},
 			{field: 'dealStatus', title: '单据状态', width: '60px', align: 'center'},
 			{field: 'targetBranchName', title: '要货机构', width: '200px', align: 'left'},
-			{field: 'salesman', title: '业务人员', width: '130px', align: 'left'},
+//			{field: 'salesman', title: '业务人员', width: '130px', align: 'left'},
 			{field: 'amount', title: '单据金额', width: '80px', align: 'right',
 				formatter:function(value,row,index){
                     if(row.isFooter){
@@ -81,14 +81,14 @@ function initDatagridRequireOrders(){
 			},
             {field: 'sourceBranchName', title: '发货机构', width: '200px', align: 'left'},
             {field: 'createUserName', title: '制单人员', width: '130px', align: 'left'},
-            {field: 'validityTime', title: '有效期限', width: '120px', align: 'center',
-				formatter: function (value, row, index) {
-					if (value) {
-						return new Date(value).format('yyyy-MM-dd');
-					}
-					return "";
-				}
-			},
+//            {field: 'validityTime', title: '有效期限', width: '120px', align: 'center',
+//				formatter: function (value, row, index) {
+//					if (value) {
+//						return new Date(value).format('yyyy-MM-dd');
+//					}
+//					return "";
+//				}
+//			},
 			{field: 'validUserName', title: '审核人员', width: '130px', align: 'left'},
 			{field: 'remark', title: '备注', width: '200px', align: 'left'},
 			{field: 'updateUserName', title: '操作人员', width: '130px', align: 'left'},
@@ -183,12 +183,12 @@ function selectOperator() {
 /**
  * 供应商选择
  */
-function selectSupplier(){
-	new publicSupplierService(function(data){
-		$("#supplierId").val(data.id);
-		$("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
-	});
-}
+//function selectSupplier(){
+//	new publicSupplierService(function(data){
+//		$("#supplierId").val(data.id);
+//		$("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
+//	});
+//}
 
 /**
  * 机构

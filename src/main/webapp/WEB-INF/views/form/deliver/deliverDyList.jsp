@@ -63,10 +63,10 @@
 	                     <input class="uinp" type="text" id="formNo" name="formNo">
 					</div>
 					<div class="ub ub-ac umar-l28">
-						<div class="umar-r8 uw-70 ut-r">供应商:</div>
-						<input class="uinp" name="supplierId" id="supplierId" type="hidden">
-		                <input class="uinp" id="supplierName" name="supplierName" type="text" maxlength="50">
-		                <div class="uinp-more" onclick="selectSupplier()">...</div>
+<!-- 						<div class="umar-r8 uw-70 ut-r">供应商:</div> -->
+<!-- 						<input class="uinp" name="supplierId" id="supplierId" type="hidden"> -->
+<!-- 		                <input class="uinp" id="supplierName" name="supplierName" type="text" maxlength="50"> -->
+<!-- 		                <div class="uinp-more" onclick="selectSupplier()">...</div> -->
 					</div>
 				</div>
 				<div class="ub umar-t8">
