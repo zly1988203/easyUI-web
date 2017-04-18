@@ -8,6 +8,11 @@
     <title>出库单-新增</title>
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
+    <script type="text/javascript">
+    var oldBid='${branchesGrow.targetBranchId}';
+    var oldBtype='${branchesGrow.targetBranchType}';
+    var oldBname='${branchesGrow.targetBranchName}';
+    </script>
 	<script src="${ctx}/static/js/views/deliver/DoAdd.js"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
