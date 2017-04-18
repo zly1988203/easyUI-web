@@ -9,10 +9,21 @@ $(function() {
 	$("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
 	$("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 	
+	//促销类型 change 事件
+	$("input[name='queryType']").on('change',function(){
+		cxType = $(this).val();
+		$("#categoryName").prop('disabled',cxType == 'category'?false:true);
+		initActivityCX();
+	})
+	
 });
 
 var datagridID = 'activityCXList';
 var gridHandel = new GridClass();
+
+var cxType = 'goods';//促销类型 商品促销    category-类别    fullReduction-满减
+
+
 
 /**
  * 初始化表格按  商品
@@ -36,19 +47,37 @@ function initActivityCX() {
         height:'100%',
         columns: [[
             {field: 'branchName', title: '活动店铺', width:120, align: 'left'},
-            {field: 'activityTypeStr', title: '活动类型', width:80, align: 'center'},
-            {field: 'skuCode', title: '货号', width:60, align: 'left'},
-            {field: 'skuName', title: '商品名称', width:150, align: 'left'},
-            {field: 'barCode', title: '条码', width:120, align: 'left'},
-            {field: 'spec', title: '规格', width:50, align: 'left'},
-            {field: 'unit', title: '单位', width:50, align: 'center'},
+            {field: 'activityTypeStr', title: '活动类型', width:120, align: 'center',hidden:cxType != 'fullReduction'?false:true},
+            {field: 'fullReductionTypeStr', title: '满减类型', width:120, align: 'center',hidden:cxType == 'fullReduction'?false:true},
+            {field: 'goodCategoryName', title: '商品类别', width:120, align: 'center',hidden:cxType != 'goods'?false:true},
+            {field: 'goodCategoryCode', title: '类别编码', width:120, align: 'center',hidden:cxType == 'category'?false:true},
+            {field: 'skuCode', title: '货号', width:80, align: 'left',hidden:cxType != 'category'?false:true},
+            {field: 'skuName', title: '商品名称', width:150, align: 'left',hidden:cxType != 'category'?false:true},
+            {field: 'barCode', title: '条码', width:120, align: 'left',hidden:cxType != 'category'?false:true},
+            {field: 'spec', title: '规格', width:50, align: 'left',hidden:cxType == 'goods'?false:true},
+            {field: 'unit', title: '单位', width:50, align: 'center',hidden:cxType == 'goods'?false:true},
             {field: 'activityCode', title: '活动编号', width:140, align: 'left'},
-            {field: 'salePrice', title: '售价', width:80, align: 'right',
+            {field: 'discount', title: '折扣', width:80, align: 'right',hidden:cxType == 'category'?false:true,
             	formatter:function(value,row,index){
             		return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
             	}
             },
-            {field: 'activityPlan', title: '促销方案', width:80, align: 'right',
+            {field: 'salePrice', title: '售价', width:80, align: 'right',hidden:cxType == 'goods'?false:true,
+            	formatter:function(value,row,index){
+            		return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+            	}
+            },
+            {field: 'fullMoney', title: '买满金额', width:80, align: 'right',hidden:cxType == 'fullReduction'?false:true,
+            	formatter:function(value,row,index){
+            		return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+            	}
+            },
+            {field: 'yhMoney', title: '优化金额', width:80, align: 'right',hidden:cxType == 'fullReduction'?false:true,
+            	formatter:function(value,row,index){
+            		return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+            	}
+            },
+            {field: 'activityPlan', title: '促销方案', width:80, align: 'right',hidden:cxType == 'goods'?false:true,
             	formatter:function(value,row,index){
             		var str = "";
             		if(isNaN(value)){
@@ -155,6 +184,7 @@ function searchBranch (){
  * 商品类别
  */
 function searchCategory(){
+	if($("#categoryName").prop('disabled'))return;
 	new publicCategoryService(function(data){
 		$("#categoryCode").val(data.categoryCode);
 		$("#categoryName").val('['+data.categoryCode+']'+data.categoryName);

@@ -8,7 +8,7 @@
 <title>促销活动明细查询</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
-<script src="${ctx}/static/js/views/sale/activityGoods/list.js"></script>
+<script src="${ctx}/static/js/views/sale/activityGoods/list.js?1=11"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
 </style>
@@ -48,14 +48,15 @@
 			    <div id="categoryNameDiv" class="ub ub-ac">
 			        <div class="umar-r10 uw-84 ut-r">类别:</div>
 			        <input type="hidden" name="categoryCode" id="categoryCode" class="uinp" />
-			        <input type="text" name="categoryName" id="categoryName" class="uinp" readonly="readonly" maxlength="50" onclick="searchCategory()" />
+			        <!-- readonly="readonly" -->
+			        <input type="text" name="categoryName" id="categoryName" class="uinp" disabled="disabled"  maxlength="50" onclick="searchCategory()" />
 			        <div class="uinp-more" id="categorySelect" onclick="searchCategory()">...</div>
 			    </div>
 			</div>
 			<div class="ub umar-t8">
 				<div class="ub ub-ac umar-l4">
 			        <div class="umar-r10 ut-r">货号:</div>
-			        <input type="text" name="codeKeyWord" id="codeKeyWord" class="uinp" />
+			        <input type="text" name="codeKeyWord" id="codeKeyWord" class="uinp" placeholder="输入货号、条码查询" />
 			    </div>
 			    <div class="ub ub-ac umar-l30 ">
 			        <div class="umar-r10 uw-80 ut-r">商品名称:</div>
@@ -64,8 +65,9 @@
 			    <div class="ub ub-ac umar-l4 ">
 			        <div class="umar-r10 uw-80 ut-r">活动状态:</div>
 				    <select class="uselect easyui-combobox umar-l30" name="activityStatus" id="activityStatus" data-options="editable:false" >
-						  <option value="1">已审核</option>
-						  <option value="2">已终止</option>
+						  <option value="1">进行中</option>
+						  <!-- <option value="1">已审核</option> -->
+						  <option value="2">已结束</option>
 						  <option value="">全部</option>
 					</select>
 			    </div>
