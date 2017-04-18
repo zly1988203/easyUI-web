@@ -3224,8 +3224,9 @@ function getGoodsType(){
     	var keyNames = {
     			categoryCode:'goodsCategoryCode'
         };
+    	//var ifReset = ['discount'];
         var rows = gFunUpdateKey(addDefaultData,keyNames);
-        var argWhere ={categoryCode:1};  // 验证重复性
+        var argWhere ={goodsCategoryCode:1};  // 验证重复性
         var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere);
         $('#'+datagridId).datagrid("loadData",newRows);
 		

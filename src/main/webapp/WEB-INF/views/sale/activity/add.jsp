@@ -7,7 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>促销活动设置</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="${ctx}/static/js/views/sale/activity/add.js?1=54"></script>
+<script src="${ctx}/static/js/views/sale/activity/add.js?1=45"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
 </style>
@@ -123,7 +123,7 @@
 					<div class="ub ub-ac umar-r10">
 						<label class="mmradioLabel"><input class="radioItem mmradio" type="radio"  name="mmsstatus" value="0" /><span>商品</span></label>
 					</div>
-<!--                     <input class="uinp" type="hidden" id="activityScopemms" value="2"  name="activityScopemms"> -->
+                    <input class="uinp" type="hidden" id="activityScopemms" value="2"  name="activityScopemms">
 	            </div>
 	           
             </div>
