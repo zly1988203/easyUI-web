@@ -151,7 +151,7 @@ public class MessageController {
 	List<Integer> detailsCount = messageService.countDetailsMessage(map);
 	Map<String, Integer> datas = Maps.newHashMap();
 	Integer allCount = Integer.valueOf(0);
-	for(int i = 0 ;i<detailsCount.size();++i){
+	for(int i = 0 ;i<detailsCount.size()-1;++i){
 	    datas.put(list.get(i), detailsCount.get(i));
 	    allCount +=detailsCount.get(i);
 	}
@@ -163,11 +163,13 @@ public class MessageController {
 	    if(map.get("JxcPurchaseReceipt")!=null || map.get("JxcDeliverDI")!=null){
 		int one = 0;
 		int two = 0;
-		if((boolean)map.get("JxcStockException")){
+		if((boolean)map.get("JxcPurchaseReceipt")){
 		    one = detailsCount.get(1);
 		}
-		if((boolean)map.get("JxcDeliverDI")){
+		if((boolean)map.get("JxcPurchaseReceipt")&&(boolean)map.get("JxcDeliverDI")){
 		    two =  detailsCount.get(2);
+		}else{
+		    two =  detailsCount.get(1);
 		}
 		datas.put("sumTwo", one+two);
 	    }else{
