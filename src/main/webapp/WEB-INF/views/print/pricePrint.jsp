@@ -61,6 +61,7 @@
 						<option value="4">促销（85*40mm无底 1*7）</option>
 						<option value="8">标准促销价签(72*32.5mm 4*6)无底</option>
 						<option value="11">标准促销价签(72*32.5mm 4*6 无底色)</option> -->
+						
 						<option value="15">二维码价签(58*28.5mm 3*9)</option>
 						 <option value="13">新标准价签(58*28.5mm 3*9)</option>
 						
@@ -70,6 +71,7 @@
 						<option value="1">正常（55*25mm有底 3*10）</option>
 						<option value="2">正常（85*40mm有底 2*7）</option>
 						<option value="3">正常（85*40mm无底 1*7）</option>
+						<option value="17">二维码价签无底(60*32mm 3*9)</option>
 						
 
 					</select>
