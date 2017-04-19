@@ -133,14 +133,12 @@
 	           
             </div>
 	         
-
-	         
 	          <div class="ub umar-t8">
 	             <div class="ub  ub-ac uw-384">
 	                   <div class="umar-r10 uw-70 ut-r">活动分店:</div>
-		                    <input class="uinp ub ub-f1" type="hidden" id="branchIds" name="branchIds" value=" ">
-	                        <input class="uinp ub ub-f1 uw-400" type="text" id="branchName" readonly="readonly" value=" " name="branchName"  onclick="selectBranch()">
-	                   		<div class="uinp-more" id="selectBranch" onclick="selectBranch()" >...</div>
+	                    <input class="uinp ub ub-f1" type="hidden" id="branchIds" name="branchIds" value=" ">
+                        <input class="uinp ub ub-f1 uw-400" type="text" id="branchName" readonly="readonly" value=" " name="branchName"  onclick="selectBranch()">
+                   		<div class="uinp-more" id="selectBranch" onclick="selectBranch()" >...</div>
 	             </div>
 	              <div class="ub ub-ac uw-390 umar-l10 special">
 					<div class="umar-r10 uw-80 ut-r">批量特价:</div>

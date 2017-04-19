@@ -13,8 +13,7 @@ var sUrl =  getUrlQueryString('from'); //获取url from='toCopy' 参数 == 促�
 $(function(){
 	optionHide();
 	//开始和结束时间
-	$("#startTime").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
-    $("#endTime").val("2016-11-18");
+
     $("#dailyStartTime").val("00:00:00");
     $("#dailyEndTime").val("23:59:59");
     
@@ -28,17 +27,11 @@ $(function(){
     initDatagridSpecial();
     //禁止按钮点击事件
     disableGoods('','GoodsType');
-    //加载进行批量特价设置
-    /*$('#special,#discount,#batchcount').on('input',function(){
-    	var obj=$(this).attr('id');
-    	specialRows(obj,$(this).val());
-
-	})*/
 	var priceValone=$("#activityType").combobox('getValue');
 	editstart(priceValone);
     
-  //一周星期获取和初始化
-	  weekCheckDay();
+	//一周星期获取和初始化
+	//weekCheckDay();
 	$(document).on('click','#weekday .ubcheckweek',function(){
 	//点击取消切换方法执行
 	  weekCheckDay();
@@ -101,21 +94,28 @@ function  editstart(selectType){
 		    		//日期转换格式
 		    	    var startTimeedit= new Date(listinfo.startTime);
 		    	    var endTimeedit=new Date(listinfo.endTime);
-		    		startTimeedit=startTimeedit.format("yyyy-MM-dd"); 
-		    		endTimeedit=endTimeedit.format("yyyy-MM-dd");
-		    		$('#startTime').val(startTimeedit);
-		    		$('#endTime').val(endTimeedit);
+		    	    startTimeedit=startTimeedit.format("yyyy-MM-dd"); 
+		    	    endTimeedit=endTimeedit.format("yyyy-MM-dd");
+		    	    //复制过来的  不赋值
+		    		if(sUrl != 'toCopy'){
+		    			$('#startTime').val(startTimeedit);
+		    			$('#endTime').val(endTimeedit);
+		    		}
 		    		//时间转换格式
 		    		 var dailyStartTimeedit= new Date(listinfo.dailyStartTime);
 			    	 var dailyEndTimeedit=new Date(listinfo.dailyEndTime);
 		    		 dailyStartTimeedit=listinfo.dailyStartTime.format("HH:mm:ss"); 
 		    		 dailyEndTimeedit=listinfo.dailyEndTime.format("HH:mm:ss");
-		    		 $('#dailyStartTime').val(dailyStartTimeedit);
-		    		 $('#dailyEndTime').val(dailyEndTimeedit);
-		    		 $('#weeklyActivityDay').val(listinfo.weeklyActivityDay);
-		    		var strweek=$('#weeklyActivityDay').val();
-		    		//星期字符串处理
-		    		StrweekCheckDay(strweek);
+		    		//复制过来的  不赋值
+			    	 if(sUrl != 'toCopy'){
+			    		 $('#dailyStartTime').val(dailyStartTimeedit);
+			    		 $('#dailyEndTime').val(dailyEndTimeedit);
+			    		 $('#weeklyActivityDay').val(listinfo.weeklyActivityDay);
+			    		 //var strweek=$('#weeklyActivityDay').val();
+			    		 //星期字符串处理
+			    		 StrweekCheckDay(listinfo.weeklyActivityDay);
+			    	 }
+			    	 weekCheckDay();
 		    		//组合结构显示和id
 		    		var branchIds="";
 		    		var branchName="";
@@ -128,8 +128,11 @@ function  editstart(selectType){
 		    		 });
 		    		 branchIds = branchIds.substring(0,branchIds.length - 1);
 		    		 branchName = branchName.substring(0,branchName.length - 1);
-		    		 $('#branchName').val(branchName);
-		    		 $('#branchIds').val(branchIds);
+		    		//复制过来的  不赋值
+			    	 if(sUrl != 'toCopy'){
+			    		 $('#branchName').val(branchName);
+			    		 $('#branchIds').val(branchIds);
+			    	 }
                     //combobox 下拉赋值和禁止选择
   		    		$("#activityType").combobox('select',activtype);  
   		    		$("#activityType").combobox("disable");
@@ -2505,6 +2508,32 @@ function saveActivity(){
       messager("表格不能为空");
       return;
   }
+  
+  	if(!$("#startTime").val() || !$("#endTime").val()){
+		messager("<活动时间>不能为空");
+		return;
+	}
+	
+	if(!$("#dailyStartTime").val() || !$("#dailyStartTime").val()){
+		messager("<活动时段>不能为空");
+		return;
+	}
+	  
+    if(!$("#activityName").val()){
+	    messager("<活动名称>不能为空");
+	    return;
+	}
+	
+	
+	if(!$("#branchName").val().trim()){
+		messager("<活动分店>不能为空");
+		return;
+	}
+	
+	if(!$("#weeklyActivityDay").val().trim()){
+	  messager("<活动日>不能为空");
+	  return;
+	}	
   
   var isCheckResult = true;
   // 活动类型特价验证
