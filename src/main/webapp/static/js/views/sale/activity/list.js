@@ -150,7 +150,7 @@ function copyActivity(){
 	if(selectedObj){
 		toAddTab("复制促销活动",contextPath + "/sale/activity/toCopy?from=toCopy&activityId="+selectedObj.id);
 	}else{
-		$.messager.alert('提示','请先选择一个活动记录');
+		$.messager.alert('提示','请选择行数据');
 	}
 }
 

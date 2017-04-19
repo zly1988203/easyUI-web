@@ -13,7 +13,7 @@ $(function() {
 	$("input[name='queryType']").on('change',function(){
 		cxType = $(this).val();
 		//类别 启用类别选择
-		$("#categoryName").prop('disabled',cxType == 'category'?false:true);
+		$("#categoryName").prop('disabled',cxType == 'goods'?true:false);
 		//类别 禁用货号
 		$("#codeKeyWord").prop('disabled',cxType == 'category'?true:false);
 		//类别 禁用商品名称
@@ -66,7 +66,12 @@ function initActivityCX() {
             {field: 'barCode', title: '条码', width:120, align: 'left',hidden:cxType != 'category'?false:true},
             {field: 'spec', title: '规格', width:50, align: 'left',hidden:cxType == 'goods'?false:true},
             {field: 'unit', title: '单位', width:50, align: 'center',hidden:cxType == 'goods'?false:true},
-            {field: 'activityCode', title: '活动编号', width:140, align: 'left'},
+            {field: 'activityCode', title: '活动编号', width:160, align: 'left',
+            	formatter:function(value,row,index){
+            		 var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看促销管理详细\',\''+contextPath+'/sale/activity/edit?activityId='+row.activityId+'\')">' + value + '</a>';
+                     return strHtml;
+            	}
+            },
             {field: 'discount', title: '折扣', width:80, align: 'right',hidden:cxType == 'category'?false:true,
             	formatter:function(value,row,index){
             		return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>'

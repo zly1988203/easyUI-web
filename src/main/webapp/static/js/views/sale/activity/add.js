@@ -266,6 +266,7 @@ function selectOptionmms(){
 			//全场满送
 			if(_this.val()=="2"){
 				choosemmsTab(mmsstatusV);
+				$("#giftip").removeClass('umar-t40').addClass('umar-t20');
 			}
 			//类别满送
 			else if(_this.val()=="1"){
@@ -372,6 +373,7 @@ function clickmmsTab(type){
 			disableGoods('SelectGoods','');
 		}
 	}else{
+		$("#giftip").removeClass('umar-t20').addClass('umar-t40');
 		disableGoods('','GoodsType');
 		//赠品信息
 		$("#area1").addClass("unhide");
@@ -2566,7 +2568,11 @@ function saveActivity(){
 		messager("<活动分店>不能为空");
 		return;
 	}
-
+	
+  if(!$("#weeklyActivityDay").val().trim()){
+	  messager("<活动日>不能为空");
+	  return;
+  }	
   
   var isCheckResult = true;
   // 活动类型特价验证
