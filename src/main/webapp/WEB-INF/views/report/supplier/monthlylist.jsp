@@ -42,7 +42,7 @@
                 <input class="uinp" id="supplierName" name="supplierName" type="text" maxlength="50" readonly="readonly">
                 <div class="uinp-more" onclick="selectSupplier()">...</div>
 			</div>
-			<div class="ub ub-ac umar-l40">
+			<!-- <div class="ub ub-ac umar-l40">
                 <div class="umar-r10 uw-60 ut-r">经营方式:</div>
                 <div class="ub ub-ac umar-r10">
                     <input class="radioItem" type="radio" name="saleWay" id="saleWay_1" value="A"><label for="status_1">购销 </label>
@@ -53,13 +53,13 @@
                 <div class="ub ub-ac umar-r10">
                     <input class="radioItem" type="radio" name="saleWay" id="saleWay_5" value="C"><label for="status_5">联营 </label>
                 </div>
-               <!--  <div class="ub ub-ac umar-r10">
+                <div class="ub ub-ac umar-r10">
                     <input class="radioItem" type="radio" name="saleWay" id="saleWay_3" value="D"><label for="status_3">扣率代销</label>
-                </div> -->
+                </div>
                 <div class="ub ub-ac umar-r10">
                     <input class="radioItem" type="radio" name="saleWay" id="saleWay_4" value="" checked="checked"><label for="status_4">全部</label>
                 </div>
-            </div>
+            </div> -->
 		</div>
       	</form>
 	    <div class="ub ub-f1  umar-t8 umar-b8">
