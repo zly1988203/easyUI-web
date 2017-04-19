@@ -73,10 +73,16 @@
             <div class="ub ub-ac umar-r100">
                 <div class="umar-r10 uw-60 ut-r">原单类型:</div>
                 <div class="ub ub-ac umar-r10">
-                    <input class="ub" type="radio" name="oldType" value="1"/><span>要货申请 </span>
+                    <label>
+                    <input type="radio" name="oldType" value="1"/><span>要货申请 </span>
+                    </label>
+
                 </div>
                 <div class="ub ub-ac umar-r10">
-                    <input class="ub" type="radio" name="oldType" value="0" checked="checked"/><span>采购收货 </span>
+                    <label>
+                    <input  type="radio" name="oldType" value="0" checked="checked"/><span>采购收货 </span>
+                    </label>
+
                 </div>
             </div>
             <div class="ub ub-ac umar-l24">

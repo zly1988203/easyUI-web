@@ -114,24 +114,42 @@
 			      <c:if test="${branchType == 1 || branchType == 0}">
 					<div class="ut-r umar-r10">范围:</div>
 	                <div class="ub ub-ac umar-r10">
-	                    <input class="ub radioItem" type="radio" name="guideType"  value=0 checked="checked"/><span id="outGuideCurrBranch">当前机构</span>
+					  <label>
+					  <input class="radioItem" type="radio" name="guideType"  value=0 checked="checked"/><span id="outGuideCurrBranch">当前机构</span>
+					  </label>
+
 	                </div>
 	                <div class="ub ub-ac umar-r10">
-	                    <input class="ub radioItem" type="radio" name="guideType" value=1 /><span>所有自营店</span>
+					  <label>
+					  <input class="radioItem" type="radio" name="guideType" value=1 /><span>所有自营店</span>
+					  </label>
+
 	                </div>
 	                <div class="ub ub-ac umar-r10">
-	                   <input class="ub radioItem" type="radio" name="guideType" value=2 /><span>所有加盟店</span>
+					  <label>
+					  <input class="radioItem" type="radio" name="guideType" value=2 /><span>所有加盟店</span>
+					  </label>
+
 	                </div>
 	                </c:if>
 				</div>
 				<div class="ub ub-ac umar-t10 ">
-	                <input class="ub radioItem umar-r8" type="radio" name="guideChoose"  value=0 checked="checked"/><span>选择已经停购，且库存为0的商品。</span>
+					<label>
+					<input class="radioItem umar-r8" type="radio" name="guideChoose"  value=0 checked="checked"/><span>选择已经停购，且库存为0的商品。</span>
+					</label>
+
 				</div>
 				<div class="ub ub-ac umar-t10 ">
-	                <input class="ub radioItem umar-r8" type="radio" name="guideChoose"  value=1 /><span>选择主档已经停购或淘汰且库存为0的商品。</span>
+					<label>
+					<input class="radioItem umar-r8" type="radio" name="guideChoose"  value=1 /><span>选择主档已经停购或淘汰且库存为0的商品。</span>
+					</label>
+
 				</div>
 				<div class="ub ub-ac umar-t10 ">
-	                <input class="ub radioItem umar-r8" type="radio" name="guideChoose"  value=2 />选择
+					<label>
+					<input class="radioItem umar-r8" type="radio" name="guideChoose"  value=2 />选择
+					</label>
+
 	                <input class="uinp easyui-numberbox" data-options="min:1,max:999,value:15"  style="width:100px;" id="guideDatew" name="guideDate" type="text" > 天内未产生销售，且库存为0的商品。
 				</div>
 			</div>
@@ -154,7 +172,10 @@
 			      <c:if test="${branchType == 1 || branchType == 0}">
 					<div class="ut-r umar-r8">范围:</div>
 	                <div class="ub ub-ac umar-r10">
-	                    <input class="ub radioItem" type="radio" name="stGuideType"  value="0" checked="checked"/><span id="stopGuideCurrBranch">当前机构</span>
+					  <label>
+					  <input class="radioItem" type="radio" name="stGuideType"  value="0" checked="checked"/><span id="stopGuideCurrBranch">当前机构</span>
+					  </label>
+
 	                </div>
 	                <div class="ub ub-ac umar-r10">
 	                    <!-- <input class="ub radioItem" type="radio" name="stGuideType" value="2" /><span>所有自营店</span> -->
@@ -165,15 +186,21 @@
 	                </c:if>
 				</div>
 				<div class="ub ub-ac umar-t10 ">
-	                <input class="ub radioItem umar-r8" type="radio" name="stGuideChoose"  value="0" />
-	                                                选择
+					<label>
+					<input class="radioItem umar-r8" type="radio" name="stGuideChoose"  value="0" />
+					选择
+					</label>
+
 	                <input class="uinp easyui-numberbox umar-l4" data-options="min:1,max:999,value:15" style="width:100px;" id="stGuideDate" name="stGuideDate" type="text" > 
 	                                                天内销售数量小于
 	                <input class="uinp easyui-numberbox umar-l4" data-options="min:1,max:999,value:5" style="width:100px;" id="stGuideNum" name="stGuideNum" type="text">
 					的商品。
 				</div>
 				<div class="ub ub-ac umar-t10 ">
-	                <input class="ub radioItem umar-r8" type="radio" name="stGuideChoose"  value="1" /><span>选择主档已经停购或淘汰的商品。</span>
+					<label>
+					<input class="radioItem umar-r8" type="radio" name="stGuideChoose"  value="1" /><span>选择主档已经停购或淘汰的商品。</span>
+					</label>
+
 				</div>
 			</div>
 			

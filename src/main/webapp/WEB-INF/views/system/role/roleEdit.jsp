@@ -36,11 +36,11 @@ pageEncoding="UTF-8"%>
 	               	<div class="umar-r10 uw-60 ut-r">角色类型:</div>
 	               	<c:forEach var="i" items="${typeList }">
 		               	<div class="ub ub-ac umar-r10">
-
-								<input class="ub" type="radio" name="branchType" value="${i.code }" disabled="disabled"
-									<c:if test="${role.branchType eq i.code }"> checked="checked"</c:if> />
-									<span>${i.desc }</span>
-
+							<label>
+							<input class="ub" type="radio" name="branchType" value="${i.code }" disabled="disabled"
+							<c:if test="${role.branchType eq i.code }"> checked="checked"</c:if> />
+							<span>${i.desc }</span>
+							</label>
 						</div>
 	               	</c:forEach>
 	            </div>
@@ -50,14 +50,20 @@ pageEncoding="UTF-8"%>
 	            <div class="ub ub-ac umar-l20">
 	               	<div class="umar-r10 uw-60 ut-r">是否通用:</div>
 	               	<div class="ub ub-ac umar-r10">
-							<input class="ub" type="radio" name="isCommonRole" value="0" disabled="disabled"
-								<c:if test="${not empty role.branchId }">checked="checked"</c:if> />
-								<span>机构角色</span>
+						<label>
+						<input type="radio" name="isCommonRole" value="0" disabled="disabled"
+						<c:if test="${not empty role.branchId }">checked="checked"</c:if> />
+						<span>机构角色</span>
+						</label>
+
 					</div>
 					<div class="ub ub-ac umar-r10">
-							<input class="ub" type="radio" name="isCommonRole" value="1" disabled="disabled"
-								<c:if test="${empty role.branchId }">checked="checked"</c:if> />
-								<span>通用角色</span>
+						<label>
+						<input  type="radio" name="isCommonRole" value="1" disabled="disabled"
+						<c:if test="${empty role.branchId }">checked="checked"</c:if> />
+						<span>通用角色</span>
+						</label>
+
 					</div>
 					
 	            </div>
