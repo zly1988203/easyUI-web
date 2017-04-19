@@ -12,8 +12,18 @@ $(function() {
 	//促销类型 change 事件
 	$("input[name='queryType']").on('change',function(){
 		cxType = $(this).val();
+		//类别 启用类别选择
 		$("#categoryName").prop('disabled',cxType == 'category'?false:true);
+		//类别 禁用货号
+		$("#codeKeyWord").prop('disabled',cxType == 'category'?true:false);
+		//类别 禁用商品名称
+		$("#skuName").prop('disabled',cxType == 'category'?true:false);
+		
+		$("#"+datagridID).datagrid("options").url =  '';
 		initActivityCX();
+		
+		purchaseTotalCx();
+		
 	})
 	
 });
@@ -51,7 +61,7 @@ function initActivityCX() {
             {field: 'activityScopeStr', title: '满减类型', width:120, align: 'center',hidden:cxType == 'fullReduction'?false:true},
             {field: 'goodCategoryName', title: '商品类别', width:120, align: 'center',hidden:cxType != 'goods'?false:true},
             {field: 'goodCategoryCode', title: '类别编码', width:120, align: 'center',hidden:cxType == 'category'?false:true},
-            {field: 'skuCode', title: '货号', width:80, align: 'left',hidden:cxType != 'category'?false:true},
+            {field: 'skuCode', title: '货号', width:100, align: 'left',hidden:cxType != 'category'?false:true},
             {field: 'skuName', title: '商品名称', width:150, align: 'left',hidden:cxType != 'category'?false:true},
             {field: 'barCode', title: '条码', width:120, align: 'left',hidden:cxType != 'category'?false:true},
             {field: 'spec', title: '规格', width:50, align: 'left',hidden:cxType == 'goods'?false:true},
