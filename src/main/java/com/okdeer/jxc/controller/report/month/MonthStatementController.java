@@ -3,8 +3,6 @@ package com.okdeer.jxc.controller.report.month;
 import java.util.Date;
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -64,7 +62,7 @@ public class MonthStatementController extends BaseController<TimeSectionSaleRepo
 	 * @date 2017年4月6日
 	 */
 	@RequestMapping(value = "/executeMonthStatement", method = RequestMethod.POST)
-	public RespJson executeMonthStatement(@Valid MonthlyReport monthlyReport) {
+	public RespJson executeMonthStatement(MonthlyReport monthlyReport) {
 		SysUser user = getCurrentUser();
 		RespJson respJson = RespJson.success();
 		try {
