@@ -1049,7 +1049,7 @@ function toImportproduct(type){
     }
     var param = {
         url : contextPath+"/form/deliverForm/importList",
-        tempUrl : contextPath+"/form/deliverForm/exportTemp",
+        tempUrl : contextPath+"/form/deliverForm/exportDyTemp",
         type:type,
         targetBranchId : targetBranchId,
         sourceBranchId : sourceBranchId,

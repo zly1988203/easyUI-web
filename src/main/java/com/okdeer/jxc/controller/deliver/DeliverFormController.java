@@ -1104,6 +1104,34 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 			LOG.error("导出要货申请单导入模板异常:{}", e);
 		}
 	}
+	/**
+	 * @Description: 直送要货导入模板
+	 * @param response
+	 * @param type
+	 * @author xuyq
+	 * @date 2017年4月19日
+	 */
+	@RequestMapping(value = "exportDyTemp")
+	public void exportDyTemp(HttpServletResponse response, Integer type) {
+		LOG.info("导出直送要货导入模板请求参数,type={}", type);
+		try {
+			String fileName = "";
+			String templateName = "";
+			if (Constant.ZERO == type) {
+				// 商品货号
+				templateName = ExportExcelConstant.DELIVER_GOODS_SKUCODE_TEMPLE;
+				fileName = "直送要货申请单货号导入模板";
+			} else if (Constant.ONE == type) {
+				templateName = ExportExcelConstant.DELIVER_GOODS_BARCODE_TEMPLE;
+				fileName = "直送要货申请单条码导入模板";
+			}
+			if (!StringUtils.isEmpty(fileName) && !StringUtils.isEmpty(templateName)) {
+				exportListForXLSX(response, null, fileName, templateName);
+			}
+		} catch (Exception e) {
+			LOG.error("导出直送要货申请单导入模板异常:{}", e);
+		}
+	}
 
 	/**
 	 * @Description: 配送出库导入模板
