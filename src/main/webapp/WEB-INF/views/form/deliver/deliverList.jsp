@@ -41,36 +41,36 @@
 			</div>
 	            <div class="ub umar-t8">
 	                <div class="ub ub-ac">
-	                    <div class="umar-r10 uw-70 ut-r">单据编号:</div>
-	                    <input type="hidden" id="deliverType" name="deliverType" value="DA" />
-	                    <input class="uinp" type="text" id="formNo" name="formNo">
+	                    <div class="umar-r10 uw-70 ut-r">要货机构:</div>
+	                    <input type="hidden" id="targetBranchId" name="targetBranchId"/>
+	                    <input type="hidden" id="targetBranchType" name="targetBranchType" />
+	                    <input class="uinp ub ub-f1" type="text" id="targetBranchName" name="targetBranchName" onblur="clearBranchCode(this,'targetBranchId')"/>
+	                    <div class="uinp-more" onclick="selectTargetBranch()" >...</div>
 	                </div>
-	                <div class="ub ub-ac uw-300 umar-l20">
+	                <div class="ub ub-ac umar-l64">
 	                    <div class="umar-r10 uw-70 ut-r">制单人员:</div>
 	                    <input type="hidden" id="operateUserId" name="operateUserId" />
 	                    <input class="uinp ub ub-f1" type="text" id="operateUserName" name="operateUserName" type="text" />
 	                    <div class="uinp-more" onclick="selectOperator()">...</div>
 	                </div>
-	                <div class="ub ub-ac uw-300 umar-l40">
-	                    <div class="umar-r10 uw-70 ut-r">要货机构:</div>
-	                    <input type="hidden" id="targetBranchId" name="targetBranchId" value="${targetBranchId}"/>
-	                    <input class="uinp ub ub-f1" type="text" id="targetBranchName" name="targetBranchName" />
-	                    <div class="uinp-more" onclick="selectBranches()" >...</div>
-	                </div>
-	                
-	            </div>
-	            <div class="ub umar-t8">
-	                <div class="ub ub-ac ">
-	                    <div class="umar-r10 uw-70 ut-r">备注:</div>
-	                    <input class="uinp" type="text" id="remark" name="remark">
-	                </div>
-	                <div class="ub ub-ac uw-300 umar-l20">
+	                <div class="ub ub-ac umar-l40">
 	                    <div class="umar-r10 uw-70 ut-r">业务人员:</div>
 	                    <input class="uinp ub ub-f1" type="text" id="salesman" name="salesman">
 	                </div>
-
-	                <!--input-checkbox-->
-	                <div class="ub ub-ac umar-l40 uw-300">
+	            </div>
+	            <div class="ub umar-t8">
+	                <div class="ub ub-ac">
+	                    <div class="umar-r10 uw-70 ut-r">发货机构:</div>
+	                    <input type="hidden" id="sourceBranchId" name="sourceBranchId"/>
+	                    <input class="uinp ub ub-f1" type="text" id="sourceBranchName" name="sourceBranchName" onblur="clearBranchCode(this,'sourceBranchId')"/>
+	                    <div class="uinp-more" onclick="selectSourceBranch()" >...</div>
+	                </div>
+	                <div class="ub ub-ac umar-l64">
+	                    <div class="umar-r10 uw-70 ut-r">单据编号:</div>
+	                    <input type="hidden" id="deliverType" name="deliverType" value="DA" />
+	                    <input class="uinp" type="text" id="formNo" name="formNo">
+	                </div>
+	                <div class="ub ub-ac umar-l40">
 	                    <div class="umar-r10 uw-70 ut-r">审核状态:</div>
 	                    <div class="ub ub-ac umar-r10">
 							<label>
@@ -91,8 +91,13 @@
 
 	                    </div>
 	                </div>
-
-	                <div class="ub ub-ac umar-l20">
+	            </div>
+	            <div class="ub umar-t8">
+	                <div class="ub ub-ac uw-630">
+	                    <div class="umar-r10 uw-70 ut-r">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注:</div>
+	                    <input class="uinp ub ub-f1" type="text" id="remark" name="remark">
+	                </div>
+	                <div class="ub ub-ac umar-l40">
 	                    <div class="umar-r10 uw-70 ut-r">单据状态:</div>
 	                    <div class="ub ub-ac umar-r10">
 							<label>
