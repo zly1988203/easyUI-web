@@ -146,7 +146,7 @@ function  editstart(selectType){
   		    		if(sUrl != 'toCopy'){
   		    			//序列化指定表单  -- 旧数据
   		    			oldData = checkUtil.assignInput();
-  		    		
+  		    		}
 	  		    	//满减类型赋值
 					if(activtype==5){		
 						activityScopemj=listinfo.activityScope;	
