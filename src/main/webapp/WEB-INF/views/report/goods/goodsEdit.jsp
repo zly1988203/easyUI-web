@@ -315,35 +315,49 @@
 					<div class="umar-r10 uw-60 ut-r">备注:</div>
 					<textarea id="remark" name="remark" class="uh-40 umar-r30 ubor" maxlength="100" style="width: 800px;"></textarea>
 				</div>
-				<div class="ub umar-l32" style="position: absolute; left: 0px;">
+				<div class="ub umar-l32">
 					<div class="ub ub-ac umar-r40">
-						<input id="isManagerStock" name="isManagerStock" class="ub" type="checkbox" name="checkbox" disabled="disabled" /><span>是否管理库存</span>
+						<label>
+						<input id="isManagerStock" name="isManagerStock" type="checkbox" name="checkbox" disabled="disabled" /><span>是否管理库存</span>
+						</label>
 					</div>
 					<div class="ub ub-ac umar-r40">
-						<input id="isHighValue" name="isHighValue" class="ub" type="checkbox" name="checkbox" disabled="disabled" /><span>是否高值商品</span>
+						<label>
+						<input id="isHighValue" name="isHighValue" type="checkbox" name="checkbox" disabled="disabled" /><span>是否高值商品</span>
+						</label>
 					</div>
 					<div class="ub ub-ac umar-r40">
-						<input id="isAttention" name="isAttention" id="attention" class="ub" type="checkbox" name="checkbox" disabled="disabled" />
+						<label>
+						<input id="isAttention" name="isAttention" id="attention" type="checkbox" name="checkbox" disabled="disabled" />
 						<span>是否关注商品</span>
+						</label>
 					</div>
 					<div class="ub ub-ac umar-r40">
-						<input id="isFastDeliver" name="fastDeliver" class="ub" type="checkbox"/>
+						<label>
+						<input id="isFastDeliver" name="fastDeliver" type="checkbox"/>
 						<span>是否直送商品</span>
+						</label>
 					</div>
 					
 					<div class="ub ub-ac umar-r40">
-						<input id="allowActivity" name="allowActivity" class="ub" type="checkbox" name="checkbox" 
+						<label>
+						<input id="allowActivity" name="allowActivity" type="checkbox" name="checkbox"
 						<c:if test="${branchType==3||branchType==4||branchType==5}">
-							   disabled='disabled'
-						  </c:if>
-						 /><span>是否参与促销</span>
+							disabled='disabled'
+						</c:if>
+						/><span>是否参与促销</span>
+						</label>
+
 					</div>
 					<div class="ub ub-ac umar-r40">
-						<input id="allowAdjust" name="allowAdjust" class="ub" type="checkbox" name="checkbox"
+						<label>
+						<input id="allowAdjust" name="allowAdjust" type="checkbox" name="checkbox"
 						<c:if test="${branchType==3||branchType==4||branchType==5}">
-							   disabled='disabled'
-						  </c:if>
+							disabled='disabled'
+						</c:if>
 						/><span>分店调价</span>
+						</label>
+
 					</div>
 				</div>
 			</div>

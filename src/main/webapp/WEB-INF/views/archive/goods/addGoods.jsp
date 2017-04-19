@@ -262,24 +262,34 @@ pageEncoding="UTF-8"%>
             </div>
             <div class="ub umar-l32" style="position: absolute;left: 0px;">
                 <div class="ub ub-ac umar-r40">
-                    <input id="managerStock" name="managerStock"  class="ub" type="checkbox" name="checkbox" checked="checked" readonly="readonly" /><span>是否管理库存</span>
+                    <label>
+                    <input id="managerStock" name="managerStock" type="checkbox" name="checkbox" checked="checked" readonly="readonly" /><span>是否管理库存</span>
+                    </label>
                 </div>
                 <div class="ub ub-ac umar-r40">
-                    <input id="highValue" name="highValue"   class="ub" type="checkbox" name="checkbox"  /><span>是否高值商品</span>
+                    <label>
+                    <input id="highValue" name="highValue" type="checkbox" name="checkbox"  /><span>是否高值商品</span>
+                    </label>
                 </div>
                 <div class="ub ub-ac umar-r40">
-                    <input id="attention" name="attention"   class="ub" type="checkbox" name="checkbox" /><span>是否关注商品</span>
+                    <label>
+                    <input id="attention" name="attention" type="checkbox" name="checkbox" /><span>是否关注商品</span>
+                    </label>
                 </div>
                 <div class="ub ub-ac umar-r40">
-                    <input id="fastDeliver" name="fastDeliver"   class="ub" type="checkbox" name="checkbox" /><span>是否直送商品</span>
+                    <label>
+                    <input id="fastDeliver" name="fastDeliver" type="checkbox" name="checkbox" /><span>是否直送商品</span>
+                    </label>
                 </div>
                 <div class="ub ub-ac umar-r40">
-						<input id="allowActivity" name="allowActivity"
-							class="ub" type="checkbox" name="checkbox" checked="checked"/><span>是否参与促销</span>
+                    <label>
+                    <input id="allowActivity" name="allowActivity" type="checkbox" name="checkbox" checked="checked"/><span>是否参与促销</span>
+                    </label>
 					</div>
-					<div class="ub ub-ac umar-r40">
-						<input id="allowAdjust" name="allowAdjust"
-							class="ub" type="checkbox" name="checkbox"  /><span>分店调价</span>
+                <div class="ub ub-ac umar-r40">
+                        <label>
+                        <input id="allowAdjust" name="allowAdjust" type="checkbox" name="checkbox"  /><span>分店调价</span>
+                        </label>
 					</div>
             </div>
 

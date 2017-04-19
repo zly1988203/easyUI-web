@@ -109,12 +109,17 @@
 				<div class="umar-r10 uw-60 ut-r">原单类型:</div>
 				<div class="ub uw-200">
 					<div class="ub ub-ac umar-r10">
-						<input class="ub" type="radio" name="refFormNoType" value="PI"
-							checked="checked" /><span>收货单 </span>
+						<label>
+						<input  type="radio" name="refFormNoType" value="PI"
+						checked="checked" /><span>收货单 </span>
+						</label>
 					</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="ub" type="radio" name="refFormNoType" value="DI" /><span>直调入库单
+						<label>
+						<input type="radio" name="refFormNoType" value="DI" /><span>直调入库单
 						</span>
+						</label>
+
 					</div>
 				</div>
 

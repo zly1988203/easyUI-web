@@ -24,10 +24,16 @@
 				<div class="ub ub-ac upad-16 ">
 					<div class="ub uw-200 ut-r">选择供应商后自动列出商品：</div>
 					<div class="ub uw-110 ub-ac umar-r10">
-						<input class="ub" type="radio" id="isSupplierCascadeGoodsP0" name="isSupplierCascadeGoodsP" value="1" /><span>启用</span>
+						<label>
+						<input type="radio" id="isSupplierCascadeGoodsP0" name="isSupplierCascadeGoodsP" value="1" /><span>启用</span>
+						</label>
+
 					</div>
 					<div class="ub uw-110 ub-ac umar-r10">
-						<input class="ub" type="radio" id="isSupplierCascadeGoodsP1" name="isSupplierCascadeGoodsP" value="0" /><span>禁用</span>
+						<label>
+						<input type="radio" id="isSupplierCascadeGoodsP1" name="isSupplierCascadeGoodsP" value="0" /><span>禁用</span>
+						</label>
+
 					</div>
 				</div>
 				<div class="ub ub-ac upad-16 ">
