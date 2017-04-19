@@ -572,10 +572,14 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		LOG.info(LogConstant.OUT_PARAM, formIds);
 		try {
 			if (StringUtils.isEmpty(formIds)) {
-				LOG.error("未选择删除的配送单！");
-				return RespJson.error("未选择删除的配送单！");
+				LOG.error("未选择要删除的单据！");
+				return RespJson.error("未选择要删除的单据！");
 			}
 			List<String> formIdsList = new ObjectMapper().readValue(formIds, List.class);
+			if (CollectionUtils.isEmpty(formIdsList)) {
+				LOG.error("未选择要删除的单据！");
+				return RespJson.error("未选择要删除的单据！");
+			}
 			// 获取登录人
 			SysUser user = UserUtil.getCurrentUser();
 			DeliverFormVo vo = new DeliverFormVo();

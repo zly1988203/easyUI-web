@@ -139,12 +139,13 @@ function clearBranchCode(obj,branchId){
 function delDeliverForm(){
 	var dg = $("#deliverFormList");
 	var row = dg.datagrid("getChecked");
+	if(row.length <= 0){
+		$.messager.alert('提示','未选择要删除的单据！');
+		return;
+	}
 	var ids = [];
 	for(var i=0; i<row.length; i++){
 		ids.push(row[i].deliverFormId);
-	}
-	if(rowIsNull(row)){
-		return null;
 	}
 	$.messager.confirm('提示','是否要删除选中数据',function(data){
 		if(data){
