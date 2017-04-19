@@ -364,8 +364,7 @@ public class QRCodeUtil
 	}  
 
 	public static BufferedImage encoderQRCoder(String content,int width,int height) throws WriterException, IOException {  
-		String srcPath = QRCodeUtil.class.getResource(".").getPath()+"/logo.png";  
-
+		String srcPath = QRCodeUtil.class.getResource(".").getPath()+"logo.png";  
 		BufferedImage imsge = genBarcode(content, width, height, srcPath);
 		return imsge;
 	}
