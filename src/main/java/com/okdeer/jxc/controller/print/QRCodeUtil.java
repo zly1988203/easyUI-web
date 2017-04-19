@@ -22,11 +22,15 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.BinaryBitmap;
@@ -45,7 +49,7 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
 public class QRCodeUtil  
 {  
-
+	private static final Logger LOG = LoggerFactory.getLogger(PrintController.class);
 	/** 
 	 * 二维码宽高度默认200 
 	 */ 
@@ -231,8 +235,10 @@ public class QRCodeUtil
 			int width, boolean hasFiller) throws IOException  
 	{  
 		double ratio = 0.0; // 缩放比例  
-		File file = new File(srcImageFile);  
-		BufferedImage srcImage = ImageIO.read(file);  
+		LOG.info("二维码路径："+srcImageFile);
+		InputStream input = QRCodeUtil.class.getResourceAsStream(srcImageFile);
+		
+		BufferedImage srcImage = ImageIO.read(input);  
 		Image destImage = srcImage.getScaledInstance(width, height,  
 				BufferedImage.SCALE_SMOOTH);  
 		// 计算比例  
@@ -364,7 +370,7 @@ public class QRCodeUtil
 	}  
 
 	public static BufferedImage encoderQRCoder(String content,int width,int height) throws WriterException, IOException {  
-		String srcPath = QRCodeUtil.class.getResource(".").getPath()+"logo.png";  
+		String srcPath ="/template/excel/print/logo3.png";  
 		BufferedImage imsge = genBarcode(content, width, height, srcPath);
 		return imsge;
 	}
