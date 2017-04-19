@@ -610,10 +610,9 @@ function initDatagridmmsTJ(){
 			}
 		},
         onLoadSuccess:function(data){
-           var _this = this;
     	   console.log('data1',data);
-    	   $(_this).datagrid('resize',{width:'100%',height:'300px'})
-    	  gridHandelT.setDatagridHeader("center");
+    	   $(this).datagrid('resize',{width:'100%',height:'300px'})
+    	   gridHandelT.setDatagridHeader("center");
 	  }
     });
 	gridHandelT.setLoadData([$.extend({},mmsTJDefault)]);
@@ -2897,8 +2896,9 @@ function saveActivity(){
 	  gridHandel.endEditRow();
 	  
 	  var temTJObj = $('#mmsgradedList').datagrid('getChecked');
-	  if(temTJObj.length > 0){
-	  	temTJObj[0].goodsGiftList = gridHandel.getRowsWhere({skuName:'1'});
+	  if(temTJObj.length <= 1){
+		  var temTjList = gridHandelT.getRows();
+		  temTjList[0].goodsGiftList = gridHandel.getRowsWhere({skuName:'1'});
 	  }
 	  
 	  //买满条件 梯度检查
