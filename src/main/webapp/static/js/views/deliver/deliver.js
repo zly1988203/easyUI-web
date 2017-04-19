@@ -983,6 +983,10 @@ function selectTargetBranch(){
 		return;
 	}
 	new publicAgencyService(function(data){
+		 gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
+    	                         $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),
+    	                         $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault)]);
+		 
         $("#targetBranchId").val(data.branchesId);
         //$("#targetBranchName").val(data.branchName);
         $("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
