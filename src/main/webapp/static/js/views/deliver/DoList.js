@@ -16,6 +16,7 @@ $(function(){
 	delDivAuditStatus();
 	if(getUrlQueryString('message')=='0'){
 		$("#txtStartDate").val('');
+		$('#tabs').tabs({'selected':1});
     }
 	initDatagridRequireOrdersDA();
 });

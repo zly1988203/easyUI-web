@@ -8,6 +8,7 @@ $(function(){
     initDatagridOrders();
     if(getUrlQueryString('message')=='0'){
 		$("#txtStartDate").val('');
+		query();
     }
     //单据状态切换
     changeStatus();
