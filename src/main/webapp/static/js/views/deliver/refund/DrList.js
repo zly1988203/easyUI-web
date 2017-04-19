@@ -6,6 +6,10 @@ $(function() {
 	toChangeDatetime(0);
 	
 	initDatagridSaleReturnList();
+	if(getUrlQueryString('message')=='0'){
+		$("#txtStartDate").val('');
+		queryForm();
+    }
 	// 单据状态切换
 	changeStatus();
 });
