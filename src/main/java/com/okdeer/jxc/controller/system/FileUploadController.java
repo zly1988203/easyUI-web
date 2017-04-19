@@ -64,41 +64,47 @@ public class FileUploadController extends BaseController<FileUploadController> {
 	@RequestMapping(value = "/templateUpload", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson templateUpload(MultipartHttpServletRequest request) {
-		// 最大文件大小
-		long maxSize = 1000000;
+		RespJson respJson;
+		try {
+			// 最大文件大小
+			long maxSize = 1000000;
 
-		if (!ServletFileUpload.isMultipartContent(request)) {
-			return RespJson.error("请选择文件。");
-		}
+			if (!ServletFileUpload.isMultipartContent(request)) {
+				return RespJson.error("请选择文件。");
+			}
 
-		Iterator<String> itr = request.getFileNames();
-		MultipartFile mpf = null;
-		while (itr.hasNext()) {
-			mpf = request.getFile(itr.next());
-			if (mpf == null || StringUtils.isEmpty(mpf.getOriginalFilename())) {
-				continue;
+			Iterator<String> itr = request.getFileNames();
+			MultipartFile mpf = null;
+			while (itr.hasNext()) {
+				mpf = request.getFile(itr.next());
+				if (mpf == null || StringUtils.isEmpty(mpf.getOriginalFilename())) {
+					continue;
+				}
+				// 获取文件名
+				String fileName = mpf.getOriginalFilename();
+				// 检查文件大小
+				if (mpf.getSize() > maxSize) {
+					return RespJson.error("上传文件大小超过限制。");
+				}
+				// 检查扩展名
+				String fileExt = fileName.substring(fileName.lastIndexOf(".")).toLowerCase();
+				if (!ExcelExportUtil.REPORT_XLSX.equals(fileExt)) {
+					return RespJson.error("不支持该文件类型，请上传excel表格。");
+				}
 			}
-			// 获取文件名
-			String fileName = mpf.getOriginalFilename();
-			// 检查文件大小
-			if (mpf.getSize() > maxSize) {
-				return RespJson.error("上传文件大小超过限制。");
-			}
-			// 检查扩展名
-			String fileExt = fileName.substring(fileName.lastIndexOf(".")).toLowerCase();
-			if (!ExcelExportUtil.REPORT_XLSX.equals(fileExt)) {
-				return RespJson.error("不支持该文件类型，请上传excel表格。");
-			}
-		}
 
-		// 上传文件
-		List<String> filePaths = fileUploadService.getFilePaths(request, uploadToken);
-		if (CollectionUtils.isEmpty(filePaths)) {
-			return RespJson.error("模板上传失败");
+			// 上传文件
+			List<String> filePaths = fileUploadService.getFilePaths(request, uploadToken);
+			if (CollectionUtils.isEmpty(filePaths)) {
+				return RespJson.error("模板上传失败");
+			}
+			// 返回七牛文件路径
+			respJson = RespJson.success();
+			respJson.put("filePath", filePaths.get(0).substring(0, filePaths.get(0).lastIndexOf(".")));
+		} catch (Exception e) {
+			LOG.error("出库单模板上传异常:{}", e);
+			respJson = RespJson.error("出库单模板上传失败");
 		}
-		// 返回七牛文件路径
-		RespJson respJson = RespJson.success();
-		respJson.put("filePath", filePaths.get(0).substring(0, filePaths.get(0).lastIndexOf(".")));
 		return respJson;
 	}
 }
