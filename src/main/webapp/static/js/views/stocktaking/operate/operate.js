@@ -288,27 +288,6 @@ function selectGoods(searchKey){
     branchId = '';
 }
 
-// 导入
-function toImportOperate(type){
-
-    var takeStockId = $("#takeStockId").val();
-    if(takeStockId === '' || takeStockId === null){
-        messager("请先选择盘点批号");
-        return;
-    }
-    var param = {
-        url:contextPath+"/form/deliverForm/importList",
-        tempUrl:contextPath+"/form/deliverForm/exportTemp",
-        type:type,
-
-    }
-    new publicUploadFileService(function(data){
-    	if (data.length != 0) {
-    		selectStockAndPriceImport(data);
-    	}
-    },param)
-}
-
 //选择盘点批号
 function searchTakeStock(){
 	var branchId = $('#branchId').val();

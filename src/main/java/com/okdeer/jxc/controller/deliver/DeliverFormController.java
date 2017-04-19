@@ -672,6 +672,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		BranchesGrow branchesGrow = branchesServiceApi.queryBranchesById(branchesId);
 		respJson.put("sourceBranchId", branchesGrow.getSourceBranchId());
 		respJson.put("sourceBranchName", branchesGrow.getSourceBranchName());
+		respJson.put("sourceBranchCode", branchesGrow.getSourceBranchCode());
 		respJson.put("validityTime", DateUtils.getDaysAfter(
 				DateUtils.getCurrDate(),
 				branchesGrow.getSourceBranchValidityNumDays() == 0 ? SysConstant.VALIDITY_DAY : branchesGrow
