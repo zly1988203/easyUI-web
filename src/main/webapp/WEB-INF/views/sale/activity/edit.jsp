@@ -7,14 +7,14 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>促销活动设置-编辑</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="${ctx}/static/js/views/sale/activity/edit.js?1=224"></script>
+<script src="${ctx}/static/js/views/sale/activity/edit.js?1=244"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
 </style>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
     <div class="ub ub-ver ub-f1 umar-4 upad-4">
-		<form id="queryForm" action="" method="post">
+		<form id="queryFormEditAct" action="" method="post">
 			<div class="ub ub-ac">
 	            <div class="ubtns">
 	             <div class="ubtns-item" id="SelectGoods" onclick="selectGoods()">商品选择</div>
@@ -33,13 +33,13 @@
 	       	  <div class="ub umar-t8">
 	             <div class="ub ub-ac">
 	             	<div class="umar-r10 uw-70 ut-r">活动时间:</div>
-	              	<input class="Wdate newWdate"  readonly="readonly" name="startTime" id="startTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d',maxDate:'#F{$dp.$D(\'endTime\');}'})" />&nbsp;至&nbsp;
-                    <input class="Wdate newWdate"  readonly="readonly" name="endTime" id="endTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'startTime\');}'})" /> 
+	              	<input class="Wdate newWdate"  readonly="readonly" name="startTime" id="startTime" data-check="true" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d',maxDate:'#F{$dp.$D(\'endTime\');}'})" />&nbsp;至&nbsp;
+                    <input class="Wdate newWdate"  readonly="readonly" name="endTime" id="endTime" data-check="true" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'startTime\');}'})" /> 
 	              </div>
 	              <div class="ub ub-ac">
 	             	<div class="umar-r10 uw-90 ut-r">活动时段:</div>
-	              	<input class="Wdate newWdate"  readonly="readonly" name="dailyStartTime" id="dailyStartTime" onclick="WdatePicker({dateFmt:'HH:mm:ss',minDate:'00:00:00',maxDate:'#F{$dp.$D(\'dailyEndTime\');}'})" />&nbsp;至&nbsp;
-                    <input class="Wdate newWdate"  readonly="readonly" name="dailyEndTime" id="dailyEndTime" onclick="WdatePicker({dateFmt:'HH:mm:ss',minDate:'#F{$dp.$D(\'dailyStartTime\');}'})" /> 
+	              	<input class="Wdate newWdate"  readonly="readonly" name="dailyStartTime" data-check="true" id="dailyStartTime" onclick="WdatePicker({dateFmt:'HH:mm:ss',minDate:'00:00:00',maxDate:'#F{$dp.$D(\'dailyEndTime\');}'})" />&nbsp;至&nbsp;
+                    <input class="Wdate newWdate"  readonly="readonly" name="dailyEndTime" data-check="true" id="dailyEndTime" onclick="WdatePicker({dateFmt:'HH:mm:ss',minDate:'#F{$dp.$D(\'dailyStartTime\');}'})" /> 
 	              </div>
 	              <div class="ub ub-ac" id="weekday">
 	               <div class="umar-r10 uw-70 ut-r">活动日:</div>
@@ -64,7 +64,7 @@
                     <div class="ub ub-ac umar-l10 ubcheckweek">
                         <label><input class="radioItem " id="weekcheckbox7" type="checkbox" name="weekcheckbox" value="7" checked="checked" /><span class="umar-l10">日</span></label>
                    </div>
-                    <input class="uinp ub ub-f1" type="hidden" id="weeklyActivityDay" name="weeklyActivityDay" value=" ">
+                    <input class="uinp ub ub-f1" type="hidden" id="weeklyActivityDay" data-check="true" name="weeklyActivityDay" value=" ">
                   </div>
 	          </div>
 	       
@@ -77,7 +77,7 @@
 	            </div> -->
 	            <div class="ub ub-ac uw-384">
                     <div class="umar-r10 uw-70 ut-r">活动名称:</div>
-                    <input class="uinp ub ub-f1" maxLength="20" type="text" name="activityName" id="activityName" value="">
+                    <input class="uinp ub ub-f1" maxLength="20" type="text" name="activityName"  data-check="true" id="activityName" value="">
                 </div>
                 <div class="ub ub-ac uselectw umar-r10">
                     <div class="umar-r10 uw-90 ut-r">活动类型:</div>
@@ -136,8 +136,8 @@
 	          <div class="ub umar-t8">
 	             <div class="ub  ub-ac uw-384">
 	                   <div class="umar-r10 uw-70 ut-r">活动分店:</div>
-	                    <input class="uinp ub ub-f1" type="hidden" id="branchIds" name="branchIds" value=" ">
-                        <input class="uinp ub ub-f1 uw-400" type="text" id="branchName" readonly="readonly" value=" " name="branchName"  onclick="selectBranch()">
+	                    <input class="uinp ub ub-f1" type="hidden" id="branchIds" data-check="true" name="branchIds" value=" ">
+                        <input class="uinp ub ub-f1 uw-400" type="text" id="branchName" data-check="true" readonly="readonly" value=" " name="branchName"  onclick="selectBranch()">
                    		<div class="uinp-more" id="selectBranch" onclick="selectBranch()" >...</div>
 	             </div>
 	              <div class="ub ub-ac uw-390 umar-l10 special">

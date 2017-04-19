@@ -2050,6 +2050,14 @@ function checkUtil(){
 		newData = this.serizeFromData(newData);
 	}
 	
+	this.assignInput = function(){
+		var temObj={};
+		$('#'+formId+' input[data-check="true"]').each(function(index,obj){
+			temObj[""+$(obj).attr('name')+""]=$(obj).val();
+		}) 
+		return temObj;
+	}
+	
 	//自定义序列化表单对象
 	this.serizeFromData = function(source){
 		var _serizeObj = $("#"+formId).serializeArray();
