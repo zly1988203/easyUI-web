@@ -18,6 +18,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONObject;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,8 +78,6 @@ import com.okdeer.jxc.goods.entity.GoodsSelectDeliver;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
 import com.okdeer.jxc.utils.poi.ExcelReaderUtil;
-
-import net.sf.json.JSONObject;
 
 /**
  * ClassName: DeliverFormController 
@@ -499,7 +499,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 			}
 			respJson.put("formId", getId);
 		} catch (Exception e) {
-			LOG.error("保存配送申请单出现异常:{}", e);
+			LOG.error("保存配送申请单出现异常", e);
 			respJson = RespJson.error("添加配送申请单失败！");
 		}
 		long end = System.currentTimeMillis();
@@ -585,7 +585,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 			vo.setUpdateTime(DateUtils.getCurrDate());
 			return deliverFormServiceApi.updateToRemove(vo);
 		} catch (Exception e) {
-			LOG.error("删除配送单出现异常:{}", e);
+			LOG.error("删除配送单出现异常", e);
 			respJson = RespJson.error("删除配送单失败！");
 		}
 		return respJson;
@@ -607,7 +607,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 			vo.setUpdateUserId(user.getId());
 			return deliverFormServiceApi.check(vo);
 		} catch (Exception e) {
-			LOG.error("配送单审核操作失败！{}", e);
+			LOG.error("配送单审核操作失败", e);
 			return RespJson.error("审核操作失败！");
 		}
 	}
@@ -629,10 +629,10 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 			}
 			vo.setPageNumber(1);
 			vo.setPageSize(999999);
-			LOG.info("vo:{}" + vo.toString());
+			LOG.info("vo:{}", vo.toString());
 			PageUtils<DeliverFormList> deliverFormLists = queryDeliverFormListServiceApi
 					.getDeliverFormListsAndStockByIdOrFormNo(vo);
-			LOG.info("page:{}" + deliverFormLists.toString());
+			LOG.info("page:{}", deliverFormLists.toString());
 			List<DeliverFormList> list = deliverFormLists.getList();
 			if (CollectionUtils.isEmpty(list)) {
 				return RespJson.error("审核操作失败！");
@@ -653,7 +653,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 				return RespJson.businessError("需要确认负库存出库！");
 			}
 		} catch (Exception e) {
-			LOG.error("要货单查询明细数据出现异常:{}", e);
+			LOG.error("要货单查询明细数据出现异常", e);
 		}
 		return RespJson.success();
 	}
@@ -985,7 +985,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 								json.element("num", checkNum);
 								json.element("error", "输入的数量不是数字!");
 								excelListErrorData.add(json);
-								LOG.error("导入的箱数或数量不是数字:", e);
+								LOG.error("导入的箱数或数量不是数字", e);
 								return false;
 							}
 							return true;
@@ -1007,10 +1007,10 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 			respJson.put("importInfo", vo);
 		} catch (IOException e) {
 			respJson = RespJson.error("读取Excel流异常");
-			LOG.error("读取Excel流异常:{}", e);
+			LOG.error("读取Excel流异常", e);
 		} catch (Exception e) {
 			respJson = RespJson.error("导入发生异常");
-			LOG.error("用户导入异常:{}", e);
+			LOG.error("用户导入异常", e);
 		}
 		return respJson;
 
@@ -1063,7 +1063,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	 */
 	@RequestMapping(value = "exportTemp")
 	public void exportTemp(HttpServletResponse response, Integer type) {
-		LOG.info("导出配送要货导入模板请求参数,type={}", type);
+		LOG.info("导出配送要货导入模板请求参数,type:{}", type);
 		try {
 			String fileName = "";
 			String templateName = "";
@@ -1085,7 +1085,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	
 	@RequestMapping(value = "exportTempDr")
 	public void exportTempDr(HttpServletResponse response, Integer type) {
-		LOG.info("导出配送要货导入模板请求参数,type={}", type);
+		LOG.info("导出配送要货导入模板请求参数,type:{}", type);
 		try {
 			String fileName = "";
 			String templateName = "";
@@ -1101,7 +1101,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 				exportListForXLSX(response, null, fileName, templateName);
 			}
 		} catch (Exception e) {
-			LOG.error("导出要货申请单导入模板异常:{}", e);
+			LOG.error("导出要货申请单导入模板异常", e);
 		}
 	}
 	/**
@@ -1113,7 +1113,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	 */
 	@RequestMapping(value = "exportDyTemp")
 	public void exportDyTemp(HttpServletResponse response, Integer type) {
-		LOG.info("导出直送要货导入模板请求参数,type={}", type);
+		LOG.info("导出直送要货导入模板请求参数,type:{}", type);
 		try {
 			String fileName = "";
 			String templateName = "";
@@ -1142,7 +1142,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	 */
 	@RequestMapping(value = "exportReport")
 	public void exportReport(HttpServletResponse response, Integer type) {
-		LOG.info("导出配送出库导入模板请求参数,type={}", type);
+		LOG.info("导出配送出库导入模板请求参数,type:{}", type);
 		try {
 			String fileName = "";
 			String templateName = "";
@@ -1252,10 +1252,10 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 			respJson.put("importInfo", vo);
 		} catch (IOException e) {
 			respJson = RespJson.error("读取Excel流异常");
-			LOG.error("读取Excel流异常:{}", e);
+			LOG.error("读取Excel流异常", e);
 		} catch (Exception e) {
 			respJson = RespJson.error("导入发生异常");
-			LOG.error("用户导入异常:{}", e);
+			LOG.error("用户导入异常", e);
 		}
 		return respJson;
 	}
