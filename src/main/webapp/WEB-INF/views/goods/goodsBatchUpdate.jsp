@@ -88,22 +88,30 @@
 				<div class="ub ub-ac upad-8">
 					<!-- 是否管理库存 -->
 					<div class="ub uw-120 ub-ac umar-r10">
-						<input id="managerStockChecked" name="managerStockChecked" class="ub" type="checkbox" name="checkbox" />
-						&nbsp;
+						<label>
+						<input id="managerStockChecked" name="managerStockChecked" type="checkbox" name="checkbox" />
 						是否管理库存
+						</label>
+
 					</div>
 					<div class="ub uw-80 ub-ac umar-r10">
-						<input class="ub" type="radio" id="managerStock1" name="managerStock" value="1" checked="checked" /><span>启用</span>
+						<label>
+						<input type="radio" id="managerStock1" name="managerStock" value="1" checked="checked" /><span>启用</span>
+						</label>
+
 					</div>
 					<div class="ub uw-300 ub-ac umar-r10">
-						<input class="ub" type="radio" id="managerStock0" name="managerStock" value="0" /><span>不启用</span>
+						<label>
+						<input type="radio" id="managerStock0" name="managerStock" value="0" /><span>不启用</span>
+						</label>
 					</div>
 					
 					<!-- 安全库存系数 -->
 					<div class="ub uw-120 ub-ac umar-r10">
-						<input id="safetyCoefficientChecked" name="safetyCoefficientChecked" class="ub" type="checkbox" name="checkbox" />
-						&nbsp;
-						安全库存系数
+						<label>
+						<input id="safetyCoefficientChecked" name="safetyCoefficientChecked" type="checkbox" name="checkbox" />
+						&nbsp;<span>安全库存系数</span>
+						</label>
 					</div>
 					<div class="ub uw-200 ub-ac umar-r10">
 						<input id="safetyCoefficient" name="safetyCoefficient" value='1' style="width: 204px;" 
@@ -111,31 +119,40 @@
 							data-options="min:0.1,max:999.9,precision:2,validType:['length[0,18]']" type="text" maxlength="4">
 					</div>
 					<div class="ub uw-160 ub-ac umar-r10">
-						<input id="safetyCoefficientCascadeChecked" name="safetyCoefficientCascadeChecked" class="ub" type="checkbox" checked="checked" value="true" />
-						&nbsp;
+						<label>
+						<input id="safetyCoefficientCascadeChecked" name="safetyCoefficientCascadeChecked" type="checkbox" checked="checked" value="true" />
 						同时更新门店安全系数
+						</label>
+
 					</div>
 				</div>
 				
 				<div class="ub ub-ac upad-8">
 					<!-- 是否参与促销 -->
 					<div class="ub uw-120 ub-ac umar-r10">
-						<input id="allowActivityChecked" name="allowActivityChecked" class="ub" type="checkbox" name="checkbox" />
-						&nbsp;
+						<label>
+						<input id="allowActivityChecked" name="allowActivityChecked" type="checkbox" name="checkbox" />
 						是否参与促销
+						</label>
 					</div>
 					<div class="ub uw-80 ub-ac umar-r10">
-						<input class="ub" type="radio" id="allowActivity1" name="allowActivity" value="1" checked="checked" /><span>启用</span>
+						<label>
+						<input type="radio" id="allowActivity1" name="allowActivity" value="1" checked="checked" /><span>启用</span>
+						</label>
 					</div>
 					<div class="ub uw-300 ub-ac umar-r10">
-						<input class="ub" type="radio" id="allowActivity0" name="allowActivity" value="0" /><span>不启用</span>
+						<label>
+						<input  type="radio" id="allowActivity0" name="allowActivity" value="0" /><span>不启用</span>
+						</label>
+
 					</div>
 					
 					<!-- 修改主供应商 -->
 					<div class="ub uw-120 ub-ac umar-r10">
-						<input id="supplierChecked" name="supplierChecked" class="ub" type="checkbox" name="checkbox"  />
-						&nbsp;
+						<label>
+						<input id="supplierChecked" name="supplierChecked" type="checkbox" name="checkbox"  />
 						修改主供应商
+						</label>
 					</div>
 					<div class="ub uw-200 ub-ac umar-r10">
 						<input id="supplierId" name="supplierId" class="uinp" type="hidden">
@@ -146,31 +163,40 @@
 						</div>
 					</div>
 					<div class="ub uw-160 ub-ac umar-r10">
-						<input id="supplierCascadeChecked" name="supplierCascadeChecked" class="ub" type="checkbox" checked="checked" value="true" />
-						&nbsp;
+						<label>
+						<input id="supplierCascadeChecked" name="supplierCascadeChecked" type="checkbox" checked="checked" value="true" />
 						同时更新门店主供应商
+						</label>
+
 					</div>
 				</div>
 				
 				<div class="ub ub-ac upad-8">
 					<!-- 是否直送商品 -->
 					<div class="ub uw-120 ub-ac umar-r10">
-						<input id="fastDeliverChecked" name="fastDeliverChecked" class="ub" type="checkbox" name="checkbox" />
-						&nbsp;
+						<label>
+						<input id="fastDeliverChecked" name="fastDeliverChecked" type="checkbox" name="checkbox" />
 						是否直送商品
+						</label>
+
 					</div>
 					<div class="ub uw-80 ub-ac umar-r10">
-						<input class="ub" type="radio" id="fastDeliver1" name="fastDeliver" value="1" /><span>启用</span>
+						<label>
+						<input type="radio" id="fastDeliver1" name="fastDeliver" value="1" /><span>启用</span>
+						</label>
 					</div>
 					<div class="ub uw-300 ub-ac umar-r10">
-						<input class="ub" type="radio" id="fastDeliver0" name="fastDeliver" value="0" checked="checked" /><span>不启用</span>
+						<label>
+						<input type="radio" id="fastDeliver0" name="fastDeliver" value="0" checked="checked" /><span>不启用</span>
+						</label>
 					</div>
 					
 					<!-- 修改联营扣率 -->
 					<div class="ub uw-120 ub-ac umar-r10">
-						<input id="supplierRateChecked" name="supplierRateChecked" class="ub" type="checkbox" name="checkbox" />
-						&nbsp;
+						<label>
+						<input id="supplierRateChecked" name="supplierRateChecked" type="checkbox" name="checkbox" />
 						修改联营扣率
+						</label>
 					</div>
 					<div class="ub uw-200 ub-ac umar-r10">
 						<input id="supplierRate" name="supplierRate" value="0" style="width: 182px;" 
@@ -179,31 +205,42 @@
 							%
 					</div>
 					<div class="ub uw-160 ub-ac umar-r10">
-						<input id="supplierRateCascadeChecked" name="supplierRateCascadeChecked" class="ub" type="checkbox" checked="checked" value="true" />
-						&nbsp;
+						<label>
+						<input id="supplierRateCascadeChecked" name="supplierRateCascadeChecked" type="checkbox" checked="checked" value="true" />
 						同时更新门店联营扣率
+						</label>
 					</div>
 				</div>
 				
 				<div class="ub ub-ac upad-8">
 					<!-- 是否高值商品 -->
 					<div class="ub uw-120 ub-ac umar-r10">
-						<input id="highValueChecked" name="highValueChecked" class="ub" type="checkbox" name="checkbox" />
-						&nbsp;
+						<label>
+						<input id="highValueChecked" name="highValueChecked" type="checkbox" name="checkbox" />
 						是否高值商品
+						</label>
+
 					</div>
 					<div class="ub uw-80 ub-ac umar-r10">
-						<input class="ub" type="radio" id="highValue1" name="highValue" value="1" /><span>启用</span>
+						<label>
+						<input type="radio" id="highValue1" name="highValue" value="1" /><span>启用</span>
+						</label>
+
 					</div>
 					<div class="ub uw-300 ub-ac umar-r10">
-						<input class="ub" type="radio" id="highValue0" name="highValue" value="0" checked="checked" /><span>不启用</span>
+						<label>
+						<input type="radio" id="highValue0" name="highValue" value="0" checked="checked" /><span>不启用</span>
+						</label>
+
 					</div>
 					
 					<!-- 修改商品类别 -->
 					<div class="ub uw-120 ub-ac umar-r10">
-						<input id="categoryChecked" name="categoryChecked" class="ub" type="checkbox" name="checkbox" />
-						&nbsp;
+						<label>
+						<input id="categoryChecked" name="categoryChecked" type="checkbox" name="checkbox" />
 						修改商品类别
+						</label>
+
 					</div>
 					<div class="ub uw-200 ub-ac umar-r10">
 						<input id="categoryId" name="categoryId" class="uinp" type="hidden">
@@ -218,22 +255,32 @@
 				<div class="ub ub-ac upad-8">
 					<!-- 是否关注商品 -->
 					<div class="ub uw-120 ub-ac umar-r10">
-						<input id="attentionChecked" name="attentionChecked" class="ub" type="checkbox" name="checkbox"  />
-						&nbsp;
+						<label>
+						<input id="attentionChecked" name="attentionChecked" type="checkbox" name="checkbox"  />
 						是否关注商品
+						</label>
+
 					</div>
 					<div class="ub uw-80 ub-ac umar-r10">
-						<input class="ub" type="radio" id="attention1" name="attention" value="1" /><span>启用</span>
+						<label>
+						<input type="radio" id="attention1" name="attention" value="1" /><span>启用</span>
+						</label>
+
 					</div>
 					<div class="ub uw-300 ub-ac umar-r10">
-						<input class="ub" type="radio" id="attention0" name="attention" value="0" checked="checked" /><span>不启用</span>
+						<label>
+						<input type="radio" id="attention0" name="attention" value="0" checked="checked" /><span>不启用</span>
+						</label>
+
 					</div>
 					
 					<!-- 修改商品品牌 -->
 					<div class="ub uw-120 ub-ac umar-r10">
-						<input id="brandChecked" name="brandChecked" class="ub" type="checkbox" name="checkbox"  />
-						&nbsp;
+						<label>
+						<input id="brandChecked" name="brandChecked" type="checkbox" name="checkbox"  />
 						修改商品品牌
+						</label>
+
 					</div>
 					<div class="ub uw-200 ub-ac umar-r10">
 						<input id="brandId" name="brandId" class="uinp" type="hidden">
@@ -249,15 +296,23 @@
 				<div class="ub ub-ac upad-8">
 					<!-- 分店调价 -->
 					<div class="ub uw-120 ub-ac umar-r10">
-						<input id="allowAdjustChecked" name="allowAdjustChecked" class="ub" type="checkbox" name="checkbox" />
-						&nbsp;
+						<label>
+						<input id="allowAdjustChecked" name="allowAdjustChecked" type="checkbox" name="checkbox" />
 						分店调价
+						</label>
+
 					</div>
 					<div class="ub uw-80 ub-ac umar-r10">
-						<input class="ub" type="radio" id="allowAdjust1" name="allowAdjust" value="1" /><span>启用</span>
+						<label>
+						<input type="radio" id="allowAdjust1" name="allowAdjust" value="1" /><span>启用</span>
+						</label>
+
 					</div>
 					<div class="ub uw-300 ub-ac umar-r10">
-						<input class="ub" type="radio" id="allowAdjust0" name="allowAdjust" value="0" checked="checked" /><span>不启用</span>
+						<label>
+						<input type="radio" id="allowAdjust0" name="allowAdjust" value="0" checked="checked" /><span>不启用</span>
+						</label>
+
 					</div>
 				</div>
 			</form>

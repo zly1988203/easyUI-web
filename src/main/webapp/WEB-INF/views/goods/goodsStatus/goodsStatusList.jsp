@@ -72,19 +72,29 @@
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-70 ut-r">商品状态:</div>
 	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub radioItem" type="radio" name="status" id="status" value="0" checked="checked"/><span>正常</span>
+							<label>
+							<input class="radioItem" type="radio" name="status" id="status" value="0" checked="checked"/><span>正常</span>
+							</label>
 	                    </div>
 	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub radioItem" type="radio" name="status" id="status" value="2" /><span>停购</span>
+							<label>
+							<input class="radioItem" type="radio" name="status" id="status" value="2" /><span>停购</span>
+							</label>
 	                    </div>
 	                    <div class="ub ub-ac umar-r10">
-	                       <input class="ub radioItem" type="radio" name="status" id="status" value="1" /><span>停售</span>
+							<label>
+							<input class="radioItem" type="radio" name="status" id="status" value="1" /><span>停售</span>
+							</label>
 	                    </div>
 	                     <div class="ub ub-ac umar-r10">
-	                       <input class="ub radioItem" type="radio" name="status" id="status" value="3" /><span>淘汰</span>
+							<label>
+							<input class="radioItem" type="radio" name="status" id="status" value="3" /><span>淘汰</span>
+							</label>
 	                    </div>
 	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub radioItem" type="radio" name="status" id="status" value=""  /><span>全部</span>
+							<label>
+							<input class="radioItem" type="radio" name="status" id="status" value=""  /><span>全部</span>
+							</label>
 	                    </div>
 				</div>
 			</div>
