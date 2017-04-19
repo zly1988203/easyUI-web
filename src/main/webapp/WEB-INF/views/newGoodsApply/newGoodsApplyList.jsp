@@ -70,16 +70,20 @@
                 </div>
  				
 				<div class="ub ub-ac umar-l10">
-					<input class="ub radioItem" type="radio" name="examineStatus" value="0" checked="checked"/><label>未审核商品</label>
+                    <label>
+                        <input class="radioItem" type="radio" name="examineStatus" value="0" checked="checked"/>未审核商品
+                    </label>
+
 				</div>
 				<div class="ub ub-ac umar-l10">
-					<input class="ub radioItem" type="radio" name="examineStatus" value="1" /><label>已审核商品</label>
+                    <label>
+                    <input class="radioItem" type="radio" name="examineStatus" value="1" />已审核商品
+                    </label>
 				</div>
-				<!-- <div class="ub ub-ac umar-l10">
-					<input class="ub radioItem" type="radio" name="examineStatus" value="2" /><label>审核不通过</label>
-				</div> -->
 				<div class="ub ub-ac umar-l10">
-					<input class="ub radioItem" type="radio" name="examineStatus" value="" /><label>全部商品</label>
+                    <label>
+                    <input class="radioItem" type="radio" name="examineStatus" value="" />全部商品
+                    </label>
 				</div>
             </div>
         </form>

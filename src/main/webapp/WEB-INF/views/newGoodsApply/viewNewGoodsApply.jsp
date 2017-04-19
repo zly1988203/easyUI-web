@@ -283,19 +283,19 @@ pageEncoding="UTF-8"%>
 				<div class="ub umar-l32" style="position: absolute;left: 0px;">
 					<div class="ub ub-ac umar-r40">
 						<input id="managerStock" name="managerStock" 
-							class="ub" type="checkbox" name="checkbox" /><span>是否管理库存</span>
+							class="ub" type="checkbox" name="checkbox" disabled/><span>是否管理库存</span>
 					</div>
 					<div class="ub ub-ac umar-r40">
 						<input id="highValue" name="highValue" class="ub"
-							type="checkbox" name="checkbox" /><span>是否高值商品</span>
+							type="checkbox" name="checkbox" disabled/><span>是否高值商品</span>
 					</div>
 					<div class="ub ub-ac umar-r40">
 						<input id="attention" name="attention" class="ub"
-							type="checkbox" name="checkbox" /><span>是否关注商品</span>
+							type="checkbox" name="checkbox" disabled/><span>是否关注商品</span>
 					</div>
 					<div class="ub ub-ac umar-r40">
 						<input id="fastDeliver" name="fastDeliver" 
-						class="ub" type="checkbox" name="checkbox" /><span>是否直送商品</span>
+						class="ub" type="checkbox" name="checkbox" disabled/><span>是否直送商品</span>
 					</div>
 				</div>
 

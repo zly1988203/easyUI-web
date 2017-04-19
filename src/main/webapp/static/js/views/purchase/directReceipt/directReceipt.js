@@ -597,10 +597,6 @@ function saveDataHandel(rows, url){
     });
 }
 
-
-
-
-
 //查看 保存修改
 function updateDirectForm() {
     $("#"+datagridId).datagrid("endEdit", gridHandel.getSelectRowIndex());
