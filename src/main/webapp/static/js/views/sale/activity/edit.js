@@ -1844,7 +1844,7 @@ function initDatagridallMj(){
 		},
       onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
-			if(data.rows &&　data.rows.length > 0){
+			if(data.rows && data.rows.length > 0){
 				if(!oldData["grid"]){
 					oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
 						return $.extend(true,{},obj);//返回对象的深拷贝
