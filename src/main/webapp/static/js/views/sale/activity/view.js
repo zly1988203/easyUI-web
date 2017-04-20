@@ -1510,7 +1510,18 @@ function delLineHandelmj(event){
 }
 // 选择商品
 function selectGoods(searchKey){
-    new publicGoodsService("",function(data){
+
+    var param = {
+        type:'',
+        key:searchKey,
+        isRadio:0,
+        sourceBranchId:"",
+        targetBranchId:"",
+        branchId:'',
+        supplierId:'',
+        flag:'0',
+    }
+    new publicGoodsServiceTem(param,function(data){
         if(searchKey){
             $("#saleMangeadd").datagrid("deleteRow", gridHandel.getSelectRowIndex());
             $("#saleMangeadd").datagrid("acceptChanges");
@@ -1532,7 +1543,7 @@ function selectGoods(searchKey){
 		 * gridHandel.setFieldFocus(gridHandel.getFieldTarget('saleAmount'));
 		 * },100)
 		 */
-    },searchKey);
+    });
 }
 
 // 保存

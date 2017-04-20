@@ -360,7 +360,17 @@ function selectGoods(searchKey){
     	messager("请选择出/入库");
         return;
     }
-    new publicGoodsService("",function(data){
+    var param = {
+        type:'',
+        key:searchKey,
+        isRadio:0,
+        sourceBranchId:"",
+        targetBranchId:"",
+        branchId:branchId,
+        supplierId:'',
+        flag:'0',
+    }
+    new publicGoodsServiceTem(param,function(data){
  
         if(searchKey){
             $("#"+gridHandel.getGridName()).datagrid("deleteRow", gridHandel.getSelectRowIndex());
@@ -376,7 +386,7 @@ function selectGoods(searchKey){
             gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
         },100)
       
-    },searchKey,"","","",branchId,'',"0");
+    });
 
 }
 //查询价格、库存
