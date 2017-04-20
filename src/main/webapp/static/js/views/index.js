@@ -402,6 +402,7 @@ function openMsg(){
 					$("#"+key+"").parents(".msg-li").first().hide();
 				}else{
 					$("#"+key+"").parents(".msg-li").first().show();
+					if(!(key==="sumOne"||key==="sumTwo"||key==="sumOther"))
 					$("#"+key+"").text(datas[key]);
 				}
 			}

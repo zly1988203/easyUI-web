@@ -151,9 +151,16 @@ public class MessageController {
 	List<Integer> detailsCount = messageService.countDetailsMessage(map);
 	Map<String, Integer> datas = Maps.newHashMap();
 	Integer allCount = Integer.valueOf(0);
-	for(int i = 0 ;i<detailsCount.size()-1;++i){
-	    datas.put(list.get(i), detailsCount.get(i));
-	    allCount +=detailsCount.get(i);
+	if((boolean) map.get("JxcStockException")){
+        	for(int i = 0 ;i<detailsCount.size()-1;++i){
+        	    datas.put(list.get(i), detailsCount.get(i));
+        	    allCount +=detailsCount.get(i);
+        	}
+	}else{
+	    	for(int i = 1 ;i<detailsCount.size()-1;++i){
+            	    datas.put(list.get(i-1), detailsCount.get(i));
+            	    allCount +=detailsCount.get(i);
+        	}
 	}
 	    if(map.get("JxcStockException")!=null&&(boolean)map.get("JxcStockException")){
 		datas.put("sumOne", detailsCount.get(0));
