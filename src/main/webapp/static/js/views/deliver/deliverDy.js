@@ -385,7 +385,8 @@ function onChangeLargeNum(newV,oldV){
     var newRealNum = parseFloat(_tempNewRealNum).toFixed(4);
     
     n = 1;
-    gridHandel.setFieldValue('amount',parseFloat(purchaseSpecValue*_tempNewRealNum).toFixed(4));//金额=数量*单价
+    var priceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
+    gridHandel.setFieldValue('amount',parseFloat(priceValue*_tempNewRealNum).toFixed(4));//金额=数量*单价
     gridHandel.setFieldValue('applyNum',parseFloat(newRealNum).toFixed(4)); //数量=箱数*商品规格
     updateFooter();
     /*
