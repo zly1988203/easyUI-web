@@ -40,28 +40,28 @@
 					<div class="ub uw-200 ut-r"></div>
 					<div class="ub uw-110 ub-ac umar-r10">
 						<input id="isSupplierCascadeGoodsPa" name="isSupplierCascadeGoodsPa" class="ub" type="checkbox" name="checkbox"  />
-						<span>采购订单</span>
+						<label for="isSupplierCascadeGoodsPa">采购订单</label>
 					</div>
 				</div>
 				<div class="ub ub-ac upad-16 ">
 					<div class="ub uw-200 ut-r"></div>
 					<div class="ub uw-110 ub-ac umar-r10">
 						<input id="isSupplierCascadeGoodsPi" name="isSupplierCascadeGoodsPi" class="ub" type="checkbox" name="checkbox"  />
-						<span>采购收货</span>
+						<label for="isSupplierCascadeGoodsPi">采购收货</label>
 					</div>
 				</div>
 				<div class="ub ub-ac upad-16 ">
 					<div class="ub uw-200 ut-r"></div>
 					<div class="ub uw-110 ub-ac umar-r10">
 						<input id="isSupplierCascadeGoodsPr" name="isSupplierCascadeGoodsPr" class="ub" type="checkbox" name="checkbox"  />
-						<span>采购退货</span>
+						<label for="isSupplierCascadeGoodsPr">采购退货</label>
 					</div>
 				</div>
 				<div class="ub ub-ac upad-16 ">
 					<div class="ub uw-200 ut-r"></div>
 					<div class="ub uw-110 ub-ac umar-r10">
 						<input id="isSupplierCascadeGoodsPm" name="isSupplierCascadeGoodsPm" class="ub" type="checkbox" name="checkbox"  />
-						<span>直送收货</span>
+						<label for="isSupplierCascadeGoodsPm">直送收货</label>
 					</div>
 				</div>
 			</form>
