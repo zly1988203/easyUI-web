@@ -52,10 +52,12 @@ public class GoodsSelectImportSkuCodeHandle implements GoodsSelectImportHandle{
 	// 临时存储数据
 	List<JSONObject> tempExcelListSuccessData = new ArrayList<JSONObject>();
 	
+	@SuppressWarnings("unchecked")
 	public GoodsSelectImportSkuCodeHandle(List<JSONObject> excelList, String[] excelField, GoodsSelectImportBusinessValid businessValid){
 		// 第一条记录为标题行，取出第一条记录用于判断模板
 		if (!CollectionUtils.isEmpty(excelList)) {
 			JSONObject title = excelList.get(0);
+			title.forEach((key, value) -> title.put(key, ((String) value).trim()));
 			// 没有货号字段，视为错误模板
 			if (!title.containsValue("货号")) {
 				for (int i = 0; i < excelList.size(); i++) {
