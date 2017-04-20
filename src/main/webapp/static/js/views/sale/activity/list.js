@@ -150,7 +150,7 @@ function copyActivity(){
 	if(selectedObj){
 		toAddTab("复制促销活动",contextPath + "/sale/activity/toCopy?from=toCopy&activityId="+selectedObj.id);
 	}else{
-		$.messager.alert('提示','请选择行数据');
+		$.messager.alert('提示','请选择一个活动记录');
 	}
 }
 
@@ -158,8 +158,9 @@ function copyActivity(){
 function delActivity(){
 	var dg = $("#saleMange");
 	var row = dg.datagrid("getSelected");
-	if(rowIsNull(row)){
-		return null;
+	if(!row || (row && row.length <= 0)){
+		$.messager.alert('提示','请选择一个活动记录');
+		return;
 	}
 	console.log(row.id);
 	$.messager.confirm('提示','是否要删除此条数据',function(data){
