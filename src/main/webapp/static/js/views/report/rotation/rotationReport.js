@@ -315,14 +315,25 @@ function selectGoods(searchKey) {
 }
 //商品选择 公共使用
 function gFunGoodsSelect(searchKey,branchId){
-	new publicGoodsService("PA",function(data){
+
+    var param = {
+        type:'',
+        key:searchKey,
+        isRadio:1,
+        sourceBranchId:"",
+        targetBranchId:"",
+        branchId:branchId,
+        supplierId:'',
+        flag:'0',
+    }
+    new publicGoodsServiceTem(param,function(data){
     	if(data.length==0){
             return;
         }
     	$("#skuId").val(data[0].skuId);
     	$("#skuName").val(data[0].skuName);
         
-    },searchKey,1,"","",branchId,"","0");
+    });
 }
 
 

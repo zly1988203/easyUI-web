@@ -162,8 +162,18 @@ function selectGoods(searchKey){
     	messager("请先选择结算机构");
         return;
     }
-    
-    new publicGoodsService("",function(data){
+    var param = {
+        type:'',
+        key:searchKey,
+        isRadio:0,
+        sourceBranchId:"",
+        targetBranchId:"",
+        branchId:branchId,
+        supplierId:'',
+        flag:'0',
+    }
+
+    new publicGoodsServiceTem(param,function(data){
         if(data.length==0){
             return;
         }
@@ -197,7 +207,7 @@ function selectGoods(searchKey){
             gridHandel.setSelectFieldName("largeNum");
             gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
         },100)
-    },searchKey,"","","",branchId,"");
+    });
 }
 
 //保存

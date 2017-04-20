@@ -996,7 +996,19 @@ function selectGoodsDialog(searchKey) {
 }
 //商品选择 公共使用
 function gFunGoodsSelect(searchKey,branchId){
-    new publicGoodsService('PC', function(data) {
+
+    var param = {
+        type:'PC',
+        key:searchKey,
+        isRadio:0,
+        sourceBranchId:"",
+        targetBranchId:"",
+        branchId:branchId,
+        supplierId:'',
+        flag:'0',
+    }
+
+    new publicGoodsServiceTem(param, function(data) {
         if(searchKey){
             $("#addModifyPriceGrid").datagrid("deleteRow", gridHandel.getSelectRowIndex());
             $("#addModifyPriceGrid").datagrid("acceptChanges");
@@ -1060,7 +1072,7 @@ function gFunGoodsSelect(searchKey,branchId){
             },100)
         }
 
-    },searchKey,0,"","",branchId,"");
+    });
 }
 
 /**
