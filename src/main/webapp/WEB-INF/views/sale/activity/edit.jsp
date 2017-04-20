@@ -7,7 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>促销活动设置-编辑</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="${ctx}/static/js/views/sale/activity/edit.js?1=244"></script>
+<script src="${ctx}/static/js/views/sale/activity/edit.js?1=23"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
 </style>
@@ -219,7 +219,7 @@
 				</div>
 				<div id="consolemms02" class="ub uw ub-f1 ub-ver  umar-t10 ">
 					<!-- upad-t20  -->
-					<div class="ub ub-ac ">
+					<div class="ub ub-ac umar-t30" id="giftip">
 						<span class="ub">赠品信息：</span>
 					</div>
 					<div class="ub uw  umar-t8" style="height:300px;width:100%;">

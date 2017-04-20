@@ -11,6 +11,7 @@ var gridDefault = {
 var sUrl =  getUrlQueryString('from'); //获取url from='toCopy' 参数 == 促销活动标示
 
 var oldData = {};
+var commonOldData = {};
 var mmscomOldData = {}; 
 var checkUtil = new checkUtil();
 
@@ -421,6 +422,7 @@ function clickmmsTab(type){
 			disableGoods('SelectGoods','');
 		}
 	}else{
+		$("#giftip").removeClass('umar-t30').addClass('umar-t50');
 		disableGoods('','GoodsType');
 		//赠品信息
 		$("#area1").addClass("unhide");
@@ -1889,8 +1891,8 @@ function initDatagridsortMj(){
            onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
 			if(data.rows && data.rows.length > 0){
-			  if(!oldData["mjlbgrid"]){
-                	oldData["mjlbgrid"] = $.map(gridHandel.getRows(), function(obj){
+			  if(!commonOldData["mjlbgrid"]){
+				  commonOldData["mjlbgrid"] = $.map(gridHandel.getRows(), function(obj){
                 		return $.extend(true,{},obj);//返回对象的深拷贝
                 	});
                }
@@ -2059,8 +2061,8 @@ function initDatagridshopMj(){
 		},
         onLoadSuccess:function(data){
         	if(data.rows && data.rows.length > 0){
-  			  if(!oldData["mjlbgrid"]){
-                  	oldData["mjlbgrid"] = $.map(gridHandel.getRows(), function(obj){
+  			  if(!commonOldData["mjlbgrid"]){
+  				  commonOldData["mjlbgrid"] = $.map(gridHandel.getRows(), function(obj){
                   		return $.extend(true,{},obj);//返回对象的深拷贝
                   	});
                  }
@@ -3242,14 +3244,36 @@ function check(){
 		//满减类别  满减商品	
 		if(actType == '5' && (mjScopeV=='1'||mjScopeV=='0') ){
 			gridHandelMj.endEditRow();
-			newData.mjlbgrid = gridHandel.getRows();
 			newData.mjgrid = gridHandelMj.getRows();
+			var temNewData = {
+				mjlbgrid:gridHandel.getRows()
+			};
+			if(!gFunComparisonArray(commonOldData,temNewData)){
+				messager("数据已修改，请先保存再审核");
+				return false;
+			}
 		}else{
 			newData.grid = gridHandel.getRows();
 		}
 	}else{
 		//买满送 
 		gridHandelT.endEditRow();
+		
+		var mmscomNewData={};
+		//类别满送 
+		if(mmsScopeV == '1'){
+			mmscomNewData.mmscomgrid = gridHandelB.getRows();
+		}
+		//商品满送
+		if(mmsScopeV == '0'){
+			mmscomNewData.mmscomgrid = gridHandelG.getRows();
+		}
+		
+		if(!gFunComparisonArray(mmscomOldData,mmscomNewData)){
+			messager("数据已修改，请先保存再审核");
+			return false;
+		}
+		
 		var temTJObj = $('#mmsgradedList').datagrid('getChecked');
 	    if(temTJObj.length <= 1){
 			var temTjList = gridHandelT.getRows();   
@@ -3257,21 +3281,11 @@ function check(){
 	    }
 		newData.mmsgrid = gridHandelT.getRows();
 		
-		if(!gFunComparisonArray(oldData,newData)){
-			messager("数据已修改，请先保存再审核");
-			return false;
-		}
-		oldData = mmscomOldData;
-		newData = {};
-		//类别满送 
-		if(mmsScopeV == '1'){
-			newData.mmscomgrid = gridHandelB.getRows();
-		}
-		//商品满送
-		if(mmsScopeV == '0'){
-			newData.mmscomgrid = gridHandelG.getRows();
-		}
 	}
+	
+	//console.log('oldData',oldData);
+	//console.log('newData',newData);
+	
 	if(!gFunComparisonArray(oldData,newData)){
 		messager("数据已修改，请先保存再审核");
 		return false;
