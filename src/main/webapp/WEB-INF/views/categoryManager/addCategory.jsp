@@ -47,7 +47,10 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 		<div class="ub ub-ac umar-r10 uw-320">
-            <input class="ub" type="checkbox" name="flag" checked="checked" /><span>保存后自动新增</span>
+			<label>
+			<input type="checkbox" name="flag" checked="checked" /><span>保存后自动新增</span>
+			</label>
+
         </div>
 		</div>
 	</form>

@@ -35,7 +35,10 @@
                <div class="ub ub-ver umar-t12">
 			   
 			            <div class="ub ub-ac umar-l10">
-			                <input class="ub" type="checkbox" name="radio" checked="checked"/><span class="umar-l10">首行包含列名称</span>
+                            <label>
+                            <input type="checkbox" name="radio" checked="checked"/><span class="umar-l10">首行包含列名称</span>
+                            </label>
+
 			            </div>
 		
 		       </div>

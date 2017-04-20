@@ -50,7 +50,9 @@
 
 			</div>
 				<div class='umar-t10 umar-l10' id="divEqualZero" hidden="true">
+					<label>
 					<input class="checkItem" type="checkbox" id="equalZero" name="equalZero" value="0">显示差异为0的商品
+					</label>
 				</div>
 			
 		</div>
