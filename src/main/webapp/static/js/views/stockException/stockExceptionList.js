@@ -35,10 +35,10 @@ function queryForm(){
 //        messager("请选择机构");
 //        return;
 //    } 
-	if($("#branchName").val()=="" && $("#skuCode").val()=="" ){
-        messager("请选择机构或输入条码");
-        return;
-    } 
+//	if($("#branchName").val()=="" && $("#skuCode").val()=="" ){
+//        messager("请选择机构或输入条码");
+//        return;
+//    } 
 	$("#startCount").attr("value",null);
 	$("#endCount").attr("value",null);
 	var fromObjStr = $('#queryForm').serializeObject();
