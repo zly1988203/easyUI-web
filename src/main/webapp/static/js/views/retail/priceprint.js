@@ -357,7 +357,17 @@ function printtable(){
 
 //商品选择  方法
 function chooseproduct(){
-	new publicGoodsService('PC',function(data){
+    var param = {
+        type:'PC',
+        key:'',
+        isRadio:0,
+        sourceBranchId:"",
+        targetBranchId:"",
+        branchId:$("#branchId").val(),
+        supplierId:'',
+        flag:'0',
+    }
+    new publicGoodsServiceTem(param,function(data){
 
 		var obj = {
 				
@@ -385,7 +395,7 @@ function chooseproduct(){
 
 		$("#pricePrint").datagrid("loadData", newRows);
 
-	},'','','','',$("#branchId").val(),'');
+	});
 
 }
 

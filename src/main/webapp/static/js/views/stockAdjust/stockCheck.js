@@ -308,7 +308,18 @@ function selectGoods(searchKey){
         messager("请选择机构");
         return;
     }
-    new publicGoodsService("",function(data){
+
+    var param = {
+        type:'',
+        key:searchKey,
+        isRadio:0,
+        sourceBranchId:"",
+        targetBranchId:"",
+        branchId:branchId,
+        supplierId:'',
+        flag:'0',
+    }
+    new publicGoodsServiceTem(param,function(data){
         if(searchKey){
             $("#"+gridHandel.getGridName()).datagrid("deleteRow", gridHandel.getSelectRowIndex());
             $("#"+gridHandel.getGridName()).datagrid("acceptChanges");
@@ -316,7 +327,7 @@ function selectGoods(searchKey){
         var setdata=setTion(data);
         selectStockAndPrice(branchId,setdata);
       
-    },searchKey,"","","",branchId,'');
+    });
 }
 
 //二次查询设置值

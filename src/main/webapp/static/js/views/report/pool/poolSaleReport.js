@@ -312,8 +312,17 @@ function selectGoods(searchKey){
 		 messager("请选择机构");
 	     return;
 	}
-	console.log($("#branchId").val());
-    new publicGoodsService("",function(data){
+    var param = {
+        type:'',
+        key:searchKey,
+        isRadio:1,
+        sourceBranchId:"",
+        targetBranchId:"",
+        branchId:$("#branchId").val(),
+        supplierId:'',
+        flag:'0',
+    }
+    new publicGoodsServiceTem(param,function(data){
         if(searchKey){
             $("#"+gridHandel.getGridName()).datagrid("deleteRow", gridHandel.getSelectRowIndex());
             $("#"+gridHandel.getGridName()).datagrid("acceptChanges");
@@ -322,7 +331,7 @@ function selectGoods(searchKey){
         //selectStockAndPrice(branchId,setdata);
         gridHandel.setLoadFocus();
       
-    },searchKey,1,"","",$("#branchId").val(),'',"0");
+    });
 }
 
 //库存调整一开始选择

@@ -438,8 +438,17 @@ function selectGoodsDialog(searchKey) {
 }
 //商品选择 公共使用
 function gFunGoodsSelect(searchKey,branchId){
-	new publicGoodsService("",function(data){
-	//new publicGoodsService("PA",function(data){
+    var param = {
+        type:'',
+        key:searchKey,
+        isRadio:0,
+        sourceBranchId:"",
+        targetBranchId:"",
+        branchId:branchId,
+        supplierId:'',
+        flag:'0',
+    }
+    new publicGoodsServiceTem(param,function(data){
     	if(data.length==0){
             return;
         }
@@ -467,7 +476,7 @@ function gFunGoodsSelect(searchKey,branchId){
             gridHandel.setFieldFocus(gridHandel.getFieldTarget('upperLimit'));
         },100)
         
-    },searchKey,0,"","",branchId,"","0");
+    });
 }
 
 

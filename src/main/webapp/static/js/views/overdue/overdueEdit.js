@@ -250,8 +250,19 @@ $(function(){
 	    if(!branchId){
 	    	messager("请先选择收货机构");
 	    }
+
+        var param = {
+            type:'BA',
+            key:searchKey,
+            isRadio:0,
+            sourceBranchId:"",
+            targetBranchId:"",
+            branchId:branchId,
+            supplierId:supplierId,
+            flag:'0',
+        }
 	    
-	    new publicGoodsService("BA",function(data){
+	    new publicGoodsServiceTem(param,function(data){
 	        if(data.length==0){
 	            return;
 	        }
@@ -286,7 +297,7 @@ $(function(){
 	            gridHandel.setFieldFocus(gridHandel.getFieldTarget('applyNum'));
 	        },100)
 	        
-	    },searchKey,0,"","",branchId,supplierId,"0");
+	    });
 	}
 
 	//保存

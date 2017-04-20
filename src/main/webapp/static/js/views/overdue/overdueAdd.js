@@ -220,8 +220,19 @@ function selectGoods(searchKey){
     	messager("请先选择申请机构");
         return;
     }
+
+    var param = {
+        type:'BA',
+        key:searchKey,
+        isRadio:0,
+        sourceBranchId:"",
+        targetBranchId:"",
+        branchId:branchId,
+        supplierId:supplierId,
+        flag:'0',
+    }
     
-    new publicGoodsService("BA",function(data){
+    new publicGoodsServiceTem(param,function(data){
     	if(data.length==0){
             return;
         }
@@ -257,7 +268,7 @@ function selectGoods(searchKey){
             gridHandel.setFieldFocus(gridHandel.getFieldTarget('applyNum'));
         },100)
         
-    },searchKey,0,"","",branchId,supplierId,"0");
+    });
 }
 
 //保存
