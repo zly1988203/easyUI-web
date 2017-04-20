@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.dubbo.common.utils.StringUtils;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.base.common.utils.DateUtils;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
@@ -75,7 +76,9 @@ public class StockExceptionController extends BaseController<StockExceptionContr
 			SysUser user = UserUtil.getCurrentUser();
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
-			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
+			if(StringUtils.isBlank(vo.getBranchCompleCode())){
+				vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
+			}
 			vo.setBranchType(user.getBranchType() == 0 ? 1 : 2);
 			LOG.info(LogConstant.OUT_PARAM, vo.toString());
 			PageUtils<StockIndexVo> stockExceptionList = stockExceptionServiceApi.getStockExceptionList(vo);
