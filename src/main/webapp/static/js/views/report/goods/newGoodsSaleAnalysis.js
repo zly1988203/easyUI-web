@@ -47,7 +47,7 @@ function initNewGoodsTotalAnalysiGrid() {
             {field: 'actualStock', title: '库存', width:80, align: 'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                        return '';
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
