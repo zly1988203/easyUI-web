@@ -112,7 +112,7 @@
 	                    </div>
 	                    <div class="ub ub-ac umar-r10">
 							<label>
-							<input class="ub" type="radio" name="deliverStatus" value="2" onclick="queryForm()"/><span>全部发货</span>
+							<input type="radio" name="deliverStatus" value="2" onclick="queryForm()"/><span>全部发货</span>
 							</label>
 
 	                    </div>
