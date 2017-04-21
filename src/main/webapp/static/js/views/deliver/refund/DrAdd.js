@@ -20,7 +20,8 @@ $(function(){
 		//如果是门店
     	if(sessionBranchType>=3){
 	        $("#sourceBranchId").val(sessionBranchId);
-	        $("#sourceBranchName").val(sessionBranchCodeName);
+	        $("#sourceBranchName").val(sessionBranchCodeName).removeAttr('onclick');
+	        $('#source-btn').removeAttr('onclick');
 	    }
 	    $("#targetBranchType").val(sessionBranchType);
 	    //$("#createTime").html(new Date().format('yyyy-MM-dd hh:mm')); .
@@ -162,6 +163,26 @@ function initDatagridStoreYHOrder(){
                 },
             
             },
+            {field:'largeNum',title:'箱数',width:'80px',align:'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+
+                    if(!value){
+                        row["largeNum"] = parseFloat(value||0).toFixed(2);
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+                editor:{
+                    type:'numberbox',
+                    options:{
+                        min:0,
+                        precision:4,
+                        onChange: onChangeLargeNum,
+                    }
+                }
+            },
             {field:'applyNum',title:'数量',width:'80px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
@@ -295,7 +316,7 @@ function initDatagridStoreYHOrder(){
     	 if(!oldData["grid"]){
          	oldData["grid"] = gridHandel.getRows();
      	 }
-    	 console.log('sdd',JSON.stringify(oldData));
+    	 //console.log('sdd',JSON.stringify(oldData));
     }
 }
 
@@ -303,9 +324,57 @@ function initDatagridStoreYHOrder(){
 //限制转换次数
 var n = 0;
 var m = 0;
+//监听商品箱数
+function onChangeLargeNum(newV,oldV){
+	if(!oldV)return;
+	if("" == newV){
+		m = 2;
+		 messager("商品箱数输入有误");
+		 gridHandel.setFieldValue('largeNum',oldV); 
+	     return;
+	}
 
+	if(m > 0){
+		m = 0;
+		return;
+	}
+	
+    if(!gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuCode')){
+        return;
+    }
+    var purchaseSpecValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'distributionSpec');
+    if(!purchaseSpecValue){
+        messager("没有配送规格,请审查");
+        return;
+    }
+
+    var _temNewNum = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'tmpLargeNum');
+    var temp_new = newV;
+    if(Math.abs(temp_new) > 0 && !oldV){
+    	newV = _temNewNum;
+    };
+    
+    var _tempNewRealNum = parseFloat(purchaseSpecValue*newV);
+    var newRealNum = parseFloat(_tempNewRealNum).toFixed(4);
+    
+    n = 1;
+    var priceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
+    var _tempAmount = parseFloat(priceValue*_tempNewRealNum).toFixed(4);
+    gridHandel.setFieldValue('amount',_tempAmount);//金额=数量*单价
+    
+    var _tempInputTax = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'inputTax');
+    var _taxAmountVal = (_tempInputTax*(_tempAmount/(1+parseFloat(_tempInputTax)))||0.0000).toFixed(2);
+    gridHandel.setFieldValue('taxAmount',_taxAmountVal);//税额 = 金额/(1+税率)*税率
+    
+    gridHandel.setFieldValue('applyNum',parseFloat(newRealNum).toFixed(4)); //数量=箱数*商品规格
+    
+    
+    updateFooter();
+    
+}
 //监听商品数量
 function onChangeRealNum(newV,oldV) {
+	if(!oldV)return;
 	if("" == newV){
 		n= 2;
 		 messager("商品数量输入有误");
