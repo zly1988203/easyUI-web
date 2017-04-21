@@ -65,6 +65,31 @@ function initDatagridViewRequireOrder(){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
 			},
+            {field:'isGift',title:'赠送',width:'80px',align:'left',
+                formatter:function(value,row){
+                    if(row.isFooter){
+                        return;
+                    }
+                    row.isGift = row.isGift?row.isGift:0;
+                    return value=='1'?'是':(value=='0'?'否':'请选择');
+                },
+                editor:{
+                    type:'combobox',
+                    options:{
+                        valueField: 'id',
+                        textField: 'text',
+                        editable:false,
+                        required:true,
+                        data: [{
+                            "id":'1',
+                            "text":"是",
+                        },{
+                            "id":'0',
+                            "text":"否",
+                        }]
+                    }
+                }
+            },
             {field:'inputTax',title:'税率',width:'80px',align:'right',
 				formatter : function(value, row, index) {
 					if(row.isFooter){
@@ -82,6 +107,17 @@ function initDatagridViewRequireOrder(){
                     return  '<b>'+parseFloat(taxAmountVal||0).toFixed(2)+'</b>';
                 }
             },
+            {field: 'targetStock', title: '店铺库存', width: '80px', align: 'right',
+            	formatter: function (value, row, index) {
+            		if (row.isFooter) {
+            			return
+            		}
+            		if (!row.sourceStock) {
+            			row.sourceStock = parseFloat(value || 0).toFixed(2);
+            		}
+            		return '<b>' + parseFloat(value || 0).toFixed(2) + '</b>';
+            	}
+            },
 			{field:'sourceStock',title:'目标库存',width:'80px',align:'right',
 				formatter : function(value, row, index) {
 					if(row.isFooter){
@@ -98,14 +134,14 @@ function initDatagridViewRequireOrder(){
 					}
 				}
 			},
-			/*{field:'alreadyNum',title:'已订数量',width:'80px',align:'right',
+			{field:'alreadyNum',title:'已订数量',width:'80px',align:'right',
 				formatter : function(value, row, index) {
 					if(row.isFooter){
 						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 					}
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
-			},*/
+			},
             {field:'remark',title:'备注',width:'200px',align:'left'}
         ]],
 		onLoadSuccess : function() {

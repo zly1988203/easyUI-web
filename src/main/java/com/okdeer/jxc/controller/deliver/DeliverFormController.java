@@ -696,6 +696,8 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	@RequestMapping(value = "stopped", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson stopped(QueryDeliverFormVo vo) {
+		SysUser user = UserUtil.getCurrentUser();
+		vo.setOperateUserId(user.getId());
 		LOG.debug(LogConstant.OUT_PARAM, vo.toString());
 		return deliverFormServiceApi.stoppedDeliverForm(vo);
 	}

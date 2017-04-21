@@ -145,7 +145,7 @@ function initDatagridRequireOrder(){
             {field:'rowNo',hidden:'true'},
             {field:'skuCode',title:'货号',width: '70px',align:'left',editor:'textbox'},
             {field:'skuName',title:'商品名称',width:'200px',align:'left'},
-            {field:'barCode',title:'条码',width:'150px',align:'left',
+            {field:'barCode',title:'条码',width:'130px',align:'left',
                 formatter:function(value,row,index){
                     var str = "";
                     if(row.isFooter){
@@ -160,8 +160,8 @@ function initDatagridRequireOrder(){
             {field:'spec',title:'规格',width:'90px',align:'left'},
             /*{field:'twoCategoryCode',title:'类别编号',width:'90px',align:'left'},
             {field:'twoCategoryName',title:'类别名称',width:'90px',align:'left'},*/
-            {field:'distributionSpec',title:'进货规格',width:'90px',align:'left'},
-            {field:'suggestNum',title:'建议订货数量',width:'90px',align:'right',
+            {field:'distributionSpec',title:'配送规格',width:'80px',align:'left'},
+            {field:'suggestNum',title:'建议订货数量',width:'80px',align:'right',
             	formatter:function(value,row,index){
             		if(!value){
             			row['suggestNum'] = 0;
@@ -276,17 +276,6 @@ function initDatagridRequireOrder(){
                     }
                 }
             },
-            {field: 'targetStock', title: '库存', width: '80px', align: 'right',
-                formatter: function (value, row, index) {
-                    if (row.isFooter) {
-                        return
-                    }
-                    if (!row.sourceStock) {
-                        row.sourceStock = parseFloat(value || 0).toFixed(2);
-                    }
-                    return '<b>' + parseFloat(value || 0).toFixed(2) + '</b>';
-                }
-            },
             {field:'inputTax',title:'税率',width:'80px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
@@ -321,6 +310,50 @@ function initDatagridRequireOrder(){
                     }
                 }
             },
+            {field: 'targetStock', title: '店铺库存', width: '80px', align: 'right',
+            	formatter: function (value, row, index) {
+            		if (row.isFooter) {
+            			return
+            		}
+            		if (!row.sourceStock) {
+            			row.sourceStock = parseFloat(value || 0).toFixed(2);
+            		}
+            		return '<b>' + parseFloat(value || 0).toFixed(2) + '</b>';
+            	}
+            },
+			{field:'sourceStock',title:'目标库存',width:'80px',align:'right',
+				formatter : function(value, row, index) {
+					if(row.isFooter){
+						return ;
+					}
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				},
+				editor:{
+					type:'numberbox',
+					options:{
+						disabled:true,
+						min:0,
+						precision:2,
+					}
+				}
+			},
+           {field:'alreadyNum',title:'已订数量',width:'80px',align:'right',
+            formatter : function(value, row, index) {
+                if(row.isFooter){
+                    return;
+                }
+                if(!row.alreadyNum){
+                    row.alreadyNum = parseFloat(value||0).toFixed(2);
+                }
+                
+                if(parseFloat(row.applyNum)+parseFloat(row.alreadyNum) > parseFloat(row.sourceStock)){
+                  	 return '<span style="color:red;"><b>'+parseFloat(value||0).toFixed(2)+'</b></span>';
+           		}else{
+           			return '<span style="color:black;"><b>'+parseFloat(value||0).toFixed(2)+'</b></span>';
+           		}
+
+            }
+        },
             {field:'remark',title:'备注',width:'200px',align:'left',editor:'textbox'}
         ]],
         onClickCell:function(rowIndex,field,value){
@@ -730,6 +763,7 @@ function saveOrder(){
 
 //修改订单
 function updateOrder(){
+	var deliverFormId= $("#formId").val();
     //商品总数量
     var totalNum = 0;
     //总金额
@@ -838,6 +872,9 @@ function updateOrder(){
                 oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
             		return $.extend(true,{},obj);//返回对象的深拷贝
             	});
+            	$.messager.alert("操作提示", "操作成功！", "info",function(){
+    				location.href = contextPath +"/form/deliverForm/deliverEdit?deliverType=DY&deliverFormId="+deliverFormId;
+    			});
             }else{
                 successTip(result['message']);
             }
