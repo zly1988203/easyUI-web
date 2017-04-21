@@ -2389,7 +2389,10 @@
 
 .uscroll {
   -webkit-overflow-scrolling: touch;
-  overflow: scroll; }
+  overflow: scroll; 
+  overflow-x:scroll;
+  overflow-y:scroll;
+  }
 
 body, div, ul, ol, li, form, input, textarea, p, header, nav, menu, button {
   margin: 0;

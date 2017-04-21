@@ -203,11 +203,11 @@ function selectGoods(searchKey){
     var param = {
         type:'',
         key:searchKey,
-        isRadio:'',
+        isRadio:'0',
         branchId:branchId,
         sourceBranchId:'',
         targetBranchId:'',
-        supplierId:0,
+        supplierId:'',
         flag:'0',
     }
     new publicGoodsServiceTem(param,function(data){
@@ -216,7 +216,6 @@ function selectGoods(searchKey){
             $("#gridEditOrder").datagrid("acceptChanges");
         }
         selectStockAndPrice(branchId,data);
-  
     });
 }
 //查询价格、库存
