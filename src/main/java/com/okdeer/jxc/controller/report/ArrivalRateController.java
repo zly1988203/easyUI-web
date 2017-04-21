@@ -109,7 +109,7 @@ public class ArrivalRateController extends BaseController<PurchaseForm>{
 	@ResponseBody
 	public RespJson exportList(HttpServletResponse response, ArrivalRateQo qo) {
 
-		LOG.info("UserController.exportList start ,parameter vo=",qo);
+		LOG.debug("UserController.exportList start ,parameter vo=",qo);
 		try {
 			qo = buildDefaultParams(qo);
 			//1、列表查询

@@ -103,7 +103,7 @@ public class GiftExchangeRecodeController extends BaseController<GiftExchangeRec
 	@ResponseBody
 	public RespJson exportList(HttpServletResponse response, GiftExchangeRecordQo qo) {
 
-		LOG.info("UserController.exportList start ,parameter vo=" + qo);
+		LOG.debug("UserController.exportList start ,parameter vo=" + qo);
 		try {
 			if (qo.getEndTime() != null) {
 				qo.setEndTime(DateUtils.getNextDay(qo.getEndTime()));

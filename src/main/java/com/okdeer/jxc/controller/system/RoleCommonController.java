@@ -92,7 +92,7 @@ public class RoleCommonController extends BaseController<RoleCommonController> {
 				qo.setFilterCommon(1);
 			}
 
-			LOG.info("角色列表查询参数:{}", qo);
+			LOG.debug("角色列表查询参数:{}", qo);
 			return sysRoleService.queryRoleList(qo);
 		} catch (Exception e) {
 			LOG.error("查询机构异常:", e);

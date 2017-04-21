@@ -826,7 +826,7 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 	 */
 	@RequestMapping(value = "exportList")
 	public void exportList(HttpServletResponse response, String formId) {
-		LOG.info("PurchaseFormController.export:" + formId);
+		LOG.debug("PurchaseFormController.export:" + formId);
 		try {
 			List<PurchaseFormDetailPO> exportList = purchaseFormServiceApi.selectDetailById(formId);
 			String fileName = "直送收货单_" + DateUtils.getCurrSmallStr();
@@ -847,7 +847,7 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 	 */
 	@RequestMapping(value = "exportTemp")
 	public void exportTemp(HttpServletResponse response, String type) {
-		LOG.info("导出采购导入模板请求参数,type={}", type);
+		LOG.debug("导出采购导入模板请求参数,type={}", type);
 		try {
 			String fileName = "";
 			String templateName = "";

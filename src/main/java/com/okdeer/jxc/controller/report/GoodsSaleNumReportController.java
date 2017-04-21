@@ -66,7 +66,7 @@ public class GoodsSaleNumReportController extends BaseController<GoodsSaleNumRep
 			GoodsSaleNumReportVo vo,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
-		LOG.info(LogConstant.OUT_PARAM, vo.toString());
+		LOG.debug(LogConstant.OUT_PARAM, vo.toString());
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
@@ -78,7 +78,7 @@ public class GoodsSaleNumReportController extends BaseController<GoodsSaleNumRep
 				footer.add(goodsSaleNumReportVo);
 			}
 			goodsOutInfoDetailList.setFooter(footer);
-			LOG.info(LogConstant.PAGE, goodsOutInfoDetailList.toString());
+			LOG.debug(LogConstant.PAGE, goodsOutInfoDetailList.toString());
 			return goodsOutInfoDetailList;
 		} catch (Exception e) {
 			LOG.error("获取ＡＢＣ销售数量列表异常:{}", e);

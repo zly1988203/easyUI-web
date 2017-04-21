@@ -151,7 +151,7 @@ public class CashDailyReportController extends BaseController<CashDailyReportCon
 	@RequestMapping(value = "/exportList", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson exportList(HttpServletResponse response, CashDailyReportQo qo) {
-		LOG.info("收银日报导出查询参数：{}" + qo);
+		LOG.debug("收银日报导出查询参数：{}" + qo);
 		try {
 			// 初始化默认参数
 			qo = buildDefaultParams(qo);

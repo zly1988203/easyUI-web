@@ -65,7 +65,7 @@ public class CategorySaleController extends BaseController<CategorySaleControlle
 			CategorySaleReportVo vo,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
-		LOG.info(LogConstant.OUT_PARAM, vo.toString());
+		LOG.debug(LogConstant.OUT_PARAM, vo.toString());
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
@@ -77,7 +77,7 @@ public class CategorySaleController extends BaseController<CategorySaleControlle
 				footer.add(categorySaleReportVo);
 			}
 			goodsSaleReportList.setFooter(footer);
-			LOG.info(LogConstant.PAGE, goodsSaleReportList.toString());
+			LOG.debug(LogConstant.PAGE, goodsSaleReportList.toString());
 			return goodsSaleReportList;
 		} catch (Exception e) {
 			LOG.error("类别销售列表信息异常:{}", e);

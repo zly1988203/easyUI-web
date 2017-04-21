@@ -614,7 +614,7 @@ public class PrintController extends BaseController<PrintController> {
 	 */
 	@RequestMapping(value = "exportTemp")
 	public void exportTemp(HttpServletResponse response, Integer type) {
-		LOG.info("CostAdjustController:" + type);
+		LOG.debug("CostAdjustController:" + type);
 		try {
 			// 导出文件名称，不包括后缀名
 			String fileName = "商品价签货号导入模板";

@@ -102,7 +102,7 @@ public class StockReimburseController extends BasePrintController<StockReimburse
 	public PageUtils<StockFormVo> getStockFormList(StockFormVo vo,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
-		LOG.info(LogConstant.OUT_PARAM, vo.toString());
+		LOG.debug(LogConstant.OUT_PARAM, vo.toString());
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
@@ -110,7 +110,7 @@ public class StockReimburseController extends BasePrintController<StockReimburse
 			// 调整类型
 			vo.setFormType(StockAdjustEnum.REIMBURSE.getKey());
 			PageUtils<StockFormVo> stockFormList = stockAdjustServiceApi.getStockFormList(vo);
-			LOG.info(LogConstant.PAGE, stockFormList.toString());
+			LOG.debug(LogConstant.PAGE, stockFormList.toString());
 			return stockFormList;
 		} catch (Exception e) {
 			LOG.error("获取报损单列表信息异常:{}", e);
@@ -161,7 +161,7 @@ public class StockReimburseController extends BasePrintController<StockReimburse
 	@RequestMapping(value = "delete", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson deleteStockForm(@RequestParam(value = "ids[]") List<String> ids) {
-		LOG.info(LogConstant.OUT_PARAM_LISTS, ids);
+		LOG.debug(LogConstant.OUT_PARAM_LISTS, ids);
 		RespJson resp;
 		try {
 			return stockAdjustServiceApi.deleteCombineSplit(ids);

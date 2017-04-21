@@ -119,7 +119,7 @@ public class SaleFlowReportController extends BaseController<SaleFlowReportContr
 	@ResponseBody
 	public RespJson exportList(HttpServletResponse response, SaleFlowReportQo qo) {
 
-		LOG.info("UserController.exportList start ,parameter vo=" + qo);
+		LOG.debug("UserController.exportList start ,parameter vo=" + qo);
 		try {
 			qo.setPageNumber(Constant.ONE);
 			qo.setPageSize(Constant.MAX_EXPORT_NUM);

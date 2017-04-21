@@ -575,7 +575,7 @@ public class GoodsBranchPriceController extends BaseController<GoodsBranchPriceC
 	 */
 	@RequestMapping(value = "exportTemp")
 	public void exportTemp(HttpServletResponse response, Integer type) {
-		LOG.info("商品引入导入模板请求参数,type={}", type);
+		LOG.debug("商品引入导入模板请求参数,type={}", type);
 		try {
 			String fileName = "";
 			String templateName = "";

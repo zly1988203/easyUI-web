@@ -64,7 +64,7 @@ public class GoodsBrandController extends BaseController<GoodsBrandController> {
 	public String getBrandToTree() {
 		try {
 			String brandTree = goodsBrandService.queryBrandToTree();
-			LOG.info("brandTree:" + brandTree);
+			LOG.debug("brandTree:" + brandTree);
 			return brandTree;
 		} catch (Exception e) {
 			LOG.error("查询品牌树结构异常:", e);
@@ -102,9 +102,9 @@ public class GoodsBrandController extends BaseController<GoodsBrandController> {
 		try {
 			qo.setPageNumber(pageNumber);
 			qo.setPageSize(pageSize);
-			LOG.info("查询品牌参数:{}", qo.toString());
+			LOG.debug("查询品牌参数:{}", qo.toString());
 			PageUtils<GoodsBrand> goodsBrand = goodsBrandService.queryLists(qo);
-			LOG.info("page:" + goodsBrand.toString());
+			LOG.debug("page:" + goodsBrand.toString());
 			return goodsBrand;
 		} catch (Exception e) {
 			LOG.error("查询查询品牌异常:", e);
@@ -145,14 +145,14 @@ public class GoodsBrandController extends BaseController<GoodsBrandController> {
 		try {
 			qo.setPageNumber(pageNumber);
 			qo.setPageSize(pageSize);
-			LOG.info("查询品牌参数:{}", qo.toString());
+			LOG.debug("查询品牌参数:{}", qo.toString());
 			if(StringUtils.isNotBlank(qo.getBrandCodeOrName())){
 				qo.setBrandCodeOrName(qo.getBrandCodeOrName().trim());
 			}else{
 				qo.setBrandCodeOrName("");
 			}
 			PageUtils<GoodsBrand> goodsBrand = goodsBrandService.queryLists(qo);
-			LOG.info("page:" + goodsBrand.toString());
+			LOG.debug("page:" + goodsBrand.toString());
 			return goodsBrand;
 		} catch (Exception e) {
 			LOG.error("查询查询品牌异常:", e);
@@ -320,7 +320,7 @@ public class GoodsBrandController extends BaseController<GoodsBrandController> {
 	@ResponseBody
 	public String exportList(GoodsBrandQo qo, HttpServletResponse response) {
 
-		LOG.info("商品品牌查询，报表导出参数：{}", qo);
+		LOG.debug("商品品牌查询，报表导出参数：{}", qo);
 		try {
 			// 1、列表查询
 			if(StringUtils.isNotBlank(qo.getBrandCodeOrName())){

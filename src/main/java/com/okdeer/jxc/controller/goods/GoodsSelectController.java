@@ -91,7 +91,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 	 */
 	@RequestMapping(value = "view")
 	public String view(HttpServletRequest req, Model model) {
-		LOG.info("商品选择跳转页面参数:{}", req.toString());
+		LOG.debug("商品选择跳转页面参数:{}", req.toString());
 		String type = req.getParameter("type");
 		String supplierId = req.getParameter("supplierId");
 		String sourceBranchId = req.getParameter("sourceBranchId");
@@ -270,7 +270,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 				paramVo.setBranchIds(branchIds);
 				suppliers = goodsSelectServiceApi.queryByCodeListsByVo(paramVo);
 			}
-			LOG.info("根据货号查询商品:{}" + suppliers.toString());
+			LOG.debug("根据货号查询商品:{}" + suppliers.toString());
 			return suppliers;
 		} catch (Exception e) {
 			LOG.error("查询商品选择数据出现异常:{}", e);
@@ -295,7 +295,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 		Message msg = new Message();
 		try {
 			GoodsSelectVo goodsVo = JSON.parseObject(GoodsSelectJson, GoodsSelectVo.class);
-			LOG.info("goodsVo:" + goodsVo);
+			LOG.debug("goodsVo:" + goodsVo);
 			goodsVo.setBranchId(UserUtil.getCurrBranchId());
 			goodsVo.setPricingType(99);
 			LOG.info("vo:" + goodsVo.toString());
@@ -326,9 +326,9 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 		Message msg = new Message();
 		try {
 			GoodsCategoryQo vo = JSON.parseObject(categoryVoJson, GoodsCategoryQo.class);
-			LOG.info("vo:" + vo.toString());
+			LOG.debug("vo:" + vo.toString());
 			PageUtils<GoodsCategory> suppliers = goodsCategoryService.queryLists(vo);
-			LOG.info("page" + suppliers.toString());
+			LOG.debug("page" + suppliers.toString());
 			msg.setData(suppliers.getList());
 			return msg;
 		} catch (Exception e) {
@@ -353,7 +353,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 	@ResponseBody
 	public List<GoodsSelect> enterSearchGoodsDeliver(String skuCode, String formType, String sourceBranchId,
 			String targetBranchId) {
-		LOG.info("enter事件配送导入参数:skuCode=" + skuCode + ",formType=" + formType + ",sourceBranchId=" + sourceBranchId
+		LOG.debug("enter事件配送导入参数:skuCode=" + skuCode + ",formType=" + formType + ",sourceBranchId=" + sourceBranchId
 				+ ",targetBranchId=" + targetBranchId);
 		List<GoodsSelect> goodsSelect = new ArrayList<GoodsSelect>();
 		if (StringUtils.isNotEmpty(skuCode)) {
@@ -497,7 +497,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
-			LOG.info("标准商品查询参数,vo={}",vo);
+			LOG.debug("标准商品查询参数,vo={}",vo);
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
 			PageUtils<GoodsSelect> suppliers = goodsSelectServiceApi.queryGoodsSkuLists(vo);

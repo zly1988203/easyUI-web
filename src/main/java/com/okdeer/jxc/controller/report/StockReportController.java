@@ -82,7 +82,7 @@ public class StockReportController extends BaseController<StockReportController>
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
-			LOG.info("商品库存查询，报表查询参数：{}", qo);
+			LOG.debug("商品库存查询，报表查询参数：{}", qo);
 			qo.setPageNumber(pageNumber);
 			qo.setPageSize(pageSize);
 
@@ -144,7 +144,7 @@ public class StockReportController extends BaseController<StockReportController>
 	@ResponseBody
 	public String exportList(StockReportQo qo, HttpServletResponse response) {
 
-		LOG.info("商品库存查询，报表导出参数：{}", qo);
+		LOG.debug("商品库存查询，报表导出参数：{}", qo);
 		try {
 			// 构建默认参数
 			qo = buildDefaultParams(qo);

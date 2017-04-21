@@ -259,7 +259,7 @@ public class SupplierController extends BaseController<SupplierController> {
 		}
 		Supplier supplier = new Supplier();
 		BeanUtils.copyProperties(supplierExt, supplier);
-		LOG.info("新增供应商信息{}，扩展信息{}", supplier, supplierExt);
+		LOG.debug("新增供应商信息{}，扩展信息{}", supplier, supplierExt);
 		RespJson respJson = RespJson.success();
 		try {
 			// 设置创建者Id
@@ -296,7 +296,7 @@ public class SupplierController extends BaseController<SupplierController> {
 			LOG.warn("validate errorMessage:{}", errorMessage);
 			return RespJson.error(errorMessage);
 		}
-		LOG.info("修改供应商信息{}，扩展信息{}", supplier, supplierExt);
+		LOG.debug("修改供应商信息{}，扩展信息{}", supplier, supplierExt);
 		RespJson respJson = RespJson.success();
 		try {
 			// 设置创建者Id

@@ -150,7 +150,7 @@ public class GoodsPriceAdjustController extends BasePrintController<GoodsPriceAd
 				goodsPriceFormVo.setEndTime(time);
 			}
 			goodsPriceFormVo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
-			LOG.info("调价单搜索 ：goodsPriceFormVo=" + goodsPriceFormVo);
+			LOG.debug("调价单搜索 ：goodsPriceFormVo=" + goodsPriceFormVo);
 			return goodsPriceAdustService.queryLists(goodsPriceFormVo);
 		} catch (Exception e) {
 			LOG.error(GoodsPriceFormConst.SEARCH_GOODS_PRICE_FOMR_ERRO, e);
@@ -513,7 +513,7 @@ public class GoodsPriceAdjustController extends BasePrintController<GoodsPriceAd
 	 */
 	@RequestMapping(value = "exportList")
 	public void exportList(HttpServletResponse response, String formNo) {
-		LOG.info("GoodsPriceAdjustController:exportList:" + formNo);
+		LOG.debug("GoodsPriceAdjustController:exportList:" + formNo);
 		try {
 			List<GoodsPriceFormDetail> exportList = goodsPriceAdustService.queryDetailsByFormNo(formNo);
 			// 导出文件名称，不包括后缀名
@@ -536,7 +536,7 @@ public class GoodsPriceAdjustController extends BasePrintController<GoodsPriceAd
 	 */
 	@RequestMapping(value = "exportTemp")
 	public void exportTemp(HttpServletResponse response, Integer type) {
-		LOG.info("GoodsPriceAdjustController:exportList:" + type);
+		LOG.debug("GoodsPriceAdjustController:exportList:" + type);
 		try {
 			// 导出文件名称，不包括后缀名
 			String fileName = "调价单货号导入模板";

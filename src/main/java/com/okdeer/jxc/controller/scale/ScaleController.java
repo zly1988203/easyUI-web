@@ -67,7 +67,7 @@ public class ScaleController extends BaseController<ScaleController> {
 			}
 			// 根据当前用户机构ID查询
 			List<ScaleConfig> suppliers = scaleServiceApi.queryScaleByBranchIdLists(UserUtil.getCurrBranchId());
-			LOG.info("page" + suppliers.toString());
+			LOG.debug("page" + suppliers.toString());
 			return Message.getSuccessMsg(suppliers);
 		} catch (Exception e) {
 			LOG.error("查询电子秤接口失败:", e);
@@ -179,7 +179,7 @@ public class ScaleController extends BaseController<ScaleController> {
 			}
 			// 根据当前用户机构ID查询
 			List<ScaleNotes> list = scaleNotesApi.queryNotesByBranchId(UserUtil.getCurrBranchId());
-			LOG.info("page" + list.toString());
+			LOG.debug("page" + list.toString());
 			return Message.getSuccessMsg(list);
 		} catch (Exception e) {
 			LOG.error("保存电子秤传称记录失败！", e);

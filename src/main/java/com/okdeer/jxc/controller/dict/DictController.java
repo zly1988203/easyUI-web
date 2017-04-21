@@ -54,7 +54,7 @@ public class DictController extends BaseController<PurchaseForm> {
 	@RequestMapping(value = "views/{type}")
 	public String views(@PathVariable String type, Model model,
 			HttpServletRequest req) {
-		LOG.info("type:" + type);
+		LOG.debug("type:" + type);
 		String dictType = req.getParameter("dictType");
 		model.addAttribute("type", type);
 		model.addAttribute("dictType", dictType);

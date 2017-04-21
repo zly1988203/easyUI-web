@@ -70,7 +70,7 @@ public class GoodsSaleController extends BaseController<GoodsSaleController> {
 			GoodsSaleReportVo vo,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
-		LOG.info(LogConstant.OUT_PARAM, vo.toString());
+		LOG.debug(LogConstant.OUT_PARAM, vo.toString());
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
@@ -82,7 +82,7 @@ public class GoodsSaleController extends BaseController<GoodsSaleController> {
 				footer.add(goodsSaleReportVo);
 			}
 			goodsSaleReportList.setFooter(footer);
-			LOG.info(LogConstant.PAGE, goodsSaleReportList.toString());
+			LOG.debug(LogConstant.PAGE, goodsSaleReportList.toString());
 			return goodsSaleReportList;
 		} catch (Exception e) {
 			LOG.error("获取单据列表信息异常:{}", e);

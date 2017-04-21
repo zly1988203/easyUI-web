@@ -209,7 +209,7 @@ BaseController<GoodsReportController> {
 	@ResponseBody
 	public RespJson exportList(HttpServletResponse response, GoodsReportQo qo) {
 
-		LOG.info("商品查询导出execl：vo" + qo);
+		LOG.debug("商品查询导出execl：vo" + qo);
 		try {
 			// 如果没有选择店铺，则查询登录人所在机构的商品
 			if (StringUtils.isEmpty(qo.getBranchName())) {
