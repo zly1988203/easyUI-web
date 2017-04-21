@@ -103,6 +103,15 @@ function initDatagridRequireOrders(){
 					}
 					return "";
 				}
+			},
+			{field: 'stopUserName', title: '终止人', width: '130px', align: 'left'},
+			{field: 'stopTime', title: '终止时间', width: '120px', align: 'center',
+				formatter: function (value, row, index) {
+					if (value) {
+						return new Date(value).format('yyyy-MM-dd hh:mm');
+					}
+					return "";
+				}
 			}
         ]],
 		onLoadSuccess:function(data){
