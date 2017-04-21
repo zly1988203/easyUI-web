@@ -15,8 +15,6 @@ import javax.annotation.PostConstruct;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -44,10 +42,6 @@ import com.okdeer.jxc.utils.UserUtil;
 @RestController
 @RequestMapping("message")
 public class MessageController {
-    /**
-     * Logger for this class
-     */
-    private static final Logger logger = LoggerFactory.getLogger(MessageController.class.getName());
 
     private static Map<String,String> permissions = Maps.newLinkedHashMap();
     
@@ -56,9 +50,6 @@ public class MessageController {
     
     @PostConstruct
     private void init(){
-	if (logger.isDebugEnabled()) {
-	    logger.debug("init() - start"); //$NON-NLS-1$
-	}
 	
 	permissions.put("JxcStockException:search", "JxcStockException");
 	
@@ -103,16 +94,10 @@ public class MessageController {
 	//库存调整单
 	permissions.put("JxcStockAdjust:audit","jxcStockAdjust");
 
-	if (logger.isDebugEnabled()) {
-	    logger.debug("init() - end"); //$NON-NLS-1$
-	}
     }
     
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public RespJson allCount() {
-	if (logger.isDebugEnabled()) {
-	    logger.debug("allCount() - start"); //$NON-NLS-1$
-	}
 
 	Map<String, Object> map = Maps.newHashMap();
 	for (Map.Entry<String, String> entry : permissions.entrySet()) {
@@ -127,87 +112,71 @@ public class MessageController {
 	int allCount = messageService.countAllMessage(map);
 	RespJson respJson = RespJson.success();
 	respJson.setData(allCount);
-	if (logger.isDebugEnabled()) {
-	    logger.debug("allCount() - end"); //$NON-NLS-1$
-	}
 	return respJson;
     }
 	
     @RequestMapping(value = "/details", method = RequestMethod.GET)
     public RespJson detailsCount() {
 	RespJson respJson = RespJson.success();
-	Map<String, Object> map = Maps.newHashMap();
+	Map<String, Object> params = Maps.newHashMap();
+	Map<String, Boolean> map = Maps.newHashMap();
 	List<String> list = Lists.newArrayList();
 	for (Map.Entry<String, String> entry : permissions.entrySet()) {
-	    if(isPermitted(entry.getKey())){
+	    if (isPermitted(entry.getKey())) {
 		map.put(entry.getValue(), Boolean.TRUE);
 		list.add(entry.getValue());
-	    }else{
+	    } else {
 		map.put(entry.getValue(), Boolean.FALSE);
 	    }
 	}
-	map.put("branchId", UserUtil.getCurrBranchId());
-	map.put("branchCompleCode", UserUtil.getCurrBranchCompleCode());
-	List<Integer> detailsCount = messageService.countDetailsMessage(map);
+	params.putAll(map);
+	params.put("branchId", UserUtil.getCurrBranchId());
+	params.put("branchCompleCode", UserUtil.getCurrBranchCompleCode());
+	List<Integer> detailsCount = messageService.countDetailsMessage(params);
 	Map<String, Integer> datas = Maps.newHashMap();
 	Integer allCount = Integer.valueOf(0);
-	if((boolean) map.get("JxcStockException")){
-        	for(int i = 0 ;i<detailsCount.size()-1;++i){
-        	    datas.put(list.get(i), detailsCount.get(i));
-        	    allCount +=detailsCount.get(i);
-        	}
-	}else{
-	    	for(int i = 1 ;i<detailsCount.size()-1;++i){
-            	    datas.put(list.get(i-1), detailsCount.get(i));
-            	    allCount +=detailsCount.get(i);
-        	}
+	boolean isJxcStockException = map.get("JxcStockException")==null?Boolean.FALSE:map.get("JxcStockException");
+	if (isJxcStockException) {
+	    for (int i = 0; i < detailsCount.size() - 1; ++i) {
+		datas.put(list.get(i), detailsCount.get(i));
+		allCount += detailsCount.get(i);
+	    }
+	    datas.put("sumOne", detailsCount.get(0));
+	} else {
+	    for (int i = 1; i < detailsCount.size() - 1; ++i) {
+		datas.put(list.get(i - 1), detailsCount.get(i));
+		allCount += detailsCount.get(i);
+	    }
+	    datas.put("sumOne", 0);
 	}
-	    if(map.get("JxcStockException")!=null&&(boolean)map.get("JxcStockException")){
-		datas.put("sumOne", detailsCount.get(0));
-	    }else{
-		datas.put("sumOne", 0);
+	boolean isJxcPurchaseReceipt = map.get("JxcPurchaseReceipt")==null?Boolean.FALSE:map.get("JxcPurchaseReceipt");
+	boolean isJxcDeliverDI = map.get("JxcDeliverDI")==null?Boolean.FALSE:map.get("JxcDeliverDI");
+
+	if (map.get("JxcPurchaseReceipt") != null || map.get("JxcDeliverDI") != null) {
+	    int one = 0;
+	    int two = 0;
+	    if (isJxcPurchaseReceipt) {
+		one = detailsCount.get(1);
 	    }
-	    if(map.get("JxcPurchaseReceipt")!=null || map.get("JxcDeliverDI")!=null){
-		int one = 0;
-		int two = 0;
-		if((boolean)map.get("JxcPurchaseReceipt")){
-		    one = detailsCount.get(1);
-		}
-		if((boolean)map.get("JxcPurchaseReceipt")&&(boolean)map.get("JxcDeliverDI")){
-		    two =  detailsCount.get(2);
-		}else{
-		    two =  detailsCount.get(1);
-		}
-		datas.put("sumTwo", one+two);
-	    }else{
-		datas.put("sumTwo", 0);
+	    if (isJxcPurchaseReceipt && isJxcDeliverDI) {
+		two = detailsCount.get(2);
+	    } else {
+		two = detailsCount.get(1);
 	    }
-	    datas.put("sumOther", allCount-datas.get("sumOne")-datas.get("sumTwo"));
+	    datas.put("sumTwo", one + two);
+	} else {
+	    datas.put("sumTwo", 0);
+	}
+	datas.put("sumOther", allCount - datas.get("sumOne") - datas.get("sumTwo"));
 	respJson.setData(datas);
 	return respJson;
     }
-    
-    private Subject getSubject(){
-	if (logger.isDebugEnabled()) {
-	    logger.debug("getSubject() - start"); //$NON-NLS-1$
-	}
 
-	Subject returnSubject = SecurityUtils.getSubject();
-	if (logger.isDebugEnabled()) {
-	    logger.debug("getSubject() - end"); //$NON-NLS-1$
-	}
-	return returnSubject;
+    private Subject getSubject() {
+	return SecurityUtils.getSubject();
     }
-    
-    private boolean isPermitted(String p) {
-	if (logger.isDebugEnabled()) {
-	    logger.debug("isPermitted(String) - start"); //$NON-NLS-1$
-	}
 
-	boolean returnboolean = getSubject() != null && getSubject().isPermitted(p);
-	if (logger.isDebugEnabled()) {
-	    logger.debug("isPermitted(String) - end"); //$NON-NLS-1$
-	}
-        return returnboolean;
+    private boolean isPermitted(String p) {
+	return getSubject() != null && getSubject().isPermitted(p);
     }
 }
