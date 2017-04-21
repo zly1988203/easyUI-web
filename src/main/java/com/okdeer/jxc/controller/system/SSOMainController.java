@@ -167,7 +167,7 @@ public class SSOMainController extends BaseController<SSOMainController> {
 			if (sysModuleMenuDtosList == null) {
 				sysModuleMenuDtosList = Lists.newArrayList();
 			}
-			LOG.info("当前用户权限:{}", JSON.toJSONString(sysModuleMenuDtosList));
+			LOG.debug("当前用户权限记录数:{}", sysModuleMenuDtosList.size());
 		} catch (ApiException e) {
 			LOG.error("获取权限菜单出错", e);
 		}

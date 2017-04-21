@@ -78,10 +78,10 @@ public class GoodsCategoryController extends
 	@ResponseBody
 	public String getGoodsCategoryToTree(GoodsCategoryQo qo) {
 		try {
-			LOG.info("类别树结构参数:" + qo.toString());
+			LOG.debug("类别树结构参数:" + qo.toString());
 			String categoryTree = goodsCategoryService
 					.queryGoodsCategoryToTree(qo);
-			LOG.info("categoryTree:" + categoryTree);
+			LOG.debug("categoryTree:" + categoryTree);
 			return categoryTree;
 		} catch (Exception e) {
 			LOG.error("查询类别树结构异常:", e);
@@ -153,7 +153,7 @@ public class GoodsCategoryController extends
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
-			LOG.info("查询类别参数:vo={}",qo.toString());
+			LOG.debug("查询类别参数:vo={}",qo.toString());
 			qo.setPageNumber(pageNumber);
 			qo.setPageSize(pageSize);
 			if(StringUtils.isNotBlank(qo.getCategoryNameOrCode())){
@@ -385,7 +385,7 @@ public class GoodsCategoryController extends
 	@RequestMapping(value = "/exportList", method = RequestMethod.POST)
 	@ResponseBody
 	public String exportList(GoodsCategoryQo qo, HttpServletResponse response) {
-		LOG.info("商品类别查询，报表导出参数：{}", qo);
+		LOG.debug("商品类别查询，报表导出参数：{}", qo);
 		try {
 			if(StringUtils.isNotBlank(qo.getCategoryNameOrCode())){
 				qo.setCategoryNameOrCode(qo.getCategoryNameOrCode().trim());

@@ -103,7 +103,7 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 			GoodsSkuQo qo,String categoryCode1,String brandId1,String supplierId1,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
-		LOG.info("qo:" + qo.toString());
+		LOG.debug("qo:" + qo.toString());
 		if (!qo.isOutGoods()) {// 淘汰商品
 			qo.setStatus(GoodsStatusEnum.OBSOLETE.ordinal());
 		}
@@ -119,7 +119,7 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 		qo.setPageNumber(pageNumber);
 		qo.setPageSize(pageSize);
 		PageUtils<GoodsSku> page = goodsSkuService.querySkuByPage(qo);
-		LOG.info("page" + page.toString());
+		LOG.debug("page" + page.toString());
 		return page;
 	}
 

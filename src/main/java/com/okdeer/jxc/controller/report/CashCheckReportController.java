@@ -147,7 +147,7 @@ public class CashCheckReportController extends BaseController<CashCheckReportCon
 	@RequestMapping(value = "/exportList")
 	@ResponseBody
 	public RespJson exportList(HttpServletResponse response, CashCheckReportQo qo) {
-		LOG.info("收银对账导出查询参数:{}" + qo.toString());
+		LOG.debug("收银对账导出查询参数:{}" + qo.toString());
 		try {
 			qo = buildDefaultParams(qo);
 			List<CashCheckReportVo> exportList = cashCheckReportService.queryList(qo);
@@ -187,7 +187,7 @@ public class CashCheckReportController extends BaseController<CashCheckReportCon
 			qo.setPageNumber(pageNumber);
 			qo.setPageSize(PrintConstant.PRINT_MAX_LIMIT);
 			qo = buildDefaultParams(qo);
-			LOG.info("收银对账报表打印参数:{}" + qo.toString());
+			LOG.debug("收银对账报表打印参数:{}" + qo.toString());
 			if(cashCheckReportService.queryPageListCount(qo)>PrintConstant.PRINT_MAX_ROW){
 				return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
 			}

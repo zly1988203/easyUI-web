@@ -63,7 +63,7 @@ public class ActivityDetailQueryController extends ReportController {
 	@RequestMapping(value = "exportExcelList")
 	public void exportExcelList(HttpServletRequest request, HttpServletResponse response) {
 		try {
-			LOG.info("促销明细查询导出功能");
+			LOG.debug("促销明细查询导出功能");
 			Map<String, Object> map = getParam(request);
 			String reportFileName = "";
 			String templateName = "";

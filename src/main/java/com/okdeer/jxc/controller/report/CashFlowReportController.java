@@ -150,7 +150,7 @@ public class CashFlowReportController extends BaseController<CashFlowReportContr
 	@ResponseBody
 	public RespJson exportList(HttpServletResponse response, CashFlowReportQo qo) {
 
-		LOG.info("UserController.exportList start ,parameter vo=" + qo);
+		LOG.debug("UserController.exportList start ,parameter vo=" + qo);
 		try {
 			// 1、封装请求参数
 			qo = getParmas(qo);

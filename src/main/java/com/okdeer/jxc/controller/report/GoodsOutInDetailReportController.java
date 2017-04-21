@@ -55,7 +55,7 @@ public class GoodsOutInDetailReportController extends BaseController<GoodsOutInD
 			GoodsOutInDetailVo vo,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
-		LOG.info(LogConstant.OUT_PARAM, vo.toString());
+		LOG.debug(LogConstant.OUT_PARAM, vo.toString());
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
@@ -73,7 +73,7 @@ public class GoodsOutInDetailReportController extends BaseController<GoodsOutInD
 				footer.add(goodsOutInDetailVo);
 			}
 			goodsOutInfoDetailList.setFooter(footer);
-			LOG.info(LogConstant.PAGE, goodsOutInfoDetailList.toString());
+			LOG.debug(LogConstant.PAGE, goodsOutInfoDetailList.toString());
 			return goodsOutInfoDetailList;
 		} catch (Exception e) {
 			LOG.error("类别销售列表信息异常:{}", e);

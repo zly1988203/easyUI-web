@@ -61,7 +61,7 @@ public class TimeSectionSaleReportController extends BaseController<TimeSectionS
 	public PageUtils<TimeSectionSaleReportVo> getTimeSectionSellReportList(TimeSectionSaleReportVo vo,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
-		LOG.info(LogConstant.OUT_PARAM, vo.toString());
+		LOG.debug(LogConstant.OUT_PARAM, vo.toString());
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
@@ -74,7 +74,7 @@ public class TimeSectionSaleReportController extends BaseController<TimeSectionS
 			}
 			PageUtils<TimeSectionSaleReportVo> rotaRateReportList = timeSectionSaleReportService
 					.getTimeSectionSellReportList(vo);
-			LOG.info(LogConstant.PAGE, rotaRateReportList.toString());
+			LOG.debug(LogConstant.PAGE, rotaRateReportList.toString());
 			return rotaRateReportList;
 		} catch (Exception e) {
 			LOG.error("时段客单报表列表信息异常:{}", e);

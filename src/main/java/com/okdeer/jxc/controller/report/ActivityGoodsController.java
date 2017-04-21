@@ -110,7 +110,7 @@ public class ActivityGoodsController extends BaseController<ActivityGoodsReportV
 	@ResponseBody
 	public RespJson exportList(HttpServletResponse response, ActivityGoodsReportQo qo) {
 
-		LOG.info("UserController.exportList start ,parameter vo=",qo);
+		LOG.debug("UserController.exportList start ,parameter vo=",qo);
 		try {
 			//1、列表查询
 			handelReqParam(qo);

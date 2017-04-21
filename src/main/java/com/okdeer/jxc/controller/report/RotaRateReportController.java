@@ -65,12 +65,12 @@ public class RotaRateReportController extends BaseController<RotaRateReportContr
 	public PageUtils<RotaRateReportVo> getRotaRateReportList(RotaRateReportVo vo,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
-		LOG.info(LogConstant.OUT_PARAM, vo.toString());
+		LOG.debug(LogConstant.OUT_PARAM, vo.toString());
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
 			PageUtils<RotaRateReportVo> rotaRateReportList = rotaRateReportServiceApi.getRotaRateReportList(vo);
-			LOG.info(LogConstant.PAGE, rotaRateReportList.toString());
+			LOG.debug(LogConstant.PAGE, rotaRateReportList.toString());
 			return rotaRateReportList;
 		} catch (Exception e) {
 			LOG.error("库存周转率报表列表信息异常:{}", e);

@@ -70,7 +70,7 @@ public class PricingQueryController  extends ReportController{
 			Map<String,Object> map=getParam(request);
 			map.put("startCount",Integer.parseInt( map.get("startCount").toString()));
 			map.put("endCount",Integer.parseInt( map.get("endCount").toString()));
-			LOG.info("调价单导出查询参数:{}" + map.toString());
+			LOG.debug("调价单导出查询参数:{}" + map.toString());
 			List<DataRecord> reportList=pricingQueryServiceApi.getList(map);
 			String fileName = "调价查询" +map.get("startTime").toString().replaceAll("-", "")+'-'+map.get("endTime").toString().replaceAll("-", "");
 			String templateName = ExportExcelConstant.PRICING_QUERY;

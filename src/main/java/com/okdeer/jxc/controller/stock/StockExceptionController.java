@@ -80,9 +80,9 @@ public class StockExceptionController extends BaseController<StockExceptionContr
 				vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
 			}
 			vo.setBranchType(user.getBranchType() == 0 ? 1 : 2);
-			LOG.info(LogConstant.OUT_PARAM, vo.toString());
+			LOG.debug(LogConstant.OUT_PARAM, vo.toString());
 			PageUtils<StockIndexVo> stockExceptionList = stockExceptionServiceApi.getStockExceptionList(vo);
-			LOG.info(LogConstant.PAGE, stockExceptionList.toString());
+			LOG.debug(LogConstant.PAGE, stockExceptionList.toString());
 			return stockExceptionList;
 		} catch (Exception e) {
 			LOG.error("库存异常查询列表信息异常:{}", e);

@@ -65,7 +65,7 @@ public class BranchCommonController extends BaseController<BranchCommonControlle
 	 */
 	@RequestMapping(value = "viewComponent")
 	public String viewComponent(BranchesVo vo, Model model) {
-		LOG.info("公共选择机构跳转页面参数:{}", vo);
+		LOG.debug("公共选择机构跳转页面参数:{}", vo);
 		model.addAttribute("vo", vo);
 		return "component/publicAgency";
 	}
@@ -86,7 +86,7 @@ public class BranchCommonController extends BaseController<BranchCommonControlle
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
-			LOG.info("查询机构参数:{}", vo.toString()+"pageNumber:"+pageNumber+"pageSize:"+pageSize);
+			LOG.debug("查询机构参数:{}", vo.toString()+"pageNumber:"+pageNumber+"pageSize:"+pageSize);
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
 			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
@@ -116,7 +116,7 @@ public class BranchCommonController extends BaseController<BranchCommonControlle
 			}
 			
 			PageUtils<Branches> suppliers = branchesService.queryLists(vo);
-			LOG.info("机构列表：{}", suppliers);
+			LOG.debug("机构列表：{}", suppliers);
 			return suppliers;
 		} catch (Exception e) {
 			LOG.error("查询机构异常:", e);
@@ -140,14 +140,14 @@ public class BranchCommonController extends BaseController<BranchCommonControlle
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
-			LOG.info("查询机构参数:{}", vo.toString()+"pageNumber:"+pageNumber+"pageSize:"+pageSize);
+			LOG.debug("查询机构参数:{}", vo.toString()+"pageNumber:"+pageNumber+"pageSize:"+pageSize);
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
 			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
 			vo.setType(UserUtil.getCurrBranchType());
 			vo.setBranchId(UserUtil.getCurrBranchId());
 			PageUtils<Branches> suppliers = branchesService.queryBranchByParam(vo);
-			LOG.info("机构列表：{}", suppliers);
+			LOG.debug("机构列表：{}", suppliers);
 			return suppliers;
 		} catch (Exception e) {
 			LOG.error("查询机构异常:", e);
@@ -160,7 +160,7 @@ public class BranchCommonController extends BaseController<BranchCommonControlle
 	public RespJson selectTargetBranchData(String branchesId) {
 		RespJson respJson = RespJson.success();
 		try {
-			LOG.info("查询机构参数:{}", branchesId);
+			LOG.debug("查询机构参数:{}", branchesId);
 			Branches branches = branchesService.getBranchInfoById(branchesId);
 			respJson.put("address", branches.getAddress());
 			respJson.put("contacts", branches.getContacts());

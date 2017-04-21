@@ -128,7 +128,7 @@ public class SupplierBranchGoodsController extends BaseController<SupplierBranch
 	@ResponseBody
 	public List<BranchGoodsSkuVo> findSupplierBranchGoods(BranchGoodsSkuVo vo) {
 		try {
-			LOG.info("供应商机构商品查询请求参数,vo={}", vo);
+			LOG.debug("供应商机构商品查询请求参数,vo={}", vo);
 			List<BranchGoodsSkuVo> result = goodsSupplierBranchServiceApi.querySupplierBranchGoods(vo);
 			return result;
 		} catch (Exception e) {
@@ -201,7 +201,7 @@ public class SupplierBranchGoodsController extends BaseController<SupplierBranch
 	@RequestMapping(value = "/exportList", method = RequestMethod.POST)
 	@ResponseBody
 	public String exportList(HttpServletResponse response, BranchGoodsSkuVo vo) {
-		LOG.info("供应商机构商品关系导出请求参数,vo={}", vo);
+		LOG.debug("供应商机构商品关系导出请求参数,vo={}", vo);
 		try {
 			List<BranchGoodsSkuVo> list = goodsSupplierBranchServiceApi.querySupplierBranchGoods(vo);
 			String fileName = vo.getSupplierName() + "_" + vo.getBranchName() + "_" + DateUtils.getCurrSmallStr();
@@ -222,7 +222,7 @@ public class SupplierBranchGoodsController extends BaseController<SupplierBranch
 	 */
 	@RequestMapping(value = "exportTemp")
 	public void exportTemp(HttpServletResponse response, Integer type) {
-		LOG.info("导出采购导入模板请求参数,type={}", type);
+		LOG.debug("导出采购导入模板请求参数,type={}", type);
 		try {
 			String fileName = "";
 			String templateName = "";

@@ -287,7 +287,7 @@ public class GiftManagerController extends BaseController<GiftManagerController>
 	@ResponseBody
 	public RespJson addGiftManager(HttpServletRequest req) {
 		String json = req.getParameter("skuReq");
-		LOG.info("新增礼品信息请求参数,json={}", json);
+		LOG.debug("新增礼品信息请求参数,json={}", json);
 		GiftManagerDto dto = null;
 		try {
 			dto = JsonMapper.nonDefaultMapper().fromJson(json, GiftManagerDto.class);

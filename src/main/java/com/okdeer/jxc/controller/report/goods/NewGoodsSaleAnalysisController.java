@@ -57,7 +57,7 @@ public class NewGoodsSaleAnalysisController extends ReportController {
 	@RequestMapping(value = "exportExcelList")
 	public void exportExcelList(HttpServletRequest request, HttpServletResponse response) {
 		try {
-			LOG.info("新品销售分析导出");
+			LOG.debug("新品销售分析导出");
 			Map<String, Object> map = getParam(request);
 
 			String timeStr = StringUtils.replace((String) map.get("startTime"), "-", "") + "-"

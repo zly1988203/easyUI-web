@@ -153,7 +153,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 	 */
 	@RequestMapping(value = "addReceiptForm")
 	public String addDeliverForm(PurchaseFormPO vo, Model model) {
-		LOG.info(LogConstant.OUT_PARAM, vo.toString());
+		LOG.debug(LogConstant.OUT_PARAM, vo.toString());
 		String formId = vo.getId();
 		PurchaseFormPO form = purchaseFormServiceApi.selectPOById(formId);
 		model.addAttribute("form", form);
@@ -955,7 +955,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 	@ResponseBody
 	public RespJson batchCheck(String formIds, Integer status) {
 		
-		LOG.info("单据Id列表：{}，审核状态：{}", formIds, status);
+		LOG.debug("单据Id列表：{}，审核状态：{}", formIds, status);
 		RespJson respJson = RespJson.success();
 		try {
 			if(StringUtils.isBlank(formIds)){
@@ -1273,7 +1273,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 	 */
 	@RequestMapping(value = "exportList")
 	public void exportList(HttpServletResponse response, String formId, String type) {
-		LOG.info("PurchaseFormController.export:" + formId);
+		LOG.debug("PurchaseFormController.export:" + formId);
 		try {
 			List<PurchaseFormDetailPO> exportList = purchaseFormServiceApi.selectDetailById(formId);
 			String fileName = "";
@@ -1308,7 +1308,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 	 */
 	@RequestMapping(value = "exportTemp")
 	public void exportTemp(HttpServletResponse response, Integer type) {
-		LOG.info("导出采购导入模板请求参数,type={}", type);
+		LOG.debug("导出采购导入模板请求参数,type={}", type);
 		try {
 			String fileName = "";
 			String templateName = "";

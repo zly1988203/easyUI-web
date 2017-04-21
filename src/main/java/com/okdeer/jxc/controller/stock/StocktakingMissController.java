@@ -77,7 +77,7 @@ public class StocktakingMissController extends BaseController<StocktakingMissCon
 		qo.setPageNumber(pageNumber);
 		qo.setPageSize(pageSize);
 
-		LOG.info("漏盘列表查询参数：{}", qo);
+		LOG.debug("漏盘列表查询参数：{}", qo);
 		try {
 
 			// 构建查询参数
@@ -161,7 +161,7 @@ public class StocktakingMissController extends BaseController<StocktakingMissCon
 	@RequestMapping(value = "/exportMissList", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson exportMissList(HttpServletResponse response, StocktakingMissQo qo) {
-		LOG.info("漏盘商品列表导出参数：{}", qo);
+		LOG.debug("漏盘商品列表导出参数：{}", qo);
 		RespJson resp = RespJson.success();
 		try {
 			// 构建查询参数
@@ -192,7 +192,7 @@ public class StocktakingMissController extends BaseController<StocktakingMissCon
 	@ResponseBody
 	public String printMissList(StocktakingMissQo qo, HttpServletResponse response, HttpServletRequest request) {
 		try {
-			LOG.info("漏盘列表打印功能参数：{}", qo);
+			LOG.debug("漏盘列表打印功能参数：{}", qo);
 			// 构建查询参数
 			buildSearchParams(qo);
 

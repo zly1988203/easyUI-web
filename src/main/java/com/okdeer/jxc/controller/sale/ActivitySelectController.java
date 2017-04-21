@@ -38,7 +38,7 @@ public class ActivitySelectController extends BaseController<ActivityMain>{
 	 */
 	@RequestMapping(value = "view")
 	public String view(String type, Model model) {
-		LOG.info("制定调拨单选择页面参数:{}"+type);
+		LOG.debug("制定调拨单选择页面参数:{}"+type);
 		model.addAttribute("type", type);
 		return "sale/activity/activitySelect";
 	}
@@ -63,8 +63,8 @@ public class ActivitySelectController extends BaseController<ActivityMain>{
 //			=new ActivityListQueryVo();
 			vo.setPage(pageNumber);
 			vo.setRows(pageSize);
-			LOG.info("制定调拨单选择页面参数:{}"+vo.toString());
-			LOG.info("vo:" + vo.toString());
+			LOG.debug("制定调拨单选择页面参数:{}"+vo.toString());
+			LOG.debug("vo:" + vo.toString());
 			if(vo.getBranchId()==null){
 				vo.setBranchId(UserUtil.getCurrBranchId());
 			}
@@ -75,7 +75,7 @@ public class ActivitySelectController extends BaseController<ActivityMain>{
 			vo.setStartTime(new Date());
 			vo.setActivityType(ActivityType.SALE_PRICE.getValue());
 			PageUtils<Map<String, Object>>  map = mainServiceApi.listPage(vo);
-			LOG.info("page" + map.toString());
+			LOG.debug("page" + map.toString());
 			return map;
 		} catch (Exception e) {
 			LOG.error("调拨单订单选择查询数据出现异常:", e);

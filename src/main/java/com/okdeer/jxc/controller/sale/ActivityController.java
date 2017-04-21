@@ -790,7 +790,7 @@ public class ActivityController extends BaseController<ActivityController> {
 	 */
 	@RequestMapping(value = "exportTemp")
 	public void exportTemp(HttpServletResponse response, String type, Integer activityType) {
-		LOG.info("导出活动商品导入模板参数,type:{}, activityType:{}", type, activityType);
+		LOG.debug("导出活动商品导入模板参数,type:{}, activityType:{}", type, activityType);
 		try {
 			String fileName = "";
 			String templateName = "";

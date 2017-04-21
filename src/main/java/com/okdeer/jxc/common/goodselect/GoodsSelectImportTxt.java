@@ -132,7 +132,7 @@ public class GoodsSelectImportTxt {
 		}
 		//读取txt
 		List<JSONObject> txtList = TxtReadUtil.readTxtFile(fileName,is,fields);
-		LOG.info("读取txt:{}",GsonUtils.toJson(txtList));
+		LOG.debug("读取txt:{}",GsonUtils.toJson(txtList));
 		
 		StocktakingGoodsImportHandle stocktakingGoodsImportHandle = null;
 		List<GoodsSelect> dbList = null;

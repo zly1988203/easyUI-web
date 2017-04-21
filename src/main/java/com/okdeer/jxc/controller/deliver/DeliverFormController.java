@@ -231,7 +231,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	 */
 	@RequestMapping(value = "addDeliverForm")
 	public String addDeliverForm(QueryDeliverFormVo vo, Model model) {
-		LOG.info(LogConstant.OUT_PARAM, vo.toString());
+		LOG.debug(LogConstant.OUT_PARAM, vo.toString());
 		SysUser user = getCurrentUser();
 		String deliverType = vo.getDeliverType();
 		model.addAttribute("user", user);
@@ -323,12 +323,12 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	 */
 	@RequestMapping(value = "deliverEdit")
 	public String deliverEdit(QueryDeliverFormVo vo, String report, Model model) {
-		LOG.info(LogConstant.OUT_PARAM, vo.toString());
+		LOG.debug(LogConstant.OUT_PARAM, vo.toString());
 		model.addAttribute("type", vo.getFormSources());
 		vo.setFormSources("");
 		DeliverForm form = queryDeliverFormServiceApi.queryEntity(vo);
 		model.addAttribute("form", form);
-		LOG.info(LogConstant.PAGE, form.toString());
+		LOG.debug(LogConstant.PAGE, form.toString());
 		// 待审核，可修改
 		if (DeliverAuditStatusEnum.WAIT_CHECK.getName().equals(form.getStatus())) {
 			if (FormType.DA.toString().equals(form.getFormType())) {
@@ -400,7 +400,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	public PageUtils<DeliverForm> getDeliverForms(QueryDeliverFormVo vo,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
-		LOG.info(LogConstant.OUT_PARAM, vo);
+		LOG.debug(LogConstant.OUT_PARAM, vo);
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
@@ -438,7 +438,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 				}
 			}
 			PageUtils<DeliverForm> deliverForms = queryDeliverFormServiceApi.queryLists(vo);
-			LOG.info(LogConstant.PAGE, deliverForms.toString());
+			LOG.debug(LogConstant.PAGE, deliverForms.toString());
 			return deliverForms;
 		} catch (Exception e) {
 			LOG.error("要货单查询数据出现异常:{}", e);
@@ -460,7 +460,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	public RespJson insertDeliverForm(@RequestBody String formVo) {
 		RespJson respJson = RespJson.success();
 		long start = System.currentTimeMillis();
-		LOG.info(LogConstant.OUT_PARAM, formVo);
+		LOG.debug(LogConstant.OUT_PARAM, formVo);
 		try {
 			DeliverFormVo vo = new ObjectMapper().readValue(formVo, DeliverFormVo.class);
 			String getId = UuidUtils.getUuid();
@@ -503,7 +503,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 			respJson = RespJson.error("添加配送申请单失败！");
 		}
 		long end = System.currentTimeMillis();
-		LOG.info("保存配送单据所用时间{}", (end - start));
+		LOG.debug("保存配送单据所用时间{}", (end - start));
 		return respJson;
 	}
 
@@ -520,7 +520,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	public RespJson updateDeliverForm(@RequestBody String formVo) {
 		RespJson respJson = RespJson.success();
 		long start = System.currentTimeMillis();
-		LOG.info(LogConstant.OUT_PARAM, formVo);
+		LOG.debug(LogConstant.OUT_PARAM, formVo);
 		try {
 			DeliverFormVo vo = new ObjectMapper().readValue(formVo, DeliverFormVo.class);
 			// 获取登录人
@@ -553,7 +553,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 			respJson = RespJson.error("修改配送单失败！");
 		}
 		long end = System.currentTimeMillis();
-		LOG.info("修改配送单据所用时间{}", (end - start));
+		LOG.debug("修改配送单据所用时间{}", (end - start));
 		return respJson;
 	}
 
@@ -569,7 +569,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	@ResponseBody
 	public RespJson deleteDeliverForm(@RequestBody String formIds) {
 		RespJson respJson = RespJson.success();
-		LOG.info(LogConstant.OUT_PARAM, formIds);
+		LOG.debug(LogConstant.OUT_PARAM, formIds);
 		try {
 			if (StringUtils.isEmpty(formIds)) {
 				LOG.error("未选择要删除的单据！");
@@ -605,7 +605,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	@RequestMapping(value = "check", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson check(QueryDeliverFormVo vo) {
-		LOG.info(LogConstant.OUT_PARAM, vo.toString());
+		LOG.debug(LogConstant.OUT_PARAM, vo.toString());
 		try {
 			SysUser user = UserUtil.getCurrentUser();
 			vo.setUpdateUserId(user.getId());
@@ -624,7 +624,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	@RequestMapping(value = "checkValid", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson checkValid(QueryDeliverFormVo vo) {
-		LOG.info(LogConstant.OUT_PARAM, vo.toString());
+		LOG.debug(LogConstant.OUT_PARAM, vo.toString());
 		try {
 			BranchSpecVo branchSpecVo = branchSpecServiceApi.queryByBranchId(vo.getSourceBranchId());
 			// 不允许负库存出库，直接审核，否则判断是否存在负库存需要提示
@@ -633,10 +633,10 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 			}
 			vo.setPageNumber(1);
 			vo.setPageSize(999999);
-			LOG.info("vo:{}", vo.toString());
+			LOG.debug("vo:{}", vo.toString());
 			PageUtils<DeliverFormList> deliverFormLists = queryDeliverFormListServiceApi
 					.getDeliverFormListsAndStockByIdOrFormNo(vo);
-			LOG.info("page:{}", deliverFormLists.toString());
+			LOG.debug("page:{}", deliverFormLists.toString());
 			List<DeliverFormList> list = deliverFormLists.getList();
 			if (CollectionUtils.isEmpty(list)) {
 				return RespJson.error("审核操作失败！");
@@ -696,7 +696,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	@RequestMapping(value = "stopped", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson stopped(QueryDeliverFormVo vo) {
-		LOG.info(LogConstant.OUT_PARAM, vo.toString());
+		LOG.debug(LogConstant.OUT_PARAM, vo.toString());
 		return deliverFormServiceApi.stoppedDeliverForm(vo);
 	}
 
@@ -1068,7 +1068,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	 */
 	@RequestMapping(value = "exportTemp")
 	public void exportTemp(HttpServletResponse response, Integer type) {
-		LOG.info("导出配送要货导入模板请求参数,type:{}", type);
+		LOG.debug("导出配送要货导入模板请求参数,type:{}", type);
 		try {
 			String fileName = "";
 			String templateName = "";
@@ -1090,7 +1090,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	
 	@RequestMapping(value = "exportTempDr")
 	public void exportTempDr(HttpServletResponse response, Integer type) {
-		LOG.info("导出配送要货导入模板请求参数,type:{}", type);
+		LOG.debug("导出配送要货导入模板请求参数,type:{}", type);
 		try {
 			String fileName = "";
 			String templateName = "";
@@ -1118,7 +1118,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	 */
 	@RequestMapping(value = "exportDyTemp")
 	public void exportDyTemp(HttpServletResponse response, Integer type) {
-		LOG.info("导出直送要货导入模板请求参数,type:{}", type);
+		LOG.debug("导出直送要货导入模板请求参数,type:{}", type);
 		try {
 			String fileName = "";
 			String templateName = "";
@@ -1147,7 +1147,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	 */
 	@RequestMapping(value = "exportReport")
 	public void exportReport(HttpServletResponse response, Integer type) {
-		LOG.info("导出配送出库导入模板请求参数,type:{}", type);
+		LOG.debug("导出配送出库导入模板请求参数,type:{}", type);
 		try {
 			String fileName = "";
 			String templateName = "";

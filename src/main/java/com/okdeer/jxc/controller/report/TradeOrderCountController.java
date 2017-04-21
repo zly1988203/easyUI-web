@@ -88,7 +88,7 @@ public class TradeOrderCountController extends BasePrintController<TradeOrderCou
 	public PageUtils<TradeOrderCountVo> getTradeOrderCounts(TradeOrderCountQo vo,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
-		LOG.info(LogConstant.OUT_PARAM, vo.toString());
+		LOG.debug(LogConstant.OUT_PARAM, vo.toString());
 		try {
 			if (null == vo.getStartTime() || null == vo.getEndTime()) {
 				LOG.info("店铺销售排序查询时间段为空，不可查询");
@@ -109,7 +109,7 @@ public class TradeOrderCountController extends BasePrintController<TradeOrderCou
 			}
 			tradeOrderCountVos.setFooter(footer);
 
-			LOG.info(LogConstant.PAGE, tradeOrderCountVos.toString());
+			LOG.debug(LogConstant.PAGE, tradeOrderCountVos.toString());
 			return tradeOrderCountVos;
 		} catch (Exception e) {
 			LOG.error("店铺销售排名列表查询出现异常:{}", e);
@@ -127,7 +127,7 @@ public class TradeOrderCountController extends BasePrintController<TradeOrderCou
 	@RequestMapping(value = "exportList", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson exportList(HttpServletResponse response, TradeOrderCountQo vo) {
-		LOG.info(LogConstant.OUT_PARAM, vo.toString());
+		LOG.debug(LogConstant.OUT_PARAM, vo.toString());
 		RespJson resp = RespJson.success();
 		try {
 			if (null == vo.getStartTime() || null == vo.getEndTime()) {

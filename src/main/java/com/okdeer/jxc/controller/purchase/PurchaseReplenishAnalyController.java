@@ -76,7 +76,7 @@ public class PurchaseReplenishAnalyController extends BaseController<PurchaseRep
 		qo.setPageNumber(pageNumber);
 		qo.setPageSize(pageSize);
 
-		LOG.info("门店补货分析报表查询条件：{}", qo);
+		LOG.debug("门店补货分析报表查询条件：{}", qo);
 
 		try {
 
@@ -112,7 +112,7 @@ public class PurchaseReplenishAnalyController extends BaseController<PurchaseRep
 	@RequestMapping(value = "/exportReportList", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson exportReportList(HttpServletResponse response, PurchaseReplenishAnalyQo qo) {
-		LOG.info("门店补货分析报表导出参数：{}", qo);
+		LOG.debug("门店补货分析报表导出参数：{}", qo);
 		RespJson resp = RespJson.success();
 		try {
 			// 必填参数
