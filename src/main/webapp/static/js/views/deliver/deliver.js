@@ -545,6 +545,7 @@ function setDataValue(data,fromClick) {
 		for(var i in data){
 			var rec = data[i];
 			rec.remark = "";
+			rec.amount = 0;
 		}
         var nowRows = gridHandel.getRowsWhere({skuName:'1'});
         var addDefaultData = gridHandel.addDefault(data,gridDefault);
