@@ -80,15 +80,6 @@ public class SupplierMonthlyReportController extends BaseController<DayReportCon
 		vo.setPageNumber(pageNumber);
 		vo.setPageSize(pageSize);
 		if (StringUtils.isNotBlank(vo.getStartTime())) {
-			// 月的第一天
-			LocalDate firstDayOfMonth = LocalDate.parse(vo.getStartTime() + "-01").with(
-					TemporalAdjusters.firstDayOfMonth());
-			// 月的最后一天
-			LocalDate lastDayOfMonth = LocalDate.parse(vo.getStartTime() + "-01").with(
-					TemporalAdjusters.lastDayOfMonth());
-
-			vo.setFirstDayOfMonth(firstDayOfMonth.format(DateTimeFormatter.ofPattern(DateUtils.DATE_SMALL_STR_R)));
-			vo.setLastDayOfMonth(lastDayOfMonth.format(DateTimeFormatter.ofPattern(DateUtils.DATE_SMALL_STR_R)));
 			PageUtils<SupplierMonthReportVo> pageUtils = dayReportService.getSupplierMonthReportList(vo);
 			
 			if(pageUtils==null){
@@ -148,15 +139,6 @@ public class SupplierMonthlyReportController extends BaseController<DayReportCon
 		Optional<DayReportQo> optional = Optional.ofNullable(vo);
 		vo = optional.orElse(new DayReportQo());
 		if (StringUtils.isNotBlank(vo.getStartTime())) {
-			// 月的第一天
-			LocalDate firstDayOfMonth = LocalDate.parse(vo.getStartTime() + "-01").with(
-					TemporalAdjusters.firstDayOfMonth());
-			// 月的最后一天
-			LocalDate lastDayOfMonth = LocalDate.parse(vo.getStartTime() + "-01").with(
-					TemporalAdjusters.lastDayOfMonth());
-
-			vo.setFirstDayOfMonth(firstDayOfMonth.format(DateTimeFormatter.ofPattern(DateUtils.DATE_SMALL_STR_R)));
-			vo.setLastDayOfMonth(lastDayOfMonth.format(DateTimeFormatter.ofPattern(DateUtils.DATE_SMALL_STR_R)));
 			List<SupplierMonthReportVo> exportList = dayReportService.exportSupplierMonthList(vo);
 			String fileName = "供应商进销存月报表_" + DateUtils.getCurrSmallStr();
 			String templateName = ExportExcelConstant.SUPPLIER_MONTHLY_REPORT;
@@ -177,15 +159,8 @@ public class SupplierMonthlyReportController extends BaseController<DayReportCon
 			vo.setBranchId(getCurrBranchId());
 		}
 		if (StringUtils.isNotBlank(vo.getStartTime())) {
-			// 月的第一天
 			LocalDate firstDayOfMonth = LocalDate.parse(vo.getStartTime() + "-01").with(
 					TemporalAdjusters.firstDayOfMonth());
-			// 月的最后一天
-			LocalDate lastDayOfMonth = LocalDate.parse(vo.getStartTime() + "-01").with(
-					TemporalAdjusters.lastDayOfMonth());
-
-			vo.setFirstDayOfMonth(firstDayOfMonth.format(DateTimeFormatter.ofPattern(DateUtils.DATE_SMALL_STR_R)));
-			vo.setLastDayOfMonth(lastDayOfMonth.format(DateTimeFormatter.ofPattern(DateUtils.DATE_SMALL_STR_R)));
 			List<SupplierMonthReportVo> exportList = dayReportService.exportSupplierMonthList(vo);
 			if (exportList.size() > PrintConstant.PRINT_MAX_ROW) {
 				return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
