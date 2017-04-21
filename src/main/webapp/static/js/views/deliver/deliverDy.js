@@ -365,6 +365,7 @@ var n = 0;
 var m = 0;
 //监听商品箱数
 function onChangeLargeNum(newV,oldV){
+	if(!oldV)return;
 	if("" == newV){
 		m = 2;
 		 messager("商品箱数输入有误");
