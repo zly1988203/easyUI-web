@@ -8,7 +8,7 @@ var gridHandel = new GridClass();
 function initDatagridStoreYHOrder(){
     gridHandel.setGridName(gridName);
     var formId = $("#formId").val();
-	var url = contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverFormId="+formId+"&deliverType=DA";
+	var url = contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverFormId="+formId+"&deliverType=DR";
     $("#"+gridName).datagrid({
         method:'post',
     	url:url,

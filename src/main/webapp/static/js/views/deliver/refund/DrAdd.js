@@ -38,7 +38,7 @@ $(function(){
     }else if(pageStatus === 'edit'){
 		//保存后的页面
 		var formId = $("#formId").val();
-		url = contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverFormId="+formId+"&deliverType=DA";
+		url = contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverFormId="+formId+"&deliverType=DR";
 		//用于新旧数据比较
 		oldData = {
 	        targetBranchId:$("#targetBranchId").val(), // 要活分店id
