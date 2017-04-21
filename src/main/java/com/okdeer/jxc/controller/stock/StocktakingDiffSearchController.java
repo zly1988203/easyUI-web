@@ -82,10 +82,10 @@ public class StocktakingDiffSearchController extends BaseController<StocktakingD
 			if (vo.getEndTime() != null) {
 				vo.setEndTime(DateUtils.getDayAfter(vo.getEndTime()));
 			}
-			LOG.info(LogConstant.OUT_PARAM, vo);
+			LOG.debug(LogConstant.OUT_PARAM, vo);
 			PageUtils<StocktakingDifferenceVo> stocktakingBatchList = stocktakingOperateServiceApi
 					.getDiffSearchList(vo);
-			LOG.info(LogConstant.PAGE, stocktakingBatchList.toString());
+			LOG.debug(LogConstant.PAGE, stocktakingBatchList.toString());
 			return stocktakingBatchList;
 		} catch (Exception e) {
 			LOG.error("盘点申请查询列表信息异常:{}", e);
@@ -148,7 +148,7 @@ public class StocktakingDiffSearchController extends BaseController<StocktakingD
 			if (diffVo.getEndTime() != null) {
 				diffVo.setEndTime(DateUtils.getDayAfter(diffVo.getEndTime()));
 			}
-			LOG.info("差异查询打印参数：{}", diffVo);
+			LOG.debug("差异查询打印参数：{}", diffVo);
 			List<StocktakingDifferenceVo> printList = stocktakingOperateServiceApi.exportDiffSearchList(diffVo);
 
 			if (printList.size() > PrintConstant.PRINT_MAX_ROW) {

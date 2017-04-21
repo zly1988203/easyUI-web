@@ -106,7 +106,7 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
 	public PageUtils<DeliverFormVo> getDaForms(DeliverFormReportQo qo,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
-		LOG.info(LogConstant.OUT_PARAM, qo.toString());
+		LOG.debug(LogConstant.OUT_PARAM, qo.toString());
 		try {
 			if (StringUtils.isNullOrEmpty(qo.getBranchId())) {
 				qo.setBranchId(UserUtil.getCurrBranchId());
@@ -120,7 +120,7 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
 				footer.add(vo);
 			}
 			page.setFooter(footer);
-			LOG.info(LogConstant.PAGE, page.toString());
+			LOG.debug(LogConstant.PAGE, page.toString());
 			return page;
 		} catch (Exception e) {
 			LOG.error("要货单查询数据出现异常:{}", e);
@@ -166,7 +166,7 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
 	 */
 	@RequestMapping(value = "exportList")
 	public void exportList(HttpServletResponse response, DeliverFormReportQo qo) {
-		LOG.info(LogConstant.OUT_PARAM, qo.toString());
+		LOG.debug(LogConstant.OUT_PARAM, qo.toString());
 		try {
 			if (StringUtils.isNullOrEmpty(qo.getBranchId())) {
 				qo.setBranchId(UserUtil.getCurrBranchId());
@@ -199,7 +199,7 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
 	public PageUtils<DeliverDaAndDoFormListVo> getDeliverFormList(DeliverFormReportQo vo,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
-		LOG.info(LogConstant.OUT_PARAM, vo.toString());
+		LOG.debug(LogConstant.OUT_PARAM, vo.toString());
 		try {
 			if (StringUtils.isNullOrEmpty(vo.getBranchId())) {
 				vo.setBranchId(UserUtil.getCurrBranchId());
@@ -220,7 +220,7 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
 				footer.add(deliverDaAndDoFormListVo);
 			}
 			page.setFooter(footer);
-			LOG.info(LogConstant.PAGE, page.toString());
+			LOG.debug(LogConstant.PAGE, page.toString());
 			return page;
 		} catch (Exception e) {
 			LOG.error("要货单查询数据出现异常:{}", e);
@@ -237,7 +237,7 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
 	 */
 	@RequestMapping(value = "exportDeliverFormList")
 	public void exportDeliverFormList(HttpServletResponse response, DeliverFormReportQo vo) {
-		LOG.info(LogConstant.OUT_PARAM, vo.toString());
+		LOG.debug(LogConstant.OUT_PARAM, vo.toString());
 		try {
 			if (StringUtils.isNullOrEmpty(vo.getBranchId())) {
 				vo.setBranchId(UserUtil.getCurrBranchId());
@@ -304,7 +304,7 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
 	public PageUtils<DeliverDaAndDoFormListVo> getBDReport(DeliverFormReportQo vo,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
-		LOG.info(LogConstant.OUT_PARAM, vo.toString());
+		LOG.debug(LogConstant.OUT_PARAM, vo.toString());
 		try {
 			if (StringUtils.isNullOrEmpty(vo.getBranchId())) {
 				vo.setBranchId(UserUtil.getCurrBranchId());
@@ -318,7 +318,7 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
 				footer.add(deliverDaAndDoFormListVo);
 			}
 			page.setFooter(footer);
-			LOG.info(LogConstant.PAGE, page.toString());
+			LOG.debug(LogConstant.PAGE, page.toString());
 			return page;
 		} catch (Exception e) {
 			LOG.error("要货单查询数据出现异常:{}", e);
@@ -334,7 +334,7 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
 	 */
 	@RequestMapping(value = "exportBDList")
 	public void exportBDList(HttpServletResponse response, DeliverFormReportQo qo) {
-		LOG.info(LogConstant.OUT_PARAM, qo.toString());
+		LOG.debug(LogConstant.OUT_PARAM, qo.toString());
 		try {
 			if (StringUtils.isNullOrEmpty(qo.getBranchId())) {
 				qo.setBranchId(UserUtil.getCurrBranchId());

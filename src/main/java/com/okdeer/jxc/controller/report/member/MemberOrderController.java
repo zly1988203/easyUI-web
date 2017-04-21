@@ -86,7 +86,7 @@ public class MemberOrderController extends BasePrintController<TradeOrderCountCo
 			qo.setPageNumber(pageNumber);
 			qo.setPageSize(pageSize);
 			qo.setEndTime(DateUtils.getNextDay(qo.getEndTime()));
-			LOG.info(LogConstant.OUT_PARAM, qo.toString());
+			LOG.debug(LogConstant.OUT_PARAM, qo.toString());
 			PageUtils<MemberOrderReportVo> pages = memberOrderServiceApi.queryMemberOrderAll(qo);
 			List<MemberOrderReportVo> footer = new ArrayList<MemberOrderReportVo>();
 			MemberOrderReportVo vo = memberOrderServiceApi.queryMemberOrderAllSum(qo);
@@ -110,7 +110,7 @@ public class MemberOrderController extends BasePrintController<TradeOrderCountCo
 	 */
 	@RequestMapping(value = "memberOrderAllExportList")
 	public void memberOrderAllExportList(HttpServletResponse response, MemberOrderReportQo qo) {
-		LOG.info(LogConstant.OUT_PARAM, qo.toString());
+		LOG.debug(LogConstant.OUT_PARAM, qo.toString());
 		try {
 			qo.setEndTime(DateUtils.getNextDay(qo.getEndTime()));
 			List<MemberOrderReportVo> exportList = memberOrderServiceApi.queryMemberOrderAlls(qo);
@@ -143,7 +143,7 @@ public class MemberOrderController extends BasePrintController<TradeOrderCountCo
 			qo.setPageNumber(pageNumber);
 			qo.setPageSize(pageSize);
 			qo.setEndTime(DateUtils.getNextDay(qo.getEndTime()));
-			LOG.info(LogConstant.OUT_PARAM, qo.toString());
+			LOG.debug(LogConstant.OUT_PARAM, qo.toString());
 			PageUtils<MemberOrderListReportVo> pages = memberOrderServiceApi.queryMemberOrderList(qo);
 			List<MemberOrderListReportVo> footer = new ArrayList<MemberOrderListReportVo>();
 			MemberOrderListReportVo vo = memberOrderServiceApi.queryMemberOrderListSum(qo);
@@ -167,7 +167,7 @@ public class MemberOrderController extends BasePrintController<TradeOrderCountCo
 	 */
 	@RequestMapping(value = "memberOrderListExportList")
 	public void memberOrderListExportList(HttpServletResponse response, MemberOrderReportQo qo) {
-		LOG.info(LogConstant.OUT_PARAM, qo.toString());
+		LOG.debug(LogConstant.OUT_PARAM, qo.toString());
 		try {
 			qo.setEndTime(DateUtils.getNextDay(qo.getEndTime()));
 			List<MemberOrderListReportVo> exportList = memberOrderServiceApi.queryMemberOrderLists(qo);

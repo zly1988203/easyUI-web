@@ -8,7 +8,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>退货申请-详情</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script  src="${ctx}/static/js/views/deliver/refund/DrAdd.js"></script>
+<script  src="${ctx}/static/js/views/deliver/refund/DrView.js"></script>
 <script src="${ctx}/static/js/views/deliver/deliverExport.js"></script>
 <%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
 </head>
@@ -42,6 +42,7 @@
 					<div class="ubtns-item" onclick="back()">关闭</div>
 				</div>
 			</div>
+			<div class="already-examine" id="already-examine"><span>${status}</span></div>
 			<div class="ub umar-t8 uc-black">【单号】:<span>${form.formNo}</span></div>
 			<div class="ub umar-t8 uline"></div>
 			<div class="ub umar-t10">

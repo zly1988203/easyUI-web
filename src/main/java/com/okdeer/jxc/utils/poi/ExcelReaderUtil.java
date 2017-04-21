@@ -287,7 +287,7 @@ public class ExcelReaderUtil {
 	@SuppressWarnings("unchecked")
 	public static <T> List<T> readXlsx(InputStream is, String[] fields, T entity) {
 
-		LOG.info("读取Excel文件, 表头为={}, 实体为={}", Arrays.toString(fields), entity);
+		LOG.debug("读取Excel文件, 表头为={}, 实体为={}", Arrays.toString(fields), entity);
 		XSSFWorkbook workbook = null;
 		try {
 			workbook = new XSSFWorkbook(is);
@@ -313,7 +313,7 @@ public class ExcelReaderUtil {
 	@SuppressWarnings("unchecked")
 	public static List<JSONObject> readXlsx(InputStream is, String[] fields) {
 		
-		LOG.info("读取Excel文件, 表头为={}", Arrays.toString(fields));
+		LOG.debug("读取Excel文件, 表头为={}", Arrays.toString(fields));
 		XSSFWorkbook workbook = null;
 		try {
 			workbook = new XSSFWorkbook(is);
@@ -421,7 +421,7 @@ public class ExcelReaderUtil {
 	 */
 	private static <T> List<T> readXlsxForFirstColumn(InputStream is, T entity) {
 
-		LOG.info("读取Excel文件, 实体为={}", entity);
+		LOG.debug("读取Excel文件, 实体为={}", entity);
 		Workbook workbook = null;
 		try {
 			workbook = new XSSFWorkbook(is);
@@ -445,7 +445,7 @@ public class ExcelReaderUtil {
 	 * @date 2016年9月24日
 	 */
 	private static <T> List<T> readXlsForFirstColumn(InputStream is, T entity) {
-		LOG.info("读取Excel文件, 数据实体为={}", entity);
+		LOG.debug("读取Excel文件, 数据实体为={}", entity);
 		Workbook workbook = null;
 		try {
 			workbook = new HSSFWorkbook(is);
@@ -544,7 +544,7 @@ public class ExcelReaderUtil {
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> List<T> readXls(InputStream is, String[] fields, T entity) {
-		LOG.info("读取Excel文件, 文件表头为={}, 数据实体为={}", Arrays.toString(fields), entity);
+		LOG.debug("读取Excel文件, 文件表头为={}, 数据实体为={}", Arrays.toString(fields), entity);
 		HSSFWorkbook workbook = null;
 		try {
 			workbook = new HSSFWorkbook(is);
@@ -568,7 +568,7 @@ public class ExcelReaderUtil {
 	 */
 	@SuppressWarnings("unchecked")
 	public static List<JSONObject> readXls(InputStream is, String[] fields) {
-		LOG.info("读取Excel文件, 文件表头为={}", Arrays.toString(fields));
+		LOG.debug("读取Excel文件, 文件表头为={}", Arrays.toString(fields));
 		HSSFWorkbook workbook = null;
 		try {
 			workbook = new HSSFWorkbook(is);

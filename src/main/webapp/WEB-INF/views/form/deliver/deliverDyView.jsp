@@ -30,87 +30,82 @@
             	<div class="ubtns-item"  onclick="exportData('DY','gridViewRequireOrder')">导出明细</div>
             	<div class="ubtns-item"  onclick="exportData('DY','gridViewRequireOrder',1)">导出货号</div>
                 <div class="ubtns-item" onclick="toClose()">关闭</div>
-<!--                 <div class="ubtns-item" onclick="addDeliverForm()">新增</div> -->
-<!-- 				<div class="ubtns-item-disabled" >保存</div> -->
-<!-- 				<div class="ubtns-item-disabled" >审核</div> -->
-<!-- 				<div class="ubtns-item-disabled" >终止</div> -->
-<!-- 				<div class="ubtns-item-disabled" >商品选择</div> -->
-<!-- 				<div class="ubtns-item-disabled init" >建议订货商品</div> -->
-<!-- 				<div class="ubtns-item-disabled" >导入货号</div> -->
-<!-- 				<div class="ubtns-item-disabled" >导入条码</div> -->
-<!-- 				<div class="ubtns-item" onclick="delDeliverForm()">删除</div> -->
-<!-- 				<div class="ubtns-item"  onclick="exportData('DY','gridViewRequireOrder')">导出明细</div> -->
-<!--             	<div class="ubtns-item"  onclick="exportData('DY','gridViewRequireOrder',1)">导出货号</div> -->
-<!-- 				<div class="ubtns-item" onclick="printChoose('DY','/form/deliverForm/')">打印</div> -->
-<!-- 				<div class="ubtns-item-disabled">设置</div> -->
-<!-- 				<div class="ubtns-item" onclick="toClose()">关闭</div> -->
             </div>
         </div>
+        <div class="already-examine" id="already-examine"><span>${status}</span></div>
         <div class="ub umar-t8 uc-black">【单号】:${form.formNo}</div>
         <div class="ub uline umar-t8"></div>
         <input type="hidden" id="formId" value="${form.deliverFormId}">
         <input type="hidden" id="formNo" value="${form.formNo}">
         <input type="hidden" id="type" value="${type}">
         <div class="ub umar-t8">
-            <div class="ub ub-ac uw-300">
-                <div class="umar-r10 uw-60 ut-r">要货机构:</div>
-                <div class="ub">
-                    <input class="uinp" name="targetBranchId" id="targetBranchId" type="hidden" value="${form.targetBranchId}">
-                    <input class="uinp" id="targetBranchName" name="targetBranchName" type="text" readonly="readonly" value="${form.targetBranchName}" />
-                    <div class="uinp-more"></div>
+        	<div class="ub uw-750 ub-ver">
+       			<div class="ub ub-ac uw-300 umar-b12">
+	                <div class="umar-r10 uw-60 ut-r">要货机构:</div>
+	                <div class="ub">
+	                    <input class="uinp" name="targetBranchId" id="targetBranchId" type="hidden" value="${form.targetBranchId}">
+	                    <input class="uinp" id="targetBranchName" name="targetBranchName" type="text" readonly="readonly" value="${form.targetBranchName}" />
+	                    <div class="uinp-more"></div>
+	                </div>
                 </div>
+                 <div class="ub ub-ac uw-300 umar-b12">
+	                <div class="umar-r10 uw-60 ut-r">发货机构:</div>
+	                <div class="ub">
+	                    <input class="uinp" name="sourceBranchId" id="sourceBranchId" type="hidden" value="${form.sourceBranchId}">
+	                    <input class="uinp" id="sourceBranchName" name="sourceBranchName" type="text" readonly="readonly"  value="${form.sourceBranchName}">
+	                    <div class="uinp-more" ></div>
+	                </div>
+	            </div>
+	            <div class="ub ub-ac uw-630">
+					<div class="uw-60 umar-r10 ut-r">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注:</div>
+					<input class="uinp ub ub-f1" type="text" id="remark" name="remark" value="${form.remark}" readonly="readonly" >
+				</div>
             </div>
-            <div class="ub uw-330">&nbsp;</div>
-            <div class="ub ub-ac uw-300  umar-l80">
-				<div class="umar-r10 uw-80 ut-r">制单人员:</div>
-				<div class="utxt">${form.createUserName}</div>
-			</div>
-            <div class="ub ub-ac umar-l10">
-				<div class="umar-r10 uw-60 ut-r">制单时间:</div>
-				<div class="utxt" ><fmt:formatDate value="${form.createTime}" pattern="yyyy-MM-dd HH:mm"/></div>
-			</div>
-        </div>
-        <div class="ub umar-t8">
-            <div class="ub ub-ac uw-300 ">
-                <div class="umar-r10 uw-60 ut-r">发货机构:</div>
-                <div class="ub">
-                    <input class="uinp" name="sourceBranchId" id="sourceBranchId" type="hidden" value="${form.sourceBranchId}">
-                    <input class="uinp" id="sourceBranchName" name="sourceBranchName" type="text" readonly="readonly"  value="${form.sourceBranchName}">
-                    <div class="uinp-more" ></div>
-                </div>
-            </div>
-<!--             <div class="ub ub-ac umar-l40"> -->
-<!--                 <div class="umar-r10 uw-60 ut-r">数量处理:</div> -->
-<!--                 <div class="ub ub-ac umar-r10"> -->
-<!--                     <input class="radioItem" type="radio" name="numDeal" id="status_1" value="0"><label for="status_1">设置为建议订货数量 </label> -->
-<!--                 </div> -->
-<!--                 <div class="ub ub-ac umar-r10"> -->
-<!--                     <input class="radioItem" type="radio" name="numDeal" id="status_2" value="1"><label for="status_2">重新归零 </label> -->
-<!--                 </div> -->
-<!--             </div> -->
-            <div class="ub ub-ac uw-300 umar-l70">
-				<div class="umar-r10 uw-420 ut-r">最后修改人:</div>
-				<div class="utxt">${form.updateUserName}</div>
-			</div>
-			<div class="already-examine" id="already-examine"><span>${status}</span></div>
-			<div class="ub ub-ac uw-300">
-				<div class="umar-r10 uw-410 ut-r">修改时间:</div>
-				<div class="utxt"><fmt:formatDate value="${form.updateTime}" pattern="yyyy-MM-dd HH:mm"/></div>
-			</div>
-        </div>
-        <div class="ub umar-t8">
-            <div class="ub ub-ac uw-630">
-				<div class="uw-60 umar-r10 ut-r">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注:</div>
-				<input class="uinp ub ub-f1" type="text" id="remark" name="remark" value="${form.remark}" readonly="readonly" >
-			</div>
-			<div class="ub ub-ac uw-300 umar-l80">
-				<div class="umar-r10 uw-80 ut-r">审核人员:</div>
-				<div class="utxt">${form.validUserName}</div>
-			</div>
-			<div class="ub ub-ac uw-300">
-				<div class="umar-r10 uw-70 ut-r">审核时间:</div>
-				<div class="utxt"><fmt:formatDate value="${form.validTime}" pattern="yyyy-MM-dd HH:mm"/></div>
-			</div>
+        	<div class="ub ub-f1 ub-ver">
+        		<div class="ub">
+        			<div class="ub ub-ac uw-300  umar-l80">
+						<div class="umar-r10 uw-80 ut-r">制单人员:</div>
+						<div class="utxt">${form.createUserName}</div>
+					</div>
+		            <div class="ub ub-ac umar-l10">
+						<div class="umar-r10 uw-60 ut-r">制单时间:</div>
+						<div class="utxt" ><fmt:formatDate value="${form.createTime}" pattern="yyyy-MM-dd HH:mm"/></div>
+					</div>
+        		</div>
+        		
+        		<div class="ub">
+        			<div class="ub ub-ac uw-288 umar-l60">
+						<div class="umar-r10 uw-100 ut-r">最后修改人:</div>
+						<div class="utxt">${form.updateUserName}</div>
+					</div>
+					<div class="ub ub-ac uw-300">
+						<div class="umar-r10 uw-100 ut-r">修改时间:</div>
+						<div class="utxt"><fmt:formatDate value="${form.updateTime}" pattern="yyyy-MM-dd HH:mm"/></div>
+					</div>
+        		</div>
+        		
+        		<div class="ub">
+        			<div class="ub ub-ac uw-300 umar-l80">
+						<div class="umar-r10 uw-80 ut-r">审核人员:</div>
+						<div class="utxt">${form.validUserName}</div>
+					</div>
+					<div class="ub ub-ac uw-300">
+						<div class="umar-r10 uw-70 ut-r">审核时间:</div>
+						<div class="utxt"><fmt:formatDate value="${form.validTime}" pattern="yyyy-MM-dd HH:mm"/></div>
+					</div>
+        		</div>
+        		
+        		<div class="ub">
+        			<div class="ub ub-ac uw-300 umar-l80">
+						<div class="umar-r10 uw-80 ut-r">终止人员:</div>
+						<div class="utxt">${form.validUserName}</div>
+					</div>
+					<div class="ub ub-ac uw-300">
+						<div class="umar-r10 uw-70 ut-r">终止时间:</div>
+						<div class="utxt"><fmt:formatDate value="${form.validTime}" pattern="yyyy-MM-dd HH:mm"/></div>
+					</div>
+        		</div>
+        	</div>
         </div>
         <div class="ub ub-f1 datagrid-edit umar-t8">
             <table id="gridViewRequireOrder" ></table>

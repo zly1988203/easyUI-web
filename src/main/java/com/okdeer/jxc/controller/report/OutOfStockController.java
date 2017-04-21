@@ -84,7 +84,7 @@ public class OutOfStockController  extends ReportController{
 		try {
 			DataRecord dataRecord = outOfStockServiceApi.getTotal(map);
 			if ("0".equals(map.get("type"))) {
-				LOG.info("导出配送缺货率分析明细导出查询参数:{}" + map.toString());
+				LOG.debug("导出配送缺货率分析明细导出查询参数:{}" + map.toString());
 				reportList = outOfStockServiceApi.getList(map);
 				fileName = "配送缺货率明细表" + map.get("startTime").toString().replaceAll("-", "") + '-'
 						+ map.get("endTime").toString().replaceAll("-", "");
@@ -92,7 +92,7 @@ public class OutOfStockController  extends ReportController{
 				dataRecord.put("inFormNo", "合计");
 				
 			}else{
-				LOG.info("导出配送缺货率分析汇总导出查询参数:{}" + map.toString());
+				LOG.debug("导出配送缺货率分析汇总导出查询参数:{}" + map.toString());
 				reportList=outOfStockServiceApi.getList(map);
 				fileName = "配送缺货率汇总表" + map.get("startTime").toString().replaceAll("-", "")+'-'+map.get("endTime").toString().replaceAll("-", "");
 				templateName = ExportExcelConstant.DELIVERY_SUM;

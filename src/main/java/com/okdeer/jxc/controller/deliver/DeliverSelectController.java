@@ -52,7 +52,7 @@ public class DeliverSelectController extends BaseController<PurchaseForm> {
 	 */
 	@RequestMapping(value = "view")
 	public String view(String type,String targetBranchId, Model model) {
-		LOG.info("制定调拨单选择页面参数:{}"+type);
+		LOG.debug("制定调拨单选择页面参数:{}"+type);
 		model.addAttribute("type", type);
 		model.addAttribute("targetBranchId", targetBranchId);
 		return "component/publicForm";
@@ -77,7 +77,7 @@ public class DeliverSelectController extends BaseController<PurchaseForm> {
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
-			LOG.info("制定调拨单选择页面参数:{}"+vo.toString());
+			LOG.debug("制定调拨单选择页面参数:{}"+vo.toString());
 			
 			/**
 			 * @author zhangchm
@@ -109,9 +109,9 @@ public class DeliverSelectController extends BaseController<PurchaseForm> {
 			 * @author zhangchm
 			 * 修改查询公共组件配送单号选择end
 			 */
-			LOG.info("vo:" + vo.toString());
+			LOG.debug("vo:" + vo.toString());
 			PageUtils<DeliverSelect> suppliers = deliverSelectServiceApi.queryLists(vo);
-			LOG.info("page" + suppliers.toString());
+			LOG.debug("page" + suppliers.toString());
 			return suppliers;
 		} catch (Exception e) {
 			LOG.error("调拨单订单选择查询数据出现异常:", e);

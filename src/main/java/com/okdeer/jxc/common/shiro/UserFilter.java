@@ -47,7 +47,7 @@ public class UserFilter extends AccessControlFilter {
 	protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
 		HttpServletRequest req = (HttpServletRequest) request;
 		String ignoreUrl = req.getRequestURL().toString();
-		LOG.info("isAccessAllowed, ignoreUrl：{}", ignoreUrl);
+		LOG.debug("isAccessAllowed, ignoreUrl：{}", ignoreUrl);
 		if (isLoginRequest(request, response)) {
 			return true;
 		} else if (ignoreUrl.contains("/scale/")) {

@@ -71,9 +71,9 @@ public class DeliverFormListController extends BaseController<DeliverFormListCon
 		try {
 			vo.setPageNumber(1);
 			vo.setPageSize(999999);
-			LOG.info("vo:{}", vo.toString());
+			LOG.debug("vo:{}", vo.toString());
 			PageUtils<DeliverFormList> deliverFormLists = queryDeliverFormListServiceApi.queryLists(vo);
-			LOG.info("page:{}", deliverFormLists.toString());
+			LOG.debug("page:{}", deliverFormLists.toString());
 			return deliverFormLists;
 		} catch (Exception e) {
 			LOG.error("要货单查询明细数据出现异常", e);
@@ -99,12 +99,12 @@ public class DeliverFormListController extends BaseController<DeliverFormListCon
 		try {
 			vo.setPageNumber(1);
 			vo.setPageSize(999999);
-			LOG.info("vo:{}", vo.toString());
+			LOG.debug("vo:{}", vo.toString());
 			PageUtils<DeliverFormList> deliverFormLists = queryDeliverFormListServiceApi
 					.getDeliverFormListsAndStockByIdOrFormNo(vo);
-			LOG.info("page:{}", deliverFormLists.toString());
+			LOG.debug("page:{}", deliverFormLists.toString());
 			long end = System.currentTimeMillis();
-			LOG.info("配送查询明细所用时间:{}", (end - start));
+			LOG.debug("配送查询明细所用时间:{}", (end - start));
 			return deliverFormLists;
 		} catch (Exception e) {
 			LOG.error("要货单查询明细数据出现异常", e);
@@ -121,7 +121,7 @@ public class DeliverFormListController extends BaseController<DeliverFormListCon
 	 */
 	@RequestMapping(value = "exportList")
 	public void exportList(HttpServletResponse response, String formNo, String type, String pattern) {
-		LOG.info("DeliverFormListController.export:" + formNo);
+		LOG.debug("DeliverFormListController.export:" + formNo);
 		try {
 			List<DeliverFormList> exportList = queryDeliverFormListServiceApi.getDeliverList(formNo);
 			String fileName = "";
@@ -190,7 +190,7 @@ public class DeliverFormListController extends BaseController<DeliverFormListCon
 	@RequestMapping(value = "getDeliverSuggestNumItemList", method = RequestMethod.POST)
 	@ResponseBody
 	public List<DeliverFormGoods> getDeliverSuggestNumItemList(DeliverSuggestNumVo vo) {
-		LOG.info("配送建议数量，获取商品信息列表参数:{}", vo);
+		LOG.debug("配送建议数量，获取商品信息列表参数:{}", vo);
 		List<DeliverFormGoods> itemList = new ArrayList<DeliverFormGoods>();
 		try {
 			itemList =  deliverSuggestNumService.getFormGoodsListSuggest(vo);

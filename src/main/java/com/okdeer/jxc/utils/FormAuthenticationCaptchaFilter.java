@@ -25,19 +25,19 @@ public class FormAuthenticationCaptchaFilter extends FormAuthenticationFilter {
 	private String captchaParam = DEFAULT_CAPTCHA_PARAM;
 
 	public String getCaptchaParam() {
-		LOG.info("getCaptchaParam==========================================");
+		LOG.debug("getCaptchaParam==========================================");
 		return captchaParam;
 	}
 
 	protected String getCaptcha(ServletRequest request) {
-		LOG.info("getCaptcha==========================================");
+		LOG.debug("getCaptcha==========================================");
 		
 		return WebUtils.getCleanParam(request, getCaptchaParam());
 	}
 
 	protected AuthenticationToken createToken(ServletRequest request, ServletResponse response) {
 		
-		LOG.info("createToken==========================================");
+		LOG.debug("createToken==========================================");
 		
 		String username = getUsername(request);
 		String password = getPassword(request);

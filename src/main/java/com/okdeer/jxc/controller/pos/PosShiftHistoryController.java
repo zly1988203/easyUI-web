@@ -87,12 +87,12 @@ public class PosShiftHistoryController extends BaseController<T> {
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
-			LOG.info("qo:" + vo.toString());
+			LOG.debug("qo:" + vo.toString());
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
 			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
 			PageUtils<Map<String,Object>> page = posShiftHistoryServiceApi.queryLists(vo);
-			LOG.info("page" + page.toString());
+			LOG.debug("page" + page.toString());
 			return page;
 		} catch (RuntimeException e) {
 			LOG.error("删除成本调整单失败！:{}", e);

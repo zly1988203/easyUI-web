@@ -90,7 +90,7 @@ public class SupplierAreaController extends
 	 */
 	@RequestMapping(value = "toEdit")
 	public String toEdit(String id, Model model) {
-		LOG.info("修改页面参数:{}", id);
+		LOG.debug("修改页面参数:{}", id);
 		SupplierArea supplierArea = supplierAreaService
 				.querySupplierAreaById(id);
 		model.addAttribute("supplierArea", supplierArea);
@@ -121,7 +121,7 @@ public class SupplierAreaController extends
 				vo.setBranchId(UserUtil.getCurrBranchId());
 			}
 		}
-		LOG.info("供应商区域查询参数:{}", vo.toString());
+		LOG.debug("供应商区域查询参数:{}", vo.toString());
 		return supplierAreaService.queryLists(vo);
 	}
 
@@ -135,7 +135,7 @@ public class SupplierAreaController extends
 	@ResponseBody
 	public RespJson addSupplierArea(SupplierArea area) {
 		try {
-			LOG.info("新增供应商区域:{}" + area.toString());
+			LOG.debug("新增供应商区域:{}" + area.toString());
 			String areaCode = area.getAreaCode();
 			String areaName = area.getAreaName();
 			// 判断区域代码，跟区域名称是不是唯一
@@ -179,7 +179,7 @@ public class SupplierAreaController extends
 	@ResponseBody
 	public RespJson deleteSupplierArea(String areaId) {
 		try {
-			LOG.info("根据区域编码删除供应商区域:{}", areaId);
+			LOG.debug("根据区域编码删除供应商区域:{}", areaId);
 			int count = supplierService.getSupplierByAreaIdSum(areaId);
 			if(count>0) {
 				return RespJson.error("供应商区域已经被引用！");
@@ -203,7 +203,7 @@ public class SupplierAreaController extends
 	@ResponseBody
 	public RespJson updateSupplierArea(SupplierArea area) {
 		try {
-			LOG.info("修改供应商区域参数:{}", area.toString());
+			LOG.debug("修改供应商区域参数:{}", area.toString());
 			String areaName = area.getAreaName();
 			// 判断区域代码，跟区域名称是不是唯一
 			SupplierAreaVo supplierArea = new SupplierAreaVo();
