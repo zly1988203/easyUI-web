@@ -93,11 +93,11 @@
         		<div class="ub">
         			<div class="ub ub-ac umar-l1">
 		                <div class="umar-r10 uw-80 ut-r">最后修改人:</div>
-		                <div class="utxt"></div>
+		                <div class="utxt">${form.updateUserName}</div>
 		            </div>
 		            <div class="ub ub-ac umar-l20">
 		                <div class="umar-r10 uw-60 ut-r">修改时间:</div>
-		                <div class="utxt"></div>
+		                <div class="utxt"><fmt:formatDate value="${form.updateTime}" pattern="yyyy-MM-dd HH:mm"/></div>
 		            </div>
         		</div>
         		<div class="ub">
@@ -113,11 +113,11 @@
         		<div class="ub">
 	        		<div class="ub ub-ac umar-l12">
 		               <div class="umar-r10 uw-70 ut-r">终止人员:</div>
-		               <div class="utxt">${form.validUserName}</div>
+		               <div class="utxt">${form.stopUserId=='-1' ?'系统终止':form.stopUserName}</div>
 		           </div>
 		           <div class="ub ub-ac umar-l12">
 		               <div class="umar-r10 uw-70 ut-r">终止时间:</div>
-		               <div class="utxt"><fmt:formatDate value="${form.validTime}" pattern="yyyy-MM-dd HH:mm"/></div>
+		               <div class="utxt"><fmt:formatDate value="${form.stopTime}" pattern="yyyy-MM-dd HH:mm"/></div>
 		           </div>
         		</div>
         		
