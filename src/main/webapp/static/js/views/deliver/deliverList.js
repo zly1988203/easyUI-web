@@ -258,7 +258,7 @@ function getSourceBranch(branchesId) {
  */
 function selectSourceBranch(){
 	var targetBranchType = $("#targetBranchType").val();
-	if(targetBranchType != '0' && targetBranchType != '1'){
+	if(targetBranchType != '0'){
         new publicAgencyService(function(data){
             if($("#sourceBranchId").val()!=data.branchesId){
                 $("#sourceBranchId").val(data.branchesId);
@@ -266,7 +266,7 @@ function selectSourceBranch(){
                 $("#sourceBranchName").val("["+data.branchCode+"]"+data.branchName);
                 gridHandel.setLoadData([$.extend({},gridDefault)]);
             }
-        },'DZ',$("#sourceBranchId").val());
+        },'DZ',$("#targetBranchId").val(),'',1);
 	} else {
         new publicAgencyService(function(data){
             if($("#sourceBranchId").val()!=data.branchesId){
@@ -275,7 +275,7 @@ function selectSourceBranch(){
                 $("#sourceBranchName").val("["+data.branchCode+"]"+data.branchName);
                 gridHandel.setLoadData([$.extend({},gridDefault)]);
             }
-        },'DY',$("#targetBranchId").val());
+        },'DY',$("#targetBranchId").val(),'',1);
     }
 }
 //打印
