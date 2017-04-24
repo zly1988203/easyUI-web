@@ -24,7 +24,7 @@ pageEncoding="UTF-8"%>
                 <div class="ub ub-ac uw-300">
                     <div class="umar-r10 uw-60 ut-r">商品名称:</div>
                     <div class="ub">
-                        <input id="skuName" name="skuName" class="uinp easyui-validatebox uw-200 " data-options="required:true" maxlength="20">
+                        <input id="skuName" name="skuName" class="uinp uw-200 easyui-validatebox" data-options="required:true" maxlength="20">
                     </div>
                     <i class="uc-red">*</i>
                 </div>

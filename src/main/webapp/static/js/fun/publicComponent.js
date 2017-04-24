@@ -501,24 +501,17 @@ var supplierDalog = null;
 		}
  * 
  * **/
-function publicSupplierService(callback,param) {
+function publicSupplierService(callback,newParam) {
 	if(null != supplierDalog) return;
-	if(!param || 'undefined' === typeof(param)){
-		param = {
-				supplierCodeOrName:'',
-				branchId:'',
-				saleWayNot:'',
-				isDirect:''
-		}
-	}else if('undefined' === typeof(param.supplierCodeOrName)){
-		param.supplierCodeOrName = '';
-	}else if('undefined' === typeof(param.branchCompleCode)){
-		param.branchCompleCode = '';
-	}else if('undefined' === typeof(param.saleWayNot)){
-		param.saleWayNot = '';
-	}else if('undefined' === typeof(param.isDirect)){
-		param.isDirect = '';
-	}
+
+    var oldParam = {
+        supplierCodeOrName:'',
+        branchId:'',
+        saleWayNot:'',
+        isDirect:''
+    }
+
+    var param = $.extend(oldParam,newParam);
 
     //公有属性
 	supplierDalog = $('<div/>').dialog({
@@ -543,10 +536,6 @@ function publicSupplierService(callback,param) {
         $(supplierDalog).panel('destroy');
         supplierDalog = null;
     }
-    //调用方式
-    //new publicSupplierService(function(data){
-    //    console.log(data);
-    //});
 }
 
 //公共组件-选择操作员
