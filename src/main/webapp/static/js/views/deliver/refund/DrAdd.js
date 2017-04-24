@@ -879,7 +879,7 @@ function selectTargetBranch(){
         $("#targetBranchId").val(data.branchesId);
         $("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
         $("#targetBranchType").val(data.type);
-	},'DZ',$("#sourceBranchId").val());
+	},'DZ',$("#sourceBranchId").val(),'',1);
 }
 
 function getSourceBranch(branchesId) {
