@@ -532,8 +532,8 @@ function initDatagridmmsTJ(activityId){
         fit:true, //占满
 //        showFooter:true,
 		height:'50%',
-		pagination:true,
-		pageSize:50,
+//		pagination:true,
+//		pageSize:50,
 		width:'100%',
         columns:[[
 					{field:'ck',checkbox:true},
@@ -673,8 +673,8 @@ function initDatagridmmsGOOD(){
         fit:true, //占满
         showFooter:true,
 		height:'100%',
-		pageSize:50,
-		pagination:true,
+//		pageSize:50,
+//		pagination:true,
 		width:'100%',
         columns:[[
                     {field:'ck',checkbox:true},
@@ -766,10 +766,9 @@ function initDatagridmmjComLB(activityId){
       rownumbers:true,    // 序号
       fitColumns:true,    // 每列占满
       fit:true, //占满
-      pagination:true,
-      pageSize:50,
+//      pagination:true,
+//      pageSize:50,
 		height:'50%',
-		pageSize:50,
 		width:'100%',
 		columns:[[
 					{field:'ck',checkbox:true},
@@ -837,8 +836,8 @@ function initDatagridmmjComLG(activityId){
 		fitColumns:true,    // 每列占满
 		fit:true, //占满
 		height:'50%',
-		pagination:true,
-		pageSize:50,
+//		pagination:true,
+//		pageSize:50,
 		width:'100%',
 		columns:[[
                   {field:'ck',checkbox:true},
@@ -995,12 +994,12 @@ function initDatagridSpecial(){
 		//toolbar: '#tb',     //工具栏 id为tb
 		singleSelect:false,  //单选  false多选
 		rownumbers:true,    //序号
-		pagination:true,    //分页
+//		pagination:true,    //分页
 		fitColumns:true,    //每列占满
 		//fit:true,            //占满
-		showFooter:true,
+//		showFooter:true,
 		height:'100%',
-		pageSize:50,
+//		pageSize:50,
 		width:'100%',
         columns:[[
 					{field:'ck',checkbox:true},
@@ -1230,12 +1229,12 @@ function initDatagridsortZk(){
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
-        pagination:true,    //分页
+//        pagination:true,    //分页
         fitColumns:true,    //每列占满
         //fit:true,            //占满
-        showFooter:true,
+//        showFooter:true,
 		height:'100%',
-		pageSize:50,
+//		pageSize:50,
 		width:'100%',
         columns:[[
 					{field:'ck',checkbox:true},
@@ -1319,12 +1318,12 @@ function initDatagridoneZk(){
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
-        pagination:true,    //分页
+//        pagination:true,    //分页
         fitColumns:true,    //每列占满
         //fit:true,            //占满
-        showFooter:true,
+//        showFooter:true,
 		height:'100%',
-		pageSize:50,
+//		pageSize:50,
 		width:'100%',
         columns:[[
 			{field:'ck',checkbox:true},
@@ -1498,12 +1497,12 @@ function initDatagridOddtj(){
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
-        pagination:true,    //分页
+//        pagination:true,    //分页
         fitColumns:true,    //每列占满
         //fit:true,            //占满
-        showFooter:true,
+//        showFooter:true,
 		height:'100%',
-		pageSize:50,
+//		pageSize:50,
 		width:'100%',
         columns:[[
 			{field:'ck',checkbox:true},
@@ -1676,12 +1675,12 @@ function initDatagridRedemption(){
       //toolbar: '#tb',     //工具栏 id为tb
       singleSelect:false,  //单选  false多选
       rownumbers:true,    //序号
-      pagination:true,    //分页
+//      pagination:true,    //分页
       fitColumns:true,    //每列占满
       //fit:true,            //占满
-      showFooter:true,
+//      showFooter:true,
 		height:'100%',
-		pageSize:50,
+//		pageSize:50,
 		width:'100%',
       columns:[[
 			{field:'ck',checkbox:true},
@@ -1778,12 +1777,12 @@ function initDatagridallMj(){
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
-        pagination:true,    //分页
+//        pagination:true,    //分页
         fitColumns:true,    //每列占满
         //fit:true,            //占满
-        showFooter:true,
+//        showFooter:true,
 		height:'100%',
-		pageSize:50,
+//		pageSize:50,
 		width:'100%',
         columns:[[
 					{field:'ck',checkbox:true},
@@ -1864,12 +1863,12 @@ function initDatagridsortMj(){
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
-        pagination:true,    //分页
+//        pagination:true,    //分页
         fitColumns:true,    //每列占满
 //        fit:true,            //占满
-        showFooter:true,
+//        showFooter:true,
 		height:'300px',
-		pageSize:50,
+//		pageSize:50,
 		width:'100%',
         columns:[[
 					{field:'ck',checkbox:true},
@@ -1911,12 +1910,12 @@ function initDatagridsortSet(){
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
-        pagination:true,    //分页
+//        pagination:true,    //分页
         fitColumns:true,    //每列占满
 //        fit:true,            //占满
-        showFooter:true,
+//        showFooter:true,
 		height:'100%',
-		pageSize:50,
+//		pageSize:50,
 		width:'100%',
         columns:[[
 					{field:'ck',checkbox:true},
@@ -2013,12 +2012,12 @@ function initDatagridshopMj(){
       //toolbar: '#tb',     //工具栏 id为tb
       singleSelect:false,  //单选  false多选
       rownumbers:true,    //序号
-      pagination:true,    //分页
+//      pagination:true,    //分页
       fitColumns:true,    //每列占满
 //      fit:true,            //占满
-      showFooter:true,
+//      showFooter:true,
 		height:'300px',
-		pageSize:50,
+//		pageSize:50,
 		width:'100%',
       columns:[[
 			{field:'ck',checkbox:true},
@@ -2098,12 +2097,12 @@ function initDatagridCompose(){
       //toolbar: '#tb',     //工具栏 id为tb
       singleSelect:false,  //单选  false多选
       rownumbers:true,    //序号
-      pagination:true,    //分页
+//      pagination:true,    //分页
       fitColumns:true,    //每列占满
       //fit:true,            //占满
-      showFooter:true,
+//      showFooter:true,
 		height:'100%',
-		pageSize:50,
+//		pageSize:50,
 		width:'100%',
       columns:[[
 			{field:'ck',checkbox:true},
