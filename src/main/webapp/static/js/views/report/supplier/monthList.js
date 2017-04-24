@@ -118,7 +118,7 @@ function selectBranches(){
 	new publicAgencyService(function(data){
 		$("#createBranchId").val(data.branchesId);
 		$("#branchName").val(data.branchName);
-	},'BF',sessionBranchId);
+	},'',sessionBranchId);
 }
 
 
@@ -126,11 +126,15 @@ function selectBranches(){
  * 供应商选择
  */
 function selectSupplier(){
+	if($("#branchName").val()==""){
+        messager("请先选择机构");
+        return;
+    } 
+	var branchId = $("#createBranchId").val();
 	new publicSupplierService(function(data){
 		$("#supplierId").val(data.id);
 		$("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
-	},{"branchId":sessionBranchId});
-
+	},{"branchId":branchId==""&&branchId?sessionBranchId:branchId,"isDirect":''});
 }
 
 /**
@@ -166,7 +170,7 @@ function exportData(){
 function exportExcel(){
 	var length = gridGYYueJXCList.datagrid('getData').total;
 	if(length == 0){
-		$.messager.alert('提示',"没有数据");
+		successTip('提示',"没有数据");
 		return;
 	}
 	var fromObjStr = $('#queryForm').serializeObject();
