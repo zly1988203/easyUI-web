@@ -6,7 +6,7 @@ $(function(){
 	
 	initDatagridGYYueJXC();
 	
-	$(".radioItem").on("click",queryForm());
+	//$(".radioItem").on("click",queryForm());
 });
 
 function updateWdatePicker(){
@@ -184,6 +184,11 @@ function exportExcel(){
 }
 
 var printReport = function(){
+	var length = gridGYYueJXCList.datagrid('getData').total;
+	if(length == 0){
+		$.messager.alert('提示',"没有数据");
+		return;
+	}
 	var queryParams =  urlEncode($("#queryForm").serializeObject());
 	parent.addTabPrint("reportPrint"+new Date().getTime(),"打印",contextPath+"/report/supplier/month/print?params="+queryParams);
 }
