@@ -263,6 +263,8 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 				if (branchId.indexOf(",") != -1) {
 					branchIds = Arrays.asList(branchId.split(","));
 					branchId = "";
+				//查询多机构，要把当前机构赋值为空
+					paramVo.setBrandId(null);
 				}
 				// 根据有无skuCodes传来数据 空表示是导入货号 有数据表示导入数据
 				paramVo.setAllowActivity(alowActivity);
