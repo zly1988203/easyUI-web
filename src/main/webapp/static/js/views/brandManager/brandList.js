@@ -142,7 +142,7 @@ function resetForm(){
 function deleteBrand(){
 	var rows =$("#dataList").datagrid("getChecked");
 	if($("#dataList").datagrid("getChecked").length <= 0){
-		 $.messager.alert('提示','请选中一行进行删除！');
+		 messager('请选中一行进行删除！','提示');
 		return null;
 	}
 	 var ids='';
