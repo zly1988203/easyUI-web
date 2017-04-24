@@ -13,7 +13,6 @@ $(function(){
     initBranchPriceAdjustGrid();
     //
     if(getUrlQueryString('message')=='0'){
-		$("#txtStartDate").val('');
 		modifyPriceOrderCx();
     }
 });

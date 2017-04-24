@@ -7,7 +7,7 @@ $(function() {
 	
 	initDatagridSaleReturnList();
 	if(getUrlQueryString('message')=='0'){
-		$("#txtStartDate").val('');
+		 $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30)+" 00:00");
 		queryForm();
     }
 	// 单据状态切换

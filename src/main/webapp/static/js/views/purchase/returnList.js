@@ -5,9 +5,6 @@ $(function(){
 	
 	//初始化默认条件
     initConditionParams();
-    if(getUrlQueryString('message')=='0'){
-		$("#txtStartDate").val('');
-    }
     initDatagridOrders();
    
     //单据状态切换 
