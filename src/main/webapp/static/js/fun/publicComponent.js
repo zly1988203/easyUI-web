@@ -493,7 +493,12 @@ var supplierDalog = null;
 
 //公共组件-选择供应商
 /**
- * param
+ * 		param = {
+				supplierCodeOrName:'',
+				branchId:'',
+				saleWayNot:'',
+				isDirect:''
+		}
  * 
  * **/
 function publicSupplierService(callback,param) {
@@ -750,35 +755,22 @@ function publicGoodsServiceTem(param,callback){
 /*
 * 设置前台没有传入的参数
 * */
-function setParam(param) {
-    if(typeof(param.flag)==="undefined"){
-        param.flag = "0";
-    }
-    if(typeof(param.type)==="undefined"){
-        param.type = "";
-    }
+function setParam(newParam) {
 
-    if(typeof(param.key)==="undefined"){
-        param.key = "";
+    var oldParm = {
+        type:'',
+        key:'',
+        isRadio:0,
+        branchId:'',
+        sourceBranchId:'',
+        targetBranchId:'',
+        supplierId:'',
+        flag:'0',
+        categoryShows:'',
+        isManagerStock:''
     }
-    if(typeof(param.isRadio)==="undefined"){
-        param.isRadio = "0";
-    }
-    if(typeof(param.branchId)==="undefined"){
-        param.branchId = "";
-    }
-    if(typeof(param.sourceBranchId)==="undefined"){
-        param.sourceBranchId = "";
-    }
-    if(typeof(param.targetBranchId)==="undefined"){
-        param.targetBranchId = "";
-    }
-    if(typeof(param.supplierId)==="undefined"){
-        param.supplierId = "";
-    }
-    if(typeof(param.categoryShows)==="undefined"){
-        param.categoryShows = "";
-    }
+   var param =  $.extend(oldParm,newParam);
+
     return param;
 }
 

@@ -214,7 +214,7 @@ function deleteCategory(){
 	if($("#gridArchives").datagrid("getChecked").length <= 0){
 		 var parentId = $("#parentId").val();
 		 if(parentId==0 || !parentId){
-			 $.messager.alert('提示','请选中一行进行删除！');
+             messager('请选中一行进行删除！','提示');
 			 return null;
 		 }
 		 ids = parentId;
