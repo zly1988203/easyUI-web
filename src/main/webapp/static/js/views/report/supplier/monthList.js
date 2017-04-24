@@ -130,6 +130,7 @@ function selectSupplier(){
 		$("#supplierId").val(data.id);
 		$("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
 	},{"branchId":sessionBranchId});
+
 }
 
 /**

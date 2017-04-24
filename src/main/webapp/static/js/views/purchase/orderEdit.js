@@ -573,7 +573,7 @@ function saveDataHandel(rows){
         success:function(result){
             gFunEndLoading();
             if(result['code'] == 0){
-                $.messager.alert("操作提示", "操作成功！", "info");
+                messager("操作成功！", "操作提示");
             }else{
             	new publicErrorDialog({
             		"title":"保存失败",

@@ -26,7 +26,7 @@ function fileUrlChange(event){
  */
 function toUploadHandel(){
     if(!$("#file").val()){
-        $.messager.alert('提示','请选择文件！');
+        messager('请选择文件！','提示');
         return;
     }
     var formData = new FormData();
