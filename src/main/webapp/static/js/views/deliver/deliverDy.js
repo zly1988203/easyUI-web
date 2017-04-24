@@ -398,7 +398,7 @@ var n = 0;
 var m = 0;
 //监听商品箱数
 function onChangeLargeNum(newV,oldV){
-	if(!oldV)return;
+	//if(!oldV)return;
 	if("" == newV){
 		m = 2;
 		 messager("商品箱数输入有误");
@@ -446,7 +446,7 @@ function onChangeLargeNum(newV,oldV){
 }
 //监听商品数量
 function onChangeRealNum(newV,oldV) {
-	if(!oldV)return;
+	//if(!oldV)return;
 	if("" == newV){
 		 n= 2;
 		 messager("商品数量输入有误");
@@ -499,12 +499,18 @@ function onSelectIsGift(data){
     };
     var arrs = gridHandel.searchDatagridFiled(gridHandel.getSelectRowIndex(),checkObj);
     if(arrs.length==0){
-        var priceVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
+    	var targetPrice = gridHandel.getFieldTarget('price');
+        //var priceVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
         if(data.id=="1"){
+            $(targetPrice).numberbox('setValue',0);
             gridHandel.setFieldValue('amount',0);//总金额
             gridHandel.setFieldValue('taxAmount',0);//税额
         }else{
-        	priceVal = priceVal||0;
+        	var oldPrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'salePrice');
+            if(oldPrice){
+                $(targetPrice).numberbox('setValue',oldPrice);
+            }
+        	var priceVal = oldPrice||0;
             var applNum = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'applyNum');
             var oldAmount = parseFloat(priceVal)*parseFloat(applNum);//gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'oldAmount');
             var _tempInputTax = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'inputTax');
@@ -581,6 +587,7 @@ function setDataValue(data,fromClick) {
         var addDefaultData = gridHandel.addDefault(data,gridDefault);
         var keyNames = {
             distributionPrice:'price',
+            price:'salePrice',
             id:'skuId',
             disabled:'',
             pricingType:'',
@@ -595,6 +602,7 @@ function setDataValue(data,fromClick) {
         }
         var isCheck ={isGift:1};   //只要是赠品就可以重复
         var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck,ifReset);
+        console.log('newRows',newRows)
         //$("#"+gridName).datagrid({data:newRows});
         gridHandel.setLoadData(newRows);
 
@@ -716,6 +724,7 @@ function saveOrder(){
     		applyNum : data.applyNum,
     		largeNum : data.largeNum,
     		price : data.price,
+    		salePrice : data.salePrice,
     		amount : data.amount,
     		inputTax : data.inputTax,
     		isGift : data.isGift,
@@ -735,7 +744,7 @@ function saveOrder(){
         	 gFunEndLoading();
             if(result['code'] == 0){
                 $.messager.alert("操作提示", "操作成功！", "info",function(){
-                    location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
+                    location.href = contextPath +"/form/deliverForm/deliverEdit?deliverType=DY&deliverFormId=" + result["formId"];
                 });
             }else{
                 var strResult = "";
@@ -841,6 +850,7 @@ function updateOrder(){
     		applyNum : data.applyNum,
     		largeNum : data.largeNum,
     		price : data.price,
+    		salePrice : data.salePrice,
     		amount : data.amount,
     		inputTax : data.inputTax,
     		isGift : data.isGift,
@@ -1158,6 +1168,7 @@ function selectStockAndPriceImport(data){
 function updateListData(data){
      var keyNames = {
 		 distributionPrice:'price',
+		 price:'salePrice',
          id:'skuId',
          disabled:'',
          pricingType:'',

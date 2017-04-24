@@ -394,7 +394,7 @@ var n = 0;
 var m = 0;
 //监听商品箱数
 function onChangeLargeNum(newV,oldV){
-	if(!oldV)return;
+	//if(!oldV)return;
 	if("" == newV){
 		m = 2;
 		 messager("商品箱数输入有误");
@@ -434,7 +434,7 @@ function onChangeLargeNum(newV,oldV){
 }
 //监听商品数量
 function onChangeRealNum(newV,oldV) {
-	if(!oldV)return;
+	//if(!oldV)return;
 	if("" == newV){
 		n= 2;
 		 messager("商品数量输入有误");
@@ -492,20 +492,20 @@ function onSelectIsGift(data){
     };
     var arrs = gridHandel.searchDatagridFiled(gridHandel.getSelectRowIndex(),checkObj);
     if(arrs.length==0){
-//        var targetPrice = gridHandel.getFieldTarget('price');
-        var priceVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
+		var targetPrice = gridHandel.getFieldTarget('price');
+        //var priceVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
         if(data.id=="1"){
-//            $('#'+gridName).datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"] = priceVal;
-//            $(targetPrice).numberbox('setValue',0);
+            //$('#'+gridName).datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"] = priceVal;
+	        $(targetPrice).numberbox('setValue',0);
             gridHandel.setFieldValue('amount',0);//总金额
             gridHandel.setFieldValue('taxAmount',0);//税额
         }else{
             //$(targetPrice).numberbox('enable');
-//            var oldPrice =  $('#'+gridName).datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"];
-//            if(oldPrice){
-//                $(targetPrice).numberbox('setValue',oldPrice);
-//            }
-        	priceVal = priceVal||0;
+			var oldPrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'salePrice');
+            if(oldPrice){
+                $(targetPrice).numberbox('setValue',oldPrice);
+            }
+        	var priceVal = oldPrice||0;
             var applNum = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'applyNum');
             var oldAmount = parseFloat(priceVal)*parseFloat(applNum);//gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'oldAmount');
             var _tempInputTax = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'inputTax');
@@ -581,6 +581,7 @@ function setDataValue(data,fromClick) {
         var addDefaultData = gridHandel.addDefault(data,gridDefault);
         var keyNames = {
             distributionPrice:'price',
+            price:'salePrice',
             id:'skuId',
             disabled:'',
             pricingType:''
@@ -761,6 +762,7 @@ function saveOrder(){
     		applyNum : data.applyNum,
     		largeNum : data.largeNum,
     		price : data.price,
+    		salePrice : data.salePrice,
     		amount : data.amount,
     		inputTax : data.inputTax,
     		isGift : data.isGift,
@@ -885,6 +887,7 @@ function updateOrder(){
     		applyNum : data.applyNum,
     		largeNum : data.largeNum,
     		price : data.price,
+    		salePrice : data.salePrice,
     		amount : data.amount,
     		inputTax : data.inputTax,
     		isGift : data.isGift,
@@ -916,6 +919,9 @@ function updateOrder(){
                 oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
             		return $.extend(true,{},obj);//返回对象的深拷贝
             	});
+            	$.messager.alert("操作提示", "操作成功！", "info",function(){
+    				location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + $("#formId").val();
+    			});
             }else{
                 successTip(result['message']);
             }
@@ -1156,6 +1162,7 @@ function selectStockAndPriceImport(data){
 function updateListData(data){
      var keyNames = {
 		 distributionPrice:'price',
+		 price:'salePrice',
          id:'skuId',
          disabled:'',
          pricingType:'',
