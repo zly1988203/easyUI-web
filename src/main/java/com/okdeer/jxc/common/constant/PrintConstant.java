@@ -126,6 +126,11 @@ public interface PrintConstant {
 	 * @Fields DIFF_SEARCH_SUMMARIZING : 差异查询汇总
 	 */
 	String DIFF_SEARCH_SUMMARIZING = "diffSearchSummarizing.jrxml";
+	
+	/**
+	 * @Fields DIFF_SEARCH_CATEGORY_SUM : 差异查询-类别汇总
+	 */
+	String DIFF_SEARCH_CATEGORY_SUM = "diffSearchCategorySummarizing.jrxml";
 
 	/**
 	 * @Fields ROTARATE_PRINT_ERROR ：库存周转率打印失败
