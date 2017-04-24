@@ -33,6 +33,7 @@ function initDatagridGYYueJXC(){
 		singleSelect:false,  //单选  false多选
 		rownumbers:true,    //序号
 		pagination:true,    //分页
+		pageSize:50,
 		showFooter:true,
 		fitColumns:false,    //每列占满
 		height:'100%',

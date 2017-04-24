@@ -36,6 +36,7 @@ function initDatagridYueJXC(){
 		fitColumns:false,    //每列占满
 		height:'100%',
 		width:'100%',
+		pageSize:50,
 		columns:[[
 			{field: 'branchCode', title: '机构编号', width: 100, align: 'left',formatter : function(value, row,index) {
 		        var str = value;
