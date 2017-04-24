@@ -1071,7 +1071,7 @@ function getSourceBranch(branchesId) {
  */
 function selectSourceBranch(){
 	var targetBranchType = $("#targetBranchType").val();
-	if(targetBranchType != '0' && targetBranchType != '1'){
+	if(targetBranchType != '0'){
         new publicAgencyService(function(data){
             if($("#sourceBranchId").val()!=data.branchesId){
                 $("#sourceBranchId").val(data.branchesId);
