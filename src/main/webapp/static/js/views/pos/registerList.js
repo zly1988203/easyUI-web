@@ -24,7 +24,7 @@ function initDatagridPosOrders(){
 		singleSelect: true,
         columns:[[
 			{field: 'branchCode', title: '店铺编号', width: '100px', align: 'left'},
-			{field: 'branchName', title: '店铺名称', width: '220px', align: 'left'},
+			{field: 'branchName', title: '店铺名称', width: '180px', align: 'left'},
 			{field: 'posNo', title: 'POS机号', width: '80px', align: 'left'},
 			{field: 'status', title: '绑定状态', width: '80px', align: 'left',
 				  formatter: function(value,row,index){
@@ -36,7 +36,8 @@ function initDatagridPosOrders(){
                       }
                   }
 			},
-			{field: 'bindAddress', title: '绑定地址', width: '220px', align: 'left'},
+			{field: 'bindAddress', title: '绑定地址', width: '180px', align: 'left'},
+			{field: 'currentUserName', title: '当前登录用户', width: '150px', align: 'left'},
         ]],
         onLoadSuccess : function() {
             gridHandel.setDatagridHeader("center");
