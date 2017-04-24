@@ -96,6 +96,9 @@ public class MonthlyReportController extends BaseController<MonthlyReportControl
 		vo = optional.orElse(new MonthlyReportVo());
 		vo.setPageNumber(pageNumber);
 		vo.setPageSize(pageSize);
+		if(StringUtils.isBlank(vo.getBranchId())){
+		    vo.setBranchId(getCurrBranchId());
+		}
 		if (StringUtils.isNotBlank(vo.getStartTime())) {
 			vo.setRptDate(vo.getStartTime());
 		} else {
@@ -209,6 +212,9 @@ public class MonthlyReportController extends BaseController<MonthlyReportControl
 		RespJson returnRespJson = RespJson.success();
 		Optional<MonthlyReportVo> optional = Optional.ofNullable(vo);
 		vo = optional.orElse(new MonthlyReportVo());
+		if(StringUtils.isBlank(vo.getBranchId())){
+		    vo.setBranchId(getCurrBranchId());
+		}
 		if (StringUtils.isNotBlank(vo.getStartTime())) {
 			vo.setRptDate(vo.getStartTime());
 		} else {

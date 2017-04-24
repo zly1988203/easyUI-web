@@ -187,7 +187,7 @@ function selectBranches(){
 	new publicAgencyService(function(data){
 		$("#createBranchId").val(data.branchesId);
 		$("#branchName").val(data.branchName);
-	},'BF',sessionBranchId);
+	},'',sessionBranchId);
 }
 
 /**
@@ -233,7 +233,7 @@ function exportData(){
 function exportExcel(){
 	var length = gridYueJXCList.datagrid('getData').total;
 	if(length == 0){
-		$.messager.alert('提示',"没有数据");
+		successTip('提示',"没有数据");
 		return;
 	}
 	var fromObjStr = $('#queryForm').serializeObject();
