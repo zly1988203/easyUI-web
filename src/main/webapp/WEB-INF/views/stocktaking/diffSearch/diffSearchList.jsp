@@ -79,6 +79,9 @@
 					<label> <input class="radioItem" type="radio"  value="1" checked name="rotation">汇总</label>
 				</div>
 				<div class="ub ub-ac umar-r10">
+					<label> <input class="radioItem" type="radio"  value="3" name="rotation">类别汇总 </label>
+				</div>
+				<div class="ub ub-ac umar-r10">
 					<label> <input class="radioItem" type="radio"  value="2" name="rotation">商品明细 </label>
 				</div>
 				<input type="hidden" id="rotationType" name="rotationType" value='1'/>
