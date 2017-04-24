@@ -7,7 +7,7 @@ $(function() {
 	
 	initDatagridSaleReturnList();
 	if(getUrlQueryString('message')=='0'){
-		$("#txtStartDate").val('');
+		 $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30)+" 00:00");
 		queryForm();
     }
 	// 单据状态切换
@@ -151,7 +151,7 @@ function selectTargetBranch(){
         $("#targetBranchId").val(data.branchesId);
         $("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
         $("#targetBranchType").val(data.type);
-	},'DZ',$("#sourceBranchId").val());
+	},'DZ',$("#sourceBranchId").val(),'',1);
 }
 
 /**

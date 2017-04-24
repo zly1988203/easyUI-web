@@ -24,7 +24,9 @@ function initDatagridPosOrders(){
 		singleSelect: true,
         columns:[[
             {field: 'id', title: ' ID', width: '100px', align: 'left',hidden:true},
-			{field: 'createUserCode', title: ' 用户编码', width: '150px', align: 'left'},
+            {field: 'branchCode', title: ' 机构编码', width: '150px', align: 'left'},
+            {field: 'branchName', title: '机构名称', width: '150px', align: 'left'},
+			{field: 'createUserCode', title: '用户编码', width: '150px', align: 'left'},
 			{field: 'createUserName', title: '姓名', width: '150px', align: 'left'},
 			{field: 'loginTime', title: '登录时间', width: '150px', align: 'left',
 				 formatter: function(value,row,index){
@@ -118,6 +120,14 @@ function queryForm(){
 	$("#registerList").datagrid('options').url = contextPath + '/pos/shiftHistory/queryList';
 	$("#registerList").datagrid('load', fromObjStr);
 }
-
+/**
+ * 店铺名称
+ */
+function selectBranches(){
+	new publicAgencyService(function(data){
+		$("#regBranchId").val(data.branchesId);
+		$("#branchInfo").val(data.branchName);
+	},'DP','');
+}
 
 

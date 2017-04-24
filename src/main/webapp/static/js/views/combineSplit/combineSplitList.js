@@ -3,9 +3,6 @@ $(function(){
     //开始和结束时间
     $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
-    if(getUrlQueryString('message')=='0'){
-		$("#txtStartDate").val('');
-    }
     //单据状态切换
     changeStatus();
     //初始化列表

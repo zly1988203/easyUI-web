@@ -8,6 +8,9 @@
  */
 package com.okdeer.jxc.controller.message;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +27,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.okdeer.jxc.common.result.RespJson;
+import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.message.service.MessageService;
 import com.okdeer.jxc.utils.UserUtil;
 
@@ -109,6 +113,8 @@ public class MessageController {
 	}
 	map.put("branchId", UserUtil.getCurrBranchId());
 	map.put("branchCompleCode", UserUtil.getCurrBranchCompleCode());
+	map.put("startTime", LocalDate.now().minus(30, ChronoUnit.DAYS).format(DateTimeFormatter.ofPattern(DateUtils.DATE_SMALL_STR_R))+" 00:00:00");
+	map.put("endTime",  LocalDate.now().format(DateTimeFormatter.ofPattern(DateUtils.DATE_SMALL_STR_R))+" 23:59:59");
 	int allCount = messageService.countAllMessage(map);
 	RespJson respJson = RespJson.success();
 	respJson.setData(allCount);
@@ -132,6 +138,8 @@ public class MessageController {
 	params.putAll(map);
 	params.put("branchId", UserUtil.getCurrBranchId());
 	params.put("branchCompleCode", UserUtil.getCurrBranchCompleCode());
+	params.put("startTime", LocalDate.now().minus(30, ChronoUnit.DAYS).format(DateTimeFormatter.ofPattern(DateUtils.DATE_SMALL_STR_R))+" 00:00:00");
+	params.put("endTime",  LocalDate.now().format(DateTimeFormatter.ofPattern(DateUtils.DATE_SMALL_STR_R))+" 23:59:59");
 	List<Integer> detailsCount = messageService.countDetailsMessage(params);
 	Map<String, Integer> datas = Maps.newHashMap();
 	Integer allCount = Integer.valueOf(0);

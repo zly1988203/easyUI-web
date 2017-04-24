@@ -5,11 +5,13 @@
 $(function(){
 	//开始和结束时间
 	toChangeDatetime(0);
-	if(getUrlQueryString('message')=='0'){
-		$("#txtStartDate").val('');
-	}
     initDatagridRequireOrders();
     targetBranchId = $("#targetBranchId").val();
+    if(getUrlQueryString('message')=='0'){
+    	 $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30)+" 00:00");
+    	 initDatagridRequireOrders();
+    }
+   
 });
 
 $(document).on('input','#remark',function(){
@@ -256,7 +258,7 @@ function getSourceBranch(branchesId) {
  */
 function selectSourceBranch(){
 	var targetBranchType = $("#targetBranchType").val();
-	if(targetBranchType != '0' && targetBranchType != '1'){
+	if(targetBranchType != '0'){
         new publicAgencyService(function(data){
             if($("#sourceBranchId").val()!=data.branchesId){
                 $("#sourceBranchId").val(data.branchesId);
@@ -264,7 +266,7 @@ function selectSourceBranch(){
                 $("#sourceBranchName").val("["+data.branchCode+"]"+data.branchName);
                 gridHandel.setLoadData([$.extend({},gridDefault)]);
             }
-        },'DZ',$("#sourceBranchId").val());
+        },'DZ',$("#targetBranchId").val(),'',1);
 	} else {
         new publicAgencyService(function(data){
             if($("#sourceBranchId").val()!=data.branchesId){
@@ -273,7 +275,7 @@ function selectSourceBranch(){
                 $("#sourceBranchName").val("["+data.branchCode+"]"+data.branchName);
                 gridHandel.setLoadData([$.extend({},gridDefault)]);
             }
-        },'DY',$("#targetBranchId").val());
+        },'DY',$("#targetBranchId").val(),'',1);
     }
 }
 //打印

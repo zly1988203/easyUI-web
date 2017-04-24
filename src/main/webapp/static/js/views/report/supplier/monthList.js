@@ -5,8 +5,8 @@
 $(function(){
 	
 	initDatagridGYYueJXC();
-	
-	$(".radioItem").on("click",queryForm());
+	branchId = $("#branchId").val();
+	//$(".radioItem").on("click",queryForm());
 });
 
 function updateWdatePicker(){
@@ -118,7 +118,7 @@ function selectBranches(){
 	new publicAgencyService(function(data){
 		$("#createBranchId").val(data.branchesId);
 		$("#branchName").val(data.branchName);
-	},'BF','');
+	},'BF',sessionBranchId);
 }
 
 
@@ -129,7 +129,8 @@ function selectSupplier(){
 	new publicSupplierService(function(data){
 		$("#supplierId").val(data.id);
 		$("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
-	},{});
+	},{"branchId":sessionBranchId});
+
 }
 
 /**
@@ -184,6 +185,11 @@ function exportExcel(){
 }
 
 var printReport = function(){
+	var length = gridGYYueJXCList.datagrid('getData').total;
+	if(length == 0){
+		$.messager.alert('提示',"没有数据");
+		return;
+	}
 	var queryParams =  urlEncode($("#queryForm").serializeObject());
 	parent.addTabPrint("reportPrint"+new Date().getTime(),"打印",contextPath+"/report/supplier/month/print?params="+queryParams);
 }

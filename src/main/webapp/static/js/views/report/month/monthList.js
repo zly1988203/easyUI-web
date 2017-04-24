@@ -5,6 +5,7 @@
 $(function(){
 	
 	initDatagridYueJXC();
+	branchId = $("#branchId").val();
 });
 
 function updateWdatePicker(){
@@ -51,8 +52,12 @@ function initDatagridYueJXC(){
 			{field: 'unit', title: '单位', width: 80, align: 'center'},
 			{field: 'categoryCode', title: '类别编号', width: 100, align: 'left'},
 			{field: 'categoryName', title: '类别名称', width: 120, align: 'left'},
-			{field: 'beginStock', title: '期初数量', width: 100, align: 'right'},
-			{field: 'beginCostAmount', title: '期初成本金额', width: 100, align: 'center',
+			{field: 'beginStock', title: '期初数量', width: 100, align: 'right',
+				formatter:function(value,row,index){
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				}
+			},
+			{field: 'beginCostAmount', title: '期初成本金额', width: 100, align: 'right',
 				formatter:function(value,row,index){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				}
@@ -182,7 +187,7 @@ function selectBranches(){
 	new publicAgencyService(function(data){
 		$("#createBranchId").val(data.branchesId);
 		$("#branchName").val(data.branchName);
-	},'BF','');
+	},'BF',sessionBranchId);
 }
 
 /**
@@ -248,6 +253,11 @@ function exportExcel(){
 }
 
 var printReport = function(){
+	var length = gridYueJXCList.datagrid('getData').total;
+	if(length == 0){
+		$.messager.alert('提示',"没有数据");
+		return;
+	}
 	var queryParams =  urlEncode($("#queryForm").serializeObject());
 	parent.addTabPrint("reportPrint"+new Date().getTime(),"打印",contextPath+"/report/month/print?params="+queryParams);
 }
