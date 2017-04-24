@@ -7,7 +7,8 @@ $(function(){
 	/*toChangeDatetime(0);*/
 	
 	 if(getUrlQueryString('message')=='0'){
-			$("#txtStartDate").val('');
+		 $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30)+" 00:00");
+		 $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd")+" 23:59");
 			 initDatagridRequireOrders();
 	    }else{
     initDatagridRequireOrders();

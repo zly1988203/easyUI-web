@@ -5,11 +5,13 @@
 $(function(){
 	//开始和结束时间
 	toChangeDatetime(0);
-	if(getUrlQueryString('message')=='0'){
-		$("#txtStartDate").val('');
-	}
     initDatagridRequireOrders();
     targetBranchId = $("#targetBranchId").val();
+    if(getUrlQueryString('message')=='0'){
+    	 $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30)+" 00:00");
+    	 initDatagridRequireOrders();
+    }
+   
 });
 
 $(document).on('input','#remark',function(){
