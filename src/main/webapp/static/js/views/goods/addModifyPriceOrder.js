@@ -50,8 +50,17 @@ function initGridData(formNo){
             if (data != null || data != '') {
                 //计算原毛利率、新毛利率
                 $.each(data,function (index,item) {
-                    item.oldSaleRate = ((item.oldSalePrice-item.oldPurPrice)/item.oldSalePrice*100).toFixed(2)+"%";
-                    item.newSaleRate = ((item.newSalePrice-item.newPurPrice)/item.newSalePrice*100).toFixed(2)+"%"
+                    if(item.oldSalePrice == 0 || item.oldSalePrice === '0' ){
+                        item.oldSaleRate = "0%";
+                    }else{
+                        item.oldSaleRate = ((item.oldSalePrice-item.oldPurPrice)/item.oldSalePrice*100).toFixed(2)+"%";
+                    }
+                    if(item.newSalePrice == 0 || item.newSalePrice === '0'){
+                        item.newSaleRate = "0%"
+                    }else{
+                        item.newSaleRate = ((item.newSalePrice-item.newPurPrice)/item.newSalePrice*100).toFixed(2)+"%"
+                    }
+
                 })
                 $("#"+datagridId).datagrid("loadData",data);
             }
@@ -397,6 +406,10 @@ function changeNewPurPrice(newVal,oldVal) {
 }
 //新零售价
 function changeNewSalePrice(newVal,oldVal) {
+    if(newVal==0 || newVal === '0'){
+        gridHandel.setFieldTextValue('newSaleRate','0%');
+        return;
+    }
     var newPurPrice = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'newPurPrice');
     var newSaleRate = ((newVal-newPurPrice)/newVal*100).toFixed(2)+"%"
     gridHandel.setFieldTextValue('newSaleRate',newSaleRate);
@@ -1043,7 +1056,12 @@ function gFunGoodsSelect(searchKey,branchId){
             }else{
                 item.oldSaleRate = ((item.oldSalePrice-item.oldPurPrice)/item.oldSalePrice*100).toFixed(2)+"%";
             }
-            item.newSaleRate = ((item.newSalePrice-item.newPurPrice)/item.newSalePrice*100).toFixed(2)+"%"
+            if(item.newSalePrice == 0 || item.newSalePrice === '0'){
+                item.newSaleRate = "0%"
+            }else{
+                item.newSaleRate = ((item.newSalePrice-item.newPurPrice)/item.newSalePrice*100).toFixed(2)+"%"
+            }
+
         })
 
         $("#"+datagridId).datagrid("loadData",newRows);
@@ -1272,7 +1290,12 @@ function updateListData(data){
         }else{
             item.oldSaleRate = ((item.oldSalePrice-item.oldPurPrice)/item.oldSalePrice*100).toFixed(2)+"%";
         }
-        item.newSaleRate = ((item.newSalePrice-item.newPurPrice)/item.newSalePrice*100).toFixed(2)+"%";
+
+        if(item.newSalePrice == 0 || item.newSalePrice === '0'){
+            item.newSaleRate = "0%"
+        }else{
+            item.newSaleRate = ((item.newSalePrice-item.newPurPrice)/item.newSalePrice*100).toFixed(2)+"%"
+        }
     });
     
     $("#"+datagridId).datagrid("loadData",newRows);
