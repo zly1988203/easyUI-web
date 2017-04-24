@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import com.okdeer.base.common.utils.EncryptionUtils;
 import com.okdeer.ca.api.common.ApiException;

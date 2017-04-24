@@ -73,7 +73,7 @@
 				   </div>
                    <div class="ub ub-ac  umar-l20">
 	                    <div class="umar-r10 uw-30 ut-r">最近</div>
-	                    <input class="uinp uw-30 easyui-numberbox" type="text" data-options="min:0" name="dayNum" id="dayNum" value="7">
+	                    <input class="uinp uw-30 easyui-numberbox" type="text" data-options="min:1" name="dayNum" id="dayNum" value="7">
 	                    <div class="umar-l10  ut-r">天引入的商品视为新品</div>
 	               </div> 
              </div>

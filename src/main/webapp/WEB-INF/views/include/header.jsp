@@ -24,7 +24,7 @@
 <link rel="stylesheet" href="${ctx}/static/css/icon.css" type="text/css">
 <link rel="stylesheet" href="${ctx}/static/css/style.css" type="text/css">
 <link rel="stylesheet" href="${ctx}/static/css/component.css" type="text/css">
-<link rel="stylesheet" href="${ctx}/static/css/base.css" type="text/css">
+<link rel="stylesheet" href="${ctx}/static/css/base.css?1=1" type="text/css">
 <link rel="stylesheet" href="${ctx}/static/css/app.css" type="text/css">
 
 <!--jquery-->

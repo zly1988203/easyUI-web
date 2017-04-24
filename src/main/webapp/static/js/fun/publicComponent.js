@@ -752,7 +752,7 @@ function publicGoodsServiceTem(param,callback){
 * */
 function setParam(param) {
     if(typeof(param.flag)==="undefined"){
-        param.flag = "";
+        param.flag = "0";
     }
     if(typeof(param.type)==="undefined"){
         param.type = "";
@@ -762,7 +762,7 @@ function setParam(param) {
         param.key = "";
     }
     if(typeof(param.isRadio)==="undefined"){
-        param.isRadio = "";
+        param.isRadio = "0";
     }
     if(typeof(param.branchId)==="undefined"){
         param.branchId = "";
@@ -780,52 +780,6 @@ function setParam(param) {
         param.categoryShows = "";
     }
     return param;
-}
-
-
-//公共组件-商品选择
-//flag:商品公共组件查询判断是否过滤捆绑商品
-function publicGoodsService(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId,supplierId,flag){
-	
-    var param = {
-    		type:type,
-    		key:key,
-    		isRadio:isRadio,
-    		sourceBranchId:sourceBranchId,
-    		targetBranchId:targetBranchId,
-    		branchId:branchId,
-    		supplierId:supplierId,
-    		flag:flag
-    }
-	
-	if(typeof(param.flag)=="undefined"){ 
-		param.flag = "";
-	}
-	if(param.key){
-		var urlTemp;
-		if(param.type=="DA"){
-			param.branchId = '';
-			urlTemp = contextPath + '/goods/goodsSelect/importSkuCode?skuCodesOrBarCodes='+param.key+'&branchId='+param.branchId+"&supplierId="+param.supplierId+"&type="+param.type+"&sourceBranchId="+param.sourceBranchId+"&targetBranchId="+param.targetBranchId+"&flag="+param.flag;
-		} else {
-			urlTemp = contextPath + '/goods/goodsSelect/importSkuCode?skuCodesOrBarCodes='+param.key+'&branchId='+param.branchId+"&supplierId="+param.supplierId+"&flag="+param.flag;
-		}
-		$.ajax({
-			url:urlTemp,
-			type:'POST',
-			success:function(data){
-				if(data&&data.length==1){
-					callback(data);
-			}else{
-				publicGoodsServiceHandel(param,callback);
-			}
-		},
-		error:function(){
-			 messager("数据查询失败");
-		}
-		})
-    }else{
-        publicGoodsServiceHandel(param,callback);
-    }
 }
 
 var good_dalogTemp = null;

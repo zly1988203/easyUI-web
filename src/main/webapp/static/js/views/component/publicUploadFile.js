@@ -72,6 +72,8 @@ function toUploadHandel(){
                 uploadFileCallBack(data.importInfo.list);
                 if(data.importInfo.errorFileUrl){
                     $("#errorUrl").html("<a href='"+contextPath+data.importInfo.errorFileUrl+"' target='_blank'>下载查看失败数据</a>");
+                }else{
+                	$("#errorUrl").html("");
                 }
             }else{
                 $("#message").html(data.message);

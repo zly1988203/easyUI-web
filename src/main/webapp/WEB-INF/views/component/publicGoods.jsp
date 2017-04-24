@@ -14,7 +14,7 @@ pageEncoding="UTF-8"%>
                     <select id="goodsType" class="easyui-combobox uselect"></select>
                 </div>
                 <div class="ubor-b "></div>
-                <div class="ub ubor ub-f1 uscroll">
+                <div class="ub ubor ub-f1 uscroll uh-200">
                     <div class="zTreeDemoBackground left">
                         <ul id="treeGoodsType" class="ztree"></ul>
                     </div>
@@ -22,13 +22,12 @@ pageEncoding="UTF-8"%>
             </div>
             <div class="ub ub-ver ub-f1 ">
                 <div class="ub ub-ac upad-10">
-
                     <input class="usearch uinp ub ub-f1" type="text" id="goodsInfo"
                            placeholder="可按货号、自编码、品名、助记码等查询">
                     <input type="button" class="ubtn umar-l10" value="查询" onclick="cx()">
                 </div>
 
-                <div class="ub  ub-f1 ">
+                <div class="ub  ub-f1" >
                     <table id="gridGoods"></table>
                 </div>
 

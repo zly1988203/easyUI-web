@@ -8,7 +8,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>退货申请-新增</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script  src="${ctx}/static/js/views/deliver/refund/DrAdd.js"></script>
+<script  src="${ctx}/static/js/views/deliver/refund/DrAdd.js?1=113"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
 	<div class="ub ub-ver ub-f1 umar-4  ubor">
@@ -49,7 +49,7 @@
 					<input type="hidden" name="sourceBranchId" id="sourceBranchId" class="uinp" />
 					<input type="hidden" id="sourceBranchType" name="sourceBranchType" />
 					<input type="text" name="sourceBranchName" id="sourceBranchName"class="uinp  ub ub-f1" readonly="readonly" onclick="selectSourceBranch()"/>
-					<div class="uinp-more" onclick="selectSourceBranch()">...</div>
+					<div class="uinp-more" id="source-btn" onclick="selectSourceBranch()">...</div>
 				</div>
 				<div class="ub ub-ac uw-300  umar-l80">
 					<div class="umar-r10 uw-80 ut-r">制单人员:</div>

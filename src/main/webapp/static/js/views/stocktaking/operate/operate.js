@@ -452,10 +452,12 @@ function saveDataHandel(rows,opType){
     				location.href = contextPath +"/stocktaking/operate/stocktakingFormView?id="+result['formId'];
     			});
             }else{
+                gFunEndLoading();
                 successTip(result['message']);
             }
         },
         error:function(result){
+            gFunEndLoading();
             successTip("请求发送失败或服务器处理失败");
         }
     });
