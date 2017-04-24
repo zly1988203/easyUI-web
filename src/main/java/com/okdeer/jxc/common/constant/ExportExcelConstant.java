@@ -429,6 +429,10 @@ public interface ExportExcelConstant {
 	 */
 	String DIFFSEARCHSUMMARIZING = "diffSearchSummarizing.xlsx";
 	/**
+	 * 盘点差异查询-类别汇总
+	 */
+	String DIFFSEARCHCATEGORYSUM = "diffSearchCategorySummarizing.xlsx";
+	/**
 	 * 盘点差异查询-明细
 	 */
 	String DIFFSEARCHDETAIL = "diffSearchDetail.xlsx";
