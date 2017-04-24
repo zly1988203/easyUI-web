@@ -1079,7 +1079,7 @@ function selectSourceBranch(){
                 $("#sourceBranchName").val("["+data.branchCode+"]"+data.branchName);
                 gridHandel.setLoadData([$.extend({},gridDefault)]);
             }
-        },'DZ',$("#sourceBranchId").val(),'',1);
+        },'DZ',$("#targetBranchId").val(),'',1);
 	} else {
         new publicAgencyService(function(data){
             if($("#sourceBranchId").val()!=data.branchesId){

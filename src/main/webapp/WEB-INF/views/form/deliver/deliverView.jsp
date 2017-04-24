@@ -22,7 +22,12 @@
             		<div class="ubtns-item" id="addButton" onclick="addDeliverForm()">新增</div>
             	</shiro:hasPermission>
             	<shiro:hasPermission name="JxcDeliverDA:terminate">
-            		<div class="ubtns-item" onclick="stop()">终止</div>
+            		<c:if test="${status == '已终止'}">
+            			<div class="ubtns-item-disabled">终止</div>
+            		</c:if>
+            		<c:if test="${status != '已终止'}">
+            			<div class="ubtns-item" onclick="stop()">终止</div>
+            		</c:if>
             	</shiro:hasPermission>
             	<shiro:hasPermission name="JxcDeliverDA:print">
             		<div class="ubtns-item" onclick="printChoose('DA','/form/deliverForm/')">打印</div>

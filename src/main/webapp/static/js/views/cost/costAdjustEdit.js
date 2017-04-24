@@ -223,7 +223,7 @@ function selectGoods(searchKey){
         branchId:branchId,
         sourceBranchId:'',
         targetBranchId:'',
-        supplierId:0,
+        supplierId:'',
         flag:'0',
     }
     new publicGoodsServiceTem(param,function(data){
