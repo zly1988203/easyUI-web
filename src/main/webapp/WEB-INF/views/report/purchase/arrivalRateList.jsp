@@ -75,7 +75,7 @@
 						<input class="radioItem" type="radio" name="type" id="deal3" value="2" /><label for="deal3">类别</label>
 					</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="radioItem" type="radio" name="type" id="deal3" value="3" /><label for="deal3">商品</label>
+						<input class="radioItem" type="radio" name="type" id="deal4" value="3" /><label for="deal4">商品</label>
 					</div>
 	            </div>
 	        </div>

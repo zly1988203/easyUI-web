@@ -5,7 +5,7 @@
 $(function(){
 	
 	initDatagridGYYueJXC();
-	
+	branchId = $("#branchId").val();
 	//$(".radioItem").on("click",queryForm());
 });
 
@@ -33,6 +33,7 @@ function initDatagridGYYueJXC(){
 		singleSelect:false,  //单选  false多选
 		rownumbers:true,    //序号
 		pagination:true,    //分页
+		pageSize:50,
 		showFooter:true,
 		fitColumns:false,    //每列占满
 		height:'100%',
@@ -118,7 +119,7 @@ function selectBranches(){
 	new publicAgencyService(function(data){
 		$("#createBranchId").val(data.branchesId);
 		$("#branchName").val(data.branchName);
-	},'BF','');
+	},'',sessionBranchId);
 }
 
 
@@ -126,10 +127,15 @@ function selectBranches(){
  * 供应商选择
  */
 function selectSupplier(){
+	if($("#branchName").val()==""){
+        messager("请先选择机构");
+        return;
+    } 
+	var branchId = $("#createBranchId").val();
 	new publicSupplierService(function(data){
 		$("#supplierId").val(data.id);
 		$("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
-	});
+	},{"branchId":branchId==""&&branchId?sessionBranchId:branchId,"isDirect":''});
 }
 
 /**
@@ -165,7 +171,7 @@ function exportData(){
 function exportExcel(){
 	var length = gridGYYueJXCList.datagrid('getData').total;
 	if(length == 0){
-		$.messager.alert('提示',"没有数据");
+		successTip('提示',"没有数据");
 		return;
 	}
 	var fromObjStr = $('#queryForm').serializeObject();

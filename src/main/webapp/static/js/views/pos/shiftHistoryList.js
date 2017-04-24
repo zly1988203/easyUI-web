@@ -108,7 +108,7 @@ function getShift(id){
 		    },
 		    modal:true,
 		    onLoad:function(){
-		    	setDolgObj(dalogTemp);
+
 		    },
 		});
 	}

@@ -5,6 +5,7 @@
 $(function(){
 	
 	initDatagridYueJXC();
+	branchId = $("#branchId").val();
 });
 
 function updateWdatePicker(){
@@ -35,6 +36,7 @@ function initDatagridYueJXC(){
 		fitColumns:false,    //每列占满
 		height:'100%',
 		width:'100%',
+		pageSize:50,
 		columns:[[
 			{field: 'branchCode', title: '机构编号', width: 100, align: 'left',formatter : function(value, row,index) {
 		        var str = value;
@@ -186,7 +188,7 @@ function selectBranches(){
 	new publicAgencyService(function(data){
 		$("#createBranchId").val(data.branchesId);
 		$("#branchName").val(data.branchName);
-	},'BF','');
+	},'',sessionBranchId);
 }
 
 /**
@@ -232,7 +234,7 @@ function exportData(){
 function exportExcel(){
 	var length = gridYueJXCList.datagrid('getData').total;
 	if(length == 0){
-		$.messager.alert('提示',"没有数据");
+		successTip('提示',"没有数据");
 		return;
 	}
 	var fromObjStr = $('#queryForm').serializeObject();

@@ -79,6 +79,9 @@ public class SupplierMonthlyReportController extends BaseController<DayReportCon
 		vo = optional.orElse(new DayReportQo());
 		vo.setPageNumber(pageNumber);
 		vo.setPageSize(pageSize);
+		if(StringUtils.isBlank(vo.getBranchId())){
+		    vo.setBranchId(getCurrBranchId());
+		}
 		if (StringUtils.isNotBlank(vo.getStartTime())) {
 			PageUtils<SupplierMonthReportVo> pageUtils = dayReportService.getSupplierMonthReportList(vo);
 			
@@ -138,6 +141,9 @@ public class SupplierMonthlyReportController extends BaseController<DayReportCon
 		RespJson resp = RespJson.success();
 		Optional<DayReportQo> optional = Optional.ofNullable(vo);
 		vo = optional.orElse(new DayReportQo());
+		if(StringUtils.isBlank(vo.getBranchId())){
+		    vo.setBranchId(getCurrBranchId());
+		}
 		if (StringUtils.isNotBlank(vo.getStartTime())) {
 			List<SupplierMonthReportVo> exportList = dayReportService.exportSupplierMonthList(vo);
 			String fileName = "供应商进销存月报表_" + DateUtils.getCurrSmallStr();

@@ -99,7 +99,7 @@ function deleteCombineSplit(){
 	var rows = $('#combineSplitList').datagrid('getChecked');
 	console.log('rows',rows);
 	if(rows.length <= 0){
-		$.messager.alert('提示','没有单据可以删除，请选择一笔单据再删除？');
+        messager('没有单据可以删除，请选择一笔单据再删除？','提示');
 		return;
 	}
 	var tempIds = [];
