@@ -5,7 +5,7 @@
 $(function(){
 	
 	initDatagridGYYueJXC();
-	
+	branchId = $("#branchId").val();
 	//$(".radioItem").on("click",queryForm());
 });
 
@@ -118,7 +118,7 @@ function selectBranches(){
 	new publicAgencyService(function(data){
 		$("#createBranchId").val(data.branchesId);
 		$("#branchName").val(data.branchName);
-	},'BF','');
+	},'BF',sessionBranchId);
 }
 
 
@@ -129,7 +129,7 @@ function selectSupplier(){
 	new publicSupplierService(function(data){
 		$("#supplierId").val(data.id);
 		$("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
-	});
+	},{"branchId":sessionBranchId});
 }
 
 /**

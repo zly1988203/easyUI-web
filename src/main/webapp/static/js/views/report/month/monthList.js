@@ -5,6 +5,7 @@
 $(function(){
 	
 	initDatagridYueJXC();
+	branchId = $("#branchId").val();
 });
 
 function updateWdatePicker(){
@@ -186,7 +187,7 @@ function selectBranches(){
 	new publicAgencyService(function(data){
 		$("#createBranchId").val(data.branchesId);
 		$("#branchName").val(data.branchName);
-	},'BF','');
+	},'BF',sessionBranchId);
 }
 
 /**
