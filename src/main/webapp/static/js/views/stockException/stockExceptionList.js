@@ -5,10 +5,10 @@ $(function(){
     	//$("#branchName").val(sessionBranchName);
     	$("#startCount").attr("value",null);
     	$("#endCount").attr("value",null);
-    	//var fromObjStr = $('#queryForm').serializeObject();
-    	//$("#stockException").datagrid("options").method = "post";
-    	//$("#stockException").datagrid('options').url = contextPath + '/stock/exception/getStockExceptionList';
-    	//$("#stockException").datagrid('load', fromObjStr);
+    	var fromObjStr = $('#queryForm').serializeObject();
+    	$("#stockException").datagrid("options").method = "post";
+    	$("#stockException").datagrid('options').url = contextPath + '/stock/exception/getStockExceptionList';
+    	$("#stockException").datagrid('load', fromObjStr);
     }
 });
 /**
