@@ -17,16 +17,16 @@ $(function(){
     //单据状态切换
     changeStatus();
     if(getUrlQueryString('message')=='0'){
-    	$("#txtStartDate").val('');
     	$('#tabs').tabs({'selected':1});
+    	query();
     }else{
-    	$("#txtStartDate").val('');
     	document.getElementById("radioItemDiv").style.visibility="hidden";
 		$("#refFormNo").val('');
 		document.getElementById("refFormNoDiv").style.visibility="hidden";
 		toBtnEnable('btnAdd','btnDel');
 		setQueryDataPA();
 		initDatagridFormPA();
+		query();
     }
 });
 
@@ -174,7 +174,7 @@ function initDatagridFormPA(){
         method:'post',
         align:'center',
         queryParams : {formType : 'PA'},
-        url:contextPath+tempURL,
+        //url:contextPath+tempURL,
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
         pagination:true,    //分页
@@ -216,6 +216,8 @@ function receiptAdd(){
 
 function query(){
 	var fromObjStr = $('#queryForm').serializeObject();
+	$("#" + tableIdName).datagrid('options').url = contextPath+tempURL;
+	//$("#" + tableIdName).datagrid('options').queryParams = fromObjStr;
 	$("#" + tableIdName).datagrid('load',fromObjStr);
 }
 

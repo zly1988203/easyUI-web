@@ -46,14 +46,15 @@ var goodsClass = new goodsArchives();
 $(function(){
 	 $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
 	 $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
-	 if(getUrlQueryString('message')=='0'){
-			$("#txtStartDate").val('');
-	    }
+	 
     initView();
     initTreeArchives();
     initDatagridArchives();
     changeStatus();
     goodsSearch();
+    if(getUrlQueryString('message')=='0'){
+    	 goodsSearch();
+    }
 });
 
 

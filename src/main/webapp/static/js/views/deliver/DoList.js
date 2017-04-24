@@ -15,7 +15,7 @@ $(function(){
 	setQueryDataDA();
 	delDivAuditStatus();
 	if(getUrlQueryString('message')=='0'){
-		$("#txtStartDate").val('');
+		$("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30)+" 00:00");
 		$('#tabs').tabs({'selected':1});
     }
 	initDatagridRequireOrdersDA();
