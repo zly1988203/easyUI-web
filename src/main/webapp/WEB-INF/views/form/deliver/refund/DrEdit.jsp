@@ -22,7 +22,7 @@
 						<div class="ubtns-item" onclick="addDeliverDR()">新增</div>
 					</shiro:hasPermission>
 					<shiro:hasPermission name="JxcDeliverDR:save">
-						<div class="ubtns-item" onclick="saveOrder()">保存</div>
+						<div class="ubtns-item" onclick="updateOrder()">保存</div>
 					</shiro:hasPermission>
 					<shiro:hasPermission name="JxcDeliverDR:audit">
 						<div class="ubtns-item" onclick="check()">审核</div>
