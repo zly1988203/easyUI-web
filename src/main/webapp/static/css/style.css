@@ -151,10 +151,10 @@ i, em {font-style: normal;}
 .form-fill .tt {position: absolute; top: 5px; left: 0; width: 100px; text-align: right; white-space: nowrap;}
 .form-fill .con {padding: 0 0 0 110px;}
 
-.textbox-text, .easyui-validatebox {
-  /*width: 180px; line-height: 20px;height: 30px; */
-  padding: 4px 5px; border: 1px solid #ccc;
-  background-color: #fcfcfc; vertical-align: baseline; color: #888;}
+/*.textbox-text, .easyui-validatebox {*/
+  /*!*width: 180px; line-height: 20px;height: 30px; *!*/
+  /*padding: 4px 5px; border: 1px solid #ccc;*/
+  /*background-color: #fcfcfc; vertical-align: baseline; color: #888;}*/
 .textbox-text:focus, .easyui-validatebox:focus {border-color: #aaa; background-color: #fff; box-shadow: 0 0 2px rgba(50,50,50,0.2); color: #333;}
 textarea.textbox-text {height: 80px; line-height: 18px;}
 

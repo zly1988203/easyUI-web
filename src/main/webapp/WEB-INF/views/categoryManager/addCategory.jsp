@@ -32,7 +32,7 @@ pageEncoding="UTF-8"%>
 			<div class="ub upad-4">
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">类别名称:</div>
-					<input id="categoryName" name="categoryName" value="" class="uinp easyui-validatebox" data-options="required:true" maxlength="20"
+					<input id="categoryName" name="categoryName" value="" class="uinp" maxlength="20"
 					onkeyup="value=value.replace(/[^\#\\\_\-\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')" 
 					onpaste="value=value.replace(/[^\#\\\_\-\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')" 
 					oncontextmenu = "value=value.replace(/[^\#\\\_\-\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')">

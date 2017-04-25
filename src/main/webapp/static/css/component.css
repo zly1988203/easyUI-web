@@ -276,7 +276,7 @@
   border: 1px solid #c9c9c9;
   height: 32px !important; }
 
-.textbox-text, .easyui-validatebox, .easyui-textbox {
+.textbox-text, .easyui-validatebox,.easyui-textbox{
   height: 30px !important;
   text-indent: 4px;
   padding: 0 !important;
@@ -286,14 +286,16 @@
   background-color: #fff;
   vertical-align: baseline;
   color: #393939;
-  outline: none; }
+  outline: none;
+}
 
 .textbox-text:focus, .easyui-validatebox:focus {
   border-color: #aaa;
   background-color: #fff;
   box-shadow: 0 0 2px rgba(50, 50, 50, 0.2);
-  color: #333; }: #efefef;
+  color: #333;
 }
+
   .textbox-text:read-only {
    background-color: #efefef;
   }

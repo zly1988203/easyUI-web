@@ -716,7 +716,6 @@ function publicGoodsServiceTem(param,callback){
 		var urlTemp;
 		if(param.type=="DA"){
 			param.branchId = '';
-
             urlTemp = contextPath + '/goods/goodsSelect/importSkuCode';
 		} else {
             urlTemp = contextPath + '/goods/goodsSelect/importSkuCode';

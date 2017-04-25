@@ -354,6 +354,12 @@ function saveGoodsArchives(){
 		$('#updateGoodsArchives').removeAttr("disabled");
 		return;
 	}
+
+    if($('#skuName').val().trim()===""){
+        $('#updateGoodsArchives').removeAttr("disabled");
+        messager("请输入商品名称");
+        return;
+    }
 	
 	if($("#purchaseSpec").val()=== '0.00'){
 		$('#updateGoodsArchives').removeAttr("disabled");
@@ -389,7 +395,7 @@ function saveGoodsArchives(){
 					submitForm();
 				}else{
 					$('#updateGoodsArchives').removeAttr("disabled");
-					$.messager.alert("提示",result.message);
+					messager(result.message);
 				}
 			},
 			error:function(result){
@@ -411,12 +417,12 @@ function submitForm(){
 		url:url,
 		success:function(data){
 			if(JSON.parse(data).code == 0){
-				$.messager.alert("提示","保存成功");
+				messager("保存成功");
 				goodsSearch();
 				closeDialog();
 			}else{
 				$('#updateGoodsArchives').removeAttr("disabled");
-				$.messager.alert("提示",JSON.parse(data).message);
+				messager(JSON.parse(data).message);
 			}
 		}
 	});
@@ -684,7 +690,7 @@ function saveBarCode(){
 	        data:JSON.stringify(newData),
 	        success:function(result){
 	            if(result['code'] == 0){
-	                $.messager.alert("操作提示", "操作成功！");
+	                messager("操作成功！");
 	            }else{
 	                successTip(result['message']);
 	            }

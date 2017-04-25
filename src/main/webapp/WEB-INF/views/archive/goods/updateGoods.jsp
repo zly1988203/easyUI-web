@@ -65,8 +65,7 @@ pageEncoding="UTF-8"%>
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">商品名称:</div>
 						<div class="ub">
-							<input id="skuName" name="skuName" class="uinp easyui-validatebox"
-								   data-options="required:true" maxlength="20">
+							<input id="skuName" name="skuName" class="uinp" maxlength="20">
 						</div>
 						<i class="uc-red">*</i>
 					</div>
@@ -88,7 +87,7 @@ pageEncoding="UTF-8"%>
 								   type="hidden"> <input id="categoryCode"
 														 name="categoryCode" class="uinp" type="hidden"> <input
 								id="categoryName" name="categoryName" class="uinp" type="text"
-								readonly="readonly" data-options="required:true">
+								readonly="readonly">
 							<div class="uinp-more " onclick="getGoodsType()">...</div>
 						</div>
 						<i class="uc-red">*</i>
