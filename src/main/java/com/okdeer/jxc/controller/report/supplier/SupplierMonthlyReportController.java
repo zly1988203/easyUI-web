@@ -9,7 +9,6 @@
 
 package com.okdeer.jxc.controller.report.supplier;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
@@ -87,51 +86,20 @@ public class SupplierMonthlyReportController extends BaseController<DayReportCon
 			
 			if(pageUtils==null){
 				return PageUtils.emptyPage();
+			}else{
+				SupplierMonthReportVo reportVo = dayReportService.sumSupplierMonthReportList(vo);
+				if(reportVo!=null){
+        				reportVo.setBranchCode("SUM");
+        				pageUtils.setFooter(new ArrayList<SupplierMonthReportVo>(){
+        				    private static final long serialVersionUID = 1L;
+        
+        				    {
+        					add(reportVo);
+        				    }
+        				});
+				}
+				return pageUtils;
 			}
-			
-			// 汇总合计
-			List<SupplierMonthReportVo> vos = pageUtils.getRows();
-			BigDecimal beginStock = BigDecimal.ZERO;
-			BigDecimal beginCostAmount = BigDecimal.ZERO;
-			BigDecimal beginSaleAmount = BigDecimal.ZERO;
-			BigDecimal endStock = BigDecimal.ZERO;
-			BigDecimal endCostAmount = BigDecimal.ZERO;
-			BigDecimal endSaleAmount = BigDecimal.ZERO;
-			BigDecimal posNum = BigDecimal.ZERO;
-			BigDecimal costAmount = BigDecimal.ZERO;
-			BigDecimal posAmount = BigDecimal.ZERO;
-			BigDecimal profitAmount = BigDecimal.ZERO;
-			for (SupplierMonthReportVo reportVo : vos) {
-				beginStock = beginStock.add(reportVo.getBeginStock()==null?BigDecimal.ZERO:reportVo.getBeginStock());
-				beginCostAmount = beginCostAmount.add(reportVo.getBeginCostAmount()==null?BigDecimal.ZERO:reportVo.getBeginCostAmount());
-				beginSaleAmount = beginSaleAmount.add(reportVo.getBeginSaleAmount()==null?BigDecimal.ZERO:reportVo.getBeginSaleAmount());
-				endStock = endStock.add(reportVo.getEndStock()==null?BigDecimal.ZERO:reportVo.getEndStock());
-				endCostAmount = endCostAmount.add(reportVo.getEndCostAmount()==null?BigDecimal.ZERO:reportVo.getEndCostAmount());
-				endSaleAmount = endSaleAmount.add(reportVo.getEndSaleAmount()==null?BigDecimal.ZERO:reportVo.getEndSaleAmount());
-				posNum = posNum.add(reportVo.getPosNum()==null?BigDecimal.ZERO:reportVo.getPosNum());
-				costAmount = costAmount.add(reportVo.getCostAmount()==null?BigDecimal.ZERO:reportVo.getCostAmount());
-				posAmount = posAmount.add(reportVo.getPosAmount()==null?BigDecimal.ZERO:reportVo.getPosAmount());
-				profitAmount = profitAmount.add(reportVo.getProfitAmount()==null?BigDecimal.ZERO:reportVo.getProfitAmount());
-			}
-			List<SupplierMonthReportVo> footer = new ArrayList<SupplierMonthReportVo>();
-			if (pageUtils != null) {
-				SupplierMonthReportVo reportVo = new SupplierMonthReportVo();
-				reportVo.setBranchCode("SUM");
-				reportVo.setBeginCostAmount(beginCostAmount);
-				reportVo.setBeginSaleAmount(beginSaleAmount);
-				reportVo.setBeginStock(beginStock);
-				reportVo.setCostAmount(costAmount);
-				reportVo.setEndCostAmount(endCostAmount);
-				reportVo.setEndSaleAmount(endSaleAmount);
-				reportVo.setEndStock(endStock);
-				reportVo.setPosAmount(posAmount);
-				reportVo.setPosNum(posNum);
-				reportVo.setProfitAmount(profitAmount);
-				footer.add(reportVo);
-			}
-			pageUtils.setFooter(footer);
-
-			return pageUtils;
 		}
 		return PageUtils.emptyPage();
 	}
