@@ -421,7 +421,7 @@ function saveGoodsArchives(){
 					submitForm();
 				}else{
 					$('#saveGoodsArchives').removeAttr("disabled");
-					$.messager.alert("提示",result.message);
+                    messager(result.message);
 				}
 			},
 			error:function(result){
@@ -441,10 +441,10 @@ function submitForm(){
 			if(JSON.parse(data).code == 0){
 				closeDialog();
 				openDialog(contextPath+"/common/goods/updateGoodsView?id="+JSON.parse(data).id,"修改商品档案","edit",JSON.parse(data).id);
-				$.messager.alert("提示","保存成功");
+				messager("保存成功");
 			}else{
 				$('#saveGoodsArchives').removeAttr("disabled");
-				$.messager.alert("提示",JSON.parse(data).message);
+				messager(JSON.parse(data).message);
 			}
 		}
 	});

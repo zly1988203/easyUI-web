@@ -384,12 +384,12 @@ function saveGoodsArchives(){
     var vipPrice = $("#vipPrice").numberbox("getValue");
 	if(parseFloat(salePriceV || 0) <= 0){
 		$('#saveGoodsArchives').removeAttr("disabled");
-		$.messager.alert("提示","零售价必须大于0!");
+        messager("零售价必须大于0!");
 		return;
 	}
     if(parseFloat(vipPrice || 0) <= 0){
         $('#saveGoodsArchives').removeAttr("disabled");
-        $.messager.alert("提示","会员价必须大于0!");
+        messager("会员价必须大于0!");
         return;
     }
 	
@@ -427,7 +427,7 @@ function saveGoodsArchives(){
 				submitForm();
 			}else{
 				$('#saveGoodsArchives').removeAttr("disabled");
-				$.messager.alert("提示",result.message);
+				messager(result.message,"提示");
 			}
 		},
 		error:function(result){
@@ -444,11 +444,11 @@ function submitForm(){
 			if(JSON.parse(data).code == 0){
 				closeDialog();
 				openDialog(contextPath+"/goods/newGoodsApply/updateGoodsView?id="+JSON.parse(data).id,"修改新品申请","edit",JSON.parse(data).id);
-				$.messager.alert("提示","保存成功");
+                messager("保存成功");
 				$("#gridArchives").datagrid('reload');
 			}else{
 				$('#saveGoodsArchives').removeAttr("disabled");
-				$.messager.alert("提示",JSON.parse(data).message);
+                messager(JSON.parse(data).message);
 			}
 		}
 	});

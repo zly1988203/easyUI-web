@@ -22,7 +22,7 @@ pageEncoding="UTF-8"%>
 				</div>
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">供应商名称:</div>
-					<input id="supplierName" name="supplierName" class="uinp easyui-validatebox" data-options="required:true" maxlength="50" value="${supplier.supplierName }">
+					<input id="supplierName" name="supplierName" class="uinp" maxlength="50" value="${supplier.supplierName }">
 					<i class="uc-red">*</i>
 				</div>
 				<div class="ub ub-ac uw-320">

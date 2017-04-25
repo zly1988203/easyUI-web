@@ -19,6 +19,11 @@ function saveSupplier() {
 	if (!isValid) {
 		return;
 	}
+    if($('#supplierName').val().trim()===""){
+        messager("请输入供应商名称");
+        return;
+    }
+
 	var formObj = $('#formAdd').serializeObject();
 	$.ajax({
 		url : contextPath + "/supplier/addSupplier",
