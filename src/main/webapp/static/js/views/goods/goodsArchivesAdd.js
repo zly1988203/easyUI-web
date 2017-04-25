@@ -381,6 +381,12 @@ function saveGoodsArchives(){
 		$('#saveGoodsArchives').removeAttr("disabled");
 		return;
 	}
+
+    if($('#skuName').val().trim()===""){
+        $('#saveGoodsArchives').removeAttr("disabled");
+        messager("请输入商品名称");
+        return;
+    }
 	
 	if($('#purchaseSpec').val()=="0.00"){
 		$('#saveGoodsArchives').removeAttr("disabled");

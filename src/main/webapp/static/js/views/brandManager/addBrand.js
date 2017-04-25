@@ -6,6 +6,13 @@ function save() {
 		$('#saveBrand').removeAttr("disabled");
 		return;
 	}
+
+    if($('#brandName').val().trim()===""){
+        $('#saveBrand').removeAttr("disabled");
+        messager("请输入品牌名称");
+        return;
+    }
+
 	var formObj = $('#formAdd').serializeObject();
 	$.ajax({
 		url : contextPath + "/common/brand/saveBrand",

@@ -6,6 +6,12 @@ function save() {
 		$('#saveCategory').removeAttr("disabled");
 		return;
 	}
+    if($('#categoryName').val().trim()===""){
+        $('#saveCategory').removeAttr("disabled");
+        messager("请输入品牌名称");
+        return;
+    }
+
 	var formObj = $('#formAdd').serializeObject();
 	$.ajax({
 		url : contextPath + "/common/category/updateCategory",

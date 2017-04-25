@@ -354,6 +354,12 @@ function saveGoodsArchives(){
 		$('#updateGoodsArchives').removeAttr("disabled");
 		return;
 	}
+
+    if($('#skuName').val().trim()===""){
+        $('#updateGoodsArchives').removeAttr("disabled");
+        messager("请输入商品名称");
+        return;
+    }
 	
 	var salePriceV = $("#salePrice").numberbox("getValue");
     var vipPrice = $("#vipPrice").numberbox("getValue");

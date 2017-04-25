@@ -14,7 +14,8 @@ pageEncoding="UTF-8"%>
         </div>
     </div>
     <div class="ub uline "></div>
-    <form id="formGoodsArchivesAdd" style="font-size: 14px;" method="post">
+
+    <form id="formGoodsArchivesAdd"  style="font-size: 14px;" method="post">
         <div class="ub ub-ver ub-ac upad-4">
             <div class="ub upad-4">
                 <div class="ub ub-ac uw-300">
@@ -24,13 +25,13 @@ pageEncoding="UTF-8"%>
                 <div class="ub ub-ac uw-300">
                     <div class="umar-r10 uw-60 ut-r">商品名称:</div>
                     <div class="ub">
-                        <input id="skuName" name="skuName" class="uinp uw-200 easyui-validatebox" data-options="required:true" maxlength="20">
+                        <input id="skuName" name="skuName" class="uinp  uw-200" autofocus="autofocus"  maxlength="20">
                     </div>
                     <i class="uc-red">*</i>
                 </div>
                 <div class="ub ub-ac uw-300">
                     <div class="umar-r10 uw-60 ut-r">商品条码:</div>
-                  <input id="barCode" name="barCode"  class="uinp  easyui-validatebox uw-200 " data-options="validType:'intNum'">
+                  <input id="barCode" name="barCode"  class="uinp  uw-200" data-options="validType:'intNum'">
                    <!--  <i class="ub uc-red">*</i> -->
                 </div>
             </div>
@@ -44,7 +45,7 @@ pageEncoding="UTF-8"%>
                     <input id="categoryId" name="categoryId"   class="uinp" type="hidden">
                     <input id="categoryCode" name="categoryCode"   class="uinp" type="hidden">
                     <div class="ub">
-                        <input id="categoryName" name="categoryName"   class="uinp uw-200 easyui-validatebox" type="text" readonly="readonly"  data-options="required:true">
+                        <input id="categoryName" name="categoryName"   class="uinp  uw-200" type="text" readonly="readonly">
                         <div class="uinp-more " onclick="getGoodsType()">...</div>
                     </div>
                     <i class="uc-red">*</i>
@@ -138,7 +139,7 @@ pageEncoding="UTF-8"%>
                 </div>
                 <div class="ub ub-ac uw-300">
                     <div class="umar-r10 uw-60 ut-r">联营/代销扣率:</div>
-                    <input id="supplierRate" name="supplierRate" value=""  class="uinp easyui-numberbox easyui-validatebox" style="width: 204px;" data-options="min:0,precision:2" type="text" 
+                    <input id="supplierRate" name="supplierRate" value=""  class="uinp easyui-numberbox easyui-validatebox" style="width: 204px;" data-options="min:0,precision:2" type="text"
                     onkeyup="checkSupplierRate(this);" onafterpaste="checkSupplierRate(this);">%
                 </div>
                 <div class="ub ub-ac uw-300">
@@ -211,21 +212,21 @@ pageEncoding="UTF-8"%>
 							   onkeyup="checkPositiveInteger(this);"
 							   onafterpaste="checkPositiveInteger(this)">%
 					</div>
-					
+
 				<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">安全库存系数:</div>
 						<input id="safetyCoefficient" name="safetyCoefficient" value='1' style="width: 204px;"
 							    class="uinp uinp-no-more easyui-numberbox easyui-validatebox"
 							   data-options="min:0.1,max:999.9,precision:2,validType:['length[0,18]']" type="text" maxlength="4"
 							   >
-				</div>	
-               
+				</div>
+
                 <div id="createUserName" class="ub ub-ac uw-300 ">
                     <div class="umar-r10 uw-60 ut-r">建档人:</div>
                     <input id="createUserName" name="createUserName"   class="uinp uinp-no-more" type="text" readonly="readonly" >
                 </div>
-              
-              
+
+
  <!--                 <div id="checkDate" class="ub ub-ac uw-300 ">
                     <div class="umar-r10 uw-60 ut-r">审核时间:</div>
                     <input id="checkDate" name="checkDate"   class="uinp uinp-no-more" type="text" readonly="readonly">
@@ -255,7 +256,7 @@ pageEncoding="UTF-8"%>
                     <input id="applyUserName" name="applyUserName"   class="uinp uinp-no-more" type="text" readonly="readonly" >
                 </div>
             </div> -->
-            
+
             <div class="ub upad-4">
                 <div class="umar-r10 uw-60 ut-r">备注:</div>
                 <textarea id="remark" name="remark" class="uh-40 umar-r30 ubor" style="width: 800px;"maxlength="100" type="text"></textarea>
