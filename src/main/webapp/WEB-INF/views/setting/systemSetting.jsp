@@ -61,14 +61,14 @@
 					<div class="ub uw-200 ut-r">订货安全系数设置:</div>
 					<div class="ub ub-f1 ub-ver">
 						<div class="ub  ub-ac ">
-							<label><input  type="radio" id="isAllowMinusStock1" name="safetyCoefficientType" value="0" />取商品档案安全系数</label>
+							<label class="satetyLabel" onClick="changeType(0)"><input  type="radio" id="isAllowMinusStock1" name="safetyCoefficientType" value="0" />取商品档案安全系数</label>
 						</div>
 						<div class="ub  ub-ac umar-t10">
-							<label><input  type="radio" id="isAllowMinusStock0" name="safetyCoefficientType" value="1" />取供应商送货周期，转换关系：1天0.5倍，2天1倍，3－4天1.5倍， 5天以上2倍</label>
+							<label class="satetyLabel" onClick="changeType(1)"><input  type="radio" id="isAllowMinusStock0" name="safetyCoefficientType" value="1" />取供应商送货周期，转换关系：1天0.5倍，2天1倍，3－4天1.5倍， 5天以上2倍</label>
 						</div>
-						<div class="ub  ub-ac umar-t10">
-							<label><input  type="radio" id="isAllowMinusStock0" name="safetyCoefficientType" value="2" />
-							仓库平均送货周期 <input class="uinp uw-30 easyui-numberbox" type="text" data-options="min:0" name="safetyCoefficientValue" id="safetyCoefficientValue" >天，转换关系：1天0.5倍，2天1倍，3－4天1.5倍， 5天以上2倍</label>
+						<div class="ub  ub-ac umar-t10" >
+							<label class="satetyLabel" onClick="changeType(2)"><input  type="radio" id="isAllowMinusStock0" name="safetyCoefficientType" value="2" /></label>
+							仓库平均送货周期 <input class="uinp uw-30 easyui-numberbox" type="text"  data-options="min:0,disabled:true" name="safetyCoefficientValue" id="safetyCoefficientValue" >天，转换关系：1天0.5倍，2天1倍，3－4天1.5倍， 5天以上2倍
 						</div>
 						<div class="ub  ub-ac umar-t10">订货周期 * 安全库存系数 * MAX(上周日均销量，前周日均销量)－当前库存(结果取配送规格倍数)</div>
 					</div>
@@ -110,7 +110,17 @@
 		$("#isNaturalMonth1").click(function (){
 			changeIsNaturalMonth();
 		});
+		
 	});
+	
+	//changeType 
+	function changeType(v){
+		if(v == '2'){
+			$('#safetyCoefficientValue').numberbox('enable');
+		}else{
+			$('#safetyCoefficientValue').numberbox('disable');
+		}
+	}
 	
 	//初始页面
 	function init(data){
@@ -176,6 +186,17 @@
 	function save() {
 		$("#settingForm").form({
 			onSubmit : function() {
+				console.log($('#safetyCoefficientValue').numberbox('getValue'));
+			    
+				if($("input[name='isNaturalMonth']:checked").val() == '0' &&  !$("#monthReportDay").numberbox('getValue')  ){
+					$.messager.alert('提示','请设置指定日期');
+					return false;
+				}
+				if($("input[name='safetyCoefficientType']:checked").val() == '2' &&  !$("#safetyCoefficientValue").numberbox('getValue')  ){
+					$.messager.alert('提示','请设置送货周期');
+					return false;
+				}
+				//return false;
 				gFunStartLoading('正在保存，请稍后...');
 				return true;
 			},
