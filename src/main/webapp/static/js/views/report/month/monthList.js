@@ -155,7 +155,7 @@ function initDatagridYueJXC(){
 			},
 			{field: 'profitMargin', title: '销售毛利率', width: 100, align: 'right',
 				formatter:function(value,row,index){
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+					return '<b>'+parseFloat(value||0).toFixed(2)+'%</b>';
 				}
 			},
 			{field: 'profitAmount', title: '销售毛利', width: 100, align: 'right',
