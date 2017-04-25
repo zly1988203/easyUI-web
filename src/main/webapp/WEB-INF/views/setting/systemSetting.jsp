@@ -68,9 +68,9 @@
 						</div>
 						<div class="ub  ub-ac umar-t10">
 							<label><input  type="radio" id="isAllowMinusStock0" name="safetyCoefficientType" value="2" />
-							仓库平均送货周期 <input class="uinp uw-30 easyui-numberbox" type="text" data-options="min:0" name="safetyCoefficientValue" id="safetyCoefficientValue" value="7">天，转换关系：1天0.5倍，2天1倍，3－4天1.5倍， 5天以上2倍</label>
+							仓库平均送货周期 <input class="uinp uw-30 easyui-numberbox" type="text" data-options="min:0" name="safetyCoefficientValue" id="safetyCoefficientValue" >天，转换关系：1天0.5倍，2天1倍，3－4天1.5倍， 5天以上2倍</label>
 						</div>
-						<div class="ub  ub-ac umar-t10">订货标准＝每日销量*（订货周期+送货周期） + 每日销量*安全库存系数－（实际库存+未送达订货）</div>
+						<div class="ub  ub-ac umar-t10">订货周期 * 安全库存系数 * MAX(上周日均销量，前周日均销量)－当前库存(结果取配送规格倍数)</div>
 					</div>
 				</div>
 			</form>
@@ -134,6 +134,23 @@
 			$("#isNaturalMonth1").attr("checked",true);
 			$("#monthReportDay").numberbox("setValue",monthReportDay);
 		}
+		
+		var safetyCoefficientType = data.safetyCoefficientType;
+		
+		//安全系数类型 默认为商品档案
+		if(!safetyCoefficientType){
+			safetyCoefficientType = 0;
+		}
+		
+		// 初始化安全系数类型单选按钮值
+		$(":radio[name='safetyCoefficientType']").eq(safetyCoefficientType).prop('checked',true); 
+		
+		// 如果是设置值类型
+		if(safetyCoefficientType === 2){
+			var safetyCoefficientValue = data.safetyCoefficientValue;
+			$('#safetyCoefficientValue').numberbox('setValue', safetyCoefficientValue);
+		}
+		
 		//切换是否为自然月
 		changeIsNaturalMonth();
 	}
