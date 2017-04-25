@@ -9,7 +9,6 @@
 
 package com.okdeer.jxc.controller.report.month;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -113,88 +112,20 @@ public class MonthlyReportController extends BaseController<MonthlyReportControl
 		// 汇总合计
 		List<MonthlyReportVo> vos = pageUtils.getRows();
 		if (!CollectionUtils.isEmpty(vos)) {
-			BigDecimal beginStock = BigDecimal.ZERO;
-			BigDecimal beginCostAmount = BigDecimal.ZERO;
-			BigDecimal beginSaleAmount = BigDecimal.ZERO;
-
-			BigDecimal purchaseNum = BigDecimal.ZERO;
-			BigDecimal purchaseAmount = BigDecimal.ZERO;
-			BigDecimal dciNum = BigDecimal.ZERO;
-			BigDecimal dciAmount = BigDecimal.ZERO;
-			BigDecimal dcoNum = BigDecimal.ZERO;
-			BigDecimal dcoAmount = BigDecimal.ZERO;
-			BigDecimal otherNum = BigDecimal.ZERO;
-			BigDecimal otherAmount = BigDecimal.ZERO;
-			BigDecimal costChangeAmount = BigDecimal.ZERO;
-			BigDecimal salePrice = BigDecimal.ZERO;
-			BigDecimal costPrice = BigDecimal.ZERO;
-			BigDecimal profitMargin = BigDecimal.ZERO;
-
-			BigDecimal endStock = BigDecimal.ZERO;
-			BigDecimal endCostAmount = BigDecimal.ZERO;
-			BigDecimal endSaleAmount = BigDecimal.ZERO;
-			BigDecimal posNum = BigDecimal.ZERO;
-			BigDecimal costAmount = BigDecimal.ZERO;
-			BigDecimal posAmount = BigDecimal.ZERO;
-			BigDecimal profitAmount = BigDecimal.ZERO;
-			for (MonthlyReportVo reportVo : vos) {
-				beginStock = beginStock.add(reportVo.getBeginStock());
-				beginCostAmount = beginCostAmount.add(reportVo.getBeginCostAmount());
-				beginSaleAmount = beginSaleAmount.add(reportVo.getBeginSaleAmount());
-				endStock = endStock.add(reportVo.getEndStock());
-				endCostAmount = endCostAmount.add(reportVo.getEndCostAmount());
-				endSaleAmount = endSaleAmount.add(reportVo.getEndSaleAmount());
-				posNum = posNum.add(reportVo.getPosNum());
-				costAmount = costAmount.add(reportVo.getCostAmount());
-				posAmount = posAmount.add(reportVo.getPosAmount());
-				profitAmount = profitAmount.add(reportVo.getProfitAmount());
-
-				purchaseNum = purchaseNum.add(reportVo.getPurchaseNum());
-				purchaseAmount = purchaseAmount.add(reportVo.getPurchaseAmount());
-				dciNum = dciNum.add(reportVo.getDciNum());
-				dciAmount = dciAmount.add(reportVo.getDciAmount());
-				dcoNum = dcoNum.add(reportVo.getDcoNum());
-				dcoAmount = dcoAmount.add(reportVo.getDcoAmount());
-				otherNum = otherNum.add(reportVo.getOtherNum());
-				otherAmount = otherAmount.add(reportVo.getOtherAmount());
-				costChangeAmount = costChangeAmount.add(reportVo.getCostChangeAmount());
-				salePrice = salePrice.add(reportVo.getSalePrice());
-				costPrice = costPrice.add(reportVo.getCostPrice());
-				profitMargin = profitMargin.add(reportVo.getProfitMargin());
-			}
-			List<MonthlyReportVo> footer = new ArrayList<MonthlyReportVo>();
 			if (pageUtils != null) {
-				MonthlyReportVo reportVo = new MonthlyReportVo();
-				reportVo.setBranchCode("SUM");
-				reportVo.setBeginCostAmount(beginCostAmount);
-				reportVo.setBeginSaleAmount(beginSaleAmount);
-				reportVo.setBeginStock(beginStock);
-				reportVo.setCostAmount(costAmount);
-				reportVo.setEndCostAmount(endCostAmount);
-				reportVo.setEndSaleAmount(endSaleAmount);
-				reportVo.setEndStock(endStock);
-				reportVo.setPosAmount(posAmount);
-				reportVo.setPosNum(posNum);
-				reportVo.setProfitAmount(profitAmount);
-				reportVo.setPurchaseNum(purchaseNum);
-				reportVo.setPurchaseAmount(purchaseAmount);
-				reportVo.setDciNum(dciNum);
-				reportVo.setDciAmount(dciAmount);
-				reportVo.setDcoNum(dcoNum);
-				reportVo.setDcoAmount(dcoAmount);
-				reportVo.setOtherNum(otherNum);
-				reportVo.setOtherAmount(otherAmount);
-				reportVo.setCostChangeAmount(costChangeAmount);
-				reportVo.setSalePrice(salePrice);
-				reportVo.setCostPrice(costPrice);
-				reportVo.setProfitMargin(profitMargin);
-				footer.add(reportVo);
+			    	MonthlyReportVo footer = monthStatementService.sumMonthReportList(vo);
+			    	if(footer!=null){
+        			    	footer.setBranchCode("SUM");
+        				pageUtils.setFooter(new ArrayList<MonthlyReportVo>(){
+        				    private static final long serialVersionUID = 1L;
+        
+        				    {
+        					add(footer);
+        				    }
+        				});
+			    	}
 			}
-			pageUtils.setFooter(footer);
-
-			if (logger.isDebugEnabled()) {
-				logger.debug("getReportList(MonthlyReportVo, int, int) - end"); //$NON-NLS-1$
-			}
+			
 			return pageUtils;
 		}
 		PageUtils<MonthlyReportVo> returnPageUtils = PageUtils.emptyPage();
