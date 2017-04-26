@@ -121,6 +121,9 @@ public class StocktakingDiffSearchController extends BaseController<StocktakingD
 			if ("2".equals(diffVo.getRotationType())) {
 				templateName = ExportExcelConstant.DIFFSEARCHDETAIL;
 			}
+			if ("3".equals(diffVo.getRotationType())) {
+				templateName = ExportExcelConstant.DIFFSEARCHCATEGORYSUM;
+			}
 			exportListForXLSX(response, exportList, fileName, templateName);
 		} catch (Exception e) {
 			LOG.error("导出盘点差异查询异常：{}", e);
@@ -152,15 +155,18 @@ public class StocktakingDiffSearchController extends BaseController<StocktakingD
 			List<StocktakingDifferenceVo> printList = stocktakingOperateServiceApi.exportDiffSearchList(diffVo);
 
 			if (printList.size() > PrintConstant.PRINT_MAX_ROW) {
-				return "<script>alert('打印最大行数不能超过300行');top.closeTab();</script>";
+				return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
 			}
 			String path = PrintConstant.DIFF_SEARCH_SUMMARIZING;
 			if ("2".equals(diffVo.getRotationType())) {
 				path = PrintConstant.DIFF_SEARCH_DETAIL;
 			}
+			if ("3".equals(diffVo.getRotationType())) {
+				path = PrintConstant.DIFF_SEARCH_CATEGORY_SUM;
+			}
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("startDate", diffVo.getStartTime() == null ? "" : diffVo.getStartTime());
-			map.put("endDate", diffVo.getEndTime() == null ? "" : diffVo.getEndTime());
+			map.put("startDate", diffVo.getStartTime() == null ? "" : DateUtils.formatDate(diffVo.getStartTime(), DateUtils.DATE_SMALL_STR_R));
+			map.put("endDate", diffVo.getEndTime() == null ? "" : DateUtils.formatDate(diffVo.getEndTime(), DateUtils.DATE_SMALL_STR_R));
 			map.put("printName", UserUtil.getCurrentUser().getUserName());
 			JasperHelper.exportmain(request, response, map, JasperHelper.PDF_TYPE, path, printList, "");
 		} catch (Exception e) {
