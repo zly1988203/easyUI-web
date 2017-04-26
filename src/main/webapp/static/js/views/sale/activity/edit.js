@@ -572,19 +572,21 @@ function initDatagridmmsTJ(activityId){
 		                },
 		            }
           ]],
+       onCheck:function(rowIndex, rowData){
+    	   if(rowData && rowData.giftPoList && rowData.giftPoList.length > 0){
+           	gridHandel.setLoadData(rowData.giftPoList);
+	      	}else{
+	      		gridHandel.setLoadData([$.extend({},gridDefaultG)])
+	      	}
+       },
        onEndEdit:function(rowIndex, rowData){
     	    var _this = this;
-    	    console.log('onEndEdit rowData '+rowIndex+'',rowData);
     	    gridHandel.endEditRow();
     	    rowData.giftPoList = gridHandel.getRowsWhere({skuName:'1'});
        },
        onBeginEdit:function(rowIndex, rowData){
-        	
-            console.log('onBeginEdit rowData '+rowIndex+'',rowData);
             if(rowData && rowData.giftPoList && rowData.giftPoList.length > 0){
-            	
             	gridHandel.setLoadData(rowData.giftPoList);
-            		
 	      	}else{
 	      		gridHandel.setLoadData([$.extend({},gridDefaultG)])
 	      	}
@@ -764,7 +766,7 @@ function initDatagridmmjComLB(activityId){
       // toolbar: '#tb', //工具栏 id为tb
       singleSelect:false,  // 单选 false多选
       rownumbers:true,    // 序号
-      fitColumns:true,    // 每列占满
+      fitColumns:false,    // 每列占满
       fit:true, //占满
 //      pagination:true,
 //      pageSize:50,
@@ -2901,8 +2903,8 @@ function saveActivity(){
 	  gridHandel.endEditRow();
 	  
 	  var temTJObj = $('#mmsgradedList').datagrid('getChecked');
-	  if(temTJObj.length <= 1){
-		var temTjList = gridHandelT.getRows();   
+	  var temTjList = gridHandelT.getRows();
+	  if(temTJObj.length < 1 && temTjList.length == 1){
 		temTjList[0].giftPoList = gridHandel.getRowsWhere({skuName:'1'});
 	  }
 	  
