@@ -61,16 +61,16 @@
 					<div class="ub uw-200 ut-r">订货安全系数设置:</div>
 					<div class="ub ub-f1 ub-ver">
 						<div class="ub  ub-ac ">
-							<label><input  type="radio" id="isAllowMinusStock1" name="safetyCoefficientType" value="0" />取商品档案安全系数</label>
+							<label class="satetyLabel" onClick="changeType(0)"><input  type="radio" id="isAllowMinusStock1" name="safetyCoefficientType" value="0" />取商品档案安全系数</label>
 						</div>
 						<div class="ub  ub-ac umar-t10">
-							<label><input  type="radio" id="isAllowMinusStock0" name="safetyCoefficientType" value="1" />取供应商送货周期，转换关系：1天0.5倍，2天1倍，3－4天1.5倍， 5天以上2倍</label>
+							<label class="satetyLabel" onClick="changeType(1)"><input  type="radio" id="isAllowMinusStock0" name="safetyCoefficientType" value="1" />取供应商送货周期，转换关系：1天0.5倍，2天1倍，3－4天1.5倍， 5天以上2倍</label>
 						</div>
-						<div class="ub  ub-ac umar-t10">
-							<label><input  type="radio" id="isAllowMinusStock0" name="safetyCoefficientType" value="2" />
-							仓库平均送货周期 <input class="uinp uw-30 easyui-numberbox" type="text" data-options="min:0" name="safetyCoefficientValue" id="safetyCoefficientValue" value="7">天，转换关系：1天0.5倍，2天1倍，3－4天1.5倍， 5天以上2倍</label>
+						<div class="ub  ub-ac umar-t10" >
+							<label class="satetyLabel" onClick="changeType(2)"><input  type="radio" id="isAllowMinusStock0" name="safetyCoefficientType" value="2" /></label>
+							仓库平均送货周期 <input class="uinp uw-30 easyui-numberbox" type="text"  data-options="min:0,disabled:true" name="safetyCoefficientValue" id="safetyCoefficientValue" >天，转换关系：1天0.5倍，2天1倍，3－4天1.5倍， 5天以上2倍
 						</div>
-						<div class="ub  ub-ac umar-t10">订货标准＝每日销量*（订货周期+送货周期） + 每日销量*安全库存系数－（实际库存+未送达订货）</div>
+						<div class="ub  ub-ac umar-t10">订货周期 * 安全库存系数 * MAX(上周日均销量，前周日均销量)－当前库存(结果取配送规格倍数)</div>
 					</div>
 				</div>
 			</form>
@@ -110,7 +110,17 @@
 		$("#isNaturalMonth1").click(function (){
 			changeIsNaturalMonth();
 		});
+		
 	});
+	
+	//changeType 
+	function changeType(v){
+		if(v == '2'){
+			$('#safetyCoefficientValue').numberbox('enable');
+		}else{
+			$('#safetyCoefficientValue').numberbox('disable');
+		}
+	}
 	
 	//初始页面
 	function init(data){
@@ -134,6 +144,23 @@
 			$("#isNaturalMonth1").attr("checked",true);
 			$("#monthReportDay").numberbox("setValue",monthReportDay);
 		}
+		
+		var safetyCoefficientType = data.safetyCoefficientType;
+		
+		//安全系数类型 默认为商品档案
+		if(!safetyCoefficientType){
+			safetyCoefficientType = 0;
+		}
+		
+		// 初始化安全系数类型单选按钮值
+		$(":radio[name='safetyCoefficientType']").eq(safetyCoefficientType).prop('checked',true); 
+		
+		// 如果是设置值类型
+		if(safetyCoefficientType === 2){
+			var safetyCoefficientValue = data.safetyCoefficientValue;
+			$('#safetyCoefficientValue').numberbox('setValue', safetyCoefficientValue);
+		}
+		
 		//切换是否为自然月
 		changeIsNaturalMonth();
 	}
@@ -159,6 +186,17 @@
 	function save() {
 		$("#settingForm").form({
 			onSubmit : function() {
+				console.log($('#safetyCoefficientValue').numberbox('getValue'));
+			    
+				if($("input[name='isNaturalMonth']:checked").val() == '0' &&  !$("#monthReportDay").numberbox('getValue')  ){
+					$.messager.alert('提示','请设置指定日期');
+					return false;
+				}
+				if($("input[name='safetyCoefficientType']:checked").val() == '2' &&  !$("#safetyCoefficientValue").numberbox('getValue')  ){
+					$.messager.alert('提示','请设置订货安全系数');
+					return false;
+				}
+				//return false;
 				gFunStartLoading('正在保存，请稍后...');
 				return true;
 			},

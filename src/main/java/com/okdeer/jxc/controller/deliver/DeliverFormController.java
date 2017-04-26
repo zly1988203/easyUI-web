@@ -493,9 +493,9 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 					deliverFormListVo.setDealNum(deliverFormListVo.getApplyNum());
 				}
 				
-				// 零售价默认用
-				if(deliverFormListVo.getSalePrice()==null){
-					deliverFormListVo.setSalePrice(deliverFormListVo.getPrice());
+				// 单价备份默认用单价
+				if(deliverFormListVo.getPriceBack()==null){
+					deliverFormListVo.setPriceBack(deliverFormListVo.getPrice());
 				}
 			}
 			respJson = deliverFormServiceApi.insertForm(vo);

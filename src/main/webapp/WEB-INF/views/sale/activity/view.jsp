@@ -217,12 +217,8 @@
 				</div>
 				<div id="consolemms02" class="ub uw ub-f1 ub-ver  umar-t10 ">
 					<!-- upad-t20  -->
-					<div class="ub ub-ac ">
+					<div class="ub ub-ac umar-t30" id="giftip">
 						<span class="ub">赠品信息：</span>
-						<div class="ubtns unhide">
-				             <div class="ubtns-item" onclick="saveTempGiftGoods()">保存</div>
-				             <div class="ubtns-item" onclick="resetGiftGoods()">重置</div>
-			            </div>
 					</div>
 					<div class="ub uw  umar-t8" style="height:300px;width:100%;">
 						<table id="mmsgoodList"></table>

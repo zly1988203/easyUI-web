@@ -19,7 +19,6 @@ $(function(){
 		  oldData = {
 		        targetBranchId:$("#targetBranchId").val(), // 要活分店id
 		        sourceBranchId:$("#sourceBranchId").val(), //发货分店id
-		        validityTime:$("#validityTime").val()||'',
 		        remark:$("#remark").val()||'',                  // 备注
 		        formNo:$("#formNo").val()||'',                 // 单号
 		  }
@@ -31,7 +30,6 @@ $(function(){
 		oldData = {
 	        targetBranchId:$("#targetBranchId").val(), // 要活分店id
 	        sourceBranchId:$("#sourceBranchId").val(), //发货分店id
-	        validityTime:$("#validityTime").val(),      //生效日期
 	        remark:$("#remark").val(),                  // 备注
 	        formNo:$("#formNo").val(),                 // 单号
 	    }
@@ -369,11 +367,9 @@ function initDatagridRequireOrder(){
         onLoadSuccess:function(data){
         	if(deliverStatus==='edit'){
                 if(!oldData["grid"]){
-                	oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
-                        return $.extend(true,{},obj);//返回对象的深拷贝
-                    });
-
-                }
+                	oldData["grid"] = gridHandel.getRows();
+                 };
+    			 
         	}
 
             gridHandel.setDatagridHeader("center");
@@ -506,7 +502,7 @@ function onSelectIsGift(data){
             gridHandel.setFieldValue('amount',0);//总金额
             gridHandel.setFieldValue('taxAmount',0);//税额
         }else{
-        	var oldPrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'salePrice');
+        	var oldPrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'priceBack');
             if(oldPrice){
                 $(targetPrice).numberbox('setValue',oldPrice);
             }
@@ -587,7 +583,7 @@ function setDataValue(data,fromClick) {
         var addDefaultData = gridHandel.addDefault(data,gridDefault);
         var keyNames = {
             distributionPrice:'price',
-            price:'salePrice',
+            price:'priceBack',
             id:'skuId',
             disabled:'',
             pricingType:'',
@@ -724,7 +720,7 @@ function saveOrder(){
     		applyNum : data.applyNum,
     		largeNum : data.largeNum,
     		price : data.price,
-    		salePrice : data.salePrice,
+    		priceBack : data.priceBack,
     		amount : data.amount,
     		inputTax : data.inputTax,
     		isGift : data.isGift,
@@ -850,7 +846,7 @@ function updateOrder(){
     		applyNum : data.applyNum,
     		largeNum : data.largeNum,
     		price : data.price,
-    		salePrice : data.salePrice,
+    		priceBack : data.priceBack,
     		amount : data.amount,
     		inputTax : data.inputTax,
     		isGift : data.isGift,
@@ -871,17 +867,6 @@ function updateOrder(){
         success:function(result){
             gFunEndLoading();
             if(result['code'] == 0){
-            	$.messager.alert("操作提示", "操作成功！", "info");
-                oldData = {
-                    targetBranchId:$("#targetBranchId").val(), // 要活分店id
-                    sourceBranchId:$("#sourceBranchId").val(), //发货分店id
-                    validityTime:$("#validityTime").val(),      //生效日期
-                    remark:$("#remark").val(),                  // 备注
-                    formNo:$("#formNo").val(),                 // 单号
-                }
-                oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
-            		return $.extend(true,{},obj);//返回对象的深拷贝
-            	});
             	$.messager.alert("操作提示", "操作成功！", "info",function(){
     				location.href = contextPath +"/form/deliverForm/deliverEdit?deliverType=DY&deliverFormId="+deliverFormId;
     			});
@@ -1168,7 +1153,7 @@ function selectStockAndPriceImport(data){
 function updateListData(data){
      var keyNames = {
 		 distributionPrice:'price',
-		 price:'salePrice',
+		 price:'priceBack',
          id:'skuId',
          disabled:'',
          pricingType:'',
@@ -1204,7 +1189,6 @@ function addDeliverForm(){
 	var newData = {
         targetBranchId:$("#targetBranchId").val(), // 要活分店id
         sourceBranchId:$("#sourceBranchId").val(), //发货分店id
-        validityTime:$("#validityTime").val()||'',
         remark:$("#remark").val()||'',                  // 备注
         formNo:$("#formNo").val()||'',                 // 单号
         grid:gridHandel.getRows(),
