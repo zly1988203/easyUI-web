@@ -193,7 +193,7 @@
 					return false;
 				}
 				if($("input[name='safetyCoefficientType']:checked").val() == '2' &&  !$("#safetyCoefficientValue").numberbox('getValue')  ){
-					$.messager.alert('提示','请设置送货周期');
+					$.messager.alert('提示','请设置订货安全系数');
 					return false;
 				}
 				//return false;
