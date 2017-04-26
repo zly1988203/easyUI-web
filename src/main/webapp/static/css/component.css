@@ -296,9 +296,9 @@
   color: #333;
 }
 
-  .textbox-text:read-only {
+/*   .textbox-text:read-only {
    background-color: #efefef;
-  }
+  } */
 
 .uinp-more.new-right {
   right: 10px; }
