@@ -1,7 +1,7 @@
 var datagridId = "saleMangeadd";
 var gridDefault = {
-    oldSaleRate:"0%",
-    newSaleRate:"0%"
+    oldSaleRate:"0.00%",
+    newSaleRate:"0.00%"
 }
 $(function(){
 	// 开始和结束时间
@@ -1124,14 +1124,14 @@ function initDatagridSpecial(){
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
-                editor:{
-                    type:'numberbox',
-                    options:{
-                        min:0,
-                        precision:2,
-                        disabled:true,
-                    }
-                },
+                // editor:{
+                //     type:'numberbox',
+                //     options:{
+                //         min:0,
+                //         precision:2,
+                //         disabled:true,
+                //     }
+                // },
             },
             {
                 field : 'oldSaleRate',
@@ -1143,7 +1143,7 @@ function initDatagridSpecial(){
                         return
                     }
                     if(!value){
-                        value = "0%";
+                        value = "0.00%";
                     }else{
                         row['oldSaleRate'] = value;
                     }
@@ -1160,7 +1160,7 @@ function initDatagridSpecial(){
                         return
                     }
                     if(!value){
-                        value = "0%";
+                        value = "0.00%";
                     }else{
                         row['newSaleRate'] = value;
                     }
@@ -1403,14 +1403,14 @@ function initDatagridoneZk(){
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
-                editor:{
-                    type:'numberbox',
-                    options:{
-                        min:0,
-                        precision:2,
-						disabled:true,
-                    }
-                },
+                // editor:{
+                //     type:'numberbox',
+                //     options:{
+                //         min:0,
+                //         precision:2,
+					// 	disabled:true,
+                //     }
+                // },
             },
 			{field: 'discount', title: '折扣', width: 100, align: 'right',
 			    formatter : function(value, row, index) {
@@ -1438,7 +1438,7 @@ function initDatagridoneZk(){
                         return
                     }
                     if(!value){
-                        value = "0%";
+                        value = "0.00%";
                     }else{
                         row['oldSaleRate'] = value;
                     }
@@ -1455,7 +1455,7 @@ function initDatagridoneZk(){
                         return
                     }
                     if(!value){
-                        value = "0%";
+                        value = "0.00%";
                     }else{
                         row['newSaleRate'] = value;
                     }
@@ -1494,7 +1494,7 @@ function initDatagridoneZk(){
 function changeDiscount(newVal,oldVal) {
     var salePrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
     var purchasePrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'purchasePrice');
-    var discountPrice = ((salePrice*newVal)/10).toFixed(2);
+    var discountPrice = ((salePrice*parseFloat(newVal))/10).toFixed(2);
     var newSaleRate = ((discountPrice-purchasePrice)/discountPrice*100).toFixed(2)+"%";
     gridHandel.setFieldTextValue('newSaleRate',newSaleRate);
 }
@@ -1575,14 +1575,14 @@ function initDatagridOddtj(){
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
-                editor:{
-                    type:'numberbox',
-                    options:{
-                        min:0,
-                        precision:2,
-                        disabled:true,
-                    }
-                },
+                // editor:{
+                //     type:'numberbox',
+                //     options:{
+                //         min:0,
+                //         precision:2,
+                //         disabled:true,
+                //     }
+                // },
             },
 			{field: 'saleAmount', title: '偶数特价', width: 100, align: 'right',
 			    formatter : function(value, row, index) {
@@ -1615,7 +1615,7 @@ function initDatagridOddtj(){
                         return
                     }
                     if(!value){
-                        value = "0%";
+                        value = "0.00%";
                     }else{
                         row['oldSaleRate'] = value;
                     }
@@ -1632,7 +1632,7 @@ function initDatagridOddtj(){
                         return
                     }
                     if(!value){
-                        value = "0%";
+                        value = "0.00%";
                     }else{
                         row['newSaleRate'] = value;
                     }
@@ -2207,7 +2207,7 @@ function specialRows(id,val){
 	if(id=="special"){
 		for(var i = 0;i < newData.length;i++){
 			var item = newData[i];
-            item.saleAmount= val;
+            item.saleAmount= parseFloat(val);
             //计算新毛利率
             item.newSaleRate = ((item.saleAmount-item.purchasePrice)/item.saleAmount*100).toFixed(2)+"%"
 		}
@@ -2216,16 +2216,17 @@ function specialRows(id,val){
 	else if(id=="discount"){
 		for(var i = 0;i < newData.length;i++){
 			var item = newData[i];
-            item.discount= val;
-            var discountPrice = ((item.salePrice*item.discount)/10).toFixed(2);
+            item.discount= parseFloat(val);
+            var discountPrice = (item.salePrice*(item.discount/10)).toFixed(2);
             item.newSaleRate = ((discountPrice-item.purchasePrice)/discountPrice*100).toFixed(2)+"%"
 		}
 	}
 	else if(id=="batchcount"){
 		for(var i = 0;i < newData.length;i++){
             var item = newData[i];
-            item.saleAmount= val;
-            item.newSaleRate = ((item.saleAmount-item.purchasePrice)/(2*item.saleAmount)*100).toFixed(2)+"%"
+            item.saleAmount= parseFloat(val);
+
+            item.newSaleRate = (((item.price+item.saleAmount)-(2*item.purchasePrice))/(item.price+item.saleAmount)*100).toFixed(2)+"%"
 		}
 	}
 	$("#"+datagridId).datagrid({data:newData})
@@ -2462,7 +2463,7 @@ function selectGoods(searchKey){
 			$.each(newRows,function (index,item) {
                 //兼容老数据 如果原零售价为0
                 if(item.price === '0' || item.price == 0 ){
-                    item.oldSaleRate = "0%";
+                    item.oldSaleRate = "0.00%";
                 }else{
                     item.oldSaleRate = ((item.price-item.purchasePrice)/item.price*100).toFixed(2)+"%";
                 }
@@ -2473,7 +2474,7 @@ function selectGoods(searchKey){
             $.each(newRows,function (index,item) {
                 //兼容老数据 如果原零售价为0
                 if(item.price === '0' || item.price == 0 ){
-                    item.oldSaleRate = "0%";
+                    item.oldSaleRate = "0.00%";
                 }else{
                     item.oldSaleRate = ((item.price-item.purchasePrice)/item.price*100).toFixed(2)+"%";
                 }
@@ -2484,7 +2485,7 @@ function selectGoods(searchKey){
             $.each(newRows,function (index,item) {
                 //兼容老数据 如果原零售价为0
                 if(item.price === '0' || item.price == 0 ){
-                    item.oldSaleRate = "0%";
+                    item.oldSaleRate = "0.00%";
                 }else{
                     item.oldSaleRate = ((item.price-item.purchasePrice)/(2*item.price)*100).toFixed(2)+"%";
                 }
@@ -3309,9 +3310,9 @@ var resetForm = function() {
 };
 
 //折扣价处理
-function saleAmountOnChange(newV,oldV){
+function saleAmountOnChange(newVal,oldV){
 	var priceNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
-	if(parseFloat(priceNumVal) < parseFloat(newV)) {
+	if(parseFloat(priceNumVal) < parseFloat(newVal)) {
 		messager("促销价格大于商品原价");
 		gridHandel.setFieldValue('saleAmount','');
 		return;
@@ -3321,11 +3322,19 @@ function saleAmountOnChange(newV,oldV){
 //		return;
 //	}
 	//计算新毛利率
+    var type = $("#activityType").combobox('getValue');
     var purchasePrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'purchasePrice');
-    var newSaleRate = ((newV-purchasePrice)/(2*newV)*100).toFixed(2)+"%";
+    var newSaleRate = '0.00%';
+	if(type==='1'){
+         newSaleRate = ((parseFloat(newVal)-purchasePrice)/parseFloat(newVal)*100).toFixed(2)+"%";
+	}else if(type==='2' && $('#activityScopedis').val()==="0"){
+         newSaleRate = ((parseFloat(newVal)-purchasePrice)/parseFloat(newVal)*100).toFixed(2)+"%";
+	}else if(type==='3'){
+         newSaleRate = (((priceNumVal+parseFloat(newVal))-(2*purchasePrice))/(priceNumVal+parseFloat(newVal))*100).toFixed(2)+"%";
+	}
     gridHandel.setFieldTextValue('newSaleRate',newSaleRate);
 
-	gridHandel.setFieldValue('saleAmount',newV);
+	gridHandel.setFieldValue('saleAmount',parseFloat(newVal));
 }
 
 //新的导入功能 货号(0)、条码(1)导入
@@ -3379,7 +3388,7 @@ function updateListData(data){
 		$.each(newRows,function (index,item) {
 			//兼容老数据 如果原零售价为0
 			if(item.price === '0' || item.price == 0 ){
-				item.oldSaleRate = "0%";
+				item.oldSaleRate = "0.00%";
 			}else{
 				item.oldSaleRate = ((item.price-item.purchasePrice)/item.price*100).toFixed(2)+"%";
 			}
@@ -3390,7 +3399,7 @@ function updateListData(data){
 		$.each(newRows,function (index,item) {
 			//兼容老数据 如果原零售价为0
 			if(item.price === '0' || item.price == 0 ){
-				item.oldSaleRate = "0%";
+				item.oldSaleRate = "0.00%";
 			}else{
 				item.oldSaleRate = ((item.price-item.purchasePrice)/item.price*100).toFixed(2)+"%";
 			}
@@ -3401,7 +3410,7 @@ function updateListData(data){
 		$.each(newRows,function (index,item) {
 			//兼容老数据 如果原零售价为0
 			if(item.price === '0' || item.price == 0 ){
-				item.oldSaleRate = "0%";
+				item.oldSaleRate = "0.00%";
 			}else{
 				item.oldSaleRate = ((item.price-item.purchasePrice)/(2*item.price)*100).toFixed(2)+"%";
 			}
