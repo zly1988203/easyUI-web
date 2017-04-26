@@ -69,29 +69,27 @@ $(function(){
 	        	{field:'rowNo',title:'行号',hidden:true},
 	        	{field:'id',title:'主键',hidden:true},
 	        	
-	        		{field:'cz',title:'操作',width:'60px',align:'center'
-		        		
-		        		,
-		                formatter : function(value, row,index) {
-		                	if((hiddenStatus==="3")? false :true){
-		                		 $('#gridEditOrder').datagrid('hideColumn', 'cz');
-		                	}else{
-		                		 var str = "";
-				                    if(row.isFooter){
-				                        str ='<div class="ub ub-pc">合计</div> '
-				                    }else{
-				                        str =  '<a name="add" class="add-line" data-index="'+index+'" onclick="addLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>&nbsp;&nbsp;' +
-				                            '&nbsp;&nbsp;<a name="del" class="del-line" data-index="'+index+'" onclick="delLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>';
-				                    }
-				                    return str;
-		                	}
-		                   
-		                }
-		        	  
-		            },
+        		{field:'cz',title:'操作',width:'60px',align:'center',hidden:hiddenStatus==="3"?false :true,
+	                formatter : function(value, row,index) {
+	                	if((hiddenStatus==="3")? false :true){
+	                		 $('#gridEditOrder').datagrid('hideColumn', 'cz');
+	                	}else{
+	                		 var str = "";
+			                    if(row.isFooter){
+			                        str ='<div class="ub ub-pc">合计</div> '
+			                    }else{
+			                        str =  '<a name="add" class="add-line" data-index="'+index+'" onclick="addLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>&nbsp;&nbsp;' +
+			                            '&nbsp;&nbsp;<a name="del" class="del-line" data-index="'+index+'" onclick="delLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>';
+			                    }
+			                    return str;
+	                	}
+	                   
+	                }
+	        	  
+	            },
 	            
-	            {field:'skuCode',title:'货号',width: '70px',align:'left'
-	            	,editor:{
+	            {field:'skuCode',title:'货号',width: '70px',align:'left',
+	            	editor:{
 	            		type:'textbox',
 	            		options:{
 	                        disabled:(hiddenStatus==="3")? false :true

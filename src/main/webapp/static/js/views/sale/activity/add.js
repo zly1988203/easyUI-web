@@ -582,21 +582,25 @@ function initDatagridmmsTJ(){
 		                },
 		            }, 
           ]],
+       onCheck:function(rowIndex,rowData){
+    	    if(rowData && rowData.goodsGiftList && rowData.goodsGiftList.length > 0){
+	       		gridHandel.setLoadData(rowData.goodsGiftList);
+	     	}else{
+	     		gridHandel.setLoadData([$.extend({},gridDefaultG)])
+	     	}
+       },
        onEndEdit:function(rowIndex, rowData){
     	    var _this = this;
-    	    console.log('onEndEdit rowData '+rowIndex+'',rowData);
     	    gridHandel.endEditRow();
     	    rowData.goodsGiftList = gridHandel.getRowsWhere({skuName:'1'});
 	        
        },
        onBeginEdit:function(rowIndex, rowData){
-            console.log('onBeginEdit rowData '+rowIndex+'',rowData);
             if(rowData && rowData.goodsGiftList && rowData.goodsGiftList.length > 0){
             		gridHandel.setLoadData(rowData.goodsGiftList);
 	      	}else{
 	      		gridHandel.setLoadData([$.extend({},gridDefaultG)])
 	      	}
-     	  
         }, 
   		onClickCell : function(rowIndex, field, value) {
   			gridHandelT.setBeginRow(rowIndex);
@@ -609,6 +613,7 @@ function initDatagridmmsTJ(){
 				gridHandelT.setSelectFieldName(temS);
 			}
 		},
+		
         onLoadSuccess:function(data){
     	   console.log('data1',data);
     	   $(this).datagrid('resize',{width:'100%',height:'300px'})
@@ -2896,11 +2901,11 @@ function saveActivity(){
 	  gridHandelT.endEditRow();
 	  gridHandel.endEditRow();
 	  
-	  var temTJObj = $('#mmsgradedList').datagrid('getChecked');
-	  if(temTJObj.length <= 1){
-		  var temTjList = gridHandelT.getRows();
-		  temTjList[0].goodsGiftList = gridHandel.getRowsWhere({skuName:'1'});
-	  }
+//	  var temTJObj = $('#mmsgradedList').datagrid('getChecked');
+//	  if(temTJObj.length <= 1){
+//		  var temTjList = gridHandelT.getRows();
+//		  temTjList[0].goodsGiftList = gridHandel.getRowsWhere({skuName:'1'});
+//	  }
 	  
 	  //买满条件 梯度检查
 	  var tjRows = gridHandelT.getRows();

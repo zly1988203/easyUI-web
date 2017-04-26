@@ -589,16 +589,15 @@ function initDatagridmmjComLB(activityId){
       // toolbar: '#tb', //工具栏 id为tb
       singleSelect:false,  // 单选 false多选
       rownumbers:true,    // 序号
-      fitColumns:true,    // 每列占满
+      //fitColumns:false,    // 每列占满
       fit:true, //占满
       pagination:true,
-      pageSize:50,
 		height:'50%',
 		pageSize:50,
 		width:'100%',
 		columns:[[
-					{field:'goodsCategoryCode',title:'类别编码',width:'140',align:'left'},
-					{field:'categoryName',title:'类别名称',width:'140',align:'left'},
+				{field:'goodsCategoryCode',title:'类别编码',width:'140',align:'left'},
+				{field:'categoryName',title:'类别名称',width:'140',align:'left'},
 					
       ]],
       onLoadSuccess:function(data){
@@ -619,7 +618,7 @@ function initDatagridmmjComLG(activityId){
       // toolbar: '#tb', //工具栏 id为tb
       singleSelect:false,  // 单选 false多选
       rownumbers:true,    // 序号
-      fitColumns:true,    // 每列占满
+      //fitColumns:false,    // 每列占满
       fit:true, //占满
 		height:'50%',
 		pagination:true,
