@@ -53,6 +53,7 @@ var gridDefault = {
 }
 var gridName = "gridEditOrder";
 var gridHandel = new GridClass();
+var editRowData = null;
 function initDatagridEditOrder(){
     gridHandel.setGridName("gridEditOrder");
     gridHandel.initKey({
@@ -267,16 +268,39 @@ function initDatagridEditOrder(){
                 gridHandel.setSelectFieldName("skuCode");
             }
         },
+        onBeforeEdit:function (rowIndex, rowData) {
+            editRowData = $.extend(true,{},rowData);
+        },
+        onAfterEdit:function(rowIndex, rowData, changes){
+            if(typeof(rowData.id) === 'undefined'){
+                $("#"+gridName).datagrid('acceptChanges');
+            }else{
+                if(editRowData.skuCode != changes.skuCode){
+                    rowData.skuCode = editRowData.skuCode;
+                    gridHandel.setFieldTextValue('skuCode',editRowData.skuCode);
+                    $("#"+gridName).datagrid('updateRow',{index:rowIndex,rwo:rowData});
+                }
+            }
+        },
         onLoadSuccess : function(data) {
             if((data.rows).length <= 0)return;
             gFunEndLoading();
-            gridHandel.setDatagridHeader("center");
             updateFooter();
         }
     });
     gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
                             $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),
                             $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault)]);
+}
+
+function reasonskuCode(newVal,oldVal) {
+    if(typeof(editRowData.id) === 'undefined'){
+        $("#"+gridName).datagrid('acceptChanges');
+    }else{
+        if(editRowData.skuCode != newVal){
+            gridHandel.setFieldTextValue('skuCode',editRowData.skuCode);
+        }
+    }
 }
 
 //限制转换次数
@@ -471,12 +495,11 @@ function selectGoods(searchKey){
 
         $("#gridEditOrder").datagrid("loadData",newRows);
 
-        gridHandel.setLoadFocus();
-        setTimeout(function(){
-            gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
-            gridHandel.setSelectFieldName("largeNum");
-            gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
-        },100)
+        // setTimeout(function(){
+        //     gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
+        //     gridHandel.setSelectFieldName("largeNum");
+        //     gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
+        // },100)
     });
 }
 
