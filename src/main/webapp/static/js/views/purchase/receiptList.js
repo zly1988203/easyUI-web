@@ -222,13 +222,12 @@ function query(){
 }
 
 function receiptDelete(){
-	var dg = $("#gridOrders");
-	var row = dg.datagrid("getSelected");
+	var row =  $("#"+tableIdName).datagrid("getSelected");
 	if(rowIsNull(row)){
 		return null;
 	}
-	var rows =$("#gridOrders").datagrid("getChecked");
-	if($("#gridOrders").datagrid("getChecked").length <= 0){
+	var rows =$("#"+tableIdName).datagrid("getChecked");
+	if($("#"+tableIdName).datagrid("getChecked").length <= 0){
 		 $.messager.alert('提示','请选中一行进行删除！');
 		return null;
 	}
