@@ -395,16 +395,14 @@ function clickmmsTab(type){
 			disableGoods('SelectGoods','');
 		}
 	}else{
+		$("#giftip").removeClass('umar-t30').addClass('umar-t56');
 		disableGoods('','GoodsType');
 		//赠品信息
 		$("#area1").addClass("unhide");
 		$("#area2").removeClass("unhide");
 		if(!hasClickTab){
-			console.log('------999889999--------')
 			hasClickTab = true;
 			$("#mmsgradedList").datagrid("load");
-			
-			
 		}
 	}
 }
@@ -433,7 +431,6 @@ function selectOptionmms(activityScope,activityPattern,allowActivity,allowMultip
 	$("#activitymmsType").combobox('setValue',activityPattern);
 	
 	//先移除事件
-	/*$(document).off('mousedown','input[name="mmsstatus"]');*/
 	//买满送 --- 全场 类别 商品 选择事件 禁用
 	$(document).on('click','input[name="mmsstatus"]',function(){
 		return false;
@@ -442,23 +439,19 @@ function selectOptionmms(activityScope,activityPattern,allowActivity,allowMultip
 	$(document).on('click','input[name="mmsofactType"]',function(){
 		return false;
 	})
-	
+	choosemmsTab(activityScope);
 	//类别
 	if(activityScope == 1){
 		$("#tabone").text("类别信息");
 		initDatagridmmjComLB(activityId);
 		disableGoods('SelectGoods','');
 	}
-	
 	//商品
 	if(activityScope == 0){
 		$("#tabone").text("商品信息");
 		initDatagridmmjComLG(activityId);
 		disableGoods('','GoodsType');
 	}
-	
-	choosemmsTab(activityScope);
-	
 	//初始化买满送 梯度datagrid
 	initDatagridmmsTJ(activityId);
 	//买满送 礼品列表

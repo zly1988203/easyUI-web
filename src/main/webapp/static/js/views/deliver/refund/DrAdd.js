@@ -428,7 +428,7 @@ function onSelectIsGift(data){
             gridHandel.setFieldValue('taxAmount',0);//税额
         }else{
             //var oldPrice =  $('#'+gridName).datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"];
-            var oldPrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'salePrice');
+            var oldPrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'priceBack');
             if(oldPrice){
                 $(targetPrice).numberbox('setValue',oldPrice);
             }
@@ -510,7 +510,7 @@ function setDataValue(data) {
         var addDefaultData = gridHandel.addDefault(data,gridDefault);
         var keyNames = {
             distributionPrice:'price', //单间采用成本价
-            salePrice:'price',
+            price:'priceBack',
             id:'skuId',
             disabled:'',
             pricingType:''
@@ -674,7 +674,7 @@ function saveOrder(){
     		applyNum : data.applyNum,
     		largeNum : data.largeNum,
     		price : data.price,
-    		salePrice : data.salePrice,
+    		priceBack : data.priceBack,
     		amount : data.amount,
     		inputTax : data.inputTax,
     		isGift : data.isGift,
@@ -801,7 +801,7 @@ function updateOrder(){
     		applyNum : data.applyNum,
     		largeNum : data.largeNum,
     		price : data.price,
-    		salePrice : data.salePrice,
+    		priceBack : data.priceBack,
     		amount : data.amount,
     		inputTax : data.inputTax,
     		isGift : data.isGift,
@@ -992,7 +992,7 @@ function selectStockAndPriceImport(data){
 function updateListData(data){
      var keyNames = {
 		 distributionPrice:'price',
-		 salePrice:'price',
+		 price:'priceBack',
          id:'skuId',
          disabled:'',
          pricingType:'',
