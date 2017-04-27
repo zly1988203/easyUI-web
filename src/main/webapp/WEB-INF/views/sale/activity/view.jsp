@@ -86,7 +86,7 @@
 							    <option value="1">特价</option> 
 								<option value="2">折扣</option> 
 								<option value="3">偶数特价</option> 
-								<option value="4">换购</option> 
+							<!-- 	<option value="4">换购</option>  -->
 								<option value="5">满减</option> 
 								<option value="6">组合特价</option>
 								<option value="10">买满送</option>
@@ -97,10 +97,10 @@
 	                        <input class="ub disradio" id="disradio2" type="radio" name="disstatus"  value="2"/><span>全场折扣</span>
 	                    </div>
 	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub disradio" id="disradio0" type="radio" name="disstatus" value="0" checked="checked" /><span>单品折扣</span>
+	                        <input class="ub disradio" id="disradio1" type="radio" name="disstatus"  value="1" /><span>类别折扣</span>
 	                    </div>
 	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub disradio" id="disradio1" type="radio" name="disstatus"  value="1" /><span>类别折扣</span>
+	                        <input class="ub disradio" id="disradio0" type="radio" name="disstatus" value="0" checked="checked" /><span>单品折扣</span>
 	                    </div> 
 	                     <input class="uinp" type="hidden" id="activityScopedis" value="0"  name="activityScopedis">
 	            </div>
