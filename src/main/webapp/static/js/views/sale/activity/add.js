@@ -2409,7 +2409,7 @@ function selectGoodsG(searchKey){
 // 选择商品
 function selectGoods(searchKey){
 	
-	if($("#branchName").val()==" "){ //是否选择活动机构的校验
+	if(!$.trim($("#branchName").val())){ //是否选择活动机构的校验
 		messager("请先选择活动分店！");
 		return;
 	}
