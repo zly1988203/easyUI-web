@@ -235,14 +235,6 @@ function initDatagridEditRequireOrder(){
                     row["saleAmount"] = saleAmount;
                     return "<b>"+parseFloat(saleAmount||0).toFixed(2)+ "<b>";
                 },
-//                editor:{
-//                    type:'numberbox',
-//                    options:{
-//                        disabled:true,
-//                        min:0,
-//                        precision:2,
-//                    }
-//                }
             },
             {field:'inputTax',title:'税率',width:'80px',align:'right',
                 formatter:function(value,row,index){
@@ -261,14 +253,6 @@ function initDatagridEditRequireOrder(){
                     row["taxAmount"] = taxAmount;
                     return "<b>"+parseFloat(taxAmount||0).toFixed(2)+ "<b>";
                 },
-//                editor:{
-//                    type:'numberbox',
-//                    options:{
-//                        disabled:true,
-//                        min:0,
-//                        precision:2,
-//                    }
-//                },
             },
             {field:'originPlace',title:'产地',width:'100px',align:'left'},
             {field:'sourceStock',title:'当前库存',width:'80px',align:'right',
@@ -278,14 +262,6 @@ function initDatagridEditRequireOrder(){
                     }
                     return  "<b>"+parseFloat(value||0).toFixed(2)+ "<b>";
                 }
-            	/*editor:{
-                    type:'numberbox',
-                    options:{
-                        disabled:true,
-                        min:0,
-                        precision:2,
-                    }
-                }*/
             },
             {field:'defectNum',title:'缺货数',width:'100px',align:'right',
                 formatter:function(value,row,index){
@@ -294,14 +270,6 @@ function initDatagridEditRequireOrder(){
                     }
                     return  "<b>"+parseFloat(value||0).toFixed(2)+ "<b>";
                 }
-                /*editor:{
-                    type:'numberbox',
-                    options:{
-                        disabled:true,
-                        min:0,
-                        precision:2,
-                    }
-                }*/
             },
             {field:'remark',title:'备注',width:'200px',align:'left',editor:'textbox'}
         ]],
@@ -315,25 +283,25 @@ function initDatagridEditRequireOrder(){
                 gridHandel.setSelectFieldName("skuCode");
             }
         },
+        onBeforeEdit:function (rowIndex, rowData) {
+            editRowData = $.extend(true,{},rowData);
+        },
+        onAfterEdit:function(rowIndex, rowData, changes){
+            if(typeof(rowData.id) === 'undefined'){
+                // $("#"+gridName).datagrid('acceptChanges');
+            }else{
+                if(editRowData.skuCode != changes.skuCode){
+                    rowData.skuCode = editRowData.skuCode;
+                    gridHandel.setFieldTextValue('skuCode',editRowData.skuCode);
+                    $("#"+gridName).datagrid('updateRow',{index:rowIndex,rwo:rowData});
+                }
+            }
+        },
         onLoadSuccess:function(data){
             if(isFirst)return;
             isFirst = true;
            
             var rows = data.rows;
-            /*var isError = false;
-            for(var i in rows){
-                var oldDefectNum = rows[i]["defectNum"]||0;
-                rows[i]["oldDefectNum"] = oldDefectNum
-                var defectNum = parseFloat(rows[i]["sourceStock"]||0)-parseFloat(rows[i]["dealNum"]||0);
-                defectNum = defectNum<0?-defectNum:0;
-                if(parseFloat(oldDefectNum)!=parseFloat(defectNum)&&parseInt(defectNum)!=0){
-                    isError = true;
-                }
-                rows[i]["defectNum"] = defectNum;
-            }
-            if(isError){
-                messager("库存数发生改变，请先保存");
-            }*/
             $('#gridEditRequireOrder').datagrid('loadData',rows);
         	if(!oldData["grid"]){
             	oldData["grid"] = $.map(rows, function(obj){

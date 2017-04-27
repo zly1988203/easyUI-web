@@ -43,7 +43,7 @@ function initDatagridEditRequireOrder(){
 			        return str;
 			    },
 			},
-            {field:'skuCode',title:'货号',width:'70px',align:'left',editor:'textbox'},
+            {field:'skuCode',title:'货号',width:'70px',align:'left'},
             {field:'skuName',title:'商品名称',width:'190px',align:'left'},
             {field:'barCode',title:'条码',width:'105px',align:'left'},
             {field:'unit',title:'单位',width:'60px',align:'left'},
@@ -115,22 +115,6 @@ function initDatagridEditRequireOrder(){
                     }
                 }
             },
-           /* {field:'defectNum',title:'缺货数',width:'100px',align:'right',
-                formatter:function(value,row,index){
-                    if(row.isFooter){
-                        return
-                    }
-                    return  "<b>"+parseFloat(value||0).toFixed(2)+ "<b>";
-                },
-                editor:{
-                    type:'numberbox',
-                    options:{
-                        disabled:true,
-                        min:0,
-                        precision:2,
-                    }
-                }
-            },*/
             {field:'remark',title:'备注',width:'200px',align:'left'}
         ]],
         onLoadSuccess : function() {

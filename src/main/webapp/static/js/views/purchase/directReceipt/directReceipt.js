@@ -84,7 +84,7 @@ var gridDefault = {
     realNum:0,
     isGift:0,
 }
-
+var editRowData = null;
 var gridHandel = new GridClass();
 function initDirectDataGrid(){
 	 gridHandel.setGridName(gridName);
@@ -306,6 +306,20 @@ function initDirectDataGrid(){
                gridHandel.setSelectFieldName("skuCode");
            }
        },
+          onBeforeEdit:function (rowIndex, rowData) {
+              editRowData = $.extend(true,{},rowData);
+          },
+          onAfterEdit:function(rowIndex, rowData, changes){
+              if(typeof(rowData.id) === 'undefined'){
+                  // $("#"+gridName).datagrid('acceptChanges');
+              }else{
+                  if(editRowData.skuCode != changes.skuCode){
+                      rowData.skuCode = editRowData.skuCode;
+                      gridHandel.setFieldTextValue('skuCode',editRowData.skuCode);
+                      $("#"+gridName).datagrid('updateRow',{index:rowIndex,rwo:rowData});
+                  }
+              }
+          },
        onLoadSuccess:function(data){
            if(data.rows.length>0){
                var config = {

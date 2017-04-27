@@ -253,7 +253,7 @@ function initDatagridEditOrder(){
         },
         onAfterEdit:function(rowIndex, rowData, changes){
             if(typeof(rowData.id) === 'undefined'){
-                $("#"+gridName).datagrid('acceptChanges');
+               // $("#"+gridName).datagrid('acceptChanges');
             }else{
                 if(editRowData.skuCode != changes.skuCode){
                     rowData.skuCode = editRowData.skuCode;

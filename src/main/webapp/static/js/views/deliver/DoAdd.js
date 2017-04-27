@@ -65,6 +65,8 @@ var gridDefault = {
     isGift:0,
 }
 var gridHandel = new GridClass();
+var gridName = "gridEditOrder";
+var editRowData = null;
 function initDatagridAddRequireOrder(){
     gridHandel.setGridName("gridEditOrder");
     gridHandel.initKey({
@@ -292,14 +294,6 @@ function initDatagridAddRequireOrder(){
                     }
                     return  "<b>"+parseFloat(value||0).toFixed(2)+ "<b>";
                 },
-            	/*editor:{
-                    type:'numberbox',
-                    options:{
-                        disabled:true,
-                        min:0,
-                        precision:2,
-                    }
-                }*/
             },
             {field:'defectNum',title:'缺货数',width:'100px',align:'right',
                 formatter:function(value,row,index){
@@ -308,14 +302,6 @@ function initDatagridAddRequireOrder(){
                     }
                     return  "<b>"+parseFloat(value||0).toFixed(2)+ "<b>";
                 },
-                /*editor:{
-                    type:'numberbox',
-                    options:{
-                        disabled:true,
-                        min:0,
-                        precision:2,
-                    }
-                }*/
             },
             {field:'remark',title:'备注',width:'200px',align:'left',editor:'textbox'}
         ]],
@@ -327,6 +313,20 @@ function initDatagridAddRequireOrder(){
                 gridHandel.setFieldFocus(target);
             }else{
                 gridHandel.setSelectFieldName("skuCode");
+            }
+        },
+        onBeforeEdit:function (rowIndex, rowData) {
+            editRowData = $.extend(true,{},rowData);
+        },
+        onAfterEdit:function(rowIndex, rowData, changes){
+            if(typeof(rowData.id) === 'undefined'){
+                // $("#"+gridName).datagrid('acceptChanges');
+            }else{
+                if(editRowData.skuCode != changes.skuCode){
+                    rowData.skuCode = editRowData.skuCode;
+                    gridHandel.setFieldTextValue('skuCode',editRowData.skuCode);
+                    $("#"+gridName).datagrid('updateRow',{index:rowIndex,rwo:rowData});
+                }
             }
         },
         onLoadSuccess:function(data){

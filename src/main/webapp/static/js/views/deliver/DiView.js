@@ -42,7 +42,7 @@ function initDatagridEditRequireOrder(){
 			        return str;
 			    },
 			},
-			{field:'skuCode',title:'货号',width:'70px',align:'left',editor:'textbox'},
+			{field:'skuCode',title:'货号',width:'70px',align:'left'},
 			{field:'skuName',title:'商品名称',width:'200px',align:'left'},
             {field:'barCode',title:'条码',width:'130px',align:'left'},
             {field:'unit',title:'单位',width:'60px',align:'left'},
