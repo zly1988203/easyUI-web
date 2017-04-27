@@ -86,7 +86,7 @@
 							    <option value="1">特价</option> 
 								<option value="2" >折扣</option> 
 								<option value="3">偶数特价</option> 
-								<option value="4">换购</option> 
+								<!-- <option value="4">换购</option>  -->
 								<option value="5">满减</option> 
 								<option value="6">组合特价</option>
 								<option value="10">买满送</option>
