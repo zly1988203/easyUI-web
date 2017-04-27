@@ -212,12 +212,15 @@ function deleteCategory(){
 	var rows =$("#gridArchives").datagrid("getChecked");
 	var ids='';
 	if($("#gridArchives").datagrid("getChecked").length <= 0){
-		 var parentId = $("#parentId").val();
+		 //bug 18842
+		 messager('请选择要操作的记录！','提示');
+		 return null;
+		 /*var parentId = $("#parentId").val();
 		 if(parentId==0 || !parentId){
              messager('请选中一行进行删除！','提示');
 			 return null;
 		 }
-		 ids = parentId;
+		 ids = parentId;*/
 	}else{
 		$.each(rows,function(i,v){
 			ids+=v.goodsCategoryId+",";

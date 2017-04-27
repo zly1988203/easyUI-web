@@ -9,7 +9,8 @@ var dialogHeight = $(window).height()*(2/3);
 var left = $(window).width()/4;
 
 function messager(msg,title){
-    $.messager.show({
+	$.messager.alert(title||'提示',msg);
+    /*$.messager.show({
         title:title||'系统提示',
         msg:msg,
         timeout:2000,
@@ -19,7 +20,7 @@ function messager(msg,title){
             right:'',
             bottom:''
         }
-     });
+     });*/
 }
 //公共组件-日期选择
 //改变日期

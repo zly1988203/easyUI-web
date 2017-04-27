@@ -534,6 +534,15 @@ function saveItemHandel(){
     if(!isValid){
         return;
     }
+    if(!$.trim($('#supplierName').val())){
+    	messager('供应商不能为空');
+    	return;
+    }
+    if(!$.trim($('#branchName').val())){
+    	messager('收货机构不能为空');
+    	return;
+    }
+    
 
     $("#gridEditOrder").datagrid("endEdit", gridHandel.getSelectRowIndex());
 

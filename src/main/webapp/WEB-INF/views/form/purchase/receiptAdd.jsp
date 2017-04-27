@@ -29,15 +29,12 @@
 			<div class="ub umar-t8">
 				<div class="ub ub-ac umar-r80">
 					<div class="umar-r10 uw-60 ut-r">采购订单:</div>
-					<input id="refFormNo" class="uinp  easyui-validatebox"
-						data-options="required:true" type="text" value="${form.formNo}"
-						onclick="selectPurchaseForm()">
+					<input id="refFormNo" class="uinp" readonly="readonly" type="text" value="${form.formNo}" onclick="selectPurchaseForm()">
 					<div class="uinp-more" onclick="selectPurchaseForm()">...</div>
 				</div>
 				<div class="ub ub-ac umar-r80">
 					<div class="umar-r10 uw-60 ut-r">付款期限:</div>
-					<input id="paymentTime" class="Wdate easyui-validatebox"
-						data-options="required:true" type="text"
+					<input id="paymentTime" class="Wdate"  type="text"
 						onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" />
 				</div>
 				<div class="ub ub-ac umar-r80">

@@ -549,7 +549,11 @@ function saveItemHandel(){
     if(!isValid){
         return;
     }
-
+    if(!$.trim($('#paymentTime').val())){
+    	messager('付款期限不能为空');
+    	return;
+    }
+    
     $("#gridEditOrder").datagrid("endEdit", gridHandel.getSelectRowIndex());
     var rows = gridHandel.getRowsWhere({skuName:'1'});
     $(gridHandel.getGridName()).datagrid("loadData",rows);
