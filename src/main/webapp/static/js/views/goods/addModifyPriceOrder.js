@@ -100,7 +100,9 @@ function initAddModifyPriceGridEdit() {
         },
     });
     addModifyPriceGridDg = $("#" + datagridId).datagrid({
-        singleSelect:false,  //单选  false多选
+        singleSelect:true,  //单选  false多选
+//        checkOnSelect:true,
+//        selectOnCheck:true,
         rownumbers:true,    //序号
         pagination:false,    //分页
         fitColumns:true,    //每列占满

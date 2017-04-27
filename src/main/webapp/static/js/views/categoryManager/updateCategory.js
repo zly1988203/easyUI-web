@@ -8,7 +8,7 @@ function save() {
 	}
     if($('#categoryName').val().trim()===""){
         $('#saveCategory').removeAttr("disabled");
-        messager("请输入品牌名称");
+        messager("请输入类别名称");
         return;
     }
 
