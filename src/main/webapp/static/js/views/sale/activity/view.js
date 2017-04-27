@@ -542,7 +542,7 @@ function initDatagridmmsGOOD(){
 		pagination:true,
 		width:'100%',
         columns:[[
-					{field:'skuCode',title:'货号',width:'80',align:'left',editor:'textbox'},
+					{field:'skuCode',title:'货号',width:'80',align:'left'},
 					{field:'skuName',title:'商品名称',width:'180',align:'left'},
 					{field:'barCode', title: '条码', width:180, align: 'left'},
 					{field:'unit', title: '单位', width:70, align: 'left'},
@@ -625,7 +625,7 @@ function initDatagridmmjComLG(activityId){
 		pageSize:50,
 		width:'100%',
 		columns:[[
-				  {field:'skuCode',title:'货号',width:'80',align:'left',editor:'textbox'},
+				  {field:'skuCode',title:'货号',width:'80',align:'left'},
 				  {field:'skuName',title:'商品名称',width:'180',align:'left'},
 				  {field:'barCode', title: '条码', width:180, align: 'left'},
 				  {field:'unit', title: '单位', width:70, align: 'left'},

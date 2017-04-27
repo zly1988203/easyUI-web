@@ -25,11 +25,8 @@ function initConditionParams(){
 	$("#createTime").html(new Date().format('yyyy-MM-dd hh:mm')); 
 	
 	 //初始化机构ID，机构名称
-	if(sessionBranchType>0){
-		$("#branchId").val(sessionBranchId);
-		$("#branchName").val(sessionBranchCodeName);
-	}
-    
+    $("#branchId").val(sessionBranchId);
+	$("#branchName").val(sessionBranchCodeName);
 	
 	//设置默认供应商信息
 	$("#supplierId").val(sessionSupplierId);
@@ -44,6 +41,7 @@ var gridDefault = {
     realNum:0,
     isGift:0,
 }
+var editRowData = null;
 var gridName = "gridEditOrder";
 var gridHandel = new GridClass();
 function initDatagridEditOrder(){
@@ -216,13 +214,6 @@ function initDatagridEditOrder(){
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
-                //editor:{
-                //    type:'numberbox',
-                //    options:{
-                //        min:0,
-                //        precision:4,
-                //    }
-                //},
             },
 
             {field:'tax',title:'税率',width:'80px',align:'right',
@@ -274,6 +265,20 @@ function initDatagridEditOrder(){
                 gridHandel.setFieldFocus(target);
             }else{
                 gridHandel.setSelectFieldName("skuCode");
+            }
+        },
+        onBeforeEdit:function (rowIndex, rowData) {
+            editRowData = $.extend(true,{},rowData);
+        },
+        onAfterEdit:function(rowIndex, rowData, changes){
+            if(typeof(rowData.id) === 'undefined'){
+                // $("#"+gridName).datagrid('acceptChanges');
+            }else{
+                if(editRowData.skuCode != changes.skuCode){
+                    rowData.skuCode = editRowData.skuCode;
+                    gridHandel.setFieldTextValue('skuCode',editRowData.skuCode);
+                    $("#"+gridName).datagrid('updateRow',{index:rowIndex,rwo:rowData});
+                }
             }
         },
         onLoadSuccess : function(data) {
@@ -498,14 +503,7 @@ function selectGoods(searchKey){
 function saveItemHandel(){
     var isValid = $("#formAdd").form('validate');
     if(!isValid){
-    	messager("请先填写数据!");
         return;
-    }
-    
-    var branchType = $("#branchType").val();
-    if(branchType==0){
-    	messager("退货机构不能选择总部!");
-    	return;
     }
 
     $("#gridEditOrder").datagrid("endEdit", gridHandel.getSelectRowIndex());
@@ -571,7 +569,7 @@ function saveDataHandel(rows){
     var refFormNo = $("#refFormNo").val();
     //备注
     var remark = $("#remark").val();
-    
+
     //TODO 计算获取商品总数量和总金额
     //商品总数量
     var totalNum = 0;
@@ -703,15 +701,13 @@ function selectOperator(){
 	});
 }
 function selectBranch(){
-	var branchId = $("#branchId").val();
 	new publicBranchService(function(data){
         var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
-        if(data.branchesId != branchId && nowRows.length > 0){
+        if( $("#branchId").val() != "" && data.branchesId != $("#branchId").val() && nowRows.length > 0){
 
             $.messager.confirm('提示','修改机构后会清空明细，是否要修改？',function(r){
                 if(r){
                     $("#branchId").val(data.branchesId);
-                    $("#branchType").val(data.type);
                     $("#branchName").val("["+data.branchCode+"]"+data.branchName);
                     gridHandel.setLoadData([$.extend({},gridDefault)]);
                     // 是否自动加载商品
@@ -721,9 +717,8 @@ function selectBranch(){
                 }
             })
 
-        }else  if(data.branchesId != branchId && nowRows.length == 0){
+        }else  if( $("#branchId").val() != "" && data.branchesId != $("#branchId").val() && nowRows.length == 0){
             $("#branchId").val(data.branchesId);
-            $("#branchType").val(data.type);
             $("#branchName").val("["+data.branchCode+"]"+data.branchName);
             gridHandel.setLoadData([$.extend({},gridDefault)]);
             // 是否自动加载商品

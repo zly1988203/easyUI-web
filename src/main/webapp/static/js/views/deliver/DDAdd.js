@@ -11,6 +11,7 @@ var url = "";
 var oldData = {};
 var gridName = "gridRequireOrder";
 var deliverStatus;
+var editRowData = null;
 $(function(){
 	deliverStatus = $('#deliverStatus').val();
 	if(deliverStatus === 'add'){
@@ -293,6 +294,20 @@ function initDatagridRequireOrder(){
                 gridHandel.setFieldFocus(target);
             }else{
                 gridHandel.setSelectFieldName("skuCode");
+            }
+        },
+        onBeforeEdit:function (rowIndex, rowData) {
+            editRowData = $.extend(true,{},rowData);
+        },
+        onAfterEdit:function(rowIndex, rowData, changes){
+            if(typeof(rowData.id) === 'undefined'){
+                // $("#"+gridName).datagrid('acceptChanges');
+            }else{
+                if(editRowData.skuCode != changes.skuCode){
+                    rowData.skuCode = editRowData.skuCode;
+                    gridHandel.setFieldTextValue('skuCode',editRowData.skuCode);
+                    $("#"+gridName).datagrid('updateRow',{index:rowIndex,rwo:rowData});
+                }
             }
         },
         onLoadSuccess:function(data){

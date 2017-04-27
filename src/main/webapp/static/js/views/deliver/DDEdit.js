@@ -45,14 +45,13 @@ $(document).on('input','#remark',function(){
 	
 });
 
-
-
-
 var gridDefault = {
    /* applyNum:0,
     largeNum:0,*/
     isGift:0,
 }
+var gridName = "gridEditRequireOrder";
+var editRowData = null;
 var oldData = {};
 var gridHandel = new GridClass();
 function initDatagridEditRequireOrder(){
@@ -101,17 +100,7 @@ function initDatagridEditRequireOrder(){
             {field:'rowNo',hidden:'true'},
             {field:'skuCode',title:'货号',width: '70px',align:'left',editor:'textbox'},
             {field:'skuName',title:'商品名称',width:'200px',align:'left'},
-            {field:'barCode',title:'条码',width:'150px',align:'left',
-               /* formatter:function(value,row,index){
-                    var str = "";
-                    if(row.isFooter){
-                        str ='<div class="ub ub-pc" style="color:red;">起订金额：'+ $("#minAmount").val() +'</div> '
-                    }else{
-                        str = value;
-                    }
-                    return str;
-                }*/
-            },
+            {field:'barCode',title:'条码',width:'150px',align:'left'},
             {field:'unit',title:'单位',width:'60px',align:'left'},
             {field:'spec',title:'规格',width:'90px',align:'left'},
             /*{field:'twoCategoryCode',title:'类别编号',width:'90px',align:'left'},
@@ -206,6 +195,20 @@ function initDatagridEditRequireOrder(){
                 gridHandel.setFieldFocus(target);
             }else{
                 gridHandel.setSelectFieldName("skuCode");
+            }
+        },
+        onBeforeEdit:function (rowIndex, rowData) {
+            editRowData = $.extend(true,{},rowData);
+        },
+        onAfterEdit:function(rowIndex, rowData, changes){
+            if(typeof(rowData.id) === 'undefined'){
+                // $("#"+gridName).datagrid('acceptChanges');
+            }else{
+                if(editRowData.skuCode != changes.skuCode){
+                    rowData.skuCode = editRowData.skuCode;
+                    gridHandel.setFieldTextValue('skuCode',editRowData.skuCode);
+                    $("#"+gridName).datagrid('updateRow',{index:rowIndex,rwo:rowData});
+                }
             }
         },
         onLoadSuccess:function(data){

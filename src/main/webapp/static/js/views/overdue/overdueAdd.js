@@ -40,6 +40,8 @@ var gridDefault = {
     isGift:0,
 }
 var gridHandel = new GridClass();
+var gridName = "overdueEditGrid";
+var editRowData = null;
 function initDatagridEditOrder(){
     gridHandel.setGridName("overdueEditGrid");
     gridHandel.initKey({
@@ -146,6 +148,20 @@ function initDatagridEditOrder(){
                 gridHandel.setFieldFocus(target);
             }else{
                 gridHandel.setSelectFieldName("skuCode");
+            }
+        },
+        onBeforeEdit:function (rowIndex, rowData) {
+            editRowData = $.extend(true,{},rowData);
+        },
+        onAfterEdit:function(rowIndex, rowData, changes){
+            if(typeof(rowData.id) === 'undefined'){
+                // $("#"+gridName).datagrid('acceptChanges');
+            }else{
+                if(editRowData.skuCode != changes.skuCode){
+                    rowData.skuCode = editRowData.skuCode;
+                    gridHandel.setFieldTextValue('skuCode',editRowData.skuCode);
+                    $("#"+gridName).datagrid('updateRow',{index:rowIndex,rwo:rowData});
+                }
             }
         },
         onLoadSuccess : function() {

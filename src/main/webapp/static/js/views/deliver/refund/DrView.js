@@ -20,7 +20,7 @@ function initDatagridStoreYHOrder(){
         width:'100%',
         columns:[[
             {field:'rowNo',hidden:'true'},
-            {field:'skuCode',title:'货号',width: '70px',align:'left',editor:'textbox'},
+            {field:'skuCode',title:'货号',width: '70px',align:'left'},
             {field:'skuName',title:'商品名称',width:'200px',align:'left'},
             {field:'barCode',title:'条码',width:'150px',align:'left',
                 formatter:function(value,row,index){

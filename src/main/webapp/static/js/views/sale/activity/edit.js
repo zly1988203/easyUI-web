@@ -1117,10 +1117,14 @@ function initDatagridSpecial(){
       onLoadSuccess:function(data){
 			if(data.list && data.list.length > 0){
                 $.each(data.list,function (index,item) {
-                    if(item.price === '0' || item.price == 0 ){
+                    //进货价或者成本可能为undefine 不计算毛利率
+                    if(item.price === '0' || item.price == 0 || isNaN(parseFloat(item.price)) || isNaN(parseFloat(item.purchasePrice))){
                         item.oldSaleRate = "0.00%";
-                    }else{
-                        item.oldSaleRate = ((item.price-item.purchasePrice)/item.price*100).toFixed(2)+"%";
+                        item.newSaleRate = "0.00%";
+                        messager("第"+(index+1)+"个商品单价或者成本价值异常");
+                    }else {
+                        item.oldSaleRate = ((item.price - item.purchasePrice) / item.price * 100).toFixed(2) + "%";
+                        item.newSaleRate = ((item.saleAmount-item.purchasePrice)/item.saleAmount*100).toFixed(2)+"%"
                     }
                 })
                 gridHandel.setLoadData(data.list);
@@ -1142,8 +1146,14 @@ function initDatagridSpecial(){
 
 //特价  新毛利率
 function  changSaleAmount(newVal,oldVal) {
+    if(isNaN(parseFloat(newVal))) return;
 	var purchasePrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'purchasePrice');
-    var newSaleRate = ((parseFloat(newVal)-purchasePrice)/parseFloat(newVal)*100).toFixed(2)+"%"
+    var newSaleRate = "0.00%";
+    if(newVal === "" || newVal === undefined){
+        newSaleRate = "";
+    }else {
+    	newSaleRate = ((parseFloat(newVal)-purchasePrice)/parseFloat(newVal)*100).toFixed(2)+"%"
+	}
     gridHandel.setFieldTextValue('newSaleRate',newSaleRate);
 }
 
@@ -1442,12 +1452,17 @@ function initDatagridoneZk(){
     	  gridHandel.setDatagridHeader("center");
           if(data.list && data.list.length > 0) {
               $.each(data.list, function (index, item) {
-                  var discountPrice = ((item.price * item.discount) / 10).toFixed(2);
-                  if(item.price === '0' || item.price == 0 ){
+                  //进货价或者成本可能为undefine 不计算毛利率
+				  if(item.price === '0' || item.price == 0 || isNaN(parseFloat(item.price)) || isNaN(parseFloat(item.purchasePrice))){
                       item.oldSaleRate = "0.00%";
-                  }else{
+                      item.newSaleRate = "0.00%";
+                      messager("第"+(index+1)+"个商品单价或者成本价值异常");
+				  }else {
+                      var discountPrice = ((item.price * item.discount) / 10).toFixed(2);
                       item.oldSaleRate = ((item.price - item.purchasePrice) / item.price * 100).toFixed(2) + "%";
-                  }
+                      item.newSaleRate = ((discountPrice-item.purchasePrice)/discountPrice*100).toFixed(2)+"%"
+				  }
+
               })
               gridHandel.setLoadData(data.list);
               
@@ -1467,11 +1482,17 @@ function initDatagridoneZk(){
 
    //单品折扣 计算新毛利率
    function changeDiscount(newVal,oldVal) {
+       if(isNaN(parseFloat(newVal))) return;
 		var salePrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
 		var purchasePrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'purchasePrice');
-       var discountPrice = ((salePrice*parseFloat(newVal))/10).toFixed(2);
-       var newSaleRate = ((discountPrice-purchasePrice)/discountPrice*100).toFixed(2)+"%";
-       gridHandel.setFieldTextValue('newSaleRate',newSaleRate);
+        var discountPrice = ((salePrice*parseFloat(newVal))/10).toFixed(2);
+       var newSaleRate = "0.00%";
+       if(newVal === "" || newVal === undefined){
+           newSaleRate = "";
+       }else {
+           newSaleRate = ((discountPrice-purchasePrice)/discountPrice*100).toFixed(2)+"%";
+	   }
+        gridHandel.setFieldTextValue('newSaleRate',newSaleRate);
    }
 
 //初始化表格-偶数特价
@@ -1630,11 +1651,16 @@ function initDatagridOddtj(){
       onLoadSuccess:function(data){
           if(data.list && data.list.length > 0) {
               $.each(data.list, function (index, item) {
-                  if(item.price === '0' || item.price == 0 ){
+                  //进货价或者成本可能为undefine 不计算毛利率
+                  if(item.price === '0' || item.price == 0 || isNaN(parseFloat(item.price)) || isNaN(parseFloat(item.purchasePrice))){
                       item.oldSaleRate = "0.00%";
-                  }else{
-                      item.oldSaleRate = ((item.price - item.purchasePrice) / (2 * item.price) * 100).toFixed(2) + "%";
+                      item.newSaleRate = "0.00%";
+                      messager("第"+(index+1)+"个商品单价或者成本价值异常");
+                  }else {
+                      item.oldSaleRate = ((item.price - item.purchasePrice) / item.price * 100).toFixed(2) + "%";
+                      item.newSaleRate = (((item.price+item.saleAmount)-(2*item.purchasePrice))/(item.price+item.saleAmount)*100).toFixed(2)+"%"
                   }
+
               })
               gridHandel.setLoadData(data.list);
           }
@@ -1646,9 +1672,15 @@ function initDatagridOddtj(){
 }
 //改变偶数特价 计算新毛利率
 function changeSaleAmount(newVal,oldVal) {
+    if(isNaN(parseFloat(newVal))) return;
     var priceNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
 	var purchasePrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'purchasePrice');
-    var newSaleRate =  (((priceNumVal+parseFloat(newVal))-(2*purchasePrice))/(priceNumVal+parseFloat(newVal))*100).toFixed(2)+"%";
+    var newSaleRate = "0.00%";
+    if(newVal === "" || newVal === undefined){
+        newSaleRate = "";
+    }else {
+        newSaleRate =  (((priceNumVal+parseFloat(newVal))-(2*purchasePrice))/(priceNumVal+parseFloat(newVal))*100).toFixed(2)+"%";
+	}
     gridHandel.setFieldTextValue('newSaleRate',newSaleRate);
 }
 
@@ -2522,7 +2554,7 @@ function selectGoods(searchKey){
                 if(item.price === '0' || item.price == 0 ){
                     item.oldSaleRate = "0.00%";
                 }else{
-                    item.oldSaleRate = ((item.price-item.purchasePrice)/(2*item.price)*100).toFixed(2)+"%";
+                    item.oldSaleRate = ((item.price-item.purchasePrice)/(item.price)*100).toFixed(2)+"%";
                 }
             })
         }
@@ -3476,7 +3508,7 @@ function updateListData(data){
 			if(item.price === '0' || item.price == 0 ){
 				item.oldSaleRate = "0.00%";
 			}else{
-				item.oldSaleRate = ((item.price-item.purchasePrice)/(2*item.price)*100).toFixed(2)+"%";
+				item.oldSaleRate = ((item.price-item.purchasePrice)/(item.price)*100).toFixed(2)+"%";
 			}
 
 		})

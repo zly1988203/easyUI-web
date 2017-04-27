@@ -1497,10 +1497,16 @@ function initDatagridoneZk(){
 
 //单品折扣 计算新毛利率
 function changeDiscount(newVal,oldVal) {
+    if(isNaN(parseFloat(newVal))) return;
     var salePrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
     var purchasePrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'purchasePrice');
-    var discountPrice = ((salePrice*parseFloat(newVal))/10).toFixed(2);
-    var newSaleRate = ((discountPrice-purchasePrice)/discountPrice*100).toFixed(2)+"%";
+    var newSaleRate = "0.00%";
+    if(newVal === "" || newVal === undefined){
+        newSaleRate = "";
+	}else {
+        var discountPrice = ((salePrice*parseFloat(newVal))/10).toFixed(2);
+        newSaleRate = ((discountPrice-purchasePrice)/discountPrice*100).toFixed(2)+"%";
+	}
     gridHandel.setFieldTextValue('newSaleRate',newSaleRate);
 }
 
@@ -2230,7 +2236,6 @@ function specialRows(id,val){
 		for(var i = 0;i < newData.length;i++){
             var item = newData[i];
             item.saleAmount= parseFloat(val);
-
             item.newSaleRate = (((item.price+item.saleAmount)-(2*item.purchasePrice))/(item.price+item.saleAmount)*100).toFixed(2)+"%"
 		}
 	}
@@ -2409,7 +2414,7 @@ function selectGoodsG(searchKey){
 // 选择商品
 function selectGoods(searchKey){
 	
-	if(!$.trim($("#branchName").val())){ //是否选择活动机构的校验
+	if($("#branchName").val()==" "){ //是否选择活动机构的校验
 		messager("请先选择活动分店！");
 		return;
 	}
@@ -2492,7 +2497,7 @@ function selectGoods(searchKey){
                 if(item.price === '0' || item.price == 0 ){
                     item.oldSaleRate = "0.00%";
                 }else{
-                    item.oldSaleRate = ((item.price-item.purchasePrice)/(2*item.price)*100).toFixed(2)+"%";
+                    item.oldSaleRate = ((item.price-item.purchasePrice)/(item.price)*100).toFixed(2)+"%";
                 }
 
             })
@@ -3316,6 +3321,9 @@ var resetForm = function() {
 
 //折扣价处理
 function saleAmountOnChange(newVal,oldV){
+
+	if(isNaN(parseFloat(newVal))) return;
+
 	var priceNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
 	if(parseFloat(priceNumVal) < parseFloat(newVal)) {
 		messager("促销价格大于商品原价");
@@ -3330,6 +3338,11 @@ function saleAmountOnChange(newVal,oldV){
     var type = $("#activityType").combobox('getValue');
     var purchasePrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'purchasePrice');
     var newSaleRate = '0.00%';
+    if(newVal === "" || newVal === undefined || parseFloat(newVal) === NaN){
+        newSaleRate = "";
+        gridHandel.setFieldTextValue('newSaleRate',newSaleRate);
+        return;
+	}
 	if(type==='1'){
          newSaleRate = ((parseFloat(newVal)-purchasePrice)/parseFloat(newVal)*100).toFixed(2)+"%";
 	}else if(type==='2' && $('#activityScopedis').val()==="0"){
@@ -3417,7 +3430,7 @@ function updateListData(data){
 			if(item.price === '0' || item.price == 0 ){
 				item.oldSaleRate = "0.00%";
 			}else{
-				item.oldSaleRate = ((item.price-item.purchasePrice)/(2*item.price)*100).toFixed(2)+"%";
+				item.oldSaleRate = ((item.price-item.purchasePrice)/(item.price)*100).toFixed(2)+"%";
 			}
 
 		})
