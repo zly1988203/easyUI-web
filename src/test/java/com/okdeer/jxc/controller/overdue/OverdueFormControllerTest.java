@@ -28,8 +28,6 @@ import javax.annotation.Resource;
 
 import org.apache.commons.codec.net.URLCodec;
 import org.apache.commons.io.FileUtils;
-import org.apache.ibatis.annotations.Insert;
-import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
