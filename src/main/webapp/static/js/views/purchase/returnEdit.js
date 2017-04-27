@@ -534,6 +534,17 @@ function selectGoods(searchKey){
 
 //保存
 function saveItemHandel(){
+	var isValid = $("#formAdd").form('validate');
+    if(!isValid){
+    	messager("请先填写数据!");
+        return;
+    }
+    
+    var branchType = $("#branchType").val();
+    if(branchType==0){
+    	messager("退货机构不能选择总部!");
+    	return;
+    }
 
     $("#gridEditOrder").datagrid("endEdit", gridHandel.getSelectRowIndex());
     var rows = gridHandel.getRowsWhere({skuName:'1'});
@@ -728,11 +739,12 @@ function selectOperator(){
 function selectBranch(){
 	new publicBranchService(function(data){
         var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
-        if( $("#branchId").val() != "" && data.branchesId != $("#branchId").val() && nowRows.length > 0){
+        if(data.branchesId != $("#branchId").val() && nowRows.length > 0){
 
             $.messager.confirm('提示','修改机构后会清空明细，是否要修改？',function(r){
                 if(r){
                     $("#branchId").val(data.branchesId);
+                    $("#branchType").val(data.type);
                     $("#branchName").val("["+data.branchCode+"]"+data.branchName);
                     // 是否自动加载商品
                     if($("#cascadeGoods").val() == 'true'){
@@ -741,8 +753,9 @@ function selectBranch(){
                 }
             })
 
-        }else  if( $("#branchId").val() != "" && data.branchesId != $("#branchId").val() && nowRows.length == 0){
+        }else  if(data.branchesId != $("#branchId").val() && nowRows.length == 0){
             $("#branchId").val(data.branchesId);
+            $("#branchType").val(data.type);
             $("#branchName").val("["+data.branchCode+"]"+data.branchName);
             // 是否自动加载商品
             if($("#cascadeGoods").val() == 'true'){

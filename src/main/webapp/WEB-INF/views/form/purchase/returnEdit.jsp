@@ -85,6 +85,7 @@
 					id="branchName" type="text" readonly="readonly"
 					value="[${form.branchCode}]${form.branchName}"
 					onclick="selectBranch()">
+				<input name="branchType" id="branchType" type="hidden">
 				<div class="uinp-more" onclick="selectBranch()">...</div>
 			</div>
 			<div class="ub ub-ac umar-r80">
