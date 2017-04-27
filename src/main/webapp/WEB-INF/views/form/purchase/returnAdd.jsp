@@ -9,7 +9,7 @@
 <title>退货单-新增</title>
 
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="${ctx}/static/js/views/purchase/returnAdd.js"></script>
+<script src="${ctx}/static/js/views/purchase/returnAdd.js?1=3"></script>
 
 </head>
 <body class="ub uw uh ufs-14 uc-black">
@@ -56,6 +56,7 @@
 				<div class="ub ub-ac umar-r80">
 					<div class="umar-r10 uw-60 ut-r">退货机构:</div>
 					<input class="uinp" name="branchId" id="branchId" type="hidden">
+					<input name="branchType" id="branchType" type="hidden">
 					<input id="branchName" class="uinp  easyui-validatebox"
 						data-options="required:true" type="text" onclick="selectBranch()">
 					<div class="uinp-more" onclick="selectBranch()">...</div>
