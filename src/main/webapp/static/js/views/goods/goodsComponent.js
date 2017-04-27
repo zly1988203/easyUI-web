@@ -57,6 +57,8 @@ function initDatagridOrders(){
     query();
 }
 
+var gridName = "gridOrdersresult";
+var editRowData = null;
 //初始化编辑表格
 function initDatagridResultOrder(){
     gridHandel.setGridName("gridOrdersresult");
@@ -203,6 +205,20 @@ function initDatagridResultOrder(){
             }else{
                 gridHandel.setSelectFieldName("skuCode");
          }
+        },
+        onBeforeEdit:function (rowIndex, rowData) {
+            editRowData = $.extend(true,{},rowData);
+        },
+        onAfterEdit:function(rowIndex, rowData, changes){
+            if(typeof(rowData.id) === 'undefined'){
+                // $("#"+gridName).datagrid('acceptChanges');
+            }else{
+                if(editRowData.skuCode != changes.skuCode){
+                    rowData.skuCode = editRowData.skuCode;
+                    gridHandel.setFieldTextValue('skuCode',editRowData.skuCode);
+                    $("#"+gridName).datagrid('updateRow',{index:rowIndex,rwo:rowData});
+                }
+            }
         },
         onLoadSuccess : function(data) {
         	//$('#gridOrdersresult').datagrid("selectRow", 0);

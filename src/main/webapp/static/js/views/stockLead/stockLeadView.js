@@ -214,6 +214,7 @@ function getFiledsList(){
 }
 
 var gridHandel = new GridClass();
+var editRowData = null;
 function initDatagridStockLeadView(){
     gridHandel.setGridName(dataGridId);
     gridHandel.initKey({
@@ -254,6 +255,20 @@ function initDatagridStockLeadView(){
                 gridHandel.setFieldFocus(target);
             }else{
                 gridHandel.setSelectFieldName("skuCode");
+            }
+        },
+        onBeforeEdit:function (rowIndex, rowData) {
+            editRowData = $.extend(true,{},rowData);
+        },
+        onAfterEdit:function(rowIndex, rowData, changes){
+            if(typeof(rowData.id) === 'undefined'){
+                // $("#"+gridName).datagrid('acceptChanges');
+            }else{
+                if(editRowData.skuCode != changes.skuCode){
+                    rowData.skuCode = editRowData.skuCode;
+                    gridHandel.setFieldTextValue('skuCode',editRowData.skuCode);
+                    $("#"+dataGridId).datagrid('updateRow',{index:rowIndex,rwo:rowData});
+                }
             }
         },
         onLoadSuccess:function(data){        	

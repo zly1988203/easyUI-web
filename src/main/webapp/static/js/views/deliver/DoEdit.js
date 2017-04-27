@@ -46,7 +46,7 @@ $(document).on('input','#remark',function(){
 });
 
 
-
+var editRowData = null;
 var gridDefault = {
     dealNum:0,
     largeNum:0,
