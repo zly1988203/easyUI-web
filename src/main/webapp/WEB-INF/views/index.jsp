@@ -72,7 +72,7 @@
 			   		<div class="ub uh ub-ver ufs-14 ubgc-bg">
 			   			<shiro:hasPermission name="JxcStockException:search">
 				   			<div class="ub ub-ver ubgc-while">
-					   			<p class="ub ufs-16 ufw-b upad-8">异常库存提醒</p>
+					   			<p class="ub ufs-12 ufw-b upad-8">异常库存提醒</p>
 					   			<p class="ub uline">
 					   			<div class="ub upad-t10 upad-b10 upad-8">
 					   				<ul class="msg-ul crbox">
@@ -83,8 +83,8 @@
 				   			</div><!-- end 异常库存提醒 -->
 			   			</shiro:hasPermission>
 			   			<shiro:hasPermission name="JxcPurchaseReceipt:search || JxcDeliverDI:search">
-				   			<div class="ub ub-ver umar-t10 ubgc-while">
-					   			<p class="ub ufs-16 ufw-b upad-8">收货提醒</p>
+				   			<div class="ub ub-ver  ubgc-while">
+					   			<p class="ub ufs-12 ufw-b upad-8">收货提醒</p>
 					   			<p class="ub uline">
 					   			<div class="ub upad-t10 upad-b10 upad-8">
 					   				<ul class="msg-ul crbox">
@@ -99,8 +99,8 @@
 					   			</div>
 				   			</div><!-- end 收货提醒 -->
 			   			</shiro:hasPermission>
-			   			<div class="ub ub-ver umar-t10 ubgc-while">
-				   			<p class="ub ufs-16 ufw-b upad-8">未审核单据</p>
+			   			<div class="ub ub-ver ubgc-while">
+				   			<p class="ub ufs-12 ufw-b upad-8">未审核单据</p>
 				   			<p class="ub uline">
 				   			<div class="ub upad-t10 upad-b10 upad-8 uh-190">
 				   				<ul class="msg-ul crbox">

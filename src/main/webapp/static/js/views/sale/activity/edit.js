@@ -3156,7 +3156,11 @@ function saveDataHandel(rows,setrows){
 	  }
   }else if(activityType=="10"){
 	  
-	  rows.forEach(function(obj,index){
+	  var temRows = $.map(rows, function(obj){
+					  		return $.extend(true,{},obj);//返回对象的深拷贝
+					  	});
+	  
+	  temRows.forEach(function(obj,index){
 		  var tempgifts = [];//rows;
 		  if(obj.giftPoList && obj.giftPoList.length >0){
 			  obj.giftPoList.forEach(function(obx,indej){
@@ -3191,9 +3195,9 @@ function saveDataHandel(rows,setrows){
 	          allowActivity:$("#mmsofactType1").is(":checked")?1:0,
 	          allowMultiple:$("#mmsofactType2").is(":checked")?1:0,
 	          detailList:setrows, //活动范围数据集合
-	          gradientList:rows //梯度集合
+	          gradientList:temRows //梯度集合
 	  };
-	  
+	  	  
   }
   
   reqObj['id'] = $("#activityId").val();
@@ -3205,8 +3209,9 @@ function saveDataHandel(rows,setrows){
 	  temUrl = contextPath+"/sale/activity/save";
   }
   //console.log(req);
-  gFunStartLoading();
   //return;
+  gFunStartLoading();
+  
   $.ajax({
       url:temUrl,
       type:"POST",

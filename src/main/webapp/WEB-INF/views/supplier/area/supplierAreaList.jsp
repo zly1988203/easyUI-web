@@ -8,8 +8,8 @@
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
     <script  src="${ctx}/static/js/views/supplier/area/supplierAreaList.js"></script>
 </head>
-<body class="ub uw uh ufs-14 uc-black">
-<div class="ub ub-f1 umar-4 upad-4">
+<body class="uw uh ufs-14 upad-8 uc-black box-border">
+<div class="ub uh ub-f1">
     <!--left-->
     <div class="ub ub-ver ubor">
         <div class="ubor-b "></div>

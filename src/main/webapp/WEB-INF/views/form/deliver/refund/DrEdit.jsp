@@ -55,6 +55,7 @@
 						onclick="selectSourceBranch()" value="[${form.sourceBranchCode}]${form.sourceBranchName}"/>
 					<div class="uinp-more" onclick="selectSourceBranch()">...</div>
 				</div>
+				<i class="ub ub-ac uc-red">*</i>
 				<div class="ub ub-ac uw-300  umar-l80">
 					<div class="umar-r10 uw-80 ut-r">制单人员:</div>
 					<div class="utxt">${form.createUserName}</div>
@@ -74,6 +75,7 @@
 						onclick="selectTargetBranch()" value="[${form.targetBranchCode}]${form.targetBranchName}" />
 					<div class="uinp-more" onclick="selectTargetBranch()">...</div>
 				</div>
+				<i class="ub ub-ac uc-red">*</i>
 				<div class="ub ub-ac uw-300 umar-l80">
 					<div class="umar-r10 uw-80 ut-r">修改人员:</div>
 					<div class="utxt">${form.updateUserName}</div>
@@ -88,7 +90,7 @@
 					<div class="umar-r10 uw-70 ut-r">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注:</div>
 					<input class="uinp ub ub-f1" type="text" id="remark" name="remark" value="${form.remark}">
 				</div>
-				<div class="ub ub-ac uw-300 umar-l80">
+				<div class="ub ub-ac uw-300 umar-l84">
 					<div class="umar-r10 uw-80 ut-r">审核人员:</div>
 					<div class="utxt">${form.validUserName}</div>
 				</div>
