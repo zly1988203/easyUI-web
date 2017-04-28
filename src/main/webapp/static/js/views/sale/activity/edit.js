@@ -731,6 +731,19 @@ function initDatagridmmsGOOD(){
 		                },
 		            } 
           ]],
+          onBeforeEdit:function (rowIndex, rowData) {
+              editRowData = $.extend(true,{},rowData);
+          },
+          onAfterEdit:function(rowIndex, rowData, changes){
+              if(typeof(rowData.id) === 'undefined'){
+                 // $("#"+gridName).datagrid('acceptChanges');
+              }else{
+                  if(editRowData.skuCode != changes.skuCode){
+                      rowData.skuCode = editRowData.skuCode;
+                      gridHandel.setFieldTextValue('skuCode',editRowData.skuCode);
+                  }
+              }
+          },
   		onClickCell : function(rowIndex, field, value) {
   			
 			gridHandel.setBeginRow(rowIndex);
@@ -862,6 +875,19 @@ function initDatagridmmjComLG(activityId){
 		                },
 		            }
         ]],
+        onBeforeEdit:function (rowIndex, rowData) {
+            editRowData = $.extend(true,{},rowData);
+        },
+        onAfterEdit:function(rowIndex, rowData, changes){
+            if(typeof(rowData.id) === 'undefined'){
+               // $("#"+gridName).datagrid('acceptChanges');
+            }else{
+                if(editRowData.skuCode != changes.skuCode){
+                    rowData.skuCode = editRowData.skuCode;
+                    gridHandelG.setFieldTextValue('skuCode',editRowData.skuCode);
+                }
+            }
+        },
 		onClickCell : function(rowIndex, field, value) {
 			gridHandelG.setBeginRow(rowIndex);
 			gridHandelG.setSelectFieldName(field);
@@ -972,6 +998,7 @@ function initmjFullDatagrid(activityId){
 
 
 var datagridObj;
+var editRowData = null;
 //初始化表格-特价
 function initDatagridSpecial(){
 	gridHandel.setGridName("saleMangeadd");
@@ -1096,6 +1123,19 @@ function initDatagridSpecial(){
                 }
             },
         ]],
+        onBeforeEdit:function (rowIndex, rowData) {
+            editRowData = $.extend(true,{},rowData);
+        },
+        onAfterEdit:function(rowIndex, rowData, changes){
+            if(typeof(rowData.id) === 'undefined'){
+               // $("#"+gridName).datagrid('acceptChanges');
+            }else{
+                if(editRowData.skuCode != changes.skuCode){
+                    rowData.skuCode = editRowData.skuCode;
+                    gridHandel.setFieldTextValue('skuCode',editRowData.skuCode);
+                }
+            }
+        },
 		onClickCell : function(rowIndex, field, value) {
 			gridHandel.setBeginRow(rowIndex);
 			gridHandel.setSelectFieldName(field);
