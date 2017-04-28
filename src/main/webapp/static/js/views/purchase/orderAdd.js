@@ -294,16 +294,6 @@ function initDatagridEditOrder(){
                             $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault)]);
 }
 
-function reasonskuCode(newVal,oldVal) {
-    if(typeof(editRowData.id) === 'undefined'){
-        $("#"+gridName).datagrid('acceptChanges');
-    }else{
-        if(editRowData.skuCode != newVal){
-            gridHandel.setFieldTextValue('skuCode',editRowData.skuCode);
-        }
-    }
-}
-
 //限制转换次数
 var n = 0;
 var m = 0;
@@ -314,8 +304,7 @@ function onChangeLargeNum(newV,oldV){
 		 gridHandel.setFieldValue('largeNum',oldV); 
 	     return;
 	}
-	
-	
+
 	if(m > 0){
 		m = 0;
 		return;
@@ -395,6 +384,9 @@ function onChangeAmount(newV,oldV) {
 }
 //监听是否赠品
 function onSelectIsGift(data){
+    var nowRows = gridHandel.getRowsWhere({skuName:'1'})
+    if(nowRows.length <= 0)return;
+
     var checkObj = {
         skuCode: gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'skuCode'),
         isGift:data.id,

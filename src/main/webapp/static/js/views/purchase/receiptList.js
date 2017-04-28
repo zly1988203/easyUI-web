@@ -173,7 +173,9 @@ function initDatagridFormPA(){
         //title:'普通表单-用键盘操作',
         method:'post',
         align:'center',
-        queryParams : {formType : 'PA'},
+        queryParams : {formType : 'PA',startTime : $("#txtStartDate").val(),
+            endTime: $("#txtEndDate").val(),
+            status : $('#radioItemDiv input[name="status"]:checked ').val()},
         //url:contextPath+tempURL,
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
