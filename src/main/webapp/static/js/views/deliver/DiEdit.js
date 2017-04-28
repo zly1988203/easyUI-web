@@ -364,6 +364,8 @@ function onChangeAmount(newV,oldV) {
 }
 //监听是否赠品
 function onSelectIsGift(data){
+    var nowRows = gridHandel.getRowsWhere({skuName:'1'})
+    if(nowRows.length <= 0)return;
     var checkObj = {
         skuCode: gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'skuCode'),
         isGift:data.id,

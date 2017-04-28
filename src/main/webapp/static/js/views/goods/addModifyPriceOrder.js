@@ -75,8 +75,8 @@ var gridDefault = {
 //	oldVipPrice:0.00,
 //	oldWsPrice:0.00,
 //	oldSalePrice:0.00
-    oldSaleRate:"0%",
-    newSaleRate:"0%"
+    oldSaleRate:"0.00%",
+    newSaleRate:"0.00%"
 }
 var gridHandel = new GridClass();
 // 初始化列表
@@ -175,14 +175,6 @@ function initAddModifyPriceGridEdit() {
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
-                editor:{
-                    type:'numberbox',
-                    options:{
-                        disabled:true,
-                        min:0,
-                        precision:4,
-                    }
-                }
             }, // 进价
             {
                 field : 'newPurPrice',
@@ -215,14 +207,6 @@ function initAddModifyPriceGridEdit() {
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
-                editor:{
-                    type:'numberbox',
-                    options:{
-                        disabled:true,
-                        min:0,
-                        precision:4,
-                    }
-                }
             },
             {
                 field : 'oldSaleRate',
@@ -234,7 +218,7 @@ function initAddModifyPriceGridEdit() {
                         return
                     }
                     if(!value){
-                        value = "0%";
+                        value = "0.00%";
                     }else{
                         row['oldSaleRate'] = value;
                     }
@@ -273,7 +257,7 @@ function initAddModifyPriceGridEdit() {
                         return
                     }
                     if(!value){
-                        value = "0%";
+                        value = "0.00%";
                     }else{
                         row['newSaleRate'] = value;
                     }
@@ -408,12 +392,12 @@ function changeNewPurPrice(newVal,oldVal) {
 }
 //新零售价
 function changeNewSalePrice(newVal,oldVal) {
-    if(newVal==0 || newVal === '0'){
-        gridHandel.setFieldTextValue('newSaleRate','0%');
+    if(newVal==0 || newVal === '0' || isNaN(parseFloat(newVal))){
+        gridHandel.setFieldTextValue('newSaleRate','0.00%');
         return;
     }
     var newPurPrice = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'newPurPrice');
-    var newSaleRate = ((newVal-newPurPrice)/newVal*100).toFixed(2)+"%"
+    var newSaleRate = ((newVal-newPurPrice)/parseFloat(newVal)*100).toFixed(2)+"%"
     gridHandel.setFieldTextValue('newSaleRate',newSaleRate);
 
 }
@@ -841,10 +825,10 @@ var datagridUtil = {
         var fieldArr = []; // field的数组
         switch (checkboxId) {
             case "purchasePrice": // 进价
-                fieldArr = [ "oldPurPrice", "newPurPrice","oldSaleRate","newSaleRate" ];
+                fieldArr = [ "oldPurPrice", "newPurPrice"];
                 break;
             case "retailPrice": // 零售价
-                fieldArr = [ "oldSalePrice", "newSalePrice" ,"oldSaleRate","newSaleRate" ];
+                fieldArr = [ "oldSalePrice", "newSalePrice"];
                 break;
             case "tradePrice": // 批发价
                 fieldArr = [ "oldWsPrice", "newWsPrice" ];
@@ -858,17 +842,19 @@ var datagridUtil = {
             default:
                 break;
         }
+
+        var newFields = ["oldSaleRate","newSaleRate"];
         if($("#purchasePrice").is(":checked") || $("#retailPrice").is(":checked")){
-            fieldArr.push("oldSaleRate");
-            fieldArr.push("newSaleRate")
-            _this.showDataGridColumn(fieldArr);
+            _this.showDataGridColumn(newFields);
         }else{
+            _this.hideDataGridColumn(newFields);
+        }
             if ($("#" + checkboxId).is(":checked")) {
                 _this.showDataGridColumn(fieldArr);
             } else {
                 _this.hideDataGridColumn(fieldArr);
             }
-        }
+
 
 
     },
@@ -1061,13 +1047,13 @@ function gFunGoodsSelect(searchKey,branchId){
         //计算原毛利率、新毛利率
         $.each(newRows,function (index,item) {
             //兼容老数据 如果原零售价为0
-            if(item.oldSalePrice === '0' || item.oldSalePrice == 0 ){
-                item.oldSaleRate = "0%";
+            if(item.oldSalePrice === '0' || item.oldSalePrice == 0 || isNaN(parseFloat(item.oldSalePrice)) ){
+                item.oldSaleRate = "0.00%";
             }else{
                 item.oldSaleRate = ((item.oldSalePrice-item.oldPurPrice)/item.oldSalePrice*100).toFixed(2)+"%";
             }
-            if(item.newSalePrice == 0 || item.newSalePrice === '0'){
-                item.newSaleRate = "0%"
+            if(item.newSalePrice == 0 || item.newSalePrice === '0' || isNaN(parseFloat(item.newSalePrice))){
+                item.newSaleRate = "0.00%"
             }else{
                 item.newSaleRate = ((item.newSalePrice-item.newPurPrice)/item.newSalePrice*100).toFixed(2)+"%"
             }
@@ -1295,14 +1281,14 @@ function updateListData(data){
     //计算原毛利率、新毛利率
     $.each(newRows,function (index,item) {
         //兼容老数据 如果原零售价为0
-        if(item.oldSalePrice === '0' || item.oldSalePrice == 0 ){
-            item.oldSaleRate = "0%";
+        if(item.oldSalePrice === '0' || item.oldSalePrice == 0 || isNaN(parseFloat(item.oldSalePrice))){
+            item.oldSaleRate = "0.00%";
         }else{
             item.oldSaleRate = ((item.oldSalePrice-item.oldPurPrice)/item.oldSalePrice*100).toFixed(2)+"%";
         }
 
-        if(item.newSalePrice == 0 || item.newSalePrice === '0'){
-            item.newSaleRate = "0%"
+        if(item.newSalePrice == 0 || item.newSalePrice === '0' || isNaN(parseFloat(item.newSalePrice))){
+            item.newSaleRate = "0.00%"
         }else{
             item.newSaleRate = ((item.newSalePrice-item.newPurPrice)/item.newSalePrice*100).toFixed(2)+"%"
         }
