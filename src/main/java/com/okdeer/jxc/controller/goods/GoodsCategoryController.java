@@ -81,7 +81,7 @@ public class GoodsCategoryController extends
 			LOG.debug("类别树结构参数:" + qo.toString());
 			String categoryTree = goodsCategoryService
 					.queryGoodsCategoryToTree(qo);
-			LOG.debug("categoryTree:" + categoryTree);
+//			LOG.debug("categoryTree:" + categoryTree);
 			return categoryTree;
 		} catch (Exception e) {
 			LOG.error("查询类别树结构异常:", e);
