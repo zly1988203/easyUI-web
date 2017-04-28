@@ -93,6 +93,7 @@
 							id="areaInput">
 						<div class="uinp-more" onclick="selectBranchArea();">...</div>
 					</div>
+					<i class="ub ub-ac uc-red">*</i>
 					<div class="ub ub-ac uw-300 umar-l20">
 						<div class="umar-r10 uw-70 ut-r">生效日期:</div>
 						<c:if test="${goodsPriceForm.effectDate ==null }">
@@ -121,7 +122,7 @@
 					</div>
 				</div>
 				<div class="ub umar-t8">
-					<div class="ub ub-ac uw-600">
+					<div class="ub ub-ac uw-608">
 						<div class="umar-r10 uw-70 ut-r">机构列表:</div>
 						<input class="uinp ub ub-f1" name="loginBranchId" type="hidden"
 							value="${loginBranchId}" id="loginBranchId"> <input
@@ -146,7 +147,7 @@
 					</div>
 				</div>
 				<div class="ub umar-t8">
-					<div class="ub ub-ac uw-600">
+					<div class="ub ub-ac uw-608">
 						<div class="umar-r10 uw-70 ut-r">备注:</div>
 						<input class="uinp ub ub-f1" name="remark"
 							value="${goodsPriceForm.remark}" type="text" id="remark">

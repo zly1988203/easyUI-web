@@ -67,7 +67,7 @@
                    <input class="uinp ub ub-f1" type="text" id="categoryShows" name="categoryShows" readonly="readonly">
                </div>
            
-               <div class="ub ub-ac umar-l40 uw-300">
+               <div class="ub ub-ac umar-l48 uw-300">
                    <div class="umar-r10 uw-70 ut-r">审核人员:</div>
                    <div class="utxt"></div>
                </div>

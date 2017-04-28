@@ -27,17 +27,18 @@
 		</div>
 		<form id="formAdd">
 			<div class="ub umar-t8">
-				<div class="ub ub-ac umar-r80">
+				<div class="ub ub-ac">
 					<div class="umar-r10 uw-60 ut-r">采购订单:</div>
 					<input id="refFormNo" class="uinp" readonly="readonly" type="text" value="${form.formNo}" onclick="selectPurchaseForm()">
 					<div class="uinp-more" onclick="selectPurchaseForm()">...</div>
 				</div>
-				<div class="ub ub-ac umar-r80">
+				<i class="ub ub-ac uc-red">*</i>
+				<div class="ub ub-ac umar-l80">
 					<div class="umar-r10 uw-60 ut-r">付款期限:</div>
 					<input id="paymentTime" class="Wdate"  type="text"
 						onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" />
 				</div>
-				<div class="ub ub-ac umar-r80">
+				<div class="ub ub-ac umar-l80">
 					<div class="umar-r10 uw-60 ut-r">制单人员:</div>
 					<div class="utxt"><%=UserUtil.getCurrentUser().getUserName()%></div>
 				</div>
@@ -47,7 +48,7 @@
 				</div>
 			</div>
 			<div class="ub umar-t8">
-				<div class="ub ub-ac umar-r80">
+				<div class="ub ub-ac">
 					<div class="umar-r10 uw-60 ut-r">收货机构:</div>
 					<input class="uinp" name="branchId" id="branchId" type="hidden"
 						value="${form.branchId}"> <input id="branchName"
@@ -57,7 +58,7 @@
 					<!-- onclick="selectBranch()"-->
 					<!--<div class="uinp-more" onclick="selectBranch()">...</div>-->
 				</div>
-				<div class="ub ub-ac umar-r80">
+				<div class="ub ub-ac umar-l88">
 					<div class="umar-r10 uw-60 ut-r">采购员:</div>
 					<input class="uinp" name="salesmanId" id="salesmanId" type="hidden">
 					<input class="uinp easyui-validatebox" id="operateUserName"
@@ -66,7 +67,7 @@
 					<!--onclick="selectOperator()"-->
 					<!--<div class="uinp-more" onclick="selectOperator()">...</div>-->
 				</div>
-				<div class="ub ub-ac umar-r80">
+				<div class="ub ub-ac umar-l80">
 					<div class="umar-r10 uw-60 ut-r">审核人员:</div>
 					<div class="utxt"></div>
 				</div>
@@ -76,7 +77,7 @@
 				</div>
 			</div>
 			<div class="ub umar-t8">
-				<div class="ub ub-ac umar-r80">
+				<div class="ub ub-ac">
 					<div class="umar-r10 uw-60 ut-r">供应商:</div>
 					<input class="uinp" name="supplierId" id="supplierId" type="hidden"
 						value="${form.supplierId}"> <input
@@ -84,7 +85,7 @@
 						data-options="required:true,novalidate:true" id="supplierName"
 						value="${form.supplierName}" type="text" readonly="readonly">
 				</div>
-				<div class="ub ub-ac umar-r80">
+				<div class="ub ub-ac umar-l88">
 					<div class="umar-r10 uw-60 ut-r">经营方式:</div>
 					<input id="saleWay" class="uinp" type="hidden"> <input
 						id="saleWayName" class="uinp  easyui-validatebox"

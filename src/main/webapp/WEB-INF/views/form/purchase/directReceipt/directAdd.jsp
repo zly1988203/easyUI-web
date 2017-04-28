@@ -48,6 +48,7 @@
 					<input class="uinp ub ub-f1"  id="supplierName" type="text" onclick="selectSupplier()" readonly="readonly">
 					<div class="uinp-more" onclick="selectSupplier()">...</div>
 				</div>
+				<i class="ub ub-ac uc-red">*</i>
 				<div class="ub ub-ac uselectw umar-l00 umar-l10">
 					<div class="umar-r10 uw-70 ut-r">经营方式:</div>
 					<input type="hidden" name="saleWay" id="saleWay" /> 
@@ -74,7 +75,7 @@
 
 				<div class="ub ub-ac umar-l10 uw-300"></div>
 
-				<div class="ub ub-ac umar-l10 uw-300">
+				<div class="ub ub-ac umar-l16 uw-300">
 					<div class="umar-r10 uw-80 ut-r">最后修改人:</div>
 					<div class="utxt"></div>
 				</div>
@@ -92,7 +93,7 @@
 					<input class="uinp ub ub-f1" type="text" id="remark" name="remark" maxlength="40">
 				</div>
 
-				<div class="ub ub-ac umar-l40 uw-300">
+				<div class="ub ub-ac umar-l44 uw-300">
 					<div class="umar-r10 uw-70 ut-r">审核人员:</div>
 					<div class="utxt"></div>
 				</div>
