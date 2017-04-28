@@ -511,7 +511,11 @@ function saveItemHandel(){
     }
     
     var branchType = $("#branchType").val();
-    if(branchType==0){
+    if(!branchType){
+    	messager("请选择退货机构!");
+    	return;
+    }
+    if(branchType=='0'){
     	messager("退货机构不能选择总部!");
     	return;
     }

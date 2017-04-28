@@ -36,11 +36,13 @@
 	              	<input class="Wdate newWdate"  readonly="readonly" name="startTime" id="startTime" data-check="true" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d',maxDate:'#F{$dp.$D(\'endTime\');}'})" />&nbsp;至&nbsp;
                     <input class="Wdate newWdate"  readonly="readonly" name="endTime" id="endTime" data-check="true" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'startTime\');}'})" /> 
 	              </div>
+	              <i class="ub ub-ac uc-red">*</i>
 	              <div class="ub ub-ac">
 	             	<div class="umar-r10 uw-90 ut-r">活动时段:</div>
 	              	<input class="Wdate newWdate"  readonly="readonly" name="dailyStartTime" data-check="true" id="dailyStartTime" onclick="WdatePicker({dateFmt:'HH:mm:ss',minDate:'00:00:00',maxDate:'#F{$dp.$D(\'dailyEndTime\');}'})" />&nbsp;至&nbsp;
                     <input class="Wdate newWdate"  readonly="readonly" name="dailyEndTime" data-check="true" id="dailyEndTime" onclick="WdatePicker({dateFmt:'HH:mm:ss',minDate:'#F{$dp.$D(\'dailyStartTime\');}'})" /> 
 	              </div>
+	              <i class="ub ub-ac uc-red">*</i>
 	              <div class="ub ub-ac" id="weekday">
 	               <div class="umar-r10 uw-70 ut-r">活动日:</div>
 	               <div class="ub ub-ac umar-l10 ubcheckweek">
@@ -79,6 +81,7 @@
                     <div class="umar-r10 uw-70 ut-r">活动名称:</div>
                     <input class="uinp ub ub-f1" maxLength="20" type="text" name="activityName"  data-check="true" id="activityName" value="">
                 </div>
+                <i class="ub ub-ac uc-red">*</i>
                 <div class="ub ub-ac uselectw umar-r10">
                     <div class="umar-r10 uw-90 ut-r">活动类型:</div>
                        <!--select-->
@@ -140,6 +143,7 @@
                         <input class="uinp ub ub-f1 uw-400" type="text" id="branchName" data-check="true" readonly="readonly" value=" " name="branchName"  onclick="selectBranch()">
                    		<div class="uinp-more" id="selectBranch" onclick="selectBranch()" >...</div>
 	             </div>
+	             <i class="ub ub-ac uc-red">*</i>
 	              <div class="ub ub-ac uw-390 umar-l10 special">
 					<div class="umar-r10 uw-80 ut-r">批量特价:</div>
 					<%-- <input class="uinp ub ub-f1 deal" type="number" onkeyup="if(isNaN(value)||value<0)execCommand('undo')" onafterpaste="if(isNaN(value)||value<0)execCommand('undo')" id="special"> --%>

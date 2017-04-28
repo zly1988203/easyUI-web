@@ -13,8 +13,8 @@
 <script src="${ctx}/static/js/views/purchase/purchaseExport.js"></script>
 <%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
 </head>
-<body class="ub uw uh ufs-14 uc-black">
-	<div class="ub ub-ver ub-f1 umar-4  ubor">
+<body class=" uw uh ufs-14 uc-black upad-4 box-border">
+	<div class="ub ub-ver ub-f1  ubor">
 		<div class="ub ub-ac upad-4">
 			<div class="ubtns">
 				<shiro:hasPermission name="JxcPurchaseRefund:add">
@@ -51,7 +51,7 @@
 		<input type="hidden" id="formId" value="${form.id}"> <input
 			type="hidden" id="formNo" value="${form.formNo}">
 		<div class="ub umar-t8">
-			<div class="ub ub-ac umar-r80">
+			<div class="ub ub-ac">
 				<div class="umar-r10 uw-60 ut-r">供应商:</div>
 				<input id="supplierId" class="uinp" value="${form.supplierId}"
 					type="hidden"> <input id="supplierName" class="uinp"
@@ -59,13 +59,14 @@
 					readonly="readonly" onclick="selectSupplier()">
 				<div class="uinp-more" onclick="selectSupplier()">...</div>
 			</div>
-			<div class="ub ub-ac umar-r80">
+			<i class="ub ub-ac uc-red">*</i>
+			<div class="ub ub-ac umar-l80">
 				<div class="umar-r10 uw-60 ut-r">付款期限:</div>
 				<input id="paymentTime" class="Wdate" type="text"
 					onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})"
 					value="<fmt:formatDate value="${form.paymentTime}" pattern="yyyy-MM-dd"/>" />
 			</div>
-			<div class="ub ub-ac umar-r80">
+			<div class="ub ub-ac umar-l80">
 				<div class="umar-r10 uw-60 ut-r">制单人员:</div>
 				<div class="utxt">${form.updateUserName}</div>
 			</div>
@@ -78,7 +79,7 @@
 			</div>
 		</div>
 		<div class="ub umar-t8">
-			<div class="ub ub-ac umar-r80">
+			<div class="ub ub-ac">
 				<div class="umar-r10 uw-60 ut-r">退货机构:</div>
 				<input class="uinp" name="branchId" id="branchId" type="hidden"
 					value="${form.branchId}"> <input class="uinp"
@@ -88,7 +89,8 @@
 				<input name="branchType" id="branchType" type="hidden">
 				<div class="uinp-more" onclick="selectBranch()">...</div>
 			</div>
-			<div class="ub ub-ac umar-r80">
+			<i class="ub ub-ac uc-red">*</i>
+			<div class="ub ub-ac umar-l80">
 				<div class="umar-r10 uw-60 ut-r">采购员:</div>
 				<input class="uinp" name="salesmanId" id="salesmanId" type="hidden"
 					value="${form.salesmanId}"> <input class="uinp"
@@ -96,7 +98,7 @@
 					onclick="selectOperator()" value="${form.salesmanName}">
 				<div class="uinp-more" onclick="selectOperator()">...</div>
 			</div>
-			<div class="ub ub-ac umar-r80">
+			<div class="ub ub-ac umar-l80">
 				<div class="umar-r10 uw-60 ut-r">审核人员:</div>
 				<div class="utxt"></div>
 			</div>
@@ -106,7 +108,7 @@
 			</div>
 		</div>
 		<div class="ub umar-t8">
-			<div class="ub ub-ac umar-r80">
+			<div class="ub ub-ac">
 				<div class="umar-r10 uw-60 ut-r">原单类型:</div>
 				<div class="ub uw-200">
 					<div class="ub ub-ac umar-r10">
@@ -125,7 +127,7 @@
 				</div>
 
 			</div>
-			<div class="ub ub-ac umar-r80">
+			<div class="ub ub-ac umar-r88">
 				<div class="umar-r10 uw-60 ut-r">原单号:</div>
 				<input id="refFormNo" class="uinp" type="text" readonly="readonly"
 					onclick="selectForm()" value="${form.refFormNo}"> <input

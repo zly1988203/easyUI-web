@@ -108,7 +108,7 @@
 								onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" />
 						</c:if>
 					</div>
-					<div class="ub ub-ac umar-l20 uw-200">
+					<div class="ub ub-ac umar-l28 uw-200">
 						<div class="umar-r10 uw-70 ut-r">制单人员:</div>
 						<div class="utxt" id="createUserId">${goodsPriceForm.createUserName}</div>
 					</div>
@@ -132,7 +132,8 @@
 							id="branchShopName" readonly>
 						<div class="uinp-more" onclick="selectBranch();">...</div>
 					</div>
-					<div class="ub ub-ac umar-l40 uw-200">
+					<i class="ub ub-ac uc-red">*</i>
+					<div class="ub ub-ac umar-l44 uw-200">
 						<div class="umar-r10 uw-70 ut-r">审核人员:</div>
 						<div class="utxt" id="checkUser">${goodsPriceForm.validUserName}</div>
 					</div>
@@ -151,7 +152,7 @@
 							value="${goodsPriceForm.remark}" type="text" id="remark">
 					</div>
 					<!--input-checkbox-->
-					<div class="ub ub-ac umar-l40" id="checkBoxPrice">
+					<div class="ub ub-ac umar-l48" id="checkBoxPrice">
 						<div class="umar-r10 uw-70 ut-r">调价设置:</div>
 						<!-- 如果调价为null默认是全部显示 -->
 						<c:if test="${priceGrantMap == null }">
