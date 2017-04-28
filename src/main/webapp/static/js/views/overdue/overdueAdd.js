@@ -294,6 +294,11 @@ function saveItemHandel(){
     if(!isValid){
         return;
     }
+    
+    if(!$.trim($('#remark').val())){
+    	messager("备注不能为空");
+    	return;
+    }
 
     $("#overdueEditGrid").datagrid("endEdit", gridHandel.getSelectRowIndex());
 
