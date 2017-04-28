@@ -494,7 +494,7 @@ function selectGoods(searchKey){
     }
     
     var param = {
-    		type:'DA',
+    		type:'DR',
     		key:searchKey,
     		isRadio:'',
     		sourceBranchId:sourceBranchId,

@@ -156,6 +156,13 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 				PageUtils<GoodsSelect> goodsSelects = goodsSelectServiceApi.getGoodsListDA(vo);
 				return goodsSelects;
 			}
+			
+			//退货单
+			if(FormType.DR.name().equals(vo.getFormType())){
+				PageUtils<GoodsSelect> goodsSelects = goodsSelectServiceApi.getGoodsListDR(vo);
+				return goodsSelects;
+			}
+			
 			//如果是促销活动页面查询商品，需要过滤掉不参加促销的商品
 			if(FormType.PX.name().equals(vo.getFormType())){
 				vo.setAllowActivity(true);
