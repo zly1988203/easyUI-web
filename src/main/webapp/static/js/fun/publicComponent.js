@@ -984,17 +984,17 @@ function GridClass(){
                         }
                     });
                 });
-            }
+            },
         });
         $("#"+gridName).datagrid({}).datagrid("keyCtr");
-        //$(document).on('click',function(event){
-        //    if($(event.target).hasClass('datagrid-cell')){
-        //        return;
-        //    }
-        //    if(rowIndex != undefined){
-        //        $('#'+gridName).datagrid('endEdit', rowIndex);
-        //    }
-        //});
+    }
+
+    this.bindblur = function (params) {
+        $.extend($.fn.datagrid.method,{
+                keyBlur:function (jq) {
+                    
+                }
+            })
     }
     /**
      * 获取左右边单元名称

@@ -858,11 +858,19 @@ var datagridUtil = {
             default:
                 break;
         }
-        if ($("#" + checkboxId).is(":checked")) {
+        if($("#purchasePrice").is(":checked") || $("#retailPrice").is(":checked")){
+            fieldArr.push("oldSaleRate");
+            fieldArr.push("newSaleRate")
             _this.showDataGridColumn(fieldArr);
-        } else {
-            _this.hideDataGridColumn(fieldArr);
+        }else{
+            if ($("#" + checkboxId).is(":checked")) {
+                _this.showDataGridColumn(fieldArr);
+            } else {
+                _this.hideDataGridColumn(fieldArr);
+            }
         }
+
+
     },
     /**
      * 显示列
