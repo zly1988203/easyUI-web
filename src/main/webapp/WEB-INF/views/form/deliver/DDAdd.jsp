@@ -43,7 +43,8 @@
                 <div class="ubtns-item" onclick="toClose()">关闭</div>
             </div>
         </div>
-           <div class="ub">
+        <div class="uline umar-t8"></div>
+           <div class="ub umar-t8">
                <div class="ub ub-ac uw-300">
                    <div class="umar-r10 uw-70 ut-r">要货机构:</div>
                    <div class="ub">

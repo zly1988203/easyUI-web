@@ -59,6 +59,7 @@
 					<div class="uinp-more" onclick="selectSupplier()">...</div>
 
 				</div>
+				<i class="ub ub-ac uc-red">*</i>
 				<div class="ub ub-ac uselectw uw-300 umar-l10">
 					<div class="umar-r10 uw-70 ut-r">经营方式:</div>
 					<input id="saleWay" class="uinp ub ub-f1" type="hidden" value="${form.saleWay}">
@@ -85,7 +86,7 @@
 
 				<div class="ub ub-ac umar-l10 uw-300"></div>
 
-				<div class="ub ub-ac  uw-310">
+				<div class="ub ub-ac  uw-310 umar-l4">
 					<div class="umar-r10 uw-80 ut-r">最后修改人:</div>
 					<div class="utxt">${form.updateUserName}</div>
 				</div>

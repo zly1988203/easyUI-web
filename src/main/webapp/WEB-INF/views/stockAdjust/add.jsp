@@ -26,8 +26,8 @@
                     <input type="hidden" name="branchId" id="branchId" class="uinp" />
 					<input type="text" name="branchName" id="branchName"class="uinp  ub ub-f1" readonly="readonly"  />
 					<div class="uinp-more" onclick="searchBranch()">...</div>
-					<i class="uc-red">*</i>
 	           </div>
+	           <i class="ub ub-ac uc-red">*</i>
 	             <div class="ub ub-ac uselectw umar-l40">
                     <div class="umar-r10 uw-70 ut-r">调整原因:</div>
                            <select id="reason" class="easyui-combobox uselect" name="reason" ></select>
@@ -52,8 +52,8 @@
 								<option value="0">入库</option> 
 								<option value="1">出库</option>
 				        </select>
-				        <i class="uc-red">*</i>
                 </div>
+                <i class="ub ub-ac uc-red">*</i>
                <div class="ub ub-ac uw-300 umar-l335">
                    <div class="umar-r10 uw-70 ut-r">审核人员:</div>
                    <div class="utxt"></div>

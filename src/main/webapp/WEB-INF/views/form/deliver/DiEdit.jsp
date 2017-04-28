@@ -90,7 +90,7 @@
                        <input type="hidden" id="oldReferenceNo" name="oldReferenceNo" value="${form.referenceNo}" />
                        <div class="uinp-more" onclick="selectDeliver()">...</div>
                    </div>
-
+					<i class="uc-red">*</i>
                </div>
                <div class="ub ub-ac umar-l20">
                    <div class="umar-r10 uw-70 ut-r">审核人员:</div>

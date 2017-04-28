@@ -3143,7 +3143,6 @@ function saveDataHandel(rows,setrows){
   }
   
   var req = JSON.stringify(reqObj);
-  console.log('req',req);
   gFunStartLoading();
  // return; 
   $.ajax({
