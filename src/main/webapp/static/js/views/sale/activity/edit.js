@@ -1155,7 +1155,12 @@ function initDatagridSpecial(){
                         item.newSaleRate = "0.00%";
                     }else {
                         item.oldSaleRate = ((item.price - item.purchasePrice) / item.price * 100).toFixed(2) + "%";
-                        item.newSaleRate = ((item.saleAmount-item.purchasePrice)/item.saleAmount*100).toFixed(2)+"%"
+                        if(item.saleAmount === 0 || item.saleAmount == '0' || isNaN(parseFloat(item.saleAmount))){
+                            item.newSaleRate = "0.00%";
+                        }else{
+                            item.newSaleRate = ((item.saleAmount-item.purchasePrice)/item.saleAmount*100).toFixed(2)+"%"
+                        }
+
                     }
                 })
                 gridHandel.setLoadData(data.list);
