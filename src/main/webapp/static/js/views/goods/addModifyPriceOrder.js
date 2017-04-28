@@ -423,6 +423,12 @@ function initCheckbox(){
     $("#distributionPrice").on("click", function() {
         datagridUtil.isCheckBoxChecked("distributionPrice");
     });
+
+    datagridUtil.isCheckBoxChecked("purchasePrice");// 进价
+    datagridUtil.isCheckBoxChecked("retailPrice");// 零售价
+    datagridUtil.isCheckBoxChecked("tradePrice");// 批发价
+    datagridUtil.isCheckBoxChecked("memberPrice");// 会员价
+    datagridUtil.isCheckBoxChecked("distributionPrice");// 配送价
 }
 
 // 新增
