@@ -267,7 +267,6 @@ function initDatagridStockLeadView(){
                 if(editRowData.skuCode != changes.skuCode){
                     rowData.skuCode = editRowData.skuCode;
                     gridHandel.setFieldTextValue('skuCode',editRowData.skuCode);
-                    $("#"+dataGridId).datagrid('updateRow',{index:rowIndex,rwo:rowData});
                 }
             }
         },
