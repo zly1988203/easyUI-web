@@ -9,8 +9,8 @@
 	<script  src="${ctx}/static/js/views/system/role/roleList.js"></script>
 	
 </head>
-<body class="ub uw uh ufs-14 uc-black">
-<div class="ub  ub-f1 umar-4 upad-4">
+<body class="ufs-14 upad-8 uc-black box-border">
+<div class="ub uw uh ub-f1">
 	<!--left-->
 	<div class="ub ub-ver ubor uw-220">
 		<div class="ub upad-4 ub-f1 uscroll">
