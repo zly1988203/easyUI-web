@@ -53,6 +53,7 @@
                        <input class="uinp ub ub-f1" type="text" id="targetBranchName" readonly="readonly" value="${form.targetBranchName}" onclick="selectTargetBranch()" />
                        <div class="uinp-more" onclick="selectTargetBranch()">...</div>
                    </div>
+                   <i class="uc-red">*</i>
                </div>
                <div class="ub ub-ac umar-l20">
                    <div class="umar-r10 uw-70 ut-r">制单人员:</div>

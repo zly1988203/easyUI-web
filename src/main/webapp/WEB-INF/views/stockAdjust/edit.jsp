@@ -44,6 +44,7 @@
 	                             <c:if test="${stockFormVo.status == 0}">
 					<div class="uinp-more" onclick="searchBranch()">...</div>
                         	</c:if>
+                        	<i class="uc-red">*</i>
 	           </div>
 	            <div class="ub ub-ac uselectws umar-l20">
                     <div class="umar-r10 uw-70 ut-r">调整原因:</div>
@@ -69,6 +70,7 @@
 								<option value="0" <c:if test="${stockFormVo.io ==0}">selected='selected'</c:if>>入库</option> 
 								<option value="1" <c:if test="${stockFormVo.io ==1}">selected='selected'</c:if>>出库</option>
 				        </select>
+				        <i class="uc-red">*</i>
 				         <input type="hidden" name="stockcl" id="stockcl" class="uinp" />
                 </div>
                <div class="ub ub-ac uw-300 umar-l335">

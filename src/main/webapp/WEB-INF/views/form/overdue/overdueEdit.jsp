@@ -117,6 +117,7 @@
 	                    <c:if test="${form.status != 3}">
 	                    	<input class="uinp ub ub-f1" readonly="readonly"  value="${form.remark}" />
 	                    </c:if>
+	                    <i class="uc-red">*</i>
 	           </div>
 	           <div class="ub ub-ac umar-r80">
                 <div class="umar-r10 uw-60 ut-r">审核人员:</div>

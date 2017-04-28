@@ -58,40 +58,33 @@
 				<div class="ub upad-4">
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">货号:</div>
-						<input id="skuId" name="skuId" type="hidden"> <input
-							id="skuCode" name="skuCode" class="uinp uinp-no-more"
-							readonly="readonly" type="text">
+						<input id="skuId" name="skuId" type="hidden"> 
+						<input id="skuCode" name="skuCode" class="uinp uinp-no-more" readonly="readonly" type="text">
 					</div>
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">商品名称:</div>
 						<div class="ub">
-							<input id="skuName" name="skuName" class="uinp uinp-no-more"
-								readonly="readonly" data-options="required:true" maxlength="20">
+							<input id="skuName" name="skuName" class="uinp uinp-no-more" readonly="readonly" data-options="required:true" maxlength="20">
 						</div>
 						<i class="uc-red">*</i>
 					</div>
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">商品条码:</div>
-						<input id="barCode" name="barCode" class="uinp  uinp-no-more"
-							readonly="readonly" data-options="validType:'intNum'">
+						<input id="barCode" name="barCode" class="uinp  uinp-no-more" readonly="readonly" data-options="validType:'intNum'">
 					</div>
 				</div>
 				<div class="ub upad-4">
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">助记码:</div>
-						<input id="memoryCode" name="memoryCode" class="uinp uinp-no-more"
-							readonly="readonly">
+						<input id="memoryCode" name="memoryCode" class="uinp uinp-no-more" readonly="readonly">
 					</div>
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">商品类别:</div>
-						<input id="category" name="category" class="uinp uinp-no-more"
-							readonly="readonly" type="text" readonly="readonly"
-							data-options="required:true"> <i class="uc-red">*</i>
+						<input id="category" name="category" class="uinp uinp-no-more" readonly="readonly" type="text" readonly="readonly" data-options="required:true"> <i class="uc-red">*</i>
 					</div>
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">品牌:</div>
-						<input id="brand" name="brand" class="uinp uinp-no-more"
-							type="text" readonly="readonly">
+						<input id="brand" name="brand" class="uinp uinp-no-more" type="text" readonly="readonly">
 					</div>
 				</div>
 				<div class="ub upad-4">
@@ -99,21 +92,17 @@
 						<div class="umar-r10 uw-60 ut-r">进货规格:</div>
 						<div class="ub">
 							<input id="purchaseSpec" name="purchaseSpec" style="width: 204px;"
-								class="uinp easyui-numberbox easyui-validatebox"
-								data-options="min:0,precision:2" type="text"
-								data-options="required:true">
+								class="uinp easyui-numberbox easyui-validatebox" data-options="required:true,min:0,precision:2" type="text">
 						</div>
 						<i class="uc-red">*</i>
 					</div>
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">规格:</div>
-						<input id="spec" name="spec" class="uinp uinp-no-more"
-							readonly="readonly" type="text">
+						<input id="spec" name="spec" class="uinp uinp-no-more" readonly="readonly" type="text">
 					</div>
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">库存单位:</div>
-						<input id="unit" name="unit" class="uinp uinp-no-more"
-							readonly="readonly" type="text">
+						<input id="unit" name="unit" class="uinp uinp-no-more" readonly="readonly" type="text">
 					</div>
 				</div>
 				<div class="ub upad-4">
@@ -122,9 +111,7 @@
 						<div class="ub">
 							<input id="distributionSpec" name="distributionSpec"
 								style="width: 204px;"
-								class="uinp easyui-numberbox easyui-validatebox"
-								data-options="min:0,precision:2" type="text"
-								data-options="required:true">
+								class="uinp easyui-numberbox easyui-validatebox" data-options="required:true,min:0,precision:2" type="text">
 						</div>
 						<i class="uc-red">*</i>
 					</div>

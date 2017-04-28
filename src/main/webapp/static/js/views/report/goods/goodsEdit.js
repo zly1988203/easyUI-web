@@ -113,7 +113,6 @@ function setGrossProfitPercent(){
 //供应商公共组件
 function getGoodsPupplier(){
 	new publicSupplierService(function(data){
-		debugger;
 		$("#formEdit #supplierId").val(data.id);
 		$("#formEdit #supplier").val(data.supplierName);
 		$("#formEdit #saleWayName").val(data.saleWayName);

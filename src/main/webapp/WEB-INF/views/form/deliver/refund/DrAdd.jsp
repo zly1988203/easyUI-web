@@ -51,6 +51,7 @@
 					<input type="text" name="sourceBranchName" id="sourceBranchName"class="uinp  ub ub-f1" readonly="readonly" onclick="selectSourceBranch()"/>
 					<div class="uinp-more" id="source-btn" onclick="selectSourceBranch()">...</div>
 				</div>
+				<i class="ub ub-ac uc-red">*</i>
 				<div class="ub ub-ac uw-300  umar-l80">
 					<div class="umar-r10 uw-80 ut-r">制单人员:</div>
 					<div class="utxt"><%=UserUtil.getCurrentUser().getUserName()%></div>
@@ -69,6 +70,7 @@
 					<input type="text" name="targetBranchName" id="targetBranchName"class="uinp  ub ub-f1" readonly="readonly" onclick="selectTargetBranch()" />
 					<div class="uinp-more" onclick="selectTargetBranch()">...</div>
 				</div>
+				<i class="ub ub-ac uc-red">*</i>
 				<div class="ub ub-ac uw-300 umar-l80">
 					<div class="umar-r10 uw-80 ut-r">修改人员:</div>
 					<div class="utxt"></div>
@@ -83,7 +85,7 @@
 					<div class="umar-r10 uw-70 ut-r">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注:</div>
 					<input class="uinp ub ub-f1" type="text" id="remark" name="remark">
 				</div>
-				<div class="ub ub-ac uw-300 umar-l80">
+				<div class="ub ub-ac uw-300 umar-l84">
 					<div class="umar-r10 uw-80 ut-r">审核人员:</div>
 					<div class="utxt"></div>
 				</div>
