@@ -853,8 +853,9 @@ function toBack(){
 	history.go(-1);
 }
 //刷新当前页面
-function gFunRefresh() {
+function gFunRefresh(obj) {
     window.location.reload();
+	//$($(obj).closest('form'))[0].reset();
 }
 function toBackByJS(){
 	history.back()
