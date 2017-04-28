@@ -66,8 +66,9 @@ function initGoodsInfo(skuId,branchId){
 		//门店禁止编辑配送规格、采购规格、
 		isStore=data['isStore'];
 		if(isStore){
-            $('#formEdit #purchaseSpec').numberbox('disable');
-            $('#formEdit #distributionSpec').numberbox('disable');
+		    //easyui 1.5.2 diable 方法会使表单form验证失败造成 无法提交表单 
+            $('#formEdit #purchaseSpec').numberbox('readonly');
+            $('#formEdit #distributionSpec').numberbox('readonly');
 
 			$("#formEdit #isFastDeliver").attr("disabled","disabled");
 			$("#formEdit #allowActivity").attr("disabled","disabled");
@@ -75,9 +76,9 @@ function initGoodsInfo(skuId,branchId){
 		}
 		
 		if(updateGoods.saleWay=='A' || updateGoods.saleWay=='B'){
-            $('#formEdit #supplierRate').numberbox('disable');
+            $('#formEdit #supplierRate').numberbox('readonly');
 		}else{
-            $('#formEdit #supplierRate').numberbox('enable');
+            $('#formEdit #supplierRate').numberbox('readonly',false);
 		}
 		if(updateGoods.updateTime){
 			var date = new Date(updateGoods.updateTime);    
@@ -163,6 +164,7 @@ function checkSupplierRate(obj){
 function saveProp() {
 	$('#btnSave').attr("disabled","disabled");
 	var isValid = $("#formEdit").form('validate');
+	console.log('isValid',isValid);
 	if (!isValid) {
 		$('#btnSave').removeAttr("disabled");
 		return;
