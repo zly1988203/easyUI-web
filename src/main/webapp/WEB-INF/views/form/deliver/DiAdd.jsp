@@ -67,6 +67,7 @@
                        <input class="uinp ub ub-f1" type="text" id="referenceNo" name="referenceNo" onclick="selectDeliver()" readonly="readonly"/>
                        <div class="uinp-more" onclick="selectDeliver()">...</div>
                    </div> 
+                   <i class="uc-red">*</i>
                  </div>  
                <div class="ub ub-ac uw-300">
                    <div class="umar-r10 uw-70 ut-r">审核人员:</div>

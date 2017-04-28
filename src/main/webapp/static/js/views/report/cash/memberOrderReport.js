@@ -64,7 +64,8 @@ function initMemberOrderAllGrid() {
 				formatter : function(value, row,index) {
     				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				}
-            }
+            },
+            {field: 'ticketNo', title: '小票号', width: 150, align: 'left'}
         ]],
 		onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
@@ -133,7 +134,8 @@ function initMemberOrderListGrid() {
 				formatter : function(value, row,index) {
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				}
-			}
+			},
+			{field: 'ticketNo', title: '小票号', width: 150, align: 'left'}
 		]],
 		onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");

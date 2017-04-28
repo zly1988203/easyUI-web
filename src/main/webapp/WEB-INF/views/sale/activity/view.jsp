@@ -210,7 +210,7 @@
 	  		</div>
 	  		<div class="ub ub-ver uw ub-f1" id="area2">
 				<div id="consolemms01" class="ub uw ub-ver  ub-f1 " >
-				    <p class="ub">买满条件：</p>
+				    <p class="ub umar-t4">买满条件：</p>
 				    <div class="ub uw umar-t8" style="height:300px;width:100%;">
 						<table id="mmsgradedList"></table>
 				    </div>

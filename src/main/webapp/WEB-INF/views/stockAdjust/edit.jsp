@@ -39,13 +39,13 @@
                <div class="ub ub-ac uw-300">
 	                <div class="umar-r10 uw-70 ut-r">机构名称:</div>
 	                <input type="hidden" name="branchId" id="branchId" class="uinp" value="${stockFormVo.branchId }"/>
-			 <input type="hidden" id="formId" name="formId" value="${stockFormVo.id}">
+			 		<input type="hidden" id="formId" name="formId" value="${stockFormVo.id}">
 					<input type="text" name="branchName" id="branchName"class="uinp ub ub-f1" readonly="readonly" value="${stockFormVo.branchName }" />
-	                             <c:if test="${stockFormVo.status == 0}">
-					<div class="uinp-more" onclick="searchBranch()">...</div>
-                        	</c:if>
-                        	<i class="uc-red">*</i>
+	                <c:if test="${stockFormVo.status == 0}">
+						<div class="uinp-more" onclick="searchBranch()">...</div>
+                    </c:if>
 	           </div>
+	           <i class="ub ub-ac uc-red">*</i>
 	            <div class="ub ub-ac uselectws umar-l20">
                     <div class="umar-r10 uw-70 ut-r">调整原因:</div>
                        <!--select-->
@@ -70,9 +70,9 @@
 								<option value="0" <c:if test="${stockFormVo.io ==0}">selected='selected'</c:if>>入库</option> 
 								<option value="1" <c:if test="${stockFormVo.io ==1}">selected='selected'</c:if>>出库</option>
 				        </select>
-				        <i class="uc-red">*</i>
 				         <input type="hidden" name="stockcl" id="stockcl" class="uinp" />
                 </div>
+                <i class="ub ub-ac uc-red">*</i>
                <div class="ub ub-ac uw-300 umar-l335">
                    <div class="umar-r10 uw-70 ut-r">审核人员:</div>
                    <div class="utxt" id="validUserName">${stockFormVo.validUserName}</div>

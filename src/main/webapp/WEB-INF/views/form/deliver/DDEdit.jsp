@@ -43,7 +43,7 @@
         </div>
         <div class="ub umar-t8 uc-black">【单号】:<span>${form.formNo}</span></div>
         <div class="ub uline umar-t8"></div>
-        <div class="ub">
+        <div class="ub umar-t8">
                <div class="ub ub-ac uw-300">
                		<input type="hidden" id="formId" value="${form.deliverFormId}">
                	   <input type="hidden" id="formNo" value="${form.formNo}">

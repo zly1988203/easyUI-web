@@ -37,21 +37,23 @@
 	        <input type="hidden" id="createUserId" value='<%=UserUtil.getCurrentUser().getId() %>'>
 	        <input type="hidden" id="createUserName" value='<%=UserUtil.getCurrentUser().getUserName() %>'>
 	        <div class="ub umar-t8">
-           <div class="ub ub-ac umar-r40" style="width: 664px;">
+	           <div class="ub ub-ac">
 	                <div class="umar-r10 uw-60 ut-r">申请机构:</div>
 	                <input class="uinp" name="branchId" id="branchId" type="hidden" value=''>
 	                <input class="uinp" id="branchName" name="branchName" type="text" maxlength="50" value="" >
 	                <div class="uinp-more" onclick="searchBranch()" style="position: inherit;margin-left: -20px;">...</div>
 	            </div>
-            <div class="ub ub-ac umar-r80">
-                <div class="umar-r10 uw-60 ut-r">制单人员:</div>
-                <div class="utxt"><%=UserUtil.getCurrentUser().getUserName() %></div>
-            </div>
-            <div class="ub ub-ac">
-                <div class="umar-r10 uw-60 ut-r">制单时间:</div>
-                <div class="utxt" id="createTime"></div>
-            </div>
-        </div>
+	            <i class="ub ub-ac uc-red">*</i>
+	            <div class="ub uw-400"></div>
+	            <div class="ub ub-ac umar-l12">
+	                <div class="umar-r10 uw-60 ut-r">制单人员:</div>
+	                <div class="utxt"><%=UserUtil.getCurrentUser().getUserName() %></div>
+	            </div>
+	            <div class="ub ub-ac umar-l80">
+	                <div class="umar-r10 uw-60 ut-r">制单时间:</div>
+	                <div class="utxt" id="createTime"></div>
+	            </div>
+	        </div>
         <div class="ub umar-t8">
                <div class="ub ub-ac uw-610 umar-r80" style="width: 624px;">
 	           </div>
