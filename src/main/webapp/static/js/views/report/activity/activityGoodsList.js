@@ -73,7 +73,8 @@ function initDateGrid() {
     		}},
     		{field: 'activityTypeName', title: '活动类型', width: 100, align: 'left'},
     		{field: 'activityCode', title: '活动编号', width: 150, align: 'left'},
-    		{field: 'activityName', title: '活动名称', width: 150, align: 'left'}
+    		{field: 'activityName', title: '活动名称', width: 150, align: 'left'},
+    		{field: 'ticketNo', title: '小票号', width: 160, align: 'left'}
         ]]
     });
     gridHandel.setDatagridHeader("center");

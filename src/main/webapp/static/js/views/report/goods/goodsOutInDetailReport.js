@@ -31,8 +31,8 @@ function initDatagridRequire(){
                     return str;
                 }	
 			},
-            {field:'branchName',title:'店铺名称',width:'220',align:'left'},
-            {field:'formNo',title: '单号', width: '135', align: 'left',
+            {field:'branchName',title:'店铺名称',width:'150',align:'left'},
+            {field:'formNo',title: '单号', width: '160', align: 'left',
             	formatter:function(value,row,index){
             		var hrefStr='';
             		if(row.formType=="库存调整"){
@@ -177,8 +177,8 @@ function initDatagridRequire(){
 			{field: 'createTime', title: '日期时间', width: '135', align: 'left'},
 			{field: 'categoryCode', title: '类别编码', width: '56', align: 'left'},
 			{field: 'categoryName', title: '类别名称', width: '65', align: 'left'},
-
-            {field: 'supplierName', title: '供应商名称', width: '185', align: 'left'}
+            {field: 'supplierName', title: '供应商名称', width: '185', align: 'left'},
+            {field: 'ticketNo', title: '小票号', width: 160, align: 'left'}
         ]],
         onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
