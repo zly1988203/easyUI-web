@@ -25,33 +25,29 @@
 					<div class="ub uw-200 ut-r">后台单据允许负库存出库:</div>
 					<div class="ub uw-110 ub-ac umar-r10">
 						<label>
-						<input type="radio" id="isAllowMinusStock1" name="isAllowMinusStock" value="1" /><span>启用</span>
+							<input type="radio" id="isAllowMinusStock1" name="isAllowMinusStock" value="1" /><span>启用</span>
 						</label>
-
 					</div>
 					<div class="ub uw-110 ub-ac umar-r10">
 						<label>
-						<input type="radio" id="isAllowMinusStock0" name="isAllowMinusStock" value="0" /><span>不启用</span>
+							<input type="radio" id="isAllowMinusStock0" name="isAllowMinusStock" value="0" /><span>不启用</span>
 						</label>
-
 					</div>
 				</div>
 				<div class="ub ub-ac upad-16 ">
 					<div class="ub uw-200 ut-r">系统月结日:</div>
 					<div class="ub uw-110 ub-ac umar-r10">
 						<label>
-						<input  type="radio" id="isNaturalMonth0" name="isNaturalMonth" /><span>自然月</span>
+							<input  type="radio" id="isNaturalMonth0" name="isNaturalMonth" /><span>自然月</span>
 						</label>
-
 					</div>
 				</div>
 				<div class="ub ub-ac upad-16">
 					<div class="ub uw-200 ut-r"></div>
 					<div class="ub uw-110 ub-ac umar-r10">
 						<label>
-						<input type="radio" id="isNaturalMonth1" name="isNaturalMonth" value="0" /><span>指定日期</span>
+							<input type="radio" id="isNaturalMonth1" name="isNaturalMonth" value="0" /><span>指定日期</span>
 						</label>
-
 					</div>
 					<div class="ub uw-110 ub-ac umar-r10">
 						<input id="monthReportDay" name="monthReportDay" style="width:100px" class="easyui-numberbox easyui-validatebox" data-options="min:0,precision:0,max:28" type="text">
@@ -60,17 +56,17 @@
 				<div class="ub ub-ac upad-16 ">
 					<div class="ub uw-200 ut-r">订货安全系数设置:</div>
 					<div class="ub ub-f1 ub-ver">
-						<div class="ub  ub-ac ">
+						<div class="ub  ub-ac upad-b16">
 							<label class="satetyLabel" onClick="changeType(0)"><input  type="radio" id="isAllowMinusStock1" name="safetyCoefficientType" value="0" />取商品档案安全系数</label>
 						</div>
-						<div class="ub  ub-ac umar-t10">
+						<div class="ub  ub-ac upad-b16 upad-t16 ">
 							<label class="satetyLabel" onClick="changeType(1)"><input  type="radio" id="isAllowMinusStock0" name="safetyCoefficientType" value="1" />取供应商送货周期，转换关系：1天0.5倍，2天1倍，3－4天1.5倍， 5天以上2倍</label>
 						</div>
-						<div class="ub  ub-ac umar-t10" >
+						<div class="ub  ub-ac upad-b16 upad-t16 " >
 							<label class="satetyLabel" onClick="changeType(2)"><input  type="radio" id="isAllowMinusStock0" name="safetyCoefficientType" value="2" /></label>
 							仓库平均送货周期 <input class="uinp uw-30 easyui-numberbox" type="text"  data-options="min:0,disabled:true" name="safetyCoefficientValue" id="safetyCoefficientValue" >天，转换关系：1天0.5倍，2天1倍，3－4天1.5倍， 5天以上2倍
 						</div>
-						<div class="ub  ub-ac umar-t10">订货周期 * 安全库存系数 * MAX(上周日均销量，前周日均销量)－当前库存(结果取配送规格倍数)</div>
+						<div class="ub  ub-ac upad-t16">订货周期 * 安全库存系数 * MAX(上周日均销量，前周日均销量)－当前库存(结果取配送规格倍数)</div>
 					</div>
 				</div>
 			</form>
