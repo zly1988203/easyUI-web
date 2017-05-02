@@ -550,27 +550,11 @@ function saveOrder(){
             isCheckResult = false;
             return false;
         };
-        /*if(selectVal==1){
-	        if(parseFloat(v["sellable"])+parseFloat(v["realNum"])<0){
-	          messager("调整扣减数量不允许超过当前可销售库存数量！");
-	          isCheckResult = false;
-	          return false;
-	        }
-        }*/
     });
     if(!isCheckResult){
         return;
     }
-    //var saveData = JSON.stringify(rows);
-    //var stockFormDetailList = tableArrayFormatter(rows,"stockFormDetailList");
-  /*  var reqObj = $.extend({
-    	createBranchId : branchId,
-    	id : $("#formId").val(),
-        remark : remark,
-        reason :reason,
-        io :selectVal
-    }, stockFormDetailList);*/
-    
+    gFunStartLoading();
     var reqObj = {
     		io :selectVal,
     		id : $("#formId").val(),
@@ -586,6 +570,7 @@ function saveOrder(){
         data:req,
         contentType:"application/json",
         success:function(result){
+            gFunEndLoading();
             if(result['code'] == 0){
             	$.messager.alert("操作提示", "操作成功！", "info");
             }else{
@@ -593,6 +578,7 @@ function saveOrder(){
             }
         },
         error:function(result){
+            gFunEndLoading();
             successTip("请求发送失败或服务器处理失败");
         }
     });

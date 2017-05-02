@@ -423,6 +423,9 @@ function onChangeRealNum(newV,oldV) {
 
 //监听是否赠品
 function onSelectIsGift(data){
+    var _skuName = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuName');
+    if(!_skuName)return;
+
     var checkObj = {
         skuCode: gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'skuCode'),
         isGift:data.id,
