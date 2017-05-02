@@ -463,9 +463,9 @@ function selectOptionmms(activityScope,activityPattern,allowActivity,allowMultip
 		return false;
 	})
 	//买满送 --- 倍数送 促销活动 禁用
-	$(document).on('click','input[name="mmsofactType"]',function(){
-		return false;
-	})
+//	$(document).on('click','input[name="mmsofactType"]',function(){
+//		return false;
+//	})
 	
 	choosemmsTab(activityScope);
 	//类别
