@@ -31,7 +31,7 @@ function initTreeArchives(codeOrName){
                     enable: true,
                     idKey: "id",
                     pIdKey: "pid",
-                    rootPId: 0
+                    rootPId: 0,
                 }
             },
             callback: {
@@ -52,6 +52,7 @@ function zTreeOnClick(event, treeId, treeNode) {
     if(treeNode.type=="branch"){//选择机构
     	$("#supplierId").val('');
     	$("#supplierName").val('');
+    	messager('你选择的是机构，请选择供应商!');
     }else if(treeNode.type=="supplier"){//供应商
     	if(treeNode.id){
 	    	sourceBranchId = $("#branchId").val();

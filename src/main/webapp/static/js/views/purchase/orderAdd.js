@@ -383,19 +383,20 @@ function onChangeAmount(newV,oldV) {
 }
 //监听是否赠品
 function onSelectIsGift(data){
-    var nowRows = gridHandel.getRowsWhere({skuName:'1'})
-    if(nowRows.length <= 0)return;
+    var _skuName = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuName');
+    if(!_skuName)return;
 
     var checkObj = {
         skuCode: gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'skuCode'),
         isGift:data.id,
     };
+
     var arrs = gridHandel.searchDatagridFiled(gridHandel.getSelectRowIndex(),checkObj);
     if(arrs.length==0){
         var targetPrice = gridHandel.getFieldTarget('price');
         if(data.id=="1"){
             var priceVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
-            $('#gridEditOrder').datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"] = priceVal;
+            $('#'+gridName).datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"] = priceVal;
             $(targetPrice).numberbox('setValue',0);
             $(targetPrice).numberbox('disable');
         }else{
@@ -403,7 +404,7 @@ function onSelectIsGift(data){
         		$(targetPrice).numberbox('enable');
         	}
             
-            var oldPrice =  $('#gridEditOrder').datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"];
+            var oldPrice =  $('#'+gridName).datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"];
             if(oldPrice){
                 $(targetPrice).numberbox('setValue',oldPrice);
             }
