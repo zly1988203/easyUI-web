@@ -13,7 +13,7 @@
 <script src="${ctx}/static/js/views/purchase/purchaseExport.js"></script>
 <%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
 </head>
-<body class=" uw uh ufs-14 uc-black upad-4 box-border">
+<body class="ub uw uh ufs-14 uc-black">
 	<div class="ub ub-ver ub-f1  ubor">
 		<div class="ub ub-ac upad-4">
 			<div class="ubtns">
@@ -127,7 +127,7 @@
 				</div>
 
 			</div>
-			<div class="ub ub-ac umar-r88">
+			<div class="ub ub-ac umar-l88">
 				<div class="umar-r10 uw-60 ut-r">原单号:</div>
 				<input id="refFormNo" class="uinp" type="text" readonly="readonly"
 					onclick="selectForm()" value="${form.refFormNo}"> <input
@@ -143,26 +143,13 @@
 					style="width: 800px">
 			</div>
 		</div>
-		<div class="ub ub-f1 datagrid-edit umar-t8">
-			<table id="gridEditOrder"></table>
-		</div>
+		<div class="ub umar-t8 ub-f1 datagrid-edit">
+		<table id="gridEditOrder"></table>
 
-		<!-- 导入弹框 -->
-		<div class="uabs uatk">
-			<div class="uatit">导入文件选择</div>
-			<div class="uacon">
-				<input class="uinp ub" id="filename" type="text"> <label
-					class="ualable">选择文件 <input type="file" class="uafile"
-					value="" name="xlfile" id="xlf" />
-				</label>
-			</div>
-			<div class="uabtns ">
-				<button class="uabtn umar-r30"
-					onclick="importHandel('gridEditOrder')">导入</button>
-				<button class="uabtn" onclick="uaclose()">取消</button>
-			</div>
 		</div>
 	</div>
+
+
 
 	<!-- 是否有改价权限 -->
 	<shiro:hasPermission name="JxcPurchaseRefund:updatePrice">

@@ -440,7 +440,6 @@ function showSetPaperDialog() {
 }
 
 $(function(){
-	console.log(111)
 	$('.icon-printPreview').trigger("click");
 })
 //打印预览
