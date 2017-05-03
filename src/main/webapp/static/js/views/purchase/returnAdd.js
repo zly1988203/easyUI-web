@@ -48,7 +48,7 @@ var editRowData = null;
 var gridName = "gridEditOrder";
 var gridHandel = new GridClass();
 function initDatagridEditOrder(){
-    gridHandel.setGridName("gridEditOrder");
+    gridHandel.setGridName(gridName);
     gridHandel.initKey({
         firstName:'skuCode',
         enterName:'skuCode',
@@ -65,7 +65,7 @@ function initDatagridEditOrder(){
             }
         },
     })
-    $("#gridEditOrder").datagrid({
+    $("#"+gridName).datagrid({
         align:'center',
         singleSelect:true,  //单选  false多选
         rownumbers:true,    //序号
@@ -408,12 +408,12 @@ function onSelectIsGift(data){
         var targetPrice = gridHandel.getFieldTarget('price');
         if(data.id=="1"){
             var priceVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
-            $('#gridEditOrder').datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"] = priceVal;
+            $("#"+gridName).datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"] = priceVal;
             $(targetPrice).numberbox('setValue',0);
             $(targetPrice).numberbox('disable');
         }else{
             $(targetPrice).numberbox('enable');
-            var oldPrice =  $('#gridEditOrder').datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"];
+            var oldPrice =  $("#"+gridName).datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"];
             if(oldPrice){
                 $(targetPrice).numberbox('setValue',oldPrice);
             }
@@ -473,8 +473,8 @@ function selectGoods(searchKey){
             return;
         }
         if(searchKey){
-            $("#gridEditOrder").datagrid("deleteRow", gridHandel.getSelectRowIndex());
-            $("#gridEditOrder").datagrid("acceptChanges");
+            $("#"+gridName).datagrid("deleteRow", gridHandel.getSelectRowIndex());
+            $("#"+gridName).datagrid("acceptChanges");
         }
 
         for(var i in data){
@@ -495,7 +495,7 @@ function selectGoods(searchKey){
         var isCheck ={isGift:1 };   //只要是赠品就可以重复
         var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
 
-        $("#gridEditOrder").datagrid("loadData",newRows);
+        $("#"+gridName).datagrid("loadData",newRows);
 
         setTimeout(function(){
             gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
@@ -522,7 +522,7 @@ function saveItemHandel(){
     	return;
     }
 
-    $("#gridEditOrder").datagrid("endEdit", gridHandel.getSelectRowIndex());
+    $("#"+gridName).datagrid("endEdit", gridHandel.getSelectRowIndex());
     var rows = gridHandel.getRowsWhere({skuName:'1'});
     $(gridHandel.getGridName()).datagrid("loadData",rows);
     if(rows.length==0){
@@ -595,7 +595,7 @@ function saveDataHandel(rows){
     //验证表格数据
 
 
-    var footerRows = $("#gridEditOrder").datagrid("getFooterRows");
+    var footerRows = $("#"+gridName).datagrid("getFooterRows");
     if(footerRows){
         totalNum = parseFloat(footerRows[0]["realNum"]||0.0).toFixed(4);
         amount = parseFloat(footerRows[0]["amount"]||0.0).toFixed(4);
@@ -787,7 +787,7 @@ function updateListData(data){
 	    var isCheck ={isGift:1 };   //只要是赠品就可以重复
 	    var newRows = gridHandel.checkDatagrid(rows,argWhere,isCheck);
 
-	    $("#gridEditOrder").datagrid("loadData",rows);
+        $("#"+gridName).datagrid("loadData",rows);
 	}
 
 //模板导出
@@ -820,8 +820,8 @@ function selectForm(){
 	    	    };
 		    
 	        var newRows = gFunUpdateKey(newRows,keylargeNum);
-	        
-            $("#gridEditOrder").datagrid("loadData",newRows);
+
+            $("#"+gridName).datagrid("loadData",newRows);
             //供应商
             $("#supplierId").val(data.form.supplierId);
             $("#supplierName").val(data.form.supplierName);
@@ -850,9 +850,9 @@ function selectForm(){
 }
 
 function loadLists(referenceId){
-	$("#gridEditOrder").datagrid("options").method = "post";
-	$("#gridEditOrder").datagrid('options').url = contextPath+"/form/deliverFormList/getDeliverFormLists?deliverFormId="+referenceId + "&deliverType=DI";
-	$("#gridEditOrder").datagrid('load');
+    $("#"+gridName).datagrid("options").method = "post";
+    $("#"+gridName).datagrid('options').url = contextPath+"/form/deliverFormList/getDeliverFormLists?deliverFormId="+referenceId + "&deliverType=DI";
+    $("#"+gridName).datagrid('load');
 }
 
 //返回列表页面

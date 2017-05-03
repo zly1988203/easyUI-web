@@ -291,3 +291,6 @@ function resetForm(){
 };
 
 
+function printPreview() {
+	toPrintPreview('PI','/form/purchase/',tableIdName);
+}
