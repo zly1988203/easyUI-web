@@ -266,6 +266,13 @@ function selectOptionmms(){
 			//全场满送
 			if(_this.val()=="2"){
 				choosemmsTab(mmsstatusV);
+				if(gridHandelT){
+					$('#mmsgradedList').datagrid('resize',{width:'100%',height:'300px'})
+				}
+				if(gridHandel){
+					$('#mmsgoodList').datagrid('resize',{width:'100%',height:'300px'})
+				}
+				disableGoods('','GoodsType');
 				$("#giftip").removeClass('umar-t40').addClass('umar-t20');
 			}
 			//类别满送
