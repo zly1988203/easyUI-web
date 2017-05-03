@@ -72,10 +72,10 @@
 			   		<div class="ub uh ub-ver ufs-14 ubgc-bg">
 			   			<shiro:hasPermission name="JxcStockException:search">
 				   			<div class="ub ub-ver ubgc-while">
-					   			<p class="ub ufs-12 ufw-b upad-8">异常库存提醒</p>
+					   			<p class="ub ufs-14 ufw-b upad-8" style="font-size:13px;">异常库存提醒</p>
 					   			<p class="ub uline">
 					   			<div class="ub upad-t10 upad-b10 upad-8">
-					   				<ul class="msg-ul crbox">
+					   				<ul class="msg-ul crbox ufs-14">
 					   					<li class="msg-li"><a class="" href="javascript:openNewTab('库存异常查询','stock/exception/list?message=0');closeMsg();">异常库存商品（<em class="uc-red" id="JxcStockException">...</em>）</a></li>
 					   					<li class="msg-li" id="sumOne" style="display: none;">暂无提醒事项！</li>
 					   				</ul>
@@ -84,10 +84,10 @@
 			   			</shiro:hasPermission>
 			   			<shiro:hasPermission name="JxcPurchaseReceipt:search || JxcDeliverDI:search">
 				   			<div class="ub ub-ver  ubgc-while">
-					   			<p class="ub ufs-12 ufw-b upad-8">收货提醒</p>
+					   			<p class="ub ufs-12 ufw-b upad-8" style="font-size:13px;">收货提醒</p>
 					   			<p class="ub uline">
 					   			<div class="ub upad-t10 upad-b10 upad-8">
-					   				<ul class="msg-ul crbox">
+					   				<ul class="msg-ul crbox ufs-14">
 					   				<shiro:hasPermission name="JxcPurchaseReceipt:search">
 					   					<li class="msg-li"><a class="" href="javascript:openNewTab('采购收货','form/purchase/receiptList?message=1');closeMsg();">采购收货提醒（<em class="uc-red" id="JxcPurchaseReceipt">...</em>）</a></li>
 					   				</shiro:hasPermission>
@@ -100,10 +100,10 @@
 				   			</div><!-- end 收货提醒 -->
 			   			</shiro:hasPermission>
 			   			<div class="ub ub-ver ubgc-while">
-				   			<p class="ub ufs-12 ufw-b upad-8">未审核单据</p>
+				   			<p class="ub ufs-12 ufw-b upad-8" style="font-size:13px;">未审核单据</p>
 				   			<p class="ub uline">
 				   			<div class="ub upad-t10 upad-b10 upad-8 uh-190">
-				   				<ul class="msg-ul crbox">
+				   				<ul class="msg-ul crbox ufs-14">
 				   				
 				   					<shiro:hasPermission name="JxcPriceAdjust:audit"><li class="msg-li"><a class="" href="javascript:openNewTab('调价单','goods/priceAdjust/view?message=0');closeMsg();">调价单（<em class="uc-red" id="jxcPriceAdjust">...</em>）</a></li></shiro:hasPermission>
 				   					<shiro:hasPermission name="JxcStockLead:audit"><li class="msg-li"><a class="" href="javascript:openNewTab('领用单','stock/lead/list?message=0');closeMsg();">领用单（<em class="uc-red" id="jxcStockLead">...</em>）</a></li></shiro:hasPermission>
