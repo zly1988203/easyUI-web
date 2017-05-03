@@ -208,7 +208,8 @@ public class SupplierAreaController extends
 			// 判断区域代码，跟区域名称是不是唯一
 			SupplierAreaVo supplierArea = new SupplierAreaVo();
 			supplierArea.setAreaName(areaName);
-			supplierArea.setBranchId(UserUtil.getCurrBranchId());
+			supplierArea.setBranchId(area.getBranchId());
+			supplierArea.setAreaId(area.getAreaId());
 			List<SupplierArea> supplierAreaOne = supplierAreaService
 					.querySupplierAreaByName(supplierArea);
 			if (CollectionUtils.isNotEmpty(supplierAreaOne)) {
