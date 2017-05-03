@@ -24,7 +24,7 @@
 	             <div class="ubtns-item" onclick="saveActivity()">保存</div>
 	             <div class="ubtns-item" onclick="copyActivity()">复制</div>
 	             <div class="ubtns-item" onclick="check()">审核</div>
-	             <div class="ubtns-item" onclick="gFunRefresh()">重置</div>
+	             <div class="ubtns-item" onclick="refreshTable()">重置</div>
 	             <div class="ubtns-item" onclick="toClose()">关闭</div>
 	             </div>
             </div> 
@@ -212,7 +212,7 @@
 		  			</li>
 	  			</ul>
 	  		</div>
-	  		<div class="ub uw ub-f1 unhide umar-t8" id="area1" style="height:300px;">
+	  		<div class="ub uw ub-f1 unhide umar-t8" id="area1">
 	  			 <table id="mmscommonList"></table>
 	  		</div>
 	  		<div class="ub ub-ver uw ub-f1" id="area2">
