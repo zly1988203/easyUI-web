@@ -83,6 +83,16 @@
 					<input type="hidden" name="supplierId" id="supplierId" class="uinp" maxlength="50"/>
 					<div class="uinp-more" onclick="searchSupplier()">...</div>
 				</div>
+				
+				<div class="ub ub-ac umar-r40">
+					<div class="umar-r10 uw-60 ut-r">经营方式:</div>
+					<select name="saleWay" id="saleWay" class="uselect" style="width: 204px;">
+                        <option value="">全部</option>
+                        <c:forEach items="${saleWayList}" var="i">
+                            <option value="${i.name}">${i.value}</option>
+                        </c:forEach>
+                    </select>
+				</div>
 			</div>
 			
 			<div class="ub umar-t8">
