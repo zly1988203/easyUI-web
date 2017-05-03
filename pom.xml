@@ -23,7 +23,8 @@
 		<jdk.version>1.8</jdk.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
-		<parents.version>0.0.2-SNAPSHOT</parents.version>
+		<parents.version>0.1.0-SNAPSHOT</parents.version>
+		<jxc.api>0.0.2-SNAPSHOT</jxc.api>
 		<shiro.version>1.2.2</shiro.version>
 		<ca.version>1.2.4-SNAPSHOT</ca.version>
 		<yscapi.version>0.0.3-SNAPSHOT</yscapi.version>
@@ -67,7 +68,7 @@
 		<dependency>
 			<groupId>com.okdeer.jxc</groupId>
 			<artifactId>okdeer-jxc-api</artifactId>
-			<version>${parents.version}</version>
+			<version>${jxc.api}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.hibernate</groupId>
