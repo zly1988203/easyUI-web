@@ -13,6 +13,7 @@ pageEncoding="UTF-8"%>
 	<div class="ub uline"></div>
 	<form id="formEdit" method="post">
 		<input id="areaId" name="areaId" type="hidden">
+		<input id="branchId" name="branchId" type="hidden">
 		<div class="ub ub-ver ub-ac upad-4">
 			<div class="ub ub-ac umar-t20">
 				<div class="umar-r10 uw-60 ut-r">编号:</div>
