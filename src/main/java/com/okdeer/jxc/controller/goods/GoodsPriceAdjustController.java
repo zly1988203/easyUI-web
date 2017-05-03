@@ -169,9 +169,9 @@ public class GoodsPriceAdjustController extends BasePrintController<GoodsPriceAd
 	@ResponseBody
 	public List<GoodsPriceFormDetail> queryDetailsByformNo(String formNo) {
 		LOG.debug("调价单搜索 ：formNo=" + formNo);
-		return goodsPriceAdustService.queryDetailsByFormNo(formNo);
+		return goodsPriceAdustService.queryDetailPriceByformNo(formNo);
 	}
-
+	
 	/**
 	 * @Description: 根据formNo删除单据
 	 * @param formNo 主键formNo

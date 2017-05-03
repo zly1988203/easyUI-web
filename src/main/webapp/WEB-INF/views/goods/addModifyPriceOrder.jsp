@@ -9,7 +9,7 @@
 <title>档案-新增调价单</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 
-<script src="${ctx}/static/js/views/goods/addModifyPriceOrder.js"></script>
+<script src="${ctx}/static/js/views/goods/addModifyPriceOrder.js?1=1"></script>
 
 </head>
 <body class="ub uw uh ufs-14 uc-black">

@@ -32,6 +32,7 @@ import com.okdeer.jxc.common.constant.PrintConstant;
 import com.okdeer.jxc.common.enums.GoodsStatusEnum;
 import com.okdeer.jxc.common.enums.GoodsTypeEnum;
 import com.okdeer.jxc.common.enums.PricingTypeEnum;
+import com.okdeer.jxc.common.enums.SaleWayEnum;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
@@ -100,6 +101,8 @@ BaseController<GoodsReportController> {
 		model.addAttribute("goodsStatus", GoodsStatusEnum.values()); 
 		//商品类型
 		model.addAttribute("goodsType", GoodsTypeEnum.values()); 
+		
+		model.addAttribute("saleWayList", SaleWayEnum.values()); 
 		/**
 		 * added by zhangqin on 2017-02-16 end
 		 */
