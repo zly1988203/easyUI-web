@@ -60,6 +60,8 @@ function initDatagridEditOrder(){
         showFooter:true,
         height:'100%',
         width:'100%',
+        // pageSize:10000,
+        // view:scrollview,
         columns:[[
             {field:'cz',title:'操作',width:'60px',align:'center',
                 formatter : function(value, row,index) {
@@ -278,6 +280,7 @@ function initDatagridEditOrder(){
             }
         },
         onLoadSuccess:function(data){
+            gFunEndLoading();
             if(data.rows.length>0){
                 var config = {
                     date:['goodsCreateDate','goodsExpiryDate']
@@ -303,6 +306,7 @@ function getGridData(){
        async : false,
        dataType : 'json',
        success : function(data) {
+           gFunStartLoading();
        	//根据选择的采购单，带出采购单的信息
    	    var keyrealNum = {
    	        realNum:'maxRealNum',
@@ -617,13 +621,14 @@ function saveDataHandel(rows){
     
     var req = JSON.stringify(reqObj);
 
+    gFunStartLoading();
     $.ajax({
         url:contextPath+"/form/purchase/updateReceipt",
         type:"POST",
         contentType:'application/json',
         data:req,
         success:function(result){
-            console.log(result);
+            gFunEndLoading();
             if(result['code'] == 0){
                 $.messager.alert("操作提示", "操作成功！", "info");
             }else{
@@ -631,6 +636,7 @@ function saveDataHandel(rows){
             }
         },
         error:function(result){
+            gFunEndLoading();
             successTip("请求发送失败或服务器处理失败");
         }
     });
@@ -665,6 +671,7 @@ function check(){
 	var id = $("#formId").val();
 	$.messager.confirm('提示','是否审核通过？',function(data){
 		if(data){
+		    gFunStartLoading();
 			$.ajax({
 		    	url:contextPath+"/form/purchase/check",
 		    	type:"POST",
@@ -673,7 +680,7 @@ function check(){
 		    		status:1
 		    	},
 		    	success:function(result){
-		    		console.log(result);
+		    		gFunEndLoading();
 		    		if(result['code'] == 0){
 		    			$.messager.alert("操作提示", "操作成功！", "info",function(){
 		    				location.href = contextPath +"/form/purchase/receiptEdit?formId=" + id;
@@ -683,6 +690,7 @@ function check(){
 		    		}
 		    	},
 		    	error:function(result){
+		    	    gFunEndLoading();
 		    		successTip("请求发送失败或服务器处理失败");
 		    	}
 		    });
@@ -694,6 +702,7 @@ function orderDelete(){
 	var id = $("#formId").val();
 	$.messager.confirm('提示','是否要删除此条数据',function(data){
 		if(data){
+		    gFunStartLoading();
 			$.ajax({
 		    	url:contextPath+"/form/purchase/delete",
 		    	type:"POST",
@@ -701,7 +710,7 @@ function orderDelete(){
 		    		formId:id
 		    	},
 		    	success:function(result){
-		    		console.log(result);
+		    		gFunEndLoading();
 		    		if(result['code'] == 0){
 		    			$.messager.alert("操作提示", "操作成功！", "info",function(){
 		    				back();
@@ -712,6 +721,7 @@ function orderDelete(){
 		    		dg.datagrid('reload');
 		    	},
 		    	error:function(result){
+		    	    gFunEndLoading();
 		    		successTip("请求发送失败或服务器处理失败");
 		    	}
 		    });
