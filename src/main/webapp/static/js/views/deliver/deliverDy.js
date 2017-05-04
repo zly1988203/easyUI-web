@@ -320,7 +320,7 @@ function initDatagridRequireOrder(){
             		return '<b>' + parseFloat(value || 0).toFixed(2) + '</b>';
             	}
             },
-			{field:'sourceStock',title:'目标库存',width:'80px',align:'right',
+			/*{field:'sourceStock',title:'目标库存',width:'80px',align:'right',
 				formatter : function(value, row, index) {
 					if(row.isFooter){
 						return ;
@@ -352,7 +352,7 @@ function initDatagridRequireOrder(){
            		}
 
             }
-        },
+        },*/
             {field:'remark',title:'备注',width:'200px',align:'left',editor:'textbox'}
         ]],
         onClickCell:function(rowIndex,field,value){
@@ -631,7 +631,7 @@ function setDataValue(data,fromClick) {
 function selectStockAndPrice(data,fromClick){
 	//setDataValue(data);
 	var GoodsStockVo = {
-            branchId : $("#targetBranchId").val(),
+			branchId : $("#sourceBranchId").val(),
             fieldName : 'id',
 			goodsSkuVo : []
 		}; 
