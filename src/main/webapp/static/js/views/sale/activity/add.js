@@ -3421,3 +3421,34 @@ function getOldSaleRate(newRows) {
 
     })
 }
+
+//刷新datagrid
+function refreshTable(){
+	var activityType=$("#activityType").combobox('getValue');
+	if(activityType != '10'){
+		gridHandel.setLoadData([{}]);
+		gridHandelMj.setLoadData([{}]);
+	}else{
+		hasClickTab = false;
+		$('#mmsgradedList').datagrid('loadData',[{}]);
+		$('#mmsgoodList').datagrid('loadData',[{}]);
+		if($('input[name="mmsstatus"]:checked').val() == '0'){
+			gridHandelG.setLoadData([$.extend({},gridDefaultG)])
+			setTimeout(function(){
+				$('#mmscommonList').datagrid('getPanel').panel('resize',{
+					width: '100%',
+					height: '100%'
+				});
+			},1000)
+		}
+		if($('input[name="mmsstatus"]:checked').val() == '1'){
+			gridHandelB.setLoadData([$.extend({},gridDefault)])
+			setTimeout(function(){
+				$('#mmscommonList').datagrid('getPanel').panel('resize',{
+					width: '100%',
+					height: '100%'
+				});
+			},1000)
+		}
+	}
+}
