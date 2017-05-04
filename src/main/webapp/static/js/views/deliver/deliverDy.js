@@ -448,7 +448,7 @@ function onChangeLargeNum(newV,oldV){
     var _taxAmountVal = (_tempInputTax*(_tempAmount/(1+parseFloat(_tempInputTax)))||0.0000).toFixed(2);
     gridHandel.setFieldValue('taxAmount',_taxAmountVal);//税额 = 金额/(1+税率)*税率
     
-    gridHandel.setFieldValue('applyNum',parseFloat(newRealNum).toFixed(4)); //数量=箱数*商品规格
+    gridHandel.setFieldValue('applyNum',newRealNum); //数量=箱数*商品规格
     
     
     updateFooter();
