@@ -626,7 +626,7 @@ function setDataValue(data,fromClick) {
 function selectStockAndPrice(data,fromClick){
 	//setDataValue(data);
 	var GoodsStockVo = {
-            branchId : $("#targetBranchId").val(),
+            branchId : $("#sourceBranchId").val(),
             fieldName : 'id',
 			goodsSkuVo : []
 		}; 

@@ -118,7 +118,7 @@ function initDatagridViewRequireOrder(){
             		return '<b>' + parseFloat(value || 0).toFixed(2) + '</b>';
             	}
             },
-			{field:'sourceStock',title:'目标库存',width:'80px',align:'right',
+			/*{field:'sourceStock',title:'目标库存',width:'80px',align:'right',
 				formatter : function(value, row, index) {
 					if(row.isFooter){
 						return ;
@@ -141,7 +141,7 @@ function initDatagridViewRequireOrder(){
 					}
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
-			},
+			},*/
             {field:'remark',title:'备注',width:'200px',align:'left'}
         ]],
 		onLoadSuccess : function() {
