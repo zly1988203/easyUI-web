@@ -9,6 +9,8 @@ $(function() {
 	$("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
 	$("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 	
+	$("#branchName").val(sessionBranchCodeName);
+	
 });
 
 var datagridName = 'newgoodsTotalAnalysi';

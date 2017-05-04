@@ -8,7 +8,7 @@
 <title>新品销售分析</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
-<script src="${ctx}/static/js/views/report/goods/newGoodsSaleAnalysis.js?1=1"></script>
+<script src="${ctx}/static/js/views/report/goods/newGoodsSaleAnalysis.js?1=2"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
 </style>
@@ -37,7 +37,7 @@
                  	<div class="umar-r10 uw-70 ut-r">店铺名称:</div>
                     <input class="uinp" type="hidden" id="branchId" name="branchId">
 			        <input class="uinp" type="hidden" id="branchCompleCode" name="branchCompleCode">
-			        <input class="uinp" type="text" id="branchName" name="branchName">
+			        <input class="uinp" type="text" id="branchName" name="branchName" readonly="readonly" onclick="searchBranch()">
 			        <div class="uinp-more" id="branchSelect" onclick="searchBranch()">...</div>
                  </div>
                  <div class="ub ub-ac umar-l40">
