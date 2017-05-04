@@ -37,14 +37,6 @@ function initDatagridEditOrder(){
         //fitColumns:true,    //占满
         showFooter:true,
         columns:[[
-            //{field:'ck',checkbox:true},
-            //{field:'cz',title:'操作',width:100,align:'center',
-            //    formatter : function(value, row,index) {
-            //        var str =  '<a name="add" class="add-line" data-index="'+index+'" onclick="addLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>&nbsp;&nbsp;' +
-            //            '&nbsp;&nbsp;<a name="del" class="del-line" data-index="'+index+'" onclick="delLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>';
-            //        return str;
-            //    },
-            //},
             {field:'skuCode',title:'货号',width:'70px',align:'left',
                 formatter : function(value, row,index) {
                     var str = value;
@@ -142,16 +134,10 @@ function initDatagridEditOrder(){
         ]],
         onLoadSuccess : function() {
             gridHandel.setDatagridHeader("center");
-            updateFooter();
         }
     });
 }
-//合计
-function updateFooter(){
-    var fields = {largeNum:0,realNum:0,amount:0,taxAmount:0,isGift:0, };
-    var argWhere = {name:'isGift',value:""}
-    gridHandel.updateFooter(fields,argWhere);
-}
+
 
 function returnAdd(){
 	toAddTab("新增采购退货单",contextPath + "/form/purchase/returnAdd");

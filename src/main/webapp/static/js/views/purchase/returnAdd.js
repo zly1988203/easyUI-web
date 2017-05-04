@@ -455,6 +455,7 @@ function selectGoods(searchKey){
     var branchId = $("#branchId").val();
     if(!branchId){
     	messager("请先选择收货机构");
+    	return;
     }
 
     var queryParams = {
@@ -632,6 +633,7 @@ function saveDataHandel(rows){
             }
         },
         error:function(result){
+            gFunEndLoading();
             successTip("请求发送失败或服务器处理失败");
         }
     });
