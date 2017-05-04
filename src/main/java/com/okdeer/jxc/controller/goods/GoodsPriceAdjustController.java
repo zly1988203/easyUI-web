@@ -9,6 +9,7 @@ package com.okdeer.jxc.controller.goods;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -515,7 +516,31 @@ public class GoodsPriceAdjustController extends BasePrintController<GoodsPriceAd
 	public void exportList(HttpServletResponse response, String formNo) {
 		LOG.debug("GoodsPriceAdjustController:exportList:" + formNo);
 		try {
-			List<GoodsPriceFormDetail> exportList = goodsPriceAdustService.queryDetailsByFormNo(formNo);
+			List<GoodsPriceFormDetail> exportList = goodsPriceAdustService.queryDetailPriceByformNo(formNo);
+			
+			for(GoodsPriceFormDetail goods : exportList){
+				BigDecimal oldSaleRate = BigDecimal.ZERO;
+				BigDecimal newSaleRate = BigDecimal.ZERO;
+				
+				//计算原毛利率
+				if(goods.getOldSalePrice()!=null && goods.getOldSalePrice().compareTo(BigDecimal.ZERO)>0 &&
+						goods.getOldPurPrice()!=null){
+					// 毛利率 = （销售价 - 进货价）/ 销售价 * 100
+					oldSaleRate = goods.getOldSalePrice().subtract(goods.getOldPurPrice()).
+							divide(goods.getOldSalePrice(), 4).multiply(new BigDecimal("100"));
+				}
+				
+				//计算新毛利率
+				if(goods.getNewSalePrice()!=null && goods.getNewSalePrice().compareTo(BigDecimal.ZERO)>0 &&
+						goods.getNewPurPrice()!=null){
+					// 毛利率 = （销售价 - 进货价）/ 销售价 * 100
+					newSaleRate = goods.getNewSalePrice().subtract(goods.getNewPurPrice()).
+							divide(goods.getNewSalePrice(), 4).multiply(new BigDecimal("100"));
+				}
+				goods.setOldSaleRate(oldSaleRate);
+				goods.setNewSaleRate(newSaleRate);
+			}
+			
 			// 导出文件名称，不包括后缀名
 			String fileName = "调价单" + "_" + DateUtils.getCurrSmallStr();
 			// 模板名称，包括后缀名

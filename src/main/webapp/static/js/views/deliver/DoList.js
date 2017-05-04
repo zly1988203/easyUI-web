@@ -136,9 +136,16 @@ function initDatagridRequireOrdersDO(){
 			{field: 'dealStatusDO', title: '单据状态', width: '100px', align: 'center'},
 			{field: 'sourceBranchName', title: '发货机构', width: '200px', align: 'left'},
 			{field: 'targetBranchName', title: '收货机构', width: '200px', align: 'left'},
-			{field:'referenceNo',title:'要货单号',width:'140px',align:'left',formatter:function(value,row,index){
+			{field:'referenceNo',title:'引用单号',width:'140px',align:'left',formatter:function(value,row,index){
 				if(updatePermission){
-					var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'要货单明细\',\''+ contextPath +'/form/deliverForm/deliverEdit?deliverFormId='+ row.referenceId +'&deliverType=DA\')">' + value + '</a>';
+					var strHtml = "";
+					if(value.startWith("DR")){
+						strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'退货单明细\',\''+ contextPath +'/form/deliverForm/deliverEdit?deliverFormId='+ row.referenceId +'&deliverType=DR\')">' + value + '</a>';
+					}else if(value.startWith("DA")){
+						var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'要货单明细\',\''+ contextPath +'/form/deliverForm/deliverEdit?deliverFormId='+ row.referenceId +'&deliverType=DA\')">' + value + '</a>';
+					}else if(value.startWith("DY")){
+						var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'直送要货单明细\',\''+ contextPath +'/form/deliverForm/deliverEdit?deliverFormId='+ row.referenceId +'&deliverType=DY\')">' + value + '</a>';
+					}
 					return strHtml;
 				}else{
 					return value;

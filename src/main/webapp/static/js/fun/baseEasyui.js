@@ -533,6 +533,16 @@ String.prototype.format = function(args) {
   return result;
 }
 
+String.prototype.startWith=function(str){     
+  var reg=new RegExp("^"+str);     
+  return reg.test(this);        
+}  
+
+String.prototype.endWith=function(str){     
+  var reg=new RegExp(str+"$");     
+  return reg.test(this);        
+}
+
 /**
 * 是否选择行数据
 */
