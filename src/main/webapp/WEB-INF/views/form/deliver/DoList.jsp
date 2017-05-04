@@ -8,7 +8,7 @@
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
     <%-- <script  src="${ctx}/static/js/fun/publicComponent.js"></script> --%>
-    <script  src="${ctx}/static/js/views/deliver/DoList.js"></script>
+    <script  src="${ctx}/static/js/views/deliver/DoList.js?1=3"></script>
 
     
 </head>
