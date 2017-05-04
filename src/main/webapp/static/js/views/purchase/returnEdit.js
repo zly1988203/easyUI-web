@@ -8,7 +8,6 @@ $(function(){
     if('undefined' != typeof(allowUpdatePrice)){
     	isEdit = false;
     }
-    
     initDatagridEditOrder();
     
     var refFormNo = $("#refFormNo").val();
@@ -484,6 +483,7 @@ function selectGoods(searchKey){
     var branchId = $("#branchId").val();
     if(!branchId){
     	messager("请先选择收货机构");
+    	return;
     }
 
     var queryParams = {
@@ -542,8 +542,8 @@ function saveItemHandel(){
         return;
     }
     
-    var branchType = $("#branchType").val();
-    if(branchType==0){
+    var branchId = $("#branchId").val();
+    if(branchId==='0'){
     	messager("退货机构不能选择总部!");
     	return;
     }
@@ -659,6 +659,7 @@ function saveDataHandel(rows){
             }
         },
         error:function(result){
+            gFunEndLoading();
             successTip("请求发送失败或服务器处理失败");
         }
     });

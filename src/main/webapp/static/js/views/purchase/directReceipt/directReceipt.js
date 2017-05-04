@@ -168,6 +168,7 @@ function initDirectDataGrid(){
                        min:0,
                        precision:4,
                       onChange: onChangeLargeNum,
+                       disabled:isdisabled,
                    }
                },
            },
@@ -233,6 +234,7 @@ function initDirectDataGrid(){
                editor:{
                    type:'combobox',
                    options:{
+                       disabled:isdisabled,
                        valueField: 'id',
                        textField: 'text',
                        editable:false,
@@ -257,6 +259,9 @@ function initDirectDataGrid(){
                },
                editor:{
                    type:'datebox',
+                   options:{
+                       disabled:isdisabled,
+                   }
                },
            },
            {field:'tax',title:'税率',width:'80px',align:'right',
@@ -293,7 +298,14 @@ function initDirectDataGrid(){
                    }
                },
            },
-           {field:'remark',title:'备注',width:'200px',align:'left', editor:'textbox'}
+           {field:'remark',title:'备注',width:'200px',align:'left',
+               editor:{
+                   type:'textbox',
+                   options:{
+                       disabled:isdisabled,
+                   }
+               },
+           }
 
        ]],
        onClickCell:function(rowIndex,field,value){

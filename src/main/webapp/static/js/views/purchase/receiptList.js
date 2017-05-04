@@ -7,10 +7,10 @@ var tableIdName = 'receiptOrderList';
 var tempURL = '/form/purchaseSelect/getPurchaseFormList';
 $(function(){
 	$("#refFormNo").val('');
-	document.getElementById("refFormNoDiv").style.visibility="hidden";
-	document.getElementById("radioItemDiv").style.visibility="hidden";
+	$('#radioItemDiv').prop("style", "visibility:hidden;");
+    $('#refFormNoDiv').prop("style", "visibility:hidden;");
 	loadTabs();
-	toBtnDisable('btnAdd','btnDel');
+    toBtnDisable('','','btnPrint');
 	//初始化默认条件
     initConditionParams();
     initDatagridFormPA();
@@ -18,12 +18,13 @@ $(function(){
     changeStatus();
     if(getUrlQueryString('message')=='0'){
     	$('#tabs').tabs({'selected':1});
+        toBtnDisable('','','btnPrint');
     	query();
     }else{
-    	document.getElementById("radioItemDiv").style.visibility="hidden";
+        $('#radioItemDiv').prop('hide',true);
+        $('#refFormNoDiv').prop('hide',true);
 		$("#refFormNo").val('');
-		document.getElementById("refFormNoDiv").style.visibility="hidden";
-		toBtnEnable('btnAdd','btnDel');
+		toBtnEnable('btnAdd','btnDel','');
 		setQueryDataPA();
 		initDatagridFormPA();
 		query();
@@ -38,17 +39,19 @@ function loadTabs(){
 			// 获取选项卡下标
 			indexTab = $('#tabs').tabs('getTabIndex',$('#tabs').tabs('getSelected'));
 			if (indexTab === 0) {
-				document.getElementById("radioItemDiv").style.visibility="hidden";
+                $('#radioItemDiv').prop("style", "visibility:hidden;");
+                $('#refFormNoDiv').prop("style", "visibility:hidden;");
 				$("#refFormNo").val('');
-				document.getElementById("refFormNoDiv").style.visibility="hidden";
-				toBtnEnable('btnAdd','btnDel');
+				toBtnEnable('btnAdd','btnDel','');
+                toBtnDisable('','','btnPrint');
 				setQueryDataPA();
 				initDatagridFormPA();
 			} else {
 				$("input[type='radio'][name='status']").get(0).checked = true;
-				document.getElementById("radioItemDiv").style.visibility="visible";
-				document.getElementById("refFormNoDiv").style.visibility="visible";
-				toBtnDisable('btnAdd','btnDel');
+                $('#radioItemDiv').prop("style", "visibility:visible;");
+                $('#refFormNoDiv').prop("style", "visibility:visible;");
+                toBtnEnable('','','btnPrint');
+				toBtnDisable('btnAdd','btnDel','');
 				setQueryDataPI();
 				initDatagridOrders();
 			}
@@ -71,17 +74,19 @@ function setQueryDataPA() {
  * 禁用按钮
  * @param id
  */
-function toBtnDisable(addId,delId){
+function toBtnDisable(addId,delId,printId){
 	$("#"+addId).removeClass('ubtns-item').addClass('ubtns-item-disabled').removeAttr('onclick');
 	$("#"+delId).removeClass('ubtns-item').addClass('ubtns-item-disabled').removeAttr('onclick');
+    $("#"+printId).removeClass('ubtns-item').addClass('ubtns-item-disabled').removeAttr('onclick');
 }
 /**
  * 开启按钮
  * @param id
  */
-function toBtnEnable(addId,delId){
-	$("#"+addId).removeClass('ubtns-item-disabled').addClass('ubtns-item').attr('onclick','addDeliverForm()');
-	$("#"+delId).removeClass('ubtns-item-disabled').addClass('ubtns-item').attr('onclick','delDeliverForm()');
+function toBtnEnable(addId,delId,printId){
+	$("#"+addId).removeClass('ubtns-item-disabled').addClass('ubtns-item').attr('onclick','receiptAdd()');
+	$("#"+delId).removeClass('ubtns-item-disabled').addClass('ubtns-item').attr('onclick','receiptDelete()');
+    $("#"+printId).removeClass('ubtns-item-disabled').addClass('ubtns-item').attr('onclick','printPreview()');
 }
 //单据状态切换
 function changeStatus(){
@@ -292,5 +297,10 @@ function resetForm(){
 
 
 function printPreview() {
-	toPrintPreview('PI','/form/purchase/',tableIdName);
+	var rows = $("#"+tableIdName).datagrid('getSelections');
+	if(rows.length == 1){
+        toPrintPreview('PI','/form/purchase/',tableIdName);
+	}else{
+		messager('请选择一行数据.')
+	}
 }

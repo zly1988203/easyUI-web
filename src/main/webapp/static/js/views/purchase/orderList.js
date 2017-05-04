@@ -170,3 +170,11 @@ function resetForm(){
 };
 
 
+function printPreview() {
+    var rows = $("#gridOrders").datagrid('getSelections');
+    if(rows.length == 1){
+        toPrintPreview('PA','/form/purchase/','gridOrders');
+    }else{
+        messager('请选择一行数据.')
+    }
+}

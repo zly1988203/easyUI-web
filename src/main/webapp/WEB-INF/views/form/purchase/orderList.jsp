@@ -23,7 +23,7 @@
 	                <div class="ubtns-item" onclick="orderDelete()">删除</div>
 	            </shiro:hasPermission>
 	            <shiro:hasPermission name="JxcPurchaseOrder:print">
-	                <div class="ubtns-item" onclick="toPrintPreview('PA','/form/purchase/')">打印</div>
+	                <div class="ubtns-item" onclick="printPreview()">打印</div>
 	            </shiro:hasPermission>
 	                <div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 	                <div class="ubtns-item" onclick="toClose()">退出</div>

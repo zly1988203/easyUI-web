@@ -48,6 +48,7 @@
 			【单号】:<span>${form.formNo}</span>
 		</div>
 		<div class="ub uline umar-t8"></div>
+		<input type="hidden" id="formJson" value="${form}">
 		<input type="hidden" id="formId" value="${form.id}"> <input
 			type="hidden" id="formNo" value="${form.formNo}">
 		<div class="ub umar-t8">
