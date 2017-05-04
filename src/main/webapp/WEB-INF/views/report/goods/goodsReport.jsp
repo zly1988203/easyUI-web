@@ -71,10 +71,10 @@
 							<option value="3">小于</option>
 							<option value="4">小于等于</option>
 					</select> 
-					<input type="text" maxlength = "10" name="operaterNum" id="operaterNum" class="uinp" style="width: 124px;" />
+					<input type="text" maxlength = "10" name="operaterNum" id="operaterNum" class="uinp uw-120"/>
 				</div>
 				<div class="ub ub-ac umar-r40">
-					<div class="umar-r10 uw-60 ut-r">商品名称:</div>
+					<div class="umar-r12 uw-60 ut-r">商品名称:</div>
 					<input type="text" name="skuName" id="skuName" class="uinp" maxlength="50"/>
 				</div>
 				<div class="ub ub-ac umar-r40">
@@ -107,7 +107,7 @@
 				</div>
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">计价方式:</div>
-					<select name="pricingType" id="pricingType" class="uselect" style="width: 204px;">
+					<select name="pricingType" id="pricingType" class="uselect" style="width: 204px !important;">
                         <option value="">全部</option>
                         <c:forEach items="${pricingType}" var="pricingType">
                             <option value="${pricingType.name}">${pricingType.value}</option>
@@ -115,7 +115,7 @@
                     </select>
 				</div>
 				<div class="ub ub-ac umar-r40">
-					<div class="umar-r10 uw-60 ut-r">直送商品:</div>
+					<div class="umar-r12 uw-60 ut-r">直送商品:</div>
 					<select name="fastDeliver" id="fastDeliver" class="uselect" style="width: 204px;">
                         <option value="">全部</option>
                         <option value="1">直送商品</option>
