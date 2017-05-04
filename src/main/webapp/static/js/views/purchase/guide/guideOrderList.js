@@ -1,6 +1,5 @@
 //采购向导 第三步
 
-
 $(function(){
 	initdgOrderList();
 })
