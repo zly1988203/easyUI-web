@@ -316,16 +316,26 @@ function onChangeLargeNum(newV,oldV){
     }
     
     n++;
-
+    var _temNewNum = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'tmpLargeNum');
+    var temp_new = newV;
+    if(Math.abs(temp_new) > 0 && !oldV){
+    	newV = _temNewNum;
+    };
+    
+    var _tempNewRealNum = parseFloat(purchaseSpecValue*newV);
+    var newRealNum = parseFloat(_tempNewRealNum).toFixed(4);
+    
     //金额 = 规格 * 单价 * 箱数
     var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
     gridHandel.setFieldValue('amount',parseFloat(purchaseSpecValue*priceValue*newV).toFixed(4));
     
-    var realNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'realNum');
-    var realNumVal2 = parseFloat(purchaseSpecValue*newV).toFixed(4);//parseFloat(Math.round(purchaseSpecValue*newV*1000)/1000).toFixed(4);
-    if(Math.abs(realNumVal2-realNumVal)>0.0001){
-        gridHandel.setFieldValue('realNum',(purchaseSpecValue*newV).toFixed(4));//数量=商品规格*箱数
-    }
+    gridHandel.setFieldValue('realNum',newRealNum);//数量=商品规格*箱数
+    
+//    var realNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'realNum');
+//    var realNumVal2 = parseFloat(purchaseSpecValue*newV).toFixed(4);
+//    if(Math.abs(realNumVal2-realNumVal)>0.0001){
+//        gridHandel.setFieldValue('realNum',(purchaseSpecValue*newV).toFixed(4));//数量=商品规格*箱数
+//    }
 
     updateFooter();
 }
@@ -357,13 +367,19 @@ function onChangeRealNum(newV,oldV) {
 
     gridHandel.setFieldValue('amount',priceValue*newV);                         //金额=数量*单价
 
-    var largeNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'largeNum');
-    var largeNumVal2 = parseFloat(purchaseSpecValue*newV).toFixed(4);
-    if(Math.abs(largeNumVal2-largeNumVal)>0.0001){
-        var largeNumVal = parseFloat(newV/purchaseSpecValue).toFixed(4);
-        gridHandel.setFieldValue('largeNum',largeNumVal);   //箱数=数量/商品规格
-    }
-    /*gridHandel.setFieldValue('largeNum',(newV/purchaseSpecValue).toFixed(4));   //箱数=数量/商品规格*/
+    var tempNum = parseFloat(newV)/parseFloat(purchaseSpecValue);
+    gridHandel.setFieldValue('largeNum',tempNum.toFixed(4));   //箱数=数量/商品规格
+    gridHandel.setFieldsData({tmpLargeNum:tempNum}); // 保留除法值   防止toFixed(4) 四舍五入做乘法时比原值大的问题
+    
+//    var largeNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'largeNum');
+//    var largeNumVal2 = parseFloat(purchaseSpecValue*newV).toFixed(4);
+//    if(Math.abs(largeNumVal2-largeNumVal)>0.0001){
+//        var largeNumVal = parseFloat(newV/purchaseSpecValue).toFixed(4);
+//        gridHandel.setFieldValue('largeNum',largeNumVal);   //箱数=数量/商品规格
+//    }
+    /*var largeNumVal = parseFloat(newV/purchaseSpecValue);
+    gridHandel.setFieldValue('largeNum',largeNumVal);   //箱数=数量/商品规格*/
+    
     updateFooter();
 }
 //监听商品单价
@@ -442,6 +458,7 @@ function selectGoods(searchKey){
     var branchId = $("#branchId").val();
     if(!branchId){
     	messager("请先选择收货机构");
+        return;
     }
 
     var queryParams = {
@@ -474,6 +491,7 @@ function selectGoods(searchKey){
             id:'skuId',
             disabled:'',
             pricingType:'',
+            largeNum:'tmpLargeNum',
             inputTax:'tax'
         };
         var rows = gFunUpdateKey(addDefaultData,keyNames);
@@ -730,6 +748,7 @@ function queryGoodsList() {
                     id:'skuId',
                     disabled:'',
                     pricingType:'',
+                    largeNum:'tmpLargeNum',
                     inputTax:'tax'
                 };
                 var rows = gFunUpdateKey(addDefaultData,keyNames);
@@ -853,6 +872,7 @@ function updateListData(data){
 	        id:'skuId',
 	        disabled:'',
 	        pricingType:'',
+	        largeNum:'tmpLargeNum',
 	        inputTax:'tax'
 	    };
 	    var rows = gFunUpdateKey(data,keyNames);
@@ -891,7 +911,7 @@ function getImportData(data){
         data[i]["realNum"]=data[i]["realNum"]||0;
         data[i]["amount"]  = parseFloat(data[i]["price"]||0)*parseFloat(data[i]["realNum"]||0);
         data[i]["largeNum"]  = (parseFloat(data[i]["realNum"]||0)/data[i]["purchaseSpec"]).toFixed(4);
-        
+        data[i]["tmpLargeNum"] = (parseFloat(data[i]["realNum"]||0)/parseFloat(data[i]["purchaseSpec"]))||0;
         
     });
     var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
