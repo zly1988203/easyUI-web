@@ -361,7 +361,7 @@ function delDivTime() {
 		popupSearchDateTime = $("#popupSearchDateTime").val();
 		checkDiv.parentNode.removeChild(checkDiv);
 	}
-	$("#remarkDiv").after("<div class='ub ub-ac umar-l40 uw-300' id='auditStatus' style='visibility:visible;'><div class='umar-r10 uw-70 ut-r'>审核状态:</div><div class='ub ub-ac umar-r10'><input class='ub' type='radio' id='deliverAuditStatus0' name='deliverAuditStatus' value='0' checked='checked' onclick='queryForm()'/><span>未审核</span></div><div class='ub ub-ac umar-r10'><input class='ub' type='radio' id='deliverAuditStatus1' name='deliverAuditStatus'  value='1' onclick='queryForm()'/><span>已审核</span></div><div class='ub ub-ac umar-r10'><input class='ub' type='radio' id='deliverAuditStatus2' name='deliverAuditStatus' value='' onclick='queryForm()'/><span>全部</span></div></div>");
+	$("#remarkDiv").after("<div class='ub ub-ac umar-l40 uw-300' id='auditStatus' style='visibility:visible;'><div class='umar-r10 uw-70 ut-r'>审核状态:</div><div class='ub ub-ac umar-r10'><input class='ub' type='radio' id='deliverAuditStatus0' name='deliverAuditStatus' value='0' checked='checked' onclick='queryForm()'/><label for='deliverAuditStatus0'>未审核</span></div><div class='ub ub-ac umar-r10'><input class='ub' type='radio' id='deliverAuditStatus1' name='deliverAuditStatus'  value='1' onclick='queryForm()'/><label for='deliverAuditStatus1'>已审核</label></div><div class='ub ub-ac umar-r10'><input class='ub' type='radio' id='deliverAuditStatus2' name='deliverAuditStatus' value='' onclick='queryForm()'/><label for='deliverAuditStatus2'>全部</label></div></div>");
 	setAuditStatusVal();
 }
 
