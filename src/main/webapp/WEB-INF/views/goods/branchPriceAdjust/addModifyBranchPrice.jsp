@@ -92,7 +92,7 @@
 			 
        		 <div class="ubtns-item-disabled" >设置</div>
        		 
-             <div class="ubtns-item" id="toBackByJSButton" onclick="back()">关闭</div>
+             <div class="ubtns-item" id="toBackByJSButton" onclick="toClose()">关闭</div>
              
              <input type="hidden" id="close" value="${close}"/>
             </div>

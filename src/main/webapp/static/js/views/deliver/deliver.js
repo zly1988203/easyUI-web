@@ -624,7 +624,7 @@ function setDataValue(data,fromClick) {
 
 //查询价格、库存
 function selectStockAndPrice(data,fromClick){
-	//setDataValue(data);
+
 	var GoodsStockVo = {
             branchId : $("#sourceBranchId").val(),
             fieldName : 'id',

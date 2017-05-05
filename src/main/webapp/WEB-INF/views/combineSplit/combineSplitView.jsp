@@ -26,7 +26,7 @@
 	                <div class="ubtns-item"  onclick="auditCombineSplit()">审核</div>
 	                <div class="ubtns-item"  onclick="deleteCombineSplit()">删除</div>
 	            </c:if>
-                <div class="ubtns-item" id="toBackByJSButton" onclick="back()">关闭</div>
+                <div class="ubtns-item" id="toBackByJSButton" onclick="toClose()">关闭</div>
 	        </div>
 		</div>
 		<c:if test="${stockFormVo.status != 0}">
