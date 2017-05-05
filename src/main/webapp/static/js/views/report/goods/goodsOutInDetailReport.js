@@ -107,7 +107,7 @@ function initDatagridRequire(){
 					}
 				}
 			},
-			{field: 'price', title: '进价', width: '60', align: 'right',
+			{field: 'price', title: '单价', width: '60', align: 'right',
 				formatter:function(value,row,index){
 				    if(value){
 				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
@@ -122,7 +122,7 @@ function initDatagridRequire(){
 					}
 				}
 			},
-			{field: 'priceAmount', title: '进价金额', width: '80', align: 'right',
+			{field: 'priceAmount', title: '单据金额', width: '80', align: 'right',
 				formatter:function(value,row,index){
 					if(row.isFooter){
 						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -155,6 +155,38 @@ function initDatagridRequire(){
 				}
 			},
 			{field: 'saleAmount', title: '售价金额', width: '80', align: 'right',
+				formatter:function(value,row,index){
+					if(row.isFooter){
+						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+					}
+
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				},
+				editor:{
+					type:'numberbox',
+					options:{
+						disabled:true,
+						min:0,
+						precision:2
+					}
+				}
+			},
+			{field: 'costPrice', title: '成本价', width: '60', align: 'right',
+				formatter:function(value,row,index){
+				    if(value){
+				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
+				    }
+				},
+				editor:{
+					type:'numberbox',
+					options:{
+						disabled:true,
+						min:0,
+						precision:2
+					}
+				}
+			},
+			{field: 'costAmount', title: '成本金额', width: '80', align: 'right',
 				formatter:function(value,row,index){
 					if(row.isFooter){
 						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
