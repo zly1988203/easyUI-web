@@ -447,7 +447,7 @@ function onChangeLargeNum(newV,oldV){
     updateFooter();
 }
 //监听商品数量
-function onChangeRealNum(newV,oldV) {
+function onChangeRealNum(newV,oldV,event) {
 	//if(!oldV)return;
 	if("" == newV){
 		n= 2;
@@ -455,8 +455,8 @@ function onChangeRealNum(newV,oldV) {
 		 gridHandel.setFieldValue('applyNum',oldV);
 	     return;
 	}
-	
-	if(n > 0){
+
+    if(n > 0){
 		n = 0;
 		return;
 	}
@@ -467,6 +467,8 @@ function onChangeRealNum(newV,oldV) {
     var purchaseSpecValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'distributionSpec');
     if(!purchaseSpecValue){
         messager("没有配送规格,请审查");
+        $(this).event.stopPropagation();
+        // $(this).stopPropagation();
         return;
     }
     
