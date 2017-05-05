@@ -274,7 +274,12 @@ public class GoodsPriceAdjustController extends BasePrintController<GoodsPriceAd
 		rep.put("createUserDate", createTime);
 		return rep;
 	}
-
+	
+    /**
+     * @Fields ONE : 常量1
+     */
+    private static final Integer ONE = 1;
+    
 	/**
 	 * @Description: 设置单据详情数据
 	 * @param goodsPriceForm
@@ -285,11 +290,48 @@ public class GoodsPriceAdjustController extends BasePrintController<GoodsPriceAd
 	 */
 	private List<GoodsPriceFormDetail> setFormData(GoodsPriceForm goodsPriceForm,
 			List<GoodsPriceFormDetail> goodsPriceDetailList) {
+        // 是否修改进价
+        Integer modifyPurPrice = goodsPriceForm.getIsModifyPurPrice();
+        // 是否修改售价
+        Integer modifySalePrice = goodsPriceForm.getIsModifySalePrice();
+        // 是否修改配送价
+        Integer modifyDcPrice = goodsPriceForm.getIsModifyDcPrice();
+        // 是否修改会员价
+        Integer modifyVipPrice = goodsPriceForm.getIsModifyVipPrice();
+        // 是否修改批发价
+        Integer modifyWsPrice = goodsPriceForm.getIsModifyWsPrice();
+        
+        boolean isModifyPurPrice = (modifyPurPrice != null && ONE.equals(modifyPurPrice));
+        boolean isModifySalePrice = (modifySalePrice != null && ONE.equals(modifySalePrice));
+        boolean isModifyDcPrice = (modifyDcPrice != null && ONE.equals(modifyDcPrice));
+        boolean isModifyVipPrice = (modifyVipPrice != null && ONE.equals(modifyVipPrice));
+        boolean isModifyWsPrice = (modifyWsPrice != null && ONE.equals(modifyWsPrice));
 		// 详情列表数据
 		for (GoodsPriceFormDetail goodsPriceFormDetail : goodsPriceDetailList) {
 			goodsPriceFormDetail.setId(UUIDHexGenerator.generate());
 			goodsPriceFormDetail.setFormId(goodsPriceForm.getId());
 			goodsPriceFormDetail.setFormNo(goodsPriceForm.getFormNo());
+			
+	         if(!isModifyPurPrice){
+	                // 如果未修改，新值设置成旧值
+	                goodsPriceFormDetail.setNewPurPrice(goodsPriceFormDetail.getOldPurPrice());
+	            }
+	            if(!isModifySalePrice){
+	                // 如果未修改，新值设置成旧值
+	                goodsPriceFormDetail.setNewSalePrice(goodsPriceFormDetail.getOldSalePrice());
+	            }
+	            if(!isModifyDcPrice){
+	                // 如果未修改，新值设置成旧值
+	                goodsPriceFormDetail.setNewDcPrice(goodsPriceFormDetail.getOldDcPrice());
+	            }
+	            if(!isModifyVipPrice){
+	                // 如果未修改，新值设置成旧值
+	                goodsPriceFormDetail.setNewVipPrice(goodsPriceFormDetail.getOldVipPrice());
+	            }
+	            if(!isModifyWsPrice){
+	                // 如果未修改，新值设置成旧值
+	                goodsPriceFormDetail.setNewWsPrice(goodsPriceFormDetail.getOldWsPrice());
+	            }
 		}
 		return goodsPriceDetailList;
 	}
