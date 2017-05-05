@@ -147,6 +147,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 
 			//如果formType 是属于配送中的数据 说明不需要管理库存
 			if(FormType.DA.name().equals(vo.getFormType())||FormType.DO.name().equals(vo.getFormType())
+			        ||FormType.DY.name().equals(vo.getFormType())
 					||FormType.DI.name().equals(vo.getFormType())||FormType.DR.name().equals(vo.getFormType())||FormType.DD.name().equals(vo.getFormType())) {
 				vo.setIsManagerStock(1);
 			}
