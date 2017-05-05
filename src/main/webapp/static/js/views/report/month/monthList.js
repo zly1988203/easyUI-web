@@ -166,7 +166,8 @@ function initDatagridYueJXC(){
 			}			
 		]], 
 		onLoadSuccess:function(data){
-			
+			if($("#createBranchId").val()&&data.total<=0)
+				messager("该机构可能未月结,请先月结!");
 		}
 
 	});
