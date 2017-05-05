@@ -1131,9 +1131,6 @@ function selectBranchArea() {
                     }
                     var reg = /\,$/;
                     branchName = branchName.replace(reg,"");
-                    //branchName = branchName.substring(0,branchName.length - 1);
-                    //branchesId = branchesId.substring(0,branchesId.length - 1);
-                    //branchCode = branchCode.substring(0,branchCode.length - 1);
                     branchesId= branchesId.replace(reg,"");
                     branchCode = branchCode.replace(reg,"");
                     showBranch = showBranch.replace(reg,"");
@@ -1256,6 +1253,26 @@ function toImportproduct(type){
 }
 
 function updateListData(data){
+
+    if(data.length>0){
+        var arrKey =
+            {"newPurPrice":"purchasePrice",
+                "newSalePrice":"retailPrice",
+                "newDcPrice":"distributionPrice",
+                "newWsPrice":"tradePrice",
+                "newVipPrice":"memberPrice"
+            }
+
+        $.each(data,function(index,val){
+            $.each(arrKey,function(key,item){
+                if(key&&val[key]){
+                    $("#"+item).prop("checked","checked");
+                    datagridUtil.isCheckBoxChecked(item);
+                }
+            })
+        })
+    }
+
     var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
     var addDefaultData  = gridHandel.addDefault(data,gridDefault);
     var keyNames = {
@@ -1265,27 +1282,26 @@ function updateListData(data){
         vipPrice:'oldVipPrice',
         distributionPrice:'oldDcPrice'
     };
+
     var rows = gFunUpdateKey(addDefaultData,keyNames);
-    if(data.length>0){
-        var obj = data[0];
-        var arrKey = [
-            {"newPurPrice":"purchasePrice"},
-            {"newSalePrice":"retailPrice"},
-            {"newDcPrice":"distributionPrice"},
-            {"newWsPrice":"tradePrice"},
-            {"newVipPrice":"memberPrice"}
-        ]
-        $.each(obj,function(key,val){
-            var d = obj;
-            var c = key;
-            $.each(arrKey,function(i,item){
-                if(item[key]&&obj[key]){
-                    $("#"+item[key]).attr("checked","checked");
-                    datagridUtil.isCheckBoxChecked(item[key]);
-                }
-            })
-        })
-    }
+    $.each(rows,function (index,item) {
+        if(isNaN(parseFloat(item.newPurPrice))){
+            item.newPurPrice = item.oldPurPrice;
+        }
+        if(isNaN(parseFloat(item.newSalePrice))){
+            item.newSalePrice = item.oldSalePrice;
+        }
+        if(isNaN(parseFloat(item.newDcPrice))){
+            item.newDcPrice = item.oldDcPrice;
+        }
+        if(isNaN(parseFloat(item.newWsPrice))){
+            item.newWsPrice = item.oldWsPrice;
+        }
+        if(isNaN(parseFloat(item.newVipPrice))){
+            item.newVipPrice = item.oldVipPrice;
+        }
+    })
+
 
     var argWhere ={skuCode:1};  //验证重复性
     var isCheck ={isGift:1 };   //只要是赠品就可以重复
