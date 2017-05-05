@@ -7,7 +7,7 @@
     <title>采购向导——条件筛选</title>
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-     <script  src="${ctx}/static/js/views/purchase/guide/guideForm.js"></script>
+     <script  src="${ctx}/static/js/views/purchase/guide/guideForm.js?1=1"></script>
     
 </head>
 <body class="ub ub-ver uw uh ufs-14 uc-black">

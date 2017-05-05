@@ -42,6 +42,7 @@ import com.okdeer.jxc.common.goodselect.GoodsSelectImportComponent;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportHandle;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportVo;
 import com.okdeer.jxc.common.result.RespJson;
+import com.okdeer.jxc.common.utils.BigDecimalUtils;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.ListUtils;
 import com.okdeer.jxc.common.utils.OrderNoUtils;
@@ -579,8 +580,8 @@ public class GoodsPriceAdjustController extends BasePrintController<GoodsPriceAd
 					newSaleRate = goods.getNewSalePrice().subtract(goods.getNewPurPrice()).
 							divide(goods.getNewSalePrice(), 4).multiply(new BigDecimal("100"));
 				}
-				goods.setOldSaleRate(oldSaleRate);
-				goods.setNewSaleRate(newSaleRate);
+				goods.setOldSaleRateStr(BigDecimalUtils.formatTwoDecimal(oldSaleRate)+"%");
+				goods.setNewSaleRateStr(BigDecimalUtils.formatTwoDecimal(newSaleRate)+"%");
 			}
 			
 			// 导出文件名称，不包括后缀名
