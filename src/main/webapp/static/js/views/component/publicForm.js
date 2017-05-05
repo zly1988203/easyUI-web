@@ -60,11 +60,11 @@ function getItemData(formId){
                     formCallBack(result);
                 }
             }else{
-                successTip(result['message']);
+                messager(result['message']);
             }
         },
         error:function(data){
-            successTip("请求发送失败或服务器处理失败");
+            messager("请求发送失败或服务器处理失败");
         }
     })
 

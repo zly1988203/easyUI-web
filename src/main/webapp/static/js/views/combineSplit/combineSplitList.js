@@ -132,7 +132,7 @@ function deleteCombineSplit(){
                     success: function(data){
                     	gFunEndLoading();
                     	if(data.code == 0){
-                    		successTip(data['message']);
+                            messager(data['message']);
                     		queryForm();
                     	}
                     }

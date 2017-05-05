@@ -494,7 +494,7 @@ function delModifyOrderDialog() {
             }
         });
     }else{
-        $.messager.confirm('提示', '没有单据可以删除');
+        messager('没有单据可以删除');
     }
 }
 
@@ -576,7 +576,7 @@ function saveModifyPriceOrder() {
                                 });
                             } else {
                                 // 失败提示
-                                $.messager.alert('提示', data.message);
+                                messager(data.message);
                             }
                         },error:function(){
                             gFunEndLoading();
@@ -659,7 +659,7 @@ function updateModifyPriceOrder() {
                             });
                         } else {
                             // 失败提示
-                            $.messager.alert('提示', data.message);
+                            messager(data.message);
                         }
                     }
                 });
@@ -690,9 +690,9 @@ function checkForm(formNo, status,effectDate) {
         },
         dataType : "json",
         success : function(data) {
-            console.info(data);
+
             if (data.code > 0) {
-                $.messager.alert('提示', data.message, "info");
+                messager(data.message);
             } else {
                 $.messager.alert('提示', '单据审核成功！', "info", function() {
                     window.location.href = contextPath
@@ -729,7 +729,7 @@ var datagridUtil = {
     isCheckRemark : function() {
         var remark = $("#remark").val();
         if(remark.length>125){
-            $.messager.alert('提示', '备注信息不能超过125个字');
+            messager('备注信息不能超过125个字');
             return false;
         }else{
             return true;
@@ -742,7 +742,7 @@ var datagridUtil = {
      */
     isSelectArea : function() {
         if ($("#branchId").val().trim() == "") {
-            $.messager.alert('提示', '请先选择机构');
+            messager('请先选择机构');
             gFunEndLoading();
             return false;
         } else {
@@ -765,7 +765,7 @@ var datagridUtil = {
             }
         });
         if(!isCheckPrice){
-            $.messager.alert('提示', '没有勾选调价设置！');
+            messager('没有勾选调价设置！');
             gFunEndLoading();
         }
         return isCheckPrice;
@@ -777,7 +777,7 @@ var datagridUtil = {
      */
     isSelectRows : function() {
         if ($("#" + datagridId).datagrid("getSelections").length <= 0) {
-            $.messager.alert('提示', '没有单据可以删除，请选择一笔单据再删除？');
+            messager('没有单据可以删除，请选择一笔单据再删除？');
             return false;
         } else {
             return true;
@@ -790,7 +790,7 @@ var datagridUtil = {
      */
     isHasDataGrid : function() {
         if ($(".datagrid-btable td[field='skuCode']").length <= 0) {
-            $.messager.alert('提示', '明细数据不能为空，请输入！');
+            messager('明细数据不能为空，请输入！');
             gFunEndLoading();
             return false;
         } else {
@@ -810,7 +810,7 @@ var datagridUtil = {
                 }
             }
             if (count == 0) {
-                $.messager.alert('提示', '明细数据不能为空，请输入！');
+                messager('明细数据不能为空，请输入！');
                 gFunEndLoading();
                 return false;
             } else {
@@ -1175,15 +1175,15 @@ function exportData(){
     var length = $("#addModifyPriceGrid").datagrid('getData').total;
     var status=$("#status").val();
     if(status==0){
-        $.messager.alert('提示',"订单未通过审核");
+        messager("订单未通过审核");
         return;
     }
     if(length == 0){
-        $.messager.alert('提示',"没有数据");
+        messager("没有数据");
         return;
     }
     if(length>10000){
-        $.messager.alert("当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
+        messager("当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
         return;
     }
     var formNo=$("#formNoInput").val();
@@ -1195,7 +1195,7 @@ function exportData(){
 function printDesign(formNo){
     var branchId=$("#branchId").val();
     if(!branchId){
-        $.messager.alert('提示',"请先选择机构");
+        messager("请先选择机构");
     }else{
         //弹出打印页面
         parent.addTabPrint('CASheet' + formNo,formNo+'单据打印',contextPath + '/printdesign/design?page=CASheet&controller=/goods/priceAdjust&template=-1&sheetNo=' + formNo + '&gridFlag=CAGrid','');

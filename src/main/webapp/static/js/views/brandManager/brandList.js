@@ -53,7 +53,7 @@ function initDataGrid() {
 function exportData(){
 	var length = $('#dataList').datagrid('getData').rows.length;
 	if(length == 0){
-		successTip("无数据可导");
+        messager("无数据可导");
 		return;
 	}
 	$('#exportWin').window({
@@ -71,7 +71,7 @@ function exportExcel(){
 	$("#queryForm").form({
 		success : function(result){
 			var dataObj=eval("("+result+")");
-			successTip(dataObj.message);
+            messager(dataObj.message);
 		}
 	});
 	$("#queryForm").attr("action",contextPath+"/common/brand/exportList");
@@ -161,14 +161,14 @@ function deleteBrand(){
 		    	success:function(result){
 		    		console.log(result);
 		    		if(result['code'] == 0){
-		    			successTip("删除成功");
+                        messager("删除成功");
 		    		}else{
-		    			successTip(result['message']);
+                        messager(result['message']);
 		    		}
 		    		$("#dataList").datagrid('reload');
 		    	},
 		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
+                    messager("请求发送失败或服务器处理失败");
 		    	}
 		    });
 		}
