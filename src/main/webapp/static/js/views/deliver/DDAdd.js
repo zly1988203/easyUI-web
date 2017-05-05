@@ -604,11 +604,11 @@ function saveOrder(){
                         strResult += item.goodsName+" ,库存数量： "+item.number+",";
                     })
                 }
-                successTip(result['message']);
+                messager(result['message']);
             }
         },
         error:function(result){
-            successTip("请求发送失败或服务器处理失败");
+            messager("请求发送失败或服务器处理失败");
         }
     });
 }
@@ -647,12 +647,12 @@ function check(){
 		    				location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
 		    			});
 		    		}else{
-		    			successTip(result['message']);
+                        messager(result['message']);
 		    		}
 		    	},
 		    	error:function(result){
                     gFunEndLoading();
-		    		successTip("请求发送失败或服务器处理失败");
+                    messager("请求发送失败或服务器处理失败");
 		    	}
 		    });
 		}
@@ -675,11 +675,11 @@ function delDeliverForm(){
                         toRefreshIframeDataGrid("form/deliverForm/viewsDD","deliverFormList");
 		    			toClose();
 		    		}else{
-		    			successTip(result['message']);
+                        messager(result['message']);
 		    		}
 		    	},
 		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
+                    messager("请求发送失败或服务器处理失败");
 		    	}
 		    });
 		}
@@ -720,12 +720,12 @@ function toEnd(){
 		    				location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
 		    			});
 		    		}else{
-		    			successTip(result['message']);
+                        messager(result['message']);
 		    		}
 		    	},
 		    	error:function(result){
                     gFunEndLoading();
-		    		successTip("请求发送失败或服务器处理失败");
+                    messager("请求发送失败或服务器处理失败");
 		    	}
 		    });
 		}
@@ -777,11 +777,11 @@ function getSourceBranch(branchesId) {
                 $("#spanMinAmount").html(result['minAmount']);
                 $("#minAmount").val(result['minAmount']);
     		}else{
-    			successTip(result['message']);
+                messager(result['message']);
     		}
     	},
     	error:function(result){
-    		successTip("请求发送失败或服务器处理失败");
+            messager("请求发送失败或服务器处理失败");
     	}
     });
 }
@@ -870,7 +870,7 @@ function selectStockAndPriceImport(data){
             updateListData(data);
         },
         error:function(result){
-            successTip("请求发送失败或服务器处理失败");
+            messager("请求发送失败或服务器处理失败");
         }
     });
 }

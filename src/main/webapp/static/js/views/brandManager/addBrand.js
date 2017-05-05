@@ -30,11 +30,11 @@ function save() {
 				}
 			}else{
 				$('#saveBrand').removeAttr("disabled");
-				alertTip(result.message);
+                messager(result.message);
 			}
 		},
 		error : function(result) {
-			successTip("请求发送失败或服务器处理失败");
+            messager("请求发送失败或服务器处理失败");
 		}
 	});
 }

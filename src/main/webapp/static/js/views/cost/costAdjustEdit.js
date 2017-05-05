@@ -274,7 +274,7 @@ function selectStockAndPrice(branchId,data){
     		setDataValue(result);
     	},
     	error:function(result){
-    		successTip("请求发送失败或服务器处理失败");
+            messager("请求发送失败或服务器处理失败");
     	}
     });
 }
@@ -419,11 +419,11 @@ function saveDataHandel(rows){
 				});
 				//location.reload()
 			}else{
-				successTip(result['message']);
+                messager(result['message']);
 			}
 		},
 		error:function(result){
-			successTip("请求发送失败或服务器处理失败");
+            messager("请求发送失败或服务器处理失败");
 		}
 	});
 }
@@ -464,11 +464,11 @@ function costcheck(type){
 						})
 						
 					}else{
-						successTip(result['message']);
+                        messager(result['message']);
 					}
 				},
 				error:function(result){
-					successTip("请求发送失败或服务器处理失败");
+                    messager("请求发送失败或服务器处理失败");
 				}
 			});
 		}
@@ -487,14 +487,14 @@ function delCostForm(){
 				success:function(result){
 					console.log(result);
 					if(result['code'] == 0){
-						successTip("删除成功");
+                        messager("删除成功");
 						back();
 					}else{
-						successTip(result['message']);
+                        messager(result['message']);
 					}
 				},
 				error:function(result){
-					successTip("请求发送失败或服务器处理失败");
+                    messager("请求发送失败或服务器处理失败");
 				}
 			});
 		}

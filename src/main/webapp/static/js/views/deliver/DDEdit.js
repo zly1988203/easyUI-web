@@ -542,12 +542,12 @@ function saveOrder(){
             		return $.extend(true,{},obj);//返回对象的深拷贝
             	});
             }else{
-                successTip(result['message']);
+                messager(result['message']);
             }
         },
         error:function(result){
             gFunEndLoading();
-            successTip("请求发送失败或服务器处理失败");
+            messager("请求发送失败或服务器处理失败");
         }
     });
 }
@@ -586,12 +586,12 @@ function check(){
 		    				location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
 		    			});
 		    		}else{
-		    			successTip(result['message']);
+                        messager(result['message']);
 		    		}
 		    	},
 		    	error:function(result){
                     gFunEndLoading();
-		    		successTip("请求发送失败或服务器处理失败");
+                    messager("请求发送失败或服务器处理失败");
 		    	}
 		    });
 		}
@@ -640,11 +640,11 @@ function getSourceBranch(branchesId) {
                 $("#salesman").val(result['salesman']);
                 $("#spanMinAmount").html(result['minAmount']);
     		}else{
-    			successTip(result['message']);
+                messager(result['message']);
     		}
     	},
     	error:function(result){
-    		successTip("请求发送失败或服务器处理失败");
+            messager("请求发送失败或服务器处理失败");
     	}
     });
 }
@@ -723,7 +723,7 @@ function selectStockAndPriceImport(data){
 	            updateListData(data);
 	        },
 	        error:function(result){
-	            successTip("请求发送失败或服务器处理失败");
+                messager("请求发送失败或服务器处理失败");
 	        }
 	    });
 }
@@ -806,11 +806,11 @@ function delDeliverForm(){
                         toRefreshIframeDataGrid("form/deliverDDForm/view","deliverFormList");
 		    			toClose();
 		    		}else{
-		    			successTip(result['message']);
+                        messager(result['message']);
 		    		}
 		    	},
 		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
+                    messager("请求发送失败或服务器处理失败");
 		    	}
 		    });
 		}

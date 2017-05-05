@@ -239,7 +239,7 @@ function selectView(searchskuId){
 			}
 		},
 		error : function(result) {
-			successTip("请求发送失败或服务器处理失败");
+            messager("请求发送失败或服务器处理失败");
 		}
 	});
 }
@@ -405,11 +405,11 @@ function saveDataHandel(rows){
     				location.href = contextPath +"/stock/combineSplit/combineSplitView?id="+id;
     			});
             }else{
-                successTip(result['message']);
+                messager(result['message']);
             }
         },
         error:function(result){
-            successTip("请求发送失败或服务器处理失败");
+            messager("请求发送失败或服务器处理失败");
         }
     });
 }
