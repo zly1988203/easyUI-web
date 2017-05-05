@@ -46,7 +46,7 @@
 						onclick="selectGoodsDialog();">商品选择</div>
 					<shiro:hasPermission name="JxcPriceAdjust:delete">
 						<div class="ubtns-item" id="delModifyOrderDialog"
-							onclick="delModifyOrderDialog();">删单</div>
+							onclick="delModifyOrderDialog();">删除</div>
 					</shiro:hasPermission>
 				</c:if>
 				<shiro:hasPermission name="JxcPriceAdjust:exportDetail">
@@ -67,7 +67,7 @@
 					<div class="ubtns-item" id="set" onclick="gFunRefresh()">重置</div>
 				</c:if>
 				<%--  <div class="ubtns-item" onclick="printDesign('${goodsPriceForm.formNo}')">打印</div> --%>
-				<div class="ubtns-item" id="toBackByJSButton" onclick="back()">关闭</div>
+				<div class="ubtns-item" id="toBackByJSButton" onclick="toClose()">关闭</div>
 				<input type="hidden" id="close" value="${close}" />
 			</div>
 		</div>

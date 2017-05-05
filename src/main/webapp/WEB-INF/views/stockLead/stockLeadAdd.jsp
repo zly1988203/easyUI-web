@@ -38,7 +38,7 @@
 					<shiro:hasPermission name="JxcStockLead:setting">
 						<div class="ubtns-item-disabled">设置</div>
 					</shiro:hasPermission>
-					<div class="ubtns-item" onclick="back()">关闭</div>
+					<div class="ubtns-item" onclick="toClose()">关闭</div>
 				</div>
 			</div>
 			<div class="ub umar-t8 uline"></div>

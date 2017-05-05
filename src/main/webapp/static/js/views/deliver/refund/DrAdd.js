@@ -490,7 +490,7 @@ function selectGoods(searchKey){
 	var targetBranchId = $("#targetBranchId").val();
     //判定发货分店是否存在
     if($("#sourceBranchId").val()==""){
-        messager("请先选择发货机构");
+        messager("请先选择制单机构");
         return;
     }
     
@@ -608,14 +608,18 @@ function addDeliverDR(){
 //保存
 function saveOrder(){
 	
-	// 退货分店id
+	//  收货机构id
 	var targetBranchId = $("#targetBranchId").val();
-	// 收货机构id
+	// 制单机构id
     var sourceBranchId = $("#sourceBranchId").val();
-	if(!targetBranchId || !sourceBranchId){
-		messager("制单机构和收货机构不能为空!");
+	if(!sourceBranchId ){
+		messager("制单机构不能为空!");
 		return;
 	}
+    if(!targetBranchId){
+        messager("收货机构不能为空!");
+        return;
+    }
 	var sourceBranchType = parseInt($("#sourceBranchType").val());
 	var targetBranchType = parseInt($("#targetBranchType").val());
 	if(sourceBranchType<3){
@@ -950,7 +954,7 @@ function toImportproduct(type){
 	// 发货机构id
     var sourceBranchId = $("#sourceBranchId").val();
     if(sourceBranchId === '' || sourceBranchId === null){
-        messager("请先选择退货机构信息");
+        messager("请先选择制单机构信息");
         return;
     }
     var param = {
