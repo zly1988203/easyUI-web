@@ -11,6 +11,7 @@ $(function(){
 function updateWdatePicker(){
 	   WdatePicker({
        	dateFmt:'yyyy-MM',
+       	maxDate:'%y-%M',
          onpicked:function(dp){
              $("input:radio[name='dateradio']").attr("checked",false);
          }
@@ -163,7 +164,11 @@ function initDatagridYueJXC(){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				}
 			}			
-		]],
+		]], 
+		onLoadSuccess:function(data){
+			if($("#createBranchId").val()&&data.total<=0)
+				messager("该机构可能未月结,请先月结!");
+		}
 
 	});
 }
