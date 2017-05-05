@@ -152,11 +152,16 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 			}
 			LOG.info("商品查询参数:{}" + vo.toString());
 			// 要货单商品资料查询、价格查询
-			if (FormType.DA.name().equals(vo.getFormType())||FormType.DD.name().equals(vo.getFormType())||FormType.DY.name().equals(vo.getFormType())) {
+			if (FormType.DA.name().equals(vo.getFormType())||FormType.DD.name().equals(vo.getFormType())) {
 				PageUtils<GoodsSelect> goodsSelects = goodsSelectServiceApi.getGoodsListDA(vo);
 				return goodsSelects;
 			}
-			
+			// 直送要货单商品资料查询、价格查询(如果为直送要货，默认只取交集处理，与配置，店铺类型无关)
+            if (FormType.DY.name().equals(vo.getFormType())) {
+                PageUtils<GoodsSelect> goodsSelects = goodsSelectServiceApi
+                        .queryByBranchTypeGetGoodsAndPrice_A_SourceBranchAndTargetBranch_Target(vo);
+                return goodsSelects;
+            }
 			//退货单
 			if(FormType.DR.name().equals(vo.getFormType())){
 				PageUtils<GoodsSelect> goodsSelects = goodsSelectServiceApi.getGoodsListDR(vo);
@@ -239,7 +244,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 		String targetBranchId = paramVo.getTargetBranchId();
 		List<GoodsSelect> suppliers = null;
 		try {
-			if (FormType.DA.name().equals(type)||FormType.DD.name().equals(type)||FormType.DY.name().equals(type)) {
+			if (FormType.DA.name().equals(type)||FormType.DD.name().equals(type)) {
 				GoodsSelectVo vo = new GoodsSelectVo();
 				vo.setIsManagerStock(1);
 				vo.setTargetBranchId(targetBranchId);
@@ -250,6 +255,19 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 				vo.setFormType(type);
 				PageUtils<GoodsSelect> goodsSelects = goodsSelectServiceApi.getGoodsListDA(vo);
 				suppliers = goodsSelects.getList();
+			}else if(FormType.DY.name().equals(type)){
+			    GoodsSelectVo vo = new GoodsSelectVo();
+			    vo.setIsManagerStock(1);
+			    vo.setTargetBranchId(targetBranchId);
+			    vo.setSourceBranchId(sourceBranchId);
+			    vo.setSkuCodesOrBarCodes(paramVo.getSkuCodesOrBarCodes());
+			    vo.setPageNumber(1);
+			    vo.setPageSize(50);
+			    vo.setFormType(type);
+			    // 直送要货单商品资料查询、价格查询(如果为直送要货，默认只取交集处理，与配置，店铺类型无关)
+			    PageUtils<GoodsSelect> goodsSelects = goodsSelectServiceApi
+                        .queryByBranchTypeGetGoodsAndPrice_A_SourceBranchAndTargetBranch_Target(vo);
+			    suppliers = goodsSelects.getList();
 			}
 			else {
 				//如果是促销活动页面查询商品，需要过滤掉不参加促销的商品
