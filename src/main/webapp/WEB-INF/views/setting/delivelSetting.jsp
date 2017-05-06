@@ -58,6 +58,17 @@
 					</div>
 				</div>
 				<div class="ub ub-ac upad-16 ">
+					<div class="ub uw-220 ut-r">直送要货单价格取值:</div>
+					<div class="ub ub-ac umar-r10">
+						<input class="ub" type="radio" id="dyPriceSpec0" name="dyPriceSpec" value="0" />
+						<label for="dyPriceSpec0">要货机构配送价</label>
+					</div>
+					<div class="ub ub-ac umar-r10">
+						<input class="ub" type="radio" id="dyPriceSpec1" name="dyPriceSpec" value="1" />
+						<label for="dyPriceSpec1">发货机构配送价</label>
+					</div>
+				</div>
+				<div class="ub ub-ac upad-16 ">
 					<div class="ub uw-220 ut-r ">要货单起订金额控:</div>
 					<div class="ub ub-ac umar-r10">
 						<input class="ub" type="radio" id="isMinAmount0" name="isMinAmount" value="0" />
@@ -145,6 +156,7 @@
 	function init(data){
 		var branchId = data.branchId;
 		var priceSpec = data.priceSpec;
+		var dyPriceSpec = data.dyPriceSpec;
 		var selectGoodsSpec = data.selectGoodsSpec;
 		var isMinAmount = data.isMinAmount;
 		var validityDay= data.validityDay;
@@ -159,6 +171,11 @@
 		} else {
 			$("#priceSpec2").attr("checked", "true");
 		}
+		if (dyPriceSpec === null || dyPriceSpec === '0' || dyPriceSpec === '') {
+			$("#dyPriceSpec0").attr("checked", "true");
+		} else {
+			$("#dyPriceSpec1").attr("checked", "true");
+		} 
 		if (selectGoodsSpec === null || selectGoodsSpec === '0' || selectGoodsSpec === '') {
 			$("#selectGoodsSpec0").attr("checked", "true");
 		} else {
