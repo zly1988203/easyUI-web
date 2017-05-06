@@ -19,6 +19,7 @@ import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.pos.entity.PosLoginInfo;
 import com.okdeer.jxc.pos.entity.PosShiftHistory;
+import com.okdeer.jxc.pos.entity.PosShiftHistoryExt;
 import com.okdeer.jxc.pos.enums.ShiftTypeEnum;
 import com.okdeer.jxc.pos.service.PosShiftHistoryServiceApi;
 import com.okdeer.jxc.pos.vo.PosShiftHistoryVo;
@@ -140,7 +141,7 @@ public class PosShiftHistoryController extends BaseController<T> {
 	}
 	@RequestMapping(value = "shiftDetail")
 	public String getShift(Model model,String id){
-		Map<String,Object>  shift=posShiftHistoryServiceApi.getShiftExt(id);
+		PosShiftHistoryExt  shift=posShiftHistoryServiceApi.getCalculationShiftInfo(id);
 		model.addAttribute("shift", shift);
 		return "pos/shiftDetail";
 	}
