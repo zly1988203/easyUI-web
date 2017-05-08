@@ -144,7 +144,6 @@ function selectOperator(){
 	});
 }
 function delModifyPriceDialog() {
-	debugger;
 	// 是否选择的datagrid的行，选择为true，未选择为false，则提示用户选择
 	// 确定删除，调用后台删除方法
 	var rows = $('#branchPriceAdjustGrid').datagrid('getSelections');
