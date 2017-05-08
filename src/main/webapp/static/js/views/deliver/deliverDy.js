@@ -923,6 +923,7 @@ function suggestSelectGoods(){
     		
     var jsonData = {
     		isFastDeliver:1,//直送商品
+    		formType:'DY',//直送商品
     		sourceBranchId:sourceBranchId,
     		targetBranchId:targetBranchId
         };
