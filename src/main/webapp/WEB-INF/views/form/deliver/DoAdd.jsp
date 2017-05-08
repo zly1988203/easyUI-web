@@ -20,6 +20,7 @@
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
             	<shiro:hasPermission name="JxcDeliverDO:add">
+            		<div class="ubtns-item" onclick="addDeliverForm()">新增</div>
                 	<div class="ubtns-item" onclick="saveOrder()">保存</div>
                 </shiro:hasPermission>
                 <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
@@ -35,8 +36,8 @@
                    <div class="ub">
                        <input type="hidden" id="sourceBranchId" name="sourceBranchId" value="${branchesGrow.targetBranchId}"  />
                        <input type="hidden" id="sourceBranchType" name="sourceBranchType" value="${branchesGrow.targetBranchType}"  />
-                       <input class="uinp ub ub-f1" type="text" id="sourceBranchName" name="sourceBranchName" value="${branchesGrow.targetBranchName}" readonly="readonly" onclick="selectSourchBranches()" />
-                       <div class="uinp-more" onclick="selectSourchBranches()">...</div>
+                       <input class="uinp ub ub-f1 selecBranchBtn" type="text" id="sourceBranchName" name="sourceBranchName" value="${branchesGrow.targetBranchName}" readonly="readonly" onclick="selectSourchBranches()" />
+                       <div class="uinp-more selecBranchBtn" onclick="selectSourchBranches()">...</div>
                    </div>
                </div>
                

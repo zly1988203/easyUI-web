@@ -882,6 +882,7 @@ function selectDeliver(){
         $("#DAremark").val(data.remark);
 		loadLists(referenceId);
 		selectTargetBranchData(data.targetBranchId);
+		$('.selecBranchBtn').removeAttr('onclick');
 	});
 }
 
@@ -1097,4 +1098,8 @@ function setData(){
             }
         }
     });
+}
+
+function addDeliverForm(){
+	toAddTab("新增出库单",contextPath + "/form/deliverForm/addDeliverForm?deliverType=DO");
 }
