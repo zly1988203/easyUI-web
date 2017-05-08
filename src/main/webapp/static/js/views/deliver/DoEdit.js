@@ -837,21 +837,23 @@ function selectDeliver(){
 		return;
 	}
 	var referenceId = "";
+	var refDeliverType = "";
     var param = {
         type:'DA'
     }
 	new publicDeliverFormService (param,function(data){
 		referenceId = data.id;
+		refDeliverType=data.formType;
 		$("#referenceId").val(referenceId);
 		$("#referenceNo").val(data.formNo);
 		$("#targetBranchId").val(data.targetBranchId);
 		$("#targetBranchName").val(data.targetBranchName);
-		loadLists(referenceId);
+		loadLists(referenceId,refDeliverType);
 	});
 }
-function loadLists(referenceId){
+function loadLists(referenceId,refDeliverType){
     $.ajax({
-        url:contextPath+"/form/deliverFormList/getDeliverFormLists?deliverFormId="+referenceId + "&deliverType=DO",
+        url:contextPath+"/form/deliverFormList/getDeliverFormLists?deliverFormId="+referenceId + "&deliverType=DO"+"&refDeliverType=" + refDeliverType,
         type:"post",
         success:function(data){
             var rows = data.rows
