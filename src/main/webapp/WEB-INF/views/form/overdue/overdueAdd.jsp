@@ -8,7 +8,7 @@
     <title>调价订单-新增</title>
 
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-    <script src="${ctx}/static/js/views/overdue/overdueAdd.js"></script>
+    <script src="${ctx}/static/js/views/overdue/overdueAdd.js?V=${versionNo}"></script>
  <style type="text/css">
     	.uw-60 {
 		    width: 76px;

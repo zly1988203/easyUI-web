@@ -4,7 +4,7 @@ pageEncoding="UTF-8"%>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
-<script src="${ctx}/static/js/views/goods/goodsArchivesEdit.js"></script>
+<script src="${ctx}/static/js/views/goods/goodsArchivesEdit.js?V=${versionNo}"></script>
 <style> 
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
 .tab-like{

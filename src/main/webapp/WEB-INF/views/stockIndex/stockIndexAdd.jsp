@@ -7,7 +7,7 @@
     <title>库存存量指标</title>
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
     <%-- <script  src="${ctx}/static/js/fun/publicComponent.js"></script> --%>
-    <script  src="${ctx}/static/js/views/stockIndex/stockIndexAdd.js?1=54"></script>
+    <script  src="${ctx}/static/js/views/stockIndex/stockIndexAdd.js?V=${versionNo}"></script>
     <style>
     .datagrid-header .datagrid-cell {text-align: center!important;font-weight: bold;}
     </style>

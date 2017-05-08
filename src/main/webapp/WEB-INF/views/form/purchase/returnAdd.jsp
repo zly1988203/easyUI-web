@@ -9,7 +9,7 @@
 <title>退货单-新增</title>
 
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="${ctx}/static/js/views/purchase/returnAdd.js?1=3"></script>
+<script src="${ctx}/static/js/views/purchase/returnAdd.js?V=${versionNo}"></script>
 
 </head>
 <body class=" uw uh ufs-14 uc-black upad-4 box-border">

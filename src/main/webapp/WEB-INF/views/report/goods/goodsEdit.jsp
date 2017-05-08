@@ -4,7 +4,7 @@
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
   
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
-<script src="${ctx}/static/js/views/report/goods/goodsEdit.js?1=13"></script>
+<script src="${ctx}/static/js/views/report/goods/goodsEdit.js?V=${versionNo}"></script>
 <style> 
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
 .tab-like{

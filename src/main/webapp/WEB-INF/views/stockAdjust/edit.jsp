@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>库存调整-编辑</title>
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-	<script src="${ctx}/static/js/views/stockAdjust/stockEdit.js"></script>
+	<script src="${ctx}/static/js/views/stockAdjust/stockEdit.js?V=${versionNo}"></script>
 	<style>
     .datagrid-header .datagrid-cell {text-align: center!important;font-weight: bold;}
     </style>

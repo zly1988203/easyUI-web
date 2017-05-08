@@ -9,7 +9,7 @@
     <title>入库单-编辑</title>
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-	<script src="${ctx}/static/js/views/deliver/DiEdit.js"></script>
+	<script src="${ctx}/static/js/views/deliver/DiEdit.js?V=${versionNo}"></script>
 	
 	<script src="${ctx}/static/js/views/deliver/deliverExport.js"></script>
 	<%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
