@@ -123,9 +123,9 @@
                     <div class="umar-r10 uw-70 ut-r">联系电话:</div>
                     <div class="utxt" id="mobile"></div>
                 </div>
-                 <div class="ub ub-ac umar-l50 uw-300">
+                 <div class="ub ub-ac umar-l50 ">
                     <div class="umar-r10 uw-70 ut-r">收货地址:</div>
-                    <div class="utxt" id="address"></div>
+                    <div class="utxt" id="address" style="width:auto"></div>
                 </div>
            </div>
            <%--datagrid-edit--%>
