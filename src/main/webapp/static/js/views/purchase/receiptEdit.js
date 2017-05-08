@@ -337,6 +337,8 @@ var i = 0;
 var j = 0;
 //监听商品箱数
 function onChangeLargeNum(newV,oldV){
+    var _skuName = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuName');
+    if(!_skuName)return;
 	if(m === 1 || i===1){
 		m = 0;
 		i = 0;
@@ -377,6 +379,8 @@ function onChangeLargeNum(newV,oldV){
 }
 //监听商品数量
 function onChangeRealNum(newV,oldV) {
+    var _skuName = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuName');
+    if(!_skuName)return;
 	if(n === 1 || j === 1){
 		n = 0;
 		j = 0;

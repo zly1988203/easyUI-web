@@ -473,7 +473,19 @@ var dateUtil = {
             date = '0' + date;
         }
         return date;
+    },
+
+    compareDate:function (startDate,endDate) {
+        var d1 = new Date(startDate.replace(/\-/g, "\/"));
+        var d2 = new Date(endDate.replace(/\-/g, "\/"));
+
+        if(startDate!=""&&endDate!=""&&d1 >=d2)
+        {
+            return true;
+        }
+        return false;
     }
+
 }
 
 // 对Date的扩展，将 Date 转化为指定格式的String

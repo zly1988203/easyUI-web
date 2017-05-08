@@ -360,6 +360,8 @@ var j = 0;
 
 //监听商品箱数
 function onChangeLargeNum(newV,oldV){
+    var _skuName = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuName');
+    if(!_skuName)return;
 	if(m === 1 || i===1){
 		m = 0;
 		i = 0;
@@ -401,6 +403,8 @@ function onChangeLargeNum(newV,oldV){
 }
 //监听商品数量
 function onChangeRealNum(newV,oldV) {
+    var _skuName = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuName');
+    if(!_skuName)return;
 	if(n === 1 || j === 1){
 		n = 0;
 		j = 0;
@@ -581,9 +585,15 @@ function saveItemHandel(){
             messager("第"+(i+1)+"行，货号不正确");
             isCheckResult = false;
             return false;
-        };
+        }
         if(parseFloat(v["price"])<=0&&v["isGift"]==0){
             isChcekPrice = true;
+        }
+
+        if(dateUtil.compareDate(v['goodsCreateDate'],v['goodsExpiryDate'])){
+            messager("第"+(i+1)+"行，生产日期不能大于有效日期");
+            isCheckResult = false;
+            return false;
         }
     });
     if(isCheckResult){
