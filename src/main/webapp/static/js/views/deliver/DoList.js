@@ -213,7 +213,12 @@ function queryForm(){
 
 //删除
 function delDeliverForm(){
+	var tab = $('#tabs').tabs('getSelected');
+	var index = $('#tabs').tabs('getTabIndex',tab);
 	var dg = $("#deliverFormList");
+	if(index == 1){
+		dg = $("#processedFormList")
+	}
 	var row = dg.datagrid("getChecked");
 	var ids = [];
 	for(var i=0; i<row.length; i++){
