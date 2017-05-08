@@ -8,7 +8,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>退货申请-修改</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script  src="${ctx}/static/js/views/deliver/refund/DrAdd.js?1=1"></script>
+<script  src="${ctx}/static/js/views/deliver/refund/DrAdd.js?V=${versionNo}"></script>
 <script src="${ctx}/static/js/views/deliver/deliverExport.js"></script>
 <%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
 </head>

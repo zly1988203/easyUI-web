@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>新增直送收货单</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="${ctx}/static/js/views/purchase/directReceipt/directReceipt.js"></script>
+<script src="${ctx}/static/js/views/purchase/directReceipt/directReceipt.js?V=${versionNo}"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
 	<input type='hidden' id="directStatus" value="add">

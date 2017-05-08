@@ -7,7 +7,7 @@
 	<title>商品属性批量修改</title>
 	
 	<%@ include file="/WEB-INF/views/include/header.jsp"%>
-	<script src="${ctx}/static/js/views/goods/goodsBatchUpdate.js"></script>
+	<script src="${ctx}/static/js/views/goods/goodsBatchUpdate.js?V=${versionNo}"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
 	<div class="ub ub-ver ub-f1 umar-4 ubor">

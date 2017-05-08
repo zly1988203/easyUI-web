@@ -11,6 +11,7 @@
 <c:set var="sessionSupplier" value="${sessionScope.session_default_supplier}"/>
 <c:set var="priceGrantStr" value="${user.priceGrant}"/>
 <c:set var="now" value="<%=new java.util.Date()%>" />
+	<c:set var="versionNo" value="v2.5.0_A02"/>
 <!-- title图标 -->
 <link rel="shortcut icon" href="${ctx}/static/images/okdeer_favicon.ico" type="image/x-icon"/>
 
@@ -41,7 +42,7 @@
 <script src="${ctx}/static/js/fun/baseEasyui.js"></script>
 <script src="${ctx}/static/js/fun/base.js"></script>
 <!-- 公共服务 -->
-<script src="${ctx}/static/js/fun/publicComponent.js"></script>
+<script src="${ctx}/static/js/fun/publicComponent.js?V=${versionNo}"></script>
 
 
 <script>

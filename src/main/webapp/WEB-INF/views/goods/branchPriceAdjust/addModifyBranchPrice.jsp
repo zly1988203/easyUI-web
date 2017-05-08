@@ -7,7 +7,7 @@
     <title>档案-新增调价单</title>
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
     
-	<script  src="${ctx}/static/js/views/goods/branchPriceAdjust/addModifyBranchPrice.js?1=1"></script>
+	<script  src="${ctx}/static/js/views/goods/branchPriceAdjust/addModifyBranchPrice.js?V=${versionNo}"></script>
     
 </head>
 <body class="ub uw uh ufs-14 uc-black">

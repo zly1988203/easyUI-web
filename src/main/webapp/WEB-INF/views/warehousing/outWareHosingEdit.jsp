@@ -9,7 +9,7 @@
     <title>采购订单-修改</title>
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-	<script src="${ctx}/static/js/views/warehousing/outWareHosingEdit.js"></script>
+	<script src="${ctx}/static/js/views/warehousing/outWareHosingEdit.js?V=${versionNo}"></script>
     
 </head>
 <body class="ub uw uh ufs-14 uc-black">

@@ -9,7 +9,7 @@
     <title>调价订单-修改</title>
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-	<script src="${ctx}/static/js/views/overdue/overdueEdit.js"></script>
+	<script src="${ctx}/static/js/views/overdue/overdueEdit.js?V=${versionNo}"></script>
     
     <%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
     <style type="text/css">

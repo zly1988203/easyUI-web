@@ -8,7 +8,7 @@
     <title>采购订单-新增</title>
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-	<script src="${ctx}/static/js/views/warehousing/outWareHosingAdd.js"></script>
+	<script src="${ctx}/static/js/views/warehousing/outWareHosingAdd.js?V=${versionNo}"></script>
     
 </head>
 <body class="ub uw uh ufs-14 uc-black">
