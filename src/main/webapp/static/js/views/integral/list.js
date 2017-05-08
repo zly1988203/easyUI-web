@@ -35,8 +35,16 @@ function initGrid() {
             {field: 'skuName', title: '礼品名称', width: '200px', align: 'left'},
             {field: 'barCode', title: '条码', width: '200px', align: 'left'},
             {field: 'branchName', title: '机构名称', width: '200px', align: 'left'},
-            {field: 'num', title: '兑换数量', width: '200px', align: 'right'},
-            {field: 'integral', title: '兑换积分值', width: '120px', align: 'right'},
+            {field: 'num', title: '兑换数量', width: '200px', align: 'right',
+            	formatter: function(value,row,index){
+            		return '<b>'+(value||0)+'</b>'
+            	}
+            },
+            {field: 'integral', title: '兑换积分值', width: '120px', align: 'right',
+            	formatter: function(value,row,index){
+            		return '<b>'+(value||0)+'</b>'
+            	}
+            },
             {field: 'status', title: '礼品状态', width:'120px', align: 'center',
                 formatter: function(value,row,index){
                     if (value==0){

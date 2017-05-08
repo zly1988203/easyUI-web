@@ -100,7 +100,6 @@ function editHandel(areaId,areaCode,areaName,branchId){
         areaName:areaName,
         branchId:branchId
     }
-    debugger;
     editDalogTemp = $('<div/>').dialog({
         href: contextPath+"/supplierArea/toEdit",
         width: 480,

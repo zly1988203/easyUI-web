@@ -46,7 +46,6 @@ function toUploadHandel(){
     if (typeof(uploadFileParams.batchId)!="undefined") {
     	formData.append("batchId",uploadFileParams.batchId);
     }
-    //debugger;
     if (typeof(uploadFileParams.branchIds)!="undefined") {
     	formData.append("branchIds",uploadFileParams.branchIds);
     }
