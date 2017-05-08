@@ -118,7 +118,7 @@
 			<div class="umar-r10 uw-70 ut-r"></div>
 				<label class="uc-blue">按各门店要货数量汇总进行采购。</label>
 				<br/>
-				<label class="uc-blue">订货数量＝ 要货总数－当前库存，取进货规格整数倍（大于订货数量的值）</label>
+				<label class="uc-blue">订货数量＝ 门店要货总数，取进货规格整数倍（大于订货数量的值）</label>
 			</div>
 		</div>
 		
@@ -132,9 +132,9 @@
 		<div class="ub">
 		<div class="ub ub-ac">
 			<div class="umar-r10 uw-70 ut-r"></div>
-				<label class="uc-blue">按各门店要货数量汇总进行采购。</label>
+				<label class="uc-blue">按各门店直送要货数量汇总进行采购。</label>
 				<br/>
-				<label class="uc-blue">订货数量＝ 要货总数－当前库存，取进货规格整数倍（大于订货数量的值）</label>
+				<label class="uc-blue">订货数量＝ 门店直送要货总数，取进货规格整数倍（大于订货数量的值）</label>
 			</div>
 		</div>
 		
@@ -150,7 +150,7 @@
 			<div class="umar-r10 uw-70 ut-r"></div>
 				<label class="uc-blue">将门店的直送要货单按供应商分解成各个供应商的订单，且订单指定送货地点为门店。</label>
 				<br/>
-				<label class="uc-blue">订货数量＝ 要货数量－当前库存，取进货规格整数倍（大于订货数量的值）</label>
+				<label class="uc-blue">订货数量＝ 门店直送要货数量，取进货规格整数倍（大于订货数量的值）</label>
 			</div>
 		</div>
 	
