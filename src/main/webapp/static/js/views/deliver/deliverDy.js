@@ -160,7 +160,7 @@ function initDatagridRequireOrder(){
             /*{field:'twoCategoryCode',title:'类别编号',width:'90px',align:'left'},
             {field:'twoCategoryName',title:'类别名称',width:'90px',align:'left'},*/
             {field:'distributionSpec',title:'配送规格',width:'80px',align:'left'},
-            {field:'suggestNum',title:'建议订货数量',width:'80px',align:'right',
+            {field:'suggestNum',title:'建议订货数量',width:'80px',align:'right',hidden:$('#suggestBtn')?true:false,
             	formatter:function(value,row,index){
             		if(!value){
             			row['suggestNum'] = 0;
@@ -408,8 +408,7 @@ var n = 0;
 var m = 0;
 //监听商品箱数
 function onChangeLargeNum(newV,oldV){
-    var _skuName = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuName');
-    if(!_skuName)return;
+	//if(!oldV)return;
 	if("" == newV){
 		m = 2;
 		 messager("商品箱数输入有误");
@@ -457,8 +456,7 @@ function onChangeLargeNum(newV,oldV){
 }
 //监听商品数量
 function onChangeRealNum(newV,oldV) {
-    var _skuName = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuName');
-    if(!_skuName)return;
+	//if(!oldV)return;
 	if("" == newV){
 		 n= 2;
 		 messager("商品数量输入有误");

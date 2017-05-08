@@ -20,7 +20,7 @@
                 </shiro:hasPermission>
                 <div class="ubtns-item" id="selectGoods" onclick="selectGoods()">商品选择</div>
                 <shiro:hasPermission name="JxcDeliverDA:suggest">
-                <div class="ubtns-item init" onclick="suggestSelectGoods()">建议订货商品</div>
+                    <div class="ubtns-item init" id="suggestBtn" onclick="suggestSelectGoods()">建议订货商品</div>
                 </shiro:hasPermission>
                 <div class="ubtns-item" id="importsukcode" onclick="toImportproduct(0)">导入货号</div>
             	<div class="ubtns-item" id="importbarcode" onclick="toImportproduct(1)">导入条码</div>
@@ -84,7 +84,8 @@
                 	<input class="uinp ub " type="text" id="remark"  name="remark">
                   <!--<textarea rows="2" cols="100" class="uinp ub ub-f1"  id="remark" name="remark"></textarea> -->
                </div>
-               <div class="ub ub-ac umar-l30">
+               <div class="ub ub-ac umar-l30 uw-292">
+               <shiro:hasPermission name="JxcDeliverDA:suggest">
 	                <div class="umar-r10 uw-60 ut-r">数量处理:</div>
 	                <div class="ub ub-ac umar-r10">
 	                    <input class="radioItem" type="radio" name="numDeal" id="status_1" value="0"><label for="status_1">设置为建议订货数量 </label>
@@ -92,6 +93,7 @@
 	                <div class="ub ub-ac umar-r10">
 	                    <input class="radioItem" type="radio" name="numDeal" id="status_2" value="1"><label for="status_2">重新归零 </label>
 	                </div>
+	           </shiro:hasPermission>
 	           </div>
                <div class="ub ub-ac umar-l16">
                    <div class="umar-r10 uw-70 ut-r">审核人员:</div>
