@@ -590,11 +590,11 @@ function saveItemHandel(){
             isChcekPrice = true;
         }
 
-        if(dateUtil.compareDate(v['goodsCreateDate'],v['goodsExpiryDate'])){
-            messager("第"+(i+1)+"行，生产日期不能大于有效日期");
-            isCheckResult = false;
-            return false;
-        }
+        // if(dateUtil.compareDate(v['goodsCreateDate'],v['goodsExpiryDate'])){
+        //     messager("第"+(i+1)+"行，生产日期不能大于有效日期");
+        //     isCheckResult = false;
+        //     return false;
+        // }
     });
     if(isCheckResult){
         if(isChcekPrice){
