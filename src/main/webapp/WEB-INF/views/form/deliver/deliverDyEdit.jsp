@@ -23,7 +23,7 @@
 				<div class="ubtns-item-disabled" >终止</div>
 				<div class="ubtns-item" onclick="selectGoods()">商品选择</div>
 				<shiro:hasPermission name="JxcDeliverDY:suggest">
-				<div class="ubtns-item init" onclick="suggestSelectGoods()">建议订货商品</div>
+				<div class="ubtns-item init" id="suggestBtn" onclick="suggestSelectGoods()">建议订货商品</div>
 				</shiro:hasPermission>
 				<div class="ubtns-item" onclick="delDeliverForm()">删除</div>
 				<div class="ubtns-item" onclick="exportData('DY','gridRequireOrder')">导出</div>
@@ -68,7 +68,8 @@
                     <div class="uinp-more" onclick="selectSourceBranch()">...</div>
                 </div>
             </div>
-            <div class="ub ub-ac umar-l40">
+            <div class="ub ub-ac umar-l40 uw-300">
+            <shiro:hasPermission name="JxcDeliverDY:suggest">
                 <div class="umar-r10 uw-60 ut-r">数量处理:</div>
                 <div class="ub ub-ac umar-r10">
                     <input class="radioItem" type="radio" name="numDeal" id="status_1" value="0"><label for="status_1">设置为建议订货数量 </label>
@@ -76,6 +77,7 @@
                 <div class="ub ub-ac umar-r10">
                     <input class="radioItem" type="radio" name="numDeal" id="status_2" value="1"><label for="status_2">重新归零 </label>
                 </div>
+            </shiro:hasPermission>
             </div>
             <div class="ub ub-ac uw-300 umar-l70">
 				<div class="umar-r10 uw-80 ut-r">最后修改人:</div>
