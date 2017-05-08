@@ -408,7 +408,8 @@ var n = 0;
 var m = 0;
 //监听商品箱数
 function onChangeLargeNum(newV,oldV){
-	//if(!oldV)return;
+    var _skuName = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuName');
+    if(!_skuName)return;
 	if("" == newV){
 		m = 2;
 		 messager("商品箱数输入有误");
@@ -448,7 +449,8 @@ function onChangeLargeNum(newV,oldV){
 }
 //监听商品数量
 function onChangeRealNum(newV,oldV,event) {
-	//if(!oldV)return;
+    var _skuName = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuName');
+    if(!_skuName)return;
 	if("" == newV){
 		n= 2;
 		 messager("商品数量输入有误");
@@ -502,8 +504,8 @@ function onChangeRealNum(newV,oldV,event) {
 
 //监听是否赠品
 function onSelectIsGift(data){
-    var nowRows = gridHandel.getRowsWhere({skuName:'1'})
-    if(nowRows.length <= 0)return;
+    var _skuName = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuName');
+    if(!_skuName)return;
 
     var checkObj = {
         skuCode: gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'skuCode'),

@@ -294,6 +294,8 @@ var n = 0;
 var m = 0;
 //监听商品箱数
 function onChangeLargeNum(newV,oldV){
+    var _skuName = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuName');
+    if(!_skuName)return;
 	if("" == newV){
 		 messager("商品箱数输入有误");
 		  gridHandel.setFieldValue('largeNum',oldV); 
@@ -341,6 +343,8 @@ function onChangeLargeNum(newV,oldV){
 }
 //监听商品数量
 function onChangeRealNum(newV,oldV) {
+    var _skuName = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuName');
+    if(!_skuName)return;
 	if("" == newV){
 		 messager("商品数量输入有误");
 		 gridHandel.setFieldValue('realNum',oldV);
