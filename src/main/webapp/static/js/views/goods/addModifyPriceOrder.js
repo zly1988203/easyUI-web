@@ -1247,6 +1247,7 @@ function toImportproduct(type){
         type:type,
         branchId:branchId,
     }
+
     new publicUploadFileService(function(data){
         updateListData(data);
     },param)
@@ -1254,7 +1255,17 @@ function toImportproduct(type){
 
 function updateListData(data){
 
+    var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
     if(data.length>0){
+
+        if(nowRows.length <=0){
+            $("#retailPrice").removeProp("checked");
+            datagridUtil.isCheckBoxChecked('retailPrice');
+
+            $("#memberPrice").removeProp("checked");
+            datagridUtil.isCheckBoxChecked('memberPrice');
+        }
+
         var arrKey =
             {"newPurPrice":"purchasePrice",
                 "newSalePrice":"retailPrice",
@@ -1273,7 +1284,7 @@ function updateListData(data){
         })
     }
 
-    var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
+
     var addDefaultData  = gridHandel.addDefault(data,gridDefault);
     var keyNames = {
         purchasePrice : 'oldPurPrice',
