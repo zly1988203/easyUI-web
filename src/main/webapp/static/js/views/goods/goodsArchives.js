@@ -349,7 +349,7 @@ var dialogLeft = $(window).width()*(1/5);
 function openDialog(argUrl,argTitle,argType,params) {
     dalogTemp = $('<div/>').dialog({
         href: argUrl,
-        // width: dialogWidth,
+         width: dialogWidth,
         height: dialogHeight,
         left:dialogLeft,
         title: argTitle,
