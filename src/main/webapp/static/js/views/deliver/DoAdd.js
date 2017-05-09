@@ -866,6 +866,7 @@ function selectSourchBranches(){
 var isSelectDeliver = false;    //true导入的是要货单号
 function selectDeliver(){
 	var referenceId = "";
+	var refDeliverType = "";
 	var orderStatus = $('input[name="order_status"]:checked').val();
     var param = {
         type:orderStatus
@@ -873,6 +874,7 @@ function selectDeliver(){
 	new publicDeliverFormService(param,function(data){
         isSelectDeliver = true;
 		referenceId = data.id;
+		refDeliverType=data.formType;
 		$("#referenceId").val(referenceId);
 		$("#referenceNo").val(data.formNo);
 		$("#targetBranchId").val(data.targetBranchId);
@@ -880,7 +882,7 @@ function selectDeliver(){
 		$("#sourceBranchId").val(data.sourceBranchId);
 		$("#sourceBranchName").val(data.sourceBranchName);
         $("#DAremark").val(data.remark);
-		loadLists(referenceId);
+		loadLists(referenceId,refDeliverType);
 		selectTargetBranchData(data.targetBranchId);
 		$('.selecBranchBtn').removeAttr('onclick');
 	});
@@ -902,9 +904,9 @@ function selectTargetBranchData(targetBranchId){
 	    });
 }
 
-function loadLists(referenceId){
+function loadLists(referenceId,refDeliverType){
     $.ajax({
-        url:contextPath+"/form/deliverFormList/getDeliverFormLists?deliverType=DO&deliverFormId="+referenceId,
+        url:contextPath+"/form/deliverFormList/getDeliverFormLists?deliverType=DO&deliverFormId="+referenceId+"&refDeliverType=" + refDeliverType,
         type:"post",
         success:function(data){
             var rows = data.rows;
