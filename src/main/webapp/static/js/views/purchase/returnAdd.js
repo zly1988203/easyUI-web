@@ -517,12 +517,12 @@ function saveItemHandel(){
         return;
     }
     
-    var branchType = $("#branchType").val();
-    if(!branchType){
+    var branchId = $("#branchId").val();
+    if(!branchId){
     	messager("请选择退货机构!");
     	return;
     }
-    if(branchType=='0'){
+    if(branchId=='0'){
     	messager("退货机构不能选择总部!");
     	return;
     }
