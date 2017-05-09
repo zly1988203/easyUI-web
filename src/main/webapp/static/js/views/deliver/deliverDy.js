@@ -160,7 +160,7 @@ function initDatagridRequireOrder(){
             /*{field:'twoCategoryCode',title:'类别编号',width:'90px',align:'left'},
             {field:'twoCategoryName',title:'类别名称',width:'90px',align:'left'},*/
             {field:'distributionSpec',title:'配送规格',width:'80px',align:'left'},
-            {field:'suggestNum',title:'建议订货数量',width:'80px',align:'right',hidden:$('#suggestBtn')?true:false,
+            {field:'suggestNum',title:'建议订货数量',width:'80px',align:'right',hidden:!$('#suggestBtn').attr('data-role')?true:false,
             	formatter:function(value,row,index){
             		if(!value){
             			row['suggestNum'] = 0;

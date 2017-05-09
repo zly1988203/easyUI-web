@@ -76,7 +76,7 @@
                </div>
                
                <div class="ub ub-ac uw-300 umar-l30">
-                   <div class="umar-r10 uw-70 ut-r">要货单号:</div>
+                   <div class="umar-r10 uw-70 ut-r">引用单号:</div>
                    <div class="ub">
                        <input type="hidden" id="referenceId" name="referenceId" value="${referenceId}" />
                        <input class="uinp ub ub-f1" type="text" id="referenceNo" name="referenceNo" onclick="selectDeliver()" readonly="readonly"/>
@@ -101,7 +101,7 @@
                </div>
                
                <div class="ub ub-ac uw-300 umar-l24">
-                    <div class="uw-80 ut-r10 umar-r4">要货单备注:&nbsp;</div>
+                    <div class="uw-80 ut-r10 umar-r4">原单备注:&nbsp;</div>
                     <input class="uinp" type="text" id="DAremark" name="DAremark"  readonly="readonly">
                 </div>
                 
