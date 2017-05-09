@@ -106,25 +106,6 @@
         </div>
        </div>
 
- <!-- 导入弹框 -->
-      <div class="uabs uatk">
-     	<div class="ubtn uw-100 umar-10" onclick="exportTemp()" id="temple"></div>
-     	<form id="uploadForm" method="post" enctype="multipart/form-data">
-     	<input type="hidden" name="branchId" id="uploadFormBranchId">
-		<input type="hidden" name="type" id="uploadFormType">
-		<input type="hidden" name="status" id="status_3" value="1">
-         <div class="uacon">
-			 <input class="uinp ub" id="filename" type="text">
-			 <label class="ualable">选择文件
-				 <input type="file" class="uafile" value=""  name="file" id="excelFile" />
-			 </label>
-		 </div>
-         <div class="uabtns ">
-     	 	<button class="uabtn umar-r30" onclick="importListHandel()">导入</button>
-     	 	<div class="uabtn" onclick="importClose()" >取消</div>
-     	 </div>
-     	 </form>
-     </div>
     </div>
 </body>
 </html>

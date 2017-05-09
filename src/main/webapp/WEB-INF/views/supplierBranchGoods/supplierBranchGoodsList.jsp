@@ -77,21 +77,7 @@
 			<table id="gridSupplierArchiveList" ></table>
 		</div>
 	</div>
-	<!-- 导入弹框 -->
-	<!-- 导入弹框 -->
-    <div class="uabs uatk">
-     	<div class="uatit">导入文件选择</div>
-         <div class="uacon">
-         	<input class="uinp ub" id="filename" type="text" readonly="readonly">
-         	<label class="ualable">选择文件
-         		<input type="file" class="uafile" value="" name="xlfile" id="xlf" readonly="readonly"/>
-         	</label>
-         </div>
-         <div class="uabtns ">
-     	 	<button class="uabtn umar-r30" onclick="importHandel()">导入</button>
-     	 	<button class="uabtn" onclick="uaclose()" >取消</button>
-     	 </div>
-     </div>
+
 </div>
 </body>
 </html>
