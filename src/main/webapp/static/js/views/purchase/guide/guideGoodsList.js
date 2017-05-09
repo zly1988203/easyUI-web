@@ -176,7 +176,7 @@ function initPurchaseGuideGoodsListDg(){
                 },
 			},
             
-            {field:'totalNum',title:'要贷数量',width:100,align:'right',hidden:isType_three,
+            {field:'totalNum',title:'要货数量',width:100,align:'right',hidden:isType_three,
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return;
