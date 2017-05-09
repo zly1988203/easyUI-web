@@ -343,7 +343,7 @@ function addGoodsView(){
 }
 var  dalogTemp;
 var dialogHeight = $(window).height()*(4/5);
-var dialogWidth = $(window).width()*(2/3);
+var dialogWidth = $(window).width()*(5/9);
 var dialogLeft = $(window).width()*(1/5);
 //打开Dialog
 function openDialog(argUrl,argTitle,argType,params) {
