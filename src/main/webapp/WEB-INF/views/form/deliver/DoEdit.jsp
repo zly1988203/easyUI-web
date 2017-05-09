@@ -106,7 +106,7 @@
                     <input class="uinp" type="text" id="remark" name="remark" value="${form.remark}" >
                 </div>
                 <div class="ub ub-ac uw-300 umar-l20">
-                    <div class="uw-80 ut-r10">要货单备注:</div>
+                    <div class="uw-80 ut-r10">原单备注:</div>
                     <input class="uinp" type="text" id="DAremark" name="DAremark" value="${form.daRemark}" readonly="readonly">
                 </div>
                 <div class="ub ub-ac  umar-l20">

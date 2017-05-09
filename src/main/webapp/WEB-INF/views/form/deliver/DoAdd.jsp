@@ -101,7 +101,7 @@
                </div>
                
                <div class="ub ub-ac uw-300 umar-l24">
-                    <div class="uw-80 ut-r10 umar-r4">要货单备注:&nbsp;</div>
+                    <div class="uw-80 ut-r10 umar-r4">原单备注:&nbsp;</div>
                     <input class="uinp" type="text" id="DAremark" name="DAremark"  readonly="readonly">
                 </div>
                 
