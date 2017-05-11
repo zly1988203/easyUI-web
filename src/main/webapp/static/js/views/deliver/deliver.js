@@ -502,8 +502,8 @@ function onChangeRealNum(newV,oldV,event) {
 
 //监听是否赠品
 function onSelectIsGift(data){
-    var nowRows = gridHandel.getRowsWhere({skuName:'1'})
-    if(nowRows.length <= 0)return;
+	var _skuName = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuName');
+    if(!_skuName)return;
 
     var checkObj = {
         skuCode: gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'skuCode'),
