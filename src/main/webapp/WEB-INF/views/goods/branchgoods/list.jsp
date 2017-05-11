@@ -84,7 +84,7 @@
 	                <div class="ub ub-ac umar-r10 checkstatue">
 	                    <label for="status_2"><input class="radioItem" type="radio" name="status" value="2" id="status_2"/>所有</label>
 	                </div>
-					<input type="hidden" name="status" id="status_3" value="1">
+					<input type="hidden" id="status_3" value="1">
 	            </div>
 	        </div>
 	        <div class="ub umar-t8">
