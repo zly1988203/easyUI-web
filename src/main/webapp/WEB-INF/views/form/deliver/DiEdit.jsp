@@ -35,8 +35,10 @@
                     <div class="ubtns-item" onclick="printChoose('DI','/form/deliverForm/')">打印</div>
                 </shiro:hasPermission>
                 <div class="ubtns-item"  onclick="exportData('DI','gridEditRequireOrder')">导出明细</div>
-                <div class="ubtns-item" onclick="importproductAll()">导入明细</div>
-                <div class="ubtns-item" onclick="importproduct()">导入货号</div>
+                <!--onclick="importproductAll()"  -->
+                <div class="ubtns-item-disabled" >导入明细</div>
+                <!-- onclick="importproduct()"  -->
+                <div class="ubtns-item-disabled" >导入货号</div>
                 <div class="ubtns-item" onclick="toClose()">关闭</div>
             </div>
         </div>

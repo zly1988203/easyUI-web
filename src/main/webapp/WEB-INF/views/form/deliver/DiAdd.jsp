@@ -18,8 +18,8 @@
                 	<div class="ubtns-item" onclick="saveOrder()">保存</div>
                 </shiro:hasPermission>
                 <div class="ubtns-item-disabled">商品选择</div>
-                <div class="ubtns-item">导入货号</div>
-                <div class="ubtns-item">导入条码</div>
+                <div class="ubtns-item-disabled">导入货号</div>
+                <div class="ubtns-item-disabled">导入条码</div>
                 <div class="ubtns-item" onclick="toClose()">关闭</div>
             </div>
         </div>
