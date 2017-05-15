@@ -370,6 +370,10 @@ function choosemmsTab(type){
 var hasClickTab = false;
 //点击买满送tab 控制页面内容显示
 function clickmmsTab(type){
+	//买满条件
+    gridHandelT.endEditRow();
+    gridHandel.endEditRow();
+	  
 	$("#mmsTab").find("li").removeClass("tabs-selected").eq(type-1).addClass("tabs-selected");
 	var tabtext = $("#mmsTab").find("li.tabs-selected .tabs-title").text();
 	//类别 - 商品
@@ -385,12 +389,10 @@ function clickmmsTab(type){
 		//赠品信息
 		$("#area1").addClass("unhide");
 		$("#area2").removeClass("unhide");
-		if(!hasClickTab){
-			hasClickTab = true;
-			gridHandelT.setLoadData([$.extend({},mmsTJDefault)]);
-			gridHandel.setLoadData([$.extend({},gridDefaultG)]);
-			
-		}
+		var rowst = gridHandelT.getRows();
+		var rowsg = gridHandel.getRows();
+		gridHandelT.setLoadData(rowst);
+		gridHandel.setLoadData(rowsg);
 	}
 }
 
@@ -2931,7 +2933,7 @@ function saveActivity(){
 		  
 		  if(!(mmsTJObj.goodsGiftList && mmsTJObj.goodsGiftList.length >0)){
 			  $.messager.alert('提示','买满条件第'+(i+1)+'行，未选择赠品！','',function(){});
-			  return  ;
+			  return  false;
 		  }else{
 			  var gifts = mmsTJObj.goodsGiftList;
 			  for(var x = 0; x < gifts.length ; x++){
@@ -3190,8 +3192,9 @@ function saveDataHandel(rows,setrows){
   }
   
   var req = JSON.stringify(reqObj);
+  //return; 
   gFunStartLoading();
- // return; 
+ 
   $.ajax({
       url:contextPath+"/sale/activity/save",
       type:"POST",
