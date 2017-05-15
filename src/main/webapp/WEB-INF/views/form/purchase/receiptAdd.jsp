@@ -99,6 +99,7 @@
 					<input id="remark" class="uinp" type="text" style="width: 800px">
 				</div>
 			</div>
+		<input name="refFormId" id="refFormId" type="hidden" value="${form.id}">
 		</form>
 		<input class="uinp" name="formId" id="formId" type="hidden"
 			value="${form.id}">
