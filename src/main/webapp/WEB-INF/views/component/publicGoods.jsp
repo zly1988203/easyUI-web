@@ -11,7 +11,7 @@ pageEncoding="UTF-8"%>
         <div class="ub ub-f1">
             <div class="ub ub-ver uw-200">
                 <div class="upad-4">
-                    <select id="goodsType" class="easyui-combobox uselect"></select>
+                    <select id="goodsType" class="uselect"></select>
                 </div>
                 <div class="ubor-b "></div>
                 <div class="ub ubor ub-f1 uscroll uh-200">

@@ -83,15 +83,25 @@ $(
             function zTreeOnClick(event, treeId, treeNode) {
                 categoryCode=treeNode.code;
                 var text =  $("#goodsType").combobox('getText');
+                var type = $('#type').val();
                 if(text =='类别'){
                     brandId = "";
                     supplierId = "";
+                    // 如果为直送收货，类别需求加入供商商条件，其他单据商品选择与供应商无关
+                    if(type != 'PM'){
+                    	fromParams.supplierId = "";
+                    }
                 }else if(text =="品牌"){
                     brandId = treeNode.id;
                     supplierId = "";
+                    // 如果为直送收货，品牌需求加入供商商条件，其他单据商品选择与供应商无关
+                    if(type != 'PM'){
+                    	fromParams.supplierId = "";
+                    }
                 }else if(text=="供应商"){
                     brandId = "";
                     supplierId = treeNode.id;
+                    fromParams.supplierId = supplierId;
                 }
 
                 /***

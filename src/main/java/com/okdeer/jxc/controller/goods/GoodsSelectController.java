@@ -206,18 +206,27 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 		//2、判断选择机构类型为店铺还是分公司,type : 机构类型(0.总部、1.分公司、2.物流中心、3.自营店、4.加盟店B、5.加盟店C)
 		if(type ==Constant.THREE || type ==Constant.FOUR || type ==Constant.FIVE){
 			Integer count = goodsSupplierBranchServiceApi.queryCountByBranchIdAndSupplierId(branchId, supplierId);
-			if(count>0){
-				//2.1 如果供应商机构商品关系存在
-				suppliers = goodsSelectServiceApi.queryPurchaseGoodsLists(vo);
-			}else{
-				//2.2 如果供应商机构商品关系不存在,需要查询该机构上级分公司
-				vo.setParentId(branches.getParentId());
-				vo.setBranchId(branchId);
-				suppliers = goodsSelectServiceApi.queryBranchPurchaseGoodsLists(vo);
-			}
-		}else{
-			suppliers = goodsSelectServiceApi.queryPurchaseGoodsLists(vo);
-		}
+            if (count == 0) {
+			    //2.2 如果供应商机构商品关系不存在,需要查询该机构上级分公司
+			    vo.setParentId(branches.getParentId());
+			    vo.setBranchId(branchId);
+			} 
+		} 
+		suppliers = goodsSelectServiceApi.queryPurchaseGoodsLists(vo);
+//		if(type ==Constant.THREE || type ==Constant.FOUR || type ==Constant.FIVE){
+//			Integer count = goodsSupplierBranchServiceApi.queryCountByBranchIdAndSupplierId(branchId, supplierId);
+//			if(count>0){
+//				//2.1 如果供应商机构商品关系存在
+//				suppliers = goodsSelectServiceApi.queryPurchaseGoodsLists(vo);
+//			}else{
+//				//2.2 如果供应商机构商品关系不存在,需要查询该机构上级分公司
+//				vo.setParentId(branches.getParentId());
+//				vo.setBranchId(branchId);
+//				suppliers = goodsSelectServiceApi.queryBranchPurchaseGoodsLists(vo);
+//			}
+//		}else{
+//			suppliers = goodsSelectServiceApi.queryPurchaseGoodsLists(vo);
+//		}
 		return suppliers;
 	}
 
@@ -278,7 +287,14 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 				paramVo.setAllowActivity(alowActivity);
 				paramVo.setAllowAdjustPrice(allowAdjustPrice);
 				paramVo.setBranchIds(branchIds);
-				suppliers = goodsSelectServiceApi.queryByCodeListsByVo(paramVo);
+				if(FormType.PM.name().equals(type)){
+				    // 如果为直送收货，且供应商不是主供应商时，查询出其他供就商也存在的商品
+				    paramVo.setPageNumber(1);
+				    paramVo.setPageSize(1);
+				    suppliers = queryPurchaseGoods(paramVo).getList();
+				}else{
+				    suppliers = goodsSelectServiceApi.queryByCodeListsByVo(paramVo);
+				}
 			}
 			LOG.debug("根据货号查询商品:{}" + suppliers.toString());
 			return suppliers;
