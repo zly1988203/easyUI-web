@@ -196,10 +196,18 @@ public class StockReportController extends BaseController<StockReportController>
 		if (StringUtils.isNotBlank(categoryNameCode) && categoryNameCode.contains("[") && categoryNameCode.contains("]")) {
 			qo.setCategoryNameOrCode(null);
 		}
-		
+
 		// 默认当前机构
 		if (StringUtils.isBlank(qo.getBranchCode()) && StringUtils.isBlank(qo.getBranchNameOrCode())) {
-			qo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
+			/**
+			 * 2.5.3  默认查询当前分公司
+			 */
+			if(UserUtil.getCurrBranchType()==0||UserUtil.getCurrBranchType()==1||UserUtil.getCurrBranchType()==1){
+				qo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
+			}else{
+				String branchCompleCode=UserUtil.getCurrBranchCompleCode();
+				qo.setBranchCompleCode(branchCompleCode.substring(0, branchCompleCode.length()-5));
+			}
 		}
 
 		return qo;

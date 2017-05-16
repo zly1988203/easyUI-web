@@ -1200,9 +1200,9 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 			String[] field = null;
 
 			if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {// 货号
-				field = new String[] { "skuCode", "realNum", "price", "ingoreAmount", "isGift" };
+				field = new String[] { "skuCode", "realNum", "price",  "isGift" };
 			} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {// 条码
-				field = new String[] { "barCode", "realNum", "price", "ingoreAmount", "isGift" };
+				field = new String[] { "barCode", "realNum", "price", "isGift" };
 			}
 
 			GoodsSelectImportVo<GoodsSelect> vo = goodsSelectImportComponent.importSelectGoods(fileName, is, field,
@@ -1295,11 +1295,11 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 		String[] columns = null;
 
 		if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {// 货号
-			columns = new String[] { "skuCode", "realNum", "price", "ingoreAmount", "isGift" };
-			headers = new String[] { "货号", "数量", "单价", "金额", "是否赠品" };
+			columns = new String[] { "skuCode", "realNum", "price", "isGift" };
+			headers = new String[] { "货号", "数量", "单价", "是否赠品" };
 		} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {// 条码
-			columns = new String[] { "barCode", "realNum", "price", "ingoreAmount", "isGift" };
-			headers = new String[] { "条码", "数量", "单价", "金额", "是否赠品" };
+			columns = new String[] { "barCode", "realNum", "price", "isGift" };
+			headers = new String[] { "条码", "数量", "单价", "是否赠品" };
 		}
 
 		goodsSelectImportComponent.downloadErrorFile(code, reportFileName, headers, columns, response);
