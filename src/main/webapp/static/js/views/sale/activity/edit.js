@@ -412,6 +412,10 @@ function choosemmsTab(type){
 var hasClickTab = false;
 //点击买满送tab 控制页面内容显示
 function clickmmsTab(type){
+	//买满条件
+    gridHandelT.endEditRow();
+    gridHandel.endEditRow();
+    
 	$("#mmsTab").find("li").removeClass("tabs-selected").eq(type-1).addClass("tabs-selected");
 	var tabtext = $("#mmsTab").find("li.tabs-selected .tabs-title").text();
 	//类别 - 商品
@@ -430,6 +434,11 @@ function clickmmsTab(type){
 		if(!hasClickTab){
 			hasClickTab = true;
 			$("#mmsgradedList").datagrid("load");
+		}else{
+			var rowst = gridHandelT.getRows();
+			var rowsg = gridHandel.getRows();
+			gridHandelT.setLoadData(rowst);
+			gridHandel.setLoadData(rowsg);
 		}
 	}
 }

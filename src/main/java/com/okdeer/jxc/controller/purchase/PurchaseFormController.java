@@ -20,6 +20,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -684,17 +685,18 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 			ReceiptFormVo formVo = JSON.parseObject(jsonText, ReceiptFormVo.class);
 			
 			//不是引用订单收货，需要验证
-			/*if(!com.okdeer.jxc.common.utils.StringUtils.isBlank(formVo.getRefFormNo())){
+			if(StringUtils.isNotBlank(formVo.getRefFormNo())){
 				List<String> skuIds = new ArrayList<String>();
 				List<PurchaseFormDetailVo> detailList = formVo.getDetailList();
 				for (PurchaseFormDetailVo detailVo : detailList) {
 					skuIds.add(detailVo.getSkuId());
 				}
-				RespJson resp = saveValid(skuIds,formVo.getBranchId());
+				//RespJson resp = saveValid(skuIds,formVo.getBranchId());
+				RespJson resp = validReceiptItem(skuIds, formVo.getRefFormId());
 				if(!resp.isSuccess()){
 					return resp;
 				}
-			}*/
+			}
 
 
 			PurchaseForm form = new PurchaseForm();
@@ -826,17 +828,18 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 		ReceiptFormVo formVo = JSON.parseObject(jsonText, ReceiptFormVo.class);
 		
 		//不是引用订单收货，需要验证
-		/*if(!com.okdeer.jxc.common.utils.StringUtils.isBlank(formVo.getRefFormNo())){
+		if(StringUtils.isNotBlank(formVo.getRefFormNo())){
 			List<String> skuIds = new ArrayList<String>();
 			List<PurchaseFormDetailVo> detailList = formVo.getDetailList();
 			for (PurchaseFormDetailVo detailVo : detailList) {
 				skuIds.add(detailVo.getSkuId());
 			}
-			RespJson resp = saveValid(skuIds,formVo.getBranchId());
+			//RespJson resp = saveValid(skuIds,formVo.getBranchId());
+			RespJson resp = validReceiptItem(skuIds, formVo.getRefFormId());
 			if(!resp.isSuccess()){
 				return resp;
 			}
-		}*/
+		}
 
 		PurchaseForm form = new PurchaseForm();
 		BeanUtils.copyProperties(formVo, form);
@@ -868,6 +871,32 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 		RespJson respJson = purchaseFormServiceApi.update(form, list);
 		return respJson;
 	}
+    /***
+     * 
+     * @Description: 验证采购退货商品项
+     * @param skuIds
+     * @param formId
+     * @return
+     * @author xuyq
+     * @date 2017年5月12日
+     */
+    public RespJson validReceiptItem(List<String> skuIds, String formId) {
+        List<PurchaseFormDetailPO> list = purchaseFormServiceApi.selectDetailById(formId);
+        if ((CollectionUtils.isNotEmpty(skuIds) && CollectionUtils.isNotEmpty(list) && skuIds.size() != list.size()) || CollectionUtils.isEmpty(list)) {
+            return RespJson.error("已选采购单号，不允许添加其他商品");
+        }
+        Map<String, PurchaseFormDetailPO> tempMap = new HashMap<String, PurchaseFormDetailPO>();
+        for (PurchaseFormDetailPO pdPo : list) {
+            tempMap.put(pdPo.getSkuId(), pdPo);
+        }
+        for (String skuId : skuIds) {
+            PurchaseFormDetailPO pdPo = tempMap.get(skuId);
+            if (pdPo == null) {
+                return RespJson.error("已选采购单号，不允许添加其他商品");
+            }
+        }
+        return RespJson.success();
+    }
 
 	/**
 	 * 修改单据

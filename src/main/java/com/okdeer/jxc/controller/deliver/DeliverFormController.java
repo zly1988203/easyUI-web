@@ -463,6 +463,19 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		LOG.debug(LogConstant.OUT_PARAM, formVo);
 		try {
 			DeliverFormVo vo = new ObjectMapper().readValue(formVo, DeliverFormVo.class);
+			//配送出库，入库，如果引用订单，需要验证商品条目
+            if ((FormType.DI.toString().equals(vo.getFormType()) || FormType.DO.toString().equals(vo.getFormType()))
+                    && StringUtils.isNotBlank(vo.getReferenceNo())) {
+			    List<String> skuIds = new ArrayList<String>();
+			    List<DeliverFormListVo> deliverFormListVo = vo.getDeliverFormListVo();
+			    for (DeliverFormListVo detailVo : deliverFormListVo) {
+			        skuIds.add(detailVo.getSkuId());
+			    }
+			    RespJson resp = validReceiptItem(skuIds, vo.getReferenceId());
+			    if(!resp.isSuccess()){
+			        return resp;
+			    }
+			}
 			String getId = UuidUtils.getUuid();
 			String formNo = "";
 			if (StringUtils.isEmpty(vo.getBranchCode())) {
@@ -512,6 +525,32 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		return respJson;
 	}
 
+    /***
+    * 
+    * @Description: 验证采购退货商品项
+    * @param skuIds
+    * @param formId
+    * @return
+    * @author xuyq
+    * @date 2017年5月12日
+    */
+    public RespJson validReceiptItem(List<String> skuIds, String formId) {
+        List<DeliverFormList> list = queryDeliverFormListServiceApi.getDeliverListById(formId);
+        if ((CollectionUtils.isNotEmpty(skuIds) && CollectionUtils.isNotEmpty(list) && skuIds.size() != list.size()) || CollectionUtils.isEmpty(list)) {
+            return RespJson.error("已选配送单号，不允许添加其他商品");
+        }
+        Map<String, DeliverFormList> tempMap = new HashMap<String, DeliverFormList>();
+        for (DeliverFormList delForm : list) {
+            tempMap.put(delForm.getSkuId(), delForm);
+        }
+        for (String skuId : skuIds) {
+            DeliverFormList pdPo = tempMap.get(skuId);
+            if (pdPo == null) {
+                return RespJson.error("已选配送单号，不允许添加其他商品");
+            }
+        }
+        return RespJson.success();
+    }
 	/**
 	 * @Description: 修改配送单
 	 * @param vo
@@ -528,6 +567,19 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		LOG.debug(LogConstant.OUT_PARAM, formVo);
 		try {
 			DeliverFormVo vo = new ObjectMapper().readValue(formVo, DeliverFormVo.class);
+	         //不是引用订单，需要验证
+            if((FormType.DI.toString().equals(vo.getFormType()) || FormType.DO.toString().equals(vo.getFormType()))
+                    && StringUtils.isNotBlank(vo.getReferenceNo())){
+                List<String> skuIds = new ArrayList<String>();
+                List<DeliverFormListVo> deliverFormListVo = vo.getDeliverFormListVo();
+                for (DeliverFormListVo detailVo : deliverFormListVo) {
+                    skuIds.add(detailVo.getSkuId());
+                }
+                RespJson resp = validReceiptItem(skuIds, vo.getReferenceId());
+                if(!resp.isSuccess()){
+                    return resp;
+                }
+            }
 			// 获取登录人
 			SysUser user = UserUtil.getCurrentUser();
 			// 设置值
@@ -724,10 +776,11 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		replaceMap.put("_要货机构", deliverForm.getTargetBranchName() != null ? deliverForm.getTargetBranchName() : "");
 		replaceMap.put("targetBranchName",
 				deliverForm.getTargetBranchName() != null ? deliverForm.getTargetBranchName() : "");
-		replaceMap.put("targetBranchAddress",
-				deliverForm.getTargetBranchAddress() != null ? deliverForm.getTargetBranchAddress() : "");
 		replaceMap.put("targetBranchCode",
 				deliverForm.getTargetBranchCode() != null ? deliverForm.getTargetBranchCode() : "");
+		// 收货地址
+		replaceMap.put("_收货地址", deliverForm.getTargetBranchAddress() != null ? deliverForm.getTargetBranchAddress() : "");
+		replaceMap.put("targetBranchAddress", deliverForm.getTargetBranchAddress() != null ? deliverForm.getTargetBranchAddress() : "");
 		// 发货机构
 		replaceMap.put("_发货机构", deliverForm.getSourceBranchName() != null ? deliverForm.getSourceBranchName() : "");
 		replaceMap.put("sourceBranchName",

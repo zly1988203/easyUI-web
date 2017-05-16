@@ -829,6 +829,12 @@ var defaultData = {
 			text : "_备注"
 		}, {
 			type : "label",
+			text : "收货地址："
+		}, {
+			type : "holder",
+			text : "_收货地址"
+		}, {
+			type : "label",
 			text : "人民币大写总金额："
 		}, {
 			type : "holder",
