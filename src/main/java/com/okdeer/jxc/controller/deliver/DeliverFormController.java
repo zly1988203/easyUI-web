@@ -776,10 +776,11 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		replaceMap.put("_要货机构", deliverForm.getTargetBranchName() != null ? deliverForm.getTargetBranchName() : "");
 		replaceMap.put("targetBranchName",
 				deliverForm.getTargetBranchName() != null ? deliverForm.getTargetBranchName() : "");
-		replaceMap.put("targetBranchAddress",
-				deliverForm.getTargetBranchAddress() != null ? deliverForm.getTargetBranchAddress() : "");
 		replaceMap.put("targetBranchCode",
 				deliverForm.getTargetBranchCode() != null ? deliverForm.getTargetBranchCode() : "");
+		// 收货地址
+		replaceMap.put("_收货地址", deliverForm.getTargetBranchAddress() != null ? deliverForm.getTargetBranchAddress() : "");
+		replaceMap.put("targetBranchAddress", deliverForm.getTargetBranchAddress() != null ? deliverForm.getTargetBranchAddress() : "");
 		// 发货机构
 		replaceMap.put("_发货机构", deliverForm.getSourceBranchName() != null ? deliverForm.getSourceBranchName() : "");
 		replaceMap.put("sourceBranchName",
