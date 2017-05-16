@@ -69,14 +69,27 @@
 					</div>
 				</div>
 				<div class="ub ub-ac upad-16 ">
-					<div class="ub uw-220 ut-r ">要货单起订金额控:</div>
+					<div class="ub uw-220 ut-r ">要货单起订金额控制:</div>
 					<div class="ub ub-ac umar-r10">
 						<input class="ub" type="radio" id="isMinAmount0" name="isMinAmount" value="0" />
-						<label for="isMinAmount0">不启用</label>
+						<label for="isMinAmount0">不控制</label>
 					</div>
+				</div>
+				<div class="ub ub-ac upad-16 ">
+					<div class="ub uw-220 ut-r "></div>
 					<div class="ub ub-ac umar-r10">
 						<input class="ub" type="radio" id="isMinAmount1" name="isMinAmount" value="1" />
-						<label for="isMinAmount1">启用</label>
+						<label for="isMinAmount1">按门店起订金额控制</label>
+					</div>
+				</div>
+				<div class="ub ub-ac upad-16 ">
+					<div class="ub uw-220 ut-r "></div>
+					<div class="ub ub-ac umar-r10">
+						<input class="ub" type="radio" id="isMinAmount2" name="isMinAmount" value="2" />
+						<label for="isMinAmount2">按仓库起订金额控制</label>
+					</div>
+					<div class="ub ub-ac umar-r10">
+						<input type="text" class="easyui-numberbox " name="minAmount" id="minAmount" value="0" readonly="readonly" data-options="min:0,precision:2,">
 					</div>
 				</div>
 				<div class="ub ub-ac upad-16 ">
@@ -150,6 +163,14 @@
 				$("#dosheetTemplate").val($(this).val());
 			}
 		})
+		$("input[name='isMinAmount']").on('change',function(){
+			if($(this).val() != "2"){
+				$('#minAmount').numberbox('setValue',0);
+				$('#minAmount').numberbox('readonly',true);
+			}else{
+				$('#minAmount').numberbox('readonly',false);
+			}
+		})
 	});
 	
 	//初始页面
@@ -159,6 +180,7 @@
 		var dyPriceSpec = data.dyPriceSpec;
 		var selectGoodsSpec = data.selectGoodsSpec;
 		var isMinAmount = data.isMinAmount;
+		var minAmount = data.minAmount || 0;
 		var validityDay= data.validityDay;
 		var dosheetTemplate= data.dosheetTemplate;
 		//页面赋值
@@ -183,9 +205,14 @@
 		}
 		if (isMinAmount === null || isMinAmount === 1 || isMinAmount === '') {
 			$("#isMinAmount1").attr("checked", "true");
-		} else {
+		}else if(isMinAmount == '2'){
+			$("#isMinAmount2").attr("checked", "true");
+			$('#minAmount').numberbox('setValue',minAmount);
+			$('#minAmount').numberbox('readonly',false);
+		}else {
 			$("#isMinAmount0").attr("checked", "true");
 		}
+		
 		if (dosheetTemplate === '1') {
 			$("#dosheetTemplate1").attr("checked", "true");
 		} else if (dosheetTemplate === '2') {
@@ -220,6 +247,7 @@
 				gFunEndLoading();
 				if (result['code'] == 0) {
 					messager("保存成功！");
+					location.reload();
 				} else {
 					successTip(result['message']);
 				}
