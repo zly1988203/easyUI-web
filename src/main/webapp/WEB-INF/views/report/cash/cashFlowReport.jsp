@@ -77,6 +77,8 @@
 				            <option value="PDF">平台垫付</option>
 				            <option value="PBT">平台补贴</option>
 				            <option value="DXR">店小二</option>
+				            <option value="CZK">储值卡</option>
+				            <option value="YKT">一卡通</option>
 				            <option value="QT">其他</option>
 				        </select>
                 </div>  
