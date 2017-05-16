@@ -1,5 +1,6 @@
 /**
  * Created by zhanghuan on 2016/08/09.
+ * 档案-商品维护-调价单
  */
 // datagridId datagrid的Id
 var datagridId = "addModifyPriceGrid";

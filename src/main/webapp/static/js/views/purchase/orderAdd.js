@@ -176,7 +176,7 @@ function initDatagridEditOrder(){
                     options:{
                         min:0,
                         precision:4,
-                        disabled:isEdit,
+                        disabled:true,
                         onChange: onChangeAmount,
                     }
                 },
