@@ -376,7 +376,8 @@ function selectGoods(searchKey){
         return;
     }
     var param = {
-        type:'',
+        type:'IO',
+        formType:'IO',
         key:searchKey,
         isRadio:0,
         sourceBranchId:"",
