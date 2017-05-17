@@ -86,20 +86,23 @@
 	                </div>
 					<input type="hidden"  id="status_3" value="1">
 	        </div>
-	        <div class="ub umar-t8">
-	            <div class="ub ub-ac umar-r40">
-	                <div class="umar-r10 uw-60 ut-r">条码:</div>
-	                <input class="uinp" name=barCode id="barCode" type="text">
-	            </div>
-	            <div class="ub ub-ac umar-r40">
-	                <div class="umar-r10 uw-60 ut-r">货号:</div>
-	                <input class="uinp" name=skuCode id="skuCode" type="text">
-	            </div>
-	           	<div class="ub ub-ac umar-r40">
-	                <div class="umar-r10 uw-60 ut-r">商品名称:</div>
-	                <input class="uinp" name="skuName" id="skuName" type="text">
-	            </div>
-	        </div>
+
+		</div>
+
+	<div class="ub umar-t8">
+	<div class="ub ub-ac umar-r40">
+	<div class="umar-r10 uw-60 ut-r">条码:</div>
+	<input class="uinp" name=barCode id="barCode" type="text">
+	</div>
+	<div class="ub ub-ac umar-r40">
+	<div class="umar-r10 uw-60 ut-r">货号:</div>
+	<input class="uinp" name=skuCode id="skuCode" type="text">
+	</div>
+	<div class="ub ub-ac umar-r40">
+	<div class="umar-r10 uw-60 ut-r">商品名称:</div>
+	<input class="uinp" name="skuName" id="skuName" type="text">
+	</div>
+	</div>
         </form>
         <div class="ub umar-t8 ub-f1">
             <table id="gridOrders"></table>
