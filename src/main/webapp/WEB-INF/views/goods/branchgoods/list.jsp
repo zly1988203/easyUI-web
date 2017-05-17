@@ -100,6 +100,7 @@
 	                <input class="uinp" name="skuName" id="skuName" type="text">
 	            </div>
 	        </div>
+		</div>
         </form>
         <div class="ub umar-t8 ub-f1">
             <table id="gridOrders"></table>
