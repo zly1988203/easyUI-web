@@ -688,8 +688,10 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 			if(StringUtils.isNotBlank(formVo.getRefFormNo())){
 				List<String> skuIds = new ArrayList<String>();
 				List<PurchaseFormDetailVo> detailList = formVo.getDetailList();
-				for (PurchaseFormDetailVo detailVo : detailList) {
-					skuIds.add(detailVo.getSkuId());
+				if(CollectionUtils.isNotEmpty(detailList)){
+				    for (PurchaseFormDetailVo detailVo : detailList) {
+				        skuIds.add(detailVo.getSkuId());
+				    }
 				}
 				//RespJson resp = saveValid(skuIds,formVo.getBranchId());
 				RespJson resp = validReceiptItem(skuIds, formVo.getRefFormId());
@@ -831,9 +833,11 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 		if(StringUtils.isNotBlank(formVo.getRefFormNo())){
 			List<String> skuIds = new ArrayList<String>();
 			List<PurchaseFormDetailVo> detailList = formVo.getDetailList();
-			for (PurchaseFormDetailVo detailVo : detailList) {
-				skuIds.add(detailVo.getSkuId());
-			}
+            if(CollectionUtils.isNotEmpty(detailList)){
+                for (PurchaseFormDetailVo detailVo : detailList) {
+                    skuIds.add(detailVo.getSkuId());
+                }
+            }
 			//RespJson resp = saveValid(skuIds,formVo.getBranchId());
 			RespJson resp = validReceiptItem(skuIds, formVo.getRefFormId());
 			if(!resp.isSuccess()){
@@ -882,7 +886,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
      */
     public RespJson validReceiptItem(List<String> skuIds, String formId) {
         List<PurchaseFormDetailPO> list = purchaseFormServiceApi.selectDetailById(formId);
-        if ((CollectionUtils.isNotEmpty(skuIds) && CollectionUtils.isNotEmpty(list) && skuIds.size() != list.size()) || CollectionUtils.isEmpty(list)) {
+        if ((CollectionUtils.isNotEmpty(skuIds) && CollectionUtils.isNotEmpty(list) && skuIds.size() > list.size()) || CollectionUtils.isEmpty(list)) {
             return RespJson.error("已选采购单号，不允许添加其他商品");
         }
         Map<String, PurchaseFormDetailPO> tempMap = new HashMap<String, PurchaseFormDetailPO>();

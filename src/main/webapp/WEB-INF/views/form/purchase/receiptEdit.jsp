@@ -49,9 +49,9 @@
 			<div class="ub ub-ac">
 				<div class="umar-r10 uw-60 ut-r">采购订单:</div>
 				<input id="refFormNo" class="uinp" type="text"
-					onclick="selectPurchaseForm()" value="${form.refFormNo}"
+					value="${form.refFormNo}"
 					readonly="readonly">
-				<div class="uinp-more" onclick="selectPurchaseForm()">...</div>
+<!-- 				<div class="uinp-more" onclick="selectPurchaseForm()">...</div> -->
 			</div>
 			<i class="ub ub-ac uc-red">*</i>
 			<div class="ub ub-ac umar-l80">

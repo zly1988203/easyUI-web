@@ -812,6 +812,7 @@ function selectPurchaseForm(){
         //采购员
         $("#salesmanId").val(data.form.salesmanId);
         $("#operateUserName").val(data.form.salesmanName);
+        $("#refFormId").val(data.form.id);
 	});
 }
 //返回列表页面

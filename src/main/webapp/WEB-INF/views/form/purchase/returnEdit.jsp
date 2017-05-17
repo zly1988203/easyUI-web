@@ -57,8 +57,8 @@
 				<input id="supplierId" class="uinp" value="${form.supplierId}"
 					type="hidden"> <input id="supplierName" class="uinp"
 					value="[${form.supplierCode}]${form.supplierName}" type="text"
-					readonly="readonly" onclick="selectSupplier()">
-				<div class="uinp-more" onclick="selectSupplier()">...</div>
+					readonly="readonly" >
+<!-- 				<div class="uinp-more" onclick="selectSupplier()">...</div> -->
 			</div>
 			<i class="ub ub-ac uc-red">*</i>
 			<div class="ub ub-ac umar-l80">
@@ -86,9 +86,9 @@
 					value="${form.branchId}"> <input class="uinp"
 					id="branchName" type="text" readonly="readonly"
 					value="[${form.branchCode}]${form.branchName}"
-					onclick="selectBranch()">
+					>
 				<input name="branchType" id="branchType" type="hidden">
-				<div class="uinp-more" onclick="selectBranch()">...</div>
+<!-- 				<div class="uinp-more" onclick="selectBranch()">...</div> -->
 			</div>
 			<i class="ub ub-ac uc-red">*</i>
 			<div class="ub ub-ac umar-l80">
@@ -131,10 +131,10 @@
 			<div class="ub ub-ac umar-l88">
 				<div class="umar-r10 uw-60 ut-r">原单号:</div>
 				<input id="refFormNo" class="uinp" type="text" readonly="readonly"
-					onclick="selectForm()" value="${form.refFormNo}"> <input
+					value="${form.refFormNo}"> <input
 					type="hidden" id="oldRefFormNo" name="oldRefFormNo"
 					value="${form.refFormNo}" />
-				<div class="uinp-more" onclick="selectForm()">...</div>
+<!-- 				<div class="uinp-more" onclick="selectForm()">...</div> -->
 			</div>
 		</div>
 		<div class="ub umar-t8">
