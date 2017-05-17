@@ -114,6 +114,17 @@ public class BranchCommonController extends BaseController<BranchCommonControlle
 				}
 				vo.setBranchCompleCode(branchCompleCode);
 			}
+			//如果是仓库商品查询，则只能查询分公司及其物流中心
+			if ("SR".equals(vo.getFormType())) {
+				if(UserUtil.getCurrBranchType()==0||UserUtil.getCurrBranchType()==1||UserUtil.getCurrBranchType()==1){
+					vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
+				}else{
+					String branchCompleCode=UserUtil.getCurrBranchCompleCode();
+					vo.setBranchCompleCode(branchCompleCode.substring(0, branchCompleCode.length()-5));
+				}
+				vo.setBranchType(null);
+				vo.setBranchTypes(new int[]{0,1,2});
+			}
 			
 			PageUtils<Branches> suppliers = branchesService.queryLists(vo);
 			LOG.debug("机构列表：{}", suppliers);

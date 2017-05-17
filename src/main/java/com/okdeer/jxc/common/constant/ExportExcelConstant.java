@@ -197,6 +197,11 @@ public interface ExportExcelConstant {
 	 * @Fields STOCKREPORT : 库存报表
 	 */
 	String STOCKREPORT = "StockReport.xlsx";
+	
+	/**
+	 * @Fields STOCKREPORT : 仓库商品查询
+	 */
+	String STOREGOODSREPORT = "StoreGoodsReport.xlsx";
 
 	/**
 	* @Fields SALEFLOWREPORT : 销售流水

@@ -29,7 +29,7 @@ import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.report.qo.StockReportQo;
-import com.okdeer.jxc.report.service.StockReportService;
+import com.okdeer.jxc.report.service.StoreGoodsReportService;
 import com.okdeer.jxc.report.vo.StockReportVo;
 import com.okdeer.jxc.utils.UserUtil;
 
@@ -46,11 +46,11 @@ import com.okdeer.jxc.utils.UserUtil;
  *
  */
 @Controller
-@RequestMapping("stock/report")
-public class StockReportController extends BaseController<StockReportController> {
+@RequestMapping("storeGoods/report")
+public class StoreGoodsReportController extends BaseController<StoreGoodsReportController> {
 
 	@Reference(version = "1.0.0", check = false)
-	private StockReportService stockReportService;
+	private StoreGoodsReportService storeGoodsReportService;
 
 	/**
 	 * 
@@ -63,7 +63,7 @@ public class StockReportController extends BaseController<StockReportController>
 	public String view(Model model) {
 		model.addAttribute("pricingType", PricingTypeEnum.values()); // 计价方式
 		model.addAttribute("goodsStatus", BranchGoodsStatusEnum.values()); // 商品状态
-		return "report/goods/goodsStockReport";
+		return "report/goods/storeGoodsReport";
 	}
 
 	/**
@@ -90,7 +90,7 @@ public class StockReportController extends BaseController<StockReportController>
 			qo = buildDefaultParams(qo);
 
 			// 1、列表查询
-			PageUtils<StockReportVo> page = stockReportService.queryListToPage(qo);
+			PageUtils<StockReportVo> page = storeGoodsReportService.queryListToPage(qo);
 
 			// 获取页脚合计一栏数据
 			List<StockReportVo> sum = getFooterList(qo);
@@ -111,7 +111,7 @@ public class StockReportController extends BaseController<StockReportController>
 	 */
 	private List<StockReportVo> getFooterList(StockReportQo qo) {
 		// 2、汇总查询
-		StockReportVo footer = stockReportService.queryStockReportSum(qo);
+		StockReportVo footer = storeGoodsReportService.queryStockReportSum(qo);
 
 		String branchCode = "<b>" + footer.getBranchCode() + "</b>";
 		footer.setBranchCode(branchCode);
@@ -149,10 +149,10 @@ public class StockReportController extends BaseController<StockReportController>
 			// 构建默认参数
 			qo = buildDefaultParams(qo);
 			// 1、列表查询
-			List<StockReportVo> exportList = stockReportService.queryList(qo);
+			List<StockReportVo> exportList = storeGoodsReportService.queryList(qo);
 
 			// 2、汇总查询
-			StockReportVo footer = stockReportService.queryStockReportSum(qo);
+			StockReportVo footer = storeGoodsReportService.queryStockReportSum(qo);
 			if (StringUtils.isBlank(footer.getActual())) {
 				footer.setActual("0.00");
 			}
@@ -168,8 +168,8 @@ public class StockReportController extends BaseController<StockReportController>
 			exportList.add(footer);
 			// 3、价格特殊处理
 			exportList = handlePrice(exportList);
-			String fileName = "商品库存报表" + "_" + DateUtils.getCurrSmallStr();
-			String templateName = ExportExcelConstant.STOCKREPORT;
+			String fileName = "仓库商品" + "_" + DateUtils.getCurrSmallStr();
+			String templateName = ExportExcelConstant.STOREGOODSREPORT;
 			exportListForXLSX(response, exportList, fileName, templateName);
 		} catch (Exception e) {
 			LOG.error("商品库存查询报表导出异常:", e);
@@ -202,12 +202,12 @@ public class StockReportController extends BaseController<StockReportController>
 			/**
 			 * 2.5.3  默认查询当前分公司
 			 */
-//			if(UserUtil.getCurrBranchType()==0||UserUtil.getCurrBranchType()==1||UserUtil.getCurrBranchType()==1){
+			if(UserUtil.getCurrBranchType()==0||UserUtil.getCurrBranchType()==1||UserUtil.getCurrBranchType()==1){
 				qo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
-//			}else{
-//				String branchCompleCode=UserUtil.getCurrBranchCompleCode();
-//				qo.setBranchCompleCode(branchCompleCode.substring(0, branchCompleCode.length()-5));
-//			}
+			}else{
+				String branchCompleCode=UserUtil.getCurrBranchCompleCode();
+				qo.setBranchCompleCode(branchCompleCode.substring(0, branchCompleCode.length()-5));
+			}
 		}
 
 		return qo;
