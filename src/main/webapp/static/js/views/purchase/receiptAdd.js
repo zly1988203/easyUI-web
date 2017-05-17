@@ -749,7 +749,7 @@ function selectPurchaseForm(){
         //采购员
         $("#salesmanId").val(data.form.salesmanId);
         $("#operateUserName").val(data.form.salesmanName);
-
+		$("#refFormId").val(data.form.id);
 		$.ajax({
 			url : contextPath + "/common/supplier/getById",
 			type : "POST",

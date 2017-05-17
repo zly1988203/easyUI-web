@@ -468,8 +468,10 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
                     && StringUtils.isNotBlank(vo.getReferenceNo())) {
 			    List<String> skuIds = new ArrayList<String>();
 			    List<DeliverFormListVo> deliverFormListVo = vo.getDeliverFormListVo();
-			    for (DeliverFormListVo detailVo : deliverFormListVo) {
-			        skuIds.add(detailVo.getSkuId());
+			    if(CollectionUtils.isNotEmpty(deliverFormListVo)){
+			        for (DeliverFormListVo detailVo : deliverFormListVo) {
+			            skuIds.add(detailVo.getSkuId());
+			        }
 			    }
 			    RespJson resp = validReceiptItem(skuIds, vo.getReferenceId());
 			    if(!resp.isSuccess()){
@@ -536,7 +538,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
     */
     public RespJson validReceiptItem(List<String> skuIds, String formId) {
         List<DeliverFormList> list = queryDeliverFormListServiceApi.getDeliverListById(formId);
-        if ((CollectionUtils.isNotEmpty(skuIds) && CollectionUtils.isNotEmpty(list) && skuIds.size() != list.size()) || CollectionUtils.isEmpty(list)) {
+        if ((CollectionUtils.isNotEmpty(skuIds) && CollectionUtils.isNotEmpty(list) && skuIds.size() > list.size()) || CollectionUtils.isEmpty(list)) {
             return RespJson.error("已选配送单号，不允许添加其他商品");
         }
         Map<String, DeliverFormList> tempMap = new HashMap<String, DeliverFormList>();
@@ -572,8 +574,10 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
                     && StringUtils.isNotBlank(vo.getReferenceNo())){
                 List<String> skuIds = new ArrayList<String>();
                 List<DeliverFormListVo> deliverFormListVo = vo.getDeliverFormListVo();
-                for (DeliverFormListVo detailVo : deliverFormListVo) {
-                    skuIds.add(detailVo.getSkuId());
+                if(CollectionUtils.isNotEmpty(deliverFormListVo)){
+                    for (DeliverFormListVo detailVo : deliverFormListVo) {
+                        skuIds.add(detailVo.getSkuId());
+                    }
                 }
                 RespJson resp = validReceiptItem(skuIds, vo.getReferenceId());
                 if(!resp.isSuccess()){

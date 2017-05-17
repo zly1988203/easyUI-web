@@ -465,6 +465,10 @@ function updateFooter(){
 //插入一行
 function addLineHandel(event){
     event.stopPropagation(event);
+    if($("#refFormNo").val()){
+        messager("已选采购单号，不允许添加其他商品");
+        return;
+    }
     var index = $(event.target).attr('data-index')||0;
     gridHandel.addRow(index,gridDefault);
 }
@@ -489,7 +493,10 @@ function selectGoods(searchKey){
     	messager("请先选择收货机构");
     	return;
     }
-
+    if($("#refFormNo").val()){
+        messager("已选采购单号，不允许添加其他商品");
+        return;
+    }
     var queryParams = {
         type:'PR',
         key:searchKey,

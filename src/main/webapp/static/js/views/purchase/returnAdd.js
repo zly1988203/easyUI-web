@@ -438,6 +438,10 @@ function updateFooter(){
 //插入一行
 function addLineHandel(event){
     event.stopPropagation(event);
+    if($("#refFormId").val()){
+        messager("已选采购单号，不允许添加其他商品");
+        return;
+    }
     var index = $(event.target).attr('data-index')||0;
     gridHandel.addRow(index,gridDefault);
 }
@@ -461,7 +465,10 @@ function selectGoods(searchKey){
     	messager("请先选择收货机构");
     	return;
     }
-
+    if($("#refFormId").val()){
+        messager("已选采购单号，不允许添加其他商品");
+        return;
+    }
     var queryParams = {
         type:'PR',
         key:searchKey,
@@ -837,6 +844,7 @@ function selectForm(){
             //采购员
             $("#salesmanId").val(data.form.salesmanId);
             $("#operateUserName").val(data.form.salesmanName);
+            $("#refFormId").val(data.form.id);
 		});
 	}else if(refFormNoType == 'DI'){
 	    var param = {

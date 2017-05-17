@@ -293,6 +293,10 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 				    paramVo.setPageSize(1);
 				    suppliers = queryPurchaseGoods(paramVo).getList();
 				}else{
+				    // 采购订单，采购退货输入货号或条码时，只匹配机构自己引入的商品
+				    if(FormType.PA.name().equals(type) || FormType.PR.name().equals(type)){
+				        paramVo.setSupplierId(null);
+				    }
 				    suppliers = goodsSelectServiceApi.queryByCodeListsByVo(paramVo);
 				}
 			}
