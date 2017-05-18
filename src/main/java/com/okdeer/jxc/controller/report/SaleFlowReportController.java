@@ -26,8 +26,6 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.PrintConstant;
-import com.okdeer.jxc.common.enums.BusinessTypeEnum;
-import com.okdeer.jxc.common.enums.OrderResourceEnum;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
@@ -121,7 +119,7 @@ public class SaleFlowReportController extends BaseController<SaleFlowReportContr
 	@ResponseBody
 	public RespJson exportList(HttpServletResponse response, SaleFlowReportQo qo) {
 
-		LOG.info("UserController.exportList start ,parameter vo=" + qo);
+		LOG.debug("UserController.exportList start ,parameter vo=" + qo);
 		try {
 			qo.setPageNumber(Constant.ONE);
 			qo.setPageSize(Constant.MAX_EXPORT_NUM);
@@ -159,16 +157,16 @@ public class SaleFlowReportController extends BaseController<SaleFlowReportContr
 						DateUtils.DATE_FULL_STR));
 			}
 			// 业务类型处理
-			if (StringUtils.isNotBlank(vo.getBusinessType())) {
-				vo.setBusinessType(BusinessTypeEnum.enumValueOf(vo.getBusinessType()) == null ? ""
-						: BusinessTypeEnum.enumValueOf(vo.getBusinessType()).getDesc());
-			}
+//			if (StringUtils.isNotBlank(vo.getBusinessType())) {
+//				vo.setBusinessType(BusinessTypeEnum.enumValueOf(vo.getBusinessType()) == null ? ""
+//						: BusinessTypeEnum.enumValueOf(vo.getBusinessType()).getDesc());
+//			}
 			// 订单来源
-			if (StringUtils.isNotBlank(vo.getOrderType())) {
-				Integer orderType = Integer.valueOf(vo.getOrderType());
-				vo.setOrderType(OrderResourceEnum.enumValueOf(orderType) == null ? ""
-						: OrderResourceEnum.enumValueOf(orderType).getDesc());
-			}
+//			if (StringUtils.isNotBlank(vo.getOrderType())) {
+//				Integer orderType = Integer.valueOf(vo.getOrderType());
+//				vo.setOrderType(OrderResourceEnum.enumValueOf(orderType) == null ? ""
+//						: OrderResourceEnum.enumValueOf(orderType).getDesc());
+//			}
 			// 数量
 			if (StringUtils.isNotBlank(vo.getNum())) {
 				java.math.BigDecimal num = new java.math.BigDecimal(vo.getNum()).setScale(2,

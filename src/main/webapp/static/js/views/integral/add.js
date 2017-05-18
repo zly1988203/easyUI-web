@@ -43,6 +43,8 @@ function changeType(){
 
 
 var gridHandel = new GridClass();
+var gridName = "gridEditOrder";
+var editRowData = null;
 function initDatagrid(){
     gridHandel.setGridName("gridEditOrder");
     gridHandel.initKey({
@@ -117,6 +119,19 @@ function initDatagrid(){
                 gridHandel.setSelectFieldName("skuCode");
             }
         },
+        onBeforeEdit:function (rowIndex, rowData) {
+            editRowData = $.extend(true,{},rowData);
+        },
+        onAfterEdit:function(rowIndex, rowData, changes){
+            if(typeof(rowData.id) === 'undefined'){
+                // $("#"+gridName).datagrid('acceptChanges');
+            }else{
+                if(editRowData.skuCode != changes.skuCode){
+                    rowData.skuCode = editRowData.skuCode;
+                    gridHandel.setFieldTextValue('skuCode',editRowData.skuCode);
+                }
+            }
+        },
         onLoadSuccess : function() {
             gridHandel.setDatagridHeader("center");
         }
@@ -149,8 +164,19 @@ function selectGoods(searchKey){
     	messager("请先选择收货机构");
         return;
     }
+
+    var param = {
+        type:'PA',
+        key:searchKey,
+        isRadio:0,
+        sourceBranchId:"",
+        targetBranchId:"",
+        branchId:branchId,
+        supplierId:supplierId,
+        flag:'0',
+    }
     
-    new publicGoodsService("PA",function(data){
+    new publicGoodsServiceTem(param,function(data){
     	if(data.length==0){
             return;
         }
@@ -184,7 +210,7 @@ function selectGoods(searchKey){
             gridHandel.setSelectFieldName("largeNum");
             gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
         },100)
-    },searchKey,0,"","",branchId,supplierId);
+    });
 }
 
 function updateListData(data){
@@ -373,7 +399,19 @@ function selectGoodsDialog(searchKey) {
 }
 //商品选择 公共使用
 function gFunGoodsSelect(searchKey,branchId){
-	 new publicGoodsService('PC', function(data) {
+
+    var param = {
+        type:'PC',
+        key:searchKey,
+        isRadio:0,
+        sourceBranchId:"",
+        targetBranchId:"",
+        branchId:branchId,
+        supplierId:'',
+        flag:'0',
+    }
+
+	 new publicGoodsServiceTem(param, function(data) {
 			if(searchKey){
 				$("#gridEditOrder").datagrid("deleteRow", gridHandel.getSelectRowIndex());
 				$("#gridEditOrder").datagrid("acceptChanges");
@@ -412,6 +450,6 @@ function gFunGoodsSelect(searchKey,branchId){
 			        },100)
 		      }
 	      
-		},searchKey,0,"","",branchId,"");	
+		});
 }
 

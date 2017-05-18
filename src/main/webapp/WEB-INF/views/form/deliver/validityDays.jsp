@@ -34,31 +34,52 @@
 				<div class="ub ub-ac upad-16 ">
 					<div class="ub uw-220 ut-r">自营店要货价格取值:</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="ub" type="radio" id="priceSpec0" name="priceSpec" value="0"  /><span>要货机构成本价</span>
+						<label>
+						<input type="radio" id="priceSpec0" name="priceSpec" value="0"  /><span>要货机构成本价</span>
+						</label>
+
 					</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="ub" type="radio" id="priceSpec1" name="priceSpec" value="1" /><span>发货机构配送价</span>
+						<label>
+						<input type="radio" id="priceSpec1" name="priceSpec" value="1" /><span>发货机构配送价</span>
+						</label>
+
 					</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="ub" type="radio" id="priceSpec2" name="priceSpec" value="2" /><span>发货机构成本价</span>
+						<label>
+						<input type="radio" id="priceSpec2" name="priceSpec" value="2" /><span>发货机构成本价</span>
+						</label>
+
 					</div>
 				</div>
 				<div class="ub ub-ac upad-16 ">
 					<div class="ub uw-220 ut-r ">自营店可要仓库所有对外供应商品:</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="ub" type="radio" id="selectGoodsSpec0"  name="selectGoodsSpec" value="0"/><span>不启用</span>
+						<label>
+						<input type="radio" id="selectGoodsSpec0"  name="selectGoodsSpec" value="0"/><span>不启用</span>
+						</label>
+
 					</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="ub" type="radio" id="selectGoodsSpec1" name="selectGoodsSpec" value="1"/><span>启用</span>
+						<label>
+						<input type="radio" id="selectGoodsSpec1" name="selectGoodsSpec" value="1"/><span>启用</span>
+						</label>
+
 					</div>
 				</div>
 				<div class="ub ub-ac upad-16 ">
 					<div class="ub uw-220 ut-r ">要货单起订金额控:</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="ub" type="radio" id="isMinAmount0"  name="isMinAmount" value="0"/><span>不启用</span>
+						<label>
+						<input type="radio" id="isMinAmount0"  name="isMinAmount" value="0"/><span>不启用</span>
+						</label>
+
 					</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="ub" type="radio" id="isMinAmount1" name="isMinAmount" value="1"/><span>启用</span>
+						<label>
+						<input type="radio" id="isMinAmount1" name="isMinAmount" value="1"/><span>启用</span>
+						</label>
+
 					</div>
 				</div>
 			</form>

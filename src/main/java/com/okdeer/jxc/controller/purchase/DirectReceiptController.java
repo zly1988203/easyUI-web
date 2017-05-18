@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
@@ -43,6 +43,7 @@ import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.PrintConstant;
 import com.okdeer.jxc.common.controller.BasePrintController;
 import com.okdeer.jxc.common.enums.BranchTypeEnum;
+import com.okdeer.jxc.common.exception.BusinessException;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportComponent;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportHandle;
@@ -145,10 +146,7 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 	private FormQueryQo getParam(FormQueryQo qo) {
 		if (qo.getEndTime() != null) {
 			// 结束日期加一天
-			Calendar cal = Calendar.getInstance();
-			cal.setTime(qo.getEndTime());
-			cal.add(Calendar.DATE, 1);
-			qo.setEndTime(cal.getTime());
+			qo.setEndTime(DateUtils.getDayAfter(qo.getEndTime()));
 		}
 		// 直送收货单
 		qo.setFormType(FormType.PM.toString());
@@ -186,9 +184,14 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 	@RequestMapping(value = "getList", method = RequestMethod.POST)
 	@ResponseBody
 	public PageUtils<PurchaseFormPO> getList(FormQueryQo qo) {
-		qo = getParam(qo);
-		PageUtils<PurchaseFormPO> page = purchaseFormServiceApi.selectPage(qo);
-		return page;
+		try {
+			qo = getParam(qo);
+			PageUtils<PurchaseFormPO> page = purchaseFormServiceApi.selectPage(qo);
+			return page;
+		} catch (Exception e) {
+			LOG.error("获取直送收货单列表异常:{}", e);
+		}
+		return PageUtils.emptyPage();
 	}
 
 	/**
@@ -198,15 +201,16 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 	 */
 	@RequiresPermissions("JxcDirectReceipt:add")
 	@RequestMapping(value = "add")
-	public String add(HttpServletRequest request) {
-		if (!UserUtil.getCurrBranchType().equals(BranchTypeEnum.HEAD_QUARTERS.getCode())) {
+	public ModelAndView add(ModelAndView modelAndView) {
+		if (!BranchTypeEnum.HEAD_QUARTERS.getCode().equals(UserUtil.getCurrBranchType())) {
 			// 查询是否需要自动加载商品
 			BranchSpecVo vo = branchSpecServiceApi.queryByBranchId(UserUtil.getCurrBranchId());
 			if (null != vo) {
-				request.setAttribute("cascadeGoods", vo.getIsSupplierCascadeGoodsPm());
+				modelAndView.addObject("cascadeGoods", vo.getIsSupplierCascadeGoodsPm());
 			}
 		}
-		return "form/purchase/directReceipt/directAdd";
+		modelAndView.setViewName("form/purchase/directReceipt/directAdd");
+		return modelAndView;
 	}
 
 	/**
@@ -219,73 +223,78 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 	@RequestMapping(value = "save", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson save(@RequestBody String jsonText) {
-		ReceiptFormVo formVo = JSON.parseObject(jsonText, ReceiptFormVo.class);
-
-		// 验证商品
-		List<String> skuIds = new ArrayList<String>();
-		List<PurchaseFormDetailVo> detailList = formVo.getDetailList();
-		// 处理结果
-		StringBuilder sb = new StringBuilder();
-		for (PurchaseFormDetailVo detailVo : detailList) {
-			skuIds.add(detailVo.getSkuId());
-			// 非赠送，单价为0
-			if (detailVo.getIsGift() == 0 && BigDecimal.ZERO.compareTo(detailVo.getPrice()) == 0) {
-				sb.append("[" + detailVo.getSkuCode() + "]单价为0，请重新修改；\n");
+		RespJson resp;
+		try {
+			ReceiptFormVo formVo = JSON.parseObject(jsonText, ReceiptFormVo.class);
+			// 验证商品
+			List<String> skuIds = new ArrayList<String>();
+			List<PurchaseFormDetailVo> detailList = formVo.getDetailList();
+			// 处理结果
+			StringBuilder sb = new StringBuilder();
+			for (PurchaseFormDetailVo detailVo : detailList) {
+				skuIds.add(detailVo.getSkuId());
+				// 非赠送，单价为0
+				if (detailVo.getIsGift() == 0 && BigDecimal.ZERO.compareTo(detailVo.getPrice()) == 0) {
+					sb.append("[" + detailVo.getSkuCode() + "]单价为0，请重新修改；\n");
+				}
 			}
+			if (StringUtils.isNotBlank(sb.toString())) {
+				return RespJson.error(sb.toString());
+			}
+			resp = saveValid(skuIds, formVo.getBranchId());
+			if (!resp.isSuccess()) {
+				return resp;
+			}
+
+			PurchaseForm form = new PurchaseForm();
+			BeanUtils.copyProperties(formVo, form);
+
+			String formId = UUIDHexGenerator.generate();
+			SysUser user = UserUtil.getCurrentUser();
+			String formNo = orderNoUtils.getOrderNoAll(FormType.PM.name() + user.getBranchCode(), 4);
+			Date now = new Date();
+
+			form.setId(formId);
+			form.setFormType(FormType.PM);
+			form.setFormNo(formNo);
+			form.setIo(1);
+			// 前端设置
+			// branchId、supplierId、totalNum、amount、salesmanId、remark
+
+			form.setCreaterBranchId(user.getBranchId());
+			form.setStatus(FormStatus.WAIT_CHECK.getValue());
+			form.setDealStatus(0);
+			form.setDisabled(0);
+			form.setCreateUserId(user.getId());
+			form.setCreateTime(now);
+			form.setUpdateUserId(user.getId());
+			form.setUpdateTime(now);
+
+			List<PurchaseFormDetail> list = new ArrayList<PurchaseFormDetail>();
+			List<PurchaseFormDetailVo> listVo = formVo.getDetailList();
+			for (PurchaseFormDetailVo purchaseFormDetailVo : listVo) {
+				PurchaseFormDetail formDetail = new PurchaseFormDetail();
+				BeanUtils.copyProperties(purchaseFormDetailVo, formDetail);
+				formDetail.setId(UUIDHexGenerator.generate());
+				formDetail.setFormId(formId);
+				formDetail.setCreateTime(now);
+				formDetail.setCreateUserId(user.getId());
+				formDetail.setUpdateTime(now);
+				formDetail.setUpdateUserId(user.getId());
+				formDetail.setDisabled(0);
+				list.add(formDetail);
+			}
+
+			// 保存订单
+			resp = purchaseFormServiceApi.save(form, list);
+			if (resp.isSuccess()) {
+				resp.put("formId", formId);
+			}
+		} catch (Exception e) {
+			LOG.error("保存直送收货单异常:{}", e);
+			resp = RespJson.error("保存直送收货单失败");
 		}
-		if (!sb.toString().equals("")) {
-			return RespJson.error(sb.toString());
-		}
-		RespJson resp = saveValid(skuIds, formVo.getBranchId());
-		if (!resp.isSuccess()) {
-			return resp;
-		}
-
-		PurchaseForm form = new PurchaseForm();
-		BeanUtils.copyProperties(formVo, form);
-
-		String formId = UUIDHexGenerator.generate();
-		SysUser user = UserUtil.getCurrentUser();
-		String formNo = orderNoUtils.getOrderNoAll(FormType.PM.name() + user.getBranchCode(), 4);
-		Date now = new Date();
-
-		form.setId(formId);
-		form.setFormType(FormType.PM);
-		form.setFormNo(formNo);
-		form.setIo(1);
-		// 前端设置
-		// branchId、supplierId、totalNum、amount、salesmanId、remark
-
-		form.setCreaterBranchId(user.getBranchId());
-		form.setStatus(FormStatus.WAIT_CHECK.getValue());
-		form.setDealStatus(0);
-		form.setDisabled(0);
-		form.setCreateUserId(user.getId());
-		form.setCreateTime(now);
-		form.setUpdateUserId(user.getId());
-		form.setUpdateTime(now);
-
-		List<PurchaseFormDetail> list = new ArrayList<PurchaseFormDetail>();
-		List<PurchaseFormDetailVo> listVo = formVo.getDetailList();
-		for (PurchaseFormDetailVo purchaseFormDetailVo : listVo) {
-			PurchaseFormDetail formDetail = new PurchaseFormDetail();
-			BeanUtils.copyProperties(purchaseFormDetailVo, formDetail);
-			formDetail.setId(UUIDHexGenerator.generate());
-			formDetail.setFormId(formId);
-			formDetail.setCreateTime(now);
-			formDetail.setCreateUserId(user.getId());
-			formDetail.setUpdateTime(now);
-			formDetail.setUpdateUserId(user.getId());
-			formDetail.setDisabled(0);
-			list.add(formDetail);
-		}
-
-		// 保存订单
-		RespJson respJson = purchaseFormServiceApi.save(form, list);
-		if (respJson.isSuccess()) {
-			respJson.put("formId", formId);
-		}
-		return respJson;
+		return resp;
 	}
 
 	/**
@@ -321,15 +330,15 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 		StringBuilder sb = new StringBuilder();
 		for (GoodsBranchPriceVo branchGoodsVo : list) {
 			// 停购
-			if (branchGoodsVo.getStatus().equals("2")) {
+			if ("2".equals(branchGoodsVo.getStatus())) {
 				sb.append(branchGoodsVo.getSkuName() + "[" + branchGoodsVo.getSkuCode() + "]已停购；\n");
 			}
 			// 淘汰
-			if (branchGoodsVo.getStatus().equals("3")) {
+			if ("3".equals(branchGoodsVo.getStatus())) {
 				sb.append(branchGoodsVo.getSkuName() + "[" + branchGoodsVo.getSkuCode() + "]已淘汰；\n");
 			}
 		}
-		if (!sb.toString().equals("")) {
+		if (StringUtils.isNotBlank(sb.toString())) {
 			return RespJson.error(sb.toString());
 		}
 		return RespJson.success();
@@ -346,21 +355,21 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 	@RequestMapping(value = "check", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson check(String formId, Integer status) {
-		PurchaseFormPO po = purchaseFormServiceApi.selectPOById(formId);
-		// 所有商品ID
-		List<String> skuIds = new ArrayList<String>();
-		List<PurchaseFormDetailPO> detailList = purchaseFormServiceApi.selectDetailById(formId);
-		for (PurchaseFormDetailPO detailVo : detailList) {
-			skuIds.add(detailVo.getSkuId());
-		}
-		RespJson resp = saveValid(skuIds, po.getBranchId());
-		if (!resp.isSuccess()) {
-			return resp;
-		}
-
-		SysUser user = UserUtil.getCurrentUser();
-		RespJson respJson = RespJson.success();
+		RespJson respJson;
 		try {
+			PurchaseFormPO po = purchaseFormServiceApi.selectPOById(formId);
+			// 所有商品ID
+			List<String> skuIds = new ArrayList<String>();
+			List<PurchaseFormDetailPO> detailList = purchaseFormServiceApi.selectDetailById(formId);
+			for (PurchaseFormDetailPO detailVo : detailList) {
+				skuIds.add(detailVo.getSkuId());
+			}
+			RespJson resp = saveValid(skuIds, po.getBranchId());
+			if (!resp.isSuccess()) {
+				return resp;
+			}
+
+			SysUser user = UserUtil.getCurrentUser();
 			respJson = purchaseFormServiceApi.check(formId, FormStatus.enumValueOf(status), user.getId());
 		} catch (RuntimeException e) {
 			LOG.error("审核出现异常，单据id：" + formId, e);
@@ -379,12 +388,13 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 	@RequestMapping(value = "delete", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson delete(@RequestParam(value = "formIds[]") List<String> formIds) {
-		RespJson resp = new RespJson();
-		if (!CollectionUtils.isEmpty(formIds)) {
-			SysUser user = UserUtil.getCurrentUser();
-			for (String formId : formIds) {
-				resp = purchaseFormServiceApi.delete(formId, user.getId());
-			}
+		RespJson resp;
+		SysUser user = UserUtil.getCurrentUser();
+		try {
+			resp = purchaseFormServiceApi.deleteByIds(formIds, user.getId());
+		} catch (BusinessException e) {
+			LOG.error("批量删除直送收货单失败:{}", e);
+			resp = RespJson.error(e.getMessage());
 		}
 		return resp;
 	}
@@ -396,26 +406,33 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 	 */
 	@RequiresPermissions("JxcDirectReceipt:edit")
 	@RequestMapping(value = "edit")
-	public String edit(String formId, HttpServletRequest request) {
-		PurchaseFormPO form = purchaseFormServiceApi.selectPOById(formId);
-		if (form == null) {
-			LOG.error("直送收货单数据为空：订单Id：{}", formId);
-			return "/error/500";
-		}
-		// 如果已删除
-		if (Disabled.INVALID.ordinal() == form.getDisabled().intValue()) {
-			LOG.error("直送收货单已删除：订单Id：{}", formId);
-			return "/error/500";
-		}
-		if (!UserUtil.getCurrBranchType().equals(BranchTypeEnum.HEAD_QUARTERS.getCode())) {
-			// 查询是否需要自动加载商品
-			BranchSpecVo vo = branchSpecServiceApi.queryByBranchId(UserUtil.getCurrBranchId());
-			if (null != vo) {
-				request.setAttribute("cascadeGoods", vo.getIsSupplierCascadeGoodsPm());
+	public ModelAndView edit(String formId, ModelAndView modelAndView) {
+		try {
+			PurchaseFormPO form = purchaseFormServiceApi.selectPOById(formId);
+			if (form == null) {
+				LOG.error("直送收货单数据为空：订单Id：{}", formId);
+				modelAndView.setViewName("/error/500");
+				return modelAndView;
 			}
+			// 如果已删除
+			if (Disabled.INVALID.ordinal() == form.getDisabled().intValue()) {
+				LOG.error("直送收货单已删除：订单Id：{}", formId);
+				modelAndView.setViewName("/error/500");
+				return modelAndView;
+			}
+			if (!BranchTypeEnum.HEAD_QUARTERS.getCode().equals(UserUtil.getCurrBranchType())) {
+				// 查询是否需要自动加载商品
+				BranchSpecVo vo = branchSpecServiceApi.queryByBranchId(UserUtil.getCurrBranchId());
+				if (null != vo) {
+					modelAndView.addObject("cascadeGoods", vo.getIsSupplierCascadeGoodsPm());
+				}
+			}
+			modelAndView.addObject("form", form);
+		} catch (Exception e) {
+			LOG.error("编辑直送收货错误:{}", e);
 		}
-		request.setAttribute("form", form);
-		return "form/purchase/directReceipt/directEdit";
+		modelAndView.setViewName("form/purchase/directReceipt/directEdit");
+		return modelAndView;
 	}
 
 	/**
@@ -427,55 +444,61 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 	@RequestMapping(value = "update", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson update(@RequestBody String jsonText) {
-		ReceiptFormVo formVo = JSON.parseObject(jsonText, ReceiptFormVo.class);
+		RespJson resp;
+		try {
+			ReceiptFormVo formVo = JSON.parseObject(jsonText, ReceiptFormVo.class);
 
-		// 验证商品
-		List<String> skuIds = new ArrayList<String>();
-		List<PurchaseFormDetailVo> detailList = formVo.getDetailList();
-		// 处理结果
-		StringBuilder sb = new StringBuilder();
-		for (PurchaseFormDetailVo detailVo : detailList) {
-			skuIds.add(detailVo.getSkuId());
-			// 非赠送，单价为0
-			if (detailVo.getIsGift() == 0 && BigDecimal.ZERO.compareTo(detailVo.getPrice()) == 0) {
-				sb.append("[" + detailVo.getSkuCode() + "]单价为0，请重新修改；\n");
+			// 验证商品
+			List<String> skuIds = new ArrayList<String>();
+			List<PurchaseFormDetailVo> detailList = formVo.getDetailList();
+			// 处理结果
+			StringBuilder sb = new StringBuilder();
+			for (PurchaseFormDetailVo detailVo : detailList) {
+				skuIds.add(detailVo.getSkuId());
+				// 非赠送，单价为0
+				if (detailVo.getIsGift() == 0 && BigDecimal.ZERO.compareTo(detailVo.getPrice()) == 0) {
+					sb.append("[" + detailVo.getSkuCode() + "]单价为0，请重新修改；\n");
+				}
 			}
-		}
-		if (!sb.toString().equals("")) {
-			return RespJson.error(sb.toString());
-		}
-		RespJson resp = saveValid(skuIds, formVo.getBranchId());
-		if (!resp.isSuccess()) {
-			return resp;
-		}
+			if (StringUtils.isNotBlank(sb.toString())) {
+				return RespJson.error(sb.toString());
+			}
+			resp = saveValid(skuIds, formVo.getBranchId());
+			if (!resp.isSuccess()) {
+				return resp;
+			}
 
-		PurchaseForm form = new PurchaseForm();
-		BeanUtils.copyProperties(formVo, form);
-		List<PurchaseFormDetail> list = new ArrayList<PurchaseFormDetail>();
-		String formId = form.getId();
-		SysUser user = UserUtil.getCurrentUser();
-		Date now = new Date();
-		List<PurchaseFormDetailVo> listVo = formVo.getDetailList();
-		for (PurchaseFormDetailVo purchaseFormDetailVo : listVo) {
-			PurchaseFormDetail purchaseFormDetail = new PurchaseFormDetail();
-			BeanUtils.copyProperties(purchaseFormDetailVo, purchaseFormDetail);
-			purchaseFormDetail.setId(UUIDHexGenerator.generate());
-			purchaseFormDetail.setFormId(formId);
-			purchaseFormDetail.setCreateTime(now);
-			purchaseFormDetail.setCreateUserId(user.getId());
-			purchaseFormDetail.setUpdateTime(now);
-			purchaseFormDetail.setUpdateUserId(user.getId());
-			purchaseFormDetail.setDisabled(0);
-			list.add(purchaseFormDetail);
-		}
+			PurchaseForm form = new PurchaseForm();
+			BeanUtils.copyProperties(formVo, form);
+			List<PurchaseFormDetail> list = new ArrayList<PurchaseFormDetail>();
+			String formId = form.getId();
+			SysUser user = UserUtil.getCurrentUser();
+			Date now = new Date();
+			List<PurchaseFormDetailVo> listVo = formVo.getDetailList();
+			for (PurchaseFormDetailVo purchaseFormDetailVo : listVo) {
+				PurchaseFormDetail purchaseFormDetail = new PurchaseFormDetail();
+				BeanUtils.copyProperties(purchaseFormDetailVo, purchaseFormDetail);
+				purchaseFormDetail.setId(UUIDHexGenerator.generate());
+				purchaseFormDetail.setFormId(formId);
+				purchaseFormDetail.setCreateTime(now);
+				purchaseFormDetail.setCreateUserId(user.getId());
+				purchaseFormDetail.setUpdateTime(now);
+				purchaseFormDetail.setUpdateUserId(user.getId());
+				purchaseFormDetail.setDisabled(0);
+				list.add(purchaseFormDetail);
+			}
 
-		form.setUpdateUserId(user.getId());
-		form.setUpdateTime(now);
-		RespJson respJson = purchaseFormServiceApi.update(form, list);
-		if (respJson.isSuccess()) {
-			respJson.put("formId", formId);
+			form.setUpdateUserId(user.getId());
+			form.setUpdateTime(now);
+			resp = purchaseFormServiceApi.update(form, list);
+			if (resp.isSuccess()) {
+				resp.put("formId", formId);
+			}
+		} catch (Exception e) {
+			LOG.error("更新直送收货单异常:{}", e);
+			resp = RespJson.error("更新直送收货单失败");
 		}
-		return respJson;
+		return resp;
 	}
 
 	/**
@@ -487,8 +510,12 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 	@RequestMapping(value = "getDetailList", method = RequestMethod.POST)
 	@ResponseBody
 	public PageUtils<PurchaseFormDetailPO> getDetailList(String formId) {
-		PageUtils<PurchaseFormDetailPO> list = purchaseFormServiceApi.selectDetail(formId);
-		return list;
+		try {
+			return purchaseFormServiceApi.selectDetail(formId);
+		} catch (Exception e) {
+			LOG.error("获取订单详情列表异常:{}", e);
+		}
+		return PageUtils.emptyPage();
 	}
 
 	/**
@@ -646,8 +673,15 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 	 */
 	@Override
 	protected List<PurchaseFormDetailPO> getPrintDetail(String formNo) {
-		List<PurchaseFormDetailPO> list = purchaseFormServiceApi.selectDetail(formNo).getList();
-		return list;
+		try {
+			List<PurchaseFormDetailPO> list = purchaseFormServiceApi.selectDetail(formNo).getList();
+			if (null != list) {
+				return list;
+			}
+		} catch (Exception e) {
+			LOG.error("直送收货单打印列表异常:{}", e);
+		}
+		return new ArrayList<>();
 	}
 
 	/**
@@ -676,10 +710,10 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 			String fileName = file.getOriginalFilename();
 			SysUser user = UserUtil.getCurrentUser();
 			String[] field = null;
-			if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {
+			if (GoodsSelectImportHandle.TYPE_SKU_CODE.equals(type)) {
 				// 货号
 				field = new String[] { "skuCode", "realNum", "price", "ingoreAmount", "isGift" };
-			} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {
+			} else if (GoodsSelectImportHandle.TYPE_BAR_CODE.equals(type)) {
 				// 条码
 				field = new String[] { "barCode", "realNum", "price", "ingoreAmount", "isGift" };
 			}
@@ -754,10 +788,10 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 			respJson.put("importInfo", vo);
 		} catch (IOException e) {
 			respJson = RespJson.error("读取Excel流异常");
-			LOG.error("读取Excel流异常:", e);
+			LOG.error("读取Excel流异常:{}", e);
 		} catch (Exception e) {
 			respJson = RespJson.error("导入发生异常");
-			LOG.error("用户导入异常:", e);
+			LOG.error("用户导入异常:{}", e);
 		}
 		return respJson;
 	}
@@ -771,11 +805,11 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 		String reportFileName = "错误数据";
 		String[] headers = null;
 		String[] columns = null;
-		if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {
+		if (GoodsSelectImportHandle.TYPE_SKU_CODE.equals(type)) {
 			// 货号
 			columns = new String[] { "skuCode", "realNum", "price", "ingoreAmount", "isGift" };
 			headers = new String[] { "货号", "数量", "单价", "金额", "是否赠品" };
-		} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {
+		} else if (GoodsSelectImportHandle.TYPE_BAR_CODE.equals(type)) {
 			// 条码
 			columns = new String[] { "barCode", "realNum", "price", "ingoreAmount", "isGift" };
 			headers = new String[] { "条码", "数量", "单价", "金额", "是否赠品" };
@@ -792,7 +826,7 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 	 */
 	@RequestMapping(value = "exportList")
 	public void exportList(HttpServletResponse response, String formId) {
-		LOG.info("PurchaseFormController.export:" + formId);
+		LOG.debug("PurchaseFormController.export:" + formId);
 		try {
 			List<PurchaseFormDetailPO> exportList = purchaseFormServiceApi.selectDetailById(formId);
 			String fileName = "直送收货单_" + DateUtils.getCurrSmallStr();
@@ -813,14 +847,14 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 	 */
 	@RequestMapping(value = "exportTemp")
 	public void exportTemp(HttpServletResponse response, String type) {
-		LOG.info("导出采购导入模板请求参数,type={}", type);
+		LOG.debug("导出采购导入模板请求参数,type={}", type);
 		try {
 			String fileName = "";
 			String templateName = "";
-			if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {
+			if (GoodsSelectImportHandle.TYPE_SKU_CODE.equals(type)) {
 				templateName = ExportExcelConstant.DIRECT_RECEIPT_SKUCODE_TEMPLE;
 				fileName = "货号导入模板";
-			} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {
+			} else if (GoodsSelectImportHandle.TYPE_BAR_CODE.equals(type)) {
 				templateName = ExportExcelConstant.DIRECT_RECEIPT_BARCODE_TEMPLE;
 				fileName = "条码导入模板";
 			}

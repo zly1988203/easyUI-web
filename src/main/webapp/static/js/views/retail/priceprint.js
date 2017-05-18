@@ -53,7 +53,6 @@ function initjiaqType(){
 	$(document).on('mousedown','.jiaqType .radioItem',function(){
 		var _this = $(this);
 		var changeType = function(){
-			debugger;
 			_this.prop("checked",true);
 			$('#priceType').val(_this.val());
 			if(_this.val() === '1'){
@@ -338,7 +337,6 @@ function printtable(){
 		var tabledata=JSON.stringify(printdata);
 		var printNo=$("#optionseletc").find("option:selected").val();
 		var data=tabledata.substring(tabledata.indexOf('['),tabledata.lastIndexOf(']')+1)
-		debugger;
 		var branchId=$("#branchId").val();
 		// 为空判断data.length的长度
 		if(data.length>=3){
@@ -357,7 +355,17 @@ function printtable(){
 
 //商品选择  方法
 function chooseproduct(){
-	new publicGoodsService('PC',function(data){
+    var param = {
+        type:'PC',
+        key:'',
+        isRadio:0,
+        sourceBranchId:"",
+        targetBranchId:"",
+        branchId:$("#branchId").val(),
+        supplierId:'',
+        flag:'0',
+    }
+    new publicGoodsServiceTem(param,function(data){
 
 		var obj = {
 				
@@ -385,7 +393,7 @@ function chooseproduct(){
 
 		$("#pricePrint").datagrid("loadData", newRows);
 
-	},'','','','',$("#branchId").val(),'');
+	});
 
 }
 

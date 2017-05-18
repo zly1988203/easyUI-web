@@ -11,11 +11,12 @@
 <c:set var="sessionSupplier" value="${sessionScope.session_default_supplier}"/>
 <c:set var="priceGrantStr" value="${user.priceGrant}"/>
 <c:set var="now" value="<%=new java.util.Date()%>" />
+	<c:set var="versionNo" value="v2.5.0_A01"/>
 <!-- title图标 -->
 <link rel="shortcut icon" href="${ctx}/static/images/okdeer_favicon.ico" type="image/x-icon"/>
 
 <!--easyui-->
- <link rel="stylesheet" href="${ctx}/static/libs/easyui/css/default/easyui.css">
+ <link rel="stylesheet" href="${ctx}/static/libs/easyui/css/default/easyui.css?1=1">
 <link rel="stylesheet" href="${ctx}/static/libs/easyui/css/icon.css">
 <%--<link rel="stylesheet" href="${ctx}/static/libs/metro-blue/easyui.css" type="text/css" /> --%>
 <!--ztree-->
@@ -23,12 +24,12 @@
 <!--app css-->
 <link rel="stylesheet" href="${ctx}/static/css/icon.css" type="text/css">
 <link rel="stylesheet" href="${ctx}/static/css/style.css" type="text/css">
-<link rel="stylesheet" href="${ctx}/static/css/component.css" type="text/css">
+<link rel="stylesheet" href="${ctx}/static/css/component.css?1=2" type="text/css">
 <link rel="stylesheet" href="${ctx}/static/css/base.css" type="text/css">
 <link rel="stylesheet" href="${ctx}/static/css/app.css" type="text/css">
 
 <!--jquery-->
-<script src="${ctx}/static/libs/jquery/js/jquery-1.11.1.min.js"></script>
+<script src="${ctx}/static/libs/jquery/js/jquery.min.js"></script>
 <!--easyui-->
 <script  src="${ctx}/static/libs/easyui/js/jquery.easyui.min.js"></script>
 <script  src="${ctx}/static/libs/easyui/js/easyui-lang-zh_CN.js"></script>
@@ -41,11 +42,20 @@
 <script src="${ctx}/static/js/fun/baseEasyui.js"></script>
 <script src="${ctx}/static/js/fun/base.js"></script>
 <!-- 公共服务 -->
-<script src="${ctx}/static/js/fun/publicComponent.js"></script>
+<script src="${ctx}/static/js/fun/publicComponent.js?V=${versionNo}"></script>
 
 
 <script>
 
+	 
+/* $(function(){
+   //实现对字符码的截获，keypress中屏蔽了这些功能按键
+   document.onkeypress = banBackSpace;
+   //对功能按键的获取
+   document.onkeydown = banBackSpace;
+}) */
+	
+	
 window.addEventListener('message',function(e){
 			window.onbeforeunload = null;
             window.location.replace('${ctx}');

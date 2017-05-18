@@ -7,6 +7,11 @@ $(function(){
 	toChangeDatetime(0);
     initDatagridRequireOrders();
     targetBranchId = $("#targetBranchId").val();
+    if(getUrlQueryString('message')=='0'){
+    	 $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30)+" 00:00");
+    	 initDatagridRequireOrders();
+    }
+   
 });
 
 $(document).on('input','#remark',function(){
@@ -100,6 +105,15 @@ function initDatagridRequireOrders(){
 					}
 					return "";
 				}
+			},
+			{field: 'stopUserName', title: '终止人', width: '130px', align: 'left'},
+			{field: 'stopTime', title: '终止时间', width: '120px', align: 'center',
+				formatter: function (value, row, index) {
+					if (value) {
+						return new Date(value).format('yyyy-MM-dd hh:mm');
+					}
+					return "";
+				}
 			}
         ]],
 		onLoadSuccess:function(data){
@@ -114,11 +128,20 @@ function addDeliverForm(){
 	toAddTab("新增要货单",contextPath + "/form/deliverForm/addDeliverForm?deliverType=DA");
 }
 
+function clearBranchCode(obj,branchId){
+	var branchName = $(obj).val();
+	
+	//如果修改名称
+	if(!branchName || 
+			(branchName && branchName.indexOf("[")<0 && branchName.indexOf("]")<0)){
+		$("#" + branchId +"").val('');
+	}
+}
 //查询要货单
 function queryForm(){
 	var fromObjStr = $('#queryForm').serializeObject();
 	// 去除编码
-    fromObjStr.targetBranchName = fromObjStr.targetBranchName.substring(fromObjStr.targetBranchName.lastIndexOf(']')+1)
+    //fromObjStr.targetBranchName = fromObjStr.targetBranchName.substring(fromObjStr.targetBranchName.lastIndexOf(']')+1)
     fromObjStr.operateUserName = fromObjStr.operateUserName.substring(fromObjStr.operateUserName.lastIndexOf(']')+1)
 
 	$("#deliverFormList").datagrid("options").method = "post";
@@ -130,12 +153,13 @@ function queryForm(){
 function delDeliverForm(){
 	var dg = $("#deliverFormList");
 	var row = dg.datagrid("getChecked");
+	if(row.length <= 0){
+		$.messager.alert('提示','未选择要删除的单据！');
+		return;
+	}
 	var ids = [];
 	for(var i=0; i<row.length; i++){
 		ids.push(row[i].deliverFormId);
-	}
-	if(rowIsNull(row)){
-		return null;
 	}
 	$.messager.confirm('提示','是否要删除选中数据',function(data){
 		if(data){
@@ -180,7 +204,80 @@ function selectBranches(){
 		$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
 	},'',targetBranchId);
 }
-
+/**
+ * 要货机构
+ */
+var branchCode = '';
+function selectTargetBranch(){
+	new publicAgencyService(function(data){
+        $("#targetBranchId").val(data.branchesId);
+        //$("#targetBranchName").val(data.branchName);
+        $("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
+        branchCode = data.branchCode;
+        $("#targetBranchType").val(data.type);
+        // 为店铺时
+        if (data.type != '1' && data.type != '0') {
+        	getSourceBranch(data.branchesId);
+        }
+        if (data.type == '1') {
+//        	$("#salesman").val(data.salesman);
+//        	$("#spanMinAmount").html(data.minAmount);
+//        	$("#minAmount").val(data.minAmount);
+        	$("#sourceBranchId").val('');
+            $("#sourceBranchName").val('');
+        }
+	},'DY','');
+}
+function getSourceBranch(branchesId) {
+	$.ajax({
+    	url : contextPath+"/form/deliverForm/getSourceBranch",
+    	type : "POST",
+    	data : {
+    		branchesId : branchesId,
+    	},
+    	success:function(result){
+    		if(result['code'] == 0){
+    			$("#sourceBranchId").val(result['sourceBranchId']);
+//                $("#sourceBranchName").val(result['sourceBranchName']);
+                $("#sourceBranchName").val("["+result['sourceBranchCode']+"]"+result['sourceBranchName']);
+//                $("#validityTime").val(new Date(result['validityTime']).format('yyyy-MM-dd'));
+//                $("#salesman").val(result['salesman']);
+//                $("#spanMinAmount").html(result['minAmount']);
+//                $("#minAmount").val(result['minAmount']);
+    		}else{
+    			successTip(result['message']);
+    		}
+    	},
+    	error:function(result){
+    		successTip("请求发送失败或服务器处理失败");
+    	}
+    });
+}
+/**
+ * 发货机构
+ */
+function selectSourceBranch(){
+	var targetBranchType = $("#targetBranchType").val();
+	if(targetBranchType != '0'){
+        new publicAgencyService(function(data){
+            if($("#sourceBranchId").val()!=data.branchesId){
+                $("#sourceBranchId").val(data.branchesId);
+                //$("#sourceBranchName").val(data.branchName);
+                $("#sourceBranchName").val("["+data.branchCode+"]"+data.branchName);
+                gridHandel.setLoadData([$.extend({},gridDefault)]);
+            }
+        },'DZ',$("#targetBranchId").val(),'',1);
+	} else {
+        new publicAgencyService(function(data){
+            if($("#sourceBranchId").val()!=data.branchesId){
+                $("#sourceBranchId").val(data.branchesId);
+                //$("#sourceBranchName").val(data.branchName);
+                $("#sourceBranchName").val("["+data.branchCode+"]"+data.branchName);
+                gridHandel.setLoadData([$.extend({},gridDefault)]);
+            }
+        },'DY',$("#targetBranchId").val(),'',1);
+    }
+}
 //打印
 function printDesign(){
      var dg = $("#gridRequireOrders");

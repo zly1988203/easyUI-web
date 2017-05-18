@@ -154,7 +154,7 @@ function queryList(){
 function exportData(){
 	var length = $('#gridArchives').datagrid('getData').rows.length;
 	if(length == 0){
-		successTip("无数据可导");
+        messager("无数据可导");
 		return;
 	}
 	$('#exportWin').window({
@@ -172,7 +172,7 @@ function exportExcel(){
 	$("#formGoodsCategory").form({
 		success : function(result){
 			var dataObj=eval("("+result+")");
-			successTip(dataObj.message);
+            messager(dataObj.message);
 		}
 	});
 	$("#formGoodsCategory").attr("action",contextPath+"/common/category/exportList");
@@ -212,12 +212,15 @@ function deleteCategory(){
 	var rows =$("#gridArchives").datagrid("getChecked");
 	var ids='';
 	if($("#gridArchives").datagrid("getChecked").length <= 0){
-		 var parentId = $("#parentId").val();
+		 //bug 18842
+		 messager('请选择要操作的记录！','提示');
+		 return null;
+		 /*var parentId = $("#parentId").val();
 		 if(parentId==0 || !parentId){
-			 $.messager.alert('提示','请选中一行进行删除！');
+             messager('请选中一行进行删除！','提示');
 			 return null;
 		 }
-		 ids = parentId;
+		 ids = parentId;*/
 	}else{
 		$.each(rows,function(i,v){
 			ids+=v.goodsCategoryId+",";
@@ -236,13 +239,13 @@ function deleteCategory(){
 		    		console.log(result);
 		    		if(result['code'] == 0){
 		    			initTreeArchives();
-		    			successTip("success",dg);
+                        messager("success",dg);
 		    		}else{
-		    			successTip(result['message']);
+                        messager(result['message']);
 		    		}
 		    	},
 		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
+                    messager("请求发送失败或服务器处理失败");
 		    	}
 		    });
 		}
@@ -255,7 +258,7 @@ function addCategory(){
 	var categoryLevel = $("#level").val();
 	var parentCategoryId = $("#parentId").val();
 	if(categoryLevel == 3){
-		successTip("三级分类下不能新增子分类!");
+        messager("三级分类下不能新增子分类!");
 		return;
 	}
 	if(!parentCategoryId){

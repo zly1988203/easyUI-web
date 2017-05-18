@@ -20,8 +20,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.json.JSONObject;
-
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,6 +76,8 @@ import com.okdeer.jxc.goods.qo.GoodsBranchPriceQo;
 import com.okdeer.jxc.goods.service.GoodsBranchPriceServiceApi;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
+
+import net.sf.json.JSONObject;
 
 /**
  * ClassName: PurchaseFormController 
@@ -153,7 +154,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 	 */
 	@RequestMapping(value = "addReceiptForm")
 	public String addDeliverForm(PurchaseFormPO vo, Model model) {
-		LOG.info(LogConstant.OUT_PARAM, vo.toString());
+		LOG.debug(LogConstant.OUT_PARAM, vo.toString());
 		String formId = vo.getId();
 		PurchaseFormPO form = purchaseFormServiceApi.selectPOById(formId);
 		model.addAttribute("form", form);
@@ -279,7 +280,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 		request.setAttribute("form", form);
 		if (FormStatus.CHECK_SUCCESS.getValue().equals(form.getStatus())) {// 已审核，不能修改
 			if (FormStatus.CHECK_SUCCESS.getValue().equals(form.getStatus()) && form.getDealStatus() != null
-					&& form.getDealStatus() == FormDealStatus.STOP.getValue()) {
+					&& FormDealStatus.STOP.getValue().equals(form.getDealStatus())) {
 				request.setAttribute("status", FormDealStatus.STOP.getLabel());
 				request.setAttribute("close", report);
 				return "form/purchase/orderView";
@@ -607,141 +608,156 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 	@RequestMapping(value = "saveReturn", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson saveReturn(@RequestBody String jsonText) {
+		
+		try {
+			ReturnFormVo formVo = JSON.parseObject(jsonText, ReturnFormVo.class);
 
-		ReturnFormVo formVo = JSON.parseObject(jsonText, ReturnFormVo.class);
+			PurchaseForm form = new PurchaseForm();
+			BeanUtils.copyProperties(formVo, form);
 
-		PurchaseForm form = new PurchaseForm();
-		BeanUtils.copyProperties(formVo, form);
+			String formId = UUIDHexGenerator.generate();
 
-		String formId = UUIDHexGenerator.generate();
+			SysUser user = UserUtil.getCurrentUser();
+			String formNo = orderNoUtils.getOrderNo(FormType.PR.name() + user.getBranchCode());
 
-		SysUser user = UserUtil.getCurrentUser();
-		String formNo = orderNoUtils.getOrderNo(FormType.PR.name() + user.getBranchCode());
+			Date now = new Date();
 
-		Date now = new Date();
+			form.setId(formId);
+			form.setFormType(FormType.PR);
+			form.setFormNo(formNo);
+			form.setIo(1);
+			// 前端设置
+			// branchId、supplierId、totalNum、amount、salesmanId、remark
 
-		form.setId(formId);
-		form.setFormType(FormType.PR);
-		form.setFormNo(formNo);
-		form.setIo(1);
-		// 前端设置
-		// branchId、supplierId、totalNum、amount、salesmanId、remark
+			form.setCreaterBranchId(user.getBranchId());
+			form.setStatus(FormStatus.WAIT_CHECK.getValue());
+			form.setDealStatus(0);
+			form.setDisabled(0);
 
-		form.setCreaterBranchId(user.getBranchId());
-		form.setStatus(FormStatus.WAIT_CHECK.getValue());
-		form.setDealStatus(0);
-		form.setDisabled(0);
+			form.setCreateUserId(user.getId());
+			form.setCreateTime(now);
+			form.setUpdateUserId(user.getId());
+			form.setUpdateTime(now);
 
-		form.setCreateUserId(user.getId());
-		form.setCreateTime(now);
-		form.setUpdateUserId(user.getId());
-		form.setUpdateTime(now);
+			String refFormNo = formVo.getRefFormNo();
+			if (StringUtils.isNotBlank(refFormNo)) {// 设置引用单据类型
+				form.setRefFormNoType(refFormNo.substring(0, 2));
+			}
 
-		String refFormNo = formVo.getRefFormNo();
-		if (StringUtils.isNotBlank(refFormNo)) {// 设置引用单据类型
-			form.setRefFormNoType(refFormNo.substring(0, 2));
+			List<PurchaseFormDetail> list = new ArrayList<PurchaseFormDetail>();
+
+			// List<PurchaseFormDetailVo> listVo = JSON.parseArray(detailList,
+			// PurchaseFormDetailVo.class);
+			List<PurchaseFormDetailVo> listVo = formVo.getDetailList();
+
+			for (PurchaseFormDetailVo purchaseFormDetailVo : listVo) {
+				PurchaseFormDetail formDetail = new PurchaseFormDetail();
+				BeanUtils.copyProperties(purchaseFormDetailVo, formDetail);
+
+				formDetail.setId(UUIDHexGenerator.generate());
+				formDetail.setFormId(formId);
+				formDetail.setCreateTime(now);
+				formDetail.setCreateUserId(user.getId());
+				formDetail.setUpdateTime(now);
+				formDetail.setUpdateUserId(user.getId());
+				formDetail.setDisabled(0);
+				list.add(formDetail);
+			}
+
+			// 保存采购订单
+			RespJson respJson = purchaseFormServiceApi.save(form, list);
+			if (respJson.isSuccess()) {
+				respJson.put("formId", formId);
+			}
+			return respJson;
+		} catch (Exception e) {
+			LOG.error("保存采购退货异常：", e);
 		}
-
-		List<PurchaseFormDetail> list = new ArrayList<PurchaseFormDetail>();
-
-		// List<PurchaseFormDetailVo> listVo = JSON.parseArray(detailList,
-		// PurchaseFormDetailVo.class);
-		List<PurchaseFormDetailVo> listVo = formVo.getDetailList();
-
-		for (PurchaseFormDetailVo purchaseFormDetailVo : listVo) {
-			PurchaseFormDetail formDetail = new PurchaseFormDetail();
-			BeanUtils.copyProperties(purchaseFormDetailVo, formDetail);
-
-			formDetail.setId(UUIDHexGenerator.generate());
-			formDetail.setFormId(formId);
-			formDetail.setCreateTime(now);
-			formDetail.setCreateUserId(user.getId());
-			formDetail.setUpdateTime(now);
-			formDetail.setUpdateUserId(user.getId());
-			formDetail.setDisabled(0);
-			list.add(formDetail);
-		}
-
-		// 保存采购订单
-		RespJson respJson = purchaseFormServiceApi.save(form, list);
-		if (respJson.isSuccess()) {
-			respJson.put("formId", formId);
-		}
-		return respJson;
+		return RespJson.error("保存采购退货异常！");
+		
 	}
 
 	@RequestMapping(value = "saveReceipt", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson saveReceipt(@RequestBody String jsonText) {
-
-		ReceiptFormVo formVo = JSON.parseObject(jsonText, ReceiptFormVo.class);
 		
-		//不是引用订单收货，需要验证
-		/*if(!com.okdeer.jxc.common.utils.StringUtils.isBlank(formVo.getRefFormNo())){
-			List<String> skuIds = new ArrayList<String>();
-			List<PurchaseFormDetailVo> detailList = formVo.getDetailList();
-			for (PurchaseFormDetailVo detailVo : detailList) {
-				skuIds.add(detailVo.getSkuId());
+		try {
+			ReceiptFormVo formVo = JSON.parseObject(jsonText, ReceiptFormVo.class);
+			
+			//不是引用订单收货，需要验证
+			if(StringUtils.isNotBlank(formVo.getRefFormNo())){
+				List<String> skuIds = new ArrayList<String>();
+				List<PurchaseFormDetailVo> detailList = formVo.getDetailList();
+				if(CollectionUtils.isNotEmpty(detailList)){
+				    for (PurchaseFormDetailVo detailVo : detailList) {
+				        skuIds.add(detailVo.getSkuId());
+				    }
+				}
+				//RespJson resp = saveValid(skuIds,formVo.getBranchId());
+				RespJson resp = validReceiptItem(skuIds, formVo.getRefFormId());
+				if(!resp.isSuccess()){
+					return resp;
+				}
 			}
-			RespJson resp = saveValid(skuIds,formVo.getBranchId());
-			if(!resp.isSuccess()){
-				return resp;
+
+
+			PurchaseForm form = new PurchaseForm();
+			BeanUtils.copyProperties(formVo, form);
+
+			String formId = UUIDHexGenerator.generate();
+			SysUser user = UserUtil.getCurrentUser();
+			String formNo = orderNoUtils.getOrderNo(FormType.PI.name() + user.getBranchCode());
+
+			Date now = new Date();
+
+			form.setId(formId);
+			form.setFormType(FormType.PI);
+			form.setFormNo(formNo);
+			form.setIo(1);
+			// 前端设置
+			// branchId、supplierId、totalNum、amount、salesmanId、remark
+
+			form.setCreaterBranchId(user.getBranchId());
+			form.setStatus(FormStatus.WAIT_CHECK.getValue());
+			form.setDealStatus(0);
+			form.setDisabled(0);
+
+			form.setCreateUserId(user.getId());
+			form.setCreateTime(now);
+			form.setUpdateUserId(user.getId());
+			form.setUpdateTime(now);
+
+			List<PurchaseFormDetail> list = new ArrayList<PurchaseFormDetail>();
+
+			// List<PurchaseFormDetailVo> listVo = JSON.parseArray(detailList,
+			// PurchaseFormDetailVo.class);
+			List<PurchaseFormDetailVo> listVo = formVo.getDetailList();
+
+			for (PurchaseFormDetailVo purchaseFormDetailVo : listVo) {
+				PurchaseFormDetail formDetail = new PurchaseFormDetail();
+				BeanUtils.copyProperties(purchaseFormDetailVo, formDetail);
+
+				formDetail.setId(UUIDHexGenerator.generate());
+				formDetail.setFormId(formId);
+				formDetail.setCreateTime(now);
+				formDetail.setCreateUserId(user.getId());
+				formDetail.setUpdateTime(now);
+				formDetail.setUpdateUserId(user.getId());
+				formDetail.setDisabled(0);
+				list.add(formDetail);
 			}
-		}*/
 
-
-		PurchaseForm form = new PurchaseForm();
-		BeanUtils.copyProperties(formVo, form);
-
-		String formId = UUIDHexGenerator.generate();
-		SysUser user = UserUtil.getCurrentUser();
-		String formNo = orderNoUtils.getOrderNo(FormType.PI.name() + user.getBranchCode());
-
-		Date now = new Date();
-
-		form.setId(formId);
-		form.setFormType(FormType.PI);
-		form.setFormNo(formNo);
-		form.setIo(1);
-		// 前端设置
-		// branchId、supplierId、totalNum、amount、salesmanId、remark
-
-		form.setCreaterBranchId(user.getBranchId());
-		form.setStatus(FormStatus.WAIT_CHECK.getValue());
-		form.setDealStatus(0);
-		form.setDisabled(0);
-
-		form.setCreateUserId(user.getId());
-		form.setCreateTime(now);
-		form.setUpdateUserId(user.getId());
-		form.setUpdateTime(now);
-
-		List<PurchaseFormDetail> list = new ArrayList<PurchaseFormDetail>();
-
-		// List<PurchaseFormDetailVo> listVo = JSON.parseArray(detailList,
-		// PurchaseFormDetailVo.class);
-		List<PurchaseFormDetailVo> listVo = formVo.getDetailList();
-
-		for (PurchaseFormDetailVo purchaseFormDetailVo : listVo) {
-			PurchaseFormDetail formDetail = new PurchaseFormDetail();
-			BeanUtils.copyProperties(purchaseFormDetailVo, formDetail);
-
-			formDetail.setId(UUIDHexGenerator.generate());
-			formDetail.setFormId(formId);
-			formDetail.setCreateTime(now);
-			formDetail.setCreateUserId(user.getId());
-			formDetail.setUpdateTime(now);
-			formDetail.setUpdateUserId(user.getId());
-			formDetail.setDisabled(0);
-			list.add(formDetail);
+			// 保存采购订单
+			RespJson respJson = purchaseFormServiceApi.save(form, list);
+			if (respJson.isSuccess()) {
+				respJson.put("formId", formId);
+			}
+			return respJson;
+		} catch (Exception e) {
+			LOG.error("保存采购收货异常：", e);
 		}
-
-		// 保存采购订单
-		RespJson respJson = purchaseFormServiceApi.save(form, list);
-		if (respJson.isSuccess()) {
-			respJson.put("formId", formId);
-		}
-		return respJson;
+		
+		return RespJson.error("保存采购收货异常");
 	}
 
 	/**
@@ -814,17 +830,20 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 		ReceiptFormVo formVo = JSON.parseObject(jsonText, ReceiptFormVo.class);
 		
 		//不是引用订单收货，需要验证
-		/*if(!com.okdeer.jxc.common.utils.StringUtils.isBlank(formVo.getRefFormNo())){
+		if(StringUtils.isNotBlank(formVo.getRefFormNo())){
 			List<String> skuIds = new ArrayList<String>();
 			List<PurchaseFormDetailVo> detailList = formVo.getDetailList();
-			for (PurchaseFormDetailVo detailVo : detailList) {
-				skuIds.add(detailVo.getSkuId());
-			}
-			RespJson resp = saveValid(skuIds,formVo.getBranchId());
+            if(CollectionUtils.isNotEmpty(detailList)){
+                for (PurchaseFormDetailVo detailVo : detailList) {
+                    skuIds.add(detailVo.getSkuId());
+                }
+            }
+			//RespJson resp = saveValid(skuIds,formVo.getBranchId());
+			RespJson resp = validReceiptItem(skuIds, formVo.getRefFormId());
 			if(!resp.isSuccess()){
 				return resp;
 			}
-		}*/
+		}
 
 		PurchaseForm form = new PurchaseForm();
 		BeanUtils.copyProperties(formVo, form);
@@ -856,6 +875,32 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 		RespJson respJson = purchaseFormServiceApi.update(form, list);
 		return respJson;
 	}
+    /***
+     * 
+     * @Description: 验证采购退货商品项
+     * @param skuIds
+     * @param formId
+     * @return
+     * @author xuyq
+     * @date 2017年5月12日
+     */
+    public RespJson validReceiptItem(List<String> skuIds, String formId) {
+        List<PurchaseFormDetailPO> list = purchaseFormServiceApi.selectDetailById(formId);
+        if ((CollectionUtils.isNotEmpty(skuIds) && CollectionUtils.isNotEmpty(list) && skuIds.size() > list.size()) || CollectionUtils.isEmpty(list)) {
+            return RespJson.error("已选采购单号，不允许添加其他商品");
+        }
+        Map<String, PurchaseFormDetailPO> tempMap = new HashMap<String, PurchaseFormDetailPO>();
+        for (PurchaseFormDetailPO pdPo : list) {
+            tempMap.put(pdPo.getSkuId(), pdPo);
+        }
+        for (String skuId : skuIds) {
+            PurchaseFormDetailPO pdPo = tempMap.get(skuId);
+            if (pdPo == null) {
+                return RespJson.error("已选采购单号，不允许添加其他商品");
+            }
+        }
+        return RespJson.success();
+    }
 
 	/**
 	 * 修改单据
@@ -955,7 +1000,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 	@ResponseBody
 	public RespJson batchCheck(String formIds, Integer status) {
 		
-		LOG.info("单据Id列表：{}，审核状态：{}", formIds, status);
+		LOG.debug("单据Id列表：{}，审核状态：{}", formIds, status);
 		RespJson respJson = RespJson.success();
 		try {
 			if(StringUtils.isBlank(formIds)){
@@ -1159,9 +1204,9 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 			String[] field = null;
 
 			if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {// 货号
-				field = new String[] { "skuCode", "realNum", "price", "ingoreAmount", "isGift" };
+				field = new String[] { "skuCode", "realNum", "price",  "isGift" };
 			} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {// 条码
-				field = new String[] { "barCode", "realNum", "price", "ingoreAmount", "isGift" };
+				field = new String[] { "barCode", "realNum", "price", "isGift" };
 			}
 
 			GoodsSelectImportVo<GoodsSelect> vo = goodsSelectImportComponent.importSelectGoods(fileName, is, field,
@@ -1254,11 +1299,11 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 		String[] columns = null;
 
 		if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {// 货号
-			columns = new String[] { "skuCode", "realNum", "price", "ingoreAmount", "isGift" };
-			headers = new String[] { "货号", "数量", "单价", "金额", "是否赠品" };
+			columns = new String[] { "skuCode", "realNum", "price", "isGift" };
+			headers = new String[] { "货号", "数量", "单价", "是否赠品" };
 		} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {// 条码
-			columns = new String[] { "barCode", "realNum", "price", "ingoreAmount", "isGift" };
-			headers = new String[] { "条码", "数量", "单价", "金额", "是否赠品" };
+			columns = new String[] { "barCode", "realNum", "price", "isGift" };
+			headers = new String[] { "条码", "数量", "单价", "是否赠品" };
 		}
 
 		goodsSelectImportComponent.downloadErrorFile(code, reportFileName, headers, columns, response);
@@ -1273,7 +1318,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 	 */
 	@RequestMapping(value = "exportList")
 	public void exportList(HttpServletResponse response, String formId, String type) {
-		LOG.info("PurchaseFormController.export:" + formId);
+		LOG.debug("PurchaseFormController.export:" + formId);
 		try {
 			List<PurchaseFormDetailPO> exportList = purchaseFormServiceApi.selectDetailById(formId);
 			String fileName = "";
@@ -1308,7 +1353,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 	 */
 	@RequestMapping(value = "exportTemp")
 	public void exportTemp(HttpServletResponse response, Integer type) {
-		LOG.info("导出采购导入模板请求参数,type={}", type);
+		LOG.debug("导出采购导入模板请求参数,type={}", type);
 		try {
 			String fileName = "";
 			String templateName = "";

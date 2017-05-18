@@ -11,6 +11,7 @@ var url = "";
 var oldData = {};
 var gridName = "gridRequireOrder";
 var deliverStatus;
+var editRowData = null;
 $(function(){
 	deliverStatus = $('#deliverStatus').val();
 	if(deliverStatus === 'add'){
@@ -295,6 +296,19 @@ function initDatagridRequireOrder(){
                 gridHandel.setSelectFieldName("skuCode");
             }
         },
+        onBeforeEdit:function (rowIndex, rowData) {
+            editRowData = $.extend(true,{},rowData);
+        },
+        onAfterEdit:function(rowIndex, rowData, changes){
+            if(typeof(rowData.id) === 'undefined'){
+                // $("#"+gridName).datagrid('acceptChanges');
+            }else{
+                if(editRowData.skuCode != changes.skuCode){
+                    rowData.skuCode = editRowData.skuCode;
+                    gridHandel.setFieldTextValue('skuCode',editRowData.skuCode);
+                }
+            }
+        },
         onLoadSuccess:function(data){
         	if(deliverStatus==='edit'){
                 if(!oldData["grid"]){
@@ -322,6 +336,8 @@ var n = 0;
 var m = 0;
 //监听商品箱数
 function onChangeLargeNum(newV,oldV){
+    var _skuName = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuName');
+    if(!_skuName)return;
 	if("" == newV){
 		m = 2;
 		 messager("商品箱数输入有误");
@@ -356,7 +372,8 @@ function onChangeLargeNum(newV,oldV){
 }
 //监听商品数量
 function onChangeRealNum(newV,oldV) {
-	
+    var _skuName = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuName');
+    if(!_skuName)return;
 	if("" == newV){
 		n= 2;
 		 messager("商品数量输入有误");
@@ -590,11 +607,11 @@ function saveOrder(){
                         strResult += item.goodsName+" ,库存数量： "+item.number+",";
                     })
                 }
-                successTip(result['message']);
+                messager(result['message']);
             }
         },
         error:function(result){
-            successTip("请求发送失败或服务器处理失败");
+            messager("请求发送失败或服务器处理失败");
         }
     });
 }
@@ -633,12 +650,12 @@ function check(){
 		    				location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
 		    			});
 		    		}else{
-		    			successTip(result['message']);
+                        messager(result['message']);
 		    		}
 		    	},
 		    	error:function(result){
                     gFunEndLoading();
-		    		successTip("请求发送失败或服务器处理失败");
+                    messager("请求发送失败或服务器处理失败");
 		    	}
 		    });
 		}
@@ -661,11 +678,11 @@ function delDeliverForm(){
                         toRefreshIframeDataGrid("form/deliverForm/viewsDD","deliverFormList");
 		    			toClose();
 		    		}else{
-		    			successTip(result['message']);
+                        messager(result['message']);
 		    		}
 		    	},
 		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
+                    messager("请求发送失败或服务器处理失败");
 		    	}
 		    });
 		}
@@ -706,12 +723,12 @@ function toEnd(){
 		    				location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
 		    			});
 		    		}else{
-		    			successTip(result['message']);
+                        messager(result['message']);
 		    		}
 		    	},
 		    	error:function(result){
                     gFunEndLoading();
-		    		successTip("请求发送失败或服务器处理失败");
+                    messager("请求发送失败或服务器处理失败");
 		    	}
 		    });
 		}
@@ -763,11 +780,11 @@ function getSourceBranch(branchesId) {
                 $("#spanMinAmount").html(result['minAmount']);
                 $("#minAmount").val(result['minAmount']);
     		}else{
-    			successTip(result['message']);
+                messager(result['message']);
     		}
     	},
     	error:function(result){
-    		successTip("请求发送失败或服务器处理失败");
+            messager("请求发送失败或服务器处理失败");
     	}
     });
 }
@@ -856,7 +873,7 @@ function selectStockAndPriceImport(data){
             updateListData(data);
         },
         error:function(result){
-            successTip("请求发送失败或服务器处理失败");
+            messager("请求发送失败或服务器处理失败");
         }
     });
 }

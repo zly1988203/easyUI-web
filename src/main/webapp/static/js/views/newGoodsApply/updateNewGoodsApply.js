@@ -354,17 +354,23 @@ function saveGoodsArchives(){
 		$('#updateGoodsArchives').removeAttr("disabled");
 		return;
 	}
+
+    if($('#skuName').val().trim()===""){
+        $('#updateGoodsArchives').removeAttr("disabled");
+        messager("请输入商品名称");
+        return;
+    }
 	
 	var salePriceV = $("#salePrice").numberbox("getValue");
     var vipPrice = $("#vipPrice").numberbox("getValue");
 	if(parseFloat(salePriceV || 0) <= 0){
 		$('#saveGoodsArchives').removeAttr("disabled");
-		$.messager.alert("提示","零售价必须大于0!");
+        messager("零售价必须大于0!");
 		return;
 	}
     if(parseFloat(vipPrice || 0) <= 0){
         $('#saveGoodsArchives').removeAttr("disabled");
-        $.messager.alert("提示","会员价必须大于0!");
+        messager("会员价必须大于0!");
         return;
     }
 	
@@ -402,7 +408,7 @@ function saveGoodsArchives(){
 				submitForm();
 			}else{
 				$('#updateGoodsArchives').removeAttr("disabled");
-				$.messager.alert("提示",result.message);
+                messager(result.message);
 			}
 		},
 		error:function(result){
@@ -418,12 +424,12 @@ function submitForm(){
 		url:url,
 		success:function(data){
 			if(JSON.parse(data).code == 0){
-				$.messager.alert("提示","保存成功");
+                messager("保存成功");
 				goodsSearch();
 				closeDialog();
 			}else{
 				$('#updateGoodsArchives').removeAttr("disabled");
-				$.messager.alert("提示",JSON.parse(data).message);
+                messager(JSON.parse(data).message);
 			}
 		}
 	});

@@ -40,6 +40,8 @@ var gridDefault = {
     isGift:0,
 }
 var gridHandel = new GridClass();
+var gridName = "overdueEditGrid";
+var editRowData = null;
 function initDatagridEditOrder(){
     gridHandel.setGridName("overdueEditGrid");
     gridHandel.initKey({
@@ -148,6 +150,19 @@ function initDatagridEditOrder(){
                 gridHandel.setSelectFieldName("skuCode");
             }
         },
+        onBeforeEdit:function (rowIndex, rowData) {
+            editRowData = $.extend(true,{},rowData);
+        },
+        onAfterEdit:function(rowIndex, rowData, changes){
+            if(typeof(rowData.id) === 'undefined'){
+                // $("#"+gridName).datagrid('acceptChanges');
+            }else{
+                if(editRowData.skuCode != changes.skuCode){
+                    rowData.skuCode = editRowData.skuCode;
+                    gridHandel.setFieldTextValue('skuCode',editRowData.skuCode);
+                }
+            }
+        },
         onLoadSuccess : function() {
             gridHandel.setDatagridHeader("center");
             updateFooter();
@@ -220,8 +235,19 @@ function selectGoods(searchKey){
     	messager("请先选择申请机构");
         return;
     }
+
+    var param = {
+        type:'BA',
+        key:searchKey,
+        isRadio:0,
+        sourceBranchId:"",
+        targetBranchId:"",
+        branchId:branchId,
+        supplierId:supplierId,
+        flag:'0',
+    }
     
-    new publicGoodsService("BA",function(data){
+    new publicGoodsServiceTem(param,function(data){
     	if(data.length==0){
             return;
         }
@@ -257,7 +283,7 @@ function selectGoods(searchKey){
             gridHandel.setFieldFocus(gridHandel.getFieldTarget('applyNum'));
         },100)
         
-    },searchKey,0,"","",branchId,supplierId,"0");
+    });
 }
 
 //保存
@@ -266,6 +292,11 @@ function saveItemHandel(){
     var isValid = $("#formAdd").form('validate');
     if(!isValid){
         return;
+    }
+    
+    if(!$.trim($('#remark').val())){
+    	messager("备注不能为空");
+    	return;
     }
 
     $("#overdueEditGrid").datagrid("endEdit", gridHandel.getSelectRowIndex());

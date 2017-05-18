@@ -274,9 +274,20 @@ function searchBranch (){
  * 商品货号
  */
 function selectSkuCode(){
-	new publicGoodsService("",function(data){
+    var param = {
+        type:'',
+        key:'',
+        isRadio:1,
+        sourceBranchId:"",
+        targetBranchId:"",
+        branchId:branchId,
+        supplierId:'',
+        flag:'0',
+    }
+
+	new publicGoodsServiceTem(param,function(data){
 		$("#skuBarCode").val(data[0].skuCode);
-	},"",1,'','','','');
+	});
 
 }
 //搜索导出清除左侧条件

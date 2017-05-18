@@ -6,6 +6,7 @@ var isdisabled = false;
 var url;
 var operateStatus = 'add';
 var oldData = {};
+var editRowData = null;
 $(function(){
 	operateStatus = $('#operateStatus').val();
 	var formId = $('#formId').val();
@@ -177,6 +178,19 @@ function initOperateDataGrid(){
                 gridHandel.setSelectFieldName("skuCode");
             }
         },
+           onBeforeEdit:function (rowIndex, rowData) {
+               editRowData = $.extend(true,{},rowData);
+           },
+           onAfterEdit:function(rowIndex, rowData, changes){
+               if(typeof(rowData.id) === 'undefined'){
+                   // $("#"+gridName).datagrid('acceptChanges');
+               }else{
+                   if(editRowData.skuCode != changes.skuCode){
+                       rowData.skuCode = editRowData.skuCode;
+                       gridHandel.setFieldTextValue('skuCode',editRowData.skuCode);
+                   }
+               }
+           },
         onLoadSuccess:function(data){
             if(operateStatus==='0'){
                 if(!oldData["grid"]){
@@ -286,27 +300,6 @@ function selectGoods(searchKey){
     	
     });
     branchId = '';
-}
-
-// 导入
-function toImportOperate(type){
-
-    var takeStockId = $("#takeStockId").val();
-    if(takeStockId === '' || takeStockId === null){
-        messager("请先选择盘点批号");
-        return;
-    }
-    var param = {
-        url:contextPath+"/form/deliverForm/importList",
-        tempUrl:contextPath+"/form/deliverForm/exportTemp",
-        type:type,
-
-    }
-    new publicUploadFileService(function(data){
-    	if (data.length != 0) {
-    		selectStockAndPriceImport(data);
-    	}
-    },param)
 }
 
 //选择盘点批号
@@ -473,10 +466,12 @@ function saveDataHandel(rows,opType){
     				location.href = contextPath +"/stocktaking/operate/stocktakingFormView?id="+result['formId'];
     			});
             }else{
+                gFunEndLoading();
                 successTip(result['message']);
             }
         },
         error:function(result){
+            gFunEndLoading();
             successTip("请求发送失败或服务器处理失败");
         }
     });

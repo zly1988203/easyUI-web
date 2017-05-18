@@ -29,8 +29,12 @@
 		</a>
 	</div><!--end logo -->
     
-    <div class="header-load">
-    	<a class="header-load-link"><span class="name">  ${user.userName }, 您好 </span> <i class="iconfont">&#xe606;</i></a>
+   	 <!--  refresh -->
+    <div class="mst" id="mst"> 
+    	<i class="reload-png" id="reload-btn" title="刷新消息" onclick="synchronousMessage()"></i> <a onClick="openMsg()" title="点击查看"  id="messageAllCount">消息提醒（<span class="uc-red" id="mtext" style="color: #ff0000 !important;">...</span>）</a>
+    </div>
+    <div class="header-load" id="head-right">
+       <a class="header-load-link"><span class="name">  ${user.userName }, 您好 </span> <i class="iconfont">&#xe606;</i></a>
         <div class="linkdiv">
         	<a href="${ctx}/system/logout">退出</a>
         </div><!--end linkdiv -->
@@ -62,6 +66,73 @@
                     <%--</div>--%>
                 </div>  
 				<!--end 内容区 -->
+                
+                <!--消息提醒 start-->
+			<div id="msgDialog" class="easyui-dialog" title="消息提醒" style="width:600px;height:auto;top:25%;display: none;"data-options="modal:true,closed:true">   
+			   		<div class="ub uh ub-ver ufs-14 ubgc-bg">
+			   			<shiro:hasPermission name="JxcStockException:search">
+				   			<div class="ub ub-ver ubgc-while">
+					   			<p class="ub ufs-14 ufw-b upad-8" style="font-size:13px;">异常库存提醒</p>
+					   			<p class="ub uline">
+					   			<div class="ub upad-t10 upad-b10 upad-8">
+					   				<ul class="msg-ul crbox ufs-14">
+					   					<li class="msg-li"><a class="" href="javascript:openNewTab('库存异常查询','stock/exception/list?message=0');closeMsg();">异常库存商品（<em class="uc-red" id="JxcStockException">...</em>）</a></li>
+					   					<li class="msg-li" id="sumOne" style="display: none;">暂无提醒事项！</li>
+					   				</ul>
+					   			</div>
+				   			</div><!-- end 异常库存提醒 -->
+			   			</shiro:hasPermission>
+			   			<shiro:hasPermission name="JxcPurchaseReceipt:search || JxcDeliverDI:search">
+				   			<div class="ub ub-ver  ubgc-while">
+					   			<p class="ub ufs-12 ufw-b upad-8" style="font-size:13px;">收货提醒</p>
+					   			<p class="ub uline">
+					   			<div class="ub upad-t10 upad-b10 upad-8">
+					   				<ul class="msg-ul crbox ufs-14">
+					   				<shiro:hasPermission name="JxcPurchaseReceipt:search">
+					   					<li class="msg-li"><a class="" href="javascript:openNewTab('采购收货','form/purchase/receiptList?message=1');closeMsg();">采购收货提醒（<em class="uc-red" id="JxcPurchaseReceipt">...</em>）</a></li>
+					   				</shiro:hasPermission>
+					   				<shiro:hasPermission name="JxcDeliverDI:search">
+					   					<li class="msg-li"><a class="" href="javascript:openNewTab('配送入库','form/deliverForm/viewsDI?message=1');closeMsg();">配送收货提醒（<em class="uc-red" id="JxcDeliverDI">...</em>）</a></li>
+					   				</shiro:hasPermission>
+					   					<li class="msg-li" id="sumTwo" style="display: none;">暂无提醒事项！</li>
+					   				</ul>
+					   			</div>
+				   			</div><!-- end 收货提醒 -->
+			   			</shiro:hasPermission>
+			   			<div class="ub ub-ver ubgc-while">
+				   			<p class="ub ufs-12 ufw-b upad-8" style="font-size:13px;">未审核单据</p>
+				   			<p class="ub uline">
+				   			<div class="ub upad-t10 upad-b10 upad-8 uh-190">
+				   				<ul class="msg-ul crbox ufs-14">
+				   				
+				   					<shiro:hasPermission name="JxcPriceAdjust:audit"><li class="msg-li"><a class="" href="javascript:openNewTab('调价单','goods/priceAdjust/view?message=0');closeMsg();">调价单（<em class="uc-red" id="jxcPriceAdjust">...</em>）</a></li></shiro:hasPermission>
+				   					<shiro:hasPermission name="JxcStockLead:audit"><li class="msg-li"><a class="" href="javascript:openNewTab('领用单','stock/lead/list?message=0');closeMsg();">领用单（<em class="uc-red" id="jxcStockLead">...</em>）</a></li></shiro:hasPermission>
+				   					<shiro:hasPermission name="JxcBranchPriceAdjust:audit"><li class="msg-li"><a class="" href="javascript:openNewTab('门店调价单','goods/branchPriceAdjust/list?message=0');closeMsg();">门店调价单（<em class="uc-red" id="jxcBranchPriceAdjust">...</em>）</a></li></shiro:hasPermission>
+				   					<shiro:hasPermission name="JxcCombineSplit:audit"><li class="msg-li"><a class="" href="javascript:openNewTab('组合拆分单','stock/combineSplit/list?message=0');closeMsg();">组合拆分单（<em class="uc-red" id="jxcCombineSplit">...</em>）</a></li></shiro:hasPermission>
+				   					<shiro:hasPermission name="JxcPurchaseOrder:audit"><li class="msg-li"><a class="" href="javascript:openNewTab('采购订单','form/purchase/orderList?message=0');closeMsg();">采购订单（<em class="uc-red" id="jxcPurchaseOrder">...</em>）</a></li></shiro:hasPermission>
+				   					<shiro:hasPermission name="activityList:audit"><li class="msg-li"><a class="" href="javascript:openNewTab('活动管理','sale/activity/list?message=0');closeMsg();">活动管理（<em class="uc-red" id="activityList">...</em>）</a></li></shiro:hasPermission>
+				   					<shiro:hasPermission name="JxcPurchaseReceipt:audit"><li class="msg-li"><a class="" href="javascript:openNewTab('采购收货','form/purchase/receiptList?message=0');closeMsg();">采购收货（<em class="uc-red" id="jxcPurchaseReceipt">...</em>）</a></li></shiro:hasPermission>
+				   					<shiro:hasPermission name="JxcNewGoodsApply:audit"><li class="msg-li"><a class="" href="javascript:openNewTab('新品审核','goods/newGoodsApply/view?message=0');closeMsg();">新品审核（<em class="uc-red" id="jxcNewGoodsApply">...</em>）</a></li></shiro:hasPermission>
+				   					
+				   					<shiro:hasPermission name="JxcPurchaseRefund:audit"><li class="msg-li"><a class="" href="javascript:openNewTab('采购退货','form/purchase/returnList?message=0');closeMsg();">采购退货（<em class="uc-red" id="jxcPurchaseRefund">...</em>）</a></li></shiro:hasPermission>
+				   					<shiro:hasPermission name="JxcDeliverDA:audit"><li class="msg-li"><a class="" href="javascript:openNewTab('要货申请','form/deliverForm/viewsDA?message=0');closeMsg();">要货申请（<em class="uc-red" id="jxcDeliverDA">...</em>）</a></li></shiro:hasPermission>
+				   					<shiro:hasPermission name="JxcCostAdjust:audit"><li class="msg-li"><a class="" href="javascript:openNewTab('成本调价单','cost/costAdjust/view?message=0');closeMsg();">成本调价单（<em class="uc-red" id="jxcCostAdjust">...</em>）</a></li></shiro:hasPermission>
+				   					<shiro:hasPermission name="JxcDeliverDR:audit"><li class="msg-li"><a class="" href="javascript:openNewTab('退货申请','form/deliverForm/viewsDR?message=0');closeMsg();">退货申请（<em class="uc-red" id="jxcDeliverDR">...</em>）</a></li></shiro:hasPermission>
+				   					<shiro:hasPermission name="JxcStockReimburse:audit"><li class="msg-li"><a class="" href="javascript:openNewTab('报损单','stock/reimburse/list?message=0');closeMsg();">报损单（<em class="uc-red" id="jxcStockReimburse">...</em>）</a></li></shiro:hasPermission>
+				   					<shiro:hasPermission name="JxcDeliverDI:audit"><li class="msg-li"><a class="" href="javascript:openNewTab('配送入库','form/deliverForm/viewsDI?message=0');closeMsg();">配送入库（<em class="uc-red" id="jxcDeliverDI">...</em>）</a></li></shiro:hasPermission>
+				   					<shiro:hasPermission name="JxcDeliverDO:audit"><li class="msg-li"><a class="" href="javascript:openNewTab('配送出库','form/deliverForm/viewsDO?message=0');closeMsg();">配送出库（<em class="uc-red" id="jxcDeliverDO">...</em>）</a></li></shiro:hasPermission>
+				   					
+				   					<shiro:hasPermission name="JxcOverdueApply:audit"><li class="msg-li"><a class="" href="javascript:openNewTab('商品调价单','form/overdue/apply/list?message=0');closeMsg();">商品调价单（<em class="uc-red" id="jxcOverdueApply">...</em>）</a></li></shiro:hasPermission>
+				   					<shiro:hasPermission name="JxcDeliverDD:audit"><li class="msg-li"><a class="" href="javascript:openNewTab('店间配送','form/deliverDDForm/view?message=0');closeMsg();">店间配送（<em class="uc-red" id="jxcDeliverDD">...</em>）</a></li></shiro:hasPermission>
+				   					<shiro:hasPermission name="JxcStockAdjust:audit"><li class="msg-li"><a class="" href="javascript:openNewTab('库存调整单','stock/adjust/list?message=0');closeMsg();">库存调整单（<em class="uc-red" id="jxcStockAdjust">...</em>）</a></li></shiro:hasPermission>
+				   					<li class="msg-li" id="sumOther" style="display: none;">暂无提醒事项！</li>
+				   				</ul>
+				   			</div>
+			   			</div><!-- end 未审核单据 -->
+			   		</div>
+			</div> <!--消息提醒  end-->
+
+                
             </div><!--end scroll-y-box -->
         </div><!--end basic-main -->
 	</div><!--end basic-right --> 
@@ -90,7 +161,6 @@
 	        alert("当前版本:V2.3.0_A30");
 	    }
 	}
-	
 </script>
 </body>
 </html>

@@ -6,6 +6,13 @@ function save() {
 		$('#saveBrand').removeAttr("disabled");
 		return;
 	}
+
+    if($('#brandName').val().trim()===""){
+        $('#saveBrand').removeAttr("disabled");
+        messager("请输入品牌名称");
+        return;
+    }
+
 	var formObj = $('#formAdd').serializeObject();
 	$.ajax({
 		url : contextPath + "/common/brand/updateBrand",
@@ -17,11 +24,11 @@ function save() {
 				closeDialogHandel();
 			}else{
 				$('#saveBrand').removeAttr("disabled");
-				alertTip(result.message);
+                messager(result.message);
 			}
 		},
 		error : function(result) {
-			successTip("请求发送失败或服务器处理失败");
+            messager("请求发送失败或服务器处理失败");
 		}
 	});
 }

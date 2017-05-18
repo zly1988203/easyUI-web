@@ -18,6 +18,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONObject;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,8 +79,6 @@ import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
 import com.okdeer.jxc.utils.poi.ExcelReaderUtil;
 
-import net.sf.json.JSONObject;
-
 /**
  * ClassName: DeliverFormController 
  * @Description: 配送单（调拨单）
@@ -97,7 +97,6 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 
 	@Reference(version = "1.0.0", check = false)
 	private QueryDeliverFormServiceApi queryDeliverFormServiceApi;
-	
 
 	@Reference(version = "1.0.0", check = false)
 	private DeliverFormServiceApi deliverFormServiceApi;
@@ -138,6 +137,19 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	}
 
 	/**
+	 * @Description: 跳转直送要货单页面
+	 * @param model
+	 * @return
+	 * @author xuyq
+	 * @date 2017年3月30日
+	 */
+	@RequestMapping(value = "viewsDY")
+	public String viewsDY(Model model) {
+		model.addAttribute("targetBranchId", getCurrBranchId());
+		return "form/deliver/deliverDyList";
+	}
+
+	/**
 	 * @Description: 跳转出库单
 	 * @return   
 	 * @return String  
@@ -164,7 +176,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		model.addAttribute("targetBranchId", getCurrBranchId());
 		return "form/deliver/DiList";
 	}
-	
+
 	/**
 	 * @Description: 跳转退货申请单
 	 * @param model
@@ -219,7 +231,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	 */
 	@RequestMapping(value = "addDeliverForm")
 	public String addDeliverForm(QueryDeliverFormVo vo, Model model) {
-		LOG.info(LogConstant.OUT_PARAM, vo.toString());
+		LOG.debug(LogConstant.OUT_PARAM, vo.toString());
 		SysUser user = getCurrentUser();
 		String deliverType = vo.getDeliverType();
 		model.addAttribute("user", user);
@@ -258,9 +270,8 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 				model.addAttribute("referenceId", vo.getDeliverFormId());
 			}
 			return "form/deliver/DoAdd";
-		} else if (FormType.DR.toString().equals(deliverType)) { //退货申请
-			
-			
+		} else if (FormType.DR.toString().equals(deliverType)) { // 退货申请
+
 			if (BranchTypeEnum.HEAD_QUARTERS.getCode().intValue() == type.intValue()
 					|| BranchTypeEnum.BRANCH_OFFICE.getCode().intValue() == type.intValue()) {
 				branchesGrow.setSourceBranchId("");
@@ -272,6 +283,26 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 				model.addAttribute("referenceId", vo.getDeliverFormId());
 			}
 			return "form/deliver/refund/DrAdd";
+		} else if (FormType.DY.toString().equals(deliverType)) { // 直送要货
+			if (BranchTypeEnum.HEAD_QUARTERS.getCode().intValue() == type.intValue()) {
+				// 如果是总店，则不让进行任何业务操作，只能查询
+				// return "form/deliver/deliverList";
+			} else if (BranchTypeEnum.BRANCH_OFFICE.getCode().intValue() == type.intValue()) {
+				// 判断要货机构是否是分店，如果是分店，要货机构可以选择该分店下的所有机构，有效时间为该分店的，起订金额为目标机构的
+				branchesGrow
+						.setValidityTime(branchesGrow.getTargetBranchValidityNumDays() == 0 ? SysConstant.VALIDITY_DAY
+								: branchesGrow.getTargetBranchValidityNumDays());
+				branchesGrow.setSourceBranchId("");
+				branchesGrow.setSourceBranchName("");
+			} else {
+				// 如果为店铺，则只能是该机构本身，不能选择，有效时间为该店铺对应的分店的，起订金额为该店铺对应分店的
+				branchesGrow
+						.setValidityTime(branchesGrow.getSourceBranchValidityNumDays() == 0 ? SysConstant.VALIDITY_DAY
+								: branchesGrow.getSourceBranchValidityNumDays());
+			}
+
+			model.addAttribute("branchesGrow", branchesGrow);
+			return "form/deliver/deliverDyAdd";
 		} else {
 			// 需求修改，点击要货单生成出库单，将要货单id传入
 			if (!StringUtils.isEmpty(vo.getDeliverFormId())) {
@@ -292,13 +323,12 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	 */
 	@RequestMapping(value = "deliverEdit")
 	public String deliverEdit(QueryDeliverFormVo vo, String report, Model model) {
-		LOG.info(LogConstant.OUT_PARAM, vo.toString());
+		LOG.debug(LogConstant.OUT_PARAM, vo.toString());
 		model.addAttribute("type", vo.getFormSources());
 		vo.setFormSources("");
 		DeliverForm form = queryDeliverFormServiceApi.queryEntity(vo);
-		form.getDaRemark();
 		model.addAttribute("form", form);
-		LOG.info(LogConstant.PAGE, form.toString());
+		LOG.debug(LogConstant.PAGE, form.toString());
 		// 待审核，可修改
 		if (DeliverAuditStatusEnum.WAIT_CHECK.getName().equals(form.getStatus())) {
 			if (FormType.DA.toString().equals(form.getFormType())) {
@@ -311,8 +341,10 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 				return "form/deliver/DoEdit";
 			} else if (FormType.DD.toString().equals(form.getFormType())) {
 				return "form/deliver/DDEdit";
-			}  else if (FormType.DR.toString().equals(form.getFormType())) {
+			} else if (FormType.DR.toString().equals(form.getFormType())) {
 				return "form/deliver/refund/DrEdit";
+			} else if (FormType.DY.toString().equals(form.getFormType())) {
+				return "form/deliver/deliverDyEdit";
 			} else {
 				return "form/deliver/DiEdit";
 			}
@@ -340,6 +372,12 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 			} else if (FormType.DR.toString().equals(form.getFormType())) {
 				model.addAttribute("close", report);
 				return "form/deliver/refund/DrView";
+			} else if (FormType.DY.toString().equals(form.getFormType())) {
+				Branches branches = branchesServiceApi.getBranchInfoById(getCurrBranchId());
+				model.addAttribute("minAmount", branches.getMinAmount());
+				model.addAttribute("salesman", branches.getSalesman() == null ? "" : branches.getSalesman());
+				model.addAttribute("close", report);
+				return "form/deliver/deliverDyView";
 			} else {
 				model.addAttribute("close", report);
 				return "form/deliver/DiView";
@@ -362,17 +400,16 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	public PageUtils<DeliverForm> getDeliverForms(QueryDeliverFormVo vo,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
-		LOG.info(LogConstant.OUT_PARAM, vo);
+		LOG.debug(LogConstant.OUT_PARAM, vo);
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
-			
+
 			String deliverType = vo.getDeliverType();
-			
-			//如果是出库单/要货单/退货单
-			if (FormType.DO.toString().equals(deliverType) ||
-				FormType.DD.toString().equals(deliverType) || 
-				FormType.DR.toString().equals(deliverType)) {
+
+			// 如果是出库单/要货单/退货单
+			if (FormType.DO.toString().equals(deliverType) || FormType.DD.toString().equals(deliverType)
+					|| FormType.DR.toString().equals(deliverType)) {
 				if (StringUtils.isEmpty(vo.getSourceBranchId())) {
 					vo.setSourceBranchId(UserUtil.getCurrBranchId());
 				}
@@ -382,8 +419,26 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 					vo.setTargetBranchId(UserUtil.getCurrBranchId());
 				}
 			}
+
+			String sourceBranchName = vo.getSourceBranchName();
+			String targetBranchName = vo.getTargetBranchName();
+			if (StringUtils.isNotEmpty(sourceBranchName)) {
+				if (sourceBranchName.contains("[") && sourceBranchName.contains("]")) {
+					vo.setSourceBranchName(null);
+				} else {
+					vo.setSourceBranchId(null);
+				}
+			}
+
+			if (StringUtils.isNotEmpty(targetBranchName)) {
+				if (targetBranchName.contains("[") && targetBranchName.contains("]")) {
+					vo.setTargetBranchName(null);
+				} else {
+					vo.setTargetBranchId(null);
+				}
+			}
 			PageUtils<DeliverForm> deliverForms = queryDeliverFormServiceApi.queryLists(vo);
-			LOG.info(LogConstant.PAGE, deliverForms.toString());
+			LOG.debug(LogConstant.PAGE, deliverForms.toString());
 			return deliverForms;
 		} catch (Exception e) {
 			LOG.error("要货单查询数据出现异常:{}", e);
@@ -405,14 +460,29 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	public RespJson insertDeliverForm(@RequestBody String formVo) {
 		RespJson respJson = RespJson.success();
 		long start = System.currentTimeMillis();
-		LOG.info(LogConstant.OUT_PARAM, formVo);
+		LOG.debug(LogConstant.OUT_PARAM, formVo);
 		try {
 			DeliverFormVo vo = new ObjectMapper().readValue(formVo, DeliverFormVo.class);
+			//配送出库，入库，如果引用订单，需要验证商品条目
+            if ((FormType.DI.toString().equals(vo.getFormType()) || FormType.DO.toString().equals(vo.getFormType()))
+                    && StringUtils.isNotBlank(vo.getReferenceNo())) {
+			    List<String> skuIds = new ArrayList<String>();
+			    List<DeliverFormListVo> deliverFormListVo = vo.getDeliverFormListVo();
+			    if(CollectionUtils.isNotEmpty(deliverFormListVo)){
+			        for (DeliverFormListVo detailVo : deliverFormListVo) {
+			            skuIds.add(detailVo.getSkuId());
+			        }
+			    }
+			    RespJson resp = validReceiptItem(skuIds, vo.getReferenceId());
+			    if(!resp.isSuccess()){
+			        return resp;
+			    }
+			}
 			String getId = UuidUtils.getUuid();
 			String formNo = "";
 			if (StringUtils.isEmpty(vo.getBranchCode())) {
-				formNo = orderNoUtils.getOrderNo(new StringBuilder(vo.getFormType()).append(
-						getCurrBranchCode()).toString());
+				formNo = orderNoUtils.getOrderNo(new StringBuilder(vo.getFormType()).append(getCurrBranchCode())
+						.toString());
 			} else {
 				formNo = orderNoUtils.getOrderNo(new StringBuilder(vo.getFormType()).append(vo.getBranchCode())
 						.toString());
@@ -437,6 +507,11 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 				if (FormType.DD.toString().equals(vo.getFormType())) {
 					deliverFormListVo.setDealNum(deliverFormListVo.getApplyNum());
 				}
+				
+				// 单价备份默认用单价
+				if(deliverFormListVo.getPriceBack()==null){
+					deliverFormListVo.setPriceBack(deliverFormListVo.getPrice());
+				}
 			}
 			respJson = deliverFormServiceApi.insertForm(vo);
 			if (respJson.getStatus() != 0) {
@@ -444,14 +519,40 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 			}
 			respJson.put("formId", getId);
 		} catch (Exception e) {
-			LOG.error("保存配送申请单出现异常:{}", e);
+			LOG.error("保存配送申请单出现异常", e);
 			respJson = RespJson.error("添加配送申请单失败！");
 		}
 		long end = System.currentTimeMillis();
-		LOG.info("保存配送单据所用时间{}", (end - start));
+		LOG.debug("保存配送单据所用时间{}", (end - start));
 		return respJson;
 	}
 
+    /***
+    * 
+    * @Description: 验证采购退货商品项
+    * @param skuIds
+    * @param formId
+    * @return
+    * @author xuyq
+    * @date 2017年5月12日
+    */
+    public RespJson validReceiptItem(List<String> skuIds, String formId) {
+        List<DeliverFormList> list = queryDeliverFormListServiceApi.getDeliverListById(formId);
+        if ((CollectionUtils.isNotEmpty(skuIds) && CollectionUtils.isNotEmpty(list) && skuIds.size() > list.size()) || CollectionUtils.isEmpty(list)) {
+            return RespJson.error("已选配送单号，不允许添加其他商品");
+        }
+        Map<String, DeliverFormList> tempMap = new HashMap<String, DeliverFormList>();
+        for (DeliverFormList delForm : list) {
+            tempMap.put(delForm.getSkuId(), delForm);
+        }
+        for (String skuId : skuIds) {
+            DeliverFormList pdPo = tempMap.get(skuId);
+            if (pdPo == null) {
+                return RespJson.error("已选配送单号，不允许添加其他商品");
+            }
+        }
+        return RespJson.success();
+    }
 	/**
 	 * @Description: 修改配送单
 	 * @param vo
@@ -465,9 +566,24 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	public RespJson updateDeliverForm(@RequestBody String formVo) {
 		RespJson respJson = RespJson.success();
 		long start = System.currentTimeMillis();
-		LOG.info(LogConstant.OUT_PARAM, formVo);
+		LOG.debug(LogConstant.OUT_PARAM, formVo);
 		try {
 			DeliverFormVo vo = new ObjectMapper().readValue(formVo, DeliverFormVo.class);
+	         //不是引用订单，需要验证
+            if((FormType.DI.toString().equals(vo.getFormType()) || FormType.DO.toString().equals(vo.getFormType()))
+                    && StringUtils.isNotBlank(vo.getReferenceNo())){
+                List<String> skuIds = new ArrayList<String>();
+                List<DeliverFormListVo> deliverFormListVo = vo.getDeliverFormListVo();
+                if(CollectionUtils.isNotEmpty(deliverFormListVo)){
+                    for (DeliverFormListVo detailVo : deliverFormListVo) {
+                        skuIds.add(detailVo.getSkuId());
+                    }
+                }
+                RespJson resp = validReceiptItem(skuIds, vo.getReferenceId());
+                if(!resp.isSuccess()){
+                    return resp;
+                }
+            }
 			// 获取登录人
 			SysUser user = UserUtil.getCurrentUser();
 			// 设置值
@@ -498,7 +614,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 			respJson = RespJson.error("修改配送单失败！");
 		}
 		long end = System.currentTimeMillis();
-		LOG.info("修改配送单据所用时间{}", (end - start));
+		LOG.debug("修改配送单据所用时间{}", (end - start));
 		return respJson;
 	}
 
@@ -514,13 +630,17 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	@ResponseBody
 	public RespJson deleteDeliverForm(@RequestBody String formIds) {
 		RespJson respJson = RespJson.success();
-		LOG.info(LogConstant.OUT_PARAM, formIds);
+		LOG.debug(LogConstant.OUT_PARAM, formIds);
 		try {
 			if (StringUtils.isEmpty(formIds)) {
-				LOG.error("未选择删除的配送单！");
-				return RespJson.error("未选择删除的配送单！");
+				LOG.error("未选择要删除的单据！");
+				return RespJson.error("未选择要删除的单据！");
 			}
 			List<String> formIdsList = new ObjectMapper().readValue(formIds, List.class);
+			if (CollectionUtils.isEmpty(formIdsList)) {
+				LOG.error("未选择要删除的单据！");
+				return RespJson.error("未选择要删除的单据！");
+			}
 			// 获取登录人
 			SysUser user = UserUtil.getCurrentUser();
 			DeliverFormVo vo = new DeliverFormVo();
@@ -530,7 +650,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 			vo.setUpdateTime(DateUtils.getCurrDate());
 			return deliverFormServiceApi.updateToRemove(vo);
 		} catch (Exception e) {
-			LOG.error("删除配送单出现异常:{}", e);
+			LOG.error("删除配送单出现异常", e);
 			respJson = RespJson.error("删除配送单失败！");
 		}
 		return respJson;
@@ -546,13 +666,13 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	@RequestMapping(value = "check", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson check(QueryDeliverFormVo vo) {
-		LOG.info(LogConstant.OUT_PARAM, vo.toString());
+		LOG.debug(LogConstant.OUT_PARAM, vo.toString());
 		try {
 			SysUser user = UserUtil.getCurrentUser();
 			vo.setUpdateUserId(user.getId());
 			return deliverFormServiceApi.check(vo);
 		} catch (Exception e) {
-			LOG.error("配送单审核操作失败！{}", e);
+			LOG.error("配送单审核操作失败", e);
 			return RespJson.error("审核操作失败！");
 		}
 	}
@@ -565,7 +685,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	@RequestMapping(value = "checkValid", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson checkValid(QueryDeliverFormVo vo) {
-		LOG.info(LogConstant.OUT_PARAM, vo.toString());
+		LOG.debug(LogConstant.OUT_PARAM, vo.toString());
 		try {
 			BranchSpecVo branchSpecVo = branchSpecServiceApi.queryByBranchId(vo.getSourceBranchId());
 			// 不允许负库存出库，直接审核，否则判断是否存在负库存需要提示
@@ -574,10 +694,10 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 			}
 			vo.setPageNumber(1);
 			vo.setPageSize(999999);
-			LOG.info("vo:{}" + vo.toString());
+			LOG.debug("vo:{}", vo.toString());
 			PageUtils<DeliverFormList> deliverFormLists = queryDeliverFormListServiceApi
 					.getDeliverFormListsAndStockByIdOrFormNo(vo);
-			LOG.info("page:{}" + deliverFormLists.toString());
+			LOG.debug("page:{}", deliverFormLists.toString());
 			List<DeliverFormList> list = deliverFormLists.getList();
 			if (CollectionUtils.isEmpty(list)) {
 				return RespJson.error("审核操作失败！");
@@ -598,7 +718,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 				return RespJson.businessError("需要确认负库存出库！");
 			}
 		} catch (Exception e) {
-			LOG.error("要货单查询明细数据出现异常:{}", e);
+			LOG.error("要货单查询明细数据出现异常", e);
 		}
 		return RespJson.success();
 	}
@@ -617,6 +737,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		BranchesGrow branchesGrow = branchesServiceApi.queryBranchesById(branchesId);
 		respJson.put("sourceBranchId", branchesGrow.getSourceBranchId());
 		respJson.put("sourceBranchName", branchesGrow.getSourceBranchName());
+		respJson.put("sourceBranchCode", branchesGrow.getSourceBranchCode());
 		respJson.put("validityTime", DateUtils.getDaysAfter(
 				DateUtils.getCurrDate(),
 				branchesGrow.getSourceBranchValidityNumDays() == 0 ? SysConstant.VALIDITY_DAY : branchesGrow
@@ -636,7 +757,9 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	@RequestMapping(value = "stopped", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson stopped(QueryDeliverFormVo vo) {
-		LOG.info(LogConstant.OUT_PARAM, vo.toString());
+		SysUser user = UserUtil.getCurrentUser();
+		vo.setOperateUserId(user.getId());
+		LOG.debug(LogConstant.OUT_PARAM, vo.toString());
 		return deliverFormServiceApi.stoppedDeliverForm(vo);
 	}
 
@@ -657,14 +780,16 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		replaceMap.put("_要货机构", deliverForm.getTargetBranchName() != null ? deliverForm.getTargetBranchName() : "");
 		replaceMap.put("targetBranchName",
 				deliverForm.getTargetBranchName() != null ? deliverForm.getTargetBranchName() : "");
-		replaceMap.put("targetBranchAddress",
-				deliverForm.getTargetBranchAddress() != null ? deliverForm.getTargetBranchAddress() : "");
 		replaceMap.put("targetBranchCode",
 				deliverForm.getTargetBranchCode() != null ? deliverForm.getTargetBranchCode() : "");
+		// 收货地址
+		replaceMap.put("_收货地址", deliverForm.getTargetBranchAddress() != null ? deliverForm.getTargetBranchAddress() : "");
+		replaceMap.put("targetBranchAddress", deliverForm.getTargetBranchAddress() != null ? deliverForm.getTargetBranchAddress() : "");
 		// 发货机构
 		replaceMap.put("_发货机构", deliverForm.getSourceBranchName() != null ? deliverForm.getSourceBranchName() : "");
 		replaceMap.put("sourceBranchName",
 				deliverForm.getSourceBranchName() != null ? deliverForm.getSourceBranchName() : "");
+
 		// 收货机构
 		replaceMap.put("_收货机构", deliverForm.getSourceBranchName() != null ? deliverForm.getSourceBranchName() : "");
 		replaceMap.put("sourceBranchName",
@@ -728,6 +853,34 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		replaceMap.put("amount", BigDecimalUtils.formatTwoDecimal(deliverForm.getAmount()));
 
 		replaceMap.put("daRemark", deliverForm.getDaRemark() != null ? deliverForm.getDaRemark() : "");
+
+		// 退货单
+		if (FormType.DR.toString().equals(deliverForm.getFormType())) {
+
+			// 退货机构
+			replaceMap.put("_退货机构", deliverForm.getSourceBranchName() != null ? deliverForm.getSourceBranchName() : "");
+			replaceMap.put("sourceBranchName",
+					deliverForm.getSourceBranchName() != null ? deliverForm.getSourceBranchName() : "");
+
+			// 收货机构
+			replaceMap.put("_收货机构", deliverForm.getTargetBranchName() != null ? deliverForm.getTargetBranchName() : "");
+			replaceMap.put("targetBranchName",
+					deliverForm.getTargetBranchName() != null ? deliverForm.getTargetBranchName() : "");
+
+			// 备注
+			replaceMap.put("_备注", deliverForm.getRemark() != null ? deliverForm.getRemark() : "");
+			replaceMap.put("reamrk", deliverForm.getRemark() != null ? deliverForm.getRemark() : "");
+
+			// 制单日期
+			replaceMap.put(
+					"_制单日期",
+					deliverForm.getCreateTime() != null ? DateUtils.formatDate(deliverForm.getCreateTime(),
+							"yyyy-MM-dd") : "");
+			replaceMap.put(
+					"createTime",
+					deliverForm.getCreateTime() != null ? DateUtils.formatDate(deliverForm.getCreateTime(),
+							"yyyy-MM-dd") : "");
+		}
 
 		return replaceMap;
 	}
@@ -901,7 +1054,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 								json.element("num", checkNum);
 								json.element("error", "输入的数量不是数字!");
 								excelListErrorData.add(json);
-								LOG.error("导入的箱数或数量不是数字:", e);
+								LOG.error("导入的箱数或数量不是数字", e);
 								return false;
 							}
 							return true;
@@ -923,10 +1076,10 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 			respJson.put("importInfo", vo);
 		} catch (IOException e) {
 			respJson = RespJson.error("读取Excel流异常");
-			LOG.error("读取Excel流异常:{}", e);
+			LOG.error("读取Excel流异常", e);
 		} catch (Exception e) {
 			respJson = RespJson.error("导入发生异常");
-			LOG.error("用户导入异常:{}", e);
+			LOG.error("用户导入异常", e);
 		}
 		return respJson;
 
@@ -979,7 +1132,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	 */
 	@RequestMapping(value = "exportTemp")
 	public void exportTemp(HttpServletResponse response, Integer type) {
-		LOG.info("导出配送要货导入模板请求参数,type={}", type);
+		LOG.debug("导出配送要货导入模板请求参数,type:{}", type);
 		try {
 			String fileName = "";
 			String templateName = "";
@@ -998,6 +1151,56 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 			LOG.error("导出要货申请单导入模板异常:{}", e);
 		}
 	}
+	
+	@RequestMapping(value = "exportTempDr")
+	public void exportTempDr(HttpServletResponse response, Integer type) {
+		LOG.debug("导出配送要货导入模板请求参数,type:{}", type);
+		try {
+			String fileName = "";
+			String templateName = "";
+			if (Constant.ZERO == type) {
+				// 商品货号
+				templateName = ExportExcelConstant.DELIVER_GOODS_SKUCODE_TEMPLE;
+				fileName = "退货申请单货号导入模板";
+			} else if (Constant.ONE == type) {
+				templateName = ExportExcelConstant.DELIVER_GOODS_BARCODE_TEMPLE;
+				fileName = "退货申请单条码导入模板";
+			}
+			if (!StringUtils.isEmpty(fileName) && !StringUtils.isEmpty(templateName)) {
+				exportListForXLSX(response, null, fileName, templateName);
+			}
+		} catch (Exception e) {
+			LOG.error("导出要货申请单导入模板异常", e);
+		}
+	}
+	/**
+	 * @Description: 直送要货导入模板
+	 * @param response
+	 * @param type
+	 * @author xuyq
+	 * @date 2017年4月19日
+	 */
+	@RequestMapping(value = "exportDyTemp")
+	public void exportDyTemp(HttpServletResponse response, Integer type) {
+		LOG.debug("导出直送要货导入模板请求参数,type:{}", type);
+		try {
+			String fileName = "";
+			String templateName = "";
+			if (Constant.ZERO == type) {
+				// 商品货号
+				templateName = ExportExcelConstant.DELIVER_GOODS_SKUCODE_TEMPLE;
+				fileName = "直送要货申请单货号导入模板";
+			} else if (Constant.ONE == type) {
+				templateName = ExportExcelConstant.DELIVER_GOODS_BARCODE_TEMPLE;
+				fileName = "直送要货申请单条码导入模板";
+			}
+			if (!StringUtils.isEmpty(fileName) && !StringUtils.isEmpty(templateName)) {
+				exportListForXLSX(response, null, fileName, templateName);
+			}
+		} catch (Exception e) {
+			LOG.error("导出直送要货申请单导入模板异常:{}", e);
+		}
+	}
 
 	/**
 	 * @Description: 配送出库导入模板
@@ -1008,7 +1211,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	 */
 	@RequestMapping(value = "exportReport")
 	public void exportReport(HttpServletResponse response, Integer type) {
-		LOG.info("导出配送出库导入模板请求参数,type={}", type);
+		LOG.debug("导出配送出库导入模板请求参数,type:{}", type);
 		try {
 			String fileName = "";
 			String templateName = "";
@@ -1118,10 +1321,10 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 			respJson.put("importInfo", vo);
 		} catch (IOException e) {
 			respJson = RespJson.error("读取Excel流异常");
-			LOG.error("读取Excel流异常:{}", e);
+			LOG.error("读取Excel流异常", e);
 		} catch (Exception e) {
 			respJson = RespJson.error("导入发生异常");
-			LOG.error("用户导入异常:{}", e);
+			LOG.error("用户导入异常", e);
 		}
 		return respJson;
 	}

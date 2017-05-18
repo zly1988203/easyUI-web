@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import com.okdeer.base.common.utils.EncryptionUtils;
 import com.okdeer.ca.api.common.ApiException;
@@ -55,7 +53,7 @@ public class SSOMainController extends BaseController<SSOMainController> {
 	@Reference(version = "1.0.0", check = false)
 	private SysUserServiceApi sysUserService;
 
-	@Autowired
+	@Reference(version = "1.0.0", check = false)
 	private ISysUserApi sysUserApi;
 
 	/**
@@ -168,7 +166,7 @@ public class SSOMainController extends BaseController<SSOMainController> {
 			if (sysModuleMenuDtosList == null) {
 				sysModuleMenuDtosList = Lists.newArrayList();
 			}
-			LOG.info("当前用户权限:{}", JSON.toJSONString(sysModuleMenuDtosList));
+			LOG.debug("当前用户权限记录数:{}", sysModuleMenuDtosList.size());
 		} catch (ApiException e) {
 			LOG.error("获取权限菜单出错", e);
 		}

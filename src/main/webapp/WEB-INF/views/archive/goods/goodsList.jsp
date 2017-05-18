@@ -57,7 +57,7 @@
                 </div>
                 <input type="button" class="ubtn  umar-r10" value="查询" onclick="goodsSearch()">
                 <div class="ub ub-ac umar-r10">
-                    <input class="ub" type="checkbox" name="outGoods" /><span>淘汰商品</span>
+                    <label>  <input  type="checkbox" name="outGoods" /><span>淘汰商品</span></label>
                 </div>
             </div>
         </form>

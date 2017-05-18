@@ -93,9 +93,9 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 			if (vo.getEndTime() != null) {
 				vo.setEndTime(DateUtils.getDayAfter(vo.getEndTime()));
 			}
-			LOG.info(LogConstant.OUT_PARAM, vo);
+			LOG.debug(LogConstant.OUT_PARAM, vo);
 			PageUtils<StocktakingBatchVo> stocktakingBatchList = stocktakingApplyServiceApi.getStocktakingBatchList(vo);
-			LOG.info(LogConstant.PAGE, stocktakingBatchList.toString());
+			LOG.debug(LogConstant.PAGE, stocktakingBatchList.toString());
 			return stocktakingBatchList;
 		} catch (Exception e) {
 			LOG.error("盘点申请查询列表信息异常:{}", e);
@@ -153,7 +153,7 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 	@RequestMapping(value = "/stocktakingDifferenceList", method = RequestMethod.GET)
 	@ResponseBody
 	public List<StocktakingDifferenceVo> stocktakingDifferenceList(String batchId) {
-		LOG.info(LogConstant.OUT_PARAM, batchId);
+		LOG.debug(LogConstant.OUT_PARAM, batchId);
 		List<StocktakingDifferenceVo> diffList = new ArrayList<StocktakingDifferenceVo>();
 		try {
 			diffList = stocktakingOperateServiceApi.getStocktakingDifferenceList(batchId);
@@ -177,7 +177,7 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 	@ResponseBody
 	public String printDiffDispose(StocktakingBatchVo vo, HttpServletResponse response, HttpServletRequest request) {
 		try {
-			LOG.info("查询详情打印参数：{}", vo);
+			LOG.debug("查询详情打印参数：{}", vo);
 			List<StocktakingDifferenceVo> printList = stocktakingOperateServiceApi
 					.getStocktakingDifferenceList(vo.getId());
 
@@ -215,7 +215,7 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 	@ResponseBody
 	public RespJson saveDiffDispose(String data) {
 		RespJson respJson = RespJson.success();
-		LOG.info("保存差异详情 ：data{}" + data);
+		LOG.debug("保存差异详情 ：data{}" + data);
 		SysUser user = UserUtil.getCurrentUser();
 		if (user == null) {
 			respJson = RespJson.error("用户不能为空！");
@@ -251,7 +251,7 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 	public RespJson auditDiffDispose(String data) {
 		RespJson respJson = RespJson.success();
 		try {
-			LOG.info("审核差异处理详情 ：data{}" + data);
+			LOG.debug("审核差异处理详情 ：data{}" + data);
 			SysUser user = UserUtil.getCurrentUser();
 			if (user == null) {
 				respJson = RespJson.error("用户不能为空！");
@@ -292,7 +292,7 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 		String batchId = vo.getId();
 		String batchNo = vo.getBatchNo();
 		
-		LOG.info("差异详情列表导出参数batchId：{}", batchId);
+		LOG.debug("差异详情列表导出参数batchId：{}", batchId);
 		RespJson resp = RespJson.success();
 		try {
 			List<StocktakingDifferenceVo> diffList = stocktakingOperateServiceApi.getStocktakingDifferenceList(batchId);

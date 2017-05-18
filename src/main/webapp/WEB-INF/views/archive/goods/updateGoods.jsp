@@ -4,7 +4,7 @@ pageEncoding="UTF-8"%>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
-<script src="${ctx}/static/js/views/goods/goodsArchivesEdit.js"></script>
+<script src="${ctx}/static/js/views/goods/goodsArchivesEdit.js?V=${versionNo}"></script>
 <style> 
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
 .tab-like{
@@ -65,8 +65,7 @@ pageEncoding="UTF-8"%>
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">商品名称:</div>
 						<div class="ub">
-							<input id="skuName" name="skuName" class="uinp easyui-validatebox"
-								   data-options="required:true" maxlength="20">
+							<input id="skuName" name="skuName" class="uinp" maxlength="20">
 						</div>
 						<i class="uc-red">*</i>
 					</div>
@@ -88,7 +87,7 @@ pageEncoding="UTF-8"%>
 								   type="hidden"> <input id="categoryCode"
 														 name="categoryCode" class="uinp" type="hidden"> <input
 								id="categoryName" name="categoryName" class="uinp" type="text"
-								readonly="readonly" data-options="required:true">
+								readonly="readonly">
 							<div class="uinp-more " onclick="getGoodsType()">...</div>
 						</div>
 						<i class="uc-red">*</i>
@@ -347,28 +346,36 @@ pageEncoding="UTF-8"%>
 				</div>
 				<div class="ub umar-l32" style="position: absolute;left: 0px;">
 					<div class="ub ub-ac umar-r40">
-						<input id="managerStock" name="managerStock"
-							class="ub" type="checkbox" name="checkbox" /><span>是否管理库存</span>
+						<label>
+						<input id="managerStock" name="managerStock" type="checkbox" name="checkbox" /><span>是否管理库存</span>
+						</label>
 					</div>
 					<div class="ub ub-ac umar-r40">
-						<input id="highValue" name="highValue"  class="ub"
-							type="checkbox" name="checkbox" /><span>是否高值商品</span>
+						<label>
+						<input id="highValue" name="highValue" type="checkbox" name="checkbox" /><span>是否高值商品</span>
+						</label>
 					</div>
 					<div class="ub ub-ac umar-r40">
-						<input id="attention" name="attention"  class="ub"
-							type="checkbox" name="checkbox" /><span>是否关注商品</span>
+						<label>
+						<input id="attention" name="attention"
+						type="checkbox" name="checkbox" /><span>是否关注商品</span>
+						</label>
 					</div>
 					<div class="ub ub-ac umar-r40">
-						<input id="fastDeliver" name="fastDeliver"
-							class="ub" type="checkbox" name="checkbox" /><span>是否直送商品</span>
+						<label>
+						<input id="fastDeliver" name="fastDeliver" type="checkbox" name="checkbox" /><span>是否直送商品</span>
+						</label>
 					</div>
 					<div class="ub ub-ac umar-r40">
-						<input id="allowActivity" name="allowActivity"
-							class="ub" type="checkbox" name="checkbox" /><span>是否参与促销</span>
+						<label>
+						<input id="allowActivity" name="allowActivity" type="checkbox" name="checkbox" /><span>是否参与促销</span>
+						</label>
 					</div>
 					<div class="ub ub-ac umar-r40">
-						<input id="allowAdjust" name="allowAdjust"
-							class="ub" type="checkbox" name="checkbox" /><span>分店调价</span>
+						<label>
+						<input id="allowAdjust" name="allowAdjust" type="checkbox" name="checkbox" /><span>分店调价</span>
+						</label>
+
 					</div>
 				</div>
 

@@ -2,9 +2,9 @@
  * Created by huangj02 on 2016/8/9.
  */
 $(function(){
+	
 	//初始化默认条件
     initConditionParams();
-    
     initDatagridOrders();
    
     //单据状态切换 
@@ -157,4 +157,13 @@ function returnDelete(){
 		    });
 		}
 	});
+}
+
+function printPreview() {
+    var rows = $("#gridOrders").datagrid('getSelections');
+    if(rows.length == 1){
+        toPrintPreview('PR','/form/purchase/','gridOrders');
+    }else{
+        messager('请选择一行数据.')
+    }
 }

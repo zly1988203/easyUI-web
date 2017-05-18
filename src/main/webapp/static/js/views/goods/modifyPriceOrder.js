@@ -11,7 +11,6 @@ $(function(){
     //初始化列表
     initModifyPriceGrid();
     modifyPriceOrderCx();
-    
 });
 
 //单据状态切换

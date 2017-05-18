@@ -1,5 +1,15 @@
 $(function(){
     initDatagridRequire();
+    if(getUrlQueryString('message')=='0'){
+    	//$("#branchId").val(sessionBranchId);
+    	//$("#branchName").val(sessionBranchName);
+    	$("#startCount").attr("value",null);
+    	$("#endCount").attr("value",null);
+    	var fromObjStr = $('#queryForm').serializeObject();
+    	$("#stockException").datagrid("options").method = "post";
+    	$("#stockException").datagrid('options').url = contextPath + '/stock/exception/getStockExceptionList';
+    	$("#stockException").datagrid('load', fromObjStr);
+    }
 });
 /**
  * 机构名称
@@ -25,10 +35,10 @@ function queryForm(){
 //        messager("请选择机构");
 //        return;
 //    } 
-	if($("#branchName").val()=="" && $("#skuCode").val()=="" ){
-        messager("请选择机构或输入条码");
-        return;
-    } 
+//	if($("#branchName").val()=="" && $("#skuCode").val()=="" ){
+//        messager("请选择机构或输入条码");
+//        return;
+//    } 
 	$("#startCount").attr("value",null);
 	$("#endCount").attr("value",null);
 	var fromObjStr = $('#queryForm').serializeObject();

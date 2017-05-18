@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -24,6 +25,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.okdeer.jxc.common.constant.Constant;
+import com.okdeer.jxc.config.test.ResourceConfig;
+import com.okdeer.jxc.config.test.ShiroConfiguration;
 import com.okdeer.jxc.system.entity.SysUser;
 
 /**
@@ -37,9 +40,10 @@ import com.okdeer.jxc.system.entity.SysUser;
  *
  */
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = Application.class)
-@WebAppConfiguration
+@RunWith(SpringJUnit4ClassRunner.class) // SpringJUnit支持，由此引入Spring-Test框架支持！ 
+@SpringApplicationConfiguration(classes = Application.class) // 指定我们SpringBoot工程的Application启动类
+@WebAppConfiguration(value = "src/main/webapp") // 由于是Web项目，Junit需要模拟ServletContext，因此我们需要给我们的测试类加上@WebAppConfiguration。
+@ContextConfiguration(classes={ ResourceConfig.class, ShiroConfiguration.class })
 public class ActivityControllerCheckTest {
 	
 	@Autowired  

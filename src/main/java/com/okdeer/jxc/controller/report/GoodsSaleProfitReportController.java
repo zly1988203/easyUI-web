@@ -65,7 +65,7 @@ public class GoodsSaleProfitReportController extends BaseController<GoodsSalePro
 			GoodsSaleProfitReportVo vo,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
-		LOG.info(LogConstant.OUT_PARAM, vo.toString());
+		LOG.debug(LogConstant.OUT_PARAM, vo.toString());
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
@@ -77,7 +77,7 @@ public class GoodsSaleProfitReportController extends BaseController<GoodsSalePro
 				footer.add(goodsSaleProfitReportVo);
 			}
 			goodsOutInfoDetailList.setFooter(footer);
-			LOG.info(LogConstant.PAGE, goodsOutInfoDetailList.toString());
+			LOG.debug(LogConstant.PAGE, goodsOutInfoDetailList.toString());
 			return goodsOutInfoDetailList;
 		} catch (Exception e) {
 			LOG.error("单品毛利ABC列表信息异常:{}", e);

@@ -32,6 +32,7 @@ import com.okdeer.jxc.common.constant.PrintConstant;
 import com.okdeer.jxc.common.enums.GoodsStatusEnum;
 import com.okdeer.jxc.common.enums.GoodsTypeEnum;
 import com.okdeer.jxc.common.enums.PricingTypeEnum;
+import com.okdeer.jxc.common.enums.SaleWayEnum;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
@@ -100,6 +101,8 @@ BaseController<GoodsReportController> {
 		model.addAttribute("goodsStatus", GoodsStatusEnum.values()); 
 		//商品类型
 		model.addAttribute("goodsType", GoodsTypeEnum.values()); 
+		
+		model.addAttribute("saleWayList", SaleWayEnum.values()); 
 		/**
 		 * added by zhangqin on 2017-02-16 end
 		 */
@@ -209,25 +212,25 @@ BaseController<GoodsReportController> {
 	@ResponseBody
 	public RespJson exportList(HttpServletResponse response, GoodsReportQo qo) {
 
-		LOG.info("商品查询导出execl：vo" + qo);
+		LOG.debug("商品查询导出execl：vo" + qo);
 		try {
 			// 如果没有选择店铺，则查询登录人所在机构的商品
 			if (StringUtils.isEmpty(qo.getBranchName())) {
 				qo.setBranchId(UserUtil.getCurrBranchId());
-			}
-			String branchName = qo.getBranchName();
-			if (StringUtils.isNotBlank(branchName) && branchName.contains("[")
-					&& branchName.contains("]")) {
-				int length = branchName.indexOf("]");
-				qo.setBranchName(branchName.substring(length+1, branchName.length()));
+			}else{
+				String branchName = qo.getBranchName();
+				if (StringUtils.isNotBlank(branchName) && branchName.contains("[")
+						&& branchName.contains("]")) {
+					int length = branchName.indexOf("]");
+					qo.setBranchName(branchName.substring(length+1, branchName.length()));
+				}
+
+				List<Branches> branchList = branchesService.getBranchByKeyword(qo.getBranchName());
+				if(branchList.size()==1){
+					qo.setBranchId(branchList.get(0).getBranchesId());
+				}
 			}
 
-			List<Branches> branchList = branchesService.getBranchByKeyword(qo.getBranchName());
-			if(branchList.size()==1){
-				qo.setBranchId(branchList.get(0).getBranchesId());
-			}else{
-				return null;
-			}
 			List<GoodsReportVo> exportList = goodsReportService.queryList(qo);
 			if(CollectionUtils.isNotEmpty(exportList)){
 				String fileName = "商品查询列表" + "_" + DateUtils.getCurrSmallStr();

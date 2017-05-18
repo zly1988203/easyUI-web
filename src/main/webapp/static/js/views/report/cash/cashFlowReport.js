@@ -45,17 +45,7 @@ function initCashWaterGrid() {
     			}
     			return null;
     		}},
-            {field: 'businessType', title: '业务类型', width: 150, align: 'center',formatter : function(businessType){
-    			if(businessType){
-    				if(businessType =='A') {
-    					return "销售";
-    				}
-    				if(businessType =='B') {
-    					return "退货";
-    				}
-    			}
-    			return null;
-    		}},
+            {field: 'businessTypeStr', title: '业务类型', width: 150, align: 'center'},
             {field: 'payAmount', title: '付款金额', width: 120, align: 'right',formatter : function(payAmount){
     			if(payAmount){
     				payAmount = parseFloat(payAmount);
@@ -66,24 +56,9 @@ function initCashWaterGrid() {
             {field: 'payType', title: '付款方式', width: 100, align: 'center'},
             {field: 'cashier', title: '收银员', width: 100, align: 'left'},
             {field: 'returnOrderNo', title: '退货原单号', width: 135, align: 'left'},
-            {field: 'orderType', title: '订单类型', width: 80, align: 'center',formatter : function(orderType){
-    			if(orderType){
-    				if(orderType =='0') {
-    					return "APP";
-    				}
-    				if(orderType =='1') {
-    					return "微信";
-    				}
-    				if(orderType =='2') {
-    					return "POS订单";
-
-    				}
-    				if(orderType =='3') {
-    					return "APP";
-    				}
-    			}
-    			return null;
-    		}},
+            {field: 'orderTypeStr', title: '订单类型', width: 100, align: 'center' },
+            {field: 'ticketNo', title: '小票号', width: 180, align: 'center' },
+            {field: 'orderWayStr', title: '销售方式', width: 100, align: 'center' },
             {field: 'remark', title: '备注', width: 150, align: 'left'},
         ]]
     });

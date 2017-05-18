@@ -109,7 +109,7 @@ public class ReportExcelUtil {
 				try {
 					is.close();
 				} catch (IOException e) {
-					LOG.info("流已关闭!", e);
+					LOG.error("流已关闭!", e);
 				}
 			}
 		}

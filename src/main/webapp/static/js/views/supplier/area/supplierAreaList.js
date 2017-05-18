@@ -55,7 +55,7 @@ function initDatagridSupplierAreaList(){
         columns:[[
             {field:'areaCode',title:'编号',width:100,align:'left',
                 formatter: function(value,row,index){
-                    return "<a href='#' onclick=\"editHandel('"+row.areaId+"','"+row.areaCode+"','"+row.areaName+"')\" class='ualine'>"+value+"</a>";
+                    return "<a href='#' onclick=\"editHandel('"+row.areaId+"','"+row.areaCode+"','"+row.areaName+"','"+row.branchId+"')\" class='ualine'>"+value+"</a>";
 
                 }
             },
@@ -93,11 +93,12 @@ function addHandel(){
 /**
  * 修改
  */
-function editHandel(areaId,areaCode,areaName){
+function editHandel(areaId,areaCode,areaName,branchId){
     var initData = {
         areaId:areaId,
         areaCode:areaCode,
-        areaName:areaName
+        areaName:areaName,
+        branchId:branchId
     }
     editDalogTemp = $('<div/>').dialog({
         href: contextPath+"/supplierArea/toEdit",

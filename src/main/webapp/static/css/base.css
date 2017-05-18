@@ -22,6 +22,9 @@
 .uc-black {
   color: #393939; }
 
+.uc-blue {
+  color: #363efe; }
+
 .uc-main {
   color: #0099cc; }
 
@@ -1105,12 +1108,18 @@
 
 .umar-r100 {
   margin-right: 100px; }
+  .umar-r200 {
+  margin-right: 200px; }
 
 .umar-b100 {
   margin-bottom: 100px; }
 
 .umar-l100 {
   margin-left: 100px; }
+  
+  .umar-l335{ 
+	margin-left:335px
+	}
 
 .uw {
   width: 100%; }
@@ -2383,7 +2392,10 @@
 
 .uscroll {
   -webkit-overflow-scrolling: touch;
-  overflow: scroll; }
+  overflow: scroll; 
+  overflow-x:scroll;
+  overflow-y:scroll;
+  }
 
 body, div, ul, ol, li, form, input, textarea, p, header, nav, menu, button {
   margin: 0;

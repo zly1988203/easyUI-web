@@ -24,10 +24,16 @@
 				<div class="ub ub-ac upad-16 ">
 					<div class="ub uw-110 ut-r">抹零设置:</div>
 					<div class="ub uw-110 ub-ac umar-r10">
-						<input class="ub" type="radio" id="centComputeType0" name="centComputeType" value="0" /><span>四舍五入到角</span>
+						<label>
+						<input type="radio" id="centComputeType0" name="centComputeType" value="0" /><span>四舍五入到角</span>
+						</label>
+
 					</div>
 					<div class="ub uw-110 ub-ac umar-r10">
-						<input class="ub" type="radio" id="centComputeType1" name="centComputeType" value="1" /><span>角以下抹去</span>
+						<label>
+						<input type="radio" id="centComputeType1" name="centComputeType" value="1" /><span>角以下抹去</span>
+						</label>
+
 					</div>
 				</div>
 			</form>

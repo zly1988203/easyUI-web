@@ -114,9 +114,9 @@ public class SupplierCommonController extends BaseController<SupplierCommonContr
 			}
 			//公共组件默认带出总部的供应商
 			qo.setDataType(1);
-			LOG.info("vo:" + qo.toString());
+			LOG.debug("vo:" + qo.toString());
 			PageUtils<Supplier> suppliers = supplierService.queryLists(qo);
-			LOG.info("page" + suppliers.toString());
+			LOG.debug("page" + suppliers.toString());
 			return suppliers;
 		} catch (Exception e) {
 			LOG.error("查询供应商异常:", e);

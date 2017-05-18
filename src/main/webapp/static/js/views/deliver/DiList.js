@@ -13,6 +13,21 @@ $(function(){
 	toBtnDisable('btnAdd','btnDel');
 	initDatagridRequireOrdersDO();
 	targetBranchId = $("#targetBranchId").val();
+	if(getUrlQueryString('message')=='0'){
+		 $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30)+" 00:00");
+    	$('#tabs').tabs({'selected':1});
+    }else if(getUrlQueryString('message')=='1'){
+    	$("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30)+" 00:00");
+    	toBtnDisable('btnAdd','btnDel');
+ 		setQueryDataDO();
+ 		delDivAuditStatus();
+ 		initDatagridRequireOrdersDO();
+    }else{
+    	toBtnDisable('btnAdd','btnDel');
+		setQueryDataDO();
+		delDivAuditStatus();
+		initDatagridRequireOrdersDO();
+    }
 });
 
 $(document).on('input','#remark',function(){

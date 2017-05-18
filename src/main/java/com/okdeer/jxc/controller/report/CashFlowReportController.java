@@ -25,8 +25,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.PrintConstant;
-import com.okdeer.jxc.common.enums.BusinessTypeEnum;
-import com.okdeer.jxc.common.enums.OrderResourceEnum;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
@@ -152,7 +150,7 @@ public class CashFlowReportController extends BaseController<CashFlowReportContr
 	@ResponseBody
 	public RespJson exportList(HttpServletResponse response, CashFlowReportQo qo) {
 
-		LOG.info("UserController.exportList start ,parameter vo=" + qo);
+		LOG.debug("UserController.exportList start ,parameter vo=" + qo);
 		try {
 			// 1、封装请求参数
 			qo = getParmas(qo);
@@ -265,19 +263,19 @@ public class CashFlowReportController extends BaseController<CashFlowReportContr
 				vo.setSaleTime(saleTime);
 			}
 			// 业务类型
-			if (StringUtils.isNotBlank(vo.getBusinessType())) {
-				String code = vo.getBusinessType();
-				String businessType = BusinessTypeEnum.enumValueOf(code) == null ? ""
-						: BusinessTypeEnum.enumValueOf(code).getName();
-				vo.setBusinessType(businessType);
-			}
+//			if (StringUtils.isNotBlank(vo.getBusinessType())) {
+//				String code = vo.getBusinessType();
+//				String businessType = BusinessTypeEnum.enumValueOf(code) == null ? ""
+//						: BusinessTypeEnum.enumValueOf(code).getName();
+//				vo.setBusinessType(businessType);
+//			}
 			// 订单类型
-			if (StringUtils.isNotBlank(vo.getOrderType())) {
-				String code = vo.getOrderType();
-				String orderType = OrderResourceEnum.enumValueOf(Integer.valueOf(code)) == null ? ""
-						: OrderResourceEnum.enumValueOf(Integer.valueOf(code)).getName();
-				vo.setOrderType(orderType);
-			}
+//			if (StringUtils.isNotBlank(vo.getOrderType())) {
+//				String code = vo.getOrderType();
+//				String orderType = OrderResourceEnum.enumValueOf(Integer.valueOf(code)) == null ? ""
+//						: OrderResourceEnum.enumValueOf(Integer.valueOf(code)).getName();
+//				vo.setOrderType(orderType);
+//			}
 		}
 		return exportList;
 	}

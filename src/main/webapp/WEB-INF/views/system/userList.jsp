@@ -11,8 +11,8 @@
 <script src="${ctx}/static/js/views/system/user/userList.js"></script>
 
 </head>
-<body class="ub uw uh ufs-14 uc-black">
-	<div class="ub ub-ver ub-f1 umar-4 upad-4">
+<body class="uw ufs-14 uc-black upad-8 box-border">
+	<div class="ub uw uh ub-ver ub-f1 ">
 		<form id="queryForm">
 			<div class="ub ub-ac">
 				<div class="ubtns">

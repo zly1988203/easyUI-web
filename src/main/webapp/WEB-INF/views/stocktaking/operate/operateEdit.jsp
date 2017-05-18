@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>存货盘点单详情</title>
   <%@ include file="/WEB-INF/views/include/header.jsp"%>
-    <script  src="${ctx}/static/js/views/stocktaking/operate/operate.js?V=1.266"></script>
+    <script  src="${ctx}/static/js/views/stocktaking/operate/operate.js?V=${versionNo}"></script>
     <style>
     .datagrid-header .datagrid-cell {text-align: center!important;font-weight: bold;}
     </style>
@@ -48,7 +48,8 @@
                     <div class="umar-r10 uw-70 ut-r">盘点批号:</div>
                     <input type='hidden' id="batchId" name="batchId" value="${stocktakingFormVo.batchId}">
 					<input type="text" name="batchNo" id="batchNo"class="uinp ub ub-f1" value="${stocktakingFormVo.batchNo }" readonly="readonly"  />
-                </div>
+               </div>
+               <i class="ub ub-ac uc-red">*</i>
                <div class="ub ub-ac umar-l10">
                    <div class="umar-r10 uw-70 ut-r">制单人员:</div>
                    <div class="utxt">${stocktakingFormVo.createUserName }</div>

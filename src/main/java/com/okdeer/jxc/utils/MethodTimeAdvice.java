@@ -38,7 +38,7 @@ public class MethodTimeAdvice implements MethodInterceptor {
 			simpleParams[i] = params[i].getSimpleName();
 		}
 
-		LOG.info("Takes:" + clock.getTime() + " ms [" + invocation.getThis().getClass().getName() + "."
+		LOG.debug("Takes:" + clock.getTime() + " ms [" + invocation.getThis().getClass().getName() + "."
 				+ invocation.getMethod().getName() + "(" + StringUtils.join(simpleParams, ",") + ")] ");
 		return result;
 	}

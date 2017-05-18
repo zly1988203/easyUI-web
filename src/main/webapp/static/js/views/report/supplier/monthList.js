@@ -5,11 +5,14 @@
 $(function(){
 	
 	initDatagridGYYueJXC();
+	branchId = $("#branchId").val();
+	//$(".radioItem").on("click",queryForm());
 });
 
 function updateWdatePicker(){
 	   WdatePicker({
-		    dateFmt:'yyyy-MM-dd',
+		    dateFmt:'yyyy-MM',
+		    maxDate:'%y-%M',
 	    	onpicked:function(dp){
 	          $("input:radio[name='dateradio']").attr("checked",false);
 	      }
@@ -31,59 +34,65 @@ function initDatagridGYYueJXC(){
 		singleSelect:false,  //单选  false多选
 		rownumbers:true,    //序号
 		pagination:true,    //分页
+		pageSize:50,
 		showFooter:true,
 		fitColumns:false,    //每列占满
 		height:'100%',
 		width:'100%',
 		columns:[[
-			{field:'check',checkbox:true},
-			{field: 'branchCode1', title: '机构编码', width: 100, align: 'left'},
-			{field: 'branchName1', title: '机构名称', width: 100, align: 'left'},
-			{field: 'branchCode', title: '供应商编号', width: 100, align: 'left'},
-			{field: 'branchName', title: '供应商名称', width: 100, align: 'left'},
-			{field: 'categoryName', title: '经营方式', width: 100, align: 'left'},
-			{field: 'skuUnit1', title: '期初库存数量', width: 100, align: 'right',
-				fomatter:function(value,row,index){
+			{field: 'branchCode', title: '机构编码', width: 100, align: 'left',formatter : function(value, row,index) {
+		        var str = value;
+		        if(value ==="SUM"){
+		            str ='<div class="ub ub-pc">合计</div> '
+		        }
+		        return str;
+		    }},
+			{field: 'branchName', title: '机构名称', width: 100, align: 'left'},
+			{field: 'supplierCode', title: '供应商编号', width: 100, align: 'left'},
+			{field: 'supplierName', title: '供应商名称', width: 100, align: 'left'},
+			{field: 'saleWay', title: '经营方式', width: 100, align: 'left'},
+			{field: 'beginStock', title: '期初库存数量', width: 100, align: 'right',
+				formatter:function(value,row,index){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				}
 			},
-			{field: 'skuUnit2', title: '期初库存金额', width: 100, align: 'right',
-				fomatter:function(value,row,index){
+			{field: 'beginSaleAmount', title: '期初库存金额', width: 100, align: 'right',
+				formatter:function(value,row,index){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				}
 			},
-			{field: 'skuUnit4', title: '期初进货金额', width: 100, align: 'right',
-				fomatter:function(value,row,index){
+			{field: 'beginCostAmount', title: '期初成本金额', width: 100, align: 'right',
+				formatter:function(value,row,index){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				}	
 			},
-			{field: 'skuUnit5', title: '销售数量', width: 100, align: 'right',
-				fomatter:function(value,row,index){
+			{field: 'posNum', title: '销售数量', width: 100, align: 'right',
+				formatter:function(value,row,index){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				}	
 			},
-			{field: 'skuUnit6', title: '销售金额', width: 100, align: 'right',
-				fomatter:function(value,row,index){
+			{field: 'posAmount', title: '销售金额', width: 100, align: 'right',
+				formatter:function(value,row,index){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				}
 			},
-			{field: 'skuUnit7', title: '销售成本', width: 100, align: 'right',
-				fomatter:function(value,row,index){
+			{field: 'costAmount', title: '销售成本', width: 100, align: 'right',
+				formatter:function(value,row,index){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				}
 			},
-			{field: 'skuUnit8', title: '销售毛利', width: 100, align: 'right',
-				fomatter:function(value,row,index){
+			{field: 'profitAmount', title: '销售毛利', width: 100, align: 'right',
+				formatter:function(value,row,index){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				}
 			},
-			{field: 'skuUnit9', title: '期末库存数量', width: 100, align: 'right',
-				fomatter:function(value,row,index){
+			{field: 'endStock', title: '期末库存数量', width: 100, align: 'right',
+				formatter:function(value,row,index){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				}
 			},
-			{field: 'skuUnit10', title: '期末库存金额', width: 100, align: 'right',
-				fomatter:function(value,row,index){
+			{field: 'endCostAmount', title: '期末库存金额', width: 100, align: 'right',
+				formatter:function(value,row,index){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				}
 			}		
@@ -100,7 +109,7 @@ function queryForm(){
     } 
 	var fromObjStr = $('#queryForm').serializeObject();
 	$("#"+datagridId).datagrid("options").method = "post";
-	$("#"+datagridId).datagrid('options').url = contextPath + '/stock/index/getStockIndexList';
+	$("#"+datagridId).datagrid('options').url = contextPath + '/report/supplier/month/details/list';
 	$("#"+datagridId).datagrid('load', fromObjStr);
 }
 
@@ -111,7 +120,7 @@ function selectBranches(){
 	new publicAgencyService(function(data){
 		$("#createBranchId").val(data.branchesId);
 		$("#branchName").val(data.branchName);
-	},'BF','');
+	},'',sessionBranchId);
 }
 
 
@@ -119,10 +128,15 @@ function selectBranches(){
  * 供应商选择
  */
 function selectSupplier(){
+	if($("#branchName").val()==""){
+        messager("请先选择机构");
+        return;
+    } 
+	var branchId = $("#createBranchId").val();
 	new publicSupplierService(function(data){
 		$("#supplierId").val(data.id);
 		$("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
-	});
+	},{"branchId":branchId==""&&branchId?sessionBranchId:branchId,"isDirect":''});
 }
 
 /**
@@ -131,3 +145,72 @@ function selectSupplier(){
 var resetForm = function() {
 	 $("#queryForm").form('clear');
 };
+
+var dg;
+/**
+ * 导出
+ */
+function exportData(){
+	dg = gridGYYueJXCList;
+	var length = gridGYYueJXCList.datagrid('getData').total;
+	if(length == 0){
+		successTip("无数据可导");
+		return;
+	}
+	$('#exportWin').window({
+		top:($(window).height()-300) * 0.5,   
+	    left:($(window).width()-500) * 0.5
+	});
+	$("#exportWin").show();
+	$("#totalRows").html(gridGYYueJXCList.datagrid('getData').total);
+	$("#exportWin").window("open");
+}
+
+/**
+ * 导出
+ */
+function exportExcel(){
+	var length = gridGYYueJXCList.datagrid('getData').total;
+	if(length == 0){
+		successTip('提示',"没有数据");
+		return;
+	}
+	var fromObjStr = $('#queryForm').serializeObject();
+	$("#queryForm").form({
+		success : function(data){
+			if(data==null){
+				$.messager.alert('提示',"导出数据成功！");
+			}else{
+				$.messager.alert('提示',JSON.parse(data).message);
+			}
+		}
+	});
+	$("#queryForm").attr("action",contextPath+"/report/supplier/month/export/list");
+	
+	$("#queryForm").submit();
+}
+
+var printReport = function(){
+	var length = gridGYYueJXCList.datagrid('getData').total;
+	if(length == 0){
+		$.messager.alert('提示',"没有数据");
+		return;
+	}
+	var queryParams =  urlEncode($("#queryForm").serializeObject());
+	parent.addTabPrint("reportPrint"+new Date().getTime(),"打印",contextPath+"/report/supplier/month/print?params="+queryParams);
+}
+
+var urlEncode = function (param, key, encode) {
+	  if(param==null) return '';
+	  var paramStr = '';
+	  var t = typeof (param);
+	  if (t == 'string' || t == 'number' || t == 'boolean') {
+	    paramStr += '&' + key + '=' + ((encode==null||encode) ? encodeURIComponent(param) : param);
+	  } else {
+	    for (var i in param) {
+	      var k = key == null ? i : key + (param instanceof Array ? '[' + i + ']' : '.' + i);
+	      paramStr += urlEncode(param[i], k, encode);
+	    }
+	  }
+	  return paramStr;
+	};

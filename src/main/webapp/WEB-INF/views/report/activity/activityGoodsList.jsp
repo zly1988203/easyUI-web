@@ -8,7 +8,7 @@
 <title>促销销售查询</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
-<script src="${ctx}/static/js/views/report/activity/activityGoodsList.js"></script>
+<script src="${ctx}/static/js/views/report/activity/activityGoodsList.js?1=1"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
 </style>
@@ -63,11 +63,12 @@
 	              <label><input type="checkbox" value="1" name="activityType1" onclick="selectedTypeItem()">特价</label>
 	              <label><input type="checkbox" value="2" name="activityType1" onclick="selectedTypeItem()">折扣</label>
 	              <label><input type="checkbox" value="3" name="activityType1" onclick="selectedTypeItem()">偶数特价</label>
-	              <label><input type="checkbox" value="4" name="activityType1" onclick="selectedTypeItem()">换购</label>
+	              <!-- <label><input type="checkbox" value="4" name="activityType1" onclick="selectedTypeItem()">换购</label> -->
 	              <label><input type="checkbox" value="5" name="activityType1" onclick="selectedTypeItem()">满减</label>
 	              <label><input type="checkbox" value="6" name="activityType1" onclick="selectedTypeItem()">组合特价</label>
 	              <label><input type="checkbox" value="8" name="activityType1" onclick="selectedTypeItem()">手工折扣</label>
 	              <label><input type="checkbox" value="9" name="activityType1" onclick="selectedTypeItem()">手工议价</label>
+	              <label><input type="checkbox" value="10" name="activityType1" onclick="selectedTypeItem()">买满送</label>
                 </div>
            </div>
        	</form>

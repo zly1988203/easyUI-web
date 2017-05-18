@@ -11,8 +11,11 @@ $(function(){
 });
 var editRowIndex = undefined;      //光标所在当前行
 var editField = undefined;      //光标所在当前列
+var editRowData = null;
+var gridName = "gridAddRequireOrder";
 var gridHandel = new GridClass();
 function initDatagridEditRequireOrder(){
+    gridHandel.setGridName(gridName);
 	var formId = $("#formId").val();
     $("#gridEditRequireOrder").datagrid({
         //title:'普通表单-用键盘操作',
@@ -119,6 +122,19 @@ function initDatagridEditRequireOrder(){
                 editField = "skuCode";
             }
             onChangeDatagridEdit(rowIndex);
+        },
+        onBeforeEdit:function (rowIndex, rowData) {
+            editRowData = $.extend(true,{},rowData);
+        },
+        onAfterEdit:function(rowIndex, rowData, changes){
+            if(typeof(rowData.id) === 'undefined'){
+                // $("#"+gridName).datagrid('acceptChanges');
+            }else{
+                if(editRowData.skuCode != changes.skuCode){
+                    rowData.skuCode = editRowData.skuCode;
+                    gridHandel.setFieldTextValue('skuCode',editRowData.skuCode);
+                }
+            }
         },
         onLoadSuccess:function(data){
             updateFooter();

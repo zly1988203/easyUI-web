@@ -1,7 +1,6 @@
 $(function(){
     //初始化默认条件
     initConditionParams();
-    
     initDatagridOrders();
     
     //单据状态切换

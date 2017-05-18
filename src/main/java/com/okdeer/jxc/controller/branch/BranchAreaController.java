@@ -58,9 +58,9 @@ public class BranchAreaController extends BaseController<BranchAreaController> {
 	@ResponseBody
 	public String getBranchAreaToTree(BranchAreaVo vo) {
 		try {
-			LOG.info("机构区域树查询参数:{}", vo.toString());
+			LOG.debug("机构区域树查询参数:{}", vo.toString());
 			String branchAreaTree = branchAreaService.queryBranchAreaToTree(vo);
-			LOG.info("机构区域树 branchAreaTree:{}", branchAreaTree);
+			LOG.debug("机构区域树 branchAreaTree:{}", branchAreaTree);
 			return branchAreaTree;
 		} catch (Exception e) {
 			LOG.error("查询机构区域树结构异常:", e);
@@ -84,7 +84,7 @@ public class BranchAreaController extends BaseController<BranchAreaController> {
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
-			LOG.info("查询区域参数:{}", vo.toString()+"pageNumber:"+pageNumber+"pageSize:"+pageSize);
+			LOG.debug("查询区域参数:{}", vo.toString()+"pageNumber:"+pageNumber+"pageSize:"+pageSize);
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
 			SysUser user = UserUtil.getCurrentUser();
@@ -101,7 +101,7 @@ public class BranchAreaController extends BaseController<BranchAreaController> {
 				}
 			}
 			PageUtils<BranchArea> suppliers = branchAreaService.queryLists(vo);
-			LOG.info("区域机构列表{}" , suppliers);
+			LOG.debug("区域机构列表{}" , suppliers);
 			return suppliers;
 		} catch (Exception e) {
 			LOG.error("查询区域机构异常:", e);

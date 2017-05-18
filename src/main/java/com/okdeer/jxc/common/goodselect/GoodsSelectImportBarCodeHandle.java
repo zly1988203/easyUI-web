@@ -88,10 +88,12 @@ public class GoodsSelectImportBarCodeHandle implements GoodsSelectImportHandle{
 		this.importMap = importMap;
 	}
 
+	@SuppressWarnings("unchecked")
 	public GoodsSelectImportBarCodeHandle(List<JSONObject> excelList, String[] excelField, GoodsSelectImportBusinessValid businessValid){
 		// 第一条记录为标题行，取出第一条记录用于判断模板
 		if (!CollectionUtils.isEmpty(excelList)) {
 			JSONObject title = excelList.get(0);
+			title.forEach((key, value) -> title.put(key, ((String) value).trim()));
 			// 没有货号字段，视为错误模板
 			if (!title.containsValue("条码")) {
 				for (int i = 0; i < excelList.size(); i++) {

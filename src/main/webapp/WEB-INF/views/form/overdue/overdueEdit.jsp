@@ -9,7 +9,7 @@
     <title>调价订单-修改</title>
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-	<script src="${ctx}/static/js/views/overdue/overdueEdit.js"></script>
+	<script src="${ctx}/static/js/views/overdue/overdueEdit.js?V=${versionNo}"></script>
     
     <%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
     <style type="text/css">
@@ -117,6 +117,7 @@
 	                    <c:if test="${form.status != 3}">
 	                    	<input class="uinp ub ub-f1" readonly="readonly"  value="${form.remark}" />
 	                    </c:if>
+	                    <i class="uc-red">*</i>
 	           </div>
 	           <div class="ub ub-ac umar-r80">
                 <div class="umar-r10 uw-60 ut-r">审核人员:</div>
@@ -130,22 +131,6 @@
         <div class="ub ub-f1 datagrid-edit umar-t8">
             <table id="gridEditOrder" ></table>
         </div>
-        
-        
-		 <!-- 导入弹框 -->
-	    <div class="uabs uatk">
-	     	<div class="uatit">导入文件选择</div>
-	         <div class="uacon">
-	         	<input class="uinp ub" id="filename" type="text">
-	         	<label class="ualable">选择文件
-	         		<input type="file" class="uafile" value=""  name="xlfile" id="xlf" />
-	         	</label>
-	         </div>
-	         <div class="uabtns ">
-	     	 	<button class="uabtn umar-r30" onclick="importHandel('gridEditOrder')">导入</button>
-	     	 	<button class="uabtn" onclick="uaclose()" >取消</button>
-	     	 </div>
-	     </div>
         
     </div>
 <input id="hiddenStatus" type="hidden" name="hiddenStatus" value='<c:out value="${form.status}"></c:out>'>

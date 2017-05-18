@@ -14,6 +14,10 @@ $(function(){
 	toBtnDisable('btnAdd','btnDel');
 	setQueryDataDA();
 	delDivAuditStatus();
+	if(getUrlQueryString('message')=='0'){
+		$("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30)+" 00:00");
+		$('#tabs').tabs({'selected':1});
+    }
 	initDatagridRequireOrdersDA();
 });
 
@@ -132,9 +136,16 @@ function initDatagridRequireOrdersDO(){
 			{field: 'dealStatusDO', title: '单据状态', width: '100px', align: 'center'},
 			{field: 'sourceBranchName', title: '发货机构', width: '200px', align: 'left'},
 			{field: 'targetBranchName', title: '收货机构', width: '200px', align: 'left'},
-			{field:'referenceNo',title:'要货单号',width:'140px',align:'left',formatter:function(value,row,index){
+			{field:'referenceNo',title:'引用单号',width:'140px',align:'left',formatter:function(value,row,index){
 				if(updatePermission){
-					var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'要货单明细\',\''+ contextPath +'/form/deliverForm/deliverEdit?deliverFormId='+ row.referenceId +'&deliverType=DA\')">' + value + '</a>';
+					var strHtml = "";
+					if(value.startWith("DR")){
+						strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'退货单明细\',\''+ contextPath +'/form/deliverForm/deliverEdit?deliverFormId='+ row.referenceId +'&deliverType=DR\')">' + value + '</a>';
+					}else if(value.startWith("DA")){
+						var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'要货单明细\',\''+ contextPath +'/form/deliverForm/deliverEdit?deliverFormId='+ row.referenceId +'&deliverType=DA\')">' + value + '</a>';
+					}else if(value.startWith("DY")){
+						var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'直送要货单明细\',\''+ contextPath +'/form/deliverForm/deliverEdit?deliverFormId='+ row.referenceId +'&deliverType=DY\')">' + value + '</a>';
+					}
 					return strHtml;
 				}else{
 					return value;
@@ -202,7 +213,12 @@ function queryForm(){
 
 //删除
 function delDeliverForm(){
+	var tab = $('#tabs').tabs('getSelected');
+	var index = $('#tabs').tabs('getTabIndex',tab);
 	var dg = $("#deliverFormList");
+	if(index == 1){
+		dg = $("#processedFormList")
+	}
 	var row = dg.datagrid("getChecked");
 	var ids = [];
 	for(var i=0; i<row.length; i++){
@@ -357,7 +373,7 @@ function delDivTime() {
 		popupSearchDateTime = $("#popupSearchDateTime").val();
 		checkDiv.parentNode.removeChild(checkDiv);
 	}
-	$("#remarkDiv").after("<div class='ub ub-ac umar-l40 uw-300' id='auditStatus' style='visibility:visible;'><div class='umar-r10 uw-70 ut-r'>审核状态:</div><div class='ub ub-ac umar-r10'><input class='ub' type='radio' id='deliverAuditStatus0' name='deliverAuditStatus' value='0' checked='checked' onclick='queryForm()'/><span>未审核</span></div><div class='ub ub-ac umar-r10'><input class='ub' type='radio' id='deliverAuditStatus1' name='deliverAuditStatus'  value='1' onclick='queryForm()'/><span>已审核</span></div><div class='ub ub-ac umar-r10'><input class='ub' type='radio' id='deliverAuditStatus2' name='deliverAuditStatus' value='' onclick='queryForm()'/><span>全部</span></div></div>");
+	$("#remarkDiv").after("<div class='ub ub-ac umar-l40 uw-300' id='auditStatus' style='visibility:visible;'><div class='umar-r10 uw-70 ut-r'>审核状态:</div><div class='ub ub-ac umar-r10'><input class='ub' type='radio' id='deliverAuditStatus0' name='deliverAuditStatus' value='0' checked='checked' onclick='queryForm()'/><label for='deliverAuditStatus0'>未审核</span></div><div class='ub ub-ac umar-r10'><input class='ub' type='radio' id='deliverAuditStatus1' name='deliverAuditStatus'  value='1' onclick='queryForm()'/><label for='deliverAuditStatus1'>已审核</label></div><div class='ub ub-ac umar-r10'><input class='ub' type='radio' id='deliverAuditStatus2' name='deliverAuditStatus' value='' onclick='queryForm()'/><label for='deliverAuditStatus2'>全部</label></div></div>");
 	setAuditStatusVal();
 }
 

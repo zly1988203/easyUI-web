@@ -56,7 +56,7 @@ public class PurchaseGuideController extends BaseController<PurchaseGuideControl
 	 */
 	@RequestMapping(value = "toGuideForm")
 	public String guideForm(PurchaseGuideQo qo, Model model) {
-		LOG.info("第一步默认条件筛选信息：{}", qo);
+		LOG.debug("第一步默认条件筛选信息：{}", qo);
 		String formData = GsonUtils.toJson(qo);
 
 		model.addAttribute("formData", formData);
@@ -73,7 +73,7 @@ public class PurchaseGuideController extends BaseController<PurchaseGuideControl
 	 */
 	@RequestMapping(value = "toGuideGoodsList", method = RequestMethod.POST)
 	public String guideGoodsList(PurchaseGuideQo qo, Model model) {
-		LOG.info("第一步条件筛选信息：{}", qo);
+		LOG.debug("第一步条件筛选信息：{}", qo);
 
 		String formData = GsonUtils.toJson(qo);
 
@@ -90,7 +90,7 @@ public class PurchaseGuideController extends BaseController<PurchaseGuideControl
 	 */
 	@RequestMapping(value = "toGuideOrderList")
 	public String toGuideOrderList(String guideNo, Model model) {
-		LOG.info("跳转到第三步采购订单列表页，采购向导批次号：{}", guideNo);
+		LOG.debug("跳转到第三步采购订单列表页，采购向导批次号：{}", guideNo);
 		model.addAttribute("guideNo", guideNo);
 		return "form/purchase/guide/guideOrderList";
 	}
@@ -108,7 +108,7 @@ public class PurchaseGuideController extends BaseController<PurchaseGuideControl
 
 		RespJson respJson = RespJson.error();
 
-		LOG.info("采购向导生成采购订单数据参数：{}", dataList);
+		LOG.debug("采购向导生成采购订单数据参数：{}", dataList);
 
 		try {
 			List<PurchaseGuideGoodsVo> goodsVoList = GsonUtils.fromJsonList(dataList, PurchaseGuideGoodsVo.class);
@@ -136,7 +136,7 @@ public class PurchaseGuideController extends BaseController<PurchaseGuideControl
 	@RequestMapping(value = "getGoodsList")
 	@ResponseBody
 	public PageUtils<PurchaseGuideGoodsPo> getGoodsList(PurchaseGuideQo qo) {
-		LOG.info("获取采购向导商品清单条件信息：{}", qo);
+		LOG.debug("获取采购向导商品清单条件信息：{}", qo);
 		try {
 			// 必填参数
 			if (StringUtils.isBlank(qo.getBranchId()) || qo.getBranchType() == null) {
@@ -203,7 +203,7 @@ public class PurchaseGuideController extends BaseController<PurchaseGuideControl
 	@RequestMapping(value = "getOrderList")
 	@ResponseBody
 	public PageUtils<PurchaseGuideOrderPo> getOrderList(String guideNo) {
-		LOG.info("获取采购向导订单列表向导批次号：{}", guideNo);
+		LOG.debug("获取采购向导订单列表向导批次号：{}", guideNo);
 		try {
 			return purchaseGuideService.getGuideOrderList(guideNo);
 		} catch (Exception e) {

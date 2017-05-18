@@ -70,7 +70,7 @@ public class OverShortReportController extends BaseController<OverShortReportCon
 	public PageUtils<OverShortReportVo> getReportList(OverShortReportVo vo,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
-		LOG.info(LogConstant.OUT_PARAM, vo.toString());
+		LOG.debug(LogConstant.OUT_PARAM, vo.toString());
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
@@ -79,7 +79,7 @@ public class OverShortReportController extends BaseController<OverShortReportCon
 			// 查询合计
 			List<OverShortReportVo> footer = overShortReportApi.getReportListSum(vo);
 			reportList.setFooter(footer);
-			LOG.info(LogConstant.PAGE, reportList.toString());
+			LOG.debug(LogConstant.PAGE, reportList.toString());
 			return reportList;
 		} catch (Exception e) {
 			LOG.error("长短款报表列表信息异常:{}", e);

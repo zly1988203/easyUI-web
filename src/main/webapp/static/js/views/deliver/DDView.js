@@ -420,7 +420,18 @@ function selectGoods(searchKey){
         messager("请先选择发货机构");
         return;
     }
-    new publicGoodsService("DA",function(data){
+
+    var param = {
+        type:'DD',
+        key:searchKey,
+        isRadio:'',
+        branchId:sourceBranchId,
+        sourceBranchId:sourceBranchId,
+        targetBranchId:targetBranchId,
+        supplierId:'',
+        flag:'0',
+    }
+    new publicGoodsServiceTem(param,function(data){
         if(searchKey){
             $("#"+gridHandel.getGridName()).datagrid("deleteRow", gridHandel.getSelectRowIndex());
             $("#"+gridHandel.getGridName()).datagrid("acceptChanges");
@@ -434,8 +445,8 @@ function selectGoods(searchKey){
             gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
         },100)
         
-    },searchKey,'',sourceBranchId,targetBranchId,branchId,'',"0");
-    branchId = '';
+    });
+
 }
 
 //二次查询设置值
@@ -575,12 +586,12 @@ function saveOrder(){
             		return $.extend(true,{},obj);//返回对象的深拷贝
             	});
             }else{
-                successTip(result['message']);
+                messager(result['message']);
             }
         },
         error:function(result){
             gFunEndLoading();
-            successTip("请求发送失败或服务器处理失败");
+            messager("请求发送失败或服务器处理失败");
         }
     });
 }
@@ -619,12 +630,12 @@ function check(){
 		    				location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
 		    			});
 		    		}else{
-		    			successTip(result['message']);
+                        messager(result['message']);
 		    		}
 		    	},
 		    	error:function(result){
                     gFunEndLoading();
-		    		successTip("请求发送失败或服务器处理失败");
+                    messager("请求发送失败或服务器处理失败");
 		    	}
 		    });
 		}
@@ -667,12 +678,12 @@ function toEnd(){
 		    				location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + $("#formId").val();
 		    			});
 		    		}else{
-		    			successTip(result['message']);
+                        messager(result['message']);
 		    		}
 		    	},
 		    	error:function(result){
                     gFunEndLoading();
-		    		successTip("请求发送失败或服务器处理失败");
+                    messager("请求发送失败或服务器处理失败");
 		    	}
 		    });
 		}
@@ -719,11 +730,11 @@ function getSourceBranch(branchesId) {
                 $("#salesman").val(result['salesman']);
                 $("#spanMinAmount").html(result['minAmount']);
     		}else{
-    			successTip(result['message']);
+                messager(result['message']);
     		}
     	},
     	error:function(result){
-    		successTip("请求发送失败或服务器处理失败");
+            messager("请求发送失败或服务器处理失败");
     	}
     });
 }
@@ -800,7 +811,7 @@ function selectStockAndPriceImport(data){
 	            updateListData(data);
 	        },
 	        error:function(result){
-	            successTip("请求发送失败或服务器处理失败");
+                messager("请求发送失败或服务器处理失败");
 	        }
 	    });
 }
@@ -883,11 +894,11 @@ function delDeliverForm(){
                         toRefreshIframeDataGrid("form/deliverDDForm/view","deliverFormList");
 		    			toClose();
 		    		}else{
-		    			successTip(result['message']);
+                        messager(result['message']);
 		    		}
 		    	},
 		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
+                    messager("请求发送失败或服务器处理失败");
 		    	}
 		    });
 		}

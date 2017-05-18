@@ -19,6 +19,7 @@ import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.pos.entity.PosLoginInfo;
 import com.okdeer.jxc.pos.entity.PosShiftHistory;
+import com.okdeer.jxc.pos.entity.PosShiftHistoryExt;
 import com.okdeer.jxc.pos.enums.ShiftTypeEnum;
 import com.okdeer.jxc.pos.service.PosShiftHistoryServiceApi;
 import com.okdeer.jxc.pos.vo.PosShiftHistoryVo;
@@ -87,12 +88,12 @@ public class PosShiftHistoryController extends BaseController<T> {
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
-			LOG.info("qo:" + vo.toString());
+			LOG.debug("qo:" + vo.toString());
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
 			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
 			PageUtils<Map<String,Object>> page = posShiftHistoryServiceApi.queryLists(vo);
-			LOG.info("page" + page.toString());
+			LOG.debug("page" + page.toString());
 			return page;
 		} catch (RuntimeException e) {
 			LOG.error("删除成本调整单失败！:{}", e);
@@ -140,7 +141,7 @@ public class PosShiftHistoryController extends BaseController<T> {
 	}
 	@RequestMapping(value = "shiftDetail")
 	public String getShift(Model model,String id){
-		Map<String,Object>  shift=posShiftHistoryServiceApi.getShiftExt(id);
+		PosShiftHistoryExt  shift=posShiftHistoryServiceApi.getCalculationShiftInfo(id);
 		model.addAttribute("shift", shift);
 		return "pos/shiftDetail";
 	}

@@ -11,6 +11,11 @@ function saveHandel(){
 	if (!isValid) {
 		return;
 	}
+    if($('#areaName').val().trim()===""){
+        messager("请输入名称");
+        return;
+    }
+
     var formData = $('#formAdd').serializeObject();
     $.ajax({
         type:"POST",

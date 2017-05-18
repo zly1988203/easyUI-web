@@ -174,7 +174,7 @@ function selectGoodsDialog(searchKey) {
 //商品选择 公共使用
 function gFunGoodsSelect(searchKey,branchId){
 	var comboxV = $("#formType").combobox('getValue');
-	var param = {goodsTypeList:comboxV,branchId:branchId,isRadio:1}
+	var param = {goodsTypeList:comboxV,branchId:branchId,isRadio:1, formType:'IX',}
     new publicGoodsServiceTem(param,function(data){
 		  	if(data.length==0){
 	            return;
@@ -239,7 +239,7 @@ function selectView(searchskuId){
 			}
 		},
 		error : function(result) {
-			successTip("请求发送失败或服务器处理失败");
+            messager("请求发送失败或服务器处理失败");
 		}
 	});
 }
@@ -405,11 +405,11 @@ function saveDataHandel(rows){
     				location.href = contextPath +"/stock/combineSplit/combineSplitView?id="+id;
     			});
             }else{
-                successTip(result['message']);
+                messager(result['message']);
             }
         },
         error:function(result){
-            successTip("请求发送失败或服务器处理失败");
+            messager("请求发送失败或服务器处理失败");
         }
     });
 }

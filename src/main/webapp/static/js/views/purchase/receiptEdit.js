@@ -29,6 +29,8 @@ var gridDefault = {
     realNum:0,
     isGift:0,
 }
+var editRowData = null;
+var gridName = "gridEditOrder";
 var gridHandel = new GridClass();
 function initDatagridEditOrder(){
     gridHandel.setGridName("gridEditOrder");
@@ -58,6 +60,8 @@ function initDatagridEditOrder(){
         showFooter:true,
         height:'100%',
         width:'100%',
+        // pageSize:10000,
+        // view:scrollview,
         columns:[[
             {field:'cz',title:'操作',width:'60px',align:'center',
                 formatter : function(value, row,index) {
@@ -196,13 +200,6 @@ function initDatagridEditOrder(){
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
-                //editor:{
-                //    type:'numberbox',
-                //    options:{
-                //        min:0,
-                //        precision:4,
-                //    }
-                //},
             },
 
             {field:'tax',title:'税率',width:'80px',align:'right',
@@ -269,7 +266,21 @@ function initDatagridEditOrder(){
                 gridHandel.setSelectFieldName("skuCode");
             }
         },
+        onBeforeEdit:function (rowIndex, rowData) {
+            editRowData = $.extend(true,{},rowData);
+        },
+        onAfterEdit:function(rowIndex, rowData, changes){
+            if(typeof(rowData.id) === 'undefined'){
+                // $("#"+gridName).datagrid('acceptChanges');
+            }else{
+                if(editRowData.skuCode != changes.skuCode){
+                    rowData.skuCode = editRowData.skuCode;
+                    gridHandel.setFieldTextValue('skuCode',editRowData.skuCode);
+                }
+            }
+        },
         onLoadSuccess:function(data){
+            gFunEndLoading();
             if(data.rows.length>0){
                 var config = {
                     date:['goodsCreateDate','goodsExpiryDate']
@@ -295,6 +306,7 @@ function getGridData(){
        async : false,
        dataType : 'json',
        success : function(data) {
+           gFunStartLoading();
        	//根据选择的采购单，带出采购单的信息
    	    var keyrealNum = {
    	        realNum:'maxRealNum',
@@ -325,6 +337,8 @@ var i = 0;
 var j = 0;
 //监听商品箱数
 function onChangeLargeNum(newV,oldV){
+    var _skuName = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuName');
+    if(!_skuName)return;
 	if(m === 1 || i===1){
 		m = 0;
 		i = 0;
@@ -365,6 +379,8 @@ function onChangeLargeNum(newV,oldV){
 }
 //监听商品数量
 function onChangeRealNum(newV,oldV) {
+    var _skuName = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuName');
+    if(!_skuName)return;
 	if(n === 1 || j === 1){
 		n = 0;
 		j = 0;
@@ -417,6 +433,9 @@ function onChangeAmount(newV,oldV) {
 }
 //监听是否赠品
 function onSelectIsGift(data){
+    var _skuName = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuName');
+    if(!_skuName)return;
+
     var checkObj = {
         skuCode: gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'skuCode'),
         isGift:data.id,
@@ -452,6 +471,10 @@ function updateFooter(){
 //插入一行
 function addLineHandel(event){
     event.stopPropagation(event);
+    if($("#refFormId").val()){
+        messager("已选采购单号，不允许添加其他商品");
+        return;
+    }
     var index = $(event.target).attr('data-index')||0;
     gridHandel.addRow(index,gridDefault);
 }
@@ -468,7 +491,10 @@ function selectGoods(searchKey){
         messager("请先选择供应商");
         return;
     }
-
+	if($("#refFormId").val()){
+  		messager("已选采购单号，不允许添加其他商品");
+  		return;
+	}
     var queryParams = {
         type:'PI',
         key:searchKey,
@@ -572,6 +598,8 @@ function saveDataHandel(rows){
     var salesmanId = $("#salesmanId").val();
     //引用单号
     var refFormNo = $("#refFormNo").val();
+    //引用单号
+    var refFormId = $("#refFormId").val();
     //备注
     var remark = $("#remark").val();
 
@@ -598,6 +626,7 @@ function saveDataHandel(rows){
         salesmanId:salesmanId,
         saleWay:saleWay,
         refFormNo:refFormNo,
+        refFormId:refFormId,
         remark:remark,
         totalNum:totalNum,
         amount:amount,
@@ -606,13 +635,14 @@ function saveDataHandel(rows){
     
     var req = JSON.stringify(reqObj);
 
+    gFunStartLoading();
     $.ajax({
         url:contextPath+"/form/purchase/updateReceipt",
         type:"POST",
         contentType:'application/json',
         data:req,
         success:function(result){
-            console.log(result);
+            gFunEndLoading();
             if(result['code'] == 0){
                 $.messager.alert("操作提示", "操作成功！", "info");
             }else{
@@ -620,6 +650,7 @@ function saveDataHandel(rows){
             }
         },
         error:function(result){
+            gFunEndLoading();
             successTip("请求发送失败或服务器处理失败");
         }
     });
@@ -654,6 +685,7 @@ function check(){
 	var id = $("#formId").val();
 	$.messager.confirm('提示','是否审核通过？',function(data){
 		if(data){
+		    gFunStartLoading();
 			$.ajax({
 		    	url:contextPath+"/form/purchase/check",
 		    	type:"POST",
@@ -662,7 +694,7 @@ function check(){
 		    		status:1
 		    	},
 		    	success:function(result){
-		    		console.log(result);
+		    		gFunEndLoading();
 		    		if(result['code'] == 0){
 		    			$.messager.alert("操作提示", "操作成功！", "info",function(){
 		    				location.href = contextPath +"/form/purchase/receiptEdit?formId=" + id;
@@ -672,6 +704,7 @@ function check(){
 		    		}
 		    	},
 		    	error:function(result){
+		    	    gFunEndLoading();
 		    		successTip("请求发送失败或服务器处理失败");
 		    	}
 		    });
@@ -683,6 +716,7 @@ function orderDelete(){
 	var id = $("#formId").val();
 	$.messager.confirm('提示','是否要删除此条数据',function(data){
 		if(data){
+		    gFunStartLoading();
 			$.ajax({
 		    	url:contextPath+"/form/purchase/delete",
 		    	type:"POST",
@@ -690,7 +724,7 @@ function orderDelete(){
 		    		formId:id
 		    	},
 		    	success:function(result){
-		    		console.log(result);
+		    		gFunEndLoading();
 		    		if(result['code'] == 0){
 		    			$.messager.alert("操作提示", "操作成功！", "info",function(){
 		    				back();
@@ -701,6 +735,7 @@ function orderDelete(){
 		    		dg.datagrid('reload');
 		    	},
 		    	error:function(result){
+		    	    gFunEndLoading();
 		    		successTip("请求发送失败或服务器处理失败");
 		    	}
 		    });
@@ -777,6 +812,7 @@ function selectPurchaseForm(){
         //采购员
         $("#salesmanId").val(data.form.salesmanId);
         $("#operateUserName").val(data.form.salesmanName);
+        $("#refFormId").val(data.form.id);
 	});
 }
 //返回列表页面

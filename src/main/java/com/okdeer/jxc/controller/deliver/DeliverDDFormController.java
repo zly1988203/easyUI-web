@@ -74,7 +74,7 @@ public class DeliverDDFormController extends BasePrintController<DeliverDDFormCo
 	@RequestMapping(value = "toEnd", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson toEnd(DeliverForm vo) {
-		LOG.info(LogConstant.OUT_PARAM, vo.toString());
+		LOG.debug(LogConstant.OUT_PARAM, vo.toString());
 		SysUser user = UserUtil.getCurrentUser();
 		vo.setUpdateUserId(user.getId());
 		vo.setFormType("DD");
@@ -93,7 +93,7 @@ public class DeliverDDFormController extends BasePrintController<DeliverDDFormCo
 	//	@ResponseBody
 	//	public RespJson insertDeliverForm(@RequestBody String formVo) {
 	//		RespJson respJson = RespJson.success();
-	//		LOG.info(LogConstant.OUT_PARAM, formVo);
+	//		LOG.debug(LogConstant.OUT_PARAM, formVo);
 	//		try {
 	//			DeliverFormVo vo = new ObjectMapper().readValue(formVo, DeliverFormVo.class);
 	//

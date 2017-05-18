@@ -24,6 +24,8 @@ var gridDefault = {
 		//largeNum:0,
 		// isGift:0,
 }
+var editRowData = null;
+var gridName = "gridEditOrder";
 var oldData = {};
 var gridHandel = new GridClass();
 function initDatagridEditRequireOrder(){
@@ -166,6 +168,19 @@ function initDatagridEditRequireOrder(){
 		        		  gridHandel.setSelectFieldName("skuCode");
 		        	  }
 		          },
+					onBeforeEdit:function (rowIndex, rowData) {
+						editRowData = $.extend(true,{},rowData);
+					},
+					onAfterEdit:function(rowIndex, rowData, changes){
+						if(typeof(rowData.id) === 'undefined'){
+							// $("#"+gridName).datagrid('acceptChanges');
+						}else{
+							if(editRowData.skuCode != changes.skuCode){
+								rowData.skuCode = editRowData.skuCode;
+								gridHandel.setFieldTextValue('skuCode',editRowData.skuCode);
+							}
+						}
+					},
 		          onLoadSuccess:function(data){
 		        	  if(!oldData["grid"]){
 		        		  oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
@@ -215,14 +230,25 @@ function selectGoods(searchKey){
 		messager("请先选择机构名称");
 		return;
 	}
-    new publicGoodsService("",function(data){
+
+    var param = {
+        type:'',
+        key:searchKey,
+        isRadio:'',
+        branchId:branchId,
+        sourceBranchId:'',
+        targetBranchId:'',
+        supplierId:'',
+        flag:'0',
+    }
+    new publicGoodsServiceTem(param,function(data){
         if(searchKey){
             $("#gridEditRequireOrder").datagrid("deleteRow", gridHandel.getSelectRowIndex());
             $("#gridEditRequireOrder").datagrid("acceptChanges");
         }
         selectStockAndPrice(branchId,data);
   
-    },searchKey,0,'','',branchId,'',0);
+    });
 }
 //查询价格、库存
 function selectStockAndPrice(branchId,data){
@@ -248,7 +274,7 @@ function selectStockAndPrice(branchId,data){
     		setDataValue(result);
     	},
     	error:function(result){
-    		successTip("请求发送失败或服务器处理失败");
+            messager("请求发送失败或服务器处理失败");
     	}
     });
 }
@@ -393,11 +419,11 @@ function saveDataHandel(rows){
 				});
 				//location.reload()
 			}else{
-				successTip(result['message']);
+                messager(result['message']);
 			}
 		},
 		error:function(result){
-			successTip("请求发送失败或服务器处理失败");
+            messager("请求发送失败或服务器处理失败");
 		}
 	});
 }
@@ -438,11 +464,11 @@ function costcheck(type){
 						})
 						
 					}else{
-						successTip(result['message']);
+                        messager(result['message']);
 					}
 				},
 				error:function(result){
-					successTip("请求发送失败或服务器处理失败");
+                    messager("请求发送失败或服务器处理失败");
 				}
 			});
 		}
@@ -461,14 +487,14 @@ function delCostForm(){
 				success:function(result){
 					console.log(result);
 					if(result['code'] == 0){
-						successTip("删除成功");
+                        messager("删除成功");
 						back();
 					}else{
-						successTip(result['message']);
+                        messager(result['message']);
 					}
 				},
 				error:function(result){
-					successTip("请求发送失败或服务器处理失败");
+                    messager("请求发送失败或服务器处理失败");
 				}
 			});
 		}

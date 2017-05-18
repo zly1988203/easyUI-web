@@ -31,7 +31,7 @@ function formCx(){
 	var formNo=$("#formNo").val();
 	var type = $("#type").val();
     var targetBranchId = $('#targetBranchId').val();
-	if($("#type").val()=='DA'||$("#type").val()=='DO'||$("#type").val()=='DI'){
+	if($("#type").val()=='DA'||$("#type").val()=='DO'||$("#type").val()=='DI'||$("#type").val()=='DY'||$("#type").val()=='DR'){
 		var endTime=$("#popupSearchDateTime").val();
 
 		$("#gridForm").datagrid("options").queryParams = {formNo:formNo,endTime:endTime,formType:type,targetBranchId:targetBranchId};
@@ -60,11 +60,11 @@ function getItemData(formId){
                     formCallBack(result);
                 }
             }else{
-                successTip(result['message']);
+                messager(result['message']);
             }
         },
         error:function(data){
-            successTip("请求发送失败或服务器处理失败");
+            messager("请求发送失败或服务器处理失败");
         }
     })
 

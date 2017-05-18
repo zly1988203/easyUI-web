@@ -145,7 +145,7 @@ public class PurchaseReportController extends
 			FormQueryQo qo,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
-		LOG.info("采购单明细导出:{}" + qo);
+		LOG.debug("采购单明细导出:{}" + qo);
 		try {
 			if(StringUtils.isEmpty(qo.getBranchId())) {
 				qo.setBranchCompleCode(getCurrBranchCompleCode());
@@ -343,7 +343,7 @@ public class PurchaseReportController extends
 			FormQueryQo qo,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
-		LOG.info("采购汇总导出:{}" + qo);
+		LOG.debug("采购汇总导出:{}" + qo);
 		try {
 			/*if(BranchTypeEnum.HEAD_QUARTERS.getCode().toString().equals(qo.getBranchId())) {
 				qo.setBranchId(null);
@@ -371,7 +371,7 @@ public class PurchaseReportController extends
 				qo.setBranchName(branchName);
 			}
 			
-			List<PurchaseReportPo> list = null;
+			List<PurchaseReportPo> list = new ArrayList<PurchaseReportPo>();
 			// 2、查询合计
 			PurchaseReportPo vo =null;
 			// 导出文件名称，不包括后缀名

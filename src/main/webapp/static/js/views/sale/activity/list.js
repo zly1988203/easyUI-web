@@ -63,6 +63,8 @@ function initDatagridRequire(){
             		return '满减';
             	}else if(value == '6'){
             		return '组合特价';
+            	}else if(value == '10'){
+            		return '买满送';
             	}else{
             		return '未知类型：'+ value;
             	}
@@ -134,7 +136,7 @@ function searchBranch(){
 	new publicAgencyService(function(data){
 		$("#branchId").val(data.branchesId);
 		$("#branchName").val(data.branchName);
-	},'BF','');
+	},'DP','');
 }
 
 //pos新增
@@ -142,12 +144,23 @@ function addActivity(){
 	toAddTab("新增促销活动",contextPath + "/sale/activity/add");
 }
 
+//复制活动
+function copyActivity(){
+	var selectedObj = $("#saleMange").datagrid("getSelected");
+	if(selectedObj){
+		toAddTab("复制促销活动",contextPath + "/sale/activity/toCopy?from=toCopy&activityId="+selectedObj.id);
+	}else{
+		$.messager.alert('提示','请选择一个活动记录');
+	}
+}
+
 //删除
 function delActivity(){
 	var dg = $("#saleMange");
 	var row = dg.datagrid("getSelected");
-	if(rowIsNull(row)){
-		return null;
+	if(!row || (row && row.length <= 0)){
+		$.messager.alert('提示','请选择一个活动记录');
+		return;
 	}
 	console.log(row.id);
 	$.messager.confirm('提示','是否要删除此条数据',function(data){

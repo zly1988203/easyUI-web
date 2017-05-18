@@ -290,6 +290,8 @@ function initQueryData(url){
             gFunStartLoading();
             if(result && result.length > 0){
                 $("#"+gridName).datagrid("loadData",result);
+            }else{
+                gFunEndLoading();
             }
 
     	},

@@ -23,8 +23,8 @@
 		<jdk.version>1.8</jdk.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
-		<parents.version>0.0.2-SNAPSHOT</parents.version>
-		<base.version>0.3.0-SNAPSHOT</base.version>
+		<parents.version>0.1.0-SNAPSHOT</parents.version>
+		<jxc.api>0.0.2-SNAPSHOT</jxc.api>
 		<shiro.version>1.2.2</shiro.version>
 		<ca.version>1.2.4-SNAPSHOT</ca.version>
 		<yscapi.version>0.0.3-SNAPSHOT</yscapi.version>
@@ -68,13 +68,18 @@
 		<dependency>
 			<groupId>com.okdeer.jxc</groupId>
 			<artifactId>okdeer-jxc-api</artifactId>
-			<version>${parents.version}</version>
+			<version>${jxc.api}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.hibernate</groupId>
 					<artifactId>hibernate-validator</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>com.okdeer.base</groupId>
+			<artifactId>okdeer-base-web</artifactId>
+			<version>${parents.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jxls</groupId>
@@ -308,7 +313,6 @@
 		<dependency>
 		    <groupId>com.jayway.jsonpath</groupId>
 		    <artifactId>json-path</artifactId>
-		    <version>2.2.0</version>
 		    <scope>test</scope>
 		</dependency>
 		<dependency>
@@ -404,6 +408,41 @@
 			<outputDirectory>${basedir}/src/main/webapp/static</outputDirectory>
 		</configuration>
       </plugin>
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-surefire-plugin</artifactId>
+			<configuration>
+		        <skip>false</skip>
+		        <testFailureIgnore>true</testFailureIgnore>
+		    </configuration>
+		</plugin>
+		<plugin>
+			<groupId>org.jacoco</groupId>
+			<artifactId>jacoco-maven-plugin</artifactId>
+			<version>0.7.9</version>
+			<configuration>
+				<destFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</destFile>
+				<dataFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</dataFile>
+			</configuration>
+			<executions>
+				<execution>
+					<id>pre-unit-test</id>
+					<goals>
+						<goal>prepare-agent</goal>
+					</goals>
+				</execution>
+				<execution>
+					<id>post-unit-test</id>
+					<phase>prepare-package</phase>
+					<goals>
+						<goal>report</goal>
+					</goals>
+					<configuration>
+						<outputDirectory>${project.reporting.outputDirectory}/jacoco-ut</outputDirectory>
+					</configuration>
+				</execution>
+			</executions>
+		</plugin>
 		</plugins>
 	</build>
 

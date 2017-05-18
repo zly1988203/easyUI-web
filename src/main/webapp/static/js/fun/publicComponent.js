@@ -9,7 +9,8 @@ var dialogHeight = $(window).height()*(2/3);
 var left = $(window).width()/4;
 
 function messager(msg,title){
-    $.messager.show({
+	$.messager.alert(title||'提示',msg);
+    /*$.messager.show({
         title:title||'系统提示',
         msg:msg,
         timeout:2000,
@@ -19,7 +20,7 @@ function messager(msg,title){
             right:'',
             bottom:''
         }
-     });
+     });*/
 }
 //公共组件-日期选择
 //改变日期
@@ -259,7 +260,7 @@ function publicRoleService(callback, branchCompleCode, branchType){
 }
 
 //公共组件-机构选择
-function publicAgencyService(callback,formType,branchId, branchType){
+function publicAgencyService(callback,formType,branchId, branchType,isOpenStock){
 	if(!formType){
 		formType="";
 	}
@@ -269,10 +270,13 @@ function publicAgencyService(callback,formType,branchId, branchType){
 	if(!branchType){
 		branchType="";
 	}
+	if(!isOpenStock){
+		isOpenStock="";
+	}
     //公有属性
     var  dalogTemp = $('<div/>').dialog({
     	href:contextPath + "/common/branches/viewComponent?formType="+ 
-    		formType + "&branchId=" +branchId+ "&branchType="+branchType,
+    		formType + "&branchId=" +branchId+ "&branchType="+branchType + "&isOpenStock="+isOpenStock,
         width:680,
         height:$(window).height()*(2/3),
         title:"机构选择",
@@ -296,6 +300,102 @@ function publicAgencyService(callback,formType,branchId, branchType){
     //    console.log(data);
     //});
 }
+
+/**
+ * 公共组件-选择机构
+ * @param callback
+ * @param type  0是单选  1是多选
+ */
+function publicBranchService(callback,type,isOpenStock, formType) {
+	if(!isOpenStock){
+		isOpenStock = "";
+	}
+    var dalogObj = {
+        href: contextPath + "/system/user/views?type=branch&check="+type+"&isOpenStock="+isOpenStock+"&formType="+formType,
+        width: 680,
+        height: dialogHeight,
+        title: "选择机构",
+        closable: true,
+        resizable: true,
+        onClose: function () {
+            $(dalogTemp).panel('destroy');
+        },
+        modal: true,
+    }
+    if(type==1){
+        dalogObj["buttons"] = [{
+            text:'确定',
+            handler:function(){
+                publicOperatorGetCheck(callBackHandel);
+            }
+        },{
+            text:'取消',
+            handler:function(){
+                $(dalogTemp).panel('destroy');
+            }
+        }];
+    }else{
+        dalogObj["onLoad"] = function () {
+            initBranchCallBack(callBackHandel);
+        };
+    }
+    //公有属性
+    var dalogTemp = $('<div/>').dialog(dalogObj);
+    function callBackHandel(data){
+        callback(data);
+        $(dalogTemp).panel('destroy');
+    }
+    //调用方式
+    //new publicStoreService(function(data){
+    //    console.log(data);
+    //});
+}
+
+/**********************礼品兑换机构选择 start*******************************/
+/**
+ * 公共组件-选择机构
+ * @param callback
+ * @param type  0是单选  1是多选
+ */
+function publicBranchServiceGift(callback,type) {
+    var dalogObj = {
+        href: contextPath + "/system/user/publicBranchChoose?type=branch&check="+type,
+        width: 680,
+        height: dialogHeight,
+        title: "选择机构",
+        closable: true,
+        resizable: true,
+        onClose: function () {
+            $(dalogTemp).panel('destroy');
+        },
+        modal: true,
+    }
+    if(type==1){
+        dalogObj["buttons"] = [{
+            text:'确定',
+            handler:function(){
+                publicOperatorGetCheck(callBackHandel);
+            }
+        },{
+            text:'取消',
+            handler:function(){
+                $(dalogTemp).panel('destroy');
+            }
+        }];
+    }else{
+        dalogObj["onLoad"] = function () {
+            initBranchCallBack(callBackHandel);
+        };
+    }
+    //公有属性
+    var dalogTemp = $('<div/>').dialog(dalogObj);
+    function callBackHandel(data){
+        callback(data);
+        $(dalogTemp).panel('destroy');
+    }
+}
+
+/**********************礼品兑换机构选择 end*******************************/
 
 //公共组件-选择品牌
 function publicBrandService(callback){
@@ -394,27 +494,25 @@ var supplierDalog = null;
 
 //公共组件-选择供应商
 /**
- * param
- * 
- * **/
-function publicSupplierService(callback,param) {
-	if(null != supplierDalog) return;
-	if(!param || 'undefined' === typeof(param)){
-		param = {
+ * 		param = {
 				supplierCodeOrName:'',
 				branchId:'',
 				saleWayNot:'',
 				isDirect:''
 		}
-	}else if('undefined' === typeof(param.supplierCodeOrName)){
-		param.supplierCodeOrName = '';
-	}else if('undefined' === typeof(param.branchCompleCode)){
-		param.branchCompleCode = '';
-	}else if('undefined' === typeof(param.saleWayNot)){
-		param.saleWayNot = '';
-	}else if('undefined' === typeof(param.isDirect)){
-		param.isDirect = '';
-	}
+ * 
+ * **/
+function publicSupplierService(callback,newParam) {
+	if(null != supplierDalog) return;
+
+    var oldParam = {
+        supplierCodeOrName:'',
+        branchId:'',
+        saleWayNot:'',
+        isDirect:''
+    }
+
+    var param = $.extend(oldParam,newParam);
 
     //公有属性
 	supplierDalog = $('<div/>').dialog({
@@ -439,10 +537,6 @@ function publicSupplierService(callback,param) {
         $(supplierDalog).panel('destroy');
         supplierDalog = null;
     }
-    //调用方式
-    //new publicSupplierService(function(data){
-    //    console.log(data);
-    //});
 }
 
 //公共组件-选择操作员
@@ -501,98 +595,7 @@ function publicDictService(dictType,callback) {
   //});
 }
 
-/**
- * 公共组件-选择机构
- * @param callback
- * @param type  0是单选  1是多选
- */
-function publicBranchService(callback,type) {
-    var dalogObj = {
-        href: contextPath + "/system/user/views?type=branch&check="+type,
-        width: 680,
-        height: dialogHeight,
-        title: "选择机构",
-        closable: true,
-        resizable: true,
-        onClose: function () {
-            $(dalogTemp).panel('destroy');
-        },
-        modal: true,
-    }
-    if(type==1){
-        dalogObj["buttons"] = [{
-            text:'确定',
-            handler:function(){
-                publicOperatorGetCheck(callBackHandel);
-            }
-        },{
-            text:'取消',
-            handler:function(){
-                $(dalogTemp).panel('destroy');
-            }
-        }];
-    }else{
-        dalogObj["onLoad"] = function () {
-            initBranchCallBack(callBackHandel);
-        };
-    }
-    //公有属性
-    var dalogTemp = $('<div/>').dialog(dalogObj);
-    function callBackHandel(data){
-        callback(data);
-        $(dalogTemp).panel('destroy');
-    }
-    //调用方式
-    //new publicStoreService(function(data){
-    //    console.log(data);
-    //});
-}
 
-/**********************礼品兑换机构选择 start*******************************/
-/**
- * 公共组件-选择机构
- * @param callback
- * @param type  0是单选  1是多选
- */
-function publicBranchServiceGift(callback,type) {
-    var dalogObj = {
-        href: contextPath + "/system/user/publicBranchChoose?type=branch&check="+type,
-        width: 680,
-        height: dialogHeight,
-        title: "选择机构",
-        closable: true,
-        resizable: true,
-        onClose: function () {
-            $(dalogTemp).panel('destroy');
-        },
-        modal: true,
-    }
-    if(type==1){
-        dalogObj["buttons"] = [{
-            text:'确定',
-            handler:function(){
-                publicOperatorGetCheck(callBackHandel);
-            }
-        },{
-            text:'取消',
-            handler:function(){
-                $(dalogTemp).panel('destroy');
-            }
-        }];
-    }else{
-        dalogObj["onLoad"] = function () {
-            initBranchCallBack(callBackHandel);
-        };
-    }
-    //公有属性
-    var dalogTemp = $('<div/>').dialog(dalogObj);
-    function callBackHandel(data){
-        callback(data);
-        $(dalogTemp).panel('destroy');
-    }
-}
-
-/**********************礼品兑换机构选择 end*******************************/
 
 //公共组件-选择机构区域
 function publicBranchAreaService(callback) {
@@ -714,7 +717,6 @@ function publicGoodsServiceTem(param,callback){
 		var urlTemp;
 		if(param.type=="DA"){
 			param.branchId = '';
-
             urlTemp = contextPath + '/goods/goodsSelect/importSkuCode';
 		} else {
             urlTemp = contextPath + '/goods/goodsSelect/importSkuCode';
@@ -742,82 +744,23 @@ function publicGoodsServiceTem(param,callback){
 /*
 * 设置前台没有传入的参数
 * */
-function setParam(param) {
-    if(typeof(param.flag)==="undefined"){
-        param.flag = "";
-    }
-    if(typeof(param.type)==="undefined"){
-        param.type = "";
-    }
+function setParam(newParam) {
 
-    if(typeof(param.key)==="undefined"){
-        param.key = "";
+    var oldParm = {
+        type:'',
+        key:'',
+        isRadio:0,
+        branchId:'',
+        sourceBranchId:'',
+        targetBranchId:'',
+        supplierId:'',
+        flag:'0',
+        categoryShows:'',
+        isManagerStock:''
     }
-    if(typeof(param.isRadio)==="undefined"){
-        param.isRadio = "";
-    }
-    if(typeof(param.branchId)==="undefined"){
-        param.branchId = "";
-    }
-    if(typeof(param.sourceBranchId)==="undefined"){
-        param.sourceBranchId = "";
-    }
-    if(typeof(param.targetBranchId)==="undefined"){
-        param.targetBranchId = "";
-    }
-    if(typeof(param.supplierId)==="undefined"){
-        param.supplierId = "";
-    }
-    if(typeof(param.categoryShows)==="undefined"){
-        param.categoryShows = "";
-    }
+   var param =  $.extend(oldParm,newParam);
+
     return param;
-}
-
-
-//公共组件-商品选择
-//flag:商品公共组件查询判断是否过滤捆绑商品
-function publicGoodsService(type,callback,key,isRadio,sourceBranchId,targetBranchId,branchId,supplierId,flag){
-	
-    var param = {
-    		type:type,
-    		key:key,
-    		isRadio:isRadio,
-    		sourceBranchId:sourceBranchId,
-    		targetBranchId:targetBranchId,
-    		branchId:branchId,
-    		supplierId:supplierId,
-    		flag:flag
-    }
-	
-	if(typeof(param.flag)=="undefined"){ 
-		param.flag = "";
-	}
-	if(param.key){
-		var urlTemp;
-		if(param.type=="DA"){
-			param.branchId = '';
-			urlTemp = contextPath + '/goods/goodsSelect/importSkuCode?skuCodesOrBarCodes='+param.key+'&branchId='+param.branchId+"&supplierId="+param.supplierId+"&type="+param.type+"&sourceBranchId="+param.sourceBranchId+"&targetBranchId="+param.targetBranchId+"&flag="+param.flag;
-		} else {
-			urlTemp = contextPath + '/goods/goodsSelect/importSkuCode?skuCodesOrBarCodes='+param.key+'&branchId='+param.branchId+"&supplierId="+param.supplierId+"&flag="+param.flag;
-		}
-		$.ajax({
-			url:urlTemp,
-			type:'POST',
-			success:function(data){
-				if(data&&data.length==1){
-					callback(data);
-			}else{
-				publicGoodsServiceHandel(param,callback);
-			}
-		},
-		error:function(){
-			 messager("数据查询失败");
-		}
-		})
-    }else{
-        publicGoodsServiceHandel(param,callback);
-    }
 }
 
 var good_dalogTemp = null;
@@ -910,8 +853,9 @@ function toBack(){
 	history.go(-1);
 }
 //刷新当前页面
-function gFunRefresh() {
+function gFunRefresh(obj) {
     window.location.reload();
+	//$($(obj).closest('form'))[0].reset();
 }
 function toBackByJS(){
 	history.back()
@@ -1041,17 +985,17 @@ function GridClass(){
                         }
                     });
                 });
-            }
+            },
         });
         $("#"+gridName).datagrid({}).datagrid("keyCtr");
-        //$(document).on('click',function(event){
-        //    if($(event.target).hasClass('datagrid-cell')){
-        //        return;
-        //    }
-        //    if(rowIndex != undefined){
-        //        $('#'+gridName).datagrid('endEdit', rowIndex);
-        //    }
-        //});
+    }
+
+    this.bindblur = function (params) {
+        $.extend($.fn.datagrid.method,{
+                keyBlur:function (jq) {
+                    
+                }
+            })
     }
     /**
      * 获取左右边单元名称
@@ -1143,9 +1087,10 @@ function GridClass(){
      * @param arrs 现有数据
      * @param data 新增数据
      * @param argWhere 合并条件
+     * @param ifReset  对于重复数据  要替换的属性值的字段
      * @returns 返回合并后数据
      */
-    this.checkDatagrid = function(arrs,data,argWhere,isCheck){
+    this.checkDatagrid = function(arrs,data,argWhere,isCheck,ifReset){
 
         var newData = [];
         $.each(data,function(i,val){
@@ -1154,10 +1099,20 @@ function GridClass(){
                 if(argWhere&&argWhere!={}){
                     $.each(argWhere,function(key,argVal){
                         if(val[key]==val1[key]){
+                        	
+                        	if(ifReset && $.isArray(ifReset) && ifReset.length > 0){
+                        		$.each(ifReset,function(inx,arKey){
+                        			if(arKey){
+                        				val1[arKey] = val[arKey];
+                        			}
+                        		})
+                        	}
+                        	
                             isRepeat = true;
                         }
                     });
                 }
+                
                if(isCheck&&isCheck!={}){
                    $.each(isCheck,function(checkKey,checkVal){
                        if(val1[checkKey]==checkVal||val[checkKey]!=val1[checkKey]){
@@ -2029,6 +1984,14 @@ function checkUtil(){
 	
 	this.initNewData = function(){
 		newData = this.serizeFromData(newData);
+	}
+	
+	this.assignInput = function(){
+		var temObj={};
+		$('#'+formId+' input[data-check="true"]').each(function(index,obj){
+			temObj[""+$(obj).attr('name')+""]=$(obj).val();
+		}) 
+		return temObj;
 	}
 	
 	//自定义序列化表单对象

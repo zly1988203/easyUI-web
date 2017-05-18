@@ -17,6 +17,10 @@ window.localStorageUtil = {
 
 var formData;
 $(function(){
+
+    $("#startTime").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
+    $("#endTime").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+
 	//获取数据对象 第二部返回到这一步 进行数据回显
 	formData = $("#formData").val();
 	
@@ -82,7 +86,7 @@ function setFormValue(formData){
     }
 
 	$(':radio[name=guideType]').eq(formData.guideType - 1).prop('checked', true);
-	if(formData.guideType === 3){
+	if(formData.guideType === 3 || formData.guideType === 4 || formData.guideType === 5){
         $('#startTime').removeProp('disabled');
         $('#startTime').removeClass('uinp-no-more');
         $('#endTime').removeProp('disabled');
@@ -293,20 +297,20 @@ function nextStep (){
 	var branchCodeName = $("#branchCodeName").val();
 	
 	if(!branchId){
-		successTip("请选择机构信息");
+        messager("请选择机构信息");
 		$('#btnNext').removeAttr("disabled");
 		return;
 	}
 	
 	if(branchType==0){
-		successTip("不能选择总部类型的机构");
+        messager("不能选择总部类型的机构");
 		$('#btnNext').removeAttr("disabled");
 		return;
 	}
 	
 	if($('#guideType').val() != '1' && $('#guideType').val() != "2"){
 		if($('#startTime').val() ==="" || $('#endTime').val() === ""){
-			successTip("请选择要货日期");
+			messager("请选择要货日期");
 			$('#btnNext').removeAttr("disabled");
 			return;
 		}
@@ -315,7 +319,7 @@ function nextStep (){
 	var categoryCodeName = $("#categoryCodeName").val();
 	var categoryCode = $("#categoryCode").val();
 	if(categoryCodeName && !categoryCode){
-		successTip("商品类别信息不存在，请重新筛选！");
+        messager("商品类别信息不存在，请重新筛选！");
 		$('#btnNext').removeAttr("disabled");
 		return;
 	}
@@ -323,7 +327,7 @@ function nextStep (){
 	var supplierCodeName = $("#supplierCodeName").val(); 
 	var supplierId = $("#supplierId").val();
 	if(supplierCodeName && !supplierId){
-		successTip("供应商信息不存在，请重新筛选！");
+        messager("供应商信息不存在，请重新筛选！");
 		$('#btnNext').removeAttr("disabled");
 		return;
 	}

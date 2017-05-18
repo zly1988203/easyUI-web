@@ -110,7 +110,7 @@ public class RoleController extends BaseController<RoleController> {
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 
-		LOG.info("角色列表查询参数：{}", qo);
+		LOG.debug("角色列表查询参数：{}", qo);
 		try {
 			qo.setPageNumber(pageNumber);
 			qo.setPageSize(pageSize);
@@ -277,7 +277,7 @@ public class RoleController extends BaseController<RoleController> {
 	@RequestMapping(value = "produceRoleAuth")
 	@ResponseBody
 	public RespJson produceRoleAuth(String roleId, String branchId, String data) {
-		LOG.info("保存角色权限，角色Id{}, 权限数据{}", roleId, GsonUtils.toJson(data));
+		LOG.debug("保存角色权限，角色Id{}, 权限数据{}", roleId, GsonUtils.toJson(data));
 		RespJson respJson = RespJson.success();
 		try {
 			if (StringUtils.isBlank(data)) {
@@ -341,7 +341,7 @@ public class RoleController extends BaseController<RoleController> {
 	@RequestMapping(value = "addRole")
 	@ResponseBody
 	public RespJson addRole(SysRoleVo roleVo) {
-		LOG.info("新增角色信息：{}", roleVo);
+		LOG.debug("新增角色信息：{}", roleVo);
 		RespJson respJson = RespJson.success();
 		try {
 			// 设置创建者Id
@@ -376,7 +376,7 @@ public class RoleController extends BaseController<RoleController> {
 	@RequestMapping(value = "updateRole")
 	@ResponseBody
 	public RespJson updateRole(SysRoleVo roleVo) {
-		LOG.info("修改角色信息：{}", roleVo);
+		LOG.debug("修改角色信息：{}", roleVo);
 		RespJson respJson = RespJson.success();
 		try {
 			// 设置修改者Id
@@ -403,7 +403,7 @@ public class RoleController extends BaseController<RoleController> {
 	@RequestMapping(value = "deleteRole")
 	@ResponseBody
 	public RespJson deleteRole(String roleId) {
-		LOG.info("删除角色Id：{}", roleId);
+		LOG.debug("删除角色Id：{}", roleId);
 		RespJson respJson = RespJson.success();
 		try {
 			

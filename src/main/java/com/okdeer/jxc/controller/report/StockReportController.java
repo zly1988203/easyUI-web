@@ -82,7 +82,7 @@ public class StockReportController extends BaseController<StockReportController>
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
-			LOG.info("商品库存查询，报表查询参数：{}", qo);
+			LOG.debug("商品库存查询，报表查询参数：{}", qo);
 			qo.setPageNumber(pageNumber);
 			qo.setPageSize(pageSize);
 
@@ -144,7 +144,7 @@ public class StockReportController extends BaseController<StockReportController>
 	@ResponseBody
 	public String exportList(StockReportQo qo, HttpServletResponse response) {
 
-		LOG.info("商品库存查询，报表导出参数：{}", qo);
+		LOG.debug("商品库存查询，报表导出参数：{}", qo);
 		try {
 			// 构建默认参数
 			qo = buildDefaultParams(qo);
@@ -196,10 +196,18 @@ public class StockReportController extends BaseController<StockReportController>
 		if (StringUtils.isNotBlank(categoryNameCode) && categoryNameCode.contains("[") && categoryNameCode.contains("]")) {
 			qo.setCategoryNameOrCode(null);
 		}
-		
+
 		// 默认当前机构
 		if (StringUtils.isBlank(qo.getBranchCode()) && StringUtils.isBlank(qo.getBranchNameOrCode())) {
-			qo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
+			/**
+			 * 2.5.3  默认查询当前分公司
+			 */
+//			if(UserUtil.getCurrBranchType()==0||UserUtil.getCurrBranchType()==1||UserUtil.getCurrBranchType()==1){
+				qo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
+//			}else{
+//				String branchCompleCode=UserUtil.getCurrBranchCompleCode();
+//				qo.setBranchCompleCode(branchCompleCode.substring(0, branchCompleCode.length()-5));
+//			}
 		}
 
 		return qo;

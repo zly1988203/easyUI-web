@@ -8,8 +8,7 @@
     <title>要货单-新增</title>
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-	<%-- <script src="${ctx}/static/js/views/deliver/deliverAdd.js"></script> --%>
-	<script src="${ctx}/static/js/views/deliver/DDAdd.js"></script>
+	<script src="${ctx}/static/js/views/deliver/DDAdd.js?V=${versionNo}"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
 <input type='hidden' id="deliverStatus" value="add">
@@ -44,7 +43,8 @@
                 <div class="ubtns-item" onclick="toClose()">关闭</div>
             </div>
         </div>
-           <div class="ub">
+        <div class="uline umar-t8"></div>
+           <div class="ub umar-t8">
                <div class="ub ub-ac uw-300">
                    <div class="umar-r10 uw-70 ut-r">要货机构:</div>
                    <div class="ub">
@@ -54,6 +54,7 @@
                        <input class="uinp ub ub-f1" type="text" id="targetBranchName" readonly="readonly" value="${form.targetBranchName}" onclick="selectTargetBranch()" />
                        <div class="uinp-more" onclick="selectTargetBranch()">...</div>
                    </div>
+                   <i class="uc-red">*</i>
                </div>
                <div class="ub ub-ac umar-l20">
                    <div class="umar-r10 uw-70 ut-r">制单人员:</div>

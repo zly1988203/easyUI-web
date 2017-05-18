@@ -26,7 +26,7 @@ function fileUrlChange(event){
  */
 function toUploadHandel(){
 	if(!$("#file").val()){
-		$.messager.alert('提示','请选择文件！');
+        messager('请选择文件！','提示');
 		return;
 	}
     var formData = new FormData();
@@ -46,6 +46,13 @@ function toUploadHandel(){
     if (typeof(uploadFileParams.batchId)!="undefined") {
     	formData.append("batchId",uploadFileParams.batchId);
     }
+    if (typeof(uploadFileParams.branchIds)!="undefined") {
+    	formData.append("branchIds",uploadFileParams.branchIds);
+    }
+    if (typeof(uploadFileParams.activityType)!="undefined") {
+    	formData.append("activityType",uploadFileParams.activityType);
+    }
+    
     
     formData.append("type",uploadFileParams.type);
     
@@ -64,6 +71,8 @@ function toUploadHandel(){
                 uploadFileCallBack(data.importInfo.list);
                 if(data.importInfo.errorFileUrl){
                     $("#errorUrl").html("<a href='"+contextPath+data.importInfo.errorFileUrl+"' target='_blank'>下载查看失败数据</a>");
+                }else{
+                	$("#errorUrl").html("");
                 }
             }else{
                 $("#message").html(data.message);
@@ -87,6 +96,10 @@ function toCancel(){
  * 下载模板文件
  */
 function downExportFile(){
+	if(uploadFileParams.activityType){
+		location.href=uploadFileParams.tempUrl;
+		return;
+	}
     if(uploadFileParams.type==0){//导入货号
         location.href=uploadFileParams.tempUrl+"?type="+uploadFileParams.type;
     }else if(uploadFileParams.type==1){//导入条码

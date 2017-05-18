@@ -91,7 +91,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 	 */
 	@RequestMapping(value = "view")
 	public String view(HttpServletRequest req, Model model) {
-		LOG.info("商品选择跳转页面参数:{}", req.toString());
+		LOG.debug("商品选择跳转页面参数:{}", req.toString());
 		String type = req.getParameter("type");
 		String supplierId = req.getParameter("supplierId");
 		String sourceBranchId = req.getParameter("sourceBranchId");
@@ -147,15 +147,23 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 
 			//如果formType 是属于配送中的数据 说明不需要管理库存
 			if(FormType.DA.name().equals(vo.getFormType())||FormType.DO.name().equals(vo.getFormType())
+			        ||FormType.DY.name().equals(vo.getFormType())
 					||FormType.DI.name().equals(vo.getFormType())||FormType.DR.name().equals(vo.getFormType())||FormType.DD.name().equals(vo.getFormType())) {
 				vo.setIsManagerStock(1);
 			}
 			LOG.info("商品查询参数:{}" + vo.toString());
 			// 要货单商品资料查询、价格查询
-			if (FormType.DA.name().equals(vo.getFormType())||FormType.DD.name().equals(vo.getFormType())) {
+			if (FormType.DA.name().equals(vo.getFormType())||FormType.DD.name().equals(vo.getFormType())||FormType.DY.name().equals(vo.getFormType())) {
 				PageUtils<GoodsSelect> goodsSelects = goodsSelectServiceApi.getGoodsListDA(vo);
 				return goodsSelects;
 			}
+
+			//退货单
+			if(FormType.DR.name().equals(vo.getFormType())){
+				PageUtils<GoodsSelect> goodsSelects = goodsSelectServiceApi.getGoodsListDR(vo);
+				return goodsSelects;
+			}
+			
 			//如果是促销活动页面查询商品，需要过滤掉不参加促销的商品
 			if(FormType.PX.name().equals(vo.getFormType())){
 				vo.setAllowActivity(true);
@@ -198,18 +206,27 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 		//2、判断选择机构类型为店铺还是分公司,type : 机构类型(0.总部、1.分公司、2.物流中心、3.自营店、4.加盟店B、5.加盟店C)
 		if(type ==Constant.THREE || type ==Constant.FOUR || type ==Constant.FIVE){
 			Integer count = goodsSupplierBranchServiceApi.queryCountByBranchIdAndSupplierId(branchId, supplierId);
-			if(count>0){
-				//2.1 如果供应商机构商品关系存在
-				suppliers = goodsSelectServiceApi.queryPurchaseGoodsLists(vo);
-			}else{
-				//2.2 如果供应商机构商品关系不存在,需要查询该机构上级分公司
-				vo.setParentId(branches.getParentId());
-				vo.setBranchId(branchId);
-				suppliers = goodsSelectServiceApi.queryBranchPurchaseGoodsLists(vo);
-			}
-		}else{
-			suppliers = goodsSelectServiceApi.queryPurchaseGoodsLists(vo);
-		}
+            if (count == 0) {
+			    //2.2 如果供应商机构商品关系不存在,需要查询该机构上级分公司
+			    vo.setParentId(branches.getParentId());
+			    vo.setBranchId(branchId);
+			} 
+		} 
+		suppliers = goodsSelectServiceApi.queryPurchaseGoodsLists(vo);
+//		if(type ==Constant.THREE || type ==Constant.FOUR || type ==Constant.FIVE){
+//			Integer count = goodsSupplierBranchServiceApi.queryCountByBranchIdAndSupplierId(branchId, supplierId);
+//			if(count>0){
+//				//2.1 如果供应商机构商品关系存在
+//				suppliers = goodsSelectServiceApi.queryPurchaseGoodsLists(vo);
+//			}else{
+//				//2.2 如果供应商机构商品关系不存在,需要查询该机构上级分公司
+//				vo.setParentId(branches.getParentId());
+//				vo.setBranchId(branchId);
+//				suppliers = goodsSelectServiceApi.queryBranchPurchaseGoodsLists(vo);
+//			}
+//		}else{
+//			suppliers = goodsSelectServiceApi.queryPurchaseGoodsLists(vo);
+//		}
 		return suppliers;
 	}
 
@@ -226,14 +243,13 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 	@RequestMapping(value = "importSkuCode", method = RequestMethod.POST)
 	@ResponseBody
 	public List<GoodsSelect> importSkuCode(GoodsSelectVo paramVo) {
-		List<String> skuCodes = paramVo.getSkuCodes();
 		String branchId = paramVo.getBranchId();
 		String type = paramVo.getType(); 
 		String sourceBranchId = paramVo.getSourceBranchId();
 		String targetBranchId = paramVo.getTargetBranchId();
 		List<GoodsSelect> suppliers = null;
 		try {
-			if (FormType.DA.name().equals(type)||FormType.DD.name().equals(type)) {
+			if (FormType.DA.name().equals(type)||FormType.DD.name().equals(type)||FormType.DY.name().equals(type)) {
 				GoodsSelectVo vo = new GoodsSelectVo();
 				vo.setIsManagerStock(1);
 				vo.setTargetBranchId(targetBranchId);
@@ -264,14 +280,27 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 				if (branchId.indexOf(",") != -1) {
 					branchIds = Arrays.asList(branchId.split(","));
 					branchId = "";
+				//查询多机构，要把当前机构赋值为空
+					paramVo.setBranchId(null);
 				}
 				// 根据有无skuCodes传来数据 空表示是导入货号 有数据表示导入数据
 				paramVo.setAllowActivity(alowActivity);
 				paramVo.setAllowAdjustPrice(allowAdjustPrice);
 				paramVo.setBranchIds(branchIds);
-				suppliers = goodsSelectServiceApi.queryByCodeListsByVo(paramVo);
+				if(FormType.PM.name().equals(type)){
+				    // 如果为直送收货，且供应商不是主供应商时，查询出其他供就商也存在的商品
+				    paramVo.setPageNumber(1);
+				    paramVo.setPageSize(1);
+				    suppliers = queryPurchaseGoods(paramVo).getList();
+				}else{
+				    // 采购订单，采购退货输入货号或条码时，只匹配机构自己引入的商品
+				    if(FormType.PA.name().equals(type) || FormType.PR.name().equals(type)){
+				        paramVo.setSupplierId(null);
+				    }
+				    suppliers = goodsSelectServiceApi.queryByCodeListsByVo(paramVo);
+				}
 			}
-			LOG.info("根据货号查询商品:{}" + suppliers.toString());
+			LOG.debug("根据货号查询商品:{}" + suppliers.toString());
 			return suppliers;
 		} catch (Exception e) {
 			LOG.error("查询商品选择数据出现异常:{}", e);
@@ -296,7 +325,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 		Message msg = new Message();
 		try {
 			GoodsSelectVo goodsVo = JSON.parseObject(GoodsSelectJson, GoodsSelectVo.class);
-			LOG.info("goodsVo:" + goodsVo);
+			LOG.debug("goodsVo:" + goodsVo);
 			goodsVo.setBranchId(UserUtil.getCurrBranchId());
 			goodsVo.setPricingType(99);
 			LOG.info("vo:" + goodsVo.toString());
@@ -327,9 +356,9 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 		Message msg = new Message();
 		try {
 			GoodsCategoryQo vo = JSON.parseObject(categoryVoJson, GoodsCategoryQo.class);
-			LOG.info("vo:" + vo.toString());
+			LOG.debug("vo:" + vo.toString());
 			PageUtils<GoodsCategory> suppliers = goodsCategoryService.queryLists(vo);
-			LOG.info("page" + suppliers.toString());
+			LOG.debug("page" + suppliers.toString());
 			msg.setData(suppliers.getList());
 			return msg;
 		} catch (Exception e) {
@@ -354,7 +383,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 	@ResponseBody
 	public List<GoodsSelect> enterSearchGoodsDeliver(String skuCode, String formType, String sourceBranchId,
 			String targetBranchId) {
-		LOG.info("enter事件配送导入参数:skuCode=" + skuCode + ",formType=" + formType + ",sourceBranchId=" + sourceBranchId
+		LOG.debug("enter事件配送导入参数:skuCode=" + skuCode + ",formType=" + formType + ",sourceBranchId=" + sourceBranchId
 				+ ",targetBranchId=" + targetBranchId);
 		List<GoodsSelect> goodsSelect = new ArrayList<GoodsSelect>();
 		if (StringUtils.isNotEmpty(skuCode)) {
@@ -498,7 +527,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
-			LOG.info("标准商品查询参数,vo={}",vo);
+			LOG.debug("标准商品查询参数,vo={}",vo);
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
 			PageUtils<GoodsSelect> suppliers = goodsSelectServiceApi.queryGoodsSkuLists(vo);

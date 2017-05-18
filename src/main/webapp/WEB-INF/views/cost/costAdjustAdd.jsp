@@ -7,7 +7,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>成本调整单-新增</title>
 	<%@ include file="/WEB-INF/views/include/header.jsp"%>
-	<script  src="${ctx}/static/js/views/cost/costAdjustAdd.js"></script>
+	<script  src="${ctx}/static/js/views/cost/costAdjustAdd.js?V=${versionNo}"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
     <div class="ub ub-ver ub-f1 umar-4  ubor">
@@ -20,7 +20,7 @@
                 <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
                 <div class="ubtns-item" id="importdetail" onclick="toImportproduct(0)">导入货号</div>
           		<div class="ubtns-item" id="importdetail" onclick="toImportproduct(1)">导入条码</div>
-                <div class="ubtns-item" onclick="back()">关闭</div>
+                <div class="ubtns-item" onclick="toClose()">关闭</div>
             </div>
         </div>
            <div class="ub umar-t10">

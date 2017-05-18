@@ -8,7 +8,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>领用单-新增</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="${ctx}/static/js/views/stockLead/stockLeadAdd.js"></script>
+<script src="${ctx}/static/js/views/stockLead/stockLeadAdd.js?V=${versionNo}"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
 	<div class="ub ub-ver ub-f1 umar-4  ubor">
@@ -38,7 +38,7 @@
 					<shiro:hasPermission name="JxcStockLead:setting">
 						<div class="ubtns-item-disabled">设置</div>
 					</shiro:hasPermission>
-					<div class="ubtns-item" onclick="back()">关闭</div>
+					<div class="ubtns-item" onclick="toClose()">关闭</div>
 				</div>
 			</div>
 			<div class="ub umar-t8 uline"></div>
@@ -90,20 +90,7 @@
 			<table id="stockLeadAddForm"></table>
 		</div>
 	</div>
-	<!-- 导入弹框 -->
-	<div class="uabs uatk">
-		<div class="uatit">导入文1件选择</div>
-		<div class="uacon">
-			<input class="uinp ub" id="filename" type="text"><label
-				class="ualable">选择文件<input type="file" class="uafile"
-				value="" name="xlfile" id="xlf" /></label>
-		</div>
-		<div class="uabtns">
-			<button class="uabtn umar-r30"
-				onclick="importHandel('gridEditOrder')">导入数量</button>
-			<button class="uabtn" onclick="uaclose()">取消</button>
-		</div>
-	</div>
+
 </body>
 
 </html>

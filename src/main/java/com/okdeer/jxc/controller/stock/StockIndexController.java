@@ -112,9 +112,9 @@ public class StockIndexController extends BaseController<StockIndexController> {
 			vo.setPageSize(pageSize);
 			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
 			vo.setBranchType(user.getBranchType() == 0 ? 1 : 2);
-			LOG.info(LogConstant.OUT_PARAM, vo.toString());
+			LOG.debug(LogConstant.OUT_PARAM, vo.toString());
 			PageUtils<StockIndexVo> stockIndexList = stockIndexServiceApi.getStockIndexList(vo);
-			LOG.info(LogConstant.PAGE, stockIndexList.toString());
+			LOG.debug(LogConstant.PAGE, stockIndexList.toString());
 			return stockIndexList;
 		} catch (Exception e) {
 			LOG.error("商品存量指标查询列表信息异常:{}", e);
@@ -244,7 +244,7 @@ public class StockIndexController extends BaseController<StockIndexController> {
 						@Override
 						public void formatter(List<? extends GoodsSelect> list, List<JSONObject> excelListSuccessData,
 								List<JSONObject> excelListErrorData) {
-							LOG.info("formatter");
+							LOG.debug("formatter");
 						}
 
 						/**
@@ -253,7 +253,7 @@ public class StockIndexController extends BaseController<StockIndexController> {
 						 */
 						@Override
 						public void errorDataFormatter(List<JSONObject> list) {
-							LOG.info("errorDataFormatter");
+							LOG.debug("errorDataFormatter");
 						}
 
 					});

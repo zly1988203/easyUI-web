@@ -279,7 +279,7 @@ public class GoodsBranchPriceAdjustController extends BaseController<GoodsBranch
 	 */
 	@RequestMapping(value = "exportTemp")
 	public void exportTemp(HttpServletResponse response, Integer type) {
-		LOG.info("GoodsPriceAdjustController:exportList:" + type);
+		LOG.debug("GoodsPriceAdjustController:exportList:" + type);
 		try {
 			// 导出文件名称，不包括后缀名
 			String fileName = "门店调价单货号导入模板";
@@ -433,7 +433,7 @@ public class GoodsBranchPriceAdjustController extends BaseController<GoodsBranch
 	 */
 	@RequestMapping(value = "exportList")
 	public void exportList(HttpServletResponse response, String formNo) {
-		LOG.info("GoodsPriceAdjustController:exportList:" + formNo);
+		LOG.debug("GoodsPriceAdjustController:exportList:" + formNo);
 		try {
 			List<GoodsPriceFormDetail> exportList = goodsPriceAdustService.queryDetailsByFormNo(formNo);
 			// 导出文件名称，不包括后缀名

@@ -128,12 +128,18 @@ function initDatagridBranchArea(){
 
 //初始化表格(机构)
 function initDatagridBranch(){
+  var isOpenStock=$("#isOpenStock").val();
+  var formType=$("#formType").val();
   $("#gridOperator").datagrid({
 
       //title:'普通表单-用键盘操作',
       method:'post',
       align:'center',
       url:contextPath+'/common/branches/getComponentList',
+      queryParams:{
+    	  isOpenStock:isOpenStock,
+    	  formType:formType
+      },
       //toolbar: '#tb',     //工具栏 id为tb
       singleSelect:true,  //单选  false多选
       rownumbers:true,    //序号
@@ -153,11 +159,17 @@ function initDatagridBranch(){
 
 //初始化表格 
 function initDatagridBranchCheck(){
+  var isOpenStock=$("#isOpenStock").val();
+  var formType=$("#formType").val();
   $("#gridOperator").datagrid({
       //title:'普通表单-用键盘操作',
       method:'post',
       align:'center',
       url:contextPath+'/common/branches/getComponentList',
+      queryParams:{
+    	  isOpenStock:isOpenStock,
+    	  formType:formType
+      },
       //toolbar: '#tb',     //工具栏 id为tb
       singleSelect:false,  //单选  false多选
       rownumbers:true,    //序号

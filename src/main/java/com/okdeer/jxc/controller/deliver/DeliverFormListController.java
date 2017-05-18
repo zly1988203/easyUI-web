@@ -7,6 +7,7 @@
 
 package com.okdeer.jxc.controller.deliver;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -20,11 +21,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
+import com.okdeer.jxc.common.utils.BigDecimalUtils;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
+import com.okdeer.jxc.form.deliver.entity.DeliverFormGoods;
 import com.okdeer.jxc.form.deliver.entity.DeliverFormList;
+import com.okdeer.jxc.form.deliver.service.DeliverSuggestNumService;
 import com.okdeer.jxc.form.deliver.service.QueryDeliverFormListServiceApi;
+import com.okdeer.jxc.form.deliver.vo.DeliverSuggestNumVo;
 import com.okdeer.jxc.form.deliver.vo.QueryDeliverFormVo;
 import com.okdeer.jxc.form.enums.FormType;
 
@@ -45,6 +50,9 @@ public class DeliverFormListController extends BaseController<DeliverFormListCon
 
 	@Reference(version = "1.0.0", check = false)
 	private QueryDeliverFormListServiceApi queryDeliverFormListServiceApi;
+	
+	@Reference(version = "1.0.0", check = false)
+	private DeliverSuggestNumService deliverSuggestNumService;
 
 	/**
 	 * @Description: 引入单据明细查询，单价查询
@@ -64,12 +72,12 @@ public class DeliverFormListController extends BaseController<DeliverFormListCon
 		try {
 			vo.setPageNumber(1);
 			vo.setPageSize(999999);
-			LOG.info("vo:" + vo.toString());
+			LOG.debug("vo:{}", vo.toString());
 			PageUtils<DeliverFormList> deliverFormLists = queryDeliverFormListServiceApi.queryLists(vo);
-			LOG.info("page:" + deliverFormLists.toString());
+			LOG.debug("page:{}", deliverFormLists.toString());
 			return deliverFormLists;
 		} catch (Exception e) {
-			LOG.error("要货单查询明细数据出现异常:{}", e);
+			LOG.error("要货单查询明细数据出现异常", e);
 		}
 		return null;
 	}
@@ -92,15 +100,15 @@ public class DeliverFormListController extends BaseController<DeliverFormListCon
 		try {
 			vo.setPageNumber(1);
 			vo.setPageSize(999999);
-			LOG.info("vo:{}" + vo.toString());
+			LOG.debug("vo:{}", vo.toString());
 			PageUtils<DeliverFormList> deliverFormLists = queryDeliverFormListServiceApi
 					.getDeliverFormListsAndStockByIdOrFormNo(vo);
-			LOG.info("page:{}" + deliverFormLists.toString());
+			LOG.debug("page:{}", deliverFormLists.toString());
 			long end = System.currentTimeMillis();
-			LOG.info("配送查询明细所用时间:{}" + (end - start));
+			LOG.debug("配送查询明细所用时间:{}", (end - start));
 			return deliverFormLists;
 		} catch (Exception e) {
-			LOG.error("要货单查询明细数据出现异常:{}", e);
+			LOG.error("要货单查询明细数据出现异常", e);
 		}
 		return PageUtils.emptyPage();
 	}
@@ -114,7 +122,7 @@ public class DeliverFormListController extends BaseController<DeliverFormListCon
 	 */
 	@RequestMapping(value = "exportList")
 	public void exportList(HttpServletResponse response, String formNo, String type, String pattern) {
-		LOG.info("DeliverFormListController.export:" + formNo);
+		LOG.debug("DeliverFormListController.export:" + formNo);
 		try {
 			List<DeliverFormList> exportList = queryDeliverFormListServiceApi.getDeliverList(formNo);
 			String fileName = "";
@@ -129,6 +137,12 @@ public class DeliverFormListController extends BaseController<DeliverFormListCon
 			}else if (FormType.DD.toString().equals(type)){
 				// 导出文件名称，不包括后缀名
 				fileName = "店间配送单" + "_" + DateUtils.getCurrSmallStr();
+			}else if (FormType.DY.toString().equals(type)){
+				// 导出文件名称，不包括后缀名
+				fileName = "直送要货单" + "_" + DateUtils.getCurrSmallStr();
+			}else if (FormType.DR.toString().equals(type)){
+				// 导出文件名称，不包括后缀名
+				fileName = "退货单" + "_" + DateUtils.getCurrSmallStr();
 			}
 			else {
 				// 导出文件名称，不包括后缀名
@@ -149,15 +163,43 @@ public class DeliverFormListController extends BaseController<DeliverFormListCon
 				else if (FormType.DD.toString().equals(type)) {
 					// 模板名称，包括后缀名
 					templateName = ExportExcelConstant.DELIVERFORM_DD;
+				}else if (FormType.DY.toString().equals(type)) {
+					// 模板名称，包括后缀名
+					templateName = ExportExcelConstant.DELIVERFORM_DY;
+				}else if (FormType.DR.toString().equals(type)) {
+					// 模板名称，包括后缀名
+					templateName = ExportExcelConstant.DELIVERFORM_DR;
 				}
 				else{
 					templateName = ExportExcelConstant.DELIVERFORM_DI;
 				}
 			}
+			BigDecimalUtils.toFormatBigDecimal(exportList, 4);
 			// 导出Excel
 			exportListForXLSX(response, exportList, fileName, templateName);
 		} catch (Exception e) {
 			LOG.error("GoodsPriceAdjustController:exportList:", e);
 		}
+	}
+	
+	/**
+	 * @Description: 配送建议数量列表
+	 * @param vo
+	 * @return
+	 * @author xuyq
+	 * @date 2017年4月12日
+	 */
+	@RequestMapping(value = "getDeliverSuggestNumItemList", method = RequestMethod.POST)
+	@ResponseBody
+	public List<DeliverFormGoods> getDeliverSuggestNumItemList(DeliverSuggestNumVo vo) {
+		LOG.debug("配送建议数量，获取商品信息列表参数:{}", vo);
+		List<DeliverFormGoods> itemList = new ArrayList<DeliverFormGoods>();
+		try {
+			itemList =  deliverSuggestNumService.getFormGoodsListSuggest(vo);
+			return itemList;
+		} catch (Exception e) {
+			LOG.error("配送建议数量，获取商品信息列表异常", e);
+		}
+		return itemList;
 	}
 }

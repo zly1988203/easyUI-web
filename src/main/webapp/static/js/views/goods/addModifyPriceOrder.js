@@ -1,5 +1,6 @@
 /**
  * Created by zhanghuan on 2016/08/09.
+ * 档案-商品维护-调价单
  */
 // datagridId datagrid的Id
 var datagridId = "addModifyPriceGrid";
@@ -48,6 +49,8 @@ function initGridData(formNo){
         success : function(data) {
             gFunEndLoading();
             if (data != null || data != '') {
+                //计算原毛利率、新毛利率
+                calcSaleRate(data);
                 $("#"+datagridId).datagrid("loadData",data);
             }
 
@@ -61,7 +64,10 @@ var gridDefault = {
 //	oldVipPrice:0.00,
 //	oldWsPrice:0.00,
 //	oldSalePrice:0.00
+    oldSaleRate:"0.00%",
+    newSaleRate:"0.00%"
 }
+var editRowData = null;
 var gridHandel = new GridClass();
 // 初始化列表
 function initAddModifyPriceGridEdit() {
@@ -84,7 +90,9 @@ function initAddModifyPriceGridEdit() {
         },
     });
     addModifyPriceGridDg = $("#" + datagridId).datagrid({
-        singleSelect:false,  //单选  false多选
+        singleSelect:true,  //单选  false多选
+//        checkOnSelect:true,
+//        selectOnCheck:true,
         rownumbers:true,    //序号
         pagination:false,    //分页
         fitColumns:true,    //每列占满
@@ -123,9 +131,7 @@ function initAddModifyPriceGridEdit() {
                 title : '货号',
                 width : '120px',
                 align : 'left',
-                editor : {
-                    type : 'textbox'
-                }
+                editor : 'textbox'
             }, {
                 field : 'skuName',
                 title : '商品名称',
@@ -157,14 +163,6 @@ function initAddModifyPriceGridEdit() {
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
-                editor:{
-                    type:'numberbox',
-                    options:{
-                        disabled:true,
-                        min:0,
-                        precision:4,
-                    }
-                }
             }, // 进价
             {
                 field : 'newPurPrice',
@@ -197,14 +195,23 @@ function initAddModifyPriceGridEdit() {
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
-                editor:{
-                    type:'numberbox',
-                    options:{
-                        disabled:true,
-                        min:0,
-                        precision:4,
+            },
+            {
+                field : 'oldSaleRate',
+                title : '原毛利率',
+                width : '120px',
+                align : 'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return
                     }
-                }
+                    if(!value){
+                        value = "0.00%";
+                    }else{
+                        row['oldSaleRate'] = value;
+                    }
+                    return '<b>'+value+'</b>';
+                },
             },
 
             // 售价
@@ -228,7 +235,29 @@ function initAddModifyPriceGridEdit() {
                     }
                 }
             },
-
+            {
+                field : 'newSaleRate',
+                title : '新毛利率',
+                width : '120px',
+                align : 'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return
+                    }
+                    if(!value){
+                        value = "0.00%";
+                    }else{
+                        row['newSaleRate'] = value;
+                    }
+                    return '<b>'+value+'</b>';
+                },
+                editor : {
+                    type : 'textbox',
+                    options:{
+                        disabled:true,
+                    }
+                }
+            },
             {
                 field : 'oldDcPrice',
                 title : '原配送价',
@@ -333,6 +362,19 @@ function initAddModifyPriceGridEdit() {
                 gridHandel.setSelectFieldName("skuCode");
             }
         },
+        onBeforeEdit:function (rowIndex, rowData) {
+            editRowData = $.extend(true,{},rowData);
+        },
+        onAfterEdit:function(rowIndex, rowData, changes){
+            if(typeof(rowData.id) === 'undefined'){
+                // $("#"+gridName).datagrid('acceptChanges');
+            }else{
+                if(editRowData.skuCode != changes.skuCode){
+                    rowData.skuCode = editRowData.skuCode;
+                    gridHandel.setFieldTextValue('skuCode',editRowData.skuCode);
+                }
+            }
+        },
         onLoadSuccess : function() {
             gridHandel.setDatagridHeader("center");
             datagridUtil.isCheckBoxChecked("purchasePrice");// 进价
@@ -351,8 +393,12 @@ function changeNewPurPrice(newVal,oldVal) {
 }
 //新零售价
 function changeNewSalePrice(newVal,oldVal) {
+    if(newVal==0 || newVal === '0' || isNaN(parseFloat(newVal))){
+        gridHandel.setFieldTextValue('newSaleRate','0.00%');
+        return;
+    }
     var newPurPrice = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'newPurPrice');
-    var newSaleRate = ((newVal-newPurPrice)/newVal*100).toFixed(2)+"%"
+    var newSaleRate = ((newVal-newPurPrice)/parseFloat(newVal)*100).toFixed(2)+"%"
     gridHandel.setFieldTextValue('newSaleRate',newSaleRate);
 
 }
@@ -378,6 +424,12 @@ function initCheckbox(){
     $("#distributionPrice").on("click", function() {
         datagridUtil.isCheckBoxChecked("distributionPrice");
     });
+
+    datagridUtil.isCheckBoxChecked("purchasePrice");// 进价
+    datagridUtil.isCheckBoxChecked("retailPrice");// 零售价
+    datagridUtil.isCheckBoxChecked("tradePrice");// 批发价
+    datagridUtil.isCheckBoxChecked("memberPrice");// 会员价
+    datagridUtil.isCheckBoxChecked("distributionPrice");// 配送价
 }
 
 // 新增
@@ -443,7 +495,7 @@ function delModifyOrderDialog() {
             }
         });
     }else{
-        $.messager.confirm('提示', '没有单据可以删除');
+        messager('没有单据可以删除');
     }
 }
 
@@ -476,13 +528,12 @@ function saveModifyPriceOrder() {
                         isCheck = false;
                         break;
                     };
-
-                    if(parseFloat(item["newSalePrice"]) < parseFloat(item["newVipPrice"])){
-                        messager("第"+(i+1)+"行，新会员价要小于新销售价");
-                        isCheck = false;
-                        break;
-                    };
-                }
+	                if(parseFloat(item["newSalePrice"]) < parseFloat(item["newVipPrice"])){
+	                    messager("第"+(i+1)+"行，新会员价要小于新销售价");
+	                    isCheck = false;
+	                    break;
+	                };
+            	}
             }
 
             if(isCheck === false){
@@ -526,7 +577,7 @@ function saveModifyPriceOrder() {
                                 });
                             } else {
                                 // 失败提示
-                                $.messager.alert('提示', data.message);
+                                messager(data.message);
                             }
                         },error:function(){
                             gFunEndLoading();
@@ -609,7 +660,7 @@ function updateModifyPriceOrder() {
                             });
                         } else {
                             // 失败提示
-                            $.messager.alert('提示', data.message);
+                            messager(data.message);
                         }
                     }
                 });
@@ -640,9 +691,9 @@ function checkForm(formNo, status,effectDate) {
         },
         dataType : "json",
         success : function(data) {
-            console.info(data);
+
             if (data.code > 0) {
-                $.messager.alert('提示', data.message, "info");
+                messager(data.message);
             } else {
                 $.messager.alert('提示', '单据审核成功！', "info", function() {
                     window.location.href = contextPath
@@ -679,7 +730,7 @@ var datagridUtil = {
     isCheckRemark : function() {
         var remark = $("#remark").val();
         if(remark.length>125){
-            $.messager.alert('提示', '备注信息不能超过125个字');
+            messager('备注信息不能超过125个字');
             return false;
         }else{
             return true;
@@ -692,7 +743,7 @@ var datagridUtil = {
      */
     isSelectArea : function() {
         if ($("#branchId").val().trim() == "") {
-            $.messager.alert('提示', '请先选择机构');
+            messager('请先选择机构');
             gFunEndLoading();
             return false;
         } else {
@@ -715,7 +766,7 @@ var datagridUtil = {
             }
         });
         if(!isCheckPrice){
-            $.messager.alert('提示', '没有勾选调价设置！');
+            messager('没有勾选调价设置！');
             gFunEndLoading();
         }
         return isCheckPrice;
@@ -727,7 +778,7 @@ var datagridUtil = {
      */
     isSelectRows : function() {
         if ($("#" + datagridId).datagrid("getSelections").length <= 0) {
-            $.messager.alert('提示', '没有单据可以删除，请选择一笔单据再删除？');
+            messager('没有单据可以删除，请选择一笔单据再删除？');
             return false;
         } else {
             return true;
@@ -740,7 +791,7 @@ var datagridUtil = {
      */
     isHasDataGrid : function() {
         if ($(".datagrid-btable td[field='skuCode']").length <= 0) {
-            $.messager.alert('提示', '明细数据不能为空，请输入！');
+            messager('明细数据不能为空，请输入！');
             gFunEndLoading();
             return false;
         } else {
@@ -760,7 +811,7 @@ var datagridUtil = {
                 }
             }
             if (count == 0) {
-                $.messager.alert('提示', '明细数据不能为空，请输入！');
+                messager('明细数据不能为空，请输入！');
                 gFunEndLoading();
                 return false;
             } else {
@@ -798,11 +849,21 @@ var datagridUtil = {
             default:
                 break;
         }
-        if ($("#" + checkboxId).is(":checked")) {
-            _this.showDataGridColumn(fieldArr);
-        } else {
-            _this.hideDataGridColumn(fieldArr);
+
+        var newFields = ["oldSaleRate","newSaleRate"];
+        if($("#purchasePrice").is(":checked") || $("#retailPrice").is(":checked")){
+            _this.showDataGridColumn(newFields);
+        }else{
+            _this.hideDataGridColumn(newFields);
         }
+            if ($("#" + checkboxId).is(":checked")) {
+                _this.showDataGridColumn(fieldArr);
+            } else {
+                _this.hideDataGridColumn(fieldArr);
+            }
+
+
+
     },
     /**
      * 显示列
@@ -951,7 +1012,19 @@ function selectGoodsDialog(searchKey) {
 }
 //商品选择 公共使用
 function gFunGoodsSelect(searchKey,branchId){
-    new publicGoodsService('PC', function(data) {
+
+    var param = {
+        type:'PC',
+        key:searchKey,
+        isRadio:0,
+        sourceBranchId:"",
+        targetBranchId:"",
+        branchId:branchId,
+        supplierId:'',
+        flag:'0',
+    }
+
+    new publicGoodsServiceTem(param, function(data) {
         if(searchKey){
             $("#addModifyPriceGrid").datagrid("deleteRow", gridHandel.getSelectRowIndex());
             $("#addModifyPriceGrid").datagrid("acceptChanges");
@@ -978,6 +1051,9 @@ function gFunGoodsSelect(searchKey,branchId){
         var newData = gFunUpdateKey(data,keyNames);
         newData = gFunUpdateKey(newData,keyNames2);
         var newRows = gridHandel.checkDatagrid(nowRows,newData,argWhere);
+        
+        //计算原毛利率、新毛利率
+        calcSaleRate(newRows);
 
         $("#"+datagridId).datagrid("loadData",newRows);
 
@@ -1005,7 +1081,25 @@ function gFunGoodsSelect(searchKey,branchId){
             },100)
         }
 
-    },searchKey,0,"","",branchId,"");
+    });
+}
+
+//计算原毛利率、新毛利率
+function calcSaleRate(rows){
+    $.each(rows,function (index,item) {
+        //兼容老数据 如果原零售价为0
+        if(item.oldSalePrice === '0' || item.oldSalePrice == 0 || isNaN(parseFloat(item.oldSalePrice)) || isNaN(parseFloat(item.oldPurPrice)) ){
+            item.oldSaleRate = "0.00%";
+        }else{
+            item.oldSaleRate = ((item.oldSalePrice-item.oldPurPrice)/item.oldSalePrice*100).toFixed(2)+"%";
+        }
+        if(item.newSalePrice == 0 || item.newSalePrice === '0' || isNaN(parseFloat(item.newSalePrice)) || isNaN(parseFloat(item.newPurPrice))){
+            item.newSaleRate = "0.00%"
+        }else{
+            item.newSaleRate = ((item.newSalePrice-item.newPurPrice)/item.newSalePrice*100).toFixed(2)+"%"
+        }
+
+    });
 }
 
 /**
@@ -1038,9 +1132,6 @@ function selectBranchArea() {
                     }
                     var reg = /\,$/;
                     branchName = branchName.replace(reg,"");
-                    //branchName = branchName.substring(0,branchName.length - 1);
-                    //branchesId = branchesId.substring(0,branchesId.length - 1);
-                    //branchCode = branchCode.substring(0,branchCode.length - 1);
                     branchesId= branchesId.replace(reg,"");
                     branchCode = branchCode.replace(reg,"");
                     showBranch = showBranch.replace(reg,"");
@@ -1082,15 +1173,15 @@ function exportData(){
     var length = $("#addModifyPriceGrid").datagrid('getData').total;
     var status=$("#status").val();
     if(status==0){
-        $.messager.alert('提示',"订单未通过审核");
+        messager("订单未通过审核");
         return;
     }
     if(length == 0){
-        $.messager.alert('提示',"没有数据");
+        messager("没有数据");
         return;
     }
     if(length>10000){
-        $.messager.alert("当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
+        messager("当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
         return;
     }
     var formNo=$("#formNoInput").val();
@@ -1102,7 +1193,7 @@ function exportData(){
 function printDesign(formNo){
     var branchId=$("#branchId").val();
     if(!branchId){
-        $.messager.alert('提示',"请先选择机构");
+        messager("请先选择机构");
     }else{
         //弹出打印页面
         parent.addTabPrint('CASheet' + formNo,formNo+'单据打印',contextPath + '/printdesign/design?page=CASheet&controller=/goods/priceAdjust&template=-1&sheetNo=' + formNo + '&gridFlag=CAGrid','');
@@ -1157,13 +1248,44 @@ function toImportproduct(type){
         type:type,
         branchId:branchId,
     }
+
     new publicUploadFileService(function(data){
         updateListData(data);
     },param)
 }
 
 function updateListData(data){
+
     var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
+    if(data.length>0){
+
+        if(nowRows.length <=0){
+            $("#retailPrice").removeProp("checked");
+            datagridUtil.isCheckBoxChecked('retailPrice');
+
+            $("#memberPrice").removeProp("checked");
+            datagridUtil.isCheckBoxChecked('memberPrice');
+        }
+
+        var arrKey =
+            {"newPurPrice":"purchasePrice",
+                "newSalePrice":"retailPrice",
+                "newDcPrice":"distributionPrice",
+                "newWsPrice":"tradePrice",
+                "newVipPrice":"memberPrice"
+            }
+
+        $.each(data,function(index,val){
+            $.each(arrKey,function(key,item){
+                if(key&&val[key]){
+                    $("#"+item).prop("checked","checked");
+                    datagridUtil.isCheckBoxChecked(item);
+                }
+            })
+        })
+    }
+
+
     var addDefaultData  = gridHandel.addDefault(data,gridDefault);
     var keyNames = {
         purchasePrice : 'oldPurPrice',
@@ -1172,34 +1294,38 @@ function updateListData(data){
         vipPrice:'oldVipPrice',
         distributionPrice:'oldDcPrice'
     };
+
     var rows = gFunUpdateKey(addDefaultData,keyNames);
-    if(data.length>0){
-        var obj = data[0];
-        var arrKey = [
-            {"newPurPrice":"purchasePrice"},
-            {"newSalePrice":"retailPrice"},
-            {"newDcPrice":"distributionPrice"},
-            {"newWsPrice":"tradePrice"},
-            {"newVipPrice":"memberPrice"}
-        ]
-        $.each(obj,function(key,val){
-            var d = obj;
-            var c = key;
-            $.each(arrKey,function(i,item){
-                if(item[key]&&obj[key]){
-                    $("#"+item[key]).attr("checked","checked");
-                    datagridUtil.isCheckBoxChecked(item[key]);
-                }
-            })
-        })
-    }
+    $.each(rows,function (index,item) {
+        if(isNaN(parseFloat(item.newPurPrice))){
+            item.newPurPrice = item.oldPurPrice;
+        }
+        if(isNaN(parseFloat(item.newSalePrice))){
+            item.newSalePrice = item.oldSalePrice;
+        }
+        if(isNaN(parseFloat(item.newDcPrice))){
+            item.newDcPrice = item.oldDcPrice;
+        }
+        if(isNaN(parseFloat(item.newWsPrice))){
+            item.newWsPrice = item.oldWsPrice;
+        }
+        if(isNaN(parseFloat(item.newVipPrice))){
+            item.newVipPrice = item.oldVipPrice;
+        }
+    })
+
 
     var argWhere ={skuCode:1};  //验证重复性
     var isCheck ={isGift:1 };   //只要是赠品就可以重复
     var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
+    
+    //计算原毛利率、新毛利率
+    calcSaleRate(newRows);
+    
     $("#"+datagridId).datagrid("loadData",newRows);
 
 }
+
 //返回列表页面
 function back(){
     toClose();

@@ -9,6 +9,7 @@ package com.okdeer.jxc.controller.goods;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,8 +19,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import net.sf.json.JSONObject;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +42,7 @@ import com.okdeer.jxc.common.goodselect.GoodsSelectImportComponent;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportHandle;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportVo;
 import com.okdeer.jxc.common.result.RespJson;
+import com.okdeer.jxc.common.utils.BigDecimalUtils;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.ListUtils;
 import com.okdeer.jxc.common.utils.OrderNoUtils;
@@ -58,8 +58,11 @@ import com.okdeer.jxc.goods.entity.GoodsSelectPriceAdjst;
 import com.okdeer.jxc.goods.service.GoodsPriceAdustServiceApi;
 import com.okdeer.jxc.goods.vo.GoodsPriceFormConst;
 import com.okdeer.jxc.goods.vo.GoodsPriceFormVo;
+import com.okdeer.jxc.sale.goods.service.ModifyPriceOrderService;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
+
+import net.sf.json.JSONObject;
 
 /**
  * ClassName: GoodsPriceAdjustController 
@@ -88,6 +91,9 @@ public class GoodsPriceAdjustController extends BasePrintController<GoodsPriceAd
 	// 导入
 	@Autowired
 	private GoodsSelectImportComponent goodsSelectImportComponent;
+	
+	@Reference(version = "1.0.0", check = false)
+	private ModifyPriceOrderService modifyPriceOrderService;
 
 	/**
 	 * @Description: 调价单页面展示
@@ -146,7 +152,7 @@ public class GoodsPriceAdjustController extends BasePrintController<GoodsPriceAd
 				goodsPriceFormVo.setEndTime(time);
 			}
 			goodsPriceFormVo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
-			LOG.info("调价单搜索 ：goodsPriceFormVo=" + goodsPriceFormVo);
+			LOG.debug("调价单搜索 ：goodsPriceFormVo=" + goodsPriceFormVo);
 			return goodsPriceAdustService.queryLists(goodsPriceFormVo);
 		} catch (Exception e) {
 			LOG.error(GoodsPriceFormConst.SEARCH_GOODS_PRICE_FOMR_ERRO, e);
@@ -165,9 +171,9 @@ public class GoodsPriceAdjustController extends BasePrintController<GoodsPriceAd
 	@ResponseBody
 	public List<GoodsPriceFormDetail> queryDetailsByformNo(String formNo) {
 		LOG.debug("调价单搜索 ：formNo=" + formNo);
-		return goodsPriceAdustService.queryDetailsByFormNo(formNo);
+		return goodsPriceAdustService.queryDetailPriceByformNo(formNo);
 	}
-
+	
 	/**
 	 * @Description: 根据formNo删除单据
 	 * @param formNo 主键formNo
@@ -269,7 +275,12 @@ public class GoodsPriceAdjustController extends BasePrintController<GoodsPriceAd
 		rep.put("createUserDate", createTime);
 		return rep;
 	}
-
+	
+    /**
+     * @Fields ONE : 常量1
+     */
+    private static final Integer ONE = 1;
+    
 	/**
 	 * @Description: 设置单据详情数据
 	 * @param goodsPriceForm
@@ -280,11 +291,48 @@ public class GoodsPriceAdjustController extends BasePrintController<GoodsPriceAd
 	 */
 	private List<GoodsPriceFormDetail> setFormData(GoodsPriceForm goodsPriceForm,
 			List<GoodsPriceFormDetail> goodsPriceDetailList) {
+        // 是否修改进价
+        Integer modifyPurPrice = goodsPriceForm.getIsModifyPurPrice();
+        // 是否修改售价
+        Integer modifySalePrice = goodsPriceForm.getIsModifySalePrice();
+        // 是否修改配送价
+        Integer modifyDcPrice = goodsPriceForm.getIsModifyDcPrice();
+        // 是否修改会员价
+        Integer modifyVipPrice = goodsPriceForm.getIsModifyVipPrice();
+        // 是否修改批发价
+        Integer modifyWsPrice = goodsPriceForm.getIsModifyWsPrice();
+        
+        boolean isModifyPurPrice = (modifyPurPrice != null && ONE.equals(modifyPurPrice));
+        boolean isModifySalePrice = (modifySalePrice != null && ONE.equals(modifySalePrice));
+        boolean isModifyDcPrice = (modifyDcPrice != null && ONE.equals(modifyDcPrice));
+        boolean isModifyVipPrice = (modifyVipPrice != null && ONE.equals(modifyVipPrice));
+        boolean isModifyWsPrice = (modifyWsPrice != null && ONE.equals(modifyWsPrice));
 		// 详情列表数据
 		for (GoodsPriceFormDetail goodsPriceFormDetail : goodsPriceDetailList) {
 			goodsPriceFormDetail.setId(UUIDHexGenerator.generate());
 			goodsPriceFormDetail.setFormId(goodsPriceForm.getId());
 			goodsPriceFormDetail.setFormNo(goodsPriceForm.getFormNo());
+			
+	         if(!isModifyPurPrice){
+	                // 如果未修改，新值设置成旧值
+	                goodsPriceFormDetail.setNewPurPrice(goodsPriceFormDetail.getOldPurPrice());
+	            }
+	            if(!isModifySalePrice){
+	                // 如果未修改，新值设置成旧值
+	                goodsPriceFormDetail.setNewSalePrice(goodsPriceFormDetail.getOldSalePrice());
+	            }
+	            if(!isModifyDcPrice){
+	                // 如果未修改，新值设置成旧值
+	                goodsPriceFormDetail.setNewDcPrice(goodsPriceFormDetail.getOldDcPrice());
+	            }
+	            if(!isModifyVipPrice){
+	                // 如果未修改，新值设置成旧值
+	                goodsPriceFormDetail.setNewVipPrice(goodsPriceFormDetail.getOldVipPrice());
+	            }
+	            if(!isModifyWsPrice){
+	                // 如果未修改，新值设置成旧值
+	                goodsPriceFormDetail.setNewWsPrice(goodsPriceFormDetail.getOldWsPrice());
+	            }
 		}
 		return goodsPriceDetailList;
 	}
@@ -509,9 +557,33 @@ public class GoodsPriceAdjustController extends BasePrintController<GoodsPriceAd
 	 */
 	@RequestMapping(value = "exportList")
 	public void exportList(HttpServletResponse response, String formNo) {
-		LOG.info("GoodsPriceAdjustController:exportList:" + formNo);
+		LOG.debug("GoodsPriceAdjustController:exportList:" + formNo);
 		try {
-			List<GoodsPriceFormDetail> exportList = goodsPriceAdustService.queryDetailsByFormNo(formNo);
+			List<GoodsPriceFormDetail> exportList = goodsPriceAdustService.queryDetailPriceByformNo(formNo);
+			
+			for(GoodsPriceFormDetail goods : exportList){
+				BigDecimal oldSaleRate = BigDecimal.ZERO;
+				BigDecimal newSaleRate = BigDecimal.ZERO;
+				
+				//计算原毛利率
+				if(goods.getOldSalePrice()!=null && goods.getOldSalePrice().compareTo(BigDecimal.ZERO)>0 &&
+						goods.getOldPurPrice()!=null){
+					// 毛利率 = （销售价 - 进货价）/ 销售价 * 100
+					oldSaleRate = goods.getOldSalePrice().subtract(goods.getOldPurPrice()).
+							divide(goods.getOldSalePrice(), 4).multiply(new BigDecimal("100"));
+				}
+				
+				//计算新毛利率
+				if(goods.getNewSalePrice()!=null && goods.getNewSalePrice().compareTo(BigDecimal.ZERO)>0 &&
+						goods.getNewPurPrice()!=null){
+					// 毛利率 = （销售价 - 进货价）/ 销售价 * 100
+					newSaleRate = goods.getNewSalePrice().subtract(goods.getNewPurPrice()).
+							divide(goods.getNewSalePrice(), 4).multiply(new BigDecimal("100"));
+				}
+				goods.setOldSaleRateStr(BigDecimalUtils.formatTwoDecimal(oldSaleRate)+"%");
+				goods.setNewSaleRateStr(BigDecimalUtils.formatTwoDecimal(newSaleRate)+"%");
+			}
+			
 			// 导出文件名称，不包括后缀名
 			String fileName = "调价单" + "_" + DateUtils.getCurrSmallStr();
 			// 模板名称，包括后缀名
@@ -532,7 +604,7 @@ public class GoodsPriceAdjustController extends BasePrintController<GoodsPriceAd
 	 */
 	@RequestMapping(value = "exportTemp")
 	public void exportTemp(HttpServletResponse response, Integer type) {
-		LOG.info("GoodsPriceAdjustController:exportList:" + type);
+		LOG.debug("GoodsPriceAdjustController:exportList:" + type);
 		try {
 			// 导出文件名称，不包括后缀名
 			String fileName = "调价单货号导入模板";

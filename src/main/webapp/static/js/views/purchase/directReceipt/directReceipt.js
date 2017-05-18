@@ -84,7 +84,7 @@ var gridDefault = {
     realNum:0,
     isGift:0,
 }
-
+var editRowData = null;
 var gridHandel = new GridClass();
 function initDirectDataGrid(){
 	 gridHandel.setGridName(gridName);
@@ -168,6 +168,7 @@ function initDirectDataGrid(){
                        min:0,
                        precision:4,
                       onChange: onChangeLargeNum,
+                       disabled:isdisabled,
                    }
                },
            },
@@ -233,6 +234,7 @@ function initDirectDataGrid(){
                editor:{
                    type:'combobox',
                    options:{
+                       disabled:isdisabled,
                        valueField: 'id',
                        textField: 'text',
                        editable:false,
@@ -257,6 +259,9 @@ function initDirectDataGrid(){
                },
                editor:{
                    type:'datebox',
+                   options:{
+                       disabled:isdisabled,
+                   }
                },
            },
            {field:'tax',title:'税率',width:'80px',align:'right',
@@ -293,7 +298,14 @@ function initDirectDataGrid(){
                    }
                },
            },
-           {field:'remark',title:'备注',width:'200px',align:'left', editor:'textbox'}
+           {field:'remark',title:'备注',width:'200px',align:'left',
+               editor:{
+                   type:'textbox',
+                   options:{
+                       disabled:isdisabled,
+                   }
+               },
+           }
 
        ]],
        onClickCell:function(rowIndex,field,value){
@@ -306,6 +318,19 @@ function initDirectDataGrid(){
                gridHandel.setSelectFieldName("skuCode");
            }
        },
+          onBeforeEdit:function (rowIndex, rowData) {
+              editRowData = $.extend(true,{},rowData);
+          },
+          onAfterEdit:function(rowIndex, rowData, changes){
+              if(typeof(rowData.id) === 'undefined'){
+                  // $("#"+gridName).datagrid('acceptChanges');
+              }else{
+                  if(editRowData.skuCode != changes.skuCode){
+                      rowData.skuCode = editRowData.skuCode;
+                      gridHandel.setFieldTextValue('skuCode',editRowData.skuCode);
+                  }
+              }
+          },
        onLoadSuccess:function(data){
            if(data.rows.length>0){
                var config = {
@@ -410,6 +435,9 @@ function onChangeRealNum(newV,oldV) {
 
 //监听是否赠品
 function onSelectIsGift(data){
+    var _skuName = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuName');
+    if(!_skuName)return;
+
     var checkObj = {
         skuCode: gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'skuCode'),
         isGift:data.id,
@@ -596,10 +624,6 @@ function saveDataHandel(rows, url){
         }
     });
 }
-
-
-
-
 
 //查看 保存修改
 function updateDirectForm() {

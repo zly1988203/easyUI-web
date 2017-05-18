@@ -9,7 +9,7 @@
     <title>出库单-编辑</title>
 
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-	<script src="${ctx}/static/js/views/deliver/DoEdit.js"></script>
+	<script src="${ctx}/static/js/views/deliver/DoEdit.js?V=${versionNo}"></script>
     <script src="${ctx}/static/js/views/deliver/deliverExport.js"></script>
     <%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
 </head>
@@ -92,7 +92,7 @@
            </div>
            <div class="ub umar-t8">
            	   <div class="ub ub-ac uw-300">
-                   <div class="umar-r10 uw-70 ut-r">要货单号:</div>
+                   <div class="umar-r10 uw-70 ut-r">引用单号:</div>
                    <div class="ub">
                        <input type="hidden" id="referenceId" name="referenceId" value="${form.referenceId}" />
                        <input class="uinp ub ub-f1" type="text" id="referenceNo" name="referenceNo" value="${form.referenceNo}" readonly="readonly"/>
@@ -106,12 +106,12 @@
                     <input class="uinp" type="text" id="remark" name="remark" value="${form.remark}" >
                 </div>
                 <div class="ub ub-ac uw-300 umar-l20">
-                    <div class="uw-80 ut-r10">要货单备注:</div>
+                    <div class="uw-80 ut-r10">原单备注:</div>
                     <input class="uinp" type="text" id="DAremark" name="DAremark" value="${form.daRemark}" readonly="readonly">
                 </div>
-                <div class="ub ub-ac uw-300 umar-l20">
+                <div class="ub ub-ac  umar-l20">
                 <div class="umar-r10 uw-70 ut-r">收货地址:</div>
-                <div class="utxt" id="address"></div>
+                <div class="utxt" id="address" style="width:auto"></div>
                 </div>
            </div>
            <%--datagrid-edit--%>
@@ -119,16 +119,6 @@
                <table id="gridEditRequireOrder" ></table>
            </div>
     </div>
-     <%-- 导入弹框 --%>
-    <div class="uabs uatk">
 
-     	<div class="uatit">导入文件选择</div>
-         <div class="uacon"><input class="uinp ub" id="filename" type="text"><label class="ualable">选择文件<input type="file" class="uafile" value=""  name="xlfile" id="xlf" /></label></div>
-         
-         <div class="uabtns ">
-     	 		<button class="uabtn umar-r30" onclick="importHandel('gridEditOrder')">导入</button>
-     	 	<button class="uabtn" onclick="uaclose()" >取消</button>
-     	 </div>
-     </div>
 </body>
 </html>

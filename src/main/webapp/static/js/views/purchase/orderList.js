@@ -6,7 +6,9 @@ $(function(){
     initConditionParams();
     
     initDatagridOrders();
-    
+    if(getUrlQueryString('message')=='0'){
+		query();
+    }
     //单据状态切换
     changeStatus();
 });
@@ -168,3 +170,11 @@ function resetForm(){
 };
 
 
+function printPreview() {
+    var rows = $("#gridOrders").datagrid('getSelections');
+    if(rows.length == 1){
+        toPrintPreview('PA','/form/purchase/','gridOrders');
+    }else{
+        messager('请选择一行数据.')
+    }
+}

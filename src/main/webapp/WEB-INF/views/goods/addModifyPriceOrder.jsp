@@ -9,7 +9,7 @@
 <title>档案-新增调价单</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 
-<script src="${ctx}/static/js/views/goods/addModifyPriceOrder.js"></script>
+<script src="${ctx}/static/js/views/goods/addModifyPriceOrder.js?V=${versionNo}"></script>
 
 </head>
 <body class="ub uw uh ufs-14 uc-black">
@@ -46,7 +46,7 @@
 						onclick="selectGoodsDialog();">商品选择</div>
 					<shiro:hasPermission name="JxcPriceAdjust:delete">
 						<div class="ubtns-item" id="delModifyOrderDialog"
-							onclick="delModifyOrderDialog();">删单</div>
+							onclick="delModifyOrderDialog();">删除</div>
 					</shiro:hasPermission>
 				</c:if>
 				<shiro:hasPermission name="JxcPriceAdjust:exportDetail">
@@ -67,7 +67,7 @@
 					<div class="ubtns-item" id="set" onclick="gFunRefresh()">重置</div>
 				</c:if>
 				<%--  <div class="ubtns-item" onclick="printDesign('${goodsPriceForm.formNo}')">打印</div> --%>
-				<div class="ubtns-item" id="toBackByJSButton" onclick="back()">关闭</div>
+				<div class="ubtns-item" id="toBackByJSButton" onclick="toClose()">关闭</div>
 				<input type="hidden" id="close" value="${close}" />
 			</div>
 		</div>
@@ -93,6 +93,7 @@
 							id="areaInput">
 						<div class="uinp-more" onclick="selectBranchArea();">...</div>
 					</div>
+					<i class="ub ub-ac uc-red">*</i>
 					<div class="ub ub-ac uw-300 umar-l20">
 						<div class="umar-r10 uw-70 ut-r">生效日期:</div>
 						<c:if test="${goodsPriceForm.effectDate ==null }">
@@ -108,7 +109,7 @@
 								onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" />
 						</c:if>
 					</div>
-					<div class="ub ub-ac umar-l20 uw-200">
+					<div class="ub ub-ac umar-l28 uw-200">
 						<div class="umar-r10 uw-70 ut-r">制单人员:</div>
 						<div class="utxt" id="createUserId">${goodsPriceForm.createUserName}</div>
 					</div>
@@ -121,7 +122,7 @@
 					</div>
 				</div>
 				<div class="ub umar-t8">
-					<div class="ub ub-ac uw-600">
+					<div class="ub ub-ac uw-608">
 						<div class="umar-r10 uw-70 ut-r">机构列表:</div>
 						<input class="uinp ub ub-f1" name="loginBranchId" type="hidden"
 							value="${loginBranchId}" id="loginBranchId"> <input
@@ -132,7 +133,8 @@
 							id="branchShopName" readonly>
 						<div class="uinp-more" onclick="selectBranch();">...</div>
 					</div>
-					<div class="ub ub-ac umar-l40 uw-200">
+					<i class="ub ub-ac uc-red">*</i>
+					<div class="ub ub-ac umar-l44 uw-200">
 						<div class="umar-r10 uw-70 ut-r">审核人员:</div>
 						<div class="utxt" id="checkUser">${goodsPriceForm.validUserName}</div>
 					</div>
@@ -145,13 +147,13 @@
 					</div>
 				</div>
 				<div class="ub umar-t8">
-					<div class="ub ub-ac uw-600">
+					<div class="ub ub-ac uw-608">
 						<div class="umar-r10 uw-70 ut-r">备注:</div>
 						<input class="uinp ub ub-f1" name="remark"
 							value="${goodsPriceForm.remark}" type="text" id="remark">
 					</div>
 					<!--input-checkbox-->
-					<div class="ub ub-ac umar-l40" id="checkBoxPrice">
+					<div class="ub ub-ac umar-l48" id="checkBoxPrice">
 						<div class="umar-r10 uw-70 ut-r">调价设置:</div>
 						<!-- 如果调价为null默认是全部显示 -->
 						<c:if test="${priceGrantMap == null }">

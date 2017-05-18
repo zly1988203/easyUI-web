@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>库存调整-新增</title>
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-	<script src="${ctx}/static/js/views/stockAdjust/stockAdd.js"></script>
+	<script src="${ctx}/static/js/views/stockAdjust/stockAdd.js?V=${versionNo}"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
     <div class="ub ub-ver ub-f1 umar-4  ubor">
@@ -27,6 +27,7 @@
 					<input type="text" name="branchName" id="branchName"class="uinp  ub ub-f1" readonly="readonly"  />
 					<div class="uinp-more" onclick="searchBranch()">...</div>
 	           </div>
+	           <i class="ub ub-ac uc-red">*</i>
 	             <div class="ub ub-ac uselectw umar-l40">
                     <div class="umar-r10 uw-70 ut-r">调整原因:</div>
                            <select id="reason" class="easyui-combobox uselect" name="reason" ></select>
@@ -52,7 +53,8 @@
 								<option value="1">出库</option>
 				        </select>
                 </div>
-               <div class="ub ub-ac uw-300 umar-l300">
+                <i class="ub ub-ac uc-red">*</i>
+               <div class="ub ub-ac uw-300 umar-l335">
                    <div class="umar-r10 uw-70 ut-r">审核人员:</div>
                    <div class="utxt"></div>
                </div>
@@ -72,17 +74,7 @@
                <table id="gridEditOrder" ></table>
            </div>
     </div>
-     <!-- 导入弹框 -->
-    <div class="uabs uatk">
 
-     	<div class="uatit">导入文件选择</div>
-         <div class="uacon"><input class="uinp ub" id="filename" type="text"><label class="ualable">选择文件<input type="file" class="uafile" value=""  name="xlfile" id="xlf" /></label></div>
-         
-         <div class="uabtns ">
-     	 	<button class="uabtn umar-r30" onclick="importHandel('gridEditOrder')">导入数量</button>
-     	 	<button class="uabtn" onclick="uaclose()" >取消</button>
-     	 </div>
-     </div>
      
      <script type="text/javascript">
      $('#reason').combobox({

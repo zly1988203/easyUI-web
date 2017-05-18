@@ -36,7 +36,7 @@
 		<div class="ub uline umar-t8"></div>
 		<div class="ub umar-t8">
 			<div class="ub ub-ac uw-300">
-				<div class="umar-r10 uw-40 ut-r">机构:</div>
+				<div class="umar-r10 uw-40 ut-r umar-l30">机构:</div>
 				<input type="hidden" id="branchCompleCode" name="branchCompleCode" value="${batchVo.branchCompleCode}"/>
 				<input class="uinp ub ub-f1" type="text" id="branchCodeName" name="branchCodeName" value="${batchVo.branchCodeName}" maxlength="50"
 					 onblur="clearBranchCode()" />
@@ -46,7 +46,7 @@
 			</div>
 			<div class="ub ub-ac uw-300 umar-l20">
 				<div class="umar-r10 uw-70 ut-r">盘点批号:</div>
-				<input class="uinp ub ub-f1" type="text" id="batchNo" name="batchNo">
+				<input class="uinp ub ub-f1" type="text" id="batchNo" name="batchNo" readonly="readonly" >
 				<div class="uinp-more" onClick="searchTakeStock()">...</div>
 			</div>
 		</div>

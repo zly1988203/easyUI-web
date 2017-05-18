@@ -3,7 +3,7 @@ pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
-<script src="${ctx}/static/js/views/supplier/archive/supplierArchiveAdd.js"></script>
+<script src="${ctx}/static/js/views/supplier/archive/supplierArchiveAdd.js?V=${versionNo}"></script>
 <div class="ub ub-ver  ub-f1  uw uh ufs-14 uc-black">
 	<div class="ub ub-ac upad-4">
 		<div class="ubtns">
@@ -22,14 +22,13 @@ pageEncoding="UTF-8"%>
 				</div>
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">供应商名称:</div>
-					<input id="supplierName" name="supplierName" class="uinp easyui-validatebox" data-options="required:true" maxlength="50" value="${supplier.supplierName }">
+					<input id="supplierName" name="supplierName" class="uinp"  maxlength="50" value="${supplier.supplierName }">
 					<i class="uc-red">*</i>
 				</div>
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">所属机构:</div>
 					<input id="branchCodeName" name="branchCodeName" class="uinp uw-200" type="text" readonly="readonly" value="[${branch.branchCode }]${branch.branchName }"  >
 					<input id="branchId" name="branchId" type="hidden" value="${branch.branchesId }">
-					<i class="uc-red">*</i>
 				</div>
 			</div>
 			<div class="ub upad-4">
@@ -43,7 +42,7 @@ pageEncoding="UTF-8"%>
 							</option>
 						</c:forEach>
 					</select>
-					<i class="uc-red">*</i>
+
 				</div>
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">所在区域:</div>
@@ -61,12 +60,12 @@ pageEncoding="UTF-8"%>
 					<c:if test="${empty supplier.supplierAreaCode}">
 						<input id="supplierAreaCode" name="supplierAreaCode" type="hidden" value="${areaList[0].areaCode }" />
 					</c:if>
-					<i class="uc-red">*</i>
+
 				</div>
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">办公地址:</div>
 					<input id="officeAddress" name="officeAddress" class="uinp uw-200"  type="text" value="${supplier.officeAddress }" maxlength="50">
-					<i class="uc-red">*</i>
+
 				</div>
 
 
@@ -75,17 +74,17 @@ pageEncoding="UTF-8"%>
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">营业执照号:</div>
 					<input id="businessLicenseNum" name="businessLicenseNum" class="uinp uw-200"  type="text" value="${supplier.businessLicenseNum }" maxlength="50">
-					<i class="uc-red">*</i>
+
 				</div>
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">组织机构代码:</div>
 					<input id="organizationCode" name="organizationCode" value="${supplier.organizationCode }" class="uinp easyui-validatebox" maxlength="50">
-					<i class="uc-red">*</i>
+
 				</div>
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">国税登记号:</div>
 					<input id="nationalTaxRegNum" name="nationalTaxRegNum" value="${supplier.nationalTaxRegNum }" class="uinp easyui-validatebox" maxlength="50">
-					<i class="uc-red">*</i>
+
 				</div>
 
 			</div>
@@ -94,12 +93,12 @@ pageEncoding="UTF-8"%>
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">地税登记号:</div>
 					<input id="localTaxRegNum" name="localTaxRegNum" value="${supplier.localTaxRegNum }" class="uinp uw-200"  type="text" maxlength="50">
-					<i class="uc-red">*</i>
+
 				</div>
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">纳税人识别号:</div>
 					<input id="taxIdentificationNum" name="taxIdentificationNum" value="${supplier.taxIdentificationNum }" class="uinp easyui-validatebox" maxlength="50">
-					<i class="uc-red">*</i>
+
 				</div>
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">税票类型:</div>
@@ -116,7 +115,7 @@ pageEncoding="UTF-8"%>
 						<option value="10">其他</option>
 					</select>
 					<input id="stampsTypeVal" name="stampsTypeVal" type="hidden" value="${supplier.stampsType }">
-					<i class="uc-red">*</i>
+
 				</div>
 			</div>
 
@@ -124,17 +123,17 @@ pageEncoding="UTF-8"%>
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">银行账户名称:</div>
 					<input id="bankAccountName" name="bankAccountName" value="${supplier.bankAccountName }" class="uinp easyui-validatebox" maxlength="50">
-					<i class="uc-red">*</i>
+
 				</div>
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">开户银行:</div>
 					<input id="openAccountBank" name="openAccountBank" value="${supplier.openAccountBank }" class="uinp uw-200"  type="text">
-					<i class="uc-red">*</i>
+
 				</div>
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">银行账号:</div>
 					<input id="bankAccount" name="bankAccount" value="${supplier.bankAccount }" class="uinp easyui-validatebox" maxlength="50">
-					<i class="uc-red">*</i>
+
 				</div>
 
 			</div>
@@ -143,19 +142,19 @@ pageEncoding="UTF-8"%>
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">联系人:</div>
 					<input id="contcat" name="contcat" value="${supplier.contcat }" class="uinp uw-200"  type="text">
-					<i class="uc-red">*</i>
+
 				</div>
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">电话号码:</div>
 					<input id="phone" name="phone" value="${supplier.phone }" class="uinp easyui-validatebox"
 						data-options="validType:'phone'" maxlength="20">
-					<i class="uc-red">*</i>
+
 				</div>
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">手机号码:</div>
 					<input id="mobile" name="mobile" value="${supplier.mobile }" class="uinp uw-200  easyui-validatebox" 
 						data-options="validType:'mobile'"  type="text" >
-					<i class="uc-red">*</i>
+
 				</div>
 
 			</div>
@@ -164,7 +163,7 @@ pageEncoding="UTF-8"%>
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">E-mail地址:</div>
 					<input id="email" name="email" value="${supplier.email }" class="uinp easyui-validatebox" maxlength="50">
-					<i class="uc-red">*</i>
+
 				</div>
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">合同时间:</div>
@@ -183,7 +182,7 @@ pageEncoding="UTF-8"%>
 					<div class="umar-r10 uw-80 ut-r">送货周期:</div>
 					<input id="diliveCycle" name="diliveCycle" value="${supplier.diliveCycle }" class="uinp easyui-validatebox" 
 						data-options="validType:'intNum'" maxlength="3">
-					<i class="uc-red">*</i>
+
 				</div>
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">送货时间:</div>
@@ -215,20 +214,20 @@ pageEncoding="UTF-8"%>
 								>${i.name }</option>
 						</c:forEach>
 					</select>
-					<i class="uc-red">*</i>
+
 				</div>
 
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">结算周期:</div>
 					<input id="balanceCycle" name="balanceCycle" value="${supplier.balanceCycle }" data-options="validType:'intNum'"
 						 class="uinp uw-200 easyui-validatebox"  type="text" maxlength="3">
-					<i class="uc-red">*</i>
+
 				</div>
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">月结账日期:</div>
 					<input id="balanceDate" name="balanceDate" value="${supplier.balanceDate }" data-options="validType:'intNum'" 
 						class="uinp uw-200 easyui-validatebox"  type="text"  maxlength="3">
-					<i class="uc-red">*</i>
+
 				</div>
 			</div>
 
@@ -240,7 +239,7 @@ pageEncoding="UTF-8"%>
 						<option value="1">冻结</option>
 					</select>
 					<input id="freezeAccountVal" name="freezeAccountVal" type="hidden" value="${supplier.freezeAccount }">
-					<i class="uc-red">*</i>
+
 				</div>
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">冻结业务:</div>
@@ -249,7 +248,7 @@ pageEncoding="UTF-8"%>
 						<option value="1">冻结</option>
 					</select>
 					<input id="freezeBusinessVal" name="freezeBusinessVal" type="hidden" value="${supplier.freezeBusiness }">
-					<i class="uc-red">*</i>
+
 				</div>
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">SKU数:</div>

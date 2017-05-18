@@ -46,11 +46,15 @@ var goodsClass = new goodsArchives();
 $(function(){
 	 $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
 	 $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+	 
     initView();
     initTreeArchives();
     initDatagridArchives();
     changeStatus();
     goodsSearch();
+    if(getUrlQueryString('message')=='0'){
+    	 goodsSearch();
+    }
 });
 
 
@@ -390,11 +394,13 @@ function addGoodsView(){
 
 //打开Dialog
 var  dalogTemp;
+var dialogHeight = $(window).height()*(4/5);
+var dialogWidth = $(window).width()*(5/9);
 function openDialog(argUrl,argTitle,argType,params) {
     dalogTemp = $('<div/>').dialog({
         href: argUrl,
-        width: 940,
-        height: 620,
+        width: dialogWidth,
+        height: dialogHeight,
         title: argTitle,
         closable: true,
         resizable: true,

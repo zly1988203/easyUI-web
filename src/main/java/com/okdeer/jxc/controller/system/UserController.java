@@ -100,11 +100,13 @@ public class UserController extends BaseController<UserController> {
 	 * @date 2016年7月21日 2016年8月18日
 	 */
 	@RequestMapping(value = "views")
-	public String views(String type, String check, Model model) {
+	public String views(String type, String check,String isOpenStock, String formType, Model model) {
 		if (StringUtils.isNotEmpty(check)) {
 			model.addAttribute("check", check);
 		}
 		model.addAttribute("type", type);
+		model.addAttribute("isOpenStock", isOpenStock);
+		model.addAttribute("formType", formType);
 		return "component/publicOperator";
 	}
 	
@@ -198,7 +200,7 @@ public class UserController extends BaseController<UserController> {
 	@RequestMapping(value = "/addUser")
 	@ResponseBody
 	public RespJson addUser(SysUserVo userVo) {
-		LOG.info("新增用户信息{}", userVo);
+		LOG.debug("新增用户信息{}", userVo);
 		RespJson respJson = RespJson.success();
 		try {
 			// 设置创建者Id
@@ -223,7 +225,7 @@ public class UserController extends BaseController<UserController> {
 	@RequestMapping(value = "/updateUser")
 	@ResponseBody
 	public RespJson updateUser(SysUserVo userVo) {
-		LOG.info("修改用户信息{}", userVo);
+		LOG.debug("修改用户信息{}", userVo);
 		RespJson respJson = RespJson.success();
 		try {
 			// 设置操作者Id
@@ -274,7 +276,7 @@ public class UserController extends BaseController<UserController> {
 	@RequestMapping(value = "/enableUser", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson enableUser(String userId) {
-		LOG.info("启用用户，userId{}", userId);
+		LOG.debug("启用用户，userId{}", userId);
 		RespJson respJson = RespJson.success();
 		try {
 
@@ -297,7 +299,7 @@ public class UserController extends BaseController<UserController> {
 	@RequestMapping(value = "/disableUser", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson disableUser(String userId) {
-		LOG.info("禁用用户，userId{}", userId);
+		LOG.debug("禁用用户，userId{}", userId);
 		RespJson respJson = RespJson.success();
 		try {
 

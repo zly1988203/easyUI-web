@@ -35,44 +35,68 @@
 					<div class="ub uw-220 ut-r">自营店要货价格取值:</div>
 					<div class="ub ub-ac umar-r10">
 						<input class="ub" type="radio" id="priceSpec0" name="priceSpec" value="0" />
-						<span>要货机构成本价</span>
+						<label for="priceSpec0">要货机构成本价</label>
 					</div>
 					<div class="ub ub-ac umar-r10">
 						<input class="ub" type="radio" id="priceSpec1" name="priceSpec" value="1" />
-						<span>发货机构配送价</span>
+						<label for="priceSpec1">发货机构配送价</label>
 					</div>
 					<div class="ub ub-ac umar-r10">
 						<input class="ub" type="radio" id="priceSpec2" name="priceSpec" value="2" />
-						<span>发货机构成本价</span>
+						<label for="priceSpec2">发货机构成本价</label>
 					</div>
 				</div>
 				<div class="ub ub-ac upad-16 ">
 					<div class="ub uw-220 ut-r ">自营店可要仓库所有对外供应商品:</div>
 					<div class="ub ub-ac umar-r10">
 						<input class="ub" type="radio" id="selectGoodsSpec0" name="selectGoodsSpec" value="0" />
-						<span>不启用</span>
+						<label for="selectGoodsSpec0">不启用</label>
 					</div>
 					<div class="ub ub-ac umar-r10">
 						<input class="ub" type="radio" id="selectGoodsSpec1" name="selectGoodsSpec" value="1" />
-						<span>启用</span>
+						<label for="selectGoodsSpec1">启用</label>
 					</div>
 				</div>
 				<div class="ub ub-ac upad-16 ">
-					<div class="ub uw-220 ut-r ">要货单起订金额控:</div>
+					<div class="ub uw-220 ut-r">直送要货单价格取值:</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="ub" type="radio" id="isMinAmount0" name="isMinAmount" value="0" />
-						<span>不启用</span>
+						<input class="ub" type="radio" id="dyPriceSpec0" name="dyPriceSpec" value="0" />
+						<label for="dyPriceSpec0">要货机构配送价</label>
 					</div>
 					<div class="ub ub-ac umar-r10">
+						<input class="ub" type="radio" id="dyPriceSpec1" name="dyPriceSpec" value="1" />
+						<label for="dyPriceSpec1">发货机构配送价</label>
+					</div>
+				</div>
+				<div class="ub ub-ac upad-16 ">
+					<div class="ub uw-220 ut-r ">要货单起订金额控制:</div>
+					<div class="ub ub-ac umar-r10">
+						<input class="ub" type="radio" id="isMinAmount0" name="isMinAmount" value="0" />
+						<label for="isMinAmount0">不控制</label>
+					</div>
+				</div>
+				<div class="ub ub-ac upad-16 ">
+					<div class="ub uw-220 ut-r "></div>
+					<div class="ub ub-ac umar-r10">
 						<input class="ub" type="radio" id="isMinAmount1" name="isMinAmount" value="1" />
-						<span>启用</span>
+						<label for="isMinAmount1">按门店起订金额控制</label>
+					</div>
+				</div>
+				<div class="ub ub-ac upad-16 ">
+					<div class="ub uw-220 ut-r "></div>
+					<div class="ub ub-ac umar-r10">
+						<input class="ub" type="radio" id="isMinAmount2" name="isMinAmount" value="2" />
+						<label for="isMinAmount2">按仓库起订金额控制</label>
+					</div>
+					<div class="ub ub-ac umar-r10">
+						<input type="text" class="easyui-numberbox " name="minAmount" id="minAmount" value="0" readonly="readonly" data-options="min:0,precision:2,">
 					</div>
 				</div>
 				<div class="ub ub-ac upad-16 ">
 					<div class="ub uw-220 ut-r ">出库单导出模板设置:</div>
 					<div class="ub ub-ac umar-r10">
 						<input class="ub radioItem" type="radio" name="template" id="dosheetTemplate1" value="1" />
-						<span>模板一</span>
+						<label for="dosheetTemplate1">模板一</label>
 					</div>
 					<div class="ub ub-ac umar-r10">
 						<a href="javascript:void(0)" class="easyui-linkbutton" onclick = "exportTemp('1')">下载后预览</a>
@@ -82,7 +106,7 @@
 					<div class="ub uw-220 ut-r "></div>
 					<div class="ub ub-ac umar-r10">
 						<input class="ub radioItem" type="radio" name="template" id="dosheetTemplate2" value="2" />
-						<span>模板二</span>
+						<label for="dosheetTemplate2">模板二</label>
 					</div>
 					<div class="ub ub-ac umar-r10">
 						<a href="javascript:void(0)" class="easyui-linkbutton" onclick = "exportTemp('2')">下载后预览</a>
@@ -92,7 +116,7 @@
 					<div class="ub uw-220 ut-r "></div>
 					<div class="ub ub-ac umar-r10">
 						<input class="ub radioItem" type="radio" name="template" id="dosheetTemplate3" value="3"/>
-						<label>自定义模板</label>
+						<label for="dosheetTemplate3">自定义模板</label>
 					</div>
 					<div id="dvTemp" class="ub ub-ac umar-r10 unhide">
 						
@@ -139,14 +163,24 @@
 				$("#dosheetTemplate").val($(this).val());
 			}
 		})
+		$("input[name='isMinAmount']").on('change',function(){
+			if($(this).val() != "2"){
+				$('#minAmount').numberbox('setValue',0);
+				$('#minAmount').numberbox('readonly',true);
+			}else{
+				$('#minAmount').numberbox('readonly',false);
+			}
+		})
 	});
 	
 	//初始页面
 	function init(data){
 		var branchId = data.branchId;
 		var priceSpec = data.priceSpec;
+		var dyPriceSpec = data.dyPriceSpec;
 		var selectGoodsSpec = data.selectGoodsSpec;
 		var isMinAmount = data.isMinAmount;
+		var minAmount = data.minAmount || 0;
 		var validityDay= data.validityDay;
 		var dosheetTemplate= data.dosheetTemplate;
 		//页面赋值
@@ -159,6 +193,11 @@
 		} else {
 			$("#priceSpec2").attr("checked", "true");
 		}
+		if (dyPriceSpec === null || dyPriceSpec === '0' || dyPriceSpec === '') {
+			$("#dyPriceSpec0").attr("checked", "true");
+		} else {
+			$("#dyPriceSpec1").attr("checked", "true");
+		} 
 		if (selectGoodsSpec === null || selectGoodsSpec === '0' || selectGoodsSpec === '') {
 			$("#selectGoodsSpec0").attr("checked", "true");
 		} else {
@@ -166,9 +205,14 @@
 		}
 		if (isMinAmount === null || isMinAmount === 1 || isMinAmount === '') {
 			$("#isMinAmount1").attr("checked", "true");
-		} else {
+		}else if(isMinAmount == '2'){
+			$("#isMinAmount2").attr("checked", "true");
+			$('#minAmount').numberbox('setValue',minAmount);
+			$('#minAmount').numberbox('readonly',false);
+		}else {
 			$("#isMinAmount0").attr("checked", "true");
 		}
+		
 		if (dosheetTemplate === '1') {
 			$("#dosheetTemplate1").attr("checked", "true");
 		} else if (dosheetTemplate === '2') {
@@ -203,6 +247,7 @@
 				gFunEndLoading();
 				if (result['code'] == 0) {
 					messager("保存成功！");
+					location.reload();
 				} else {
 					successTip(result['message']);
 				}

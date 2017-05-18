@@ -8,7 +8,7 @@
 <title>商品出入库明细查询</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
-<script src="${ctx}/static/js/views/report/goods/goodsOutInDetailReport.js"></script>
+<script src="${ctx}/static/js/views/report/goods/goodsOutInDetailReport.js?1=1"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
 </style>

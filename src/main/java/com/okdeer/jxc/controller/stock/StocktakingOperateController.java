@@ -134,7 +134,7 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 	@RequestMapping(value = "/stocktakingFormDetailList", method = RequestMethod.GET)
 	@ResponseBody
 	public List<StocktakingFormDetailVo> stocktakingFormDetailList(String formId) {
-		LOG.info(LogConstant.OUT_PARAM, formId);
+		LOG.debug(LogConstant.OUT_PARAM, formId);
 		List<StocktakingFormDetailVo> detailList = new ArrayList<StocktakingFormDetailVo>();
 		try {
 			detailList = stocktakingOperateServiceApi.getStocktakingFormDetailList(formId);
@@ -165,9 +165,9 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 			if (vo.getEndTime() != null) {
 				vo.setEndTime(DateUtils.getDayAfter(vo.getEndTime()));
 			}
-			LOG.info(LogConstant.OUT_PARAM, vo);
+			LOG.debug(LogConstant.OUT_PARAM, vo);
 			PageUtils<StocktakingFormVo> stocktakingFormList = stocktakingOperateServiceApi.getStocktakingFormList(vo);
-			LOG.info(LogConstant.PAGE, stocktakingFormList.toString());
+			LOG.debug(LogConstant.PAGE, stocktakingFormList.toString());
 			return stocktakingFormList;
 		} catch (Exception e) {
 			LOG.error("存货盘点查询列表信息异常:{}", e);
@@ -186,7 +186,7 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 	@ResponseBody
 	public RespJson saveStocktakingForm(String data) {
 		RespJson respJson = RespJson.success();
-		LOG.info("保存存货盘点 ：data{}" + data);
+		LOG.debug("保存存货盘点 ：data{}" + data);
 		SysUser user = UserUtil.getCurrentUser();
 		if (user == null) {
 			respJson = RespJson.error("用户不能为空！");
@@ -304,7 +304,7 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 						@Override
 						public void formatter(List<? extends GoodsSelect> list, List<JSONObject> excelListSuccessData,
 								List<JSONObject> excelListErrorData) {
-							LOG.info("formatter");
+							LOG.debug("formatter");
 						}
 
 						/**
@@ -313,7 +313,7 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 						 */
 						@Override
 						public void errorDataFormatter(List<JSONObject> list) {
-							LOG.info("errorDataFormatter");
+							LOG.debug("errorDataFormatter");
 						}
 
 					},batchId);
@@ -322,7 +322,7 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 			List<GoodsSelectByStockTaking> stcoktakingVos = vo.getList();
 			for (GoodsSelectByStockTaking staking : stcoktakingVos) {
 				BigDecimal result = staking.getSalePrice().multiply(staking.getStocktakingNum());
-				result.setScale(4, BigDecimal.ROUND_HALF_UP);
+				result = result.setScale(4, BigDecimal.ROUND_HALF_UP);
 				staking.setAmount(result);
 			}
 			respJson.put("importInfo", vo);
@@ -382,7 +382,7 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 		String formId = vo.getId();
 		String formNo = vo.getFormNo();
 		
-		LOG.info("盘点详细列表导出参数：{}", formId);
+		LOG.debug("盘点详细列表导出参数：{}", formId);
 		RespJson resp = RespJson.success();
 		try {
 			List<StocktakingFormDetailVo> detailList = stocktakingOperateServiceApi.getStocktakingFormDetailList(formId);

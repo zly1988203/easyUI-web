@@ -9,7 +9,7 @@
 <title>采购订单-新增</title>
 
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="${ctx}/static/js/views/purchase/orderAdd.js"></script>
+<script src="${ctx}/static/js/views/purchase/orderAdd.js?V=v2.5.x"></script>
 
 </head>
 <body class="ub ub-ver uw uh ufs-14 uc-black">
@@ -31,10 +31,8 @@
 				<div class="ub umar-t8">
 					<div class="ub ub-ac umar-r80">
 						<div class="umar-r10 uw-60 ut-r">供应商:</div>
-						<input class="uinp" name="supplierId" id="supplierId"
-							type="hidden"> <input class="uinp easyui-validatebox"
-							data-options="required:true" id="supplierName" type="text"
-							onclick="selectSupplier()">
+						<input class="uinp" name="supplierId" id="supplierId"type="hidden">
+						<input class="uinp" readonly="readonly" id="supplierName" type="text" onclick="selectSupplier()">
 						<div class="uinp-more" onclick="selectSupplier()">...</div>
 					</div>
 					<div class="ub ub-ac umar-r80">
@@ -56,8 +54,7 @@
 					<div class="ub ub-ac umar-r80">
 						<div class="umar-r10 uw-60 ut-r">收货机构:</div>
 						<input class="uinp" name="branchId" id="branchId" type="hidden">
-						<input id="branchName" class="uinp easyui-validatebox"
-							data-options="required:true" type="text" onclick="selectBranch()">
+						<input id="branchName" class="uinp" readonly="readonly" type="text" onclick="selectBranch()">
 						<div class="uinp-more" onclick="selectBranch()">...</div>
 					</div>
 					<div class="ub ub-ac umar-r80">

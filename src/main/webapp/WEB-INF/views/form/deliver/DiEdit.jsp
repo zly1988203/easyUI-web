@@ -9,7 +9,7 @@
     <title>入库单-编辑</title>
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-	<script src="${ctx}/static/js/views/deliver/DiEdit.js"></script>
+	<script src="${ctx}/static/js/views/deliver/DiEdit.js?V=${versionNo}"></script>
 	
 	<script src="${ctx}/static/js/views/deliver/deliverExport.js"></script>
 	<%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
@@ -35,8 +35,10 @@
                     <div class="ubtns-item" onclick="printChoose('DI','/form/deliverForm/')">打印</div>
                 </shiro:hasPermission>
                 <div class="ubtns-item"  onclick="exportData('DI','gridEditRequireOrder')">导出明细</div>
-                <div class="ubtns-item" onclick="importproductAll()">导入明细</div>
-                <div class="ubtns-item" onclick="importproduct()">导入货号</div>
+                <!--onclick="importproductAll()"  -->
+                <div class="ubtns-item-disabled" >导入明细</div>
+                <!-- onclick="importproduct()"  -->
+                <div class="ubtns-item-disabled" >导入货号</div>
                 <div class="ubtns-item" onclick="toClose()">关闭</div>
             </div>
         </div>
@@ -90,7 +92,7 @@
                        <input type="hidden" id="oldReferenceNo" name="oldReferenceNo" value="${form.referenceNo}" />
                        <div class="uinp-more" onclick="selectDeliver()">...</div>
                    </div>
-
+					<i class="uc-red">*</i>
                </div>
                <div class="ub ub-ac umar-l20">
                    <div class="umar-r10 uw-70 ut-r">审核人员:</div>
@@ -114,16 +116,6 @@
                <table id="gridEditRequireOrder" ></table>
            </div>
     </div>
-     <!-- 导入弹框 -->
-    <div class="uabs uatk">
 
-     	<div class="uatit">导入文件选择</div>
-         <div class="uacon"><input class="uinp ub" id="filename" type="text"><label class="ualable">选择文件<input type="file" class="uafile" value=""  name="xlfile" id="xlf" /></label></div>
-         
-         <div class="uabtns ">
-     	 		<button class="uabtn umar-r30" onclick="importHandel('gridEditOrder')">导入</button>
-     	 	<button class="uabtn" onclick="uaclose()" >取消</button>
-     	 </div>
-     </div>
 </body>
 </html>

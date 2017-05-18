@@ -8,7 +8,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>成本调整单-修改</title>
 	<%@ include file="/WEB-INF/views/include/header.jsp"%>
-	<script  src="${ctx}/static/js/views/cost/costAdjustEdit.js"></script>
+	<script  src="${ctx}/static/js/views/cost/costAdjustEdit.js?V=${versionNo}"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
     <div class="ub ub-ver ub-f1 umar-4  ubor">
@@ -24,7 +24,7 @@
           		<div class="ubtns-item" id="importdetail" onclick="toImportproduct(1)">导入条码</div>
                 <div class="ubtns-item" onclick="exportExcel()">导出</div>
     
-                <div class="ubtns-item" onclick="back()">关闭</div>
+                <div class="ubtns-item" onclick="toClose()">关闭</div>
             </div>
         </div>
         <div class="ub umar-t8 uc-black">【单号】:<span >${data.adjustNo}</span></div>
@@ -86,16 +86,6 @@
                <table id="gridEditRequireOrder" ></table>
            </div>
     </div>
-     <!-- 导入弹框 -->
-   <!--  <div class="uabs uatk">
 
-     	<div class="uatit">导入文件选择</div>
-         <div class="uacon"><input class="uinp ub" id="filename" type="text"><label class="ualable">选择文件<input type="file" class="uafile" value=""  name="xlfile" id="xlf" /></label></div>
-         
-         <div class="uabtns ">
-     	 		<button class="uabtn umar-r30" onclick="importHandel('gridEditOrder')">导入</button>
-     	 	<button class="uabtn" onclick="uaclose()" >取消</button>
-     	 </div>
-     </div> -->
 </body>
 </html>

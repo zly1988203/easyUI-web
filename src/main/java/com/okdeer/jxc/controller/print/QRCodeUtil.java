@@ -235,7 +235,7 @@ public class QRCodeUtil
 			int width, boolean hasFiller) throws IOException  
 	{  
 		double ratio = 0.0; // 缩放比例  
-		LOG.info("二维码路径："+srcImageFile);
+		LOG.debug("二维码路径："+srcImageFile);
 		InputStream input = QRCodeUtil.class.getResourceAsStream(srcImageFile);
 		
 		BufferedImage srcImage = ImageIO.read(input);  

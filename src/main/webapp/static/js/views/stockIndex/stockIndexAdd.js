@@ -61,6 +61,7 @@ var gridDefault = {
 	upperLimit:0,
 	isGift:0,
 }
+var editRowData = null;
 var gridHandel = new GridClass();
 // 初始化列表
 function initStockIndexGridEdit() {
@@ -123,9 +124,7 @@ function initStockIndexGridEdit() {
 						title : '货号',
 						width : '120px',
 						align : 'left',
-						editor : {
-							type : 'textbox'
-						}
+						editor :'textbox'
 					}, {
 						field : 'skuName',
 						title : '商品名称',
@@ -199,6 +198,19 @@ function initStockIndexGridEdit() {
 						gridHandel.setFieldFocus(target);
 					}else{
 						gridHandel.setSelectFieldName("skuCode");
+					}
+				},
+				onBeforeEdit:function (rowIndex, rowData) {
+					editRowData = $.extend(true,{},rowData);
+				},
+				onAfterEdit:function(rowIndex, rowData, changes){
+					if(typeof(rowData.id) === 'undefined'){
+						// $("#"+gridName).datagrid('acceptChanges');
+					}else{
+						if(editRowData.skuCode != changes.skuCode){
+							rowData.skuCode = editRowData.skuCode;
+							gridHandel.setFieldTextValue('skuCode',editRowData.skuCode);
+						}
 					}
 				},
 				onLoadSuccess : function() {
@@ -438,8 +450,17 @@ function selectGoodsDialog(searchKey) {
 }
 //商品选择 公共使用
 function gFunGoodsSelect(searchKey,branchId){
-	new publicGoodsService("",function(data){
-	//new publicGoodsService("PA",function(data){
+    var param = {
+        type:'',
+        key:searchKey,
+        isRadio:0,
+        sourceBranchId:"",
+        targetBranchId:"",
+        branchId:branchId,
+        supplierId:'',
+        flag:'0',
+    }
+    new publicGoodsServiceTem(param,function(data){
     	if(data.length==0){
             return;
         }
@@ -467,7 +488,7 @@ function gFunGoodsSelect(searchKey,branchId){
             gridHandel.setFieldFocus(gridHandel.getFieldTarget('upperLimit'));
         },100)
         
-    },searchKey,0,"","",branchId,"","0");
+    });
 }
 
 

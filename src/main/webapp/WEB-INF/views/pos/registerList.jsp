@@ -10,8 +10,8 @@
 	<%@ include file="/WEB-INF/views/include/header.jsp"%>
 	<script  src="${ctx}/static/js/views/pos/registerList.js"></script>
 </head>
-<body class="ub uw uh ufs-14 uc-black">
-    <div class="ub ub-ver ub-f1 umar-4 upad-4">
+<body class=" uw uh ufs-14 upad-8 uc-black box-border">
+    <div class="ub uh ub-ver ub-f1">
 		<form id="queryForm" action="" method="post">
 			<div class="ub ub-ac">
 	            <div class="ubtns">

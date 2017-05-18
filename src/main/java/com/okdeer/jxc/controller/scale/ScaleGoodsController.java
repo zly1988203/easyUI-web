@@ -65,7 +65,7 @@ public class ScaleGoodsController extends BaseController<ScaleGoodsController> {
 			}
 			List<GoodsSelect> goodsList = goodsSelectServiceApi.queryByCodeLists(skuCodes, UserUtil.getCurrBranchId(),
 					null, false,false);
-			LOG.info("page" + goodsList.toString());
+			LOG.debug("page" + goodsList.toString());
 			return Message.getSuccessMsg(goodsList);
 		} catch (Exception e) {
 			LOG.error("查询商品选择数据出现异常:", e);
@@ -89,11 +89,11 @@ public class ScaleGoodsController extends BaseController<ScaleGoodsController> {
 				return Message.getNotLogged();
 			}
 			GoodsSelectVo goodsVo = JSON.parseObject(GoodsSelectJson, GoodsSelectVo.class);
-			LOG.info("goodsVo:" + goodsVo);
+			LOG.debug("goodsVo:" + goodsVo);
 			goodsVo.setBranchId(UserUtil.getCurrBranchId());
 
 			goodsVo.setPricingType(99);
-			LOG.info("vo:" + goodsVo.toString());
+			LOG.debug("vo:" + goodsVo.toString());
 			List<GoodsSelect> list = goodsSelectServiceApi.queryScaleGoods(goodsVo);
 			return Message.getSuccessMsg(list);
 		} catch (Exception e) {
@@ -119,9 +119,9 @@ public class ScaleGoodsController extends BaseController<ScaleGoodsController> {
 				return Message.getNotLogged();
 			}
 			GoodsCategoryQo vo = JSON.parseObject(categoryVoJson, GoodsCategoryQo.class);
-			LOG.info("vo:" + vo.toString());
+			LOG.debug("vo:" + vo.toString());
 			PageUtils<GoodsCategory> suppliers = goodsCategoryService.queryLists(vo);
-			LOG.info("page" + suppliers.toString());
+			LOG.debug("page" + suppliers.toString());
 			return Message.getSuccessMsg(suppliers.getList());
 		} catch (Exception e) {
 			LOG.error("查询查询类别异常:", e);

@@ -40,21 +40,25 @@
 	        </div>
 
         </form>
-        <div class="ub ub-ac umar-t8 ub-f1">
-            <table id="gridOrdersview"></table>  
-        </div>
-        <div class="ub ub-ac umar-t20">
-                 <span class="ubspan">成分信息:</span>
-	             <div class="ubtns">
-	                <div class="ubtns-item" onclick="saveResultOrder()">保存</div>
-					<div class="ubtns-item" onclick="selectGoods()">商品选择</div>
-	            </div>
-	    </div>
-        <div class="ub ub-ac umar-t20 ub-f1 unresult">
-            <!-- <div class="unconner"> -->
-              <table id="gridOrdersresult"></table>
-          <!--   </div> -->
-        </div>
+
+	<div class="ub umar-t8">
+
+			<table id="gridOrdersview"></table>
+
+	</div>
+	<div class="ub  umar-t10 umar-b10">
+		<div class="ub ub-ac">
+			<span class="ubspan">成分信息:</span>
+			<div class="ubtns">
+				<div class="ubtns-item" onclick="saveResultOrder()">保存</div>
+				<div class="ubtns-item" onclick="selectGoods()">商品选择</div>
+			</div>
+		</div>
+	</div>
+	<div class="ub">
+			<table id="gridOrdersresult"></table>
+	</div>
+
     </div>
 </body>
 </html>

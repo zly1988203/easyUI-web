@@ -134,7 +134,7 @@ public class GoodsTotalAnalsiController extends ReportController {
 	@RequestMapping(value = "exportGoodsAnalsisExcel")
 	public void exportExcel(HttpServletRequest request, HttpServletResponse response){
 		try {
-			LOG.info("商品销售汇总导出" );
+			LOG.debug("商品销售汇总导出" );
 			Map<String, Object> map = getParam(request);
 			String reportFileName="";
 			String templateName="";

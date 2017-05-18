@@ -214,6 +214,7 @@ function getFiledsList(){
 }
 
 var gridHandel = new GridClass();
+var editRowData = null;
 function initDatagridStockLeadView(){
     gridHandel.setGridName(dataGridId);
     gridHandel.initKey({
@@ -254,6 +255,19 @@ function initDatagridStockLeadView(){
                 gridHandel.setFieldFocus(target);
             }else{
                 gridHandel.setSelectFieldName("skuCode");
+            }
+        },
+        onBeforeEdit:function (rowIndex, rowData) {
+            editRowData = $.extend(true,{},rowData);
+        },
+        onAfterEdit:function(rowIndex, rowData, changes){
+            if(typeof(rowData.id) === 'undefined'){
+                // $("#"+gridName).datagrid('acceptChanges');
+            }else{
+                if(editRowData.skuCode != changes.skuCode){
+                    rowData.skuCode = editRowData.skuCode;
+                    gridHandel.setFieldTextValue('skuCode',editRowData.skuCode);
+                }
             }
         },
         onLoadSuccess:function(data){        	
@@ -390,8 +404,19 @@ function selectGoods(searchKey){
         messager("请选择机构");
         return;
     }
-    
-    new publicGoodsService("",function(data){
+
+
+    var param = {
+        type:'',
+        key:searchKey,
+        isRadio:0,
+        sourceBranchId:"",
+        targetBranchId:"",
+        branchId:branchId,
+        supplierId:'',
+        flag:'0',
+    }
+    new publicGoodsServiceTem(param,function(data){
         if(searchKey){
             $("#"+gridHandel.getGridName()).datagrid("deleteRow", gridHandel.getSelectRowIndex());
             $("#"+gridHandel.getGridName()).datagrid("acceptChanges");
@@ -406,7 +431,7 @@ function selectGoods(searchKey){
             gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
         },100)
       
-    },searchKey,"","","",branchId,'',"0");
+    });
 
 }
 // 查询价格、库存

@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>库存调整-编辑</title>
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-	<script src="${ctx}/static/js/views/stockAdjust/stockEdit.js"></script>
+	<script src="${ctx}/static/js/views/stockAdjust/stockEdit.js?V=${versionNo}"></script>
 	<style>
     .datagrid-header .datagrid-cell {text-align: center!important;font-weight: bold;}
     </style>
@@ -39,13 +39,14 @@
                <div class="ub ub-ac uw-300">
 	                <div class="umar-r10 uw-70 ut-r">机构名称:</div>
 	                <input type="hidden" name="branchId" id="branchId" class="uinp" value="${stockFormVo.branchId }"/>
-			 <input type="hidden" id="formId" name="formId" value="${stockFormVo.id}">
+			 		<input type="hidden" id="formId" name="formId" value="${stockFormVo.id}">
 					<input type="text" name="branchName" id="branchName"class="uinp ub ub-f1" readonly="readonly" value="${stockFormVo.branchName }" />
-	                             <c:if test="${stockFormVo.status == 0}">
-					<div class="uinp-more" onclick="searchBranch()">...</div>
-                        	</c:if>
+	                <c:if test="${stockFormVo.status == 0}">
+						<div class="uinp-more" onclick="searchBranch()">...</div>
+                    </c:if>
 	           </div>
-	            <div class="ub ub-ac uselectws umar-l40">
+	           <i class="ub ub-ac uc-red">*</i>
+	            <div class="ub ub-ac uselectws umar-l20">
                     <div class="umar-r10 uw-70 ut-r">调整原因:</div>
                        <!--select-->
 				        <select class="easyui-combobox uselect" name="reason" id="reason" data-options="editable:false" >
@@ -71,7 +72,8 @@
 				        </select>
 				         <input type="hidden" name="stockcl" id="stockcl" class="uinp" />
                 </div>
-               <div class="ub ub-ac uw-300 umar-l300">
+                <i class="ub ub-ac uc-red">*</i>
+               <div class="ub ub-ac uw-300 umar-l335">
                    <div class="umar-r10 uw-70 ut-r">审核人员:</div>
                    <div class="utxt" id="validUserName">${stockFormVo.validUserName}</div>
                </div>
@@ -91,17 +93,7 @@
                <table id="gridEditRequireOrder" ></table>
            </div>
     </div>
-     <!-- 导入弹框 -->
-   <!-- <div class="uabs uatk">
 
-     	<div class="uatit">导入文件选择</div>
-         <div class="uacon"><input class="uinp ub" id="filename" type="text"><label class="ualable">选择文件<input type="file" class="uafile" value=""  name="xlfile" id="xlf" /></label></div>
-         
-         <div class="uabtns ">
-     	 		<button class="uabtn umar-r30" onclick="importHandel('gridEditOrder')">导入</button>
-     	 	<button class="uabtn" onclick="uaclose()" >取消</button>
-     	 </div>
-     </div> -->
       <script type="text/javascript">
      $('#reason').combobox({
          valueField:'value',

@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <%@ include file="/WEB-INF/views/include/header.jsp"%>
-    <script  src="${ctx}/static/js/views/stocktaking/operate/operate.js?v=1.87"></script>
+    <script  src="${ctx}/static/js/views/stocktaking/operate/operate.js?V=${versionNo}"></script>
     <style>
     .datagrid-header .datagrid-cell {text-align: center!important;font-weight: bold;}
     </style>
@@ -40,9 +40,10 @@
 	            <div class="ub ub-ac uselectw umar-l00 umar-l10">
                     <div class="umar-r10 uw-70 ut-r">盘点批号:</div>
      				<input type="hidden" name="batchId" id="batchId" />
-					<input type="text" name="batchNo" id="batchNo"class="uinp ub ub-f1" readonly="readonly"  />
+					<input type="text" name="batchNo" id="batchNo"class="uinp ub ub-f1" readonly="readonly" onclick="searchTakeStock()"  />
 					<div class="uinp-more" onclick="searchTakeStock()">...</div>
                 </div>
+                <i class="ub ub-ac uc-red">*</i>
                <div class="ub ub-ac umar-l40 uw-300 ">
                    <div class="umar-r10 uw-70 ut-r">制单人员:</div>
                    <div class="utxt">${sessionScope.session_user.userName }</div>
@@ -66,7 +67,7 @@
                    <input class="uinp ub ub-f1" type="text" id="categoryShows" name="categoryShows" readonly="readonly">
                </div>
            
-               <div class="ub ub-ac umar-l40 uw-300">
+               <div class="ub ub-ac umar-l48 uw-300">
                    <div class="umar-r10 uw-70 ut-r">审核人员:</div>
                    <div class="utxt"></div>
                </div>

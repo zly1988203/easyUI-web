@@ -142,12 +142,12 @@ public class CostAdjustController extends BaseController<StockCostForm> {
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
-			LOG.info("qo:" + vo.toString());
+			LOG.debug("qo:" + vo.toString());
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
 			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
 			PageUtils<StockCostForm> page = stockCostFormServiceApi.queryLists(vo);
-			LOG.info("page" + page.toString());
+			LOG.debug("page" + page.toString());
 			return page;
 		} catch (RuntimeException e) {
 			LOG.error("删除成本调整单失败！:{}", e);
@@ -179,7 +179,7 @@ public class CostAdjustController extends BaseController<StockCostForm> {
 			StockCostFormAll stockCostFormAl = JSON.parseObject(jsonData, StockCostFormAll.class);
 			stockCostFormAl.getStockCostForm().setCreateUserId(UserUtil.getCurrUserId());
 			stockCostFormAl.setBranchCode(UserUtil.getCurrBranchCode());
-			LOG.info("qo:" + stockCostFormAl);
+			LOG.debug("qo:" + stockCostFormAl);
 			return stockCostFormServiceApi.insertCostForm(stockCostFormAl);
 		} catch (RuntimeException e) {
 			LOG.error("新增成本调整单失败！:{}", e);
@@ -213,7 +213,7 @@ public class CostAdjustController extends BaseController<StockCostForm> {
 				RespJson.error("机构ID不允许为空！");
 			}
 			stockCostFormAl.getStockCostForm().setUpdateUserId(UserUtil.getCurrUserId());
-			LOG.info("qo:" + stockCostFormAl);
+			LOG.debug("qo:" + stockCostFormAl);
 			return stockCostFormServiceApi.updateCostForm(stockCostFormAl);
 		} catch (RuntimeException e) {
 			LOG.error("删除成本调整单失败！:{}", e);
@@ -485,7 +485,7 @@ public class CostAdjustController extends BaseController<StockCostForm> {
 	 */
 	@RequestMapping(value = "exportTemp")
 	public void exportTemp(HttpServletResponse response, Integer type) {
-		LOG.info("CostAdjustController:" + type);
+		LOG.debug("CostAdjustController:" + type);
 		try {
 			// 导出文件名称，不包括后缀名
 			String fileName = "成本调价单货号导入模板";

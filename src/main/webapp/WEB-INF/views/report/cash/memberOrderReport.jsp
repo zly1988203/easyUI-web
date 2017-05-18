@@ -8,7 +8,7 @@
 <title>会员消费查询</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
-<script src="${ctx}/static/js/views/report/cash/memberOrderReport.js"></script>
+<script src="${ctx}/static/js/views/report/cash/memberOrderReport.js?1=2"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
 </style>
@@ -49,6 +49,10 @@
                <div class="ub ub-ac umar-r40">
 				<div class="umar-r10 uw-60 ut-r">会员:</div>
 				<input type="text" name="buyerUserName" id="buyerUserName" class="uinp" placeholder="输入手机号"/>
+			  </div>
+			  <div class="ub ub-ac umar-r40">
+			  	<div class="umar-r10 uw-60 ut-r">订单号:</div>
+				<input type="text" name="orderNo" id="orderNo" class="uinp" placeholder="输入订单号"/>
 			  </div>
             </div>
 

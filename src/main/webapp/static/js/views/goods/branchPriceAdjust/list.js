@@ -6,12 +6,15 @@ $(function(){
     //开始和结束时间
 	$("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+   
     //单据状态切换
     changeStatus();
     //初始化列表
     initBranchPriceAdjustGrid();
-    //modifyPriceOrderCx();
-    
+    //
+    if(getUrlQueryString('message')=='0'){
+		modifyPriceOrderCx();
+    }
 });
 
 //单据状态切换
@@ -141,7 +144,6 @@ function selectOperator(){
 	});
 }
 function delModifyPriceDialog() {
-	debugger;
 	// 是否选择的datagrid的行，选择为true，未选择为false，则提示用户选择
 	// 确定删除，调用后台删除方法
 	var rows = $('#branchPriceAdjustGrid').datagrid('getSelections');

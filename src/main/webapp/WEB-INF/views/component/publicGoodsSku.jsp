@@ -13,7 +13,7 @@ pageEncoding="UTF-8"%>
                     <select id="goodsType" class="easyui-combobox uselect"></select>
                 </div>
                 <div class="ubor-b "></div>
-                <div class="ub ubor ub-f1 uscroll">
+                <div class="ub ubor ub-f1 uscroll uh-200">
                     <div class="zTreeDemoBackground left">
                         <ul id="treeGoodsType" class="ztree"></ul>
                     </div>

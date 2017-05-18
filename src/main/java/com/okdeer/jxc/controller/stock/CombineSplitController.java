@@ -113,7 +113,7 @@ public class CombineSplitController extends BaseController<CombineSplitControlle
 	public PageUtils<StockFormVo> getCombineSplitList(StockFormVo vo,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
-		LOG.info(LogConstant.OUT_PARAM, vo.toString());
+		LOG.debug(LogConstant.OUT_PARAM, vo.toString());
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
@@ -127,7 +127,7 @@ public class CombineSplitController extends BaseController<CombineSplitControlle
 			}
 			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
 			PageUtils<StockFormVo> stockFormList = stockAdjustServiceApi.getStockFormList(vo);
-			LOG.info(LogConstant.PAGE, stockFormList.toString());
+			LOG.debug(LogConstant.PAGE, stockFormList.toString());
 			return stockFormList;
 		} catch (Exception e) {
 			LOG.error("获取单据列表信息异常:{}", e);
@@ -164,7 +164,7 @@ public class CombineSplitController extends BaseController<CombineSplitControlle
 	@RequestMapping(value = "getCombineSplitDetailList", method = RequestMethod.GET)
 	@ResponseBody
 	public List<StockFormDetailVo> getCombineSplitDetailList(String id) {
-		LOG.info(LogConstant.OUT_PARAM, id);
+		LOG.debug(LogConstant.OUT_PARAM, id);
 		List<StockFormDetailVo> detailList = new ArrayList<StockFormDetailVo>();
 		try {
 			detailList = stockAdjustServiceApi.getCombineSplitDetailList(id);

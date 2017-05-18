@@ -24,38 +24,44 @@
 				<div class="ub ub-ac upad-16 ">
 					<div class="ub uw-200 ut-r">选择供应商后自动列出商品：</div>
 					<div class="ub uw-110 ub-ac umar-r10">
-						<input class="ub" type="radio" id="isSupplierCascadeGoodsP0" name="isSupplierCascadeGoodsP" value="1" /><span>启用</span>
+						<label>
+						<input type="radio" id="isSupplierCascadeGoodsP0" name="isSupplierCascadeGoodsP" value="1" /><span>启用</span>
+						</label>
+
 					</div>
 					<div class="ub uw-110 ub-ac umar-r10">
-						<input class="ub" type="radio" id="isSupplierCascadeGoodsP1" name="isSupplierCascadeGoodsP" value="0" /><span>禁用</span>
+						<label>
+						<input type="radio" id="isSupplierCascadeGoodsP1" name="isSupplierCascadeGoodsP" value="0" /><span>禁用</span>
+						</label>
+
 					</div>
 				</div>
 				<div class="ub ub-ac upad-16 ">
 					<div class="ub uw-200 ut-r"></div>
 					<div class="ub uw-110 ub-ac umar-r10">
 						<input id="isSupplierCascadeGoodsPa" name="isSupplierCascadeGoodsPa" class="ub" type="checkbox" name="checkbox"  />
-						<span>采购订单</span>
+						<label for="isSupplierCascadeGoodsPa">采购订单</label>
 					</div>
 				</div>
 				<div class="ub ub-ac upad-16 ">
 					<div class="ub uw-200 ut-r"></div>
 					<div class="ub uw-110 ub-ac umar-r10">
 						<input id="isSupplierCascadeGoodsPi" name="isSupplierCascadeGoodsPi" class="ub" type="checkbox" name="checkbox"  />
-						<span>采购收货</span>
+						<label for="isSupplierCascadeGoodsPi">采购收货</label>
 					</div>
 				</div>
 				<div class="ub ub-ac upad-16 ">
 					<div class="ub uw-200 ut-r"></div>
 					<div class="ub uw-110 ub-ac umar-r10">
 						<input id="isSupplierCascadeGoodsPr" name="isSupplierCascadeGoodsPr" class="ub" type="checkbox" name="checkbox"  />
-						<span>采购退货</span>
+						<label for="isSupplierCascadeGoodsPr">采购退货</label>
 					</div>
 				</div>
 				<div class="ub ub-ac upad-16 ">
 					<div class="ub uw-200 ut-r"></div>
 					<div class="ub uw-110 ub-ac umar-r10">
 						<input id="isSupplierCascadeGoodsPm" name="isSupplierCascadeGoodsPm" class="ub" type="checkbox" name="checkbox"  />
-						<span>直送收货</span>
+						<label for="isSupplierCascadeGoodsPm">直送收货</label>
 					</div>
 				</div>
 			</form>

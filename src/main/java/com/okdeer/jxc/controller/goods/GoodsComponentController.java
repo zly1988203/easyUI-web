@@ -59,6 +59,7 @@ public class GoodsComponentController extends BaseController<GoodsSelectControll
 		try{
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
+			vo.setBranchId(getCurrBranchId());
 			PageUtils<GoodsComponent> page= goodsComponentApi.queryLists(vo);
 			return page;
 		}catch(Exception e){

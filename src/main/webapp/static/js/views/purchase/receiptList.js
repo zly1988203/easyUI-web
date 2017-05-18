@@ -7,15 +7,28 @@ var tableIdName = 'receiptOrderList';
 var tempURL = '/form/purchaseSelect/getPurchaseFormList';
 $(function(){
 	$("#refFormNo").val('');
-	document.getElementById("refFormNoDiv").style.visibility="hidden";
-	document.getElementById("radioItemDiv").style.visibility="hidden";
+	$('#radioItemDiv').prop("style", "visibility:hidden;");
+    $('#refFormNoDiv').prop("style", "visibility:hidden;");
 	loadTabs();
-	toBtnDisable('btnAdd','btnDel');
+    toBtnDisable('','','btnPrint');
 	//初始化默认条件
     initConditionParams();
     initDatagridFormPA();
     //单据状态切换
     changeStatus();
+    if(getUrlQueryString('message')=='0'){
+    	$('#tabs').tabs({'selected':1});
+        toBtnDisable('','','btnPrint');
+    	query();
+    }else{
+        $('#radioItemDiv').prop('hide',true);
+        $('#refFormNoDiv').prop('hide',true);
+		$("#refFormNo").val('');
+		toBtnEnable('btnAdd','btnDel','');
+		setQueryDataPA();
+		initDatagridFormPA();
+		query();
+    }
 });
 
 //加载选项卡
@@ -26,17 +39,19 @@ function loadTabs(){
 			// 获取选项卡下标
 			indexTab = $('#tabs').tabs('getTabIndex',$('#tabs').tabs('getSelected'));
 			if (indexTab === 0) {
-				document.getElementById("radioItemDiv").style.visibility="hidden";
+                $('#radioItemDiv').prop("style", "visibility:hidden;");
+                $('#refFormNoDiv').prop("style", "visibility:hidden;");
 				$("#refFormNo").val('');
-				document.getElementById("refFormNoDiv").style.visibility="hidden";
-				toBtnEnable('btnAdd','btnDel');
+				toBtnEnable('btnAdd','btnDel','');
+                toBtnDisable('','','btnPrint');
 				setQueryDataPA();
 				initDatagridFormPA();
 			} else {
 				$("input[type='radio'][name='status']").get(0).checked = true;
-				document.getElementById("radioItemDiv").style.visibility="visible";
-				document.getElementById("refFormNoDiv").style.visibility="visible";
-				toBtnDisable('btnAdd','btnDel');
+                $('#radioItemDiv').prop("style", "visibility:visible;");
+                $('#refFormNoDiv').prop("style", "visibility:visible;");
+                toBtnEnable('','','btnPrint');
+				toBtnDisable('btnAdd','btnDel','');
 				setQueryDataPI();
 				initDatagridOrders();
 			}
@@ -59,17 +74,19 @@ function setQueryDataPA() {
  * 禁用按钮
  * @param id
  */
-function toBtnDisable(addId,delId){
+function toBtnDisable(addId,delId,printId){
 	$("#"+addId).removeClass('ubtns-item').addClass('ubtns-item-disabled').removeAttr('onclick');
 	$("#"+delId).removeClass('ubtns-item').addClass('ubtns-item-disabled').removeAttr('onclick');
+    $("#"+printId).removeClass('ubtns-item').addClass('ubtns-item-disabled').removeAttr('onclick');
 }
 /**
  * 开启按钮
  * @param id
  */
-function toBtnEnable(addId,delId){
-	$("#"+addId).removeClass('ubtns-item-disabled').addClass('ubtns-item').attr('onclick','addDeliverForm()');
-	$("#"+delId).removeClass('ubtns-item-disabled').addClass('ubtns-item').attr('onclick','delDeliverForm()');
+function toBtnEnable(addId,delId,printId){
+	$("#"+addId).removeClass('ubtns-item-disabled').addClass('ubtns-item').attr('onclick','receiptAdd()');
+	$("#"+delId).removeClass('ubtns-item-disabled').addClass('ubtns-item').attr('onclick','receiptDelete()');
+    $("#"+printId).removeClass('ubtns-item-disabled').addClass('ubtns-item').attr('onclick','printPreview()');
 }
 //单据状态切换
 function changeStatus(){
@@ -161,8 +178,10 @@ function initDatagridFormPA(){
         //title:'普通表单-用键盘操作',
         method:'post',
         align:'center',
-        queryParams : {formType : 'PA'},
-        url:contextPath+tempURL,
+        queryParams : {formType : 'PA',startTime : $("#txtStartDate").val(),
+            endTime: $("#txtEndDate").val(),
+            status : $('#radioItemDiv input[name="status"]:checked ').val()},
+        //url:contextPath+tempURL,
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
         pagination:true,    //分页
@@ -204,17 +223,18 @@ function receiptAdd(){
 
 function query(){
 	var fromObjStr = $('#queryForm').serializeObject();
+	$("#" + tableIdName).datagrid('options').url = contextPath+tempURL;
+	//$("#" + tableIdName).datagrid('options').queryParams = fromObjStr;
 	$("#" + tableIdName).datagrid('load',fromObjStr);
 }
 
 function receiptDelete(){
-	var dg = $("#gridOrders");
-	var row = dg.datagrid("getSelected");
+	var row =  $("#"+tableIdName).datagrid("getSelected");
 	if(rowIsNull(row)){
 		return null;
 	}
-	var rows =$("#gridOrders").datagrid("getChecked");
-	if($("#gridOrders").datagrid("getChecked").length <= 0){
+	var rows =$("#"+tableIdName).datagrid("getChecked");
+	if($("#"+tableIdName).datagrid("getChecked").length <= 0){
 		 $.messager.alert('提示','请选中一行进行删除！');
 		return null;
 	}
@@ -276,3 +296,11 @@ function resetForm(){
 };
 
 
+function printPreview() {
+	var rows = $("#"+tableIdName).datagrid('getSelections');
+	if(rows.length == 1){
+        toPrintPreview('PI','/form/purchase/',tableIdName);
+	}else{
+		messager('请选择一行数据.')
+	}
+}

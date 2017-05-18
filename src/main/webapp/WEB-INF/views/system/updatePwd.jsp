@@ -23,20 +23,21 @@
 	</style>
 </head>
 <body style="font-family: '微软雅黑'">
-<div class="easyui-layout" data-options="fit: true">
+
+<div class="easyui-panel">
 	<form id="editPwd_mainform" action="">
 		<div class="umar-t18">
 			<div class="form-row">
 				<span class="form-row-left" >旧密码:</span>
-				<span class="form-row-right"><input type="password" id="oldPass" name="oldPass" class="easyui-textbox" data-options="width:200"/></span>
+				<span class="form-row-right"><input type="password" id="oldPass" name="oldPass" class="easyui-validatebox" data-options="required:true,validType:'length[8,18]'"/></span>
 			</div>
 			<div class="form-row">
 				<span class="form-row-left">新密码:</span>
-				<span class="form-row-right"><input type="password" id="newPass" name="newPass" class="easyui-textbox" data-options="width:200"/></span>
+				<span class="form-row-right"><input type="password" id="newPass" name="newPass" class="easyui-validatebox" data-options="required:true,validType:'length[8,18]'"/></span>
 			</div>
 			<div class="form-row">
 				<span class="form-row-left">确认新密码:</span>
-				<span class="form-row-right"><input type="password" id="againNewPass" name="againNewPass" class="easyui-textbox" data-options="width:200"/></span>
+				<span class="form-row-right"><input type="password" id="againNewPass" name="againNewPass" class="easyui-validatebox" data-options="required:true,validType:'length[8,18]'"/></span>
 			</div>
 			<div class="form-row">
 				<!-- <a href="javascript:void(0);" class="easyui-linkbutton" plain="true" iconCls="icon-ok"
