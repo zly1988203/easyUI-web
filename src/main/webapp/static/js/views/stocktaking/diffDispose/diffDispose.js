@@ -287,7 +287,7 @@ function initOperateDataGrid(url){
         		return $.extend(true,{},obj);//返回对象的深拷贝
         	});
             gridHandel.setDatagridHeader("center");
-            updateFooter();
+            //updateFooter();
             gFunEndLoading();
         },
     });
