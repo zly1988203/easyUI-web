@@ -18,7 +18,7 @@
 			<div class="ubor-b "></div>
 			<div class="ub upad-4 ub-f1 uscroll" style="min-width: 240px">
 				<div class="zTreeDemoBackground left">
-					<ul id="treeBranchList" class="ztree"></ul>
+					<ul id="treefinances" class="ztree"></ul>
 				</div>
 			</div>
 		</div>
@@ -27,7 +27,10 @@
 		<div class="ub ub-ver ub-f1 upad-4">
 			<div class="ub ub-ac">
 				<div class="ubtns">
-					<div class="ubtns-item" onclick="query()">导出</div>
+					<div class="ubtns-item" onclick="query()">查询</div>
+					<div class="ubtns-item" onclick="addFinance()">新增</div>
+					<div class="ubtns-item" onclick="delFinance()">删除</div>
+					<div class="ubtns-item" onclick="exportList()">导出</div>
 					<div class="ubtns-item" onclick="toClose()">退出</div>
 				</div>
 			</div>
@@ -38,29 +41,10 @@
 						<input class="uinp uw-400" type="text" name="codeOrName"
 							id="codeOrName" placeholder="输入编号、名称进行查询">
 					</div>
-					<input type="button" class="ubtn umar-r10" value="查询"
-						onclick="searchHandel()">
-
-					<div class="ub ub-ac umar-r20">
-						<div class="ub ub-ac umar-r10">
-						<input class="radioItem" type="radio" name="type" id="status_no"
-						value="0" checked="checked" /><label for="status_no">直营店
-						</label>
-						</div>
-						<div class="ub ub-ac umar-r10">
-						<input class="radioItem" type="radio" name="type"
-						id="status_yes" value="1" /><label for="status_yes">加盟店 </label>
-						</div>
-
-						<div class="ub ub-ac umar-r10">
-						<input class="radioItem" type="radio" name="type"
-						id="status_all" value="" /><label for="status_all">全部</label>
-						</div>
-					</div>
 				</div>
 			</form>
 			<div class="ub umar-t10 ub-f1">
-				<table id="gridBranchList"></table>
+				<table id="gridfinanceList"></table>
 			</div>
 		</div>
 
