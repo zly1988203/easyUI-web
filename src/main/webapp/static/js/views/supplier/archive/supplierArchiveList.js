@@ -52,7 +52,7 @@ function initDatagridsupplierList(){
         singleSelect:true,  //单选  false多选
         rownumbers:true,    //序号
         pagination:true,    //分页
-        pageSize:10,
+        pageSize:50,
         //fitColumns:true,    //每列占满
         fit:true,            //占满
         showFooter:true,
