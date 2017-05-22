@@ -219,7 +219,10 @@
 	</div>
 
 	<div title="机构费用" style="padding: 20px; display: none;">
-		<table id="gridBranchCost"></table>
+
+		<table id="gridFitmentCost"></table>
+		<table id="gridEquipmentCost"></table>
+		<table id="gridAmortizeCost"></table>
 
 	</div>
 

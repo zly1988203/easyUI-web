@@ -33,7 +33,19 @@ function getFiledList() {
             {field: 'branchName', title: '店铺编号', width: 180, align: 'left'},
             {field: 'batchNo', title: '业务单号', width: 180, align: 'left'},
             {field: 'batchNo', title: '卡号', width: 180, align: 'left'},
-            {field: 'batchNo', title: '业务类型', width: 80, align: 'left'},
+            {field: 'batchNo', title: '业务类型', width: 80, align: 'left',
+                formatter:function(value,row,index){
+                    if(value == '1'){
+                        return '充值';
+                    }else if(value == '2'){
+                        return '消费';
+                    }else if(value == '3'){
+                        return '售卡';
+                    }else{
+                        return '退货';
+                    }
+                }
+            },
             {field: 'batchNo', title: '金额', width: 100, align: 'right'},
             {field: 'batchNo', title: '时间', width: 180, align: 'left'},
             {field: 'batchNo', title: '收银员', width: 80, align: 'left'},

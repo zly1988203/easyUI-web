@@ -36,12 +36,12 @@ public class ICCardAccountManagementController {
 		return new ModelAndView("finance/iccard/iccardAccountList");
 	}
 	
-	@RequestMapping(value = "/icCardExtracted", method = RequestMethod.GET)
+	@RequestMapping(value = "/iccardExtracted", method = RequestMethod.GET)
 	public ModelAndView icCardExtracted() {
 		return new ModelAndView("finance/iccard/iccardExtracted");
 	}
 	
-	@RequestMapping(value = "/icCardRecharge", method = RequestMethod.GET)
+	@RequestMapping(value = "/iccardRecharge", method = RequestMethod.GET)
 	public ModelAndView icCardRecharge() {
 		return new ModelAndView("finance/iccard/iccardRecharge");
 	}
