@@ -1,7 +1,9 @@
 package com.okdeer.jxc.controller.settle.franchise;
 
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.controller.BaseController;
@@ -31,4 +33,16 @@ public class FranchiseSettleController extends BaseController<SupplierChainContr
     @Reference(version = "1.0.0", check = false)
     private FranchiseSettleService franchiseSettleService;
 
+    /**
+     * 
+     * @Description: 加盟店结算列表页
+     * @param model model
+     * @return ModelAndView
+     * @author xuyq
+     * @date 2017年5月22日
+     */
+    @RequestMapping(value = "settleList")
+    public ModelAndView settleList(Model model) {
+        return new ModelAndView("settle/franchise/settle/settleList");
+    }
 }
