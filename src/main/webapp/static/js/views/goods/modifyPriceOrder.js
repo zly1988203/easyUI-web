@@ -11,6 +11,7 @@ $(function(){
     //初始化列表
     initModifyPriceGrid();
     modifyPriceOrderCx();
+    
 });
 
 //单据状态切换
@@ -50,10 +51,19 @@ function initModifyPriceGrid() {
                     }
                 }
             },
-            {field: 'branchAreaCode', title: '区域编码', width: '100px', align: 'left'},
-            {field: 'branchAreaName', title: '区域名称', width: '90px', align: 'left'},
-            {field: 'createUserName', title: '操作员', width: '120px', align: 'left'},
-            {field: 'createTime', title: '操作时间', width: '120px', align: 'left',
+            {field: 'effectDate', title: '生效日期', width: '120px', align: 'left',
+                formatter: function (value, row, index) {
+                    if (value != null && value != '') {
+                        var date = new Date(value);
+                        return date.format("yyyy-MM-dd hh:mm");
+                    }
+                    return "";
+                }
+            },
+            /*{field: 'branchAreaCode', title: '区域编码', width: '100px', align: 'left'},
+            {field: 'branchAreaName', title: '区域名称', width: '90px', align: 'left'},*/
+            {field: 'createUserName', title: '制单员', width: '120px', align: 'left'},
+            {field: 'createTime', title: '制单时间', width: '120px', align: 'left',
             	formatter: function (value, row, index) {
 	                if (value != null && value != '') {
 	                    var date = new Date(value);
