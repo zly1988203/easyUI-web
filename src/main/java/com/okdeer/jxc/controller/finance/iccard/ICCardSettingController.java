@@ -39,7 +39,7 @@ public class ICCardSettingController {
 
 	@RequestMapping(value = "addIcCardType", method = RequestMethod.GET)
 	public ModelAndView addIcCardType() {
-		return new ModelAndView("finance/iccard/iccardSetting");
+		return new ModelAndView("finance/iccard/addIcCardType");
 	}
 	
 	@RequestMapping(value = "icCardShopSetting", method = RequestMethod.GET)

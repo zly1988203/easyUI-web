@@ -1,5 +1,5 @@
 
-        
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="com.okdeer.jxc.utils.UserUtil"%>
@@ -23,17 +23,21 @@
 	<form id="financeAdd">
 		<div class="ub ub-ver upad-4">
 			<div class="ub upad-4 umar-t10">
-				<div class="ub ub-ac">
-					<div class="umar-r10 uw-70 ut-r">编号:</div>
-					<input class="uinp ub ub-f1" type="text" id="financeCode"
-						name="financeCode" value="${financeFormVo.financeCode}"
-						maxlength="50" />
+				<div class="ub ub-ac umar-r20">
+					<div class="umar-r10 uw-80 ut-r">一卡通类型:</div>
+					<select class="uselect easyui-combobox" style="width: 204px;"
+						data-options="editable:false" name="cardType" id="cardType">
+						<option value="">--请选择--</option>
+						<option value="1">东莞通</option>
+						<option value="2">深圳通</option>
+						<option value="2">合肥通</option>
+					</select>
 				</div>
 			</div>
 
 			<div class="ub upad-4 umar-t10">
 				<div class="ub ub-ac">
-					<div class="umar-r10 uw-70 ut-r">名称:</div>
+					<div class="umar-r10 uw-70 ut-r">清算中心IP:</div>
 					<input class="uinp ub ub-f1" type="text" id="financeName"
 						name="financeName" value="${financeFormVo.financeName}"
 						maxlength="50" />
@@ -43,12 +47,23 @@
 			<div class="ub upad-4 umar-t10">
 
 				<div class="ub ub-ac">
-					<div class="umar-r10 uw-70 ut-r">备注:</div>
+					<div class="umar-r10 uw-70 ut-r">端口:</div>
 					<input class="uinp ub ub-f1" type="text" id="description"
 						name="description" value="${financeFormVo.description}"
 						maxlength="50" />
 				</div>
 			</div>
+
+			<div class="ub upad-4 umar-t10">
+
+				<div class="ub ub-ac">
+					<div class="umar-r10 uw-70 ut-r">运营单位代码:</div>
+					<input class="uinp ub ub-f1" type="text" id="description"
+						name="description" value="${financeFormVo.description}"
+						maxlength="50" />
+				</div>
+			</div>
+
 		</div>
 	</form>
 </div>

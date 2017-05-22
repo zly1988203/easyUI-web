@@ -22,7 +22,17 @@ function initGridCardAccount() {
         columns:[[
             {field: 'branchCode', title: '店铺编号', width: 100, align: 'left'},
             {field: 'branchName', title: '店铺名称', width: 180, align: 'left'},
-            {field: 'branchName', title: '店铺类型', width: 80, align: 'left'},
+            {field: 'branchName', title: '店铺类型', width: 80, align: 'left',
+                formatter:function(value,row,index){
+                    if(value == '1'){
+                        return '直营店';
+                    }else if(value == '2'){
+                        return '加盟店';
+                    }else{
+                        return '其他类型'+ value;
+                    }
+                }
+            },
             {field: 'batchNo', title: '累计充值金额', width: 150, align: 'right'},
             {field: 'batchNo', title: '提取金额', width: 100, align: 'right'},
             {field: 'batchNo', title: '已用金额', width: 100, align: 'right'},
@@ -42,7 +52,7 @@ function query() {
 var rechargeDialog = null;
 function recharge() {
     rechargeDialog = $('<div/>').dialog({
-        href: contextPath+"/iccard/account/management/icCardRecharge",
+        href: contextPath+"/iccard/account/management/iccardRecharge",
         width:500,
         height:500,
         title: "一卡通账户充值",
@@ -68,7 +78,7 @@ function closeRechargeDialog() {
 var extractedDialog = null;
 function extracted() {
     extractedDialog = $('<div/>').dialog({
-        href: contextPath+"/iccard/account/management/icCardExtracted",
+        href: contextPath+"/iccard/account/management/iccardExtracted",
         width:500,
         height:500,
         title: "一卡通账户余额提取",

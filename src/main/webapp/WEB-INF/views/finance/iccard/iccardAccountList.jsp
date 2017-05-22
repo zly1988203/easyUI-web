@@ -10,7 +10,7 @@
 
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <script
-	src="${ctx}/static/js/views/finance/iccard/iccardAccountList.js?v=5"></script>
+	src="${ctx}/static/js/views/finance/iccard/iccardAccountList.js?v=4"></script>
 <%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
 <style>
 .datagrid-header .datagrid-cell {
@@ -38,16 +38,18 @@
 			<div class="ub umar-t8">
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-60 ut-r">机&nbsp;&nbsp;构:</div>
-					<input type="hidden" id="branchId" name="branchId" />
-					<input type="hidden" id="branchCompleCode" name="branchCompleCode"/>
-					<input type="hidden" id="oldBranchName" >
-					<input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" maxlength="50"/>
-					<div class="uinp-more" onclick="selectListBranches()" >...</div>
+					<input type="hidden" id="branchId" name="branchId" /> <input
+						type="hidden" id="branchCompleCode" name="branchCompleCode" /> <input
+						type="hidden" id="oldBranchName"> <input
+						class="uinp ub ub-f1" type="text" id="branchName"
+						name="branchName" maxlength="50" />
+					<div class="uinp-more" onclick="selectListBranches()">...</div>
 				</div>
 
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-60 ut-r">店铺类型:</div>
-					<select class="uselect easyui-combobox" style="width: 204px;" data-options="editable:false" name="shopType" id="shopType">
+					<select class="uselect easyui-combobox" style="width: 204px;"
+						data-options="editable:false" name="shopType" id="shopType">
 						<option value="">--请选择--</option>
 						<option value="1">直营店</option>
 						<option value="2">加盟店</option>
