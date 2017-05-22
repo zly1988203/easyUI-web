@@ -43,7 +43,9 @@ function initDatagridDay(){
             {field:'branchName',title:'机构',width:'140px',align:'left'},
             {field:'skuCode',title:'货号',width:'80px',align:'left'},
             {field:'skuName',title:'商品名称',width:'150px',align:'left'},
-            {field:'barCode',title:'条码',width:100,align:'left'},
+			{field:'barCode',title:'条码',width:100,align:'left'},
+			{field:'spec',title:'规格',width:100,align:'left'},
+			{field:'unit',title:'单位',width:100,align:'left'},
             {field:'beginStock',title:'期初库存数',width:'130px',align:'right',
             	formatter:function(value,row,index){
 				    if(value || value ==0){
