@@ -45,7 +45,6 @@ import com.okdeer.jxc.supplier.service.SupplierServiceApi;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.system.service.SysUserCategoryGrantServiceApi;
 import com.okdeer.jxc.system.service.SysUserServiceApi;
-import com.okdeer.jxc.utils.PriceGrantUtil;
 import com.okdeer.jxc.utils.UserUtil;
 
 /**
@@ -212,7 +211,7 @@ public class UserRealm extends CasRealm {
 		// 设置用户session
 		UserUtil.setCurrentUser(sysUser);
 		// 设置用户价格权限，必须在设置用户session以后
-		PriceGrantUtil.setPriceGrant(sysUser.getPriceGrant());
+//		PriceGrantUtil.setPriceGrant(sysUser.getPriceGrant());
 
 		// 更新用户登录信息
 		sysUserService.updateLoginInfo(sysUser);

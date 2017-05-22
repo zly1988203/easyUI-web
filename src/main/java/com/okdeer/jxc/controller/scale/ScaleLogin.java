@@ -25,7 +25,6 @@ import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.system.service.SysUserCategoryGrantServiceApi;
 import com.okdeer.jxc.system.service.SysUserServiceApi;
-import com.okdeer.jxc.utils.PriceGrantUtil;
 import com.okdeer.jxc.utils.UserUtil;
 
 /**
@@ -120,7 +119,7 @@ public class ScaleLogin extends BaseController<T> {
 			UserUtil.setCurrentUser(sysUser);
 
 			// 设置用户价格权限，必须在设置用户session以后
-			PriceGrantUtil.setPriceGrant(sysUser.getPriceGrant());
+//			PriceGrantUtil.setPriceGrant(sysUser.getPriceGrant());
 
 			// AuthenticationToken xx=user.;
 			// 调用登录的接口！
