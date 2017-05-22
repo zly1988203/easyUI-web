@@ -2,17 +2,14 @@
 package com.okdeer.jxc.utils;
 
 import java.math.BigDecimal;
-import java.util.concurrent.TimeUnit;
-
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
 import com.okdeer.jxc.common.enums.PriceGrantEnum;
+import com.okdeer.jxc.common.exception.BusinessException;
 import com.okdeer.jxc.common.handler.PriceGrantHandler;
+import com.okdeer.jxc.system.entity.SysUser;
 
 /**
  * ClassName: PriceGrantUtil 
@@ -37,28 +34,6 @@ public class PriceGrantUtil {
 	private PriceGrantUtil(){
 		super();
 	}
-
-	/**
-	 * @Fields PRICE_GRANT : redis 保存价格权限key值
-	 */
-	private static final String PRICE_GRANT = "JXC_PRICE_GRANT_";
-
-	/**
-	 * @Fields PRICE_GRANT_TIME_MINUETS : 保存价格权限到redis的时间
-	 */
-	private static final int PRICE_GRANT_TIME_MINUETS = 60;
-
-	/**
-	 * @Fields redisTemplate :  redis操作工具类，方便注入的普通属性
-	 */
-	@Resource
-	private StringRedisTemplate redisTemplateTmp;
-
-	/**
-	 * @Fields redisTemplate :  redis操作工具类
-	 */
-	private static StringRedisTemplate redisTemplate;
-
 	
 	/**
 	 * @Description: 过滤价格权限
@@ -66,7 +41,7 @@ public class PriceGrantUtil {
 	 * @author liwb
 	 * @date 2016年8月18日
 	 */
-	public static synchronized void grantPrice(PriceGrantHandler handler) {
+	public void grantPrice(PriceGrantHandler handler) {
 
 		// 过滤销售价
 		BigDecimal salePrice = grantSalePrice(handler.getSalePrice());
@@ -103,7 +78,7 @@ public class PriceGrantUtil {
 	 * @author liwb
 	 * @date 2016年8月13日
 	 */
-	public static BigDecimal grantSalePrice(BigDecimal salePrice) {
+	public BigDecimal grantSalePrice(BigDecimal salePrice) {
 		return grantPriceCommon(salePrice, PriceGrantEnum.SALE_PRICE);
 	}
 
@@ -114,7 +89,7 @@ public class PriceGrantUtil {
 	 * @author liwb
 	 * @date 2016年8月13日
 	 */
-	public static BigDecimal grantVipPrice(BigDecimal vipPrice) {
+	public BigDecimal grantVipPrice(BigDecimal vipPrice) {
 		return grantPriceCommon(vipPrice, PriceGrantEnum.VIP_PRICE);
 	}
 
@@ -125,7 +100,7 @@ public class PriceGrantUtil {
 	 * @author liwb
 	 * @date 2016年8月13日
 	 */
-	public static BigDecimal grantPurchasePrice(BigDecimal purchasePrice) {
+	public BigDecimal grantPurchasePrice(BigDecimal purchasePrice) {
 		return grantPriceCommon(purchasePrice, PriceGrantEnum.PURCHASE_PRICE);
 	}
 
@@ -136,7 +111,7 @@ public class PriceGrantUtil {
 	 * @author liwb
 	 * @date 2016年8月13日
 	 */
-	public static BigDecimal grantWholesalePrice(BigDecimal wholesalePrice) {
+	public BigDecimal grantWholesalePrice(BigDecimal wholesalePrice) {
 		return grantPriceCommon(wholesalePrice, PriceGrantEnum.WHOLESALE_PRICE);
 	}
 
@@ -147,7 +122,7 @@ public class PriceGrantUtil {
 	 * @author liwb
 	 * @date 2016年8月13日
 	 */
-	public static BigDecimal grantLowestPrice(BigDecimal lowestPrice) {
+	public BigDecimal grantLowestPrice(BigDecimal lowestPrice) {
 		return grantPriceCommon(lowestPrice, PriceGrantEnum.LOWEST_PRICE);
 	}
 
@@ -158,23 +133,11 @@ public class PriceGrantUtil {
 	 * @author liwb
 	 * @date 2016年8月13日
 	 */
-	public static BigDecimal grantDistributionPrice(BigDecimal distributionPrice) {
+	public BigDecimal grantDistributionPrice(BigDecimal distributionPrice) {
 		return grantPriceCommon(distributionPrice,
 				PriceGrantEnum.DISTRIBUTION_PRICE);
 	}
 
-	/**
-	 * @Description: 生成价格权限保存在redis中的key值
-	 * @param userId
-	 * @return
-	 * @author liwb
-	 * @date 2016年8月17日
-	 */
-	private static String buildPriceGrantRedisKey() {
-		String userId = UserUtil.getCurrUserId();
-		String key = PRICE_GRANT + userId;
-		return key;
-	}
 
 	/**
 	 * @Description: 获取redis中的用户价格权限
@@ -183,50 +146,23 @@ public class PriceGrantUtil {
 	 * @author liwb
 	 * @date 2016年8月17日
 	 */
-	public static String getPriceGrant() {
+	public String getPriceGrant() {
 
 		// key值
-		String key = buildPriceGrantRedisKey();
-
-		// 获取redis中的价格权限值
-		String priceGrant = redisTemplate.opsForValue().get(key);
-
-		return priceGrant;
-	}
-
-	/**
-	 * @Description: 设置用户价格权限到redis中
-	 * @param userId
-	 * @param priceGrant
-	 * @author liwb
-	 * @date 2016年8月17日
-	 */
-	public static synchronized void setPriceGrant(String priceGrant) {
-
-		// key值
-		String key = buildPriceGrantRedisKey();
-
-		if (StringUtils.isBlank(priceGrant)) {
-			return;
+//		String key = buildPriceGrantRedisKey();
+//
+//		// 获取redis中的价格权限值
+//		String priceGrant = redisTemplate.opsForValue().get(key);
+		
+		SysUser sysUser = UserUtil.getCurrentUser();
+		if(sysUser==null){
+			throw new BusinessException("用户未登陆，或者session失效");
 		}
-
-		// 保存60分钟
-		redisTemplate.opsForValue().set(key, priceGrant,
-				PRICE_GRANT_TIME_MINUETS, TimeUnit.MINUTES);
+		
+		return sysUser.getPriceGrant();
 	}
 
-	/**
-	 * @Description: 清除redis中的价格权限
-	 * @param userId
-	 * @author liwb
-	 * @date 2016年8月17日
-	 */
-	public static void clearPriceGrant() {
-		// key值
-		String key = buildPriceGrantRedisKey();
 
-		redisTemplate.delete(key);
-	}
 
 	/**
 	 * @Description: 获取价格权限通用方法，无权限返回null，有权限则返回价格本身
@@ -236,7 +172,7 @@ public class PriceGrantUtil {
 	 * @author liwb
 	 * @date 2016年8月13日
 	 */
-	private static BigDecimal grantPriceCommon(BigDecimal price,
+	private BigDecimal grantPriceCommon(BigDecimal price,
 			PriceGrantEnum priceGrantEnum) {
 
 		String priceGrant = getPriceGrant();
@@ -255,28 +191,6 @@ public class PriceGrantUtil {
 		}
 
 		return null;
-	}
-
-	public StringRedisTemplate getRedisTemplateTmp() {
-		return redisTemplateTmp;
-	}
-
-	public void setRedisTemplateTmp(StringRedisTemplate redisTemplateTmp) {
-		this.redisTemplateTmp = redisTemplateTmp;
-	}
-	
-	public static StringRedisTemplate getRedisTemplate() {
-		return redisTemplate;
-	}
-
-	
-	public static void setRedisTemplate(StringRedisTemplate redisTemplate) {
-		PriceGrantUtil.redisTemplate = redisTemplate;
-	}
-
-	@PostConstruct
-	public void init() {
-		setRedisTemplate(this.redisTemplateTmp);
 	}
 
 }

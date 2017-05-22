@@ -9,9 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.okdeer.jxc.common.handler.PriceGrantHandler;
 import com.okdeer.jxc.system.entity.SysUser;
-import com.okdeer.jxc.utils.PriceGrantUtil;
 import com.okdeer.jxc.utils.UserUtil;
 import com.okdeer.jxc.utils.jxls.ReportExcelUtil;
 import com.okdeer.jxc.utils.poi.ExcelReaderUtil;
@@ -136,15 +134,6 @@ public class BaseController<T> {
 		return user == null ? null : user.getCategoryCodes();
 	}
 
-	/**
-	 * @Description: 过滤价格权限
-	 * @param handler PriceGrantHandler接口
-	 * @author liwb
-	 * @date 2016年8月19日
-	 */
-	protected void filterPriceGrant(PriceGrantHandler handler) {
-		PriceGrantUtil.grantPrice(handler);
-	}
 
 	/**
 	 * @Description: 导出后缀名为“.xlsx”的Excel公用方法
