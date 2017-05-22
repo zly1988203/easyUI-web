@@ -33,6 +33,6 @@ public class ICCardTradingController {
 
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public ModelAndView iccardSetting() {
-		return new ModelAndView("finance/iccard/iccardTrading");
+		return new ModelAndView("finance/iccard/iccardTradingList");
 	}
 }

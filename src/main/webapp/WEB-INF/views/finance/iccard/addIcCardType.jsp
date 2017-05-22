@@ -4,13 +4,13 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="com.okdeer.jxc.utils.UserUtil"%>
 
-<title>新增编辑财务代码</title>
+<title>添加一卡通</title>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="/static/js/views/purchase/orderAdd.js?V="></script>
+<script src="/static/js/views/purchase/addIcCardType.js?V=3"></script>
 
 <div class="ub ub-ver  ub-f1  uw uh ufs-14 uc-black">
 	<div class="ub ub-ac upad-4">
