@@ -1,7 +1,9 @@
 package com.okdeer.jxc.controller.settle.supplier;
 
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.controller.BaseController;
@@ -29,5 +31,31 @@ public class SupplierChargeController extends BaseController<SupplierChargeContr
      */
     @Reference(version = "1.0.0", check = false)
     private SupplierChargeService supplierChargeService;
+    
+    /**
+     * 
+     * @Description: 供应商预付列表页
+     * @param model model
+     * @return ModelAndView
+     * @author xuyq
+     * @date 2017年5月22日
+     */
+    @RequestMapping(value = "advanceList")
+    public ModelAndView advanceList(Model model) {
+        return new ModelAndView("settle/supplier/advance/advanceList");
+    }
+    
+    /**
+     * 
+     * @Description: 供应商费用列表页
+     * @param model model
+     * @return ModelAndView
+     * @author xuyq
+     * @date 2017年5月22日
+     */
+    @RequestMapping(value = "chargeList")
+    public ModelAndView chargeList(Model model) {
+        return new ModelAndView("settle/supplier/charge/chargeList");
+    }
 
 }
