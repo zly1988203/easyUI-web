@@ -79,7 +79,7 @@
 
 		</form>
 		<div class="ub uw umar-t8 ub-f1">
-			<table id="gridOrders"></table>
+			<table id="gridNotices"></table>
 		</div>
 
 	</div>

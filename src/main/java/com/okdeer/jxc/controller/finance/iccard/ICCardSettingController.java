@@ -35,4 +35,15 @@ public class ICCardSettingController {
 	public ModelAndView iccardSetting() {
 		return new ModelAndView("finance/iccard/iccardSetting");
 	}
+	
+
+	@RequestMapping(value = "addIcCardType", method = RequestMethod.GET)
+	public ModelAndView addIcCardType() {
+		return new ModelAndView("finance/iccard/iccardSetting");
+	}
+	
+	@RequestMapping(value = "icCardShopSetting", method = RequestMethod.GET)
+	public ModelAndView icCardShopSetting() {
+		return new ModelAndView("finance/iccard/icCardShopSetting");
+	}
 }
