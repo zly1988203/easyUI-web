@@ -10,19 +10,19 @@ $(function(){
 	$("#addbranchId").val(sessionBranchId);
 	
     oldData = {
-    		differenceReason:$("#differenceReason").val()
+    		differenceReason:$("#remark").val()||''
     }
 	operateStatus = $('#disposeStatus').val();
 	var batchId = $('#batchId').val();
 	if(operateStatus === 'add'){
 	
 	}else if(operateStatus === '0'){
-		url = contextPath +"/stocktaking/diffDispose/stocktakingDifferenceList?batchId=" + batchId;
+		url = contextPath +"/stocktaking/diffDispose/stocktakingDifferenceList?id=" + batchId;
 		$('#already-examine').css('display','none');
 		$('#btnCheck').css('display','block');
 	
 	}else if(operateStatus === '1'){
-		url = contextPath +"/stocktaking/diffDispose/stocktakingDifferenceList?batchId=" + batchId;
+		url = contextPath +"/stocktaking/diffDispose/stocktakingDifferenceList?id=" + batchId;
 		isdisabled = true;
         isSingleSelect = true;
 		$('#already-examine').css('display','block');
@@ -36,51 +36,44 @@ $(function(){
 		  messager("数据查询异常");
 		  toClose();
 	}
-	initOperateDataGrid();
-	initQueryData(url);
+	initOperateDataGrid(url);
+//	initQueryData(url);
  }
 )
 
 var gridHandel = new GridClass();
 var dg;
-function initOperateDataGrid(){
+var page; //datagrid分页对象
+var loadFlag = false;
+var oldParam; //保存旧的分页参数
+function initOperateDataGrid(url){
 	 gridHandel.setGridName(gridName);
 	    gridHandel.initKey({
 	        firstName:'skuCode',
 	        enterName:'skuCode',
 	        enterCallBack:function(arg){
-	            if(arg&&arg=="add"){
-	                gridHandel.addRow(parseInt(gridHandel.getSelectRowIndex())+1,gridDefault);
-	                setTimeout(function(){
-	                    gridHandel.setBeginRow(gridHandel.getSelectRowIndex()+1);
-	                    gridHandel.setSelectFieldName("skuCode");
-	                    gridHandel.setFieldFocus(gridHandel.getFieldTarget('skuCode'));
-	                },100)
-	            }else{
-	            	branchId = $("#sourceBranchId").val();
-	                selectGoods(arg);
-	            }
 	        },
 	    })
-	    
 	    dg = $("#"+gridName).datagrid({
-//        method:'get',
-//    	url:url,
+        method:'get',
+    	url:url,
         align:'center',
         singleSelect:isSingleSelect,  // 单选 false多选
-        rownumbers:true,    // 序号
+        rownumbers:true,    //序号
+		pagination:true,    //分页
+        pageSize:1000,
+        pageList:[500,1000],
         showFooter:true,
-         checkOnSelect:false,
-         selectOnCheck:false,
-        pageSize:10000,
-        view:scrollview,
+        checkOnSelect:false,
+        selectOnCheck:false,
+//        view:scrollview,
         height:'100%',
         width:'100%',
         columns:[[
 			{field:'handle',checkbox:true,hidden:isdisabled,
 			    formatter : function(value, row,index) {
 			        return value;
-			    },
+			    }
 			},
             {field:'skuId',hidden:'true'},
             {field:'skuCode',title:'货号',width: '100px',align:'left',
@@ -250,29 +243,52 @@ function initOperateDataGrid(){
                 gridHandel.setSelectFieldName("differenceReason");
             }
         }, 
-
+        onBeforeLoad:function(param){
+        	$(this).datagrid("endEdit", gridHandel.getSelectRowIndex());
+        	console.time('总耗时');
+        	if(loadFlag && page){
+        		var newData = {
+        			differenceReason:$("#remark").val()||'',
+        			grid:$.map(gridHandel.getRows(), function(obj){
+                		return $.extend(true,{},obj);//返回对象的深拷贝
+                	})
+        		}
+        		if(!gFunComparisonArray(oldData,newData)){
+        			$.messager.alert('提示','数据已经修改请先保存');
+        			$(page).pagination('options').pageNumber = oldParam.page;
+        			$(page).pagination('options').pageSize = oldParam.rows;
+        			$(page).pagination('refresh');
+        			return false;
+        		}
+        	}
+        	
+        	oldParam = param;
+        },
+        loadFilter:function(data){
+        	if(data.rows.length > 0){
+        		
+        		data.rows.forEach(function(obj,index){
+        			obj.checked = obj.handle == '1'?true:false;
+        		})
+        	}
+        	return data;
+        },
         onLoadSuccess:function(data){
-        	gFunEndLoading();
+        	loadFlag = true;
+        	if(!page){
+        		page = $(this).datagrid('getPager');
+        	}
+        	console.log('数据量',data.rows.length)
+        	console.timeEnd('总耗时');
+        	
         	if((data.rows).length <= 0)return;
         	
-        	if(!oldData["grid"]){
-            	oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
-            		return $.extend(true,{},obj);//返回对象的深拷贝
-            	});
-            }
-            if(operateStatus === '0'){
-                var rowData = data.rows;
-                $.each(rowData,function(idx,val){//遍历JSON
-                    if(val.handle==='1'){
-                    	 $("#"+gridName).datagrid('checkRow', idx);
-                       // $("#"+gridName).datagrid("selectRow", idx);//如果数据行为已选中则选中改行
-                    }
-                });
-            }
-
+        	oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
+        		return $.extend(true,{},obj);//返回对象的深拷贝
+        	});
             gridHandel.setDatagridHeader("center");
-        
-            updateFooter();
+            //updateFooter();
+            gFunEndLoading();
         },
     });
     
@@ -458,10 +474,10 @@ function auditDiffDispose(){
 	var rows = gridHandel.getRows();
 
 	var newData = {
-        differenceReason:$("#differenceReason").val(),
+        differenceReason:$("#remark").val()||'',
         grid : $.map(gridHandel.getRows(), function(obj){
-            return $.extend(true,{},obj);//返回对象的深拷贝
-        })
+    		return $.extend(true,{},obj);//返回对象的深拷贝
+    	})
     }
 
     if(!gFunComparisonArray(oldData,newData)){

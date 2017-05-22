@@ -1,6 +1,5 @@
 package com.okdeer.jxc.controller.stock;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -152,6 +151,27 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 	 */
 	@RequestMapping(value = "/stocktakingDifferenceList", method = RequestMethod.GET)
 	@ResponseBody
+	public PageUtils<StocktakingDifferenceVo> stocktakingDifferenceList(StocktakingBatchVo vo,
+	        @RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
+	        @RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
+	    try {
+	        vo.setPageNumber(pageNumber);
+	        vo.setPageSize(pageSize);
+	        // 结束日期延后一天
+	        if (vo.getEndTime() != null) {
+	            vo.setEndTime(DateUtils.getDayAfter(vo.getEndTime()));
+	        }
+	        LOG.debug(LogConstant.OUT_PARAM, vo);
+	        PageUtils<StocktakingDifferenceVo> stocktakingBatchList = stocktakingOperateServiceApi.getStocktakingDifferencePageList(vo);
+	        LOG.debug(LogConstant.PAGE, stocktakingBatchList.toString());
+	        return stocktakingBatchList;
+	    } catch (Exception e) {
+	        LOG.error("盘点申请查询列表信息异常:{}", e);
+	    }
+	    return PageUtils.emptyPage();
+	}
+	
+	/**
 	public List<StocktakingDifferenceVo> stocktakingDifferenceList(String batchId) {
 		LOG.debug(LogConstant.OUT_PARAM, batchId);
 		List<StocktakingDifferenceVo> diffList = new ArrayList<StocktakingDifferenceVo>();
@@ -162,7 +182,7 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 		}
 		return diffList;
 	}
-
+	**/
 	/**
 	 * 
 	 * @Description: 打印
