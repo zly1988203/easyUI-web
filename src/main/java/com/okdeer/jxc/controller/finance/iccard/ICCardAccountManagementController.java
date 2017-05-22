@@ -33,7 +33,7 @@ public class ICCardAccountManagementController {
 
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public ModelAndView iccardSetting() {
-		return new ModelAndView("finance/iccard/iccardAccount");
+		return new ModelAndView("finance/iccard/iccardAccountList");
 	}
 	
 	@RequestMapping(value = "/icCardExtracted", method = RequestMethod.GET)
