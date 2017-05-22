@@ -44,6 +44,6 @@ public class ICCardSettingController {
 	
 	@RequestMapping(value = "icCardShopSetting", method = RequestMethod.GET)
 	public ModelAndView icCardShopSetting() {
-		return new ModelAndView("finance/iccard/icCardShopSetting");
+		return new ModelAndView("finance/iccard/iccardShopSetting");
 	}
 }

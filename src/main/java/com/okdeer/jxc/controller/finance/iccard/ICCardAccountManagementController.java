@@ -38,11 +38,11 @@ public class ICCardAccountManagementController {
 	
 	@RequestMapping(value = "/icCardExtracted", method = RequestMethod.GET)
 	public ModelAndView icCardExtracted() {
-		return new ModelAndView("finance/iccard/icCardExtracted");
+		return new ModelAndView("finance/iccard/iccardExtracted");
 	}
 	
 	@RequestMapping(value = "/icCardRecharge", method = RequestMethod.GET)
 	public ModelAndView icCardRecharge() {
-		return new ModelAndView("finance/iccard/icCardRecharge");
+		return new ModelAndView("finance/iccard/iccardRecharge");
 	}
 }
