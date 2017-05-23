@@ -38,7 +38,7 @@ function initTreeArchives(){
             }
         };
         $.fn.zTree.init($("#treeBranchList"), setting, JSON.parse(data));
-        var treeObj = $.fn.zTree.getZTreeObj("treeArchives");
+        var treeObj = $.fn.zTree.getZTreeObj("treeBranchList");
         var nodes = treeObj.getNodes();
         if (nodes.length>0) {
             treeObj.expandNode(nodes[0], true, false, true);
@@ -49,7 +49,7 @@ function initTreeArchives(){
 //选择树节点
 function zTreeOnClick(event, treeId, treeNode) {
     gVarBranchId = treeNode.id;
-    searchHandel();
+    queryBranch();
 }
 
 function initDatagridBranchList() {
@@ -80,46 +80,71 @@ function initDatagridBranchList() {
             {field:'branchName',title:'店铺面积(m*3)',width:100,align:'left'},
             {field:'branchName',title:'费用均摊年数',width:200,align:'right'},
             {field:'branchName',title:'建店时间',width:200,align:'left'},
-        ]]
+        ]],
+        onLoadSuccess : function() {
+            gridHandel.setDatagridHeader("center");
+        }
     });
 }
 
 /**
  * 修改
  */
-var  editDalogTemp
 function editHandel(branchId,branchCode,branchName){
     var initData = {
-        areaId:areaId,
-        areaCode:areaCode,
-        areaName:areaName,
+        branchId:branchId,
+        branchCode:branchCode,
+        branchName:branchName,
     }
-    editDalogTemp = $('<div/>').dialog({
-        href: contextPath+"/branchManager/toEdit",
-        width: 480,
-        height: 320,
+    openEditBranchDailog();
+}
+
+var dialogHeight = $(window).height()*(4/5);
+var dialogWidth = $(window).width()*(5/9);
+var dialogLeft = $(window).width()*(1/5);
+var  editDialogTemp
+function  openEditBranchDailog() {
+    editDialogTemp = $('<div/>').dialog({
+        href: contextPath+"/archive/branch/toEdit",
+        width: dialogWidth,
+        height: dialogHeight,
+        left:dialogLeft,
         title: "修改机构信息",
         closable: true,
         resizable: true,
         onClose: function () {
-            $(editDalogTemp).panel('destroy');
-            editDalogTemp = null;
+            $(editDialogTemp).panel('destroy');
+            editDialogTemp = null;
         },
         modal: true,
         onLoad: function () {
-            initEditView(initData);
+            initBranchInfo();
         }
     })
+}
+
+function closeDialogHandel() {
+    $(editDialogTemp).panel('destroy');
+    editDialogTemp = null;
 }
 
 /**
  * 搜索
  */
-function searchHandel(){
+function queryBranch(){
     var formData = $('#formList').serializeObject();
     var postParams = $.extend(formData,{branchId:gVarBranchId})
     $("#"+gridName).datagrid("options").queryParams = postParams;
     $("#"+gridName).datagrid("options").method = "post";
     $("#"+gridName).datagrid("options").url =contextPath+'/supplierArea/getSupplierAreaList',
     $("#"+gridName).datagrid('load');
+}
+
+function editBranch() {
+    var row = $("#"+gridName).datagrid("getSelected");
+    if(!row || row == null){
+        messager("请选择一条数据!");
+        return;
+    }
+    openEditBranchDailog();
 }
