@@ -104,10 +104,11 @@ function initOperateDataGrid(url){
 			},
             {field:'stocktakingNum',title:'盘点数量',width:'100px',align:'right',
                 formatter:function(value,row,index){
-                    if(row.isFooter){
-                    	$('#sumStocktakingNum').val(parseFloat(value||0).toFixed(4));
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                    }
+//                    if(row.isFooter){
+//                    	console.log('row.isFooter stocktakingNum',parseFloat(value||0).toFixed(4) )
+//                    	$('#sumStocktakingNum').val(parseFloat(value||0).toFixed(4));
+//                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+//                    }
                     if(!value){
                         row["stocktakingNum"] = parseFloat(value||0).toFixed(2);
                     }
@@ -456,7 +457,9 @@ function saveDataHandel(rows){
         	gFunEndLoading();
             if(result['code'] == 0){
     			$.messager.alert("操作提示", "操作成功！", "info",function(){
-    				location.href = contextPath +"/stocktaking/diffDispose/stocktakingBatchView?id="+result['batchId'];
+//    				location.href = contextPath +"/stocktaking/diffDispose/stocktakingBatchView?id="+result['batchId'];
+//    				var localData = $("#"+gridName).datagrid("getData");
+//                	$("#"+gridName).datagrid('loadData',localData)
     			});
             }else{
                 successTip(result['message']);
@@ -472,7 +475,11 @@ function saveDataHandel(rows){
 function auditDiffDispose(){
 	 $("#"+gridName).datagrid("endEdit", gridHandel.getSelectRowIndex());
 	var rows = gridHandel.getRows();
-
+	var sumStocktakingNum = 0;
+	var footerRow = $('#'+gridName).datagrid('getFooterRows');
+	if(footerRow.length > 0){
+		sumStocktakingNum = footerRow[0].stocktakingNum||0;
+	}
 	var newData = {
         differenceReason:$("#remark").val()||'',
         grid : $.map(gridHandel.getRows(), function(obj){
@@ -496,7 +503,7 @@ function auditDiffDispose(){
     		id:batchId,
 			branchId:branchId,
 			batchNo:batchNo,
-            sumStocktakingNum:$('#sumStocktakingNum').val()
+            sumStocktakingNum:sumStocktakingNum
         };
 	$.messager.confirm('提示','是否审核通过？',function(r){
 		if(r){
