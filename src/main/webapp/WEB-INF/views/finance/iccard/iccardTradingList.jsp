@@ -9,7 +9,7 @@
 <title>一卡通交易查询</title>
 
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="${ctx}/static/js/views/finance/iccard/icCardTradingList.js?v=5"></script>
+<script src="${ctx}/static/js/views/finance/iccard/icCardTradingList.js?v="></script>
 <%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
     <style>
     .datagrid-header .datagrid-cell {text-align: center!important;font-weight: bold;}
@@ -52,12 +52,12 @@
 				</div>
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-60 ut-r">业务类型:</div>
-					<select class="uselect easyui-combobox" style="width: 204px;" data-options="editable:false" name="tradingType" id="tradingType">
+					<select class="uselect easyui-combobox" style="width: 204px;" data-options="editable:false" name="saleType" id="saleType">
 					<option value="">--请选择--</option>
-					<option value="1">充值</option>
-					<option value="2">消费</option>
-					<option value="3">售卡</option>
-					<option value="4">退货</option>
+					<option value="C">充值</option>
+					<option value="A">消费</option>
+					<option value="D">售卡</option>
+					<option value="B">退货</option>
 					</select>
 
 				</div>
@@ -70,11 +70,11 @@
 
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-80 ut-r">一卡通类型:</div>
-					<select class="uselect easyui-combobox" style="width: 204px;" data-options="editable:false" name="cardType" id="cardType">
-					<option value="">--请选择--</option>
-					<option value="1">东莞通</option>
-					<option value="2">深圳通</option>
-					<option value="2">合肥通</option>
+					<select class="uselect easyui-combobox" style="width: 204px;" data-options="editable:false" name="value" id="value">
+					<option value="all">--请选择--</option>
+					<option value="DGT">东莞通</option>
+					<option value="SZT">深圳通</option>
+					<!-- <option value="HFT">合肥通</option> -->
 					</select>
 				</div>
 
