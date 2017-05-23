@@ -71,13 +71,29 @@ function initDatagridBranchList() {
                 }
             },
             {field:'branchName',title:'机构名称',width:200,align:'left'},
-            {field:'branchType',title:'机构类型',width:100,align:'left'},
+            {field:'branchType',title:'机构类型',width:100,align:'left',
+                formatter:function(value,row,index){
+                    if(value == '1'){
+                        return '直营店';
+                    }else if(value == '2'){
+                        return '加盟店';
+                    }
+                }
+            },
             {field:'branchName',title:'所属机构',width:200,align:'left'},
-            {field:'branchName',title:'状态',width:100,align:'left'},
+            {field:'branchName',title:'状态',width:100,align:'left',
+                 formatter:function(value,row,index){
+                     if(value == '1'){
+                         return '运营中';
+                     }else if(value == '2'){
+                         return '已关闭';
+                     }
+                 }
+            },
             {field:'branchName',title:'联系人',width:200,align:'left'},
             {field:'branchName',title:'联系电话',width:200,align:'left'},
             {field:'branchName',title:'固定电话',width:200,align:'left'},
-            {field:'branchName',title:'店铺面积(m*3)',width:100,align:'left'},
+            {field:'branchName',title:'店铺面积(m*2)',width:100,align:'left'},
             {field:'branchName',title:'费用均摊年数',width:200,align:'right'},
             {field:'branchName',title:'建店时间',width:200,align:'left'},
         ]],
