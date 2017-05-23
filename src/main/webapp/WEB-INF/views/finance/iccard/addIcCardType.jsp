@@ -48,7 +48,7 @@
 
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">端口:</div>
-					<input class="uinp ub ub-f1" type="text" id="description"
+					<input class="uinp ub ub-f1" type="text" id=""
 						name="description" value="${financeFormVo.description}"
 						maxlength="50" />
 				</div>
@@ -58,7 +58,7 @@
 
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">运营单位代码:</div>
-					<input class="uinp ub ub-f1" type="text" id="description"
+					<input class="uinp ub ub-f1" type="text" id=""
 						name="description" value="${financeFormVo.description}"
 						maxlength="50" />
 				</div>
