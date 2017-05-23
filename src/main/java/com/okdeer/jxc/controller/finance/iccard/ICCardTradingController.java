@@ -9,6 +9,7 @@
 
 package com.okdeer.jxc.controller.finance.iccard;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -34,6 +35,7 @@ import com.okdeer.jxc.common.controller.BasePrintController;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
+import com.okdeer.jxc.controller.print.JasperHelper;
 import com.okdeer.jxc.finance.iccard.service.ICCardTradingService;
 import com.okdeer.jxc.finance.iccard.vo.TradeOrderPayVo;
 
@@ -88,7 +90,7 @@ public class ICCardTradingController extends BasePrintController<TradeOrderPayVo
 			}
 			return suppliers;
 		} catch (Exception e) {
-			logger.error("加载临期商品审核列表失败！", e);
+			logger.error("一卡通查询列表失败！", e);
 		}
 		return suppliers;
 	}
@@ -119,7 +121,7 @@ public class ICCardTradingController extends BasePrintController<TradeOrderPayVo
 				} else {
 					return RespJson.error("无数据可导");
 				}
-			}else{
+			} else {
 				PageUtils<TradeOrderPayVo> suppliers = icCardTradingService.selectTradingSumList(vo);
 				List<TradeOrderPayVo> list = suppliers.getList();
 				if (!list.isEmpty() && list.size() > 0) {
@@ -131,10 +133,49 @@ public class ICCardTradingController extends BasePrintController<TradeOrderPayVo
 				}
 			}
 		} catch (Exception e) {
-			logger.error("调价订单详情导出异常:", e);
+			logger.error("一卡通查询详情导出异常:", e);
 			RespJson json = RespJson.error("导出失败");
 			return json;
 		}
+		return null;
+	}
+
+	@RequestMapping(value = "/report/print", method = RequestMethod.GET)
+	public String editPrintReport(TradeOrderPayVo vo, HttpServletResponse response, HttpServletRequest request) {
+		Optional<TradeOrderPayVo> optional = Optional.ofNullable(vo);
+		vo = optional.orElse(new TradeOrderPayVo());
+		vo.setPageNumber(Integer.valueOf(PAGE_NO));
+		vo.setPageSize(PrintConstant.PRINT_MAX_LIMIT);
+		// 默认当前机构
+		if (StringUtils.isBlank(vo.getBranchCode()) && StringUtils.isBlank(vo.getBranchName())) {
+			vo.setBranchCode(getCurrBranchCompleCode());
+		}
+		PageUtils<TradeOrderPayVo> suppliers;
+		String salesmanId = request.getParameter("salesmanId");
+		String queryType = request.getParameter("queryType");
+		if (StringUtils.isNotBlank(salesmanId)) {
+			vo.setOperatorId(salesmanId);
+		}
+		String path;
+		if (StringUtils.equalsIgnoreCase("1", queryType)) {
+			suppliers = icCardTradingService.selectTradingList(vo);
+			path = PrintConstant.ICC_CARD_TRADING_DETAIL;
+		}else{
+			suppliers = icCardTradingService.selectTradingSumList(vo);
+			path = PrintConstant.ICC_CARD_SUM_TRADING_DETAIL;
+		}
+		
+		List<TradeOrderPayVo> list = suppliers.getList();
+
+		if (list.size() > PrintConstant.PRINT_MAX_ROW) {
+			return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
+		}
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("startDate", DateUtils.formatDate(vo.getStartTime(), DateUtils.DATE_SMALL_STR_R));
+		map.put("endDate", DateUtils.formatDate(vo.getEndTime(), DateUtils.DATE_SMALL_STR_R));
+		map.put("printName", getCurrentUser().getUserName());
+		JasperHelper.exportmain(request, response, map, JasperHelper.PDF_TYPE, path, list, "");
 		return null;
 	}
 
