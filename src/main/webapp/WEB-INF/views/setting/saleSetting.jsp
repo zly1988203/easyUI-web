@@ -21,19 +21,31 @@
 		<div class="ub ub-ver umar-t20">
 			<form id="settingForm" action="${ctx}/branchSetting/save" method="post">
 				<input type="hidden" id="branchId" name="branchId">
-				<div class="ub ub-ac upad-16 ">
-					<div class="ub uw-110 ut-r">抹零设置:</div>
+				<div class="ub ub-ac upad-b16 ">
+					<div class="umar-r10 uw-120 ut-r">抹零设置:</div>
 					<div class="ub uw-110 ub-ac umar-r10">
 						<label>
-						<input type="radio" id="centComputeType0" name="centComputeType" value="0" /><span>四舍五入到角</span>
+							<input type="radio" id="centComputeType0" name="centComputeType" value="0" /><span>四舍五入到角</span>
 						</label>
-
 					</div>
 					<div class="ub uw-110 ub-ac umar-r10">
 						<label>
-						<input type="radio" id="centComputeType1" name="centComputeType" value="1" /><span>角以下抹去</span>
+							<input type="radio" id="centComputeType1" name="centComputeType" value="1" /><span>角以下抹去</span>
 						</label>
-
+					</div>
+				</div>
+				
+				<div class="ub ub-ac">
+					<div class="umar-r10 uw-120 ut-r">线上订单确认收货:</div>
+					<div class="ub uw-110 ub-ac umar-r10">
+						<label>
+							<input type="radio" id="receivingSetting0" name="receivingSetting" value="0" /><span>启用</span>
+						</label>
+					</div>
+					<div class="ub uw-110 ub-ac umar-r10">
+						<label>
+							<input type="radio" id="receivingSetting1" name="receivingSetting" value="1" /><span>不启用</span>
+						</label>
 					</div>
 				</div>
 			</form>
@@ -72,13 +84,19 @@
 		//获取值
 		var branchId = data.branchId;
 		var centComputeType = data.centComputeType;
-		
+		var receivingSetting = data.receivingSetting;
 		//页面赋值
 		$("#branchId").val(branchId);
 		if(centComputeType == 0){
 			$("#centComputeType0").attr("checked","true");
 		}else{
 			$("#centComputeType1").attr("checked","true");
+		}
+		
+		if(receivingSetting == 0){
+			$("#receivingSetting0").attr("checked","true");
+		}else{
+			$("#receivingSetting1").attr("checked","true");
 		}
 	}
 	
