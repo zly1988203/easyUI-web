@@ -156,6 +156,16 @@ function exportData(){
 	window.location.href = contextPath + '/iccard/trading/exports?params='+queryParams;
 }
 
+var toPrint = function(){
+	var length = $('#gridCardTrading').datagrid('getData').total;
+	if(length == 0){
+		successTip("无数据可打印");
+		return;
+	}
+	var queryParams =  urlEncode($("#queryForm").serializeObject());
+	parent.addTabPrint("reportPrint"+new Date().getTime(),"打印",contextPath+"/iccard/trading/report/print?params="+queryParams);
+}
+
 var urlEncode = function (param, key, encode) {
 	  if(param==null) return '';
 	  var paramStr = '';
