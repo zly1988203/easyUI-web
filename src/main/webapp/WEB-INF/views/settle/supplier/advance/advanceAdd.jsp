@@ -20,7 +20,7 @@
             	<div class="ubtns-item" onclick="addSupAdvMonForm()">新增</div>
                 <div class="ubtns-item" onclick="saveSupAdvMonOrder()">保存</div>
                 <div class="ubtns-item-disabled">审核</div>
-                <div class="ubtns-item" onclick="selectCost()">费用选择</div>
+                <div class="ubtns-item" onclick="selectCharge()">费用选择</div>
                 <div class="ubtns-item" onclick="delSupAdvMonForm()" >删除</div>
                 <div class="ubtns-item-disabled" >导出明细</div>
                 <div class="ubtns-item-disabled" >打印</div>
