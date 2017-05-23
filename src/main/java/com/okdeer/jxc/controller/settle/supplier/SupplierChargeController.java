@@ -44,7 +44,46 @@ public class SupplierChargeController extends BaseController<SupplierChargeContr
     public ModelAndView advanceList(Model model) {
         return new ModelAndView("settle/supplier/advance/advanceList");
     }
-    
+
+    /**
+     * 
+     * @Description: 供应商预付列表页
+     * @param model model
+     * @return ModelAndView
+     * @author xuyq
+     * @date 2017年5月22日
+     */
+    @RequestMapping(value = "advanceAdd")
+    public ModelAndView advanceAdd(Model model) {
+        return new ModelAndView("settle/supplier/advance/advanceAdd");
+    }
+
+    /**
+     * 
+     * @Description: 供应商预付编辑页
+     * @param model model
+     * @return ModelAndView
+     * @author xuyq
+     * @date 2017年5月22日
+     */
+    @RequestMapping(value = "advanceEdit")
+    public ModelAndView advanceEdit(Model model) {
+        return new ModelAndView("settle/supplier/advance/advanceEdit");
+    }
+
+    /**
+     * 
+     * @Description: 供应商预付详情页
+     * @param model model
+     * @return ModelAndView
+     * @author xuyq
+     * @date 2017年5月22日
+     */
+    @RequestMapping(value = "advanceView")
+    public ModelAndView advanceView(Model model) {
+        return new ModelAndView("settle/supplier/advance/advanceView");
+    }
+
     /**
      * 
      * @Description: 供应商费用列表页
@@ -56,6 +95,45 @@ public class SupplierChargeController extends BaseController<SupplierChargeContr
     @RequestMapping(value = "chargeList")
     public ModelAndView chargeList(Model model) {
         return new ModelAndView("settle/supplier/charge/chargeList");
+    }
+
+    /**
+     * 
+     * @Description: 供应商费用新增页
+     * @param model model
+     * @return ModelAndView
+     * @author xuyq
+     * @date 2017年5月22日
+     */
+    @RequestMapping(value = "chargeAdd")
+    public ModelAndView chargeAdd(Model model) {
+        return new ModelAndView("settle/supplier/charge/chargeAdd");
+    }
+
+    /**
+     * 
+     * @Description: 供应商费用编辑页
+     * @param model model
+     * @return ModelAndView
+     * @author xuyq
+     * @date 2017年5月22日
+     */
+    @RequestMapping(value = "chargeEdit")
+    public ModelAndView chargeEdit(Model model) {
+        return new ModelAndView("settle/supplier/charge/chargeEdit");
+    }
+
+    /**
+     * 
+     * @Description: 供应商费用详情页
+     * @param model model
+     * @return ModelAndView
+     * @author xuyq
+     * @date 2017年5月22日
+     */
+    @RequestMapping(value = "chargeView")
+    public ModelAndView chargeView(Model model) {
+        return new ModelAndView("settle/supplier/charge/chargeView");
     }
 
 }

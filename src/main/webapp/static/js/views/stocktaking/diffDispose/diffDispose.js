@@ -104,10 +104,11 @@ function initOperateDataGrid(url){
 			},
             {field:'stocktakingNum',title:'盘点数量',width:'100px',align:'right',
                 formatter:function(value,row,index){
-                    if(row.isFooter){
-                    	$('#sumStocktakingNum').val(parseFloat(value||0).toFixed(4));
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                    }
+//                    if(row.isFooter){
+//                    	console.log('row.isFooter stocktakingNum',parseFloat(value||0).toFixed(4) )
+//                    	$('#sumStocktakingNum').val(parseFloat(value||0).toFixed(4));
+//                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+//                    }
                     if(!value){
                         row["stocktakingNum"] = parseFloat(value||0).toFixed(2);
                     }
@@ -217,18 +218,22 @@ function initOperateDataGrid(url){
         },
         onCheck:function(rowIndex,rowData){
         	rowData.handle = '1';
+        	rowData.checked = true;
         },
         onUncheck:function(rowIndex,rowData){
         	rowData.handle = '0';
+        	rowData.checked = false;
         },
         onCheckAll:function(rows){
         	$.each(rows,function(index,item){
         		item.handle = '1';
+        		item.checked = true;
         	})
         },
         onUncheckAll:function(rows){
         	$.each(rows,function(index,item){
         		item.handle = '0';
+        		item.checked = false;
         	})
         },
         onClickCell:function(rowIndex,field,value){
@@ -298,6 +303,16 @@ function initOperateDataGrid(url){
     }
 }
 
+//listen page change
+function initPage(page){
+	if(page){
+		$(page).pagination({
+			onChangePageSize:function(pageSize){
+				delete oldData.grid;
+			}
+		})
+	}
+}
 function initQueryData(url){
 	$.ajax({
     	url:url,
@@ -472,7 +487,11 @@ function saveDataHandel(rows){
 function auditDiffDispose(){
 	 $("#"+gridName).datagrid("endEdit", gridHandel.getSelectRowIndex());
 	var rows = gridHandel.getRows();
-
+	var sumStocktakingNum = 0;
+	var footerRow = $('#'+gridName).datagrid('getFooterRows');
+	if(footerRow.length > 0){
+		sumStocktakingNum = footerRow[0].stocktakingNum||0;
+	}
 	var newData = {
         differenceReason:$("#remark").val()||'',
         grid : $.map(gridHandel.getRows(), function(obj){
@@ -496,7 +515,7 @@ function auditDiffDispose(){
     		id:batchId,
 			branchId:branchId,
 			batchNo:batchNo,
-            sumStocktakingNum:$('#sumStocktakingNum').val()
+            sumStocktakingNum:sumStocktakingNum
         };
 	$.messager.confirm('提示','是否审核通过？',function(r){
 		if(r){
