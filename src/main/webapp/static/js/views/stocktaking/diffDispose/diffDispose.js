@@ -218,18 +218,22 @@ function initOperateDataGrid(url){
         },
         onCheck:function(rowIndex,rowData){
         	rowData.handle = '1';
+        	rowData.checked = true;
         },
         onUncheck:function(rowIndex,rowData){
         	rowData.handle = '0';
+        	rowData.checked = false;
         },
         onCheckAll:function(rows){
         	$.each(rows,function(index,item){
         		item.handle = '1';
+        		item.checked = true;
         	})
         },
         onUncheckAll:function(rows){
         	$.each(rows,function(index,item){
         		item.handle = '0';
+        		item.checked = false;
         	})
         },
         onClickCell:function(rowIndex,field,value){
@@ -467,9 +471,7 @@ function saveDataHandel(rows){
         	gFunEndLoading();
             if(result['code'] == 0){
     			$.messager.alert("操作提示", "操作成功！", "info",function(){
-//    				location.href = contextPath +"/stocktaking/diffDispose/stocktakingBatchView?id="+result['batchId'];
-//    				var localData = $("#"+gridName).datagrid("getData");
-//                	$("#"+gridName).datagrid('loadData',localData)
+    				location.href = contextPath +"/stocktaking/diffDispose/stocktakingBatchView?id="+result['batchId'];
     			});
             }else{
                 successTip(result['message']);
