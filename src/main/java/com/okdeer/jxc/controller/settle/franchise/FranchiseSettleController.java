@@ -45,4 +45,43 @@ public class FranchiseSettleController extends BaseController<SupplierChainContr
     public ModelAndView settleList(Model model) {
         return new ModelAndView("settle/franchise/settle/settleList");
     }
+    
+    /**
+     * 
+     * @Description: 加盟店结算新增页
+     * @param model model
+     * @return ModelAndView
+     * @author xuyq
+     * @date 2017年5月22日
+     */
+    @RequestMapping(value = "settleAdd")
+    public ModelAndView settleAdd(Model model) {
+        return new ModelAndView("settle/franchise/settle/settleAdd");
+    }
+    
+    /**
+     * 
+     * @Description: 加盟店结算编辑页
+     * @param model model
+     * @return ModelAndView
+     * @author xuyq
+     * @date 2017年5月22日
+     */
+    @RequestMapping(value = "settleEdit")
+    public ModelAndView settleEdit(Model model) {
+        return new ModelAndView("settle/franchise/settle/settleEdit");
+    }
+    
+    /**
+     * 
+     * @Description: 加盟店结算详情页
+     * @param model model
+     * @return ModelAndView
+     * @author xuyq
+     * @date 2017年5月22日
+     */
+    @RequestMapping(value = "settleView")
+    public ModelAndView settleView(Model model) {
+        return new ModelAndView("settle/franchise/settle/settleView");
+    }
 }
