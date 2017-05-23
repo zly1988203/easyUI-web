@@ -44,5 +44,44 @@ public class SupplierSettleController extends BaseController<SupplierSettleContr
     public ModelAndView settleList(Model model) {
         return new ModelAndView("settle/supplier/settle/settleList");
     }
+    
+    /**
+     * 
+     * @Description: 供应商结算新增页
+     * @param model model
+     * @return ModelAndView
+     * @author xuyq
+     * @date 2017年5月22日
+     */
+    @RequestMapping(value = "settleAdd")
+    public ModelAndView settleAdd(Model model) {
+        return new ModelAndView("settle/supplier/settle/settleAdd");
+    }
+    
+    /**
+     * 
+     * @Description: 供应商结算编辑页
+     * @param model model
+     * @return ModelAndView
+     * @author xuyq
+     * @date 2017年5月22日
+     */
+    @RequestMapping(value = "settleEdit")
+    public ModelAndView settleEdit(Model model) {
+        return new ModelAndView("settle/supplier/settle/settleEdit");
+    }
+    
+    /**
+     * 
+     * @Description: 供应商结算详情页
+     * @param model model
+     * @return ModelAndView
+     * @author xuyq
+     * @date 2017年5月22日
+     */
+    @RequestMapping(value = "settleView")
+    public ModelAndView settleView(Model model) {
+        return new ModelAndView("settle/supplier/settle/settleView");
+    }
 
 }

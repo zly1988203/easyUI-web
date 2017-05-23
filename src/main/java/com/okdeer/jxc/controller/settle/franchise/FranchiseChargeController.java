@@ -58,4 +58,82 @@ public class FranchiseChargeController extends BaseController<SupplierChainContr
     public ModelAndView chargeList(Model model) {
         return new ModelAndView("settle/franchise/charge/chargeList");
     }
+    
+    /**
+     * 
+     * @Description: 加盟店预付列表页
+     * @param model model
+     * @return ModelAndView
+     * @author xuyq
+     * @date 2017年5月22日
+     */
+    @RequestMapping(value = "advanceAdd")
+    public ModelAndView advanceAdd(Model model) {
+        return new ModelAndView("settle/franchise/advance/advanceAdd");
+    }
+
+    /**
+     * 
+     * @Description: 加盟店预付编辑页
+     * @param model model
+     * @return ModelAndView
+     * @author xuyq
+     * @date 2017年5月22日
+     */
+    @RequestMapping(value = "advanceEdit")
+    public ModelAndView advanceEdit(Model model) {
+        return new ModelAndView("settle/franchise/advance/advanceEdit");
+    }
+
+    /**
+     * 
+     * @Description: 加盟店预付详情页
+     * @param model model
+     * @return ModelAndView
+     * @author xuyq
+     * @date 2017年5月22日
+     */
+    @RequestMapping(value = "advanceView")
+    public ModelAndView advanceView(Model model) {
+        return new ModelAndView("settle/franchise/advance/advanceView");
+    }
+
+    /**
+     * 
+     * @Description: 加盟店费用新增页
+     * @param model model
+     * @return ModelAndView
+     * @author xuyq
+     * @date 2017年5月22日
+     */
+    @RequestMapping(value = "chargeAdd")
+    public ModelAndView chargeAdd(Model model) {
+        return new ModelAndView("settle/franchise/charge/chargeAdd");
+    }
+
+    /**
+     * 
+     * @Description: 加盟店费用编辑页
+     * @param model model
+     * @return ModelAndView
+     * @author xuyq
+     * @date 2017年5月22日
+     */
+    @RequestMapping(value = "chargeEdit")
+    public ModelAndView chargeEdit(Model model) {
+        return new ModelAndView("settle/franchise/charge/chargeEdit");
+    }
+
+    /**
+     * 
+     * @Description: 加盟店费用详情页
+     * @param model model
+     * @return ModelAndView
+     * @author xuyq
+     * @date 2017年5月22日
+     */
+    @RequestMapping(value = "chargeView")
+    public ModelAndView chargeView(Model model) {
+        return new ModelAndView("settle/franchise/charge/chargeView");
+    }
 }

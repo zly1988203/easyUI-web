@@ -44,4 +44,43 @@ public class SupplierChainController extends BaseController<SupplierChainControl
     public ModelAndView chainList(Model model) {
         return new ModelAndView("settle/supplier/chain/chainList");
     }
+
+    /**
+     * 
+     * @Description: 供应商联营账单新增页
+     * @param model model
+     * @return ModelAndView
+     * @author xuyq
+     * @date 2017年5月22日
+     */
+    @RequestMapping(value = "chainAdd")
+    public ModelAndView chainAdd(Model model) {
+        return new ModelAndView("settle/supplier/chain/chainAdd");
+    }
+
+    /**
+     * 
+     * @Description: 供应商联营账单编辑页
+     * @param model model
+     * @return ModelAndView
+     * @author xuyq
+     * @date 2017年5月22日
+     */
+    @RequestMapping(value = "chainEdit")
+    public ModelAndView chainEdit(Model model) {
+        return new ModelAndView("settle/supplier/chain/chainEdit");
+    }
+
+    /**
+     * 
+     * @Description: 供应商联营账单详情页
+     * @param model model
+     * @return ModelAndView
+     * @author xuyq
+     * @date 2017年5月22日
+     */
+    @RequestMapping(value = "chainView")
+    public ModelAndView chainView(Model model) {
+        return new ModelAndView("settle/supplier/chain/chainView");
+    }
 }
