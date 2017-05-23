@@ -299,6 +299,16 @@ function initOperateDataGrid(url){
     }
 }
 
+//listen page change
+function initPage(page){
+	if(page){
+		$(page).pagination({
+			onChangePageSize:function(pageSize){
+				delete oldData.grid;
+			}
+		})
+	}
+}
 function initQueryData(url){
 	$.ajax({
     	url:url,
