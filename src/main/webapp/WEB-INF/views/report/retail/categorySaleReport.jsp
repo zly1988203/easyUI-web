@@ -43,9 +43,27 @@
 	                    <div class="uinp-more" onclick="selectBranches()" >...</div>
 	                </div>
 	                <div class="ub ub-ac  umar-l20">
-                    <div class="umar-r10 uw-70 ut-r">商品类别:</div>
-                    <input class="uinp ub ub-f1" type="text" name="categoryName" id="categoryName">
-                </div> 
+						<div class="umar-r10 uw-70 ut-r">商品类别:</div>
+						<input class="uinp ub ub-f1" type="text" name="categoryName" id="categoryName">
+                	</div>
+					<div class="ub ub-ac">
+						<div class="umar-r10 uw-80 ut-r">汇总类型:</div>
+						<div class="ub ub-ac umar-r10 ">
+							<label>
+								<input class="radioItem" id="bigCategory" type="radio" name="categoryLevel" value="1" checked="checked" onclick="queryForm()" />大类汇总
+							</label>
+						</div>
+						<div class="ub ub-ac  uh-36">
+							<label class="umar-r10">
+								<input class=" radioItem" id="medCategory" type="radio" name="categoryLevel" value="2" onclick="queryForm()" />中类汇总
+							</label>
+						</div>
+						<div class="ub ub-ac umar-r10">
+							<label>
+								<input class="radioItem" id="smallCategory" type="radio" name="categoryLevel" value="3" onclick="queryForm()" />小类汇总
+							</label>
+						</div>
+					</div>
             </div>
 	
        	</form>
