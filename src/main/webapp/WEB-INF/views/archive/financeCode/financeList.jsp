@@ -26,10 +26,10 @@
 		<div class="ub ub-ver ub-f1 upad-4">
 			<div class="ub ub-ac">
 				<div class="ubtns">
-					<div class="ubtns-item" onclick="query()">查询</div>
-					<div class="ubtns-item" onclick="addFinance()">新增</div>
-					<div class="ubtns-item" onclick="delFinance()">删除</div>
-					<div class="ubtns-item" onclick="exportList()">导出</div>
+					<div class="ubtns-item" onclick="queryFinanceCode()">查询</div>
+					<div class="ubtns-item" onclick="addFinanceCode()">新增</div>
+					<div class="ubtns-item" onclick="delFinanceCode()">删除</div>
+					<div class="ubtns-item-disabled">导出</div>
 					<div class="ubtns-item" onclick="toClose()">关闭</div>
 				</div>
 			</div>

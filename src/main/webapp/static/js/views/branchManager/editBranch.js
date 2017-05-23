@@ -265,14 +265,14 @@ function delLineHandel(event){
 
 function saveBranch() {
     gFunStartLoading();
-
-    var data = JSON.stringify(data);
+    var data = {};
+    var dataJson = JSON.stringify(data);
 
     $.ajax({
         url:contextPath+"/form/purchase/saveOrder",
         type:"POST",
         contentType:'application/json',
-        data:data,
+        data:dataJson,
         success:function(result){
             gFunEndLoading();
             if(result['code'] == 0){
@@ -294,5 +294,35 @@ function saveBranch() {
 }
 
 function saveBranchCost() {
-    
+    gFunStartLoading();
+    var data = {
+        fitmentCost:gridFitmentCostHandel.getRowsWhere({costName:"1"}),
+        equipmentCost:gridEquipmentCostHandel.getRowsWhere({costName:"1"}),
+        amortizeCost:gridAmortizeCostHandel.getRowsWhere({costName:"1"})
+    }
+    var dataJson = JSON.stringify(data);
+
+    $.ajax({
+        url:contextPath+"/form/purchase/saveOrder",
+        type:"POST",
+        contentType:'application/json',
+        data:dataJson,
+        success:function(result){
+            gFunEndLoading();
+            if(result['code'] == 0){
+                $.messager.alert("操作提示", "保存成功！", "info",function(){
+
+                });
+            }else{
+                new publicErrorDialog({
+                    "title":"保存失败",
+                    "error":result['message']
+                });
+            }
+        },
+        error:function(result){
+            gFunEndLoading();
+            messager("请求发送失败或服务器处理失败");
+        }
+    });
 }

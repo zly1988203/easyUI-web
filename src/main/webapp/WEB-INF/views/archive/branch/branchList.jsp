@@ -32,7 +32,7 @@
 					<div class="ubtns-item" onclick="editBranch()">编辑</div>
 					<div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 					<div class="ubtns-item" onclick="exportData()">导出</div>
-					<div class="ubtns-item">打印</div>
+					<div class="ubtns-item-disabled">打印</div>
 					<div class="ubtns-item" onclick="toClose()">关闭</div>
 				</div>
 			</div>
