@@ -832,6 +832,74 @@ function publicGoodsServiceHandel(param,callback){
     }
 }
 
+//费用选择
+function publicCostService(param,callback){
+	//默认参数属性
+	var oldParm = {isRadio:1}
+	param =  $.extend(oldParm,param);
+	
+	param.type = "PA";
+	param.type = param.type || '';
+	param.branchId = param.branchId || '';
+	param.branchType = param.branchType || '';
+	param.isOpenStock = param.isOpenStock || '';
+	
+	var url = contextPath + "/common/branches/viewComponent?formType="+ param.type + "&branchId=" + param.branchId+ "&branchType="+param.branchType + "&isOpenStock="+param.isOpenStock;
+	var dalogParam = {
+    	title:"费用选择",
+        href:url,
+        width:680,
+        height:$(window).height()*(2/3),
+        closable:true,
+        resizable:true,
+        onClose:function(){
+        	 $(dalogObj).dialog('destroy');
+        	 dalogObj = null;
+        },
+        modal:true,
+        onLoad:function(){
+        	initCostView();
+            initCostCallBack(callBackHandel)
+        },
+        
+    }
+	
+	if(param.isRadio != 0){
+		dalogParam["buttons"] =[{
+            text:'确定',
+            handler:function(){
+                getCheckCost();
+            }
+        },{
+            text:'取消',
+            handler:function(){
+                $(dalogObj).dialog('destroy');
+                dalogObj = null;
+            }
+        }];
+    }
+	
+	var dalogObj = $('<div/>').dialog(dalogParam);
+	
+    function callBackHandel(data){
+        callback(data);
+        $(dalogObj).panel('destroy');
+    }
+    
+    function getCheckCost(){
+        publicCostGetCheckCost(function(data){
+            if(data.length==0){
+                messager("请选择数据");
+                return;
+            }
+            callback(data);
+            $(dalogObj).panel('destroy');
+        });
+    }
+    
+}
+
+
 //公共组件-公共方法
 //关闭
 function toClose(){
@@ -905,6 +973,13 @@ function GridClass(){
                             case 37: //左键
                                 var field = getLRFiledName('left');
                                 var target = _this.getFieldTarget(field);
+                                while($(target).prop('readonly') || $(target).prop('disabled'))
+                                {
+                                	_this.setSelectFieldName(field);
+                                    field = getLRFiledName('left');
+                                	target = _this.getFieldTarget(field);
+                                }
+                                
                                 if(target){
                                     _this.setFieldFocus(target);
                                     _this.setSelectFieldName(field);
@@ -926,10 +1001,7 @@ function GridClass(){
                                 	//防止快速点击时 二次弹框
                                 	if($("#"+gridName).closest("body").find('div.window-mask').length > 0)return;
                                     var target = _this.getFieldTarget(selectFieldName);
-//                                    var field = getLRFiledName('right');
-//                                    _this.setSelectFieldName(field);
                                     params.enterCallBack($(target).textbox('getValue'));
-                                    //selectGoods();
                                 }else{
                                     var row = _this.getEditRow(gridName,rowIndex);
                                     if(row.length>0&&row[row.length-1].field==selectFieldName){
@@ -947,16 +1019,29 @@ function GridClass(){
                                     }else{
                                         var field = getLRFiledName('right');
                                         var target = _this.getFieldTarget(field);
-                                        if(target){
-                                            _this.setFieldFocus(target);
-                                            _this.setSelectFieldName(field);
+                                        while($(target).prop('readonly') || $(target).prop('disabled'))
+                                        {
+                                        	_this.setSelectFieldName(field);
+                                            field = getLRFiledName('right');
+                                        	target = _this.getFieldTarget(field);
                                         }
+                                        if(target){
+                                    		_this.setFieldFocus(target);
+                                    		_this.setSelectFieldName(field);
+                                        }
+                                        
                                     }
                                 }
                                 break;
                             case 39: //右键
                                 var field = getLRFiledName('right');
                                 var target = _this.getFieldTarget(field);
+                                while($(target).prop('readonly') || $(target).prop('disabled'))
+                                {
+                                	_this.setSelectFieldName(field);
+                                    field = getLRFiledName('right');
+                                	target = _this.getFieldTarget(field);
+                                }
                                 if(target){
                                     _this.setFieldFocus(target);
                                     _this.setSelectFieldName(field);
@@ -1437,7 +1522,7 @@ function gFunFormatData(arrs,config){
  */
 function gFunComparisonArray(arg1,arg2){
     var arr1 = JSON.stringify(arg1);
-    var arr2 = JSON.stringify(arg2)
+    var arr2 = JSON.stringify(arg2);
     return arr1==arr2;
 }
 /**
