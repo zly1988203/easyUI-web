@@ -20,7 +20,8 @@
 					<div class="ub upad-4 umar-l20">
 						<div class="ub ub-ac uw-320">
 							<div class="umar-r10 uw-80 ut-r">机构编号:</div>
-							<input id="id" name="id" type="hidden" value="${branch.id }">
+							<input id="branchId" name="branchId" type="hidden" value="${branchId }">
+							<input id="branchesId" name="branchesId" type="hidden">
 							<input id="branchCode" name="branchCode"
 								class="uinp uinp-no-more uw-200" type="text" readonly="readonly">
 						</div>
@@ -92,7 +93,7 @@
 					<div class="ub upad-4 umar-l20">
 						<div class="ub ub-ac uw-320">
 							<div class="umar-r10 uw-80 ut-r">所属机构:</div>
-							<input id="branchName" name="branchName" type="text"
+							<input id="parentName" name="parentName" type="text"
 								class="uinp uinp-no-more" maxlength="50"
 								readonly="readonly">
 
@@ -136,7 +137,7 @@
 
 						<div class="ub ub-ac uw-320">
 							<div class="umar-r10 uw-80 ut-r">业务专员:</div>
-							<input id="email" name="email" type="text"
+							<input id="salesman" name="salesman" type="text"
 								class="uinp uinp-no-more" maxlength="50"
 								readonly="readonly">
 
@@ -158,14 +159,14 @@
 
 						<div class="ub ub-ac uw-340">
 							<div class="umar-r10 uw-100 ut-r">费用均摊年数:</div>
-							<input id="email" name="email" type="text"
+							<input id="costAvgYear" name="costAvgYear" type="text"
 								class="uinp" maxlength="50">
 
 						</div>
 
 						<div class="ub ub-ac uw-320">
 							<div class="umar-r10 uw-80 ut-r">店铺面积:</div>
-							<input id="email" name="email" type="text"
+							<input id="areaSize" name="areaSize" type="text"
 								class="uinp uinp-no-more" maxlength="50">
 							<span>m*2</span>
 						</div>
@@ -176,9 +177,10 @@
 						<div class="ub ub-ac uw-340">
 							<div class="umar-r10 uw-100 ut-r">线下运营状态:</div>
 							<select class="uselect easyui-combobox" style="width: 204px;"
-								data-options="editable:false" name="status" id="status">
-								<option value="1">运营中</option>
-								<option value="2">已关闭</option>
+								data-options="editable:false" name="offlineStatus" id="offlineStatus">
+								<c:forEach var="i" items="${OfflineStatusList }">
+									<option value="${i.code }">${i.label }</option>
+				               	</c:forEach>
 							</select>
 
 						</div>
@@ -243,7 +245,7 @@
 		style="width: 100%; padding: 10px; display: none;">
 		<div class="ub ub-ac upad-8">
 			<div class="ubtns">
-				<button class="ubtns-item" onclick="saveBranchCost()">保存</button>
+				<button class="ubtns-item" onclick="saveBranch()">保存</button>
 				<button class="ubtns-item" onclick="closeDialogHandel()">关闭</button>
 			</div>
 		</div>

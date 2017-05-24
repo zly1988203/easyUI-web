@@ -51,10 +51,10 @@ function zTreeOnClick(event, treeId, treeNode) {
     gVarBranchId = treeNode.id;
     queryBranch();
 }
-
+var dg;
 function initDatagridBranchList() {
     gridHandel.setGridName(gridName);
-    $("#"+gridName).datagrid({
+    dg = $("#"+gridName).datagrid({
         method:'post',
         align:'center',
         url:contextPath+'/archive/branch/getBranchList',
@@ -64,25 +64,21 @@ function initDatagridBranchList() {
         pageSize:50,
         fit:true,
         columns:[[
-            {field:'branchCode',title:'机构编码',width:100,align:'left',
+            {field:'branchCode',title:'机构编码',width:80,align:'left',
                 formatter: function(value,row,index){
-                    return "<a href='#' onclick=\"editHandel('"+row.branchId+"','"+row.branchCode+"','"+row.branchName+"')\" class='ualine'>"+value+"</a>";
+                    return "<a href='#' onclick=\"editHandel('"+row.branchesId+"')\" class='ualine'>"+value+"</a>";
 
                 }
             },
-            {field:'branchName',title:'机构名称',width:200,align:'left'},
-            {field:'branchTypeStr',title:'机构类型',width:100,align:'left'},
-            {field:'parentBranchName',title:'所属机构',width:200,align:'left'},
-            {field:'offlineStatusStr : String',title:'状态',width:100,align:'left'},
-            {field:'contacts',title:'联系人',width:200,align:'left'},
-            {field:'mobile',title:'联系电话',width:200,align:'left'},
-            {field:'areaSize',title:'店铺面积(m*3)',width:100,align:'left'},
-            {field:'costAvgYear',title:'费用均摊年数',width:200,align:'right'},
-            {field:'createTime',title:'建店时间',width:200,align:'left',
-            	formatter : function(value, rowData, rowIndex) {
-            		return formatDate(value);
-            	}
-            },
+            {field:'branchName',title:'机构名称',width:180,align:'left'},
+            {field:'branchTypeStr',title:'机构类型',width:80,align:'left'},
+            {field:'parentBranchName',title:'所属机构',width:180,align:'left'},
+            {field:'offlineStatusStr',title:'机构状态',width:80,align:'left'},
+            {field:'areaSize',title:'店铺面积(m*2)',width:110,align:'left'},
+            {field:'costAvgYear',title:'费用均摊年数',width:110,align:'right'},
+            {field:'contacts',title:'联系人',width:120,align:'left'},
+            {field:'mobile',title:'联系电话',width:120,align:'left'},
+            {field:'createTimeStr',title:'建店时间',width:150,align:'left'}
         ]],
         onLoadSuccess : function() {
             gridHandel.setDatagridHeader("center");
@@ -93,22 +89,20 @@ function initDatagridBranchList() {
 /**
  * 修改
  */
-function editHandel(branchId,branchCode,branchName){
-    var initData = {
-        branchId:branchId,
-        branchCode:branchCode,
-        branchName:branchName,
-    }
-    openEditBranchDailog();
+function editHandel(branchId){
+    openEditBranchDailog(branchId);
 }
 
 var dialogHeight = $(window).height()*(4/5);
 var dialogWidth = $(window).width()*(5/9);
 var dialogLeft = $(window).width()*(1/5);
 var  editDialogTemp
-function  openEditBranchDailog() {
+function  openEditBranchDailog(branchId) {
     editDialogTemp = $('<div/>').dialog({
         href: contextPath+"/archive/branch/toEdit",
+        queryParams:{
+        	branchId : branchId
+        },
         width: dialogWidth,
         height: dialogHeight,
         left:dialogLeft,
@@ -139,7 +133,7 @@ function queryBranch(){
     var postParams = $.extend(formData,{branchId:gVarBranchId})
     $("#"+gridName).datagrid("options").queryParams = postParams;
     $("#"+gridName).datagrid("options").method = "post";
-    $("#"+gridName).datagrid("options").url =contextPath+'/supplierArea/getSupplierAreaList',
+    $("#"+gridName).datagrid("options").url =contextPath+'/archive/branch/getBranchList',
     $("#"+gridName).datagrid('load');
 }
 
@@ -149,5 +143,35 @@ function editBranch() {
         messager("请选择一条数据!");
         return;
     }
-    openEditBranchDailog();
+    openEditBranchDailog(row.branchesId);
+}
+
+/**
+ * 导出
+ */
+function exportData(){
+	var length = $("#"+gridName).datagrid('getData').rows.length;
+	if(length == 0){
+		successTip("无数据可导");
+		return;
+	}
+	$('#exportWin').window({
+		top:($(window).height()-300) * 0.5,   
+	    left:($(window).width()-500) * 0.5
+	});
+	$("#exportWin").show();
+	$("#totalRows").html(dg.datagrid('getData').total);
+	$("#exportWin").window("open");
+}
+// 调用导出方法
+function exportExcel(){
+	$("#exportWin").hide();
+	$("#exportWin").window("close");
+	$("#formList").form({
+		success : function(result){
+			
+		}
+	});
+	$("#formList").attr("action",contextPath+"/archive/branch/exportHandel");
+	$("#formList").submit();
 }

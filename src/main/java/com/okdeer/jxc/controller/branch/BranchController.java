@@ -6,6 +6,14 @@
  */    
 package com.okdeer.jxc.controller.branch;  
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,13 +21,20 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.okdeer.jxc.branch.entity.BranchCost;
+import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.po.BranchPo;
 import com.okdeer.jxc.branch.qo.BranchQo;
+import com.okdeer.jxc.branch.service.BranchCostService;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.branch.vo.BranchOpVo;
+import com.okdeer.jxc.common.constant.ExportExcelConstant;
+import com.okdeer.jxc.common.enums.OfflineStatusEnum;
 import com.okdeer.jxc.common.result.RespJson;
+import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.StringUtils;
+import com.okdeer.jxc.common.utils.gson.GsonUtils;
 import com.okdeer.jxc.controller.BaseController;
 
 
@@ -42,19 +57,53 @@ public class BranchController extends BaseController<BranchController> {
 	@Reference(version = "1.0.0", check = false)
 	private BranchesServiceApi branchesService;
 	
+	@Reference(version = "1.0.0", check = false)
+	private BranchCostService branchCostService;
+	
 	@RequestMapping(value = "toManager")
 	public ModelAndView toManager() {
-		return new ModelAndView("archive/branch/branchList");
-	}
-	
-	@RequestMapping(value = "toAdd")
-	public ModelAndView toAdd() {
-		return new ModelAndView("archive/branch/branchEdit");
+		ModelAndView mv = new ModelAndView("archive/branch/branchList");
+		mv.addObject("OfflineStatusList", OfflineStatusEnum.values());
+		mv.addObject("branchTypeList", super.getCurrTypeList());
+		return mv;
 	}
 	
 	@RequestMapping(value = "toEdit")
-	public ModelAndView toEdit() {
-		return new ModelAndView("archive/branch/branchEdit");
+	public ModelAndView toEdit(String branchId) {
+		ModelAndView mv = new ModelAndView("archive/branch/branchEdit");
+		mv.addObject("branchId", branchId);
+		mv.addObject("OfflineStatusList", OfflineStatusEnum.values());
+		return mv;
+	}
+	
+	@RequestMapping(value = "getBranchInfoById")
+	public RespJson getBranchInfoById(String branchId) {
+		if(StringUtils.isBlank(branchId)){
+			return RespJson.error("机构id为空");
+		}
+		
+		LOG.debug("机构Id：", branchId);
+		try {
+			Branches branch = branchesService.getBranchInfoById(branchId);
+			
+			// 机构固定费用信息
+			List<BranchCost> decorateCostList = branchCostService.getDecorateCostForPage(branchId);
+			List<BranchCost> deviceCostList = branchCostService.getDeviceCostForPage(branchId);
+			List<BranchCost> amortizeCostList = branchCostService.getAmortizeCostForPage(branchId);
+			
+			Map<String, Object> data = new HashMap<String, Object>();
+			data.put("branch", branch);
+			data.put("decorateCostList", decorateCostList);
+			data.put("deviceCostList", deviceCostList);
+			data.put("amortizeCostList", amortizeCostList);
+			
+			RespJson respJson = RespJson.success(data);
+			return respJson;
+		} catch (Exception e) {
+			LOG.error("获取机构详情错误：", e);
+		}
+		
+		return RespJson.error();
 	}
 	
 	/**
@@ -92,6 +141,7 @@ public class BranchController extends BaseController<BranchController> {
 		
 		qo.setPageNumber(pageNumber);
 		qo.setPageSize(pageSize);
+		qo.setBranchCompleCode(super.getCurrBranchCompleCode());
 		LOG.debug("查询机构条件：{}", qo);
 		
 		try {
@@ -111,16 +161,51 @@ public class BranchController extends BaseController<BranchController> {
 	 * @date 2017年5月23日
 	 */
 	@RequestMapping(value = "updateBranch", method = RequestMethod.POST)
-	public RespJson updateBranch(BranchOpVo vo){
-		LOG.debug("修改机构信息参数：{}", vo);
+	public RespJson updateBranch(@RequestBody String jsonText){
+		LOG.debug("修改机构信息参数：{}", jsonText);
 		try {
 			
+			BranchOpVo vo = GsonUtils.fromJson(jsonText, BranchOpVo.class);
 			vo.setUserId(super.getCurrUserId()); 	// 当前用户Id
 			
 			return branchesService.updateBranchInfo(vo);
 			
 		} catch (Exception e) {
 			LOG.error("修改机构信息失败：", e);
+		}
+		return RespJson.error();
+	}
+	
+	@RequestMapping(value = "exportHandel", method = RequestMethod.POST)
+	public RespJson exportHandel(BranchQo qo, HttpServletResponse response) {
+		try {
+			// 添加过滤条件
+			qo.setBranchCompleCode(super.getCurrBranchCompleCode());
+			
+			LOG.debug("查询机构条件：{}", qo);
+			
+			List<BranchPo> list = branchesService.getBranchListForExport(qo);
+			
+			if(CollectionUtils.isEmpty(list)){
+				return RespJson.error("无数据可导");
+			}
+			
+			if (list.size() > ExportExcelConstant.EXPORT_MAX_SIZE) {
+				return RespJson.error("最多只能导出" + ExportExcelConstant.EXPORT_MAX_SIZE + "条数据");
+			}
+
+			// 导出文件名称，不包括后缀名
+			String fileName = "机构信息列表" + "_" + DateUtils.getCurrSmallStr();
+			
+			// 模板名称，包括后缀名
+			String templateName = ExportExcelConstant.BRANCH_EXPORT_TEMPLATE;
+
+			// 导出Excel
+			exportListForXLSX(response, list, fileName, templateName);
+			return null;
+			
+		} catch (Exception e) {
+			LOG.error("导出机构信息失败", e);
 		}
 		return RespJson.error();
 	}
