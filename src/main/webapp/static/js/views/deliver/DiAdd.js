@@ -570,13 +570,15 @@ function saveOrder(){
     	}
     	reqObj.deliverFormListVo[i] = temp;
 	});
-    
+
+    gFunStartLoading();
     $.ajax({
         url:contextPath+"/form/deliverForm/insertDeliverForm",
         type:"POST",
         contentType:"application/json",
         data:JSON.stringify(reqObj),
         success:function(result){
+            gFunEndLoading();
             if(result['code'] == 0){
                 $.messager.alert("操作提示", "操作成功！", "info",function(){
                 	location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
@@ -586,6 +588,7 @@ function saveOrder(){
             }
         },
         error:function(result){
+            gFunEndLoading();
             successTip("请求发送失败或服务器处理失败");
         }
     });
@@ -596,6 +599,7 @@ function check(){
 	var deliverFormId = $("#formId").val();
 	$.messager.confirm('提示','是否审核通过？',function(data){
 		if(data){
+			gFunStartLoading();
 			$.ajax({
 		    	url : contextPath+"/form/deliverForm/check",
 		    	type : "POST",
@@ -604,6 +608,7 @@ function check(){
 		    		deliverType : 'DI'
 		    	},
 		    	success:function(result){
+		    		gFunEndLoading();
 		    		if(result['code'] == 0){
 		    			$.messager.alert("操作提示", "操作成功！", "info",function(){
 		    				contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + deliverFormId;
@@ -613,6 +618,7 @@ function check(){
 		    		}
 		    	},
 		    	error:function(result){
+                    gFunEndLoading();
 		    		successTip("请求发送失败或服务器处理失败");
 		    	}
 		    });
