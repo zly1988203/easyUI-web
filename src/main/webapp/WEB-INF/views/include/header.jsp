@@ -46,13 +46,6 @@
 
 
 <script>
-
-/* $(function(){
-	$(document).ajaxSend(function(event,xhr,options,exc){
-		var sts = new Date().getTime();
-		options.url = options.url ? (options.url.indexOf('?')>-1 ? options.url + '&_t='+ sts : options.url + '?_t='+sts):options.url
-	})
-}) */
 	 
 /* $(function(){
    //实现对字符码的截获，keypress中屏蔽了这些功能按键

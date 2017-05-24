@@ -43,7 +43,7 @@ function initTreeFinance() {
 //选择树节点
 function zTreeOnClick(event, treeId, treeNode) {
     gVarBranchId = treeNode.id;
-    queryBranch();
+    queryFinanceCode();
 }
 
 function initGridFinanceList() {
@@ -52,7 +52,7 @@ function initGridFinanceList() {
         method:'post',
         align:'center',
         url:contextPath+'/supplier/getSupplierList',
-        singleSelect:true,  //单选  false多选
+        singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
         pagination:true,    //分页
         pageSize:50,
@@ -69,7 +69,7 @@ var editDialogTemp = null;
 function addFinanceCode() {
     editDialogTemp = $('<div/>').dialog({
         href: contextPath+"/archive/financeCode/toEdit",
-        width: 500,
+        width: 400,
         height: 400,
         title: "财务代码新增",
         closable: true,
@@ -109,4 +109,36 @@ function delFinanceCode() {
         messager('请勾选数据！');
         return;
     }
+
+    var formIds='';
+    $.each(rows,function(i,v){
+        formIds+=v.id+",";
+    });
+
+    $.messager.confirm('提示','是否要删除选中数据',function(data){
+        if(data){
+            gFunStartLoading();
+            $.ajax({
+                url:contextPath+"/form/purchase/delete",
+                type:"POST",
+                data:{
+                    formIds:formIds
+                },
+                success:function(result){
+                    gFunEndLoading();
+                    if(result['code'] == 0){
+                        successTip("删除成功");
+                    }else{
+                        successTip(result['message']);
+                    }
+                    $("#"+gridName).datagrid('reload');
+                },
+                error:function(result){
+                    gFunEndLoading();
+                    successTip("请求发送失败或服务器处理失败");
+                }
+            });
+        }
+    });
+
 }

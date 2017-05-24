@@ -9,7 +9,7 @@
 <title>一卡通设置</title>
 
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="${ctx}/static/js/views/finance/iccard/iccardSetting.js?v=5"></script>
+<script src="${ctx}/static/js/views/finance/iccard/iccardSetting.js?v=2"></script>
 
 <style>
 .datagrid-header .datagrid-cell {
@@ -52,7 +52,7 @@
 					<div class="ub ub-ac">
 						<div class="umar-r10 uw-100 ut-r">账户保底金额:</div>
 						<input class="uinp ub ub-f1" type="text" id="financeCode"
-							name="financeCode" value="${financeFormVo.financeCode}"
+							name="financeCode"
 							maxlength="50" />
 					</div>
 				</div>

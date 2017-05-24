@@ -11,14 +11,14 @@ function getShopInfo() {
 
 }
 function changeBalance() {
-    var oldBalance = $('#oldBalance').numberbox('getValue');
-    var addBalance = $('#addBalance').numberbox('getValue');
+    var oldBalance = parseFloat($('#oldBalance').numberbox('getValue'));
+    var addBalance = parseFloat($('#addBalance').numberbox('getValue'));
     if(addBalance <= 0.00){
         messager("充值金额要大于0");
-        $("#savebtn").prop("disabled","disabled");
+        $("#saveBtn").prop("disabled","disabled");
         return;
     }else{
-        $("#savebtn").removeProp("disabled");
+        $("#saveBtn").removeProp("disabled");
     }
     $("#cardRecharge #newBalance").numberbox("setValue",(oldBalance+addBalance));
 }

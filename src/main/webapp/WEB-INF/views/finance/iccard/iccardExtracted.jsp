@@ -6,7 +6,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
-
 <script src="${ctx}/static/js/views/finance/iccard/icCardExtracted.js?V=1"></script>
 
 <div class="ub ub-ver  ub-f1  uw uh ufs-14 uc-black">
