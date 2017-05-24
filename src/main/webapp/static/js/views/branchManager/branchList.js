@@ -19,7 +19,7 @@ $(function(){
  */
 function initTreeArchives(){
     var args = {};
-    var httpUrl = contextPath+"/supplier/getBranchSupplierAreaToTree";
+    var httpUrl = contextPath+"/archive/branch/getBranchAreaToTree";
     $.get(httpUrl, args,function(data){
         var setting = {
             data: {
@@ -57,29 +57,32 @@ function initDatagridBranchList() {
     $("#"+gridName).datagrid({
         method:'post',
         align:'center',
-        url:contextPath+'/supplier/getSupplierList',
+        url:contextPath+'/archive/branch/getBranchList',
         singleSelect:true,  //单选  false多选
         rownumbers:true,    //序号
         pagination:true,    //分页
         pageSize:50,
         fit:true,
         columns:[[
-            {field:'branchCode',title:'机构编号',width:100,align:'left',
+            {field:'branchCode',title:'机构编码',width:100,align:'left',
                 formatter: function(value,row,index){
                     return "<a href='#' onclick=\"editHandel('"+row.branchId+"','"+row.branchCode+"','"+row.branchName+"')\" class='ualine'>"+value+"</a>";
 
                 }
             },
             {field:'branchName',title:'机构名称',width:200,align:'left'},
-            {field:'branchType',title:'机构类型',width:100,align:'left'},
-            {field:'branchName',title:'所属机构',width:200,align:'left'},
-            {field:'branchName',title:'状态',width:100,align:'left'},
-            {field:'branchName',title:'联系人',width:200,align:'left'},
-            {field:'branchName',title:'联系电话',width:200,align:'left'},
-            {field:'branchName',title:'固定电话',width:200,align:'left'},
-            {field:'branchName',title:'店铺面积(m*3)',width:100,align:'left'},
-            {field:'branchName',title:'费用均摊年数',width:200,align:'right'},
-            {field:'branchName',title:'建店时间',width:200,align:'left'},
+            {field:'branchTypeStr',title:'机构类型',width:100,align:'left'},
+            {field:'parentBranchName',title:'所属机构',width:200,align:'left'},
+            {field:'offlineStatusStr : String',title:'状态',width:100,align:'left'},
+            {field:'contacts',title:'联系人',width:200,align:'left'},
+            {field:'mobile',title:'联系电话',width:200,align:'left'},
+            {field:'areaSize',title:'店铺面积(m*3)',width:100,align:'left'},
+            {field:'costAvgYear',title:'费用均摊年数',width:200,align:'right'},
+            {field:'createTime',title:'建店时间',width:200,align:'left',
+            	formatter : function(value, rowData, rowIndex) {
+            		return formatDate(value);
+            	}
+            },
         ]],
         onLoadSuccess : function() {
             gridHandel.setDatagridHeader("center");
