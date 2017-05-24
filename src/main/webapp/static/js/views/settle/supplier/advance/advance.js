@@ -3,25 +3,26 @@
  * 供应商预付款-新增 修改
  */
 
-
+//默认数据
 var gridDefault = {
-	    costPrice:0,
-	}
+		amount:0,
+		io:-1
+}
 //列表数据查询url
 var url = "";
 var oldData = {};
 var gridName = "supplierAdvMoneyListAdd";
-var superAvdStatus;
+var pageStatus;
 var editRowData = null;
 var targetBranchId;
 
 
 $(function(){
-    superAvdStatus = $('#supplierAdvMoneyStatus').val();
-	if(superAvdStatus === 'add'){
+    pageStatus = $('#supplierAdvMoneyStatus').val();
+	if(pageStatus === 'add'){
 		  $("#payMoneyTime").val(new Date().format('yyyy-MM-dd')); 
-		  initSupAdvMonAdd();
-	}else if(superAvdStatus === 'edit'){
+		  $('#createTime').text(new Date().format('yyyy-MM-dd'))
+	}else if(pageStatus === 'edit'){
 		var formId = $("#formId").val();
 		url = contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverFormId="+formId+"&deliverType=DA";
 		oldData = {
@@ -29,9 +30,8 @@ $(function(){
 		        remark:$("#remark").val(),                  // 备注
 		        formNo:$("#formNo").val(),                 // 单号
 		}
-		initSupAdvMonAdd();
-	    
 	}
+	initSupAdvMonAdd();
 })
 
 $(document).on('input','#remark',function(){
@@ -65,18 +65,18 @@ var gridHandel = new GridClass();
 function initSupAdvMonAdd(){
     gridHandel.setGridName(gridName);
     gridHandel.initKey({
-        firstName:'costNo',
-        enterName:'costNo',
+        firstName:'value',
+        enterName:'value',
         enterCallBack:function(arg){
             if(arg&&arg=="add"){
                 gridHandel.addRow(parseInt(gridHandel.getSelectRowIndex())+1,gridDefault);
                 setTimeout(function(){
                     gridHandel.setBeginRow(gridHandel.getSelectRowIndex()+1);
-                    gridHandel.setSelectFieldName("costNo");
-                    gridHandel.setFieldFocus(gridHandel.getFieldTarget('costNo'));
+                    gridHandel.setSelectFieldName("io");
+                    gridHandel.setFieldFocus(gridHandel.getFieldTarget('io'));
                 },100)
             }else{
-                selectGoods(arg);
+            	selectCharge(arg);
             }
         },
     })
@@ -91,7 +91,6 @@ function initSupAdvMonAdd(){
         height:"100%",
         width:'100%',
         columns:[[
-			{field:'ck',checkbox:true},
 			{field:'cz',title:'操作',width:'60px',align:'center',
 			    formatter : function(value, row,index) {
 			        var str = "";
@@ -104,17 +103,15 @@ function initSupAdvMonAdd(){
 			        return str;
 			    }
 			},
-            {field:'rowNo',hidden:'true'},
-            {field:'costNo',title:'编号',width: '100px',align:'left',editor:'textbox'},
-            {field:'costName',title:'名称',width:'200px',align:'left'},
-            {field:'costType',title:'收支方式',width:'80px',align:'left',
+            {field:'id',hidden:'true'},
+            {field:'value',title:'编号',width: '100px',align:'left',editor:'textbox'},
+            {field:'label',title:'名称',width:'200px',align:'left'},
+            {field:'io',title:'收支方式',width:'80px',align:'left',
             	formatter:function(value,row){
             		if(row.isFooter){
             			return "";
             		}
-            		value = 1;
-            		row.costType = 1;
-                    return value=='1'?'支出':(value=='0'?'收入':'请选择');
+                    return value=='-1'?'支出':(value=='1'?'收入':'请选择');
                 },
                 editor:{
                     type:'combobox',
@@ -124,34 +121,31 @@ function initSupAdvMonAdd(){
                         editable:false,
 //                        required:true,
                         data: [{
-                            "id":'1',
+                            "id":'-1',
                             "text":"支出",
                         },{
-                            "id":'0',
+                            "id":'1',
                             "text":"收入",
                         }],
-//                        onSelect:onSelect
+                        onSelect:onSelect
                     }
                 }
             },
-
             {field:'amount',title:'费用金额',width:'100px',align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                     }
-
                     if(!row.amount){
-                    	row.amount = parseFloat(value||0).toFixed(2);
+                    	row.amount = parseFloat(value||0).toFixed(4);
                     }
-                    
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
                 editor:{
                     type:'numberbox',
                     options:{
 //                        disabled:true,
-                        min:0,
+//                        min:0,
                         precision:4,
                         onChange: onChangeAmount,
                     }
@@ -166,12 +160,12 @@ function initSupAdvMonAdd(){
             if(target){
                 gridHandel.setFieldFocus(target);
             }else{
-                gridHandel.setSelectFieldName("costNo");
+                gridHandel.setSelectFieldName("value");
             }
         },
         
         onLoadSuccess:function(data){
-        	if(superAvdStatus==='edit'){
+        	if(pageStatus==='edit'){
                 if(!oldData["grid"]){
                 	oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
                         return $.extend(true,{},obj);//返回对象的深拷贝
@@ -184,13 +178,32 @@ function initSupAdvMonAdd(){
         },
     });
     
-    if(superAvdStatus==='add'){
+    if(pageStatus==='add'){
     	 gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
     	                         $.extend({},gridDefault),$.extend({},gridDefault)]);
     }
 }
 
+var editFlag = 'numberbox';
+
+//选择收支方式
+function onSelect(data){
+	editFlag = 'select';
+	var _io = parseFloat(data.id);
+	var _amount = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'amount');
+	gridHandel.setFieldsData({io:_io});
+	gridHandel.setFieldValue('amount',(parseFloat(_amount)*-1).toFixed(4));
+	
+}
+
+//编辑金额
 function onChangeAmount(vewV,oldV){
+	var _io = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'io');
+	//支出
+	if((_io == -1 && parseFloat(vewV) > 0) || (_io == 1 && vewV < 0) ){
+		gridHandel.setFieldValue('amount',parseFloat(vewV*-1).toFixed(4));  
+		return;
+	}
 	updateFooter()
 }
 //合计
@@ -217,7 +230,65 @@ function delLineHandel(event){
 
 //保存
 function saveSupAdvMonOrder(){
+	$("#"+gridName).datagrid("endEdit", gridHandel.getSelectRowIndex());
+	var branchId = $('#targetBranchId').val();
+    if(!$.trim(branchId)){
+    	$_jxc.alert('请选择机构!');
+    	return;
+    }
+    var payTime = $('#payMoneyTime').val();
+    if(!payTime){
+    	$_jxc.alert('付款日期不能为空');
+    	return;
+    }
+    var supplierId = $('#supplierId').val();
+    if(!supplierId){
+    	$_jxc.alert('请选择供应商!');
+    	return;
+    }
+    var rows = gridHandel.getRowsWhere({label:'1'});
+    if(rows.length==0){
+    	$_jxc.alert("表格不能为空");
+        return;
+    }
     
+    var footRow = gridHandel.getFooterRow();
+    if(footRow.length > 0 && footRow[0].amount <=0 ){
+    	$_jxc.alert("合计该单据不能为零，请修改。");
+    	return;
+    }
+    
+    var _rows = [];
+    $.each(rows,function(i,data){
+    	_rows.push({
+    		id:data.id,
+    		io:data.io,
+    		amount:data.amount,
+    		remark:data.remark
+    	})
+    })
+    
+    var reqObj = {
+    	branchId:branchId||'',
+    	payTime:payTime||'',
+    	supplierId:supplierId||'',
+    	remark:$('remark').val()||'',
+    	rows:_rows
+    }
+    
+    console.log('reqObj',reqObj);
+    alert('可以提交了！')
+    return;
+//    $_jxc.ajax({
+//    	url:contextPath+"/form/deliverForm/insertDeliverForm",
+//        type:"POST",
+//        contentType:"application/json",
+//        data:JSON.stringify(reqObj),
+//        success:function(result){
+//        	
+//        }
+//    })
+	
 }
 
 //审核
@@ -324,6 +395,18 @@ function selectCharge(searchKey){
 	};
 	publicCostService(param,function(data){
 		console.log('data',data);
+		var nowRows = gridHandel.getRowsWhere({label:'1'});
+		var addDefaultData = gridHandel.addDefault(data,gridDefault);
+		var keyNames = {};
+		var rows = gFunUpdateKey(addDefaultData,keyNames);
+		var newRows = gridHandel.checkDatagrid(nowRows,rows,{},{});
+		$("#"+gridName).datagrid("loadData",newRows);
+		gridHandel.setLoadFocus();
+		setTimeout(function(){
+	        gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
+	        gridHandel.setSelectFieldName("io");
+	        gridHandel.setFieldFocus(gridHandel.getFieldTarget('io'));
+	    },100)
 	});
 }
 
