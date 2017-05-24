@@ -39,7 +39,7 @@
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-60 ut-r">机&nbsp;&nbsp;构:</div>
 					<input type="hidden" id="branchId" name="branchId" /> <input
-						type="hidden" id="branchCompleCode" name="branchCompleCode" /> <input
+						type="hidden" id="branchCompleCode" name="branchCompleCode" readonly="readonly"/> <input
 						type="hidden" id="oldBranchName"> <input
 						class="uinp ub ub-f1" type="text" id="branchName"
 						name="branchName" maxlength="50" />
@@ -49,10 +49,10 @@
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-60 ut-r">店铺类型:</div>
 					<select class="uselect easyui-combobox" style="width: 204px;"
-						data-options="editable:false" name="shopType" id="shopType">
+						data-options="editable:false" name="type" id="type">
 						<option value="">--请选择--</option>
-						<option value="1">直营店</option>
-						<option value="2">加盟店</option>
+						<option value="3">自营店</option>
+						<option value="4">加盟店</option>
 					</select>
 				</div>
 			</div>
