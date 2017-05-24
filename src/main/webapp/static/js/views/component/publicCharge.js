@@ -2,6 +2,7 @@ function initChargeView(){
     gFunSetEnterKey(chargeSearch);
     initDatagridChargeSelect();
 }
+
 var brandCallBack ;
 //初始化回调函数
 function initChargeCallBack(cb){
@@ -25,7 +26,10 @@ function initDatagridChargeSelect(){
         method:'post',
         align:'center',
         url:contextPath+'/common/chargeSelect/getChargeComponentList',
-        singleSelect:true,  //单选  false多选
+        queryParams:{
+        	type:$('#type').val()||''
+        },
+        singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
         pagination:true,    //分页
         fitColumns:true,    //每列占满
@@ -33,13 +37,21 @@ function initDatagridChargeSelect(){
         height:'100%',
         width:'100%',
         columns:[[
+            {field:'cz',checkbox:true}, 
             {field:'id',title:'id',width:100,align:'left',hidden:true},
             {field:'value',title:'编号',width:100,align:'center'},
             {field:'label',title:'名称',width:100,align:'center'},
         ]],
-//        onLoadSuccess:function(data){
-//        	 $('.datagrid-header').find('div.datagrid-cell').css('text-align','center');
-//        },
-        onClickRow:brandClickRow,
+        onLoadSuccess:function(data){
+        	 $('.datagrid-header').find('div.datagrid-cell').css('text-align','center');
+        	 $(this).datagrid('resize',{height:$('#zrea').height()+'px'})
+        },
+//        onClickRow:brandClickRow,
     });
+}
+
+
+function publicCostGetCheckCost(cb){
+    var row =  $("#chargeSelectList").datagrid("getChecked");
+    cb(row);
 }

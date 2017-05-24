@@ -21,7 +21,7 @@
                 <div class="ubtns-item" onclick="saveSupAdvMonOrder()">保存</div>
                 <div class="ubtns-item-disabled">审核</div>
                 <div class="ubtns-item" onclick="selectCharge()">费用选择</div>
-                <div class="ubtns-item" onclick="delSupAdvMonForm()" >删除</div>
+                <div class="ubtns-item-disabled" >删除</div>
                 <div class="ubtns-item-disabled" >导出明细</div>
                 <div class="ubtns-item-disabled" >打印</div>
                 <div class="ubtns-item" onclick="toClose()">关闭</div>
@@ -79,7 +79,7 @@
            <div class="ub umar-t8">
                <div class="ub ub-ac uw-600">
                    <div class="umar-r10 uw-70 ut-r">备注:</div>
-                	<input class="uinp ub ub-f1" type="text" id="remark"  name="remark">
+                	<input class="uinp ub ub-f1" type="text" id="remark" maxLength='20'  name="remark">
                </div>
                <div class="ub ub-ac umar-l40">
                    <div class="umar-r10 uw-70 ut-r">审核人员:</div>
