@@ -48,7 +48,7 @@
 
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-60 ut-r">店铺类型:</div>
-					<select class="uselect easyui-combobox" style="width: 204px;"
+					<select class="uselect easyui-combobox uw-204"
 						data-options="editable:false" name="shopType" id="shopType">
 						<option value="">--请选择--</option>
 						<option value="1">直营店</option>

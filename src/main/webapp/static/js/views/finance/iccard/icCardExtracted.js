@@ -13,15 +13,15 @@ function setData(data) {
 }
 
 function changeBalance() {
-    var oldBalance = $('#oldBalance').numberbox('getValue');
-    var extractBalance = $('#extractBalance').numberbox('getValue');
+    var oldBalance = parseFloat($('#oldBalance').numberbox('getValue'));
+    var extractBalance = parseFloat($('#extractBalance').numberbox('getValue'));
 
     if(extractBalance > oldBalance){
         messager("提取金额不能大于余额");
-        $("#savebtn").prop("disabled","disabled");
+        $("#saveBtn").prop("disabled","disabled");
         return;
     }else{
-        $("#savebtn").removeProp("disabled");
+        $("#saveBtn").removeProp("disabled");
     }
     $("#cardExtracted #newBalance").numberbox("setValue",(oldBalance-extractBalance));
 }
