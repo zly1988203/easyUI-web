@@ -596,4 +596,13 @@ public interface ExportExcelConstant {
 	
 	/*** 偶数特价活动商品引入条码导入模板  */
 	String ACTIVITY_EVEN_GOODS_BARCODE_TEMPLATE = "activityEvenGoodsBarCodeTemplate.xlsx";
+	
+	/**
+	 * 一开通交易明细
+	 */
+	String ICC_CARD_TRADING_DETAIL = "iccCardTradingDetail.xlsx" ;
+	/**
+	 * 一卡通交易汇总
+	 */
+	String ICC_CARD_SUM_TRADING_DETAIL = "iccCardSumTradingDetail.xlsx";
 }

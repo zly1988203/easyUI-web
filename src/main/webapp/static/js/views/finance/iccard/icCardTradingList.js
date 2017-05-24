@@ -30,35 +30,67 @@ function getFiledList() {
     if($('#queryType').val() === "1"){
         return [[
             {field: 'branchCode', title: '店铺编号', width: 100, align: 'left'},
-            {field: 'branchName', title: '店铺编号', width: 180, align: 'left'},
-            {field: 'batchNo', title: '业务单号', width: 180, align: 'left'},
-            {field: 'batchNo', title: '卡号', width: 180, align: 'left'},
-            {field: 'batchNo', title: '业务类型', width: 80, align: 'left',
+            {field: 'branchName', title: '店铺名称', width: 180, align: 'left'},
+            {field: 'orderNo', title: '业务单号', width: 180, align: 'left'},
+            {field: 'icCardNo', title: '卡号', width: 180, align: 'left'},
+            {field: 'saleType', title: '业务类型', width: 80, align: 'left',
                 formatter:function(value,row,index){
-                    if(value == '1'){
+                    if(value == 'C'){
                         return '充值';
-                    }else if(value == '2'){
+                    }else if(value == 'A'){
                         return '消费';
-                    }else if(value == '3'){
+                    }else if(value == 'D'){
                         return '售卡';
                     }else{
                         return '退货';
                     }
                 }
             },
-            {field: 'batchNo', title: '金额', width: 100, align: 'right'},
-            {field: 'batchNo', title: '时间', width: 180, align: 'left'},
-            {field: 'batchNo', title: '收银员', width: 80, align: 'left'},
+            {field: 'amount', title: '金额', width: 100, align: 'right',formatter : function(value, row, index) {
+				if(row.isFooter){
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				}
+				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+			}},
+            {field: 'createTime', title: '时间', width: 180, align: 'left',formatter:function(value,row,index){
+            	return new Date(value).format("yyyy-MM-dd hh:mm:ss");
+            }},
+            {field: 'operatorUserName', title: '收银员', width: 80, align: 'left'},
         ]]
     }else{
         return [[
             {field: 'branchCode', title: '店铺编号', width: 100, align: 'left'},
             {field: 'branchName', title: '店铺编号', width: 180, align: 'left'},
-            {field: 'batchNo', title: '售卡合计', width: 120, align: 'right'},
-            {field: 'batchNo', title: '充值合计', width: 120, align: 'right'},
-            {field: 'batchNo', title: '消费合计', width: 120, align: 'right'},
-            {field: 'batchNo', title: '退货合计', width: 120, align: 'right'},
-            {field: 'batchNo', title: '合计', width: 120, align: 'right'},
+            {field: 'sumSelling', title: '售卡合计', width: 120, align: 'right',formatter : function(value, row, index) {
+				if(row.isFooter){
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				}
+				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+			}},
+            {field: 'sumRecharge', title: '充值合计', width: 120, align: 'right',formatter : function(value, row, index) {
+				if(row.isFooter){
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				}
+				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+			}},
+            {field: 'sumConsume', title: '消费合计', width: 120, align: 'right',formatter : function(value, row, index) {
+				if(row.isFooter){
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				}
+				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+			}},
+            {field: 'sumRefund', title: '退货合计', width: 120, align: 'right',formatter : function(value, row, index) {
+				if(row.isFooter){
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				}
+				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+			}},
+            {field: 'sumData', title: '合计', width: 120, align: 'right',formatter : function(value, row, index) {
+				if(row.isFooter){
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				}
+				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+			}},
         ]]
     }
 }
@@ -88,7 +120,7 @@ function initGridCardTrading() {
 function query() {
     $("#"+gridName).datagrid("options").queryParams = $("#queryForm").serializeObject();
     $("#"+gridName).datagrid("options").method = "post";
-    $("#"+gridName).datagrid("options").url = contextPath+'/form/purchase/listData';
+    $("#"+gridName).datagrid("options").url = contextPath+'/iccard/trading/list';
     $("#"+gridName).datagrid("load");
 }
 
@@ -113,3 +145,38 @@ function selectOperator(){
         $("#salesmanName").val(data.userName);
     });
 }
+
+function exportData(){
+	var length = $('#gridCardTrading').datagrid('getData').total;
+	if(length == 0){
+		successTip("无数据可导");
+		return;
+	}
+	var queryParams =  urlEncode($("#queryForm").serializeObject());
+	window.location.href = contextPath + '/iccard/trading/exports?params='+queryParams;
+}
+
+var toPrint = function(){
+	var length = $('#gridCardTrading').datagrid('getData').total;
+	if(length == 0){
+		successTip("无数据可打印");
+		return;
+	}
+	var queryParams =  urlEncode($("#queryForm").serializeObject());
+	parent.addTabPrint("reportPrint"+new Date().getTime(),"打印",contextPath+"/iccard/trading/report/print?params="+queryParams);
+}
+
+var urlEncode = function (param, key, encode) {
+	  if(param==null) return '';
+	  var paramStr = '';
+	  var t = typeof (param);
+	  if (t == 'string' || t == 'number' || t == 'boolean') {
+	    paramStr += '&' + key + '=' + ((encode==null||encode) ? encodeURIComponent(param) : param);
+	  } else {
+	    for (var i in param) {
+	      var k = key == null ? i : key + (param instanceof Array ? '[' + i + ']' : '.' + i);
+	      paramStr += urlEncode(param[i], k, encode);
+	    }
+	  }
+	  return paramStr;
+	};

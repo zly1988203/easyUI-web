@@ -1,4 +1,3 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -9,14 +8,14 @@
 <title>机构信息</title>
 
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="/static/js/views/branchManager/branchList.js"></script>
+	<c:set var="ctx" value="${pageContext.request.contextPath}"/>
+<script src="${ctx}/static/js/views/financeCode/financeList.js?V=2"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
-	<div class="ub ub-ver ub-f1 umar-4 upad-4">
+	<div class="ub ub-f1 umar-4 upad-4">
 		<!--left-->
-		<div class="ub ub-ver ubor">
-			<div class="ubor-b "></div>
-			<div class="ub upad-4 ub-f1 uscroll" style="min-width: 240px">
+		<div class="ub ub-ver ubor uw-240" >
+			<div class="ub upad-4 ub-f1 uscroll">
 				<div class="zTreeDemoBackground left">
 					<ul id="treefinances" class="ztree"></ul>
 				</div>
@@ -27,14 +26,14 @@
 		<div class="ub ub-ver ub-f1 upad-4">
 			<div class="ub ub-ac">
 				<div class="ubtns">
-					<div class="ubtns-item" onclick="query()">查询</div>
-					<div class="ubtns-item" onclick="addFinance()">新增</div>
-					<div class="ubtns-item" onclick="delFinance()">删除</div>
-					<div class="ubtns-item" onclick="exportList()">导出</div>
-					<div class="ubtns-item" onclick="toClose()">退出</div>
+					<div class="ubtns-item" onclick="queryFinanceCode()">查询</div>
+					<div class="ubtns-item" onclick="addFinanceCode()">新增</div>
+					<div class="ubtns-item" onclick="delFinanceCode()">删除</div>
+					<div class="ubtns-item-disabled">导出</div>
+					<div class="ubtns-item" onclick="toClose()">关闭</div>
 				</div>
 			</div>
-			<form action="" id="formList" method="post">
+			<form action="" id="formFinanceList" method="post">
 				<div class="ub umar-t4">
 					<div class="ub ub-ac umar-r10">
 						<div class="umar-r10 ut-r">关键字:</div>

@@ -80,6 +80,7 @@
 				            <option value="0">APP</option>
 				            <option value="1">微信</option>
 				            <option value="2">POS</option>
+				            <option value="3">扫码购</option>
 				        </select>
                 </div> 
                   <!--  <div class="ub ub-ac uselectw  umar-l20">

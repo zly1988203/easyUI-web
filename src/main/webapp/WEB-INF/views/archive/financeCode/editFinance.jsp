@@ -7,14 +7,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
-
-<%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="/static/js/views/purchase/orderAdd.js?V="></script>
+<script src="${ctx}/static/js/views/financeCode/editFinance.js?V=1"></script>
 
 <div class="ub ub-ver  ub-f1  uw uh ufs-14 uc-black">
 	<div class="ub ub-ac upad-4">
 		<div class="ubtns">
-			<button class="ubtns-item" onclick="save()" id="saveBtn">保存</button>
+			<button class="ubtns-item" onclick="saveFinanceCode()" id="saveBtn">保存</button>
 			<button class="ubtns-item" onclick="closeDialog()">关闭</button>
 		</div>
 	</div>
@@ -25,8 +23,7 @@
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">编号:</div>
 					<input class="uinp ub ub-f1" type="text" id="financeCode"
-						name="financeCode" value="${financeFormVo.financeCode}"
-						maxlength="50" />
+						name="financeCode" maxlength="50" />
 				</div>
 			</div>
 
@@ -34,8 +31,7 @@
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">名称:</div>
 					<input class="uinp ub ub-f1" type="text" id="financeName"
-						name="financeName" value="${financeFormVo.financeName}"
-						maxlength="50" />
+						name="financeName" maxlength="50" />
 				</div>
 			</div>
 
@@ -44,8 +40,7 @@
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">备注:</div>
 					<input class="uinp ub ub-f1" type="text" id="description"
-						name="description" value="${financeFormVo.description}"
-						maxlength="50" />
+						name="description" maxlength="50" />
 				</div>
 			</div>
 		</div>
