@@ -9,6 +9,7 @@
 <title>一卡通设置</title>
 
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
+	<c:set var="ctx" value="${pageContext.request.contextPath}" />
 <script src="${ctx}/static/js/views/finance/iccard/iccardSetting.js?v=2"></script>
 
 <style>
