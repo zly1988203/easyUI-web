@@ -8,8 +8,10 @@ var top = $(window).height()/3;
 var dialogHeight = $(window).height()*(2/3);
 var left = $(window).width()/4;
 
-function messager(msg,title){
-	$.messager.alert(title||'提示',msg);
+function messager(msg,title,cb){
+	$.messager.alert(title||'提示',msg,function(){
+		if(cb)cb
+	});
     /*$.messager.show({
         title:title||'系统提示',
         msg:msg,
@@ -1438,6 +1440,14 @@ function GridClass(){
 		}
 		return null;
 	}
+	
+	/**
+	 * bwp 获取 表格底部统计栏数据
+	 */
+	this.getFooterRow = function(){
+		return $('#'+gridName).datagrid('getFooterRows');
+	}
+	
 
 }
 

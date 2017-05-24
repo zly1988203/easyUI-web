@@ -985,3 +985,39 @@ function formatDate(dateValue, pattern){
 function selectMonth(){  
     WdatePicker({ dateFmt:'yyyy-MM', isShowToday: false, isShowClear: false });  
 }  
+
+
+
+/*----------------jxc util  ---------------------------*/
+
+var $_jxc = {
+	/**
+	 * bwp 07/05/24
+	 * alert
+	 * @param msg   提示内容
+	 * @param title 提示标题 可以不传
+	 * @param cb    回调 可以不传
+	 * @returns
+	 */
+	alert:function(msg,title,icon,cb){
+		$.messager.alert(title||'提示',msg,icon||'',function(){
+			if(cb)cb
+		});
+	},
+	/**
+	 * bwp 07/05/24
+	 * ajax 
+	 * @param msg   提示内容
+	 * @param title 提示标题 可以不传
+	 * @param cb    回调 可以不传
+	 * @returns
+	 */
+	ajax:function(param){
+		var defParam={
+			type:"POST",
+		    contentType:"application/json",
+		}
+		param = $.extend(defParam,param);
+		$.ajax(defParam)
+	}
+}

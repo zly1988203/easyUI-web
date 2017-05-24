@@ -11,7 +11,7 @@
 <c:set var="sessionSupplier" value="${sessionScope.session_default_supplier}"/>
 <c:set var="priceGrantStr" value="${user.priceGrant}"/>
 <c:set var="now" value="<%=new java.util.Date()%>" />
-	<c:set var="versionNo" value="v2.5.0_A01"/>
+<c:set var="versionNo" value="v2.5.0_A01"/>
 <!-- title图标 -->
 <link rel="shortcut icon" href="${ctx}/static/images/okdeer_favicon.ico" type="image/x-icon"/>
 
@@ -39,7 +39,7 @@
 
 <!--ztree-->
 <script src="${ctx}/static/libs/zTree/js/jquery.ztree.core.min.js"></script>
-<script src="${ctx}/static/js/fun/baseEasyui.js"></script>
+<script src="${ctx}/static/js/fun/baseEasyui.js?V=2.6.0"></script>
 <script src="${ctx}/static/js/fun/base.js"></script>
 <!-- 公共服务 -->
 <script src="${ctx}/static/js/fun/publicComponent.js?V=${versionNo}"></script>
@@ -47,6 +47,12 @@
 
 <script>
 
+/* $(function(){
+	$(document).ajaxSend(function(event,xhr,options,exc){
+		var sts = new Date().getTime();
+		options.url = options.url ? (options.url.indexOf('?')>-1 ? options.url + '&_t='+ sts : options.url + '?_t='+sts):options.url
+	})
+}) */
 	 
 /* $(function(){
    //实现对字符码的截获，keypress中屏蔽了这些功能按键
