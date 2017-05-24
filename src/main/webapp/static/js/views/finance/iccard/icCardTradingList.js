@@ -13,6 +13,19 @@ $(function () {
 function changeStatus(){
     $(".radioItem").change(function(){
         var type = $(this).val();
+        if(type === "2"){
+            $("#salesmanName").prop("disabled","disabled");
+            $("#divsaleman").css("display","none")
+            $("#orderNo").prop("disabled","disabled");
+            $("#saleType").combobox({ disabled: true });
+            $("#value").combobox({ disabled: true });
+        }else{
+            $("#salesmanName").removeProp("disabled","disabled");
+            $("#divsaleman").css("display","block")
+            $("#orderNo").removeProp("disabled","disabled");
+            $("#saleType").combobox({ disabled: false });
+            $("#value").combobox({ disabled: false });
+        }
         $('#queryType').val(type);
         $("#"+gridName).datagrid("options").url = "";
         initGridCardTrading();

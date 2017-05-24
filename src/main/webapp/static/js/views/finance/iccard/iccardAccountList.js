@@ -17,12 +17,13 @@ function initGridCardAccount() {
         pagination:true,    //分页
         pageSize:50,
         showFooter:true,
+        singleSelect:true,
         height:'100%',
         width:'100%',
         columns:[[
             {field: 'branchCode', title: '店铺编号', width: 100, align: 'left'},
             {field: 'branchName', title: '店铺名称', width: 180, align: 'left'},
-            {field: 'branchName', title: '店铺类型', width: 80, align: 'left',
+            {field: 'branchType', title: '店铺类型', width: 80, align: 'left',
                 formatter:function(value,row,index){
                     if(value == '1'){
                         return '直营店';
@@ -36,7 +37,7 @@ function initGridCardAccount() {
             {field: 'batchNo', title: '累计充值金额', width: 150, align: 'right'},
             {field: 'batchNo', title: '提取金额', width: 100, align: 'right'},
             {field: 'batchNo', title: '已用金额', width: 100, align: 'right'},
-            {field: 'batchNo', title: '余额', width: 100, align: 'right'},
+            {field: 'oldBalance', title: '余额', width: 100, align: 'right'},
 
         ]]
     })
@@ -51,6 +52,12 @@ function query() {
 
 var rechargeDialog = null;
 function recharge() {
+    var row =  $("#"+gridName).datagrid("getSelected");
+    if(!row || row == null){
+        messager("请选择一条数据");
+        return;
+    }
+
     rechargeDialog = $('<div/>').dialog({
         href: contextPath+"/iccard/account/management/iccardRecharge",
         width:500,
@@ -64,7 +71,7 @@ function recharge() {
         },
         modal: true,
         onLoad: function () {
-            initCardRecharge();
+            initCardRecharge(row);
 
         }
     })
@@ -77,6 +84,13 @@ function closeRechargeDialog() {
 
 var extractedDialog = null;
 function extracted() {
+
+    var row =  $("#"+gridName).datagrid("getSelected");
+    if(!row || row == null){
+        messager("请选择一条数据");
+        return;
+    }
+
     extractedDialog = $('<div/>').dialog({
         href: contextPath+"/iccard/account/management/iccardExtracted",
         width:500,
@@ -90,7 +104,7 @@ function extracted() {
         },
         modal: true,
         onLoad: function () {
-            initCardExtracted();
+            initCardExtracted(row);
         }
     })
 }
