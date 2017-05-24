@@ -837,14 +837,7 @@ function publicCostService(param,callback){
 	//默认参数属性
 	var oldParm = {isRadio:1}
 	param =  $.extend(oldParm,param);
-	
-	param.type = "PA";
-	param.type = param.type || '';
-	param.branchId = param.branchId || '';
-	param.branchType = param.branchType || '';
-	param.isOpenStock = param.isOpenStock || '';
-	
-	var url = contextPath + "/common/branches/viewComponent?formType="+ param.type + "&branchId=" + param.branchId+ "&branchType="+param.branchType + "&isOpenStock="+param.isOpenStock;
+	var url = contextPath + "/common/chargeSelect/viewChargeComponent?type="+ param.type;
 	var dalogParam = {
     	title:"费用选择",
         href:url,
@@ -858,8 +851,8 @@ function publicCostService(param,callback){
         },
         modal:true,
         onLoad:function(){
-        	initCostView();
-            initCostCallBack(callBackHandel)
+        	initChargeView();
+            initChargeCallBack(callBackHandel)
         },
         
     }

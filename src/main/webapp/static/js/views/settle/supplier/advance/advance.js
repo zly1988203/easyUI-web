@@ -317,9 +317,10 @@ function selectSupplier(){
 }
 
 //选择费用
-function selectCost(searchKey){
+function selectCharge(searchKey){
 	var param = {
 		key:searchKey,
+		type:'101001'
 	};
 	publicCostService(param,function(data){
 		console.log('data',data);
