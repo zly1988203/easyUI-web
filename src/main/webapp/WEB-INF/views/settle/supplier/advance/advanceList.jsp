@@ -25,15 +25,15 @@
 	            </div>
 	        	<div class="ub ub-ac umar-l20">
 	        	 <!-- 引入时间选择控件 -->
-	            <%@ include file="/WEB-INF/views/component/dateSelectHour.jsp"%>
+	            <%@ include file="/WEB-INF/views/component/dateSelect.jsp"%>
 	            </div>
 			</div>
 	            <div class="ub umar-t8">
 	                <div class="ub ub-ac">
 	                    <div class="umar-r10 uw-70 ut-r">机构:</div>
-	                    <input type="hidden" id="targetBranchId" name="targetBranchId"/>
-	                    <input type="hidden" id="targetBranchType" name="targetBranchType" />
-	                    <input class="uinp ub ub-f1" type="text" id="targetBranchName" name="targetBranchName" onblur="clearBranchCode(this,'targetBranchId')"/>
+	                    <input type="hidden" id="branchId" name="branchId"/>
+	                    <input type="hidden" id="branchType" name="branchType" />
+	                    <input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" onblur="clearBranchCode(this,'targetBranchId')"/>
 	                    <div class="uinp-more" onclick="selectBranches()" >...</div>
 	                </div>
 	                <div class="ub ub-ac umar-l64">
@@ -45,14 +45,14 @@
 	            </div>
 	            <div class="ub umar-t8">
 	                <div class="ub ub-ac">
-	                     <div class="umar-r10 uw-70 ut-r">单据编号:</div>
-	                    <input type="hidden" id="deliverType" name="deliverType" value="DA" />
+	                    <div class="umar-r10 uw-70 ut-r">单据编号:</div>
+	                    <input type="hidden" id="formType" name="formType" value="FY" />
 	                    <input class="uinp" type="text" id="formNo" name="formNo">
 	                </div>
 	                <div class="ub ub-ac umar-l64">
 	                    <div class="umar-r10 uw-70 ut-r">制单人:</div>
-	                    <input type="hidden" id="operateUserId" name="operateUserId" />
-	                    <input class="uinp ub ub-f1" type="text" id="operateUserName" name="operateUserName" type="text" />
+	                    <input type="hidden" id="createUserId" name="createUserId" />
+	                    <input class="uinp ub ub-f1" type="text" id="createUserName" name="createUserName" type="text" />
 	                    <div class="uinp-more" onclick="selectOperator()">...</div>
 	                </div>
 	            </div>
@@ -65,17 +65,17 @@
 	                    <div class="umar-r10 uw-70 ut-r">单据状态:</div>
 	                    <div class="ub ub-ac umar-r10">
 							<label>
-								<input type="radio" name="deliverAuditStatus" value="0" checked="checked" onclick="queryForm()"/><span>未审核</span>
+								<input type="radio" name="auditStatus" value="0" checked="checked" onclick="queryForm()"/><span>未审核</span>
 							</label>
 	                    </div>
 	                    <div class="ub ub-ac umar-r10">
 							<label>
-								<input type="radio" name="deliverAuditStatus" value="1" onclick="queryForm()"/><span>已审核</span>
+								<input type="radio" name="auditStatus" value="1" onclick="queryForm()"/><span>已审核</span>
 							</label>
 	                    </div>
 	                    <div class="ub ub-ac umar-r10">
 							<label>
-								<input  type="radio" name="deliverAuditStatus" value=""  onclick="queryForm()"/><span>全部</span>
+								<input  type="radio" name="auditStatus" value=""  onclick="queryForm()"/><span>全部</span>
 							</label>
 	                    </div>
 	                </div>
