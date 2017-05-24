@@ -3,18 +3,26 @@
  */
 
 $(function () {
-
+	
 })
 
 function initBranchInfo() {
     initGridBranchCost();
+    getBranchInfo();
 }
 
-function getBranchInfo(branchId){
-    var httpUrl = contextPath+"/common/goods/getGoodsSkuById?id="+id;
+function getBranchInfo(){
+	var branchId = $("#branchId").val(); 
+    var httpUrl = contextPath+"/archive/branch/getBranchInfoById?branchId="+branchId;
     $.get(httpUrl,{},function (data) {
-        $.each(data["_data"],function(key,value){
-
+    	if(data.code != '0'){
+    		messager("请求发送失败或服务器处理失败");
+    		return;
+    	}
+    	
+    	var rec = data.data;
+        $.each(rec.branch,function(key,value){
+        	
             //普通的input
             if($("#"+key).prop("tagName") == "INPUT"){
                 if($("#"+key).attr('type')=="checkbox"){
@@ -56,6 +64,10 @@ function getBranchInfo(branchId){
 
             }
         });
+        
+        $("#gridFitmentCost").datagrid("loadData", rec.decorateCostList);
+        $("#gridEquipmentCost").datagrid("loadData", rec.deviceCostList);
+        $("#gridAmortizeCost").datagrid("loadData", rec.amortizeCostList);
     });
 }
 
@@ -88,7 +100,7 @@ function initGridFitmentCost() {
                 },
             },
             {field: 'costName', title: '装修费用', width: 180, align: 'left',editor:'text'},
-            {field: 'price', title: '金额', width: 100, align: 'right',
+            {field: 'costAmount', title: '金额', width: 100, align: 'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -103,8 +115,8 @@ function initGridFitmentCost() {
                     }
                 },
             },
-            {field: 'person', title: '操作人', width: 120, align: 'left'},
-            {field: 'date', title: '操作日期', width: 180, align: 'left'},
+            {field: 'createUserName', title: '操作人', width: 120, align: 'left'},
+            {field: 'createTime', title: '操作日期', width: 180, align: 'left'}
         ]],
         onClickCell:function(rowIndex,field,value){
             gridFitmentCostHandel.setBeginRow(rowIndex);
@@ -139,8 +151,8 @@ function initGridEquipmentCost() {
                     return str;
                 },
             },
-            {field: 'costName', title: '设备费用', width: 180, align: 'left',editor:'text'},
-            {field: 'price', title: '金额', width: 100, align: 'right',
+            {field: 'costName', title: '装修费用', width: 180, align: 'left',editor:'text'},
+            {field: 'costAmount', title: '金额', width: 100, align: 'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -155,8 +167,8 @@ function initGridEquipmentCost() {
                     }
                 },
             },
-            {field: 'person', title: '操作人', width: 120, align: 'left'},
-            {field: 'date', title: '操作日期', width: 180, align: 'left'},
+            {field: 'createUserName', title: '操作人', width: 120, align: 'left'},
+            {field: 'createTime', title: '操作日期', width: 180, align: 'left'}
         ]],
         onClickCell:function(rowIndex,field,value){
             gridEquipmentCostHandel.setBeginRow(rowIndex);
@@ -191,8 +203,8 @@ function initGridAmortizeCost() {
                     return str;
                 },
             },
-            {field: 'costName', title: '摊销费用', width: 180, align: 'left',editor:'text'},
-            {field: 'price', title: '金额', width: 100, align: 'right',
+            {field: 'costName', title: '装修费用', width: 180, align: 'left',editor:'text'},
+            {field: 'costAmount', title: '金额', width: 100, align: 'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -207,8 +219,8 @@ function initGridAmortizeCost() {
                     }
                 },
             },
-            {field: 'person', title: '操作人', width: 120, align: 'left'},
-            {field: 'date', title: '操作日期', width: 180, align: 'left'},
+            {field: 'createUserName', title: '操作人', width: 120, align: 'left'},
+            {field: 'createTime', title: '操作日期', width: 180, align: 'left'}
         ]],
         onClickCell:function(rowIndex,field,value){
             gridAmortizeCostHandel.setBeginRow(rowIndex);
@@ -265,11 +277,19 @@ function delLineHandel(event){
 
 function saveBranch() {
     gFunStartLoading();
-    var data = {};
-    var dataJson = JSON.stringify(data);
+    
+    var formData = $('#formEdit').serializeObject();
+    
+    formData.decorateCostList = gridFitmentCostHandel.getRowsWhere({costName:"1"});
+    formData.deviceCostList = gridEquipmentCostHandel.getRowsWhere({costName:"1"});
+    formData.amortizeCostList = gridAmortizeCostHandel.getRowsWhere({costName:"1"});
+    
+    var dataJson = JSON.stringify(formData);
+    
+    console.log("dataJson:"+dataJson);
 
     $.ajax({
-        url:contextPath+"/form/purchase/saveOrder",
+        url:contextPath+"/archive/branch/updateBranch",
         type:"POST",
         contentType:'application/json',
         data:dataJson,
@@ -277,7 +297,7 @@ function saveBranch() {
             gFunEndLoading();
             if(result['code'] == 0){
                 $.messager.alert("操作提示", "保存成功！", "info",function(){
-
+                	
                 });
             }else{
                 new publicErrorDialog({
@@ -293,36 +313,3 @@ function saveBranch() {
     });
 }
 
-function saveBranchCost() {
-    gFunStartLoading();
-    var data = {
-        fitmentCost:gridFitmentCostHandel.getRowsWhere({costName:"1"}),
-        equipmentCost:gridEquipmentCostHandel.getRowsWhere({costName:"1"}),
-        amortizeCost:gridAmortizeCostHandel.getRowsWhere({costName:"1"})
-    }
-    var dataJson = JSON.stringify(data);
-
-    $.ajax({
-        url:contextPath+"/form/purchase/saveOrder",
-        type:"POST",
-        contentType:'application/json',
-        data:dataJson,
-        success:function(result){
-            gFunEndLoading();
-            if(result['code'] == 0){
-                $.messager.alert("操作提示", "保存成功！", "info",function(){
-
-                });
-            }else{
-                new publicErrorDialog({
-                    "title":"保存失败",
-                    "error":result['message']
-                });
-            }
-        },
-        error:function(result){
-            gFunEndLoading();
-            messager("请求发送失败或服务器处理失败");
-        }
-    });
-}

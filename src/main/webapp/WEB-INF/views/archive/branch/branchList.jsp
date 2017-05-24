@@ -9,8 +9,9 @@
 <title>机构信息</title>
 
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
+<%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
-<script src="${ctx}/static/js/views/branchManager/branchList.js?V=2"></script>
+<script src="${ctx}/static/js/views/branchManager/branchList.js?V=4"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
 	<div class="ub ub-f1 umar-4 upad-4">
@@ -40,7 +41,7 @@
 				<div class="ub umar-t12">
 					<div class="ub ub-ac umar-r10">
 						<div class="umar-r10 uw-80 ut-r">机构名称:</div>
-						<input class="uinp" type="text" name="codeOrName" id="codeOrName"
+						<input class="uinp" type="text" name="branchKeyword" id="branchKeyword"
 							placeholder="输入编号、名称进行查询">
 					</div>
 
@@ -49,8 +50,9 @@
 						<select class="uselect easyui-combobox" style="width: 204px;"
 							data-options="editable:false" name="branchType" id="branchType">
 							<option value="">--全部--</option>
-							<option value="1">直营店</option>
-							<option value="2">加盟店</option>
+							<c:forEach var="i" items="${branchTypeList }">
+								<option value="${i.code }">${i.desc }</option>
+			               	</c:forEach>
 						</select>
 					</div>
 				</div>
@@ -59,10 +61,11 @@
 					<div class="ub ub-ac umar-r10">
 						<div class="umar-r10 uw-80 ut-r">机构状态:</div>
 						<select class="uselect easyui-combobox" style="width: 204px;"
-							data-options="editable:false" name="status" id="status">
+							data-options="editable:false" name="offlineStatus" id="offlineStatus">
 							<option value="">--全部--</option>
-							<option value="1">运营中</option>
-							<option value="2">已关闭</option>
+							<c:forEach var="i" items="${OfflineStatusList }">
+								<option value="${i.code }">${i.label }</option>
+			               	</c:forEach>
 						</select>
 					</div>
 				</div>
