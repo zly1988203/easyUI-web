@@ -187,6 +187,9 @@ public interface ExportExcelConstant {
 	 * 商品档案导出模板
 	 */
 	String SUPPLIER_EXPORT_EXCEL = "supplierExport.xlsx";
+	
+	/*** 机构信息导出模板  */
+	String BRANCH_EXPORT_TEMPLATE = "branchExportTemplate.xlsx";
 
 	/**
 	 * 成本调价单导出模板

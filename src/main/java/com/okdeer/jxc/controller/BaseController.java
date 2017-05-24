@@ -2,6 +2,8 @@
 package com.okdeer.jxc.controller;
 
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -9,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.okdeer.jxc.common.enums.BranchTypeEnum;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
 import com.okdeer.jxc.utils.jxls.ReportExcelUtil;
@@ -179,5 +182,37 @@ public class BaseController<T> {
 	protected <T> List<T> parseExcel(String fileName, InputStream is,
 			String[] fields, T entity) {
 		return ExcelReaderUtil.readExcel(fileName, is, fields, entity);
+	}
+	
+	/**
+	 * @Description: 获取当前机构类型权限列表
+	 * @return
+	 * @author liwb
+	 * @date 2017年2月16日
+	 */
+	protected List<BranchTypeEnum> getCurrTypeList() {
+		List<BranchTypeEnum> typeList = new ArrayList<BranchTypeEnum>();
+		Integer branchType = getCurrBranchType();
+
+		// 总部有所有类型权限
+		if (BranchTypeEnum.HEAD_QUARTERS.getCode().equals(branchType)) {
+			typeList = Arrays.asList(BranchTypeEnum.values());
+		}
+
+		// 分公司有除总部以外的所有权限
+		else if (BranchTypeEnum.BRANCH_OFFICE.getCode().equals(branchType)) {
+			for (BranchTypeEnum type : BranchTypeEnum.values()) {
+				if (!BranchTypeEnum.HEAD_QUARTERS.equals(type)) {
+					typeList.add(type);
+				}
+			}
+		}
+
+		// 其它只有当前类型的权限
+		else {
+			BranchTypeEnum currType = BranchTypeEnum.enumValueOf(branchType);
+			typeList.add(currType);
+		}
+		return typeList;
 	}
 }
