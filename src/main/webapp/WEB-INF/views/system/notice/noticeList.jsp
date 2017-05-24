@@ -9,7 +9,8 @@
 <title>系统公告</title>
 
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="/static/js/views/system/notice/noticeList.js"></script>
+<c:set var="ctx" value="${pageContext.request.contextPath}" />
+<script src="${ctx}/static/js/views/system/notice/noticeList.js?V=4"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
 	<div class="ub ub-ver ub-f1 umar-4 upad-4">
@@ -34,7 +35,10 @@
 			<div class="ub umar-t8">
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">发布门店:</div>
-					<input class="uinp" name="formNo" id="formNo" type="text">
+					<input class="uinp" name="supplierId" id="supplierId" type="hidden">
+					<input class="uinp" id="supplierName" name="supplierName"
+						type="text" maxlength="50">
+					<div class="uinp-more" onclick="selectSupplier()">...</div>
 				</div>
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">发布人:</div>
@@ -48,14 +52,17 @@
 			<div class="ub umar-t8">
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">接收门店:</div>
-					<input class="uinp" name="formNo" id="formNo" type="text">
+					<input class="uinp" name="supplierId" id="supplierId" type="hidden">
+					<input class="uinp" id="supplierName" name="supplierName"
+						type="text" maxlength="50">
+					<div class="uinp-more" onclick="selectSupplier()">...</div>
 				</div>
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">接收人:</div>
 					<input class="uinp" name="supplierId" id="supplierId" type="hidden">
 					<input class="uinp" id="supplierName" name="supplierName"
 						type="text" maxlength="50">
-					<div class="uinp-more" onclick="selectSupplier()">...</div>
+
 				</div>
 
 				<div class="ub ub-ac umar-l20">

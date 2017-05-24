@@ -2,6 +2,10 @@
  * Created by zhaoly on 2017/5/24.
  */
 
+
+$(function () {
+    initGridNoticeList();
+})
 var gridName = "gridNoticeList";
 var gridHandel = new GridClass();
 function initGridNoticeList(){
@@ -43,16 +47,17 @@ function queryNoticeList(){
 }
 
 var noticDialog = null;
+
+var dialogHeight = $(window).height()*(4/5);
+var dialogWidth = $(window).width()*(5/9);
+var dialogLeft = $(window).width()*(1/5);
 function addNotice() {
     noticDialog = $('<div/>').dialog({
-        href: contextPath+"/archive/branch/toEdit",
-        queryParams:{
-            branchId : branchId
-        },
-        width: dialogWidth,
-        height: dialogHeight,
+        href: contextPath+"/sys/notice/addNotice",
+        width: 660,
+        height: 600,
         left:dialogLeft,
-        title: "修改机构信息",
+        title: "新增公告",
         closable: true,
         resizable: true,
         onClose: function () {
@@ -61,7 +66,7 @@ function addNotice() {
         },
         modal: true,
         onLoad: function () {
-            initBranchInfo();
+
         }
     })
 }
