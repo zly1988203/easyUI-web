@@ -201,7 +201,7 @@ function delSupJonAccount(){
 		    	data:JSON.stringify(ids),
 		    	success:function(result){
 		    		if(result['code'] == 0){
-                        toRefreshIframeDataGrid("form/deliverForm/viewsDA","deliverFormList");
+                        toRefreshIframeDataGrid("settle/supplierChain/chainList","supperlierJoAccount");
 		    			toClose();
 		    		}else{
 		    			successTip(result['message']);
@@ -247,7 +247,7 @@ function selectCost(searchKey){
 
 //返回列表页面
 function back(){
-	location.href = contextPath+"/form/deliverForm/viewsDA";
+	location.href = contextPath+"/settle/supplierChain/chainList";
 }
 
 //新增联营账单
