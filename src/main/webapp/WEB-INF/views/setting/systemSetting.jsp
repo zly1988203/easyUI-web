@@ -66,7 +66,8 @@
 							<label class="satetyLabel" onClick="changeType(2)"><input  type="radio" id="isAllowMinusStock0" name="safetyCoefficientType" value="2" /></label>
 							仓库平均送货周期 <input class="uinp uw-30 easyui-numberbox" type="text"  data-options="min:0,disabled:true" name="safetyCoefficientValue" id="safetyCoefficientValue" >天，转换关系：1天0.5倍，2天1倍，3－4天1.5倍， 5天以上2倍
 						</div>
-						<div class="ub  ub-ac upad-t16">订货周期 * 安全库存系数 * MAX(上周日均销量，前周日均销量)－当前库存(结果取配送规格倍数)</div>
+						<%--<div class="ub  ub-ac upad-t16">订货周期 * 安全库存系数 * MAX(上周日均销量，前周日均销量)－当前库存(结果取配送规格倍数)</div>--%>
+						<div class="ub  ub-ac upad-t16">每日销量*（订货周期+送货周期） + 每日销量*安全库存系数－（实际库存+未送达订货）</div>
 					</div>
 				</div>
 			</form>
