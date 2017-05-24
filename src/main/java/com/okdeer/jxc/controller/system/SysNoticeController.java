@@ -52,7 +52,7 @@ public class SysNoticeController extends BaseController<SysNoticeController> {
 	 * @author zhengwj
 	 * @date 2017年5月19日
 	 */
-	@RequestMapping(value = "noticeList")
+	@RequestMapping(value = "list")
 	public String list() {
 		return "system/notice/noticeList";
 	}

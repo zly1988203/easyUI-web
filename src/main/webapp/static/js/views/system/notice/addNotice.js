@@ -8,10 +8,9 @@ function saveNotice(){
     var formData = $('#formNoticeAdd').serializeObject();
     this.ajaxSubmit(url,formData,function (result) {
         if(result['code'] == 0){
-            messager("删除成功");
+            messager("发布成功");
         }else{
             messager(result['message']);
         }
-        $("#"+gridName).datagrid('reload');
     })
 }
