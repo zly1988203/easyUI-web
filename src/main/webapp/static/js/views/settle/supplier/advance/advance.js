@@ -18,11 +18,11 @@ var targetBranchId;
 
 
 $(function(){
-    pageStatus = $('#supplierAdvMoneyStatus').val();
+    pageStatus = $('#operateType').val();
 	if(pageStatus === 'add'){
 		  $("#payMoneyTime").val(new Date().format('yyyy-MM-dd')); 
 		  $('#createTime').text(new Date().format('yyyy-MM-dd'))
-	}else if(pageStatus === 'edit'){
+	}else {
 		var formId = $("#formId").val();
 		url = contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverFormId="+formId+"&deliverType=DA";
 		oldData = {
@@ -178,7 +178,7 @@ function initSupAdvMonAdd(){
         },
     });
     
-    if(pageStatus==='add'){
+    if(pageStatus=='add'){
     	 gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
     	                         $.extend({},gridDefault),$.extend({},gridDefault)]);
     }
@@ -226,26 +226,29 @@ function delLineHandel(event){
     gridHandel.delRow(index);
 }
 
-
+function validateForm(branchId,payTime,supplierId){
+    if(!$.trim(branchId)){
+    	$_jxc.alert('请选择机构!');
+    	return false;
+    }
+    if(!payTime){
+    	$_jxc.alert('付款日期不能为空');
+    	return false;
+    }
+    if(!supplierId){
+    	$_jxc.alert('请选择供应商!');
+    	return false;
+    }
+    return true;
+}
 
 //保存
 function saveSupAdvMonOrder(){
 	$("#"+gridName).datagrid("endEdit", gridHandel.getSelectRowIndex());
 	var branchId = $('#targetBranchId').val();
-    if(!$.trim(branchId)){
-    	$_jxc.alert('请选择机构!');
-    	return;
-    }
-    var payTime = $('#payMoneyTime').val();
-    if(!payTime){
-    	$_jxc.alert('付款日期不能为空');
-    	return;
-    }
-    var supplierId = $('#supplierId').val();
-    if(!supplierId){
-    	$_jxc.alert('请选择供应商!');
-    	return;
-    }
+	var payTime = $('#payMoneyTime').val();
+	var supplierId = $('#supplierId').val();
+	if(!validateForm(branchId,payTime,supplierId))return;
     var rows = gridHandel.getRowsWhere({label:'1'});
     if(rows.length==0){
     	$_jxc.alert("表格不能为空");
@@ -253,7 +256,7 @@ function saveSupAdvMonOrder(){
     }
     
     var footRow = gridHandel.getFooterRow();
-    if(footRow.length > 0 && footRow[0].amount <=0 ){
+    if(footRow.length <= 0 && footRow[0].amount ==0 ){
     	$_jxc.alert("合计该单据不能为零，请修改。");
     	return;
     }
@@ -261,38 +264,51 @@ function saveSupAdvMonOrder(){
     var _rows = [];
     $.each(rows,function(i,data){
     	_rows.push({
-    		id:data.id,
+    		costTypeId:data.id,
     		io:data.io,
+    		rowNo:i,
     		amount:data.amount,
     		remark:data.remark
     	})
     })
     
     var reqObj = {
-    	branchId:branchId||'',
+    	branchId:$('#targetBranchId').val()||'',
+    	branchCode:$('#branchCode').val()||'',
     	payTime:payTime||'',
     	supplierId:supplierId||'',
-    	remark:$('remark').val()||'',
-    	rows:_rows
+    	remark:$('#remark').val()||'',
+		operateType : $("#operateType").val() == 'add' ? 1 : 2,
+    	sumAmount:footRow[0].amount,
+    	detailList:_rows
     }
     
     console.log('reqObj',reqObj);
-    alert('可以提交了！')
-    return;
-//    $_jxc.ajax({
-//    	url:contextPath+"/form/deliverForm/insertDeliverForm",
-//        type:"POST",
-//        contentType:"application/json",
-//        data:JSON.stringify(reqObj),
-//        success:function(result){
-//        	
-//        }
-//    })
+    $.ajax({
+        url:contextPath+"/settle/supplierCharge/saveChargeForm",
+        type:"POST",
+        data:{"data":JSON.stringify(reqObj)},
+        success:function(result){
+        	gFunEndLoading();
+            if(result['code'] == 0){
+    			$.messager.alert("操作提示", "操作成功！", "info",function(){
+    				location.href = contextPath +"/settle/supplierCharge/advanceEdit?id="+result['formId'];
+    			});
+            }else{
+                gFunEndLoading();
+                successTip(result['message']);
+            }
+        },
+        error:function(result){
+            gFunEndLoading();
+            successTip("请求发送失败或服务器处理失败");
+        }
+    });
 	
 }
 
 //审核
-function check(){
+function auditChargeForm(){
     //验证数据是否修改
     $("#"+gridName).datagrid("endEdit", gridHandel.getSelectRowIndex());
     var newData = {
@@ -310,21 +326,26 @@ function check(){
         messager("数据有修改，请先保存再审核");
         return;
     }
+	var branchId = $('#targetBranchId').val();
+	var payTime = $('#payMoneyTime').val();
+	var supplierId = $('#supplierId').val();
+	var chargeId = $('#chargeId').val();
+    var reqObj = {
+    	id:chargeId,
+    	branchId:$('#targetBranchId').val()||''
+    }
 	$.messager.confirm('提示','是否审核通过？',function(data){
 		if(data){
             gFunStartLoading();
 			$.ajax({
-		    	url : contextPath+"/form/deliverForm/check",
+		    	url : contextPath+"/settle/supplierCharge/auditChargeForm",
 		    	type : "POST",
-		    	data : {
-		    		deliverFormId : $("#formId").val(),
-		    		deliverType : 'DA'
-		    	},
+		    	data:{"data":JSON.stringify(jsonData)},
 		    	success:function(result){
                     gFunEndLoading();
 		    		if(result['code'] == 0){
 		    			$.messager.alert("操作提示", "操作成功！", "info",function(){
-		    				location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
+		    				location.href = contextPath +"/settle/supplierCharge/advanceView?id=" + result["formId"];
 		    			});
 		    		}else{
 		            	new publicErrorDialog({
@@ -351,7 +372,7 @@ function delSupAdvMonForm(){
 	$.messager.confirm('提示','是否要删除单据',function(data){
 		if(data){
 			$.ajax({
-		    	url:contextPath+"/form/deliverForm/deleteDeliverForm",
+		    	url:contextPath+"/settle/supplierCharge/deleteChargeForm",
 		    	type:"POST",
 		    	contentType:"application/json",
 		    	data:JSON.stringify(ids),
@@ -375,6 +396,7 @@ function delSupAdvMonForm(){
 function selectBranches(){
 	new publicAgencyService(function(data){
 		$("#targetBranchId").val(data.branchesId);
+		$("#branchCode").val(data.branchCode);
 		$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
 	},'',targetBranchId);
 }
@@ -389,6 +411,11 @@ function selectSupplier(){
 
 //选择费用
 function selectCharge(searchKey){
+	var branchId = $('#targetBranchId').val();
+	var payTime = $('#payMoneyTime').val();
+	var supplierId = $('#supplierId').val();
+	if(!validateForm(branchId,payTime,supplierId))return;
+	
 	var param = {
 		key:searchKey,
 		type:'101001'
