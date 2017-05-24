@@ -276,6 +276,7 @@ function saveSupAdvMonOrder(){
     	branchId:$('#targetBranchId').val()||'',
     	branchCode:$('#branchCode').val()||'',
     	payTime:payTime||'',
+    	formType:'FY',
     	supplierId:supplierId||'',
     	remark:$('#remark').val()||'',
 		operateType : $("#operateType").val() == 'add' ? 1 : 2,
