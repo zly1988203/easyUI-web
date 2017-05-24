@@ -3,17 +3,16 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="com.okdeer.jxc.utils.UserUtil"%>
 
-<title>新增编辑财务代码</title>
+<title>新增公告</title>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 
-<%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="/static/js/views/purchase/addNotice.js?V="></script>
+<script src="${ctx}/static/js/views/system/notice/addNotice.js?V="></script>
 
 <div class="ub ub-ver  ub-f1  uw uh ufs-14 uc-black">
 
-	<form id="financeAdd">
+	<form id="formNoticeAdd">
 		<div class="ub ub-ver upad-4">
 			<div class="ub upad-4 umar-t10">
 				<div class="ub ub-ac">
@@ -63,8 +62,8 @@
 	<div class="ub uline"></div>
 	<div class="ub ub-ac upad-4">
 		<div class="ubtns">
-			<button class="ubtns-item" onclick="save()" id="saveBtn">发布</button>
-			<button class="ubtns-item" onclick="closeDialog()">关闭</button>
+			<button class="ubtns-item" onclick="saveNotice()" id="saveBtn">发布</button>
+			<button class="ubtns-item" onclick="closeDialogHandel()">关闭</button>
 		</div>
 	</div>
 
