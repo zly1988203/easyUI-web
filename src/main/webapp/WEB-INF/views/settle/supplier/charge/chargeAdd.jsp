@@ -17,8 +17,8 @@
     <div class="ub ub-ver ub-f1 umar-4  ubor">
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
-                <div class="ubtns-item" onclick="addSupAdvMonForm()">新增</div>
-                <div class="ubtns-item" onclick="saveSupAdvMonOrder()">保存</div>
+                <div class="ubtns-item" onclick="addChageForm()">新增</div>
+                <div class="ubtns-item" onclick="saveChageForm()">保存</div>
                 <div class="ubtns-item-disabled">审核</div>
                 <div class="ubtns-item" onclick="selectCharge()">费用选择</div>
                 <div class="ubtns-item-disabled" >删除</div>
