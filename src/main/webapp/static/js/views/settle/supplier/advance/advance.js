@@ -11,7 +11,7 @@ var gridDefault = {
 //列表数据查询url
 var url = "";
 var oldData = {};
-var gridName = "supplierAdvMoneyListAdd";
+var gridName = "supplierAdvanceListAdd";
 var pageStatus;
 var branchId;
 
@@ -117,7 +117,6 @@ function initSupAdvMonAdd(){
                         valueField: 'id',
                         textField: 'text',
                         editable:false,
-//                        required:true,
                         data: [{
                             "id":'-1',
                             "text":"支出",
@@ -142,8 +141,6 @@ function initSupAdvMonAdd(){
                 editor:{
                     type:'numberbox',
                     options:{
-//                        disabled:true,
-//                        min:0,
                         precision:4,
                         onChange: onChangeAmount,
                     }
@@ -246,7 +243,7 @@ function saveSupAdvMonOrder(){
 	var branchId = $('#branchId').val();
 	var payTime = $('#payMoneyTime').val();
 	var supplierId = $('#supplierId').val();
-	//if(!validateForm(branchId,payTime,supplierId))return;
+	if(!validateForm(branchId,payTime,supplierId))return;
     var rows = gridHandel.getRowsWhere({label:'1'});
     if(rows.length==0){
     	$_jxc.alert("表格不能为空");
@@ -284,6 +281,7 @@ function saveSupAdvMonOrder(){
     }
     
     console.log('reqObj',reqObj);
+    gFunStartLoading();
     $.ajax({
         url:contextPath+"/settle/supplierCharge/saveChargeForm",
         type:"POST",
@@ -423,6 +421,11 @@ function selectCharge(searchKey){
 	        gridHandel.setFieldFocus(gridHandel.getFieldTarget('io'));
 	    },100)
 	});
+}
+
+//导出
+function exportOrder(){
+	
 }
 
 //返回列表页面
