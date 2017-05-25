@@ -135,27 +135,40 @@ function delSupAdvMonForm(){
 	}
 	var ids = [];
 	for(var i=0; i<row.length; i++){
-		ids.push(row[i].deliverFormId);
+		ids.push(row[i].id);
 	}
-	$.messager.confirm('提示','是否要删除选中数据',function(data){
+	$.messager.confirm('提示','是否要删除选中数据?',function(data){
 		if(data){
-			$.ajax({
-		    	url:contextPath+"/form/deliverForm/deleteDeliverForm",
-		    	type:"POST",
-		    	contentType:"application/json",
-		    	data:JSON.stringify(ids),
-		    	success:function(result){
-		    		if(result['code'] == 0){
-		    			successTip("删除成功");
-		    			dg.datagrid('reload');
-		    		}else{
-		    			successTip(result['message']);
-		    		}
-		    	},
-		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
-		    	}
-		    });
+        	$.ajax({
+                type: "POST",
+                url: contextPath+"/settle/supplierCharge/deleteChargeForm",
+                data: {"ids":ids},
+                dataType: "json",
+                success: function(data){
+                	gFunEndLoading();
+                	successTip(data['message']);
+                	if(data.code == 0){
+                		queryForm();
+                	}
+                }
+            });
+//			$.ajax({
+//		    	url:contextPath+"/settle/supplierCharge/deleteChargeForm",
+//		    	type:"POST",
+//		    	dataType: "json",
+//		    	data:{"ids":ids},
+//		    	success:function(result){
+//		    		if(result['code'] == 0){
+//		    			successTip("删除成功");
+//		    			dg.datagrid('reload');
+//		    		}else{
+//		    			successTip(result['message']);
+//		    		}
+//		    	},
+//		    	error:function(result){
+//		    		successTip("请求发送失败或服务器处理失败");
+//		    	}
+//		    });
 		}
 	});
 }

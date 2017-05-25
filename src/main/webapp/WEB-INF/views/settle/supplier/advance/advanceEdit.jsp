@@ -33,7 +33,6 @@
             <div class="ub ub-ac uw-300">
                 <div class="umar-r10 uw-70 ut-r">机构:</div>
                 <div class="ub">
-                    <input type="hidden" id="chargeId" name="chargeId" value="${chargeVo.id}"/>
                     <input type="hidden" id="branchId" name="branchId" value="${chargeVo.branchId}"/>
                     <input class="uinp ub ub-f1" type="text" id="targetBranchName" readonly="readonly" value="${chargeVo.branchName}"/>
                 </div>
