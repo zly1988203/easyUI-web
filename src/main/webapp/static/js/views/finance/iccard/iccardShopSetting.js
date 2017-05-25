@@ -61,15 +61,15 @@ function initGridShopList() {
 }
 
 function selectView(rowData) {
-    var url = contextPath+"/iccard/setting/save";
+    var url = contextPath+"/iccard/setting/get";
     var param = {
         data:rowData
     }
     this.ajaxSubmit(url,param,function (result) {
-        if(result['code'] == 0){
+        if(result['code'] == 0 && result.length > 0){
             $("#"+gridEquipment).datagrid("loadData",result);
-        }else{
-            messager(result['message']);
+        }else {
+            gridEquipmentHandel.setLoadData([$.extend({},gridDefault)])
         }
     })
 }
@@ -93,11 +93,42 @@ function initgridEquipmentList() {
             },
 
             {field: 'equipmentCode', title: '设备代码', width: 180, align: 'left',editor:'text'},
-            {field: 'key', title: '终端保护密钥', width: 250, align: 'left',editor:'text'}
-        ]]
+            {field: 'key', title: '终端保护密钥', width: 250, align: 'left',editor:'text'},
+            {field: 'pos', title: '关联POS', width: 100, align: 'left',
+                formatter:function(value,row){
+                if(row.isFooter){
+                    return;
+                }
+                return value=='请选择';
+            },
+                editor:{
+                    type:'combobox',
+                    options:{
+                        valueField: 'id',
+                        textField: 'text',
+                        editable:false,
+                        required:true,
+                        data: [],
+                        onSelect:onSelectPOS
+                    }
+                }}
+        ]],
+        onClickCell:function(rowIndex,field,value){
+            gridEquipmentHandel.setBeginRow(rowIndex);
+            gridEquipmentHandel.setSelectFieldName(field);
+            var target = gridEquipmentHandel.getFieldTarget(field);
+            if(target){
+                gridEquipmentHandel.setFieldFocus(target);
+            }else{
+                gridEquipmentHandel.setSelectFieldName("equipmentCode");
+            }
+        },
+        onLoadSuccess : function(data) {
+            gridEquipmentHandel.setDatagridHeader("center");
+        }
     })
 
-    gridEquipmentHandel.setLoadData([$.extend({},gridDefault)])
+    // gridEquipmentHandel.setLoadData([$.extend({},gridDefault)])
 }
 
 //插入一行
@@ -113,6 +144,9 @@ function delLineHandel(event){
     gridEquipmentHandel.delRow(index);
 }
 
+function onSelectPOS() {
+    
+}
 
 
 function saveSetting(){
