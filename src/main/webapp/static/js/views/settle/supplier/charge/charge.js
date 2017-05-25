@@ -11,10 +11,9 @@ var gridDefault = {
 //列表数据查询url
 var url = "";
 var oldData = {};
-var gridName = "supplierAdvMoneyListAdd";
+var gridName = "supChargeListAdd";
 var pageStatus;
-var editRowData = null;
-var targetBranchId;
+var branchId;
 
 
 $(function(){
@@ -24,14 +23,13 @@ $(function(){
 		  $('#createTime').text(new Date().format('yyyy-MM-dd'))
 	}else {
 		var formId = $("#formId").val();
-		url = contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverFormId="+formId+"&deliverType=DA";
+		url = contextPath+"/settle/supplierCharge/chargeFormDetailList?formId="+formId;
 		oldData = {
-		        targetBranchId:$("#targetBranchId").val(), // 要活分店id
-		        remark:$("#remark").val(),                  // 备注
-		        formNo:$("#formNo").val(),                 // 单号
+		    remark:$("#remark").val(),                  // 备注
+		    payTime:$('#payMoneyTime').val()
 		}
 	}
-	initSupAdvMonAdd();
+	initChageListAdd();
 })
 
 $(document).on('input','#remark',function(){
@@ -62,7 +60,7 @@ $(document).on('input','#remark',function(){
 });
 
 var gridHandel = new GridClass();
-function initSupAdvMonAdd(){
+function initChageListAdd(){
     gridHandel.setGridName(gridName);
     gridHandel.initKey({
         firstName:'value',
@@ -82,7 +80,7 @@ function initSupAdvMonAdd(){
     })
 
     $("#"+gridName).datagrid({
-        method:'post',
+        method:'get',
     	url:url,
         align:'center',
         singleSelect:false,  //单选  false多选
@@ -106,7 +104,7 @@ function initSupAdvMonAdd(){
             {field:'id',hidden:'true'},
             {field:'value',title:'编号',width: '100px',align:'left',editor:'textbox'},
             {field:'label',title:'名称',width:'200px',align:'left'},
-            {field:'io',title:'收支方式',width:'80px',align:'left',
+            {field:'io',title:'收支方式',width:'80px',align:'center',
             	formatter:function(value,row){
             		if(row.isFooter){
             			return "";
@@ -144,8 +142,6 @@ function initSupAdvMonAdd(){
                 editor:{
                     type:'numberbox',
                     options:{
-//                        disabled:true,
-//                        min:0,
                         precision:4,
                         onChange: onChangeAmount,
                     }
@@ -245,7 +241,7 @@ function validateForm(branchId,payTime,supplierId){
 //保存
 function saveSupAdvMonOrder(){
 	$("#"+gridName).datagrid("endEdit", gridHandel.getSelectRowIndex());
-	var branchId = $('#targetBranchId').val();
+	var branchId = $('#branchId').val();
 	var payTime = $('#payMoneyTime').val();
 	var supplierId = $('#supplierId').val();
 	if(!validateForm(branchId,payTime,supplierId))return;
@@ -256,7 +252,7 @@ function saveSupAdvMonOrder(){
     }
     
     var footRow = gridHandel.getFooterRow();
-    if(footRow.length <= 0 && footRow[0].amount ==0 ){
+    if(footRow.length > 0 && footRow[0].amount ==0 ){
     	$_jxc.alert("合计该单据不能为零，请修改。");
     	return;
     }
@@ -273,7 +269,8 @@ function saveSupAdvMonOrder(){
     })
     
     var reqObj = {
-    	branchId:$('#targetBranchId').val()||'',
+    	id:$('#formId').val()||'',
+    	branchId:$('#branchId').val()||'',
     	branchCode:$('#branchCode').val()||'',
     	payTime:payTime||'',
     	formType:'FF',
@@ -285,6 +282,7 @@ function saveSupAdvMonOrder(){
     }
     
     console.log('reqObj',reqObj);
+    gFunStartLoading();
     $.ajax({
         url:contextPath+"/settle/supplierCharge/saveChargeForm",
         type:"POST",
@@ -313,27 +311,20 @@ function auditChargeForm(){
     //验证数据是否修改
     $("#"+gridName).datagrid("endEdit", gridHandel.getSelectRowIndex());
     var newData = {
-        targetBranchId:$("#targetBranchId").val(), // 要活分店id
-        sourceBranchId:$("#sourceBranchId").val(), //发货分店id
-        validityTime:$("#validityTime").val(),      //生效日期
-        remark:$("#remark").val(),                  // 备注
-        formNo:$("#formNo").val(),                 // 单号
-        grid: $.map(gridHandel.getRows(), function(obj){
+    	remark:$("#remark").val(),                  // 备注
+ 		payTime:$('#payMoneyTime').val(),
+        grid:$.map(gridHandel.getRows(), function(obj){
             return $.extend(true,{},obj);//返回对象的深拷贝
         })
     }
 
     if(!gFunComparisonArray(oldData,newData)){
-        messager("数据有修改，请先保存再审核");
+    	$_jxc.alert("数据有修改，请先保存再审核");
         return;
     }
-	var branchId = $('#targetBranchId').val();
-	var payTime = $('#payMoneyTime').val();
-	var supplierId = $('#supplierId').val();
-	var chargeId = $('#chargeId').val();
     var reqObj = {
-    	id:chargeId,
-    	branchId:$('#targetBranchId').val()||''
+    	id:$('#formId').val()||'',
+    	branchId:$('#branchId').val()||''
     }
 	$.messager.confirm('提示','是否审核通过？',function(data){
 		if(data){
@@ -341,7 +332,7 @@ function auditChargeForm(){
 			$.ajax({
 		    	url : contextPath+"/settle/supplierCharge/auditChargeForm",
 		    	type : "POST",
-		    	data:{"data":JSON.stringify(jsonData)},
+		    	data:{"data":JSON.stringify(reqObj)},
 		    	success:function(result){
                     gFunEndLoading();
 		    		if(result['code'] == 0){
@@ -349,17 +340,12 @@ function auditChargeForm(){
 		    				location.href = contextPath +"/settle/supplierCharge/chargeView?id=" + result["formId"];
 		    			});
 		    		}else{
-		            	new publicErrorDialog({
-                            width:380,
-                            height:220,
-		            		"title":"审核失败",
-		            		"error":result['message']
-		            	});
+		            	 $_jxc.alert(result['message'],'审核失败');
 		    		}
 		    	},
 		    	error:function(result){
                     gFunEndLoading();
-		    		successTip("请求发送失败或服务器处理失败");
+		    		$_jxc.alert("请求发送失败或服务器处理失败");
 		    	}
 		    });
 		}
@@ -375,8 +361,8 @@ function delSupAdvMonForm(){
 			$.ajax({
 		    	url:contextPath+"/settle/supplierCharge/deleteChargeForm",
 		    	type:"POST",
-		    	contentType:"application/json",
-		    	data:JSON.stringify(ids),
+		    	dataType: "json",
+		    	data:{"ids":ids},
 		    	success:function(result){
 		    		if(result['code'] == 0){
                         toRefreshIframeDataGrid("settle/supplierCharge/chargeList","supplierAdvMoneyList");
@@ -396,10 +382,10 @@ function delSupAdvMonForm(){
 //机构
 function selectBranches(){
 	new publicAgencyService(function(data){
-		$("#targetBranchId").val(data.branchesId);
+		$("#branchId").val(data.branchesId);
 		$("#branchCode").val(data.branchCode);
 		$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
-	},'',targetBranchId);
+	},'',branchId);
 }
 
 //选择供应商
@@ -412,7 +398,7 @@ function selectSupplier(){
 
 //选择费用
 function selectCharge(searchKey){
-	var branchId = $('#targetBranchId').val();
+	var branchId = $('#branchId').val();
 	var payTime = $('#payMoneyTime').val();
 	var supplierId = $('#supplierId').val();
 	if(!validateForm(branchId,payTime,supplierId))return;
@@ -436,6 +422,11 @@ function selectCharge(searchKey){
 	        gridHandel.setFieldFocus(gridHandel.getFieldTarget('io'));
 	    },100)
 	});
+}
+
+//导出
+function exportOrder(){
+	
 }
 
 //返回列表页面
