@@ -7,4 +7,7 @@ $(function () {
 
 function saveFinanceCode() {
     
+	var addUrl = contextPath+'/archive/financeCode/addFinanceCode'; 
+	var updateUrl = contextPath+'/archive/financeCode/updateFinanceCode'; 
 }
+

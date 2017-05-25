@@ -12,7 +12,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -141,7 +140,11 @@ public class BranchController extends BaseController<BranchController> {
 		
 		qo.setPageNumber(pageNumber);
 		qo.setPageSize(pageSize);
-		qo.setBranchCompleCode(super.getCurrBranchCompleCode());
+		
+		// 默认当前机构
+		if(StringUtils.isBlank(qo.getBranchCompleCode())){
+			qo.setBranchCompleCode(super.getCurrBranchCompleCode());
+		}
 		LOG.debug("查询机构条件：{}", qo);
 		
 		try {
@@ -179,19 +182,19 @@ public class BranchController extends BaseController<BranchController> {
 	@RequestMapping(value = "exportHandel", method = RequestMethod.POST)
 	public RespJson exportHandel(BranchQo qo, HttpServletResponse response) {
 		try {
-			// 添加过滤条件
-			qo.setBranchCompleCode(super.getCurrBranchCompleCode());
+			// 默认当前机构
+			if(StringUtils.isBlank(qo.getBranchCompleCode())){
+				qo.setBranchCompleCode(super.getCurrBranchCompleCode());
+			}
 			
 			LOG.debug("查询机构条件：{}", qo);
 			
 			List<BranchPo> list = branchesService.getBranchListForExport(qo);
 			
-			if(CollectionUtils.isEmpty(list)){
-				return RespJson.error("无数据可导");
-			}
-			
-			if (list.size() > ExportExcelConstant.EXPORT_MAX_SIZE) {
-				return RespJson.error("最多只能导出" + ExportExcelConstant.EXPORT_MAX_SIZE + "条数据");
+			RespJson respJson = super.validateExportList(list);
+			if(!respJson.isSuccess()){
+				LOG.info(respJson.getMessage());
+				return respJson;
 			}
 
 			// 导出文件名称，不包括后缀名

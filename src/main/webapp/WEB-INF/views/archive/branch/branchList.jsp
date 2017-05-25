@@ -11,7 +11,7 @@
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
-<script src="${ctx}/static/js/views/branchManager/branchList.js?V=4"></script>
+<script src="${ctx}/static/js/views/branchManager/branchList.js?V=1"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
 	<div class="ub ub-f1 umar-4 upad-4">
@@ -43,6 +43,10 @@
 						<div class="umar-r10 uw-80 ut-r">机构名称:</div>
 						<input class="uinp" type="text" name="branchKeyword" id="branchKeyword"
 							placeholder="输入编号、名称进行查询">
+						
+						<input type="hidden" id="branchCompleCode" name="branchCompleCode" >
+						<input type="hidden" id="startCount" name="startCount" >
+						<input type="hidden" id="endCount" name="endCount" >
 					</div>
 
 					<div class="ub ub-ac umar-r10">
