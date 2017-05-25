@@ -75,7 +75,7 @@ function initDatagridBranchList() {
             {field:'branchTypeStr',title:'机构类型',width:80,align:'left'},
             {field:'parentBranchName',title:'所属机构',width:180,align:'left'},
             {field:'offlineStatusStr',title:'机构状态',width:80,align:'left'},
-            {field:'areaSize',title:'店铺面积(m*2)',width:110,align:'left'},
+            {field:'areaSize',title:'店铺面积(m*2)',width:110,align:'right'},
             {field:'costAvgYear',title:'费用均摊年数',width:110,align:'right'},
             {field:'contacts',title:'联系人',width:120,align:'left'},
             {field:'mobile',title:'联系电话',width:120,align:'left'},
