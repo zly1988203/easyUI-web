@@ -120,7 +120,7 @@ function openShopSettingLis(cardType) {
         width: dialogWidth,
         height: dialogHeight,
         left:dialogLeft,
-        title: "一卡通设置",
+        title: "开通店铺列表",
         closable: true,
         resizable: true,
         onClose: function () {
@@ -135,6 +135,6 @@ function openShopSettingLis(cardType) {
 }
 
 function closeShopSettingDialog() {
-    $(cardDialog).panel('destroy');
-    cardDialog = null;
+    $(shopSettingDialog).panel('destroy');
+    shopSettingDialog = null;
 }

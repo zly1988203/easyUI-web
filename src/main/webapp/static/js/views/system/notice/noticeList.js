@@ -142,3 +142,17 @@ function delNotice() {
     });
 
 }
+
+function publishShop() {
+    publicBranchService(function(data){
+        $("#publishShopId").val(data.branchesId);// id
+        $("#publishShopName").val("["+data.branchCode+"]"+data.branchName);
+    },0);
+}
+
+function receiveShop() {
+    publicBranchService(function(data){
+        $("#receiveShopId").val(data.branchesId);// id
+        $("#receiveShopName").val("["+data.branchCode+"]"+data.branchName);
+    },0);
+}

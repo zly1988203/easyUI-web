@@ -12,6 +12,9 @@
 <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <script src="${ctx}/static/js/views/branchManager/branchList.js?V=4"></script>
+	<style>
+	.datagrid-header .datagrid-cell {text-align: center!important;font-weight: bold;}
+	</style>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
 	<div class="ub ub-f1 umar-4 upad-4">
