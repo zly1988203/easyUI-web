@@ -35,7 +35,7 @@ function initGridCardSetting() {
             {field: 'status', title: '启用',checkbox:true, width: 80, align: 'left'},
             {field: 'cz', title: '操作', width: 180, align: 'right',
                 formatter : function(value, row,index) {
-                    var str =  '<a name="add" onclick="openShopLis('+row.cardType+')" ' +
+                    var str =  '<a name="add" onclick="openShopSettingLis('+row.cardType+')" ' +
                         ' class="ualine">'+'开通店铺列表'+'</a>';
 
                     return str;
@@ -110,6 +110,31 @@ function delCard() {
     });
 }
 
-function openShopLis(cardType) {
+var shopSettingDialog = null;
+var dialogHeight = $(window).height()*(4/5);
+var dialogWidth = $(window).width()*(5/9);
+var dialogLeft = $(window).width()*(1/5);
+function openShopSettingLis(cardType) {
+    shopSettingDialog = $('<div/>').dialog({
+        href: contextPath+"/iccard/setting/icCardShopSetting",
+        width: dialogWidth,
+        height: dialogHeight,
+        left:dialogLeft,
+        title: "一卡通设置",
+        closable: true,
+        resizable: true,
+        onClose: function () {
+            $(shopSettingDialog).panel('destroy');
+            shopSettingDialog = null;
+        },
+        modal: true,
+        onLoad: function () {
+            initShopSetting();
+        }
+    })
+}
 
+function closeShopSettingDialog() {
+    $(cardDialog).panel('destroy');
+    cardDialog = null;
 }

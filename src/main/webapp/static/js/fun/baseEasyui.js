@@ -1007,9 +1007,7 @@ var $_jxc = {
 	/**
 	 * bwp 07/05/24
 	 * ajax 
-	 * @param msg   提示内容
-	 * @param title 提示标题 可以不传
-	 * @param cb    回调 可以不传
+	 * @param param 参数对象
 	 * @returns
 	 */
 	ajax:function(param){

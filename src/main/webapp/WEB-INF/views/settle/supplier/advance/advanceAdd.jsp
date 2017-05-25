@@ -13,7 +13,7 @@
     </style>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
-	<input type='hidden' id="supplierAdvMoneyStatus" value="add">
+	<input type='hidden' id="operateType" name="operateType" value="add">
     <div class="ub ub-ver ub-f1 umar-4  ubor">
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
@@ -33,6 +33,7 @@
                 <div class="umar-r10 uw-70 ut-r">机构:</div>
                 <div class="ub">
                     <input type="hidden" id="targetBranchId" name="targetBranchId"/>
+                    <input type="hidden" id="branchCode" name="branchCode"/>
                     <input class="uinp ub ub-f1" type="text" id="targetBranchName" readonly="readonly" onclick="selectBranches()" />
                     <div class="uinp-more" onclick="selectBranches()">...</div>
                 </div>
@@ -46,7 +47,7 @@
                 <i class="ub ub-ac uc-red">*</i>
             </div>
             <div class="ub ub-ac umar-l20">
-                <div class="umar-r10 uw-70 ut-r">制单人员:</div>
+                <div class="umar-r10 uw-70 ut-r">制单人:</div>
                 <div class="utxt"><%=UserUtil.getCurrentUser().getUserName() %></div>
             </div>
             <div class="ub ub-ac umar-l20">
@@ -67,7 +68,7 @@
                <div class="ub ub-ac uw-300 umar-l20">
                </div>
                <div class="ub ub-ac umar-l10">
-                   <div class="umar-r10 uw-80 ut-r">最后修改人:</div>
+                   <div class="umar-r10 uw-80 ut-r">修改人:</div>
                    <div class="utxt"></div>
                </div>
                <div class="ub ub-ac umar-l20">
@@ -82,14 +83,13 @@
                 	<input class="uinp ub ub-f1" type="text" id="remark" maxLength='20'  name="remark">
                </div>
                <div class="ub ub-ac umar-l40">
-                   <div class="umar-r10 uw-70 ut-r">审核人员:</div>
+                   <div class="umar-r10 uw-70 ut-r">审核人:</div>
                    <div class="utxt"></div>
                </div>
                <div class="ub ub-ac umar-l20">
                    <div class="umar-r10 uw-60 ut-r">审核时间:</div>
                    <div class="utxt"></div>
-               </div>
-               
+               </div>               
            </div>
            <%--datagrid-edit--%>
            <div class="ub ub-f1 datagrid-edit umar-t8">

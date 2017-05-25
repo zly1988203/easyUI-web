@@ -54,7 +54,7 @@ public class SysNoticeController extends BaseController<SysNoticeController> {
 	 */
 	@RequestMapping(value = "list")
 	public String list() {
-		return "system/notice/list";
+		return "system/notice/noticeList";
 	}
 
 	/**
@@ -84,9 +84,9 @@ public class SysNoticeController extends BaseController<SysNoticeController> {
 	 * @author zhengwj
 	 * @date 2017年5月19日
 	 */
-	@RequestMapping(value = "add")
+	@RequestMapping(value = "addNotice")
 	public String add() {
-		return "system/notice/add";
+		return "system/notice/addNotice";
 	}
 
 	/**
@@ -113,7 +113,7 @@ public class SysNoticeController extends BaseController<SysNoticeController> {
 	 * @author zhengwj
 	 * @date 2017年5月19日
 	 */
-	@RequestMapping(value = "view")
+	@RequestMapping(value = "noticeView")
 	public ModelAndView view(String id, ModelAndView modelAndView) {
 		SysNoticeVo vo = sysNoticeService.getNotice(id);
 		// 查看详情，标记为已读
@@ -122,7 +122,7 @@ public class SysNoticeController extends BaseController<SysNoticeController> {
 			sysNoticeService.updateRead(id, user.getId());
 		}
 		modelAndView.addObject("notice", vo);
-		modelAndView.setViewName("system/notice/view");
+		modelAndView.setViewName("system/notice/noticeView");
 		return modelAndView;
 	}
 

@@ -190,6 +190,9 @@ public interface ExportExcelConstant {
 	
 	/*** 机构信息导出模板  */
 	String BRANCH_EXPORT_TEMPLATE = "branchExportTemplate.xlsx";
+	
+	/*** 财务代码导出模板  */
+	String FINANCE_CODE_EXPORT_TEMPLATE = "financeCodeExportTemplate.xlsx";
 
 	/**
 	 * 成本调价单导出模板

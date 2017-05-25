@@ -4,9 +4,10 @@
  */
 $(function(){
 	//开始和结束时间
-	toChangeDatetime(0);
+    $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
+    $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
     initsupAdvMonList();
-    targetBranchId = $("#targetBranchId").val();
+    branchId = $("#branchId").val();
    
 });
 
@@ -56,17 +57,22 @@ function initsupAdvMonList(){
 		height:'100%',
 		width:'100%',
         columns:[[
-			{field:'check',checkbox:true},
-            {field:'formNo',title:'单据编号',width:'130px',align:'left',formatter:function(value,row,index){
-            	var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'供应商预付款明细\',\''+ contextPath +'/form/deliverForm/deliverEdit?deliverFormId='+ row.deliverFormId +'&deliverType=DA\')">' + value + '</a>';
+			{field: 'check',checkbox:true},
+            {field: 'formNo',title:'单据编号',width:'130px',align:'left',formatter:function(value,row,index){
+            	var strHtml = '';
+            	if(row.auditStatus == 1){
+            		strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'供应商预付款明细\',\''+ contextPath +'/settle/supplierCharge/advanceView?id='+ row.id +'\')">' + value + '</a>';
+            	}else{
+            		strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'供应商预付款明细\',\''+ contextPath +'/settle/supplierCharge/advanceEdit?id='+ row.id +'\')">' + value + '</a>';
+            	}
         		return strHtml;
             }},
-            {field:'status',title: '审核状态', width: '100px', align: 'center'},
-			{field: 'branchNo', title: '机构编号', width: '100px', align: 'center'},
+            {field: 'auditStatus',title: '审核状态', width: '80px', align: 'center'},
+			{field: 'branchCode', title: '机构编号', width: '100px', align: 'left'},
 			{field: 'branchName', title: '机构名称', width: '140px', align: 'left'},
-			{field: 'supperbranchName', title: '供应商名称', width: '140px', align: 'left'},
-			{field: 'supperbranchNo', title: '供应商编号', width: '140px', align: 'left'},
-			{field: 'amount', title: '单据金额', width: '80px', align: 'right',
+			{field: 'supplierCode', title: '供应商编号', width: '140px', align: 'left'},
+			{field: 'supplierName', title: '供应商名称', width: '140px', align: 'left'},
+			{field: 'sumAmount', title: '单据金额', width: '100px', align: 'right',
 				formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -74,8 +80,8 @@ function initsupAdvMonList(){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
 			},
-            {field: 'createUserName', title: '制单人员', width: '80px', align: 'left'},
-            {field: 'createTime', title: '制单时间', width: '100px', align: 'center',
+            {field: 'createUserName', title: '制单人', width: '120px', align: 'left'},
+            {field: 'createTime', title: '制单时间', width: '100px', align: 'left',
 				formatter: function (value, row, index) {
 					if (value) {
 						return new Date(value).format('yyyy-MM-dd');
@@ -83,7 +89,7 @@ function initsupAdvMonList(){
 					return "";
 				}
 			},
-			{field: 'validUserName', title: '审核人员', width: '130px', align: 'left'},
+			{field: 'auditUserName', title: '审核人', width: '120px', align: 'left'},
 			{field: 'remark', title: '备注', width: '200px', align: 'left'}
 			
         ]],
@@ -111,12 +117,12 @@ function clearBranchCode(obj,branchId){
 function queryForm(){
 	var fromObjStr = $('#queryForm').serializeObject();
 	// 去除编码
-    //fromObjStr.targetBranchName = fromObjStr.targetBranchName.substring(fromObjStr.targetBranchName.lastIndexOf(']')+1)
-    fromObjStr.operateUserName = fromObjStr.operateUserName.substring(fromObjStr.operateUserName.lastIndexOf(']')+1)
+    fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1)
+    fromObjStr.createUserName = fromObjStr.createUserName.substring(fromObjStr.createUserName.lastIndexOf(']')+1)
 
 	$("#"+datagirdID).datagrid("options").method = "post";
-	$("#"+datagirdID).datagrid('options').url = contextPath + '/form/deliverForm/getDeliverForms';
-	$("#"+datagirdID).datagrid('load', fromObjStr);
+	$("#"+datagirdID).datagrid('options').url = contextPath + '/settle/supplierCharge/getChargeList';
+	$("#"+datagirdID).datagrid('load',fromObjStr);
 }
 
 //删除
@@ -166,8 +172,8 @@ function selectSupplier(){
  */
 function selectOperator(){
 	new publicOperatorService(function(data){
-		$("#operateUserId").val(data.id);
-		$("#operateUserName").val("["+data.userCode+"]"+data.userName);
+		$("#createUserId").val(data.id);
+		$("#createUserName").val("["+data.userCode+"]"+data.userName);
 	});
 }
 /**
@@ -175,21 +181,21 @@ function selectOperator(){
  */
 function selectBranches(){
 	new publicAgencyService(function(data){
-		$("#targetBranchId").val(data.branchesId);
-		$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
+		$("#branchId").val(data.branchesId);
+		$("#branchName").val("["+data.branchCode+"]"+data.branchName);
 	},'',targetBranchId);
 }
 
 //打印
-function printDesign(){
-     var dg = $("#gridRequireOrders");
-     var row = dg.datagrid("getSelected");
-     if(rowIsNull(row)){
-           return null;
-     }
-     //弹出打印页面
-     parent.addTabPrint('PASheet' + row.id,row.formNo+'单据打印',contextPath + '/printdesign/design?page=PASheet&controller=/form/purchase&template=-1&sheetNo=' + row.id + '&gridFlag=PAGrid','');
-}
+//function printDesign(){
+//     var dg = $("#gridRequireOrders");
+//     var row = dg.datagrid("getSelected");
+//     if(rowIsNull(row)){
+//           return null;
+//     }
+//     //弹出打印页面
+//     parent.addTabPrint('PASheet' + row.id,row.formNo+'单据打印',contextPath + '/printdesign/design?page=PASheet&controller=/form/purchase&template=-1&sheetNo=' + row.id + '&gridFlag=PAGrid','');
+//}
 
 /**
  * 重置
