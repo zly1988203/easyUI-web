@@ -84,7 +84,7 @@ public class SupplierChargeController extends BaseController<SupplierChargeContr
             LOG.debug(LogConstant.PAGE, advanceList.toString());
             return advanceList;
         } catch (Exception e) {
-            LOG.error("供应商预付列表信息异常:{}", e);
+            LOG.error("供应商费用列表信息异常:{}", e);
         }
         return PageUtils.emptyPage();
     }
@@ -127,7 +127,7 @@ public class SupplierChargeController extends BaseController<SupplierChargeContr
      */
     @RequestMapping(value = "/chargeFormDetailList", method = RequestMethod.GET)
     @ResponseBody
-    public List<SupplierChargeDetailVo> stocktakingFormDetailList(String formId) {
+    public List<SupplierChargeDetailVo> chargeFormDetailList(String formId) {
         LOG.debug(LogConstant.OUT_PARAM, formId);
         List<SupplierChargeDetailVo> detailList = new ArrayList<SupplierChargeDetailVo>();
         try {
@@ -164,10 +164,14 @@ public class SupplierChargeController extends BaseController<SupplierChargeContr
             if (OperateTypeEnum.ADD.getIndex().equals(vo.getOperateType())) {
                 // 新增
                 vo.setCreateUserId(user.getId());
+                vo.setCreateTime(DateUtils.getCurrDate());
+                vo.setUpdateUserId(user.getId());
+                vo.setUpdateTime(DateUtils.getCurrDate());
                 return supplierChargeService.saveChargeForm(vo);
             } else {
                 // 修改
                 vo.setUpdateUserId(user.getId());
+                vo.setUpdateTime(DateUtils.getCurrDate());
                 return supplierChargeService.updateChargeForm(vo);
             }
         } catch (Exception e) {
