@@ -92,7 +92,7 @@
            </div>
            <%--datagrid-edit--%>
            <div class="ub ub-f1 datagrid-edit umar-t8">
-            <table id="supplierAdvMoneyListAdd" ></table>
+            <table id="supplierAdvanceListAdd" ></table>
         </div>
     </div>
 
