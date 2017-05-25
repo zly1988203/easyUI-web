@@ -8,10 +8,13 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.enums.BranchTypeEnum;
+import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
 import com.okdeer.jxc.utils.jxls.ReportExcelUtil;
@@ -214,5 +217,23 @@ public class BaseController<T> {
 			typeList.add(currType);
 		}
 		return typeList;
+	}
+	
+	/**
+	 * @Description: 验证导出集合数据
+	 * @param list
+	 * @author liwb
+	 * @date 2017年5月24日
+	 */
+	protected RespJson validateExportList(List<?> list) {
+		if(CollectionUtils.isEmpty(list)){
+			return RespJson.error("无数据可导");
+		}
+		
+		if (list.size() > ExportExcelConstant.EXPORT_MAX_SIZE) {
+			return RespJson.error("最多只能导出" + ExportExcelConstant.EXPORT_MAX_SIZE + "条数据");
+		}
+		
+		return RespJson.success();
 	}
 }

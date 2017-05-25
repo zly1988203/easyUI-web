@@ -22,16 +22,18 @@
 			<div class="ub upad-4 umar-t10">
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">编号:</div>
-					<input class="uinp ub ub-f1" type="text" id="financeCode"
-						name="financeCode" maxlength="50" />
+					<input class="uinp ub ub-f1" type="text" id="value"
+						name="value" maxlength="50" />
+						
+					<input type="hidden" name="id" id="id" />
 				</div>
 			</div>
 
 			<div class="ub upad-4 umar-t10">
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">名称:</div>
-					<input class="uinp ub ub-f1" type="text" id="financeName"
-						name="financeName" maxlength="50" />
+					<input class="uinp ub ub-f1" type="text" id="label"
+						name="label" maxlength="50" />
 				</div>
 			</div>
 
@@ -39,8 +41,8 @@
 
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">备注:</div>
-					<input class="uinp ub ub-f1" type="text" id="description"
-						name="description" maxlength="50" />
+					<input class="uinp ub ub-f1" type="text" id="remark"
+						name="remark" maxlength="50" />
 				</div>
 			</div>
 		</div>

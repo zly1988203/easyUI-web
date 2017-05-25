@@ -49,6 +49,7 @@ function initTreeArchives(){
 //选择树节点
 function zTreeOnClick(event, treeId, treeNode) {
     gVarBranchId = treeNode.id;
+    $("#branchCompleCode").val(treeNode.code);
     queryBranch();
 }
 var dg;
@@ -130,8 +131,7 @@ function closeDialogHandel() {
  */
 function queryBranch(){
     var formData = $('#formList').serializeObject();
-    var postParams = $.extend(formData,{branchId:gVarBranchId})
-    $("#"+gridName).datagrid("options").queryParams = postParams;
+    $("#"+gridName).datagrid("options").queryParams = formData;
     $("#"+gridName).datagrid("options").method = "post";
     $("#"+gridName).datagrid("options").url =contextPath+'/archive/branch/getBranchList',
     $("#"+gridName).datagrid('load');
