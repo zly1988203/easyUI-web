@@ -139,15 +139,15 @@ function delSupAdvMonForm(){
 	}
 	var ids = [];
 	for(var i=0; i<row.length; i++){
-		ids.push(row[i].deliverFormId);
+		ids.push(row[i].id);
 	}
 	$.messager.confirm('提示','是否要删除选中数据',function(data){
 		if(data){
 			$.ajax({
-		    	url:contextPath+"/form/deliverForm/deleteDeliverForm",
+		    	url:contextPath+"/settle/supplierCharge/deleteChargeForm",
 		    	type:"POST",
-		    	contentType:"application/json",
-		    	data:JSON.stringify(ids),
+                data: {"ids":ids},
+                dataType: "json",
 		    	success:function(result){
 		    		if(result['code'] == 0){
 		    			successTip("删除成功");
