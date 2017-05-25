@@ -611,4 +611,9 @@ public interface ExportExcelConstant {
 	 * 一卡通交易汇总
 	 */
 	String ICC_CARD_SUM_TRADING_DETAIL = "iccCardSumTradingDetail.xlsx";
+	
+	/**
+	 * 一卡通账户管理
+	 */
+	String ICC_CARD_ACCOUNT_MANAGEMENT = "iccCardAccountManagement.xlsx";
 }
