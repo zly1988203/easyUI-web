@@ -13,7 +13,6 @@ var url = "";
 var oldData = {};
 var gridName = "supplierAdvMoneyListAdd";
 var pageStatus;
-var editRowData = null;
 var targetBranchId;
 
 
@@ -24,11 +23,10 @@ $(function(){
 		  $('#createTime').text(new Date().format('yyyy-MM-dd'))
 	}else {
 		var formId = $("#formId").val();
-		url = contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverFormId="+formId+"&deliverType=DA";
+		url = contextPath+"/settle/supplierCharge/chargeFormDetailList?formId="+formId;
 		oldData = {
-		        targetBranchId:$("#targetBranchId").val(), // 要活分店id
-		        remark:$("#remark").val(),                  // 备注
-		        formNo:$("#formNo").val(),                 // 单号
+		    remark:$("#remark").val(),                  // 备注
+		    payTime:$('#payMoneyTime').val()
 		}
 	}
 	initSupAdvMonAdd();
@@ -82,7 +80,7 @@ function initSupAdvMonAdd(){
     })
 
     $("#"+gridName).datagrid({
-        method:'post',
+        method:'get',
     	url:url,
         align:'center',
         singleSelect:false,  //单选  false多选
@@ -106,7 +104,7 @@ function initSupAdvMonAdd(){
             {field:'id',hidden:'true'},
             {field:'value',title:'编号',width: '100px',align:'left',editor:'textbox'},
             {field:'label',title:'名称',width:'200px',align:'left'},
-            {field:'io',title:'收支方式',width:'80px',align:'left',
+            {field:'io',title:'收支方式',width:'80px',align:'center',
             	formatter:function(value,row){
             		if(row.isFooter){
             			return "";
@@ -313,18 +311,15 @@ function auditChargeForm(){
     //验证数据是否修改
     $("#"+gridName).datagrid("endEdit", gridHandel.getSelectRowIndex());
     var newData = {
-        targetBranchId:$("#targetBranchId").val(), // 要活分店id
-        sourceBranchId:$("#sourceBranchId").val(), //发货分店id
-        validityTime:$("#validityTime").val(),      //生效日期
-        remark:$("#remark").val(),                  // 备注
-        formNo:$("#formNo").val(),                 // 单号
+    	remark:$("#remark").val(),                  // 备注
+ 		payTime:$('#payMoneyTime').val()
         grid: $.map(gridHandel.getRows(), function(obj){
             return $.extend(true,{},obj);//返回对象的深拷贝
         })
     }
 
     if(!gFunComparisonArray(oldData,newData)){
-        messager("数据有修改，请先保存再审核");
+    	$_jxc.alert("数据有修改，请先保存再审核");
         return;
     }
 	var branchId = $('#targetBranchId').val();
@@ -349,17 +344,12 @@ function auditChargeForm(){
 		    				location.href = contextPath +"/settle/supplierCharge/advanceView?id=" + result["formId"];
 		    			});
 		    		}else{
-		            	new publicErrorDialog({
-                            width:380,
-                            height:220,
-		            		"title":"审核失败",
-		            		"error":result['message']
-		            	});
+		            	 $_jxc.alert(result['message'],'审核失败');
 		    		}
 		    	},
 		    	error:function(result){
                     gFunEndLoading();
-		    		successTip("请求发送失败或服务器处理失败");
+		    		$_jxc.alert("请求发送失败或服务器处理失败");
 		    	}
 		    });
 		}

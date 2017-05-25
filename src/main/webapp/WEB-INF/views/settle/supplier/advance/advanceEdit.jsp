@@ -14,6 +14,7 @@
 </head>
 <body class="ub uw uh ufs-14 uc-black">
     <input type='hidden' id="operateType" name="operateType" value="edit">
+    <input type='hidden' id="formId" value="${chargeVo.id}">
     <div class="ub ub-ver ub-f1 umar-4  ubor">
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
@@ -51,7 +52,7 @@
             </div>
             <div class="ub ub-ac umar-l20">
                 <div class="umar-r10 uw-60 ut-r">制单时间:</div>
-                <div class="utxt" id="createTime">${chargeVo.createTime}</div>
+                <div class="utxt" id="createTime"><fmt:formatDate value="${chargeVo.createTime}" pattern="yyyy-MM-dd HH:mm"/></div>
             </div>
          </div>
            <div class="ub umar-t8">
@@ -71,7 +72,7 @@
                </div>
                <div class="ub ub-ac umar-l20">
                    <div class="umar-r10 uw-60 ut-r">修改时间:</div>
-                   <div class="utxt">${chargeVo.createTime}</div>
+                   <div class="utxt"><fmt:formatDate value="${chargeVo.createTime}" pattern="yyyy-MM-dd HH:mm"/></div>
                </div>
                
            </div>
