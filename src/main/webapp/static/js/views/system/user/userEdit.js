@@ -61,6 +61,12 @@ function editUser(){
 }
 
 function savePassword() {
+    var reqObj = $('#passwordForm').serializeObject();
+    var isValid = $("#passwordForm").form('validate');
+    if (!isValid) {
+        return;
+    }
+
     var url = contextPath + "/system/user/updateUser";
     var param = null
     ajaxSubmit(url,param,function(result){

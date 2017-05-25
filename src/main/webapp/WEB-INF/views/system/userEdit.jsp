@@ -105,30 +105,33 @@
 					</div>
 
 
-	<div class="ub umar-t20">
+					<div class="ub umar-t20">
 
-	<div class="ub ub-ac umar-120" id="checkBoxPrice">
-	<div class="umar-r10 uw-80 ut-r">价格权限:</div>
-	<!-- 如果调价为null默认是全部显示 -->
-	<div class="ub ub-ac umar-r10">
-	<label><input class="priceItem" type="checkbox" name="isModifyPurPrice" id="purchasePrice"><span>进货价</span></label>
-	</div>
+						<div class="ub ub-ac umar-120" id="checkBoxPrice">
+							<div class="umar-r10 uw-80 ut-r">价格权限:</div>
+							<!-- 如果调价为null默认是全部显示 -->
+							<div class="ub ub-ac umar-r10">
+								<label><input class="priceItem" type="checkbox"
+									name="isModifyPurPrice" id="purchasePrice"><span>进货价</span></label>
+							</div>
 
-	<div class="ub ub-ac umar-r10">
-	<label><input class="priceItem" type="checkbox" name="isModifyPurPrice" id="costPrice"><span>成本价</span></label>
-	</div>
+							<div class="ub ub-ac umar-r10">
+								<label><input class="priceItem" type="checkbox"
+									name="isModifyPurPrice" id="costPrice"><span>成本价</span></label>
+							</div>
 
-	<div class="ub ub-ac umar-r10">
-	<label><input class="priceItem" type="checkbox" name="isModifyDcPrice" id="distributionPrice"><span>配送价</span></label>
-	</div>
-	<div class="ub ub-ac umar-r10">
-	<label><input class="priceItem" type="checkbox" name="isModifyWsPrice" id="tradePrice"><span>批发价</span></label>
-	</div>
+							<div class="ub ub-ac umar-r10">
+								<label><input class="priceItem" type="checkbox"
+									name="isModifyDcPrice" id="distributionPrice"><span>配送价</span></label>
+							</div>
+							<div class="ub ub-ac umar-r10">
+								<label><input class="priceItem" type="checkbox"
+									name="isModifyWsPrice" id="tradePrice"><span>批发价</span></label>
+							</div>
 
-	</div>
+						</div>
 
-
-	</div>
+					</div>
 				</div>
 			</form>
 
@@ -147,7 +150,7 @@
 				</div>
 			</div>
 			<div class="ub uline "></div>
-			<form id="editUserForm" class="uncenter" method="post">
+			<form id="passwordForm" class="uncenter" method="post">
 				<div style="display: inline-block;">
 
 					<div class="ub umar-t20">
@@ -160,12 +163,12 @@
 						</div>
 					</div>
 
-						<div class="ub umar-t20">
+					<div class="ub umar-t20">
 						<div class="ub ub-ac umar-l20">
 							<div class="umar-r10 uw-60 ut-r">密码:</div>
-							<input id="userPwd" name="userPwd" type="password" class="uh-40 uw-250 easyui-validatebox"
-								data-options="required:true">
-							<i class="uc-red">*</i>
+							<input id="userPwd" name="userPwd" type="password"
+								class="uh-40 uw-250 easyui-validatebox"
+								data-options="required:true"> <i class="uc-red">*</i>
 						</div>
 					</div>
 

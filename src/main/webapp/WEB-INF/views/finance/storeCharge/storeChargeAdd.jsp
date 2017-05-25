@@ -7,11 +7,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>门店费用修改</title>
+<title>机构费用-新增</title>
 
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 	<c:set var="ctx" value="${pageContext.request.contextPath}" />
-	<script src="${ctx}/static/js/views/finance/storeCharge/storeChargeMain.js?V=3"></script>
+<script src="${ctx}/static/js/views/finance/storeCharge/storeChargeMain.js?V=3"></script>
 	<style>
 	.datagrid-header .datagrid-cell {text-align: center!important;font-weight: bold;}
 	</style>
@@ -21,12 +21,14 @@
 	<div class="ub ub-ver ub-f1 umar-4  ubor">
 		<div class="ub ub-ac upad-4">
 			<div class="ubtns">
+				<div class="ubtns-item" onclick="storeChargeAdd()">新增</div>
 				<shiro:hasPermission name="JxcPurchaseOrder:add">
-					<div class="ubtns-item" onclick="saveItemHandel()">保存</div>
+					<div class="ubtns-item" onclick="saveStoreCharge()">保存</div>
 				</shiro:hasPermission>
-				<div class="ubtns-item" onclick="selectGoods()">商品选择</div>
-				<div class="ubtns-item" onclick="toImportproduct(0)">导入货号</div>
-				<div class="ubtns-item" onclick="toImportproduct(1)">导入条码</div>
+				<div class="ubtns-item" onclick="checkStoreCharge()">审核</div>
+				<div class="ubtns-item" onclick="selectFinanceCode()">费用选择</div>
+				<div class="ubtns-item" onclick="toImportStoreCharge()">费用导入</div>
+				<div class="ubtns-item uinp-no-more">删除</div>
 				<div class="ubtns-item" onclick="toClose()">关闭</div>
 			</div>
 		</div>
@@ -93,7 +95,7 @@
 			</div>
 		</form>
 		<div class="ub uw umar-t8 ub-f1">
-			<table id="gridEditOrder"></table>
+			<table id="gridStoreCharge"></table>
 		</div>
 	</div>
 

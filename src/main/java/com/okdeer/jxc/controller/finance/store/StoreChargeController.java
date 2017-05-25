@@ -35,7 +35,7 @@ public class StoreChargeController extends BaseController<StoreChargeController>
 	
 	@RequestMapping(value = "toAdd")
 	public String toAdd() {
-		return "finance/storeCharge/storeChargeEdit";
+		return "finance/storeCharge/storeChargeAdd";
 	}
 	
 	@RequestMapping(value = "toEdit")
