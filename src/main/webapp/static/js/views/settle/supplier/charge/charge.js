@@ -6,7 +6,7 @@
 //默认数据
 var gridDefault = {
 		amount:0,
-		io:-1
+		io:1
 }
 //列表数据查询url
 var url = "";
@@ -119,11 +119,11 @@ function initChageListAdd(){
                         editable:false,
 //                        required:true,
                         data: [{
-                            "id":'-1',
-                            "text":"支出",
-                        },{
-                            "id":'1',
+                        	"id":'1',
                             "text":"收入",
+                        },{
+                        	"id":'-1',
+                            "text":"支出",
                         }],
                         onSelect:onSelect
                     }
@@ -239,7 +239,7 @@ function validateForm(branchId,payTime,supplierId){
 }
 
 //保存
-function saveSupAdvMonOrder(){
+function saveChageForm(){
 	$("#"+gridName).datagrid("endEdit", gridHandel.getSelectRowIndex());
 	var branchId = $('#branchId').val();
 	var payTime = $('#payMoneyTime').val();
@@ -353,7 +353,7 @@ function auditChargeForm(){
 }
 
 //删除
-function delSupAdvMonForm(){
+function delChageForm(){
 	var ids = [];
 	ids.push($("#formId").val());
 	$.messager.confirm('提示','是否要删除单据',function(data){
@@ -435,6 +435,6 @@ function back(){
 }
 
 //新增供应商预付款
-function addSupAdvMonForm(){
+function addChageForm(){
 	toAddTab("新增供应商预付款",contextPath + "/settle/supplierCharge/chargeAdd");
 }
