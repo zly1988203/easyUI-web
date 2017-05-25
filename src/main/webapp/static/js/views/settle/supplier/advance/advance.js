@@ -11,9 +11,9 @@ var gridDefault = {
 //列表数据查询url
 var url = "";
 var oldData = {};
-var gridName = "supplierAdvMoneyListAdd";
+var gridName = "supplierAdvanceListAdd";
 var pageStatus;
-var targetBranchId;
+var branchId;
 
 
 $(function(){
@@ -117,7 +117,6 @@ function initSupAdvMonAdd(){
                         valueField: 'id',
                         textField: 'text',
                         editable:false,
-//                        required:true,
                         data: [{
                             "id":'-1',
                             "text":"支出",
@@ -142,8 +141,6 @@ function initSupAdvMonAdd(){
                 editor:{
                     type:'numberbox',
                     options:{
-//                        disabled:true,
-//                        min:0,
                         precision:4,
                         onChange: onChangeAmount,
                     }
@@ -243,7 +240,7 @@ function validateForm(branchId,payTime,supplierId){
 //保存
 function saveSupAdvMonOrder(){
 	$("#"+gridName).datagrid("endEdit", gridHandel.getSelectRowIndex());
-	var branchId = $('#targetBranchId').val();
+	var branchId = $('#branchId').val();
 	var payTime = $('#payMoneyTime').val();
 	var supplierId = $('#supplierId').val();
 	if(!validateForm(branchId,payTime,supplierId))return;
@@ -271,7 +268,8 @@ function saveSupAdvMonOrder(){
     })
     
     var reqObj = {
-    	branchId:$('#targetBranchId').val()||'',
+    	id:$('#formId').val()||'',
+    	branchId:$('#branchId').val()||'',
     	branchCode:$('#branchCode').val()||'',
     	payTime:payTime||'',
     	formType:'FY',
@@ -283,6 +281,7 @@ function saveSupAdvMonOrder(){
     }
     
     console.log('reqObj',reqObj);
+    gFunStartLoading();
     $.ajax({
         url:contextPath+"/settle/supplierCharge/saveChargeForm",
         type:"POST",
@@ -312,8 +311,8 @@ function auditChargeForm(){
     $("#"+gridName).datagrid("endEdit", gridHandel.getSelectRowIndex());
     var newData = {
     	remark:$("#remark").val(),                  // 备注
- 		payTime:$('#payMoneyTime').val()
-        grid: $.map(gridHandel.getRows(), function(obj){
+ 		payTime:$('#payMoneyTime').val(),
+        grid:$.map(gridHandel.getRows(), function(obj){
             return $.extend(true,{},obj);//返回对象的深拷贝
         })
     }
@@ -322,13 +321,9 @@ function auditChargeForm(){
     	$_jxc.alert("数据有修改，请先保存再审核");
         return;
     }
-	var branchId = $('#targetBranchId').val();
-	var payTime = $('#payMoneyTime').val();
-	var supplierId = $('#supplierId').val();
-	var chargeId = $('#chargeId').val();
     var reqObj = {
-    	id:chargeId,
-    	branchId:$('#targetBranchId').val()||''
+    	id:$('#formId').val()||'',
+    	branchId:$('#branchId').val()||''
     }
 	$.messager.confirm('提示','是否审核通过？',function(data){
 		if(data){
@@ -336,7 +331,7 @@ function auditChargeForm(){
 			$.ajax({
 		    	url : contextPath+"/settle/supplierCharge/auditChargeForm",
 		    	type : "POST",
-		    	data:{"data":JSON.stringify(jsonData)},
+		    	data:{"data":JSON.stringify(reqObj)},
 		    	success:function(result){
                     gFunEndLoading();
 		    		if(result['code'] == 0){
@@ -365,8 +360,8 @@ function delSupAdvMonForm(){
 			$.ajax({
 		    	url:contextPath+"/settle/supplierCharge/deleteChargeForm",
 		    	type:"POST",
-		    	contentType:"application/json",
-		    	data:JSON.stringify(ids),
+		    	dataType: "json",
+		    	data:{"ids":ids},
 		    	success:function(result){
 		    		if(result['code'] == 0){
                         toRefreshIframeDataGrid("settle/supplierCharge/advanceList","supplierAdvMoneyList");
@@ -386,10 +381,10 @@ function delSupAdvMonForm(){
 //机构
 function selectBranches(){
 	new publicAgencyService(function(data){
-		$("#targetBranchId").val(data.branchesId);
+		$("#branchId").val(data.branchesId);
 		$("#branchCode").val(data.branchCode);
 		$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
-	},'',targetBranchId);
+	},'',branchId);
 }
 
 //选择供应商
@@ -402,7 +397,7 @@ function selectSupplier(){
 
 //选择费用
 function selectCharge(searchKey){
-	var branchId = $('#targetBranchId').val();
+	var branchId = $('#branchId').val();
 	var payTime = $('#payMoneyTime').val();
 	var supplierId = $('#supplierId').val();
 	if(!validateForm(branchId,payTime,supplierId))return;
@@ -426,6 +421,11 @@ function selectCharge(searchKey){
 	        gridHandel.setFieldFocus(gridHandel.getFieldTarget('io'));
 	    },100)
 	});
+}
+
+//导出
+function exportOrder(){
+	
 }
 
 //返回列表页面

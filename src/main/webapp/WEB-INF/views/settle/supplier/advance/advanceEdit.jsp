@@ -22,18 +22,18 @@
                 <div class="ubtns-item" onclick="saveSupAdvMonOrder()">保存</div>
                 <div class="ubtns-item" onclick ="auditChargeForm()">审核</div>
                 <div class="ubtns-item" onclick="selectCharge()">费用选择</div>
-                <div class="ubtns-item-disabled" >删除</div>
-                <div class="ubtns-item-disabled" >导出明细</div>
+                <div class="ubtns-item" onclick="delSupAdvMonForm()" >删除</div>
+                <div class="ubtns-item" onclick="exportOrder()">导出明细</div>
                 <div class="ubtns-item-disabled" >打印</div>
                 <div class="ubtns-item" onclick="toClose()">关闭</div>
             </div>
         </div>
+        <div class="ub umar-t8 uc-black">【单号】:<span>${chargeVo.formNo}</span></div>
         <div class="ub uline umar-t8"></div>
         <div class="ub umar-t8">
             <div class="ub ub-ac uw-300">
                 <div class="umar-r10 uw-70 ut-r">机构:</div>
                 <div class="ub">
-                    <input type="hidden" id="chargeId" name="chargeId" value="${chargeVo.id}"/>
                     <input type="hidden" id="branchId" name="branchId" value="${chargeVo.branchId}"/>
                     <input class="uinp ub ub-f1" type="text" id="targetBranchName" readonly="readonly" value="${chargeVo.branchName}"/>
                 </div>
@@ -42,7 +42,7 @@
             <div class="ub ub-ac uw-300 umar-l20">
                 <div class="umar-r10 uw-70 ut-r">付款日期:</div>
                 <div class="ub">
-                   <input id="payMoneyTime" class="Wdate" type="text" value="${chargeVo.payTime}" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" pattern="yyyy-MM-dd"/>
+                   <input id="payMoneyTime" class="Wdate" type="text" value="<fmt:formatDate value="${chargeVo.payTime}" pattern="yyyy-MM-dd"/>" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" pattern="yyyy-MM-dd"/>
                 </div>
                 <i class="ub ub-ac uc-red">*</i>
             </div>
@@ -72,7 +72,7 @@
                </div>
                <div class="ub ub-ac umar-l20">
                    <div class="umar-r10 uw-60 ut-r">修改时间:</div>
-                   <div class="utxt"><fmt:formatDate value="${chargeVo.createTime}" pattern="yyyy-MM-dd HH:mm"/></div>
+                   <div class="utxt"><fmt:formatDate value="${chargeVo.updateTime}" pattern="yyyy-MM-dd HH:mm"/></div>
                </div>
                
            </div>
@@ -92,7 +92,7 @@
            </div>
            <%--datagrid-edit--%>
            <div class="ub ub-f1 datagrid-edit umar-t8">
-            <table id="supplierAdvMoneyListAdd" ></table>
+            <table id="supplierAdvanceListAdd" ></table>
         </div>
     </div>
 

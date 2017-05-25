@@ -67,7 +67,11 @@ function initsupAdvMonList(){
             	}
         		return strHtml;
             }},
-            {field: 'auditStatus',title: '审核状态', width: '100px', align: 'center'},
+            {field: 'auditStatus',title: '审核状态', width: '100px', align: 'center',
+            	formatter:function(value,row,index){
+            		return value == '1'?'已审核':'未审核';
+            	}
+            },
 			{field: 'branchCode', title: '机构编号', width: '100px', align: 'left'},
 			{field: 'branchName', title: '机构名称', width: '140px', align: 'left'},
 			{field: 'supplierCode', title: '供应商编号', width: '140px', align: 'left'},
@@ -135,15 +139,15 @@ function delSupAdvMonForm(){
 	}
 	var ids = [];
 	for(var i=0; i<row.length; i++){
-		ids.push(row[i].deliverFormId);
+		ids.push(row[i].id);
 	}
 	$.messager.confirm('提示','是否要删除选中数据',function(data){
 		if(data){
 			$.ajax({
-		    	url:contextPath+"/form/deliverForm/deleteDeliverForm",
+		    	url:contextPath+"/settle/supplierCharge/deleteChargeForm",
 		    	type:"POST",
-		    	contentType:"application/json",
-		    	data:JSON.stringify(ids),
+                data: {"ids":ids},
+                dataType: "json",
 		    	success:function(result){
 		    		if(result['code'] == 0){
 		    			successTip("删除成功");
