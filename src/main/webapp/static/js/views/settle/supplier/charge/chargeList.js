@@ -61,9 +61,9 @@ function initsupAdvMonList(){
             {field: 'formNo',title:'单据编号',width:'130px',align:'left',formatter:function(value,row,index){
             	var strHtml = '';
             	if(row.auditStatus == 1){
-            		strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'供应商预付款明细\',\''+ contextPath +'/form/deliverForm/deliverEdit?deliverFormId='+ row.deliverFormId +'\')">' + value + '</a>';
+            		strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'供应商费用明细\',\''+ contextPath +'/settle/supplierCharge/chargeView?id='+ row.id +'\')">' + value + '</a>';
             	}else{
-            		strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'供应商预付款明细\',\''+ contextPath +'/form/deliverForm/deliverEdit?deliverFormId='+ row.deliverFormId +'\')">' + value + '</a>';
+            		strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'供应商费用明细\',\''+ contextPath +'/settle/supplierCharge/chargeEdit?id='+ row.id +'\')">' + value + '</a>';
             	}
         		return strHtml;
             }},

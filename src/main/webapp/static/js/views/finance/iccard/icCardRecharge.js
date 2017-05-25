@@ -3,8 +3,9 @@
  */
 
 function initCardRecharge(data){
-    $("#cardRecharge #branchName").val(data.branchName)
-    $("#cardRecharge #oldBalance").numberbox("setValue",data.oldBalance|0.00);
+    $("#cardRecharge #branchName").val(data.branchName);
+    $("#cardRecharge #branchId").val(data.branchId);
+    $("#cardRecharge #oldBalance").numberbox("setValue",data.ecardBalance|0.00);
 }
 
 function getShopInfo() {
@@ -26,9 +27,21 @@ function changeBalance() {
 
 function save() {
     var addBalance = $('#addBalance').numberbox('getValue');
+    if(!addBalance||addBalance <= 0.00){
+    	 messager("充值金额不能为空！");
+         return;
+    }
     $.messager.confirm("提示","本次充值金额"+addBalance+",是否继续",function (data) {
         if(data){
-
+        	$.post("management/recharge", $('#cardRecharge').serialize(),
+        			   function(datas){
+			        		if(datas.message==="success"){
+			        			$('#closeRecharge').trigger('click'); 
+			        		}
+        					messager(datas.data);
+        					$("#gridCardAccount").datagrid('reload');
+        			   }
+        	, "json");
         }
     })
 }

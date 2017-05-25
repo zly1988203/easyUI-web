@@ -61,18 +61,18 @@ function initsupAdvMonList(){
             {field: 'formNo',title:'单据编号',width:'130px',align:'left',formatter:function(value,row,index){
             	var strHtml = '';
             	if(row.auditStatus == 1){
-            		strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'供应商预付款明细\',\''+ contextPath +'/form/deliverForm/deliverEdit?deliverFormId='+ row.deliverFormId +'\')">' + value + '</a>';
+            		strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'供应商预付款明细\',\''+ contextPath +'/settle/supplierCharge/advanceView?id='+ row.id +'\')">' + value + '</a>';
             	}else{
-            		strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'供应商预付款明细\',\''+ contextPath +'/form/deliverForm/deliverEdit?deliverFormId='+ row.deliverFormId +'\')">' + value + '</a>';
+            		strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'供应商预付款明细\',\''+ contextPath +'/settle/supplierCharge/advanceEdit?id='+ row.id +'\')">' + value + '</a>';
             	}
         		return strHtml;
             }},
-            {field: 'auditStatus',title: '审核状态', width: '100px', align: 'center'},
+            {field: 'auditStatus',title: '审核状态', width: '80px', align: 'center'},
 			{field: 'branchCode', title: '机构编号', width: '100px', align: 'left'},
 			{field: 'branchName', title: '机构名称', width: '140px', align: 'left'},
 			{field: 'supplierCode', title: '供应商编号', width: '140px', align: 'left'},
 			{field: 'supplierName', title: '供应商名称', width: '140px', align: 'left'},
-			{field: 'sumAmount', title: '单据金额', width: '80px', align: 'right',
+			{field: 'sumAmount', title: '单据金额', width: '100px', align: 'right',
 				formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -80,7 +80,7 @@ function initsupAdvMonList(){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
 			},
-            {field: 'createUserName', title: '制单人', width: '80px', align: 'left'},
+            {field: 'createUserName', title: '制单人', width: '120px', align: 'left'},
             {field: 'createTime', title: '制单时间', width: '100px', align: 'left',
 				formatter: function (value, row, index) {
 					if (value) {
@@ -89,7 +89,7 @@ function initsupAdvMonList(){
 					return "";
 				}
 			},
-			{field: 'auditUserName', title: '审核人', width: '130px', align: 'left'},
+			{field: 'auditUserName', title: '审核人', width: '120px', align: 'left'},
 			{field: 'remark', title: '备注', width: '200px', align: 'left'}
 			
         ]],

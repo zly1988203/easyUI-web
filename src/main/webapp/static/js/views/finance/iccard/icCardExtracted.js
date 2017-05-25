@@ -4,8 +4,9 @@
 
 
 function initCardExtracted(data){
-    $("#cardExtracted #branchName").val(data.branchName)
-    $("#cardExtracted #oldBalance").numberbox("setValue",data.oldBalance|0.00);
+    $("#cardExtracted #branchName").val(data.branchName);
+    $("#cardExtracted #branchId").val(data.branchId);
+    $("#cardExtracted #oldBalance").numberbox("setValue",data.ecardBalance|0.00);
 }
 
 function setData(data) {
@@ -28,9 +29,21 @@ function changeBalance() {
 
 function save() {
     var extractBalance = $('#extractBalance').numberbox('getValue');
+    if(!extractBalance||extractBalance <= 0.00){
+   	 	messager("提取金额不能为空！");
+        return;
+    }
     $.messager.confirm("提示","本次提取金额"+extractBalance+",是否继续",function (data) {
         if(data){
-
+        	$.post("management/extracted", $('#cardExtracted').serialize(),
+     			   function(datas){
+			        		if(datas.message==="success"){
+			        			$('#closeExtracted').trigger('click'); 
+			        		}
+     					messager(datas.data);
+     					$("#gridCardAccount").datagrid('reload');
+     			   }
+        	, "json");
         }
     })
 }
