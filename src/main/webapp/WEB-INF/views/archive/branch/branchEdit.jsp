@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <script src="${ctx}/static/js/views/branchManager/editBranch.js?V=2"></script>
-<div id="tt" class="easyui-tabs" style="width: 100%; height: 100%;">
+<div id="branchEdit" class="easyui-tabs" style="width: 100%; height: 100%;">
 	<div title="基本信息" data-options="fit:true,border:false"
 		style="width: 100%; padding: 10px; display: none;">
 		<div class="ub ub-ver ub-f1 uw uh ufs-14 uc-black">
@@ -33,11 +33,10 @@
 						</div>
 						<div class="ub ub-ac uw-320">
 							<div class="umar-r10 uw-80 ut-r">机构类型:</div>
-							<select class="uselect easyui-combobox easyui-validatebox uw-204"
-								name="branchType" id="branchType"
-								data-options="validType:'length[0,10]'">
-								<option value="1">直营店</option>
-								<option value="2">加盟店</option>
+							<select class="uselect uinp-no-more uw-204"
+								name="type" id="type" disabled="disabled">
+								<%--<option value="1">直营店</option>--%>
+								<%--<option value="2">加盟店</option>--%>
 							</select>
 						</div>
 					</div>
@@ -45,7 +44,7 @@
 					<div class="ub upad-4 umar-l20">
 						<div class="ub ub-ac uw-320">
 							<div class="umar-r10 uw-80 ut-r">联系人:</div>
-							<input id="contcat" name="contcat"
+							<input id="contacts" name="contacts"
 								class="uinp uinp-no-more uw-200" type="text" readonly="readonly">
 
 						</div>
@@ -101,8 +100,8 @@
 
 						<div class="ub ub-ac uw-320">
 							<div class="umar-r10 uw-80 ut-r">配送价格:</div>
-							<select class="uselect easyui-combobox easyui-validatebox uw-204"
-								name="price" id="price" data-options="validType:'length[0,10]'">
+							<select class="uselect uinp-no-more uw-204"
+								name="distriPriceType" id="distriPriceType" disabled="disabled">
 								<option value="1">配送价</option>
 								<option value="2">成本价</option>
 							</select>
@@ -148,8 +147,8 @@
 					<div class="ub upad-4">
 						<div class="ub ub-ac uw-320">
 							<div class="umar-r10 uw-100 ut-r">线上运营状态:</div>
-							<select class="uselect easyui-combobox" style="width: 204px;"
-								data-options="editable:false" name="status" id="status">
+							<select class="uselect uinp-no-more uw-204"
+							name="status" id="status" disabled="disabled">
 								<option value="1">运营中</option>
 								<option value="2">已关闭</option>
 							</select>
@@ -160,14 +159,14 @@
 						<div class="ub ub-ac uw-340">
 							<div class="umar-r10 uw-100 ut-r">费用均摊年数:</div>
 							<input id="costAvgYear" name="costAvgYear" type="text"
-								class="uinp" maxlength="50">
+								class="uinp easyui-numberbox easyui-validatebox" data-options="min:0,precision:0">
 
 						</div>
 
 						<div class="ub ub-ac uw-320">
 							<div class="umar-r10 uw-80 ut-r">店铺面积:</div>
 							<input id="areaSize" name="areaSize" type="text"
-								class="uinp uinp-no-more" maxlength="50">
+							class="uinp easyui-numberbox easyui-validatebox" data-options="min:0.00,precision:2">
 							<span>m*2</span>
 						</div>
 					</div>

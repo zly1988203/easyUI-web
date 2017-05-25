@@ -1,5 +1,5 @@
 $(function(){
-
+    initCheck();
 });
 
 
@@ -50,17 +50,48 @@ function editUser(){
 	if (!isValid) {
 		return;
 	}
-	$.ajax({
-		url : contextPath + "/system/user/updateUser",
-		type : "POST",
-		data : reqObj,
-		success : function(result) {
-			if(result){
-				alertTip(result.message, reloadDataGrid);
-			}
-		},
-		error : function(result) {
-			successTip("请求发送失败或服务器处理失败");
+	var url = contextPath + "/system/user/updateUser";
+	var param = reqObj;
+	ajaxSubmit(url,param,function(result){
+        if(result){
+            alertTip(result.message, reloadDataGrid);
+        }
+	})
+
+}
+
+function savePassword() {
+    var url = contextPath + "/system/user/updateUser";
+    var param = null
+    ajaxSubmit(url,param,function(result){
+        if(result){
+            alertTip(result.message, reloadDataGrid);
+        }
+    })
+}
+
+function initPassword() {
+    $.messager.confirm('提示','是否进行密码初始化',function(data){
+    	$("#userPwd").val("123456");
+	})
+}
+
+function initCheck() {
+    // 进价
+    $("#purchasePrice").on("click", function() {
+        if($("#purchasePrice").is(":checked")){
+            $("#costPrice").prop("checked","checked")
+		}else {
+            $("#costPrice").removeProp("checked")
 		}
-	});
+
+    });
+    // 零售价
+    $("#costPrice").on("click", function() {
+        if($("#costPrice").is(":checked")){
+            $("#purchasePrice").prop("checked","checked")
+        }else {
+            $("#purchasePrice").removeProp("checked")
+        }
+    });
 }

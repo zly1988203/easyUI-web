@@ -89,9 +89,8 @@ function stopIt(ev){
  * @param {callback} 调用成功后回调函数,可不传
  * @return json数据
  */
-;
-$.extend({
-    ajaxSubmit: function(url, params, callback,$btn) {
+
+    function ajaxSubmit(url, params, callback,$btn) {
         if ($btn){
             $btn.prop("disabled","disabled");
         }
@@ -127,4 +126,4 @@ $.extend({
             }
         });
     }
-});
+

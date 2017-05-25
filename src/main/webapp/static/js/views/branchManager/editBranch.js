@@ -30,21 +30,11 @@ function getBranchInfo(){
                         $("#"+key).attr("checked","checked");
                     }
                 }else{
-                    //进项税、销项税、联营扣率要乘以100
-                    if($("#"+key).attr("id") == "outputTax" || $("#"+key).attr("id") == "inputTax" || $("#"+key).attr("id") == "supplierRate"){
-                        if(value){
-                            $("#"+key).textbox("setValue",parseFloat((value*100).toFixed(2)));
-                        }else{
-                            $("#"+key).textbox("setValue",0.00);
-                        }
-                    }else{
                         if($("#"+key).hasClass('easyui-numberbox')){
                             $("#"+key).numberbox('setValue', value);
                         }else{
                             $("#"+key).val(value);
                         }
-
-                    }
                 }
             }
             else if($("#"+key).prop("tagName") =="TEXTAREA"){ //普通的textarea
@@ -57,8 +47,9 @@ function getBranchInfo(){
                             $(n).attr("selected",true);
                         }
                     });
-                    if(key=="unit"){
-                        $("#"+key).combobox("setValue",value);
+                    if(key=="type"){
+                        var option = "<option value="+value+">"+rec.branch['branchTypeStr']+"</option>"
+                        $("#"+key).append(option);
                     }
                 }
 
