@@ -4,8 +4,9 @@
 
 
 function initCardExtracted(data){
-    $("#cardExtracted #branchName").val(data.branchName)
-    $("#cardExtracted #oldBalance").numberbox("setValue",data.oldBalance|0.00);
+    $("#cardExtracted #branchName").val(data.branchName);
+    $("#cardExtracted #branchId").val(data.branchId);
+    $("#cardExtracted #oldBalance").numberbox("setValue",data.ecardBalance|0.00);
 }
 
 function setData(data) {
@@ -13,24 +14,36 @@ function setData(data) {
 }
 
 function changeBalance() {
-    var oldBalance = $('#oldBalance').numberbox('getValue');
-    var extractBalance = $('#extractBalance').numberbox('getValue');
+    var oldBalance = parseFloat($('#oldBalance').numberbox('getValue'));
+    var extractBalance = parseFloat($('#extractBalance').numberbox('getValue'));
 
     if(extractBalance > oldBalance){
         messager("提取金额不能大于余额");
-        $("#savebtn").prop("disabled","disabled");
+        $("#saveBtn").prop("disabled","disabled");
         return;
     }else{
-        $("#savebtn").removeProp("disabled");
+        $("#saveBtn").removeProp("disabled");
     }
     $("#cardExtracted #newBalance").numberbox("setValue",(oldBalance-extractBalance));
 }
 
 function save() {
     var extractBalance = $('#extractBalance').numberbox('getValue');
+    if(!extractBalance||extractBalance <= 0.00){
+   	 	messager("提取金额不能为空！");
+        return;
+    }
     $.messager.confirm("提示","本次提取金额"+extractBalance+",是否继续",function (data) {
         if(data){
-
+        	$.post("management/extracted", $('#cardExtracted').serialize(),
+     			   function(datas){
+			        		if(datas.message==="success"){
+			        			$('#closeExtracted').trigger('click'); 
+			        		}
+     					messager(datas.data);
+     					$("#gridCardAccount").datagrid('reload');
+     			   }
+        	, "json");
         }
     })
 }

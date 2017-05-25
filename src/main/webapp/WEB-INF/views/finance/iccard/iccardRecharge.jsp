@@ -13,7 +13,7 @@
 	<div class="ub ub-ac upad-4">
 		<div class="ubtns">
 			<button class="ubtns-item" onclick="save()" id="saveBtn">保存</button>
-			<button class="ubtns-item" onclick="closeRechargeDialog()">关闭</button>
+			<button class="ubtns-item" id="closeRecharge" onclick="closeRechargeDialog()">关闭</button>
 		</div>
 	</div>
 	<div class="ub uline"></div>
@@ -21,6 +21,7 @@
 		<div class="ub ub-ver upad-4">
 			<div class="ub upad-4 umar-t10">
 				<div class="ub ub-ac">
+				<input id="branchId" name="branchId" type="hidden">
 					<div class="umar-r10 uw-74 ut-r">&nbsp;&nbsp;&nbsp;充值店铺:</div>
 					<input class="uinp uinp-no-more ub ub-f1" type="text" id="branchName"
 						name="branchName" readOnly/>
@@ -48,7 +49,10 @@
 			<div class="ub upad-4 umar-t10">
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-74 ut-r">&nbsp;&nbsp;&nbsp;充值方式:</div>
-					<select class="uselect easyui-combobox" style="width: 204px;"
+					<input name="rechargeType"
+						id="rechargeType" class="uselect easyui-combobox" style="width: 204px;" 
+						data-options="valueField:'id',textField:'text',url:'management/dict/RECHARGE_WAY_TYPE',editable:false,required:true"/>
+					<!-- <select class="uselect easyui-combobox" style="width: 204px;"
 						data-options="editable:false" name="rechargeType"
 						id="rechargeType">
 						<option value="1">银行转账</option>
@@ -56,7 +60,7 @@
 						<option value="3">支付宝转账</option>
 						<option value="4">现金</option>
 						<option value="5">其他</option>
-					</select>
+					</select> -->
 				</div>
 			</div>
 

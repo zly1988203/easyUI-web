@@ -21,6 +21,7 @@ function initGridCardAccount() {
         height:'100%',
         width:'100%',
         columns:[[
+        	{field: 'branchId', title: '店铺id', hidden:"true"},
             {field: 'branchCode', title: '店铺编号', width: 100, align: 'left'},
             {field: 'branchName', title: '店铺名称', width: 180, align: 'left'},
             {field: 'typeDesc', title: '店铺类型', width: 80, align: 'left'},
@@ -104,6 +105,31 @@ function closeExtractedDialog() {
 }
 
 
+function exportData(){
+	var length = $('#gridCardAccount').datagrid('getData').total;
+	if(length == 0){
+		successTip("无数据可导");
+		return;
+	}
+	var queryParams =  urlEncode($("#queryForm").serializeObject());
+	window.location.href = contextPath + '/iccard/account/management/exports?params='+queryParams;
+}
+
+var urlEncode = function (param, key, encode) {
+	  if(param==null) return '';
+	  var paramStr = '';
+	  var t = typeof (param);
+	  if (t == 'string' || t == 'number' || t == 'boolean') {
+	    paramStr += '&' + key + '=' + ((encode==null||encode) ? encodeURIComponent(param) : param);
+	  } else {
+	    for (var i in param) {
+	      var k = key == null ? i : key + (param instanceof Array ? '[' + i + ']' : '.' + i);
+	      paramStr += urlEncode(param[i], k, encode);
+	    }
+	  }
+	  return paramStr;
+	};
+	
 /**
  * 机构名称
  */

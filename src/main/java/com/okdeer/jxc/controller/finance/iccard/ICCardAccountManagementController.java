@@ -9,6 +9,7 @@
 
 package com.okdeer.jxc.controller.finance.iccard;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -20,6 +21,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,7 +38,6 @@ import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.finance.iccard.service.ICCardAccountService;
 import com.okdeer.jxc.finance.iccard.vo.ICCardAccountVo;
-import com.okdeer.jxc.finance.iccard.vo.TradeOrderPayVo;
 
 /**
  * @ClassName: ICCardAccountManagementController
@@ -105,19 +106,46 @@ public class ICCardAccountManagementController extends BasePrintController<ICCar
 			List<ICCardAccountVo> list = suppliers.getList();
 			if (!list.isEmpty() && list.size() > 0) {
 				String fileName = "一开通账户管理" + "_" + DateUtils.getCurrSmallStr();
-				String templateName = ExportExcelConstant.ICC_CARD_TRADING_DETAIL;
+				String templateName = ExportExcelConstant.ICC_CARD_ACCOUNT_MANAGEMENT;
 				exportListForXLSX(response, list, fileName, templateName);
 			} else {
 				return RespJson.error("无数据可导");
 			}
 		} catch (Exception e) {
-			logger.error("一卡通查询详情导出异常:", e);
+			logger.error("一开通账户管理导出异常:", e);
 			RespJson json = RespJson.error("导出失败");
 			return json;
 		}
 		return null;
 	}
 
+	@RequestMapping(value = "/dict/{type}")
+	public List<Map<String,Object>> getSysDict(@PathVariable("type") String type){
+		return this.icCardAccountService.getSysDict(type);
+	}
+	
+	@RequestMapping(value = "/recharge", method = RequestMethod.POST)
+	public RespJson recharge(String branchId, BigDecimal oldBalance, BigDecimal addBalance, String rechargeType,
+			BigDecimal newBalance, String remark, HttpServletRequest request, HttpServletResponse response) {
+		boolean bool = this.icCardAccountService.rechargeOrExtracted(true, branchId, oldBalance, addBalance,
+				rechargeType, newBalance, remark, getCurrUserId());
+		if (bool) {
+			return RespJson.success("一卡通充值成功!");
+		}
+		return RespJson.error("一卡通充值失败!");
+	}
+
+	@RequestMapping(value = "/extracted", method = RequestMethod.POST)
+	public RespJson extracted(String branchId, BigDecimal oldBalance, BigDecimal extractBalance, String rechargeType,
+			BigDecimal newBalance, String remark, HttpServletRequest request, HttpServletResponse response) {
+		boolean bool = this.icCardAccountService.rechargeOrExtracted(false, branchId, oldBalance, extractBalance,
+				rechargeType, newBalance, remark, getCurrUserId());
+		if (bool) {
+			return RespJson.success("一卡通提取成功!");
+		}
+		return RespJson.error("一卡通提取失败!");
+	}
+	
 	@RequestMapping(value = "/iccardExtracted", method = RequestMethod.GET)
 	public ModelAndView icCardExtracted() {
 		return new ModelAndView("finance/iccard/iccardExtracted");
