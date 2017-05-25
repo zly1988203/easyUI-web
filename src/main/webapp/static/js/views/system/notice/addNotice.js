@@ -4,7 +4,7 @@
 
 
 function saveNotice(){
-    var url = contextPath+"/form/purchase/save";
+    var url = contextPath+"/sys/notice/save";
     var formData = $('#formNoticeAdd').serializeObject();
     this.ajaxSubmit(url,formData,function (result) {
         if(result['code'] == 0){

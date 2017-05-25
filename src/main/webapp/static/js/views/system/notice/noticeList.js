@@ -9,18 +9,24 @@ $(function () {
 var gridName = "gridNoticeList";
 var gridHandel = new GridClass();
 function initGridNoticeList(){
+    gridHandel.setGridName(gridName);
     $("#"+gridName).datagrid({
-        method:'post',
+        // method:'post',
         align:'center',
-        url:contextPath+'/archive/branch/getBranchList',
+        // url:contextPath+'/sys/notice/getList',
         singleSelect:true,  //单选  false多选
         rownumbers:true,    //序号
         pagination:true,    //分页
         pageSize:50,
         fit:true,
         columns:[[
-            {field:'noticeCode',title:'公告编号',width:180,align:'left',},
-            {field:'title',title:'公告标题',width:180,align:'left'},
+            {field:'noticeCode',title:'公告编号',width:180,align:'left'},
+            {field:'title',title:'公告标题',width:180,align:'left',
+                formatter: function(value,row,index){
+                    return "<a href='#' onclick=\"viewNotice('"+row.id+"')\" class='ualine'>"+value+"</a>";
+
+                }
+            },
             {field:'status',title:'状态',width:80,align:'left'},
             {field:'createTime',title:'时间',width:150,align:'left'},
             {field:'publishShops',title:'发布门店',width:150,align:'left'},
@@ -32,6 +38,17 @@ function initGridNoticeList(){
             gridHandel.setDatagridHeader("center");
         }
     });
+
+    // var row = {noticeCode:"3333333333",
+    //     title:"sdfasdfsadfasdsds",
+    //     status:"sdfs",
+    //     createTime:"sdfsdf",
+    //     publishShops:"sdf",
+    //     publishPerson:"sdf",
+    //     receiveShops:"sdf",
+    //     receivePersons:"sdf"
+    // }
+    // gridHandel.setLoadData([$.extend({},row)]);
 }
 
 /**
@@ -39,20 +56,18 @@ function initGridNoticeList(){
  */
 function queryNoticeList(){
     var formData = $('#formList').serializeObject();
-    var postParams = $.extend(formData,{branchId:gVarBranchId})
-    $("#"+gridName).datagrid("options").queryParams = postParams;
+    $("#"+gridName).datagrid("options").queryParams = formData;
     $("#"+gridName).datagrid("options").method = "post";
-    $("#"+gridName).datagrid("options").url =contextPath+'/archive/branch/getBranchList',
+    $("#"+gridName).datagrid("options").url =contextPath+'/sys/notice/getList',
         $("#"+gridName).datagrid('load');
 }
 
-var noticDialog = null;
-
+var addNoticDialog = null;
 var dialogHeight = $(window).height()*(4/5);
 var dialogWidth = $(window).width()*(5/9);
 var dialogLeft = $(window).width()*(1/5);
 function addNotice() {
-    noticDialog = $('<div/>').dialog({
+    addNoticDialog = $('<div/>').dialog({
         href: contextPath+"/sys/notice/addNotice",
         width: 660,
         height: 600,
@@ -61,8 +76,8 @@ function addNotice() {
         closable: true,
         resizable: true,
         onClose: function () {
-            $(noticDialog).panel('destroy');
-            noticDialog = null;
+            $(addNoticDialog).panel('destroy');
+            addNoticDialog = null;
         },
         modal: true,
         onLoad: function () {
@@ -72,8 +87,34 @@ function addNotice() {
 }
 
 function closeDialogHandel() {
-    $(editDialogTemp).panel('destroy');
-    editDialogTemp = null;
+    $(addNoticDialog).panel('destroy');
+    addNoticDialog = null;
+}
+
+var viewNoticeDialog = null;
+function viewNotice(id) {
+    viewNoticeDialog = $('<div/>').dialog({
+        href: contextPath+"/sys/notice/noticeView?id="+id,
+        width: 660,
+        height: 600,
+        left:dialogLeft,
+        title: "新增公告",
+        closable: true,
+        resizable: true,
+        onClose: function () {
+            $(viewNoticeDialog).panel('destroy');
+            viewNoticeDialog = null;
+        },
+        modal: true,
+        onLoad: function () {
+
+        }
+    })
+}
+
+function closeViewDialog() {
+    $(viewNoticeDialog).panel('destroy');
+    viewNoticeDialog = null;
 }
 
 function delNotice() {

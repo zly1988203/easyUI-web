@@ -10,7 +10,7 @@
 
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
-<script src="${ctx}/static/js/views/system/notice/noticeList.js?V=4"></script>
+<script src="${ctx}/static/js/views/system/notice/noticeList.js?V=5"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
 	<div class="ub ub-ver ub-f1 umar-4 upad-4">
@@ -69,7 +69,7 @@
 
 					<div class="ub ub-ac umar-r10">
 						<input class="radioItem" type="radio" name="readStatus" id="deal0"
-							value="0" /><label for="deal0">未查阅 </label>
+							value="0" checked="checked"/><label for="deal0">未查阅 </label>
 					</div>
 
 					<div class="ub ub-ac umar-r10">
@@ -79,7 +79,7 @@
 
 					<div class="ub ub-ac umar-r10">
 						<input class="radioItem" type="radio" name="readStatus" id="deal4"
-							value="" checked="checked" /><label for="deal4">全部 </label>
+							value=""/><label for="deal4">全部 </label>
 					</div>
 				</div>
 			</div>
