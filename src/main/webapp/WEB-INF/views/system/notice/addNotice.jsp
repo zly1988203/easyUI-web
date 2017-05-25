@@ -24,24 +24,23 @@
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">发布人:</div>
 					<input class="uinp ub ub-f1 uinp-no-more" type="text"
-						id="financeCode" name="financeCode" readOnly maxlength="50" />
+						id="financeCode" name="financeCode" value="<%=UserUtil.getCurrentUser().getUserName()%>" readOnly/>
 				</div>
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">收件门店:</div>
-					<input class="uinp" name="supplierId" id="supplierId" type="hidden">
-					<input class="uinp" id="supplierName" name="supplierName"
-						type="text" maxlength="50">
-					<div class="uinp-more" onclick="selectSupplier()">...</div>
+					<input class="uinp" name="shopIds" id="shopIds" type="hidden">
+					<input class="uinp" id="shopNames" name="shopNames" type="text">
+					<div class="uinp-more" onclick="noticeShops()">...</div>
 				</div>
 			</div>
 
 			<div class="ub upad-4 umar-t10">
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">收件人:</div>
-					<input class="uinp" name="supplierId" id="supplierId" type="hidden">
-					<input class="uinp" id="supplierName" name="supplierName"
-						type="text" maxlength="50">
-					<div class="uinp-more" onclick="selectSupplier()">...</div>
+					<input class="uinp" name="personIds" id="personIds" type="hidden">
+					<input class="uinp" id="personNames" name="personNames"
+						type="text">
+					<div class="uinp-more" onclick="noticePersons()">...</div>
 				</div>
 			</div>
 
@@ -56,7 +55,7 @@
 			<div class="ub upad-4 umar-t10">
 				<div class="ub ub-ac uw-600">
 					<div class="umar-r10 uw-70 ut-r">公告内容:</div>
-					<textarea id="remark" name="remark"
+					<textarea id="content" name="content"
 						class="uh-300 umar-r30 ubor ub ub-f1" maxlength="1000"></textarea>
 				</div>
 			</div>

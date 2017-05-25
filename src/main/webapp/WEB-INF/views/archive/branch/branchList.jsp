@@ -11,7 +11,14 @@
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
+<<<<<<< HEAD
+<script src="${ctx}/static/js/views/branchManager/branchList.js?V=4"></script>
+	<style>
+	.datagrid-header .datagrid-cell {text-align: center!important;font-weight: bold;}
+	</style>
+=======
 <script src="${ctx}/static/js/views/branchManager/branchList.js?V=1"></script>
+>>>>>>> branch 'master' of http://zhaoly@10.20.101.5/ERP/okdeer-jxc-web.git
 </head>
 <body class="ub uw uh ufs-14 uc-black">
 	<div class="ub ub-f1 umar-4 upad-4">

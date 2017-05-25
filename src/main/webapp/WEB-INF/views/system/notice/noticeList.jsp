@@ -11,6 +11,9 @@
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <script src="${ctx}/static/js/views/system/notice/noticeList.js?V=5"></script>
+	<style>
+	.datagrid-header .datagrid-cell {text-align: center!important;font-weight: bold;}
+	</style>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
 	<div class="ub ub-ver ub-f1 umar-4 upad-4">
@@ -35,27 +38,25 @@
 			<div class="ub umar-t8">
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">发布门店:</div>
-					<input class="uinp" name="supplierId" id="supplierId" type="hidden">
-					<input class="uinp" id="supplierName" name="supplierName"
+					<input class="uinp" name="publishShopId" id="publishShopId" type="hidden">
+					<input class="uinp" id="publishShopName" name="publishShopName"
 						type="text" maxlength="50">
-					<div class="uinp-more" onclick="selectSupplier()">...</div>
+					<div class="uinp-more" onclick="publishShop()">...</div>
 				</div>
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">发布人:</div>
-					<input class="uinp" name="supplierId" id="supplierId" type="hidden">
 					<input class="uinp" id="supplierName" name="supplierName"
 						type="text" maxlength="50">
-					<div class="uinp-more" onclick="selectSupplier()">...</div>
 				</div>
 
 			</div>
 			<div class="ub umar-t8">
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">接收门店:</div>
-					<input class="uinp" name="supplierId" id="supplierId" type="hidden">
-					<input class="uinp" id="supplierName" name="supplierName"
+					<input class="uinp" name="receiveShopId" id="receiveShopId" type="hidden">
+					<input class="uinp" id="receiveShopName" name="receiveShopName"
 						type="text" maxlength="50">
-					<div class="uinp-more" onclick="selectSupplier()">...</div>
+					<div class="uinp-more" onclick="receiveShop()">...</div>
 				</div>
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">接收人:</div>

@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="com.okdeer.jxc.utils.UserUtil"%>
 
-<title>新增编辑财务代码</title>
+<title>开通店铺列表</title>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
@@ -18,10 +18,11 @@
 	</div>
 	<div class="ub uline"></div>
 
-			<table id="gridShopList" class="umar-t10 upad-8"></table>
+	<table id="gridShopList" class="umar-t10 upad-8"></table>
+
 	<div class="ub uline"></div>
 	<div class="ub umar-t8">
-		<div class="ub ub-ac umar-r20 upad-20">
+		<div class="ub ub-ac umar-r20 upad-10">
 		<div class="umar-r10 uw-60 ut-r">设备信息:</div>
 			<div class="ubtns">
 			<button class="ubtns-item" onclick="saveEquipmentList()" id="saveBtn">保存</button>
@@ -30,7 +31,7 @@
 	</div>
 
 	<div class="ub uline"></div>
-			<table id="gridEquipmentList" class="umar-t10 upad-8"></table>
+	<table id="gridEquipmentList" class="umar-t10 upad-8"></table>
 
 </div>
 
