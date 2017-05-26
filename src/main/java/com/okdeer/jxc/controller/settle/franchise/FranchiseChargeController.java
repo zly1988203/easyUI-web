@@ -116,7 +116,6 @@ public class FranchiseChargeController extends BaseController<SupplierChainContr
 		try {
 			FranchiseChargeVo vo = JSON.parseObject(jsonText, FranchiseChargeVo.class);
 			vo.setCreateUserId(getCurrUserId());
-			vo.setBranchCode(getCurrBranchCode());
 			vo.setFormType(FormType.FI.toString());
 			respJson = franchiseChargeService.saveCharge(vo);
 		} catch (Exception e) {

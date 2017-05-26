@@ -38,14 +38,15 @@
 			<div class="ub umar-t8">
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">发布门店:</div>
-					<input class="uinp" name="publishShopId" id="publishShopId" type="hidden">
-					<input class="uinp" id="publishShopName" name="publishShopName"
+					<input class="uinp" name="branchId" id="branchId" type="hidden">
+					<input class="uinp" id="publishBranchName" name="publishBranchName"
 						type="text" maxlength="50">
 					<div class="uinp-more" onclick="publishShop()">...</div>
 				</div>
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">发布人:</div>
-					<input class="uinp" id="supplierName" name="supplierName"
+					<input class="uinp" name="userId" id="userId" type="hidden">
+					<input class="uinp" id="publishUserName" name="publishUserName"
 						type="text" maxlength="50">
 				</div>
 
@@ -53,15 +54,15 @@
 			<div class="ub umar-t8">
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">接收门店:</div>
-					<input class="uinp" name="receiveShopId" id="receiveShopId" type="hidden">
-					<input class="uinp" id="receiveShopName" name="receiveShopName"
+					<input class="uinp" name="receiveBranchId" id="receiveBranchId" type="hidden">
+					<input class="uinp" id="receiveBranchName" name="receiveBranchName"
 						type="text" maxlength="50">
 					<div class="uinp-more" onclick="receiveShop()">...</div>
 				</div>
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">接收人:</div>
-					<input class="uinp" name="supplierId" id="supplierId" type="hidden">
-					<input class="uinp" id="supplierName" name="supplierName"
+					<input class="uinp" name="receiveUserId" id="receiveUserId" type="hidden">
+					<input class="uinp" id="receiveUserName" name="receiveUserName"
 						type="text" maxlength="50">
 
 				</div>
@@ -69,17 +70,17 @@
 				<div class="ub ub-ac umar-l20">
 
 					<div class="ub ub-ac umar-r10">
-						<input class="radioItem" type="radio" name="readStatus" id="deal0"
+						<input class="radioItem" type="radio" name="isRead" id="deal0"
 							value="0" checked="checked"/><label for="deal0">未查阅 </label>
 					</div>
 
 					<div class="ub ub-ac umar-r10">
-						<input class="radioItem" type="radio" name="readStatus" id="deal2"
-							value="2" /><label for="deal2">已查阅 </label>
+						<input class="radioItem" type="radio" name="isRead" id="deal2"
+							value="1" /><label for="deal2">已查阅 </label>
 					</div>
 
 					<div class="ub ub-ac umar-r10">
-						<input class="radioItem" type="radio" name="readStatus" id="deal4"
+						<input class="radioItem" type="radio" name="isRead" id="deal4"
 							value=""/><label for="deal4">全部 </label>
 					</div>
 				</div>

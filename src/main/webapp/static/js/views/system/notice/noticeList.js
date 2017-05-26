@@ -14,25 +14,40 @@ function initGridNoticeList(){
         // method:'post',
         align:'center',
         // url:contextPath+'/sys/notice/getList',
-        singleSelect:true,  //单选  false多选
+        singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
         pagination:true,    //分页
         pageSize:50,
         fit:true,
         columns:[[
-            {field:'noticeCode',title:'公告编号',width:180,align:'left'},
+            {field:'check',checkbox:true},
+            {field:'noticeNo',title:'公告编号',width:180,align:'left'},
             {field:'title',title:'公告标题',width:180,align:'left',
                 formatter: function(value,row,index){
                     return "<a href='#' onclick=\"viewNotice('"+row.id+"')\" class='ualine'>"+value+"</a>";
-
                 }
             },
-            {field:'status',title:'状态',width:80,align:'left'},
-            {field:'createTime',title:'时间',width:150,align:'left'},
-            {field:'publishShops',title:'发布门店',width:150,align:'left'},
-            {field:'publishPerson',title:'发布人',width:100,align:'left'},
-            {field:'receiveShops',title:'接收门店',width:250,align:'left'},
-            {field:'receivePersons',title:'接收人',width:250,align:'left'},
+            {field:'isRead',title:'状态',width:80,align:'center',
+                formatter: function(value,row,index){
+                    if(value == 0){
+                    	return "未查阅";
+                    }else{
+                    	return "已查阅";
+                    }
+                }
+            },
+            {field:'createTime',title:'时间',width:150,align:'left',
+                formatter: function(value,row,index){
+                	if (value) {
+						return new Date(value).format('yyyy-MM-dd hh:mm:ss');
+					}
+					return "";
+                }
+            },
+            {field:'publishBranchName',title:'发布门店',width:150,align:'left'},
+            {field:'publishUserName',title:'发布人',width:100,align:'left'},
+            {field:'receiveBranchName',title:'接收门店',width:250,align:'left'},
+            {field:'receiveUserName',title:'接收人',width:250,align:'left'},
         ]],
         onLoadSuccess : function() {
             gridHandel.setDatagridHeader("center");
@@ -55,11 +70,11 @@ function initGridNoticeList(){
  * 搜索
  */
 function queryNoticeList(){
-    var formData = $('#formList').serializeObject();
+    var formData = $('#queryForm').serializeObject();
     $("#"+gridName).datagrid("options").queryParams = formData;
     $("#"+gridName).datagrid("options").method = "post";
     $("#"+gridName).datagrid("options").url =contextPath+'/sys/notice/getList',
-        $("#"+gridName).datagrid('load');
+    $("#"+gridName).datagrid('load');
 }
 
 var addNoticDialog = null;
@@ -98,7 +113,7 @@ function viewNotice(id) {
         width: 660,
         height: 600,
         left:dialogLeft,
-        title: "新增公告",
+        title: "系统公告详情",
         closable: true,
         resizable: true,
         onClose: function () {
@@ -118,19 +133,19 @@ function closeViewDialog() {
 }
 
 function delNotice() {
-    var rows = $("#"+gridName).datagrid("checked")
-    var formIds='';
+    var rows = $("#"+gridName).datagrid("getChecked")
+    var formIds=[];
     $.each(rows,function(i,v){
-        formIds+=v.id+",";
+        formIds.push(v.id);
     });
 
     $.messager.confirm('提示','是否要删除选中数据',function(data){
         if(data){
-            var url = contextPath+"/form/purchase/delete";
+            var url = contextPath+"/sys/notice/delete";
             var param = {
-                formIds:formIds
+                "ids":formIds
             }
-            this.ajaxSubmit(url,param,function (result) {
+            ajaxSubmit(url,param,function (result) {
                 if(result['code'] == 0){
                     messager("删除成功");
                 }else{
@@ -145,14 +160,14 @@ function delNotice() {
 
 function publishShop() {
     publicBranchService(function(data){
-        $("#publishShopId").val(data.branchesId);// id
-        $("#publishShopName").val("["+data.branchCode+"]"+data.branchName);
+        $("#branchId").val(data.branchesId);// id
+        $("#publishBranchName").val("["+data.branchCode+"]"+data.branchName);
     },0);
 }
 
 function receiveShop() {
     publicBranchService(function(data){
-        $("#receiveShopId").val(data.branchesId);// id
-        $("#receiveShopName").val("["+data.branchCode+"]"+data.branchName);
+        $("#receiveBranchId").val(data.branchesId);// id
+        $("#receiveBranchName").val("["+data.branchCode+"]"+data.branchName);
     },0);
 }

@@ -21,15 +21,15 @@
 			<div class="ub upad-4 umar-t10">
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">发布人:</div>
-					<input class="uinp uinp-no-more ub ub-f1" type="text" id="financeCode"
-						name="financeCode" value="${financeFormVo.financeCode}"
+					<input class="uinp uinp-no-more ub ub-f1" type="text" id="publishUserName"
+						name="publishUserName" value="${notice.publishUserName}"
 						maxlength="50" readOnly/>
 				</div>
 
 				<div class="ub ub-ac">
 				<div class="umar-r10 uw-70 ut-r">日期:</div>
-				<input class="uinp uinp-no-more ub ub-f1" type="text" id="financeCode"
-				name="financeCode" value="${financeFormVo.time}"
+				<input class="uinp uinp-no-more ub ub-f1" type="text" id="createTime"
+				name="createTime" value="<fmt:formatDate value="${notice.createTime}" type="date" pattern="yyyy-MM-dd HH:mm:ss"/>"
 				maxlength="50" readOnly/>
 				</div>
 
@@ -39,15 +39,15 @@
 
 			<div class="ub ub-ac">
 			<div class="umar-r10 uw-70 ut-r">收件门店:</div>
-			<input class="uinp uinp-no-more ub ub-f1" type="text" id="financeCode"
-			name="financeCode" value="${financeFormVo.financeCode}"
+			<input class="uinp uinp-no-more ub ub-f1" type="text" id="receiveBranchName"
+			name="receiveBranchName" value="${notice.receiveBranchName}"
 			maxlength="50" readOnly/>
 			</div>
 
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">收件人:</div>
-					<input class="uinp uinp-no-more ub ub-f1" type="text" id="financeName"
-						name="financeName" value="${financeFormVo.financeName}"
+					<input class="uinp uinp-no-more ub ub-f1" type="text" id="receiveUserName"
+						name="receiveUserName" value="${notice.receiveUserName}"
 						maxlength="50" readOnly/>
 				</div>
 			</div>
@@ -55,8 +55,8 @@
 			<div class="ub upad-4 umar-t10">
 				<div class="ub ub-ac uw-570">
 					<div class="umar-r10 uw-70 ut-r">公告标题:</div>
-					<input class="uinp uinp-no-more ub ub-f1" type="text" id="description"
-						name="description" value="${financeFormVo.description}"
+					<input class="uinp uinp-no-more ub ub-f1" type="text" id="title"
+						name="title" value="${notice.title}"
 						maxlength="50" readOnly/>
 				</div>
 			</div>
@@ -64,8 +64,8 @@
 			<div class="ub upad-4 umar-t10">
 				<div class="ub ub-ac uw-600">
 					<div class="umar-r10 uw-70 ut-r">公告内容:</div>
-					<textarea id="remark" name="remark"
-					class="uh-300 umar-r30 ubor ub ub-f1 uinp-no-more" maxlength="1000" readOnly></textarea>
+					<textarea id="content" name="content"
+					class="uh-300 umar-r30 ubor ub ub-f1 uinp-no-more" maxlength="1000" readOnly>${notice.content}</textarea>
 				</div>
 			</div>
 
