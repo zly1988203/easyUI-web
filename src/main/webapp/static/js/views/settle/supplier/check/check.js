@@ -11,16 +11,16 @@ var gridDefault = {
 var url = "";
 var oldData = {};
 var gridName = "supplierChkAccountAdd";
-var supChkActStatus;
+var pageStatus;
 var editRowData = null;
 var targetBranchId;
 
 
 $(function(){
-    supChkActStatus = $('#supChkActStatus').val();
-	if(supChkActStatus === 'add'){
-		  $("#payMoneyTime").val(new Date().format('yyyy-MM-dd')); 
-	}else if(supChkActStatus === 'edit'){
+    pageStatus = $('#operateType').val();
+	if(pageStatus === 'add'){
+		
+	}else if(pageStatus === 'edit'){
 		var formId = $("#formId").val();
 		url = contextPath+"/settle/supplierCheck/checkFormDetailList?formId="+formId;
 		oldData = {
@@ -138,7 +138,7 @@ function initSupChkAcoAdd(){
             }
         },
         onLoadSuccess:function(data){
-        	if(supChkActStatus==='edit'){
+        	if(pageStatus==='edit'){
                 if(!oldData["grid"]){
                 	oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
                         return $.extend(true,{},obj);//返回对象的深拷贝
@@ -151,7 +151,7 @@ function initSupChkAcoAdd(){
         },
     });
     
-    if(supChkActStatus==='add'){
+    if(pageStatus==='add'){
     	 gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
     	                         $.extend({},gridDefault),$.extend({},gridDefault)]);
     }
@@ -183,7 +183,7 @@ function delLineHandel(event){
 
 
 //保存
-function saveSupChkAccount(){
+function saveSupChkForm(){
     
 }
 
@@ -226,21 +226,38 @@ function selectBranches(){
 function selectSupplier(){
     new publicSupplierService(function(data){
     	console.log(data);
+    	
+    	//开户银行
+    	$('#bankName').val((data.mobile?data.mobile:'')+(data.phone?'/'+data.phone:''));
+    	//银行账户
+    	$('#bankNum').val((data.mobile?data.mobile:'')+(data.phone?'/'+data.phone:''));
+    	
+    	//办公地址
+    	$('#workPlace').val((data.mobile?data.mobile:'')+(data.phone?'/'+data.phone:''));
+    	//国税登记
+    	$('#gtaxNum').val((data.mobile?data.mobile:'')+(data.phone?'/'+data.phone:''));
+    	
+    	$('#linkTel').val((data.mobile?data.mobile:'')+(data.phone?'/'+data.phone:''));//联系人
+    	
     	$("#supplierId").val(data.id);
         $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);	
         
     });
 }
 
-//选择费用
-function selectCost(searchKey){
-	var param = {
-		key:searchKey,
-	};
-	publicCostService(param,function(data){
-		console.log('data',data);
-	});
+function getCheckData(){
+	
+	//开启异步
+//	$_jxc.ajax({
+//		url:'',
+//		data:{}
+//	},function(result){
+//		console.log(result)
+//	})
+	
 }
+
+
 
 //返回列表页面
 function back(){
@@ -248,6 +265,6 @@ function back(){
 }
 
 //新增供应商对账单
-function addSupJonAccount(){
+function addSupChkForm(){
 	toAddTab("新增供应商对账单",contextPath + "/settle/supplierCheck/checkAdd");
 }

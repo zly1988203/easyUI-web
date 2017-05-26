@@ -13,14 +13,14 @@
     </style>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
-	<input type='hidden' id="supChkActStatus" value="add">
+	<input type='hidden' id="operateType" value="add">
     <div class="ub ub-ver ub-f1 umar-4  ubor">
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
-            	<div class="ubtns-item" onclick="addSupChkAccount()">新增</div>
-                <div class="ubtns-item" onclick="saveSupChkAccount()">保存</div>
+            	<div class="ubtns-item" onclick="addSupChkForm()">新增</div>
+                <div class="ubtns-item" onclick="saveSupChkForm()">保存</div>
                 <div class="ubtns-item-disabled">审核</div>
-                <div class="ubtns-item-disabled" onclick="delSupChkAccount()" >删除</div>
+                <div class="ubtns-item-disabled">删除</div>
                 <div class="ubtns-item-disabled" >导出明细</div>
                 <div class="ubtns-item-disabled" >打印</div>
                 <div class="ubtns-item" onclick="toClose()">关闭</div>
@@ -96,7 +96,7 @@
          <div class="ub umar-t8">
 	         <div class="ub ub-ac uw-290 umar-l10">
 	             <div class="umar-r10 uw-70 ut-r">联系方式:</div>
-	             <input class="uinp ub ub-f1 uinp-no-more" type="text" id="tel" readonly='readonly'  name="tel">
+	             <input class="uinp ub ub-f1 uinp-no-more" type="text" id="linkTel" readonly='readonly'  name="tel">
 	         </div>
 	         <div class="ub ub-ac uw-290 umar-l24">
              	 <div class="umar-r12 uw-70 ut-r">支付方式:</div>

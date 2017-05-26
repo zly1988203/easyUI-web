@@ -1046,6 +1046,7 @@ var $_jxc = {
 	    })
 	 */
 	ajax:function(params, successCb, errorCb,$btns){
+		gFunStartLoading();
 		if ($btns){
 			$btns.forEach(function(btnObj,index){
 				$(btnObj).prop("disabled","disabled");
