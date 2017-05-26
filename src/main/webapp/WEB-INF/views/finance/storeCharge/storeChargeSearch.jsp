@@ -20,12 +20,6 @@
 					<shiro:hasPermission name="JxcPurchaseOrder:add">
 						<div class="ubtns-item" onclick="orderAdd()">新增</div>
 					</shiro:hasPermission>
-					<%--<shiro:hasPermission name="JxcPurchaseOrder:delete">--%>
-					<%--<div class="ubtns-item" onclick="orderDelete()">删除</div>--%>
-					<%--</shiro:hasPermission>--%>
-					<%--<shiro:hasPermission name="JxcPurchaseOrder:print">--%>
-					<%--<div class="ubtns-item" onclick="printPreview()">打印</div>--%>
-					<%--</shiro:hasPermission>--%>
 					<div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 					<div class="ubtns-item" onclick="toClose()">关闭</div>
 				</div>
