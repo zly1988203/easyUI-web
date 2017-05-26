@@ -10,7 +10,7 @@
 
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 	<c:set var="ctx" value="${pageContext.request.contextPath}" />
-<script src="${ctx}/static/js/views/finance/iccard/iccardSetting.js?v=2"></script>
+<script src="${ctx}/static/js/views/finance/iccard/iccardSetting.js?v=4"></script>
 
 <style>
 .datagrid-header .datagrid-cell {
@@ -24,7 +24,7 @@
 		<form id="saveForm">
 			<div class="ub ub-ac upad-8">
 				<div class="ubtns">
-					<button class="ubtns-item" onclick="saveCardSetting()" id="saveBtn">保存</button>
+					<button class="ubtns-item" onclick="saveCardSetting()">保存</button>
 					<button class="ubtns-item" onclick="toClose()">关闭</button>
 				</div>
 			</div>
@@ -35,16 +35,14 @@
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-100 ut-r">使用一卡通:</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="radioItem" type="radio" name="status" id="status1"
-							value="1" /><label for="status1">启用 </label>
+						<input class="radioItem" type="radio" name="enabled" id="status1"
+							value="1" <c:if test="${enabled==1 }">checked</c:if> /><label for="status1">启用 </label>
 					</div>
 
 					<div class="ub ub-ac umar-r10 umar-l50">
-						<input class="radioItem" type="radio" name="status" id="status2"
-							value="2" checked /><label for="status2">不启用 </label>
+						<input class="radioItem" type="radio" name="enabled" id="status2"
+							value="0" <c:if test="${enabled==0 }">checked</c:if> /><label for="status2">不启用 </label>
 					</div>
-					<input id="queryType" type="hidden" value="1">
-
 				</div>
 			</div>
 
@@ -52,9 +50,7 @@
 				<div class="ub upad-4 umar-t10">
 					<div class="ub ub-ac">
 						<div class="umar-r10 uw-100 ut-r">账户保底金额:</div>
-						<input class="uinp ub ub-f1" type="text" id="financeCode"
-							name="financeCode"
-							maxlength="50" />
+						 <input class="uinp easyui-numberbox easyui-validatebox uw-204" data-options="min:0.00,precision:2,required:true" id="minAmount" name="minAmount" maxlength="18" value='<c:out value="${minAmount }"></c:out>' />
 					</div>
 				</div>
 			</div>

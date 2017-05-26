@@ -1828,7 +1828,9 @@ $.extend($.fn.validatebox.defaults.rules, {
     },
     ip: {// 验证IP地址
         validator: function (value) {
-            return /d+.d+.d+.d+/i.test(value);
+            //return /^((1?\d?\d|(2([0-4]\d|5[0-5])))\.){3}(1?\d?\d|(2([0-4]\d|5[0-5])))$/.test(value);
+        	 var re =  /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/   
+             return re.test(value);   
         },
         message: 'IP地址格式不正确'
     },
