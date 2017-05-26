@@ -253,6 +253,13 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="ub upad-4">
+				<div class="ub ub-ac uw-320">
+					<div class="umar-r10 uw-80 ut-r">保底金额:</div>
+					<input id="minAmount" name="minAmount" value="${supplier.minAmount }" class="uinp uw-200 easyui-validatebox" 
+						data-options="validType:'intNum'" type="text"  maxlength="10">
+				</div>
+			</div>
+			<div class="ub upad-4">
 				<div class="ub ub-ac ub-f1 umar-r36">
 					<div class="umar-r10 uw-80 ut-r">品牌:</div>
 					<input id="brandName" name="brandName" value="${supplier.brandName }" class="uinp ub ub-f1"  type="text" >
