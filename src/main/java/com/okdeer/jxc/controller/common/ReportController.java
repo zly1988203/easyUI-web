@@ -61,7 +61,8 @@ public abstract class ReportController extends BaseController<T>{
 
 	@RequestMapping("reportListPage")
 	@ResponseBody
-	public PageUtils<DataRecord> reportListPage(HttpServletRequest request,@RequestParam(value = "page", defaultValue = PAGE_NO)  Integer page,
+	public PageUtils<DataRecord> reportListPage(HttpServletRequest request,
+			@RequestParam(value = "page", defaultValue = PAGE_NO)  Integer page,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) Integer rows) {
 		PageUtils<DataRecord> list = getReportService().getListPage(getParam(request),page, rows);
 		return list;

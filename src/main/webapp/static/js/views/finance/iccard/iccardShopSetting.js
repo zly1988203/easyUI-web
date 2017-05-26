@@ -34,29 +34,52 @@ function initGridShopList() {
         width:'100%',
         // fit:true,
         columns:[[
+        	{field: 'branchId', title: '店铺id', hidden:"true"},
             {field: 'branchCode', title: '店铺编号', width: 100, align: 'left'},
             {field: 'branchName', title: '店铺名称', width: 180, align: 'left'},
-            {field: 'branchType', title: '店铺类型', width: 80, align: 'left',
-                formatter:function(value,row,index){
-                    if(value == '1'){
-                        return '直营店';
-                    }else if(value == '2'){
-                        return '加盟店';
-                    }else{
-                        return '其他类型'+ value;
-                    }
-                }
-            },
-            {field: 'batchNo', title: '累计充值金额', width: 130, align: 'right'},
-            {field: 'batchNo', title: '提取金额', width: 100, align: 'right'},
-            {field: 'batchNo', title: '已用金额', width: 100, align: 'right'},
-            {field: 'oldBalance', title: '余额', width: 100, align: 'right'},
-            {field: 'status', title: '启用',checkbox:true, width: 80, align: 'left'},
+            {field: 'typeDesc', title: '店铺类型', width: 80, align: 'left'},
+            {field: 'ecardRechargeAmount', title: '累计充值金额', width: 150, align: 'right'},
+            {field: 'ecardWithdrawalAmount', title: '提取金额', width: 100, align: 'right'},
+            {field: 'ecardUseAmount', title: '已用金额', width: 100, align: 'right'},
+            {field: 'ecardBalance', title: '余额', width: 100, align: 'right'},
+            {field: 'enabled', title: '启用',checkbox:true, width: 80, align: 'left',
+                formatter : function(value, row,index) {
+                	return value;
+            }}
         ]],
         onSelect:function(rowIndex,rowData){
             $("#"+gridEquipment).datagrid('loadData', { total: 0, rows: [] });
             selectView(rowData);
         },
+        onCheck:function(rowIndex,rowData){
+        	rowData.enabled = '1';
+        	rowData.checked = true;
+        },
+        onUncheck:function(rowIndex,rowData){
+        	rowData.enabled = '0';
+        	rowData.checked = false;
+        },
+        onCheckAll:function(rows){
+        	$.each(rows,function(index,item){
+        		item.enabled = '1';
+        		item.checked = true;
+        	})
+        },
+        onUncheckAll:function(rows){
+        	$.each(rows,function(index,item){
+        		item.enabled = '0';
+        		item.checked = false;
+        	})
+        },
+        loadFilter:function(data){
+        	if(data.rows.length > 0){
+        		
+        		data.rows.forEach(function(obj,index){
+        			obj.checked = obj.enabled == '1'?true:false;
+        		})
+        	}
+        	return data;
+        }
     })
 }
 

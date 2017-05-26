@@ -193,6 +193,12 @@ public interface ExportExcelConstant {
 	
 	/*** 财务代码导出模板  */
 	String FINANCE_CODE_EXPORT_TEMPLATE = "financeCodeExportTemplate.xlsx";
+	
+	/*** 门店费用汇总导出模板  */
+	String STORE_CHARGE_TOTAL_EXPORT_TEMPLATE = "storeChargeTotalExportTemplate.xlsx";
+	
+	/*** 门店费用明细导出模板  */
+	String STORE_CHARGE_DETAIL_EXPORT_TEMPLATE = "storeChargeDetailExportTemplate.xlsx";
 
 	/**
 	 * 成本调价单导出模板

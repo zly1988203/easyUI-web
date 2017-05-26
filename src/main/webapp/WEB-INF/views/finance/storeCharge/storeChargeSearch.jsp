@@ -25,19 +25,10 @@
 			<div class="ub ub-ac">
 				<div class="ubtns">
 					<div class="ubtns-item" onclick="queryCharge()">查询</div>
-					<shiro:hasPermission name="JxcPurchaseOrder:add">
-						<div class="ubtns-item" onclick="gFunRefresh()">重置</div>
-					</shiro:hasPermission>
-					<%--<shiro:hasPermission name="JxcPurchaseOrder:delete">--%>
-					<%--<div class="ubtns-item" onclick="orderDelete()">删除</div>--%>
-					<%--</shiro:hasPermission>--%>
-					<%--<shiro:hasPermission name="JxcPurchaseOrder:print">--%>
-					<%--<div class="ubtns-item" onclick="printPreview()">打印</div>--%>
-					<%--</shiro:hasPermission>--%>
+					<div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 					<div class="ubtns-item" onclick="exportData()">导出</div>
 					<div class="ubtns-item" onclick="toClose()">关闭</div>
 				</div>
-
 			</div>
 
 			<div class="ub umar-t8">
@@ -63,8 +54,7 @@
 					<div class="umar-r10 uw-60 ut-r">查询类型:</div>
 					<div class="ub ub-ac umar-r10">
 						<input class="radioItem" type="radio" name="status" id="status0"
-							value="0" checked="checked"/><label for="status0">费用汇总
-						</label>
+							value="0" checked="checked" /><label for="status0">费用汇总 </label>
 					</div>
 					<div class="ub ub-ac umar-r10">
 						<input class="radioItem" type="radio" name="status" id="status1s"
