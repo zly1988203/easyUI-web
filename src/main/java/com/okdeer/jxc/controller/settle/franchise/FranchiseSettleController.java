@@ -88,6 +88,29 @@ public class FranchiseSettleController extends BaseController<SupplierChainContr
 	}
 
 	/**
+	 * @Description: 检查是否存在未审核的结算
+	 * @author zhengwj
+	 * @date 2017年5月24日
+	 */
+	@RequiresPermissions("JxcFranchiseSettle:add")
+	@RequestMapping(value = "checkAuditCount", method = RequestMethod.GET)
+	@ResponseBody
+	public RespJson checkAuditCount() {
+		RespJson respJson = RespJson.success();
+		try {
+			// 检查是否存在未审核的结算
+			int auditCount = franchiseSettleService.getAuditCount(getCurrBranchId());
+			if (auditCount > 0) {
+				respJson = RespJson.error("存在未审核的结算单");
+			}
+		} catch (Exception e) {
+			LOG.error("获取未审核结算单数量异常:", e);
+			respJson = RespJson.error("获取未审核结算单数量异常！");
+		}
+		return respJson;
+	}
+
+	/**
 	 * 
 	 * @Description: 加盟店结算新增页
 	 * @param model model
@@ -102,6 +125,24 @@ public class FranchiseSettleController extends BaseController<SupplierChainContr
 	}
 
 	/**
+	 * @Description: 获取新增结算的单据列表
+	 * @author zhengwj
+	 * @date 2017年5月24日
+	 */
+	@RequiresPermissions("JxcFranchiseSettle:add")
+	@RequestMapping(value = "getFormList", method = RequestMethod.POST)
+	@ResponseBody
+	public List<FranchiseSettleDetailVo> getFormList(String franchiseId) {
+		try {
+			List<FranchiseSettleDetailVo> list = franchiseSettleService.getFormList(getCurrBranchId(), franchiseId);
+			return list;
+		} catch (Exception e) {
+			LOG.error("获取新增结算的单据列表异常:", e);
+		}
+		return new ArrayList<>();
+	}
+
+	/**
 	 * @Description: 保存加盟店结算
 	 * @author zhengwj
 	 * @date 2017年5月24日
@@ -112,6 +153,11 @@ public class FranchiseSettleController extends BaseController<SupplierChainContr
 	public RespJson settleSave(@RequestBody String jsonText) {
 		RespJson respJson = RespJson.success();
 		try {
+			// 检查是否存在未审核的结算
+			int auditCount = franchiseSettleService.getAuditCount(getCurrBranchId());
+			if (auditCount > 0) {
+				return RespJson.error("存在未审核的结算单");
+			}
 			FranchiseSettleVo vo = JSON.parseObject(jsonText, FranchiseSettleVo.class);
 			vo.setCreateUserId(getCurrUserId());
 			vo.setBranchCode(getCurrBranchCode());

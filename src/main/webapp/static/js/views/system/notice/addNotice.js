@@ -4,7 +4,7 @@
 
 
 
-function noticeShops(){
+function selectBranch(){
     //初始化机构ID
     var branchId = sessionBranchId;
 
@@ -17,16 +17,16 @@ function noticeShops(){
         })
         branchesId = branchesId.substring(0,branchesId.length - 1);
         branchName = branchName.substring(0,branchName.length - 1);
-        $("#shopIds").val(branchesId);// id
-        $("#shopNames").val(branchName);
+        $("#receiveBranchIds").val(branchesId);// id
+        $("#receiveBranchName").val(branchName);
     },1);
 }
 
-function noticePersons() {
+function selectUser() {
     publicOperatorService(function(data){
         //data.Id
-        $("#personIds").val(data.id);
-        $("#personNames").val("["+data.userCode+"]"+data.userName);
+        $("#receiveUserIds").val(data.id);
+        $("#receiveUserName").val("["+data.userCode+"]"+data.userName);
     });
 }
 
