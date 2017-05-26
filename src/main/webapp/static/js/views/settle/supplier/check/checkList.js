@@ -135,7 +135,7 @@ function delSupChkAccount(){
 	}
 	var ids = [];
 	for(var i=0; i<row.length; i++){
-		ids.push(row[i].deliverFormId);
+		ids.push(row[i].id);
 	}
 	$_jxc.confirm('是否要删除选中数据',function(data){
 		if(data){

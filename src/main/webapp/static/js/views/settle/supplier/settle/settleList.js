@@ -12,7 +12,8 @@ $(function(){
 	serviceType = $('#serviceType').val();
 	console.log(serviceType)
 	//开始和结束时间
-	toChangeDatetime(0);
+    $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
+    $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
     initsupAcoSetList();
     branchId = $("#branchId").val();
    
@@ -148,7 +149,7 @@ function delSupAcoSetForm(){
 	}
 	var ids = [];
 	for(var i=0; i<row.length; i++){
-		ids.push(row[i].deliverFormId);
+		ids.push(row[i].id);
 	}
 	$_jxc.confirm('是否要删除选中数据',function(data){
 		if(data){

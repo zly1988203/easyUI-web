@@ -182,17 +182,6 @@ function selectBranches(){
 	},'',targetBranchId);
 }
 
-//打印
-//function printDesign(){
-//     var dg = $("#gridRequireOrders");
-//     var row = dg.datagrid("getSelected");
-//     if(rowIsNull(row)){
-//           return null;
-//     }
-//     //弹出打印页面
-//     parent.addTabPrint('PASheet' + row.id,row.formNo+'单据打印',contextPath + '/printdesign/design?page=PASheet&controller=/form/purchase&template=-1&sheetNo=' + row.id + '&gridFlag=PAGrid','');
-//}
-
 /**
  * 重置
  */

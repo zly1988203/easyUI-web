@@ -268,12 +268,13 @@ function saveChainForm(){
 	if(!validateForm(branchId,beginDate,endDate,supplierId))return;
 	
     var reqObj = $('#chainForm').serializeObject();
+    reqObj.operateType = operateType == "add" ? 1 : 0;
     var _rows = gridHandel.getRows();
     if(_rows.length <= 0){
     	$_jxc.alert("表格不能为空");
     	return;
     }
-    reqObj.rows = gridHandel.getRows();
+    reqObj.detailList = gridHandel.getRows();
     
     console.log('reqObj',reqObj);
     
@@ -323,6 +324,7 @@ function delSupJonAccount(){
 function selectBranches(){
 	new publicAgencyService(function(data){
 		$("#branchId").val(data.branchesId);
+		$("#branchCode").val(data.branchCode);
 		$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
 	},'',branchId);
 }
