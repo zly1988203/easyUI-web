@@ -76,6 +76,12 @@ public class StocktakingDiffSearchController extends BaseController<StocktakingD
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
+		    if(StringUtils.isBlank(vo.getBatchNo())){
+		        return PageUtils.emptyPage();
+		    }
+		    if(StringUtils.isBlank(vo.getBatchId())){
+		        return PageUtils.emptyPage();
+		    }
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
 			// 结束日期延后一天

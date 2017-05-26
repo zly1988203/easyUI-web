@@ -44,8 +44,8 @@
 			<div class="ub ub-ac uw-300 umar-l20">
 				<div class="umar-r10 uw-70 ut-r">盘点批号:</div>
 				<input type="hidden" id="oldbatchNo" >
-				<input type="hidden" id="batchId" >
-				<input class="uinp ub ub-f1" type="text" name="batchNo" id="batchNo"/>
+				<input type="hidden" id="batchId" name ="batchId" >
+				<input class="uinp ub ub-f1" type="text" name="batchNo" id="batchNo" readonly="readonly" onClick="searchTakeStock()"/>
 				<div class="uinp-more" onClick="searchTakeStock()">...</div>
 
 			</div>
