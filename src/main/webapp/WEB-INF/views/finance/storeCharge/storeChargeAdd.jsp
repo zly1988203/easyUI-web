@@ -21,6 +21,7 @@
 </style>
 </head>
 <body class="ub ub-ver uw uh ufs-14 uc-black">
+	<input type='hidden' id="chargeStatus" value="add">
 	<div class="ub ub-ver ub-f1 umar-4  ubor">
 		<div class="ub ub-ac upad-4">
 			<div class="ubtns">
@@ -29,7 +30,7 @@
 					<div class="ubtns-item" onclick="saveStoreCharge()">保存</div>
 				</shiro:hasPermission>
 				<div class="ubtns-item uinp-no-more">审核</div>
-				<div class="ubtns-item" onclick="selectFinanceCode()">费用选择</div>
+				<div class="ubtns-item" onclick="selectCharge()">费用选择</div>
 				<div class="ubtns-item" onclick="toImportStoreCharge()">费用导入</div>
 				<div class="ubtns-item uinp-no-more">删除</div>
 				<div class="ubtns-item" onclick="toClose()">关闭</div>
@@ -51,7 +52,7 @@
 					</div>
 					<div class="ub ub-ac umar-r80">
 						<div class="umar-r10 uw-60 ut-r">月份:</div>
-						<input class="Wdate uw-300 uinp-no-more" readonly="readonly"
+						<input class="Wdate uw-300 uinp-no-more"
 							name="chargeMonth" id="chargeMonth"
 							onclick="WdatePicker({dateFmt:'yyyy-MM',maxDate:'%y-%M'})" />
 					</div>
