@@ -304,22 +304,16 @@ function delSupJonAccount(){
 	ids.push($("#formId").val());
 	$_jxc.confirm('是否要删除单据',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 		    	url:contextPath+"/form/deliverForm/deleteDeliverForm",
-		    	type:"POST",
-		    	contentType:"application/json",
-		    	data:JSON.stringify(ids),
-		    	success:function(result){
-		    		if(result['code'] == 0){
-                        toRefreshIframeDataGrid("settle/supplierChain/chainList","supperlierJoAccount");
-		    			toClose();
-		    		}else{
-		    			successTip(result['message']);
-		    		}
-		    	},
-		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
-		    	}
+		    	data:{'ids':ids}
+		    },function(result){
+	    		if(result['code'] == 0){
+                    toRefreshIframeDataGrid("settle/supplierChain/chainList","supperlierJoAccount");
+	    			toClose(); 
+	    		}else{
+	    			$_jxc.alert(result['message']);
+	    		}
 		    });
 		}
 	});

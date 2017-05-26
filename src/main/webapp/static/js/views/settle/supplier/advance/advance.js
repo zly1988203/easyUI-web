@@ -251,7 +251,7 @@ function saveSupAdvMonOrder(){
     }
     
     var footRow = gridHandel.getFooterRow();
-    if(footRow.length <= 0 && footRow[0].amount ==0 ){
+    if(footRow.length > 0 && footRow[0].amount ==0 ){
     	$_jxc.alert("合计该单据不能为零，请修改。");
     	return;
     }
@@ -318,7 +318,6 @@ function auditChargeForm(){
     }
 	$_jxc.confirm('是否审核通过？',function(data){
 		if(data){
-            gFunStartLoading();
 			$_jxc.ajax({
 		    	url : contextPath+"/settle/supplierCharge/auditChargeForm",
 		    	data:{"data":JSON.stringify(reqObj)}
