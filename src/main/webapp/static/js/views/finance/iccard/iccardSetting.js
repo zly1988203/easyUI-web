@@ -13,26 +13,19 @@ function initGridCardSetting() {
 
     $("#"+gridName).datagrid({
         align:'center',
+        url: 'setting/type/list',
         rownumbers:true,    //序号
         showFooter:true,
         height:500,
         width:600,
         columns:[[
-            {field: 'cardType', title: '一卡通类型', width: 180, align: 'left',
-                formatter:function(value,row,index){
-                    if(value == '1'){
-                        return '东莞通';
-                    }else if(value == '2'){
-                        return '深圳通';
-                    }else if(value == '3'){
-                        return '合肥通';
-                    }else{
-                        return '一卡通：'+ value;
-                    }
-                }
-            },
+        	{field: 'id', title: '一卡通Id', hidden:"true"},
+            {field: 'ecardType', title: '一卡通类型', width: 180, align: 'left'},
             // {field:'check',checkbox:true},
-            {field: 'status', title: '启用',checkbox:true, width: 80, align: 'left'},
+            {field: 'enabled', title: '启用',checkbox:true, width: 80, align: 'left',
+                formatter : function(value, row,index) {
+                	return value;
+            }},
             {field: 'cz', title: '操作', width: 180, align: 'right',
                 formatter : function(value, row,index) {
                     var str =  '<a name="add" onclick="openShopSettingLis('+row.cardType+')" ' +
@@ -41,16 +34,70 @@ function initGridCardSetting() {
                     return str;
                 },
             },
-        ]]
+        ]],
+        onCheck:function(rowIndex,rowData){
+        	rowData.enabled = '1';
+        	rowData.checked = true;
+        },
+        onUncheck:function(rowIndex,rowData){
+        	rowData.enabled = '0';
+        	rowData.checked = false;
+        },
+        onCheckAll:function(rows){
+        	$.each(rows,function(index,item){
+        		item.enabled = '1';
+        		item.checked = true;
+        	})
+        },
+        onUncheckAll:function(rows){
+        	$.each(rows,function(index,item){
+        		item.enabled = '0';
+        		item.checked = false;
+        	})
+        },
+        loadFilter:function(data){
+        	if(data.rows.length > 0){
+        		
+        		data.rows.forEach(function(obj,index){
+        			obj.checked = obj.enabled == '1'?true:false;
+        		})
+        	}
+        	return data;
+        },
     })
 
-    gridHandel.setLoadData([$.extend({},{cardType:"1",cz:"开通店铺列表"})]);
 }
 
 function saveCardSetting() {
-    
+	var selRows = $('#gridCardSetting').datagrid('getRows'); 
+	var ids=new Array();
+	var enableds=new Array();
+	for(var  i = 0;i<selRows.length;i++){
+		ids[i] = selRows[i].id;
+		enableds[i]=selRows[i].enabled;
+	}
+    $.post("setting/save", $('#saveForm').serialize()+urlEncode(ids,"ids")+urlEncode(enableds,"enableds"),
+			   function(datas){
+		messager(datas.data);
+    	}
+    , "json");
 }
 
+var urlEncode = function (param, key, encode) {
+	  if(param==null) return '';
+	  var paramStr = '';
+	  var t = typeof (param);
+	  if (t == 'string' || t == 'number' || t == 'boolean') {
+	    paramStr += '&' + key + '=' + ((encode==null||encode) ? encodeURIComponent(param) : param);
+	  } else {
+	    for (var i in param) {
+	      var k = key == null ? i : key + (param instanceof Array ? '[]' : '.' + i);
+	      paramStr += urlEncode(param[i], k, encode);
+	    }
+	  }
+	  return paramStr;
+	};
+	
 var cardDialog = null;
 function addCard() {
     cardDialog = $('<div/>').dialog({
@@ -87,11 +134,8 @@ function delCard() {
         if(data){
             gFunStartLoading();
             $.ajax({
-                url:contextPath+"/form/purchase/delete",
+                url:contextPath+"/iccard/setting/type/delete/"+row.id,
                 type:"POST",
-                data:{
-                    formIds:row.id
-                },
                 success:function(result){
                     gFunEndLoading();
                     if(result['code'] == 0){
