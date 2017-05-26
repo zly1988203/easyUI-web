@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.result.RespJson;
+import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.common.utils.gson.GsonUtils;
@@ -91,6 +92,8 @@ public class StoreChargeController extends BaseController<StoreChargeController>
 		if(StringUtils.isBlank(qo.getBranchCompleCode())){
 			qo.setBranchCompleCode(super.getCurrBranchCompleCode());
 		}
+		
+		qo.setEndTime(DateUtils.getDayAfter(qo.getEndTime()));
 				
 		LOG.debug("查询门店费用条件：{}", qo);
 
