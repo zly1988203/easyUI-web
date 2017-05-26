@@ -39,7 +39,7 @@ public class BepMonthAnalysisController extends ReportController {
 	 */
 	@RequestMapping(value = "toManager")
 	public String toManager() {
-		return "report/bepAnalysis/bepMonthAnalysisList";
+		return "report/analysis/bepMonthAnalysisList";
 	}
 
 	/**

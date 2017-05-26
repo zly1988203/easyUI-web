@@ -21,6 +21,7 @@ function initGridBranchCostList() {
         showFooter:true,
         height:'100%',
         width:'100%',
+        fitColumns:true,    //每列占满
         columns:[[
             {field:'orderCode',title:'单号',width:80,align:'left',
                 formatter: function(value,row,index){
