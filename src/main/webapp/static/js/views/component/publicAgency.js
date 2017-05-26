@@ -8,12 +8,14 @@ var formType=null;
 var branchId=null;
 var branchType=null;
 var isOpenStock=null;
+var scope=null;
 function initAgencyView(){
 	nameOrCode=$("#formAgency :text[name=nameOrCode]").val();
 	formType=$("#formAgency :hidden[name=deliverFormType]").val();
 	branchId=$("#formAgency :hidden[name=branchId]").val();
 	branchType=$("#formAgency :hidden[name=branchType]").val();
 	isOpenStock=$("#formAgency :hidden[name=isOpenStock]").val();
+	scope=$("#formAgency :hidden[name=scope]").val();
 	
     gFunSetEnterKey(agencySearch);
     initTreeAgency(); //初始树
@@ -69,7 +71,8 @@ function zTreeOnClick(event, treeId, treeNode) {
     		formType:formType,
     		branchId:branchId,
     		branchType:branchType,
-    		isOpenStock:isOpenStock
+    		isOpenStock:isOpenStock,
+    		scope:scope
     };
     $("#gridAgency").datagrid("options").method = "post";
     $("#gridAgency").datagrid("options").url =contextPath+'/common/branches/getComponentList',
@@ -96,6 +99,7 @@ function initDatagridAgency(){
         	formType:formType,
     		branchId:branchId,
     		isOpenStock:isOpenStock,
+    		scope:scope,
     		branchType:branchType
         },
         //toolbar: '#tb',     //工具栏 id为tb
@@ -132,7 +136,7 @@ function agencySearch(){
 	//去除左侧选中样式
 	$('.zTreeDemoBackground a').removeClass('curSelectedNode');
 	//点击搜索清除左侧数据
-	$("#gridAgency").datagrid("options").queryParams = {nameOrCode:nameOrCode,formType:formType,branchId:branchId,branchType:branchType,isOpenStock:isOpenStock};
+	$("#gridAgency").datagrid("options").queryParams = {nameOrCode:nameOrCode,formType:formType,branchId:branchId,branchType:branchType,isOpenStock:isOpenStock,scope:scope};
 //	$("#gridAgency").datagrid("options").queryParams = {branchAreaCode:branchAreaCode,nameOrCode:nameOrCode,formType:$("#formType").val(),branchId:$("#branchId").val()};
 	$("#gridAgency").datagrid("options").method = "post";
 	$("#gridAgency").datagrid("options").url =contextPath+'/common/branches/getComponentList',

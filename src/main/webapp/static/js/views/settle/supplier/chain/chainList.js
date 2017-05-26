@@ -172,12 +172,13 @@ function selectOperator(){
 }
 /**
  * 机构
+ * callback,formType,branchId, branchType,isOpenStock,scope:带分公司所有
  */
 function selectBranches(){
 	new publicAgencyService(function(data){
 		$("#branchId").val(data.branchesId);
 		$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
-	},'',branchId);
+	},'',branchId,'','',1);
 }
 
 //打印
