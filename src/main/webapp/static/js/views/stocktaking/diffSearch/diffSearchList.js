@@ -430,7 +430,16 @@ function queryForm(){
 	if(oldskuName && oldskuName != skuName){
 		$("#skuId").val('');
 	}
-	
+	var batchNo = $("#batchNo").val();
+	var batchId = $("#batchId").val();
+	if(batchNo==""){
+		messager("请先选择盘点批号");
+        return;
+	}
+	if(batchId==""){
+		messager("请先选择盘点批号");
+		return;
+	}
 	var oldCategoryName = $("#oldCategoryName").val();
 	var categoryName = $("#categoryName").val();	
 	if(oldCategoryName && oldCategoryName != categoryName){
