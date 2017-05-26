@@ -4,7 +4,8 @@
  */
 $(function(){
 	//开始和结束时间
-	toChangeDatetime(0);
+    $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
+    $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
     initsupAdvMonList();
     branchId = $("#branchId").val();
    
@@ -58,15 +59,20 @@ function initsupAdvMonList(){
         columns:[[
 			{field:'check',checkbox:true},
             {field:'formNo',title:'单据编号',width:'130px',align:'left',formatter:function(value,row,index){
-            	var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'联营账单明细\',\''+ contextPath +'/form/deliverForm/deliverEdit?deliverFormId='+ row.deliverFormId +'&deliverType=DA\')">' + value + '</a>';
+            	var strHtml = '';
+            	if(row.auditStatus == 1){
+            		strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'供应商联营账单明细\',\''+ contextPath +'/settle/supplierChain/chainView?id='+ row.id +'\')">' + value + '</a>';
+            	}else{
+            		strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'供应商联营账单明细\',\''+ contextPath +'/settle/supplierChain/chainEdit?id='+ row.id +'\')">' + value + '</a>';
+            	}
         		return strHtml;
             }},
-            {field:'status',title: '审核状态', width: '100px', align: 'center'},
-			{field: 'branchNo', title: '机构编号', width: '100px', align: 'center'},
+            {field:	'auditStatus',title: '审核状态', width: '100px', align: 'center'},
+			{field: 'branchCode', title: '机构编号', width: '100px', align: 'center'},
 			{field: 'branchName', title: '机构名称', width: '140px', align: 'left'},
-			{field: 'supperbranchName', title: '供应商名称', width: '140px', align: 'left'},
-			{field: 'supperbranchNo', title: '供应商编号', width: '140px', align: 'left'},
-			{field: 'amount', title: '单据金额', width: '80px', align: 'right',
+			{field: 'supplierCode', title: '供应商编号', width: '140px', align: 'left'},
+			{field: 'supplierName', title: '供应商名称', width: '140px', align: 'left'},
+			{field: 'actualAmount', title: '单据金额', width: '80px', align: 'right',
 				formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -83,7 +89,7 @@ function initsupAdvMonList(){
 					return "";
 				}
 			},
-			{field: 'validUserName', title: '审核人员', width: '130px', align: 'left'},
+			{field: 'auditUserName', title: '审核人员', width: '130px', align: 'left'},
 			{field: 'remark', title: '备注', width: '200px', align: 'left'}
 			
         ]],
@@ -115,7 +121,7 @@ function queryForm(){
     fromObjStr.operateUserName = fromObjStr.operateUserName.substring(fromObjStr.operateUserName.lastIndexOf(']')+1)
 
 	$("#"+datagirdID).datagrid("options").method = "post";
-	$("#"+datagirdID).datagrid('options').url = contextPath + '/form/deliverForm/getDeliverForms';
+	$("#"+datagirdID).datagrid('options').url = contextPath + '/settle/supplierChain/getChainList';
 	$("#"+datagirdID).datagrid('load', fromObjStr);
 }
 
@@ -129,13 +135,12 @@ function delSupJonAccount(){
 	}
 	var ids = [];
 	for(var i=0; i<row.length; i++){
-		ids.push(row[i].deliverFormId);
+		ids.push(row[i].id);
 	}
 	$_jxc.confirm('是否要删除选中数据',function(data){
 		if(data){
 			$_jxc.ajax({
-		    	url:contextPath+"/form/deliverForm/deleteDeliverForm",
-		    	contentType:"application/json",
+		    	url:contextPath+"/settle/supplierChain/deleteChainForm",
 		    	data:{"ids":ids}
 		    },function(result){
 	    		if(result['code'] == 0){
@@ -174,17 +179,6 @@ function selectBranches(){
 		$("#branchId").val(data.branchesId);
 		$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
 	},'',branchId,'','',1);
-}
-
-//打印
-function printDesign(){
-     var dg = $("#gridRequireOrders");
-     var row = dg.datagrid("getSelected");
-     if(rowIsNull(row)){
-           return null;
-     }
-     //弹出打印页面
-     parent.addTabPrint('PASheet' + row.id,row.formNo+'单据打印',contextPath + '/printdesign/design?page=PASheet&controller=/form/purchase&template=-1&sheetNo=' + row.id + '&gridFlag=PAGrid','');
 }
 
 /**

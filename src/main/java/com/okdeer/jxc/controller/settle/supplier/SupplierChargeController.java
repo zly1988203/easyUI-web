@@ -176,7 +176,7 @@ public class SupplierChargeController extends BaseController<SupplierChargeContr
             }
         } catch (Exception e) {
             LOG.error("保存供应商预付，费用：{}", e);
-            respJson = RespJson.error("保存供应商预付，费用!");
+            respJson = RespJson.error("保存供应商费用异常!");
         }
         return respJson;
     }

@@ -218,7 +218,6 @@ function delSupChkAccount(){
 	    		}
 		    });
 		}
-		}
 	});
 }
 
@@ -226,6 +225,7 @@ function delSupChkAccount(){
 function selectBranches(){
 	new publicAgencyService(function(data){
 		$("#branchId").val(data.branchesId);
+		$("#branchCode").val(data.branchCode);
 		$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
 	},'',targetBranchId);
 }

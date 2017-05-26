@@ -149,7 +149,7 @@ public class SupplierCheckController extends BaseController<SupplierCheckControl
         return detailList;
     }
     /**
-     * @Description: 保存供应商预付，费用
+     * @Description: 保存供应商对账单
      * @param data 保存JSON数据
      * @return RespJson
      * @author xuyq
@@ -159,7 +159,7 @@ public class SupplierCheckController extends BaseController<SupplierCheckControl
     @ResponseBody
     public RespJson saveCheckForm(String data) {
         RespJson respJson = RespJson.success();
-        LOG.debug("保存供应商预付，费用 ：data{}" + data);
+        LOG.debug("保存供应商对账单 ：data{}" + data);
         SysUser user = UserUtil.getCurrentUser();
         if (user == null) {
             respJson = RespJson.error("用户不能为空！");
@@ -185,14 +185,14 @@ public class SupplierCheckController extends BaseController<SupplierCheckControl
                 return supplierCheckService.updateCheckForm(vo);
             }
         } catch (Exception e) {
-            LOG.error("保存供应商预付，费用：{}", e);
-            respJson = RespJson.error("保存供应商预付，费用!");
+            LOG.error("保存供应商对账单：{}", e);
+            respJson = RespJson.error("保存供应商对账单异常!");
         }
         return respJson;
     }
 
     /**
-     * @Description: 审核供应商预付，费用
+     * @Description: 审核供应商对账单
      * @param data 保存JSON数据
      * @return RespJson
      * @author xuyq
@@ -203,7 +203,7 @@ public class SupplierCheckController extends BaseController<SupplierCheckControl
     public RespJson auditCheckForm(String data) {
         RespJson respJson = RespJson.success();
         try {
-            LOG.debug("审核供应商预付，费用详情 ：data{}" + data);
+            LOG.debug("审核供应商对账单详情 ：data{}" + data);
             SysUser user = UserUtil.getCurrentUser();
             if (user == null) {
                 respJson = RespJson.error("用户不能为空！");
@@ -222,7 +222,7 @@ public class SupplierCheckController extends BaseController<SupplierCheckControl
             vo.setAuditTime(DateUtils.getCurrDate());
             return supplierCheckService.auditCheckForm(vo);
         } catch (Exception e) {
-            LOG.error("审核供应商预付，费用详情:{}", e);
+            LOG.error("审核供应商对账单详情:{}", e);
             respJson = RespJson.error("账单审核异常！");
         }
         return respJson;

@@ -151,7 +151,7 @@ public class SupplierChainController extends BaseController<SupplierChainControl
     }
     
     /**
-     * @Description: 保存供应商预付，费用
+     * @Description: 保存供应商联营账单
      * @param data 保存JSON数据
      * @return RespJson
      * @author xuyq
@@ -160,7 +160,7 @@ public class SupplierChainController extends BaseController<SupplierChainControl
     @RequestMapping(value = "/saveChainForm", method = RequestMethod.POST)
     public RespJson saveChainForm(String data) {
         RespJson respJson = RespJson.success();
-        LOG.debug("保存供应商预付，费用 ：data{}" + data);
+        LOG.debug("保存供应商联营账单 ：data{}" + data);
         SysUser user = UserUtil.getCurrentUser();
         if (user == null) {
             respJson = RespJson.error("用户不能为空！");
@@ -172,6 +172,7 @@ public class SupplierChainController extends BaseController<SupplierChainControl
                 return respJson;
             }
             SupplierChainVo vo = JSON.parseObject(data, SupplierChainVo.class);
+//            SupplierChainVo vo = GsonUtils.fromJson(data, SupplierChainVo.class);
             if (OperateTypeEnum.ADD.getIndex().equals(vo.getOperateType())) {
                 // 新增
                 vo.setCreateUserId(user.getId());
@@ -186,14 +187,14 @@ public class SupplierChainController extends BaseController<SupplierChainControl
                 return supplierChainService.updateChainForm(vo);
             }
         } catch (Exception e) {
-            LOG.error("保存供应商预付，费用：{}", e);
-            respJson = RespJson.error("保存供应商预付，费用!");
+            LOG.error("保存供应商联营账单：{}", e);
+            respJson = RespJson.error("保存供应商联营账单异常!");
         }
         return respJson;
     }
 
     /**
-     * @Description: 审核供应商预付，费用
+     * @Description: 审核供应商联营账单
      * @param data 保存JSON数据
      * @return RespJson
      * @author xuyq
@@ -203,7 +204,7 @@ public class SupplierChainController extends BaseController<SupplierChainControl
     public RespJson auditChainForm(String data) {
         RespJson respJson = RespJson.success();
         try {
-            LOG.debug("审核供应商预付，费用详情 ：data{}" + data);
+            LOG.debug("审核供应商联营账单详情 ：data{}" + data);
             SysUser user = UserUtil.getCurrentUser();
             if (user == null) {
                 respJson = RespJson.error("用户不能为空！");
@@ -222,7 +223,7 @@ public class SupplierChainController extends BaseController<SupplierChainControl
             vo.setAuditTime(DateUtils.getCurrDate());
             return supplierChainService.auditChainForm(vo);
         } catch (Exception e) {
-            LOG.error("审核供应商预付，费用详情:{}", e);
+            LOG.error("审核供应商联营账单详情:{}", e);
             respJson = RespJson.error("账单审核异常！");
         }
         return respJson;
@@ -242,7 +243,7 @@ public class SupplierChainController extends BaseController<SupplierChainControl
             return supplierChainService.deleteChainForm(ids);
         } catch (Exception e) {
             LOG.error("删除账单异常:{}", e);
-            resp = RespJson.error("删除账单失败");
+            resp = RespJson.error("删除账单异常！");
         }
         return resp;
     }
