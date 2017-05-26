@@ -8,18 +8,22 @@
 <title>门店费用</title>
 
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-	<c:set var="ctx" value="${pageContext.request.contextPath}" />
-<script src="${ctx}/static/js/views/finance/storeCharge/storeChargeList.js?V=5"></script>
-	<style>
-	.datagrid-header .datagrid-cell {text-align: center!important;font-weight: bold;}
-	</style>
+<c:set var="ctx" value="${pageContext.request.contextPath}" />
+<script
+	src="${ctx}/static/js/views/finance/storeCharge/storeChargeList.js?V=5"></script>
+<style>
+.datagrid-header .datagrid-cell {
+	text-align: center !important;
+	font-weight: bold;
+}
+</style>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
 	<div class="ub ub-ver ub-f1 umar-4 upad-4">
 		<form id="queryForm">
 			<div class="ub ub-ac">
 				<div class="ubtns">
-					<div class="ubtns-item" onclick="query()">查询</div>
+					<div class="ubtns-item" onclick="queryStoreCharge()">查询</div>
 					<shiro:hasPermission name="JxcPurchaseOrder:add">
 						<div class="ubtns-item" onclick="storeChargeAdd()">新增</div>
 					</shiro:hasPermission>
@@ -71,7 +75,8 @@
 					</div>
 					<div class="ub ub-ac umar-r10">
 						<input class="radioItem" type="radio" name="status"
-							id="status_yes" value="1" /><label for="status_yes">已审核 </label>
+							id="status_yes" value="1" /><label for="status_yes">已审核
+						</label>
 					</div>
 					<div class="ub ub-ac umar-r10">
 						<input class="radioItem" type="radio" name="status"
