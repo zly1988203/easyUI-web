@@ -4,7 +4,7 @@
 
 $(function () {
     initGridChargeSearchList();
-    $("#startTime").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM"));
+    $("#startTime").val(dateUtil.getPreMonthDate().format("yyyy-MM"));
 })
 
 var gridName = "gridStoreChargeSearch";
