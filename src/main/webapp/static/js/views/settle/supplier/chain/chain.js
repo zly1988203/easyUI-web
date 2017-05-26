@@ -10,27 +10,26 @@ var gridDefault = {
 //列表数据查询url
 var url = "";
 var oldData = {};
-var gridName = "supplierJonAccountAdd";
-var superJonAccStatus;
-var editRowData = null;
-var targetBranchId;
+var gridName = "supChainAdd";
+var pageStatus;
+var branchId;
 
 
 $(function(){
-    superJonAccStatus = $('#supplierAdvMoneyStatus').val();
-	if(superJonAccStatus === 'add'){
+    pageStatus = $('#operateType').val();
+	if(pageStatus === 'add'){
 		  $("#payMoneyTime").val(new Date().format('yyyy-MM-dd')); 
-	}else if(superJonAccStatus === 'edit'){
+	}else if(pageStatus === 'edit'){
 		var formId = $("#formId").val();
 		url = contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverFormId="+formId+"&deliverType=DA";
 		oldData = {
-		        targetBranchId:$("#targetBranchId").val(), // 要活分店id
+		        branchId:$("#branchId").val(), // 要活分店id
 		        remark:$("#remark").val(),                  // 备注
 		        formNo:$("#formNo").val(),                 // 单号
 		}
 	    
 	}
-	initSupJonAcoAdd();
+	initSupChainAdd();
 })
 
 $(document).on('input','#remark',function(){
@@ -61,7 +60,7 @@ $(document).on('input','#remark',function(){
 });
 
 var gridHandel = new GridClass();
-function initSupJonAcoAdd(){
+function initSupChainAdd(){
     gridHandel.setGridName(gridName);
     gridHandel.initKey({
         firstName:'costNo',
@@ -93,40 +92,40 @@ function initSupJonAcoAdd(){
             {field:'branchName',title:'机构',width: '150px',align:'left'},
             {field:'skuCode',title:'货号',width:'120px',align:'left'},
             {field:'skuName',title:'商品名称',width:'100px',align:'left'},
-            {field:'skuCode1',title:'条码',width:'100px',align:'left'},
-            {field:'guige',title:'规格',width:'100px',align:'left'},
+            {field:'barCode',title:'条码',width:'100px',align:'left'},
+            {field:'spec',title:'规格',width:'100px',align:'left'},
             {field:'unit',title:'单位',width:'100px',align:'left'},
-            {field:'saleNum',title:'销售数量',width:'100px',align:'right',
+            {field:'saleCount',title:'销售数量',width:'100px',align:'right',
             	formatter:function(value,row,index){
             		if(!value)row.saleNum = 0;
             		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
             	}
             },
-            {field:'salePrice',title:'销售金额',width:'100px',align:'right',
+            {field:'saleAmount',title:'销售金额',width:'100px',align:'right',
             	formatter:function(value,row,index){
             		if(!value)row.salePrice = 0;
             		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
             	}
             },
-            {field:'linTax',title:'联营扣率',width:'100px',align:'right',
+            {field:'supplierRate',title:'联营扣率',width:'100px',align:'right',
             	formatter:function(value,row,index){
             		if(!value)row.linTax = 0;
             		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
             	}
             },
-            {field:'linC',title:'分成金额',width:'100px',align:'right',
+            {field:'divideAmount',title:'分成金额',width:'100px',align:'right',
             	formatter:function(value,row,index){
             		if(!value)row.linC = 0;
             		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
             	}
             },
-            {field:'xxTax',title:'销项税率',width:'100px',align:'right',
+            {field:'outputTax',title:'销项税率',width:'100px',align:'right',
             	formatter:function(value,row,index){
             		if(!value)row.xxTax = 0;
             		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
             	}
             },
-            {field:'taxN',title:'税额',width:'100px',align:'right',
+            {field:'taxAmount',title:'税额',width:'100px',align:'right',
             	formatter:function(value,row,index){
             		if(!value)row.taxN = 0;
             		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
@@ -134,7 +133,7 @@ function initSupJonAcoAdd(){
             }
         ]],
         onLoadSuccess:function(data){
-        	if(superJonAccStatus==='edit'){
+        	if(pageStatus==='edit'){
                 if(!oldData["grid"]){
                 	oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
                         return $.extend(true,{},obj);//返回对象的深拷贝
@@ -147,7 +146,7 @@ function initSupJonAcoAdd(){
         },
     });
     
-    if(superJonAccStatus==='add'){
+    if(pageStatus==='add'){
     	 gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
     	                         $.extend({},gridDefault),$.extend({},gridDefault)]);
     }
@@ -176,7 +175,53 @@ function delLineHandel(event){
     gridHandel.delRow(index);
 }
 
+function validateForm(branchId,beginDate,endDate,supplierId){
+    if(!$.trim(branchId)){
+    	$_jxc.alert('请选择机构!');
+    	return false;
+    }
+    if(!beginDate){
+    	$_jxc.alert('计算开始时间不能为空');
+    	return false;
+    }
+    if(!endDate){
+    	$_jxc.alert('计算结算时间不能为空');
+    	return false;
+    }
+    if(!supplierId){
+    	$_jxc.alert('请选择供应商!');
+    	return false;
+    }
+    return true;
+}
 
+
+//计算账款
+function initChainFormDetail(){
+//	var fromObjStr = $('#queryForm').serializeObject();
+	// 去除编码
+    //fromObjStr.targetBranchName = fromObjStr.targetBranchName.substring(fromObjStr.targetBranchName.lastIndexOf(']')+1)
+//    fromObjStr.operateUserName = fromObjStr.operateUserName.substring(fromObjStr.operateUserName.lastIndexOf(']')+1);
+    var branchId = $('#branchId').val();
+	var beginDate = $('#beginDate').val();
+	var endDate = $('#endDate').val();
+	var supplierId = $('#supplierId').val();
+	var operateType = $('#operateType').val();
+	if(!validateForm(branchId,beginDate,endDate,supplierId))return;
+    var paramsObj = {
+    	branchId:branchId,
+    	beginDate:beginDate,
+    	endDate:endDate,
+		operateType : operateType == 'add' ? 1 : 2,
+    	supplierId:supplierId,
+    }
+    
+    
+	$("#"+gridName).datagrid("options").method = "post";
+    $("#"+gridName).datagrid("options").queryParams = paramsObj;
+	$("#"+gridName).datagrid('options').url = contextPath + '/settle/supplierChain/chainFormDetailList';
+	$("#"+gridName).datagrid('load');
+}
 
 //保存
 function saveSupJonAccount(){
@@ -218,21 +263,27 @@ function delSupJonAccount(){
 //机构
 function selectBranches(){
 	new publicAgencyService(function(data){
-		$("#targetBranchId").val(data.branchesId);
+		$("#branchId").val(data.branchesId);
 		$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
-	},'',targetBranchId);
+	},'',branchId);
 }
 
 //选择供应商
 function selectSupplier(){
     new publicSupplierService(function(data){
-    	$('#linkman').val(data.supplierName||'');//联系人
+    	console.log('supplier',data);
+    	$('#supplierContcat').val(data.supplierName||'');//联系人
     	$('#linkTel').val((data.mobile?data.mobile:'')+(data.phone?'/'+data.phone:''));//联系人
     	$("#supplierId").val(data.id);
+    	$("#supplierPhone").val(data.phone);
+    	$("#supplierMobile").val(data.mobile);
+    	$("#supplierMinAmount").val(data.minAmount);
         $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);	
         
     });
 }
+
+
 
 //选择费用
 function selectCost(searchKey){

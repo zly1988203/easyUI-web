@@ -6,7 +6,7 @@ $(function(){
 	//开始和结束时间
 	toChangeDatetime(0);
     initsupAdvMonList();
-    targetBranchId = $("#targetBranchId").val();
+    branchId = $("#branchId").val();
    
 });
 
@@ -39,9 +39,9 @@ $(document).on('input','#remark',function(){
 
 
 
-var targetBranchId;
+var branchId;
 var gridHandel = new GridClass();
-var datagirdID = 'supperlierJoAccount'
+var datagirdID = 'supChainList'
 //初始化表格
 function initsupAdvMonList(){
     $("#"+datagirdID).datagrid({
@@ -175,9 +175,9 @@ function selectOperator(){
  */
 function selectBranches(){
 	new publicAgencyService(function(data){
-		$("#targetBranchId").val(data.branchesId);
+		$("#branchId").val(data.branchesId);
 		$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
-	},'',targetBranchId);
+	},'',branchId);
 }
 
 //打印
