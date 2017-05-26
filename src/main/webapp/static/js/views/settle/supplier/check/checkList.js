@@ -4,9 +4,10 @@
  */
 $(function(){
 	//开始和结束时间
-	toChangeDatetime(0);
+    $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
+    $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
     initsupChkAccountList();
-    targetBranchId = $("#targetBranchId").val();
+    branchId = $("#branchId").val();
    
 });
 
@@ -39,7 +40,7 @@ $(document).on('input','#remark',function(){
 
 
 
-var targetBranchId;
+var branchId;
 var gridHandel = new GridClass();
 var datagirdID = 'supperlierChkAccount'
 //初始化表格
@@ -58,15 +59,20 @@ function initsupChkAccountList(){
         columns:[[
 			{field:'check',checkbox:true},
             {field:'formNo',title:'单据编号',width:'130px',align:'left',formatter:function(value,row,index){
-            	var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'供应商对账单明细\',\''+ contextPath +'/form/deliverForm/deliverEdit?deliverFormId='+ row.deliverFormId +'&deliverType=DA\')">' + value + '</a>';
+            	var strHtml = '';
+            	if(row.auditStatus == 1){
+            		strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'供应商对账明细\',\''+ contextPath +'/settle/supplierCheck/checkView?id='+ row.id +'\')">' + value + '</a>';
+            	}else{
+            		strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'供应商对账明细\',\''+ contextPath +'/settle/supplierCheck/checkEdit?id='+ row.id +'\')">' + value + '</a>';
+            	}
         		return strHtml;
             }},
-            {field:'status',title: '审核状态', width: '100px', align: 'center'},
-			{field: 'branchNo', title: '机构编号', width: '100px', align: 'center'},
+            {field:'auditStatus',title: '审核状态', width: '100px', align: 'center'},
+			{field: 'branchCode', title: '机构编号', width: '100px', align: 'center'},
 			{field: 'branchName', title: '机构名称', width: '140px', align: 'left'},
-			{field: 'supperbranchName', title: '供应商名称', width: '140px', align: 'left'},
-			{field: 'supperbranchNo', title: '供应商编号', width: '140px', align: 'left'},
-			{field: 'amount', title: '单据金额', width: '80px', align: 'right',
+			{field: 'supplierCode', title: '供应商编号', width: '140px', align: 'left'},
+			{field: 'supplierName', title: '供应商名称', width: '140px', align: 'left'},
+			{field: 'payableAmount', title: '单据金额', width: '80px', align: 'right',
 				formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -83,7 +89,7 @@ function initsupChkAccountList(){
 					return "";
 				}
 			},
-			{field: 'validUserName', title: '审核人员', width: '130px', align: 'left'},
+			{field: 'auditUserName', title: '审核人员', width: '130px', align: 'left'},
 			{field: 'remark', title: '备注', width: '200px', align: 'left'}
 			
         ]],
@@ -111,11 +117,11 @@ function clearBranchCode(obj,branchId){
 function queryForm(){
 	var fromObjStr = $('#queryForm').serializeObject();
 	// 去除编码
-    //fromObjStr.targetBranchName = fromObjStr.targetBranchName.substring(fromObjStr.targetBranchName.lastIndexOf(']')+1)
+    fromObjStr.targetBranchName = fromObjStr.targetBranchName.substring(fromObjStr.targetBranchName.lastIndexOf(']')+1)
     fromObjStr.operateUserName = fromObjStr.operateUserName.substring(fromObjStr.operateUserName.lastIndexOf(']')+1)
 
 	$("#"+datagirdID).datagrid("options").method = "post";
-	$("#"+datagirdID).datagrid('options').url = contextPath + '/form/deliverForm/getDeliverForms';
+	$("#"+datagirdID).datagrid('options').url = contextPath + '/settle/supplierCheck/getCheckList';
 	$("#"+datagirdID).datagrid('load', fromObjStr);
 }
 
@@ -134,10 +140,10 @@ function delSupChkAccount(){
 	$.messager.confirm('提示','是否要删除选中数据',function(data){
 		if(data){
 			$.ajax({
-		    	url:contextPath+"/form/deliverForm/deleteDeliverForm",
+		    	url:contextPath+"/settle/supplierCheck/deleteCheckForm",
 		    	type:"POST",
-		    	contentType:"application/json",
-		    	data:JSON.stringify(ids),
+                data: {"ids":ids},
+                dataType: "json",
 		    	success:function(result){
 		    		if(result['code'] == 0){
 		    			successTip("删除成功");
@@ -175,9 +181,9 @@ function selectOperator(){
  */
 function selectBranches(){
 	new publicAgencyService(function(data){
-		$("#targetBranchId").val(data.branchesId);
+		$("#branchId").val(data.branchesId);
 		$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
-	},'',targetBranchId);
+	},'',branchId);
 }
 
 //打印

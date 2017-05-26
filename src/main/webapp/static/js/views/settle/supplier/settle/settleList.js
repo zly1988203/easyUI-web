@@ -3,7 +3,7 @@
  * 新增供应商结算
  */
 
-var targetBranchId;
+var branchId;
 var gridHandel = new GridClass();
 var datagirdID = 'supAcoSettList';
 var serviceType;//对账模式
@@ -14,7 +14,7 @@ $(function(){
 	//开始和结束时间
 	toChangeDatetime(0);
     initsupAcoSetList();
-    targetBranchId = $("#targetBranchId").val();
+    branchId = $("#branchId").val();
    
 });
 
@@ -74,18 +74,23 @@ function getColumnList(){
 	         			{field:'check',checkbox:true},
 	                    {field:'formNo',title:'单据编号',width:'130px',align:'left',
 	         				formatter:function(value,row,index){
-		                    	var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'供应商结算明细\',\''+ contextPath +'/form/deliverForm/deliverEdit?deliverFormId='+ row.deliverFormId +'&deliverType=DA\')">' + value + '</a>';
-		                		return strHtml;
+	         	            	var strHtml = '';
+	         	            	if(row.auditStatus == 1){
+	         	            		strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'供应商结算明细\',\''+ contextPath +'/settle/supplierSettle/settleView?id='+ row.id +'\')">' + value + '</a>';
+	         	            	}else{
+	         	            		strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'供应商结算明细\',\''+ contextPath +'/settle/supplierSettle/settleEdit?id='+ row.id +'\')">' + value + '</a>';
+	         	            	}
+	         	        		return strHtml;
 	                    	}
 	         			}];
 	if(serviceType == 'yes'){
-		defaultCoumns = defaultCoumns.concat([{field: 'branchNo', title: '机构编号', width: '100px', align: 'center'},
+		defaultCoumns = defaultCoumns.concat([{field: 'branchCode', title: '机构编号', width: '100px', align: 'center'},
 							 {field: 'branchName', title: '机构名称', width: '140px', align: 'left'}]);
 	}
 	defaultCoumns = defaultCoumns.concat([{field: 'branchName', title: '机构名称', width: '140px', align: 'left'},
-	        			{field: 'supperbranchNo', title: '供应商编号', width: '140px', align: 'left'},
-	        			{field: 'supperbranchName', title: '供应商名称', width: '140px', align: 'left'},
-	        			{field: 'amount', title: '单据金额', width: '80px', align: 'right',
+	        			{field: 'supplierCode', title: '供应商编号', width: '140px', align: 'left'},
+	        			{field: 'supplierName', title: '供应商名称', width: '140px', align: 'left'},
+	        			{field: 'payableAmount', title: '单据金额', width: '80px', align: 'right',
 	        				formatter:function(value,row,index){
 	                            if(row.isFooter){
 	                                return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -102,7 +107,7 @@ function getColumnList(){
 	        					return "";
 	        				}
 	        			},
-	        			{field: 'validUserName', title: '审核人', width: '130px', align: 'left'},
+	        			{field: 'auditUserName', title: '审核人', width: '130px', align: 'left'},
 	        			{field: 'remark', title: '备注', width: '200px', align: 'left'}
 	                ]);
 	return [defaultCoumns];
@@ -129,7 +134,7 @@ function queryForm(){
     fromObjStr.operateUserName = fromObjStr.operateUserName.substring(fromObjStr.operateUserName.lastIndexOf(']')+1)
 
 	$("#"+datagirdID).datagrid("options").method = "post";
-	$("#"+datagirdID).datagrid('options').url = contextPath + '/form/deliverForm/getDeliverForms';
+	$("#"+datagirdID).datagrid('options').url = contextPath + '/settle/supplierSettle/getSettleList';
 	$("#"+datagirdID).datagrid('load', fromObjStr);
 }
 
@@ -148,10 +153,10 @@ function delSupAcoSetForm(){
 	$.messager.confirm('提示','是否要删除选中数据',function(data){
 		if(data){
 			$.ajax({
-		    	url:contextPath+"/form/deliverForm/deleteDeliverForm",
+		    	url:contextPath+"/settle/supplierSettle/deleteSettleForm",
 		    	type:"POST",
-		    	contentType:"application/json",
-		    	data:JSON.stringify(ids),
+                data: {"ids":ids},
+                dataType: "json",
 		    	success:function(result){
 		    		if(result['code'] == 0){
 		    			successTip("删除成功");
@@ -189,9 +194,9 @@ function selectOperator(){
  */
 function selectBranches(){
 	new publicAgencyService(function(data){
-		$("#targetBranchId").val(data.branchesId);
+		$("#branchId").val(data.branchesId);
 		$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
-	},'',targetBranchId);
+	},'',branchId);
 }
 
 //打印

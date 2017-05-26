@@ -22,9 +22,9 @@ $(function(){
 		  $("#payMoneyTime").val(new Date().format('yyyy-MM-dd')); 
 	}else if(pageStatus === 'edit'){
 		var formId = $("#formId").val();
-		url = contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverFormId="+formId+"&deliverType=DA";
+		url = contextPath+"/settle/supplierSettle/settleFormDetailList?formId="+formId;
 		oldData = {
-		        targetBranchId:$("#targetBranchId").val(), // 要活分店id
+		        targetBranchId:$("#branchId").val(), // 要活分店id
 		        remark:$("#remark").val(),                  // 备注
 		        formNo:$("#formNo").val(),                 // 单号
 		}
@@ -79,7 +79,7 @@ function initSupChkAcoAdd(){
         width:'100%',
         columns:[[
             {field:'cb',checkbox:true},
-            {field:'orderNo',title:'单号',width: '150px',align:'left',
+            {field:'targetFormNo',title:'单号',width: '150px',align:'left',
             	formatter:function(value,row,index){
             		var str = "";
             		if(row.isFooter){
@@ -90,36 +90,36 @@ function initSupChkAcoAdd(){
             		return str;
             	}
             },
-            {field:'orderType',title:'单据类型',width:'120px',align:'left'},
-            {field:'branchNo',title:'机构编号',width:'120px',align:'left'},
+            {field:'targetFormType',title:'单据类型',width:'120px',align:'left'},
+            {field:'branchCode',title:'机构编号',width:'120px',align:'left'},
             {field:'branchName',title:'机构名称',width:'140px',align:'left'},
-            {field:'supperNo',title:'供应商编号',width:'120px',align:'left'},
-            {field:'supperName',title:'供应商名称',width:'140px',align:'left'},
-            {field:'yfPrice',title:'应付金额',width:'100px',align:'right',
+            {field:'supplierCode',title:'供应商编号',width:'120px',align:'left'},
+            {field:'supplierName',title:'供应商名称',width:'140px',align:'left'},
+            {field:'payableAmount',title:'应付金额',width:'100px',align:'right',
             	formatter:function(value,row,index){
             		if(!value)row.yfPrice = 0;
             		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
             	}
             },
-            {field:'yifPrice',title:'已付金额',width:'100px',align:'right',
+            {field:'payedAmount',title:'已付金额',width:'100px',align:'right',
             	formatter:function(value,row,index){
             		if(!value)row.yifPrice = 0;
             		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
             	}
             },
-            {field:'yhPrice',title:'优惠金额',width:'100px',align:'right',
+            {field:'discountAmount',title:'优惠金额',width:'100px',align:'right',
             	formatter:function(value,row,index){
             		if(!value)row.yhPrice = 0;
             		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
             	}
             },
-            {field:'wfPrice',title:'未付金额',width:'100px',align:'right',
+            {field:'unpayAmount',title:'未付金额',width:'100px',align:'right',
             	formatter:function(value,row,index){
             		if(!value)row.wfPrice = 0;
             		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
             	}
             },
-            {field:'sfPrice',title:'实付金额',width:'100px',align:'right',
+            {field:'actualAmount',title:'实付金额',width:'100px',align:'right',
             	formatter:function(value,row,index){
             		if(!value)row.sfPrice = 0;
             		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
@@ -206,13 +206,13 @@ function delSupChkAccount(){
 	$.messager.confirm('提示','是否要删除单据',function(data){
 		if(data){
 			$.ajax({
-		    	url:contextPath+"/form/deliverForm/deleteDeliverForm",
+		    	url:contextPath+"/settle/supplierSettle/deleteSettleForm",
 		    	type:"POST",
-		    	contentType:"application/json",
-		    	data:JSON.stringify(ids),
+		    	dataType: "json",
+		    	data:{"ids":ids},
 		    	success:function(result){
 		    		if(result['code'] == 0){
-                        toRefreshIframeDataGrid("form/deliverForm/viewsDA","deliverFormList");
+                        toRefreshIframeDataGrid("settle/supplierSettle/getSettleList","supplierAdvMoneyList");
 		    			toClose();
 		    		}else{
 		    			successTip(result['message']);
@@ -223,13 +223,14 @@ function delSupChkAccount(){
 		    	}
 		    });
 		}
+		}
 	});
 }
 
 //机构
 function selectBranches(){
 	new publicAgencyService(function(data){
-		$("#targetBranchId").val(data.branchesId);
+		$("#branchId").val(data.branchesId);
 		$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
 	},'',targetBranchId);
 }

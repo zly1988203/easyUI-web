@@ -32,9 +32,9 @@
 	            <div class="ub umar-t8">
 	                <div class="ub ub-ac">
 	                    <div class="umar-r10 uw-70 ut-r">机构:</div>
-	                    <input type="hidden" id="targetBranchId" name="targetBranchId"/>
+	                    <input type="hidden" id="branchId" name="branchId"/>
 	                    <input type="hidden" id="targetBranchType" name="targetBranchType" />
-	                    <input class="uinp ub ub-f1" type="text" id="targetBranchName" name="targetBranchName" onblur="clearBranchCode(this,'targetBranchId')"/>
+	                    <input class="uinp ub ub-f1" type="text" id="targetBranchName" name="targetBranchName" onblur="clearBranchCode(this,'branchId')"/>
 	                    <div class="uinp-more" onclick="selectBranches()" >...</div>
 	                </div>
 	                <div class="ub ub-ac umar-l64">
