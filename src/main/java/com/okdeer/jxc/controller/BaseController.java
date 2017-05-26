@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.enums.BranchTypeEnum;
@@ -236,4 +237,19 @@ public class BaseController<T> {
 		
 		return RespJson.success();
 	}
+	
+	/**
+	 * @Description: 跳转到错误页面
+	 * @param errorMsg 错误信息
+	 * @return
+	 * @author liwb
+	 * @date 2017年5月25日
+	 */
+	protected ModelAndView toErrorPage(String errorMsg) {
+		ModelAndView mv = new ModelAndView("error/info");
+		mv.addObject("errorMsg", errorMsg);
+		return mv;
+	}
+	
+	
 }
