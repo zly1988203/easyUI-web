@@ -30,7 +30,7 @@
 					<div class="ubtns-item" onclick="saveStoreCharge()">保存</div>
 				</shiro:hasPermission>
 				<div class="ubtns-item" onclick="chargeCheck()">审核</div>
-				<div class="ubtns-item" onclick="selectFinanceCode()">费用选择</div>
+				<div class="ubtns-item" onclick="selectCharge()">费用选择</div>
 				<div class="ubtns-item" onclick="toImportStoreCharge()">费用导入</div>
 				<div class="ubtns-item" onclick="chargeDelete()">删除</div>
 				<div class="ubtns-item" onclick="toClose()">关闭</div>
@@ -54,7 +54,7 @@
 					</div>
 					<div class="ub ub-ac umar-r80">
 						<div class="umar-r10 uw-60 ut-r">月份:</div>
-						<input class="Wdate uw-300 uinp-no-more" readonly="readonly"
+						<input class="Wdate uw-300 uinp-no-more"
 							name="chargeMonth" id="chargeMonth"  value="${form.chargeMonth}"
 							onclick="WdatePicker({dateFmt:'yyyy-MM',maxDate:'%y-%M'})" />
 					</div>

@@ -25,11 +25,29 @@ $(function () {
 var gridName = "gridStoreCharge";
 var gridHandel = new GridClass();
 var gridDefault = {
-    chargeAmount:"0.00"
+    chargeAmount:0
 }
 
 function initGridStoreCharge() {
     gridHandel.setGridName(gridName);
+    gridHandel.initKey({
+        firstName:'value',
+        enterName:'value',
+        enterCallBack:function(arg){
+            if(arg&&arg=="add"){
+                gridHandel.addRow(parseInt(gridHandel.getSelectRowIndex())+1,gridDefault);
+                setTimeout(function(){
+                    gridHandel.setBeginRow(gridHandel.getSelectRowIndex()+1);
+                    gridHandel.setSelectFieldName("chargeAmount");
+                    gridHandel.setFieldFocus(gridHandel.getFieldTarget('chargeAmount'));
+                },100)
+            }else{
+                selectCharge(arg);
+            }
+        },
+    })
+
+
     $("#"+gridName).datagrid({
         align:'center',
         url:url,
@@ -50,8 +68,9 @@ function initGridStoreCharge() {
                     return str;
                 },
             },
-            {field:'chargeCode',title:'费用代码',width:120,align:'left'},
-            {field:'chargeName',title:'费用名称',width:180,align:'left'},
+            {field:'id',hidden:'true'},
+            {field:'value',title:'费用代码',width:120,align:'left',editor:'textbox'},
+            {field:'label',title:'费用名称',width:180,align:'left'},
             {field:'chargeAmount',title:'费用金额',width:120,align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
@@ -140,6 +159,7 @@ function saveStoreCharge() {
         return;
     }
 
+    var totalchargeAmount = 0;
     //收货机构
     var branchId = $("#branchId").val();
     //费用月份
@@ -147,10 +167,16 @@ function saveStoreCharge() {
     //
     var remark = $("#remark").val();
 
+    var footerRows = $("#"+gridName).datagrid("getFooterRows");
+    if(footerRows){
+        totalchargeAmount = parseFloat(footerRows[0]["chargeAmount"]||0.0).toFixed(4);
+    }
+
     var reqObj = {
         branchId:branchId,
         chargeMonth:chargeMonth,
         remark:remark,
+        totalchargeAmount:totalchargeAmount,
         chargeList:rows
     };
 
@@ -182,8 +208,25 @@ function updateStoreCharge() {
     }
 }
 
-function selectFinanceCode() {
-    
+function selectCharge(searchKey) {
+    var param = {
+        key:searchKey,
+        type:'101001'
+    };
+    publicCostService(param,function(data){
+        var nowRows = gridHandel.getRowsWhere({chargeCode:'1'});
+        var addDefaultData = gridHandel.addDefault(data,gridDefault);
+        var keyNames = {};
+        var rows = gFunUpdateKey(addDefaultData,keyNames);
+        var newRows = gridHandel.checkDatagrid(nowRows,rows,{},{});
+        $("#"+gridName).datagrid("loadData",newRows);
+        gridHandel.setLoadFocus();
+        setTimeout(function(){
+            gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
+            gridHandel.setSelectFieldName("chargeAmount");
+            gridHandel.setFieldFocus(gridHandel.getFieldTarget('chargeAmount'));
+        },100)
+    });
 }
 
 function chargeDelete() {
