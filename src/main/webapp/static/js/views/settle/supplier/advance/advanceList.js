@@ -134,45 +134,24 @@ function delSupAdvMonForm(){
 	var dg = $("#"+datagirdID);
 	var row = dg.datagrid("getChecked");
 	if(row.length <= 0){
-		$.messager.alert('提示','未选择要删除的单据！');
+		$_jxc.alert('未选择要删除的单据！');
 		return;
 	}
 	var ids = [];
 	for(var i=0; i<row.length; i++){
 		ids.push(row[i].id);
 	}
-	$.messager.confirm('提示','是否要删除选中数据?',function(data){
+	$_jxc.confirm('是否要删除选中数据?',function(data){
 		if(data){
-        	$.ajax({
-                type: "POST",
+        	$_jxc.ajax({
                 url: contextPath+"/settle/supplierCharge/deleteChargeForm",
-                data: {"ids":ids},
-                dataType: "json",
-                success: function(data){
-                	gFunEndLoading();
-                	successTip(data['message']);
-                	if(data.code == 0){
-                		queryForm();
-                	}
-                }
+                data: {"ids":ids}
+            },function(data){
+            	$_jxc.alert(data['message']);
+            	if(data.code == 0){
+            		queryForm();
+            	}
             });
-//			$.ajax({
-//		    	url:contextPath+"/settle/supplierCharge/deleteChargeForm",
-//		    	type:"POST",
-//		    	dataType: "json",
-//		    	data:{"ids":ids},
-//		    	success:function(result){
-//		    		if(result['code'] == 0){
-//		    			successTip("删除成功");
-//		    			dg.datagrid('reload');
-//		    		}else{
-//		    			successTip(result['message']);
-//		    		}
-//		    	},
-//		    	error:function(result){
-//		    		successTip("请求发送失败或服务器处理失败");
-//		    	}
-//		    });
 		}
 	});
 }

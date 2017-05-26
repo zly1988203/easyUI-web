@@ -282,25 +282,16 @@ function saveChageForm(){
     }
     
     console.log('reqObj',reqObj);
-    gFunStartLoading();
-    $.ajax({
+    $_jxc.ajax({
         url:contextPath+"/settle/supplierCharge/saveChargeForm",
-        type:"POST",
-        data:{"data":JSON.stringify(reqObj)},
-        success:function(result){
-        	gFunEndLoading();
-            if(result['code'] == 0){
-    			$.messager.alert("操作提示", "操作成功！", "info",function(){
-    				location.href = contextPath +"/settle/supplierCharge/chargeEdit?id="+result['formId'];
-    			});
-            }else{
-                gFunEndLoading();
-                successTip(result['message']);
-            }
-        },
-        error:function(result){
-            gFunEndLoading();
-            successTip("请求发送失败或服务器处理失败");
+        data:{"data":JSON.stringify(reqObj)}
+    },function(result){
+        if(result['code'] == 0){
+			$_jxc.alert("操作成功！",function(){
+				location.href = contextPath +"/settle/supplierCharge/chargeEdit?id="+result['formId'];
+			});
+        }else{
+            $_jxc.alert(result['message']);
         }
     });
 	
@@ -326,27 +317,19 @@ function auditChargeForm(){
     	id:$('#formId').val()||'',
     	branchId:$('#branchId').val()||''
     }
-	$.messager.confirm('提示','是否审核通过？',function(data){
+	$_jxc.confirm('是否审核通过？',function(data){
 		if(data){
-            gFunStartLoading();
-			$.ajax({
+			$_jxc.ajax({
 		    	url : contextPath+"/settle/supplierCharge/auditChargeForm",
-		    	type : "POST",
-		    	data:{"data":JSON.stringify(reqObj)},
-		    	success:function(result){
-                    gFunEndLoading();
-		    		if(result['code'] == 0){
-		    			$.messager.alert("操作提示", "操作成功！", "info",function(){
-		    				location.href = contextPath +"/settle/supplierCharge/chargeView?id=" + result["formId"];
-		    			});
-		    		}else{
-		            	 $_jxc.alert(result['message'],'审核失败');
-		    		}
-		    	},
-		    	error:function(result){
-                    gFunEndLoading();
-		    		$_jxc.alert("请求发送失败或服务器处理失败");
-		    	}
+		    	data:{"data":JSON.stringify(reqObj)}
+		    },function(result){
+	    		if(result['code'] == 0){
+	    			$_jxc.alert("操作成功！",function(){
+	    				location.href = contextPath +"/settle/supplierCharge/chargeView?id=" + result["formId"];
+	    			});
+	    		}else{
+	            	 $_jxc.alert(result['message'],'审核失败');
+	    		}
 		    });
 		}
 	});
@@ -356,24 +339,18 @@ function auditChargeForm(){
 function delChageForm(){
 	var ids = [];
 	ids.push($("#formId").val());
-	$.messager.confirm('提示','是否要删除单据',function(data){
+	$_jxc.confirm('是否要删除单据',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 		    	url:contextPath+"/settle/supplierCharge/deleteChargeForm",
-		    	type:"POST",
-		    	dataType: "json",
-		    	data:{"ids":ids},
-		    	success:function(result){
-		    		if(result['code'] == 0){
-                        toRefreshIframeDataGrid("settle/supplierCharge/getChargeList","supplierAdvMoneyList");
-		    			toClose();
-		    		}else{
-		    			successTip(result['message']);
-		    		}
-		    	},
-		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
-		    	}
+		    	data:{"ids":ids}
+		    },function(result){
+	    		if(result['code'] == 0){
+                    toRefreshIframeDataGrid("settle/supplierCharge/getChargeList","supplierAdvMoneyList");
+	    			toClose();
+	    		}else{
+	    			$_jxc.alert(result['message']);
+	    		}
 		    });
 		}
 	});

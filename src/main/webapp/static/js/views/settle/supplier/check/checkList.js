@@ -130,31 +130,26 @@ function delSupChkAccount(){
 	var dg = $("#"+datagirdID);
 	var row = dg.datagrid("getChecked");
 	if(row.length <= 0){
-		$.messager.alert('提示','未选择要删除的单据！');
+		$_jxc.alert('未选择要删除的单据！');
 		return;
 	}
 	var ids = [];
 	for(var i=0; i<row.length; i++){
 		ids.push(row[i].deliverFormId);
 	}
-	$.messager.confirm('提示','是否要删除选中数据',function(data){
+	$_jxc.confirm('是否要删除选中数据',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 		    	url:contextPath+"/settle/supplierCheck/deleteCheckForm",
-		    	type:"POST",
-                data: {"ids":ids},
-                dataType: "json",
-		    	success:function(result){
-		    		if(result['code'] == 0){
-		    			successTip("删除成功");
-		    			dg.datagrid('reload');
-		    		}else{
-		    			successTip(result['message']);
-		    		}
-		    	},
-		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
-		    	}
+		    	contentType:"application/json",
+		    	data: {"ids":ids}
+		    },function(result){
+	    		if(result['code'] == 0){
+	    			$_jxc.alert("删除成功");
+	    			dg.datagrid('reload');
+	    		}else{
+	    			$_jxc.alert(result['message']);
+	    		}
 		    });
 		}
 	});

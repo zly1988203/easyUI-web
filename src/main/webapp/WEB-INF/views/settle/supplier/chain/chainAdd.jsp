@@ -13,12 +13,11 @@
     </style>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
-	<input type='hidden' id="operateType" name="operateType" value="add">
     <div class="ub ub-ver ub-f1 umar-4  ubor">
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
-            	<div class="ubtns-item" onclick="addSupJonAccount()">新增</div>
-                <div class="ubtns-item" onclick="saveSupJonAccount()">保存</div>
+            	<div class="ubtns-item" onclick="addChainForm()">新增</div>
+                <div class="ubtns-item" onclick="saveChainForm()">保存</div>
                 <div class="ubtns-item-disabled">审核</div>
                 <div class="ubtns-item" onclick="initChainFormDetail()">计算账款</div>
                 <div class="ubtns-item-disabled" onclick="delSupJonAccount()" >删除</div>
@@ -28,6 +27,8 @@
             </div>
         </div>
         <div class="ub uline umar-t8"></div>
+        <form id="chainForm">
+        <input type='hidden' id="operateType" name="operateType" value="add">
         <div class="ub umar-t8">
             <div class="ub ub-ac uw-320 umar-l10">
                 <div class="umar-r10 uw-100 ut-r">机构:</div>
@@ -104,6 +105,7 @@
            		<div class="ub ub-ac uw-330 umar-l10">
            			<div class="umar-r10 uw-110 ut-r">供应商货款:</div>
            			 <input class="uinp ub ub-f1 uinp-no-more" type="text" value="0.00" id="sumSupplierAmount" readonly="readonly"   name="sumSupplierAmount">
+           			 <input type="hidden" id="divideAmount">
            		</div>
            		<div class="ub ub-ac uw-320">
            			<div class="umar-r10 uw-100 ut-r">保底金额:</div>
@@ -117,7 +119,7 @@
            <div class="ub umar-t8">
            		<div class="ub ub-ac uw-330">
            			<div class="umar-r10 uw-110 ut-r">供应商承担比例:</div>
-           			 <input class="uinp easyui-numberbox" style="width:200px" value="100" data-options="min:0,precision:2" type="text" id="supplierRate"   name="supplierRate">%
+           			 <input class="uinp easyui-numberbox" style="width:210px" value="100" data-options="min:0,precision:2,suffix:'%',onChange:changeRate" type="text" id="supplierRate"   name="supplierRate">
            		</div>
            		<div class="ub ub-ac uw-330 umar-l10">
            			<div class="umar-r10 uw-110 ut-r">供应商承担税额:</div>
@@ -125,7 +127,7 @@
            		</div>
            		<div class="ub ub-ac uw-320">
            			<div class="umar-r10 uw-100 ut-r">其他扣款:</div>
-           			 <input class="uinp easyui-numberbox" style="width:210px" value="0.00" data-options="min:0,precision:2"  type="text" id="otherAmount"   name="otherAmount">
+           			 <input class="uinp easyui-numberbox" style="width:210px" value="0.00" data-options="min:0,precision:2,onChange:changeOtAmount"  type="text" id="otherAmount"   name="otherAmount">
            		</div>	
            		<div class="ub ub-ac uw-320">
            			<div class="umar-r10 uw-100 ut-r">实际应付款:</div>
@@ -139,6 +141,7 @@
                    <input class="uinp ub ub-f1" type="text" id="remark" maxlength="20"  name="remark">
                </div>               
            </div>
+           </form>
            <%--datagrid-edit--%>
            <div class="ub ub-f1 datagrid-edit umar-t8">
             <table id="supChainAdd" ></table>

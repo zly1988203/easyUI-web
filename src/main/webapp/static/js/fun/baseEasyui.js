@@ -991,31 +991,111 @@ function selectMonth(){
 /*----------------jxc util  ---------------------------*/
 
 var $_jxc = {
+	
 	/**
 	 * bwp 07/05/24
-	 * alert
-	 * @param msg   提示内容
+	 * alert 提示组件
+	 * @param msg   提示信息
 	 * @param title 提示标题 可以不传
 	 * @param cb    回调 可以不传
 	 * @returns
+	 * demo: $_jxc.alert('处理失败',function(){})
 	 */
-	alert:function(msg,title,icon,cb){
-		$.messager.alert(title||'提示',msg,icon||'',function(){
-			if(cb)cb
+	alert:function(msg,cb,title,icon){
+		$.messager.alert(title||'提示',msg,icon||"info",function(){
+			if (typeof cb == 'function') {
+		    	cb();
+            }
 		});
 	},
 	/**
-	 * bwp 07/05/24
-	 * ajax 
-	 * @param param 参数对象
+	 * bwp 07/05/26
+	 * confirm 提示组件
+	 * @param msg   提示信息
+	 * @param cb    回调事件
+	 * @param title 提示标题 可以不传
 	 * @returns
+	 * demo: $_jxc.confirm('是否删除？',function(r){
+	 * 	    	if(r){
+	 * 				alert('您选择了确认')	
+	 * 			}
+	 * 		})
 	 */
-	ajax:function(param){
-		var defParam={
-			type:"POST",
-		    contentType:"application/json",
+	confirm:function(msg,cb,title){
+		$.messager.confirm(title||'确认',msg||'',function(r){    
+		    if (typeof cb == 'function') {
+		    	cb(r);
+            }
+		});  
+	},
+	
+	/**
+	 * bwp 07/05/26
+	 * 对ajax请求做了封装，统一项目的ajax请求。
+	 * @namespace jQuery扩展封装
+	 * @param params 对ajax变动频繁的参数 以对象方式入参 {url:'abc',type:'POST',dataType:'json'}
+	 * @param {successCb} 成功回调 必传 
+	 * @param {errorCb} 错误回调 不传的话安装默认方式处理
+	 * demo:
+	 * $_jxc.ajax({
+	    	url:contextPath + '/settle/supplierChain'
+	    },function(result){
+	    	
+	    },function(err){
+	    	
+	    })
+	 */
+	ajax:function(params, successCb, errorCb,$btns){
+		if ($btns){
+			$btns.forEach(function(btnObj,index){
+				$(btnObj).prop("disabled","disabled");
+			})
+        }
+		//ajax参数
+		var defaultParams = {
+            type: 'POST',
+            dataType: 'JSON',
 		}
-		param = $.extend(defParam,param);
-		$.ajax(defParam)
+		
+		defaultParams = $.extend(defaultParams,params);
+		
+		//成功回调
+		defaultParams['success'] = function(result){
+			gFunEndLoading();
+			if ($btns){
+    			$btns.forEach(function(btnObj,index){
+    				$(btnObj).removeProp("disabled");
+    			})
+            }
+			if (typeof successCb == 'function') {
+				successCb(result);
+            }
+		}
+		//错误回调
+		defaultParams['error'] = function(err){
+			gFunEndLoading();
+			if ($btns){
+    			$btns.forEach(function(btnObj,index){
+    				$(btnObj).removeProp("disabled");
+    			})
+            }
+			if (typeof errorCb == 'function') {
+				errorCb(err);
+            }else{
+            	$_jxc.alert("请求发送失败或服务器处理失败");
+            }
+		}
+		
+		//异步之前
+		defaultParams['beforeSend'] = function(XHR){
+			var sts = new Date().getTime();
+            //url = url ? (url.indexOf('?')>-1 ? url + '&_t='+ sts : url + '?_t='+sts):url
+		}
+		defaultParams['complete'] = function() {
+            // Handle the complete event
+        }
+		
+		$.ajax(defaultParams);
 	}
+	
 }
