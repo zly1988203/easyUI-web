@@ -26,6 +26,7 @@
                 <div class="ubtns-item" onclick="toClose()">关闭</div>
             </div>
         </div>
+         <div class="ub umar-t8 uc-black">【单号】:<span>${checkVo.formNo}</span></div>
         <div class="ub uline umar-t8"></div>
         <form id="checkForm">
         <div class="ub umar-t8">
@@ -35,7 +36,7 @@
                     <input type="hidden" id="formId" name="id" value="${checkVo.id}"/>
                     <input type="hidden" id="branchId" name="branchId" value="${checkVo.branchId}"/>
                     <input type="hidden" id="branchCode" name="branchCode" value="${checkVo.branchCode}" />
-                    <input class="uinp ub ub-f1" type="text" id="targetBranchName" readonly="readonly" value="${checkVo.branchName}"/>
+                    <input class="uinp ub ub-f1" type="text" id="targetBranchName" readonly="readonly" value="[${checkVo.branchCode}]${checkVo.branchName}"/>
                 </div>
                  <i class="ub ub-ac uc-red">*</i>
             </div>
@@ -51,11 +52,11 @@
             
             <div class="ub ub-ac umar-l30">
                 <div class="umar-r10 uw-70 ut-r">制单人:</div>
-                <div class="utxt"><%=UserUtil.getCurrentUser().getUserName() %></div>
+                <div class="utxt">${checkVo.createUserName}</div>
             </div>
             <div class="ub ub-ac umar-l50">
                 <div class="umar-r10 uw-60 ut-r">制单时间:</div>
-                <div class="utxt" id="createTime"></div>
+                <div class="utxt" id="createTime"><fmt:formatDate value="${checkVo.createTime}" pattern="yyyy-MM-dd HH:mm"/></div>
             </div>
          </div>
          <div class="ub umar-t8">
@@ -69,11 +70,11 @@
              </div>
              <div class="ub ub-ac umar-l28">
                  <div class="umar-r10 uw-80 ut-r">最后修改人:</div>
-                 <div class="utxt"></div>
+                 <div class="utxt">${checkVo.updateUserName}</div>
              </div>
              <div class="ub ub-ac umar-l50">
                  <div class="umar-r10 uw-60 ut-r">修改时间:</div>
-                 <div class="utxt"></div>
+                 <div class="utxt"><fmt:formatDate value="${checkVo.updateTime}" pattern="yyyy-MM-dd HH:mm"/></div>
              </div>
          </div>
          <div class="ub umar-t8">
