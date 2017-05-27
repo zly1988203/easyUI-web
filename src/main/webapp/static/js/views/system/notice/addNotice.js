@@ -18,7 +18,7 @@ function selectBranch(){
         branchesId = branchesId.substring(0,branchesId.length - 1);
         branchName = branchName.substring(0,branchName.length - 1);
         $("#receiveBranchIds").val(branchesId);// id
-        $("#receiveBranchName").val(branchName);
+        $("#branchName").val(branchName);
     },1);
 }
 
@@ -26,7 +26,7 @@ function selectUser() {
     publicOperatorService(function(data){
         //data.Id
         $("#receiveUserIds").val(data.id);
-        $("#receiveUserName").val("["+data.userCode+"]"+data.userName);
+        $("#userName").val("["+data.userCode+"]"+data.userName);
     });
 }
 

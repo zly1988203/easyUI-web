@@ -29,7 +29,7 @@
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">收件门店:</div>
 					<input class="uinp" name="receiveBranchIds" id="receiveBranchIds" type="hidden">
-					<input class="uinp" id="receiveBranchName" name="receiveBranchName"
+					<input class="uinp" id="branchName" name="receiveBranchName"
 						type="text" maxlength="50">
 					<div class="uinp-more" onclick="selectBranch()">...</div>
 				</div>
@@ -39,7 +39,7 @@
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">收件人:</div>
 					<input class="uinp" name="receiveUserIds" id="receiveUserIds" type="hidden">
-					<input class="uinp" id="receiveUserName" name="receiveUserName"
+					<input class="uinp" id="userName" name="receiveUserName"
 						type="text" maxlength="50">
 					<div class="uinp-more" onclick="selectUser()">...</div>
 				</div>

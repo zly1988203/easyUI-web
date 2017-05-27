@@ -127,10 +127,10 @@ public class BranchCommonController extends BaseController<BranchCommonControlle
 			}
 			
 			PageUtils<Branches> suppliers = PageUtils.emptyPage();
-			if("1".equals(vo.getScope())){
-			    suppliers = branchesService.queryLists(vo);
-			}else{
-			    suppliers = branchesService.queryBranchAllLists(vo);
+			if (vo.getScope() != null && vo.getScope() == 1) {
+				suppliers = branchesService.queryBranchAllLists(vo);
+			} else {
+				suppliers = branchesService.queryLists(vo);
 			}
 			LOG.debug("机构列表：{}", suppliers);
 			return suppliers;

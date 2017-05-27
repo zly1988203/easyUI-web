@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,6 +19,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
+import com.okdeer.jxc.common.enums.BranchTypeEnum;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
@@ -78,7 +78,9 @@ public class FranchiseChargeController extends BaseController<SupplierChainContr
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
-			vo.setTargetBranchId(getCurrBranchId());
+			if (!BranchTypeEnum.HEAD_QUARTERS.getCode().equals(getCurrBranchType())) {
+				vo.setTargetBranchId(getCurrBranchId());
+			}
 			vo.setFormType(FormType.FI.toString());
 			PageHelper.startPage(pageNumber, pageSize, true);
 			List<FranchiseChargeVo> list = franchiseChargeService.getChargeList(vo);
@@ -111,10 +113,10 @@ public class FranchiseChargeController extends BaseController<SupplierChainContr
 	@RequiresPermissions("JxcFranchiseAdvance:add")
 	@RequestMapping(value = "advanceSave", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson advanceSave(@RequestBody String jsonText) {
+	public RespJson advanceSave(String data) {
 		RespJson respJson = RespJson.success();
 		try {
-			FranchiseChargeVo vo = JSON.parseObject(jsonText, FranchiseChargeVo.class);
+			FranchiseChargeVo vo = JSON.parseObject(data, FranchiseChargeVo.class);
 			vo.setCreateUserId(getCurrUserId());
 			vo.setFormType(FormType.FI.toString());
 			respJson = franchiseChargeService.saveCharge(vo);
@@ -138,7 +140,7 @@ public class FranchiseChargeController extends BaseController<SupplierChainContr
 	public ModelAndView advanceEdit(String id, Model model) {
 		FranchiseChargeVo vo = franchiseChargeService.getCharge(id);
 		ModelAndView modelAndView = new ModelAndView("settle/franchise/advance/advanceEdit");
-		modelAndView.addObject("advance", vo);
+		modelAndView.addObject("chargeVo", vo);
 		return modelAndView;
 	}
 
@@ -150,10 +152,10 @@ public class FranchiseChargeController extends BaseController<SupplierChainContr
 	@RequiresPermissions("JxcFranchiseAdvance:edit")
 	@RequestMapping(value = "advanceUpdate", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson advanceUpdate(@RequestBody String jsonText) {
+	public RespJson advanceUpdate(String data) {
 		RespJson respJson = RespJson.success();
 		try {
-			FranchiseChargeVo vo = JSON.parseObject(jsonText, FranchiseChargeVo.class);
+			FranchiseChargeVo vo = JSON.parseObject(data, FranchiseChargeVo.class);
 			vo.setUpdateUserId(getCurrUserId());
 			vo.setFormType(FormType.FI.toString());
 			respJson = franchiseChargeService.updateCharge(vo);
@@ -176,7 +178,7 @@ public class FranchiseChargeController extends BaseController<SupplierChainContr
 	public ModelAndView advanceView(String id, Model model) {
 		FranchiseChargeVo vo = franchiseChargeService.getCharge(id);
 		ModelAndView modelAndView = new ModelAndView("settle/franchise/advance/advanceView");
-		modelAndView.addObject("advance", vo);
+		modelAndView.addObject("chargeVo", vo);
 		return modelAndView;
 	}
 
@@ -188,7 +190,7 @@ public class FranchiseChargeController extends BaseController<SupplierChainContr
 	@RequiresPermissions("JxcFranchiseAdvance:delete")
 	@RequestMapping(value = "advanceDelete", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson advanceDelete(List<String> ids) {
+	public RespJson advanceDelete(@RequestParam(value = "ids[]") List<String> ids) {
 		RespJson respJson = RespJson.success();
 		try {
 			respJson = franchiseChargeService.deleteCharge(ids);
@@ -207,15 +209,39 @@ public class FranchiseChargeController extends BaseController<SupplierChainContr
 	@RequiresPermissions("JxcFranchiseAdvance:audit")
 	@RequestMapping(value = "advanceAudit", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson advanceAudit(String id) {
+	public RespJson advanceAudit(String formId) {
 		RespJson respJson = RespJson.success();
 		try {
-			respJson = franchiseChargeService.auditCharge(id, getCurrUserId());
+			respJson = franchiseChargeService.auditCharge(formId, getCurrUserId());
 		} catch (Exception e) {
 			LOG.error("审核加盟店预收款异常:", e);
 			respJson = RespJson.error("审核加盟店预收款失败！");
 		}
 		return respJson;
+	}
+
+	/**
+	 * @Description: 加盟店预收款明细导出
+	 * @author zhengwj
+	 * @date 2017年5月23日
+	 */
+	@RequiresPermissions("JxcFranchiseAnvance:export")
+	@RequestMapping(value = "advanceExportList")
+	public void advanceExportList(HttpServletResponse response, String formId) {
+		try {
+			if (StringUtils.isBlank(formId)) {
+				return;
+			}
+			List<FranchiseChargeDetailVo> exportList = franchiseChargeService.getDetailList(formId);
+			// 导出文件名称，不包括后缀名
+			String fileName = "加盟店预收款" + "_" + DateUtils.getCurrSmallStr();
+			// 模板名称，包括后缀名
+			String templateName = ExportExcelConstant.PURCHASEFORM;
+			// 导出Excel
+			exportListForXLSX(response, exportList, fileName, templateName);
+		} catch (Exception e) {
+			LOG.error("加盟店预收款明细导出失败:", e);
+		}
 	}
 
 	/**
@@ -232,6 +258,30 @@ public class FranchiseChargeController extends BaseController<SupplierChainContr
 	}
 
 	/**
+	 * @Description: 获取加盟店费用列表
+	 * @author zhengwj
+	 * @date 2017年5月27日
+	 */
+	@RequestMapping(value = "getChargeList", method = RequestMethod.POST)
+	@ResponseBody
+	public PageUtils<FranchiseChargeVo> getChargeList(FranchiseChargeVo vo,
+			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
+			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
+		try {
+			if (!BranchTypeEnum.HEAD_QUARTERS.getCode().equals(getCurrBranchType())) {
+				vo.setTargetBranchId(getCurrBranchId());
+			}
+			vo.setFormType(FormType.FO.toString());
+			PageHelper.startPage(pageNumber, pageSize, true);
+			List<FranchiseChargeVo> list = franchiseChargeService.getChargeList(vo);
+			return new PageUtils<FranchiseChargeVo>(list);
+		} catch (Exception e) {
+			LOG.error("获取加盟店费用列表异常:", e);
+		}
+		return PageUtils.emptyPage();
+	}
+
+	/**
 	 * 
 	 * @Description: 加盟店费用新增页
 	 * @param model model
@@ -239,9 +289,32 @@ public class FranchiseChargeController extends BaseController<SupplierChainContr
 	 * @author xuyq
 	 * @date 2017年5月22日
 	 */
+	@RequiresPermissions("JxcFranchiseCharge:add")
 	@RequestMapping(value = "chargeAdd")
 	public ModelAndView chargeAdd(Model model) {
 		return new ModelAndView("settle/franchise/charge/chargeAdd");
+	}
+
+	/**
+	 * @Description: 保存加盟店费用
+	 * @author zhengwj
+	 * @date 2017年5月23日
+	 */
+	@RequiresPermissions("JxcFranchiseCharge:add")
+	@RequestMapping(value = "chargeSave", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson chargeSave(String data) {
+		RespJson respJson = RespJson.success();
+		try {
+			FranchiseChargeVo vo = JSON.parseObject(data, FranchiseChargeVo.class);
+			vo.setCreateUserId(getCurrUserId());
+			vo.setFormType(FormType.FO.toString());
+			respJson = franchiseChargeService.saveCharge(vo);
+		} catch (Exception e) {
+			LOG.error("保存加盟店费用异常:", e);
+			respJson = RespJson.error("保存加盟店费用失败！");
+		}
+		return respJson;
 	}
 
 	/**
@@ -252,9 +325,35 @@ public class FranchiseChargeController extends BaseController<SupplierChainContr
 	 * @author xuyq
 	 * @date 2017年5月22日
 	 */
+	@RequiresPermissions("JxcFranchiseCharge:edit")
 	@RequestMapping(value = "chargeEdit")
-	public ModelAndView chargeEdit(Model model) {
-		return new ModelAndView("settle/franchise/charge/chargeEdit");
+	public ModelAndView chargeEdit(String id, Model model) {
+		FranchiseChargeVo vo = franchiseChargeService.getCharge(id);
+		ModelAndView modelAndView = new ModelAndView("settle/franchise/charge/chargeEdit");
+		modelAndView.addObject("chargeVo", vo);
+		return modelAndView;
+	}
+
+	/**
+	 * @Description: 更新加盟店费用
+	 * @author zhengwj
+	 * @date 2017年5月23日
+	 */
+	@RequiresPermissions("JxcFranchiseCharge:edit")
+	@RequestMapping(value = "chargeUpdate", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson chargeUpdate(String data) {
+		RespJson respJson = RespJson.success();
+		try {
+			FranchiseChargeVo vo = JSON.parseObject(data, FranchiseChargeVo.class);
+			vo.setUpdateUserId(getCurrUserId());
+			vo.setFormType(FormType.FO.toString());
+			respJson = franchiseChargeService.updateCharge(vo);
+		} catch (Exception e) {
+			LOG.error("更新加盟店费用异常:", e);
+			respJson = RespJson.error("更新加盟店费用失败！");
+		}
+		return respJson;
 	}
 
 	/**
@@ -266,8 +365,72 @@ public class FranchiseChargeController extends BaseController<SupplierChainContr
 	 * @date 2017年5月22日
 	 */
 	@RequestMapping(value = "chargeView")
-	public ModelAndView chargeView(Model model) {
-		return new ModelAndView("settle/franchise/charge/chargeView");
+	public ModelAndView chargeView(String id, Model model) {
+		FranchiseChargeVo vo = franchiseChargeService.getCharge(id);
+		ModelAndView modelAndView = new ModelAndView("settle/franchise/charge/chargeView");
+		modelAndView.addObject("chargeVo", vo);
+		return modelAndView;
+	}
+
+	/**
+	 * @Description: 删除加盟店费用
+	 * @author zhengwj
+	 * @date 2017年5月23日
+	 */
+	@RequiresPermissions("JxcFranchiseCharge:delete")
+	@RequestMapping(value = "chargeDelete", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson chargeDelete(@RequestParam(value = "ids[]") List<String> ids) {
+		RespJson respJson = RespJson.success();
+		try {
+			respJson = franchiseChargeService.deleteCharge(ids);
+		} catch (Exception e) {
+			LOG.error("删除加盟店费用异常:", e);
+			respJson = RespJson.error("删除加盟店费用失败！");
+		}
+		return respJson;
+	}
+
+	/**
+	 * @Description: 审核加盟店费用
+	 * @author zhengwj
+	 * @date 2017年5月23日
+	 */
+	@RequiresPermissions("JxcFranchiseCharge:audit")
+	@RequestMapping(value = "chargeAudit", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson chargeAudit(String formId) {
+		RespJson respJson = RespJson.success();
+		try {
+			respJson = franchiseChargeService.auditCharge(formId, getCurrUserId());
+		} catch (Exception e) {
+			LOG.error("审核加盟店费用异常:", e);
+			respJson = RespJson.error("审核加盟店费用失败！");
+		}
+		return respJson;
+	}
+
+	/**
+	 * @Description: 加盟店预收款、费用明细导出
+	 * @author zhengwj
+	 * @date 2017年5月23日
+	 */
+	@RequiresPermissions("JxcFranchiseCharge:export")
+	@RequestMapping(value = "chargeExportList")
+	public void chargeExportList(HttpServletResponse response, String formId) {
+		try {
+			if (StringUtils.isBlank(formId)) {
+				return;
+			}
+			List<FranchiseChargeDetailVo> exportList = franchiseChargeService.getDetailList(formId);
+			// 导出文件名称，不包括后缀名
+			String fileName = "加盟店费用" + "_" + DateUtils.getCurrSmallStr();
+			String templateName = ExportExcelConstant.RETURN_FORM;
+			// 导出Excel
+			exportListForXLSX(response, exportList, fileName, templateName);
+		} catch (Exception e) {
+			LOG.error("加盟店费用明细导出失败:", e);
+		}
 	}
 
 	/**
@@ -275,7 +438,7 @@ public class FranchiseChargeController extends BaseController<SupplierChainContr
 	 * @author zhengwj
 	 * @date 2017年5月23日
 	 */
-	@RequestMapping(value = "getDetailList", method = RequestMethod.POST)
+	@RequestMapping(value = "getDetailList", method = RequestMethod.GET)
 	@ResponseBody
 	public List<FranchiseChargeDetailVo> getDetailList(String formId) {
 		try {
@@ -287,37 +450,6 @@ public class FranchiseChargeController extends BaseController<SupplierChainContr
 			LOG.error("获取加盟店预收款、费用详情列表异常:{}", e);
 		}
 		return new ArrayList<>();
-	}
-
-	/**
-	 * @Description: 加盟店预收款、费用明细导出
-	 * @author zhengwj
-	 * @date 2017年5月23日
-	 */
-	@RequestMapping(value = "exportList")
-	public void exportList(HttpServletResponse response, String formId, String type) {
-		try {
-			if (StringUtils.isAnyBlank(formId, type)) {
-				return;
-			}
-			List<FranchiseChargeDetailVo> exportList = franchiseChargeService.getDetailList(formId);
-			String fileName = "";
-			String templateName = "";
-			if (FormType.FI.toString().equals(type)) {
-				// 导出文件名称，不包括后缀名
-				fileName = "加盟店预收款" + "_" + DateUtils.getCurrSmallStr();
-				// 模板名称，包括后缀名
-				templateName = ExportExcelConstant.PURCHASEFORM;
-			} else {
-				// 导出文件名称，不包括后缀名
-				fileName = "加盟店费用" + "_" + DateUtils.getCurrSmallStr();
-				templateName = ExportExcelConstant.RETURN_FORM;
-			}
-			// 导出Excel
-			exportListForXLSX(response, exportList, fileName, templateName);
-		} catch (Exception e) {
-			LOG.error("加盟店预收款、费用明细导出失败:", e);
-		}
 	}
 
 }
