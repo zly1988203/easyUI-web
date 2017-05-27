@@ -20,7 +20,7 @@
                 <div class="ubtns-item" onclick="saveChainForm()">保存</div>
                 <div class="ubtns-item" onclick="auditChargeForm()" >审核</div>
                 <div class="ubtns-item" onclick="initChainFormDetail()">计算账款</div>
-                <div class="ubtns-item-disabled" onclick="delSupJonAccount()" >删除</div>
+                <div class="ubtns-item" onclick="delChainForm()" >删除</div>
                 <div class="ubtns-item-disabled" >导出</div>
                 <div class="ubtns-item-disabled" >打印</div>
                 <div class="ubtns-item" onclick="toClose()">关闭</div>
@@ -30,7 +30,7 @@
         <div class="ub uline umar-t8"></div>
         <form id="chainForm">
         <input type='hidden' id="operateType" name="operateType" value="edit">
-        <input type='hidden' id="formId" name="formId" value="${chainVo.id}">
+        <input type='hidden' id="formId" name="id" value="${chainVo.id}">
         <div class="ub umar-t8">
             <div class="ub ub-ac uw-320 umar-l10">
                 <div class="umar-r10 uw-100 ut-r">机构:</div>
@@ -79,9 +79,9 @@
            <div class="ub umar-t8">
            		<div class="ub ub-ac uw-310 umar-l20">
            			<div class="umar-r10 uw-90 ut-r">计算时间:</div>
-           			<input id="beginDate" name="beginDate" class="Wdate ub ub-f1" value="<fmt:formatDate value="${chainVo.beginDate}" pattern="yyyy-MM-dd"/>" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true,maxDate:'#F{$dp.$D(\'endDate\');}'})" />
+           			<input id="beginDate" name="beginDate" class="uinp ub ub-f1 " readonly="readonly" value="<fmt:formatDate value="${chainVo.beginDate}" pattern="yyyy-MM-dd"/>" type="text" />
            				&nbsp;至&nbsp;
-           			<input id="endDate" name="endDate" class="Wdate ub ub-f1" value="<fmt:formatDate value="${chainVo.endDate}" pattern="yyyy-MM-dd"/>" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true,minDate:'#F{$dp.$D(\'beginDate\');}'})" />
+           			<input id="endDate" name="endDate" class="uinp ub ub-f1 " readonly="readonly" value="<fmt:formatDate value="${chainVo.endDate}" pattern="yyyy-MM-dd"/>" type="text" />
            		</div>
            		<div class="ub ub-ac uw-320 umar-l20">
            			<div class="umar-r10 uw-100 ut-r">付款日期:</div>
