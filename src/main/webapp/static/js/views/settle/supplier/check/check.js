@@ -22,7 +22,7 @@ $(function(){
 		
 	}else if(pageStatus === 'edit'){
 		var formId = $("#formId").val();
-		url = contextPath+"/settle/supplierCheck/checkFormDetailList?formId="+formId;
+		url = contextPath+"/settle/supplierCheck/checkFormDetailList?id="+formId;
 		oldData = {
 		        targetBranchId:$("#branchId").val(), // 要活分店id
 		        remark:$("#remark").val(),                  // 备注
@@ -328,8 +328,8 @@ function selectBranches(){
 function selectSupplier(){
     new publicSupplierService(function(data){
     	console.log(data);
-    	$("#supplierPhone").val(data.phone);
-    	$("#supplierMobile").val(data.mobile);
+    	$("#phone").val(data.phone);
+    	$("#mobile").val(data.mobile);
     	$('#linkTel').val((data.mobile?data.mobile:'')+(data.phone?'/'+data.phone:''));//联系人
     	
     	$("#supplierId").val(data.id);
