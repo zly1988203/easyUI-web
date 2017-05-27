@@ -145,9 +145,12 @@ function delNotice() {
         if(data){
             var url = contextPath+"/sys/notice/delete";
             var param = {
-                "ids":formIds
+                "url":contextPath+"/sys/notice/delete",
+                data: {
+                    "ids":formIds,
+                },
             }
-            ajaxSubmit(url,param,function (result) {
+            $_jxc.ajax(param,function (result) {
                 if(result['code'] == 0){
                     messager("删除成功");
                 }else{

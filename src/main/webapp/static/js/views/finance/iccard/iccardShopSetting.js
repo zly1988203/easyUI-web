@@ -86,7 +86,8 @@ function initGridShopList() {
 function selectView(rowData) {
     var url = contextPath+"/iccard/setting/get";
     var param = {
-        data:rowData
+        data:rowData,
+        // url:contextPath+"/iccard/setting/get"
     }
     this.ajaxSubmit(url,param,function (result) {
         if(result['code'] == 0 && result.length > 0){

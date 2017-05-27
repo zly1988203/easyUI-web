@@ -7,7 +7,6 @@ $(function () {
     initGridFinanceList();
 })
 
-var gVarBranchId = "";
 var gridName = "gridfinanceList";
 var gridHandel = new GridClass();
 
@@ -41,9 +40,9 @@ function initTreeFinance() {
 }
 
 //选择树节点
+var selectNode = null;
 function zTreeOnClick(event, treeId, treeNode) {
-    gVarTypeCode = treeNode.code;
-    $("#typeCode").val(gVarTypeCode);
+    selectNode = treeNode;
     queryFinanceCode();
 }
 
@@ -61,14 +60,44 @@ function initGridFinanceList() {
         fit:true,
         columns:[[
             {field:'check',checkbox:true},
-            {field:'value',title:'编号',width:100,align:'left'},
+            {field:'id',hidden:true},
+            {field:'value',title:'编号',width:100,align:'left',
+                formatter: function(value,row,index){
+                    var row =row;
+                    return "<a href='#' onclick=\"updateFinanceCode('"+row.id+"','"+row.value+"','"+row.label+"','"+row.remark+"')\" class='ualine'>"+value+"</a>";
+                }
+            },
             {field:'label',title:'名称',width:200,align:'left'},
             {field:'remark',title:'备注',width:200,align:'left'}
         ]]
     })
 }
-var editDialogTemp = null;
+
 function addFinanceCode() {
+    if(null ==selectNode || selectNode.isParent){
+        messager("请选择具体的分类!");
+        return;
+    }
+    var param = {
+        type:"add",
+        dictTypeId: selectNode.id,
+    }
+    openFinanceDialog(param);
+}
+
+function updateFinanceCode(id,value,label,remark) {
+    var param = {
+        type:"edit",
+        id:id,
+        value:value,
+        label:label,
+        remark:remark
+    }
+    openFinanceDialog(param);
+}
+
+var editDialogTemp = null;
+function openFinanceDialog(param) {
     editDialogTemp = $('<div/>').dialog({
         href: contextPath+"/archive/financeCode/toAdd",
         width: 400,
@@ -82,12 +111,12 @@ function addFinanceCode() {
         },
         modal: true,
         onLoad: function () {
-
+            initFinanceDialog(param);
         }
     })
 }
 
-function closeDialogHandel() {
+function closeFinanceDialog() {
     $(editDialogTemp).panel('destroy');
     editDialogTemp = null;
 }
@@ -100,7 +129,6 @@ function queryFinanceCode(){
 	$("#startCount").val('');
 	$("#endCount").val('');
     var formData = $('#formFinanceList').serializeObject();
-//    var postParams = $.extend(formData,{typeCode:gVarTypeCode})
     $("#"+gridName).datagrid("options").queryParams = formData;
     $("#"+gridName).datagrid("options").method = "post";
     $("#"+gridName).datagrid("options").url = contextPath+'/archive/financeCode/getDictList',

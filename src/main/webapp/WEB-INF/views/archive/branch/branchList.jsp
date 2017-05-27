@@ -46,10 +46,6 @@
 						<div class="umar-r10 uw-80 ut-r">机构名称:</div>
 						<input class="uinp" type="text" name="branchKeyword" id="branchKeyword"
 							placeholder="输入编号、名称进行查询">
-						
-						<input type="hidden" id="branchCompleCode" name="branchCompleCode" >
-						<input type="hidden" id="startCount" name="startCount" >
-						<input type="hidden" id="endCount" name="endCount" >
 					</div>
 
 					<div class="ub ub-ac umar-r10">
