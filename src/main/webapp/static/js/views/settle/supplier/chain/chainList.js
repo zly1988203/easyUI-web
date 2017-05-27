@@ -58,7 +58,7 @@ function initsupAdvMonList(){
 		width:'100%',
         columns:[[
 			{field:'check',checkbox:true},
-            {field:'formNo',title:'单据编号',width:'130px',align:'left',formatter:function(value,row,index){
+            {field:'formNo',title:'单据编号',width:'150px',align:'left',formatter:function(value,row,index){
             	var strHtml = '';
             	if(row.auditStatus == 1){
             		strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'供应商联营账单明细\',\''+ contextPath +'/settle/supplierChain/chainView?id='+ row.id +'\')">' + value + '</a>';
@@ -67,7 +67,11 @@ function initsupAdvMonList(){
             	}
         		return strHtml;
             }},
-            {field:	'auditStatus',title: '审核状态', width: '100px', align: 'center'},
+            {field:	'auditStatus',title: '审核状态', width: '100px', align: 'center',
+            	formatter:function(value,row,index){
+            		return value == '1'?'已审核':'未审核';
+            	}
+            },
 			{field: 'branchCode', title: '机构编号', width: '100px', align: 'center'},
 			{field: 'branchName', title: '机构名称', width: '140px', align: 'left'},
 			{field: 'supplierCode', title: '供应商编号', width: '140px', align: 'left'},
@@ -80,8 +84,8 @@ function initsupAdvMonList(){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
 			},
-            {field: 'createUserName', title: '制单人员', width: '80px', align: 'left'},
-            {field: 'createTime', title: '制单时间', width: '100px', align: 'center',
+            {field: 'createUserName', title: '制单人员', width: '170px', align: 'left'},
+            {field: 'createTime', title: '制单时间', width: '120px', align: 'center',
 				formatter: function (value, row, index) {
 					if (value) {
 						return new Date(value).format('yyyy-MM-dd');
@@ -126,7 +130,7 @@ function queryForm(){
 }
 
 //删除
-function delSupJonAccount(){
+function delChainForm(){
 	var dg = $("#"+datagirdID);
 	var row = dg.datagrid("getChecked");
 	if(row.length <= 0){
