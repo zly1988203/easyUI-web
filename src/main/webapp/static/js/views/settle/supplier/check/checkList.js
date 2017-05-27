@@ -141,7 +141,6 @@ function delSupChkAccount(){
 		if(data){
 			$_jxc.ajax({
 		    	url:contextPath+"/settle/supplierCheck/deleteCheckForm",
-		    	contentType:"application/json",
 		    	data: {"ids":ids}
 		    },function(result){
 	    		if(result['code'] == 0){
