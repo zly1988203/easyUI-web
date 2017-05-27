@@ -64,8 +64,7 @@ var gridHandel = new GridClass();
 function initSupChkAcoAdd(){
     gridHandel.setGridName(gridName);
     gridHandel.initKey({
-        firstName:'costNo',
-        enterName:'costNo'
+        firstName:'discountAmount',
     })
 
     $("#"+gridName).datagrid({
@@ -81,11 +80,10 @@ function initSupChkAcoAdd(){
             {field:'cb',checkbox:true},
             {field:'targetFormNo',title:'单号',width: '150px',align:'left',
             	formatter:function(value,row,index){
-            		var str = "";
             		if(row.isFooter){
-                        str ='<div class="ub ub-pc">合计</div> '
+            			return  '<div class="ub ub-pc">合计</div> '
                     }
-            		return str;
+            		return value ;
             	}
             },
             {field:'targetFormType',title:'单据类型',width:'120px',align:'left'},
@@ -134,7 +132,7 @@ function initSupChkAcoAdd(){
             if(target){
                 gridHandel.setFieldFocus(target);
             }else{
-                gridHandel.setSelectFieldName("yhPrice");
+                gridHandel.setSelectFieldName("discountAmount");
             }
         },
         onLoadSuccess:function(data){
