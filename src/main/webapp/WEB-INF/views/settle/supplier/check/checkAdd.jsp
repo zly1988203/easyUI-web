@@ -98,8 +98,8 @@
          <div class="ub umar-t8">
 	         <div class="ub ub-ac uw-290 umar-l10">
 	             <div class="umar-r10 uw-70 ut-r">联系方式:</div>
-                 <input type="hidden" id="supplierPhone" name="supplierPhone">
-                 <input type="hidden" id="supplierMobile" name="supplierMobile">
+                 <input type="hidden" id="phone" name="phone">
+                 <input type="hidden" id="mobile" name="mobile">
 	             <input class="uinp ub ub-f1 uinp-no-more" type="text" id="linkTel" readonly='readonly'  name="tel">
 	         </div>
 	         <div class="ub ub-ac uw-290 umar-l24">

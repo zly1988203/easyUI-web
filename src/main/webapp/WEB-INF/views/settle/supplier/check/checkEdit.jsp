@@ -32,10 +32,10 @@
             <div class="ub ub-ac uw-296 umar-l10">
                 <div class="umar-r10 uw-70 ut-r">机构:</div>
                 <div class="ub ub-f1">
+                    <input type="hidden" id="formId" name="id" value="${checkVo.id}"/>
                     <input type="hidden" id="branchId" name="branchId" value="${checkVo.branchId}"/>
                     <input type="hidden" id="branchCode" name="branchCode" value="${checkVo.branchCode}" />
-                    <input class="uinp ub ub-f1" type="text" id="targetBranchName" readonly="readonly" onclick="selectBranches()" />
-                    <div class="uinp-more" onclick="selectBranches()">...</div>
+                    <input class="uinp ub ub-f1" type="text" id="targetBranchName" readonly="readonly" value="${checkVo.branchName}"/>
                 </div>
                  <i class="ub ub-ac uc-red">*</i>
             </div>
@@ -45,7 +45,6 @@
                 <div class="ub ub-f1">
                 	<input class="uinp" name="supplierId" id="supplierId" value="${checkVo.supplierId}" type="hidden">
 					<input class="uinp ub ub-f1" readonly="readonly" id="supplierName" type="text" value="${checkVo.supplierName}" >
-<!-- 					<div class="uinp-more" onclick="selectSupplier()">...</div> -->
                 </div>
                 <i class="ub ub-ac uc-red">*</i>
             </div>
@@ -62,11 +61,11 @@
          <div class="ub umar-t8">
              <div class="ub ub-ac uw-290 umar-l10">
                  <div class="umar-r10 uw-70 ut-r">开户银行:</div>
-                 <input class="uinp ub ub-f1 uinp-no-more" type="text" id="openAccountBank" readonly='readonly'  name="openAccountBank">
+                 <input class="uinp ub ub-f1 uinp-no-more" type="text" id="openAccountBank" readonly='readonly'  name="openAccountBank" value="${checkVo.openAccountBank}" >
              </div>
              <div class="ub ub-ac uw-292 umar-l24">
              	   <div class="umar-r12 uw-70 ut-r">银行账号:</div>
-                 <input class="uinp ub ub-f1 uinp-no-more " type="text" id="bankAccount" readonly='readonly'  name="bankAccount">
+                 <input class="uinp ub ub-f1 uinp-no-more " type="text" id="bankAccount" readonly='readonly'  name="bankAccount" value="${checkVo.bankAccount}" >
              </div>
              <div class="ub ub-ac umar-l28">
                  <div class="umar-r10 uw-80 ut-r">最后修改人:</div>
@@ -80,11 +79,11 @@
          <div class="ub umar-t8">
              <div class="ub ub-ac uw-290 umar-l10">
                  <div class="umar-r10 uw-70 ut-r">办公地址:</div>
-                 <input class="uinp ub ub-f1 uinp-no-more" type="text" id="officeAddress" readonly='readonly'  name="officeAddress">
+                 <input class="uinp ub ub-f1 uinp-no-more" type="text" id="officeAddress" readonly='readonly'  name="officeAddress" value="${checkVo.officeAddress}" >
              </div>
              <div class="ub ub-ac uw-312 umar-l4">
              	 <div class="umar-r10 uw-92 ut-r">国税登记号:</div>
-                 <input class="uinp ub ub-f1 uinp-no-more " type="text" id="nationalTaxRegNum" readonly='readonly'  name="nationalTaxRegNum">
+                 <input class="uinp ub ub-f1 uinp-no-more " type="text" id="nationalTaxRegNum" readonly='readonly'  name="nationalTaxRegNum" value="${checkVo.nationalTaxRegNum}" >
              </div>
              <div class="ub ub-ac umar-l40">
                  <div class="umar-r10 uw-70 ut-r">审核人员:</div>
@@ -98,9 +97,9 @@
          <div class="ub umar-t8">
 	         <div class="ub ub-ac uw-290 umar-l10">
 	             <div class="umar-r10 uw-70 ut-r">联系方式:</div>
-                 <input type="hidden" id="supplierPhone" name="supplierPhone">
-                 <input type="hidden" id="supplierMobile" name="supplierMobile">
-	             <input class="uinp ub ub-f1 uinp-no-more" type="text" id="linkTel" readonly='readonly'  name="tel">
+                 <input type="hidden" id="phone" name="phone">
+                 <input type="hidden" id="mobile" name="mobile">
+	             <input class="uinp ub ub-f1 uinp-no-more" type="text" id="linkTel" readonly='readonly'  name="tel" value="${checkVo.phone}/${checkVo.mobile}" >
 	         </div>
 	         <div class="ub ub-ac uw-290 umar-l24">
              	 <div class="umar-r12 uw-70 ut-r">支付方式:</div>
@@ -117,7 +116,7 @@
          <div class="ub umar-t8">
              <div class="ub ub-ac umar-l10 uw-600 " style="width:606px;" >
                  <div class="umar-r10 uw-70 ut-r">备注:</div>
-                 <input class="uinp ub ub-f1" type="text" id="remark" maxlength="20"  name="remark">
+                 <input class="uinp ub ub-f1" type="text" id="remark" maxlength="20"  name="remark" value="${checkVo.remark}" >
              </div>               
          </div>
          </form>

@@ -64,8 +64,7 @@ var gridHandel = new GridClass();
 function initSupChkAcoAdd(){
     gridHandel.setGridName(gridName);
     gridHandel.initKey({
-        firstName:'costNo',
-        enterName:'costNo'
+        firstName:'discountAmount',
     })
 
     $("#"+gridName).datagrid({
@@ -296,7 +295,7 @@ function initSettleFormDetail(){
     console.log('paramsObj:',paramsObj);
 	$("#"+gridName).datagrid("options").method = "post";
     $("#"+gridName).datagrid("options").queryParams = paramsObj;
-	$("#"+gridName).datagrid('options').url = contextPath + '/settle/supplierCheck/checkFormDetailList';
+	$("#"+gridName).datagrid('options').url = contextPath + '/settle/supplierSettle/settleFormDetailList';
 	$("#"+gridName).datagrid('load');
 }
 
