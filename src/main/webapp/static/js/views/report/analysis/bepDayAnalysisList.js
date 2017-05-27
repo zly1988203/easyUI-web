@@ -19,6 +19,7 @@ function changeStatus(){
             costTitle = '开店成本(不含折旧)';
         }
         initGridDayAnalysis();
+        queryDayAnalysis();
     });
 }
 
@@ -37,18 +38,17 @@ function initGridDayAnalysis() {
         width:'100%',
         fitColumns:true,    //每列占满
         columns:[[
-            {field:'date',title:'日期',width:"120px",align:'left'},
-            {field:'branchCode',title:'机构编码',width:"80px",align:'left'},
-            {field:'branchName',title:'机构名称',width:"120px",align:'left'},
-            {field:'branchName',title:'所属分公司',width:"120px",align:'left'},
-            {field:'formAount',title:'店铺面积(m*2)',width:"180px",align:'right'},
-            {field:'year',title:'费用均摊年数',width:"180px",align:'right'},
-            {field:'costing',title:costTitle,width:"180px",align:'right'},
-            {field:'day',title:'日盈亏平衡点',width:"120px",align:'right'},
-            {field:'formAount',title:'销售额',width:"120px",align:'right'},
-            {field:'count',title:'客单数',width:"120px",align:'right'},
-            {field:'price',title:'客单价',width:"120px",align:'right'},
-
+			{field:'dateStr',title:'日期',width:"100px",align:'left'},
+			{field:'branchCode',title:'机构编码',width:"80px",align:'left'},
+			{field:'branchName',title:'机构名称',width:"150px",align:'left'},
+			{field:'parentName',title:'所属分公司',width:"150px",align:'left'},
+			{field:'areaSize',title:'店铺面积(m*2)',width:"100px",align:'right'},
+			{field:'costAvgYear',title:'费用均摊年数',width:"100px",align:'right'},
+			{field:'dayFixedAvgAmount',title:costTitle,width:"150px",align:'right'},
+			{field:'bepDay',title:'日盈亏平衡点',width:"100px",align:'right'},
+			{field:'dayTotalAmount',title:'销售额',width:"120px",align:'right'},
+			{field:'dayOrderNum',title:'客单数',width:"120px",align:'right'},
+			{field:'dayAvgPrice',title:'客单价',width:"120px",align:'right'}
         ]]
     })
 
@@ -58,32 +58,50 @@ function initGridDayAnalysis() {
  * 机构名称
  */
 function selectListBranches(){
-    new publicAgencyService(function(data){
+	new publicAgencyService(function(data){
         $("#branchId").val(data.branchesId);
-        $("#branchName").val(data.branchName);
-        $("#oldBranchName").val(data.branchName);
+        $("#branchCompleCode").val(data.branchCompleCode);
+        $("#branchCodeName").val("["+data.branchCode+"]" + data.branchName);
     },'BF','');
 }
 
 
 function queryDayAnalysis() {
+	//搜索需要将左侧查询条件清除
+	$("#startCount").val('');
+	$("#endCount").val('');
     $("#"+gridName).datagrid("options").queryParams = $("#queryForm").serializeObject();
     $("#"+gridName).datagrid("options").method = "post";
-    $("#"+gridName).datagrid("options").url = contextPath+'/finance/storeCharge/list';
+    $("#"+gridName).datagrid("options").url = contextPath+'/report/bepDayAnalysis/getList';
     $("#"+gridName).datagrid("load");
 }
 
+/**
+ * 导出
+ */
 function exportData(){
-    var length = dg.datagrid('getData').rows.length;
-    if(length == 0){
-        messager("无数据可导");
-        return;
-    }
-    $('#exportWin').window({
-        top:($(window).height()-300) * 0.5,
-        left:($(window).width()-500) * 0.5
-    });
-    $("#exportWin").show();
-    $("#totalRows").html(dg.datagrid('getData').total);
-    $("#exportWin").window("open");
+	var length = $("#"+gridName).datagrid('getData').rows.length;
+	if(length == 0){
+		successTip("无数据可导");
+		return;
+	}
+	$('#exportWin').window({
+		top:($(window).height()-300) * 0.5,   
+	    left:($(window).width()-500) * 0.5
+	});
+	$("#exportWin").show();
+	$("#totalRows").html(dg.datagrid('getData').total);
+	$("#exportWin").window("open");
+}
+// 调用导出方法
+function exportExcel(){
+	$("#exportWin").hide();
+	$("#exportWin").window("close");
+	$("#queryForm").form({
+		success : function(result){
+			
+		}
+	});
+	$("#queryForm").attr("action",contextPath+"/report/bepDayAnalysis/exportExcelList");
+	$("#queryForm").submit();
 }

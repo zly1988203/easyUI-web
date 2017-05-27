@@ -130,6 +130,9 @@ function closeDialogHandel() {
  * 搜索
  */
 function queryBranch(){
+	//搜索需要将左侧查询条件清除
+	$("#startCount").val('');
+	$("#endCount").val('');
     var formData = $('#formList').serializeObject();
     $("#"+gridName).datagrid("options").queryParams = formData;
     $("#"+gridName).datagrid("options").method = "post";
