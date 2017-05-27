@@ -126,7 +126,6 @@ public class SupplierChargeController extends BaseController<SupplierChargeContr
      * @date 2017年2月19日
      */
     @RequestMapping(value = "/chargeFormDetailList", method = RequestMethod.GET)
-    @ResponseBody
     public List<SupplierChargeDetailVo> chargeFormDetailList(String formId) {
         LOG.debug(LogConstant.OUT_PARAM, formId);
         List<SupplierChargeDetailVo> detailList = new ArrayList<SupplierChargeDetailVo>();
@@ -146,7 +145,6 @@ public class SupplierChargeController extends BaseController<SupplierChargeContr
      * @date 2017年3月9日
      */
     @RequestMapping(value = "/saveChargeForm", method = RequestMethod.POST)
-    @ResponseBody
     public RespJson saveChargeForm(String data) {
         RespJson respJson = RespJson.success();
         LOG.debug("保存供应商预付，费用 ：data{}" + data);
@@ -189,7 +187,6 @@ public class SupplierChargeController extends BaseController<SupplierChargeContr
      * @date 2017年3月11日
      */
     @RequestMapping(value = "/auditChargeForm", method = RequestMethod.POST)
-    @ResponseBody
     public RespJson auditChargeForm(String data) {
         RespJson respJson = RespJson.success();
         try {
@@ -226,7 +223,6 @@ public class SupplierChargeController extends BaseController<SupplierChargeContr
      * @date 2017年2月19日
      */
     @RequestMapping(value = "deleteChargeForm", method = RequestMethod.POST)
-    @ResponseBody
     public RespJson deleteChargeForm(@RequestParam(value = "ids[]") List<String> ids) {
         RespJson resp;
         try {

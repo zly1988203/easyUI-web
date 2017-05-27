@@ -24,6 +24,7 @@ import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.supplier.entity.Supplier;
+import com.okdeer.jxc.supplier.entity.SupplierExt;
 import com.okdeer.jxc.supplier.qo.SupplierQo;
 import com.okdeer.jxc.supplier.service.SupplierServiceApi;
 import com.okdeer.jxc.utils.UserUtil;
@@ -145,7 +146,7 @@ public class SupplierCommonController extends BaseController<SupplierCommonContr
 
 	/**
 	 * 
-	 * @Description: TODO
+	 * @Description: 获得供应商信息
 	 * @param id
 	 * @return
 	 * @author xiaoj02
@@ -158,6 +159,23 @@ public class SupplierCommonController extends BaseController<SupplierCommonContr
 		RespJson respJson = RespJson.success();
 		respJson.put("supplier", supplier);
 		return respJson;
+	}
+	
+	/***
+	 * 
+	 * @Description: 获得供应商扩展信息
+	 * @param id 供应商ID
+	 * @return RespJson
+	 * @author xuyq
+	 * @date 2017年5月27日
+	 */
+	@RequestMapping(value = "getSupplierExtById")
+	@ResponseBody
+	public RespJson getSupplierExtById(String supplierId) {
+	    SupplierExt supplierExt = supplierService.getSupplierExtById(supplierId);
+	    RespJson respJson = RespJson.success();
+	    respJson.put("supplierExt", supplierExt);
+	    return respJson;
 	}
 
 }

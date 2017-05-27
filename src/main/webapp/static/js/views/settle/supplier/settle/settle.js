@@ -193,7 +193,17 @@ function delLineHandel(event){
 function saveSupAcoSet(){
     
 }
-
+function validateForm(branchId,supplierId){
+    if(!$.trim(branchId)){
+    	$_jxc.alert('请选择机构!');
+    	return false;
+    }
+    if(!supplierId){
+    	$_jxc.alert('请选择供应商!');
+    	return false;
+    }
+    return true;
+}
 //审核
 function check(){
     
@@ -234,11 +244,60 @@ function selectBranches(){
 function selectSupplier(){
     new publicSupplierService(function(data){
     	console.log(data);
+    	$("#phone").val(data.phone);
+    	$("#mobile").val(data.mobile);
     	$('#tel').val(data.mobile+(data.phone?'/'+data.phone:''))
     	$("#supplierId").val(data.id);
-        $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);	
-        
+        $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
+        // 设置供应商扩展信息
+        setSupplierExtValue(data.id);
+        // 初始化列表
+        initSettleFormDetail();
     });
+}
+
+//设置供应商扩展信息
+function setSupplierExtValue(supplierId){
+	$.ajax({
+		url : contextPath + "/common/supplier/getSupplierExtById",
+		type : "POST",
+		data : {
+			supplierId : supplierId
+		},
+		success : function(data) {
+			console.log(data);
+	    	//开户银行
+	    	$('#openAccountBank').val((data.supplierExt.openAccountBank?data.supplierExt.openAccountBank:''));
+	    	//银行账户
+	    	$('#bankAccount').val((data.supplierExt.bankAccount?data.supplierExt.bankAccount:''));
+	    	
+	    	//办公地址
+	    	$('#officeAddress').val((data.supplierExt.officeAddress?data.supplierExt.officeAddress:''));
+	    	//国税登记
+	    	$('#nationalTaxRegNum').val((data.supplierExt.nationalTaxRegNum?data.supplierExt.nationalTaxRegNum:''));
+		},
+		error : function(result) {
+			successTip("请求发送失败或服务器处理失败");
+		}
+	});
+}
+
+//初始化列表
+function initSettleFormDetail(){
+    var branchId = $('#branchId').val();
+	var supplierId = $('#supplierId').val();
+	var operateType = $('#operateType').val();
+	if(!validateForm(branchId,supplierId))return;
+    var paramsObj = {
+    	branchId:branchId,
+		operateType : operateType == 'add' ? 1 : 2,
+    	supplierId:supplierId,
+    }
+    console.log('paramsObj:',paramsObj);
+	$("#"+gridName).datagrid("options").method = "post";
+    $("#"+gridName).datagrid("options").queryParams = paramsObj;
+	$("#"+gridName).datagrid('options').url = contextPath + '/settle/supplierCheck/checkFormDetailList';
+	$("#"+gridName).datagrid('load');
 }
 
 //选择费用

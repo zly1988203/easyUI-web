@@ -135,13 +135,13 @@ public class SupplierSettleController extends BaseController<SupplierSettleContr
      * @author xuyq
      * @date 2017年2月19日
      */
-    @RequestMapping(value = "/settleFormDetailList", method = RequestMethod.GET)
+    @RequestMapping(value = "/settleFormDetailList", method = RequestMethod.POST)
     @ResponseBody
-    public List<SupplierSettleDetailVo> settleFormDetailList(String formId) {
-        LOG.debug(LogConstant.OUT_PARAM, formId);
+    public List<SupplierSettleDetailVo> settleFormDetailList(SupplierSettleVo vo) {
+        LOG.debug(LogConstant.OUT_PARAM, vo);
         List<SupplierSettleDetailVo> detailList = new ArrayList<SupplierSettleDetailVo>();
         try {
-            detailList = supplierSettleService.getSettleFormDetailList(formId);
+            detailList = supplierSettleService.getSettleFormDetailList(vo);
         } catch (Exception e) {
             LOG.error("获取单据明细信息异常:{}", e);
         }

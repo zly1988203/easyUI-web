@@ -61,11 +61,11 @@
          <div class="ub umar-t8">
              <div class="ub ub-ac uw-280 umar-l20">
                  <div class="umar-r10 uw-70 ut-r">开户银行:</div>
-                 <input class="uinp ub ub-f1 uinp-no-more" type="text" id="bankName" readonly='readonly'  name="bankName">
+                 <input class="uinp ub ub-f1 uinp-no-more" type="text" id="openAccountBank" readonly='readonly'  name="openAccountBank">
              </div>
              <div class="ub ub-ac uw-284 umar-l28">
              	   <div class="umar-r12 uw-70 ut-r">银行账号:</div>
-                 <input class="uinp ub ub-f1 uinp-no-more " type="text" id="bankNum" readonly='readonly'  name="bankNum">
+                 <input class="uinp ub ub-f1 uinp-no-more " type="text" id="bankAccount" readonly='readonly'  name="bankAccount">
              </div>
              <div class="ub ub-ac umar-l28">
                  <div class="umar-r10 uw-80 ut-r">最后修改人:</div>
@@ -79,11 +79,11 @@
          <div class="ub umar-t8">
              <div class="ub ub-ac uw-280 umar-l20">
                  <div class="umar-r10 uw-70 ut-r">办公地址:</div>
-                 <input class="uinp ub ub-f1 uinp-no-more" type="text" id="workPlace" readonly='readonly'  name="workPlace">
+                 <input class="uinp ub ub-f1 uinp-no-more" type="text" id="officeAddress" readonly='readonly'  name="officeAddress">
              </div>
              <div class="ub ub-ac uw-304 umar-l8">
              	 <div class="umar-r10 uw-92 ut-r">国税登记号:</div>
-                 <input class="uinp ub ub-f1 uinp-no-more " type="text" id="gtaxNum" readonly='readonly'  name="gtaxNum">
+                 <input class="uinp ub ub-f1 uinp-no-more " type="text" id="nationalTaxRegNum" readonly='readonly'  name="nationalTaxRegNum">
              </div>
              <div class="ub ub-ac umar-l40">
                  <div class="umar-r10 uw-70 ut-r">审核人员:</div>
@@ -97,6 +97,8 @@
          <div class="ub umar-t8">
 	         <div class="ub ub-ac uw-280 umar-l20">
 	             <div class="umar-r10 uw-70 ut-r">联系方式:</div>
+                 <input type="hidden" id="phone" name="phone">
+                 <input type="hidden" id="mobile" name="mobile">
 	             <input class="uinp ub ub-f1 uinp-no-more" type="text" id="tel" readonly='readonly'  name="tel">
 	         </div>
 	         <div class="ub ub-ac uw-290 umar-l28">
