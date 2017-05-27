@@ -79,7 +79,7 @@ function initSupChkAcoAdd(){
         width:'100%',
         columns:[[
             {field:'cb',checkbox:true},
-            {field:'orderNo',title:'单号',width: '150px',align:'left',
+            {field:'targetFormNo',title:'单号',width: '150px',align:'left',
             	formatter:function(value,row,index){
             		var str = "";
             		if(row.isFooter){
@@ -242,23 +242,38 @@ function selectSupplier(){
     	
     	$("#supplierId").val(data.id);
         $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);	
-        
+        //初始化列表
+        initCheckFormDetail();
     });
 }
-
-function getCheckData(){
-	
-	//开启异步
-//	$_jxc.ajax({
-//		url:'',
-//		data:{}
-//	},function(result){
-//		console.log(result)
-//	})
-	
+function validateForm(branchId,supplierId){
+    if(!$.trim(branchId)){
+    	$_jxc.alert('请选择机构!');
+    	return false;
+    }
+    if(!supplierId){
+    	$_jxc.alert('请选择供应商!');
+    	return false;
+    }
+    return true;
 }
-
-
+//初始化列表
+function initCheckFormDetail(){
+    var branchId = $('#branchId').val();
+	var supplierId = $('#supplierId').val();
+	var operateType = $('#operateType').val();
+	if(!validateForm(branchId,supplierId))return;
+    var paramsObj = {
+    	branchId:branchId,
+		operateType : operateType == 'add' ? 1 : 2,
+    	supplierId:supplierId,
+    }
+    console.log('paramsObj:',paramsObj);
+	$("#"+gridName).datagrid("options").method = "post";
+    $("#"+gridName).datagrid("options").queryParams = paramsObj;
+	$("#"+gridName).datagrid('options').url = contextPath + '/settle/supplierCheck/checkFormDetailList';
+	$("#"+gridName).datagrid('load');
+}
 
 //返回列表页面
 function back(){
