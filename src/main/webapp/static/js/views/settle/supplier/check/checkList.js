@@ -67,7 +67,11 @@ function initsupChkAccountList(){
             	}
         		return strHtml;
             }},
-            {field:'auditStatus',title: '审核状态', width: '100px', align: 'center'},
+            {field:'auditStatus',title: '审核状态', width: '100px', align: 'center',
+            	formatter:function(value,row,index){
+            		return value == '1'?'已审核':'未审核';
+            	}
+            },
 			{field: 'branchCode', title: '机构编号', width: '100px', align: 'center'},
 			{field: 'branchName', title: '机构名称', width: '140px', align: 'left'},
 			{field: 'supplierCode', title: '供应商编号', width: '140px', align: 'left'},
