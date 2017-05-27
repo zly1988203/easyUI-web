@@ -83,7 +83,9 @@ public class SupplierCheckController extends BaseController<SupplierCheckControl
      * @date 2017年5月22日
      */
     @RequestMapping(value = "checkEdit")
-    public ModelAndView checkEdit(Model model) {
+    public ModelAndView checkEdit(Model model, String id) {
+        SupplierCheckVo CheckVo = supplierCheckService.getSupplierCheckVoById(id);
+        model.addAttribute("checkVo", CheckVo);
         return new ModelAndView("settle/supplier/check/checkEdit");
     }
     
@@ -96,7 +98,9 @@ public class SupplierCheckController extends BaseController<SupplierCheckControl
      * @date 2017年5月22日
      */
     @RequestMapping(value = "checkView")
-    public ModelAndView checkView(Model model) {
+    public ModelAndView checkView(Model model, String id) {
+        SupplierCheckVo CheckVo = supplierCheckService.getSupplierCheckVoById(id);
+        model.addAttribute("checkVo", CheckVo);
         return new ModelAndView("settle/supplier/check/checkView");
     }
 
