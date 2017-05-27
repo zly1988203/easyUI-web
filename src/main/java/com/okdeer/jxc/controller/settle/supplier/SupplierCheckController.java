@@ -7,7 +7,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -111,7 +110,6 @@ public class SupplierCheckController extends BaseController<SupplierCheckControl
      * @date 2017年3月7日
      */
     @RequestMapping(value = "getCheckList", method = RequestMethod.POST)
-    @ResponseBody
     public PageUtils<SupplierCheckVo> getCheckList(SupplierCheckVo vo,
             @RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
             @RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
@@ -136,13 +134,12 @@ public class SupplierCheckController extends BaseController<SupplierCheckControl
      * @author xuyq
      * @date 2017年2月19日
      */
-    @RequestMapping(value = "/checkFormDetailList", method = RequestMethod.GET)
-    @ResponseBody
-    public List<SupplierCheckDetailVo> checkFormDetailList(String formId) {
-        LOG.debug(LogConstant.OUT_PARAM, formId);
+    @RequestMapping(value = "/checkFormDetailList", method = RequestMethod.POST)
+    public List<SupplierCheckDetailVo> checkFormDetailList(SupplierCheckVo vo) {
+        LOG.debug(LogConstant.OUT_PARAM, vo);
         List<SupplierCheckDetailVo> detailList = new ArrayList<SupplierCheckDetailVo>();
         try {
-            detailList = supplierCheckService.getCheckFormDetailList(formId);
+            detailList = supplierCheckService.getCheckFormDetailList(vo);
         } catch (Exception e) {
             LOG.error("获取单据明细信息异常:{}", e);
         }
@@ -156,7 +153,6 @@ public class SupplierCheckController extends BaseController<SupplierCheckControl
      * @date 2017年3月9日
      */
     @RequestMapping(value = "/saveCheckForm", method = RequestMethod.POST)
-    @ResponseBody
     public RespJson saveCheckForm(String data) {
         RespJson respJson = RespJson.success();
         LOG.debug("保存供应商对账单 ：data{}" + data);
@@ -199,7 +195,6 @@ public class SupplierCheckController extends BaseController<SupplierCheckControl
      * @date 2017年3月11日
      */
     @RequestMapping(value = "/auditCheckForm", method = RequestMethod.POST)
-    @ResponseBody
     public RespJson auditCheckForm(String data) {
         RespJson respJson = RespJson.success();
         try {
@@ -236,7 +231,6 @@ public class SupplierCheckController extends BaseController<SupplierCheckControl
      * @date 2017年2月19日
      */
     @RequestMapping(value = "deleteCheckForm", method = RequestMethod.POST)
-    @ResponseBody
     public RespJson deleteCheckForm(@RequestParam(value = "ids[]") List<String> ids) {
         RespJson resp;
         try {
