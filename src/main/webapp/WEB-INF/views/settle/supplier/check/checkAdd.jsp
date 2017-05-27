@@ -27,6 +27,7 @@
             </div>
         </div>
         <div class="ub uline umar-t8"></div>
+        <form id="checkForm">
         <div class="ub umar-t8">
             <div class="ub ub-ac uw-296 umar-l10">
                 <div class="umar-r10 uw-70 ut-r">机构:</div>
@@ -61,11 +62,11 @@
          <div class="ub umar-t8">
              <div class="ub ub-ac uw-290 umar-l10">
                  <div class="umar-r10 uw-70 ut-r">开户银行:</div>
-                 <input class="uinp ub ub-f1 uinp-no-more" type="text" id="bankName" readonly='readonly'  name="bankName">
+                 <input class="uinp ub ub-f1 uinp-no-more" type="text" id="openAccountBank" readonly='readonly'  name="openAccountBank">
              </div>
              <div class="ub ub-ac uw-292 umar-l24">
              	   <div class="umar-r12 uw-70 ut-r">银行账号:</div>
-                 <input class="uinp ub ub-f1 uinp-no-more " type="text" id="bankNum" readonly='readonly'  name="bankNum">
+                 <input class="uinp ub ub-f1 uinp-no-more " type="text" id="bankAccount" readonly='readonly'  name="bankAccount">
              </div>
              <div class="ub ub-ac umar-l28">
                  <div class="umar-r10 uw-80 ut-r">最后修改人:</div>
@@ -79,11 +80,11 @@
          <div class="ub umar-t8">
              <div class="ub ub-ac uw-290 umar-l10">
                  <div class="umar-r10 uw-70 ut-r">办公地址:</div>
-                 <input class="uinp ub ub-f1 uinp-no-more" type="text" id="workPlace" readonly='readonly'  name="workPlace">
+                 <input class="uinp ub ub-f1 uinp-no-more" type="text" id="officeAddress" readonly='readonly'  name="officeAddress">
              </div>
              <div class="ub ub-ac uw-312 umar-l4">
              	 <div class="umar-r10 uw-92 ut-r">国税登记号:</div>
-                 <input class="uinp ub ub-f1 uinp-no-more " type="text" id="gtaxNum" readonly='readonly'  name="gtaxNum">
+                 <input class="uinp ub ub-f1 uinp-no-more " type="text" id="nationalTaxRegNum" readonly='readonly'  name="nationalTaxRegNum">
              </div>
              <div class="ub ub-ac umar-l40">
                  <div class="umar-r10 uw-70 ut-r">审核人员:</div>
@@ -97,11 +98,13 @@
          <div class="ub umar-t8">
 	         <div class="ub ub-ac uw-290 umar-l10">
 	             <div class="umar-r10 uw-70 ut-r">联系方式:</div>
+                 <input type="hidden" id="supplierPhone" name="supplierPhone">
+                 <input type="hidden" id="supplierMobile" name="supplierMobile">
 	             <input class="uinp ub ub-f1 uinp-no-more" type="text" id="linkTel" readonly='readonly'  name="tel">
 	         </div>
 	         <div class="ub ub-ac uw-290 umar-l24">
              	 <div class="umar-r12 uw-70 ut-r">支付方式:</div>
-                 <select class='uinp easyui-combobox' data-options="editable:false" style="width:212px;">
+                 <select class='uinp easyui-combobox' data-options="editable:false" style="width:212px;" id = "payType" name="payType">
                  	<option value='1'>人民币付款</option>
                  	<option value='2'>现金</option>
                  	<option value='3'>支票</option>
@@ -117,6 +120,7 @@
                  <input class="uinp ub ub-f1" type="text" id="remark" maxlength="20"  name="remark">
              </div>               
          </div>
+         </form>
            <%--datagrid-edit--%>
            <div class="ub ub-f1 datagrid-edit umar-t8">
             <table id="supplierChkAccountAdd" ></table>

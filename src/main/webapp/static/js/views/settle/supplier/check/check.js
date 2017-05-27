@@ -182,7 +182,35 @@ function delLineHandel(event){
 
 //保存
 function saveSupChkForm(){
+	var branchId = $('#branchId').val();
+	var supplierId = $('#supplierId').val();
+	var operateType = $('#operateType').val();
+	if(!validateForm(branchId,supplierId))return;
+	
+    var reqObj = $('#checkForm').serializeObject();
+    reqObj.operateType = operateType == "add" ? 1 : 0;
+    var _rows = gridHandel.getRows();
+    if(_rows.length <= 0){
+    	$_jxc.alert("表格不能为空");
+    	return;
+    }
+    reqObj.detailList = gridHandel.getRows();
     
+    console.log('reqObj',reqObj);
+    
+    $_jxc.ajax({
+    	url:contextPath + '/settle/supplierCheck/saveCheckForm',
+    	data:{"data":JSON.stringify(reqObj)}
+    },function(result){
+    	console.log('result',result)
+    	if(result['code'] == 0){
+			$_jxc.alert("操作成功！",function(){
+				location.href = contextPath +"/settle/supplierCheck/checkEdit?id="+result['formId'];
+			});
+        }else{
+            $_jxc.alert(result['message']);
+        }
+    })
 }
 
 //审核
@@ -227,15 +255,16 @@ function selectSupplier(){
     	console.log(data);
     	
     	//开户银行
-    	$('#bankName').val((data.mobile?data.mobile:'')+(data.phone?'/'+data.phone:''));
+    	$('#openAccountBank').val((data.mobile?data.mobile:'')+(data.phone?'/'+data.phone:''));
     	//银行账户
-    	$('#bankNum').val((data.mobile?data.mobile:'')+(data.phone?'/'+data.phone:''));
+    	$('#bankAccount').val((data.mobile?data.mobile:'')+(data.phone?'/'+data.phone:''));
     	
     	//办公地址
-    	$('#workPlace').val((data.mobile?data.mobile:'')+(data.phone?'/'+data.phone:''));
+    	$('#officeAddress').val((data.mobile?data.mobile:'')+(data.phone?'/'+data.phone:''));
     	//国税登记
-    	$('#gtaxNum').val((data.mobile?data.mobile:'')+(data.phone?'/'+data.phone:''));
-    	
+    	$('#nationalTaxRegNum').val((data.mobile?data.mobile:'')+(data.phone?'/'+data.phone:''));
+    	$("#supplierPhone").val(data.phone);
+    	$("#supplierMobile").val(data.mobile);
     	$('#linkTel').val((data.mobile?data.mobile:'')+(data.phone?'/'+data.phone:''));//联系人
     	
     	$("#supplierId").val(data.id);
