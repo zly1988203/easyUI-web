@@ -7,6 +7,8 @@
 
 package com.okdeer.jxc.controller.finance.store;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,6 +25,7 @@ import com.okdeer.jxc.common.utils.gson.GsonUtils;
 import com.okdeer.jxc.common.vo.UpdateStatusVo;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.form.enums.FormStatus;
+import com.okdeer.jxc.settle.store.po.StoreChargeDetailPo;
 import com.okdeer.jxc.settle.store.po.StoreChargePo;
 import com.okdeer.jxc.settle.store.qo.StoreChargeQo;
 import com.okdeer.jxc.settle.store.service.StoreChargeService;
@@ -66,16 +69,16 @@ public class StoreChargeController extends BaseController<StoreChargeController>
 		
 		StoreChargePo po = storeChargeService.getStoreChargeById(formId);
 		
-		ModelAndView mv = new ModelAndView();
-		mv.addObject("po", po);
+		ModelAndView mv = new ModelAndView("finance/storeCharge/storeChargeEdit");
+		mv.addObject("form", po);
 		
 		// 待审核
 		if(FormStatus.WAIT_CHECK.getValue().equals(po.getAuditStatus())){
-			mv.setViewName("finance/storeCharge/storeChargeEdit");
+			mv.addObject("chargeStatus", "edit");
 		}
 		// 已审核
-		else if(FormStatus.WAIT_CHECK.getValue().equals(po.getAuditStatus())){
-			mv.setViewName("finance/storeCharge/storeChargeView");
+		else if(FormStatus.CHECK_SUCCESS.getValue().equals(po.getAuditStatus())){
+			mv.addObject("chargeStatus", "check");
 		}
 		
 		return mv;
@@ -102,6 +105,23 @@ public class StoreChargeController extends BaseController<StoreChargeController>
 			return storeChargeService.getStoreChargeForPage(qo);
 		} catch (Exception e) {
 			LOG.error("分页查询门店费用异常:", e);
+		}
+		return PageUtils.emptyPage();
+	}
+	
+	@RequestMapping(value = "getDetailList", method = RequestMethod.POST)
+	public PageUtils<StoreChargeDetailPo> getDetailList(String formId) {
+		
+		LOG.debug("获取门店费用详情信息列表 ，门店费用单ID：{}", formId);
+		
+		try {
+			
+			List<StoreChargeDetailPo> list = storeChargeService.getDetailListByFormId(formId);
+			
+			return new PageUtils<StoreChargeDetailPo>(list);
+			
+		} catch (Exception e) {
+			LOG.error("获取门店费用详情信息列表异常：", e);
 		}
 		return PageUtils.emptyPage();
 	}

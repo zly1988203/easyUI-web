@@ -23,20 +23,24 @@ function initGridBranchCostList() {
         width:'100%',
         fitColumns:true,    //每列占满
         columns:[[
-            {field:'orderCode',title:'单号',width:80,align:'left',
+            {field:'formNo',title:'单号',width:80,align:'left',
                 formatter: function(value,row,index){
-                    return "<a href='#' onclick=\"editHandel('"+row.orderCode+"')\" class='ualine'>"+value+"</a>";
+                    return "<a href='#' onclick=\"editHandel('"+row.id+"')\" class='ualine'>"+value+"</a>";
                 }
             },
-            {field:'branchCode',title:'审核状态',width:80,align:'left'},
+            {field:'auditStatusStr',title:'审核状态',width:80,align:'left'},
             {field:'branchCode',title:'机构编码',width:80,align:'left'},
             {field:'branchName',title:'机构名称',width:180,align:'left'},
-            {field:'formAount',title:'单据金额',width:110,align:'right'},
+            {field:'sumAmount',title:'单据金额',width:110,align:'right'},
             {field:'month',title:'费用月份',width:110,align:'right'},
-            {field:'contacts',title:'操作人',width:120,align:'left'},
-            {field:'contacts',title:'操作时间',width:120,align:'left'},
-            {field:'contacts',title:'审核人',width:120,align:'left'},
-            {field:'contacts',title:'备注',width:120,align:'left'},
+            {field:'createUserName',title:'操作人',width:120,align:'left'},
+            {field:'createTime',title:'操作时间',width:120,align:'left',
+            	formatter : function(value, rowData, rowIndex) {
+            		return formatDate(value);
+            	}
+            },
+            {field:'auditUserName',title:'审核人',width:120,align:'left'},
+            {field:'remark',title:'备注',width:120,align:'left'},
         ]]
     })
 }
@@ -66,7 +70,7 @@ function selectOperator(){
 function queryStoreCharge() {
     $("#"+gridName).datagrid("options").queryParams = $("#queryForm").serializeObject();
     $("#"+gridName).datagrid("options").method = "post";
-    $("#"+gridName).datagrid("options").url = contextPath+'/finance/storeCharge/list';
+    $("#"+gridName).datagrid("options").url = contextPath+'/finance/storeCharge/getStoreChargeList';
     $("#"+gridName).datagrid("load");
 }
 
@@ -74,6 +78,6 @@ function storeChargeAdd() {
     toAddTab("新增门店费用",contextPath + "/finance/storeCharge/toAdd");
 }
 
-function editHandel(orderCode) {
-    toAddTab("门店费用详情",contextPath + "/finance/storeCharge/toEdit?formId="+orderCode);
+function editHandel(formId) {
+    toAddTab("门店费用详情",contextPath + "/finance/storeCharge/toEdit?formId="+formId);
 }

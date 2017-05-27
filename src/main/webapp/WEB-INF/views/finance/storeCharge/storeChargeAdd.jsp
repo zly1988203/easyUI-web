@@ -45,15 +45,16 @@
 				<div class="ub umar-t8">
 					<div class="ub ub-ac umar-r80">
 						<div class="umar-r10 uw-60 ut-r">机构名称:</div>
-						<input class="uinp" name="branchId" id="branchId" type="hidden">
+						<input  name="branchId" id="branchId" type="hidden">
+						<input name="branchCode" id="branchCode" type="hidden">
 						<input class="uinp" id="branchName" name="branchName" type="text"
-							maxlength="50">
+							 onclick="selectListBranches()" readonly="readonly">
 						<div class="uinp-more" onclick="selectListBranches()">...</div>
 					</div>
 					<div class="ub ub-ac umar-r80">
 						<div class="umar-r10 uw-60 ut-r">月份:</div>
 						<input class="Wdate uw-300 uinp-no-more"
-							name="chargeMonth" id="chargeMonth"
+							name="chargeMonth" id="chargeMonth" readonly="readonly"
 							onclick="WdatePicker({dateFmt:'yyyy-MM',maxDate:'%y-%M'})" />
 					</div>
 					<div class="ub ub-ac umar-r80">
