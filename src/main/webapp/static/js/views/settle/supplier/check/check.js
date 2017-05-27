@@ -24,9 +24,7 @@ $(function(){
 		var formId = $("#formId").val();
 		url = contextPath+"/settle/supplierCheck/checkFormDetailList?id="+formId;
 		oldData = {
-		        targetBranchId:$("#branchId").val(), // 要活分店id
 		        remark:$("#remark").val(),                  // 备注
-		        formNo:$("#formNo").val(),                 // 单号
 		}
 	    
 	}
@@ -107,24 +105,22 @@ function initSupChkAcoAdd(){
             		options:{
             			min:0,
             			precision:4,
+            			onChange:changeDisAmount
             		}
             	}
             },
             {field:'unpayAmount',title:'未付金额',width:'100px',align:'right',
             	formatter:function(value,row,index){
-//            		if(!value){
-//            			value = row.payableAmount;
-//            			row.unpayAmount = row.payableAmount;
-//            		}
+            		if(!value)row.unpayAmount = 0;
             		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
-            	},
-            	editor:{
-            		type:'numberbox',
-            		options:{
-            			min:0,
-            			precision:4,
-            		}
             	}
+//            	,editor:{
+//            		type:'numberbox',
+//            		options:{
+//            			min:0,
+//            			precision:4,
+//            		}
+//            	}
             },
             {field:'remark',title:'备注',width:'180px',editor:'textbox'}
         ]],
@@ -156,9 +152,9 @@ function initSupChkAcoAdd(){
         },
         loadFilter:function(data){
         	data.forEach(function(obj,index){
+        		obj.checked = true;
         		if(pageStatus == 'add'){
         			obj.unpayAmount = obj.payableAmount;
-        			obj.checked = true;
         		}
         	});
         	return data;
@@ -183,7 +179,10 @@ function initSupChkAcoAdd(){
     }
 }
 
-function onChangeAmount(vewV,oldV){
+
+//修改优惠金额
+function changeDisAmount(vewV,oldV){
+	
 	updateFooter()
 }
 //合计
@@ -217,7 +216,6 @@ function saveSupChkForm(){
 	
     var reqObj = $('#checkForm').serializeObject();
     reqObj.operateType = operateType == "add" ? 1 : 0;
-//    reqObj.id = $('#formId').val()||'';
     var _rows = gridHandel.getRowsWhere({targetFormNo:'1'});
     if(_rows.length <= 0){
     	$_jxc.alert("表格不能为空");
@@ -238,6 +236,7 @@ function saveSupChkForm(){
     reqObj.detailList = _subRows;
     
     console.log('reqObj',reqObj);
+//    return;
     $_jxc.ajax({
     	url:contextPath + '/settle/supplierCheck/saveCheckForm',
     	data:{"data":JSON.stringify(reqObj)}
@@ -258,10 +257,7 @@ function auditSupChkForm(){
     //验证数据是否修改
     $("#"+gridName).datagrid("endEdit", gridHandel.getSelectRowIndex());
     var newData = {
-		supplierRate:$("input[type='hidden'][name='supplierRate']").val(), // 供应商承担比例
-        payMoneyTime:$("#payMoneyTime").val(),                 // 付款日期
         remark:$("#remark").val(),                  // 备注
-        otherAmount:$("input[type='hidden'][name='otherAmount']").val(), // 其他扣款
         grid:$.map(gridHandel.getRows(), function(obj){
             return $.extend(true,{},obj);//返回对象的深拷贝
         })
@@ -278,12 +274,12 @@ function auditSupChkForm(){
 	$_jxc.confirm('是否审核通过？',function(data){
 		if(data){
 			$_jxc.ajax({
-		    	url : contextPath+"/settle/supplierChain/auditChainForm",
+		    	url : contextPath+"/settle/supplierCheck/auditCheckForm",
 		    	data:{"data":JSON.stringify(reqObj)}
 		    },function(result){
 	    		if(result['code'] == 0){
 	    			$_jxc.alert("操作成功！",function(){
-	    				location.href = contextPath +"/settle/supplierChain/chainView?id=" + result["formId"];
+	    				location.href = contextPath +"/settle/supplierCheck/checkView?id=" + result["formId"];
 	    			});
 	    		}else{
 	            	 $_jxc.alert(result['message'],'审核失败');
