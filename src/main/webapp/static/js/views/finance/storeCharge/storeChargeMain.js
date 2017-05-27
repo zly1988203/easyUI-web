@@ -5,19 +5,23 @@
 var chargeStatus = "add";
 var url = "";
 var isdisabled = false;
+var formId = "";
 $(function () {
     chargeStatus = $('#chargeStatus').val();
+    
+    formId = $("#formId").val();
+    
     if(chargeStatus === "add"){
         $("#branchName").val(sessionBranchName);
         $("#branchId").val(sessionBranchId);
         $("#chargeMonth").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM"));
     }else if(chargeStatus === "edit"){
         $('#already-examine').css('display','none');
-         url = contextPath + "/finance/storeCharge/get";
+        url = contextPath + "/finance/storeCharge/getDetailList";
     }else if(chargeStatus === "check"){
         $('#already-examine').css('display','block');
         isdisabled = true;
-         url = contextPath + "/finance/storeCharge/check";
+        url = contextPath + "/finance/storeCharge/getDetailList";
     }
     initGridStoreCharge();
 })
@@ -51,6 +55,9 @@ function initGridStoreCharge() {
     $("#"+gridName).datagrid({
         align:'center',
         url:url,
+        queryParams:{
+        	formId : formId
+        },
         rownumbers:true,    //序号
         showFooter:true,
         height:'100%',
@@ -69,9 +76,9 @@ function initGridStoreCharge() {
                 },
             },
             {field:'id',hidden:'true'},
-            {field:'value',title:'费用代码',width:120,align:'left',editor:'textbox'},
-            {field:'label',title:'费用名称',width:180,align:'left'},
-            {field:'chargeAmount',title:'费用金额',width:120,align:'right',
+            {field:'costTypeCode',title:'费用代码',width:120,align:'left',editor:'textbox'},
+            {field:'costTypeLabel',title:'费用名称',width:180,align:'left'},
+            {field:'amount',title:'费用金额',width:120,align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -146,7 +153,8 @@ function storeChargeAdd() {
 function selectListBranches(){
     new publicAgencyService(function(data){
         $("#branchId").val(data.branchesId);
-        $("#branchName").val(data.branchName);
+        $("#branchCode").val(data.branchCode);
+        $("#branchName").val("["+data.branchCode+"]" + data.branchName);
     },'BF','');
 }
 
@@ -162,6 +170,7 @@ function saveStoreCharge() {
     var totalchargeAmount = 0;
     //收货机构
     var branchId = $("#branchId").val();
+    var branchCode = $("#branchCode").val();
     //费用月份
     var chargeMonth = $("#chargeMonth").val();
     //
@@ -174,10 +183,11 @@ function saveStoreCharge() {
 
     var reqObj = {
         branchId:branchId,
-        chargeMonth:chargeMonth,
+        branchCode:branchCode,
+        month:chargeMonth,
         remark:remark,
-        totalchargeAmount:totalchargeAmount,
-        chargeList:rows
+        sumAmount:totalchargeAmount,
+        detailList:rows
     };
 
     var param = JSON.stringify(reqObj);
@@ -187,8 +197,7 @@ function saveStoreCharge() {
         url = contextPath + "/finance/storeCharge/add";
     }else if(chargeStatus === "edit"){
         url = contextPath + "/finance/storeCharge/edit";
-        var id = $("#formId").val();
-        param.id = id;
+        param.id = formId;
     }
     ajaxSubmit(url,param,function (result) {
         if(result['code'] == 0){
@@ -211,7 +220,7 @@ function updateStoreCharge() {
 function selectCharge(searchKey) {
     var param = {
         key:searchKey,
-        type:'101001'
+        type:'101004'
     };
     publicCostService(param,function(data){
         var nowRows = gridHandel.getRowsWhere({chargeCode:'1'});
@@ -230,10 +239,9 @@ function selectCharge(searchKey) {
 }
 
 function chargeDelete() {
-    var id = $("#formId").val();
-    var url = contextPath+"/finance/storeCharge/check";
+    var url = contextPath+"/finance/storeCharge/deleteStoreCharge";
     var param = {
-        formId:id,
+        formId:formId,
     }
     $.messager.confirm('提示','是否要删除此条数据',function(data){
         if(data){
@@ -251,16 +259,15 @@ function chargeDelete() {
 }
 
 function  chargeCheck() {
-    var id = $("#formId").val();
-    var url = contextPath+"/finance/storeCharge/check";
+    var url = contextPath+"/finance/storeCharge/checkStoreCharge";
     var param = {
-        formId:id,
+        formId:formId,
         status:1
     }
     ajaxSubmit(url,param,function (result) {
         if(result['code'] == 0){
             $.messager.alert("操作提示", "操作成功！", "info",function(){
-                location.href = contextPath +"/finance/storeCharge/toEdit?formId=" + id;
+                location.href = contextPath +"/finance/storeCharge/toEdit?formId=" + formId;
             });
         }else{
             new publicErrorDialog({
