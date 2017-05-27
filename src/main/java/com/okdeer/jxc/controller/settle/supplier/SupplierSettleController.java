@@ -84,7 +84,9 @@ public class SupplierSettleController extends BaseController<SupplierSettleContr
      * @date 2017年5月22日
      */
     @RequestMapping(value = "settleEdit")
-    public ModelAndView settleEdit(Model model) {
+    public ModelAndView settleEdit(Model model,String id) {
+        SupplierSettleVo SettleVo = supplierSettleService.getSupplierSettleVoById(id);
+        model.addAttribute("settleVo", SettleVo);
         return new ModelAndView("settle/supplier/settle/settleEdit");
     }
     
@@ -97,7 +99,9 @@ public class SupplierSettleController extends BaseController<SupplierSettleContr
      * @date 2017年5月22日
      */
     @RequestMapping(value = "settleView")
-    public ModelAndView settleView(Model model) {
+    public ModelAndView settleView(Model model,String id) {
+        SupplierSettleVo SettleVo = supplierSettleService.getSupplierSettleVoById(id);
+        model.addAttribute("SettleVo", SettleVo);
         return new ModelAndView("settle/supplier/settle/settleView");
     }
     /**
