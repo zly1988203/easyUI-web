@@ -46,6 +46,7 @@ import com.okdeer.jxc.goods.service.GoodsCategoryServiceApi;
 import com.okdeer.jxc.goods.service.GoodsSelectServiceApi;
 import com.okdeer.jxc.goods.service.GoodsSkuServiceApi;
 import com.okdeer.jxc.goods.service.NewGoodsApplyServiceApi;
+import com.okdeer.jxc.goods.service.OperateNewGoodsApplyServiceApi;
 import com.okdeer.jxc.supplier.entity.Supplier;
 import com.okdeer.jxc.supplier.service.SupplierServiceApi;
 import com.okdeer.jxc.utils.UserUtil;
@@ -96,6 +97,9 @@ public class NewGoodsApplyImportComponent {
 
 	@Resource
 	private StringRedisTemplate redisTemplateTmp;
+	
+	@Reference(version = "1.0.0", check = false)
+	private OperateNewGoodsApplyServiceApi operateNewGoodsApplyService;
 
 	/**
 	 * 导入excel，通过导入的数据查询商品(单个机构)
@@ -203,8 +207,7 @@ public class NewGoodsApplyImportComponent {
 		List<GoodsSelect> dbList1 = new ArrayList<GoodsSelect>();
 
 		// 2、校验导入数据
-		NewGoodsApplyImportHandle goodsSelectImportHandle = new NewGoodsApplyImportHandle(excelList, fields,
-				businessValid);
+		NewGoodsApplyImportHandle goodsSelectImportHandle = new NewGoodsApplyImportHandle(excelList, fields, businessValid);
 
 		// 3 获取到excel导入成功数据
 		handelExcelSuccessData(goodsSelectImportHandle);
@@ -220,8 +223,12 @@ public class NewGoodsApplyImportComponent {
 		// 6 将数据保存到数据库中
 		String jsonStr = JSON.toJSONString(list);
 		List<NewGoodsApply> newGoodsApplys = JSON.parseArray(jsonStr, NewGoodsApply.class);
-		newGoodsApplyService.batchSaveNewGoodsApply(newGoodsApplys);
-
+		
+		if (map_branchid == null) {
+			newGoodsApplyService.batchSaveNewGoodsApply(newGoodsApplys);
+		} else {
+			operateNewGoodsApplyService.batchSaveNewGoodsApply(newGoodsApplys);
+		}
 		@SuppressWarnings("unchecked")
 		List<T> successList = (List<T>) goodsSelectImportHandle.getSuccessData(dbList1, fields, entity);
 
