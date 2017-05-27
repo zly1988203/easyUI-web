@@ -26,6 +26,7 @@
                 <div class="ubtns-item" onclick="toClose()">关闭</div>
             </div>
         </div>
+        <div class="ub umar-t8 uc-black">【单号】:<span>${settleVo.formNo}</span></div>
         <div class="ub uline umar-t8"></div>
         <form id = "settleForm">
          <input type="hidden" id="formId" name="id" value="${settleVo.id}"/>   
@@ -37,6 +38,7 @@
                     <input type="hidden" id="branchCode" name="branchCode" value="${settleVo.branchCode}"/>
                     <input class="uinp ub ub-f1" type="text" id="targetBranchName" readonly="readonly"  value="${settleVo.branchName}" />
                 </div>
+                <i class="ub ub-ac uc-red">*</i>
             </div>
             
             <div class="ub ub-ac uw-290 umar-l20">
@@ -45,6 +47,7 @@
                     <input class="uinp" name="supplierId" id="supplierId" type="hidden" value="${settleVo.supplierId}">
                     <input class="uinp ub ub-f1" readonly="readonly" id="supplierName" type="text" value="${settleVo.supplierName}"  onclick="selectSupplier()">
                 </div>
+                <i class="ub ub-ac uc-red">*</i>
             </div>
             
             <div class="ub ub-ac umar-l30">

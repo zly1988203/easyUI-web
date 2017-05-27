@@ -101,7 +101,7 @@ public class SupplierSettleController extends BaseController<SupplierSettleContr
     @RequestMapping(value = "settleView")
     public ModelAndView settleView(Model model,String id) {
         SupplierSettleVo SettleVo = supplierSettleService.getSupplierSettleVoById(id);
-        model.addAttribute("SettleVo", SettleVo);
+        model.addAttribute("settleVo", SettleVo);
         return new ModelAndView("settle/supplier/settle/settleView");
     }
     /**
