@@ -18,7 +18,7 @@
             <div class="ubtns">
             	<div class="ubtns-item" onclick="addChainForm()">新增</div>
                 <div class="ubtns-item" onclick="saveChainForm()">保存</div>
-                <div class="ubtns-item-disabled">审核</div>
+                <div class="ubtns-item" onclick="auditChargeForm()" >审核</div>
                 <div class="ubtns-item" onclick="initChainFormDetail()">计算账款</div>
                 <div class="ubtns-item-disabled" onclick="delSupJonAccount()" >删除</div>
                 <div class="ubtns-item-disabled" >导出</div>
@@ -30,7 +30,7 @@
         <div class="ub uline umar-t8"></div>
         <form id="chainForm">
         <input type='hidden' id="operateType" name="operateType" value="edit">
-        <input type='hidden' id="formId" name="formId" value="${chainVo.formId}">
+        <input type='hidden' id="formId" name="formId" value="${chainVo.id}">
         <div class="ub umar-t8">
             <div class="ub ub-ac uw-320 umar-l10">
                 <div class="umar-r10 uw-100 ut-r">机构:</div>

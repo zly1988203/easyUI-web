@@ -20,8 +20,8 @@ $(function(){
 	if(pageStatus === 'add'){
 		  $("#payMoneyTime").val(new Date().format('yyyy-MM-dd')); 
 	}else if(pageStatus === 'edit'){
-		var formId = $("#formId").val();
-		url = contextPath+"/form/deliverFormList/getDeliverFormListsById?deliverFormId="+formId+"&deliverType=DA";
+		var id = $("#formId").val();
+		url = contextPath+"/settle/supplierChain/chainFormDetailList?id="+id;
 		oldData = {
 		        branchId:$("#branchId").val(), // 要活分店id
 		        remark:$("#remark").val(),                  // 备注
@@ -344,6 +344,43 @@ function selectSupplier(){
     });
 }
 
+//审核
+function auditChargeForm(){
+    //验证数据是否修改
+//    $("#"+gridName).datagrid("endEdit", gridHandel.getSelectRowIndex());
+//    var newData = {
+//    	remark:$("#remark").val(),                  // 备注
+// 		payTime:$('#payMoneyTime').val(),
+//        grid:$.map(gridHandel.getRows(), function(obj){
+//            return $.extend(true,{},obj);//返回对象的深拷贝
+//        })
+//    }
+//
+//    if(!gFunComparisonArray(oldData,newData)){
+//    	$_jxc.alert("数据有修改，请先保存再审核");
+//        return;
+//    }
+    var reqObj = {
+    	id:$('#formId').val()||'',
+    	branchId:$('#branchId').val()||''
+    }
+	$_jxc.confirm('是否审核通过？',function(data){
+		if(data){
+			$_jxc.ajax({
+		    	url : contextPath+"/settle/supplierChain/auditChainForm",
+		    	data:{"data":JSON.stringify(reqObj)}
+		    },function(result){
+	    		if(result['code'] == 0){
+	    			$_jxc.alert("操作成功！",function(){
+	    				location.href = contextPath +"/settle/supplierChain/chainView?id=" + result["formId"];
+	    			});
+	    		}else{
+	            	 $_jxc.alert(result['message'],'审核失败');
+	    		}
+		    } );
+		}
+	});
+}
 
 
 //返回列表页面
