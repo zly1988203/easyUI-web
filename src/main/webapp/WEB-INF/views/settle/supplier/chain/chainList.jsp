@@ -66,17 +66,17 @@
 	                    <div class="umar-r10 uw-70 ut-r">单据状态:</div>
 	                    <div class="ub ub-ac umar-r10">
 							<label>
-								<input type="radio" name="deliverAuditStatus" value="0" checked="checked" onclick="queryForm()"/><span>未审核</span>
+								<input type="radio" name="auditStatus" value="0" checked="checked" onclick="queryForm()"/><span>未审核</span>
 							</label>
 	                    </div>
 	                    <div class="ub ub-ac umar-r10">
 							<label>
-								<input type="radio" name="deliverAuditStatus" value="1" onclick="queryForm()"/><span>已审核</span>
+								<input type="radio" name="auditStatus" value="1" onclick="queryForm()"/><span>已审核</span>
 							</label>
 	                    </div>
 	                    <div class="ub ub-ac umar-r10">
 							<label>
-								<input  type="radio" name="deliverAuditStatus" value=""  onclick="queryForm()"/><span>全部</span>
+								<input  type="radio" name="auditStatus" value=""  onclick="queryForm()"/><span>全部</span>
 							</label>
 	                    </div>
 	                </div>
