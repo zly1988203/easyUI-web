@@ -13,16 +13,17 @@
 	<div class="ub ub-ac upad-4">
 		<div class="ubtns">
 			<button class="ubtns-item" onclick="saveFinanceCode()" id="saveBtn">保存</button>
-			<button class="ubtns-item" onclick="closeDialog()">关闭</button>
+			<button class="ubtns-item" onclick="closeFinanceDialog()">关闭</button>
 		</div>
 	</div>
 	<div class="ub uline"></div>
 	<form id="financeAdd">
+	<input type="hidden" name="dictTypeId" id="dictTypeId" />
 		<div class="ub ub-ver upad-4">
 			<div class="ub upad-4 umar-t10">
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">编号:</div>
-					<input class="uinp ub ub-f1" type="text" id="value"
+					<input class="uinp  ub ub-f1" type="text" id="value"
 						name="value" maxlength="50" />
 						
 					<input type="hidden" name="id" id="id" />

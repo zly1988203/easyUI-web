@@ -31,7 +31,7 @@
 								class="uinp uinp-no-more" maxlength="50" readonly="readonly">
 
 						</div>
-						<div class="ub ub-ac uw-320">
+						<div class="ub ub-ac">
 							<div class="umar-r10 uw-80 ut-r">机构类型:</div>
 							<select class="uselect uinp-no-more uw-204"
 								name="type" id="type" disabled="disabled">
@@ -55,7 +55,7 @@
 								readonly="readonly" type="text">
 						</div>
 
-						<div class="ub ub-ac uw-320">
+						<div class="ub ub-ac">
 							<div class="umar-r10 uw-80 ut-r">邮箱:</div>
 							<input id="email" name="email"
 								class="uinp uinp-no-more" readonly="readonly">
@@ -79,7 +79,7 @@
 
 						</div>
 
-						<div class="ub ub-ac uw-320">
+						<div class="ub ub-ac">
 							<div class="umar-r10 uw-80 ut-r">参考分店:</div>
 							<input id="shop" name="shop" type="text"
 								class="uinp uinp-no-more" maxlength="50"
@@ -108,10 +108,10 @@
 
 						</div>
 
-						<div class="ub ub-ac uw-320">
+						<div class="ub ub-ac">
 							<div class="umar-r10 uw-80 ut-r">加价率:</div>
 							<input id="priceprocent" name="priceprocent" type="text"
-								class="uinp uinp-no-more" maxlength="50"
+								class="uinp uinp-no-more uw-180" maxlength="50"
 								readonly="readonly"><span>%</span>
 						</div>
 
@@ -134,7 +134,7 @@
 
 						</div>
 
-						<div class="ub ub-ac uw-320">
+						<div class="ub ub-ac">
 							<div class="umar-r10 uw-80 ut-r">业务专员:</div>
 							<input id="salesman" name="salesman" type="text"
 								class="uinp uinp-no-more" maxlength="50"
@@ -158,15 +158,15 @@
 
 						<div class="ub ub-ac uw-340">
 							<div class="umar-r10 uw-100 ut-r">费用均摊年数:</div>
-							<input id="costAvgYear" name="costAvgYear" type="text"
+							<input id="costAvgYear" name="costAvgYear" type="number" value="0"
 								class="uinp easyui-numberbox easyui-validatebox" data-options="min:0,precision:0">
 
 						</div>
 
-						<div class="ub ub-ac uw-320">
+						<div class="ub ub-ac">
 							<div class="umar-r10 uw-80 ut-r">店铺面积:</div>
-							<input id="areaSize" name="areaSize" type="text"
-							class="uinp easyui-numberbox easyui-validatebox" data-options="min:0.00,precision:2">
+							<input id="areaSize" name="areaSize" type="number" value="0.00"
+							class="uinp easyui-numberbox easyui-validatebox uw-160" data-options="min:0.00,precision:2">
 							<span>m*2</span>
 						</div>
 					</div>
@@ -191,7 +191,7 @@
 								readonly="readonly">
 						</div>
 
-						<div class="ub ub-ac uw-320">
+						<div class="ub ub-ac">
 							<div class="umar-r10 uw-80 ut-r">修改时间:</div>
 							<input id="createTimeUpdate" name="createTimeUpdate" type="text"
 								class="uinp uinp-no-more" maxlength="50"
@@ -220,16 +220,8 @@
 					<div class="ub upad-4 umar-l20">
 						<div class="ub ub-ac ub-f1 umar-r36">
 							<div class="umar-r10 uw-80 ut-r">备注:</div>
-							<textarea id="remark" name="remark" class="uh-40 umar-r30 ubor uw-850"
+							<textarea id="remark" name="remark" class="uh-80 ubor uw-800"
 								maxlength="100"></textarea>
-						</div>
-					</div>
-					<div class="ub upad-4">
-						<div class="ub ub-ac uw-320">
-							<div class="umar-r10 uw-80 ut-r"></div>
-							<label><input id="isDirect" name="isDirect"
-								type="checkbox"
-								<c:if test="${branch.isDirect}">checked="checked"</c:if>>直送供应商</label>
 						</div>
 					</div>
 
@@ -240,8 +232,8 @@
 
 	</div>
 
-	<div title="机构费用" data-options="fit:true,border:false"
-		style="width: 100%; padding: 10px; display: none;">
+	<div title="机构费用" class="upad-8" data-options="fit:true,border:false"
+		style="width: 100%; display: none;">
 		<div class="ub ub-ac upad-8">
 			<div class="ubtns">
 				<button class="ubtns-item" onclick="saveBranch()">保存</button>
