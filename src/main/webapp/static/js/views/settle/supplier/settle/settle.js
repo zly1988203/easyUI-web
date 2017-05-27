@@ -24,7 +24,7 @@ $(function(){
 		var formId = $("#formId").val();
 		url = contextPath+"/settle/supplierSettle/settleFormDetailList?id="+formId;
 		oldData = {
-		        remark:$("#remark").val(),                  // 备注
+		     remark:$("#remark").val(),                   // 备注
 		}
 	}
 	initSupChkAcoAdd();
@@ -38,7 +38,7 @@ $(document).on('input','#remark',function(){
 	      str_cut = new String();
 	      str_len = str.length;
 	      for(var i = 0;i<str_len;i++)
-	     {
+	      {
 	        a = str.charAt(i);
 	        str_length++;
 	        if(escape(a).length > 4)
@@ -53,7 +53,7 @@ $(document).on('input','#remark',function(){
 	        	 remark.value = str_cut;
 	        	 break;
 	         }
-	    }
+	      }
 	
 });
 
