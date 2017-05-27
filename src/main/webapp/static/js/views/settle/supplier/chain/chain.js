@@ -283,9 +283,9 @@ function saveChainForm(){
     	$_jxc.alert("表格不能为空");
     	return;
     }
-    
+//    _rows.forEach()
     //新增传detailList字段 编辑不需要
-    if(operateType == "add")reqObj.detailList = gridHandel.getRows();
+    if(operateType == "add")reqObj.detailList = _rows;
     
     
     console.log('reqObj',reqObj);
