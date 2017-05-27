@@ -96,6 +96,9 @@ function closeDialogHandel() {
  * 搜索
  */
 function queryFinanceCode(){
+	//搜索需要将左侧查询条件清除
+	$("#startCount").val('');
+	$("#endCount").val('');
     var formData = $('#formFinanceList').serializeObject();
 //    var postParams = $.extend(formData,{typeCode:gVarTypeCode})
     $("#"+gridName).datagrid("options").queryParams = formData;
