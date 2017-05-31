@@ -12,7 +12,7 @@
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <script
-	src="${ctx}/static/js/views/finance/storeCharge/storeChargeMain.js?V=3"></script>
+	src="${ctx}/static/js/views/finance/storeCharge/storeChargeMain.js?V=5"></script>
 <style>
 .datagrid-header .datagrid-cell {
 	text-align: center !important;
@@ -54,7 +54,7 @@
 					<div class="ub ub-ac umar-r80">
 						<div class="umar-r10 uw-60 ut-r">月份:</div>
 						<input class="Wdate uw-300 uinp-no-more"
-							name="chargeMonth" id="chargeMonth" readonly="readonly"
+							name="chargeMonth" id="chargeMonth"
 							onclick="WdatePicker({dateFmt:'yyyy-MM',maxDate:'%y-%M'})" />
 					</div>
 					<div class="ub ub-ac umar-r80">

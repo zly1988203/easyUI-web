@@ -45,7 +45,7 @@
 
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">月份:</div>
-					<input class="Wdate uw-300 uinp-no-more" readonly="readonly"
+					<input class="Wdate uw-300 uinp-no-more"
 						name="startTime" id="startTime"
 						onclick="WdatePicker({dateFmt:'yyyy-MM',maxDate:'%y-%M'})" />
 				</div>
@@ -57,7 +57,7 @@
 							value="0" checked="checked" /><label for="status0">费用汇总 </label>
 					</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="radioItem" type="radio" name="status" id="status1s"
+						<input class="radioItem" type="radio" name="status" id="status1"
 							value="1" /><label for="status1">费用明细 </label>
 					</div>
 

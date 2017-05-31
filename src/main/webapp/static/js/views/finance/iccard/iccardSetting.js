@@ -16,6 +16,9 @@ function initGridCardSetting() {
         url: 'setting/type/list',
         rownumbers:true,    //序号
         showFooter:true,
+        singleSelect:true,  //单选  false多选
+        checkOnSelect:false,
+        selectOnCheck:false,
         height:500,
         width:600,
         columns:[[

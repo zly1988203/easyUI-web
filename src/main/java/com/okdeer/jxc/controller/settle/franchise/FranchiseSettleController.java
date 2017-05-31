@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -150,7 +149,7 @@ public class FranchiseSettleController extends BaseController<SupplierChainContr
 	@RequiresPermissions("JxcFranchiseSettle:add")
 	@RequestMapping(value = "settleSave", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson settleSave(@RequestBody String jsonText) {
+	public RespJson settleSave(String data) {
 		RespJson respJson = RespJson.success();
 		try {
 			// 检查是否存在未审核的结算
@@ -158,7 +157,8 @@ public class FranchiseSettleController extends BaseController<SupplierChainContr
 			if (auditCount > 0) {
 				return RespJson.error("存在未审核的结算单");
 			}
-			FranchiseSettleVo vo = JSON.parseObject(jsonText, FranchiseSettleVo.class);
+			FranchiseSettleVo vo = JSON.parseObject(data, FranchiseSettleVo.class);
+			vo.setTargetBranchId(getCurrBranchId());
 			vo.setCreateUserId(getCurrUserId());
 			vo.setBranchCode(getCurrBranchCode());
 			respJson = franchiseSettleService.saveSettle(vo);
@@ -194,10 +194,10 @@ public class FranchiseSettleController extends BaseController<SupplierChainContr
 	@RequiresPermissions("JxcFranchiseSettle:edit")
 	@RequestMapping(value = "settleUpdate", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson settleUpdate(@RequestBody String jsonText) {
+	public RespJson settleUpdate(String data) {
 		RespJson respJson = RespJson.success();
 		try {
-			FranchiseSettleVo vo = JSON.parseObject(jsonText, FranchiseSettleVo.class);
+			FranchiseSettleVo vo = JSON.parseObject(data, FranchiseSettleVo.class);
 			vo.setUpdateUserId(getCurrUserId());
 			respJson = franchiseSettleService.updateSettle(vo);
 		} catch (Exception e) {
@@ -231,7 +231,7 @@ public class FranchiseSettleController extends BaseController<SupplierChainContr
 	@RequiresPermissions("JxcFranchiseSettle:delete")
 	@RequestMapping(value = "settleDelete", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson settleDelete(List<String> ids) {
+	public RespJson settleDelete(@RequestParam(value = "ids[]") List<String> ids) {
 		RespJson respJson = RespJson.success();
 		try {
 			respJson = franchiseSettleService.deleteSettle(ids);
@@ -250,10 +250,10 @@ public class FranchiseSettleController extends BaseController<SupplierChainContr
 	@RequiresPermissions("JxcFranchiseSettle:audit")
 	@RequestMapping(value = "settleAudit", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson settleAudit(String id) {
+	public RespJson settleAudit(String formId) {
 		RespJson respJson = RespJson.success();
 		try {
-			respJson = franchiseSettleService.auditSettle(id, getCurrUserId());
+			respJson = franchiseSettleService.auditSettle(formId, getCurrUserId());
 		} catch (Exception e) {
 			LOG.error("审核加盟店结算异常:", e);
 			respJson = RespJson.error("审核加盟店结算失败！");

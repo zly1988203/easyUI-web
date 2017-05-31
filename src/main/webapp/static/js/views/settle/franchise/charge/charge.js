@@ -264,7 +264,7 @@ function saveFraChargeOrder(){
     
     var reqObj = {
     	id:$('#formId').val()||'',
-    	FranchiseBranchId:$('#branchId').val()||'',
+    	franchiseBranchId:$('#branchId').val()||'',
     	branchCode:$('#branchCode').val()||'',
     	payTime:payTime||'',
     	formType:'FI',
