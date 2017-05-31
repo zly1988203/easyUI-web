@@ -16,8 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.AccessControlFilter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * ClassName: UserFilter 
@@ -34,10 +32,6 @@ import org.slf4j.LoggerFactory;
 
 public class UserFilter extends AccessControlFilter {
 
-	/**
-	 * 日志
-	 */
-	private static final Logger LOG = LoggerFactory.getLogger(UserFilter.class);
 
 	/**
 	 * 
@@ -47,7 +41,6 @@ public class UserFilter extends AccessControlFilter {
 	protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
 		HttpServletRequest req = (HttpServletRequest) request;
 		String ignoreUrl = req.getRequestURL().toString();
-		LOG.debug("isAccessAllowed, ignoreUrl：{}", ignoreUrl);
 		if (isLoginRequest(request, response)) {
 			return true;
 		} else if (ignoreUrl.contains("/scale/")) {

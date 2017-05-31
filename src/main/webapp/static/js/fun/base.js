@@ -127,3 +127,51 @@ function stopIt(ev){
         });
     }
 
+    
+/**
+ * 对ajax请求做了封装，统一项目的ajax请求。
+ * @namespace jQuery扩展封装
+ * @param {url} 请求的url地址
+ * @param {params} JSON格式的参数,如{name:'abc','age':10}
+ * @param {callback} 调用成功后回调函数,可不传
+ * @return json数据
+ */
+function ajaxFormSubmit(url, params, callback, $btn) {
+    if ($btn){
+        $btn.prop("disabled","disabled");
+    }
+
+    gFunStartLoading();
+    
+    $.ajax({
+        url: url,
+        type:"POST",
+        contentType:"application/json",
+        data: params,
+        success: function(data) {
+            gFunEndLoading();
+            if ($btn){
+                $btn.removeProp("disabled");
+            }
+            if (typeof callback == 'function') {
+                callback(data);
+            }
+        },
+        error: function() {
+            gFunEndLoading();
+            if ($btn){
+                $btn.removeProp("disabled");
+            }
+            messager("请求发送失败或服务器处理失败");
+        },
+        beforeSend: function(XHR) {
+            var sts = new Date().getTime();
+            url = url ? (url.indexOf('?')>-1 ? url + '&_t='+ sts : url + '?_t='+sts):url
+        },
+        complete: function() {
+            // Handle the complete event
+        }
+    });
+    
+}
+

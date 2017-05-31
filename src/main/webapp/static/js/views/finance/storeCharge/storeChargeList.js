@@ -23,7 +23,7 @@ function initGridBranchCostList() {
         width:'100%',
         fitColumns:true,    //每列占满
         columns:[[
-            {field:'formNo',title:'单号',width:80,align:'left',
+            {field:'formNo',title:'单号',width:100,align:'left',
                 formatter: function(value,row,index){
                     return "<a href='#' onclick=\"editHandel('"+row.id+"')\" class='ualine'>"+value+"</a>";
                 }

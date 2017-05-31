@@ -76,7 +76,7 @@ function initGridStoreCharge() {
                     return str;
                 },
             },
-            {field:'id',hidden:'true'},
+            {field:'costTypeId',hidden:'true'},
             {field:'costTypeCode',title:'费用代码',width:120,align:'left',
                 editor:{
                     type:'textbox',
@@ -187,9 +187,34 @@ function selectListBranches(){
 
 function saveStoreCharge() {
     $("#"+gridName).datagrid("endEdit", gridHandel.getSelectRowIndex());
-    var rows = gridHandel.getRowsWhere({costTypeCode:1})
+    var rows = gridHandel.getRowsWhere({costTypeCode:1});
     if(rows.length==0){
         messager("表格不能为空");
+        return;
+    }
+    
+    
+    var isCheckResult = true;
+    var detailList = [];
+    $.each(rows,function(i,v){
+        if(!v["costTypeCode"]){
+            messager("第"+(i+1)+"行，费用代码不能为空");
+            isCheckResult = false;
+            return false;
+        };
+        if(v["amount"]<=0){
+            messager("第"+(i+1)+"行，金额必须大于0");
+            isCheckResult = false;
+            return false;
+        }
+        var detailItem = {};
+        detailItem.costTypeId = v.costTypeId;
+        detailItem.amount = v.amount;
+        detailItem.remark = v.remark;
+        detailList[i] = detailItem;
+    });
+    
+    if(!isCheckResult){
         return;
     }
 
@@ -198,8 +223,8 @@ function saveStoreCharge() {
     var branchId = $("#branchId").val();
     var branchCode = $("#branchCode").val();
     //费用月份
-    var chargeMonth = $("#chargeMonth").val();
-    //
+    var chargeMonth = $("#chargeMonth").val().replace("-", "");
+    //备注
     var remark = $("#remark").val();
 
     var footerRows = $("#"+gridName).datagrid("getFooterRows");
@@ -213,10 +238,10 @@ function saveStoreCharge() {
         month:chargeMonth,
         remark:remark,
         sumAmount:totalchargeAmount,
-        detailList:rows
+        detailList:detailList
     };
 
-
+    console.log('reqObj:',JSON.stringify(reqObj));
 
     var url = "";
     if(chargeStatus === "add"){
@@ -228,13 +253,16 @@ function saveStoreCharge() {
 
     var param = JSON.stringify(reqObj);
 
-    ajaxSubmit(url,param,function (result) {
-        if(result['code'] == 0){
-            messager("保存成功")
-        }else{
-            messager(result['message'])
-        }
-    })
+    ajaxFormSubmit(url, param, function (result) {
+    	if(result['code'] == 0){
+    		$.messager.alert("操作提示", "操作成功！", "info",function(){
+                location.href = contextPath + "/finance/storeCharge/toEdit?formId=" + result.data.formId;
+            });
+    	}else{
+    		messager(result['message'])
+    	}
+	});
+    
 }
 
 function selectCharge(searchKey) {
@@ -246,6 +274,7 @@ function selectCharge(searchKey) {
         var nowRows = gridHandel.getRowsWhere({costTypeCode:'1'});
         var addDefaultData = gridHandel.addDefault(data,gridDefault);
         var keyNames = {
+        	id:"costTypeId",
             value:"costTypeCode",
             label:"costTypeLabel"
         };
