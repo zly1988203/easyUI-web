@@ -205,6 +205,9 @@ public interface ExportExcelConstant {
 	
 	/*** 月盈亏平衡分析导出模板  */
 	String BEY_MONTH_ANALYSIS_EXPORT_TEMPLATE = "beyMonthAnalysisExportTemplate.xlsx";
+	
+	/*** 门店费用详情列表导出模板  */
+	String STORE_CHARGE_MAIN_EXPORT_TEMPLATE = "storeChargeMainExportTemplate.xlsx";
 
 	/**
 	 * 成本调价单导出模板

@@ -12,7 +12,7 @@
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <script
-	src="${ctx}/static/js/views/finance/storeCharge/storeChargeMain.js?V=3"></script>
+	src="${ctx}/static/js/views/finance/storeCharge/storeChargeMain.js?V=6"></script>
 <style>
 .datagrid-header .datagrid-cell {
 	text-align: center !important;
@@ -30,6 +30,7 @@
 					<shiro:hasPermission name="JxcPurchaseOrder:add">
 						<div class="ubtns-item" onclick="saveStoreCharge()">保存</div>
 					</shiro:hasPermission>
+					<div class="ubtns-item" onclick="exportList()">导出明细</div>
 					<div class="ubtns-item" onclick="chargeCheck()">审核</div>
 					<div class="ubtns-item" onclick="selectCharge()">费用选择</div>
 					<div class="ubtns-item" onclick="toImportStoreCharge()">费用导入</div>
@@ -39,6 +40,7 @@
 					<shiro:hasPermission name="JxcPurchaseOrder:add">
 						<div class="ubtns-item-disabled" >保存</div>
 					</shiro:hasPermission>
+					<div class="ubtns-item" onclick="exportList()">导出明细</div>
 					<div class="ubtns-item-disabled" >审核</div>
 					<div class="ubtns-item-disabled" >费用选择</div>
 					<div class="ubtns-item-disabled" >费用导入</div>
