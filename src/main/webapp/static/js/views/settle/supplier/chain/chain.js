@@ -78,8 +78,8 @@ function initSupChainAdd(){
             {field:'skuCode',title:'货号',width:'120px',align:'left'},
             {field:'skuName',title:'商品名称',width:'100px',align:'left'},
             {field:'barCode',title:'条码',width:'100px',align:'left'},
-            {field:'spec',title:'规格',width:'100px',align:'left'},
-            {field:'unit',title:'单位',width:'100px',align:'left'},
+            {field:'spec',title:'规格',width:'100px',align:'center'},
+            {field:'unit',title:'单位',width:'100px',align:'center'},
             {field:'saleCount',title:'销售数量',width:'100px',align:'right',
             	formatter:function(value,row,index){
             		if(!value)row.saleCount = 0;
@@ -225,19 +225,19 @@ function delLineHandel(event){
 
 function validateForm(branchId,beginDate,endDate,supplierId){
     if(!$.trim(branchId)){
-    	$_jxc.alert('请选择机构!');
+    	$_jxc.alert('机构信息不能为空!');
     	return false;
     }
     if(!beginDate){
-    	$_jxc.alert('计算开始时间不能为空');
+    	$_jxc.alert('计算开始时间信息不能为空');
     	return false;
     }
     if(!endDate){
-    	$_jxc.alert('计算结算时间不能为空');
+    	$_jxc.alert('计算结算时间信息不能为空');
     	return false;
     }
     if(!supplierId){
-    	$_jxc.alert('请选择供应商!');
+    	$_jxc.alert('供应商信息不能为空!');
     	return false;
     }
     return true;
@@ -389,28 +389,81 @@ function delSupJonAccount(){
 
 //机构
 function selectBranches(){
-	new publicAgencyService(function(data){
-		$("#branchId").val(data.branchesId);
-		$("#branchCode").val(data.branchCode);
-		$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
-	},'',branchId);
+	var _rows = gridHandel.getRowsWhere({skuName:'1'});
+	if(_rows.length > 0){
+		$_jxc.confirm('单据信息未保存，是否先保存单据？',function(r){
+			if(!r){
+				new publicAgencyService(function(data){
+					$("#branchId").val(data.branchesId);
+					$("#branchCode").val(data.branchCode);
+					$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
+					
+					$('#supplierContcat').val('');//联系人
+			    	$('#linkTel').val('');//联系人
+			    	$("#supplierId").val('');
+			    	$("#supplierPhone").val('');
+			    	$("#supplierMobile").val('');
+			    	$("#supplierMinAmount").val('');
+			        $("#supplierName").val('');
+			        
+			        gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
+			    	                         $.extend({},gridDefault),$.extend({},gridDefault)]);
+			        
+				},'',branchId);	
+			}
+		});
+	}else{
+		new publicAgencyService(function(data){
+			$("#branchId").val(data.branchesId);
+			$("#branchCode").val(data.branchCode);
+			$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
+		},'',branchId);
+	}	
+	
 }
 
 //选择供应商
 function selectSupplier(){
-    new publicSupplierService(function(data){
-    	console.log('supplier',data);
-    	$('#supplierContcat').val(data.supplierName||'');//联系人
-    	$('#linkTel').val((data.mobile?data.mobile:'')+(data.phone?'/'+data.phone:''));//联系人
-    	$("#supplierId").val(data.id);
-    	$("#supplierPhone").val(data.phone);
-    	$("#supplierMobile").val(data.mobile);
-    	$("#supplierMinAmount").val(data.minAmount);
-        $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);	
-        
-    });
+	var _rows = gridHandel.getRowsWhere({skuName:'1'});
+	if(_rows.length > 0){
+		$_jxc.confirm('单据信息未保存，是否先保存单据？',function(r){
+			if(!r){
+				new publicSupplierService(function(data){
+			    	console.log('supplier',data);
+			    	$('#supplierContcat').val(data.supplierName||'');//联系人
+			    	$('#linkTel').val((data.mobile?data.mobile:'')+(data.phone?'/'+data.phone:''));//联系人
+			    	$("#supplierId").val(data.id);
+			    	$("#supplierPhone").val(data.phone);
+			    	$("#supplierMobile").val(data.mobile);
+			    	$("#supplierMinAmount").val(data.minAmount);
+			        $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
+			        
+			        gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
+			    	                         $.extend({},gridDefault),$.extend({},gridDefault)]);
+			        
+			    });
+			}
+		});
+	}else{
+		new publicSupplierService(function(data){
+	    	console.log('supplier',data);
+	    	$('#supplierContcat').val(data.supplierName||'');//联系人
+	    	$('#linkTel').val((data.mobile?data.mobile:'')+(data.phone?'/'+data.phone:''));//联系人
+	    	$("#supplierId").val(data.id);
+	    	$("#supplierPhone").val(data.phone);
+	    	$("#supplierMobile").val(data.mobile);
+	    	$("#supplierMinAmount").val(data.minAmount);
+	        $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);	
+	        
+	    });
+	}	
+    
 }
 
+//my97 g
+function checkGrid(){
+	
+}
 
 
 //返回列表页面

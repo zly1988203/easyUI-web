@@ -4,7 +4,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>供应商费用</title>
+    <title>供应商往来账款</title>
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
     <script  src="${ctx}/static/js/views/settle/supplier/account/accountList.js?V=2.6.0"></script>
     <style>
