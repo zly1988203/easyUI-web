@@ -6,6 +6,8 @@ var chargeStatus = "add";
 var url = "";
 var isdisabled = false;
 var formId = "";
+var selbranchType = sessionBranchType;
+
 $(function () {
     chargeStatus = $('#chargeStatus').val();
     
@@ -180,19 +182,33 @@ function selectListBranches(){
     new publicAgencyService(function(data){
         $("#branchId").val(data.branchesId);
         $("#branchCode").val(data.branchCode);
+        selbranchType = data.type;
         $("#branchName").val("["+data.branchCode+"]" + data.branchName);
-    },'BF','');
+    },'DD','');
 }
 
 
 function saveStoreCharge() {
     $("#"+gridName).datagrid("endEdit", gridHandel.getSelectRowIndex());
+
+    //收货机构
+    var branchId = $("#branchId").val();
+    var branchCode = $("#branchCode").val();
+    if(!branchId){
+        messager("机构不能为空!");
+        return;
+    }
+    
+    if(selbranchType<3){
+    	messager("机构只能选择店铺类型！");
+    	return;
+    }
+    
     var rows = gridHandel.getRowsWhere({costTypeCode:1});
     if(rows.length==0){
         messager("表格不能为空");
         return;
     }
-    
     
     var isCheckResult = true;
     var detailList = [];
@@ -219,9 +235,6 @@ function saveStoreCharge() {
     }
 
     var totalchargeAmount = 0;
-    //收货机构
-    var branchId = $("#branchId").val();
-    var branchCode = $("#branchCode").val();
     //费用月份
     var chargeMonth = $("#chargeMonth").val().replace("-", "");
     //备注

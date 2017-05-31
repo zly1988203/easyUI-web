@@ -40,7 +40,7 @@ function getGridcolumns(){
             {field:'branchName',title:'机构名称',width:180,align:'left'},
             {field:'parentName',title:'所属分公司',width:180,align:'left'},
             {field:'month',title:'月份',width:110,align:'left'},
-            {field:'aount',title:'金额',width:110,align:'right'},
+            {field:'amount',title:'金额',width:110,align:'right'},
         ]]
     }else{
         return [[
@@ -50,7 +50,7 @@ function getGridcolumns(){
             {field:'parentName',title:'所属分公司',width:180,align:'left'},
             {field:'month',title:'月份',width:110,align:'left'},
             {field:'costTypeName',title:'费用项目',width:180,align:'left'},
-            {field:'aount',title:'金额',width:110,align:'right'},
+            {field:'amount',title:'金额',width:110,align:'right'},
             {field:'remark',title:'备注',width:180,align:'left'},
         ]]
     }
