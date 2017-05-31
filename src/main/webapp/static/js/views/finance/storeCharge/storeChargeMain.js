@@ -29,8 +29,9 @@ $(function () {
 var gridName = "gridStoreCharge";
 var gridHandel = new GridClass();
 var gridDefault = {
-    chargeAmount:0
+    amount:0
 }
+var editRowData = null;
 
 function initGridStoreCharge() {
     gridHandel.setGridName(gridName);
@@ -42,8 +43,8 @@ function initGridStoreCharge() {
                 gridHandel.addRow(parseInt(gridHandel.getSelectRowIndex())+1,gridDefault);
                 setTimeout(function(){
                     gridHandel.setBeginRow(gridHandel.getSelectRowIndex()+1);
-                    gridHandel.setSelectFieldName("chargeAmount");
-                    gridHandel.setFieldFocus(gridHandel.getFieldTarget('chargeAmount'));
+                    gridHandel.setSelectFieldName("amount");
+                    gridHandel.setFieldFocus(gridHandel.getFieldTarget('amount'));
                 },100)
             }else{
                 selectCharge(arg);
@@ -63,7 +64,7 @@ function initGridStoreCharge() {
         height:'100%',
         width:'100%',
         columns:[[
-            {field:'cz',title:'操作',width:'60px',align:'center',
+            {field:'cz',title:'操作',width:'60px',align:'center',hidden:isdisabled,
                 formatter : function(value, row,index) {
                     var str = "";
                     if(row.isFooter){
@@ -76,7 +77,14 @@ function initGridStoreCharge() {
                 },
             },
             {field:'id',hidden:'true'},
-            {field:'costTypeCode',title:'费用代码',width:120,align:'left',editor:'textbox'},
+            {field:'costTypeCode',title:'费用代码',width:120,align:'left',
+                editor:{
+                    type:'textbox',
+                    options:{
+                        disabled:isdisabled,
+                    }
+                },
+            },
             {field:'costTypeLabel',title:'费用名称',width:180,align:'left'},
             {field:'amount',title:'费用金额',width:120,align:'right',
                 formatter : function(value, row, index) {
@@ -95,7 +103,12 @@ function initGridStoreCharge() {
                     }
                 },
             },
-            {field:'remark',title:'备注',width:180,align:'left'},
+            {field:'remark',title:'备注',width:180,align:'left',editor:{
+                type:'textbox',
+                options:{
+                    disabled:isdisabled,
+                }
+            },},
         ]],
         onClickCell:function(rowIndex,field,value){
             gridHandel.setBeginRow(rowIndex);
@@ -105,6 +118,19 @@ function initGridStoreCharge() {
                 gridHandel.setFieldFocus(target);
             }else{
                 gridHandel.setSelectFieldName("branchCode");
+            }
+        },
+        onBeforeEdit:function (rowIndex, rowData) {
+            editRowData = $.extend(true,{},rowData);
+        },
+        onAfterEdit:function(rowIndex, rowData, changes){
+            if(typeof(rowData.id) === 'undefined'){
+                // $("#"+gridName).datagrid('acceptChanges');
+            }else{
+                if(editRowData.costTypeCode != changes.costTypeCode){
+                    rowData.costTypeCode = editRowData.costTypeCode;
+                    gridHandel.setFieldTextValue('costTypeCode',editRowData.costTypeCode);
+                }
             }
         },
         onLoadSuccess : function(data) {
@@ -118,14 +144,14 @@ function initGridStoreCharge() {
     }
 }
 
-function onChangeAmount() {
+function onChangeAmount(newVal,oldVal) {
     updateFooter();
 }
 
 
 //合计
 function updateFooter(){
-    var fields = {chargeAmount:0};
+    var fields = {amount:0};
     var argWhere = {name:'isGift',value:""}//
     gridHandel.updateFooter(fields,argWhere);
 }
@@ -161,7 +187,7 @@ function selectListBranches(){
 
 function saveStoreCharge() {
     $("#"+gridName).datagrid("endEdit", gridHandel.getSelectRowIndex());
-    var rows = gridHandel.getRowsWhere({branchCode:1})
+    var rows = gridHandel.getRowsWhere({costTypeCode:1})
     if(rows.length==0){
         messager("表格不能为空");
         return;
@@ -178,7 +204,7 @@ function saveStoreCharge() {
 
     var footerRows = $("#"+gridName).datagrid("getFooterRows");
     if(footerRows){
-        totalchargeAmount = parseFloat(footerRows[0]["chargeAmount"]||0.0).toFixed(4);
+        totalchargeAmount = parseFloat(footerRows[0]["amount"]||0.0).toFixed(4);
     }
 
     var reqObj = {
@@ -190,31 +216,25 @@ function saveStoreCharge() {
         detailList:rows
     };
 
-    var param = JSON.stringify(reqObj);
+
 
     var url = "";
     if(chargeStatus === "add"){
-        url = contextPath + "/finance/storeCharge/add";
+        url = contextPath + "/finance/storeCharge/addStoreCharge";
     }else if(chargeStatus === "edit"){
-        url = contextPath + "/finance/storeCharge/edit";
-        param.id = formId;
+        url = contextPath + "/finance/storeCharge/updateStoreCharge";
+        reqObj.id = $("#formId").val();
     }
+
+    var param = JSON.stringify(reqObj);
+
     ajaxSubmit(url,param,function (result) {
         if(result['code'] == 0){
-
+            messager("保存成功")
         }else{
-
+            messager(result['message'])
         }
     })
-}
-
-function updateStoreCharge() {
-    $("#"+gridName).datagrid("endEdit", gridHandel.getSelectRowIndex());
-    var rows = gridHandel.getRowsWhere({branchCode:1})
-    if(rows.length==0){
-        messager("表格不能为空");
-        return;
-    }
 }
 
 function selectCharge(searchKey) {
@@ -223,17 +243,21 @@ function selectCharge(searchKey) {
         type:'101004'
     };
     publicCostService(param,function(data){
-        var nowRows = gridHandel.getRowsWhere({chargeCode:'1'});
+        var nowRows = gridHandel.getRowsWhere({costTypeCode:'1'});
         var addDefaultData = gridHandel.addDefault(data,gridDefault);
-        var keyNames = {};
+        var keyNames = {
+            value:"costTypeCode",
+            label:"costTypeLabel"
+        };
         var rows = gFunUpdateKey(addDefaultData,keyNames);
-        var newRows = gridHandel.checkDatagrid(nowRows,rows,{},{});
+        var argWhere ={costTypeCode:1};  //验证重复性
+        var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,{});
         $("#"+gridName).datagrid("loadData",newRows);
         gridHandel.setLoadFocus();
         setTimeout(function(){
             gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
-            gridHandel.setSelectFieldName("chargeAmount");
-            gridHandel.setFieldFocus(gridHandel.getFieldTarget('chargeAmount'));
+            gridHandel.setSelectFieldName("amount");
+            gridHandel.setFieldFocus(gridHandel.getFieldTarget('amount'));
         },100)
     });
 }
