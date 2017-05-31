@@ -5,7 +5,7 @@ pageEncoding="UTF-8"%>
 <style> 
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
 </style>
-    <script src="${ctx}/static/js/views/component/publicCharge.js"></script>
+    <script src="${ctx}/static/js/views/component/publicCharge.js?V=2.5.6"></script>
 <!-- <form id="chargeSelectForm"> -->
 <!-- <div class="ub uw uh ufs-14 uc-black"> -->
 <!--     <div class="ub ub-ver ub-pc uh ub-f1"> -->
