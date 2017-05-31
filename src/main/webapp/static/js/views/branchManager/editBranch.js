@@ -55,17 +55,16 @@ function getBranchInfo(){
 
             }
         });
-        
-        $("#gridFitmentCost").datagrid("loadData", rec.decorateCostList);
-        $("#gridEquipmentCost").datagrid("loadData", rec.deviceCostList);
-        $("#gridAmortizeCost").datagrid("loadData", rec.amortizeCostList);
+
+        $("#gridFitmentCost").datagrid("loadData", rec.decorateCostList.length>0?rec.decorateCostList:[$.extend({},gridDefault)]);
+        $("#gridEquipmentCost").datagrid("loadData", rec.deviceCostList.length>0?rec.deviceCostList:[$.extend({},gridDefault)]);
+        $("#gridAmortizeCost").datagrid("loadData", rec.amortizeCostList.length>0?rec.amortizeCostList:[$.extend({},gridDefault)]);
     });
 }
 
 
 
 var gridDefault = {
-    costName:"",
     price:0.0000,
 }
 
@@ -79,8 +78,8 @@ function initGridFitmentCost() {
     $("#gridFitmentCost").datagrid({
         align:'center',
         rownumbers:true,    //序号
-        height:'40%',
-        width:'100%',
+        height:'30%',
+        width:'99%',
         columns:[[
             {field:'cz',title:'操作',width:'60px',align:'center',
                 formatter : function(value, row,index) {
@@ -107,7 +106,11 @@ function initGridFitmentCost() {
                 },
             },
             {field: 'createUserName', title: '操作人', width: 120, align: 'left'},
-            {field: 'createTime', title: '操作日期', width: 180, align: 'left'}
+            {field: 'createTime', title: '操作日期', width: 180, align: 'left',
+                formatter : function(value, row, index) {
+                    return formatDate(value);
+                },
+            }
         ]],
         onClickCell:function(rowIndex,field,value){
             gridFitmentCostHandel.setBeginRow(rowIndex);
@@ -120,19 +123,21 @@ function initGridFitmentCost() {
             }
         },
         onLoadSuccess : function(data) {
+
             gridFitmentCostHandel.setDatagridHeader("center");
+
         }
     })
 
-    gridFitmentCostHandel.setLoadData([$.extend({},gridDefault)]);
+
 }
 function initGridEquipmentCost() {
     gridEquipmentCostHandel.setGridName("gridEquipmentCost");
     $("#gridEquipmentCost").datagrid({
         align:'center',
         rownumbers:true,    //序号
-        height:'40%',
-        width:'100%',
+        height:'30%',
+        width:'99%',
         columns:[[
             {field:'cz',title:'操作',width:'60px',align:'center',
                 formatter : function(value, row,index) {
@@ -159,7 +164,11 @@ function initGridEquipmentCost() {
                 },
             },
             {field: 'createUserName', title: '操作人', width: 120, align: 'left'},
-            {field: 'createTime', title: '操作日期', width: 180, align: 'left'}
+            {field: 'createTime', title: '操作日期', width: 180, align: 'left',
+                formatter : function(value, row, index) {
+                    return formatDate(value);
+                },
+            }
         ]],
         onClickCell:function(rowIndex,field,value){
             gridEquipmentCostHandel.setBeginRow(rowIndex);
@@ -183,8 +192,8 @@ function initGridAmortizeCost() {
     $("#gridAmortizeCost").datagrid({
         align:'center',
         rownumbers:true,    //序号
-        height:'40%',
-        width:'100%',
+        height:'30%',
+        width:'99%',
         columns:[[
             {field:'cz',title:'操作',width:'60px',align:'center',
                 formatter : function(value, row,index) {
@@ -211,7 +220,10 @@ function initGridAmortizeCost() {
                 },
             },
             {field: 'createUserName', title: '操作人', width: 120, align: 'left'},
-            {field: 'createTime', title: '操作日期', width: 180, align: 'left'}
+            {field: 'createTime', title: '操作日期', width: 180, align: 'left',                formatter : function(value, row, index) {
+                return formatDate(value);
+            },
+            }
         ]],
         onClickCell:function(rowIndex,field,value){
             gridAmortizeCostHandel.setBeginRow(rowIndex);
@@ -276,8 +288,6 @@ function saveBranch() {
     formData.amortizeCostList = gridAmortizeCostHandel.getRowsWhere({costName:"1"});
     
     var dataJson = JSON.stringify(formData);
-    
-    console.log("dataJson:"+dataJson);
 
     $.ajax({
         url:contextPath+"/archive/branch/updateBranch",
@@ -287,14 +297,12 @@ function saveBranch() {
         success:function(result){
             gFunEndLoading();
             if(result['code'] == 0){
-                $.messager.alert("操作提示", "保存成功！", "info",function(){
-                	
-                });
+                messager("保存成功！");
+                // $.messager.alert("操作提示", "保存成功！", "info",function(){
+                //
+                // });
             }else{
-                new publicErrorDialog({
-                    "title":"保存失败",
-                    "error":result['message']
-                });
+                messager(result['message']);
             }
         },
         error:function(result){

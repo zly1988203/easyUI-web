@@ -27,6 +27,7 @@
             </div>
         </div>
         <div class="ub uline umar-t8"></div>
+        <form id = "settleForm">
         <div class="ub umar-t8">
             <div class="ub ub-ac uw-288 umar-l20">
                 <div class="umar-r10 uw-70 ut-r">机构:</div>
@@ -114,26 +115,26 @@
              </div>
              <div class="ub ub-ac uw-300 umar-l12">
              	 <div class="umar-r10 uw-90 ut-r">优惠金额汇总:</div>
-             	 <input class="uinp ub ub-f1 uinp-no-more" type="text" value="0.00" id="coupon" readonly='readonly'  name="coupon">
+             	 <input class="uinp ub ub-f1 uinp-no-more" type="text" value="0.00" id="discountAmount" readonly='readonly'  name="discountAmount">
              </div>
          </div>
          
          <div class="ub umar-t8">
 	         <div class="ub ub-ac uw-300 ">
 	             <div class="umar-r10 uw-90 ut-r">应付金额汇总:</div>
-	             <input class="uinp ub ub-f1 uinp-no-more" type="text" value="0.00" id="yfmoney" readonly='readonly'  name="yfmoney">
+	             <input class="uinp ub ub-f1 uinp-no-more" type="text" value="0.00" id="payableAmount" readonly='readonly'  name="payableAmount">
 	         </div>
 	         <div class="ub ub-ac uw-300 umar-l10">
 	             <div class="umar-r10 uw-90 ut-r">已付金额汇总:</div>
-	             <input class="uinp ub ub-f1 uinp-no-more" type="text" value="0.00" id="yfedmoney" readonly='readonly'  name="yfedmoney">
+	             <input class="uinp ub ub-f1 uinp-no-more" type="text" value="0.00" id="payedAmount" readonly='readonly'  name="payedAmount">
 	         </div>
              <div class="ub ub-ac uw-300 umar-l20">
              	 <div class="umar-r10 uw-90 ut-r">未付金额汇总:</div>
-             	 <input class="uinp ub ub-f1 uinp-no-more" type="text" value="0.00" id="wfmoney" readonly='readonly'  name="wfmoney">
+             	 <input class="uinp ub ub-f1 uinp-no-more" type="text" value="0.00" id="unpayAmount" readonly='readonly'  name="unpayAmount">
              </div>
              <div class="ub ub-ac uw-300 umar-l24">
              	 <div class="umar-r10 uw-90 ut-r">实付金额汇总:</div>
-             	 <input class="uinp easyui-numberbox" data-options="min:0,precision:2" value="0" type="text" value="0.00" id="wfmoney"  name="wfmoney">
+             	 <input class="uinp easyui-numberbox" data-options="min:0,precision:2" value="0" type="text" value="0.00" id="actualAmount"  name="actualAmount">
              </div>
          </div>
          
@@ -143,6 +144,7 @@
                  <input class="uinp ub ub-f1" type="text" id="remark" maxlength="20"  name="remark">
              </div>               
          </div>
+         </form>
            <%--datagrid-edit--%>
            <div class="ub ub-f1 datagrid-edit umar-t8">
             <table id="supplierChkAccountAdd" ></table>

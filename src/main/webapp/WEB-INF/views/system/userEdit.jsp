@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
-<script src="${ctx}/static/js/views/system/user/userEdit.js"></script>
+<script src="${ctx}/static/js/views/system/user/userEdit.js?V=4"></script>
 <div id="branchEdit" class="easyui-tabs"
 	style="width: 100%; height: 100%;">
 	<div title="基本信息" data-options="fit:true,border:false"
@@ -30,7 +30,7 @@
 						<div class="ub ub-ac umar-l20">
 							<div class="umar-r10 uw-60 ut-r">用户名称:</div>
 							<input id="userName" name="userName" value="${user.userName }"
-								class="uinp uw-250 easyui-validatebox"
+								class="uinp uw-250  easyui-validatebox"
 								data-options="required:true,validType:'userName'" type="text">
 							<i class="uc-red">*</i>
 						</div>
@@ -157,8 +157,8 @@
 						<div class="ub ub-ac umar-l20">
 							<div class="umar-r10 uw-60 ut-r">账号名:</div>
 							<input id="userName" name="userName"
-								class="uinp uw-250 easyui-validatebox"
-								data-options="required:true,validType:'userName'" type="text">
+								class="uinp uw-250 easyui-textbox easyui-validatebox"
+								data-options="required:true,prompt:'账号',validType:'userName',iconCls:'icon-man',iconWidth:38" type="text">
 							<i class="uc-red">*</i>
 						</div>
 					</div>
@@ -167,8 +167,13 @@
 						<div class="ub ub-ac umar-l20">
 							<div class="umar-r10 uw-60 ut-r">密码:</div>
 							<input id="userPwd" name="userPwd" type="password"
-								class="uh-40 uw-250 easyui-validatebox"
-								data-options="required:true"> <i class="uc-red">*</i>
+								class="uh-40 uw-250 easyui-textbox easyui-validatebox"
+								data-options="required:true,prompt:'密码',iconWidth:38,icons:[{
+	iconCls:'icon-add',
+	handler: function(e){
+	$(e.data.target).textbox('setValue', 'Something added!');
+	}
+	}]"> <i class="uc-red">*</i>
 						</div>
 					</div>
 
