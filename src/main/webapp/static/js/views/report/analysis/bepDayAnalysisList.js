@@ -5,8 +5,8 @@
 var  costTitle = '开店成本(含折旧)';
 $(function () {
     initGridDayAnalysis();
-    $("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
-    $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+    $("#startTime").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
+    $("#endTime").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
     changeStatus();
 })
 

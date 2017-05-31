@@ -12,7 +12,7 @@
 <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <script
-	src="${ctx}/static/js/views/report/analysis/bepDayAnalysisList.js?V=3"></script>
+	src="${ctx}/static/js/views/report/analysis/bepDayAnalysisList.js?V=4"></script>
 <style>
 .datagrid-header .datagrid-cell {
 	text-align: center !important;
@@ -31,12 +31,10 @@
 					<div class="ubtns-item" onclick="toClose()">关闭</div>
 				</div>
 
-			<input class="Wdate uw-300 uinp-no-more"
-			name="txtStartDate" id="txtStartDate"
-			onclick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})" />
-			<input class="Wdate uw-300 uinp-no-more"
-			name="txtEndDate" id="txtEndDate"
-			onclick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})" />
+			<input class="Wdate uw-300 uinp-no-more" name="startTime" id="startTime"
+				onclick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})" />
+			<input class="Wdate uw-300 uinp-no-more" name="endTime" id="endTime"
+				onclick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})" />
 			</div>
 
 			<div class="ub umar-t8">
