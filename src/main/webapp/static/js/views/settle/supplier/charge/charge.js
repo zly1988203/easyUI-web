@@ -6,7 +6,7 @@
 //默认数据
 var gridDefault = {
 		amount:0,
-		io:1
+		io:-1
 }
 //列表数据查询url
 var url = "";
@@ -109,7 +109,7 @@ function initChageListAdd(){
             		if(row.isFooter){
             			return "";
             		}
-                    return value=='-1'?'支出':(value=='1'?'收入':'请选择');
+                    return value=='-1'?'收入':(value=='1'?'支出':'请选择');
                 },
                 editor:{
                     type:'combobox',
@@ -119,10 +119,10 @@ function initChageListAdd(){
                         editable:false,
 //                        required:true,
                         data: [{
-                        	"id":'1',
+                        	"id":'-1',
                             "text":"收入",
                         },{
-                        	"id":'-1',
+                        	"id":'1',
                             "text":"支出",
                         }],
                         onSelect:onSelect
@@ -159,7 +159,6 @@ function initChageListAdd(){
                 gridHandel.setSelectFieldName("value");
             }
         },
-        
         onLoadSuccess:function(data){
         	if(pageStatus==='edit'){
                 if(!oldData["grid"]){
@@ -195,7 +194,7 @@ function onSelect(data){
 //编辑金额
 function onChangeAmount(vewV,oldV){
 	var _io = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'io');
-	//支出
+	//-1收入负数  1支出入
 	if((_io == -1 && parseFloat(vewV) > 0) || (_io == 1 && vewV < 0) ){
 		gridHandel.setFieldValue('amount',parseFloat(vewV*-1).toFixed(4));  
 		return;
@@ -370,7 +369,7 @@ function delChageForm(){
 function selectBranches(){
 	var _rows = gridHandel.getRowsWhere({label:'1'});
 	if(_rows.length > 0){
-		$_jxc.confirm('单据信息未保存，请先保存单据！',function(r){
+		$_jxc.confirm('单据信息未保存，是否先保存单据？',function(r){
 			if(!r){
 				new publicAgencyService(function(data){
 					$("#branchId").val(data.branchesId);
@@ -399,7 +398,7 @@ function selectBranches(){
 function selectSupplier(){
 	var _rows = gridHandel.getRowsWhere({label:'1'});
 	if(_rows.length > 0){
-		$_jxc.confirm('单据信息未保存，请先保存单据！',function(r){
+		$_jxc.confirm('单据信息未保存，是否先保存单据？',function(r){
 			if(!r){
 				new publicSupplierService(function(data){
 			    	$("#supplierId").val(data.id);

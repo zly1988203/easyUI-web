@@ -361,7 +361,7 @@ function delFraAdvForm(){
 function selectBranches(){
 	var _rows = gridHandel.getRowsWhere({label:'1'});
 	if(_rows.length > 0){
-		$_jxc.confirm('单据信息未保存，请先保存单据！',function(r){
+		$_jxc.confirm('单据信息未保存，是否先保存单据？',function(r){
 			if(!r){
 				new publicAgencyService(function(data){
 					$("#branchId").val(data.branchesId);
