@@ -122,7 +122,7 @@ public class FinanceCodeController extends BaseController<FinanceCodeController>
 		LOG.debug("查询财务代码条件：{}", qo);
 
 		try {
-
+			
 			return sysDictService.getFinanceCodeForPage(qo);
 		} catch (Exception e) {
 			LOG.error("分页查询财务代码异常:", e);
