@@ -53,6 +53,28 @@
 							</c:forEach>
 				        </select>
                 </div>
+
+                <div class="ub ub-ac umar-l40">
+                    <div class="umar-r10 uw-70 ut-r">是否直送:</div>
+                    <div class="ub ub-ac umar-r10">
+                        <label>
+                            <input type="radio" name="isFastDeliver" value="" checked="checked" onclick="query()"/><span>全部</span>
+                        </label>
+
+                        </div>
+                    <div class="ub ub-ac umar-r10">
+                        <label>
+                            <input type="radio" name="isFastDeliver" value="0" onclick="query()"/><span>常规商品</span>
+                        </label>
+                    </div>
+                    <div class="ub ub-ac umar-r10">
+                        <label>
+                            <input  type="radio" name="isFastDeliver" value="1"  onclick="query()"/><span>直送商品</span>
+                        </label>
+                    </div>
+                </div>
+
+
             </div>
             <div class="ub umar-t8">
                 <div class="ub ub-ac">
@@ -72,6 +94,12 @@
 				    			<option value="${goodsStatus.ordinal}">${goodsStatus.value}</option> 
 				    		</c:forEach>
 				        </select>
+                </div>
+                <div class="ub ub-ac umar-l40">
+                    <div class="umar-r10 uw-70 ut-r">供应商:</div>
+                    <input class="uinp" name="supplierId" id="supplierId" type="hidden">
+                    <input class="uinp" id="supplierName" name="supplierName" type="text" maxlength="50">
+                    <div class="uinp-more" onclick="selectSupplier()">...</div>
                 </div>
             </div>
             
