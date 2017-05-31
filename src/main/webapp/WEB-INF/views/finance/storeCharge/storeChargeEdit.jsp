@@ -66,7 +66,7 @@
 					</div>
 					<div class="ub ub-ac umar-r80">
 						<div class="umar-r10 uw-60 ut-r">月份:</div>
-						<input class="Wdate uw-300 uinp-no-more"
+						<input class="Wdate uw-300 uinp-no-more" readOnly="readOnly"
 							name="month" id="chargeMonth"  value="${form.month}" disabled="disabled"/>
 					</div>
 					<div class="ub ub-ac umar-r80">
@@ -100,11 +100,13 @@
 		
 			</div>
 		</form>
+
+	<div class="ub uw umar-t8 ub-f1">
+	<table id="gridStoreCharge"></table>
+	</div>
 	</div>
 	
-	<div class="ub uw umar-t8 ub-f1">
-		<table id="gridStoreCharge"></table>
-	</div>
+
 
 </body>
 </html>

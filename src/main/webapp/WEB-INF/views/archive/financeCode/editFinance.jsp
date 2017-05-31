@@ -28,6 +28,7 @@
 						
 					<input type="hidden" name="id" id="id" />
 				</div>
+			<i class="ub uc-red">*</i>
 			</div>
 
 			<div class="ub upad-4 umar-t10">
@@ -36,6 +37,7 @@
 					<input class="uinp ub ub-f1" type="text" id="label"
 						name="label" maxlength="50" />
 				</div>
+			<i class="ub uc-red">*</i>
 			</div>
 
 			<div class="ub upad-4 umar-t10">
