@@ -17,8 +17,8 @@
 		</div>
 	</div>
 	<div class="ub uline"></div>
-
-	<table id="gridShopList" class="umar-t10 upad-8"></table>
+	<input type="hidden" id="settingId" name="settingId" value=""></input>
+	<table id="gridShopList" class="umar-t10 upad-8"> </table>
 
 	<div class="ub uline"></div>
 	<div class="ub umar-t8">

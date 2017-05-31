@@ -2,8 +2,8 @@
  * Created by zhaoly on 2017/5/24.
  */
 
-function initShopSetting(){
-    initGridShopList();
+function initShopSetting(cardType){
+    initGridShopList(cardType);
     initgridEquipmentList();
 }
 
@@ -23,15 +23,19 @@ var gridShopName = "gridShopList";
 var gridEquipment = "gridEquipmentList";
 var gridShopHandel = new GridClass();
 var gridEquipmentHandel = new GridClass();
-function initGridShopList() {
+function initGridShopList(cardType) {
+	$("#settingId").val(cardType);
     gridShopHandel.setGridName(gridShopName);
     $("#"+gridShopName).datagrid({
         align:'center',
         rownumbers:true,    //序号
         showFooter:true,
         singleSelect:true,  //单选  false多选
+       /* pagination:true,    //分页
+        pageSize:50,*/
         height:'40%',
         width:'100%',
+        url:'setting/branch/list?settingId='+cardType,
         // fit:true,
         columns:[[
         	{field: 'branchId', title: '店铺id', hidden:"true"},
@@ -72,7 +76,7 @@ function initGridShopList() {
         	})
         },
         loadFilter:function(data){
-        	if(data.rows.length > 0){
+        	if(data.rows && data.rows.length > 0){
         		
         		data.rows.forEach(function(obj,index){
         			obj.checked = obj.enabled == '1'?true:false;

@@ -12,6 +12,8 @@ package com.okdeer.jxc.controller.finance.iccard;
 import java.math.BigDecimal;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -27,8 +29,10 @@ import com.google.common.collect.Maps;
 import com.okdeer.jxc.branch.entity.BranchSpec;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.PageUtils;
+import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.finance.iccard.entity.ICCardSetting;
 import com.okdeer.jxc.finance.iccard.service.ICCardSettingService;
+import com.okdeer.jxc.finance.iccard.vo.ICCardAccountVo;
 import com.okdeer.jxc.utils.UserUtil;
 
 /**
@@ -45,7 +49,7 @@ import com.okdeer.jxc.utils.UserUtil;
 @Controller
 @RestController
 @RequestMapping("iccard/setting")
-public class ICCardSettingController {
+public class ICCardSettingController extends BaseController<Object>{
 	
 	private static final Logger logger = LoggerFactory.getLogger(ICCardSettingController.class);
 	
@@ -96,6 +100,20 @@ public class ICCardSettingController {
 			return suppliers;
 		} catch (Exception e) {
 			logger.error("一卡通查询列表失败！", e);
+		}
+		return suppliers;
+	}
+	
+	@RequestMapping(value = "/branch/list")
+	public PageUtils<ICCardAccountVo> iccardBranchList(String settingId,
+			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
+			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize, HttpServletRequest request) {
+		PageUtils<ICCardAccountVo> suppliers = PageUtils.emptyPage();
+		try {
+			suppliers = icCardSettingService.selectSettingBranch(settingId, pageNumber, pageSize);
+			return suppliers;
+		} catch (Exception e) {
+			logger.error("查询一卡通店铺列表失败！", e);
 		}
 		return suppliers;
 	}

@@ -66,7 +66,7 @@ public class ICCardAccountManagementController extends BasePrintController<ICCar
 	}
 
 	@RequestMapping(value = "/list")
-	public PageUtils<ICCardAccountVo> overdueApprovedList(ICCardAccountVo vo,
+	public PageUtils<ICCardAccountVo> iccardAccountList(ICCardAccountVo vo,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize, HttpServletRequest request) {
 		Optional<ICCardAccountVo> optional = Optional.ofNullable(vo);
