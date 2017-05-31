@@ -7,6 +7,7 @@
 
 package com.okdeer.jxc.controller.archive;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -233,4 +234,25 @@ public class FinanceCodeController extends BaseController<FinanceCodeController>
 		return RespJson.error();
 	}
 
+	   /**
+     * @Description: 代码
+     * @param qo
+     * @param pageNumber
+     * @param pageSize
+     * @return
+     * @author liwb
+     * @date 2017年5月24日
+     */
+    @RequestMapping(value = "getDictListByTypeCode", method = RequestMethod.POST)
+    public List<SysDict> getDictListByTypeCode(String dictTypeCode) {
+        LOG.debug("支付方式dictType：{}", dictTypeCode);
+        try {
+            SysDictQo qo = new SysDictQo();
+            qo.setTypeCode(dictTypeCode);
+            return sysDictService.getFinanceCodeForExport(qo);
+        } catch (Exception e) {
+            LOG.error("分页查询财务代码异常:", e);
+        }
+        return new ArrayList<SysDict>();
+    }
 }
