@@ -1,4 +1,5 @@
-function initChargeView(){
+function initChargeView(param){
+	console.log('param',param)
     gFunSetEnterKey(chargeSearch);
     initDatagridChargeSelect();
 }

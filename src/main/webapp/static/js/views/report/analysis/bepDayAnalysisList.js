@@ -34,6 +34,7 @@ function initGridDayAnalysis() {
         pagination:true,    //分页
         pageSize:50,
         showFooter:true,
+        singleSelect:true,
         height:'100%',
         width:'100%',
         fitColumns:true,    //每列占满

@@ -50,8 +50,7 @@
 
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">月份:</div>
-					<input class="Wdate uw-300 uinp-no-more" readonly="readonly"
-						name="month" id="month"
+					<input class="Wdate uw-300 uinp-no-more" name="month" id="month"
 						onclick="WdatePicker({dateFmt:'yyyy-MM',maxDate:'%y-%M'})" />
 				</div>
 
