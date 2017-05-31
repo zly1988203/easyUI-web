@@ -31,8 +31,12 @@
 					<div class="ubtns-item" onclick="toClose()">关闭</div>
 				</div>
 
-				<!-- 引入时间选择控件 -->
-				<%@ include file="/WEB-INF/views/component/dateSelect.jsp"%>
+			<input class="Wdate uw-300 uinp-no-more"
+			name="txtStartDate" id="txtStartDate"
+			onclick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})" />
+			<input class="Wdate uw-300 uinp-no-more"
+			name="txtEndDate" id="txtEndDate"
+			onclick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})" />
 			</div>
 
 			<div class="ub umar-t8">

@@ -6,17 +6,27 @@ function initShopSetting(){
     initGridShopList();
     initgridEquipmentList();
 }
-
+//选择店铺
 function addShop(){
+    debugger;
     //初始化机构ID
     var branchId = sessionBranchId;
 
     publicAgencyService(function(data){
         var nowRows = gridShopHandel.getRows()
         var argWhere ={branchCode:1};  //验证重复性
-        var newRows = gridShopHandel.checkDatagrid(nowRows,[data],argWhere,null);
+        var newRows = gridShopHandel.checkDatagrid(nowRows,[data],argWhere,{});
 
-        $("#"+gridShopName).datagrid("loadData",newRows);
+        var param = {
+            data:newRows.id,
+            url:contextPath+"/iccard/setting/get"
+        }
+        $_jxc.ajax(param,function (result) {
+            if(result['code'] == 0 && result.length > 0){
+                $("#"+gridShopName).datagrid("loadData",result.data);
+            }
+        })
+
     },'',branchId);
 }
 var gridShopName = "gridShopList";
@@ -30,6 +40,8 @@ function initGridShopList() {
         rownumbers:true,    //序号
         showFooter:true,
         singleSelect:true,  //单选  false多选
+        checkOnSelect:false,
+        selectOnCheck:false,
         height:'40%',
         width:'100%',
         // fit:true,
@@ -72,9 +84,9 @@ function initGridShopList() {
         	})
         },
         loadFilter:function(data){
-        	if(data.rows.length > 0){
+        	if(data.length > 0){
         		
-        		data.rows.forEach(function(obj,index){
+        		data.forEach(function(obj,index){
         			obj.checked = obj.enabled == '1'?true:false;
         		})
         	}

@@ -2,10 +2,19 @@
  * Created by zhaoly on 2017/5/25.
  */
 
+var storeStatus = "0";
 $(function () {
     initGridChargeSearchList();
     $("#startTime").val(dateUtil.getPreMonthDate().format("yyyy-MM"));
+    changeStoreStatus();
 })
+
+function changeStoreStatus() {
+    $(".radioItem").change(function () {
+        storeStatus = $(this).val();
+        initGridChargeSearchList();
+    });
+}
 
 var gridName = "gridStoreChargeSearch";
 var gridHandel = new GridClass();
@@ -20,14 +29,32 @@ function initGridChargeSearchList() {
         showFooter:true,
         height:'100%',
         width:'100%',
-        columns:[[
+        singleSelect:true,
+        columns:getGridcolumns()
+    })
+}
+
+function getGridcolumns(){
+    if(storeStatus == "0"){
+        return [[
             {field:'branchCode',title:'机构编码',width:80,align:'left'},
             {field:'branchName',title:'机构名称',width:180,align:'left'},
             {field:'branchName',title:'所属分公司',width:180,align:'left'},
             {field:'month',title:'月份',width:110,align:'left'},
             {field:'formAount',title:'金额',width:110,align:'right'},
         ]]
-    })
+    }else{
+        return [[
+            {field:'orderCode',title:'单号',width:80,align:'left'},
+            {field:'branchCode',title:'机构编码',width:80,align:'left'},
+            {field:'branchName',title:'机构名称',width:180,align:'left'},
+            {field:'branchName',title:'所属分公司',width:180,align:'left'},
+            {field:'month',title:'月份',width:110,align:'left'},
+            {field:'branchName',title:'费用项目',width:180,align:'left'},
+            {field:'formAount',title:'金额',width:110,align:'right'},
+            {field:'remark',title:'备注',width:180,align:'left'},
+        ]]
+    }
 }
 
 /**
