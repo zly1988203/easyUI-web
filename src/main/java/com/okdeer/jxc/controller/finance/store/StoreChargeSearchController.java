@@ -102,6 +102,13 @@ public class StoreChargeSearchController extends ReportController {
 		if (!map.containsKey("branchCompleCode")) {
 			map.put("branchCompleCode", super.getCurrBranchCompleCode());
 		}
+		if(map.containsKey("month")){
+			String monthStr = map.get("month").toString();
+			if(monthStr.contains("-")){
+				monthStr = monthStr.replaceAll("-", "");
+				map.put("month", Integer.valueOf(monthStr));
+			}
+		}
 		return map;
 	}
 
