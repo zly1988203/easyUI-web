@@ -8,7 +8,7 @@ $(function(){
 var datagirdID = 'supAccountList';
 
 function getAccountColumns(){
-	var accountType = $('input[name="orderStatus"]:checked').val();
+	var accountType = $('input[name="radioType"]:checked').val();
 	console.log('accountType',accountType)
 	var defaultColumns = [{field: 'check',checkbox:true}];
 	if(accountType == '6'){
