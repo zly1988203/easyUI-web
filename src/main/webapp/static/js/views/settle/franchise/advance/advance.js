@@ -223,11 +223,11 @@ function delLineHandel(event){
 
 function validateForm(branchId,payTime){
     if(!$.trim(branchId)){
-    	$_jxc.alert('请选择机构!');
+    	$_jxc.alert('机构信息不能为空');
     	return false;
     }
     if(!payTime){
-    	$_jxc.alert('付款日期不能为空');
+    	$_jxc.alert('付款日期信息不能为空');
     	return false;
     }
     return true;
@@ -251,8 +251,16 @@ function saveFraAdvOrder(){
     	$_jxc.alert("合计该单据不能为零，请修改。");
     	return;
     }
+    
+    
+    var valiaFlag = true;
     var _rows = [];
     $.each(rows,function(i,data){
+    	if(parseFloat(data.amount) == 0){
+    		$_jxc.alert('第 '+(i+1)+' 行费用金额不能为零');
+    		valiaFlag = false;
+    		return false;
+    	}
     	_rows.push({
     		payType:data.id,
     		io:data.io,
@@ -261,6 +269,10 @@ function saveFraAdvOrder(){
     		remark:data.remark
     	})
     })
+    
+    if(!valiaFlag){
+    	return false;
+    }
     
     var reqObj = {
     	id:$('#formId').val()||'',
@@ -274,26 +286,17 @@ function saveFraAdvOrder(){
     }
     var url = $("#operateType").val() == 'add' ? contextPath+"/settle/franchiseCharge/advanceSave" : contextPath+"/settle/franchiseCharge/advanceUpdate";
     
-    console.log('test',JSON.stringify(reqObj));
-    gFunStartLoading();
-    $.ajax({
+//    console.log('test',JSON.stringify(reqObj));
+    $_jxc.ajax({
         url:url,
-        type:"POST",
-        data:{"data":JSON.stringify(reqObj)},
-        success:function(result){
-        	gFunEndLoading();
-            if(result['code'] == 0){
-    			$.messager.alert("操作提示", "操作成功！", "info",function(){
-    				location.href = contextPath +"/settle/franchiseCharge/advanceEdit?id="+result['formId'];
-    			});
-            }else{
-                gFunEndLoading();
-                successTip(result['message']);
-            }
-        },
-        error:function(result){
-            gFunEndLoading();
-            successTip("请求发送失败或服务器处理失败");
+        data:{"data":JSON.stringify(reqObj)}
+    },function(result){
+        if(result['code'] == 0){
+			$_jxc.alert("操作成功！",function(){
+				location.href = contextPath +"/settle/franchiseCharge/advanceEdit?id="+result['formId'];
+			});
+        }else{
+        	$_jxc.alert(result['message']);
         }
     });
 	
@@ -315,27 +318,19 @@ function auditFraAdvForm(){
     	$_jxc.alert("数据有修改，请先保存再审核");
         return;
     }
-	$.messager.confirm('提示','是否审核通过？',function(data){
+	$_jxc.confirm('是否审核通过？',function(data){
 		if(data){
-            gFunStartLoading();
-			$.ajax({
+			$_jxc.ajax({
 		    	url : contextPath+"/settle/franchiseCharge/advanceAudit",
-		    	type : "POST",
-		    	data:{"formId":$('#formId').val()||''},
-		    	success:function(result){
-                    gFunEndLoading();
-		    		if(result['code'] == 0){
-		    			$.messager.alert("操作提示", "操作成功！", "info",function(){
-		    				location.href = contextPath +"/settle/franchiseCharge/advanceView?id=" + result["formId"];
-		    			});
-		    		}else{
-		            	 $_jxc.alert(result['message'],'审核失败');
-		    		}
-		    	},
-		    	error:function(result){
-                    gFunEndLoading();
-		    		$_jxc.alert("请求发送失败或服务器处理失败");
-		    	}
+		    	data:{"formId":$('#formId').val()||''}
+		    },function(result){
+	    		if(result['code'] == 0){
+	    			$_jxc.alert("操作成功！",function(){
+	    				location.href = contextPath +"/settle/franchiseCharge/advanceView?id=" + result["formId"];
+	    			});
+	    		}else{
+	            	 $_jxc.alert(result['message']);
+	    		}
 		    });
 		}
 	});
@@ -345,24 +340,18 @@ function auditFraAdvForm(){
 function delFraAdvForm(){
 	var ids = [];
 	ids.push($("#formId").val());
-	$.messager.confirm('提示','是否要删除单据',function(data){
+	$_jxc.confirm('是否要删除单据',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 		    	url:contextPath+"/settle/franchiseCharge/advanceDelete",
-		    	type:"POST",
-		    	dataType: "json",
-		    	data:{"ids":ids},
-		    	success:function(result){
-		    		if(result['code'] == 0){
-                        toRefreshIframeDataGrid("settle/franchiseCharge/advanceList","franchiseAdvMoneyList");
-		    			toClose();
-		    		}else{
-		    			successTip(result['message']);
-		    		}
-		    	},
-		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
-		    	}
+		    	data:{"ids":ids}
+		    },function(result){
+	    		if(result['code'] == 0){
+                    toRefreshIframeDataGrid("settle/franchiseCharge/advanceList","franchiseAdvMoneyList");
+	    			toClose();
+	    		}else{
+	    			$_jxc.alert(result['message']);
+	    		}
 		    });
 		}
 	});
@@ -370,11 +359,26 @@ function delFraAdvForm(){
 
 //机构
 function selectBranches(){
-	new publicAgencyService(function(data){
-		$("#branchId").val(data.branchesId);
-		$("#branchCode").val(data.branchCode);
-		$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
-	},'FI',branchId);
+	var _rows = gridHandel.getRowsWhere({label:'1'});
+	if(_rows.length > 0){
+		$_jxc.confirm('单据信息未保存，是否先保存单据？',function(r){
+			if(!r){
+				new publicAgencyService(function(data){
+					$("#branchId").val(data.branchesId);
+					$("#branchCode").val(data.branchCode);
+					$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
+			        gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
+					                        $.extend({},gridDefault),$.extend({},gridDefault)]);
+				},'FI',branchId);
+			}
+		})
+	}else{
+		new publicAgencyService(function(data){
+			$("#branchId").val(data.branchesId);
+			$("#branchCode").val(data.branchCode);
+			$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
+		},'FI',branchId);
+	}	
 }
 
 //选择费用

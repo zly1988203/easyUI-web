@@ -12,7 +12,7 @@
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <script
-	src="${ctx}/static/js/views/finance/storeCharge/storeChargeMain.js?V=5"></script>
+	src="${ctx}/static/js/views/finance/storeCharge/storeChargeMain.js?V=2"></script>
 <style>
 .datagrid-header .datagrid-cell {
 	text-align: center !important;
@@ -29,6 +29,7 @@
 				<shiro:hasPermission name="JxcPurchaseOrder:add">
 					<div class="ubtns-item" onclick="saveStoreCharge()">保存</div>
 				</shiro:hasPermission>
+				<div class="ubtns-item uinp-no-more" >导出明细</div>
 				<div class="ubtns-item uinp-no-more">审核</div>
 				<div class="ubtns-item" onclick="selectCharge()">费用选择</div>
 				<div class="ubtns-item" onclick="toImportStoreCharge()">费用导入</div>
@@ -45,7 +46,7 @@
 				<div class="ub umar-t8">
 					<div class="ub ub-ac umar-r80">
 						<div class="umar-r10 uw-60 ut-r">机构名称:</div>
-						<input  name="branchId" id="branchId" type="hidden">
+						<input name="branchId" id="branchId" type="hidden">
 						<input name="branchCode" id="branchCode" type="hidden">
 						<input class="uinp" id="branchName" name="branchName" type="text"
 							 onclick="selectListBranches()" readonly="readonly">

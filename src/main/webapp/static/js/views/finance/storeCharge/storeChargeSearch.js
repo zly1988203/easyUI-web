@@ -5,7 +5,7 @@
 var storeStatus = "0";
 $(function () {
     initGridChargeSearchList();
-    $("#startTime").val(dateUtil.getPreMonthDate().format("yyyy-MM"));
+    $("#month").val(dateUtil.getPreMonthDate().format("yyyy-MM"));
     changeStoreStatus();
 })
 
@@ -24,8 +24,7 @@ function initGridChargeSearchList() {
     dg=$("#"+gridName).datagrid({
         align:'center',
         rownumbers:true,    //序号
-        pagination:true,    //分页
-        pageSize:50,
+        pagination:false,    //分页
         showFooter:true,
         height:'100%',
         width:'100%',
@@ -39,19 +38,19 @@ function getGridcolumns(){
         return [[
             {field:'branchCode',title:'机构编码',width:80,align:'left'},
             {field:'branchName',title:'机构名称',width:180,align:'left'},
-            {field:'branchName',title:'所属分公司',width:180,align:'left'},
+            {field:'parentName',title:'所属分公司',width:180,align:'left'},
             {field:'month',title:'月份',width:110,align:'left'},
-            {field:'formAount',title:'金额',width:110,align:'right'},
+            {field:'amount',title:'金额',width:110,align:'right'},
         ]]
     }else{
         return [[
-            {field:'orderCode',title:'单号',width:80,align:'left'},
+            {field:'formNo',title:'单号',width:80,align:'left'},
             {field:'branchCode',title:'机构编码',width:80,align:'left'},
             {field:'branchName',title:'机构名称',width:180,align:'left'},
-            {field:'branchName',title:'所属分公司',width:180,align:'left'},
+            {field:'parentName',title:'所属分公司',width:180,align:'left'},
             {field:'month',title:'月份',width:110,align:'left'},
-            {field:'branchName',title:'费用项目',width:180,align:'left'},
-            {field:'formAount',title:'金额',width:110,align:'right'},
+            {field:'costTypeName',title:'费用项目',width:180,align:'left'},
+            {field:'amount',title:'金额',width:110,align:'right'},
             {field:'remark',title:'备注',width:180,align:'left'},
         ]]
     }
@@ -61,17 +60,17 @@ function getGridcolumns(){
  * 机构名称
  */
 function selectListBranches(){
-    new publicAgencyService(function(data){
+	new publicAgencyService(function(data){
         $("#branchId").val(data.branchesId);
-        $("#branchName").val(data.branchName);
-        $("#oldBranchName").val(data.branchName);
+        $("#branchCompleCode").val(data.branchCompleCode);
+        $("#branchName").val("["+data.branchCode+"]" + data.branchName);
     },'BF','');
 }
 
 function queryCharge() {
-    $("#"+gridName).datagrid("options").queryParams = $("#queryForm").serializeObject();
-    $("#"+gridName).datagrid("options").method = "post";
-    $("#"+gridName).datagrid("options").url = contextPath+'/finance/storeChargeSearch/list';
+	$("#"+gridName).datagrid("options").queryParams = $("#queryForm").serializeObject();
+    $("#"+gridName).datagrid("options").method = "POST";
+    $("#"+gridName).datagrid("options").url = contextPath+'/finance/storeChargeSearch/reportListPage';
     $("#"+gridName).datagrid("load");
 }
 

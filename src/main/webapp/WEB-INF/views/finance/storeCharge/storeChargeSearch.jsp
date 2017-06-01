@@ -9,9 +9,10 @@
 <title>门店费用查询</title>
 
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
+<%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <script
-	src="${ctx}/static/js/views/finance/storeCharge/storeChargeSearch.js?V=4"></script>
+	src="${ctx}/static/js/views/finance/storeCharge/storeChargeSearch.js?V=5"></script>
 <style>
 .datagrid-header .datagrid-cell {
 	text-align: center !important;
@@ -35,30 +36,33 @@
 
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">机构:</div>
-					<input class="uinp" name="branchId" id="branchId" type="hidden">
-					<input class="uinp" id="oldBranchName" name="oldBranchName"
-						type="hidden"> <input class="uinp" id="branchName"
-						name="branchName" type="text" maxlength="50">
-
+					
+					<input type="hidden" id="startCount" name="startCount" />
+					<input type="hidden" id="endCount" name="endCount" />
+					
+					<input type="hidden" id="branchCompleCode" name="branchCompleCode" />
+					<input type="hidden" id="branchId" name="branchId" />
+					
+					<input class="uinp" id="branchName" name="branchName" type="text" 
+						readonly="readonly" onclick="selectListBranches()" />
 					<div class="uinp-more" onclick="selectListBranches()">...</div>
 				</div>
 
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">月份:</div>
-					<input class="Wdate uw-300 uinp-no-more"
-						name="startTime" id="startTime"
+					<input class="Wdate uw-300 uinp-no-more" name="month" id="month"
 						onclick="WdatePicker({dateFmt:'yyyy-MM',maxDate:'%y-%M'})" />
 				</div>
 
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">查询类型:</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="radioItem" type="radio" name="status" id="status0"
-							value="0" checked="checked" /><label for="status0">费用汇总 </label>
+						<input class="radioItem" type="radio" name="queryType" id="status0"
+							value="total" checked="checked" /><label for="status0">费用汇总 </label>
 					</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="radioItem" type="radio" name="status" id="status1"
-							value="1" /><label for="status1">费用明细 </label>
+						<input class="radioItem" type="radio" name="queryType" id="status1"
+							value="detail" /><label for="status1">费用明细 </label>
 					</div>
 
 				</div>

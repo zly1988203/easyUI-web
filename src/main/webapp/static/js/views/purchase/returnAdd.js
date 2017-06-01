@@ -33,6 +33,7 @@ function initConditionParams(){
 	
 	//设置默认供应商信息
 	$("#supplierId").val(sessionSupplierId);
+	$("#saleWay").val(sessionSupplierSaleWay);
     $("#supplierName").val(sessionSupplierCodeName);
     
     //设置付款期限默认值
@@ -587,6 +588,7 @@ function saveDataHandel(rows){
     gFunStartLoading();
     //供应商
     var supplierId = $("#supplierId").val();
+    var saleWay = $("#saleWay").val();
     //收货机构
     var branchId = $("#branchId").val();
     //付款期限
@@ -615,6 +617,7 @@ function saveDataHandel(rows){
 
     var reqObj = {
         supplierId:supplierId,
+        saleWay:saleWay,
         branchId:branchId,
         paymentTime:paymentTime,
         salesmanId:salesmanId,
@@ -703,6 +706,7 @@ function selectSupplier(){
             $.messager.confirm('提示','修改供应商后会清空明细，是否要修改？',function(r){
                 if(r){
                     $("#supplierId").val(data.id);
+                    $("#saleWay").val(data.saleWay);
                     $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
                     gridHandel.setLoadData([$.extend({},gridDefault)]);
                     // 是否自动加载商品
@@ -713,6 +717,7 @@ function selectSupplier(){
             })
         }else  if( $("#supplierId").val() != "" && data.id != $("#supplierId").val() && nowRows.length == 0){
             $("#supplierId").val(data.id);
+            $("#saleWay").val(data.saleWay);
             $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
             gridHandel.setLoadData([$.extend({},gridDefault)]);
             // 是否自动加载商品

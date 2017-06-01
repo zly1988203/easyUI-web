@@ -840,61 +840,80 @@ function publicGoodsServiceHandel(param,callback){
 //费用选择
 function publicCostService(param,callback){
 	//默认参数属性
-	var oldParm = {isRadio:1}
-	param =  $.extend(oldParm,param);
-	var url = contextPath + "/common/chargeSelect/viewChargeComponent?type="+ param.type;
+	var oldParm = {isRadio:1};
+	//只有一条数据时 直接返回
+//	param =  $.extend(oldParm,param);
+//	if(param.key){
+//		$_jxc.ajax({
+//			url:url,
+//			data:param
+//		},function(data){
+//			if(data&&data.length==1){
+//				callback(data);
+//			}else{
+//				publicCostServiceHandel(param,callback);
+//			}
+//		})
+//	}else{
+//		publicCostServiceHandel(param,callback);
+//	}
+	
+	publicCostServiceHandel(param,callback);
+}
+
+function publicCostServiceHandel(param,callback){
+	var url = contextPath + "/common/chargeSelect/viewChargeComponent?type="+ param.type||'';
 	var dalogParam = {
-    	title:"费用选择",
-        href:url,
-        width:680,
-        height:$(window).height()*(2/3),
-        closable:true,
-        resizable:true,
-        onClose:function(){
-        	 $(dalogObj).dialog('destroy');
-        	 dalogObj = null;
-        },
-        modal:true,
-        onLoad:function(){
-        	initChargeView();
-            initChargeCallBack(callBackHandel)
-        },
-        
-    }
-	
-	if(param.isRadio != 0){
-		dalogParam["buttons"] =[{
-            text:'确定',
-            handler:function(){
-                getCheckCost();
-            }
-        },{
-            text:'取消',
-            handler:function(){
-                $(dalogObj).dialog('destroy');
-                dalogObj = null;
-            }
-        }];
-    }
-	
-	var dalogObj = $('<div/>').dialog(dalogParam);
-	
-    function callBackHandel(data){
-        callback(data);
-        $(dalogObj).panel('destroy');
-    }
-    
-    function getCheckCost(){
-        publicCostGetCheckCost(function(data){
-            if(data.length==0){
-                messager("请选择数据");
-                return;
-            }
-            callback(data);
-            $(dalogObj).panel('destroy');
-        });
-    }
-    
+	    	title:"费用选择",
+	        href:url,
+	        width:680,
+	        height:$(window).height()*(2/3),
+	        closable:true,
+	        resizable:true,
+	        onClose:function(){
+	        	 $(dalogObj).dialog('destroy');
+	        	 dalogObj = null;
+	        },
+	        modal:true,
+	        onLoad:function(){
+	        	initChargeView(param);
+	            initChargeCallBack(callBackHandel)
+	        }
+	        
+	    };
+		
+		if(param.isRadio != 0){
+			dalogParam["buttons"] =[{
+	            text:'确定',
+	            handler:function(){
+	                getCheckCost();
+	            }
+	        },{
+	            text:'取消',
+	            handler:function(){
+	                $(dalogObj).dialog('destroy');
+	                dalogObj = null;
+	            }
+	        }];
+	    }
+		
+		var dalogObj = $('<div/>').dialog(dalogParam);
+		
+	    function callBackHandel(data){
+	        callback(data);
+	        $(dalogObj).panel('destroy');
+	    }
+	    
+	    function getCheckCost(){
+	        publicCostGetCheckCost(function(data){
+	            if(data.length==0){
+	                messager("请选择数据");
+	                return;
+	            }
+	            callback(data);
+	            $(dalogObj).panel('destroy');
+	        });
+	    }
 }
 
 

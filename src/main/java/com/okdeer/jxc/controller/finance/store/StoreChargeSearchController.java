@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
@@ -59,6 +60,7 @@ public class StoreChargeSearchController extends ReportController {
 	}
 	
 	@RequestMapping(value = "exportExcelList")
+	@ResponseBody
 	public void exportExcelList(HttpServletRequest request, HttpServletResponse response) {
 		try {
 			LOG.debug("门店费用查询导出功能");
@@ -101,6 +103,13 @@ public class StoreChargeSearchController extends ReportController {
 		Map<String, Object> map = this.builderParams(request, null);
 		if (!map.containsKey("branchCompleCode")) {
 			map.put("branchCompleCode", super.getCurrBranchCompleCode());
+		}
+		if(map.containsKey("month")){
+			String monthStr = map.get("month").toString();
+			if(monthStr.contains("-")){
+				monthStr = monthStr.replaceAll("-", "");
+				map.put("month", Integer.valueOf(monthStr));
+			}
 		}
 		return map;
 	}

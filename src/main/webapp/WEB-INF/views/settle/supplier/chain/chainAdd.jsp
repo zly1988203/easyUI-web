@@ -27,10 +27,10 @@
             </div>
         </div>
         <div class="ub uline umar-t8"></div>
-        <form id="chainForm">
+        <form id="chainForm" class="ub uw ub-ver">
         <input type='hidden' id="operateType" name="operateType" value="add">
         <div class="ub umar-t8">
-            <div class="ub ub-ac uw-320 umar-l10">
+            <div class="ub ub-ac uw-328 umar-l10">
                 <div class="umar-r10 uw-100 ut-r">机构:</div>
                 <div class="ub ub-f1">
                     <input type="hidden" id="branchId" name="branchId"/>
@@ -38,16 +38,19 @@
                     <input class="uinp ub ub-f1" type="text" id="targetBranchName" readonly="readonly" onclick="selectBranches()" />
                     <div class="uinp-more" onclick="selectBranches()">...</div>
                 </div>
+                <i class="ub ub-ac uc-red">*</i>
             </div>
-            <div class="ub ub-ac uw-320 umar-l20">
+            <div class="ub ub-ac uw-328 umar-l12">
 				<div class="umar-r10 uw-100 ut-r">供应商:</div>
                 <div class="ub ub-f1">
                 	<input class="uinp" name="supplierId" id="supplierId"type="hidden">
 					<input class="uinp ub ub-f1" readonly="readonly" id="supplierName" type="text"  onclick="selectSupplier()">
 					<div class="uinp-more" onclick="selectSupplier()">...</div>
                 </div>
+                <i class="ub ub-ac uc-red">*</i>
             </div>
-            <div class="ub ub-ac umar-l30">
+            
+            <div class="ub ub-ac umar-l24">
                 <div class="umar-r10 uw-70 ut-r">制单人:</div>
                 <div class="utxt"><%=UserUtil.getCurrentUser().getUserName() %></div>
             </div>
@@ -77,19 +80,21 @@
                </div>
            </div>
            <div class="ub umar-t8">
-           		<div class="ub ub-ac uw-310 umar-l20">
+           		<div class="ub ub-ac uw-316 umar-l20">
            			<div class="umar-r10 uw-90 ut-r">计算时间:</div>
            			<input id="beginDate" name="beginDate" class="Wdate ub ub-f1" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true,maxDate:'#F{$dp.$D(\'endDate\');}'})" />
            				&nbsp;至&nbsp;
            			<input id="endDate" name="endDate" class="Wdate ub ub-f1" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true,minDate:'#F{$dp.$D(\'beginDate\');}'})" />
+           			<i class="ub ub-ac uc-red">*</i>
            		</div>
-           		<div class="ub ub-ac uw-320 umar-l20">
+           		<div class="ub ub-ac uw-328 umar-l12">
            			<div class="umar-r10 uw-100 ut-r">付款日期:</div>
 	                <div class="ub ub-f1">
 	                   <input id="payMoneyTime" name = "payTime" class="Wdate ub ub-f1" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" pattern="yyyy-MM-dd"/>
 	                </div>
+	                <i class="ub ub-ac uc-red">*</i>
            		</div>
-           		<div class="ub ub-ac umar-l30">
+           		<div class="ub ub-ac umar-l24">
                    <div class="umar-r10 uw-70 ut-r">审核人:</div>
                    <div class="utxt"></div>
                </div>
@@ -137,7 +142,7 @@
            </div>
            
            <div class="ub umar-t8">
-               <div class="ub ub-ac umar-l40 uw-500 " style='width:1270px;'>
+               <div class="ub ub-ac umar-l40 uw-500 " style='width:630px;'>
                    <div class="umar-r10 uw-70 ut-r">备注:</div>
                    <input class="uinp ub ub-f1" type="text" id="remark" maxlength="20"  name="remark">
                </div>               
