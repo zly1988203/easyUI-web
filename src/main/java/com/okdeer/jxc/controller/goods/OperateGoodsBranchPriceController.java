@@ -403,20 +403,11 @@ public class OperateGoodsBranchPriceController extends BaseController<OperateGoo
 								ImportValidExists(excelListSuccessData, branchId, type);
 							}
 						}
-
-						/**
-						 * (non-Javadoc)
-						 * @see com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid#formatter(java.util.List)
-						 */
 						@Override
 						public void formatter(List<? extends GoodsSelect> list, List<JSONObject> excelListSuccessData,
 								List<JSONObject> excelListErrorData) {
 						}
 
-						/**
-						 * (non-Javadoc)
-						 * @see com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid#errorDataFormatter(java.util.List)
-						 */
 						@Override
 						public void errorDataFormatter(List<JSONObject> list) {
 						}
@@ -444,13 +435,12 @@ public class OperateGoodsBranchPriceController extends BaseController<OperateGoo
 	 */
 	public void ImportValidParentExist(List<JSONObject> excelListSuccessData, String branchId, String type) {
 		GoodsBranchPriceQo qo = new GoodsBranchPriceQo();
-		qo.setStatus(0);
-		qo.setPage(1);
-		PageUtils<GoodsBranchPriceVo> page = null;
+		
+		List<GoodsBranchPriceVo> list = null;
 		Branches branch = branchesServiceApi.getBranchInfoById(branchId);// 机构类型(0.总部、1.分公司、2.物流中心、3.自营店、4.加盟店B、5.加盟店C)
-		if (branch.getType() == 3 || branch.getType() == 4 || branch.getType() == 5) {
-			qo.setBranchId(branch.getParentId());
-			qo.setRows(excelListSuccessData.size());
+		if (branch.getType() == 2 || branch.getType() == 3 || branch.getType() == 4 || branch.getType() == 5) {
+			qo.setBranchId(branchId);
+			qo.setStatus(1);
 			List<String> codeList = new ArrayList<String>();
 			if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {
 				for (JSONObject obj : excelListSuccessData) {
@@ -464,8 +454,7 @@ public class OperateGoodsBranchPriceController extends BaseController<OperateGoo
 				qo.setBarCodeList(codeList);
 			}
 			// 不需要查询上级门店所有的，只需要查询要导入的
-			page = goodsBranchPriceService.queryBranchGoods(qo);
-			List<GoodsBranchPriceVo> list = page.getList();
+			list = goodsBranchPriceService.queryOperateSkuGoodsByBarCodes(codeList,branchId,Integer.valueOf(type),1);
 			Map<String, GoodsBranchPriceVo> map = new HashMap<String, GoodsBranchPriceVo>();
 			// 用于一品多码进行匹配
 			Map<String, GoodsBranchPriceVo> allBarCode = new HashMap<String, GoodsBranchPriceVo>();
