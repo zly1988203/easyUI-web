@@ -53,7 +53,7 @@
             
             <div class="ub ub-ac uw-290 umar-l20">
 				 <div class="umar-r12 uw-70 ut-r">付款方式:</div>
-                 <select class='uinp easyui-combobox' id="payType" data-options="valueField:'id',textField:'label', url:'${ctx}/archive/financeCode/getDictListByTypeCode?dictTypeCode=101003', editable:false" style="width:204px;">
+                 <select class='uinp easyui-combobox' id="payType" data-options="valueField:'id',textField:'label',loadFilter:loadFilter,url:'${ctx}/archive/financeCode/getDictListByTypeCode?dictTypeCode=101003',editable:false" style="width:204px;">
                  </select>
                  <i class="ub ub-ac uc-red">*</i>
             </div>
@@ -92,7 +92,7 @@
              </div>
              <div class="ub ub-ac uw-300 umar-l8">
              	 <div class="umar-r10 uw-90 ut-r">实收金额汇总:</div>
-             	 <input class="uinp easyui-numberbox" data-options="min:0,precision:2" value="0" type="text" value="0.00" id="actualAmount"  name="actualAmount">
+             	 <input class="uinp easyui-numberbox" data-options="precision:2,onChange:changeActMountFrom" value="0" type="text"  id="actualAmount"  name="actualAmount">
              </div>
              <div class="ub ub-ac umar-l40">
                  <div class="umar-r10 uw-70 ut-r">审核人员:</div>

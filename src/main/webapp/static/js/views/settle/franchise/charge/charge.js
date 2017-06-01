@@ -223,7 +223,7 @@ function delLineHandel(event){
 
 function validateForm(branchId,payTime){
     if(!$.trim(branchId)){
-    	$_jxc.alert('机构信息不能为空');
+    	$_jxc.alert('加盟店信息不能为空');
     	return false;
     }
     if(!payTime){
@@ -316,14 +316,14 @@ function auditFraChargeForm(){
     	$_jxc.alert("数据有修改，请先保存再审核");
         return;
     }
-	$_jxc.confirm('提示','是否审核通过？',function(data){
+	$_jxc.confirm('是否审核通过？',function(data){
 		if(data){
 			$_jxc.ajax({
 		    	url : contextPath+"/settle/franchiseCharge/chargeAudit",
-		    	data:{"formId":$('#formId').val()||''},
+		    	data:{"formId":$('#formId').val()||''}
 		    },function(result){
 	    		if(result['code'] == 0){
-	    			$.messager.alert("操作成功！",function(){
+	    			$_jxc.alert("操作成功！",function(){
 	    				location.href = contextPath +"/settle/franchiseCharge/chargeView?id=" + result["formId"];
 	    			});
 	    		}else{
