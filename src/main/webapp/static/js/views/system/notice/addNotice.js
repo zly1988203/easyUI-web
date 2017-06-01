@@ -23,11 +23,19 @@ function selectBranch(){
 }
 
 function selectUser() {
-    publicOperatorService(function(data){
-        //data.Id
-        $("#receiveUserIds").val(data.id);
-        $("#userName").val("["+data.userCode+"]"+data.userName);
-    });
+    new publicOperatorService(function(data){
+        var receiveUserIds="";
+        var userName="";
+        $.each(data,function(i,k){
+            receiveUserIds=k.branchesId+","+receiveUserIds;
+            userName+="["+k.userCode+"]"+k.userName+",";
+        })
+        receiveUserIds = receiveUserIds.substring(0,receiveUserIds.length - 1);
+        userName = userName.substring(0,userName.length - 1);
+
+        $("#receiveUserIds").val(receiveUserIds);
+        $("#userName").val(userName);
+    },{type:1});
 }
 
 function saveNotice(){

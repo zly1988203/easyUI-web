@@ -39,8 +39,8 @@ function initGridShopList(cardType) {
         rownumbers:true,    //序号
         showFooter:true,
         singleSelect:true,  //单选  false多选
-        pagination:true,    //分页
-        pageSize:50,
+        // pagination:true,    //分页
+        // pageSize:50,
         checkOnSelect:false,
         selectOnCheck:false,
         height:'40%',
@@ -49,13 +49,49 @@ function initGridShopList(cardType) {
         // fit:true,
         columns:[[
         	{field: 'branchId', title: '店铺id', hidden:"true"},
-            {field: 'branchCode', title: '店铺编号', width: 100, align: 'left'},
+            {field: 'branchCode', title: '店铺编号', width: 100, align: 'left',
+                formatter : function(value, row,index) {
+                    var str = "";
+                    if(row.isFooter){
+                        str ='<div class="ub ub-pc">合计</div> '
+                    }
+                    return str;
+                },
+            },
             {field: 'branchName', title: '店铺名称', width: 180, align: 'left'},
             {field: 'typeDesc', title: '店铺类型', width: 80, align: 'left'},
-            {field: 'ecardRechargeAmount', title: '累计充值金额', width: 150, align: 'right'},
-            {field: 'ecardWithdrawalAmount', title: '提取金额', width: 100, align: 'right'},
-            {field: 'ecardUseAmount', title: '已用金额', width: 100, align: 'right'},
-            {field: 'ecardBalance', title: '余额', width: 100, align: 'right'},
+            {field: 'ecardRechargeAmount', title: '累计充值金额', width: 150, align: 'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
+            {field: 'ecardWithdrawalAmount', title: '提取金额', width: 100, align: 'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
+            {field: 'ecardUseAmount', title: '已用金额', width: 100, align: 'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
+            {field: 'ecardBalance', title: '余额', width: 100, align: 'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
             {field: 'enabled', title: '启用',checkbox:true, width: 80, align: 'left',
                 formatter : function(value, row,index) {
                 	return value;
@@ -94,33 +130,48 @@ function initGridShopList(cardType) {
         		})
         	}
         	return data;
+        },
+        onLoadSuccess : function(data) {
+            gridShopHandel.setDatagridHeader("center");
+            updateFooter();
         }
     })
 }
+//合计
+function updateFooter(){
+    var fields = {ecardRechargeAmount:0,ecardWithdrawalAmount:0,ecardUseAmount:0,ecardBalance:0,};
+    gridShopHandel.updateFooter(fields,{});
+}
+
 
 function selectView(rowData) {
 	$("#branchId").val(rowData.branchId);
-    var url = contextPath+"/iccard/setting/get/device";
     var param = {
-    		"branchId":rowData.branchId,
-        // url:contextPath+"/iccard/setting/get"
+        data:{
+            "branchId":rowData.branchId,
+        },
+    	url:contextPath+"/iccard/setting/get/device"
     }
-    this.ajaxSubmit(url,param,function (result) {
-        if(result['code'] == 0 && result.length > 0){
+    $_jxc.ajax(param,function (result) {
+        getPostData();
+        if(result.rows.length > 0 ){
             $("#"+gridEquipment).datagrid("loadData",result);
         }else {
             gridEquipmentHandel.setLoadData([$.extend({},gridDefault)])
         }
     })
 }
-var gridDefault = {equipmentCode:"",key:""}
+
+var postData = [];
+var gridDefault = {deviceCode:"",protectKey:"",posRegisteId:postData}
 function initgridEquipmentList() {
-	var branchId = $("#branchId").val();
+
     gridEquipmentHandel.setGridName(gridEquipment);
     $("#"+gridEquipment).datagrid({
         align:'center',
         rownumbers:true,    //序号
         showFooter:true,
+        singleSelect:true,
         height:'40%',
         width:'100%',
         fit:true,
@@ -135,15 +186,23 @@ function initgridEquipmentList() {
 
             {field: 'deviceCode', title: '设备代码', width: 180, align: 'left',editor:'text'},
             {field: 'protectKey', title: '终端保护密钥', width: 250, align: 'left',editor:'text'},
+            {field: 'posRegisteText', title: 'pos',hidden:true,editor:'text'},
             {field: 'posRegisteId', title: '关联POS', width: 100, align: 'left',
+                formatter:function(value,row){
+                    // var opts = $(this).combobox('options');
+                    // return row[opts.textField];
+                    return row.posRegisteText||"";
+                },
                 editor:{
                     type:'combobox',
                     options:{
-                        valueField: 'id',
+                        valueField: 'posRegisteId',
                         textField: 'text',
                         editable:false,
                         required:true,
-                        url: '/iccard/setting/pos/'+branchId,
+                        mode: "remote",
+                        // url:contextPath+ '/iccard/setting/pos/'+$("#branchId").val(),
+                        data:postData,
                         onSelect:onSelectPOS
                     }
                 }}
@@ -151,11 +210,12 @@ function initgridEquipmentList() {
         onClickCell:function(rowIndex,field,value){
             gridEquipmentHandel.setBeginRow(rowIndex);
             gridEquipmentHandel.setSelectFieldName(field);
+
             var target = gridEquipmentHandel.getFieldTarget(field);
             if(target){
                 gridEquipmentHandel.setFieldFocus(target);
             }else{
-                gridEquipmentHandel.setSelectFieldName("equipmentCode");
+                gridEquipmentHandel.setSelectFieldName("deviceCode");
             }
         },
         onLoadSuccess : function(data) {
@@ -164,6 +224,22 @@ function initgridEquipmentList() {
     })
 
     // gridEquipmentHandel.setLoadData([$.extend({},gridDefault)])
+}
+
+function getPostData() {
+    debugger;
+    var branchId = $("#branchId").val();
+    var param = {
+               url:contextPath+ '/iccard/setting/pos/'+branchId
+    };
+    $_jxc.ajax(param,function (result) {
+        if(result['code'] == 0){
+            postData = result.data;
+            initgridEquipmentList();
+        }else{
+            messager(result['message']);
+        }
+    })
 }
 
 //插入一行
@@ -179,10 +255,11 @@ function delLineHandel(event){
     gridEquipmentHandel.delRow(index);
 }
 
-function onSelectPOS() {
-    
-}
+function onSelectPOS(data) {
+    var posRegisteText = gridEquipmentHandel.getFieldData(gridEquipmentHandel.getSelectRowIndex(),"posRegisteText");
+    gridEquipmentHandel.setFieldTextValue("posRegisteText",data.text);
 
+}
 
 function saveSetting(){
     var rows = gridShopHandel.getRows();
@@ -196,8 +273,8 @@ function saveSetting(){
 	}
     var param = {
         "settingId":settingId,
-        "ids[]":ids,
-        "enableds[]":enableds
+        "ids":ids,
+        "enableds":enableds
     }
     this.ajaxSubmit(url,param,function (result) {
         if(result['code'] == 0){

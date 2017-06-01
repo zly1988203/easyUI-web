@@ -545,9 +545,11 @@ function publicSupplierService(callback,newParam) {
 }
 
 //公共组件-选择操作员
-function publicOperatorService(callback) {
+var dalogTemp = null;
+function publicOperatorService(callback,param) {
+    debugger;
     //公有属性
-    var dalogTemp = $('<div/>').dialog({
+    var dialogDiv = {
         href: contextPath + "/system/user/views?type=operate",
         width: 680,
         height: dialogHeight,
@@ -558,18 +560,32 @@ function publicOperatorService(callback) {
             $(dalogTemp).panel('destroy');
         },
         modal: true,
-        onLoad: function () {
+    }
+
+    if(param.type==1){
+        dialogDiv["buttons"] = [{
+            text:'确定',
+            handler:function(){
+                publicOperatorGetCheck(callBackHandel);
+            }
+        },{
+            text:'取消',
+            handler:function(){
+                $(dalogTemp).panel('destroy');
+            }
+        }];
+    }else{
+        dialogDiv["onLoad"] = function () {
             initOperatorCallBack(callBackHandel)
-        },
-    });
+        };
+    }
+
+    dalogTemp = $('<div/>').dialog(dialogDiv);
+
     function callBackHandel(data){
         callback(data);
         $(dalogTemp).panel('destroy');
     }
-    //调用方式
-    //new publicOperatorService(function(data){
-    //    console.log(data);
-    //});
 }
 
 //公共组件-字典

@@ -78,7 +78,7 @@ function initGridStoreCharge() {
                     return str;
                 },
             },
-            {field:'costTypeId',hidden:'true'},
+            // {field:'costTypeId',hidden:'true'},
             {field:'costTypeCode',title:'费用代码',width:120,align:'left',
                 editor:{
                     type:'textbox',
@@ -198,8 +198,8 @@ function saveStoreCharge() {
         messager("机构不能为空!");
         return;
     }
-    
-    if(selbranchType<3){
+
+    if(selbranchType<3 && chargeStatus === "add"){
     	messager("机构只能选择店铺类型！");
     	return;
     }
@@ -254,27 +254,30 @@ function saveStoreCharge() {
         detailList:detailList
     };
 
-    console.log('reqObj:',JSON.stringify(reqObj));
-
     var url = "";
     if(chargeStatus === "add"){
         url = contextPath + "/finance/storeCharge/addStoreCharge";
     }else if(chargeStatus === "edit"){
         url = contextPath + "/finance/storeCharge/updateStoreCharge";
+        reqObj.formNo = $("#formNo").val();
         reqObj.id = $("#formId").val();
     }
 
-    var param = JSON.stringify(reqObj);
+    var param = {
+        url:url,
+        data:JSON.stringify(reqObj),
+        contentType:'application/json',
+    }
 
-    ajaxFormSubmit(url, param, function (result) {
-    	if(result['code'] == 0){
-    		$.messager.alert("操作提示", "操作成功！", "info",function(){
+    $_jxc.ajax(param,function (result) {
+        if(result['code'] == 0){
+            $.messager.alert("操作提示", "保存成功！", "info",function(){
                 location.href = contextPath + "/finance/storeCharge/toEdit?formId=" + result.data.formId;
             });
-    	}else{
-    		messager(result['message'])
-    	}
-	});
+        }else{
+            messager(result['message'])
+        }
+    })
     
 }
 
@@ -305,16 +308,21 @@ function selectCharge(searchKey) {
 }
 
 function chargeDelete() {
-    var url = contextPath+"/finance/storeCharge/deleteStoreCharge";
     var param = {
-        formId:formId,
+        url:contextPath+"/finance/storeCharge/deleteStoreCharge",
+        data:{
+            formId:formId
+        }
     }
+
     $.messager.confirm('提示','是否要删除此条数据',function(data){
         if(data){
-            ajaxSubmit(url,param,function (result) {
+            $_jxc.ajax(param,function (result) {
                 if(result['code'] == 0){
-                    messager("操作成功");
-                    toClose();
+                    $.messager.alert("操作提示", "删除成功！", "info",function(){
+                        toClose();
+                    });
+
                 }else{
                     messager(result['message']);
                 }
@@ -325,21 +333,20 @@ function chargeDelete() {
 }
 
 function  chargeCheck() {
-    var url = contextPath+"/finance/storeCharge/checkStoreCharge";
     var param = {
-        formId:formId,
-        status:1
+        url :contextPath+"/finance/storeCharge/checkStoreCharge",
+        data:{
+            formId:formId,
+        }
     }
-    ajaxSubmit(url,param,function (result) {
+
+    $_jxc.ajax(param,function (result) {
         if(result['code'] == 0){
             $.messager.alert("操作提示", "操作成功！", "info",function(){
                 location.href = contextPath +"/finance/storeCharge/toEdit?formId=" + formId;
             });
         }else{
-            new publicErrorDialog({
-                "title":"审核失败",
-                "error":result['message']
-            });
+            messager("审核失败");
         }
     })
 }

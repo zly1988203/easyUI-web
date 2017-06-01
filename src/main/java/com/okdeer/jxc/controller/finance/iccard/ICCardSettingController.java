@@ -156,8 +156,9 @@ public class ICCardSettingController extends BaseController<Object>{
 	}
 	
 	@RequestMapping(value = "/pos/{branchId}")
-	public List<Map<String,Object>> getPosRegiste(@PathVariable("branchId") String branchId){
-		return this.icCardSettingService.selectPosRegiste(branchId);
+	public RespJson getPosRegiste(@PathVariable("branchId") String branchId){
+		List<Map<String,Object>> data= this.icCardSettingService.selectPosRegiste(branchId);
+		return RespJson.success(data);
 	}
 	
 	@RequestMapping(value = "/save/pos", method = RequestMethod.POST)

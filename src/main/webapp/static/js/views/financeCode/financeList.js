@@ -36,13 +36,34 @@ function initTreeFinance() {
         if (nodes.length>0) {
             treeObj.expandNode(nodes[0], true, false, true);
         }
+        var childrens = treeObj.getNodes()[0].children;
+        treeObj.selectNode(childrens[0]);
+        selectNode = childrens[0];
+        $("#typeCode").val(selectNode.code);
+        initDictList();
     });
+}
+
+function initDictList() {
+    var param = {
+        url:contextPath+'/archive/financeCode/getDictList',
+        data:{
+            dictKeyword:"",
+            typeCode:selectNode.code,
+            page:1,
+            rows:50,
+        }
+    }
+    $_jxc.ajax(param,function (result) {
+        $("#"+gridName).datagrid('loadData',result.rows);
+    })
 }
 
 //选择树节点
 var selectNode = null;
 function zTreeOnClick(event, treeId, treeNode) {
     selectNode = treeNode;
+    $("#typeCode").val(selectNode.code);
     queryFinanceCode();
 }
 
@@ -52,7 +73,7 @@ function initGridFinanceList() {
     dg = $("#"+gridName).datagrid({
         method:'post',
         align:'center',
-        url:contextPath+'/archive/financeCode/getDictList',
+        // url:contextPath+'/archive/financeCode/getDictList',
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
         pagination:true,    //分页
