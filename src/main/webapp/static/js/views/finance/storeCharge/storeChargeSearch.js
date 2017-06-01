@@ -2,7 +2,7 @@
  * Created by zhaoly on 2017/5/25.
  */
 
-var storeStatus = "0";
+var storeStatus = "total";
 $(function () {
     initGridChargeSearchList();
     $("#month").val(dateUtil.getPreMonthDate().format("yyyy-MM"));
@@ -12,6 +12,8 @@ $(function () {
 function changeStoreStatus() {
     $(".radioItem").change(function () {
         storeStatus = $(this).val();
+        $("#"+gridName).datagrid("loadData",[]);
+        $("#"+gridName).datagrid("options").url = "";
         initGridChargeSearchList();
     });
 }
@@ -19,6 +21,7 @@ function changeStoreStatus() {
 var gridName = "gridStoreChargeSearch";
 var gridHandel = new GridClass();
 var dg;
+var url = contextPath+'/finance/storeChargeSearch/reportListPage';
 function initGridChargeSearchList() {
     gridHandel.setGridName(gridName);
     dg=$("#"+gridName).datagrid({
@@ -34,7 +37,7 @@ function initGridChargeSearchList() {
 }
 
 function getGridcolumns(){
-    if(storeStatus == "0"){
+    if(storeStatus == "total"){
         return [[
             {field:'branchCode',title:'机构编码',width:80,align:'left'},
             {field:'branchName',title:'机构名称',width:180,align:'left'},

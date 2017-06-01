@@ -81,7 +81,7 @@ function initDatagridOperator(){
         align:'center',
         url:contextPath+'/system/user/getOperator',
         //toolbar: '#tb',     //工具栏 id为tb
-        singleSelect:true,  //单选  false多选
+        singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
         pagination:true,    //分页
         fitColumns:true,    //每列占满
@@ -91,6 +91,7 @@ function initDatagridOperator(){
         width:'100%',
         idField:'userCode',
         columns:[[
+            {field:'id',checkbox:true},
             {field:'userCode',title:'操作员编号',width:100,align:'left'},
             {field:'userName',title:'操作员名称',width:100,align:'left'},
         ]],
@@ -207,7 +208,9 @@ function initDatagridDict(){
         showFooter:true,
         height:'100%',
         width:'100%',
+
         columns:[[
+
             {field:'',title:'编码',width:100,align:'center'},
             {field:'label',title:'名称',width:100,align:'center'},
             {field:'remark',title:'备注',width:100,align:'center'},
