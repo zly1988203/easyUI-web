@@ -218,6 +218,12 @@ function initSettleFormDetail(){
 	$("#"+gridName).datagrid('load');
 }
 
+//导出
+function exportOrder(){
+	var formId = $("#formId").val();
+	window.location.href = contextPath + '/settle/franchiseSettle/exportSheet?page=FranchiseSettle&sheetNo='+formId;
+}
+
 //返回列表页面
 function back(){
 	location.href = contextPath+"/settle/franchiseSettle/settleList";
@@ -225,5 +231,15 @@ function back(){
 
 //新增加盟店结算
 function addSupAcoSetForm(){
-	toAddTab("新增加盟店结算",contextPath + "/settle/franchiseSettle/settleAdd");
+	$_jxc.ajax({
+    	url:contextPath+"/settle/franchiseSettle/checkAuditCount",
+    	dataType: "json",
+    	data:{}
+    },function(result){
+		if(result['code'] == 0){
+			toAddTab("新增加盟店结算",contextPath + "/settle/franchiseSettle/settleAdd");
+		}else{
+			$_jxc.alert(result['message']);
+		}
+    });
 }

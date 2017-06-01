@@ -31,7 +31,7 @@
                 	<div class="ubtns-item-disabled">删除</div>
                 </shiro:hasPermission>
 				<shiro:hasPermission name="JxcFranchiseSettle:export">
-                	<div class="ubtns-item-disabled">导出明细</div>
+                	<div class="ubtns-item" onclick="exportOrder()">导出明细</div>
                 </shiro:hasPermission>
 				<shiro:hasPermission name="JxcFranchiseSettle:print">
                 	<div class="ubtns-item-disabled">打印</div>
@@ -53,7 +53,7 @@
             
             <div class="ub ub-ac uw-290 umar-l20">
 				 <div class="umar-r12 uw-70 ut-r">付款方式:</div>
-                 <select class='uinp easyui-combobox' id="payType" value="payType" data-options="valueField:'id',textField:'label', url:'${ctx}/common/dict/101003', editable:false" style="width:204px;">
+                 <select class='uinp easyui-combobox' id="payType" value="payType" data-options="valueField:'id',textField:'label', url:'${ctx}/archive/financeCode/getDictListByTypeCode?dictTypeCode=101003', editable:false" style="width:204px;">
                  </select>
                  <i class="ub ub-ac uc-red">*</i>
             </div>
