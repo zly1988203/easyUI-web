@@ -25,7 +25,7 @@ $(function(){
 		value:_comboV,
 		url:contextPath + '/archive/financeCode/getDictListByTypeCode?dictTypeCode=101003',
 		loadFilter:function(data){
-			if(pageStatus === 'add'){
+			if(operateType === 'add'){
 				data[0].selected = true
 			}
 			return data;
