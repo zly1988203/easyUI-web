@@ -15,7 +15,9 @@ $(function(){
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
     initFranchiseSetList();
     branchId = $("#franchiseBranchId").val();
-   
+    if(getUrlQueryString('message')=='0'){
+    	queryForm();
+    }
 });
 
 $(document).on('input','#remark',function(){
