@@ -1,5 +1,7 @@
 $(function(){
     initCheck();
+    
+    initpriceGrantCheck();
 });
 
 
@@ -50,13 +52,22 @@ function editUser(){
 	if (!isValid) {
 		return;
 	}
+	
+	var priceGrantArray = new Array();
+	$(':checkbox[name="priceGrants"]:checked').each(function(){    
+		priceGrantArray.push($(this).val());    
+	});  
+	
+	var priceGrantStr = priceGrantArray.join(",");
+	reqObj.priceGrantStr = priceGrantStr;
+	
 	var url = contextPath + "/system/user/updateUser";
 	var param = reqObj;
 	ajaxSubmit(url,param,function(result){
         if(result){
             alertTip(result.message, reloadDataGrid);
         }
-	})
+	});
 
 }
 
@@ -84,20 +95,34 @@ function initPassword() {
 
 function initCheck() {
     // 进价
-    $("#purchasePrice").on("click", function() {
-        if($("#purchasePrice").is(":checked")){
-            $("#costPrice").prop("checked","checked")
+    $("#purchase_price").on("click", function() {
+        if($("#purchase_price").is(":checked")){
+            $("#cost_price").prop("checked","checked")
 		}else {
-            $("#costPrice").removeProp("checked")
+            $("#cost_price").removeProp("checked")
 		}
 
     });
     // 零售价
-    $("#costPrice").on("click", function() {
-        if($("#costPrice").is(":checked")){
-            $("#purchasePrice").prop("checked","checked")
+    $("#cost_price").on("click", function() {
+        if($("#cost_price").is(":checked")){
+            $("#purchase_price").prop("checked","checked")
         }else {
-            $("#purchasePrice").removeProp("checked")
+            $("#purchase_price").removeProp("checked")
         }
     });
+}
+
+function initpriceGrantCheck(){
+	var priceGrantStr = $("#priceGrantStr").val();
+	if(!priceGrantStr){
+		return;
+	}
+	
+	var priceGrantArray = priceGrantStr.split(",");
+	for(var i in priceGrantArray){
+		if($("#"+priceGrantArray[i])){
+			$("#"+priceGrantArray[i]).prop("checked", true);
+		}
+	}
 }
