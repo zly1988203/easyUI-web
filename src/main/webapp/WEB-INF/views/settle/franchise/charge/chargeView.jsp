@@ -30,7 +30,7 @@
                 	<div class="ubtns-item-disabled" >删除</div>
                 </shiro:hasPermission>
 				<shiro:hasPermission name="JxcFranchiseCharge:export">
-                	<div class="ubtns-item" >导出明细</div>
+                	<div class="ubtns-item" onclick="exportOrder()">导出明细</div>
                 </shiro:hasPermission>
 				<shiro:hasPermission name="JxcFranchiseCharge:print">
                 	<div class="ubtns-item-disabled" >打印</div>

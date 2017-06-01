@@ -631,4 +631,29 @@ public interface ExportExcelConstant {
 	 * 一卡通账户管理
 	 */
 	String ICC_CARD_ACCOUNT_MANAGEMENT = "iccCardAccountManagement.xlsx";
+
+	/**
+	 * 加盟店到期账款
+	 */
+	String FRANCHISE_ACCOUNT1 = "FranchiseAccount1.xlsx";
+	/**
+	 * 加盟店历史往来账款
+	 */
+	String FRANCHISE_ACCOUNT2 = "FranchiseAccount2.xlsx";
+	/**
+	 * 加盟店未收账款汇总
+	 */
+	String FRANCHISE_ACCOUNT3 = "FranchiseAccount3.xlsx";
+	/**
+	 * 加盟店未收账款明细
+	 */
+	String FRANCHISE_ACCOUNT4 = "FranchiseAccount4.xlsx";
+	/**
+	 * 加盟店已收账款明细
+	 */
+	String FRANCHISE_ACCOUNT5 = "FranchiseAccount5.xlsx";
+	/**
+	 * 加盟店预收账款明细
+	 */
+	String FRANCHISE_ACCOUNT6 = "FranchiseAccount6.xlsx";
 }

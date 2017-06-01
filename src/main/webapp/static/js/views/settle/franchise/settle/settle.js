@@ -74,6 +74,7 @@ function initSupChkAcoAdd(){
     	url:url,
         align:'center',
         singleSelect:false,  //单选  false多选
+        checkOnSelect:false,
         rownumbers:true,    //序号
         showFooter:true,
         height:"100%",
@@ -237,12 +238,13 @@ function saveFranchiseSet(){
     	return;
     }
     var _rows = [];
+    var rowNo = 0;
     $.each(rows,function(i,data){
     	console.log(data)
     	if(data.checked){
     		_rows.push({
     			io:data.io,
-    			rowNo:i,
+    			rowNo:rowNo,
     			targetFormId:data.targetFormId,
     			targetFormNo:data.targetFormNo,
     			targetFormType:data.targetFormType,
@@ -251,7 +253,8 @@ function saveFranchiseSet(){
     			unpayAmount:data.unpayAmount,
     			actualAmount:data.actualAmount,
     			remark:data.remark
-    		})
+    		});
+    		rowNo++;
     	}
     })
     
@@ -269,7 +272,7 @@ function saveFranchiseSet(){
     var url = $("#pageStatus").val() == 'add' ? contextPath+"/settle/franchiseSettle/settleSave" : contextPath+"/settle/franchiseSettle/settleUpdate";
     
     console.log('test',JSON.stringify(reqObj));
-//    return;
+ //   return;
     $_jxc.ajax({
         url:url,
         data:{"data":JSON.stringify(reqObj)},
@@ -384,6 +387,12 @@ function selectCost(searchKey){
 
 }
 
+//导出
+function exportOrder(){
+	var formId = $("#formId").val();
+	window.location.href = contextPath + '/settle/franchiseSettle/exportSheet?page=FranchiseSettle&sheetNo='+formId;
+}
+
 //返回列表页面
 function back(){
 	location.href = contextPath+"/settle/franchiseSettle/settleList";
@@ -391,5 +400,15 @@ function back(){
 
 //新增加盟店结算
 function addSupAcoSetForm(){
-	toAddTab("新增加盟店结算",contextPath + "/settle/franchiseSettle/settleAdd");
+	$_jxc.ajax({
+    	url:contextPath+"/settle/franchiseSettle/checkAuditCount",
+    	dataType: "json",
+    	data:{}
+    },function(result){
+		if(result['code'] == 0){
+			toAddTab("新增加盟店结算",contextPath + "/settle/franchiseSettle/settleAdd");
+		}else{
+			$_jxc.alert(result['message']);
+		}
+    });
 }

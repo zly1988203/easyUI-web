@@ -2,9 +2,9 @@
 package com.okdeer.jxc.controller.settle.franchise;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
-import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.ui.Model;
@@ -18,13 +18,12 @@ import org.springframework.web.servlet.ModelAndView;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
-import com.okdeer.jxc.common.constant.ExportExcelConstant;
+import com.okdeer.jxc.branch.service.BranchSpecServiceApi;
+import com.okdeer.jxc.common.controller.BasePrintController;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.StringUtils;
-import com.okdeer.jxc.controller.BaseController;
-import com.okdeer.jxc.controller.settle.supplier.SupplierChainController;
 import com.okdeer.jxc.settle.franchise.service.FranchiseSettleService;
 import com.okdeer.jxc.settle.franchise.vo.FranchiseSettleDetailVo;
 import com.okdeer.jxc.settle.franchise.vo.FranchiseSettleVo;
@@ -44,7 +43,7 @@ import com.okdeer.jxc.settle.franchise.vo.FranchiseSettleVo;
  */
 @RestController
 @RequestMapping("/settle/franchiseSettle")
-public class FranchiseSettleController extends BaseController<SupplierChainController> {
+public class FranchiseSettleController extends BasePrintController<FranchiseSettleController, FranchiseSettleDetailVo> {
 
 	/**
 	 * FranchiseSettleService
@@ -76,7 +75,7 @@ public class FranchiseSettleController extends BaseController<SupplierChainContr
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
-			vo.setTargetBranchId(getCurrBranchId());
+			vo.setBranchCode(getCurrBranchCompleCode());
 			PageHelper.startPage(pageNumber, pageSize, true);
 			List<FranchiseSettleVo> list = franchiseSettleService.getSettleList(vo);
 			return new PageUtils<FranchiseSettleVo>(list);
@@ -92,7 +91,7 @@ public class FranchiseSettleController extends BaseController<SupplierChainContr
 	 * @date 2017年5月24日
 	 */
 	@RequiresPermissions("JxcFranchiseSettle:add")
-	@RequestMapping(value = "checkAuditCount", method = RequestMethod.GET)
+	@RequestMapping(value = "checkAuditCount", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson checkAuditCount() {
 		RespJson respJson = RespJson.success();
@@ -234,7 +233,7 @@ public class FranchiseSettleController extends BaseController<SupplierChainContr
 	public RespJson settleDelete(@RequestParam(value = "ids[]") List<String> ids) {
 		RespJson respJson = RespJson.success();
 		try {
-			respJson = franchiseSettleService.deleteSettle(ids);
+			respJson = franchiseSettleService.deleteSettle(ids, getCurrUserId());
 		} catch (Exception e) {
 			LOG.error("删除加盟店结算异常:", e);
 			respJson = RespJson.error("删除加盟店结算失败！");
@@ -281,26 +280,49 @@ public class FranchiseSettleController extends BaseController<SupplierChainContr
 	}
 
 	/**
-	 * @Description: 加盟店结算明细导出
-	 * @author zhengwj
-	 * @date 2017年5月23日
+	 * (non-Javadoc)
+	 * @see com.okdeer.jxc.common.controller.BasePrintController#getPrintReplace(java.lang.String)
 	 */
-	@RequestMapping(value = "exportList")
-	public void exportList(HttpServletResponse response, String formId) {
-		try {
-			if (StringUtils.isBlank(formId)) {
-				return;
-			}
-			List<FranchiseSettleDetailVo> exportList = franchiseSettleService.getDetailList(formId);
-			// 导出文件名称，不包括后缀名
-			String fileName = "加盟店结算" + "_" + DateUtils.getCurrSmallStr();
-			// 模板名称，包括后缀名
-			String templateName = ExportExcelConstant.PURCHASEFORM;
-			// 导出Excel
-			exportListForXLSX(response, exportList, fileName, templateName);
-		} catch (Exception e) {
-			LOG.error("加盟店结算明细导出失败:", e);
+	@Override
+	protected Map<String, Object> getPrintReplace(String formNo) {
+		Map<String, Object> replaceMap = new HashMap<String, Object>();
+		FranchiseSettleVo vo = franchiseSettleService.getSettle(formNo);
+		if (null != vo) {
+			replaceMap.put("_订单编号", vo.getFormNo());
+			replaceMap.put("formNo", vo.getFormNo());
+			replaceMap.put("branchName", vo.getBranchName());
+			replaceMap.put("payTypeString", vo.getPayTypeString());
+			replaceMap.put("remark", vo.getRemark());
+			replaceMap.put("payableAmount", vo.getPayableAmount());
+			replaceMap.put("payedAmount", vo.getPayedAmount());
+			replaceMap.put("unpayAmount", vo.getUnpayAmount());
+			replaceMap.put("actualAmount", vo.getActualAmount());
+			replaceMap.put("createUserName", vo.getCreateUserName());
+			replaceMap.put("createTime", vo.getCreateTime() != null ? DateUtils.getFullStr(vo.getCreateTime()) : "");
+			replaceMap.put("updateUserName", vo.getUpdateUserName());
+			replaceMap.put("updateTime", vo.getUpdateTime() != null ? DateUtils.getFullStr(vo.getUpdateTime()) : "");
+			replaceMap.put("auditUserName", vo.getAuditUserName());
+			replaceMap.put("auditTime", vo.getAuditTime() != null ? DateUtils.getFullStr(vo.getAuditTime()) : "");
 		}
+		return replaceMap;
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * @see com.okdeer.jxc.common.controller.BasePrintController#getPrintDetail(java.lang.String)
+	 */
+	@Override
+	protected List<FranchiseSettleDetailVo> getPrintDetail(String formNo) {
+		return franchiseSettleService.getDetailList(formNo);
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * @see com.okdeer.jxc.common.controller.BasePrintController#getBranchSpecService()
+	 */
+	@Override
+	protected BranchSpecServiceApi getBranchSpecService() {
+		return null;
 	}
 
 }

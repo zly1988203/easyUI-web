@@ -17,8 +17,12 @@
             <div class="ub ub-ac">
                 <div class="ubtns">
                     <div class="ubtns-item" onclick="queryForm()">查询</div>
-                    <div class="ubtns-item" onclick="export()">导出</div>
-                    <div class="ubtns-item" onclick="print()">导出</div>
+					<shiro:hasPermission name="JxcFranchiseAc:export">
+                    	<div class="ubtns-item" onclick="exportAccountList()">导出</div>
+                    </shiro:hasPermission>
+					<shiro:hasPermission name="JxcFranchiseAc:print">
+                    	<div class="ubtns-item-disabled" onclick="print()">打印</div>
+                    </shiro:hasPermission>
                     <div class="ubtns-item" id="set" onclick="gFunRefresh()" >重置</div>
                     <div class="ubtns-item-disabled" >设置</div>
                     <div class="ubtns-item" onclick="toClose()">退出</div>
@@ -30,30 +34,16 @@
             </div>
                 <div class="ub umar-t8">
                     <div class="ub ub-ac">
-                        <div class="umar-r10 uw-70 ut-r">机构:</div>
+                        <div class="umar-r10 uw-70 ut-r">加盟店:</div>
                         <input type="hidden" id="branchId" name="branchId"/>
                         <input type="hidden" id="branchType" name="branchType" />
                         <input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" onblur="clearBranchCode(this,'targetBranchId')"/>
                         <div class="uinp-more" onclick="selectBranches()" >...</div>
                     </div>
                     <div class="ub ub-ac umar-l64">
-                        <div class="umar-r10 uw-70 ut-r">供应商:</div>
-                        <input class="uinp" name="supplierId" id="supplierId"type="hidden">
-                        <input class="uinp" readonly="readonly" id="supplierName" type="text"  onclick="selectSupplier()">
-                        <div class="uinp-more" onclick="selectSupplier()">...</div>
-                    </div>
-                </div>
-                <div class="ub umar-t8">
-                    <div class="ub ub-ac">
-                        <div class="umar-r10 uw-70 ut-r">单据编号:</div>
+                        <div class="umar-r10 uw-70 ut-r">单号:</div>
                         <input type="hidden" id="formType" name="formType" value="FF" />
-                        <input class="uinp" type="text" id="formNo" name="formNo">
-                    </div>
-                    <div class="ub ub-ac umar-l64">
-                        <div class="umar-r10 uw-70 ut-r">制单人:</div>
-                        <input type="hidden" id="createUserId" name="createUserId" />
-                        <input class="uinp ub ub-f1" type="text" id="createUserName" name="createUserName" type="text" />
-                        <div class="uinp-more" onclick="selectOperator()">...</div>
+                        <input class="uinp" type="text" id="targetformNo" name="targetformNo">
                     </div>
                 </div>
                 <div class="ub umar-t8">
@@ -61,32 +51,32 @@
                         <div class="umar-r10 uw-70 ut-r">汇总类型:</div>
                         <div class="ub ub-ac umar-r10">
                             <label>
-                                <input type="radio" name="orderStatus" value="1" checked="checked" onclick="queryForm()"/><span>到期账款</span>
+                                <input type="radio" name="type" value="1" checked="checked" onclick="queryForm()"/><span>到期账款</span>
                             </label>
                         </div>
                         <div class="ub ub-ac umar-r10">
                             <label>
-                                <input type="radio" name="orderStatus" value="2" onclick="queryForm()"/><span>历史往来账款</span>
+                                <input type="radio" name="type" value="2" onclick="queryForm()"/><span>历史往来账款</span>
                             </label>
                         </div>
                         <div class="ub ub-ac umar-r10">
                             <label>
-                                <input  type="radio" name="orderStatus" value="3"  onclick="queryForm()"/><span>未收款账款汇总</span>
+                                <input  type="radio" name="type" value="3"  onclick="queryForm()"/><span>未收款账款汇总</span>
                             </label>
                         </div>
                         <div class="ub ub-ac umar-r10">
                             <label>
-                                <input  type="radio" name="orderStatus" value="4"  onclick="queryForm()"/><span>未收款账款明细</span>
+                                <input  type="radio" name="type" value="4"  onclick="queryForm()"/><span>未收款账款明细</span>
                             </label>
                         </div>
                         <div class="ub ub-ac umar-r10">
                             <label>
-                                <input  type="radio" name="orderStatus" value="5"  onclick="queryForm()"/><span>已付账款明细</span>
+                                <input  type="radio" name="type" value="5"  onclick="queryForm()"/><span>已付账款明细</span>
                             </label>
                         </div>
                         <div class="ub ub-ac umar-r10">
                             <label>
-                                <input  type="radio" name="orderStatus" value="6"  onclick="queryForm()"/><span>预付账款明细</span>
+                                <input  type="radio" name="type" value="6"  onclick="queryForm()"/><span>预付账款明细</span>
                             </label>
                         </div>
                     </div>
