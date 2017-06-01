@@ -62,6 +62,7 @@
 						<div class="umar-r10 uw-60 ut-r">机构名称:</div>
 						<input name="branchId" id="branchId" type="hidden" value="${form.branchId }">
 						<input name="branchCode" id="branchCode" type="hidden" value="${form.branchCode }">
+
 						<input class="uinp" id="branchName" name="branchName" disabled="disabled" type="text" value="${form.branchName}">
 					</div>
 					<div class="ub ub-ac umar-r80">

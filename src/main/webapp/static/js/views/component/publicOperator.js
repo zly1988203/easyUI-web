@@ -89,6 +89,7 @@ function initDatagridOperator(){
         showFooter:true,
         height:'100%',
         width:'100%',
+        idField:'userCode',
         columns:[[
             {field:'userCode',title:'操作员编号',width:100,align:'left'},
             {field:'userName',title:'操作员名称',width:100,align:'left'},
