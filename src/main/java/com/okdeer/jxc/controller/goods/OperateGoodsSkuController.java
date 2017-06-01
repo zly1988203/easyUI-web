@@ -133,7 +133,7 @@ public class OperateGoodsSkuController extends BaseController<OperateGoodsSkuCon
 	 * @date 2017年5月26日
 	 */
 	@RequestMapping(value = "addGoodsView")
-	public String addGoods(Model model, HttpServletRequest request) {
+	public String addGoodsView(Model model, HttpServletRequest request) {
 		model.addAttribute("date", DateUtils.getCurrSmallRStr());
 		model.addAttribute("action", "create");
 		
