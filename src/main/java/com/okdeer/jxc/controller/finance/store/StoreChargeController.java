@@ -9,6 +9,8 @@ package com.okdeer.jxc.controller.finance.store;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
@@ -91,12 +94,9 @@ public class StoreChargeController extends BaseController<StoreChargeController>
 
 		qo.setPageNumber(pageNumber);
 		qo.setPageSize(pageSize);
-		// 默认当前机构
-		if(StringUtils.isBlank(qo.getBranchCompleCode())){
-			qo.setBranchCompleCode(super.getCurrBranchCompleCode());
-		}
 		
-		qo.setEndTime(DateUtils.getDayAfter(qo.getEndTime()));
+		// 构建查询参数
+		buildSearchParams(qo);
 				
 		LOG.debug("查询门店费用条件：{}", qo);
 
@@ -107,6 +107,21 @@ public class StoreChargeController extends BaseController<StoreChargeController>
 			LOG.error("分页查询门店费用异常:", e);
 		}
 		return PageUtils.emptyPage();
+	}
+
+	/**
+	 * @Description: 构建查询参数
+	 * @param qo
+	 * @author liwb
+	 * @date 2017年5月31日
+	 */
+	private void buildSearchParams(StoreChargeQo qo) {
+		// 默认当前机构
+		if(StringUtils.isBlank(qo.getBranchCompleCode())){
+			qo.setBranchCompleCode(super.getCurrBranchCompleCode());
+		}
+		
+		qo.setEndTime(DateUtils.getDayAfter(qo.getEndTime()));
 	}
 	
 	@RequestMapping(value = "getDetailList", method = RequestMethod.POST)
@@ -192,6 +207,37 @@ public class StoreChargeController extends BaseController<StoreChargeController>
 			
 		} catch (Exception e) {
 			LOG.error("删除门店费用失败：", e);
+		}
+		return RespJson.error();
+	}
+	
+	@RequestMapping(value = "exportList")
+	public RespJson exportList(String formId, HttpServletResponse response) {
+		try {
+			
+			LOG.debug("导出门店费用单据Id：{}", formId);
+			
+			List<StoreChargeDetailPo> list = storeChargeService.getDetailListByFormId(formId);
+			
+			RespJson respJson = super.validateExportList(list);
+			if(!respJson.isSuccess()){
+				LOG.info(respJson.getMessage());
+				return respJson;
+			}
+
+			// 导出文件名称，不包括后缀名
+			String fileName = "门店费用详情列表" + "_" + DateUtils.getCurrSmallStr();
+			
+			// 模板名称，包括后缀名
+			String templateName = ExportExcelConstant.STORE_CHARGE_MAIN_EXPORT_TEMPLATE;
+
+			// 导出Excel
+			exportListForXLSX(response, list, fileName, templateName);
+			
+			return RespJson.success();
+			
+		} catch (Exception e) {
+			LOG.error("导出门店费用单据失败：", e);
 		}
 		return RespJson.error();
 	}

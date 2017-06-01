@@ -29,6 +29,7 @@
 				<shiro:hasPermission name="JxcPurchaseOrder:add">
 					<div class="ubtns-item" onclick="saveStoreCharge()">保存</div>
 				</shiro:hasPermission>
+				<div class="ubtns-item uinp-no-more" >导出明细</div>
 				<div class="ubtns-item uinp-no-more">审核</div>
 				<div class="ubtns-item" onclick="selectCharge()">费用选择</div>
 				<div class="ubtns-item" onclick="toImportStoreCharge()">费用导入</div>
