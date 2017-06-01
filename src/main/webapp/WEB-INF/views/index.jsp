@@ -70,6 +70,18 @@
                 <!--消息提醒 start-->
 			<div id="msgDialog" class="easyui-dialog" title="消息提醒" style="width:600px;height:auto;top:25%;display: none;"data-options="modal:true,closed:true">   
 			   		<div class="ub uh ub-ver ufs-14 ubgc-bg">
+			   			<div class="ub ub-ver  ubgc-while">
+					   			<p class="ub ufs-12 ufw-b upad-8" style="font-size:13px;">公告</p>
+					   			<p class="ub uline">
+					   			<div class="ub upad-t10 upad-b10 upad-8">
+					   				<ul class="msg-ul crbox ufs-14">
+					   				<shiro:hasPermission name="jxcSystemNotice:view">
+					   					<li class="msg-li"><a class="" href="javascript:openNewTab('未读公告','sys/notice/list?message=0');closeMsg();">未读公告（<em class="uc-red" id="jxcSystemNotice">...</em>）</a></li>
+					   				</shiro:hasPermission>
+					   					<li class="msg-li" id="sumThree" style="display: none;">暂无提醒事项！</li>
+					   				</ul>
+					   			</div>
+				   		</div>
 			   			<shiro:hasPermission name="JxcStockException:search">
 				   			<div class="ub ub-ver ubgc-while">
 					   			<p class="ub ufs-14 ufw-b upad-8" style="font-size:13px;">异常库存提醒</p>
@@ -125,6 +137,17 @@
 				   					<shiro:hasPermission name="JxcOverdueApply:audit"><li class="msg-li"><a class="" href="javascript:openNewTab('商品调价单','form/overdue/apply/list?message=0');closeMsg();">商品调价单（<em class="uc-red" id="jxcOverdueApply">...</em>）</a></li></shiro:hasPermission>
 				   					<shiro:hasPermission name="JxcDeliverDD:audit"><li class="msg-li"><a class="" href="javascript:openNewTab('店间配送','form/deliverDDForm/view?message=0');closeMsg();">店间配送（<em class="uc-red" id="jxcDeliverDD">...</em>）</a></li></shiro:hasPermission>
 				   					<shiro:hasPermission name="JxcStockAdjust:audit"><li class="msg-li"><a class="" href="javascript:openNewTab('库存调整单','stock/adjust/list?message=0');closeMsg();">库存调整单（<em class="uc-red" id="jxcStockAdjust">...</em>）</a></li></shiro:hasPermission>
+				   					
+				   					<shiro:hasPermission name="JxcSupplierAdvance:audit"><li class="msg-li"><a class="" href="javascript:openNewTab('供应商预付款单','settle/supplierCharge/advanceList?message=0');closeMsg();">供应商预付款单（<em class="uc-red" id="jxcSupplierAdvance">...</em>）</a></li></shiro:hasPermission>
+				   					<shiro:hasPermission name="JxcSupplierCharge:audit"><li class="msg-li"><a class="" href="javascript:openNewTab('供应商费用单','settle/supplierCharge/chargeList?message=0');closeMsg();">供应商费用单（<em class="uc-red" id="jxcSupplierCharge">...</em>）</a></li></shiro:hasPermission>
+				   					<shiro:hasPermission name="JxcSupplierChain:audit"><li class="msg-li"><a class="" href="javascript:openNewTab('联营账款单','settle/supplierChain/chainList?message=0');closeMsg();">联营账款单（<em class="uc-red" id="jxcSupplierChain">...</em>）</a></li></shiro:hasPermission>
+				   					<shiro:hasPermission name="JxcSupplierCheck:audit"><li class="msg-li"><a class="" href="javascript:openNewTab('供应商对账单','settle/supplierCheck/checkList?message=0');closeMsg();">供应商对账单（<em class="uc-red" id="jxcSupplierCheck">...</em>）</a></li></shiro:hasPermission>
+				   					<shiro:hasPermission name="JxcSupplierSettle:audit"><li class="msg-li"><a class="" href="javascript:openNewTab('供应商结算单','settle/supplierSettle/settleList?message=0');closeMsg();">供应商结算单（<em class="uc-red" id="jxcSupplierSettle">...</em>）</a></li></shiro:hasPermission>
+				   					<shiro:hasPermission name="JxcFranchiseAdvance:audit"><li class="msg-li"><a class="" href="javascript:openNewTab('加盟店预收款单','settle/franchiseCharge/advanceList?message=0');closeMsg();">加盟店预收款单（<em class="uc-red" id="jxcFranchiseAdvance">...</em>）</a></li></shiro:hasPermission>
+				   					<shiro:hasPermission name="JxcFranchiseCharge:audit"><li class="msg-li"><a class="" href="javascript:openNewTab('加盟店费用单','settle/franchiseCharge/chargeList?message=0');closeMsg();">加盟店费用单（<em class="uc-red" id="jxcFranchiseCharge">...</em>）</a></li></shiro:hasPermission>
+				   					<shiro:hasPermission name="JxcFranchiseSettle:audit"><li class="msg-li"><a class="" href="javascript:openNewTab('加盟店结算单','settle/franchiseSettle/settleList?message=0');closeMsg();">加盟店结算单（<em class="uc-red" id="jxcFranchiseSettle">...</em>）</a></li></shiro:hasPermission>
+				   					
+				   					
 				   					<li class="msg-li" id="sumOther" style="display: none;">暂无提醒事项！</li>
 				   				</ul>
 				   			</div>
