@@ -31,6 +31,7 @@
 	</div>
 
 	<div class="ub uline"></div>
+	<input type="hidden" id="branchId" name="branchId" value=""></input>
 	<table id="gridEquipmentList" class="umar-t10 upad-8"></table>
 
 </div>

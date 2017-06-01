@@ -10,6 +10,7 @@
 package com.okdeer.jxc.controller.finance.iccard;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -152,6 +153,11 @@ public class ICCardSettingController extends BaseController<Object>{
 			logger.error("查询一卡通店铺列表失败！", e);
 		}
 		return suppliers;
+	}
+	
+	@RequestMapping(value = "/pos/{branchId}")
+	public List<Map<String,Object>> getPosRegiste(@PathVariable("branchId") String branchId){
+		return this.icCardSettingService.selectPosRegiste(branchId);
 	}
 	
 	@RequestMapping(value = "addIcCardType", method = RequestMethod.GET)

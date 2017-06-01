@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
-<script src="${ctx}/static/js/views/system/user/userEdit.js?V=4"></script>
+<script src="${ctx}/static/js/views/system/user/userEdit.js?V=1"></script>
 <div id="branchEdit" class="easyui-tabs"
 	style="width: 100%; height: 100%;">
 	<div title="基本信息" data-options="fit:true,border:false"
@@ -109,24 +109,38 @@
 
 						<div class="ub ub-ac umar-120" id="checkBoxPrice">
 							<div class="umar-r10 uw-80 ut-r">价格权限:</div>
-							<!-- 如果调价为null默认是全部显示 -->
+							<!-- 如果调价为null默认是全部显示
+								sale_price,cost_price,vip_price,purchase_price,wholesale_price,lowest_price,distribution_price
+							 -->
+							 <input type="hidden" name="priceGrantStr" id="priceGrantStr" value="${user.priceGrant }" />
+							 
+							<!-- 默认隐藏零售价、会员价
 							<div class="ub ub-ac umar-r10">
 								<label><input class="priceItem" type="checkbox"
-									name="isModifyPurPrice" id="purchasePrice"><span>进货价</span></label>
+									name="priceGrants" id="sale_price" value="sale_price"><span>零售价</span></label>
+							</div>
+							<div class="ub ub-ac umar-r10">
+								<label><input class="priceItem" type="checkbox"
+									name="priceGrants" id="vip_price" value="vip_price"><span>会员价</span></label>
+							</div>
+							 -->
+							<div class="ub ub-ac umar-r10">
+								<label><input class="priceItem" type="checkbox"
+									name="priceGrants" id="purchase_price" value="purchase_price"><span>进货价</span></label>
 							</div>
 
 							<div class="ub ub-ac umar-r10">
 								<label><input class="priceItem" type="checkbox"
-									name="isModifyPurPrice" id="costPrice"><span>成本价</span></label>
+									name="priceGrants" id="cost_price" value="cost_price"><span>成本价</span></label>
 							</div>
 
 							<div class="ub ub-ac umar-r10">
 								<label><input class="priceItem" type="checkbox"
-									name="isModifyDcPrice" id="distributionPrice"><span>配送价</span></label>
+									name="priceGrants" id="distribution_price" value="distribution_price"><span>配送价</span></label>
 							</div>
 							<div class="ub ub-ac umar-r10">
 								<label><input class="priceItem" type="checkbox"
-									name="isModifyWsPrice" id="tradePrice"><span>批发价</span></label>
+									name="priceGrants" id="wholesale_price" value="wholesale_price"><span>批发价</span></label>
 							</div>
 
 						</div>
