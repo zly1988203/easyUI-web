@@ -12,7 +12,7 @@
     .datagrid-header .datagrid-cell {text-align: center!important;font-weight: bold;}
     </style>
     <script>
-        var _comboV = '${checkVo.payType}';
+        var _comboV = '${settleVo.payType}';
     </script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
