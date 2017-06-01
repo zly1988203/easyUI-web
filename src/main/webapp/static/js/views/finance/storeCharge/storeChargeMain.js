@@ -349,7 +349,20 @@ function  chargeCheck() {
             messager("审核失败");
         }
     })
+}
 
+function exportList(){
+	var length = $("#" + gridName).datagrid('getData').total;
+	if(length == 0){
+		$.messager.alert('提示',"列表数据为空");
+		return;
+	}
+	
+	if(length>10000){
+		$.messager.alert("当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
+		return;
+	}
+	location.href = contextPath +"/finance/storeCharge/exportList?formId=" + formId;
 }
 
 function toImportStoreCharge() {

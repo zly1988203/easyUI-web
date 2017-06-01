@@ -727,6 +727,7 @@ function selectSupplier(){
             $.messager.confirm('提示','修改供应商后会清空明细，是否要修改？',function(r){
                 if(r){
                     $("#supplierId").val(data.id);
+                    $("#saleWay").val(data.saleWay);
                     $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
                     // 是否自动加载商品
                     if($("#cascadeGoods").val() == 'true'){
@@ -736,6 +737,7 @@ function selectSupplier(){
             })
         }else if($("#supplierId").val() != "" && data.id != $("#supplierId").val() && nowRows.length == 0){
             $("#supplierId").val(data.id);
+            $("#saleWay").val(data.saleWay);
             $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
             // 是否自动加载商品
             if($("#cascadeGoods").val() == 'true'){

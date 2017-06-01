@@ -12,6 +12,8 @@ package com.okdeer.jxc.controller.finance.iccard;
 import java.math.BigDecimal;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -27,8 +29,12 @@ import com.google.common.collect.Maps;
 import com.okdeer.jxc.branch.entity.BranchSpec;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.PageUtils;
+import com.okdeer.jxc.controller.BaseController;
+import com.okdeer.jxc.finance.iccard.entity.ICCardDevice;
 import com.okdeer.jxc.finance.iccard.entity.ICCardSetting;
+import com.okdeer.jxc.finance.iccard.service.ICCardAccountService;
 import com.okdeer.jxc.finance.iccard.service.ICCardSettingService;
+import com.okdeer.jxc.finance.iccard.vo.ICCardAccountVo;
 import com.okdeer.jxc.utils.UserUtil;
 
 /**
@@ -45,12 +51,15 @@ import com.okdeer.jxc.utils.UserUtil;
 @Controller
 @RestController
 @RequestMapping("iccard/setting")
-public class ICCardSettingController {
+public class ICCardSettingController extends BaseController<Object>{
 	
 	private static final Logger logger = LoggerFactory.getLogger(ICCardSettingController.class);
 	
 	@Reference(version = "1.0.0", check = false)
 	private ICCardSettingService icCardSettingService;
+	
+	@Reference(version = "1.0.0", check = false)
+	private ICCardAccountService icCardAccountService;
 	
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public ModelAndView iccardSetting() {
@@ -96,6 +105,51 @@ public class ICCardSettingController {
 			return suppliers;
 		} catch (Exception e) {
 			logger.error("一卡通查询列表失败！", e);
+		}
+		return suppliers;
+	}
+	
+	@RequestMapping(value = "/branch/list")
+	public PageUtils<ICCardAccountVo> iccardBranchList(String settingId,
+			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
+			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize, HttpServletRequest request) {
+		PageUtils<ICCardAccountVo> suppliers = PageUtils.emptyPage();
+		try {
+			suppliers = icCardSettingService.selectSettingBranch(settingId, pageNumber, pageSize);
+			return suppliers;
+		} catch (Exception e) {
+			logger.error("查询一卡通店铺列表失败！", e);
+		}
+		return suppliers;
+	}
+	
+	@RequestMapping(value = "/get/branch")
+	public RespJson iccardBranchList(String branchCode){
+		ICCardAccountVo vo = icCardAccountService.selectAccount(branchCode);
+		if(vo!=null){
+			return RespJson.success(vo);
+		}
+		return RespJson.error();
+	}
+	
+	@RequestMapping(value = "/save/shop", method = RequestMethod.POST)
+	public RespJson saveShop(String settingId,@RequestParam(value = "ids[]") String[] ids,@RequestParam(value = "enableds[]")byte[] enableds){
+		boolean bool = icCardSettingService.saveShop(settingId, ids, enableds,getCurrUserId());
+		if(bool) return RespJson.success("一卡通设置成功!");
+		return RespJson.error("一卡通设置失败!");
+	}
+	
+	@RequestMapping(value = "/get/device")
+	public PageUtils<ICCardDevice> iccardBranchDeviceList(String branchId,
+			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
+			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize, HttpServletRequest request) {
+		PageUtils<ICCardDevice> suppliers = PageUtils.emptyPage();
+		
+		try {
+			suppliers = icCardSettingService.selectByBranchId(branchId, pageNumber, pageSize);
+			return suppliers;
+		} catch (Exception e) {
+			logger.error("查询一卡通店铺列表失败！", e);
 		}
 		return suppliers;
 	}

@@ -30,7 +30,7 @@
 					</select> --%>
 					<input name="cardType"
 						id="cardType" class="uselect easyui-combobox" style="width: 204px;" 
-						data-options="valueField:'id',textField:'text',url:'account/management/dict/PAY_WAY_TYPE',editable:false,required:true"/>
+						data-options="valueField:'id',textField:'text',url:'account/management/dict/PAY_WAY',editable:false,required:true"/>
 				</div>
 			</div>
 

@@ -150,6 +150,7 @@ function queryFinanceCode(){
 	$("#startCount").val('');
 	$("#endCount").val('');
     var formData = $('#formFinanceList').serializeObject();
+    formData.typeCode = selectNode.code;
     $("#"+gridName).datagrid("options").queryParams = formData;
     $("#"+gridName).datagrid("options").method = "post";
     $("#"+gridName).datagrid("options").url = contextPath+'/archive/financeCode/getDictList',

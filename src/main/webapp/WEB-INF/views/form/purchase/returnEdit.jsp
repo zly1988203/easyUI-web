@@ -54,6 +54,7 @@
 		<div class="ub umar-t8">
 			<div class="ub ub-ac">
 				<div class="umar-r10 uw-60 ut-r">供应商:</div>
+				<input id="saleWay" name="saleWay" class="uinp ub ub-f1" type="hidden" value="${form.saleWay}">
 				<input id="supplierId" class="uinp" value="${form.supplierId}"
 					type="hidden"> <input id="supplierName" class="uinp"
 					value="[${form.supplierCode}]${form.supplierName}" type="text"
