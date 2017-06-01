@@ -6,7 +6,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
-<script src="${ctx}/static/js/views/finance/iccard/iccardShopSetting.js?V=3"></script>
+<script src="${ctx}/static/js/views/finance/iccard/iccardShopSetting.js?V=4"></script>
 
 <div class="ub ub-ver  ub-f1  uw uh ufs-14 uc-black">
 	<div class="ub ub-ac upad-20">
@@ -17,8 +17,8 @@
 		</div>
 	</div>
 	<div class="ub uline"></div>
-
-	<table id="gridShopList" class="umar-t10 upad-8"></table>
+	<input type="hidden" id="settingId" name="settingId" value=""></input>
+	<table id="gridShopList" class="umar-t10 upad-8"> </table>
 
 	<div class="ub uline"></div>
 	<div class="ub umar-t8">

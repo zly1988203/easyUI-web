@@ -31,7 +31,7 @@ function initGridCardSetting() {
             }},
             {field: 'cz', title: '操作', width: 180, align: 'right',
                 formatter : function(value, row,index) {
-                    var str =  '<a name="add" onclick="openShopSettingLis('+row.cardType+')" ' +
+                    var str =  '<a name="add" onclick="openShopSettingLis(\''+row.id+'\')" ' +
                         ' class="ualine">'+'开通店铺列表'+'</a>';
 
                     return str;
@@ -176,7 +176,7 @@ function openShopSettingLis(cardType) {
         },
         modal: true,
         onLoad: function () {
-            initShopSetting();
+            initShopSetting(cardType);
         }
     })
 }
