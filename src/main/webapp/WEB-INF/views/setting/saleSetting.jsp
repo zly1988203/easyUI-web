@@ -64,13 +64,7 @@
 									</div>
 								</div>
 							</div>
-
-
-
-
-
 						</div>
-
 					</div>
 				</div>
 			</div>
@@ -148,12 +142,13 @@
 			url = contextPath
 					+ "/pos/posReceiptSetting/saveOrUpdatePosReceiptSetting";
 		}
-
+		gFunStartLoading();
 		$.ajax({
 			url : url,
 			type : "POST",
 			data : obj,
 			success : function(result) {
+				gFunEndLoading();
 				if (result['code'] == 0) {
 					messager("保存成功！");
 				} else {
