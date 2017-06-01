@@ -12,10 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.okdeer.jxc.common.enums.DisabledEnum;
 import com.okdeer.jxc.common.result.RespJson;
-import com.okdeer.jxc.common.utils.DateUtils;
-import com.okdeer.jxc.common.utils.UuidUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.pos.entity.PosReceiptSetting;
 import com.okdeer.jxc.pos.service.PosReceiptSettingApi;
@@ -36,7 +33,6 @@ import com.okdeer.jxc.utils.UserUtil;
 @Controller
 @RequestMapping("pos/posReceiptSetting")
 public class PosReceiptSettingController extends BaseController<PosReceiptSettingController> {
-	
 	@Reference(version = "1.0.0", check = false)
 	private PosReceiptSettingApi posReceiptSettingApi;
 
@@ -53,27 +49,16 @@ public class PosReceiptSettingController extends BaseController<PosReceiptSettin
 	public RespJson saveOrUpdatePosReceiptSetting(PosReceiptSettingVo vo) {
 		RespJson respJson = null;
 		try {
-			PosReceiptSetting posReceiptSetting = posReceiptSettingApi.queryPosReceiptSettingByBranchId(vo.getBranchId());
-			// 为空添加
-			if (posReceiptSetting == null) {
-				vo.setId(UuidUtils.getUuid());
-				vo.setCreateUserId(UserUtil.getCurrUserId());
-				vo.setCreateTime(DateUtils.getCurrDate());
-				vo.setDisabled(DisabledEnum.NO.getIndex());
-				respJson = posReceiptSettingApi.insertPosReceiptSetting(vo);
-			} else {
-				vo.setUpdateUserId(UserUtil.getCurrUserId());
-				vo.setUpdateTime(DateUtils.getCurrDate());
-				respJson = posReceiptSettingApi.updatePosReceiptSetting(vo);
-			}
-			
+			vo.setCreateUserId(UserUtil.getCurrUserId());
+			vo.setUpdateUserId(UserUtil.getCurrUserId());
+			respJson = posReceiptSettingApi.insertPosReceiptSetting(vo);
 		} catch (Exception e) {
 			LOG.error("添加小票设置异常:{}", e);
 			respJson = RespJson.error("添加小票设置异常!");
 		}
 		return respJson;
 	}
-	
+
 	/**
 	 * @Description: 查询小票设置
 	 * @param vo
@@ -85,7 +70,7 @@ public class PosReceiptSettingController extends BaseController<PosReceiptSettin
 	 */
 	@RequestMapping(value = "queryPosReceiptSettingByBranchId", method = RequestMethod.POST)
 	@ResponseBody
-	public PosReceiptSetting queryPosReceiptSettingByBranchId(PosReceiptSettingVo vo){
+	public PosReceiptSetting queryPosReceiptSettingByBranchId(PosReceiptSettingVo vo) {
 		PosReceiptSetting posReceiptSetting = new PosReceiptSetting();
 		try {
 			posReceiptSetting = posReceiptSettingApi.queryPosReceiptSettingByBranchId(vo.getBranchId());
