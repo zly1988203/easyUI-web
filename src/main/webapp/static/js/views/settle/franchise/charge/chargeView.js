@@ -68,6 +68,11 @@ function updateFooter(){
 }
 
 
+//导出
+function exportOrder(){
+	var formId = $("#formId").val();
+	window.location.href = contextPath + '/settle/franchiseCharge/exportSheet?page=FranchiseCharge&sheetNo='+formId;
+}
 
 //返回列表页面
 function back(){

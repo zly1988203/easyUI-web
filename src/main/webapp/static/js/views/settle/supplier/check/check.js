@@ -18,6 +18,21 @@ var targetBranchId;
 
 $(function(){
     pageStatus = $('#operateType').val();
+
+    $('#payType').combobox({
+		editable:false,
+		valueField:'id',
+		textField: 'label',
+		value:_comboV,
+		url:contextPath + '/archive/financeCode/getDictListByTypeCode?dictTypeCode=101003',
+		loadFilter:function(data){
+			if(pageStatus === 'add'){
+				data[0].selected = true
+			}
+			return data;
+		}
+	})
+	
 	if(pageStatus === 'add'){
 		
 	}else if(pageStatus === 'edit'){
@@ -77,6 +92,7 @@ function initSupChkAcoAdd(){
         width:'100%',
         columns:[[
             {field:'cb',checkbox:true},
+            {field:'targetFormId',title:'targetFormId',hidden:true},
             {field:'targetFormNo',title:'单号',width: '150px',align:'left',
             	formatter:function(value,row,index){
             		if(row.isFooter){

@@ -111,7 +111,17 @@ function initFranchiseSetList(){
 
 //新增新增加盟店结算
 function addFranchiseSetForm(){
-	toAddTab("新增加盟店结算",contextPath + "/settle/franchiseSettle/settleAdd");
+	$_jxc.ajax({
+    	url:contextPath+"/settle/franchiseSettle/checkAuditCount",
+    	dataType: "json",
+    	data:{}
+    },function(result){
+		if(result['code'] == 0){
+			toAddTab("新增加盟店结算",contextPath + "/settle/franchiseSettle/settleAdd");
+		}else{
+			$_jxc.alert(result['message']);
+		}
+    });
 }
 
 function clearBranchCode(obj,branchId){

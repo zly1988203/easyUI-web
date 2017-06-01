@@ -11,6 +11,9 @@
     <style>
     .datagrid-header .datagrid-cell {text-align: center!important;font-weight: bold;}
     </style>
+    <script>
+        var _comboV = '';
+    </script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
 	<input type='hidden' id="operateType" value="add">
@@ -104,7 +107,7 @@
 	         </div>
 	         <div class="ub ub-ac uw-290 umar-l24">
              	 <div class="umar-r12 uw-70 ut-r">支付方式:</div>
-                 <select class='uinp easyui-combobox' data-options="editable:false,valueField:'id',textField: 'text',url:'archive/financeCode/getDictListByTypeCode?dictTypeCode=101003'" style="width:212px;" id = "payType" name="payType">
+                 <select class='uinp easyui-combobox' style="width:212px;" id="payType" name="payType">
 <!--                  	<option value='1'>人民币付款</option> -->
 <!--                  	<option value='2'>现金</option> -->
 <!--                  	<option value='3'>支票</option> -->

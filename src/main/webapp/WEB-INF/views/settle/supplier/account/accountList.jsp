@@ -46,7 +46,7 @@
                 <div class="ub umar-t8">
                     <div class="ub ub-ac">
                         <div class="umar-r10 uw-70 ut-r">单据编号:</div>
-                        <input type="hidden" id="formType" name="formType" value="FF" />
+                        <input type="hidden" id="formType" name="formType"/>
                         <input class="uinp" type="text" id="formNo" name="formNo">
                     </div>
                     <div class="ub ub-ac umar-l64">
@@ -61,37 +61,37 @@
                         <div class="umar-r10 uw-70 ut-r">汇总类型:</div>
                         <div class="ub ub-ac umar-r10">
                             <label>
-                                <input type="radio" name="orderStatus" value="1" checked="checked" onclick="queryForm()"/><span>到期账款</span>
+                                <input type="radio" name="radioType" value="1" checked="checked" onclick="queryForm()"/><span>到期账款</span>
                             </label>
                         </div>
                         <div class="ub ub-ac umar-r10">
                             <label>
-                                <input type="radio" name="orderStatus" value="2" onclick="queryForm()"/><span>历史往来账款</span>
+                                <input type="radio" name="radioType" value="2" onclick="queryForm()"/><span>历史往来账款</span>
                             </label>
                         </div>
                         <div class="ub ub-ac umar-r10">
                             <label>
-                                <input  type="radio" name="orderStatus" value="3"  onclick="queryForm()"/><span>未付款账款汇总</span>
+                                <input  type="radio" name="radioType" value="3"  onclick="queryForm()"/><span>未付款账款汇总</span>
                             </label>
                         </div>
                         <div class="ub ub-ac umar-r10">
                             <label>
-                                <input  type="radio" name="orderStatus" value="4"  onclick="queryForm()"/><span>未付款账款明细</span>
+                                <input  type="radio" name="radioType" value="4"  onclick="queryForm()"/><span>未付款账款明细</span>
                             </label>
                         </div>
                         <div class="ub ub-ac umar-r10">
                             <label>
-                                <input  type="radio" name="orderStatus" value="5"  onclick="queryForm()"/><span>已付账款汇总</span>
+                                <input  type="radio" name="radioType" value="5"  onclick="queryForm()"/><span>已付账款汇总</span>
                             </label>
                         </div>
                         <div class="ub ub-ac umar-r10">
                             <label>
-                                <input  type="radio" name="orderStatus" value="6"  onclick="queryForm()"/><span>已付账款明细</span>
+                                <input  type="radio" name="radioType" value="6"  onclick="queryForm()"/><span>已付账款明细</span>
                             </label>
                         </div>
                         <div class="ub ub-ac umar-r10">
                             <label>
-                                <input  type="radio" name="orderStatus" value="7"  onclick="queryForm()"/><span>预付账款明细</span>
+                                <input  type="radio" name="radioType" value="7"  onclick="queryForm()"/><span>预付账款明细</span>
                             </label>
                         </div>
                     </div>

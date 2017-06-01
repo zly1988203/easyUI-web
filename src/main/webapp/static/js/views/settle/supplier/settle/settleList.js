@@ -16,7 +16,9 @@ $(function(){
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
     initsupAcoSetList();
     branchId = $("#branchId").val();
-   
+    if(getUrlQueryString('message')=='0'){
+    	queryForm();
+    }
 });
 
 $(document).on('input','#remark',function(){

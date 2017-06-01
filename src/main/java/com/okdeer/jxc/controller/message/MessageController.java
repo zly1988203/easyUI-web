@@ -98,6 +98,26 @@ public class MessageController {
 		permissions.put("JxcDeliverDD:audit", "jxcDeliverDD");
 		// 库存调整单
 		permissions.put("JxcStockAdjust:audit", "jxcStockAdjust");
+		
+		//供应商预付款单
+		permissions.put("JxcSupplierAdvance:audit", "jxcSupplierAdvance");
+		//供应商费用单
+		permissions.put("JxcSupplierCharge:audit", "jxcSupplierCharge");
+		//联营账款单
+		permissions.put("JxcSupplierChain:audit", "jxcSupplierChain");
+		//供应商对账单
+		permissions.put("JxcSupplierCheck:audit", "jxcSupplierCheck");
+		//供应商结算单
+		permissions.put("JxcSupplierSettle:audit", "jxcSupplierSettle");
+		//加盟店预收款单
+		permissions.put("JxcFranchiseAdvance:audit", "jxcFranchiseAdvance");
+		//加盟店费用单
+		permissions.put("JxcFranchiseCharge:audit", "jxcFranchiseCharge");
+		//加盟店结算单
+		permissions.put("JxcFranchiseSettle:audit", "jxcFranchiseSettle");
+		
+		//公告
+		permissions.put("jxcSystemNotice:view", "jxcSystemNotice");
 
 	}
 
@@ -118,6 +138,7 @@ public class MessageController {
 				.format(DateTimeFormatter.ofPattern(DateUtils.DATE_SMALL_STR_R)) + " 00:00:00");
 		map.put("endTime",
 				LocalDate.now().format(DateTimeFormatter.ofPattern(DateUtils.DATE_SMALL_STR_R)) + " 23:59:59");
+		map.put("userId",  UserUtil.getCurrentUser().getId());
 		int allCount = messageService.countAllMessage(map);
 		RespJson respJson = RespJson.success();
 		respJson.setData(allCount);
@@ -145,6 +166,7 @@ public class MessageController {
 				.format(DateTimeFormatter.ofPattern(DateUtils.DATE_SMALL_STR_R)) + " 00:00:00");
 		params.put("endTime",
 				LocalDate.now().format(DateTimeFormatter.ofPattern(DateUtils.DATE_SMALL_STR_R)) + " 23:59:59");
+		params.put("userId",  UserUtil.getCurrentUser().getId());
 		List<Integer> detailsCount = messageService.countDetailsMessage(params);
 		Map<String, Integer> datas = Maps.newHashMap();
 		Integer allCount = Integer.valueOf(0);
@@ -182,7 +204,15 @@ public class MessageController {
 		} else {
 			datas.put("sumTwo", 0);
 		}
-		datas.put("sumOther", allCount - datas.get("sumOne") - datas.get("sumTwo"));
+		
+		if(map.get("jxcSystemNotice") != null){
+			if (map.get("jxcSystemNotice")){
+				datas.put("sumThree", detailsCount.get(detailsCount.size()-2));
+			}
+		}else{
+			datas.put("sumThree", 0);
+		}
+		datas.put("sumOther", allCount - datas.get("sumOne") - datas.get("sumTwo") - datas.get("sumThree"));
 		respJson.setData(datas);
 		return respJson;
 	}

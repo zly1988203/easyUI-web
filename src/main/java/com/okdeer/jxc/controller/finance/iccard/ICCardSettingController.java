@@ -161,6 +161,16 @@ public class ICCardSettingController extends BaseController<Object>{
 		return RespJson.success(data);
 	}
 	
+	@RequestMapping(value = "/save/pos", method = RequestMethod.POST)
+	public RespJson savePos(String branchId, @RequestParam(value = "deviceCode[]") String[] deviceCode,
+			@RequestParam(value = "protectKey[]") String[] protectKey,
+			@RequestParam(value = "posRegisteId[]") String[] posRegisteId) {
+		boolean bool = icCardSettingService.savePos(branchId, deviceCode, protectKey,posRegisteId, getCurrUserId());
+		if (bool)
+			return RespJson.success("设备设置成功!");
+		return RespJson.error("设备设置失败!");
+	}
+	
 	@RequestMapping(value = "addIcCardType", method = RequestMethod.GET)
 	public ModelAndView addIcCardType() {
 		return new ModelAndView("finance/iccard/addIcCardType");

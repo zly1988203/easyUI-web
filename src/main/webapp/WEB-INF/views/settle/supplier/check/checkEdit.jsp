@@ -11,6 +11,9 @@
     <style>
     .datagrid-header .datagrid-cell {text-align: center!important;font-weight: bold;}
     </style>
+    <script>
+        var _comboV = '${checkVo.payType}';
+    </script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
 	<input type='hidden' id="operateType" value="edit">
@@ -104,13 +107,13 @@
 	         </div>
 	         <div class="ub ub-ac uw-290 umar-l24">
              	 <div class="umar-r12 uw-70 ut-r">支付方式:</div>
-                 <select class='uinp easyui-combobox' data-options="editable:false" style="width:212px;" id = "payType" name="payType">
-                 	<option value='1'>人民币付款</option>
-                 	<option value='2'>现金</option>
-                 	<option value='3'>支票</option>
-                 	<option value='4'>银行转账</option>
-                 	<option value='5'>支付宝</option>
-                 	<option value='6'>微信</option>
+                 <select class='uinp easyui-combobox' value="${checkVo.payType}" style="width:212px;" id="payType" name="payType">
+<!--                  	<option value='1'>人民币付款</option> -->
+<!--                  	<option value='2'>现金</option> -->
+<!--                  	<option value='3'>支票</option> -->
+<!--                  	<option value='4'>银行转账</option> -->
+<!--                  	<option value='5'>支付宝</option> -->
+<!--                  	<option value='6'>微信</option> -->
                  </select>
              </div>
          </div>
