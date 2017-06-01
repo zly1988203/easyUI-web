@@ -3,7 +3,6 @@ package com.okdeer.jxc.controller.system;
 
 import java.math.BigDecimal;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,9 +14,11 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.common.constant.Constant;
+import com.okdeer.jxc.common.enums.PriceGrantEnum;
 import com.okdeer.jxc.common.exception.BusinessException;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.PageUtils;
+import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.system.entity.SysRole;
 import com.okdeer.jxc.system.entity.SysUser;
@@ -79,9 +80,9 @@ public class UserController extends BaseController<UserController> {
 		try {
 			qo.setPageNumber(pageNumber);
 			qo.setPageSize(pageSize);
-			
-			//用户未选择或输入机构，筛选当前登录机构及下属机构的所有用户
-			if(StringUtils.isBlank(qo.getBranchKeyword())){
+
+			// 用户未选择或输入机构，筛选当前登录机构及下属机构的所有用户
+			if (StringUtils.isBlank(qo.getBranchKeyword())) {
 				String branchCompleCode = getCurrBranchCompleCode();
 				qo.setBranchCompleCode(branchCompleCode);
 			}
@@ -100,7 +101,7 @@ public class UserController extends BaseController<UserController> {
 	 * @date 2016年7月21日 2016年8月18日
 	 */
 	@RequestMapping(value = "views")
-	public String views(String type, String check,String isOpenStock, String formType, Model model) {
+	public String views(String type, String check, String isOpenStock, String formType, Model model) {
 		if (StringUtils.isNotEmpty(check)) {
 			model.addAttribute("check", check);
 		}
@@ -109,7 +110,7 @@ public class UserController extends BaseController<UserController> {
 		model.addAttribute("formType", formType);
 		return "component/publicOperator";
 	}
-	
+
 	/**
 	 * @Description: 礼品兑换机构选择
 	 * @return   
@@ -122,7 +123,7 @@ public class UserController extends BaseController<UserController> {
 			model.addAttribute("check", check);
 		}
 		model.addAttribute("type", type);
-		//机构类型(0.总部、1.分公司、2.物流中心、3.自营店、4.加盟店B、5.加盟店C
+		// 机构类型(0.总部、1.分公司、2.物流中心、3.自营店、4.加盟店B、5.加盟店C
 		model.addAttribute("branchType", UserUtil.getCurrBranchType());
 		return "component/publicBranchChoose";
 	}
@@ -145,7 +146,7 @@ public class UserController extends BaseController<UserController> {
 		try {
 			qo.setPageNumber(pageNumber);
 			qo.setPageSize(pageSize);
-			/*qo.setBranchId(super.getCurrBranchId());*/
+			/* qo.setBranchId(super.getCurrBranchId()); */
 			qo.setBranchCompleCode(super.getCurrBranchCompleCode());
 			return sysUserService.queryLists(qo);
 		} catch (Exception e) {
@@ -175,8 +176,8 @@ public class UserController extends BaseController<UserController> {
 	public String toEditUser(String userId, Model model) {
 
 		SysUser user = sysUserService.getUserById(userId);
-		//最大折扣比率，需乘以100
-		if(null != user.getMaxDiscountRadio()){
+		// 最大折扣比率，需乘以100
+		if (null != user.getMaxDiscountRadio()) {
 			BigDecimal maxDiscountRadio = user.getMaxDiscountRadio().multiply(
 					new BigDecimal(Constant.STRING_ONE_HUNDRED));
 			user.setMaxDiscountRadio(maxDiscountRadio);
@@ -206,6 +207,9 @@ public class UserController extends BaseController<UserController> {
 			// 设置创建者Id
 			userVo.setCreateUserId(super.getCurrUserId());
 
+			// 价格权限赋值
+			userVo.setPriceGrant(buildPriceGrants(userVo.getPriceGrantStr()));
+
 			// 新增用户信息
 			respJson = sysUserService.addUser(userVo);
 		} catch (Exception e) {
@@ -231,16 +235,38 @@ public class UserController extends BaseController<UserController> {
 			// 设置操作者Id
 			userVo.setUpdateUserId(super.getCurrUserId());
 
+			// 价格权限赋值
+			userVo.setPriceGrant(buildPriceGrants(userVo.getPriceGrantStr()));
+
 			// 修改用户信息
 			respJson = sysUserService.updateUser(userVo);
 		} catch (BusinessException e) {
 			LOG.error("修改用户异常：", e);
 			respJson = RespJson.error(e.getMessage());
-		}catch (Exception e) {
+		} catch (Exception e) {
 			LOG.error("修改用户异常：", e);
 			respJson = RespJson.error("修改用户异常!");
 		}
 		return respJson;
+	}
+
+	/**
+	 * @Description: 构建价格权限
+	 * @param priceGrantStr
+	 * @author liwb
+	 * @date 2017年5月31日
+	 */
+	private String buildPriceGrants(String priceGrantStr) {
+		String priceGrant = null;
+
+		// 价格权限
+		if (StringUtils.isNotBlank(priceGrantStr)) {
+
+			// 默认加上零售价、会员价 权限
+			priceGrant = PriceGrantEnum.SALE_PRICE.getValue() + "," + PriceGrantEnum.VIP_PRICE.getValue() + ","
+					+ priceGrantStr;
+		}
+		return priceGrant;
 	}
 
 	/**
@@ -312,27 +338,27 @@ public class UserController extends BaseController<UserController> {
 		return respJson;
 	}
 
-//	/**
-//	 * @Description: 初始化默认参数
-//	 * @param qo
-//	 * @author liwb
-//	 * @date 2016年9月23日
-//	 */
-//	private SysUserQo buildDefaultParams(SysUserQo qo) {
-//
-//		// 如果没有修改所选机构等信息，则去掉该参数
-//		String branchNameOrCode = qo.getBranchNameOrCode();
-//		if (StringUtils.isNotBlank(branchNameOrCode) && branchNameOrCode.contains("[")
-//				&& branchNameOrCode.contains("]")) {
-//			qo.setBranchNameOrCode(null);
-//		}
-//
-//		// 默认当前机构
-//		if (StringUtils.isBlank(qo.getBranchCode()) && StringUtils.isBlank(qo.getBranchNameOrCode())) {
-//			qo.setBranchCompleCode(getCurrBranchCompleCode());
-//		}
-//
-//		return qo;
-//	}
+	// /**
+	// * @Description: 初始化默认参数
+	// * @param qo
+	// * @author liwb
+	// * @date 2016年9月23日
+	// */
+	// private SysUserQo buildDefaultParams(SysUserQo qo) {
+	//
+	// // 如果没有修改所选机构等信息，则去掉该参数
+	// String branchNameOrCode = qo.getBranchNameOrCode();
+	// if (StringUtils.isNotBlank(branchNameOrCode) && branchNameOrCode.contains("[")
+	// && branchNameOrCode.contains("]")) {
+	// qo.setBranchNameOrCode(null);
+	// }
+	//
+	// // 默认当前机构
+	// if (StringUtils.isBlank(qo.getBranchCode()) && StringUtils.isBlank(qo.getBranchNameOrCode())) {
+	// qo.setBranchCompleCode(getCurrBranchCompleCode());
+	// }
+	//
+	// return qo;
+	// }
 
 }

@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <c:set var="user" value="${sessionScope.session_user}" />
-<script src="${ctx}/static/js/views/system/user/userAdd.js"></script>
+<script src="${ctx}/static/js/views/system/user/userAdd.js?v=2"></script>
 
 <div class="ub ub-ver  ub-f1  uw uh ufs-14 uc-black">
 	<div class="ub ub-ac upad-4">
@@ -97,6 +97,45 @@
 					<textarea id="remark" name="remark" class="uh-40 uw-250"
 						maxlength="100"></textarea>
 				</div>
+			</div>
+			<div class="ub umar-t20">
+
+				<div class="ub ub-ac umar-120" id="checkBoxPrice">
+					<div class="umar-r10 uw-80 ut-r">价格权限:</div>
+					<!-- 如果调价为null默认是全部显示
+						sale_price,cost_price,vip_price,purchase_price,wholesale_price,lowest_price,distribution_price
+					 -->
+					 <!-- 默认隐藏零售价、会员价
+					<div class="ub ub-ac umar-r10">
+						<label><input class="priceItem" type="checkbox"
+							name="priceGrants" id="sale_price" value="sale_price"><span>零售价</span></label>
+					</div>
+					<div class="ub ub-ac umar-r10">
+						<label><input class="priceItem" type="checkbox"
+							name="priceGrants" id="vip_price" value="vip_price"><span>会员价</span></label>
+					</div>
+					-->
+					<div class="ub ub-ac umar-r10">
+						<label><input class="priceItem" type="checkbox"
+							name="priceGrants" id="purchase_price" value="purchase_price"><span>进货价</span></label>
+					</div>
+
+					<div class="ub ub-ac umar-r10">
+						<label><input class="priceItem" type="checkbox"
+							name="priceGrants" id="cost_price" value="cost_price"><span>成本价</span></label>
+					</div>
+
+					<div class="ub ub-ac umar-r10">
+						<label><input class="priceItem" type="checkbox"
+							name="priceGrants" id="distribution_price" value="distribution_price"><span>配送价</span></label>
+					</div>
+					<div class="ub ub-ac umar-r10">
+						<label><input class="priceItem" type="checkbox"
+							name="priceGrants" id="wholesale_price" value="wholesale_price"><span>批发价</span></label>
+					</div>
+
+				</div>
+
 			</div>
 		</div>
 	</form>
