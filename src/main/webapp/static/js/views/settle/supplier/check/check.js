@@ -70,6 +70,7 @@ function initSupChkAcoAdd(){
     	url:url,
         align:'center',
         singleSelect:false,  //单选  false多选
+        checkOnSelect:false,
         rownumbers:true,    //序号
         showFooter:true,
         height:"100%",
@@ -84,7 +85,7 @@ function initSupChkAcoAdd(){
             		return value ;
             	}
             },
-            {field:'targetFormType',title:'单据类型',width:'120px',align:'left'},
+            {field:'targetFormType',title:'单据类型',width:'120px',align:'center'},
             {field:'branchCode',title:'机构编号',width:'120px',align:'left'},
             {field:'branchName',title:'机构名称',width:'140px',align:'left'},
             {field:'supplierCode',title:'供应商编号',width:'120px',align:'left'},
@@ -182,6 +183,15 @@ function initSupChkAcoAdd(){
 
 //修改优惠金额
 function changeDisAmount(vewV,oldV){
+	
+	var _payableAmount = parseFloat(gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'payableAmount')||0);
+	if(vewV > _payableAmount){
+		$_jxc.alert('优惠金额不能大于应付金额');
+		$(this).numberbox('setValue',oldV);
+		return ;
+	}
+	
+	gridHandel.setFieldsData({unpayAmount:_payableAmount - vewV});
 	
 	updateFooter()
 }

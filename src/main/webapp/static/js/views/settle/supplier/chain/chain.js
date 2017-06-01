@@ -278,7 +278,7 @@ function saveChainForm(){
 	
     var reqObj = $('#chainForm').serializeObject();
     reqObj.operateType = operateType == "add" ? 1 : 0;
-    var _rows = gridHandel.getRows();
+    var _rows = gridHandel.getRowsWhere({skuName:'1'});
     if(_rows.length <= 0){
     	$_jxc.alert("表格不能为空");
     	return;
