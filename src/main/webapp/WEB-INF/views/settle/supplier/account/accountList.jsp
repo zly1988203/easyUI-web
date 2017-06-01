@@ -46,14 +46,7 @@
                 <div class="ub umar-t8">
                     <div class="ub ub-ac">
                         <div class="umar-r10 uw-70 ut-r">单据编号:</div>
-                        <input type="hidden" id="formType" name="formType"/>
                         <input class="uinp" type="text" id="formNo" name="formNo">
-                    </div>
-                    <div class="ub ub-ac umar-l64">
-                        <div class="umar-r10 uw-70 ut-r">制单人:</div>
-                        <input type="hidden" id="createUserId" name="createUserId" />
-                        <input class="uinp ub ub-f1" type="text" id="createUserName" name="createUserName" type="text" />
-                        <div class="uinp-more" onclick="selectOperator()">...</div>
                     </div>
                 </div>
                 <div class="ub umar-t8">

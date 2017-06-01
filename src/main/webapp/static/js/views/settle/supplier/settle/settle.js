@@ -100,7 +100,7 @@ function initSupChkAcoAdd(){
             		return str;
             	}
             },
-            {field:'targetFormType',title:'单据类型',width:'120px',align:'left'},
+            {field:'formTypeText',title:'单据类型',width:'120px',align:'left'},
             {field:'branchCode',title:'机构编号',width:'120px',align:'left'},
             {field:'branchName',title:'机构名称',width:'140px',align:'left'},
             {field:'supplierCode',title:'供应商编号',width:'120px',align:'left'},

@@ -1,7 +1,7 @@
-
-
 $(function(){
-	
+	//开始和结束时间
+    $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
+    $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 	initAcountList();
 })
 
@@ -11,20 +11,20 @@ function getAccountColumns(){
 	var accountType = $('input[name="radioType"]:checked').val();
 	console.log('accountType',accountType)
 	var defaultColumns = [{field: 'check',checkbox:true}];
-	if(accountType == '6'){
-		defaultColumns =defaultColumns.concat([
-  			{field: 'settleformNo',title:'结算单号',width:'130px',align:'left',
-  				formatter:function(value,row,index){
-                	strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'供应商预付款明细\',\''+ contextPath +'/settle/supplierCharge/advanceView?id='+ row.id +'\')">' + value + '</a>';
-            		return strHtml;
-  				}
-  			}]);
-	}
 	defaultColumns =defaultColumns.concat([
   			{field: 'branchCode', title: '机构编号', width: '100px', align: 'left'},
 			{field: 'branchName', title: '机构名称', width: '140px', align: 'left'},
 			{field: 'supplierCode', title: '供应商编号', width: '140px', align: 'left'},
 			{field: 'supplierName', title: '供应商名称', width: '140px', align: 'left'}]);
+	if(accountType == '6'){
+		defaultColumns =defaultColumns.concat([
+		                                       {field: 'settleformNo',title:'结算单号',width:'130px',align:'left',
+		                                    	   formatter:function(value,row,index){
+		                                    		   strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'供应商预付款明细\',\''+ contextPath +'/settle/supplierCharge/advanceView?id='+ row.id +'\')">' + value + '</a>';
+		                                    		   return strHtml;
+		                                    	   }
+		                                       }]);
+	}
 	//到期账款 未付款账款明细
 	if(accountType != '3' && accountType != '5'){
 		defaultColumns = defaultColumns.concat([
@@ -45,7 +45,7 @@ function getAccountColumns(){
                 }
         		return strHtml;
             }},
-            {field: 'targetformType',title: '单据类型', width: '80px', align: 'center'},
+            {field: 'formTypeText',title: '单据类型', width: '80px', align: 'center'},
             ]);
 	}
 	//未付款账款汇总
