@@ -62,6 +62,7 @@ function initGridShopList(cardType) {
             }}
         ]],
         onSelect:function(rowIndex,rowData){
+        	//debugger;
             $("#"+gridEquipment).datagrid('loadData', { total: 0, rows: [] });
             selectView(rowData);
         },
@@ -98,9 +99,10 @@ function initGridShopList(cardType) {
 }
 
 function selectView(rowData) {
+	$("#branchId").val(rowData.branchId);
     var url = contextPath+"/iccard/setting/get/device";
     var param = {
-        data:rowData.id,
+    		"branchId":rowData.branchId,
         // url:contextPath+"/iccard/setting/get"
     }
     this.ajaxSubmit(url,param,function (result) {
@@ -113,6 +115,7 @@ function selectView(rowData) {
 }
 var gridDefault = {equipmentCode:"",key:""}
 function initgridEquipmentList() {
+	var branchId = $("#branchId").val();
     gridEquipmentHandel.setGridName(gridEquipment);
     $("#"+gridEquipment).datagrid({
         align:'center',
@@ -130,15 +133,9 @@ function initgridEquipmentList() {
                 },
             },
 
-            {field: 'equipmentCode', title: '设备代码', width: 180, align: 'left',editor:'text'},
-            {field: 'key', title: '终端保护密钥', width: 250, align: 'left',editor:'text'},
-            {field: 'pos', title: '关联POS', width: 100, align: 'left',
-                formatter:function(value,row){
-                if(row.isFooter){
-                    return;
-                }
-                return value=='请选择';
-            },
+            {field: 'deviceCode', title: '设备代码', width: 180, align: 'left',editor:'text'},
+            {field: 'protectKey', title: '终端保护密钥', width: 250, align: 'left',editor:'text'},
+            {field: 'posRegisteId', title: '关联POS', width: 100, align: 'left',
                 editor:{
                     type:'combobox',
                     options:{
@@ -146,7 +143,7 @@ function initgridEquipmentList() {
                         textField: 'text',
                         editable:false,
                         required:true,
-                        data: [],
+                        url: '/iccard/setting/pos/'+branchId,
                         onSelect:onSelectPOS
                     }
                 }}
