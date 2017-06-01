@@ -46,7 +46,7 @@
                 <div class="ub umar-t8">
                     <div class="ub ub-ac">
                         <div class="umar-r10 uw-70 ut-r">单据编号:</div>
-                        <input type="hidden" id="formType" name="formType" value="FF" />
+                        <input type="hidden" id="formType" name="formType"/>
                         <input class="uinp" type="text" id="formNo" name="formNo">
                     </div>
                     <div class="ub ub-ac umar-l64">

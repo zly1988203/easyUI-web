@@ -29,7 +29,20 @@ function getAccountColumns(){
 	if(accountType != '3' && accountType != '5'){
 		defaultColumns = defaultColumns.concat([
             {field: 'targetformNo',title:'单号',width:'130px',align:'left',formatter:function(value,row,index){
-            	strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'供应商预付款明细\',\''+ contextPath +'/settle/supplierCharge/advanceView?id='+ row.id +'\')">' + value + '</a>';
+            	var strHtml = value;
+            	if(value.indexOf('FY') == 0){
+            		strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'供应商预付单明细\',\''+ contextPath +'/form/deliverForm/deliverEdit?deliverFormId='+ row.targetFormId +'&deliverType=DI\')">' + (value||"") + '</a>';
+                }else if(value.indexOf('FF') == 0){
+                	strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'供应商费用明细\',\''+ contextPath +'/form/deliverForm/deliverEdit?deliverFormId='+ row.targetFormId +'&formType=DO\')">' + (value||"") + '</a>';
+                }else if(value.indexOf('FL') == 0){
+                	strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'供应商联营账单明细\',\''+ contextPath +'/settle/franchiseCharge/advanceView?id='+ row.targetFormId +'\')">' + (value||"") + '</a>';
+                }else if(value.indexOf('PI') == 0){
+                	strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'采购收货详细\',\''+contextPath+'/form/purchase/receiptEdit?formId='+row.targetFormId+'\')">' + (value||"") + '</a>';
+                }else if(value.indexOf('PM') == 0){
+                	strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'直送收货单详细\',\''+contextPath+'/directReceipt/edit?formId='+row.targetFormId+'\')">' + (value||"") + '</a>';
+                }else if(value.indexOf('PR') == 0){
+                	strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'采购退货详细\',\''+contextPath+'/form/purchase/returnEdit?formId='+row.targetFormId+'\')">' + (value||"") + '</a>';
+                }
         		return strHtml;
             }},
             {field: 'targetformType',title: '单据类型', width: '80px', align: 'center'},
@@ -38,7 +51,7 @@ function getAccountColumns(){
 	//未付款账款汇总
 	if(accountType == '3' || accountType == '7'){
 		defaultColumns = defaultColumns.concat([
-			{field: 'advanceAmount', title: '预付款金额', width: '120px', align: 'right',
+			{field: 'advanceAmount', title: '预付金额', width: '120px', align: 'right',
 				formatter: function (value, row, index) {
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
 				}
@@ -157,10 +170,29 @@ function initAcountList(){
     });
 }
 
-
-
-
-
 function queryForm(){
-	initAcountList()
+	initAcountList();
+	var fromObjStr = $('#queryForm').serializeObject();
+	// 去除编码
+    fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1)
+
+	$("#"+datagirdID).datagrid("options").method = "post";
+	$("#"+datagirdID).datagrid('options').url = contextPath + '/settle/supplierAccountCurrent/getAccountCurrentList';
+	$("#"+datagirdID).datagrid('load',fromObjStr);
+}
+/**
+ * 导出表单
+ */
+function exportAccountList(){
+	var length = $("#"+datagirdID).datagrid('getData').total;
+	if(length == 0){
+		$.messager.alert('提示',"无数据可导");
+		return;
+	}
+	if(length>10000){
+		$.messager.alert('提示',"当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
+		return;
+	}
+	$("#queryForm").attr("action",contextPath+"/settle/supplierAccountCurrent/exportAccountCurrentList");
+	$("#queryForm").submit(); 
 }
