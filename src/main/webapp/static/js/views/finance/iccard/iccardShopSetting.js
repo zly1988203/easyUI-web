@@ -196,7 +196,7 @@ function initgridEquipmentList() {
                 editor:{
                     type:'combobox',
                     options:{
-                        valueField: 'posRegisteId',
+                        valueField: 'id',
                         textField: 'text',
                         editable:false,
                         required:true,
@@ -227,7 +227,6 @@ function initgridEquipmentList() {
 }
 
 function getPostData() {
-    debugger;
     var branchId = $("#branchId").val();
     var param = {
                url:contextPath+ '/iccard/setting/pos/'+branchId
@@ -287,17 +286,21 @@ function saveSetting(){
 }
 
 function saveEquipmentList() {
-    var rows = gridEquipmentHandel.getRowsWhere({equipmentCode:"1"});
-    var url = contextPath+"/iccard/setting/save";
-    var settingId = $("#settingId").val();
-    var ids=new Array();
-	var enableds=new Array();
+	  debugger;
+	  $("#"+gridEquipment).datagrid("endEdit", gridEquipmentHandel.getSelectRowIndex());  
+    var rows = gridEquipmentHandel.getRows();
+    var url = contextPath+"/iccard/setting/save/pos";
+    var branchId = $("#branchId").val();
+    var deviceCode=new Array();
+	var protectKey=new Array();
+	var posRegisteId = new Array();
 	for(var  i = 0;i<rows.length;i++){
-		ids[i] = rows[i].branchId;
-		enableds[i]=rows[i].enabled;
+		deviceCode[i] = rows[i].deviceCode;
+		protectKey[i]=rows[i].protectKey;
+		posRegisteId[i]=rows[i].posRegisteId;
 	}
     var param = {
-        data:{"settingId":settingId,"ids":ids,"enableds":enableds}
+        "branchId":branchId,"deviceCode":deviceCode,"protectKey":protectKey,"posRegisteId":posRegisteId
     }
     this.ajaxSubmit(url,param,function (result) {
         if(result['code'] == 0){
