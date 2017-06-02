@@ -284,7 +284,7 @@ function saveStoreCharge() {
 function selectCharge(searchKey) {
     var param = {
         key:searchKey,
-        type:'101004'
+        type:'101005'
     };
     publicCostService(param,function(data){
         var nowRows = gridHandel.getRowsWhere({costTypeCode:'1'});
