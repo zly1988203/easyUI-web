@@ -27,7 +27,7 @@ function selectUser() {
         var receiveUserIds="";
         var userName="";
         $.each(data,function(i,k){
-            receiveUserIds=k.branchesId+","+receiveUserIds;
+            receiveUserIds=k.id+","+receiveUserIds;
             userName+="["+k.userCode+"]"+k.userName+",";
         })
         receiveUserIds = receiveUserIds.substring(0,receiveUserIds.length - 1);
@@ -39,11 +39,33 @@ function selectUser() {
 }
 
 function saveNotice(){
+    var receiveBranchIds = $("#receiveBranchIds").val();
+    var receiveUserIds = $("#receiveUserIds").val();
+    var title = $("#title").val();
+    var content = $("#content").val();
+
+    if($_jxc.isStringNull(receiveBranchIds) && $_jxc.isStringNull(receiveUserIds)){
+        $_jxc.alert("请选择收件门店或者收件人");
+        return;
+    }
+
+    if($_jxc.isStringNull(title)){
+        $_jxc.alert("请填写公告标题");
+        return;
+    }
+
+    if($_jxc.isStringNull(content)){
+        $_jxc.alert("请填写公告内容");
+        return;
+    }
+
     var url = contextPath+"/sys/notice/save";
     var formData = $('#formNoticeAdd').serializeObject();
     this.ajaxSubmit(url,formData,function (result) {
         if(result['code'] == 0){
+            closeDialogHandel();
             messager("发布成功");
+            queryNoticeList();
         }else{
             messager(result['message']);
         }

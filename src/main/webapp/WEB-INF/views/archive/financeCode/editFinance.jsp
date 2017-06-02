@@ -48,6 +48,15 @@
 						name="remark" maxlength="50" />
 				</div>
 			</div>
+
+			<div class="ub upad-4 umar-t10">
+
+			<div class="ub ub-ac">
+			<div class="umar-r10 uw-70 ut-r">:</div>
+				<input type="checkbox">保存后自动更新
+			</div>
+			</div>
+
 		</div>
 	</form>
 </div>

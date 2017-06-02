@@ -547,7 +547,6 @@ function publicSupplierService(callback,newParam) {
 //公共组件-选择操作员
 var dalogTemp = null;
 function publicOperatorService(callback,param) {
-    debugger;
     //公有属性
     var dialogDiv = {
         href: contextPath + "/system/user/views?type=operate",
