@@ -31,9 +31,9 @@
 			</div>
 	            <div class="ub umar-t8">
 	                <div class="ub ub-ac">
-	                    <div class="umar-r10 uw-70 ut-r">加盟店:</div>
-	                    <input type="hidden" id="franchiseBranchId" name="franchiseBranchId"/>
-	                    <input class="uinp ub ub-f1" type="text" id="franchiseBranchName" name="franchiseBranchName" onblur="clearBranchCode(this,'franchiseBranchId')"/>
+	                    <div class="umar-r10 uw-70 ut-r">机构:</div>
+	                    <input type="hidden" id="branchCompleCode" name="branchCompleCode"/>
+	                    <input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" onblur="clearBranchCode(this,'branchCompleCode')"/>
 	                    <div class="uinp-more" onclick="selectBranches()" >...</div>
 	                </div>
 	                <div class="ub ub-ac umar-l64">

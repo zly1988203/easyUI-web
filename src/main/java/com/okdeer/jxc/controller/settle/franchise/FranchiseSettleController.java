@@ -75,6 +75,12 @@ public class FranchiseSettleController extends BasePrintController<FranchiseSett
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
+			if (StringUtils.isNotBlank(vo.getFranchiseBranchCode())) {
+				vo.setBranchName(null);
+			}
+			if (StringUtils.isNotBlank(vo.getCreateUserId())) {
+				vo.setCreateUserName(null);
+			}
 			vo.setBranchCode(getCurrBranchCompleCode());
 			PageHelper.startPage(pageNumber, pageSize, true);
 			List<FranchiseSettleVo> list = franchiseSettleService.getSettleList(vo);
@@ -132,7 +138,8 @@ public class FranchiseSettleController extends BasePrintController<FranchiseSett
 	@ResponseBody
 	public List<FranchiseSettleDetailVo> getFormList(String franchiseId) {
 		try {
-			List<FranchiseSettleDetailVo> list = franchiseSettleService.getFormList(getCurrBranchId(), franchiseId);
+			List<FranchiseSettleDetailVo> list = franchiseSettleService.getFormList(getCurrBranchCompleCode(),
+					franchiseId);
 			return list;
 		} catch (Exception e) {
 			LOG.error("获取新增结算的单据列表异常:", e);

@@ -7,7 +7,6 @@ $(function(){
     $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
     initsupAdvMonList();
-    branchId = $("#branchId").val();
     if(getUrlQueryString('message')=='0'){
     	queryForm();
     }
@@ -42,7 +41,6 @@ $(document).on('input','#remark',function(){
 
 
 
-var targetBranchId;
 var gridHandel = new GridClass();
 var datagirdID = 'franchiseAdvMoneyList'
 //初始化表格
@@ -191,9 +189,9 @@ function selectOperator(){
  */
 function selectBranches(){
 	new publicAgencyService(function(data){
-		$("#branchId").val(data.branchesId);
+		$("#franchiseBranchCode").val(data.branchCompleCode);
 		$("#branchName").val("["+data.branchCode+"]"+data.branchName);
-	},'FI',targetBranchId);
+	},'');
 }
 
 //打印
