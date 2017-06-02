@@ -33,6 +33,12 @@ $(function(){
 	})
 	if(operateType === 'add'){
 		  $("#payMoneyTime").val(new Date().format('yyyy-MM-dd')); 
+		//非总部 机构默认有值
+		  if(sessionBranchType != '0'){
+			$('#branchId').val(sessionBranchId);
+			$('#branchCode').val(sessionBranchCode);
+			$('#targetBranchName').val(sessionBranchCodeName)
+		  }
 	}else if(operateType === 'edit'){
 		var formId = $("#formId").val();
 		url = contextPath+"/settle/supplierSettle/settleFormDetailList?id="+formId;

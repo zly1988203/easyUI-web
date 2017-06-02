@@ -19,7 +19,13 @@ var clickFlag = false;//是否点击计算账款 方便判断显示提示
 $(function(){
     pageStatus = $('#operateType').val();
 	if(pageStatus === 'add'){
-		  $("#payMoneyTime").val(new Date().format('yyyy-MM-dd')); 
+		  $("#payMoneyTime").val(new Date().format('yyyy-MM-dd'));
+		//非总部 机构默认有值
+		  if(sessionBranchType != '0'){
+			$('#branchId').val(sessionBranchId);
+			$('#branchCode').val(sessionBranchCode);
+			$('#targetBranchName').val(sessionBranchCodeName)
+		  }
 	}else if(pageStatus === 'edit'){
 		var id = $("#formId").val();
 		url = contextPath+"/settle/supplierChain/chainFormDetailList?id="+id;

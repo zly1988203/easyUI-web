@@ -35,7 +35,12 @@ $(function(){
 	})
 	
 	if(pageStatus === 'add'){
-		
+		//非总部 机构默认有值
+		  if(sessionBranchType != '0'){
+			$('#branchId').val(sessionBranchId);
+			$('#branchCode').val(sessionBranchCode);
+			$('#targetBranchName').val(sessionBranchCodeName)
+		  }
 	}else if(pageStatus === 'edit'){
 		var formId = $("#formId").val();
 		url = contextPath+"/settle/supplierCheck/checkFormDetailList?id="+formId;
