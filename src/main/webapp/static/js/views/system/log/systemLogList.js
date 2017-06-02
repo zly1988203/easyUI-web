@@ -23,18 +23,14 @@ function initGridLogList() {
         width:'100%',
         fitColumns:true,    //每列占满
         columns:[[
-            {field:'branchCode',title:'机构编码',width:80,align:'left'},
-            {field:'branchName',title:'机构名称',width:180,align:'left'},
-            {field:'createUserName',title:'操作人',width:120,align:'left'},
-            {field:'funcName',title:'功能名称',width:180,align:'left'},
-            {field:'createTime',title:'修改时间',width:120,align:'left',
-                formatter : function(value, rowData, rowIndex) {
-                    return formatDate(value);
-                }
-            },
-            {field:'funcName',title:'修改类型',width:80,align:'left'},
-            {field:'funcName',title:'修改值',width:120,align:'left'},
-            {field:'remark',title:'操作描述',width:250,align:'left'},
+            {field:'branchCode',title:'机构编码',width:60,align:'left'},
+            {field:'branchName',title:'机构名称',width:120,align:'left'},
+            {field:'createUserName',title:'操作员',width:100,align:'left'},
+            {field:'operateName',title:'功能名称',width:80,align:'left'},
+            {field:'createTimeStr',title:'修改时间',width:100,align:'left'},
+            {field:'operateTypeStr',title:'修改类型',width:60,align:'left'},
+            {field:'title',title:'修改值',width:120,align:'left'},
+            {field:'content',title:'操作描述',width:300,align:'left'}
         ]]
     })
 }
@@ -45,55 +41,44 @@ function initGridLogList() {
  */
 function selectListBranches(){
     new publicAgencyService(function(data){
-        $("#branchId").val(data.branchesId);
-        $("#branchName").val(data.branchName);
-        $("#oldBranchName").val(data.branchName);
+        $("#branchCompleCode").val(data.branchCompleCode);
+        $("#branchName").val("["+data.branchCode+"]" + data.branchName);
     },'BF','');
 }
 
 function queryLogList() {
-    var oldBranchName = $("#oldBranchName").val();
-    var branchName = $("#branchName").val();
-    if(oldBranchName && oldBranchName != branchName){
-        $("#branchId").val('');
-    }
     $("#"+gridName).datagrid("options").queryParams = $("#queryForm").serializeObject();
     $("#"+gridName).datagrid("options").method = "post";
-    $("#"+gridName).datagrid("options").url = contextPath+'/system/log/list';
+    $("#"+gridName).datagrid("options").url = contextPath+'/system/log/getOpLogList';
     $("#"+gridName).datagrid("load");
 }
 
+/**
+ * 导出
+ */
 function exportData(){
-    var length = dg.datagrid('getData').rows.length;
-    if(length == 0){
-        successTip("无数据可导");
-        return;
-    }
-    $('#exportWin').window({
-        top:($(window).height()-300) * 0.5,
-        left:($(window).width()-500) * 0.5
-    });
-    $("#exportWin").show();
-    $("#totalRows").html(dg.datagrid('getData').total);
-    $("#exportWin").window("open");
+	var length = $("#"+gridName).datagrid('getData').rows.length;
+	if(length == 0){
+		successTip("无数据可导");
+		return;
+	}
+	$('#exportWin').window({
+		top:($(window).height()-300) * 0.5,   
+	    left:($(window).width()-500) * 0.5
+	});
+	$("#exportWin").show();
+	$("#totalRows").html(dg.datagrid('getData').total);
+	$("#exportWin").window("open");
 }
-
-function exportData(){
-    var length = $('#'+gridName).datagrid('getData').total;
-    if(length == 0){
-        successTip("无数据可导");
-        return;
-    }
-    var queryParams =  urlEncode($("#queryForm").serializeObject());
-    window.location.href = contextPath + '/iccard/trading/exports?params='+queryParams;
-}
-
-var toPrint = function(){
-    var length = $('#gridCardTrading').datagrid('getData').total;
-    if(length == 0){
-        successTip("无数据可打印");
-        return;
-    }
-    var queryParams =  urlEncode($("#queryForm").serializeObject());
-    parent.addTabPrint("reportPrint"+new Date().getTime(),"打印",contextPath+"/iccard/trading/report/print?params="+queryParams);
+// 调用导出方法
+function exportExcel(){
+	$("#exportWin").hide();
+	$("#exportWin").window("close");
+	$("#queryForm").form({
+		success : function(result){
+			
+		}
+	});
+	$("#queryForm").attr("action",contextPath+"/system/log/exportHandel");
+	$("#queryForm").submit();
 }

@@ -9,8 +9,9 @@
 <title>系统日志</title>
 
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
+<%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 
-<script src="${ctx}/static/js/views/system/log/systemLogList.js"></script>
+<script src="${ctx}/static/js/views/system/log/systemLogList.js?v=1"></script>
 <style>
 .datagrid-header .datagrid-cell {
 	text-align: center !important;
@@ -21,15 +22,15 @@
 </head>
 <body class="ub uw uh ufs-14 uc-black">
 	<div class="ub ub-ver ub-f1 umar-4 upad-4">
-		<form id="queryForm">
+		<form id="queryForm" method="post">
 			<div class="ub ub-ac">
 				<div class="ubtns">
 					<div class="ubtns-item" onclick="queryLogList()">查询</div>
 
-					<div class="ubtns-item" onclick="exprotData()">导出</div>
+					<div class="ubtns-item" onclick="exportData()">导出</div>
 					<div class="ubtns-item uinp-no-more">设置</div>
 					<shiro:hasPermission name="JxcPurchaseOrder:print">
-						<div class="ubtns-item" onclick="printPreview()">打印</div>
+						<div class="ubtns-item  uinp-no-more">打印</div>
 					</shiro:hasPermission>
 					<div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 					<div class="ubtns-item" onclick="toClose()">关闭</div>
@@ -42,16 +43,16 @@
 			<div class="ub umar-t8">
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">机构名称:</div>
-					<input class="uinp" name="branchId" id="branchId" type="hidden">
-					<input class="uinp" id="oldBranchName" name="oldBranchName"
-						type="hidden"> <input class="uinp" id="branchName"
-						name="branchName" type="text" maxlength="50">
-
+					<input type="hidden" id="startCount" name="startCount" >
+					<input type="hidden" id="endCount" name="endCount" >
+					<input type="hidden" name="branchCompleCode" id="branchCompleCode">
+					<input type="text" id="branchName" class="uinp" name="branchName" 
+						readonly="readonly" onclick="selectListBranches()">
 					<div class="uinp-more" onclick="selectListBranches()">...</div>
 				</div>
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">操作员:</div>
-					<input class="uinp" id="operateUserName" name="operateUserName"
+					<input class="uinp" id="opUserKeyword" name="opUserKeyword"
 						type="text" maxlength="50">
 
 				</div>
@@ -60,12 +61,12 @@
 			<div class="ub umar-t8">
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">功能名称:</div>
-					<input class="uinp" id="funcName" name="funcName" type="text"
+					<input class="uinp" id="operateName" name="operateName" type="text"
 						maxlength="50">
 				</div>
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">修改值:</div>
-					<input class="uinp" id="changeValue" name="changeValue" type="text"
+					<input class="uinp" id="operateTitle" name="operateTitle" type="text"
 						maxlength="50">
 
 				</div>

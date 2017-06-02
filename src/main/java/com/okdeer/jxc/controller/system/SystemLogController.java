@@ -58,11 +58,11 @@ public class SystemLogController extends BaseController<SystemLogController> {
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		qo.setPageNumber(pageNumber);
 		qo.setPageSize(pageSize);
+
+		// 组装查询参数
+		buildSearchParams(qo);
+
 		LOG.debug("查询系统日志条件：{}", qo);
-		
-		if(StringUtils.isBlank(qo.getBranchCompleCode())){
-			qo.setBranchCompleCode(super.getCurrBranchCompleCode());
-		}
 
 		try {
 
@@ -72,16 +72,31 @@ public class SystemLogController extends BaseController<SystemLogController> {
 		}
 		return PageUtils.emptyPage();
 	}
-	
-	
+
+	/**
+	 * @Description: 组装查询参数
+	 * @param qo
+	 * @author liwb
+	 * @date 2017年6月2日
+	 */
+	private void buildSearchParams(SysOperateLogQo qo) {
+
+		// 默认当前机构
+		if (StringUtils.isBlank(qo.getBranchCompleCode())) {
+			qo.setBranchCompleCode(super.getCurrBranchCompleCode());
+		}
+
+		// 日期+1
+		qo.setEndTime(DateUtils.getDayAfter(qo.getEndTime()));
+	}
+
 	@RequestMapping(value = "exportHandel", method = RequestMethod.POST)
 	public RespJson exportHandel(SysOperateLogQo qo, HttpServletResponse response) {
 		try {
+
+			buildSearchParams(qo);
+
 			LOG.debug("导出系统日志条件：{}", qo);
-			
-			if(StringUtils.isBlank(qo.getBranchCompleCode())){
-				qo.setBranchCompleCode(super.getCurrBranchCompleCode());
-			}
 
 			List<SysOperateLogPo> list = sysOperateLogService.getOpLogListForExport(qo);
 
