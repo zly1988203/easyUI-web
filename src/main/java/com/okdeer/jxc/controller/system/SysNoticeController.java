@@ -28,7 +28,6 @@ import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.common.utils.UuidUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.form.enums.FormType;
-import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.system.service.SysNoticeService;
 import com.okdeer.jxc.system.vo.SysNoticeVo;
 
@@ -169,8 +168,7 @@ public class SysNoticeController extends BaseController<SysNoticeController> {
 	public RespJson delete(@RequestParam(value = "ids[]") List<String> ids) {
 		RespJson respJson = RespJson.success();
 		try {
-			SysUser user = getCurrentUser();
-			respJson = sysNoticeService.delNotice(ids, user.getId());
+			respJson = sysNoticeService.delNotice(ids, getCurrUserId());
 		} catch (Exception e) {
 			LOG.error("删除系统公告异常:", e);
 			respJson = RespJson.error("删除系统公告失败！");

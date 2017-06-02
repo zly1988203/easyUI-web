@@ -100,11 +100,11 @@
              </div>
              <div class="ub ub-ac umar-l40">
                  <div class="umar-r10 uw-70 ut-r">审核人员:</div>
-                 <div class="utxt"></div>
+                 <div class="utxt">${settle.auditUserName}</div>
              </div>
              <div class="ub ub-ac umar-l50">
                  <div class="umar-r10 uw-60 ut-r">审核时间:</div>
-                 <div class="utxt"></div>
+                 <div class="utxt"><fmt:formatDate value="${settle.auditTime}" pattern="yyyy-MM-dd HH:mm:ss"/></div>
              </div>
          </div>
          <div class="ub umar-t8">
