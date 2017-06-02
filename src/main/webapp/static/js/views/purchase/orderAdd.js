@@ -324,7 +324,7 @@ function onChangeLargeNum(newV,oldV){
     
     n++;
     var _temNewNum = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'tmpLargeNum');
-    var temp_new = newV;
+    var temp_new = _temNewNum;
     if(Math.abs(temp_new) > 0 && !oldV){
     	newV = _temNewNum;
     };
