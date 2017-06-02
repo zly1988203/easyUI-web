@@ -60,6 +60,7 @@ function initFranchiseSetList(){
         showFooter:true,
 		height:'100%',
 		width:'100%',
+		pageSize:50,
         columns:[[
                 {field:'cb',checkbox:true},
                 {field: 'formNo', title: '单据编号', width: '140px', align: 'left',

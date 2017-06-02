@@ -56,6 +56,7 @@ function initsupAdvMonList(){
         showFooter:true,
 		height:'100%',
 		width:'100%',
+		pageSize:50,
         columns:[[
 			{field: 'check',checkbox:true},
             {field: 'formNo',title:'单据编号',width:'130px',align:'left',formatter:function(value,row,index){

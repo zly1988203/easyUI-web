@@ -54,32 +54,32 @@
                         <div class="umar-r10 uw-70 ut-r">汇总类型:</div>
                         <div class="ub ub-ac umar-r10">
                             <label>
-                                <input type="radio" name="radioType" value="1" checked="checked" onclick="queryForm()"/><span>到期账款</span>
+                                <input type="radio" name="radioType" value="1" checked="checked" onclick="initAcountList()"/><span>到期账款</span>
                             </label>
                         </div>
                         <div class="ub ub-ac umar-r10">
                             <label>
-                                <input type="radio" name="radioType" value="2" onclick="queryForm()"/><span>历史往来账款</span>
+                                <input type="radio" name="radioType" value="2" onclick="initAcountList()"/><span>历史往来账款</span>
                             </label>
                         </div>
                         <div class="ub ub-ac umar-r10">
                             <label>
-                                <input  type="radio" name="radioType" value="3"  onclick="queryForm()"/><span>未付款账款汇总</span>
+                                <input  type="radio" name="radioType" value="3"  onclick="initAcountList()"/><span>未付款账款汇总</span>
                             </label>
                         </div>
                         <div class="ub ub-ac umar-r10">
                             <label>
-                                <input  type="radio" name="radioType" value="4"  onclick="queryForm()"/><span>未付款账款明细</span>
+                                <input  type="radio" name="radioType" value="4"  onclick="initAcountList()"/><span>未付款账款明细</span>
                             </label>
                         </div>
                         <div class="ub ub-ac umar-r10">
                             <label>
-                                <input  type="radio" name="radioType" value="5"  onclick="queryForm()"/><span>已付账款汇总</span>
+                                <input  type="radio" name="radioType" value="5"  onclick="initAcountList()"/><span>已付账款汇总</span>
                             </label>
                         </div>
                         <div class="ub ub-ac umar-r10">
                             <label>
-                                <input  type="radio" name="radioType" value="6"  onclick="queryForm()"/><span>已付账款明细</span>
+                                <input  type="radio" name="radioType" value="6"  onclick="initAcountList()"/><span>已付账款明细</span>
                             </label>
                         </div>
                         <div class="ub ub-ac umar-r10">
