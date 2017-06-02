@@ -16,6 +16,7 @@ var pageStatus;
 var editRowFlag = false;
 var targetBranchId;
 var clickFlag = false;//是否点击供应商 方便判断显示提示
+var editRowNumbeboxFlag = false;//用于表头和表体numberbox相互影响的
 
 
 $(function(){
@@ -38,6 +39,13 @@ $(function(){
 		}
 	    
 	}
+	
+	//监听numberbox 点击事件
+	$("input#actualAmount").next("span").children().first().on('click',function(){
+		console.log('555555555555555555555')
+		editRowNumbeboxFlag = false;
+	});
+	
 	initSupChkAcoAdd();
 })
 
@@ -150,7 +158,6 @@ function initSupChkAcoAdd(){
             	editor:{
             		type:'numberbox',
             		options:{
-            			min:0,
             			precision:4,
             			onChange:changeActAmount
             		}
@@ -160,16 +167,19 @@ function initSupChkAcoAdd(){
         ]],
         onCheck:function(rowIndex,rowData){
         	editRowFlag = true;
+//        	editRowNumbeboxFlag = true;
         	rowData.checked = true;
         	updateFooter()
         },
         onUncheck:function(rowIndex,rowData){
         	editRowFlag = true;
+//        	editRowNumbeboxFlag = true;
         	rowData.checked = false;
         	updateFooter()
         },
         onCheckAll:function(rows){
         	editRowFlag = true;
+//        	editRowNumbeboxFlag = true;
         	$.each(rows,function(index,item){
         		item.checked = true;
         	})
@@ -177,6 +187,7 @@ function initSupChkAcoAdd(){
         },
         onUncheckAll:function(rows){
         	editRowFlag = true;
+//        	editRowNumbeboxFlag = true;
         	$.each(rows,function(index,item){
         		item.checked = false;
         	})
@@ -184,6 +195,7 @@ function initSupChkAcoAdd(){
         },
         onClickCell:function(rowIndex,field,value){
         	editRowFlag = true;
+        	editRowNumbeboxFlag = true;
         	$(this).datagrid('checkRow',rowIndex);
             gridHandel.setBeginRow(rowIndex);
             gridHandel.setSelectFieldName(field);
@@ -196,9 +208,9 @@ function initSupChkAcoAdd(){
         },
         loadFilter:function(data){
         	if(!editRowFlag){
-        		data.forEach(function(obj,index){
-        			obj.checked = false;
-        		})
+    			data.forEach(function(obj,index){
+    				obj.checked = pageStatus == 'add' ? false :true;
+    			});
         	}
         	return data; 
         },
@@ -236,8 +248,14 @@ function changeActAmount(vewV,oldV){
 		return;
 	}
 	var _unpayAmount = parseFloat(gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'unpayAmount')||0);
-	if(vewV > _unpayAmount){
-		$_jxc.alert('实收金额不能大于未收金额');
+	if(_unpayAmount > 0 && (vewV > _unpayAmount || vewV<0 ) && oldV){
+		$_jxc.alert('实收金额不能大于未收金额且不能小于零');
+		checkFlag = true;
+		$(this).numberbox('setValue',oldV);
+		return;
+	}
+	if(_unpayAmount < 0 && (vewV < _unpayAmount|| vewV>=0) && oldV){
+		$_jxc.alert('实收金额不能小于未收金额且不能大于零');
 		checkFlag = true;
 		$(this).numberbox('setValue',oldV);
 		return;
@@ -248,6 +266,8 @@ function changeActAmount(vewV,oldV){
 var checkActMountFlag = false;
 //实收金额汇总
 function changeActMountFrom(newV,oldV){
+	if(editRowNumbeboxFlag)return;
+	gridHandel.endEditRow();
 	editRowFlag = true;
 	if(checkActMountFlag){
 		checkActMountFlag = false;
@@ -294,12 +314,13 @@ function changeGrid(actMount,rows){
 	changeGridFlag = true;
 	//实收金额 总汇
 	var _temActMount = actMount;
+	var zfFlag = actMount > 0 ? true:false;
 	rows.forEach(function(obj,index){
-		if(obj.checked && _temActMount != 0){
+		if(obj.checked && ((zfFlag && _temActMount > 0 ) || (!zfFlag && _temActMount < 0))){
 			//unpayAmount
 			var _temUnpayAmount = parseFloat(obj.unpayAmount||0);
 			if(_temActMount >0){
-				obj.actualAmount = _temActMount - _temUnpayAmount <= 0 ? _temUnpayAmount : _temActMount ;
+				obj.actualAmount = _temActMount - _temUnpayAmount <= 0 ? _temActMount : _temUnpayAmount ;
 			}else{
 				obj.actualAmount = _temActMount - _temUnpayAmount >= 0 ? _temActMount : _temUnpayAmount ;
 			}
@@ -329,13 +350,30 @@ function updateFrom(){
 	var _unpayAmount1 = parseFloat(_footerRow[0].unpayAmount||0);
 	//未收金额汇总
 	$('#unpayAmount').val(_unpayAmount1.toFixed(2));
+	
+	var _temData = _getRowsWhere({checked:true});
+	if(_temData &&　_temData.length > 0){
+		if(_unpayAmount1 > 0){
+			$('#actualAmount').numberbox('options').min = 0;
+		}else{
+			$('#actualAmount').numberbox('options').max = 0;
+		}
+	}
 	//实收金额汇总
 	$('#actualAmount').numberbox('setValue',parseFloat(_footerRow[0].actualAmount||0));
-	if(_unpayAmount1 > 0){
-		$('#actualAmount').numberbox('options').min = 0;
-	}else{
-		$('#actualAmount').numberbox('options').max = 0;
-	}
+}
+
+function _getRowsWhere(argWhere){
+	var rows = gridHandel.getRows();
+    var newRows = [];
+    $.each(rows,function(i,row){
+        $.each(argWhere,function(key,val){
+            if(row[key]){
+                newRows.push(row);
+            }
+        })
+    });
+    return newRows;
 }
 
 //插入一行
