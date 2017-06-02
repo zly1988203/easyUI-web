@@ -47,7 +47,7 @@ public class SupplierChainController extends BaseController<SupplierChainControl
      */
     @Reference(version = "1.0.0", check = false)
     private SupplierChainService supplierChainService;
-    
+
     /**
      * 
      * @Description: 供应商联营账单列表页
@@ -83,7 +83,7 @@ public class SupplierChainController extends BaseController<SupplierChainControl
      * @date 2017年5月22日
      */
     @RequestMapping(value = "chainEdit")
-    public ModelAndView chainEdit(Model model,String id) {
+    public ModelAndView chainEdit(Model model, String id) {
         SupplierChainVo chainVo = supplierChainService.getSupplierChainVoById(id);
         model.addAttribute("chainVo", chainVo);
         return new ModelAndView("settle/supplier/chain/chainEdit");
@@ -98,12 +98,12 @@ public class SupplierChainController extends BaseController<SupplierChainControl
      * @date 2017年5月22日
      */
     @RequestMapping(value = "chainView")
-    public ModelAndView chainView(Model model,String id) {
+    public ModelAndView chainView(Model model, String id) {
         SupplierChainVo chainVo = supplierChainService.getSupplierChainVoById(id);
         model.addAttribute("chainVo", chainVo);
         return new ModelAndView("settle/supplier/chain/chainView");
     }
-    
+
     /**
      * @Description: 查询列表
      * @param vo 参数VO
@@ -129,17 +129,17 @@ public class SupplierChainController extends BaseController<SupplierChainControl
         }
         return PageUtils.emptyPage();
     }
-    
+
     /***
      * 
      * @Description:  获取明细信息
-     * @param formId 记录ID
+     * @param vo vo
      * @return List
      * @author xuyq
      * @date 2017年2月19日
      */
     @RequestMapping(value = "/chainFormDetailList", method = RequestMethod.POST)
-    public List<SupplierChainDetailVo> ChainFormDetailList(SupplierChainVo vo) {
+    public List<SupplierChainDetailVo> chainFormDetailList(SupplierChainVo vo) {
         LOG.debug(LogConstant.OUT_PARAM, vo);
         List<SupplierChainDetailVo> detailList = new ArrayList<SupplierChainDetailVo>();
         try {
@@ -149,7 +149,7 @@ public class SupplierChainController extends BaseController<SupplierChainControl
         }
         return detailList;
     }
-    
+
     /**
      * @Description: 保存供应商联营账单
      * @param data 保存JSON数据
@@ -227,6 +227,7 @@ public class SupplierChainController extends BaseController<SupplierChainControl
         }
         return respJson;
     }
+
     /**
      * 
      * @Description: 供应商费用删除
