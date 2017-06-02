@@ -196,3 +196,21 @@ function exportAccountList(){
 	$("#queryForm").attr("action",contextPath+"/settle/supplierAccountCurrent/exportAccountCurrentList");
 	$("#queryForm").submit(); 
 }
+
+
+//机构
+function selectBranches(){
+	new publicAgencyService(function(data){
+		$("#branchId").val(data.branchesId);
+		$("#branchCode").val(data.branchCode);
+		$("#branchName").val("["+data.branchCode+"]"+data.branchName);
+	},'');
+}
+
+//选择供应商
+function selectSupplier(){
+	new publicSupplierService(function(data){
+    	$("#supplierId").val(data.id);
+        $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);	
+    });
+}
