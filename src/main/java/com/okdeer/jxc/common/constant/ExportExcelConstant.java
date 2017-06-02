@@ -208,6 +208,9 @@ public interface ExportExcelConstant {
 	
 	/*** 门店费用详情列表导出模板  */
 	String STORE_CHARGE_MAIN_EXPORT_TEMPLATE = "storeChargeMainExportTemplate.xlsx";
+	
+	/*** 系统操作日志列表导出模板  */
+	String SYS_OPERATE_LOG_EXPORT_TEMPLATE = "sysOperateLogExportTemplate.xlsx";
 
 	/**
 	 * 成本调价单导出模板
