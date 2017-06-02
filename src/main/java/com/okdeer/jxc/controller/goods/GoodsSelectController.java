@@ -300,7 +300,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 				    suppliers = goodsSelectServiceApi.queryByCodeListsByVo(paramVo);
 				}
 			}
-			LOG.debug("根据货号查询商品:{}" + suppliers.toString());
+			LOG.debug("根据货号查询商品:{}" ,suppliers.toString());
 			return suppliers;
 		} catch (Exception e) {
 			LOG.error("查询商品选择数据出现异常:{}", e);

@@ -150,6 +150,11 @@ function query(){
 		formData.categoryNameOrCode = null;
 	}
 	
+	var supplierName = $("#supplierName").val();
+	if(supplierName && supplierName.indexOf("[")>=0 && supplierName.indexOf("]")>=0){
+		formData.supplierName = formData.supplierName.substring(formData.supplierName.lastIndexOf(']')+1);
+	}
+	
 	$("#productInquire").datagrid("options").queryParams = formData;
 	$("#productInquire").datagrid("options").method = "post";
 	$("#productInquire").datagrid("options").url = contextPath+'/stock/report/getList';
@@ -183,4 +188,12 @@ function reset(){
 	$("#branchCode").val('');
 	$("#branchId").val('');
 	$("#queryForm")[0].reset();
+}
+
+//选择供应商
+function selectSupplier(){
+	new publicSupplierService(function(data){
+//		$("#supplierId").val(data.id);
+		$("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
+	});
 }

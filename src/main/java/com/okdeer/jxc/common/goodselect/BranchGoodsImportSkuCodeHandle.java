@@ -105,8 +105,6 @@ public class BranchGoodsImportSkuCodeHandle implements BranchGoodsImportHandle{
 		}
 		//刷新
 		refreshSuccessData();
-		
-		
 	}
 	
 	/**

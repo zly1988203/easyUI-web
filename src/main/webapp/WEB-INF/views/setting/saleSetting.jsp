@@ -22,9 +22,8 @@
 			<div class="ub ub-f1 umar-t8 umar-b8">
 				<div id="tabs" class="easyui-tabs"
 					style="width: 100%; height: 500px;">
-					<div title="销售设置" id="orderSpec"  style="padding: 20px 10px;">
+					<div title="销售设置" id="orderSpec" style="padding: 20px;">
 						<div class="ub ub-ver ub-f1 uw uh ufs-14 uc-black">
-
 							<div class="ub ub-ac upad-b16 ">
 								<div class="umar-r10 uw-120 ut-r">抹零设置:</div>
 								<div class="ub uw-110 ub-ac umar-r10">
@@ -72,9 +71,7 @@
 									</div>
 								</div>
 							</div>
-
 						</div>
-
 					</div>
 				</div>
 			</div>
@@ -159,12 +156,13 @@
 			url = contextPath
 					+ "/pos/posReceiptSetting/saveOrUpdatePosReceiptSetting";
 		}
-
+		gFunStartLoading();
 		$.ajax({
 			url : url,
 			type : "POST",
 			data : obj,
 			success : function(result) {
+				gFunEndLoading();
 				if (result['code'] == 0) {
 					messager("保存成功！");
 				} else {

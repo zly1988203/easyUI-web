@@ -177,7 +177,11 @@ public class BranchGoodsImportComponent {
 				dbList1 = new ArrayList<GoodsBranchPriceVo>();
 			}else{
 				//根据货号查询商品
-				dbList = goodsBranchPriceService.querySkuGoodsByBarCodes(list, branchId, Integer.valueOf(type), status);
+				if (map_branchid == null) {
+					dbList = goodsBranchPriceService.querySkuGoodsByBarCodes(list, branchId, Integer.valueOf(type), status);
+				} else {
+					dbList = goodsBranchPriceService.queryOperateSkuGoodsByBarCodes(list, branchId, Integer.valueOf(type), status);
+				}
 				//-----------------------------新增一校验成功数据为准--------------------------//
 				List<JSONObject> successData = BranchGoodsImportHandle.getExcelListSuccessData();
 				for (int i = 0; i < successData.size(); i++) {
@@ -203,7 +207,11 @@ public class BranchGoodsImportComponent {
 				dbList1 = new ArrayList<GoodsBranchPriceVo>();
 			}else{
 				//根据条码查询商品，过滤掉条码重复的商品
-				dbList = goodsBranchPriceService.querySkuGoodsByBarCodes(list, branchId, Integer.valueOf(type), status);
+				if (map_branchid == null) {
+					dbList = goodsBranchPriceService.querySkuGoodsByBarCodes(list, branchId, Integer.valueOf(type), status);
+				} else {
+					dbList = goodsBranchPriceService.queryOperateSkuGoodsByBarCodes(list, branchId, Integer.valueOf(type), status);
+				}
 				//---------------------------新增一校验成功数据为准----------------------------//
 				List<JSONObject> successData = BranchGoodsImportHandle.getExcelListSuccessData();
 
@@ -337,7 +345,5 @@ public class BranchGoodsImportComponent {
 			}
 		}
 	}
-
-
 
 }
