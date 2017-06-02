@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>加盟店结算</title>
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-    <script  src="${ctx}/static/js/views/settle/franchise/settle/settle.js?V=2.6.0"></script>
+    <script  src="${ctx}/static/js/views/settle/franchise/settle/settleView.js?V=2.6.0"></script>
     <style>
     .datagrid-header .datagrid-cell {text-align: center!important;font-weight: bold;}
     </style>
@@ -19,7 +19,7 @@
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
 				<shiro:hasPermission name="JxcFranchiseSettle:add">
-            		<div class="ubtns-item" onclick="addFranchiseSetForm()">新增</div>
+            		<div class="ubtns-item" onclick="addSupAcoSetForm()">新增</div>
             	</shiro:hasPermission>
 				<shiro:hasPermission name="JxcFranchiseSettle:add">
                		<div class="ubtns-item-disabled">保存</div>

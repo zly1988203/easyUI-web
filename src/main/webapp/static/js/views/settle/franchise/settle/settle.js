@@ -22,6 +22,12 @@ $(function(){
     pageStatus = $('#pageStatus').val();
 	if(pageStatus === 'add'){
 		  $("#payMoneyTime").val(new Date().format('yyyy-MM-dd')); 
+		// 机构默认有值
+		  if(sessionBranchType == '4' || sessionBranchType == '5'){
+			$('#branchId').val(sessionBranchId);
+			$('#branchCode').val(sessionBranchCode);
+			$('#targetBranchName').val(sessionBranchCodeName)
+		  }
 	}else if(pageStatus === 'edit'){
 		var formId = $("#formId").val();
 		url = contextPath+"/settle/franchiseSettle/getDetailList?formId="+formId;
@@ -263,26 +269,40 @@ function changeActMountFrom(newV,oldV){
 	}
 	
 	var _unpayAmountText = parseFloat($('#unpayAmount').val()||0);
-	if(newV > _unpayAmountText){
+	
+	if(_unpayAmountText >= 0 && newV > _unpayAmountText){
 		$_jxc.alert('实收金额汇总不能大于未收金额汇总');
 		checkActMountFlag = true;
 		$(this).numberbox('setValue',oldV);
 		return;
 	}
+	
+	if(_unpayAmountText < 0 && newV < _unpayAmountText){
+		$_jxc.alert('实收金额汇总不能小于未收金额汇总');
+		checkActMountFlag = true;
+		$(this).numberbox('setValue',oldV);
+		return;
+	}
+	
 	changeGrid(newV,rows);
 }
 
+var changeGridFlag = false; //批量设置实收金额表示
 //批量设置实收金额
 function changeGrid(actMount,rows){
 	console.log('rows',JSON.stringify(rows))
+	changeGridFlag = true;
 	//实收金额 总汇
 	var _temActMount = actMount;
-	
 	rows.forEach(function(obj,index){
-		if(obj.checked){
+		if(obj.checked && _temActMount != 0){
 			//unpayAmount
 			var _temUnpayAmount = parseFloat(obj.unpayAmount||0);
-			obj.actualAmount = _temActMount - _temUnpayAmount < 0 ? (_temActMount<0?_temUnpayAmount:_temActMount ) : _temUnpayAmount ;
+			if(_temActMount >0){
+				obj.actualAmount = _temActMount - _temUnpayAmount <= 0 ? _temUnpayAmount : _temActMount ;
+			}else{
+				obj.actualAmount = _temActMount - _temUnpayAmount >= 0 ? _temActMount : _temUnpayAmount ;
+			}
 			_temActMount = _temActMount - _temUnpayAmount;
 		}
 	})
@@ -306,11 +326,16 @@ function updateFrom(){
 	$('#payableAmount').val(parseFloat(_footerRow[0].payableAmount||0).toFixed(2));
 	//已收金额汇总
 	$('#payedAmount').val(parseFloat(_footerRow[0].payedAmount||0).toFixed(2));
+	var _unpayAmount1 = parseFloat(_footerRow[0].unpayAmount||0);
 	//未收金额汇总
-	$('#unpayAmount').val(parseFloat(_footerRow[0].unpayAmount||0).toFixed(2));
+	$('#unpayAmount').val(_unpayAmount1.toFixed(2));
 	//实收金额汇总
 	$('#actualAmount').numberbox('setValue',parseFloat(_footerRow[0].actualAmount||0));
-	
+	if(_unpayAmount1 > 0){
+		$('#actualAmount').numberbox('options').min = 0;
+	}else{
+		$('#actualAmount').numberbox('options').max = 0;
+	}
 }
 
 //插入一行
@@ -335,11 +360,14 @@ function saveFranchiseSet(){
 	var _unpayAmount = parseFloat($('#unpayAmount').val()||0);
 	//实收金额汇总
 	var _actulAmount =  parseFloat($('#actualAmount').numberbox('getValue'));
-	if(_actulAmount > _unpayAmount){
+	if(_unpayAmount > 0 && _actulAmount > _unpayAmount){
 		$_jxc.alert("实收金额汇总 不能大于 未收金额汇总");
 		return;
 	}
-	
+	if(_unpayAmount < 0 && _actulAmount < _unpayAmount){
+		$_jxc.alert("实收金额汇总 不能小于 未收金额汇总");
+		return;
+	}
 	
 //	if(!validateForm(branchId,payTime))return;
     var rows = gridHandel.getRowsWhere({branchName:'1' });
@@ -527,7 +555,6 @@ function back(){
 function addSupAcoSetForm(){
 	$_jxc.ajax({
     	url:contextPath+"/settle/franchiseSettle/checkAuditCount",
-    	dataType: "json",
     	data:{}
     },function(result){
 		if(result['code'] == 0){

@@ -21,6 +21,13 @@ $(function(){
 	if(pageStatus === 'add'){
 		  $("#payMoneyTime").val(new Date().format('yyyy-MM-dd')); 
 		  $('#createTime').text(new Date().format('yyyy-MM-dd'))
+		  //非总部 机构默认有值
+		  console.log('sessionBranchType',sessionBranchType)
+		  if(sessionBranchType != '0'){
+			$('#branchId').val(sessionBranchId);
+			$('#branchCode').val(sessionBranchCode);
+			$('#targetBranchName').val(sessionBranchCodeName)
+		   }
 	}else {
 		var formId = $("#formId").val();
 		url = contextPath+"/settle/supplierCharge/chargeFormDetailList?formId="+formId;

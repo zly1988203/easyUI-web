@@ -20,7 +20,13 @@ $(function(){
     pageStatus = $('#operateType').val();
 	if(pageStatus === 'add'){
 		  $("#payMoneyTime").val(new Date().format('yyyy-MM-dd')); 
-		  $('#createTime').text(new Date().format('yyyy-MM-dd'))
+		  $('#createTime').text(new Date().format('yyyy-MM-dd'));
+		// 机构默认有值
+		  if(sessionBranchType == '4' || sessionBranchType == '5'){
+			$('#branchId').val(sessionBranchId);
+			$('#branchCode').val(sessionBranchCode);
+			$('#targetBranchName').val(sessionBranchCodeName)
+		  }
 	}else {
 		var formId = $("#formId").val();
 		url = contextPath+"/settle/franchiseCharge/getDetailList?formId="+formId;
