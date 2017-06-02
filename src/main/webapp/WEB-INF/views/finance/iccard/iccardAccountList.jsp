@@ -9,6 +9,7 @@
 <title>一卡通交易查询</title>
 
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
+ <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 <script
 	src="${ctx}/static/js/views/finance/iccard/iccardAccountList.js?v=5"></script>
 <%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
@@ -27,9 +28,9 @@
 					<div class="ubtns-item" onclick="query()">查询</div>
 					<div class="ubtns-item" onclick="recharge()">充值</div>
 					<div class="ubtns-item" onclick="extracted()">提取</div>
-					<shiro:hasPermission name="JxcPurchaseOrder:print">
-						<div class="ubtns-item" onclick="exportData()">导出</div>
-					</shiro:hasPermission>
+					<div class="ubtns-item" onclick="exportData()">导出</div>
+					 <input type="hidden" id="startCount" name="startCount" />
+						<input type="hidden" id="endCount" name="endCount" />
 					<div class="ubtns-item-disabled">设置</div>
 					<div class="ubtns-item" onclick="toClose()">关闭</div>
 				</div>

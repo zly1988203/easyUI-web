@@ -22,13 +22,31 @@ function initGridCardAccount() {
         width:'100%',
         columns:[[
         	{field: 'branchId', title: '店铺id', hidden:"true"},
-            {field: 'branchCode', title: '店铺编号', width: 100, align: 'left'},
+            {field: 'branchCode', title: '店铺编号', width: 100, align: 'left',formatter : function(value, row,index) {
+		        var str = value;
+		        if(value =="SUM"){
+		            str ='<div class="ub ub-pc">合计</div> ';
+		        }
+		        return str;
+		    }},
             {field: 'branchName', title: '店铺名称', width: 180, align: 'left'},
             {field: 'typeDesc', title: '店铺类型', width: 80, align: 'left'},
-            {field: 'ecardRechargeAmount', title: '累计充值金额', width: 150, align: 'right'},
-            {field: 'ecardWithdrawalAmount', title: '提取金额', width: 100, align: 'right'},
-            {field: 'ecardUseAmount', title: '已用金额', width: 100, align: 'right'},
-            {field: 'ecardBalance', title: '余额', width: 100, align: 'right'}
+            {field: 'ecardRechargeAmount', title: '累计充值金额', width: 150, align: 'right',
+				formatter:function(value,row,index){
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				}},
+            {field: 'ecardWithdrawalAmount', title: '提取金额', width: 100, align: 'right',
+					formatter:function(value,row,index){
+						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+					}},
+            {field: 'ecardUseAmount', title: '已用金额', width: 100, align: 'right',
+						formatter:function(value,row,index){
+							return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+						}},
+            {field: 'ecardBalance', title: '余额', width: 100, align: 'right',
+							formatter:function(value,row,index){
+								return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+							}}
         ]]
     })
 }
@@ -104,15 +122,48 @@ function closeExtractedDialog() {
     extractedDialog = null;
 }
 
-
+var dg;
+/**
+ * 导出
+ */
 function exportData(){
+	dg = $('#gridCardAccount');
 	var length = $('#gridCardAccount').datagrid('getData').total;
 	if(length == 0){
 		successTip("无数据可导");
 		return;
 	}
-	var queryParams =  urlEncode($("#queryForm").serializeObject());
-	window.location.href = contextPath + '/iccard/account/management/exports?params='+queryParams;
+	$('#exportWin').window({
+		top:($(window).height()-300) * 0.5,   
+	    left:($(window).width()-500) * 0.5
+	});
+	$("#exportWin").show();
+	$("#totalRows").html($('#gridCardAccount').datagrid('getData').total);
+	$("#exportWin").window("open");
+}
+
+/**
+ * 导出
+ */
+function exportExcel(){
+	var length = $('#gridCardAccount').datagrid('getData').total;
+	if(length == 0){
+		successTip('提示',"没有数据");
+		return;
+	}
+	var fromObjStr = urlEncode($('#queryForm').serializeObject());
+	$("#queryForm").form({
+		success : function(data){
+			if(data==null){
+				$.messager.alert('提示',"导出数据成功！");
+			}else{
+				$.messager.alert('提示',JSON.parse(data).message);
+			}
+		}
+	});
+	$("#queryForm").attr("action",contextPath + '/iccard/account/management/exports?params='+fromObjStr);
+	
+	$("#queryForm").submit();
 }
 
 var urlEncode = function (param, key, encode) {

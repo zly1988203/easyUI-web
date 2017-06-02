@@ -9,6 +9,7 @@
 
 package com.okdeer.jxc.controller.finance.iccard;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -83,10 +84,40 @@ public class ICCardTradingController extends BasePrintController<TradeOrderPayVo
 		PageUtils<TradeOrderPayVo> suppliers = PageUtils.emptyPage();
 		try {
 			if (StringUtils.equalsIgnoreCase("1", queryType)) {
-				suppliers = icCardTradingService.selectTradingList(vo);
+				suppliers = icCardTradingService.selectTradingList(vo,Boolean.TRUE);
+				if(suppliers==null){
+					return PageUtils.emptyPage();
+				}else{
+					TradeOrderPayVo tradeOrderPayVo = icCardTradingService.sumTradingList(vo);
+					if(tradeOrderPayVo!=null){
+	        				tradeOrderPayVo.setBranchCode("SUM");
+	        				suppliers.setFooter(new ArrayList<TradeOrderPayVo>(){
+	        				    private static final long serialVersionUID = 1L;
+	        
+	        				    {
+	        					add(tradeOrderPayVo);
+	        				    }
+	        				});
+					}
+				}
 			} else {
 				vo.setValue("");
-				suppliers = icCardTradingService.selectTradingSumList(vo);
+				suppliers = icCardTradingService.selectTradingSumList(vo,Boolean.TRUE);
+				if(suppliers==null){
+					return PageUtils.emptyPage();
+				}else{
+					TradeOrderPayVo tradeOrderPayVo = icCardTradingService.sumTradingSumList(vo);
+					if(tradeOrderPayVo!=null){
+	        				tradeOrderPayVo.setBranchCode("SUM");
+	        				suppliers.setFooter(new ArrayList<TradeOrderPayVo>(){
+	        				    private static final long serialVersionUID = 1L;
+	        
+	        				    {
+	        					add(tradeOrderPayVo);
+	        				    }
+	        				});
+					}
+				}
 			}
 			return suppliers;
 		} catch (Exception e) {
@@ -112,7 +143,7 @@ public class ICCardTradingController extends BasePrintController<TradeOrderPayVo
 				vo.setOperatorId(salesmanId);
 			}
 			if (StringUtils.equalsIgnoreCase("1", queryType)) {
-				PageUtils<TradeOrderPayVo> suppliers = icCardTradingService.selectTradingList(vo);
+				PageUtils<TradeOrderPayVo> suppliers = icCardTradingService.selectTradingList(vo,Boolean.FALSE);
 				List<TradeOrderPayVo> list = suppliers.getList();
 				if (!list.isEmpty() && list.size() > 0) {
 					String fileName = "一开通交易明细" + "_" + DateUtils.getCurrSmallStr();
@@ -122,7 +153,7 @@ public class ICCardTradingController extends BasePrintController<TradeOrderPayVo
 					return RespJson.error("无数据可导");
 				}
 			} else {
-				PageUtils<TradeOrderPayVo> suppliers = icCardTradingService.selectTradingSumList(vo);
+				PageUtils<TradeOrderPayVo> suppliers = icCardTradingService.selectTradingSumList(vo,Boolean.FALSE);
 				List<TradeOrderPayVo> list = suppliers.getList();
 				if (!list.isEmpty() && list.size() > 0) {
 					String fileName = "一卡通交易汇总" + "_" + DateUtils.getCurrSmallStr();
@@ -158,10 +189,10 @@ public class ICCardTradingController extends BasePrintController<TradeOrderPayVo
 		}
 		String path;
 		if (StringUtils.equalsIgnoreCase("1", queryType)) {
-			suppliers = icCardTradingService.selectTradingList(vo);
+			suppliers = icCardTradingService.selectTradingList(vo,Boolean.TRUE);
 			path = PrintConstant.ICC_CARD_TRADING_DETAIL;
 		}else{
-			suppliers = icCardTradingService.selectTradingSumList(vo);
+			suppliers = icCardTradingService.selectTradingSumList(vo,Boolean.TRUE);
 			path = PrintConstant.ICC_CARD_SUM_TRADING_DETAIL;
 		}
 		

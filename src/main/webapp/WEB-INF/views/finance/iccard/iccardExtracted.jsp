@@ -39,7 +39,7 @@
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-74 ut-r">&nbsp;&nbsp;&nbsp;提取金额:</div>
 					<input id="extractBalance" name="extractBalance" class="uinp easyui-numberbox easyui-validatebox"
-					data-options="min:0.00,precision:2,onChange:changeBalance" type="text"/>
+					data-options="min:0.01,max:999999.00,precision:2,onChange:changeBalance" type="text"/>
 				</div>
 				<i class="uc-red">*</i>
 			</div>

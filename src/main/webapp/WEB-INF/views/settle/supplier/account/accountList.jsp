@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>供应商往来账款</title>
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
+      <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
     <script  src="${ctx}/static/js/views/settle/supplier/account/accountList.js?V=2.6.0"></script>
     <style>
     .datagrid-header .datagrid-cell {text-align: center!important;font-weight: bold;}
@@ -17,8 +18,10 @@
             <div class="ub ub-ac">
                 <div class="ubtns">
                     <div class="ubtns-item" onclick="queryForm()">查询</div>
-                    <div class="ubtns-item" onclick="export()">导出</div>
-                    <div class="ubtns-item" onclick="print()">导出</div>
+                    <div class="ubtns-item" onclick="exportData()">导出</div>
+                    <input type="hidden" id="startCount" name="startCount" />
+						<input type="hidden" id="endCount" name="endCount" />
+                    <div class="ubtns-item" onclick="print()">打印</div>
                     <div class="ubtns-item" id="set" onclick="gFunRefresh()" >重置</div>
                     <div class="ubtns-item-disabled" >设置</div>
                     <div class="ubtns-item" onclick="toClose()">退出</div>

@@ -41,7 +41,7 @@
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-74 ut-r">&nbsp;&nbsp;&nbsp;充值金额:</div>
 					<input id="addBalance" name="addBalance" class="uinp  easyui-numberbox easyui-validatebox"
-					data-options="min:0.00,precision:2,onChange:changeBalance" type="text"/>
+					data-options="min:0.01,max:999999.00,precision:2,onChange:changeBalance" type="text"/>
 				</div>
 				<i class="uc-red">*</i>
 			</div>
