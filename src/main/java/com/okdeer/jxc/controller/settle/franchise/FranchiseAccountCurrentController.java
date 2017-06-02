@@ -25,6 +25,7 @@ import com.github.pagehelper.PageHelper;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
+import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.settle.franchise.service.FranchiseAccountCurrentService;
 import com.okdeer.jxc.settle.franchise.vo.FranchiseAccountCurrentVo;
@@ -71,14 +72,41 @@ public class FranchiseAccountCurrentController extends BaseController<FranchiseA
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
-			vo.setBranchCode(getCurrBranchCompleCode());
+			buildParam(vo);
 			PageHelper.startPage(pageNumber, pageSize, true);
 			List<FranchiseAccountCurrentVo> list = franchiseAccountCurrentService.getAccountList(vo);
-			return new PageUtils<FranchiseAccountCurrentVo>(list);
+			PageUtils<FranchiseAccountCurrentVo> page = new PageUtils<FranchiseAccountCurrentVo>(list);
+			List<FranchiseAccountCurrentVo> footer = franchiseAccountCurrentService.getSumAccount(vo);
+			page.setFooter(footer);
+			return page;
 		} catch (Exception e) {
 			LOG.error("获取加盟店往来账款列表异常:", e);
 		}
 		return PageUtils.emptyPage();
+	}
+
+	/**
+	 * @Description: 处理筛选条件
+	 * @author zhengwj
+	 * @date 2017年6月1日
+	 */
+	private void buildParam(FranchiseAccountCurrentVo vo) {
+		if (StringUtils.isNotBlank(vo.getFranchiseBranchCode())) {
+			vo.setBranchName(null);
+		}
+		// 查询当前及下属机构数据
+		vo.setBranchCode(getCurrBranchCompleCode());
+
+		// 根据报表类型，去除禁用条件
+		if (vo.getType() == 1) {
+			// 到期账款
+			vo.setStartTime(null);
+			vo.setEndTime(null);
+		}
+		if (vo.getType() == 3) {
+			// 未收账款汇总
+			vo.setTargetFormNo(null);
+		}
 	}
 
 	/**
@@ -90,7 +118,7 @@ public class FranchiseAccountCurrentController extends BaseController<FranchiseA
 	@RequestMapping(value = "exportList")
 	public void exportList(HttpServletResponse response, FranchiseAccountCurrentVo vo) {
 		try {
-			vo.setBranchCode(getCurrBranchCompleCode());
+			buildParam(vo);
 			List<FranchiseAccountCurrentVo> exportList = franchiseAccountCurrentService.getAccountList(vo);
 			// 导出文件名称，不包括后缀名
 			String fileName = null;

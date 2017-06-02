@@ -20,7 +20,6 @@ import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.okdeer.jxc.branch.service.BranchSpecServiceApi;
 import com.okdeer.jxc.common.controller.BasePrintController;
-import com.okdeer.jxc.common.enums.BranchTypeEnum;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
@@ -77,6 +76,12 @@ public class FranchiseChargeController extends BasePrintController<FranchiseChar
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
+			if (StringUtils.isNotBlank(vo.getFranchiseBranchCode())) {
+				vo.setBranchName(null);
+			}
+			if (StringUtils.isNotBlank(vo.getCreateUserId())) {
+				vo.setCreateUserName(null);
+			}
 			vo.setBranchCode(getCurrBranchCompleCode());
 			vo.setFormType(FormType.FI.toString());
 			PageHelper.startPage(pageNumber, pageSize, true);
@@ -241,9 +246,13 @@ public class FranchiseChargeController extends BasePrintController<FranchiseChar
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
-			if (!BranchTypeEnum.HEAD_QUARTERS.getCode().equals(getCurrBranchType())) {
-				vo.setTargetBranchId(getCurrBranchId());
+			if (StringUtils.isNotBlank(vo.getFranchiseBranchCode())) {
+				vo.setBranchName(null);
 			}
+			if (StringUtils.isNotBlank(vo.getCreateUserId())) {
+				vo.setCreateUserName(null);
+			}
+			vo.setBranchCode(getCurrBranchCompleCode());
 			vo.setFormType(FormType.FO.toString());
 			PageHelper.startPage(pageNumber, pageSize, true);
 			List<FranchiseChargeVo> list = franchiseChargeService.getChargeList(vo);

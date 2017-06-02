@@ -3,7 +3,6 @@
  * 新增加盟店结算
  */
 
-var branchId;
 var gridHandel = new GridClass();
 var datagirdID = 'franchiseSettList';
 
@@ -14,7 +13,6 @@ $(function(){
     $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
     initFranchiseSetList();
-    branchId = $("#franchiseBranchId").val();
     if(getUrlQueryString('message')=='0'){
     	queryForm();
     }
@@ -64,7 +62,7 @@ function initFranchiseSetList(){
 		width:'100%',
         columns:[[
                 {field:'cb',checkbox:true},
-                {field: 'formNo', title: '机构名称', width: '140px', align: 'left',
+                {field: 'formNo', title: '单据编号', width: '140px', align: 'left',
                 	formatter:function(value,row,index){
                     	var strHtml = '';
                     	if(row.auditStatus == 1){
@@ -138,7 +136,7 @@ function clearBranchCode(obj,branchId){
 function queryForm(){
 	var fromObjStr = $('#queryForm').serializeObject();
 	// 去除编码
-    fromObjStr.franchiseBranchName = fromObjStr.franchiseBranchName.substring(fromObjStr.franchiseBranchName.lastIndexOf(']')+1)
+    fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1)
     fromObjStr.createUserName = fromObjStr.createUserName.substring(fromObjStr.createUserName.lastIndexOf(']')+1)
 
 	$("#"+datagirdID).datagrid("options").method = "post";
@@ -189,9 +187,9 @@ function selectOperator(){
  */
 function selectBranches(){
 	new publicAgencyService(function(data){
-		$("#franchiseBranchId").val(data.branchesId);
-		$("#franchiseBranchName").val("["+data.branchCode+"]"+data.branchName);
-	},'',branchId);
+		$("#franchiseBranchCode").val(data.branchCompleCode);
+		$("#branchName").val("["+data.branchCode+"]"+data.branchName);
+	},'');
 }
 
 //打印

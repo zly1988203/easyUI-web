@@ -8,13 +8,13 @@ $(function(){
 var datagirdID = 'fraAccountList';
 
 function getAccountColumns(){
-	var accountType = $('input[name="orderStatus"]:checked').val();
+	var accountType = $('input[name="type"]:checked').val();
 	console.log('accountType',accountType)
 	var defaultColumns = [];
 	
 	defaultColumns =defaultColumns.concat([
-             		{field: 'branchCode', title: accountType == 3 ?'加盟店编号': '机构编号', width: '100px', align: 'left'},
-           			{field: 'branchName', title: accountType == 3 ?'加盟店':'机构名称', width: '140px', align: 'left'}])
+             		{field: 'branchCode', title: '加盟店编号', width: '100px', align: 'left'},
+           			{field: 'branchName', title: '加盟店', width: '140px', align: 'left'}])
 	
 	//3 未收账款汇总
 	if(accountType != '3'){
@@ -139,12 +139,26 @@ function initfraAcountList(){
     });
 }
 
+/**
+ * 机构
+ */
+function selectBranches(){
+	new publicAgencyService(function(data){
+		$("#branchCompleCode").val(data.branchCompleCode);
+		$("#branchName").val("["+data.branchCode+"]"+data.branchName);
+	},'');
+}
 
-
-
+function clearBranchCode(obj,branchId){
+	var branchName = $(obj).val();
+	//如果修改名称
+	if(!branchName || 
+			(branchName && branchName.indexOf("[")<0 && branchName.indexOf("]")<0)){
+		$("#" + branchId +"").val('');
+	}
+}
 
 function queryForm(){
-	initfraAcountList();
 	var fromObjStr = $('#queryForm').serializeObject();
 	// 去除编码
     fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1)
