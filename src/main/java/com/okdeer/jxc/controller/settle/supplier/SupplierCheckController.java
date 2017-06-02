@@ -48,7 +48,7 @@ public class SupplierCheckController extends BaseController<SupplierCheckControl
      */
     @Reference(version = "1.0.0", check = false)
     private SupplierCheckService supplierCheckService;
-    
+
     /**
      * 
      * @Description: 供应商对账列表页
@@ -61,7 +61,7 @@ public class SupplierCheckController extends BaseController<SupplierCheckControl
     public ModelAndView checkList(Model model) {
         return new ModelAndView("settle/supplier/check/checkList");
     }
-    
+
     /**
      * 
      * @Description: 供应商对账新增页
@@ -74,7 +74,7 @@ public class SupplierCheckController extends BaseController<SupplierCheckControl
     public ModelAndView checkAdd(Model model) {
         return new ModelAndView("settle/supplier/check/checkAdd");
     }
-    
+
     /**
      * 
      * @Description: 供应商对账编辑页
@@ -85,11 +85,11 @@ public class SupplierCheckController extends BaseController<SupplierCheckControl
      */
     @RequestMapping(value = "checkEdit")
     public ModelAndView checkEdit(Model model, String id) {
-        SupplierCheckVo CheckVo = supplierCheckService.getSupplierCheckVoById(id);
-        model.addAttribute("checkVo", CheckVo);
+        SupplierCheckVo checkVo = supplierCheckService.getSupplierCheckVoById(id);
+        model.addAttribute("checkVo", checkVo);
         return new ModelAndView("settle/supplier/check/checkEdit");
     }
-    
+
     /**
      * 
      * @Description: 供应商对账详情页
@@ -100,8 +100,8 @@ public class SupplierCheckController extends BaseController<SupplierCheckControl
      */
     @RequestMapping(value = "checkView")
     public ModelAndView checkView(Model model, String id) {
-        SupplierCheckVo CheckVo = supplierCheckService.getSupplierCheckVoById(id);
-        model.addAttribute("checkVo", CheckVo);
+        SupplierCheckVo checkVo = supplierCheckService.getSupplierCheckVoById(id);
+        model.addAttribute("checkVo", checkVo);
         return new ModelAndView("settle/supplier/check/checkView");
     }
 
@@ -126,15 +126,15 @@ public class SupplierCheckController extends BaseController<SupplierCheckControl
             LOG.debug(LogConstant.PAGE, advanceList.toString());
             return advanceList;
         } catch (Exception e) {
-            LOG.error("供应商费用列表信息异常:{}", e);
+            LOG.error("供应商对账列表信息异常:{}", e);
         }
         return PageUtils.emptyPage();
     }
-    
+
     /***
      * 
      * @Description:  获取明细信息
-     * @param formId 记录ID
+     * @param vo vo
      * @return List
      * @author xuyq
      * @date 2017年2月19日
@@ -150,6 +150,7 @@ public class SupplierCheckController extends BaseController<SupplierCheckControl
         }
         return detailList;
     }
+
     /**
      * @Description: 保存供应商对账单
      * @param data 保存JSON数据
@@ -227,9 +228,10 @@ public class SupplierCheckController extends BaseController<SupplierCheckControl
         }
         return respJson;
     }
+
     /**
      * 
-     * @Description: 供应商费用删除
+     * @Description: 供应商对账删除
      * @param ids 记录IDS
      * @return RespJson
      * @author xuyq
@@ -246,6 +248,7 @@ public class SupplierCheckController extends BaseController<SupplierCheckControl
         }
         return resp;
     }
+
     /***
      * 
      * @Description: 查询机构是否开启对账模式
@@ -257,11 +260,11 @@ public class SupplierCheckController extends BaseController<SupplierCheckControl
     @RequestMapping(value = "querySettleCheckMode", method = RequestMethod.POST)
     public RespJson querySettleCheckMode(String branchId) {
         RespJson resp = RespJson.success();
-        //默认不开启对账
+        // 默认不开启对账
         Integer checkMode = 0;
         try {
             BranchSpecVo spceVo = supplierCheckService.queryBranchSpecByBranchId(branchId);
-            if(spceVo!=null){
+            if (spceVo != null) {
                 checkMode = spceVo.getSupplierSettleCheckMode();
             }
             resp.put("checkMode", checkMode);

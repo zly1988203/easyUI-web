@@ -214,6 +214,7 @@ public class SupplierChargeController extends BaseController<SupplierChargeContr
         }
         return respJson;
     }
+
     /**
      * 
      * @Description: 供应商费用删除
@@ -233,6 +234,7 @@ public class SupplierChargeController extends BaseController<SupplierChargeContr
         }
         return resp;
     }
+
     /**
      * 
      * @Description: 供应商预付详情页
