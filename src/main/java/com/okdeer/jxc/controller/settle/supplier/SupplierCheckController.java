@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.alibaba.dubbo.common.utils.StringUtils;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
+import com.okdeer.jxc.branch.vo.BranchSpecVo;
 import com.okdeer.jxc.common.constant.LogConstant;
 import com.okdeer.jxc.common.enums.OperateTypeEnum;
 import com.okdeer.jxc.common.result.RespJson;
@@ -242,6 +243,31 @@ public class SupplierCheckController extends BaseController<SupplierCheckControl
         } catch (Exception e) {
             LOG.error("删除账单异常:{}", e);
             resp = RespJson.error("删除账单失败");
+        }
+        return resp;
+    }
+    /***
+     * 
+     * @Description: 查询机构是否开启对账模式
+     * @param branchId branchId
+     * @return RespJson
+     * @author xuyq
+     * @date 2017年6月2日
+     */
+    @RequestMapping(value = "querySettleCheckMode", method = RequestMethod.POST)
+    public RespJson querySettleCheckMode(String branchId) {
+        RespJson resp = RespJson.success();
+        //默认不开启对账
+        Integer checkMode = 0;
+        try {
+            BranchSpecVo spceVo = supplierCheckService.queryBranchSpecByBranchId(branchId);
+            if(spceVo!=null){
+                checkMode = spceVo.getSupplierSettleCheckMode();
+            }
+            resp.put("checkMode", checkMode);
+        } catch (Exception e) {
+            LOG.error("查询机构是否开启对账模式异常:{}", e);
+            resp = RespJson.error("查询机构是否开启对账模式异常");
         }
         return resp;
     }

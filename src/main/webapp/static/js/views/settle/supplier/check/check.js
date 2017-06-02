@@ -358,6 +358,8 @@ function selectBranches(){
 				new publicAgencyService(function(data){
 					$("#branchId").val(data.branchesId);
 					$("#branchCode").val(data.branchCode);
+					$("#isContainChildren").val(data.allBranch);
+					$("#branchCompleCode").val(data.branchCompleCode);
 					$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
 					
 					$("#phone").val('');
@@ -368,8 +370,9 @@ function selectBranches(){
 					
 					gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
 					                        $.extend({},gridDefault),$.extend({},gridDefault)]);
-					
-				},'',targetBranchId);
+					// 校验机构配置
+					checkBranchSpec(data.branchesId);
+				},'',targetBranchId,'','',1);
 			}
 		})
 		
@@ -377,9 +380,28 @@ function selectBranches(){
 		new publicAgencyService(function(data){
 			$("#branchId").val(data.branchesId);
 			$("#branchCode").val(data.branchCode);
+			$("#isContainChildren").val(data.allBranch);
+			$("#branchCompleCode").val(data.branchCompleCode);
 			$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
-		},'',targetBranchId);
+			// 校验机构配置
+			checkBranchSpec(data.branchesId);
+		},'',targetBranchId,'','',1);
 	}
+}
+var checkMode = 1;
+//校验机构配置
+function checkBranchSpec(branchId){
+	$_jxc.ajax({
+    	url:contextPath+"/settle/supplierCheck/querySettleCheckMode",
+    	data: {branchId:branchId}
+    },function(result){
+		console.log('机构配置：===',result);
+		checkMode = result.checkMode;
+		if(result.checkMode == 0){
+			$_jxc.alert('当前选择机构未开启对账设置，不能创建对账单!');
+			return false;
+		}
+    });
 }
 
 //选择供应商
