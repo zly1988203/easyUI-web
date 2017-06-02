@@ -63,6 +63,7 @@ function initsupAcoSetList(){
         showFooter:true,
 		height:'100%',
 		width:'100%',
+		pageSize:50,
         columns:getColumnList(),
 		onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
