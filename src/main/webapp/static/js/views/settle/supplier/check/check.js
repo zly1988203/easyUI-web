@@ -14,6 +14,7 @@ var gridName = "supplierChkAccountAdd";
 var pageStatus;
 var editRowData = null;
 var targetBranchId;
+var clickFlag = false;//是否点击供应商 方便判断显示提示
 
 
 $(function(){
@@ -45,6 +46,8 @@ $(function(){
 	}
 	initSupChkAcoAdd();
 })
+
+
 
 $(document).on('input','#remark',function(){
 	var val=$(this).val();
@@ -177,6 +180,10 @@ function initSupChkAcoAdd(){
         	return data;
         },
         onLoadSuccess:function(data){
+        	if(clickFlag && data.rows.length <= 0){
+        		clickFlag =  false;
+        		$_jxc.alert('您和此供应商没有账款信息，或您们的往来往来账款已平衡！')
+        	}
         	if(pageStatus==='edit'){
                 if(!oldData["grid"]){
                 	oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
@@ -339,28 +346,74 @@ function delSupChkAccount(){
 
 //机构
 function selectBranches(){
-	new publicAgencyService(function(data){
-		$("#branchId").val(data.branchesId);
-		$("#branchCode").val(data.branchCode);
-		$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
-	},'',targetBranchId);
+	var _rows = gridHandel.getRowsWhere({label:'1'});
+	if(_rows.length > 0){
+		$_jxc.confirm('单据信息未保存，是否先保存单据？',function(r){
+			if(!r){
+				new publicAgencyService(function(data){
+					$("#branchId").val(data.branchesId);
+					$("#branchCode").val(data.branchCode);
+					$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
+					
+					$("#phone").val('');
+					$("#mobile").val('');
+					$('#linkTel').val('');//联系人
+					$("#supplierId").val('');
+					$("#supplierName").val('');
+					
+					gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
+					                        $.extend({},gridDefault),$.extend({},gridDefault)]);
+					
+				},'',targetBranchId);
+			}
+		})
+		
+	}else{
+		new publicAgencyService(function(data){
+			$("#branchId").val(data.branchesId);
+			$("#branchCode").val(data.branchCode);
+			$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
+		},'',targetBranchId);
+	}
 }
 
 //选择供应商
 function selectSupplier(){
-    new publicSupplierService(function(data){
-    	console.log(data);
-    	$("#phone").val(data.phone);
-    	$("#mobile").val(data.mobile);
-    	$('#linkTel').val((data.mobile?data.mobile:'')+(data.phone?'/'+data.phone:''));//联系人
-    	
-    	$("#supplierId").val(data.id);
-        $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);	
-        // 设置供应商扩展信息
-        setSupplierExtValue(data.id);
-        //初始化列表
-        initCheckFormDetail();
-    });
+	clickFlag = true;
+	var _rows = gridHandel.getRowsWhere({label:'1'});
+	if(_rows.length > 0){
+		$_jxc.confirm('单据信息未保存，是否先保存单据？',function(r){
+			if(!r){
+				new publicSupplierService(function(data){
+					console.log(data);
+					$("#phone").val(data.phone);
+					$("#mobile").val(data.mobile);
+					$('#linkTel').val((data.mobile?data.mobile:'')+(data.phone?'/'+data.phone:''));//联系人
+					
+					$("#supplierId").val(data.id);
+					$("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);	
+					// 设置供应商扩展信息
+					setSupplierExtValue(data.id);
+					//初始化列表
+					initCheckFormDetail();
+				});
+			}
+		})
+	}else{
+		new publicSupplierService(function(data){
+			console.log(data);
+			$("#phone").val(data.phone);
+			$("#mobile").val(data.mobile);
+			$('#linkTel').val((data.mobile?data.mobile:'')+(data.phone?'/'+data.phone:''));//联系人
+			
+			$("#supplierId").val(data.id);
+			$("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);	
+			// 设置供应商扩展信息
+			setSupplierExtValue(data.id);
+			//初始化列表
+			initCheckFormDetail();
+		});
+	}	
 }
 
 //设置供应商扩展信息

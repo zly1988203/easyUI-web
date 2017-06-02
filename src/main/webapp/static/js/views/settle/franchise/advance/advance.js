@@ -223,7 +223,7 @@ function delLineHandel(event){
 
 function validateForm(branchId,payTime){
     if(!$.trim(branchId)){
-    	$_jxc.alert('机构信息不能为空');
+    	$_jxc.alert('加盟店信息不能为空');
     	return false;
     }
     if(!payTime){

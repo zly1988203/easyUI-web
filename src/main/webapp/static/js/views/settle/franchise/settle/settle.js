@@ -13,8 +13,9 @@ var url = "";
 var oldData = {};
 var gridName = "franchiseAccountAdd";
 var pageStatus;
-var editRowData = null;
+var editRowFlag = false;
 var targetBranchId;
+var clickFlag = false;//是否点击供应商 方便判断显示提示
 
 
 $(function(){
@@ -33,6 +34,15 @@ $(function(){
 	}
 	initSupChkAcoAdd();
 })
+
+//支付方式 默认勾选第一个
+function loadFilter(data){
+	if(pageStatus === 'add'){
+		data[0].selected = true
+	}
+	return data;
+}
+
 
 $(document).on('input','#remark',function(){
 	var val=$(this).val();
@@ -143,22 +153,31 @@ function initSupChkAcoAdd(){
             {field:'remark',title:'备注',width:'180px',editor:'textbox'}
         ]],
         onCheck:function(rowIndex,rowData){
+        	editRowFlag = true;
         	rowData.checked = true;
+        	updateFooter()
         },
         onUncheck:function(rowIndex,rowData){
+        	editRowFlag = true;
         	rowData.checked = false;
+        	updateFooter()
         },
         onCheckAll:function(rows){
+        	editRowFlag = true;
         	$.each(rows,function(index,item){
         		item.checked = true;
         	})
+        	updateFooter()
         },
         onUncheckAll:function(rows){
+        	editRowFlag = true;
         	$.each(rows,function(index,item){
         		item.checked = false;
         	})
+        	updateFooter()
         },
         onClickCell:function(rowIndex,field,value){
+        	editRowFlag = true;
         	$(this).datagrid('checkRow',rowIndex);
             gridHandel.setBeginRow(rowIndex);
             gridHandel.setSelectFieldName(field);
@@ -170,12 +189,18 @@ function initSupChkAcoAdd(){
             }
         },
         loadFilter:function(data){
-        	data.forEach(function(obj,index){
-        		obj.checked = obj.checked == 1 || !obj.checked ? true:false;
-        	})
+        	if(!editRowFlag){
+        		data.forEach(function(obj,index){
+        			obj.checked = false;
+        		})
+        	}
         	return data; 
         },
         onLoadSuccess:function(data){
+        	if(clickFlag && data.rows.length <= 0){
+        		clickFlag =  false;
+        		$_jxc.alert('您和此供应商没有账款信息，或您们的往来往来账款已平衡！')
+        	}
         	if(pageStatus==='edit'){
                 if(!oldData["grid"]){
                 	oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
@@ -186,6 +211,7 @@ function initSupChkAcoAdd(){
         	}
             gridHandel.setDatagridHeader("center");
             updateFooter();
+            
         },
     });
     
@@ -195,14 +221,96 @@ function initSupChkAcoAdd(){
     }
 }
 
+var checkFlag = false;
+//实收金额 监听事件
 function changeActAmount(vewV,oldV){
-	updateFooter()
+	console.log('33');
+	if(checkFlag){
+		checkFlag = false;
+		return;
+	}
+	var _unpayAmount = parseFloat(gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'unpayAmount')||0);
+	if(vewV > _unpayAmount){
+		$_jxc.alert('实收金额不能大于未收金额');
+		checkFlag = true;
+		$(this).numberbox('setValue',oldV);
+		return;
+	}
+	updateFooter();
 }
+
+var checkActMountFlag = false;
+//实收金额汇总
+function changeActMountFrom(newV,oldV){
+	editRowFlag = true;
+	if(checkActMountFlag){
+		checkActMountFlag = false;
+		return;
+	}
+	var rows = gridHandel.getRowsWhere({branchName:'1' });
+    if(rows.length==0){
+    	$_jxc.alert("表格不能为空");
+    	checkActMountFlag = true;
+    	$(this).numberbox('setValue',oldV);
+        return;
+    }
+	var newData = gridHandel.getRowsWhere({checked:true });//$("#"+gridName).datagrid("getChecked");
+	if(newData.length < 1){
+		$_jxc.alert("没有需要结算的信息，请检查！");
+		checkActMountFlag = true;
+		$(this).numberbox('setValue',oldV);
+		return;
+	}
+	
+	var _unpayAmountText = parseFloat($('#unpayAmount').val()||0);
+	if(newV > _unpayAmountText){
+		$_jxc.alert('实收金额汇总不能大于未收金额汇总');
+		checkActMountFlag = true;
+		$(this).numberbox('setValue',oldV);
+		return;
+	}
+	changeGrid(newV,rows);
+}
+
+//批量设置实收金额
+function changeGrid(actMount,rows){
+	console.log('rows',JSON.stringify(rows))
+	//实收金额 总汇
+	var _temActMount = actMount;
+	
+	rows.forEach(function(obj,index){
+		if(obj.checked){
+			//unpayAmount
+			var _temUnpayAmount = parseFloat(obj.unpayAmount||0);
+			obj.actualAmount = _temActMount - _temUnpayAmount < 0 ? (_temActMount<0?_temUnpayAmount:_temActMount ) : _temUnpayAmount ;
+			_temActMount = _temActMount - _temUnpayAmount;
+		}
+	})
+	console.log('rowsL',JSON.stringify(rows))
+	
+	$("#"+gridName).datagrid("loadData",rows);
+}
+
 //合计
 function updateFooter(){
     var fields = {payableAmount:0,payedAmount:0,unpayAmount:0,actualAmount:0};
-    var argWhere = {}
+    var argWhere = {name:'checked',value:true}
     gridHandel.updateFooter(fields,argWhere);
+    updateFrom();
+}
+
+//更新头部表单
+function updateFrom(){
+	var _footerRow = gridHandel.getFooterRow();
+	//应收金额汇总
+	$('#payableAmount').val(parseFloat(_footerRow[0].payableAmount||0).toFixed(2));
+	//已收金额汇总
+	$('#payedAmount').val(parseFloat(_footerRow[0].payedAmount||0).toFixed(2));
+	//未收金额汇总
+	$('#unpayAmount').val(parseFloat(_footerRow[0].unpayAmount||0).toFixed(2));
+	//实收金额汇总
+	$('#actualAmount').numberbox('setValue',parseFloat(_footerRow[0].actualAmount||0));
+	
 }
 
 //插入一行
@@ -218,30 +326,39 @@ function delLineHandel(event){
     gridHandel.delRow(index);
 }
 
-
-
 //保存
 function saveFranchiseSet(){
 	$("#"+gridName).datagrid("endEdit", gridHandel.getSelectRowIndex());
 	var branchId = $('#branchId').val();
+	
+	//未收金额汇总
+	var _unpayAmount = parseFloat($('#unpayAmount').val()||0);
+	//实收金额汇总
+	var _actulAmount =  parseFloat($('#actualAmount').numberbox('getValue'));
+	if(_actulAmount > _unpayAmount){
+		$_jxc.alert("实收金额汇总 不能大于 未收金额汇总");
+		return;
+	}
+	
+	
 //	if(!validateForm(branchId,payTime))return;
-    var rows = gridHandel.getRowsWhere({branchName:'1'});
+    var rows = gridHandel.getRowsWhere({branchName:'1' });
     if(rows.length==0){
     	$_jxc.alert("表格不能为空");
         return;
     }
     
-    var footRow = gridHandel.getFooterRow();
-    console.log('footRow',footRow)
-    if(footRow.length >0 && footRow[0].amount ==0 ){
-    	$_jxc.alert("合计该单据不能为零，请修改。");
-    	return;
-    }
+    var validFlag = true;
     var _rows = [];
     var rowNo = 0;
     $.each(rows,function(i,data){
-    	console.log(data)
     	if(data.checked){
+    		//第N行实收金额不能为0，请检查！确认
+    		if(parseFloat(data.actualAmount) == 0){
+    			validFlag = false;
+    			$_jxc.alert("第"+(i+1)+"行实收金额不能为，请检查！确认");
+    			return;
+    		}
     		_rows.push({
     			io:data.io,
     			rowNo:rowNo,
@@ -257,6 +374,13 @@ function saveFranchiseSet(){
     		rowNo++;
     	}
     })
+    
+    if(!validFlag)return;
+    
+    if(_rows.length < 1){
+    	$_jxc.alert("没有需要结算的信息，请检查！确认");
+    	return ;
+    }
     
     var reqObj = {
     	id:$('#formId').val()||'',
@@ -368,6 +492,7 @@ function initSettleFormDetail(){
 
 //机构
 function selectBranches(){
+	clickFlag = true;
 	new publicAgencyService(function(data){
 		$("#franchiseBranchId").val(data.branchesId);
 		$("#branchCode").val(data.branchCode);
