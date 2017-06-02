@@ -23,7 +23,7 @@ function searchBranchInfo (){
 function searchRole (){
 	var opBranchCompleCode = $("#editUserForm #opBranchCompleCode").val();
 	if(!opBranchCompleCode){
-		$.messager.alert("提示", "请先选择机构！","warning");
+        $_jxc.alert("请先选择机构！");
 		return;
 	}
 	var opBranchType = $("#editUserForm #opBranchType").val();
@@ -60,12 +60,17 @@ function editUser(){
 	
 	var priceGrantStr = priceGrantArray.join(",");
 	reqObj.priceGrantStr = priceGrantStr;
-	
-	var url = contextPath + "/system/user/updateUser";
-	var param = reqObj;
-	ajaxSubmit(url,param,function(result){
-        if(result){
-            alertTip(result.message, reloadDataGrid);
+
+	var param = {
+        url : contextPath + "/system/user/updateUser",
+		data:reqObj
+	};
+    $_jxc.ajax(param,function(result){
+        if(result['code'] == 0){
+            $_jxc.alert("操作成功");
+            reloadDataGrid();
+        }else {
+            $_jxc.alert(result.message, $("#dg"));
         }
 	});
 
@@ -77,19 +82,38 @@ function savePassword() {
     if (!isValid) {
         return;
     }
-
-    var url = contextPath + "/system/user/updateUser";
-    var param = null
-    ajaxSubmit(url,param,function(result){
-        if(result){
-            alertTip(result.message, reloadDataGrid);
+	debugger;
+    var param = {
+        url : contextPath + "/system/user/updateUser",
+		data :reqObj,
+	}
+    $_jxc.ajax(param,function(result){
+        if(result['code'] == 0){
+            $_jxc.alert("操作成功");
+        }else {
+            $_jxc.alert(result.message, $("#dg"));
         }
+
     })
 }
 
 function initPassword() {
     $.messager.confirm('提示','是否进行密码初始化',function(data){
-    	$("#userPwd").val("123456");
+    	var param = {
+    		url:contextPath+"/system/user/initPwd",
+    		data:{
+				id:$("#passwordForm #id").val()
+			}
+		}
+		
+    	$_jxc.ajax(param,function (result) {
+            if(result['code'] == 0){
+                $_jxc.alert("密码初始化成功");
+            }else {
+                $_jxc.alert(result.message, $("#dg"));
+            }
+
+        })
 	})
 }
 
@@ -125,4 +149,11 @@ function initpriceGrantCheck(){
 			$("#"+priceGrantArray[i]).prop("checked", true);
 		}
 	}
+}
+
+function iconOpenHandler(e){
+    var targe = e.data.target;
+    targe.type = 'text';
+    $("#userPwd").textbox({"type":"text"})
+    $(e.data.target).textbox("setValue",targe.value);
 }

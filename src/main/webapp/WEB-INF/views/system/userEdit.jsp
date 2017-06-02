@@ -112,8 +112,9 @@
 							<!-- 如果调价为null默认是全部显示
 								sale_price,cost_price,vip_price,purchase_price,wholesale_price,lowest_price,distribution_price
 							 -->
-							 <input type="hidden" name="priceGrantStr" id="priceGrantStr" value="${user.priceGrant }" />
-							 
+							<input type="hidden" name="priceGrantStr" id="priceGrantStr"
+								value="${user.priceGrant }" />
+
 							<!-- 默认隐藏零售价、会员价
 							<div class="ub ub-ac umar-r10">
 								<label><input class="priceItem" type="checkbox"
@@ -136,7 +137,8 @@
 
 							<div class="ub ub-ac umar-r10">
 								<label><input class="priceItem" type="checkbox"
-									name="priceGrants" id="distribution_price" value="distribution_price"><span>配送价</span></label>
+									name="priceGrants" id="distribution_price"
+									value="distribution_price"><span>配送价</span></label>
 							</div>
 							<div class="ub ub-ac umar-r10">
 								<label><input class="priceItem" type="checkbox"
@@ -170,10 +172,11 @@
 					<div class="ub umar-t20">
 						<div class="ub ub-ac umar-l20">
 							<div class="umar-r10 uw-60 ut-r">账号名:</div>
-							<input id="userName" name="userName"
-								class="uinp uw-250 easyui-textbox easyui-validatebox"
-								data-options="required:true,prompt:'账号',validType:'userName',iconCls:'icon-man',iconWidth:38" type="text">
-							<i class="uc-red">*</i>
+							<input id="id" name="id" type="hidden" value="${user.id }" /> <input
+								id="userCode" name="userCode" value="${user.userCode }"
+								class="uinp uw-250 uinp-no-more easyui-textbox easyui-validatebox"
+								readOnly="readonly"
+								data-options="iconCls:'icon-man',iconWidth:38" type="text">
 						</div>
 					</div>
 
@@ -182,12 +185,13 @@
 							<div class="umar-r10 uw-60 ut-r">密码:</div>
 							<input id="userPwd" name="userPwd" type="password"
 								class="uh-40 uw-250 easyui-textbox easyui-validatebox"
-								data-options="required:true,prompt:'密码',iconWidth:38,icons:[{
-	iconCls:'icon-add',
-	handler: function(e){
-	$(e.data.target).textbox('setValue', 'Something added!');
+								data-options="required:true,prompt:'密码',iconWidth:38,icons:[
+	{
+	iconCls:'icon-open',
+	handler: iconOpenHandler
 	}
-	}]"> <i class="uc-red">*</i>
+	]">
+							<i class="uc-red">*</i>
 						</div>
 					</div>
 
