@@ -38,7 +38,7 @@ public class SupplierAccountCurrentController extends BaseController<SupplierAcc
      */
     @Reference(version = "1.0.0", check = false)
     private SupplierAccountCurrentService supplierAccountCurrentService;
-    
+
     /**
      * 
      * @Description: 供应商往来账单列表页
@@ -51,10 +51,10 @@ public class SupplierAccountCurrentController extends BaseController<SupplierAcc
     public ModelAndView accountCurrentList(Model model) {
         return new ModelAndView("settle/supplier/account/accountList");
     }
-    
+
     /**
      * @Description: 查询列表
-     * @param vo 参数VO
+     * @param qo 参数qo
      * @param pageNumber 页码
      * @param pageSize 页数
      * @return PageUtils
@@ -70,7 +70,8 @@ public class SupplierAccountCurrentController extends BaseController<SupplierAcc
             qo.setPageNumber(pageNumber);
             qo.setPageSize(pageSize);
             LOG.debug(LogConstant.OUT_PARAM, qo);
-            PageUtils<SupplierAccountCurrentVo> advanceList = supplierAccountCurrentService.getAccountCurrentPageList(qo);
+            PageUtils<SupplierAccountCurrentVo> advanceList = supplierAccountCurrentService
+                    .getAccountCurrentPageList(qo);
             LOG.debug(LogConstant.PAGE, advanceList.toString());
             return advanceList;
         } catch (Exception e) {

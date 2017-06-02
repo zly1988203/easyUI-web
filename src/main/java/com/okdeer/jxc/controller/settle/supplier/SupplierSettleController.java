@@ -48,7 +48,7 @@ public class SupplierSettleController extends BaseController<SupplierSettleContr
      */
     @Reference(version = "1.0.0", check = false)
     private SupplierSettleService supplierSettleService;
-    
+
     /**
      * 
      * @Description: 供应商结算列表页
@@ -61,7 +61,7 @@ public class SupplierSettleController extends BaseController<SupplierSettleContr
     public ModelAndView settleList(Model model) {
         return new ModelAndView("settle/supplier/settle/settleList");
     }
-    
+
     /**
      * 
      * @Description: 供应商结算新增页
@@ -74,7 +74,7 @@ public class SupplierSettleController extends BaseController<SupplierSettleContr
     public ModelAndView settleAdd(Model model) {
         return new ModelAndView("settle/supplier/settle/settleAdd");
     }
-    
+
     /**
      * 
      * @Description: 供应商结算编辑页
@@ -84,12 +84,12 @@ public class SupplierSettleController extends BaseController<SupplierSettleContr
      * @date 2017年5月22日
      */
     @RequestMapping(value = "settleEdit")
-    public ModelAndView settleEdit(Model model,String id) {
-        SupplierSettleVo SettleVo = supplierSettleService.getSupplierSettleVoById(id);
-        model.addAttribute("settleVo", SettleVo);
+    public ModelAndView settleEdit(Model model, String id) {
+        SupplierSettleVo settleVo = supplierSettleService.getSupplierSettleVoById(id);
+        model.addAttribute("settleVo", settleVo);
         return new ModelAndView("settle/supplier/settle/settleEdit");
     }
-    
+
     /**
      * 
      * @Description: 供应商结算详情页
@@ -99,11 +99,12 @@ public class SupplierSettleController extends BaseController<SupplierSettleContr
      * @date 2017年5月22日
      */
     @RequestMapping(value = "settleView")
-    public ModelAndView settleView(Model model,String id) {
-        SupplierSettleVo SettleVo = supplierSettleService.getSupplierSettleVoById(id);
-        model.addAttribute("settleVo", SettleVo);
+    public ModelAndView settleView(Model model, String id) {
+        SupplierSettleVo settleVo = supplierSettleService.getSupplierSettleVoById(id);
+        model.addAttribute("settleVo", settleVo);
         return new ModelAndView("settle/supplier/settle/settleView");
     }
+
     /**
      * @Description: 查询列表
      * @param vo 参数VO
@@ -130,11 +131,11 @@ public class SupplierSettleController extends BaseController<SupplierSettleContr
         }
         return PageUtils.emptyPage();
     }
-    
+
     /***
      * 
      * @Description:  获取明细信息
-     * @param formId 记录ID
+     * @param vo vo
      * @return List
      * @author xuyq
      * @date 2017年2月19日
@@ -151,6 +152,7 @@ public class SupplierSettleController extends BaseController<SupplierSettleContr
         }
         return detailList;
     }
+
     /**
      * @Description: 保存供应商结算单
      * @param data 保存JSON数据
@@ -230,6 +232,7 @@ public class SupplierSettleController extends BaseController<SupplierSettleContr
         }
         return respJson;
     }
+
     /**
      * 
      * @Description: 供应商费用删除
@@ -250,11 +253,11 @@ public class SupplierSettleController extends BaseController<SupplierSettleContr
         }
         return resp;
     }
-    
+
     /***
      * 
      * @Description: 查询机构是否存在未审核的结算单
-     * @param branchId branchId
+     * @param vo vo
      * @return RespJson
      * @author xuyq
      * @date 2017年6月2日
