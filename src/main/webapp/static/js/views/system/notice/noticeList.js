@@ -10,7 +10,15 @@ $(function () {
     if(getUrlQueryString('message')=='0'){
     	queryNoticeList();
     }
+    changeIsRead();
 })
+
+function changeIsRead() {
+    $(".radioItem").change(function () {
+        queryNoticeList();
+    })
+}
+
 var gridName = "gridNoticeList";
 var gridHandel = new GridClass();
 function initGridNoticeList(){
@@ -59,16 +67,6 @@ function initGridNoticeList(){
         }
     });
 
-    // var row = {noticeCode:"3333333333",
-    //     title:"sdfasdfsadfasdsds",
-    //     status:"sdfs",
-    //     createTime:"sdfsdf",
-    //     publishShops:"sdf",
-    //     publishPerson:"sdf",
-    //     receiveShops:"sdf",
-    //     receivePersons:"sdf"
-    // }
-    // gridHandel.setLoadData([$.extend({},row)]);
 }
 
 /**
@@ -140,11 +138,19 @@ function closeViewDialog() {
 function delNotice() {
     var rows = $("#"+gridName).datagrid("getChecked")
     var formIds=[];
+    var flag = false;
     $.each(rows,function(i,v){
+        if(v.isRead == 0){
+            flag=true;
+        }
         formIds.push(v.id);
     });
+    var msg = '是否要删除选中数据?';
+    if(flag){
+        msg = '选中有未读的公告，只能删除已读公告,是否删除?';
+    }
 
-    $.messager.confirm('提示','是否要删除选中数据',function(data){
+    $.messager.confirm('提示',msg,function(data){
         if(data){
             var url = contextPath+"/sys/notice/delete";
             var param = {

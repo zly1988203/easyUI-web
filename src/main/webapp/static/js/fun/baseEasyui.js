@@ -1097,6 +1097,13 @@ var $_jxc = {
         }
 		
 		$.ajax(defaultParams);
+	},
+
+	isStringNull:function (str) {
+        if(!str) return true;
+        if(str.trim() == "") return true;
+        if (str.length == 0) return true;
+        if (str.replace(/(^s*)|(s*$)/g, "").length ==0) return true;
 	}
 	
 }

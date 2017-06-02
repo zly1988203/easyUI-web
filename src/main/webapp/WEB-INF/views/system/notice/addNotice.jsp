@@ -30,7 +30,8 @@
 					<div class="umar-r10 uw-70 ut-r">收件门店:</div>
 					<input class="uinp" name="receiveBranchIds" id="receiveBranchIds" type="hidden">
 					<input class="uinp" id="branchName" name="receiveBranchName"
-						type="text" maxlength="50">
+						placeholder="收件门店和人必选一种"
+						type="text"  readOnly="readonly">
 					<div class="uinp-more" onclick="selectBranch()">...</div>
 				</div>
 			</div>
@@ -40,7 +41,8 @@
 					<div class="umar-r10 uw-70 ut-r">收件人:</div>
 					<input class="uinp" name="receiveUserIds" id="receiveUserIds" type="hidden">
 					<input class="uinp" id="userName" name="receiveUserName"
-						type="text" maxlength="50">
+						placeholder="收件门店和人必选一种"
+						type="text"  readOnly="readonly">
 					<div class="uinp-more" onclick="selectUser()">...</div>
 				</div>
 			</div>
@@ -48,15 +50,15 @@
 			<div class="ub upad-4 umar-t10">
 				<div class="ub ub-ac uw-570">
 					<div class="umar-r10 uw-70 ut-r">公告标题:</div>
-					<input class="uinp ub ub-f1" type="text" id="title" name="title"
-						maxlength="50" />
+					<input class="uinp ub ub-f1" placeholder="公告标题必填" type="text" id="title" name="title"
+						maxlength="150" />
 				</div>
 			</div>
 
 			<div class="ub upad-4 umar-t10">
 				<div class="ub ub-ac uw-600">
 					<div class="umar-r10 uw-70 ut-r">公告内容:</div>
-					<textarea id="content" name="content"
+					<textarea id="content" name="content" placeholder="公告内容必填"
 						class="uh-300 umar-r30 ubor ub ub-f1" maxlength="1000"></textarea>
 				</div>
 			</div>
