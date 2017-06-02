@@ -484,3 +484,8 @@ function back(){
 function addChainForm(){
 	toAddTab("新增联营账单",contextPath + "/settle/supplierChain/chainAdd");
 }
+//导出
+function exportOrder(){
+	var formId = $("#formId").val();
+	window.location.href = contextPath + '/settle/supplierChain/exportSheet?page=SupplierChain&sheetNo='+formId;
+}

@@ -78,3 +78,8 @@ function back(){
 function addSupAdvMonForm(){
 	toAddTab("新增供应商预付款",contextPath + "/settle/supplierCharge/advanceAdd");
 }
+//导出
+function exportOrder(){
+	var formId = $("#formId").val();
+	window.location.href = contextPath + '/settle/supplierCharge/exportSheet?page=SupplierAdvance&sheetNo='+formId;
+}

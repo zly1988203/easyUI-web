@@ -84,3 +84,9 @@ function back(){
 function addSupChkForm(){
 	toAddTab("新增供应商对账单",contextPath + "/settle/supplierCheck/checkAdd");
 }
+
+//导出
+function exportOrder(){
+	var formId = $("#formId").val();
+	window.location.href = contextPath + '/settle/supplierCheck/exportSheet?page=SupplierCheck&sheetNo='+formId;
+}

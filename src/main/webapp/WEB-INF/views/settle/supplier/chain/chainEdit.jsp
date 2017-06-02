@@ -21,7 +21,7 @@
                 <div class="ubtns-item" onclick="auditChargeForm()" >审核</div>
                 <div class="ubtns-item" onclick="initChainFormDetail()">计算账款</div>
                 <div class="ubtns-item" onclick="delChainForm()" >删除</div>
-                <div class="ubtns-item-disabled" >导出</div>
+                <div class="ubtns-item" onclick="exportOrder()" >导出明细</div>
                 <div class="ubtns-item-disabled" >打印</div>
                 <div class="ubtns-item" onclick="toClose()">关闭</div>
             </div>
