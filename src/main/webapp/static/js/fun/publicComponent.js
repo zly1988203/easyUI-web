@@ -857,23 +857,25 @@ function publicCostService(param,callback){
 	//默认参数属性
 	var oldParm = {isRadio:1};
 	//只有一条数据时 直接返回
-//	param =  $.extend(oldParm,param);
-//	if(param.key){
-//		$_jxc.ajax({
-//			url:url,
-//			data:param
-//		},function(data){
-//			if(data&&data.length==1){
-//				callback(data);
-//			}else{
-//				publicCostServiceHandel(param,callback);
-//			}
-//		})
-//	}else{
-//		publicCostServiceHandel(param,callback);
-//	}
+	param =  $.extend(oldParm,param);
+	if(param.key){
+		param.nameOrCode = param.key;
+		$_jxc.ajax({
+			url:contextPath+'/common/chargeSelect/getChargeComponentList',
+			data:param
+		},function(data){
+			console.log('data',data)
+			if(data&&data.rows&&data.rows.length==1){
+				callback(data.rows);
+			}else{
+				publicCostServiceHandel(param,callback);
+			}
+		})
+	}else{
+		publicCostServiceHandel(param,callback);
+	}
 	
-	publicCostServiceHandel(param,callback);
+	
 }
 
 function publicCostServiceHandel(param,callback){
@@ -922,7 +924,7 @@ function publicCostServiceHandel(param,callback){
 	    function getCheckCost(){
 	        publicCostGetCheckCost(function(data){
 	            if(data.length==0){
-	                messager("请选择数据");
+	                $_jxc.alert("请选择数据");
 	                return;
 	            }
 	            callback(data);

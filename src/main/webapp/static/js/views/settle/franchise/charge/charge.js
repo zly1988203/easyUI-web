@@ -394,7 +394,7 @@ function selectCharge(searchKey){
 	
 	var param = {
 		key:searchKey,
-		type:'101002'
+		type:'101003'
 	};
 	publicCostService(param,function(data){
 		console.log('data',data);

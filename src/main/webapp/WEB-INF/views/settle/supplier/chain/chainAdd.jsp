@@ -27,6 +27,7 @@
             </div>
         </div>
         <div class="ub uline umar-t8"></div>
+        <input type="hidden" id="oldTime">
         <form id="chainForm" class="ub uw ub-ver">
         <input type='hidden' id="operateType" name="operateType" value="add">
         <div class="ub umar-t8">
