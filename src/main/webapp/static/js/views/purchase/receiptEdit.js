@@ -721,13 +721,15 @@ function orderDelete(){
 		    	url:contextPath+"/form/purchase/delete",
 		    	type:"POST",
 		    	data:{
-		    		formId:id
+                    formIds:id
 		    	},
 		    	success:function(result){
 		    		gFunEndLoading();
 		    		if(result['code'] == 0){
 		    			$.messager.alert("操作提示", "操作成功！", "info",function(){
-		    				back();
+		    				//back();
+                            toRefreshIframeDataGrid("form/purchase/receiptList","gridOrders");
+                            toClose();
 		    			});
 		    		}else{
 		    			successTip(result['message']);

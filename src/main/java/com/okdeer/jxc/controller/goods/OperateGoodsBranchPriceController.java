@@ -57,9 +57,9 @@ import com.okdeer.jxc.utils.jxls.ReportExcelUtil;
 
 /**
  * ClassName: GoodsBranchPriceController 
- * @Description: 商品引入
- * @author xiaoj02
- * @date 2016年9月17日
+ * @Description: 运营商品引入
+ * @author zhangchm
+ * @date 2017年5月26日
  *
  * =================================================================================================
  *     Task ID			  Date			     Author		      Description
@@ -67,8 +67,8 @@ import com.okdeer.jxc.utils.jxls.ReportExcelUtil;
  *    进销存2.0.0		   2016年9月17日                  xiaoj02            		店铺商品
  */
 @Controller
-@RequestMapping("branch/goods")
-public class GoodsBranchPriceController extends BaseController<GoodsBranchPriceController> {
+@RequestMapping("branch/operateGoods")
+public class OperateGoodsBranchPriceController extends BaseController<OperateGoodsBranchPriceController> {
 	@Reference(version = "1.0.0", check = false)
 	private GoodsBranchPriceServiceApi goodsBranchPriceService;
 	@Reference(version = "1.0.0", check = false)
@@ -81,12 +81,12 @@ public class GoodsBranchPriceController extends BaseController<GoodsBranchPriceC
 	/**
 	 * 列表
 	 * @return
-	 * @author xiaoj02
-	 * @date 2016年8月15日
+	 * @author zhangchm
+	 * @date 2017年5月26日
 	 */
 	@RequestMapping(value = "list")
 	public String list() {
-		return "goods/branchgoods/list";
+		return "operateGoods/branchgoods/list";
 	}
 
 	@RequestMapping(value = "listData", method = RequestMethod.POST)
@@ -112,10 +112,10 @@ public class GoodsBranchPriceController extends BaseController<GoodsBranchPriceC
 					|| BranchTypeEnum.SELF_STORE.getCode().equals(branchType)
 					|| BranchTypeEnum.FRANCHISE_STORE_B.getCode().equals(branchType)
 					|| BranchTypeEnum.FRANCHISE_STORE_C.getCode().equals(branchType)) {
-				branchGoods = goodsBranchPriceService.queryBranchGoods(qo);
+				branchGoods = goodsBranchPriceService.queryOperateBranchGoods(qo);
 			} else if (BranchTypeEnum.HEAD_QUARTERS.getCode().equals(branchType)
 					|| BranchTypeEnum.BRANCH_OFFICE.getCode().equals(branchType)) {
-				branchGoods = goodsBranchPriceService.queryBranchCompanyGoods(qo);
+				branchGoods = goodsBranchPriceService.queryOperateBranchCompanyGoods(qo);
 			} else {
 				LOG.error("机构类型错误!");
 				return null;
@@ -132,8 +132,8 @@ public class GoodsBranchPriceController extends BaseController<GoodsBranchPriceC
 	 * @param skuIds
 	 * @param storeId
 	 * @return
-	 * @author xiaoj02
-	 * @date 2016年9月17日
+	 * @author zhangchm
+	 * @date 2017年5月26日
 	 */
 	@RequestMapping(value = "enable", method = RequestMethod.POST)
 	@ResponseBody
@@ -171,7 +171,7 @@ public class GoodsBranchPriceController extends BaseController<GoodsBranchPriceC
 	 * @return RespJson  
 	 * @throws
 	 * @author zhangchm
-	 * @date 2017年5月23日
+	 * @date 2017年5月26日
 	 */
 	@RequestMapping(value = "branchesLeadInto", method = RequestMethod.POST)
 	@ResponseBody
@@ -222,8 +222,8 @@ public class GoodsBranchPriceController extends BaseController<GoodsBranchPriceC
 	 * @param skuIds
 	 * @param storeId
 	 * @return
-	 * @author xiaoj02
-	 * @date 2016年9月17日
+	 * @author zhangchm
+	 * @date 2017年5月26日
 	 */
 	@RequestMapping(value = "enableOne", method = RequestMethod.POST)
 	@ResponseBody
@@ -254,8 +254,8 @@ public class GoodsBranchPriceController extends BaseController<GoodsBranchPriceC
 	 * 批量淘汰商品
 	 * @param skuCodes
 	 * @param storeId
-	 * @author zhongy
-	 * @date 2016年10月12日
+	 * @author zhangchm
+	 * @date 2017年5月26日
 	 */
 	@RequestMapping(value = "eliminateGoodsStoreSku", method = RequestMethod.POST)
 	@ResponseBody
@@ -290,8 +290,8 @@ public class GoodsBranchPriceController extends BaseController<GoodsBranchPriceC
 	 * 批量恢复商品
 	 * @param skuCodes
 	 * @param storeId
-	 * @author zhongy
-	 * @date 2016年10月12日
+	 * @author zhangchm
+	 * @date 2017年5月26日
 	 */
 	@RequestMapping(value = "recoveryGoodsStoreSku", method = RequestMethod.POST)
 	@ResponseBody
@@ -336,7 +336,7 @@ public class GoodsBranchPriceController extends BaseController<GoodsBranchPriceC
 	public String tobranchGoodsPropEdit(String goodsBranchPriceId, Model model) {
 		BranchGoodsPropVo vo = goodsBranchPriceService.queryBranchGoodsPropById(goodsBranchPriceId);
 		model.addAttribute("vo", vo);
-		return "goods/branchgoods/branchGoodsPropEdit";
+		return "operateGoods/branchgoods/branchGoodsPropEdit";
 	}
 
 	/**
@@ -365,8 +365,8 @@ public class GoodsBranchPriceController extends BaseController<GoodsBranchPriceC
 	 * @param status,0:机构已有商品,1:机构未引入商品,2:所有
 	 * @param branchId
 	 * @return
-	 * @author zhongy
-	 * @date 2017年02月21日
+	 * @author zhangchm
+	 * @date 2017年5月26日
 	 */
 	@RequestMapping(value = "importList")
 	@ResponseBody
@@ -390,7 +390,8 @@ public class GoodsBranchPriceController extends BaseController<GoodsBranchPriceC
 			} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {
 				fields = new String[] { "barCode" };
 			}
-			String errorFileDownloadUrlPrefix = "/branch/goods/downloadErrorFile";
+			String errorFileDownloadUrlPrefix = "/branch/operateGoods/downloadErrorFile";
+			Map<String, String> map_branchid = new HashMap<String, String>();
 			BranchGoodsImportVo<GoodsBranchPriceVo> vo = branchGoodsImportComponent.importSelectGoods(fileName, is,
 					fields, new GoodsBranchPriceVo(), branchId, status, user.getId(), type, errorFileDownloadUrlPrefix,
 					new GoodsSelectImportBusinessValid() {
@@ -402,24 +403,15 @@ public class GoodsBranchPriceController extends BaseController<GoodsBranchPriceC
 								ImportValidExists(excelListSuccessData, branchId, type);
 							}
 						}
-
-						/**
-						 * (non-Javadoc)
-						 * @see com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid#formatter(java.util.List)
-						 */
 						@Override
 						public void formatter(List<? extends GoodsSelect> list, List<JSONObject> excelListSuccessData,
 								List<JSONObject> excelListErrorData) {
 						}
 
-						/**
-						 * (non-Javadoc)
-						 * @see com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid#errorDataFormatter(java.util.List)
-						 */
 						@Override
 						public void errorDataFormatter(List<JSONObject> list) {
 						}
-					}, null);
+					}, map_branchid);
 			respJson.put("importInfo", vo);
 		} catch (IOException e) {
 			respJson = RespJson.error("读取Excel流异常");
@@ -438,18 +430,17 @@ public class GoodsBranchPriceController extends BaseController<GoodsBranchPriceC
 	 * @param branchId
 	 * @param type   
 	 * @return void  
-	 * @author zhangq
-	 * @date 2017年3月17日
+	 * @author zhangchm
+	 * @date 2017年5月26日
 	 */
 	public void ImportValidParentExist(List<JSONObject> excelListSuccessData, String branchId, String type) {
 		GoodsBranchPriceQo qo = new GoodsBranchPriceQo();
-		qo.setStatus(0);
-		qo.setPage(1);
-		PageUtils<GoodsBranchPriceVo> page = null;
+		
+		List<GoodsBranchPriceVo> list = null;
 		Branches branch = branchesServiceApi.getBranchInfoById(branchId);// 机构类型(0.总部、1.分公司、2.物流中心、3.自营店、4.加盟店B、5.加盟店C)
-		if (branch.getType() == 3 || branch.getType() == 4 || branch.getType() == 5) {
-			qo.setBranchId(branch.getParentId());
-			qo.setRows(excelListSuccessData.size());
+		if (branch.getType() == 2 || branch.getType() == 3 || branch.getType() == 4 || branch.getType() == 5) {
+			qo.setBranchId(branchId);
+			qo.setStatus(1);
 			List<String> codeList = new ArrayList<String>();
 			if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {
 				for (JSONObject obj : excelListSuccessData) {
@@ -463,8 +454,7 @@ public class GoodsBranchPriceController extends BaseController<GoodsBranchPriceC
 				qo.setBarCodeList(codeList);
 			}
 			// 不需要查询上级门店所有的，只需要查询要导入的
-			page = goodsBranchPriceService.queryBranchGoods(qo);
-			List<GoodsBranchPriceVo> list = page.getList();
+			list = goodsBranchPriceService.queryOperateSkuGoodsByBarCodes(codeList,branchId,Integer.valueOf(type),1);
 			Map<String, GoodsBranchPriceVo> map = new HashMap<String, GoodsBranchPriceVo>();
 			// 用于一品多码进行匹配
 			Map<String, GoodsBranchPriceVo> allBarCode = new HashMap<String, GoodsBranchPriceVo>();
@@ -506,8 +496,8 @@ public class GoodsBranchPriceController extends BaseController<GoodsBranchPriceC
 	 * @param type   
 	 * @return void  
 	 * @throws
-	 * @author zhangq
-	 * @date 2017年3月17日
+	 * @author zhangchm
+	 * @date 2017年5月26日
 	 */
 	public void ImportValidExists(List<JSONObject> excelListSuccessData, String branchId, String type) {
 		GoodsBranchPriceQo qo = new GoodsBranchPriceQo();
@@ -562,8 +552,8 @@ public class GoodsBranchPriceController extends BaseController<GoodsBranchPriceC
 	}
 
 	/**
-	 * @author zhongy
-	 * @date 2017年02月21日
+	 * @author zhangchm
+	 * @date 2017年5月26日
 	 */
 	@RequestMapping(value = "downloadErrorFile")
 	public void downloadErrorFile(String code, String type, HttpServletResponse response) {
@@ -584,8 +574,8 @@ public class GoodsBranchPriceController extends BaseController<GoodsBranchPriceC
 	 * @Description: 商品引入导入模板
 	 * @param response
 	 * @param type
-	 * @author zhongy
-	 * @date 2016年10月12日
+	 * @author zhangchm
+	 * @date 2017年5月26日
 	 */
 	@RequestMapping(value = "exportTemp")
 	public void exportTemp(HttpServletResponse response, Integer type) {
@@ -614,8 +604,8 @@ public class GoodsBranchPriceController extends BaseController<GoodsBranchPriceC
 	 * @param dataList	数据集合
 	 * @param fileName	导出文件名称，不包括后缀名
 	 * @param templateName	模板名称，包括后缀名
-	 * @author liwb
-	 * @date 2016年8月22日
+	 * @author zhangchm
+	 * @date 2017年5月26日
 	 */
 	protected void exportListForXLSX(HttpServletResponse response, List<?> dataList, String fileName,
 			String templateName) {

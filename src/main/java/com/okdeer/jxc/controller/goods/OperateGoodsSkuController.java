@@ -31,7 +31,6 @@ import com.okdeer.jxc.common.enums.GoodsTypeEnum;
 import com.okdeer.jxc.common.enums.PricingTypeEnum;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
-import com.okdeer.jxc.common.utils.Disabled;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.controller.BaseController;
@@ -49,19 +48,19 @@ import com.okdeer.jxc.supplier.service.SupplierServiceApi;
 import com.okdeer.jxc.utils.UserUtil;
 
 /**
- * ClassName: GoodsRecodeController 
- * @Description: 商品档案controller
- * @author taomm
- * @date 2016年7月18日
+ * ClassName: OperateGoodsSkuController 
+ * @Description: 运营商品档案controller
+ * @author zhangchm
+ * @date 2017年5月26日
  *
  * =================================================================================================
  *     Task ID			  Date			     Author		      Description
  * ----------------+----------------+-------------------+-------------------------------------------
- *    进销存2.0.0		   2016年9月06日                     zhongy               修改格式
+ *
  */
 @Controller
-@RequestMapping("common/goods")
-public class GoodsSkuController extends BaseController<GoodsSkuController> {
+@RequestMapping("common/operateGoods")
+public class OperateGoodsSkuController extends BaseController<OperateGoodsSkuController> {
 
 	@Reference(version = "1.0.0", check = false)
 	private GoodsSkuServiceApi goodsSkuService;
@@ -80,12 +79,12 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 	 * @return   
 	 * @return String  
 	 * @throws
-	 * @author taomm
-	 * @date 2016年7月20日
+	 * @author zhangchm
+	 * @date 2017年5月26日
 	 */
 	@RequestMapping(value = "view")
 	public String view() {
-		return "archive/goods/goodsList";
+		return "operateArchive/goods/goodsList";
 	}
 
 	/**
@@ -95,8 +94,8 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 	 * @return   
 	 * @return List<GoodsSkuVo>  
 	 * @throws
-	 * @author taomm
-	 * @date 2016年7月21日
+	 * @author zhangchm
+	 * @date 2017年5月26日
 	 */
 	@RequestMapping(value = "queryGoodsSku", method = RequestMethod.POST)
 	@ResponseBody
@@ -119,7 +118,7 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 		}
 		qo.setPageNumber(pageNumber);
 		qo.setPageSize(pageSize);
-		PageUtils<GoodsSku> page = goodsSkuService.querySkuByPage(qo);
+		PageUtils<GoodsSku> page = goodsSkuService.queryOperateSkuByPage(qo);
 		LOG.debug("page" + page.toString());
 		return page;
 	}
@@ -130,8 +129,8 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 	 * @return   
 	 * @return String  
 	 * @throws
-	 * @author taomm
-	 * @date 2016年7月20日
+	 * @author zhangchm
+	 * @date 2017年5月26日
 	 */
 	@RequestMapping(value = "addGoodsView")
 	public String addGoodsView(Model model, HttpServletRequest request) {
@@ -167,7 +166,7 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 					PricingTypeEnum.ORDINARY, rootCategoryCode));
 			model.addAttribute("data", sku);
 		}
-		return "archive/goods/addGoods";
+		return "operateArchive/goods/addGoods";
 	}
 
 	/**
@@ -176,8 +175,8 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 	 * @param model
 	 * @param request
 	 * @return
-	 * @author taomm
-	 * @date 2016年8月3日
+	 * @author zhangchm
+	 * @date 2017年5月26日
 	 */
 	@RequestMapping(value = "copyGoodsView")
 	public String copyGoodsView(Model model, String id) {
@@ -194,7 +193,7 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 		// 将计价方式，商品状态，商品类型的枚举放入model中
 		addEnum(model);
 
-		return "archive/goods/addGoods";
+		return "operateArchive/goods/addGoods";
 	}
 
 	/**
@@ -217,7 +216,7 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 		model.addAttribute("goodpPicingType", sku.getPricingType().ordinal());
 		addEnum(model);
 
-		return "archive/goods/updateGoods";
+		return "operateArchive/goods/updateGoods";
 	}
 
 	/**
@@ -225,8 +224,8 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 	 * @Description: 修改商品时，根据商品id获取商品信息
 	 * @param request
 	 * @return
-	 * @author taomm
-	 * @date 2016年8月23日
+	 * @author zhangchm
+	 * @date 2017年5月26日
 	 */
 	@RequestMapping(value = "getGoodsSkuById")
 	@ResponseBody
@@ -249,12 +248,12 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 	 * @return   
 	 * @return String  
 	 * @throws
-	 * @author taomm
-	 * @date 2016年7月20日
+	 * @author zhangchm
+	 * @date 2017年5月26日
 	 */
 	@RequestMapping(value = "chooseCategory")
 	public String chooseCategory() {
-		return "archive/goods/chooseCategory";
+		return "operateArchive/goods/chooseCategory";
 	}
 
 	/**
@@ -262,8 +261,8 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 	 * @Description: 新增商品
 	 * @param sku
 	 * @return
-	 * @author taomm
-	 * @date 2016年8月3日
+	 * @author zhangchm
+	 * @date 2017年5月26日
 	 */
 	@RequestMapping(value = "addGoods", method = RequestMethod.POST)
 	@ResponseBody
@@ -314,9 +313,8 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 			}
 			sku.setUpdateUserId(UserUtil
 					.getCurrentUser().getId());
-			sku.setDisabled(Disabled.VALID.ordinal());
-			RespJson json = goodsSkuService.addGoodsSku(sku, UserUtil
-					.getCurrentUser().getId());
+			sku.setDisabled(3);
+			RespJson json = goodsSkuService.addGoodsSku(sku, UserUtil.getCurrentUser().getId());
 			return json;
 		} catch (Exception e) {
 			LOG.error("新增商品异常:", e);
@@ -334,7 +332,7 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 	 */
 	@RequestMapping(value = "updateGoods", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson copyGoods(@Valid GoodsSkuVo sku, BindingResult validate) {
+	public RespJson updateGoods(@Valid GoodsSkuVo sku, BindingResult validate) {
 		if (validate.hasErrors()) {
 			String errorMessage = validate.getFieldError().getDefaultMessage();
 			LOG.warn("validate errorMessage:", errorMessage);
@@ -367,8 +365,7 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 			if (sku.getLowestPrice()==null) {
 				sku.setLowestPrice(price);
 			}
-			return goodsSkuService.updateGoodsSku(sku, UserUtil
-					.getCurrentUser().getId());
+			return goodsSkuService.updateGoodsSku(sku, UserUtil.getCurrentUser().getId());
 		} catch (Exception e) {
 			LOG.error("修改商品异常:", e);
 			return RespJson.error("修改商品异常");
@@ -380,8 +377,8 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 	 * @Description: 删除商品
 	 * @param request
 	 * @return
-	 * @author taomm
-	 * @date 2016年8月15日
+	 * @author zhangchm
+	 * @date 2017年5月26日
 	 */
 	@RequestMapping(value = "delGoods", method = RequestMethod.POST)
 	@ResponseBody
@@ -400,8 +397,8 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 	 * 
 	 * @Description: 抽取出来需要放入model中键值对
 	 * @param model
-	 * @author taomm
-	 * @date 2016年8月15日
+	 * @author zhangchm
+	 * @date 2017年5月26日
 	 */
 	public void addEnum(Model model) {
 		model.addAttribute("pricingType", PricingTypeEnum.values()); // 计价方式
@@ -414,8 +411,8 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 	 * @Description: 普通商品验证条码是否重复  true：重复   false：不重复
 	 * @param barCode
 	 * @return
-	 * @author taomm
-	 * @date 2016年8月13日
+	 * @author zhangchm
+	 * @date 2017年5月26日
 	 */
 	@RequestMapping(value = "checkBarCodeByOrdinary", method = RequestMethod.POST)
 	@ResponseBody
@@ -440,8 +437,8 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 	 * @Description: 根据商品名称获取助记码
 	 * @param skuName
 	 * @return
-	 * @author taomm
-	 * @date 2016年8月15日
+	 * @author zhangchm
+	 * @date 2017年5月26日
 	 */
 	@RequestMapping(value = "getMemoryCode", method = RequestMethod.POST)
 	@ResponseBody
@@ -457,8 +454,8 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 	 * @param pricingType
 	 * @param categoryCode
 	 * @return
-	 * @author taomm
-	 * @date 2016年8月18日
+	 * @author zhangchm
+	 * @date 2017年5月26日
 	 */
 	@RequestMapping(value = "getSkuCode", method = RequestMethod.POST)
 	@ResponseBody
@@ -476,8 +473,8 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 	 * @param pricingType
 	 * @param SkuCode
 	 * @return
-	 * @author taomm
-	 * @date 2016年8月19日
+	 * @author zhangchm
+	 * @date 2017年5月26日
 	 */
 	@RequestMapping(value = "getBarCode", method = RequestMethod.POST)
 	@ResponseBody
@@ -492,8 +489,8 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 	 * @param qo
 	 * @param response
 	 * @return
-	 * @author lijy02
-	 * @date 2016年9月14日
+	 * @author zhangchm
+	 * @date 2017年5月26日
 	 */
 	@RequestMapping(value = "exportGoods", method = RequestMethod.POST)
 	@ResponseBody
@@ -513,12 +510,6 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 			if (!qo.isOutGoods()) {// 淘汰商品
 				qo.setStatus(GoodsStatusEnum.OBSOLETE.ordinal());
 			}
-//			int count=goodsSkuService.querySkuByParamsCount(qo);
-//			if(count>ExportExcelConstant.EXPORT_MAX_SIZE){
-//				RespJson json = RespJson.error("最多只能导出" + ExportExcelConstant.EXPORT_MAX_SIZE
-//						+ "条数据");
-//				return json;
-//			}
 			
  			List<GoodsSku> list = goodsSkuService.querySkuByParams(qo);
 			if (CollectionUtils.isNotEmpty(list)) {

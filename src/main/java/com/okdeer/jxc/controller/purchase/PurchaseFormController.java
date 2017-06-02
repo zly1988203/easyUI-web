@@ -1398,7 +1398,6 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 		//其他参数
 		qo.setPage(1);
 		qo.setRows(skuIds.size());
-		
 		//查询商品信息
 		PageUtils<GoodsBranchPriceVo> page = null;
 		Branches branch = branchesServiceApi.getBranchInfoById(branchId);//机构类型(0.总部、1.分公司、2.物流中心、3.自营店、4.加盟店B、5.加盟店C)
@@ -1413,11 +1412,11 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 		StringBuilder sb = new StringBuilder();
 		for (GoodsBranchPriceVo branchGoodsVo : list) {
 			//停购
-			if(branchGoodsVo.getStatus().equals("2")){
+			if("2".equals(branchGoodsVo.getStatus())){
 				sb.append(branchGoodsVo.getSkuName()+"["+branchGoodsVo.getSkuCode()+"]已停购；\n");
 			}
 			//淘汰
-			if(branchGoodsVo.getStatus().equals("3")){
+			if("3".equals(branchGoodsVo.getStatus())){
 				sb.append(branchGoodsVo.getSkuName()+"["+branchGoodsVo.getSkuCode()+"]已淘汰；\n");
 			}
 		}
