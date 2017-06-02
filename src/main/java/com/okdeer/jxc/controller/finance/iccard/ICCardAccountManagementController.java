@@ -10,6 +10,7 @@
 package com.okdeer.jxc.controller.finance.iccard;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -81,7 +82,22 @@ public class ICCardAccountManagementController extends BasePrintController<ICCar
 		}
 		PageUtils<ICCardAccountVo> suppliers = PageUtils.emptyPage();
 		try {
-			suppliers = icCardAccountService.selectAccountList(vo);
+			suppliers = icCardAccountService.selectAccountList(vo,true);
+			if(suppliers==null){
+				return PageUtils.emptyPage();
+			}else{
+				ICCardAccountVo icCardAccountVo = icCardAccountService.sumAccountList(vo);
+				if(icCardAccountVo!=null){
+        				icCardAccountVo.setBranchCode("SUM");
+        				suppliers.setFooter(new ArrayList<ICCardAccountVo>(){
+        				    private static final long serialVersionUID = 1L;
+        
+        				    {
+        					add(icCardAccountVo);
+        				    }
+        				});
+				}
+			}
 			return suppliers;
 		} catch (Exception e) {
 			logger.error("一卡通查询列表失败！", e);
@@ -102,7 +118,7 @@ public class ICCardAccountManagementController extends BasePrintController<ICCar
 			} else {
 				vo.setBranchCode(getCurrentUser().getBranchCompleCode());
 			}
-			PageUtils<ICCardAccountVo> suppliers = icCardAccountService.selectAccountList(vo);
+			PageUtils<ICCardAccountVo> suppliers = icCardAccountService.selectAccountList(vo,false);
 			List<ICCardAccountVo> list = suppliers.getList();
 			if (!list.isEmpty() && list.size() > 0) {
 				String fileName = "一开通账户管理" + "_" + DateUtils.getCurrSmallStr();

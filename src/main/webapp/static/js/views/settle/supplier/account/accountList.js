@@ -198,23 +198,52 @@ function queryForm(){
 	$("#"+datagirdID).datagrid('options').url = contextPath + '/settle/supplierAccountCurrent/getAccountCurrentList';
 	$("#"+datagirdID).datagrid('load',fromObjStr);
 }
+
+var dg;
 /**
  * 导出表单
  */
-function exportAccountList(){
+function exportData(){
+	$("#startCount").val('');
+	$("#endCount").val('');
+	dg = $("#"+datagirdID);
 	var length = $("#"+datagirdID).datagrid('getData').total;
 	if(length == 0){
-		$.messager.alert('提示',"无数据可导");
+		successTip("无数据可导");
 		return;
 	}
-	if(length>10000){
-		$.messager.alert('提示',"当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
-		return;
-	}
-	$("#queryForm").attr("action",contextPath+"/settle/supplierAccountCurrent/exportAccountCurrentList");
-	$("#queryForm").submit(); 
+	$('#exportWin').window({
+		top:($(window).height()-300) * 0.5,   
+	    left:($(window).width()-500) * 0.5
+	});
+	$("#exportWin").show();
+	$("#totalRows").html(dg.datagrid('getData').total);
+	$("#exportWin").window("open");
 }
 
+/**
+ * 导出
+ */
+function exportExcel(){
+	var length = $("#"+datagirdID).datagrid('getData').total;
+	if(length == 0){
+		successTip('提示',"没有数据");
+		return;
+	}
+	var fromObjStr = urlEncode($('#queryForm').serializeObject());
+	$("#queryForm").form({
+		success : function(data){
+			if(data==null){
+				$.messager.alert('提示',"导出数据成功！");
+			}else{
+				$.messager.alert('提示',JSON.parse(data).message);
+			}
+		}
+	});
+	$("#queryForm").attr("action",contextPath + '/settle/supplierAccountCurrent/exportAccountCurrentList?params='+fromObjStr);
+	
+	$("#queryForm").submit();
+}
 
 //机构
 function selectBranches(){
@@ -232,3 +261,18 @@ function selectSupplier(){
         $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);	
     });
 }
+
+var urlEncode = function (param, key, encode) {
+	  if(param==null) return '';
+	  var paramStr = '';
+	  var t = typeof (param);
+	  if (t == 'string' || t == 'number' || t == 'boolean') {
+	    paramStr += '&' + key + '=' + ((encode==null||encode) ? encodeURIComponent(param) : param);
+	  } else {
+	    for (var i in param) {
+	      var k = key == null ? i : key + (param instanceof Array ? '[' + i + ']' : '.' + i);
+	      paramStr += urlEncode(param[i], k, encode);
+	    }
+	  }
+	  return paramStr;
+	};
