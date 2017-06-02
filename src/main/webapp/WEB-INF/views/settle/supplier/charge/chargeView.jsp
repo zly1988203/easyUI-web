@@ -22,7 +22,7 @@
                 <div class="ubtns-item-disabled">审核</div>
                 <div class="ubtns-item-disabled">费用选择</div>
                 <div class="ubtns-item-disabled" >删除</div>
-                <div class="ubtns-item" >导出明细</div>
+                <div class="ubtns-item" onclick="exportOrder()" >导出明细</div>
                 <div class="ubtns-item-disabled" >打印</div>
                 <div class="ubtns-item" onclick="toClose()">关闭</div>
             </div>
