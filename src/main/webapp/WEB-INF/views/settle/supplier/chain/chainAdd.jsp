@@ -35,6 +35,8 @@
                 <div class="ub ub-f1">
                     <input type="hidden" id="branchId" name="branchId"/>
                     <input type="hidden" id="branchCode" name="branchCode"/>
+                    <input type="hidden" id="isContainChildren" name="isContainChildren"/>
+                    <input type="hidden" id="branchCompleCode" name="branchCompleCode"/>
                     <input class="uinp ub ub-f1" type="text" id="targetBranchName" readonly="readonly" onclick="selectBranches()" />
                     <div class="uinp-more" onclick="selectBranches()">...</div>
                 </div>

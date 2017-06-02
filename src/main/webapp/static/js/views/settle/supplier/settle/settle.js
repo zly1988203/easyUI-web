@@ -350,8 +350,27 @@ function selectBranches(){
 	new publicAgencyService(function(data){
 		$("#branchId").val(data.branchesId);
 		$("#branchCode").val(data.branchCode);
+		$("#isContainChildren").val(data.allBranch);
+		$("#branchCompleCode").val(data.branchCompleCode);
 		$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
-	},'',targetBranchId);
+		//校验是否存在未审核的结算单
+		checkSettleAuditStutas(data.branchesId,data.branchCompleCode,data.allBranch);
+	},'',targetBranchId,'','',1);
+}
+var unChNum = 0;
+//校验是否存在未审核的结算单
+function checkSettleAuditStutas(branchId,branchCompleCode,allBranch){
+	$_jxc.ajax({
+    	url:contextPath+"/settle/supplierSettle/querySettleStatusNum",
+    	data: {branchId:branchId,branchCompleCode:branchCompleCode,isContainChildren:allBranch}
+    },function(result){
+		console.log('未审核的结算单数：===',result);
+		unChNum = result.unChNum;
+		if(result.unChNum > 0){
+			$_jxc.alert('当前选择机构存在未审核的结算单，不能新增结算单!');
+			return false;
+		}
+    });
 }
 
 //选择供应商

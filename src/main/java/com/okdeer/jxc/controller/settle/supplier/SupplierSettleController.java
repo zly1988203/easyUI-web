@@ -250,4 +250,27 @@ public class SupplierSettleController extends BaseController<SupplierSettleContr
         }
         return resp;
     }
+    
+    /***
+     * 
+     * @Description: 查询机构是否存在未审核的结算单
+     * @param branchId branchId
+     * @return RespJson
+     * @author xuyq
+     * @date 2017年6月2日
+     */
+    @RequestMapping(value = "querySettleStatusNum", method = RequestMethod.POST)
+    public RespJson querySettleStatusNum(SupplierSettleVo vo) {
+        RespJson resp = RespJson.success();
+        // 未审核结算单数
+        int unChNum = 0;
+        try {
+            unChNum = supplierSettleService.querySettleStatusNum(vo);
+            resp.put("unChNum", unChNum);
+        } catch (Exception e) {
+            LOG.error("查询机构是否存在未审核的结算单异常:{}", e);
+            resp = RespJson.error("查询机构是否存在未审核的结算单异常");
+        }
+        return resp;
+    }
 }

@@ -402,6 +402,8 @@ function selectBranches(){
 				new publicAgencyService(function(data){
 					$("#branchId").val(data.branchesId);
 					$("#branchCode").val(data.branchCode);
+					$("#isContainChildren").val(data.allBranch);
+					$("#branchCompleCode").val(data.branchCompleCode);
 					$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
 					
 					$('#supplierContcat').val('');//联系人
@@ -415,15 +417,17 @@ function selectBranches(){
 			        gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
 			    	                         $.extend({},gridDefault),$.extend({},gridDefault)]);
 			        
-				},'',branchId);	
+				},'',branchId,'','',1);	
 			}
 		});
 	}else{
 		new publicAgencyService(function(data){
 			$("#branchId").val(data.branchesId);
 			$("#branchCode").val(data.branchCode);
+			$("#isContainChildren").val(data.allBranch);
+			$("#branchCompleCode").val(data.branchCompleCode);
 			$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
-		},'',branchId);
+		},'',branchId,'','',1);
 	}	
 	
 }

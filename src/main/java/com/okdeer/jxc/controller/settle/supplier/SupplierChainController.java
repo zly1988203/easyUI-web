@@ -172,7 +172,6 @@ public class SupplierChainController extends BaseController<SupplierChainControl
                 return respJson;
             }
             SupplierChainVo vo = JSON.parseObject(data, SupplierChainVo.class);
-//            SupplierChainVo vo = GsonUtils.fromJson(data, SupplierChainVo.class);
             if (OperateTypeEnum.ADD.getIndex().equals(vo.getOperateType())) {
                 // 新增
                 vo.setCreateUserId(user.getId());
