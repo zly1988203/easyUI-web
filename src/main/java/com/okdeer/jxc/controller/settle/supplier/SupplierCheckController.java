@@ -126,7 +126,7 @@ public class SupplierCheckController extends BaseController<SupplierCheckControl
             LOG.debug(LogConstant.PAGE, advanceList.toString());
             return advanceList;
         } catch (Exception e) {
-            LOG.error("供应商费用列表信息异常:{}", e);
+            LOG.error("供应商对账列表信息异常:{}", e);
         }
         return PageUtils.emptyPage();
     }
@@ -231,7 +231,7 @@ public class SupplierCheckController extends BaseController<SupplierCheckControl
 
     /**
      * 
-     * @Description: 供应商费用删除
+     * @Description: 供应商对账删除
      * @param ids 记录IDS
      * @return RespJson
      * @author xuyq

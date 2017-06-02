@@ -127,7 +127,7 @@ public class SupplierSettleController extends BaseController<SupplierSettleContr
             LOG.debug(LogConstant.PAGE, advanceList.toString());
             return advanceList;
         } catch (Exception e) {
-            LOG.error("供应商费用列表信息异常:{}", e);
+            LOG.error("供应商结算列表信息异常:{}", e);
         }
         return PageUtils.emptyPage();
     }
@@ -235,7 +235,7 @@ public class SupplierSettleController extends BaseController<SupplierSettleContr
 
     /**
      * 
-     * @Description: 供应商费用删除
+     * @Description: 供应商结算删除
      * @param ids 记录IDS
      * @return RespJson
      * @author xuyq
