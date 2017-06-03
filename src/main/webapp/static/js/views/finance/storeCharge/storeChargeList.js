@@ -51,8 +51,8 @@ function initGridBranchCostList() {
 function selectListBranches(){
     new publicAgencyService(function(data){
         $("#branchId").val(data.branchesId);
-        $("#branchName").val(data.branchName);
-        $("#oldBranchName").val(data.branchName);
+        $("#branchCode").val(data.branchCode);
+        $("#branchName").val("["+data.branchCode+"]" + data.branchName);
     },'BF','');
 }
 

@@ -211,6 +211,12 @@ public interface ExportExcelConstant {
 	
 	/*** 系统操作日志列表导出模板  */
 	String SYS_OPERATE_LOG_EXPORT_TEMPLATE = "sysOperateLogExportTemplate.xlsx";
+	
+	/*** 线上订单查询列表导出模板  */
+	String ONLINE_ORDER_SEARCH_LIST_EXPORT_TEMPLATE = "onlineOrderSearchListExportTemplate.xlsx";
+	
+	/*** 线上订单商品信息列表导出模板  */
+	String ONLINE_ORDER_GOODS_DETAIL_EXPORT_TEMPLATE = "onlineOrderGoodsDetailExportTemplate.xlsx";
 
 	/**
 	 * 成本调价单导出模板

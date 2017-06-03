@@ -152,34 +152,6 @@ public class SSOMainController extends BaseController<SSOMainController> {
 		}
 	}
 	
-	@RequestMapping(value = "initPwd", method = RequestMethod.POST)
-	@ResponseBody
-	public String initPwd(String userId) {
-		LOG.debug("初始化密码，userId:{}", userId);
-		SystemUserDto sysUserDto = null;
-		try {
-			// 获取当前用户的信息,拿到旧密码
-			sysUserDto = sysUserApi.loadSysUser(userId);
-			if (sysUserDto == null) {
-				return "获取用户中心数据失败,请稍后再试,或联系管理员";
-			}
-
-			SysUserDto sysDto = new SysUserDto();
-			sysDto.setId(sysUserDto.getId());
-			sysDto.setUpdateUserId(super.getCurrUserId());
-			// 修改密码,传入明文,用户中心会进行md5加密
-			sysDto.setLoginPassword("123456"); //初始化面默认用123456
-			sysUserApi.edit(sysDto);
-			return SUCCESS;
-		} catch (ApiException e) {
-			LOG.error("调用dubboAPi失败", e);
-			return "与用户中心通信失败,请稍后再试,或联系管理员";
-		} catch (Exception e) {
-			LOG.error("初始化密码失败：", e);
-			return "初始化密码失败";
-		}
-	}
-
 	/**
 	 * 当前登录用户的权限集合
 	 */
