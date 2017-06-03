@@ -32,6 +32,7 @@
         <div class="ub umar-t8 uc-black">【单号】:<span>${settleVo.formNo}</span></div>
         <div class="ub uline umar-t8"></div>
         <form id = "settleForm">
+         <input type="hidden" id="checkMode" name="checkMode" value="${settleVo.checkMode}" >
          <input type="hidden" id="formId" name="id" value="${settleVo.id}"/>   
         <div class="ub umar-t8">
             <div class="ub ub-ac uw-288 umar-l20">
@@ -107,13 +108,7 @@
              </div>
              <div class="ub ub-ac uw-290 umar-l28">
                  <div class="umar-r12 uw-70 ut-r">支付方式:</div>
-                 <select class='uinp easyui-combobox' id = "payType" name="payType" style="width:204px;" value="${settleVo.payType}" >
-<!--                     <option value='1'>人民币付款</option> -->
-<!--                     <option value='2'>现金</option> -->
-<!--                     <option value='3'>支票</option> -->
-<!--                     <option value='4'>银行转账</option> -->
-<!--                     <option value='5'>支付宝</option> -->
-<!--                     <option value='6'>微信</option> -->
+                 <select class='uinp easyui-combobox' style="width:204px;" id="payType" name="payType" data-options="valueField:'id',value:'${settleVo.payType}', textField:'label',loadFilter:loadFilter,url:'${ctx}/archive/financeCode/getDictListByTypeCode?dictTypeCode=101003',editable:false" >
                  </select>
              </div>
              <div class="ub ub-ac uw-300 umar-l12">

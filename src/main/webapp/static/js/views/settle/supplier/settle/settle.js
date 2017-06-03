@@ -38,7 +38,7 @@ $(function(){
 	
 	//监听numberbox 点击事件
 	$("input#actualAmount").next("span").children().first().on('click',function(){
-		console.log('555555555555555555555')
+		gridHandel.endEditRow();
 		editRowNumbeboxFlag = false;
 	});
 	
@@ -80,6 +80,91 @@ $(document).on('input','#remark',function(){
 	
 });
 
+//行数据
+function getColumns(){
+	var modeType = $('#checkMode').val();
+	var defalutsColumns = [
+			 {field:'cb',checkbox:true},
+			 {field:'targetFormId',title:'targetFormId',hidden:true},
+			 {field:'targetFormNo',title:'单号',width: '150px',align:'left',
+			 	formatter:function(value,row,index){
+			 		var str = "";
+			 		if(row.isFooter){
+			             str ='<div class="ub ub-pc">合计</div> '
+			         }else{
+			         	str = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'供应商对账单据详情\',\''+ contextPath +'/form/deliverForm/deliverEdit?deliverFormId='+ row.id +'\')">' + (value||"") + '</a>';
+			         }
+			 		return str;
+			 	}
+			 },
+			 {field:'formTypeText',title:'单据类型',width:'120px',align:'left'},
+			 {field:'branchCode',title:'机构编号',width:'120px',align:'left'},
+			 {field:'branchName',title:'机构名称',width:'140px',align:'left'},
+			 {field:'supplierCode',title:'供应商编号',width:'120px',align:'left'},
+			 {field:'supplierName',title:'供应商名称',width:'140px',align:'left'},
+			 {field:'payableAmount',title:'应付金额',width:'100px',align:'right',
+			 	formatter:function(value,row,index){
+			 		if(!value)row.payableAmount = 0;
+			 		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+			 	}
+			 },
+			 {field:'payedAmount',title:'已付金额',width:'100px',align:'right',
+			 	formatter:function(value,row,index){
+			 		if(!value)row.payedAmount = 0;
+			 		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+			 	}
+			 }]
+	if(modeType == '1'){
+		//能编辑 优惠金额
+		defalutsColumns = defalutsColumns.concat([
+			{field:'discountAmount',title:'优惠金额',width:'100px',align:'right',
+			 	formatter:function(value,row,index){
+			 		if(!value)row.discountAmount = 0;
+			 		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+			 	}
+			 }])
+	}else{
+		//不能编辑 优惠金额
+		defalutsColumns = defalutsColumns.concat([
+			{field:'discountAmount',title:'优惠金额',width:'100px',align:'right',
+			 	formatter:function(value,row,index){
+			 		if(!value)row.discountAmount = 0;
+			 		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+			 	},
+			 	editor:{
+			 		type:'numberbox',
+			 		options:{
+			 			precision:4,
+			 			onChange:onChangeDisAmount
+			 		}
+			 	}
+			 }]);
+	}
+	defalutsColumns = defalutsColumns.concat([	 
+			 {field:'unpayAmount',title:'未付金额',width:'100px',align:'right',
+			 	formatter:function(value,row,index){
+			 		if(!value)row.unpayAmount = 0;
+			 		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+			 	}
+			 },
+			 {field:'actualAmount',title:'实付金额',width:'100px',align:'right',
+			 	formatter:function(value,row,index){
+			 		if(!value)row.actualAmount = 0;
+			 		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+			 	},
+			 	editor:{
+			 		type:'numberbox',
+			 		options:{
+			 			precision:4,
+			 			onChange:onChangeAmount
+			 		}
+			 	}
+			 },
+			 {field:'remark',title:'备注',width:'180px',editor:'textbox'}
+	       ]);
+	return [defalutsColumns];
+}
+
 var gridHandel = new GridClass();
 function initSupChkAcoAdd(){
     gridHandel.setGridName(gridName);
@@ -97,64 +182,7 @@ function initSupChkAcoAdd(){
         showFooter:true,
         height:"100%",
         width:'100%',
-        columns:[[
-            {field:'cb',checkbox:true},
-            {field:'targetFormId',title:'targetFormId',hidden:true},
-            {field:'targetFormNo',title:'单号',width: '150px',align:'left',
-            	formatter:function(value,row,index){
-            		var str = "";
-            		if(row.isFooter){
-                        str ='<div class="ub ub-pc">合计</div> '
-                    }else{
-                    	str = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'供应商对账单据详情\',\''+ contextPath +'/form/deliverForm/deliverEdit?deliverFormId='+ row.id +'\')">' + (value||"") + '</a>';
-                    }
-            		return str;
-            	}
-            },
-            {field:'formTypeText',title:'单据类型',width:'120px',align:'left'},
-            {field:'branchCode',title:'机构编号',width:'120px',align:'left'},
-            {field:'branchName',title:'机构名称',width:'140px',align:'left'},
-            {field:'supplierCode',title:'供应商编号',width:'120px',align:'left'},
-            {field:'supplierName',title:'供应商名称',width:'140px',align:'left'},
-            {field:'payableAmount',title:'应付金额',width:'100px',align:'right',
-            	formatter:function(value,row,index){
-            		if(!value)row.payableAmount = 0;
-            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
-            	}
-            },
-            {field:'payedAmount',title:'已付金额',width:'100px',align:'right',
-            	formatter:function(value,row,index){
-            		if(!value)row.payedAmount = 0;
-            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
-            	}
-            },
-            {field:'discountAmount',title:'优惠金额',width:'100px',align:'right',
-            	formatter:function(value,row,index){
-            		if(!value)row.discountAmount = 0;
-            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
-            	}
-            },
-            {field:'unpayAmount',title:'未付金额',width:'100px',align:'right',
-            	formatter:function(value,row,index){
-            		if(!value)row.unpayAmount = 0;
-            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
-            	}
-            },
-            {field:'actualAmount',title:'实付金额',width:'100px',align:'right',
-            	formatter:function(value,row,index){
-            		if(!value)row.actualAmount = 0;
-            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
-            	},
-            	editor:{
-            		type:'numberbox',
-            		options:{
-            			precision:4,
-            			onChange:onChangeAmount
-            		}
-            	}
-            },
-            {field:'remark',title:'备注',width:'180px',editor:'textbox'}
-        ]],
+        columns:getColumns(),
         onCheck:function(rowIndex,rowData){
             editRowFlag = true;
         	rowData.checked = true;
@@ -193,7 +221,9 @@ function initSupChkAcoAdd(){
         },
         loadFilter:function(data){
         	data.forEach(function(obj,index){
-        		obj.checked = true;
+        	    if(!editRowFlag){
+        	    	obj.checked = true;
+        	    }
         		if(operateType == 'add' && !editRowFlag){
         			obj.unpayAmount = obj.payableAmount;
         		}
@@ -225,9 +255,19 @@ function initSupChkAcoAdd(){
     }
 }
 
+
+//监听优惠金额变化
+function onChangeDisAmount(vewV,oldV){
+	//payableAmount 应付金额
+	//payedAmount   已付金额
+	var _payableAmount = parseFloat(gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'payableAmount')||0);
+	var _payedAmount = parseFloat(gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'payedAmount')||0);
+	gridHandel.setFieldsData({unpayAmount:_payableAmount - _payedAmount - vewV});
+}
+
+//监听实付金额变化
 var checkFlag = false;
 function onChangeAmount(vewV,oldV){
-    console.log('33');
 	if(checkFlag){
 		checkFlag = false;
 		return;
@@ -252,7 +292,6 @@ var checkActMountFlag = false;
 //实收金额汇总
 function changeActMountFrom(newV,oldV){
 	if(editRowNumbeboxFlag)return;
-	gridHandel.endEditRow();
 	editRowFlag = true;
 	if(checkActMountFlag){
 		checkActMountFlag = false;
@@ -275,15 +314,15 @@ function changeActMountFrom(newV,oldV){
 	
 	var _unpayAmountText = parseFloat($('#unpayAmount').val()||0);
 	
-	if(_unpayAmountText >= 0 && newV > _unpayAmountText){
-		$_jxc.alert('实收金额汇总不能大于未收金额汇总');
+	if(_unpayAmountText >= 0 && (newV > _unpayAmountText || newV < 0)){
+		$_jxc.alert('实收金额汇总不能大于未收金额汇总且不能小于零');
 		checkActMountFlag = true;
 		$(this).numberbox('setValue',oldV);
 		return;
 	}
 	
-	if(_unpayAmountText < 0 && newV < _unpayAmountText){
-		$_jxc.alert('实收金额汇总不能小于未收金额汇总');
+	if(_unpayAmountText < 0 && (newV < _unpayAmountText||newV >= 0)){
+		$_jxc.alert('实收金额汇总不能小于未收金额汇总且不能大于零');
 		checkActMountFlag = true;
 		$(this).numberbox('setValue',oldV);
 		return;
@@ -299,17 +338,26 @@ function changeGrid(actMount,rows){
 	changeGridFlag = true;
 	//实收金额 总汇
 	var _temActMount = actMount;
-	var zfFlag = actMount > 0 ? true:false;
+	var zfFlag = parseFloat($('#unpayAmount').val()||0) > 0 ? true:false;
 	rows.forEach(function(obj,index){
-		if(obj.checked && ((zfFlag && _temActMount > 0 ) || (!zfFlag && _temActMount < 0))){
-			//unpayAmount
+		if(obj.checked){
+			//unpayAmount && ((zfFlag && _temActMount > 0 ) || (!zfFlag && _temActMount < 0))
 			var _temUnpayAmount = parseFloat(obj.unpayAmount||0);
-			if(_temActMount >0){
-				obj.actualAmount = _temActMount - _temUnpayAmount <= 0 ? _temActMount : _temUnpayAmount ;
-			}else{
-				obj.actualAmount = _temActMount - _temUnpayAmount >= 0 ? _temActMount : _temUnpayAmount ;
+			if(zfFlag){ //未实收金额 大于0 
+				if(_temActMount - _temUnpayAmount >0){
+					obj.actualAmount = _temActMount - _temUnpayAmount <= 0 ? _temActMount : _temUnpayAmount ;
+				}else{
+					obj.actualAmount = 0;
+				}
+			}else{ //未收金额 小于0
+				if(_temActMount < 0){
+					obj.actualAmount = _temActMount - _temUnpayAmount >= 0 ? _temActMount : _temUnpayAmount ;
+				}else{
+					obj.actualAmount = 0;
+				}
 			}
 			_temActMount = _temActMount - _temUnpayAmount;
+			
 		}
 	})
 	console.log('rowsL',JSON.stringify(rows))
@@ -341,9 +389,9 @@ function updateFrom(){
 	_temData = _getRowsWhere({checked:true},_temData);
 	if(_temData &&　_temData.length > 0){
 		if(_unpayAmount1 > 0){
-			$('#actualAmount').numberbox('options').min = 0;
+//			$('#actualAmount').numberbox('options').min = 0;
 		}else{
-			$('#actualAmount').numberbox('options').max = 0;
+//			$('#actualAmount').numberbox('options').max = 0;
 		}
 	}
 	//实收金额汇总
@@ -390,23 +438,38 @@ function saveSupAcoSet(){
 	var operateType = $('#operateType').val();
 	if(!validateForm(branchId,supplierId))return;
 	
-    var reqObj = $('#settleForm').serializeObject();
-    reqObj.operateType = operateType == "add" ? 1 : 0;
+	//未收金额汇总
+	var _unpayAmount = parseFloat($('#unpayAmount').val()||0);
+	//实收金额汇总
+	var _actulAmount =  parseFloat($('#actualAmount').numberbox('getValue'));
+	
+	if(_unpayAmount >= 0 && (_actulAmount > _unpayAmount || _actulAmount < 0)){
+		$_jxc.alert('实收金额汇总不能大于未收金额汇总且不能小于零');
+		return;
+	}
+	
+	if(_unpayAmount < 0 && (_actulAmount < _unpayAmount|| _actulAmount >= 0)){
+		$_jxc.alert('实收金额汇总不能小于未收金额汇总且不能大于零');
+		return;
+	}
+	
     var _rows = gridHandel.getRowsWhere({targetFormNo:'1'});
     if(_rows.length <= 0){
     	$_jxc.alert("表格不能为空");
     	return;
     }
+    var reqObj = $('#settleForm').serializeObject();
+    reqObj.operateType = operateType == "add" ? 1 : 0;
     
     var validFlag = true;
     var _subRows = [];
     var _rowNo = 0;//行号
     $.each(_rows,function(i,data){
-    	if(data.checked){
+    	if(data.checked &&　validFlag){
     		//第N行实收金额不能为0，请检查！确认
     		if(parseFloat(data.actualAmount) == 0){
     			validFlag = false;
-    			$_jxc.alert("第"+(i+1)+"行实收金额不能为，请检查！确认");
+    			$_jxc.alert("第"+(i+1)+"行实收金额不能为，请检查！");
     			return;
     		}
     		data.rowNo = (_rowNo+1);
@@ -414,12 +477,13 @@ function saveSupAcoSet(){
     		_subRows.push(data);
     		_rowNo++;
     	}
+    	if(!validFlag)return;
     })
     
     if(!validFlag)return;
     
     if(_subRows.length < 1){
-    	$_jxc.alert("没有需要结算的信息，请检查！确认");
+    	$_jxc.alert("没有需要结算的信息，请检查！");
     	return ;
     }
     
@@ -522,8 +586,23 @@ function selectBranches(){
 		$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
 		//校验是否存在未审核的结算单
 		checkSettleAuditStutas(data.branchesId,data.branchCompleCode,data.allBranch);
+		
+		checkBranchSpec(data.branchesId)
 	},'',targetBranchId,'','',1);
 }
+
+//校验机构配置
+function checkBranchSpec(branchId){
+	$_jxc.ajax({
+    	url:contextPath+"/settle/supplierCheck/querySettleCheckMode",
+    	data: {branchId:branchId}
+    },function(result){
+    	// 1开启 不编辑优惠金额   0不开启能编辑
+    	$('#checkMode').val(result.checkMode);
+    	initSupChkAcoAdd();
+    });
+}
+
 //var unChNum = 0;
 //校验是否存在未审核的结算单
 function checkSettleAuditStutas(branchId,branchCompleCode,allBranch){
