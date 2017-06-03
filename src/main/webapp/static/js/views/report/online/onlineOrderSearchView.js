@@ -31,7 +31,7 @@ function initGridOrderDetail() {
             {field:'skuCode',title:'货号',width: '70px',align:'left',
                 formatter:function(value,row,index){
                     if(row.isFooter){
-                        return '<div class="ub ub-pc">合计</div> '
+                        return ;
                     }else{
                     	return value;
                     }

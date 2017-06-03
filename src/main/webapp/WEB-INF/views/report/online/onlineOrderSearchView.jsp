@@ -31,10 +31,11 @@
 			<input type="hidden" name="orderId" id="orderId" value="${po.orderId }" />
 			 
 			<div class="ub umar-t8">
-
-				<div class="umar-r10 uw-80 ut-r">机构名称:</div>
+				<div class="ub ub-ac">
+				<div class="umar-r10 uw-70 ut-r">机构名称:</div>
 				<input class="uinp uinp-no-more" readOnly="readOnly" id="branchName"
 					name="branchName" type="text" value="[${po.branchCode}]${po.branchName}">
+				</div>
 
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">订单号:</div>
@@ -42,7 +43,7 @@
 				</div>
 
 				<div class="ub ub-ac">
-					<div class="umar-r10 uw-70 ut-r">下单时间:</div>
+					<div class="umar-r10 uw-100 ut-r">下单时间:</div>
 					<input class="uinp uinp-no-more" readOnly="readOnly" name="orderTime" id="orderTime" type="text" value="${po.onlineCreateTimeStr}">
 				</div>
 
@@ -62,7 +63,7 @@
 				</div>
 
 				<div class="ub ub-ac">
-					<div class="umar-r10 uw-70 ut-r">线上订单编号:</div>
+					<div class="umar-r10 uw-100 ut-r">线上订单编号:</div>
 					<input class="uinp uinp-no-more" readOnly="readOnly" name="onlineCode" id="onlineCode" type="text" value="${po.onlineOrderNo}">
 				</div>
 
@@ -80,7 +81,7 @@
 				</div>
 
 				<div class="ub ub-ac">
-					<div class="umar-r10 uw-70 ut-r">单据状态:</div>
+					<div class="umar-r10 uw-100 ut-r">单据状态:</div>
 					<input class="uinp uinp-no-more" readOnly="readOnly" name="orderStatus" id="orderStatus" type="text" value="${po.orderStatusStr}">
 				</div>
 			</div>
@@ -98,7 +99,7 @@
 				</div>
 
 				<div class="ub ub-ac">
-					<div class="umar-r10 uw-70 ut-r">付款方式:</div>
+					<div class="umar-r10 uw-100 ut-r">付款方式:</div>
 					<input class="uinp uinp-no-more" readOnly="readOnly" name="orderNo" id="orderNo" type="text" value="${po.payWayStr}">
 				</div>
 			</div>
@@ -107,20 +108,20 @@
 			<div class="ub umar-t8">
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">收货地址:</div>
-					<input class="uinp uinp-no-more" readOnly="readOnly" name="address" id="address" type="text" value="${po.address}">
+					<input class="uinp uinp-no-more uw-484" readOnly="readOnly" name="address" id="address" type="text" value="${po.address}">
 				</div>
 
 
 				<div class="ub ub-ac">
-					<div class="umar-r10 uw-70 ut-r">支付方式:</div>
+					<div class="umar-r10 uw-100 ut-r">支付方式:</div>
 					<input class="uinp uinp-no-more" readOnly="readOnly" name="payType" id="payType" type="text" value="${po.payTypeStr}">
 				</div>
 			</div>
 
 			<div class="ub umar-t8">
-				<div class="ub ub-ac">
+				<div class="ub ub-ac uw-880">
 					<div class="umar-r10 uw-70 ut-r">用户留言:</div>
-					<input class="uinp uinp-no-more" readOnly="readOnly" name="feedback" id="feedback" type="text" value="${po.remark}">
+					<input class="ub ub-f1 uinp uinp-no-more" readOnly="readOnly" name="feedback" id="feedback" type="text" value="${po.remark}">
 				</div>
 
 			</div>

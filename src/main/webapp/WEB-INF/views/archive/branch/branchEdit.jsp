@@ -178,7 +178,8 @@
 							<select class="uselect easyui-combobox" style="width: 204px;"
 								data-options="editable:false" name="offlineStatus" id="offlineStatus">
 								<c:forEach var="i" items="${OfflineStatusList }">
-									<option value="${i.code }">${i.label }</option>
+									<option value="${i.code }"
+									>${i.label }</option>
 				               	</c:forEach>
 							</select>
 
