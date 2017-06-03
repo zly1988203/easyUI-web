@@ -20,7 +20,7 @@ $(function(){
     pageStatus = $('#operateType').val();
 	if(pageStatus === 'add'){
 		  $("#payMoneyTime").val(new Date().format('yyyy-MM-dd')); 
-		  $('#createTime').text(new Date().format('yyyy-MM-dd'));
+		  $('#createTime').text(new Date().format('yyyy-MM-dd hh:mm'))
 		  //非总部 机构默认有值
 		  if(sessionBranchType != '0'){
 			$('#branchId').val(sessionBranchId);
@@ -274,7 +274,7 @@ function saveChageForm(){
     	_rows.push({
     		costTypeId:data.id,
     		io:data.io,
-    		rowNo:i,
+    		rowNo:i+1,
     		amount:data.amount,
     		remark:data.remark
     	})
