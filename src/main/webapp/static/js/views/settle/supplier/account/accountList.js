@@ -189,6 +189,8 @@ function initAcountList(){
 }
 
 function queryForm(){
+	$("#startCount").val("");
+	$("#endCount").val("");
 //	initAcountList();
 	var fromObjStr = $('#queryForm').serializeObject();
 	// 去除编码
@@ -240,7 +242,7 @@ function exportExcel(){
 			}
 		}
 	});
-	$("#queryForm").attr("action",contextPath + '/settle/supplierAccountCurrent/exportAccountCurrentList?params='+fromObjStr);
+	$("#queryForm").attr("action",contextPath + '/settle/supplierAccountCurrent/exportAccountCurrentList');
 	
 	$("#queryForm").submit();
 }
