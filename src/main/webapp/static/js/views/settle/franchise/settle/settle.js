@@ -43,7 +43,7 @@ $(function(){
 	
 	//监听numberbox 点击事件
 	$("input#actualAmount").next("span").children().first().on('click',function(){
-		console.log('555555555555555555555')
+		gridHandel.endEditRow();
 		editRowNumbeboxFlag = false;
 	});
 	
@@ -267,7 +267,6 @@ var checkActMountFlag = false;
 //实收金额汇总
 function changeActMountFrom(newV,oldV){
 	if(editRowNumbeboxFlag)return;
-	gridHandel.endEditRow();
 	editRowFlag = true;
 	if(checkActMountFlag){
 		checkActMountFlag = false;
@@ -290,15 +289,15 @@ function changeActMountFrom(newV,oldV){
 	
 	var _unpayAmountText = parseFloat($('#unpayAmount').val()||0);
 	
-	if(_unpayAmountText >= 0 && newV > _unpayAmountText){
-		$_jxc.alert('实收金额汇总不能大于未收金额汇总');
+	if(_unpayAmountText >= 0 && (newV > _unpayAmountText || newV < 0)){
+		$_jxc.alert('实收金额汇总不能大于未收金额汇总且不能小于零');
 		checkActMountFlag = true;
 		$(this).numberbox('setValue',oldV);
 		return;
 	}
 	
-	if(_unpayAmountText < 0 && newV < _unpayAmountText){
-		$_jxc.alert('实收金额汇总不能小于未收金额汇总');
+	if(_unpayAmountText < 0 && (newV < _unpayAmountText||newV >= 0)){
+		$_jxc.alert('实收金额汇总不能小于未收金额汇总且不能大于零');
 		checkActMountFlag = true;
 		$(this).numberbox('setValue',oldV);
 		return;
@@ -314,17 +313,26 @@ function changeGrid(actMount,rows){
 	changeGridFlag = true;
 	//实收金额 总汇
 	var _temActMount = actMount;
-	var zfFlag = actMount > 0 ? true:false;
+	var zfFlag = parseFloat($('#unpayAmount').val()||0) > 0 ? true:false;
 	rows.forEach(function(obj,index){
-		if(obj.checked && ((zfFlag && _temActMount > 0 ) || (!zfFlag && _temActMount < 0))){
-			//unpayAmount
+		if(obj.checked){
+			//unpayAmount && ((zfFlag && _temActMount > 0 ) || (!zfFlag && _temActMount < 0))
 			var _temUnpayAmount = parseFloat(obj.unpayAmount||0);
-			if(_temActMount >0){
-				obj.actualAmount = _temActMount - _temUnpayAmount <= 0 ? _temActMount : _temUnpayAmount ;
-			}else{
-				obj.actualAmount = _temActMount - _temUnpayAmount >= 0 ? _temActMount : _temUnpayAmount ;
+			if(zfFlag){ //未实收金额 大于0 
+				if(_temActMount >0){
+					obj.actualAmount = _temActMount - _temUnpayAmount <= 0 ? _temActMount : _temUnpayAmount ;
+				}else{
+					obj.actualAmount = 0;
+				}
+			}else{ //未收金额 小于0
+				if(_temActMount < 0){
+					obj.actualAmount = _temActMount - _temUnpayAmount >= 0 ? _temActMount : _temUnpayAmount ;
+				}else{
+					obj.actualAmount = 0;
+				}
 			}
 			_temActMount = _temActMount - _temUnpayAmount;
+			
 		}
 	})
 	console.log('rowsL',JSON.stringify(rows))
@@ -354,9 +362,9 @@ function updateFrom(){
 	var _temData = _getRowsWhere({checked:true});
 	if(_temData &&　_temData.length > 0){
 		if(_unpayAmount1 > 0){
-			$('#actualAmount').numberbox('options').min = 0;
+//			$('#actualAmount').numberbox('options').min = 0;
 		}else{
-			$('#actualAmount').numberbox('options').max = 0;
+//			$('#actualAmount').numberbox('options').max = 0;
 		}
 	}
 	//实收金额汇总
@@ -398,15 +406,18 @@ function saveFranchiseSet(){
 	var _unpayAmount = parseFloat($('#unpayAmount').val()||0);
 	//实收金额汇总
 	var _actulAmount =  parseFloat($('#actualAmount').numberbox('getValue'));
-	if(_unpayAmount > 0 && _actulAmount > _unpayAmount){
-		$_jxc.alert("实收金额汇总 不能大于 未收金额汇总");
-		return;
-	}
-	if(_unpayAmount < 0 && _actulAmount < _unpayAmount){
-		$_jxc.alert("实收金额汇总 不能小于 未收金额汇总");
+	
+	if(_unpayAmount >= 0 && (_actulAmount > _unpayAmount || _actulAmount < 0)){
+		$_jxc.alert('实收金额汇总不能大于未收金额汇总且不能小于零');
 		return;
 	}
 	
+	if(_unpayAmount < 0 && (_actulAmount < _unpayAmount|| _actulAmount >= 0)){
+		$_jxc.alert('实收金额汇总不能小于未收金额汇总且不能大于零');
+		return;
+	}
+	
+	return;
 //	if(!validateForm(branchId,payTime))return;
     var rows = gridHandel.getRowsWhere({branchName:'1' });
     if(rows.length==0){
@@ -417,12 +428,12 @@ function saveFranchiseSet(){
     var validFlag = true;
     var _rows = [];
     var rowNo = 0;
-    $.each(rows,function(i,data){
-    	if(data.checked){
+    rows.forEach(function(data,i){
+    	if(data.checked && validFlag){
     		//第N行实收金额不能为0，请检查！确认
     		if(parseFloat(data.actualAmount) == 0){
     			validFlag = false;
-    			$_jxc.alert("第"+(i+1)+"行实收金额不能为，请检查！确认");
+    			$_jxc.alert("第"+(i+1)+"行实收金额不能为零，请检查！");
     			return;
     		}
     		_rows.push({
@@ -439,6 +450,7 @@ function saveFranchiseSet(){
     		});
     		rowNo++;
     	}
+    	if(!validFlag)return;
     })
     
     if(!validFlag)return;

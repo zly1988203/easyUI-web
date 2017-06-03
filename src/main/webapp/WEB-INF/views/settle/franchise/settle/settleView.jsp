@@ -40,6 +40,7 @@
             </div>
         </div>
         <div class="ub umar-t8 uc-black">【单号】:<span>${settle.formNo}</span></div>
+        <div class="already-examine" id="already-examine"><span>已审核</span></div>
         <div class="ub uline umar-t8"></div>
         <div class="ub umar-t8">
             <div class="ub ub-ac uw-288 umar-l20">
