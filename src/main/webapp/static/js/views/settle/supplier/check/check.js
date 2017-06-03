@@ -155,15 +155,9 @@ function initSupChkAcoAdd(){
         	})
         },
         onClickCell:function(rowIndex,field,value){
-        	var _rowData = $(this).datagrid('getRows')[rowIndex];
         	gridHandel.setBeginRow(rowIndex);
         	gridHandel.setSelectFieldName(field);
         	var target = gridHandel.getFieldTarget(field);
-        	//预付款 费用 不能编辑优惠金额
-        	if(_rowData.targetFormType == 'FY' || _rowData.targetFormType == 'FF' ){
-        		$(target).numberbox('readonly');
-        		return;
-        	}
             if(target){
                 gridHandel.setFieldFocus(target);
             }else{
@@ -254,8 +248,6 @@ function saveSupChkForm(){
 	var operateType = $('#operateType').val();
 	if(!validateForm(branchId,supplierId))return;
 	
-    var reqObj = $('#checkForm').serializeObject();
-    reqObj.operateType = operateType == "add" ? 1 : 0;
     var _rows = gridHandel.getRowsWhere({targetFormNo:'1'});
     if(_rows.length <= 0){
     	$_jxc.alert("表格不能为空");
@@ -277,6 +269,16 @@ function saveSupChkForm(){
     	$_jxc.alert('请选择要对账的单据');
     	return;
     }
+    
+    var _footerRow = gridHandel.getFooterRow();
+    
+    var reqObj = $('#checkForm').serializeObject();
+    reqObj.operateType = operateType == "add" ? 1 : 0;
+    
+    //底部合计
+    reqObj.payableAmount = _footerRow[0].payableAmount||0;
+    reqObj.discountAmount = _footerRow[0].discountAmount||0
+    reqObj.unpayAmount = _footerRow[0].unpayAmount||0
     
     reqObj.detailList = _subRows;
     
