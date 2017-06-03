@@ -1,8 +1,9 @@
 
 
 $(function(){
-    $("#startTime").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
-    $("#endTime").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+	//开始和结束时间
+    $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
+    $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 	initfraAcountList();
 })
 
@@ -103,7 +104,7 @@ function getAccountColumns(){
 						if(!value){
 							return '';
 						}
-						return new Date(value).format('yyyy-MM-dd');
+						return new Date(value).format('yyyy-MM-dd hh:mm');
 					}	
 				}
 				])
@@ -117,7 +118,7 @@ function getAccountColumns(){
 						if(!value){
 							return '';
 						}
-						return new Date(value).format('yyyy-MM-dd');
+						return new Date(value).format('yyyy-MM-dd hh:mm');
 					}
 				}])
 	}	
@@ -130,13 +131,13 @@ function getAccountColumns(){
 	return [defaultColumns];
 }
 
-var datagridObj;
+var dg;
 //初始化表格
 function initfraAcountList(){
-	if(datagridObj){
+	if(dg){
 		$("#"+datagirdID).datagrid('options').url = '';
 	}
-    datagridObj = $("#"+datagirdID).datagrid({
+    dg = $("#"+datagirdID).datagrid({
         align:'center',
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
@@ -190,15 +191,30 @@ function queryForm(){
  * 导出表单
  */
 function exportAccountList(){
-	var length = $("#"+datagirdID).datagrid('getData').total;
+	var length = $('#fraAccountList').datagrid('getData').rows.length;
 	if(length == 0){
-		$.messager.alert('提示',"无数据可导");
+		successTip("无数据可导");
 		return;
 	}
-	if(length>10000){
-		$.messager.alert('提示',"当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
-		return;
-	}
+	$('#exportWin').window({
+		top:($(window).height()-300) * 0.5,   
+	    left:($(window).width()-500) * 0.5
+	});
+	$("#exportWin").show();
+	$("#totalRows").html(dg.datagrid('getData').total);
+	$("#exportWin").window("open");
+}
+
+//调用导出方法
+function exportExcel(){
+	$("#exportWin").hide();
+	$("#exportWin").window("close");
+	$("#queryForm").form({
+		success : function(result){
+			var dataObj=eval("("+result+")");
+         successTip(dataObj.message);
+		}
+	});
 	$("#queryForm").attr("action",contextPath+"/settle/franchiseAccountCurrent/exportList");
 	$("#queryForm").submit(); 
 }
