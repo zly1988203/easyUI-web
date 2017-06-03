@@ -343,11 +343,10 @@ function delSupChkAccount(){
 		if(data){
 			$_jxc.ajax({
 		    	url:contextPath+"/settle/supplierCheck/deleteCheckForm",
-		    	contentType:"application/json",
 		    	data:{"ids":ids}
 		    },function(result){
 	    		if(result['code'] == 0){
-                    toRefreshIframeDataGrid("settle/supplierCheck/getCheckList","supperlierChkAccount");
+                    toRefreshIframeDataGrid("settle/supplierCheck/checkList","supperlierChkAccount");
 	    			toClose();
 	    		}else{
 	    			$_jxc.alert(result['message']);

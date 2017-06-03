@@ -23,7 +23,7 @@
                 <div class="ubtns-item" onclick="addSupAcoSetForm()">新增</div>
                 <div class="ubtns-item" onclick="saveSupAcoSet()">保存</div>
                 <div class="ubtns-item" onclick="auditSupStlForm()">审核</div>
-                <div class="ubtns-item-disabled">删除</div>
+                <div class="ubtns-item" onclick="delSupSettleAccount()">删除</div>
                 <div class="ubtns-item" onclick="exportOrder()">导出明细</div>
                 <div class="ubtns-item-disabled">打印</div>
                 <div class="ubtns-item" onclick="toClose()">关闭</div>
@@ -132,7 +132,7 @@
              </div>
              <div class="ub ub-ac uw-300 umar-l24">
                  <div class="umar-r10 uw-90 ut-r">实付金额汇总:</div>
-                 <input class="uinp easyui-numberbox" data-options="min:0,precision:2" value="0" value="${settleVo.actualAmount}" type="text" id="actualAmount"  name="actualAmount">
+                 <input class="uinp easyui-numberbox" data-options="min:0,precision:2" value="${settleVo.actualAmount}" type="text" id="actualAmount"  name="actualAmount">
              </div>
          </div>
          

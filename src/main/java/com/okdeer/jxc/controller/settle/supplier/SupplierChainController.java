@@ -284,7 +284,7 @@ public class SupplierChainController extends BasePrintController<SupplierChainCo
             replaceMap.put("supplierPhone", vo.getSupplierPhone());
             replaceMap.put("supplierMobile", vo.getSupplierMobile());
             replaceMap.put("sumSaleAmount", vo.getSumSaleAmount());
-            replaceMap.put("sumSupplierAmoun", vo.getSumSupplierAmount());
+            replaceMap.put("sumSupplierAmount", vo.getSumSupplierAmount());
             replaceMap.put("supplierMinAmount", vo.getSupplierMinAmount());
             replaceMap.put("sumTaxAmount", vo.getSumTaxAmount());
             replaceMap.put("supplierRate", vo.getSupplierRate());
