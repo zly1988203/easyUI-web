@@ -91,7 +91,7 @@ function initsupAdvMonList(){
             {field: 'createTime', title: '制单时间', width: '120px', align: 'center',
 				formatter: function (value, row, index) {
 					if (value) {
-						return new Date(value).format('yyyy-MM-dd');
+						return new Date(value).format('yyyy-MM-dd hh:mm');
 					}
 					return "";
 				}

@@ -82,12 +82,12 @@ function getAccountColumns(){
 	//到期账款 历史往来账款 未付款账款汇总
 	if(accountType == '1' || accountType == '2' || accountType == '3' || accountType == '4' ){
 		defaultColumns = defaultColumns.concat([
-			{field: 'payTime', title: '应付款日期', width: '100px', align: 'left',
+			{field: 'payTime', title: '应付款日期', width: '120px', align: 'left',
 				formatter: function (value, row, index) {
 						if(!value){
 							return '';
 						}
-						return new Date(value).format('yyyy-MM-dd');
+						return new Date(value).format('yyyy-MM-dd hh:mm');
 				}
 			},
 			{field: 'payableAmount', title: '应付金额', width: '80px', align: 'right',
@@ -132,24 +132,24 @@ function getAccountColumns(){
 	if(accountType == '1' || accountType == '2' || accountType == '6'  ){
 		defaultColumns = defaultColumns.concat([
 			{field: 'auditUserName', title: '审核人', width: '120px', align: 'left'},
-			{field: 'auditTime', title: '审核时间', width: '100px', align: 'left',
+			{field: 'auditTime', title: '审核时间', width: '120px', align: 'left',
 				formatter: function (value, row, index) {
 					if(!value){
 						return '';
 					}
-					return new Date(value).format('yyyy-MM-dd');
+					return new Date(value).format('yyyy-MM-dd hh:mm');
 				}
 			}])
 	}	
 	//到期账款 历史往来账款
 	if(accountType == '1' || accountType == '2' ){
 		defaultColumns = defaultColumns.concat([
-			{field: 'actualPayTime', title: '实际付款时间', width: '100px', align: 'left',
+			{field: 'actualPayTime', title: '实际付款时间', width: '120px', align: 'left',
 				formatter: function (value, row, index) {
 					if(!value){
 						return '';
 					}
-					return new Date(value).format('yyyy-MM-dd');
+					return new Date(value).format('yyyy-MM-dd hh:mm');
 				}
 			}])
 	}	
@@ -157,7 +157,6 @@ function getAccountColumns(){
 		defaultColumns = defaultColumns.concat([
 			{field: 'remark', title: '备注', width: '200px', align: 'left'}]);
 	}
-//	console.log(defaultColumns,defaultColumns.length);
 	return [defaultColumns];
 }
 
@@ -191,7 +190,6 @@ function initAcountList(){
 function queryForm(){
 	$("#startCount").val("");
 	$("#endCount").val("");
-//	initAcountList();
 	var fromObjStr = $('#queryForm').serializeObject();
 	// 去除编码
     fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1)
