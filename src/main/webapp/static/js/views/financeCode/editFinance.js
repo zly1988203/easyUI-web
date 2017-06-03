@@ -14,6 +14,7 @@ function initFinanceDialog(param) {
         $("#value").prop("readOnly","readOnly");
         $("#label").val(param.label);
         $("#remark").val(param.remark);
+        $("#cbDiv").css("display","none");
 	}
     $("#dictTypeId").val(param.dictTypeId);
 }
@@ -36,12 +37,24 @@ function saveFinanceCode() {
 	}
 	$_jxc.ajax(param,function (result) {
         if(result['code'] == 0){
-            successTip("保存成功");
+            $_jxc.alert("保存成功");
+            if($("#ckbSave").is(":checked")){
+                cleanForm();
+            }else {
+                closeFinanceDialog();
+            }
         }else{
-            successTip(result['message']);
+            $_jxc.alert(result['message']);
         }
     },function (e) {
 
     })
+}
+
+//清空表单
+function cleanForm(){
+    $("#value").val('');
+    $("#label").val('');
+    $("#remark").val('');
 }
 
