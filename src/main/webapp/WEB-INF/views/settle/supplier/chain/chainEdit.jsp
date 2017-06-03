@@ -69,7 +69,7 @@
                    <input class="uinp ub ub-f1 uinp-no-more " type="text" id="linkTel" readonly='readonly' value="${chainVo.supplierPhone}/${chainVo.supplierMobile}"  name="linkTel">
                </div>
                <div class="ub ub-ac umar-l20">
-                   <div class="umar-r10 uw-80 ut-r">修改人:</div>
+                   <div class="umar-r10 uw-80 ut-r">最后修改人:</div>
                    <div class="utxt">${chainVo.updateUserName}</div>
                </div>
                <div class="ub ub-ac umar-l50">
