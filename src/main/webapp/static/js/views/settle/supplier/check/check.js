@@ -35,6 +35,7 @@ $(function(){
 	})
 	
 	if(pageStatus === 'add'){
+		$('#createTime').text(new Date().format('yyyy-MM-dd hh:mm'))
 		//非总部 机构默认有值
 		  if(sessionBranchType != '0'){
 			$('#branchId').val(sessionBranchId);
