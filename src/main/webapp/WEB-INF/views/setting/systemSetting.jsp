@@ -70,6 +70,19 @@
 						<div class="ub  ub-ac upad-t16">每日销量*（订货周期+送货周期） + 每日销量*安全库存系数－（实际库存+未送达订货）</div>
 					</div>
 				</div>
+                <div class="ub ub-ac upad-16 ">
+                    <div class="ub uw-200 ut-l">供应商结算先对账后结算模式（开启前审核所有结算单）:</div>
+                    <div class="ub uw-110 ub-ac umar-r10">
+                        <label>
+                            <input type="radio" id="supplierSettleCheckMode1" name="supplierSettleCheckMode" value="1" /><span>启用</span>
+                        </label>
+                    </div>
+                    <div class="ub uw-110 ub-ac umar-r10">
+                        <label>
+                            <input type="radio" id="supplierSettleCheckMode0" name="supplierSettleCheckMode" value="0" /><span>不启用</span>
+                        </label>
+                    </div>
+                </div>
 			</form>
 		</div>
 	</div>
@@ -124,6 +137,7 @@
 		//获取值
 		var branchId = data.branchId;
 		var isAllowMinusStock = data.isAllowMinusStock;
+		var supplierSettleCheckMode = data.supplierSettleCheckMode;
 		var monthReportDay = data.monthReportDay;
 		
 		//页面赋值
@@ -133,6 +147,11 @@
 			$("#isAllowMinusStock0").attr("checked",true);
 		}else{
 			$("#isAllowMinusStock1").attr("checked",true);
+		}
+		if(supplierSettleCheckMode == 0){
+			$("#supplierSettleCheckMode0").attr("checked",true);
+		}else{
+			$("#supplierSettleCheckMode1").attr("checked",true);
 		}
 		//月结日（0-28），0为自然月
 		if(monthReportDay==0){
