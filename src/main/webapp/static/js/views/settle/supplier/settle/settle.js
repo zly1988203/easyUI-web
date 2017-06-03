@@ -354,6 +354,8 @@ function _getRowsWhere(argWhere,rows){
 	var _temRows = [];
 	if(!rows ){
 		_temRows = gridHandel.getRows();
+	}else{
+		_temRows = rows;
 	}
     var newRows = [];
     $.each(_temRows,function(i,row){
