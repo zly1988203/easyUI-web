@@ -3,6 +3,13 @@
  */
 
 $(function () {
-	
+    initGridOrderDetail();
 })
+
+var gridName = "gridOnlineOrderDetail";
+var gridHandel = new GridClass();
+
+function initGridOrderDetail() {
+
+}
 

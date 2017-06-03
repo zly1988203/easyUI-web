@@ -67,6 +67,12 @@
 .icon-more{
 	background:url('icons/more.png') no-repeat center center;
 }
+.icon-open{
+	background:url('icons/open.png') no-repeat center center;
+}
+.icon-close{
+	background:url('icons/close.png') no-repeat center center;
+}
 
 
 .icon-mini-add{

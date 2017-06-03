@@ -223,8 +223,10 @@ function updateStatus(status) {
 		},
 		dataType : "json",
 		success : function(result) {
-			if (result) {
-				successTip(result.message, $("#dg"));
+            if(result['code'] == 0){
+				$_jxc.alert("操作成功")
+			}else {
+                $_jxc.alert(result.message, $("#dg"));
 			}
 		},
 		error : function(result) {
