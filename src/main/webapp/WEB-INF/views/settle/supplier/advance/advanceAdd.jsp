@@ -68,11 +68,11 @@
                <div class="ub ub-ac uw-300 umar-l20">
                </div>
                <div class="ub ub-ac umar-l10">
-                   <div class="umar-r10 uw-80 ut-r">修改人:</div>
+                   <div class="umar-r10 uw-80 ut-r">最后修改人:</div>
                    <div class="utxt"></div>
                </div>
                <div class="ub ub-ac umar-l20">
-                   <div class="umar-r10 uw-60 ut-r">最后修改时间:</div>
+                   <div class="umar-r10 uw-60 ut-r">修改时间:</div>
                    <div class="utxt"></div>
                </div>
                
