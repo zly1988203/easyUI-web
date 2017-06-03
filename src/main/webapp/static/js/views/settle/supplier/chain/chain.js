@@ -287,7 +287,6 @@ function saveChainForm(){
 	var operateType = $('#operateType').val();
 	if(!validateForm(branchId,beginDate,endDate,supplierId))return;
 	
-		
     var reqObj = $('#chainForm').serializeObject();
     reqObj.operateType = operateType == "add" ? 1 : 0;
     var _rows = gridHandel.getRowsWhere({skuName:'1'});
@@ -300,8 +299,12 @@ function saveChainForm(){
     	$_jxc.alert('时间已经发生变化，请重新选择计算账款');
     	return;
     }
-    //新增传detailList字段 编辑不需要
-    if(operateType == "add")reqObj.detailList = _rows;
+    _rows.forEach(function(obj,index){
+    	obj.rowNo = (index+1);
+    });
+    
+    reqObj.detailList = _rows;
+    
     console.log('reqObj',reqObj);
     $_jxc.ajax({
     	url:contextPath + '/settle/supplierChain/saveChainForm',
@@ -484,9 +487,4 @@ function back(){
 //新增联营账单
 function addChainForm(){
 	toAddTab("新增联营账单",contextPath + "/settle/supplierChain/chainAdd");
-}
-//导出
-function exportOrder(){
-	var formId = $("#formId").val();
-	window.location.href = contextPath + '/settle/supplierChain/exportSheet?page=SupplierChain&sheetNo='+formId;
 }
