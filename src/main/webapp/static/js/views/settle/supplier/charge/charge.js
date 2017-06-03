@@ -274,7 +274,7 @@ function saveChageForm(){
     	_rows.push({
     		costTypeId:data.id,
     		io:data.io,
-    		rowNo:i,
+    		rowNo:i+1,
     		amount:data.amount,
     		remark:data.remark
     	})
