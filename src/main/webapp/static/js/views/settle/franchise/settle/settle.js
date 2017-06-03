@@ -129,7 +129,7 @@ function initSupChkAcoAdd(){
             		return str;
             	}
             },
-            {field:'targetFormType',title:'单据类型',width:'120px',align:'center'},
+            {field:'formTypeString',title:'单据类型',width:'120px',align:'center'},
             {field:'branchCode',title:'加盟店编号',width:'120px',align:'left'},
             {field:'branchName',title:'加盟店名称',width:'140px',align:'left'},
             {field:'payableAmount',title:'应收金额',width:'100px',align:'right',
@@ -167,31 +167,27 @@ function initSupChkAcoAdd(){
         ]],
         onCheck:function(rowIndex,rowData){
         	editRowFlag = true;
-//        	editRowNumbeboxFlag = true;
         	rowData.checked = true;
-        	updateFooter()
+        	updateFooter();
         },
         onUncheck:function(rowIndex,rowData){
         	editRowFlag = true;
-//        	editRowNumbeboxFlag = true;
         	rowData.checked = false;
-        	updateFooter()
+        	updateFooter();
         },
         onCheckAll:function(rows){
         	editRowFlag = true;
-//        	editRowNumbeboxFlag = true;
         	$.each(rows,function(index,item){
         		item.checked = true;
-        	})
-        	updateFooter()
+        	});
+        	updateFooter();
         },
         onUncheckAll:function(rows){
         	editRowFlag = true;
-//        	editRowNumbeboxFlag = true;
         	$.each(rows,function(index,item){
         		item.checked = false;
-        	})
-        	updateFooter()
+        	});
+        	updateFooter();
         },
         onClickCell:function(rowIndex,field,value){
         	editRowFlag = true;
@@ -417,7 +413,6 @@ function saveFranchiseSet(){
 		return;
 	}
 	
-	return;
 //	if(!validateForm(branchId,payTime))return;
     var rows = gridHandel.getRowsWhere({branchName:'1' });
     if(rows.length==0){
@@ -427,7 +422,7 @@ function saveFranchiseSet(){
     
     var validFlag = true;
     var _rows = [];
-    var rowNo = 0;
+    var rowNo = 1;
     rows.forEach(function(data,i){
     	if(data.checked && validFlag){
     		//第N行实收金额不能为0，请检查！确认
@@ -572,11 +567,26 @@ function initSettleFormDetail(){
 function selectBranches(){
 	clickFlag = true;
 	new publicAgencyService(function(data){
-		$("#franchiseBranchId").val(data.branchesId);
-		$("#branchCode").val(data.branchCode);
-		$("#franchiseBranchName").val("["+data.branchCode+"]"+data.branchName);
-		initSettleFormDetail()
+		checkSettleAuditStutas(data.branchesId,data.branchCode,data.branchName);
 	},'FA',targetBranchId);
+}
+
+//校验是否存在未审核的结算单
+function checkSettleAuditStutas(branchId,branchCode,branchName){	
+	$_jxc.ajax({
+		url:contextPath+"/settle/franchiseSettle/checkAuditCount",
+		dataType: "json",
+		data:{franchiseBranchId:branchId}
+	},function(result){
+		if(result['code'] == 0){
+			$("#franchiseBranchId").val(branchId);
+			$("#branchCode").val(branchCode);
+			$("#franchiseBranchName").val("["+branchCode+"]"+branchName);
+			initSettleFormDetail();
+		}else{
+			$_jxc.alert('当前选择机构存在未审核的结算单，不能新增结算单!');
+		}
+	});
 }
 
 //选择费用

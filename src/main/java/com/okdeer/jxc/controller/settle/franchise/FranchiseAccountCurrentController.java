@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.github.pagehelper.PageHelper;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
+import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.StringUtils;
@@ -116,7 +117,8 @@ public class FranchiseAccountCurrentController extends BaseController<FranchiseA
 	 */
 	@RequiresPermissions("JxcFranchiseAc:export")
 	@RequestMapping(value = "exportList")
-	public void exportList(HttpServletResponse response, FranchiseAccountCurrentVo vo) {
+	public RespJson exportList(HttpServletResponse response, FranchiseAccountCurrentVo vo) {
+		RespJson resp = RespJson.success();
 		try {
 			buildParam(vo);
 			List<FranchiseAccountCurrentVo> exportList = franchiseAccountCurrentService.getAccountList(vo);
@@ -155,7 +157,9 @@ public class FranchiseAccountCurrentController extends BaseController<FranchiseA
 			exportListForXLSX(response, exportList, fileName, templateName);
 		} catch (Exception e) {
 			LOG.error("加盟店往来账款导出失败:", e);
+			resp = RespJson.error("导出加盟店往来账款异常");
 		}
+		return resp;
 	}
 
 }

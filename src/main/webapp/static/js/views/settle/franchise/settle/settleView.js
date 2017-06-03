@@ -104,7 +104,7 @@ function initSupChkAcoAdd(){
             		return str;
             	}
             },
-            {field:'targetFormType',title:'单据类型',width:'120px',align:'center'},
+            {field:'formTypeString',title:'单据类型',width:'120px',align:'center'},
             {field:'branchCode',title:'加盟店编号',width:'120px',align:'left'},
             {field:'branchName',title:'加盟店名称',width:'140px',align:'left'},
             {field:'payableAmount',title:'应收金额',width:'100px',align:'right',

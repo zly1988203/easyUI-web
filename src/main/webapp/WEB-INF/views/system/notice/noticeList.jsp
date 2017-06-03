@@ -68,17 +68,15 @@
 				</div>
 
 				<div class="ub ub-ac umar-l20">
-
+					<div class="umar-r10 uw-60 ut-r">查阅状态:</div>
 					<div class="ub ub-ac umar-r10">
 						<input class="radioItem" type="radio" name="isRead" id="deal0"
 							value="0" checked="checked"/><label for="deal0">未查阅 </label>
 					</div>
-
 					<div class="ub ub-ac umar-r10">
 						<input class="radioItem" type="radio" name="isRead" id="deal2"
 							value="1" /><label for="deal2">已查阅 </label>
 					</div>
-
 					<div class="ub ub-ac umar-r10">
 						<input class="radioItem" type="radio" name="isRead" id="deal4"
 							value=""/><label for="deal4">全部 </label>

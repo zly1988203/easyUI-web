@@ -99,11 +99,11 @@ public class FranchiseSettleController extends BasePrintController<FranchiseSett
 	@RequiresPermissions("JxcFranchiseSettle:add")
 	@RequestMapping(value = "checkAuditCount", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson checkAuditCount() {
+	public RespJson checkAuditCount(String franchiseBranchId) {
 		RespJson respJson = RespJson.success();
 		try {
 			// 检查是否存在未审核的结算
-			int auditCount = franchiseSettleService.getAuditCount(getCurrBranchId());
+			int auditCount = franchiseSettleService.getAuditCount(franchiseBranchId);
 			if (auditCount > 0) {
 				respJson = RespJson.error("存在未审核的结算单");
 			}
@@ -158,12 +158,12 @@ public class FranchiseSettleController extends BasePrintController<FranchiseSett
 	public RespJson settleSave(String data) {
 		RespJson respJson = RespJson.success();
 		try {
+			FranchiseSettleVo vo = JSON.parseObject(data, FranchiseSettleVo.class);
 			// 检查是否存在未审核的结算
-			int auditCount = franchiseSettleService.getAuditCount(getCurrBranchId());
+			int auditCount = franchiseSettleService.getAuditCount(vo.getFranchiseBranchId());
 			if (auditCount > 0) {
 				return RespJson.error("存在未审核的结算单");
 			}
-			FranchiseSettleVo vo = JSON.parseObject(data, FranchiseSettleVo.class);
 			vo.setTargetBranchId(getCurrBranchId());
 			vo.setCreateUserId(getCurrUserId());
 			vo.setBranchCode(getCurrBranchCode());

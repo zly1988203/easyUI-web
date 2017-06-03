@@ -61,7 +61,7 @@
             </div>
             <div class="ub ub-ac umar-l20">
                 <div class="umar-r10 uw-60 ut-r">制单时间:</div>
-                <div class="utxt" id="createTime"><fmt:formatDate value="${chargeVo.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/></div>
+                <div class="utxt" id="createTime"><fmt:formatDate value="${chargeVo.createTime}" pattern="yyyy-MM-dd HH:mm"/></div>
             </div>
          </div>
            <div class="ub umar-t8">
@@ -75,7 +75,7 @@
                </div>
                <div class="ub ub-ac umar-l20">
                    <div class="umar-r10 uw-60 ut-r">修改时间:</div>
-                   <div class="utxt"><fmt:formatDate value="${chargeVo.updateTime}" pattern="yyyy-MM-dd HH:mm:ss"/></div>
+                   <div class="utxt"><fmt:formatDate value="${chargeVo.updateTime}" pattern="yyyy-MM-dd HH:mm"/></div>
                </div>
                
            </div>
@@ -90,7 +90,7 @@
                </div>
                <div class="ub ub-ac umar-l20">
                    <div class="umar-r10 uw-60 ut-r">审核时间:</div>
-                   <div class="utxt"><fmt:formatDate value="${chargeVo.auditTime}" pattern="yyyy-MM-dd HH:mm:ss"/></div>
+                   <div class="utxt"><fmt:formatDate value="${chargeVo.auditTime}" pattern="yyyy-MM-dd HH:mm"/></div>
                </div>               
            </div>
            <div class="ub ub-f1 datagrid-edit umar-t8">
