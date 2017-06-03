@@ -20,7 +20,7 @@ $(function(){
     pageStatus = $('#operateType').val();
 	if(pageStatus === 'add'){
 		  $("#payMoneyTime").val(new Date().format('yyyy-MM-dd')); 
-		  $('#createTime').text(new Date().format('yyyy-MM-dd hh:mm'))
+		  $('#createTime').text(new Date().format('yyyy-MM-dd hh:mm'));
 		  //非总部 机构默认有值
 		  console.log('sessionBranchType',sessionBranchType)
 		  if(sessionBranchType != '0'){

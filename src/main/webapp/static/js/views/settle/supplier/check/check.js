@@ -20,20 +20,7 @@ var clickFlag = false;//是否点击供应商 方便判断显示提示
 $(function(){
     pageStatus = $('#operateType').val();
 
-    $('#payType').combobox({
-		editable:false,
-		valueField:'id',
-		textField: 'label',
-		value:_comboV,
-		url:contextPath + '/archive/financeCode/getDictListByTypeCode?dictTypeCode=101003',
-		loadFilter:function(data){
-			if(pageStatus === 'add'){
-				data[0].selected = true
-			}
-			return data;
-		}
-	})
-	
+ 	
 	if(pageStatus === 'add'){
 		$('#createTime').text(new Date().format('yyyy-MM-dd hh:mm'))
 		//非总部 机构默认有值
@@ -53,6 +40,13 @@ $(function(){
 	initSupChkAcoAdd();
 })
 
+//combobox 过滤
+function loadFilter(data){
+	if(pageStatus === 'add'){
+		data[0].selected = true;
+	}
+	return data;
+}
 
 
 $(document).on('input','#remark',function(){
@@ -83,12 +77,12 @@ $(document).on('input','#remark',function(){
 });
 
 var gridHandel = new GridClass();
+var ifEditor = false;
 function initSupChkAcoAdd(){
     gridHandel.setGridName(gridName);
     gridHandel.initKey({
         firstName:'discountAmount',
     })
-
     $("#"+gridName).datagrid({
         method:'post',
     	url:url,
@@ -110,6 +104,11 @@ function initSupChkAcoAdd(){
             		return value ;
             	}
             },
+            {field:'targetFormType',title:'单据类型',formatter:function(value,row,index){
+            	ifEditor = value == 'FY' ? true:false;
+            	console.log(ifEditor);
+            	return value;
+            }},
             {field:'formTypeText',title:'单据类型',width:'120px',align:'center'},
             {field:'branchCode',title:'机构编号',width:'120px',align:'left'},
             {field:'branchName',title:'机构名称',width:'140px',align:'left'},
@@ -140,13 +139,6 @@ function initSupChkAcoAdd(){
             		if(!value)row.unpayAmount = 0;
             		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
             	}
-//            	,editor:{
-//            		type:'numberbox',
-//            		options:{
-//            			min:0,
-//            			precision:4,
-//            		}
-//            	}
             },
             {field:'remark',title:'备注',width:'180px',editor:'textbox'}
         ]],
@@ -167,9 +159,15 @@ function initSupChkAcoAdd(){
         	})
         },
         onClickCell:function(rowIndex,field,value){
-            gridHandel.setBeginRow(rowIndex);
-            gridHandel.setSelectFieldName(field);
-            var target = gridHandel.getFieldTarget(field);
+        	var _rowData = $(this).datagrid('getRows')[rowIndex];
+        	gridHandel.setBeginRow(rowIndex);
+        	gridHandel.setSelectFieldName(field);
+        	var target = gridHandel.getFieldTarget(field);
+        	//预付款 费用 不能编辑优惠金额
+        	if(_rowData.targetFormType == 'FY' || _rowData.targetFormType == 'FF' ){
+        		$(target).numberbox('disable');
+        		return;
+        	}
             if(target){
                 gridHandel.setFieldFocus(target);
             }else{
@@ -210,12 +208,18 @@ function initSupChkAcoAdd(){
 }
 
 
+var disCheckFlag = false;
 //修改优惠金额
 function changeDisAmount(vewV,oldV){
+	if(disCheckFlag){
+		disCheckFlag = false;
+		return;
+	}
 	
 	var _payableAmount = parseFloat(gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'payableAmount')||0);
-	if(vewV > _payableAmount){
+	if(_payableAmount >=0  && vewV > _payableAmount && oldV){
 		$_jxc.alert('优惠金额不能大于应付金额');
+		disCheckFlag = true;
 		$(this).numberbox('setValue',oldV);
 		return ;
 	}
@@ -248,6 +252,8 @@ function delLineHandel(event){
 
 //保存
 function saveSupChkForm(){
+	gridHandel.endEditRow();
+	return;
 	var branchId = $('#branchId').val();
 	var supplierId = $('#supplierId').val();
 	var operateType = $('#operateType').val();
@@ -262,7 +268,7 @@ function saveSupChkForm(){
     }
     
     var _subRows = [];
-    var _rowNo = 0;//行号
+    var _rowNo = 1;//行号
     $.each(_rows,function(i,data){
     	if(data.checked){
     		data.rowNo = _rowNo;
@@ -272,15 +278,19 @@ function saveSupChkForm(){
     	}
     })
     
+    if(_subRows.length < 1){
+    	$_jxc.alert('请选择要对账的单据');
+    	return;
+    }
+    
     reqObj.detailList = _subRows;
     
-    console.log('reqObj',reqObj);
+//    console.log('reqObj',reqObj);
 //    return;
     $_jxc.ajax({
     	url:contextPath + '/settle/supplierCheck/saveCheckForm',
     	data:{"data":JSON.stringify(reqObj)}
     },function(result){
-    	console.log('result',result)
     	if(result['code'] == 0){
 			$_jxc.alert("操作成功！",function(){
 				location.href = contextPath +"/settle/supplierCheck/checkEdit?id="+result['formId'];
@@ -294,7 +304,7 @@ function saveSupChkForm(){
 //审核
 function auditSupChkForm(){
     //验证数据是否修改
-    $("#"+gridName).datagrid("endEdit", gridHandel.getSelectRowIndex());
+    gridHandel.endEditRow();
     var newData = {
         remark:$("#remark").val(),                  // 备注
         grid:$.map(gridHandel.getRows(), function(obj){
@@ -389,31 +399,41 @@ function selectBranches(){
 		},'',targetBranchId,'','',1);
 	}
 }
-var checkMode = 1;
+
 //校验机构配置
 function checkBranchSpec(branchId){
 	$_jxc.ajax({
     	url:contextPath+"/settle/supplierCheck/querySettleCheckMode",
     	data: {branchId:branchId}
     },function(result){
-		console.log('机构配置：===',result);
-		checkMode = result.checkMode;
-		if(result.checkMode == 0){
+		if(result.checkMode == '1'){
 			$_jxc.alert('当前选择机构未开启对账设置，不能创建对账单!');
-			return false;
+			$('#openAccountBank').val('');
+	    	//银行账户
+	    	$('#bankAccount').val('');
+	    	//办公地址
+	    	$('#officeAddress').val('');
+	    	//国税登记
+	    	$('#nationalTaxRegNum').val('');
+	    	//联系人
+	    	$('#linkTel').val('');
+	    	$("#supplierName").val('');
+			$('#supplierName').addClass('uinp-no-more');
+		}else{
+			$('#supplierName').removeClass('uinp-no-more');
 		}
     });
 }
 
 //选择供应商
 function selectSupplier(){
+	if($('#supplierName').hasClass('uinp-no-more'))return;
 	clickFlag = true;
 	var _rows = gridHandel.getRowsWhere({label:'1'});
 	if(_rows.length > 0){
 		$_jxc.confirm('单据信息未保存，是否先保存单据？',function(r){
 			if(!r){
 				new publicSupplierService(function(data){
-					console.log(data);
 					$("#phone").val(data.phone);
 					$("#mobile").val(data.mobile);
 					$('#linkTel').val((data.mobile?data.mobile:'')+(data.phone?'/'+data.phone:''));//联系人
@@ -429,7 +449,6 @@ function selectSupplier(){
 		})
 	}else{
 		new publicSupplierService(function(data){
-			console.log(data);
 			$("#phone").val(data.phone);
 			$("#mobile").val(data.mobile);
 			$('#linkTel').val((data.mobile?data.mobile:'')+(data.phone?'/'+data.phone:''));//联系人
@@ -486,7 +505,6 @@ function initCheckFormDetail(){
 		operateType : operateType == 'add' ? 1 : 2,
     	supplierId:supplierId
     }
-    console.log('paramsObj:',paramsObj);
 	$("#"+gridName).datagrid("options").method = "post";
     $("#"+gridName).datagrid("options").queryParams = paramsObj;
 	$("#"+gridName).datagrid('options').url = contextPath + '/settle/supplierCheck/checkFormDetailList';
