@@ -83,7 +83,7 @@
             
         </form>
         <div class="ub ub-f1  umar-t8 umar-b8">
-            <table id="supplierAdvMoneyList"></table>
+            <table id="supplierChargeList"></table>
         </div>
     </div>
 

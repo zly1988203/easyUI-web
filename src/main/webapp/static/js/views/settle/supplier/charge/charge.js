@@ -361,7 +361,7 @@ function delChageForm(){
 		    	data:{"ids":ids}
 		    },function(result){
 	    		if(result['code'] == 0){
-                    toRefreshIframeDataGrid("settle/supplierCharge/getChargeList","supplierAdvMoneyList");
+                    toRefreshIframeDataGrid("settle/supplierCharge/getChargeList","supplierChargeList");
 	    			toClose();
 	    		}else{
 	    			$_jxc.alert(result['message']);

@@ -80,14 +80,14 @@
            <div class="ub umar-t8">
            		<div class="ub ub-ac uw-310 umar-l20">
            			<div class="umar-r10 uw-90 ut-r">计算时间:</div>
-           			<input id="beginDate" name="beginDate" class="uinp ub ub-f1 " readonly="readonly" value="<fmt:formatDate value="${chainVo.beginDate}" pattern="yyyy-MM-dd"/>" type="text" />
+           			<input id="beginDate" name="beginDate" class="uinp ub ub-f1 " readonly="readonly" value="${chainVo.beginDate}" type="text" />
            				&nbsp;至&nbsp;
-           			<input id="endDate" name="endDate" class="uinp ub ub-f1 " readonly="readonly" value="<fmt:formatDate value="${chainVo.endDate}" pattern="yyyy-MM-dd"/>" type="text" />
+           			<input id="endDate" name="endDate" class="uinp ub ub-f1 " readonly="readonly" value="${chainVo.endDate}" type="text" />
            		</div>
            		<div class="ub ub-ac uw-320 umar-l20">
            			<div class="umar-r10 uw-100 ut-r">付款日期:</div>
 	                <div class="ub ub-f1">
-	                   <input id="payMoneyTime" name= "payTime" readonly="readonly" value="<fmt:formatDate value="${chainVo.payTime}" pattern="yyyy-MM-dd"/>" class="uinp ub ub-f1" type="text"/>
+	                   <input id="payMoneyTime" name= "payTime" readonly="readonly" value="${chainVo.payTime}" class="uinp ub ub-f1" type="text"/>
 	                </div>
            		</div>
            		<div class="ub ub-ac umar-l30">

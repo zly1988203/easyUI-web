@@ -103,10 +103,10 @@ function getColumnList(){
 	                        }
 	        			},
 	                    {field: 'createUserName', title: '制单人', width: '80px', align: 'left'},
-	                    {field: 'createTime', title: '制单时间', width: '100px', align: 'center',
+	                    {field: 'createTime', title: '制单时间', width: '120px', align: 'center',
 	        				formatter: function (value, row, index) {
 	        					if (value) {
-	        						return new Date(value).format('yyyy-MM-dd');
+	        						return new Date(value).format('yyyy-MM-dd hh:mm');
 	        					}
 	        					return "";
 	        				}

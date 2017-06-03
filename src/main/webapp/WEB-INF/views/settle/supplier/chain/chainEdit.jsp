@@ -28,7 +28,7 @@
         </div>
         <div class="ub umar-t8 uc-black">【单号】:<span>${chainVo.formNo}</span></div>
         <div class="ub uline umar-t8"></div>
-        <input type="hidden" id="oldTime" value="<fmt:formatDate value="${chainVo.beginDate}" pattern="yyyy-MM-dd"/><fmt:formatDate value="${chainVo.endDate}" pattern="yyyy-MM-dd"/>">
+        <input type="hidden" id="oldTime" value="${chainVo.beginDate}${chainVo.endDate}">
         <form id="chainForm">
         <input type='hidden' id="operateType" name="operateType" value="edit">
         <input type='hidden' id="formId" name="id" value="${chainVo.id}">
@@ -80,14 +80,14 @@
            <div class="ub umar-t8">
            		<div class="ub ub-ac uw-310 umar-l20">
            			<div class="umar-r10 uw-90 ut-r">计算时间:</div>
-           			<input id="beginDate" name="beginDate" value="<fmt:formatDate value="${chainVo.beginDate}" pattern="yyyy-MM-dd"/>" class="Wdate ub ub-f1" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true,maxDate:'#F{$dp.$D(\'endDate\');}'})" />
+           			<input id="beginDate" name="beginDate" value="${chainVo.beginDate}" class="Wdate ub ub-f1" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true,maxDate:'#F{$dp.$D(\'endDate\');}'})" />
            				&nbsp;至&nbsp;
-           			<input id="endDate" name="endDate" value="<fmt:formatDate value="${chainVo.endDate}" pattern="yyyy-MM-dd"/>" class="Wdate ub ub-f1" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true,minDate:'#F{$dp.$D(\'beginDate\');}'})" />
+           			<input id="endDate" name="endDate" value="${chainVo.endDate}" class="Wdate ub ub-f1" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true,minDate:'#F{$dp.$D(\'beginDate\');}'})" />
            		</div>
            		<div class="ub ub-ac uw-320 umar-l20">
            			<div class="umar-r10 uw-100 ut-r">付款日期:</div>
 	                <div class="ub ub-f1">
-	                   <input id="payMoneyTime" name = "payTime" value="<fmt:formatDate value="${chainVo.payTime}" pattern="yyyy-MM-dd"/>" class="Wdate ub ub-f1" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" pattern="yyyy-MM-dd"/>
+	                   <input id="payMoneyTime" name = "payTime" value="${chainVo.payTime}" class="Wdate ub ub-f1" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" pattern="yyyy-MM-dd"/>
 	                </div>
            		</div>
            		<div class="ub ub-ac umar-l30">

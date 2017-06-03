@@ -82,7 +82,6 @@ function savePassword() {
     if (!isValid) {
         return;
     }
-	debugger;
     var param = {
         url : contextPath + "/system/user/updateUser",
 		data :reqObj,
