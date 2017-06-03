@@ -17,41 +17,37 @@
 		<form id="queryForm">
 			<div class="ub ub-ac">
 				<div class="ubtns">
-					<div class="ubtns-item" onclick="query()">查询</div>
-					<shiro:hasPermission name="JxcPurchaseOrder:add">
-						<div class="ubtns-item" onclick="orderAdd()">新增</div>
-					</shiro:hasPermission>
-					<shiro:hasPermission name="JxcPurchaseOrder:delete">
-						<div class="ubtns-item" onclick="orderDelete()">删除</div>
-					</shiro:hasPermission>
+					<div class="ubtns-item-disabled">查询</div>
+					<div class="ubtns-item-disabled">重置</div>
+					<div class="ubtns-item" onclick="exportData()">导出</div>
 					<shiro:hasPermission name="JxcPurchaseOrder:print">
 						<div class="ubtns-item" onclick="printPreview()">打印</div>
 					</shiro:hasPermission>
-					<div class="ubtns-item" onclick="gFunRefresh()">重置</div>
-					<div class="ubtns-item" onclick="toClose()">退出</div>
+					<div class="ubtns-item-disabled">设置</div>
+					<div class="ubtns-item" onclick="toClose()">关闭</div>
 				</div>
 
 				<!-- 引入时间选择控件 -->
 				<%@ include file="/WEB-INF/views/component/dateSelect.jsp"%>
 			</div>
+			<div class="ub umar-t8 uc-black">【单号】:<span>${form.formNo}</span></div>
+			<div class="ub uline umar-t8"></div>
 
 			<div class="ub umar-t8">
 
 				<div class="umar-r10 uw-80 ut-r">机构名称:</div>
-				<input class="uinp" name="branchId" id="branchId" type="hidden">
-				<input class="uinp" id="oldBranchName" name="oldBranchName"
-					type="hidden">
+				<input class="uinp" name="branchId" id="branchId" type="hidden" value="${form.branchId}">
 				<input class="uinp uinp-no-more" readOnly="readOnly" id="branchName"
-					name="branchName" type="text" maxlength="50">
+					name="branchName" type="text" value="${form.branchName}">
 
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">订单号:</div>
-					<input class="uinp uinp-no-more" readOnly="readOnly" name="orderNo" id="orderNo" type="text">
+					<input class="uinp uinp-no-more" readOnly="readOnly" name="orderNo" id="orderNo" type="text" value="${form.orderNo}">
 				</div>
 
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">下单时间:</div>
-					<input class="uinp uinp-no-more" readOnly="readOnly" name="orderNo" id="orderNo" type="text">
+					<input class="uinp uinp-no-more" readOnly="readOnly" name="orderTime" id="orderTime" type="text" value="${form.orderTime}">
 				</div>
 
 
@@ -61,17 +57,17 @@
 
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">收货人:</div>
-					<input class="uinp uinp-no-more" readOnly="readOnly" name="orderNo" id="orderNo" type="text">
+					<input class="uinp uinp-no-more" readOnly="readOnly" name="orderNo" id="orderNo" type="text" value="${form.orderNo}">
 				</div>
 
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">单据来源:</div>
-					<input class="uinp uinp-no-more" readOnly="readOnly" name="orderNo" id="orderNo" type="text">
+					<input class="uinp uinp-no-more" readOnly="readOnly" name="orderNo" id="orderNo" type="text" value="${form.orderNo}">
 				</div>
 
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">线上订单编号:</div>
-					<input class="uinp uinp-no-more" readOnly="readOnly" name="orderNo" id="orderNo" type="text">
+					<input class="uinp uinp-no-more" readOnly="readOnly" name="onlineCode" id="onlineCode" type="text" value="${form.onlineCode}">
 				</div>
 
 			</div>
@@ -79,17 +75,17 @@
 			<div class="ub umar-t8">
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">联系电话:</div>
-					<input class="uinp uinp-no-more" readOnly="readOnly" name="orderNo" id="orderNo" type="text">
+					<input class="uinp uinp-no-more" readOnly="readOnly" name="phone" id="phone" type="text" value="${form.phone}">
 				</div>
 
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">配送方式:</div>
-					<input class="uinp uinp-no-more" readOnly="readOnly" name="orderNo" id="orderNo" type="text">
+					<input class="uinp uinp-no-more" readOnly="readOnly" name="orderNo" id="orderNo" type="text" value="${form.orderNo}">
 				</div>
 
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">单据状态:</div>
-					<input class="uinp uinp-no-more" readOnly="readOnly" name="orderNo" id="orderNo" type="text">
+					<input class="uinp uinp-no-more" readOnly="readOnly" name="orderStatus" id="orderStatus" type="text" value="${form.orderStatus}">
 				</div>
 			</div>
 
@@ -97,17 +93,17 @@
 			<div class="ub umar-t8">
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">送货人:</div>
-					<input class="uinp uinp-no-more" readOnly="readOnly" name="orderNo" id="orderNo" type="text">
+					<input class="uinp uinp-no-more" readOnly="readOnly" name="orderNo" id="orderNo" type="text" value="${form.orderNo}">
 				</div>
 
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">送货电话:</div>
-					<input class="uinp uinp-no-more" readOnly="readOnly" name="orderNo" id="orderNo" type="text">
+					<input class="uinp uinp-no-more" readOnly="readOnly" name="phone" id="phone" type="text" value="${form.phone}">
 				</div>
 
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">付款方式:</div>
-					<input class="uinp uinp-no-more" readOnly="readOnly" name="orderNo" id="orderNo" type="text">
+					<input class="uinp uinp-no-more" readOnly="readOnly" name="orderNo" id="orderNo" type="text" value="${form.orderNo}">
 				</div>
 			</div>
 
@@ -115,20 +111,20 @@
 			<div class="ub umar-t8">
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">收货地址:</div>
-					<input class="uinp uinp-no-more" readOnly="readOnly" name="orderNo" id="orderNo" type="text">
+					<input class="uinp uinp-no-more" readOnly="readOnly" name="address" id="address" type="text" value="${form.address}">
 				</div>
 
 
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">支付方式:</div>
-					<input class="uinp uinp-no-more" readOnly="readOnly" name="orderNo" id="orderNo" type="text">
+					<input class="uinp uinp-no-more" readOnly="readOnly" name="payType" id="payType" type="text" value="${form.payType}">
 				</div>
 			</div>
 
 			<div class="ub umar-t8">
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">用户留言:</div>
-					<input class="uinp uinp-no-more" readOnly="readOnly" name="orderNo" id="orderNo" type="text">
+					<input class="uinp uinp-no-more" readOnly="readOnly" name="feedback" id="feedback" type="text" value="${form.feedback}">
 				</div>
 
 			</div>

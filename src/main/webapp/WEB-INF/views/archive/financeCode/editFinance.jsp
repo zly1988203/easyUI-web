@@ -51,9 +51,12 @@
 
 			<div class="ub upad-4 umar-t10">
 
-			<div class="ub ub-ac">
-			<div class="umar-r10 uw-70 ut-r">:</div>
-				<input type="checkbox">保存后自动更新
+			<div class="ub ub-ac" >
+			<div class="umar-r10 uw-70 ut-r"></div>
+	<div id="cbDiv">
+	<input id="ckbSave" type="checkbox"><label for="ckbSave">保存后自动更新</label>
+	</div>
+
 			</div>
 			</div>
 
