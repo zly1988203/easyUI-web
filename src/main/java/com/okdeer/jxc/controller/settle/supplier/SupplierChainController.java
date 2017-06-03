@@ -250,7 +250,23 @@ public class SupplierChainController extends BasePrintController<SupplierChainCo
         }
         return resp;
     }
-
+    
+    /***
+     * 
+     * @Description: 校验计算时间
+     * @param data
+     * @return RespJson
+     * @author xuyq
+     * @date 2017年6月3日
+     */
+    @RequestMapping(value = "/checkChainCalculateDate", method = RequestMethod.POST)
+    public RespJson checkChainCalculateDate(SupplierChainVo vo) {
+        RespJson resp = RespJson.success();
+        if (supplierChainService.checkChainCalculateDate(vo)) {
+            resp = RespJson.error("当前计算时间段已有机构存在联营账单，请重新选择机构或计算时间！");
+        }
+        return resp;
+    }
     /**
      * 
      * (non-Javadoc)

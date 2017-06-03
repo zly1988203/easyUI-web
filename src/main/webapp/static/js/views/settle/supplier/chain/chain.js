@@ -265,17 +265,23 @@ function initChainFormDetail(){
 		operateType : operateType == 'add' ? 1 : 2,
     	supplierId:supplierId
     }
-    
-    //保存时用于比较
-    $('#oldTime').val(beginDate+''+endDate);
-    
-	$("#"+gridName).datagrid("options").method = "post";
-    $("#"+gridName).datagrid("options").queryParams = paramsObj;
-	$("#"+gridName).datagrid('options').url = contextPath + '/settle/supplierChain/chainFormDetailList';
-	$("#"+gridName).datagrid('load');
-	
-	
-	
+    $_jxc.ajax({
+    	url:contextPath+"/settle/supplierChain/checkChainCalculateDate",
+    	data: paramsObj
+    },function(result){
+    	if(result.code == '1'){
+    		$_jxc.alert(result.message);
+    		return false;
+    	}else{
+    		//保存时用于比较
+    		$('#oldTime').val(beginDate+''+endDate);
+    		
+    		$("#"+gridName).datagrid("options").method = "post";
+    		$("#"+gridName).datagrid("options").queryParams = paramsObj;
+    		$("#"+gridName).datagrid('options').url = contextPath + '/settle/supplierChain/chainFormDetailList';
+    		$("#"+gridName).datagrid('load');
+    	}
+    });
 }
 
 //保存
