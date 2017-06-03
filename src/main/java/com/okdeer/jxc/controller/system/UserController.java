@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.okdeer.ca.api.common.ApiException;
+import com.okdeer.ca.api.common.SystemUserDto;
+import com.okdeer.ca.api.sysuser.entity.SysUserDto;
+import com.okdeer.ca.api.sysuser.service.ISysUserApi;
 import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.common.constant.Constant;
@@ -54,6 +58,9 @@ public class UserController extends BaseController<UserController> {
 
 	@Reference(version = "1.0.0", check = false)
 	private SysRoleService roleService;
+
+	@Reference(version = "1.0.0", check = false)
+	private ISysUserApi sysUserApi;
 
 	/**
 	 * 默认页面
@@ -338,27 +345,74 @@ public class UserController extends BaseController<UserController> {
 		return respJson;
 	}
 
-	// /**
-	// * @Description: 初始化默认参数
-	// * @param qo
-	// * @author liwb
-	// * @date 2016年9月23日
-	// */
-	// private SysUserQo buildDefaultParams(SysUserQo qo) {
-	//
-	// // 如果没有修改所选机构等信息，则去掉该参数
-	// String branchNameOrCode = qo.getBranchNameOrCode();
-	// if (StringUtils.isNotBlank(branchNameOrCode) && branchNameOrCode.contains("[")
-	// && branchNameOrCode.contains("]")) {
-	// qo.setBranchNameOrCode(null);
-	// }
-	//
-	// // 默认当前机构
-	// if (StringUtils.isBlank(qo.getBranchCode()) && StringUtils.isBlank(qo.getBranchNameOrCode())) {
-	// qo.setBranchCompleCode(getCurrBranchCompleCode());
-	// }
-	//
-	// return qo;
-	// }
+	/**
+	 * @Description: 修改指定用户密码
+	 * @param userId
+	 * @param password
+	 * @return
+	 * @author liwb
+	 * @date 2017年6月3日
+	 */
+	@RequestMapping(value = "updatePwd", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson updatePwd(String userId, String password) {
+		LOG.info("修改指定用户密码，userId：{}，password：{}", userId, password);
+		try {
+			// 获取当前用户的信息,拿到旧密码
+			SystemUserDto sysUserDto = sysUserApi.loadSysUser(userId);
+			if (sysUserDto == null) {
+				return RespJson.businessError("获取用户中心数据失败,请稍后再试,或联系管理员");
+			}
+
+			SysUserDto sysDto = new SysUserDto();
+
+			sysDto.setId(sysUserDto.getId());
+			sysDto.setUpdateUserId(super.getCurrUserId());
+
+			// 修改密码,传入明文,用户中心会进行md5加密
+			sysDto.setLoginPassword(password);
+			sysUserApi.edit(sysDto);
+			return RespJson.success();
+		} catch (ApiException e) {
+			LOG.error("调用dubboAPi失败，与用户中心通信失败！", e);
+		} catch (Exception e) {
+			LOG.error("修改密码失败：", e);
+		}
+		return RespJson.error();
+	}
+
+	/**
+	 * @Description: 初始化密码
+	 * @param userId
+	 * @return
+	 * @author liwb
+	 * @date 2017年6月3日
+	 */
+	@RequestMapping(value = "initPwd", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson initPwd(String userId) {
+		LOG.debug("初始化密码，userId:{}", userId);
+		SystemUserDto sysUserDto = null;
+		try {
+			// 获取当前用户的信息,拿到旧密码
+			sysUserDto = sysUserApi.loadSysUser(userId);
+			if (sysUserDto == null) {
+				return RespJson.businessError("获取用户中心数据失败,请稍后再试,或联系管理员");
+			}
+
+			SysUserDto sysDto = new SysUserDto();
+			sysDto.setId(sysUserDto.getId());
+			sysDto.setUpdateUserId(super.getCurrUserId());
+			// 修改密码,传入明文,用户中心会进行md5加密
+			sysDto.setLoginPassword("123456"); // 初始化面默认用123456
+			sysUserApi.edit(sysDto);
+			return RespJson.success();
+		} catch (ApiException e) {
+			LOG.error("调用dubboAPi失败，与用户中心通信失败！", e);
+		} catch (Exception e) {
+			LOG.error("初始化密码失败：", e);
+		}
+		return RespJson.error();
+	}
 
 }

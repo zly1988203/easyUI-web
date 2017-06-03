@@ -14,8 +14,10 @@ $(function () {
     formId = $("#formId").val();
     
     if(chargeStatus === "add"){
-        $("#branchName").val(sessionBranchName);
-        $("#branchId").val(sessionBranchId);
+    	if(selbranchType>=3){
+    		$("#branchName").val(sessionBranchCodeName);
+	        $("#branchId").val(sessionBranchId);
+    	}
         $("#chargeMonth").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM"));
     }else if(chargeStatus === "edit"){
         $('#already-examine').css('display','none');

@@ -107,7 +107,8 @@ public class SystemLogController extends BaseController<SystemLogController> {
 			}
 
 			// 导出文件名称，不包括后缀名
-			String fileName = "系统日志列表_" + DateUtils.getCurrSmallStr();
+			String fileName = "系统日志列表_" + DateUtils.getSmallStr(qo.getStartTime()) + "_"
+					+ DateUtils.getSmallStr(qo.getEndTime());
 
 			// 模板名称，包括后缀名
 			String templateName = ExportExcelConstant.SYS_OPERATE_LOG_EXPORT_TEMPLATE;

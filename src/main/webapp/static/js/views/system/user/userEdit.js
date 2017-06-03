@@ -83,8 +83,11 @@ function savePassword() {
         return;
     }
     var param = {
-        url : contextPath + "/system/user/updateUser",
-		data :reqObj,
+        url : contextPath + "/system/user/updatePwd",
+		data :{
+			userId:$("#passwordForm #id").val(),
+			password:$("#passwordForm #userPwd").val()
+		}
 	}
     $_jxc.ajax(param,function(result){
         if(result['code'] == 0){
@@ -101,7 +104,7 @@ function initPassword() {
     	var param = {
     		url:contextPath+"/system/user/initPwd",
     		data:{
-				id:$("#passwordForm #id").val()
+    			userId:$("#passwordForm #id").val()
 			}
 		}
 		
