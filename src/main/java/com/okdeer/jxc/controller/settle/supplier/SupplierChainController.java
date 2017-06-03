@@ -285,7 +285,7 @@ public class SupplierChainController extends BasePrintController<SupplierChainCo
             replaceMap.put("updateTime", vo.getUpdateTime() != null ? DateUtils.getFullStr(vo.getUpdateTime()) : "");
             replaceMap.put("auditUserName", vo.getAuditUserName());
             replaceMap.put("auditTime", vo.getAuditTime() != null ? DateUtils.getFullStr(vo.getAuditTime()) : "");
-            replaceMap.put("payTime", vo.getPayTime() != null ? DateUtils.getSmallRStr(vo.getPayTime()) : "");
+            replaceMap.put("payTime", vo.getPayTime());
             replaceMap.put("beginDate", vo.getBeginDate());
             replaceMap.put("endDate", vo.getEndDate());
         }
