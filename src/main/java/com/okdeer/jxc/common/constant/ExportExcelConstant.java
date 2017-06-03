@@ -659,4 +659,39 @@ public interface ExportExcelConstant {
 	 * 加盟店预收账款明细
 	 */
 	String FRANCHISE_ACCOUNT6 = "FranchiseAccount6.xlsx";
+
+	/**
+	 * 到期账款
+	 */
+    String EXPIRE_ACCOUNTS_PAYABLE = "expireAccountsPayable.xlsx";
+    
+    /**
+     * 历史往来账款
+     */
+    String DEALINGS_ACCOUNTS_PAYABLE = "dealingsAccountsPayable.xlsx";
+    
+    /**
+     * 未付款账款汇总
+     */
+    String UNPAID_ACCOUNTS_PAYABLE = "unpaidAccountsPayable.xlsx";
+    
+    /**
+     * 未付款账款明细
+     */
+    String UNPAID_ACCOUNTS_PAYABLE_DETAIL = "unpaidAccountsPayableDetail.xlsx";
+
+    /**
+     * 已付账款汇总
+     */
+    String PAID_ACCOUNTS_PAYABLE = "paidAccountsPayable.xlsx";
+    
+    /**
+     * 已付账款明细
+     */
+    String PAID_ACCOUNTS_PAYABLE_DETAIL = "paidAccountsPayableDetail.xlsx";
+    
+    /**
+     * 预付账款明细
+     */
+    String ADVANCE_ACCOUNTS_PAYABLE_DETAIL = "advanceAccountsPayableDetail.xlsx";
 }

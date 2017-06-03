@@ -622,7 +622,6 @@ function check(){
     }
 	$.messager.confirm('提示','是否审核通过？',function(data){
 		if(data){
-            debugger;
             gFunStartLoading();
 			$.ajax({
 		    	url : contextPath+"/form/deliverForm/check",
