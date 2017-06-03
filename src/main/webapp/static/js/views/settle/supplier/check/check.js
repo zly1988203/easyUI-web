@@ -104,11 +104,7 @@ function initSupChkAcoAdd(){
             		return value ;
             	}
             },
-            {field:'targetFormType',title:'单据类型',formatter:function(value,row,index){
-            	ifEditor = value == 'FY' ? true:false;
-            	console.log(ifEditor);
-            	return value;
-            }},
+            {field:'targetFormType',hidden:true},
             {field:'formTypeText',title:'单据类型',width:'120px',align:'center'},
             {field:'branchCode',title:'机构编号',width:'120px',align:'left'},
             {field:'branchName',title:'机构名称',width:'140px',align:'left'},
@@ -165,7 +161,7 @@ function initSupChkAcoAdd(){
         	var target = gridHandel.getFieldTarget(field);
         	//预付款 费用 不能编辑优惠金额
         	if(_rowData.targetFormType == 'FY' || _rowData.targetFormType == 'FF' ){
-        		$(target).numberbox('disable');
+        		$(target).numberbox('readonly');
         		return;
         	}
             if(target){
@@ -253,7 +249,6 @@ function delLineHandel(event){
 //保存
 function saveSupChkForm(){
 	gridHandel.endEditRow();
-	return;
 	var branchId = $('#branchId').val();
 	var supplierId = $('#supplierId').val();
 	var operateType = $('#operateType').val();
@@ -406,7 +401,7 @@ function checkBranchSpec(branchId){
     	url:contextPath+"/settle/supplierCheck/querySettleCheckMode",
     	data: {branchId:branchId}
     },function(result){
-		if(result.checkMode == '1'){
+		if(result.checkMode == '0'){
 			$_jxc.alert('当前选择机构未开启对账设置，不能创建对账单!');
 			$('#openAccountBank').val('');
 	    	//银行账户
