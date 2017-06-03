@@ -44,7 +44,7 @@ $(document).on('input','#remark',function(){
 
 var targetBranchId;
 var gridHandel = new GridClass();
-var datagirdID = 'supplierAdvMoneyList'
+var datagirdID = 'supplierChargeList'
 //初始化表格
 function initsupAdvMonList(){
     $("#"+datagirdID).datagrid({
