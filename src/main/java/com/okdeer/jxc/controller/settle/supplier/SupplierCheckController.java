@@ -277,7 +277,29 @@ public class SupplierCheckController extends BasePrintController<SupplierCheckCo
         }
         return resp;
     }
-
+    
+    /***
+     * 
+     * @Description: 查询机构是否存在未审核的对账单
+     * @param vo vo
+     * @return RespJson
+     * @author xuyq
+     * @date 2017年6月2日
+     */
+    @RequestMapping(value = "queryCheckStatusNum", method = RequestMethod.POST)
+    public RespJson queryCheckStatusNum(SupplierCheckVo vo) {
+        RespJson resp = RespJson.success();
+        // 未审核对账单数
+        int unChNum = 0;
+        try {
+            unChNum = supplierCheckService.queryCheckStatusNum(vo);
+            resp.put("unChNum", unChNum);
+        } catch (Exception e) {
+            LOG.error("查询机构是否存在未审核的对账单异常:{}", e);
+            resp = RespJson.error("查询机构是否存在未审核的对账单异常");
+        }
+        return resp;
+    }
     /**
      * 
      * (non-Javadoc)
