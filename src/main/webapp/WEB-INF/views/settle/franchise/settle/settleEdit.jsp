@@ -11,6 +11,7 @@
     <style>
     .datagrid-header .datagrid-cell {text-align: center!important;font-weight: bold;}
     </style>
+    
 </head>
 <body class="ub uw uh ufs-14 uc-black">
 	<input type='hidden' id="pageStatus" value="edit">
@@ -53,7 +54,7 @@
             
             <div class="ub ub-ac uw-290 umar-l20">
 				 <div class="umar-r12 uw-70 ut-r">付款方式:</div>
-                 <select class='uinp easyui-combobox' id="payType" value="payType" data-options="valueField:'id',textField:'label', url:'${ctx}/archive/financeCode/getDictListByTypeCode?dictTypeCode=101003', editable:false" style="width:204px;">
+                 <select class='uinp easyui-combobox' id="payType" name="payType" data-options="valueField:'id',value:'${settle.payType}',textField:'label', url:'${ctx}/archive/financeCode/getDictListByTypeCode?dictTypeCode=101003', editable:false" style="width:204px;">
                  </select>
                  <i class="ub ub-ac uc-red">*</i>
             </div>

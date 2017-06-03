@@ -451,7 +451,7 @@ function saveFranchiseSet(){
     var reqObj = {
     	id:$('#formId').val()||'',
     	franchiseBranchId:$('#franchiseBranchId').val()||'',
-    	payType:$('#payType').val()||'',
+    	payType:$('#payType').combobox('getValue')||'',
 		payableAmount:$('#payableAmount').val()||'',
 		payedAmount:$('#payedAmount').val()||'',
 		unpayAmount:$('#unpayAmount').val()||'',
