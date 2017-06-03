@@ -12,25 +12,13 @@ var url = "";
 var oldData = {};
 var gridName = "supplierChkAccountAdd";
 var operateType;
-var editRowData = null;
+var editRowFlag = false;
 var targetBranchId;
-
+var clickFlag = false;//是否点击供应商 方便判断显示提示
+var editRowNumbeboxFlag = false;//用于表头和表体numberbox相互影响的
 
 $(function(){
 	operateType = $('#operateType').val();
-	$('#payType').combobox({
-		editable:false,
-		valueField:'id',
-		textField: 'label',
-		value:_comboV,
-		url:contextPath + '/archive/financeCode/getDictListByTypeCode?dictTypeCode=101003',
-		loadFilter:function(data){
-			if(operateType === 'add'){
-				data[0].selected = true
-			}
-			return data;
-		}
-	})
 	if(operateType === 'add'){
 		  $("#payMoneyTime").val(new Date().format('yyyy-MM-dd')); 
 		  $('#createTime').text(new Date().format('yyyy-MM-dd hh:mm'))
@@ -47,8 +35,23 @@ $(function(){
 		     remark:$("#remark").val(),                   // 备注
 		}
 	}
+	
+	//监听numberbox 点击事件
+	$("input#actualAmount").next("span").children().first().on('click',function(){
+		console.log('555555555555555555555')
+		editRowNumbeboxFlag = false;
+	});
+	
 	initSupChkAcoAdd();
 })
+
+//combobox 过滤
+function loadFilter(data){
+	if(operateType  === 'add'){
+		data[0].selected = true;
+	}
+	return data;
+}
 
 $(document).on('input','#remark',function(){
 	var val=$(this).val();
@@ -81,14 +84,15 @@ var gridHandel = new GridClass();
 function initSupChkAcoAdd(){
     gridHandel.setGridName(gridName);
     gridHandel.initKey({
-        firstName:'discountAmount',
+        firstName:'actualAmount',
     })
 
     $("#"+gridName).datagrid({
         method:'post',
     	url:url,
         align:'center',
-        singleSelect:true,  //单选  false多选
+        singleSelect:false,  //单选  false多选
+        checkOnSelect:false,
         rownumbers:true,    //序号
         showFooter:true,
         height:"100%",
@@ -144,30 +148,40 @@ function initSupChkAcoAdd(){
             	editor:{
             		type:'numberbox',
             		options:{
-            			min:0,
-            			precision:4
+            			precision:4,
+            			onChange:onChangeAmount
             		}
             	}
             },
             {field:'remark',title:'备注',width:'180px',editor:'textbox'}
         ]],
         onCheck:function(rowIndex,rowData){
+            editRowFlag = true;
         	rowData.checked = true;
+        	updateFooter();
         },
         onUncheck:function(rowIndex,rowData){
+            editRowFlag = true;
         	rowData.checked = false;
+        	updateFooter();
         },
         onCheckAll:function(rows){
+            editRowFlag = true;
         	$.each(rows,function(index,item){
         		item.checked = true;
-        	})
+        	});
+        	updateFooter();
         },
         onUncheckAll:function(rows){
+        	editRowFlag = true;
         	$.each(rows,function(index,item){
         		item.checked = false;
         	})
         },
         onClickCell:function(rowIndex,field,value){
+        	editRowFlag = true;
+        	editRowNumbeboxFlag = true;
+        	$(this).datagrid('checkRow',rowIndex);
             gridHandel.setBeginRow(rowIndex);
             gridHandel.setSelectFieldName(field);
             var target = gridHandel.getFieldTarget(field);
@@ -180,13 +194,18 @@ function initSupChkAcoAdd(){
         loadFilter:function(data){
         	data.forEach(function(obj,index){
         		obj.checked = true;
-        		if(operateType == 'add'){
+        		if(operateType == 'add' && !editRowFlag){
         			obj.unpayAmount = obj.payableAmount;
         		}
         	});
         	return data;
         },
         onLoadSuccess:function(data){
+        	if(clickFlag && data.rows.length <= 0){
+        		clickFlag =  false;
+        		$_jxc.alert('您和此供应商没有账款信息，或您们的往来往来账款已平衡！')
+        	}
+        	
         	if(operateType==='edit'){
                 if(!oldData["grid"]){
                 	oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
@@ -206,14 +225,145 @@ function initSupChkAcoAdd(){
     }
 }
 
+var checkFlag = false;
 function onChangeAmount(vewV,oldV){
-	updateFooter()
+    console.log('33');
+	if(checkFlag){
+		checkFlag = false;
+		return;
+	}
+	var _unpayAmount = parseFloat(gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'unpayAmount')||0);
+	if(_unpayAmount > 0 && (vewV > _unpayAmount || vewV<0 ) && oldV){
+		$_jxc.alert('实收金额不能大于未收金额且不能小于零');
+		checkFlag = true;
+		$(this).numberbox('setValue',oldV);
+		return;
+	}
+	if(_unpayAmount < 0 && (vewV < _unpayAmount|| vewV>=0) && oldV){
+		$_jxc.alert('实收金额不能小于未收金额且不能大于零');
+		checkFlag = true;
+		$(this).numberbox('setValue',oldV);
+		return;
+	}
+	updateFooter();
+}
+
+var checkActMountFlag = false;
+//实收金额汇总
+function changeActMountFrom(newV,oldV){
+	if(editRowNumbeboxFlag)return;
+	gridHandel.endEditRow();
+	editRowFlag = true;
+	if(checkActMountFlag){
+		checkActMountFlag = false;
+		return;
+	}
+	var rows = gridHandel.getRowsWhere({branchName:'1' });
+    if(rows.length==0){
+    	$_jxc.alert("表格不能为空");
+    	checkActMountFlag = true;
+    	$(this).numberbox('setValue',oldV);
+        return;
+    }
+	var newData = gridHandel.getRowsWhere({checked:true });//$("#"+gridName).datagrid("getChecked");
+	if(newData.length < 1){
+		$_jxc.alert("没有需要结算的信息，请检查！");
+		checkActMountFlag = true;
+		$(this).numberbox('setValue',oldV);
+		return;
+	}
+	
+	var _unpayAmountText = parseFloat($('#unpayAmount').val()||0);
+	
+	if(_unpayAmountText >= 0 && newV > _unpayAmountText){
+		$_jxc.alert('实收金额汇总不能大于未收金额汇总');
+		checkActMountFlag = true;
+		$(this).numberbox('setValue',oldV);
+		return;
+	}
+	
+	if(_unpayAmountText < 0 && newV < _unpayAmountText){
+		$_jxc.alert('实收金额汇总不能小于未收金额汇总');
+		checkActMountFlag = true;
+		$(this).numberbox('setValue',oldV);
+		return;
+	}
+	
+	changeGrid(newV,rows);
+}
+
+var changeGridFlag = false; //批量设置实收金额表示
+//批量设置实收金额
+function changeGrid(actMount,rows){
+	console.log('rows',JSON.stringify(rows))
+	changeGridFlag = true;
+	//实收金额 总汇
+	var _temActMount = actMount;
+	var zfFlag = actMount > 0 ? true:false;
+	rows.forEach(function(obj,index){
+		if(obj.checked && ((zfFlag && _temActMount > 0 ) || (!zfFlag && _temActMount < 0))){
+			//unpayAmount
+			var _temUnpayAmount = parseFloat(obj.unpayAmount||0);
+			if(_temActMount >0){
+				obj.actualAmount = _temActMount - _temUnpayAmount <= 0 ? _temActMount : _temUnpayAmount ;
+			}else{
+				obj.actualAmount = _temActMount - _temUnpayAmount >= 0 ? _temActMount : _temUnpayAmount ;
+			}
+			_temActMount = _temActMount - _temUnpayAmount;
+		}
+	})
+	console.log('rowsL',JSON.stringify(rows))
+	
+	$("#"+gridName).datagrid("loadData",rows);
 }
 //合计
 function updateFooter(){
-    var fields = {amount:0};
-    var argWhere = {}
+    var fields = {payableAmount:0,payedAmount:0,discountAmount:0,unpayAmount:0,actualAmount:0};
+    var argWhere = {name:'checked',value:true}
     gridHandel.updateFooter(fields,argWhere);
+    updateFrom();
+}
+
+//更新头部表单
+function updateFrom(){
+	var _footerRow = gridHandel.getFooterRow();
+	//应收金额汇总
+	$('#payableAmount').val(parseFloat(_footerRow[0].payableAmount||0).toFixed(2));
+	//优惠金额汇总
+	$('#discountAmount').val(parseFloat(_footerRow[0].discountAmount||0).toFixed(2));
+	//已收金额汇总
+	$('#payedAmount').val(parseFloat(_footerRow[0].payedAmount||0).toFixed(2));
+	var _unpayAmount1 = parseFloat(_footerRow[0].unpayAmount||0);
+	//未收金额汇总
+	$('#unpayAmount').val(_unpayAmount1.toFixed(2));
+	
+	var _temData = _getRowsWhere({branchName:'1'});
+	_temData = _getRowsWhere({checked:true},_temData);
+	if(_temData &&　_temData.length > 0){
+		if(_unpayAmount1 > 0){
+			$('#actualAmount').numberbox('options').min = 0;
+		}else{
+			$('#actualAmount').numberbox('options').max = 0;
+		}
+	}
+	//实收金额汇总
+	$('#actualAmount').numberbox('setValue',parseFloat(_footerRow[0].actualAmount||0));
+}
+
+function _getRowsWhere(argWhere,rows){
+	var _temRows = [];
+	if(!rows ){
+		_temRows = gridHandel.getRows();
+	}
+    var newRows = [];
+    $.each(_temRows,function(i,row){
+        $.each(argWhere,function(key,val){
+            if(row[key]){
+                newRows.push(row);
+            }
+        })
+    });
+    return newRows;
 }
 
 //插入一行
@@ -246,16 +396,30 @@ function saveSupAcoSet(){
     	return;
     }
     
+    var validFlag = true;
     var _subRows = [];
     var _rowNo = 0;//行号
     $.each(_rows,function(i,data){
     	if(data.checked){
-    		data.rowNo = _rowNo;
+    		//第N行实收金额不能为0，请检查！确认
+    		if(parseFloat(data.actualAmount) == 0){
+    			validFlag = false;
+    			$_jxc.alert("第"+(i+1)+"行实收金额不能为，请检查！确认");
+    			return;
+    		}
+    		data.rowNo = (_rowNo+1);
     		data.checked = data.checked ? 1:0;
     		_subRows.push(data);
     		_rowNo++;
     	}
     })
+    
+    if(!validFlag)return;
+    
+    if(_subRows.length < 1){
+    	$_jxc.alert("没有需要结算的信息，请检查！确认");
+    	return ;
+    }
     
     reqObj.detailList = _subRows;
     
@@ -358,7 +522,7 @@ function selectBranches(){
 		checkSettleAuditStutas(data.branchesId,data.branchCompleCode,data.allBranch);
 	},'',targetBranchId,'','',1);
 }
-var unChNum = 0;
+//var unChNum = 0;
 //校验是否存在未审核的结算单
 function checkSettleAuditStutas(branchId,branchCompleCode,allBranch){
 	$_jxc.ajax({
@@ -366,18 +530,34 @@ function checkSettleAuditStutas(branchId,branchCompleCode,allBranch){
     	data: {branchId:branchId,branchCompleCode:branchCompleCode,isContainChildren:allBranch}
     },function(result){
 		console.log('未审核的结算单数：===',result);
-		unChNum = result.unChNum;
+//		unChNum = result.unChNum;
 		if(result.unChNum > 0){
 			$_jxc.alert('当前选择机构存在未审核的结算单，不能新增结算单!');
+			$('#openAccountBank').val('');
+	    	//银行账户
+	    	$('#bankAccount').val('');
+	    	//办公地址
+	    	$('#officeAddress').val('');
+	    	//国税登记
+	    	$('#nationalTaxRegNum').val('');
+	    	
+			$('#tel').val('')
+			$("#supplierId").val('');
+			$("#supplierName").val('');
+			$('#supplierName').addClass('uinp-no-more');
 			return false;
+		}else{
+			$('#supplierName').removeClass('uinp-no-more');
 		}
     });
 }
 
 //选择供应商
 function selectSupplier(){
+	if($('#supplierName').hasClass('uinp-no-more'))return;
+	clickFlag = true;
     new publicSupplierService(function(data){
-    	console.log(data);
+//    	console.log(data);
     	$("#phone").val(data.phone);
     	$("#mobile").val(data.mobile);
     	$('#tel').val(data.mobile+(data.phone?'/'+data.phone:''))
@@ -434,16 +614,6 @@ function initSettleFormDetail(){
 	$("#"+gridName).datagrid('load');
 }
 
-//选择费用
-function selectCost(searchKey){
-	var param = {
-		key:searchKey,
-	};
-	publicCostService(param,function(data){
-		console.log('data',data);
-	});
-
-}
 
 //返回列表页面
 function back(){

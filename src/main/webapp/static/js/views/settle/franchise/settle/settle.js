@@ -90,8 +90,7 @@ var gridHandel = new GridClass();
 function initSupChkAcoAdd(){
     gridHandel.setGridName(gridName);
     gridHandel.initKey({
-        firstName:'costNo',
-        enterName:'costNo'
+        firstName:'actualAmount'
     })
 
     $("#"+gridName).datagrid({
