@@ -36,82 +36,107 @@
 			</div>
 
 			<div class="ub umar-t8">
-				<div class="ub ub-ac umar-r40">
-					<div class="umar-r10 uw-60 ut-r">单据编号:</div>
-					<input class="uinp" name="formNo" id="formNo" type="text">
+
+				<div class="umar-r10 uw-80 ut-r">机构名称:</div>
+				<input class="uinp" name="branchId" id="branchId" type="hidden">
+				<input class="uinp" id="oldBranchName" name="oldBranchName"
+					type="hidden">
+				<input class="uinp uinp-no-more" readOnly="readOnly" id="branchName"
+					name="branchName" type="text" maxlength="50">
+
+				<div class="ub ub-ac">
+					<div class="umar-r10 uw-70 ut-r">订单号:</div>
+					<input class="uinp uinp-no-more" readOnly="readOnly" name="orderNo" id="orderNo" type="text">
 				</div>
-				<div class="ub ub-ac umar-r40">
-					<div class="umar-r10 uw-60 ut-r">供应商:</div>
-					<input class="uinp" name="supplierId" id="supplierId" type="hidden">
-					<input class="uinp" id="supplierName" name="supplierName"
-						type="text" maxlength="50">
-					<div class="uinp-more" onclick="selectSupplier()">...</div>
+
+				<div class="ub ub-ac">
+					<div class="umar-r10 uw-70 ut-r">下单时间:</div>
+					<input class="uinp uinp-no-more" readOnly="readOnly" name="orderNo" id="orderNo" type="text">
 				</div>
-				<div class="ub ub-ac umar-r40">
-					<div class="umar-r10 uw-60 ut-r">操作员:</div>
-					<input class="uinp" name="operateUserId" id="operateUserId"
-						type="hidden"> <input class="uinp" id="operateUserName"
-						name="operateUserName" type="text" maxlength="50">
-					<div class="uinp-more" onclick="selectOperator()">...</div>
-				</div>
+
+
+
 			</div>
 			<div class="ub umar-t8">
-				<div class="ub ub-ac umar-r40">
-					<div class="umar-r10 uw-60 ut-r">审核状态:</div>
-					<div class="ub ub-ac umar-r10">
-						<input class="radioItem" type="radio" name="status" id="status_no"
-							value="0" checked="checked" /><label for="status_no">未审核
-						</label>
-					</div>
-					<div class="ub ub-ac umar-r10">
-						<input class="radioItem" type="radio" name="status"
-							id="status_yes" value="1" /><label for="status_yes">已审核
-						</label>
-					</div>
-					<!-- <div class="ub ub-ac umar-r10">
-		<input class="ub" type="radio" name="status" value="2"/><span>不通过 </span>
-		</div> -->
-					<div class="ub ub-ac umar-r10">
-						<input class="radioItem" type="radio" name="status"
-							id="status_all" value="" /><label for="status_all">全部</label>
-					</div>
+
+				<div class="ub ub-ac">
+					<div class="umar-r10 uw-70 ut-r">收货人:</div>
+					<input class="uinp uinp-no-more" readOnly="readOnly" name="orderNo" id="orderNo" type="text">
 				</div>
-				<div class="ub ub-ac umar-l20">
-					<div class="umar-r10 uw-60 ut-r">单据状态:</div>
-					<div class="ub ub-ac umar-r10">
-						<input class="radioItem" type="radio" name="dealStatus" id="deal0"
-							value="0" /><label for="deal0">未处理 </label>
-					</div>
-					<!-- <div class="ub ub-ac umar-r10">
-		<input class="ub radioItem" type="radio" name="dealStatus" id="deal1" value="1"/><label for="deal1">部分处理  </label>
-		</div> -->
-					<div class="ub ub-ac umar-r10">
-						<input class="radioItem" type="radio" name="dealStatus" id="deal2"
-							value="2" /><label for="deal2">处理完成 </label>
-					</div>
-					<div class="ub ub-ac umar-r10">
-						<input class="radioItem" type="radio" name="dealStatus" id="deal3"
-							value="3" /><label for="deal3">终止</label>
-					</div>
-					<div class="ub ub-ac umar-r10">
-						<input class="radioItem" type="radio" name="dealStatus" id="deal4"
-							value="" checked="checked" /><label for="deal4">全部 </label>
-					</div>
+
+				<div class="ub ub-ac">
+					<div class="umar-r10 uw-70 ut-r">单据来源:</div>
+					<input class="uinp uinp-no-more" readOnly="readOnly" name="orderNo" id="orderNo" type="text">
 				</div>
+
+				<div class="ub ub-ac">
+					<div class="umar-r10 uw-70 ut-r">线上订单编号:</div>
+					<input class="uinp uinp-no-more" readOnly="readOnly" name="orderNo" id="orderNo" type="text">
+				</div>
+
 			</div>
+
 			<div class="ub umar-t8">
-				<div class="ub ub-ac uw-610" style="width: 624px;">
-					<div class="umar-r10 uw-60 ut-r">备注:</div>
-					<input class="uinp ub ub-f1" name="remark" id="remark" type="text"
-						onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')"
-						onpaste="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')"
-						oncontextmenu="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')"
-						maxlength="100">
+				<div class="ub ub-ac">
+					<div class="umar-r10 uw-70 ut-r">联系电话:</div>
+					<input class="uinp uinp-no-more" readOnly="readOnly" name="orderNo" id="orderNo" type="text">
+				</div>
+
+				<div class="ub ub-ac">
+					<div class="umar-r10 uw-70 ut-r">配送方式:</div>
+					<input class="uinp uinp-no-more" readOnly="readOnly" name="orderNo" id="orderNo" type="text">
+				</div>
+
+				<div class="ub ub-ac">
+					<div class="umar-r10 uw-70 ut-r">单据状态:</div>
+					<input class="uinp uinp-no-more" readOnly="readOnly" name="orderNo" id="orderNo" type="text">
 				</div>
 			</div>
+
+
+			<div class="ub umar-t8">
+				<div class="ub ub-ac">
+					<div class="umar-r10 uw-70 ut-r">送货人:</div>
+					<input class="uinp uinp-no-more" readOnly="readOnly" name="orderNo" id="orderNo" type="text">
+				</div>
+
+				<div class="ub ub-ac">
+					<div class="umar-r10 uw-70 ut-r">送货电话:</div>
+					<input class="uinp uinp-no-more" readOnly="readOnly" name="orderNo" id="orderNo" type="text">
+				</div>
+
+				<div class="ub ub-ac">
+					<div class="umar-r10 uw-70 ut-r">付款方式:</div>
+					<input class="uinp uinp-no-more" readOnly="readOnly" name="orderNo" id="orderNo" type="text">
+				</div>
+			</div>
+
+
+			<div class="ub umar-t8">
+				<div class="ub ub-ac">
+					<div class="umar-r10 uw-70 ut-r">收货地址:</div>
+					<input class="uinp uinp-no-more" readOnly="readOnly" name="orderNo" id="orderNo" type="text">
+				</div>
+
+
+				<div class="ub ub-ac">
+					<div class="umar-r10 uw-70 ut-r">支付方式:</div>
+					<input class="uinp uinp-no-more" readOnly="readOnly" name="orderNo" id="orderNo" type="text">
+				</div>
+			</div>
+
+			<div class="ub umar-t8">
+				<div class="ub ub-ac">
+					<div class="umar-r10 uw-70 ut-r">用户留言:</div>
+					<input class="uinp uinp-no-more" readOnly="readOnly" name="orderNo" id="orderNo" type="text">
+				</div>
+
+			</div>
+
+
 		</form>
 		<div class="ub uw umar-t8 ub-f1">
-			<table id="gridOrders"></table>
+			<table id="gridOnlineOrderDetail"></table>
 		</div>
 
 	</div>

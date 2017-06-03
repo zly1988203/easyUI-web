@@ -15,7 +15,9 @@ function initGridOnlineOrder() {
     dg=$("#"+gridName).datagrid({
         align:'center',
         rownumbers:true,    //序号
-        pagination:false,    //分页
+        pagination:true,    //分页
+        pageSize:50,
+        showFooter:true,
         showFooter:true,
         height:'100%',
         width:'100%',
@@ -23,7 +25,7 @@ function initGridOnlineOrder() {
         columns:[[
             {field:'formNo',title:'订单号',width:'140px',align:'left',formatter:function(value,row,index){
                 if(updatePermission){
-                    var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'直送要货单明细\',\''+ contextPath +'/form/deliverForm/deliverEdit?deliverFormId='+ row.deliverFormId +'&deliverType=DY\')">' + value + '</a>';
+                    var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'线上订单详情\',\''+ contextPath +'/report/onlineOrder/onlineEdit?orderId='+ row.orderId+')">' + value + '</a>';
                     return strHtml;
                 }else{
                     return value;
@@ -94,4 +96,90 @@ function initGridOnlineOrder() {
     })
 }
 
+/**
+ * 机构名称
+ */
+function selectListBranches(){
+    new publicAgencyService(function(data){
+        $("#branchId").val(data.branchesId);
+        $("#branchName").val(data.branchName);
+        $("#oldBranchName").val(data.branchName);
+    },'BF','');
+}
 
+function queryOnlineOrder() {
+    $("#"+gridName).datagrid("options").queryParams = $("#queryForm").serializeObject();
+    $("#"+gridName).datagrid("options").method = "post";
+    $("#"+gridName).datagrid("options").url = contextPath+'/report/onlineOrder/list';
+    $("#"+gridName).datagrid("load");
+}
+
+/**
+ * 导出
+ */
+function exportData(){
+    $("#startCount").val('');
+    $("#endCount").val('');
+
+    var length = $("#"+gridName).datagrid('getData').total;
+    if(length == 0){
+        successTip("无数据可导");
+        return;
+    }
+    $('#exportWin').window({
+        top:($(window).height()-300) * 0.5,
+        left:($(window).width()-500) * 0.5
+    });
+    $("#exportWin").show();
+    $("#totalRows").html($("#"+gridName).datagrid('getData').total);
+    $("#exportWin").window("open");
+}
+
+/**
+ * 导出
+ */
+function exportExcel(){
+    var length = $("#"+gridName).datagrid('getData').total;
+    if(length == 0){
+        successTip('提示',"没有数据");
+        return;
+    }
+    var fromObjStr = urlEncode($('#queryForm').serializeObject());
+    $("#queryForm").form({
+        success : function(data){
+            if(data==null){
+                $.messager.alert('提示',"导出数据成功！");
+            }else{
+                $.messager.alert('提示',JSON.parse(data).message);
+            }
+        }
+    });
+    $("#queryForm").attr("action",contextPath + '/iccard/trading/exports?params='+fromObjStr);
+
+    $("#queryForm").submit();
+}
+
+var printPreview = function(){
+    var length = $("#"+gridName).datagrid('getData').total;
+    if(length == 0){
+        successTip("无数据可打印");
+        return;
+    }
+    var queryParams =  urlEncode($("#queryForm").serializeObject());
+    parent.addTabPrint("reportPrint"+new Date().getTime(),"打印",contextPath+"/iccard/trading/report/print?params="+queryParams);
+}
+
+var urlEncode = function (param, key, encode) {
+    if(param==null) return '';
+    var paramStr = '';
+    var t = typeof (param);
+    if (t == 'string' || t == 'number' || t == 'boolean') {
+        paramStr += '&' + key + '=' + ((encode==null||encode) ? encodeURIComponent(param) : param);
+    } else {
+        for (var i in param) {
+            var k = key == null ? i : key + (param instanceof Array ? '[' + i + ']' : '.' + i);
+            paramStr += urlEncode(param[i], k, encode);
+        }
+    }
+    return paramStr;
+};

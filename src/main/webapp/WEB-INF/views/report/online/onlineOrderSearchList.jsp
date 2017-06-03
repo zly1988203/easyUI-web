@@ -18,11 +18,13 @@
 		<form id="queryForm">
 			<div class="ub ub-ac">
 				<div class="ubtns">
-					<div class="ubtns-item" onclick="query()">查询</div>
+					<div class="ubtns-item" onclick="queryOnlineOrder()">查询</div>
 					<shiro:hasPermission name="JxcPurchaseOrder:print">
 						<div class="ubtns-item" onclick="printPreview()">打印</div>
 					</shiro:hasPermission>
-					<div class="ubtns-item" onclick="exprotData()">导出</div>
+					<div class="ubtns-item" onclick="exportData()">导出</div>
+					<input type="hidden" id="startCount" name="startCount" /> <input
+						type="hidden" id="endCount" name="endCount" />
 					<div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 					<div class="ubtns-item" onclick="toClose()">关闭</div>
 				</div>
@@ -50,7 +52,7 @@
 
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-90 ut-r">线上订单号:</div>
-					<input class="uinp" name="formNo" id="formNo" type="text">
+					<input class="uinp" name="onlineNO" id="onlineNO" type="text">
 				</div>
 
 			</div>
@@ -84,21 +86,19 @@
 				<div class="ub ub-ac uw-300">
 					<div class="umar-r10 uw-64 ut-r">单据来源:</div>
 					<!--select-->
-					<select class="easyui-combobox uselect" name="payType" id="payType"
-						data-options="editable:false">
+					<select class="easyui-combobox uselect" name="sourceType"
+						id="sourceType" data-options="editable:false">
 						<option value="" selected="selected">全部</option>
 						<option value="jd">京东到家</option>
 						<option value="okdeer">友门鹿商城</option>
 					</select>
 				</div>
-
-
 			</div>
 
 			<div class="ub umar-t8">
 
 				<div class="ub ub-ac">
-					<div class="umar-r10 uw-80 ut-r">线上订单号:</div>
+					<div class="umar-r10 uw-80 ut-r">联系电话:</div>
 					<input class="uinp" name="formNo" id="formNo" type="text">
 				</div>
 
@@ -117,50 +117,44 @@
 					<div class="umar-r10 uw-70 ut-r">订单状态:</div>
 					<!--select-->
 					<div class="ub ub-ac umar-r10">
-						<input class="radioItem" type="radio" name="auditStatus"
-							id="status_no" value="0" checked="checked" /><label
-							for="status_no">全部 </label>
-					</div>
-
-					<div class="ub ub-ac umar-r10">
-						<input class="radioItem" type="radio" name="auditStatus"
-							id="status_yes" value="1" /><label for="status_yes">待发货
+						<input class="radioItem" type="radio" name="orderStatus"
+							id="status0" value="0" checked="checked" /><label for="status0">全部
 						</label>
 					</div>
 
 					<div class="ub ub-ac umar-r10">
-						<input class="radioItem" type="radio" name="auditStatus"
-							id="status_all" value="2" /><label for="status_all">待配送</label>
+						<input class="radioItem" type="radio" name="orderStatus"
+							id="status1" value="1" /><label for="status1">待发货 </label>
 					</div>
 
 					<div class="ub ub-ac umar-r10">
-						<input class="radioItem" type="radio" name="auditStatus"
-							id="status_yes" value="1" /><label for="status_yes">已发货
-						</label>
+						<input class="radioItem" type="radio" name="orderStatus"
+							id="status2" value="2" /><label for="status2">待配送</label>
 					</div>
 
 					<div class="ub ub-ac umar-r10">
-						<input class="radioItem" type="radio" name="auditStatus"
-							id="status_yes" value="1" /><label for="status_yes">待退货
-						</label>
+						<input class="radioItem" type="radio" name="orderStatus"
+							id="status3" value="3" /><label for="status3">已发货 </label>
 					</div>
 
 					<div class="ub ub-ac umar-r10">
-						<input class="radioItem" type="radio" name="auditStatus"
-							id="status_yes" value="1" /><label for="status_yes">同意退货
-						</label>
+						<input class="radioItem" type="radio" name="orderStatus"
+							id="status4" value="4" /><label for="status4">待退货 </label>
 					</div>
 
 					<div class="ub ub-ac umar-r10">
-						<input class="radioItem" type="radio" name="auditStatus"
-							id="status_yes" value="1" /><label for="status_yes">已取消
-						</label>
+						<input class="radioItem" type="radio" name="orderStatus"
+							id="status5" value="5" /><label for="status5">同意退货 </label>
 					</div>
 
 					<div class="ub ub-ac umar-r10">
-						<input class="radioItem" type="radio" name="auditStatus"
-							id="status_yes" value="1" /><label for="status_yes">已完成
-						</label>
+						<input class="radioItem" type="radio" name="orderStatus"
+							id="status6" value="6" /><label for="status6">已取消 </label>
+					</div>
+
+					<div class="ub ub-ac umar-r10">
+						<input class="radioItem" type="radio" name="orderStatus"
+							id="status7" value="7" /><label for="status7">已完成 </label>
 					</div>
 
 
