@@ -86,16 +86,16 @@
 					<div class="umar-r10 uw-60 ut-r">查询类型:</div>
 					<div class="ub ub-ac umar-r10">
 						<input class="radioItem" type="radio" name="queryType"
-							id="queryType1" value="1" /><label for="queryType1">一卡通交易明细
+							id="queryType1" value="1" checked/><label for="queryType1">一卡通交易明细
 						</label>
 					</div>
 
 					<div class="ub ub-ac umar-r10">
 						<input class="radioItem" type="radio" name="queryType"
-							id="queryType2" value="2" checked/><label for="queryType2">一卡通交易汇总
+							id="queryType2" value="2" /><label for="queryType2">一卡通交易汇总
 						</label>
 					</div>
-                    <input id="queryType" type="hidden" value="2">
+                    <input id="queryType" type="hidden" value="1">
 
 				</div>
 			</div>

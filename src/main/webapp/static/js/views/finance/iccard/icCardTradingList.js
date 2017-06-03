@@ -17,8 +17,13 @@ function changeStatus(){
             $("#salesmanName").prop("disabled","disabled");
             $("#divsaleman").css("display","none")
             $("#orderNo").prop("disabled","disabled");
+            $("#orderNo").val("");
             $("#saleType").combobox({ disabled: true });
             $("#value").combobox({ disabled: true });
+            $("#salesmanId").val("");
+            $("#salesmanName").val("");
+
+
         }else{
             $("#salesmanName").removeProp("disabled","disabled");
             $("#divsaleman").css("display","block")

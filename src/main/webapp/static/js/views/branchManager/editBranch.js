@@ -22,7 +22,7 @@ function getBranchInfo(){
     	
     	var rec = data.data;
         $.each(rec.branch,function(key,value){
-        	
+        	debugger;
             //普通的input
             if($("#"+key).prop("tagName") == "INPUT"){
                 if($("#"+key).attr('type')=="checkbox"){
@@ -41,16 +41,25 @@ function getBranchInfo(){
                 $("#"+key).html(value);
             }
             else if($("#"+key).prop("tagName") == "SELECT"){
-                if(value){
+                if(value != undefined && typeof (value) != "undefined"){
+
+                    if(key=="type"){
+                        var option = "<option value="+value+">"+rec.branch['branchTypeStr']+"</option>"
+                        $("#"+key).append(option);
+                    }
+
+                    if(key=="offlineStatus"){
+                        var data = $('#formEdit #offlineStatus').combobox('getData');
+                        if (data.length > 0) {
+                            $('#formEdit #offlineStatus').combobox('select', value.toString());
+                        }
+                    }
+
                     $("#"+key+" option").each(function(i,n){
                         if($(n).val() == value || $(n).val()==value.name){
                             $(n).attr("selected",true);
                         }
                     });
-                    if(key=="type"){
-                        var option = "<option value="+value+">"+rec.branch['branchTypeStr']+"</option>"
-                        $("#"+key).append(option);
-                    }
                 }
 
             }

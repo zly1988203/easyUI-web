@@ -14,6 +14,15 @@ $(function(){
 	
 });
 
+function onChangeSaleWay() {
+    var saleWay = 	$('#saleWay').combobox("getValue");
+    if(saleWay === "C"){
+		$("#minAmountDiv").addClass("unhide");
+	}else{
+        $("#minAmountDiv").removeClass("unhide");
+	}
+}
+
 function saveSupplier() {
 	var isValid = $("#formAdd").form('validate');
 	if (!isValid) {

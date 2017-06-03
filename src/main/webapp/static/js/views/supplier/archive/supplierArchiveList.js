@@ -180,6 +180,12 @@ function editHandel(id){
         },
         modal: true,
         onLoad: function () {
+            //供应商区域选择事件
+            bindSupplierAreaSelect();
+
+            //初始化下拉框选中值
+            selectParamInit();
+            onChangeSaleWay();
         }
     })
 }
@@ -323,5 +329,10 @@ function selectParamInit(){
 	if(freezeBusiness){
 		$("#stampfreezeBusinesssType").val(freezeBusiness);
 	}
+
+    var saleWay = 	$('#saleWay').combobox("getValue");
+    if(saleWay === "C"){
+        $("#minAmountDiv").addClass("unhide");
+    }
 	
 }

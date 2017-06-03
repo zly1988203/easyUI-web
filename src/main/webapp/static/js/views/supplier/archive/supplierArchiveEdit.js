@@ -3,12 +3,17 @@
  */
 $(function(){
 	
-	//供应商区域选择事件
-	bindSupplierAreaSelect();
-	
-	//初始化下拉框选中值
-	selectParamInit();
+
 });
+
+function onChangeSaleWay() {
+    var saleWay = 	$('#saleWay').combobox("getValue");
+    if(saleWay === "C"){
+        $("#minAmountDiv").addClass("unhide");
+    }else {
+        $("#minAmountDiv").removeClass("unhide");
+	}
+}
 
 function updateSupplier() {
 	var formObj = $('#formEdit').serializeObject();

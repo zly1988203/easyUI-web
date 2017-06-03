@@ -25,20 +25,20 @@ function initGridOnlineOrder() {
         columns:[[
             {field:'orderNo',title:'订单号',width:'160px',align:'left',
             	formatter:function(value,row,index){
-	            	if(row.isFooter){
-	                    return '<div class="ub ub-pc">合计</div>';
-	                }else{
-	                	 if(updatePermission){
-	                         var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'线上订单详情\',\''+ contextPath +'/report/onlineOrder/view?orderId='+ row.orderId+'\')">' + value + '</a>';
-	                         return strHtml;
-	                     }else{
-	                    	 return value;
+                    var strHtml = "";
+
+	                	 if(updatePermission && row.orderId != null){
+                             strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'线上订单详情\',\''+ contextPath +'/report/onlineOrder/view?orderId='+ row.orderId+'\')">' + value + '</a>';
 	                     }
-	                }
+	                     else {
+                             strHtml =value ;
+	                     }
+
+	                return strHtml;
             	}
             },
             {field: 'orderStatusStr', title: '订单状态', width: '80px', align: 'center'},
-            {field: 'userName', title: '收货人', width: '120px', align: 'left'},
+            {field: 'userName', title: '收货人', width: '80px', align: 'left'},
             {field: 'phone', title: '联系电话', width: '100px', align: 'left'},
             {field:'branchCode',title:'机构编码',width:80,align:'left'},
             {field:'branchName',title:'机构名称',width:120,align:'left'},

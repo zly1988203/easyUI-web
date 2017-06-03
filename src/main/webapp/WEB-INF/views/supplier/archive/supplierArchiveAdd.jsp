@@ -34,7 +34,7 @@ pageEncoding="UTF-8"%>
 			<div class="ub upad-4">
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">经营方式:</div>
-					<select class="uselect easyui-combobox" name="saleWay" id="saleWay" style="width: 204px;" data-options="editable:false">
+					<select class="uselect easyui-combobox" name="saleWay" id="saleWay" style="width: 204px;" data-options="onChange:onChangeSaleWay,editable:false">
 						<c:forEach var="i" items="${saleWayEnums }">
 							<option value="${i.name }" 
 								<c:if test="${supplier.saleWay eq  i.name}">selected="selected"</c:if>
@@ -256,7 +256,7 @@ pageEncoding="UTF-8"%>
 						data-options="validType:'intNum'" type="text"  maxlength="10">
 				</div>
 			</div>
-			<div class="ub upad-4">
+			<div class="ub upad-4" id="minAmountDiv">
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">保底金额:</div>
 					<input id="minAmount" name="minAmount" value="${supplier.minAmount }" class="uinp uw-200 easyui-validatebox" 
