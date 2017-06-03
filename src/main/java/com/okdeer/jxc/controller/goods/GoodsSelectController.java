@@ -209,24 +209,11 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
             if (count == 0) {
 			    //2.2 如果供应商机构商品关系不存在,需要查询该机构上级分公司
 			    vo.setParentId(branches.getParentId());
-			    vo.setBranchId(branchId);
-			} 
+			} else {
+				vo.setParentId(branchId);
+			}
 		} 
 		suppliers = goodsSelectServiceApi.queryPurchaseGoodsLists(vo);
-//		if(type ==Constant.THREE || type ==Constant.FOUR || type ==Constant.FIVE){
-//			Integer count = goodsSupplierBranchServiceApi.queryCountByBranchIdAndSupplierId(branchId, supplierId);
-//			if(count>0){
-//				//2.1 如果供应商机构商品关系存在
-//				suppliers = goodsSelectServiceApi.queryPurchaseGoodsLists(vo);
-//			}else{
-//				//2.2 如果供应商机构商品关系不存在,需要查询该机构上级分公司
-//				vo.setParentId(branches.getParentId());
-//				vo.setBranchId(branchId);
-//				suppliers = goodsSelectServiceApi.queryBranchPurchaseGoodsLists(vo);
-//			}
-//		}else{
-//			suppliers = goodsSelectServiceApi.queryPurchaseGoodsLists(vo);
-//		}
 		return suppliers;
 	}
 
