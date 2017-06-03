@@ -224,9 +224,9 @@ function initSupChkAcoAdd(){
         	    if(!editRowFlag){
         	    	obj.checked = true;
         	    }
-        		if(operateType == 'add' && !editRowFlag){
-        			obj.unpayAmount = obj.payableAmount;
-        		}
+//        		if(operateType == 'add' && !editRowFlag){
+//        			obj.unpayAmount = obj.payableAmount;
+//        		}
         	});
         	return data;
         },
@@ -387,7 +387,7 @@ function updateFrom(){
 	
 	var _temData = _getRowsWhere({branchName:'1'});
 	_temData = _getRowsWhere({checked:true},_temData);
-	if(_temData &&　_temData.length > 0){
+	if(_temData && _temData.length > 0){
 		if(_unpayAmount1 > 0){
 //			$('#actualAmount').numberbox('options').min = 0;
 		}else{
@@ -465,7 +465,7 @@ function saveSupAcoSet(){
     var _subRows = [];
     var _rowNo = 0;//行号
     $.each(_rows,function(i,data){
-    	if(data.checked &&　validFlag){
+    	if(data.checked && validFlag){
     		//第N行实收金额不能为0，请检查！确认
     		if(parseFloat(data.actualAmount) == 0){
     			validFlag = false;
@@ -555,7 +555,7 @@ function auditSupStlForm(){
 }
 
 //删除
-function delSupChkAccount(){
+function delSupSettleAccount(){
 	var ids = [];
 	ids.push($("#formId").val());
 	$_jxc.confirm('是否要删除单据',function(data){
@@ -566,7 +566,7 @@ function delSupChkAccount(){
 		    	data:{"ids":ids}
 		    },function(result){
 	    		if(result['code'] == 0){
-                    toRefreshIframeDataGrid("settle/supplierSettle/getSettleList","supplierAdvMoneyList");
+                    toRefreshIframeDataGrid("settle/supplierSettle/settleList","supAcoSettList");
 	    			toClose();
 	    		}else{
 	    			$_jxc.alert(result['message']);
@@ -584,8 +584,6 @@ function selectBranches(){
 		$("#isContainChildren").val(data.allBranch);
 		$("#branchCompleCode").val(data.branchCompleCode);
 		$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
-		//校验是否存在未审核的结算单
-		checkSettleAuditStutas(data.branchesId,data.branchCompleCode,data.allBranch);
 		
 		checkBranchSpec(data.branchesId)
 	},'',targetBranchId,'','',1);
@@ -603,15 +601,17 @@ function checkBranchSpec(branchId){
     });
 }
 
-//var unChNum = 0;
 //校验是否存在未审核的结算单
-function checkSettleAuditStutas(branchId,branchCompleCode,allBranch){
+function checkSettleAuditStutas(supplierId){
+	var branchId = $('#branchId').val();
+	var isContainChildren = $('#isContainChildren').val();
+	var branchCompleCode = $('#branchCompleCode').val();
+	
 	$_jxc.ajax({
     	url:contextPath+"/settle/supplierSettle/querySettleStatusNum",
-    	data: {branchId:branchId,branchCompleCode:branchCompleCode,isContainChildren:allBranch}
+    	data: {branchId:branchId,branchCompleCode:branchCompleCode,isContainChildren:isContainChildren,supplierId:supplierId}
     },function(result){
 		console.log('未审核的结算单数：===',result);
-//		unChNum = result.unChNum;
 		if(result.unChNum > 0){
 			$_jxc.alert('当前选择机构存在未审核的结算单，不能新增结算单!');
 			$('#openAccountBank').val('');
@@ -625,29 +625,28 @@ function checkSettleAuditStutas(branchId,branchCompleCode,allBranch){
 			$('#tel').val('')
 			$("#supplierId").val('');
 			$("#supplierName").val('');
-			$('#supplierName').addClass('uinp-no-more');
 			return false;
 		}else{
-			$('#supplierName').removeClass('uinp-no-more');
+	        // 设置供应商扩展信息
+	        setSupplierExtValue(supplierId);
+	        // 初始化列表
+	        initSettleFormDetail();
 		}
     });
 }
 
 //选择供应商
 function selectSupplier(){
-	if($('#supplierName').hasClass('uinp-no-more'))return;
 	clickFlag = true;
     new publicSupplierService(function(data){
-//    	console.log(data);
     	$("#phone").val(data.phone);
     	$("#mobile").val(data.mobile);
     	$('#tel').val(data.mobile+(data.phone?'/'+data.phone:''))
     	$("#supplierId").val(data.id);
         $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
-        // 设置供应商扩展信息
-        setSupplierExtValue(data.id);
-        // 初始化列表
-        initSettleFormDetail();
+        
+		//校验是否存在未审核的结算单
+		checkSettleAuditStutas(data.id);
     });
 }
 
