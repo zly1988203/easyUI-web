@@ -1,7 +1,9 @@
 package com.okdeer.jxc.controller.settle.supplier;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,12 +15,13 @@ import org.springframework.web.servlet.ModelAndView;
 import com.alibaba.dubbo.common.utils.StringUtils;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
+import com.okdeer.jxc.branch.service.BranchSpecServiceApi;
 import com.okdeer.jxc.common.constant.LogConstant;
+import com.okdeer.jxc.common.controller.BasePrintController;
 import com.okdeer.jxc.common.enums.OperateTypeEnum;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
-import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.settle.supplier.service.SupplierChainService;
 import com.okdeer.jxc.settle.supplier.vo.SupplierChainDetailVo;
 import com.okdeer.jxc.settle.supplier.vo.SupplierChainVo;
@@ -40,7 +43,7 @@ import com.okdeer.jxc.utils.UserUtil;
  */
 @RestController
 @RequestMapping("/settle/supplierChain")
-public class SupplierChainController extends BaseController<SupplierChainController> {
+public class SupplierChainController extends BasePrintController<SupplierChainController, SupplierChainDetailVo> {
 
     /**
      * SupplierChainService
@@ -246,5 +249,69 @@ public class SupplierChainController extends BaseController<SupplierChainControl
             resp = RespJson.error("删除账单异常！");
         }
         return resp;
+    }
+
+    /**
+     * 
+     * (non-Javadoc)
+     * @see com.okdeer.jxc.common.controller.BasePrintController#getPrintReplace(java.lang.String)
+     */
+    @Override
+    protected Map<String, Object> getPrintReplace(String formId) {
+        Map<String, Object> replaceMap = new HashMap<String, Object>();
+        SupplierChainVo vo = supplierChainService.getSupplierChainVoById(formId);
+        if (null != vo) {
+            replaceMap.put("_订单编号", vo.getFormNo());
+            replaceMap.put("formNo", vo.getFormNo());
+            replaceMap.put("supplierName", vo.getSupplierName());
+            replaceMap.put("supplierContcat", vo.getSupplierContcat());
+            replaceMap.put("supplierPhone", vo.getSupplierPhone());
+            replaceMap.put("supplierMobile", vo.getSupplierMobile());
+            replaceMap.put("sumSaleAmount", vo.getSumSaleAmount());
+            replaceMap.put("sumSupplierAmoun", vo.getSumSupplierAmount());
+            replaceMap.put("supplierMinAmount", vo.getSupplierMinAmount());
+            replaceMap.put("sumTaxAmount", vo.getSumTaxAmount());
+            replaceMap.put("supplierRate", vo.getSupplierRate());
+            replaceMap.put("supplierTaxAmount", vo.getSupplierTaxAmount());
+            replaceMap.put("otherAmount", vo.getOtherAmount());
+            replaceMap.put("actualAmount", vo.getActualAmount());
+            replaceMap.put("remark", vo.getRemark());
+            replaceMap.put("saleCount", vo.getSaleCount());
+            replaceMap.put("divideAmount", vo.getDivideAmount());
+            replaceMap.put("branchName", vo.getBranchName());
+            replaceMap.put("createUserName", vo.getCreateUserName());
+            replaceMap.put("createTime", vo.getCreateTime() != null ? DateUtils.getFullStr(vo.getCreateTime()) : "");
+            replaceMap.put("updateUserName", vo.getUpdateUserName());
+            replaceMap.put("updateTime", vo.getUpdateTime() != null ? DateUtils.getFullStr(vo.getUpdateTime()) : "");
+            replaceMap.put("auditUserName", vo.getAuditUserName());
+            replaceMap.put("auditTime", vo.getAuditTime() != null ? DateUtils.getFullStr(vo.getAuditTime()) : "");
+            replaceMap.put("payTime", vo.getPayTime() != null ? DateUtils.getSmallRStr(vo.getPayTime()) : "");
+            replaceMap.put("beginDate", vo.getBeginDate());
+            replaceMap.put("endDate", vo.getEndDate());
+        }
+        return replaceMap;
+    }
+
+    /**
+     * 
+     * (non-Javadoc)
+     * @see com.okdeer.jxc.common.controller.BasePrintController#getPrintDetail(java.lang.String)
+     */
+    @Override
+    protected List<SupplierChainDetailVo> getPrintDetail(String formId) {
+        SupplierChainVo vo = new SupplierChainVo();
+        vo.setId(formId);
+        vo.setOperateType(OperateTypeEnum.MID.getIndex());
+        return supplierChainService.getChainFormDetailList(vo);
+    }
+
+    /**
+     * 
+     * (non-Javadoc)
+     * @see com.okdeer.jxc.common.controller.BasePrintController#getBranchSpecService()
+     */
+    @Override
+    protected BranchSpecServiceApi getBranchSpecService() {
+        return null;
     }
 }

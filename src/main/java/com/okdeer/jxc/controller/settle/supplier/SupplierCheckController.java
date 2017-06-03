@@ -1,7 +1,9 @@
 package com.okdeer.jxc.controller.settle.supplier;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,13 +15,14 @@ import org.springframework.web.servlet.ModelAndView;
 import com.alibaba.dubbo.common.utils.StringUtils;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
+import com.okdeer.jxc.branch.service.BranchSpecServiceApi;
 import com.okdeer.jxc.branch.vo.BranchSpecVo;
 import com.okdeer.jxc.common.constant.LogConstant;
+import com.okdeer.jxc.common.controller.BasePrintController;
 import com.okdeer.jxc.common.enums.OperateTypeEnum;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
-import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.settle.supplier.service.SupplierCheckService;
 import com.okdeer.jxc.settle.supplier.vo.SupplierCheckDetailVo;
 import com.okdeer.jxc.settle.supplier.vo.SupplierCheckVo;
@@ -41,7 +44,7 @@ import com.okdeer.jxc.utils.UserUtil;
  */
 @RestController
 @RequestMapping("/settle/supplierCheck")
-public class SupplierCheckController extends BaseController<SupplierCheckController> {
+public class SupplierCheckController extends BasePrintController<SupplierCheckController, SupplierCheckDetailVo> {
 
     /**
      * SupplierCheckService
@@ -273,5 +276,63 @@ public class SupplierCheckController extends BaseController<SupplierCheckControl
             resp = RespJson.error("查询机构是否开启对账模式异常");
         }
         return resp;
+    }
+
+    /**
+     * 
+     * (non-Javadoc)
+     * @see com.okdeer.jxc.common.controller.BasePrintController#getPrintReplace(java.lang.String)
+     */
+    @Override
+    protected Map<String, Object> getPrintReplace(String formId) {
+        Map<String, Object> replaceMap = new HashMap<String, Object>();
+        SupplierCheckVo vo = supplierCheckService.getSupplierCheckVoById(formId);
+        if (null != vo) {
+            replaceMap.put("_订单编号", vo.getFormNo());
+            replaceMap.put("formNo", vo.getFormNo());
+            replaceMap.put("supplierName", vo.getSupplierName());
+            replaceMap.put("phone", vo.getPhone());
+            replaceMap.put("mobile", vo.getMobile());
+            replaceMap.put("officeAddress", vo.getOfficeAddress());
+            replaceMap.put("openAccountBank", vo.getOpenAccountBank());
+            replaceMap.put("bankAccount", vo.getBankAccount());
+            replaceMap.put("nationalTaxRegNum", vo.getNationalTaxRegNum());
+            replaceMap.put("payTypeString", vo.getPayTypeString());
+            replaceMap.put("payableAmount", vo.getPayableAmount());
+            replaceMap.put("discountAmount", vo.getDiscountAmount());
+            replaceMap.put("unpayAmount", vo.getUnpayAmount());
+            replaceMap.put("remark", vo.getRemark());
+            replaceMap.put("branchName", vo.getBranchName());
+            replaceMap.put("createUserName", vo.getCreateUserName());
+            replaceMap.put("createTime", vo.getCreateTime() != null ? DateUtils.getFullStr(vo.getCreateTime()) : "");
+            replaceMap.put("updateUserName", vo.getUpdateUserName());
+            replaceMap.put("updateTime", vo.getUpdateTime() != null ? DateUtils.getFullStr(vo.getUpdateTime()) : "");
+            replaceMap.put("auditUserName", vo.getAuditUserName());
+            replaceMap.put("auditTime", vo.getAuditTime() != null ? DateUtils.getFullStr(vo.getAuditTime()) : "");
+        }
+        return replaceMap;
+    }
+
+    /**
+     * 
+     * (non-Javadoc)
+     * @see com.okdeer.jxc.common.controller.BasePrintController#getPrintDetail(java.lang.String)
+     */
+    @Override
+    protected List<SupplierCheckDetailVo> getPrintDetail(String formId) {
+        SupplierCheckVo vo = new SupplierCheckVo();
+        vo.setId(formId);
+        vo.setOperateType(OperateTypeEnum.MID.getIndex());
+        return supplierCheckService.getCheckFormDetailList(vo);
+    }
+
+    /**
+     * 
+     * (non-Javadoc)
+     * @see com.okdeer.jxc.common.controller.BasePrintController#getBranchSpecService()
+     */
+    @Override
+    protected BranchSpecServiceApi getBranchSpecService() {
+        return null;
     }
 }

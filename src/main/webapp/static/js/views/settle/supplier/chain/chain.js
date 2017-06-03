@@ -156,20 +156,18 @@ function initSupChainAdd(){
 
 //更新表单
 function changeForm(pageStatus){
-	//updateFooter()
 	var footRow = gridHandel.getFooterRow();
-	console.log(footRow);
 	//分成金额
-	$('#divideAmount').val(footRow[0].divideAmount||0);
+	$('#divideAmount').val(parseFloat(footRow[0].divideAmount||0).toFixed(2));
 	if(pageStatus == 'add'){
 		//销售金额
-		$('#sumSaleAmount').val(footRow[0].saleAmount||0);
+		$('#sumSaleAmount').val(parseFloat(footRow[0].saleAmount||0).toFixed(2));
 		//供应商货款
-		$('#sumSupplierAmount').val( parseFloat(footRow[0].saleAmount||0)-parseFloat(footRow[0].divideAmount||0) );
+		$('#sumSupplierAmount').val(parseFloat(parseFloat(footRow[0].saleAmount||0)-parseFloat(footRow[0].divideAmount||0)).toFixed(2) );
 		//汇总税额
-		$('#sumTaxAmount').val((footRow[0].taxAmount||0));
+		$('#sumTaxAmount').val(parseFloat(footRow[0].taxAmount||0).toFixed(2));
 		//供应商承担税额
-		$('#supplierTaxAmount').val((footRow[0].taxAmount||0));
+		$('#supplierTaxAmount').val(parseFloat(footRow[0].taxAmount||0).toFixed(2));
 	}
 	
 }
@@ -191,7 +189,7 @@ function actualAmount(){
 	_temAct = _sumSale - (_divideAmount < _minSumSale ? _minSumSale :_divideAmount) - _supSumSale - _supOtherSumSale;
 	
 	console.log('_temAct',_temAct)
-	return parseFloat(_temAct||0).toFixed(4);
+	return parseFloat(_temAct||0).toFixed(2);
 }
 
 //修改供应商承担比例
@@ -264,13 +262,19 @@ function initChainFormDetail(){
     	beginDate:beginDate,
     	endDate:endDate,
 		operateType : operateType == 'add' ? 1 : 2,
-    	supplierId:supplierId,
+    	supplierId:supplierId
     }
+    
+    //保存时用于比较
+    $('#oldTime').val(beginDate+''+endDate);
     
 	$("#"+gridName).datagrid("options").method = "post";
     $("#"+gridName).datagrid("options").queryParams = paramsObj;
 	$("#"+gridName).datagrid('options').url = contextPath + '/settle/supplierChain/chainFormDetailList';
 	$("#"+gridName).datagrid('load');
+	
+	
+	
 }
 
 //保存
@@ -282,6 +286,7 @@ function saveChainForm(){
 	var operateType = $('#operateType').val();
 	if(!validateForm(branchId,beginDate,endDate,supplierId))return;
 	
+		
     var reqObj = $('#chainForm').serializeObject();
     reqObj.operateType = operateType == "add" ? 1 : 0;
     var _rows = gridHandel.getRowsWhere({skuName:'1'});
@@ -289,13 +294,14 @@ function saveChainForm(){
     	$_jxc.alert("表格不能为空");
     	return;
     }
-//    _rows.forEach()
+    
+    if((beginDate+''+endDate) != $('#oldTime').val()){
+    	$_jxc.alert('时间已经发生变化，请重新选择计算账款');
+    	return;
+    }
     //新增传detailList字段 编辑不需要
     if(operateType == "add")reqObj.detailList = _rows;
-    
-    
     console.log('reqObj',reqObj);
-    
     $_jxc.ajax({
     	url:contextPath + '/settle/supplierChain/saveChainForm',
     	data:{"data":JSON.stringify(reqObj)}
@@ -439,7 +445,6 @@ function selectSupplier(){
 		$_jxc.confirm('单据信息未保存，是否先保存单据？',function(r){
 			if(!r){
 				new publicSupplierService(function(data){
-			    	console.log('supplier',data);
 			    	$('#supplierContcat').val(data.supplierName||'');//联系人
 			    	$('#linkTel').val((data.mobile?data.mobile:'')+(data.phone?'/'+data.phone:''));//联系人
 			    	$("#supplierId").val(data.id);
@@ -456,7 +461,6 @@ function selectSupplier(){
 		});
 	}else{
 		new publicSupplierService(function(data){
-	    	console.log('supplier',data);
 	    	$('#supplierContcat').val(data.supplierName||'');//联系人
 	    	$('#linkTel').val((data.mobile?data.mobile:'')+(data.phone?'/'+data.phone:''));//联系人
 	    	$("#supplierId").val(data.id);
@@ -470,11 +474,6 @@ function selectSupplier(){
     
 }
 
-//my97 g
-function checkGrid(){
-	
-}
-
 
 //返回列表页面
 function back(){
@@ -484,4 +483,9 @@ function back(){
 //新增联营账单
 function addChainForm(){
 	toAddTab("新增联营账单",contextPath + "/settle/supplierChain/chainAdd");
+}
+//导出
+function exportOrder(){
+	var formId = $("#formId").val();
+	window.location.href = contextPath + '/settle/supplierChain/exportSheet?page=SupplierChain&sheetNo='+formId;
 }

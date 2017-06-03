@@ -1,5 +1,7 @@
 function initChargeView(param){
-	console.log('param',param)
+	if(param){
+	   	$('#nameOrCode').val(param.nameOrCode||'');
+	}
     gFunSetEnterKey(chargeSearch);
     initDatagridChargeSelect();
 }
@@ -28,7 +30,8 @@ function initDatagridChargeSelect(){
         align:'center',
         url:contextPath+'/common/chargeSelect/getChargeComponentList',
         queryParams:{
-        	type:$('#type').val()||''
+        	type:$('#type').val()||'',
+        	nameOrCode:$('#nameOrCode').val()||''
         },
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号

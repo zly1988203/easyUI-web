@@ -9,6 +9,7 @@
 <title>一卡通交易查询</title>
 
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
+ <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 <script src="${ctx}/static/js/views/finance/iccard/icCardTradingList.js?v="></script>
 <%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
     <style>
@@ -23,9 +24,9 @@
 					<div class="ubtns-item" onclick="query()">查询</div>
 					<div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 					<div class="ubtns-item" onclick="exportData()">导出</div>
-					<shiro:hasPermission name="JxcPurchaseOrder:print">
 						<div class="ubtns-item" onclick="toPrint()">打印</div>
-					</shiro:hasPermission>
+						 <input type="hidden" id="startCount" name="startCount" />
+						<input type="hidden" id="endCount" name="endCount" />
 					<div class="ubtns-item-disabled">设置</div>
 					<div class="ubtns-item" onclick="toClose()">关闭</div>
 				</div>
@@ -74,24 +75,27 @@
 					<option value="all">--请选择--</option>
 					<option value="DGT">东莞通</option>
 					<option value="SZT">深圳通</option>
-					<!-- <option value="HFT">合肥通</option> -->
+					<option value="HFT">合肥通</option>
 					</select>
+					<!-- <input name="value"
+						id="value" class="uselect easyui-combobox" style="width: 204px;" 
+						data-options="valueField:'id',textField:'text',url:'account/management/dict/PAY_WAY',editable:false,required:true"/> -->
 				</div>
 
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-60 ut-r">查询类型:</div>
 					<div class="ub ub-ac umar-r10">
 						<input class="radioItem" type="radio" name="queryType"
-							id="queryType1" value="1" checked/><label for="queryType1">一卡通交易明细
+							id="queryType1" value="1" /><label for="queryType1">一卡通交易明细
 						</label>
 					</div>
 
 					<div class="ub ub-ac umar-r10">
 						<input class="radioItem" type="radio" name="queryType"
-							id="queryType2" value="2" /><label for="queryType2">一卡通交易汇总
+							id="queryType2" value="2" checked/><label for="queryType2">一卡通交易汇总
 						</label>
 					</div>
-                    <input id="queryType" type="hidden" value="1">
+                    <input id="queryType" type="hidden" value="2">
 
 				</div>
 			</div>

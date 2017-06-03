@@ -28,8 +28,9 @@ function changeStatus(){
         }
         $('#queryType').val(type);
         $("#"+gridName).datagrid("options").url = "";
-        initGridCardTrading();
         $('#'+gridName).datagrid('loadData',[]);
+        initGridCardTrading();
+//        $('#'+gridName).datagrid('loadData',[]);
     });
 }
 
@@ -42,12 +43,21 @@ function initConditionParams(){
 function getFiledList() {
     if($('#queryType').val() === "1"){
         return [[
-            {field: 'branchCode', title: '店铺编号', width: 100, align: 'left'},
+            {field: 'branchCode', title: '店铺编号', width: 100, align: 'left',formatter : function(value, row,index) {
+		        var str = value;
+		        if(value =="SUM"){
+		            str ='<div class="ub ub-pc">合计</div> ';
+		        }
+		        return str;
+		    }},
             {field: 'branchName', title: '店铺名称', width: 180, align: 'left'},
             {field: 'orderNo', title: '业务单号', width: 180, align: 'left'},
             {field: 'icCardNo', title: '卡号', width: 180, align: 'left'},
             {field: 'saleType', title: '业务类型', width: 80, align: 'left',
                 formatter:function(value,row,index){
+                	if(row.branchCode=="SUM"){
+                		return;
+                	}
                     if(value == 'C'){
                         return '充值';
                     }else if(value == 'A'){
@@ -60,48 +70,39 @@ function getFiledList() {
                 }
             },
             {field: 'amount', title: '金额', width: 100, align: 'right',formatter : function(value, row, index) {
-				if(row.isFooter){
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-				}
 				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 			}},
             {field: 'createTime', title: '时间', width: 180, align: 'left',formatter:function(value,row,index){
+            	if(row.branchCode=="SUM"){
+            		return;
+            	}
             	return new Date(value).format("yyyy-MM-dd hh:mm:ss");
             }},
             {field: 'operatorUserName', title: '收银员', width: 80, align: 'left'},
         ]]
     }else{
         return [[
-            {field: 'branchCode', title: '店铺编号', width: 100, align: 'left'},
+            {field: 'branchCode', title: '店铺编号', width: 100, align: 'left',formatter : function(value, row,index) {
+		        var str = value;
+		        if(value =="SUM"){
+		            str ='<div class="ub ub-pc">合计</div> ';
+		        }
+		        return str;
+		    }},
             {field: 'branchName', title: '店铺编号', width: 180, align: 'left'},
             {field: 'sumSelling', title: '售卡合计', width: 120, align: 'right',formatter : function(value, row, index) {
-				if(row.isFooter){
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-				}
 				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 			}},
             {field: 'sumRecharge', title: '充值合计', width: 120, align: 'right',formatter : function(value, row, index) {
-				if(row.isFooter){
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-				}
 				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 			}},
             {field: 'sumConsume', title: '消费合计', width: 120, align: 'right',formatter : function(value, row, index) {
-				if(row.isFooter){
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-				}
 				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 			}},
             {field: 'sumRefund', title: '退货合计', width: 120, align: 'right',formatter : function(value, row, index) {
-				if(row.isFooter){
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-				}
 				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 			}},
             {field: 'sumData', title: '合计', width: 120, align: 'right',formatter : function(value, row, index) {
-				if(row.isFooter){
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-				}
 				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 			}},
         ]]
@@ -114,10 +115,11 @@ function getFiledList() {
 var gridName = "gridCardTrading";
 
 var gridHandel = new GridClass();
-
+var dg;
 function initGridCardTrading() {
-    gridHandel.setGridName("gridCardTrading");
-    $("#"+gridName).datagrid({
+    gridHandel.setGridName(gridName);
+    dg = $("#"+gridName).datagrid({
+    	method:'post',
         align:'center',
         rownumbers:true,    //序号
         pagination:true,    //分页
@@ -125,12 +127,17 @@ function initGridCardTrading() {
         showFooter:true,
         height:'100%',
         width:'100%',
-        columns:getFiledList()
+        columns:getFiledList(),
+		onLoadSuccess : function(data) {
+
+		}
     })
 
 }
 
 function query() {
+	$("#startCount").val("");
+	$("#endCount").val("");
     $("#"+gridName).datagrid("options").queryParams = $("#queryForm").serializeObject();
     $("#"+gridName).datagrid("options").method = "post";
     $("#"+gridName).datagrid("options").url = contextPath+'/iccard/trading/list';
@@ -159,18 +166,54 @@ function selectOperator(){
     });
 }
 
+
+/**
+ * 导出
+ */
 function exportData(){
-	var length = $('#gridCardTrading').datagrid('getData').total;
+	$("#startCount").val('');
+	$("#endCount").val('');
+
+	var length = $("#"+gridName).datagrid('getData').total;
 	if(length == 0){
 		successTip("无数据可导");
 		return;
 	}
-	var queryParams =  urlEncode($("#queryForm").serializeObject());
-	window.location.href = contextPath + '/iccard/trading/exports?params='+queryParams;
+	$('#exportWin').window({
+		top:($(window).height()-300) * 0.5,   
+	    left:($(window).width()-500) * 0.5
+	});
+	$("#exportWin").show();
+	$("#totalRows").html(dg.datagrid('getData').total);
+	$("#exportWin").window("open");
+}
+
+/**
+ * 导出
+ */
+function exportExcel(){
+	var length = $("#"+gridName).datagrid('getData').total;
+	if(length == 0){
+		successTip('提示',"没有数据");
+		return;
+	}
+	var fromObjStr = urlEncode($('#queryForm').serializeObject());
+	$("#queryForm").form({
+		success : function(data){
+			if(data==null){
+				$.messager.alert('提示',"导出数据成功！");
+			}else{
+				$.messager.alert('提示',JSON.parse(data).message);
+			}
+		}
+	});
+	$("#queryForm").attr("action",contextPath + '/iccard/trading/exports?params='+fromObjStr);
+	
+	$("#queryForm").submit();
 }
 
 var toPrint = function(){
-	var length = $('#gridCardTrading').datagrid('getData').total;
+	var length = $("#"+gridName).datagrid('getData').total;
 	if(length == 0){
 		successTip("无数据可打印");
 		return;

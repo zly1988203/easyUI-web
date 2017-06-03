@@ -21,13 +21,14 @@
                 <div class="ubtns-item" onclick="auditChargeForm()" >审核</div>
                 <div class="ubtns-item" onclick="initChainFormDetail()">计算账款</div>
                 <div class="ubtns-item" onclick="delChainForm()" >删除</div>
-                <div class="ubtns-item-disabled" >导出</div>
+                <div class="ubtns-item" onclick="exportOrder()" >导出明细</div>
                 <div class="ubtns-item-disabled" >打印</div>
                 <div class="ubtns-item" onclick="toClose()">关闭</div>
             </div>
         </div>
         <div class="ub umar-t8 uc-black">【单号】:<span>${chainVo.formNo}</span></div>
         <div class="ub uline umar-t8"></div>
+        <input type="hidden" id="oldTime" value="<fmt:formatDate value="${chainVo.beginDate}" pattern="yyyy-MM-dd"/><fmt:formatDate value="${chainVo.endDate}" pattern="yyyy-MM-dd"/>">
         <form id="chainForm">
         <input type='hidden' id="operateType" name="operateType" value="edit">
         <input type='hidden' id="formId" name="id" value="${chainVo.id}">
@@ -79,9 +80,9 @@
            <div class="ub umar-t8">
            		<div class="ub ub-ac uw-310 umar-l20">
            			<div class="umar-r10 uw-90 ut-r">计算时间:</div>
-           			<input id="beginDate" name="beginDate" class="uinp ub ub-f1 " readonly="readonly" value="<fmt:formatDate value="${chainVo.beginDate}" pattern="yyyy-MM-dd"/>" type="text" />
+           			<input id="beginDate" name="beginDate" value="<fmt:formatDate value="${chainVo.beginDate}" pattern="yyyy-MM-dd"/>" class="Wdate ub ub-f1" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true,maxDate:'#F{$dp.$D(\'endDate\');}'})" />
            				&nbsp;至&nbsp;
-           			<input id="endDate" name="endDate" class="uinp ub ub-f1 " readonly="readonly" value="<fmt:formatDate value="${chainVo.endDate}" pattern="yyyy-MM-dd"/>" type="text" />
+           			<input id="endDate" name="endDate" value="<fmt:formatDate value="${chainVo.endDate}" pattern="yyyy-MM-dd"/>" class="Wdate ub ub-f1" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true,minDate:'#F{$dp.$D(\'beginDate\');}'})" />
            		</div>
            		<div class="ub ub-ac uw-320 umar-l20">
            			<div class="umar-r10 uw-100 ut-r">付款日期:</div>

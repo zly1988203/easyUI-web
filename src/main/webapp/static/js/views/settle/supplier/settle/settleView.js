@@ -99,3 +99,9 @@ function back(){
 function addSupAcoSetForm(){
 	toAddTab("新增供应商结算",contextPath + "/settle/supplierSettle/settleAdd");
 }
+
+//导出
+function exportOrder(){
+	var formId = $("#formId").val();
+	window.location.href = contextPath + '/settle/supplierSettle/exportSheet?page=SupplierSettle&sheetNo='+formId;
+}
