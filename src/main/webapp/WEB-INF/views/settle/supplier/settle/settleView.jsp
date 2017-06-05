@@ -106,13 +106,15 @@
              </div>
              <div class="ub ub-ac uw-290 umar-l28">
                  <div class="umar-r12 uw-70 ut-r">支付方式:</div>
-                 <select class='uinp easyui-combobox' data-options="editable:false" style="width:204px;">
-                    <option value='1'>人民币付款</option>
-                    <option value='2'>现金</option>
-                    <option value='3'>支票</option>
-                    <option value='4'>银行转账</option>
-                    <option value='5'>支付宝</option>
-                    <option value='6'>微信</option>
+<!--                  <select class='uinp easyui-combobox' data-options="editable:false" style="width:204px;"> -->
+<!--                     <option value='1'>人民币付款</option> -->
+<!--                     <option value='2'>现金</option> -->
+<!--                     <option value='3'>支票</option> -->
+<!--                     <option value='4'>银行转账</option> -->
+<!--                     <option value='5'>支付宝</option> -->
+<!--                     <option value='6'>微信</option> -->
+<!--                  </select> -->
+                 <select class='uinp easyui-combobox' style="width:204px;" id="payType" name="payType" data-options="valueField:'id',disabled:true,value:'${settleVo.payType}', textField:'label',url:'${ctx}/archive/financeCode/getDictListByTypeCode?dictTypeCode=101003',editable:false" >
                  </select>
              </div>
              <div class="ub ub-ac uw-300 umar-l12">
@@ -136,7 +138,7 @@
              </div>
              <div class="ub ub-ac uw-300 umar-l24">
                  <div class="umar-r10 uw-90 ut-r">实付金额汇总:</div>
-                 <input class="uinp easyui-numberbox" data-options="min:0,precision:2" value="${settleVo.actualAmount}" type="text" id="actualAmount"  name="actualAmount">
+                 <input class="uinp "  value="${settleVo.actualAmount}" readonly="readonly" type="text" id="actualAmount"  name="actualAmount">
              </div>
          </div>
          
