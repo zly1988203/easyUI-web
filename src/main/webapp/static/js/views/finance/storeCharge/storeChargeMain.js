@@ -367,6 +367,34 @@ function exportList(){
 	location.href = contextPath +"/finance/storeCharge/exportList?formId=" + formId;
 }
 
-function toImportStoreCharge() {
+
+//新的导入功能 
+function toImportStoreCharge(){
+	
+    var param = {
+        url : contextPath+"/finance/storeCharge/importList",
+        tempUrl : contextPath+"/finance/storeCharge/exportTemp",
+        title : "费用导入",
+        type : -1
+    }
     
+    new publicUploadFileService(function(data){
+    	if (data.length != 0) {
+    		setChargeList(data);
+    	}
+    },param);
+}
+
+
+function setChargeList(data){
+	
+	console.log(data);
+	
+	$("#"+gridName).datagrid("loadData",data);
+	  
+//	$.each(result.data,function(j,obj){
+//        if(val.skuId==obj.skuId){
+//            data[i].alreadyNum = obj.alreadyNum;
+//        }
+//    })
 }

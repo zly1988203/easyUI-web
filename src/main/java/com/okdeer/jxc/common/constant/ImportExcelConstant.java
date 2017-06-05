@@ -113,4 +113,11 @@ public interface ImportExcelConstant {
 	 */
 	String[] DELIVER_GOODS_BARCODE_HEADERS_REPORT = { "条码", "箱数", "单价", "金额", "是否赠品" };
 	// String[] DELIVER_GOODS_BARCODE_HEADERS_REPORT = { "条码", "箱数"};
+	
+	
+	/*** 门店费用导入字段    */
+	String[] STORE_CHARGE_FIELDS = { "costTypeCode", "amount", "remark" };
+
+	/*** 门店费用导入表头  */
+	String[] STORE_CHARGE_HEADERS = { "费用编码", "费用金额", "备注" };
 }
