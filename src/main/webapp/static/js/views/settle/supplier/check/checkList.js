@@ -8,9 +8,11 @@ $(function(){
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
     initsupChkAccountList();
     branchId = $("#branchId").val();
-    if(getUrlQueryString('message')=='0'){
-    	queryForm();
-    }
+//    if(getUrlQueryString('message')=='0'){
+//    	queryForm();
+//    }
+    //默认执行查询
+    queryForm();
 });
 
 $(document).on('input','#remark',function(){

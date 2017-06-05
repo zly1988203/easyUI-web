@@ -76,7 +76,7 @@
 	                    </div>
 	                    <div class="ub ub-ac umar-r10">
 							<label>
-								<input  type="radio" name="auditStatus " value=""  onclick="queryForm()"/><span>全部</span>
+								<input  type="radio" name="auditStatus" value=""  onclick="queryForm()"/><span>全部</span>
 							</label>
 	                    </div>
 	                </div>
