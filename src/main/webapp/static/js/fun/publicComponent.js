@@ -152,12 +152,20 @@ function toChangeDatetime(index){
   * @param callback
  */
 function publicUploadFileService(callback,params){
+	
+	var dalogTitle = "导入";
+	if(params.title){
+		dalogTitle = params.title;
+	}else{
+		dalogTitle = params.type==1?"导入条码":"导入货号"
+	}
+	
     //公有属性
     var  dalogTemp = $('<div id="uploadFile"/>').dialog({
         href:contextPath + "/common/uploadFile",
         width:480,
         height:320,
-        title:params.type==1?"导入条码":"导入货号",
+        title:dalogTitle,
         closable:true,
         resizable:true,
         onClose:function(){

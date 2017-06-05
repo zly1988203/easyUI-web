@@ -104,5 +104,7 @@ function downExportFile(){
         location.href=uploadFileParams.tempUrl+"?type="+uploadFileParams.type;
     }else if(uploadFileParams.type==1){//导入条码
     	location.href=uploadFileParams.tempUrl+"?type="+uploadFileParams.type;
+    }else{
+    	location.href=uploadFileParams.tempUrl;
     }
 }

@@ -217,6 +217,9 @@ public interface ExportExcelConstant {
 	
 	/*** 线上订单商品信息列表导出模板  */
 	String ONLINE_ORDER_GOODS_DETAIL_EXPORT_TEMPLATE = "onlineOrderGoodsDetailExportTemplate.xlsx";
+	
+	/*** 门店费用详情导入模板  */
+	String STORE_CHARGE_MAIN_IMPORT_TEMPLATE = "storeChargeMainImportTemplate.xlsx";
 
 	/**
 	 * 成本调价单导出模板
