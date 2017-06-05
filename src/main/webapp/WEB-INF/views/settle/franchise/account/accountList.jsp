@@ -24,7 +24,7 @@
                     	<div class="ubtns-item" onclick="exportAccountList()">导出</div>
                     </shiro:hasPermission>
 					<shiro:hasPermission name="JxcFranchiseAc:print">
-                    	<div class="ubtns-item-disabled" onclick="print()">打印</div>
+                    	<div class="ubtns-item-disabled">打印</div>
                     </shiro:hasPermission>
                     <div class="ubtns-item" id="set" onclick="gFunRefresh()" >重置</div>
                     <div class="ubtns-item-disabled" >设置</div>
@@ -39,7 +39,7 @@
                     <div class="ub ub-ac">
                         <div class="umar-r10 uw-70 ut-r">机构:</div>
                         <input type="hidden" id="branchCompleCode" name="franchiseBranchCode"/>
-                        <input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" onblur="clearBranchCode(this,'branchCompleCode')"/>
+                        <input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" onblur="$_jxc.clearIdOnEdit(this)"/>
                         <div class="uinp-more" onclick="selectBranches()" >...</div>
                     </div>
                     <div class="ub ub-ac umar-l64">

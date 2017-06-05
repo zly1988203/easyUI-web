@@ -113,22 +113,6 @@ function addFranchiseSetForm(){
 	toAddTab("新增加盟店结算",contextPath + "/settle/franchiseSettle/settleAdd");
 }
 
-function clearBranchCode(obj,branchId){
-	var branchName = $(obj).val();
-	//如果修改名称
-	if(!branchName || 
-			(branchName && branchName.indexOf("[")<0 && branchName.indexOf("]")<0)){
-		$("#" + branchId +"").val('');
-	}
-}
-function clearUser(obj,userId){
-	var userName = $(obj).val();
-	//如果修改名称
-	if(!userName || 
-			(userName && userName.indexOf("[")<0 && userName.indexOf("]")<0)){
-		$("#" + userId +"").val('');
-	}
-}
 
 //查询新增加盟店结算
 function queryForm(){

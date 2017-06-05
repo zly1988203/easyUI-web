@@ -122,14 +122,6 @@ function addSupAcoSetForm(){
 	toAddTab("新增供应商结算",contextPath + "/settle/supplierSettle/settleAdd");
 }
 
-function clearBranchCode(obj,branchId){
-	var branchName = $(obj).val();
-	//如果修改名称
-	if(!branchName || 
-			(branchName && branchName.indexOf("[")<0 && branchName.indexOf("]")<0)){
-		$("#" + branchId +"").val('');
-	}
-}
 //查询新增供应商结算
 function queryForm(){
 	var fromObjStr = $('#queryForm').serializeObject();

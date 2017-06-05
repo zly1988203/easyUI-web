@@ -21,7 +21,7 @@
                     <div class="ubtns-item" onclick="exportData()">导出</div>
                     <input type="hidden" id="startCount" name="startCount" />
 						<input type="hidden" id="endCount" name="endCount" />
-                    <div class="ubtns-item" onclick="print()">打印</div>
+                    <div class="ubtns-item-disabled">打印</div>
                     <div class="ubtns-item" id="set" onclick="gFunRefresh()" >重置</div>
                     <div class="ubtns-item-disabled" >设置</div>
                     <div class="ubtns-item" onclick="toClose()">退出</div>
@@ -36,13 +36,13 @@
                         <div class="umar-r10 uw-70 ut-r">机构:</div>
                         <input type="hidden" id="branchId" name="branchId"/>
                         <input type="hidden" id="branchType" name="branchType" />
-                        <input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" onblur="clearBranchCode(this,'targetBranchId')"/>
+                        <input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" onblur="$_jxc.clearIdOnEdit(this)"/>
                         <div class="uinp-more" onclick="selectBranches()" >...</div>
                     </div>
                     <div class="ub ub-ac umar-l64">
                         <div class="umar-r10 uw-70 ut-r">供应商:</div>
                         <input class="uinp" name="supplierId" id="supplierId"type="hidden">
-                        <input class="uinp" readonly="readonly" id="supplierName" type="text"  onclick="selectSupplier()">
+                        <input class="uinp" name="supplierName" id="supplierName" type="text" onblur="$_jxc.clearIdOnEdit(this)">
                         <div class="uinp-more" onclick="selectSupplier()">...</div>
                     </div>
                 </div>
@@ -87,7 +87,7 @@
                         </div>
                         <div class="ub ub-ac umar-r10">
                             <label>
-                                <input  type="radio" name="radioType" value="7"  onclick="queryForm()"/><span>预付账款明细</span>
+                                <input  type="radio" name="radioType" value="7"  onclick="initAcountList()"/><span>预付账款明细</span>
                             </label>
                         </div>
                     </div>

@@ -112,14 +112,6 @@ function addSupJonAccount(){
 	toAddTab("新增联营账单",contextPath + "/settle/supplierChain/chainAdd");
 }
 
-function clearBranchCode(obj,branchId){
-	var branchName = $(obj).val();
-	//如果修改名称
-	if(!branchName || 
-			(branchName && branchName.indexOf("[")<0 && branchName.indexOf("]")<0)){
-		$("#" + branchId +"").val('');
-	}
-}
 //查询新增联营账单
 function queryForm(){
 	var fromObjStr = $('#queryForm').serializeObject();

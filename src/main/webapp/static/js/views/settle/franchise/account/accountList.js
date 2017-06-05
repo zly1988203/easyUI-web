@@ -169,14 +169,6 @@ function selectBranches(){
 	},'');
 }
 
-function clearBranchCode(obj,branchId){
-	var branchName = $(obj).val();
-	//如果修改名称
-	if(!branchName || 
-			(branchName && branchName.indexOf("[")<0 && branchName.indexOf("]")<0)){
-		$("#" + branchId +"").val('');
-	}
-}
 
 function queryForm(){
 	$("#startCount").val('');

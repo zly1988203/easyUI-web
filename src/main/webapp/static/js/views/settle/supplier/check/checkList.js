@@ -112,14 +112,6 @@ function addSupChkAccount(){
 	toAddTab("新增供应商对账单",contextPath + "/settle/supplierCheck/checkAdd");
 }
 
-function clearBranchCode(obj,branchId){
-	var branchName = $(obj).val();
-	//如果修改名称
-	if(!branchName || 
-			(branchName && branchName.indexOf("[")<0 && branchName.indexOf("]")<0)){
-		$("#" + branchId +"").val('');
-	}
-}
 //查询新增供应商对账单
 function queryForm(){
 	var fromObjStr = $('#queryForm').serializeObject();

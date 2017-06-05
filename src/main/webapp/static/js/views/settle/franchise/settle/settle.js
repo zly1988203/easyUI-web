@@ -355,14 +355,6 @@ function updateFrom(){
 	//未收金额汇总
 	$('#unpayAmount').val(_unpayAmount1.toFixed(2));
 	
-	var _temData = _getRowsWhere({checked:true});
-	if(_temData && _temData.length > 0){
-		if(_unpayAmount1 > 0){
-//			$('#actualAmount').numberbox('options').min = 0;
-		}else{
-//			$('#actualAmount').numberbox('options').max = 0;
-		}
-	}
 	//实收金额汇总
 	$('#actualAmount').numberbox('setValue',parseFloat(_footerRow[0].actualAmount||0));
 }

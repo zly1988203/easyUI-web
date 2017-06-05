@@ -38,13 +38,13 @@
 	                <div class="ub ub-ac">
 	                    <div class="umar-r10 uw-70 ut-r">机构:</div>
 	                    <input type="hidden" id="franchiseBranchCode" name="franchiseBranchCode" />
-	                    <input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" onblur="clearBranchCode(this,'franchiseBranchCode')"/>
+	                    <input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" onblur="$_jxc.clearIdOnEdit(this)"/>
 	                    <div class="uinp-more" onclick="selectBranches()" >...</div>
 	                </div>
 	                <div class="ub ub-ac umar-l64">
 	                    <div class="umar-r10 uw-70 ut-r">制单人:</div>
 	                    <input type="hidden" id="createUserId" name="createUserId" />
-	                    <input class="uinp ub ub-f1" type="text" id="createUserName" name="createUserName" onblur="clearUser(this,'createUserId')"/>
+	                    <input class="uinp ub ub-f1" type="text" id="createUserName" name="createUserName" onblur="$_jxc.clearIdOnEdit(this)"/>
 	                    <div class="uinp-more" onclick="selectOperator()">...</div>
 	                </div>
 	            </div>
