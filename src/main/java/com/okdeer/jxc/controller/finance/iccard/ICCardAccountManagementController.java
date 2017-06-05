@@ -37,6 +37,7 @@ import com.okdeer.jxc.common.controller.BasePrintController;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
+import com.okdeer.jxc.finance.iccard.enums.CardChargeTypeEnum;
 import com.okdeer.jxc.finance.iccard.service.ICCardAccountService;
 import com.okdeer.jxc.finance.iccard.vo.ICCardAccountVo;
 
@@ -141,10 +142,15 @@ public class ICCardAccountManagementController extends BasePrintController<ICCar
 	}
 	
 	@RequestMapping(value = "/recharge", method = RequestMethod.POST)
-	public RespJson recharge(String branchId, BigDecimal oldBalance, BigDecimal addBalance, String rechargeType,
-			BigDecimal newBalance, String remark, HttpServletRequest request, HttpServletResponse response) {
-		boolean bool = this.icCardAccountService.rechargeOrExtracted(true, branchId, oldBalance, addBalance,
-				rechargeType, newBalance, remark, getCurrUserId());
+	public RespJson recharge(String branchId, BigDecimal addBalance, String rechargeType,
+			String remark, HttpServletRequest request, HttpServletResponse response) {
+		ICCardAccountVo vo = new ICCardAccountVo();
+		vo.setBranchId(branchId);
+		vo.setUserId(getCurrUserId());
+		vo.setRemark(remark);
+		vo.setRechargeType(rechargeType);
+		vo.setAddBalance(addBalance);
+		boolean bool = this.icCardAccountService.rechargeOrExtracted(CardChargeTypeEnum.IN, vo);
 		if (bool) {
 			return RespJson.success("一卡通充值成功!");
 		}
@@ -152,10 +158,15 @@ public class ICCardAccountManagementController extends BasePrintController<ICCar
 	}
 
 	@RequestMapping(value = "/extracted", method = RequestMethod.POST)
-	public RespJson extracted(String branchId, BigDecimal oldBalance, BigDecimal extractBalance, String rechargeType,
-			BigDecimal newBalance, String remark, HttpServletRequest request, HttpServletResponse response) {
-		boolean bool = this.icCardAccountService.rechargeOrExtracted(false, branchId, oldBalance, extractBalance,
-				rechargeType, newBalance, remark, getCurrUserId());
+	public RespJson extracted(String branchId, BigDecimal extractBalance, String rechargeType,
+			String remark, HttpServletRequest request, HttpServletResponse response) {
+		ICCardAccountVo vo = new ICCardAccountVo();
+		vo.setBranchId(branchId);
+		vo.setUserId(getCurrUserId());
+		vo.setRemark(remark);
+		vo.setRechargeType(rechargeType);
+		vo.setAddBalance(extractBalance);
+		boolean bool = this.icCardAccountService.rechargeOrExtracted(CardChargeTypeEnum.OUT, vo);
 		if (bool) {
 			return RespJson.success("一卡通提取成功!");
 		}
