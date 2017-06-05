@@ -1235,6 +1235,9 @@ function initDatagridSpecial(){
 			gridHandel.setDatagridHeader("center");
 	  }
     });
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice("saleMangeadd",["purchasePrice","oldSaleRate","newSaleRate"])
+    }
     gridHandel.setLoadData([{}]) 
 }
 
@@ -1445,14 +1448,6 @@ function initDatagridoneZk(){
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
-                // editor:{
-                //     type:'numberbox',
-                //     options:{
-                //         min:0,
-                //         precision:2,
-					// 	disabled:true,
-                //     }
-                // },
             },
 			{field: 'discount', title: '折扣', width: 100, align: 'right',
 			    formatter : function(value, row, index) {
@@ -1528,7 +1523,9 @@ function initDatagridoneZk(){
 				
 		 }
     });
-    
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice("saleMangeadd",["purchasePrice","oldSaleRate","newSaleRate"])
+    }
     gridHandel.setLoadData([$.extend({},gridDefault)])
    }
 
@@ -1623,14 +1620,6 @@ function initDatagridOddtj(){
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
-                // editor:{
-                //     type:'numberbox',
-                //     options:{
-                //         min:0,
-                //         precision:2,
-                //         disabled:true,
-                //     }
-                // },
             },
 			{field: 'saleAmount', title: '偶数特价', width: 100, align: 'right',
 			    formatter : function(value, row, index) {
@@ -1709,6 +1698,9 @@ function initDatagridOddtj(){
 				
 		 }
     });
+    if(hasPurchasePrice==false){
+		priceGrantUtil.grantPurchasePrice("saleMangeadd",["purchasePrice","oldSaleRate","newSaleRate"])
+	}
     gridHandel.setLoadData([$.extend({},gridDefault)])
 }
 

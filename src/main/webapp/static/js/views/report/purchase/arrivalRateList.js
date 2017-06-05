@@ -193,7 +193,9 @@ function initDatagridByFormNo(){
 			gridHandel.setDatagridHeader("center");
 		}
     });
-    
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice("gridOrders",["purchaseAmount","receiptAmount","notAmount"])
+    }
 }
 
 //初始化表格
@@ -257,6 +259,9 @@ function initDatagridBySupplier(){
 			gridHandel.setDatagridHeader("center");
 		}
     });
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice("gridOrders",["purchaseAmount","receiptAmount","notAmount"])
+    }
 }
 
 //初始化表格
@@ -320,6 +325,9 @@ function initDatagridByCategory(){
 			gridHandel.setDatagridHeader("center");
 		}
     });
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice("gridOrders",["purchaseAmount","receiptAmount","notAmount"])
+    }
 }
 
 
@@ -389,6 +397,9 @@ function initDatagridBySku(){
 			gridHandel.setDatagridHeader("center");
 		}
     });
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice("gridOrders",["purchaseAmount","receiptAmount","notAmount"])
+    }
 }
 
 function query(){

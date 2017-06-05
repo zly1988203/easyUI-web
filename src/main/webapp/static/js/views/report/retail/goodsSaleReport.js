@@ -213,6 +213,9 @@ function initDatagridRequire(){
         }
     });
    // queryForm();
+    if(hasCostPrice==false){
+        priceGrantUtil.grantCostPrice("storeSale",["costPrice"])
+    }
 }
 
 //查询入库单

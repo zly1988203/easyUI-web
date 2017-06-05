@@ -110,6 +110,9 @@ function initPurchaseReplenishAnalyDg(){
 	if(sessionBranchType>=3){
 		searchForm();
 	}
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice("gridOrders",["purchasePrice","totalAmount"])
+    }
 }
 
 //查询

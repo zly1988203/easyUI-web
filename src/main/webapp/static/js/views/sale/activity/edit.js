@@ -1186,6 +1186,9 @@ function initDatagridSpecial(){
 				
 	  }
     });
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice("saleMangeadd",["purchasePrice","oldSaleRate","newSaleRate"])
+    }
     //gridHandel.setLoadData([$.extend({},gridDefault)]) 
 }
 
@@ -1524,8 +1527,10 @@ function initDatagridoneZk(){
   		}
       }
     });
-    
-    //gridHandel.setLoadData([$.extend({},gridDefault)])
+
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice("saleMangeadd",["purchasePrice","oldSaleRate","newSaleRate"])
+    }
     
    }
 
@@ -1716,6 +1721,9 @@ function initDatagridOddtj(){
 				
 		 }
     });
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice("saleMangeadd",["purchasePrice","oldSaleRate","newSaleRate"])
+    }
     gridHandel.setLoadData([$.extend({},gridDefault)])
 }
 //改变偶数特价 计算新毛利率
