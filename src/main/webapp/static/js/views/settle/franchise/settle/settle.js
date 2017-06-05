@@ -25,9 +25,9 @@ $(function(){
 		  $('#createTime').text(new Date().format('yyyy-MM-dd hh:mm'));
 		// 机构默认有值
 		  if(sessionBranchType == '4' || sessionBranchType == '5'){
-			$('#branchId').val(sessionBranchId);
+			$('#franchiseBranchId').val(sessionBranchId);
 			$('#branchCode').val(sessionBranchCode);
-			$('#targetBranchName').val(sessionBranchCodeName)
+			$('#franchiseBranchName').val(sessionBranchCodeName)
 		  }
 	}else if(pageStatus === 'edit'){
 		var formId = $("#formId").val();
