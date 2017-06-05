@@ -268,8 +268,8 @@ function initDatagridEditOrder(){
             updateFooter();
         }
     });
-    if(hasCostPrice==false){
-        priceGrantUtil.grantCostPrice(datagridId,["price","amount","taxAmount"])
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice(datagridId,["price","amount","taxAmount"])
     }
 
 }

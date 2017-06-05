@@ -20,6 +20,18 @@ function initFinanceDialog(param) {
 }
 
 function saveFinanceCode() {
+
+    //校验表单
+    if($_jxc.confirm($("#value").val())){
+        $_jxc.alert("编号不能为空");
+        return;
+    }
+
+    if($_jxc.confirm($("#label").val())){
+        $_jxc.alert("名称不能为空");
+        return;
+    }
+
 	var addUrl = contextPath+'/archive/financeCode/addFinanceCode'; 
 	var updateUrl = contextPath+'/archive/financeCode/updateFinanceCode';
 	var data = {

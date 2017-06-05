@@ -84,6 +84,9 @@ function initDatagridOrders(){
 	}
     });
     query();
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice("gridOrders",["amount"])
+    }
 }
 function receiptAdd(){
 	toAddTab("新增采购退货订单",contextPath + "/form/purchase/returnAdd");

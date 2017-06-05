@@ -325,12 +325,16 @@ function initPurchaseGuideGoodsListDg(){
             
         }
     });
+
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice("dgGuideGoodsList",["purchasePrice","totalAmount"])
+    }
 }
 
 function actualStockChange(newVal,oldVal){
 	 var purchasePrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'purchasePrice');
 		
-		gridHandel.setFieldValue('totalAmount',purchasePrice*newVal);  
+		gridHandel.setFieldValue('totalAmount',purchasePrice*newVal);
 }
 
 //删除一行

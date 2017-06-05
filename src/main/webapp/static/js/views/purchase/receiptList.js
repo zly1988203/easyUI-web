@@ -169,6 +169,9 @@ function initDatagridOrders(){
 		}
     });
    // query();
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice(tableIdName,["amount"])
+	}
 }
 
 
@@ -214,6 +217,10 @@ function initDatagridFormPA(){
         	$('.datagrid-header').find('div.datagrid-cell').css('text-align','center');
         },
     });
+
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice(tableIdName,["amount"])
+    }
 }
 
 
