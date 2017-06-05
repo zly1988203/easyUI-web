@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.github.pagehelper.PageHelper;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
@@ -74,9 +73,9 @@ public class FranchiseAccountCurrentController extends BaseController<FranchiseA
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
 			buildParam(vo);
-			PageHelper.startPage(pageNumber, pageSize, true);
-			List<FranchiseAccountCurrentVo> list = franchiseAccountCurrentService.getAccountList(vo);
-			PageUtils<FranchiseAccountCurrentVo> page = new PageUtils<FranchiseAccountCurrentVo>(list);
+			vo.setPageNumber(pageNumber);
+			vo.setPageSize(pageSize);
+			PageUtils<FranchiseAccountCurrentVo> page = franchiseAccountCurrentService.getAccountPage(vo);
 			List<FranchiseAccountCurrentVo> footer = franchiseAccountCurrentService.getSumAccount(vo);
 			page.setFooter(footer);
 			return page;
