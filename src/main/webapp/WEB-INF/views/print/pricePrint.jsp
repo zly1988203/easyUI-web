@@ -72,6 +72,7 @@
 						<option value="2">正常（85*40mm有底 2*7）</option>
 						<option value="3">正常（85*40mm无底 1*7）</option>
 						<option value="17">二维码价签无底(60*32mm 3*9)</option>
+						<option value="19">二维码价签无底(60*30mm 3*9)</option>
 						
 
 					</select>
