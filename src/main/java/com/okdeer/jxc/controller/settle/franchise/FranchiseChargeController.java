@@ -120,6 +120,7 @@ public class FranchiseChargeController extends BasePrintController<FranchiseChar
 		try {
 			FranchiseChargeVo vo = JSON.parseObject(data, FranchiseChargeVo.class);
 			vo.setCreateUserId(getCurrUserId());
+			vo.setBranchCode(getCurrBranchCode());
 			vo.setFormType(FormType.FI.toString());
 			respJson = franchiseChargeService.saveCharge(vo);
 		} catch (Exception e) {
@@ -290,6 +291,7 @@ public class FranchiseChargeController extends BasePrintController<FranchiseChar
 		try {
 			FranchiseChargeVo vo = JSON.parseObject(data, FranchiseChargeVo.class);
 			vo.setCreateUserId(getCurrUserId());
+			vo.setBranchCode(getCurrBranchCode());
 			vo.setFormType(FormType.FO.toString());
 			respJson = franchiseChargeService.saveCharge(vo);
 		} catch (Exception e) {
