@@ -176,7 +176,7 @@ function selectBranches(){
 	new publicAgencyService(function(data){
 		$("#branchId").val(data.branchesId);
 		$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
-	},'',branchId);
+	},'',branchId,'','',1);
 }
 
 //打印

@@ -155,10 +155,14 @@ function delChainForm(){
 
 //选择供应商
 function selectSupplier(){
+	var param = {
+			branchId:$("#branchId").val(),
+			saleWayNot:'chain'
+	}
     new publicSupplierService(function(data){
     	$("#supplierId").val(data.id);
         $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);	
-    });
+    },param);
 }
 /**
  * 操作员
