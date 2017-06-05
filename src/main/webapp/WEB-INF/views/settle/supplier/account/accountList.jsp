@@ -18,13 +18,15 @@
             <div class="ub ub-ac">
                 <div class="ubtns">
                     <div class="ubtns-item" onclick="queryForm()">查询</div>
+                    <shiro:hasPermission name="JxcSupplierAc:export">
                     <div class="ubtns-item" onclick="exportData()">导出</div>
+                    </shiro:hasPermission>
                     <input type="hidden" id="startCount" name="startCount" />
-						<input type="hidden" id="endCount" name="endCount" />
+					<input type="hidden" id="endCount" name="endCount" />
                     <div class="ubtns-item-disabled">打印</div>
                     <div class="ubtns-item" id="set" onclick="gFunRefresh()" >重置</div>
                     <div class="ubtns-item-disabled" >设置</div>
-                    <div class="ubtns-item" onclick="toClose()">退出</div>
+                    <div class="ubtns-item" onclick="toClose()">关闭</div>
                 </div>
                 <div class="ub ub-ac umar-l20">
                  <!-- 引入时间选择控件 -->

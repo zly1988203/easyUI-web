@@ -16,7 +16,9 @@
     <div class="ub ub-ver ub-f1 umar-4  ubor">
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
+                <shiro:hasPermission name="JxcSupplierChain:add">
             	<div class="ubtns-item" onclick="addChainForm()">新增</div>
+            	</shiro:hasPermission>
                 <div class="ubtns-item" onclick="saveChainForm()">保存</div>
                 <div class="ubtns-item-disabled">审核</div>
                 <div class="ubtns-item" onclick="initChainFormDetail()">计算账款</div>
@@ -85,9 +87,9 @@
            <div class="ub umar-t8">
            		<div class="ub ub-ac uw-316 umar-l20">
            			<div class="umar-r10 uw-90 ut-r">计算时间:</div>
-           			<input id="beginDate" name="beginDate" class="Wdate ub ub-f1" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true,maxDate:'#F{$dp.$D(\'endDate\');}'})" />
+           			<input id="beginDate" name="beginDate" class="Wdate ub ub-f1" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true,maxDate:'#F{$dp.$D(\'endDate\')||dateUtil.getCurrDayPreOrNextDay(\'prev\',1)}' })" />
            				&nbsp;至&nbsp;
-           			<input id="endDate" name="endDate" class="Wdate ub ub-f1" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true,minDate:'#F{$dp.$D(\'beginDate\');}'})" />
+           			<input id="endDate" name="endDate" class="Wdate ub ub-f1" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true,minDate:'#F{$dp.$D(\'beginDate\');}',maxDate:'%y-%M-{%d-1}'})" />
            			<i class="ub ub-ac uc-red">*</i>
            		</div>
            		<div class="ub ub-ac uw-328 umar-l12">

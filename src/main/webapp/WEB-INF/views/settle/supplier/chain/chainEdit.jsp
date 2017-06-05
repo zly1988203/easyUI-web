@@ -16,12 +16,20 @@
     <div class="ub ub-ver ub-f1 umar-4  ubor">
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
+            	<shiro:hasPermission name="JxcSupplierChain:add">
             	<div class="ubtns-item" onclick="addChainForm()">新增</div>
+            	</shiro:hasPermission>
                 <div class="ubtns-item" onclick="saveChainForm()">保存</div>
+                <shiro:hasPermission name="JxcSupplierChain:audit">
                 <div class="ubtns-item" onclick="auditChargeForm()" >审核</div>
+                </shiro:hasPermission>
                 <div class="ubtns-item" onclick="initChainFormDetail()">计算账款</div>
+                <shiro:hasPermission name="JxcSupplierChain:delete">
                 <div class="ubtns-item" onclick="delChainForm()" >删除</div>
+                </shiro:hasPermission>
+                <shiro:hasPermission name="JxcSupplierChain:exportDetail">
                 <div class="ubtns-item" onclick="exportOrder()" >导出明细</div>
+                </shiro:hasPermission>
                 <div class="ubtns-item-disabled" >打印</div>
                 <div class="ubtns-item" onclick="toClose()">关闭</div>
             </div>
@@ -80,9 +88,9 @@
            <div class="ub umar-t8">
            		<div class="ub ub-ac uw-310 umar-l20">
            			<div class="umar-r10 uw-90 ut-r">计算时间:</div>
-           			<input id="beginDate" name="beginDate" value="${chainVo.beginDate}" class="Wdate ub ub-f1" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true,maxDate:'#F{$dp.$D(\'endDate\');}'})" />
+           			<input id="beginDate" name="beginDate" value="${chainVo.beginDate}" class="Wdate ub ub-f1" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true,maxDate:'#F{$dp.$D(\'endDate\')||dateUtil.getCurrDayPreOrNextDay(\'prev\',1)}'})" />
            				&nbsp;至&nbsp;
-           			<input id="endDate" name="endDate" value="${chainVo.endDate}" class="Wdate ub ub-f1" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true,minDate:'#F{$dp.$D(\'beginDate\');}'})" />
+           			<input id="endDate" name="endDate" value="${chainVo.endDate}" class="Wdate ub ub-f1" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true,minDate:'#F{$dp.$D(\'beginDate\')}',maxDate:'%y-%M-{%d-1}'})" />
            		</div>
            		<div class="ub ub-ac uw-320 umar-l20">
            			<div class="umar-r10 uw-100 ut-r">付款日期:</div>

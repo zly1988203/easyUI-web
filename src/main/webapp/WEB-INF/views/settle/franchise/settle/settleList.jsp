@@ -22,13 +22,13 @@
 						<div class="ubtns-item" onclick="addFranchiseSetForm()">新增</div>
 					</shiro:hasPermission>
 					<shiro:hasPermission name="JxcFranchiseSettle:delete">
-						<div class="ubtns-item" onclick="delFranchiseSetForm()">删单</div>
+						<div class="ubtns-item" onclick="delFranchiseSetForm()">删除</div>
 					</shiro:hasPermission>
 					<shiro:hasPermission name="JxcFranchiseSettle:setting">
 						<div class="ubtns-item-disabled">设置</div>
 					</shiro:hasPermission>
 	                <div class="ubtns-item" id="set" onclick="gFunRefresh()" >重置</div>
-	                <div class="ubtns-item" onclick="toClose()">退出</div>
+	                <div class="ubtns-item" onclick="toClose()">关闭</div>
 	            </div>
 	        	<div class="ub ub-ac umar-l20">
 	        	 <!-- 引入时间选择控件 -->

@@ -182,6 +182,8 @@ public class SupplierCheckController extends BasePrintController<SupplierCheckCo
                 vo.setCreateTime(DateUtils.getCurrDate());
                 vo.setUpdateUserId(user.getId());
                 vo.setUpdateTime(DateUtils.getCurrDate());
+                // 生成单号时，取当前登录账号机构编码
+                vo.setBranchCode(getCurrBranchCode());
                 return supplierCheckService.saveCheckForm(vo);
             } else {
                 // 修改
