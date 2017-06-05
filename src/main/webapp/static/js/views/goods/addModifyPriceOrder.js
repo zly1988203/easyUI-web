@@ -35,7 +35,23 @@ $(function() {
         // input禁用,a标签移除事件，增加“已审核”标志
         datagridUtil.readOnlyInput();
     }
+
+    hidePageElement();
 });
+
+function hidePageElement() {
+    if(hasPurchasePrice==false){
+        $("#purchasePrice").prop("disabled","disabled");
+    }
+    if(hasWholesalePrice==false){
+        $("#tradePrice").prop("disabled","disabled");
+    }
+
+    if(hasDistributionPrice==false){
+        $("#distributionPrice").prop("disabled","disabled");
+    }
+
+}
 
 //加载数据
 function initGridData(formNo){
@@ -384,6 +400,8 @@ function initAddModifyPriceGridEdit() {
             datagridUtil.isCheckBoxChecked("distributionPrice");// 配送价
         }
     });
+    priceGrantUtil.grantPrice(datagridId);
+
 }
 //新进货价
 function changeNewPurPrice(newVal,oldVal) {

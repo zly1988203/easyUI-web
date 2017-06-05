@@ -148,6 +148,7 @@ function gridReload(gridName,httpParams,selectTypeName){
 
 //初始化表格
 var dg;
+var gridName = "goodsTab";
 function initDatagridOrders(){
 	dg=$("#goodsTab").datagrid({
 		//title:'普通表单-用键盘操作',
@@ -308,6 +309,8 @@ function initDatagridOrders(){
 		          enableRowContextMenu: false
 
 	});
+
+    priceGrantUtil.grantPrice(gridName);
 }
 
 /**

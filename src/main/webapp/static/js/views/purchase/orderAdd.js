@@ -292,7 +292,9 @@ function initDatagridEditOrder(){
                             $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),
                             $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault)]);
 
-    // priceGrantUtil.grantPrice(gridName);
+    if(hasCostPrice==false){
+        priceGrantUtil.grantCostPrice(datagridId,["price","amount","taxAmount"])
+    }
 }
 
 //限制转换次数

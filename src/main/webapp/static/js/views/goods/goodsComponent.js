@@ -225,6 +225,8 @@ function initDatagridResultOrder(){
             updateFooter();
         }
     });
+
+    priceGrantUtil.grantPrice(gridName);
    
 }
 

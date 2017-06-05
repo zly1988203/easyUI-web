@@ -331,6 +331,8 @@ $(
                         priceGrantUtil.grantPrice("gridGoods");
                     }
                 });
+
+                priceGrantUtil.grantPrice("gridGoods");
             }
 //选择单行
             goodsClickRow = function(rowIndex, rowData){

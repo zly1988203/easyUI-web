@@ -175,6 +175,7 @@ function initDatagridsupplierList(){
         }
     });
     gridHandel.setLoadData([$.extend({},gridDefault)]);
+    priceGrantUtil.grantPrice(gridName);
 }
 
 /**
