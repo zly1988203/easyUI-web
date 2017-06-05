@@ -112,14 +112,7 @@ function addSupAdvMonForm(){
 	toAddTab("新增供应商预付款",contextPath + "/settle/supplierCharge/advanceAdd");
 }
 
-function clearBranchCode(obj,branchId){
-	var branchName = $(obj).val();
-	//如果修改名称
-	if(!branchName || 
-			(branchName && branchName.indexOf("[")<0 && branchName.indexOf("]")<0)){
-		$("#" + branchId +"").val('');
-	}
-}
+
 //查询新增供应商预付款
 function queryForm(){
 	var fromObjStr = $('#queryForm').serializeObject();

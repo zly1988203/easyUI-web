@@ -224,9 +224,6 @@ function initSupChkAcoAdd(){
         	    if(!editRowFlag){
         	    	obj.checked = true;
         	    }
-//        		if(operateType == 'add' && !editRowFlag){
-//        			obj.unpayAmount = obj.payableAmount;
-//        		}
         	});
         	return data;
         },
@@ -384,16 +381,7 @@ function updateFrom(){
 	var _unpayAmount1 = parseFloat(_footerRow[0].unpayAmount||0);
 	//未收金额汇总
 	$('#unpayAmount').val(_unpayAmount1.toFixed(2));
-	
-	var _temData = _getRowsWhere({branchName:'1'});
-	_temData = _getRowsWhere({checked:true},_temData);
-	if(_temData && _temData.length > 0){
-		if(_unpayAmount1 > 0){
-//			$('#actualAmount').numberbox('options').min = 0;
-		}else{
-//			$('#actualAmount').numberbox('options').max = 0;
-		}
-	}
+
 	//实收金额汇总
 	$('#actualAmount').numberbox('setValue',parseFloat(_footerRow[0].actualAmount||0));
 }

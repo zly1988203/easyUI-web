@@ -1104,6 +1104,43 @@ var $_jxc = {
         if(str.trim() == "") return true;
         if (str.length == 0) return true;
         if (str.replace(/(^s*)|(s*$)/g, "").length ==0) return true;
+	},
+	
+	/**
+	 * bwp 07/06/05
+	 * 对可输入的 机构 供应商 或者制单人这类可以输入又可以弹窗选择的输入表单 编辑表单时选择处理情况hidden表单的值
+	 * 例如 [0001]默认供应商 注：表单dom 父元素加一个 .form-group class样式以确定作用范围
+	 * @namespace 编辑表单时选择处理情况hidden表单的值 
+	 * @param obj 表单对象
+	 * @param domIds 而外要处理的 dom元素id值
+	 * demo1:
+	 * <div class='ub ub-ac'>
+	 * <input class='uinp ub ub-f1' type='text' id='branchName' name='branchName' onblur='$_jxc.clearIdOnEdit(this)'/>
+	 * </div>
+	 * demo2:
+	 * <div class='ub ub-ac .form-group'>
+	 * 	<div class='ub'>
+	 * 		<input class='uinp ub ub-f1' type='text' id='branchName' name='branchName' onblur='$_jxc.clearIdOnEdit(this)'/>
+	 * 	</div>
+	 * </div>
+	 */
+	clearIdOnEdit:function(obj,domIds){
+		var _domValue = $(obj).val();
+		//如果修改名称
+		if(!_domValue || (_domValue && _domValue.indexOf("[")<0 && _domValue.indexOf("]")<0)){
+			//父元素
+			var _editGroup = $(obj).closest('.form-group');
+			if(_editGroup.length < 1){
+				_editGroup = $(obj).parent('.ub');
+			}
+			//隐藏域表单
+			$(_editGroup).find('input[type="hidden"]').each(function(index,elt){
+				if($(elt)){
+					$(elt).val('');
+				}
+			});
+		}
 	}
+	
 	
 }
