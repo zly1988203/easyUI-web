@@ -95,13 +95,29 @@ function initSupChkAcoAdd(){
         width:'100%',
         columns:[[
             {field:'cb',checkbox:true},
-            {field:'targetFormId',title:'targetFormId',hidden:true},
+//            {field:'targetFormId',title:'targetFormId',hidden:true},
             {field:'targetFormNo',title:'单号',width: '150px',align:'left',
             	formatter:function(value,row,index){
             		if(row.isFooter){
             			return  '<div class="ub ub-pc">合计</div> '
                     }
-            		return value ;
+            		var strHtml = '';
+            		if(value){
+                		if(value.indexOf('FY') == 0){
+                			strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'供应商预付单明细\',\''+ contextPath +'/settle/supplierCharge/advanceView?id='+ row.targetFormId +'\')">' + (value||"") + '</a>';
+                		}else if(value.indexOf('FF') == 0){
+                			strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'供应商费用明细\',\''+ contextPath +'/settle/supplierCharge/chargeView?id='+ row.targetFormId +'\')">' + (value||"") + '</a>';
+                		}else if(value.indexOf('FL') == 0){
+                			strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'供应商联营账单明细\',\''+ contextPath +'/settle/supplierChain/chainView?id='+ row.targetFormId +'\')">' + (value||"") + '</a>';
+                		}else if(value.indexOf('PI') == 0){
+                			strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看采购收货详细\',\''+contextPath+'/form/purchase/receiptEdit?formId='+row.targetFormId+'\')">' + (value||"") + '</a>';
+                		}else if(value.indexOf('PM') == 0){
+                			strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'直送收货单详细\',\''+contextPath+'/directReceipt/edit?formId='+row.targetFormId+'\')">' + (value||"") + '</a>';
+                		}else if(value.indexOf('PR') == 0){
+                			strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看采购退货详细\',\''+contextPath+'/form/purchase/returnEdit?formId='+row.targetFormId+'\')">' + (value||"") + '</a>';
+                		}
+                	}
+            		return strHtml ;
             	}
             },
             {field:'targetFormType',hidden:true},
