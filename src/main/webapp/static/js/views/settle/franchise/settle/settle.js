@@ -5,8 +5,7 @@
 
 
 var gridDefault = {
-	    costPrice:0,
-	    checked:1
+	    costPrice:0
 	}
 //列表数据查询url
 var url = "";
@@ -213,7 +212,7 @@ function initSupChkAcoAdd(){
         onLoadSuccess:function(data){
         	if(clickFlag && data.rows.length <= 0){
         		clickFlag =  false;
-        		$_jxc.alert('您和此供应商没有账款信息，或您们的往来往来账款已平衡！')
+        		$_jxc.alert('您和此供应商没有账款信息，或您们的往来往来账款已平衡！');
         	}
         	if(pageStatus==='edit'){
                 if(!oldData["grid"]){
