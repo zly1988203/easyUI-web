@@ -20,11 +20,19 @@
     <div class="ub ub-ver ub-f1 umar-4  ubor">
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
+                <shiro:hasPermission name="JxcSupplierChain:add">
                 <div class="ubtns-item" onclick="addSupAcoSetForm()">新增</div>
+                </shiro:hasPermission>
                 <div class="ubtns-item" onclick="saveSupAcoSet()">保存</div>
+                <shiro:hasPermission name="JxcSupplierSettle:audit">
                 <div class="ubtns-item" onclick="auditSupStlForm()">审核</div>
+                </shiro:hasPermission>
+                <shiro:hasPermission name="JxcSupplierSettle:delete">
                 <div class="ubtns-item" onclick="delSupSettleAccount()">删除</div>
+                </shiro:hasPermission>
+                <shiro:hasPermission name="JxcSupplierSettle:exportDetail">
                 <div class="ubtns-item" onclick="exportOrder()">导出明细</div>
+                </shiro:hasPermission>
                 <div class="ubtns-item-disabled">打印</div>
                 <div class="ubtns-item" onclick="toClose()">关闭</div>
             </div>
