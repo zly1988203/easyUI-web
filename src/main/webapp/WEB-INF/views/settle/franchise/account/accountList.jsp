@@ -19,6 +19,8 @@
                 <div class="ubtns">
                     <div class="ubtns-item" onclick="queryForm()">查询</div>
 					<shiro:hasPermission name="JxcFranchiseAc:export">
+				        <input type="hidden" id="startCount" name="startCount"/>
+				        <input type="hidden" id="endCount" name="endCount"/>
                     	<div class="ubtns-item" onclick="exportAccountList()">导出</div>
                     </shiro:hasPermission>
 					<shiro:hasPermission name="JxcFranchiseAc:print">
