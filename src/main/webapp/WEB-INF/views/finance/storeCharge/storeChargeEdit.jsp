@@ -76,7 +76,7 @@
 					<div class="ub ub-ac umar-r80">
 						<div class="umar-r10 uw-60 ut-r">月份:</div>
 						<input class="Wdate uw-300 uinp-no-more" readOnly="readOnly"
-							name="month" id="chargeMonth"  value="${form.month}" disabled="disabled"/>
+							name="month" id="chargeMonth"  value="${form.month}"  pattern='yyyy-MM' disabled="disabled"/>
 					</div>
 					<div class="ub ub-ac umar-r80">
 						<div class="umar-r10 uw-60 ut-r">制单人员:</div>

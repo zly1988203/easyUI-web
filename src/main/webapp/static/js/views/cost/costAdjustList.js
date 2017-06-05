@@ -94,6 +94,10 @@ function initDatagridRequireOrders(){
         
     });
     queryForm();
+
+    if(hasCostPrice==false){
+        priceGrantUtil.grantCostPrice("costFromList",["totalMoney"])
+    }
 }
 
 //新增入库单

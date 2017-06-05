@@ -176,6 +176,10 @@ function initDatagridAddRequireOrder(){
     gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
         $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),
         $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault)]);
+
+    if(hasCostPrice==false){
+        priceGrantUtil.grantCostPrice(gridName,["oldCostPrice","costPrice"])
+    }
 }
 
 //监听新价

@@ -205,6 +205,10 @@ function initDatagridAddRequireOrder(){
         }
 
     });
+    if(hasCostPrice==false){
+        priceGrantUtil.grantCostPrice(dataGridId,["price","amount"])
+    }
+
 
     gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
         $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),

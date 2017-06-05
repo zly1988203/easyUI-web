@@ -25,7 +25,7 @@ var gridDefault = {
 		// isGift:0,
 }
 var editRowData = null;
-var gridName = "gridEditOrder";
+var gridName = "gridEditRequireOrder";
 var oldData = {};
 var gridHandel = new GridClass();
 function initDatagridEditRequireOrder(){
@@ -191,6 +191,10 @@ function initDatagridEditRequireOrder(){
 		        	  updateFooter();
 		          }
 	});
+
+    if(hasCostPrice==false){
+        priceGrantUtil.grantCostPrice(gridName,["oldCostPrice","costPrice"])
+    }
 
 }
 

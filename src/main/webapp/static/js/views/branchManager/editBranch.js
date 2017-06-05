@@ -155,7 +155,7 @@ function initGridEquipmentCost() {
                     return str;
                 },
             },
-            {field: 'costName', title: '装修费用', width: 180, align: 'left',editor:'text'},
+            {field: 'costName', title: '设备费用', width: 180, align: 'left',editor:'text'},
             {field: 'costAmount', title: '金额', width: 100, align: 'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
@@ -211,7 +211,7 @@ function initGridAmortizeCost() {
                     return str;
                 },
             },
-            {field: 'costName', title: '装修费用', width: 180, align: 'left',editor:'text'},
+            {field: 'costName', title: '摊销费用', width: 180, align: 'left',editor:'text'},
             {field: 'costAmount', title: '金额', width: 100, align: 'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
