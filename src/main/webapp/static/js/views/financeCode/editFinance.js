@@ -22,10 +22,13 @@ function initFinanceDialog(param) {
 function saveFinanceCode() {
 
     //校验表单
-    var isValid = $("#financeAdd").form('validate');
+    if($_jxc.confirm($("#value").val())){
+        $_jxc.alert("编号不能为空");
+        return;
+    }
 
-    if(!isValid){
-        $('#saveBtn').removeAttr("disabled");
+    if($_jxc.confirm($("#label").val())){
+        $_jxc.alert("名称不能为空");
         return;
     }
 
