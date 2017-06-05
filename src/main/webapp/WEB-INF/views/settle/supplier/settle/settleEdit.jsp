@@ -116,7 +116,7 @@
              </div>
              <div class="ub ub-ac uw-290 umar-l28">
                  <div class="umar-r12 uw-70 ut-r">支付方式:</div>
-                 <select class='uinp easyui-combobox' style="width:204px;" id="payType" name="payType" data-options="valueField:'id',value:'${settleVo.payType}', textField:'label',loadFilter:loadFilter,url:'${ctx}/archive/financeCode/getDictListByTypeCode?dictTypeCode=101003',editable:false" >
+                 <select class='uinp easyui-combobox' style="width:204px;" id="payType" name="payType" data-options="valueField:'id',value:'${settleVo.payType}', textField:'label',url:'${ctx}/archive/financeCode/getDictListByTypeCode?dictTypeCode=101003',editable:false" >
                  </select>
              </div>
              <div class="ub ub-ac uw-300 umar-l12">

@@ -31,10 +31,28 @@ function initSupChkAcoView(){
             		if(row.isFooter){
             			return  '<div class="ub ub-pc">合计</div> '
                     }
-            		return value ;
+            		var strHtml = '';
+            		var targetFormType = row.targetFormType;
+            		if(value){
+                		if(targetFormType == 'FY'){
+                			strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'供应商预付单明细\',\''+ contextPath +'/settle/supplierCharge/advanceView?id='+ row.targetFormId +'\')">' + (value||"") + '</a>';
+                		}else if(targetFormType == 'FF'){
+                			strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'供应商费用明细\',\''+ contextPath +'/settle/supplierCharge/chargeView?id='+ row.targetFormId +'\')">' + (value||"") + '</a>';
+                		}else if(targetFormType == 'FL'){
+                			strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'供应商联营账单明细\',\''+ contextPath +'/settle/supplierChain/chainView?id='+ row.targetFormId +'\')">' + (value||"") + '</a>';
+                		}else if(targetFormType == 'PI'){
+                			strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看采购收货详细\',\''+contextPath+'/form/purchase/receiptEdit?formId='+row.targetFormId+'\')">' + (value||"") + '</a>';
+                		}else if(targetFormType == 'PM'){
+                			strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'直送收货单详细\',\''+contextPath+'/directReceipt/edit?formId='+row.targetFormId+'\')">' + (value||"") + '</a>';
+                		}else if(targetFormType == 'PR'){
+                			strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看采购退货详细\',\''+contextPath+'/form/purchase/returnEdit?formId='+row.targetFormId+'\')">' + (value||"") + '</a>';
+                		}
+                	}
+            		return strHtml ;
             	}
             },
-            {field:'targetFormType',title:'单据类型',width:'120px',align:'left'},
+            {field:'targetFormType',hidden:true},
+            {field:'formTypeText',title:'单据类型',width:'120px',align:'center'},
             {field:'branchCode',title:'机构编号',width:'120px',align:'left'},
             {field:'branchName',title:'机构名称',width:'140px',align:'left'},
             {field:'supplierCode',title:'供应商编号',width:'120px',align:'left'},

@@ -102,18 +102,19 @@ function initSupChkAcoAdd(){
             			return  '<div class="ub ub-pc">合计</div> '
                     }
             		var strHtml = '';
+            		var targetFormType = row.targetFormType;
             		if(value){
-                		if(value.indexOf('FY') == 0){
+                		if(targetFormType == 'FY'){
                 			strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'供应商预付单明细\',\''+ contextPath +'/settle/supplierCharge/advanceView?id='+ row.targetFormId +'\')">' + (value||"") + '</a>';
-                		}else if(value.indexOf('FF') == 0){
+                		}else if(targetFormType == 'FF'){
                 			strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'供应商费用明细\',\''+ contextPath +'/settle/supplierCharge/chargeView?id='+ row.targetFormId +'\')">' + (value||"") + '</a>';
-                		}else if(value.indexOf('FL') == 0){
+                		}else if(targetFormType == 'FL'){
                 			strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'供应商联营账单明细\',\''+ contextPath +'/settle/supplierChain/chainView?id='+ row.targetFormId +'\')">' + (value||"") + '</a>';
-                		}else if(value.indexOf('PI') == 0){
+                		}else if(targetFormType == 'PI'){
                 			strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看采购收货详细\',\''+contextPath+'/form/purchase/receiptEdit?formId='+row.targetFormId+'\')">' + (value||"") + '</a>';
-                		}else if(value.indexOf('PM') == 0){
+                		}else if(targetFormType == 'PM'){
                 			strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'直送收货单详细\',\''+contextPath+'/directReceipt/edit?formId='+row.targetFormId+'\')">' + (value||"") + '</a>';
-                		}else if(value.indexOf('PR') == 0){
+                		}else if(targetFormType == 'PR'){
                 			strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看采购退货详细\',\''+contextPath+'/form/purchase/returnEdit?formId='+row.targetFormId+'\')">' + (value||"") + '</a>';
                 		}
                 	}
