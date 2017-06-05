@@ -74,7 +74,10 @@ function getAccountColumns(){
 			},
 			{field: 'payTime', title: '付款日期', width: '120px', align: 'right',
 				formatter: function (value, row, index) {
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+					if(!value){
+						return '';
+					}
+					return new Date(value).format('yyyy-MM-dd hh:mm');
 				}
 			}
             ]);
