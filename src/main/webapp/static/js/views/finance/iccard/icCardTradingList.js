@@ -63,11 +63,11 @@ function getFiledList() {
                 	if(row.branchCode=="SUM"){
                 		return;
                 	}
-                    if(value == 'C'){
+                    if(value == 'D'){
                         return '充值';
                     }else if(value == 'A'){
                         return '消费';
-                    }else if(value == 'D'){
+                    }else if(value == 'E'){
                         return '售卡';
                     }else{
                         return '退货';

@@ -55,9 +55,9 @@
 					<div class="umar-r10 uw-60 ut-r">业务类型:</div>
 					<select class="uselect easyui-combobox uw-204" data-options="editable:false" name="saleType" id="saleType">
 					<option value="">--请选择--</option>
-					<option value="C">充值</option>
+					<option value="D">充值</option>
 					<option value="A">消费</option>
-					<option value="D">售卡</option>
+					<option value="E">售卡</option>
 					<option value="B">退货</option>
 					</select>
 
