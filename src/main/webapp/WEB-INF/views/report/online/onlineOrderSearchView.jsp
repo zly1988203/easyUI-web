@@ -6,7 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>采购订单</title>
+<title>线上订单详情</title>
 
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <script src="${ctx}/static/js/views/report/online/onlineOrderSearchView.js?v=3"></script>
@@ -16,12 +16,12 @@
 		<form id="queryForm">
 			<div class="ub ub-ac">
 				<div class="ubtns">
-					<div class="ubtns-item-disabled">查询</div>
-					<shiro:hasPermission name="JxcPurchaseOrder:print">
+					<shiro:hasPermission name="JxcOnlineOrderSearch:print">
 						<div class="ubtns-item-disabled" >打印</div>
 					</shiro:hasPermission>
-					<div class="ubtns-item" onclick="exportList()">导出</div>
-					<div class="ubtns-item-disabled">重置</div>
+					<shiro:hasPermission name="JxcOnlineOrderSearch:export">
+						<div class="ubtns-item" onclick="exportList()">导出</div>
+					</shiro:hasPermission>
 					<div class="ubtns-item" onclick="toClose()">关闭</div>
 				</div>
 			</div>
@@ -90,12 +90,12 @@
 			<div class="ub umar-t8">
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">送货人:</div>
-					<input class="uinp uinp-no-more" readOnly="readOnly" name="orderNo" id="orderNo" type="text" value="${po.userName}">
+					<input class="uinp uinp-no-more" readOnly="readOnly" name="orderNo" id="orderNo" type="text" value="">
 				</div>
 
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">送货电话:</div>
-					<input class="uinp uinp-no-more" readOnly="readOnly" name="phone" id="phone" type="text" value="${po.phone}">
+					<input class="uinp uinp-no-more" readOnly="readOnly" name="phone" id="phone" type="text" value="">
 				</div>
 
 				<div class="ub ub-ac">

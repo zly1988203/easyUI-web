@@ -25,15 +25,21 @@
 	<div class="ub ub-ver ub-f1 umar-4  ubor">
 		<div class="ub ub-ac upad-4">
 			<div class="ubtns">
-				<div class="ubtns-item" onclick="storeChargeAdd()">新增</div>
-				<shiro:hasPermission name="JxcPurchaseOrder:add">
-					<div class="ubtns-item" onclick="saveStoreCharge()">保存</div>
+				<shiro:hasPermission name="JxcStoreCharge:add">
+					<div class="ubtns-item" onclick="storeChargeAdd()">新增</div>
 				</shiro:hasPermission>
-				<div class="ubtns-item uinp-no-more" >导出明细</div>
-				<div class="ubtns-item uinp-no-more">审核</div>
+				<div class="ubtns-item" onclick="saveStoreCharge()">保存</div>
+				<shiro:hasPermission name="JxcStoreCharge:export">
+					<div class="ubtns-item uinp-no-more" >导出明细</div>
+				</shiro:hasPermission>
+				<shiro:hasPermission name="JxcStoreCharge:audit">
+					<div class="ubtns-item uinp-no-more">审核</div>
+				</shiro:hasPermission>
 				<div class="ubtns-item" onclick="selectCharge()">费用选择</div>
 				<div class="ubtns-item" onclick="toImportStoreCharge()">费用导入</div>
-				<div class="ubtns-item uinp-no-more">删除</div>
+				<shiro:hasPermission name="JxcStoreCharge:delete">
+					<div class="ubtns-item uinp-no-more">删除</div>
+				</shiro:hasPermission>
 				<div class="ubtns-item" onclick="toClose()">关闭</div>
 			</div>
 		</div>

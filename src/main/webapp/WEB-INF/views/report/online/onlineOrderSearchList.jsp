@@ -18,12 +18,12 @@
 			<div class="ub ub-ac">
 				<div class="ubtns">
 					<div class="ubtns-item" onclick="queryOnlineOrder()">查询</div>
-					<shiro:hasPermission name="JxcPurchaseOrder:print">
+					<shiro:hasPermission name="JxcOnlineOrderSearch:print">
 						<div class="ubtns-item-disabled" >打印</div>
 					</shiro:hasPermission>
-					<div class="ubtns-item" onclick="exportData()">导出</div>
-					<input type="hidden" id="startCount" name="startCount" /> <input
-						type="hidden" id="endCount" name="endCount" />
+					<shiro:hasPermission name="JxcOnlineOrderSearch:export">
+						<div class="ubtns-item" onclick="exportData()">导出</div>
+					</shiro:hasPermission>
 					<div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 					<div class="ubtns-item" onclick="toClose()">关闭</div>
 				</div>
@@ -120,11 +120,10 @@
 
 				<div class="ub ub-ac uw-300">
 					<div class="umar-r10 uw-70 ut-r">订单状态:</div>
-					<!--select-->
+					<!-- 订单状态  1：待发货、2：待配送、3：已发货、4：待退货、5：同意退货、6：拒绝退货、8：已取消、9：已完成-->
 					<div class="ub ub-ac umar-r10">
 						<input class="radioItem" type="radio" name="orderStatus"
-							id="status0" value="" checked="checked" /><label for="status0">全部
-						</label>
+							id="status0" value="" checked="checked" /><label for="status0">全部</label>
 					</div>
 
 					<div class="ub ub-ac umar-r10">
@@ -151,15 +150,20 @@
 						<input class="radioItem" type="radio" name="orderStatus"
 							id="status5" value="5" /><label for="status5">同意退货 </label>
 					</div>
-
+					
 					<div class="ub ub-ac umar-r10">
 						<input class="radioItem" type="radio" name="orderStatus"
-							id="status6" value="6" /><label for="status6">已取消 </label>
+							id="status5" value="6" /><label for="status5">拒绝退货 </label>
 					</div>
 
 					<div class="ub ub-ac umar-r10">
 						<input class="radioItem" type="radio" name="orderStatus"
-							id="status7" value="7" /><label for="status7">已完成 </label>
+							id="status6" value="8" /><label for="status6">已取消 </label>
+					</div>
+
+					<div class="ub ub-ac umar-r10">
+						<input class="radioItem" type="radio" name="orderStatus"
+							id="status7" value="9" /><label for="status7">已完成 </label>
 					</div>
 
 

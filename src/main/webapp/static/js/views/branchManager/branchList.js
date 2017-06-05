@@ -54,6 +54,7 @@ function zTreeOnClick(event, treeId, treeNode) {
 }
 var dg;
 function initDatagridBranchList() {
+	var updatePermission = $("#updatePermission").html().trim();
     gridHandel.setGridName(gridName);
     dg = $("#"+gridName).datagrid({
         method:'post',
@@ -67,8 +68,11 @@ function initDatagridBranchList() {
         columns:[[
             {field:'branchCode',title:'机构编码',width:80,align:'left',
                 formatter: function(value,row,index){
-                    return "<a href='#' onclick=\"editHandel('"+row.branchesId+"')\" class='ualine'>"+value+"</a>";
-
+                	if (updatePermission) {
+                		return "<a href='#' onclick=\"editHandel('"+row.branchesId+"')\" class='ualine'>"+value+"</a>";
+                	}else{
+                		return value;
+                	}
                 }
             },
             {field:'branchName',title:'机构名称',width:180,align:'left'},

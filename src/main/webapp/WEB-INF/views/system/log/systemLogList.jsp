@@ -26,10 +26,10 @@
 			<div class="ub ub-ac">
 				<div class="ubtns">
 					<div class="ubtns-item" onclick="queryLogList()">查询</div>
-
-					<div class="ubtns-item" onclick="exportData()">导出</div>
-					<div class="ubtns-item uinp-no-more">设置</div>
-					<shiro:hasPermission name="JxcPurchaseOrder:print">
+					<shiro:hasPermission name="JxcSystemLog:export">
+						<div class="ubtns-item" onclick="exportData()">导出</div>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="JxcSystemLog:print">
 						<div class="ubtns-item  uinp-no-more">打印</div>
 					</shiro:hasPermission>
 					<div class="ubtns-item" onclick="gFunRefresh()">重置</div>

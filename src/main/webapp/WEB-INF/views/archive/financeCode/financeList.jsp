@@ -28,10 +28,20 @@
 			<div class="ub ub-ac">
 				<div class="ubtns">
 					<div class="ubtns-item" onclick="queryFinanceCode()">查询</div>
-					<div class="ubtns-item" onclick="addFinanceCode()">新增</div>
-					<div class="ubtns-item" onclick="delFinanceCode()">删除</div>
-					<div class="ubtns-item" onclick="exportData()">导出</div>
+					<shiro:hasPermission name="JxcFinanceCode:add">
+						<div class="ubtns-item" onclick="addFinanceCode()">新增</div>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="JxcFinanceCode:delete">
+						<div class="ubtns-item" onclick="delFinanceCode()">删除</div>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="JxcFinanceCode:export">
+						<div class="ubtns-item" onclick="exportData()">导出</div>
+					</shiro:hasPermission>
 					<div class="ubtns-item" onclick="toClose()">关闭</div>
+					
+					<div id="updatePermission" class="none">
+						<shiro:hasPermission name="JxcFinanceCode:update">修改</shiro:hasPermission>
+					</div>
 				</div>
 			</div>
 			<form action="" id="formFinanceList" method="post">

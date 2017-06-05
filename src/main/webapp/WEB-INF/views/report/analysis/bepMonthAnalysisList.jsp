@@ -26,7 +26,9 @@
 			<div class="ub ub-ac">
 				<div class="ubtns umar-r20">
 					<div class="ubtns-item" onclick="queryMonthAnalysis()">查询</div>
-					<div class="ubtns-item" onclick="exportData()">导出</div>
+					<shiro:hasPermission name="JxcBepMonthAnalysis:export">
+						<div class="ubtns-item" onclick="exportData()">导出</div>
+					</shiro:hasPermission>
 					<div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 					<div class="ubtns-item" onclick="toClose()">关闭</div>
 				</div>
