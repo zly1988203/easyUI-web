@@ -118,6 +118,7 @@ function queryForm(){
 	// 去除编码
     fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1)
     fromObjStr.createUserName = fromObjStr.createUserName.substring(fromObjStr.createUserName.lastIndexOf(']')+1)
+    fromObjStr.supplierName = fromObjStr.supplierName.substring(fromObjStr.supplierName.lastIndexOf(']')+1)
 
 	$("#"+datagirdID).datagrid("options").method = "post";
 	$("#"+datagirdID).datagrid('options').url = contextPath + '/settle/supplierCharge/getChargeList';

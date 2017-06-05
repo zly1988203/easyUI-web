@@ -54,8 +54,8 @@
 	                </div>
 	                <div class="ub ub-ac umar-l64">
 	                    <div class="umar-r10 uw-70 ut-r">制单人:</div>
-	                    <input type="hidden" id="operateUserId" name="operateUserId" />
-	                    <input class="uinp ub ub-f1" type="text" id="operateUserName" name="operateUserName" type="text" onblur="$_jxc.clearIdOnEdit(this)" />
+	                    <input type="hidden" id="createUserId" name="createUserId" />
+	                    <input class="uinp ub ub-f1" type="text" id="createUserName" name="createUserName" type="text" onblur="$_jxc.clearIdOnEdit(this)" />
 	                    <div class="uinp-more" onclick="selectOperator()">...</div>
 	                </div>
 	            </div>
