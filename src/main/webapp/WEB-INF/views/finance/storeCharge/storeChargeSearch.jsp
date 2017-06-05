@@ -27,7 +27,9 @@
 				<div class="ubtns">
 					<div class="ubtns-item" onclick="queryCharge()">查询</div>
 					<div class="ubtns-item" onclick="gFunRefresh()">重置</div>
-					<div class="ubtns-item" onclick="exportData()">导出</div>
+					<shiro:hasPermission name="JxcStoreChargeSearch:export">
+						<div class="ubtns-item" onclick="exportData()">导出</div>
+					</shiro:hasPermission>
 					<div class="ubtns-item" onclick="toClose()">关闭</div>
 				</div>
 			</div>

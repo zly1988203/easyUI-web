@@ -69,6 +69,7 @@ function zTreeOnClick(event, treeId, treeNode) {
 
 var dg;
 function initGridFinanceList() {
+	var updatePermission = $("#updatePermission").html().trim();
     gridHandel.setGridName(gridName);
     dg = $("#"+gridName).datagrid({
         method:'post',
@@ -84,8 +85,11 @@ function initGridFinanceList() {
             {field:'id',hidden:true},
             {field:'value',title:'编号',width:100,align:'left',
                 formatter: function(value,row,index){
-                    var row =row;
-                    return "<a href='#' onclick=\"updateFinanceCode('"+row.id+"','"+row.value+"','"+row.label+"','"+row.remark+"')\" class='ualine'>"+value+"</a>";
+                    if (updatePermission) {
+                    	return "<a href='#' onclick=\"updateFinanceCode('"+row.id+"','"+row.value+"','"+row.label+"','"+row.remark+"')\" class='ualine'>"+value+"</a>";
+                	}else{
+                		return value;
+                	}
                 }
             },
             {field:'label',title:'名称',width:200,align:'left'},

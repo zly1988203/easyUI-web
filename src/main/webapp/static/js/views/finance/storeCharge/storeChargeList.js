@@ -12,6 +12,7 @@ var gridName = "gridStoreChargeList";
 var gridHandel = new GridClass();
 
 function initGridBranchCostList() {
+	var updatePermission = $("#updatePermission").html().trim();
     gridHandel.setGridName(gridName);
     $("#"+gridName).datagrid({
         align:'center',
@@ -25,7 +26,11 @@ function initGridBranchCostList() {
         columns:[[
             {field:'formNo',title:'单号',width:100,align:'left',
                 formatter: function(value,row,index){
-                    return "<a href='#' onclick=\"editHandel('"+row.id+"')\" class='ualine'>"+value+"</a>";
+                    if (updatePermission) {
+                    	return "<a href='#' onclick=\"editHandel('"+row.id+"')\" class='ualine'>"+value+"</a>";
+                	}else{
+                		return value;
+                	}
                 }
             },
             {field:'auditStatusStr',title:'审核状态',width:80,align:'left'},
