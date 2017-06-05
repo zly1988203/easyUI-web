@@ -185,6 +185,8 @@ public class SupplierSettleController extends BasePrintController<SupplierSettle
                 vo.setCreateTime(DateUtils.getCurrDate());
                 vo.setUpdateUserId(user.getId());
                 vo.setUpdateTime(DateUtils.getCurrDate());
+                // 生成单号时，取当前登录账号机构编码
+                vo.setBranchCode(getCurrBranchCode());
                 return supplierSettleService.saveSettleForm(vo);
             } else {
                 // 修改

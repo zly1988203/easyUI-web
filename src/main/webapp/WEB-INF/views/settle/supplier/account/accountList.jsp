@@ -18,7 +18,7 @@
             <div class="ub ub-ac">
                 <div class="ubtns">
                     <div class="ubtns-item" onclick="queryForm()">查询</div>
-                    <shiro:hasPermission name="JxcSupplierAc:add">
+                    <shiro:hasPermission name="JxcSupplierAc:export">
                     <div class="ubtns-item" onclick="exportData()">导出</div>
                     </shiro:hasPermission>
                     <input type="hidden" id="startCount" name="startCount" />
