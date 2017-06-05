@@ -286,13 +286,13 @@ function onChangeAmount(vewV,oldV){
 	}
 	var _unpayAmount = parseFloat(gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'unpayAmount')||0);
 	if(_unpayAmount > 0 && (vewV > _unpayAmount || vewV<0 ) && oldV){
-		$_jxc.alert('实收金额不能大于未收金额且不能小于零');
+		$_jxc.alert('实付金额不能大于未付金额且不能小于零');
 		checkFlag = true;
 		$(this).numberbox('setValue',oldV);
 		return;
 	}
 	if(_unpayAmount < 0 && (vewV < _unpayAmount|| vewV>=0) && oldV){
-		$_jxc.alert('实收金额不能小于未收金额且不能大于零');
+		$_jxc.alert('实付金额不能小于未付金额且不能大于零');
 		checkFlag = true;
 		$(this).numberbox('setValue',oldV);
 		return;
@@ -301,7 +301,7 @@ function onChangeAmount(vewV,oldV){
 }
 
 var checkActMountFlag = false;
-//实收金额汇总
+//实付金额汇总
 function changeActMountFrom(newV,oldV){
 	if(editRowNumbeboxFlag)return;
 	editRowFlag = true;
@@ -327,14 +327,14 @@ function changeActMountFrom(newV,oldV){
 	var _unpayAmountText = parseFloat($('#unpayAmount').val()||0);
 	
 	if(_unpayAmountText >= 0 && (newV > _unpayAmountText || newV < 0)){
-		$_jxc.alert('实收金额汇总不能大于未收金额汇总且不能小于零');
+		$_jxc.alert('实付金额汇总不能大于未付金额汇总且不能小于零');
 		checkActMountFlag = true;
 		$(this).numberbox('setValue',oldV);
 		return;
 	}
 	
 	if(_unpayAmountText < 0 && (newV < _unpayAmountText||newV >= 0)){
-		$_jxc.alert('实收金额汇总不能小于未收金额汇总且不能大于零');
+		$_jxc.alert('实付金额汇总不能小于未付金额汇总且不能大于零');
 		checkActMountFlag = true;
 		$(this).numberbox('setValue',oldV);
 		return;
@@ -343,25 +343,25 @@ function changeActMountFrom(newV,oldV){
 	changeGrid(newV,rows);
 }
 
-var changeGridFlag = false; //批量设置实收金额表示
-//批量设置实收金额
+var changeGridFlag = false; //批量设置实付金额表示
+//批量设置实付金额
 function changeGrid(actMount,rows){
 	console.log('rows',JSON.stringify(rows))
 	changeGridFlag = true;
-	//实收金额 总汇
+	//实付金额 总汇
 	var _temActMount = actMount;
 	var zfFlag = parseFloat($('#unpayAmount').val()||0) > 0 ? true:false;
 	rows.forEach(function(obj,index){
 		if(obj.checked){
 			//unpayAmount && ((zfFlag && _temActMount > 0 ) || (!zfFlag && _temActMount < 0))
 			var _temUnpayAmount = parseFloat(obj.unpayAmount||0);
-			if(zfFlag){ //未实收金额 大于0 
+			if(zfFlag){ //未实付金额 大于0 
 				if(_temActMount - _temUnpayAmount >0){
 					obj.actualAmount = _temActMount - _temUnpayAmount <= 0 ? _temActMount : _temUnpayAmount ;
 				}else{
 					obj.actualAmount = 0;
 				}
-			}else{ //未收金额 小于0
+			}else{ //未付金额 小于0
 				if(_temActMount < 0){
 					obj.actualAmount = _temActMount - _temUnpayAmount >= 0 ? _temActMount : _temUnpayAmount ;
 				}else{
@@ -387,17 +387,17 @@ function updateFooter(){
 //更新头部表单
 function updateFrom(){
 	var _footerRow = gridHandel.getFooterRow();
-	//应收金额汇总
+	//应付金额汇总
 	$('#payableAmount').val(parseFloat(_footerRow[0].payableAmount||0).toFixed(2));
 	//优惠金额汇总
 	$('#discountAmount').val(parseFloat(_footerRow[0].discountAmount||0).toFixed(2));
-	//已收金额汇总
+	//已付金额汇总
 	$('#payedAmount').val(parseFloat(_footerRow[0].payedAmount||0).toFixed(2));
 	var _unpayAmount1 = parseFloat(_footerRow[0].unpayAmount||0);
-	//未收金额汇总
+	//未付金额汇总
 	$('#unpayAmount').val(_unpayAmount1.toFixed(2));
 
-	//实收金额汇总
+	//实付金额汇总
 	$('#actualAmount').numberbox('setValue',parseFloat(_footerRow[0].actualAmount||0));
 }
 
@@ -441,18 +441,18 @@ function saveSupAcoSet(){
 	var operateType = $('#operateType').val();
 	if(!validateForm(branchId,supplierId))return;
 	
-	//未收金额汇总
+	//未付金额汇总
 	var _unpayAmount = parseFloat($('#unpayAmount').val()||0);
-	//实收金额汇总
+	//实付金额汇总
 	var _actulAmount =  parseFloat($('#actualAmount').numberbox('getValue'));
 	
 	if(_unpayAmount >= 0 && (_actulAmount > _unpayAmount || _actulAmount < 0)){
-		$_jxc.alert('实收金额汇总不能大于未收金额汇总且不能小于零');
+		$_jxc.alert('实付金额汇总不能大于未付金额汇总且不能小于零');
 		return;
 	}
 	
 	if(_unpayAmount < 0 && (_actulAmount < _unpayAmount|| _actulAmount >= 0)){
-		$_jxc.alert('实收金额汇总不能小于未收金额汇总且不能大于零');
+		$_jxc.alert('实付金额汇总不能小于未付金额汇总且不能大于零');
 		return;
 	}
 	
@@ -469,10 +469,10 @@ function saveSupAcoSet(){
     var _rowNo = 0;//行号
     $.each(_rows,function(i,data){
     	if(data.checked && validFlag){
-    		//第N行实收金额不能为0，请检查！确认
+    		//第N行实付金额不能为0，请检查！确认
     		if(parseFloat(data.actualAmount) == 0){
     			validFlag = false;
-    			$_jxc.alert("第"+(i+1)+"行实收金额不能为，请检查！");
+    			$_jxc.alert("第"+(i+1)+"行实付金额不能为，请检查！");
     			return;
     		}
     		data.rowNo = (_rowNo+1);
