@@ -257,11 +257,13 @@ function initChainFormDetail(){
 	var endDate = $('#endDate').val();
 	var supplierId = $('#supplierId').val();
 	var operateType = $('#operateType').val();
+	var isContainChildren = $('#isContainChildren').val();
 	if(!validateForm(branchId,beginDate,endDate,supplierId))return;
     var paramsObj = {
     	branchId:branchId,
     	beginDate:beginDate,
     	endDate:endDate,
+    	isContainChildren:isContainChildren,
 		operateType : operateType == 'add' ? 1 : 2,
     	supplierId:supplierId
     }
@@ -293,8 +295,6 @@ function saveChainForm(){
 	var operateType = $('#operateType').val();
 	if(!validateForm(branchId,beginDate,endDate,supplierId))return;
 	
-    var reqObj = $('#chainForm').serializeObject();
-    reqObj.operateType = operateType == "add" ? 1 : 0;
     var _rows = gridHandel.getRowsWhere({skuName:'1'});
     if(_rows.length <= 0){
     	$_jxc.alert("表格不能为空");
@@ -309,6 +309,8 @@ function saveChainForm(){
     	obj.rowNo = (index+1);
     });
     
+    var reqObj = $('#chainForm').serializeObject();
+    reqObj.operateType = operateType == "add" ? 1 : 0;
     reqObj.detailList = _rows;
     
     console.log('reqObj',reqObj);

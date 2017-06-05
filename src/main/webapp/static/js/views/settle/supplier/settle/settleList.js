@@ -188,6 +188,7 @@ function selectOperator(){
 function selectBranches(){
 	new publicAgencyService(function(data){
 		$("#branchId").val(data.branchesId);
+		$("#isContainChildren").val(data.allBranch);
 		$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
 	},'',branchId,'','',1);
 }
