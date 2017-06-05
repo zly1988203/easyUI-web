@@ -388,26 +388,6 @@ function auditChargeForm(){
 		}
 	});
 }
-//删除
-function delSupJonAccount(){
-	var ids = [];
-	ids.push($("#formId").val());
-	$_jxc.confirm('是否要删除单据',function(data){
-		if(data){
-			$_jxc.ajax({
-		    	url:contextPath+"/settle/supplierChain/deleteChainForm",
-		    	data:{'ids':ids}
-		    },function(result){
-	    		if(result['code'] == 0){
-                    toRefreshIframeDataGrid("settle/supplierChain/chainList","supChainList");
-	    			toClose(); 
-	    		}else{
-	    			$_jxc.alert(result['message']);
-	    		}
-		    });
-		}
-	});
-}
 
 //机构
 function selectBranches(){
@@ -450,6 +430,10 @@ function selectBranches(){
 
 //选择供应商
 function selectSupplier(){
+	var param = {
+			branchId:$("#branchId").val(),
+			saleWayNot:'chain'
+	}
 	var _rows = gridHandel.getRowsWhere({skuName:'1'});
 	if(_rows.length > 0){
 		$_jxc.confirm('单据信息未保存，是否先保存单据？',function(r){
@@ -466,7 +450,7 @@ function selectSupplier(){
 			        gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
 			    	                         $.extend({},gridDefault),$.extend({},gridDefault)]);
 			        
-			    });
+			    },param);
 			}
 		});
 	}else{
@@ -479,7 +463,7 @@ function selectSupplier(){
 	    	$("#supplierMinAmount").val(data.minAmount);
 	        $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);	
 	        
-	    });
+	    },param);
 	}	
     
 }
