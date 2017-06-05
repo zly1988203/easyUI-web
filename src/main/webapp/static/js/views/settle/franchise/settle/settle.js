@@ -356,7 +356,7 @@ function updateFrom(){
 	$('#unpayAmount').val(_unpayAmount1.toFixed(2));
 	
 	var _temData = _getRowsWhere({checked:true});
-	if(_temData &&　_temData.length > 0){
+	if(_temData && _temData.length > 0){
 		if(_unpayAmount1 > 0){
 //			$('#actualAmount').numberbox('options').min = 0;
 		}else{

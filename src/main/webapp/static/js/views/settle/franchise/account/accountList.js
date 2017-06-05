@@ -179,6 +179,8 @@ function clearBranchCode(obj,branchId){
 }
 
 function queryForm(){
+	$("#startCount").val('');
+	$("#endCount").val('');
 	var fromObjStr = $('#queryForm').serializeObject();
 	// 去除编码
     fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1)
