@@ -99,7 +99,7 @@ function getAccountColumns(){
 	if(accountType != '3'){
 		defaultColumns = defaultColumns.concat([
 				{field: 'auditUserName', title: '审核人', width: '120px', align: 'left'},
-				{field: 'auditTime', title: '审核时间', width: '100px', align: 'left',
+				{field: 'auditTime', title: '审核时间', width: '120px', align: 'left',
 					formatter: function (value, row, index) {
 						if(!value){
 							return '';
@@ -113,7 +113,7 @@ function getAccountColumns(){
 	//到期账款 历史往来账款
 	if(accountType == '2' ){
 		defaultColumns = defaultColumns.concat([
-				{field: 'payTime', title: '结算日期', width: '100px', align: 'left',
+				{field: 'payTime', title: '结算日期', width: '120px', align: 'left',
 					formatter: function (value, row, index) {
 						if(!value){
 							return '';
