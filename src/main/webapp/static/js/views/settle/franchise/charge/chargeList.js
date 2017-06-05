@@ -7,9 +7,9 @@ $(function(){
     $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
     initsupAdvMonList();
-    if(getUrlQueryString('message')=='0'){
+    //if(getUrlQueryString('message')=='0'){
     	queryForm();
-    }
+    //}
 });
 
 $(document).on('input','#remark',function(){
@@ -87,7 +87,7 @@ function initsupAdvMonList(){
             {field: 'createTime', title: '制单时间', width: '100px', align: 'left',
 				formatter: function (value, row, index) {
 					if (value) {
-						return new Date(value).format('yyyy-MM-dd');
+						return new Date(value).format('yyyy-MM-dd hh:mm');
 					}
 					return "";
 				}
@@ -116,6 +116,15 @@ function clearBranchCode(obj,branchId){
 		$("#" + branchId +"").val('');
 	}
 }
+function clearUser(obj,userId){
+	var userName = $(obj).val();
+	//如果修改名称
+	if(!userName || 
+			(userName && userName.indexOf("[")<0 && userName.indexOf("]")<0)){
+		$("#" + userId +"").val('');
+	}
+}
+
 //查询加盟店费用
 function queryForm(){
 	var fromObjStr = $('#queryForm').serializeObject();

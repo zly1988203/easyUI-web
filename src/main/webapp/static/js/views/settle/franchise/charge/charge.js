@@ -269,7 +269,7 @@ function saveFraChargeOrder(){
     	_rows.push({
     		payType:data.id,
     		io:data.io,
-    		rowNo:i,
+    		rowNo:i+1,
     		amount:data.amount,
     		remark:data.remark
     	})
@@ -344,7 +344,7 @@ function auditFraChargeForm(){
 function delFraChargeForm(){
 	var ids = [];
 	ids.push($("#formId").val());
-	$_jxc.confirm('提示','是否要删除单据',function(data){
+	$_jxc.confirm('是否要删除单据',function(data){
 		if(data){
 			$_jxc.ajax({
 		    	url:contextPath+"/settle/franchiseCharge/chargeDelete",
@@ -394,7 +394,7 @@ function selectCharge(searchKey){
 	
 	var param = {
 		key:searchKey,
-		type:'101003'
+		type:'101002'
 	};
 	publicCostService(param,function(data){
 		console.log('data',data);

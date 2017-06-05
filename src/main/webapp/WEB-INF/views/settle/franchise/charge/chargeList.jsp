@@ -44,7 +44,7 @@
 	                <div class="ub ub-ac umar-l64">
 	                    <div class="umar-r10 uw-70 ut-r">制单人:</div>
 	                    <input type="hidden" id="createUserId" name="createUserId" />
-	                    <input class="uinp ub ub-f1" type="text" id="createUserName" name="createUserName" type="text" />
+	                    <input class="uinp ub ub-f1" type="text" id="createUserName" name="createUserName" onblur="clearUser(this,'createUserId')"/>
 	                    <div class="uinp-more" onclick="selectOperator()">...</div>
 	                </div>
 	            </div>

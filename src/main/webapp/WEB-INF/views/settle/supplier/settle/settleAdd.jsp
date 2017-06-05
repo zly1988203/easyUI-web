@@ -31,6 +31,7 @@
         </div>
         <div class="ub uline umar-t8"></div>
         <form id = "settleForm">
+        <input type="hidden" id="checkMode" name="checkMode" >
         <div class="ub umar-t8">
             <div class="ub ub-ac uw-288 umar-l20">
                 <div class="umar-r10 uw-70 ut-r">机构:</div>
@@ -109,8 +110,6 @@
 	         </div>
 	         <div class="ub ub-ac uw-290 umar-l28">
              	 <div class="umar-r12 uw-70 ut-r">支付方式:</div>
-<!--                  <select class='uinp easyui-combobox' style="width:204px;" id = "payType" name="payType"> -->
-<!--                  </select> -->
                  <select class='uinp easyui-combobox' style="width:204px;" id="payType" name="payType" data-options="valueField:'id',textField:'label',loadFilter:loadFilter,url:'${ctx}/archive/financeCode/getDictListByTypeCode?dictTypeCode=101003',editable:false" >
                  </select>
              </div>

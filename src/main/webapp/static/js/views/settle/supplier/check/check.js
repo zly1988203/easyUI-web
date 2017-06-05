@@ -155,15 +155,9 @@ function initSupChkAcoAdd(){
         	})
         },
         onClickCell:function(rowIndex,field,value){
-        	var _rowData = $(this).datagrid('getRows')[rowIndex];
         	gridHandel.setBeginRow(rowIndex);
         	gridHandel.setSelectFieldName(field);
         	var target = gridHandel.getFieldTarget(field);
-        	//预付款 费用 不能编辑优惠金额
-        	if(_rowData.targetFormType == 'FY' || _rowData.targetFormType == 'FF' ){
-        		$(target).numberbox('readonly');
-        		return;
-        	}
             if(target){
                 gridHandel.setFieldFocus(target);
             }else{
@@ -254,8 +248,6 @@ function saveSupChkForm(){
 	var operateType = $('#operateType').val();
 	if(!validateForm(branchId,supplierId))return;
 	
-    var reqObj = $('#checkForm').serializeObject();
-    reqObj.operateType = operateType == "add" ? 1 : 0;
     var _rows = gridHandel.getRowsWhere({targetFormNo:'1'});
     if(_rows.length <= 0){
     	$_jxc.alert("表格不能为空");
@@ -277,6 +269,16 @@ function saveSupChkForm(){
     	$_jxc.alert('请选择要对账的单据');
     	return;
     }
+    
+    var _footerRow = gridHandel.getFooterRow();
+    
+    var reqObj = $('#checkForm').serializeObject();
+    reqObj.operateType = operateType == "add" ? 1 : 0;
+    
+    //底部合计
+    reqObj.payableAmount = _footerRow[0].payableAmount||0;
+    reqObj.discountAmount = _footerRow[0].discountAmount||0
+    reqObj.unpayAmount = _footerRow[0].unpayAmount||0
     
     reqObj.detailList = _subRows;
     
@@ -341,11 +343,10 @@ function delSupChkAccount(){
 		if(data){
 			$_jxc.ajax({
 		    	url:contextPath+"/settle/supplierCheck/deleteCheckForm",
-		    	contentType:"application/json",
 		    	data:{"ids":ids}
 		    },function(result){
 	    		if(result['code'] == 0){
-                    toRefreshIframeDataGrid("settle/supplierCheck/getCheckList","supperlierChkAccount");
+                    toRefreshIframeDataGrid("settle/supplierCheck/checkList","supperlierChkAccount");
 	    			toClose();
 	    		}else{
 	    			$_jxc.alert(result['message']);
@@ -419,10 +420,43 @@ function checkBranchSpec(branchId){
 		}
     });
 }
-
+//校验是否存在未审核的对账单
+function checkCheckAuditStutas(supplierId){
+	var branchId = $('#branchId').val();
+	var isContainChildren = $('#isContainChildren').val();
+	var branchCompleCode = $('#branchCompleCode').val();
+	$_jxc.ajax({
+    	url:contextPath+"/settle/supplierCheck/queryCheckStatusNum",
+    	data: {branchId:branchId,branchCompleCode:branchCompleCode,isContainChildren:isContainChildren,supplierId:supplierId}
+    },function(result){
+		console.log('未审核的对账单数：===',result);
+		if(result.unChNum > 0){
+			$_jxc.alert('当前选择机构存在未审核的对账单，不能新增对账单!');
+			$('#openAccountBank').val('');
+	    	//银行账户
+	    	$('#bankAccount').val('');
+	    	//办公地址
+	    	$('#officeAddress').val('');
+	    	//国税登记
+	    	$('#nationalTaxRegNum').val('');
+	    	//联系人
+	    	$('#linkTel').val('');
+	    	$("#supplierName").val('');
+		}else{
+			// 设置供应商扩展信息
+			setSupplierExtValue(supplierId);
+			//初始化列表
+			initCheckFormDetail();
+		}
+    });
+}
 //选择供应商
 function selectSupplier(){
-	if($('#supplierName').hasClass('uinp-no-more'))return;
+	var branchId = $('#branchId').val();
+    if(!branchId){
+    	$_jxc.alert('请先选择机构');
+    	return;
+    }
 	clickFlag = true;
 	var _rows = gridHandel.getRowsWhere({label:'1'});
 	if(_rows.length > 0){
@@ -434,11 +468,9 @@ function selectSupplier(){
 					$('#linkTel').val((data.mobile?data.mobile:'')+(data.phone?'/'+data.phone:''));//联系人
 					
 					$("#supplierId").val(data.id);
-					$("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);	
-					// 设置供应商扩展信息
-					setSupplierExtValue(data.id);
-					//初始化列表
-					initCheckFormDetail();
+					$("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
+					//校验是否存在未审核的对账单
+					checkCheckAuditStutas(data.id);
 				});
 			}
 		})
@@ -449,11 +481,9 @@ function selectSupplier(){
 			$('#linkTel').val((data.mobile?data.mobile:'')+(data.phone?'/'+data.phone:''));//联系人
 			
 			$("#supplierId").val(data.id);
-			$("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);	
-			// 设置供应商扩展信息
-			setSupplierExtValue(data.id);
-			//初始化列表
-			initCheckFormDetail();
+			$("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
+			//校验是否存在未审核的对账单
+			checkCheckAuditStutas(data.id);
 		});
 	}	
 }

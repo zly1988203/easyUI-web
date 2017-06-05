@@ -13,9 +13,9 @@ $(function(){
     $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
     initFranchiseSetList();
-    if(getUrlQueryString('message')=='0'){
+    //if(getUrlQueryString('message')=='0'){
     	queryForm();
-    }
+    //}
 });
 
 $(document).on('input','#remark',function(){
@@ -93,7 +93,7 @@ function initFranchiseSetList(){
                 {field: 'createTime', title: '制单时间', width: '100px', align: 'center',
     				formatter: function (value, row, index) {
     					if (value) {
-    						return new Date(value).format('yyyy-MM-dd');
+    						return new Date(value).format('yyyy-MM-dd hh:mm');
     					}
     					return "";
     				}
@@ -108,21 +108,9 @@ function initFranchiseSetList(){
 
 }
 
-
-
 //新增新增加盟店结算
 function addFranchiseSetForm(){
-	$_jxc.ajax({
-    	url:contextPath+"/settle/franchiseSettle/checkAuditCount",
-    	dataType: "json",
-    	data:{}
-    },function(result){
-		if(result['code'] == 0){
-			toAddTab("新增加盟店结算",contextPath + "/settle/franchiseSettle/settleAdd");
-		}else{
-			$_jxc.alert(result['message']);
-		}
-    });
+	toAddTab("新增加盟店结算",contextPath + "/settle/franchiseSettle/settleAdd");
 }
 
 function clearBranchCode(obj,branchId){
@@ -133,6 +121,15 @@ function clearBranchCode(obj,branchId){
 		$("#" + branchId +"").val('');
 	}
 }
+function clearUser(obj,userId){
+	var userName = $(obj).val();
+	//如果修改名称
+	if(!userName || 
+			(userName && userName.indexOf("[")<0 && userName.indexOf("]")<0)){
+		$("#" + userId +"").val('');
+	}
+}
+
 //查询新增加盟店结算
 function queryForm(){
 	var fromObjStr = $('#queryForm').serializeObject();

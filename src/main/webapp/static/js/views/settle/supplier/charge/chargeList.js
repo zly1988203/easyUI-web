@@ -137,7 +137,7 @@ function delSupAdvMonForm(){
 	var dg = $("#"+datagirdID);
 	var row = dg.datagrid("getChecked");
 	if(row.length <= 0){
-		$_jxc.alert('未选择要删除的单据22！');
+		$_jxc.alert('未选择要删除的单据！');
 		return;
 	}
 	var ids = [];

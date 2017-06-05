@@ -126,8 +126,6 @@ function exportData(){
  * 导出
  */
 function exportExcel(){
-    $("#queryForm").submit();
-    
     $("#exportWin").hide();
 	$("#exportWin").window("close");
 	$("#queryForm").form({

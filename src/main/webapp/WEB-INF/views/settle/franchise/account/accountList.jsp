@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>加盟店往来账款</title>
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
+    <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
     <script  src="${ctx}/static/js/views/settle/franchise/account/accountList.js?V=2.6.0"></script>
     <style>
     .datagrid-header .datagrid-cell {text-align: center!important;font-weight: bold;}
@@ -35,14 +36,13 @@
                 <div class="ub umar-t8">
                     <div class="ub ub-ac">
                         <div class="umar-r10 uw-70 ut-r">机构:</div>
-                        <input type="hidden" id="branchCompleCode" name="branchCompleCode"/>
+                        <input type="hidden" id="branchCompleCode" name="franchiseBranchCode"/>
                         <input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" onblur="clearBranchCode(this,'branchCompleCode')"/>
                         <div class="uinp-more" onclick="selectBranches()" >...</div>
                     </div>
                     <div class="ub ub-ac umar-l64">
                         <div class="umar-r10 uw-70 ut-r">单号:</div>
-                        <input type="hidden" id="formType" name="formType" value="FF" />
-                        <input class="uinp" type="text" id="targetformNo" name="targetformNo">
+                        <input class="uinp" type="text" id="targetformNo" name="targetFormNo">
                     </div>
                 </div>
                 <div class="ub umar-t8">
@@ -70,12 +70,12 @@
                         </div>
                         <div class="ub ub-ac umar-r10">
                             <label>
-                                <input  type="radio" name="type" value="5"  onclick="initfraAcountList()"/><span>已付账款明细</span>
+                                <input  type="radio" name="type" value="5"  onclick="initfraAcountList()"/><span>已收账款明细</span>
                             </label>
                         </div>
                         <div class="ub ub-ac umar-r10">
                             <label>
-                                <input  type="radio" name="type" value="6"  onclick="initfraAcountList()"/><span>预付账款明细</span>
+                                <input  type="radio" name="type" value="6"  onclick="initfraAcountList()"/><span>预收账款明细</span>
                             </label>
                         </div>
                     </div>
