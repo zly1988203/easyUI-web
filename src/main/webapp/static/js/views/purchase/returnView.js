@@ -136,6 +136,9 @@ function initDatagridEditOrder(){
             gridHandel.setDatagridHeader("center");
         }
     });
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice("gridEditOrder",["price","amount","taxAmount"])
+    }
 }
 
 

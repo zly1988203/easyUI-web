@@ -102,8 +102,8 @@ function initDatagridOrders(){
 		}
     });
     query();
-    if(hasCostPrice==false){
-        priceGrantUtil.grantCostPrice(datagridId,["amount"])
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice(datagridId,["amount"])
     }
 }
 

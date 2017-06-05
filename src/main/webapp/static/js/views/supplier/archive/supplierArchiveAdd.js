@@ -11,12 +11,12 @@ $(function(){
 		//初始化下拉框选中值
 		selectParamInit();
 	}
-	
+    $("#minAmountDiv").addClass("unhide");
 });
 
 function onChangeSaleWay() {
     var saleWay = 	$('#saleWay').combobox("getValue");
-    if(saleWay === "C"){
+    if(saleWay != "C"){
 		$("#minAmountDiv").addClass("unhide");
 	}else{
         $("#minAmountDiv").removeClass("unhide");

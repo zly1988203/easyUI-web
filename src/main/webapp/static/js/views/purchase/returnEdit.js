@@ -291,6 +291,9 @@ function initDatagridEditOrder(){
         }
     });
 
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice(gridName,["price","amount","taxAmount"])
+    }
     getGridData();
 }
 

@@ -23,8 +23,10 @@
 			<div class="ub upad-4 umar-t10">
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">编号:</div>
-					<input class="uinp  ub ub-f1" type="text" id="value"
-						name="value" maxlength="50" />
+					<input class="uinp  ub ub-f1" type="number" id="value"
+					onkeyup="this.value=this.value.replace(/\D/g,'')"
+					onafterpaste="this.value=this.value.replace(/\D/g,'')"
+					name="value"/>
 						
 					<input type="hidden" name="id" id="id" />
 				</div>
@@ -34,8 +36,8 @@
 			<div class="ub upad-4 umar-t10">
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">名称:</div>
-					<input class="uinp ub ub-f1" type="text" id="label"
-						name="label" maxlength="50" />
+					<input class="uinp ub ub-f1 easyui-validatebox" type="text" id="label"
+						name="label" maxlength="20"/>
 				</div>
 			<i class="ub uc-red">*</i>
 			</div>

@@ -293,6 +293,9 @@ function initDatagridEditOrder(){
     });
     
     getGridData();
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice(gridName,["price","amount","taxAmount"])
+    }
 }
 
 

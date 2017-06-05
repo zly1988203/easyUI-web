@@ -55,6 +55,10 @@ function initdgOrderList(){
             
         }
     });
+
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice("dgGuideOrderList",["amount"])
+    }
 }
 
 function chekData(){

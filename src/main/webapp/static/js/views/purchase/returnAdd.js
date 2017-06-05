@@ -293,6 +293,10 @@ function initDatagridEditOrder(){
 
     });
 
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice(gridName,["price","amount","taxAmount"])
+    }
+
     gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
         $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),
         $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault)]);

@@ -113,6 +113,10 @@ function initDatagridForm(type){
         },
         onClickRow:formClickRow,
     });
+
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice(tableIdName,["amount"])
+    }
 }
 //初始化表格 单据选择（调拨）
 function initDatagridDeliverForm(type){

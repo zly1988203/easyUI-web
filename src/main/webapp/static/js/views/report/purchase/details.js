@@ -144,6 +144,10 @@ function initPurReportDetailGrid(queryType) {
 			//updateFooter();
 		}
     });
+
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice(gridName,["price","amount","taxAmount"])
+    }
 }
 //合计
 function updateFooter(){

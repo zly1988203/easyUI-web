@@ -20,6 +20,15 @@ function initFinanceDialog(param) {
 }
 
 function saveFinanceCode() {
+
+    //校验表单
+    var isValid = $("#financeAdd").form('validate');
+
+    if(!isValid){
+        $('#saveBtn').removeAttr("disabled");
+        return;
+    }
+
 	var addUrl = contextPath+'/archive/financeCode/addFinanceCode'; 
 	var updateUrl = contextPath+'/archive/financeCode/updateFinanceCode';
 	var data = {

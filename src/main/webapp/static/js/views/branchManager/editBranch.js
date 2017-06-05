@@ -22,7 +22,6 @@ function getBranchInfo(){
     	
     	var rec = data.data;
         $.each(rec.branch,function(key,value){
-        	debugger;
             //普通的input
             if($("#"+key).prop("tagName") == "INPUT"){
                 if($("#"+key).attr('type')=="checkbox"){
