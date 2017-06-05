@@ -540,9 +540,11 @@ function initCheckFormDetail(){
     var branchId = $('#branchId').val();
 	var supplierId = $('#supplierId').val();
 	var operateType = $('#operateType').val();
+	var isContainChildren = $('#isContainChildren').val();
 	if(!validateForm(branchId,supplierId))return;
     var paramsObj = {
     	branchId:branchId,
+    	isContainChildren:isContainChildren,
 		operateType : operateType == 'add' ? 1 : 2,
     	supplierId:supplierId
     }

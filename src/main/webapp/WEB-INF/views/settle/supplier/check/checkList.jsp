@@ -37,7 +37,7 @@
 	                <div class="ub ub-ac">
 	                    <div class="umar-r10 uw-70 ut-r">机构:</div>
 	                    <input type="hidden" id="branchId" name="branchId"/>
-	                    <input type="hidden" id="targetBranchType" name="targetBranchType" />
+	                    <input type="hidden" id="isContainChildren" name="isContainChildren"/>
 	                    <input class="uinp ub ub-f1" type="text" id="targetBranchName" name="targetBranchName" onblur="$_jxc.clearIdOnEdit(this)"/>
 	                    <div class="uinp-more" onclick="selectBranches()" >...</div>
 	                </div>
