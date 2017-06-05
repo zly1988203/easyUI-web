@@ -16,12 +16,20 @@
     <div class="ub ub-ver ub-f1 umar-4  ubor">
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
+            	<shiro:hasPermission name="JxcSupplierChain:add">
             	<div class="ubtns-item" onclick="addChainForm()">新增</div>
+            	</shiro:hasPermission>
                 <div class="ubtns-item" onclick="saveChainForm()">保存</div>
+                <shiro:hasPermission name="JxcSupplierChain:audit">
                 <div class="ubtns-item" onclick="auditChargeForm()" >审核</div>
+                </shiro:hasPermission>
                 <div class="ubtns-item" onclick="initChainFormDetail()">计算账款</div>
+                <shiro:hasPermission name="JxcSupplierChain:delete">
                 <div class="ubtns-item" onclick="delChainForm()" >删除</div>
+                </shiro:hasPermission>
+                <shiro:hasPermission name="JxcSupplierChain:exportDetail">
                 <div class="ubtns-item" onclick="exportOrder()" >导出明细</div>
+                </shiro:hasPermission>
                 <div class="ubtns-item-disabled" >打印</div>
                 <div class="ubtns-item" onclick="toClose()">关闭</div>
             </div>
