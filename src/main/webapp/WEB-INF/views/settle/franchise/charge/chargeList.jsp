@@ -21,7 +21,7 @@
 						<div class="ubtns-item" onclick="addFraChargeForm()">新增</div>
 					</shiro:hasPermission>
 					<shiro:hasPermission name="JxcFranchiseCharge:delete">
-						<div class="ubtns-item" onclick="delFraChargeForm()">删单</div>
+						<div class="ubtns-item" onclick="delFraChargeForm()">删除</div>
 					</shiro:hasPermission>
 					<shiro:hasPermission name="JxcFranchiseCharge:setting">
 						<div class="ubtns-item-disabled">设置</div>
