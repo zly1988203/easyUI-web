@@ -21,12 +21,6 @@ $(function(){
 	if(priceGrantStr){
 		priceGrantArray = priceGrantStr.split(",");
 	}else{
-		hasSalePrice = true;
-		hasVipPrice = true;
-		hasPurchasePrice = true;
-		hasWholesalePrice = true;
-		hasLowestPrice = true;
-		hasDistributionPrice = true;
 		return;
 	}
 	
@@ -73,7 +67,7 @@ var priceGrantUtil = {
 	 */
 	grantSalePrice : function(datagridId, fieldArr){
 		if(isEmptyArray(fieldArr)){
-			fieldArr = [ "salePrice" ];
+			fieldArr = [ "salePrice","price" ];
 		}
 		if(hasSalePrice==false){
 			datagridCommon.hideDataGridColumn(datagridId, fieldArr);

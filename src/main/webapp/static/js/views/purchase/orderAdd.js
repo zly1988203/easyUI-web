@@ -291,6 +291,8 @@ function initDatagridEditOrder(){
     gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
                             $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),
                             $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault)]);
+
+    // priceGrantUtil.grantPrice(gridName);
 }
 
 //限制转换次数
