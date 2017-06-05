@@ -14,7 +14,7 @@ var oldData = {};
 var gridName = "franchiseChargeListAdd";
 var pageStatus;
 var branchId;
-
+var maxNumber = 999999.99;
 
 $(function(){
     pageStatus = $('#operateType').val();
@@ -197,6 +197,7 @@ function onSelect(data){
 	
 }
 
+var editErrorFlag = false;
 //编辑金额
 function onChangeAmount(vewV,oldV){
 	var _io = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'io');
@@ -205,6 +206,17 @@ function onChangeAmount(vewV,oldV){
 		gridHandel.setFieldValue('amount',parseFloat(vewV*-1).toFixed(4));  
 		return;
 	}
+	
+	if(editErrorFlag){
+		editErrorFlag = false;
+		return;
+	}
+	if(vewV > maxNumber){
+		$_jxc.alert('最大费用金额不得大于 '+maxNumber);
+		editErrorFlag = true;
+		$(this).numberbox('setValue',parseFloat(oldV) < 0 ? 0 : parseFloat(oldV));
+	}
+	
 	updateFooter()
 }
 //合计

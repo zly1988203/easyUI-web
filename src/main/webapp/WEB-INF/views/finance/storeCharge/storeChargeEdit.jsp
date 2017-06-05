@@ -25,26 +25,32 @@
 	<div class="ub ub-ver ub-f1 umar-4 ubor">
 		<div class="ub ub-ac upad-4">
 			<div class="ubtns">
-				<div class="ubtns-item" onclick="storeChargeAdd()">新增</div>
+				<shiro:hasPermission name="JxcStoreCharge:add">
+					<div class="ubtns-item" onclick="storeChargeAdd()">新增</div>
+				</shiro:hasPermission>
 				<c:if test="${ 'edit' eq chargeStatus }">
-					<shiro:hasPermission name="JxcPurchaseOrder:add">
-						<div class="ubtns-item" onclick="saveStoreCharge()">保存</div>
-					</shiro:hasPermission>
+					<div class="ubtns-item" onclick="saveStoreCharge()">保存</div>
 					<div class="ubtns-item" onclick="exportList()">导出明细</div>
-					<div class="ubtns-item" onclick="chargeCheck()">审核</div>
+					<shiro:hasPermission name="JxcStoreCharge:audit">
+						<div class="ubtns-item" onclick="chargeCheck()">审核</div>
+					</shiro:hasPermission>
 					<div class="ubtns-item" onclick="selectCharge()">费用选择</div>
 					<div class="ubtns-item" onclick="toImportStoreCharge()">费用导入</div>
-					<div class="ubtns-item" onclick="chargeDelete()">删除</div>
+					<shiro:hasPermission name="JxcStoreCharge:delete">
+						<div class="ubtns-item" onclick="chargeDelete()">删除</div>
+					</shiro:hasPermission>
 				</c:if>
 				<c:if test="${ 'check' eq chargeStatus }">
-					<shiro:hasPermission name="JxcPurchaseOrder:add">
-						<div class="ubtns-item-disabled" >保存</div>
-					</shiro:hasPermission>
+					<div class="ubtns-item-disabled" >保存</div>
 					<div class="ubtns-item" onclick="exportList()">导出明细</div>
-					<div class="ubtns-item-disabled" >审核</div>
+					<shiro:hasPermission name="JxcStoreCharge:audit">
+						<div class="ubtns-item-disabled" >审核</div>
+					</shiro:hasPermission>
 					<div class="ubtns-item-disabled" >费用选择</div>
 					<div class="ubtns-item-disabled" >费用导入</div>
-					<div class="ubtns-item-disabled" >删除</div>
+					<shiro:hasPermission name="JxcStoreCharge:delete">
+						<div class="ubtns-item-disabled" >删除</div>
+					</shiro:hasPermission>
 				</c:if>
 				
 				<div class="ubtns-item" onclick="toClose()">关闭</div>

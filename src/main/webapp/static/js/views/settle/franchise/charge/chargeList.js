@@ -108,22 +108,6 @@ function addFraChargeForm(){
 	toAddTab("新增加盟店费用",contextPath + "/settle/franchiseCharge/chargeAdd");
 }
 
-function clearBranchCode(obj,branchId){
-	var branchName = $(obj).val();
-	//如果修改名称
-	if(!branchName || 
-			(branchName && branchName.indexOf("[")<0 && branchName.indexOf("]")<0)){
-		$("#" + branchId +"").val('');
-	}
-}
-function clearUser(obj,userId){
-	var userName = $(obj).val();
-	//如果修改名称
-	if(!userName || 
-			(userName && userName.indexOf("[")<0 && userName.indexOf("]")<0)){
-		$("#" + userId +"").val('');
-	}
-}
 
 //查询加盟店费用
 function queryForm(){

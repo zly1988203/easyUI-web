@@ -8,9 +8,11 @@ $(function(){
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
     initsupAdvMonList();
     branchId = $("#branchId").val();
-    if(getUrlQueryString('message')=='0'){
-    	queryForm();
-    }
+//    if(getUrlQueryString('message')=='0'){
+//    	queryForm();
+//    }
+    //默认执行查询
+    queryForm();
 });
 
 $(document).on('input','#remark',function(){
@@ -112,20 +114,14 @@ function addSupAdvMonForm(){
 	toAddTab("新增供应商预付款",contextPath + "/settle/supplierCharge/advanceAdd");
 }
 
-function clearBranchCode(obj,branchId){
-	var branchName = $(obj).val();
-	//如果修改名称
-	if(!branchName || 
-			(branchName && branchName.indexOf("[")<0 && branchName.indexOf("]")<0)){
-		$("#" + branchId +"").val('');
-	}
-}
+
 //查询新增供应商预付款
 function queryForm(){
 	var fromObjStr = $('#queryForm').serializeObject();
 	// 去除编码
     fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1)
     fromObjStr.createUserName = fromObjStr.createUserName.substring(fromObjStr.createUserName.lastIndexOf(']')+1)
+    fromObjStr.supplierName = fromObjStr.supplierName.substring(fromObjStr.supplierName.lastIndexOf(']')+1)
 
 	$("#"+datagirdID).datagrid("options").method = "post";
 	$("#"+datagirdID).datagrid('options').url = contextPath + '/settle/supplierCharge/getChargeList';

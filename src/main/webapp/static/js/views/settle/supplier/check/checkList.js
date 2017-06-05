@@ -8,9 +8,11 @@ $(function(){
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
     initsupChkAccountList();
     branchId = $("#branchId").val();
-    if(getUrlQueryString('message')=='0'){
-    	queryForm();
-    }
+//    if(getUrlQueryString('message')=='0'){
+//    	queryForm();
+//    }
+    //默认执行查询
+    queryForm();
 });
 
 $(document).on('input','#remark',function(){
@@ -112,20 +114,13 @@ function addSupChkAccount(){
 	toAddTab("新增供应商对账单",contextPath + "/settle/supplierCheck/checkAdd");
 }
 
-function clearBranchCode(obj,branchId){
-	var branchName = $(obj).val();
-	//如果修改名称
-	if(!branchName || 
-			(branchName && branchName.indexOf("[")<0 && branchName.indexOf("]")<0)){
-		$("#" + branchId +"").val('');
-	}
-}
 //查询新增供应商对账单
 function queryForm(){
 	var fromObjStr = $('#queryForm').serializeObject();
 	// 去除编码
     fromObjStr.targetBranchName = fromObjStr.targetBranchName.substring(fromObjStr.targetBranchName.lastIndexOf(']')+1)
-    fromObjStr.operateUserName = fromObjStr.operateUserName.substring(fromObjStr.operateUserName.lastIndexOf(']')+1)
+    fromObjStr.createUserName = fromObjStr.createUserName.substring(fromObjStr.createUserName.lastIndexOf(']')+1)
+    fromObjStr.supplierName = fromObjStr.supplierName.substring(fromObjStr.supplierName.lastIndexOf(']')+1)
 
 	$("#"+datagirdID).datagrid("options").method = "post";
 	$("#"+datagirdID).datagrid('options').url = contextPath + '/settle/supplierCheck/getCheckList';
@@ -173,8 +168,8 @@ function selectSupplier(){
  */
 function selectOperator(){
 	new publicOperatorService(function(data){
-		$("#operateUserId").val(data.id);
-		$("#operateUserName").val("["+data.userCode+"]"+data.userName);
+		$("#createUserId").val(data.id);
+		$("#createUserName").val("["+data.userCode+"]"+data.userName);
 	});
 }
 /**
@@ -184,7 +179,7 @@ function selectBranches(){
 	new publicAgencyService(function(data){
 		$("#branchId").val(data.branchesId);
 		$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
-	},'',branchId);
+	},'',branchId,'','',1);
 }
 
 //打印

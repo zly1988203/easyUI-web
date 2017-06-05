@@ -62,7 +62,7 @@ public class SupplierCommonController extends BaseController<SupplierCommonContr
 	public String views(HttpServletRequest req, Model model) {
 		String saleWayNot = req.getParameter("saleWayNot");
 		String isDirect = req.getParameter("isDirect");
-		if("purchase".equals(saleWayNot)) {
+		if("purchase".equals(saleWayNot) || "chain".equals(saleWayNot)) {
 			model.addAttribute("saleWayNot", saleWayNot);
 		}
 		if (StringUtils.isNotBlank(isDirect)) {

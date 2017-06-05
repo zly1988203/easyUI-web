@@ -14,6 +14,7 @@ var oldData = {};
 var gridName = "supplierAdvanceListAdd";
 var pageStatus;
 var branchId;
+var maxNumber = 999999.99;
 
 
 $(function(){
@@ -198,6 +199,7 @@ function onSelect(data){
 	
 }
 
+var editErrorFlag = false;
 //编辑金额
 function onChangeAmount(vewV,oldV){
 	var _io = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'io');
@@ -205,6 +207,15 @@ function onChangeAmount(vewV,oldV){
 	if((_io == -1 && parseFloat(vewV) > 0) || (_io == 1 && vewV < 0) ){
 		gridHandel.setFieldValue('amount',parseFloat(vewV*-1).toFixed(4));  
 		return;
+	}
+	if(editErrorFlag){
+		editErrorFlag = false;
+		return;
+	}
+	if(vewV > maxNumber){
+		$_jxc.alert('最大费用金额不得大于 '+maxNumber);
+		editErrorFlag = true;
+		$(this).numberbox('setValue',parseFloat(oldV) < 0 ? 0 : parseFloat(oldV));
 	}
 	updateFooter()
 }

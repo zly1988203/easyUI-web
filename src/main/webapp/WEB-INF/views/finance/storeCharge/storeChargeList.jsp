@@ -24,11 +24,15 @@
 			<div class="ub ub-ac">
 				<div class="ubtns">
 					<div class="ubtns-item" onclick="queryStoreCharge()">查询</div>
-					<shiro:hasPermission name="JxcPurchaseOrder:add">
+					<shiro:hasPermission name="JxcStoreCharge:add">
 						<div class="ubtns-item" onclick="storeChargeAdd()">新增</div>
 					</shiro:hasPermission>
 					<div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 					<div class="ubtns-item" onclick="toClose()">关闭</div>
+					
+					<div id="updatePermission" class="none">
+						<shiro:hasPermission name="JxcStoreCharge:update">修改</shiro:hasPermission>
+					</div>
 				</div>
 
 				<!-- 引入时间选择控件 -->

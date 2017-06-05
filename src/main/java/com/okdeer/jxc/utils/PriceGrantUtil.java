@@ -4,7 +4,6 @@ package com.okdeer.jxc.utils;
 import java.math.BigDecimal;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Component;
 
 import com.okdeer.jxc.common.enums.PriceGrantEnum;
 import com.okdeer.jxc.common.exception.BusinessException;
@@ -23,7 +22,6 @@ import com.okdeer.jxc.system.entity.SysUser;
  *		进销存2.0	  2016年8月18日			 liwb			    价格权限控制工具类
  */
 
-@Component
 public class PriceGrantUtil {
 	
 	/**
@@ -41,7 +39,7 @@ public class PriceGrantUtil {
 	 * @author liwb
 	 * @date 2016年8月18日
 	 */
-	public void grantPrice(PriceGrantHandler handler) {
+	public static void grantPrice(PriceGrantHandler handler) {
 
 		// 过滤销售价
 		BigDecimal salePrice = grantSalePrice(handler.getSalePrice());
@@ -78,7 +76,7 @@ public class PriceGrantUtil {
 	 * @author liwb
 	 * @date 2016年8月13日
 	 */
-	public BigDecimal grantSalePrice(BigDecimal salePrice) {
+	public static BigDecimal grantSalePrice(BigDecimal salePrice) {
 		return grantPriceCommon(salePrice, PriceGrantEnum.SALE_PRICE);
 	}
 
@@ -89,7 +87,7 @@ public class PriceGrantUtil {
 	 * @author liwb
 	 * @date 2016年8月13日
 	 */
-	public BigDecimal grantVipPrice(BigDecimal vipPrice) {
+	public static BigDecimal grantVipPrice(BigDecimal vipPrice) {
 		return grantPriceCommon(vipPrice, PriceGrantEnum.VIP_PRICE);
 	}
 
@@ -100,7 +98,7 @@ public class PriceGrantUtil {
 	 * @author liwb
 	 * @date 2016年8月13日
 	 */
-	public BigDecimal grantPurchasePrice(BigDecimal purchasePrice) {
+	public static BigDecimal grantPurchasePrice(BigDecimal purchasePrice) {
 		return grantPriceCommon(purchasePrice, PriceGrantEnum.PURCHASE_PRICE);
 	}
 
@@ -111,7 +109,7 @@ public class PriceGrantUtil {
 	 * @author liwb
 	 * @date 2016年8月13日
 	 */
-	public BigDecimal grantWholesalePrice(BigDecimal wholesalePrice) {
+	public static BigDecimal grantWholesalePrice(BigDecimal wholesalePrice) {
 		return grantPriceCommon(wholesalePrice, PriceGrantEnum.WHOLESALE_PRICE);
 	}
 
@@ -122,7 +120,7 @@ public class PriceGrantUtil {
 	 * @author liwb
 	 * @date 2016年8月13日
 	 */
-	public BigDecimal grantLowestPrice(BigDecimal lowestPrice) {
+	public static BigDecimal grantLowestPrice(BigDecimal lowestPrice) {
 		return grantPriceCommon(lowestPrice, PriceGrantEnum.LOWEST_PRICE);
 	}
 
@@ -133,7 +131,7 @@ public class PriceGrantUtil {
 	 * @author liwb
 	 * @date 2016年8月13日
 	 */
-	public BigDecimal grantDistributionPrice(BigDecimal distributionPrice) {
+	public static BigDecimal grantDistributionPrice(BigDecimal distributionPrice) {
 		return grantPriceCommon(distributionPrice,
 				PriceGrantEnum.DISTRIBUTION_PRICE);
 	}
@@ -146,14 +144,8 @@ public class PriceGrantUtil {
 	 * @author liwb
 	 * @date 2016年8月17日
 	 */
-	public String getPriceGrant() {
+	public static String getPriceGrant() {
 
-		// key值
-//		String key = buildPriceGrantRedisKey();
-//
-//		// 获取redis中的价格权限值
-//		String priceGrant = redisTemplate.opsForValue().get(key);
-		
 		SysUser sysUser = UserUtil.getCurrentUser();
 		if(sysUser==null){
 			throw new BusinessException("用户未登陆，或者session失效");
@@ -172,14 +164,15 @@ public class PriceGrantUtil {
 	 * @author liwb
 	 * @date 2016年8月13日
 	 */
-	private BigDecimal grantPriceCommon(BigDecimal price,
+	private static BigDecimal grantPriceCommon(BigDecimal price,
 			PriceGrantEnum priceGrantEnum) {
 
+		// 从session中获取当前用户价格权限
 		String priceGrant = getPriceGrant();
 
-		// 如果价格权限为空，则说明无限制
+		// 如果价格权限为空，则说明无权限
 		if (StringUtils.isBlank(priceGrant)) {
-			return price;
+			return null;
 		}
 
 		// 如果有权限，则直接返回价格

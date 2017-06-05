@@ -36,13 +36,13 @@
 	                    <div class="umar-r10 uw-70 ut-r">机构:</div>
 	                    <input type="hidden" id="branchId" name="branchId"/>
 	                    <input type="hidden" id="targetBranchType" name="targetBranchType" />
-	                    <input class="uinp ub ub-f1" type="text" id="targetBranchName" name="targetBranchName" onblur="clearBranchCode(this,'branchId')"/>
+	                    <input class="uinp ub ub-f1" type="text" id="targetBranchName" name="targetBranchName" onblur="$_jxc.clearIdOnEdit(this)"/>
 	                    <div class="uinp-more" onclick="selectBranches()" >...</div>
 	                </div>
 	                <div class="ub ub-ac umar-l64">
 	                    <div class="umar-r10 uw-70 ut-r">供应商:</div>
 	                    <input class="uinp" name="supplierId" id="supplierId"type="hidden">
-						<input class="uinp" readonly="readonly" id="supplierName" type="text"  onclick="selectSupplier()">
+						<input class="uinp" name="supplierName" id="supplierName" type="text" onblur="$_jxc.clearIdOnEdit(this)">
 						<div class="uinp-more" onclick="selectSupplier()">...</div>
 	                </div>
 	            </div>
@@ -54,8 +54,8 @@
 	                </div>
 	                <div class="ub ub-ac umar-l64">
 	                    <div class="umar-r10 uw-70 ut-r">制单人:</div>
-	                    <input type="hidden" id="operateUserId" name="operateUserId" />
-	                    <input class="uinp ub ub-f1" type="text" id="operateUserName" name="operateUserName" type="text" />
+	                    <input type="hidden" id="createUserId" name="createUserId" />
+	                    <input class="uinp ub ub-f1" type="text" id="createUserName" name="createUserName" type="text" onblur="$_jxc.clearIdOnEdit(this)" />
 	                    <div class="uinp-more" onclick="selectOperator()">...</div>
 	                </div>
 	            </div>

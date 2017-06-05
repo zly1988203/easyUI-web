@@ -1,7 +1,7 @@
 $(function(){
 	//开始和结束时间
-    $("#startTime").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
-    $("#endTime").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+    $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
+    $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 	initAcountList();
 })
 
@@ -16,7 +16,7 @@ function getAccountColumns(){
 			{field: 'branchName', title: '机构名称', width: '120px', align: 'left'},
 			{field: 'supplierCode', title: '供应商编号', width: '80px', align: 'left'},
 			{field: 'supplierName', title: '供应商名称', width: '120px', align: 'left'}]);
-	if(accountType == '6'){
+	if(accountType == 6){
 		defaultColumns =defaultColumns.concat([
            {field: 'settleformNo',title:'结算单号',width:'150px',align:'left',
         	   formatter:function(value,row,index){
@@ -26,23 +26,23 @@ function getAccountColumns(){
            }]);
 	}
 	//到期账款 未付款账款明细
-	if(accountType != '3' && accountType != '5'){
+	if(accountType != 3 && accountType != 5){
 		defaultColumns = defaultColumns.concat([
             {field: 'targetformNo',title:'单号',width:'150px',align:'left',formatter:function(value,row,index){
             	var strHtml = value;
             	if(value){
             		if(value.indexOf('FY') == 0){
-            			strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'供应商预付单明细\',\''+ contextPath +'/form/deliverForm/deliverEdit?deliverFormId='+ row.targetFormId +'&deliverType=DI\')">' + (value||"") + '</a>';
+            			strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'供应商预付单明细\',\''+ contextPath +'/settle/supplierCharge/advanceView?id='+ row.targetformId +'\')">' + (value||"") + '</a>';
             		}else if(value.indexOf('FF') == 0){
-            			strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'供应商费用明细\',\''+ contextPath +'/form/deliverForm/deliverEdit?deliverFormId='+ row.targetFormId +'&formType=DO\')">' + (value||"") + '</a>';
+            			strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'供应商费用明细\',\''+ contextPath +'/settle/supplierCharge/chargeView?id='+ row.targetformId +'\')">' + (value||"") + '</a>';
             		}else if(value.indexOf('FL') == 0){
-            			strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'供应商联营账单明细\',\''+ contextPath +'/settle/franchiseCharge/advanceView?id='+ row.targetFormId +'\')">' + (value||"") + '</a>';
+            			strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'供应商联营账单明细\',\''+ contextPath +'/settle/supplierChain/chainView?id='+ row.targetformId +'\')">' + (value||"") + '</a>';
             		}else if(value.indexOf('PI') == 0){
-            			strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'采购收货详细\',\''+contextPath+'/form/purchase/receiptEdit?formId='+row.targetFormId+'\')">' + (value||"") + '</a>';
+            			strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看采购收货详细\',\''+contextPath+'/form/purchase/receiptEdit?formId='+row.targetformId+'\')">' + (value||"") + '</a>';
             		}else if(value.indexOf('PM') == 0){
-            			strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'直送收货单详细\',\''+contextPath+'/directReceipt/edit?formId='+row.targetFormId+'\')">' + (value||"") + '</a>';
+            			strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'直送收货单详细\',\''+contextPath+'/directReceipt/edit?formId='+row.targetformId+'\')">' + (value||"") + '</a>';
             		}else if(value.indexOf('PR') == 0){
-            			strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'采购退货详细\',\''+contextPath+'/form/purchase/returnEdit?formId='+row.targetFormId+'\')">' + (value||"") + '</a>';
+            			strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看采购退货详细\',\''+contextPath+'/form/purchase/returnEdit?formId='+row.targetformId+'\')">' + (value||"") + '</a>';
             		}
             	}
         		return strHtml;
@@ -51,7 +51,7 @@ function getAccountColumns(){
             ]);
 	}
 	//未付款账款汇总
-	if(accountType == '3' || accountType == '7'){
+	if(accountType == 3 || accountType == 7){
 		defaultColumns = defaultColumns.concat([
 			{field: 'advanceAmount', title: '预付金额', width: '80px', align: 'right',
 				formatter: function (value, row, index) {
@@ -60,7 +60,7 @@ function getAccountColumns(){
 			}])
 	}
 	//预付账款明细
-	if(accountType == '7'){
+	if(accountType == 7){
 		defaultColumns = defaultColumns.concat([
             {field: 'payedAmount', title: '已用金额', width: '80px', align: 'right',
 				formatter: function (value, row, index) {
@@ -80,7 +80,7 @@ function getAccountColumns(){
             ]);
 	}
 	//到期账款 历史往来账款 未付款账款汇总
-	if(accountType == '1' || accountType == '2' || accountType == '3' || accountType == '4' ){
+	if(accountType == 1 || accountType == 2 || accountType == 4 ){
 		defaultColumns = defaultColumns.concat([
 			{field: 'payTime', title: '应付款日期', width: '120px', align: 'left',
 				formatter: function (value, row, index) {
@@ -89,15 +89,19 @@ function getAccountColumns(){
 						}
 						return new Date(value).format('yyyy-MM-dd hh:mm');
 				}
-			},
-			{field: 'payableAmount', title: '应付金额', width: '80px', align: 'right',
-				formatter: function (value, row, index) {
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
-				}
 			}]);
 	}
 	//到期账款 历史往来账款 未付款账款汇总
-	if(accountType != '7' ){
+	if(accountType <= 4 ){
+		defaultColumns = defaultColumns.concat([
+            {field: 'payableAmount', title: '应付金额', width: '80px', align: 'right',
+            	formatter: function (value, row, index) {
+            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+            	}
+            }]);
+	}
+	//到期账款 历史往来账款 未付款账款汇总
+	if(accountType != 7 ){
 		defaultColumns = defaultColumns.concat([
 			{field: 'payedAmount', title: accountType == 6 ? '实付金额':'已付金额', width: '80px', align: 'right',
 				formatter: function (value, row, index) {
@@ -111,7 +115,7 @@ function getAccountColumns(){
 			}]);
 	}
 	//到期账款 历史往来账款 未付款账款汇总
-	if(accountType == '1' || accountType == '2' || accountType == '3' || accountType == '4' ){
+	if(accountType <= 4 ){
 		defaultColumns = defaultColumns.concat([
 			{field: 'unpayAmount', title: '未付金额', width: '80px', align: 'right',
 				formatter: function (value, row, index) {
@@ -120,7 +124,7 @@ function getAccountColumns(){
 			}]);
 	}
 	//未付款账款汇总
-	if(accountType == '3'){
+	if(accountType == 3){
 		defaultColumns = defaultColumns.concat([
 			{field: 'surplusAmount', title: '实际结余金额', width: '80px', align: 'right',
 				formatter: function (value, row, index) {
@@ -129,7 +133,7 @@ function getAccountColumns(){
 			}]);
 	}
 	//到期账款 历史往来账款
-	if(accountType == '1' || accountType == '2' || accountType == '6'  ){
+	if(accountType == 1 || accountType == 2 || accountType == 6  ){
 		defaultColumns = defaultColumns.concat([
 			{field: 'auditUserName', title: '审核人', width: '120px', align: 'left'},
 			{field: 'auditTime', title: '审核时间', width: '120px', align: 'left',
@@ -142,7 +146,7 @@ function getAccountColumns(){
 			}])
 	}	
 	//到期账款 历史往来账款
-	if(accountType == '1' || accountType == '2' ){
+	if(accountType <= 2  || accountType == 6 ){
 		defaultColumns = defaultColumns.concat([
 			{field: 'actualPayTime', title: '实际付款时间', width: '120px', align: 'left',
 				formatter: function (value, row, index) {
@@ -193,6 +197,7 @@ function queryForm(){
 	var fromObjStr = $('#queryForm').serializeObject();
 	// 去除编码
     fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1)
+    fromObjStr.supplierName = fromObjStr.supplierName.substring(fromObjStr.supplierName.lastIndexOf(']')+1)
 
 	$("#"+datagirdID).datagrid("options").method = "post";
 	$("#"+datagirdID).datagrid('options').url = contextPath + '/settle/supplierAccountCurrent/getAccountCurrentList';

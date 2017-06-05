@@ -33,11 +33,21 @@
 			<div class="ub ub-ac">
 				<div class="ubtns">
 					<div class="ubtns-item" onclick="queryBranch()">查询</div>
-					<div class="ubtns-item" onclick="editBranch()">编辑</div>
+					<shiro:hasPermission name="JxcBranchArchive:update">
+						<div class="ubtns-item" onclick="editBranch()">编辑</div>
+					</shiro:hasPermission>
 					<div class="ubtns-item" onclick="gFunRefresh()">重置</div>
-					<div class="ubtns-item" onclick="exportData()">导出</div>
-					<div class="ubtns-item-disabled">打印</div>
+					<shiro:hasPermission name="JxcBranchArchive:export">
+						<div class="ubtns-item" onclick="exportData()">导出</div>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="JxcBranchArchive:print">
+						<div class="ubtns-item-disabled">打印</div>
+					</shiro:hasPermission>
 					<div class="ubtns-item" onclick="toClose()">关闭</div>
+					
+					<div id="updatePermission" class="none">
+						<shiro:hasPermission name="JxcBranchArchive:update">修改</shiro:hasPermission>
+					</div>
 				</div>
 			</div>
 			<form action="" id="formList" method="post">
