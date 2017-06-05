@@ -88,6 +88,22 @@ function initGoodsInfo(skuId,branchId){
 		$("#createTime").val(createTime.format("yyyy-MM-dd hh:mm:ss"));
 		setGrossProfit();
 	});
+    hidePageElement();
+}
+
+function hidePageElement() {
+    if(hasPurchasePrice==false){
+        $("#formEdit #purchasePrice").parent().addClass("unhide");
+    }
+    if(hasWholesalePrice==false){
+        $("#formEdit #wholesalePrice").parent().addClass("unhide");
+    }
+
+    if(hasDistributionPrice==false){
+        $("#formEdit #distributionPrice").parent().addClass("unhide");
+    }
+
+
 }
 
 //毛利值 = 零售价-进货价
@@ -268,6 +284,7 @@ function submitForm(){
  }
  
  var gridHandel = new GridClass();
+ var gridPriceName = "dgPrice";
  function initDatagridEditRequireOrder(){
 	 gridHandel.setGridName("dgPrice");
 	 
@@ -382,6 +399,7 @@ function submitForm(){
 	        }
 
 	    });
+     priceGrantUtil.grantPrice(gridPriceName);
  }
  
  function onChangeCoefficient(newV,oldV){

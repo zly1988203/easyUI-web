@@ -11,6 +11,7 @@ var hasPurchasePrice = false;
 var hasWholesalePrice = false;
 var hasLowestPrice = false;
 var hasDistributionPrice = false;
+var hasCostPrice = false;
 
 
 //计算价格权限 sale_price,cost_price,vip_price,purchase_price,wholesale_price,lowest_price,distribution_price
@@ -21,12 +22,6 @@ $(function(){
 	if(priceGrantStr){
 		priceGrantArray = priceGrantStr.split(",");
 	}else{
-		hasSalePrice = true;
-		hasVipPrice = true;
-		hasPurchasePrice = true;
-		hasWholesalePrice = true;
-		hasLowestPrice = true;
-		hasDistributionPrice = true;
 		return;
 	}
 	
@@ -52,6 +47,9 @@ $(function(){
 		    case "distribution_price": // 最低售价
 		    	hasDistributionPrice = true;
 				break;
+                case "cost_price": // 最低售价
+                    hasCostPrice = true;
+                    break;
 		    default:
 				break;
 		    }
@@ -73,7 +71,7 @@ var priceGrantUtil = {
 	 */
 	grantSalePrice : function(datagridId, fieldArr){
 		if(isEmptyArray(fieldArr)){
-			fieldArr = [ "salePrice" ];
+			fieldArr = [ "salePrice","price" ];
 		}
 		if(hasSalePrice==false){
 			datagridCommon.hideDataGridColumn(datagridId, fieldArr);
@@ -95,16 +93,22 @@ var priceGrantUtil = {
 	},
 	
 	/**
-	 * 过滤采购价，如果列名为空数组，则默认为purchasePrice列名
+	 * 过滤采购价 进货价，如果列名为空数组，则默认为purchasePrice列名
 	 * @param datagridId
 	 * @param fieldArr
+	 * @param outFieldArr
 	 */
-	grantPurchasePrice : function(datagridId, fieldArr){
+	grantPurchasePrice : function(datagridId, fieldArr,outFieldArr){
 		if(isEmptyArray(fieldArr)){
-			fieldArr = [ "purchasePrice" ];
+			fieldArr = [ "purchasePrice","amount","oldPurPrice","newPurPrice",""];
 		}
 		if(hasPurchasePrice==false){
-			datagridCommon.hideDataGridColumn(datagridId, fieldArr);
+			if(typeof(outFieldArr) != "undefined" && outFieldArr.length > 0 ){
+                $.each(outFieldArr,function (index,item) {
+                    fieldArr.splice($.inArray(item,fieldArr),1);
+                })
+			}
+            datagridCommon.hideDataGridColumn(datagridId, fieldArr);
 		}
 	},
 	
@@ -113,11 +117,16 @@ var priceGrantUtil = {
 	 * @param datagridId
 	 * @param fieldArr
 	 */
-	grantWholesalePrice : function(datagridId, fieldArr){
+	grantWholesalePrice : function(datagridId, fieldArr,outFieldArr){
 		if(isEmptyArray(fieldArr)){
-			fieldArr = [ "wholesalePrice" ];
+            fieldArr = [ "wholesalePrice","oldWsPrice","newWsPrice"];
 		}
 		if(hasWholesalePrice==false){
+            if(typeof(outFieldArr) != "undefined" && outFieldArr.length > 0 ){
+                $.each(outFieldArr,function (index,item) {
+                    fieldArr.splice($.inArray(item,fieldArr),1);
+                })
+            }
 			datagridCommon.hideDataGridColumn(datagridId, fieldArr);
 		}
 	},
@@ -141,14 +150,37 @@ var priceGrantUtil = {
 	 * @param datagridId
 	 * @param fieldArr
 	 */
-	grantDistributionPrice : function(datagridId, fieldArr){
+	grantDistributionPrice : function(datagridId, fieldArr,outFieldArr){
 		if(isEmptyArray(fieldArr)){
-			fieldArr = [ "distributionPrice" ];
+			fieldArr = [ "distributionPrice","oldDcPrice","newDcPrice" ];
 		}
 		if(hasDistributionPrice==false){
+            if(typeof(outFieldArr) != "undefined" && outFieldArr.length > 0 ){
+                $.each(outFieldArr,function (index,item) {
+                    fieldArr.splice($.inArray(item,fieldArr),1);
+                })
+            }
 			datagridCommon.hideDataGridColumn(datagridId, fieldArr);
 		}
 	},
+
+	/*
+	* 成本价
+	*
+	* */
+	grantCostPrice : function (datagridId,fieldArr,outFieldArr) {
+        if(isEmptyArray(fieldArr)){
+            fieldArr = [ "costPrice"];
+        }
+        if(hasCostPrice==false){
+            if(typeof(outFieldArr) != "undefined" && outFieldArr.length > 0 ){
+                $.each(outFieldArr,function (index,item) {
+                    fieldArr.splice($.inArray(item,fieldArr),1);
+                })
+            }
+            datagridCommon.hideDataGridColumn(datagridId, fieldArr);
+        }
+    },
 	
 	/**
 	 * 过滤所有价格权限，默认列名依次为 salePrice,vipPrice,purchasePrice,wholesalePrice,lowestPrice,distributionPrice
@@ -156,12 +188,13 @@ var priceGrantUtil = {
 	 */
 	grantPrice : function(datagridId){
 		var _this = this;
-		_this.grantSalePrice(datagridId);
-		_this.grantVipPrice(datagridId);
+		// _this.grantSalePrice(datagridId);
+		// _this.grantVipPrice(datagridId);
 		_this.grantPurchasePrice(datagridId);
 		_this.grantWholesalePrice(datagridId);
-		_this.grantLowestPrice(datagridId);
+		// _this.grantLowestPrice(datagridId);
 		_this.grantDistributionPrice(datagridId);
+		_this.grantCostPrice(datagridId);
 	},
 		
 };

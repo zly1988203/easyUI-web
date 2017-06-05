@@ -13,6 +13,7 @@ $(function(){
 var gridHandel = new GridClass();
 //初始化表格
 var dg;
+var gridName = "marketWater";
 function initDatagridRequireOrders(){
 	gridHandel.setGridName("marketWater");
 	dg= $("#marketWater").datagrid({
@@ -155,6 +156,7 @@ function initDatagridRequireOrders(){
 			gridHandel.setDatagridHeader("center");
 		}
     });
+	priceGrantUtil.grantPrice(gridName);
 }
 
 

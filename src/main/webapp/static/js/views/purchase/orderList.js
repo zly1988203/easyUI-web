@@ -30,6 +30,7 @@ function initConditionParams(){
 
 
 var gridHandel = new GridClass();
+var gridName = "gridOrders";
 //初始化表格
 function initDatagridOrders(){
 	gridHandel.setGridName("gridOrders");
@@ -101,6 +102,9 @@ function initDatagridOrders(){
 		}
     });
     query();
+    if(hasCostPrice==false){
+        priceGrantUtil.grantCostPrice(datagridId,["amount"])
+    }
 }
 
 
