@@ -24,7 +24,7 @@
                     	<div class="ubtns-item" onclick="exportAccountList()">导出</div>
                     </shiro:hasPermission>
 					<shiro:hasPermission name="JxcFranchiseAc:print">
-                    	<div class="ubtns-item-disabled" onclick="print()">打印</div>
+                    	<div class="ubtns-item-disabled">打印</div>
                     </shiro:hasPermission>
                     <div class="ubtns-item" id="set" onclick="gFunRefresh()" >重置</div>
                     <div class="ubtns-item-disabled" >设置</div>

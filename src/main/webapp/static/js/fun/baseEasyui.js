@@ -1118,7 +1118,7 @@ var $_jxc = {
 	 * <input class='uinp ub ub-f1' type='text' id='branchName' name='branchName' onblur='$_jxc.clearIdOnEdit(this)'/>
 	 * </div>
 	 * demo2:
-	 * <div class='ub ub-ac .form-group'>
+	 * <div class='ub ub-ac form-group'>
 	 * 	<div class='ub'>
 	 * 		<input class='uinp ub ub-f1' type='text' id='branchName' name='branchName' onblur='$_jxc.clearIdOnEdit(this)'/>
 	 * 	</div>

@@ -21,7 +21,7 @@
                     <div class="ubtns-item" onclick="exportData()">导出</div>
                     <input type="hidden" id="startCount" name="startCount" />
 						<input type="hidden" id="endCount" name="endCount" />
-                    <div class="ubtns-item" onclick="print()">打印</div>
+                    <div class="ubtns-item-disabled">打印</div>
                     <div class="ubtns-item" id="set" onclick="gFunRefresh()" >重置</div>
                     <div class="ubtns-item-disabled" >设置</div>
                     <div class="ubtns-item" onclick="toClose()">退出</div>
@@ -87,7 +87,7 @@
                         </div>
                         <div class="ub ub-ac umar-r10">
                             <label>
-                                <input  type="radio" name="radioType" value="7"  onclick="queryForm()"/><span>预付账款明细</span>
+                                <input  type="radio" name="radioType" value="7"  onclick="initAcountList()"/><span>预付账款明细</span>
                             </label>
                         </div>
                     </div>
