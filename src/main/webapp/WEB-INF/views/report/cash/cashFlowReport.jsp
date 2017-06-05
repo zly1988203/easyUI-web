@@ -54,6 +54,8 @@
 				            <option value="" selected="selected">全部</option>
 				            <option value="A">销售</option>
 				            <option value="B">退货</option>
+				            <option value="D">充值</option>
+				            <option value="E">售卡</option>
 				        </select>
                 </div>  
             </div>
