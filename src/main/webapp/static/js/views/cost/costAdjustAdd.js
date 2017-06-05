@@ -216,7 +216,7 @@ function selectGoods(searchKey){
 	}
 
     var param = {
-        type:'',
+        type:'IP',
         key:searchKey,
         isRadio:'0',
         branchId:branchId,
