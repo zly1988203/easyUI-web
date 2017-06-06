@@ -87,6 +87,9 @@ function initDatagridRequireOrders(){
         
     });
     queryForm();
+    if(hasCostPrice==false){
+        priceGrantUtil.grantCostPrice("stockFromList",["amount"])
+    }
 }
 
 //新增入库单

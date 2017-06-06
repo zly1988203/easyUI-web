@@ -61,7 +61,12 @@ function saveNotice(){
 
     var url = contextPath+"/sys/notice/save";
     var formData = $('#formNoticeAdd').serializeObject();
-    this.ajaxSubmit(url,formData,function (result) {
+    var param = {
+        url:contextPath+"/sys/notice/save",
+        data:formData,
+
+    }
+    $_jxc.ajax(param,function (result) {
         if(result['code'] == 0){
             closeDialogHandel();
             messager("发布成功");

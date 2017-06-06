@@ -33,10 +33,13 @@
 					<div class="ubtns-item" onclick="toClose()">关闭</div>
 				</div>
 
+			<div class="ub umar-l20">
 			<input class="Wdate uw-300 uinp-no-more" name="startTime" id="startTime"
-				onclick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})" />
+			onclick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})" />
 			<input class="Wdate uw-300 uinp-no-more" name="endTime" id="endTime"
-				onclick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})" />
+			onclick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})" />
+			</div>
+
 			</div>
 
 			<div class="ub umar-t8">
@@ -52,6 +55,7 @@
 				</div>
 
 				<div class="ub ub-ac umar-r40">
+					<div class="umar-r10 uw-60 ut-r">费用类型:</div>
 					<div class="ub ub-ac umar-r10">
 						<input class="radioItem" type="radio" name="costType" id="status_no"
 							value="0" checked="checked" /><label for="status_no">含折旧费用

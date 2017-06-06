@@ -204,6 +204,9 @@ function initDatagridStockLead(){
 
     });
 
+    if(hasCostPrice==false){
+        priceGrantUtil.grantCostPrice(gridName,["price","amount"])
+    }
     gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
         $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),
         $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault)]);

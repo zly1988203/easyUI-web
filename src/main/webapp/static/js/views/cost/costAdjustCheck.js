@@ -125,6 +125,9 @@ function initDatagridEditRequireOrder(){
 		          }
 	});
 
+    if(hasCostPrice==false){
+        priceGrantUtil.grantCostPrice("gridEditRequireOrder",["oldCostPrice","costPrice"])
+    }
 }
 
 //合计

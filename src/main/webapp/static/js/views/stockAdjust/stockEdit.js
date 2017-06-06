@@ -215,6 +215,10 @@ function initDatagridEditRequireOrder(){
         }
     });
 
+    if(hasCostPrice==false){
+        priceGrantUtil.grantCostPrice(dataGridId,["price","amount"])
+    }
+
 }
 
 function updateRows(){

@@ -270,6 +270,9 @@ function initPurReportTotalGrid() {
    /* if(flushFlg){
     	purchaseTotalCx();
     }*/
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice("purReportTotal",["amountPI","amountPR","totalAmount","taxAmount"])
+    }
 }
 /**
  * 初始化表格按  供应商
@@ -365,6 +368,9 @@ function initPurReportSupplierGrid() {
   /*  if(flushFlg){
     	purchaseTotalCx();
     }*/
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice("purReportTotal",["amountPI","amountPR","totalAmount","taxAmount"])
+    }
 }
 /**
  * 初始化表格按  单据汇总
@@ -467,6 +473,9 @@ function initPurFormNoGrid() {
    /* if(flushFlg){
     	purchaseTotalCx();
     }*/
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice("purReportTotal",["totalAmount","taxAmount"])
+    }
 }
 /**
  * 初始化表格按  类别汇总
@@ -564,6 +573,9 @@ function initCategoryGrid() {
    /* if(flushFlg){
     	purchaseTotalCx();
     }*/
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice("purReportTotal",["amountPI","amountPR","totalAmount","taxAmount"])
+    }
 }
 
 

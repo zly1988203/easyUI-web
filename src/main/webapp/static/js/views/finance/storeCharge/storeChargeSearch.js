@@ -13,6 +13,7 @@ function changeStoreStatus() {
     $(".radioItem").change(function () {
         storeStatus = $(this).val();
         $("#"+gridName).datagrid("loadData",[]);
+        $('#'+gridName).datagrid('reloadFooter',[]);
         $("#"+gridName).datagrid("options").url = "";
         initGridChargeSearchList();
     });
@@ -27,7 +28,8 @@ function initGridChargeSearchList() {
     dg=$("#"+gridName).datagrid({
         align:'center',
         rownumbers:true,    //序号
-        pagination:false,    //分页
+        pagination:true,    //分页
+        pageSize:50,
         showFooter:true,
         height:'100%',
         width:'100%',
@@ -39,21 +41,49 @@ function initGridChargeSearchList() {
 function getGridcolumns(){
     if(storeStatus == "total"){
         return [[
-            {field:'branchCode',title:'机构编码',width:80,align:'left'},
+            {field:'branchCode',title:'机构编码',width:80,align:'left',
+                formatter:function(value,row,index){
+                    if(typeof(value) === "undefined" ){
+                        return '<b>合并</b>';
+                    }
+                    return '<b>'+value+'</b>';
+                },
+            },
             {field:'branchName',title:'机构名称',width:180,align:'left'},
             {field:'parentName',title:'所属分公司',width:180,align:'left'},
             {field:'month',title:'月份',width:110,align:'left'},
-            {field:'amount',title:'金额',width:110,align:'right'},
+            {field:'amount',title:'金额',width:110,align:'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
         ]]
     }else{
         return [[
-            {field:'formNo',title:'单号',width:80,align:'left'},
+            {field:'formNo',title:'单号',width:180,align:'left',
+                formatter:function(value,row,index){
+                    if(typeof(value) === "undefined" ){
+                        return '<b>合并</b>';
+                    }
+                    return '<b>'+value+'</b>';
+                },
+            },
             {field:'branchCode',title:'机构编码',width:80,align:'left'},
             {field:'branchName',title:'机构名称',width:180,align:'left'},
             {field:'parentName',title:'所属分公司',width:180,align:'left'},
             {field:'month',title:'月份',width:110,align:'left'},
             {field:'costTypeName',title:'费用项目',width:180,align:'left'},
-            {field:'amount',title:'金额',width:110,align:'right'},
+            {field:'amount',title:'金额',width:110,align:'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
             {field:'remark',title:'备注',width:180,align:'left'},
         ]]
     }
