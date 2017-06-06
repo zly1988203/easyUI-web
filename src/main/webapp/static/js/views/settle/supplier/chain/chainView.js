@@ -25,7 +25,14 @@ function initSupChainView(){
         height:"100%",
         width:'100%',
         columns:[[
-            {field:'branchName',title:'机构',width: '150px',align:'left'},
+            {field:'branchName',title:'机构',width: '150px',align:'left',
+            	formatter:function(value,row){
+            		if(row.isFooter){
+            			 return '<div class="ub ub-pc">合计</div> ';
+            		}
+                    return value;
+                }	
+            },
             {field:'skuCode',title:'货号',width:'120px',align:'left'},
             {field:'skuName',title:'商品名称',width:'100px',align:'left'},
             {field:'barCode',title:'条码',width:'100px',align:'left'},
