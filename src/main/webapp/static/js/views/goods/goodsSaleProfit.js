@@ -5,6 +5,7 @@ $(function(){
     initDatagridRequire();
 });
 var gridHandel = new GridClass();
+var gridName = "goodsSaleProfit";
 //初始化表格
 function initDatagridRequire(){
 	gridHandel.setGridName("goodsSaleProfit");
@@ -108,6 +109,10 @@ function initDatagridRequire(){
 			
 		}
     });
+
+    if(hasCostPrice==false){
+        priceGrantUtil.grantCostPrice(gridName,["saleProfit","profitRate","totalRate"])
+    }
 }
 //查询入库单
 function queryForm(){

@@ -116,7 +116,7 @@ function initDatagridViewRequireOrder(){
     });
 
     if(hasPurchasePrice==false){
-        priceGrantUtil.grantPurchasePrice(gridName,["price","amount","taxAmount"])
+        priceGrantUtil.grantPurchasePrice("gridViewRequireOrder",["price","amount","taxAmount"])
     }
 }
 //合计

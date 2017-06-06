@@ -14,6 +14,7 @@ function initConditionParams(){
 }
 
 var gridHandel = new GridClass();
+var gridName= "dayReport";
 //初始化表格
 function initDatagridDay(){
 	gridHandel.setGridName("dayReport");
@@ -289,6 +290,14 @@ function initDatagridDay(){
 			gridHandel.setDatagridHeader("center");
 		}
     });
+
+    if(hasCostPrice==false){
+    	var fieldArr = ["costAmount","beginCostAmount","dcoAmount",
+			"dciAmount","costChangeAmount","otherAmount","endCostAmount","endSaleAmount"
+		]
+        priceGrantUtil.grantCostPrice(gridName,fieldArr)
+    }
+
 }
 
 

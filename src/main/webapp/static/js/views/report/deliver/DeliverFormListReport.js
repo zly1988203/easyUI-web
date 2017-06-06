@@ -98,6 +98,9 @@ function initDatagridRequireOrders(){
 			gridHandel.setDatagridHeader("center");
 		}
     });
+    if(hasDistributionPrice==false){
+        priceGrantUtil.grantDistributionPrice(gridName,["price","amount"])
+    }
 }
 
 

@@ -115,6 +115,10 @@ function initNewGoodsTotalAnalysiGrid() {
 			gridHandel.setDatagridHeader("center");
 		}
     });
+
+    if(hasCostPrice==false){
+        priceGrantUtil.grantCostPrice(datagridName,["costPrice","costAmount","grossProfit"])
+    }
 }
 
 

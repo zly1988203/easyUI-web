@@ -83,6 +83,7 @@ function cleardata(){
 var gridHandel = new GridClass();
 // 明细表
 var dg;
+var gridName = "marketWater";
 function initDatagridRequireOrders(){
 	gridHandel.setGridName("marketWater");
 	dg= $("#marketWater").datagrid({
@@ -206,6 +207,9 @@ function initDatagridRequireOrders(){
 			gridHandel.setDatagridHeader("center");
 		}
     });
+    if(hasDistributionPrice==false){
+        priceGrantUtil.grantDistributionPrice(gridName,["inAmount","outAmount","DIAmount"])
+    }
 }
 
 // 汇总表
@@ -313,6 +317,9 @@ function initDatagridByGoods(){
 			gridHandel.setDatagridHeader("center");
 		}
     });
+    if(hasDistributionPrice==false){
+        priceGrantUtil.grantDistributionPrice(gridName,["inAmount","outAmount","DIAmount"])
+    }
 }
 
 //查询

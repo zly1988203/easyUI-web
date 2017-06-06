@@ -99,6 +99,14 @@ function initDatagridGYYueJXC(){
 		]],
 
 	});
+    if(hasCostPrice==false){
+        var fieldArr = ["costAmount","beginCostAmount","dcoAmount",
+            "dciAmount","costChangeAmount","otherAmount","endCostAmount",
+            "endSaleAmount","profitAmount"
+        ]
+        priceGrantUtil.grantCostPrice(datagridId,fieldArr)
+    }
+
 }
 
 //查询

@@ -136,6 +136,7 @@ function onChangeCategoryType(newV,oldV){
     $("#categoryId").val("");
 }
 var gridHandel = new GridClass();
+var gridName = "goodsTotalAnalysi";
 /**
  * 初始化表格按  商品
  * @param queryType
@@ -209,9 +210,9 @@ function initGoodsTotalAnalysiGrid() {
 			//updateFooter();
 		}
     });
-   /* if(flushFlg){
-    	purchaseTotalCx();
-    }*/
+    if(hasCostPrice==false){
+        priceGrantUtil.grantCostPrice(gridName,["costAmount","grossProfit","grossProfitRate"])
+    }
 }
 
 
@@ -293,9 +294,9 @@ function initCategoryGrid() {
 			//updateFooter();
 		}
     });
-   /* if(flushFlg){
-    	purchaseTotalCx();
-    }*/
+    if(hasCostPrice==false){
+        priceGrantUtil.grantCostPrice(gridName,["costAmount","grossProfit","grossProfitRate"])
+    }
 }
 
 
@@ -377,9 +378,9 @@ function initPurReportSupplierGrid() {
 			//updateFooter();
 		}
     });
-  /*  if(flushFlg){
-    	purchaseTotalCx();
-    }*/
+    if(hasCostPrice==false){
+        priceGrantUtil.grantCostPrice(gridName,["costAmount","grossProfit","grossProfitRate"])
+    }
 }
 
 /**

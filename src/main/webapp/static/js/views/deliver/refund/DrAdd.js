@@ -332,6 +332,9 @@ function initDatagridStoreYHOrder(){
      	 }
     	 //console.log('sdd',JSON.stringify(oldData));
     }
+    if(hasDistributionPrice==false){
+        priceGrantUtil.grantDistributionPrice(gridName,["price","amount","taxAmount"])
+    }
 }
 
 

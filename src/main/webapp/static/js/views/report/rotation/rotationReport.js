@@ -259,6 +259,7 @@ function queryForm(){
 }
 
 var gridHandel = new GridClass();
+var gridName = "rotationReport";
 //初始化表格
 function initDatagridRequire() {
 	gridHandel.setGridName("rotationReport");
@@ -278,6 +279,9 @@ function initDatagridRequire() {
 			gridHandel.setDatagridHeader("center");
 		}
 	});
+    if(hasCostPrice==false){
+        priceGrantUtil.grantCostPrice(gridName,["costAmount","beginCostAmount","endCostAmount","avgCostAmount","costRotationRateNum"])
+    }
 }
 
 var dg;
