@@ -12,6 +12,7 @@ $(function(){
     branchId = $("#branchId").val();
 });
 var gridHandel = new GridClass();
+var gridName = "gridOrders";
 //初始化表格
 function initDatagridRequireOrders(){
 	gridHandel.setGridName("gridOrders");
@@ -144,6 +145,9 @@ function initDatagridRequireOrders(){
 			gridHandel.setDatagridHeader("center");
 		}
     });
+    if(hasCostPrice==false){
+        priceGrantUtil.grantCostPrice(gridName,["costAmount","grossProfit","grossProfitRate"])
+    }
 }
 
 

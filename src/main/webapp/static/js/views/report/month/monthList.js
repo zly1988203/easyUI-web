@@ -3,7 +3,6 @@
  * 库存调整-列表
  */
 $(function(){
-	
 	initDatagridYueJXC();
 	branchId = $("#branchId").val();
 });
@@ -171,6 +170,14 @@ function initDatagridYueJXC(){
 		}
 
 	});
+
+    if(hasCostPrice==false){
+        var fieldArr = ["costAmount","beginCostAmount","dcoAmount",
+            "dciAmount","costChangeAmount","otherAmount","endCostAmount",
+			"endSaleAmount","profitMargin","profitAmount"
+        ]
+        priceGrantUtil.grantCostPrice(datagridId,fieldArr)
+    }
 }
 
 //查询

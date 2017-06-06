@@ -14,6 +14,7 @@ function initConditionParams(){
 }
 
 var gridHandel = new GridClass();
+var gridName = "goodsUnsale";
 //初始化表格
 function initDatagridGoodsUnsale(){
 	gridHandel.setGridName("goodsUnsale");
@@ -128,6 +129,10 @@ function initDatagridGoodsUnsale(){
 			gridHandel.setDatagridHeader("center");
 		}
     });
+
+    if(hasCostPrice==false){
+        priceGrantUtil.grantCostPrice(gridName,["costAmount","profitAmount"])
+    }
 }
 
 

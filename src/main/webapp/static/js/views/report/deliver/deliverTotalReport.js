@@ -105,6 +105,7 @@ function hideCashier(){
 }
 
 var gridHandel = new GridClass();
+var gridName = "cashDaily";
 //按商品汇总
 function initCashDailyallGrid(queryType) {
 	gridHandel.setGridName("cashDaily");
@@ -208,6 +209,9 @@ function initCashDailyallGrid(queryType) {
 		        	   gridHandel.setDatagridHeader("center");
 		           }
 	});
+    if(hasDistributionPrice==false){
+        priceGrantUtil.grantDistributionPrice(gridName,["receiveAmount","dealAmount","sumAmount"])
+    }
 }
 
 //按单汇总
@@ -279,6 +283,9 @@ function initCashDailymdGrid(queryType) {
 		        	   gridHandel.setDatagridHeader("center");
 		           }
 	});
+    if(hasDistributionPrice==false){
+        priceGrantUtil.grantDistributionPrice(gridName,["amount"])
+    }
 }
 //类别汇总
 function initCashDailydateGrid(queryType) {
@@ -351,6 +358,9 @@ function initCashDailydateGrid(queryType) {
 		        	   gridHandel.setDatagridHeader("center");
 		           }
 	});
+    if(hasDistributionPrice==false){
+        priceGrantUtil.grantDistributionPrice(gridName,["receiveAmount","dealAmount","sumAmount"])
+    }
 }
 
 
@@ -425,6 +435,9 @@ function initbranchGrid(queryType) {
 		        	   gridHandel.setDatagridHeader("center");
 		           }
 	});
+    if(hasDistributionPrice==false){
+        priceGrantUtil.grantDistributionPrice(gridName,["receiveAmount","dealAmount","sumAmount"])
+    }
 }
 
 

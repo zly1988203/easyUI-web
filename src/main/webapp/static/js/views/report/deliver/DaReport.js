@@ -62,6 +62,10 @@ function initDatagridRequireOrders(){
 			gridHandel.setDatagridHeader("center");
 		}
     });
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice("deliverFormList",["amount"])
+    }
+
 }
 
 
