@@ -17,7 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.PageHelper;
 import com.okdeer.jxc.branch.service.BranchSpecServiceApi;
 import com.okdeer.jxc.common.controller.BasePrintController;
 import com.okdeer.jxc.common.result.RespJson;
@@ -82,9 +81,11 @@ public class FranchiseSettleController extends BasePrintController<FranchiseSett
 				vo.setCreateUserName(null);
 			}
 			vo.setFranchiseBranchCode(getCurrBranchCompleCode());
-			PageHelper.startPage(pageNumber, pageSize, true);
-			List<FranchiseSettleVo> list = franchiseSettleService.getSettleList(vo);
-			return new PageUtils<FranchiseSettleVo>(list);
+			vo.setPageNumber(pageNumber);
+			vo.setPageSize(pageSize);
+
+			PageUtils<FranchiseSettleVo> page = franchiseSettleService.getSettleList(vo);
+			return page;
 		} catch (Exception e) {
 			LOG.error("获取加盟店预收款列表异常:", e);
 		}

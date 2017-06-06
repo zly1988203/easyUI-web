@@ -645,7 +645,7 @@ function back(){
 }
 
 //新增加盟店结算
-function addSupAcoSetForm(){
+function addFranchiseSetForm(){
 	$_jxc.ajax({
     	url:contextPath+"/settle/franchiseSettle/checkAuditCount",
     	data:{}
