@@ -266,6 +266,10 @@ function initDatagridAddRequireOrder(){
     gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
         $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),
         $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault)]);
+
+    if(hasDistributionPrice==false){
+        priceGrantUtil.grantDistributionPrice(gridName,["price","amount","taxAmount"])
+    }
 }
 
 

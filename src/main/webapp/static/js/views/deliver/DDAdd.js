@@ -329,6 +329,10 @@ function initDatagridRequireOrder(){
     	                         $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),
     	                         $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault)]);
     }
+
+    if(hasCostPrice==false){
+        priceGrantUtil.grantCostPrice(gridName,["price","amount","taxAmount"])
+    }
 }
 
 //限制转换次数

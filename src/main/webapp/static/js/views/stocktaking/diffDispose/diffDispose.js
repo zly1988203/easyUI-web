@@ -301,6 +301,10 @@ function initOperateDataGrid(url){
     	 gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
     	                         $.extend({},gridDefault),$.extend({},gridDefault)]);
     }
+
+    if(hasCostPrice==false){
+        priceGrantUtil.grantCostPrice(gridName,["snapshootCostPrice","costAmount","stocktakingCostAmount","profitLossCostAmount"])
+    }
 }
 
 //listen page change

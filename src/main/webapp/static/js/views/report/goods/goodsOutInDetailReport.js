@@ -217,6 +217,9 @@ function initDatagridRequire(){
 		}
         
     });
+
+	priceGrantUtil.grantPrice("goodsOutInDetail");
+
    // queryForm();
 }
 //查询入库单

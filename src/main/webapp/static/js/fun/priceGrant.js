@@ -71,7 +71,7 @@ var priceGrantUtil = {
 	 */
 	grantSalePrice : function(datagridId, fieldArr){
 		if(isEmptyArray(fieldArr)){
-			fieldArr = [ "salePrice","price" ];
+			fieldArr = [ "salePrice" ];
 		}
 		if(hasSalePrice==false){
 			datagridCommon.hideDataGridColumn(datagridId, fieldArr);
@@ -100,7 +100,7 @@ var priceGrantUtil = {
 	 */
 	grantPurchasePrice : function(datagridId, fieldArr,outFieldArr){
 		if(isEmptyArray(fieldArr)){
-			fieldArr = [ "purchasePrice","amount","oldPurPrice","newPurPrice",""];
+			fieldArr = [ "purchasePrice","amount","priceAmount","price"];
 		}
 		if(hasPurchasePrice==false){
 			if(typeof(outFieldArr) != "undefined" && outFieldArr.length > 0 ){
@@ -119,7 +119,7 @@ var priceGrantUtil = {
 	 */
 	grantWholesalePrice : function(datagridId, fieldArr,outFieldArr){
 		if(isEmptyArray(fieldArr)){
-            fieldArr = [ "wholesalePrice","oldWsPrice","newWsPrice"];
+            fieldArr = [ "wholesalePrice","price","amount","priceAmount"];
 		}
 		if(hasWholesalePrice==false){
             if(typeof(outFieldArr) != "undefined" && outFieldArr.length > 0 ){
@@ -152,7 +152,7 @@ var priceGrantUtil = {
 	 */
 	grantDistributionPrice : function(datagridId, fieldArr,outFieldArr){
 		if(isEmptyArray(fieldArr)){
-			fieldArr = [ "distributionPrice","oldDcPrice","newDcPrice" ];
+			fieldArr = [ "distributionPrice","price","amount","priceAmount"];
 		}
 		if(hasDistributionPrice==false){
             if(typeof(outFieldArr) != "undefined" && outFieldArr.length > 0 ){
@@ -170,7 +170,7 @@ var priceGrantUtil = {
 	* */
 	grantCostPrice : function (datagridId,fieldArr,outFieldArr) {
         if(isEmptyArray(fieldArr)){
-            fieldArr = [ "costPrice"];
+            fieldArr = [ "costPrice","price","amount","priceAmount"];
         }
         if(hasCostPrice==false){
             if(typeof(outFieldArr) != "undefined" && outFieldArr.length > 0 ){

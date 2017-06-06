@@ -333,6 +333,9 @@ function initDatagridAddRequireOrder(){
             updateFooter();
         }
     });
+    if(hasDistributionPrice==false){
+        priceGrantUtil.grantDistributionPrice(gridName,["price","amount","taxAmount"])
+    }
 }
 
 

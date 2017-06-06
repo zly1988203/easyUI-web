@@ -311,6 +311,10 @@ function initDatagridEditRequireOrder(){
             updateFooter();
         }
     });
+
+    if(hasDistributionPrice==false){
+        priceGrantUtil.grantDistributionPrice("gridEditRequireOrder",["price","amount","taxAmount"])
+    }
 }
 var isFirst = false;
 

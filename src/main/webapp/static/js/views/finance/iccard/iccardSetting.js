@@ -25,10 +25,17 @@ function initGridCardSetting() {
         	{field: 'id', title: '一卡通Id', hidden:"true"},
             {field: 'ecardType', title: '一卡通类型', width: 180, align: 'left'},
             // {field:'check',checkbox:true},
-            {field: 'enabled', title: '启用',checkbox:true, width: 80, align: 'left',
+            {field: 'enabled', title: '启用', checkbox:true,width: 80, align: 'left',
                 formatter : function(value, row,index) {
-                	return value;
-            }},
+                    // if(value == 1){
+                    //     return '<input type="checkbox" class="ck" checked/>';
+                    // }else{
+                    //     return '<input type="checkbox" class="ck" />';
+                    // }
+                    return value;
+
+            },
+            },
             {field: 'cz', title: '操作', width: 180, align: 'right',
                 formatter : function(value, row,index) {
                     var str =  '<a name="add" onclick="openShopSettingLis(\''+row.id+'\')" ' +

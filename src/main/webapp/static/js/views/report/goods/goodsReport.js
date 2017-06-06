@@ -310,7 +310,7 @@ function initDatagridOrders(){
 
 	});
 
-    // priceGrantUtil.grantPrice(gridName);
+    priceGrantUtil.grantPrice(gridName);
 }
 
 /**

@@ -400,6 +400,10 @@ function initDatagridRequireOrder(){
           	oldData["grid"] = gridHandel.getRows();
       	 }
     }
+
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice(gridName,["price","amount","taxAmount"])
+    }
 }
 
 

@@ -105,6 +105,9 @@ function initDatagridEditRequireOrder(){
             updateFooter();
         }
     });
+    if(hasDistributionPrice==false){
+        priceGrantUtil.grantDistributionPrice("gridEditRequireOrder",["price","amount","taxAmount"])
+    }
 }
 //合计
 function updateFooter(){

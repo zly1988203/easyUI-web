@@ -13,6 +13,7 @@ $(document).on('click','input[name="numDeal"]',function(){
 	return false;
 });
 var gridHandel = new GridClass();
+var gridName= "gridViewRequireOrder";
 function initDatagridViewRequireOrder(){
 	gridHandel.setGridName("gridViewRequireOrder");
 	var formId = $("#formId").val();
@@ -148,16 +149,11 @@ function initDatagridViewRequireOrder(){
 			gridHandel.setDatagridHeader("center");
 			updateFooter();
 		},
-//    	rowStyler:function(index,row){
-//    		if(typeof(row.sourceStock) != 'undefined' && typeof(row.applyNum) != 'undefined'
-//    			&& typeof(row.alreadyNum) != 'undefined'){
-//        		if(parseFloat(row.applyNum)+parseFloat(row.alreadyNum) > parseFloat(row.sourceStock)){
-//        			return 'background-color:pink;';
-//        		}	
-//    		}
-//    		
-//		}
     });
+
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice(gridName,["price","amount","taxAmount"])
+    }
 }
 //合计
 function updateFooter(){

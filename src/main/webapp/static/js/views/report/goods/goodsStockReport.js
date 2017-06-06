@@ -75,6 +75,10 @@ function initProductInquireGrid() {
 	    enableHeaderContextMenu: false,
 	    enableRowContextMenu: false
     });
+
+    if(hasCostPrice==false){
+        priceGrantUtil.grantCostPrice("productInquire",["costPrice","costAmount"])
+	}
 }
 
 /**
