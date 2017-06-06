@@ -284,18 +284,33 @@ function onChangeAmount(vewV,oldV){
 		return;
 	}
 	var _unpayAmount = parseFloat(gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'unpayAmount')||0);
-	if(_unpayAmount > 0 && (vewV > _unpayAmount || vewV<0 ) && oldV){
-		$_jxc.alert('实付金额不能大于未付金额且不能小于零');
+	
+	if(_unpayAmount > 0 && (vewV < 0 ) && oldV){
+		$_jxc.alert('实付金额不能小于零');
 		checkFlag = true;
 		$(this).numberbox('setValue',oldV);
 		return;
 	}
-	if(_unpayAmount < 0 && (vewV < _unpayAmount|| vewV>=0) && oldV){
-		$_jxc.alert('实付金额不能小于未付金额且不能大于零');
+	if(_unpayAmount > 0 && (vewV > _unpayAmount ) && oldV){
+		$_jxc.alert('实付金额不能大于未付金额');
 		checkFlag = true;
 		$(this).numberbox('setValue',oldV);
 		return;
 	}
+	
+	if(_unpayAmount < 0 && (vewV > 0) && oldV){
+		$_jxc.alert('实付金额不能大于零');
+		checkFlag = true;
+		$(this).numberbox('setValue',oldV);
+		return;
+	}
+	if(_unpayAmount < 0 && (vewV < _unpayAmount) && oldV){
+		$_jxc.alert('实付金额不能小于未付金额');
+		checkFlag = true;
+		$(this).numberbox('setValue',oldV);
+		return;
+	}
+	
 	updateFooter();
 }
 
@@ -325,15 +340,27 @@ function changeActMountFrom(newV,oldV){
 	
 	var _unpayAmountText = parseFloat($('#unpayAmount').val()||0);
 	
-	if(_unpayAmountText >= 0 && (newV > _unpayAmountText || newV < 0)){
-		$_jxc.alert('实付金额汇总不能大于未付金额汇总且不能小于零');
+	if(_unpayAmountText >= 0 && (newV < 0)){
+		$_jxc.alert('实付金额汇总不能小于零');
+		checkActMountFlag = true;
+		$(this).numberbox('setValue',oldV);
+		return;
+	}
+	if(_unpayAmountText >= 0 && (newV > _unpayAmountText)){
+		$_jxc.alert('实付金额汇总不能大于未付金额汇总');
 		checkActMountFlag = true;
 		$(this).numberbox('setValue',oldV);
 		return;
 	}
 	
-	if(_unpayAmountText < 0 && (newV < _unpayAmountText||newV >= 0)){
-		$_jxc.alert('实付金额汇总不能小于未付金额汇总且不能大于零');
+	if(_unpayAmountText < 0 && (newV > 0)){
+		$_jxc.alert('实付金额汇总不能大于零');
+		checkActMountFlag = true;
+		$(this).numberbox('setValue',oldV);
+		return;
+	}
+	if(_unpayAmountText < 0 && (newV < _unpayAmountText)){
+		$_jxc.alert('实付金额汇总不能小于未付金额汇总');
 		checkActMountFlag = true;
 		$(this).numberbox('setValue',oldV);
 		return;
@@ -440,26 +467,36 @@ function saveSupAcoSet(){
 	var operateType = $('#operateType').val();
 	if(!validateForm(branchId,supplierId))return;
 	
-	//未付金额汇总
-	var _unpayAmount = parseFloat($('#unpayAmount').val()||0);
-	//实付金额汇总
-	var _actulAmount =  parseFloat($('#actualAmount').numberbox('getValue'));
-	
-	if(_unpayAmount >= 0 && (_actulAmount > _unpayAmount || _actulAmount < 0)){
-		$_jxc.alert('实付金额汇总不能大于未付金额汇总且不能小于零');
-		return;
-	}
-	
-	if(_unpayAmount < 0 && (_actulAmount < _unpayAmount|| _actulAmount >= 0)){
-		$_jxc.alert('实付金额汇总不能小于未付金额汇总且不能大于零');
-		return;
-	}
-	
     var _rows = gridHandel.getRowsWhere({targetFormNo:'1'});
     if(_rows.length <= 0){
     	$_jxc.alert("表格不能为空");
     	return;
     }
+    
+    //未付金额汇总
+    var _unpayAmount = parseFloat($('#unpayAmount').val()||0);
+    //实付金额汇总
+    var _actulAmount =  parseFloat($('#actualAmount').numberbox('getValue'));
+    
+    if(_unpayAmount >= 0 && (_actulAmount < 0)){
+    	$_jxc.alert('实付金额汇总不能小于零');
+    	return;
+    }
+    if(_unpayAmount >= 0 && (_actulAmount > _unpayAmount)){
+    	$_jxc.alert('实付金额汇总不能大于未付金额汇');
+    	return;
+    }
+    
+    if(_unpayAmount < 0 && (_actulAmount > 0)){
+    	$_jxc.alert('实付金额汇总不能大于零');
+    	return;
+    }
+    if(_unpayAmount < 0 && (_actulAmount < _unpayAmount)){
+    	$_jxc.alert('实付金额汇总不能小于未付金额汇总');
+    	return;
+    }
+    
+    
     var reqObj = $('#settleForm').serializeObject();
     reqObj.operateType = operateType == "add" ? 1 : 0;
     
