@@ -150,7 +150,7 @@ public class BranchSettingController extends BaseController<BranchSettingControl
 	 */
 	@RequestMapping(value = "save", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson saveSetting(BranchSpecVo vo) {
+	public RespJson save(BranchSpecVo vo) {
 		LOG.debug("更新机构配置，{}", vo);
 		try {
 			RespJson resp = validPermissions();

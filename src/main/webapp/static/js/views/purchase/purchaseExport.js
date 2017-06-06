@@ -15,3 +15,8 @@ function exportData(type){
 //	$("#searchForm").submit();	
 	window.location.href=contextPath+'/form/purchase/exportList?formId='+formId+'&type='+type;
 }
+
+function exportDetail(param){
+	var formId = $("#formId").val();
+	window.location.href = contextPath + '/form/purchase/exportSheet?page=PAForm&sheetNo='+formId;
+}

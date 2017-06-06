@@ -65,6 +65,17 @@ public abstract class BasePrintController<T, P> extends BaseController<T> {
 
 	/**
 	 * 
+	 * @Description: 获取打印表格明细JSON
+	 * @param formNo 订单号
+	 * @return 打印表格明细JSON
+	 * @author zhangq
+	 * @date 2016年8月29日
+	 */ 
+	protected void getPrintDetail(List<P> list,Map<String, Object> params){
+		
+	}
+	/**
+	 * 
 	 * @Description: 打印预览页面
 	 * @param page
 	 * @param template
@@ -105,6 +116,7 @@ public abstract class BasePrintController<T, P> extends BaseController<T> {
 		Map<String, Object> replaceMap = getPrintReplace(sheetNo);
 		// 获取打印表格明细JSON
 		List<P> detailList = getPrintDetail(sheetNo);
+		
 
 		InputStream is = null;
 		try {
@@ -112,11 +124,12 @@ public abstract class BasePrintController<T, P> extends BaseController<T> {
 			if ("DOSheet".equalsIgnoreCase(page)) {
 				is = getExportExcelInputStream(page, branchId);
 			} else {
+				// 求和
+				if ("DOList".equalsIgnoreCase(page)) {
+					getPrintDetail(detailList,replaceMap);
+				}
 				is = IOStreamUtils.getExcelExportPathInputStream(page + ".xlsx");
 			}
-			// ReportExcelUtil.reportExcelToList(response, is,
-			// replaceMap.get("_订单编号").toString(), ReportExcelUtil.REPORT_XLSX,
-			// detailList);
 			ReportExcelUtil.reportExcelToMapAndList(response, is, replaceMap.get("_订单编号").toString(),
 					ReportExcelUtil.REPORT_XLSX, replaceMap, detailList);
 		} catch (Exception e) {

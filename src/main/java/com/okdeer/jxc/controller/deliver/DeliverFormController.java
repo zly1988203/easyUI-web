@@ -789,6 +789,8 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		replaceMap.put("_发货机构", deliverForm.getSourceBranchName() != null ? deliverForm.getSourceBranchName() : "");
 		replaceMap.put("sourceBranchName",
 				deliverForm.getSourceBranchName() != null ? deliverForm.getSourceBranchName() : "");
+		replaceMap.put("sourceBranchCode",
+				deliverForm.getSourceBranchCode() != null ? deliverForm.getTargetBranchCode() : "");
 
 		// 收货机构
 		replaceMap.put("_收货机构", deliverForm.getSourceBranchName() != null ? deliverForm.getSourceBranchName() : "");
@@ -895,6 +897,22 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	}
 
 	// end by lijy02
+
+	/**
+	 * (non-Javadoc)
+	 * @see com.okdeer.jxc.common.controller.BasePrintController#getPrintDetail(java.util.List, java.util.Map)
+	 */
+	@Override
+	protected void getPrintDetail(List<DeliverFormList> list, Map<String, Object> params) {
+		BigDecimal largeNum = BigDecimal.ZERO;
+		BigDecimal dealNum = BigDecimal.ZERO;
+		for (DeliverFormList deliverFormList : list) {
+			largeNum = largeNum.add(deliverFormList.getLargeNum());
+			dealNum = dealNum.add(deliverFormList.getDealNum());
+		}
+		params.put("largeNum", largeNum);
+		params.put("dealNum", dealNum);
+	}
 
 	/**
 	 * @Description: 要货单导入功能
