@@ -36,8 +36,20 @@ function initGridBranchCostList() {
             {field:'auditStatusStr',title:'审核状态',width:80,align:'left'},
             {field:'branchCode',title:'机构编码',width:80,align:'left'},
             {field:'branchName',title:'机构名称',width:180,align:'left'},
-            {field:'sumAmount',title:'单据金额',width:110,align:'right'},
-            {field:'month',title:'费用月份',width:110,align:'right'},
+            {field:'sumAmount',title:'单据金额',width:80,align:'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
+            {field:'month',title:'费用月份',width:80,align:'right',
+                formatter : function(value, row, index) {
+                    var month = value+"";
+                    return month.substr(0,4)+"-"+month.substr(4,5);
+                },
+            },
             {field:'createUserName',title:'操作人',width:120,align:'left'},
             {field:'createTime',title:'操作时间',width:120,align:'left',
             	formatter : function(value, rowData, rowIndex) {
@@ -45,7 +57,7 @@ function initGridBranchCostList() {
             	}
             },
             {field:'auditUserName',title:'审核人',width:120,align:'left'},
-            {field:'remark',title:'备注',width:120,align:'left'},
+            {field:'remark',title:'备注',width:200,align:'left'},
         ]]
     })
 }

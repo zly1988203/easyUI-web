@@ -44,14 +44,19 @@ function getGridcolumns(){
             {field:'branchCode',title:'机构编码',width:80,align:'left',
                 formatter:function(value,row,index){
                     if(typeof(value) === "undefined" ){
-                        return '<b>合并</b>';
+                        return '<b>合计</b>';
                     }
-                    return '<b>'+value+'</b>';
+                    return value;
                 },
             },
             {field:'branchName',title:'机构名称',width:180,align:'left'},
             {field:'parentName',title:'所属分公司',width:180,align:'left'},
-            {field:'month',title:'月份',width:110,align:'left'},
+            {field:'month',title:'月份',width:110,align:'left',
+                formatter : function(value, row, index) {
+                    var month = value+"";
+                    return month.substr(0,4)+"-"+month.substr(4,5);
+                },
+            },
             {field:'amount',title:'金额',width:110,align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
@@ -66,15 +71,20 @@ function getGridcolumns(){
             {field:'formNo',title:'单号',width:180,align:'left',
                 formatter:function(value,row,index){
                     if(typeof(value) === "undefined" ){
-                        return '<b>合并</b>';
+                        return '<b>合计</b>';
                     }
-                    return '<b>'+value+'</b>';
+                    return value;
                 },
             },
             {field:'branchCode',title:'机构编码',width:80,align:'left'},
             {field:'branchName',title:'机构名称',width:180,align:'left'},
             {field:'parentName',title:'所属分公司',width:180,align:'left'},
-            {field:'month',title:'月份',width:110,align:'left'},
+            {field:'month',title:'月份',width:110,align:'left',
+                formatter : function(value, row, index) {
+                    var month = value+"";
+                    return month.substr(0,4)+"-"+month.substr(4,5);
+                },
+            },
             {field:'costTypeName',title:'费用项目',width:180,align:'left'},
             {field:'amount',title:'金额',width:110,align:'right',
                 formatter:function(value,row,index){

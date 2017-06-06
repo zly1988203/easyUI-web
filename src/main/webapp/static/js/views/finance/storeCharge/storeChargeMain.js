@@ -14,6 +14,7 @@ $(function () {
     formId = $("#formId").val();
     
     if(chargeStatus === "add"){
+        $("#createTime").html(new Date().format('yyyy-MM-dd hh:mm'));
     	if(selbranchType>=3){
     		$("#branchName").val(sessionBranchCodeName);
 	        $("#branchId").val(sessionBranchId);
@@ -22,6 +23,8 @@ $(function () {
     }else if(chargeStatus === "edit"){
         $('#already-examine').css('display','none');
         url = contextPath + "/finance/storeCharge/getDetailList";
+        var month = $("#month").val().substr(0,4)+"-"+$("#month").val().substr(4,5)
+        $("#chargeMonth").val(month);
     }else if(chargeStatus === "check"){
         $('#already-examine').css('display','block');
         isdisabled = true;

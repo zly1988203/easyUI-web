@@ -43,14 +43,70 @@ function initGridMonthAnalysis() {
             {field:'branchName',title:'机构名称',width:"150px",align:'left'},
             {field:'parentName',title:'所属分公司',width:"150px",align:'left'},
             {field:'monthStr',title:'月份',width:"80px",align:'left'},
-            {field:'fixedTotalAmount',title:'开店成本',width:"100px",align:'right'},
-            {field:'costAvgYear',title:'费用均摊年数',width:"100px",align:'right'},
-            {field:'fixedAvgAmount',title:costTitle,width:"150px",align:'right'},
-            {field:'monthChargeAmount',title:'每月固定开支',width:"100px",align:'right'},
-            {field:'totalAmount',title:'上月销售额',width:"100px",align:'right'},
-            {field:'grossProfitRateStr',title:'上月毛利率',width:"80px",align:'right'},
-            {field:'bepMonth',title:'月盈亏平衡点',width:"100px",align:'right'},
-            {field:'bepDay',title:'日盈亏平衡点',width:"100px",align:'right'},
+            {field:'fixedTotalAmount',title:'开店成本',width:"100px",align:'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
+            {field:'costAvgYear',title:'费用均摊年数',width:"100px",align:'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
+            {field:'fixedAvgAmount',title:costTitle,width:"150px",align:'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
+            {field:'monthChargeAmount',title:'每月固定开支',width:"100px",align:'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
+            {field:'totalAmount',title:'上月销售额',width:"100px",align:'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
+            {field:'grossProfitRateStr',title:'上月毛利率',width:"80px",align:'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
+            {field:'bepMonth',title:'月盈亏平衡点',width:"100px",align:'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
+            {field:'bepDay',title:'日盈亏平衡点',width:"100px",align:'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
         ]],
         onLoadSuccess : function() {
             gridHandel.setDatagridHeader("center");
