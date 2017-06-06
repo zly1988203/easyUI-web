@@ -18,7 +18,7 @@
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
 				<shiro:hasPermission name="JxcFranchiseSettle:add">
-            		<div class="ubtns-item" onclick="addSupAcoSetForm()">新增</div>
+            		<div class="ubtns-item" onclick="addFranchiseSetForm()">新增</div>
             	</shiro:hasPermission>
 				<shiro:hasPermission name="JxcFranchiseSettle:add">
                		<div class="ubtns-item" onclick="saveFranchiseSet()">保存</div>
