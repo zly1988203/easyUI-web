@@ -15,7 +15,7 @@ var gridName = "supplierAdvanceListAdd";
 var pageStatus;
 var branchId;
 var maxNumber = 999999.99;
-
+var minNumber = -999999.99;
 
 $(function(){
     pageStatus = $('#operateType').val();
@@ -212,11 +212,19 @@ function onChangeAmount(vewV,oldV){
 		editErrorFlag = false;
 		return;
 	}
+	
 	if(vewV > maxNumber){
 		$_jxc.alert('最大费用金额不得大于 '+maxNumber);
 		editErrorFlag = true;
 		$(this).numberbox('setValue',parseFloat(oldV) < 0 ? 0 : parseFloat(oldV));
 	}
+	
+	if(vewV < minNumber){
+		$_jxc.alert('最小费用金额不得小于 '+minNumber);
+		editErrorFlag = true;
+		$(this).numberbox('setValue',parseFloat(oldV) > 0 ? 0 : parseFloat(oldV));
+	}
+	
 	updateFooter()
 }
 //合计
@@ -268,13 +276,6 @@ function saveSupAdvMonOrder(){
         return;
     }
     
-    var footRow = gridHandel.getFooterRow();
-    if(footRow.length > 0 && footRow[0].amount ==0 ){
-    	$_jxc.alert("合计该单据不能为零，请修改。");
-    	return;
-    }
-    
-    
     var valiaFlag = true;
     var _rows = [];
     $.each(rows,function(i,data){
@@ -291,10 +292,16 @@ function saveSupAdvMonOrder(){
     		remark:data.remark
     	})
     })
-    
     if(!valiaFlag){
     	return false;
     }
+    
+    var footRow = gridHandel.getFooterRow();
+    if(footRow.length > 0 && footRow[0].amount ==0 ){
+    	$_jxc.alert("合计该单据不能为零，请修改。");
+    	return;
+    }
+    
     var reqObj = {
     	id:$('#formId').val()||'',
     	branchId:$('#branchId').val()||'',
