@@ -88,6 +88,9 @@ function initDgTakeStockDiffSearch(){
 
 		}
 	});
+    if(hasCostPrice==false){
+        priceGrantUtil.grantCostPrice(gridName,["snapshootStockNum","snapshootCostPrice","costAmountHandle","profitLossCostAmount"])
+    }
 }
 function getFiledsList(){
 	if($('#rotationType').val() === '1'){

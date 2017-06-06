@@ -48,6 +48,9 @@ function initProductInquireGrid() {
 	    enableHeaderContextMenu: false,
 	    enableRowContextMenu: false
     });
+    if(hasDistributionPrice==false){
+		priceGrantUtil.grantDistributionPrice("productInquire",["distributionPrice"])
+	}
 }
 
 /**

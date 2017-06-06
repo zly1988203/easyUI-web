@@ -55,6 +55,7 @@ var gridDefault = {
 }
 var oldData = {};
 var gridHandel = new GridClass();
+var gridName = "gridEditRequireOrder";
 function initDatagridEditRequireOrder(){
     gridHandel.setGridName("gridEditRequireOrder");
     gridHandel.initKey({
@@ -267,6 +268,10 @@ function initDatagridEditRequireOrder(){
             updateFooter();
         },
     });
+
+    if(hasCostPrice==false){
+        priceGrantUtil.grantCostPrice(gridName,["price","amount","taxAmount"])
+    }
 }
 
 //限制转换次数

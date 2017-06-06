@@ -265,6 +265,9 @@ function initDatagridEditRequireOrder(){
             updateFooter();
         }
     });
+    if(hasDistributionPrice==false){
+        priceGrantUtil.grantDistributionPrice("gridEditRequireOrder",["price","amount","taxAmount"])
+    }
 }
 
 //限制转换次数

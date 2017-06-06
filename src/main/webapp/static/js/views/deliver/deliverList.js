@@ -121,6 +121,9 @@ function initDatagridRequireOrders(){
 		}
     });
     queryForm();
+    if(hasPurchasePrice==false){
+		priceGrantUtil.grantPurchasePrice("deliverFormList",["amount"])
+	}
 }
 
 //新增要货单
