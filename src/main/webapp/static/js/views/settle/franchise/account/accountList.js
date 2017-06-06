@@ -164,9 +164,9 @@ function initfraAcountList(){
  */
 function selectBranches(){
 	new publicAgencyService(function(data){
-		$("#branchCompleCode").val(data.branchCompleCode);
+		$("#franchiseBranchId").val(data.branchesId);
 		$("#branchName").val("["+data.branchCode+"]"+data.branchName);
-	},'');
+	},'FAS');
 }
 
 
