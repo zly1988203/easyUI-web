@@ -33,11 +33,10 @@
 						</div>
 						<div class="ub ub-ac">
 							<div class="umar-r10 uw-80 ut-r">机构类型:</div>
-							<select class="uselect uinp-no-more uw-204"
-								name="type" id="type" disabled="disabled">
-								<%--<option value="1">直营店</option>--%>
-								<%--<option value="2">加盟店</option>--%>
-							</select>
+							<input id="branchTypeStr" name="branchTypeStr" type="text"
+							class="uinp uinp-no-more"
+							readonly="readonly">
+							<input id="type" name="type" type="hidden">
 						</div>
 					</div>
 
@@ -100,19 +99,18 @@
 
 						<div class="ub ub-ac uw-320">
 							<div class="umar-r10 uw-80 ut-r">配送价格:</div>
-							<select class="uselect uinp-no-more uw-204"
-								name="distriPriceType" id="distriPriceType" disabled="disabled">
-								<option value="1">配送价</option>
-								<option value="2">成本价</option>
-							</select>
+							<input id="distriPriceTypeStr" name="distriPriceTypeStr" type="text"
+							class="uinp uinp-no-more" maxlength="50"
+							readonly="readonly">
+							<input id="distriPriceType" name="distriPriceType" type="hidden">
 
 						</div>
 
 						<div class="ub ub-ac">
-							<div class="umar-r10 uw-80 ut-r">加价率:</div>
+							<div class="umar-r10 uw-80 ut-r">加价率(%):</div>
 							<input id="priceprocent" name="priceprocent" type="text"
-								class="uinp uinp-no-more uw-180" maxlength="50"
-								readonly="readonly"><span>%</span>
+								class="uinp uinp-no-more" maxlength="50"
+								readonly="readonly">
 						</div>
 
 					</div>
@@ -147,27 +145,23 @@
 					<div class="ub upad-4">
 						<div class="ub ub-ac uw-320">
 							<div class="umar-r10 uw-100 ut-r">线上运营状态:</div>
-							<select class="uselect uinp-no-more uw-204"
-							name="status" id="status" disabled="disabled">
-								<option value="1">运营中</option>
-								<option value="2">已关闭</option>
-							</select>
-
+							<input id="statusStr" name="statusStr" type="text"
+							class="uinp uinp-no-more" maxlength="50"
+							readonly="readonly">
+							<input id="status" name="status" type="hidden">
 						</div>
 
-
-						<div class="ub ub-ac uw-340">
+						<div class="ub ub-ac uw-320">
 							<div class="umar-r10 uw-100 ut-r">费用均摊年数:</div>
-							<input id="costAvgYear" name="costAvgYear" type="number" value="0"
-								class="uinp easyui-numberbox easyui-validatebox" data-options="min:0,precision:0">
+							<input id="costAvgYear" name="costAvgYear" type="text" value="0"
+								class="uinp easyui-numberbox" data-options="min:0,precision:0">
 
 						</div>
 
 						<div class="ub ub-ac">
-							<div class="umar-r10 uw-80 ut-r">店铺面积:</div>
-							<input id="areaSize" name="areaSize" type="number" value="0.00"
-							class="uinp easyui-numberbox easyui-validatebox uw-160" data-options="min:0.00,precision:2">
-							<span>m*2</span>
+							<div class="umar-r10 uw-100 ut-r">店铺面积(m<sup>2</sup>):</div>
+							<input id="areaSize" name="areaSize" type="text" value="0.00"
+							class="uinp easyui-numberbox" data-options="min:0.00,precision:2">
 						</div>
 					</div>
 

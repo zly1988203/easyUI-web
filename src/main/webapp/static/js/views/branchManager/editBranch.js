@@ -32,6 +32,14 @@ function getBranchInfo(){
                         if($("#"+key).hasClass('easyui-numberbox')){
                             $("#"+key).numberbox('setValue', value);
                         }else{
+                            if(key === "status"){
+                                if(value == 1){
+                                    $("#statusStr").val("运营中");
+                                }else {
+                                    $("#statusStr").val("已关闭");
+                                }
+                            }
+
                             $("#"+key).val(value);
                         }
                 }
@@ -42,10 +50,7 @@ function getBranchInfo(){
             else if($("#"+key).prop("tagName") == "SELECT"){
                 if(value != undefined && typeof (value) != "undefined"){
 
-                    if(key=="type"){
-                        var option = "<option value="+value+">"+rec.branch['branchTypeStr']+"</option>"
-                        $("#"+key).append(option);
-                    }
+
 
                     if(key=="offlineStatus"){
                         var data = $('#formEdit #offlineStatus').combobox('getData');

@@ -20,14 +20,13 @@ function initFinanceDialog(param) {
 }
 
 function saveFinanceCode() {
-
     //校验表单
-    if($_jxc.confirm($("#value").val())){
+    if($_jxc.isStringNull($("#value").val())){
         $_jxc.alert("编号不能为空");
         return;
     }
 
-    if($_jxc.confirm($("#label").val())){
+    if($_jxc.isStringNull($("#label").val())){
         $_jxc.alert("名称不能为空");
         return;
     }
@@ -54,6 +53,7 @@ function saveFinanceCode() {
                 cleanForm();
             }else {
                 closeFinanceDialog();
+                queryFinanceCode();
             }
         }else{
             $_jxc.alert(result['message']);

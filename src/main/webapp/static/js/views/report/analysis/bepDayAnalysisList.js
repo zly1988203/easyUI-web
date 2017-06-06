@@ -43,13 +43,62 @@ function initGridDayAnalysis() {
 			{field:'branchCode',title:'机构编码',width:"80px",align:'left'},
 			{field:'branchName',title:'机构名称',width:"150px",align:'left'},
 			{field:'parentName',title:'所属分公司',width:"150px",align:'left'},
-			{field:'areaSize',title:'店铺面积(m*2)',width:"100px",align:'right'},
-			{field:'costAvgYear',title:'费用均摊年数',width:"100px",align:'right'},
-			{field:'dayFixedAvgAmount',title:costTitle,width:"150px",align:'right'},
-			{field:'bepDay',title:'日盈亏平衡点',width:"100px",align:'right'},
-			{field:'dayTotalAmount',title:'销售额',width:"120px",align:'right'},
-			{field:'dayOrderNum',title:'客单数',width:"120px",align:'right'},
-			{field:'dayAvgPrice',title:'客单价',width:"120px",align:'right'}
+			{field:'areaSize',title:'店铺面积(m<sup>2</sup>)',width:"100px",align:'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return parseFloat(value||0).toFixed(2);
+                },
+            },
+			{field:'costAvgYear',title:'费用均摊年数',width:"100px",align:'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||2).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||2).toFixed(2)+'</b>';
+                },
+            },
+			{field:'dayFixedAvgAmount',title:costTitle,width:"150px",align:'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
+			{field:'bepDay',title:'日盈亏平衡点',width:"100px",align:'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
+			{field:'dayTotalAmount',title:'销售额',width:"120px",align:'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
+			{field:'dayOrderNum',title:'客单数',width:"120px",align:'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
+			{field:'dayAvgPrice',title:'客单价',width:"120px",align:'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            }
         ]]
     })
 
