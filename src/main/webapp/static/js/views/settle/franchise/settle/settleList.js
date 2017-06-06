@@ -81,7 +81,7 @@ function initFranchiseSetList(){
                 },
       			{field: 'branchCode', title: '加盟店编号', width: '140px', align: 'left'},
     			{field: 'branchName', title: '加盟店名称', width: '140px', align: 'left'},
-    			{field: 'payableAmount', title: '单据金额', width: '80px', align: 'right',
+    			{field: 'payableAmount', title: '单据金额', width: '100px', align: 'right',
     				formatter:function(value,row,index){
                         if(row.isFooter){
                             return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -169,9 +169,9 @@ function selectOperator(){
  */
 function selectBranches(){
 	new publicAgencyService(function(data){
-		$("#franchiseBranchCode").val(data.branchCompleCode);
+		$("#franchiseBranchId").val(data.branchesId);
 		$("#branchName").val("["+data.branchCode+"]"+data.branchName);
-	},'');
+	},'FAS');
 }
 
 //打印

@@ -182,9 +182,9 @@ function selectOperator(){
  */
 function selectBranches(){
 	new publicAgencyService(function(data){
-		$("#franchiseBranchCode").val(data.branchCompleCode);
+		$("#franchiseBranchId").val(data.branchesId);
 		$("#branchName").val("["+data.branchCode+"]"+data.branchName);
-	},'');
+	},'FAS');
 }
 
 //打印

@@ -129,17 +129,9 @@ function initSupChkAcoAdd(){
             	formatter:function(value,row,index){
             		if(!value)row.actualAmount = 0;
             		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
-            	},
-            	editor:{
-            		type:'numberbox',
-            		options:{
-            			min:0,
-            			precision:4,
-            			onChange:changeActAmount
-            		}
             	}
             },
-            {field:'remark',title:'备注',width:'180px',editor:'textbox'}
+            {field:'remark',title:'备注',width:'180px'}
         ]],
         onCheck:function(rowIndex,rowData){
         	rowData.checked = true;

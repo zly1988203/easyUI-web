@@ -75,13 +75,13 @@ public class FranchiseSettleController extends BasePrintController<FranchiseSett
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
-			if (StringUtils.isNotBlank(vo.getFranchiseBranchCode())) {
+			if (StringUtils.isNotBlank(vo.getFranchiseBranchId())) {
 				vo.setBranchName(null);
 			}
 			if (StringUtils.isNotBlank(vo.getCreateUserId())) {
 				vo.setCreateUserName(null);
 			}
-			vo.setBranchCode(getCurrBranchCompleCode());
+			vo.setFranchiseBranchCode(getCurrBranchCompleCode());
 			PageHelper.startPage(pageNumber, pageSize, true);
 			List<FranchiseSettleVo> list = franchiseSettleService.getSettleList(vo);
 			return new PageUtils<FranchiseSettleVo>(list);
