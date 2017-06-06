@@ -38,7 +38,7 @@
                 <div class="ub umar-t8">
                     <div class="ub ub-ac">
                         <div class="umar-r10 uw-70 ut-r">机构:</div>
-                        <input type="hidden" id="branchCompleCode" name="franchiseBranchCode"/>
+                        <input type="hidden" id="franchiseBranchId" name="franchiseBranchId"/>
                         <input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" onblur="$_jxc.clearIdOnEdit(this)"/>
                         <div class="uinp-more" onclick="selectBranches()" >...</div>
                     </div>

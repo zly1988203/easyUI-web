@@ -47,12 +47,12 @@
 
 <script>
 	 
-/* $(function(){
+$(function(){
    //实现对字符码的截获，keypress中屏蔽了这些功能按键
    document.onkeypress = banBackSpace;
    //对功能按键的获取
    document.onkeydown = banBackSpace;
-}) */
+})
 	
 	
 window.addEventListener('message',function(e){

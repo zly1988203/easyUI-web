@@ -386,7 +386,7 @@ function selectBranches(){
 					$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
 			        gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
 					                        $.extend({},gridDefault),$.extend({},gridDefault)]);
-				},'FI',branchId);
+				},'FA',branchId);
 			}
 		})
 	}else{
@@ -394,7 +394,7 @@ function selectBranches(){
 			$("#branchId").val(data.branchesId);
 			$("#branchCode").val(data.branchCode);
 			$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
-		},'FI',branchId);
+		},'FA',branchId);
 	}	
 }
 

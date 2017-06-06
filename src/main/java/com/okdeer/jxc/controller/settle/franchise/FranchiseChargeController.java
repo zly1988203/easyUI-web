@@ -76,13 +76,13 @@ public class FranchiseChargeController extends BasePrintController<FranchiseChar
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
-			if (StringUtils.isNotBlank(vo.getFranchiseBranchCode())) {
+			if (StringUtils.isNotBlank(vo.getFranchiseBranchId())) {
 				vo.setBranchName(null);
 			}
 			if (StringUtils.isNotBlank(vo.getCreateUserId())) {
 				vo.setCreateUserName(null);
 			}
-			vo.setBranchCode(getCurrBranchCompleCode());
+			vo.setFranchiseBranchCode(getCurrBranchCompleCode());
 			vo.setFormType(FormType.FI.toString());
 			PageHelper.startPage(pageNumber, pageSize, true);
 			List<FranchiseChargeVo> list = franchiseChargeService.getChargeList(vo);
@@ -247,13 +247,13 @@ public class FranchiseChargeController extends BasePrintController<FranchiseChar
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
-			if (StringUtils.isNotBlank(vo.getFranchiseBranchCode())) {
+			if (StringUtils.isNotBlank(vo.getFranchiseBranchId())) {
 				vo.setBranchName(null);
 			}
 			if (StringUtils.isNotBlank(vo.getCreateUserId())) {
 				vo.setCreateUserName(null);
 			}
-			vo.setBranchCode(getCurrBranchCompleCode());
+			vo.setFranchiseBranchCode(getCurrBranchCompleCode());
 			vo.setFormType(FormType.FO.toString());
 			PageHelper.startPage(pageNumber, pageSize, true);
 			List<FranchiseChargeVo> list = franchiseChargeService.getChargeList(vo);

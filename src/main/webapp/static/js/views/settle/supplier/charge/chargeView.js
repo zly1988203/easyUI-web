@@ -61,7 +61,14 @@ function initChageListView(){
         width:'100%',
         columns:[[
             {field:'id',hidden:'true'},
-            {field:'value',title:'编号',width: '100px',align:'left',editor:'textbox'},
+            {field:'value',title:'编号',width: '100px',align:'left',
+            	formatter:function(value,row){
+            		if(row.isFooter){
+            			 return '<div class="ub ub-pc">合计</div> ';
+            		}
+                    return value;
+                }	
+            },
             {field:'label',title:'名称',width:'200px',align:'left'},
             {field:'io',title:'收支方式',width:'80px',align:'center',
             	formatter:function(value,row){
