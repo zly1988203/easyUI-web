@@ -51,7 +51,7 @@ function initGridShopList(cardType) {
         	{field: 'branchId', title: '店铺id', hidden:"true"},
             {field: 'branchCode', title: '店铺编号', width: 100, align: 'left',
                 formatter : function(value, row,index) {
-                    var str = "";
+                    var str = value;
                     if(row.isFooter){
                         str ='<div class="ub ub-pc">合计</div> '
                     }
@@ -84,7 +84,7 @@ function initGridShopList(cardType) {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
             },
-            {field: 'ecardBalance', title: '余额', width: 100, align: 'right',
+            {field: 'ecardBalance', title: '账户余额', width: 100, align: 'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
