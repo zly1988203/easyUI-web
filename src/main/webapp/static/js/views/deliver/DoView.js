@@ -141,10 +141,15 @@ function back(){
 	location.href = contextPath+"/form/deliverForm/viewsDO";
 }
 
-function exportDetail(){
+function exportDetail(param){
 	var formId = $("#formId").val();
 	var sourceBranchId = $("#sourceBranchId").val();
-	window.location.href = contextPath + '/form/deliverForm/exportSheet?page=DOSheet&sheetNo='+formId+'&branchId='+sourceBranchId;
+    if (param == 0) {
+        window.location.href = contextPath + '/form/deliverForm/exportSheet?page=DOSheet&sheetNo='+formId+'&branchId='+sourceBranchId;
+    } else {
+        window.location.href = contextPath + '/form/deliverForm/exportSheet?page=DOList&sheetNo='+formId+'&branchId='+sourceBranchId;
+    }
+
 }
 
 // 查询要货机构的资料

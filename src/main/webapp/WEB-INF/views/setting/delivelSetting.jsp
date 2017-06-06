@@ -32,6 +32,17 @@
 					</div>
 				</div>
 				<div class="ub ub-ac upad-16 ">
+					<div class="ub uw-220 ut-r">加盟店要货配送取价值:</div>
+					<div class="ub ub-ac umar-r10">
+						<input class="ub" type="radio" id="priceSpec0" name="storesPriceSpec" value="0" />
+						<label for="priceSpec0">分机构配送价</label>
+					</div>
+					<div class="ub ub-ac umar-r10">
+						<input class="ub" type="radio" id="priceSpec1" name="storesPriceSpec" value="1" checked="checked" />
+						<label for="priceSpec1">门店配送价</label>
+					</div>
+				</div>
+				<div class="ub ub-ac upad-16 ">
 					<div class="ub uw-220 ut-r">自营店要货价格取值:</div>
 					<div class="ub ub-ac umar-r10">
 						<input class="ub" type="radio" id="priceSpec0" name="priceSpec" value="0" />
@@ -247,7 +258,7 @@
 				gFunEndLoading();
 				if (result['code'] == 0) {
 					messager("保存成功！");
-					location.reload();
+					//location.reload();
 				} else {
 					successTip(result['message']);
 				}

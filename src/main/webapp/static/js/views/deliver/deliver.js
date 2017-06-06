@@ -628,7 +628,7 @@ function setDataValue(data,fromClick) {
     },100)
 }
 
-//查询价格、库存
+//查询库存
 function selectStockAndPrice(data,fromClick){
 
 	var GoodsStockVo = {

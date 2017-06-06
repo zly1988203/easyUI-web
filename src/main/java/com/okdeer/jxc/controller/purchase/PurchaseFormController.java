@@ -44,6 +44,7 @@ import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.LogConstant;
 import com.okdeer.jxc.common.controller.BasePrintController;
 import com.okdeer.jxc.common.enums.BranchTypeEnum;
+import com.okdeer.jxc.common.enums.SaleWayEnum;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportComponent;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportHandle;
@@ -1078,17 +1079,17 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 			replaceMap.put("refFormNo", form.getRefFormNo() != null ? form.getRefFormNo() : "");
 			// 供应商
 			replaceMap.put("_供应商名称", form.getSupplierName() != null ? form.getSupplierName() : "");
-			replaceMap.put("supplierName", form.getSupplierName() != null ? form.getSupplierName() : "");
+			replaceMap.put("supplierName", form.getSupplierName() != null ? "["+form.getSupplierCode()+"]"+form.getSupplierName() : "");
 			// 制单人员
 			replaceMap.put("_制单人员", form.getSalesmanName() != null ? form.getSalesmanName() : "");
 			replaceMap.put("salesmanName", form.getSalesmanName() != null ? form.getSalesmanName() : "");
 			// 机构名称
 			replaceMap.put("_机构名称", form.getBranchName() != null ? form.getBranchName() : "");
-			replaceMap.put("branchName", form.getBranchName() != null ? form.getBranchName() : "");
+			replaceMap.put("branchName", form.getBranchName() != null ? "["+form.getBranchCode() +"]"+form.getBranchName() : "");
 			// 下单日期
 			if (form.getCreateTime() != null) {
 				replaceMap.put("_下单日期", DateUtils.formatDate(form.getCreateTime(), "yyyy-MM-dd"));
-				replaceMap.put("createTime", DateUtils.formatDate(form.getCreateTime(), "yyyy-MM-dd"));
+				replaceMap.put("createTime", DateUtils.formatDate(form.getCreateTime(), "yyyy-MM-dd HH:mm"));
 			} else {
 				replaceMap.put("_下单日期", "");
 				replaceMap.put("createTime", "");
@@ -1113,7 +1114,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 			// 审核日期
 			if (form.getValidTime() != null) {
 				replaceMap.put("_审核日期", DateUtils.formatDate(form.getValidTime(), "yyyy-MM-dd"));
-				replaceMap.put("validTime", DateUtils.formatDate(form.getValidTime(), "yyyy-MM-dd"));
+				replaceMap.put("validTime", DateUtils.formatDate(form.getValidTime(), "yyyy-MM-dd HH:mm"));
 			} else {
 				replaceMap.put("_审核日期", "");
 				replaceMap.put("validTime", "");
@@ -1155,6 +1156,13 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 			replaceMap.put("_机构详细地址", form.getBranchAddress() != null ? form.getBranchAddress() : "");
 			replaceMap.put("_送货地址", form.getBranchAddress() != null ? form.getBranchAddress() : "");
 			replaceMap.put("branchAddress", form.getBranchAddress() != null ? form.getBranchAddress() : "");
+			
+			// 付款期限
+			if (form.getPaymentTime() != null){
+				replaceMap.put("paymentTime", DateUtils.formatDate(form.getPaymentTime(), "yyyy-MM-dd"));
+			}
+			replaceMap.put("saleWay", SaleWayEnum.getValue(form.getSaleWay()));
+			
 			/**
 			 * added by zhangqin on 2016-12-01 14:36 end
 			 */
