@@ -178,8 +178,14 @@ function selectOperator(){
 /**
  * 机构查询
  */
-function selectBranches(param){
-	new publicBranchesService(param||{},function(data){
+function selectBranches(nameOrCode){
+	var param = {
+		branchTypesStr:$_jxc.branchTypeEnum.OWN_STORES + ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_B
+	}
+	if(nameOrCode){
+		param.nameOrCode = nameOrCode;
+	}
+	new publicBranchesService(param,function(data){
 		//返回NO时 输入动作没匹配到数据 
 		if(data == 'NO'){
 			//未查询到数据或多条数据，设置无效ID
@@ -202,11 +208,7 @@ function brandAutoComple(obj){
 		$_jxc.clearHideInpOnEdit(obj);
 		return;
 	}
-	var param = {
-		nameOrCode:nameOrCode,
-		//branchType:$_jxc.branchTypeEnum.HEAD_QUARTERS+','+$_jxc.branchTypeEnum.BRANCH_COMPANY
-	}
-	selectBranches(param,obj);
+	selectBranches(nameOrCode,obj);
 }
 
 /**
