@@ -25,7 +25,7 @@
 
 					<input name="cardType" id="cardType"
 						class="uinp uinp-no-more uw-204" type="text" readOnly="readonly" />
-					<input id="cardTypeId" name="cardTypeId"
+					<input id="settingId" name="settingId"
 					class="uinp uinp-no-more uw-204" type="hidden" readOnly="readonly" />
 				</div>
 			</div>

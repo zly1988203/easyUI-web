@@ -85,7 +85,7 @@ public class ICCardSettingController extends BaseController<Object>{
 		icCardSetting.setId(settingId);
 		icCardSetting.setClearingCenterIp(ip);
 		icCardSetting.setClearingCenterPort(port);
-		icCardSetting.setEcardType(cardType);
+		//icCardSetting.setEcardType(cardType);
 		icCardSetting.setOperationDeptCode(code);
 		icCardSettingService.updateICCardSetting(icCardSetting);
 		return RespJson.success("更新一卡通成功!");

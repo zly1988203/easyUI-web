@@ -6,7 +6,7 @@
  */
 
 function initCardTypeData(item){
-    $("#cardTypeId").val(item.id);
+    $("#settingId").val(item.id);
     $("#cardType").val(item.ecardType);
     $("#ip").val(item.clearingCenterIp);
     $("#port").numberbox("setValue",item.clearingCenterPort);
