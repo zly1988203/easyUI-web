@@ -74,11 +74,11 @@ function queryForm(){
 	var batchNo = $("#batchNo").val();
 	
     if(branchCompleCode==""){
-        messager("请先选择机构");
+        $_jxc.alert("请先选择机构");
         return;
     }
 	if(batchNo==""){
-		messager("请先选择盘点批号");
+		$_jxc.alert("请先选择盘点批号");
         return;
 	}
 	var fromObjStr = $('#queryForm').serializeObject();

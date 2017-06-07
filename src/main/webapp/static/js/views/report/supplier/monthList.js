@@ -112,7 +112,7 @@ function initDatagridGYYueJXC(){
 //查询
 function queryForm(){
 	if($("#branchName").val()=="" && $("#skuCode").val()=="" ){
-        messager("请选择机构或输入条码");
+        $_jxc.alert("请选择机构或输入条码");
         return;
     } 
 	var fromObjStr = $('#queryForm').serializeObject();
@@ -137,7 +137,7 @@ function selectBranches(){
  */
 function selectSupplier(){
 	if($("#branchName").val()==""){
-        messager("请先选择机构");
+        $_jxc.alert("请先选择机构");
         return;
     } 
 	var branchId = $("#createBranchId").val();

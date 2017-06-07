@@ -132,14 +132,14 @@ function delStockForm(){
 		    	success:function(result){
 		    		console.log(result);
 		    		if(result['code'] == 0){
-                        messager("删除成功");
+                        $_jxc.alert("删除成功");
 		    			dg.datagrid('reload');
 		    		}else{
-                        messager(result['message']);
+                        $_jxc.alert(result['message']);
 		    		}
 		    	},
 		    	error:function(result){
-                    messager("请求发送失败或服务器处理失败");
+                    $_jxc.alert("请求发送失败或服务器处理失败");
 		    	}
 		    });
 		}

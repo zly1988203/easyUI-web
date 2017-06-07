@@ -147,7 +147,7 @@ function queryBranch(){
 function editBranch() {
     var row = $("#"+gridName).datagrid("getSelected");
     if(!row || row == null){
-        messager("请选择一条数据!");
+       $_jxc.alert("请选择一条数据!");
         return;
     }
     openEditBranchDailog(row.branchesId);
@@ -159,7 +159,7 @@ function editBranch() {
 function exportData(){
 	var length = $("#"+gridName).datagrid('getData').rows.length;
 	if(length == 0){
-		successTip("无数据可导");
+		$_jxc.alert("无数据可导");
 		return;
 	}
 	$('#exportWin').window({

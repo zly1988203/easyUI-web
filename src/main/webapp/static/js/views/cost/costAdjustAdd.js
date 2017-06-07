@@ -215,7 +215,7 @@ function selectGoods(searchKey){
 	var branchId = $("#branchId").val();
 	//判定发货分店是否存在
 	if(branchId==""){
-		messager("请先选择机构名称");
+		$_jxc.alert("请先选择机构名称");
 		return;
 	}
 
@@ -261,7 +261,7 @@ function selectStockAndPrice(branchId,data){
     		setDataValue(result);
     	},
     	error:function(result){
-            messager("请求发送失败或服务器处理失败");
+            $_jxc.alert("请求发送失败或服务器处理失败");
     	}
     });
 }
@@ -299,19 +299,19 @@ function addsaveOrder(){
     var rows = gridHandel.getRowsWhere({skuName:'1'});
     $(gridHandel.getGridName()).datagrid("loadData",rows);
     if(rows.length==0){
-        messager("表格不能为空");
+        $_jxc.alert("表格不能为空");
         return;
     }
     var isCheckResult = true;
     var isChcekPrice = false;
     $.each(rows,function(i,v){
        /* if(!v["skuCode"]){
-            messager("第"+(i+1)+"行，货号不能为空");
+            $_jxc.alert("第"+(i+1)+"行，货号不能为空");
             isCheckResult = false;
             return false;
         };
         if(!v["skuName"]){
-            messager("第"+(i+1)+"行，名称不能为空");
+            $_jxc.alert("第"+(i+1)+"行，名称不能为空");
             isCheckResult = false;
             return false;
         };*/
@@ -383,12 +383,12 @@ function saveDataHandel(rows){
                     location.href = contextPath +"/cost/costAdjust/edit?id="+result.id+"&type=add"
                 });
             }else{
-                messager(result['message']);
+                $_jxc.alert(result['message']);
             }
         },
         error:function(result){
         	gFunEndLoading();
-            messager("请求发送失败或服务器处理失败");
+            $_jxc.alert("请求发送失败或服务器处理失败");
         }
     });
 }
@@ -415,7 +415,7 @@ function searchBranch (){
 function toImportproduct(type){
     var branchId = $("#branchId").val();
     if(!branchId){
-        messager("请先选择机构名称");
+        $_jxc.alert("请先选择机构名称");
         return;
     }
     var param = {

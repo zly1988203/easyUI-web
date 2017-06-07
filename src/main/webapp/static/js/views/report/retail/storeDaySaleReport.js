@@ -812,7 +812,7 @@ function initDatagridRequire(){
 //查询入库单
 function queryForm(){
  if($("#branchName").val()==""){
-    messager("请选择店铺名称");
+    $_jxc.alert("请选择店铺名称");
     return;
  } 
  $("#startCount").attr("value",null);

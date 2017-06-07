@@ -25,7 +25,7 @@ $(function() {
 
 function changeUppermit(newV,oldV){
 	if(parseFloat(newV) > maxNum){
-		messager('库存上限输入值最大为  '+maxNum);
+		$_jxc.alert('库存上限输入值最大为  '+maxNum);
 		return;
 	}
 	
@@ -38,7 +38,7 @@ function changeUppermit(newV,oldV){
 
 function changeLowerLimit(newV,oldV){
 	if(parseFloat(newV) > maxNum){
-		messager('库存下限输入值最大为  '+maxNum);
+		$_jxc.alert('库存下限输入值最大为  '+maxNum);
 		return;
 	}
 	$("#"+datagridId).datagrid("endEdit", selectIndex);
@@ -228,7 +228,7 @@ function onChangeStockBegin(newV,oldV){
 	}
 	
 	if(parseFloat(newV) > maxNum ){
-		messager('库存上限输入值最大为  '+maxNum);
+		$_jxc.alert('库存上限输入值最大为  '+maxNum);
 		return;
 	}
 	
@@ -251,7 +251,7 @@ function onChangeStockEnd(newV,oldV){
 		return;
 	}
 	if(parseFloat(newV) > maxNum ){
-		messager('库存下限输入值最大为  '+maxNum);
+		$_jxc.alert('库存下限输入值最大为  '+maxNum);
 		return;
 	}
 	
@@ -505,7 +505,7 @@ var resetForm = function(){
 function toImportStockIndex(type){
     var branchId = $("#branchId").val();
     if(!branchId){
-        messager("请先选择机构");
+        $_jxc.alert("请先选择机构");
         return;
     }
     var param = {

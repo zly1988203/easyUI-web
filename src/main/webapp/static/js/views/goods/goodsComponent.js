@@ -287,7 +287,7 @@ function selectGoods(searchKey){
 	var viewrows=$("#gridOrdersview").datagrid("getRows");
 	console.log(viewrows);
 	  if(viewrows==0){
-		messager("请选择捆绑商品");
+		$_jxc.alert("请选择捆绑商品");
 		 return;
 	   }
 	   var param = {goodsTypeList:'0,1,2',key:searchKey}
@@ -391,19 +391,19 @@ function saveResultOrder(){
     var rows = gridHandel.getRowsWhere({skuName:'1'});
     $(gridHandel.getGridName()).datagrid("loadData",rows);
     if(rows.length==0){
-        messager("表格不能为空");
+        $_jxc.alert("表格不能为空");
         return;
     }
     var isCheckResult = true;
     $.each(rows,function(i,v){
         if(!v["skuCode"]){
-            messager("第"+(i+1)+"行，货号不能为空");
+            $_jxc.alert("第"+(i+1)+"行，货号不能为空");
             isCheckResult = false;
             return false;
         };
         if(v["componentNum"]<=0){
         	
-            messager("第"+(i+1)+"行，成分数量必须大于0");
+            $_jxc.alert("第"+(i+1)+"行，成分数量必须大于0");
             isCheckResult = false;
             return false;
         };
@@ -447,7 +447,7 @@ function saveDataHandel(rows){
         data:{"goodsJson":goodsJson},
         success:function(result){
             if(result['code'] == 0){
-                $.messager.alert("操作提示", "操作成功！", "info",function(){
+                $_jxc.alert("操作成功！",function(){
                     //location.href = contextPath +"/form/purchase/orderEdit?formId=" + result["formId"];
                 });
             }else{

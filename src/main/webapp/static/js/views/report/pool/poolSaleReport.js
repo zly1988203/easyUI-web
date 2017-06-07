@@ -309,7 +309,7 @@ function selectSupplier(){
 //选择商品
 function selectGoods(searchKey){
 	if(!$("#branchId").val()){
-		 messager("请选择机构");
+		 $_jxc.alert("请选择机构");
 	     return;
 	}
     var param = {

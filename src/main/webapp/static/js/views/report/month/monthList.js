@@ -166,7 +166,7 @@ function initDatagridYueJXC(){
 		]], 
 		onLoadSuccess:function(data){
 			if($("#createBranchId").val()&&data.total<=0)
-				messager("该机构可能未月结,请先月结!");
+				$_jxc.alert("该机构可能未月结,请先月结!");
 		}
 
 	});
@@ -183,7 +183,7 @@ function initDatagridYueJXC(){
 //查询
 function queryForm(){
 	if($("#branchName").val()=="" && $("#skuCode").val()=="" ){
-        messager("请选择机构或输入条码");
+        $_jxc.alert("请选择机构或输入条码");
         return;
     } 
 	var fromObjStr = $('#queryForm').serializeObject();

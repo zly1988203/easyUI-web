@@ -318,7 +318,7 @@ function query(){
 	var skuBarCode = $("#skuBarCode").val();
 	var skuName = $("#skuName").val();
 	if(!branchName && !skuBarCode && !skuName){
-		messager("机构与条码或名称必须输入其中一个条件.");
+		$_jxc.alert("机构与条码或名称必须输入其中一个条件.");
 		return;
 	}
 	//将左侧查询条件设置缓存中
@@ -374,7 +374,7 @@ function importHandel(type,obj){
 	    //判定发货分店是否存在  
 		//JIANGSHAO
 	    if($("#branchId").val()==""){   
-	        messager("请选择机构");
+	        $_jxc.alert("请选择机构");
 	        return;
 	    } 
 	    var param = {

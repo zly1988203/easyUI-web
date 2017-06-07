@@ -32,11 +32,11 @@ var resetForm = function() {
  */
 function queryForm(){
 //	if($("#branchName").val()==""){
-//        messager("请选择机构");
+//        $_jxc.alert("请选择机构");
 //        return;
 //    } 
 //	if($("#branchName").val()=="" && $("#skuCode").val()=="" ){
-//        messager("请选择机构或输入条码");
+//        $_jxc.alert("请选择机构或输入条码");
 //        return;
 //    } 
 	$("#startCount").attr("value",null);

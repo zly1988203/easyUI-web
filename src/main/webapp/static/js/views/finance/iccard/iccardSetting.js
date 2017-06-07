@@ -88,7 +88,7 @@ function saveCardSetting() {
 	}
     $.post("setting/save", $('#saveForm').serialize()+urlEncode(ids,"ids")+urlEncode(enableds,"enableds"),
 			   function(datas){
-		messager(datas.data);
+		$_jxc.alert(datas.data);
     	}
     , "json");
 }
@@ -136,7 +136,7 @@ function closeCardDialog() {
 function delCard() {
     var row = $("#"+gridName).datagrid("getSelected");
     if(!row || row == null){
-        messager("请选择一条数据");
+        $_jxc.alert("请选择一条数据");
         return;
     }
 

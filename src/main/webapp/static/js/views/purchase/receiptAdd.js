@@ -378,14 +378,14 @@ function onChangeLargeNum(newV,oldV){
     }
     var purchaseSpecValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'purchaseSpec');
     if(!purchaseSpecValue){
-        messager("没有商品规格,请审查");
+        $_jxc.alert("没有商品规格,请审查");
         return;
     }
     
 
     if(maxlargeNum&&(parseFloat(newV)>parseFloat(maxlargeNum))){
     	i = 1;
-        messager("输入商品箱数不能大于原箱数"+maxlargeNum);
+        $_jxc.alert("输入商品箱数不能大于原箱数"+maxlargeNum);
         gridHandel.setFieldValue('largeNum',oldV);
         return;
     }
@@ -421,14 +421,14 @@ function onChangeRealNum(newV,oldV) {
     }
     var purchaseSpecValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'purchaseSpec');
     if(!purchaseSpecValue){
-        messager("没有商品规格,请审查");
+        $_jxc.alert("没有商品规格,请审查");
         return;
     }
     
   
     if(maxRealNum&&(parseFloat(newV)>parseFloat(maxRealNum))){
     	j = 1;
-        messager("输入商品数量不能大于采购数量"+maxRealNum);
+        $_jxc.alert("输入商品数量不能大于采购数量"+maxRealNum);
         gridHandel.setFieldValue('realNum',oldV);
         return;
     }
@@ -487,7 +487,7 @@ function onSelectIsGift(data){
     }else{
         var targetIsGift = gridHandel.getFieldTarget('isGift');
         $(targetIsGift).combobox('select', data.id=='1'?'0':'1');
-        messager(data.id=='1'?'已存在相同赠品':'已存在相同商品');
+        $_jxc.alert(data.id=='1'?'已存在相同赠品':'已存在相同商品');
     }
 }
 //合计
@@ -500,7 +500,7 @@ function updateFooter(){
 function addLineHandel(event){
     event.stopPropagation(event);
     if($("#refFormId").val()){
-        messager("已选采购单号，不允许添加其他商品");
+        $_jxc.alert("已选采购单号，不允许添加其他商品");
         return;
     }
     var index = $(event.target).attr('data-index')||0;
@@ -516,11 +516,11 @@ function delLineHandel(event){
 function selectGoods(searchKey){
     //判定供应商是否存在
     if($("#supplierId").val()==""){
-        messager("请先选择供应商");
+        $_jxc.alert("请先选择供应商");
         return;
     }
   	if($("#refFormId").val()){
-  		messager("已选采购单号，不允许添加其他商品");
+  		$_jxc.alert("已选采购单号，不允许添加其他商品");
   		return;
 	}
     var queryParams = {
@@ -584,7 +584,7 @@ function saveItemHandel(){
     var rows = gridHandel.getRowsWhere({skuName:'1'});
     $(gridHandel.getGridName()).datagrid("loadData",rows);
     if(rows.length==0){
-        messager("表格不能为空");
+        $_jxc.alert("表格不能为空");
         return;
     }
     var isCheckResult = true;
@@ -592,7 +592,7 @@ function saveItemHandel(){
     $.each(rows,function(i,v){
         v["rowNo"] = i+1;
         if(!v["skuName"]){
-            messager("第"+(i+1)+"行，货号不正确");
+            $_jxc.alert("第"+(i+1)+"行，货号不正确");
             isCheckResult = false;
             return false;
         }
@@ -601,7 +601,7 @@ function saveItemHandel(){
         }
 
         // if(dateUtil.compareDate(v['goodsCreateDate'],v['goodsExpiryDate'])){
-        //     messager("第"+(i+1)+"行，生产日期不能大于有效日期");
+        //     $_jxc.alert("第"+(i+1)+"行，生产日期不能大于有效日期");
         //     isCheckResult = false;
         //     return false;
         // }
