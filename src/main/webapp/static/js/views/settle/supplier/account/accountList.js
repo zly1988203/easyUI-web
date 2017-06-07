@@ -20,7 +20,7 @@ function getAccountColumns(){
 		defaultColumns =defaultColumns.concat([
            {field: 'settleformNo',title:'结算单号',width:'150px',align:'left',
         	   formatter:function(value,row,index){
-        		   strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'供应商预付款明细\',\''+ contextPath +'/settle/supplierCharge/advanceView?id='+ row.id +'\')">' + value + '</a>';
+        		   strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'供应商预付款明细\',\''+ contextPath +'/settle/supplierSettle/settleViewByNo?formNo='+ row.settleformNo +'\')">' + value + '</a>';
         		   return strHtml;
         	   }
            }]);
