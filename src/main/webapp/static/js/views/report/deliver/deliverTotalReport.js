@@ -481,7 +481,7 @@ var dg;
 function exportData(){
 	var length = $('#cashDaily').datagrid('getData').rows.length;
 	if(length == 0){
-		successTip("无数据可导");
+		$_jxc.alert("无数据可导");
 		return;
 	}
 	$('#exportWin').window({
@@ -495,7 +495,7 @@ function exportData(){
 	$("#queryForm").form({
 		success : function(data){
 			if(data.code > 0){
-				$.messager.alert('提示',data.message);
+				$_jxc.alert(data.message);
 			}
 		}
 	});
@@ -514,7 +514,7 @@ function exportExcel(){
 	$("#queryForm").form({
 		success : function(data){
 			if(data.code > 0){
-				$.messager.alert('提示',data.message);
+				$_jxc.alert(data.message);
 			}
 		}
 	});

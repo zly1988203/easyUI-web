@@ -227,15 +227,15 @@ function queryForm(){
 	$("#startCount").val('');
 	$("#endCount").val('');
 	if($("#branchName").val()==""){
-        messager("请选择机构");
+        $_jxc.alert("请选择机构");
         return;
     } 
 	if($("#startTime").val()==""){
-		messager("请选择开始时间");
+		$_jxc.alert("请选择开始时间");
 		return;
 	} 
 	if($("#endTime").val()==""){
-		messager("请选择结束时间");
+		$_jxc.alert("请选择结束时间");
 		return;
 	} 
 	var oldBranchName = $("#oldBranchName").val();
@@ -291,7 +291,7 @@ var dg;
 function exportData(){
 	var length = $('#rotationReport').datagrid('getData').total;
 	if(length == 0){
-		successTip("无数据可导");
+		$_jxc.alert("无数据可导");
 		return;
 	}
 	$('#exportWin').window({
@@ -311,7 +311,7 @@ function selectGoods(searchKey) {
 	var branchId=null;
 	//判定供应商是否存在
     if($("#branchId").val()==""){
-        successTip("请先选择机构");
+        $_jxc.alert("请先选择机构");
         return;
     }
     branchId=$("#branchId").val();
@@ -347,7 +347,7 @@ function gFunGoodsSelect(searchKey,branchId){
 function exportExcel(){
 	var length = $("#rotationReport").datagrid('getData').total;
 	if(length == 0){
-		$.messager.alert('提示',"没有数据");
+		$_jxc.alert("没有数据");
 		return;
 	}
 	var fromObjStr = $('#queryForm').serializeObject();
@@ -355,9 +355,9 @@ function exportExcel(){
 	$("#queryForm").form({
 		success : function(data){
 			if(data==null){
-				$.messager.alert('提示',"导出数据成功！");
+				$_jxc.alert("导出数据成功！");
 			}else{
-				$.messager.alert('提示',JSON.parse(data).message);
+				$_jxc.alert(JSON.parse(data).message);
 			}
 		}
 	});
@@ -372,7 +372,7 @@ function printReport(){
 	$("#endCount").val('');
 	var length = $("#rotationReport").datagrid('getData').total;
 	if(length == 0){
-		$.messager.alert('提示',"没有数据");
+		$_jxc.alert("没有数据");
 		return;
 	}
 	var fromObjStr = $('#queryForm').serializeObject();

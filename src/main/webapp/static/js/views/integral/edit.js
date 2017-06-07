@@ -11,22 +11,22 @@ function updateWdatePicker(){
 function chechVal(){
    var num = $("#num").val();
    if(!num){
-	   messager("兑换数量为空");
+	   $_jxc.alert("兑换数量为空");
 	   return false;
    }
    var integral = $("#integral").val();
    if(!integral){
-	   messager("对应积分为空");
+	   $_jxc.alert("对应积分为空");
 	   return false;
    }
    var startTime = $("#startTime").val();
    if(!startTime){
-	   messager("开始时间为空");
+	   $_jxc.alert("开始时间为空");
 	   return false;
    }
    var endTime = $("#endTime").val();
    if(!endTime){
-	   messager("结束时间为空");
+	   $_jxc.alert("结束时间为空");
 	   return false;
    }
 	return true;
@@ -75,11 +75,11 @@ function saveArchives(){
             	$(dalogTemp).panel('destroy');
             	$("#dataListGrid").datagrid('reload');
             }else{
-                successTip(result['message']);
+                $_jxc.alert(result['message']);
             }
         },
         error:function(result){
-            successTip("请求发送失败或服务器处理失败");
+            $_jxc.alert("请求发送失败或服务器处理失败");
         }
     });
 

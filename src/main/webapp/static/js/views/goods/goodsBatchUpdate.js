@@ -38,11 +38,11 @@ function initQueryForm(){
 				$("#branchName").val("["+result.data.branchCode+"]"+result.data.branchName);
 				changeBranchType(result.data.type);
 			}else{
-				successTip("请求发送失败或服务器处理失败");
+				$_jxc.alert("请求发送失败或服务器处理失败");
 			}
 		},
 		error : function(result) {
-			successTip("请求发送失败或服务器处理失败");
+			$_jxc.alert("请求发送失败或服务器处理失败");
 		}
 	});
 }
@@ -646,15 +646,15 @@ function save(){
 		data : req,
 		success : function(result) {
 			if (result['code'] == 0) {
-				$.messager.alert("操作提示", "操作成功！", "info", function() {
+				$_jxc.alert("操作成功！",function() {
 					
 				});
 			} else {
-				successTip(result['message']);
+				$_jxc.alert(result['message']);
 			}
 		},
 		error : function(result) {
-			successTip("请求发送失败或服务器处理失败");
+			$_jxc.alert("请求发送失败或服务器处理失败");
 		}
 	});
 }

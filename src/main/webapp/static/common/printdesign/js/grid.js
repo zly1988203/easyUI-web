@@ -384,7 +384,7 @@
                 var cmenu = $('<div/>');
                 cmenu.menu({
                     onClick: function (item) {
-
+                        //asdfasdf
                         $(target).grid("stopEdit");
                         var changeRows = $(target).grid('getChanges');
                         var idField = $(target).grid('options').idField;
@@ -393,7 +393,7 @@
                                 for (var i = 0; i < changeRows.length; i++) {
                                     var row = changeRows[i];
                                     if (row[idField] != null && row[idField] != "") {
-                                        $.messager.alert('信息', '单据明细内容有修改，请保存后操作!');
+                                        $_jxc.alert('单据明细内容有修改，请保存后操作!');
                                         return;
                                     }
                                 }
@@ -451,7 +451,7 @@
                                 for (var i = 0; i < changeRows.length; i++) {
                                     var row = changeRows[i];
                                     if (row[idField] != null && row[idField] != "") {
-                                        $.messager.alert('信息', '单据明细内容有修改，请保存后操作!');
+                                        $_jxc.alert('单据明细内容有修改，请保存后操作!');
                                         return;
                                     }
                                 }
@@ -877,7 +877,7 @@
                 //    for (var i = 0; i < rows.length; i++) {
                 //        var row = rows[i];
                 //        if (row && row.isValid == true) {
-                //            $.messager.alert('信息', '单据明细内容有修改，请保存后拖动!')
+                //            $_jxc.alert('信息', '单据明细内容有修改，请保存后拖动!')
                 //            return false;
                 //        }
                 //    }

@@ -232,14 +232,14 @@ function submitForm(){
 		success : function(result) {
 			$('#btnSave').removeAttr("disabled");
 			if(result){
-				successTip("保存成功");
+				$_jxc.alert("保存成功");
 			}else{
 				//$('#btnSave').removeAttr("disabled");
-				successTip("保存失败");
+				$_jxc.alert("保存失败");
 			}
 		},
 		error : function(result) {
-			successTip("请求发送失败或服务器处理失败");
+			$_jxc.alert("请求发送失败或服务器处理失败");
 		}
 	});
 }
@@ -404,7 +404,7 @@ function submitForm(){
  
  function onChangeCoefficient(newV,oldV){
      if(newV > 999.90 || newV < 0.10){
-    	 successTip("安全系数在0.10到999.90之间");
+    	 $_jxc.alert("安全系数在0.10到999.90之间");
     	 gridHandel.setFieldSpinnerValue('safetyCoefficient',0.10);
     	 return;
     }
@@ -441,13 +441,13 @@ function submitForm(){
 	        data:JSON.stringify(newData),
 	        success:function(result){
 	            if(result['code'] == 0){
-	                $.messager.alert("操作提示", "操作成功！");
+	                $_jxc.alert("操作成功！");
 	            }else{
-	                successTip(result['message'] +","+strResult);
+	                $_jxc.alert(result['message'] +","+strResult);
 	            }
 	        },
 	        error:function(result){
-	            successTip("请求发送失败或服务器处理失败");
+	            $_jxc.alert("请求发送失败或服务器处理失败");
 	        }
 	    });
  }

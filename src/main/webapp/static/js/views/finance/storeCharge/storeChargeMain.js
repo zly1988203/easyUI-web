@@ -200,18 +200,18 @@ function saveStoreCharge() {
     var branchId = $("#branchId").val();
     var branchCode = $("#branchCode").val();
     if(!branchId){
-        messager("机构不能为空!");
+        $_jxc.alert("机构不能为空!");
         return;
     }
 
     if(selbranchType<3 && chargeStatus === "add"){
-    	messager("机构只能选择店铺类型！");
+    	$_jxc.alert("机构只能选择店铺类型！");
     	return;
     }
     
     var rows = gridHandel.getRowsWhere({costTypeCode:1});
     if(rows.length==0){
-        messager("表格不能为空");
+        $_jxc.alert("表格不能为空");
         return;
     }
     
@@ -219,12 +219,12 @@ function saveStoreCharge() {
     var detailList = [];
     $.each(rows,function(i,v){
         if(!v["costTypeCode"]){
-            messager("第"+(i+1)+"行，费用代码不能为空");
+            $_jxc.alert("第"+(i+1)+"行，费用代码不能为空");
             isCheckResult = false;
             return false;
         };
         if(v["amount"]<=0){
-            messager("第"+(i+1)+"行，金额必须大于0");
+            $_jxc.alert("第"+(i+1)+"行，金额必须大于0");
             isCheckResult = false;
             return false;
         }
@@ -276,11 +276,11 @@ function saveStoreCharge() {
 
     $_jxc.ajax(param,function (result) {
         if(result['code'] == 0){
-            $.messager.alert("操作提示", "保存成功！", "info",function(){
+            $_jxc.alert("保存成功！",function(){
                 location.href = contextPath + "/finance/storeCharge/toEdit?formId=" + result.data.formId;
             });
         }else{
-            messager(result['message'])
+            $_jxc.alert(result['message'])
         }
     })
     
@@ -332,12 +332,12 @@ function chargeDelete() {
         if(data){
             $_jxc.ajax(param,function (result) {
                 if(result['code'] == 0){
-                    $.messager.alert("操作提示", "删除成功！", "info",function(){
+                    $_jxc.alert("删除成功！",function(){
                         toClose();
                     });
 
                 }else{
-                    messager(result['message']);
+                    $_jxc.alert(result['message']);
                 }
             })
 
@@ -355,11 +355,11 @@ function  chargeCheck() {
 
     $_jxc.ajax(param,function (result) {
         if(result['code'] == 0){
-            $.messager.alert("操作提示", "操作成功！", "info",function(){
+            $_jxc.alert("操作成功！",function(){
                 location.href = contextPath +"/finance/storeCharge/toEdit?formId=" + formId;
             });
         }else{
-            messager("审核失败");
+            $_jxc.alert("审核失败");
         }
     })
 }
@@ -367,12 +367,12 @@ function  chargeCheck() {
 function exportList(){
 	var length = $("#" + gridName).datagrid('getData').total;
 	if(length == 0){
-		$.messager.alert('提示',"列表数据为空");
+		$_jxc.alert('提示',"列表数据为空");
 		return;
 	}
 	
 	if(length>10000){
-		$.messager.alert("当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
+		$_jxc.alert("当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
 		return;
 	}
 	location.href = contextPath +"/finance/storeCharge/exportList?formId=" + formId;

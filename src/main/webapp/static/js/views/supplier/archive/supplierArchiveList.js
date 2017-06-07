@@ -197,7 +197,7 @@ function editHandel(id){
 function exportData(){
 	var length = $('#gridSupplierArchiveList').datagrid('getData').rows.length;
 	if(length == 0){
-		successTip("无数据可导");
+		$_jxc.alert("无数据可导");
 		return;
 	}
 	$('#exportWin').window({
@@ -245,11 +245,13 @@ function delHandel(){
             dataType:"json",  
             success:function(result){
                 if(result){
-                    successTip(result.message, $("#gridSupplierArchiveList"));
+                    $_jxc.alert(result.message,function(){
+                    	$("#gridSupplierArchiveList").datagrid('reload');	
+                    });
                 }
             },
             error:function(result){
-                successTip("请求发送失败或服务器处理失败");
+                $_jxc.alert("请求发送失败或服务器处理失败");
             }
         });
     });

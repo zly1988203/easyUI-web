@@ -27,16 +27,16 @@ function saveProp() {
 		data : formObj,
 		success : function(result) {
 			if(result){
-				successTip("保存成功");
+				$_jxc.alert("保存成功");
 				query();
 				closeDialogHandel();
 			}else{
 				$('#btnSave').removeAttr("disabled");
-				successTip("保存失败");
+				$_jxc.alert("保存失败");
 			}
 		},
 		error : function(result) {
-			successTip("请求发送失败或服务器处理失败");
+			$_jxc.alert("请求发送失败或服务器处理失败");
 		}
 	});
 }

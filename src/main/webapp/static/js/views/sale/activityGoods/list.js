@@ -148,7 +148,7 @@ function purchaseTotalCx(){
 function exportData(){
 	var length = $("#"+datagridID).datagrid('getData').total;
 	if(length == 0){
-		successTip("无数据可导");
+		$_jxc.alert("无数据可导");
 		return;
 	}
 	$('#exportWin').window({
@@ -169,17 +169,17 @@ function exportExcel(){
 	var branchCompleCode = $("#branchCompleCode").val();
 	var categoryType=$('input[name="searchType"]:checked ').val();
 	if(!(startDate && endDate)){
-		$.messager.alert('提示', '日期不能为空');
+		$_jxc.alert('日期不能为空');
 		return ;
 	}
 	
 	var length = $("#"+datagridID).datagrid('getData').total;
 	if(length == 0){
-		$.messager.alert('提示',"没有数据");
+		$_jxc.alert("没有数据");
 		return;
 	}
 	if(length>10000){
-		$.messager.alert("当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
+		$_jxc.alert("当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
 		return;
 	}
 	$("#queryForm").attr("action",contextPath+'/sale/activityDetailReport/exportExcelList');

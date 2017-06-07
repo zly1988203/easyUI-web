@@ -19,15 +19,15 @@ function save(){
     var isValid = true;
 
     if($('#addbranchName').val()===""){
-        messager("请选择机构");
+        $_jxc.alert("请选择机构");
         isValid = false;
 	}
 
     if($("#formAdd #scope").combobox('getValue')===''){
-        messager("请选择盘点范围");
+        $_jxc.alert("请选择盘点范围");
         isValid = false;
     }else if($("#formAdd #scope").combobox('getValue')==='1' && $('#formAdd #categoryShows').val()===""){
-        messager("请选择类别");
+        $_jxc.alert("请选择类别");
         isValid = false;
 	}
 
@@ -66,7 +66,7 @@ function saveDataHandel() {
 		
 		},
 		error : function(result) {
-			successTip("请求发送失败或服务器处理失败");
+			$_jxc.alert("请求发送失败或服务器处理失败");
 		}
 	});
 }

@@ -90,7 +90,7 @@ function add(){
 function deleteData(){
 	var rows =$("#dataListGrid").datagrid("getChecked");
 	if($("#dataListGrid").datagrid("getChecked").length <= 0){
-		 $.messager.alert('提示','请选中一行进行删除！');
+		 $_jxc.alert('请选中一行进行删除！');
 		return null;
 	}
 	 var ids='';
@@ -108,14 +108,14 @@ function deleteData(){
 		    	success:function(result){
 		    		console.log(result);
 		    		if(result['code'] == 0){
-		    			successTip("删除成功");
+		    			$_jxc.alert("删除成功");
 		    		}else{
-		    			successTip(result['message']);
+		    			$_jxc.alert(result['message']);
 		    		}
 		    		$("#dataListGrid").datagrid('reload');
 		    	},
 		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
+		    		$_jxc.alert("请求发送失败或服务器处理失败");
 		    	}
 		    });
 		}

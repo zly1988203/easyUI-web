@@ -247,11 +247,11 @@ function selectGoods(searchKey){
 	var batchId = $("#batchId").val();
 	var batchNo = $("#batchNo").val();
 	if(!branchId || !$.trim(branchId)){
-		messager("请选择机构");
+		$_jxc.alert("请选择机构");
 		return;
 	}
 	if(!batchId || !$.trim(batchId)){
-		messager("请选择盘点批次");
+		$_jxc.alert("请选择盘点批次");
 		return;
 	}
     //控制弹框
@@ -347,22 +347,22 @@ function saveStocktakingForm(opType){
     //机构Code
     var branchCode=$("#branchCode").val();
 	if(branchId === '' || branchId == null){
-		messager("请选择机构");
+		$_jxc.alert("请选择机构");
 		return;
 	}
 	if(opType == 1 && (branchId === '' || branchId == null)){
-		messager("请选择机构");
+		$_jxc.alert("请选择机构");
 		return;
 	}
 	if(!batchId || !$.trim(batchId)){
-		messager("请选择盘点批次");
+		$_jxc.alert("请选择盘点批次");
 		return;
 	}
     $("#"+datagridId).datagrid("endEdit", gridHandel.getSelectRowIndex());
     var rows = gridHandel.getRowsWhere({skuName:'1'});
     $(gridHandel.getGridName()).datagrid("loadData",rows);
     if(rows.length==0){
-        messager("表格不能为空");
+        $_jxc.alert("表格不能为空");
         return;
     }
     var isCheckResult = true;
@@ -385,7 +385,7 @@ function saveStocktakingForm(opType){
         }
     }
 //    else{
-//    	$.messager.alert('提示','存在盘点数小于0的记录，请修改后保存')
+//    	$_jxc.alert('提示','存在盘点数小于0的记录，请修改后保存')
 //    }
 }
 
@@ -403,7 +403,7 @@ function addOperate(){
         return;
     }else {
         if(!gFunComparisonArray(oldData,newData)){
-            messager("数据已修改，请先保存");
+            $_jxc.alert("数据已修改，请先保存");
             return;
         }else{
             toAddTab("新增存货盘点单",contextPath + "/stocktaking/operate/add");
@@ -462,17 +462,17 @@ function saveDataHandel(rows,opType){
         success:function(result){
         	gFunEndLoading();
             if(result['code'] == 0){
-    			$.messager.alert("操作提示", "操作成功！", "info",function(){
+    			$_jxc.alert("操作成功！",function(){
     				location.href = contextPath +"/stocktaking/operate/stocktakingFormView?id="+result['formId'];
     			});
             }else{
                 gFunEndLoading();
-                successTip(result['message']);
+                $_jxc.alert(result['message']);
             }
         },
         error:function(result){
             gFunEndLoading();
-            successTip("请求发送失败或服务器处理失败");
+            $_jxc.alert("请求发送失败或服务器处理失败");
         }
     });
 }
@@ -520,13 +520,13 @@ function deleteStocktakingForm(){
 		    		ids : ids
 		    	},
 		    	success:function(result){
-		    		successTip(result['message']);
+		    		$_jxc.alert(result['message']);
 		    		if(result['code'] == 0){
 		    			toClose();
 		    		}
 		    	},
 		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
+		    		$_jxc.alert("请求发送失败或服务器处理失败");
 		    	}
 		    });
 		}
@@ -541,11 +541,11 @@ function importStocktakingForm(type){
 	var batchId = $("#batchId").val();
 	var batchNo = $("#batchNo").val();
 	if(!branchId || !$.trim(branchId)){
-		messager("请选择机构");
+		$_jxc.alert("请选择机构");
 		return;
 	}
 	if(!batchId || !$.trim(batchId)){
-		messager("请选择盘点批次");
+		$_jxc.alert("请选择盘点批次");
 		return;
 	}
     var param = {
@@ -596,14 +596,14 @@ function updateListData(data){
 function exportData(){
 	var length = dg.datagrid('getData').total;
 	if(length == 0){
-		$.messager.alert('提示',"没有数据");
+		$_jxc.alert("没有数据");
 		return;
 	}
 	var fromObjStr = $('#operateForm').serializeObject();
 	console.log(fromObjStr);
 	$("#operateForm").form({
 		success : function(data){
-			successTip(data.message);
+			$_jxc.alert(data.message);
 		}
 	});
 	$("#operateForm").attr("action",contextPath+"/stocktaking/operate/exportPPDetailList?"+fromObjStr);

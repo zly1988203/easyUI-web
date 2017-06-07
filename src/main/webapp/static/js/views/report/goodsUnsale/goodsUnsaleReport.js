@@ -156,7 +156,7 @@ function selectBranches(){
 //选择商品
 function selectGoods(searchKey){
 	if(!$("#branchId").val()){
-		 messager("请选择机构");
+		 $_jxc.alert("请选择机构");
 	     return;
 	}
     var param = {
@@ -202,7 +202,7 @@ var dg;
 function exportData(){
 	var length = $('#goodsUnsale').datagrid('getData').total;
 	if(length == 0){
-		successTip("无数据可导");
+		$_jxc.alert("无数据可导");
 		return;
 	}
 	$('#exportWin').window({
@@ -220,7 +220,7 @@ function exportData(){
 function exportExcel(){
 	var length = $("#goodsUnsale").datagrid('getData').total;
 	if(length == 0){
-		$.messager.alert('提示',"没有数据");
+		$_jxc.alert("没有数据");
 		return;
 	}
 	var fromObjStr = $('#queryForm').serializeObject();
@@ -228,9 +228,9 @@ function exportExcel(){
 	$("#queryForm").form({
 		success : function(data){
 			if(data==null){
-				$.messager.alert('提示',"导出数据成功！");
+				$_jxc.alert("导出数据成功！");
 			}else{
-				$.messager.alert('提示',JSON.parse(data).message);
+				$_jxc.alert(JSON.parse(data).message);
 			}
 		}
 	});

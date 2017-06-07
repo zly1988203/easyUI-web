@@ -96,14 +96,14 @@ function toDelete(){
 		    	data:JSON.stringify(ids),
 		    	success:function(result){
 		    		if(result['code'] == 0){
-		    			successTip("删除成功");
+		    			$_jxc.alert("删除成功");
 		    			dg.datagrid('reload');
 		    		}else{
-		    			successTip(result['message']);
+		    			$_jxc.alert(result['message']);
 		    		}
 		    	},
 		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
+		    		$_jxc.alert("请求发送失败或服务器处理失败");
 		    	}
 		    });
 		}
@@ -138,7 +138,7 @@ function selectOperator(){
 function deleteStocktakingBatch(){
 	var rows = $("#diffDisposeList").datagrid('getChecked');
 	if(rows.length <= 0){
-		$.messager.alert('提示','没有单据可以删除，请选择一笔单据再删除？');
+		$_jxc.alert('没有单据可以删除，请选择一笔单据再删除？');
 		return;
 	}
 	var tempIds = [];
@@ -170,7 +170,7 @@ function deleteStocktakingBatch(){
                     dataType: "json",
                     success: function(data){
                     	gFunEndLoading();
-                    	successTip(data['message']);
+                    	$_jxc.alert(data['message']);
                     	if(data.code == 0){
                     		queryForm();
                     	}

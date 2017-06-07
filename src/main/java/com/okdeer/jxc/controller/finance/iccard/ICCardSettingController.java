@@ -141,13 +141,13 @@ public class ICCardSettingController extends BaseController<Object>{
 	}
 	
 	@RequestMapping(value = "/get/device")
-	public PageUtils<ICCardDevice> iccardBranchDeviceList(String branchId,
+	public PageUtils<ICCardDevice> iccardBranchDeviceList(String branchId,String settingId,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize, HttpServletRequest request) {
 		PageUtils<ICCardDevice> suppliers = PageUtils.emptyPage();
 		
 		try {
-			suppliers = icCardSettingService.selectByBranchId(branchId, pageNumber, pageSize);
+			suppliers = icCardSettingService.selectByBranchId(branchId,settingId, pageNumber, pageSize);
 			return suppliers;
 		} catch (Exception e) {
 			logger.error("查询一卡通店铺列表失败！", e);
@@ -162,13 +162,21 @@ public class ICCardSettingController extends BaseController<Object>{
 	}
 	
 	@RequestMapping(value = "/save/pos", method = RequestMethod.POST)
-	public RespJson savePos(String branchId, @RequestParam(value = "deviceCode[]") String[] deviceCode,
+	public RespJson savePos(String branchId,String settingId, @RequestParam(value = "deviceCode[]") String[] deviceCode,
 			@RequestParam(value = "protectKey[]") String[] protectKey,
-			@RequestParam(value = "posRegisteId[]") String[] posRegisteId) {
-		boolean bool = icCardSettingService.savePos(branchId, deviceCode, protectKey,posRegisteId, getCurrUserId());
+			@RequestParam(value = "posRegisteId[]",required=false) String[] posRegisteId) {
+		boolean bool = icCardSettingService.savePos(branchId,settingId, deviceCode, protectKey,posRegisteId, getCurrUserId());
 		if (bool)
 			return RespJson.success("设备设置成功!");
 		return RespJson.error("设备设置失败!");
+	}
+	
+	@RequestMapping(value = "/judge/branch", method = RequestMethod.POST)
+	public RespJson judgeBranch(String branchId, String settingId) {
+		boolean bool = icCardSettingService.isExistICCardSettingBranch(branchId, settingId);
+		if (bool)
+			return RespJson.success();
+		return RespJson.error();
 	}
 	
 	@RequestMapping(value = "addIcCardType", method = RequestMethod.GET)

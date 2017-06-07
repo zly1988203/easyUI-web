@@ -29,7 +29,7 @@ function saveSupplier() {
 		return;
 	}
     if($('#supplierName').val().trim()===""){
-        messager("请输入供应商名称");
+        $_jxc.alert("请输入供应商名称");
         return;
     }
 
@@ -44,7 +44,7 @@ function saveSupplier() {
 			}
 		},
 		error : function(result) {
-			successTip("请求发送失败或服务器处理失败");
+			$_jxc.alert("请求发送失败或服务器处理失败");
 		}
 	});
 }

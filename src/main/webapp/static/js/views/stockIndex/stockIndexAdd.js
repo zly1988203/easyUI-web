@@ -25,7 +25,7 @@ $(function() {
 
 function changeUppermit(newV,oldV){
 	if(parseFloat(newV) > maxNum){
-		messager('库存上限输入值最大为  '+maxNum);
+		$_jxc.alert('库存上限输入值最大为  '+maxNum);
 		return;
 	}
 	
@@ -38,7 +38,7 @@ function changeUppermit(newV,oldV){
 
 function changeLowerLimit(newV,oldV){
 	if(parseFloat(newV) > maxNum){
-		messager('库存下限输入值最大为  '+maxNum);
+		$_jxc.alert('库存下限输入值最大为  '+maxNum);
 		return;
 	}
 	$("#"+datagridId).datagrid("endEdit", selectIndex);
@@ -228,14 +228,14 @@ function onChangeStockBegin(newV,oldV){
 	}
 	
 	if(parseFloat(newV) > maxNum ){
-		messager('库存上限输入值最大为  '+maxNum);
+		$_jxc.alert('库存上限输入值最大为  '+maxNum);
 		return;
 	}
 	
 	var cuRindex = gridHandel.getSelectRowIndex();
 	var curLowLimit = gridHandel.getFieldValue(cuRindex,'lowerLimit');
 	if(parseFloat(newV) < parseFloat(curLowLimit) ){
-		successTip('库存上限不能小于库存下限');
+		$_jxc.alert('库存上限不能小于库存下限');
 		//$(this).numberbox('setValue',oldV);
 		return;
 	}
@@ -251,14 +251,14 @@ function onChangeStockEnd(newV,oldV){
 		return;
 	}
 	if(parseFloat(newV) > maxNum ){
-		messager('库存下限输入值最大为  '+maxNum);
+		$_jxc.alert('库存下限输入值最大为  '+maxNum);
 		return;
 	}
 	
 	var curRindex = gridHandel.getSelectRowIndex();
 	var curUpVal = gridHandel.getFieldValue(curRindex,'upperLimit');	
 	if(parseFloat(newV) > parseFloat(curUpVal)){
-		successTip('库存上限不能小于库存下限');
+		$_jxc.alert('库存上限不能小于库存下限');
 		//$(this).numberbox('setValue',oldV);
 		return;
 	}
@@ -278,7 +278,7 @@ function specialRows(id,val){
 		for(var i = 0;i < newData.length;i++){
 			rowIndex = $("#"+datagridId).datagrid('getRowIndex',newData[i]);
 			if(parseFloat(val) > parseFloat(newData[i].upperLimit)){
-				//successTip("第  "+(rowIndex+1)+" 行库存上限不能小于库存下限");
+				//$_jxc.alert("第  "+(rowIndex+1)+" 行库存上限不能小于库存下限");
 				newData[i].validFlag = true;
 				errorIndex.push(rowIndex+1); 
 				//return;
@@ -299,7 +299,7 @@ function specialRows(id,val){
 		for(var i = 0;i < newData.length;i++){
 			rowIndex = $("#"+datagridId).datagrid('getRowIndex',newData[i]);
 			if(parseFloat(val) < parseFloat(newData[i].lowerLimit)){
-				//successTip("第  "+(rowIndex+1)+" 行库存上限不能小于库存下限");
+				//$_jxc.alert("第  "+(rowIndex+1)+" 行库存上限不能小于库存下限");
 				newData[i].validFlag = true;
 				errorIndex.push(rowIndex+1); 
 				//return;
@@ -320,7 +320,7 @@ function specialRows(id,val){
 	$("#"+datagridId).datagrid({data:newData})
 	
 	if(errorIndex.length > 0){
-		//successTip("第  "+(errorIndex.join(","))+" 行库存上限不能小于库存下限");
+		//$_jxc.alert("第  "+(errorIndex.join(","))+" 行库存上限不能小于库存下限");
 		$.messager.confirm("提示","库存上限不能小于库存下限",function(e){
 			gridHandel.setBeginRow(errorIndex[0]-1);
 			gridHandel.setSelectFieldName('upperLimit');
@@ -345,7 +345,7 @@ function saveStockIndexs(){
     console.log(rows);
     $(gridHandel.getGridName()).datagrid("loadData",rows);
     if(rows.length==0){
-        successTip("表格不能为空");
+        $_jxc.alert("表格不能为空");
         return;
     }
     var isCheckResult = true;
@@ -353,18 +353,18 @@ function saveStockIndexs(){
     
     $.each(rows,function(i,v){
     	if(parseFloat(v["upperLimit"]) > maxNum){
-    		successTip("第  "+(i+1)+" 行库存上限输入最大值为  "+maxNum);
+    		$_jxc.alert("第  "+(i+1)+" 行库存上限输入最大值为  "+maxNum);
     		isCheckResult = false;
     		return;
     	}
     	if(parseFloat(v["lowerLimit"]) > maxNum){
-    		successTip("第  "+(i+1)+" 行库存下限输入最大值为  "+maxNum);
+    		$_jxc.alert("第  "+(i+1)+" 行库存下限输入最大值为  "+maxNum);
     		isCheckResult = false;
     		return;
     	}
     	
         if(parseFloat(v["lowerLimit"]) > parseFloat(v["upperLimit"])){
-        	successTip("第  "+(i+1)+" 行库存上限不能小于库存下限");
+        	$_jxc.alert("第  "+(i+1)+" 行库存上限不能小于库存下限");
         	isCheckResult = false;
         	return;
         }
@@ -408,13 +408,13 @@ function saveDataHandel(rows){
         success:function(result){
             if(result['code'] == 0){
                 console.log(result);
-                successTip(result['message']);
+                $_jxc.alert(result['message']);
             }else{
-                successTip(result['message']);
+                $_jxc.alert(result['message']);
             }
         },
         error:function(result){
-            successTip("请求发送失败或服务器处理失败");
+            $_jxc.alert("请求发送失败或服务器处理失败");
         }
     });
 }
@@ -442,7 +442,7 @@ function selectGoodsDialog(searchKey) {
 	var branchId=null;
 	//判定供应商是否存在
     if($("#branchId").val()==""){
-        successTip("请先选择机构");
+        $_jxc.alert("请先选择机构");
         return;
     }
     branchId=$("#branchId").val();
@@ -505,7 +505,7 @@ var resetForm = function(){
 function toImportStockIndex(type){
     var branchId = $("#branchId").val();
     if(!branchId){
-        messager("请先选择机构");
+        $_jxc.alert("请先选择机构");
         return;
     }
     var param = {

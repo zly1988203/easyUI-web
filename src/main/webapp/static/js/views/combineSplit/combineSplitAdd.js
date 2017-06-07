@@ -130,7 +130,7 @@ function initCombineSplieEditGrid() {
 //监听商品数量
 function onChangeRealNum(newV,oldV) {
 	if("" == newV){
-	  messager("商品数量输入有误");
+	  $_jxc.alert("商品数量输入有误");
 	  gridHandel.setFieldValue('componentNum',oldV);
       return;
 	}else if(newV > maxNum){
@@ -164,7 +164,7 @@ function selectGoodsDialog(searchKey) {
 	var branchId=null;
 	//判定供应商是否存在
     if($("#createBranchId").val()==""){
-        messager("请先选择机构");
+        $_jxc.alert("请先选择机构");
         return;
     }
     branchId=$("#createBranchId").val();
@@ -180,7 +180,7 @@ function gFunGoodsSelect(searchKey,branchId){
 	            return;
 	        }
 		  	if(data.length > 1){
-	    		messager('只能选择一个组合商品');
+	    		$_jxc.alert('只能选择一个组合商品');
 	    		return;
 	    	}
 		  	var type = data[0].type? data[0].type.name:'';
@@ -191,11 +191,11 @@ function gFunGoodsSelect(searchKey,branchId){
 	    		type = 2;
 	    	}
 	    	if(comboxV == 1 && type != comboxV){
-	    		messager('选择商品不是组合商品');
+	    		$_jxc.alert('选择商品不是组合商品');
 	    		return;
 	    	}
 	    	if(comboxV == 2 && type != comboxV){
-	    		messager('选择商品不是拆分商品');
+	    		$_jxc.alert('选择商品不是拆分商品');
 	    		return;
 	    	}
 	    	$("#skuIdMain").val(data[0].skuId);
@@ -239,7 +239,7 @@ function selectView(searchskuId){
 			}
 		},
 		error : function(result) {
-            messager("请求发送失败或服务器处理失败");
+            $_jxc.alert("请求发送失败或服务器处理失败");
 		}
 	});
 }
@@ -290,18 +290,18 @@ function specialRows(id,val){
 function saveCombineSplit(){
 	var mainNum = $("#totalNum").numberbox('getValue');
 	if(!mainNum || !$.trim(mainNum)){
-		messager("请输入主商品数量");
+		$_jxc.alert("请输入主商品数量");
 		return;
 	}
 	if(parseFloat(mainNum)==0){
-		messager("主商品数量不能为0");
+		$_jxc.alert("主商品数量不能为0");
 		return;
 	}
     $("#"+datagridId).datagrid("endEdit", gridHandel.getSelectRowIndex());
     var rows = gridHandel.getRowsWhere({skuName:'1'});
     $(gridHandel.getGridName()).datagrid("loadData",rows);
     if(rows.length==0){
-        messager("表格不能为空");
+        $_jxc.alert("表格不能为空");
         return;
     }
     var isCheckResult = true;
@@ -401,15 +401,15 @@ function saveDataHandel(rows){
         data:{"data":JSON.stringify(jsonData)},
         success:function(result){
             if(result['code'] == 0){
-    			$.messager.alert("操作提示", "操作成功！", "info",function(){
+    			$_jxc.alert("操作成功！",function(){
     				location.href = contextPath +"/stock/combineSplit/combineSplitView?id="+id;
     			});
             }else{
-                messager(result['message']);
+                $_jxc.alert(result['message']);
             }
         },
         error:function(result){
-            messager("请求发送失败或服务器处理失败");
+            $_jxc.alert("请求发送失败或服务器处理失败");
         }
     });
 }

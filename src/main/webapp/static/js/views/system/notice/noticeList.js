@@ -161,9 +161,9 @@ function delNotice() {
             }
             $_jxc.ajax(param,function (result) {
                 if(result['code'] == 0){
-                    messager("删除成功");
+                    $_jxc.alert("删除成功");
                 }else{
-                    messager(result['message']);
+                    $_jxc.alert(result['message']);
                 }
                 $("#"+gridName).datagrid('reload');
             })

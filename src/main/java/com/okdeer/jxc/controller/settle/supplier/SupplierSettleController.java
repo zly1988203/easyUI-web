@@ -107,6 +107,21 @@ public class SupplierSettleController extends BasePrintController<SupplierSettle
         model.addAttribute("settleVo", settleVo);
         return new ModelAndView("settle/supplier/settle/settleView");
     }
+    
+    /**
+     * 
+     * @Description: 供应商结算详情页
+     * @param model model
+     * @return ModelAndView
+     * @author xuyq
+     * @date 2017年5月22日
+     */
+    @RequestMapping(value = "settleViewByNo")
+    public ModelAndView settleViewByNo(Model model, String formNo) {
+        SupplierSettleVo settleVo = supplierSettleService.getSupplierSettleVoByFormNo(formNo);
+        model.addAttribute("settleVo", settleVo);
+        return new ModelAndView("settle/supplier/settle/settleView");
+    }
 
     /**
      * @Description: 查询列表
@@ -125,10 +140,11 @@ public class SupplierSettleController extends BasePrintController<SupplierSettle
         try {
             vo.setPageNumber(pageNumber);
             vo.setPageSize(pageSize);
+            vo.setBranchCompleCode(getCurrBranchCompleCode());
             LOG.debug(LogConstant.OUT_PARAM, vo.toString());
-            PageUtils<SupplierSettleVo> advanceList = supplierSettleService.getSettlePageList(vo);
-            LOG.debug(LogConstant.PAGE, advanceList.toString());
-            return advanceList;
+            PageUtils<SupplierSettleVo> settleList = supplierSettleService.getSettlePageList(vo);
+            LOG.debug(LogConstant.PAGE, settleList.toString());
+            return settleList;
         } catch (Exception e) {
             LOG.error("供应商结算列表信息异常:{}", e);
         }

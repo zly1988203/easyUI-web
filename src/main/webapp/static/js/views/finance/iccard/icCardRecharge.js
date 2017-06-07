@@ -15,7 +15,7 @@ function changeBalance() {
     var oldBalance = parseFloat($('#oldBalance').numberbox('getValue'));
     var addBalance = parseFloat($('#addBalance').numberbox('getValue'));
     if(addBalance <= 0.00){
-        messager("充值金额要大于0");
+        $_jxc.alert("充值金额要大于0");
         $("#saveBtn").prop("disabled","disabled");
         return;
     }else{
@@ -28,7 +28,7 @@ function changeBalance() {
 function save() {
     var addBalance = $('#addBalance').numberbox('getValue');
     if(!addBalance||addBalance <= 0.00){
-    	 messager("充值金额不能为空！");
+    	 $_jxc.alert("充值金额不能为空！");
          return;
     }
     $.messager.confirm("提示","本次充值金额"+addBalance+",是否继续",function (data) {
@@ -38,7 +38,7 @@ function save() {
 			        		if(datas.message==="success"){
 			        			$('#closeRecharge').trigger('click'); 
 			        		}
-        					messager(datas.data);
+        					$_jxc.alert(datas.data);
         					$("#gridCardAccount").datagrid('reload');
         			   }
         	, "json");

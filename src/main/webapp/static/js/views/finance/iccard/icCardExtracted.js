@@ -18,7 +18,7 @@ function changeBalance() {
     var extractBalance = parseFloat($('#extractBalance').numberbox('getValue'));
 
     if(extractBalance > oldBalance){
-        messager("提取金额不能大于余额");
+        $_jxc.alert("提取金额不能大于余额");
         $("#saveBtn").prop("disabled","disabled");
         return;
     }else{
@@ -30,7 +30,7 @@ function changeBalance() {
 function save() {
     var extractBalance = $('#extractBalance').numberbox('getValue');
     if(!extractBalance||extractBalance <= 0.00){
-   	 	messager("提取金额不能为空！");
+   	 	$_jxc.alert("提取金额不能为空！");
         return;
     }
     $.messager.confirm("提示","本次提取金额"+extractBalance+",是否继续",function (data) {
@@ -40,7 +40,7 @@ function save() {
 			        		if(datas.message==="success"){
 			        			$('#closeExtracted').trigger('click'); 
 			        		}
-     					messager(datas.data);
+     					$_jxc.alert(datas.data);
      					$("#gridCardAccount").datagrid('reload');
      			   }
         	, "json");

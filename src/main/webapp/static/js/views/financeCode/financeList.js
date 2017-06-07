@@ -100,7 +100,7 @@ function initGridFinanceList() {
 
 function addFinanceCode() {
     if(null ==selectNode || selectNode.isParent){
-        messager("请选择具体的分类!");
+        $_jxc.alert("请选择具体的分类!");
         return;
     }
     var param = {
@@ -165,7 +165,7 @@ function queryFinanceCode(){
 function delFinanceCode() {
     var rows = $("#"+gridName).datagrid("getChecked");
     if(rows.length <= 0){
-        messager('请勾选数据！');
+        $_jxc.alert('请勾选数据！');
         return;
     }
 
@@ -181,6 +181,7 @@ function delFinanceCode() {
                 data:{
                     ids:ids
                 },
+
             }
 
             $_jxc.ajax(param,function (result) {
@@ -188,10 +189,8 @@ function delFinanceCode() {
                     $_jxc.alert("删除成功");
                 }else{
                     $_jxc.alert(result['message']);
-                }
-                queryFinanceCode();
-            })
 
+                queryFinanceCode();
         }
     });
 
@@ -203,7 +202,7 @@ function delFinanceCode() {
 function exportData(){
 	var length = $("#"+gridName).datagrid('getData').rows.length;
 	if(length == 0){
-		successTip("无数据可导");
+		$_jxc.alert("无数据可导");
 		return;
 	}
 	$('#exportWin').window({

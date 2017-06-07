@@ -145,10 +145,12 @@ function delSupAdvMonForm(){
         	$_jxc.ajax({
                 url: contextPath+"/settle/supplierCharge/deleteChargeForm",
                 data: {"ids":ids}
-            },function(data){
-            	$_jxc.alert(data['message']);
-            	if(data.code == 0){
+            },function(result){
+            	if(result['code'] == 0){
+            		$_jxc.alert("删除成功");
             		queryForm();
+            	}else{
+            		$_jxc.alert(result['message']);
             	}
             });
 		}
@@ -162,6 +164,8 @@ function selectSupplier(){
         $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);	
     });
 }
+
+
 /**
  * 操作员
  */
@@ -172,13 +176,36 @@ function selectOperator(){
 	});
 }
 /**
- * 机构
+ * 机构查询
  */
-function selectBranches(){
-	new publicAgencyService(function(data){
-		$("#branchId").val(data.branchesId);
-		$("#branchName").val("["+data.branchCode+"]"+data.branchName);
-	},'',targetBranchId);
+function selectBranches(param){
+	new publicBranchesService(param||{},function(data){
+		//返回NO时 输入动作没匹配到数据 
+		if(data == 'NO'){
+			//未查询到数据或多条数据，设置无效ID
+			$_jxc.clearHideInpOnEdit($('#branchName'));
+			$("#branchName").val("");
+		}else{
+			$("#branchId").val(data.branchesId);
+			$("#branchName").val("["+data.branchCode+"]"+data.branchName);
+		}
+	})
+}
+
+/**
+ * 机构自动补全
+ */
+function brandAutoComple(obj){
+	var nameOrCode = $.trim($("#branchName").val())||'';
+	//未输入值时，直接返回，无需查询
+	if("" == nameOrCode){
+		$_jxc.clearHideInpOnEdit(obj);
+		return;
+	}
+	var param = {
+		nameOrCode:nameOrCode
+	}
+	selectBranches(param,obj);
 }
 
 /**

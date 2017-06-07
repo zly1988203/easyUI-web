@@ -8,7 +8,7 @@ function save() {
 	}
     if($('#categoryName').val().trim()===""){
         $('#saveCategory').removeAttr("disabled");
-        messager("请输入类别名称");
+        $_jxc.alert("请输入类别名称");
         return;
     }
 
@@ -29,11 +29,11 @@ function save() {
 				}
 			}else{
 				$('#saveCategory').removeAttr("disabled");
-                messager(result.message);
+                $_jxc.alert(result.message);
 			}
 		},
 		error : function(result) {
-            messager("请求发送失败或服务器处理失败");
+            $_jxc.alert("请求发送失败或服务器处理失败");
 		}
 	});
 }

@@ -95,7 +95,7 @@ var datagridId = "branchPriceAdjustGrid";
 var datagridUtil = {
     isSelectRows:function(){
         if($("#"+datagridId).datagrid("getSelections").length <= 0){
-            $.messager.alert('提示','没有单据可以删除，请选择一笔单据再删除？');
+            $_jxc.alert('没有单据可以删除，请选择一笔单据再删除？');
             return false;
         }else{
             return true;
@@ -152,7 +152,7 @@ function delModifyPriceDialog() {
 	var row = dg.datagrid("getChecked");
 	var ids = [];
 	if(row.length <= 0){
-		$.messager.alert("提示","请先选择数据！");
+		$_jxc.alert("请先选择数据！");
 		return;
 	}
 	var checkFlag = false; //审核标示
@@ -163,7 +163,7 @@ function delModifyPriceDialog() {
 		}
 	}
 	if(checkFlag){
-		$.messager.alert("提示","已经审核的单据不可以删除");
+		$_jxc.alert("已经审核的单据不可以删除");
 		return;
 	}
 	

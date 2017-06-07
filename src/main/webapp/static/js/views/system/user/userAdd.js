@@ -23,7 +23,7 @@ function searchBranchInfo (){
 function searchRole (){
 	var opBranchCompleCode = $("#addUserForm #opBranchCompleCode").val();
 	if(!opBranchCompleCode){
-		successTip("请先选择机构！");
+		$_jxc.alert("请先选择机构！");
 		return;
 	}
 	

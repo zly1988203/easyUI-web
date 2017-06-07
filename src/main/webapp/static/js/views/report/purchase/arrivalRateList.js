@@ -455,7 +455,7 @@ function resetForm(){
 function exportData(){
 	var length = $('#gridOrders').datagrid('getData').rows.length;
 	if(length == 0){
-		successTip("无数据可导");
+		$_jxc.alert("无数据可导");
 		return;
 	}
 	$('#exportWin').window({
@@ -473,7 +473,7 @@ function exportExcel(){
 	$("#queryForm").form({
 		success : function(result){
 			var dataObj=eval("("+result+")");
-			successTip(dataObj.message);
+			$_jxc.alert(dataObj.message);
 		}
 	});
 	$("#queryForm").attr("action",contextPath+"/report/purchase/exportList");

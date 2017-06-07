@@ -597,11 +597,11 @@ function purchaseTotalCx(){
 	var endDate = $("#txtEndDate").val();
 	var branchName = $("#branchName").val();
 	if(!(startDate && endDate)){
-		$.messager.alert('提示', '日期不能为空');
+		$_jxc.alert('日期不能为空');
 		return ;
 	}
 	/*if(!branchName){
-		$.messager.alert('提示', '机构名不能为空');
+		$_jxc.alert( '机构名不能为空');
 		return ;
 	}*/
 	var formData = $("#queryForm").serializeObject();
@@ -620,12 +620,12 @@ function exportTotal(){
 	var endDate = $("#txtEndDate").val();
 	var branchName = $("#branchName").val();
 	if(!(startDate && endDate)){
-		$.messager.alert('提示', '日期不能为空');
+		$_jxc.alert('日期不能为空');
 		return ;
 	}
 	var length = $('#purReportTotal').datagrid('getData').rows.length;
 	if(length == 0){
-		successTip("无数据可导");
+		$_jxc.alert("无数据可导");
 		return;
 	}
 	$('#exportWin').window({
