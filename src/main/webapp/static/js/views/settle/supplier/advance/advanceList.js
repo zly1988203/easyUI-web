@@ -179,9 +179,7 @@ function selectOperator(){
  * 机构查询
  */
 function selectBranches(nameOrCode){
-	var param = {
-		branchTypesStr:$_jxc.branchTypeEnum.OWN_STORES + ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_B
-	}
+	var param = {}
 	if(nameOrCode){
 		param.nameOrCode = nameOrCode;
 	}
