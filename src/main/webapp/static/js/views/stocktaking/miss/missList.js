@@ -97,7 +97,7 @@ function queryForm(){
 function exportData(){
 	var length = dg.datagrid('getData').rows.length;
 	if(length == 0){
-		successTip("无数据可导");
+		$_jxc.alert("无数据可导");
 		return;
 	}
 	$('#exportWin').window({
@@ -119,7 +119,7 @@ function exportExcel(){
 	var fromObjStr = $('#queryForm').serializeObject();
 	$("#queryForm").form({
 		success : function(data){
-			successTip(data.message);
+			$_jxc.alert(data.message);
 		}
 	});
 	$("#queryForm").attr("action",contextPath+"/stocktaking/miss/exportMissList?"+fromObjStr);
@@ -130,7 +130,7 @@ function exportExcel(){
 function toPrint(){
 	var length = $("#dgMissList").datagrid('getData').total;
 	if(length == 0){
-		successTip("没有数据");
+		$_jxc.alert("没有数据");
 		return;
 	}
 	var fromObjStr = $('#queryForm').serializeObject();
@@ -183,7 +183,7 @@ function selectGoods(){
 //	var sourceBranchId = branchCompleCode;
 //	var targetBranchId = branchCompleCode;
     if(branchCompleCode == ""){
-    	successTip("请先选择机构");
+    	$_jxc.alert("请先选择机构");
         return;
     }
     

@@ -477,11 +477,11 @@ function delGoods(){
 		    			$("#gridArchives").datagrid('reload');
 						$_jxc.alert("删除成功");
 		    		}else{
-		    			successTip(result['message']);
+		    			$_jxc.alert(result['message']);
 		    		}
 		    	},
 		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
+		    		$_jxc.alert("请求发送失败或服务器处理失败");
 		    	}
 		    });
 		}
@@ -522,11 +522,11 @@ function auditingGoods(){
 						$_jxc.alert("审核成功");
 						$("#gridArchives").datagrid('reload');
 					}else{
-						successTip(result['message']);
+						$_jxc.alert(result['message']);
 					}
 				},
 				error:function(result){
-					successTip("请求发送失败或服务器处理失败");
+					$_jxc.alert("请求发送失败或服务器处理失败");
 				}
 			});
 		}
@@ -540,7 +540,7 @@ function auditingGoods(){
 function exportData(){
 	var length = $('#gridArchives').datagrid('getData').rows.length;
 	if(length == 0){
-		successTip("无数据可导");
+		$_jxc.alert("无数据可导");
 		return;
 	}
 	$('#exportWin').window({
@@ -558,7 +558,7 @@ function exportExcel(){
 	$("#formGoodsArchives").form({
 		success : function(result){
 			var dataObj=eval("("+result+")");
-			successTip(dataObj.message);
+			$_jxc.alert(dataObj.message);
 		}
 	});
 	$("#formGoodsArchives").attr("action",contextPath+"/goods/operateNewGoodsApply/exportGoods");

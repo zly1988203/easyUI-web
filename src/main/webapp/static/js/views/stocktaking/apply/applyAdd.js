@@ -66,7 +66,7 @@ function saveDataHandel() {
 		
 		},
 		error : function(result) {
-			successTip("请求发送失败或服务器处理失败");
+			$_jxc.alert("请求发送失败或服务器处理失败");
 		}
 	});
 }

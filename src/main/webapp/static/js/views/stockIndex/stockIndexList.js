@@ -205,7 +205,7 @@ function saveDetailStock(){
 					index: detailIndex,
 					row: {lowerLimit: detGridData.lowerLimit,upperLimit:detGridData.upperLimit}
 				});
-				successTip('修改成功');
+				$_jxc.alert('修改成功');
 				closeDetailDialog();
 			} else {
 				// 失败提示

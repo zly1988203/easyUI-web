@@ -588,12 +588,12 @@ function saveOrder(){
                 	location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
                 });
             }else{
-                successTip(result['message']);
+                $_jxc.alert(result['message']);
             }
         },
         error:function(result){
             gFunEndLoading();
-            successTip("请求发送失败或服务器处理失败");
+            $_jxc.alert("请求发送失败或服务器处理失败");
         }
     });
 }
@@ -618,12 +618,12 @@ function check(){
 		    				contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + deliverFormId;
 		    			});
 		    		}else{
-		    			successTip(result['message']);
+		    			$_jxc.alert(result['message']);
 		    		}
 		    	},
 		    	error:function(result){
                     gFunEndLoading();
-		    		successTip("请求发送失败或服务器处理失败");
+		    		$_jxc.alert("请求发送失败或服务器处理失败");
 		    	}
 		    });
 		}

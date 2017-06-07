@@ -173,14 +173,14 @@ function delActivity(){
 		    	},
 		    	success:function(result){
 		    		if(result['code'] == 0){
-		    			successTip("删除成功");
+		    			$_jxc.alert("删除成功");
 		    			dg.datagrid('reload');
 		    		}else{
-		    			successTip(result['message']);
+		    			$_jxc.alert(result['message']);
 		    		}
 		    	},
 		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
+		    		$_jxc.alert("请求发送失败或服务器处理失败");
 		    	}
 		    });
 		}
@@ -213,11 +213,11 @@ function stop(){
 							location.href = contextPath +"/sale/activity/edit?activityId="+activityId;
 						});
 					}else{
-						successTip(result['message']);
+						$_jxc.alert(result['message']);
 					}
 				},
 				error:function(result){
-					successTip("请求发送失败或服务器处理失败");
+					$_jxc.alert("请求发送失败或服务器处理失败");
 				}
 			});
 		}

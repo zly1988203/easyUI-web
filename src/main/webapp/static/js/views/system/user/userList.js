@@ -208,7 +208,7 @@ function updateStatus(status) {
 	var rowStatus = rowData.status;
 	if (rowStatus == status) {
 		var message = status == 0 ? "已经启用!" : "已经禁用!";
-		successTip(message);
+		$_jxc.alert(message);
 		return;
 	}
 
@@ -226,11 +226,12 @@ function updateStatus(status) {
             if(result['code'] == 0){
 				$_jxc.alert("操作成功")
 			}else {
-                $_jxc.alert(result.message, $("#dg"));
+                $_jxc.alert(result.message);
+                $("#dg").datagrid('reload');
 			}
 		},
 		error : function(result) {
-			successTip("请求发送失败或服务器处理失败");
+			$_jxc.alert("请求发送失败或服务器处理失败");
 		}
 	});
 }

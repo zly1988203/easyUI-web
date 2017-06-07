@@ -287,7 +287,7 @@ function initQueryData(){
         },
         error:function(result){
             gFunEndLoading();
-            successTip("请求发送失败或服务器处理失败");
+            $_jxc.alert("请求发送失败或服务器处理失败");
         }
     });
 }
@@ -625,7 +625,7 @@ function saveDataHandel(rows){
             }
         },
         error:function(result){
-            successTip("请求发送失败或服务器处理失败");
+            $_jxc.alert("请求发送失败或服务器处理失败");
         }
     });
 }
@@ -696,7 +696,7 @@ function checkOrder(){
              }
          },
          error:function(result){
-             successTip("请求发送失败或服务器处理失败");
+             $_jxc.alert("请求发送失败或服务器处理失败");
          }
      });
 }
@@ -717,11 +717,11 @@ function orderDelete(){
 		    			$_jxc.alert("操作成功");
 		    			toClose();
 		    		}else{
-		    			successTip(result['message']);
+		    			$_jxc.alert(result['message']);
 		    		}
 		    	},
 		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
+		    		$_jxc.alert("请求发送失败或服务器处理失败");
 		    	}
 		    });
 		}

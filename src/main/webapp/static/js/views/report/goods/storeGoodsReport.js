@@ -86,7 +86,7 @@ function comboboxGoodsStatus(data){
 function exportData(){
 	var length = $('#productInquire').datagrid('getData').rows.length;
 	if(length == 0){
-		successTip("无数据可导");
+		$_jxc.alert("无数据可导");
 		return;
 	}
 	$('#exportWin').window({
@@ -103,7 +103,7 @@ function exportExcel(){
 	$("#exportWin").window("close");
 	$("#queryForm").form({
 		success : function(result){
-			successTip(result);
+			$_jxc.alert(result);
 		}
 	});
 	$("#queryForm").attr("action",contextPath+"/storeGoods/report/exportList");

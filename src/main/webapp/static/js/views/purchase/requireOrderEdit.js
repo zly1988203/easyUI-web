@@ -453,13 +453,13 @@ function saveItemHandel(){
     	success:function(result){
             console.log(result);
             if(result['code'] == 0){
-                $_jxc.alert("操作提示", "操作成功！", "info");
+                $_jxc.alert("操作成功！");
             }else{
-                successTip(result['message']);
+                $_jxc.alert(result['message']);
             }
         },
         error:function(result){
-            successTip("请求发送失败或服务器处理失败");
+            $_jxc.alert("请求发送失败或服务器处理失败");
         }
     });
 }
@@ -483,11 +483,11 @@ function check(){
 		    				location.href = contextPath +"/form/purchase/orderEdit?formId=" + id;
 		    			});
 		    		}else{
-		    			successTip(result['message']);
+		    			$_jxc.alert(result['message']);
 		    		}
 		    	},
 		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
+		    		$_jxc.alert("请求发送失败或服务器处理失败");
 		    	}
 		    });
 		}

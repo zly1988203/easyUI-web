@@ -332,7 +332,7 @@ function initQueryData(url){
     	},
     	error:function(result){
             gFunEndLoading();
-    		successTip("请求发送失败或服务器处理失败");
+    		$_jxc.alert("请求发送失败或服务器处理失败");
     	}
     });
 }
@@ -367,13 +367,13 @@ function deleteDiffDispose(){
 		    		ids : ids
 		    	},
 		    	success:function(result){
-		    		successTip(result['message']);
+		    		$_jxc.alert(result['message']);
 		    		if(result['code'] == 0){
 		    			back();
 		    		}
 		    	},
 		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
+		    		$_jxc.alert("请求发送失败或服务器处理失败");
 		    	}
 		    });
 		}
@@ -478,11 +478,11 @@ function saveDataHandel(rows){
     				location.href = contextPath +"/stocktaking/diffDispose/stocktakingBatchView?id="+result['batchId'];
     			});
             }else{
-                successTip(result['message']);
+                $_jxc.alert(result['message']);
             }
         },
         error:function(result){
-            successTip("请求发送失败或服务器处理失败");
+            $_jxc.alert("请求发送失败或服务器处理失败");
         }
     });
 }
@@ -535,11 +535,11 @@ function auditDiffDispose(){
 		    				location.href = contextPath +"/stocktaking/diffDispose/stocktakingBatchView?id="+result['batchId'];
 		    			});
 		    		}else{
-		    			successTip(result['message']);
+		    			$_jxc.alert(result['message']);
 		    		}
 		    	},
 		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
+		    		$_jxc.alert("请求发送失败或服务器处理失败");
 		    	}
 		    });
 		}
@@ -558,7 +558,7 @@ function exportData(){
 	console.log(fromObjStr);
 	$("#diffForm").form({
 		success : function(data){
-			successTip(data.message);
+			$_jxc.alert(data.message);
 		}
 	});
 	$("#diffForm").attr("action",contextPath+"/stocktaking/diffDispose/exportDiffDetailList?"+fromObjStr);

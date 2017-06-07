@@ -94,14 +94,14 @@ function saveRoleAuth(){
         dataType:"json",  
         success:function(result){
             if(result && result.code == 0){
-            	successTip("保存成功！");
+            	$_jxc.alert("保存成功！");
                 toClose();
 			}else{
 				alertTip(result.message);
 			}
         },
         error:function(result){
-            successTip("请求发送失败或服务器处理失败");
+            $_jxc.alert("请求发送失败或服务器处理失败");
         }
     });
 }

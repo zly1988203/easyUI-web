@@ -120,7 +120,7 @@ function queryCharge() {
 function exportData(){
     var length = dg.datagrid('getData').rows.length;
     if(length == 0){
-        successTip("无数据可导");
+        $_jxc.alert("无数据可导");
         return;
     }
     $('#exportWin').window({
