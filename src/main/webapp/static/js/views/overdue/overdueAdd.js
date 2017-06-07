@@ -336,7 +336,7 @@ function saveItemHandel(){
     if(isCheckResult){
     	
        /* if(isChcekPrice){
-            $.messager.confirm('系统提示',"单价存在为0，重新修改",function(r){
+            $_jxc.confirm("单价存在为0，重新修改",function(r){
                 if (r){
                     return ;
                 }else{
@@ -345,7 +345,7 @@ function saveItemHandel(){
             });
         }else{*/
         	if(isChcekNum){
-       		/* $.messager.confirm('提示','存在数量为0的商品,是否继续保存?',function(data){
+       		/* $_jxc.confirm('存在数量为0的商品,是否继续保存?',function(data){
        			if(data){
        				saveDataHandel(rows);
        		    }

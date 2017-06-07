@@ -746,7 +746,7 @@ function check(){
         }
         v["rowNo"] = i+1;
     });
-	$.messager.confirm('提示',msg,function(data){
+	$_jxc.confirm(msg,function(data){
         if(data){
         	checkValid()
         }
@@ -757,53 +757,45 @@ function check(){
  * 校验是否负库存出库
  */
 function checkValid(){	
-	$.ajax({
+	$_jxc.ajax({
 		url : contextPath+"/form/deliverForm/checkValid",
 		type : "POST",
 		data : {
 			sourceBranchId : $("#sourceBranchId").val(),
 			deliverFormId : $("#formId").val(),
 			deliverType : 'DO'
-		},
-		success:function(result){
-			if(result['code'] == 0){
-				checkHandel();
-			}else if(result['code'] == 2){
-				$.messager.confirm('提示','系统已开启后台单据负库存出库，请确认商品是否负库存出库？',function(data){
-			        if(data){
-			        	checkHandel();
-			        }
-				});
-			}else{
-				$_jxc.alert(result['message']);				
-			}
-		},
-		error:function(result){
-			$_jxc.alert("请求发送失败或服务器处理失败");
+		}
+	},function(result){
+		if(result['code'] == 0){
+			checkHandel();
+		}else if(result['code'] == 2){
+			$_jxc.confirm('系统已开启后台单据负库存出库，请确认商品是否负库存出库？',function(data){
+		        if(data){
+		        	checkHandel();
+		        }
+			});
+		}else{
+			$_jxc.alert(result['message']);				
 		}
 	});
 }
 
 function checkHandel(){
-        $.ajax({
+        $_jxc.ajax({
         	url : contextPath+"/form/deliverForm/check",
         	type : "POST",
         	data : {
         		deliverFormId : $("#formId").val(),
         		deliverType : 'DO'
-        	},
-        	success:function(result){
-        		if(result['code'] == 0){
-        			$_jxc.alert("操作成功！",function(){
-        				location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
-        			});
-        		}else{
-        			$_jxc.alert(result['message']);
-        		}
-        	},
-        	error:function(result){
-        		$_jxc.alert("请求发送失败或服务器处理失败");
         	}
+        },function(result){
+    		if(result['code'] == 0){
+    			$_jxc.alert("操作成功！",function(){
+    				location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
+    			});
+    		}else{
+    			$_jxc.alert(result['message']);
+    		}
         });
 }
 //合计

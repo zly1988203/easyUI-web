@@ -313,7 +313,7 @@ function searchTakeStock(){
 	new publicStocktakingDialog(param,function(data){
 		var rows = gridHandel.getRowsWhere({skuName:'1'});
 		if(rows.length > 0){
-			$.messager.confirm('提示','修改盘点批号后会清空明细，需要重新录入，是否要修改？',function(r){
+			$_jxc.confirm('修改盘点批号后会清空明细，需要重新录入，是否要修改？',function(r){
                 if (r){
                     $("#branchId").val(data.branchId);
                     $("#branchCode").val(data.branchCode);
@@ -375,7 +375,7 @@ function saveStocktakingForm(opType){
     });
     if(isCheckResult){
         if(isChcekPrice){
-            $.messager.confirm('系统提示',"盘点数存在为0，是否确定保存",function(r){
+            $_jxc.confirm("盘点数存在为0，是否确定保存?",function(r){
                 if (r){
                     saveDataHandel(rows,opType);
                 }
@@ -476,7 +476,7 @@ function saveDataHandel(rows,opType){
 function selectBranches(){
 	new publicAgencyService(function(data){
 		if($.trim($('#batchId').val())){
-			$.messager.confirm('提示','修改机构后会清空明细，需要重新录入，是否要修改？',function(r){
+			$_jxc.confirm('修改机构后会清空明细，需要重新录入，是否要修改？',function(r){
                 if (r){
                     $("#branchId").val(data.branchesId);
                     $("#branchCode").val(data.branchCode);

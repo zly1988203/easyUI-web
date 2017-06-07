@@ -175,7 +175,7 @@ function onChangeSelect(){
 	if(rows.length==0 && setrows.length ==0){
 		changeType();
 	}else{
-		$.messager.confirm("","更换活动类型将清空当前列表信息，是否更换？",function(b){
+		$_jxc.confirm("更换活动类型将清空当前列表信息，是否更换？",function(b){
 			if(!b) {
 				gVarAutoSelect = true;
 				$("#activityType").combobox('select',gVarLastActivityType);
@@ -209,7 +209,7 @@ function onChangemmsSelect(newV,oldV){
 		gridTitleName = newV == '0' ? '买满金额':'买满数量';
 		initDatagridmmsTJ();
 	}else{
-		$.messager.confirm("提示","更换活动类型将清空当前列表信息，是否更换？",function(b){
+		$_jxc.confirm("更换活动类型将清空当前列表信息，是否更换？",function(b){
 			if(b){
 				gridTitleName = newV == '0' ? '买满金额':'买满数量';
 				initDatagridmmsTJ();
@@ -318,7 +318,7 @@ function selectOptionmms(){
 		if(rowstj.length == 0 && rowsgif.length == 0 && rowsother.length == 0){
 			changeDismsType();
 		}else{
-			$.messager.confirm("","更换活动类型将清空当前列表信息，是否更换？",function(b){
+			$_jxc.confirm("更换活动类型将清空当前列表信息，是否更换？",function(b){
 				if(b){
 					gridHandelT.setLoadData([$.extend({},mmsTJDefault)]);
 					gridHandel.setLoadData([$.extend({},gridDefaultG)]);
@@ -878,7 +878,7 @@ function selectOptionzk(){
 		if(rows.length==0){
 			changeDisType();
 		}else{
-			$.messager.confirm("","更换活动类型将清空当前列表信息，是否更换？",function(b){
+			$_jxc.confirm("更换活动类型将清空当前列表信息，是否更换？",function(b){
 				if(!b){
 					return;
 				}else{
@@ -998,7 +998,7 @@ function selectOptionMj(){
 		if((rows.length==0) && (setrows.length == 0)){
 					changeDisType();
 		}else{
-			$.messager.confirm("","更换满减类型将清空当前列表信息，是否更换？",function(b){
+			$_jxc.confirm("更换满减类型将清空当前列表信息，是否更换？",function(b){
 				if(!b){
 					return;
 				}else{
