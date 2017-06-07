@@ -219,7 +219,7 @@ function initSupChkAcoAdd(){
         onLoadSuccess:function(data){
         	if(clickFlag && data.rows.length <= 0){
         		clickFlag =  false;
-        		$_jxc.alert('您和此供应商没有账款信息，或您们的往来往来账款已平衡！');
+        		$_jxc.alert('您和此加盟店没有账款信息，或您们的往来账款已平衡！');
         	}
         	if(pageStatus==='edit'){
                 if(!oldData["grid"]){
@@ -599,9 +599,12 @@ function initSettleFormDetail(){
 //机构
 function selectBranches(){
 	clickFlag = true;
-	new publicAgencyService(function(data){
+	var param = {
+		branchTypesStr:$_jxc.branchTypeEnum.FRANCHISE_STORE_B + ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_C
+	}
+	new publicBranchesService(param,function(data){
 		checkSettleAuditStutas(data.branchesId,data.branchCode,data.branchName);
-	},'FA',targetBranchId);
+	})
 }
 
 //校验是否存在未审核的结算单
