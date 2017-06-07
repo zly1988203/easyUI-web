@@ -226,8 +226,11 @@ function initDatagridResultOrder(){
         }
     });
 
-    priceGrantUtil.grantPrice(gridName);
-   
+
+    if(hasPurchasePrice==false){
+        var fieldArr = ["purchasePrice","amount"]
+        priceGrantUtil.grantPurchasePrice("gridOrdersresult",arr)
+    }
 }
 
 //queryForm 表单提交

@@ -95,8 +95,8 @@ var priceGrantUtil = {
 	/**
 	 * 过滤采购价 进货价，如果列名为空数组，则默认为purchasePrice列名
 	 * @param datagridId
-	 * @param fieldArr
-	 * @param outFieldArr
+	 * @param fieldArr[]
+	 * @param outFieldArr[]
 	 */
 	grantPurchasePrice : function(datagridId, fieldArr,outFieldArr){
 		if(isEmptyArray(fieldArr)){
