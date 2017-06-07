@@ -52,8 +52,8 @@ function changeDiscount(newV,oldV){
 }
 
 function initjiaqType(){
-	$(document).on('mousedown','.jiaqType .radioItem',function(){
-		var _this = $(this);
+	$(document).on('mousedown','.jiaqType .radioItemLabel',function(){
+		var _this = $(this).children('.radioItem');
 		var changeType = function(){
 			_this.prop("checked",true);
 			$('#priceType').val(_this.val());
