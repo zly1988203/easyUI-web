@@ -128,7 +128,7 @@ function addSupAcoSetForm(){
 function queryForm(){
 	var fromObjStr = $('#queryForm').serializeObject();
 	// 去除编码
-    fromObjStr.targetBranchName = fromObjStr.targetBranchName.substring(fromObjStr.targetBranchName.lastIndexOf(']')+1)
+    fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1)
     fromObjStr.createUserName = fromObjStr.createUserName.substring(fromObjStr.createUserName.lastIndexOf(']')+1)
     fromObjStr.supplierName = fromObjStr.supplierName.substring(fromObjStr.supplierName.lastIndexOf(']')+1)
 
@@ -185,12 +185,37 @@ function selectOperator(){
 /**
  * 机构
  */
-function selectBranches(){
-	new publicAgencyService(function(data){
-		$("#branchId").val(data.branchesId);
-		$("#isContainChildren").val(data.allBranch);
-		$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
-	},'',branchId,'','',1);
+function selectBranches(nameOrCode){
+	var param = {
+		scope:1
+	}
+	if(nameOrCode){
+		param.nameOrCode = nameOrCode;
+	}
+	new publicBranchesService(param,function(data){
+		//返回NO时 输入动作没匹配到数据 
+		if(data == 'NO'){
+			//未查询到数据或多条数据，设置无效ID
+			$_jxc.clearHideInpOnEdit($('#branchName'));
+			$("#branchName").val("");
+		}else{
+			$("#branchId").val(data.branchesId);
+			$("#branchName").val("["+data.branchCode+"]"+data.branchName);
+			$("#isContainChildren").val(data.allBranch);
+		}
+	})
+} 
+/**
+ * 机构自动补全
+ */
+function brandAutoComple(obj){
+	var nameOrCode = $.trim($("#branchName").val())||'';
+	//未输入值时，直接返回，无需查询
+	if("" == nameOrCode){
+		$_jxc.clearHideInpOnEdit(obj);
+		return;
+	}
+	selectBranches(nameOrCode,obj);
 }
 
 //打印
