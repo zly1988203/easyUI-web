@@ -297,8 +297,7 @@ function publicBranchesService(param,callback){
 			if(data&&data.rows){
 				//精确匹配到只有一条数据时立即返回
 				if(data.rows.length==1){
-					//callback(data.rows[0]);
-					publicBranchesServiceHandel(param,callback);
+					callback(data.rows[0]);
 				}else if(data.rows.length>1){
 					//匹配到多条时 弹窗选择
 					publicBranchesServiceHandel(param,callback);
