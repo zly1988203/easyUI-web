@@ -84,21 +84,12 @@ public class ICCardAccountManagementController extends BasePrintController<ICCar
 		PageUtils<ICCardAccountVo> suppliers = PageUtils.emptyPage();
 		try {
 			suppliers = icCardAccountService.selectAccountList(vo,true);
-			if(suppliers==null){
-				return PageUtils.emptyPage();
-			}else{
-				ICCardAccountVo icCardAccountVo = icCardAccountService.sumAccountList(vo);
-				if(icCardAccountVo!=null){
-        				icCardAccountVo.setBranchCode("SUM");
-        				suppliers.setFooter(new ArrayList<ICCardAccountVo>(){
-        				    private static final long serialVersionUID = 1L;
-        
-        				    {
-        					add(icCardAccountVo);
-        				    }
-        				});
-				}
-			}
+			ICCardAccountVo icCardAccountVo = icCardAccountService.sumAccountList(vo);
+			icCardAccountVo = icCardAccountVo==null?new ICCardAccountVo():icCardAccountVo;
+			icCardAccountVo.setBranchCode("SUM");
+			List<ICCardAccountVo> list = new ArrayList<ICCardAccountVo>();
+			list.add(icCardAccountVo);
+			suppliers.setFooter(list);
 			return suppliers;
 		} catch (Exception e) {
 			logger.error("一卡通查询列表失败！", e);

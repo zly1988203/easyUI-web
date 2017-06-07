@@ -57,7 +57,7 @@ function query() {
     $("#"+gridName).datagrid("options").queryParams = $("#queryForm").serializeObject();
     $("#"+gridName).datagrid("options").method = "post";
     $("#"+gridName).datagrid("options").url = contextPath+'/iccard/account/management/list';
-    $("#"+gridName).datagrid("load");
+    $("#"+gridName).datagrid("reload");
 }
 
 var rechargeDialog = null;
