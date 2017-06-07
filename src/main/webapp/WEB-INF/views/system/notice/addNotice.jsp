@@ -31,7 +31,7 @@
 					<input class="uinp" name="receiveBranchIds" id="receiveBranchIds" type="hidden">
 					<input class="uinp" id="branchName" name="receiveBranchName"
 						placeholder="收件门店和人必选一种"
-						type="text"  readOnly="readonly">
+						type="text"  readOnly="readonly" onclick="selectBranch()">
 					<div class="uinp-more" onclick="selectBranch()">...</div>
 				</div>
 			</div>
@@ -42,7 +42,7 @@
 					<input class="uinp" name="receiveUserIds" id="receiveUserIds" type="hidden">
 					<input class="uinp" id="userName" name="receiveUserName"
 						placeholder="收件门店和人必选一种"
-						type="text"  readOnly="readonly">
+						type="text"  readOnly="readonly" onclick="selectUser()">
 					<div class="uinp-more" onclick="selectUser()">...</div>
 				</div>
 			</div>
