@@ -203,7 +203,8 @@ function brandAutoComple(obj){
 		return;
 	}
 	var param = {
-		nameOrCode:nameOrCode
+		nameOrCode:nameOrCode,
+		//branchType:$_jxc.branchTypeEnum.HEAD_QUARTERS+','+$_jxc.branchTypeEnum.BRANCH_COMPANY
 	}
 	selectBranches(param,obj);
 }

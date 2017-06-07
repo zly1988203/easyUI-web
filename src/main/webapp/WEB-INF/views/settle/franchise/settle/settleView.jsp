@@ -43,21 +43,19 @@
         <div class="already-examine" id="already-examine"><span>已审核</span></div>
         <div class="ub uline umar-t8"></div>
         <div class="ub umar-t8">
-            <div class="ub ub-ac uw-288 umar-l20">
+            <div class="ub ub-ac uw-284 umar-l20">
                 <div class="umar-r10 uw-70 ut-r">加盟店:</div>
                 <div class="ub ub-f1">
                     <input type="hidden" id="franchiseBranchId" name="franchiseBranchId" value="${settle.franchiseBranchId}"/>
                     <input class="uinp ub ub-f1" type="text" id="franchiseBranchName" readonly="readonly" value="${settle.branchName}"/>
                 </div>
-                 <i class="ub ub-ac uc-red">*</i>
             </div>
             
-            <div class="ub ub-ac uw-290 umar-l20">
+            <div class="ub ub-ac uw-290 umar-l24">
 				 <div class="umar-r12 uw-70 ut-r">付款方式:</div>
                  <select class='uinp easyui-combobox' id="payType" name="payType" data-options="valueField:'id',textField:'label',value:'${settle.payType}', url:'${ctx}/archive/financeCode/getDictListByTypeCode?dictTypeCode=101003', editable:false"
                  	 style="width:204px;" readonly="readonly" >
                  </select>
-                 <i class="ub ub-ac uc-red">*</i>
             </div>
             
             <div class="ub ub-ac umar-l30">

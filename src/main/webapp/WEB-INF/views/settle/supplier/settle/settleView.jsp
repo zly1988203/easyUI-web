@@ -35,7 +35,7 @@
         <form id = "settleForm">
         <input type="hidden" id="formId" name="id" value="${settleVo.id}"/>   
         <div class="ub umar-t8">
-            <div class="ub ub-ac uw-288 umar-l20">
+            <div class="ub ub-ac uw-280 umar-l20">
                 <div class="umar-r10 uw-70 ut-r">机构:</div>
                 <div class="ub ub-f1">
                     <input type="hidden" id="branchId" name="branchId" value="${settleVo.branchId}"/>
@@ -44,7 +44,7 @@
                 </div>
             </div>
             
-            <div class="ub ub-ac uw-290 umar-l20">
+            <div class="ub ub-ac uw-284 umar-l28">
                 <div class="umar-r12 uw-70 ut-r">供应商:</div>
                 <div class="ub ub-f1">
                     <input class="uinp" name="supplierId" id="supplierId" type="hidden" value="${settleVo.supplierId}">
@@ -52,7 +52,7 @@
                 </div>
             </div>
             
-            <div class="ub ub-ac umar-l30">
+            <div class="ub ub-ac umar-l40">
                 <div class="umar-r10 uw-70 ut-r">制单人:</div>
                 <div class="utxt">${settleVo.createUserName}</div>
             </div>
