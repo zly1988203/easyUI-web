@@ -20,9 +20,6 @@ function getAccountColumns(){
 		defaultColumns = defaultColumns.concat([
 				    {field: 'targetFormNo',title:'单号',width:'150px',align:'left',formatter:function(value,row,index){
 	            		var str = "";
-	            		if(row.isFooter){
-	                        str ='<div class="ub ub-pc">合计</div> ';
-	                    }
 	            		if(value){
 	            			if(value.indexOf('DI') == 0){
 	            				str = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'入库单明细\',\''+ contextPath +'/form/deliverForm/deliverEdit?deliverFormId='+ row.targetFormId +'&deliverType=DI\')">' + (value||"") + '</a>';
