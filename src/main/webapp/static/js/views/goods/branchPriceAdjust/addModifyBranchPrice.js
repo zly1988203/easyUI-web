@@ -513,7 +513,7 @@ function checkForm(formNo,effectDate) {
 		data : {
 			formNo : formNo,
 			effectDate:effectDate
-		},
+		}
 	},function(data){
 		console.info(data);
 		console.log('---------结束审核------------',JSON.stringify(data));

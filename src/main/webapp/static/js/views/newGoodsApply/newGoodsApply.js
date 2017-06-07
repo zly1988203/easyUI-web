@@ -464,7 +464,7 @@ function delGoods(){
 		$_jxc.alert('商品名称:【'+goodsSkuName+'】审核通过,不能删除');
 		return 
 	}
-	$_jxc.confirm(,'是否要删除选中数据?',function(data){
+	$_jxc.confirm('是否要删除选中数据?',function(data){
 		if(data){
 			$_jxc.ajax({
 		    	url:contextPath+"/goods/newGoodsApply/delGoods",
