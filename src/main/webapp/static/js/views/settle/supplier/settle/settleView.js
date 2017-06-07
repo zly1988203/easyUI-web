@@ -30,11 +30,10 @@ function initSupChkAcoView(){
         columns:[[
             {field:'targetFormNo',title:'单号',width: '150px',align:'left',
             	formatter:function(value,row,index){
-            		var str = "";
+            		var strHtml = "";
             		if(row.isFooter){
-                        str ='<div class="ub ub-pc">合计</div> '
+            			return '<div class="ub ub-pc">合计</div> '
                     }
-            		var strHtml = '';
             		var targetFormType = row.targetFormType;
             		if(value){
                 		if(targetFormType == 'FY'){
@@ -101,7 +100,7 @@ function initSupChkAcoView(){
 
 //合计
 function updateFooter(){
-    var fields = {amount:0};
+    var fields = {payableAmount:0,payedAmount:0,discountAmount:0,unpayAmount:0,actualAmount:0};
     var argWhere = {}
     gridHandel.updateFooter(fields,argWhere);
 }
