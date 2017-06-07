@@ -7,6 +7,7 @@ var nameOrCode=null;
 var formType=null;
 var branchId=null;
 var branchType=null;
+var branchTypesStr=null;
 var isOpenStock=null;
 var scope=null;
 function initAgencyView(param){
@@ -24,9 +25,8 @@ function initAgencyView(param){
 			nameOrCode = param.nameOrCode;
 			$("#formAgency :text[name=nameOrCode]").val(nameOrCode);
 		}
-		if(param.branchType){
-			branchType = param.branchType;
-			$("#formAgency :hidden[name=branchType]").val(branchType);
+		if(param.branchTypesStr){
+			branchTypesStr = param.branchTypesStr;
 		}
 		if(param.isOpenStock){
 			isOpenStock = param.isOpenStock;
@@ -92,6 +92,7 @@ function zTreeOnClick(event, treeId, treeNode) {
     		formType:formType,
     		branchId:branchId,
     		branchType:branchType,
+    		branchTypesStr:branchTypesStr,
     		isOpenStock:isOpenStock,
     		scope:scope
     };
@@ -121,7 +122,8 @@ function initDatagridAgency(){
     		branchId:branchId,
     		isOpenStock:isOpenStock,
     		scope:scope,
-    		branchType:branchType
+    		branchType:branchType,
+    		branchTypesStr:branchTypesStr
         },
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:true,  //单选  false多选

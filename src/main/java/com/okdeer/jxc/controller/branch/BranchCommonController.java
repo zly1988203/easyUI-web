@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.druid.util.StringUtils;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.branch.vo.BranchesVo;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.PageUtils;
+import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.utils.UserUtil;
 
@@ -125,6 +125,8 @@ public class BranchCommonController extends BaseController<BranchCommonControlle
 				vo.setBranchType(null);
 				vo.setBranchTypes(new int[]{0,1,2});
 			}
+			// 设置多个机构类型条件
+			vo.setBranchTypes(strArrToIntArr(vo.getBranchTypesStr()));
 			
 			PageUtils<Branches> suppliers = PageUtils.emptyPage();
 			if (vo.getScope() != null && vo.getScope() == 1) {
@@ -140,6 +142,29 @@ public class BranchCommonController extends BaseController<BranchCommonControlle
 		return null;
 	}
 
+	/***
+	 * 
+	 * @Description: 数组类型转换
+	 * @param branchTypesStr
+	 * @return
+	 * @author xuyq
+	 * @date 2017年6月7日
+	 */
+    private int[] strArrToIntArr(String branchTypesStr) {
+        int[] resultArr = null;
+        if (StringUtils.isBlank(branchTypesStr)) {
+            return resultArr;
+        }
+        String[] tempArr = branchTypesStr.split(",");
+        if (tempArr == null || tempArr.length == 0) {
+            return resultArr;
+        }
+        resultArr = new int[tempArr.length];
+        for (int i = 0; i < tempArr.length; i++) {
+            resultArr[i] = Integer.parseInt(tempArr[i]);
+        }
+        return resultArr;
+    }
 	/**
 	 * @Description:礼品兑换新增查询机构
 	 * @param vo
