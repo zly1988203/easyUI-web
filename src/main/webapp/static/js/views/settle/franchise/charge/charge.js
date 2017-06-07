@@ -385,23 +385,28 @@ function selectBranches(){
 	if(_rows.length > 0){
 		$_jxc.confirm('单据信息未保存，是否先保存单据？',function(r){
 			if(!r){
-				new publicAgencyService(function(data){
+				var param = {
+					branchTypesStr:$_jxc.branchTypeEnum.FRANCHISE_STORE_B + ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_C
+				}
+				new publicBranchesService(param,function(data){
 					$("#branchId").val(data.branchesId);
 					$("#branchCode").val(data.branchCode);
 					$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
-					gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
+			        gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
 					                        $.extend({},gridDefault),$.extend({},gridDefault)]);
-				},'FA',branchId);
+				})
 			}
 		})
 	}else{
-		new publicAgencyService(function(data){
+		var param = {
+			branchTypesStr:$_jxc.branchTypeEnum.FRANCHISE_STORE_B + ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_C
+		}
+		new publicBranchesService(param,function(data){
 			$("#branchId").val(data.branchesId);
 			$("#branchCode").val(data.branchCode);
 			$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
-		},'FA',branchId);
+		})
 	}
-	
 }
 
 //选择费用

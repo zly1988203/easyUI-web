@@ -91,11 +91,11 @@ public class FranchiseAccountCurrentController extends BaseController<FranchiseA
 	 * @date 2017年6月1日
 	 */
 	private void buildParam(FranchiseAccountCurrentVo vo) {
-		if (StringUtils.isNotBlank(vo.getFranchiseBranchCode())) {
+		if (StringUtils.isNotBlank(vo.getBranchId())) {
 			vo.setBranchName(null);
 		}
 		// 查询当前及下属机构数据
-		vo.setBranchCode(getCurrBranchCompleCode());
+		vo.setFranchiseBranchCode(getCurrBranchCompleCode());
 
 		// 根据报表类型，去除禁用条件
 		if (vo.getType() == 1) {

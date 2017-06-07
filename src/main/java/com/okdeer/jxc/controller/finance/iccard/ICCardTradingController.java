@@ -84,41 +84,16 @@ public class ICCardTradingController extends BasePrintController<TradeOrderPayVo
 		PageUtils<TradeOrderPayVo> suppliers = PageUtils.emptyPage();
 		try {
 			if (StringUtils.equalsIgnoreCase("1", queryType)) {
-				suppliers = icCardTradingService.selectTradingList(vo,Boolean.TRUE);
-				if(suppliers==null){
-					return PageUtils.emptyPage();
-				}else{
-					TradeOrderPayVo tradeOrderPayVo = icCardTradingService.sumTradingList(vo);
-					if(tradeOrderPayVo!=null){
-	        				tradeOrderPayVo.setBranchCode("SUM");
-	        				suppliers.setFooter(new ArrayList<TradeOrderPayVo>(){
-	        				    private static final long serialVersionUID = 1L;
-	        
-	        				    {
-	        					add(tradeOrderPayVo);
-	        				    }
-	        				});
-					}
-				}
+				suppliers = icCardTradingService.selectTradingList(vo, Boolean.TRUE);
 			} else {
 				vo.setValue("");
-				suppliers = icCardTradingService.selectTradingSumList(vo,Boolean.TRUE);
-				if(suppliers==null){
-					return PageUtils.emptyPage();
-				}else{
-					TradeOrderPayVo tradeOrderPayVo = icCardTradingService.sumTradingSumList(vo);
-					if(tradeOrderPayVo!=null){
-	        				tradeOrderPayVo.setBranchCode("SUM");
-	        				suppliers.setFooter(new ArrayList<TradeOrderPayVo>(){
-	        				    private static final long serialVersionUID = 1L;
-	        
-	        				    {
-	        					add(tradeOrderPayVo);
-	        				    }
-	        				});
-					}
-				}
+				suppliers = icCardTradingService.selectTradingSumList(vo, Boolean.TRUE);
 			}
+			TradeOrderPayVo tradeOrderPayVo = icCardTradingService.sumTradingSumList(vo);
+			tradeOrderPayVo = tradeOrderPayVo == null ? new TradeOrderPayVo() : tradeOrderPayVo;
+			tradeOrderPayVo.setBranchCode("SUM");
+			List<TradeOrderPayVo> list = new ArrayList<TradeOrderPayVo>();
+			list.add(tradeOrderPayVo);
 			return suppliers;
 		} catch (Exception e) {
 			logger.error("一卡通查询列表失败！", e);
@@ -143,17 +118,17 @@ public class ICCardTradingController extends BasePrintController<TradeOrderPayVo
 				vo.setOperatorId(salesmanId);
 			}
 			if (StringUtils.equalsIgnoreCase("1", queryType)) {
-				PageUtils<TradeOrderPayVo> suppliers = icCardTradingService.selectTradingList(vo,Boolean.FALSE);
+				PageUtils<TradeOrderPayVo> suppliers = icCardTradingService.selectTradingList(vo, Boolean.FALSE);
 				List<TradeOrderPayVo> list = suppliers.getList();
 				if (!list.isEmpty() && list.size() > 0) {
-					String fileName = "一开通交易明细" + "_" + DateUtils.getCurrSmallStr();
+					String fileName = "一卡通交易明细" + "_" + DateUtils.getCurrSmallStr();
 					String templateName = ExportExcelConstant.ICC_CARD_TRADING_DETAIL;
 					exportListForXLSX(response, list, fileName, templateName);
 				} else {
 					return RespJson.error("无数据可导");
 				}
 			} else {
-				PageUtils<TradeOrderPayVo> suppliers = icCardTradingService.selectTradingSumList(vo,Boolean.FALSE);
+				PageUtils<TradeOrderPayVo> suppliers = icCardTradingService.selectTradingSumList(vo, Boolean.FALSE);
 				List<TradeOrderPayVo> list = suppliers.getList();
 				if (!list.isEmpty() && list.size() > 0) {
 					String fileName = "一卡通交易汇总" + "_" + DateUtils.getCurrSmallStr();
@@ -189,19 +164,19 @@ public class ICCardTradingController extends BasePrintController<TradeOrderPayVo
 		}
 		String path;
 		if (StringUtils.equalsIgnoreCase("1", queryType)) {
-			suppliers = icCardTradingService.selectTradingList(vo,Boolean.TRUE);
+			suppliers = icCardTradingService.selectTradingList(vo, Boolean.TRUE);
 			path = PrintConstant.ICC_CARD_TRADING_DETAIL;
-		}else{
-			suppliers = icCardTradingService.selectTradingSumList(vo,Boolean.TRUE);
+		} else {
+			suppliers = icCardTradingService.selectTradingSumList(vo, Boolean.TRUE);
 			path = PrintConstant.ICC_CARD_SUM_TRADING_DETAIL;
 		}
-		
+
 		List<TradeOrderPayVo> list = suppliers.getList();
 
 		if (list.size() > PrintConstant.PRINT_MAX_ROW) {
 			return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
 		}
-		
+
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("startDate", DateUtils.formatDate(vo.getStartTime(), DateUtils.DATE_SMALL_STR_R));
 		map.put("endDate", DateUtils.formatDate(vo.getEndTime(), DateUtils.DATE_SMALL_STR_R));

@@ -72,10 +72,23 @@ public class ICCardSettingController extends BaseController<Object>{
 	}
 	
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public RespJson save(byte enabled, BigDecimal minAmount,@RequestParam(value = "ids[]") String[] ids,@RequestParam(value = "enableds[]")byte[] enableds){
-		boolean bool = icCardSettingService.updateBranchSpec(UserUtil.getCurrentUser().getBranchId(), enabled, minAmount,ids,enableds);
+	public RespJson save(Byte enabled, BigDecimal minAmount, String selRows){
+		List<ICCardSetting> icCardSettings =  com.alibaba.fastjson.JSON.parseArray(selRows, ICCardSetting.class);
+		boolean bool = icCardSettingService.updateBranchSpec(UserUtil.getCurrentUser().getBranchId(), enabled, minAmount,icCardSettings);
 		if(bool) return RespJson.success("一卡通设置成功!");
 		return RespJson.error("一卡通设置失败!");
+	}
+	
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public RespJson updateDetail(String settingId,String ip, int port,String cardType,String code) {
+		ICCardSetting icCardSetting = new ICCardSetting();
+		icCardSetting.setId(settingId);
+		icCardSetting.setClearingCenterIp(ip);
+		icCardSetting.setClearingCenterPort(port);
+		icCardSetting.setEcardType(cardType);
+		icCardSetting.setOperationDeptCode(code);
+		icCardSettingService.updateICCardSetting(icCardSetting);
+		return RespJson.success("更新一卡通成功!");
 	}
 	
 	@RequestMapping(value = "/type/save", method = RequestMethod.POST)
@@ -91,11 +104,15 @@ public class ICCardSettingController extends BaseController<Object>{
 
 	@RequestMapping(value = "/type/delete/{id}", method = RequestMethod.POST)
 	public RespJson delete(@PathVariable("id")String id){
-		ICCardSetting icCardSetting = new ICCardSetting();
-		icCardSetting.setDisabled(Byte.valueOf("1"));
-		icCardSetting.setId(id);
-		icCardSettingService.updateICCardSetting(icCardSetting);
-		return RespJson.success("删除一卡通成功!");
+		if(icCardSettingService.isExistBranch(id)){
+			return RespJson.error("该一卡通已有店铺开通使用,不能删除!");
+		}else{
+			ICCardSetting icCardSetting = new ICCardSetting();
+			icCardSetting.setDisabled(Byte.valueOf("1"));
+			icCardSetting.setId(id);
+			icCardSettingService.updateICCardSetting(icCardSetting);
+			return RespJson.success("删除一卡通成功!");
+		}
 	}
 	
 	@RequestMapping(value = "/type/list")

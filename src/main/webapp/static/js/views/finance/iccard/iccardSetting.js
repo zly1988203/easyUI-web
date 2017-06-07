@@ -89,14 +89,15 @@ function saveCardSetting() {
 	var selRows = $('#'+gridName).datagrid('getRows');
 
     var reqObj = $('#saveForm').serializeObject();
+    selRows = JSON.stringify(selRows);
     var data = {
         enabled:reqObj.enabled,
         minAmount:reqObj.minAmount,
-        selRows:selRows,
+        selRows
     }
 	var param = {
 	    url:"setting/save",
-        data:JSON.stringify(data)
+        data:data
     }
 
     $_jxc.ajax(param,function (result) {

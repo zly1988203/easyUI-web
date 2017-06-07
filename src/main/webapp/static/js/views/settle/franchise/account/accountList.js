@@ -20,9 +20,6 @@ function getAccountColumns(){
 		defaultColumns = defaultColumns.concat([
 				    {field: 'targetFormNo',title:'单号',width:'150px',align:'left',formatter:function(value,row,index){
 	            		var str = "";
-	            		if(row.isFooter){
-	                        str ='<div class="ub ub-pc">合计</div> ';
-	                    }
 	            		if(value){
 	            			if(value.indexOf('DI') == 0){
 	            				str = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'入库单明细\',\''+ contextPath +'/form/deliverForm/deliverEdit?deliverFormId='+ row.targetFormId +'&deliverType=DI\')">' + (value||"") + '</a>';
@@ -162,11 +159,38 @@ function initfraAcountList(){
 /**
  * 机构
  */
-function selectBranches(){
-	new publicAgencyService(function(data){
-		$("#franchiseBranchId").val(data.branchesId);
-		$("#branchName").val("["+data.branchCode+"]"+data.branchName);
-	},'FAS');
+function selectBranches(nameOrCode){
+	var param = {
+		branchTypesStr:$_jxc.branchTypeEnum.HEAD_QUARTERS + ',' + $_jxc.branchTypeEnum.BRANCH_COMPANY
+			+ ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_B + ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_C
+	}
+	if(nameOrCode){
+		param.nameOrCode = nameOrCode;
+	}
+	new publicBranchesService(param,function(data){
+		//返回NO时 输入动作没匹配到数据 
+		if(data == 'NO'){
+			//未查询到数据或多条数据，设置无效ID
+			$_jxc.clearHideInpOnEdit($('#branchName'));
+			$("#branchName").val("");
+		}else{
+			$("#branchId").val(data.branchesId);
+			$("#branchName").val("["+data.branchCode+"]"+data.branchName);
+		}
+	})
+}
+
+/**
+ * 机构自动补全
+ */
+function brandAutoComple(obj){
+	var nameOrCode = $.trim($("#branchName").val())||'';
+	//未输入值时，直接返回，无需查询
+	if("" == nameOrCode){
+		$_jxc.clearHideInpOnEdit(obj);
+		return;
+	}
+	selectBranches(nameOrCode,obj);
 }
 
 
