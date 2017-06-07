@@ -160,11 +160,6 @@ public class FranchiseSettleController extends BasePrintController<FranchiseSett
 		RespJson respJson = RespJson.success();
 		try {
 			FranchiseSettleVo vo = JSON.parseObject(data, FranchiseSettleVo.class);
-			// 检查是否存在未审核的结算
-			int auditCount = franchiseSettleService.getAuditCount(vo.getFranchiseBranchId());
-			if (auditCount > 0) {
-				return RespJson.error("存在未审核的结算单");
-			}
 			vo.setTargetBranchId(getCurrBranchId());
 			vo.setCreateUserId(getCurrUserId());
 			vo.setBranchCode(getCurrBranchCode());
