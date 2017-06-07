@@ -6,7 +6,7 @@
 function initCardExtracted(data){
     $("#cardExtracted #branchName").val(data.branchName);
     $("#cardExtracted #branchId").val(data.branchId);
-    $("#cardExtracted #oldBalance").numberbox("setValue",data.ecardBalance|0.00);
+    $("#cardExtracted #oldBalance").val(data.ecardBalance);
 }
 
 function setData(data) {
@@ -14,7 +14,7 @@ function setData(data) {
 }
 
 function changeBalance() {
-    var oldBalance = parseFloat($('#oldBalance').numberbox('getValue'));
+    var oldBalance = parseFloat($('#oldBalance').val());
     var extractBalance = parseFloat($('#extractBalance').numberbox('getValue'));
 
     if(extractBalance > oldBalance){

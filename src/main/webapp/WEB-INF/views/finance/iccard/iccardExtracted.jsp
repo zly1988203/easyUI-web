@@ -30,8 +30,8 @@
 			<div class="ub upad-4 umar-t10">
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-74 ut-r">&nbsp;&nbsp;&nbsp;当前余额:</div>
-					<input class="uinp easyui-numberbox easyui-validatebox uinp-no-more" type="text"
-							data-options="min:0.00,precision:2" id="oldBalance" name="oldBalance" readOnly/>
+					<input class="uinp easyui-validatebox uinp-no-more" type="text"
+							data-options="validType:'intOrFloat'" id="oldBalance" name="oldBalance" readOnly/>
 				</div>
 			</div>
 
@@ -74,7 +74,7 @@
 			<div class="ub upad-4 umar-t10">
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-74 ut-r">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注:</div>
-					<input class="uinp ub ub-f1" type="text" id="remark" name="remark" maxlength="50"/>
+					<input class="uinp ub ub-f1" type="text" id="remark" name="remark" maxlength="20"/>
 				</div>
 			</div>
 
