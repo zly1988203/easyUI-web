@@ -25,7 +25,7 @@ function initGridCardSetting() {
         	{field: 'id', title: '一卡通Id', hidden:"true"},
             {field: 'ecardType', title: '一卡通类型', width: 180, align: 'left',
                 formatter : function(value, row,index) {
-                    var str =  '<a name="edit" onclick="editCard()" ' +
+                    var str =  '<a name="edit" onclick="editCard('+index+')" ' +
                         ' class="ualine">'+value+'</a>';
 
                     return str;
@@ -89,11 +89,10 @@ function saveCardSetting() {
 	var selRows = $('#'+gridName).datagrid('getRows');
 
     var reqObj = $('#saveForm').serializeObject();
-    selRows = JSON.stringify(selRows);
     var data = {
         enabled:reqObj.enabled,
         minAmount:reqObj.minAmount,
-        selRows
+        selRows:JSON.stringify(selRows)
     }
 	var param = {
 	    url:"setting/save",
@@ -148,7 +147,8 @@ function addCard() {
     })
 }
 
-function editCard() {
+function editCard(index) {
+   $('#'+gridName).datagrid('selectRow',index);
     var item =  $("#"+gridName).datagrid('getSelected');
     cardDialog = $('<div/>').dialog({
         href: contextPath+"/iccard/setting/editIcCardType",
@@ -181,19 +181,25 @@ function delCard() {
         return;
     }
 
-    $_jxc.confirm('是否要删除选中数据?',function(data){
+    $.messager.confirm('提示','是否要删除选中数据',function(data){
         if(data){
-//            gFunStartLoading();
-            $_jxc.ajax({
-                url:contextPath+"/iccard/setting/type/delete/"+row.id
-            },function(result){
-//                gFunEndLoading();
-                if(result['code'] == 0){
-                    $_jxc.alert("删除成功");
-                }else{
-                    $_jxc.alert(result['message']);
+            gFunStartLoading();
+            $.ajax({
+                url:contextPath+"/iccard/setting/type/delete/"+row.id,
+                type:"POST",
+                success:function(result){
+                    gFunEndLoading();
+                    if(result['code'] == 0){
+                        $_jxc.alert("删除成功");
+                    }else{
+                        $_jxc.alert(result['message']);
+                    }
+                    $("#"+gridName).datagrid('reload');
+                },
+                error:function(result){
+                    gFunEndLoading();
+                    $_jxc.alert("请求发送失败或服务器处理失败");
                 }
-                $("#"+gridName).datagrid('reload');
             });
         }
     });

@@ -21,17 +21,21 @@ function saveSettingType() {
         return;
     }
 
-    var formData = $('#cardTypeAdd').serializeObject();
-    var url = contextPath + "/iccard/setting/type/update";
-    var param = formData;
-    $.post(url,param,function(result){
+    var formData = $('#cardTypeEdit').serializeObject();
+
+    var param = {
+        url:contextPath + "/iccard/setting/update",
+        data:formData
+    };
+    $_jxc.ajax(param,function (result) {
         if(result.code===0){
-            $('#closeCardType').trigger('click');
+            closeCardDialog();
             $_jxc.alert(result.data);
         }else{
             $_jxc.alert(result.message);
         }
 
-        $("#gridCardSetting").datagrid('reload');
-    },"json")
+        initGridCardSetting();
+    })
+
 }
