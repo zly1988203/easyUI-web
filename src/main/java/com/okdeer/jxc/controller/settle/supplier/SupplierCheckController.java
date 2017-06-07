@@ -124,10 +124,11 @@ public class SupplierCheckController extends BasePrintController<SupplierCheckCo
         try {
             vo.setPageNumber(pageNumber);
             vo.setPageSize(pageSize);
+            vo.setBranchCompleCode(getCurrBranchCompleCode());
             LOG.debug(LogConstant.OUT_PARAM, vo.toString());
-            PageUtils<SupplierCheckVo> advanceList = supplierCheckService.getCheckPageList(vo);
-            LOG.debug(LogConstant.PAGE, advanceList.toString());
-            return advanceList;
+            PageUtils<SupplierCheckVo> checkList = supplierCheckService.getCheckPageList(vo);
+            LOG.debug(LogConstant.PAGE, checkList.toString());
+            return checkList;
         } catch (Exception e) {
             LOG.error("供应商对账列表信息异常:{}", e);
         }
