@@ -23,7 +23,14 @@ function initGridCardSetting() {
         width:600,
         columns:[[
         	{field: 'id', title: '一卡通Id', hidden:"true"},
-            {field: 'ecardType', title: '一卡通类型', width: 180, align: 'left'},
+            {field: 'ecardType', title: '一卡通类型', width: 180, align: 'left',
+                formatter : function(value, row,index) {
+                    var str =  '<a name="edit" onclick="editCard()" ' +
+                        ' class="ualine">'+value+'</a>';
+
+                    return str;
+                },
+            },
             // {field:'check',checkbox:true},
             {field: 'enabled', title: '启用', checkbox:true,width: 80, align: 'left',
                 formatter : function(value, row,index) {
@@ -79,7 +86,7 @@ function initGridCardSetting() {
 }
 
 function saveCardSetting() {
-	var selRows = $('#gridCardSetting').datagrid('getRows'); 
+	var selRows = $('#'+gridName).datagrid('getRows');
 
     var reqObj = $('#saveForm').serializeObject();
     var data = {
@@ -139,6 +146,27 @@ function addCard() {
         }
     })
 }
+
+function editCard() {
+    var item =  $("#"+gridName).datagrid('getSelected');
+    cardDialog = $('<div/>').dialog({
+        href: contextPath+"/iccard/setting/editIcCardType",
+        width:500,
+        height:500,
+        title: "一卡通设置",
+        closable: true,
+        resizable: true,
+        onClose: function () {
+            $(cardDialog).panel('destroy');
+            cardDialog = null;
+        },
+        modal: true,
+        onLoad: function () {
+            initCardTypeData(item);
+        }
+    })
+}
+
 
 function closeCardDialog() {
     $(cardDialog).panel('destroy');

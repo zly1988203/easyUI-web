@@ -19,7 +19,7 @@
 }
 </style>
 </head>
-<body class="ub uw uh ufs-14 uc-black">
+<body class="uw uh ufs-14 uc-black">
 	<div class="ub ub-ver ub-f1 umar-4 upad-4">
 		<form id="saveForm">
 			<div class="ub ub-ac upad-8">
