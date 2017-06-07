@@ -52,7 +52,7 @@ function editUser(){
 	if (!isValid) {
 		return;
 	}
-	
+
 	var priceGrantArray = new Array();
 	$(':checkbox[name="priceGrants"]:checked').each(function(){    
 		priceGrantArray.push($(this).val());    
@@ -82,6 +82,19 @@ function savePassword() {
     if (!isValid) {
         return;
     }
+
+    var regex = /^[A-Za-z0-9]{8,18}$/;
+    var userPwd = $("#userPwd").val();
+    if(/^\d+$/.test(userPwd)){
+        $.messager.alert("提示", "密码不能是纯数字");
+        return ;
+    }
+
+    if(!regex.test(userPwd)){
+        $.messager.alert("提示", "密码长度为8-18位，字母+数字，不能是纯数字");
+        return ;
+    }
+
     var param = {
         url : contextPath + "/system/user/updatePwd",
 		data :{
@@ -91,6 +104,7 @@ function savePassword() {
 	}
     $_jxc.ajax(param,function(result){
         if(result['code'] == 0){
+            $("#userPwd").textbox({"type":"password"})
             $_jxc.alert("操作成功");
         }else {
             $_jxc.alert(result.message, $("#dg"));
@@ -155,7 +169,13 @@ function initpriceGrantCheck(){
 
 function iconOpenHandler(e){
     var targe = e.data.target;
-    targe.type = 'text';
-    $("#userPwd").textbox({"type":"text"})
+    if(targe.type === "text"){
+        targe.type = 'password';
+        $("#userPwd").textbox({"type":"password"})
+	}else{
+        targe.type = 'text';
+        $("#userPwd").textbox({"type":"text"})
+	}
+
     $(e.data.target).textbox("setValue",targe.value);
 }

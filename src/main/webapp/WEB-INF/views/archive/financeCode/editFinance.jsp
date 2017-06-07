@@ -26,7 +26,8 @@
 					<input class="uinp  ub ub-f1" type="text" id="value"
 					onkeyup="this.value=this.value.replace(/\D/g,'')"
 					onafterpaste="this.value=this.value.replace(/\D/g,'')"
-					name="value" maxlength="4"/>
+					placeholder="编号为4位数字"
+					name="value"  maxlength="4"/>
 					<input type="hidden" name="id" id="id" />
 				</div>
 			<i class="ub uc-red">*</i>

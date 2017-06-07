@@ -43,15 +43,15 @@ var editRowData = null;
 function initGridStoreCharge() {
     gridHandel.setGridName(gridName);
     gridHandel.initKey({
-        firstName:'value',
-        enterName:'value',
+        firstName:'costTypeCode',
+        enterName:'costTypeCode',
         enterCallBack:function(arg){
             if(arg&&arg=="add"){
                 gridHandel.addRow(parseInt(gridHandel.getSelectRowIndex())+1,gridDefault);
                 setTimeout(function(){
                     gridHandel.setBeginRow(gridHandel.getSelectRowIndex()+1);
-                    gridHandel.setSelectFieldName("amount");
-                    gridHandel.setFieldFocus(gridHandel.getFieldTarget('amount'));
+                    gridHandel.setSelectFieldName("costTypeCode");
+                    gridHandel.setFieldFocus(gridHandel.getFieldTarget('costTypeCode'));
                 },100)
             }else{
                 selectCharge(arg);
@@ -124,7 +124,7 @@ function initGridStoreCharge() {
             if(target){
                 gridHandel.setFieldFocus(target);
             }else{
-                gridHandel.setSelectFieldName("branchCode");
+                gridHandel.setSelectFieldName("costTypeCode");
             }
         },
         onBeforeEdit:function (rowIndex, rowData) {
@@ -292,6 +292,14 @@ function selectCharge(searchKey) {
         type:'101005'
     };
     publicCostService(param,function(data){
+        if(data.length==0){
+            return;
+        }
+        if(searchKey){
+            $("#"+gridName).datagrid("deleteRow", gridHandel.getSelectRowIndex());
+            $("#"+gridName).datagrid("acceptChanges");
+        }
+
         var nowRows = gridHandel.getRowsWhere({costTypeCode:'1'});
         var addDefaultData = gridHandel.addDefault(data,gridDefault);
         var keyNames = {

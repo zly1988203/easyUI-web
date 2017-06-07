@@ -26,6 +26,12 @@ function saveFinanceCode() {
         return;
     }
 
+    if($("#value").val().trim().length < 4){
+        $_jxc.alert("编号为4位数字");
+        return;
+    }
+
+
     if($_jxc.isStringNull($("#label").val())){
         $_jxc.alert("名称不能为空");
         return;
@@ -36,7 +42,7 @@ function saveFinanceCode() {
 	var data = {
         dictTypeId:$("#dictTypeId").val(),
         value:$("#value").val(),
-        label:$("#label").val(),
+        label:$("#label").val().trim(),
         remark:$("#remark").val()
     }
     if(type === "edit"){
@@ -48,13 +54,19 @@ function saveFinanceCode() {
 	}
 	$_jxc.ajax(param,function (result) {
         if(result['code'] == 0){
+            queryFinanceCode();
             $_jxc.alert("保存成功");
-            if($("#ckbSave").is(":checked")){
-                cleanForm();
-            }else {
+            if(type === "add"){
+                if($("#ckbSave").is(":checked")){
+                    cleanForm();
+                }else {
+                    closeFinanceDialog();
+                }
+            }else{
                 closeFinanceDialog();
-                queryFinanceCode();
             }
+
+
         }else{
             $_jxc.alert(result['message']);
         }
