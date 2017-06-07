@@ -17,20 +17,15 @@ function saveHandel(){
     }
 
     var formData = $('#formAdd').serializeObject();
-    $.ajax({
-        type:"POST",
+    $_jxc.ajax({
         url:contextPath+"/supplierArea/addSupplierArea",
-        data:formData,
-        success:function(data){
-            if(data.code == 0){
-                reloadListHandel();
-                $_jxc.alert("保存成功");
-            }else{
-                $_jxc.alert(data.message);
-            }
-        },
-        error:function(e){
-
+        data:formData
+    },function(data){
+        if(data.code == 0){
+            reloadListHandel();
+            $_jxc.alert("保存成功");
+        }else{
+            $_jxc.alert(data.message);
         }
     })
 

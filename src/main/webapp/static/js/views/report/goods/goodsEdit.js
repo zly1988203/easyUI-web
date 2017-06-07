@@ -188,12 +188,12 @@ function saveProp() {
 	
 	if($('#purchaseSpec').val()=="0.00"){
 		$('#btnSave').removeAttr("disabled");
-		messager("进货规格不能为0!");
+		$_jxc.alert("进货规格不能为0!");
 		return;
 	}
 	if($('#distributionSpec').val()=="0.00"){
 		$('#btnSave').removeAttr("disabled");
-		messager("配送规格不能为0!");
+		$_jxc.alert("配送规格不能为0!");
 		return;
 	}
 	
@@ -225,21 +225,16 @@ function saveProp() {
 
 function submitForm(){
 	var formObj = $('#formEdit').serializeObject();
-	$.ajax({
+	$_jxc.ajax({
 		url : contextPath + "/branch/goods/branchGoodsPropSave",
-		type : "POST",
-		data : formObj,
-		success : function(result) {
-			$('#btnSave').removeAttr("disabled");
-			if(result){
-				$_jxc.alert("保存成功");
-			}else{
-				//$('#btnSave').removeAttr("disabled");
-				$_jxc.alert("保存失败");
-			}
-		},
-		error : function(result) {
-			$_jxc.alert("请求发送失败或服务器处理失败");
+		data : formObj
+	},function(result){
+		$('#btnSave').removeAttr("disabled");
+		if(result){
+			$_jxc.alert("保存成功");
+		}else{
+			//$('#btnSave').removeAttr("disabled");
+			$_jxc.alert("保存失败");
 		}
 	});
 }
@@ -434,21 +429,16 @@ function submitForm(){
 			newData[i] = temp;
 	 }
 	 
-	 $.ajax({
+	 $_jxc.ajax({
 	        url:contextPath+"/goods/report/saveBranchsafetyCoefficient",
-	        type:"POST",
 	        contentType:"application/json",
-	        data:JSON.stringify(newData),
-	        success:function(result){
-	            if(result['code'] == 0){
-	                $_jxc.alert("操作成功！");
-	            }else{
-	                $_jxc.alert(result['message'] +","+strResult);
-	            }
-	        },
-	        error:function(result){
-	            $_jxc.alert("请求发送失败或服务器处理失败");
-	        }
+	        data:JSON.stringify(newData)
+	    },function(result){
+            if(result['code'] == 0){
+                $_jxc.alert("操作成功！");
+            }else{
+                $_jxc.alert(result['message'] +","+strResult);
+            }
 	    });
  }
  

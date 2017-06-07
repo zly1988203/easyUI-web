@@ -134,19 +134,14 @@ function saveRebateForm(){
     if(!isCheckResult){
         return;
     }
-    $.ajax({
+    $_jxc.ajax({
         url:contextPath+"/form/deliverConfig/saveRebate",
-        type:"POST",
-        data:args,
-        success:function(result){
-            if(result['code'] == 0){
-                $_jxc.alert("保存成功！");
-            }else{
-                $_jxc.alert(result['message']);
-            }
-        },
-        error:function(data){
-            $_jxc.alert("请求发送失败或服务器处理失败");
+        data:args
+    },function(result){
+        if(result['code'] == 0){
+            $_jxc.alert("保存成功！");
+        }else{
+            $_jxc.alert(result['message']);
         }
     })
 }

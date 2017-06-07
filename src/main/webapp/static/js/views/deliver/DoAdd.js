@@ -611,18 +611,13 @@ function selectStockAndPrice(sourceBranchId,data){
 		};
 		GoodsStockVo.goodsSkuVo[i] = temp;
 	});
-	$.ajax({
+	$_jxc.ajax({
     	url : contextPath+"/goods/goodsSelect/selectStockAndPriceToDo",
-    	type : "POST",
     	data : {
     		goodsStockVo : JSON.stringify(GoodsStockVo)
-    	},
-    	success:function(result){
-    		setDataValue(result);
-    	},
-    	error:function(result){
-    		$_jxc.alert("请求发送失败或服务器处理失败");
     	}
+    },function(result){
+    		setDataValue(result);
     });
 }
 
@@ -747,55 +742,45 @@ function saveOrderbtn(){
     	reqObj.deliverFormListVo[i] = temp;
 	});
     
-    $.ajax({
+    $_jxc.ajax({
         url:contextPath+"/form/deliverForm/insertDeliverForm",
-        type:"POST",
         contentType:"application/json",
-        data:JSON.stringify(reqObj),
-        success:function(result){
-            if(result['code'] == 0){
-                $_jxc.alert("操作成功！",function(){
-                   location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
-                });
-            }else{
-            	var strResult = "";
-            	if (result.dataList) {
-                	$.each(result.dataList,function(i,item){
-                		strResult += item.goodsName+" ,库存数量： "+item.number+",";
-                	})
-            	}
-                $_jxc.alert(result['message']);
-            }
-        },
-        error:function(result){
-            $_jxc.alert("请求发送失败或服务器处理失败");
+        data:JSON.stringify(reqObj)
+    },function(result){
+        if(result['code'] == 0){
+            $_jxc.alert("操作成功！",function(){
+               location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
+            });
+        }else{
+        	var strResult = "";
+        	if (result.dataList) {
+            	$.each(result.dataList,function(i,item){
+            		strResult += item.goodsName+" ,库存数量： "+item.number+",";
+            	})
+        	}
+            $_jxc.alert(result['message']);
         }
     });
 }
 //审核
 function check(){
 	var deliverFormId = $("#formId").val();
-	$.messager.confirm('提示','是否审核通过？',function(data){
+	$_jxc.confirm('是否审核通过？',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 		    	url : contextPath+"/form/deliverForm/check",
-		    	type : "POST",
 		    	data : {
 		    		deliverFormId : $("#formId").val(),
 		    		deliverType : 'DO'
-		    	},
-		    	success:function(result){
-		    		if(result['code'] == 0){
-		    			$_jxc.alert("操作成功！",function(){
-		    				contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + deliverFormId;
-		    			});
-		    		}else{
-		    			$_jxc.alert(result['message']);
-		    		}
-		    	},
-		    	error:function(result){
-		    		$_jxc.alert("请求发送失败或服务器处理失败");
 		    	}
+		    },function(result){
+	    		if(result['code'] == 0){
+	    			$_jxc.alert("操作成功！",function(){
+	    				contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + deliverFormId;
+	    			});
+	    		}else{
+	    			$_jxc.alert(result['message']);
+	    		}
 		    });
 		}
 	});
@@ -893,39 +878,35 @@ function selectDeliver(){
 
 // 查询要货机构的资料
 function selectTargetBranchData(targetBranchId){
-	 $.ajax({
+	 $_jxc.ajax({
 	        url:contextPath+"/common/branches/selectTargetBranchData",
 	        data:{
 	        	branchesId : targetBranchId
-	        },
-	        type:"post",
-	        success:function(data){
-	        	$("#address").html(data.address);
-	    		$("#contacts").html(data.contacts);
-	    		$("#mobile").html(data.mobile);
 	        }
+	    },function(data){
+        	$("#address").html(data.address);
+    		$("#contacts").html(data.contacts);
+    		$("#mobile").html(data.mobile);
 	    });
 }
 
 function loadLists(referenceId,refDeliverType){
-    $.ajax({
+    $_jxc.ajax({
         url:contextPath+"/form/deliverFormList/getDeliverFormLists?deliverType=DO&deliverFormId="+referenceId+"&refDeliverType=" + refDeliverType,
-        type:"post",
-        success:function(data){
-            var rows = data.rows;
-            for(var i in rows){
-                rows[i]["dealNum"] =  rows[i]["applyNum"]?rows[i]["applyNum"]:rows[i]["dealNum"];
-                rows[i]["amount"]  = parseFloat(rows[i]["price"]||0)*parseFloat(rows[i]["dealNum"]||0);
-                rows[i]["oldDeliverDealNum"] =  rows[i]["dealNum"];
-                var defectNum = parseFloat(rows[i]["sourceStock"]||0)-parseFloat(rows[i]["dealNum"]||0);
-                rows[i]["defectNum"] = defectNum<0?-defectNum:0;
-                rows[i]["price"] = rows[i]["isGift"]==0?rows[i]["price"]:0;
-                rows[i]["amount"] = rows[i]["isGift"]==0?rows[i]["amount"]:0;
+    },function(data){
+        var rows = data.rows;
+        for(var i in rows){
+            rows[i]["dealNum"] =  rows[i]["applyNum"]?rows[i]["applyNum"]:rows[i]["dealNum"];
+            rows[i]["amount"]  = parseFloat(rows[i]["price"]||0)*parseFloat(rows[i]["dealNum"]||0);
+            rows[i]["oldDeliverDealNum"] =  rows[i]["dealNum"];
+            var defectNum = parseFloat(rows[i]["sourceStock"]||0)-parseFloat(rows[i]["dealNum"]||0);
+            rows[i]["defectNum"] = defectNum<0?-defectNum:0;
+            rows[i]["price"] = rows[i]["isGift"]==0?rows[i]["price"]:0;
+            rows[i]["amount"] = rows[i]["isGift"]==0?rows[i]["amount"]:0;
 
-            }
-            $("#gridEditOrder").datagrid("loadData",rows);
-            updateFooter();
         }
+        $("#gridEditOrder").datagrid("loadData",rows);
+        updateFooter();
     });
 }
 
@@ -1012,18 +993,13 @@ function selectStockAndPriceImport(sourceBranchId,data){
 		};
 		GoodsStockVo.goodsSkuVo[i] = temp;
 	});
-	$.ajax({
+	$_jxc.ajax({
     	url : contextPath+"/goods/goodsSelect/selectStockAndPriceToDo",
-    	type : "POST",
     	data : {
     		goodsStockVo : JSON.stringify(GoodsStockVo)
-    	},
-    	success:function(result){
-    		updateListData(result);
-    	},
-    	error:function(result){
-    		$_jxc.alert("请求发送失败或服务器处理失败");
     	}
+    },function(result){
+    	updateListData(result);
     });
 }
 
@@ -1082,25 +1058,23 @@ function loadFormByFormNoDA() {
 
 // 设置值
 function setData(){
-    $.ajax({
+    $_jxc.ajax({
         url:contextPath+"/form/deliverForm/getSourceBranchAndTargetBranchAndFormNo",
         data:{
             referenceId : $("#referenceId").val()
-        },
-        type:"post",
-        success:function(data){
-            if (data.code == '0') {
-                $("#referenceId").val(data.data.id);
-                $("#referenceNo").val(data.data.formNo);
-                $("#targetBranchId").val(data.data.targetBranchId);
-                $("#targetBranchName").val(data.data.targetBranchName);
-                $("#sourceBranchId").val(data.data.sourceBranchId);
-                $("#sourceBranchName").val(data.data.sourceBranchName);
-                $("#address").html(data.data.address);
-                $("#contacts").html(data.data.contacts);
-                $("#mobile").html(data.data.mobile);
-                $("#DAremark").val(data.data.remark);
-            }
+        }
+    },function(data){
+        if (data.code == '0') {
+            $("#referenceId").val(data.data.id);
+            $("#referenceNo").val(data.data.formNo);
+            $("#targetBranchId").val(data.data.targetBranchId);
+            $("#targetBranchName").val(data.data.targetBranchName);
+            $("#sourceBranchId").val(data.data.sourceBranchId);
+            $("#sourceBranchName").val(data.data.sourceBranchName);
+            $("#address").html(data.data.address);
+            $("#contacts").html(data.data.contacts);
+            $("#mobile").html(data.data.mobile);
+            $("#DAremark").val(data.data.remark);
         }
     });
 }

@@ -566,25 +566,20 @@ function selectStockAndPrice(data){
 		};
 		GoodsStockVo.goodsSkuVo[i] = temp;
 	});
-	$.ajax({
+	$_jxc.ajax({
     	url : contextPath+"/goods/goodsSelect/queryAlreadyNum",
-    	type : "POST",
     	data : {
     		goodsStockVo : JSON.stringify(GoodsStockVo)
-    	},
-    	success:function(result){
-            $.each(data,function(i,val){
-                $.each(result.data,function(j,obj){
-                    if(val.skuId==obj.skuId){
-                        data[i].alreadyNum = obj.alreadyNum;
-                    }
-                })
-            })
-    		setDataValue(data);
-    	},
-    	error:function(result){
-    		$_jxc.alert("请求发送失败或服务器处理失败");
     	}
+    },function(result){
+        $.each(data,function(i,val){
+            $.each(result.data,function(j,obj){
+                if(val.skuId==obj.skuId){
+                    data[i].alreadyNum = obj.alreadyNum;
+                }
+            })
+        })
+		setDataValue(data);
     });
 }
 
@@ -711,37 +706,31 @@ function saveOrder(){
 	});
     console.log('req',JSON.stringify(reqObj))
 //    return;
-    gFunStartLoading();
-    $.ajax({
+//    gFunStartLoading();
+    $_jxc.ajax({
         url:contextPath+"/form/deliverForm/insertDeliverForm",
-        type:"POST",
         contentType:"application/json",
-        data:JSON.stringify(reqObj),
-        success:function(result){
-        	gFunEndLoading();
-            if(result['code'] == 0){
-                $_jxc.alert("操作提示", "操作成功！", "info",function(){
-                    location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
-                });
-            }else{
-                var strResult = "";
-                if (result.dataList) {
-                    $.each(result.dataList,function(i,item){
-                        strResult += item.goodsName+" ,库存数量： "+item.number+",";
-                    })
-                }
-                //successTip(result['message'] +","+strResult);
-            	new publicErrorDialog({
-                    width:380,
-                    height:220,
-            		"title":"保存失败",
-            		"error":result['message']+strResult
-            	});
+        data:JSON.stringify(reqObj)
+    },function(result){
+//        	gFunEndLoading();
+        if(result['code'] == 0){
+            $_jxc.alert("操作成功！",function(){
+                location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
+            });
+        }else{
+            var strResult = "";
+            if (result.dataList) {
+                $.each(result.dataList,function(i,item){
+                    strResult += item.goodsName+" ,库存数量： "+item.number+",";
+                })
             }
-        },
-        error:function(result){
-        	gFunEndLoading();
-            $_jxc.alert("请求发送失败或服务器处理失败");
+            //successTip(result['message'] +","+strResult);
+        	new publicErrorDialog({
+                width:380,
+                height:220,
+        		"title":"保存失败",
+        		"error":result['message']+strResult
+        	});
         }
     });
 }
@@ -838,36 +827,30 @@ function updateOrder(){
     	reqObj.deliverFormListVo[i] = temp;
 	});
     
-    gFunStartLoading();
-    $.ajax({
+//    gFunStartLoading();
+    $_jxc.ajax({
         url:contextPath+"/form/deliverForm/updateDeliverForm",
-        type:"POST",
         contentType:"application/json",
-        data:JSON.stringify(reqObj),
-        success:function(result){
-            gFunEndLoading();
-            if(result['code'] == 0){
-            	
-                oldData = {
-                    targetBranchId:$("#targetBranchId").val(), // 要活分店id
-                    sourceBranchId:$("#sourceBranchId").val(), //发货分店id
-                    remark:$("#remark").val(),                  // 备注
-                    formNo:$("#formNo").val(),                 // 单号
-                }
-                oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
-            		return $.extend(true,{},obj);//返回对象的深拷贝
-            	});
-                $_jxc.alert("操作成功！",function(){
-                	location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + $("#formId").val();
-                });
-            }else{
-                $_jxc.alert(result['message']);
-            }
-        },
-        error:function(result){
-            gFunEndLoading();
-            $_jxc.alert("请求发送失败或服务器处理失败");
-        }
+        data:JSON.stringify(reqObj)
+    },function(result){
+//             gFunEndLoading();
+         if(result['code'] == 0){
+         	
+             oldData = {
+                 targetBranchId:$("#targetBranchId").val(), // 要活分店id
+                 sourceBranchId:$("#sourceBranchId").val(), //发货分店id
+                 remark:$("#remark").val(),                  // 备注
+                 formNo:$("#formNo").val(),                 // 单号
+             }
+             oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
+         		return $.extend(true,{},obj);//返回对象的深拷贝
+         	});
+             $_jxc.alert("操作成功！",function(){
+             	location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + $("#formId").val();
+             });
+         }else{
+             $_jxc.alert(result['message']);
+         }
     });
 }
 
@@ -876,24 +859,19 @@ function updateOrder(){
 function delDeliverForm(){
 	var ids = [];
 	ids.push($("#formId").val());
-	$.messager.confirm('提示','是否要删除单据',function(data){
+	$_jxc.confirm('是否要删除单据?',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 		    	url:contextPath+"/form/deliverForm/deleteDeliverForm",
-		    	type:"POST",
 		    	contentType:"application/json",
-		    	data:JSON.stringify(ids),
-		    	success:function(result){
-		    		if(result['code'] == 0){
-                        toRefreshIframeDataGrid("form/deliverForm/viewsDA","deliverFormList");
-		    			toClose();
-		    		}else{
-                        $_jxc.alert(result['message']);
-		    		}
-		    	},
-		    	error:function(result){
-                    $_jxc.alert("请求发送失败或服务器处理失败");
-		    	}
+		    	data:JSON.stringify(ids)
+		    },function(result){
+	    		if(result['code'] == 0){
+                    toRefreshIframeDataGrid("form/deliverForm/viewsDA","deliverFormList");
+	    			toClose();
+	    		}else{
+                    $_jxc.alert(result['message']);
+	    		}
 		    });
 		}
 	});
@@ -928,26 +906,21 @@ function selectTargetBranch(){
 }
 
 function getSourceBranch(branchesId) {
-	$.ajax({
+	$_jxc.ajax({
     	url : contextPath+"/form/deliverForm/getSourceBranch",
-    	type : "POST",
     	data : {
     		branchesId : branchesId,
-    	},
-    	success:function(result){
-    		if(result['code'] == 0){
-    			$("#sourceBranchId").val(result['sourceBranchId']);
-                $("#sourceBranchName").val(result['sourceBranchName']);
+    	}
+    },function(result){
+		if(result['code'] == 0){
+			$("#sourceBranchId").val(result['sourceBranchId']);
+            $("#sourceBranchName").val(result['sourceBranchName']);
 //                $("#salesman").val(result['salesman']);
 //                $("#spanMinAmount").html(result['minAmount']);
 //                $("#minAmount").val(result['minAmount']);
-    		}else{
-                $_jxc.alert(result['message']);
-    		}
-    	},
-    	error:function(result){
-            $_jxc.alert("请求发送失败或服务器处理失败");
-    	}
+		}else{
+            $_jxc.alert(result['message']);
+		}
     });
 }
 
@@ -992,25 +965,20 @@ function selectStockAndPriceImport(data){
         };
         GoodsStockVo.goodsSkuVo[i] = temp;
     });
-    $.ajax({
+    $_jxc.ajax({
         url : contextPath+"/goods/goodsSelect/queryAlreadyNum",
-        type : "POST",
         data : {
             goodsStockVo : JSON.stringify(GoodsStockVo)
-        },
-        success:function(result){
-            $.each(data,function(i,val){
-                $.each(result.data,function(j,obj){
-                    if(val.skuId==obj.skuId){
-                        data[i].alreadyNum = obj.alreadyNum;
-                    }
-                })
-            })
-            updateListData(data);
-        },
-        error:function(result){
-            $_jxc.alert("请求发送失败或服务器处理失败");
         }
+    },function(result){
+        $.each(data,function(i,val){
+            $.each(result.data,function(j,obj){
+                if(val.skuId==obj.skuId){
+                    data[i].alreadyNum = obj.alreadyNum;
+                }
+            })
+        })
+        updateListData(data);
     });
 }
 
@@ -1079,31 +1047,26 @@ function check(){
         }
         v["rowNo"] = i+1;
     });
-	$.messager.confirm('提示',msg,function(data){
+	$_jxc.confirm(msg,function(data){
         if(data){
             checkHandel()
         }
 	});
 }
 function checkHandel(){
-        $.ajax({
+        $_jxc.ajax({
             url : contextPath+"/form/deliverForm/check",
-            type : "POST",
             data : {
                 deliverFormId : $("#formId").val(),
                 deliverType : 'DR'
-            },
-            success:function(result){
-                if(result['code'] == 0){
-                    $_jxc.alert("操作成功！",function(){
-                        location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
-                    });
-                }else{
-                    $_jxc.alert(result['message']);
-                }
-            },
-            error:function(result){
-                $_jxc.alert("请求发送失败或服务器处理失败");
+            }
+        },function(result){
+            if(result['code'] == 0){
+                $_jxc.alert("操作成功！",function(){
+                    location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
+                });
+            }else{
+                $_jxc.alert(result['message']);
             }
         });
 }

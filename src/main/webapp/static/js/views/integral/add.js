@@ -338,22 +338,17 @@ function getParam(){
 function saveDataHandel(){
     //获取请求参数
 	var reqObj = getParam();
-    $.ajax({
-    	type:"POST",
+    $_jxc.ajax({
         url:contextPath+"/integral/giftManager/addGiftManager",
         data:{
 			"skuReq" : JSON.stringify(reqObj)
-		},
-        success:function(result){
-            if(result['code'] == 0){
-            	$_jxc.alert("操作成功!");
-            	setTimeout('toClose()',1500); 
-            }else{
-                $_jxc.alert(result['message']);
-            }
-        },
-        error:function(result){
-            $_jxc.alert("请求发送失败或服务器处理失败");
+		}
+    },function(result){
+        if(result['code'] == 0){
+        	$_jxc.alert("操作成功!");
+        	setTimeout('toClose()',1500); 
+        }else{
+            $_jxc.alert(result['message']);
         }
     });
 }

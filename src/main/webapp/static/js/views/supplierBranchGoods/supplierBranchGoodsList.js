@@ -378,21 +378,16 @@ function saveDataHandel(skuIds){
         skuIds:skuIds
     };
     var req = JSON.stringify(reqObj);
-    $.ajax({
+    $_jxc.ajax({
         url:contextPath+"/supplierBranchGoods/saveSupplierBranchGoods",
-        type:"POST",
         contentType:'application/json',
-        data:req,
-        success:function(result){
-            if(result['code'] == 0){
-                $_jxc.alert("操作成功!");
-                dg.datagrid('reload');
-            }else{
-                $_jxc.alert(result['message']);
-            }
-        },
-        error:function(result){
-            $_jxc.alert("请求发送失败或服务器处理失败");
+        data:req
+    },function(result){
+        if(result['code'] == 0){
+            $_jxc.alert("操作成功!");
+            dg.datagrid('reload');
+        }else{
+            $_jxc.alert(result['message']);
         }
     });
 }
@@ -429,22 +424,17 @@ function orderDelete(){
 		        skuIds:skuIds
 		    };
 		    var req = JSON.stringify(reqObj);
-		    $.ajax({
+		    $_jxc.ajax({
 		        url:contextPath+"/supplierBranchGoods/delete",
-		        type:"POST",
 		        contentType:'application/json',
-		        data:req,
-		        success:function(result){
-		            if(result['code'] == 0){
-		                $_jxc.alert("操作成功!");
-		                $("#gridSupplierArchiveList").datagrid('reload');
-		            }else{
-		                $_jxc.alert(result['message']);
-		            }
-		        },
-		        error:function(result){
-		            $_jxc.alert("请求发送失败或服务器处理失败");
-		        }
+		        data:req
+		    },function(result){
+	            if(result['code'] == 0){
+	                $_jxc.alert("操作成功!");
+	                $("#gridSupplierArchiveList").datagrid('reload');
+	            }else{
+	                $_jxc.alert(result['message']);
+	            }
 		    });
 		}
 	});

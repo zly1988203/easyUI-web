@@ -77,26 +77,21 @@ function orderDelete(){
 	if(rowIsNull(row)){
 		return null;
 	}
-	$.messager.confirm('提示','是否要删除此条数据',function(data){
+	$_jxc.confirm('是否要删除此条数据?',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 		    	url:contextPath+"/form/purchase/delete",
-		    	type:"POST",
 		    	data:{
 		    		formId:row.id
-		    	},
-		    	success:function(result){
-		    		console.log(result);
-		    		if(result['code'] == 0){
-		    			$_jxc.alert("删除成功");
-		    		}else{
-		    			$_jxc.alert(result['message']);
-		    		}
-		    		dg.datagrid('reload');
-		    	},
-		    	error:function(result){
-		    		$_jxc.alert("请求发送失败或服务器处理失败");
 		    	}
+		    },function(result){
+	    		console.log(result);
+	    		if(result['code'] == 0){
+	    			$_jxc.alert("删除成功");
+	    		}else{
+	    			$_jxc.alert(result['message']);
+	    		}
+	    		dg.datagrid('reload');
 		    });
 		}
 	});

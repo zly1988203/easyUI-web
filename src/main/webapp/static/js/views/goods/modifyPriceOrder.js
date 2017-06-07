@@ -91,23 +91,20 @@ function delModifyOrderDialog(){
 	var row = $('#modifyPriceGrid').datagrid('getSelected');
 	var rowIndex = $('#modifyPriceGrid').datagrid('getRowIndex',row);
 	if(row!=null&&row.status==1){
-		 $.messager.confirm('提示','已经审核的单据不可以删除！');
+		 $_jxc.alert('已经审核的单据不可以删除！');
 		return;
 	}
     if(datagridUtil.isSelectRows()){
-        $.messager.confirm('提示','单据删除后将无法恢复，确认是否删除？',function(r){
+        $_jxc.confirm('单据删除后将无法恢复，确认是否删除？',function(r){
             if (r){
             	//删除单据
-            	gFunStartLoading();
-            	$.ajax({
-                    type: "POST",
+//            	gFunStartLoading();
+            	$_jxc.ajax({
                     url: contextPath+"/goods/priceAdjust/removeForm",
-                    data: {"formNo":row.formNo},
-                    dataType: "json",
-                    success: function(data){
-                    	gFunEndLoading();
-                        $('#modifyPriceGrid').datagrid('deleteRow', rowIndex);
-                    }
+                    data: {"formNo":row.formNo}
+                },function(data){
+//                	gFunEndLoading();
+                    $('#modifyPriceGrid').datagrid('deleteRow', rowIndex);
                 });
             }
         });

@@ -215,23 +215,17 @@ function updateStatus(status) {
 	var userId = rowData.id
 
 	var uri = status == 0 ? "enableUser" : "disableUser";
-	$.ajax({
+	$_jxc.ajax({
 		url : contextPath + "/system/user/" + uri,
-		type : "POST",
 		data : {
 			"userId" : userId
-		},
-		dataType : "json",
-		success : function(result) {
-            if(result['code'] == 0){
-				$_jxc.alert("操作成功")
-			}else {
-                $_jxc.alert(result.message);
-                $("#dg").datagrid('reload');
-			}
-		},
-		error : function(result) {
-			$_jxc.alert("请求发送失败或服务器处理失败");
+		}
+	},function(result){
+        if(result['code'] == 0){
+			$_jxc.alert("操作成功")
+		}else {
+            $_jxc.alert(result.message);
+            $("#dg").datagrid('reload');
 		}
 	});
 }

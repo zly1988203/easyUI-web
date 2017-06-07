@@ -401,17 +401,15 @@ function delGoods(){
 	//判断是否被引用
 	parent.$.messager.confirm('提示', '是否确认删除？', function(data){
 		if (data){
-			$.ajax({
-				type:'POST',
+			$_jxc.ajax({
 				url:contextPath+"/common/operateGoods/delGoods",
-				data:{"id":row.id},
-				success: function(data){
-					if(data.code == 0){
-						$("#gridArchives").datagrid('reload');
-						$_jxc.alert("删除成功");
-					}else{
-						$_jxc.alert(data.message);
-					}
+				data:{"id":row.id}
+			},function(data){
+				if(data.code == 0){
+					$("#gridArchives").datagrid('reload');
+					$_jxc.alert("删除成功");
+				}else{
+					$_jxc.alert(data.message);
 				}
 			});
 		} 

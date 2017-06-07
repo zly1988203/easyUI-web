@@ -400,23 +400,18 @@ function saveDataHandel(rows){
     
     var req = JSON.stringify(reqObj);
 
-    $.ajax({
+    $_jxc.ajax({
         url:contextPath+"/form/overdue/save",
-        type:"POST",
         contentType:'application/json',
-        data:req,
-        success:function(result){
-            console.log(result);
-            if(result['code'] == 0){
-                $_jxc.alert("操作成功！",function(){
-                    location.href = contextPath +"/form/overdue/edit/" + result.data.formId;
-                });
-            }else{
-                $_jxc.alert(result['message']);
-            }
-        },
-        error:function(result){
-            $_jxc.alert("请求发送失败或服务器处理失败");
+        data:req
+    },function(result){
+        console.log(result);
+        if(result['code'] == 0){
+            $_jxc.alert("操作成功！",function(){
+                location.href = contextPath +"/form/overdue/edit/" + result.data.formId;
+            });
+        }else{
+            $_jxc.alert(result['message']);
         }
     });
 

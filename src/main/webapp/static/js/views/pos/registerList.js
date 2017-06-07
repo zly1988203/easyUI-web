@@ -100,27 +100,22 @@ function bindPosForm(){
 		$_jxc.alert("提示","当前记录未绑定，请选择已绑定的记录后重试");
 		return null;
 	}
-	$.messager.confirm('提示','是否要解除此条数据绑定',function(data){
+	$_jxc.confirm('是否要解除此条数据绑定?',function(data){
 	
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 		    	url:contextPath+"/pos/register/relieveBind",
-		    	type:"POST",
 		    	data:{
 		    		id: row.id 
-		    	},
-		    	success:function(result){
-		    		console.log(result);
-		    		if(result['code'] == 0){
-		    			$_jxc.alert("解绑成功！");
-		    			dg.datagrid('reload');
-		    		}else{
-		    			$_jxc.alert(result['message']);
-		    		}
-		    	},
-		    	error:function(result){
-		    		$_jxc.alert("请求发送失败或服务器处理失败");
 		    	}
+		    },function(result){
+	    		console.log(result);
+	    		if(result['code'] == 0){
+	    			$_jxc.alert("解绑成功！");
+	    			dg.datagrid('reload');
+	    		}else{
+	    			$_jxc.alert(result['message']);
+	    		}
 		    });
 		}
 	});
@@ -134,26 +129,21 @@ function delPosForm(){
 	if(rowIsNull(row)){
 		return null;
 	}
-	$.messager.confirm('提示','是否要删除此条数据',function(data){
+	$_jxc.confirm('是否要删除此条数据?',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 		    	url:contextPath+"/pos/register/delPosRegister",
-		    	type:"POST",
 		    	data:{
 		    		id: row.id
-		    	},
-		    	success:function(result){
-		    		console.log(result);
-		    		if(result['code'] == 0){
-		    			$_jxc.alert("删除成功！");
-		    			dg.datagrid('reload');
-		    		}else{
-		    			$_jxc.alert(result['message']);
-		    		}
-		    	},
-		    	error:function(result){
-		    		$_jxc.alert(("请求发送失败或服务器处理失败"));
 		    	}
+		    },function(result){
+	    		console.log(result);
+	    		if(result['code'] == 0){
+	    			$_jxc.alert("删除成功！");
+	    			dg.datagrid('reload');
+	    		}else{
+	    			$_jxc.alert(result['message']);
+	    		}
 		    });
 		}
 	});

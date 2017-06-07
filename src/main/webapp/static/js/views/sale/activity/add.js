@@ -3185,26 +3185,20 @@ function saveDataHandel(rows,setrows){
   
   var req = JSON.stringify(reqObj);
   //return; 
-  gFunStartLoading();
+//  gFunStartLoading();
  
-  $.ajax({
+  $_jxc.ajax({
       url:contextPath+"/sale/activity/save",
-      type:"POST",
       contentType:'application/json',
-      data:req,
-      success:function(result){
-    	  gFunEndLoading();
-          if(result['code'] == 0){
-              $_jxc.alert("操作成功！",function(){
-            		  location.href = contextPath +"/sale/activity/edit?activityId="+result["activityId"]; 
-              });
-          }else{
-              $_jxc.alert(result['message']);
-          }
-      },
-      error:function(result){
-    	  gFunEndLoading();
-          $_jxc.alert("请求发送失败或服务器处理失败");
+      data:req
+  },function(){
+//	  gFunEndLoading();
+      if(result['code'] == 0){
+          $_jxc.alert("操作成功！",function(){
+        		  location.href = contextPath +"/sale/activity/edit?activityId="+result["activityId"]; 
+          });
+      }else{
+          $_jxc.alert(result['message']);
       }
   });
 }

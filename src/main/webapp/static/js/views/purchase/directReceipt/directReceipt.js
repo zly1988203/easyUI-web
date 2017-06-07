@@ -606,25 +606,19 @@ function saveDataHandel(rows, url){
     };
     var req = JSON.stringify(reqObj);
 
-    $.ajax({
+    $_jxc.ajax({
         url:contextPath + url,
-        type:"POST",
         contentType:'application/json',
-        data:req,
-        success:function(result){
-            gFunEndLoading();
-            console.log(result);
-            if(result['code'] == 0){
-                $_jxc.alert("操作成功！",function(){
-                    location.href = contextPath +"/directReceipt/edit?formId=" + result["formId"];
-                });
-            }else{
-                $_jxc.alert(result['message']);
-            }
-        },
-        error:function(result){
-            gFunEndLoading();
-            $_jxc.alert("请求发送失败或服务器处理失败");
+        data:req
+    },function(result){
+//        gFunEndLoading();
+        console.log(result);
+        if(result['code'] == 0){
+            $_jxc.alert("操作成功！",function(){
+                location.href = contextPath +"/directReceipt/edit?formId=" + result["formId"];
+            });
+        }else{
+            $_jxc.alert(result['message']);
         }
     });
 }
@@ -732,31 +726,25 @@ function checkDirectForm(){
 function checkOrder(){
     gFunStartLoading();
     var id = $("#formId").val();
-    $.ajax({
+    $_jxc.ajax({
         url:contextPath+"/directReceipt/check",
-        type : "POST",
     	data:{
     		formId:id,
     		status:1
-    	},
-        success:function(result){
-            gFunEndLoading();
-            if(result['code'] == 0){
-                $_jxc.alert("操作成功！",function(){
-                    location.href = contextPath +"/directReceipt/edit?formId=" + id;
-                });
-            }else{
-                new publicErrorDialog({
-                    width:380,
-                    height:220,
-                    "title":"审核失败",
-                    "error":result['message']
-                });
-            }
-        },
-        error:function(result){
-            gFunEndLoading();
-            $_jxc.alert("请求发送失败或服务器处理失败");
+    	}
+    },function(result){
+//        gFunEndLoading();
+        if(result['code'] == 0){
+            $_jxc.alert("操作成功！",function(){
+                location.href = contextPath +"/directReceipt/edit?formId=" + id;
+            });
+        }else{
+            new publicErrorDialog({
+                width:380,
+                height:220,
+                "title":"审核失败",
+                "error":result['message']
+            });
         }
     });
 }
@@ -837,7 +825,7 @@ function selectSupplier(){
 
 //直接查询商品
 function queryGoodsList() {
-    gFunStartLoading();
+//    gFunStartLoading();
    var queryParams = {
             formType:'PM',
             key:"",
@@ -852,27 +840,22 @@ function queryGoodsList() {
             rows:10000
         };
     var url =  contextPath + '/goods/goodsSelect/getGoodsList';
-    $.ajax({
+    $_jxc.ajax({
         url:url,
-        type:'POST',
-        data:queryParams,
-        success:function(data){
-            gFunEndLoading();
-            if(data && data.rows.length > 0){
-                var addDefaultData  = gridHandel.addDefault(data.rows,gridDefault);
-                var keyNames = {
-                	purchasePrice:'price',
-                    inputTax:'tax'
-                };
-                var rows = gFunUpdateKey(addDefaultData,keyNames);
-                $("#"+gridName).datagrid("loadData",rows);
-            }else {
-                gFunEndLoading();
-                gridHandel.setLoadData([$.extend({},gridDefault)]);
-            }
-        },
-        error:function(){
-            $_jxc.alert("数据查询失败");
+        data:queryParams
+    },function(data){
+//        gFunEndLoading();
+        if(data && data.rows.length > 0){
+            var addDefaultData  = gridHandel.addDefault(data.rows,gridDefault);
+            var keyNames = {
+            	purchasePrice:'price',
+                inputTax:'tax'
+            };
+            var rows = gFunUpdateKey(addDefaultData,keyNames);
+            $("#"+gridName).datagrid("loadData",rows);
+        }else {
+//            gFunEndLoading();
+            gridHandel.setLoadData([$.extend({},gridDefault)]);
         }
     })
 }

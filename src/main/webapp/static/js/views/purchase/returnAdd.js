@@ -589,7 +589,7 @@ function saveItemHandel(){
 
 }
 function saveDataHandel(rows){
-    gFunStartLoading();
+//    gFunStartLoading();
     //供应商
     var supplierId = $("#supplierId").val();
     var saleWay = $("#saleWay").val();
@@ -635,24 +635,18 @@ function saveDataHandel(rows){
     
     var req = JSON.stringify(reqObj);
 
-    $.ajax({
+    $_jxc.ajax({
         url:contextPath+"/form/purchase/saveReturn",
-        type:"POST",
         contentType:'application/json',
-        data:req,
-        success:function(result){
-            gFunEndLoading();
-            if(result['code'] == 0){
-                $_jxc.alert("操作成功！",function(){
-                    location.href = contextPath +"/form/purchase/returnEdit?formId=" + result["formId"];
-                });
-            }else{
-                $_jxc.alert(result['message']);
-            }
-        },
-        error:function(result){
-            gFunEndLoading();
-            $_jxc.alert("请求发送失败或服务器处理失败");
+        data:req
+    },function(result){
+//        gFunEndLoading();
+        if(result['code'] == 0){
+            $_jxc.alert("操作成功！",function(){
+                location.href = contextPath +"/form/purchase/returnEdit?formId=" + result["formId"];
+            });
+        }else{
+            $_jxc.alert(result['message']);
         }
     });
 }
@@ -673,31 +667,25 @@ function queryGoodsList() {
         rows:10000
     };
     var url =  contextPath + '/goods/goodsSelect/getGoodsList';
-    $.ajax({
+    $_jxc.ajax({
         url:url,
-        type:'POST',
-        data:queryParams,
-        success:function(data){
-            gFunStartLoading();
-            if(data && data.rows.length > 0){
-                var addDefaultData  = gridHandel.addDefault(data.rows,gridDefault);
-                var keyNames = {
-                    purchasePrice:'price',
-                    id:'skuId',
-                    disabled:'',
-                    pricingType:'',
-                    inputTax:'tax'
-                };
-                var rows = gFunUpdateKey(addDefaultData,keyNames);
-                $("#"+gridName).datagrid("loadData",rows);
-            }else {
-                gFunEndLoading();
-                gridHandel.setLoadData([$.extend({},gridDefault)]);
-            }
-        },
-        error:function(){
-            gFunEndLoading();
-            $_jxc.alert("数据查询失败");
+        data:queryParams
+    },function(data){
+//        gFunStartLoading();
+        if(data && data.rows.length > 0){
+            var addDefaultData  = gridHandel.addDefault(data.rows,gridDefault);
+            var keyNames = {
+                purchasePrice:'price',
+                id:'skuId',
+                disabled:'',
+                pricingType:'',
+                inputTax:'tax'
+            };
+            var rows = gFunUpdateKey(addDefaultData,keyNames);
+            $("#"+gridName).datagrid("loadData",rows);
+        }else {
+//            gFunEndLoading();
+            gridHandel.setLoadData([$.extend({},gridDefault)]);
         }
     })
 }
@@ -707,7 +695,7 @@ function selectSupplier(){
 	new publicSupplierService(function(data){
         var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
         if( $("#supplierId").val() != "" && data.id != $("#supplierId").val() && nowRows.length > 0){
-            $.messager.confirm('提示','修改供应商后会清空明细，是否要修改？',function(r){
+            $_jxc.confirm('修改供应商后会清空明细，是否要修改？',function(r){
                 if(r){
                     $("#supplierId").val(data.id);
                     $("#saleWay").val(data.saleWay);

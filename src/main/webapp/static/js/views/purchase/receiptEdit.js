@@ -303,13 +303,11 @@ function getGridData(){
 	
 	 var formId = $("#formId").val();
 	
-	$.ajax({
-       method : 'Post',
+	$_jxc.ajax({
        url : contextPath+"/form/purchase/detailList?formId="+formId,
-       async : false,
-       dataType : 'json',
-       success : function(data) {
-           gFunStartLoading();
+       async : false
+   },function(data){
+//           gFunStartLoading();
        	//根据选择的采购单，带出采购单的信息
    	    var keyrealNum = {
    	        realNum:'maxRealNum',
@@ -324,10 +322,6 @@ function getGridData(){
    	        var newRows = gFunUpdateKey(newRows,keylargeNum);
    	        $("#gridEditOrder").datagrid("loadData",newRows);
    	    }
-       },
-       error : function() {
-           alert('error');
-       }
    });
 }
 
@@ -638,23 +632,17 @@ function saveDataHandel(rows){
     
     var req = JSON.stringify(reqObj);
 
-    gFunStartLoading();
-    $.ajax({
+//    gFunStartLoading();
+    $_jxc.ajax({
         url:contextPath+"/form/purchase/updateReceipt",
-        type:"POST",
         contentType:'application/json',
-        data:req,
-        success:function(result){
-            gFunEndLoading();
-            if(result['code'] == 0){
-                $_jxc.alert("操作提示", "操作成功！", "info");
-            }else{
-                $_jxc.alert(result['message']);
-            }
-        },
-        error:function(result){
-            gFunEndLoading();
-            $_jxc.alert("请求发送失败或服务器处理失败");
+        data:req
+    },function(result){
+//        gFunEndLoading();
+        if(result['code'] == 0){
+            $_jxc.alert("操作成功！");
+        }else{
+            $_jxc.alert(result['message']);
         }
     });
 }
@@ -686,30 +674,24 @@ function check(){
     }
 
 	var id = $("#formId").val();
-	$.messager.confirm('提示','是否审核通过？',function(data){
+	$_jxc.confirm('是否审核通过？',function(data){
 		if(data){
-		    gFunStartLoading();
-			$.ajax({
+//		    gFunStartLoading();
+			$_jxc.ajax({
 		    	url:contextPath+"/form/purchase/check",
-		    	type:"POST",
 		    	data:{
 		    		formId:id,
 		    		status:1
-		    	},
-		    	success:function(result){
-		    		gFunEndLoading();
-		    		if(result['code'] == 0){
-		    			$_jxc.alert("操作成功！",function(){
-		    				location.href = contextPath +"/form/purchase/receiptEdit?formId=" + id;
-		    			});
-		    		}else{
-		    			$_jxc.alert(result['message']);
-		    		}
-		    	},
-		    	error:function(result){
-		    	    gFunEndLoading();
-		    		$_jxc.alert("请求发送失败或服务器处理失败");
 		    	}
+		    },function(result){
+//	    		gFunEndLoading();
+	    		if(result['code'] == 0){
+	    			$_jxc.alert("操作成功！",function(){
+	    				location.href = contextPath +"/form/purchase/receiptEdit?formId=" + id;
+	    			});
+	    		}else{
+	    			$_jxc.alert(result['message']);
+	    		}
 		    });
 		}
 	});
@@ -717,32 +699,26 @@ function check(){
 
 function orderDelete(){
 	var id = $("#formId").val();
-	$.messager.confirm('提示','是否要删除此条数据',function(data){
+	$_jxc.confirm('是否要删除此条数据?',function(data){
 		if(data){
-		    gFunStartLoading();
-			$.ajax({
+//		    gFunStartLoading();
+			$_jxc.ajax({
 		    	url:contextPath+"/form/purchase/delete",
-		    	type:"POST",
 		    	data:{
                     formIds:id
-		    	},
-		    	success:function(result){
-		    		gFunEndLoading();
-		    		if(result['code'] == 0){
-		    			$_jxc.alert("操作成功！",function(){
-		    				//back();
-                            toRefreshIframeDataGrid("form/purchase/receiptList","gridOrders");
-                            toClose();
-		    			});
-		    		}else{
-		    			$_jxc.alert(result['message']);
-		    		}
-		    		dg.datagrid('reload');
-		    	},
-		    	error:function(result){
-		    	    gFunEndLoading();
-		    		$_jxc.alert("请求发送失败或服务器处理失败");
 		    	}
+		    },function(result){
+//	    		gFunEndLoading();
+	    		if(result['code'] == 0){
+	    			$_jxc.alert("操作成功！",function(){
+	    				//back();
+                        toRefreshIframeDataGrid("form/purchase/receiptList","gridOrders");
+                        toClose();
+	    			});
+	    		}else{
+	    			$_jxc.alert(result['message']);
+	    		}
+	    		dg.datagrid('reload');
 		    });
 		}
 	});

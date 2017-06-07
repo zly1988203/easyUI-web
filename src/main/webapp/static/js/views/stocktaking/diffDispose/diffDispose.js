@@ -318,22 +318,16 @@ function initPage(page){
 	}
 }
 function initQueryData(url){
-	$.ajax({
+	$_jxc.ajax({
     	url:url,
-    	type:"GET",
-    	success:function(result){
-            gFunStartLoading();
-            if(result && result.length > 0){
-                $("#"+gridName).datagrid("loadData",result);
-            }else{
-                gFunEndLoading();
-            }
-
-    	},
-    	error:function(result){
+    	type:"GET"
+    },function(result){
+        gFunStartLoading();
+        if(result && result.length > 0){
+            $("#"+gridName).datagrid("loadData",result);
+        }else{
             gFunEndLoading();
-    		$_jxc.alert("请求发送失败或服务器处理失败");
-    	}
+        }
     });
 }
 
@@ -358,23 +352,18 @@ function updateFooter(){
 function deleteDiffDispose(){
 	var batchId = $("#batchId").val();
 	var ids = [batchId];
-	$.messager.confirm('提示','是否要删除此条数据',function(data){
+	$_jxc.confirm('是否要删除此条数据?',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 		    	url:contextPath+"/stocktaking/diffDispose/deleteStocktakingBatch",
-		    	type:"POST",
 		    	data:{
 		    		ids : ids
-		    	},
-		    	success:function(result){
-		    		$_jxc.alert(result['message']);
-		    		if(result['code'] == 0){
-		    			back();
-		    		}
-		    	},
-		    	error:function(result){
-		    		$_jxc.alert("请求发送失败或服务器处理失败");
 		    	}
+		    },function(result){
+	    		$_jxc.alert(result['message']);
+	    		if(result['code'] == 0){
+	    			back();
+	    		}
 		    });
 		}
 	});
@@ -467,22 +456,17 @@ function saveDataHandel(rows){
 			remark:remark,
 			diffDetailList:rows
         };
-    $.ajax({
+    $_jxc.ajax({
         url:contextPath+"/stocktaking/diffDispose/saveDiffDispose",
-        type:"POST",
-        data:{"data":JSON.stringify(jsonData)},
-        success:function(result){
-        	gFunEndLoading();
-            if(result['code'] == 0){
-    			$_jxc.alert("操作成功！",function(){
-    				location.href = contextPath +"/stocktaking/diffDispose/stocktakingBatchView?id="+result['batchId'];
-    			});
-            }else{
-                $_jxc.alert(result['message']);
-            }
-        },
-        error:function(result){
-            $_jxc.alert("请求发送失败或服务器处理失败");
+        data:{"data":JSON.stringify(jsonData)}
+    },function(result){
+//    	gFunEndLoading();
+        if(result['code'] == 0){
+			$_jxc.alert("操作成功！",function(){
+				location.href = contextPath +"/stocktaking/diffDispose/stocktakingBatchView?id="+result['batchId'];
+			});
+        }else{
+            $_jxc.alert(result['message']);
         }
     });
 }
@@ -521,26 +505,21 @@ function auditDiffDispose(){
 			batchNo:batchNo,
             sumStocktakingNum:sumStocktakingNum
         };
-	$.messager.confirm('提示','是否审核通过？',function(r){
+	$_jxc.confirm('是否审核通过？',function(r){
 		if(r){
-			gFunStartLoading();
-			$.ajax({
+//			gFunStartLoading();
+			$_jxc.ajax({
 		    	url : contextPath+"/stocktaking/diffDispose/auditDiffDispose",
-		    	type : "POST",
-		    	data:{"data":JSON.stringify(jsonData)},
-		    	success:function(result){
-		    		gFunEndLoading();
-		    		if(result['code'] == 0){
-		    			$_jxc.alert("操作成功！",function(){
-		    				location.href = contextPath +"/stocktaking/diffDispose/stocktakingBatchView?id="+result['batchId'];
-		    			});
-		    		}else{
-		    			$_jxc.alert(result['message']);
-		    		}
-		    	},
-		    	error:function(result){
-		    		$_jxc.alert("请求发送失败或服务器处理失败");
-		    	}
+		    	data:{"data":JSON.stringify(jsonData)}
+		    },function(result){
+//	    		gFunEndLoading();
+	    		if(result['code'] == 0){
+	    			$_jxc.alert("操作成功！",function(){
+	    				location.href = contextPath +"/stocktaking/diffDispose/stocktakingBatchView?id="+result['batchId'];
+	    			});
+	    		}else{
+	    			$_jxc.alert(result['message']);
+	    		}
 		    });
 		}
 	});

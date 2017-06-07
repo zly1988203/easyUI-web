@@ -68,26 +68,22 @@ function initDatagridPosOrders(){
 
 function shiftChange(id){
 	var dg = $("#registerList");
-	$.messager.confirm('提示','是否交班',function(data){
+	$_jxc.confirm('是否交班?',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 		    	url:contextPath+"/pos/shiftHistory/shiftExchange",
 		    	type:"POST",
 		    	data:{
 		    		id: id
-		    	},
-		    	success:function(result){
-		    		console.log(result);
-		    		if(result['code'] == 0){
-		    			$_jxc.alert("交班成功");
-		    			dg.datagrid('reload');
-		    		}else{
-		    			$_jxc.alert(result['message']);
-		    		}
-		    	},
-		    	error:function(result){
-		    		$_jxc.alert("请求发送失败或服务器处理失败");
 		    	}
+		    },function(result){
+	    		console.log(result);
+	    		if(result['code'] == 0){
+	    			$_jxc.alert("交班成功");
+	    			dg.datagrid('reload');
+	    		}else{
+	    			$_jxc.alert(result['message']);
+	    		}
 		    });
 			
 		}

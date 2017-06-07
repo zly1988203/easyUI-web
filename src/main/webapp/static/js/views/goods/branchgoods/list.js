@@ -382,25 +382,20 @@ function enable() {
 }
 
 function enableAjax(skuIds, branchId, url) {
-	$.ajax({
+	$_jxc.ajax({
 		url : url,
-		type : "POST",
 		data : {
 			skuIds : skuIds,
 			branchId : branchId
-		},
-		success : function(result) {
-			if (result['code'] == 0) {
-				$_jxc.alert("启用成功");
-			} else {
-				$_jxc.alert(result['message']);
-			}
-			var dg = $("#gridOrders");
-			dg.datagrid('reload');
-		},
-		error : function(result) {
-			$_jxc.alert("请求发送失败或服务器处理失败");
 		}
+	},function(result){
+		if (result['code'] == 0) {
+			$_jxc.alert("启用成功");
+		} else {
+			$_jxc.alert(result['message']);
+		}
+		var dg = $("#gridOrders");
+		dg.datagrid('reload');
 	});
 }
 
@@ -423,27 +418,22 @@ function eliminate() {
 		goodsStoreSkuIds += row.skuId + ',';
 	}
 	var branchId = $("#branchId").val();
-	$.messager.confirm('提示', '是否要淘汰该商品', function(data) {
+	$_jxc.confirm('是否要淘汰该商品?', function(data) {
 		if (data) {
-			$.ajax({
+			$_jxc.ajax({
 				url : contextPath + "/branch/goods/eliminateGoodsStoreSku",
-				type : "POST",
 				data : {
 					goodsStoreSkuIds : goodsStoreSkuIds,
 					branchId : branchId
-				},
-				success : function(result) {
-					console.log(result);
-					if (result['code'] == 0) {
-						$_jxc.alert("淘汰商品成功");
-					} else {
-						$_jxc.alert(result['message']);
-					}
-					dg.datagrid('reload');
-				},
-				error : function(result) {
-					$_jxc.alert("请求发送失败或服务器处理失败");
 				}
+			},function(result){
+				console.log(result);
+				if (result['code'] == 0) {
+					$_jxc.alert("淘汰商品成功");
+				} else {
+					$_jxc.alert(result['message']);
+				}
+				dg.datagrid('reload');
 			});
 		}
 	});
@@ -466,25 +456,20 @@ function recovery() {
 		}
 		params += row.id + "," + row.skuId + ',' + row.branchId + "|";
 	}
-	$.messager.confirm('提示', '是否要恢复该商品', function(data) {
+	$_jxc.confirm('是否要恢复该商品?', function(data) {
 		if (data) {
-			$.ajax({
+			$_jxc.ajax({
 				url : contextPath + "/branch/goods/recoveryGoodsStoreSku",
-				type : "POST",
 				data : {
 					skuObjs : params
-				},
-				success : function(result) {
-					if (result['code'] == 0) {
-						$_jxc.alert("恢复商品成功");
-					} else {
-						$_jxc.alert(result['message']);
-					}
-					dg.datagrid('reload');
-				},
-				error : function(result) {
-					$_jxc.alert("请求发送失败或服务器处理失败");
 				}
+			},function(result){
+				if (result['code'] == 0) {
+					$_jxc.alert("恢复商品成功");
+				} else {
+					$_jxc.alert(result['message']);
+				}
+				dg.datagrid('reload');
 			});
 		}
 	});

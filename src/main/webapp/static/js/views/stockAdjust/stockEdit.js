@@ -231,28 +231,23 @@ function updateRows(){
 //删除
 function delStockForm(){
 	var id = $("#formId").val();
-	$.messager.confirm('提示','是否要删除此条数据',function(data){
+	$_jxc.confirm('是否要删除此条数据?',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 		    	url:contextPath+"/stock/adjust/deleteStockAdjust",
-		    	type:"POST",
 		    	data:{
 		    		id : id
-		    	},
-		    	success:function(result){
-		    		if(result['code'] == 0){
-		    			$_jxc.alert("删除成功！",function(){
-		    				//location.href = contextPath +"/stock/adjust/list";
-		    				toRefreshIframeDataGrid("stock/adjust/list","stockFromList");
-		    				toClose();
-		    			});
-		    		}else{
-		    			$_jxc.alert(result['message']);
-		    		}
-		    	},
-		    	error:function(result){
-		    		$_jxc.alert("请求发送失败或服务器处理失败");
 		    	}
+		    },function(result){
+	    		if(result['code'] == 0){
+	    			$_jxc.alert("删除成功！",function(){
+	    				//location.href = contextPath +"/stock/adjust/list";
+	    				toRefreshIframeDataGrid("stock/adjust/list","stockFromList");
+	    				toClose();
+	    			});
+	    		}else{
+	    			$_jxc.alert(result['message']);
+	    		}
 		    });
 		}
 	});
@@ -470,19 +465,14 @@ function selectStockAndPrice(branchId,data){
 		};
 		GoodsStockVo.goodsSkuVo[i] = temp;
 	});
-	$.ajax({
+	$_jxc.ajax({
     	url : contextPath+"/goods/goodsSelect/selectStockAndPriceToDo",
-    	type : "POST",
     	data : {
     		goodsStockVo : JSON.stringify(GoodsStockVo)
-    	},
-    	success:function(result){
-    		 var setdata=setTion(result);
-    		setDataValue(setdata);
-    	},
-    	error:function(result){
-    		$_jxc.alert("请求发送失败或服务器处理失败");
     	}
+    },function(result){
+   		 var setdata=setTion(result);
+   		setDataValue(setdata);
     });
 }
 //库存调整一开始选择
@@ -560,7 +550,7 @@ function saveOrder(){
     if(!isCheckResult){
         return;
     }
-    gFunStartLoading();
+//    gFunStartLoading();
     var reqObj = {
     		io :selectVal,
     		id : $("#formId").val(),
@@ -570,22 +560,16 @@ function saveOrder(){
             stockFormDetailList:rows
         };
     var req = JSON.stringify(reqObj);
-    $.ajax({
+    $_jxc.ajax({
         url:contextPath+"/stock/adjust/updateStockForm",
-        type:"POST",
         data:req,
-        contentType:"application/json",
-        success:function(result){
-            gFunEndLoading();
-            if(result['code'] == 0){
-            	$_jxc.alert("操作成功！");
-            }else{
-                $_jxc.alert(result['message']);
-            }
-        },
-        error:function(result){
-            gFunEndLoading();
-            $_jxc.alert("请求发送失败或服务器处理失败");
+        contentType:"application/json"
+    },function(result){
+//        gFunEndLoading();
+        if(result['code'] == 0){
+        	$_jxc.alert("操作成功！");
+        }else{
+            $_jxc.alert(result['message']);
         }
     });
 }
@@ -606,27 +590,22 @@ function check(){
         $_jxc.alert("数据已修改，请先保存再审核");
         return;
     }*/
-	$.messager.confirm('提示','是否审核通过？',function(data){
+	$_jxc.confirm('提示','是否审核通过？',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 		    	url : contextPath+"/stock/adjust/check",
-		    	type : "POST",
 		    	data : {
 		    		id : id
-		    	},
-		    	success:function(result){
-		    		if(result['code'] == 0){
-		    			$_jxc.alert("操作成功！",function(){
-		    			
-		    				location.href = contextPath +"/stock/adjust/checkSuccess?id="+id;
-		    			});
-		    		}else{
-		    			$_jxc.alert(result['message']);
-		    		}
-		    	},
-		    	error:function(result){
-		    		$_jxc.alert("请求发送失败或服务器处理失败");
 		    	}
+		    },function(result){
+	    		if(result['code'] == 0){
+	    			$_jxc.alert("操作成功！",function(){
+	    			
+	    				location.href = contextPath +"/stock/adjust/checkSuccess?id="+id;
+	    			});
+	    		}else{
+	    			$_jxc.alert(result['message']);
+	    		}
 		    });
 		}
 	});

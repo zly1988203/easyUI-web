@@ -422,19 +422,15 @@ function selectStockAndPrice(branchId,data){
 		};
 		GoodsStockVo.goodsSkuVo[i] = temp;
 	});
-	$.ajax({
+	$_jxc.ajax({
     	url : contextPath+"/goods/goodsSelect/selectStockAndPriceToDo",
     	type : "POST",
     	data : {
     		goodsStockVo : JSON.stringify(GoodsStockVo)
-    	},
-    	success:function(result){
-    		 var setdata=setTion(result);
-    		setDataValue(setdata);
-    	},
-    	error:function(result){
-    		$_jxc.alert("请求发送失败或服务器处理失败");
     	}
+    },function(result){
+   		 var setdata=setTion(result);
+   		setDataValue(setdata);
     });
 }
 
@@ -597,22 +593,17 @@ function saveOrder(){
         };
     var req = JSON.stringify(reqObj);
     //return ;
-    $.ajax({
+    $_jxc.ajax({
         url:contextPath+"/stock/adjust/addStockForm",
-        type:"POST",
         data:req,
-        contentType:"application/json",
-        success:function(result){
-            if(result['code'] == 0){
-                $_jxc.alert("操作提示", "操作成功！", "info",function(){
-                	location.href = contextPath +"/stock/adjust/edit?id=" + result["formId"];
-                });
-            }else{
-               $_jxc.alert(result['message']);
-            }
-        },
-        error:function(result){
-            $_jxc.alert("请求发送失败或服务器处理失败");
+        contentType:"application/json"
+    },function(result){
+        if(result['code'] == 0){
+            $_jxc.alert("操作成功！",function(){
+            	location.href = contextPath +"/stock/adjust/edit?id=" + result["formId"];
+            });
+        }else{
+           $_jxc.alert(result['message']);
         }
     });
 }
@@ -620,27 +611,22 @@ function saveOrder(){
 //审核
 function check(){
 	var deliverFormId = $("#formId").val();
-	$.messager.confirm('提示','是否审核通过？',function(data){
+	$_jxc.confirm('是否审核通过？',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 		    	url : contextPath+"/form/deliverForm/check",
-		    	type : "POST",
 		    	data : {
 		    		deliverFormId : $("#formId").val(),
 		    		stockType : 'DI'
-		    	},
-		    	success:function(result){
-		    		if(result['code'] == 0){
-		    			$_jxc.alert("操作提示", "操作成功！", "info",function(){
-		    				contextPath +"/stock/adjust/list";
-		    			});
-		    		}else{
-		    			$_jxc.alert(result['message']);
-		    		}
-		    	},
-		    	error:function(result){
-		    		$_jxc.alert("请求发送失败或服务器处理失败");
 		    	}
+		    },function(result){
+	    		if(result['code'] == 0){
+	    			$_jxc.alert("操作成功！",function(){
+	    				contextPath +"/stock/adjust/list";
+	    			});
+	    		}else{
+	    			$_jxc.alert(result['message']);
+	    		}
 		    });
 		}
 	});
