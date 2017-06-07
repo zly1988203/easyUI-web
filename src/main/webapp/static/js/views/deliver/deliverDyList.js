@@ -152,7 +152,7 @@ function delDeliverForm(){
 	var dg = $("#deliverFormList");
 	var row = dg.datagrid("getChecked");
 	if(row.length <= 0){
-		$.messager.alert('提示','未选择要删除的单据！');
+		$_jxc.alert('未选择要删除的单据！');
 		return;
 	}
 	var ids = [];

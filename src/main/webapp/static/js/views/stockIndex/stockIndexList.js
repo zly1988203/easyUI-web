@@ -209,7 +209,7 @@ function saveDetailStock(){
 				closeDetailDialog();
 			} else {
 				// 失败提示
-				$.messager.alert('提示', data.message);
+				$_jxc.alert(data.message);
 			}
 		}
 	});

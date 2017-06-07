@@ -97,7 +97,7 @@ function bindPosForm(){
 	}
 	
 	if(row.status==0){
-		$.messager.alert("提示","当前记录未绑定，请选择已绑定的记录后重试");
+		$_jxc.alert("提示","当前记录未绑定，请选择已绑定的记录后重试");
 		return null;
 	}
 	$.messager.confirm('提示','是否要解除此条数据绑定',function(data){
@@ -112,14 +112,14 @@ function bindPosForm(){
 		    	success:function(result){
 		    		console.log(result);
 		    		if(result['code'] == 0){
-		    			$.messager.alert("操作提示", "解绑成功！");
+		    			$_jxc.alert("解绑成功！");
 		    			dg.datagrid('reload');
 		    		}else{
-		    			$.messager.alert(result['message']);
+		    			$_jxc.alert(result['message']);
 		    		}
 		    	},
 		    	error:function(result){
-		    		$.messager.alert(("请求发送失败或服务器处理失败"));
+		    		$_jxc.alert("请求发送失败或服务器处理失败");
 		    	}
 		    });
 		}
@@ -145,14 +145,14 @@ function delPosForm(){
 		    	success:function(result){
 		    		console.log(result);
 		    		if(result['code'] == 0){
-		    			$.messager.alert("操作提示", "删除成功！");
+		    			$_jxc.alert("删除成功！");
 		    			dg.datagrid('reload');
 		    		}else{
-		    			$.messager.alert(result['message']);
+		    			$_jxc.alert(result['message']);
 		    		}
 		    	},
 		    	error:function(result){
-		    		$.messager.alert(("请求发送失败或服务器处理失败"));
+		    		$_jxc.alert(("请求发送失败或服务器处理失败"));
 		    	}
 		    });
 		}

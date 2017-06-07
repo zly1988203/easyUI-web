@@ -385,7 +385,7 @@ function saveStocktakingForm(opType){
         }
     }
 //    else{
-//    	$.messager.alert('提示','存在盘点数小于0的记录，请修改后保存')
+//    	$_jxc.alert('提示','存在盘点数小于0的记录，请修改后保存')
 //    }
 }
 
@@ -462,7 +462,7 @@ function saveDataHandel(rows,opType){
         success:function(result){
         	gFunEndLoading();
             if(result['code'] == 0){
-    			$.messager.alert("操作提示", "操作成功！", "info",function(){
+    			$_jxc.alert("操作成功！",function(){
     				location.href = contextPath +"/stocktaking/operate/stocktakingFormView?id="+result['formId'];
     			});
             }else{
@@ -596,7 +596,7 @@ function updateListData(data){
 function exportData(){
 	var length = dg.datagrid('getData').total;
 	if(length == 0){
-		$.messager.alert('提示',"没有数据");
+		$_jxc.alert("没有数据");
 		return;
 	}
 	var fromObjStr = $('#operateForm').serializeObject();

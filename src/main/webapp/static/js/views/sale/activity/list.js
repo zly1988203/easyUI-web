@@ -150,7 +150,7 @@ function copyActivity(){
 	if(selectedObj){
 		toAddTab("复制促销活动",contextPath + "/sale/activity/toCopy?from=toCopy&activityId="+selectedObj.id);
 	}else{
-		$.messager.alert('提示','请选择一个活动记录');
+		$_jxc.alert('请选择一个活动记录');
 	}
 }
 
@@ -159,7 +159,7 @@ function delActivity(){
 	var dg = $("#saleMange");
 	var row = dg.datagrid("getSelected");
 	if(!row || (row && row.length <= 0)){
-		$.messager.alert('提示','请选择一个活动记录');
+		$_jxc.alert('请选择一个活动记录');
 		return;
 	}
 	console.log(row.id);
@@ -209,7 +209,7 @@ function stop(){
 				},
 				success:function(result){
 					if(result['code'] == 0){
-						$.messager.alert("操作提示", "操作成功！", "info",function(){
+						$_jxc.alert("操作成功！",function(){
 							location.href = contextPath +"/sale/activity/edit?activityId="+activityId;
 						});
 					}else{

@@ -648,7 +648,7 @@ function changeGiftPrice(newV,oldV){
 	var _this = this;
 	var tempPrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'salePrice');
 	if(parseFloat(newV||0) > parseFloat(tempPrice||0)){
-		$.messager.alert('提示','新增金额不得大于零售价','',function(){
+		$_jxc.alert('新增金额不得大于零售价',function(){
 			$(_this).numberbox('setValue',(oldV||0));
 		});
 	}
@@ -1922,7 +1922,7 @@ function saveDataHandel(rows,setrows){
       success:function(result){
     	  console.log(result)
     	  if(result['code'] == 0){
-              $.messager.alert("操作提示", "操作成功！", "info");
+              $_jxc.alert("操作成功！");
           }else{
               successTip(result['message']);
           }
@@ -1946,7 +1946,7 @@ function check(){
 		    	},
 		    	success:function(result){
 		    		if(result['code'] == 0){
-		    			$.messager.alert("操作提示", "操作成功！", "info",function(){
+		    			$_jxc.alert("操作成功！",function(){
 		    				location.href = contextPath +"/sale/activity/edit?activityId="+activityId;
 		    			});
 		    		}else{
@@ -2050,7 +2050,7 @@ function stop(){
 		    	},
 		    	success:function(result){
 		    		if(result['code'] == 0){
-		    			$.messager.alert("操作提示", "操作成功！", "info",function(){
+		    			$_jxc.alert("操作成功！",function(){
 		    				location.href = contextPath +"/sale/activity/edit?activityId="+activityId;
 		    			});
 		    		}else{

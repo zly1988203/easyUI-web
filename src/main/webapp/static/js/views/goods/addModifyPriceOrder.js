@@ -579,7 +579,7 @@ function saveModifyPriceOrder() {
                             if (data.code == 0) {
                                 isClickSaveData = true;
                                 // 代表点击过保存单据数据
-                                $.messager.alert('提示','单据保存成功！',"info",function() {
+                                $_jxc.alert('单据保存成功！',function() {
                                     // window.location.href =
                                     // contextPath+"/goods/priceAdjust/showDetail?formNo="+data.formNo;
                                     addModifyPriceGridDg.datagrid('options').queryParams = {formNo : data.goodsPriceForm.formNo};
@@ -667,7 +667,7 @@ function updateModifyPriceOrder() {
                         if (data.code == 0) {
                             isClickSaveData = true;
                             // 代表点击过保存单据数据
-                            $.messager.alert('提示','单据保存成功！',"info",function() {
+                            $_jxc.alert('单据保存成功！',function() {
                                 // window.location.href =
                                 // contextPath+"/goods/priceAdjust/showDetail?formNo="+data.formNo;
                                 addModifyPriceGridDg.datagrid('options').queryParams = {formNo : data.goodsPriceForm.formNo};
@@ -713,7 +713,7 @@ function checkForm(formNo, status,effectDate) {
             if (data.code > 0) {
                 $_jxc.alert(data.message);
             } else {
-                $.messager.alert('提示', '单据审核成功！', "info", function() {
+                $_jxc.alert('单据审核成功！',function() {
                     window.location.href = contextPath
                         + "/goods/priceAdjust/showDetail?formNo=" + formNo;
 

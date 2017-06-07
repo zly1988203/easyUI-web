@@ -102,12 +102,12 @@ function initGridOrderDetail() {
 function exportList(){
 	var length = $("#" + gridName).datagrid('getData').total;
 	if(length == 0){
-		$.messager.alert('提示',"列表数据为空");
+		$_jxc.alert("列表数据为空");
 		return;
 	}
 	
 	if(length>10000){
-		$.messager.alert("当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
+		$_jxc.alert("当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
 		return;
 	}
 	location.href = contextPath +"/report/onlineOrder/exportGoodsList?orderId=" + orderId;

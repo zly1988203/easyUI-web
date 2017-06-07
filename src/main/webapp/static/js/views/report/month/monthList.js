@@ -254,9 +254,9 @@ function exportExcel(){
 	$("#queryForm").form({
 		success : function(data){
 			if(data==null){
-				$.messager.alert('提示',"导出数据成功！");
+				$_jxc.alert("导出数据成功！");
 			}else{
-				$.messager.alert('提示',JSON.parse(data).message);
+				$_jxc.alert(JSON.parse(data).message);
 			}
 		}
 	});
@@ -268,7 +268,7 @@ function exportExcel(){
 var printReport = function(){
 	var length = gridYueJXCList.datagrid('getData').total;
 	if(length == 0){
-		$.messager.alert('提示',"没有数据");
+		$_jxc.alert("没有数据");
 		return;
 	}
 	var queryParams =  urlEncode($("#queryForm").serializeObject());

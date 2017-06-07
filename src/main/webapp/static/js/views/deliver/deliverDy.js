@@ -760,7 +760,7 @@ function saveOrder(){
         success:function(result){
         	 gFunEndLoading();
             if(result['code'] == 0){
-                $.messager.alert("操作提示", "操作成功！", "info",function(){
+                $_jxc.alert("操作提示", "操作成功！", "info",function(){
                     location.href = contextPath +"/form/deliverForm/deliverEdit?deliverType=DY&deliverFormId=" + result["formId"];
                 });
             }else{
@@ -888,7 +888,7 @@ function updateOrder(){
         success:function(result){
             gFunEndLoading();
             if(result['code'] == 0){
-            	$.messager.alert("操作提示", "操作成功！", "info",function(){
+            	$_jxc.alert("操作成功！",function(){
     				location.href = contextPath +"/form/deliverForm/deliverEdit?deliverType=DY&deliverFormId="+deliverFormId;
     			});
             }else{
@@ -940,7 +940,7 @@ function suggestSelectGoods(){
     		 if(result.length > 0){
     			 selectStockAndPrice(result,'suggestSelectGoods');
     		 }else{
-    			 $.messager.alert('提示','暂无建议订货商品','',function(){});
+    			 $_jxc.alert('暂无建议订货商品',function(){});
     		 }
     	},
     	error:function(result){
@@ -980,7 +980,7 @@ function check(){
 		    	success:function(result){
                     gFunEndLoading();
 		    		if(result['code'] == 0){
-		    			$.messager.alert("操作提示", "操作成功！", "info",function(){
+		    			$_jxc.alert("操作成功！",function(){
 		    				location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
 		    			});
 		    		}else{

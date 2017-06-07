@@ -87,7 +87,7 @@ function query(){
 function orderDelete(){
 	var rows =$("#gridOrders").datagrid("getChecked");
 	if($("#gridOrders").datagrid("getChecked").length <= 0){
-		 $.messager.alert('提示','请选中一行进行删除！');
+		 $_jxc.alert('请选中一行进行删除！');
 		return null;
 	}
 	var checkFlag = false; //审核标示
@@ -101,7 +101,7 @@ function orderDelete(){
 			}
 	    });
 	    if(checkFlag){
-			$.messager.alert("提示","不能删除已审核的单据！");
+			$_jxc.alert("不能删除已审核的单据！");
 			return;
 		}
 	$.messager.confirm('提示','是否要删除选中数据',function(data){

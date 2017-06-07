@@ -122,7 +122,7 @@ function editHandel(areaId,areaCode,areaName,branchId){
  */
 function delHandel(){
     if($("#gridSupplierAreaList").datagrid("getSelections").length <= 0){
-        $.messager.alert('提示','请选中一行进行删除！');
+        $_jxc.alert('请选中一行进行删除！');
     }else {
         var row = $("#gridSupplierAreaList").datagrid("getSelections");
         var formData = {areaId:row[0].areaId};
@@ -133,9 +133,9 @@ function delHandel(){
             success:function(data){
                 if(data.code == 0){
                     $("#gridSupplierAreaList").datagrid('reload');
-                    $.messager.alert('提示',"删除成功");
+                    $_jxc.alert("删除成功");
                 }else{
-                    $.messager.alert('提示',data.message);
+                    $_jxc.alert(data.message);
                 }
             },
             error:function(e){

@@ -615,7 +615,7 @@ function saveDataHandel(rows, url){
             gFunEndLoading();
             console.log(result);
             if(result['code'] == 0){
-                $.messager.alert("操作提示", "操作成功！", "info",function(){
+                $_jxc.alert("操作成功！",function(){
                     location.href = contextPath +"/directReceipt/edit?formId=" + result["formId"];
                 });
             }else{
@@ -742,7 +742,7 @@ function checkOrder(){
         success:function(result){
             gFunEndLoading();
             if(result['code'] == 0){
-                $.messager.alert("操作提示", "操作成功！", "info",function(){
+                $_jxc.alert("操作成功！",function(){
                     location.href = contextPath +"/directReceipt/edit?formId=" + id;
                 });
             }else{
@@ -1030,11 +1030,11 @@ function updateListData(data){
 function exportDirectForm(){
 	var length = $("#"+gridName).datagrid('getData').total;
 	if(length == 0){
-		$.messager.alert('提示',"无数据可导");
+		$_jxc.alert("无数据可导");
 		return;
 	}
 	if(length>10000){
-		$.messager.alert('提示',"当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
+		$_jxc.alert("当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
 		return;
 	}
 	$("#addqueryForm").attr("action",contextPath+"/directReceipt/exportList?formId="+$("#formId").val());

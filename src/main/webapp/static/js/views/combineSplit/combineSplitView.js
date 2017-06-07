@@ -346,7 +346,7 @@ function saveDataHandel(rows){
         data:{"data":JSON.stringify(jsonData)},
         success:function(result){
             if(result['code'] == 0){
-    			$.messager.alert("操作提示", "操作成功！", "info",function(){
+    			$_jxc.alert("操作成功！",function(){
     				location.href = contextPath +"/stock/combineSplit/combineSplitView?id="+id;
     			});
             }else{
@@ -384,7 +384,7 @@ function auditCombineSplit(){
 		    	},
 		    	success:function(result){
 		    		if(result['code'] == 0){
-		    			$.messager.alert("操作提示", "操作成功！", "info",function(){
+		    			$_jxc.alert("操作成功！",function(){
 		    				location.href = contextPath +"/stock/combineSplit/combineSplitView?id="+id;
 		    			});
 		    		}else{

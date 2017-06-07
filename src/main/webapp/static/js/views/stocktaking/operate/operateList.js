@@ -139,7 +139,7 @@ function selectOperator(){
 function deleteStocktakingForm(){
 	var rows = $("#operateList").datagrid('getChecked');
 	if(rows.length <= 0){
-		$.messager.alert('提示','没有单据可以删除，请选择一笔单据再删除？');
+		$_jxc.alert('没有单据可以删除，请选择一笔单据再删除？');
 		return;
 	}
 	var tempIds = [];

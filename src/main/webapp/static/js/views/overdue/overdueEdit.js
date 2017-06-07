@@ -425,7 +425,7 @@ $(function(){
 	        success:function(result){
 	            console.log(result);
 	            if(result['code'] == 0){
-	                $.messager.alert("操作提示", "操作成功！", "info",function(){
+	                $_jxc.alert("操作成功！",function(){
 	                	location.reload();
 	                });
 	            }else{
@@ -492,7 +492,7 @@ $(function(){
 	         success:function(result){
 	             console.log(result);
 	             if(result['code'] == 0){
-	                 $.messager.alert("操作提示", "操作成功！", "info",function(){
+	                 $_jxc.alert("操作成功！",function(){
 	                     location.href = contextPath +"/form/overdue/edit/" + id;
 	                 });
 	             }else{
@@ -520,7 +520,7 @@ $(function(){
 			    		if(result['code'] == 0){
 			    			/*$_jxc.alert("操作成功");
 			    			toClose();*/
-			    			$.messager.alert("操作提示", "操作成功！", "info",function(){
+			    			$_jxc.alert("操作成功！",function(){
 			                     location.href = contextPath +"/form/overdue/add/";
 			                 });
 			    		}else{
@@ -705,7 +705,7 @@ $(function(){
 		        			        success:function(result){
 		        			            console.log(result);
 		        			            if(result['code'] == 0){
-		        			                $.messager.alert("操作提示", "操作成功！", "info",function(){
+		        			                $_jxc.alert("操作成功！",function(){
 		        			                	location.reload();
 		        			                });
 		        			            }else{

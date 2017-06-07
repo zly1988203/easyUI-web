@@ -379,7 +379,7 @@ function saveDataHandel(rows){
         	gFunEndLoading();
             if(result['code'] == 0){
                 console.log(result);
-                $.messager.alert("操作提示", "操作成功！", "info",function(){
+                $_jxc.alert("操作成功！",function(){
                     location.href = contextPath +"/cost/costAdjust/edit?id="+result.id+"&type=add"
                 });
             }else{
@@ -466,7 +466,7 @@ function exportExcel(){
 	$("#queryForm").form({
 		success : function(data){
 			if(data.code > 0){
-				$.messager.alert('提示',data.message);
+				$_jxc.alert(data.message);
 			}
 		}
 	});
@@ -478,11 +478,11 @@ function exportExcel(){
 
 	var length = $("#goodsTab").datagrid('getData').total;
 	if(length == 0){
-		$.messager.alert('提示',"无数据可导");
+		$_jxc.alert("无数据可导");
 		return;
 	}
 	if(length>10000){
-		$.messager.alert('提示',"当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
+		$_jxc.alert("当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
 		return;
 	}
 	$("#queryForm").attr("action",contextPath+"/goods/report/exportList");

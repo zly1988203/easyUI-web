@@ -95,10 +95,10 @@ function initDatagridsupplierList(){
             	  }
               })
               if(num>0){
-            	  $.messager.alert('提示',"输入货号重复，请重新输入!");
+            	  $_jxc.alert("输入货号重复，请重新输入!");
               }
               if(num1>0){
-            	  $.messager.alert('提示',"输入条码重复，请重新输入!");
+            	  $_jxc.alert("输入条码重复，请重新输入!");
               }
               else{
             	  selectGoods(arg);  
@@ -288,12 +288,12 @@ $(document).on('change','#excelFile', function(){
 function exportData(){
 	var supplierId = $("#supplierId").val();
 	if(!supplierId){
-		$.messager.alert("提示","请选择供应商");
+		$_jxc.alert("请选择供应商");
 		return;
 	}
 	var rows = $("#gridSupplierArchiveList").datagrid("getRows");
 	if(rows.length <= 0){
-		 $.messager.alert('提示','无数据可导');
+		 $_jxc.alert('无数据可导');
 	     return;
 	}
 	$('#exportWin').window({
@@ -385,7 +385,7 @@ function saveDataHandel(skuIds){
         data:req,
         success:function(result){
             if(result['code'] == 0){
-                $.messager.alert("操作提示", "操作成功!");
+                $_jxc.alert("操作成功!");
                 dg.datagrid('reload');
             }else{
                 successTip(result['message']);
@@ -412,7 +412,7 @@ function orderDelete(){
     }
 	var rows =$("#gridSupplierArchiveList").datagrid("getChecked");
 	if($("#gridSupplierArchiveList").datagrid("getChecked").length <= 0){
-		 $.messager.alert('提示','请选中一行进行删除！');
+		 $_jxc.alert('请选中一行进行删除！');
 		return null;
 	}
 	 var skuIds=[];
@@ -436,7 +436,7 @@ function orderDelete(){
 		        data:req,
 		        success:function(result){
 		            if(result['code'] == 0){
-		                $.messager.alert("操作提示", "操作成功!");
+		                $_jxc.alert("操作成功!");
 		                $("#gridSupplierArchiveList").datagrid('reload');
 		            }else{
 		                successTip(result['message']);

@@ -649,7 +649,7 @@ function initDatagridmmsTJ(){
 function changeLimitCount(newV,oldV){
 	var _this = this;
 	if(parseFloat(newV||0) > 9999.99){
-		$.messager.alert('提示','买满数量不得大于9999.99','',function(){
+		$_jxc.alert('买满数量不得大于9999.99',function(){
 			$(_this).numberbox('setValue',(oldV||0));
 		});
 	}
@@ -659,7 +659,7 @@ function changeLimitCount(newV,oldV){
 function changeLimitAmount(newV,oldV){
 	var _this = this;
 	if(parseFloat(newV||0) > 9999.99){
-		$.messager.alert('提示','买满金额不得大于9999.99','',function(){
+		$_jxc.alert('买满金额不得大于9999.99',function(){
 			$(_this).numberbox('setValue',(oldV||0));
 		});
 	}
@@ -785,7 +785,7 @@ function initDatagridmmsGOOD(){
 function changeGiftNum(newV,oldV){
 	var _this = this;
 	if(parseFloat(newV||0) > 9999.99){
-		$.messager.alert('提示','赠品数量不得大于9999.99','',function(){
+		$_jxc.alert('赠品数量不得大于9999.99',function(){
 			$(_this).numberbox('setValue',(oldV||0));
 		});
 	}
@@ -796,7 +796,7 @@ function changeGiftPrice(newV,oldV){
 	var _this = this;
 	var tempPrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
 	if(parseFloat(newV||0) > parseFloat(tempPrice||0)){
-		$.messager.alert('提示','新增金额不得大于零售价','',function(){
+		$_jxc.alert('新增金额不得大于零售价',function(){
 			$(_this).numberbox('setValue',(oldV||0));
 		});
 	}
@@ -2417,7 +2417,7 @@ function selectGoodsComG(searchKey){
 function selectGoodsG(searchKey){
 	var gradRows = $("#mmsgradedList").datagrid('getChecked');
 	if(gradRows.length <= 0){
-		$.messager.alert('提示','请先选择买满条件');
+		$_jxc.alert('请先选择买满条件');
 		return;
 	}
 	
@@ -2882,7 +2882,7 @@ function saveActivity(){
 	  if(mmstype == '1'){
 		  var lbRows = gridHandelB.getRowsWhere({categoryName:'1'});
 		  if(lbRows.length <= 0){
-			  $.messager.alert('提示','请选择类别！','',function(){});
+			  $_jxc.alert('请选择类别！',function(){});
 			  return;
 		  }
 		  setRows = lbRows;
@@ -2890,7 +2890,7 @@ function saveActivity(){
 	  if(mmstype == '0'){
 		  var spRows = gridHandelG.getRowsWhere({skuName:'1'});
 		  if(spRows.length <= 0){
-			  $.messager.alert('提示','请选择商品！','',function(){});
+			  $_jxc.alert('请选择商品！',function(){});
 			  return;
 		  }
 		  setRows = spRows;
@@ -2909,29 +2909,29 @@ function saveActivity(){
 	  //买满条件 梯度检查
 	  var tjRows = gridHandelT.getRows();
 	  if(tjRows.length <= 0){
-		  $.messager.alert('提示','请设置买满条件！','',function(){});
+		  $_jxc.alert('请设置买满条件！',function(){});
 		  return false;
 	  }
 	  for(var i = 0; i<tjRows.length ; i++){
 		  var mmsTJObj = tjRows[i];
 		  if(gridTitleName == '买满金额' && parseFloat(mmsTJObj.limitAmount||0)<= 0){
-			$.messager.alert('提示','第'+(i+1)+'行，买满金额不能小于等于0','',function(){});
+			$_jxc.alert('第'+(i+1)+'行，买满金额不能小于等于0',function(){});
 			return false;
 		  }
 		  if(gridTitleName == '买满数量' && parseFloat(mmsTJObj.limitCount||0)<= 0){
-			$.messager.alert('提示','第'+(i+1)+'行，买满数量不能小于等于0','',function(){});
+			$_jxc.alert('第'+(i+1)+'行，买满数量不能小于等于0',function(){});
 			return false;
 		  }
 		  
 		  if(!(mmsTJObj.goodsGiftList && mmsTJObj.goodsGiftList.length >0)){
-			  $.messager.alert('提示','买满条件第'+(i+1)+'行，未选择赠品！','',function(){});
+			  $_jxc.alert('买满条件第'+(i+1)+'行，未选择赠品！',function(){});
 			  return  false;
 		  }else{
 			  var gifts = mmsTJObj.goodsGiftList;
 			  for(var x = 0; x < gifts.length ; x++){
 				  var gifObj = gifts[x];
 				  if(gifObj && gifObj.giftNum <= 0){
-					  $.messager.alert('提示','买满条件第'+(i+1)+'行，存在赠品数量小于等于0','',function(){});
+					  $_jxc.alert('买满条件第'+(i+1)+'行，存在赠品数量小于等于0',function(){});
 					  return false;
 				  }
 			  }
@@ -3195,7 +3195,7 @@ function saveDataHandel(rows,setrows){
       success:function(result){
     	  gFunEndLoading();
           if(result['code'] == 0){
-              $.messager.alert("操作提示", "操作成功！", "info", function(){
+              $_jxc.alert("操作成功！",function(){
             		  location.href = contextPath +"/sale/activity/edit?activityId="+result["activityId"]; 
               });
           }else{
