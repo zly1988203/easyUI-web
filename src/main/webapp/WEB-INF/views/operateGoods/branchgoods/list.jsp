@@ -34,27 +34,24 @@
     	<form id="queryForm" action="" method="post">
 	        <div class="ub ub-ac">
 	            <div class="ubtns">
-	                <shiro:hasPermission name="JxcGoodsIntroduce:search">
+	                <shiro:hasPermission name="JxcOperateGoodsIntro:search">
 	                 <div class="ubtns-item" onclick="query()">查询</div>
 	                </shiro:hasPermission>
 	                <div class="ubtns-item" onclick="gFunRefresh()">重置</div>
-	                <shiro:hasPermission name="JxcGoodsIntroduce:importBySkuCode">
+	                <shiro:hasPermission name="JxcOperateGoodsIntro:importBySkuCode">
 	                  <div class="ubtns-item" onclick="toImportproduct(0)">导入货号</div>
 					 <!--  <div class="ubtns-item" onclick="importShow(0)">导入货号</div> -->
 					</shiro:hasPermission>
 					
-					<shiro:hasPermission name="JxcGoodsIntroduce:importByBarCode">
+					<shiro:hasPermission name="JxcOperateGoodsIntro:importByBarCode">
 		            <div class="ubtns-item" onclick="toImportproduct(1)">导入条码</div>
 	               <!--  <div class="ubtns-item" onclick="importShow(1)">导入条码</div> -->
 	                </shiro:hasPermission>
-	                 
-	                 
-	                 
-	                <shiro:hasPermission name="JxcGoodsIntroduce:enabled">
+	                <shiro:hasPermission name="JxcOperateGoodsIntro:enabled">
 	                	<div class="ubtns-item ub-enable" id="important_div" onclick="enable()">引入</div>
 	                </shiro:hasPermission>
 					<%--  <div class="ubtns-item ub-enable" id="selectBranches" onclick="selectBranches()">机构批量引入</div> --%>
-					<shiro:hasPermission name="JxcGoodsIntroduce:eliminate">
+					<shiro:hasPermission name="JxcOperateGoodsIntro:eliminate">
 					   <div class="ubtns-item ub-eliminate" id="eliminate_div" onclick="eliminate()">淘汰</div>
 					</shiro:hasPermission>
 					<%--  <div class="ubtns-item ub-recovery" id="recovery_div" onclick="recovery()">恢复</div> --%>

@@ -7,7 +7,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>有效天数设置页面</title>
+<title>配送设置</title>
 
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 </head>
@@ -34,12 +34,12 @@
 				<div class="ub ub-ac upad-16 ">
 					<div class="ub uw-220 ut-r">加盟店要货配送取价值:</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="ub" type="radio" id="priceSpec0" name="storesPriceSpec" value="0" />
-						<label for="priceSpec0">分机构配送价</label>
+						<input class="ub" type="radio" id="storesPriceSpec0" name="storesPriceSpec" value="0" />
+						<label for="storesPriceSpec0">分机构配送价</label>
 					</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="ub" type="radio" id="priceSpec1" name="storesPriceSpec" value="1" checked="checked" />
-						<label for="priceSpec1">门店配送价</label>
+						<input class="ub" type="radio" id="storesPriceSpec1" name="storesPriceSpec" value="1" checked="checked" />
+						<label for="storesPriceSpec1">门店配送价</label>
 					</div>
 				</div>
 				<div class="ub ub-ac upad-16 ">
