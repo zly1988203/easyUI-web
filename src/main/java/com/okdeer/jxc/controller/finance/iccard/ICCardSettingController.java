@@ -201,6 +201,11 @@ public class ICCardSettingController extends BaseController<Object>{
 		return new ModelAndView("finance/iccard/addIcCardType");
 	}
 	
+	@RequestMapping(value = "editIcCardType", method = RequestMethod.GET)
+	public ModelAndView editIcCardType() {
+		return new ModelAndView("finance/iccard/editIcCardType");
+	}
+	
 	@RequestMapping(value = "icCardShopSetting", method = RequestMethod.GET)
 	public ModelAndView icCardShopSetting() {
 		return new ModelAndView("finance/iccard/iccardShopSetting");

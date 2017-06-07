@@ -19,9 +19,9 @@
 }
 </style>
 </head>
-<body class="ub uw uh ufs-14 uc-black">
+<body class="uw uh ufs-14 uc-black">
 	<div class="ub ub-ver ub-f1 umar-4 upad-4">
-		<form id="saveForm">
+
 			<div class="ub ub-ac upad-8">
 				<div class="ubtns">
 					<button class="ubtns-item" onclick="saveCardSetting()">保存</button>
@@ -30,7 +30,7 @@
 			</div>
 
 			<div class="ub uline"></div>
-
+	<form id="saveForm">
 			<div class="ub upad-4 umar-t10 umar-l50">
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-100 ut-r">使用一卡通:</div>

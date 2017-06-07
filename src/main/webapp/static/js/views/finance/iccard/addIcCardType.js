@@ -11,15 +11,18 @@ function saveSettingType() {
 	
     var formData = $('#cardTypeAdd').serializeObject();
     var url = contextPath + "/iccard/setting/type/save";
-    var param = formData;
-    $.post(url,param,function(result){
-    	if(result.code===0){
-			$('#closeCardType').trigger('click');
-			$_jxc.alert(result.data);
-		}else{
-			$_jxc.alert(result.message);
-		}
-		
-		$("#gridCardSetting").datagrid('reload');
-    },"json")
+    var param = {
+        url:contextPath + "/iccard/setting/type/save",
+        data:formData
+    };
+    $_jxc.ajax(param,function (result) {
+        if(result.code===0){
+            closeCardDialog();
+            $_jxc.alert(result.data);
+        }else{
+            $_jxc.alert(result.message);
+        }
+        initGridCardSetting();
+    })
+
 }

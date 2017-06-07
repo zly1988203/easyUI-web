@@ -29,7 +29,7 @@
 						<option value="2">合肥通</option>
 					</select> --%>
 					<input name="cardType"
-						id="cardType" class="uselect easyui-combobox" style="width: 204px;" 
+						id="cardType" class="uselect easyui-combobox uw-204"
 						data-options="valueField:'id',textField:'text',url:'account/management/dict/PAY_WAY',editable:false,required:true"/>
 				</div>
 			</div>
