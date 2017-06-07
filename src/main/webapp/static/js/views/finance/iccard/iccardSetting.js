@@ -80,17 +80,29 @@ function initGridCardSetting() {
 
 function saveCardSetting() {
 	var selRows = $('#gridCardSetting').datagrid('getRows'); 
-	var ids=new Array();
-	var enableds=new Array();
-	for(var  i = 0;i<selRows.length;i++){
-		ids[i] = selRows[i].id;
-		enableds[i]=selRows[i].enabled;
-	}
-    $.post("setting/save", $('#saveForm').serialize()+urlEncode(ids,"ids")+urlEncode(enableds,"enableds"),
-			   function(datas){
-		$_jxc.alert(datas.data);
-    	}
-    , "json");
+
+    var reqObj = $('#saveForm').serializeObject();
+    var data = {
+        enabled:reqObj.enabled,
+        minAmount:reqObj.minAmount,
+        selRows:selRows,
+    }
+	var param = {
+	    url:"setting/save",
+        data:JSON.stringify(data)
+    }
+
+    $_jxc.ajax(param,function (result) {
+        if(result['code'] == 0){
+          $_jxc.alert("保存成功");
+        }else{
+            gFunRefresh();
+            $_jxc.alert(result['message'])
+        }
+    },function (error) {
+        gFunRefresh();
+    })
+
 }
 
 var urlEncode = function (param, key, encode) {
