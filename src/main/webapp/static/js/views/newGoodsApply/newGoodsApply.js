@@ -427,11 +427,11 @@ function closeDialog(){
 //复制
 function copyGoodsView(){
 	if($("#gridArchives").datagrid("getSelections").length <= 0){
-        $.messager.alert('提示','请选中一行进行复制新增商品！');
+        $_jxc.alert('请选中一行进行复制新增商品！');
         return false;
     }
 	if($("#gridArchives").datagrid("getChecked").length > 1){
-		 $.messager.alert('提示','请选中一行进行复制新增商品！');
+		 $_jxc.alert('请选中一行进行复制新增商品！');
 		return false;
 	}
 	
@@ -448,7 +448,7 @@ function copyGoodsView(){
 function delGoods(){
 	var rows =$("#gridArchives").datagrid("getChecked");
 	if($("#gridArchives").datagrid("getChecked").length <= 0){
-		 $.messager.alert('提示','请选中一行进行删除！');
+		 $_jxc.alert('请选中一行进行删除！');
 		return null;
 	}
 	 var ids='';
@@ -461,7 +461,7 @@ function delGoods(){
   		}
     });
     if(goodsSkuName){
-		$.messager.alert('提示','商品名称:【'+goodsSkuName+'】审核通过,不能删除');
+		$_jxc.alert('商品名称:【'+goodsSkuName+'】审核通过,不能删除');
 		return 
 	}
 	$.messager.confirm('提示','是否要删除选中数据',function(data){
@@ -475,7 +475,7 @@ function delGoods(){
 		    	success:function(result){
 		    		if(result['code'] == 0){
 		    			$("#gridArchives").datagrid('reload');
-						$.messager.alert('提示',"删除成功");
+						$_jxc.alert("删除成功");
 		    		}else{
 		    			successTip(result['message']);
 		    		}
@@ -492,7 +492,7 @@ function delGoods(){
 function auditingGoods(){
 	var rows =$("#gridArchives").datagrid("getChecked");
 	if($("#gridArchives").datagrid("getChecked").length <= 0){
-		$.messager.alert('提示','请选中一行进行审核！');
+		$_jxc.alert('请选中一行进行审核！');
 		return null;
 	}
 	var ids='';
@@ -505,7 +505,7 @@ function auditingGoods(){
 	});
 	if(goodsSkuName){
 		goodsSkuName = goodsSkuName.substring(0 , goodsSkuName.length-1);
-		$.messager.alert('提示','商品名称:【'+goodsSkuName+'】已审核通过');
+		$_jxc.alert('商品名称:【'+goodsSkuName+'】已审核通过');
 		return 
 	}
 	
@@ -519,7 +519,7 @@ function auditingGoods(){
 				},
 				success:function(result){
 					if(result['code'] == 0){
-						$.messager.alert('提示',"审核成功");
+						$_jxc.alert("审核成功");
 						$("#gridArchives").datagrid('reload');
 					}else{
 						successTip(result['message']);

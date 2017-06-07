@@ -64,15 +64,15 @@ function toSaveAddData(){
     	success:function(result){
     		console.log(result);
     		if(result['code'] == 0){
-    			$.messager.alert("操作提示", "保存成功！");
+    			$_jxc.alert("保存成功！");
     			$(dolg).panel('destroy');
     			$('#registerList').datagrid("reload");
     		}else{
-    			$.messager.alert("提示",result['message']);
+    			$_jxc.alert(result['message']);
     		}
     	},
     	error:function(result){
-    		$.messager.alert(("请求发送失败或服务器处理失败"));
+    		$_jxc.alert(("请求发送失败或服务器处理失败"));
     	}
     });
 }

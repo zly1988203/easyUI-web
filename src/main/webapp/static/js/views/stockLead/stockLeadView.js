@@ -582,7 +582,7 @@ function updateStockLead(){
         contentType:"application/json",
         success:function(result){
             if(result['code'] == 0){
-                $.messager.alert("操作提示", "操作成功！", "info",function(){
+                $_jxc.alert("操作成功！",function(){
                 	location.href = contextPath +"/stock/lead/edit?id=" + result["formId"];
                 });
             }else{
@@ -641,7 +641,7 @@ function checkStockLead(){
 		    	},
 		    	success:function(result){
 		    		if(result['code'] == 0){
-		    			$.messager.alert("操作提示", "操作成功！", "info",function(){
+		    			$_jxc.alert("操作成功！",function(){
 		    				location.href = contextPath +"/stock/lead/edit?id=" + id;
 		    			});
 		    		}else{
@@ -800,11 +800,11 @@ function exportData(){
 function exportExcel(){
 	var length = $("#"+dataGridId).datagrid('getData').total;
 	if(length == 0){
-		$.messager.alert('提示',"无数据可导");
+		$_jxc.alert("无数据可导");
 		return;
 	}
 	if(length>10000){
-		$.messager.alert('提示',"当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
+		$_jxc.alert("当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
 		return;
 	}
 	$("#queryForm").attr("action",contextPath+"/stock/lead/exportList");

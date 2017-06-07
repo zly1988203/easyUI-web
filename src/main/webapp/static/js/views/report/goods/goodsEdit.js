@@ -441,7 +441,7 @@ function submitForm(){
 	        data:JSON.stringify(newData),
 	        success:function(result){
 	            if(result['code'] == 0){
-	                $.messager.alert("操作提示", "操作成功！");
+	                $_jxc.alert("操作成功！");
 	            }else{
 	                successTip(result['message'] +","+strResult);
 	            }

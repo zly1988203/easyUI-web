@@ -329,7 +329,7 @@ function queryForm(){
 	var startDate = $("#txtStartDate").val();
 	var endDate = $("#txtEndDate").val();
 	if(!(startDate && endDate)){
-		$.messager.alert('提示', '日期不能为空');
+		$_jxc.alert('日期不能为空');
 		return ;
 	}	
 	if (temp) {

@@ -82,11 +82,11 @@ function shiftChange(id){
 		    			successTip("交班成功");
 		    			dg.datagrid('reload');
 		    		}else{
-		    			$.messager.alert((result['message']));
+		    			$_jxc.alert((result['message']));
 		    		}
 		    	},
 		    	error:function(result){
-		    		$.messager.alert(("请求发送失败或服务器处理失败"));
+		    		$_jxc.alert(("请求发送失败或服务器处理失败"));
 		    	}
 		    });
 			

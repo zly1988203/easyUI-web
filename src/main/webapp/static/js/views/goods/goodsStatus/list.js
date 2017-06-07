@@ -397,7 +397,7 @@ function update(type,obj){
 	if($(obj).hasClass('ubtns-item-disabled'))return;
 	var rows = $('#goodsStatus').datagrid('getChecked');
 	if(rows.length == 0){
-		$.messager.alert('提示','请至少选中一行！');
+		$_jxc.alert('请至少选中一行！');
 		return;
 	}
 	console.log(rows);
@@ -413,7 +413,7 @@ function update(type,obj){
 		ids+=v.branchSkuId+",";
 	});
 	if(flag){
-		$.messager.alert('提示','淘汰商品库存必须为0！');
+		$_jxc.alert('淘汰商品库存必须为0！');
 		return;
 	}
 	$.messager.confirm('提示','是否要处理选中数据',function(data){

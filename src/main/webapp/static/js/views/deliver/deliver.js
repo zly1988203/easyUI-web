@@ -704,7 +704,7 @@ function suggestSelectGoods(){
     		 if(result.length > 0){
     			 selectStockAndPrice(result,'suggestSelectGoods');
     		 }else{
-    			 $.messager.alert('提示','暂无建议订货商品','',function(){});
+    			 $_jxc.alert('暂无建议订货商品',function(){});
     		 }
     	},
     	error:function(result){
@@ -807,7 +807,7 @@ function saveOrder(){
         success:function(result){
         	 gFunEndLoading();
             if(result['code'] == 0){
-                $.messager.alert("操作提示", "操作成功！", "info",function(){
+                $_jxc.alert("操作成功！",function(){
                     location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
                 });
             }else{
@@ -934,7 +934,7 @@ function updateOrder(){
         success:function(result){
             gFunEndLoading();
             if(result['code'] == 0){
-            	$.messager.alert("操作提示", "操作成功！", "info");
+            	$_jxc.alert("操作成功！");
                 oldData = {
                     targetBranchId:$("#targetBranchId").val(), // 要活分店id
                     sourceBranchId:$("#sourceBranchId").val(), //发货分店id
@@ -945,7 +945,7 @@ function updateOrder(){
                 oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
             		return $.extend(true,{},obj);//返回对象的深拷贝
             	});
-            	$.messager.alert("操作提示", "操作成功！", "info",function(){
+            	$_jxc.alert("操作成功！",function(){
     				location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + $("#formId").val();
     			});
             }else{
@@ -992,7 +992,7 @@ function check(){
 		    	success:function(result){
                     gFunEndLoading();
 		    		if(result['code'] == 0){
-		    			$.messager.alert("操作提示", "操作成功！", "info",function(){
+		    			$_jxc.alert("操作成功！",function(){
 		    				location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
 		    			});
 		    		}else{

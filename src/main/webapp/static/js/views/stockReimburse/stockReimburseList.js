@@ -138,7 +138,7 @@ function addStockReimburse() {
 function deleteStockReimburse(){
 	var rows =$("#stockReimburseList").datagrid("getChecked");
 	if(rows.length <= 0){
-		 $.messager.alert('提示','请选中一行进行删除！');
+		 $_jxc.alert('请选中一行进行删除！');
 		return null;
 	}
 	

@@ -720,7 +720,7 @@ function saveOrder(){
         success:function(result){
         	gFunEndLoading();
             if(result['code'] == 0){
-                $.messager.alert("操作提示", "操作成功！", "info",function(){
+                $_jxc.alert("操作提示", "操作成功！", "info",function(){
                     location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
                 });
             }else{
@@ -857,7 +857,7 @@ function updateOrder(){
                 oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
             		return $.extend(true,{},obj);//返回对象的深拷贝
             	});
-                $.messager.alert("操作提示", "操作成功！", "info",function(){
+                $_jxc.alert("操作成功！",function(){
                 	location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + $("#formId").val();
                 });
             }else{
@@ -1095,7 +1095,7 @@ function checkHandel(){
             },
             success:function(result){
                 if(result['code'] == 0){
-                    $.messager.alert("操作提示", "操作成功！", "info",function(){
+                    $_jxc.alert("操作成功！",function(){
                         location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
                     });
                 }else{

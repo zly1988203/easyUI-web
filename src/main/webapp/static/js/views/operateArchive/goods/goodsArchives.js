@@ -379,7 +379,7 @@ function closeDialog(){
 //复制
 function copyGoodsView(){
 	if($("#gridArchives").datagrid("getSelections").length <= 0){
-        $.messager.alert('提示','请选中一行进行复制新增商品！');
+        $_jxc.alert('请选中一行进行复制新增商品！');
         return false;
     }else{
     	var selectionRow = $("#gridArchives").datagrid("getSelections");
@@ -408,9 +408,9 @@ function delGoods(){
 				success: function(data){
 					if(data.code == 0){
 						$("#gridArchives").datagrid('reload');
-						$.messager.alert('提示',"删除成功");
+						$_jxc.alert("删除成功");
 					}else{
-						$.messager.alert('提示',data.message);
+						$_jxc.alert(data.message);
 					}
 				}
 			});

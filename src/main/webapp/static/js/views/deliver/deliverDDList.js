@@ -145,7 +145,7 @@ function delDeliverForm(){
 	var row = dg.datagrid("getChecked");
 	var ids = [];
 	if(row.length <= 0){
-		$.messager.alert("提示","请先选择数据！");
+		$_jxc.alert("请先选择数据！");
 		return;
 	}
 	var checkFlag = false; //审核标示
@@ -156,7 +156,7 @@ function delDeliverForm(){
 		}
 	}
 	if(checkFlag){
-		$.messager.alert("提示","不能删除已审核的单据！");
+		$_jxc.alert("不能删除已审核的单据！");
 		return;
 	}
 	

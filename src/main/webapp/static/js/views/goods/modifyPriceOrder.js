@@ -120,7 +120,7 @@ var datagridId = "modifyPriceGrid";
 var datagridUtil = {
     isSelectRows:function(){
         if($("#"+datagridId).datagrid("getSelections").length <= 0){
-            $.messager.alert('提示','没有单据可以删除，请选择一笔单据再删除？');
+            $_jxc.alert('没有单据可以删除，请选择一笔单据再删除？');
             return false;
         }else{
             return true;
@@ -151,11 +151,11 @@ function modifyPriceOrderCx(){
 	var length = $("#modifyPriceGrid").datagrid('getData').total;
 	console.info($("#searchForm").serializeObject());
 	if(length == 0){
-		$.messager.alert("无数据可导");
+		$_jxc.alert("无数据可导");
 		return;
 	}
 	if(length>10000){
-		$.messager.alert("当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
+		$_jxc.alert("当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
 		return;
 	}
 	$("#searchForm").attr("action",contextPath+'/goods/priceAdjust/exportList');

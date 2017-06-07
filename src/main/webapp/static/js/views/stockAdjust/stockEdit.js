@@ -241,7 +241,7 @@ function delStockForm(){
 		    	},
 		    	success:function(result){
 		    		if(result['code'] == 0){
-		    			$.messager.alert("操作提示", "删除成功！", "info",function(){
+		    			$_jxc.alert("删除成功！",function(){
 		    				//location.href = contextPath +"/stock/adjust/list";
 		    				toRefreshIframeDataGrid("stock/adjust/list","stockFromList");
 		    				toClose();
@@ -578,7 +578,7 @@ function saveOrder(){
         success:function(result){
             gFunEndLoading();
             if(result['code'] == 0){
-            	$.messager.alert("操作提示", "操作成功！", "info");
+            	$_jxc.alert("操作成功！");
             }else{
                 successTip(result['message']);
             }
@@ -616,7 +616,7 @@ function check(){
 		    	},
 		    	success:function(result){
 		    		if(result['code'] == 0){
-		    			$.messager.alert("操作提示", "操作成功！", "info",function(){
+		    			$_jxc.alert("操作成功！",function(){
 		    			
 		    				location.href = contextPath +"/stock/adjust/checkSuccess?id="+id;
 		    			});
@@ -803,19 +803,19 @@ function getImportData(data){
 function exportExcel(){
 	var length = $("#gridEditRequireOrder").datagrid('getData').total;
 	if(length == 0){
-		$.messager.alert("提示","无数据可导");
+		$_jxc.alert("无数据可导");
 		return;
 	}
 	if(length>10000){
-		$.messager.alert('提示',"当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
+		$_jxc.alert("当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
 		return;
 	}
 	$("#searchForm").form({
 		success : function(data){
 			if(data==null){
-				$.messager.alert('提示',"导出数据成功！");
+				$_jxc.alert("导出数据成功！");
 			}else{
-				$.messager.alert('提示',JSON.parse(data).message);
+				$_jxc.alert(JSON.parse(data).message);
 			}
 		}
 	});
