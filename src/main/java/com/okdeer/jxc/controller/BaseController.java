@@ -23,6 +23,7 @@ import com.okdeer.jxc.common.parser.MapAccessParser;
 import com.okdeer.jxc.common.parser.vo.KeyExtendVo;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.system.entity.SysUser;
+import com.okdeer.jxc.utils.PriceGrantUtil;
 import com.okdeer.jxc.utils.UserUtil;
 import com.okdeer.jxc.utils.jxls.ReportExcelUtil;
 import com.okdeer.jxc.utils.poi.ExcelReaderUtil;
@@ -263,9 +264,7 @@ public class BaseController<T> {
 	 * @param data 要过滤的vo对象
 	 */
 	protected void cleanAccessData(Object data){
-		Set<String> forbiddenSets = new HashSet<>();
-		forbiddenSets.add("sale_price");
-		forbiddenSets.add("cost_price");
+		Set<String> forbiddenSets = PriceGrantUtil.getNoPriceGrantSets();
 		DataAccessParser parser = new DataAccessParser(data.getClass(), forbiddenSets);
 		parser.cleanDataObject(data);
 	}
@@ -276,9 +275,7 @@ public class BaseController<T> {
 	 */
 	protected void cleanAccessDatas(List<? extends Object> datas){
 		Class<?> cls = datas.get(0).getClass();
-		Set<String> forbiddenSets = new HashSet<>();
-		forbiddenSets.add("sale_price");
-		forbiddenSets.add("cost_price");
+		Set<String> forbiddenSets = PriceGrantUtil.getNoPriceGrantSets();
 		DataAccessParser parser = new DataAccessParser(cls, forbiddenSets);
 		parser.cleanDataObjects(datas);
 	}
@@ -289,9 +286,7 @@ public class BaseController<T> {
 	 * @param dataMap 要过滤的数据
 	 */
 	protected void cleanDataMap(List<KeyExtendVo> extendVos, Map<String, Object> dataMap){
-		Set<String> forbiddenSets = new HashSet<>();
-		forbiddenSets.add("sale_price");
-		forbiddenSets.add("cost_price");
+		Set<String> forbiddenSets = PriceGrantUtil.getNoPriceGrantSets();
 		MapAccessParser parser = new MapAccessParser(extendVos, forbiddenSets);
 		parser.cleanDataMap(dataMap);
 	}
@@ -302,9 +297,7 @@ public class BaseController<T> {
 	 * @param dataMaps 要过滤的数据
 	 */
 	protected void cleanDataMap(List<KeyExtendVo> extendVos, List<Map<String, Object>> dataMaps){
-		Set<String> forbiddenSets = new HashSet<>();
-		forbiddenSets.add("sale_price");
-		forbiddenSets.add("cost_price");
+		Set<String> forbiddenSets = PriceGrantUtil.getNoPriceGrantSets();
 		MapAccessParser parser = new MapAccessParser(extendVos, forbiddenSets);
 		parser.cleanDataMaps(dataMaps);
 	}
