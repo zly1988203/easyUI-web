@@ -183,7 +183,8 @@ function getMemoryCode(){
 	var reqObj = {"skuName":$("#skuName").val()};
 	$_jxc.ajax({
 		url:contextPath+"/common/goods/getMemoryCode",
-		data:reqObj
+		data:reqObj,
+		dataType:'text'
 	},function(result){
 		$("#memoryCode").val(result); //助记码
 	});
