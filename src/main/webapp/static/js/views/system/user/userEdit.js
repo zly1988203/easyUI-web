@@ -114,7 +114,7 @@ function savePassword() {
 }
 
 function initPassword() {
-    $.messager.confirm('提示','是否进行密码初始化',function(data){
+    $_jxc.confirm('是否进行密码初始化',function(data){
     	var param = {
     		url:contextPath+"/system/user/initPwd",
     		data:{

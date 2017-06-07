@@ -31,7 +31,7 @@ function save() {
     	 $_jxc.alert("充值金额不能为空！");
          return;
     }
-    $.messager.confirm("提示","本次充值金额"+addBalance+",是否继续",function (data) {
+    $_jxc.confirm("本次充值金额"+addBalance+",是否继续",function (data) {
         if(data){
         	$.post("management/recharge", $('#cardRecharge').serialize(),
         			   function(datas){

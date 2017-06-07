@@ -541,7 +541,7 @@ function saveItemHandel(){
     });
     if(isCheckResult){
         if(isChcekPrice){
-            $.messager.confirm('系统提示',"单价存在为0，重新修改",function(r){
+            $_jxc.confirm("单价存在为0，重新修改",function(r){
                 if (r){
                     return ;
                 }else{
@@ -550,7 +550,7 @@ function saveItemHandel(){
             });
         }else{
         	if(isChcekNum){
-          		 $.messager.confirm('提示','存在数量为0的商品,是否继续保存?',function(data){
+          		 $_jxc.confirm('存在数量为0的商品,是否继续保存?',function(data){
           			if(data){
           				saveDataHandel(rows);
           		    }
@@ -645,13 +645,13 @@ function check(){
     	 $_jxc.alert("采购商品数量全部为0");
 		return
 	}else if(parseFloat(num)>0){
-		$.messager.confirm('提示',"是否清除单据中数量为0的商品记录?",function(data){
+		$_jxc.confirm("是否清除单据中数量为0的商品记录?",function(data){
     		if(data){
     		    checkOrder();
     		}	
     	});
 	}else{
-		 $.messager.confirm('提示','是否审核通过？',function(data){
+		 $_jxc.confirm('是否审核通过？',function(data){
 			 if(data){
 				 checkOrder();
 			 }
@@ -749,7 +749,7 @@ function selectSupplier(){
 	new publicSupplierService(function(data){
         var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
         if( $("#supplierId").val() != "" && data.id != $("#supplierId").val() && nowRows.length > 0){
-            $.messager.confirm('提示','修改供应商后会清空明细，是否要修改？',function(r){
+            $_jxc.confirm('修改供应商后会清空明细，是否要修改？',function(r){
                 if(r){
                     $("#supplierId").val(data.id);
                     $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
@@ -783,7 +783,7 @@ function selectBranch(){
         var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
         if( $("#branchId").val() != "" && data.branchesId != $("#branchId").val() && nowRows.length > 0){
 
-            $.messager.confirm('提示','修改机构后会清空明细，是否要修改？',function(r){
+            $_jxc.confirm('修改机构后会清空明细，是否要修改？',function(r){
                 if(r){
                     $("#branchId").val(data.branchesId);
                     $("#branchName").val("["+data.branchCode+"]"+data.branchName);

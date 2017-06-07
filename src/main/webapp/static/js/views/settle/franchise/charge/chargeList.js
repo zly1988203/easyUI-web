@@ -133,38 +133,17 @@ function delFraChargeForm(){
 	for(var i=0; i<row.length; i++){
 		ids.push(row[i].id);
 	}
-	$.messager.confirm('提示','是否要删除选中数据?',function(data){
+	$_jxc.confirm('是否要删除选中数据?',function(data){
 		if(data){
-        	$.ajax({
-                type: "POST",
+        	$_jxc.ajax({
                 url: contextPath+"/settle/franchiseCharge/chargeDelete",
-                data: {"ids":ids},
-                dataType: "json",
-                success: function(data){
-                	gFunEndLoading();
-                	$_jxc.alert(data['message']);
-                	if(data.code == 0){
-                		queryForm();
-                	}
-                }
+                data: {"ids":ids}
+            },function(data){
+            	$_jxc.alert(data['message']);
+            	if(data.code == 0){
+            		queryForm();
+            	}
             });
-//			$.ajax({
-//		    	url:contextPath+"/settle/franchiseCharge/deleteChargeForm",
-//		    	type:"POST",
-//		    	dataType: "json",
-//		    	data:{"ids":ids},
-//		    	success:function(result){
-//		    		if(result['code'] == 0){
-//		    			$_jxc.alert("删除成功");
-//		    			dg.datagrid('reload');
-//		    		}else{
-//		    			$_jxc.alert(result['message']);
-//		    		}
-//		    	},
-//		    	error:function(result){
-//		    		$_jxc.alert("请求发送失败或服务器处理失败");
-//		    	}
-//		    });
 		}
 	});
 }

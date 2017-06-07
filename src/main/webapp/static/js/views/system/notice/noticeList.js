@@ -150,7 +150,7 @@ function delNotice() {
         msg = '选中有未读的公告，只能删除已读公告,是否删除?';
     }
 
-    $.messager.confirm('提示',msg,function(data){
+    $_jxc.confirm(msg,function(data){
         if(data){
             var url = contextPath+"/sys/notice/delete";
             var param = {

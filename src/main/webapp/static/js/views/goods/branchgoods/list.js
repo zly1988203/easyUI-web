@@ -374,7 +374,7 @@ function enable() {
 		var row = rows[i];
 		skuIds += row.skuId + ',';
 	}
-	$.messager.confirm('提示', '是否要启用已选择的商品', function(data) {
+	$_jxc.confirm('提示', '是否要启用已选择的商品', function(data) {
 		if (data) {
 			enableAjax(skuIds, branchId, contextPath + "/branch/goods/enable");
 		}

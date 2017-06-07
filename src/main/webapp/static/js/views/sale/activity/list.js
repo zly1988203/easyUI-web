@@ -194,25 +194,21 @@ var resetForm = function() {
 // 终止
 function stop(){
 	var activityId = $("#activityId").val();
-	$.messager.confirm('提示','是否终止此活动？',function(data){
+	$_jxc.confirm('提示','是否终止此活动？',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 				url : contextPath+"/sale/activity/stop",
 				type : "POST",
 				data : {
 					activityId:$("#activityId").val(),
-				},
-				success:function(result){
-					if(result['code'] == 0){
-						$_jxc.alert("操作成功！",function(){
-							location.href = contextPath +"/sale/activity/edit?activityId="+activityId;
-						});
-					}else{
-						$_jxc.alert(result['message']);
-					}
-				},
-				error:function(result){
-					$_jxc.alert("请求发送失败或服务器处理失败");
+				}
+			},function(result){
+				if(result['code'] == 0){
+					$_jxc.alert("操作成功！",function(){
+						location.href = contextPath +"/sale/activity/edit?activityId="+activityId;
+					});
+				}else{
+					$_jxc.alert(result['message']);
 				}
 			});
 		}

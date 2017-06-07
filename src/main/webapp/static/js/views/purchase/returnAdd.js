@@ -566,7 +566,7 @@ function saveItemHandel(){
     });
     if(isCheckResult){
         if(isChcekPrice){
-            $.messager.confirm('系统提示',"单价存在为0，重新修改",function(r){
+            $_jxc.confirm("单价存在为0，重新修改",function(r){
                 if (r){
                     return ;
                 }else{
@@ -575,7 +575,7 @@ function saveItemHandel(){
             });
         }else{
         	if(isChcekNum){
-       		 $.messager.confirm('提示','存在数量为0的商品,是否继续保存?',function(data){
+       		 $_jxc.confirm('存在数量为0的商品,是否继续保存?',function(data){
        			if(data){
        				saveDataHandel(rows);
        		    }
@@ -732,7 +732,7 @@ function selectBranch(){
         var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
         if(data.branchesId != branchId && nowRows.length > 0){
 
-            $.messager.confirm('提示','修改机构后会清空明细，是否要修改？',function(r){
+            $_jxc.confirm('修改机构后会清空明细，是否要修改？',function(r){
                 if(r){
                     $("#branchId").val(data.branchesId);
                     $("#branchType").val(data.type);

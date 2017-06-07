@@ -174,7 +174,7 @@ function delFinanceCode() {
     	ids+=v.id+",";
     });
 
-        $.messager.confirm('提示','是否要删除选中数据',function(data){
+        $_jxc.confirm('是否要删除选中数据?',function(data){
             if(data) {
                 var param = {
                     url: contextPath + "/archive/financeCode/deleteFinanceCode",

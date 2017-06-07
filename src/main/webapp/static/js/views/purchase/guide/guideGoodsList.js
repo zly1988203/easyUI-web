@@ -387,7 +387,7 @@ function nextStep (){
 
 	 if(indexs.length > 0){
 
-         $.messager.confirm('系统提示',"<p>第" +JSON.stringify(indexs) +"行共"+indexs.length+"行数据订货数量为0,</p>" +
+         $_jxc.confirm("<p>第" +JSON.stringify(indexs) +"行共"+indexs.length+"行数据订货数量为0,</p>" +
              "<div class='uc umar-l40 umar-b20'>是否移除并继续生产订单？</div>",function(r){
              if (r){
                  saveDataHandel(gridRows);
