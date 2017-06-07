@@ -27,17 +27,12 @@ function updateSupplier() {
         return;
     }
 
-	$.ajax({
+	$_jxc.ajax({
 		url : contextPath + "/supplier/updateSupplier",
-		type : "POST",
-		data : formObj,
-		success : function(result) {
-			if(result){
-				alertTip(result.message, reloadListHandel);
-			}
-		},
-		error : function(result) {
-			$_jxc.alert("请求发送失败或服务器处理失败");
+		data : formObj
+	},function(result){
+		if(result){
+			alertTip(result.message, reloadListHandel);
 		}
 	});
 }

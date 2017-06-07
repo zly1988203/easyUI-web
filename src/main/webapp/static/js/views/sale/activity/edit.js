@@ -73,11 +73,11 @@ var activityId;
 //编辑请求数据
 function  editstart(selectType){
 	activityId = $("#activityId").val();
-	$.ajax({
+	$_jxc.ajax({
 	      url:contextPath+"/sale/activity/get?activityId="+activityId,
 	      type:"get",
-	      contentType:'application/json',
-	      success:function(data){
+	      contentType:'application/json'
+	  },function(data){
 	    	  if(data['code'] == 0){
 	    		var listinfo=data['obj'];
 	    		 //console.log(data);
@@ -193,10 +193,6 @@ function  editstart(selectType){
 	             
 	            	  $_jxc.alert(data['message']);
 	          }
-	      },
-	      error:function(result){
-	          $_jxc.alert("请求发送失败或服务器处理失败");
-	      }
 	  });
 }
 //select 选择切换
@@ -3272,32 +3268,26 @@ function saveDataHandel(rows,setrows){
   }
   //console.log(req);
   //return;
-  gFunStartLoading();
+//  gFunStartLoading();
   
-  $.ajax({
+  $_jxc.ajax({
       url:temUrl,
-      type:"POST",
       contentType:'application/json',
-      data:req,
-      success:function(result){
-    	  //console.log(result)
-    	  gFunEndLoading();
-    	  if(result['code'] == 0){
-              $_jxc.alert("操作成功！",function(){
-            	  var actId = $("#activityId").val();
-            	  if(sUrl == 'toCopy'){
-            		  actId = result["activityId"];
-            	  }
-            	  console.log('actId',actId);
-            	  location.href = contextPath +"/sale/activity/edit?activityId="+actId;
-              });
-          }else{
-              $_jxc.alert(result['message']);
-          }
-      },
-      error:function(result){
-    	  gFunEndLoading();
-          $_jxc.alert("请求发送失败或服务器处理失败");
+      data:req
+  },function(result){
+	  //console.log(result)
+//	  gFunEndLoading();
+	  if(result['code'] == 0){
+          $_jxc.alert("操作成功！",function(){
+        	  var actId = $("#activityId").val();
+        	  if(sUrl == 'toCopy'){
+        		  actId = result["activityId"];
+        	  }
+        	  console.log('actId',actId);
+        	  location.href = contextPath +"/sale/activity/edit?activityId="+actId;
+          });
+      }else{
+          $_jxc.alert(result['message']);
       }
   });
 }
@@ -3371,26 +3361,21 @@ function check(){
 		$_jxc.alert("数据已修改，请先保存再审核");
 		return false;
 	}
-	$.messager.confirm('提示','是否审核通过？',function(data){
+	$_jxc.confirm('是否审核通过？',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 		    	url : contextPath+"/sale/activity/check",
-		    	type : "POST",
 		    	data : {
 		    		activityId:$("#activityId").val(),
-		    	},
-		    	success:function(result){
-		    		if(result['code'] == 0){
-		    			$_jxc.alert("操作成功！",function(){
-		    				location.href = contextPath +"/sale/activity/edit?activityId="+activityId;
-		    			});
-		    		}else{
-		    			$_jxc.alert(result['message']);
-		    		}
-		    	},
-		    	error:function(result){
-		    		$_jxc.alert("请求发送失败或服务器处理失败");
 		    	}
+		    },function(result){
+	    		if(result['code'] == 0){
+	    			$_jxc.alert("操作成功！",function(){
+	    				location.href = contextPath +"/sale/activity/edit?activityId="+activityId;
+	    			});
+	    		}else{
+	    			$_jxc.alert(result['message']);
+	    		}
 		    });
 		}
 	});

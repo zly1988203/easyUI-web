@@ -98,20 +98,15 @@ function delHandel(){
     		return;
     	}
          var formData = {areaId:rowData.areaId};
-         $.ajax({
-             type:"POST",
+         $_jxc.ajax({
              url:contextPath+"/supplierArea/deleteSupplierArea",
-             data:formData,
-             success:function(data){
-                 if(data.code == 0){
-                     $("#gridSupplierAreaList").datagrid('reload');
-                     $_jxc.alert("删除成功");
-                 }else{
-                     $_jxc.alert(data.message);
-                 }
-             },
-             error:function(e){
-
+             data:formData
+         },function(data){
+             if(data.code == 0){
+                 $("#gridSupplierAreaList").datagrid('reload');
+                 $_jxc.alert("删除成功");
+             }else{
+                 $_jxc.alert(data.message);
              }
          });
     });

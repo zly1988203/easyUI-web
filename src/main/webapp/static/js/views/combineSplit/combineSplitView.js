@@ -210,23 +210,18 @@ function onChangeRealNum(newV,oldV) {
 function deleteCombineSplit(){
 	var id = $("#formId").val();
 	var ids = [id];
-	$.messager.confirm('提示','是否要删除此条数据',function(data){
+	$_jxc.confirm('是否要删除此条数据?',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 		    	url:contextPath+"/stock/combineSplit/deleteCombineSplit",
-		    	type:"POST",
 		    	data:{
 		    		ids : ids
-		    	},
-		    	success:function(result){
-                    $_jxc.alert(result['message']);
-		    		if(result['code'] == 0){
-		    			back();
-		    		}
-		    	},
-		    	error:function(result){
-                    $_jxc.alert("请求发送失败或服务器处理失败");
 		    	}
+		    },function(result){
+                $_jxc.alert(result['message']);
+	    		if(result['code'] == 0){
+	    			back();
+	    		}
 		    });
 		}
 	});
@@ -340,21 +335,16 @@ function saveDataHandel(rows){
             stockFormDetailList:tempRows
         };
     console.log('组合单',JSON.stringify(jsonData));
-    $.ajax({
+    $_jxc.ajax({
         url:contextPath+"/stock/combineSplit/updateCombineSplit",
-        type:"POST",
-        data:{"data":JSON.stringify(jsonData)},
-        success:function(result){
-            if(result['code'] == 0){
-    			$_jxc.alert("操作成功！",function(){
-    				location.href = contextPath +"/stock/combineSplit/combineSplitView?id="+id;
-    			});
-            }else{
-                $_jxc.alert(result['message']);
-            }
-        },
-        error:function(result){
-            $_jxc.alert("请求发送失败或服务器处理失败");
+        data:{"data":JSON.stringify(jsonData)}
+    },function(result){
+        if(result['code'] == 0){
+			$_jxc.alert("操作成功！",function(){
+				location.href = contextPath +"/stock/combineSplit/combineSplitView?id="+id;
+			});
+        }else{
+            $_jxc.alert(result['message']);
         }
     });
 }
@@ -374,26 +364,21 @@ function auditCombineSplit(){
         return;
     }
     
-	$.messager.confirm('提示','是否审核通过？',function(data){
+	$_jxc.confirm('是否审核通过？',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 		    	url : contextPath+"/stock/combineSplit/auditCombineSplit",
-		    	type : "POST",
 		    	data : {
 		    		id : id
-		    	},
-		    	success:function(result){
-		    		if(result['code'] == 0){
-		    			$_jxc.alert("操作成功！",function(){
-		    				location.href = contextPath +"/stock/combineSplit/combineSplitView?id="+id;
-		    			});
-		    		}else{
-                        $_jxc.alert(result['message']);
-		    		}
-		    	},
-		    	error:function(result){
-                    $_jxc.alert("请求发送失败或服务器处理失败");
 		    	}
+		    },function(result){
+	    		if(result['code'] == 0){
+	    			$_jxc.alert("操作成功！",function(){
+	    				location.href = contextPath +"/stock/combineSplit/combineSplitView?id="+id;
+	    			});
+	    		}else{
+                    $_jxc.alert(result['message']);
+	    		}
 		    });
 		}
 	});

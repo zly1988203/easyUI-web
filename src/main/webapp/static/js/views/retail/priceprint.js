@@ -426,24 +426,19 @@ function selectActivity(){
 
 function getActivityGoods(data){
 	if(data){
-		$.ajax({
+		$_jxc.ajax({
 	    	url:contextPath+"/sale/activitySelect/getDetail?activityId="+data.id,
-	    	type:"GET",
-	    	success:function(result){
-	    		
-	    		if(result['code'] == 0){
-	    			var tempData = result.data;
-	    			var startDate = tempData.startTime + " " +tempData.dailyStartTime;
-	    			var endDate = tempData.endTime + " " +tempData.dailyEndTime;
-	    			result.data.datetime = startDate+"--"+endDate;
-	    			 $("#pricePrint").datagrid("loadData",result.data);
-	    		}else{
-	    			$_jxc.alert(result['message']);
-	    		}
-	    	},
-	    	error:function(result){
-	    		$_jxc.alert("请求发送失败或服务器处理失败");
-	    	}
+	    	type:"GET"
+	    },function(result){
+    		if(result['code'] == 0){
+    			var tempData = result.data;
+    			var startDate = tempData.startTime + " " +tempData.dailyStartTime;
+    			var endDate = tempData.endTime + " " +tempData.dailyEndTime;
+    			result.data.datetime = startDate+"--"+endDate;
+    			 $("#pricePrint").datagrid("loadData",result.data);
+    		}else{
+    			$_jxc.alert(result['message']);
+    		}
 	    });
 	}
 }

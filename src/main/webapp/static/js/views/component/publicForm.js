@@ -51,20 +51,16 @@ function formClickRow(rowIndex, rowData){
 //获取单据详情
 function getItemData(formId){
 
-    $.ajax({
+    $_jxc.ajax({
         url:contextPath+'/form/purchaseSelect/getPurchaseForm?formId='+formId,
-        type:'get',
-        success:function(result){
-            if(result['code'] == 0){
-                if(formCallBack){
-                    formCallBack(result);
-                }
-            }else{
-                $_jxc.alert(result['message']);
+        type:'get'
+    },function(result){
+        if(result['code'] == 0){
+            if(formCallBack){
+                formCallBack(result);
             }
-        },
-        error:function(data){
-            $_jxc.alert("请求发送失败或服务器处理失败");
+        }else{
+            $_jxc.alert(result['message']);
         }
     })
 

@@ -150,18 +150,13 @@ function selectStockAndPrice(branchId,data){
 		GoodsStockVo.goodsSkuVo[i] = temp;
 		
 	});
-	$.ajax({
+	$_jxc.ajax({
     	url : contextPath+"/goods/goodsSelect/selectStockAndPriceToDo",
-    	type : "POST",
     	data : {
     		goodsStockVo : JSON.stringify(GoodsStockVo)
-    	},
-    	success:function(result){
-    		setDataValue(result);
-    	},
-    	error:function(result){
-            $_jxc.alert("请求发送失败或服务器处理失败");
     	}
+    },function(result){
+    	setDataValue(result);
     });
 }
 //二次查询设置值

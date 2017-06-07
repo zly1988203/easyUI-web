@@ -451,19 +451,14 @@ function selectStockAndPrice(branchId,data){
 		};
 		GoodsStockVo.goodsSkuVo[i] = temp;
 	});
-	$.ajax({
+	$_jxc.ajax({
     	url : contextPath+"/goods/goodsSelect/selectStockAndPriceToDo",
-    	type : "POST",
     	data : {
     		goodsStockVo : JSON.stringify(GoodsStockVo)
-    	},
-    	success:function(result){
-    		 var setdata=setTion(result);
-    		setDataValue(setdata);
-    	},
-    	error:function(result){
-    		$_jxc.alert("请求发送失败或服务器处理失败");
     	}
+    },function(result){
+   		 var setdata=setTion(result);
+   		 setDataValue(setdata);
     });
 }
 // 二次查询设置值
@@ -575,22 +570,17 @@ function updateStockLead(){
             stockFormDetailList:rows
         };
     var req = JSON.stringify(reqObj);
-    $.ajax({
+    $_jxc.ajax({
         url:contextPath+"/stock/lead/update",
-        type:"POST",
         data:req,
-        contentType:"application/json",
-        success:function(result){
-            if(result['code'] == 0){
-                $_jxc.alert("操作成功！",function(){
-                	location.href = contextPath +"/stock/lead/edit?id=" + result["formId"];
-                });
-            }else{
-               $_jxc.alert(result['message']);
-            }
-        },
-        error:function(result){
-            $_jxc.alert("请求发送失败或服务器处理失败");
+        contentType:"application/json"
+    },function(result){
+        if(result['code'] == 0){
+            $_jxc.alert("操作成功！",function(){
+            	location.href = contextPath +"/stock/lead/edit?id=" + result["formId"];
+            });
+        }else{
+           $_jxc.alert(result['message']);
         }
     });
 }
@@ -631,26 +621,21 @@ function checkStockLead(){
         return;
     }
     
-	$.messager.confirm('提示','是否审核通过？',function(data){
+	$_jxc.confirm('是否审核通过？',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 		    	url : contextPath+"/stock/lead/check",
-		    	type : "POST",
 		    	data : {
 		    		id : id
-		    	},
-		    	success:function(result){
-		    		if(result['code'] == 0){
-		    			$_jxc.alert("操作成功！",function(){
-		    				location.href = contextPath +"/stock/lead/edit?id=" + id;
-		    			});
-		    		}else{
-		    			$_jxc.alert(result['message']);
-		    		}
-		    	},
-		    	error:function(result){
-		    		$_jxc.alert("请求发送失败或服务器处理失败");
 		    	}
+		    },function(result){
+	    		if(result['code'] == 0){
+	    			$_jxc.alert("操作成功！",function(){
+	    				location.href = contextPath +"/stock/lead/edit?id=" + id;
+	    			});
+	    		}else{
+	    			$_jxc.alert(result['message']);
+	    		}
 		    });
 		}
 	});

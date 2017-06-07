@@ -442,48 +442,39 @@ function saveItemHandel(){
     
     return;
     
-    $.ajax({
+    $_jxc.ajax({
     	url:contextPath+"/form/purchase/updateOrder",
-    	type:"POST",
-    	data:reqObj,
-    	success:function(result){
-            console.log(result);
-            if(result['code'] == 0){
-                $_jxc.alert("操作成功！");
-            }else{
-                $_jxc.alert(result['message']);
-            }
-        },
-        error:function(result){
-            $_jxc.alert("请求发送失败或服务器处理失败");
+    	data:reqObj
+    },function(result){
+        console.log(result);
+        if(result['code'] == 0){
+            $_jxc.alert("操作成功！");
+        }else{
+            $_jxc.alert(result['message']);
         }
     });
 }
 
 function check(){
 	var id = $("#formId").val();
-	$.messager.confirm('提示','是否审核通过？',function(data){
+	$_jxc.confirm('是否审核通过？',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 		    	url:contextPath+"/form/purchase/check",
 		    	type:"POST",
 		    	data:{
 		    		formId:id,
 		    		status:1
-		    	},
-		    	success:function(result){
-		    		console.log(result);
-		    		if(result['code'] == 0){
-		    			$_jxc.alert("操作成功！",function(){
-		    				location.href = contextPath +"/form/purchase/orderEdit?formId=" + id;
-		    			});
-		    		}else{
-		    			$_jxc.alert(result['message']);
-		    		}
-		    	},
-		    	error:function(result){
-		    		$_jxc.alert("请求发送失败或服务器处理失败");
 		    	}
+		    },function(result){
+	    		console.log(result);
+	    		if(result['code'] == 0){
+	    			$_jxc.alert("操作成功！",function(){
+	    				location.href = contextPath +"/form/purchase/orderEdit?formId=" + id;
+	    			});
+	    		}else{
+	    			$_jxc.alert(result['message']);
+	    		}
 		    });
 		}
 	});

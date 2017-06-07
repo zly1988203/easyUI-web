@@ -238,20 +238,16 @@ function delHandel(){
     	if(!data){
     		return;
     	}
-    	$.ajax({
+    	$_jxc.ajax({
             url:contextPath+"/supplier/deleteSupplier",
             type:"POST",
             data:{"supplierId":supplierId},
-            dataType:"json",  
-            success:function(result){
-                if(result){
-                    $_jxc.alert(result.message,function(){
-                    	$("#gridSupplierArchiveList").datagrid('reload');	
-                    });
-                }
-            },
-            error:function(result){
-                $_jxc.alert("请求发送失败或服务器处理失败");
+            dataType:"json"  
+        },function(result){
+            if(result){
+                $_jxc.alert(result.message,function(){
+                	$("#gridSupplierArchiveList").datagrid('reload');	
+                });
             }
         });
     });

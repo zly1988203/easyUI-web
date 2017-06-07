@@ -417,24 +417,19 @@ $(function(){
 	    
 	    var req = JSON.stringify(reqObj);
 
-	    $.ajax({
+	    $_jxc.ajax({
 	        url:contextPath+"/form/overdue/detail/update",
-	        type:"POST",
 	        contentType:'application/json',
-	        data:req,
-	        success:function(result){
-	            console.log(result);
-	            if(result['code'] == 0){
-	                $_jxc.alert("操作成功！",function(){
-	                	location.reload();
-	                });
-	            }else{
-	                $_jxc.alert(result['message']);
-	            }
-	        },
-	        error:function(result){
-	            $_jxc.alert("请求发送失败或服务器处理失败");
-	        }
+	        data:req
+	    },function(result){
+            console.log(result);
+            if(result['code'] == 0){
+                $_jxc.alert("操作成功！",function(){
+                	location.reload();
+                });
+            }else{
+                $_jxc.alert(result['message']);
+            }
 	    });
 	}
 	function check(){
@@ -480,56 +475,46 @@ $(function(){
 	//审核调价单
 	function checkOrder( ids,auditDescs){
 		 var id = $("#formId").val();
-		 $.ajax({
+		 $_jxc.ajax({
 	         url:contextPath+"/form/overdue/check",
-	         type:"POST",
 	         data:{
 	             formId:id,
 	             status:1,
 	             ids:ids,
 	             auditDescs:auditDescs
-	         },
-	         success:function(result){
-	             console.log(result);
-	             if(result['code'] == 0){
-	                 $_jxc.alert("操作成功！",function(){
-	                     location.href = contextPath +"/form/overdue/edit/" + id;
-	                 });
-	             }else{
-	                 $_jxc.alert(result['message']);
-	             }
-	         },
-	         error:function(result){
-	             $_jxc.alert("请求发送失败或服务器处理失败");
 	         }
+	     },function(result){
+             console.log(result);
+             if(result['code'] == 0){
+                 $_jxc.alert("操作成功！",function(){
+                     location.href = contextPath +"/form/overdue/edit/" + id;
+                 });
+             }else{
+                 $_jxc.alert(result['message']);
+             }
 	     });
 	}
 
 	function orderDelete(){
 		var id = $("#formId").val();
-		$.messager.confirm('提示','是否要删除此条数据',function(data){
+		$_jxc.confirm('是否要删除此条数据?',function(data){
 			if(data){
-				$.ajax({
+				$_jxc.ajax({
 			    	url:contextPath+"/form/overdue/delete",
-			    	type:"POST",
 			    	data:{
 			    		formIds:id
-			    	},
-			    	success:function(result){
-			    		console.log(result);
-			    		if(result['code'] == 0){
-			    			/*$_jxc.alert("操作成功");
-			    			toClose();*/
-			    			$_jxc.alert("操作成功！",function(){
-			                     location.href = contextPath +"/form/overdue/add/";
-			                 });
-			    		}else{
-			    			$_jxc.alert(result['message']);
-			    		}
-			    	},
-			    	error:function(result){
-			    		$_jxc.alert("请求发送失败或服务器处理失败");
 			    	}
+			    },function(result){
+		    		console.log(result);
+		    		if(result['code'] == 0){
+		    			/*$_jxc.alert("操作成功");
+		    			toClose();*/
+		    			$_jxc.alert("操作成功！",function(){
+		                     location.href = contextPath +"/form/overdue/add/";
+		                 });
+		    		}else{
+		    			$_jxc.alert(result['message']);
+		    		}
 			    });
 			}
 		});
@@ -697,25 +682,20 @@ $(function(){
 		        			    
 		        			    var req = JSON.stringify(reqObj);
 
-		        			    $.ajax({
+		        			    $_jxc.ajax({
 		        			        url:contextPath+"/form/overdue/commit",
-		        			        type:"POST",
 		        			        contentType:'application/json',
-		        			        data:req,
-		        			        success:function(result){
-		        			            console.log(result);
-		        			            if(result['code'] == 0){
-		        			                $_jxc.alert("操作成功！",function(){
-		        			                	location.reload();
-		        			                });
-		        			            }else{
-		        			                $_jxc.alert(result['message']);
-		        			            }
-		        			            //refreshCurrTab();
-		        			        },
-		        			        error:function(result){
-		        			            $_jxc.alert("请求发送失败或服务器处理失败");
-		        			        }
+		        			        data:req
+		        			    },function(result){
+	        			            console.log(result);
+	        			            if(result['code'] == 0){
+	        			                $_jxc.alert("操作成功！",function(){
+	        			                	location.reload();
+	        			                });
+	        			            }else{
+	        			                $_jxc.alert(result['message']);
+	        			            }
+	        			            //refreshCurrTab();
 		        			    });
 		            }
 		        }

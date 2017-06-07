@@ -606,7 +606,7 @@ function saveItemHandel(){
 }
 
 function saveDataHandel(rows){
-    gFunStartLoading();
+//    gFunStartLoading();
     //商品总数量
     var totalNum = 0;
     //总金额
@@ -641,28 +641,21 @@ function saveDataHandel(rows){
     
     var req = JSON.stringify(reqObj);
 
-    $.ajax({
+    $_jxc.ajax({
         url:contextPath+"/form/purchase/saveOrder",
-        type:"POST",
         contentType:'application/json',
-        data:req,
-        success:function(result){
-           gFunEndLoading();
-            if(result['code'] == 0){
-                $_jxc.alert("操作成功！",function(){
-                    location.href = contextPath +"/form/purchase/orderEdit?formId=" + result["formId"];
-                });
-            }else{
-            	new publicErrorDialog({
-            		"title":"保存失败",
-            		"error":result['message']
-            	});
-            }
-        },
-        error:function(result){
-            gFunEndLoading();
-            $_jxc.alert("请求发送失败或服务器处理失败");
-        }
+        data:req
+    },function(result){
+         if(result['code'] == 0){
+             $_jxc.alert("操作成功！",function(){
+                 location.href = contextPath +"/form/purchase/orderEdit?formId=" + result["formId"];
+             });
+         }else{
+         	new publicErrorDialog({
+         		"title":"保存失败",
+         		"error":result['message']
+         	});
+         }
     });
 
 }

@@ -301,13 +301,11 @@ function getGridData(){
 	
 	 var formId = $("#formId").val();
 	
-	$.ajax({
-       method : 'Post',
+	$_jxc.ajax({
    	   url:contextPath+"/form/purchase/detailList?formId="+formId,
-       async : false,
-       dataType : 'json',
-       success : function(data) {
-           gFunStartLoading();
+       async : false
+   },function(data){
+//           gFunStartLoading();
        	//根据选择的采购单，带出采购单的信息
    	    var keyrealNum = {
    	        realNum:'maxRealNum',
@@ -322,11 +320,6 @@ function getGridData(){
    	        var newRows = gFunUpdateKey(newRows,keylargeNum);
    	        $("#"+gridName).datagrid("loadData",newRows);
    	    }
-       },
-       error : function() {
-           gFunEndLoading();
-           $_jxc.alert("请求发送失败或服务器处理失败")
-       }
    });
 }
 
@@ -657,31 +650,25 @@ function saveDataHandel(rows){
     
     var req = JSON.stringify(reqObj);
 
-    $.ajax({
+    $_jxc.ajax({
         url:contextPath+"/form/purchase/updateReturn",
-        type:"POST",
         contentType:'application/json',
-        data:req,
-        success:function(result){
-            gFunEndLoading();
-            if(result['code'] == 0){
-                $_jxc.alert("操作提示", "操作成功！", "info",function(){
-                    location.href = contextPath +"/form/purchase/returnEdit?formId=" + id;
-                });
-            }else{
-                $_jxc.alert(result['message']);
-            }
-        },
-        error:function(result){
-            gFunEndLoading();
-            $_jxc.alert("请求发送失败或服务器处理失败");
+        data:req
+    },function(result){
+//        gFunEndLoading();
+        if(result['code'] == 0){
+            $_jxc.alert( "操作成功！",function(){
+                location.href = contextPath +"/form/purchase/returnEdit?formId=" + id;
+            });
+        }else{
+            $_jxc.alert(result['message']);
         }
     });
 }
 
 //直接查询商品
 function queryGoodsList() {
-    gFunStartLoading();
+//    gFunStartLoading();
     var queryParams = {
         formType:'PR',
         key:"",
@@ -695,30 +682,25 @@ function queryGoodsList() {
         rows:10000
     };
     var url =  contextPath + '/goods/goodsSelect/getGoodsList';
-    $.ajax({
+    $_jxc.ajax({
         url:url,
-        type:'POST',
-        data:queryParams,
-        success:function(data){
-            gFunEndLoading();
-            if(data && data.rows.length > 0){
-                var addDefaultData  = gridHandel.addDefault(data.rows,gridDefault);
-                var keyNames = {
-                    purchasePrice:'price',
-                    id:'skuId',
-                    disabled:'',
-                    pricingType:'',
-                    inputTax:'tax'
-                };
-                var rows = gFunUpdateKey(addDefaultData,keyNames);
-                $("#"+gridName).datagrid("loadData",rows);
-            }else {
-                gFunEndLoading();
-                gridHandel.setLoadData([$.extend({},gridDefault)]);
-            }
-        },
-        error:function(){
-            $_jxc.alert("数据查询失败");
+        data:queryParams
+    },function(data){
+//        gFunEndLoading();
+        if(data && data.rows.length > 0){
+            var addDefaultData  = gridHandel.addDefault(data.rows,gridDefault);
+            var keyNames = {
+                purchasePrice:'price',
+                id:'skuId',
+                disabled:'',
+                pricingType:'',
+                inputTax:'tax'
+            };
+            var rows = gFunUpdateKey(addDefaultData,keyNames);
+            $("#"+gridName).datagrid("loadData",rows);
+        }else {
+//            gFunEndLoading();
+            gridHandel.setLoadData([$.extend({},gridDefault)]);
         }
     })
 }
@@ -873,14 +855,34 @@ function check(){
 //审核
 function checkOrder(){
 	var id = $("#formId").val();
-		$.ajax({
+		$_jxc.ajax({
 	    	url:contextPath+"/form/purchase/check",
-	    	type:"POST",
 	    	data:{
 	    		formId:id,
 	    		status:1
-	    	},
-	    	success:function(result){
+	    	}
+	    },function(result){
+    		console.log(result);
+    		if(result['code'] == 0){
+    			$_jxc.alert("操作成功！",function(){
+    				location.href = contextPath +"/form/purchase/returnEdit?formId=" + id;
+    			});
+    		}else{
+    			$_jxc.alert(result['message']);
+    		}
+	    });
+}
+
+function stop(){
+	var id = $("#formId").val();
+	$_jxc.confirm('是否终止此单据？',function(data){
+		if(data){
+			$_jxc.ajax({
+		    	url:contextPath+"/form/purchase/stop",
+		    	data:{
+		    		formId:id
+		    	}
+		    },function(result){
 	    		console.log(result);
 	    		if(result['code'] == 0){
 	    			$_jxc.alert("操作成功！",function(){
@@ -889,36 +891,6 @@ function checkOrder(){
 	    		}else{
 	    			$_jxc.alert(result['message']);
 	    		}
-	    	},
-	    	error:function(result){
-	    		$_jxc.alert("请求发送失败或服务器处理失败");
-	    	}
-	    });
-}
-
-function stop(){
-	var id = $("#formId").val();
-	$.messager.confirm('提示','是否终止此单据？',function(data){
-		if(data){
-			$.ajax({
-		    	url:contextPath+"/form/purchase/stop",
-		    	type:"POST",
-		    	data:{
-		    		formId:id
-		    	},
-		    	success:function(result){
-		    		console.log(result);
-		    		if(result['code'] == 0){
-		    			$_jxc.alert("操作成功！",function(){
-		    				location.href = contextPath +"/form/purchase/returnEdit?formId=" + id;
-		    			});
-		    		}else{
-		    			$_jxc.alert(result['message']);
-		    		}
-		    	},
-		    	error:function(result){
-		    		$_jxc.alert("请求发送失败或服务器处理失败");
-		    	}
 		    });
 		}
 	});
@@ -926,28 +898,23 @@ function stop(){
 
 function orderDelete(){
 	var id = $("#formId").val();
-	$.messager.confirm('提示','是否要删除此条数据',function(data){
+	$_jxc.confirm('是否要删除此条数据?',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 		    	url:contextPath+"/form/purchase/delete",
-		    	type:"POST",
 		    	data:{
 		    		formIds:id
-		    	},
-		    	success:function(result){
-		    		console.log(result);
-		    		if(result['code'] == 0){
-		    			$_jxc.alert("操作成功！",function(){
-		    				back();
-		    			});
-		    		}else{
-		    			$_jxc.alert(result['message']);
-		    		}
-		    		dg.datagrid('reload');
-		    	},
-		    	error:function(result){
-		    		$_jxc.alert("请求发送失败或服务器处理失败");
 		    	}
+		    },function(result){
+	    		console.log(result);
+	    		if(result['code'] == 0){
+	    			$_jxc.alert("操作成功！",function(){
+	    				back();
+	    			});
+	    		}else{
+	    			$_jxc.alert(result['message']);
+	    		}
+	    		dg.datagrid('reload');
 		    });
 		}
 	});

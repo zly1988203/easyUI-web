@@ -188,17 +188,12 @@ function floatNumberLimit(obj){
 //根据商品名称获取助记码
 function getMemoryCode(){
 	var reqObj = {"skuName":$("#skuName").val()};
-	$.ajax({
+	$_jxc.ajax({
 		url:contextPath+"/common/operateGoods/getMemoryCode",
-		type:"POST",
-		data:reqObj,
-		success:function(result){
-			//console.log(result);
-			$("#memoryCode").val(result); //助记码
-		},
-		error:function(result){
-			console.log(result);
-		}
+		data:reqObj
+	},function(result){
+		//console.log(result);
+		$("#memoryCode").val(result); //助记码
 	});
 }
 
@@ -411,21 +406,16 @@ function saveGoodsArchives(){
 	var barCode = $("#barCode").val();
 	if(pricingType == "ORDINARY"){// 普通商品需要校验条码是否重复
 		var reqObj = reqObj = {"barCode":barCode, "id":$("#id").val()};
-		$.ajax({
+		$_jxc.ajax({
 			url:contextPath+"/common/operateGoods/checkBarCodeByOrdinary",
-			type:"POST",
 			data:reqObj,
-			async:false, 
-			success:function(result){
-				if(result.code == 0){
-					submitForm();
-				}else{
-					$('#saveGoodsArchives').removeAttr("disabled");
-                    $_jxc.alert(result.message);
-				}
-			},
-			error:function(result){
-				console.log(result);
+			async:false
+		},function(result){
+			if(result.code == 0){
+				submitForm();
+			}else{
+				$('#saveGoodsArchives').removeAttr("disabled");
+                $_jxc.alert(result.message);
 			}
 		});
 	}else{

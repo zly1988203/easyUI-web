@@ -127,26 +127,21 @@ function updateFooter(){
 }
 //终止
 function stop(){
-	$.messager.confirm('提示','是否终止？',function(data){
+	$_jxc.confirm('是否终止？',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 				url : contextPath+"/form/deliverForm/stopped",
-				type : "POST",
 				data : {
 					deliverFormId : $("#formId").val(),
 					deliverType : 'DA'
-				},
-				success:function(result){
-					if(result['code'] == 0){
-						$_jxc.alert("操作成功！",function(){
-							location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
-						});
-					}else{
-						$_jxc.alert(result['message']);
-					}
-				},
-				error:function(result){
-					$_jxc.alert("请求发送失败或服务器处理失败");
+				}
+			},function(result){
+				if(result['code'] == 0){
+					$_jxc.alert("操作成功！",function(){
+						location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
+					});
+				}else{
+					$_jxc.alert(result['message']);
 				}
 			});
 		}
