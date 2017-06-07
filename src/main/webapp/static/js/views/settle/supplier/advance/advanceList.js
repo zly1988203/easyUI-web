@@ -145,10 +145,12 @@ function delSupAdvMonForm(){
         	$_jxc.ajax({
                 url: contextPath+"/settle/supplierCharge/deleteChargeForm",
                 data: {"ids":ids}
-            },function(data){
-            	$_jxc.alert(data['message']);
-            	if(data.code == 0){
+            },function(result){
+            	if(result['code'] == 0){
+            		$_jxc.alert("删除成功");
             		queryForm();
+            	}else{
+            		$_jxc.alert(result['message']);
             	}
             });
 		}
