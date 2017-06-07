@@ -253,13 +253,38 @@ function exportExcel(){
 	$("#queryForm").submit();
 }
 
-//机构
-function selectBranches(){
-	new publicAgencyService(function(data){
-		$("#branchId").val(data.branchesId);
-		$("#branchCode").val(data.branchCode);
-		$("#branchName").val("["+data.branchCode+"]"+data.branchName);
-	},'');
+/**
+ * 机构查询
+ */
+function selectBranches(nameOrCode){
+	var param = {}
+	if(nameOrCode){
+		param.nameOrCode = nameOrCode;
+	}
+	new publicBranchesService(param,function(data){
+		//返回NO时 输入动作没匹配到数据 
+		if(data == 'NO'){
+			//未查询到数据或多条数据，设置无效ID
+			$_jxc.clearHideInpOnEdit($('#branchName'));
+			$("#branchName").val("");
+		}else{
+			$("#branchId").val(data.branchesId);
+			$("#branchName").val("["+data.branchCode+"]"+data.branchName);
+		}
+	})
+}
+
+/**
+ * 机构自动补全
+ */
+function brandAutoComple(obj){
+	var nameOrCode = $.trim($("#branchName").val())||'';
+	//未输入值时，直接返回，无需查询
+	if("" == nameOrCode){
+		$_jxc.clearHideInpOnEdit(obj);
+		return;
+	}
+	selectBranches(nameOrCode,obj);
 }
 
 //选择供应商

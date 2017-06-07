@@ -174,26 +174,27 @@ function delFinanceCode() {
     	ids+=v.id+",";
     });
 
-    $.messager.confirm('提示','是否要删除选中数据',function(data){
-        if(data){
-            var param = {
-                url:contextPath+"/archive/financeCode/deleteFinanceCode",
-                data:{
-                    ids:ids
-                },
+        $.messager.confirm('提示','是否要删除选中数据',function(data){
+            if(data) {
+                var param = {
+                    url: contextPath + "/archive/financeCode/deleteFinanceCode",
+                    data: {
+                        ids: ids
+                    }
+                }
 
+                $_jxc.ajax(param, function (result) {
+                    queryFinanceCode();
+                    if (result['code'] == 0) {
+                        $_jxc.alert("删除成功");
+                    } else {
+                        $_jxc.alert(result['message']);
+
+                    }
+                });
             }
 
-            $_jxc.ajax(param,function (result) {
-                if(result['code'] == 0){
-                    $_jxc.alert("删除成功");
-                }else{
-                    $_jxc.alert(result['message']);
-
-                queryFinanceCode();
-        }
-    });
-
+    })
 }
 
 /**

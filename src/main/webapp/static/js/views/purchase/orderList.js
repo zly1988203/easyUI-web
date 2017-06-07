@@ -103,11 +103,9 @@ function initDatagridOrders(){
     });
     query();
     if(hasPurchasePrice==false){
-        priceGrantUtil.grantPurchasePrice(datagridId,["amount"])
+        priceGrantUtil.grantPurchasePrice(gridName,["amount"])
     }
 }
-
-
 
 function orderAdd(){
 	toAddTab("新增采购订单",contextPath + "/form/purchase/orderAdd");
