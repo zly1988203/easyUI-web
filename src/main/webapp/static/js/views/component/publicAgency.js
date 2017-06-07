@@ -9,13 +9,34 @@ var branchId=null;
 var branchType=null;
 var isOpenStock=null;
 var scope=null;
-function initAgencyView(){
+function initAgencyView(param){
+	console.log('param---',param);
 	nameOrCode=$("#formAgency :text[name=nameOrCode]").val();
 	formType=$("#formAgency :hidden[name=deliverFormType]").val();
 	branchId=$("#formAgency :hidden[name=branchId]").val();
 	branchType=$("#formAgency :hidden[name=branchType]").val();
 	isOpenStock=$("#formAgency :hidden[name=isOpenStock]").val();
 	scope=$("#formAgency :hidden[name=scope]").val();
+	
+	//新组件方法会传此参数 
+	if(param){
+		if(param.nameOrCode){
+			nameOrCode = param.nameOrCode;
+			$("#formAgency :text[name=nameOrCode]").val(nameOrCode);
+		}
+		if(param.branchType){
+			branchType = param.branchType;
+			$("#formAgency :hidden[name=branchType]").val(branchType);
+		}
+		if(param.isOpenStock){
+			isOpenStock = param.isOpenStock;
+			$("#formAgency :hidden[name=isOpenStock]").val(isOpenStock);
+		}
+		if(param.scope){
+			scope = param.scope;
+			$("#formAgency :hidden[name=scope]").val(scope);
+		}
+	}
 	
     gFunSetEnterKey(agencySearch);
     initTreeAgency(); //初始树
@@ -133,6 +154,8 @@ function publicGoodsGetCheckGoods(cb){
 //搜索
 function agencySearch(){
 	nameOrCode=$("#formAgency :text[name=nameOrCode]").val();
+	//去空格处理
+	nameOrCode=$.trim(nameOrCode)||'',
 	//去除左侧选中样式
 	$('.zTreeDemoBackground a').removeClass('curSelectedNode');
 	//点击搜索清除左侧数据

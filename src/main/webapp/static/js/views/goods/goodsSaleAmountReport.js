@@ -126,7 +126,7 @@ function initDatagridRequire(){
 function queryForm(){
 	maxRate ='0';
 	if($("#branchName").val()==""){
-        messager("请选择机构名称");
+       $_jxc.alert("请选择机构名称");
         return;
     } 
 	$("#startCount").attr("value",null);

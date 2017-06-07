@@ -274,7 +274,6 @@ function publicBranchesService(param,callback){
 	//默认参数
 	var _defParam = {
 		isRadio:0,     // 0 单选 1多选
-		formType:''    // ????
  	}
 	
 	param =  $.extend(_defParam,param);
@@ -298,7 +297,8 @@ function publicBranchesService(param,callback){
 			if(data&&data.rows){
 				//精确匹配到只有一条数据时立即返回
 				if(data.rows.length==1){
-					callback(data.rows[0]);
+					//callback(data.rows[0]);
+					publicBranchesServiceHandel(param,callback);
 				}else if(data.rows.length>1){
 					//匹配到多条时 弹窗选择
 					publicBranchesServiceHandel(param,callback);
@@ -332,7 +332,7 @@ function publicBranchesServiceHandel(param,callback){
         },
         modal:true,
         onLoad:function(){
-            initAgencyView();
+            initAgencyView(param);
             initAgencyCallBack(callBackHandel)
         },
     });
