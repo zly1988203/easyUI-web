@@ -206,7 +206,7 @@ function initDatagridAddRequireOrder(){
 
     });
     if(hasCostPrice==false){
-        priceGrantUtil.grantCostPrice(dataGridId,["price","amount"])
+        priceGrantUtil.grantCostPrice(gridName,["price","amount"])
     }
 
 
