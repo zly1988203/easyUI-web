@@ -321,7 +321,7 @@ function specialRows(id,val){
 	
 	if(errorIndex.length > 0){
 		//$_jxc.alert("第  "+(errorIndex.join(","))+" 行库存上限不能小于库存下限");
-		$.messager.confirm("提示","库存上限不能小于库存下限",function(e){
+		$_jxc.confirm("库存上限不能小于库存下限",function(e){
 			gridHandel.setBeginRow(errorIndex[0]-1);
 			gridHandel.setSelectFieldName('upperLimit');
 			var target = gridHandel.getFieldTarget('upperLimit');
@@ -372,7 +372,7 @@ function saveStockIndexs(){
     
     if(isCheckResult){
         if(isChcekPrice){
-            $.messager.confirm('系统提示',"新单价存在为0，是否确定保存",function(r){
+            $_jxc.confirm("新单价存在为0，是否确定保存?",function(r){
                 if (r){
                     saveDataHandel(rows);
                 }

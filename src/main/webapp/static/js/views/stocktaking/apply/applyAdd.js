@@ -36,7 +36,7 @@ function save(){
         return;
     }
 
-    $.messager.confirm('系统提示',"<p>盘点前务必补录遗漏的单据，审核未审核的业务单据（如：收货单、调出/入单、盘点差异单库存调整单等）。</p>" +
+    $_jxc.confirm("<p>盘点前务必补录遗漏的单据，审核未审核的业务单据（如：收货单、调出/入单、盘点差异单库存调整单等）。</p>" +
 		"<div class='uc umar-l40 umar-b20'>暂停出入库业务，是否继续保存？</div>",function(r){
         if (r){
             saveDataHandel();

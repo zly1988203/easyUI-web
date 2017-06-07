@@ -351,7 +351,7 @@ $(function(){
 	    });
 	    if(isCheckResult){
 	        /*if(isChcekPrice){
-	            $.messager.confirm('系统提示',"单价存在为0，重新修改",function(r){
+	            $_jxc.confirm("单价存在为0，重新修改",function(r){
 	                if (r){
 	                    return ;
 	                }else{
@@ -463,7 +463,7 @@ $(function(){
 	    if(!isCheckResult){
 	        return
 	    }else{
-			 $.messager.confirm('提示','是否审核通过？',function(data){
+			 $_jxc.confirm('是否审核通过？',function(data){
 				 if(data){
 					 checkOrder(ids,auditDescs);
 				 }

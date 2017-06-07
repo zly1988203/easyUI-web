@@ -330,7 +330,7 @@ function chargeDelete() {
         }
     }
 
-    $.messager.confirm('提示','是否要删除此条数据',function(data){
+    $_jxc.confirm('是否要删除此条数据?',function(data){
         if(data){
             $_jxc.ajax(param,function (result) {
                 if(result['code'] == 0){

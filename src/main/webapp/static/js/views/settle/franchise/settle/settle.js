@@ -535,27 +535,21 @@ function auditFranchiseSet(){
     	$_jxc.alert("数据有修改，请先保存再审核");
         return;
     }
-	$.messager.confirm('提示','是否审核通过？',function(data){
+	$_jxc.confirm('是否审核通过？',function(data){
 		if(data){
-            gFunStartLoading();
-			$.ajax({
+//            gFunStartLoading();
+			$_jxc.ajax({
 		    	url : contextPath+"/settle/franchiseSettle/settleAudit",
-		    	type : "POST",
-		    	data:{"formId":$('#formId').val()||''},
-		    	success:function(result){
-                    gFunEndLoading();
-		    		if(result['code'] == 0){
-		    			$_jxc.alert("操作成功！",function(){
-		    				location.href = contextPath +"/settle/franchiseSettle/settleView?id=" + result["formId"];
-		    			});
-		    		}else{
-		            	 $_jxc.alert(result['message'],'审核失败');
-		    		}
-		    	},
-		    	error:function(result){
-                    gFunEndLoading();
-		    		$_jxc.alert("请求发送失败或服务器处理失败");
-		    	}
+		    	data:{"formId":$('#formId').val()||''}
+		    },function(result){
+//                gFunEndLoading();
+	    		if(result['code'] == 0){
+	    			$_jxc.alert("操作成功！",function(){
+	    				location.href = contextPath +"/settle/franchiseSettle/settleView?id=" + result["formId"];
+	    			});
+	    		}else{
+	            	 $_jxc.alert(result['message'],'审核失败');
+	    		}
 		    });
 		}
 	});

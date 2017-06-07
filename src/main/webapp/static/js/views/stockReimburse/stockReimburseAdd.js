@@ -439,7 +439,7 @@ function addStockReimburse() {
         grid:gridHandel.getRows(),
     }
     if(!gFunComparisonArray(oldData,newData)){
-        $.messager.confirm("提示","单据未保存，是否取消编辑并新增?",function(r){
+        $_jxc.confirm("单据未保存，是否取消编辑并新增?",function(r){
         	if(r){
         		toAddTab("新增报损单", contextPath + "/stock/reimburse/add");
         	}
@@ -543,7 +543,7 @@ function searchBranch(){
 	        grid:gridHandel.getRows(),
 	    }
 	    if(!gFunComparisonArray(oldData,newData)){
-	    	$.messager.confirm('提示','修改报损机构后会清空明细，需要重新录入，是否要修改？',function(r){
+	    	$_jxc.confirm('修改报损机构后会清空明细，需要重新录入，是否要修改？',function(r){
 			    if (r){
 			    	$("#branchId").val(data.branchesId);
 					$("#branchName").val("["+data.branchCode+"]"+data.branchName);

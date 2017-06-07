@@ -33,7 +33,7 @@ function save() {
    	 	$_jxc.alert("提取金额不能为空！");
         return;
     }
-    $.messager.confirm("提示","本次提取金额"+extractBalance+",是否继续",function (data) {
+    $_jxc.confirm("本次提取金额"+extractBalance+",是否继续",function (data) {
         if(data){
         	$.post("management/extracted", $('#cardExtracted').serialize(),
      			   function(datas){

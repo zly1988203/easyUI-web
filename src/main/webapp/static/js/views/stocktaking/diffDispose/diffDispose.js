@@ -430,7 +430,7 @@ function saveDiffDispose(){
     
     if(isCheckResult){
         if(isChcekPrice){
-            $.messager.confirm('系统提示',"盘点数存在为0，是否确定保存",function(r){
+            $_jxc.confirm('系统提示',"盘点数存在为0，是否确定保存",function(r){
                 if (r){
                     saveDataHandel(newRows);
                 }

@@ -256,7 +256,7 @@ function saveCombineSplit(){
     });
     if(isCheckResult){
         if(isChcekPrice){
-            $.messager.confirm('系统提示',"新单价存在为0，是否确定保存",function(r){
+            $_jxc.confirm("新单价存在为0，是否确定保存?",function(r){
                 if (r){
                     saveDataHandel(rows);
                 }

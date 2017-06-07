@@ -370,7 +370,7 @@ function selectBranches() {
 			branchesId=k.branchesId+","+branchesId;
 		})
 		branchesId = branchesId.substring(0,branchesId.length - 1);
-		$.messager.confirm('提示', '是否引入所选机构未引入的商品', function(data) {
+		$_jxc.confirm('是否引入所选机构未引入的商品?', function(data) {
 			if (data) {
 				branchesLeadInto(branchesId);
 			}
@@ -431,7 +431,7 @@ function enable() {
 		var row = rows[i];
 		skuIds += row.skuId + ',';
 	}
-	$.messager.confirm('提示', '是否要启用已选择的商品', function(data) {
+	$_jxc.confirm('是否要启用已选择的商品?', function(data) {
 		if (data) {
 			enableAjax(skuIds, branchId, contextPath + "/branch/operateGoods/enable");
 		}

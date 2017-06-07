@@ -663,7 +663,7 @@ function saveOrder(){
 		saveOrderbtn();
 	}
 	else{
-		$.messager.confirm('提示',"表格存在库存为0的记录是否继续？",function(data){
+		$_jxc.confirm("表格存在库存为0的记录是否继续？",function(data){
     		if(data){
     			saveOrderbtn();
     		}	
