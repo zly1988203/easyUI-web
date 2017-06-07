@@ -29,6 +29,8 @@ $(function () {
         $('#already-examine').css('display','block');
         isdisabled = true;
         url = contextPath + "/finance/storeCharge/getDetailList";
+        var month = $("#month").val().substr(0,4)+"-"+$("#month").val().substr(4,5)
+        $("#chargeMonth").val(month);
     }
     initGridStoreCharge();
 })
