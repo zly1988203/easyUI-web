@@ -82,10 +82,11 @@ public class SupplierChargeController extends BasePrintController<SupplierCharge
         try {
             vo.setPageNumber(pageNumber);
             vo.setPageSize(pageSize);
+            vo.setBranchCompleCode(getCurrBranchCompleCode());
             LOG.debug(LogConstant.OUT_PARAM, vo.toString());
-            PageUtils<SupplierChargeVo> advanceList = supplierChargeService.getChargePageList(vo);
-            LOG.debug(LogConstant.PAGE, advanceList.toString());
-            return advanceList;
+            PageUtils<SupplierChargeVo> chargeList = supplierChargeService.getChargePageList(vo);
+            LOG.debug(LogConstant.PAGE, chargeList.toString());
+            return chargeList;
         } catch (Exception e) {
             LOG.error("供应商费用列表信息异常:{}", e);
         }

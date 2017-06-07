@@ -152,7 +152,7 @@ function delDeliverForm(){
 	var dg = $("#deliverFormList");
 	var row = dg.datagrid("getChecked");
 	if(row.length <= 0){
-		$.messager.alert('提示','未选择要删除的单据！');
+		$_jxc.alert('未选择要删除的单据！');
 		return;
 	}
 	var ids = [];
@@ -168,14 +168,14 @@ function delDeliverForm(){
 		    	data:JSON.stringify(ids),
 		    	success:function(result){
 		    		if(result['code'] == 0){
-		    			successTip("删除成功");
+		    			$_jxc.alert("删除成功");
 		    			dg.datagrid('reload');
 		    		}else{
-		    			successTip(result['message']);
+		    			$_jxc.alert(result['message']);
 		    		}
 		    	},
 		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
+		    		$_jxc.alert("请求发送失败或服务器处理失败");
 		    	}
 		    });
 		}
@@ -244,11 +244,11 @@ function getSourceBranch(branchesId) {
 //                $("#spanMinAmount").html(result['minAmount']);
 //                $("#minAmount").val(result['minAmount']);
     		}else{
-    			successTip(result['message']);
+    			$_jxc.alert(result['message']);
     		}
     	},
     	error:function(result){
-    		successTip("请求发送失败或服务器处理失败");
+    		$_jxc.alert("请求发送失败或服务器处理失败");
     	}
     });
 }

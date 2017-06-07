@@ -17,7 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.PageHelper;
 import com.okdeer.jxc.branch.service.BranchSpecServiceApi;
 import com.okdeer.jxc.common.controller.BasePrintController;
 import com.okdeer.jxc.common.result.RespJson;
@@ -84,9 +83,11 @@ public class FranchiseChargeController extends BasePrintController<FranchiseChar
 			}
 			vo.setFranchiseBranchCode(getCurrBranchCompleCode());
 			vo.setFormType(FormType.FI.toString());
-			PageHelper.startPage(pageNumber, pageSize, true);
-			List<FranchiseChargeVo> list = franchiseChargeService.getChargeList(vo);
-			return new PageUtils<FranchiseChargeVo>(list);
+			vo.setPageNumber(pageNumber);
+			vo.setPageSize(pageSize);
+
+			PageUtils<FranchiseChargeVo> page = franchiseChargeService.getChargeList(vo);
+			return page;
 		} catch (Exception e) {
 			LOG.error("获取加盟店预收款列表异常:", e);
 		}
@@ -255,9 +256,11 @@ public class FranchiseChargeController extends BasePrintController<FranchiseChar
 			}
 			vo.setFranchiseBranchCode(getCurrBranchCompleCode());
 			vo.setFormType(FormType.FO.toString());
-			PageHelper.startPage(pageNumber, pageSize, true);
-			List<FranchiseChargeVo> list = franchiseChargeService.getChargeList(vo);
-			return new PageUtils<FranchiseChargeVo>(list);
+			vo.setPageNumber(pageNumber);
+			vo.setPageSize(pageSize);
+
+			PageUtils<FranchiseChargeVo> page = franchiseChargeService.getChargeList(vo);
+			return page;
 		} catch (Exception e) {
 			LOG.error("获取加盟店费用列表异常:", e);
 		}

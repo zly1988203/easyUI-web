@@ -13,7 +13,7 @@ function importdetail(tableid,url){
 				handler:function(){
 					var branchId=$("#branchId").val();
 					if(!branchId){
-						$.messager.alert('提示','请先选择分店');
+						$_jxc.alert('请先选择分店');
 						return;
 					}else{
 						postelsx(tableid,url);

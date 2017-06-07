@@ -33,7 +33,7 @@ $(function(){
         $('#btndelete').addClass('uinp-no-more');
         $('#btndelete').prop('disabled','disabled ')
 	}else{
-		  messager("数据查询异常");
+		  $_jxc.alert("数据查询异常");
 		  toClose();
 	}
 	initOperateDataGrid(url);
@@ -259,7 +259,7 @@ function initOperateDataGrid(url){
                 	})
         		}
         		if(!gFunComparisonArray(oldData,newData)){
-        			$.messager.alert('提示','数据已经修改请先保存');
+        			$_jxc.alert('数据已经修改请先保存');
         			$(page).pagination('options').pageNumber = oldParam.page;
         			$(page).pagination('options').pageSize = oldParam.rows;
         			$(page).pagination('refresh');
@@ -332,14 +332,14 @@ function initQueryData(url){
     	},
     	error:function(result){
             gFunEndLoading();
-    		successTip("请求发送失败或服务器处理失败");
+    		$_jxc.alert("请求发送失败或服务器处理失败");
     	}
     });
 }
 
 function reasonChange(newVal,oldVal){
     if(undefined != newVal && newVal.trim().length > 40){
-        messager('原因最多输入40个字符')
+        $_jxc.alert('原因最多输入40个字符')
         newVal = newVal.substr(0,40);
     }
     gridHandel.setFieldTextValue('differenceReason',newVal);
@@ -367,13 +367,13 @@ function deleteDiffDispose(){
 		    		ids : ids
 		    	},
 		    	success:function(result){
-		    		successTip(result['message']);
+		    		$_jxc.alert(result['message']);
 		    		if(result['code'] == 0){
 		    			back();
 		    		}
 		    	},
 		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
+		    		$_jxc.alert("请求发送失败或服务器处理失败");
 		    	}
 		    });
 		}
@@ -392,7 +392,7 @@ function back(){
 function printDiffDispose(){
 	var length = $("#"+gridName).datagrid('getData').total;
 	if(length == 0){
-		$.messager.alert('提示',"没有数据");
+		$_jxc.alert("没有数据");
 		return;
 	}
 	var fromObjStr = $('#searchForm').serializeObject();
@@ -432,7 +432,7 @@ function saveDiffDispose(){
     });
 
     if(rows.length==0){
-        messager("表格不能为空");
+        $_jxc.alert("表格不能为空");
         return;
     }
     
@@ -474,15 +474,15 @@ function saveDataHandel(rows){
         success:function(result){
         	gFunEndLoading();
             if(result['code'] == 0){
-    			$.messager.alert("操作提示", "操作成功！", "info",function(){
+    			$_jxc.alert("操作成功！",function(){
     				location.href = contextPath +"/stocktaking/diffDispose/stocktakingBatchView?id="+result['batchId'];
     			});
             }else{
-                successTip(result['message']);
+                $_jxc.alert(result['message']);
             }
         },
         error:function(result){
-            successTip("请求发送失败或服务器处理失败");
+            $_jxc.alert("请求发送失败或服务器处理失败");
         }
     });
 }
@@ -504,7 +504,7 @@ function auditDiffDispose(){
     }
 
     if(!gFunComparisonArray(oldData,newData)){
-        messager("数据已修改，请先保存");
+        $_jxc.alert("数据已修改，请先保存");
         return;
     }
 
@@ -531,15 +531,15 @@ function auditDiffDispose(){
 		    	success:function(result){
 		    		gFunEndLoading();
 		    		if(result['code'] == 0){
-		    			$.messager.alert("操作提示", "操作成功！", "info",function(){
+		    			$_jxc.alert("操作成功！",function(){
 		    				location.href = contextPath +"/stocktaking/diffDispose/stocktakingBatchView?id="+result['batchId'];
 		    			});
 		    		}else{
-		    			successTip(result['message']);
+		    			$_jxc.alert(result['message']);
 		    		}
 		    	},
 		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
+		    		$_jxc.alert("请求发送失败或服务器处理失败");
 		    	}
 		    });
 		}
@@ -551,14 +551,14 @@ function auditDiffDispose(){
 function exportData(){
 	var length = dg.datagrid('getData').total;
 	if(length == 0){
-		$.messager.alert('提示',"没有数据");
+		$_jxc.alert("没有数据");
 		return;
 	}
 	var fromObjStr = $('#diffForm').serializeObject();
 	console.log(fromObjStr);
 	$("#diffForm").form({
 		success : function(data){
-			successTip(data.message);
+			$_jxc.alert(data.message);
 		}
 	});
 	$("#diffForm").attr("action",contextPath+"/stocktaking/diffDispose/exportDiffDetailList?"+fromObjStr);

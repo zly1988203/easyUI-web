@@ -381,7 +381,7 @@ function nextStep (){
 	 });
 	 
 	 if(gridRows.length==0){
-		 successTip("商品数据为空!");
+		 $_jxc.alert("商品数据为空!");
 		 return;
 	 }
 
@@ -417,11 +417,11 @@ function saveDataHandel (gridRows) {
                 location.href = contextPath+"/form/purchaseGuide/toGuideOrderList?guideNo="+guideNo;
                 //$.StandardPost(contextPath+"/form/purchaseGuide/guideOrderList", {guideNo:guideNo});
             }else{
-                successTip(result.message);
+                $_jxc.alert(result.message);
             }
         },
         error:function(result){
-            successTip("请求发送失败或服务器处理失败");
+            $_jxc.alert("请求发送失败或服务器处理失败");
         }
     });
 }

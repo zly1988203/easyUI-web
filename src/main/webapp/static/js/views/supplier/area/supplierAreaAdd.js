@@ -12,7 +12,7 @@ function saveHandel(){
 		return;
 	}
     if($('#areaName').val().trim()===""){
-        messager("请输入名称");
+        $_jxc.alert("请输入名称");
         return;
     }
 
@@ -24,9 +24,9 @@ function saveHandel(){
         success:function(data){
             if(data.code == 0){
                 reloadListHandel();
-                $.messager.alert('提示',"保存成功");
+                $_jxc.alert("保存成功");
             }else{
-                $.messager.alert('提示',data.message);
+                $_jxc.alert(data.message);
             }
         },
         error:function(e){

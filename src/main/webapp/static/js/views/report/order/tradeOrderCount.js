@@ -12,6 +12,7 @@ $(function(){
     branchId = $("#branchId").val();
 });
 var gridHandel = new GridClass();
+var gridName = "gridOrders";
 //初始化表格
 function initDatagridRequireOrders(){
 	gridHandel.setGridName("gridOrders");
@@ -144,6 +145,9 @@ function initDatagridRequireOrders(){
 			gridHandel.setDatagridHeader("center");
 		}
     });
+    if(hasCostPrice==false){
+        priceGrantUtil.grantCostPrice(gridName,["costAmount","grossProfit","grossProfitRate"])
+    }
 }
 
 
@@ -153,7 +157,7 @@ function queryForm(){
 	$("#endCount").attr("value",null);
 	var fromObjStr = $('#queryForm').serializeObject();
     if( fromObjStr.startTime==="" || fromObjStr.endTime ===""){
-        messager("请选择查询时间段");
+        $_jxc.alert("请选择查询时间段");
         return;
     }
     // 去除编码
@@ -188,7 +192,7 @@ var dg;
 function exportData(){
 	var length = $('#gridOrders').datagrid('getData').rows.length;
 	if(length == 0){
-		successTip("无数据可导");
+		$_jxc.alert("无数据可导");
 		return;
 	}
 	$('#exportWin').window({
@@ -206,7 +210,7 @@ function exportExcel(){
 	$("#queryForm").form({
 		success : function(result){
 			var dataObj=eval("("+result+")");
-            successTip(dataObj.message);
+            $_jxc.alert(dataObj.message);
 		}
 	});
 	$("#queryForm").attr("action",contextPath+'/bill/tradeOrderCount/exportList')

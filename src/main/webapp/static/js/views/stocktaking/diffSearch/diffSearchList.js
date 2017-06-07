@@ -436,11 +436,11 @@ function queryForm(){
 	var batchNo = $("#batchNo").val();
 	var batchId = $("#batchId").val();
 	if(batchNo==""){
-		messager("请先选择盘点批号");
+		$_jxc.alert("请先选择盘点批号");
         return;
 	}
 	if(batchId==""){
-		messager("请先选择盘点批号");
+		$_jxc.alert("请先选择盘点批号");
 		return;
 	}
 	var oldCategoryName = $("#oldCategoryName").val();
@@ -496,7 +496,7 @@ function selectGoods(){
 	var sourceBranchId = branchId;
 	var targetBranchId = branchId;
     if(branchId == ""){
-        messager("请先选择机构");
+        $_jxc.alert("请先选择机构");
         return;
     }
     
@@ -536,7 +536,7 @@ function exportDiffSearchData(){
 	$("#endCount").val('');
 	var length = $('#diffSearchList').datagrid('getData').total;
 	if(length == 0){
-		successTip("无数据可导");
+		$_jxc.alert("无数据可导");
 		return;
 	}
 	$('#exportWin').window({
@@ -554,16 +554,16 @@ function exportDiffSearchData(){
 function exportExcel(){
 	var length = $("#diffSearchList").datagrid('getData').total;
 	if(length == 0){
-		$.messager.alert('提示',"没有数据");
+		$_jxc.alert("没有数据");
 		return;
 	}
 	var fromObjStr = $('#queryForm').serializeObject();
 	$("#queryForm").form({
 		success : function(data){
 			if(data==null){
-				$.messager.alert('提示',"导出数据成功！");
+				$_jxc.alert("导出数据成功！");
 			}else{
-				$.messager.alert('提示',JSON.parse(data).message);
+				$_jxc.alert(JSON.parse(data).message);
 			}
 		}
 	});
@@ -579,7 +579,7 @@ function printDiffSearchList(){
 	$("#endCount").val('');
 	var length = $("#diffSearchList").datagrid('getData').total;
 	if(length == 0){
-		$.messager.alert('提示',"没有数据");
+		$_jxc.alert("没有数据");
 		return;
 	}
 	var fromObjStr = $('#queryForm').serializeObject();

@@ -136,7 +136,7 @@ function onChangeStockBegin(newV,oldV){
 		return;
 	}
 	if(parseFloat(newV) > maxNum ){
-		messager('库存上限输入值最大为  '+maxNum);
+		$_jxc.alert('库存上限输入值最大为  '+maxNum);
 		return;
 	}
 }
@@ -147,7 +147,7 @@ function onChangeStockEnd(newV,oldV){
 		return;
 	}
 	if(parseFloat(newV) > maxNum ){
-		messager('库存下限输入值最大为  '+maxNum);
+		$_jxc.alert('库存下限输入值最大为  '+maxNum);
 		return;
 	}
 }
@@ -180,15 +180,15 @@ function saveDetailStock(){
 	$("#detailStockTarget").datagrid("endEdit", gridHandelDetail.getSelectRowIndex());
 	var detGridData = gridHandelDetail.getRows()[0];
 	if(parseFloat(detGridData.upperLimit) > maxNum){
-		messager('库存上限输入值最大为  '+maxNum);
+		$_jxc.alert('库存上限输入值最大为  '+maxNum);
 		return;
 	}
 	if(parseFloat(detGridData.lowerLimit) > maxNum){
-		messager('库存下限输入值最大为  '+maxNum);
+		$_jxc.alert('库存下限输入值最大为  '+maxNum);
 		return;
 	}
 	if(parseFloat(detGridData.upperLimit) < parseFloat(detGridData.lowerLimit) ){
-		messager('库存上限不能小于库存下限');
+		$_jxc.alert('库存上限不能小于库存下限');
 		return;
 	}
 
@@ -205,11 +205,11 @@ function saveDetailStock(){
 					index: detailIndex,
 					row: {lowerLimit: detGridData.lowerLimit,upperLimit:detGridData.upperLimit}
 				});
-				successTip('修改成功');
+				$_jxc.alert('修改成功');
 				closeDetailDialog();
 			} else {
 				// 失败提示
-				$.messager.alert('提示', data.message);
+				$_jxc.alert(data.message);
 			}
 		}
 	});
@@ -219,7 +219,7 @@ function saveDetailStock(){
 //查询
 function queryForm(){
 	if($("#branchName").val()=="" && $("#skuCode").val()=="" ){
-        messager("请选择机构或输入条码");
+        $_jxc.alert("请选择机构或输入条码");
         return;
     } 
 	var fromObjStr = $('#queryForm').serializeObject();

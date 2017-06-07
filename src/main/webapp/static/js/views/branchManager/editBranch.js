@@ -16,7 +16,7 @@ function getBranchInfo(){
     var httpUrl = contextPath+"/archive/branch/getBranchInfoById?branchId="+branchId;
     $.get(httpUrl,{},function (data) {
     	if(data.code != '0'){
-    		messager("请求发送失败或服务器处理失败");
+    		$_jxc.alert("请求发送失败或服务器处理失败");
     		return;
     	}
     	
@@ -310,17 +310,17 @@ function saveBranch() {
         success:function(result){
             gFunEndLoading();
             if(result['code'] == 0){
-                messager("保存成功！");
+                $_jxc.alert("保存成功！");
                 // $.messager.alert("操作提示", "保存成功！", "info",function(){
                 //
                 // });
             }else{
-                messager(result['message']);
+                $_jxc.alert(result['message']);
             }
         },
         error:function(result){
             gFunEndLoading();
-            messager("请求发送失败或服务器处理失败");
+            $_jxc.alert("请求发送失败或服务器处理失败");
         }
     });
 }

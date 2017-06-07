@@ -86,7 +86,7 @@ function directAdd(){
 function directDelete(){
 	var rows = $("#"+gridName).datagrid("getChecked");
 	if($("#"+gridName).datagrid("getChecked").length <= 0){
-		 $.messager.alert('提示','请选中一行进行删除！');
+		 $_jxc.alert('请选中一行进行删除！');
 		return null;
 	}
 	
@@ -100,7 +100,7 @@ function directDelete(){
     	}
 	});
     if(flag){
-    	messager('已经审核的单据不可以删除！');
+    	$_jxc.alert('已经审核的单据不可以删除！');
     	return;
     }
 	
@@ -115,14 +115,14 @@ function directDelete(){
 		    	success:function(result){
 		    		console.log(result);
 		    		if(result['code'] == 0){
-		    			successTip("删除成功");
+		    			$_jxc.alert("删除成功");
 		    		}else{
-		    			successTip(result['message']);
+		    			$_jxc.alert(result['message']);
 		    		}
 		    		$("#"+gridName).datagrid('reload');
 		    	},
 		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
+		    		$_jxc.alert("请求发送失败或服务器处理失败");
 		    	}
 		    });
 		}

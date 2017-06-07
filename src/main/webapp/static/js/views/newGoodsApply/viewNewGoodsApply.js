@@ -352,7 +352,7 @@ function saveGoodsArchives(){
 				submitForm();
 			}else{
 				$('#updateGoodsArchives').removeAttr("disabled");
-				$.messager.alert("提示",result.message);
+				$_jxc.alert("提示",result.message);
 			}
 		},
 		error:function(result){
@@ -373,12 +373,12 @@ function submitForm(){
 		url:url,
 		success:function(data){
 			if(JSON.parse(data).code == 0){
-				$.messager.alert("提示","保存成功");
+				$_jxc.alert("保存成功");
 				goodsSearch();
 				closeDialog();
 			}else{
 				$('#updateGoodsArchives').removeAttr("disabled");
-				$.messager.alert("提示",JSON.parse(data).message);
+				$_jxc.alert(JSON.parse(data).message);
 			}
 		}
 	});

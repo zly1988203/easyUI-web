@@ -156,12 +156,12 @@ function selectGoods(searchKey){
     //判定供应商是否存在
 	var supplierId = $("#supplierId").val();
     if(supplierId==""){
-        messager("请先选择供应商");
+        $_jxc.alert("请先选择供应商");
         return;
     }
     var branchId = $("#branchId").val();
     if(!branchId){
-    	messager("请先选择收货机构");
+    	$_jxc.alert("请先选择收货机构");
         return;
     }
 
@@ -234,17 +234,17 @@ function updateListData(data){
 function chechForm(){
 	var branchId = $("#branchId").val();
 	if(!branchId){
-		messager("兑换分店为空");
+		$_jxc.alert("兑换分店为空");
 		return false;
 	}
 	var txtStartDate = $("#startTime").val();
 	if(!txtStartDate){
-		messager("兑换开始时间为空");
+		$_jxc.alert("兑换开始时间为空");
 		return false;
 	}
 	var txtEndDate = $("#endTime").val();
 	if(!txtEndDate){
-		messager("兑换结束时间为空");
+		$_jxc.alert("兑换结束时间为空");
 		return false;
 	}
 	return true;
@@ -261,7 +261,7 @@ function saveItemHandel(){
     var rows = $("#gridEditOrder").datagrid('getRows');
     $(gridHandel.getGridName()).datagrid("loadData",rows);
     if(rows.length==0){
-        messager("表格不能为空");
+        $_jxc.alert("表格不能为空");
         return;
     }
     var isCheckResult = true;
@@ -273,28 +273,28 @@ function saveItemHandel(){
     $.each(rows,function(i,v){
         v["rowNo"] = i+1;
         if(!v["skuId"]){
-            messager("第"+(i+1)+"行,商品不正确");
+            $_jxc.alert("第"+(i+1)+"行,商品不正确");
             isCheckResult = false;
             return false;
         };
         if(!v["skuName"]){
-        	messager("第"+(i+1)+"行,商品名称为空");
+        	$_jxc.alert("第"+(i+1)+"行,商品名称为空");
         	isCheckSkuName = false;
         	return false;
         };
         if(!v["skuCode"]){
-        	messager("第"+(i+1)+"行,货号为空");
+        	$_jxc.alert("第"+(i+1)+"行,货号为空");
         	isCheckSkuCode = false;
         	return false;
         };
         if(!v["num"] || v["num"]<=0){
-        	messager("第"+(i+1)+"行,兑换数量需大于0");
+        	$_jxc.alert("第"+(i+1)+"行,兑换数量需大于0");
         	isCheckNum = false;
         	return false;
         };
         
         if(!v["integral"] || v["integral"]<=0){
-        	messager("第"+(i+1)+"行,对应积分需大于0");
+        	$_jxc.alert("第"+(i+1)+"行,对应积分需大于0");
         	isCheckIntrgral = false;
         	return false;
         };
@@ -346,14 +346,14 @@ function saveDataHandel(){
 		},
         success:function(result){
             if(result['code'] == 0){
-            	$.messager.alert("操作提示", "操作成功!");
+            	$_jxc.alert("操作成功!");
             	setTimeout('toClose()',1500); 
             }else{
-                successTip(result['message']);
+                $_jxc.alert(result['message']);
             }
         },
         error:function(result){
-            successTip("请求发送失败或服务器处理失败");
+            $_jxc.alert("请求发送失败或服务器处理失败");
         }
     });
 }
@@ -391,7 +391,7 @@ function selectGoods(searchKey){
 function selectGoodsDialog(searchKey) {
 	var branchId=null;
     if($("#branchId").val()==""){
-        messager("请先选择机构");
+        $_jxc.alert("请先选择机构");
         return;
     }
     branchId=$("#branchId").val();

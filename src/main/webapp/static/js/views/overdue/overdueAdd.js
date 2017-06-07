@@ -179,7 +179,7 @@ var m = 0;
 //监听数量
 function onChangeLargeNum(newV,oldV){
 	if("" == newV){
-		 messager("商品数量输入有误");
+		 $_jxc.alert("商品数量输入有误");
 		 gridHandel.setFieldValue('applyNum',oldV); 
 	     return;
 	}
@@ -195,7 +195,7 @@ function onChangeLargeNum(newV,oldV){
     
     /*var purchaseSpecValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'spec');
     if(!purchaseSpecValue){
-        messager("没有商品规格,请审查");
+        $_jxc.alert("没有商品规格,请审查");
         //return;
     }*/
     
@@ -232,7 +232,7 @@ function selectGoods(searchKey){
 	var supplierId = "";
     var branchId = $("#branchId").val();
     if(!branchId){
-    	messager("请先选择申请机构");
+    	$_jxc.alert("请先选择申请机构");
         return;
     }
 
@@ -295,7 +295,7 @@ function saveItemHandel(){
     }
     
     if(!$.trim($('#remark').val())){
-    	messager("备注不能为空");
+    	$_jxc.alert("备注不能为空");
     	return;
     }
 
@@ -304,7 +304,7 @@ function saveItemHandel(){
     var rows = gridHandel.getRowsWhere({skuName:'1'});
     $(gridHandel.getGridName()).datagrid("loadData",rows);
     if(rows.length==0){
-        messager("表格不能为空");
+        $_jxc.alert("表格不能为空");
         return;
     }
     var isCheckResult = true;
@@ -315,7 +315,7 @@ function saveItemHandel(){
     $.each(rows,function(i,v){
         v["rowNo"] = i+1;
         if(!v["skuName"]){
-            messager("第"+(i+1)+"行，货号不正确");
+            $_jxc.alert("第"+(i+1)+"行，货号不正确");
             isCheckResult = false;
             return false;
         };
@@ -350,13 +350,13 @@ function saveItemHandel(){
        				saveDataHandel(rows);
        		    }
        		 });*/
-        		messager("存在数量为0的商品,不能保存！");
+        		$_jxc.alert("存在数量为0的商品,不能保存！");
          	}else if(isApplyDesc){
-        		messager("存在商品没有申请说明,不能保存,请填写申请说明！");
+        		$_jxc.alert("存在商品没有申请说明,不能保存,请填写申请说明！");
         	}else if(isChcekPrice){
-        		messager("存在单价为空的商品,不能保存！");
+        		$_jxc.alert("存在单价为空的商品,不能保存！");
         	}else if(isCheckAmount){
-        		messager("金额存在为空，请重新修改！");
+        		$_jxc.alert("金额存在为空，请重新修改！");
         	}
         	else{
          		saveDataHandel(rows);
@@ -408,15 +408,15 @@ function saveDataHandel(rows){
         success:function(result){
             console.log(result);
             if(result['code'] == 0){
-                $.messager.alert("操作提示", "操作成功！", "info",function(){
+                $_jxc.alert("操作成功！",function(){
                     location.href = contextPath +"/form/overdue/edit/" + result.data.formId;
                 });
             }else{
-                successTip(result['message']);
+                $_jxc.alert(result['message']);
             }
         },
         error:function(result){
-            successTip("请求发送失败或服务器处理失败");
+            $_jxc.alert("请求发送失败或服务器处理失败");
         }
     });
 
@@ -449,7 +449,7 @@ function searchBranch(){
 function toImportproduct(type){
     var branchId = $("#branchId").val();
     if(!branchId){
-        messager("请先选择机构");
+        $_jxc.alert("请先选择机构");
         return;
     }
     var param = {
@@ -525,6 +525,6 @@ function getImportData(data){
     var newRows = gridHandel.checkDatagrid(nowRows,data,argWhere,{});
        
     $("#"+gridHandel.getGridName()).datagrid("loadData",newRows);
-    messager("导入成功");
+    $_jxc.alert("导入成功");
 }
 

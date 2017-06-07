@@ -83,6 +83,7 @@ public class SupplierAccountCurrentController extends BaseController<SupplierAcc
 		try {
 			qo.setPageNumber(pageNumber);
 			qo.setPageSize(pageSize);
+			qo.setBranchCompleCode(getCurrBranchCompleCode());
 			LOG.debug(LogConstant.OUT_PARAM, qo);
 			PageUtils<SupplierAccountCurrentVo> advanceList = supplierAccountCurrentService
 					.getAccountCurrentPageList(qo, Boolean.TRUE);

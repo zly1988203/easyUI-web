@@ -168,7 +168,7 @@ function queryForm(){
 	var endDate = $("#txtEndDate").val();
 	var branchName = $("#branchName").val();
 	if(!(startDate && endDate)){
-		$.messager.alert('提示', '日期不能为空');
+		$_jxc.alert('日期不能为空');
 		return ;
 	}
 	var fromObjStr = $('#queryForm').serializeObject();
@@ -226,7 +226,7 @@ var resetForm = function(){
 function exportData(){
 	var length = $('#marketWater').datagrid('getData').rows.length;
 	if(length == 0){
-		successTip("无数据可导");
+		$_jxc.alert("无数据可导");
 		return;
 	}
 	$('#exportWin').window({

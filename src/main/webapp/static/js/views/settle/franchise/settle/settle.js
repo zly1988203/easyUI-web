@@ -545,7 +545,7 @@ function auditFranchiseSet(){
 		    	success:function(result){
                     gFunEndLoading();
 		    		if(result['code'] == 0){
-		    			$.messager.alert("操作提示", "操作成功！", "info",function(){
+		    			$_jxc.alert("操作成功！",function(){
 		    				location.href = contextPath +"/settle/franchiseSettle/settleView?id=" + result["formId"];
 		    			});
 		    		}else{
@@ -645,7 +645,7 @@ function back(){
 }
 
 //新增加盟店结算
-function addSupAcoSetForm(){
+function addFranchiseSetForm(){
 	$_jxc.ajax({
     	url:contextPath+"/settle/franchiseSettle/checkAuditCount",
     	data:{}

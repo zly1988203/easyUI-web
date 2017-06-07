@@ -237,7 +237,7 @@ function getPostData() {
             postData = result.data;
             initgridEquipmentList();
         }else{
-            messager(result['message']);
+            $_jxc.alert(result['message']);
         }
     })
 }
@@ -278,10 +278,10 @@ function saveSetting(){
     }
     this.ajaxSubmit(url,param,function (result) {
         if(result['code'] == 0){
-            messager("门店设置保存成功");
+        	$_jxc.alert("门店设置保存成功");
             $("#"+gridShopName).datagrid('reload');
         }else{
-            messager(result['message']);
+        	$_jxc.alert(result['message']);
         }
     })
 }
@@ -309,13 +309,13 @@ function saveEquipmentList() {
 			    		    }
 			    		    $.post(url,param,function (result) {
 			    		        if(result['code'] == 0){
-			    		            messager("设备数据保存成功");
+			    		            $_jxc.alert("设备数据保存成功");
 			    		        }else{
-			    		            messager(result['message']);
+			    		            $_jxc.alert(result['message']);
 			    		        }
 			    		    })
 			    	 }else{
-			    		 messager("请先保存开通店铺,再保存设备！");
+			    		 $_jxc.alert("请先保存开通店铺,再保存设备！");
 			    	 }
     		   });
    

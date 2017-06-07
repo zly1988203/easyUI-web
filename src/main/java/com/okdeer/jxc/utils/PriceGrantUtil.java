@@ -2,7 +2,11 @@
 package com.okdeer.jxc.utils;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.okdeer.jxc.common.enums.PriceGrantEnum;
@@ -23,16 +27,16 @@ import com.okdeer.jxc.system.entity.SysUser;
  */
 
 public class PriceGrantUtil {
-	
+
 	/**
 	 * 私有构造函数
 	 * <p>Title: 私有构造函数</p> 
 	 * <p>Description: 增加私有构造函数用以隐藏公开构造函数</p>
 	 */
-	private PriceGrantUtil(){
+	private PriceGrantUtil() {
 		super();
 	}
-	
+
 	/**
 	 * @Description: 过滤价格权限
 	 * @param handler
@@ -50,22 +54,19 @@ public class PriceGrantUtil {
 		handler.setVipPrice(vipPrice);
 
 		// 过滤采购价
-		BigDecimal purchasePrice = grantPurchasePrice(handler
-				.getPurchasePrice());
+		BigDecimal purchasePrice = grantPurchasePrice(handler.getPurchasePrice());
 		handler.setPurchasePrice(purchasePrice);
 
 		// 过滤批发价
-		BigDecimal wholesalePrice = grantWholesalePrice(handler
-				.getWholesalePrice());
+		BigDecimal wholesalePrice = grantWholesalePrice(handler.getWholesalePrice());
 		handler.setWholesalePrice(wholesalePrice);
 
-		// 过滤最低售价
-		BigDecimal lowestPrice = grantLowestPrice(handler.getLowestPrice());
-		handler.setLowestPrice(lowestPrice);
+		// // 过滤最低售价
+		// BigDecimal lowestPrice = grantLowestPrice(handler.getLowestPrice());
+		// handler.setLowestPrice(lowestPrice);
 
 		// 过滤销售价
-		BigDecimal distributionPrice = grantDistributionPrice(handler
-				.getDistributionPrice());
+		BigDecimal distributionPrice = grantDistributionPrice(handler.getDistributionPrice());
 		handler.setDistributionPrice(distributionPrice);
 	}
 
@@ -81,7 +82,7 @@ public class PriceGrantUtil {
 	}
 
 	/**
-	 * @Description: 
+	 * @Description: 根据权限获取会员价
 	 * @param vipPrice
 	 * @return
 	 * @author liwb
@@ -89,6 +90,17 @@ public class PriceGrantUtil {
 	 */
 	public static BigDecimal grantVipPrice(BigDecimal vipPrice) {
 		return grantPriceCommon(vipPrice, PriceGrantEnum.VIP_PRICE);
+	}
+
+	/**
+	 * @Description: 根据权限获取成本价
+	 * @param costPrice
+	 * @return
+	 * @author liwb
+	 * @date 2017年6月7日
+	 */
+	public static BigDecimal grantCostPrice(BigDecimal costPrice) {
+		return grantPriceCommon(costPrice, PriceGrantEnum.COST_PRICE);
 	}
 
 	/**
@@ -113,16 +125,16 @@ public class PriceGrantUtil {
 		return grantPriceCommon(wholesalePrice, PriceGrantEnum.WHOLESALE_PRICE);
 	}
 
-	/**
-	 * @Description: 根据权限获取最低售价
-	 * @param wholesalePrice
-	 * @return
-	 * @author liwb
-	 * @date 2016年8月13日
-	 */
-	public static BigDecimal grantLowestPrice(BigDecimal lowestPrice) {
-		return grantPriceCommon(lowestPrice, PriceGrantEnum.LOWEST_PRICE);
-	}
+	// /**
+	// * @Description: 根据权限获取最低售价
+	// * @param wholesalePrice
+	// * @return
+	// * @author liwb
+	// * @date 2016年8月13日
+	// */
+	// public static BigDecimal grantLowestPrice(BigDecimal lowestPrice) {
+	// return grantPriceCommon(lowestPrice, PriceGrantEnum.LOWEST_PRICE);
+	// }
 
 	/**
 	 * @Description: 根据权限获取配送价
@@ -132,13 +144,11 @@ public class PriceGrantUtil {
 	 * @date 2016年8月13日
 	 */
 	public static BigDecimal grantDistributionPrice(BigDecimal distributionPrice) {
-		return grantPriceCommon(distributionPrice,
-				PriceGrantEnum.DISTRIBUTION_PRICE);
+		return grantPriceCommon(distributionPrice, PriceGrantEnum.DISTRIBUTION_PRICE);
 	}
 
-
 	/**
-	 * @Description: 获取redis中的用户价格权限
+	 * @Description: 获取Session中的用户价格权限
 	 * @param userId
 	 * @return
 	 * @author liwb
@@ -147,14 +157,68 @@ public class PriceGrantUtil {
 	public static String getPriceGrant() {
 
 		SysUser sysUser = UserUtil.getCurrentUser();
-		if(sysUser==null){
+		if (sysUser == null) {
 			throw new BusinessException("用户未登陆，或者session失效");
 		}
-		
+
 		return sysUser.getPriceGrant();
 	}
 
+	/**
+	 * @Description: 获取存在的价格权限集合
+	 * @return
+	 * @author liwb
+	 * @date 2017年6月7日
+	 */
+	public static Set<String> getHasPriceGrantSets() {
+		String priceGrant = getPriceGrant();
 
+		Set<String> hasGrantSet = new HashSet<String>();
+
+		if (StringUtils.isBlank(priceGrant)) {
+			return hasGrantSet;
+		}
+
+		// 价格权限数组
+		String[] priceGrants = priceGrant.split(",");
+
+		hasGrantSet.addAll(Arrays.asList(priceGrants));
+
+		return hasGrantSet;
+
+	}
+
+	/**
+	 * @Description: 获取不存在的价格权限集合
+	 * @return
+	 * @author liwb
+	 * @date 2017年6月7日
+	 */
+	public static Set<String> getNoPriceGrantSets() {
+		String priceGrant = getPriceGrant();
+
+		Set<String> noGrantSet = new HashSet<String>();
+
+		// 添加所有权限
+		for (PriceGrantEnum priceGrantEnum : PriceGrantEnum.values()) {
+			noGrantSet.add(priceGrantEnum.getValue());
+		}
+
+		// 价格权限为空，则无权限的集合为所有
+		if (StringUtils.isBlank(priceGrant)) {
+			return noGrantSet;
+		}
+
+		// 价格权限数组
+		String[] priceGrants = priceGrant.split(",");
+
+		// 移除存在的价格权限
+		for (String str : priceGrants) {
+			noGrantSet.remove(str);
+		}
+
+		return noGrantSet;
+	}
 
 	/**
 	 * @Description: 获取价格权限通用方法，无权限返回null，有权限则返回价格本身
@@ -164,20 +228,17 @@ public class PriceGrantUtil {
 	 * @author liwb
 	 * @date 2016年8月13日
 	 */
-	private static BigDecimal grantPriceCommon(BigDecimal price,
-			PriceGrantEnum priceGrantEnum) {
+	private static BigDecimal grantPriceCommon(BigDecimal price, PriceGrantEnum priceGrantEnum) {
 
-		// 从session中获取当前用户价格权限
-		String priceGrant = getPriceGrant();
+		// 如果有权限，则直接返回价格
+		Set<String> priceGrantSet = getHasPriceGrantSets();
 
-		// 如果价格权限为空，则说明无权限
-		if (StringUtils.isBlank(priceGrant)) {
+		// 权限为空，说明没有权限
+		if (CollectionUtils.isEmpty(priceGrantSet)) {
 			return null;
 		}
 
-		// 如果有权限，则直接返回价格
-		String[] priceGrants = priceGrant.split(",");
-		for (String s : priceGrants) {
+		for (String s : priceGrantSet) {
 			if (priceGrantEnum.getValue().equals(s)) {
 				return price;
 			}

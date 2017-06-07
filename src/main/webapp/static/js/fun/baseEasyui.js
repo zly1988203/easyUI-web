@@ -1002,6 +1002,7 @@ var $_jxc = {
 	 * demo: $_jxc.alert('处理失败',function(){})
 	 */
 	alert:function(msg,cb,title,icon){
+		if (msg == 'success') msg = '操作成功';
 		$.messager.alert(title||'提示',msg,icon||"info",function(){
 			if (typeof cb == 'function') {
 		    	cb();
@@ -1115,16 +1116,16 @@ var $_jxc = {
 	 * @param domIds 而外要处理的 dom元素id值
 	 * demo1:
 	 * <div class='ub ub-ac'>
-	 * <input class='uinp ub ub-f1' type='text' id='branchName' name='branchName' onblur='$_jxc.clearIdOnEdit(this)'/>
+	 * <input class='uinp ub ub-f1' type='text' id='branchName' name='branchName' onblur='$_jxc.clearHideInpOnEdit(this)'/>
 	 * </div>
 	 * demo2:
 	 * <div class='ub ub-ac form-group'>
 	 * 	<div class='ub'>
-	 * 		<input class='uinp ub ub-f1' type='text' id='branchName' name='branchName' onblur='$_jxc.clearIdOnEdit(this)'/>
+	 * 		<input class='uinp ub ub-f1' type='text' id='branchName' name='branchName' onblur='$_jxc.clearHideInpOnEdit(this)'/>
 	 * 	</div>
 	 * </div>
 	 */
-	clearIdOnEdit:function(obj,domIds){
+	clearHideInpOnEdit:function(obj,domIds){
 		var _domValue = $(obj).val();
 		//如果修改名称
 		if(!_domValue || (_domValue && _domValue.indexOf("[")<0 && _domValue.indexOf("]")<0)){

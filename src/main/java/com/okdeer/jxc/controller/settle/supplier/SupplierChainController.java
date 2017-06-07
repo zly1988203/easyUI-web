@@ -123,10 +123,11 @@ public class SupplierChainController extends BasePrintController<SupplierChainCo
         try {
             vo.setPageNumber(pageNumber);
             vo.setPageSize(pageSize);
+            vo.setBranchCompleCode(getCurrBranchCompleCode());
             LOG.debug(LogConstant.OUT_PARAM, vo.toString());
-            PageUtils<SupplierChainVo> advanceList = supplierChainService.getChainPageList(vo);
-            LOG.debug(LogConstant.PAGE, advanceList.toString());
-            return advanceList;
+            PageUtils<SupplierChainVo> chainList = supplierChainService.getChainPageList(vo);
+            LOG.debug(LogConstant.PAGE, chainList.toString());
+            return chainList;
         } catch (Exception e) {
             LOG.error("供应商联营账单列表信息异常:{}", e);
         }

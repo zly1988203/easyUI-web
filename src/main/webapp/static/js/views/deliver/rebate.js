@@ -85,18 +85,18 @@ function onChangeMoney(newV,oldV) {
     if(gridHandel.getSelectRowIndex()==0&&gridHandel.getRows().length>1){
         var nextMoneyValue = gridHandel.getFieldData(parseInt(gridHandel.getSelectRowIndex())+1,'money');
         if(parseFloat(nextMoneyValue)<=parseFloat(newV)){
-            messager("当前买满金额必须小于下一行");
+            $_jxc.alert("当前买满金额必须小于下一行");
             gridHandel.setFieldValue('money',oldV);
         }
     }else{
         var lastMoneyValue = gridHandel.getFieldData(parseInt(gridHandel.getSelectRowIndex())-1,'money');
         if(!lastMoneyValue){
-            messager("上一行买满金额为空，不允许输入");
+            $_jxc.alert("上一行买满金额为空，不允许输入");
             gridHandel.setFieldValue('money',"");
             return;
         }
         if(parseFloat(lastMoneyValue)>=parseFloat(newV)){
-            messager("当前买满金额必须大于上一行");
+            $_jxc.alert("当前买满金额必须大于上一行");
             gridHandel.setFieldValue('money',oldV);
         }
 
@@ -113,18 +113,18 @@ function saveRebateForm(){
     var rows = gridHandel.getRowsWhere({money:'1'});
     $(gridHandel.getGridName()).datagrid("loadData",rows);
     if(rows.length==0){
-        messager("表格不能为空");
+        $_jxc.alert("表格不能为空");
         return;
     }
     var isCheckResult = true;
     $.each(rows,function(i,v){
         if(!v["money"]){
-            messager("第"+(i+1)+"行，买满金额不能为空");
+            $_jxc.alert("第"+(i+1)+"行，买满金额不能为空");
             isCheckResult = false;
             return false;
         };
         if(v["rebate"]<=0){
-            messager("第"+(i+1)+"行，返利率不能为空");
+            $_jxc.alert("第"+(i+1)+"行，返利率不能为空");
             isCheckResult = false;
             return false;
         }
@@ -140,13 +140,13 @@ function saveRebateForm(){
         data:args,
         success:function(result){
             if(result['code'] == 0){
-                messager("保存成功！");
+                $_jxc.alert("保存成功！");
             }else{
-                successTip(result['message']);
+                $_jxc.alert(result['message']);
             }
         },
         error:function(data){
-            successTip("请求发送失败或服务器处理失败");
+            $_jxc.alert("请求发送失败或服务器处理失败");
         }
     })
 }

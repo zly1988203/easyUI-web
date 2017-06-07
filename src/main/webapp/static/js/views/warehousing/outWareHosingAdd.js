@@ -249,7 +249,7 @@ function onChangeDatagridEdit(rowIndex){
     var purchaseSpecValue = gridHandel.getFieldData('gridEditOutWareHosing',rowIndex,'spec');
     if(!purchaseSpecValue){
     	 purchaseSpecValue = 1;
-         messager("没有商品规格,请审查");
+         $_jxc.alert("没有商品规格,请审查");
         //return;
     }
     //监听箱数
@@ -352,7 +352,7 @@ function delLineHandel(event){
 function selectGoods(searchKey){
     //判定供应商是否存在
     if($("#supplierId").val()==""){
-        messager("请先选择供应商");
+        $_jxc.alert("请先选择供应商");
         return;
     }
 
@@ -447,29 +447,29 @@ function saveItemHandel(){
     var rows = grid.getRowsWhere({skuName:'1'});
     $(grid.getGridName()).datagrid("loadData",rows);
     if(rows.length==0){
-        messager("表格不能为空");
+        $_jxc.alert("表格不能为空");
         return;
     }
     var isCheckResult = true;
     console.log(rows);
     $.each(rows,function(i,v){
         if(!v["stockNo"]){
-            messager("第"+(i+1)+"行，货号不能为空");
+            $_jxc.alert("第"+(i+1)+"行，货号不能为空");
             isCheckResult = false;
             return false;
         };
         if(!v["batch"]){
-            messager("第"+(i+1)+"行，批次不能为空");
+            $_jxc.alert("第"+(i+1)+"行，批次不能为空");
             isCheckResult = false;
             return false;
         };
         if(v["largeNum"]<=0){
-            messager("第"+(i+1)+"行，箱数必须大于0");
+            $_jxc.alert("第"+(i+1)+"行，箱数必须大于0");
             isCheckResult = false;
             return false;
         }
         if(v["realNum"]<=0){
-            messager("第"+(i+1)+"行，数量必须大于0");
+            $_jxc.alert("第"+(i+1)+"行，数量必须大于0");
             isCheckResult = false;
             return false;
         }
@@ -500,15 +500,15 @@ function saveItemHandel(){
         success:function(result){
             console.log(result);
             if(result['code'] == 0){
-                $.messager.alert("操作提示", "操作成功！", "info",function(){
+                $_jxc.alert("操作成功！",function(){
                     location.href = contextPath +"/form/purchase/orderEdit?formId=" + result["formId"];
                 });
             }else{
-                successTip(result['message']);
+                $_jxc.alert(result['message']);
             }
         },
         error:function(result){
-            successTip("请求发送失败或服务器处理失败");
+            $_jxc.alert("请求发送失败或服务器处理失败");
         }
     });
 }

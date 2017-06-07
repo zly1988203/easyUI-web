@@ -9,7 +9,7 @@ function save() {
 
     if($('#brandName').val().trim()===""){
         $('#saveBrand').removeAttr("disabled");
-        messager("请输入品牌名称");
+        $_jxc.alert("请输入品牌名称");
         return;
     }
 
@@ -24,11 +24,11 @@ function save() {
 				closeDialogHandel();
 			}else{
 				$('#saveBrand').removeAttr("disabled");
-                messager(result.message);
+                $_jxc.alert(result.message);
 			}
 		},
 		error : function(result) {
-            messager("请求发送失败或服务器处理失败");
+            $_jxc.alert("请求发送失败或服务器处理失败");
 		}
 	});
 }

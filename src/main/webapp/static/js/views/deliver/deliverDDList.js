@@ -145,7 +145,7 @@ function delDeliverForm(){
 	var row = dg.datagrid("getChecked");
 	var ids = [];
 	if(row.length <= 0){
-		$.messager.alert("提示","请先选择数据！");
+		$_jxc.alert("请先选择数据！");
 		return;
 	}
 	var checkFlag = false; //审核标示
@@ -156,7 +156,7 @@ function delDeliverForm(){
 		}
 	}
 	if(checkFlag){
-		$.messager.alert("提示","不能删除已审核的单据！");
+		$_jxc.alert("不能删除已审核的单据！");
 		return;
 	}
 	
@@ -172,14 +172,14 @@ function delDeliverForm(){
 		    	data:JSON.stringify(ids),
 		    	success:function(result){
 		    		if(result['code'] == 0){
-		    			successTip("删除成功");
+		    			$_jxc.alert("删除成功");
 		    			dg.datagrid('reload');
 		    		}else{
-		    			successTip(result['message']);
+		    			$_jxc.alert(result['message']);
 		    		}
 		    	},
 		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
+		    		$_jxc.alert("请求发送失败或服务器处理失败");
 		    	}
 		    });
 		}

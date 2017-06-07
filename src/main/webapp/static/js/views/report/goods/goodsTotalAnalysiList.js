@@ -136,6 +136,7 @@ function onChangeCategoryType(newV,oldV){
     $("#categoryId").val("");
 }
 var gridHandel = new GridClass();
+var gridName = "goodsTotalAnalysi";
 /**
  * 初始化表格按  商品
  * @param queryType
@@ -209,9 +210,9 @@ function initGoodsTotalAnalysiGrid() {
 			//updateFooter();
 		}
     });
-   /* if(flushFlg){
-    	purchaseTotalCx();
-    }*/
+    if(hasCostPrice==false){
+        priceGrantUtil.grantCostPrice(gridName,["costAmount","grossProfit","grossProfitRate"])
+    }
 }
 
 
@@ -293,9 +294,9 @@ function initCategoryGrid() {
 			//updateFooter();
 		}
     });
-   /* if(flushFlg){
-    	purchaseTotalCx();
-    }*/
+    if(hasCostPrice==false){
+        priceGrantUtil.grantCostPrice(gridName,["costAmount","grossProfit","grossProfitRate"])
+    }
 }
 
 
@@ -377,9 +378,9 @@ function initPurReportSupplierGrid() {
 			//updateFooter();
 		}
     });
-  /*  if(flushFlg){
-    	purchaseTotalCx();
-    }*/
+    if(hasCostPrice==false){
+        priceGrantUtil.grantCostPrice(gridName,["costAmount","grossProfit","grossProfitRate"])
+    }
 }
 
 /**
@@ -391,12 +392,12 @@ function purchaseTotalCx(){
 	var branchName = $("#branchName").val();
 	var categoryType=$('input[name="searchType"]:checked ').val();
 	if(!(startDate && endDate)){
-		$.messager.alert('提示', '日期不能为空');
+		$_jxc.alert('日期不能为空');
 		return ;
 	}
 	/*if(categoryType!='branchTotal'){
 		if(!branchName){
-			$.messager.alert('提示', '店铺名不能为空');
+			$_jxc.alert('店铺名不能为空');
 			return ;
 		}
 	}*/
@@ -417,7 +418,7 @@ var dg;
 function exportData(){
 	var length = $('#goodsTotalAnalysi').datagrid('getData').total;
 	if(length == 0){
-		successTip("无数据可导");
+		$_jxc.alert("无数据可导");
 		return;
 	}
 	$('#exportWin').window({
@@ -438,22 +439,22 @@ function exportExcel(){
 	var branchCompleCode = $("#branchCompleCode").val();
 	var categoryType=$('input[name="searchType"]:checked ').val();
 	if(!(startDate && endDate)){
-		$.messager.alert('提示', '日期不能为空');
+		$_jxc.alert('日期不能为空');
 		return ;
 	}
 	/*if(categoryType!='branchTotal'){
 		if(!branchName){
-			$.messager.alert('提示', '店铺名不能为空');
+			$_jxc.alert('店铺名不能为空');
 			return ;
 		}
 	}*/
 	var length = $("#goodsTotalAnalysi").datagrid('getData').total;
 	if(length == 0){
-		$.messager.alert('提示',"没有数据");
+		$_jxc.alert("没有数据");
 		return;
 	}
 	if(length>10000){
-		$.messager.alert("当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
+		$_jxc.alert("当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
 		return;
 	}
 	$("#queryForm").attr("action",contextPath+'/report/goodsTotalAnalysi/exportGoodsAnalsisExcel');

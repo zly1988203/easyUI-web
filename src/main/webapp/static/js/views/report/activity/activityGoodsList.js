@@ -196,7 +196,7 @@ function searchBranch (){
 function exportData(){
 	var length = $('#tabList').datagrid('getData').rows.length;
 	if(length == 0){
-		successTip("无数据可导");
+		$_jxc.alert("无数据可导");
 		return;
 	}
 	$('#exportWin').window({
@@ -214,7 +214,7 @@ function exportExcel(){
 	$("#queryForm").form({
 		success : function(result){
 			var dataObj=eval("("+result+")");
-			successTip(dataObj.message);
+			$_jxc.alert(dataObj.message);
 		}
 	});
 	getCheckBoxValue();

@@ -8,7 +8,7 @@ $(function(){
 function initdgOrderList(){
 	var guideNo = $("#guideNo").val();
 	if(!guideNo){
-		successTip("数据异常！");
+		$_jxc.alert("数据异常！");
 		return;
 	}
 	
@@ -64,7 +64,7 @@ function initdgOrderList(){
 function chekData(){
 	var rows =$("#dgGuideOrderList").datagrid("getChecked");
 	if(rows.length==0){
-		successTip("请选择行数据！");
+		$_jxc.alert("请选择行数据！");
 		return null;
 	}
 	var formIds='';
@@ -82,10 +82,12 @@ function chekData(){
 		    		status : 1
 		    	},
 		    	success:function(result){
-		    		successTip(result.message, $("#dgGuideOrderList"));
+		    		$_jxc.alert(result.message, function(){
+		    			$("#dgGuideOrderList").datagrid('reload');	
+		    		});
 		    	},
 		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
+		    		$_jxc.alert("请求发送失败或服务器处理失败");
 		    	}
 		    });
 		}
@@ -97,7 +99,7 @@ function chekData(){
 function delData(){
 	var rows =$("#dgGuideOrderList").datagrid("getChecked");
 	if(rows.length==0){
-		successTip("请选择行数据！");
+		$_jxc.alert("请选择行数据！");
 		return null;
 	}
 	var formIds='';
@@ -114,10 +116,12 @@ function delData(){
 		    		formIds:formIds
 		    	},
 		    	success:function(result){
-		    		successTip(result.message, $("#dgGuideOrderList"));
+		    		$_jxc.alert(result.message,function(){
+		    			$("#dgGuideOrderList").datagrid('reload');
+		    		});
 		    	},
 		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
+		    		$_jxc.alert("请求发送失败或服务器处理失败");
 		    	}
 		    });
 		}

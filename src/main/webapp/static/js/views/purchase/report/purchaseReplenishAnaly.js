@@ -122,19 +122,19 @@ function searchForm(){
 	
 	var branchId = $("#branchId").val();
 	if(!branchId){
-		successTip("请选择店铺信息!");
+		$_jxc.alert("请选择店铺信息!");
 		return;
 	}
 	
 	var branchType = $("#branchType").val();
 	if(branchType<3){
-		successTip("机构必须选择店铺类型!");
+		$_jxc.alert("机构必须选择店铺类型!");
 		return;
 	}
 	
 	var replenishDate = $("#replenishDate").val();
 	if(!replenishDate){
-		successTip("补货时间不能为空!");
+		$_jxc.alert("补货时间不能为空!");
 		return;
 	}
 	
@@ -263,7 +263,7 @@ function supplierAutoComple(){
 function exportData(){
 	var length = $('#gridPurchaseReplenishAnaly').datagrid('getData').rows.length;
 	if(length == 0){
-		successTip("无数据可导");
+		$_jxc.alert("无数据可导");
 		return;
 	}
 	$('#exportWin').window({
@@ -286,7 +286,7 @@ function exportExcel(){
 		},   
 		success : function(result){
 			var dataObj=eval("("+result+")");
-			successTip(dataObj.message);
+			$_jxc.alert(dataObj.message);
 		}
 	});
 	//$("#queryForm").attr("action",contextPath+"/purchaseReplenishAnaly/exportReportList");
