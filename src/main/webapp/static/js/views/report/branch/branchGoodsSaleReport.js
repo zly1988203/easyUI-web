@@ -66,16 +66,17 @@ var goodsClass = new goodsArchives();
 var branchId;
 
 $(function(){
-	//开始和结束时间
-	toChangeDate(9);
-	$("#startTime").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
-	$("#endTime").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 	initView();
 	initTreeArchives();
 	initDatagridOrders();
 	//清楚缓存
 	localStorageUtil.clearStorageItem();
 	branchId = $("#branchId").val();
+	//开始和结束时间
+	//toChangeDate(10);
+	toChangeDatetime(9);
+	$("#startTime").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
+	$("#endTime").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 });
 
 
