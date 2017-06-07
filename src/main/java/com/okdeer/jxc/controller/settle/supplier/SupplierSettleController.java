@@ -107,6 +107,21 @@ public class SupplierSettleController extends BasePrintController<SupplierSettle
         model.addAttribute("settleVo", settleVo);
         return new ModelAndView("settle/supplier/settle/settleView");
     }
+    
+    /**
+     * 
+     * @Description: 供应商结算详情页
+     * @param model model
+     * @return ModelAndView
+     * @author xuyq
+     * @date 2017年5月22日
+     */
+    @RequestMapping(value = "settleViewByNo")
+    public ModelAndView settleViewByNo(Model model, String formNo) {
+        SupplierSettleVo settleVo = supplierSettleService.getSupplierSettleVoByFormNo(formNo);
+        model.addAttribute("settleVo", settleVo);
+        return new ModelAndView("settle/supplier/settle/settleView");
+    }
 
     /**
      * @Description: 查询列表
