@@ -113,7 +113,7 @@ public class ICCardAccountManagementController extends BasePrintController<ICCar
 			PageUtils<ICCardAccountVo> suppliers = icCardAccountService.selectAccountList(vo,false);
 			List<ICCardAccountVo> list = suppliers.getList();
 			if (!list.isEmpty() && list.size() > 0) {
-				String fileName = "一开通账户管理" + "_" + DateUtils.getCurrSmallStr();
+				String fileName = "一卡通账户管理" + "_" + DateUtils.getCurrSmallStr();
 				String templateName = ExportExcelConstant.ICC_CARD_ACCOUNT_MANAGEMENT;
 				exportListForXLSX(response, list, fileName, templateName);
 			} else {
