@@ -34,7 +34,7 @@
         <div class="ub uline umar-t8"></div>
         <form id="checkForm">
         <div class="ub umar-t8">
-            <div class="ub ub-ac uw-296 umar-l10">
+            <div class="ub ub-ac uw-292 umar-l10">
                 <div class="umar-r10 uw-70 ut-r">机构:</div>
                 <div class="ub ub-f1">
                     <input type="hidden" id="formId" name="id" value="${checkVo.id}"/>
@@ -44,7 +44,7 @@
                 </div>
             </div>
             
-            <div class="ub ub-ac uw-296 umar-l20">
+            <div class="ub ub-ac uw-292 umar-l24">
 				<div class="umar-r10 uw-70 ut-r">供应商:</div>
                 <div class="ub ub-f1">
                 	<input class="uinp" name="supplierId" id="supplierId" value="${checkVo.supplierId}" type="hidden">
@@ -52,7 +52,7 @@
                 </div>
             </div>
             
-            <div class="ub ub-ac umar-l30">
+            <div class="ub ub-ac umar-l36">
                 <div class="umar-r10 uw-70 ut-r">制单人:</div>
                 <div class="utxt">${checkVo.createUserName}</div>
             </div>
