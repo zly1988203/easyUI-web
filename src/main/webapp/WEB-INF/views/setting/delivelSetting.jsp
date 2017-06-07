@@ -194,6 +194,8 @@
 		var minAmount = data.minAmount || 0;
 		var validityDay= data.validityDay;
 		var dosheetTemplate= data.dosheetTemplate;
+	debugger;
+		var storesPriceSpec= data.storesPriceSpec;
 		//页面赋值
 		$("#branchId").val(branchId);
 		$("#validityDay").numberbox("setValue",validityDay);
@@ -204,6 +206,13 @@
 		} else {
 			$("#priceSpec2").attr("checked", "true");
 		}
+
+		if (storesPriceSpec === null || storesPriceSpec === '1' || storesPriceSpec === '') {
+			$("#storesPriceSpec1").attr("checked", "true");
+		} else if (storesPriceSpec === '0') {
+			$("#storesPriceSpec0").attr("checked", "true");
+		}
+
 		if (dyPriceSpec === null || dyPriceSpec === '0' || dyPriceSpec === '') {
 			$("#dyPriceSpec0").attr("checked", "true");
 		} else {
