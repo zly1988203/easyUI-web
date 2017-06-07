@@ -180,12 +180,40 @@ function selectOperator(){
 /**
  * 机构
  */
-function selectBranches(){
-	new publicAgencyService(function(data){
-		$("#franchiseBranchId").val(data.branchesId);
-		$("#branchName").val("["+data.branchCode+"]"+data.branchName);
-	},'FAS');
+function selectBranches(nameOrCode){
+	var param = {
+		branchTypesStr:$_jxc.branchTypeEnum.HEAD_QUARTERS + ',' + $_jxc.branchTypeEnum.BRANCH_COMPANY
+			+ ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_B + ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_C
+	}
+	if(nameOrCode){
+		param.nameOrCode = nameOrCode;
+	}
+	new publicBranchesService(param,function(data){
+		//返回NO时 输入动作没匹配到数据 
+		if(data == 'NO'){
+			//未查询到数据或多条数据，设置无效ID
+			$_jxc.clearHideInpOnEdit($('#branchName'));
+			$("#branchName").val("");
+		}else{
+			$("#franchiseBranchId").val(data.branchesId);
+			$("#branchName").val("["+data.branchCode+"]"+data.branchName);
+		}
+	})
 }
+
+/**
+ * 机构自动补全
+ */
+function brandAutoComple(obj){
+	var nameOrCode = $.trim($("#branchName").val())||'';
+	//未输入值时，直接返回，无需查询
+	if("" == nameOrCode){
+		$_jxc.clearHideInpOnEdit(obj);
+		return;
+	}
+	selectBranches(nameOrCode,obj);
+}
+
 
 //打印
 //function printDesign(){
