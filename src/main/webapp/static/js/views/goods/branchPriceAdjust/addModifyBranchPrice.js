@@ -518,7 +518,7 @@ function checkForm(formNo,effectDate) {
 		console.info(data);
 		console.log('---------结束审核------------',JSON.stringify(data));
 		if (data.code > 0) {
-			$_jxc.alert(data.message,);
+			$_jxc.alert(data.message);
 		} else {
 			//审核过
 			isClickCheckData = true;
