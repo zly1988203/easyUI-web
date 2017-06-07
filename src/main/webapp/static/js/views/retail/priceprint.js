@@ -50,8 +50,8 @@ function changeDiscount(newV,oldV){
 }
 
 function initjiaqType(){
-	$(document).on('mousedown','.jiaqType .radioItem',function(){
-		var _this = $(this);
+	$(document).on('mousedown','.jiaqType .radioItemLable',function(){
+		var _this = $(this).children('.radioItem');
 		var changeType = function(){
 			_this.prop("checked",true);
 			$('#priceType').val(_this.val());
@@ -231,7 +231,7 @@ function onChangeSalePrice(newV,oldV){
 	var promotionPrice = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'promotionPrice');
 
 	if($('#priceType').val() === '1' && parseFloat(promotionPrice) > parseFloat(newV)){
-		  messager("销售价不能小于促销价");
+		  $_jxc.alert("销售价不能小于促销价");
 		  gridHandel.setFieldValue('salePrice',oldV);
 	        return;
 	}
@@ -246,7 +246,7 @@ function onChangePromotionPrice(newV,oldV){
 	
 	var salePriceVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'salePrice');
 	if($('#priceType').val() === '1' && parseFloat(newV) > parseFloat(salePriceVal)){
-		  messager("促销价不能大于销售价");
+		  $_jxc.alert("促销价不能大于销售价");
 		  gridHandel.setFieldValue('promotionPrice',oldV);
 	        return;
 	}
@@ -346,7 +346,7 @@ function printtable(){
 			window.open(contextPath + "/print/printGoodsView"); 
 		}
 		else {
-			messager("打印数据不能为空！");
+			$_jxc.alert("打印数据不能为空！");
 			return;
 		}
 

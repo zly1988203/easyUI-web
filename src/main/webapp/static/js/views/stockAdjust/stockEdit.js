@@ -280,11 +280,11 @@ function onChangeRealNum(newV,oldV) {
     }
     var purchaseSpecValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'purchaseSpec');
     if(!purchaseSpecValue){
-        messager("没有配送规格,请审查");
+        $_jxc.alert("没有配送规格,请审查");
         return;
     }
     if(parseFloat(purchaseSpecValue)==0.0){
-        messager("配送规格不能为0");
+        $_jxc.alert("配送规格不能为0");
         return;
     }
     var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
@@ -342,11 +342,11 @@ function totleChangePrice(newV,oldV) {
 	 
     var purchaseSpecValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'purchaseSpec');
     if(!purchaseSpecValue){
-        messager("没有配送规格,请审查");
+        $_jxc.alert("没有配送规格,请审查");
         return;
     }
     if(parseFloat(purchaseSpecValue)==0.0){
-        messager("配送规格不能为0");
+        $_jxc.alert("配送规格不能为0");
         return;
     }
     var selectVal=$("#io").combobox('getValue');
@@ -391,12 +391,12 @@ function selectGoods(searchKey){
 	var selectVal=$("#io").combobox('getValue');
     //判定发货分店是否存在
     if($("#branchId").val()==""){
-        messager("请选择机构");
+        $_jxc.alert("请选择机构");
         return;
     }
   //判定发货分店是否存在
     if($("#branchId").val()==""){
-        messager("请选择机构");
+        $_jxc.alert("请选择机构");
         return;
     }
 
@@ -546,13 +546,13 @@ function saveOrder(){
   
   //判定表格不能为空
     if(rows.length==0){
-        messager("表格不能为空");
+        $_jxc.alert("表格不能为空");
         return;
     }
     var isCheckResult = true;
     $.each(rows,function(i,v){
         if(!v["skuCode"]){
-            messager("第"+(i+1)+"行，货号不能为空");
+            $_jxc.alert("第"+(i+1)+"行，货号不能为空");
             isCheckResult = false;
             return false;
         };
@@ -603,7 +603,7 @@ function check(){
 
     var id = $("#formId").val();
    /* if(!gFunComparisonArray(oldData,newData)){
-        messager("数据已修改，请先保存再审核");
+        $_jxc.alert("数据已修改，请先保存再审核");
         return;
     }*/
 	$.messager.confirm('提示','是否审核通过？',function(data){
@@ -675,7 +675,7 @@ function selectBranchesadd(){
 function importHandel(type){
 	var branchId = $("#branchId").val();
     if(!branchId){
-        messager("请先选择收货机构");
+        $_jxc.alert("请先选择收货机构");
         return;
     }
     var param = {
@@ -795,7 +795,7 @@ function getImportData(data){
     var newRows = gridHandel.checkDatagrid(nowRows,data,argWhere,{});
 
     $("#"+gridHandel.getGridName()).datagrid("loadData",newRows);
-    messager("导入成功");
+    $_jxc.alert("导入成功");
 }
 /**
  * 导出

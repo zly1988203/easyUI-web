@@ -64,7 +64,7 @@ var rechargeDialog = null;
 function recharge() {
     var row =  $("#"+gridName).datagrid("getSelected");
     if(!row || row == null){
-        messager("请选择一条数据");
+        $_jxc.alert("请选择一条数据");
         return;
     }
 
@@ -97,7 +97,7 @@ function extracted() {
 
     var row =  $("#"+gridName).datagrid("getSelected");
     if(!row || row == null){
-        messager("请选择一条数据");
+        $_jxc.alert("请选择一条数据");
         return;
     }
 

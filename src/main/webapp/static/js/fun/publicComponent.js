@@ -269,6 +269,79 @@ function publicRoleService(callback, branchCompleCode, branchType){
     }
 }
 
+
+function publicBranchesService(param,callback){
+	//默认参数
+	var _defParam = {
+		isRadio:0,     // 0 单选 1多选
+		formType:''    // ????
+ 	}
+	
+	param =  $.extend(_defParam,param);
+	
+	if(param.nameOrCode){
+		param.page = 1;
+		param.rows = 10;
+		var _nameOrCode = param.nameOrCode
+		//避免用户直接输入完整格式: [编号]名称
+		var reg = /\[\d{5}\]/;
+		if(reg.test(_nameOrCode)){
+			//取出[]里的编号，默认取已第一个[]里的值
+			reg = /\[(\d{5})\]/;
+			arr = reg.exec(_nameOrCode);
+			param.nameOrCode = arr[1];
+		}
+		$_jxc.ajax({
+			url:contextPath+'/common/branches/getComponentList',
+			data:param
+		},function(data){
+			if(data&&data.rows){
+				//精确匹配到只有一条数据时立即返回
+				if(data.rows.length==1){
+					callback(data.rows[0]);
+				}else if(data.rows.length>1){
+					//匹配到多条时 弹窗选择
+					publicBranchesServiceHandel(param,callback);
+				}else{
+					//没有匹配数据时 返回字符串方便判断
+					callback('NO');
+				}
+			}else{
+				//没有匹配数据时 返回字符串方便判断
+				callback('NO');
+			}
+		})
+	}else{
+		publicBranchesServiceHandel(param,callback);
+	}
+	
+}
+
+function publicBranchesServiceHandel(param,callback){
+	//公有属性
+    var  dalogTemp = $('<div/>').dialog({
+    	href:contextPath + "/common/branches/viewComponent?formType="+ 
+    		(param.formType||'') + "&branchId=" +(param.branchId||'')+ "&branchType="+(param.branchType||'') + "&isOpenStock="+(param.isOpenStock||'')+ "&scope="+(param.scope||''),
+        width:680,
+        height:$(window).height()*(2/3),
+        title:"机构选择",
+        closable:true,
+        resizable:true,
+        onClose:function(){
+            $(dalogTemp).panel('destroy');
+        },
+        modal:true,
+        onLoad:function(){
+            initAgencyView();
+            initAgencyCallBack(callBackHandel)
+        },
+    });
+    function callBackHandel(data){
+        callback(data);
+        $(dalogTemp).panel('destroy');
+    } 
+}
+
 //公共组件-机构选择
 function publicAgencyService(callback,formType,branchId, branchType,isOpenStock,scope){
 	if(!formType){
@@ -308,11 +381,8 @@ function publicAgencyService(callback,formType,branchId, branchType,isOpenStock,
         callback(data);
         $(dalogTemp).panel('destroy');
     }
-    //调用方式
-    //new publicAgencyService(function(data){
-    //    console.log(data);
-    //});
 }
+
 
 /**
  * 公共组件-选择机构

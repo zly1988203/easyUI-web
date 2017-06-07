@@ -69,10 +69,10 @@ function saveNotice(){
     $_jxc.ajax(param,function (result) {
         if(result['code'] == 0){
             closeDialogHandel();
-            messager("发布成功");
+            $_jxc.alert("发布成功");
             queryNoticeList();
         }else{
-            messager(result['message']);
+            $_jxc.alert(result['message']);
         }
     })
 }

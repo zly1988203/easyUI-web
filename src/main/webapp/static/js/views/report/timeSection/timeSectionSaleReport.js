@@ -34,15 +34,15 @@ function selectBranches() {
  */
 function queryForm(){
 	if($("#branchName").val()==""){
-        messager("请选择机构");
+        $_jxc.alert("请选择机构");
         return;
     } 
 	if($("#startTime").val()==""){
-		messager("请选择开始时间");
+		$_jxc.alert("请选择开始时间");
 		return;
 	} 
 	if($("#endTime").val()==""){
-		messager("请选择结束时间");
+		$_jxc.alert("请选择结束时间");
 		return;
 	} 
 	var oldBranchName = $("#oldBranchName").val();

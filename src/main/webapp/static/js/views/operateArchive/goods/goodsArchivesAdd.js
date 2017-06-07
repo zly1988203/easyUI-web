@@ -384,25 +384,25 @@ function saveGoodsArchives(){
 
     if($('#skuName').val().trim()===""){
         $('#saveGoodsArchives').removeAttr("disabled");
-        messager("请输入商品名称");
+        $_jxc.alert("请输入商品名称");
         return;
     }
 	
 	if($('#purchaseSpec').val()=="0.00"){
 		$('#saveGoodsArchives').removeAttr("disabled");
-		messager("进货规格不能为0!");
+		$_jxc.alert("进货规格不能为0!");
 		return;
 	}
 	
 	if($("#distributionSpec").val()=== '0.00'){
 		$('#saveGoodsArchives').removeAttr("disabled");
-		messager("配送规格不能为0");
+		$_jxc.alert("配送规格不能为0");
 		return;
 	}
 	
 	if(parseFloat($("#vipPrice").val()) > parseFloat($("#salePrice").val())){
 		$('#saveGoodsArchives').removeAttr("disabled");
-		messager("会员价不能大于零售价");
+		$_jxc.alert("会员价不能大于零售价");
 		return;
 	}
 	
@@ -421,7 +421,7 @@ function saveGoodsArchives(){
 					submitForm();
 				}else{
 					$('#saveGoodsArchives').removeAttr("disabled");
-                    messager(result.message);
+                    $_jxc.alert(result.message);
 				}
 			},
 			error:function(result){
@@ -441,10 +441,10 @@ function submitForm(){
 			if(JSON.parse(data).code == 0){
 				closeDialog();
 				openDialog(contextPath+"/common/operateGoods/updateGoodsView?id="+JSON.parse(data).id,"修改商品档案","edit",JSON.parse(data).id);
-				messager("保存成功");
+				$_jxc.alert("保存成功");
 			}else{
 				$('#saveGoodsArchives').removeAttr("disabled");
-				messager(JSON.parse(data).message);
+				$_jxc.alert(JSON.parse(data).message);
 			}
 		}
 	});

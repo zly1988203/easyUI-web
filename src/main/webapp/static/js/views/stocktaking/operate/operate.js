@@ -247,11 +247,11 @@ function selectGoods(searchKey){
 	var batchId = $("#batchId").val();
 	var batchNo = $("#batchNo").val();
 	if(!branchId || !$.trim(branchId)){
-		messager("请选择机构");
+		$_jxc.alert("请选择机构");
 		return;
 	}
 	if(!batchId || !$.trim(batchId)){
-		messager("请选择盘点批次");
+		$_jxc.alert("请选择盘点批次");
 		return;
 	}
     //控制弹框
@@ -347,22 +347,22 @@ function saveStocktakingForm(opType){
     //机构Code
     var branchCode=$("#branchCode").val();
 	if(branchId === '' || branchId == null){
-		messager("请选择机构");
+		$_jxc.alert("请选择机构");
 		return;
 	}
 	if(opType == 1 && (branchId === '' || branchId == null)){
-		messager("请选择机构");
+		$_jxc.alert("请选择机构");
 		return;
 	}
 	if(!batchId || !$.trim(batchId)){
-		messager("请选择盘点批次");
+		$_jxc.alert("请选择盘点批次");
 		return;
 	}
     $("#"+datagridId).datagrid("endEdit", gridHandel.getSelectRowIndex());
     var rows = gridHandel.getRowsWhere({skuName:'1'});
     $(gridHandel.getGridName()).datagrid("loadData",rows);
     if(rows.length==0){
-        messager("表格不能为空");
+        $_jxc.alert("表格不能为空");
         return;
     }
     var isCheckResult = true;
@@ -403,7 +403,7 @@ function addOperate(){
         return;
     }else {
         if(!gFunComparisonArray(oldData,newData)){
-            messager("数据已修改，请先保存");
+            $_jxc.alert("数据已修改，请先保存");
             return;
         }else{
             toAddTab("新增存货盘点单",contextPath + "/stocktaking/operate/add");
@@ -541,11 +541,11 @@ function importStocktakingForm(type){
 	var batchId = $("#batchId").val();
 	var batchNo = $("#batchNo").val();
 	if(!branchId || !$.trim(branchId)){
-		messager("请选择机构");
+		$_jxc.alert("请选择机构");
 		return;
 	}
 	if(!batchId || !$.trim(batchId)){
-		messager("请选择盘点批次");
+		$_jxc.alert("请选择盘点批次");
 		return;
 	}
     var param = {

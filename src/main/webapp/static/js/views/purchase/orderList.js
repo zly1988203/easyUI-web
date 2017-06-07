@@ -183,6 +183,6 @@ function printPreview() {
     if(rows.length == 1){
         toPrintPreview('PA','/form/purchase/','gridOrders');
     }else{
-        messager('请选择一行数据.')
+        $_jxc.alert('请选择一行数据.')
     }
 }

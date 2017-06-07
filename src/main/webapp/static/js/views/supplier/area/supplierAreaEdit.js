@@ -15,7 +15,7 @@ function saveHandel(){
 		return;
 	}
     if($('#areaName').val().trim()===""){
-        messager("请输入名称");
+        $_jxc.alert("请输入名称");
         return;
     }
 

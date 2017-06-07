@@ -231,11 +231,11 @@ function onChangeRealNum(newV,oldV) {
 
     var purchaseSpecValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'purchaseSpec');
     if(!purchaseSpecValue){
-        messager("没有配送规格,请审查");
+        $_jxc.alert("没有配送规格,请审查");
         return;
     }
     if(parseFloat(purchaseSpecValue)==0.0){
-        messager("配送规格不能为0");
+        $_jxc.alert("配送规格不能为0");
         return;
     }
     
@@ -281,11 +281,11 @@ function totleChangePrice(newV,oldV) {
 	}
 	 
     if(!purchaseSpecValue){
-        messager("没有配送规格,请审查");
+        $_jxc.alert("没有配送规格,请审查");
         return;
     }
     if(parseFloat(purchaseSpecValue)==0.0){
-        messager("配送规格不能为0");
+        $_jxc.alert("配送规格不能为0");
         return;
     }
     
@@ -329,7 +329,7 @@ function selectGoods(searchKey){
 	var branchId = $("#branchId").val();
     // 判定发货分店是否存在
     if($("#branchId").val()==""){
-        messager("请选择机构");
+        $_jxc.alert("请选择机构");
         return;
     }
 
@@ -476,20 +476,20 @@ function saveStockReimburse(){
     $(gridHandel.getGridName()).datagrid("loadData",rows);
   // 判定表格不能为空
     if(rows.length==0){
-        messager("表格不能为空");
+        $_jxc.alert("表格不能为空");
         return;
     }
    var isCheckResult = true;
    $.each(rows,function(i,v){
 	   v["rowNo"] = i+1;
     	if(!v["skuCode"]){
-             messager("第"+(i+1)+"行，货号不能为空");
+             $_jxc.alert("第"+(i+1)+"行，货号不能为空");
              isCheckResult = false;
              return false;
         };
       
         /*if(parseFloat(v["stockNum"])-parseFloat(v["realNum"])<0){
-        	messager("报损数量不允许超过当前库存数量！");
+        	$_jxc.alert("报损数量不允许超过当前库存数量！");
         	isCheckResult = false;
           	return false;
         }*/
@@ -498,7 +498,7 @@ function saveStockReimburse(){
     
     $.each(rows,function(i,v){
    	 if(!v["realNum"]){
-            messager("第"+(i+1)+"行，数量不能为空");
+            $_jxc.alert("第"+(i+1)+"行，数量不能为空");
             isCheckResult = false;
             return false;
         };
@@ -580,7 +580,7 @@ function importHandel(type){
 	    // 判定发货分店是否存在
 		// JIANGSHAO
 	    if($("#branchId").val()==""){
-	        messager("请选择机构");
+	        $_jxc.alert("请选择机构");
 	        return;
 	    }
 	    
@@ -658,7 +658,7 @@ function getImportData(data){
     var newRows = gridHandel.checkDatagrid(nowRows,data,argWhere,{});
 
     $("#"+gridHandel.getGridName()).datagrid("loadData",newRows);
-    messager("导入成功");
+    $_jxc.alert("导入成功");
 }
 
 /**

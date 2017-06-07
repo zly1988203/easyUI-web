@@ -436,11 +436,11 @@ function queryForm(){
 	var batchNo = $("#batchNo").val();
 	var batchId = $("#batchId").val();
 	if(batchNo==""){
-		messager("请先选择盘点批号");
+		$_jxc.alert("请先选择盘点批号");
         return;
 	}
 	if(batchId==""){
-		messager("请先选择盘点批号");
+		$_jxc.alert("请先选择盘点批号");
 		return;
 	}
 	var oldCategoryName = $("#oldCategoryName").val();
@@ -496,7 +496,7 @@ function selectGoods(){
 	var sourceBranchId = branchId;
 	var targetBranchId = branchId;
     if(branchId == ""){
-        messager("请先选择机构");
+        $_jxc.alert("请先选择机构");
         return;
     }
     

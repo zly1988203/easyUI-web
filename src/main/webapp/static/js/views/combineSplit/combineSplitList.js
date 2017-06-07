@@ -99,7 +99,7 @@ function deleteCombineSplit(){
 	var rows = $('#combineSplitList').datagrid('getChecked');
 	console.log('rows',rows);
 	if(rows.length <= 0){
-        messager('没有单据可以删除，请选择一笔单据再删除？','提示');
+        $_jxc.alert('没有单据可以删除，请选择一笔单据再删除？');
 		return;
 	}
 	var tempIds = [];
@@ -115,7 +115,7 @@ function deleteCombineSplit(){
 	})
     
     if(flag){
-    	messager('已经审核的单据不可以删除！');
+    	$_jxc.alert('已经审核的单据不可以删除！');
     	return;
     }
 	
@@ -132,7 +132,7 @@ function deleteCombineSplit(){
                     success: function(data){
                     	gFunEndLoading();
                     	if(data.code == 0){
-                            messager(data['message']);
+                            $_jxc.alert(data['message']);
                     		queryForm();
                     	}
                     }

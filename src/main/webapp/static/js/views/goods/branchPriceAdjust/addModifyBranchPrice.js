@@ -356,12 +356,12 @@ function saveModifyPriceOrder() {
 			var formData = $('#searchForm').serializeObject();
 			var detailList =  getDatagridRows();
 			if(detailList.length>1000){
-				messager("保存数据不能超过1000条");
+				$_jxc.alert("保存数据不能超过1000条");
 				gFunEndLoading();
 				return;
 			}
 			if(detailList.length==0){
-				messager("表格不能为空");
+				$_jxc.alert("表格不能为空");
 				gFunEndLoading();
 				return;
 			}
@@ -371,12 +371,12 @@ function saveModifyPriceOrder() {
                 for(var i=0;i<detailList.length;i++){
                     var item = detailList[i];
                     if(parseFloat(item["newVipPrice"]) <= 0){
-                        messager("第"+(i+1)+"行，新会员价不能小于等于0");
+                        $_jxc.alert("第"+(i+1)+"行，新会员价不能小于等于0");
                         isCheck = false;
                         break;
                     }
                     if(parseFloat(item["newSalePrice"]) < parseFloat(item["newVipPrice"])){
-                        messager("第"+(i+1)+"行，新会员价只能小于或等于新销售价");
+                        $_jxc.alert("第"+(i+1)+"行，新会员价只能小于或等于新销售价");
                         isCheck = false;
                         break;
                     }
@@ -430,12 +430,12 @@ function updateModifyPriceOrder() {
 		var formData = $('#searchForm').serializeObject();
 		var detailList =  getDatagridRows();
 		if(detailList.length>1000){
-			messager("保存数据不能超过1000条");
+			$_jxc.alert("保存数据不能超过1000条");
 			gFunEndLoading();
 			return;
 		}
 		if(detailList.length==0){
-			messager("表格不能为空");
+			$_jxc.alert("表格不能为空");
 			gFunEndLoading();
 			return;
 		}
@@ -445,12 +445,12 @@ function updateModifyPriceOrder() {
 		for(var i=0;i<detailList.length;i++){
 			var item = detailList[i];
             if(parseFloat(item["newVipPrice"]) <= 0){
-                messager("第"+(i+1)+"行，新会员价不能小于等于0");
+                $_jxc.alert("第"+(i+1)+"行，新会员价不能小于等于0");
                 isCheck = false;
                 break;
             }
 		      if(parseFloat(item["newSalePrice"]) < parseFloat(item["newVipPrice"])){
-		          messager("第"+(i+1)+"行，新会员价只能小于或等于新销售价");
+		          $_jxc.alert("第"+(i+1)+"行，新会员价只能小于或等于新销售价");
 		          isCheck = false;
 		          break;
 		      }
@@ -508,7 +508,7 @@ function check() {
 	console.log('newDate',JSON.stringify(checkUtil.getNewData()))
 	// 如果页面为空，则不需要提示，只有页面都输入值，才校验是否保存过数据
 	if (!checkUtil.ifChange()) {
-		 messager("数据已修改，请先保存再审核");
+		 $_jxc.alert("数据已修改，请先保存再审核");
 	     return;
 	}
 	var formNo = $("#formNoInput").val();
@@ -824,7 +824,7 @@ function selectGoodsDialog(searchKey) {
 	var branchId=null;
 	//判定供应商是否存在
     if($("#branchId").val()==""){
-        messager("请先选择机构");
+        $_jxc.alert("请先选择机构");
         return;
     }
     branchId=$("#branchId").val();
@@ -954,12 +954,12 @@ var resetForm = function(){
  */
 function toImportproduct(type){
     //if($("#supplierId").val()==""){
-    //    messager("请先选择供应商");
+    //    $_jxc.alert("请先选择供应商");
     //    return;
     //}
     var branchId = $("#branchId").val();
     if(!branchId){
-        messager("请先选择机构");
+        $_jxc.alert("请先选择机构");
         return;
     }
     var param = {

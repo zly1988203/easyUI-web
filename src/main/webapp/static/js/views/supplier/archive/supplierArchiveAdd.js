@@ -29,7 +29,7 @@ function saveSupplier() {
 		return;
 	}
     if($('#supplierName').val().trim()===""){
-        messager("请输入供应商名称");
+        $_jxc.alert("请输入供应商名称");
         return;
     }
 

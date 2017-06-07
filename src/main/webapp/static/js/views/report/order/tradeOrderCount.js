@@ -157,7 +157,7 @@ function queryForm(){
 	$("#endCount").attr("value",null);
 	var fromObjStr = $('#queryForm').serializeObject();
     if( fromObjStr.startTime==="" || fromObjStr.endTime ===""){
-        messager("请选择查询时间段");
+        $_jxc.alert("请选择查询时间段");
         return;
     }
     // 去除编码

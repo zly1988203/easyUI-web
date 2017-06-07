@@ -231,7 +231,7 @@ function onChangeDatagridEdit(rowIndex){
     var edRealNum = $('#gridEditRequireOrder').datagrid('getEditor', {index:rowIndex,field:"realNum"});
     var purchaseSpecValue = gridHandel.getFieldData('gridEditRequireOrder',rowIndex,'purchaseSpec');
     if(!purchaseSpecValue){
-        messager("没有商品规格,请审查");
+        $_jxc.alert("没有商品规格,请审查");
         return;
     }
     $(edLargeNum.target).numberbox({ onChange: function (newV,oldV) {

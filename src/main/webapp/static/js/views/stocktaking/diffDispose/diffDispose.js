@@ -33,7 +33,7 @@ $(function(){
         $('#btndelete').addClass('uinp-no-more');
         $('#btndelete').prop('disabled','disabled ')
 	}else{
-		  messager("数据查询异常");
+		  $_jxc.alert("数据查询异常");
 		  toClose();
 	}
 	initOperateDataGrid(url);
@@ -339,7 +339,7 @@ function initQueryData(url){
 
 function reasonChange(newVal,oldVal){
     if(undefined != newVal && newVal.trim().length > 40){
-        messager('原因最多输入40个字符')
+        $_jxc.alert('原因最多输入40个字符')
         newVal = newVal.substr(0,40);
     }
     gridHandel.setFieldTextValue('differenceReason',newVal);
@@ -432,7 +432,7 @@ function saveDiffDispose(){
     });
 
     if(rows.length==0){
-        messager("表格不能为空");
+        $_jxc.alert("表格不能为空");
         return;
     }
     
@@ -504,7 +504,7 @@ function auditDiffDispose(){
     }
 
     if(!gFunComparisonArray(oldData,newData)){
-        messager("数据已修改，请先保存");
+        $_jxc.alert("数据已修改，请先保存");
         return;
     }
 

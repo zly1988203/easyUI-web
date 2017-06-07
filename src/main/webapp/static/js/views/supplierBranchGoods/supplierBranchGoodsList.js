@@ -52,7 +52,7 @@ function zTreeOnClick(event, treeId, treeNode) {
     if(treeNode.type=="branch"){//选择机构
     	$("#supplierId").val('');
     	$("#supplierName").val('');
-    	messager('你选择的是机构，请选择供应商!');
+    	$_jxc.alert('你选择的是机构，请选择供应商!');
     }else if(treeNode.type=="supplier"){//供应商
     	if(treeNode.id){
 	    	sourceBranchId = $("#branchId").val();
@@ -325,17 +325,17 @@ function saveItemHandel(){
     var rows = gridHandel.getRowsWhere({skuName:'1'});
     $(gridHandel.getGridName()).datagrid("loadData",rows);
     if(rows.length==0){
-        messager("表格不能为空");
+        $_jxc.alert("表格不能为空");
         return;
     }
     var supplierId = $("#supplierId").val();
     if(!supplierId){
-    	messager("供应商不能为空");
+    	$_jxc.alert("供应商不能为空");
         return;
     }
     var branchId = $("#branchId").val();
     if(!branchId){
-    	messager("机构不能为空");
+    	$_jxc.alert("机构不能为空");
     	return;
     }
     
@@ -346,7 +346,7 @@ function saveItemHandel(){
     $.each(rows,function(i,v){
         v["rowNo"] = i+1;
         if(!v["skuId"]){
-            messager("第"+(i+1)+"行,商品不正确");
+            $_jxc.alert("第"+(i+1)+"行,商品不正确");
             isCheckResult = false;
             return false;
         };
@@ -362,13 +362,13 @@ function saveDataHandel(skuIds){
     //供应商
     var supplierId = $("#supplierId").val();
     if(!supplierId){
-    	messager("供应商不能为空");
+    	$_jxc.alert("供应商不能为空");
         return;
     }
     //收货机构
     var branchId = $("#branchId").val();
     if(!branchId){
-    	messager("机构不能为空");
+    	$_jxc.alert("机构不能为空");
     	return;
     }
     
@@ -401,13 +401,13 @@ function orderDelete(){
 	//供应商
     var supplierId = $("#supplierId").val();
     if(!supplierId){
-    	messager("供应商不能为空");
+    	$_jxc.alert("供应商不能为空");
         return;
     }
     //收货机构
     var branchId = $("#branchId").val();
     if(!branchId){
-    	messager("机构不能为空");
+    	$_jxc.alert("机构不能为空");
     	return;
     }
 	var rows =$("#gridSupplierArchiveList").datagrid("getChecked");
@@ -455,13 +455,13 @@ function toImportproduct(type){
 	//供应商
     var supplierId = $("#supplierId").val();
     if(!supplierId){
-    	messager("供应商不能为空");
+    	$_jxc.alert("供应商不能为空");
         return;
     }
     //收货机构
     var branchId = $("#branchId").val();
     if(!branchId){
-    	messager("机构不能为空");
+    	$_jxc.alert("机构不能为空");
     	return;
     }
 	
