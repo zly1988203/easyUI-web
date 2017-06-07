@@ -79,6 +79,18 @@ public class ICCardSettingController extends BaseController<Object>{
 		return RespJson.error("一卡通设置失败!");
 	}
 	
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public RespJson updateDetail(String settingId,String ip, int port,String cardType,String code) {
+		ICCardSetting icCardSetting = new ICCardSetting();
+		icCardSetting.setId(settingId);
+		icCardSetting.setClearingCenterIp(ip);
+		icCardSetting.setClearingCenterPort(port);
+		icCardSetting.setEcardType(cardType);
+		icCardSetting.setOperationDeptCode(code);
+		icCardSettingService.updateICCardSetting(icCardSetting);
+		return RespJson.success("更新一卡通成功!");
+	}
+	
 	@RequestMapping(value = "/type/save", method = RequestMethod.POST)
 	public RespJson save(String ip, int port,String cardType,String code){
 		

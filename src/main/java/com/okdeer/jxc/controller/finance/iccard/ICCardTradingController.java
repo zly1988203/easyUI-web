@@ -121,7 +121,7 @@ public class ICCardTradingController extends BasePrintController<TradeOrderPayVo
 				PageUtils<TradeOrderPayVo> suppliers = icCardTradingService.selectTradingList(vo, Boolean.FALSE);
 				List<TradeOrderPayVo> list = suppliers.getList();
 				if (!list.isEmpty() && list.size() > 0) {
-					String fileName = "一开通交易明细" + "_" + DateUtils.getCurrSmallStr();
+					String fileName = "一卡通交易明细" + "_" + DateUtils.getCurrSmallStr();
 					String templateName = ExportExcelConstant.ICC_CARD_TRADING_DETAIL;
 					exportListForXLSX(response, list, fileName, templateName);
 				} else {
