@@ -45,6 +45,9 @@
 					</shiro:hasPermission>
 					<div class="ubtns-item" onclick="toClose()">关闭</div>
 
+					<div id="updatePermission" class="none">
+						<shiro:hasPermission name="JxcBranchArchive:update">修改</shiro:hasPermission>
+					</div>
 				</div>
 			</div>
 			<form action="" id="formList" method="post">

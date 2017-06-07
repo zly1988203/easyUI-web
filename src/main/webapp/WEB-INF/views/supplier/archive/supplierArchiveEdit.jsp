@@ -314,7 +314,7 @@
 					<input id="minAmount" name="minAmount"
 						value="${supplier.minAmount }"
 						class="uinp uw-200 easyui-validatebox"
-						data-options="validType:'intNum'" type="text" maxlength="10">
+						data-options="validType:'intOrFloat'" type="text" maxlength="10">
 				</div>
 			</div>
 			<div class="ub upad-4">

@@ -229,7 +229,7 @@ function initDatagridResultOrder(){
 
     if(hasPurchasePrice==false){
         var fieldArr = ["purchasePrice","amount"]
-        priceGrantUtil.grantPurchasePrice("gridOrdersresult",arr)
+        priceGrantUtil.grantPurchasePrice("gridOrdersresult",fieldArr)
     }
 }
 

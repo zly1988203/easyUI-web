@@ -153,6 +153,7 @@ function copyHandel(){
         resizable: true,
         onClose: function () {
             $(addDalogTemp).panel('destroy');
+            addDalogTemp = null;
         },
         modal: true,
         onLoad: function () {
@@ -177,6 +178,7 @@ function editHandel(id){
         resizable: true,
         onClose: function () {
             $(editDalogTemp).panel('destroy');
+            editDalogTemp = null;
         },
         modal: true,
         onLoad: function () {
@@ -185,7 +187,7 @@ function editHandel(id){
 
             //初始化下拉框选中值
             selectParamInit();
-            onChangeSaleWay();
+            // onChangeSaleWay();
         }
     })
 }
@@ -331,6 +333,8 @@ function selectParamInit(){
     var saleWay = 	$('#saleWay').combobox("getValue");
     if(saleWay != "C"){
         $("#minAmountDiv").addClass("unhide");
+    }else{
+        $("#minAmountDiv").removeClass("unhide");
     }
 	
 }

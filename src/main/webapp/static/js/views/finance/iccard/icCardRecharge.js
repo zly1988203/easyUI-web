@@ -5,14 +5,14 @@
 function initCardRecharge(data){
     $("#cardRecharge #branchName").val(data.branchName);
     $("#cardRecharge #branchId").val(data.branchId);
-    $("#cardRecharge #oldBalance").numberbox("setValue",data.ecardBalance|0.00);
+    $("#cardRecharge #oldBalance").val(data.ecardBalance);
 }
 
 function getShopInfo() {
 
 }
 function changeBalance() {
-    var oldBalance = parseFloat($('#oldBalance').numberbox('getValue'));
+    var oldBalance = parseFloat($('#oldBalance').val());
     var addBalance = parseFloat($('#addBalance').numberbox('getValue'));
     if(addBalance <= 0.00){
         $_jxc.alert("充值金额要大于0");
