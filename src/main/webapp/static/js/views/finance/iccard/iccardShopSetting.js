@@ -149,6 +149,7 @@ function selectView(rowData) {
     var param = {
         data:{
             "branchId":rowData.branchId,
+            "settingId": $("#settingId").val()
         },
     	url:contextPath+"/iccard/setting/get/device"
     }
@@ -191,7 +192,7 @@ function initgridEquipmentList() {
                 formatter:function(value,row){
                     // var opts = $(this).combobox('options');
                     // return row[opts.textField];
-                    return row.posRegisteText||"";
+                    return row.posRegisteText||(row.deviceCode!=null&&row.deviceCode?"不关联":"");
                 },
                 editor:{
                     type:'combobox',
@@ -277,10 +278,10 @@ function saveSetting(){
     }
     this.ajaxSubmit(url,param,function (result) {
         if(result['code'] == 0){
-            $_jxc.alert("门店设置保存成功");
+        	$_jxc.alert("门店设置保存成功");
             $("#"+gridShopName).datagrid('reload');
         }else{
-            $_jxc.alert(result['message']);
+        	$_jxc.alert(result['message']);
         }
     })
 }
@@ -290,22 +291,32 @@ function saveEquipmentList() {
     var rows = gridEquipmentHandel.getRows();
     var url = contextPath+"/iccard/setting/save/pos";
     var branchId = $("#branchId").val();
-    var deviceCode=new Array();
-	var protectKey=new Array();
-	var posRegisteId = new Array();
-	for(var  i = 0;i<rows.length;i++){
-		deviceCode[i] = rows[i].deviceCode;
-		protectKey[i]=rows[i].protectKey;
-		posRegisteId[i]=rows[i].posRegisteId;
-	}
-    var param = {
-        "branchId":branchId,"deviceCode":deviceCode,"protectKey":protectKey,"posRegisteId":posRegisteId
-    }
-    this.ajaxSubmit(url,param,function (result) {
-        if(result['code'] == 0){
-            $_jxc.alert("设备数据保存成功");
-        }else{
-            $_jxc.alert(result['message']);
-        }
-    })
+    
+    $.post(contextPath+"/iccard/setting/judge/branch", {"branchId": branchId, "settingId": $("#settingId").val()},
+    		   function(result){
+			    	 if(result['code'] == 0){
+			    		 	var deviceCode=new Array();
+			    			var protectKey=new Array();
+			    			var posRegisteId = new Array();
+			    			for(var  i = 0;i<rows.length;i++){
+			    				debugger;
+			    				deviceCode[i] = rows[i].deviceCode;
+			    				protectKey[i]=rows[i].protectKey;
+			    				posRegisteId[i]=rows[i].posRegisteId==""?"-1":rows[i].posRegisteId;
+			    			}
+			    		    var param = {
+			    		        "branchId":branchId, "settingId": $("#settingId").val(),"deviceCode":deviceCode,"protectKey":protectKey,"posRegisteId":posRegisteId
+			    		    }
+			    		    $.post(url,param,function (result) {
+			    		        if(result['code'] == 0){
+			    		            $_jxc.alert("设备数据保存成功");
+			    		        }else{
+			    		            $_jxc.alert(result['message']);
+			    		        }
+			    		    })
+			    	 }else{
+			    		 $_jxc.alert("请先保存开通店铺,再保存设备！");
+			    	 }
+    		   });
+   
 }
