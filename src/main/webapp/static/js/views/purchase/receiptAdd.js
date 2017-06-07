@@ -42,7 +42,7 @@ function setSupplierValue(supplierId){
 			console.log(data);
 		},
 		error : function(result) {
-			successTip("请求发送失败或服务器处理失败");
+			$_jxc.alert("请求发送失败或服务器处理失败");
 		}
 	});
 }
@@ -681,11 +681,11 @@ function saveDataHandel(rows){
                     location.href = contextPath +"/form/purchase/receiptEdit?formId=" + result["formId"];
                 });
             }else{
-                successTip(result['message']);
+                $_jxc.alert(result['message']);
             }
         },
         error:function(result){
-            successTip("请求发送失败或服务器处理失败");
+            $_jxc.alert("请求发送失败或服务器处理失败");
         }
     });
 }
@@ -766,7 +766,7 @@ function selectPurchaseForm(){
 				console.log(data);
 			},
 			error : function(result) {
-				successTip("请求发送失败或服务器处理失败");
+				$_jxc.alert("请求发送失败或服务器处理失败");
 			}
 		});
         

@@ -621,7 +621,7 @@ function selectStockAndPrice(sourceBranchId,data){
     		setDataValue(result);
     	},
     	error:function(result){
-    		successTip("请求发送失败或服务器处理失败");
+    		$_jxc.alert("请求发送失败或服务器处理失败");
     	}
     });
 }
@@ -764,11 +764,11 @@ function saveOrderbtn(){
                 		strResult += item.goodsName+" ,库存数量： "+item.number+",";
                 	})
             	}
-                successTip(result['message']);
+                $_jxc.alert(result['message']);
             }
         },
         error:function(result){
-            successTip("请求发送失败或服务器处理失败");
+            $_jxc.alert("请求发送失败或服务器处理失败");
         }
     });
 }
@@ -790,11 +790,11 @@ function check(){
 		    				contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + deliverFormId;
 		    			});
 		    		}else{
-		    			successTip(result['message']);
+		    			$_jxc.alert(result['message']);
 		    		}
 		    	},
 		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
+		    		$_jxc.alert("请求发送失败或服务器处理失败");
 		    	}
 		    });
 		}
@@ -1022,7 +1022,7 @@ function selectStockAndPriceImport(sourceBranchId,data){
     		updateListData(result);
     	},
     	error:function(result){
-    		successTip("请求发送失败或服务器处理失败");
+    		$_jxc.alert("请求发送失败或服务器处理失败");
     	}
     });
 }

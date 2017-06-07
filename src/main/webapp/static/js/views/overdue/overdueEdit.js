@@ -429,11 +429,11 @@ $(function(){
 	                	location.reload();
 	                });
 	            }else{
-	                successTip(result['message']);
+	                $_jxc.alert(result['message']);
 	            }
 	        },
 	        error:function(result){
-	            successTip("请求发送失败或服务器处理失败");
+	            $_jxc.alert("请求发送失败或服务器处理失败");
 	        }
 	    });
 	}
@@ -496,11 +496,11 @@ $(function(){
 	                     location.href = contextPath +"/form/overdue/edit/" + id;
 	                 });
 	             }else{
-	                 successTip(result['message']);
+	                 $_jxc.alert(result['message']);
 	             }
 	         },
 	         error:function(result){
-	             successTip("请求发送失败或服务器处理失败");
+	             $_jxc.alert("请求发送失败或服务器处理失败");
 	         }
 	     });
 	}
@@ -524,11 +524,11 @@ $(function(){
 			                     location.href = contextPath +"/form/overdue/add/";
 			                 });
 			    		}else{
-			    			successTip(result['message']);
+			    			$_jxc.alert(result['message']);
 			    		}
 			    	},
 			    	error:function(result){
-			    		successTip("请求发送失败或服务器处理失败");
+			    		$_jxc.alert("请求发送失败或服务器处理失败");
 			    	}
 			    });
 			}
@@ -709,12 +709,12 @@ $(function(){
 		        			                	location.reload();
 		        			                });
 		        			            }else{
-		        			                successTip(result['message']);
+		        			                $_jxc.alert(result['message']);
 		        			            }
 		        			            //refreshCurrTab();
 		        			        },
 		        			        error:function(result){
-		        			            successTip("请求发送失败或服务器处理失败");
+		        			            $_jxc.alert("请求发送失败或服务器处理失败");
 		        			        }
 		        			    });
 		            }

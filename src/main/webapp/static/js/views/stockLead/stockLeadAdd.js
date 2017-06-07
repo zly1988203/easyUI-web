@@ -388,7 +388,7 @@ function selectStockAndPrice(branchId,data){
     		setDataValue(setdata);
     	},
     	error:function(result){
-    		successTip("请求发送失败或服务器处理失败");
+    		$_jxc.alert("请求发送失败或服务器处理失败");
     	}
     });
 }
@@ -529,11 +529,11 @@ function saveStockLead(){
                 	location.href = contextPath +"/stock/lead/edit?id=" + result["formId"];
                 });
             }else{
-               successTip(result['message']);
+               $_jxc.alert(result['message']);
             }
         },
         error:function(result){
-            successTip("请求发送失败或服务器处理失败");
+            $_jxc.alert("请求发送失败或服务器处理失败");
         }
     });
 }
@@ -670,7 +670,7 @@ function getImportData(data){
 function exportData(){
 	var length = $("#"+dataGridId).datagrid('getData').rows.length;
 	if(length == 0){
-		successTip("无数据可导");
+		$_jxc.alert("无数据可导");
 		return;
 	}
 	$('#exportWin').window({

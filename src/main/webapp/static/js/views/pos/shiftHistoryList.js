@@ -79,14 +79,14 @@ function shiftChange(id){
 		    	success:function(result){
 		    		console.log(result);
 		    		if(result['code'] == 0){
-		    			successTip("交班成功");
+		    			$_jxc.alert("交班成功");
 		    			dg.datagrid('reload');
 		    		}else{
-		    			$_jxc.alert((result['message']));
+		    			$_jxc.alert(result['message']);
 		    		}
 		    	},
 		    	error:function(result){
-		    		$_jxc.alert(("请求发送失败或服务器处理失败"));
+		    		$_jxc.alert("请求发送失败或服务器处理失败");
 		    	}
 		    });
 			

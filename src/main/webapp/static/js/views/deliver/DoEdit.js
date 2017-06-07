@@ -581,7 +581,7 @@ function selectStockAndPrice(sourceBranchId,data){
     		setDataValue(result);
     	},
     	error:function(result){
-    		successTip("请求发送失败或服务器处理失败");
+    		$_jxc.alert("请求发送失败或服务器处理失败");
     	}
     });
 }
@@ -712,11 +712,11 @@ function saveOrder(){
             	isFirst = false;
             	$("#"+gridHandel.getGridName()).datagrid("reload");
             }else{
-                successTip(result['message']);
+                $_jxc.alert(result['message']);
             }
         },
         error:function(result){
-            successTip("请求发送失败或服务器处理失败");
+            $_jxc.alert("请求发送失败或服务器处理失败");
         }
     });
 }
@@ -780,11 +780,11 @@ function checkValid(){
 			        }
 				});
 			}else{
-				successTip(result['message']);				
+				$_jxc.alert(result['message']);				
 			}
 		},
 		error:function(result){
-			successTip("请求发送失败或服务器处理失败");
+			$_jxc.alert("请求发送失败或服务器处理失败");
 		}
 	});
 }
@@ -803,11 +803,11 @@ function checkHandel(){
         				location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
         			});
         		}else{
-        			successTip(result['message']);
+        			$_jxc.alert(result['message']);
         		}
         	},
         	error:function(result){
-        		successTip("请求发送失败或服务器处理失败");
+        		$_jxc.alert("请求发送失败或服务器处理失败");
         	}
         });
 }
@@ -967,7 +967,7 @@ function selectStockAndPriceImport(sourceBranchId,data){
     		updateListData(result);
     	},
     	error:function(result){
-    		successTip("请求发送失败或服务器处理失败");
+    		$_jxc.alert("请求发送失败或服务器处理失败");
     	}
     });
 }
@@ -1036,11 +1036,11 @@ function delDeliverForm(){
 		    			toRefreshIframeDataGrid("form/deliverForm/viewsDO","deliverFormList");
 		    			toClose();
 		    		}else{
-		    			successTip(result['message']);
+		    			$_jxc.alert(result['message']);
 		    		}
 		    	},
 		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
+		    		$_jxc.alert("请求发送失败或服务器处理失败");
 		    	}
 		    });
 		}

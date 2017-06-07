@@ -429,13 +429,15 @@ function update(type,obj){
 		    		console.log(result);
 		    		if(result['code'] == 0){
 		    			initTreeArchives();
-		    			successTip("success",dg);
+		    			$_jxc.alert("success",function(){
+		    				dg.datagrid('reload');
+		    			});
 		    		}else{
-		    			successTip(result['message']);
+		    			$_jxc.alert(result['message']);
 		    		}
 		    	},
 		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
+		    		$_jxc.alert("请求发送失败或服务器处理失败");
 		    	}
 		    });
 		}

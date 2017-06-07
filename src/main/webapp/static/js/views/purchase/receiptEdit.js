@@ -649,12 +649,12 @@ function saveDataHandel(rows){
             if(result['code'] == 0){
                 $_jxc.alert("操作提示", "操作成功！", "info");
             }else{
-                successTip(result['message']);
+                $_jxc.alert(result['message']);
             }
         },
         error:function(result){
             gFunEndLoading();
-            successTip("请求发送失败或服务器处理失败");
+            $_jxc.alert("请求发送失败或服务器处理失败");
         }
     });
 }
@@ -703,12 +703,12 @@ function check(){
 		    				location.href = contextPath +"/form/purchase/receiptEdit?formId=" + id;
 		    			});
 		    		}else{
-		    			successTip(result['message']);
+		    			$_jxc.alert(result['message']);
 		    		}
 		    	},
 		    	error:function(result){
 		    	    gFunEndLoading();
-		    		successTip("请求发送失败或服务器处理失败");
+		    		$_jxc.alert("请求发送失败或服务器处理失败");
 		    	}
 		    });
 		}
@@ -735,13 +735,13 @@ function orderDelete(){
                             toClose();
 		    			});
 		    		}else{
-		    			successTip(result['message']);
+		    			$_jxc.alert(result['message']);
 		    		}
 		    		dg.datagrid('reload');
 		    	},
 		    	error:function(result){
 		    	    gFunEndLoading();
-		    		successTip("请求发送失败或服务器处理失败");
+		    		$_jxc.alert("请求发送失败或服务器处理失败");
 		    	}
 		    });
 		}

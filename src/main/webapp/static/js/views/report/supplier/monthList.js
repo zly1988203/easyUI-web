@@ -162,7 +162,7 @@ function exportData(){
 	dg = gridGYYueJXCList;
 	var length = gridGYYueJXCList.datagrid('getData').total;
 	if(length == 0){
-		successTip("无数据可导");
+		$_jxc.alert("无数据可导");
 		return;
 	}
 	$('#exportWin').window({
@@ -180,7 +180,7 @@ function exportData(){
 function exportExcel(){
 	var length = gridGYYueJXCList.datagrid('getData').total;
 	if(length == 0){
-		successTip("没有数据");
+		$_jxc.alert("没有数据");
 		return;
 	}
 	var fromObjStr = $('#queryForm').serializeObject();

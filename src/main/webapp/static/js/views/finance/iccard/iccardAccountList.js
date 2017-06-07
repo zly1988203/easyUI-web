@@ -132,7 +132,7 @@ function exportData(){
 	dg = $('#gridCardAccount');
 	var length = $('#gridCardAccount').datagrid('getData').total;
 	if(length == 0){
-		successTip("无数据可导");
+		$_jxc.alert("无数据可导");
 		return;
 	}
 	$('#exportWin').window({
@@ -150,7 +150,7 @@ function exportData(){
 function exportExcel(){
 	var length = $('#gridCardAccount').datagrid('getData').total;
 	if(length == 0){
-		successTip('提示',"没有数据");
+		$_jxc.alert("没有数据");
 		return;
 	}
 	var fromObjStr = urlEncode($('#queryForm').serializeObject());

@@ -433,7 +433,7 @@ function selectStockAndPrice(branchId,data){
     		setDataValue(setdata);
     	},
     	error:function(result){
-    		successTip("请求发送失败或服务器处理失败");
+    		$_jxc.alert("请求发送失败或服务器处理失败");
     	}
     });
 }
@@ -608,11 +608,11 @@ function saveOrder(){
                 	location.href = contextPath +"/stock/adjust/edit?id=" + result["formId"];
                 });
             }else{
-               successTip(result['message']);
+               $_jxc.alert(result['message']);
             }
         },
         error:function(result){
-            successTip("请求发送失败或服务器处理失败");
+            $_jxc.alert("请求发送失败或服务器处理失败");
         }
     });
 }
@@ -635,11 +635,11 @@ function check(){
 		    				contextPath +"/stock/adjust/list";
 		    			});
 		    		}else{
-		    			successTip(result['message']);
+		    			$_jxc.alert(result['message']);
 		    		}
 		    	},
 		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
+		    		$_jxc.alert("请求发送失败或服务器处理失败");
 		    	}
 		    });
 		}

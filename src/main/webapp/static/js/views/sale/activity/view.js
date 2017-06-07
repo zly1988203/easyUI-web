@@ -145,11 +145,11 @@ function  editstart(selectType){
 
 	              }else{
 	             
-	            	  successTip(data['message']);
+	            	  $_jxc.alert(data['message']);
 	          }
 	      },
 	      error:function(result){
-	          successTip("请求发送失败或服务器处理失败");
+	          $_jxc.alert("请求发送失败或服务器处理失败");
 	      }
 	  });
 }
@@ -1924,11 +1924,11 @@ function saveDataHandel(rows,setrows){
     	  if(result['code'] == 0){
               $_jxc.alert("操作成功！");
           }else{
-              successTip(result['message']);
+              $_jxc.alert(result['message']);
           }
       },
       error:function(result){
-          successTip("请求发送失败或服务器处理失败");
+          $_jxc.alert("请求发送失败或服务器处理失败");
       }
   });
 }
@@ -1950,11 +1950,11 @@ function check(){
 		    				location.href = contextPath +"/sale/activity/edit?activityId="+activityId;
 		    			});
 		    		}else{
-		    			successTip(result['message']);
+		    			$_jxc.alert(result['message']);
 		    		}
 		    	},
 		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
+		    		$_jxc.alert("请求发送失败或服务器处理失败");
 		    	}
 		    });
 		}
@@ -2054,11 +2054,11 @@ function stop(){
 		    				location.href = contextPath +"/sale/activity/edit?activityId="+activityId;
 		    			});
 		    		}else{
-		    			successTip(result['message']);
+		    			$_jxc.alert(result['message']);
 		    		}
 		    	},
 		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
+		    		$_jxc.alert("请求发送失败或服务器处理失败");
 		    	}
 		    });
 		}
