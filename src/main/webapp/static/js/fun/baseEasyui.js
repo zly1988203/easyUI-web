@@ -993,6 +993,22 @@ function selectMonth(){
 var $_jxc = {
 	
 	/**
+	 * bwp 07/06/07
+	 * 进销存机构类型枚举对象(参照后台BranchesTypeEnum.java类设置)
+	 * @returns
+	 * demo
+	 * $_jxc.branchTypeEnum.HEAD_QUARTERS
+	 */	
+	branchTypeEnum:{
+		HEAD_QUARTERS:0,     //总部
+		BRANCH_COMPANY:1,    //分公司
+		LOGISTICS:2,         //物流中心
+		OWN_STORES:3,        //自营店
+		FRANCHISE_STORE_B:4, //加盟店
+		FRANCHISE_STORE_C:5  //加盟店 
+	},
+	
+	/**
 	 * bwp 07/05/24
 	 * alert 提示组件
 	 * @param msg   提示信息
