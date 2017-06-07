@@ -4,7 +4,10 @@ package com.okdeer.jxc.controller;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,6 +18,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.enums.BranchTypeEnum;
+import com.okdeer.jxc.common.parser.DataAccessParser;
+import com.okdeer.jxc.common.parser.MapAccessParser;
+import com.okdeer.jxc.common.parser.vo.KeyExtendVo;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
@@ -251,5 +257,56 @@ public class BaseController<T> {
 		return mv;
 	}
 	
+	
+	/**
+	 * 过滤价格权限数据（单个vo）
+	 * @param data 要过滤的vo对象
+	 */
+	protected void cleanAccessData(Object data){
+		Set<String> forbiddenSets = new HashSet<>();
+		forbiddenSets.add("sale_price");
+		forbiddenSets.add("cost_price");
+		DataAccessParser parser = new DataAccessParser(data.getClass(), forbiddenSets);
+		parser.cleanDataObject(data);
+	}
+	
+	/**
+	 * 过滤价格权限数据（vo list）
+	 * @param datas 要过滤的vo对象
+	 */
+	protected void cleanAccessDatas(List<? extends Object> datas){
+		Class<?> cls = datas.get(0).getClass();
+		Set<String> forbiddenSets = new HashSet<>();
+		forbiddenSets.add("sale_price");
+		forbiddenSets.add("cost_price");
+		DataAccessParser parser = new DataAccessParser(cls, forbiddenSets);
+		parser.cleanDataObjects(datas);
+	}
+	
+	/**
+	 * 过滤价格权限数据（单个map）
+	 * @param extendVos 要过滤的数据key与关联key列表
+	 * @param dataMap 要过滤的数据
+	 */
+	protected void cleanDataMap(List<KeyExtendVo> extendVos, Map<String, Object> dataMap){
+		Set<String> forbiddenSets = new HashSet<>();
+		forbiddenSets.add("sale_price");
+		forbiddenSets.add("cost_price");
+		MapAccessParser parser = new MapAccessParser(extendVos, forbiddenSets);
+		parser.cleanDataMap(dataMap);
+	}
+	
+	/**
+	 * 过滤价格权限数据（map集合）
+	 * @param extendVos 要过滤的数据key与关联key列表
+	 * @param dataMaps 要过滤的数据
+	 */
+	protected void cleanDataMap(List<KeyExtendVo> extendVos, List<Map<String, Object>> dataMaps){
+		Set<String> forbiddenSets = new HashSet<>();
+		forbiddenSets.add("sale_price");
+		forbiddenSets.add("cost_price");
+		MapAccessParser parser = new MapAccessParser(extendVos, forbiddenSets);
+		parser.cleanDataMaps(dataMaps);
+	}
 	
 }
