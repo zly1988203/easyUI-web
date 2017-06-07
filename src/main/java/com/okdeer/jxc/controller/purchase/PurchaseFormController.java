@@ -1081,8 +1081,8 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 			replaceMap.put("_供应商名称", form.getSupplierName() != null ? form.getSupplierName() : "");
 			replaceMap.put("supplierName", form.getSupplierName() != null ? "["+form.getSupplierCode()+"]"+form.getSupplierName() : "");
 			// 制单人员
-			replaceMap.put("_制单人员", form.getSalesmanName() != null ? form.getSalesmanName() : "");
-			replaceMap.put("salesmanName", form.getSalesmanName() != null ? form.getSalesmanName() : "");
+			replaceMap.put("_制单人员", form.getCreateUserName() != null ? form.getCreateUserName() : "");
+			replaceMap.put("createUserName", form.getCreateUserName() != null ? form.getCreateUserName() : "");
 			// 机构名称
 			replaceMap.put("_机构名称", form.getBranchName() != null ? form.getBranchName() : "");
 			replaceMap.put("branchName", form.getBranchName() != null ? "["+form.getBranchCode() +"]"+form.getBranchName() : "");

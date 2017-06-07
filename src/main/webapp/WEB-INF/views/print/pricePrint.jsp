@@ -82,14 +82,14 @@
 				<div class="ub ub-ac umar-l64 jiaqType">
                     <div class="umar-r10 uw-70 ut-r">价签类型:</div>
                     <div class="ub ub-ac umar-r10">
-						<label>
-						<input class="radioItem" type="radio" value="0" name="status" checked="checked"><span>正常价签</span>
+						<label class="radioItemLabel">
+							<input class="radioItem" type="radio" value="0" name="status" checked="checked"><span>正常价签</span>
 						</label>
 
                     </div>
                     <div class="ub ub-ac umar-r10 umar-l40">
-						<label>
-						<input class="radioItem" type="radio" value="1" name="status"><span>促销价签</span>
+						<label class="radioItemLabel">
+							<input class="radioItem" type="radio" value="1" name="status"><span>促销价签</span>
 						</label>
                     </div>
 					<input type="hidden" id="priceType" name="priceType" value="0"/>
