@@ -152,16 +152,14 @@ function exportDetail(){
 
 // 查询要货机构的资料
 function selectTargetBranchData(targetBranchId){
-    $.ajax({
+    $_jxc.ajax({
         url:contextPath+"/common/branches/selectTargetBranchData",
         data:{
             branchesId : targetBranchId
-        },
-        type:"post",
-        success:function(data){
-            $("#address").html(data.address);
-            $("#contacts").html(data.contacts);
-            $("#mobile").html(data.mobile);
         }
+    },function(data){
+        $("#address").html(data.address);
+        $("#contacts").html(data.contacts);
+        $("#mobile").html(data.mobile);
     });
 }

@@ -194,23 +194,20 @@ function saveDetailStock(){
 
 	var reqObj = JSON.stringify([detGridData]);
 	// 调用后台保存方法，成功提示
-	$.ajax({
-        type: "POST",
+	$_jxc.ajax({
         url: contextPath+"/stock/index/saveStockIndex",
-        data: {"data":reqObj},
-        dataType: "json",
-        success: function(data){
-			if (data.code == 0) {
-				$("#stockIndexList").datagrid('updateRow',{
-					index: detailIndex,
-					row: {lowerLimit: detGridData.lowerLimit,upperLimit:detGridData.upperLimit}
-				});
-				$_jxc.alert('修改成功');
-				closeDetailDialog();
-			} else {
-				// 失败提示
-				$_jxc.alert(data.message);
-			}
+        data: {"data":reqObj}
+	},function(data){
+		if (data.code == 0) {
+			$("#stockIndexList").datagrid('updateRow',{
+				index: detailIndex,
+				row: {lowerLimit: detGridData.lowerLimit,upperLimit:detGridData.upperLimit}
+			});
+			$_jxc.alert('修改成功');
+			closeDetailDialog();
+		} else {
+			// 失败提示
+			$_jxc.alert(data.message);
 		}
 	});
 

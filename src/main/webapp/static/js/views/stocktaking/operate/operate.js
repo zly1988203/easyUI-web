@@ -414,7 +414,7 @@ function addOperate(){
 
 //保存
 function saveDataHandel(rows,opType){
-	gFunStartLoading();
+//	gFunStartLoading();
 	//机构
 	var formId=$("#formId").val();
     //机构
@@ -455,24 +455,17 @@ function saveDataHandel(rows,opType){
 			operateType:opType,
             detailList:tempRows
         };
-    $.ajax({
+    $_jxc.ajax({
         url:contextPath+"/stocktaking/operate/saveStocktakingForm",
-        type:"POST",
-        data:{"data":JSON.stringify(jsonData)},
-        success:function(result){
-        	gFunEndLoading();
-            if(result['code'] == 0){
-    			$_jxc.alert("操作成功！",function(){
-    				location.href = contextPath +"/stocktaking/operate/stocktakingFormView?id="+result['formId'];
-    			});
-            }else{
-                gFunEndLoading();
-                $_jxc.alert(result['message']);
-            }
-        },
-        error:function(result){
-            gFunEndLoading();
-            $_jxc.alert("请求发送失败或服务器处理失败");
+        data:{"data":JSON.stringify(jsonData)}
+    },function(result){
+        if(result['code'] == 0){
+			$_jxc.alert("操作成功！",function(){
+				location.href = contextPath +"/stocktaking/operate/stocktakingFormView?id="+result['formId'];
+			});
+        }else{
+//            gFunEndLoading();
+            $_jxc.alert(result['message']);
         }
     });
 }
@@ -511,23 +504,18 @@ function selectBranches(){
 function deleteStocktakingForm(){
 	var formId = $("#formId").val();
 	var ids = [formId];
-	$.messager.confirm('提示','是否要删除此条数据',function(data){
+	$_jxc.confirm('是否要删除此条数据?',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 		    	url:contextPath+"/stocktaking/operate/deleteStocktakingForm",
-		    	type:"POST",
 		    	data:{
 		    		ids : ids
-		    	},
-		    	success:function(result){
-		    		$_jxc.alert(result['message']);
-		    		if(result['code'] == 0){
-		    			toClose();
-		    		}
-		    	},
-		    	error:function(result){
-		    		$_jxc.alert("请求发送失败或服务器处理失败");
 		    	}
+		    },function(result){
+	    		$_jxc.alert(result['message']);
+	    		if(result['code'] == 0){
+	    			toClose();
+	    		}
 		    });
 		}
 	});

@@ -29,19 +29,14 @@ function bindElementEvent(){
 //初始化查询表单
 function initQueryForm(){
 	//默认机构
-	$.ajax({
-		url : contextPath + "/common/getCurrentBranch",
-		type : "POST",
-		success : function(result) {
-			if(result.code == 0){
-				$("#branchId").val(result.data.branchesId);
-				$("#branchName").val("["+result.data.branchCode+"]"+result.data.branchName);
-				changeBranchType(result.data.type);
-			}else{
-				$_jxc.alert("请求发送失败或服务器处理失败");
-			}
-		},
-		error : function(result) {
+	$_jxc.ajax({
+		url : contextPath + "/common/getCurrentBranch"
+	},function(result){
+		if(result.code == 0){
+			$("#branchId").val(result.data.branchesId);
+			$("#branchName").val("["+result.data.branchCode+"]"+result.data.branchName);
+			changeBranchType(result.data.type);
+		}else{
 			$_jxc.alert("请求发送失败或服务器处理失败");
 		}
 	});
@@ -592,7 +587,7 @@ function query(){
 function importExcel(type){
 	var branchId = $("#branchId").val();
 	if(!branchId){
-		messager("请先选择机构");
+		$_jxc.alert("请先选择机构");
 		return;
 	}
 	var param = {
@@ -626,7 +621,7 @@ function save(){
 	//选中的商品
 	var rows = $("#goodsGrid").datagrid("getSelections");
 	if (!rows || rows.length == 0) {
-		messager("未选择商品");
+		$_jxc.alert("未选择商品");
 		return;
 	}
 	var skuIds = [];
@@ -639,22 +634,17 @@ function save(){
 	var req = JSON.stringify(reqObj);
 	
 	//请求提交
-	$.ajax({
+	$_jxc.ajax({
 		url : contextPath + "/goods/batchUpdate/save",
-		type : "POST",
 		contentType : 'application/json',
-		data : req,
-		success : function(result) {
-			if (result['code'] == 0) {
-				$_jxc.alert("操作成功！",function() {
-					
-				});
-			} else {
-				$_jxc.alert(result['message']);
-			}
-		},
-		error : function(result) {
-			$_jxc.alert("请求发送失败或服务器处理失败");
+		data : req
+	},function(result){
+		if (result['code'] == 0) {
+			$_jxc.alert("操作成功！",function() {
+				
+			});
+		} else {
+			$_jxc.alert(result['message']);
 		}
 	});
 }

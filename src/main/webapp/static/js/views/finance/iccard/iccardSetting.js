@@ -181,25 +181,19 @@ function delCard() {
         return;
     }
 
-    $.messager.confirm('提示','是否要删除选中数据',function(data){
+    $_jxc.confirm('是否要删除选中数据?',function(data){
         if(data){
-            gFunStartLoading();
-            $.ajax({
-                url:contextPath+"/iccard/setting/type/delete/"+row.id,
-                type:"POST",
-                success:function(result){
-                    gFunEndLoading();
-                    if(result['code'] == 0){
-                        $_jxc.alert("删除成功");
-                    }else{
-                        $_jxc.alert(result['message']);
-                    }
-                    $("#"+gridName).datagrid('reload');
-                },
-                error:function(result){
-                    gFunEndLoading();
-                    $_jxc.alert("请求发送失败或服务器处理失败");
+//            gFunStartLoading();
+            $_jxc.ajax({
+                url:contextPath+"/iccard/setting/type/delete/"+row.id
+            },function(result){
+//                gFunEndLoading();
+                if(result['code'] == 0){
+                    $_jxc.alert("删除成功");
+                }else{
+                    $_jxc.alert(result['message']);
                 }
+                $("#"+gridName).datagrid('reload');
             });
         }
     });

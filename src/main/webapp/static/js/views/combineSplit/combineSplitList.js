@@ -120,22 +120,17 @@ function deleteCombineSplit(){
     }
 	
     if(tempIds.length > 0){
-        $.messager.confirm('提示','单据删除后将无法恢复，确认是否删除？',function(r){
+        $_jxc.confirm('单据删除后将无法恢复，确认是否删除？',function(r){
             if (r){
             	//删除单据
-            	gFunStartLoading();
-            	$.ajax({
-                    type: "POST",
+            	$_jxc.ajax({
                     url: contextPath+"/stock/combineSplit/deleteCombineSplit",
-                    data: {"ids":tempIds},
-                    dataType: "json",
-                    success: function(data){
-                    	gFunEndLoading();
-                    	if(data.code == 0){
-                            $_jxc.alert(data['message']);
-                    		queryForm();
-                    	}
-                    }
+                    data: {"ids":tempIds}
+                },function(data){
+                	if(data.code == 0){
+                        $_jxc.alert(data['message']);
+                		queryForm();
+                	}
                 });
             }
         });

@@ -14,27 +14,22 @@ function save() {
     }
 
 	var formObj = $('#formAdd').serializeObject();
-	$.ajax({
+	$_jxc.ajax({
 		url : contextPath + "/common/brand/saveBrand",
-		type : "POST",
-		data : formObj,
-		success : function(result) {
-			if(result.code == 0){
-				alertTip(result.message, initDataGrid);
-				var flag = $("input[type='checkbox']").is(':checked');
-				if(flag){
-					$('#saveBrand').removeAttr("disabled");
-					cleanForm();
-				}else{
-					closeDialogHandel();
-				}
-			}else{
+		data : formObj
+	},function(result){
+		if(result.code == 0){
+			alertTip(result.message, initDataGrid);
+			var flag = $("input[type='checkbox']").is(':checked');
+			if(flag){
 				$('#saveBrand').removeAttr("disabled");
-                $_jxc.alert(result.message);
+				cleanForm();
+			}else{
+				closeDialogHandel();
 			}
-		},
-		error : function(result) {
-            $_jxc.alert("请求发送失败或服务器处理失败");
+		}else{
+			$('#saveBrand').removeAttr("disabled");
+            $_jxc.alert(result.message);
 		}
 	});
 }

@@ -15,9 +15,9 @@ function saveSettingType() {
     $.post(url,param,function(result){
     	if(result.code===0){
 			$('#closeCardType').trigger('click');
-			messager(result.data);
+			$_jxc.alert(result.data);
 		}else{
-			messager(result.message);
+			$_jxc.alert(result.message);
 		}
 		
 		$("#gridCardSetting").datagrid('reload');

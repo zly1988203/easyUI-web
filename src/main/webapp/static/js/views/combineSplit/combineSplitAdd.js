@@ -220,26 +220,21 @@ function selectBranch (){
 }
 //根据选中skuid查询价格、库存
 function selectView(searchskuId){
-	$.ajax({
+	$_jxc.ajax({
 		url  : contextPath + "/stock/combineSplit/getGoodsComponentDetailList",
-		type : "POST",
 		data : {
 			"skuId" : searchskuId,
 			"branchId" :$("#createBranchId").val()
-		},
-		success : function(result) {
-			if (result.length > 0) {
-				setDataValue(result);
-			} else {
-				// result.length <0 清空数据
-				$("#"+datagridId).datagrid('loadData', {
-					total : 0,
-					rows : []
-				});
-			}
-		},
-		error : function(result) {
-            $_jxc.alert("请求发送失败或服务器处理失败");
+		}
+	},function(result){
+		if (result.length > 0) {
+			setDataValue(result);
+		} else {
+			// result.length <0 清空数据
+			$("#"+datagridId).datagrid('loadData', {
+				total : 0,
+				rows : []
+			});
 		}
 	});
 }
@@ -314,7 +309,7 @@ function saveCombineSplit(){
     });
     if(isCheckResult){
         if(isChcekPrice){
-            $.messager.confirm('系统提示',"新单价存在为0，是否确定保存",function(r){
+            $.confirm('系统提示',"新单价存在为0，是否确定保存",function(r){
                 if (r){
                     saveDataHandel(rows);
                 }
@@ -395,21 +390,16 @@ function saveDataHandel(rows){
             stockFormDetailList:tempRows
         };
     console.log('组合单',JSON.stringify(jsonData));
-    $.ajax({
+    $_jxc.ajax({
         url:contextPath+"/stock/combineSplit/saveCombineSplit",
-        type:"POST",
-        data:{"data":JSON.stringify(jsonData)},
-        success:function(result){
-            if(result['code'] == 0){
-    			$_jxc.alert("操作成功！",function(){
-    				location.href = contextPath +"/stock/combineSplit/combineSplitView?id="+id;
-    			});
-            }else{
-                $_jxc.alert(result['message']);
-            }
-        },
-        error:function(result){
-            $_jxc.alert("请求发送失败或服务器处理失败");
+        data:{"data":JSON.stringify(jsonData)}
+    },function(result){
+        if(result['code'] == 0){
+			$_jxc.alert("操作成功！",function(){
+				location.href = contextPath +"/stock/combineSplit/combineSplitView?id="+id;
+			});
+        }else{
+            $_jxc.alert(result['message']);
         }
     });
 }

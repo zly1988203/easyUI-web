@@ -251,18 +251,13 @@ function selectStockAndPrice(branchId,data){
 		GoodsStockVo.goodsSkuVo[i] = temp;
 		
 	});
-	$.ajax({
+	$_jxc.ajax({
     	url : contextPath+"/goods/goodsSelect/selectStockAndPriceToDo",
-    	type : "POST",
     	data : {
     		goodsStockVo : JSON.stringify(GoodsStockVo)
-    	},
-    	success:function(result){
-    		setDataValue(result);
-    	},
-    	error:function(result){
-            $_jxc.alert("请求发送失败或服务器处理失败");
     	}
+    },function(result){
+    	setDataValue(result);
     });
 }
 //二次查询设置值
@@ -370,25 +365,19 @@ function saveDataHandel(rows){
         }
         jsonData.stockCostFormDetailList[i] = temp;
     });
-    gFunStartLoading();
-    $.ajax({
+//    gFunStartLoading();
+    $_jxc.ajax({
         url:contextPath+"/cost/costAdjust/addCostForm",
-        type:"POST",
-        data:{"jsonData":JSON.stringify(jsonData)},
-        success:function(result){
-        	gFunEndLoading();
-            if(result['code'] == 0){
-                console.log(result);
-                $_jxc.alert("操作成功！",function(){
-                    location.href = contextPath +"/cost/costAdjust/edit?id="+result.id+"&type=add"
-                });
-            }else{
-                $_jxc.alert(result['message']);
-            }
-        },
-        error:function(result){
-        	gFunEndLoading();
-            $_jxc.alert("请求发送失败或服务器处理失败");
+        data:{"jsonData":JSON.stringify(jsonData)}
+    },function(result){
+//        	gFunEndLoading();
+        if(result['code'] == 0){
+            console.log(result);
+            $_jxc.alert("操作成功！",function(){
+                location.href = contextPath +"/cost/costAdjust/edit?id="+result.id+"&type=add"
+            });
+        }else{
+            $_jxc.alert(result['message']);
         }
     });
 }

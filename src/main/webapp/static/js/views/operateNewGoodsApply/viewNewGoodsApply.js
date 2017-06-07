@@ -50,16 +50,11 @@ function initGoodsEditView(id){
 //根据商品名称获取助记码
 function getMemoryCode(){
 	var reqObj = {"skuName":$("#skuName").val()};
-	$.ajax({
+	$_jxc.ajax({
 		url:contextPath+"/goods/operateNewGoodsApply/getMemoryCode",
-		type:"POST",
-		data:reqObj,
-		success:function(result){
-			$("#memoryCode").val(result); //助记码
-		},
-		error:function(result){
-			console.log(result);
-		}
+		data:reqObj
+	},function(result){
+		$("#memoryCode").val(result); //助记码
 	});
 }
 
@@ -100,20 +95,15 @@ function getSkuCodeVal(){
  */
 function getSkuCode(pricingType,categoryCode){
 	var reqObj = {"pricingType":pricingType,"categoryCode":categoryCode};
-	$.ajax({
+	$_jxc.ajax({
 		url:contextPath+"/goods/operateNewGoodsApply/getSkuCode",
-		type:"POST",
-		data:reqObj,
-		success:function(result){
-			console.log("货号==",result);
-			$("#skuCode").val(result); //货号
+		data:reqObj
+	},function(result){
+		console.log("货号==",result);
+		$("#skuCode").val(result); //货号
 
-			//计价/计重商品自动生成条码
-			getBarCodeVal(pricingType, result);
-		},
-		error:function(result){
-			console.log(result);
-		}
+		//计价/计重商品自动生成条码
+		getBarCodeVal(pricingType, result);
 	});
 }
 
@@ -138,17 +128,12 @@ function getBarCodeVal(pricingType, skuCode){
  */
 function getBarCode(pricingType,skuCode){
 	var reqObj = {"pricingType":pricingType,"SkuCode":skuCode};
-	$.ajax({
+	$_jxc.ajax({
 		url:contextPath+"/goods/operateNewGoodsApply/getBarCode",
-		type:"POST",
-		data:reqObj,
-		success:function(result){
-			console.log("条码==",result);
-			$("#barCode").val(result).attr("readonly","readonly");  //条码
-		},
-		error:function(result){
-			console.log(result);
-		}
+		data:reqObj
+	},function(result){
+		console.log("条码==",result);
+		$("#barCode").val(result).attr("readonly","readonly");  //条码
 	});
 }
 
@@ -290,18 +275,13 @@ function getGoodsArchivesDetail(id){
 function checkBarCodeByOrdinary(){
 	var result = false;
 	var reqObj = {"barCode":$("#barCode").val(), "id":$("#id").val()};
-	$.ajax({
+	$_jxc.ajax({
 		url:contextPath+"/goods/operateNewGoodsApply/checkBarCodeByOrdinary",
-		type:"POST",
 		asyn:false,
-		data:reqObj,
-		success:function(result){
-			if(result.code == 0){
-				result = true;
-			}
-		},
-		error:function(result){
-			console.log(result);
+		data:reqObj
+	},function(result){
+		if(result.code == 0){
+			result = true;
 		}
 	});
 	return result;
@@ -320,19 +300,19 @@ function saveGoodsArchives(){
 	
 	if($("#purchaseSpec").val()=== '0.00'){
 		$('#updateGoodsArchives').removeAttr("disabled");
-		messager("进货规格不能为0!");
+		$_jxc.alert("进货规格不能为0!");
 		return;
 	}
 	
 	if($("#distributionSpec").val()=== '0.00'){
 		$('#updateGoodsArchives').removeAttr("disabled");
-		messager("配送规格不能为0");
+		$_jxc.alert("配送规格不能为0");
 		return;
 	}
 	
 	if(parseFloat($("#vipPrice").val()) > parseFloat($("#salePrice").val())){
 		$('#updateGoodsArchives').removeAttr("disabled");
-		messager("会员价不能大于零售价");
+		$_jxc.alert("会员价不能大于零售价");
 		return;
 	}
 
@@ -342,21 +322,16 @@ function saveGoodsArchives(){
 	var skuName = $("#skuName").val();
 	// 普通商品需要校验条码是否重复
 	var reqObj = reqObj = {"barCode":barCode,"skuName":skuName, "id":$("#id").val()};
-	$.ajax({
+	$_jxc.ajax({
 		url:contextPath+"/goods/operateNewGoodsApply/checkBarCodeByOrdinary",
-		type:"POST",
 		data:reqObj,
-		async:false, 
-		success:function(result){
-			if(result.code == 0){
-				submitForm();
-			}else{
-				$('#updateGoodsArchives').removeAttr("disabled");
-				$_jxc.alert(result.message);
-			}
-		},
-		error:function(result){
-			console.log(result);
+		async:false
+	},function(result){
+		if(result.code == 0){
+			submitForm();
+		}else{
+			$('#updateGoodsArchives').removeAttr("disabled");
+			$_jxc.alert(result.message);
 		}
 	});
 	/*if(pricingType == "ORDINARY"){

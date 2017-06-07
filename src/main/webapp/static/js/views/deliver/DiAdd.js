@@ -575,25 +575,19 @@ function saveOrder(){
     	reqObj.deliverFormListVo[i] = temp;
 	});
 
-    gFunStartLoading();
-    $.ajax({
+//    gFunStartLoading();
+    $_jxc.ajax({
         url:contextPath+"/form/deliverForm/insertDeliverForm",
-        type:"POST",
         contentType:"application/json",
-        data:JSON.stringify(reqObj),
-        success:function(result){
-            gFunEndLoading();
-            if(result['code'] == 0){
-                $_jxc.alert("操作成功！",function(){
-                	location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
-                });
-            }else{
-                $_jxc.alert(result['message']);
-            }
-        },
-        error:function(result){
-            gFunEndLoading();
-            $_jxc.alert("请求发送失败或服务器处理失败");
+        data:JSON.stringify(reqObj)
+    },function(result){
+//        gFunEndLoading();
+        if(result['code'] == 0){
+            $_jxc.alert("操作成功！",function(){
+            	location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
+            });
+        }else{
+            $_jxc.alert(result['message']);
         }
     });
 }
@@ -601,30 +595,24 @@ function saveOrder(){
 //审核
 function check(){
 	var deliverFormId = $("#formId").val();
-	$.messager.confirm('提示','是否审核通过？',function(data){
+	$_jxc.confirm('是否审核通过？',function(data){
 		if(data){
-			gFunStartLoading();
-			$.ajax({
+//			gFunStartLoading();
+			$_jxc.ajax({
 		    	url : contextPath+"/form/deliverForm/check",
-		    	type : "POST",
 		    	data : {
 		    		deliverFormId : $("#formId").val(),
 		    		deliverType : 'DI'
-		    	},
-		    	success:function(result){
-		    		gFunEndLoading();
-		    		if(result['code'] == 0){
-		    			$_jxc.alert("操作成功！",function(){
-		    				contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + deliverFormId;
-		    			});
-		    		}else{
-		    			$_jxc.alert(result['message']);
-		    		}
-		    	},
-		    	error:function(result){
-                    gFunEndLoading();
-		    		$_jxc.alert("请求发送失败或服务器处理失败");
 		    	}
+		    },function(result){
+//	    		gFunEndLoading();
+	    		if(result['code'] == 0){
+	    			$_jxc.alert("操作成功！",function(){
+	    				contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + deliverFormId;
+	    			});
+	    		}else{
+	    			$_jxc.alert(result['message']);
+	    		}
 		    });
 		}
 	});
@@ -727,32 +715,30 @@ function loadFormByFormNoDO() {
 
 // 设置值
 function setData(){
-    $.ajax({
+    $_jxc.ajax({
         url:contextPath+"/form/deliverForm/getSourceBranchAndTargetBranchAndFormNo",
         data:{
             referenceId : $("#referenceId").val()
-        },
-        type:"post",
-        success:function(data){
-            if (data.code == '0') {
-                $("#referenceId").val(data.data.id);
-                $("#referenceNo").val(data.data.formNo);
-                $("#targetBranchId").val(data.data.targetBranchId);
-                $("#targetBranchName").val(data.data.targetBranchName);
-                $("#sourceBranchId").val(data.data.sourceBranchId);
-                $("#sourceBranchName").val(data.data.sourceBranchName);
-                
-                if(data.data.formType=="DD"){
-        			$("#typeDD").attr("checked","checked");
-        			$("#typeDA").attr("checked",false);
-        		}else{
-        			$("#typeDA").attr("checked","checked");
-        			$("#typeDD").attr("checked",false);
-        		}
-                //$("#address").html(data.data.address);
-                //$("#contacts").html(data.data.contacts);
-                //$("#mobile").html(data.data.mobile);
-            }
+        }
+    },function(data){
+        if (data.code == '0') {
+            $("#referenceId").val(data.data.id);
+            $("#referenceNo").val(data.data.formNo);
+            $("#targetBranchId").val(data.data.targetBranchId);
+            $("#targetBranchName").val(data.data.targetBranchName);
+            $("#sourceBranchId").val(data.data.sourceBranchId);
+            $("#sourceBranchName").val(data.data.sourceBranchName);
+            
+            if(data.data.formType=="DD"){
+    			$("#typeDD").attr("checked","checked");
+    			$("#typeDA").attr("checked",false);
+    		}else{
+    			$("#typeDA").attr("checked","checked");
+    			$("#typeDD").attr("checked",false);
+    		}
+            //$("#address").html(data.data.address);
+            //$("#contacts").html(data.data.contacts);
+            //$("#mobile").html(data.data.mobile);
         }
     });
 }

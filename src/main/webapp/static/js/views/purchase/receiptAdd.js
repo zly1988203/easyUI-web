@@ -29,21 +29,16 @@ function initConditionParams(){
 
 //设置经营方式
 function setSupplierValue(supplierId){
-	$.ajax({
+	$_jxc.ajax({
 		url : contextPath + "/common/supplier/getById",
-		type : "POST",
 		data : {
 			id : supplierId
-		},
-		success : function(data) {
-			$("#saleWay").val(data.supplier.saleWay);
-			$("#saleWayName").val(data.supplier.saleWayName);
-			
-			console.log(data);
-		},
-		error : function(result) {
-			$_jxc.alert("请求发送失败或服务器处理失败");
 		}
+	},function(data){
+		$("#saleWay").val(data.supplier.saleWay);
+		$("#saleWayName").val(data.supplier.saleWayName);
+		
+		console.log(data);
 	});
 }
 
@@ -327,30 +322,24 @@ function getGridData(){
 	
 	 var formId = $("#formId").val();
 	
-	$.ajax({
-        method : 'Post',
+	$_jxc.ajax({
         url : contextPath+"/form/purchase/detailList?formId="+formId,
-        async : false,
-        dataType : 'json',
-        success : function(data) {
-        	//根据选择的采购单，带出采购单的信息
-    	    var keyrealNum = {
-    	        realNum:'maxRealNum',
+        async : false
+    },function(data){
+    	//根据选择的采购单，带出采购单的信息
+	    var keyrealNum = {
+	        realNum:'maxRealNum',
+	    };
+	    
+	    var keylargeNum = {
+	    		largeNum:'maxlargeNum',
     	    };
-    	    
-    	    var keylargeNum = {
-    	    		largeNum:'maxlargeNum',
-        	    };
-    	    
-    	    if(data && data.rows.length > 0){
-    	        var newRows = gFunUpdateKey(data.rows,keyrealNum);
-    	        var newRows = gFunUpdateKey(newRows,keylargeNum);
-    	        $("#gridEditOrder").datagrid("loadData",newRows);
-    	    }
-        },
-        error : function() {
-            alert('error');
-        }
+	    
+	    if(data && data.rows.length > 0){
+	        var newRows = gFunUpdateKey(data.rows,keyrealNum);
+	        var newRows = gFunUpdateKey(newRows,keylargeNum);
+	        $("#gridEditOrder").datagrid("loadData",newRows);
+	    }
     });
 }
 
@@ -669,23 +658,18 @@ function saveDataHandel(rows){
     
     var req = JSON.stringify(reqObj);
 
-    $.ajax({
+    $_jxc.ajax({
         url:contextPath+"/form/purchase/saveReceipt",
-        type:"POST",
         contentType:'application/json',
-        data:req,
-        success:function(result){
-            console.log(result);
-            if(result['code'] == 0){
-                $_jxc.alert("操作成功！",function(){
-                    location.href = contextPath +"/form/purchase/receiptEdit?formId=" + result["formId"];
-                });
-            }else{
-                $_jxc.alert(result['message']);
-            }
-        },
-        error:function(result){
-            $_jxc.alert("请求发送失败或服务器处理失败");
+        data:req
+    },function(result){
+        console.log(result);
+        if(result['code'] == 0){
+            $_jxc.alert("操作成功！",function(){
+                location.href = contextPath +"/form/purchase/receiptEdit?formId=" + result["formId"];
+            });
+        }else{
+            $_jxc.alert(result['message']);
         }
     });
 }
@@ -753,21 +737,16 @@ function selectPurchaseForm(){
         $("#salesmanId").val(data.form.salesmanId);
         $("#operateUserName").val(data.form.salesmanName);
 		$("#refFormId").val(data.form.id);
-		$.ajax({
+		$_jxc.ajax({
 			url : contextPath + "/common/supplier/getById",
-			type : "POST",
 			data : {
 				id : data.form.supplierId
-			},
-			success : function(data) {
-				$("#saleWay").val(data.supplier.saleWay);
-				$("#saleWayName").val(data.supplier.saleWayName);
-				
-				console.log(data);
-			},
-			error : function(result) {
-				$_jxc.alert("请求发送失败或服务器处理失败");
 			}
+		},function(data){
+			$("#saleWay").val(data.supplier.saleWay);
+			$("#saleWayName").val(data.supplier.saleWayName);
+			
+			console.log(data);
 		});
         
         

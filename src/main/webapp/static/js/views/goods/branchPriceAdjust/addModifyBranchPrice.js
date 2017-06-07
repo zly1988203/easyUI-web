@@ -328,22 +328,19 @@ function delModifyOrderDialog() {
 	// 确定删除，调用后台删除方法
 	var formNo = $('#formNoInput').val();
 	if (formNo) {
-		$.messager.confirm('提示', '单据删除后将无法恢复，确认是否删除？', function(r) {
+		$_jxc.confirm('单据删除后将无法恢复，确认是否删除？', function(r) {
 			if (r) {
 				//删除单据
-				$.ajax({
-					type: "POST",
+				$_jxc.ajax({
 					url: contextPath+"/goods/branchPriceAdjust/deleteForm",
 					data: {"formNo":formNo},
-					dataType: "json",
-					success: function(data){
+				},function(data){
 						window.location.href = contextPath + "/goods/priceAdjust/addFormView";
-					}
 				});
 			}
 		});
 	}else{
-		$.messager.confirm('提示', '没有单据可以删除');
+		$_jxc.alert('提示', '没有单据可以删除');
 	}
 }
 
@@ -397,26 +394,21 @@ function saveModifyPriceOrder() {
 						}
 					var reqObj = JSON.stringify(params);
 					// 调用后台保存方法，成功提示
-					$.ajax({
-							type : "POST",
+					$_jxc.ajax({
 							url : contextPath + "/goods/branchPriceAdjust/saveForm",
 							data :reqObj,
-							dataType:"json",
-							contentType : "application/json",
-							success : function(data) {
-								gFunEndLoading();
-								if (data.code == 0) {
-									isClickSaveData = true;
-									initTmpData();
-									$_jxc.alert("操作成功！",function(){
-					    				location.href = contextPath +"/goods/branchPriceAdjust/getForm?formNo="+data.goodsPriceForm.formNo;
-					    			});
-								} else {
-									// 失败提示
-									$_jxc.alert(data.message);
-								}
-							},error:function(){
-								gFunEndLoading();
+							contentType : "application/json"
+						},function(data){
+							gFunEndLoading();
+							if (data.code == 0) {
+								isClickSaveData = true;
+								initTmpData();
+								$_jxc.alert("操作成功！",function(){
+				    				location.href = contextPath +"/goods/branchPriceAdjust/getForm?formNo="+data.goodsPriceForm.formNo;
+				    			});
+							} else {
+								// 失败提示
+								$_jxc.alert(data.message);
 							}
 						});
 			}
@@ -470,26 +462,23 @@ function updateModifyPriceOrder() {
 						}
 				var reqObj = JSON.stringify(params);
 			// 调用后台保存方法，成功提示
-			$.ajax({
-					type : "POST",
+			$_jxc.ajax({
 					url : contextPath + "/goods/branchPriceAdjust/updateForm",
 					contentType : "application/json",
-					data : reqObj,
-					//dataType : "json",
-					success : function(data) {
-						gFunEndLoading();
-						if (data.code == 0) {
-							isClickSaveData = true;
-							initTmpData();
-							
-							$_jxc.alert("操作成功！",function(){
-			    				location.href = contextPath +"/goods/branchPriceAdjust/getForm?formNo="+data.goodsPriceForm.formNo;
-			    			});
-							
-						} else {
-							// 失败提示
-							$_jxc.alert(data.message);
-						}
+					data : reqObj
+				},function(data){
+					gFunEndLoading();
+					if (data.code == 0) {
+						isClickSaveData = true;
+						initTmpData();
+						
+						$_jxc.alert("操作成功！",function(){
+		    				location.href = contextPath +"/goods/branchPriceAdjust/getForm?formNo="+data.goodsPriceForm.formNo;
+		    			});
+						
+					} else {
+						// 失败提示
+						$_jxc.alert(data.message);
 					}
 				});
 			}
@@ -519,32 +508,26 @@ function check() {
 // 审核
 function checkForm(formNo,effectDate) {
 	console.log('---------开始审核------------');
-	$.ajax({
-		type : "POST",
+	$_jxc.ajax({
 		url : contextPath + "/goods/branchPriceAdjust/checkForm",
 		data : {
 			formNo : formNo,
 			effectDate:effectDate
 		},
-		dataType : "json",
-		success : function(data) {
-			console.info(data);
-			console.log('---------结束审核------------',JSON.stringify(data));
-			if (data.code > 0) {
-				$_jxc.alert(data.message,);
-			} else {
-				//审核过
-				isClickCheckData = true;
-				$_jxc.alert('单据审核成功！',function() {
-					window.location.href = contextPath+"/goods/branchPriceAdjust/getForm?formNo=" + formNo;
+	},function(data){
+		console.info(data);
+		console.log('---------结束审核------------',JSON.stringify(data));
+		if (data.code > 0) {
+			$_jxc.alert(data.message,);
+		} else {
+			//审核过
+			isClickCheckData = true;
+			$_jxc.alert('单据审核成功！',function() {
+				window.location.href = contextPath+"/goods/branchPriceAdjust/getForm?formNo=" + formNo;
 
-				});
-			}
-
-		},
-		error:function(err){
-			console.log('------------审核异常------------',err)
+			});
 		}
+
 	});
 }
 

@@ -164,19 +164,13 @@ function deleteRole(){
     	if(!data){
     		return;
     	}
-    	$.ajax({
+    	$_jxc.ajax({
             url:contextPath+"/system/role/deleteRole",
-            type:"POST",
-            data:{"roleId":roleId},
-            dataType:"json",  
-            success:function(result){
-                if(result){
-                    $_jxc.alert(result.message);
-                    $("#dg").datagrid('reload');
-                }
-            },
-            error:function(result){
-                $_jxc.alert("请求发送失败或服务器处理失败");
+            data:{"roleId":roleId}
+        },function(result){
+            if(result){
+                $_jxc.alert(result.message);
+                $("#dg").datagrid('reload');
             }
         });
     });

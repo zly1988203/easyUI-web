@@ -227,26 +227,21 @@ function deleteCategory(){
 		});
 	}
 	 
-	$.messager.confirm('提示','是否要删除选中数据',function(data){
+	$_jxc.confirm('是否要删除选中数据?',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 		    	url:contextPath+"/common/category/deleteCategroy",
-		    	type:"POST",
 		    	data:{
 		    		ids:ids
-		    	},
-		    	success:function(result){
-		    		console.log(result);
-		    		if(result['code'] == 0){
-		    			initTreeArchives();
-                        $_jxc.alert("success");
-		    		}else{
-                        $_jxc.alert(result['message']);
-		    		}
-		    	},
-		    	error:function(result){
-                    $_jxc.alert("请求发送失败或服务器处理失败");
 		    	}
+		    },function(result){
+	    		console.log(result);
+	    		if(result['code'] == 0){
+	    			initTreeArchives();
+                    $_jxc.alert("success");
+	    		}else{
+                    $_jxc.alert(result['message']);
+	    		}
 		    });
 		}
 	});

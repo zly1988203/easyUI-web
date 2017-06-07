@@ -401,20 +401,15 @@ function saveDataHandel(rows){
         jsonData.push(temp);
     });
     console.log(JSON.stringify(jsonData));
-    $.ajax({
+    $_jxc.ajax({
         url:contextPath+"/stock/index/saveStockIndex",
-        type:"POST",
-        data:{"data":JSON.stringify(jsonData)},
-        success:function(result){
-            if(result['code'] == 0){
-                console.log(result);
-                $_jxc.alert(result['message']);
-            }else{
-                $_jxc.alert(result['message']);
-            }
-        },
-        error:function(result){
-            $_jxc.alert("请求发送失败或服务器处理失败");
+        data:{"data":JSON.stringify(jsonData)}
+    },function(result){
+        if(result['code'] == 0){
+            console.log(result);
+            $_jxc.alert(result['message']);
+        }else{
+            $_jxc.alert(result['message']);
         }
     });
 }

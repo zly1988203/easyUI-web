@@ -302,25 +302,15 @@ function saveBranch() {
     
     var dataJson = JSON.stringify(formData);
 
-    $.ajax({
+    $_jxc.ajax({
         url:contextPath+"/archive/branch/updateBranch",
-        type:"POST",
         contentType:'application/json',
-        data:dataJson,
-        success:function(result){
-            gFunEndLoading();
-            if(result['code'] == 0){
-                $_jxc.alert("保存成功！");
-                // $.messager.alert("操作提示", "保存成功！", "info",function(){
-                //
-                // });
-            }else{
-                $_jxc.alert(result['message']);
-            }
-        },
-        error:function(result){
-            gFunEndLoading();
-            $_jxc.alert("请求发送失败或服务器处理失败");
+        data:dataJson
+    },function(result){
+        if(result['code'] == 0){
+            $_jxc.alert("保存成功！");
+        }else{
+            $_jxc.alert(result['message']);
         }
     });
 }

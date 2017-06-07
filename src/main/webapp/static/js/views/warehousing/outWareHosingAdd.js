@@ -493,22 +493,17 @@ function saveItemHandel(){
     
     console.log(reqObj);
     return ;
-    $.ajax({
+    $_jxc.ajax({
         url:contextPath+"/form/purchase/saveOrder",
-        type:"POST",
-        data:reqObj,
-        success:function(result){
-            console.log(result);
-            if(result['code'] == 0){
-                $_jxc.alert("操作成功！",function(){
-                    location.href = contextPath +"/form/purchase/orderEdit?formId=" + result["formId"];
-                });
-            }else{
-                $_jxc.alert(result['message']);
-            }
-        },
-        error:function(result){
-            $_jxc.alert("请求发送失败或服务器处理失败");
+        data:reqObj
+    },function(result){
+        console.log(result);
+        if(result['code'] == 0){
+            $_jxc.alert("操作成功！",function(){
+                location.href = contextPath +"/form/purchase/orderEdit?formId=" + result["formId"];
+            });
+        }else{
+            $_jxc.alert(result['message']);
         }
     });
 }

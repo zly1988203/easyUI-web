@@ -403,25 +403,19 @@ function nextStep (){
 
 }
 
-function saveDataHandel (gridRows) {
-    $.ajax({
+function saveDataHandel(gridRows) {
+    $_jxc.ajax({
         url:contextPath+"/form/purchaseGuide/generFormList",
-        type:"POST",
         contentType:"application/json",
-        data:JSON.stringify(gridRows),
-        success:function(result){
-            if(result.code == 0){
-
-                var guideNo = result.data;
-                //提交参数并跳转到第三步
-                location.href = contextPath+"/form/purchaseGuide/toGuideOrderList?guideNo="+guideNo;
-                //$.StandardPost(contextPath+"/form/purchaseGuide/guideOrderList", {guideNo:guideNo});
-            }else{
-                $_jxc.alert(result.message);
-            }
-        },
-        error:function(result){
-            $_jxc.alert("请求发送失败或服务器处理失败");
+        data:JSON.stringify(gridRows)
+    },function(result){
+        if(result.code == 0){
+            var guideNo = result.data;
+            //提交参数并跳转到第三步
+            location.href = contextPath+"/form/purchaseGuide/toGuideOrderList?guideNo="+guideNo;
+            //$.StandardPost(contextPath+"/form/purchaseGuide/guideOrderList", {guideNo:guideNo});
+        }else{
+            $_jxc.alert(result.message);
         }
     });
 }

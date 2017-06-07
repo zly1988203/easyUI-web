@@ -83,25 +83,19 @@ function saveRoleAuth(){
     var branchId = $("#branchId").val();
     var data = JSON.stringify(menusIds);
     
-    $.ajax({
+    $_jxc.ajax({
         url:contextPath+"/system/role/produceRoleAuth",
-        type:"POST",
         data:{
         	"roleId":roleId,
         	"branchId":branchId,
         	"data":data
-        },
-        dataType:"json",  
-        success:function(result){
-            if(result && result.code == 0){
-            	$_jxc.alert("保存成功！");
-                toClose();
-			}else{
-				alertTip(result.message);
-			}
-        },
-        error:function(result){
-            $_jxc.alert("请求发送失败或服务器处理失败");
         }
+    },function(result){
+        if(result && result.code == 0){
+        	$_jxc.alert("保存成功！");
+            toClose();
+		}else{
+			alertTip(result.message);
+		}
     });
 }

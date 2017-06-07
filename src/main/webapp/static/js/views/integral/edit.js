@@ -65,21 +65,16 @@ function saveArchives(){
 		   endTime:endTime+" 23:59:59"
     };
    var req = JSON.stringify(reqObj);
-    $.ajax({
+    $_jxc.ajax({
         url:contextPath+"/integral/giftManager/updateGiftManager",
-        type:"POST",
         contentType:'application/json',
-        data:req,
-        success:function(result){
-            if(result['code'] == 0){
-            	$(dalogTemp).panel('destroy');
-            	$("#dataListGrid").datagrid('reload');
-            }else{
-                $_jxc.alert(result['message']);
-            }
-        },
-        error:function(result){
-            $_jxc.alert("请求发送失败或服务器处理失败");
+        data:req
+    },function(result){
+        if(result['code'] == 0){
+        	$(dalogTemp).panel('destroy');
+        	$("#dataListGrid").datagrid('reload');
+        }else{
+            $_jxc.alert(result['message']);
         }
     });
 

@@ -48,26 +48,21 @@ function save(){
 }
 
 function saveDataHandel() {
-    gFunStartLoading();
+//    gFunStartLoading();
     var formObj = $('#formAdd').serializeObject();
-	$.ajax({
+	$_jxc.ajax({
 		url : contextPath + "/stocktaking/apply/saveStocktakingBatch",
-		type : "POST",
-		data : formObj,
-		success : function(result) {
-            gFunEndLoading();
-			if(result.code == 0){
-				alertTip(result.message, queryForm);
-				applyAddcallback();
-			}else{
-				$('#saveBtn').removeAttr("disabled");
-				alertTip(result.message);
-			}
-		
-		},
-		error : function(result) {
-			$_jxc.alert("请求发送失败或服务器处理失败");
+		data : formObjs
+	},function(result){
+//        gFunEndLoading();
+		if(result.code == 0){
+			alertTip(result.message, queryForm);
+			applyAddcallback();
+		}else{
+			$('#saveBtn').removeAttr("disabled");
+			alertTip(result.message);
 		}
+		
 	});
 }
 

@@ -268,18 +268,13 @@ function selectStockAndPrice(branchId,data){
 		GoodsStockVo.goodsSkuVo[i] = temp;
 		
 	});
-	$.ajax({
+	$_jxc.ajax({
     	url : contextPath+"/goods/goodsSelect/selectStockAndPriceToDo",
-    	type : "POST",
     	data : {
     		goodsStockVo : JSON.stringify(GoodsStockVo)
-    	},
-    	success:function(result){
-    		setDataValue(result);
-    	},
-    	error:function(result){
-            $_jxc.alert("请求发送失败或服务器处理失败");
     	}
+    },function(result){
+    	setDataValue(result);
     });
 }
 //二次查询设置值
@@ -405,29 +400,24 @@ function saveDataHandel(rows){
 		}
 		jsonData.stockCostFormDetailList[i] = temp;
 	});
-	$.ajax({
+	$_jxc.ajax({
 		url:contextPath+"/cost/costAdjust/updateCostForm",
-		type:"POST",
-		data:{"jsonData":JSON.stringify(jsonData)},
-		success:function(result){
-			if(result['code'] == 0){
-				oldData = {
-						branchId:$("#branchId").val(), // 机构id
-						remark:$("#remark").val(),                  // 备注
-				}
-				oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
-					return $.extend(true,{},obj);//返回对象的深拷贝
-				});
-				$_jxc.alert("操作成功！",function(){
-					costcheck("add");
-				});
-				//location.reload()
-			}else{
-                $_jxc.alert(result['message']);
+		data:{"jsonData":JSON.stringify(jsonData)}
+	},function(result){
+		if(result['code'] == 0){
+			oldData = {
+					branchId:$("#branchId").val(), // 机构id
+					remark:$("#remark").val(),                  // 备注
 			}
-		},
-		error:function(result){
-            $_jxc.alert("请求发送失败或服务器处理失败");
+			oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
+				return $.extend(true,{},obj);//返回对象的深拷贝
+			});
+			$_jxc.alert("操作成功！",function(){
+				costcheck("add");
+			});
+			//location.reload()
+		}else{
+            $_jxc.alert(result['message']);
 		}
 	});
 }
@@ -452,27 +442,19 @@ function costcheck(type){
 			return;
 		}
 	}
-	$.messager.confirm('提示','是否审核通过？',function(data){
+	$_jxc.confirm('是否审核通过？',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 				url : contextPath+"/cost/costAdjust/check",
-				type : "POST",
-				data:{"id":dataId},
-				success:function(result){
-					console.log(result);
-					if(result['code'] == 0){
-						$.messager.confirm('提示','操作成功！',function(data){
-							if(data){
-							   location.href = contextPath +"/cost/costAdjust/edit?id="+gFunGetQueryString("id");
-							}
-						})
-						
-					}else{
-                        $_jxc.alert(result['message']);
-					}
-				},
-				error:function(result){
-                    $_jxc.alert("请求发送失败或服务器处理失败");
+				data:{"id":dataId}
+			},function(result){
+				console.log(result);
+				if(result['code'] == 0){
+					$_jxc.alert('操作成功！',function(){
+						 location.href = contextPath +"/cost/costAdjust/edit?id="+gFunGetQueryString("id");
+					})
+				}else{
+                    $_jxc.alert(result['message']);
 				}
 			});
 		}
@@ -482,23 +464,18 @@ function costcheck(type){
 //删除
 function delCostForm(){
 	var dataId= $("#adjusId").val();
-	$.messager.confirm('提示','是否要删除此条数据',function(data){
+	$_jxc.confirm('是否要删除此条数据？',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 				url:contextPath+"/cost/costAdjust/deleteCostForm",
-				type:"POST",
-				data:{"id":dataId},
-				success:function(result){
-					console.log(result);
-					if(result['code'] == 0){
-                        $_jxc.alert("删除成功");
-						back();
-					}else{
-                        $_jxc.alert(result['message']);
-					}
-				},
-				error:function(result){
-                    $_jxc.alert("请求发送失败或服务器处理失败");
+				data:{"id":dataId}
+			},function(result){
+				console.log(result);
+				if(result['code'] == 0){
+                    $_jxc.alert("删除成功");
+					back();
+				}else{
+                    $_jxc.alert(result['message']);
 				}
 			});
 		}

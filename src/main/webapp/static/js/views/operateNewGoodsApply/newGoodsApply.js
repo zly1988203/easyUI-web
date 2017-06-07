@@ -464,25 +464,20 @@ function delGoods(){
 		$_jxc.alert('商品名称:【'+goodsSkuName+'】审核通过,不能删除');
 		return 
 	}
-	$.messager.confirm('提示','是否要删除选中数据',function(data){
+	$_jxc.confirm('是否要删除选中数据?',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 		    	url:contextPath+"/goods/operateNewGoodsApply/delGoods",
-		    	type:"POST",
 		    	data:{
 		    		ids:ids
-		    	},
-		    	success:function(result){
-		    		if(result['code'] == 0){
-		    			$("#gridArchives").datagrid('reload');
-						$_jxc.alert("删除成功");
-		    		}else{
-		    			$_jxc.alert(result['message']);
-		    		}
-		    	},
-		    	error:function(result){
-		    		$_jxc.alert("请求发送失败或服务器处理失败");
 		    	}
+		    },function(result){
+	    		if(result['code'] == 0){
+	    			$("#gridArchives").datagrid('reload');
+					$_jxc.alert("删除成功");
+	    		}else{
+	    			$_jxc.alert(result['message']);
+	    		}
 		    });
 		}
 	});
@@ -509,24 +504,19 @@ function auditingGoods(){
 		return 
 	}
 	
-	$.messager.confirm('提示','是否确定审核通过选中商品',function(data){
+	$_jxc.confirm('是否确定审核通过选中商品?',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 				url:contextPath+"/goods/operateNewGoodsApply/auditingGoods",
-				type:"POST",
 				data:{
 					ids:ids
-				},
-				success:function(result){
-					if(result['code'] == 0){
-						$_jxc.alert("审核成功");
-						$("#gridArchives").datagrid('reload');
-					}else{
-						$_jxc.alert(result['message']);
-					}
-				},
-				error:function(result){
-					$_jxc.alert("请求发送失败或服务器处理失败");
+				}
+			},function(result){
+				if(result['code'] == 0){
+					$_jxc.alert("审核成功");
+					$("#gridArchives").datagrid('reload');
+				}else{
+					$_jxc.alert(result['message']);
 				}
 			});
 		}

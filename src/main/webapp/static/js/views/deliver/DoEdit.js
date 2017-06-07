@@ -571,18 +571,13 @@ function selectStockAndPrice(sourceBranchId,data){
 		};
 		GoodsStockVo.goodsSkuVo[i] = temp;
 	});
-	$.ajax({
+	$_jxc.ajax({
     	url : contextPath+"/goods/goodsSelect/selectStockAndPriceToDo",
-    	type : "POST",
     	data : {
     		goodsStockVo : JSON.stringify(GoodsStockVo)
-    	},
-    	success:function(result){
-    		setDataValue(result);
-    	},
-    	error:function(result){
-    		$_jxc.alert("请求发送失败或服务器处理失败");
     	}
+    },function(result){
+    	setDataValue(result);
     });
 }
 
@@ -856,22 +851,21 @@ function selectDeliver(){
 	});
 }
 function loadLists(referenceId,refDeliverType){
-    $.ajax({
+    $_jxc.ajax({
         url:contextPath+"/form/deliverFormList/getDeliverFormLists?deliverFormId="+referenceId + "&deliverType=DO"+"&refDeliverType=" + refDeliverType,
-        type:"post",
-        success:function(data){
-            var rows = data.rows
-           
-            for(var i in rows){
-                rows[i]["dealNum"] =  rows[i]["applyNum"]?rows[i]["applyNum"]:rows[i]["dealNum"];
-                rows[i]["amount"]  = parseFloat(rows[i]["price"]||0)*parseFloat(rows[i]["dealNum"]||0);
-                rows[i]["oldDeliverDealNum"] =  rows[i]["dealNum"];
-                var defectNum = parseFloat(rows[i]["sourceStock"]||0)-parseFloat(rows[i]["dealNum"]||0);
-                rows[i]["defectNum"] = defectNum<0?-defectNum:0;
-            }
-            $("#gridEditOrder").datagrid("loadData",rows);
-            updateFooter();
+        type:"post"
+    },function(data){
+        var rows = data.rows
+       
+        for(var i in rows){
+            rows[i]["dealNum"] =  rows[i]["applyNum"]?rows[i]["applyNum"]:rows[i]["dealNum"];
+            rows[i]["amount"]  = parseFloat(rows[i]["price"]||0)*parseFloat(rows[i]["dealNum"]||0);
+            rows[i]["oldDeliverDealNum"] =  rows[i]["dealNum"];
+            var defectNum = parseFloat(rows[i]["sourceStock"]||0)-parseFloat(rows[i]["dealNum"]||0);
+            rows[i]["defectNum"] = defectNum<0?-defectNum:0;
         }
+        $("#gridEditOrder").datagrid("loadData",rows);
+        updateFooter();
     })
 }
 //返回列表页面
@@ -957,18 +951,13 @@ function selectStockAndPriceImport(sourceBranchId,data){
 		};
 		GoodsStockVo.goodsSkuVo[i] = temp;
 	});
-	$.ajax({
+	$_jxc.ajax({
     	url : contextPath+"/goods/goodsSelect/selectStockAndPriceToDo",
-    	type : "POST",
     	data : {
     		goodsStockVo : JSON.stringify(GoodsStockVo)
-    	},
-    	success:function(result){
-    		updateListData(result);
-    	},
-    	error:function(result){
-    		$_jxc.alert("请求发送失败或服务器处理失败");
     	}
+    },function(result){
+    	updateListData(result);
     });
 }
 
@@ -1024,24 +1013,19 @@ function exportDetail(){
 function delDeliverForm(){
 	var ids = [];
 	ids.push($("#formId").val());
-	$.messager.confirm('提示','是否要删除单据',function(data){
+	$_jxc.confirm('是否要删除单据?',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 		    	url:contextPath+"/form/deliverForm/deleteDeliverForm",
-		    	type:"POST",
 		    	contentType:"application/json",
-		    	data:JSON.stringify(ids),
-		    	success:function(result){
-		    		if(result['code'] == 0){
-		    			toRefreshIframeDataGrid("form/deliverForm/viewsDO","deliverFormList");
-		    			toClose();
-		    		}else{
-		    			$_jxc.alert(result['message']);
-		    		}
-		    	},
-		    	error:function(result){
-		    		$_jxc.alert("请求发送失败或服务器处理失败");
-		    	}
+		    	data:JSON.stringify(ids)
+		    },function(result){
+	    		if(result['code'] == 0){
+	    			toRefreshIframeDataGrid("form/deliverForm/viewsDO","deliverFormList");
+	    			toClose();
+	    		}else{
+	    			$_jxc.alert(result['message']);
+	    		}
 		    });
 		}
 	});
@@ -1049,16 +1033,14 @@ function delDeliverForm(){
 
 // 查询要货机构的资料
 function selectTargetBranchData(targetBranchId){
-    $.ajax({
+    $_jxc.ajax({
         url:contextPath+"/common/branches/selectTargetBranchData",
         data:{
             branchesId : targetBranchId
-        },
-        type:"post",
-        success:function(data){
-            $("#address").html(data.address);
-            $("#contacts").html(data.contacts);
-            $("#mobile").html(data.mobile);
         }
+    },function(data){
+         $("#address").html(data.address);
+         $("#contacts").html(data.contacts);
+         $("#mobile").html(data.mobile);
     });
 }

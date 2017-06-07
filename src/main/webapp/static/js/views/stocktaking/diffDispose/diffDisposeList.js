@@ -87,24 +87,19 @@ function toDelete(){
 	if(rowIsNull(row)){
 		return null;
 	}
-	$.messager.confirm('提示','是否要删除选中数据',function(data){
+	$_jxc.confirm('是否要删除选中数据?',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 		    	url:contextPath+"/form/deliverForm/deleteDeliverForm",
-		    	type:"POST",
 		    	contentType:"application/json",
-		    	data:JSON.stringify(ids),
-		    	success:function(result){
-		    		if(result['code'] == 0){
-		    			$_jxc.alert("删除成功");
-		    			dg.datagrid('reload');
-		    		}else{
-		    			$_jxc.alert(result['message']);
-		    		}
-		    	},
-		    	error:function(result){
-		    		$_jxc.alert("请求发送失败或服务器处理失败");
-		    	}
+		    	data:JSON.stringify(ids)
+		    },function(result){
+	    		if(result['code'] == 0){
+	    			$_jxc.alert("删除成功");
+	    			dg.datagrid('reload');
+	    		}else{
+	    			$_jxc.alert(result['message']);
+	    		}
 		    });
 		}
 	});
@@ -154,27 +149,24 @@ function deleteStocktakingBatch(){
 	})
     
     if(flag){
-    	messager('已经审核的单据不可以删除！');
+    	$_jxc.alert('已经审核的单据不可以删除！');
     	return;
     }
 	
     if(tempIds.length > 0){
-        $.messager.confirm('提示','单据删除后将无法恢复，确认是否删除？',function(r){
+        $_jxc.confirm('单据删除后将无法恢复，确认是否删除？',function(r){
             if (r){
             	//删除单据
-            	gFunStartLoading();
-            	$.ajax({
-                    type: "POST",
+//            	gFunStartLoading();
+            	$_jxc.ajax({
                     url: contextPath+"/stocktaking/diffDispose/deleteStocktakingBatch",
-                    data: {"ids":tempIds},
-                    dataType: "json",
-                    success: function(data){
-                    	gFunEndLoading();
-                    	$_jxc.alert(data['message']);
-                    	if(data.code == 0){
-                    		queryForm();
-                    	}
-                    }
+                    data: {"ids":tempIds}
+                },function(data){
+//                	gFunEndLoading();
+                	$_jxc.alert(data['message']);
+                	if(data.code == 0){
+                		queryForm();
+                	}
                 });
             }
         });
