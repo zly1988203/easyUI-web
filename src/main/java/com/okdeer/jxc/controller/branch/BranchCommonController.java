@@ -128,7 +128,7 @@ public class BranchCommonController extends BaseController<BranchCommonControlle
 			}
 
 			// 如果不为空，则设置多个机构条件
-			if (vo.getBranchTypes() != null && vo.getBranchTypes().length == 0) {
+			if (vo.getBranchTypes() == null || vo.getBranchTypes().length == 0) {
 				// 设置多个机构类型条件
 				vo.setBranchTypes(strArrToIntArr(vo.getBranchTypesStr()));
 			}
