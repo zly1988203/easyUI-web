@@ -72,8 +72,7 @@ public class StoreChargeSearchController extends ReportController {
 				throw new BusinessException("系统错误，查询类型为空");
 			}
 
-			String timeStr = StringUtils.replace(map.get("startTime").toString(), "-", "") + "-"
-					+ StringUtils.replace(map.get("endTime").toString(), "-", "");
+			String timeStr = StringUtils.replace(map.get("month").toString(), "-", "");
 
 			if ("total".equals(queryType)) { // 商品促销
 				reportFileName = "门店费用汇总查询" + timeStr;

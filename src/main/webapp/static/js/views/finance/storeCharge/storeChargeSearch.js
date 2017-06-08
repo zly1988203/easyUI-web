@@ -57,8 +57,7 @@ function getGridcolumns(){
                         return;
                     }
 
-                    var month = value+"";
-                    return month.substr(0,4)+"-"+month.substr(4,5);
+                    return value;
                 },
             },
             {field:'amount',title:'金额',width:110,align:'right',
@@ -85,8 +84,10 @@ function getGridcolumns(){
             {field:'parentName',title:'所属分公司',width:180,align:'left'},
             {field:'month',title:'月份',width:110,align:'left',
                 formatter : function(value, row, index) {
-                    var month = value+"";
-                    return month.substr(0,4)+"-"+month.substr(4,5);
+                	if(typeof(value) === "undefined" ){
+                        return;
+                    }
+                    return value;
                 },
             },
             {field:'costTypeName',title:'费用项目',width:180,align:'left'},
@@ -134,4 +135,17 @@ function exportData(){
     $("#exportWin").show();
     $("#totalRows").html(dg.datagrid('getData').total);
     $("#exportWin").window("open");
+}
+
+//调用导出方法
+function exportExcel(){
+	$("#exportWin").hide();
+	$("#exportWin").window("close");
+	$("#queryForm").form({
+		success : function(result){
+			
+		}
+	});
+	$("#queryForm").attr("action",contextPath+"/finance/storeChargeSearch/exportExcelList");
+	$("#queryForm").submit();
 }
