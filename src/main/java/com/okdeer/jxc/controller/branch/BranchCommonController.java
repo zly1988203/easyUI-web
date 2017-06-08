@@ -86,7 +86,7 @@ public class BranchCommonController extends BaseController<BranchCommonControlle
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
-			LOG.debug("查询机构参数:{}", vo.toString()+"pageNumber:"+pageNumber+"pageSize:"+pageSize);
+			LOG.debug("查询机构参数:{}", vo.toString() + "pageNumber:" + pageNumber + "pageSize:" + pageSize);
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
 			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
@@ -102,32 +102,37 @@ public class BranchCommonController extends BaseController<BranchCommonControlle
 			if ("DV".equals(vo.getFormType())) {
 				vo.setBranchId(UserUtil.getCurrBranchId());
 			}
-			
-			//3.自营店、4.加盟店B、5.加盟店C
+
+			// 3.自营店、4.加盟店B、5.加盟店C
 			if ("DD".equals(vo.getFormType())) {
-//				vo.setBranchId(UserUtil.getCurrBranchParentId());
+				// vo.setBranchId(UserUtil.getCurrBranchParentId());
 				vo.setBranchType(null);
-				vo.setBranchTypes(new int[]{3,4,5});
-				String branchCompleCode=UserUtil.getCurrBranchCompleCode();
-				if(org.apache.commons.lang3.StringUtils.isNoneEmpty(branchCompleCode)&&branchCompleCode.length()>5){
-					branchCompleCode=branchCompleCode.substring(0,branchCompleCode.length()-5);
+				vo.setBranchTypes(new int[] { 3, 4, 5 });
+				String branchCompleCode = UserUtil.getCurrBranchCompleCode();
+				if (org.apache.commons.lang3.StringUtils.isNoneEmpty(branchCompleCode) && branchCompleCode.length() > 5) {
+					branchCompleCode = branchCompleCode.substring(0, branchCompleCode.length() - 5);
 				}
 				vo.setBranchCompleCode(branchCompleCode);
 			}
-			//如果是仓库商品查询，则只能查询分公司及其物流中心
+			// 如果是仓库商品查询，则只能查询分公司及其物流中心
 			if ("SR".equals(vo.getFormType())) {
-				if(UserUtil.getCurrBranchType()==0||UserUtil.getCurrBranchType()==1||UserUtil.getCurrBranchType()==1){
+				if (UserUtil.getCurrBranchType() == 0 || UserUtil.getCurrBranchType() == 1
+						|| UserUtil.getCurrBranchType() == 1) {
 					vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
-				}else{
-					String branchCompleCode=UserUtil.getCurrBranchCompleCode();
-					vo.setBranchCompleCode(branchCompleCode.substring(0, branchCompleCode.length()-5));
+				} else {
+					String branchCompleCode = UserUtil.getCurrBranchCompleCode();
+					vo.setBranchCompleCode(branchCompleCode.substring(0, branchCompleCode.length() - 5));
 				}
 				vo.setBranchType(null);
-				vo.setBranchTypes(new int[]{0,1,2});
+				vo.setBranchTypes(new int[] { 0, 1, 2 });
 			}
-			// 设置多个机构类型条件
-			vo.setBranchTypes(strArrToIntArr(vo.getBranchTypesStr()));
-			
+
+			// 如果不为空，则设置多个机构条件
+			if (vo.getBranchTypes() != null && vo.getBranchTypes().length == 0) {
+				// 设置多个机构类型条件
+				vo.setBranchTypes(strArrToIntArr(vo.getBranchTypesStr()));
+			}
+
 			PageUtils<Branches> suppliers = PageUtils.emptyPage();
 			if (vo.getScope() != null && vo.getScope() == 1) {
 				suppliers = branchesService.queryBranchAllLists(vo);
@@ -150,21 +155,22 @@ public class BranchCommonController extends BaseController<BranchCommonControlle
 	 * @author xuyq
 	 * @date 2017年6月7日
 	 */
-    private int[] strArrToIntArr(String branchTypesStr) {
-        int[] resultArr = null;
-        if (StringUtils.isBlank(branchTypesStr)) {
-            return resultArr;
-        }
-        String[] tempArr = branchTypesStr.split(",");
-        if (tempArr == null || tempArr.length == 0) {
-            return resultArr;
-        }
-        resultArr = new int[tempArr.length];
-        for (int i = 0; i < tempArr.length; i++) {
-            resultArr[i] = Integer.parseInt(tempArr[i]);
-        }
-        return resultArr;
-    }
+	private int[] strArrToIntArr(String branchTypesStr) {
+		int[] resultArr = null;
+		if (StringUtils.isBlank(branchTypesStr)) {
+			return resultArr;
+		}
+		String[] tempArr = branchTypesStr.split(",");
+		if (tempArr == null || tempArr.length == 0) {
+			return resultArr;
+		}
+		resultArr = new int[tempArr.length];
+		for (int i = 0; i < tempArr.length; i++) {
+			resultArr[i] = Integer.parseInt(tempArr[i]);
+		}
+		return resultArr;
+	}
+
 	/**
 	 * @Description:礼品兑换新增查询机构
 	 * @param vo
@@ -181,7 +187,7 @@ public class BranchCommonController extends BaseController<BranchCommonControlle
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
-			LOG.debug("查询机构参数:{}", vo.toString()+"pageNumber:"+pageNumber+"pageSize:"+pageSize);
+			LOG.debug("查询机构参数:{}", vo.toString() + "pageNumber:" + pageNumber + "pageSize:" + pageSize);
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
 			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
@@ -195,7 +201,7 @@ public class BranchCommonController extends BaseController<BranchCommonControlle
 		}
 		return null;
 	}
-	
+
 	@RequestMapping(value = "selectTargetBranchData", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson selectTargetBranchData(String branchesId) {

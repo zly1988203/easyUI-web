@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
-<script src="${ctx}/static/js/views/branchManager/editBranch.js?V=2"></script>
+<script src="${ctx}/static/js/views/branchManager/editBranch.js?V=3"></script>
 <div id="branchEdit" class="easyui-tabs" style="width: 100%; height: 100%;">
 	<div title="基本信息" data-options="fit:true,border:false"
 		style="width: 100%; padding: 10px; display: none;">
@@ -65,7 +65,7 @@
 					<div class="ub upad-4 umar-l20">
 						<div class="ub ub-ac uw-320">
 							<div class="umar-r10 uw-80 ut-r">所属区域:</div>
-							<input id="area" name="area" type="text"
+							<input id="branchAreaName" name="branchAreaName" type="text"
 								class="uinp uinp-no-more" maxlength="50"
 								readonly="readonly">
 
@@ -80,7 +80,7 @@
 
 						<div class="ub ub-ac">
 							<div class="umar-r10 uw-80 ut-r">参考分店:</div>
-							<input id="shop" name="shop" type="text"
+							<input id="refBranchName" name="refBranchName" type="text"
 								class="uinp uinp-no-more" maxlength="50"
 								readonly="readonly">
 
@@ -91,7 +91,7 @@
 					<div class="ub upad-4 umar-l20">
 						<div class="ub ub-ac uw-320">
 							<div class="umar-r10 uw-80 ut-r">所属机构:</div>
-							<input id="parentName" name="parentName" type="text"
+							<input id="parentBranchName" name="parentBranchName" type="text"
 								class="uinp uinp-no-more" maxlength="50"
 								readonly="readonly">
 
@@ -108,7 +108,7 @@
 
 						<div class="ub ub-ac">
 							<div class="umar-r10 uw-80 ut-r">加价率(%):</div>
-							<input id="priceprocent" name="priceprocent" type="text"
+							<input id="markupRate" name="markupRate" type="text"
 								class="uinp uinp-no-more" maxlength="50"
 								readonly="readonly">
 						</div>
@@ -118,7 +118,7 @@
 					<div class="ub upad-4 umar-l20">
 						<div class="ub ub-ac uw-300">
 							<div class="umar-r10 uw-80 ut-r">要货机构:</div>
-							<input id="sourceBranch" name="sourceBranch" type="text"
+							<input id="deliverBranchName" name="deliverBranchName" type="text"
 								class="uinp uinp-no-more" maxlength="50"
 								readonly="readonly">
 
@@ -126,7 +126,7 @@
 
 						<div class="ub ub-ac uw-340">
 							<div class="umar-r10 uw-100 ut-r">最低进货金额:</div>
-							<input id="minPrice" name="minPrice" type="text"
+							<input id="minAmount" name="minAmount" type="text"
 								class="uinp uinp-no-more" maxlength="50"
 								readonly="readonly">
 
@@ -153,15 +153,15 @@
 
 						<div class="ub ub-ac uw-320">
 							<div class="umar-r10 uw-100 ut-r">费用均摊年数:</div>
-							<input id="costAvgYear" name="costAvgYear" type="text" value="0"
+							<input id="costAvgYear" name="costAvgYear" type="text" value=""
 								class="uinp easyui-numberbox" data-options="min:0,precision:0">
 
 						</div>
 
 						<div class="ub ub-ac">
 							<div class="umar-r10 uw-100 ut-r">店铺面积(m<sup>2</sup>):</div>
-							<input id="areaSize" name="areaSize" type="text" value="0.00"
-							class="uinp easyui-numberbox" data-options="min:0.00,precision:2">
+							<input id="areaSize" name="areaSize" type="text" value=""
+								class="uinp easyui-numberbox" data-options="min:0,precision:2">
 						</div>
 					</div>
 
@@ -172,8 +172,7 @@
 							<select class="uselect easyui-combobox" style="width: 204px;"
 								data-options="editable:false" name="offlineStatus" id="offlineStatus">
 								<c:forEach var="i" items="${OfflineStatusList }">
-									<option value="${i.code }"
-									>${i.label }</option>
+									<option value="${i.code }" >${i.label }</option>
 				               	</c:forEach>
 							</select>
 
@@ -188,7 +187,7 @@
 
 						<div class="ub ub-ac">
 							<div class="umar-r10 uw-80 ut-r">修改时间:</div>
-							<input id="createTimeUpdate" name="createTimeUpdate" type="text"
+							<input id="updateTimeStr" name="updateTimeStr" type="text"
 								class="uinp uinp-no-more" maxlength="50"
 								readonly="readonly">
 						</div>
@@ -206,7 +205,7 @@
 
 						<div class="ub ub-ac uw-320">
 							<div class="umar-r10 uw-80 ut-r">建档时间:</div>
-							<input id="createTime" name="createTime" type="text"
+							<input id="createTimeStr" name="createTimeStr" type="text"
 								class="uinp uinp-no-more" maxlength="50"
 								readonly="readonly">
 						</div>
