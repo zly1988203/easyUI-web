@@ -293,11 +293,6 @@ function saveSetting(){
 function saveEquipmentList() {
 	  $("#"+gridEquipment).datagrid("endEdit", gridEquipmentHandel.getSelectRowIndex());  
 
-    var rows = gridEquipmentHandel.getRows({deviceCode:"1"});
-    if(rows.length <= 0){
-        $_jxc.alert("请添加设备信息");
-        return;
-    }
     var isRepetition = false;
     var posArr = [];
     $.each(rows,function (index,item) {
@@ -313,14 +308,13 @@ function saveEquipmentList() {
         return;
     }
 
-    //宋文杰的请求套路，表示不走寻常路
-
     var rows = gridEquipmentHandel.getRows();
     if(!rows || rows == null || rows.length<=0){
     	 $_jxc.alert("请先添加设备！");
          return;
     }
 
+    //宋文杰的请求套路，表示不走寻常路
     var url = contextPath+"/iccard/setting/save/pos";
     var branchId = $("#branchId").val();
     $.post(contextPath+"/iccard/setting/judge/branch", {"branchId": branchId, "settingId": $("#settingId").val()},
