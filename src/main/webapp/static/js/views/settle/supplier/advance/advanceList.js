@@ -200,6 +200,10 @@ function selectBranches(nameOrCode){
  * 机构自动补全
  */
 function brandAutoComple(obj){
+	//非回车事件和失去焦点，不做处理(失焦时event.keyCode为undefined)
+	if(event.keyCode && event.keyCode != 13){
+		return;
+	}
 	var nameOrCode = $.trim($("#branchName").val())||'';
 	//未输入值时，直接返回，无需查询
 	if("" == nameOrCode){

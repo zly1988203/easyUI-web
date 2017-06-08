@@ -263,6 +263,10 @@ function onSelectPOS(data) {
 
 function saveSetting(){
     var rows = gridShopHandel.getRows();
+    if(!rows || rows == null || rows.length<=0){
+    	 $_jxc.alert("请先添加店铺！");
+         return;
+    }
     var url = contextPath+"/iccard/setting/save/shop";
     var settingId = $("#settingId").val();
     var ids=new Array();
@@ -288,6 +292,7 @@ function saveSetting(){
 
 function saveEquipmentList() {
 	  $("#"+gridEquipment).datagrid("endEdit", gridEquipmentHandel.getSelectRowIndex());  
+
     var rows = gridEquipmentHandel.getRows({deviceCode:"1"});
     if(rows.length <= 0){
         $_jxc.alert("请添加设备信息");
@@ -309,6 +314,13 @@ function saveEquipmentList() {
     }
 
     //宋文杰的请求套路，表示不走寻常路
+
+    var rows = gridEquipmentHandel.getRows();
+    if(!rows || rows == null || rows.length<=0){
+    	 $_jxc.alert("请先添加设备！");
+         return;
+    }
+
     var url = contextPath+"/iccard/setting/save/pos";
     var branchId = $("#branchId").val();
     $.post(contextPath+"/iccard/setting/judge/branch", {"branchId": branchId, "settingId": $("#settingId").val()},

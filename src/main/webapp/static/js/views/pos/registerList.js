@@ -97,7 +97,7 @@ function bindPosForm(){
 	}
 	
 	if(row.status==0){
-		$_jxc.alert("提示","当前记录未绑定，请选择已绑定的记录后重试");
+		$_jxc.alert("当前记录未绑定，请选择已绑定的记录后重试");
 		return null;
 	}
 	$_jxc.confirm('是否要解除此条数据绑定?',function(data){

@@ -270,77 +270,6 @@ function publicRoleService(callback, branchCompleCode, branchType){
 }
 
 
-function publicBranchesService(param,callback){
-	//默认参数
-	var _defParam = {
-		isRadio:0,     // 0 单选 1多选
- 	}
-	
-	param =  $.extend(_defParam,param);
-	
-	if(param.nameOrCode){
-		param.page = 1;
-		param.rows = 10;
-		var _nameOrCode = param.nameOrCode
-		//避免用户直接输入完整格式: [编号]名称
-		var reg = /\[\d{5}\]/;
-		if(reg.test(_nameOrCode)){
-			//取出[]里的编号，默认取已第一个[]里的值
-			reg = /\[(\d{5})\]/;
-			arr = reg.exec(_nameOrCode);
-			param.nameOrCode = arr[1];
-		}
-		$_jxc.ajax({
-			url:contextPath+'/common/branches/getComponentList',
-			data:param
-		},function(data){
-			if(data&&data.rows){
-				//精确匹配到只有一条数据时立即返回
-				if(data.rows.length==1){
-					callback(data.rows[0]);
-				}else if(data.rows.length>1){
-					//匹配到多条时 弹窗选择
-					publicBranchesServiceHandel(param,callback);
-				}else{
-					//没有匹配数据时 返回字符串方便判断
-					callback('NO');
-				}
-			}else{
-				//没有匹配数据时 返回字符串方便判断
-				callback('NO');
-			}
-		})
-	}else{
-		publicBranchesServiceHandel(param,callback);
-	}
-	
-}
-
-function publicBranchesServiceHandel(param,callback){
-	//公有属性
-    var  dalogTemp = $('<div/>').dialog({
-    	href:contextPath + "/common/branches/viewComponent?formType="+ 
-    		(param.formType||'') + "&branchId=" +(param.branchId||'')+ "&branchType="+(param.branchType||'') + "&isOpenStock="+(param.isOpenStock||'')+ "&scope="+(param.scope||''),
-        width:680,
-        height:$(window).height()*(2/3),
-        title:"机构选择",
-        closable:true,
-        resizable:true,
-        onClose:function(){
-            $(dalogTemp).panel('destroy');
-        },
-        modal:true,
-        onLoad:function(){
-            initAgencyView(param);
-            initAgencyCallBack(callBackHandel)
-        },
-    });
-    function callBackHandel(data){
-        callback(data);
-        $(dalogTemp).panel('destroy');
-    } 
-}
-
 //公共组件-机构选择
 function publicAgencyService(callback,formType,branchId, branchType,isOpenStock,scope){
 	if(!formType){
@@ -2267,3 +2196,179 @@ function publicErrorDialog(param){
         }
     });
 }
+
+
+/*-----------------------机构选择 start-------------------------------*/
+/**
+ * bwp 07/06/08 
+ * 机构选择公用方法
+ * <br/>1 精确匹配时 自动补全 【xxxx】+机构名称
+ * <br/>2 匹配到多条 弹窗选择  
+ * <br/>3 空匹配时  清除输入
+ * @param param  参数对象
+ * @param callback 回调
+ * <br/>demo:
+ * <br/>参照：advanceList.jsp advanceList.js
+ */
+function publicBranchesService(param,callback){
+	//默认参数
+	var _defParam = {
+		isRadio:0,     // 0 单选 1多选
+ 	}
+	
+	param =  $.extend(_defParam,param);
+	
+	if(param.nameOrCode){
+		param.page = 1;
+		param.rows = 10;
+		var _nameOrCode = param.nameOrCode
+		//避免用户直接输入完整格式: [编号]名称
+		var reg = /\[\d{5}\]/;
+		if(reg.test(_nameOrCode)){
+			//取出[]里的编号，默认取已第一个[]里的值
+			reg = /\[(\d{5})\]/;
+			arr = reg.exec(_nameOrCode);
+			param.nameOrCode = arr[1];
+		}
+		$_jxc.ajax({
+			url:contextPath+'/common/branches/getComponentList',
+			data:param
+		},function(data){
+			if(data&&data.rows){
+				//精确匹配到只有一条数据时立即返回
+				if(data.rows.length==1){
+					callback(data.rows[0]);
+				}else if(data.rows.length>1){
+					//匹配到多条时 弹窗选择
+					publicBranchesServiceHandel(param,callback);
+				}else{
+					//没有匹配数据时 返回字符串方便判断
+					callback('NO');
+				}
+			}else{
+				//没有匹配数据时 返回字符串方便判断
+				callback('NO');
+			}
+		})
+	}else{
+		publicBranchesServiceHandel(param,callback);
+	}
+	
+}
+
+function publicBranchesServiceHandel(param,callback){
+	//公有属性
+    var  dalogTemp = $('<div/>').dialog({
+    	href:contextPath + "/common/branches/viewComponent?formType="+ 
+    		(param.formType||'') + "&branchId=" +(param.branchId||'')+ "&branchType="+(param.branchType||'') + "&isOpenStock="+(param.isOpenStock||'')+ "&scope="+(param.scope||''),
+        width:680,
+        height:$(window).height()*(2/3),
+        title:"机构选择",
+        closable:true,
+        resizable:true,
+        onClose:function(){
+            $(dalogTemp).panel('destroy');
+            dalogTemp = null;
+            callback('NO');
+        },
+        modal:true,
+        onLoad:function(){
+            initAgencyView(param);
+            initAgencyCallBack(callBackHandel)
+        },
+    });
+    function callBackHandel(data){
+        callback(data);
+        $(dalogTemp).panel('destroy');
+    } 
+}
+
+/*-----------------------机构选择 end-------------------------------*/
+
+/*-----------------------供应商选择 start-------------------------------*/
+/**
+ * bwp 07/06/08 
+ * 供应商选择公用方法
+ * <br/>1 精确匹配时 自动补全 【xxxx】+供应商名称
+ * <br/>2 匹配到多条 弹窗选择  
+ * <br/>3 空匹配时  清除输入
+ * @param param  参数对象
+ * @param callback 回调
+ * <br/>demo:
+ * <br/>参照：advanceList.jsp advanceList.js
+ */
+function publicSuppliersService(param,callback){
+	//默认参数
+	var _defParam = {
+		isRadio:0,     // 0 单选 1多选
+ 	}
+	
+	param =  $.extend(_defParam,param);
+	
+	if(param.nameOrCode){
+		param.page = 1;
+		param.rows = 10;
+		var _nameOrCode = param.nameOrCode
+		//避免用户直接输入完整格式: [编号]名称
+		var reg = /\[\d{5}\]/;
+		if(reg.test(_nameOrCode)){
+			//取出[]里的编号，默认取已第一个[]里的值
+			reg = /\[(\d{5})\]/;
+			arr = reg.exec(_nameOrCode);
+			param.nameOrCode = arr[1];
+		}
+		$_jxc.ajax({
+			url:contextPath+'/common/branches/getComponentList',
+			data:param
+		},function(data){
+			if(data&&data.rows){
+				//精确匹配到只有一条数据时立即返回
+				if(data.rows.length==1){
+					callback(data.rows[0]);
+				}else if(data.rows.length>1){
+					//匹配到多条时 弹窗选择
+					publicBranchesServiceHandel(param,callback);
+				}else{
+					//没有匹配数据时 返回字符串方便判断
+					callback('NO');
+				}
+			}else{
+				//没有匹配数据时 返回字符串方便判断
+				callback('NO');
+			}
+		})
+	}else{
+		publicSuppliersServiceHandel(param,callback);
+	}
+	
+}
+
+function publicSuppliersServiceHandel(param,callback){
+	//公有属性
+    var  dalogTemp = $('<div/>').dialog({
+    	href:contextPath + "/common/branches/viewComponent?formType="+ 
+    		(param.formType||'') + "&branchId=" +(param.branchId||'')+ "&branchType="+(param.branchType||'') + "&isOpenStock="+(param.isOpenStock||'')+ "&scope="+(param.scope||''),
+        width:680,
+        height:$(window).height()*(2/3),
+        title:"机构选择",
+        closable:true,
+        resizable:true,
+        onClose:function(){
+            $(dalogTemp).panel('destroy');
+            dalogTemp = null;
+            callback('NO');
+        },
+        modal:true,
+        onLoad:function(){
+            initAgencyView(param);
+            initAgencyCallBack(callBackHandel)
+        },
+    });
+    function callBackHandel(data){
+        callback(data);
+        $(dalogTemp).panel('destroy');
+    } 
+}
+
+/*-----------------------供应商选择 end-------------------------------*/
+

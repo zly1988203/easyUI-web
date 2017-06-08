@@ -157,7 +157,7 @@ function publicGoodsGetCheckGoods(cb){
 function agencySearch(){
 	nameOrCode=$("#formAgency :text[name=nameOrCode]").val();
 	//去空格处理
-	nameOrCode=$.trim(nameOrCode)||'',
+	nameOrCode=$.trim(nameOrCode)||'';
 	//去除左侧选中样式
 	$('.zTreeDemoBackground a').removeClass('curSelectedNode');
 	//点击搜索清除左侧数据
