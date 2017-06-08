@@ -31,8 +31,8 @@
 			<div class="ub upad-4 umar-t10">
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-74 ut-r">&nbsp;&nbsp;&nbsp;当前余额:</div>
-					<input class="uinp easyui-numberbox easyui-validatebox uinp-no-more" type="text"
-					data-options="min:0.00,precision:2"
+					<input class="uinp easyui-validatebox uinp-no-more"
+					data-options="validType:'intOrFloat'" type="text"
 					id="oldBalance" name="oldBalance" readOnly/>
 				</div>
 			</div>
@@ -41,7 +41,7 @@
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-74 ut-r">&nbsp;&nbsp;&nbsp;充值金额:</div>
 					<input id="addBalance" name="addBalance" class="uinp  easyui-numberbox easyui-validatebox"
-					data-options="min:0.01,max:999999.00,precision:2,onChange:changeBalance" type="text"/>
+					data-options="min:0.01,max:999999.00,precision:2,onChange:changeBalance"/>
 				</div>
 				<i class="uc-red">*</i>
 			</div>
@@ -67,7 +67,7 @@
 			<div class="ub upad-4 umar-t10">
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-74 ut-r">充值后金额:</div>
-					<input class="uinp easyui-numberbox easyui-validatebox uinp-no-more"
+					<input class="uinp easyui-numberbox uinp-no-more"
 					data-options="min:0.00,precision:2"
 					type="text" id="newBalance"
 						name="newBalance" readOnly/>
@@ -78,7 +78,7 @@
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-74 ut-r">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注:</div>
 					<input class="uinp ub ub-f1 " type="text" id="remark"
-						name="remark"/>
+						name="remark" maxlength="20"/>
 				</div>
 			</div>
 

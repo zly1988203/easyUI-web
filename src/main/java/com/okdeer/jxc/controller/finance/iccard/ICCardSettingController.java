@@ -85,7 +85,7 @@ public class ICCardSettingController extends BaseController<Object>{
 		icCardSetting.setId(settingId);
 		icCardSetting.setClearingCenterIp(ip);
 		icCardSetting.setClearingCenterPort(port);
-		icCardSetting.setEcardType(cardType);
+		//icCardSetting.setEcardType(cardType);
 		icCardSetting.setOperationDeptCode(code);
 		icCardSettingService.updateICCardSetting(icCardSetting);
 		return RespJson.success("更新一卡通成功!");
@@ -199,6 +199,11 @@ public class ICCardSettingController extends BaseController<Object>{
 	@RequestMapping(value = "addIcCardType", method = RequestMethod.GET)
 	public ModelAndView addIcCardType() {
 		return new ModelAndView("finance/iccard/addIcCardType");
+	}
+	
+	@RequestMapping(value = "editIcCardType", method = RequestMethod.GET)
+	public ModelAndView editIcCardType() {
+		return new ModelAndView("finance/iccard/editIcCardType");
 	}
 	
 	@RequestMapping(value = "icCardShopSetting", method = RequestMethod.GET)
