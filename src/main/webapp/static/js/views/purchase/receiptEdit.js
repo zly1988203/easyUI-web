@@ -718,7 +718,7 @@ function orderDelete(){
 	    		}else{
 	    			$_jxc.alert(result['message']);
 	    		}
-	    		dg.datagrid('reload');
+	    		//dg.datagrid('reload');
 		    });
 		}
 	});
