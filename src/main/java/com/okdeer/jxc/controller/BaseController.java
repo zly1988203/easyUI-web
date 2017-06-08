@@ -299,7 +299,7 @@ public class BaseController<T> {
 	protected void cleanDataMap(List<KeyExtendVo> extendVos, List<Map<String, Object>> dataMaps){
 		Set<String> forbiddenSets = PriceGrantUtil.getNoPriceGrantSets();
 		MapAccessParser parser = new MapAccessParser(extendVos, forbiddenSets);
-		parser.cleanDataMaps(dataMaps);
+		parser.cleanDataMap(dataMaps);
 	}
 	
 }
