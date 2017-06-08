@@ -29,7 +29,7 @@
 						<option value="2">合肥通</option>
 					</select> --%>
 					<input name="cardType"
-						id="cardType" class="uselect easyui-combobox uw-204"
+						id="cardType" class="uselect easyui-combobox"
 						data-options="valueField:'id',textField:'text',url:'account/management/dict/PAY_WAY',editable:false,required:true"/>
 				</div>
 			</div>
@@ -39,7 +39,7 @@
 			<div class="ub upad-4 umar-t10">
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-90 ut-r">清算中心IP:</div>
-					<input class="uinp easyui-validatebox uw-204" data-options="required:true,validType:'ip'"  type="text" id="ip"
+					<input class="uinp easyui-validatebox" data-options="required:true,validType:'ip'"  type="text" id="ip"
 						name="ip"
 						maxlength="50" /><i class="uc-red">*</i>
 				</div>
@@ -47,9 +47,9 @@
 
 			<div class="ub upad-4 umar-t10">
 
-				<div class="ub ub-ac">
+				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-90 ut-r">端口:</div>
-					<input class="uinp easyui-numberbox easyui-validatebox uw-204" data-options="required:true,max:65535" type="text" id="port"
+					<input class="uinp ub-f1 easyui-validatebox" data-options="required:true,validType:'port'" type="text" id="port"
 						name="port" /><i class="uc-red">*</i>
 				</div>
 			</div>

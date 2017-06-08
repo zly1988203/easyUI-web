@@ -313,8 +313,8 @@
 					<div class="umar-r10 uw-80 ut-r">保底金额:</div>
 					<input id="minAmount" name="minAmount"
 						value="${supplier.minAmount }"
-						class="uinp uw-200 easyui-validatebox"
-						data-options="validType:'intOrFloat'" type="text" maxlength="10">
+						class="uinp uw-200 easyui-numberbox easyui-validatebox"
+						data-options="validType:'intOrFloat',min:0.00,precision:2,max:999999.99" type="text">
 				</div>
 			</div>
 			<div class="ub upad-4">

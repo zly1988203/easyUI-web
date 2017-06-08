@@ -43,7 +43,7 @@ function initGridCardSetting() {
 
             },
             },
-            {field: 'cz', title: '操作', width: 180, align: 'right',
+            {field: 'cz', title: '操作', width: 180, align: 'left',
                 formatter : function(value, row,index) {
                     var str =  '<a name="add" onclick="openShopSettingLis(\''+row.id+'\')" ' +
                         ' class="ualine">'+'开通店铺列表'+'</a>';
@@ -112,21 +112,6 @@ function saveCardSetting() {
 
 }
 
-var urlEncode = function (param, key, encode) {
-	  if(param==null) return '';
-	  var paramStr = '';
-	  var t = typeof (param);
-	  if (t == 'string' || t == 'number' || t == 'boolean') {
-	    paramStr += '&' + key + '=' + ((encode==null||encode) ? encodeURIComponent(param) : param);
-	  } else {
-	    for (var i in param) {
-	      var k = key == null ? i : key + (param instanceof Array ? '[]' : '.' + i);
-	      paramStr += urlEncode(param[i], k, encode);
-	    }
-	  }
-	  return paramStr;
-	};
-	
 var cardDialog = null;
 function addCard() {
     cardDialog = $('<div/>').dialog({

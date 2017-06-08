@@ -24,9 +24,9 @@
 					<div class="umar-r10 uw-90 ut-r">一卡通类型:</div>
 
 					<input name="cardType" id="cardType"
-						class="uinp uinp-no-more uw-204" type="text" readOnly="readonly" />
+						class="uinp uinp-no-more" type="text" readOnly="readonly" />
 					<input id="settingId" name="settingId"
-					class="uinp uinp-no-more uw-204" type="hidden" readOnly="readonly" />
+					class="uinp uinp-no-more" type="hidden" readOnly="readonly" />
 				</div>
 			</div>
 
@@ -35,7 +35,7 @@
 			<div class="ub upad-4 umar-t10">
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-90 ut-r">清算中心IP:</div>
-					<input class="uinp easyui-validatebox uw-204"
+					<input class="uinp easyui-validatebox"
 						data-options="required:true,validType:'ip'" type="text" id="ip"
 						name="ip" maxlength="50" /><i class="uc-red">*</i>
 				</div>
@@ -45,8 +45,8 @@
 
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-90 ut-r">端口:</div>
-					<input class="uinp easyui-numberbox easyui-validatebox uw-204"
-						data-options="required:true,max:65535" type="text" id="port"
+					<input class="uinp easyui-validatebox"
+						data-options="required:true,validType:'port'" type="text" id="port"
 						name="port" /><i class="uc-red">*</i>
 				</div>
 			</div>

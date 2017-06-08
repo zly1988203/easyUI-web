@@ -154,7 +154,7 @@
 						<div class="ub ub-ac uw-320">
 							<div class="umar-r10 uw-100 ut-r">费用均摊年数:</div>
 							<input id="costAvgYear" name="costAvgYear" type="text" value=""
-								class="uinp easyui-numberbox" data-options="min:0,precision:0">
+								class="uinp easyui-numberbox easyui-validatebox" data-options="validType:'intNum',min:1,precision:0">
 
 						</div>
 

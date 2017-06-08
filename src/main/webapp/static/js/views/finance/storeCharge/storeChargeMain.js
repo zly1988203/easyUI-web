@@ -105,19 +105,34 @@ function initGridStoreCharge() {
                 editor:{
                     type:'numberbox',
                     options:{
-                        min:0,
-                        precision:4,
+                        min:0.00,
+                        max:999999.99,
+                        precision:2,
                         disabled:isdisabled,
+                        prompt:"最大值999999.99",
                         onChange: onChangeAmount,
                     }
                 },
             },
-            {field:'remark',title:'备注',width:180,align:'left',editor:{
-                type:'textbox',
-                options:{
-                    disabled:isdisabled,
+            {field:'remark',title:'备注',width:250,align:'left',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return;
+                    }
+                    if(undefined != value && value.trim().length > 20){
+                        value = value.substr(0,20);
+                    }
+                    return value;
+                },
+                editor:{
+                    type:'textbox',
+                    options:{
+                        prompt:"最多输入20个字符",
+                        disabled:isdisabled,
+                        onChange:remarkChange
+                    }
                 }
-            },},
+            },
         ]],
         onClickCell:function(rowIndex,field,value){
             gridHandel.setBeginRow(rowIndex);
@@ -153,7 +168,18 @@ function initGridStoreCharge() {
     }
 }
 
+function remarkChange(newVal,oldVal){
+    if(undefined != newVal && newVal.trim().length > 20){
+        $_jxc.alert('备注最多输入20个字符')
+        newVal = newVal.substr(0,20);
+    }
+    gridHandel.setFieldTextValue('remark',newVal);
+}
+
 function onChangeAmount(newVal,oldVal) {
+    // if(parseInt(newVal) > 999999.99){
+    //     $_jxc.alert('费用金额最大值为999999.99')
+    // }
     updateFooter();
 }
 
