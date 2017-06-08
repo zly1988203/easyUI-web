@@ -127,7 +127,7 @@ public class GoodsSelectImportComponent {
 	/**
 	 * 导入excel，查询商品和库存(单个机构)
 	 * @param fileName 文件名，用于识别excel文件版本
-	 * @param is	文件流
+	 * @param is 文件流
 	 * @param fields	属性数组，excel数据列所对应实体类属性
 	 * @param entity	业务实体类
 	 * @param branchId 机构

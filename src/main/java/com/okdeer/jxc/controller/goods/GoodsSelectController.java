@@ -212,7 +212,9 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 			} else {
 				vo.setParentId(branchId);
 			}
-		} 
+		} else {
+			vo.setParentId(branchId);
+		}
 		suppliers = goodsSelectServiceApi.queryPurchaseGoodsLists(vo);
 		return suppliers;
 	}
