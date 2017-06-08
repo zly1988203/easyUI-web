@@ -53,6 +53,10 @@ function getGridcolumns(){
             {field:'parentName',title:'所属分公司',width:180,align:'left'},
             {field:'month',title:'月份',width:110,align:'left',
                 formatter : function(value, row, index) {
+                    if(typeof(value) === "undefined" ){
+                        return;
+                    }
+
                     var month = value+"";
                     return month.substr(0,4)+"-"+month.substr(4,5);
                 },

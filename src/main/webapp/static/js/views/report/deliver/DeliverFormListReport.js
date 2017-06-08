@@ -99,7 +99,7 @@ function initDatagridRequireOrders(){
 		}
     });
     if(hasDistributionPrice==false){
-        priceGrantUtil.grantDistributionPrice(gridName,["price","amount"])
+        priceGrantUtil.grantDistributionPrice("deliverFormList",["price","amount"])
     }
 }
 

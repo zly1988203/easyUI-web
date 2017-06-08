@@ -78,7 +78,7 @@ function getBranchInfo(){
 
 
 var gridDefault = {
-    price:0.0000,
+    costAmount:0.00,
 }
 
 var gridFitmentCostHandel = new GridClass();
@@ -102,8 +102,25 @@ function initGridFitmentCost() {
                     return str;
                 },
             },
-            {field: 'costName', title: '装修费用', width: 180, align: 'left',editor:'text'},
-            {field: 'costAmount', title: '金额', width: 100, align: 'right',
+            {field: 'costName', title: '装修费用', width: 180, align: 'left',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return;
+                    }
+                    if(undefined != value && value.trim().length > 20){
+                        value = value.substr(0,20);
+                    }
+                    return value;
+                },
+                editor:{
+                    type:'textbox',
+                    options:{
+                        prompt:"最多输入20个字符",
+                        onChange:costNameChange1
+                    }
+                }
+            },
+            {field: 'costAmount', title: '金额', width: 180, align: 'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -113,8 +130,10 @@ function initGridFitmentCost() {
                 editor:{
                     type:'numberbox',
                     options:{
-                        min:0,
-                        precision:4,
+                        min:0.00,
+                        max:999999.99,
+                        prompt:"最大金额999999.99",
+                        precision:2,
                     }
                 },
             },
@@ -142,8 +161,23 @@ function initGridFitmentCost() {
         }
     })
 
-
 }
+
+function costNameChange1(newVal,oldVal){
+    // if($_jxc.isStringNull(newVal)){
+    //     $_jxc.alert('装修费用名称不能为空')
+    //     gridFitmentCostHandel.setFieldTextValue('costName',oldVal);
+    //     return;
+    // }
+
+    if(undefined != newVal && newVal.trim().length > 20){
+        $_jxc.alert('装修费用最多输入20个字符')
+        newVal = newVal.substr(0,20);
+    }
+    gridFitmentCostHandel.setFieldTextValue('costName',newVal);
+}
+
+
 function initGridEquipmentCost() {
     gridEquipmentCostHandel.setGridName("gridEquipmentCost");
     $("#gridEquipmentCost").datagrid({
@@ -160,8 +194,25 @@ function initGridEquipmentCost() {
                     return str;
                 },
             },
-            {field: 'costName', title: '设备费用', width: 180, align: 'left',editor:'text'},
-            {field: 'costAmount', title: '金额', width: 100, align: 'right',
+            {field: 'costName', title: '设备费用', width: 180, align: 'left',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return;
+                    }
+                    if(undefined != value && value.trim().length > 20){
+                        value = value.substr(0,20);
+                    }
+                    return value;
+                },
+                editor:{
+                    type:'textbox',
+                    options:{
+                        prompt:"最多输入20个字符",
+                        onChange:costNameChange2
+                    }
+                }
+            },
+            {field: 'costAmount', title: '金额', width: 180, align: 'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -171,8 +222,10 @@ function initGridEquipmentCost() {
                 editor:{
                     type:'numberbox',
                     options:{
-                        min:0,
-                        precision:4,
+                        min:0.00,
+                        max:999999.99,
+                        prompt:"最大金额999999.99",
+                        precision:2,
                     }
                 },
             },
@@ -200,6 +253,21 @@ function initGridEquipmentCost() {
 
     gridEquipmentCostHandel.setLoadData([$.extend({},gridDefault)]);
 }
+
+function costNameChange2(newVal,oldVal){
+    // if($_jxc.isStringNull(newVal)){
+    //     $_jxc.alert('设备费用名称不能为空')
+    //     gridEquipmentCostHandel.setFieldTextValue('costName',oldVal);
+    //     return;
+    // }
+
+    if(undefined != newVal && newVal.trim().length > 20){
+        $_jxc.alert('设备费用最多输入20个字符')
+        newVal = newVal.substr(0,20);
+    }
+    gridEquipmentCostHandel.setFieldTextValue('costName',newVal);
+}
+
 function initGridAmortizeCost() {
     gridAmortizeCostHandel.setGridName("gridAmortizeCost");
     $("#gridAmortizeCost").datagrid({
@@ -216,8 +284,25 @@ function initGridAmortizeCost() {
                     return str;
                 },
             },
-            {field: 'costName', title: '摊销费用', width: 180, align: 'left',editor:'text'},
-            {field: 'costAmount', title: '金额', width: 100, align: 'right',
+            {field: 'costName', title: '摊销费用', width: 180, align: 'left',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return;
+                    }
+                    if(undefined != value && value.trim().length > 20){
+                        value = value.substr(0,20);
+                    }
+                    return value;
+                },
+                editor:{
+                    type:'textbox',
+                    options:{
+                        prompt:"最多输入20个字符",
+                        onChange:costNameChange3
+                    }
+                }
+            },
+            {field: 'costAmount', title: '金额', width: 180, align: 'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -227,8 +312,10 @@ function initGridAmortizeCost() {
                 editor:{
                     type:'numberbox',
                     options:{
-                        min:0,
-                        precision:4,
+                        min:0.00,
+                        max:999999.99,
+                        prompt:"最大金额999999.99",
+                        precision:2,
                     }
                 },
             },
@@ -256,6 +343,20 @@ function initGridAmortizeCost() {
     gridAmortizeCostHandel.setLoadData([$.extend({},gridDefault)]);
 }
 
+function costNameChange3(newVal,oldVal){
+    // if($_jxc.isStringNull(newVal)){
+    //     $_jxc.alert('摊销费用名称不能为空');
+    //     gridAmortizeCostHandel.setFieldTextValue('costName',oldVal);
+    //     return;
+    // }
+
+    if(undefined != newVal && newVal.trim().length > 20){
+        $_jxc.alert('摊销费用最多输入20个字符')
+        newVal = newVal.substr(0,20);
+    }
+    gridAmortizeCostHandel.setFieldTextValue('costName',newVal);
+}
+
 function initGridBranchCost() {
     initGridFitmentCost();
     initGridEquipmentCost();
@@ -278,9 +379,16 @@ function addLineHandel(event){
 }
 //删除一行
 function delLineHandel(event){
+    debugger;
     event.stopPropagation();
     var index = $(event.target).attr('data-index');
     var gridName = $(event.target).attr('data-gridName');
+    if(index === "0"){
+        $("#"+gridName).datagrid("endEdit", index);
+        $("#"+gridName).datagrid("deleteRow",index);
+        $("#"+gridName).datagrid("loadData",[gridDefault]);
+        return;
+    }
     if(gridName === "gridFitmentCost"){
         gridFitmentCostHandel.delRow(index);
     }else if(gridName === "gridEquipmentCost"){
@@ -292,13 +400,58 @@ function delLineHandel(event){
 }
 
 function saveBranch() {
-    gFunStartLoading();
-    
+    debugger;
+
+    $("#gridFitmentCost").datagrid("endEdit", gridFitmentCostHandel.getSelectRowIndex());
+    $("#gridEquipmentCost").datagrid("endEdit", gridEquipmentCostHandel.getSelectRowIndex());
+    $("#gridAmortizeCost").datagrid("endEdit", gridAmortizeCostHandel.getSelectRowIndex());
+
     var formData = $('#formEdit').serializeObject();
-    
-    formData.decorateCostList = gridFitmentCostHandel.getRowsWhere({costName:"1"});
-    formData.deviceCostList = gridEquipmentCostHandel.getRowsWhere({costName:"1"});
-    formData.amortizeCostList = gridAmortizeCostHandel.getRowsWhere({costName:"1"});
+    var isCheckResult = true;
+    var decorateCostList = gridFitmentCostHandel.getRows();
+    $.each(decorateCostList,function (index,item) {
+        if(typeof (item.id) !="undefined" && $_jxc.isStringNull(item.costName)){
+            $_jxc.alert('第'+(index+1)+'行装修费用名称不能为空')
+            isCheckResult = false;
+        }
+        else if(parseFloat(item.costAmount).toFixed(2) > 0 && $_jxc.isStringNull(item.costName)){
+            $_jxc.alert('第'+(index+1)+'行金额大于0，装修费用名称不能为空')
+            isCheckResult = false;
+        }
+    })
+
+    if(!isCheckResult) return;
+    formData.decorateCostList = gridFitmentCostHandel.getRowsWhere({costName:1});
+
+    var deviceCostList = gridEquipmentCostHandel.getRows();
+    $.each(deviceCostList,function (index,item) {
+        if(typeof (item.id) !="undefined" && $_jxc.isStringNull(item.costName)){
+            $_jxc.alert('第'+(index+1)+'行设备费用名称不能为空')
+            isCheckResult = false;
+        }
+        else if(parseFloat(item.costAmount).toFixed(2) > 0 && $_jxc.isStringNull(item.costName)){
+            $_jxc.alert('第'+(index+1)+'行金额大于0，设备费用名称不能为空')
+            isCheckResult = false;
+        }
+    })
+
+    if(!isCheckResult) return;
+    formData.deviceCostList = gridEquipmentCostHandel.getRowsWhere({costName:1});
+
+        var amortizeCostList = gridAmortizeCostHandel.getRows();
+    $.each(amortizeCostList,function (index,item) {
+        if(typeof (item.id) !="undefined" && $_jxc.isStringNull(item.costName)){
+            $_jxc.alert('第'+(index+1)+'行摊销费用名称不能为空')
+            isCheckResult = false;
+        }
+        else if(parseFloat(item.costAmount).toFixed(2) > 0 && $_jxc.isStringNull(item.costName)){
+            $_jxc.alert('第'+(index+1)+'行金额大于0，装修费用名称不能为空')
+            isCheckResult = false;
+        }
+    })
+
+    if(!isCheckResult) return;
+    formData.amortizeCostList = gridAmortizeCostHandel.getRowsWhere({costName:1});
     
     if(!formData.costAvgYear){
     	formData.costAvgYear = null;

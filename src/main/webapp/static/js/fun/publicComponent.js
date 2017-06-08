@@ -1913,7 +1913,19 @@ $.extend($.fn.validatebox.defaults.rules, {
             }
         },
         message: '两次输入的密码不一致！'
+    },
+    port: {
+        validator: function (value, param) {
+            var parten=/^(\d)+$/g;
+            if(parten.test(value)&&parseInt(value)<=65535&&parseInt(value)>=0){
+                return true;
+            }else{
+                return false;
+            }
+        },
+        message: '端口在0到65535之间！'
     }
+
 });
 
 

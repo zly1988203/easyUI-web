@@ -9,7 +9,7 @@ function initCardTypeData(item){
     $("#settingId").val(item.id);
     $("#cardType").val(item.ecardType);
     $("#ip").val(item.clearingCenterIp);
-    $("#port").numberbox("setValue",item.clearingCenterPort);
+    $("#port").val(item.clearingCenterPort);
     $("#code").val(item.operationDeptCode);
 }
 
