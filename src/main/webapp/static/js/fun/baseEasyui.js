@@ -564,7 +564,7 @@ function rowIsNull(row) {
 	} else {
 		$.messager.show({
 			title : "提示",
-			msg : "请选择行数据！",
+			msg : "请选择一条数据！",
 			position : "topCenter",
 			timeout : 1500,
 			showType : 'slide',
