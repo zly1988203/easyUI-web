@@ -24,7 +24,7 @@ function saveProp() {
 	$_jxc.ajax({
 		url : contextPath + "/branch/goods/branchGoodsPropSave",
 		data : formObj
-	},function(){
+	},function(result){
 		if(result){
 			$_jxc.alert("保存成功");
 			query();

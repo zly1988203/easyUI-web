@@ -3191,7 +3191,7 @@ function saveDataHandel(rows,setrows){
       url:contextPath+"/sale/activity/save",
       contentType:'application/json',
       data:req
-  },function(){
+  },function(result){
 //	  gFunEndLoading();
       if(result['code'] == 0){
           $_jxc.alert("操作成功！",function(){

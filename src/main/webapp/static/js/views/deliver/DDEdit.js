@@ -625,7 +625,7 @@ function getSourceBranch(branchesId) {
     	data : {
     		branchesId : branchesId,
     	}
-    },function(){
+    },function(result){
 		if(result['code'] == 0){
 			$("#sourceBranchId").val(result['sourceBranchId']);
             $("#sourceBranchName").val(result['sourceBranchName']);
