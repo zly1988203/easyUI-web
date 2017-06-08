@@ -125,6 +125,7 @@ function initSupAdvMonAdd(){
                         valueField: 'id',
                         textField: 'text',
                         editable:false,
+                        panelHeight:80,
                         data: [{
                             "id":'-1',
                             "text":"支出",
@@ -392,53 +393,26 @@ function delSupAdvMonForm(){
 
 //机构
 function selectBranches(){
-	var _rows = gridHandel.getRowsWhere({label:'1'});
-	if(_rows.length > 0){
-		$_jxc.confirm('单据信息未保存，是否先保存单据？',function(r){
-			if(!r){
-				new publicAgencyService(function(data){
-					$("#branchId").val(data.branchesId);
-					$("#branchCode").val(data.branchCode);
-					$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
-					$("#supplierId").val('');
-					$("#supplierName").val('');
-					gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
-					                        $.extend({},gridDefault),$.extend({},gridDefault)]);
-				},'',branchId);
-			}
-		});
-	}else{
-		new publicAgencyService(function(data){
-			$("#branchId").val(data.branchesId);
-			$("#branchCode").val(data.branchCode);
-			$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
-			$("#supplierId").val('');
-	        $("#supplierName").val('');
-		},'',branchId);
-	}
+	new publicBranchesService({},function(data){
+		 if(data != 'NO'){
+			 $("#branchId").val(data.branchesId);
+			 $("#branchCode").val(data.branchCode);
+			 $("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
+			 $("#supplierId").val('');
+			 $("#supplierName").val('');
+		 }   
+	})
+	
 }
 
 //选择供应商
 function selectSupplier(){
-	var _rows = gridHandel.getRowsWhere({label:'1'});
-	if(_rows.length > 0){
-		$_jxc.confirm('单据信息未保存，是否先保存单据？',function(r){
-			if(!r){
-				new publicSupplierService(function(data){
-			    	$("#supplierId").val(data.id);
-			        $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
-			        gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
-			    	                         $.extend({},gridDefault),$.extend({},gridDefault)]);
-			    });
-			}
-		})
-	}else{
-		new publicSupplierService(function(data){
-	    	$("#supplierId").val(data.id);
-	        $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
-	    });
-	}
-    
+	new publicSuppliersService({},function(data){
+		if(data != 'NO'){
+			$("#supplierId").val(data.id);
+			$("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
+		 }
+	})
 }
 
 //选择费用

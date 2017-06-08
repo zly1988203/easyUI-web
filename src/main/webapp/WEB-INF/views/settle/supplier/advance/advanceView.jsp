@@ -44,7 +44,7 @@
             <div class="ub ub-ac uw-300 umar-l20">
                 <div class="umar-r10 uw-70 ut-r">付款日期:</div>
                 <div class="ub">
-                   <input id="payMoneyTime" class="uinp ub ub-f1" type="text" value="<fmt:formatDate value="${chargeVo.payTime}" pattern="yyyy-MM-dd HH:mm"/>" readonly="readonly"/>
+                   <input id="payMoneyTime" class="uinp ub ub-f1" type="text" value="<fmt:formatDate value="${chargeVo.payTime}" pattern="yyyy-MM-dd"/>" readonly="readonly"/>
                 </div>
             </div>
             <div class="ub ub-ac umar-l20">

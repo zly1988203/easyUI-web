@@ -125,6 +125,7 @@ function initSupAdvMonAdd(){
                         valueField: 'id',
                         textField: 'text',
                         editable:false,
+                        panelHeight:80,
                         data: [{
                         	"id":'-1',
                             "text":"收入",

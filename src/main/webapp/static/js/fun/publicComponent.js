@@ -1913,19 +1913,7 @@ $.extend($.fn.validatebox.defaults.rules, {
             }
         },
         message: '两次输入的密码不一致！'
-    },
-    port: {
-        validator: function (value, param) {
-            var parten=/^(\d)+$/g;
-            if(parten.test(value)&&parseInt(value)<=65535&&parseInt(value)>=0){
-                return true;
-            }else{
-                return false;
-            }
-        },
-        message: '端口在0到65535之间！'
     }
-
 });
 
 
@@ -2201,7 +2189,7 @@ function publicErrorDialog(param){
 /*-----------------------机构选择 start-------------------------------*/
 /**
  * bwp 07/06/08 
- * 机构选择公用方法
+ * 机构选择公用方法 回车或失去焦点后，查询机构
  * <br/>1 精确匹配时 自动补全 【xxxx】+机构名称
  * <br/>2 匹配到多条 弹窗选择  
  * <br/>3 空匹配时  清除输入
@@ -2269,7 +2257,6 @@ function publicBranchesServiceHandel(param,callback){
         onClose:function(){
             $(dalogTemp).panel('destroy');
             dalogTemp = null;
-            callback('NO');
         },
         modal:true,
         onLoad:function(){
@@ -2280,6 +2267,7 @@ function publicBranchesServiceHandel(param,callback){
     function callBackHandel(data){
         callback(data);
         $(dalogTemp).panel('destroy');
+        dalogTemp = null;
     } 
 }
 
@@ -2288,7 +2276,7 @@ function publicBranchesServiceHandel(param,callback){
 /*-----------------------供应商选择 start-------------------------------*/
 /**
  * bwp 07/06/08 
- * 供应商选择公用方法
+ * 供应商选择公用方法 回车或失去焦点后，查询供应商
  * <br/>1 精确匹配时 自动补全 【xxxx】+供应商名称
  * <br/>2 匹配到多条 弹窗选择  
  * <br/>3 空匹配时  清除输入
@@ -2300,25 +2288,28 @@ function publicBranchesServiceHandel(param,callback){
 function publicSuppliersService(param,callback){
 	//默认参数
 	var _defParam = {
-		isRadio:0,     // 0 单选 1多选
+		supplierNameOrsupplierCode:'',
+        branchId:'',
+        saleWayNot:'',
+        isDirect:''
  	}
 	
 	param =  $.extend(_defParam,param);
 	
-	if(param.nameOrCode){
+	if(param.supplierNameOrsupplierCode){
 		param.page = 1;
 		param.rows = 10;
-		var _nameOrCode = param.nameOrCode
+		var _nameOrCode = param.supplierNameOrsupplierCode
 		//避免用户直接输入完整格式: [编号]名称
-		var reg = /\[\d{5}\]/;
+		var reg = /\[\d{6}\]/;
 		if(reg.test(_nameOrCode)){
 			//取出[]里的编号，默认取已第一个[]里的值
-			reg = /\[(\d{5})\]/;
+			reg = /\[(\d{6})\]/;
 			arr = reg.exec(_nameOrCode);
-			param.nameOrCode = arr[1];
+			param.supplierNameOrsupplierCode = arr[1];
 		}
 		$_jxc.ajax({
-			url:contextPath+'/common/branches/getComponentList',
+			url:contextPath+'/common/supplier/getComponentList',
 			data:param
 		},function(data){
 			if(data&&data.rows){
@@ -2327,7 +2318,7 @@ function publicSuppliersService(param,callback){
 					callback(data.rows[0]);
 				}else if(data.rows.length>1){
 					//匹配到多条时 弹窗选择
-					publicBranchesServiceHandel(param,callback);
+					publicSuppliersServiceHandel(param,callback);
 				}else{
 					//没有匹配数据时 返回字符串方便判断
 					callback('NO');
@@ -2345,30 +2336,136 @@ function publicSuppliersService(param,callback){
 
 function publicSuppliersServiceHandel(param,callback){
 	//公有属性
-    var  dalogTemp = $('<div/>').dialog({
-    	href:contextPath + "/common/branches/viewComponent?formType="+ 
-    		(param.formType||'') + "&branchId=" +(param.branchId||'')+ "&branchType="+(param.branchType||'') + "&isOpenStock="+(param.isOpenStock||'')+ "&scope="+(param.scope||''),
-        width:680,
-        height:$(window).height()*(2/3),
-        title:"机构选择",
-        closable:true,
-        resizable:true,
-        onClose:function(){
-            $(dalogTemp).panel('destroy');
-            dalogTemp = null;
-            callback('NO');
-        },
-        modal:true,
-        onLoad:function(){
-            initAgencyView(param);
-            initAgencyCallBack(callBackHandel)
-        },
+    var supplierDalog = $('<div/>').dialog({
+    	 href: contextPath + "/common/supplier/views?saleWayNot="+param.saleWayNot+"&isDirect="+param.isDirect,
+         width: 600,
+         height: dialogHeight,
+         title: "选择供应商",
+         closable: true,
+         resizable: true,
+         onClose: function(){
+             $(this).dialog('destroy');
+             supplierDalog = null;
+         },
+         modal: true,
+         onLoad: function () {
+             initSupplierView(param);
+             initSupplierCallBack(callBackHandel)
+         },
     });
     function callBackHandel(data){
         callback(data);
-        $(dalogTemp).panel('destroy');
-    } 
+        $(supplierDalog).panel('destroy');
+        supplierDalog = null;
+    }
 }
 
 /*-----------------------供应商选择 end-------------------------------*/
+
+/*-----------------------操作人选择 start-------------------------------*/
+/**
+ * bwp 07/06/08 
+ * 操作人选择公用方法 回车或失去焦点后，查询供应商
+ * <br/>1 精确匹配时 自动补全 【xxxx】+供应商名称
+ * <br/>2 匹配到多条 弹窗选择  
+ * <br/>3 空匹配时  清除输入
+ * @param param  参数对象
+ * @param callback 回调
+ * <br/>demo:
+ * <br/>参照：advanceList.jsp advanceList.js
+ */
+function publicOperatorsService(param,callback){
+	//默认参数
+	var _defParam = {
+		type:0,           //0 单选弹框底部没有【确认】【取消】按钮   1反之
+		isOpenStock:null,
+		formType:null,
+		nameOrCode:null
+ 	}
+	
+	param =  $.extend(_defParam,param);
+	
+	if(param.nameOrCode){
+		param.page = 1;
+		param.rows = 10;
+		var _nameOrCode = param.nameOrCode
+		//避免用户直接输入完整格式: [xxxxx]名称
+		var reg = /\[\S*\]/;
+		if(reg.test(_nameOrCode)){
+			//取出[]里的编号，默认取已第一个[]里的值
+			reg = /\[(\S*)\]/;
+			arr = reg.exec(_nameOrCode);
+			param.nameOrCode = arr[1];
+		}
+		$_jxc.ajax({
+			url:contextPath+'/system/user/getOperator',
+			data:param
+		},function(data){
+			if(data&&data.rows){
+				//精确匹配到只有一条数据时立即返回
+				if(data.rows.length==1){
+					callback(data.rows[0]);
+				}else if(data.rows.length>1){
+					//匹配到多条时 弹窗选择
+					publicOperatorsServiceHandel(param,callback);
+				}else{
+					//没有匹配数据时 返回字符串方便判断
+					callback('NO');
+				}
+			}else{
+				//没有匹配数据时 返回字符串方便判断
+				callback('NO');
+			}
+		})
+	}else{
+		publicOperatorsServiceHandel(param,callback);
+	}
+	
+}
+
+function publicOperatorsServiceHandel(param,callback){
+
+    var dialogDiv = {
+        href: contextPath + "/system/user/views?type=operate",
+        width: 680,
+        height: dialogHeight,
+        title: "选择操作员",
+        closable: true,
+        resizable: true,
+        onClose: function () {
+            $(operatordialog).panel('destroy');
+            operatordialog = null;
+        },
+        modal: true,
+    }
+
+    dialogDiv["onLoad"] = function () {
+    	initOperatorView(param);
+        initOperatorCallBack(callBackHandel)
+    };
+    
+    if(param.type==1){
+        dialogDiv["buttons"] = [{
+            text:'确定',
+            handler:function(){
+                publicOperatorGetCheck(callBackHandel);
+            }
+        },{
+            text:'取消',
+            handler:function(){
+                $(operatordialog).panel('destroy');
+            }
+        }];
+    }
+
+    var operatordialog = $('<div/>').dialog(dialogDiv);
+
+    function callBackHandel(data){
+        callback(data);
+        $(operatordialog).panel('destroy');
+    }
+}
+
+/*-----------------------操作人选择 end-------------------------------*/
+
 

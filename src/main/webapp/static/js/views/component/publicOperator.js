@@ -28,8 +28,13 @@ var dictCallBack;
 //初始化回调函数
 function initOperatorCallBack(cb){
     operatorCallBack = cb;
-
 }
+
+//0708 bwp 初始化操作员参数
+function initOperatorView(param){
+//	console.log('初始化操作员参数 param',param);
+}
+
 //初始化回调函数
 function initBranchAreaCallBack(cb){
 	branchAreaCallBack = cb;
