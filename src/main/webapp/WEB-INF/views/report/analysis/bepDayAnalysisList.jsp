@@ -68,6 +68,10 @@
 					</div>
 				</div>
 
+				<div class="ub ub-ac umar-r40">
+				<div class="umar-r10 uw-300 ut-r uc-red ">说明：日盈亏平衡点=月盈亏平衡点/下月天数</div>
+				</div>
+
 			</div>
 
 		</form>

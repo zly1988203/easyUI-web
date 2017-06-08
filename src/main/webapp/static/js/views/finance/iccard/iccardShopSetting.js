@@ -164,7 +164,7 @@ function selectView(rowData) {
 }
 
 var postData = [];
-var gridDefault = {deviceCode:"",protectKey:"",posRegisteId:postData}
+var gridDefault = {deviceCode:"",protectKey:""}
 function initgridEquipmentList() {
 
     gridEquipmentHandel.setGridName(gridEquipment);
@@ -185,9 +185,9 @@ function initgridEquipmentList() {
                 },
             },
 
-            {field: 'deviceCode', title: '设备代码', width: 180, align: 'left',editor:'text'},
-            {field: 'protectKey', title: '终端保护密钥', width: 250, align: 'left',editor:'text'},
-            {field: 'posRegisteText', title: 'pos',hidden:true,editor:'text'},
+            {field: 'deviceCode', title: '设备代码', width: 180, align: 'left',editor:'textbox'},
+            {field: 'protectKey', title: '终端保护密钥', width: 250, align: 'left',editor:'textbox'},
+            {field: 'posRegisteText', title: 'pos',hidden:true,editor:'textbox'},
             {field: 'posRegisteId', title: '关联POS', width: 100, align: 'left',
                 formatter:function(value,row){
                     // var opts = $(this).combobox('options');
@@ -291,7 +291,30 @@ function saveSetting(){
 }
 
 function saveEquipmentList() {
-	  $("#"+gridEquipment).datagrid("endEdit", gridEquipmentHandel.getSelectRowIndex());  
+    debugger;
+	  $("#"+gridEquipment).datagrid("endEdit", gridEquipmentHandel.getSelectRowIndex());
+
+    var rows = gridEquipmentHandel.getRows();
+    if(!rows || rows == null || rows.length<=0){
+    	 $_jxc.alert("请先添加设备！");
+         return;
+    }
+    var isCheckData = true;
+    $.each(rows,function (index,item) {
+        if($_jxc.isStringNull(item.deviceCode)){
+            $_jxc.alert("第"+(index+1)+"行，请填写设备代码！");
+            isCheckData = false;
+            return;
+        }
+
+        if($_jxc.isStringNull(item.protectKey)){
+            $_jxc.alert("第"+(index+1)+"行，请填写终端保护密钥！");
+            isCheckData = false;
+            return;
+        }
+
+    })
+    if(!isCheckData) return;
 
     var isRepetition = false;
     var posArr = [];
@@ -306,12 +329,6 @@ function saveEquipmentList() {
     if(isRepetition){
         $_jxc.alert("一台POS不能关联多台设备.")
         return;
-    }
-
-    var rows = gridEquipmentHandel.getRows();
-    if(!rows || rows == null || rows.length<=0){
-    	 $_jxc.alert("请先添加设备！");
-         return;
     }
 
     //宋文杰的请求套路，表示不走寻常路

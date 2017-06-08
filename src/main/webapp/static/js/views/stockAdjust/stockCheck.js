@@ -185,7 +185,7 @@ function initDatagridEditRequireOrder(){
     });
 
     if(hasCostPrice==false){
-        priceGrantUtil.grantCostPrice(dataGridId,["price","amount"])
+        priceGrantUtil.grantCostPrice("gridEditRequireOrder",["price","amount"])
     }
 
 }
