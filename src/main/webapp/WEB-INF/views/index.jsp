@@ -70,18 +70,20 @@
                 <!--消息提醒 start-->
 			<div id="msgDialog" class="easyui-dialog" title="消息提醒" style="width:600px;height:auto;top:25%;display: none;"data-options="modal:true,closed:true">   
 			   		<div class="ub uh ub-ver ufs-14 ubgc-bg">
+			   		<shiro:hasPermission name="jxcSystemNotice:view">
 			   			<div class="ub ub-ver  ubgc-while">
 					   			<p class="ub ufs-12 ufw-b upad-8" style="font-size:13px;">公告</p>
 					   			<p class="ub uline">
 					   			<div class="ub upad-t10 upad-b10 upad-8">
 					   				<ul class="msg-ul crbox ufs-14">
-					   				<shiro:hasPermission name="jxcSystemNotice:view">
+					   				
 					   					<li class="msg-li"><a class="" href="javascript:openNewTab('未读公告','sys/notice/list?message=0');closeMsg();">未读公告（<em class="uc-red" id="jxcSystemNotice">...</em>）</a></li>
-					   				</shiro:hasPermission>
+					   				
 					   					<li class="msg-li" id="sumThree" style="display: none;">暂无提醒事项！</li>
 					   				</ul>
 					   			</div>
 				   		</div>
+			   		</shiro:hasPermission>
 			   			<shiro:hasPermission name="JxcStockException:search">
 				   			<div class="ub ub-ver ubgc-while">
 					   			<p class="ub ufs-14 ufw-b upad-8" style="font-size:13px;">异常库存提醒</p>
