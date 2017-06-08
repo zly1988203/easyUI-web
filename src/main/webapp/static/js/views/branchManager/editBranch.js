@@ -300,6 +300,14 @@ function saveBranch() {
     formData.deviceCostList = gridEquipmentCostHandel.getRowsWhere({costName:"1"});
     formData.amortizeCostList = gridAmortizeCostHandel.getRowsWhere({costName:"1"});
     
+    if(!formData.costAvgYear){
+    	formData.costAvgYear = null;
+    }
+    
+    if(!formData.distriPriceType){
+    	formData.distriPriceType = null;
+    }
+    
     var dataJson = JSON.stringify(formData);
 
     $_jxc.ajax({

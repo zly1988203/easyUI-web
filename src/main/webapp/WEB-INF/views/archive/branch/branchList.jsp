@@ -11,7 +11,7 @@
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
-<script src="${ctx}/static/js/views/branchManager/branchList.js?V=4"></script>
+<script src="${ctx}/static/js/views/branchManager/branchList.js?V=5"></script>
 	<style>
 	.datagrid-header .datagrid-cell {text-align: center!important;font-weight: bold;}
 	</style>
@@ -44,14 +44,14 @@
 						<div class="ubtns-item-disabled">打印</div>
 					</shiro:hasPermission>
 					<div class="ubtns-item" onclick="toClose()">关闭</div>
-
+					
 					<div id="updatePermission" class="none">
 						<shiro:hasPermission name="JxcBranchArchive:update">修改</shiro:hasPermission>
 					</div>
 				</div>
 			</div>
 			<form action="" id="formList" method="post">
-				<input type="hidden" id="branchCompleCode">
+				<input type="hidden" id="branchCompleCode" name="branchCompleCode">
 				<div class="ub umar-t12">
 					<div class="ub ub-ac umar-r10">
 						<div class="umar-r10 uw-80 ut-r">机构名称:</div>

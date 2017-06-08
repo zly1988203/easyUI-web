@@ -21,7 +21,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.branch.entity.BranchCost;
-import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.po.BranchPo;
 import com.okdeer.jxc.branch.qo.BranchQo;
 import com.okdeer.jxc.branch.service.BranchCostService;
@@ -83,7 +82,7 @@ public class BranchController extends BaseController<BranchController> {
 		
 		LOG.debug("机构Id：", branchId);
 		try {
-			Branches branch = branchesService.getBranchInfoById(branchId);
+			BranchPo branch = branchesService.getBranchPoById(branchId);
 			
 			// 机构固定费用信息
 			List<BranchCost> decorateCostList = branchCostService.getDecorateCostForPage(branchId);

@@ -5,6 +5,7 @@
 var gridName = "gridBranchList";
 var gridHandel = new GridClass();
 var gVarBranchId = "";
+var gVarBranchCompleCode = "";
 $(function(){
     initTreeArchives();
     initDatagridBranchList();
@@ -49,6 +50,7 @@ function initTreeArchives(){
 //选择树节点
 function zTreeOnClick(event, treeId, treeNode) {
     gVarBranchId = treeNode.id;
+    gVarBranchCompleCode = treeNode.code;
     $("#branchCompleCode").val(treeNode.code);
     queryBranch();
 }
