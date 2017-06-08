@@ -684,34 +684,30 @@ function saveOrder(){
     	reqObj.deliverFormListVo[i] = temp;
 	});
     
-    $.ajax({
+    $_jxc.ajax({
         url:contextPath+"/form/deliverForm/updateDeliverForm",
         type:"POST",
         contentType:"application/json",
-        data:JSON.stringify(reqObj),
-        success:function(result){
-            if(result['code'] == 0){
-            	oldData = {
-                    targetBranchId:$("#targetBranchId").val(), // 要活分店id
-                    sourceBranchId:$("#sourceBranchId").val(), //发货分店id
-                    validityTime:$("#validityTime").val(),      //生效日期
-                    remark:$("#remark").val(),                  // 备注
-                    formNo:$("#formNo").val(),                 // 单号
-                }
-            	oldData["grid"] = null;
+        data:JSON.stringify(reqObj)
+    },function(result){
+        if(result['code'] == 0){
+        	oldData = {
+                targetBranchId:$("#targetBranchId").val(), // 要活分店id
+                sourceBranchId:$("#sourceBranchId").val(), //发货分店id
+                validityTime:$("#validityTime").val(),      //生效日期
+                remark:$("#remark").val(),                  // 备注
+                formNo:$("#formNo").val(),                 // 单号
+            }
+        	oldData["grid"] = null;
 //                oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
 //            		return $.extend(true,{},obj);//返回对象的深拷贝
 //            	});
-            	$_jxc.alert("操作提示", "操作成功！", "info");
-            	//window.location.reload();
-            	isFirst = false;
-            	$("#"+gridHandel.getGridName()).datagrid("reload");
-            }else{
-                $_jxc.alert(result['message']);
-            }
-        },
-        error:function(result){
-            $_jxc.alert("请求发送失败或服务器处理失败");
+        	$_jxc.alert("操作成功！");
+        	//window.location.reload();
+        	isFirst = false;
+        	$("#"+gridHandel.getGridName()).datagrid("reload");
+        }else{
+            $_jxc.alert(result['message']);
         }
     });
 }

@@ -590,7 +590,7 @@ function check(){
         $_jxc.alert("数据已修改，请先保存再审核");
         return;
     }*/
-	$_jxc.confirm('提示','是否审核通过？',function(data){
+	$_jxc.confirm('是否审核通过？',function(data){
 		if(data){
 			$_jxc.ajax({
 		    	url : contextPath+"/stock/adjust/check",
@@ -600,7 +600,6 @@ function check(){
 		    },function(result){
 	    		if(result['code'] == 0){
 	    			$_jxc.alert("操作成功！",function(){
-	    			
 	    				location.href = contextPath +"/stock/adjust/checkSuccess?id="+id;
 	    			});
 	    		}else{
