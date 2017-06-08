@@ -37,7 +37,7 @@
 	                    <div class="umar-r10 uw-70 ut-r">机构:</div>
 	                    <input type="hidden" id="branchId" name="branchId"/>
 	                    <input type="hidden" id="branchType" name="branchType" /><!--$_jxc.clearHideInpOnEdit(this) -->
-	                    <input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" onblur="brandAutoComple(this)"/>
+	                    <input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" onblur="brandAutoComple(this)" onkeyup="brandAutoComple(this)"/>
 	                    <div class="uinp-more" onclick="selectBranches()" >...</div>
 	                </div>
 	                <div class="ub ub-ac umar-l64 ">

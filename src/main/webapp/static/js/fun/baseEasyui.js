@@ -996,8 +996,8 @@ var $_jxc = {
 	 * bwp 07/06/07
 	 * 进销存机构类型枚举对象(参照后台BranchesTypeEnum.java类设置)
 	 * @returns
-	 * demo
-	 * $_jxc.branchTypeEnum.HEAD_QUARTERS
+	 * <br/>demo
+	 * <br/>$_jxc.branchTypeEnum.HEAD_QUARTERS
 	 */	
 	branchTypeEnum:{
 		HEAD_QUARTERS:0,     //总部
@@ -1015,7 +1015,7 @@ var $_jxc = {
 	 * @param title 提示标题 可以不传
 	 * @param cb    回调 可以不传
 	 * @returns
-	 * demo: $_jxc.alert('处理失败',function(){})
+	 * <br/>demo: $_jxc.alert('处理失败',function(){})
 	 */
 	alert:function(msg,cb,title,icon){
 		if (msg == 'success') msg = '操作成功';
@@ -1032,7 +1032,8 @@ var $_jxc = {
 	 * @param cb    回调事件
 	 * @param title 提示标题 可以不传
 	 * @returns
-	 * demo: $_jxc.confirm('是否删除？',function(r){
+	 * <br/>demo:
+	 * <br/> $_jxc.confirm('是否删除？',function(r){
 	 * 	    	if(r){
 	 * 				alert('您选择了确认')	
 	 * 			}
@@ -1053,8 +1054,8 @@ var $_jxc = {
 	 * @param params 对ajax变动频繁的参数 以对象方式入参 {url:'abc',type:'POST',dataType:'json'}
 	 * @param {successCb} 成功回调 必传 
 	 * @param {errorCb} 错误回调 不传的话安装默认方式处理
-	 * demo:
-	 * $_jxc.ajax({
+	 * <br/>demo:
+	 * <br/>$_jxc.ajax({
 	    	url:contextPath + '/settle/supplierChain'
 	    },function(result){
 	    	
@@ -1126,7 +1127,7 @@ var $_jxc = {
 	/**
 	 * bwp 07/06/05
 	 * 对可输入的 机构 供应商 或者制单人这类可以输入又可以弹窗选择的输入表单 编辑表单时选择处理情况hidden表单的值
-	 * 例如 [0001]默认供应商 注：表单dom 父元素加一个 .form-group class样式以确定作用范围
+	 * <br/>例如 [0001]默认供应商 注：表单dom 父元素加一个 .form-group class样式以确定作用范围
 	 * @namespace 编辑表单时选择处理情况hidden表单的值 
 	 * @param obj 表单对象
 	 * @param domIds 而外要处理的 dom元素id值
