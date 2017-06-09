@@ -78,7 +78,7 @@ function selectListBranches(){
 function selectOperator(){
     new publicOperatorService(function(data){
         //data.Id
-        $("#operateUserId").val(data.id);
+        $("#createUserId").val(data.id);
         $("#operateUserName").val("["+data.userCode+"]"+data.userName);
     });
 }
