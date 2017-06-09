@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -475,9 +476,10 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 		RespJson resp = new RespJson();
 		if (StringUtils.isNotBlank(formIds)) {
 			String[] arr = formIds.split(",");
-			for (int i = 0; i < arr.length; i++) {
-				resp = purchaseFormServiceApi.delete(arr[i], user.getId());
-			}
+//			for (int i = 0; i < arr.length; i++) {
+//				resp = purchaseFormServiceApi.delete(arr[i], user.getId());
+//			}
+			resp = purchaseFormServiceApi.deleteByIds(Arrays.asList(arr), user.getId());
 		}
 		return resp;
 	}
