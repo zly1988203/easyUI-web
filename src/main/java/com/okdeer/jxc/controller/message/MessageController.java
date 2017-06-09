@@ -170,6 +170,9 @@ public class MessageController {
 		List<Integer> detailsCount = messageService.countDetailsMessage(params);
 		Map<String, Integer> datas = Maps.newHashMap();
 		Integer allCount = Integer.valueOf(0);
+		Integer sumOne = Integer.valueOf(0);
+		Integer sumTwo = Integer.valueOf(0);
+		Integer sumThree = Integer.valueOf(0);
 		boolean isJxcStockException = map.get("JxcStockException") == null ? Boolean.FALSE
 				: map.get("JxcStockException");
 		if (isJxcStockException) {
@@ -178,6 +181,7 @@ public class MessageController {
 				allCount += detailsCount.get(i);
 			}
 			datas.put("sumOne", detailsCount.get(0));
+			sumOne = detailsCount.get(0);
 		} else {
 			for (int i = 1; i < detailsCount.size() - 1; ++i) {
 				datas.put(list.get(i - 1), detailsCount.get(i));
@@ -201,6 +205,8 @@ public class MessageController {
 				two = detailsCount.get(1);
 			}
 			datas.put("sumTwo", one + two);
+			
+			sumTwo = one + two;
 		} else {
 			datas.put("sumTwo", 0);
 		}
@@ -208,11 +214,13 @@ public class MessageController {
 		if(map.get("jxcSystemNotice") != null){
 			if (map.get("jxcSystemNotice")){
 				datas.put("sumThree", detailsCount.get(detailsCount.size()-2));
+				sumThree = detailsCount.get(detailsCount.size()-2);
 			}
 		}else{
 			datas.put("sumThree", 0);
 		}
-		datas.put("sumOther", allCount - datas.get("sumOne") - datas.get("sumTwo") - datas.get("sumThree"));
+		
+		datas.put("sumOther", allCount - sumOne - sumTwo - sumThree);
 		respJson.setData(datas);
 		return respJson;
 	}
