@@ -91,9 +91,12 @@ public class StockReportController extends BaseController<StockReportController>
 
 			// 1、列表查询
 			PageUtils<StockReportVo> page = stockReportService.queryListToPage(qo);
-
+			// 过滤数据权限字段
+			cleanAccessData(page.getList());
 			// 获取页脚合计一栏数据
 			List<StockReportVo> sum = getFooterList(qo);
+			// 过滤数据权限字段
+			cleanAccessData(sum);
 			page.setFooter(sum);
 			return page;
 		} catch (Exception e) {
@@ -150,7 +153,6 @@ public class StockReportController extends BaseController<StockReportController>
 			qo = buildDefaultParams(qo);
 			// 1、列表查询
 			List<StockReportVo> exportList = stockReportService.queryList(qo);
-
 			// 2、汇总查询
 			StockReportVo footer = stockReportService.queryStockReportSum(qo);
 			if (StringUtils.isBlank(footer.getActual())) {
@@ -168,6 +170,8 @@ public class StockReportController extends BaseController<StockReportController>
 			exportList.add(footer);
 			// 3、价格特殊处理
 			exportList = handlePrice(exportList);
+			// 过滤数据权限字段
+			cleanAccessData(exportList);
 			String fileName = "商品库存报表" + "_" + DateUtils.getCurrSmallStr();
 			String templateName = ExportExcelConstant.STOCKREPORT;
 			exportListForXLSX(response, exportList, fileName, templateName);

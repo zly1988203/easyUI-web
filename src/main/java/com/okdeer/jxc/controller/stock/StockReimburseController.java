@@ -110,6 +110,8 @@ public class StockReimburseController extends BasePrintController<StockReimburse
 			// 调整类型
 			vo.setFormType(StockAdjustEnum.REIMBURSE.getKey());
 			PageUtils<StockFormVo> stockFormList = stockAdjustServiceApi.getStockFormList(vo);
+		    // 过滤数据权限字段
+	        cleanAccessData(stockFormList.getList());
 			LOG.debug(LogConstant.PAGE, stockFormList.toString());
 			return stockFormList;
 		} catch (Exception e) {
@@ -414,6 +416,8 @@ public class StockReimburseController extends BasePrintController<StockReimburse
 					stockFormDetailVo.setAmount(new BigDecimal(stockFormDetailVo.getAmount()).abs().toString());
 				}
 			}
+			// 过滤数据权限字段
+			cleanAccessData(exportList);
 			exportListForXLSX(response, exportList, fileName, templateName);
 		} catch (Exception e) {
 			LOG.error("导出报损单商品异常：{}", e);
@@ -446,6 +450,8 @@ public class StockReimburseController extends BasePrintController<StockReimburse
 			if (!CollectionUtils.isEmpty(list) && list.size() > PrintConstant.PRINT_MAX_ROW) {
 				return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
 			}
+			// 过滤数据权限字段
+			cleanAccessData(list);
 			String path = PrintConstant.STOCK_REIMBURSE;
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("startDate", vo.getStartTime());
@@ -465,6 +471,8 @@ public class StockReimburseController extends BasePrintController<StockReimburse
 	@Override
 	protected Map<String, Object> getPrintReplace(String id) {
 		StockFormVo form = stockAdjustServiceApi.getStcokFormInfo(id);
+		// 过滤数据权限字段
+        cleanAccessData(form);
 		Map<String, Object> replaceMap = new HashMap<String, Object>();
 		if (null != form) {
 			// 单号
@@ -543,6 +551,8 @@ public class StockReimburseController extends BasePrintController<StockReimburse
 			total.setAmount(totalAmount.toString());
 			list.add(total);
 		}
+		// 过滤数据权限字段
+		cleanAccessData(list);
 		return list;
 	}
 

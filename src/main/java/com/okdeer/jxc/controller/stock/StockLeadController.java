@@ -110,6 +110,8 @@ public class StockLeadController extends BasePrintController<StockLeadController
 			// 调整类型
 			vo.setFormType(StockAdjustEnum.LEAD.getKey());
 			PageUtils<StockFormVo> stockFormList = stockAdjustServiceApi.getStockFormList(vo);
+			// 过滤数据权限字段
+			cleanAccessData(stockFormList.getList());
 			LOG.debug(LogConstant.PAGE, stockFormList.toString());
 			return stockFormList;
 		} catch (Exception e) {
@@ -404,6 +406,8 @@ public class StockLeadController extends BasePrintController<StockLeadController
 		RespJson resp = RespJson.success();
 		try {
 			List<StockFormDetailVo> exportList = stockAdjustServiceApi.exportList(vo);
+			// 过滤数据权限字段
+            cleanAccessData(exportList);
 			String fileName = "领用单" + "_" + DateUtils.getCurrSmallStr();
 			String templateName = ExportExcelConstant.STOCKLEAD;
 			// 导出时将箱数、数量、金额的负数转为正数，并将所有数据格式化为两位小数
@@ -446,6 +450,8 @@ public class StockLeadController extends BasePrintController<StockLeadController
 			if (!CollectionUtils.isEmpty(list) && list.size() > PrintConstant.PRINT_MAX_ROW) {
 				return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
 			}
+			// 过滤数据权限字段
+			cleanAccessData(stockFormList);
 			String path = PrintConstant.STOCK_LEAD;
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("startDate", vo.getStartTime());
@@ -465,6 +471,8 @@ public class StockLeadController extends BasePrintController<StockLeadController
 	@Override
 	protected Map<String, Object> getPrintReplace(String id) {
 		StockFormVo form = stockAdjustServiceApi.getStcokFormInfo(id);
+	    // 过滤数据权限字段
+        cleanAccessData(form);
 		Map<String, Object> replaceMap = new HashMap<String, Object>();
 		if (null != form) {
 			// 单号
@@ -543,6 +551,8 @@ public class StockLeadController extends BasePrintController<StockLeadController
 			total.setAmount(totalAmount.toString());
 			list.add(total);
 		}
+		// 过滤数据权限字段
+		cleanAccessData(list);
 		return list;
 	}
 

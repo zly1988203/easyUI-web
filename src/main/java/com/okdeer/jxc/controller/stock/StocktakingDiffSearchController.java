@@ -91,6 +91,8 @@ public class StocktakingDiffSearchController extends BaseController<StocktakingD
 			LOG.debug(LogConstant.OUT_PARAM, vo);
 			PageUtils<StocktakingDifferenceVo> stocktakingBatchList = stocktakingOperateServiceApi
 					.getDiffSearchList(vo);
+			// 过滤数据权限字段
+            cleanAccessData(stocktakingBatchList.getList());
 			LOG.debug(LogConstant.PAGE, stocktakingBatchList.toString());
 			return stocktakingBatchList;
 		} catch (Exception e) {
@@ -121,7 +123,8 @@ public class StocktakingDiffSearchController extends BaseController<StocktakingD
 				diffVo.setEndTime(DateUtils.getDayAfter(diffVo.getEndTime()));
 			}
 			List<StocktakingDifferenceVo> exportList = stocktakingOperateServiceApi.exportDiffSearchList(diffVo);
-
+			// 过滤数据权限字段
+            cleanAccessData(exportList);
 			String fileName = "盘点差异查询" + DateUtils.getCurrStr("yyyyMMdd");
 			String templateName = ExportExcelConstant.DIFFSEARCHSUMMARIZING;
 			if ("2".equals(diffVo.getRotationType())) {
@@ -163,6 +166,8 @@ public class StocktakingDiffSearchController extends BaseController<StocktakingD
 			if (printList.size() > PrintConstant.PRINT_MAX_ROW) {
 				return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
 			}
+			// 过滤数据权限字段
+			cleanAccessData(printList);
 			String path = PrintConstant.DIFF_SEARCH_SUMMARIZING;
 			if ("2".equals(diffVo.getRotationType())) {
 				path = PrintConstant.DIFF_SEARCH_DETAIL;

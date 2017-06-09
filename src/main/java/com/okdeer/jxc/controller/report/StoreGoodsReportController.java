@@ -91,9 +91,12 @@ public class StoreGoodsReportController extends BaseController<StoreGoodsReportC
 
 			// 1、列表查询
 			PageUtils<StockReportVo> page = storeGoodsReportService.queryListToPage(qo);
-
+			// 过滤数据权限字段
+			cleanAccessData(page.getList());
 			// 获取页脚合计一栏数据
 			List<StockReportVo> sum = getFooterList(qo);
+			// 过滤数据权限字段
+			cleanAccessData(sum);
 			page.setFooter(sum);
 			return page;
 		} catch (Exception e) {
@@ -150,7 +153,6 @@ public class StoreGoodsReportController extends BaseController<StoreGoodsReportC
 			qo = buildDefaultParams(qo);
 			// 1、列表查询
 			List<StockReportVo> exportList = storeGoodsReportService.queryList(qo);
-
 			// 2、汇总查询
 			StockReportVo footer = storeGoodsReportService.queryStockReportSum(qo);
 			if (StringUtils.isBlank(footer.getActual())) {
@@ -168,6 +170,8 @@ public class StoreGoodsReportController extends BaseController<StoreGoodsReportC
 			exportList.add(footer);
 			// 3、价格特殊处理
 			exportList = handlePrice(exportList);
+			// 过滤数据权限字段
+			cleanAccessData(exportList);
 			String fileName = "仓库商品" + "_" + DateUtils.getCurrSmallStr();
 			String templateName = ExportExcelConstant.STOREGOODSREPORT;
 			exportListForXLSX(response, exportList, fileName, templateName);

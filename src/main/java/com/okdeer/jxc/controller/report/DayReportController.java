@@ -74,7 +74,11 @@ public class DayReportController extends BaseController<DayReportController> {
 			vo.setPageSize(pageSize);
 			vo.setSourceBranchId(UserUtil.getCurrBranchId());
 			PageUtils<DayReportVo> poolSaleReportList = dayReportService.getDayReportList(vo);
+			// 过滤数据权限字段
+	        cleanAccessData(poolSaleReportList.getList());
 			DayReportVo dayReportVo = dayReportService.queryDayReportSum(vo);
+			// 过滤数据权限字段
+	        cleanAccessData(dayReportVo);
 			List<DayReportVo> footer = new ArrayList<DayReportVo>();
 			if(dayReportVo !=null){
 				footer.add(dayReportVo);
@@ -105,6 +109,8 @@ public class DayReportController extends BaseController<DayReportController> {
 			DayReportVo dayReportVo = dayReportService.queryDayReportSum(vo);
 			dayReportVo.setRptDate("合计:");
 			exportList.add(dayReportVo);
+			// 过滤数据权限字段
+			cleanAccessData(exportList);
 			String fileName = "日进销存查询报表_"+DateUtils.getCurrSmallStr();
 			String templateName = ExportExcelConstant.DAY_REPORT;
 			exportListForXLSX(response, exportList, fileName, templateName);

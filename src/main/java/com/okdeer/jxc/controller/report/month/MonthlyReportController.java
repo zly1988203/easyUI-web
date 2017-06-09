@@ -108,12 +108,15 @@ public class MonthlyReportController extends BaseController<MonthlyReportControl
 		if(pageUtils==null){
 			return PageUtils.emptyPage();
 		}
-		
+		// 过滤数据权限字段
+		cleanAccessData(pageUtils.getList());
 		// 汇总合计
 		List<MonthlyReportVo> vos = pageUtils.getRows();
 		if (!CollectionUtils.isEmpty(vos)) {
 			if (pageUtils != null) {
 			    	MonthlyReportVo footer = monthStatementService.sumMonthReportList(vo);
+			        // 过滤数据权限字段
+			    	cleanAccessData(footer);
 			    	if(footer!=null){
         			    	footer.setBranchCode("SUM");
         				pageUtils.setFooter(new ArrayList<MonthlyReportVo>(){
@@ -152,6 +155,8 @@ public class MonthlyReportController extends BaseController<MonthlyReportControl
 			vo.setRptDate(LocalDate.now().format(DateTimeFormatter.ofPattern(DateUtils.DATE_JFP_STR_R)));
 		}
 		List<MonthlyReportVo> exportList = monthStatementService.exportMonthList(vo);
+        // 过滤数据权限字段
+        cleanAccessData(exportList);
 		String fileName = "月进销存报表_" + DateUtils.getCurrSmallStr();
 		String templateName = ExportExcelConstant.MONTHLY_REPORT;
 		try {
@@ -187,6 +192,8 @@ public class MonthlyReportController extends BaseController<MonthlyReportControl
 			vo.setRptDate(LocalDate.now().format(DateTimeFormatter.ofPattern(DateUtils.DATE_JFP_STR_R)));
 		}
 		List<MonthlyReportVo> exportList = monthStatementService.exportMonthList(vo);
+		// 过滤数据权限字段
+        cleanAccessData(exportList);
 		if (exportList.size() > PrintConstant.PRINT_MAX_ROW) {
 			return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
 		}

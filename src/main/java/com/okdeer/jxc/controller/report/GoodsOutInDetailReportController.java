@@ -95,9 +95,12 @@ public class GoodsOutInDetailReportController extends BaseController<GoodsOutInD
 			
 			//报表数据
 			PageUtils<GoodsOutInDetailVo> goodsOutInfoDetailList = goodsOutInDetailServiceApi.getGoodsOutInDetailList(vo);
-			
+			// 过滤数据权限字段
+			cleanAccessData(goodsOutInfoDetailList.getList());
 			//汇总数据
 			GoodsOutInDetailVo goodsOutInDetailVo = goodsOutInDetailServiceApi.queryGoodsOutInDetailCountSum(vo);
+			// 过滤数据权限字段
+			cleanAccessData(goodsOutInDetailVo);
 			List<GoodsOutInDetailVo> footer = new ArrayList<GoodsOutInDetailVo>();
 			if (goodsOutInDetailVo != null){
 				footer.add(goodsOutInDetailVo);
@@ -146,6 +149,8 @@ public class GoodsOutInDetailReportController extends BaseController<GoodsOutInD
 			GoodsOutInDetailVo goodsOutInDetailVo = goodsOutInDetailServiceApi.queryGoodsOutInDetailCountSum(vo);
 			goodsOutInDetailVo.setBranchCode("合计：");
 			exportList.add(goodsOutInDetailVo);
+			// 过滤数据权限字段
+			cleanAccessData(exportList);
 			
 			//导出Excel
 			String fileName = "商品出入库明细查询";
