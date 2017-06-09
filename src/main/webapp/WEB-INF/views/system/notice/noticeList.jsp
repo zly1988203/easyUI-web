@@ -40,7 +40,7 @@
 					<div class="umar-r10 uw-60 ut-r">发布门店:</div>
 					<input class="uinp" name="branchId" id="branchId" type="hidden">
 					<input class="uinp" id="publishBranchName" name="publishBranchName"
-						type="text" maxlength="50">
+						type="text" maxlength="50" onblur="clearBranchCode(this,'branchId')">
 					<div class="uinp-more" onclick="publishShop()">...</div>
 				</div>
 				<div class="ub ub-ac umar-r40">
@@ -56,7 +56,7 @@
 					<div class="umar-r10 uw-60 ut-r">接收门店:</div>
 					<input class="uinp" name="receiveBranchId" id="receiveBranchId" type="hidden">
 					<input class="uinp" id="receiveBranchName" name="receiveBranchName"
-						type="text" maxlength="50">
+						type="text" maxlength="50" onblur="clearBranchCode(this,'receiveBranchId')">
 					<div class="uinp-more" onclick="receiveShop()">...</div>
 				</div>
 				<div class="ub ub-ac umar-r40">
@@ -64,7 +64,6 @@
 					<input class="uinp" name="receiveUserId" id="receiveUserId" type="hidden">
 					<input class="uinp" id="receiveUserName" name="receiveUserName"
 						type="text" maxlength="50">
-
 				</div>
 
 				<div class="ub ub-ac umar-l20">
