@@ -516,7 +516,8 @@ function saveBranchCost() {
 
     $_jxc.ajax({
         url:contextPath+"/archive/branch/updateBranchCost",
-        data:dataJson
+        data:dataJson,
+        contentType:'application/json',
     },function(result){
         if(result['code'] == 0){
             $_jxc.alert("保存成功！");
@@ -528,6 +529,12 @@ function saveBranchCost() {
 
 function saveBranch() {
     var formData = $('#formEdit').serializeObject();
+
+    if(formData.costAvgYear <= 0){
+        $_jxc.alert("费用均摊年数不能为0");
+        return;
+    }
+
 
     if(!formData.costAvgYear){
         formData.costAvgYear = null;
