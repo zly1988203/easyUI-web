@@ -22,6 +22,12 @@ function addShop(){
                  var argWhere ={branchCode:1};  //验证重复性
                  var newRows = gridShopHandel.checkDatagrid(nowRows,[result.data],argWhere,{});
                 $("#"+gridShopName).datagrid("loadData",newRows);
+
+                $.each(newRows,function (index,item) {
+                    if(item.branchCode == data.branchCode){
+                        $('#'+gridShopName).datagrid('selectRow',index);
+                    }
+                })
             }
         })
 
@@ -167,15 +173,14 @@ function selectView(rowData) {
 }
 
 var postData = [];
-var gridDefault = {deviceCode:"",protectKey:"",posRegisteText:"不关联"}
+var gridDefault = {posRegisteId:"-1",posRegisteText:"不关联"}
 function initgridEquipmentList() {
-
     gridEquipmentHandel.setGridName(gridEquipment);
     $("#"+gridEquipment).datagrid({
         align:'center',
         rownumbers:true,    //序号
-        showFooter:true,
-        singleSelect:true,
+        singleSelect:true,  //单选  false多选
+        rownumbers:true,    //序号
         height:'40%',
         width:'100%',
         fit:true,
@@ -188,15 +193,55 @@ function initgridEquipmentList() {
                 },
             },
 
-            {field: 'deviceCode', title: '设备代码', width: 180, align: 'left',editor:'textbox'},
-            {field: 'protectKey', title: '终端保护密钥', width: 250, align: 'left',editor:'textbox'},
-            {field: 'posRegisteText', title: 'pos',hidden:true,editor:'textbox'},
+            {field: 'deviceCode', title: '设备代码', width: 180, align: 'left',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return;
+                    }
+                    return value;
+                },
+                editor:{
+                    type:'textbox',
+                    options:{
+                        prompt:"最多输入20个字符",
+                    }
+                }
+            },
+            {field: 'protectKey', title: '终端保护密钥', width: 250, align: 'left',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return;
+                    }
+                    if(undefined != value && value.trim().length > 20){
+                        value = value.substr(0,50);
+                    }
+                    return value;
+                },
+                editor:{
+                    type:'textbox',
+                    options:{
+                        prompt:"最多输入50个字符",
+                    }
+                }
+            },
+            {field: 'posRegisteText', title: 'pos',hidden:true,
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return;
+                    }
+                    return value;
+                },
+                editor:{
+                    type:'textbox',
+                    options:{
+                       disabled:true
+                    }
+                }
+            },
             {field: 'posRegisteId', title: '关联POS', width: 100, align: 'left',
                 formatter:function(value,row){
-                    // var opts = $(this).combobox('options');
-                    // return row[opts.textField];
-                    debugger;
-                    return row.posRegisteText||(row.deviceCode!=null&&row.deviceCode?"不关联":"");
+                    var posRegisteText = row.posRegisteText;
+                    return (typeof (posRegisteText) === "undefined"||posRegisteText==="")?"不关联":row.posRegisteText;
                 },
                 editor:{
                     type:'combobox',
@@ -210,7 +255,7 @@ function initgridEquipmentList() {
                         data:postData,
                         onSelect:onSelectPOS
                     }
-                }}
+                }},
         ]],
         onClickCell:function(rowIndex,field,value){
             gridEquipmentHandel.setBeginRow(rowIndex);
@@ -228,7 +273,6 @@ function initgridEquipmentList() {
         }
     })
 
-    // gridEquipmentHandel.setLoadData([$.extend({},gridDefault)])
 }
 
 function getPostData() {
@@ -261,7 +305,7 @@ function delLineHandel(event){
 
 function onSelectPOS(data) {
     var posRegisteText = gridEquipmentHandel.getFieldData(gridEquipmentHandel.getSelectRowIndex(),"posRegisteText");
-    gridEquipmentHandel.setFieldValue("posRegisteText",data.text);
+    gridEquipmentHandel.setFieldTextValue("posRegisteText",data.text);
 
 }
 
@@ -279,17 +323,21 @@ function saveSetting(){
 		ids[i] = rows[i].branchId;
 		enableds[i]=rows[i].enabled;
 	}
+
     var param = {
-        "settingId":settingId,
-        "ids":ids,
-        "enableds":enableds
+        url:url,
+        data:{
+            "settingId":settingId,
+            "ids":ids,
+            "enableds":enableds
+        }
     }
-    this.ajaxSubmit(url,param,function (result) {
+    $_jxc.ajax(param,function (result) {
         if(result['code'] == 0){
-        	$_jxc.alert("门店设置保存成功");
+            $_jxc.alert("门店设置保存成功");
             $("#"+gridShopName).datagrid('reload');
         }else{
-        	$_jxc.alert(result['message']);
+            $_jxc.alert(result['message']);
         }
     })
 }
@@ -300,31 +348,54 @@ function saveEquipmentList() {
 
     var rows = gridEquipmentHandel.getRows();
     if(!rows || rows == null || rows.length<=0){
-    	 $_jxc.alert("请先添加设备！");
+    	 $_jxc.alert("请选择一个店铺，添加设备！");
          return;
     }
+
     var isCheckData = true;
     $.each(rows,function (index,item) {
-        if($_jxc.isStringNull(item.deviceCode)){
-            $_jxc.alert("第"+(index+1)+"行，请填写设备代码！");
-            isCheckData = false;
-            return;
-        }
+        if(typeof (item.id) !="undefined"){
+            if($_jxc.isStringNull(item.deviceCode)){
+                $_jxc.alert("第"+(index+1)+"行，请填写设备代码！");
+                isCheckData = false;
+                return false;
+            }
 
-        if($_jxc.isStringNull(item.protectKey)){
-            $_jxc.alert("第"+(index+1)+"行，请填写终端保护密钥！");
-            isCheckData = false;
-            return;
+            if($_jxc.isStringNull(item.protectKey)){
+                $_jxc.alert("第"+(index+1)+"行，请填写终端保护密钥！");
+                isCheckData = false;
+                return false;
+            }
+        }else {
+            if($_jxc.isStringNull(item.deviceCode) && !$_jxc.isStringNull(item.protectKey)){
+                $_jxc.alert("第"+(index+1)+"行，请填写设备代码！");
+                isCheckData = false;
+                return false;
+            }
+
+            if(!$_jxc.isStringNull(item.deviceCode) && $_jxc.isStringNull(item.protectKey)){
+                $_jxc.alert("第"+(index+1)+"行，请填写终端保护密钥！");
+                isCheckData = false;
+                return false;
+            }
         }
 
     })
     if(!isCheckData) return;
 
+    var rowsData = gridEquipmentHandel.getRowsWhere({deviceCode:"1"});
+    if(rowsData.length <= 0){
+        $_jxc.alert("请添加设备信息！");
+        return;
+    }
+
     var isRepetition = false;
     var posArr = [];
-    $.each(rows,function (index,item) {
+    $.each(rowsData,function (index,item) {
         if($.inArray(item.posRegisteId, posArr) == -1){
-            posArr.push(item.posRegisteId);
+            if(item.posRegisteId != "-1" && item.posRegisteId != ""){
+                posArr.push(item.posRegisteId);
+            }
         }else{
             isRepetition = true;
         }
@@ -335,33 +406,39 @@ function saveEquipmentList() {
         return;
     }
 
+
+
     //宋文杰的请求套路，表示不走寻常路
-    var url = contextPath+"/iccard/setting/save/pos";
     var branchId = $("#branchId").val();
-    $.post(contextPath+"/iccard/setting/judge/branch", {"branchId": branchId, "settingId": $("#settingId").val()},
-    		   function(result){
-			    	 if(result['code'] == 0){
-			    		 	var deviceCode=new Array();
-			    			var protectKey=new Array();
-			    			var posRegisteId = new Array();
-			    			for(var  i = 0;i<rows.length;i++){
-			    				deviceCode[i] = rows[i].deviceCode;
-			    				protectKey[i]=rows[i].protectKey;
-			    				posRegisteId[i]=rows[i].posRegisteId==""?"-1":rows[i].posRegisteId;
-			    			}
-			    		    var param = {
-			    		        "branchId":branchId, "settingId": $("#settingId").val(),"deviceCode":deviceCode,"protectKey":protectKey,"posRegisteId":posRegisteId
-			    		    }
-			    		    $.post(url,param,function (result) {
-			    		        if(result['code'] == 0){
-			    		            $_jxc.alert("设备数据保存成功");
-			    		        }else{
-			    		            $_jxc.alert(result['message']);
-			    		        }
-			    		    })
-			    	 }else{
-			    		 $_jxc.alert("请先保存开通店铺,再保存设备！");
-			    	 }
-    		   });
-   
+    var param = {
+        url: contextPath+"/iccard/setting/judge/branch",
+        data:{"branchId": branchId, "settingId": $("#settingId").val()}
+    }
+    $_jxc.ajax(param,function (result) {
+        if(result['code'] == 0){
+
+            var data = {
+                "branchId":branchId,
+                "settingId": $("#settingId").val(),
+                posList:rowsData
+            }
+
+            var param = {
+                url:contextPath+"/iccard/setting/save/pos",
+                 data: JSON.stringify(data),
+                contentType:'application/json',
+                // "deviceCode":deviceCode,"protectKey":protectKey,"posRegisteId":posRegisteId
+            }
+            $_jxc.ajax(param,function (result) {
+                if(result['code'] == 0){
+                    $_jxc.alert("设备数据保存成功");
+                }else{
+                    $_jxc.alert(result['message']);
+                }
+            })
+
+        }else{
+            $_jxc.alert("请先保存开通店铺,再保存设备！");
+        }
+    })
 }

@@ -19,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -179,12 +180,10 @@ public class ICCardSettingController extends BaseController<Object>{
 	}
 	
 	@RequestMapping(value = "/save/pos", method = RequestMethod.POST)
-	public RespJson savePos(String branchId,String settingId, @RequestParam(value = "deviceCode[]") String[] deviceCode,
-			@RequestParam(value = "protectKey[]") String[] protectKey,
-			@RequestParam(value = "posRegisteId[]",required=false) String[] posRegisteId) {
-		boolean bool = icCardSettingService.savePos(branchId,settingId, deviceCode, protectKey,posRegisteId, getCurrUserId());
+	public RespJson savePos(/*String branchId,String settingId, String posList*/ @RequestBody String jsonText) {
+		/*boolean bool = icCardSettingService.savePos(branchId,settingId, deviceCode, protectKey,posRegisteId, getCurrUserId());
 		if (bool)
-			return RespJson.success("设备设置成功!");
+			return RespJson.success("设备设置成功!");*/
 		return RespJson.error("设备设置失败!");
 	}
 	

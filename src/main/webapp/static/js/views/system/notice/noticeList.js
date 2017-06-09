@@ -122,6 +122,7 @@ function viewNotice(id) {
         onClose: function () {
             $(viewNoticeDialog).panel('destroy');
             viewNoticeDialog = null;
+            queryNoticeList();
         },
         modal: true,
         onLoad: function () {
@@ -133,6 +134,7 @@ function viewNotice(id) {
 function closeViewDialog() {
     $(viewNoticeDialog).panel('destroy');
     viewNoticeDialog = null;
+    queryNoticeList();
 }
 
 function delNotice() {
