@@ -136,6 +136,9 @@ function initGridShopList(cardType) {
             updateFooter();
         }
     })
+
+    $("#"+gridShopName).parent().find("div .datagrid-header-check").children("input[type=\"checkbox\"]").eq(0).attr("style", "display:none;");
+    $("#"+gridShopName).parent().find("div .datagrid-header-check").append("<b>启用</b>")
 }
 //合计
 function updateFooter(){
@@ -164,7 +167,7 @@ function selectView(rowData) {
 }
 
 var postData = [];
-var gridDefault = {deviceCode:"",protectKey:""}
+var gridDefault = {deviceCode:"",protectKey:"",posRegisteText:"不关联"}
 function initgridEquipmentList() {
 
     gridEquipmentHandel.setGridName(gridEquipment);
@@ -192,6 +195,7 @@ function initgridEquipmentList() {
                 formatter:function(value,row){
                     // var opts = $(this).combobox('options');
                     // return row[opts.textField];
+                    debugger;
                     return row.posRegisteText||(row.deviceCode!=null&&row.deviceCode?"不关联":"");
                 },
                 editor:{
@@ -201,7 +205,7 @@ function initgridEquipmentList() {
                         textField: 'text',
                         editable:false,
                         required:true,
-                        mode: "remote",
+                        // mode: "remote",
                         // url:contextPath+ '/iccard/setting/pos/'+$("#branchId").val(),
                         data:postData,
                         onSelect:onSelectPOS
@@ -257,7 +261,7 @@ function delLineHandel(event){
 
 function onSelectPOS(data) {
     var posRegisteText = gridEquipmentHandel.getFieldData(gridEquipmentHandel.getSelectRowIndex(),"posRegisteText");
-    gridEquipmentHandel.setFieldTextValue("posRegisteText",data.text);
+    gridEquipmentHandel.setFieldValue("posRegisteText",data.text);
 
 }
 

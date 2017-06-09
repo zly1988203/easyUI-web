@@ -154,7 +154,7 @@
 						<div class="ub ub-ac uw-320">
 							<div class="umar-r10 uw-100 ut-r">费用均摊年数:</div>
 							<input id="costAvgYear" name="costAvgYear" type="text" value=""
-								class="uinp easyui-numberbox easyui-validatebox" data-options="validType:'intNum',min:1,precision:0">
+								class="uinp easyui-numberbox easyui-validatebox" data-options="validType:'intNum',precision:0">
 
 						</div>
 
@@ -230,7 +230,7 @@
 		style="width: 100%; display: none;">
 		<div class="ub ub-ac upad-8">
 			<div class="ubtns">
-				<button class="ubtns-item" onclick="saveBranch()">保存</button>
+				<button class="ubtns-item" onclick="saveBranchCost()">保存</button>
 				<button class="ubtns-item" onclick="closeDialogHandel()">关闭</button>
 			</div>
 		</div>

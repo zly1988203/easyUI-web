@@ -57,7 +57,7 @@
 					<div class="umar-r10 uw-70 ut-r">公告标题:</div>
 					<input class="uinp uinp-no-more ub ub-f1" type="text" id="title"
 						name="title" value="${notice.title}"
-						maxlength="150" readOnly/>
+						maxlength="100" readOnly/>
 				</div>
 			</div>
 
@@ -65,7 +65,7 @@
 				<div class="ub ub-ac uw-600">
 					<div class="umar-r10 uw-70 ut-r">公告内容:</div>
 					<textarea id="content" name="content"
-					class="uh-300 umar-r30 ubor ub ub-f1 uinp-no-more" maxlength="1000" readOnly>${notice.content}</textarea>
+					class="uh-300 umar-r30 ubor ub ub-f1 uinp-no-more" maxlength="200" readOnly>${notice.content}</textarea>
 				</div>
 			</div>
 

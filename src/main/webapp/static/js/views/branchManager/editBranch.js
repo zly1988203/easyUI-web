@@ -399,25 +399,43 @@ function delLineHandel(event){
 
 }
 
-function saveBranch() {
-    debugger;
-
+function saveBranchCost() {
     $("#gridFitmentCost").datagrid("endEdit", gridFitmentCostHandel.getSelectRowIndex());
     $("#gridEquipmentCost").datagrid("endEdit", gridEquipmentCostHandel.getSelectRowIndex());
     $("#gridAmortizeCost").datagrid("endEdit", gridAmortizeCostHandel.getSelectRowIndex());
 
-    var formData = $('#formEdit').serializeObject();
+    var formData = {};
     var isCheckResult = true;
     var decorateCostList = gridFitmentCostHandel.getRows();
     $.each(decorateCostList,function (index,item) {
-        if(typeof (item.id) !="undefined" && $_jxc.isStringNull(item.costName)){
-            $_jxc.alert('第'+(index+1)+'行装修费用名称不能为空')
-            isCheckResult = false;
+        if(typeof (item.id) !="undefined"){
+            if($_jxc.isStringNull(item.costName)){
+                $_jxc.alert('第'+(index+1)+'行装修费用名称不能为空')
+                isCheckResult = false;
+                return false;
+            }
+            if(parseFloat(item.costAmount).toFixed(2) <= 0){
+                $_jxc.alert('第'+(index+1)+'行装修费用金额不能为0')
+                isCheckResult = false;
+                return false;
+            }
+
         }
-        else if(parseFloat(item.costAmount).toFixed(2) > 0 && $_jxc.isStringNull(item.costName)){
-            $_jxc.alert('第'+(index+1)+'行金额大于0，装修费用名称不能为空')
-            isCheckResult = false;
+        else{
+
+            if(parseFloat(item.costAmount).toFixed(2) > 0 && $_jxc.isStringNull(item.costName)){
+                $_jxc.alert('第'+(index+1)+'行金额大于0，装修费用名称不能为空')
+                isCheckResult = false;
+                return false;
+            }
+
+            if(parseFloat(item.costAmount).toFixed(2) <= 0 && !$_jxc.isStringNull(item.costName)){
+                $_jxc.alert('第'+(index+1)+'行装修费用金额不能为0')
+                isCheckResult = false;
+                return false;
+            }
         }
+
     })
 
     if(!isCheckResult) return;
@@ -425,14 +443,32 @@ function saveBranch() {
 
     var deviceCostList = gridEquipmentCostHandel.getRows();
     $.each(deviceCostList,function (index,item) {
-        if(typeof (item.id) !="undefined" && $_jxc.isStringNull(item.costName)){
-            $_jxc.alert('第'+(index+1)+'行设备费用名称不能为空')
-            isCheckResult = false;
+        if(typeof (item.id) !="undefined"){
+            if($_jxc.isStringNull(item.costName)){
+                $_jxc.alert('第'+(index+1)+'行设备费用名称不能为空')
+                isCheckResult = false;
+                return false;
+            }
+            if(parseFloat(item.costAmount).toFixed(2) <= 0){
+                $_jxc.alert('第'+(index+1)+'行设备费用金额不能为0')
+                isCheckResult = false;
+                return false;
+            }
         }
-        else if(parseFloat(item.costAmount).toFixed(2) > 0 && $_jxc.isStringNull(item.costName)){
-            $_jxc.alert('第'+(index+1)+'行金额大于0，设备费用名称不能为空')
-            isCheckResult = false;
+        else {
+            if(parseFloat(item.costAmount).toFixed(2) > 0 && $_jxc.isStringNull(item.costName)){
+                $_jxc.alert('第'+(index+1)+'行金额大于0，设备费用名称不能为空')
+                isCheckResult = false;
+                return false;
+            }
+
+            if(parseFloat(item.costAmount).toFixed(2) <= 0 && !$_jxc.isStringNull(item.costName)){
+                $_jxc.alert('第'+(index+1)+'行设备费用金额不能为0')
+                isCheckResult = false;
+                return false;
+            }
         }
+
     })
 
     if(!isCheckResult) return;
@@ -440,33 +476,48 @@ function saveBranch() {
 
         var amortizeCostList = gridAmortizeCostHandel.getRows();
     $.each(amortizeCostList,function (index,item) {
-        if(typeof (item.id) !="undefined" && $_jxc.isStringNull(item.costName)){
-            $_jxc.alert('第'+(index+1)+'行摊销费用名称不能为空')
-            isCheckResult = false;
+        if(typeof (item.id) !="undefined"){
+            if($_jxc.isStringNull(item.costName)){
+                $_jxc.alert('第'+(index+1)+'行摊销费用名称不能为空')
+                isCheckResult = false;
+                return false;
+            }
+            if(parseFloat(item.costAmount).toFixed(2) <= 0){
+                $_jxc.alert('第'+(index+1)+'行摊销费用金额不能为0')
+                isCheckResult = false;
+                return false;
+            }
         }
-        else if(parseFloat(item.costAmount).toFixed(2) > 0 && $_jxc.isStringNull(item.costName)){
-            $_jxc.alert('第'+(index+1)+'行金额大于0，装修费用名称不能为空')
-            isCheckResult = false;
+        else {
+            if(parseFloat(item.costAmount).toFixed(2) > 0 && $_jxc.isStringNull(item.costName)){
+                $_jxc.alert('第'+(index+1)+'行金额大于0，摊销费用名称不能为空')
+                isCheckResult = false;
+                return false;
+            }
+
+            if(parseFloat(item.costAmount).toFixed(2) <= 0 && !$_jxc.isStringNull(item.costName)){
+                $_jxc.alert('第'+(index+1)+'行摊销费用金额不能为0')
+                isCheckResult = false;
+                return false;
+            }
+
         }
     })
 
     if(!isCheckResult) return;
     formData.amortizeCostList = gridAmortizeCostHandel.getRowsWhere({costName:1});
-    
-    if(!formData.costAvgYear){
-    	formData.costAvgYear = null;
+
+    if(formData.decorateCostList.length <= 0 && formData.deviceCostList.length <= 0 && formData.amortizeCostList.length <= 0){
+        $_jxc.alert('请添加费用');
+        return;
     }
-    
-    if(!formData.distriPriceType){
-    	formData.distriPriceType = null;
-    }
-    
+
     var dataJson = JSON.stringify(formData);
 
     $_jxc.ajax({
-        url:contextPath+"/archive/branch/updateBranch",
+        url:contextPath+"/archive/branch/updateBranchCost",
+        data:dataJson,
         contentType:'application/json',
-        data:dataJson
     },function(result){
         if(result['code'] == 0){
             $_jxc.alert("保存成功！");
@@ -476,3 +527,31 @@ function saveBranch() {
     });
 }
 
+function saveBranch() {
+    var formData = $('#formEdit').serializeObject();
+
+    if(formData.costAvgYear <= 0){
+        $_jxc.alert("费用均摊年数不能为0");
+        return;
+    }
+
+
+    if(!formData.costAvgYear){
+        formData.costAvgYear = null;
+    }
+
+    if(!formData.distriPriceType){
+        formData.distriPriceType = null;
+    }
+
+    $_jxc.ajax({
+        url:contextPath+"/archive/branch/updateBranch",
+        data:formData
+    },function(result){
+        if(result['code'] == 0){
+            $_jxc.alert("保存成功！");
+        }else{
+            $_jxc.alert(result['message']);
+        }
+    });
+}
