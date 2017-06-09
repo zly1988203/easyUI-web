@@ -169,8 +169,12 @@ public class BranchController extends BaseController<BranchController> {
 
 			vo.setUserId(super.getCurrUserId()); // 当前用户Id
 
-			return branchesService.updateBranchInfo(vo);
+			RespJson respJson = branchesService.updateBranchInfo(vo);
+			if (!respJson.isSuccess()) {
+				LOG.error(respJson.getMessage());
+			}
 
+			return respJson;
 		} catch (Exception e) {
 			LOG.error("修改机构信息失败：", e);
 		}
@@ -185,7 +189,12 @@ public class BranchController extends BaseController<BranchController> {
 			BranchCostVo vo = GsonUtils.fromJson(jsonText, BranchCostVo.class);
 			vo.setUserId(super.getCurrUserId()); // 当前用户Id
 
-			return branchesService.updateBranchCost(vo);
+			RespJson respJson = branchesService.updateBranchCost(vo);
+			if (!respJson.isSuccess()) {
+				LOG.error(respJson.getMessage());
+			}
+
+			return respJson;
 
 		} catch (Exception e) {
 			LOG.error("修改机构费用失败：", e);
