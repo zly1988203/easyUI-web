@@ -30,25 +30,25 @@ $(function(){
 		    var currGrant = this+"";
 		    switch (currGrant) {
 		    case "sale_price": 	// 零售价
-		    	hasSalePrice = false;
+		    	hasSalePrice = true;
 				break;
 		    case "vip_price": // 会员价
-		    	hasVipPrice = false;
+		    	hasVipPrice = true;
 				break;
 		    case "purchase_price": // 采购价
-		    	hasPurchasePrice = false;
+		    	hasPurchasePrice = true;
 				break;
 		    case "wholesale_price": // 批发价
-		    	hasWholesalePrice = false;
+		    	hasWholesalePrice = true;
 				break;
 		    case "lowest_price": // 最低售价
-		    	hasLowestPrice = false;
+		    	hasLowestPrice = true;
 				break;
 		    case "distribution_price": // 配送价
-		    	hasDistributionPrice = false;
+		    	hasDistributionPrice = true;
 				break;
                 case "cost_price": // 成本价
-                    hasCostPrice = false;
+                    hasCostPrice = true;
                     break;
 		    default:
 				break;

@@ -230,7 +230,7 @@
 		style="width: 100%; display: none;">
 		<div class="ub ub-ac upad-8">
 			<div class="ubtns">
-				<button class="ubtns-item" onclick="saveBranch()">保存</button>
+				<button class="ubtns-item" onclick="saveBranchCost()">保存</button>
 				<button class="ubtns-item" onclick="closeDialogHandel()">关闭</button>
 			</div>
 		</div>

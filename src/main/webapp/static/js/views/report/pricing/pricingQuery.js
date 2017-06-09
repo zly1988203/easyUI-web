@@ -156,7 +156,16 @@ function initDatagridRequireOrders(){
 			gridHandel.setDatagridHeader("center");
 		}
     });
-	priceGrantUtil.grantPrice(gridName);
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice(gridName,["oldPurPrice","newPurPrice"])
+	}
+    if(hasDistributionPrice==false){
+        priceGrantUtil.grantDistributionPrice(gridName,["oldDcPrice","newDcPrice"])
+    }
+    if(hasWholesalePrice==false){
+        priceGrantUtil.grantWholesalePrice(gridName,["oldWsPrice","newWsPrice"])
+    }
+
 }
 
 

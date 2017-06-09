@@ -328,7 +328,6 @@ $(
                     idField:'skuCode',
                     onLoadSuccess : function() {
                         //gridHandel.setDatagridHeader();
-                        priceGrantUtil.grantPrice("gridGoods");
                     }
                 });
 

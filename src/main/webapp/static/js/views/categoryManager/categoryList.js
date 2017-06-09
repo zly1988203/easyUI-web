@@ -121,7 +121,6 @@ function initDatagridArchives(){
         ]],
         onLoadSuccess : function() {
             gridHandel.setDatagridHeader("center");
-        	priceGrantUtil.grantPrice("gridArchives");
         }
 
 });
