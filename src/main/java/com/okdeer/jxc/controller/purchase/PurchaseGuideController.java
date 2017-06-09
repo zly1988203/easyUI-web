@@ -147,7 +147,9 @@ public class PurchaseGuideController extends BaseController<PurchaseGuideControl
 			// 构建查询条件信息
 			buldSearchParams(qo);
 
-			return purchaseGuideService.getGoodsList(qo);
+			PageUtils<PurchaseGuideGoodsPo> page = purchaseGuideService.getGoodsList(qo);
+			cleanAccessData(page.getList());
+			return page;
 		} catch (Exception e) {
 			LOG.error("获取采购向导商品清单异常:", e);
 		}
@@ -205,7 +207,9 @@ public class PurchaseGuideController extends BaseController<PurchaseGuideControl
 	public PageUtils<PurchaseGuideOrderPo> getOrderList(String guideNo) {
 		LOG.debug("获取采购向导订单列表向导批次号：{}", guideNo);
 		try {
-			return purchaseGuideService.getGuideOrderList(guideNo);
+			PageUtils<PurchaseGuideOrderPo> page = purchaseGuideService.getGuideOrderList(guideNo);
+			cleanAccessData(page.getList());
+			return page;
 		} catch (Exception e) {
 			LOG.error("获取采购向导商品清单异常:", e);
 		}

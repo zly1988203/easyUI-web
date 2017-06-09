@@ -272,7 +272,7 @@ public class BaseController<T> {
 	 * 过滤价格权限数据（vo list）
 	 * @param datas 要过滤的vo对象
 	 */
-	protected void cleanAccessDatas(List<? extends Object> datas){
+	protected void cleanAccessData(List<? extends Object> datas){
 		Class<?> cls = datas.get(0).getClass();
 		Set<String> forbiddenSets = PriceGrantUtil.getNoPriceGrantSets();
 		DataAccessParser parser = new DataAccessParser(cls, forbiddenSets);

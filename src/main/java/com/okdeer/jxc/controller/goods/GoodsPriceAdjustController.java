@@ -171,7 +171,8 @@ public class GoodsPriceAdjustController extends BasePrintController<GoodsPriceAd
 	@ResponseBody
 	public List<GoodsPriceFormDetail> queryDetailsByformNo(String formNo) {
 		LOG.debug("调价单搜索 ：formNo=" + formNo);
-		return goodsPriceAdustService.queryDetailPriceByformNo(formNo);
+		List<GoodsPriceFormDetail> list = goodsPriceAdustService.queryDetailPriceByformNo(formNo);
+		return list;
 	}
 	
 	/**
@@ -589,6 +590,7 @@ public class GoodsPriceAdjustController extends BasePrintController<GoodsPriceAd
 			// 模板名称，包括后缀名
 			String templateName = ExportExcelConstant.GOODS_PRICE_ADJUST_FORM;
 			// 导出Excel
+			cleanAccessData(exportList);
 			exportListForXLSX(response, exportList, fileName, templateName);
 		} catch (Exception e) {
 			LOG.error("GoodsPriceAdjustController:exportList:", e);
@@ -788,6 +790,7 @@ public class GoodsPriceAdjustController extends BasePrintController<GoodsPriceAd
 	protected List<GoodsPriceFormDetail> getPrintDetail(String formNo) {
 		// 根据formNo得到详情数据
 		List<GoodsPriceFormDetail> goodsPriceFormDetailList = goodsPriceAdustService.queryDetailsByFormNo(formNo);
+		cleanAccessData(goodsPriceFormDetailList);
 		return goodsPriceFormDetailList;
 	}
 

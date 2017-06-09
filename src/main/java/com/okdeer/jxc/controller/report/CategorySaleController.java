@@ -78,6 +78,8 @@ public class CategorySaleController extends BaseController<CategorySaleControlle
 			}
 			goodsSaleReportList.setFooter(footer);
 			LOG.debug(LogConstant.PAGE, goodsSaleReportList.toString());
+			cleanAccessData(goodsSaleReportList.getFooter());
+			cleanAccessData(goodsSaleReportList.getList());
 			return goodsSaleReportList;
 		} catch (Exception e) {
 			LOG.error("类别销售列表信息异常:{}", e);
@@ -107,6 +109,7 @@ public class CategorySaleController extends BaseController<CategorySaleControlle
 			String fileName = "类别销售分析表";
 			String templateName = ExportExcelConstant.CATEGORY_SALE_REPORT;
 
+			cleanAccessData(exportList);
 			exportListForXLSX(response, exportList, fileName, templateName);
 		} catch (Exception e) {
 			LOG.error("导出库存调整商品异常：{}", e);

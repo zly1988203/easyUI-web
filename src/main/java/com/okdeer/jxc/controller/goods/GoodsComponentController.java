@@ -61,6 +61,7 @@ public class GoodsComponentController extends BaseController<GoodsSelectControll
 			vo.setPageSize(pageSize);
 			vo.setBranchId(getCurrBranchId());
 			PageUtils<GoodsComponent> page= goodsComponentApi.queryLists(vo);
+			cleanAccessData(page.getList());
 			return page;
 		}catch(Exception e){
 			LOG.error("查询组合商品失败！:{}",e);
@@ -79,8 +80,8 @@ public class GoodsComponentController extends BaseController<GoodsSelectControll
 	@ResponseBody
 	public List<GoodsComponent>  queryComponent(String skuId) {
 		try{
-
-			return goodsComponentApi.queryComponent(skuId);
+			List<GoodsComponent> list = goodsComponentApi.queryComponent(skuId);
+			return list;
 		}catch(Exception e){
 			LOG.error("查询商品成分失败！:{}",e);
 			return null;

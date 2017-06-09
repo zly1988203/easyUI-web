@@ -150,6 +150,7 @@ BaseController<GoodsReportController> {
 		}else{
 			jesp.put("isStore", false);
 		}
+		cleanAccessData(sku);
 		jesp.put("_data", sku);
 		return jesp;
 	}
@@ -191,6 +192,7 @@ BaseController<GoodsReportController> {
 				}
 			}	
 			PageUtils<GoodsReportVo> goodsReport = goodsReportService.queryListToPage(qo);
+			cleanAccessData(goodsReport.getList());
 			return goodsReport;
 
 		} catch (Exception e) {
@@ -237,6 +239,7 @@ BaseController<GoodsReportController> {
 
 				String templateName = ExportExcelConstant.GOODSREPORT;
 
+				cleanAccessData(exportList);
 				exportListForXLSX(response, exportList, fileName, templateName);
 			} else {
 				RespJson json = RespJson.error("无数据可导");
@@ -283,6 +286,7 @@ BaseController<GoodsReportController> {
 			String path = PrintConstant.GOODS_REPORT;
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("printName", UserUtil.getCurrentUser().getUserName());
+			cleanAccessData(list);
 			JasperHelper.exportmain(request, response, map,
 					JasperHelper.PDF_TYPE, path, list, "");
 		} catch (Exception e) {
@@ -298,6 +302,7 @@ BaseController<GoodsReportController> {
 			List<GoodsBranchPriceVo> branchList = goodsBranchPriceService.querySkuBranchBySkuId(qo);
 			
 			PageUtils<GoodsBranchPriceVo> goodsReport = new PageUtils<GoodsBranchPriceVo>(branchList);
+			cleanAccessData(goodsReport.getList());
 			return goodsReport;
 		}catch(Exception e){
 			LOG.error("查询商品各机构信息失败", e);

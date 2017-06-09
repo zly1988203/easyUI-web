@@ -130,6 +130,7 @@ public class SupplierBranchGoodsController extends BaseController<SupplierBranch
 		try {
 			LOG.debug("供应商机构商品查询请求参数,vo={}", vo);
 			List<BranchGoodsSkuVo> result = goodsSupplierBranchServiceApi.querySupplierBranchGoods(vo);
+			cleanAccessData(result);
 			return result;
 		} catch (Exception e) {
 			LOG.error("供应商机构商品查询异常:", e);
@@ -206,6 +207,7 @@ public class SupplierBranchGoodsController extends BaseController<SupplierBranch
 			List<BranchGoodsSkuVo> list = goodsSupplierBranchServiceApi.querySupplierBranchGoods(vo);
 			String fileName = vo.getSupplierName() + "_" + vo.getBranchName() + "_" + DateUtils.getCurrSmallStr();
 			String templateName = ExportExcelConstant.SUPPLIER_BRANCH_GOODS_REPORT;
+			cleanAccessData(list);
 			exportListForXLSX(response, list, fileName, templateName);
 		} catch (Exception e) {
 			LOG.error("供应商机构商品关系导出失败", e);
@@ -309,6 +311,7 @@ public class SupplierBranchGoodsController extends BaseController<SupplierBranch
 
 						}
 					}, null);
+			cleanAccessData(vo.getList());
 			respJson.put("importInfo", vo);
 
 		} catch (IOException e) {

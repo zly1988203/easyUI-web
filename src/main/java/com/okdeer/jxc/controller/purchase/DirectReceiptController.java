@@ -187,6 +187,7 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 		try {
 			qo = getParam(qo);
 			PageUtils<PurchaseFormPO> page = purchaseFormServiceApi.selectPage(qo);
+			cleanAccessData(page.getList());
 			return page;
 		} catch (Exception e) {
 			LOG.error("获取直送收货单列表异常:{}", e);
@@ -546,6 +547,7 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 				return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
 			}
 			String path = PrintConstant.DIRECT_RECEIPT;
+			cleanAccessData(list);
 			JasperHelper.exportmain(request, response, map, JasperHelper.PDF_TYPE, path, list, "");
 		} catch (Exception e) {
 			LOG.error(PrintConstant.DIRECT_RECEIPT_ERROR, e);
@@ -676,6 +678,7 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 		try {
 			List<PurchaseFormDetailPO> list = purchaseFormServiceApi.selectDetail(formNo).getList();
 			if (null != list) {
+				cleanAccessData(list);
 				return list;
 			}
 		} catch (Exception e) {
@@ -832,6 +835,7 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 			String fileName = "直送收货单_" + DateUtils.getCurrSmallStr();
 			String templateName = ExportExcelConstant.DIRECTRECEIPTFORM;
 			// 导出Excel
+			cleanAccessData(exportList);
 			exportListForXLSX(response, exportList, fileName, templateName);
 		} catch (Exception e) {
 			LOG.error("导出直送收货单异常:{}", e);

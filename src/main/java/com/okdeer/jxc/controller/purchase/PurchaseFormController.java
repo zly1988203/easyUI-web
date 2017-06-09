@@ -157,6 +157,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 		LOG.debug(LogConstant.OUT_PARAM, vo.toString());
 		String formId = vo.getId();
 		PurchaseFormPO form = purchaseFormServiceApi.selectPOById(formId);
+		cleanAccessData(form);
 		model.addAttribute("form", form);
 		return "form/purchase/receiptAdd";
 	}
@@ -215,6 +216,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 		}
 
 		PageUtils<PurchaseFormPO> page = purchaseFormServiceApi.selectPage(qo);
+		cleanAccessData(page.getList());
 		return page;
 	}
 
@@ -247,6 +249,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 		}
 
 		PageUtils<PurchaseFormPO> page = purchaseFormServiceApi.selectPage(qo);
+		cleanAccessData(page.getList());
 		return page;
 	}
 
@@ -453,6 +456,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 			return RespJson.error("无法通过此id查询到数据，数据可能已被删除");
 		}
 		RespJson resp = RespJson.success();
+		cleanAccessData(form);
 		resp.put("obj", form);
 		return resp;
 	}
@@ -504,6 +508,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 		}
 		qo.setBranchCompleCode(getCurrBranchCompleCode());
 		PageUtils<PurchaseFormPO> page = purchaseFormServiceApi.selectPage(qo);
+		cleanAccessData(page.getList());
 		return page;
 	}
 
@@ -1169,6 +1174,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 	@Override
 	protected List<PurchaseFormDetailPO> getPrintDetail(String formNo) {
 		List<PurchaseFormDetailPO> list = purchaseFormServiceApi.selectDetail(formNo).getList();
+		cleanAccessData(list);
 		return list;
 	}
 
@@ -1338,6 +1344,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 				templateName = ExportExcelConstant.RETURN_FORM;
 			}
 			// 导出Excel
+			cleanAccessData(exportList);
 			exportListForXLSX(response, exportList, fileName, templateName);
 		} catch (Exception e) {
 			LOG.error("GoodsPriceAdjustController:exportList:", e);
