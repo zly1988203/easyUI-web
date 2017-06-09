@@ -94,7 +94,9 @@ public class PurchaseReplenishAnalyController extends BaseController<PurchaseRep
 			// 构建查询条件信息
 			buldSearchParams(qo);
 
-			return purchaseReplenishAnalyService.getReplenishAnalyReportPage(qo);
+			PageUtils<PurchaseGuideGoodsPo> page = purchaseReplenishAnalyService.getReplenishAnalyReportPage(qo);
+			cleanAccessData(page.getList());
+			return page;
 		} catch (Exception e) {
 			LOG.error("门店补货分析报表分页获取数据异常:", e);
 		}
@@ -133,6 +135,7 @@ public class PurchaseReplenishAnalyController extends BaseController<PurchaseRep
 
 			String fileName = "门店补货分析报表" + DateUtils.getCurrSmallStr();
 			String templateName = ExportExcelConstant.PURCHASE_REPLENISH_ANALY_REPORT;
+			cleanAccessData(exportList);
 			exportListForXLSX(response, exportList, fileName, templateName);
 		} catch (Exception e) {
 			LOG.error("门店补货分析报表导出异常：{}", e);

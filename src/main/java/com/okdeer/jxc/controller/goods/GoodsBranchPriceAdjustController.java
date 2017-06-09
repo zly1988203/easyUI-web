@@ -224,7 +224,8 @@ public class GoodsBranchPriceAdjustController extends BaseController<GoodsBranch
 	@RequestMapping(value = "/getBranchPriceDetailsById")
 	@ResponseBody
 	public List<GoodsPriceFormDetail> getBranchPriceDetailsById(String formId) {
-		return goodsBranchPriceAdjustService.getBranchPriceDetailsById(formId);
+		List<GoodsPriceFormDetail> list = goodsBranchPriceAdjustService.getBranchPriceDetailsById(formId);
+		return list;
 	}
 	/**
 	 * 
@@ -441,6 +442,7 @@ public class GoodsBranchPriceAdjustController extends BaseController<GoodsBranch
 			// 模板名称，包括后缀名
 			String templateName = ExportExcelConstant.GOODS_BRANCH_PRICE_ADJUST_FORM;
 			// 导出Excel
+			cleanAccessData(exportList);
 			exportListForXLSX(response, exportList, fileName, templateName);
 		} catch (Exception e) {
 			LOG.error("GoodsPriceAdjustController:exportList:", e);

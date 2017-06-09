@@ -122,8 +122,10 @@ public class PurchaseReportController extends
 			// 2、查询合计
 			PurchaseReportPo vo = purchaseReportService.getPurReportDetailSum(qo);
 			List<PurchaseReportPo> footer = new ArrayList<PurchaseReportPo>();
+			cleanAccessData(vo);
 			footer.add(vo);
 			list.setFooter(footer);
+			cleanAccessData(list.getList());
 			return list;
 
 		} catch (Exception e) {
@@ -178,6 +180,7 @@ public class PurchaseReportController extends
 			// 模板名称，包括后缀名
 			String templateName = ExportExcelConstant.PURCHASE_DETAIL_REPORT;
 			// 导出Excel
+			cleanAccessData(exportList);
 			exportListForXLSX(response, exportList, fileName, templateName);
 		} catch (Exception e) {
 			LOG.error("采购单明细导出:{}", e);
@@ -247,6 +250,8 @@ public class PurchaseReportController extends
 					list = getPurReportTotalByGoods(qo);
 					break;
 			}
+			cleanAccessData(list.getList());
+			cleanAccessData(list.getFooter());
 			return list;
 		} catch (Exception e) {
 			LOG.error("采购汇总表查询:", e);
@@ -412,6 +417,7 @@ public class PurchaseReportController extends
 			}
 			list.add(vo);
 			// 导出Excel
+			cleanAccessData(list);
 			exportListForXLSX(response, list, fileName, templateName);
 		} catch (Exception e) {
 			LOG.error("采购汇总导出:{}", e);

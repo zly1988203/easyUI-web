@@ -83,6 +83,8 @@ public class GoodsSaleController extends BaseController<GoodsSaleController> {
 			}
 			goodsSaleReportList.setFooter(footer);
 			LOG.debug(LogConstant.PAGE, goodsSaleReportList.toString());
+			cleanAccessData(goodsSaleReportList.getFooter());
+			cleanAccessData(goodsSaleReportList.getList());
 			return goodsSaleReportList;
 		} catch (Exception e) {
 			LOG.error("获取单据列表信息异常:{}", e);
@@ -112,6 +114,7 @@ public class GoodsSaleController extends BaseController<GoodsSaleController> {
 
 			String templateName = ExportExcelConstant.GOODS_SALE_REPORT;
 
+			cleanAccessData(exportList);
 			exportListForXLSX(response, exportList, fileName, templateName);
 		} catch (Exception e) {
 			LOG.error("导出库存调整商品异常：{}", e);

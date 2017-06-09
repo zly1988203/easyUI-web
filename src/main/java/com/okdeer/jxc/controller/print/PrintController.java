@@ -234,6 +234,7 @@ public class PrintController extends BaseController<PrintController> {
 						pintList.add(list.get(i));
 					}
 				}
+				cleanAccessData(pintList);
 				if ("1".equals(printNo)) {
 					exportPdf1(response, pintList);
 				} else if ("2".equals(printNo)) {
