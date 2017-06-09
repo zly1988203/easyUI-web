@@ -30,6 +30,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.google.common.collect.Maps;
 import com.okdeer.jxc.branch.entity.BranchSpec;
 import com.okdeer.jxc.common.result.RespJson;
+import com.okdeer.jxc.common.utils.FastJsonUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.finance.iccard.entity.ICCardDevice;
@@ -37,6 +38,7 @@ import com.okdeer.jxc.finance.iccard.entity.ICCardSetting;
 import com.okdeer.jxc.finance.iccard.service.ICCardAccountService;
 import com.okdeer.jxc.finance.iccard.service.ICCardSettingService;
 import com.okdeer.jxc.finance.iccard.vo.ICCardAccountVo;
+import com.okdeer.jxc.finance.iccard.vo.ICCardDeviceVo;
 import com.okdeer.jxc.utils.UserUtil;
 
 /**
@@ -181,9 +183,12 @@ public class ICCardSettingController extends BaseController<Object>{
 	
 	@RequestMapping(value = "/save/pos", method = RequestMethod.POST)
 	public RespJson savePos(/*String branchId,String settingId, String posList*/ @RequestBody String jsonText) {
-		/*boolean bool = icCardSettingService.savePos(branchId,settingId, deviceCode, protectKey,posRegisteId, getCurrUserId());
+		
+		ICCardDeviceVo vo = FastJsonUtils.parseObject(jsonText, ICCardDeviceVo.class);
+		
+		boolean bool = icCardSettingService.savePos(vo.getBranchId(),vo.getSettingId(), vo.getPosList(), getCurrUserId());
 		if (bool)
-			return RespJson.success("设备设置成功!");*/
+			return RespJson.success("设备设置成功!");
 		return RespJson.error("设备设置失败!");
 	}
 	
