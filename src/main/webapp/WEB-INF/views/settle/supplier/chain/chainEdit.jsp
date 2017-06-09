@@ -88,9 +88,11 @@
            <div class="ub umar-t8">
            		<div class="ub ub-ac uw-310 umar-l20">
            			<div class="umar-r10 uw-90 ut-r">计算时间:</div>
-           			<input id="beginDate" name="beginDate" value="${chainVo.beginDate}" class="Wdate ub ub-f1" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true,maxDate:'#F{$dp.$D(\'endDate\')||dateUtil.getCurrDayPreOrNextDay(\'prev\',1)}'})" />
+<%--            			<input id="beginDate" name="beginDate" value="${chainVo.beginDate}" class="Wdate ub ub-f1" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true,maxDate:'#F{$dp.$D(\'endDate\')||dateUtil.getCurrDayPreOrNextDay(\'prev\',1)}'})" /> --%>
+           			<input id="beginDate" name="beginDate" value="${chainVo.beginDate}" class="Wdate ub ub-f1" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true,maxDate:'#F{$dp.$D(\'endDate\')}'})" />
            				&nbsp;至&nbsp;
-           			<input id="endDate" name="endDate" value="${chainVo.endDate}" class="Wdate ub ub-f1" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true,minDate:'#F{$dp.$D(\'beginDate\')}',maxDate:'%y-%M-{%d-1}'})" />
+<%--            			<input id="endDate" name="endDate" value="${chainVo.endDate}" class="Wdate ub ub-f1" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true,minDate:'#F{$dp.$D(\'beginDate\')}',maxDate:'%y-%M-{%d-1}'})" /> --%>
+           			<input id="endDate" name="endDate" value="${chainVo.endDate}" class="Wdate ub ub-f1" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true,minDate:'#F{$dp.$D(\'beginDate\')}'})" />
            		</div>
            		<div class="ub ub-ac uw-320 umar-l20">
            			<div class="umar-r10 uw-100 ut-r">付款日期:</div>
