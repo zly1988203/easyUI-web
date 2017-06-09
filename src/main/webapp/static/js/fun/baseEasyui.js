@@ -990,6 +990,7 @@ function selectMonth(){
 
 /*----------------jxc util  ---------------------------*/
 
+/*----------------jxc component js start  ---------------------------*/
 var $_jxc = {
 	
 	/**
@@ -1144,22 +1145,20 @@ var $_jxc = {
 	 * </div>
 	 */
 	clearHideInpOnEdit:function(obj,domIds){
-		var _domValue = $(obj).val();
-		//如果修改名称
-		if(!_domValue || (_domValue && _domValue.indexOf("[")<0 && _domValue.indexOf("]")<0)){
-			//父元素
-			var _editGroup = $(obj).closest('.form-group');
-			if(_editGroup.length < 1){
-				_editGroup = $(obj).parent('.ub');
-			}
-			//隐藏域表单
-			$(_editGroup).find('input[type="hidden"]').each(function(index,elt){
-				if($(elt)){
-					$(elt).val('');
-				}
-			});
+		//父元素
+		var _editGroup = $(obj).closest('.form-group');
+		if(_editGroup.length < 1){
+			_editGroup = $(obj).parent('.ub');
 		}
+		//隐藏域表单
+		$(_editGroup).find('input[type="hidden"]').each(function(index,elt){
+			if($(elt)){
+				$(elt).val('');
+			}
+		});
 	}
 	
 	
 }
+
+/*----------------jxc component js end  ---------------------------*/
