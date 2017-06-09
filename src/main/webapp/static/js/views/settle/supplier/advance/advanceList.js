@@ -2,7 +2,33 @@
  * Created by zhanghuan on 2016/8/30.
  * 新增供应商预付款
  */
+
 $(function(){
+
+	//机构选择初始化
+	$('#branchComponent').branchSelect({
+		loadFilter:function(data){
+			data.branchId = data.branchesId;
+			return data;
+		}
+	});
+	
+	//供应商选择初始化
+	$('#supplierComponent').supplierSelect({
+		loadFilter:function(data){
+			data.supplierId = data.id;
+			return data;
+		}
+	});
+	
+	//供应商选择初始化
+	$('#operatorComponent').operatorSelect({
+		loadFilter:function(data){
+			data.createUserId = data.id;
+			return data;
+		}
+	});
+	
 	//开始和结束时间
     $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
@@ -14,6 +40,7 @@ $(function(){
     //默认执行查询
     queryForm();
 });
+
 
 $(document).on('input','#remark',function(){
 	var val=$(this).val();
@@ -155,132 +182,6 @@ function delSupAdvMonForm(){
             });
 		}
 	});
-}
-
-/**
- * 供应商查询
- */
-function selectSupplier(nameOrCode){
-	var branchId=$("#branchId").val()||'';
-    var param = {
-    	branchId:branchId
-    }
-	if(nameOrCode){
-		param.supplierNameOrsupplierCode = nameOrCode;
-	}
-	new publicSuppliersService(param,function(data){
-		//返回NO时 输入动作没匹配到数据 
-		if(data == 'NO'){
-			//未查询到数据 设置清空
-			if(!$("#supplierId").val()){
-				$_jxc.clearHideInpOnEdit($('#supplierName'));
-				$("#supplierName").val("");
-			}
-		}else{
-			$("#supplierId").val(data.id);
-			$("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
-		}
-	})
-}
-
-/**
- * 供应商自动补全
- */
-function supplierAutoComple(obj){
-	//非回车事件和失去焦点，不做处理(失焦时event.keyCode为undefined)
-	if(event.keyCode && event.keyCode != 13){
-		return;
-	}
-	var nameOrCode = $("#supplierName").val();
-	//未输入值时，直接返回，无需查询
-	if('' == nameOrCode){
-		$_jxc.clearHideInpOnEdit(obj);
-		return;
-	}
-	selectSupplier(nameOrCode);
-}
-
-
-/**
- * 操作员查询
- */
-function selectOperator(nameOrCode){
-	var param = {}
-	if(nameOrCode){
-		param.nameOrCode = nameOrCode;
-	}
-	new publicOperatorsService(param,function(data){
-		//返回NO时 输入动作没匹配到数据 
-		if(data == 'NO'){
-			//未查询到数据 设置清空
-			if(!$("#createUserId").val()){
-				$_jxc.clearHideInpOnEdit($('#createUserName'));
-				$("#createUserName").val("");
-			}
-		}else{
-			$("#createUserId").val(data.id);
-			$("#createUserName").val("["+data.userCode+"]"+data.userName);
-		}
-	})
-}
-
-/**
- * 操作员自动补全
- */
-function operatorAutoComple(obj){
-	//非回车事件和失去焦点，不做处理(失焦时event.keyCode为undefined)
-	if(event.keyCode && event.keyCode != 13){
-		return;
-	}
-	var nameOrCode = $.trim($("#createUserName").val())||'';
-	//未输入值时，直接返回，无需查询
-	if('' == nameOrCode){
-		$_jxc.clearHideInpOnEdit(obj);
-		return;
-	}
-	selectOperator(nameOrCode);
-}
-
-/**
- * 机构查询
- */
-function selectBranches(nameOrCode){
-	var param = {}
-	if(nameOrCode){
-		param.nameOrCode = nameOrCode;
-	}
-	new publicBranchesService(param,function(data){
-		//返回NO时 输入动作没匹配到数据 
-		if(data == 'NO'){
-			//匹配到多数据 弹窗但未选择的情况下 设置清空
-			if(!$("#branchId").val()){
-				$_jxc.clearHideInpOnEdit($('#branchName'));
-				$("#branchName").val("");
-			}
-		}else{
-			$("#branchId").val(data.branchesId);
-			$("#branchName").val("["+data.branchCode+"]"+data.branchName);
-		}
-	})
-}
-
-/**
- * 机构自动补全
- */
-function brandAutoComple(obj){
-	//非回车事件和失去焦点，不做处理(失焦时event.keyCode为undefined)
-	if(event.keyCode && event.keyCode != 13){
-		return;
-	}
-	var nameOrCode = $.trim($("#branchName").val())||'';
-	//未输入值时，直接返回，无需查询
-	if('' == nameOrCode){
-		$_jxc.clearHideInpOnEdit(obj);
-		return;
-	}
-	
-	
-	selectBranches(nameOrCode);
 }
 
 
