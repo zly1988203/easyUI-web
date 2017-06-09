@@ -127,6 +127,8 @@ public class CombineSplitController extends BaseController<CombineSplitControlle
 			}
 			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
 			PageUtils<StockFormVo> stockFormList = stockAdjustServiceApi.getStockFormList(vo);
+			// 过滤数据权限字段
+			cleanAccessData(stockFormList.getList());
 			LOG.debug(LogConstant.PAGE, stockFormList.toString());
 			return stockFormList;
 		} catch (Exception e) {
@@ -148,6 +150,8 @@ public class CombineSplitController extends BaseController<CombineSplitControlle
 	@RequestMapping(value = "/combineSplitView", method = RequestMethod.GET)
 	public String combineSplitView(String id, String report, HttpServletRequest request) {
 		StockFormVo stockFormVo = stockAdjustServiceApi.getCombineSplitInfo(id);
+		// 过滤数据权限字段
+        cleanAccessData(stockFormVo);
 		request.setAttribute("stockFormVo", stockFormVo);
 		request.setAttribute("close", report);
 		return "/combineSplit/combineSplitView";

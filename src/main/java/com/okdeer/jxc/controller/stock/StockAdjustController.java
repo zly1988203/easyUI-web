@@ -146,6 +146,8 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 			//调整类型
 			vo.setFormType(StockAdjustEnum.ADJUST.getKey());
 			PageUtils<StockFormVo> stockFormList = stockAdjustServiceApi.getStockFormList(vo);
+			// 过滤数据权限字段
+			cleanAccessData(stockFormList.getList());
 			LOG.debug(LogConstant.PAGE, stockFormList.toString());
 			return stockFormList;
 		} catch (Exception e) {
@@ -286,7 +288,8 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 		RespJson resp = RespJson.success();
 		try {
 			List<StockFormDetailVo> exportList = stockAdjustServiceApi.exportList(vo);
-
+			// 过滤数据权限字段
+            cleanAccessData(exportList);
 			String fileName = "库存调整" + "_" + DateUtils.getCurrSmallStr();
 
 			String templateName = ExportExcelConstant.STOCKADJUST;

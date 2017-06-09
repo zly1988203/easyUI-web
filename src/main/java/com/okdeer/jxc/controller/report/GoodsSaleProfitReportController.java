@@ -71,7 +71,11 @@ public class GoodsSaleProfitReportController extends BaseController<GoodsSalePro
 			vo.setPageSize(pageSize);
 			vo.setSourceBranchId(UserUtil.getCurrBranchId());
 			PageUtils<GoodsSaleProfitReportVo> goodsOutInfoDetailList = goodsSaleProfitReportServiceApi.goodsSaleProfitList(vo);
+			// 过滤价格权限数据
+			cleanAccessData(goodsOutInfoDetailList.getList());
 			GoodsSaleProfitReportVo goodsSaleProfitReportVo = goodsSaleProfitReportServiceApi.queryGoodsSaleProfitSum(vo);
+			// 过滤价格权限数据
+			cleanAccessData(goodsSaleProfitReportVo);
 			List<GoodsSaleProfitReportVo> footer = new ArrayList<GoodsSaleProfitReportVo>();
 			if(goodsSaleProfitReportVo !=null){
 				footer.add(goodsSaleProfitReportVo);
@@ -104,6 +108,8 @@ public class GoodsSaleProfitReportController extends BaseController<GoodsSalePro
 			GoodsSaleProfitReportVo goodsSaleProfitReportVo = goodsSaleProfitReportServiceApi.queryGoodsSaleProfitSum(vo);
 			goodsSaleProfitReportVo.setBranchName("合计:");
 			exportList.add(goodsSaleProfitReportVo);
+			// 过滤价格权限数据
+			cleanAccessData(exportList);
 			String fileName = "单品毛利ABC分析"+vo.getStartTime().replace("-", "")+"-"+vo.getEndTime().replace("-", "");
 			String templateName = ExportExcelConstant.GOODS_SALE_PROFIT_REPORT;
 			exportListForXLSX(response, exportList, fileName, templateName);

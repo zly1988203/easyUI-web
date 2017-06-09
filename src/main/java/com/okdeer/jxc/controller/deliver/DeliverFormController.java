@@ -438,6 +438,8 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 				}
 			}
 			PageUtils<DeliverForm> deliverForms = queryDeliverFormServiceApi.queryLists(vo);
+			// 过滤数据权限字段
+            cleanAccessData(deliverForms.getList());
 			LOG.debug(LogConstant.PAGE, deliverForms.toString());
 			return deliverForms;
 		} catch (Exception e) {
@@ -891,7 +893,10 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	 */
 	@Override
 	protected List<DeliverFormList> getPrintDetail(String formNo) {
-		return queryDeliverFormListServiceApi.getDeliverListById(formNo);
+	    List<DeliverFormList> dfList = queryDeliverFormListServiceApi.getDeliverListById(formNo);
+	    // 过滤数据权限字段
+        cleanAccessData(dfList);
+		return dfList;
 	}
 
 	// end by lijy02

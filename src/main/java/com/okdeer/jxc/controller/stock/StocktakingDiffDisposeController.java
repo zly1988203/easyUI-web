@@ -94,6 +94,8 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 			}
 			LOG.debug(LogConstant.OUT_PARAM, vo);
 			PageUtils<StocktakingBatchVo> stocktakingBatchList = stocktakingApplyServiceApi.getStocktakingBatchList(vo);
+			// 过滤数据权限字段
+            cleanAccessData(stocktakingBatchList.getList());
 			LOG.debug(LogConstant.PAGE, stocktakingBatchList.toString());
 			return stocktakingBatchList;
 		} catch (Exception e) {
@@ -204,6 +206,8 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 			if (printList.size() > PrintConstant.PRINT_MAX_ROW) {
 				return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
 			}
+			// 过滤数据权限字段
+			cleanAccessData(printList);
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("startDate", StringUtils.isBlank(vo.getCreateTime()) ? "" : vo.getCreateTime());
 			map.put("endDate", StringUtils.isBlank(vo.getCreateTime()) ? "" : vo.getCreateTime());
@@ -316,6 +320,8 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 		RespJson resp = RespJson.success();
 		try {
 			List<StocktakingDifferenceVo> diffList = stocktakingOperateServiceApi.getStocktakingDifferenceList(batchId);
+			// 过滤数据权限字段
+            cleanAccessData(diffList);
 			String fileName = batchNo + "差异详情" + DateUtils.getCurrSmallStr();
 			String templateName = ExportExcelConstant.STOCKTAKING_DIFFDETAIL;
 			exportListForXLSX(response, diffList, fileName, templateName);

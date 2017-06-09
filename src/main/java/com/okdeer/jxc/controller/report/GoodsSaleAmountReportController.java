@@ -73,7 +73,11 @@ public class GoodsSaleAmountReportController extends BaseController<GoodsSaleAmo
 			vo.setPageSize(pageSize);
 			vo.setSourceBranchId(UserUtil.getCurrBranchId());
 			PageUtils<GoodsSaleAmountReportVo> goodsOutInfoDetailList = goodsSaleAmountReportServiceApi.goodsSaleAmountList(vo);
+			// 过滤数据权限字段
+            cleanAccessData(goodsOutInfoDetailList.getList());
 			GoodsSaleAmountReportVo goodsSaleAmountReportVo = goodsSaleAmountReportServiceApi.queryGoodsSaleAmountSum(vo);
+			// 过滤数据权限字段
+            cleanAccessData(goodsSaleAmountReportVo);
 			List<GoodsSaleAmountReportVo> footer = new ArrayList<GoodsSaleAmountReportVo>();
 			if(goodsSaleAmountReportVo !=null){
 				footer.add(goodsSaleAmountReportVo);
@@ -106,6 +110,8 @@ public class GoodsSaleAmountReportController extends BaseController<GoodsSaleAmo
 			GoodsSaleAmountReportVo goodsSaleAmountReportVo = goodsSaleAmountReportServiceApi.queryGoodsSaleAmountSum(vo);
 			goodsSaleAmountReportVo.setBranchName("合计:");
 			exportList.add(goodsSaleAmountReportVo);
+			// 过滤数据权限字段
+			cleanAccessData(exportList);
 			String fileName = "单品销售额ABC分析"+vo.getStartTime().replace("-", "")+"-"+vo.getEndTime().replace("-", "");
 			String templateName = ExportExcelConstant.GOODS_SALE_AMOUNT_REPORT;
 			exportListForXLSX(response, exportList, fileName, templateName);

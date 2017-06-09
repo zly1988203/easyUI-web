@@ -85,7 +85,11 @@ public class GoodsUnSaleReportController extends BaseController<GoodsUnSaleRepor
 			vo.setPageSize(pageSize);
 			vo.setSourceBranchId(UserUtil.getCurrBranchId());
 			PageUtils<GoodsUnsaleReportVo> list = goodsUnsaleReportService.getGoodsUnsaleReportList(vo);
+			// 过滤数据权限字段
+            cleanAccessData(list.getList());
 			GoodsUnsaleReportVo goodsUnsaleReportVo = goodsUnsaleReportService.queryGoodsUnsaleReportSum(vo);
+			// 过滤数据权限字段
+            cleanAccessData(goodsUnsaleReportVo);
 			List<GoodsUnsaleReportVo> footer = new ArrayList<GoodsUnsaleReportVo>();
 			if(goodsUnsaleReportVo !=null){
 				footer.add(goodsUnsaleReportVo);
@@ -116,6 +120,8 @@ public class GoodsUnSaleReportController extends BaseController<GoodsUnSaleRepor
 			GoodsUnsaleReportVo goodsUnsaleReportVo = goodsUnsaleReportService.queryGoodsUnsaleReportSum(vo);
 			goodsUnsaleReportVo.setBranchCode("合计:");
 			exportList.add(goodsUnsaleReportVo);
+			// 过滤数据权限字段
+			cleanAccessData(exportList);
 			String fileName = "商品滞销查询报表_"+DateUtils.getCurrSmallStr();
 			String templateName = ExportExcelConstant.GOODS_UNSALE_REPORT;
 			exportListForXLSX(response, exportList, fileName, templateName);
@@ -150,6 +156,8 @@ public class GoodsUnSaleReportController extends BaseController<GoodsUnSaleRepor
 			if(lenght>PrintConstant.PRINT_MAX_ROW){
 				return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
 			}
+			// 过滤数据权限字段
+			cleanAccessData(exportList);
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("startDate", qo.getStartTime());
 			map.put("endDate", qo.getEndTime());

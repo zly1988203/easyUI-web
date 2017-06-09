@@ -70,6 +70,8 @@ public class RotaRateReportController extends BaseController<RotaRateReportContr
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
 			PageUtils<RotaRateReportVo> rotaRateReportList = rotaRateReportServiceApi.getRotaRateReportList(vo);
+			// 过滤数据权限字段
+            cleanAccessData(rotaRateReportList.getList());
 			LOG.debug(LogConstant.PAGE, rotaRateReportList.toString());
 			return rotaRateReportList;
 		} catch (Exception e) {
@@ -93,6 +95,8 @@ public class RotaRateReportController extends BaseController<RotaRateReportContr
 		RespJson resp = RespJson.success();
 		try {
 			List<RotaRateReportVo> exportList = rotaRateReportServiceApi.exportRotaRateReportList(vo);
+			// 过滤数据权限字段
+            cleanAccessData(exportList);
 			String fileName = "库存周转率报表" + DateUtils.getDate("yyyyMMdd");
 			String templateName = ExportExcelConstant.SALEROTARATEREPORT;
 			if ("2".equals(vo.getRotationType())) {
@@ -127,6 +131,8 @@ public class RotaRateReportController extends BaseController<RotaRateReportContr
 			if (printList.size() > PrintConstant.PRINT_MAX_ROW) {
 				return "<script>alert('打印最大行数不能超过300行');top.closeTab();</script>";
 			}
+			// 过滤数据权限字段
+			cleanAccessData(printList);
 			String path = PrintConstant.SALE_ROTARATE_REPORT;
 			if ("2".equals(vo.getRotationType())) {
 				path = PrintConstant.COST_ROTARATE_REPORT;

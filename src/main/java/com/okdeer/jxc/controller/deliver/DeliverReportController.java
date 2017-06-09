@@ -114,8 +114,12 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
 			qo.setPageNumber(pageNumber);
 			qo.setPageSize(pageSize);
 			PageUtils<DeliverFormVo> page = deliverFormReportServiceApi.queryLists(qo);
+			// 过滤数据权限字段
+            cleanAccessData(page.getList());
 			List<DeliverFormVo> footer = new ArrayList<DeliverFormVo>();
 			DeliverFormVo vo = deliverFormReportServiceApi.queryListsSum(qo);
+			// 过滤数据权限字段
+            cleanAccessData(vo);
 			if (vo != null) {
 				footer.add(vo);
 			}
@@ -175,6 +179,8 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
 			DeliverFormVo vo = deliverFormReportServiceApi.queryListsSum(qo);
 			vo.setFormNo("合计：");
 			exportList.add(vo);
+			// 过滤数据权限字段
+			cleanAccessData(exportList);
 			String fileName = "要货单状态跟踪";
 			String templateName = ExportExcelConstant.DELIVER_REPORT;
 			// 导出Excel
@@ -213,8 +219,12 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
 			PageUtils<DeliverDaAndDoFormListVo> page = deliverFormReportServiceApi.queryDaAndDoFormList(vo);
+			// 过滤数据权限字段
+            cleanAccessData(page.getList());
 			DeliverDaAndDoFormListVo deliverDaAndDoFormListVo = deliverFormReportServiceApi
 					.queryDaAndDoFormListsSum(vo);
+			// 过滤数据权限字段
+            cleanAccessData(deliverDaAndDoFormListVo);
 			List<DeliverDaAndDoFormListVo> footer = new ArrayList<DeliverDaAndDoFormListVo>();
 			if (deliverDaAndDoFormListVo != null) {
 				footer.add(deliverDaAndDoFormListVo);
@@ -254,6 +264,8 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
 					.queryDaAndDoFormListsSum(vo);
 			deliverDaAndDoFormListVo.setFormNo("合计：");
 			exportList.add(deliverDaAndDoFormListVo);
+			// 过滤数据权限字段
+			cleanAccessData(exportList);
 			String fileName = "配送明细查询";
 			String templateName = ExportExcelConstant.DELIVER_FORM_LIST_REPORT;
 			// 导出Excel
@@ -312,7 +324,11 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
 			PageUtils<DeliverDaAndDoFormListVo> page = deliverFormReportServiceApi.queryBDFormLists(vo);
+			// 过滤数据权限字段
+            cleanAccessData(page.getList());
 			DeliverDaAndDoFormListVo deliverDaAndDoFormListVo = deliverFormReportServiceApi.queryBDFormListsSum(vo);
+			// 过滤数据权限字段
+			cleanAccessData(deliverDaAndDoFormListVo);
 			List<DeliverDaAndDoFormListVo> footer = new ArrayList<DeliverDaAndDoFormListVo>();
 			if (deliverDaAndDoFormListVo != null) {
 				footer.add(deliverDaAndDoFormListVo);
@@ -343,6 +359,8 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
 			DeliverDaAndDoFormListVo vo = deliverFormReportServiceApi.queryBDFormListsSum(qo);
 			vo.setSalesman("合计：");
 			exportList.add(vo);
+			// 过滤数据权限字段
+			cleanAccessData(exportList);
 			String fileName = "BD业绩报表";
 			String templateName = ExportExcelConstant.DILIVER_REPORT;
 			// 导出Excel
