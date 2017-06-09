@@ -155,7 +155,14 @@ function initSupAdvMonAdd(){
                     }
                 }
             },
-            {field:'remark',title:'备注',width:'250px',align:'left',editor:'textbox'}
+            {field:'remark',title:'备注',width:'250px',align:'left',
+            	editor:{
+                    type:'textbox',
+                    options:{
+                    	onChange:changeText
+                    }
+                }
+            }
         ]],
         onClickCell:function(rowIndex,field,value){
             gridHandel.setBeginRow(rowIndex);
@@ -246,6 +253,22 @@ function delLineHandel(event){
     event.stopPropagation();
     var index = $(event.target).attr('data-index');
     gridHandel.delRow(index);
+}
+
+//备注编辑监听 20
+var maxTextLength = 20;
+var chTexFlag = false;
+function changeText(newV,oldV){
+	if(chTexFlag){
+		chTexFlag = false;
+		return;
+	}
+	if($.trim(newV).length > maxTextLength){
+		$_jxc.alert('备注长度不得超过' + maxTextLength + '个字符');
+		chTexFlag = true;
+		$(this).textbox('setValue',oldV);
+		return;
+	}
 }
 
 function validateForm(branchId,payTime,supplierId){
