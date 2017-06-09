@@ -264,14 +264,14 @@ public class UserController extends BaseController<UserController> {
 	 * @date 2017年5月31日
 	 */
 	private String buildPriceGrants(String priceGrantStr) {
-		String priceGrant = null;
+
+		// 默认加上零售价、会员价 权限
+		String priceGrant = PriceGrantEnum.SALE_PRICE.getValue() + "," + PriceGrantEnum.VIP_PRICE.getValue();
 
 		// 价格权限
 		if (StringUtils.isNotBlank(priceGrantStr)) {
 
-			// 默认加上零售价、会员价 权限
-			priceGrant = PriceGrantEnum.SALE_PRICE.getValue() + "," + PriceGrantEnum.VIP_PRICE.getValue() + ","
-					+ priceGrantStr;
+			priceGrant = priceGrant + "," + priceGrantStr;
 		}
 		return priceGrant;
 	}
