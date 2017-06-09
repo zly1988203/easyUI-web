@@ -13,6 +13,7 @@
     </style>
     <script>
         var _comboV = '${settleVo.payType}';
+        console.log('_comboV',_comboV)
     </script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
@@ -57,7 +58,7 @@
                 <div class="umar-r12 uw-70 ut-r">供应商:</div>
                 <div class="ub ub-f1">
                     <input class="uinp" name="supplierId" id="supplierId" type="hidden" value="${settleVo.supplierId}">
-                    <input class="uinp ub ub-f1" readonly="readonly" id="supplierName" type="text" value="${settleVo.supplierName}"  onclick="selectSupplier()">
+                    <input class="uinp ub ub-f1" readonly="readonly" id="supplierName" type="text" value="${settleVo.supplierName}" >
                 </div>
                 <i class="ub ub-ac uc-red">*</i>
             </div>

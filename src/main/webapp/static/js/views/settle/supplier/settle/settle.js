@@ -32,7 +32,8 @@ $(function(){
 		var formId = $("#formId").val();
 		url = contextPath+"/settle/supplierSettle/settleFormDetailList?id="+formId;
 		oldData = {
-		     remark:$("#remark").val(),                   // 备注
+		     remark:$("#remark").val()||'',                   // 备注
+		     payType:$('input[type="hidden"][name="payType"]').val()||'',   //支付方式
 		}
 	}
 	
@@ -233,6 +234,7 @@ function initSupChkAcoAdd(){
         	$.each(rows,function(index,item){
         		item.checked = true;
         	});
+//        	editRowNumbeboxFlag = false;
         	updateFooter();
         },
         onUncheckAll:function(rows){
@@ -240,6 +242,8 @@ function initSupChkAcoAdd(){
         	$.each(rows,function(index,item){
         		item.checked = false;
         	})
+//        	editRowNumbeboxFlag = true;
+        	updateFooter();
         },
         onClickCell:function(rowIndex,field,value){
         	editRowFlag = true;
@@ -581,7 +585,8 @@ function auditSupStlForm(){
     //验证数据是否修改
     $("#"+gridName).datagrid("endEdit", gridHandel.getSelectRowIndex());
     var newData = {
-        remark:$("#remark").val(),                  // 备注
+        remark:$("#remark").val()||'',                   // 备注
+	    payType:$('input[type="hidden"][name="payType"]').val()||'',   //支付方式
         grid:$.map(gridHandel.getRows(), function(obj){
             return $.extend(true,{},obj);//返回对象的深拷贝
         })

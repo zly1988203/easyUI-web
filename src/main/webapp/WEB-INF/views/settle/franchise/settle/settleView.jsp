@@ -71,12 +71,12 @@
              <div class="ub ub-ac uw-304 umar-l6">
                  <div class="umar-r10 uw-90 ut-r">应收金额汇总:</div>
 	             <input class="uinp ub ub-f1 uinp-no-more" type="text" id="payableAmount" readonly='readonly'
-	             	 name="payableAmount" value="${settle.payableAmount}">
+	             	 name="payableAmount" value="<fmt:formatNumber value="${settle.payableAmount}"  pattern="0.00#"/>">
              </div>
              <div class="ub ub-ac uw-300 umar-l8">
              	 <div class="umar-r10 uw-90 ut-r">已收金额汇总:</div>
 	             <input class="uinp ub ub-f1 uinp-no-more" type="text" id="payedAmount" readonly='readonly' 
-	             	name="payedAmount" value="${settle.payedAmount}">
+	             	name="payedAmount" value="<fmt:formatNumber value="${settle.payedAmount}"  pattern="0.00#"/>">
              </div>
              <div class="ub ub-ac umar-l28">
                  <div class="umar-r10 uw-80 ut-r">最后修改人:</div>
@@ -91,12 +91,12 @@
              <div class="ub ub-ac uw-304 umar-l6">
                  <div class="umar-r10 uw-90 ut-r">未收金额汇总:</div>
              	 <input class="uinp ub ub-f1 uinp-no-more" type="text" id="unpayAmount" readonly='readonly' 
-             	 	name="unpayAmount" value="${settle.unpayAmount}">
+             	 	name="unpayAmount" value="<fmt:formatNumber value="${settle.unpayAmount}"  pattern="0.00#"/>">
              </div>
              <div class="ub ub-ac uw-300 umar-l8">
              	 <div class="umar-r10 uw-90 ut-r">实收金额汇总:</div>
              	 <input class="uinp ub ub-f1 uinp-no-more" type="text"  id="actualAmount" readonly='readonly' 
-             	 	name="actualAmount" value="${settle.actualAmount}">
+             	 	name="actualAmount" value="<fmt:formatNumber value="${settle.actualAmount}"  pattern="0.00#"/>">
              </div>
              <div class="ub ub-ac umar-l40">
                  <div class="umar-r10 uw-70 ut-r">审核人员:</div>
