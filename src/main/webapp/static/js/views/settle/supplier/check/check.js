@@ -75,7 +75,21 @@ $(document).on('input','#remark',function(){
 	    }
 	
 });
-
+//备注编辑监听 20
+var maxTextLength = 20;
+var chTexFlag = false;
+function changeText(newV,oldV){
+	if(chTexFlag){
+		chTexFlag = false;
+		return;
+	}
+	if($.trim(newV).length > maxTextLength){
+		$_jxc.alert('备注长度不得超过' + maxTextLength + '个字符');
+		chTexFlag = true;
+		$(this).textbox('setValue',oldV);
+		return;
+	}
+}
 var gridHandel = new GridClass();
 var ifEditor = false;
 function initSupChkAcoAdd(){
@@ -153,7 +167,14 @@ function initSupChkAcoAdd(){
             		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
             	}
             },
-            {field:'remark',title:'备注',width:'180px',editor:'textbox'}
+            {field:'remark',title:'备注',width:'180px',
+            	editor:{
+                    type:'textbox',
+                    options:{
+                    	onChange:changeText
+                    }
+                }
+            }
         ]],
         onCheck:function(rowIndex,rowData){
         	rowData.checked = true;
