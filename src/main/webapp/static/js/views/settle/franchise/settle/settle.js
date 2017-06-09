@@ -33,9 +33,8 @@ $(function(){
 		var formId = $("#formId").val();
 		url = contextPath+"/settle/franchiseSettle/getDetailList?formId="+formId;
 		oldData = {
-		        targetBranchId:$("#franchiseBranchId").val(), // 要活分店id
 		        remark:$("#remark").val(),                  // 备注
-		        payType:$("#payType").val(),                 // 付款方式
+		        payType:$('input[type="hidden"][name="payType"]').val()||'',   //支付方式
 		}
 	    
 	}
@@ -548,9 +547,8 @@ function auditFranchiseSet(){
     //验证数据是否修改
     $("#"+gridName).datagrid("endEdit", gridHandel.getSelectRowIndex());
     var newData = {
-		targetBranchId:$("#franchiseBranchId").val(), // 要活分店id
         remark:$("#remark").val(),                  // 备注
-        payType:$("#payType").val(),                 // 付款方式
+        payType:$('input[type="hidden"][name="payType"]').val()||'',   //支付方式
         grid:$.map(gridHandel.getRows(), function(obj){
             return $.extend(true,{},obj);//返回对象的深拷贝
         })

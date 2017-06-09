@@ -106,39 +106,31 @@
              </div>
              <div class="ub ub-ac uw-290 umar-l28">
                  <div class="umar-r12 uw-70 ut-r">支付方式:</div>
-<!--                  <select class='uinp easyui-combobox' data-options="editable:false" style="width:204px;"> -->
-<!--                     <option value='1'>人民币付款</option> -->
-<!--                     <option value='2'>现金</option> -->
-<!--                     <option value='3'>支票</option> -->
-<!--                     <option value='4'>银行转账</option> -->
-<!--                     <option value='5'>支付宝</option> -->
-<!--                     <option value='6'>微信</option> -->
-<!--                  </select> -->
                  <select class='uinp easyui-combobox' style="width:204px;" id="payType" name="payType" data-options="valueField:'id',disabled:true,value:'${settleVo.payType}', textField:'label',url:'${ctx}/archive/financeCode/getDictListByTypeCode?dictTypeCode=101003',editable:false" >
                  </select>
              </div>
              <div class="ub ub-ac uw-300 umar-l12">
                  <div class="umar-r10 uw-90 ut-r">优惠金额汇总:</div>
-                 <input class="uinp ub ub-f1 uinp-no-more" type="text"  value="${settleVo.discountAmount}" id="discountAmount" readonly='readonly'  name="discountAmount">
+                 <input class="uinp ub ub-f1 uinp-no-more" type="text"  value="<fmt:formatNumber value="${settleVo.discountAmount}"  pattern="0.00#"/>" id="discountAmount" readonly='readonly'  name="discountAmount">
              </div>
          </div>
          
          <div class="ub umar-t8">
              <div class="ub ub-ac uw-300 ">
                  <div class="umar-r10 uw-90 ut-r">应付金额汇总:</div>
-                 <input class="uinp ub ub-f1 uinp-no-more" type="text" id="payableAmount" value="${settleVo.payableAmount}" readonly='readonly'  name="payableAmount">
+                 <input class="uinp ub ub-f1 uinp-no-more" type="text" id="payableAmount" value="<fmt:formatNumber value="${settleVo.payableAmount}"  pattern="0.00#"/>" readonly='readonly'  name="payableAmount">
              </div>
              <div class="ub ub-ac uw-300 umar-l10">
                  <div class="umar-r10 uw-90 ut-r">已付金额汇总:</div>
-                 <input class="uinp ub ub-f1 uinp-no-more" type="text" id="payedAmount" value="${settleVo.payedAmount}" readonly='readonly'  name="payedAmount">
+                 <input class="uinp ub ub-f1 uinp-no-more" type="text" id="payedAmount" value="<fmt:formatNumber value="${settleVo.payedAmount}"  pattern="0.00#"/>" readonly='readonly'  name="payedAmount">
              </div>
              <div class="ub ub-ac uw-300 umar-l20">
                  <div class="umar-r10 uw-90 ut-r">未付金额汇总:</div>
-                 <input class="uinp ub ub-f1 uinp-no-more" type="text" id="unpayAmount" value="${settleVo.unpayAmount}" readonly='readonly'  name="unpayAmount">
+                 <input class="uinp ub ub-f1 uinp-no-more" type="text" id="unpayAmount" value="<fmt:formatNumber value="${settleVo.unpayAmount}"  pattern="0.00#"/>" readonly='readonly'  name="unpayAmount">
              </div>
              <div class="ub ub-ac uw-300 umar-l24">
                  <div class="umar-r10 uw-90 ut-r">实付金额汇总:</div>
-                 <input class="uinp "  value="${settleVo.actualAmount}" readonly="readonly" type="text" id="actualAmount"  name="actualAmount">
+                 <input class="uinp "  value="<fmt:formatNumber value="${settleVo.actualAmount}"  pattern="0.00#"/>" readonly="readonly" type="text" id="actualAmount"  name="actualAmount">
              </div>
          </div>
          
