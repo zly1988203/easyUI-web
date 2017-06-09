@@ -177,7 +177,10 @@ function  editstart(selectType){
 					  //其他类型请求
 					  else{
 						 
-						 initmangeDatagrid(activityId);
+						  //非组合特价类型 时初始化 
+						 if(activtype != 6){
+							 initmangeDatagrid(activityId);
+						 } 
 						 //折扣类型赋值
 			    		 if(activtype==2){
 			    		   activityScopedis=listinfo.activityScope;
@@ -186,6 +189,10 @@ function  editstart(selectType){
 			    		}else if(activtype==1){
 			    			//设置批量特价不显示 除了activtype==1
 			    			 $('.special').removeClass('unhide');
+			    		}else if(activtype==6){
+			    			//组合特价
+			    			initDatagridCompose();
+			    			initmangeDatagrid(activityId);
 			    		}
 					  }
 
