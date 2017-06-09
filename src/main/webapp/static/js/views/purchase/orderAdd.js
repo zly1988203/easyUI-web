@@ -293,7 +293,7 @@ function initDatagridEditOrder(){
                             $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault)]);
 
     if(hasPurchasePrice==false){
-        priceGrantUtil.grantPurchasePrice(datagridId,["price","amount","taxAmount"])
+        priceGrantUtil.grantPurchasePrice(gridName,["price","amount","taxAmount"])
     }
 }
 

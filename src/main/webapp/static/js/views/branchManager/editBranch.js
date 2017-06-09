@@ -155,9 +155,7 @@ function initGridFitmentCost() {
             }
         },
         onLoadSuccess : function(data) {
-
             gridFitmentCostHandel.setDatagridHeader("center");
-
         }
     })
 
@@ -379,7 +377,6 @@ function addLineHandel(event){
 }
 //删除一行
 function delLineHandel(event){
-    debugger;
     event.stopPropagation();
     var index = $(event.target).attr('data-index');
     var gridName = $(event.target).attr('data-gridName');
@@ -400,6 +397,7 @@ function delLineHandel(event){
 }
 
 function saveBranchCost() {
+    debugger;
     $("#gridFitmentCost").datagrid("endEdit", gridFitmentCostHandel.getSelectRowIndex());
     $("#gridEquipmentCost").datagrid("endEdit", gridEquipmentCostHandel.getSelectRowIndex());
     $("#gridAmortizeCost").datagrid("endEdit", gridAmortizeCostHandel.getSelectRowIndex());
@@ -530,8 +528,8 @@ function saveBranchCost() {
 function saveBranch() {
     var formData = $('#formEdit').serializeObject();
 
-    if(formData.costAvgYear <= 0){
-        $_jxc.alert("费用均摊年数不能为0");
+    if(formData.costAvgYear <= 0 || formData.costAvgYear > 999999){
+        $_jxc.alert("费用均摊年数不能小于0或者大于999999");
         return;
     }
 

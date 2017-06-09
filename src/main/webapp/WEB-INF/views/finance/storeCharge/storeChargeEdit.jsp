@@ -95,7 +95,7 @@
 							onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')"
 							onpaste="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')"
 							oncontextmenu="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')"
-							maxlength="100"  value="${form.remark}">
+							maxlength="20"  value="${form.remark}">
 					</div>
 		
 					<div class="ub ub-ac umar-r80">

@@ -69,8 +69,8 @@
 					</div>
 				</div>
 
-				<div class="ub ub-ac umar-r40">
-				<div class="umar-r10 uw-300 ut-r uc-red ">说明：日盈亏平衡点=月盈亏平衡点/下月天数</div>
+				<div class="ub ub-ac umar-r20">
+				<div class="umar-r10 uw-600 ut-r uc-red ">说明：日盈亏平衡点计算公式=其他成本(机构费用/费用均摊年数+机构每月经营费用)/毛利率</div>
 				</div>
 
 			</div>
