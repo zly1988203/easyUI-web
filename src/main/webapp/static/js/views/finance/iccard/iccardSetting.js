@@ -32,7 +32,7 @@ function initGridCardSetting() {
                 },
             },
             // {field:'check',checkbox:true},
-            {field: 'enabled', title: '启用', checkbox:true,width: 80, align: 'left',
+            {field: 'enabled', title: '启用', checkbox:true,width: "60px", align: 'left',
                 formatter : function(value, row,index) {
                     // if(value == 1){
                     //     return '<input type="checkbox" class="ck" checked/>';
@@ -82,7 +82,8 @@ function initGridCardSetting() {
         	return data;
         },
     })
-
+    $("#"+gridName).parent().find("div .datagrid-header-check").children("input[type=\"checkbox\"]").eq(0).attr("style", "display:none;");
+    $("#"+gridName).parent().find("div .datagrid-header-check").append("<b>启用</b>")
 }
 
 function saveCardSetting() {
@@ -209,6 +210,7 @@ function openShopSettingLis(cardType) {
         },
         modal: true,
         onLoad: function () {
+
             initShopSetting(cardType);
         }
     })

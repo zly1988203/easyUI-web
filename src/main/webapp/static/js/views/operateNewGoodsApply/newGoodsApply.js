@@ -335,9 +335,11 @@ function initDatagridArchives(){
         ]],
         onLoadSuccess : function() {
             gridHandel.setDatagridHeader("center");
-        	priceGrantUtil.grantPrice("gridArchives");
+
         }
 });
+
+    priceGrantUtil.grantPrice("gridArchives");
 }
 
 
