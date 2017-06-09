@@ -10,7 +10,7 @@
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <script
-	src="${ctx}/static/js/views/finance/storeCharge/storeChargeList.js?V=3"></script>
+	src="${ctx}/static/js/views/finance/storeCharge/storeChargeList.js?V=4"></script>
 <style>
 .datagrid-header .datagrid-cell {
 	text-align: center !important;
@@ -57,7 +57,7 @@
 			<div class="ub umar-t8">
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">操作员:</div>
-					<input type="hidden" name="operateUserId" id="operateUserId" >
+					<input type="hidden" name="createUserId" id="createUserId" >
 					<input class="uinp" id="operateUserName" name="operateUserName" type="text"
 						readonly="readonly"  onclick="selectOperator()" />
 					<div class="uinp-more" onclick="selectOperator()">...</div>
