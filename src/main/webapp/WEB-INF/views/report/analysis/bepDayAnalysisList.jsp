@@ -47,7 +47,8 @@
 					<div class="umar-r10 uw-60 ut-r">机构名称:</div>
 					<input name="branchId" id="branchId" type="hidden">
 					<input name="branchCompleCode" id="branchCompleCode" type="hidden">
-					<input class="uinp" id="branchCodeName" name="branchCodeName" type="text" maxlength="50">
+					<input class="uinp" id="branchCodeName" name="branchCodeName" type="text"
+						 onclick="selectListBranches()" readonly="readonly" maxlength="50">
 					<div class="uinp-more" onclick="selectListBranches()">...</div>
 					
 					<input type="hidden" id="startCount" name="startCount" >
