@@ -13,6 +13,43 @@ $(function(){
 //    }
     //默认执行查询
     queryForm();
+    
+    //机构选择初始化
+	$('#branchComponent').branchSelect({
+		//ajax参数
+		ajaxParam:{
+			scope:1
+		},
+		//数据过滤
+		loadFilter:function(data){
+			data.isContainChildren = data.allBranch;
+			return data;
+		}
+	});
+	
+	//供应商选择初始化
+	$('#supplierComponent').supplierSelect({
+		//ajax参数
+		ajaxParam:{
+			branchId:$("#branchId").val()||'',
+			saleWayNot:'chain'
+		},
+		//数据过滤
+		loadFilter:function(data){
+			data.supplierId = data.id;
+			return data;
+		}
+	});
+	
+	//供应商选择初始化
+	$('#operatorComponent').operatorSelect({
+		//数据过滤
+		loadFilter:function(data){
+			data.createUserId = data.id;
+			return data;
+		}
+	});
+	
 });
 
 $(document).on('input','#remark',function(){
@@ -154,63 +191,6 @@ function delChainForm(){
 		    });
 		}
 	});
-}
-
-//选择供应商
-function selectSupplier(){
-	var param = {
-			branchId:$("#branchId").val(),
-			saleWayNot:'chain'
-	}
-    new publicSupplierService(function(data){
-    	$("#supplierId").val(data.id);
-        $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);	
-    },param);
-}
-/**
- * 操作员
- */
-function selectOperator(){
-	new publicOperatorService(function(data){
-		$("#createUserId").val(data.id);
-		$("#createUserName").val("["+data.userCode+"]"+data.userName);
-	});
-}
-/**
- * 机构查询
- */ 
-function selectBranches(nameOrCode){
-	var param = {
-		scope:1
-	}
-	if(nameOrCode){
-		param.nameOrCode = nameOrCode;
-	}
-	new publicBranchesService(param,function(data){
-		//返回NO时 输入动作没匹配到数据 
-		if(data == 'NO'){
-			//未查询到数据或多条数据，设置无效ID
-			$_jxc.clearHideInpOnEdit($('#branchName'));
-			$("#branchName").val("");
-		}else{
-			$("#branchId").val(data.branchesId);
-			$("#branchName").val("["+data.branchCode+"]"+data.branchName);
-			$("#isContainChildren").val(data.allBranch);
-		}
-	})
-}
-
-/**
- * 机构自动补全
- */ 
-function brandAutoComple(obj){
-	var nameOrCode = $.trim($("#branchName").val())||'';
-	//未输入值时，直接返回，无需查询
-	if("" == nameOrCode){
-		$_jxc.clearHideInpOnEdit(obj);
-		return;
-	}
-	selectBranches(nameOrCode,obj);
 }
 
 /**

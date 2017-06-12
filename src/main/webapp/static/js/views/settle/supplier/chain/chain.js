@@ -39,6 +39,57 @@ $(function(){
 	    
 	}
 	initSupChainAdd();
+	
+	if(pageStatus === 'add'){
+		//机构选择初始化
+		$('#branchComponent').branchSelect({
+			//ajax请求参数
+			ajaxParam:{
+				scope:1
+			},
+			//选择完成之后
+			onAfterRender:function(){
+				$('#supplierContcat').val('');//联系人
+		    	$('#linkTel').val('');//联系人
+		    	$("#supplierId").val('');
+		    	$("#supplierPhone").val('');
+		    	$("#supplierMobile").val('');
+		    	$("#supplierMinAmount").val('');
+		        $("#supplierName").val('');
+		        
+		        gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
+		    	                         $.extend({},gridDefault),$.extend({},gridDefault)]);
+			},
+			//数据过滤
+			loadFilter:function(data){
+				data.isContainChildren = data.allBranch;
+				return data;
+			}
+		});
+		
+		//供应商选择初始化
+		$('#supplierComponent').supplierSelect({
+			//ajax参数
+			ajaxParam:{
+				branchId:$("#branchId").val()||'',
+				saleWayNot:'chain'
+			},
+			//选择完成之后
+			onAfterRender:function(data){
+			    console.log('data',data);
+				$('#supplierContcat').val(data.contcat||'');//联系人
+		    	$('#linkTel').val((data.mobile?data.mobile:'')+(data.mobile&&data.phone ? '/':'')+(data.phone?data.phone:''));//联系人
+		    	$("#supplierPhone").val(data.phone);
+		    	$("#supplierMobile").val(data.mobile);
+		    	$("#supplierMinAmount").val(parseFloat(data.minAmount||0).toFixed(2));
+			},
+			//数据过滤
+			loadFilter:function(data){
+				data.supplierId = data.id;
+				return data;
+			}
+		});
+	}
 })
 
 $(document).on('input','#remark',function(){
@@ -81,7 +132,14 @@ function initSupChainAdd(){
         height:"100%",
         width:'100%',
         columns:[[
-            {field:'branchName',title:'机构',width: '150px',align:'left'},
+            {field:'branchName',title:'机构',width: '150px',align:'left',
+            	formatter:function(value,row){
+            		if(row.isFooter){
+            			 return '<div class="ub ub-pc">合计</div> ';
+            		}
+                    return value;
+                }
+            },
             {field:'skuCode',title:'货号',width:'120px',align:'left'},
             {field:'skuName',title:'商品名称',width:'100px',align:'left'},
             {field:'barCode',title:'条码',width:'100px',align:'left'},
@@ -99,11 +157,11 @@ function initSupChainAdd(){
             		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
             	}
             },
-            {field:'supplierRate',title:'联营扣率',width:'100px',align:'right',
+            {field:'supplierRate',title:'联营扣率(%)',width:'100px',align:'right',
             	formatter:function(value,row,index){
             		if(row.isFooter)return '';
             		if(!value)row.supplierRate = 0;
-            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+            		return '<b>'+(parseFloat(value||0)*100).toFixed(2)+'</b>'
             	}
             },
             {field:'divideAmount',title:'分成金额',width:'100px',align:'right',
@@ -112,11 +170,12 @@ function initSupChainAdd(){
             		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
             	}
             },
-            {field:'outputTax',title:'销项税率',width:'100px',align:'right',
+            {field:'outputTax',title:'销项税率(%)',width:'100px',align:'right',
             	formatter:function(value,row,index){
+            		console.log('销项税率',value)
             		if(row.isFooter)return '';
             		if(!value)row.outputTax = 0;
-            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+            		return '<b>'+(parseFloat(value||0)*100).toFixed(2)+'</b>'
             	}
             },
             {field:'taxAmount',title:'税额',width:'100px',align:'right',
@@ -129,7 +188,8 @@ function initSupChainAdd(){
         onLoadSuccess:function(data){
         	if(clickFlag && data.rows.length <= 0){
         		clickFlag =  false;
-        		$_jxc.alert('该供应商在结算期间没有联营账款数据！请重新选择合适的供应商或结算期间！')
+        		$_jxc.alert('该供应商在结算期间没有联营账款数据！请重新选择合适的供应商或结算期间！');
+        		return;
         	}
         	if(pageStatus==='edit'){
                 if(!oldData["grid"]){
@@ -165,7 +225,7 @@ function changeForm(pageStatus){
 		$('#sumSaleAmount').val(parseFloat(footRow[0].saleAmount||0).toFixed(2));
 		//供应商货款
 		$('#sumSupplierAmount').val(parseFloat(parseFloat(footRow[0].saleAmount||0)-parseFloat(footRow[0].divideAmount||0)).toFixed(2) );
-		//汇总税额
+		//汇总税额parseFloat(footRow[0].taxAmount||0).toFixed(2)
 		$('#sumTaxAmount').val(parseFloat(footRow[0].taxAmount||0).toFixed(2));
 		//供应商承担税额
 		$('#supplierTaxAmount').val(parseFloat(footRow[0].taxAmount||0).toFixed(2));
@@ -479,4 +539,10 @@ function back(){
 //新增联营账单
 function addChainForm(){
 	toAddTab("新增联营账单",contextPath + "/settle/supplierChain/chainAdd");
+}
+
+//导出
+function exportOrder(){
+	var formId = $("#formId").val();
+	window.location.href = contextPath + '/settle/supplierChain/exportSheet?page=SupplierChain&sheetNo='+formId;
 }

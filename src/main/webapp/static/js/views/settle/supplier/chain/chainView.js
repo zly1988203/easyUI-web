@@ -50,11 +50,11 @@ function initSupChainView(){
             		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
             	}
             },
-            {field:'supplierRate',title:'联营扣率',width:'100px',align:'right',
+            {field:'supplierRate',title:'联营扣率(%)',width:'100px',align:'right',
             	formatter:function(value,row,index){
             		if(row.isFooter)return '';
             		if(!value)row.supplierRate = 0;
-            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+            		return '<b>'+(parseFloat(value||0)*100).toFixed(2)+'</b>'
             	}
             },
             {field:'divideAmount',title:'分成金额',width:'100px',align:'right',
@@ -63,11 +63,11 @@ function initSupChainView(){
             		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
             	}
             },
-            {field:'outputTax',title:'销项税率',width:'100px',align:'right',
+            {field:'outputTax',title:'销项税率(%)',width:'100px',align:'right',
             	formatter:function(value,row,index){
             		if(row.isFooter)return '';
             		if(!value)row.outputTax = 0;
-            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+            		return '<b>'+(parseFloat(value||0)*100).toFixed(2)+'</b>'
             	}
             },
             {field:'taxAmount',title:'税额',width:'100px',align:'right',
