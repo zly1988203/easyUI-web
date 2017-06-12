@@ -226,6 +226,7 @@ function initSupChkAcoAdd(){
         	if(clickFlag && data.rows.length <= 0){
         		clickFlag =  false;
         		$_jxc.alert('您和此加盟店没有账款信息，或您们的往来账款已平衡！');
+        		return;
         	}
         	if(pageStatus==='edit'){
                 if(!oldData["grid"]){
@@ -322,7 +323,7 @@ function changeActMountFrom(newV,oldV){
 	if(newData.length < 1){
 		$_jxc.alert("没有需要结算的信息，请检查！");
 		checkActMountFlag = true;
-		$(this).numberbox('setValue',oldV);
+		$(this).numberbox('setValue',0);
 		return;
 	}
 	

@@ -31,13 +31,13 @@
         </div>
         <div class="ub uline umar-t8"></div>
         <div class="ub umar-t8">
-            <div class="ub ub-ac uw-300">
+            <div class="ub ub-ac uw-300" id="branchComponent">
                 <div class="umar-r10 uw-70 ut-r">机构:</div>
                 <div class="ub">
                     <input type="hidden" id="branchId" name="branchId"/>
                     <input type="hidden" id="branchCode" name="branchCode"/>
-                    <input class="uinp ub ub-f1" type="text" id="targetBranchName" readonly="readonly" onclick="selectBranches()" />
-                    <div class="uinp-more" onclick="selectBranches()">...</div>
+                    <input class="uinp ub ub-f1" type="text" id="targetBranchName" readonly="readonly"/>
+                    <div class="uinp-more">...</div>
                 </div>
                 <i class="ub ub-ac uc-red">*</i>
             </div>
@@ -58,12 +58,12 @@
             </div>
          </div>
            <div class="ub umar-t8">
-               <div class="ub ub-ac uw-300">
+               <div class="ub ub-ac uw-300" id="supplierComponent">
                    <div class="umar-r10 uw-70 ut-r">供应商:</div>
                    <div class="ub">
                         <input class="uinp" name="supplierId" id="supplierId"type="hidden">
-                        <input class="uinp" readonly="readonly" id="supplierName" type="text"  onclick="selectSupplier()">
-                        <div class="uinp-more" onclick="selectSupplier()">...</div>
+                        <input class="uinp" readonly="readonly" id="supplierName" type="text" >
+                        <div class="uinp-more">...</div>
                    </div>
                    <i class="ub ub-ac uc-red">*</i>
                </div>

@@ -42,10 +42,12 @@ $(function(){
 	if(pageStatus === 'add'){
 		//机构选择初始化
 		$('#branchComponent').branchSelect({
+			//数据过滤
 			loadFilter:function(data){
 				data.branchId = data.branchesId;
 				return data;
 			},
+			//选择完成之后
 			onAfterRender:function(){
 				 $("#supplierId").val('');
 				 $("#supplierName").val('');
@@ -54,12 +56,13 @@ $(function(){
 		
 		//供应商选择初始化
 		$('#supplierComponent').supplierSelect({
+			//数据过滤
 			loadFilter:function(data){
 				data.supplierId = data.id;
 				return data;
 			}
 		});
-		}
+	}
 	
 })
 

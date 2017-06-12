@@ -6,15 +6,11 @@
 $(function(){
 
 	//机构选择初始化
-	$('#branchComponent').branchSelect({
-		loadFilter:function(data){
-			data.branchId = data.branchesId;
-			return data;
-		}
-	});
+	$('#branchComponent').branchSelect();
 	
 	//供应商选择初始化
 	$('#supplierComponent').supplierSelect({
+		//数据过滤
 		loadFilter:function(data){
 			data.supplierId = data.id;
 			return data;
@@ -23,6 +19,7 @@ $(function(){
 	
 	//供应商选择初始化
 	$('#operatorComponent').operatorSelect({
+		//数据过滤
 		loadFilter:function(data){
 			data.createUserId = data.id;
 			return data;

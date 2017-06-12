@@ -2274,7 +2274,7 @@ $.fn.branchSelect = function(param){
 		/**
 		 * dom 渲染之后
 		 */
-		onAfterRender:function(){
+		onAfterRender:function(data){
 			
 		},
 		/**
@@ -2291,7 +2291,7 @@ $.fn.branchSelect = function(param){
 			}else{
 				data = _default.loadFilter(data);
 				_default.setDataOfDom(data);
-				_default.onAfterRender();
+				_default.onAfterRender(data);
 			}
 		},
 		//显示机构信息
@@ -2611,7 +2611,7 @@ $.fn.supplierSelect = function(param){
 		/**
 		 * dom 渲染之后
 		 */
-		onAfterRender:function(){
+		onAfterRender:function(data){
 			
 		},
 		/**
@@ -2628,7 +2628,7 @@ $.fn.supplierSelect = function(param){
 			}else{
 				data = _default.loadFilter(data);
 				_default.setDataOfDom(data);
-				_default.onAfterRender();
+				_default.onAfterRender(data);
 			}
 		},
 		//显示供应商信息
@@ -2958,7 +2958,7 @@ $.fn.operatorSelect = function(param){
 		/**
 		 * dom 渲染之后
 		 */
-		onAfterRender:function(){
+		onAfterRender:function(data){
 			
 		},
 		/**
@@ -2975,7 +2975,7 @@ $.fn.operatorSelect = function(param){
 			}else{
 				data = _default.loadFilter(data);
 				_default.setDataOfDom(data);
-				_default.onAfterRender();
+				_default.onAfterRender(data);
 			}
 		},
 		//显示操作员信息
@@ -3238,4 +3238,4 @@ function publicOperatorsServiceHandel(param,callback){
 /*-----------------------操作人选择 end-------------------------------*/
 
 
-/*----------------jxc component js start  ---------------------------*/
+/*----------------jxc component js end  ---------------------------*/
