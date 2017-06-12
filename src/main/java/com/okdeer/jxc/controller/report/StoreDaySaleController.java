@@ -69,6 +69,7 @@ public class StoreDaySaleController extends BaseController<StoreDaySaleControlle
 			vo.setSourceBranchId(UserUtil.getCurrBranchId());
 			PageUtils<StoreDaySaleReportVo> goodsSaleReportList = storeDaySaleReportServiceApi.getStoreDaySale(vo);
 			LOG.debug(LogConstant.PAGE, goodsSaleReportList.toString());
+			cleanAccessData(goodsSaleReportList.getList());
 			return goodsSaleReportList;
 		} catch (Exception e) {
 			LOG.error("类别销售列表信息异常:{}", e);
@@ -96,6 +97,7 @@ public class StoreDaySaleController extends BaseController<StoreDaySaleControlle
 			List<StoreDaySaleReportVo> exportList = goodsSaleReportList.getList();
 			String fileName = "店铺日销售总额";
 			String templateName = ExportExcelConstant.STORE_DAY_SALE_REPORT;
+			cleanAccessData(exportList);
 			exportListForXLSX(response, exportList, fileName, templateName);
 		} catch (Exception e) {
 			LOG.error("导出库存调整商品异常：{}", e);

@@ -43,6 +43,7 @@ import com.okdeer.jxc.branch.vo.BranchSpecVo;
 import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.LogConstant;
+import com.okdeer.jxc.common.constant.PriceAccessConstant;
 import com.okdeer.jxc.common.controller.BasePrintController;
 import com.okdeer.jxc.common.enums.BranchTypeEnum;
 import com.okdeer.jxc.common.exception.BusinessException;
@@ -1171,6 +1172,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 			 * added by zhangqin on 2016-12-01 14:36 end
 			 */
 		}
+		cleanDataMap(PriceAccessConstant.PURCHASE_FORM, replaceMap);
 		return replaceMap;
 	}
 

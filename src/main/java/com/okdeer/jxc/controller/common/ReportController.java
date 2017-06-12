@@ -3,7 +3,8 @@
  *@Author: xiaoj02
  *@Date: 2016年10月26日 
  *@Copyright: ©2014-2020 www.okdeer.com Inc. All rights reserved. 
- */    
+ */
+
 package com.okdeer.jxc.controller.common;
 
 import java.text.ParseException;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.okdeer.jxc.common.constant.PriceAccessConstant;
 import com.okdeer.jxc.common.report.DataRecord;
 import com.okdeer.jxc.common.report.ReportService;
 import com.okdeer.jxc.common.utils.PageUtils;
@@ -46,11 +48,15 @@ import net.sf.json.JSONObject;
  *	v1.2.0				2016-10-26		xiaoj02				报表通用controller
  */
 
-public abstract class ReportController extends BaseController<T>{
+public abstract class ReportController extends BaseController<T> {
 
 	public abstract ReportService getReportService();
 
-	public abstract Map<String,Object> getParam(HttpServletRequest request);
+	public abstract Map<String, Object> getParam(HttpServletRequest request);
+
+	private String getClassName() {
+		return this.getClass().getSimpleName();
+	}
 
 	@RequestMapping("reportList")
 	@ResponseBody
@@ -62,14 +68,33 @@ public abstract class ReportController extends BaseController<T>{
 	@RequestMapping("reportListPage")
 	@ResponseBody
 	public PageUtils<DataRecord> reportListPage(HttpServletRequest request,
-			@RequestParam(value = "page", defaultValue = PAGE_NO)  Integer page,
+			@RequestParam(value = "page", defaultValue = PAGE_NO) Integer page,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) Integer rows) {
-		PageUtils<DataRecord> list = getReportService().getListPage(getParam(request),page, rows);
+		PageUtils<DataRecord> list = getReportService().getListPage(getParam(request), page, rows);
+		String keyStr = null;
+		// 调价查询
+		if (PriceAccessConstant.PRICING_QUERY_CONTROLLER.equals(getClassName())) {
+			keyStr = PriceAccessConstant.PRICING_QUERY;
+		}
+		// 配送缺货率分析
+		if (PriceAccessConstant.OUT_OF_STOCK_CONTROLLER.equals(getClassName())) {
+			keyStr = PriceAccessConstant.OUT_OF_STOCK;
+		}
+		// 商品销售汇总分析
+		if (PriceAccessConstant.GOODS_TOTAL_ANALSI_CONTROLLER.equals(getClassName())) {
+			keyStr = PriceAccessConstant.GOODS_TOTAL_ANALSI;
+		}
+		// 新品销售分析
+		if (PriceAccessConstant.NEW_GOODS_SALE_ANALYSIS_CONTROLLER.equals(getClassName())) {
+			keyStr = PriceAccessConstant.NEW_GOODS_SALE_ANALYSIS;
+		}
+		cleanDataMaps(keyStr, list.getList());
+		cleanDataMaps(keyStr, list.getFooter());
 		return list;
 	}
 
 	@RequestMapping(value = "exportExcel")
-	public void exportExcel(HttpServletRequest request, HttpServletResponse response){
+	public void exportExcel(HttpServletRequest request, HttpServletResponse response) {
 		String reportFileName = getFileName();
 		String[] headers = getHeaders();
 		String[] columns = getColumns();
@@ -78,7 +103,7 @@ public abstract class ReportController extends BaseController<T>{
 		List<JSONObject> jsonList = new ArrayList<JSONObject>();
 		for (DataRecord dataRecord : dataList) {
 			JSONObject jsonObject = new JSONObject();
-			//格式化数据
+			// 格式化数据
 			formatter(dataRecord);
 
 			jsonObject.putAll(dataRecord);
@@ -95,6 +120,7 @@ public abstract class ReportController extends BaseController<T>{
 	public abstract String[] getColumns();
 
 	public abstract void formatter(DataRecord dataRecord);
+
 	/**
 	 * @Description: 将参数转成map
 	 * @param req
@@ -106,21 +132,19 @@ public abstract class ReportController extends BaseController<T>{
 	 * @date 2016年10月26日
 	 */
 	public Map<String, Object> builderParams(HttpServletRequest req, Model model) {
-		Map<String, Object> retParams = new HashMap<String, Object>(req
-				.getParameterMap().size());
+		Map<String, Object> retParams = new HashMap<String, Object>(req.getParameterMap().size());
 		Map<String, String[]> params = req.getParameterMap();
 		String branchCompleCode = UserUtil.getCurrentUser().getBranchCompleCode();
 		retParams.put("branchCompleCode", branchCompleCode);
 		if (null != params && params.size() > 0) {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			for (Entry<String, String[]> p : params.entrySet()) {
-				if (null == p.getValue()
-						|| StringUtils.isEmpty(Arrays.toString(p.getValue())))
+				if (null == p.getValue() || StringUtils.isEmpty(Arrays.toString(p.getValue())))
 					continue;
 				// 只转换一个参数，多个参数不转换
 				String values[] = (String[]) p.getValue();
 				String match = "^((((1[6-9]|[2-9]\\d)\\d{2})-(0?[13578]|1[02])-(0?[1-9]|[12]\\d|3[01]))|(((1[6-9]|[2-9]\\d)\\d{2})-(0?[13456789]|1[012])-(0?[1-9]|[12]\\d|30))|(((1[6-9]|[2-9]\\d)\\d{2})-0?2-(0?[1-9]|1\\d|2[0-8]))|(((1[6-9]|[2-9]\\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))-0?2-29-)) (20|21|22|23|[0-1]?\\d):[0-5]?\\d:[0-5]?\\d$";
-				if(StringUtils.isNotBlank(values[0])){
+				if (StringUtils.isNotBlank(values[0])) {
 					if (values[0].matches(match)) {
 						try {
 							retParams.put(p.getKey(), sdf.parse(values[0]));
@@ -128,10 +152,8 @@ public abstract class ReportController extends BaseController<T>{
 							retParams.put(p.getKey(), values);
 							LOG.error("builderParams将参数转成map失败:{}", e);
 						}
-					} else if (p.getKey().equals("queryCondition")
-							&& model.asMap().containsKey("queryCondition")) {
-						retParams.put(p.getKey(),
-								model.asMap().get("queryCondition"));
+					} else if (p.getKey().equals("queryCondition") && model.asMap().containsKey("queryCondition")) {
+						retParams.put(p.getKey(), model.asMap().get("queryCondition"));
 					} else {
 						retParams.put(p.getKey(), values[0].trim());
 					}

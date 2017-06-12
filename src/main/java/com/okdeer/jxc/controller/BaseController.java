@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletResponse;
@@ -62,12 +63,12 @@ public class BaseController<T> {
 	 * @Fields SUCCESS : success
 	 */
 	protected static final String SUCCESS = "success";
-	
+
 	/**
 	 * @Fields PAGE_500 : 500页面
 	 */
 	protected static final String PAGE_500 = "/error/500";
-	
+
 	/**
 	 * @Fields error_Msg : 500页面错误提示消息key值
 	 */
@@ -149,7 +150,6 @@ public class BaseController<T> {
 		return user == null ? null : user.getCategoryCodes();
 	}
 
-
 	/**
 	 * @Description: 导出后缀名为“.xlsx”的Excel公用方法
 	 * @param response	
@@ -159,10 +159,9 @@ public class BaseController<T> {
 	 * @author liwb
 	 * @date 2016年8月22日
 	 */
-	protected void exportListForXLSX(HttpServletResponse response,
-			List<?> dataList, String fileName, String templateName) {
-		ReportExcelUtil.exportListForXLSX(response, dataList, fileName,
-				templateName);
+	protected void exportListForXLSX(HttpServletResponse response, List<?> dataList, String fileName,
+			String templateName) {
+		ReportExcelUtil.exportListForXLSX(response, dataList, fileName, templateName);
 	}
 
 	/**
@@ -174,10 +173,9 @@ public class BaseController<T> {
 	 * @author liwb
 	 * @date 2016年8月22日
 	 */
-	protected void exportPageForXLSX(HttpServletResponse response,
-			List<?> dataList, String fileName, String templateName) {
-		ReportExcelUtil.exportPageForXLSX(response, dataList, fileName,
-				templateName);
+	protected void exportPageForXLSX(HttpServletResponse response, List<?> dataList, String fileName,
+			String templateName) {
+		ReportExcelUtil.exportPageForXLSX(response, dataList, fileName, templateName);
 	}
 
 	/**
@@ -191,11 +189,10 @@ public class BaseController<T> {
 	 * @date 2016年8月31日
 	 */
 	@SuppressWarnings("hiding")
-	protected <T> List<T> parseExcel(String fileName, InputStream is,
-			String[] fields, T entity) {
+	protected <T> List<T> parseExcel(String fileName, InputStream is, String[] fields, T entity) {
 		return ExcelReaderUtil.readExcel(fileName, is, fields, entity);
 	}
-	
+
 	/**
 	 * @Description: 获取当前机构类型权限列表
 	 * @return
@@ -227,7 +224,7 @@ public class BaseController<T> {
 		}
 		return typeList;
 	}
-	
+
 	/**
 	 * @Description: 验证导出集合数据
 	 * @param list
@@ -235,17 +232,17 @@ public class BaseController<T> {
 	 * @date 2017年5月24日
 	 */
 	protected RespJson validateExportList(List<?> list) {
-		if(CollectionUtils.isEmpty(list)){
+		if (CollectionUtils.isEmpty(list)) {
 			return RespJson.error("无数据可导");
 		}
-		
+
 		if (list.size() > ExportExcelConstant.EXPORT_MAX_SIZE) {
 			return RespJson.error("最多只能导出" + ExportExcelConstant.EXPORT_MAX_SIZE + "条数据");
 		}
-		
+
 		return RespJson.success();
 	}
-	
+
 	/**
 	 * @Description: 跳转到错误页面
 	 * @param errorMsg 错误信息
@@ -258,84 +255,95 @@ public class BaseController<T> {
 		mv.addObject("errorMsg", errorMsg);
 		return mv;
 	}
-	
-	
+
 	/**
 	 * 过滤价格权限数据（单个vo）
 	 * @param data 要过滤的vo对象
 	 */
-	protected void cleanAccessData(Object data){
+	protected void cleanAccessData(Object data) {
 		Set<String> forbiddenSets = PriceGrantUtil.getNoPriceGrantSets();
 		DataAccessParser parser = new DataAccessParser(data.getClass(), forbiddenSets);
 		parser.cleanDataObject(data);
 	}
-	
+
 	/**
 	 * 过滤价格权限数据（vo list）
 	 * @param datas 要过滤的vo对象
 	 */
-	protected void cleanAccessData(List<? extends Object> datas){
+	protected void cleanAccessData(List<? extends Object> datas) {
 		Class<?> cls = datas.get(0).getClass();
 		Set<String> forbiddenSets = PriceGrantUtil.getNoPriceGrantSets();
 		DataAccessParser parser = new DataAccessParser(cls, forbiddenSets);
 		parser.cleanDataObjects(datas);
 	}
-	
+
 	/**
 	 * 过滤价格权限数据（单个map）
 	 * @param extendVos 要过滤的数据key与关联key列表
 	 * @param dataMap 要过滤的数据
 	 */
-	protected void cleanDataMap(String keyStr, DataRecord data){
+	protected void cleanDataMap(String keyStr, DataRecord data) {
 		List<KeyExtendVo> extendVos = parserPriceKey(keyStr);
 		Set<String> forbiddenSets = PriceGrantUtil.getNoPriceGrantSets();
 		MapAccessParser parser = new MapAccessParser(extendVos, forbiddenSets);
 		parser.cleanDataMap(data);
 	}
-	
+
+	/**
+	 * 过滤价格权限数据（单个map）
+	 * @param extendVos 要过滤的数据key与关联key列表
+	 * @param dataMap 要过滤的数据
+	 */
+	protected void cleanDataMap(String keyStr, Map<String, Object> data) {
+		List<KeyExtendVo> extendVos = parserPriceKey(keyStr);
+		Set<String> forbiddenSets = PriceGrantUtil.getNoPriceGrantSets();
+		MapAccessParser parser = new MapAccessParser(extendVos, forbiddenSets);
+		parser.cleanDataMap(data);
+	}
+
 	/**
 	 * 过滤价格权限数据（map集合）
 	 * @param extendVos 要过滤的数据key与关联key列表
 	 * @param dataMaps 要过滤的数据
 	 */
-	protected void cleanDataMaps(String keyStr, List<DataRecord> datas){
+	protected void cleanDataMaps(String keyStr, List<DataRecord> datas) {
 		List<KeyExtendVo> extendVos = parserPriceKey(keyStr);
 		Set<String> forbiddenSets = PriceGrantUtil.getNoPriceGrantSets();
 		MapAccessParser parser = new MapAccessParser(extendVos, forbiddenSets);
 		parser.cleanDataMap(datas);
 	}
-	
-	  /**
-     * 
-     * @Description: 转换过滤权限字段
-     * @param keyStr
-     * @return List
-     * @date 2017年6月9日
-     */
-    private List<KeyExtendVo> parserPriceKey(String keyStr) {
-        List<KeyExtendVo> keyList = new ArrayList<KeyExtendVo>();
-        if (StringUtils.isBlank(keyStr)) {
-            return keyList;
-        }
-        String[] tempArrKey = keyStr.split("#");
-        for (int i = 0; i < tempArrKey.length; i++) {
-            KeyExtendVo keyVo = new KeyExtendVo();
 
-            String tempKeyStr = tempArrKey[i];
-            String key = tempKeyStr.substring(0, tempKeyStr.indexOf(":"));
-            // 设置属性
-            keyVo.setKey(key);
-            String extKeysStr = tempKeyStr.substring(tempKeyStr.indexOf(":") + 1);
-            String[] extKeysArr = extKeysStr.split(",");
-            Set<String> extKeys = new HashSet<String>();
-            for (int j = 0; j < extKeysArr.length; j++) {
-                extKeys.add(extKeysArr[j]);
-            }
-            // 设置属性
-            keyVo.setExtKeys(extKeys);
-            keyList.add(keyVo);
-        }
-        return keyList;
-    }
-	
+	/**
+	* 
+	* @Description: 转换过滤权限字段
+	* @param keyStr
+	* @return List
+	* @date 2017年6月9日
+	*/
+	private List<KeyExtendVo> parserPriceKey(String keyStr) {
+		List<KeyExtendVo> keyList = new ArrayList<KeyExtendVo>();
+		if (StringUtils.isBlank(keyStr)) {
+			return keyList;
+		}
+		String[] tempArrKey = keyStr.split("#");
+		for (int i = 0; i < tempArrKey.length; i++) {
+			KeyExtendVo keyVo = new KeyExtendVo();
+
+			String tempKeyStr = tempArrKey[i];
+			String key = tempKeyStr.substring(0, tempKeyStr.indexOf(":"));
+			// 设置属性
+			keyVo.setKey(key);
+			String extKeysStr = tempKeyStr.substring(tempKeyStr.indexOf(":") + 1);
+			String[] extKeysArr = extKeysStr.split(",");
+			Set<String> extKeys = new HashSet<String>();
+			for (int j = 0; j < extKeysArr.length; j++) {
+				extKeys.add(extKeysArr[j]);
+			}
+			// 设置属性
+			keyVo.setExtKeys(extKeys);
+			keyList.add(keyVo);
+		}
+		return keyList;
+	}
+
 }
