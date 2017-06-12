@@ -4,6 +4,7 @@ package com.okdeer.jxc.controller;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -21,6 +22,7 @@ import com.okdeer.jxc.common.parser.DataAccessParser;
 import com.okdeer.jxc.common.parser.MapAccessParser;
 import com.okdeer.jxc.common.parser.vo.KeyExtendVo;
 import com.okdeer.jxc.common.result.RespJson;
+import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.PriceGrantUtil;
 import com.okdeer.jxc.utils.UserUtil;
@@ -284,7 +286,8 @@ public class BaseController<T> {
 	 * @param extendVos 要过滤的数据key与关联key列表
 	 * @param dataMap 要过滤的数据
 	 */
-	protected void cleanDataMap(List<KeyExtendVo> extendVos, Map<String, Object> dataMap){
+	protected void cleanDataMap(String keyStr, Map<String, Object> dataMap){
+		List<KeyExtendVo> extendVos = parserPriceKey(keyStr);
 		Set<String> forbiddenSets = PriceGrantUtil.getNoPriceGrantSets();
 		MapAccessParser parser = new MapAccessParser(extendVos, forbiddenSets);
 		parser.cleanDataMap(dataMap);
@@ -295,10 +298,44 @@ public class BaseController<T> {
 	 * @param extendVos 要过滤的数据key与关联key列表
 	 * @param dataMaps 要过滤的数据
 	 */
-	protected void cleanDataMap(List<KeyExtendVo> extendVos, List<Map<String, Object>> dataMaps){
+	protected void cleanDataMaps(String keyStr, List<Map<String, Object>> dataMaps){
+		List<KeyExtendVo> extendVos = parserPriceKey(keyStr);
 		Set<String> forbiddenSets = PriceGrantUtil.getNoPriceGrantSets();
 		MapAccessParser parser = new MapAccessParser(extendVos, forbiddenSets);
 		parser.cleanDataMap(dataMaps);
 	}
+	
+	  /**
+     * 
+     * @Description: 转换过滤权限字段
+     * @param keyStr
+     * @return List
+     * @date 2017年6月9日
+     */
+    private List<KeyExtendVo> parserPriceKey(String keyStr) {
+        List<KeyExtendVo> keyList = new ArrayList<KeyExtendVo>();
+        if (StringUtils.isBlank(keyStr)) {
+            return keyList;
+        }
+        String[] tempArrKey = keyStr.split("#");
+        for (int i = 0; i < tempArrKey.length; i++) {
+            KeyExtendVo keyVo = new KeyExtendVo();
+
+            String tempKeyStr = tempArrKey[i];
+            String key = tempKeyStr.substring(0, tempKeyStr.indexOf(":"));
+            // 设置属性
+            keyVo.setKey(key);
+            String extKeysStr = tempKeyStr.substring(tempKeyStr.indexOf(":") + 1);
+            String[] extKeysArr = extKeysStr.split(",");
+            Set<String> extKeys = new HashSet<String>();
+            for (int j = 0; j < extKeysArr.length; j++) {
+                extKeys.add(extKeysArr[j]);
+            }
+            // 设置属性
+            keyVo.setExtKeys(extKeys);
+            keyList.add(keyVo);
+        }
+        return keyList;
+    }
 	
 }
