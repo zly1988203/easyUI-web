@@ -93,16 +93,8 @@ function directDelete(){
     var formIds = [];
 	var flag = true;
 	rows.forEach(function(data,index){
-		var status = data.status;
-    	if(status == 0){
-    		formIds.push(data.id);
-	   		flag = false;
-    	}
+		formIds.push(data.id);
 	});
-    if(flag){
-    	$_jxc.alert('已经审核的单据不可以删除！');
-    	return;
-    }
 	
 	$_jxc.confirm('是否要删除选中数据?',function(data){
 		if(data){
