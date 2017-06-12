@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
+import com.okdeer.jxc.common.constant.PriceAccessConstant;
 import com.okdeer.jxc.common.enums.DeliverAuditStatusEnum;
 import com.okdeer.jxc.common.report.DataRecord;
 import com.okdeer.jxc.common.report.ReportService;
@@ -102,6 +103,9 @@ public class DeliverTotalReportController extends ReportController {
 		for (DataRecord dataRecord : list.getList()) {
 			formatter(dataRecord);
 		}
+		
+		cleanDataMaps(PriceAccessConstant.DELIVER_TOTAL_REPORT, list.getList());
+		cleanDataMaps(PriceAccessConstant.DELIVER_TOTAL_REPORT, list.getFooter());
 		return list;
 	}
 
@@ -134,6 +138,8 @@ public class DeliverTotalReportController extends ReportController {
 		for (DataRecord dataRecord : dataList) {
 			formatter(dataRecord);
 		}
+		
+		cleanDataMaps(PriceAccessConstant.DELIVER_TOTAL_REPORT, dataList);
 		exportListForXLSX(response, dataList, reportFileName, templateName);
 	}
 

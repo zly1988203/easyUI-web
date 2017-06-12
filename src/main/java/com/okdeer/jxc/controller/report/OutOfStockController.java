@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
+import com.okdeer.jxc.common.constant.PriceAccessConstant;
 import com.okdeer.jxc.common.report.DataRecord;
 import com.okdeer.jxc.common.report.ReportService;
 import com.okdeer.jxc.controller.common.ReportController;
@@ -100,6 +101,7 @@ public class OutOfStockController  extends ReportController{
 			}
 			
 			reportList.add(dataRecord);
+			cleanDataMaps(PriceAccessConstant.OUT_OF_STOCK, reportList);
 			exportListForXLSX(response, reportList, fileName, templateName);
 			
 		} catch (Exception e) {

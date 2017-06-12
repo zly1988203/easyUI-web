@@ -40,6 +40,7 @@ import com.okdeer.jxc.branch.service.BranchSpecServiceApi;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.branch.vo.BranchSpecVo;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
+import com.okdeer.jxc.common.constant.PriceAccessConstant;
 import com.okdeer.jxc.common.constant.PrintConstant;
 import com.okdeer.jxc.common.controller.BasePrintController;
 import com.okdeer.jxc.common.enums.BranchTypeEnum;
@@ -666,6 +667,7 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 			 * added by zhangqin on 2016-12-01 14:36 end
 			 */
 		}
+		cleanDataMap(PriceAccessConstant.PURCHASE_FORM, replaceMap);
 		return replaceMap;
 	}
 
