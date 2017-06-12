@@ -281,6 +281,10 @@ function initDatagridStockReimburseView(){
         }
 
     });
+    if(hasCostPrice==false){
+        priceGrantUtil.grantCostPrice(dataGridId,["price","amount"])
+    }
+
 }
 
 // 限制转换次数

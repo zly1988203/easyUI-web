@@ -34,6 +34,14 @@ function saveSupplier() {
     }
 
 	var formObj = $('#formAdd').serializeObject();
+    var saleWay = 	$('#formAdd #saleWay').combobox("getValue");
+    if(saleWay === "C"){
+        if(parseFloat(formObj.minAmount).toFixed(2) <= 0.00 || parseFloat(formObj.minAmount).toFixed(2) > 999999.99){
+            $_jxc.alert("保底金额在0到999999.99之间");
+            return;
+		}
+    }
+
 	$_jxc.ajax({
 		url : contextPath + "/supplier/addSupplier",
 		data : formObj

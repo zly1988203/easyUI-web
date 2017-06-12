@@ -62,7 +62,23 @@ function initGoodsView(data,flag){
 			minMaxSalePrice();
 		}
 	});
+    hidePageElement();
+
 }
+
+function hidePageElement() {
+    if(hasPurchasePrice==false){
+        $("#formGoodsArchivesAdd #purchasePrice").parent().addClass("uvisibility");
+    }
+    if(hasWholesalePrice==false){
+        $("#formGoodsArchivesAdd #wholesalePrice").parent().addClass("uvisibility");
+    }
+
+    if(hasDistributionPrice==false){
+        $("#formGoodsArchivesAdd #distributionPrice").parent().addClass("uvisibility");
+    }
+}
+
 //获取列表复制的值
 function getSelectionRow(data){
 	selectionRow = data;//getQueryString("data") == "" ? "" : getQueryString("data");

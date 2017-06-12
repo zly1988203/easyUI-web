@@ -23,6 +23,7 @@ function saveSettingType() {
 
     var formData = $('#cardTypeEdit').serializeObject();
 
+
     var param = {
         url:contextPath + "/iccard/setting/update",
         data:formData

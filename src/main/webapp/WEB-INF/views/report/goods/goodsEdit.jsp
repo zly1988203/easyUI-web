@@ -236,7 +236,7 @@
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">配送价:</div>
 						<input id="distributionPrice" name="distributionPrice"
-							style="width: 204px;"
+
 							class="uinp uinp-no-more easyui-numberbox easyui-validatebox"
 							data-options="min:0,precision:4,readonly:true" type="text"
 							maxlength="10" onkeyup="checkPrice(this);"
@@ -246,7 +246,7 @@
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">进货价:</div>
 						<input id="purchasePrice" name="purchasePrice"
-							style="width: 204px;"
+
 							class="uinp uinp-no-more easyui-numberbox easyui-validatebox"
 							data-options="min:0,precision:4,readonly:true" type="text"
 							maxlength="10" onkeyup="checkPrice(this);"
@@ -255,7 +255,7 @@
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">批发价:</div>
 						<input id="wholesalePrice" name="wholesalePrice"
-							style="width: 204px;"
+
 							class="uinp uinp-no-more easyui-numberbox easyui-validatebox"
 							data-options="min:0,precision:4,readonly:true" type="text"
 							maxlength="10" onkeyup="checkPrice(this);"

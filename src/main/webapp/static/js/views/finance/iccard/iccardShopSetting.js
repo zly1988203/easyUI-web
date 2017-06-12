@@ -343,7 +343,6 @@ function saveSetting(){
 }
 
 function saveEquipmentList() {
-    debugger;
 	  $("#"+gridEquipment).datagrid("endEdit", gridEquipmentHandel.getSelectRowIndex());
 
     var rows = gridEquipmentHandel.getRows();
