@@ -38,6 +38,29 @@ $(function(){
 		}
 	}
 	initSupAdvMonAdd();
+	
+	if(pageStatus === 'add'){
+		//机构选择初始化
+		$('#branchComponent').branchSelect({
+			loadFilter:function(data){
+				data.branchId = data.branchesId;
+				return data;
+			},
+			onAfterRender:function(){
+				 $("#supplierId").val('');
+				 $("#supplierName").val('');
+			}
+		});
+		
+		//供应商选择初始化
+		$('#supplierComponent').supplierSelect({
+			loadFilter:function(data){
+				data.supplierId = data.id;
+				return data;
+			}
+		});
+		}
+	
 })
 
 $(document).on('input','#remark',function(){
@@ -415,28 +438,28 @@ function delSupAdvMonForm(){
 }
 
 //机构
-function selectBranches(){
-	new publicBranchesService({},function(data){
-		 if(data != 'NO'){
-			 $("#branchId").val(data.branchesId);
-			 $("#branchCode").val(data.branchCode);
-			 $("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
-			 $("#supplierId").val('');
-			 $("#supplierName").val('');
-		 }   
-	})
-	
-}
+//function selectBranches(){
+//	new publicBranchesService({},function(data){
+//		 if(data != 'NO'){
+//			 $("#branchId").val(data.branchesId);
+//			 $("#branchCode").val(data.branchCode);
+//			 $("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
+//			 $("#supplierId").val('');
+//			 $("#supplierName").val('');
+//		 }   
+//	})
+//	
+//}
 
 //选择供应商
-function selectSupplier(){
-	new publicSuppliersService({},function(data){
-		if(data != 'NO'){
-			$("#supplierId").val(data.id);
-			$("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
-		 }
-	})
-}
+//function selectSupplier(){
+//	new publicSuppliersService({},function(data){
+//		if(data != 'NO'){
+//			$("#supplierId").val(data.id);
+//			$("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
+//		 }
+//	})
+//}
 
 //选择费用
 function selectCharge(searchKey){

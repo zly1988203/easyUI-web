@@ -1151,11 +1151,7 @@ var $_jxc = {
 			_editGroup = $(obj).parent('.ub');
 		}
 		//隐藏域表单
-		$(_editGroup).find('input[type="hidden"]').each(function(index,elt){
-			if($(elt)){
-				$(elt).val('');
-			}
-		});
+		$(_editGroup).find('input[type="hidden"]').val('');
 	}
 	
 	

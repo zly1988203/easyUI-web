@@ -36,7 +36,7 @@
 	                <div class="ub ub-ac" id="branchComponent">
 	                    <div class="umar-r10 uw-70 ut-r">机构:</div>
 	                    <input type="hidden" id="branchId" name="branchId"/>
-	                    <input type="hidden" id="branchType" name="branchType" />
+	                    <input type="hidden" id="branchType" name="branchType"/>
 	                    <input class="uinp ub ub-f1 " type="text" id="branchName" name="branchName"/>
 	                    <div class="uinp-more" >...</div>
 	                </div>
