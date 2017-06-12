@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletResponse;
@@ -21,6 +20,7 @@ import com.okdeer.jxc.common.enums.BranchTypeEnum;
 import com.okdeer.jxc.common.parser.DataAccessParser;
 import com.okdeer.jxc.common.parser.MapAccessParser;
 import com.okdeer.jxc.common.parser.vo.KeyExtendVo;
+import com.okdeer.jxc.common.report.DataRecord;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.system.entity.SysUser;
@@ -286,11 +286,11 @@ public class BaseController<T> {
 	 * @param extendVos 要过滤的数据key与关联key列表
 	 * @param dataMap 要过滤的数据
 	 */
-	protected void cleanDataMap(String keyStr, Map<String, Object> dataMap){
+	protected void cleanDataMap(String keyStr, DataRecord data){
 		List<KeyExtendVo> extendVos = parserPriceKey(keyStr);
 		Set<String> forbiddenSets = PriceGrantUtil.getNoPriceGrantSets();
 		MapAccessParser parser = new MapAccessParser(extendVos, forbiddenSets);
-		parser.cleanDataMap(dataMap);
+		parser.cleanDataMap(data);
 	}
 	
 	/**
@@ -298,11 +298,11 @@ public class BaseController<T> {
 	 * @param extendVos 要过滤的数据key与关联key列表
 	 * @param dataMaps 要过滤的数据
 	 */
-	protected void cleanDataMaps(String keyStr, List<Map<String, Object>> dataMaps){
+	protected void cleanDataMaps(String keyStr, List<DataRecord> datas){
 		List<KeyExtendVo> extendVos = parserPriceKey(keyStr);
 		Set<String> forbiddenSets = PriceGrantUtil.getNoPriceGrantSets();
 		MapAccessParser parser = new MapAccessParser(extendVos, forbiddenSets);
-		parser.cleanDataMap(dataMaps);
+		parser.cleanDataMap(datas);
 	}
 	
 	  /**
