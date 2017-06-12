@@ -45,6 +45,7 @@ import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.LogConstant;
 import com.okdeer.jxc.common.controller.BasePrintController;
 import com.okdeer.jxc.common.enums.BranchTypeEnum;
+import com.okdeer.jxc.common.exception.BusinessException;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportComponent;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportHandle;
@@ -479,7 +480,11 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 //			for (int i = 0; i < arr.length; i++) {
 //				resp = purchaseFormServiceApi.delete(arr[i], user.getId());
 //			}
-			resp = purchaseFormServiceApi.deleteByIds(Arrays.asList(arr), user.getId());
+			try {
+                resp = purchaseFormServiceApi.deleteByIds(Arrays.asList(arr), user.getId());
+            } catch (BusinessException e) {
+                return RespJson.posBusinessError(e.getMessage());
+            }
 		}
 		return resp;
 	}
