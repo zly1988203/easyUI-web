@@ -27,6 +27,14 @@ function updateSupplier() {
         return;
     }
 
+    var saleWay = 	$('#formEdit #saleWay').combobox("getValue");
+    if(saleWay === "C"){
+        if(parseFloat(formObj.minAmount).toFixed(2) <= 0.00 || parseFloat(formObj.minAmount).toFixed(2) > 999999.99){
+            $_jxc.alert("保底金额在0到999999.99之间");
+            return;
+        }
+    }
+
 	$_jxc.ajax({
 		url : contextPath + "/supplier/updateSupplier",
 		data : formObj

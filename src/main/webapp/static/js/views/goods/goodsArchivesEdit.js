@@ -36,7 +36,22 @@ function initGoodsEditView(id){
     $('#type').change(function(){
         typeChange();
     });
+    hidePageElement();
 }
+
+function hidePageElement() {
+    if(hasPurchasePrice==false){
+        $("#formGoodsArchivesAdd #purchasePrice").parent().addClass("uvisibility");
+    }
+    if(hasWholesalePrice==false){
+        $("#formGoodsArchivesAdd #wholesalePrice").parent().addClass("uvisibility");
+    }
+
+    if(hasDistributionPrice==false){
+        $("#formGoodsArchivesAdd #distributionPrice").parent().addClass("uvisibility");
+    }
+}
+
 
 function typeChange(){
     var pricingType = 	$('#type').val();

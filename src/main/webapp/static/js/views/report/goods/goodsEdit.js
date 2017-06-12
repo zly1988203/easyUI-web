@@ -93,14 +93,14 @@ function initGoodsInfo(skuId,branchId){
 
 function hidePageElement() {
     if(hasPurchasePrice==false){
-        $("#formEdit #purchasePrice").parent().addClass("unhide");
+        $("#formEdit #purchasePrice").parent().addClass("uvisibility");
     }
     if(hasWholesalePrice==false){
-        $("#formEdit #wholesalePrice").parent().addClass("unhide");
+        $("#formEdit #wholesalePrice").parent().addClass("uvisibility");
     }
 
     if(hasDistributionPrice==false){
-        $("#formEdit #distributionPrice").parent().addClass("unhide");
+        $("#formEdit #distributionPrice").parent().addClass("uvisibility");
     }
 
 

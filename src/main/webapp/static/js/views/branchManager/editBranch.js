@@ -397,7 +397,6 @@ function delLineHandel(event){
 }
 
 function saveBranchCost() {
-    debugger;
     $("#gridFitmentCost").datagrid("endEdit", gridFitmentCostHandel.getSelectRowIndex());
     $("#gridEquipmentCost").datagrid("endEdit", gridEquipmentCostHandel.getSelectRowIndex());
     $("#gridAmortizeCost").datagrid("endEdit", gridAmortizeCostHandel.getSelectRowIndex());
@@ -412,6 +411,13 @@ function saveBranchCost() {
                 isCheckResult = false;
                 return false;
             }
+
+            if(item.costAmount === ""){
+                $_jxc.alert('第'+(index+1)+'行装修费用金额不能为空')
+                isCheckResult = false;
+                return false;
+            }
+
             if(parseFloat(item.costAmount).toFixed(2) <= 0){
                 $_jxc.alert('第'+(index+1)+'行装修费用金额不能为0')
                 isCheckResult = false;
@@ -423,6 +429,12 @@ function saveBranchCost() {
 
             if(parseFloat(item.costAmount).toFixed(2) > 0 && $_jxc.isStringNull(item.costName)){
                 $_jxc.alert('第'+(index+1)+'行金额大于0，装修费用名称不能为空')
+                isCheckResult = false;
+                return false;
+            }
+
+            if(item.costAmount === ""){
+                $_jxc.alert('第'+(index+1)+'行装修费用金额不能为空')
                 isCheckResult = false;
                 return false;
             }
@@ -447,6 +459,13 @@ function saveBranchCost() {
                 isCheckResult = false;
                 return false;
             }
+
+            if(item.costAmount === ""){
+                $_jxc.alert('第'+(index+1)+'行设备费用金额不能为空')
+                isCheckResult = false;
+                return false;
+            }
+
             if(parseFloat(item.costAmount).toFixed(2) <= 0){
                 $_jxc.alert('第'+(index+1)+'行设备费用金额不能为0')
                 isCheckResult = false;
@@ -456,6 +475,12 @@ function saveBranchCost() {
         else {
             if(parseFloat(item.costAmount).toFixed(2) > 0 && $_jxc.isStringNull(item.costName)){
                 $_jxc.alert('第'+(index+1)+'行金额大于0，设备费用名称不能为空')
+                isCheckResult = false;
+                return false;
+            }
+
+            if(item.costAmount === ""){
+                $_jxc.alert('第'+(index+1)+'行设备费用金额不能为空')
                 isCheckResult = false;
                 return false;
             }
@@ -480,6 +505,13 @@ function saveBranchCost() {
                 isCheckResult = false;
                 return false;
             }
+
+            if(item.costAmount === ""){
+                $_jxc.alert('第'+(index+1)+'行摊销费用金额不能为空')
+                isCheckResult = false;
+                return false;
+            }
+
             if(parseFloat(item.costAmount).toFixed(2) <= 0){
                 $_jxc.alert('第'+(index+1)+'行摊销费用金额不能为0')
                 isCheckResult = false;
@@ -492,7 +524,11 @@ function saveBranchCost() {
                 isCheckResult = false;
                 return false;
             }
-
+            if(item.costAmount === ""){
+                $_jxc.alert('第'+(index+1)+'行摊销费用金额不能为空')
+                isCheckResult = false;
+                return false;
+            }
             if(parseFloat(item.costAmount).toFixed(2) <= 0 && !$_jxc.isStringNull(item.costName)){
                 $_jxc.alert('第'+(index+1)+'行摊销费用金额不能为0')
                 isCheckResult = false;
