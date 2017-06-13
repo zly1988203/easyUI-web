@@ -29,7 +29,7 @@ function initGridLogList() {
             {field:'operateName',title:'功能名称',width:80,align:'left'},
             {field:'createTimeStr',title:'修改时间',width:100,align:'left'},
             {field:'operateTypeStr',title:'修改类型',width:60,align:'left'},
-            {field:'title',title:'修改值',width:120,align:'left'},
+            {field:'title',title:'修改值',width:140,align:'left'},
             {field:'content',title:'操作描述',width:300,align:'left'}
         ]]
     })
