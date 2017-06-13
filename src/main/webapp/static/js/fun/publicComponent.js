@@ -1126,7 +1126,7 @@ function GridClass(){
                 keyBlur:function (jq) {
                     
                 }
-            })
+            });
     }
     /**
      * 获取左右边单元名称
@@ -1312,7 +1312,7 @@ function GridClass(){
         var rows = $('#'+gridName).datagrid('getRows');
         $.each(vals,function(key,val){
             rows[rowIndex][key] = val;
-        })
+        });
     }
     /**
      * 获取单元格非编辑框值
@@ -1345,7 +1345,7 @@ function GridClass(){
                 _this.setSelectFieldName(row[1].field);
                 _this.setFieldFocus(_this.getFieldTarget(row[1].field));
             }
-        },10)
+        },10);
     }
 
     /**
@@ -1356,7 +1356,7 @@ function GridClass(){
     this.getFieldTarget = function(fieldName){
         var ed  = $('#'+gridName).datagrid('getEditor', {index:rowIndex,field:fieldName});
         if(ed&&ed.target){
-            return ed.target
+            return ed.target;
         }
         return null;
     }
@@ -1377,7 +1377,7 @@ function GridClass(){
     this.setBeginRow = function(argRowIndex){
         $('#'+gridName).datagrid('endEdit', rowIndex);                  //结束之前的编辑
         rowIndex = argRowIndex;
-        $('#'+gridName).datagrid('selectRow', rowIndex)
+        $('#'+gridName).datagrid('selectRow', rowIndex);
         $('#'+gridName).datagrid('beginEdit', rowIndex);
     }
     /**
@@ -1438,7 +1438,7 @@ function GridClass(){
         $("#"+gridName).datagrid("deleteRow",index);
         setTimeout(function(){
             $("#"+gridName).datagrid("loadData",$("#"+gridName).datagrid("getRows"));
-        },10)
+        },10);
     }
     /**
      * 结束编辑当前行
@@ -1485,7 +1485,7 @@ function GridClass(){
     }
     
 	this.getColumnOption = function(fieldName){
-		var opts = $('#'+gridName).datagrid('getColumnOption',fieldName)
+		var opts = $('#'+gridName).datagrid('getColumnOption',fieldName);
 		if(opts){
 			return opts;
 		}
@@ -2142,7 +2142,7 @@ function checkUtil(){
 		var temObj={};
 		$('#'+formId+' input[data-check="true"]').each(function(index,obj){
 			temObj[""+$(obj).attr('name')+""]=$(obj).val();
-		}) 
+		});
 		return temObj;
 	}
 	
@@ -2412,7 +2412,7 @@ $.fn.branchSelect = function(param){
 					var disableCss = $(editInput).hasClass('uinp-no-more');
 					
 					//置灰状态下 结束 逻辑
-					if((disableCss &&　readonlyFlag) || disableFlag )return;
+					if((disableCss && readonlyFlag) || disableFlag )return;
 					
 					//只读绑定 点击事件
 					if(readonlyFlag){
@@ -2746,7 +2746,7 @@ $.fn.supplierSelect = function(param){
 					var disableCss = $(editInput).hasClass('uinp-no-more');
 					
 					//置灰状态下 结束 逻辑
-					if((disableCss &&　readonlyFlag) || disableFlag )return;
+					if((disableCss && readonlyFlag) || disableFlag )return;
 					
 					//只读绑定 点击事件
 					if(readonlyFlag){
@@ -3095,7 +3095,7 @@ $.fn.operatorSelect = function(param){
 					var disableCss = $(editInput).hasClass('uinp-no-more');
 					
 					//置灰状态下 结束 逻辑
-					if((disableCss &&　readonlyFlag) || disableFlag )return;
+					if((disableCss && readonlyFlag) || disableFlag )return;
 					
 					//只读绑定 点击事件
 					if(readonlyFlag){
