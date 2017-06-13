@@ -285,7 +285,15 @@ function initDatagridArchives(){
 
         }
 });
-    priceGrantUtil.grantPrice("gridArchives");
+    var param = {
+        wholesalePrice:["wholesalePrice"],
+        purchasePrice:["purchasePrice"],
+        distributionPrice:["distributionPrice"],
+        costPrice:["costPrice"],
+        vipPrice:["vipPrice"],
+        salePrice:["salePrice"],
+    }
+    priceGrantUtil.grantPrice("gridArchives",param);
 }
 
 
