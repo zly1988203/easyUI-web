@@ -102,7 +102,7 @@
 	             <div class="umar-r10 uw-70 ut-r">联系方式:</div>
                  <input type="hidden" id="phone" name="phone">
                  <input type="hidden" id="mobile" name="mobile">
-	             <input class="uinp ub ub-f1 uinp-no-more" type="text" id="linkTel" readonly='readonly'  name="tel" value="${checkVo.phone}/${checkVo.mobile}" >
+	             <input class="uinp ub ub-f1 uinp-no-more" type="text" id="linkTel" readonly='readonly'  name="tel" value="${checkVo.mobile}<c:if test="${(!empty checkVo.mobile) && (!empty checkVo.phone)}">/</c:if>${checkVo.phone}" >
 	         </div>
 	         <div class="ub ub-ac uw-290 umar-l24">
              	 <div class="umar-r12 uw-70 ut-r">支付方式:</div>

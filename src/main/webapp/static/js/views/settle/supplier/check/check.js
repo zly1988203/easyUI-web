@@ -38,6 +38,60 @@ $(function(){
 	    
 	}
 	initSupChkAcoAdd();
+	
+	if(pageStatus === 'add'){
+		//机构选择初始化
+		$('#branchComponent').branchSelect({
+			//ajax请求参数
+			ajaxParam:{
+				scope:1
+			},
+			//选择完成之后
+			onAfterRender:function(data){
+				$("#phone").val('');
+				$("#mobile").val('');
+				$('#linkTel').val('');//联系人
+				$("#supplierId").val('');
+				$("#supplierName").val('');
+		        
+		        gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
+		    	                         $.extend({},gridDefault),$.extend({},gridDefault)]);
+		        // 校验机构配置
+				checkBranchSpec(data.branchesId);
+			},
+			//数据过滤
+			loadFilter:function(data){
+				data.isContainChildren = data.allBranch;
+				return data;
+			}
+		});
+		
+		//供应商选择初始化
+		$('#supplierComponent').supplierSelect({
+			//选择之前
+			onShowBefore:function(){
+				clickFlag = true;
+				return true;
+			},
+			//选择完成之后
+			onAfterRender:function(data){
+		    	$("#phone").val(data.phone);
+				$("#mobile").val(data.mobile);
+				$('#linkTel').val((data.mobile?data.mobile:'')+(data.mobile&&data.phone ? '/':'')+(data.phone?data.phone:''));//联系人
+				//校验是否存在未审核的对账单
+				checkCheckAuditStutas(data.id);
+			},
+			//依赖条件 relyOnId 为空
+			relyOnId:'branchId',
+			//依赖条件 异常提示
+			relyError:'请选择机构！',
+			//数据过滤
+			loadFilter:function(data){
+				data.supplierId = data.id;
+				return data;
+			}
+		});
+	}
 })
 
 //combobox 过滤
@@ -214,6 +268,7 @@ function initSupChkAcoAdd(){
         onLoadSuccess:function(data){
         	if(clickFlag && data.rows.length <= 0){
         		clickFlag =  false;
+        		$(this).datagrid('reloadFooter',[]);
         		$_jxc.alert('您和此供应商没有账款信息，或您们的往来账款已平衡！');
         	}
         	if(pageStatus==='edit'){
@@ -394,45 +449,6 @@ function delSupChkAccount(){
 	});
 }
 
-//机构
-function selectBranches(){
-	var _rows = gridHandel.getRowsWhere({label:'1'});
-	if(_rows.length > 0){
-		$_jxc.confirm('单据信息未保存，是否先保存单据？',function(r){
-			if(!r){
-				new publicAgencyService(function(data){
-					$("#branchId").val(data.branchesId);
-					$("#branchCode").val(data.branchCode);
-					$("#isContainChildren").val(data.allBranch);
-					$("#branchCompleCode").val(data.branchCompleCode);
-					$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
-					
-					$("#phone").val('');
-					$("#mobile").val('');
-					$('#linkTel').val('');//联系人
-					$("#supplierId").val('');
-					$("#supplierName").val('');
-					
-					gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
-					                        $.extend({},gridDefault),$.extend({},gridDefault)]);
-					// 校验机构配置
-					checkBranchSpec(data.branchesId);
-				},'',targetBranchId,'','',1);
-			}
-		})
-		
-	}else{
-		new publicAgencyService(function(data){
-			$("#branchId").val(data.branchesId);
-			$("#branchCode").val(data.branchCode);
-			$("#isContainChildren").val(data.allBranch);
-			$("#branchCompleCode").val(data.branchCompleCode);
-			$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
-			// 校验机构配置
-			checkBranchSpec(data.branchesId);
-		},'',targetBranchId,'','',1);
-	}
-}
 
 //校验机构配置
 function checkBranchSpec(branchId){
@@ -487,43 +503,6 @@ function checkCheckAuditStutas(supplierId){
 			initCheckFormDetail();
 		}
     });
-}
-//选择供应商
-function selectSupplier(){
-	var branchId = $('#branchId').val();
-    if(!branchId){
-    	$_jxc.alert('请先选择机构');
-    	return;
-    }
-	clickFlag = true;
-	var _rows = gridHandel.getRowsWhere({label:'1'});
-	if(_rows.length > 0){
-		$_jxc.confirm('单据信息未保存，是否先保存单据？',function(r){
-			if(!r){
-				new publicSupplierService(function(data){
-					$("#phone").val(data.phone);
-					$("#mobile").val(data.mobile);
-					$('#linkTel').val((data.mobile?data.mobile:'')+(data.phone?'/'+data.phone:''));//联系人
-					
-					$("#supplierId").val(data.id);
-					$("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
-					//校验是否存在未审核的对账单
-					checkCheckAuditStutas(data.id);
-				});
-			}
-		})
-	}else{
-		new publicSupplierService(function(data){
-			$("#phone").val(data.phone);
-			$("#mobile").val(data.mobile);
-			$('#linkTel').val((data.mobile?data.mobile:'')+(data.phone?'/'+data.phone:''));//联系人
-			
-			$("#supplierId").val(data.id);
-			$("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
-			//校验是否存在未审核的对账单
-			checkCheckAuditStutas(data.id);
-		});
-	}	
 }
 
 //设置供应商扩展信息

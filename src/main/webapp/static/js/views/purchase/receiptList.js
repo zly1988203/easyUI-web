@@ -265,7 +265,7 @@ function receiptDelete(){
 	    		}else{
 	    			$_jxc.alert(result['message']);
 	    		}
-	    		dg.datagrid('reload');
+	    		$("#"+tableIdName).datagrid('reload');
 		    });
 		}
 	});
