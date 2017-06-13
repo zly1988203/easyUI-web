@@ -5,6 +5,15 @@ $(function(){
     $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 	initfraAcountList();
+	
+	//机构选择初始化
+	$('#branchComponent').branchSelect({
+		ajaxParam:{
+			branchTypesStr:$_jxc.branchTypeEnum.HEAD_QUARTERS + ',' + $_jxc.branchTypeEnum.BRANCH_COMPANY
+			+ ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_B + ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_C
+		}
+	});
+	
 })
 
 var datagirdID = 'fraAccountList';
@@ -155,44 +164,6 @@ function initfraAcountList(){
     $("#"+datagirdID).datagrid('reloadFooter',[]);
     
 }
-
-/**
- * 机构
- */
-function selectBranches(nameOrCode){
-	var param = {
-		branchTypesStr:$_jxc.branchTypeEnum.HEAD_QUARTERS + ',' + $_jxc.branchTypeEnum.BRANCH_COMPANY
-			+ ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_B + ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_C
-	}
-	if(nameOrCode){
-		param.nameOrCode = nameOrCode;
-	}
-	new publicBranchesService(param,function(data){
-		//返回NO时 输入动作没匹配到数据 
-		if(data == 'NO'){
-			//未查询到数据或多条数据，设置无效ID
-			$_jxc.clearHideInpOnEdit($('#branchName'));
-			$("#branchName").val("");
-		}else{
-			$("#branchId").val(data.branchesId);
-			$("#branchName").val("["+data.branchCode+"]"+data.branchName);
-		}
-	})
-}
-
-/**
- * 机构自动补全
- */
-function brandAutoComple(obj){
-	var nameOrCode = $.trim($("#branchName").val())||'';
-	//未输入值时，直接返回，无需查询
-	if("" == nameOrCode){
-		$_jxc.clearHideInpOnEdit(obj);
-		return;
-	}
-	selectBranches(nameOrCode,obj);
-}
-
 
 function queryForm(){
 	$("#startCount").val('');
