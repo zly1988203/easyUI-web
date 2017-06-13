@@ -52,7 +52,7 @@ function saveDataHandel() {
     var formObj = $('#formAdd').serializeObject();
 	$_jxc.ajax({
 		url : contextPath + "/stocktaking/apply/saveStocktakingBatch",
-		data : formObjs
+		data : formObj
 	},function(result){
 //        gFunEndLoading();
 		if(result.code == 0){

@@ -396,7 +396,15 @@ function initAddModifyPriceGridEdit() {
             datagridUtil.isCheckBoxChecked("distributionPrice");// 配送价
         }
     });
-    priceGrantUtil.grantPrice(datagridId);
+
+    var param = {
+        wholesalePrice:["oldWsPrice","newWsPrice"],
+        purchasePrice:["oldPurPrice","newPurPrice"],
+        distributionPrice:["oldeDcPrice","newDcPrice"],
+        vipPrice:["oldVipPrice","newVipPrice"],
+        salePrice:["oldSalePrice","newSalePrice"],
+    }
+    priceGrantUtil.grantPrice(datagridId,param);
 
 }
 //新进货价

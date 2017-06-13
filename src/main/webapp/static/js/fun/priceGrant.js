@@ -48,7 +48,7 @@ $(function(){
 		    	hasDistributionPrice = true;
 				break;
                 case "cost_price": // 成本价
-                    hasCostPrice = true;
+                    hasCostPrice = false;
                     break;
 		    default:
 				break;
@@ -100,7 +100,7 @@ var priceGrantUtil = {
 	 */
 	grantPurchasePrice : function(datagridId, fieldArr,outFieldArr){
 		if(isEmptyArray(fieldArr)){
-			fieldArr = [ "purchasePrice","amount","priceAmount","price"];
+			fieldArr = [ "purchasePrice"];
 		}
 		if(hasPurchasePrice==false){
 			if(typeof(outFieldArr) != "undefined" && outFieldArr.length > 0 ){
@@ -119,7 +119,7 @@ var priceGrantUtil = {
 	 */
 	grantWholesalePrice : function(datagridId, fieldArr,outFieldArr){
 		if(isEmptyArray(fieldArr)){
-            fieldArr = [ "wholesalePrice","price","amount","priceAmount"];
+            fieldArr = [ "wholesalePrice"];
 		}
 		if(hasWholesalePrice==false){
             if(typeof(outFieldArr) != "undefined" && outFieldArr.length > 0 ){
@@ -152,7 +152,7 @@ var priceGrantUtil = {
 	 */
 	grantDistributionPrice : function(datagridId, fieldArr,outFieldArr){
 		if(isEmptyArray(fieldArr)){
-			fieldArr = [ "distributionPrice","price","amount","priceAmount"];
+			fieldArr = [ "distributionPrice"];
 		}
 		if(hasDistributionPrice==false){
             if(typeof(outFieldArr) != "undefined" && outFieldArr.length > 0 ){
@@ -170,7 +170,7 @@ var priceGrantUtil = {
 	* */
 	grantCostPrice : function (datagridId,fieldArr,outFieldArr) {
         if(isEmptyArray(fieldArr)){
-            fieldArr = [ "costPrice","price","amount","priceAmount"];
+            fieldArr = [ "costPrice"];
         }
         if(hasCostPrice==false){
             if(typeof(outFieldArr) != "undefined" && outFieldArr.length > 0 ){
@@ -185,16 +185,40 @@ var priceGrantUtil = {
 	/**
 	 * 过滤所有价格权限，默认列名依次为 salePrice,vipPrice,purchasePrice,wholesalePrice,lowestPrice,distributionPrice
 	 * @param datagridId 数据表格ID
+	 * param {
+	 * 		salePrice:[],
+	 * 	vipPrice:[],
+	 * wholesalePrice:[],
+	 * purchasePrice:[],
+	 * distributionPrice:[],
+	 * costPrice:[],
+	 * lowestPrice:[],
+	 * outFieldArr:[]
+	 * }
 	 */
-	grantPrice : function(datagridId){
+	grantPrice : function(datagridId,param){
 		var _this = this;
-		// _this.grantSalePrice(datagridId);
-		// _this.grantVipPrice(datagridId);
-		_this.grantPurchasePrice(datagridId);
-		_this.grantWholesalePrice(datagridId);
-		// _this.grantLowestPrice(datagridId);
-		_this.grantDistributionPrice(datagridId);
-		_this.grantCostPrice(datagridId);
+		if(typeof(param.salePrice) != "undefined"){
+            _this.grantSalePrice(datagridId,param.salePrice,param.outFieldArr);
+		}
+		if(typeof(param.vipPrice)){
+            _this.grantVipPrice(datagridId,param.vipPrice,param.outFieldArr);
+		}
+        if(typeof(param.wholesalePrice)){
+            _this.grantWholesalePrice(datagridId,param.wholesalePrice,param.outFieldArr);
+        }
+        if(typeof(param.purchasePrice)){
+            _this.grantPurchasePrice(datagridId,param.purchasePrice,param.outFieldArr);
+        }
+        if(typeof(param.distributionPrice)){
+            _this.grantDistributionPrice(datagridId,param.distributionPrice,param.outFieldArr);
+        }
+        if(typeof(param.costPrice)){
+            _this.grantCostPrice(datagridId,param.costPrice,param.outFieldArr);
+        }
+        if(typeof(param.lowestPrice)){
+            _this.grantLowestPrice(datagridId,param.lowestPrice,param.outFieldArr);
+        }
 	},
 		
 };

@@ -394,7 +394,17 @@ function submitForm(){
 	        }
 
 	    });
-     priceGrantUtil.grantPrice(gridPriceName);
+
+     var param = {
+         wholesalePrice:["wholesalePrice"],
+         purchasePrice:["purchasePrice"],
+         distributionPrice:["distributionPrice"],
+         costPrice:["costPrice"],
+         vipPrice:["vipPrice"],
+         salePrice:["salePrice"],
+     }
+
+     priceGrantUtil.grantPrice(gridPriceName,param);
  }
  
  function onChangeCoefficient(newV,oldV){

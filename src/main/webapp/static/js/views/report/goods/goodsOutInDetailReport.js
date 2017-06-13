@@ -217,8 +217,15 @@ function initDatagridRequire(){
 		}
         
     });
-
-	priceGrantUtil.grantPrice("goodsOutInDetail");
+    var param = {
+        wholesalePrice:["wholesalePrice"],
+        purchasePrice:["purchasePrice","price","priceAmount"],
+        distributionPrice:["distributionPrice"],
+        costPrice:["costPrice","costAmount"],
+        vipPrice:["vipPrice"],
+        salePrice:["salePrice","saleAmount"],
+    }
+	priceGrantUtil.grantPrice("goodsOutInDetail",param);
 
    // queryForm();
 }
