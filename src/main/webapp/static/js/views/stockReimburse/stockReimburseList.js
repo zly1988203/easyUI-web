@@ -165,7 +165,7 @@ function deleteStockReimburse(){
 		    		ids:tempIds
 		    	}
 		    },function(result){
-	    		console.log(result);
+	    		
 	    		if(result['code'] == 0){
 	    			$_jxc.alert("删除成功");
 	    		}else{
@@ -200,7 +200,7 @@ function selectOperator() {
 // 打印
 function printList() {
 	var fromObjStr = $('#queryForm').serialize();
-	console.log(fromObjStr);
+	
 	parent.addTabPrint("StockReimbursePrint","报损单列表打印",contextPath+"/stock/reimburse/print?"+fromObjStr);
 }
 

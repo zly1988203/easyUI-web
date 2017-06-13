@@ -372,7 +372,7 @@ function saveDataHandel(rows){
     },function(result){
 //        	gFunEndLoading();
         if(result['code'] == 0){
-            console.log(result);
+            
             $_jxc.alert("操作成功！",function(){
                 location.href = contextPath +"/cost/costAdjust/edit?id="+result.id+"&type=add"
             });

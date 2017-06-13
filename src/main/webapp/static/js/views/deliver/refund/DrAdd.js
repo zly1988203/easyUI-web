@@ -330,7 +330,7 @@ function initDatagridStoreYHOrder(){
     	 if(!oldData["grid"]){
          	oldData["grid"] = gridHandel.getRows();
      	 }
-    	 //console.log('sdd',JSON.stringify(oldData));
+    	 
     }
     if(hasDistributionPrice==false){
         priceGrantUtil.grantDistributionPrice(gridName,["price","amount","taxAmount"])
@@ -540,7 +540,7 @@ function setDataValue(data) {
         var argWhere ={skuCode:1};  //验证重复性
         var isCheck ={isGift:1};   //只要是赠品就可以重复
         var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
-        console.log('newRows',newRows);
+        
         //$("#"+gridName).datagrid(''{data:newRows});
         gridHandel.setLoadData(newRows);
 
@@ -704,7 +704,7 @@ function saveOrder(){
     	}
     	reqObj.deliverFormListVo[i] = temp;
 	});
-    console.log('req',JSON.stringify(reqObj))
+    
 //    return;
 //    gFunStartLoading();
     $_jxc.ajax({

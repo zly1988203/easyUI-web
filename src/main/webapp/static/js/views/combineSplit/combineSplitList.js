@@ -97,7 +97,7 @@ function addCombineSplit(){
 //删单
 function deleteCombineSplit(){
 	var rows = $('#combineSplitList').datagrid('getChecked');
-	console.log('rows',rows);
+	
 	if(rows.length <= 0){
         $_jxc.alert('没有单据可以删除，请选择一笔单据再删除？');
 		return;

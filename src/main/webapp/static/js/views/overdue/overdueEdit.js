@@ -422,7 +422,7 @@ $(function(){
 	        contentType:'application/json',
 	        data:req
 	    },function(result){
-            console.log(result);
+            
             if(result['code'] == 0){
                 $_jxc.alert("操作成功！",function(){
                 	location.reload();
@@ -484,7 +484,7 @@ $(function(){
 	             auditDescs:auditDescs
 	         }
 	     },function(result){
-             console.log(result);
+             
              if(result['code'] == 0){
                  $_jxc.alert("操作成功！",function(){
                      location.href = contextPath +"/form/overdue/edit/" + id;
@@ -505,7 +505,7 @@ $(function(){
 			    		formIds:id
 			    	}
 			    },function(result){
-		    		console.log(result);
+		    		
 		    		if(result['code'] == 0){
 		    			/*$_jxc.alert("操作成功");
 		    			toClose();*/
@@ -687,7 +687,7 @@ $(function(){
 		        			        contentType:'application/json',
 		        			        data:req
 		        			    },function(result){
-	        			            console.log(result);
+	        			            
 	        			            if(result['code'] == 0){
 	        			                $_jxc.alert("操作成功！",function(){
 	        			                	location.reload();

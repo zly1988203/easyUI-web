@@ -203,7 +203,7 @@ function initSettleFormDetail(){
     var paramsObj = {
     	franchiseId:branchId,
     }
-    console.log('paramsObj:',paramsObj);
+    
 	$("#"+gridName).datagrid("options").method = "post";
     $("#"+gridName).datagrid("options").queryParams = paramsObj;
 	$("#"+gridName).datagrid('options').url = contextPath + '/settle/franchiseSettle/getFormList';

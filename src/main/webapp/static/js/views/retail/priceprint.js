@@ -274,7 +274,7 @@ function updateListData(data){
 	    var argWhere ={skuCode:1};  //验证重复性
 	    var isCheck ={isGift:1 };   //只要是赠品就可以重复
 	    var newRows = gridHandel.checkDatagrid(data,rows,argWhere,isCheck);
-         console.log(newRows);
+         
 	    $("#pricePrint").datagrid("loadData",data);
 	}
 

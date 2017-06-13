@@ -77,7 +77,7 @@ $(function(){
 //状态切换
 $(document).on("click","input[name='status']",function(){
 	var statusValue = $("input[name='status']:checked").val();
-	console.log('statusValue',statusValue)
+	
 	switch(statusValue){
 		case '0': //正常
 			//
@@ -400,7 +400,7 @@ function update(type,obj){
 		$_jxc.alert('请至少选中一行！');
 		return;
 	}
-	console.log(rows);
+	
 	var flag = false;
 	var ids = '';
 	$.each(rows,function(i,v){
@@ -425,7 +425,7 @@ function update(type,obj){
 		    		type:type
 		    	}
 		    },function(result){
-	    		console.log(result);
+	    		
 	    		if(result['code'] == 0){
 	    			initTreeArchives();
 	    			$_jxc.alert("success",function(){

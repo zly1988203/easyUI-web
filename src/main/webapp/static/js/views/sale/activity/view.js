@@ -1915,7 +1915,7 @@ function saveDataHandel(rows,setrows){
       contentType:'application/json',
       data:req
   },function(result){
-	  console.log(result)
+	  
 	  if(result['code'] == 0){
           $_jxc.alert("操作成功！");
       }else{

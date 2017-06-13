@@ -104,7 +104,7 @@ function directDelete(){
 		    		formIds:formIds
 		    	}
 		    },function(result){
-	    		console.log(result);
+	    		
 	    		if(result['code'] == 0){
 	    			$_jxc.alert("删除成功");
 	    		}else{
@@ -168,7 +168,7 @@ function initDirectDatagrid(){
 //打印
 function printList() {
 	var fromObjStr = $('#queryForm').serialize();
-	console.log(fromObjStr);
+	
 	parent.addTabPrint("DirectReceiptPrint","直送收货单列表打印",contextPath+"/directReceipt/print?"+fromObjStr);
 }
 

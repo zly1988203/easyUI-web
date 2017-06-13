@@ -23,7 +23,7 @@ $(function(){
 		  $("#payMoneyTime").val(new Date().format('yyyy-MM-dd')); 
 		  $('#createTime').text(new Date().format('yyyy-MM-dd hh:mm'));
 		  //非总部 机构默认有值
-		  console.log('sessionBranchType',sessionBranchType)
+		  
 		  if(sessionBranchType != '0'){
 			$('#branchId').val(sessionBranchId);
 			$('#branchCode').val(sessionBranchCode);
@@ -365,7 +365,7 @@ function saveSupAdvMonOrder(){
     	detailList:_rows
     }
     
-    console.log('reqObj',reqObj);
+    
     $_jxc.ajax({
         url:contextPath+"/settle/supplierCharge/saveChargeForm",
         data:{"data":JSON.stringify(reqObj)}
@@ -478,7 +478,7 @@ function selectCharge(searchKey){
 	
 	
 	publicCostService(param,function(data){
-		console.log('data',data);
+		
 		var nowRows = gridHandel.getRowsWhere({label:'1'});
 		var addDefaultData = gridHandel.addDefault(data,gridDefault);
 		var keyNames = {};

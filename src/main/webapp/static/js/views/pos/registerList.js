@@ -109,7 +109,7 @@ function bindPosForm(){
 		    		id: row.id 
 		    	}
 		    },function(result){
-	    		console.log(result);
+	    		
 	    		if(result['code'] == 0){
 	    			$_jxc.alert("解绑成功！");
 	    			dg.datagrid('reload');
@@ -125,7 +125,7 @@ function bindPosForm(){
 function delPosForm(){
 	var dg = $("#registerList");
 	var row = dg.datagrid("getSelected");
-	console.log(row)
+	
 	if(rowIsNull(row)){
 		return null;
 	}
@@ -137,7 +137,7 @@ function delPosForm(){
 		    		id: row.id
 		    	}
 		    },function(result){
-	    		console.log(result);
+	    		
 	    		if(result['code'] == 0){
 	    			$_jxc.alert("删除成功！");
 	    			dg.datagrid('reload');

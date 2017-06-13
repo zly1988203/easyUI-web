@@ -625,7 +625,7 @@ function initDatagridmmsTJ(activityId){
                 	});
                }
      	   }
-     	   //console.log('data1334',data);	   
+     	      
      	   $(_this).datagrid('resize',{width:'100%',height:'300px'})
      	   
     	  gridHandelT.setDatagridHeader("center");
@@ -2987,7 +2987,7 @@ function saveActivity(){
 	  
 	  //买满条件 梯度检查
 	  var tjRows = gridHandelT.getRows();
-	  console.log('tjRows',tjRows);
+	  
 	  if(tjRows.length <= 0){
 		  $_jxc.alert('请设置买满条件！',function(){});
 		  return;
@@ -3010,7 +3010,7 @@ function saveActivity(){
 			  var gifts = mmsTJObj.giftPoList;
 			  for(var x = 0; x < gifts.length ; x++){
 				  var gifObj = gifts[x];
-				  console.log('gifObj',JSON.stringify(gifObj));
+				  
 				  if(gifObj && gifObj.giftNum <= 0){
 					  $_jxc.alert('买满条件第'+(i+1)+'行，存在赠品数量小于等于0',function(){});
 					  return;
@@ -3290,7 +3290,7 @@ function saveDataHandel(rows,setrows){
         	  if(sUrl == 'toCopy'){
         		  actId = result["activityId"];
         	  }
-        	  console.log('actId',actId);
+        	  
         	  location.href = contextPath +"/sale/activity/edit?activityId="+actId;
           });
       }else{
@@ -3360,9 +3360,6 @@ function check(){
 		newData.mmsgrid = gridHandelT.getRows();
 		
 	}
-	
-	//console.log('oldData',oldData);
-	//console.log('newData',newData);
 	
 	if(!gFunComparisonArray(oldData,newData)){
 		$_jxc.alert("数据已修改，请先保存再审核");

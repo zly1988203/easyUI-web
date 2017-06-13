@@ -272,8 +272,7 @@ function addModifyDataGrid() {
 			+ "/goods/branchPriceAdjust/addFormView";
 	}
 	$("#"+datagridId).datagrid("endEdit",gridHandel.getSelectRowIndex());
-	console.log('oldDate',JSON.stringify(checkUtil.getOldData()))
-	console.log('newDate',JSON.stringify(checkUtil.getNewData()))
+	
 	
 	checkUtil.initNewData();
 	checkUtil.getNewData()['grid'] = gridHandel.getRows();
@@ -493,8 +492,7 @@ function check() {
 	checkUtil.initNewData();
 	checkUtil.getNewData()['grid'] = gridHandel.getRows();
 	
-	console.log('oldDate',JSON.stringify(checkUtil.getOldData()))
-	console.log('newDate',JSON.stringify(checkUtil.getNewData()))
+	
 	// 如果页面为空，则不需要提示，只有页面都输入值，才校验是否保存过数据
 	if (!checkUtil.ifChange()) {
 		 $_jxc.alert("数据已修改，请先保存再审核");
@@ -507,7 +505,7 @@ function check() {
 }
 // 审核
 function checkForm(formNo,effectDate) {
-	console.log('---------开始审核------------');
+	
 	$_jxc.ajax({
 		url : contextPath + "/goods/branchPriceAdjust/checkForm",
 		data : {
@@ -515,8 +513,7 @@ function checkForm(formNo,effectDate) {
 			effectDate:effectDate
 		}
 	},function(data){
-		console.info(data);
-		console.log('---------结束审核------------',JSON.stringify(data));
+		
 		if (data.code > 0) {
 			$_jxc.alert(data.message);
 		} else {

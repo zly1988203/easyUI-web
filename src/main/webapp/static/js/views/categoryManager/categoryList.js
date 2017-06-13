@@ -234,7 +234,7 @@ function deleteCategory(){
 		    		ids:ids
 		    	}
 		    },function(result){
-	    		console.log(result);
+	    		
 	    		if(result['code'] == 0){
 	    			initTreeArchives();
                     $_jxc.alert("success");

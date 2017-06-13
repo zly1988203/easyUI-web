@@ -350,7 +350,7 @@ function selectGoods(searchKey){
         };
 
         var newRows = gFunUpdateKey(rows,keyNames);
-        console.log(newRows);
+        
         $("#gridEditRequireOrder").datagrid("loadData",newRows);
         
         gridHandel.setLoadFocus();
@@ -431,7 +431,7 @@ function saveItemHandel(){
 	console.log(branchId);
 	console.log(deliverTime);
 	console.log(remarks);
-    console.log(rows);
+    
     
     var detailList = tableArrayFormatter(rows,"detailList");
     console.log(detailList);
@@ -450,7 +450,7 @@ function saveItemHandel(){
     	url:contextPath+"/form/purchase/updateOrder",
     	data:reqObj
     },function(result){
-        console.log(result);
+        
         if(result['code'] == 0){
             $_jxc.alert("操作成功！");
         }else{
@@ -471,7 +471,7 @@ function check(){
 		    		status:1
 		    	}
 		    },function(result){
-	    		console.log(result);
+	    		
 	    		if(result['code'] == 0){
 	    			$_jxc.alert("操作成功！",function(){
 	    				location.href = contextPath +"/form/purchase/orderEdit?formId=" + id;
