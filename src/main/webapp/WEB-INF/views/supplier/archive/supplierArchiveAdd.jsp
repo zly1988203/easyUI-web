@@ -76,7 +76,7 @@
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">办公地址:</div>
 					<input id="officeAddress" name="officeAddress" class="uinp uw-200"
-						type="text" value="${supplier.officeAddress }" maxlength="50">
+						type="text" value="" maxlength="50">
 
 				</div>
 
@@ -87,20 +87,20 @@
 					<div class="umar-r10 uw-80 ut-r">营业执照号:</div>
 					<input id="businessLicenseNum" name="businessLicenseNum"
 						class="uinp uw-200" type="text"
-						value="${supplier.businessLicenseNum }" maxlength="50">
+						value="" maxlength="50">
 
 				</div>
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">组织机构代码:</div>
 					<input id="organizationCode" name="organizationCode"
-						value="${supplier.organizationCode }"
+						value=""
 						class="uinp easyui-validatebox" maxlength="50">
 
 				</div>
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">国税登记号:</div>
 					<input id="nationalTaxRegNum" name="nationalTaxRegNum"
-						value="${supplier.nationalTaxRegNum }"
+						value=""
 						class="uinp easyui-validatebox" maxlength="50">
 
 				</div>
@@ -111,14 +111,14 @@
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">地税登记号:</div>
 					<input id="localTaxRegNum" name="localTaxRegNum"
-						value="${supplier.localTaxRegNum }" class="uinp uw-200"
+						value="" class="uinp uw-200"
 						type="text" maxlength="50">
 
 				</div>
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">纳税人识别号:</div>
 					<input id="taxIdentificationNum" name="taxIdentificationNum"
-						value="${supplier.taxIdentificationNum }"
+						value=""
 						class="uinp easyui-validatebox" maxlength="50">
 
 				</div>
@@ -146,21 +146,21 @@
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">银行账户名称:</div>
 					<input id="bankAccountName" name="bankAccountName"
-						value="${supplier.bankAccountName }"
+						value=""
 						class="uinp easyui-validatebox" maxlength="50">
 
 				</div>
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">开户银行:</div>
 					<input id="openAccountBank" name="openAccountBank"
-						value="${supplier.openAccountBank }" class="uinp uw-200"
+						value="" class="uinp uw-200"
 						type="text">
 
 				</div>
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">银行账号:</div>
 					<input id="bankAccount" name="bankAccount"
-						value="${supplier.bankAccount }" class="uinp easyui-validatebox"
+						value="" class="uinp easyui-validatebox"
 						maxlength="50">
 
 				</div>
@@ -170,8 +170,8 @@
 			<div class="ub upad-4">
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">联系人:</div>
-					<input id="contcat" name="contcat" value="${supplier.contcat }"
-						class="uinp uw-200" type="text">
+					<input id="contcat" name="contcat" value=""
+						class="uinp uw-200" maxlength="20" type="text">
 
 				</div>
 				<div class="ub ub-ac uw-320">
@@ -183,7 +183,7 @@
 				</div>
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">手机号码:</div>
-					<input id="mobile" name="mobile" value="${supplier.mobile }"
+					<input id="mobile" name="mobile" value=""
 						class="uinp uw-200  easyui-validatebox"
 						data-options="validType:'mobile'" type="text">
 
@@ -194,8 +194,8 @@
 			<div class="ub upad-4">
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">E-mail地址:</div>
-					<input id="email" name="email" value="${supplier.email }"
-						class="uinp easyui-validatebox" maxlength="50">
+					<input id="email" name="email" value=""
+						class="uinp easyui-validatebox" data-options="validType:'email'" maxlength="20">
 
 				</div>
 				<div class="ub ub-ac uw-320">
@@ -208,7 +208,7 @@
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">采购人员:</div>
 					<input id="purchaseStaffName" name="purchaseStaffName"
-						value="${supplier.purchaseStaffName }"
+						value=""
 						class="uinp easyui-validatebox" maxlength="20">
 				</div>
 
@@ -219,7 +219,7 @@
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">送货周期:</div>
 					<input id="diliveCycle" name="diliveCycle"
-						value="${supplier.diliveCycle }" class="uinp easyui-validatebox"
+						value="" class="uinp easyui-validatebox"
 						data-options="validType:'intNum'" maxlength="3">
 
 				</div>
@@ -263,7 +263,7 @@
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">结算周期:</div>
 					<input id="balanceCycle" name="balanceCycle"
-						value="${supplier.balanceCycle }"
+						value=""
 						data-options="validType:'intNum'"
 						class="uinp uw-200 easyui-validatebox" type="text" maxlength="3">
 
@@ -271,7 +271,7 @@
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">月结账日期:</div>
 					<input id="balanceDate" name="balanceDate"
-						value="${supplier.balanceDate }" data-options="validType:'intNum'"
+						value="" data-options="validType:'intNum'"
 						class="uinp uw-200 easyui-validatebox" type="text" maxlength="3">
 
 				</div>
@@ -302,7 +302,7 @@
 				</div>
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">SKU数:</div>
-					<input id="skuNum" name="skuNum" value="${supplier.skuNum }"
+					<input id="skuNum" name="skuNum" value=""
 						class="uinp uw-200 easyui-validatebox"
 						data-options="validType:'intNum'" type="text" maxlength="10">
 				</div>
@@ -311,14 +311,14 @@
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">品牌:</div>
 					<input id="brandName" name="brandName"
-						value="${supplier.brandName }" class="uinp" type="text">
+						value="" class="uinp" type="text">
 				</div>
 
 				<div class="ub ub-ac" id="minAmountDiv">
 					<div class="umar-r10 uw-80 ut-r">保底金额:</div>
 					<input id="minAmount" name="minAmount"
-						value="${supplier.minAmount }" class="uinp easyui-numberbox easyui-validatebox"
-						data-options="validType:'intOrFloat',min:0.00,precision:2,max:999999.99" type="text">
+						value="0.00" class="uinp easyui-numberbox easyui-validatebox"
+						data-options="validType:'intOrFloat',precision:2,min:0.00,max:999999.99">
 				</div>
 			</div>
 
@@ -326,7 +326,7 @@
 				<div class="ub ub-ac ub-f1 umar-r36">
 					<div class="umar-r10 uw-80 ut-r">备注:</div>
 					<input id="remark" name="remark" class="uinp ub ub-f1" type="text"
-						value="${supplier.remark }">
+						value="">
 				</div>
 			</div>
 			<div class="ub upad-4">

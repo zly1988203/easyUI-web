@@ -21,9 +21,11 @@ function onChangeSaleWay() {
 	}else{
         $("#minAmountDiv").removeClass("unhide");
 	}
+    $("#minAmount").numberbox("setValue",0.00);
 }
 
 function saveSupplier() {
+	debugger;
 	var isValid = $("#formAdd").form('validate');
 	if (!isValid) {
 		return;
@@ -36,6 +38,10 @@ function saveSupplier() {
 	var formObj = $('#formAdd').serializeObject();
     var saleWay = 	$('#formAdd #saleWay').combobox("getValue");
     if(saleWay === "C"){
+    	if($_jxc.isStringNull(formObj.minAmount)){
+            $_jxc.alert("保底金额在0到999999.99之间");
+			return;
+		}
         if(parseFloat(formObj.minAmount).toFixed(2) <= 0.00 || parseFloat(formObj.minAmount).toFixed(2) > 999999.99){
             $_jxc.alert("保底金额在0到999999.99之间");
             return;
@@ -47,7 +53,9 @@ function saveSupplier() {
 		data : formObj
 	},function(result){
 		if(result){
-			alertTip(result.message, reloadListHandel);
+			$_jxc.alert(result.message);
+            closeDialogHandel();
+            reloadListHandel();
 		}
 	});
 }
