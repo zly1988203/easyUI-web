@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.alibaba.dubbo.common.utils.StringUtils;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.okdeer.jxc.branch.service.BranchSpecServiceApi;
@@ -22,6 +21,7 @@ import com.okdeer.jxc.common.enums.OperateTypeEnum;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
+import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.settle.supplier.service.SupplierChainService;
 import com.okdeer.jxc.settle.supplier.vo.SupplierChainDetailVo;
 import com.okdeer.jxc.settle.supplier.vo.SupplierChainVo;
@@ -284,8 +284,11 @@ public class SupplierChainController extends BasePrintController<SupplierChainCo
             replaceMap.put("formNo", vo.getFormNo());
             replaceMap.put("supplierName", vo.getSupplierName());
             replaceMap.put("supplierContcat", vo.getSupplierContcat());
-            replaceMap.put("supplierPhone", vo.getSupplierPhone());
-            replaceMap.put("supplierMobile", vo.getSupplierMobile());
+            replaceMap.put("supplierPhoneMobile",
+                    vo.getSupplierMobile()
+                            + ((StringUtils.isNotBlank(vo.getSupplierMobile())
+                                    && StringUtils.isNotBlank(vo.getSupplierPhone())) ? "/" : "")
+                            + vo.getSupplierPhone());
             replaceMap.put("sumSaleAmount", vo.getSumSaleAmount());
             replaceMap.put("sumSupplierAmount", vo.getSumSupplierAmount());
             replaceMap.put("supplierMinAmount", vo.getSupplierMinAmount());
