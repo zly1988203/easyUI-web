@@ -83,7 +83,7 @@
 				id="id" name="id" value="${goodsPriceForm.id}" type="hidden">
 			<div class="ub ub-ver umar-t12">
 				<div class="ub">
-					<div class="ub ub-ac uw-300">
+					<%--<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-70 ut-r">区域:</div>
 						<input class="uinp ub ub-f1" type="text" name="branchAreaName"
 							id="areaName" onclick="selectBranchArea();"
@@ -93,21 +93,14 @@
 							id="areaInput">
 						<div class="uinp-more" onclick="selectBranchArea();">...</div>
 					</div>
-					<i class="ub ub-ac uc-red">*</i>
-					<div class="ub ub-ac uw-300 umar-l20">
-						<div class="umar-r10 uw-70 ut-r">生效日期:</div>
-						<c:if test="${goodsPriceForm.effectDate ==null }">
-							<input class="Wdate" name="effectDate" id="effectDate"
-								readonly="readonly"
-								value="<fmt:formatDate value='${now}' pattern='yyyy-MM-dd' />"
-								onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" />
-						</c:if>
-						<c:if test="${goodsPriceForm.effectDate !=null }">
-							<input class="Wdate" name="effectDate" id="effectDate"
-								readonly="readonly"
-								value="<fmt:formatDate value='${goodsPriceForm.effectDate}' pattern='yyyy-MM-dd' />"
-								onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" />
-						</c:if>
+					<i class="ub ub-ac uc-red">*</i>--%>
+
+					<div class="ub ub-ac uw-608">
+						<div class="umar-r10 uw-70 ut-r">机构列表:</div>
+						<input class="uinp ub ub-f1" name="loginBranchId" type="hidden" value="${loginBranchId}" id="loginBranchId">
+						<input class="uinp ub ub-f1" name="branchId" type="hidden" id="branchId" value="${branchId}">
+						<input class="uinp ub ub-f1" name="branchName" type="text" value="${branchName}" onmouseout="this.title=this.value" onclick="selectBranch();" id="branchShopName" readonly>
+						<div class="uinp-more" onclick="selectBranch();">...</div>
 					</div>
 					<div class="ub ub-ac umar-l28 uw-200">
 						<div class="umar-r10 uw-70 ut-r">制单人员:</div>
@@ -116,24 +109,22 @@
 					<div class="ub ub-ac umar-l20 uw-200">
 						<div class="umar-r10 uw-70 ut-r">制单时间:</div>
 						<div class="utxt" id="createUserDate">
-							<fmt:formatDate value='${goodsPriceForm.createTime}'
-								pattern='yyyy-MM-dd HH:mm' />
+							<fmt:formatDate value='${goodsPriceForm.createTime}' pattern='yyyy-MM-dd HH:mm' />
 						</div>
 					</div>
 				</div>
 				<div class="ub umar-t8">
-					<div class="ub ub-ac uw-608">
-						<div class="umar-r10 uw-70 ut-r">机构列表:</div>
-						<input class="uinp ub ub-f1" name="loginBranchId" type="hidden"
-							value="${loginBranchId}" id="loginBranchId"> <input
-							class="uinp ub ub-f1" name="branchId" type="hidden" id="branchId"
-							value="${branchId}"> <input class="uinp ub ub-f1"
-							name="branchName" type="text" value="${branchName}"
-							onmouseout="this.title=this.value" onclick="selectBranch();"
-							id="branchShopName" readonly>
-						<div class="uinp-more" onclick="selectBranch();">...</div>
+					<div class="ub ub-ac uw-592">
+						<div class="umar-r10 uw-70 ut-r">生效日期:</div>
+						<c:if test="${goodsPriceForm.effectDate ==null }">
+							<input class="Wdate" name="effectDate" id="effectDate" readonly="readonly" value="<fmt:formatDate value='${now}' pattern='yyyy-MM-dd' />" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" />
+						</c:if>
+						<c:if test="${goodsPriceForm.effectDate !=null }">
+							<input class="Wdate" name="effectDate" id="effectDate" readonly="readonly" value="<fmt:formatDate value='${goodsPriceForm.effectDate}' pattern='yyyy-MM-dd' />" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" />
+						</c:if>
+						<i class="ub ub-ac uc-red">*</i>
 					</div>
-					<i class="ub ub-ac uc-red">*</i>
+
 					<div class="ub ub-ac umar-l44 uw-200">
 						<div class="umar-r10 uw-70 ut-r">审核人员:</div>
 						<div class="utxt" id="checkUser">${goodsPriceForm.validUserName}</div>
@@ -153,7 +144,7 @@
 							value="${goodsPriceForm.remark}" type="text" id="remark">
 					</div>
 					<!--input-checkbox-->
-					<div class="ub ub-ac umar-l48" id="checkBoxPrice">
+					<div class="ub ub-ac umar-l28" id="checkBoxPrice">
 						<div class="umar-r10 uw-70 ut-r">调价设置:</div>
 						<!-- 如果调价为null默认是全部显示 -->
 						<c:if test="${priceGrantMap == null }">

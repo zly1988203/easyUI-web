@@ -825,3 +825,8 @@ function back(){
 function receiptAdd(){
 	toAddTab("新增采购收货单",contextPath + "/form/purchase/receiptAdd");
 }
+
+function exportDetail(param){
+    var formId = $("#formId").val();
+    window.location.href = contextPath + '/form/purchase/exportSheet?page=PAForm&sheetNo='+formId;
+}

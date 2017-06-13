@@ -51,21 +51,7 @@ function initDatagridRequire(){
                      }
                  }
             },
-            {field:'saleRate', title: '销售占比', width: '60px', align: 'right',
-            	formatter:function(value,row,index){
-				    if(value){
-				    	return '<b>'+parseFloat(value).toFixed(1)+'%</b>';
-				    }
-				},
-            	editor:{
-                    type:'numberbox',
-                    options:{
-                    	disabled:true,
-                        min:0,
-                        precision:1
-                    }
-                }
-            },
+            {field:'saleRate', title: '销售占比', width: '60px', align: 'right'},
       ]],
       onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");

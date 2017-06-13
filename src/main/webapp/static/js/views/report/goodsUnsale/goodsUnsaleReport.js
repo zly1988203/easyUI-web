@@ -239,4 +239,7 @@ function resetForm(){
 	 $("#queryForm").form('clear');
 };
 
-
+function checkSotckNum(obj){
+	obj.value = obj.value.replace(/^([+]?[0-9])|([-]?[0-9])+\d*$/i,'');
+	return obj.value;
+}
