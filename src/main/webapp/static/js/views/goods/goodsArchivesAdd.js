@@ -62,7 +62,7 @@ function initGoodsView(data,flag){
 			minMaxSalePrice();
 		}
 	});
-    hidePageElement();
+    // hidePageElement();
 
 }
 

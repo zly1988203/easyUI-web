@@ -281,7 +281,6 @@ function searchLeftHandel(){
 }
 function reloadListHandel(){
     $("#gridSupplierArchiveList").datagrid('reload');
-    closeDialogHandel();
 }
 function closeDialogHandel(){
     if(addDalogTemp){

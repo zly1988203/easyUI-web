@@ -13,9 +13,11 @@ function onChangeSaleWay() {
     }else {
         $("#minAmountDiv").removeClass("unhide");
 	}
+    $("#minAmount").numberbox("setValue",0.00);
 }
 
 function updateSupplier() {
+    debugger;
 	var formObj = $('#formEdit').serializeObject();
 	var isValid = $("#formEdit").form('validate');
 	if (!isValid) {
@@ -29,6 +31,8 @@ function updateSupplier() {
 
     var saleWay = 	$('#formEdit #saleWay').combobox("getValue");
     if(saleWay === "C"){
+
+
         if(parseFloat(formObj.minAmount).toFixed(2) <= 0.00 || parseFloat(formObj.minAmount).toFixed(2) > 999999.99){
             $_jxc.alert("保底金额在0到999999.99之间");
             return;
@@ -40,7 +44,9 @@ function updateSupplier() {
 		data : formObj
 	},function(result){
 		if(result){
-			alertTip(result.message, reloadListHandel);
+            $_jxc.alert(result.message);
+            closeDialogHandel();
+            reloadListHandel();
 		}
 	});
 }

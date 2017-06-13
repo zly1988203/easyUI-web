@@ -314,7 +314,7 @@
 					<input id="minAmount" name="minAmount"
 						value="${supplier.minAmount }"
 						class="uinp uw-200 easyui-numberbox easyui-validatebox"
-						data-options="validType:'intOrFloat',min:0.00,precision:2,max:999999.99" type="text">
+						data-options="validType:'intOrFloat',min:0.00,precision:2,max:999999.99">
 				</div>
 			</div>
 			<div class="ub upad-4">

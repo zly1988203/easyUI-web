@@ -399,7 +399,7 @@ function initAddModifyPriceGridEdit() {
 
     var param = {
         wholesalePrice:["oldWsPrice","newWsPrice"],
-        purchasePrice:["oldPurPrice","newPurPrice"],
+        purchasePrice:["oldPurPrice","newPurPrice","oldSaleRate","newSaleRate"],
         distributionPrice:["oldeDcPrice","newDcPrice"],
         vipPrice:["oldVipPrice","newVipPrice"],
         salePrice:["oldSalePrice","newSalePrice"],
