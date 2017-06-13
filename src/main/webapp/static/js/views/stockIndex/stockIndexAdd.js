@@ -342,7 +342,7 @@ function specialRows(id,val){
 function saveStockIndexs(){
     $("#"+datagridId).datagrid("endEdit", gridHandel.getSelectRowIndex());
     var rows = gridHandel.getRowsWhere({skuName:'1'});
-    console.log(rows);
+    
     $(gridHandel.getGridName()).datagrid("loadData",rows);
     if(rows.length==0){
         $_jxc.alert("表格不能为空");
@@ -406,7 +406,7 @@ function saveDataHandel(rows){
         data:{"data":JSON.stringify(jsonData)}
     },function(result){
         if(result['code'] == 0){
-            console.log(result);
+            
             $_jxc.alert(result['message']);
         }else{
             $_jxc.alert(result['message']);

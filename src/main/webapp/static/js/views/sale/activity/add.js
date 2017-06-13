@@ -637,7 +637,7 @@ function initDatagridmmsTJ(){
 		},
 		
         onLoadSuccess:function(data){
-    	   console.log('data1',data);
+    	   
     	   $(this).datagrid('resize',{width:'100%',height:'300px'})
     	   gridHandelT.setDatagridHeader("center");
 	  }
@@ -873,7 +873,7 @@ function selectOptionzk(){
 		if(thisValue == '0'){
 			rows= gridHandel.getRowsWhere({skuName:'1'});
 		}
-		console.log('000--rows',rows) 
+		 
 		
 		if(rows.length==0){
 			changeDisType();
@@ -993,7 +993,7 @@ function selectOptionMj(){
 			if(setrows.length == 1 && !setrows[0].discountPrice && !setrows[0].limitAmount)setrows = [];
 		}
 		
-	    console.log('rows',rows)
+	    
 		
 		if((rows.length==0) && (setrows.length == 0)){
 					changeDisType();

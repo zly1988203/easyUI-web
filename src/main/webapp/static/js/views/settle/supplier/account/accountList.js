@@ -21,7 +21,7 @@ var datagirdID = 'supAccountList';
 
 function getAccountColumns(){
 	var accountType = $('input[name="radioType"]:checked').val();
-	console.log('accountType',accountType)
+	
 	var defaultColumns = [{field: 'check',checkbox:true}];
 	defaultColumns =defaultColumns.concat([
   			{field: 'branchCode', title: '机构编号', width: '80px', align: 'left'},

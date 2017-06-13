@@ -215,7 +215,7 @@ function initSupChkAcoAdd(){
         	updateFooter();
         },
         onClickCell:function(rowIndex,field,value){
-        	console.log('value',value);
+        	
         	editRowFlag = true;
         	editRowNumbeboxFlag = true;
         	$(this).datagrid('checkRow',rowIndex);
@@ -383,7 +383,7 @@ function changeActMountFrom(newV,oldV){
 var changeGridFlag = false; //批量设置实收金额表示
 //批量设置实收金额
 function changeGrid(actMount,rows){
-	console.log('rows',JSON.stringify(rows))
+	
 	changeGridFlag = true;
 	//实收金额 总汇
 	var _temActMount = actMount;
@@ -409,7 +409,7 @@ function changeGrid(actMount,rows){
 			
 		}
 	})
-	console.log('rowsL',JSON.stringify(rows))
+	
 	
 	$("#"+gridName).datagrid("loadData",rows);
 }
@@ -546,7 +546,7 @@ function saveFranchiseSet(){
     }
     var url = $("#pageStatus").val() == 'add' ? contextPath+"/settle/franchiseSettle/settleSave" : contextPath+"/settle/franchiseSettle/settleUpdate";
     
-    console.log('test',JSON.stringify(reqObj));
+    
  //   return;
     $_jxc.ajax({
         url:url,
@@ -627,7 +627,7 @@ function initSettleFormDetail(){
     var paramsObj = {
     	franchiseId:branchId,
     }
-    console.log('paramsObj:',paramsObj);
+    
 	$("#"+gridName).datagrid("options").method = "post";
     $("#"+gridName).datagrid("options").queryParams = paramsObj;
 	$("#"+gridName).datagrid('options').url = contextPath + '/settle/franchiseSettle/getFormList';
@@ -659,7 +659,7 @@ function selectCost(searchKey){
 		key:searchKey,
 	};
 	publicCostService(param,function(data){
-		console.log('data',data);
+		
 	});
 
 }

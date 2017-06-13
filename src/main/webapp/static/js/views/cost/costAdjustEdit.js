@@ -448,7 +448,7 @@ function costcheck(type){
 				url : contextPath+"/cost/costAdjust/check",
 				data:{"id":dataId}
 			},function(result){
-				console.log(result);
+				
 				if(result['code'] == 0){
 					$_jxc.alert('操作成功！',function(){
 						 location.href = contextPath +"/cost/costAdjust/edit?id="+gFunGetQueryString("id");
@@ -470,7 +470,7 @@ function delCostForm(){
 				url:contextPath+"/cost/costAdjust/deleteCostForm",
 				data:{"id":dataId}
 			},function(result){
-				console.log(result);
+				
 				if(result['code'] == 0){
                     $_jxc.alert("删除成功");
 					back();

@@ -459,7 +459,7 @@ function changeActMountFrom(newV,oldV){
 var changeGridFlag = false; //批量设置实付金额表示
 //批量设置实付金额
 function changeGrid(actMount,rows){
-	console.log('rows',JSON.stringify(rows))
+	
 	changeGridFlag = true;
 	//实付金额 总汇
 	var _temActMount = actMount;
@@ -485,7 +485,7 @@ function changeGrid(actMount,rows){
 			
 		}
 	})
-	console.log('rowsL',JSON.stringify(rows))
+	
 	
 	$("#"+gridName).datagrid("loadData",rows);
 }
@@ -615,13 +615,13 @@ function saveSupAcoSet(){
     
     reqObj.detailList = _subRows;
     
-    console.log('reqObj',reqObj);
+    
 //    return;
     $_jxc.ajax({
     	url:contextPath + '/settle/supplierSettle/saveSettleForm',
     	data:{"data":JSON.stringify(reqObj)}
     },function(result){
-    	console.log('result',result)
+    	
     	if(result['code'] == 0){
 			$_jxc.alert("操作成功！",function(){
 				location.href = contextPath +"/settle/supplierSettle/settleEdit?id="+result['formId'];
@@ -725,7 +725,7 @@ function checkSettleAuditStutas(supplierId){
     	url:contextPath+"/settle/supplierSettle/querySettleStatusNum",
     	data: {branchId:branchId,branchCompleCode:branchCompleCode,isContainChildren:isContainChildren,supplierId:supplierId}
     },function(result){
-		console.log('未审核的结算单数：===',result);
+		
 		if(result.unChNum > 0){
 			$_jxc.alert('当前选择机构存在未审核的结算单，不能新增结算单!');
 			$('#openAccountBank').val('');
@@ -788,7 +788,7 @@ function initSettleFormDetail(){
 		operateType : operateType == 'add' ? 1 : 2,
     	supplierId:supplierId,
     }
-    console.log('paramsObj:',paramsObj);
+    
 	$("#"+gridName).datagrid("options").method = "post";
     $("#"+gridName).datagrid("options").queryParams = paramsObj;
 	$("#"+gridName).datagrid('options').url = contextPath + '/settle/supplierSettle/settleFormDetailList';

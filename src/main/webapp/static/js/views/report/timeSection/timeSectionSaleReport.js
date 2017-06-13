@@ -54,7 +54,7 @@ function queryForm(){
 	$("#startCount").attr("value",null);
 	$("#endCount").attr("value",null);
 	var fromObjStr = $('#queryForm').serializeObject();
-	console.log(fromObjStr);
+	
 	$("#sectionSellReport").datagrid("options").method = "post";
 	$("#sectionSellReport").datagrid('options').url = contextPath + '/report/sectionSell/getTimeSectionSellReportList';
 	$("#sectionSellReport").datagrid('load', fromObjStr);
@@ -222,7 +222,7 @@ function exportExcel(){
 		return;
 	}
 	var fromObjStr = $('#queryForm').serializeObject();
-	console.log(fromObjStr);
+	
 	$("#queryForm").form({
 		success : function(data){
 			if(data==null){
@@ -246,7 +246,7 @@ function printReport(){
 		return;
 	}
 	var fromObjStr = $('#queryForm').serializeObject();
-	console.log(fromObjStr);
+	
 	var param=setParams("queryForm");
 	console.log(param);
 	parent.addTabPrint("库存周转率","打印",contextPath+"/report/rotation/printRotaRateReport?" + param);

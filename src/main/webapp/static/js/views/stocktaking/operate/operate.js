@@ -588,7 +588,7 @@ function exportData(){
 		return;
 	}
 	var fromObjStr = $('#operateForm').serializeObject();
-	console.log(fromObjStr);
+	
 	$("#operateForm").form({
 		success : function(data){
 			$_jxc.alert(data.message);

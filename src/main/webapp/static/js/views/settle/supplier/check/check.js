@@ -375,8 +375,6 @@ function saveSupChkForm(){
     
     reqObj.detailList = _subRows;
     
-//    console.log('reqObj',reqObj);
-//    return;
     $_jxc.ajax({
     	url:contextPath + '/settle/supplierCheck/saveCheckForm',
     	data:{"data":JSON.stringify(reqObj)}
@@ -483,7 +481,7 @@ function checkCheckAuditStutas(supplierId){
     	url:contextPath+"/settle/supplierCheck/queryCheckStatusNum",
     	data: {branchId:branchId,branchCompleCode:branchCompleCode,isContainChildren:isContainChildren,supplierId:supplierId}
     },function(result){
-		console.log('未审核的对账单数：===',result);
+		
 		if(result.unChNum > 0){
 			$_jxc.alert('当前选择机构存在未审核的对账单，不能新增对账单!');
 			$('#openAccountBank').val('');

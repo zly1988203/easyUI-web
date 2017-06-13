@@ -104,11 +104,6 @@ function initOperateDataGrid(url){
 			},
             {field:'stocktakingNum',title:'盘点数量',width:'100px',align:'right',
                 formatter:function(value,row,index){
-//                    if(row.isFooter){
-//                    	console.log('row.isFooter stocktakingNum',parseFloat(value||0).toFixed(4) )
-//                    	$('#sumStocktakingNum').val(parseFloat(value||0).toFixed(4));
-//                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-//                    }
                     if(!value){
                         row["stocktakingNum"] = parseFloat(value||0).toFixed(2);
                     }
@@ -534,7 +529,7 @@ function exportData(){
 		return;
 	}
 	var fromObjStr = $('#diffForm').serializeObject();
-	console.log(fromObjStr);
+	
 	$("#diffForm").form({
 		success : function(data){
 			$_jxc.alert(data.message);

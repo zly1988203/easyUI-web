@@ -61,7 +61,7 @@ function toSaveAddData(){
     		"posNo":posNo
     	}
     },function(result){
-		console.log(result);
+		
 		if(result['code'] == 0){
 			$_jxc.alert("保存成功！");
 			$(dolg).panel('destroy');

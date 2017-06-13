@@ -387,7 +387,7 @@ function selectGoods(searchKey){
         };
 
         var newRows = gFunUpdateKey(rows,keyNames);
-        console.log(newRows);
+        
         $("#gridAddRequireOrder").datagrid("loadData",newRows);
         
         gridHandel.setLoadFocus();
@@ -481,7 +481,7 @@ function saveItemHandel(){
     if(!isCheckResult){
         return;
     }
-    console.log(rows);
+    
     var saveData = JSON.stringify(rows);
     
     var detailList = tableArrayFormatter(rows,"detailList");
@@ -501,7 +501,7 @@ function saveItemHandel(){
         type:"POST",
         data:reqObj
     },function(result){
-        console.log(result);
+        
         if(result['code'] == 0){
             $_jxc.alert("操作成功！",function(){
                 location.href = contextPath +"/form/purchase/orderEdit?formId=" + result["formId"];

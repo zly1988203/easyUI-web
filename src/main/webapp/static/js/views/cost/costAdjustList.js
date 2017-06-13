@@ -111,7 +111,7 @@ function queryForm(){
 	$("#costFromList").datagrid("options").method = "post";
 	$("#costFromList").datagrid('options').url = contextPath + '/cost/costAdjust/queryList';
 	$("#costFromList").datagrid('load', fromObjStr);
-	//console.log(fromObjStr);
+	//
 }
 
 //删除
@@ -129,7 +129,7 @@ function delStockForm(){
 		    		formId : row.deliverFormId
 		    	}
 		    },function(result){
-	    		console.log(result);
+	    		
 	    		if(result['code'] == 0){
                     $_jxc.alert("删除成功");
 	    			dg.datagrid('reload');

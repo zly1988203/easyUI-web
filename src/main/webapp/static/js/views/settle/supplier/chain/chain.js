@@ -76,7 +76,7 @@ $(function(){
 			},
 			//选择完成之后
 			onAfterRender:function(data){
-			    console.log('data',data);
+			    
 				$('#supplierContcat').val(data.contcat||'');//联系人
 		    	$('#linkTel').val((data.mobile?data.mobile:'')+(data.mobile&&data.phone ? '/':'')+(data.phone?data.phone:''));//联系人
 		    	$("#supplierPhone").val(data.phone);
@@ -178,7 +178,7 @@ function initSupChainAdd(){
             },
             {field:'outputTax',title:'销项税率(%)',width:'100px',align:'right',
             	formatter:function(value,row,index){
-            		console.log('销项税率',value)
+            		
             		if(row.isFooter)return '';
             		if(!value)row.outputTax = 0;
             		return '<b>'+(parseFloat(value||0)).toFixed(2)+'</b>'
@@ -267,7 +267,6 @@ function actualAmount(){
 	
 	_temAct = _sumSale - (_divideAmount < _minSumSale ? _minSumSale :_divideAmount) - _supSumSale - _supOtherSumSale;
 	
-	console.log('_temAct',_temAct)
 	return parseFloat(_temAct||0).toFixed(2);
 }
 
@@ -391,7 +390,7 @@ function saveChainForm(){
     reqObj.operateType = operateType == "add" ? 1 : 0;
     reqObj.detailList = _rows;
     
-    console.log('reqObj',reqObj);
+    
     $_jxc.ajax({
     	url:contextPath + '/settle/supplierChain/saveChainForm',
     	data:{"data":JSON.stringify(reqObj)}

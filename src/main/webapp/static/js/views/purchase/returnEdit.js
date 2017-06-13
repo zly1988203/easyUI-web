@@ -865,7 +865,7 @@ function checkOrder(){
 	    		status:1
 	    	}
 	    },function(result){
-    		console.log(result);
+    		
     		if(result['code'] == 0){
     			$_jxc.alert("操作成功！",function(){
     				location.href = contextPath +"/form/purchase/returnEdit?formId=" + id;
@@ -886,7 +886,7 @@ function stop(){
 		    		formId:id
 		    	}
 		    },function(result){
-	    		console.log(result);
+	    		
 	    		if(result['code'] == 0){
 	    			$_jxc.alert("操作成功！",function(){
 	    				location.href = contextPath +"/form/purchase/returnEdit?formId=" + id;
@@ -909,7 +909,7 @@ function orderDelete(){
 		    		formIds:id
 		    	}
 		    },function(result){
-	    		console.log(result);
+	    		
 	    		if(result['code'] == 0){
 	    			$_jxc.alert("操作成功！",function(){
 	    				back();

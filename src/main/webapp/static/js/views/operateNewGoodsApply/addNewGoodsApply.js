@@ -226,7 +226,7 @@ function getSkuCode(pricingType,categoryCode){
 //			getBarCodeVal(pricingType, result);
 //		},
 //		error:function(result){
-//			console.log(result);
+//			
 //		}
 //	});
 }
@@ -262,7 +262,7 @@ function getBarCode(pricingType,skuCode){
 //			//$("#barCode").val(result).attr("readonly","readonly");  //条码
 //		},
 //		error:function(result){
-//			console.log(result);
+//			
 //		}
 //	});
 }

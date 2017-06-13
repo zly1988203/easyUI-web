@@ -77,7 +77,7 @@ function shiftChange(id){
 		    		id: id
 		    	}
 		    },function(result){
-	    		console.log(result);
+	    		
 	    		if(result['code'] == 0){
 	    			$_jxc.alert("交班成功");
 	    			dg.datagrid('reload');

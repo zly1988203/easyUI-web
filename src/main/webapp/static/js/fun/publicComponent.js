@@ -876,7 +876,7 @@ function publicCostService(param,callback){
 			url:contextPath+'/common/chargeSelect/getChargeComponentList',
 			data:param
 		},function(data){
-			console.log('data',data)
+			
 			if(data&&data.rows&&data.rows.length==1){
 				callback(data.rows);
 			}else{
@@ -2362,7 +2362,6 @@ $.fn.branchSelect = function(param){
 			
 			_default.getComponentDetail(nameOrCode);
 			
-			console.log('进入 onkeyup',ev);
 		},
 		/**
 		 * 设置dom元素值
@@ -2441,8 +2440,6 @@ $.fn.branchSelect = function(param){
 	}
 	
 	_default = $.extend(_default,param);
-	
-	console.log('param',_default);
 	
 	_default.initDomEvent();
 	
@@ -2775,8 +2772,6 @@ $.fn.supplierSelect = function(param){
 	}
 	
 	_default = $.extend(_default,param);
-	
-	console.log('param',_default);
 	
 	_default.initDomEvent();
 	
@@ -3125,8 +3120,6 @@ $.fn.operatorSelect = function(param){
 	}
 	
 	_default = $.extend(_default,param);
-	
-	console.log('param',_default);
 	
 	_default.initDomEvent();
 	
