@@ -35,10 +35,10 @@
 				
 				<input class="Wdate uw-300 uinp-no-more"
 					name="txtStartDate" id="txtStartDate"
-					onclick="WdatePicker({dateFmt:'yyyy-MM',maxDate:'%y-%M'})" />
+					onclick="WdatePicker({dateFmt:'yyyy-MM',maxDate:'%y-{%M-1}'})" />
 				<input class="Wdate uw-300 uinp-no-more"
 					name="txtEndDate" id="txtEndDate"
-					onclick="WdatePicker({dateFmt:'yyyy-MM',maxDate:'%y-%M'})" />
+					onclick="WdatePicker({dateFmt:'yyyy-MM',maxDate:'%y-{%M-1}'})" />
 			</div>
 
 			<div class="ub umar-t8">

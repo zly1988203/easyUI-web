@@ -19,7 +19,7 @@ function changeStatus(){
             costTitle = '开店成本(不含折旧)';
         }
         initGridDayAnalysis();
-        queryDayAnalysis();
+        //queryDayAnalysis();
     });
 }
 
