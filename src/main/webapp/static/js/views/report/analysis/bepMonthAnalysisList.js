@@ -6,7 +6,7 @@ var costTitle = '开店成本(月均摊)';
 $(function () {
     initGridMonthAnalysis();
     $("#txtStartDate").val(dateUtil.getPreMonthDate().format("yyyy-MM"));
-    $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM"));
+    $("#txtEndDate").val(dateUtil.getPreMonthDate().format("yyyy-MM"));
     changeStatus();
 })
 
@@ -19,7 +19,7 @@ function changeStatus(){
             costTitle = '开店成本(均摊不含折旧)';
         }
         initGridMonthAnalysis();
-        queryMonthAnalysis();
+        //queryMonthAnalysis();
     });
 }
 
@@ -53,6 +53,9 @@ function initGridMonthAnalysis() {
             },
             {field:'costAvgYear',title:'费用均摊年数',width:"100px",align:'right',
                 formatter : function(value, row, index) {
+                	if(!value){
+                		return "";
+                	}
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                     }
@@ -67,7 +70,7 @@ function initGridMonthAnalysis() {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
             },
-            {field:'monthChargeAmount',title:'每月固定开支',width:"100px",align:'right',
+            {field:'monthChargeAmount',title:'月经营成本',width:"100px",align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -75,7 +78,7 @@ function initGridMonthAnalysis() {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
             },
-            {field:'totalAmount',title:'上月销售额',width:"100px",align:'right',
+            {field:'totalAmount',title:'销售额',width:"100px",align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -83,7 +86,7 @@ function initGridMonthAnalysis() {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
             },
-            {field:'grossProfitRateStr',title:'上月毛利率',width:"80px",align:'right',
+            {field:'grossProfitRateStr',title:'毛利率(%)',width:"80px",align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -107,6 +110,7 @@ function initGridMonthAnalysis() {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
             },
+            {field:'standard',title:'是否达标',width:"80px",align:'left'}
         ]],
         onLoadSuccess : function() {
             gridHandel.setDatagridHeader("center");
