@@ -706,6 +706,9 @@ function queryGoodsList() {
 }
 
 function selectSupplier(){
+	var param = {
+			saleWayNot:"purchase"
+	}
 	new publicSupplierService(function(data){
         var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
         if( $("#supplierId").val() != "" && data.id != $("#supplierId").val() && nowRows.length > 0){
@@ -729,7 +732,7 @@ function selectSupplier(){
                 queryGoodsList();
             }
         }
-	});
+	},param);
 }
 function selectOperator(){
 	new publicOperatorService(function(data){
