@@ -33,19 +33,33 @@
 	            <%@ include file="/WEB-INF/views/component/dateSelect.jsp"%>
             </div>
 
-	        <div class="ub uline umar-t8"></div>
-	        <div class="ub umar-t8">
-                <div class="ub ub-ac uw-300 ">
+	            <div class="ub uline umar-t8"></div>
+	            <div class="ub umar-t8">
+                    <div class="ub ub-ac uw-300 ">
 	                    <div class="umar-r10 uw-70 ut-r">机构名称:</div>
 	                    <input type="hidden" id="branchId" name="branchId" />
 	                    <input class="uinp ub ub-f1" type="text" id="branchName" name="branchName"/>
 	                    <div class="uinp-more" onclick="selectBranches()" >...</div>
 	                </div>
-	                 <div class="ub ub-ac  umar-l20">
-                    <div class="umar-r10 uw-120 ut-r">销售小于或等于</div>
-                    <input class="uinp ub uw-20" type="text" name="saleNum" id="saleNum" value="0">
-                    <div class="umar-r10 uw-120 ut-r">件的商品视为滞销</div>
-                </div> 
+                    <div class="ub ub-ac  umar-l20">
+                        <div class="umar-r10 uw-120 ut-r">销售小于或等于</div>
+                        <input class="uinp ub uw-20" type="text" name="saleNum" id="saleNum" value="0">
+                        <div class="umar-r10 uw-120 ut-r">件的商品视为滞销</div>
+                    </div>
+                    <div class="ub ub-ac  umar-l20">
+                        <div class="umar-r10 uw-120 ut-r">库存</div>
+                            <select style="height: 32px;" name="sotckFilter" id="sotckFilter">
+                            <option value="0">></option>
+                            <option value="1"><</option>
+                            <option value="2">=</option>
+                            <option value="3">>=</option>
+                            <option value="4"><=</option>
+                        </select>&nbsp;
+                        <input class="uinp uw-40 easyui-numberbox"
+                    onkeyup="this.value = this.value.replace(/^([+]?[0-9])|([-]?[0-9])+\d*$/i,'');"
+                    onafterpaste="this.value = this.value.replace(/^([+]?[0-9])|([-]?[0-9])+\d*$/i,'');"
+                    type="text" name="sotckNum" id="sotckNum" value="0">
+                    </div>
                 </div> 
                 <div class="ub umar-t8">
 	              <div class="ub ub-ac uw-300">

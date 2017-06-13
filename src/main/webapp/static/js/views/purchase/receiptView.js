@@ -164,3 +164,7 @@ function back(){
 	location.href = contextPath+"/form/purchase/receiptList";
 }
 
+function exportDetail(param){
+	var formId = $("#formId").val();
+	window.location.href = contextPath + '/form/purchase/exportSheet?page=PAForm&sheetNo='+formId;
+}

@@ -69,6 +69,17 @@
 					</div>
 				</div>
 				<div class="ub ub-ac upad-16 ">
+					<div class="ub uw-220 ut-r ">加盟店可要仓库所有对外供应商品:</div>
+					<div class="ub ub-ac umar-r10">
+						<input class="ub" type="radio" id="storeSelectGoodsSpec0" name="storeSelectGoodsSpec" value="0" />
+						<label for="storeSelectGoodsSpec0">不启用</label>
+					</div>
+					<div class="ub ub-ac umar-r10">
+						<input class="ub" type="radio" id="storeSelectGoodsSpec1" name="storeSelectGoodsSpec" value="1" />
+						<label for="storeSelectGoodsSpec1">启用</label>
+					</div>
+				</div>
+				<div class="ub ub-ac upad-16 ">
 					<div class="ub uw-220 ut-r">直送要货单价格取值:</div>
 					<div class="ub ub-ac umar-r10">
 						<input class="ub" type="radio" id="dyPriceSpec0" name="dyPriceSpec" value="0" />
@@ -194,8 +205,10 @@
 		var minAmount = data.minAmount || 0;
 		var validityDay= data.validityDay;
 		var dosheetTemplate= data.dosheetTemplate;
-	debugger;
 		var storesPriceSpec= data.storesPriceSpec;
+
+		var storeSelectGoodsSpec= data.storeSelectGoodsSpec;
+
 		//页面赋值
 		$("#branchId").val(branchId);
 		$("#validityDay").numberbox("setValue",validityDay);
@@ -223,6 +236,14 @@
 		} else {
 			$("#selectGoodsSpec1").attr("checked", "true");
 		}
+
+
+		if (storeSelectGoodsSpec === null || storeSelectGoodsSpec === '0' || storeSelectGoodsSpec === '') {
+			$("#storeSelectGoodsSpec0").attr("checked", "true");
+		} else {
+			$("#storeSelectGoodsSpec1").attr("checked", "true");
+		}
+
 		if (isMinAmount === null || isMinAmount === 1 || isMinAmount === '') {
 			$("#isMinAmount1").attr("checked", "true");
 		}else if(isMinAmount == '2'){

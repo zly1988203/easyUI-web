@@ -360,6 +360,68 @@ function selectBranch() {
 	}, 0);
 }
 
+/**
+ * 多机构引入选择机构
+ */
+function selectBranches() {
+	new publicBranchService(function(data) {
+		var branchesId="";
+		$.each(data,function(i,k){
+			branchesId=k.branchesId+","+branchesId;
+		})
+		branchesId = branchesId.substring(0,branchesId.length - 1);
+		$.messager.confirm('提示', '是否引入所选机构未引入的商品', function(data) {
+			if (data) {
+				branchesLeadInto(branchesId);
+			}
+		});
+	},1);
+}
+
+function branchesLeadInto(branchesId){
+	var skuIds = getSkuIds();
+	if (skuIds == ''){
+		messager("未选择商品");
+		return;
+	}
+	$.ajax({
+		url : contextPath + "/branch/goods/branchesLeadInto",
+		type : "POST",
+		data : {
+			'branchesId' : branchesId,
+			'skuIds' : skuIds
+		},
+		success : function(result) {
+			if (result['code'] == 0) {
+				messager(result.data);
+			} else {
+				messager(result['message']);
+			}
+			var dg = $("#gridOrders");
+			dg.datagrid('reload');
+		},
+		error : function(result) {
+			messager("请求发送失败或服务器处理失败");
+		}
+	});
+}
+
+function getSkuIds(){
+	var dg = $("#gridOrders");
+	var rows = dg.datagrid("getSelections");
+	if (!rows || rows.length == 0) {
+		return '';
+	}
+	var skuIds = '';
+	var branchId = $("#branchId").val();
+
+	for ( var i in rows) {
+		var row = rows[i];
+		skuIds += row.skuId + ',';
+	}
+	return skuIds;
+}
+
 function enable() {
 	var dg = $("#gridOrders");
 	var rows = dg.datagrid("getSelections");
