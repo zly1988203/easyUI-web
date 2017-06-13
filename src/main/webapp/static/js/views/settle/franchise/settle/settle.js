@@ -46,6 +46,26 @@ $(function(){
 	});
 	
 	initSupChkAcoAdd();
+	
+	if(pageStatus === 'add'){
+		//机构选择初始化
+		$('#branchComponent').branchSelect({
+			//ajax请求参数
+			ajaxParam:{
+				branchTypesStr:$_jxc.branchTypeEnum.FRANCHISE_STORE_B + ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_C
+			},
+			//选择完成之后
+			onAfterRender:function(data){
+				checkSettleAuditStutas(data.branchesId,data.branchCode,data.branchName);
+			},
+			//选择之前
+			onShowBefore:function(){
+				clickFlag = true;
+				return true;
+			},
+		});
+	}
+	
 })
 
 //支付方式 默认勾选第一个
@@ -614,16 +634,6 @@ function initSettleFormDetail(){
 	$("#"+gridName).datagrid('load');
 }
 
-//机构
-function selectBranches(){
-	clickFlag = true;
-	var param = {
-		branchTypesStr:$_jxc.branchTypeEnum.FRANCHISE_STORE_B + ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_C
-	}
-	new publicBranchesService(param,function(data){
-		checkSettleAuditStutas(data.branchesId,data.branchCode,data.branchName);
-	})
-}
 
 //校验是否存在未审核的结算单
 function checkSettleAuditStutas(branchId,branchCode,branchName){	

@@ -35,17 +35,17 @@
 	            </div>
 			</div>
 	            <div class="ub umar-t8">
-	                <div class="ub ub-ac">
+	                <div class="ub ub-ac" id="branchComponent">
 	                    <div class="umar-r10 uw-70 ut-r">机构:</div>
 	                    <input type="hidden" id="franchiseBranchId" name="franchiseBranchId" />
-	                    <input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" onblur="brandAutoComple(this)"/>
-	                    <div class="uinp-more" onclick="selectBranches()" >...</div>
+	                    <input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" />
+	                    <div class="uinp-more">...</div>
 	                </div>
-	                <div class="ub ub-ac umar-l64">
+	                <div class="ub ub-ac umar-l64" id="operatorComponent">
 	                    <div class="umar-r10 uw-70 ut-r">制单人:</div>
 	                    <input type="hidden" id="createUserId" name="createUserId" />
-	                    <input class="uinp ub ub-f1" type="text" id="createUserName" name="createUserName" onblur="$_jxc.clearIdOnEdit(this)"/>
-	                    <div class="uinp-more" onclick="selectOperator()">...</div>
+	                    <input class="uinp ub ub-f1" type="text" id="createUserName" name="createUserName" />
+	                    <div class="uinp-more">...</div>
 	                </div>
 	            </div>
 	            <div class="ub umar-t8">
