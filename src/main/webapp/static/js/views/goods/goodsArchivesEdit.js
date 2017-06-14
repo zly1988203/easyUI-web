@@ -52,8 +52,8 @@ function hidePageElement() {
         $("#formGoodsArchivesAdd #distributionPrice").parent().addClass("uhide");
     }
     if(hasCostPrice==false){
-        $("#formGoodsArchivesAdd #grossProfit").parent().addClass("uvisibility");
-        $("#formGoodsArchivesAdd #grossProfitPercent").parent().addClass("uvisibility");
+        $("#formGoodsArchivesAdd #grossProfit").parent().addClass("uhide");
+        $("#formGoodsArchivesAdd #grossProfitPercent").parent().addClass("uhide");
     }
 }
 
