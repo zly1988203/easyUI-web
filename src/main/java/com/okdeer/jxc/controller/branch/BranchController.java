@@ -81,7 +81,7 @@ public class BranchController extends BaseController<BranchController> {
 			return RespJson.error("机构id为空");
 		}
 
-		LOG.debug("机构Id：", branchId);
+		LOG.debug("机构Id：{}", branchId);
 		try {
 			BranchPo branch = branchesService.getBranchPoById(branchId);
 

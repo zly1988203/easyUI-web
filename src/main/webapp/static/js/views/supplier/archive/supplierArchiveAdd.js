@@ -25,7 +25,6 @@ function onChangeSaleWay() {
 }
 
 function saveSupplier() {
-	debugger;
 	var isValid = $("#formAdd").form('validate');
 	if (!isValid) {
 		return;

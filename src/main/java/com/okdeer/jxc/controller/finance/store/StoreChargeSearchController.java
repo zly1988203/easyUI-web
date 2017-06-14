@@ -74,11 +74,11 @@ public class StoreChargeSearchController extends ReportController {
 
 			String timeStr = StringUtils.replace(map.get("month").toString(), "-", "");
 
-			if ("total".equals(queryType)) { // 商品促销
+			if ("total".equals(queryType)) { // 汇总
 				reportFileName = "门店费用汇总查询" + timeStr;
 				templateName = ExportExcelConstant.STORE_CHARGE_TOTAL_EXPORT_TEMPLATE;
 
-			} else if ("detail".equals(queryType)) {// 类别促销
+			} else if ("detail".equals(queryType)) {// 明细
 				reportFileName = "门店费用明细查询" + timeStr;
 				templateName = ExportExcelConstant.STORE_CHARGE_DETAIL_EXPORT_TEMPLATE;
 
