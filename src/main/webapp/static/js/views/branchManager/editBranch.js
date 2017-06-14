@@ -545,6 +545,9 @@ function saveBranchCost() {
         $_jxc.alert('请添加费用');
         return;
     }
+    
+    var branchId = $("#branchId").val(); 
+    formData.branchId = branchId;
 
     var dataJson = JSON.stringify(formData);
 

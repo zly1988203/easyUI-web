@@ -18,6 +18,8 @@ function changeStatus(){
         }else{
             costTitle = '开店成本(不含折旧)';
         }
+        $("#"+gridName).datagrid('loadData', { total: 0, rows: [] }); 
+        $("#"+gridName).datagrid("options").url = "";
         initGridDayAnalysis();
         //queryDayAnalysis();
     });
@@ -53,10 +55,13 @@ function initGridDayAnalysis() {
             },
 			{field:'costAvgYear',title:'费用均摊年数',width:"100px",align:'right',
                 formatter : function(value, row, index) {
+                	if(!value){
+                		return "";
+                	}
                     if(row.isFooter){
-                        return '<b>'+parseFloat(value||2).toFixed(2)+'</b>';
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                     }
-                    return '<b>'+parseFloat(value||2).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
             },
 			{field:'dayFixedAvgAmount',title:costTitle,width:"150px",align:'right',
