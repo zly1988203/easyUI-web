@@ -20,7 +20,7 @@ $(function(){
 	//供应商选择初始化
 	$('#supplierComponent').supplierSelect({
 		//ajax参数
-		ajaxParam:{
+		param:{
 			branchId:$("#branchId").val()||''
 		},
 		//数据过滤

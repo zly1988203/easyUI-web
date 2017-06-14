@@ -26,7 +26,7 @@ $(function(){
   //机构选择初始化
 	$('#branchComponent').branchSelect({
 		//ajax参数
-		ajaxParam:{
+		param:{
 			scope:1
 		},
 		//数据过滤

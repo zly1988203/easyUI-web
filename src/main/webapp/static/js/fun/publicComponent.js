@@ -2207,7 +2207,9 @@ function publicErrorDialog(param){
 			return "["+data.branchCode+"]"+data.branchName;
 		},
 		//ajax扩展参数
-		ajaxParam:{
+		param:{
+			type:'NOTREE',//没有树  默认左侧有树
+			selectType:1,//选择模式默认单选    1-->多选
 			branchTypesStr:$_jxc.branchTypeEnum.HEAD_QUARTERS+','+$_jxc.branchTypeEnum.BRANCH_COMPANY
 		},
 		//依赖条件 relyOnId 为空
@@ -2281,6 +2283,7 @@ $.fn.branchSelect = function(param){
 		 * 格式化数据 显示数据
 		 */
 		onLoadSuccess:function(data){
+			
 			//返回NO时 输入动作没匹配到数据 
 			if(data == 'NO'){
 				//匹配到多数据 弹窗但未选择的情况下 设置清空
@@ -2377,14 +2380,19 @@ $.fn.branchSelect = function(param){
 			})
 			
 			function setValue(inputName,type){
+				//多选时 返回数组
 				if(data.constructor == Array){
 					var _str = [];
 					data.forEach(function(obj,index){
 						if(type == 'text'){
 							_str.push(_default.textFomatter(obj));
+						}else{
+							_str.push(obj[inputName])
 						}
 					});
+					return _str.join(',');
 				}else{
+					//单选返回对象
 					if(type == 'text'){
 						$(_this).data('oldData',_default.textFomatter(data));
 						return  _default.textFomatter(data);
@@ -2431,7 +2439,7 @@ $.fn.branchSelect = function(param){
 		 * 获取组件信息
 		 */
 		getComponentDetail:function(nameOrCode){
-			var param = $.extend({},_default.ajaxParam);
+			var param = $.extend({},_default.param);
 			if(nameOrCode){
 				param.nameOrCode = nameOrCode;
 			}
@@ -2459,26 +2467,36 @@ $.fn.branchSelect = function(param){
 function publicBranchesService(param,callback){
 	//默认参数
 	var _defParam = {
-		isRadio:0,     // 0 单选 1多选
- 	}
+		type:null,    //没有树  默认左侧有树   'NOTREE' -->左侧没有树
+		selectType:null //数据选择模式类型  null/''/0-->单选(默认)   1多选
+ 	} 
 	
 	param =  $.extend(_defParam,param);
 	
 	if(param.nameOrCode){
-		param.page = 1;
-		param.rows = 10;
-		var _nameOrCode = param.nameOrCode
+		
+		var _ajaxParam = $.extend({},param);
+		
+		_ajaxParam.page = 1;
+		_ajaxParam.rows = 10;
+		
+		var _nameOrCode = _ajaxParam.nameOrCode
 		//避免用户直接输入完整格式: [编号]名称
 		var reg = /\[\d{5}\]/;
 		if(reg.test(_nameOrCode)){
 			//取出[]里的编号，默认取已第一个[]里的值
 			reg = /\[(\d{5})\]/;
 			arr = reg.exec(_nameOrCode);
-			param.nameOrCode = arr[1];
+			_ajaxParam.nameOrCode = arr[1];
 		}
+		
+		//业务参数 不传后台
+		delete _ajaxParam.type;
+		delete _ajaxParam.selectType;
+		
 		$_jxc.ajax({
 			url:contextPath+'/common/branches/getComponentList',
-			data:param
+			data:_ajaxParam
 		},function(data){
 			if(data&&data.rows){
 				//精确匹配到只有一条数据时立即返回
@@ -2503,9 +2521,10 @@ function publicBranchesService(param,callback){
 }
 
 function publicBranchesServiceHandel(param,callback){
+	
 	//公有属性
-    var  dalogTemp = $('<div/>').dialog({
-    	href:contextPath + "/common/branches/viewComponent?formType="+ 
+	var dialogObj = {
+		href:contextPath + "/common/branches/viewComponent?formType="+ 
     		(param.formType||'') + "&branchId=" +(param.branchId||'')+ "&branchType="+(param.branchType||'') + "&isOpenStock="+(param.isOpenStock||'')+ "&scope="+(param.scope||''),
         width:680,
         height:$(window).height()*(2/3),
@@ -2521,8 +2540,26 @@ function publicBranchesServiceHandel(param,callback){
         onLoad:function(){
             initAgencyView(param);
             initAgencyCallBack(callBackHandel)
-        },
-    });
+        }
+	}
+	
+	//多选
+	if(param.selectType == 1){
+		dialogObj["buttons"] = [{
+            text:'确定',
+            handler:function(){
+            	publicBranchGetChecks(callBackHandel);
+            }
+        },{
+            text:'取消',
+            handler:function(){
+                $(dalogTemp).panel('destroy');
+            }
+        }];
+	}
+	
+	
+    var  dalogTemp = $('<div/>').dialog(dialogObj);
     function callBackHandel(data){
         callback(data);
         $(dalogTemp).panel('destroy');
@@ -2541,7 +2578,7 @@ function publicBranchesServiceHandel(param,callback){
 			return "["+data.supplierCode+"]"+data.supplierName;
 		},
 		//ajax扩展参数
-		ajaxParam:{
+		param:{
 			
 		},
 		//依赖条件 relyOnId 为空
@@ -2714,8 +2751,11 @@ $.fn.supplierSelect = function(param){
 					data.forEach(function(obj,index){
 						if(type == 'text'){
 							_str.push(_default.textFomatter(obj));
+						}else{
+							_str.push(obj[inputName]);
 						}
 					});
+					return _str.join(',');
 				}else{
 					if(type == 'text'){
 						$(_this).data('oldData',_default.textFomatter(data));
@@ -2763,7 +2803,7 @@ $.fn.supplierSelect = function(param){
 		 * 获取组件信息
 		 */
 		getComponentDetail:function(nameOrCode){
-			var param = $.extend({},_default.ajaxParam);
+			var param = $.extend({},_default.param);
 			if(nameOrCode){
 				param.supplierNameOrsupplierCode = nameOrCode;
 			}
@@ -2875,11 +2915,15 @@ function publicSuppliersServiceHandel(param,callback){
 			return "["+data.userCode+"]"+data.userName;
 		},
 		//ajax扩展参数
-		ajaxParam:{
-			
+		param:{
+			selectType:1,//选择模式默认单选    1-->多选
 		},
 		loadFilter:function(data){
 			data.createUserId = data.id;
+			return data;
+			data.forEach(function(obj,inx){
+				obj.createUserId = obj.id;
+			});
 			return data;
 		}
 		//依赖条件 relyOnId 为空
@@ -3061,8 +3105,11 @@ $.fn.operatorSelect = function(param){
 					data.forEach(function(obj,index){
 						if(type == 'text'){
 							_str.push(_default.textFomatter(obj));
+						}else{
+							_str.push(obj[inputName]);
 						}
 					});
+					return _str.join(',');
 				}else{
 					if(type == 'text'){
 						$(_this).data('oldData',_default.textFomatter(data));
@@ -3110,7 +3157,7 @@ $.fn.operatorSelect = function(param){
 		 * 获取组件信息
 		 */
 		getComponentDetail:function(nameOrCode){
-			var param = $.extend({},_default.ajaxParam);
+			var param = $.extend({},_default.param);
 			if(nameOrCode){
 				param.nameOrCode = nameOrCode;
 			}
@@ -3138,7 +3185,7 @@ $.fn.operatorSelect = function(param){
 function publicOperatorsService(param,callback){
 	//默认参数
 	var _defParam = {
-		type:0,           //0 单选弹框底部没有【确认】【取消】按钮   1反之
+		selectType:0,           //0 单选弹框底部没有【确认】【取消】按钮   1反之
 		isOpenStock:null,
 		formType:null,
 		nameOrCode:null
@@ -3147,8 +3194,11 @@ function publicOperatorsService(param,callback){
 	param =  $.extend(_defParam,param);
 	
 	if(param.nameOrCode){
-		param.page = 1;
-		param.rows = 10;
+		
+		var _ajaxParam = $.extend({},param);
+		
+		_ajaxParam.page = 1;
+		_ajaxParam.rows = 10;
 		var _nameOrCode = param.nameOrCode
 		//避免用户直接输入完整格式: [xxxxx]名称
 		var reg = /\[\S*\]/;
@@ -3156,11 +3206,14 @@ function publicOperatorsService(param,callback){
 			//取出[]里的编号，默认取已第一个[]里的值
 			reg = /\[(\S*)\]/;
 			arr = reg.exec(_nameOrCode);
-			param.nameOrCode = arr[1];
+			_ajaxParam.nameOrCode = arr[1];
 		}
+		//业务参数 不传后台
+		delete _ajaxParam.selectType;
+		
 		$_jxc.ajax({
 			url:contextPath+'/system/user/getOperator',
-			data:param
+			data:_ajaxParam
 		},function(data){
 			if(data&&data.rows){
 				//精确匹配到只有一条数据时立即返回
@@ -3203,10 +3256,10 @@ function publicOperatorsServiceHandel(param,callback){
 
     dialogDiv["onLoad"] = function () {
     	initOperatorView(param);
-        initOperatorCallBack(callBackHandel)
+        initOperatorCallBack(callBackHandel);
     };
     
-    if(param.type==1){
+    if(param.selectType==1){
         dialogDiv["buttons"] = [{
             text:'确定',
             handler:function(){
