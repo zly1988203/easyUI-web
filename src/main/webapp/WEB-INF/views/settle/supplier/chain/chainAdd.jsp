@@ -152,6 +152,9 @@
                <div class="ub ub-ac umar-l40 uw-500 " style='width:630px;'>
                    <div class="umar-r10 uw-70 ut-r">备注:</div>
                    <input class="uinp ub ub-f1" type="text" id="remark" maxlength="20"  name="remark">
+               </div>
+               <div class="ub ub-ac uw-200 umar-l40" style="width:453px;">
+               		说明:实际应付款 = 销售金额-分成金额（如果分成金额 < 保底金额，取保底金额）-供应商承担税额-其他扣款
                </div>               
            </div>
            </form>

@@ -484,7 +484,7 @@ function eliminate() {
 					branchId : branchId
 				}
 			},function(result){
-				console.log(result);
+				
 				if (result['code'] == 0) {
 					$_jxc.alert("淘汰商品成功");
 				} else {

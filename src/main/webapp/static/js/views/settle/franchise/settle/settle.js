@@ -46,6 +46,26 @@ $(function(){
 	});
 	
 	initSupChkAcoAdd();
+	
+	if(pageStatus === 'add'){
+		//机构选择初始化
+		$('#branchComponent').branchSelect({
+			//ajax请求参数
+			ajaxParam:{
+				branchTypesStr:$_jxc.branchTypeEnum.FRANCHISE_STORE_B + ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_C
+			},
+			//选择完成之后
+			onAfterRender:function(data){
+				checkSettleAuditStutas(data.branchesId,data.branchCode,data.branchName);
+			},
+			//选择之前
+			onShowBefore:function(){
+				clickFlag = true;
+				return true;
+			},
+		});
+	}
+	
 })
 
 //支付方式 默认勾选第一个
@@ -195,7 +215,7 @@ function initSupChkAcoAdd(){
         	updateFooter();
         },
         onClickCell:function(rowIndex,field,value){
-        	console.log('value',value);
+        	
         	editRowFlag = true;
         	editRowNumbeboxFlag = true;
         	$(this).datagrid('checkRow',rowIndex);
@@ -363,7 +383,7 @@ function changeActMountFrom(newV,oldV){
 var changeGridFlag = false; //批量设置实收金额表示
 //批量设置实收金额
 function changeGrid(actMount,rows){
-	console.log('rows',JSON.stringify(rows))
+	
 	changeGridFlag = true;
 	//实收金额 总汇
 	var _temActMount = actMount;
@@ -389,7 +409,7 @@ function changeGrid(actMount,rows){
 			
 		}
 	})
-	console.log('rowsL',JSON.stringify(rows))
+	
 	
 	$("#"+gridName).datagrid("loadData",rows);
 }
@@ -526,7 +546,7 @@ function saveFranchiseSet(){
     }
     var url = $("#pageStatus").val() == 'add' ? contextPath+"/settle/franchiseSettle/settleSave" : contextPath+"/settle/franchiseSettle/settleUpdate";
     
-    console.log('test',JSON.stringify(reqObj));
+    
  //   return;
     $_jxc.ajax({
         url:url,
@@ -607,23 +627,13 @@ function initSettleFormDetail(){
     var paramsObj = {
     	franchiseId:branchId,
     }
-    console.log('paramsObj:',paramsObj);
+    
 	$("#"+gridName).datagrid("options").method = "post";
     $("#"+gridName).datagrid("options").queryParams = paramsObj;
 	$("#"+gridName).datagrid('options').url = contextPath + '/settle/franchiseSettle/getFormList';
 	$("#"+gridName).datagrid('load');
 }
 
-//机构
-function selectBranches(){
-	clickFlag = true;
-	var param = {
-		branchTypesStr:$_jxc.branchTypeEnum.FRANCHISE_STORE_B + ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_C
-	}
-	new publicBranchesService(param,function(data){
-		checkSettleAuditStutas(data.branchesId,data.branchCode,data.branchName);
-	})
-}
 
 //校验是否存在未审核的结算单
 function checkSettleAuditStutas(branchId,branchCode,branchName){	
@@ -649,7 +659,7 @@ function selectCost(searchKey){
 		key:searchKey,
 	};
 	publicCostService(param,function(data){
-		console.log('data',data);
+		
 	});
 
 }

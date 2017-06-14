@@ -361,7 +361,7 @@ function saveChageForm(){
     	detailList:_rows
     }
     
-    console.log('reqObj',reqObj);
+    
     $_jxc.ajax({
         url:contextPath+"/settle/supplierCharge/saveChargeForm",
         data:{"data":JSON.stringify(reqObj)}
@@ -472,7 +472,7 @@ function selectCharge(searchKey){
 		type:'101001'
 	};
 	publicCostService(param,function(data){
-		console.log('data',data);
+		
 		var nowRows = gridHandel.getRowsWhere({label:'1'});
 		var addDefaultData = gridHandel.addDefault(data,gridDefault);
 		var keyNames = {};

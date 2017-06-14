@@ -215,7 +215,7 @@ public class UserController extends BaseController<UserController> {
 			userVo.setCreateUserId(super.getCurrUserId());
 
 			// 价格权限赋值
-			userVo.setPriceGrant(buildPriceGrants(userVo.getPriceGrantStr()));
+			userVo.setPriceGrant(buildPriceGrants(userVo.getPriceGrantStr(), userVo.getBranchId()));
 
 			// 新增用户信息
 			respJson = sysUserService.addUser(userVo);
@@ -243,7 +243,7 @@ public class UserController extends BaseController<UserController> {
 			userVo.setUpdateUserId(super.getCurrUserId());
 
 			// 价格权限赋值
-			userVo.setPriceGrant(buildPriceGrants(userVo.getPriceGrantStr()));
+			userVo.setPriceGrant(buildPriceGrants(userVo.getPriceGrantStr(), userVo.getBranchId()));
 
 			// 修改用户信息
 			respJson = sysUserService.updateUser(userVo);
@@ -263,7 +263,7 @@ public class UserController extends BaseController<UserController> {
 	 * @author liwb
 	 * @date 2017年5月31日
 	 */
-	private String buildPriceGrants(String priceGrantStr) {
+	private String buildPriceGrants(String priceGrantStr, String branchId) {
 
 		// 默认加上零售价、会员价 权限
 		String priceGrant = PriceGrantEnum.SALE_PRICE.getValue() + "," + PriceGrantEnum.VIP_PRICE.getValue();
@@ -273,6 +273,24 @@ public class UserController extends BaseController<UserController> {
 
 			priceGrant = priceGrant + "," + priceGrantStr;
 		}
+
+		Branches branch = branchService.getBranchInfoById(branchId);
+		Integer branchType = branch.getType();
+
+		// 如果是加盟店，则固定无进货价权限
+		if (branchType > 3) {
+
+			String purchasePrice = PriceGrantEnum.PURCHASE_PRICE.getValue();
+
+			if (priceGrant.contains(purchasePrice + ",")) {
+				priceGrant = priceGrant.replaceAll(purchasePrice + ",", "");
+			}
+
+			if (priceGrant.endsWith(purchasePrice)) {
+				priceGrant = priceGrant.replaceAll(purchasePrice, "");
+			}
+		}
+
 		return priceGrant;
 	}
 

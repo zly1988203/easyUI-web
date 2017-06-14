@@ -334,7 +334,7 @@ function saveDataHandel(rows){
             remark:remark,
             stockFormDetailList:tempRows
         };
-    console.log('组合单',JSON.stringify(jsonData));
+    
     $_jxc.ajax({
         url:contextPath+"/stock/combineSplit/updateCombineSplit",
         data:{"data":JSON.stringify(jsonData)}

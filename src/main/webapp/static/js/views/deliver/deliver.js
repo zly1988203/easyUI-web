@@ -694,7 +694,7 @@ function suggestSelectGoods(){
     	url : contextPath+"/form/deliverFormList/getDeliverSuggestNumItemList",
     	data : jsonData
     },function(result){
-   		 console.log('建议商品',result);
+   		 
    		 if(result.length > 0){
    			 selectStockAndPrice(result,'suggestSelectGoods');
    		 }else{

@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.alibaba.dubbo.common.utils.StringUtils;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.okdeer.jxc.branch.service.BranchSpecServiceApi;
@@ -23,6 +22,7 @@ import com.okdeer.jxc.common.enums.OperateTypeEnum;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
+import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.settle.supplier.service.SupplierSettleService;
 import com.okdeer.jxc.settle.supplier.vo.SupplierSettleDetailVo;
 import com.okdeer.jxc.settle.supplier.vo.SupplierSettleVo;
@@ -311,8 +311,9 @@ public class SupplierSettleController extends BasePrintController<SupplierSettle
             replaceMap.put("_订单编号", vo.getFormNo());
             replaceMap.put("formNo", vo.getFormNo());
             replaceMap.put("supplierName", vo.getSupplierName());
-            replaceMap.put("phone", vo.getPhone());
-            replaceMap.put("mobile", vo.getMobile());
+            replaceMap.put("phoneMobile", vo.getPhone()
+                    + ((StringUtils.isNotBlank(vo.getPhone()) && StringUtils.isNotBlank(vo.getMobile())) ? "/" : "")
+                    + vo.getMobile());
             replaceMap.put("officeAddress", vo.getOfficeAddress());
             replaceMap.put("openAccountBank", vo.getOpenAccountBank());
             replaceMap.put("bankAccount", vo.getBankAccount());

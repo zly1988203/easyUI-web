@@ -383,7 +383,7 @@ function selectGoods(searchKey){
         };
 
         var newRows = gFunUpdateKey(rows,keyNames);
-        console.log(newRows);
+        
         $("#gridEditOutWareHosing").datagrid("loadData",newRows);
     });
 }
@@ -451,7 +451,7 @@ function saveItemHandel(){
         return;
     }
     var isCheckResult = true;
-    console.log(rows);
+    
     $.each(rows,function(i,v){
         if(!v["stockNo"]){
             $_jxc.alert("第"+(i+1)+"行，货号不能为空");
@@ -491,13 +491,13 @@ function saveItemHandel(){
         applyOrderId:applyOrderId,
     }, detailList);
     
-    console.log(reqObj);
+    
     return ;
     $_jxc.ajax({
         url:contextPath+"/form/purchase/saveOrder",
         data:reqObj
     },function(result){
-        console.log(result);
+        
         if(result['code'] == 0){
             $_jxc.alert("操作成功！",function(){
                 location.href = contextPath +"/form/purchase/orderEdit?formId=" + result["formId"];

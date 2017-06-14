@@ -46,14 +46,14 @@
                 <div class="ub ub-f1">
                     <input type="hidden" id="branchId" name="branchId" value="${chainVo.branchId}" />
                     <input type="hidden" id="branchCode" name="branchCode" value="${chainVo.branchCode}"/>
-                    <input class="uinp ub ub-f1" type="text" id="targetBranchName"  value="${chainVo.branchName}" readonly="readonly" />
+                    <input class="uinp ub ub-f1" type="text" id="targetBranchName"  value="[${chainVo.branchCode}]${chainVo.branchName}" readonly="readonly" />
                 </div>
             </div>
             <div class="ub ub-ac uw-320 umar-l20">
 				<div class="umar-r10 uw-100 ut-r">供应商:</div>
                 <div class="ub ub-f1">
                 	<input class="uinp" name="supplierId" id="supplierId" value="${chainVo.supplierId}" type="hidden">
-					<input class="uinp ub ub-f1" readonly="readonly" id="supplierName" value="${chainVo.supplierName}" type="text" >
+					<input class="uinp ub ub-f1" readonly="readonly" id="supplierName" value="[${chainVo.supplierCode}]${chainVo.supplierName}" type="text" >
                 </div>
             </div>
             <div class="ub ub-ac umar-l30">
@@ -74,7 +74,7 @@
                	   <div class="umar-r10 uw-100 ut-r">联系电话:</div>
                    <input type="hidden" id="supplierPhone" name="supplierPhone" value="${chainVo.supplierPhone}" >
                    <input type="hidden" id="supplierMobile" name="supplierMobile" value="${chainVo.supplierMobile}">
-                   <input class="uinp ub ub-f1 uinp-no-more " type="text" id="linkTel" readonly='readonly' value="${chainVo.supplierPhone}<c:if test="${(chainVo.supplierMobile!=null) && (chainVo.supplierPhone !=null)}">/</c:if>${chainVo.supplierMobile}"  name="linkTel">
+                   <input class="uinp ub ub-f1 uinp-no-more " type="text" id="linkTel" readonly='readonly' value="${chainVo.supplierMobile}<c:if test="${(!empty chainVo.supplierMobile) && (!empty chainVo.supplierPhone)}">/</c:if>${chainVo.supplierPhone}"  name="linkTel">
                </div>
                <div class="ub ub-ac umar-l20">
                    <div class="umar-r10 uw-80 ut-r">最后修改人:</div>

@@ -670,7 +670,7 @@ function checkOrder(){
              status:1
          }
      },function(result){
-         console.log(result);
+         
          if(result['code'] == 0){
              $_jxc.alert("操作成功！",function(){
                  location.href = contextPath +"/form/purchase/orderEdit?formId=" + id;
@@ -694,7 +694,7 @@ function orderDelete(){
 		    		formIds:id
 		    	}
 		    },function(result){
-	    		console.log(result);
+	    		
 	    		if(result['code'] == 0){
 	    			$_jxc.alert("操作成功");
 	    			toClose();

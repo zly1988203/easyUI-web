@@ -132,7 +132,7 @@ function queryForm(){
 	$("#startCount").attr("value",null);
 	$("#endCount").attr("value",null);
 	var fromObjStr = $('#queryForm').serializeObject();
-	console.log(fromObjStr);
+	
 	// 去除编码
     fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1)
 	$("#goodsSaleAmountReport").datagrid("options").method = "post";
@@ -181,7 +181,7 @@ function exportExcel(){
 		return;
 	}
 	var fromObjStr = $('#queryForm').serializeObject();
-	console.log(fromObjStr);
+	
 	$("#queryForm").form({
 		success : function(data){
 			if(data==null){

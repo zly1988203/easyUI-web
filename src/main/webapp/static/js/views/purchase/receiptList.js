@@ -259,13 +259,13 @@ function receiptDelete(){
 		    		formIds:formIds
 		    	}
 		    },function(result){
-	    		console.log(result);
+	    		
 	    		if(result['code'] == 0){
 	    			$_jxc.alert("删除成功");
 	    		}else{
 	    			$_jxc.alert(result['message']);
 	    		}
-	    		dg.datagrid('reload');
+	    		$("#"+tableIdName).datagrid('reload');
 		    });
 		}
 	});

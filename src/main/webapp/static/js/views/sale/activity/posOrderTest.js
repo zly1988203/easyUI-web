@@ -297,7 +297,7 @@ function saveDataHandel(rows){
         contentType:'application/json',
         data:req,
         success:function(result){
-        	console.log(result);
+        	
         	if(result.code == 0){
         		$("#textDialog").dialog('open');
         		
@@ -366,7 +366,7 @@ function saveDataHandel(rows){
            
         },
         error:function(result){
-        	console.log(result);
+        	
         }
     });
 
@@ -407,10 +407,10 @@ function pay(){
 		contentType:'application/json',
 		data:req,
 		success:function(result){
-			console.log(result);
+			
 		},
 		error:function(result){
-			console.log(result);
+			
 		}
 	});
 }

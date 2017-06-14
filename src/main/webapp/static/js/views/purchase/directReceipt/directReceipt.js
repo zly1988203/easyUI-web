@@ -612,7 +612,7 @@ function saveDataHandel(rows, url){
         data:req
     },function(result){
 //        gFunEndLoading();
-        console.log(result);
+        
         if(result['code'] == 0){
             $_jxc.alert("操作成功！",function(){
                 location.href = contextPath +"/directReceipt/edit?formId=" + result["formId"];

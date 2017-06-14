@@ -54,7 +54,7 @@ $(function(){
 		    	$("#supplierId").val('');
 		    	$("#supplierPhone").val('');
 		    	$("#supplierMobile").val('');
-		    	$("#supplierMinAmount").val('');
+		    	$("#supplierMinAmount").val('0.00');
 		        $("#supplierName").val('');
 		        
 		        gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
@@ -76,12 +76,18 @@ $(function(){
 			},
 			//选择完成之后
 			onAfterRender:function(data){
-			    console.log('data',data);
+			    
 				$('#supplierContcat').val(data.contcat||'');//联系人
 		    	$('#linkTel').val((data.mobile?data.mobile:'')+(data.mobile&&data.phone ? '/':'')+(data.phone?data.phone:''));//联系人
 		    	$("#supplierPhone").val(data.phone);
 		    	$("#supplierMobile").val(data.mobile);
 		    	$("#supplierMinAmount").val(parseFloat(data.minAmount||0).toFixed(2));
+		    	
+		    	gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
+		    	                         $.extend({},gridDefault),$.extend({},gridDefault)]);
+		    	
+		    	$('#actualAmount').val('0.00');
+        		$('#sumSupplierAmount').val('0.00');
 			},
 			//数据过滤
 			loadFilter:function(data){
@@ -161,7 +167,7 @@ function initSupChainAdd(){
             	formatter:function(value,row,index){
             		if(row.isFooter)return '';
             		if(!value)row.supplierRate = 0;
-            		return '<b>'+(parseFloat(value||0)*100).toFixed(2)+'</b>'
+            		return '<b>'+(parseFloat(value||0)).toFixed(2)+'</b>'
             	}
             },
             {field:'divideAmount',title:'分成金额',width:'100px',align:'right',
@@ -172,10 +178,10 @@ function initSupChainAdd(){
             },
             {field:'outputTax',title:'销项税率(%)',width:'100px',align:'right',
             	formatter:function(value,row,index){
-            		console.log('销项税率',value)
+            		
             		if(row.isFooter)return '';
             		if(!value)row.outputTax = 0;
-            		return '<b>'+(parseFloat(value||0)*100).toFixed(2)+'</b>'
+            		return '<b>'+(parseFloat(value||0)).toFixed(2)+'</b>'
             	}
             },
             {field:'taxAmount',title:'税额',width:'100px',align:'right',
@@ -186,10 +192,12 @@ function initSupChainAdd(){
             }
         ]],
         onLoadSuccess:function(data){
+        	var _caluateError = false;
         	if(clickFlag && data.rows.length <= 0){
         		clickFlag =  false;
+        		$(this).datagrid('reloadFooter',[]);
+        		_caluateError = true;
         		$_jxc.alert('该供应商在结算期间没有联营账款数据！请重新选择合适的供应商或结算期间！');
-        		return;
         	}
         	if(pageStatus==='edit'){
                 if(!oldData["grid"]){
@@ -205,6 +213,10 @@ function initSupChainAdd(){
             //计算实际应付金额
             if(pageStatus==='add'){
             	$('#actualAmount').val(actualAmount());
+            	if(_caluateError){
+            		$('#actualAmount').val('0.00');
+            		$('#sumSupplierAmount').val('0.00');
+            	}
             }
         },
     });
@@ -222,9 +234,15 @@ function changeForm(pageStatus){
 	$('#divideAmount').val(parseFloat(footRow[0].divideAmount||0).toFixed(2));
 	if(pageStatus == 'add'){
 		//销售金额
-		$('#sumSaleAmount').val(parseFloat(footRow[0].saleAmount||0).toFixed(2));
-		//供应商货款
-		$('#sumSupplierAmount').val(parseFloat(parseFloat(footRow[0].saleAmount||0)-parseFloat(footRow[0].divideAmount||0)).toFixed(2) );
+		var _saleAmount = parseFloat(footRow[0].saleAmount||0);
+		$('#sumSaleAmount').val(_saleAmount.toFixed(2));
+		//分成金额
+		var _divide = parseFloat(footRow[0].divideAmount||0);
+		//保底金额
+		var _supplierMinAmount = parseFloat($('#supplierMinAmount').val()||0);
+		//供应商货款: 销售金额 - 分成金额(分成金额 < 保底金额  取保底金额)
+		var _sumSupplierAmount = _saleAmount - (_divide < _supplierMinAmount ?  _supplierMinAmount : _divide );
+		$('#sumSupplierAmount').val(parseFloat(_sumSupplierAmount||0).toFixed(2) );
 		//汇总税额parseFloat(footRow[0].taxAmount||0).toFixed(2)
 		$('#sumTaxAmount').val(parseFloat(footRow[0].taxAmount||0).toFixed(2));
 		//供应商承担税额
@@ -249,7 +267,6 @@ function actualAmount(){
 	
 	_temAct = _sumSale - (_divideAmount < _minSumSale ? _minSumSale :_divideAmount) - _supSumSale - _supOtherSumSale;
 	
-	console.log('_temAct',_temAct)
 	return parseFloat(_temAct||0).toFixed(2);
 }
 
@@ -373,7 +390,7 @@ function saveChainForm(){
     reqObj.operateType = operateType == "add" ? 1 : 0;
     reqObj.detailList = _rows;
     
-    console.log('reqObj',reqObj);
+    
     $_jxc.ajax({
     	url:contextPath + '/settle/supplierChain/saveChainForm',
     	data:{"data":JSON.stringify(reqObj)}

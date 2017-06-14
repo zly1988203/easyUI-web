@@ -34,25 +34,25 @@
         <div class="ub uline umar-t8"></div>
         <form id="checkForm">
         <div class="ub umar-t8">
-            <div class="ub ub-ac uw-296 umar-l10">
+            <div class="ub ub-ac uw-296 umar-l10" id="branchComponent">
                 <div class="umar-r10 uw-70 ut-r">机构:</div>
                 <div class="ub ub-f1">
                     <input type="hidden" id="branchId" name="branchId"/>
                     <input type="hidden" id="branchCode" name="branchCode"/>
                     <input type="hidden" id="isContainChildren" name="isContainChildren"/>
                     <input type="hidden" id="branchCompleCode" name="branchCompleCode"/>
-                    <input class="uinp ub ub-f1" type="text" id="targetBranchName" readonly="readonly" onclick="selectBranches()" />
-                    <div class="uinp-more" onclick="selectBranches()">...</div>
+                    <input class="uinp ub ub-f1" type="text" id="targetBranchName" readonly="readonly"/>
+                    <div class="uinp-more">...</div>
                 </div>
                  <i class="ub ub-ac uc-red">*</i>
             </div>
             
-            <div class="ub ub-ac uw-296 umar-l20">
+            <div class="ub ub-ac uw-296 umar-l20" id="supplierComponent">
 				<div class="umar-r10 uw-70 ut-r">供应商:</div>
                 <div class="ub ub-f1">
                 	<input class="uinp" name="supplierId" id="supplierId"type="hidden">
-					<input class="uinp ub ub-f1 " readonly="readonly" id="supplierName" type="text"  onclick="selectSupplier()">
-					<div class="uinp-more" onclick="selectSupplier()">...</div>
+					<input class="uinp ub ub-f1 " readonly="readonly" id="supplierName" type="text">
+					<div class="uinp-more">...</div>
                 </div>
                 <i class="ub ub-ac uc-red">*</i>
             </div>

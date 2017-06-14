@@ -92,7 +92,7 @@ public class BepMonthAnalysisController extends BaseController<BepMonthAnalysisC
 		}
 		
 		qo.setStartTime(DateUtils.parseJfp(qo.getTxtStartDate()));
-		qo.setEndTime(DateUtils.parseJfp(qo.getTxtEndDate()));
+		qo.setEndTime(DateUtils.addMonths(DateUtils.parseJfp(qo.getTxtEndDate()), 1));
 	}
 	
 	@RequestMapping(value = "exportExcelList", method = RequestMethod.POST)

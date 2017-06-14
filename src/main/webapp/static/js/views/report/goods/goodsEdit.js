@@ -189,7 +189,7 @@ function checkSupplierRate(obj){
 function saveProp() {
 	$('#btnSave').attr("disabled","disabled");
 	var isValid = $("#formEdit").form('validate');
-	console.log('isValid',isValid);
+	
 	if (!isValid) {
 		$('#btnSave').removeAttr("disabled");
 		return;

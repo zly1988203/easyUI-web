@@ -164,7 +164,7 @@ function openStockDialog(value,index){
 	$("#detailBranchId").val(currentData.branchCode);
 	tempGridData.rows = [currentData];
 	tempGridData.list = [currentData];
-	console.log('tempGridData',tempGridData)
+	
 	gridHandelDetail.setLoadData(tempGridData);
 	$('#detailDailog').dialog('open');
 

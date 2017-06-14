@@ -13,6 +13,38 @@ $(function(){
 //    }
     //默认执行查询
     queryForm();
+    
+  //机构选择初始化
+	$('#branchComponent').branchSelect({
+		//ajax参数
+		ajaxParam:{
+			scope:1
+		},
+		//数据过滤
+		loadFilter:function(data){
+			data.isContainChildren = data.allBranch;
+			return data;
+		}
+	});
+	
+	//供应商选择初始化
+	$('#supplierComponent').supplierSelect({
+		//数据过滤
+		loadFilter:function(data){
+			data.supplierId = data.id;
+			return data;
+		}
+	});
+	
+	//供应商选择初始化
+	$('#operatorComponent').operatorSelect({
+		//数据过滤
+		loadFilter:function(data){
+			data.createUserId = data.id;
+			return data;
+		}
+	});
+	
 });
 
 $(document).on('input','#remark',function(){

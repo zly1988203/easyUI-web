@@ -38,6 +38,24 @@ $(function(){
 		}
 	}
 	initSupAdvMonAdd();
+	
+	if(pageStatus === 'add'){
+		//机构选择初始化
+		$('#branchComponent').branchSelect({
+			//ajax请求参数
+			ajaxParam:{
+				branchTypesStr:$_jxc.branchTypeEnum.FRANCHISE_STORE_B + ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_C
+			},
+			onAfterRender:function(){
+				gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
+				                        $.extend({},gridDefault),$.extend({},gridDefault)]);
+			},
+			loadFilter:function(data){
+				data.franchiseBranchId = data.branchesId;
+				return data;
+			}
+		});
+	}
 })
 
 $(document).on('input','#remark',function(){
@@ -405,36 +423,6 @@ function delFraChargeForm(){
 	});
 }
 
-//机构
-function selectBranches(){
-	var _rows = gridHandel.getRowsWhere({label:'1'});
-	if(_rows.length > 0){
-		$_jxc.confirm('单据信息未保存，是否先保存单据？',function(r){
-			if(!r){
-				var param = {
-					branchTypesStr:$_jxc.branchTypeEnum.FRANCHISE_STORE_B + ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_C
-				}
-				new publicBranchesService(param,function(data){
-					$("#branchId").val(data.branchesId);
-					$("#branchCode").val(data.branchCode);
-					$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
-			        gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
-					                        $.extend({},gridDefault),$.extend({},gridDefault)]);
-				})
-			}
-		})
-	}else{
-		var param = {
-			branchTypesStr:$_jxc.branchTypeEnum.FRANCHISE_STORE_B + ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_C
-		}
-		new publicBranchesService(param,function(data){
-			$("#branchId").val(data.branchesId);
-			$("#branchCode").val(data.branchCode);
-			$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
-		})
-	}
-}
-
 //选择费用
 function selectCharge(searchKey){
 	var branchId = $('#branchId').val();
@@ -446,7 +434,6 @@ function selectCharge(searchKey){
 		type:'101002'
 	};
 	publicCostService(param,function(data){
-		console.log('data',data);
 		var nowRows = gridHandel.getRowsWhere({label:'1'});
 		var addDefaultData = gridHandel.addDefault(data,gridDefault);
 		var keyNames = {};

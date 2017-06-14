@@ -84,7 +84,7 @@ function orderDelete(){
 		    		formId:row.id
 		    	}
 		    },function(result){
-	    		console.log(result);
+	    		
 	    		if(result['code'] == 0){
 	    			$_jxc.alert("删除成功");
 	    		}else{

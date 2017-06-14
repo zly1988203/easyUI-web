@@ -3,13 +3,25 @@ $(function(){
     $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 	initAcountList();
+	
+	//机构选择初始化
+	$('#branchComponent').branchSelect();
+	
+	//供应商选择初始化
+	$('#supplierComponent').supplierSelect({
+		//数据过滤
+		loadFilter:function(data){
+			data.supplierId = data.id;
+			return data;
+		}
+	});
 })
 
 var datagirdID = 'supAccountList';
 
 function getAccountColumns(){
 	var accountType = $('input[name="radioType"]:checked').val();
-	console.log('accountType',accountType)
+	
 	var defaultColumns = [{field: 'check',checkbox:true}];
 	defaultColumns =defaultColumns.concat([
   			{field: 'branchCode', title: '机构编号', width: '80px', align: 'left'},
@@ -253,47 +265,6 @@ function exportExcel(){
 	$("#queryForm").submit();
 }
 
-/**
- * 机构查询
- */
-function selectBranches(nameOrCode){
-	var param = {}
-	if(nameOrCode){
-		param.nameOrCode = nameOrCode;
-	}
-	new publicBranchesService(param,function(data){
-		//返回NO时 输入动作没匹配到数据 
-		if(data == 'NO'){
-			//未查询到数据或多条数据，设置无效ID
-			$_jxc.clearHideInpOnEdit($('#branchName'));
-			$("#branchName").val("");
-		}else{
-			$("#branchId").val(data.branchesId);
-			$("#branchName").val("["+data.branchCode+"]"+data.branchName);
-		}
-	})
-}
-
-/**
- * 机构自动补全
- */
-function brandAutoComple(obj){
-	var nameOrCode = $.trim($("#branchName").val())||'';
-	//未输入值时，直接返回，无需查询
-	if("" == nameOrCode){
-		$_jxc.clearHideInpOnEdit(obj);
-		return;
-	}
-	selectBranches(nameOrCode,obj);
-}
-
-//选择供应商
-function selectSupplier(){
-	new publicSupplierService(function(data){
-    	$("#supplierId").val(data.id);
-        $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);	
-    });
-}
 
 var urlEncode = function (param, key, encode) {
 	  if(param==null) return '';

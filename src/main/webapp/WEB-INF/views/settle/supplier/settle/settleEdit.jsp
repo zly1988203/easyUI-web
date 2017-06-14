@@ -49,7 +49,7 @@
                 <div class="ub ub-f1">
                     <input type="hidden" id="branchId" name="branchId" value="${settleVo.branchId}"/>
                     <input type="hidden" id="branchCode" name="branchCode" value="${settleVo.branchCode}"/>
-                    <input class="uinp ub ub-f1" type="text" id="targetBranchName" readonly="readonly"  value="${settleVo.branchName}" />
+                    <input class="uinp ub ub-f1" type="text" id="targetBranchName" readonly="readonly"  value="[${settleVo.branchCode}]${settleVo.branchName}" />
                 </div>
                 <i class="ub ub-ac uc-red">*</i>
             </div>
@@ -58,7 +58,7 @@
                 <div class="umar-r12 uw-70 ut-r">供应商:</div>
                 <div class="ub ub-f1">
                     <input class="uinp" name="supplierId" id="supplierId" type="hidden" value="${settleVo.supplierId}">
-                    <input class="uinp ub ub-f1" readonly="readonly" id="supplierName" type="text" value="${settleVo.supplierName}" >
+                    <input class="uinp ub ub-f1" readonly="readonly" id="supplierName" type="text" value="[${settleVo.supplierCode}]${settleVo.supplierName}" >
                 </div>
                 <i class="ub ub-ac uc-red">*</i>
             </div>
@@ -113,7 +113,7 @@
                  <div class="umar-r10 uw-70 ut-r">联系方式:</div>
                  <input type="hidden" id="phone" name="phone">
                  <input type="hidden" id="mobile" name="mobile">
-                 <input class="uinp ub ub-f1 uinp-no-more" type="text" id="tel" readonly='readonly' value="${settleVo.phone}/${settleVo.mobile}"  name="tel">
+                 <input class="uinp ub ub-f1 uinp-no-more" type="text" id="tel" readonly='readonly' value="${settleVo.mobile}<c:if test="${(!empty settleVo.mobile) && (!empty settleVo.phone)}">/</c:if>${settleVo.phone}"  name="tel">
              </div>
              <div class="ub ub-ac uw-290 umar-l28">
                  <div class="umar-r12 uw-70 ut-r">支付方式:</div>

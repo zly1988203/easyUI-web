@@ -215,7 +215,7 @@ function getMemoryCode(){
 		data:reqObj,
 		dataType:'text'
 	},function(result){
-		//console.log(result);
+		//
 		$("#memoryCode").val(result); //助记码
 	});
 }
@@ -256,7 +256,7 @@ function getSkuCode(pricingType,categoryCode){
 //			getBarCodeVal(pricingType, result);
 //		},
 //		error:function(result){
-//			console.log(result);
+//			
 //		}
 //	});
 }
@@ -292,7 +292,7 @@ function getBarCode(pricingType,skuCode){
 //			//$("#barCode").val(result).attr("readonly","readonly");  //条码
 //		},
 //		error:function(result){
-//			console.log(result);
+//			
 //		}
 //	});
 }

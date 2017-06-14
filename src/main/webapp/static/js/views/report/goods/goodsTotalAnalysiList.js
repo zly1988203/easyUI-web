@@ -196,7 +196,7 @@ function initGoodsTotalAnalysiGrid() {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
-            {field: 'grossProfitRate', title: '毛利率', width:80, align: 'right',
+            {field: 'grossProfitRate', title: '毛利率（%）', width:80, align: 'right',
                 formatter:function(value,row,index){
                     if(row.grossProfitRate===''){
                         return '';

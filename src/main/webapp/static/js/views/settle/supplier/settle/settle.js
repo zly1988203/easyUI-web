@@ -44,6 +44,68 @@ $(function(){
 	});
 	
 	initSupChkAcoAdd();
+	
+	if(operateType === 'add'){
+		//机构选择初始化
+		$('#branchComponent').branchSelect({
+			//ajax请求参数
+			ajaxParam:{
+				scope:1
+			},
+			//选择完成之后
+			onAfterRender:function(data){
+				
+				$('#openAccountBank').val('');
+		    	//银行账户
+		    	$('#bankAccount').val('');
+		    	//办公地址
+		    	$('#officeAddress').val('');
+		    	//国税登记
+		    	$('#nationalTaxRegNum').val('');
+		    	
+				$('#tel').val('')
+				$("#supplierId").val('');
+				$("#supplierName").val('');
+				
+				$("#"+gridName).datagrid('options').url = "";
+				checkBranchSpec(data.branchesId);
+				gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
+		    	                         $.extend({},gridDefault),$.extend({},gridDefault)]);
+			},
+			//数据过滤
+			loadFilter:function(data){
+				data.isContainChildren = data.allBranch;
+				return data;
+			}
+		});
+		
+		//供应商选择初始化
+		$('#supplierComponent').supplierSelect({
+			//选择之前
+			onShowBefore:function(){
+				clickFlag = true;
+				return true;
+			},
+			//依赖条件 relyOnId 为空
+			relyOnId:'branchId',
+			//依赖条件 异常提示
+			relyError:'请选择机构！',
+			//选择完成之后
+			onAfterRender:function(data){
+		    	$("#phone").val(data.phone);
+		    	$("#mobile").val(data.mobile);
+		    	$('#tel').val((data.mobile?data.mobile:'')+(data.mobile&&data.phone ? '/':'')+(data.phone?data.phone:''))
+		    	//校验是否存在未审核的结算单
+				checkSettleAuditStutas(data.id);
+			},
+			//数据过滤
+			loadFilter:function(data){
+				data.supplierId = data.id;
+				return data;
+			}
+		});
+	}
+	
 })
 
 //combobox 过滤
@@ -397,7 +459,7 @@ function changeActMountFrom(newV,oldV){
 var changeGridFlag = false; //批量设置实付金额表示
 //批量设置实付金额
 function changeGrid(actMount,rows){
-	console.log('rows',JSON.stringify(rows))
+	
 	changeGridFlag = true;
 	//实付金额 总汇
 	var _temActMount = actMount;
@@ -423,7 +485,7 @@ function changeGrid(actMount,rows){
 			
 		}
 	})
-	console.log('rowsL',JSON.stringify(rows))
+	
 	
 	$("#"+gridName).datagrid("loadData",rows);
 }
@@ -533,7 +595,7 @@ function saveSupAcoSet(){
     		//第N行实付金额不能为0，请检查！确认
     		if(parseFloat(data.actualAmount) == 0){
     			validFlag = false;
-    			$_jxc.alert("第"+(i+1)+"行实付金额不能为，请检查！");
+    			$_jxc.alert("第"+(i+1)+"行实付金额不能为零，请检查！");
     			return;
     		}
     		data.rowNo = (_rowNo+1);
@@ -553,13 +615,13 @@ function saveSupAcoSet(){
     
     reqObj.detailList = _subRows;
     
-    console.log('reqObj',reqObj);
+    
 //    return;
     $_jxc.ajax({
     	url:contextPath + '/settle/supplierSettle/saveSettleForm',
     	data:{"data":JSON.stringify(reqObj)}
     },function(result){
-    	console.log('result',result)
+    	
     	if(result['code'] == 0){
 			$_jxc.alert("操作成功！",function(){
 				location.href = contextPath +"/settle/supplierSettle/settleEdit?id="+result['formId'];
@@ -641,19 +703,6 @@ function delSupSettleAccount(){
 	});
 }
 
-//机构
-function selectBranches(){
-	new publicAgencyService(function(data){
-		$("#branchId").val(data.branchesId);
-		$("#branchCode").val(data.branchCode);
-		$("#isContainChildren").val(data.allBranch);
-		$("#branchCompleCode").val(data.branchCompleCode);
-		$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
-		
-		checkBranchSpec(data.branchesId)
-	},'',targetBranchId,'','',1);
-}
-
 //校验机构配置
 function checkBranchSpec(branchId){
 	$_jxc.ajax({
@@ -676,7 +725,7 @@ function checkSettleAuditStutas(supplierId){
     	url:contextPath+"/settle/supplierSettle/querySettleStatusNum",
     	data: {branchId:branchId,branchCompleCode:branchCompleCode,isContainChildren:isContainChildren,supplierId:supplierId}
     },function(result){
-		console.log('未审核的结算单数：===',result);
+		
 		if(result.unChNum > 0){
 			$_jxc.alert('当前选择机构存在未审核的结算单，不能新增结算单!');
 			$('#openAccountBank').val('');
@@ -697,21 +746,6 @@ function checkSettleAuditStutas(supplierId){
 	        // 初始化列表
 	        initSettleFormDetail();
 		}
-    });
-}
-
-//选择供应商
-function selectSupplier(){
-	clickFlag = true;
-    new publicSupplierService(function(data){
-    	$("#phone").val(data.phone);
-    	$("#mobile").val(data.mobile);
-    	$('#tel').val(data.mobile+(data.phone?'/'+data.phone:''))
-    	$("#supplierId").val(data.id);
-        $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
-        
-		//校验是否存在未审核的结算单
-		checkSettleAuditStutas(data.id);
     });
 }
 
@@ -754,7 +788,7 @@ function initSettleFormDetail(){
 		operateType : operateType == 'add' ? 1 : 2,
     	supplierId:supplierId,
     }
-    console.log('paramsObj:',paramsObj);
+    
 	$("#"+gridName).datagrid("options").method = "post";
     $("#"+gridName).datagrid("options").queryParams = paramsObj;
 	$("#"+gridName).datagrid('options').url = contextPath + '/settle/supplierSettle/settleFormDetailList';

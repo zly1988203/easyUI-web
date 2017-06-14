@@ -619,7 +619,7 @@ function setDataValue(data,fromClick) {
         }
         var isCheck ={isGift:1};   //只要是赠品就可以重复
         var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck,ifReset);
-        console.log('newRows',newRows)
+        
         //$("#"+gridName).datagrid({data:newRows});
         gridHandel.setLoadData(newRows);
 
@@ -919,7 +919,7 @@ function suggestSelectGoods(){
     	url : contextPath+"/form/deliverFormList/getDeliverSuggestNumItemList",
     	data : jsonData
     },function(result){
-   		 console.log('建议商品',result);
+   		 
    		 if(result.length > 0){
    			 selectStockAndPrice(result,'suggestSelectGoods');
    		 }else{

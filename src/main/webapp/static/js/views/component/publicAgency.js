@@ -11,7 +11,7 @@ var branchTypesStr=null;
 var isOpenStock=null;
 var scope=null;
 function initAgencyView(param){
-	console.log('param---',param);
+	
 	nameOrCode=$("#formAgency :text[name=nameOrCode]").val();
 	formType=$("#formAgency :hidden[name=deliverFormType]").val();
 	branchId=$("#formAgency :hidden[name=branchId]").val();
