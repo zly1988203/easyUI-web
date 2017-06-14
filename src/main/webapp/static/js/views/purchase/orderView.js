@@ -9,6 +9,7 @@ $(function(){
     }
 });
 var gridHandel = new GridClass();
+var gridName= "gridEditOrder";
 function initDatagridEditOrder(){
 	var formId = $("#formId").val();
     gridHandel.setGridName("gridEditOrder");
@@ -120,7 +121,7 @@ function initDatagridEditOrder(){
         }
     });
     if(hasCostPrice==false){
-        priceGrantUtil.grantCostPrice(datagridId,["price","amount","taxAmount"])
+        priceGrantUtil.grantCostPrice(gridName,["price","amount","taxAmount"])
     }
 }
 //合计

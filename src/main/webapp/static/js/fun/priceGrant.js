@@ -48,7 +48,7 @@ $(function(){
 		    	hasDistributionPrice = true;
 				break;
                 case "cost_price": // 成本价
-                    hasCostPrice = false;
+                    hasCostPrice = true;
                     break;
 		    default:
 				break;

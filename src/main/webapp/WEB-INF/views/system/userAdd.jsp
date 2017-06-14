@@ -85,10 +85,10 @@
 			<div class="ub umar-t20">
 				<div class="ub ub-ac umar-l20">
 					<div class="umar-r10 uw-60 ut-r">最大折扣比率:</div>
-					<input id="maxDiscountRadio" name="maxDiscountRadio" class="uinp uw-230 easyui-numberbox easyui-validatebox" 
-						data-options="required:true,min:1,max:100,precision:0" type="text" value="100">
-					%
-					<i class="uc-red">*</i>
+					<input id="maxDiscountRadio" name="maxDiscountRadio"
+						class="uinp uw-230 easyui-numberbox easyui-validatebox"
+						data-options="required:true,min:1,max:100,precision:0" type="text"
+						value="100"> % <i class="uc-red">*</i>
 				</div>
 			</div>
 			<div class="ub umar-t20">
@@ -105,7 +105,7 @@
 					<!-- 如果调价为null默认是全部显示
 						sale_price,cost_price,vip_price,purchase_price,wholesale_price,lowest_price,distribution_price
 					 -->
-					 <!-- 默认隐藏零售价、会员价
+					<!-- 默认隐藏零售价、会员价
 					<div class="ub ub-ac umar-r10">
 						<label><input class="priceItem" type="checkbox"
 							name="priceGrants" id="sale_price" value="sale_price"><span>零售价</span></label>
@@ -127,7 +127,8 @@
 
 					<div class="ub ub-ac umar-r10">
 						<label><input class="priceItem" type="checkbox"
-							name="priceGrants" id="distribution_price" value="distribution_price"><span>配送价</span></label>
+							name="priceGrants" id="distribution_price"
+							value="distribution_price"><span>配送价</span></label>
 					</div>
 					<div class="ub ub-ac umar-r10">
 						<label><input class="priceItem" type="checkbox"

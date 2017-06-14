@@ -71,7 +71,7 @@
 							<option value="3">小于</option>
 							<option value="4">小于等于</option>
 					</select> 
-					<input type="text" maxlength = "10" name="operaterNum" id="operaterNum" class="uinp uw-120"/>
+					<input type="text" maxlength = "10" name="operaterNum" id="operaterNum" class="uinp uw-124"/>
 				</div>
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-60 ut-r">商品名称:</div>

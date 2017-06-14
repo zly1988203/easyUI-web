@@ -340,6 +340,12 @@ function selectView(data){
     	data : {"skuId":searchskuId}
     },function(result){
 	    if(result.length>0){
+	        $.each(result,function (index,item) {
+                //进价金额=成分数量*进货价
+                item.amount = (parseFloat(item.purchasePrice)*parseFloat(item.componentNum)).toFixed(4);
+                //售价金额=成分数量*零售价
+                item.salePricemoney = (parseFloat(item.salePrice)*parseFloat(item.componentNum)).toFixed(4);
+            })
 	     setDataValue(result);
 		}
 	    else{

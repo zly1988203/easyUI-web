@@ -311,9 +311,9 @@ function initDatagridOrders(){
 	});
     var param = {
         wholesalePrice:["wholesalePrice"],
-        purchasePrice:["purchasePrice"],
+        purchasePrice:["purchasePrice","inputTax"],
         distributionPrice:["distributionPrice"],
-        costPrice:["costPrice"],
+        costPrice:["costPrice","profitAmtRate"],
         vipPrice:["vipPrice"],
         salePrice:["salePrice"],
     }

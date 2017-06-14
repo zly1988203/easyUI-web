@@ -14,6 +14,22 @@ function searchBranchInfo (){
 		$("#addUserForm #branchCodeSpan").text("S"+data.branchCode);
 		$("#addUserForm #opBranchCode").val(data.branchCode);
 		$("#addUserForm #branchNameCode").val("["+data.branchCode+"]"+data.branchName);
+
+        if(data.type > 3){
+            $("#purchase_price").prop("disabled","disabled");
+            $("#purchase_price").removeProp("checked");
+        }else {
+            $("#purchase_price").removeProp("disabled");
+            // $("#purchase_price").removeProp("checked");
+		}
+
+        $("#addUserForm #opRoleId").val("");
+        $("#addUserForm #opRoleCode").val("");
+        $("#addUserForm #roleCodeOrName").val("");
+        $("#maxDiscountRadio").numberbox("setValue",100);
+        $("#maxDiscountRadio").numberbox({readonly: true});
+
+
 	},"","");
 }
 
@@ -41,6 +57,7 @@ function searchRole (){
 			$("#maxDiscountRadio").numberbox("setValue",100);
 			$("#maxDiscountRadio").numberbox({readonly: true});
 		}
+
 	}, opBranchCompleCode, opBranchType);
 }
 
@@ -82,9 +99,9 @@ function initCheck() {
 		}
 
     });
-    // 零售价
+    // 成本价
     $("#cost_price").on("click", function() {
-        if($("#cost_price").is(":checked")){
+        if($("#cost_price").is(":checked") && $("#addUserForm #opBranchType").val() <= 3){
             $("#purchase_price").prop("checked","checked")
         }else {
             $("#purchase_price").removeProp("checked")

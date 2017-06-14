@@ -219,9 +219,20 @@ pageEncoding="UTF-8"%>
         onClickRow:goodsClickRow,
         idField:'skuCode',
         onLoadSuccess : function() {
-        priceGrantUtil.grantPrice("gridGoods");
     }
+
     });
+
+    var param = {
+    wholesalePrice:["wholesalePrice"],
+    purchasePrice:["purchasePrice"],
+    distributionPrice:["distributionPrice"],
+    costPrice:["costPrice"],
+    vipPrice:["vipPrice"],
+    salePrice:["salePrice"],
+    }
+    priceGrantUtil.grantPrice("gridGoods",param);
+
    }
     //选择单行
     function goodsClickRow(rowIndex, rowData){
