@@ -38,14 +38,13 @@ function initAgencyView(param){
 			scope = param.scope;
 			$("#formAgency :hidden[name=scope]").val(scope);
 		}
+		selectType = param.selectType;
+		//扩展的publicBranchesServiceHandel initAgencyView(param) 
+		//param=空,param.type=空,param.type=NOTREE下  初始化左边的树
+		type = (param.type||'').toUpperCase();
 	}
 	
     gFunSetEnterKey(agencySearch);
-    
-    selectType = param.selectType;
-    //扩展的publicBranchesServiceHandel initAgencyView(param) 
-    //param=空,param.type=空,param.type=NOTREE下  初始化左边的树
-    type = (param.type||'').toUpperCase();
     if((param && type != 'NOTREE') || !param){
     	$('#treeAgencyArea').removeClass('unhide');
     	initTreeAgency(); //初始树
