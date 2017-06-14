@@ -3,7 +3,9 @@
  */
 
 
+var oldData = {
 
+}
 function selectBranch(){
     //初始化机构ID
     var branchId = sessionBranchId;
@@ -68,8 +70,8 @@ function saveNotice(){
     }
     $_jxc.ajax(param,function (result) {
         if(result['code'] == 0){
-            closeDialogHandel();
             $_jxc.alert("发布成功");
+            closeDialogHandel();
             queryNoticeList();
         }else{
             $_jxc.alert(result['message']);

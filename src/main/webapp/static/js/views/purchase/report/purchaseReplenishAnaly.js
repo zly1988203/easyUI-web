@@ -1,4 +1,3 @@
-var pageSize = 50;
 $(function() {
 	
 	//初始化默认条件
@@ -31,8 +30,9 @@ function initSearchParams(){
 
 var gridHandel = new GridClass();
 var dg;
+var gridName = "gridPurchaseReplenishAnaly";
 function initPurchaseReplenishAnalyDg(){
-	gridHandel.setGridName("dgPurchaseReplenishAnaly");
+	gridHandel.setGridName("gridPurchaseReplenishAnaly");
 
 	dg = $("#gridPurchaseReplenishAnaly").datagrid({
        method:'post',
@@ -105,14 +105,16 @@ function initPurchaseReplenishAnalyDg(){
 			gridHandel.setDatagridHeader("center");
        }
 	});
+
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice(gridName,["purchasePrice","totalAmount"])
+    }
 	
 	//如果当前机构是店铺，则直接获取当前数据
 	if(sessionBranchType>=3){
 		searchForm();
 	}
-    if(hasPurchasePrice==false){
-        priceGrantUtil.grantPurchasePrice("gridOrders",["purchasePrice","totalAmount"])
-    }
+
 }
 
 //查询

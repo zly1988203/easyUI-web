@@ -14,6 +14,9 @@ var loginBranchId;
 
 $(function() {
     loginBranchId = $("#loginBranchId").val();
+
+    hidePageElement();
+
     // 初始化表格
     initAddModifyPriceGridEdit();
     // 初始化复选框
@@ -36,18 +39,21 @@ $(function() {
         datagridUtil.readOnlyInput();
     }
 
-    hidePageElement();
 });
 
 function hidePageElement() {
+    debugger;
     if(hasPurchasePrice==false){
+        $("#purchasePrice").removeProp("checked");
         $("#purchasePrice").prop("disabled","disabled");
     }
     if(hasWholesalePrice==false){
+        $("#tradePrice").removeProp("checked");
         $("#tradePrice").prop("disabled","disabled");
     }
 
     if(hasDistributionPrice==false){
+        $("#distributionPrice").removeProp("checked");
         $("#distributionPrice").prop("disabled","disabled");
     }
 
@@ -397,6 +403,7 @@ function initAddModifyPriceGridEdit() {
         }
     });
 
+    debugger
     var param = {
         wholesalePrice:["oldWsPrice","newWsPrice"],
         purchasePrice:["oldPurPrice","newPurPrice","oldSaleRate","newSaleRate"],
@@ -857,7 +864,7 @@ var datagridUtil = {
         }
 
         var newFields = ["oldSaleRate","newSaleRate"];
-        if($("#purchasePrice").is(":checked") || $("#retailPrice").is(":checked")){
+        if(($("#purchasePrice").is(":checked") || $("#retailPrice").is(":checked")) && (hasPurchasePrice==true)){
             _this.showDataGridColumn(newFields);
         }else{
             _this.hideDataGridColumn(newFields);

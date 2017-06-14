@@ -474,7 +474,7 @@ function initPurFormNoGrid() {
     	purchaseTotalCx();
     }*/
     if(hasPurchasePrice==false){
-        priceGrantUtil.grantPurchasePrice("purReportTotal",["totalAmount","taxAmount"])
+        priceGrantUtil.grantPurchasePrice("purReportTotal",["amount","totalAmount","taxAmount"])
     }
 }
 /**
