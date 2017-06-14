@@ -17,7 +17,6 @@ function onChangeSaleWay() {
 }
 
 function updateSupplier() {
-    debugger;
 	var formObj = $('#formEdit').serializeObject();
 	var isValid = $("#formEdit").form('validate');
 	if (!isValid) {

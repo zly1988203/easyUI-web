@@ -23,6 +23,7 @@ import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.StringUtils;
+import com.okdeer.jxc.form.enums.FormStatus;
 import com.okdeer.jxc.settle.franchise.service.FranchiseSettleService;
 import com.okdeer.jxc.settle.franchise.vo.FranchiseSettleDetailVo;
 import com.okdeer.jxc.settle.franchise.vo.FranchiseSettleVo;
@@ -184,6 +185,9 @@ public class FranchiseSettleController extends BasePrintController<FranchiseSett
 	public ModelAndView settleEdit(String id, Model model) {
 		FranchiseSettleVo vo = franchiseSettleService.getSettle(id);
 		ModelAndView modelAndView = new ModelAndView("settle/franchise/settle/settleEdit");
+		if (FormStatus.CHECK_SUCCESS.getValue().equals(vo.getAuditStatus())) {
+			modelAndView.setViewName("settle/franchise/settle/settleView");
+		}
 		modelAndView.addObject("settle", vo);
 		return modelAndView;
 	}

@@ -109,7 +109,6 @@ function initsupAcoSetList(){
 
 }
 
-//控制grid列表显示 serviceType=='yes' 开启对账  'no'未开启对账
 function getColumnList(){
 	var defaultCoumns = [
 	         			{field:'check',checkbox:true},
@@ -128,13 +127,9 @@ function getColumnList(){
 	                    	formatter:function(value,row,index){
 	                    		return value == '1'?'已审核':'未审核';
 	                    	}
-	                    }
-	         			];
-//	if(serviceType == 'yes'){
-		defaultCoumns = defaultCoumns.concat([{field: 'branchCode', title: '机构编号', width: '100px', align: 'center'},
-							 {field: 'branchName', title: '机构名称', width: '140px', align: 'left'}]);
-//	}
-	defaultCoumns = defaultCoumns.concat([{field: 'branchName', title: '机构名称', width: '140px', align: 'left'},
+	                    },
+	         			{field: 'branchCodeFull', title: '机构编号', width: '100px', align: 'left'},
+						{field: 'branchNameFull', title: '机构名称', width: '140px', align: 'left'},
 	        			{field: 'supplierCode', title: '供应商编号', width: '140px', align: 'left'},
 	        			{field: 'supplierName', title: '供应商名称', width: '140px', align: 'left'},
 	        			{field: 'payableAmount', title: '单据金额', width: '80px', align: 'right',
@@ -156,7 +151,7 @@ function getColumnList(){
 	        			},
 	        			{field: 'auditUserName', title: '审核人', width: '130px', align: 'left'},
 	        			{field: 'remark', title: '备注', width: '200px', align: 'left'}
-	                ]);
+	                ];
 	return [defaultCoumns];
 }
 

@@ -18,6 +18,8 @@ function changeStatus(){
         }else{
             costTitle = '开店成本(均摊不含折旧)';
         }
+        $("#"+gridName).datagrid('loadData', { total: 0, rows: [] });
+        $("#"+gridName).datagrid("options").url = "";
         initGridMonthAnalysis();
         //queryMonthAnalysis();
     });

@@ -23,6 +23,7 @@ import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.StringUtils;
+import com.okdeer.jxc.form.enums.FormStatus;
 import com.okdeer.jxc.form.enums.FormType;
 import com.okdeer.jxc.settle.franchise.service.FranchiseChargeService;
 import com.okdeer.jxc.settle.franchise.vo.FranchiseChargeDetailVo;
@@ -144,6 +145,9 @@ public class FranchiseChargeController extends BasePrintController<FranchiseChar
 	public ModelAndView advanceEdit(String id, Model model) {
 		FranchiseChargeVo vo = franchiseChargeService.getCharge(id);
 		ModelAndView modelAndView = new ModelAndView("settle/franchise/advance/advanceEdit");
+		if (FormStatus.CHECK_SUCCESS.getValue().equals(vo.getAuditStatus())) {
+			modelAndView.setViewName("settle/franchise/advance/advanceView");
+		}
 		modelAndView.addObject("chargeVo", vo);
 		return modelAndView;
 	}
@@ -317,6 +321,9 @@ public class FranchiseChargeController extends BasePrintController<FranchiseChar
 	public ModelAndView chargeEdit(String id, Model model) {
 		FranchiseChargeVo vo = franchiseChargeService.getCharge(id);
 		ModelAndView modelAndView = new ModelAndView("settle/franchise/charge/chargeEdit");
+		if (FormStatus.CHECK_SUCCESS.getValue().equals(vo.getAuditStatus())) {
+			modelAndView.setViewName("settle/franchise/charge/chargeView");
+		}
 		modelAndView.addObject("chargeVo", vo);
 		return modelAndView;
 	}

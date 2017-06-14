@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.dubbo.common.utils.StringUtils;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.LogConstant;
 import com.okdeer.jxc.common.constant.PrintConstant;
@@ -27,6 +28,7 @@ import com.okdeer.jxc.controller.print.JasperHelper;
 import com.okdeer.jxc.stock.service.StocktakingApplyServiceApi;
 import com.okdeer.jxc.stock.service.StocktakingOperateServiceApi;
 import com.okdeer.jxc.stock.vo.StocktakingBatchVo;
+import com.okdeer.jxc.stock.vo.StocktakingDifferenceDetailVo;
 import com.okdeer.jxc.stock.vo.StocktakingDifferenceVo;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
@@ -153,7 +155,7 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 	 */
 	@RequestMapping(value = "/stocktakingDifferenceList", method = RequestMethod.GET)
 	@ResponseBody
-	public PageUtils<StocktakingDifferenceVo> stocktakingDifferenceList(StocktakingBatchVo vo,
+	public PageUtils<StocktakingDifferenceDetailVo> stocktakingDifferenceList(StocktakingBatchVo vo,
 	        @RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 	        @RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 	    try {
@@ -165,8 +167,22 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 	        }
 	        LOG.debug(LogConstant.OUT_PARAM, vo);
 	        PageUtils<StocktakingDifferenceVo> stocktakingBatchList = stocktakingOperateServiceApi.getStocktakingDifferencePageList(vo);
-	        LOG.debug(LogConstant.PAGE, stocktakingBatchList.toString());
-	        return stocktakingBatchList;
+	        // 重新处理VO:优化传递到页面JSON大小，去掉不用字段
+            List<StocktakingDifferenceVo> diffList = stocktakingBatchList.getList();
+            String listJson = JSONArray.toJSONString(diffList);
+            List<StocktakingDifferenceDetailVo> diffDetailList = JSONArray.parseArray(listJson,StocktakingDifferenceDetailVo.class);
+            
+            List<StocktakingDifferenceVo> diffFooter = stocktakingBatchList.getFooter();
+            String footerJson = JSONArray.toJSONString(diffFooter);
+            List<StocktakingDifferenceDetailVo> diffFooterList = JSONArray.parseArray(footerJson,StocktakingDifferenceDetailVo.class);
+            
+	        PageUtils<StocktakingDifferenceDetailVo> diffDetailPageList = new PageUtils<StocktakingDifferenceDetailVo>(diffDetailList);
+	        diffDetailPageList.setFooter(diffFooterList);
+	        
+	        LOG.debug(LogConstant.PAGE, diffDetailPageList.toString());
+	        return diffDetailPageList;
+//	        LOG.debug(LogConstant.PAGE, stocktakingBatchList.toString());
+//	        return stocktakingBatchList;
 	    } catch (Exception e) {
 	        LOG.error("盘点申请查询列表信息异常:{}", e);
 	    }

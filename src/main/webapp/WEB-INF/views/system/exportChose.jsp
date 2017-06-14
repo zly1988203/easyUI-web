@@ -42,7 +42,6 @@
 		var endRow = dg.datagrid('getData').endRow;
 		//当前页
 		if(choose=="0"){
-			debugger;
 			stratRow = dg.datagrid('getData').startRow ;
 			endRow = dg.datagrid('getData').endRow;
 			if(typeof(stratRow)=="undefined"){
