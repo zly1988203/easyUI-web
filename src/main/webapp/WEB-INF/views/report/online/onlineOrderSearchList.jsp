@@ -10,7 +10,7 @@
 
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
-<script src="${ctx}/static/js/views/report/online/onlineOrderSearchList.js?v=2"></script>
+<script src="${ctx}/static/js/views/report/online/onlineOrderSearchList.js?v=3"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
 	<div class="ub ub-ver ub-f1 umar-4 upad-4">
@@ -153,17 +153,17 @@
 					
 					<div class="ub ub-ac umar-r10">
 						<input class="radioItem" type="radio" name="orderStatus"
-							id="status5" value="6" /><label for="status5">拒绝退货 </label>
+							id="status6" value="6" /><label for="status6">拒绝退货 </label>
 					</div>
 
 					<div class="ub ub-ac umar-r10">
 						<input class="radioItem" type="radio" name="orderStatus"
-							id="status6" value="8" /><label for="status6">已取消 </label>
+							id="status8" value="8" /><label for="status8">已取消 </label>
 					</div>
 
 					<div class="ub ub-ac umar-r10">
 						<input class="radioItem" type="radio" name="orderStatus"
-							id="status7" value="9" /><label for="status7">已完成 </label>
+							id="status9" value="9" /><label for="status9">已完成 </label>
 					</div>
 
 
