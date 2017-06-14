@@ -46,7 +46,7 @@
                 <div class="ub ub-f1">
                     <input type="hidden" id="branchId" name="branchId" value="${chainVo.branchId}" />
                     <input type="hidden" id="branchCode" name="branchCode" value="${chainVo.branchCode}"/>
-                    <input class="uinp ub ub-f1" type="text" id="targetBranchName"  value="[${chainVo.branchCode}]${chainVo.branchName}" readonly="readonly" />
+                    <input class="uinp ub ub-f1" type="text" id="targetBranchName"  value="[${chainVo.branchCodeFull}]${chainVo.branchNameFull}" readonly="readonly" />
                 </div>
             </div>
             <div class="ub ub-ac uw-320 umar-l20">

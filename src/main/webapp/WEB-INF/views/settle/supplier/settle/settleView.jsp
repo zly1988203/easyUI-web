@@ -40,7 +40,7 @@
                 <div class="ub ub-f1">
                     <input type="hidden" id="branchId" name="branchId" value="${settleVo.branchId}"/>
                     <input type="hidden" id="branchCode" name="branchCode" value="${settleVo.branchCode}"/>
-                    <input class="uinp ub ub-f1" type="text" id="targetBranchName" readonly="readonly"  value="[${settleVo.branchCode}]${settleVo.branchName}" />
+                    <input class="uinp ub ub-f1" type="text" id="targetBranchName" readonly="readonly"  value="[${settleVo.branchCodeFull}]${settleVo.branchNameFull}" />
                 </div>
             </div>
             

@@ -25,7 +25,7 @@ function initSupChainView(){
         height:"100%",
         width:'100%',
         columns:[[
-            {field:'branchName',title:'机构',width: '150px',align:'left',
+            {field:'branchName',title:'机构名称',width: '150px',align:'left',
             	formatter:function(value,row){
             		if(row.isFooter){
             			 return '<div class="ub ub-pc">合计</div> ';
