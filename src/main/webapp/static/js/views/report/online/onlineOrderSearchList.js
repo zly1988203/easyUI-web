@@ -74,6 +74,7 @@ function initGridOnlineOrder() {
             {field: 'returnedMoneyTimeStr', title: '回款时间', width: '140px', align: 'center'},
             {field:'address',title:'收货地址',width:"180px",align:'left'},
             {field:'onlineOrderNo',title:'线上订单编号',width:"160px",align:'left'},
+            {field:'ticketNo',title:'小票号',width:"160px",align:'left'},
             {field:'remark',title:'用户留言',width:"180px",align:'left'},
         ]],
         onLoadSuccess:function(data){
