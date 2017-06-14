@@ -261,6 +261,9 @@ public class BaseController<T> {
 	 * @param data 要过滤的vo对象
 	 */
 	protected void cleanAccessData(Object data) {
+	    if(data == null){
+	        return;
+	    }
 		Set<String> forbiddenSets = PriceGrantUtil.getNoPriceGrantSets();
 		DataAccessParser parser = new DataAccessParser(data.getClass(), forbiddenSets);
 		parser.cleanDataObject(data);
@@ -271,6 +274,9 @@ public class BaseController<T> {
 	 * @param datas 要过滤的vo对象
 	 */
 	protected void cleanAccessData(List<? extends Object> datas) {
+	    if(CollectionUtils.isEmpty(datas)){
+	        return;
+	    }
 		Class<?> cls = datas.get(0).getClass();
 		Set<String> forbiddenSets = PriceGrantUtil.getNoPriceGrantSets();
 		DataAccessParser parser = new DataAccessParser(cls, forbiddenSets);
@@ -283,6 +289,9 @@ public class BaseController<T> {
 	 * @param dataMap 要过滤的数据
 	 */
 	protected void cleanDataMap(String keyStr, DataRecord data) {
+	    if(StringUtils.isBlank(keyStr) || data == null || data.size() == 0){
+	        return;
+	    }
 		List<KeyExtendVo> extendVos = parserPriceKey(keyStr);
 		Set<String> forbiddenSets = PriceGrantUtil.getNoPriceGrantSets();
 		MapAccessParser parser = new MapAccessParser(extendVos, forbiddenSets);
@@ -295,6 +304,9 @@ public class BaseController<T> {
 	 * @param dataMap 要过滤的数据
 	 */
 	protected void cleanDataMap(String keyStr, Map<String, Object> data) {
+	    if(StringUtils.isBlank(keyStr) || data == null || data.size() == 0){
+	        return;
+	    }
 		List<KeyExtendVo> extendVos = parserPriceKey(keyStr);
 		Set<String> forbiddenSets = PriceGrantUtil.getNoPriceGrantSets();
 		MapAccessParser parser = new MapAccessParser(extendVos, forbiddenSets);
@@ -307,6 +319,9 @@ public class BaseController<T> {
 	 * @param dataMaps 要过滤的数据
 	 */
 	protected void cleanDataMaps(String keyStr, List<DataRecord> datas) {
+	    if(StringUtils.isBlank(keyStr) || CollectionUtils.isEmpty(datas)){
+	        return;
+	    }
 		List<KeyExtendVo> extendVos = parserPriceKey(keyStr);
 		Set<String> forbiddenSets = PriceGrantUtil.getNoPriceGrantSets();
 		MapAccessParser parser = new MapAccessParser(extendVos, forbiddenSets);

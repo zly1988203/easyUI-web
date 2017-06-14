@@ -16,7 +16,6 @@ import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.report.qo.DaySumReportQo;
 import com.okdeer.jxc.report.service.DaySumReportFacade;
-import com.okdeer.jxc.report.vo.DayReportVo;
 import com.okdeer.jxc.report.vo.DaySumReportVo;
 import com.okdeer.jxc.utils.UserUtil;
 
