@@ -43,7 +43,7 @@ $(function(){
 		//机构选择初始化
 		$('#branchComponent').branchSelect({
 			//ajax请求参数
-			ajaxParam:{
+			param:{
 				branchTypesStr:$_jxc.branchTypeEnum.FRANCHISE_STORE_B + ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_C
 			},
 			onAfterRender:function(){

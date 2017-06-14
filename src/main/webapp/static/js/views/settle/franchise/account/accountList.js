@@ -8,7 +8,7 @@ $(function(){
 	
 	//机构选择初始化
 	$('#branchComponent').branchSelect({
-		ajaxParam:{
+		param:{
 			branchTypesStr:$_jxc.branchTypeEnum.HEAD_QUARTERS + ',' + $_jxc.branchTypeEnum.BRANCH_COMPANY
 			+ ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_B + ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_C
 		}

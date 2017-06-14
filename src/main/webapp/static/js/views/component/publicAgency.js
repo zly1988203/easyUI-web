@@ -10,8 +10,10 @@ var branchType=null;
 var branchTypesStr=null;
 var isOpenStock=null;
 var scope=null;
+var type=null;     //NOTREE 左边没有树
+var selectType=null;//0 单选  1多选
 function initAgencyView(param){
-	
+
 	nameOrCode=$("#formAgency :text[name=nameOrCode]").val();
 	formType=$("#formAgency :hidden[name=deliverFormType]").val();
 	branchId=$("#formAgency :hidden[name=branchId]").val();
@@ -39,7 +41,18 @@ function initAgencyView(param){
 	}
 	
     gFunSetEnterKey(agencySearch);
-    initTreeAgency(); //初始树
+    
+    selectType = param.selectType;
+    //扩展的publicBranchesServiceHandel initAgencyView(param) 
+    //param=空,param.type=空,param.type=NOTREE下  初始化左边的树
+    type = (param.type||'').toUpperCase();
+    if((param && type != 'NOTREE') || !param){
+    	$('#treeAgencyArea').removeClass('unhide');
+    	initTreeAgency(); //初始树
+    }else{
+    	$('#treeAgencyArea').addClass('unhide');
+    }
+    
     initDatagridAgency(); //初始化表格
 }
 var agencyCallBack ;
@@ -103,17 +116,9 @@ function zTreeOnClick(event, treeId, treeNode) {
 
 //初始化表格
 function initDatagridAgency(){
-	//var formType="";
-	//var branchId="";
-	//if($("#deliverFormType").val()){
-	//	formType=$("#deliverFormType").val();
-	//}
-	//if($("#branchId").val()){
-	//	branchId=$("#branchId").val();
-	//}
-    $("#gridAgency").datagrid({
-        //title:'普通表单-用键盘操作',
-        method:'POST',
+	
+	var datagridObj = {
+		method:'POST',
         align:'center',
         url:contextPath+'/common/branches/getComponentList',
         queryParams:{
@@ -135,21 +140,31 @@ function initDatagridAgency(){
         height:'100%',
         width:'100%',
         columns:[[
+            {field:'cb',checkbox:true,hidden:selectType == 1?false:true},    
             {field:'branchCode',title:'编码',width:100,align:'left'},
             {field:'branchName',title:'名称',width:100,align:'left'},
-             {field:'contacts',title:'联系人',width:100,align:'left'},
-             {field:'mobile',title:'电话',width:100,align:'left'},
+            {field:'contacts',title:'联系人',width:100,align:'left'},
+            {field:'mobile',title:'电话',width:100,align:'left'},
         ]],
         onLoadSuccess : function() {
        	 $('.datagrid-header').find('div.datagrid-cell').css('text-align','center');
-       },
-        onClickRow:agencyClickRow,
-    });
+        }
+	}
+	
+	//单选模式
+	if(selectType != 1){
+		datagridObj['onClickRow'] = agencyClickRow;
+	}else{
+		//多选模式
+		datagridObj['singleSelect'] = false;
+	}	
+	
+    $("#gridAgency").datagrid(datagridObj);
 }
 /*
- * 
+ * 多选模式下 【确定】按钮回调
  */
-function publicGoodsGetCheckGoods(cb){
+function publicBranchGetChecks(cb){
     var row =  $("#gridAgency").datagrid("getChecked");
     cb(row);
 }

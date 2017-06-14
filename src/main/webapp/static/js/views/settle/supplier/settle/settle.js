@@ -49,7 +49,7 @@ $(function(){
 		//机构选择初始化
 		$('#branchComponent').branchSelect({
 			//ajax请求参数
-			ajaxParam:{
+			param:{
 				scope:1
 			},
 			//选择完成之后

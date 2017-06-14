@@ -31,8 +31,11 @@ function initOperatorCallBack(cb){
 }
 
 //0708 bwp 初始化操作员参数
+var _ope_selectType = null;
 function initOperatorView(param){
-//	console.log('初始化操作员参数 param',param);
+
+	_ope_selectType = param.selectType;
+	initDatagridOperator();
 }
 
 //初始化回调函数
@@ -78,10 +81,12 @@ function dictClickRow(rowIndex, rowData){
     	dictCallBack(rowData);
     }
 }
+
 //初始化表格 操作员
 function initDatagridOperator(){
-    $("#gridOperator").datagrid({
-        //title:'普通表单-用键盘操作',
+	debugger;
+	var ope_datagridObj = {
+		//title:'普通表单-用键盘操作',
         method:'post',
         align:'center',
         url:contextPath+'/system/user/getOperator',
@@ -96,15 +101,34 @@ function initDatagridOperator(){
         width:'100%',
         idField:'userCode',
         columns:[[
-            {field:'id',checkbox:true},
+            {field:'id',checkbox:true,hidden:_ope_selectType==1?false:true},
             {field:'userCode',title:'操作员编号',width:100,align:'left'},
             {field:'userName',title:'操作员名称',width:100,align:'left'},
         ]],
         onLoadSuccess : function() {
         	$('.datagrid-header').find('div.datagrid-cell').css('text-align','center');
-       },
-        onClickRow:operatorClickRow,
-    });
+        }
+	}
+	
+	//单选 兼容就方法
+	if(_ope_selectType != 1){
+		ope_datagridObj['singleSelect'] = true;
+		ope_datagridObj['onClickRow'] = operatorClickRow;
+	}else{
+		//多选
+		ope_datagridObj['singleSelect'] = false;
+		delete ope_datagridObj.onClickRow;
+	}
+	
+	
+    var _opeDatagridObj = $("#gridOperator").datagrid(ope_datagridObj);
+    
+    //多选
+	if(_ope_selectType == 1){
+		console.log($(_opeDatagridObj).datagrid('options'));
+		$(_opeDatagridObj).datagrid('options').onClickRow = function(){}
+		$(_opeDatagridObj).datagrid('options').singleSelect = false;
+	}
 }
 
 
