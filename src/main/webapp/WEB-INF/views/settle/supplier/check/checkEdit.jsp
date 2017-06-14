@@ -47,7 +47,7 @@
                     <input type="hidden" id="formId" name="id" value="${checkVo.id}"/>
                     <input type="hidden" id="branchId" name="branchId" value="${checkVo.branchId}"/>
                     <input type="hidden" id="branchCode" name="branchCode" value="${checkVo.branchCode}" />
-                    <input class="uinp ub ub-f1" type="text" id="targetBranchName" readonly="readonly" value="[${checkVo.branchCode}]${checkVo.branchName}"/>
+                    <input class="uinp ub ub-f1" type="text" id="targetBranchName" readonly="readonly" value="[${checkVo.branchCodeFull}]${checkVo.branchNameFull}"/>
                 </div>
                  <i class="ub ub-ac uc-red">*</i>
             </div>

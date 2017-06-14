@@ -23,6 +23,7 @@ import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.StringUtils;
+import com.okdeer.jxc.form.enums.FormStatus;
 import com.okdeer.jxc.settle.supplier.service.SupplierCheckService;
 import com.okdeer.jxc.settle.supplier.vo.SupplierCheckDetailVo;
 import com.okdeer.jxc.settle.supplier.vo.SupplierCheckVo;
@@ -90,6 +91,9 @@ public class SupplierCheckController extends BasePrintController<SupplierCheckCo
     public ModelAndView checkEdit(Model model, String id) {
         SupplierCheckVo checkVo = supplierCheckService.getSupplierCheckVoById(id);
         model.addAttribute("checkVo", checkVo);
+        if (FormStatus.CHECK_SUCCESS.getValue().equals(checkVo.getAuditStatus())) {
+            return new ModelAndView("settle/supplier/check/checkView");
+        }
         return new ModelAndView("settle/supplier/check/checkEdit");
     }
 
@@ -328,7 +332,7 @@ public class SupplierCheckController extends BasePrintController<SupplierCheckCo
             replaceMap.put("discountAmount", vo.getDiscountAmount());
             replaceMap.put("unpayAmount", vo.getUnpayAmount());
             replaceMap.put("remark", vo.getRemark());
-            replaceMap.put("branchName", vo.getBranchName());
+            replaceMap.put("branchName", vo.getBranchNameFull());
             replaceMap.put("createUserName", vo.getCreateUserName());
             replaceMap.put("createTime", vo.getCreateTime() != null ? DateUtils.getFullStr(vo.getCreateTime()) : "");
             replaceMap.put("updateUserName", vo.getUpdateUserName());

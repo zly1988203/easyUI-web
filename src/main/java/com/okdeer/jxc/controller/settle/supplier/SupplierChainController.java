@@ -22,6 +22,7 @@ import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.StringUtils;
+import com.okdeer.jxc.form.enums.FormStatus;
 import com.okdeer.jxc.settle.supplier.service.SupplierChainService;
 import com.okdeer.jxc.settle.supplier.vo.SupplierChainDetailVo;
 import com.okdeer.jxc.settle.supplier.vo.SupplierChainVo;
@@ -89,6 +90,9 @@ public class SupplierChainController extends BasePrintController<SupplierChainCo
     public ModelAndView chainEdit(Model model, String id) {
         SupplierChainVo chainVo = supplierChainService.getSupplierChainVoById(id);
         model.addAttribute("chainVo", chainVo);
+        if (FormStatus.CHECK_SUCCESS.getValue().equals(chainVo.getAuditStatus())) {
+            return new ModelAndView("settle/supplier/chain/chainView");
+        }
         return new ModelAndView("settle/supplier/chain/chainEdit");
     }
 
@@ -300,7 +304,7 @@ public class SupplierChainController extends BasePrintController<SupplierChainCo
             replaceMap.put("remark", vo.getRemark());
             replaceMap.put("saleCount", vo.getSaleCount());
             replaceMap.put("divideAmount", vo.getDivideAmount());
-            replaceMap.put("branchName", vo.getBranchName());
+            replaceMap.put("branchName", vo.getBranchNameFull());
             replaceMap.put("createUserName", vo.getCreateUserName());
             replaceMap.put("createTime", vo.getCreateTime() != null ? DateUtils.getFullStr(vo.getCreateTime()) : "");
             replaceMap.put("updateUserName", vo.getUpdateUserName());

@@ -23,6 +23,7 @@ import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.StringUtils;
+import com.okdeer.jxc.form.enums.FormStatus;
 import com.okdeer.jxc.settle.supplier.service.SupplierSettleService;
 import com.okdeer.jxc.settle.supplier.vo.SupplierSettleDetailVo;
 import com.okdeer.jxc.settle.supplier.vo.SupplierSettleVo;
@@ -90,6 +91,9 @@ public class SupplierSettleController extends BasePrintController<SupplierSettle
     public ModelAndView settleEdit(Model model, String id) {
         SupplierSettleVo settleVo = supplierSettleService.getSupplierSettleVoById(id);
         model.addAttribute("settleVo", settleVo);
+        if (FormStatus.CHECK_SUCCESS.getValue().equals(settleVo.getAuditStatus())) {
+            return new ModelAndView("settle/supplier/settle/settleView");
+        }
         return new ModelAndView("settle/supplier/settle/settleEdit");
     }
 
@@ -327,7 +331,7 @@ public class SupplierSettleController extends BasePrintController<SupplierSettle
             replaceMap.put("actualAmount", vo.getActualAmount());
             replaceMap.put("remark", vo.getRemark());
 
-            replaceMap.put("branchName", vo.getBranchName());
+            replaceMap.put("branchName", vo.getBranchNameFull());
             replaceMap.put("createUserName", vo.getCreateUserName());
             replaceMap.put("createTime", vo.getCreateTime() != null ? DateUtils.getFullStr(vo.getCreateTime()) : "");
             replaceMap.put("updateUserName", vo.getUpdateUserName());

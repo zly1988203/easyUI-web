@@ -23,6 +23,7 @@ import com.okdeer.jxc.common.enums.OperateTypeEnum;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
+import com.okdeer.jxc.form.enums.FormStatus;
 import com.okdeer.jxc.settle.supplier.service.SupplierChargeService;
 import com.okdeer.jxc.settle.supplier.vo.SupplierChargeDetailVo;
 import com.okdeer.jxc.settle.supplier.vo.SupplierChargeVo;
@@ -118,6 +119,9 @@ public class SupplierChargeController extends BasePrintController<SupplierCharge
     public ModelAndView advanceEdit(Model model, String id) {
         SupplierChargeVo chargeVo = supplierChargeService.getSupplierChargeVoById(id);
         model.addAttribute("chargeVo", chargeVo);
+        if (FormStatus.CHECK_SUCCESS.getValue().equals(chargeVo.getAuditStatus())) {
+            return new ModelAndView("settle/supplier/advance/advanceView");
+        }
         return new ModelAndView("settle/supplier/advance/advanceEdit");
     }
 
