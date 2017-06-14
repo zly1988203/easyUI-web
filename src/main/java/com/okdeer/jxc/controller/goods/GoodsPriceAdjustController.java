@@ -521,6 +521,8 @@ public class GoodsPriceAdjustController extends BasePrintController<GoodsPriceAd
 				return RespJson.error(GoodsPriceFormConst.FORM_NOT_SAVE);
 			}
 			goodsPriceForm.setStatus(status);
+			// 用于消息推送
+			goodsPriceForm.setBranchId(goodsPriceForm.getCreateBranchId());
 			// 获取当前用户
 			SysUser user = UserUtil.getCurrentUser();
 			String updateUserId = "";
