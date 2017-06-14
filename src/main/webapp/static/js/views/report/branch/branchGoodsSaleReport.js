@@ -177,7 +177,7 @@ function initDatagridOrders(){
 		          {field:"barCodes",title:"附条码",sortable:true,tooltip:true,width:80},
 		          {field:"spec",title:"规格",sortable:true,tooltip:true,width:80},
 		          {field:"unit",title:"单位",sortable:true,tooltip:true,width:80},
-		          {field:"purchaseSpec",title:"进货规格",sortable:true,tooltip:true,width:80,align:'right',
+		          {field:"purchaseSpec",title:"进货规格",sortable:true,tooltip:true,width:80,align:'left',
 		        	  formatter : function(value,row,index){
 		        		  if(value){
 		        			  return parseFloat(value).toFixed(2);
@@ -185,7 +185,7 @@ function initDatagridOrders(){
 		        		  return null;
 		        	  }
 		          },
-		          {field:"distributionSpec",title:"配送规格",sortable:true,tooltip:true,width:80,align:'right',
+		          {field:"distributionSpec",title:"配送规格",sortable:true,tooltip:true,width:80,align:'left',
 		        	  formatter : function(value,row,index){
 		        		  if(value){
 		        			  return parseFloat(value).toFixed(2);
@@ -226,7 +226,7 @@ function initDatagridOrders(){
 		        		  return "0.00";
 		        	  }
 		          },
-				{field:"fastDeliver",title:"配送方式 ",sortable:true,tooltip:true,width:80,align:'right',
+				{field:"fastDeliver",title:"配送方式 ",sortable:true,tooltip:true,width:80,align:'left',
 					formatter : function(value,row,index){
 						if (row.skuId == null) {
 							return;
@@ -281,17 +281,37 @@ function initDatagridOrders(){
 					}
 					return "0.00%";
 				}},
-			{field:"sumSaleNum",title:"销售量",sortable:true,tooltip:true,width:80,align:'right'},
-			{field:"sumSaleAmount",title:"销售额",sortable:true,tooltip:true,width:80,align:'right'},
-			{field:"supplierName",title:"供应商名称",sortable:true,tooltip:true,width:80,align:'right'},
-			{field:"supplierCode",title:"供应商代号",sortable:true,tooltip:true,width:80,align:'right'},
-			{field:"oneCategoryName",title:"大类",sortable:true,tooltip:true,width:80,align:'right'},
-			{field:"twoCategoryName",title:"中类",sortable:true,tooltip:true,width:80,align:'right'},
-			{field:"threeCategoryName",title:"小类",sortable:true,tooltip:true,width:80,align:'right'},
-			{field:"vaildity",title:"保质期",sortable:true,tooltip:true,width:80,align:'right'},
-			{field:"brandName",title:"品牌",sortable:true,tooltip:true,width:80,align:'right'},
-			{field:"createTime",title:"建档时间",sortable:true,tooltip:true,width:80,align:'right'},
-			{field:"remark",title:"备注",sortable:true,tooltip:true,width:80,align:'right'}
+			{field:"sumSaleNum",title:"销售量",sortable:true,tooltip:true,width:80,align:'right',
+				formatter : function(value, row, index) {
+					if(row.isFooter){
+						return parseFloat(value||0).toFixed(2);
+					}
+					return parseFloat(value||0).toFixed(2);
+				}
+			},
+			{field:"sumSaleAmount",title:"销售额",sortable:true,tooltip:true,width:80,align:'right',
+				formatter : function(value, row, index) {
+					if(row.isFooter){
+						return parseFloat(value||0).toFixed(2);
+					}
+					return parseFloat(value||0).toFixed(2);
+				}},
+			{field:"supplierName",title:"供应商名称",sortable:true,tooltip:true,width:80,align:'left'},
+			{field:"supplierCode",title:"供应商代号",sortable:true,tooltip:true,width:80,align:'left'},
+			{field:"oneCategoryName",title:"大类",sortable:true,tooltip:true,width:80,align:'left'},
+			{field:"twoCategoryName",title:"中类",sortable:true,tooltip:true,width:80,align:'left'},
+			{field:"threeCategoryName",title:"小类",sortable:true,tooltip:true,width:80,align:'left'},
+			{field:"vaildity",title:"保质期",sortable:true,tooltip:true,width:80,align:'left'},
+			{field:"brandName",title:"品牌",sortable:true,tooltip:true,width:80,align:'left'},
+			{field:"createTime",title:"建档时间",sortable:true,tooltip:true,width:120,align: 'center',
+				formatter: function (value, row, index) {
+					if (value) {
+						return new Date(value).format('yyyy-MM-dd hh:mm');
+					}
+					return "";
+				}
+			},
+			{field:"remark",title:"备注",sortable:true,tooltip:true,width:80,align:'left'}
 		     ]] ,
 		toolBar : "#tg_tb",
 		          /*  onBeforeLoad:function(param){
