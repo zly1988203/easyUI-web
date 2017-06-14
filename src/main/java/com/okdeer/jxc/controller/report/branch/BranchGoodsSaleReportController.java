@@ -30,7 +30,7 @@ import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.controller.report.GoodsReportController;
-import com.okdeer.jxc.report.branch.BranchGoodsSaleReportApi;
+import com.okdeer.jxc.report.branch.service.BranchGoodsSaleReportApi;
 import com.okdeer.jxc.report.qo.GoodsReportQo;
 import com.okdeer.jxc.report.vo.BranchGoodsSaleReportVo;
 import com.okdeer.jxc.system.entity.SysUser;
@@ -72,8 +72,6 @@ public class BranchGoodsSaleReportController extends BaseController<GoodsReportC
 		model.addAttribute("branchesGrow", branchesGrow);
 		//商品类型
 		model.addAttribute("goodsType", GoodsTypeEnum.values());
-		//配送方式
-//		model.addAttribute("formType", FormTypeEnum.values()); 
 		//计价方式
 		model.addAttribute("pricingType", PricingTypeEnum.values()); 
 		return "report/branch/branchGoodsSaleReport";

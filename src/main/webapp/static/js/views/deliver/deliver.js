@@ -188,18 +188,6 @@ function initDatagridRequireOrder(){
 
                 }
             },
-            {field: 'targetStock', title: '店铺库存', width: '80px', align: 'right',
-                formatter: function (value, row, index) {
-                    if (row.isFooter) {
-                        return
-                    }
-                    if (!row.sourceStock) {
-                        row.sourceStock = parseFloat(value || 0).toFixed(2);
-                    }
-                    return '<b>' + parseFloat(value || 0).toFixed(2) + '</b>';
-                }
-            },
-
             {field:'alreadyNum',title:'被订数量',width:'80px',align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
@@ -217,8 +205,17 @@ function initDatagridRequireOrder(){
 
                 }
             },
-
-
+            {field: 'targetStock', title: '店铺库存', width: '80px', align: 'right',
+                formatter: function (value, row, index) {
+                    if (row.isFooter) {
+                        return
+                    }
+                    if (!row.sourceStock) {
+                        row.sourceStock = parseFloat(value || 0).toFixed(2);
+                    }
+                    return '<b>' + parseFloat(value || 0).toFixed(2) + '</b>';
+                }
+            },
             {field:'unit',title:'单位',width:'60px',align:'left'},
             {field:'spec',title:'规格',width:'90px',align:'left'},
             /*{field:'twoCategoryCode',title:'类别编号',width:'90px',align:'left'},
