@@ -37,11 +37,11 @@ function initGridOnlineOrder() {
 	                return strHtml;
             	}
             },
-            {field: 'orderStatusStr', title: '订单状态', width: '80px', align: 'center'},
+            {field: 'orderStatusStr', title: '订单状态', width: '90px', align: 'center'},
             {field: 'userName', title: '收货人', width: '80px', align: 'left'},
             {field: 'phone', title: '联系电话', width: '100px', align: 'left'},
-            {field:'branchCode',title:'机构编码',width:80,align:'left'},
-            {field:'branchName',title:'机构名称',width:120,align:'left'},
+            {field: 'branchCode',title:'机构编码',width:80,align:'left'},
+            {field: 'branchName',title:'机构名称',width:120,align:'left'},
             {field: 'totalAmount', title: '订单金额', width: '80px', align: 'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
@@ -66,16 +66,16 @@ function initGridOnlineOrder() {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
-            {field: 'pickUpTypeStr', title: '配送方式', width: '60px', align: 'center'},
-            {field: 'payTypeStr', title: '支付方式', width: '60px', align: 'center'},
-            {field: 'payWayStr', title: '付款方式', width: '60px', align: 'center'},
+            {field: 'pickUpTypeStr', title: '配送方式', width: '70px', align: 'center'},
+            {field: 'payTypeStr', title: '支付方式', width: '70px', align: 'center'},
+            {field: 'payWayStr', title: '付款方式', width: '70px', align: 'center'},
             {field: 'onlineCreateTimeStr', title: '下单时间', width: '140px', align: 'center'},
             {field: 'deliverTimeStr', title: '发货时间', width: '140px', align: 'center'},
             {field: 'returnedMoneyTimeStr', title: '回款时间', width: '140px', align: 'center'},
-            {field:'address',title:'收货地址',width:"180px",align:'left'},
-            {field:'onlineOrderNo',title:'线上订单编号',width:"160px",align:'left'},
-            {field:'ticketNo',title:'小票号',width:"160px",align:'left'},
-            {field:'remark',title:'用户留言',width:"180px",align:'left'},
+            {field: 'address',title:'收货地址',width:"180px",align:'left'},
+            {field: 'onlineOrderNo',title:'线上订单编号',width:"160px",align:'left'},
+            {field: 'ticketNo',title:'小票号',width:"160px",align:'left'},
+            {field: 'remark',title:'用户留言',width:"180px",align:'left'},
         ]],
         onLoadSuccess:function(data){
 
