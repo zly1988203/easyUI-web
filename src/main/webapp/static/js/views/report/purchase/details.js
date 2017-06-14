@@ -59,7 +59,7 @@ function initPurReportDetailGrid(queryType) {
             				hrefStr='parent.addTab("详情","'+contextPath+'/form/purchase/receiptEdit?report=close&formId='+row.formId+'")';
             				return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
             			}else if(row.formType=="PM"){
-            				hrefStr='parent.addTab("详情","'+contextPath+'//directReceipt/edit?report=close&formId='+row.formId+'")'
+            				hrefStr='parent.addTab("详情","'+contextPath+'/directReceipt/edit?report=close&formId='+row.formId+'")'
             				return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
             			}else if(row.formType=="PR"){
             				hrefStr='parent.addTab("详情","'+contextPath+'/form/purchase/returnEdit?report=close&formId='+row.formId+'")'
