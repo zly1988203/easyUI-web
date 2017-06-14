@@ -84,7 +84,6 @@ function dictClickRow(rowIndex, rowData){
 
 //初始化表格 操作员
 function initDatagridOperator(){
-	debugger;
 	var ope_datagridObj = {
 		//title:'普通表单-用键盘操作',
         method:'post',
