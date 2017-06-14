@@ -24,6 +24,7 @@ var gridHandel = new GridClass();
  * @param queryType
  */
 var dg;
+var gridName= "purReportDetail";
 function initPurReportDetailGrid(queryType) {
 	gridHandel.setGridName("purReportDetail");
     dg= $("#purReportDetail").datagrid({
