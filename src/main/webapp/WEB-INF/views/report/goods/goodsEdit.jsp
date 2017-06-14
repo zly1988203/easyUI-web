@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -63,7 +64,7 @@
 			<input id="isStore" name="isStore" type="hidden"> <input
 				id="branchType" name="branchType" type="hidden"
 				value="${branchType}">
-			<div class="ub ub-ver ub-ac upad-4">
+			<div class="ub ub-ver upad-4">
 				<div class="ub upad-4">
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">货号:</div>
@@ -236,7 +237,6 @@
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">配送价:</div>
 						<input id="distributionPrice" name="distributionPrice"
-
 							class="uinp uinp-no-more easyui-numberbox easyui-validatebox"
 							data-options="min:0,precision:4,readonly:true" type="text"
 							maxlength="10" onkeyup="checkPrice(this);"
@@ -246,7 +246,6 @@
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">进货价:</div>
 						<input id="purchasePrice" name="purchasePrice"
-
 							class="uinp uinp-no-more easyui-numberbox easyui-validatebox"
 							data-options="min:0,precision:4,readonly:true" type="text"
 							maxlength="10" onkeyup="checkPrice(this);"
@@ -255,7 +254,6 @@
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">批发价:</div>
 						<input id="wholesalePrice" name="wholesalePrice"
-
 							class="uinp uinp-no-more easyui-numberbox easyui-validatebox"
 							data-options="min:0,precision:4,readonly:true" type="text"
 							maxlength="10" onkeyup="checkPrice(this);"
@@ -283,16 +281,7 @@
 							data-options="min:0,precision:2" type="text"
 							style="text-align: right" readonly="readonly">
 					</div>
-					<div class="ub ub-ac uw-300">
-						<div class="umar-r10 uw-60 ut-r">销项税率:</div>
-						<input id="outputTax" name="outputTax" style="width: 204px;"
-							class="uinp uinp-no-more easyui-numberbox easyui-validatebox"
-							data-options="min:0,precision:2,validType:['length[0,18]']"
-							type="text" maxlength="4" onkeyup="checkPositiveInteger(this);"
-							onafterpaste="checkPositiveInteger(this)" readonly="readonly">%
-					</div>
-				</div>
-				<div class="ub upad-4">
+
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">进项税率:</div>
 						<input id="inputTax" name="inputTax" value='0.00'
@@ -302,6 +291,21 @@
 							type="text" maxlength="4" onkeyup="checkPositiveInteger(this);"
 							onafterpaste="checkPositiveInteger(this)" readonly="readonly">%
 					</div>
+
+
+
+				</div>
+				<div class="ub upad-4">
+
+					<div class="ub ub-ac uw-300">
+						<div class="umar-r10 uw-60 ut-r">销项税率:</div>
+						<input id="outputTax" name="outputTax" style="width: 204px;"
+							class="uinp uinp-no-more easyui-numberbox easyui-validatebox"
+							data-options="min:0,precision:2,validType:['length[0,18]']"
+							type="text" maxlength="4" onkeyup="checkPositiveInteger(this);"
+							onafterpaste="checkPositiveInteger(this)" readonly="readonly">%
+					</div>
+
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">安全库存系数:</div>
 						<input id="safetyCoefficient" name="safetyCoefficient" value='1'
@@ -367,8 +371,8 @@
 						<label> <input id="allowActivity" name="allowActivity"
 							type="checkbox" name="checkbox"
 							<c:if test="${branchType==3||branchType==4||branchType==5}">
-							disabled='disabled'
-						</c:if> /><span>是否参与促销</span>
+			disabled='disabled'
+		</c:if> /><span>是否参与促销</span>
 						</label>
 
 					</div>
@@ -376,8 +380,8 @@
 						<label> <input id="allowAdjust" name="allowAdjust"
 							type="checkbox" name="checkbox"
 							<c:if test="${branchType==3||branchType==4||branchType==5}">
-							disabled='disabled'
-						</c:if> /><span>分店调价</span>
+			disabled='disabled'
+		</c:if> /><span>分店调价</span>
 						</label>
 
 					</div>
@@ -399,9 +403,9 @@
 					<input type="text" id="printnum11"
 						class="uinp uw-120 easyui-numberbox easyui-validatebox"
 						data-options="min:0.1,max:999.9,onChange:changePrint, precision:2,validType:['length[0,18]']
-						   <c:if test="${branchType==3||branchType==4||branchType==5}">
-							   ,disabled:true
-						   </c:if>">
+		<c:if test="${branchType==3||branchType==4||branchType==5}">
+			,disabled:true
+		</c:if>">
 				</div>
 				<div class="ub uw-160"></div>
 			</div>

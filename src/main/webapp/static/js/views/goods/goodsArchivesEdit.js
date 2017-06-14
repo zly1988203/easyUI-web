@@ -41,14 +41,19 @@ function initGoodsEditView(id){
 
 function hidePageElement() {
     if(hasPurchasePrice==false){
-        $("#formGoodsArchivesAdd #purchasePrice").parent().addClass("uvisibility");
+        $("#formGoodsArchivesAdd #purchasePrice").parent().addClass("uhide");
+        $("#formGoodsArchivesAdd #inputTax").parent().addClass("uhide");
     }
     if(hasWholesalePrice==false){
-        $("#formGoodsArchivesAdd #wholesalePrice").parent().addClass("uvisibility");
+        $("#formGoodsArchivesAdd #wholesalePrice").parent().addClass("uhide");
     }
 
     if(hasDistributionPrice==false){
-        $("#formGoodsArchivesAdd #distributionPrice").parent().addClass("uvisibility");
+        $("#formGoodsArchivesAdd #distributionPrice").parent().addClass("uhide");
+    }
+    if(hasCostPrice==false){
+        $("#formGoodsArchivesAdd #grossProfit").parent().addClass("uhide");
+        $("#formGoodsArchivesAdd #grossProfitPercent").parent().addClass("uhide");
     }
 }
 

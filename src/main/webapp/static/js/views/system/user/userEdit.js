@@ -14,6 +14,20 @@ function searchBranchInfo (){
 		$("#editUserForm #opBranchId").val(data.branchesId);
 		$("#editUserForm #opBranchType").val(data.type);
 		$("#editUserForm #branchNameCode").val("["+data.branchCode+"]"+data.branchName);
+
+        if(data.type > 3){
+            $("#purchase_price").prop("disabled","disabled");
+            $("#purchase_price").removeProp("checked");
+        }else {
+            $("#purchase_price").removeProp("disabled","disabled");
+            // $("#purchase_price").prop("checked","checked");
+		}
+
+        $("#editUserForm #opRoleId").val("");
+        $("#editUserForm #opRoleCode").val("");
+        $("#editUserForm #roleCodeOrName").val("");
+        $("#maxDiscountRadio").numberbox("setValue",100);
+        $("#maxDiscountRadio").numberbox({readonly: true});
 	},"","");
 }
 
@@ -134,6 +148,7 @@ function initPassword() {
 }
 
 function initCheck() {
+
     // 进价
     $("#purchase_price").on("click", function() {
         if($("#purchase_price").is(":checked")){
@@ -143,9 +158,9 @@ function initCheck() {
 		}
 
     });
-    // 零售价
+    // 成本价
     $("#cost_price").on("click", function() {
-        if($("#cost_price").is(":checked")){
+        if($("#cost_price").is(":checked") && parseInt($("#editUserForm #opBranchType").val()) <= 3){
             $("#purchase_price").prop("checked","checked")
         }else {
             $("#purchase_price").removeProp("checked")
@@ -165,6 +180,11 @@ function initpriceGrantCheck(){
 			$("#"+priceGrantArray[i]).prop("checked", true);
 		}
 	}
+
+    if(parseInt($("#editUserForm #opBranchType").val()) > 3){
+        $("#editUserForm #purchase_price").prop("disabled","disabled");
+        $("#editUserForm #purchase_price").removeProp("checked");
+    }
 }
 
 function iconOpenHandler(e){

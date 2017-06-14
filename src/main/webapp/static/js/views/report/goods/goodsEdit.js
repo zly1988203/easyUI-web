@@ -93,15 +93,24 @@ function initGoodsInfo(skuId,branchId){
 
 function hidePageElement() {
     if(hasPurchasePrice==false){
-        $("#formEdit #purchasePrice").parent().addClass("uvisibility");
+        $("#formEdit #purchasePrice").parent().addClass("uhide");
+        $("#formEdit #inputTax").parent().addClass("uhide");
+
     }
     if(hasWholesalePrice==false){
-        $("#formEdit #wholesalePrice").parent().addClass("uvisibility");
+        $("#formEdit #wholesalePrice").parent().addClass("uhide");
     }
 
     if(hasDistributionPrice==false){
-        $("#formEdit #distributionPrice").parent().addClass("uvisibility");
+        $("#formEdit #distributionPrice").parent().addClass("uhide");
     }
+
+    if(hasCostPrice==false){
+        $("#formEdit #grossProfit").parent().addClass("uhide");
+        $("#formEdit #grossProfitPercent").parent().addClass("uhide");
+    }
+
+
 
 
 }

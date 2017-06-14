@@ -413,6 +413,10 @@
 
 .umar-t24 {
   margin-top: 24px; }
+  
+  .umar-r22 {
+  margin-right: 22px; }
+  
 
 .umar-r24 {
   margin-right: 24px; }
@@ -1236,11 +1240,17 @@
 .uw-60 {
   width: 60px; }
 
+.uw-62 {
+  width: 62px; }
+
 .uh-64 {
   height: 64px; }
 
 .uw-64 {
   width: 64px; }
+
+.uw-66 {
+  width: 66px; }
 
 .uh-68 {
   height: 68px; }

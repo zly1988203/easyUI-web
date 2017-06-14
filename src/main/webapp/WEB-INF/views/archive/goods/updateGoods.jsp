@@ -62,7 +62,7 @@
 		</div>
 		<div class="ub uline "></div>
 		<form id="formGoodsArchivesAdd" method="post" style="font-size: 14px;">
-			<div class="ub ub-ver ub-ac upad-4">
+			<div class="ub ub-ver upad-4">
 				<div class="ub upad-4">
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">货号:</div>
@@ -318,16 +318,7 @@
 							data-options="min:0,precision:2" type="text"
 							style="text-align: right" readonly="readonly">
 					</div>
-					<div class="ub ub-ac uw-300">
-						<div class="umar-r10 uw-60 ut-r">销项税率:</div>
-						<input id="outputTax" name="outputTax"
-							class="uinp uinp-no-more easyui-numberbox easyui-validatebox"
-							data-options="min:0,precision:2,validType:['length[0,18]']"
-							type="text" maxlength="4" onkeyup="checkPositiveInteger(this);"
-							onafterpaste="checkPositiveInteger(this)">%
-					</div>
-				</div>
-				<div class="ub upad-4">
+
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">进项税率:</div>
 						<input id="inputTax" name="inputTax" value='0.00'
@@ -337,6 +328,21 @@
 							type="text" maxlength="4" onkeyup="checkPositiveInteger(this);"
 							onafterpaste="checkPositiveInteger(this)">%
 					</div>
+
+
+
+				</div>
+				<div class="ub upad-4">
+
+					<div class="ub ub-ac uw-300">
+						<div class="umar-r10 uw-60 ut-r">销项税率:</div>
+						<input id="outputTax" name="outputTax"
+							class="uinp uinp-no-more easyui-numberbox easyui-validatebox"
+							data-options="min:0,precision:2,validType:['length[0,18]']"
+							type="text" maxlength="4" onkeyup="checkPositiveInteger(this);"
+							onafterpaste="checkPositiveInteger(this)">%
+					</div>
+
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">安全库存系数:</div>
 						<input id="safetyCoefficient" name="safetyCoefficient"

@@ -157,6 +157,7 @@ function copyHandel(){
         },
         modal: true,
         onLoad: function () {
+            selectParamInit();
         }
     });
 }

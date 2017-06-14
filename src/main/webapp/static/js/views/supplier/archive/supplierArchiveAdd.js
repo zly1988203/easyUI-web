@@ -2,15 +2,15 @@
  * Created by huangj02 on 2016/10/12.
  */
 $(function(){
-	
+	debugger;
 	//供应商区域选择事件
 	bindSupplierAreaSelect();
 	
-	var supplierIdVal = $("#supplierIdVal").val();
-	if(supplierIdVal){
-		//初始化下拉框选中值
-		selectParamInit();
-	}
+	// var supplierIdVal = $("#supplierIdVal").val();
+	// if(supplierIdVal){
+	// 	//初始化下拉框选中值
+	// 	selectParamInit();
+	// }
     $("#minAmountDiv").addClass("unhide");
 });
 
