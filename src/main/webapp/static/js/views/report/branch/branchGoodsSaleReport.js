@@ -77,6 +77,7 @@ $(function(){
 	toChangeDatetime(9);
 	$("#startTime").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
 	$("#endTime").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+
 });
 
 
@@ -355,7 +356,7 @@ function searchBind(){
 function searchBranch(){
 	new publicAgencyService(function(data){
 		$("#branchId").val(data.branchesId);
-		$("#branchCompleCode").val(data.branchCompleCode);
+		//$("#branchCompleCode").val(data.branchCompleCode);
 		$("#branchName").val("["+data.branchCode+"]"+data.branchName);
 	},'DV',branchId);
 }
@@ -431,6 +432,21 @@ function setLocalStorage(){
 
 //查询
 function query(){
+
+	if($("#branchName").val() == null || $("#branchName").val() == ''){
+		messager("请选择机构");
+		return;
+	}
+	if($("#branchId").val() == null || $("#branchId").val() == ''){
+		messager("请选择机构");
+		return;
+	}
+
+	if ($("#branchId").val() == '0') {
+		messager("请选择分公司机构");
+		return;
+	}
+
 	//搜索导出清除左侧条件
 	cleanLeftParam();
 	$("#startCount").val('');

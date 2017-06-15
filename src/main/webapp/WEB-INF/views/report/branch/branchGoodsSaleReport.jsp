@@ -48,7 +48,7 @@
 					<input type="hidden" name="endCount" id="endCount" class="uinp" />
 					<input type="hidden" name="categoryCode" id="categoryCode" class="uinp" />
 					<div class="umar-r10 uw-60 ut-r">机构名称:</div>
-					<input type="text" name="branchName" id="branchName" class="uinp" value="${branchesGrow.branchName}" maxlength="50"/>
+					<input type="text" name="branchName" id="branchName" class="uinp" value="${branchesGrow.type == 0 ? '' : branchesGrow.branchName}" maxlength="50"/>
 					<input type="hidden" name="branchId" id="branchId" value="${branchesGrow.branchesId}">
 					<div class="uinp-more" onclick="searchBranch()">...</div>
 				</div>
