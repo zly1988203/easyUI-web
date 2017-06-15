@@ -31,6 +31,22 @@ $(function(){
 	  weekCheckDay();
 	})
 	
+	
+	//机构选择初始化
+	$('#branchComponent').branchSelect({
+		param:{
+			type:'NOTREE', //左侧没有树
+			selectType:1,  //多选
+			formType:'DP'
+		},
+		loadFilter:function(data){
+			data.forEach(function(obj,index){
+				obj.branchIds = obj.branchesId;
+			});
+			return data;
+		}
+	});
+	
 });
 
 //特价
@@ -2845,7 +2861,7 @@ function saveActivity(){
 	      };
 	      
 	      if(parseFloat(v["price"]) <= parseFloat(v["saleAmount"])){
-	          $_jxc.alert("第"+(i+1)+"行，换购价要小于原价");
+	          $_jxc.alert("第"+(i+1)+"行，组合特价要小于原价");
 	          isCheckResult = false;
 	          return false;
 	      };
@@ -3218,30 +3234,6 @@ function weekCheckDay(){
 	   }
     }
   $('#weeklyActivityDay').val(str);
-}
-
-
-
-/**
- * 分店列表 0 单选,1 多选
- */
-
-function selectBranch() {
-	new publicBranchService(function(data) {
-		var branchesId="";
-		var branchName="";
-		$.each(data,function(i,k){
-			branchesId=k.branchesId+","+branchesId;
-			branchName+="["+k.branchCode+"]"+k.branchName+",";
-		})
-		branchesId = branchesId.substring(0,branchesId.length - 1);
-		branchName = branchName.substring(0,branchName.length - 1);
-		$("#branchIds").val(branchesId);// id
-		$("#branchName").val(branchName);
-		$("#areaName").val("自定义");
-		$("#areaInput").val("");
-		 
-	},1, null, 'DP'); //只查询店铺数据
 }
 
 //类别选择  ---> 买满送

@@ -143,7 +143,7 @@ function initDatagridByFormNo(){
             	formatter:function(value,row,index){
             		var hrefStr = '';
             		if(row.id){
-        				hrefStr='parent.addTab("详情","'+contextPath+'/form/purchase/returnEdit?report=close&formId='+row.id+'")'
+        				hrefStr='parent.addTab("详情","'+contextPath+'/form/purchase/orderEdit?report=close&formId='+row.id+'")'
         				return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
             		}else{
             			return "";

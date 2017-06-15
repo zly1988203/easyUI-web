@@ -142,8 +142,8 @@ function initDatagridAgency(){
             {field:'cb',checkbox:true,hidden:selectType == 1?false:true},    
             {field:'branchCode',title:'编码',width:100,align:'left'},
             {field:'branchName',title:'名称',width:100,align:'left'},
-            {field:'contacts',title:'联系人',width:100,align:'left'},
-            {field:'mobile',title:'电话',width:100,align:'left'},
+            {field:'contacts',title:'联系人',width:100,align:'left',hidden:type=='NOTREE'?true:false},
+            {field:'mobile',title:'电话',width:100,align:'left',hidden:type=='NOTREE'?true:false},
         ]],
         onLoadSuccess : function() {
        	 $('.datagrid-header').find('div.datagrid-cell').css('text-align','center');
