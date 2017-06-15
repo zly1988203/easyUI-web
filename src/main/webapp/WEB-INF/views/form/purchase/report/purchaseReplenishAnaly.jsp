@@ -10,8 +10,8 @@
 	<script src="${ctx}/static/js/views/purchase/report/purchaseReplenishAnaly.js"></script>
     
 </head>
-<body class="ub uw uh ufs-14 uc-black">
-    <div class="ub ub-ver ub-f1 umar-4 upad-4">
+<body class="uw uh ufs-14 uc-black ">
+    <div class="ub ub-ver uw ub-f1 uh upad-8 box-border">
     	<form id="queryForm" action="" method="post">
 	        <div class="ub ub-ac">
 	            <div class="ubtns"> 

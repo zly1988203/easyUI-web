@@ -914,14 +914,13 @@ function orderDelete(){
 		    	}
 		    },function(result){
 	    		
-	    		if(result['code'] == 0){
+	    		if(result['code'] == 0){	
 	    			$_jxc.alert("操作成功！",function(){
 	    				back();
 	    			});
 	    		}else{
 	    			$_jxc.alert(result['message']);
 	    		}
-	    		dg.datagrid('reload');
 		    });
 		}
 	});

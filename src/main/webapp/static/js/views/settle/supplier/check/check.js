@@ -53,6 +53,15 @@ $(function(){
 				$('#linkTel').val('');//联系人
 				$("#supplierId").val('');
 				$("#supplierName").val('');
+				
+				$('#openAccountBank').val('');
+		    	//银行账户
+		    	$('#bankAccount').val('');
+		    	//办公地址
+		    	$('#officeAddress').val('');
+		    	//国税登记 
+		    	$('#nationalTaxRegNum').val('');
+		    	
 		        
 		        gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
 		    	                         $.extend({},gridDefault),$.extend({},gridDefault)]);
