@@ -2,6 +2,34 @@
  * Created by zhaoly on 2017/5/24.
  */
 
+$(function(){
+
+    $('#branchComponent').branchSelect({
+        param:{
+            type:'NOTREE',//左侧没有树
+            selectType:1 //多选receiveBranchIds
+        },
+        loadFilter:function(data){
+            data.forEach(function(obj,index){
+                obj.receiveBranchIds = obj.branchesId;
+            })
+            return data;
+        }
+    });
+
+    $('#operatorComponent').operatorSelect({
+        param:{
+          selectType:1 //多选
+        },
+        //数据过滤
+        loadFilter:function(data){
+            data.forEach(function(obj,index){
+                obj.receiveUserIds = obj.id;
+            })
+            return data;
+        }
+    });
+})
 
 var oldData = {
 
@@ -22,22 +50,6 @@ function selectBranch(){
         $("#receiveBranchIds").val(branchesId);// id
         $("#branchName").val(branchName);
     },1);
-}
-
-function selectUser() {
-    new publicOperatorService(function(data){
-        var receiveUserIds="";
-        var userName="";
-        $.each(data,function(i,k){
-            receiveUserIds=k.id+","+receiveUserIds;
-            userName+="["+k.userCode+"]"+k.userName+",";
-        })
-        receiveUserIds = receiveUserIds.substring(0,receiveUserIds.length - 1);
-        userName = userName.substring(0,userName.length - 1);
-
-        $("#receiveUserIds").val(receiveUserIds);
-        $("#userName").val(userName);
-    },{type:1});
 }
 
 function saveNotice(){

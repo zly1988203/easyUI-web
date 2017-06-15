@@ -531,9 +531,12 @@ function saveItemHandel(){
             isCheckResult = false;
             return false;
         };
-        if(parseFloat(v["price"])<=0&&v["isGift"]==0){
-            isChcekPrice = true;
+        if(hasPurchasePrice==true) {
+            if(parseFloat(v["price"])<=0&&v["isGift"]==0){
+                isChcekPrice = true;
+            }
         }
+
         //数量判断
         if(parseFloat(v["realNum"])<=0){
         	isChcekNum = true;

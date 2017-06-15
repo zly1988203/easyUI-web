@@ -42,7 +42,7 @@ $(function() {
 });
 
 function hidePageElement() {
-    debugger;
+
     if(hasPurchasePrice==false){
         $("#purchasePrice").removeProp("checked");
         $("#purchasePrice").prop("disabled","disabled");
@@ -403,7 +403,6 @@ function initAddModifyPriceGridEdit() {
         }
     });
 
-    debugger
     var param = {
         wholesalePrice:["oldWsPrice","newWsPrice"],
         purchasePrice:["oldPurPrice","newPurPrice","oldSaleRate","newSaleRate"],

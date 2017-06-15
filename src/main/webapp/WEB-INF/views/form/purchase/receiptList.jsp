@@ -82,7 +82,7 @@
         
       <div class="ub ub-f1  umar-t8 umar-b8">
             <div id="tabs" class="easyui-tabs" data-options="fit:true,border:false,tabWidth:120,tabHeight:25" style="">
-	            <div title="待处理采购订单" id="pending" style="height: auto;">
+	            <div title="待处理采购订单" data-options="tabWidth:158"  id="pending" style="height: auto;">
 	                <table id="receiptOrderList"></table>
 	            </div> 
 	            <div title="采购收货单" id="processed" style="padding: 5px; height: auto;">
