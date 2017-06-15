@@ -329,7 +329,7 @@ function selectGoods(searchKey){
         }
         var setdata=setTion(data);
         //selectStockAndPrice(branchId,setdata);
-        gridHandel.setLoadFocus();
+        // gridHandel.setLoadFocus();
       
     });
 }
