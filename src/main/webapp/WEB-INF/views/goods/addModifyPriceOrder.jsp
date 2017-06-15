@@ -155,6 +155,7 @@
 					<!--input-checkbox-->
 					<div class="ub ub-ac umar-l48" id="checkBoxPrice">
 						<div class="umar-r10 uw-70 ut-r">调价设置:</div>
+
 						<!-- 如果价格设置不是为空 -->
 						<c:if test="${priceGrantMap != null }">
 							<div class="ub ub-ac umar-r10">
@@ -175,7 +176,7 @@
 									<c:if
 										test="${goodsPriceForm.isModifySalePrice==0||goodsPriceForm.isModifySalePrice==null}">
 										<label><input class="priceItem" type="checkbox"
-											name="isModifySalePrice" id="retailPrice" /><span>零售价</span></label>
+											name="isModifySalePrice" id="retailPrice" checked="checked"/><span>零售价</span></label>
 									</c:if>
 									<c:if test="${goodsPriceForm.isModifySalePrice==1}">
 										<label><input class="priceItem" type="checkbox"
@@ -188,7 +189,7 @@
 									<c:if
 										test="${goodsPriceForm.isModifyVipPrice==0||goodsPriceForm.isModifyVipPrice==null}">
 										<label><input class="priceItem" type="checkbox"
-											name="isModifyVipPrice" id="memberPrice" /><span>会员价</span></label>
+											name="isModifyVipPrice" id="memberPrice" checked="checked"/><span>会员价</span></label>
 									</c:if>
 									<c:if test="${goodsPriceForm.isModifyVipPrice==1}">
 										<label><input class="priceItem" type="checkbox"
