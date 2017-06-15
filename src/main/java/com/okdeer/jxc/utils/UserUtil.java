@@ -57,12 +57,12 @@ public class UserUtil {
 	public static Session getSession() {
 		return SecurityUtils.getSubject().getSession();
 	}
-	
+
 	public static HttpSession getHttpSession() {
-		ServletRequestAttributes requestAttributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
+		ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder
+				.getRequestAttributes();
 		return requestAttributes.getRequest().getSession();
 	}
-	
 
 	/**
 	 * @Description: 获取当前登录用户对象
@@ -73,7 +73,7 @@ public class UserUtil {
 	public static SysUser getCurrentUser() {
 		return getSessionValue(Constant.SESSION_USER);
 	}
-	
+
 	/**
 	 * @Description: 获取当前登录用户对象(兼容Junit)
 	 * @return
@@ -111,8 +111,10 @@ public class UserUtil {
 	 */
 	public static void setCurrentUser(SysUser user) {
 		setSessionValue(Constant.SESSION_USER, user);
+
+		setPriceGrantMap(user);
 	}
-	
+
 	/**
 	 * @Description: 设置当前用户机构默认供应商
 	 * @param supplier
@@ -122,7 +124,7 @@ public class UserUtil {
 	public static void setDefaultSupplier(Supplier supplier) {
 		setSessionValue(Constant.SESSION_DEFAULT_SUPPLIER, supplier);
 	}
-	
+
 	/**
 	 * @Description: 获取当前用户机构默认供应商
 	 * @return
@@ -165,6 +167,7 @@ public class UserUtil {
 		SysUser sysUser = getCurrentUser();
 		return sysUser == null ? null : sysUser.getBranchCode();
 	}
+
 	/**
 	 * @Description: 获取当前登录用户机构名称
 	 * @return
@@ -194,10 +197,11 @@ public class UserUtil {
 	 * @author liux01
 	 * @date 2017年3月9日
 	 */
-	public static String getCurrBranchCompleName(){
+	public static String getCurrBranchCompleName() {
 		SysUser sysUser = getCurrentUser();
-		return sysUser == null ? null : "["+sysUser.getBranchCode()+"]"+sysUser.getBranchName();
+		return sysUser == null ? null : "[" + sysUser.getBranchCode() + "]" + sysUser.getBranchName();
 	}
+
 	/**
 	 * @Description: 获取当前登录用户机构类型
 	 * @return
@@ -208,6 +212,7 @@ public class UserUtil {
 		SysUser sysUser = getCurrentUser();
 		return sysUser == null ? null : sysUser.getBranchType();
 	}
+
 	/**
 	 * @Description: 获取当前登录用户父机构
 	 * @return   
@@ -220,7 +225,6 @@ public class UserUtil {
 		SysUser sysUser = getCurrentUser();
 		return sysUser == null ? null : sysUser.getBranchParentId();
 	}
-	
 
 	/**
 	 * @Description: 根据key值获取session当中的对象
@@ -238,7 +242,7 @@ public class UserUtil {
 			return null;
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public static <T extends Serializable> T getHttpSessionValue(String key) {
 		HttpSession httpSession = UserUtil.getHttpSession();
@@ -248,7 +252,6 @@ public class UserUtil {
 			return null;
 		}
 	}
-	
 
 	/**
 	 * @Description: 保存对象到session当中

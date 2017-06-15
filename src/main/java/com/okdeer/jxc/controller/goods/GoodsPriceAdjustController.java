@@ -114,9 +114,6 @@ public class GoodsPriceAdjustController extends BasePrintController<GoodsPriceAd
 	 */
 	@RequestMapping(value = "/addFormView", method = RequestMethod.GET)
 	public String addFormView(Model model, HttpServletRequest request) {
-		// 获得价格权限 逗号隔开
-		SysUser user = UserUtil.getCurrentUser();
-		UserUtil.setPriceGrantMap(user);
 		model.addAttribute("first", Constant.ONE);
 		model.addAttribute("close", request.getAttribute("report"));
 		model.addAttribute("loginBranchId", UserUtil.getCurrBranchId());
