@@ -116,7 +116,7 @@ function initDatagridRequireOrders(){
     });
     queryForm();
     if(hasPurchasePrice==false){
-        priceGrantUtil.grantPurchasePrice("updatePermission",["amount"])
+        priceGrantUtil.grantPurchasePrice("deliverFormList",["amount"])
     }
 }
 

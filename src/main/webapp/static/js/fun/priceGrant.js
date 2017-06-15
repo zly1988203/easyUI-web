@@ -201,22 +201,22 @@ var priceGrantUtil = {
 		if(typeof(param.salePrice) != "undefined"){
             _this.grantSalePrice(datagridId,param.salePrice,param.outFieldArr);
 		}
-		if(typeof(param.vipPrice)){
+		if(typeof(param.vipPrice) != "undefined"){
             _this.grantVipPrice(datagridId,param.vipPrice,param.outFieldArr);
 		}
-        if(typeof(param.wholesalePrice)){
+        if(typeof(param.wholesalePrice) != "undefined"){
             _this.grantWholesalePrice(datagridId,param.wholesalePrice,param.outFieldArr);
         }
-        if(typeof(param.purchasePrice)){
+        if(typeof(param.purchasePrice) != "undefined"){
             _this.grantPurchasePrice(datagridId,param.purchasePrice,param.outFieldArr);
         }
-        if(typeof(param.distributionPrice)){
+        if(typeof(param.distributionPrice) != "undefined"){
             _this.grantDistributionPrice(datagridId,param.distributionPrice,param.outFieldArr);
         }
-        if(typeof(param.costPrice)){
+        if(typeof(param.costPrice) != "undefined"){
             _this.grantCostPrice(datagridId,param.costPrice,param.outFieldArr);
         }
-        if(typeof(param.lowestPrice)){
+        if(typeof(param.lowestPrice) != "undefined"){
             _this.grantLowestPrice(datagridId,param.lowestPrice,param.outFieldArr);
         }
 	},
