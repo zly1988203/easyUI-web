@@ -7,6 +7,22 @@ $(function() {
 	$("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
 	$("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 	initPurReportDetailGrid();
+	
+	//机构选择初始化
+	$('#branchComponent').branchSelect();
+	
+	//供应商选择初始化
+	$('#supplierComponent').supplierSelect({
+		param:{
+			saleWayNot:"purchase"
+		},
+		//数据过滤
+		loadFilter:function(data){
+			data.supplierId = data.id;
+			return data;
+		}
+	});
+	
 });
 var gridHandel = new GridClass();
 /**
@@ -178,6 +194,11 @@ function purchaseDetailCx(){
 		return ;
 	}*/
 	var formData = $("#queryForm").serializeObject();
+	
+	//0615 修复 19632 BUG bwp
+	formData.branchName = formData.branchName.substring(formData.branchName.lastIndexOf(']')+1);
+    formData.supplierName = formData.supplierName.substring(formData.supplierName.lastIndexOf(']')+1);
+    
 	$("#purReportDetail").datagrid("options").queryParams = formData;
 	$("#purReportDetail").datagrid("options").method = "post";
 	$("#purReportDetail").datagrid("options").url =  contextPath+"/report/purchase/getPurReportDetail";
@@ -223,30 +244,6 @@ function exportExcel(){
 
 }
 
-
-
-
-/**
- * 机构列表下拉选
- */
-function searchBranch (){
-	new publicAgencyService(function(data){
-//		$("#branchId").val(data.branchesId);
-		$("#branchName").val("["+data.branchCode+"]"+data.branchName);
-	},"","");
-}
-/**
- * 供应商公共组件
- */
-function searchSupplier(){
-	var param = {
-			saleWayNot:"purchase"
-	}
-	new publicSupplierService(function(data){
-//		$("#supplierId").val(data.id);
-		$("#supplierName").val(data.supplierName);
-	},param);
-}
 /**
  * 商品类别
  */

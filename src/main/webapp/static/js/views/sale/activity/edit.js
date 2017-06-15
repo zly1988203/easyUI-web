@@ -43,7 +43,23 @@ $(function(){
 	$(document).on('click','#weekday .ubcheckweek',function(){
 	//点击取消切换方法执行
 	  weekCheckDay();
-	})
+	});
+	
+	//机构选择初始化
+	$('#branchComponent').branchSelect({
+		param:{
+			type:'NOTREE', //左侧没有树
+			selectType:1,  //多选
+			formType:'DP'
+		},
+		//过滤数据
+		loadFilter:function(data){
+			data.forEach(function(obj,index){
+				obj.branchIds = obj.branchesId;
+			});
+			return data;
+		}
+	});
 
 });
 
@@ -2224,16 +2240,7 @@ function initDatagridCompose(){
 			            return
 			        }
 			        return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-			    },
-//			    editor:{
-//			        type:'numberbox',
-//			        options:{
-//			            disabled:true,
-//			            min:0,
-//			            precision:2,
-//			
-//			        }
-//			    },
+			    }
 			},
 			{field: 'limitCount', title: '组合数量', width: 100, align: 'right',
 			    formatter : function(value, row, index) {
@@ -2293,10 +2300,15 @@ function initDatagridCompose(){
 		},
        onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
-				
-		 }
+			if(data.rows && data.rows.length > 0){
+				if(!oldData["grid"]){
+					oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
+						return $.extend(true,{},obj);//返回对象的深拷贝
+					});
+				}
+			}	
+	   }
   });
-  gridHandel.setLoadData([$.extend({},gridDefault)])
 }
 
 
@@ -3273,17 +3285,12 @@ function saveDataHandel(rows,setrows){
 	  delete reqObj.id;
 	  temUrl = contextPath+"/sale/activity/save";
   }
-  //console.log(req);
-  //return;
-//  gFunStartLoading();
-  
+
   $_jxc.ajax({
       url:temUrl,
       contentType:'application/json',
       data:req
   },function(result){
-	  //console.log(result)
-//	  gFunEndLoading();
 	  if(result['code'] == 0){
           $_jxc.alert("操作成功！",function(){
         	  var actId = $("#activityId").val();
@@ -3411,28 +3418,6 @@ function StrweekCheckDay(weekstr){
 		$("#weekcheckbox"+val).prop("checked",true);
 	})
 	
-}
-/**
- * 分店列表 0 单选,1  多选
- */
-
-function selectBranch() {
-	new publicBranchService(function(data) {
-		var branchesId="";
-		var branchName="";
-		$.each(data,function(i,k){
-			branchesId=k.branchesId+","+branchesId;
-			branchName+="["+k.branchCode+"]"+k.branchName+",";
-		})
-		branchesId = branchesId.substring(0,branchesId.length - 1);
-		branchName = branchName.substring(0,branchName.length - 1);
-		$("#branchIds").val(branchesId);// id
-		$("#branchName").val(branchName);
-		$("#areaName").val("自定义");
-		$("#areaInput").val("");
-		//清空列表数据
-		$('#addModifyPriceGrid').datagrid('loadData', {total: 0, rows:  [$.extend({},gridDefault)]});  
-	},1, null, 'DP');
 }
 
 //类别选择

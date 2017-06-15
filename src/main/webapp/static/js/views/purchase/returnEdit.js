@@ -716,7 +716,7 @@ function selectSupplier(){
 	new publicSupplierService(function(data){
         var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
         if( $("#supplierId").val() != "" && data.id != $("#supplierId").val() && nowRows.length > 0){
-            $_jxc.confirm('提示','修改供应商后会清空明细，是否要修改？',function(r){
+            $_jxc.confirm('修改供应商后会清空明细，是否要修改？',function(r){
                 if(r){
                     $("#supplierId").val(data.id);
                     $("#saleWay").val(data.saleWay);
@@ -749,7 +749,7 @@ function selectBranch(){
         var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
         if(data.branchesId != $("#branchId").val() && nowRows.length > 0){
 
-            $_jxc.confirm('提示','修改机构后会清空明细，是否要修改？',function(r){
+            $_jxc.confirm('修改机构后会清空明细，是否要修改？',function(r){
                 if(r){
                     $("#branchId").val(data.branchesId);
                     $("#branchType").val(data.type);
@@ -847,13 +847,13 @@ function check(){
    	 $_jxc.alert("采购商品数量全部为0");
 		return
 	}else if(parseFloat(num)>0){
-		$_jxc.confirm('提示',"是否清除单据中数量为0的商品记录?",function(data){
+		$_jxc.confirm("是否清除单据中数量为0的商品记录?",function(data){
    		if(data){
    		    checkOrder();
    		}	
    	});
 	}else{
-		 $_jxc.confirm('提示','是否审核通过？',function(data){
+		 $_jxc.confirm('是否审核通过？',function(data){
 		    checkOrder();
 		 });
 	}
