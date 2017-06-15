@@ -7,7 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>促销活动设置</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="${ctx}/static/js/views/sale/activity/add.js?V=V2.5.x"></script>
+<script src="${ctx}/static/js/views/sale/activity/add.js?V=V2.6.0"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
 </style>
@@ -133,11 +133,11 @@
             </div>
 	         
 	          <div class="ub umar-t8">
-	             <div class="ub  ub-ac uw-384">
+	             <div class="ub  ub-ac uw-384" id="branchComponent">
 	                   <div class="umar-r10 uw-70 ut-r">活动分店:</div>
-		                    <input class="uinp ub ub-f1" type="hidden" id="branchIds" name="branchIds" value="">
-	                        <input class="uinp ub ub-f1" type="text" id="branchName" readonly="readonly" value="" name="branchName" onclick="selectBranch()">
-	                   <div class="uinp-more" onclick="selectBranch()" id="selectBranchMore">...</div>
+	                   <input class="uinp ub ub-f1" type="hidden" id="branchIds" name="branchIds" value="">
+                       <input class="uinp ub ub-f1" type="text" id="branchName" readonly="readonly" value="" name="branchName">
+	                   <div class="uinp-more" id="selectBranchMore">...</div>
 	             </div>
 	             <i class="ub ub-ac uc-red">*</i>
 	              <div class="ub ub-ac uw-390 umar-l10 special">

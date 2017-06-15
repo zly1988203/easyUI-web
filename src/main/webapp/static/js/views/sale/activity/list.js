@@ -194,7 +194,7 @@ var resetForm = function() {
 // 终止
 function stop(){
 	var activityId = $("#activityId").val();
-	$_jxc.confirm('提示','是否终止此活动？',function(data){
+	$_jxc.confirm('是否终止此活动？',function(data){
 		if(data){
 			$_jxc.ajax({
 				url : contextPath+"/sale/activity/stop",

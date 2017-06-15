@@ -8,7 +8,7 @@
 <title>采购明细</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
-<script src="${ctx}/static/js/views/report/purchase/details.js"></script>
+<script src="${ctx}/static/js/views/report/purchase/details.js?V=2.6.0"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
 </style>
@@ -36,29 +36,26 @@
 	        <div class="ub uline umar-t8">
 	        </div>
           <div class="ub umar-t8">
-               <div class="ub ub-ac uw-300">
+               <div class="ub ub-ac uw-300" id="branchComponent">
                    <div class="umar-r10 uw-80 ut-r">机构名称:</div>
-                   <input class="uinp" type="hidden" id="branchId" name="branchId" >
 				   <div class="ub">
-
+                   	   <input class="uinp" type="hidden" id="branchId" name="branchId" >
 					   <input class="uinp" type="text" id="branchName" name="branchName" maxlength="50">
-					   <div class="uinp-more" id="branchSelect" onclick="searchBranch()">...</div>
+					   <div class="uinp-more" id="branchSelect">...</div>
 				   </div>
                </div>
-               <div class="ub ub-ac uw-300">
+               <div class="ub ub-ac uw-300" id="supplierComponent">
 				<div class="umar-r10 uw-80 ut-r">供应商:</div>
-				<input type="hidden" name="supplierId" id="supplierId" class="uinp" />
 				   <div class="ub">
-
+					   <input type="hidden" name="supplierId" id="supplierId" class="uinp" />
 					   <input type="text" name="supplierName" id="supplierName" class="uinp" maxlength="50" />
-					   <div class="uinp-more" id="supplierSelect" onclick="searchSupplier()">...</div>
+					   <div class="uinp-more" id="supplierSelect">...</div>
 				   </div>
 			  </div>
 			  <div class="ub ub-ac uw-300">
 				<div class="umar-r10 uw-80 ut-r">类别:</div>
 				<input type="hidden" name="categoryId" id="categoryId" class="uinp" />
 				  <div class="ub">
-
 					  <input type="text" name="categoryName" id="categoryName" class="uinp" maxlength="50" />
 					  <div class="uinp-more" id="categorySelect" onclick="searchCategory()">...</div>
 				  </div>
