@@ -38,6 +38,9 @@ function initTreeArchives(){
                 onClick: zTreeOnClick
             }
         };
+        if(data == ""){
+            return;
+        }
         $.fn.zTree.init($("#treeBranchList"), setting, JSON.parse(data));
         var treeObj = $.fn.zTree.getZTreeObj("treeBranchList");
         var nodes = treeObj.getNodes();
