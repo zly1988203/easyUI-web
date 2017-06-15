@@ -24,8 +24,8 @@ function getAccountColumns(){
 	
 	var defaultColumns = [{field: 'check',checkbox:true}];
 	defaultColumns =defaultColumns.concat([
-  			{field: 'branchCode', title: '机构编号', width: '80px', align: 'left'},
-			{field: 'branchName', title: '机构名称', width: '120px', align: 'left'},
+  			{field: 'branchCodeFull', title: '机构编号', width: '80px', align: 'left'},
+			{field: 'branchNameFull', title: '机构名称', width: '120px', align: 'left'},
 			{field: 'supplierCode', title: '供应商编号', width: '80px', align: 'left'},
 			{field: 'supplierName', title: '供应商名称', width: '120px', align: 'left'}]);
 	if(accountType == 6){
