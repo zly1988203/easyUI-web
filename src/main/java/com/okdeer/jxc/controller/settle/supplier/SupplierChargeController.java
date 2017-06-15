@@ -297,6 +297,9 @@ public class SupplierChargeController extends BasePrintController<SupplierCharge
     @RequestMapping(value = "chargeEdit")
     public ModelAndView chargeEdit(Model model, String id) {
         SupplierChargeVo chargeVo = supplierChargeService.getSupplierChargeVoById(id);
+        if(chargeVo == null){
+            return new ModelAndView("/error/500");
+        }
         model.addAttribute("chargeVo", chargeVo);
         return new ModelAndView("settle/supplier/charge/chargeEdit");
     }
