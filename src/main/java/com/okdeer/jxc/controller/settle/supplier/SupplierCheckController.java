@@ -90,6 +90,9 @@ public class SupplierCheckController extends BasePrintController<SupplierCheckCo
     @RequestMapping(value = "checkEdit")
     public ModelAndView checkEdit(Model model, String id) {
         SupplierCheckVo checkVo = supplierCheckService.getSupplierCheckVoById(id);
+        if(checkVo == null){
+            return new ModelAndView("/error/500");
+        }
         model.addAttribute("checkVo", checkVo);
         if (FormStatus.CHECK_SUCCESS.getValue().equals(checkVo.getAuditStatus())) {
             return new ModelAndView("settle/supplier/check/checkView");

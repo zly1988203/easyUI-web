@@ -89,6 +89,9 @@ public class SupplierChainController extends BasePrintController<SupplierChainCo
     @RequestMapping(value = "chainEdit")
     public ModelAndView chainEdit(Model model, String id) {
         SupplierChainVo chainVo = supplierChainService.getSupplierChainVoById(id);
+        if(chainVo == null){
+            return new ModelAndView("/error/500");
+        }
         model.addAttribute("chainVo", chainVo);
         if (FormStatus.CHECK_SUCCESS.getValue().equals(chainVo.getAuditStatus())) {
             return new ModelAndView("settle/supplier/chain/chainView");

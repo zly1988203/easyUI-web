@@ -90,6 +90,9 @@ public class SupplierSettleController extends BasePrintController<SupplierSettle
     @RequestMapping(value = "settleEdit")
     public ModelAndView settleEdit(Model model, String id) {
         SupplierSettleVo settleVo = supplierSettleService.getSupplierSettleVoById(id);
+        if(settleVo == null){
+            return new ModelAndView("/error/500");
+        }
         model.addAttribute("settleVo", settleVo);
         if (FormStatus.CHECK_SUCCESS.getValue().equals(settleVo.getAuditStatus())) {
             return new ModelAndView("settle/supplier/settle/settleView");
