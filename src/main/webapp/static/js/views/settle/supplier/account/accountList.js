@@ -5,8 +5,19 @@ $(function(){
 	initAcountList();
 	
 	//机构选择初始化
-	$('#branchComponent').branchSelect();
-	
+	// $('#branchComponent').branchSelect();
+    //机构选择初始化
+	$('#branchComponent').branchSelect({
+		//ajax参数
+		param:{
+			scope:1
+		},
+		//数据过滤
+		loadFilter:function(data){
+			data.isContainChildren = data.allBranch;
+			return data;
+		}
+	});
 	//供应商选择初始化
 	$('#supplierComponent').supplierSelect({
 		//数据过滤
