@@ -31,9 +31,9 @@ function initDatagridRequire(){
                     return str;
                 }
             },
-            {field:'cityName',title: '所在城市', width: '86px', align: 'left'},
-			{field:'categoryCode', title: '类别编号', width: '56px', align: 'left'},
-            {field:'categoryName', title: '类别名称', width: '65px', align: 'left'},
+            {field:'cityName',title: '所在城市', width: '80px', align: 'left'},
+			{field:'categoryCode', title: '类别编号', width: '80px', align: 'left'},
+            {field:'categoryName', title: '类别名称', width: '80px', align: 'left'},
             {field:'saleAmount', title: '销售金额', width: '80px', align: 'right',
             	formatter:function(value,row,index){
             		if(row.isFooter){
@@ -51,21 +51,7 @@ function initDatagridRequire(){
                      }
                  }
             },
-            {field:'saleRate', title: '销售占比', width: '60px', align: 'right',
-            	formatter:function(value,row,index){
-				    if(value){
-				    	return '<b>'+parseFloat(value).toFixed(1)+'%</b>';
-				    }
-				},
-            	editor:{
-                    type:'numberbox',
-                    options:{
-                    	disabled:true,
-                        min:0,
-                        precision:1
-                    }
-                }
-            },
+            {field:'saleRate', title: '销售占比', width: '80px', align: 'right'},
       ]],
       onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");

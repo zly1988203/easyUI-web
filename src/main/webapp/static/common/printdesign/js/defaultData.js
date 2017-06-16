@@ -1,4 +1,5 @@
-﻿﻿﻿﻿/**
+﻿/**
+ *
  * 打印项数据,详细类别： CGSheet：采购订单
  * 
  * FileName: defaultData.js
@@ -875,7 +876,7 @@ var defaultData = {
 		}, {
 			type : "label",
 			text : "司机："
-		} ]
+		}]
 	} ],
 	//店间配送申请单
 	DDSheet : [/*

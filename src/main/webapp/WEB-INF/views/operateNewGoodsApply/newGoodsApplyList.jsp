@@ -28,26 +28,26 @@
       <form action="" id="formGoodsArchives" method="post">
         <div class="ub ub-ac">
             <div class="ubtns">
-            	<shiro:hasPermission name="JxcNewGoodsApply:search">
+            	<shiro:hasPermission name="jxcOperateNewGoods:search">
 					<div class="ubtns-item" onclick="goodsSearch()">查询</div>
 			   	</shiro:hasPermission>
-            	<shiro:hasPermission name="JxcNewGoodsApply:append">
+            	<shiro:hasPermission name="jxcOperateNewGoods:append">
 					<div class="ubtns-item" onclick="addGoodsView()">新增</div>
 			   	</shiro:hasPermission>
-			   	<shiro:hasPermission name="JxcNewGoodsApply:copy">
+			   	<shiro:hasPermission name="jxcOperateNewGoods:copy">
 					<div class="ubtns-item" onclick="copyGoodsView()">复制</div>
 			   	</shiro:hasPermission>
-			   	<shiro:hasPermission name="JxcNewGoodsApply:audit">
+			   	<shiro:hasPermission name="jxcOperateNewGoods:audit">
 					<div class="ubtns-item" onclick="auditingGoods()">审核</div>
 			   	</shiro:hasPermission>
 			   	
-			   	<shiro:hasPermission name="JxcNewGoodsApply:import">
+			   	<shiro:hasPermission name="jxcOperateNewGoods:import">
                    <div class="ubtns-item" onclick="toImportproduct()">导入</div>
 			   	</shiro:hasPermission>
-			   	<shiro:hasPermission name="JxcNewGoodsApply:export">
+			   	<shiro:hasPermission name="jxcOperateNewGoods:export">
 					<div class="ubtns-item" onclick="exportData()">导出</div>
 			   	</shiro:hasPermission>
-			   	<shiro:hasPermission name="JxcNewGoodsApply:delete">
+			   	<shiro:hasPermission name="jxcOperateNewGoods:delete">
 					<div class="ubtns-item" onclick="delGoods()">删除</div>
 			   	</shiro:hasPermission> 
 					<div class="ubtns-item" onclick="toClose()">退出</div>

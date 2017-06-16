@@ -7,7 +7,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>有效天数设置页面</title>
+<title>配送设置</title>
 
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 </head>
@@ -29,6 +29,17 @@
 					<div class="umar-r10 uw-60 ut-r">有效天数:</div>
 					<div class="ub ub-ac umar-r10">
 						<input type="text" class="easyui-numberbox " name="validityDay" id="validityDay" data-options="min:0,precision:0">
+					</div>
+				</div>
+				<div class="ub ub-ac upad-16 ">
+					<div class="ub uw-220 ut-r">加盟店要货配送取价值:</div>
+					<div class="ub ub-ac umar-r10">
+						<input class="ub" type="radio" id="storesPriceSpec0" name="storesPriceSpec" value="0" />
+						<label for="storesPriceSpec0">分机构配送价</label>
+					</div>
+					<div class="ub ub-ac umar-r10">
+						<input class="ub" type="radio" id="storesPriceSpec1" name="storesPriceSpec" value="1" checked="checked" />
+						<label for="storesPriceSpec1">门店配送价</label>
 					</div>
 				</div>
 				<div class="ub ub-ac upad-16 ">
@@ -55,6 +66,17 @@
 					<div class="ub ub-ac umar-r10">
 						<input class="ub" type="radio" id="selectGoodsSpec1" name="selectGoodsSpec" value="1" />
 						<label for="selectGoodsSpec1">启用</label>
+					</div>
+				</div>
+				<div class="ub ub-ac upad-16 ">
+					<div class="ub uw-220 ut-r ">加盟店可要仓库所有对外供应商品:</div>
+					<div class="ub ub-ac umar-r10">
+						<input class="ub" type="radio" id="storeSelectGoodsSpec0" name="storeSelectGoodsSpec" value="0" />
+						<label for="storeSelectGoodsSpec0">不启用</label>
+					</div>
+					<div class="ub ub-ac umar-r10">
+						<input class="ub" type="radio" id="storeSelectGoodsSpec1" name="storeSelectGoodsSpec" value="1" />
+						<label for="storeSelectGoodsSpec1">启用</label>
 					</div>
 				</div>
 				<div class="ub ub-ac upad-16 ">
@@ -183,6 +205,10 @@
 		var minAmount = data.minAmount || 0;
 		var validityDay= data.validityDay;
 		var dosheetTemplate= data.dosheetTemplate;
+		var storesPriceSpec= data.storesPriceSpec;
+
+		var storeSelectGoodsSpec= data.storeSelectGoodsSpec;
+
 		//页面赋值
 		$("#branchId").val(branchId);
 		$("#validityDay").numberbox("setValue",validityDay);
@@ -193,6 +219,13 @@
 		} else {
 			$("#priceSpec2").attr("checked", "true");
 		}
+
+		if (storesPriceSpec === null || storesPriceSpec === '1' || storesPriceSpec === '') {
+			$("#storesPriceSpec1").attr("checked", "true");
+		} else if (storesPriceSpec === '0') {
+			$("#storesPriceSpec0").attr("checked", "true");
+		}
+
 		if (dyPriceSpec === null || dyPriceSpec === '0' || dyPriceSpec === '') {
 			$("#dyPriceSpec0").attr("checked", "true");
 		} else {
@@ -203,6 +236,14 @@
 		} else {
 			$("#selectGoodsSpec1").attr("checked", "true");
 		}
+
+
+		if (storeSelectGoodsSpec === null || storeSelectGoodsSpec === '0' || storeSelectGoodsSpec === '') {
+			$("#storeSelectGoodsSpec0").attr("checked", "true");
+		} else {
+			$("#storeSelectGoodsSpec1").attr("checked", "true");
+		}
+
 		if (isMinAmount === null || isMinAmount === 1 || isMinAmount === '') {
 			$("#isMinAmount1").attr("checked", "true");
 		}else if(isMinAmount == '2'){
@@ -247,7 +288,7 @@
 				gFunEndLoading();
 				if (result['code'] == 0) {
 					messager("保存成功！");
-					location.reload();
+					//location.reload();
 				} else {
 					successTip(result['message']);
 				}

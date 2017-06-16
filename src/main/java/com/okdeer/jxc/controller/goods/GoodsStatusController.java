@@ -34,6 +34,7 @@ import com.okdeer.jxc.common.goodselect.GoodsSelectImportVo;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
+import com.okdeer.jxc.form.enums.FormType;
 import com.okdeer.jxc.goods.entity.GoodsSelect;
 import com.okdeer.jxc.goods.qo.GoodsStatusQo;
 import com.okdeer.jxc.goods.service.GoodsStatusService;
@@ -201,6 +202,7 @@ public class GoodsStatusController extends BaseController<GoodsStatusController>
 			}
 			Map<String,String> map = new HashMap<String,String>();
 			map.put("status", status);
+			map.put("formType", FormType.GS.toString());
 			GoodsSelectImportVo<GoodsSelect> vo = goodsSelectImportComponent.importSelectGoodsWithStock(
 					fileName, is, field, new GoodsSelect(), branchId, user.getId(), type,
 					"/goods/status/downloadErrorFile", new GoodsSelectImportBusinessValid() {

@@ -791,6 +791,8 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		replaceMap.put("_发货机构", deliverForm.getSourceBranchName() != null ? deliverForm.getSourceBranchName() : "");
 		replaceMap.put("sourceBranchName",
 				deliverForm.getSourceBranchName() != null ? deliverForm.getSourceBranchName() : "");
+		replaceMap.put("sourceBranchCode",
+				deliverForm.getSourceBranchCode() != null ? deliverForm.getSourceBranchCode() : "");
 
 		// 收货机构
 		replaceMap.put("_收货机构", deliverForm.getSourceBranchName() != null ? deliverForm.getSourceBranchName() : "");
@@ -809,15 +811,10 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 				.put("createUserName", deliverForm.getCreateUserName() != null ? deliverForm.getCreateUserName() : "");
 		// 制单日期
 		replaceMap.put("_制单日期", deliverForm.getCreateTime() != null ? deliverForm.getCreateTime() : "");
-		replaceMap.put("createTime",
-				deliverForm.getCreateTime() != null ? DateUtils.formatDate(deliverForm.getCreateTime(), "yyyy-MM-dd")
-						: "");
+		replaceMap.put("createTime",deliverForm.getCreateTime() != null ? DateUtils.formatDate(deliverForm.getCreateTime(), "yyyy-MM-dd HH:mm") : "");
 		// 审核日期
-		replaceMap.put("_审核日期", deliverForm.getValidityTime() != null ? deliverForm.getValidityTime() : "");
-		replaceMap.put(
-				"validityTime",
-				deliverForm.getValidityTime() != null ? DateUtils.formatDate(deliverForm.getValidityTime(),
-						"yyyy-MM-dd") : "");
+		replaceMap.put("_审核日期", deliverForm.getValidTime() != null ? deliverForm.getValidTime() : "");
+		replaceMap.put("validTime",deliverForm.getValidTime() != null ? DateUtils.formatDate(deliverForm.getValidTime(), "yyyy-MM-dd HH:mm") : "");
 		// 审核人员
 		replaceMap.put("_审核人员", deliverForm.getValidUserName() != null ? deliverForm.getValidUserName() : "");
 		replaceMap.put("validUserName", deliverForm.getValidUserName() != null ? deliverForm.getValidUserName() : "");
@@ -900,6 +897,22 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	}
 
 	// end by lijy02
+
+	/**
+	 * (non-Javadoc)
+	 * @see com.okdeer.jxc.common.controller.BasePrintController#getPrintDetail(java.util.List, java.util.Map)
+	 */
+	@Override
+	protected void getPrintDetail(List<DeliverFormList> list, Map<String, Object> params) {
+		BigDecimal largeNum = BigDecimal.ZERO;
+		BigDecimal dealNum = BigDecimal.ZERO;
+		for (DeliverFormList deliverFormList : list) {
+			largeNum = largeNum.add(deliverFormList.getLargeNum());
+			dealNum = dealNum.add(deliverFormList.getDealNum());
+		}
+		params.put("largeNum", largeNum);
+		params.put("dealNum", dealNum);
+	}
 
 	/**
 	 * @Description: 要货单导入功能

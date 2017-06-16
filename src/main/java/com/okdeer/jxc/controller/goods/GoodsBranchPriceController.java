@@ -198,11 +198,11 @@ public class GoodsBranchPriceController extends BaseController<GoodsBranchPriceC
 		}
 		SysUser user = UserUtil.getCurrentUser();
 		try {
-			goodsBranchPriceService.branchesLeadInto(brancheList, skuIdList, user.getId());
+			RespJson respJson = goodsBranchPriceService.branchesLeadInto(brancheList, skuIdList, user.getId());
+			return respJson;
 		} catch (Exception e) {
 			return RespJson.error("多机构引入商品失败!");
 		}
-		return RespJson.success();
 	}
 
 	private List<String> splitStr(String str) {

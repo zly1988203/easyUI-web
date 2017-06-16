@@ -908,7 +908,6 @@ function loadLists(referenceId,refDeliverType){
             rows[i]["defectNum"] = defectNum<0?-defectNum:0;
             rows[i]["price"] = rows[i]["isGift"]==0?rows[i]["price"]:0;
             rows[i]["amount"] = rows[i]["isGift"]==0?rows[i]["amount"]:0;
-
         }
         $("#gridEditOrder").datagrid("loadData",rows);
         updateFooter();

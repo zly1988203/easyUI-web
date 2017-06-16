@@ -33,7 +33,8 @@ function initDateGrid() {
             {field: 'skuCode', title: '货号', width: 100, align: 'left'},
             {field: 'skuName', title: '商品名称', width: 150, align: 'left'},
             {field: 'barCode', title: '条码', width: 100, align: 'left'},
-            {field: 'categoryName', title: '商品类别', width: 80, align: 'left'},
+			{field: 'oneCategoryName', title: '商品大类', width: 80, align: 'left'},
+            {field: 'categoryName', title: '商品小类', width: 80, align: 'left'},
             {field: 'spec', title: '规格', width: 80, align: 'left'},
             {field: 'unit', title: '单位', width: 80, align: 'left'},
             {field: 'saleNum', title: '数量', width: 80, align: 'right',formatter : function(value){
@@ -72,6 +73,14 @@ function initDateGrid() {
     			return "<b>0.00</b>";
     		}},
     		{field: 'activityTypeName', title: '活动类型', width: 100, align: 'left'},
+			{field: 'userName', title: '收银员', width: 100, align: 'left'},
+			{field: 'completeTime', title: '操作时间', width: 120, align: 'center',
+				formatter: function (value, row, index) {
+					if (value) {
+						return new Date(value).format('yyyy-MM-dd hh:mm');
+					}
+					return "";
+				}},
     		{field: 'activityCode', title: '活动编号', width: 150, align: 'left'},
     		{field: 'activityName', title: '活动名称', width: 150, align: 'left'},
     		{field: 'ticketNo', title: '小票号', width: 160, align: 'left'}

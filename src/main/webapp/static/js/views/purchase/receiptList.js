@@ -10,7 +10,8 @@ $(function(){
 	$('#radioItemDiv').prop("style", "visibility:hidden;");
     $('#refFormNoDiv').prop("style", "visibility:hidden;");
 	loadTabs();
-    toBtnDisable('','','btnPrint');
+    //toBtnDisable('','','btnPrint');
+	toBtnDisable('btnAdd','btnDel','');
 	//初始化默认条件
     initConditionParams();
     initDatagridFormPA();
@@ -18,13 +19,15 @@ $(function(){
     changeStatus();
     if(getUrlQueryString('message')=='0'){
     	$('#tabs').tabs({'selected':1});
-        toBtnDisable('','','btnPrint');
+        //toBtnDisable('','','btnPrint');
+		toBtnDisable('btnAdd','btnDel','');
     	query();
     }else{
         $('#radioItemDiv').prop('hide',true);
         $('#refFormNoDiv').prop('hide',true);
 		$("#refFormNo").val('');
-		toBtnEnable('btnAdd','btnDel','');
+		//toBtnEnable('btnAdd','btnDel','');
+		toBtnEnable('','','btnPrint');
 		setQueryDataPA();
 		initDatagridFormPA();
 		query();
@@ -42,16 +45,20 @@ function loadTabs(){
                 $('#radioItemDiv').prop("style", "visibility:hidden;");
                 $('#refFormNoDiv').prop("style", "visibility:hidden;");
 				$("#refFormNo").val('');
-				toBtnEnable('btnAdd','btnDel','');
-                toBtnDisable('','','btnPrint');
+                //toBtnEnable('btnAdd','btnDel','');
+                //toBtnDisable('','','btnPrint');
+				toBtnEnable('','','btnPrint');
+				toBtnDisable('btnAdd','btnDel','');
 				setQueryDataPA();
 				initDatagridFormPA();
 			} else {
 				$("input[type='radio'][name='status']").get(0).checked = true;
                 $('#radioItemDiv').prop("style", "visibility:visible;");
                 $('#refFormNoDiv').prop("style", "visibility:visible;");
-                toBtnEnable('','','btnPrint');
-				toBtnDisable('btnAdd','btnDel','');
+                //toBtnEnable('','','btnPrint');
+				//toBtnDisable('btnAdd','btnDel','');
+				toBtnEnable('btnAdd','btnDel','');
+				toBtnDisable('','','btnPrint');
 				setQueryDataPI();
 				initDatagridOrders();
 			}
