@@ -239,7 +239,7 @@ function initDatagridOrders(){
 						}
 					}
 				},
-				{field:"verageStoreSales",title:"平均单店销售量",sortable:true,tooltip:true,width:80,align:'right',
+				{field:"verageStoreSales",title:"平均单店销售量",sortable:true,tooltip:true,width:100,align:'right',
 					formatter : function(value,row,index){
 						if (row.skuId == null) {
 							return;
@@ -304,7 +304,7 @@ function initDatagridOrders(){
 			{field:"threeCategoryName",title:"小类",sortable:true,tooltip:true,width:80,align:'left'},
 			{field:"vaildity",title:"保质期",sortable:true,tooltip:true,width:80,align:'left'},
 			{field:"brandName",title:"品牌",sortable:true,tooltip:true,width:80,align:'left'},
-			{field:"createTime",title:"建档时间",sortable:true,tooltip:true,width:120,align: 'center',
+			{field:"createDataTime",title:"建档时间",sortable:true,tooltip:true,width:120,align: 'center',
 				formatter: function (value, row, index) {
 					if (value) {
 						return new Date(value).format('yyyy-MM-dd hh:mm');
