@@ -14,6 +14,7 @@ $(function(){
     selectTargetBranchData($("#targetBranchId").val());
 });
 var gridHandel = new GridClass();
+var gridName = "gridEditRequireOrder";
 function initDatagridEditRequireOrder(){
     gridHandel.setGridName("gridEditRequireOrder");
 	var formId = $("#formId").val();
@@ -122,9 +123,13 @@ function initDatagridEditRequireOrder(){
             updateFooter();
         }
     });
-    if(hasDistributionPrice==false){
-        priceGrantUtil.grantDistributionPrice("gridEditRequireOrder",["price","amount","taxAmount"])
+
+    var param = {
+        distributionPrice:["price","amount","taxAmount"],
+        salePrice:["salePrice","saleAmount"]
     }
+    priceGrantUtil.grantPrice(gridName,param);
+
 }
 //合计
 function updateFooter(){

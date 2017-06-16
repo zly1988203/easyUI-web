@@ -267,9 +267,11 @@ function initDatagridAddRequireOrder(){
         $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),
         $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault)]);
 
-    if(hasDistributionPrice==false){
-        priceGrantUtil.grantDistributionPrice(gridName,["price","amount","taxAmount"])
+    var param = {
+        distributionPrice:["price","amount","taxAmount"],
     }
+    priceGrantUtil.grantPrice(gridName,param);
+
 }
 
 

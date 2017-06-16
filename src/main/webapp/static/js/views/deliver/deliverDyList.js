@@ -115,9 +115,11 @@ function initDatagridRequireOrders(){
 		}
     });
     queryForm();
-    if(hasPurchasePrice==false){
-        priceGrantUtil.grantPurchasePrice("deliverFormList",["amount"])
+
+    var param = {
+        distributionPrice:["amount"],
     }
+    priceGrantUtil.grantPrice("deliverFormList",param);
 }
 
 //新增要货单

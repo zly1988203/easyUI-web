@@ -330,9 +330,11 @@ function initDatagridRequireOrder(){
     	                         $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault)]);
     }
 
-    if(hasCostPrice==false){
-        priceGrantUtil.grantCostPrice(gridName,["price","amount","taxAmount"])
+    var param = {
+        distributionPrice:["price","amount","taxAmount"],
     }
+    priceGrantUtil.grantPrice(gridName,param);
+
 }
 
 //限制转换次数

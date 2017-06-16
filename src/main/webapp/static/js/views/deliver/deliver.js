@@ -404,9 +404,12 @@ function initDatagridRequireOrder(){
     	                         $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),
     	                         $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault)]);
     }
-    if(hasPurchasePrice==false){
-        priceGrantUtil.grantPurchasePrice(gridName,["price","amount","taxAmount"])
+
+    var param = {
+        distributionPrice:["price","amount","taxAmount"],
     }
+    priceGrantUtil.grantPrice(gridName,param);
+
 }
 
 

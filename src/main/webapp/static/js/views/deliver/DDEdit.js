@@ -222,9 +222,11 @@ function initDatagridEditRequireOrder(){
             updateFooter();
         },
     });
-    if(hasCostPrice==false){
-        priceGrantUtil.grantCostPrice(gridName,["price","amount","taxAmount"])
+
+    var param = {
+        distributionPrice:["price","amount","taxAmount"],
     }
+    priceGrantUtil.grantPrice(gridName,param);
 }
 
 
