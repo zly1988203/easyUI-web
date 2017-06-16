@@ -26,6 +26,7 @@ function changeBalance() {
 
 
 function save() {
+    debugger;
     var addBalance = $('#addBalance').numberbox('getValue');
     if(!addBalance||addBalance <= 0.00){
     	 $_jxc.alert("充值金额不能为空！");
@@ -33,15 +34,18 @@ function save() {
     }
     $_jxc.confirm("本次充值金额"+addBalance+",是否继续",function (data) {
         if(data){
-        	$.post("management/recharge", $('#cardRecharge').serialize(),
-        			   function(datas){
-			        		if(datas.message==="success"){
-			        			$('#closeRecharge').trigger('click'); 
-			        		}
-        					$_jxc.alert(datas.data);
-        					$("#gridCardAccount").datagrid('reload');
-        			   }
-        	, "json");
+            var param = {
+                url:contextPath + "/iccard/account/management/recharge",
+                data: $('#cardRecharge').serializeObject(),
+                // contentType:'application/json',
+            }
+            $_jxc.ajax(param,function (datas) {
+                if(datas.message==="success"){
+                    $('#closeRecharge').trigger('click');
+                }
+                $_jxc.alert(datas.data);
+                $("#gridCardAccount").datagrid('reload');
+            })
         }
     })
 }
