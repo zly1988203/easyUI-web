@@ -70,12 +70,14 @@
 					<div class="umar-r10 uw-70 ut-r">收货人:</div>
 					<input class="uinp uinp-no-more" readOnly="readOnly" name="orderNo"
 						id="orderNo" type="text" value="${po.userName}">
+					<input class="uinp uinp-no-more" readOnly="readOnly" name="userName" id="userName" type="text" value="${po.userName}">
 				</div>
 
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">单据来源:</div>
 					<input class="uinp uinp-no-more" readOnly="readOnly" name="orderNo"
 						id="orderNo" type="text" value="${po.orderResourceStr}">
+					<input class="uinp uinp-no-more" readOnly="readOnly" name="orderResource" id="orderResource" type="text" value="${po.orderResourceStr}">
 				</div>
 
 				<div class="ub ub-ac">
@@ -98,6 +100,7 @@
 					<div class="umar-r10 uw-70 ut-r">配送方式:</div>
 					<input class="uinp uinp-no-more" readOnly="readOnly" name="orderNo"
 						id="orderNo" type="text" value="${po.pickUpTypeStr}">
+					<input class="uinp uinp-no-more" readOnly="readOnly" name="pickUpType" id="pickUpType" type="text" value="${po.pickUpTypeStr}">
 				</div>
 
 				<div class="ub ub-ac">
@@ -126,6 +129,7 @@
 					<div class="umar-r10 uw-100 ut-r">付款方式:</div>
 					<input class="uinp uinp-no-more" readOnly="readOnly" name="orderNo"
 						id="orderNo" type="text" value="${po.payWayStr}">
+					<input class="uinp uinp-no-more" readOnly="readOnly" name="payWay" id="payWay" type="text" value="${po.payWayStr}">
 				</div>
 			</div>
 
@@ -150,6 +154,7 @@
 					<div class="umar-r10 uw-70 ut-r">用户留言:</div>
 					<input class="ub ub-f1 uinp uinp-no-more" readOnly="readOnly"
 						name="feedback" id="feedback" type="text" value="${po.remark}">
+					<input class="ub ub-f1 uinp uinp-no-more" readOnly="readOnly" name="remark" id="remark" type="text" value="${po.remark}">
 				</div>
 
 			</div>

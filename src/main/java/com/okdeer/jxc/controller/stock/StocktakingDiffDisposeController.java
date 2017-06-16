@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -175,8 +176,12 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
             List<StocktakingDifferenceVo> diffFooter = stocktakingBatchList.getFooter();
             String footerJson = JSONArray.toJSONString(diffFooter);
             List<StocktakingDifferenceDetailVo> diffFooterList = JSONArray.parseArray(footerJson,StocktakingDifferenceDetailVo.class);
-            
-	        PageUtils<StocktakingDifferenceDetailVo> diffDetailPageList = new PageUtils<StocktakingDifferenceDetailVo>(diffDetailList);
+            // 重新组织 PageUtils
+	        PageUtils<StocktakingDifferenceDetailVo> diffDetailPageList = PageUtils.emptyPage();
+	        // 复制分页属性值
+	        BeanUtils.copyProperties(diffDetailPageList, stocktakingBatchList);
+	        diffDetailPageList.setRows(diffDetailList);
+	        diffDetailPageList.setList(diffDetailList);
 	        diffDetailPageList.setFooter(diffFooterList);
 	        
 	        LOG.debug(LogConstant.PAGE, diffDetailPageList.toString());

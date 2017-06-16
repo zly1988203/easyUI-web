@@ -848,13 +848,15 @@ function check(){
 		return
 	}else if(parseFloat(num)>0){
 		$_jxc.confirm("是否清除单据中数量为0的商品记录?",function(data){
-   		if(data){
-   		    checkOrder();
-   		}	
-   	});
+	   		if(data){
+	   		    checkOrder();
+	   		}	
+	   	});
 	}else{
 		 $_jxc.confirm('是否审核通过？',function(data){
-		    checkOrder();
+			 if(data){
+				 checkOrder();
+			 }
 		 });
 	}
 }
