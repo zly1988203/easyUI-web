@@ -20,8 +20,9 @@ $(function(){
 	//供应商选择初始化
 	$('#supplierComponent').supplierSelect({
 		//ajax参数
-		param:{
-			branchId:$("#branchId").val()||''
+		onShowBefore:function(){
+			this.param.branchId = $("#branchId").val()||'';
+			return true;
 		},
 		//数据过滤
 		loadFilter:function(data){
