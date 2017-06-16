@@ -2253,6 +2253,9 @@ $.fn.branchSelect = function(param){
 	
 	//默认参数对象
 	var _default = {
+		param:{
+			
+		},	
 		/**
 		 * 处理一些选择组件前的校验
 		 * return false 结束逻辑
@@ -2622,6 +2625,9 @@ $.fn.supplierSelect = function(param){
 	
 	//默认参数对象
 	var _default = {
+		param:{
+			
+		},
 		/**
 		 * 处理一些选择组件前的校验
 		 * return false 结束逻辑
@@ -2974,6 +2980,9 @@ $.fn.operatorSelect = function(param){
 	
 	//默认参数对象
 	var _default = {
+		param:{
+			
+		},
 		/**
 		 * 处理一些选择组件前的校验
 		 * return false 结束逻辑

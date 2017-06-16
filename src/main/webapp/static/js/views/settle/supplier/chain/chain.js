@@ -71,12 +71,15 @@ $(function(){
 		$('#supplierComponent').supplierSelect({
 			//ajax参数
 			param:{
-				branchId:$("#branchId").val()||'',
 				saleWayNot:'chain'
+			},
+			onShowBefore:function(){
+				this.param.branchId = $("#branchId").val()||'';
+				this.param.isContainChildren = $("#isContainChildren").val()||'';
+				return true;
 			},
 			//选择完成之后
 			onAfterRender:function(data){
-			    
 				$('#supplierContcat').val(data.contcat||'');//联系人
 		    	$('#linkTel').val((data.mobile?data.mobile:'')+(data.mobile&&data.phone ? '/':'')+(data.phone?data.phone:''));//联系人
 		    	$("#supplierPhone").val(data.phone);
