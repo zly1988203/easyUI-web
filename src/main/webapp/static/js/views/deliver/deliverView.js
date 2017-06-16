@@ -115,9 +115,11 @@ function initDatagridViewRequireOrder(){
 		},
     });
 
-    if(hasPurchasePrice==false){
-        priceGrantUtil.grantPurchasePrice("gridViewRequireOrder",["price","amount","taxAmount"])
+    var param = {
+        distributionPrice:["price","amount","taxAmount"],
     }
+    priceGrantUtil.grantPrice("gridViewRequireOrder",param);
+
 }
 //合计
 function updateFooter(){

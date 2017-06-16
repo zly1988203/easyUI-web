@@ -37,7 +37,9 @@ function initGridOnlineOrder() {
 	                return strHtml;
             	}
             },
+            {field: 'saleTypeStr', title: '订单类型', width: '90px', align: 'center'},
             {field: 'orderStatusStr', title: '订单状态', width: '90px', align: 'center'},
+
             {field: 'userName', title: '收货人', width: '80px', align: 'left'},
             {field: 'phone', title: '联系电话', width: '100px', align: 'left'},
             {field: 'branchCode',title:'机构编码',width:80,align:'left'},
