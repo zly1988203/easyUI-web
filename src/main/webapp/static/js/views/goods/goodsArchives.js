@@ -408,7 +408,7 @@ function delGoods(){
 	var row = $("#gridArchives").datagrid('getSelected');
 	if(rowIsNull(row)) return;
 	//判断是否被引用
-	parent.$.messager.confirm('提示', '是否确认删除？', function(data){
+	$_jxc.confirm('是否确认删除？', function(data){
 		if (data){
 			$_jxc.ajax({
 				url:contextPath+"/common/goods/delGoods",
