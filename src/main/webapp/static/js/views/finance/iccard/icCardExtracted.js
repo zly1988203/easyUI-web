@@ -35,15 +35,18 @@ function save() {
     }
     $_jxc.confirm("本次提取金额"+extractBalance+",是否继续",function (data) {
         if(data){
-        	$.post("management/extracted", $('#cardExtracted').serialize(),
-     			   function(datas){
-			        		if(datas.message==="success"){
-			        			$('#closeExtracted').trigger('click'); 
-			        		}
-     					$_jxc.alert(datas.data);
-     					$("#gridCardAccount").datagrid('reload');
-     			   }
-        	, "json");
+            var param = {
+                url:contextPath + "/iccard/account/management/extracted",
+                data:$('#cardExtracted').serializeObject(),
+            }
+            $_jxc.ajax(param,function (datas) {
+                if(datas.message==="success"){
+                    $('#closeExtracted').trigger('click');
+                }
+                $_jxc.alert(datas.data);
+                $("#gridCardAccount").datagrid('reload');
+            })
+
         }
     })
 }
