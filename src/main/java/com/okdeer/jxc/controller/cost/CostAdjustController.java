@@ -4,7 +4,9 @@ package com.okdeer.jxc.controller.cost;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -403,6 +405,8 @@ public class CostAdjustController extends BaseController<StockCostForm> {
 				field = new String[] { "barCode", "newCostPrice" };
 			}
 
+			Map<String,String> map = new HashMap<String,String>();
+			map.put("formType", "IP");
 			GoodsSelectImportVo<GoodsSelectByCostPrice> vo = goodsSelectImportComponent.importSelectGoodsWithStock(
 					fileName, is, field, new GoodsSelectByCostPrice(), branchId, user.getId(), type,
 					"/cost/costAdjust/downloadErrorFile", new GoodsSelectImportBusinessValid() {
@@ -436,7 +440,7 @@ public class CostAdjustController extends BaseController<StockCostForm> {
 						public void errorDataFormatter(List<JSONObject> list) {
 
 						}
-					});
+					},map);
 			respJson.put("importInfo", vo);
 
 		} catch (IOException e) {
