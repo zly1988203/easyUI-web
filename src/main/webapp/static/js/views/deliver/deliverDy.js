@@ -628,11 +628,13 @@ function selectGoods(searchKey){
 
 //二次查询设置值
 function setDataValue(data,fromClick) {
-		for(var i in data){
-			var rec = data[i];
-			rec.remark = "";
-			rec.amount = 0;
-		}
+        if(deliverStatus === 'add') {
+            for (var i in data) {
+                var rec = data[i];
+                rec.remark = "";
+                rec.amount = 0;
+            }
+        }
         var nowRows = gridHandel.getRowsWhere({skuName:'1'});
         var addDefaultData = data;
         if(deliverStatus === 'add'){
@@ -658,14 +660,14 @@ function setDataValue(data,fromClick) {
         console.log('newRows',newRows)
         //$("#"+gridName).datagrid({data:newRows});
         gridHandel.setLoadData(newRows);
-    if(deliverStatus === 'add') {
-        gridHandel.setLoadFocus();
-        setTimeout(function () {
-            gridHandel.setBeginRow(gridHandel.getSelectRowIndex() || 0);
-            gridHandel.setSelectFieldName("largeNum");
-            gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
-        }, 100)
-    }
+        if(deliverStatus === 'add') {
+            gridHandel.setLoadFocus();
+            setTimeout(function () {
+                gridHandel.setBeginRow(gridHandel.getSelectRowIndex() || 0);
+                gridHandel.setSelectFieldName("largeNum");
+                gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
+            }, 100)
+        }
 }
 
 //查询价格、库存
