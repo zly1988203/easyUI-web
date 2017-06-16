@@ -34,7 +34,7 @@ function initDatagridRequireOrders(){
 		width:'100%',
         columns:[[
 			//{field:'check',checkbox:true},
-            {field: 'branchName',title:'机构名称',width:'220px',align:'left'},
+            {field: 'branchName',title:'机构名称',width:'150px',align:'left'},
             {field: 'skuCode', title: '货号', width: '80px', align: 'left'},
             {field: 'skuName', title: '商品名称', width: '200px', align: 'left'},
             {field: 'barCode', title: '条码', width: '115px', align: 'left'},
@@ -141,6 +141,8 @@ function initDatagridRequireOrders(){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
+			//{field: 'oldGrossProfitRate', title: '原毛利率', width: '60px', align: 'right'},
+			//{field: 'newGrossProfitRate', title: '现毛利率', width: '60px', align: 'right'},
             {field: 'spec', title: '规格', width: '45px', align: 'left'},
             {field: 'unit', title: '单位', width: '45px', align: 'left'},
             {field: 'validTime', title: '审核日期', width: '80px', align: 'left',

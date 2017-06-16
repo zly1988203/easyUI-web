@@ -40,13 +40,13 @@ pageEncoding="UTF-8"%>
 		<div id="tab1">
 	<div class="ub ub-ac upad-4">
 			<div class="ubtns">
-			<shiro:hasPermission name="JxcGoodsArchive:save">
+			<shiro:hasPermission name="JxcOperateGoods:save">
 				<button class="ubtns-item" onclick="saveGoodsArchives()" id="updateGoodsArchives">保存</button>
 		    </shiro:hasPermission>
-		    <shiro:hasPermission name="JxcGoodsArchive:add">
+		    <shiro:hasPermission name="JxcOperateGoods:add">
 				<button class="ubtns-item" onclick="goodsAddView()">新增</button>
 			</shiro:hasPermission>
-			<shiro:hasPermission name="JxcGoodsArchive:add">
+			<shiro:hasPermission name="JxcOperateGoods:add">
 				<button class="ubtns-item" onclick="copyAddGoodsView()">复制新增</button>
 			</shiro:hasPermission>
 				<button class="ubtns-item" onclick="closeDialog()">关闭</button>

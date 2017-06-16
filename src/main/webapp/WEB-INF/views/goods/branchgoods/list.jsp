@@ -47,17 +47,16 @@
 		            <div class="ubtns-item" onclick="toImportproduct(1)">导入条码</div>
 	               <!--  <div class="ubtns-item" onclick="importShow(1)">导入条码</div> -->
 	                </shiro:hasPermission>
-	                 
-	                 
-	                 
 	                <shiro:hasPermission name="JxcGoodsIntroduce:enabled">
-	                <div class="ubtns-item ub-enable" id="important_div" onclick="enable()">引入</div>
+	                	<div class="ubtns-item ub-enable" id="important_div" onclick="enable()">引入</div>
 	                </shiro:hasPermission>
-	                
+					<shiro:hasPermission name="JxcGoodsIntroduce:batchEnable">
+						<div class="ubtns-item ub-enable" id="selectBranches" style="width: 100px;" onclick="selectBranches()">机构批量引入</div>
+					</shiro:hasPermission>
 	                <shiro:hasPermission name="JxcGoodsIntroduce:eliminate">
 	                   <div class="ubtns-item ub-eliminate" id="eliminate_div" onclick="eliminate()">淘汰</div>
 	                </shiro:hasPermission>
-	               <!--  <div class="ubtns-item ub-recovery" id="recovery_div" onclick="recovery()">恢复</div> -->
+	               	<%--  <div class="ubtns-item ub-recovery" id="recovery_div" onclick="recovery()">恢复</div> --%>
 	            </div>
 	        </div>
 	        <div class="ub umar-t8">

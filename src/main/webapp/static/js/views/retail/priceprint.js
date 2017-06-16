@@ -10,7 +10,8 @@ var options_nomal = [
 					{value:'8',text:'标准促销价签(72*32.5mm 4*6)无底'},
 					{value:'11',text:'标准促销价签(72*32.5mm 4*6 无底色)'},
 					 {value:'4',text:'促销（85*40mm无底 1*7）'},
-					{value:'18',text:'二维码促销价签无底(60*32mm 3*9)'}
+					{value:'18',text:'二维码促销价签无底(60*32mm 3*9)'},
+					{value:'20',text:'二维码促销价签无底(60*30mm 3*9)'}
 					];
 var options_promotion = [
                          
@@ -21,7 +22,8 @@ var options_promotion = [
                          {value:'1',text:'正常（55*25mm有底 3*10）'},
                          {value:'2',text:'正常（85*40mm有底 2*7）'},
      					{value:'3',text:'正常（85*40mm无底 1*7）'},
-                         {value:'17',text:'二维码价签无底(60*32mm 3*9)'}
+                         {value:'17',text:'二维码价签无底(60*32mm 3*9)'},
+                         {value:'19',text:'二维码价签无底(60*32mm 3*9)'}
      					];
 
 $(function(){

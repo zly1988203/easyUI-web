@@ -103,13 +103,14 @@ function initNewGoodsTotalAnalysiGrid() {
                 }
             },
             {field: 'grossProfitRate', title: '毛利率', width:80, align: 'right',
-                formatter:function(value,row,index){
-                	if(!value || value == 0){
+				formatter:function(value,row,index){
+					if(!value || value == 0){
 						return '';
 					}
-                    return '<b>'+parseFloat(value).toFixed(2)+'%</b>';
-                }
-            }
+					return '<b>'+parseFloat(value).toFixed(2)+'%</b>';
+				}
+			},
+			{field: 'sellOut', title: '售罄率', width:80, align: 'right'}
         ]],
 		onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
