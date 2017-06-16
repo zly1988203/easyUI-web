@@ -237,7 +237,7 @@ function delHandel(){
     
     var supplierId=rowData.id
     
-    parent.$.messager.confirm('提示', '是否确认删除？此操作删除不可恢复', function(data){
+    $_jxc.confirm('是否确认删除？此操作删除不可恢复', function(data){
     	if(!data){
     		return;
     	}
