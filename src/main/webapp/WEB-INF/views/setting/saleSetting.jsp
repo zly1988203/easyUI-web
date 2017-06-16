@@ -138,7 +138,8 @@
 		var url = "";
 		if (indexTab == 0) {
 			obj.branchId = $("#branchId").val();
-			obj.centComputeType = $('input:radio:checked').val();
+			obj.centComputeType = $('input[name="centComputeType"]:checked').val();
+			obj.receivingSetting = $('input[name="receivingSetting"]:checked').val();
 			url = contextPath + "/branchSetting/save";
 		} else if (indexTab == 1) {
 			var specBranchId = $("#specBranchId").val();
