@@ -75,7 +75,6 @@ $(function(){
 			},
 			onShowBefore:function(){
 				this.param.branchId = $("#branchId").val()||'';
-				this.param.isContainChildren = $("#isContainChildren").val()||'';
 				return true;
 			},
 			//选择完成之后
@@ -471,86 +470,6 @@ function auditChargeForm(){
 		}
 	});
 }
-
-//机构
-function selectBranches(){
-	var _rows = gridHandel.getRowsWhere({skuName:'1'});
-	if(_rows.length > 0){
-		$_jxc.confirm('单据信息未保存，是否先保存单据？',function(r){
-			if(!r){
-				new publicAgencyService(function(data){
-					$("#branchId").val(data.branchesId);
-					$("#branchCode").val(data.branchCode);
-					$("#isContainChildren").val(data.allBranch);
-					$("#branchCompleCode").val(data.branchCompleCode);
-					$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
-					
-					$('#supplierContcat').val('');//联系人
-			    	$('#linkTel').val('');//联系人
-			    	$("#supplierId").val('');
-			    	$("#supplierPhone").val('');
-			    	$("#supplierMobile").val('');
-			    	$("#supplierMinAmount").val('');
-			        $("#supplierName").val('');
-			        
-			        gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
-			    	                         $.extend({},gridDefault),$.extend({},gridDefault)]);
-			        
-				},'',branchId,'','',1);	
-			}
-		});
-	}else{
-		new publicAgencyService(function(data){
-			$("#branchId").val(data.branchesId);
-			$("#branchCode").val(data.branchCode);
-			$("#isContainChildren").val(data.allBranch);
-			$("#branchCompleCode").val(data.branchCompleCode);
-			$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
-		},'',branchId,'','',1);
-	}	
-	
-}
-
-//选择供应商
-function selectSupplier(){
-	var param = {
-			branchId:$("#branchId").val(),
-			saleWayNot:'chain'
-	}
-	var _rows = gridHandel.getRowsWhere({skuName:'1'});
-	if(_rows.length > 0){
-		$_jxc.confirm('单据信息未保存，是否先保存单据？',function(r){
-			if(!r){
-				new publicSupplierService(function(data){
-			    	$('#supplierContcat').val(data.supplierName||'');//联系人
-			    	$('#linkTel').val((data.mobile?data.mobile:'')+(data.phone?'/'+data.phone:''));//联系人
-			    	$("#supplierId").val(data.id);
-			    	$("#supplierPhone").val(data.phone);
-			    	$("#supplierMobile").val(data.mobile);
-			    	$("#supplierMinAmount").val(data.minAmount);
-			        $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
-			        
-			        gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
-			    	                         $.extend({},gridDefault),$.extend({},gridDefault)]);
-			        
-			    },param);
-			}
-		});
-	}else{
-		new publicSupplierService(function(data){
-	    	$('#supplierContcat').val(data.supplierName||'');//联系人
-	    	$('#linkTel').val((data.mobile?data.mobile:'')+(data.phone?'/'+data.phone:''));//联系人
-	    	$("#supplierId").val(data.id);
-	    	$("#supplierPhone").val(data.phone);
-	    	$("#supplierMobile").val(data.mobile);
-	    	$("#supplierMinAmount").val(data.minAmount);
-	        $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);	
-	        
-	    },param);
-	}	
-    
-}
-
 
 //返回列表页面
 function back(){
