@@ -148,8 +148,11 @@ public class StockReportController extends BaseController<StockReportController>
 			// 构建默认参数
 			qo = buildDefaultParams(qo);
 			// 1、列表查询
-//			List<StockReportVo> exportList = stockReportService.queryList(qo);
-			List<StockReportVo> exportList = queryListPartition(qo);
+			//long before = System.currentTimeMillis();
+			List<StockReportVo> exportList = stockReportService.queryList(qo);
+//			List<StockReportVo> exportList = queryListPartition(qo);
+			//long after = System.currentTimeMillis();
+			//LOG.info("stockReportService.query cost time:{}", (after - before));
 			
 			// 2、汇总查询
 			StockReportVo footer = stockReportService.queryStockReportSum(qo);
@@ -271,7 +274,7 @@ public class StockReportController extends BaseController<StockReportController>
 			}
 		}
 		if(modIndex > 0){
-			int newStart = (resIndex * LIMIT_REQ_COUNT) + modIndex;
+			int newStart = (resIndex * LIMIT_REQ_COUNT);
 			int newEnd = modIndex;
 			qo.setStartCount(newStart);
 			qo.setEndCount(newEnd);
