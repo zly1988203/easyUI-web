@@ -634,10 +634,12 @@ function selectGoods(searchKey){
 
 //二次查询设置值
 function setDataValue(data,fromClick) {
-		for(var i in data){
-			var rec = data[i];
-			rec.remark = "";
-			rec.amount = 0;
+		if(deliverStatus === 'add'){
+			for(var i in data){
+				var rec = data[i];
+				rec.remark = "";
+				rec.amount = 0;
+			}
 		}
         var nowRows = gridHandel.getRowsWhere({skuName:'1'});
         var addDefaultData = data;
