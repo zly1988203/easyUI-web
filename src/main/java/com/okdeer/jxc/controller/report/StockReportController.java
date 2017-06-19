@@ -143,14 +143,14 @@ public class StockReportController extends BaseController<StockReportController>
 	@RequestMapping(value = "/exportList", method = RequestMethod.POST)
 	@ResponseBody
 	public String exportList(StockReportQo qo, HttpServletResponse response) {
-
 		LOG.debug("商品库存查询，报表导出参数：{}", qo);
 		try {
 			// 构建默认参数
 			qo = buildDefaultParams(qo);
 			// 1、列表查询
-			List<StockReportVo> exportList = stockReportService.queryList(qo);
-
+//			List<StockReportVo> exportList = stockReportService.queryList(qo);
+			List<StockReportVo> exportList = queryListPartition(qo);
+			
 			// 2、汇总查询
 			StockReportVo footer = stockReportService.queryStockReportSum(qo);
 			if (StringUtils.isBlank(footer.getActual())) {
@@ -247,5 +247,37 @@ public class StockReportController extends BaseController<StockReportController>
 			}
 		}
 		return exportList;
+	}
+	
+	/**
+	 * 把导出的请求分成多次，一次请求LIMIT_REQ_COUNT条数据
+	 * @param qo
+	 * @return
+	 */
+	private List<StockReportVo> queryListPartition(StockReportQo qo){
+		List<StockReportVo> voList = new ArrayList<>();
+		int startCount = limitStartCount(qo.getStartCount());
+		int endCount = limitEndCount(qo.getEndCount());
+		
+		int resIndex = (int) (endCount / LIMIT_REQ_COUNT);
+		int modIndex = endCount % LIMIT_REQ_COUNT;
+		if(resIndex > 0){
+			for(int i = 0; i < resIndex; i++){
+				int newStart = (i * LIMIT_REQ_COUNT) + startCount;
+				qo.setStartCount(newStart);
+				qo.setEndCount(LIMIT_REQ_COUNT);
+				List<StockReportVo> tempList = stockReportService.queryList(qo);
+				voList.addAll(tempList);
+			}
+		}
+		if(modIndex > 0){
+			int newStart = (resIndex * LIMIT_REQ_COUNT) + modIndex;
+			int newEnd = modIndex;
+			qo.setStartCount(newStart);
+			qo.setEndCount(newEnd);
+			List<StockReportVo> tempList = stockReportService.queryList(qo);
+			voList.addAll(tempList);
+		}
+		return voList;
 	}
 }
