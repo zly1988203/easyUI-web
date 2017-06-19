@@ -6,8 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>分配权限</title>
 	<%@ include file="/WEB-INF/views/include/header.jsp"%>
-	<!-- <script type="text/javascript" src="http://aui.github.io/artTemplate/dist/template.js"></script> -->
-	<script  src="${ctx}/static/js/views/system/role/produceAuth.js"></script>
+	<script  src="${ctx}/static/js/views/system/role/produceAuth.js?V=${versionNo}"></script>
 	<style>
 		.table-tree{width:1000px;margin-top:10px;}
 		.table-tree *{box-sizing:border-box !important;}

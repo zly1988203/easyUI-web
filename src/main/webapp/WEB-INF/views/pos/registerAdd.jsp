@@ -3,7 +3,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
-<script src="${ctx}/static/js/views/pos/registerAdd.js"></script>
+<script src="${ctx}/static/js/views/pos/registerAdd.js?V=${versionNo}"></script>
 <div class="ub ub-ver ub-pc ub-ac uw uh ub-f1" >
 	  <form id="registerAddForm" >
 	   <div class="ub ub-ver uw uh ub-f1">

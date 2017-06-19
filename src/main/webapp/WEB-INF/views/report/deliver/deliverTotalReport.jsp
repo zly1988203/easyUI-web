@@ -8,7 +8,7 @@
 <title>配送汇总查询</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
-<script src="${ctx}/static/js/views/report/deliver/deliverTotalReport.js"></script>
+<script src="${ctx}/static/js/views/report/deliver/deliverTotalReport.js?V=${versionNo}"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
 </style>

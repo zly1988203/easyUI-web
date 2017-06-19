@@ -8,7 +8,7 @@
 <title>类别销售汇总</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
-<script src="${ctx}/static/js/views/report/retail/categorySaleReport.js"></script>
+<script src="${ctx}/static/js/views/report/retail/categorySaleReport.js?V=${versionNo}"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
 </style>

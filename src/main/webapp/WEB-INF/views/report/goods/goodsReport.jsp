@@ -8,7 +8,7 @@
 <title>商品查询</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
-<script src="${ctx}/static/js/views/report/goods/goodsReport.js"></script>
+<script src="${ctx}/static/js/views/report/goods/goodsReport.js?V=${versionNo}"></script>
 </head>
 <body class="uw  ufs-14 upad-8 uc-black box-border">
     <div class="ub uh ub-f1 ">

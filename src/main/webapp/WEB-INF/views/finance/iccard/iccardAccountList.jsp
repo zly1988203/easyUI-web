@@ -11,7 +11,7 @@
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
  <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 <script
-	src="${ctx}/static/js/views/finance/iccard/iccardAccountList.js?v=5"></script>
+	src="${ctx}/static/js/views/finance/iccard/iccardAccountList.js?V=${versionNo}"></script>
 <%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
 <style>
 .datagrid-header .datagrid-cell {

@@ -8,7 +8,7 @@
 <title>单品ABC毛利分析</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
-<script src="${ctx}/static/js/views/goods/goodsSaleProfit.js"></script>
+<script src="${ctx}/static/js/views/goods/goodsSaleProfit.js?V=${versionNo}"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
 </style>

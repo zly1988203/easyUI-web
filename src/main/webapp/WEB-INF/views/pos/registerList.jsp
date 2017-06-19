@@ -8,7 +8,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>POS机登记</title>
 	<%@ include file="/WEB-INF/views/include/header.jsp"%>
-	<script  src="${ctx}/static/js/views/pos/registerList.js"></script>
+	<script  src="${ctx}/static/js/views/pos/registerList.js?V=${versionNo}"></script>
 </head>
 <body class=" uw uh ufs-14 upad-8 uc-black box-border">
     <div class="ub uh ub-ver ub-f1">

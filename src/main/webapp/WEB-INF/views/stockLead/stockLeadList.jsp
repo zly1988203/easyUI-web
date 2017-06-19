@@ -8,7 +8,7 @@
 <title>领用单</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <%-- <script  src="${ctx}/static/js/fun/publicComponent.js"></script> --%>
-<script src="${ctx}/static/js/views/stockLead/stockLeadList.js"></script>
+<script src="${ctx}/static/js/views/stockLead/stockLeadList.js?V=${versionNo}"></script>
 <style>
 .datagrid-header .datagrid-cell {
 	text-align: center !important;

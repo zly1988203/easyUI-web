@@ -8,7 +8,7 @@
 <title>新品销售分析</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
-<script src="${ctx}/static/js/views/report/goods/newGoodsSaleAnalysis.js?1=2"></script>
+<script src="${ctx}/static/js/views/report/goods/newGoodsSaleAnalysis.js?V=${versionNo}"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
 </style>

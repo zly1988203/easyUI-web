@@ -11,7 +11,7 @@
 <script>
 	var edit = '${stockFormVo.status == 1 ? 1 : 0}';
 </script>
-<script src="${ctx}/static/js/views/stockReimburse/stockReimburseView.js"></script>
+<script src="${ctx}/static/js/views/stockReimburse/stockReimburseView.js?V=${versionNo}"></script>
 <%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
 </head>
 <body class="ub uw uh ufs-14 uc-black">

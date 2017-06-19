@@ -10,7 +10,7 @@
 
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <script
-	src="${ctx}/static/js/views/report/online/onlineOrderSearchView.js?v=3"></script>
+	src="${ctx}/static/js/views/report/online/onlineOrderSearchView.js?V=${versionNo}"></script>
 <style>
 .datagrid-header .datagrid-cell {
 	text-align: center !important;

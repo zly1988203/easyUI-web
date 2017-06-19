@@ -7,7 +7,7 @@
     <title>进销存-类别管理</title>
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
     <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
-    <script  src="${ctx}/static/js/views/categoryManager/categoryList.js"></script>
+    <script  src="${ctx}/static/js/views/categoryManager/categoryList.js?V=${versionNo}"></script>
 </head>
 
 <body class="ub uw uh ufs-14 uc-black">

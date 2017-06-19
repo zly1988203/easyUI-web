@@ -8,7 +8,7 @@
 <title>会员消费查询</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
-<script src="${ctx}/static/js/views/report/cash/memberOrderReport.js?1=2"></script>
+<script src="${ctx}/static/js/views/report/cash/memberOrderReport.js?V=${versionNo}"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
 </style>

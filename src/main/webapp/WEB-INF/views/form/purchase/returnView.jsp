@@ -8,8 +8,8 @@
     <title>收货单-修改</title>
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-	<script src="${ctx}/static/js/views/purchase/returnView.js"></script>
-    <script src="${ctx}/static/js/views/purchase/purchaseExport.js"></script>
+	<script src="${ctx}/static/js/views/purchase/returnView.js?V=${versionNo}"></script>
+    <script src="${ctx}/static/js/views/purchase/purchaseExport.js?V=${versionNo}"></script>
     <%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
 </head>
 <body class="ub uw uh ufs-14 uc-black">

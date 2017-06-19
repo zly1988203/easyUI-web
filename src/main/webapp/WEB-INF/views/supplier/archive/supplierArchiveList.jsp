@@ -7,7 +7,7 @@
 	<title>供应商档案列表</title>
 	<%@ include file="/WEB-INF/views/include/header.jsp"%>
 	<%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
-	<script  src="${ctx}/static/js/views/supplier/archive/supplierArchiveList.js"></script>
+	<script  src="${ctx}/static/js/views/supplier/archive/supplierArchiveList.js?V=${versionNo}"></script>
 	
 </head>
 <body class="ub uw uh ufs-14 uc-black">
