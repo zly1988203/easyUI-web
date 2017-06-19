@@ -8,7 +8,7 @@
 <title>采购明细</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
-<script src="${ctx}/static/js/views/report/purchase/details.js?V=2.6.0"></script>
+<script src="${ctx}/static/js/views/report/purchase/details.js?V=${versionNo}"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
 </style>

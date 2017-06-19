@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>礼品管理</title>
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-    <script  src="${ctx}/static/js/views/integral/list.js"></script>
+    <script  src="${ctx}/static/js/views/integral/list.js?V=${versionNo}"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
     <div class="ub ub-ver ub-f1 upad-8">

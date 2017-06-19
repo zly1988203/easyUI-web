@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>盘点差异处理</title>
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-    <script  src="${ctx}/static/js/views/stocktaking/diffDispose/diffDisposeList.js?v=1.16"></script>
+    <script  src="${ctx}/static/js/views/stocktaking/diffDispose/diffDisposeList.js?V=${versionNo}"></script>
     <style>
     .datagrid-header .datagrid-cell {text-align: center!important;font-weight: bold;}
     </style>

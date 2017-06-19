@@ -8,7 +8,7 @@
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
     <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 
-    <script  src="${ctx}/static/js/views/goods/goodsArchives.js"></script>
+    <script  src="${ctx}/static/js/views/goods/goodsArchives.js?V=${versionNo}"></script>
 </head>
 
 <body class="ub uw uh ufs-14 uc-black">

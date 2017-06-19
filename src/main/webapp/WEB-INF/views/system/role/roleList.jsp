@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>角色列表</title>
 	<%@ include file="/WEB-INF/views/include/header.jsp"%>
-	<script  src="${ctx}/static/js/views/system/role/roleList.js"></script>
+	<script  src="${ctx}/static/js/views/system/role/roleList.js?V=${versionNo}"></script>
 	
 </head>
 <body class="ufs-14 upad-8 uc-black box-border">

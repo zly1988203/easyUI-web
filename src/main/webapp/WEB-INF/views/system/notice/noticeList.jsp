@@ -10,7 +10,7 @@
 
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
-<script src="${ctx}/static/js/views/system/notice/noticeList.js?V=5"></script>
+<script src="${ctx}/static/js/views/system/notice/noticeList.js?V=${versionNo}"></script>
 	<style>
 	.datagrid-header .datagrid-cell {text-align: center!important;font-weight: bold;}
 	</style>

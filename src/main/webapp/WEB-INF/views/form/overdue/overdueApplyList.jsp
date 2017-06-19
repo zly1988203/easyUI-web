@@ -8,7 +8,7 @@
     <title>商品调价订单</title>
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-	<script src="${ctx}/static/js/views/overdue/overdueApplyList.js"></script>
+	<script src="${ctx}/static/js/views/overdue/overdueApplyList.js?V=${versionNo}"></script>
     <%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
 </head>
 <body class="ub uw uh ufs-14 uc-black">

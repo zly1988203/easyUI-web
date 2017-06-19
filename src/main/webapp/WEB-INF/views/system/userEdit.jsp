@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
-<script src="${ctx}/static/js/views/system/user/userEdit.js?V=2"></script>
+<script src="${ctx}/static/js/views/system/user/userEdit.js?V=${versionNo}"></script>
 <div id="branchEdit" class="easyui-tabs"
 	style="width: 100%; height: 100%;">
 	<div title="基本信息" data-options="fit:true,border:false"

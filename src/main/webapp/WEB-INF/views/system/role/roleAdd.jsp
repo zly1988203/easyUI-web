@@ -4,7 +4,7 @@ pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <c:set var="user" value="${sessionScope.session_user}"/>
-<script  src="${ctx}/static/js/views/system/role/roleAdd.js"></script>
+<script  src="${ctx}/static/js/views/system/role/roleAdd.js?V=${versionNo}"></script>
 <div class="ub ub-ver  ub-f1  uw uh ufs-14 uc-black">
 	<div class="ub ub-ac upad-4">
 		<div class="ubtns">

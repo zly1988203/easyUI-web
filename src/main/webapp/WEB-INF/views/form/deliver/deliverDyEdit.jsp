@@ -9,7 +9,7 @@
     <title>直送要货单-编辑</title>
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
 	<script src="${ctx}/static/js/views/deliver/deliverDy.js?V=${versionNo}"></script>
-	<script src="${ctx}/static/js/views/deliver/deliverExport.js"></script>
+	<script src="${ctx}/static/js/views/deliver/deliverExport.js?V=${versionNo}"></script>
     <%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
 </head>
 <body class="ub uw uh ufs-14 uc-black">

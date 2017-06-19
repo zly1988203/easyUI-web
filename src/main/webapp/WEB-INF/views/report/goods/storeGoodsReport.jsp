@@ -8,7 +8,7 @@
 <title>商品库存查询</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
-<script src="${ctx}/static/js/views/report/goods/storeGoodsReport.js"></script>
+<script src="${ctx}/static/js/views/report/goods/storeGoodsReport.js?V=${versionNo}"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
 	<div class="ub ub-ver ub-f1 upad-8">

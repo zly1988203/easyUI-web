@@ -10,7 +10,7 @@
 
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 	<c:set var="ctx" value="${pageContext.request.contextPath}" />
-<script src="${ctx}/static/js/views/finance/iccard/iccardSetting.js?v=4"></script>
+<script src="${ctx}/static/js/views/finance/iccard/iccardSetting.js?V=${versionNo}"></script>
 
 <style>
 .datagrid-header .datagrid-cell {
