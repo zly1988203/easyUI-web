@@ -714,8 +714,8 @@ var datagridUtil = {
      * @returns {boolean}
      */
     isSaveData : function() {
-        if ($("#areaInput").val().trim() != ""
-            && $("#branchId").val().trim() != ""
+        if ($("#areaInput").val() != undefined && $("#areaInput").val().trim() != ""
+        	&& $("#branchId").val() != undefined && $("#branchId").val().trim() != ""
             && $("#" + datagridId).datagrid("getData").rows.length > 0) {
             return true;
         } else {
