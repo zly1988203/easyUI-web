@@ -148,11 +148,8 @@ public class StockReportController extends BaseController<StockReportController>
 			// 构建默认参数
 			qo = buildDefaultParams(qo);
 			// 1、列表查询
-			//long before = System.currentTimeMillis();
-			List<StockReportVo> exportList = stockReportService.queryList(qo);
-//			List<StockReportVo> exportList = queryListPartition(qo);
-			//long after = System.currentTimeMillis();
-			//LOG.info("stockReportService.query cost time:{}", (after - before));
+//			List<StockReportVo> exportList = stockReportService.queryList(qo);
+			List<StockReportVo> exportList = queryListPartition(qo);
 			
 			// 2、汇总查询
 			StockReportVo footer = stockReportService.queryStockReportSum(qo);
