@@ -147,6 +147,12 @@ function initDatagridAddRequireOrder(){
                       if(row.isFooter){
                           return "<b>"+parseFloat(value||0).toFixed(2)+"<b>";
                       }
+                      
+                      // 箱数是0，则默认为0
+                      if(parseFloat(row.largeNum||0)==0){
+                      	 return "<b>"+parseFloat(0).toFixed(2)+ "<b>";
+                      }
+                      
                       if(!value||value==""||parseFloat(value)==0){
                           /*if (parseFloat(row["sourceStock"]||0) <= 0) {
                               value = 0.00;
