@@ -149,7 +149,8 @@ public class StoreGoodsReportController extends BaseController<StoreGoodsReportC
 			// 构建默认参数
 			qo = buildDefaultParams(qo);
 			// 1、列表查询
-			List<StockReportVo> exportList = storeGoodsReportService.queryList(qo);
+//			List<StockReportVo> exportList = storeGoodsReportService.queryList(qo);
+			List<StockReportVo> exportList = queryListPartition(qo);
 
 			// 2、汇总查询
 			StockReportVo footer = storeGoodsReportService.queryStockReportSum(qo);
@@ -247,5 +248,37 @@ public class StoreGoodsReportController extends BaseController<StoreGoodsReportC
 			}
 		}
 		return exportList;
+	}
+	
+	/**
+	 * 把导出的请求分成多次，一次请求LIMIT_REQ_COUNT条数据
+	 * @param qo
+	 * @return
+	 */
+	private List<StockReportVo> queryListPartition(StockReportQo qo){
+		List<StockReportVo> voList = new ArrayList<>();
+		int startCount = limitStartCount(qo.getStartCount());
+		int endCount = limitEndCount(qo.getEndCount());
+		
+		int resIndex = (int) (endCount / LIMIT_REQ_COUNT);
+		int modIndex = endCount % LIMIT_REQ_COUNT;
+		if(resIndex > 0){
+			for(int i = 0; i < resIndex; i++){
+				int newStart = (i * LIMIT_REQ_COUNT) + startCount;
+				qo.setStartCount(newStart);
+				qo.setEndCount(LIMIT_REQ_COUNT);
+				List<StockReportVo> tempList = storeGoodsReportService.queryList(qo);
+				voList.addAll(tempList);
+			}
+		}
+		if(modIndex > 0){
+			int newStart = (resIndex * LIMIT_REQ_COUNT);
+			int newEnd = modIndex;
+			qo.setStartCount(newStart);
+			qo.setEndCount(newEnd);
+			List<StockReportVo> tempList = storeGoodsReportService.queryList(qo);
+			voList.addAll(tempList);
+		}
+		return voList;
 	}
 }
