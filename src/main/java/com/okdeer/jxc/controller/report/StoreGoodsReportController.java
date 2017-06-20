@@ -270,12 +270,15 @@ public class StoreGoodsReportController extends BaseController<StoreGoodsReportC
 				List<StockReportVo> tempList = storeGoodsReportService.queryList(qo);
 				voList.addAll(tempList);
 			}
-		}
-		if(modIndex > 0){
-			int newStart = (resIndex * LIMIT_REQ_COUNT);
-			int newEnd = modIndex;
-			qo.setStartCount(newStart);
-			qo.setEndCount(newEnd);
+			if(modIndex > 0){
+				int newStart = (resIndex * LIMIT_REQ_COUNT) + startCount;
+				int newEnd = modIndex;
+				qo.setStartCount(newStart);
+				qo.setEndCount(newEnd);
+				List<StockReportVo> tempList = storeGoodsReportService.queryList(qo);
+				voList.addAll(tempList);
+			}
+		}else{
 			List<StockReportVo> tempList = storeGoodsReportService.queryList(qo);
 			voList.addAll(tempList);
 		}
