@@ -171,10 +171,12 @@ function initDatagridYueJXC(){
 
 	});
 
+
     if(hasCostPrice==false){
         var fieldArr = ["costAmount","beginCostAmount","dcoAmount",
             "dciAmount","costChangeAmount","otherAmount","endCostAmount",
-			"endSaleAmount","profitMargin","profitAmount"
+			"endSaleAmount","profitMargin","profitAmount","purchaseAmount",
+			"costPrice",
         ]
         priceGrantUtil.grantCostPrice(datagridId,fieldArr)
     }
