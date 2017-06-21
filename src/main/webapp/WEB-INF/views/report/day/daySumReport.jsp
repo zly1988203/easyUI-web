@@ -27,11 +27,11 @@
 			<div class="ub uline umar-t8"></div>
 			
 			<div class="ub umar-t8">
-				<div class="ub ub-ac uw-300 ">
+				<div class="ub ub-ac uw-300 " id="branchComponents">
 					<div class="umar-r10 uw-70 ut-r">机构名称:</div>
 					<input type="hidden" id="branchId" name="branchId" value="${branchId}" /> 
-					<input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" value="${branchName }" />
-					<div class="uinp-more" onclick="selectBranches()">...</div>
+					<input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" value="${branchName}" />
+					<div class="uinp-more">...</div>
 				</div>
 
 				<div class="ub ub-ac  umar-l20">
@@ -52,6 +52,14 @@
 			//初始化默认条件
 			initConditionParams();
 			initDatagridDay();
+			
+			//机构选择初始化
+			$('#branchComponents').branchSelect({
+				param:{
+					formType:'BF'
+				}
+			});
+			
 		});
 
 		//初始化默认条件
@@ -826,21 +834,22 @@
 		function queryForm() {
 			$("#startCount").attr("value", null);
 			$("#endCount").attr("value", null);
-			$("#daySumReport").datagrid("options").queryParams = $("#queryForm")
-					.serializeObject();
+			var fromObjStr =  $("#queryForm").serializeObject();
+			fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1);
+			
+			$("#daySumReport").datagrid("options").queryParams =fromObjStr;
 			$("#daySumReport").datagrid("options").method = "post";
-			$("#daySumReport").datagrid("options").url = contextPath
-					+ '/report/day/getDayReportList';
+			$("#daySumReport").datagrid("options").url = contextPath + '/report/day/getDayReportList';
 			$("#daySumReport").datagrid("load");
 
 		}
 
-		function selectBranches() {
-			new publicAgencyService(function(data) {
-				$("#branchId").val(data.branchesId);
-				$("#branchName").val(data.branchName);
-			}, 'BF', '');
-		}
+// 		function selectBranches() {
+// 			new publicAgencyService(function(data) {
+// 				$("#branchId").val(data.branchesId);
+// 				$("#branchName").val(data.branchName);
+// 			}, 'BF', '');
+// 		}
 
 		var dg;
 		/**

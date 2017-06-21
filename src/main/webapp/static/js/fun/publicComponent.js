@@ -2366,7 +2366,10 @@ $.fn.branchSelect = function(param){
 			//未发生变化 return;
 			if(nameOrCode && $(_this).data('oldData') == nameOrCode)return;
 			
-			_default.getComponentDetail(nameOrCode);
+			//自动失去焦点
+			$(this).blur();
+			
+			//_default.getComponentDetail(nameOrCode);
 			
 		},
 		/**
@@ -2736,7 +2739,10 @@ $.fn.supplierSelect = function(param){
 			//未发生变化 return;
 			if(nameOrCode && $(_this).data('oldData') == nameOrCode)return;
 			
-			_default.getComponentDetail(nameOrCode);
+			//自动失去焦点
+			$(this).blur();
+			
+			//_default.getComponentDetail(nameOrCode);
 		},
 		/**
 		 * 设置dom元素值
@@ -3092,7 +3098,10 @@ $.fn.operatorSelect = function(param){
 			//未发生变化 return;
 			if(nameOrCode && $(_this).data('oldData') == nameOrCode)return;
 			
-			_default.getComponentDetail(nameOrCode);
+			//自动失去焦点
+			$(this).blur();
+			
+			//_default.getComponentDetail(nameOrCode);
 			
 		},
 		/**
