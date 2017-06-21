@@ -9,7 +9,7 @@ $(function(){
     branchId = $("#branchId").val();
 });
 var gridHandel = new GridClass();
-
+var gridName = "deliverFormList";
 //初始化表格
 function initDatagridRequireOrders(){
 	dg=$("#deliverFormList").datagrid({
@@ -62,8 +62,9 @@ function initDatagridRequireOrders(){
 			gridHandel.setDatagridHeader("center");
 		}
     });
-    if(hasPurchasePrice==false){
-        priceGrantUtil.grantPurchasePrice("deliverFormList",["amount"])
+
+    if(hasDistributionPrice==false){
+        priceGrantUtil.grantDistributionPrice(gridName,["amount"])
     }
 
 }

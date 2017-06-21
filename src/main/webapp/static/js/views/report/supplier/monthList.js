@@ -99,10 +99,11 @@ function initDatagridGYYueJXC(){
 		]],
 
 	});
+
     if(hasCostPrice==false){
         var fieldArr = ["costAmount","beginCostAmount","dcoAmount",
             "dciAmount","costChangeAmount","otherAmount","endCostAmount",
-            "endSaleAmount","profitAmount"
+            "endSaleAmount","profitAmount","beginSaleAmount"
         ]
         priceGrantUtil.grantCostPrice(datagridId,fieldArr)
     }

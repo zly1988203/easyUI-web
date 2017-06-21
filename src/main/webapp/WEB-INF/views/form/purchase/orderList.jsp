@@ -8,7 +8,7 @@
 <title>采购订单</title>
 
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="${ctx}/static/js/views/purchase/orderList.js?v=5"></script>
+<script src="${ctx}/static/js/views/purchase/orderList.js?V=${versionNo}"></script>
 <%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
 </head>
 <body class="ub uw uh ufs-14 uc-black">

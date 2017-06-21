@@ -10,9 +10,9 @@
 <title>采购订单-修改</title>
 
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="${ctx}/static/js/views/purchase/orderEdit.js?V=2.5.6"></script>
+<script src="${ctx}/static/js/views/purchase/orderEdit.js?V=${versionNo}"></script>
 
-<script src="${ctx}/static/js/views/purchase/purchaseExport.js"></script>
+<script src="${ctx}/static/js/views/purchase/purchaseExport.js?V=${versionNo}"></script>
 <%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
 </head>
 <body class="ub uw uh ufs-14 uc-black">

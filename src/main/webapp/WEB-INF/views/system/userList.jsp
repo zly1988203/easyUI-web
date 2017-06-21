@@ -8,7 +8,7 @@
 <title>用户管理</title>
 
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="${ctx}/static/js/views/system/user/userList.js"></script>
+<script src="${ctx}/static/js/views/system/user/userList.js?V=${versionNo}"></script>
 
 </head>
 <body class="uw ufs-14 uc-black upad-8 box-border">

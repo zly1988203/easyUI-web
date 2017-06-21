@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <c:set var="user" value="${sessionScope.session_user}" />
-<script src="${ctx}/static/js/views/system/user/userAdd.js?v=2"></script>
+<script src="${ctx}/static/js/views/system/user/userAdd.js?V=${versionNo}"></script>
 
 <div class="ub ub-ver  ub-f1  uw uh ufs-14 uc-black">
 	<div class="ub ub-ac upad-4">

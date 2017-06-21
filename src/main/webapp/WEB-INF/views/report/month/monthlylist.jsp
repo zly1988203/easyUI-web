@@ -7,7 +7,7 @@
     <title>月进销存报表</title>
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
         <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
-    <script  src="${ctx}/static/js/views/report/month/monthList.js"></script>
+    <script  src="${ctx}/static/js/views/report/month/monthList.js?V=${versionNo}"></script>
     <style>
     .datagrid-header .datagrid-cell {text-align: center!important;font-weight: bold;}
     </style>

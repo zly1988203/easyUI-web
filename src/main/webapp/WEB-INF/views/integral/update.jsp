@@ -4,7 +4,7 @@ pageEncoding="UTF-8"%>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
-<script src="${ctx}/static/js/views/integral/edit.js"></script>
+<script src="${ctx}/static/js/views/integral/edit.js?V=${versionNo}"></script>
 <style>
 .newWdate {
   width: 196px !important;

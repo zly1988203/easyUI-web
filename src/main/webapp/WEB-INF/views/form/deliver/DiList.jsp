@@ -7,7 +7,7 @@
     <title>配送入库</title>
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-    <script  src="${ctx}/static/js/views/deliver/DiList.js"></script>
+    <script  src="${ctx}/static/js/views/deliver/DiList.js?V=${versionNo}"></script>
     
 </head>
 <body class="ub uw uh ufs-14 uc-black">

@@ -8,7 +8,7 @@
 <title>调价查询</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
-<script src="${ctx}/static/js/views/report/pricing/pricingQuery.js"></script>
+<script src="${ctx}/static/js/views/report/pricing/pricingQuery.js?V=${versionNo}"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
 </style>

@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>无销售库存查询</title>
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-    <script  src="${ctx}/static/js/views/report/nosales/nosalesList.js?1=4"></script>
+    <script  src="${ctx}/static/js/views/report/nosales/nosalesList.js?V=${versionNo}"></script>
     <style>
     .datagrid-header .datagrid-cell {text-align: center!important;font-weight: bold;}
     </style>

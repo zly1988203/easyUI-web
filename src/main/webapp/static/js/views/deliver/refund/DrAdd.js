@@ -332,6 +332,7 @@ function initDatagridStoreYHOrder(){
      	 }
     	 
     }
+
     if(hasDistributionPrice==false){
         priceGrantUtil.grantDistributionPrice(gridName,["price","amount","taxAmount"])
     }

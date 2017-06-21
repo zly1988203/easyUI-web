@@ -53,6 +53,7 @@ var gridDefault = {
     isGift:0,
 }
 var oldData = {};
+var gridName = "gridEditRequireOrder";
 var gridHandel = new GridClass();
 function initDatagridEditRequireOrder(){
     gridHandel.setGridName("gridEditRequireOrder");
@@ -128,6 +129,12 @@ function initDatagridEditRequireOrder(){
                     if(row.isFooter){
                         return "<b>"+parseFloat(value||0).toFixed(2)+ "<b>";
                     }
+                    
+                    // 箱数是0，则默认为0
+                    if(parseFloat(row.largeNum||0)==0){
+                    	 return "<b>"+parseFloat(0).toFixed(2)+ "<b>";
+                    }
+                    
                     if(!value||value==""||parseFloat(value)==0){
                         /*if (parseFloat(row["sourceStock"]||0) <= 0) {
                             value = 0.00;
@@ -312,9 +319,12 @@ function initDatagridEditRequireOrder(){
         }
     });
 
-    if(hasDistributionPrice==false){
-        priceGrantUtil.grantDistributionPrice("gridEditRequireOrder",["price","amount","taxAmount"])
+    var param = {
+        distributionPrice:["price","amount","taxAmount"],
+        salePrice:["salePrice","saleAmount"]
     }
+    priceGrantUtil.grantPrice(gridName,param);
+
 }
 var isFirst = false;
 

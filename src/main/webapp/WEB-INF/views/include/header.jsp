@@ -39,8 +39,8 @@
 
 <!--ztree-->
 <script src="${ctx}/static/libs/zTree/js/jquery.ztree.core.min.js"></script>
-<script src="${ctx}/static/js/fun/baseEasyui.js?V=2.6.0"></script>
-<script src="${ctx}/static/js/fun/base.js"></script>
+<script src="${ctx}/static/js/fun/baseEasyui.js?V=${versionNo}"></script>
+<script src="${ctx}/static/js/fun/base.js?V=${versionNo}"></script>
 <!-- 公共服务 -->
 <script src="${ctx}/static/js/fun/publicComponent.js?V=${versionNo}"></script>
 

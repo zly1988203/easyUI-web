@@ -127,9 +127,12 @@ function initDatagridRequireOrdersDO(){
 			gridHandel.setDatagridHeader("center");
 		}
     });
-    if(hasDistributionPrice==false){
-        priceGrantUtil.grantDistributionPrice(tableIdName,["amount"])
+
+    var param = {
+        distributionPrice:["amount"],
     }
+    priceGrantUtil.grantPrice(tableIdName,param);
+
 }
 
 //加载配送入库单
@@ -198,6 +201,10 @@ function initDatagridRequireOrdersDI(){
 		}
 	});
 	//queryForm();
+    var param = {
+        distributionPrice:["amount"],
+    }
+    priceGrantUtil.grantPrice(tableIdName,param);
 }
 
 //新增入库单

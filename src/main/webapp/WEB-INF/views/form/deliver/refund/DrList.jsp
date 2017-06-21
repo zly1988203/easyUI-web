@@ -7,7 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>退货申请</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="${ctx}/static/js/views/deliver/refund/DrList.js?1=1"></script>
+<script src="${ctx}/static/js/views/deliver/refund/DrList.js?V=${versionNo}"></script>
 <style>
 .datagrid-header .datagrid-cell {
 	text-align: center !important;

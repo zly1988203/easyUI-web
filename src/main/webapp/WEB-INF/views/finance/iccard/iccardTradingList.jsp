@@ -10,7 +10,7 @@
 
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
  <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
-<script src="${ctx}/static/js/views/finance/iccard/icCardTradingList.js?v="></script>
+<script src="${ctx}/static/js/views/finance/iccard/icCardTradingList.js?V=${versionNo}"></script>
 <%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
     <style>
     .datagrid-header .datagrid-cell {text-align: center!important;font-weight: bold;}

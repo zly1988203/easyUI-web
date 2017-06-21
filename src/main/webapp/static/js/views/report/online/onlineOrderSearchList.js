@@ -37,6 +37,7 @@ function initGridOnlineOrder() {
 	                return strHtml;
             	}
             },
+            {field: 'saleTypeStr', title: '订单类型', width: '90px', align: 'center'},
             {field: 'orderStatusStr', title: '订单状态', width: '90px', align: 'center'},
             {field: 'userName', title: '收货人', width: '80px', align: 'left'},
             {field: 'phone', title: '联系电话', width: '100px', align: 'left'},
@@ -50,7 +51,7 @@ function initGridOnlineOrder() {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
-            {field: 'discountAmount', title: '优惠金额', width: '80px', align: 'right',
+            {field: 'platDiscountAmount', title: '优惠金额', width: '80px', align: 'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';

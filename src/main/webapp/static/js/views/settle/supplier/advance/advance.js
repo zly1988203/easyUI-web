@@ -435,30 +435,6 @@ function delSupAdvMonForm(){
 	});
 }
 
-//机构
-//function selectBranches(){
-//	new publicBranchesService({},function(data){
-//		 if(data != 'NO'){
-//			 $("#branchId").val(data.branchesId);
-//			 $("#branchCode").val(data.branchCode);
-//			 $("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
-//			 $("#supplierId").val('');
-//			 $("#supplierName").val('');
-//		 }   
-//	})
-//	
-//}
-
-//选择供应商
-//function selectSupplier(){
-//	new publicSuppliersService({},function(data){
-//		if(data != 'NO'){
-//			$("#supplierId").val(data.id);
-//			$("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
-//		 }
-//	})
-//}
-
 //选择费用
 function selectCharge(searchKey){
 	var branchId = $('#branchId').val();

@@ -8,7 +8,7 @@
 <title>促销销售查询</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
-<script src="${ctx}/static/js/views/report/activity/activityGoodsList.js?1=1"></script>
+<script src="${ctx}/static/js/views/report/activity/activityGoodsList.js?V=${versionNo}"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
 </style>

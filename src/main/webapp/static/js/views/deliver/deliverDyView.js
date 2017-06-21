@@ -151,9 +151,11 @@ function initDatagridViewRequireOrder(){
 		},
     });
 
-    if(hasPurchasePrice==false){
-        priceGrantUtil.grantPurchasePrice(gridName,["price","amount","taxAmount"])
+    var param = {
+        distributionPrice:["price","amount","taxAmount"],
     }
+    priceGrantUtil.grantPrice(gridName,param);
+
 }
 //合计
 function updateFooter(){

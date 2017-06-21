@@ -8,7 +8,7 @@
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
  
-	<script src="${ctx}/static/js/views/goods/branchgoods/list.js"></script>
+	<script src="${ctx}/static/js/views/goods/branchgoods/list.js?V=${versionNo}"></script>
     <style>
     .ubtns .hide{display:none!important;}
     .show{display:block!important;}

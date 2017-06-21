@@ -379,8 +379,8 @@ function printDiffDispose(){
 		$_jxc.alert("没有数据");
 		return;
 	}
-	var fromObjStr = $('#searchForm').serializeObject();
-	var param=setParams("searchForm");
+	var fromObjStr = $('#diffForm').serializeObject();
+	var param=setParams("diffForm");
 	parent.addTabPrint("差异详情","打印",contextPath+"/stocktaking/diffDispose/printDiffDispose?" + param);
 }
 

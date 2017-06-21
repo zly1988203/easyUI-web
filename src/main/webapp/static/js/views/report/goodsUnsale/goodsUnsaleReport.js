@@ -131,7 +131,7 @@ function initDatagridGoodsUnsale(){
     });
 
     if(hasCostPrice==false){
-        priceGrantUtil.grantCostPrice(gridName,["costAmount","profitAmount"])
+        priceGrantUtil.grantCostPrice(gridName,["costPrice","costAmount","profitAmount"])
     }
 }
 

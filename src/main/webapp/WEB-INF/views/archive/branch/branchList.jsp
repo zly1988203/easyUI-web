@@ -11,7 +11,7 @@
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
-<script src="${ctx}/static/js/views/branchManager/branchList.js?V=5"></script>
+<script src="${ctx}/static/js/views/branchManager/branchList.js?V=${versionNo}"></script>
 	<style>
 	.datagrid-header .datagrid-cell {text-align: center!important;font-weight: bold;}
 	</style>

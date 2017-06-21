@@ -5,7 +5,6 @@
 var saleWayNot="";
 var branchId="";
 var isDirect = "";
-var isContainChildren = null;//机构是否所有标示
 function initSupplierView(param){
 	
 	console.log('param',param)
@@ -23,8 +22,6 @@ function initSupplierView(param){
 		branchId=$("#branchId").val();
 	}
 	
-	//机构是否所有标示
-	isContainChildren = param.isContainChildren;
 	
     gFunSetEnterKey(supplierSearch);
     saleWayNot=$("#saleWayNot").val();
@@ -85,7 +82,6 @@ function zTreeOnClick(event, treeId, treeNode) {
 	   	saleWayNot:saleWayNot,
 	   	isDirect:isDirect,
     	branchId:branchId,
-    	isContainChildren:isContainChildren,
     	supplierNameOrsupplierCode:supplierNameOrsupplierCode
    };
    $("#gridSupplier").datagrid("options").method = "post";
@@ -104,7 +100,6 @@ function initDatagridSupplier(saleWayNot, isDirect, branchId, supplierNameOrsupp
         	saleWayNot:saleWayNot,
         	isDirect:isDirect,
         	branchId:branchId,
-        	isContainChildren:isContainChildren,
         	supplierNameOrsupplierCode:supplierNameOrsupplierCode
         },
         //toolbar: '#tb',     //工具栏 id为tb
@@ -134,7 +129,6 @@ function supplierSearch(){
 	   	saleWayNot:saleWayNot,
 	   	isDirect:isDirect,
 		branchId:branchId,
-		isContainChildren:isContainChildren,
     	supplierNameOrsupplierCode:supplierNameOrsupplierCode
 	};
 	$("#gridSupplier").datagrid("options").method = "post";

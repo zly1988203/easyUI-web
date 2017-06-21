@@ -6,8 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>库存调整</title>
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-    <%-- <script  src="${ctx}/static/js/fun/publicComponent.js"></script> --%>
-    <script  src="${ctx}/static/js/views/stockAdjust/stockList.js"></script>
+    <script  src="${ctx}/static/js/views/stockAdjust/stockList.js?V=${versionNo}"></script>
     <style>
     .datagrid-header .datagrid-cell {text-align: center!important;font-weight: bold;}
     </style>

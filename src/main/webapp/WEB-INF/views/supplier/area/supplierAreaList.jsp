@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>供应商区域列表(总部)</title>
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-    <script  src="${ctx}/static/js/views/supplier/area/supplierAreaList.js"></script>
+    <script  src="${ctx}/static/js/views/supplier/area/supplierAreaList.js?V=${versionNo}"></script>
 </head>
 <body class="uw uh ufs-14 upad-8 uc-black box-border">
 <div class="ub uh ub-f1">

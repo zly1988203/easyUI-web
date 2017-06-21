@@ -43,5 +43,5 @@
         </div>
     </div>
 </div>
-<script src="${ctx}/static/js/views/goods/branchPriceAdjust/modifyPriceDialog.js"></script>
+<script src="${ctx}/static/js/views/goods/branchPriceAdjust/modifyPriceDialog.js?V=${versionNo}"></script>
 
