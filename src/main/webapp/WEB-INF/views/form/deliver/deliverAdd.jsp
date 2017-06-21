@@ -34,6 +34,7 @@
                        <input type="hidden" id="targetBranchId" name="targetBranchId" value="${branchesGrow.targetBranchId}"  />
                        <input type="hidden" id="targetBranchType" name="targetBranchType" value="${branchesGrow.targetBranchType}"  />
                        <input type="hidden" id="minAmount" name="minAmount" value="${branchesGrow.minAmount}"  />
+                       <input type="hidden" id="isMinAmount" name="isMinAmount" value="${branchesGrow.isMinAmount}"  />
                        <input class="uinp ub ub-f1" type="text" id="targetBranchName" readonly="readonly" value="${branchesGrow.targetBranchName}" onclick="selectTargetBranch()" />
                        <div class="uinp-more" onclick="selectTargetBranch()">...</div>
                    </div>
