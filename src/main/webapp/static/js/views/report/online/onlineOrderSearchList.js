@@ -51,7 +51,15 @@ function initGridOnlineOrder() {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
-            {field: 'platDiscountAmount', title: '优惠金额', width: '80px', align: 'right',
+            {field: 'discountAmount', title: '优惠金额', width: '80px', align: 'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                }
+            },
+            {field: 'freightAmount', title: '运费', width: '80px', align: 'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
