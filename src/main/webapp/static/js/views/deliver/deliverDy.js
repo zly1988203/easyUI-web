@@ -165,7 +165,7 @@ function initDatagridRequireOrder(){
                 formatter:function(value,row,index){
                     var str = "";
                     if(row.isFooter){
-                        str ='<div class="ub ub-pc" style="color:red;">起订金额：'+ $("#minAmount").val() +'</div> '
+                        //str ='<div id="spanMinAmount" class="ub ub-pc" style="color:red;">起订金额：'+ $("#minAmount").val() +'</div> '
                     }else{
                         str = value;
                     }

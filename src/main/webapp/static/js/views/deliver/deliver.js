@@ -163,7 +163,7 @@ function initDatagridRequireOrder(){
                 formatter:function(value,row,index){
                     var str = "";
                     if(row.isFooter){
-                        str ='<div class="ub ub-pc" style="color:red;">起订金额：'+ $("#minAmount").val() +'</div> '
+                        str ='<div id ="spanMinAmount" class="ub ub-pc" style="color:red;">起订金额：'+ $("#minAmount").val() +'</div> '
                     }else{
                         str = value;
                     }
@@ -1081,9 +1081,9 @@ function selectTargetBranch(){
         if (data.type != '1' && data.type != '0') {
         	getSourceBranch(data.branchesId);
         }
-        if (data.type == '1') {
+        if (data.type == '1' || data.type == '0') {
         	$("#salesman").val(data.salesman);
-        	$("#spanMinAmount").html(data.minAmount);
+        	$("#spanMinAmount").html('起订金额：' + data.minAmount);
         	$("#minAmount").val(data.minAmount);
         	$("#sourceBranchId").val('');
             $("#sourceBranchName").val('');
@@ -1103,14 +1103,53 @@ function getSourceBranch(branchesId) {
             $("#sourceBranchName").val(result['sourceBranchName']);
             $("#validityTime").val(new Date(result['validityTime']).format('yyyy-MM-dd'));
             $("#salesman").val(result['salesman']);
-            $("#spanMinAmount").html(result['minAmount']);
+            $("#spanMinAmount").html('起订金额：' + result['minAmount']);
             $("#minAmount").val(result['minAmount']);
+            $("#isMinAmount").val(result['isMinAmount']);
 		}else{
 			$_jxc.alert(result['message']);
 		}
     });
 }
 
+// 查询发货机构起订金额
+function getSourceMinAmount(sourceMinAmount){
+	// 要货机构配置:是否启用起订金额(0:不控制,1:按门店起订金额控制,2:按仓库起订金额控制)
+	// 进入新增页面初始化配置值
+	var isMinAmount = $("#isMinAmount").val();
+	// 如果没有值表示已经重新选择要货机构,需求重新获取要货机构配置
+	if(!isMinAmount){
+		// 查看要货机构配置
+		var branchId =  $("#targetBranchId").val();
+		$_jxc.ajax({
+			url : contextPath+"/form/deliverForm/queryBranchSpecById",
+			data : {branchId : branchId}
+		},function(result){
+			console.log(result);
+			if(result['code'] == 0){
+				// 要货机构配置:是否启用起订金额(0:不控制,1:按门店起订金额控制,2:按仓库起订金额控制)
+				isMinAmount = result['spceVo'].isMinAmount;
+				// 如果要货机构配置为按仓库起订金额配置，则取出发货机构对应的起订金额
+				//（发货机构为要货机构父级或父级对应的仓库，则发货机构的起订金额与要货机构的仓库起订金额一致；
+				// 如果发货机构为同区域的其他非父级仓库时，则发货机构的起订金额与要货机构的仓库起订金额可能不一致，则获取发货机构的起订金额）
+				if(isMinAmount === 2){
+					$("#spanMinAmount").html('起订金额：' + sourceMinAmount);
+					$("#minAmount").val(sourceMinAmount);
+				}
+			}else{
+				$_jxc.alert(result['message']);
+			}
+		});
+	}else{
+		// 如果要货机构配置为按仓库起订金额配置，则取出发货机构对应的起订金额
+		//（发货机构为要货机构父级或父级对应的仓库，则发货机构的起订金额与要货机构的仓库起订金额一致；
+		// 如果发货机构为同区域的其他非父级仓库时，则发货机构的起订金额与要货机构的仓库起订金额可能不一致，则获取发货机构的起订金额）
+		if(isMinAmount === 2){
+			$("#spanMinAmount").html('起订金额：' + sourceMinAmount);
+			$("#minAmount").val(sourceMinAmount);
+		}
+	}
+}
 /**
  * 发货机构
  */
@@ -1123,6 +1162,9 @@ function selectSourceBranch(){
                 //$("#sourceBranchName").val(data.branchName);
                 $("#sourceBranchName").val("["+data.branchCode+"]"+data.branchName);
                 gridHandel.setLoadData([$.extend({},gridDefault)]);
+                alert(data.stockMinAmount);
+                // 刷新起订金额
+                getSourceMinAmount(data.stockMinAmount);
             }
         },'DZ',$("#targetBranchId").val(),'',1);
 	} else {
@@ -1132,6 +1174,9 @@ function selectSourceBranch(){
                 //$("#sourceBranchName").val(data.branchName);
                 $("#sourceBranchName").val("["+data.branchCode+"]"+data.branchName);
                 gridHandel.setLoadData([$.extend({},gridDefault)]);
+                alert(data.stockMinAmount);
+                // 刷新起订金额
+                getSourceMinAmount(data.stockMinAmount);
             }
         },'DA',$("#targetBranchId").val(),'',1);
     }

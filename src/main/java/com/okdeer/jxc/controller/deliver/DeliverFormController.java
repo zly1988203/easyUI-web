@@ -18,8 +18,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.json.JSONObject;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,6 +77,8 @@ import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
 import com.okdeer.jxc.utils.poi.ExcelReaderUtil;
 
+import net.sf.json.JSONObject;
+
 /**
  * ClassName: DeliverFormController 
  * @Description: 配送单（调拨单）
@@ -106,7 +106,13 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 
 	@Reference(version = "1.0.0", check = false)
 	private DeliverConfigServiceApi deliverConfigServiceApi;
-
+	
+    /**
+     * BranchSpecService
+     */
+    @Reference(version = "1.0.0", check = false)
+    private BranchSpecServiceApi branchSpecService;
+    
 	@Autowired
 	private OrderNoUtils orderNoUtils;
 
@@ -236,7 +242,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		String deliverType = vo.getDeliverType();
 		model.addAttribute("user", user);
 		BranchesGrow branchesGrow = branchesServiceApi.queryBranchesById(user.getBranchId());
-		branchesGrow.setMinAmount(branchesGrow.getTargetBranchMinAmount());
+		//branchesGrow.setMinAmount(branchesGrow.getTargetBranchMinAmount());
 		Integer type = branchesGrow.getTargetBranchType();
 		if (FormType.DA.toString().equals(deliverType)) {
 			if (BranchTypeEnum.HEAD_QUARTERS.getCode().intValue() == type.intValue()) {
@@ -333,7 +339,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		if (DeliverAuditStatusEnum.WAIT_CHECK.getName().equals(form.getStatus())) {
 			if (FormType.DA.toString().equals(form.getFormType())) {
 				Branches branches = branchesServiceApi.getBranchInfoById(form.getTargetBranchId());
-				model.addAttribute("minAmount", branches.getMinAmount());
+				model.addAttribute("minAmount", form.getMinAmount());
 				model.addAttribute("targetBranchType", branches.getType());
 				model.addAttribute("salesman", branches.getSalesman() == null ? "" : branches.getSalesman());
 				return "form/deliver/deliverEdit";
@@ -745,10 +751,30 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 				branchesGrow.getSourceBranchValidityNumDays() == 0 ? SysConstant.VALIDITY_DAY : branchesGrow
 						.getSourceBranchValidityNumDays()));
 		respJson.put("salesman", branchesGrow.getSalesman());
-		respJson.put("minAmount", branchesGrow.getTargetBranchMinAmount());
+		respJson.put("minAmount", branchesGrow.getMinAmount());
 		return respJson;
 	}
-
+    /***
+     * 
+     * @Description: 查询机构配置
+     * @param branchId branchId
+     * @return RespJson
+     * @author xuyq
+     * @date 2017年6月2日
+     */
+    @RequestMapping(value = "queryBranchSpecById", method = RequestMethod.POST)
+    @ResponseBody
+    public RespJson queryBranchSpecById(String branchId) {
+        RespJson resp = RespJson.success();
+        try {
+            BranchSpecVo spceVo = branchSpecService.queryByBranchId(branchId);
+            resp.put("spceVo", spceVo);
+        } catch (Exception e) {
+            LOG.error("查询机构配置异常:{}", e);
+            resp = RespJson.error("查询机构配置异常");
+        }
+        return resp;
+    }
 	/**
 	 * @Description: 终止
 	 * @param vo  
