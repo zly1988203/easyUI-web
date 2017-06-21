@@ -404,6 +404,7 @@ function auditSupChkForm(){
     gridHandel.endEditRow();
     var newData = {
         remark:$("#remark").val(),                  // 备注
+        payType:$('input[type="hidden"][name="payType"]').val()||'',//支付方式
         grid:$.map(gridHandel.getRows(), function(obj){
             return $.extend(true,{},obj);//返回对象的深拷贝
         })
