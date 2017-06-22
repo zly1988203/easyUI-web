@@ -180,7 +180,7 @@ function initDatagridYueJXC(){
 		distributionPrice:['dciAmount','dcoAmount']
 	}
 	
-	priceGrantUtil.grantPrice(gridName,param);
+	priceGrantUtil.grantPrice(datagridId,param);
 }
 
 //查询
