@@ -144,6 +144,15 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 					vo.setBranchIds(Arrays.asList(branchId.split(",")));
 				}
 			}
+			
+			//多商品状态查询
+			if(StringUtils.isNotBlank(vo.getStatuses())){
+				List<Integer> statusList = new ArrayList<>();
+				for(String temp : vo.getStatuses().split(",")){
+					statusList.add(Integer.valueOf(temp));
+				}
+				vo.setStatusList(statusList);
+			}
 
 			//如果formType 是属于配送中的数据 说明不需要管理库存
 			if(FormType.DA.name().equals(vo.getFormType())||FormType.DO.name().equals(vo.getFormType())
