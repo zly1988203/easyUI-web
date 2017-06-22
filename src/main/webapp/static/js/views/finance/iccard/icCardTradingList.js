@@ -96,7 +96,7 @@ function getFiledList() {
             	}
             	return new Date(value).format("yyyy-MM-dd hh:mm:ss");
             }},
-            {field: 'operatorUserName', title: '收银员', width: 80, align: 'left'},
+            {field: 'operatorName', title: '收银员', width: 80, align: 'left'},
         ]]
     }else{
         return [[
