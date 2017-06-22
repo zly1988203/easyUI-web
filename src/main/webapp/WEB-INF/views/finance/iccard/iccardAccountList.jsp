@@ -37,14 +37,12 @@
 			</div>
 
 			<div class="ub umar-t8">
-				<div class="ub ub-ac umar-r20">
+				<div class="ub ub-ac umar-r20" id="branchComponent">
 					<div class="umar-r10 uw-60 ut-r">机&nbsp;&nbsp;构:</div>
-					<input type="hidden" id="branchId" name="branchId" /> <input
-						type="hidden" id="branchCompleCode" name="branchCompleCode" readonly="readonly"/> <input
-						type="hidden" id="oldBranchName"> <input
-						class="uinp ub ub-f1" type="text" id="branchName"
-						name="branchName" maxlength="50" />
-					<div class="uinp-more" onclick="selectListBranches()">...</div>
+					<input type="hidden" id="branchId" name="branchId" />
+					<input type="hidden" id="branchCompleCode" name="branchCompleCode" /> 
+					<input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" maxlength="50" />
+					<div class="uinp-more">...</div>
 				</div>
 
 				<div class="ub ub-ac umar-r20">

@@ -30,7 +30,11 @@ function initGridLogList() {
             {field:'createTimeStr',title:'修改时间',width:100,align:'left'},
             {field:'operateTypeStr',title:'修改类型',width:60,align:'left'},
             {field:'title',title:'修改值',width:140,align:'left'},
-            {field:'content',title:'操作描述',width:300,align:'left'}
+            {field:'content',title:'操作描述',width:300,align:'left',
+            	formatter:function(value,row,index){
+            		return "<p title='"+value+"' style='white-space: pre-line;'>"+value+'</p>'
+            	}
+            }
         ]]
     })
 }
