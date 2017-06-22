@@ -43,6 +43,10 @@ function initGridCardAccount() {
 						formatter:function(value,row,index){
 							return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 						}},
+            {field: 'ecardConsumeAmount', title: '消费金额', width: 100, align: 'right',
+                formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                }},
             {field: 'ecardBalance', title: '余额', width: 100, align: 'right',
 							formatter:function(value,row,index){
 								return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';

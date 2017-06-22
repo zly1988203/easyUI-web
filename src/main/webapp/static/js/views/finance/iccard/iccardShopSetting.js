@@ -90,6 +90,14 @@ function initGridShopList(cardType) {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
             },
+            {field: 'ecardConsumeAmount', title: '消费金额', width: 100, align: 'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
             {field: 'ecardBalance', title: '账户余额', width: 100, align: 'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
