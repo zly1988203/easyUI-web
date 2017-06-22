@@ -158,6 +158,7 @@ function gridReload(gridName,httpParams,selectTypeName){
 
 //初始化表格
 var dg;
+var datagridId = 'goodsTab';
 function initDatagridOrders(){
 	dg=$("#goodsTab").datagrid({
 		//title:'普通表单-用键盘操作',
@@ -315,19 +316,18 @@ function initDatagridOrders(){
 			{field:"remark",title:"备注",sortable:true,tooltip:true,width:80,align:'left'}
 		     ]] ,
 		toolBar : "#tg_tb",
-		          /*  onBeforeLoad:function(param){
-   			var categoryCodeTree = $("#categoryCodeTree").val();
-   			if(categoryCodeTree==null || categoryCodeTree==""){
-   				return false;
-   			}
-   			return true;
-   		}, */
-		          enableHeaderClickMenu: false,
-		          enableHeaderContextMenu: false,
-		          enableRowContextMenu: false
-
+        enableHeaderClickMenu: false,
+        enableHeaderContextMenu: false,
+        enableRowContextMenu: false
 
 	});
+	
+	var param = {
+			costPrice:["purchasePrice"],
+			distributionPrice:['distributionPrice']
+	}
+		
+	priceGrantUtil.grantPrice(datagridId,param);
 }
 
 /**

@@ -138,6 +138,7 @@ function initDatagridAgency(){
         showFooter:true,
         height:'100%',
         width:'100%',
+        idField:'branchCode',
         columns:[[
             {field:'cb',checkbox:true,hidden:selectType == 1?false:true},    
             {field:'branchCode',title:'编码',width:100,align:'left'},
