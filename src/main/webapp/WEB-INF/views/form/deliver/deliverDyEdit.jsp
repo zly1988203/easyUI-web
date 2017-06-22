@@ -19,7 +19,9 @@
             <div class="ubtns">
 				<div class="ubtns-item" onclick="addDeliverForm()">新增</div>
 				<div class="ubtns-item" onclick="updateOrder()">保存</div>
+				<shiro:hasPermission name="JxcDeliverDY:audit">
 				<div class="ubtns-item" onclick="check()">审核</div>
+				</shiro:hasPermission>
 				<div class="ubtns-item-disabled" >终止</div>
 				<div class="ubtns-item" onclick="selectGoods()">商品选择</div>
 				<shiro:hasPermission name="JxcDeliverDY:suggest">
