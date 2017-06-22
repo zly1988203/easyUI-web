@@ -101,7 +101,10 @@ public class BranchGoodsSaleReportController extends BaseController<GoodsReportC
 				LOG.error("店铺为空");
 				return PageUtils.emptyPage();
 			}
-			return branchGoodsSaleReportApi.queryBranchGoodsSaleReport(qo);
+			PageUtils<BranchGoodsSaleReportVo> bgsReportPage = branchGoodsSaleReportApi.queryBranchGoodsSaleReport(qo);
+			// 过滤数据权限字段
+            cleanAccessData(bgsReportPage.getList());
+			return bgsReportPage;
 		} catch (Exception e) {
 			LOG.error("分公司商品查询数据出现异常:", e);
 		}
@@ -139,6 +142,8 @@ public class BranchGoodsSaleReportController extends BaseController<GoodsReportC
 			list.add(pageList.getFooter().get(0));
 			
 			if(CollectionUtils.isNotEmpty(list)){
+			    // 过滤数据权限字段
+			    cleanAccessData(list);
 				String fileName = "分公司商品查询分析" + "_" + DateUtils.getCurrSmallStr();
 				String templateName = ExportExcelConstant.BRANCHGOODSSALEREPORT;
 				exportListForXLSX(response, list, fileName, templateName);
