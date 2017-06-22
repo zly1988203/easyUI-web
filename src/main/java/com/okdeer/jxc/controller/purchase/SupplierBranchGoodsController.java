@@ -155,7 +155,7 @@ public class SupplierBranchGoodsController extends BaseController<SupplierBranch
 			List<String> skuIds = vo.getSkuIds();
 			String branchId = vo.getBranchId();
 			String supplierId = vo.getSupplierId();
-			goodsSupplierBranchServiceApi.batchSaveSupplierBranchGoods(skuIds, branchId, supplierId);
+			goodsSupplierBranchServiceApi.batchSaveSupplierBranchGoods(skuIds, branchId, supplierId, getCurrUserId());
 			map.put("code", "0");
 		} catch (Exception e) {
 			LOG.error("保存供应商机构商品异常", e);
@@ -181,7 +181,7 @@ public class SupplierBranchGoodsController extends BaseController<SupplierBranch
 			List<String> skuIds = vo.getSkuIds();
 			String branchId = vo.getBranchId();
 			String supplierId = vo.getSupplierId();
-			goodsSupplierBranchServiceApi.deleteSupplierBranchGoods(skuIds, branchId, supplierId);
+			goodsSupplierBranchServiceApi.deleteSupplierBranchGoods(skuIds, branchId, supplierId, getCurrUserId());
 			map.put("code", "0");
 		} catch (Exception e) {
 			LOG.error("删除供应商机构商品异常", e);
