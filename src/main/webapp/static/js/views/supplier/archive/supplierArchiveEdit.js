@@ -2,8 +2,10 @@
  * Created by huangj02 on 2016/10/12.
  */
 $(function(){
-	
-
+	setTimeout(function(){
+		$('#freezeAccount').combobox('setValue',$('#freezeAccountVal').val()||0);
+		$('#freezeBusiness').combobox('setValue',$('#freezeBusinessVal').val()||0);
+	},500)
 });
 
 function onChangeSaleWay() {
