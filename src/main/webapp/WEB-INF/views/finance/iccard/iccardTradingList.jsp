@@ -36,20 +36,18 @@
 			</div>
 
 			<div class="ub umar-t8">
-				<div class="ub ub-ac umar-r20">
+				<div class="ub ub-ac umar-r20" id="branchComponent">
 					<div class="umar-r10 uw-60 ut-r">机&nbsp;&nbsp;构:</div>
 					<input type="hidden" id="branchId" name="branchId" />
 					<input type="hidden" id="branchCompleCode" name="branchCompleCode"/>
-					<input type="hidden" id="oldBranchName" >
 					<input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" maxlength="50"/>
-					<div id="divBranch" class="uinp-more" onclick="selectListBranches()" >...</div>
+					<div id="divBranch" class="uinp-more">...</div>
 				</div>
-				<div class="ub ub-ac umar-r20 umar-l20">
+				<div class="ub ub-ac umar-r20 umar-l20" id="operatorComponent">
 					<div class="umar-r10 uw-60 ut-r">收&nbsp;银&nbsp;员:</div>
 					<input type="hidden" id="salesmanId" name="salesmanId" />
-					<input type="hidden" id="oldsalesmanName" name="oldsalesmanName" />
 					<input class="uinp ub ub-f1" type="text" id="salesmanName" name="salesmanName">
-					<div id="divsaleman" class="uinp-more" onclick="selectOperator()" >...</div>
+					<div id="divsaleman" class="uinp-more">...</div>
 				</div>
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-60 ut-r">业务类型:</div>

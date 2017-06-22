@@ -264,13 +264,17 @@ function getColumns(){
 }
 
 var gridHandel = new GridClass();
+var initType = false;
 function initSupChkAcoAdd(){
-    gridHandel.setGridName(gridName);
-    gridHandel.initKey({
-        firstName:'actualAmount',
-    })
-
-    $("#"+gridName).datagrid({
+	if(!initType){
+		gridHandel.setGridName(gridName);
+		gridHandel.initKey({
+			firstName:'actualAmount',
+		});
+		initType = true;
+	}
+    
+    var dgrid = $("#"+gridName).datagrid({
         method:'post',
     	url:url,
         align:'center',
@@ -317,7 +321,7 @@ function initSupChkAcoAdd(){
             if(target){
                 gridHandel.setFieldFocus(target);
             }else{
-                gridHandel.setSelectFieldName("discountAmount");
+                gridHandel.setSelectFieldName("actualAmount");
             }
         },
         loadFilter:function(data){

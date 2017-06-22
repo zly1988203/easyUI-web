@@ -6,7 +6,20 @@ $(function () {
     initGridCardTrading();
     changeStatus();
     initConditionParams();
-
+  //机构选择初始化
+	$('#branchComponent').branchSelect({
+		param:{
+			formType:'BF'
+		}
+	});
+	//操作人选择初始化
+	$('#operatorComponent').operatorSelect({
+		//数据过滤
+		loadFilter:function(data){
+			data.salesmanId = data.id;
+			return data;
+		}
+	});
 })
 
 //单据状态切换
@@ -143,7 +156,13 @@ function initGridCardTrading() {
 function query() {
 	$("#startCount").val("");
 	$("#endCount").val("");
-    $("#"+gridName).datagrid("options").queryParams = $("#queryForm").serializeObject();
+	
+	var fromObjStr = $('#queryForm').serializeObject();
+	// 去除编码
+    fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1);
+    fromObjStr.salesmanName = fromObjStr.salesmanName.substring(fromObjStr.salesmanName.lastIndexOf(']')+1);
+    
+    $("#"+gridName).datagrid("options").queryParams = fromObjStr;
     $("#"+gridName).datagrid("options").method = "post";
     $("#"+gridName).datagrid("options").url = contextPath+'/iccard/trading/list';
     $("#"+gridName).datagrid("load");

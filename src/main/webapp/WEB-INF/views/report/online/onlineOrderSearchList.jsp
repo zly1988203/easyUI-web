@@ -44,29 +44,24 @@
 			</div>
 
 			<div class="ub umar-t8">
-
-				<div class="ub ub-ac">
+				<input type="hidden" id="startCount" name="startCount"> 
+				<input type="hidden" id="endCount" name="endCount">
+				<div class="ub ub-ac uw-288" >
 					<div class="umar-r10 uw-80 ut-r">机构名称:</div>
-					<input type="hidden" id="startCount" name="startCount"> <input
-						type="hidden" id="endCount" name="endCount"> <input
-						type="hidden" name="branchCompleCode" id="branchCompleCode">
-					<input class="uinp" id="branchName" name="branchName" type="text"
-						readonly="readonly" onclick="selectListBranches()">
-
+					<input type="hidden" name="branchCompleCode" id="branchCompleCode">
+					<input class="uinp ub ub-f1 " id="branchName" name="branchName" type="text" readonly="readonly" onclick="selectListBranches()">
 					<div class="uinp-more" onclick="selectListBranches()">...</div>
 				</div>
 
-				<div class="ub ub-ac">
+				<div class="ub ub-ac uw-288" style="margin-left:3px" >
 					<div class="umar-r10 uw-80 ut-r">订单号:</div>
-					<input class="uinp" name="orderNo" id="orderNo" type="text">
+					<input class="uinp ub ub-f1" name="orderNo" id="orderNo" type="text">
 				</div>
 
-				<div class="ub ub-ac umar-r40">
+				<div class="ub ub-ac uw-304" style="margin-left:5px">
 					<div class="umar-r10 uw-96 ut-r">线上订单号:</div>
-					<input class="uinp" name="onlineOrderNo" id="onlineOrderNo"
-						type="text">
+					<input class="uinp ub ub-f1" name="onlineOrderNo" id="onlineOrderNo" type="text">
 				</div>
-
 			</div>
 
 			<div class="ub umar-t8">
@@ -125,12 +120,12 @@
 				</div>
 
 
-				<div class="ub ub-ac uw-300">
+				<div class="ub ub-ac" style="width:278px">
 					<div class="umar-r10 uw-70 ut-r">联系电话:</div>
-					<input class="uinp" name="phone" id="phone" type="text">
+					<input class="uinp ub ub-f1" name="phone" id="phone" type="text">
 				</div>
 
-				<div class="ub ub-ac uw-300">
+				<div class="ub ub-ac uw-300" style="margin-left:22px;">
 					<div class="umar-r10 uw-80 ut-r">配送方式:</div>
 					<!--select-->
 					<select class="easyui-combobox uselect" name="pickUpType"

@@ -41,34 +41,28 @@
 			</div>
 
 			<div class="ub umar-t8">
+				<input type="hidden" id="startCount" name="startCount" >
+				<input type="hidden" id="endCount" name="endCount" >
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">机构名称:</div>
-					<input type="hidden" id="startCount" name="startCount" >
-					<input type="hidden" id="endCount" name="endCount" >
 					<input type="hidden" name="branchCompleCode" id="branchCompleCode">
-					<input type="text" id="branchName" class="uinp" name="branchName" 
-						readonly="readonly" onclick="selectListBranches()">
+					<input type="text" id="branchName" class="uinp" name="branchName" readonly="readonly" onclick="selectListBranches()">
 					<div class="uinp-more" onclick="selectListBranches()">...</div>
 				</div>
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">操作员:</div>
-					<input class="uinp" id="opUserKeyword" name="opUserKeyword"
-						type="text" maxlength="50">
-
+					<input class="uinp" id="opUserKeyword" name="opUserKeyword" type="text" maxlength="50">
 				</div>
 			</div>
 
 			<div class="ub umar-t8">
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">功能名称:</div>
-					<input class="uinp" id="operateName" name="operateName" type="text"
-						maxlength="50">
+					<input class="uinp" id="operateName" name="operateName" type="text" maxlength="50">
 				</div>
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">修改值:</div>
-					<input class="uinp" id="operateTitle" name="operateTitle" type="text"
-						maxlength="50">
-
+					<input class="uinp" id="operateTitle" name="operateTitle" type="text" maxlength="50">
 				</div>
 			</div>
 
