@@ -20,7 +20,9 @@
             <div class="ubtns">
                 <div class="ubtns-item" onclick="addDeliverForm()">新增</div>
                 <div class="ubtns-item" onclick="updateOrder()">保存</div>
+                <shiro:hasPermission name="JxcDeliverDA:audit">
                 <div class="ubtns-item" onclick="check()">审核</div>
+                </shiro:hasPermission>
                 <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
                 <shiro:hasPermission name="JxcDeliverDA:suggest">
                     <div class="ubtns-item init" id="suggestBtn" data-role='suggest' onclick="suggestSelectGoods()">建议订货商品</div>
