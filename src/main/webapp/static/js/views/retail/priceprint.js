@@ -366,6 +366,7 @@ function chooseproduct(){
         branchId:$("#branchId").val(),
         supplierId:'',
         flag:'0',
+        statusList : [0, 1, 2]//包括正常、停售、停购的商品
     }
     new publicGoodsServiceTem(param,function(data){
 
