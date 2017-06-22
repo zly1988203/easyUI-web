@@ -171,15 +171,16 @@ function initDatagridYueJXC(){
 
 	});
 
-
-    if(hasCostPrice==false){
-        var fieldArr = ["costAmount","beginCostAmount","dcoAmount",
-            "dciAmount","costChangeAmount","otherAmount","endCostAmount",
-			"endSaleAmount","profitMargin","profitAmount","purchaseAmount",
-			"costPrice",
-        ]
-        priceGrantUtil.grantCostPrice(datagridId,fieldArr)
-    }
+    
+    var param = {
+		costPrice:["costAmount","beginCostAmount","dcoAmount",
+		            "dciAmount","costChangeAmount","otherAmount","endCostAmount",
+					"endSaleAmount","profitMargin","profitAmount","purchaseAmount",
+					"costPrice"],
+		distributionPrice:['dciAmount','dcoAmount']
+	}
+	
+	priceGrantUtil.grantPrice(datagridId,param);
 }
 
 //查询

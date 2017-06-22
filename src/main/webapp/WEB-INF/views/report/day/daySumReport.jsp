@@ -821,13 +821,22 @@
 					gridHandel.setDatagridHeader("center");
 				}
 			});
-
-			if (hasCostPrice == false) {
-				var fieldArr = [ "costAmount", "beginCostAmount", "dcoAmount",
-						"dciAmount", "costChangeAmount", "otherAmount",
-						"endCostAmount", "endSaleAmount" ]
-				priceGrantUtil.grantCostPrice(gridName, fieldArr)
+			
+			var param = {
+					//期初成本价->beginCostPrice  期末成本价-->endCostPrice   销售成本金额->saleCostAmount  采购收货金额->piAmount 采购退货金额->prAmount	采购直送收货金额->pmAmount
+					//库存调整出库金额->ioInAmount	库存调整入库金额->ioOutAmount	  盘点入库金额->ppInAmount 盘点出库金额->ppOutAmount 	领用出库金额->iuAmount	
+					// 报损出库金额->idAmount	组合拆分出库金额->ixOutAmount	 组合拆分入库金额->ixInAmount	礼品兑换出库金额->lpAmount	其他入库金额->otherInAmount	其他出库金额->otherOutAmount
+				costPrice:['beginCostPrice','beginCostAmount','endCostPrice','endCostAmount','saleCostAmount','piAmount','prAmount','pmAmount','ioInAmount','ioOutAmount',
+				          	'ppInAmount','ppOutAmount','iuAmount','idAmount','ixOutAmount','ixInAmount','lpAmount','otherInAmount','otherOutAmount'
+				          ],
+				//配送成本金额	配送毛利金额  配送入库金额  配送出库金额
+				distributionPrice:['deliverCostAmount','deliverProfitAmount','diAmount','doAmount'],
+				//批发销售金额	批发退货金额
+				wholesalePrice:['wsAmount','wrAmount']
+					
 			}
+			
+			priceGrantUtil.grantPrice(gridName,param);
 
 		}
 

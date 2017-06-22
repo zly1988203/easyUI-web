@@ -3,6 +3,14 @@
  */
 $(function () {
     initGridCardAccount();
+    
+  //机构选择初始化
+	$('#branchComponent').branchSelect({
+		param:{
+			formType:'BF'
+		}
+	});
+	
 })
 
 var gridName = "gridCardAccount";
@@ -43,6 +51,10 @@ function initGridCardAccount() {
 						formatter:function(value,row,index){
 							return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 						}},
+            {field: 'ecardConsumeAmount', title: '消费金额', width: 100, align: 'right',
+                formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                }},
             {field: 'ecardBalance', title: '余额', width: 100, align: 'right',
 							formatter:function(value,row,index){
 								return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -54,7 +66,11 @@ function initGridCardAccount() {
 function query() {
 	$("#startCount").val("");
 	$("#endCount").val("");
-    $("#"+gridName).datagrid("options").queryParams = $("#queryForm").serializeObject();
+	var fromObjStr = $('#queryForm').serializeObject();
+	// 去除编码
+    fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1)
+    
+    $("#"+gridName).datagrid("options").queryParams = fromObjStr;
     $("#"+gridName).datagrid("options").method = "post";
     $("#"+gridName).datagrid("options").url = contextPath+'/iccard/account/management/list';
     $("#"+gridName).datagrid("reload");
@@ -183,14 +199,3 @@ var urlEncode = function (param, key, encode) {
 	  return paramStr;
 	};
 	
-/**
- * 机构名称
- */
-function selectListBranches(){
-    new publicAgencyService(function(data){
-        $("#branchId").val(data.branchesId);
-        $("#branchName").val(data.branchName);
-        $("#branchCompleCode").val(data.branchCompleCode);
-        $("#oldBranchName").val(data.branchName);
-    },'BF','');
-}

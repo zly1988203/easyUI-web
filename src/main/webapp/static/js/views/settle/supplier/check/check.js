@@ -34,6 +34,7 @@ $(function(){
 		url = contextPath+"/settle/supplierCheck/checkFormDetailList?id="+formId;
 		oldData = {
 		        remark:$("#remark").val(),                  // 备注
+		        payType:$('input[type="hidden"][name="payType"]').val()||'',   //支付方式
 		}
 	    
 	}
@@ -403,7 +404,8 @@ function auditSupChkForm(){
     //验证数据是否修改
     gridHandel.endEditRow();
     var newData = {
-        remark:$("#remark").val(),                  // 备注
+        remark:$("#remark").val()||'',                  // 备注
+        payType:$('input[type="hidden"][name="payType"]').val()||'',//支付方式
         grid:$.map(gridHandel.getRows(), function(obj){
             return $.extend(true,{},obj);//返回对象的深拷贝
         })
