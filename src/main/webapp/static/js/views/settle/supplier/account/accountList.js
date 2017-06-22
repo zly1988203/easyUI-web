@@ -76,7 +76,7 @@ function getAccountColumns(){
 	//未付款账款汇总
 	if(accountType == 3 || accountType == 7){
 		defaultColumns = defaultColumns.concat([
-			{field: 'advanceAmount', title: '预付金额', width: '80px', align: 'right',
+			{field: 'payableAmount', title: '预付金额', width: '80px', align: 'right',
 				formatter: function (value, row, index) {
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
 				}
