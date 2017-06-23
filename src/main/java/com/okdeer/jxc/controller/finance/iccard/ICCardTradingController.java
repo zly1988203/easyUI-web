@@ -85,15 +85,23 @@ public class ICCardTradingController extends BasePrintController<TradeOrderPayVo
 		try {
 			if (StringUtils.equalsIgnoreCase("1", queryType)) {
 				suppliers = icCardTradingService.selectTradingList(vo, Boolean.TRUE);
+				TradeOrderPayVo tradeOrderPayVo = icCardTradingService.sumTradingList(vo);
+				tradeOrderPayVo = tradeOrderPayVo == null ? new TradeOrderPayVo() : tradeOrderPayVo;
+				tradeOrderPayVo.setBranchCode("SUM");
+				List<TradeOrderPayVo> list = new ArrayList<TradeOrderPayVo>();
+				list.add(tradeOrderPayVo);
+				suppliers.setFooter(list);
 			} else {
 				vo.setValue("");
 				suppliers = icCardTradingService.selectTradingSumList(vo, Boolean.TRUE);
+				TradeOrderPayVo tradeOrderPayVo = icCardTradingService.sumTradingSumList(vo);
+				tradeOrderPayVo = tradeOrderPayVo == null ? new TradeOrderPayVo() : tradeOrderPayVo;
+				tradeOrderPayVo.setBranchCode("SUM");
+				List<TradeOrderPayVo> list = new ArrayList<TradeOrderPayVo>();
+				list.add(tradeOrderPayVo);
+				suppliers.setFooter(list);
 			}
-			TradeOrderPayVo tradeOrderPayVo = icCardTradingService.sumTradingSumList(vo);
-			tradeOrderPayVo = tradeOrderPayVo == null ? new TradeOrderPayVo() : tradeOrderPayVo;
-			tradeOrderPayVo.setBranchCode("SUM");
-			List<TradeOrderPayVo> list = new ArrayList<TradeOrderPayVo>();
-			list.add(tradeOrderPayVo);
+
 			return suppliers;
 		} catch (Exception e) {
 			logger.error("一卡通查询列表失败！", e);
