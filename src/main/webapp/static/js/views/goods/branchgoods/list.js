@@ -427,6 +427,7 @@ function selectBranches() {
 
 function branchesLeadInto(branchesId){
 	var skuIds = getSkuIds();
+	gFunStartLoading('正在引入，请稍后...');
 	$.ajax({
 		url : contextPath + "/branch/goods/branchesLeadInto",
 		type : "POST",
@@ -435,6 +436,7 @@ function branchesLeadInto(branchesId){
 			'skuIds' : skuIds
 		},
 		success : function(result) {
+			gFunEndLoading();
 			if (result['code'] == 0) {
 				messager(result.data);
 			} else {
