@@ -401,7 +401,7 @@ function selectBranches() {
 			}
 		});
 		if (flag) {
-			messager("未选择分公司");
+			messager("商品引入时未选择所属分公司:" + $("#branchName").val());
 			return;
 		}
 		branchesId = branchesId.substring(0,branchesId.length - 1);
