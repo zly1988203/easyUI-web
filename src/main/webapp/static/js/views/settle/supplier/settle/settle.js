@@ -468,28 +468,97 @@ function changeGrid(actMount,rows){
 	//实付金额 总汇
 	var _temActMount = actMount;
 	var zfFlag = parseFloat($('#unpayAmount').val()||0) > 0 ? true:false;
+	var posList = [];//正
+	var negList = [];//负
 	rows.forEach(function(obj,index){
 		if(obj.checked){
-			//unpayAmount && ((zfFlag && _temActMount > 0 ) || (!zfFlag && _temActMount < 0))
-			var _temUnpayAmount = parseFloat(obj.unpayAmount||0);
-			if(zfFlag){ //未实付金额 大于0 
-				if(_temActMount - _temUnpayAmount >0){
-					obj.actualAmount = _temActMount - _temUnpayAmount <= 0 ? _temActMount : _temUnpayAmount ;
-				}else{
-					obj.actualAmount = 0;
-				}
-			}else{ //未付金额 小于0
-				if(_temActMount < 0){
-					obj.actualAmount = _temActMount - _temUnpayAmount >= 0 ? _temActMount : _temUnpayAmount ;
-				}else{
-					obj.actualAmount = 0;
+			var _temUnpayNum = parseFloat(obj.unpayAmount||0);
+			//正
+			if(_temUnpayNum >= 0 ){
+				posList.push(obj);
+			}else{
+				//负
+				negList.push(obj);
+			}
+		}
+	});
+	
+	//正 
+	if(zfFlag){
+		//先处理负数
+		if(negList.length > 0){
+			for(var i = 0 ; i < negList.length ; i++){
+				var obj = negList[i];
+				if(obj){
+					var _temUnpayAmount = parseFloat(obj.unpayAmount||0);
+					obj.actualAmount = _temUnpayAmount;
+					//递减
+					_temActMount = _temActMount - _temUnpayAmount;
 				}
 			}
-			_temActMount = _temActMount - _temUnpayAmount;
-			
 		}
-	})
+		//处理正数
+		if(posList.length > 0){
+			for(var i = 0 ; i < posList.length ; i++){
+				var obj = posList[i];
+				if(obj){
+					var _temUnpayAmount = parseFloat(obj.unpayAmount||0);
+					if(_temActMount > 0){
+						obj.actualAmount = _temActMount <= _temUnpayAmount  ? _temActMount : _temUnpayAmount ;
+					}else{
+						obj.actualAmount = 0;
+					}
+					//递减
+					_temActMount = _temActMount - _temUnpayAmount;
+				}
+			}
+		}
+	}else{
+		//先处理正数
+		if(posList.length > 0){
+			for(var i = 0 ; i < posList.length ; i++){
+				var obj = posList[i];
+				if(obj){
+					var _temUnpayAmount = parseFloat(obj.unpayAmount||0);
+					obj.actualAmount = _temUnpayAmount ;
+					//递减
+					_temActMount = _temActMount - _temUnpayAmount;
+				}
+			}
+		}
+		//先处理负数
+		if(negList.length > 0){
+			for(var i = 0 ; i < negList.length ; i++){
+				var obj = negList[i];
+				if(obj){
+					var _temUnpayAmount = parseFloat(obj.unpayAmount||0);
+					if(_temActMount < 0){
+						obj.actualAmount = _temActMount >= _temUnpayAmount ? _temActMount : _temUnpayAmount ;
+					}else{
+						obj.actualAmount = 0;
+					}
+					//递减
+					_temActMount = _temActMount - _temUnpayAmount;
+				}
+			}
+		}
+	}
 	
+	//替换原来数据
+	rows.forEach(function(obj,index){
+		if(obj){
+			negList.forEach(function(obc,inj){
+				if(obj.targetFormId == obc.targetFormId){
+					obj = obc;
+				}
+			})
+			posList.forEach(function(obz,inj){
+				if(obj.targetFormId == obz.targetFormId){
+					obj = obz;
+				}
+			})
+		}
+	});
 	
 	$("#"+gridName).datagrid("loadData",rows);
 }

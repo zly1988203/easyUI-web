@@ -275,23 +275,21 @@
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">冻结账款:</div>
 					<select class="uselect easyui-combobox" style="width: 204px;"
-						name="freezeAccount" id="freezeAccount"
-						data-options="editable:false">
+						name="freezeAccount" id="freezeAccount" data-options="editable:false">
 						<option value="0">正常</option>
 						<option value="1">冻结</option>
-					</select> <input id="freezeAccountVal" name="freezeAccountVal" type="hidden"
-						value="${supplier.freezeAccount }">
+					</select> 
+					<input id="freezeAccountVal" name="freezeAccountVal" type="hidden" value="${supplier.freezeAccount }">
 
 				</div>
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">冻结业务:</div>
 					<select class="uselect easyui-combobox" style="width: 204px;"
-						name="freezeBusiness" id="freezeBusiness"
-						data-options="editable:false">
+						name="freezeBusiness" id="freezeBusiness" data-options="editable:false">
 						<option value="0">正常</option>
 						<option value="1">冻结</option>
-					</select> <input id="freezeBusinessVal" name="freezeBusinessVal"
-						type="hidden" value="${supplier.freezeBusiness }">
+					</select> 
+					<input id="freezeBusinessVal" name="freezeBusinessVal" type="hidden" value="${supplier.freezeBusiness }">
 
 				</div>
 				<div class="ub ub-ac uw-320">
