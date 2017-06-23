@@ -3,15 +3,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>调价查询</title>
-<%@ include file="/WEB-INF/views/include/header.jsp"%>
-<%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
-<script src="${ctx}/static/js/views/report/pricing/pricingQuery.js?V=${versionNo}"></script>
-<style>
-.datagrid-header-row .datagrid-cell{text-align: center!important;}
-</style>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>调价查询</title>
+	
+	<%@ include file="/WEB-INF/views/include/header.jsp"%>
+	<%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
+	<script src="${ctx}/static/js/views/report/pricing/pricingQuery.js?V=${versionNo}"></script>
+	
+	<style>
+		.datagrid-header-row .datagrid-cell{text-align: center!important;}
+	</style>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
 
@@ -19,10 +21,10 @@
 		<form id="queryForm" action="" method="post">
 			<div class="ub ub-ac">
 	            <div class="ubtns">
-	            <shiro:hasPermission name="JxcSaleFlow:search">
+	            <shiro:hasPermission name="JxcPricingQuery:search">
 	                <div class="ubtns-item" onclick="queryForm()">查询</div>
 	            </shiro:hasPermission>
-	            <shiro:hasPermission name="JxcSaleFlow:export">
+	            <shiro:hasPermission name="JxcPricingQuery:export">
 	            	<input type="hidden" id="startCount" name="startCount" />
 					<input type="hidden" id="endCount" name="endCount" />
 	                <div class="ubtns-item" onclick="exportData()">导出</div>
