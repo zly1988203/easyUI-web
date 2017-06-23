@@ -32,7 +32,7 @@ import com.okdeer.jxc.utils.UserUtil;
  *
  */
 @Controller
-@RequestMapping("report/day")
+@RequestMapping("report/day_new")
 public class DaySumReportController extends BaseController<DaySumReportController> {
 	
 	/**
