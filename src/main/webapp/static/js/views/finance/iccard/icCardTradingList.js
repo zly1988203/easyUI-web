@@ -160,7 +160,7 @@ function query() {
 	var fromObjStr = $('#queryForm').serializeObject();
 	// 去除编码
     fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1);
-    fromObjStr.salesmanName = fromObjStr.salesmanName.substring(fromObjStr.salesmanName.lastIndexOf(']')+1);
+    fromObjStr.salesmanName = fromObjStr.salesmanName?fromObjStr.salesmanName.substring(fromObjStr.salesmanName.lastIndexOf(']')+1):'';
     
     $("#"+gridName).datagrid("options").queryParams = fromObjStr;
     $("#"+gridName).datagrid("options").method = "post";
