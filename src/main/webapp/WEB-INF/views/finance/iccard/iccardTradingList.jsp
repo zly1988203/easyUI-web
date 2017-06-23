@@ -56,7 +56,9 @@
 					<option value="D">充值</option>
 					<option value="A">消费</option>
 					<option value="E">售卡</option>
+<%--
 					<option value="B">退货</option>
+--%>
 					</select>
 
 				</div>
