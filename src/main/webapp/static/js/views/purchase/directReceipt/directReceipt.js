@@ -202,6 +202,15 @@ function initDirectDataGrid(){
                    }
                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                },
+               editor:{
+                   type:'numberbox',
+                   options:{
+                       min:0,
+                       precision:4,
+                       disabled:true,
+                       onChange:onChangePrice
+                   }
+               }
            },
            {field:'amount',title:'金额',width:'100px',align:'right',
                formatter : function(value, row, index) {
@@ -220,7 +229,7 @@ function initDirectDataGrid(){
                    options:{
                        disabled:true,
                        min:0,
-                       precision:4,
+                       precision:4
                    }
                }
            },
@@ -386,7 +395,7 @@ function onChangeLargeNum(newV,oldV) {
         return;
     }
 
-    var priceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
+    var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
     gridHandel.setFieldValue('amount',parseFloat(purchaseSpecValue*priceValue*newV).toFixed(4)); //金额=箱数*单价*规格
 
 
@@ -423,7 +432,7 @@ function onChangeRealNum(newV,oldV) {
         return;
     }
     
-    var priceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
+    var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
     gridHandel.setFieldValue('amount',priceValue*newV);                         //金额=数量*单价
 
     var largeNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'largeNum');
@@ -434,6 +443,13 @@ function onChangeRealNum(newV,oldV) {
         gridHandel.setFieldValue('largeNum',largeNumVal);   //箱数=数量/商品规格
     }
 
+    updateFooter();
+}
+
+//监听商品单价
+function onChangePrice(newV,oldV) {
+    var realNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'realNum');
+    gridHandel.setFieldValue('amount',realNumVal*newV);                          //金额=数量*单价
     updateFooter();
 }
 
@@ -448,17 +464,23 @@ function onSelectIsGift(data){
     };
     var arrs = gridHandel.searchDatagridFiled(gridHandel.getSelectRowIndex(),checkObj);
     if(arrs.length==0){
-        var targetPrice = gridHandel.getFieldTarget('price');
+        var targetPrice = gridHandel.getFieldTarget('amount');
         if(data.id=="1"){
             var priceVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
             $('#'+gridName).datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"] = priceVal;
             $(targetPrice).numberbox('setValue',0);
             $(targetPrice).numberbox('disable');
+            gridHandel.setFieldValue('price',0);
+            
         }else{
             $(targetPrice).numberbox('enable');
             var oldPrice =  $('#'+gridName).datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"];
+            //realNum 数量
+            var _realNum = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'realNum');
+            var _amout = parseFloat(oldPrice)*parseFloat(_realNum); 
             if(oldPrice){
-                $(targetPrice).numberbox('setValue',oldPrice);
+                $(targetPrice).numberbox('setValue',_amout);
+                gridHandel.setFieldValue('price',oldPrice);
             }
         }
         updateFooter();
