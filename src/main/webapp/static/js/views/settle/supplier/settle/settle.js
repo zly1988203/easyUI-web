@@ -388,13 +388,13 @@ function onChangeAmount(vewV,oldV){
 	//转成数字
 	_unpayAmount = parseFloat(_unpayAmount||0);
 	
-	if(_unpayAmount > 0 && (vewV < 0 ) && oldV){
+	if(_unpayAmount >= 0 && (vewV < 0 ) && oldV){
 		$_jxc.alert('实付金额不能小于零');
 		checkFlag = true;
 		$(this).numberbox('setValue',oldV);
 		return;
 	}
-	if(_unpayAmount > 0 && (vewV > _unpayAmount ) && oldV){
+	if(_unpayAmount >= 0 && (vewV > _unpayAmount ) && oldV){
 		$_jxc.alert('实付金额不能大于未付金额');
 		checkFlag = true;
 		$(this).numberbox('setValue',oldV);
@@ -678,7 +678,7 @@ function saveSupAcoSet(){
     $.each(_rows,function(i,data){
     	if(data.checked && validFlag){
     		//第N行实付金额不能为0，请检查！确认
-    		if(parseFloat(data.actualAmount) == 0){
+    		if(parseFloat(data.actualAmount) == 0 && parseFloat(data.unpayAmount)!= 0){
     			validFlag = false;
     			$_jxc.alert("第"+(i+1)+"行实付金额不能为零，请检查！");
     			return;
