@@ -108,7 +108,7 @@ function getAccountColumns(){
 					if(!value){
 						return '';
 					}
-					return new Date(value).format('yyyy-MM-dd hh:mm');
+					return new Date(value).format('yyyy-MM-dd');
 				}
 			}
             ]);
