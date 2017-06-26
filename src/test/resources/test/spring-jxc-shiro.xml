@@ -20,9 +20,6 @@
 	
 	<!-- cas Filter -->
 	<bean id="casSubjectFactory" class="org.apache.shiro.cas.CasSubjectFactory"/>
-	<!-- Shiro Filter -->
-	<bean id="myCaptchaFilter" class="com.okdeer.jxc.utils.FormAuthenticationCaptchaFilter"/>
-	<bean id="userFilter" class="com.okdeer.jxc.common.shiro.UserFilter"/> 
 	
 	<!-- Shiro Filter -->
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
@@ -31,13 +28,22 @@
 		<!-- <property name="successUrl" value="/system/index" /> -->
 		<property name="filters">
 		    <map>
-		        <entry key="authc" value-ref="myCaptchaFilter"/>
-		        <entry key="user" value-ref="userFilter"/>
-		       	<entry key="casFilter" value-ref="casFilter"/>
+		        <entry key="authc">
+		    		<bean class="com.okdeer.jxc.utils.FormAuthenticationCaptchaFilter"></bean>
+		    	</entry>
+		    	<entry key="user">
+		    		<bean class="com.okdeer.jxc.common.shiro.UserFilter"></bean>
+		    	</entry>
+		    	<entry key="casFilter">
+		    		<bean class="org.apache.shiro.cas.CasFilter">
+				        <property name="failureUrl" value="/error/403"/>    
+				    </bean>
+		    	</entry>
 		    </map>
 		</property>
 		<property name="filterChainDefinitions">
 			<value>
+				/health = anon
 				/scale/** = anon
 				/static/** = anon
 				/cas=casFilter
@@ -46,10 +52,6 @@
 			</value>
 		</property>
 	</bean>
-	
-	<bean id="casFilter" class="org.apache.shiro.cas.CasFilter">
-        <property name="failureUrl" value="/error/403"/>    
-    </bean>
     
     <bean id="userRealm" class="com.okdeer.jxc.common.shiro.UserRealm">  
 	   <property name="cachingEnabled" value="true" /> 
