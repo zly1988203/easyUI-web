@@ -81,7 +81,7 @@ public class ICCardTradingController extends BasePrintController<TradeOrderPayVo
 			vo.setOperatorId(salesmanId);
 		}
 		vo.setBranchCode(getCurrentUser().getBranchCompleCode());
-		PageUtils<TradeOrderPayVo> suppliers = PageUtils.emptyPage();
+		PageUtils<TradeOrderPayVo> suppliers;// = PageUtils.emptyPage();
 		try {
 			if (StringUtils.equalsIgnoreCase("1", queryType)) {
 				suppliers = icCardTradingService.selectTradingList(vo, Boolean.TRUE);
@@ -106,7 +106,7 @@ public class ICCardTradingController extends BasePrintController<TradeOrderPayVo
 		} catch (Exception e) {
 			logger.error("一卡通查询列表失败！", e);
 		}
-		return suppliers;
+		return PageUtils.emptyPage();
 	}
 
 	@RequestMapping(value = "/exports")
