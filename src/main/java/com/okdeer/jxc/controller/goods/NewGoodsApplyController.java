@@ -376,7 +376,7 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 	 */
 	@RequestMapping(value = "updateGoods", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson copyGoods(@Valid NewGoodsApply sku, BindingResult validate) {
+	public RespJson updateGoods(@Valid NewGoodsApply sku, BindingResult validate) {
 		if (validate.hasErrors()) {
 			String errorMessage = validate.getFieldError().getDefaultMessage();
 			return RespJson.error(errorMessage);
@@ -401,6 +401,9 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 			if (sku.getLowestPrice() == null) {
 				sku.setLowestPrice(price);
 			}
+			
+			sku.setUpdateTime(new Date());
+			sku.setUpdateUserId(getCurrUserId());
 			newGoodsApplyService.updateByPrimaryKey(sku);
 			return RespJson.success();
 		} catch (Exception e) {
