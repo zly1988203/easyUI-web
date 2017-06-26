@@ -80,7 +80,13 @@ public class ICCardTradingController extends BasePrintController<TradeOrderPayVo
 		if (StringUtils.isNotBlank(salesmanId)) {
 			vo.setOperatorId(salesmanId);
 		}
-		vo.setBranchCode(getCurrentUser().getBranchCompleCode());
+		String branchCompleCode = request.getParameter("branchCompleCode");
+		if(StringUtils.isNotBlank(branchCompleCode)){
+			vo.setBranchCode(branchCompleCode);
+		}else{
+			vo.setBranchCode(getCurrentUser().getBranchCompleCode());
+		}
+
 		PageUtils<TradeOrderPayVo> suppliers;// = PageUtils.emptyPage();
 		try {
 			if (StringUtils.equalsIgnoreCase("1", queryType)) {
@@ -116,14 +122,17 @@ public class ICCardTradingController extends BasePrintController<TradeOrderPayVo
 			vo = optional.orElse(new TradeOrderPayVo());
 			vo.setPageNumber(Integer.valueOf(PAGE_NO));
 			vo.setPageSize(PrintConstant.PRINT_MAX_LIMIT);
-			// 默认当前机构
-			if (StringUtils.isBlank(vo.getBranchCode()) && StringUtils.isBlank(vo.getBranchName())) {
-				vo.setBranchCode(getCurrBranchCompleCode());
-			}
 			String salesmanId = request.getParameter("salesmanId");
 			String queryType = request.getParameter("queryType");
+			String branchCompleCode = request.getParameter("branchCompleCode");
 			if (StringUtils.isNotBlank(salesmanId)) {
 				vo.setOperatorId(salesmanId);
+			}
+			if(StringUtils.isNotBlank(branchCompleCode)){
+				vo.setBranchCode(branchCompleCode);
+			}
+			if(StringUtils.isNotBlank(vo.getBranchName())){
+				vo.setBranchName(vo.getBranchCode().replaceAll("[\\[\\d+\\]]",""));
 			}
 			if (StringUtils.equalsIgnoreCase("1", queryType)) {
 				PageUtils<TradeOrderPayVo> suppliers = icCardTradingService.selectTradingList(vo, Boolean.FALSE);
@@ -160,15 +169,20 @@ public class ICCardTradingController extends BasePrintController<TradeOrderPayVo
 		vo = optional.orElse(new TradeOrderPayVo());
 		vo.setPageNumber(Integer.valueOf(PAGE_NO));
 		vo.setPageSize(PrintConstant.PRINT_MAX_LIMIT);
-		// 默认当前机构
-		if (StringUtils.isBlank(vo.getBranchCode()) && StringUtils.isBlank(vo.getBranchName())) {
-			vo.setBranchCode(getCurrBranchCompleCode());
-		}
+
 		PageUtils<TradeOrderPayVo> suppliers;
 		String salesmanId = request.getParameter("salesmanId");
 		String queryType = request.getParameter("queryType");
+		String branchCompleCode = request.getParameter("branchCompleCode");
+
 		if (StringUtils.isNotBlank(salesmanId)) {
 			vo.setOperatorId(salesmanId);
+		}
+		if(StringUtils.isNotBlank(branchCompleCode)){
+			vo.setBranchCode(branchCompleCode);
+		}
+		if(StringUtils.isNotBlank(vo.getBranchName())){
+			vo.setBranchName(vo.getBranchCode().replaceAll("[\\[\\d+\\]]",""));
 		}
 		String path;
 		if (StringUtils.equalsIgnoreCase("1", queryType)) {
