@@ -27,7 +27,7 @@
 					<shiro:hasPermission name="JxcPurchaseOrder:delete">
 						<div class="ubtns-item" onclick="delNotice()">删除</div>
 					</shiro:hasPermission>
-					<%--<div class="ubtns-item" onclick="gFunRefresh()">重置</div>--%>
+					<div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 					<div class="ubtns-item" onclick="toClose()">关闭</div>
 				</div>
 
