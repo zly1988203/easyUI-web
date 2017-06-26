@@ -46,7 +46,7 @@ $(function() {
 	// 初始化机构ID，机构名称
 	$("#branchId").val(sessionBranchId);
 	$("#branchName").val(sessionBranchCodeName);
-
+	$("#branchType").val(sessionBranchType);
 	initDatagridOrders();
 
 	// 商品过滤单选框
