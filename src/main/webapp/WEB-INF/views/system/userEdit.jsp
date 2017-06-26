@@ -185,12 +185,7 @@
 							<div class="umar-r10 uw-60 ut-r">密码:</div>
 							<input id="userPwd" name="userPwd" type="password"
 								class="uh-40 uw-250 easyui-textbox  easyui-validatebox"
-								data-options="required:true,validType:'length[8,18]',iconWidth:38,icons:[
-	{
-	iconCls:'icon-open',
-	handler: iconOpenHandler
-	}
-	]">
+								data-options="required:true,validType:'length[8,18]',iconWidth:38,icons:[{iconCls:'icon-open',handler: iconOpenHandler}]">
 							<i class="uc-red">*</i>
 						</div>
 					</div>

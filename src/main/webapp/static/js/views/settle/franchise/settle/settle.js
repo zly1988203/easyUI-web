@@ -198,6 +198,12 @@ function initSupChkAcoAdd(){
         onUncheck:function(rowIndex,rowData){
         	editRowFlag = true;
         	rowData.checked = false;
+        	//取消勾选实付金额重置
+        	gridHandel.setBeginRow(rowIndex);
+        	rowData.actualAmount = 0;
+        	gridHandel.setFieldValue('actualAmount',0);
+        	gridHandel.endEditRow();
+        	
         	updateFooter();
         },
         onCheckAll:function(rows){
@@ -209,9 +215,13 @@ function initSupChkAcoAdd(){
         },
         onUncheckAll:function(rows){
         	editRowFlag = true;
+        	
         	$.each(rows,function(index,item){
         		item.checked = false;
+        		item.actualAmount = 0;
         	});
+        	$(this).datagrid("loadData",rows);
+        	
         	updateFooter();
         },
         onClickCell:function(rowIndex,field,value){
@@ -223,12 +233,6 @@ function initSupChkAcoAdd(){
             gridHandel.setSelectFieldName(field);
             var target = gridHandel.getFieldTarget(field);
             if(target){
-//            	var _unpayAmount = $(this).datagrid('getRows')[rowIndex].unpayAmount || 0;
-//            	if(_unpayAmount >= 0){
-//            		$(target).numberbox('options').min = 0;
-//            	}else{
-//            		$(target).numberbox('options').max = 0;
-//            	}
                 gridHandel.setFieldFocus(target);
             }else{
                 gridHandel.setSelectFieldName("actualAmount");
@@ -348,6 +352,10 @@ function changeActMountFrom(newV,oldV){
 	}
 	
 	var _unpayAmountText = parseFloat($('#unpayAmount').val()||0);
+	//格式化2位小数比较
+	_unpayAmountText = parseFloat(_unpayAmountText||0).toFixed(2);
+	//转成数字
+	_unpayAmountText = parseFloat(_unpayAmountText||0);
 	
 	if(_unpayAmountText >= 0 && (newV < 0)){
 		$_jxc.alert('实收金额汇总不能小于零');
