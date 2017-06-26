@@ -130,6 +130,8 @@ public class ICCardTradingController extends BasePrintController<TradeOrderPayVo
 			}
 			if(StringUtils.isNotBlank(branchCompleCode)){
 				vo.setBranchCode(branchCompleCode);
+			}else{
+				vo.setBranchCode(getCurrentUser().getBranchCompleCode());
 			}
 			if(StringUtils.isNotBlank(vo.getBranchName())){
 				vo.setBranchName(vo.getBranchCode().replaceAll("[\\[\\d+\\]]",""));
@@ -180,6 +182,8 @@ public class ICCardTradingController extends BasePrintController<TradeOrderPayVo
 		}
 		if(StringUtils.isNotBlank(branchCompleCode)){
 			vo.setBranchCode(branchCompleCode);
+		}else{
+			vo.setBranchCode(getCurrentUser().getBranchCompleCode());
 		}
 		if(StringUtils.isNotBlank(vo.getBranchName())){
 			vo.setBranchName(vo.getBranchCode().replaceAll("[\\[\\d+\\]]",""));
