@@ -59,22 +59,22 @@
 			var againNewPass = $("#againNewPass").val();
 
 			if(!oldPass || !newPass || !againNewPass){
-				$.messager.alert("提示", "密码不能为空");
+				$_jxc.alert("密码不能为空");
 				return ;
 			}
 
 			if(newPass !== againNewPass){
-				$.messager.alert("提示", "两次密码输入不一致");
+				$_jxc.alert("两次密码输入不一致");
 				return ;
 			}
 
 			if(/^\d+$/.test(newPass)){
-				$.messager.alert("提示", "密码不能是全数字");
+				$_jxc.alert("密码不能是全数字");
 				return ;
 			}
 			var regex = /^[A-Za-z0-9]{8,18}$/;
 			if(!regex.test(newPass)){
-				$.messager.alert("提示", "密码长度为8-18位，字母+数字，不能是纯数字");
+				$_jxc.alert("密码长度为8-18位，字母+数字，不能是纯数字");
 				return ;
 			}
 
@@ -86,9 +86,9 @@
 					},
 					function(data){
 						if(data=='success'){
-							$.messager.alert("提示", "修改成功");
+							$_jxc.alert("修改成功");
 						}else{
-							$.messager.alert("提示", data);
+							$_jxc.alert(data);
 						}
 					}
 			);

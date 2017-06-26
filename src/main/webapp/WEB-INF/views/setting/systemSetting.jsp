@@ -205,11 +205,11 @@
 				console.log($('#safetyCoefficientValue').numberbox('getValue'));
 			    
 				if($("input[name='isNaturalMonth']:checked").val() == '0' &&  !$("#monthReportDay").numberbox('getValue')  ){
-					$.messager.alert('提示','请设置指定日期');
+					$_jxc.alert('请设置指定日期');
 					return false;
 				}
 				if($("input[name='safetyCoefficientType']:checked").val() == '2' &&  !$("#safetyCoefficientValue").numberbox('getValue')  ){
-					$.messager.alert('提示','请设置订货安全系数');
+					$_jxc.alert('请设置订货安全系数');
 					return false;
 				}
 				//return false;
@@ -220,13 +220,13 @@
 				var result = JSON.parse(data);
 				gFunEndLoading();
 				if (result['code'] == 0) {
-					messager("保存成功！");
+					$_jxc.alert("保存成功！");
 				} else {
-					successTip(result['message']);
+					$_jxc.alert(result['message']);
 				}
 			},
 			error : function(data) {
-				successTip("请求发送失败或服务器处理失败");
+				$_jxc.alert("请求发送失败或服务器处理失败");
 			}
 		});
 		$("#settingForm").submit();

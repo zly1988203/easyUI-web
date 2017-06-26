@@ -356,29 +356,24 @@
 	    
 	    var req = JSON.stringify(reqObj);
 
-	    $.ajax({
+	    $_jxc.ajax({
 	        url:contextPath+"/form/overdue/detail/update",
 	        type:"POST",
 	        contentType:'application/json',
-	        data:req,
-	        success:function(result){
-	            console.log(result);
-	            if(result['code'] == 0){
-	                $.messager.alert("操作提示", "操作成功！", "info");
-	            }else{
-	                successTip(result['message']);
-	            }
-	        },
-	        error:function(result){
-	            successTip("请求发送失败或服务器处理失败");
-	        }
+	        data:req
+	    },function(result){
+            if(result['code'] == 0){
+            	$_jxc.alert("操作成功！");
+            }else{
+            	$_jxc.alert(result['message']);
+            }
 	    });
 	}
 	function check(){
 	    $("#gridEditOrder").datagrid("endEdit", gridHandel.getSelectRowIndex());
 	    var rows = gridHandel.getRows();
 	    if(rows.length==0){
-	        messager("表格不能为空");
+	    	$_jxc.alert("表格不能为空");
 	        return;
 	    }
 	    var isCheckResult = true;
@@ -386,7 +381,7 @@
 	    $.each(rows,function(i,v){
 	        v["rowNo"] = i+1;
 	        if(!v["skuCode"]){
-	            messager("第"+(i+1)+"行，货号不能为空");
+	        	$_jxc.alert("第"+(i+1)+"行，货号不能为空");
 	            isCheckResult = false;
 	            return false;
 	        };
@@ -399,7 +394,7 @@
 	        return
 	    }
 	    if(num==rows.length){
-	    	 messager("采购商品数量全部为0");
+	    	$_jxc.alert("采购商品数量全部为0");
 			return
 		}else if(parseFloat(num)>0){
 			$.messager.confirm('提示',"是否清除单据中数量为0的商品记录?",function(data){

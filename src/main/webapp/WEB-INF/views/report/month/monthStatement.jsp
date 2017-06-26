@@ -113,14 +113,14 @@
 			            if(result['code'] == 0){
 			            	// 获得上月月结期间
 					   		getUpMonthReportDay(branchId);
-			            	$.messager.alert('操作提示','月结成功！')
+					   		$_jxc.alert('月结成功！')
 			            }else{
-			                successTip(result['message']);
+			            	$_jxc.alert(result['message']);
 			            }
 			        },
 			        error:function(result){
 			        	gFunEndLoading();
-			            successTip("请求发送失败或服务器处理失败");
+			        	$_jxc.alert("请求发送失败或服务器处理失败");
 			        }
 			    });
 		   }

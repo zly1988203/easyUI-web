@@ -84,7 +84,7 @@ function editUser(){
             $_jxc.alert("操作成功");
             reloadDataGrid();
         }else {
-            $_jxc.alert(result.message, $("#dg"));
+            $_jxc.alert(result.message);
         }
 	});
 
@@ -93,19 +93,20 @@ function editUser(){
 function savePassword() {
     var reqObj = $('#passwordForm').serializeObject();
     var isValid = $("#passwordForm").form('validate');
-    if (!isValid) {
-        return;
+    var userPwd = $("#userPwd").val();
+    if(!$.trim(userPwd)){
+    	$_jxc.alert("密码不能为空");
+    	return;
     }
 
     var regex = /^[A-Za-z0-9]{8,18}$/;
-    var userPwd = $("#userPwd").val();
     if(/^\d+$/.test(userPwd)){
-        $.messager.alert("提示", "密码不能是纯数字");
+        $_jxc.alert("请输入密码长度为8-18位，字母+数字，不能是纯数字");
         return ;
     }
 
     if(!regex.test(userPwd)){
-        $.messager.alert("提示", "密码长度为8-18位，字母+数字，不能是纯数字");
+        $_jxc.alert("请输入密码长度为8-18位，字母+数字，不能是纯数字");
         return ;
     }
 
@@ -121,7 +122,7 @@ function savePassword() {
             $("#userPwd").textbox({"type":"password"})
             $_jxc.alert("操作成功");
         }else {
-            $_jxc.alert(result.message, $("#dg"));
+            $_jxc.alert(result.message);
         }
 
     })
@@ -129,21 +130,23 @@ function savePassword() {
 
 function initPassword() {
     $_jxc.confirm('是否进行密码初始化',function(data){
-    	var param = {
-    		url:contextPath+"/system/user/initPwd",
-    		data:{
-    			userId:$("#passwordForm #id").val()
-			}
-		}
-		
-    	$_jxc.ajax(param,function (result) {
-            if(result['code'] == 0){
-                $_jxc.alert("密码初始化成功");
-            }else {
-                $_jxc.alert(result.message, $("#dg"));
-            }
-
-        })
+    	if(data){
+    		var param = {
+    				url:contextPath+"/system/user/initPwd",
+    				data:{
+    					userId:$("#passwordForm #id").val()
+    				}
+    		}
+    		
+    		$_jxc.ajax(param,function (result) {
+    			if(result['code'] == 0){
+    				$_jxc.alert("密码初始化成功,初始化密码为：123456");
+    			}else {
+    				$_jxc.alert(result.message);
+    			}
+    			
+    		})
+    	}
 	})
 }
 
