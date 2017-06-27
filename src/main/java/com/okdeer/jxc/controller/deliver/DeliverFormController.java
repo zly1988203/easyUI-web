@@ -42,6 +42,7 @@ import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.ImportExcelConstant;
 import com.okdeer.jxc.common.constant.LogConstant;
+import com.okdeer.jxc.common.constant.PriceAccessConstant;
 import com.okdeer.jxc.common.constant.SysConstant;
 import com.okdeer.jxc.common.controller.BasePrintController;
 import com.okdeer.jxc.common.enums.BranchTypeEnum;
@@ -906,7 +907,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 					deliverForm.getCreateTime() != null ? DateUtils.formatDate(deliverForm.getCreateTime(),
 							"yyyy-MM-dd") : "");
 		}
-
+		cleanDataMap(PriceAccessConstant.DELIVER_FORM, replaceMap);
 		return replaceMap;
 	}
 
