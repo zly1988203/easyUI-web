@@ -85,8 +85,6 @@ public class GoodsUnSaleReportController extends BaseController<GoodsUnSaleRepor
 			vo.setPageSize(pageSize);
 			vo.setSourceBranchId(UserUtil.getCurrBranchId());
 			PageUtils<GoodsUnsaleReportVo> list = goodsUnsaleReportService.getGoodsUnsaleReportList(vo);
-			// 过滤数据权限字段
-            cleanAccessData(list.getList());
 			GoodsUnsaleReportVo goodsUnsaleReportVo = goodsUnsaleReportService.queryGoodsUnsaleReportSum(vo);
 			// 过滤数据权限字段
             cleanAccessData(goodsUnsaleReportVo);
@@ -95,6 +93,8 @@ public class GoodsUnSaleReportController extends BaseController<GoodsUnSaleRepor
 				footer.add(goodsUnsaleReportVo);
 			}
 			list.setFooter(footer);
+			// 过滤数据权限字段
+			cleanAccessData(list);
 			return list;
 		} catch (Exception e) {
 			LOG.error("获取滞销信息列表信息异常:{}", e);

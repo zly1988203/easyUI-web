@@ -192,7 +192,8 @@ BaseController<GoodsReportController> {
 				}
 			}	
 			PageUtils<GoodsReportVo> goodsReport = goodsReportService.queryListToPage(qo);
-			cleanAccessData(goodsReport.getList());
+			// 过滤数据权限字段
+			cleanAccessData(goodsReport);
 			return goodsReport;
 
 		} catch (Exception e) {
@@ -302,7 +303,7 @@ BaseController<GoodsReportController> {
 			List<GoodsBranchPriceVo> branchList = goodsBranchPriceService.querySkuBranchBySkuId(qo);
 			
 			PageUtils<GoodsBranchPriceVo> goodsReport = new PageUtils<GoodsBranchPriceVo>(branchList);
-			cleanAccessData(goodsReport.getList());
+			cleanAccessData(goodsReport);
 			return goodsReport;
 		}catch(Exception e){
 			LOG.error("查询商品各机构信息失败", e);

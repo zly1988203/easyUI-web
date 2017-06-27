@@ -98,6 +98,8 @@ public class SupplierMonthlyReportController extends BaseController<DayReportCon
         				    }
         				});
 				}
+	            // 过滤数据权限字段
+	            cleanAccessData(pageUtils);
 				return pageUtils;
 			}
 		}
@@ -114,6 +116,8 @@ public class SupplierMonthlyReportController extends BaseController<DayReportCon
 		}
 		if (StringUtils.isNotBlank(vo.getStartTime())) {
 			List<SupplierMonthReportVo> exportList = dayReportService.exportSupplierMonthList(vo);
+	         // 过滤数据权限字段
+            cleanAccessData(exportList);
 			String fileName = "供应商进销存月报表_" + DateUtils.getCurrSmallStr();
 			String templateName = ExportExcelConstant.SUPPLIER_MONTHLY_REPORT;
 			exportListForXLSX(response, exportList, fileName, templateName);
@@ -136,6 +140,8 @@ public class SupplierMonthlyReportController extends BaseController<DayReportCon
 			LocalDate firstDayOfMonth = LocalDate.parse(vo.getStartTime() + "-01").with(
 					TemporalAdjusters.firstDayOfMonth());
 			List<SupplierMonthReportVo> exportList = dayReportService.exportSupplierMonthList(vo);
+			// 过滤数据权限字段
+			cleanAccessData(exportList);
 			if (exportList.size() > PrintConstant.PRINT_MAX_ROW) {
 				return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
 			}

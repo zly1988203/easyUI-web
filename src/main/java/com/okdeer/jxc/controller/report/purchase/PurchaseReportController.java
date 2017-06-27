@@ -122,10 +122,10 @@ public class PurchaseReportController extends
 			// 2、查询合计
 			PurchaseReportPo vo = purchaseReportService.getPurReportDetailSum(qo);
 			List<PurchaseReportPo> footer = new ArrayList<PurchaseReportPo>();
-			cleanAccessData(vo);
 			footer.add(vo);
 			list.setFooter(footer);
-			cleanAccessData(list.getList());
+			// 过滤数据权限字段
+			cleanAccessData(list);
 			return list;
 
 		} catch (Exception e) {
@@ -250,8 +250,7 @@ public class PurchaseReportController extends
 					list = getPurReportTotalByGoods(qo);
 					break;
 			}
-			cleanAccessData(list.getList());
-			cleanAccessData(list.getFooter());
+			cleanAccessData(list);
 			return list;
 		} catch (Exception e) {
 			LOG.error("采购汇总表查询:", e);

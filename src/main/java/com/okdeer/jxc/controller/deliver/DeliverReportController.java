@@ -114,8 +114,6 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
 			qo.setPageNumber(pageNumber);
 			qo.setPageSize(pageSize);
 			PageUtils<DeliverFormVo> page = deliverFormReportServiceApi.queryLists(qo);
-			// 过滤数据权限字段
-            cleanAccessData(page.getList());
 			List<DeliverFormVo> footer = new ArrayList<DeliverFormVo>();
 			DeliverFormVo vo = deliverFormReportServiceApi.queryListsSum(qo);
 			// 过滤数据权限字段
@@ -125,6 +123,8 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
 			}
 			page.setFooter(footer);
 			LOG.debug(LogConstant.PAGE, page.toString());
+			// 过滤数据权限字段
+			cleanAccessData(page);
 			return page;
 		} catch (Exception e) {
 			LOG.error("要货单查询数据出现异常:{}", e);
@@ -219,8 +219,6 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
 			PageUtils<DeliverDaAndDoFormListVo> page = deliverFormReportServiceApi.queryDaAndDoFormList(vo);
-			// 过滤数据权限字段
-            cleanAccessData(page.getList());
 			DeliverDaAndDoFormListVo deliverDaAndDoFormListVo = deliverFormReportServiceApi
 					.queryDaAndDoFormListsSum(vo);
 			// 过滤数据权限字段
@@ -230,6 +228,8 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
 				footer.add(deliverDaAndDoFormListVo);
 			}
 			page.setFooter(footer);
+			// 过滤数据权限字段
+			cleanAccessData(page);
 			LOG.debug(LogConstant.PAGE, page.toString());
 			return page;
 		} catch (Exception e) {

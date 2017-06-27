@@ -98,7 +98,7 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 			LOG.debug(LogConstant.OUT_PARAM, vo);
 			PageUtils<StocktakingBatchVo> stocktakingBatchList = stocktakingApplyServiceApi.getStocktakingBatchList(vo);
 			// 过滤数据权限字段
-            cleanAccessData(stocktakingBatchList.getList());
+            cleanAccessData(stocktakingBatchList);
 			LOG.debug(LogConstant.PAGE, stocktakingBatchList.toString());
 			return stocktakingBatchList;
 		} catch (Exception e) {

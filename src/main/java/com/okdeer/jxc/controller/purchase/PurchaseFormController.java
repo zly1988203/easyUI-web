@@ -220,7 +220,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 		}
 
 		PageUtils<PurchaseFormPO> page = purchaseFormServiceApi.selectPage(qo);
-		cleanAccessData(page.getList());
+		cleanAccessData(page);
 		return page;
 	}
 
@@ -253,7 +253,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 		}
 
 		PageUtils<PurchaseFormPO> page = purchaseFormServiceApi.selectPage(qo);
-		cleanAccessData(page.getList());
+		cleanAccessData(page);
 		return page;
 	}
 
@@ -517,7 +517,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 		}
 		qo.setBranchCompleCode(getCurrBranchCompleCode());
 		PageUtils<PurchaseFormPO> page = purchaseFormServiceApi.selectPage(qo);
-		cleanAccessData(page.getList());
+		cleanAccessData(page);
 		return page;
 	}
 

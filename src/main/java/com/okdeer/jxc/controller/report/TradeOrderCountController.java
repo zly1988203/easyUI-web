@@ -102,17 +102,15 @@ public class TradeOrderCountController extends BasePrintController<TradeOrderCou
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
 			PageUtils<TradeOrderCountVo> tradeOrderCountVos = tradeOrderCountServiceApi.queryLists(vo);
-			// 过滤数据权限字段
-            cleanAccessData(tradeOrderCountVos.getList());
 			TradeOrderCountVo tradeOrderCountVo = tradeOrderCountServiceApi.queryTradeOrderCountSum(vo);
-			// 过滤数据权限字段
-            cleanAccessData(tradeOrderCountVo);
 			List<TradeOrderCountVo> footer = new ArrayList<TradeOrderCountVo>();
 			if (tradeOrderCountVo != null) {
 				footer.add(tradeOrderCountVo);
 			}
 			tradeOrderCountVos.setFooter(footer);
 
+			// 过滤数据权限字段
+			cleanAccessData(tradeOrderCountVos);
 			LOG.debug(LogConstant.PAGE, tradeOrderCountVos.toString());
 			return tradeOrderCountVos;
 		} catch (Exception e) {

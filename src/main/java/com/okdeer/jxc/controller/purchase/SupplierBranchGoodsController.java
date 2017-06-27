@@ -311,7 +311,6 @@ public class SupplierBranchGoodsController extends BaseController<SupplierBranch
 
 						}
 					}, null);
-			cleanAccessData(vo.getList());
 			respJson.put("importInfo", vo);
 
 		} catch (IOException e) {

@@ -71,16 +71,14 @@ public class GoodsSaleProfitReportController extends BaseController<GoodsSalePro
 			vo.setPageSize(pageSize);
 			vo.setSourceBranchId(UserUtil.getCurrBranchId());
 			PageUtils<GoodsSaleProfitReportVo> goodsOutInfoDetailList = goodsSaleProfitReportServiceApi.goodsSaleProfitList(vo);
-			// 过滤价格权限数据
-			cleanAccessData(goodsOutInfoDetailList.getList());
 			GoodsSaleProfitReportVo goodsSaleProfitReportVo = goodsSaleProfitReportServiceApi.queryGoodsSaleProfitSum(vo);
-			// 过滤价格权限数据
-			cleanAccessData(goodsSaleProfitReportVo);
 			List<GoodsSaleProfitReportVo> footer = new ArrayList<GoodsSaleProfitReportVo>();
 			if(goodsSaleProfitReportVo !=null){
 				footer.add(goodsSaleProfitReportVo);
 			}
 			goodsOutInfoDetailList.setFooter(footer);
+			// 过滤价格权限数据
+			cleanAccessData(goodsOutInfoDetailList);
 			LOG.debug(LogConstant.PAGE, goodsOutInfoDetailList.toString());
 			return goodsOutInfoDetailList;
 		} catch (Exception e) {

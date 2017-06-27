@@ -188,7 +188,8 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 		try {
 			qo = getParam(qo);
 			PageUtils<PurchaseFormPO> page = purchaseFormServiceApi.selectPage(qo);
-			cleanAccessData(page.getList());
+			// 过滤数据权限字段
+			cleanAccessData(page);
 			return page;
 		} catch (Exception e) {
 			LOG.error("获取直送收货单列表异常:{}", e);
