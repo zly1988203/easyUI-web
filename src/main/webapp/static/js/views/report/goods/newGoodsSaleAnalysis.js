@@ -104,13 +104,20 @@ function initNewGoodsTotalAnalysiGrid() {
             },
             {field: 'grossProfitRate', title: '毛利率', width:80, align: 'right',
 				formatter:function(value,row,index){
-					if(!value || value == 0){
+					if(!value && value !=0){
 						return '';
 					}
 					return '<b>'+parseFloat(value).toFixed(2)+'%</b>';
 				}
 			},
-			{field: 'sellOut', title: '售罄率', width:80, align: 'right'}
+			{field: 'sellOut', title: '售罄率', width:80, align: 'right',
+				formatter:function(value,row,index){
+					if(!value && value !=0){
+						return '';
+					}
+					return '<b>'+parseFloat(value).toFixed(2)+'%</b>';
+				}
+			}
         ]],
 		onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
@@ -118,7 +125,7 @@ function initNewGoodsTotalAnalysiGrid() {
     });
 
     if(hasCostPrice==false){
-        priceGrantUtil.grantCostPrice(datagridName,["costPrice","costAmount","grossProfit"])
+        priceGrantUtil.grantCostPrice(datagridName,["costPrice","costAmount","grossProfit","grossProfitRate"])
     }
 }
 
