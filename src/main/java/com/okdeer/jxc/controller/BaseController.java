@@ -80,7 +80,7 @@ public class BaseController<T> {
 	
 	protected static Integer LIMIT_MIN_COUNT = 100;//如果数据导出pageSize没传的话，默认导出100条
 	
-	protected static Integer LIMIT_REQ_COUNT = 5000;//一次请求的数据量
+	protected static Integer LIMIT_REQ_COUNT = 2000;//一次请求的数据量
 
 	/**
 	 * @Description: 获取当前用户信息
