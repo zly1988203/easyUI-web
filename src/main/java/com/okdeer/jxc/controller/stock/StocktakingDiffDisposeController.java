@@ -59,7 +59,7 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 	/**
 	 * @Fields stocktakingOperateServiceApi : stocktakingOperateServiceApi
 	 */
-	@Reference(version = "1.0.0", check = false)
+	@Reference(version = "1.0.0", check = false, retries=0)
 	private StocktakingOperateServiceApi stocktakingOperateServiceApi;
 
 	/**

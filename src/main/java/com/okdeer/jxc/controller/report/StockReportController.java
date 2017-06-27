@@ -85,6 +85,7 @@ public class StockReportController extends BaseController<StockReportController>
 			LOG.debug("商品库存查询，报表查询参数：{}", qo);
 			qo.setPageNumber(pageNumber);
 			qo.setPageSize(pageSize);
+			LOG.info("StockReportController.getList商品库存查询分页参数：{}, {}", pageNumber, pageSize);
 
 			// 构建默认参数
 			qo = buildDefaultParams(qo);
@@ -265,13 +266,17 @@ public class StockReportController extends BaseController<StockReportController>
 		int startCount = limitStartCount(qo.getStartCount());
 		int endCount = limitEndCount(qo.getEndCount());
 		
+		LOG.info("StockReportController.queryListPartition商品库存导出startCount和endCount参数：{}, {}", startCount, endCount);
+		
 		int resIndex = (int) (endCount / LIMIT_REQ_COUNT);
 		int modIndex = endCount % LIMIT_REQ_COUNT;
+		LOG.info("StockReportController.queryListPartition商品库存导出resIndex和modIndex参数：{}, {}", resIndex, modIndex);
 		if(resIndex > 0){
 			for(int i = 0; i < resIndex; i++){
 				int newStart = (i * LIMIT_REQ_COUNT) + startCount;
 				qo.setStartCount(newStart);
 				qo.setEndCount(LIMIT_REQ_COUNT);
+				LOG.info("StockReportController.queryListPartition for商品库存导出i、startCount、endCount参数：{}, {}, {}", i, newStart, LIMIT_REQ_COUNT);
 				List<StockReportVo> tempList = stockReportService.queryList(qo);
 				voList.addAll(tempList);
 			}
@@ -280,11 +285,13 @@ public class StockReportController extends BaseController<StockReportController>
 				int newEnd = modIndex;
 				qo.setStartCount(newStart);
 				qo.setEndCount(newEnd);
+				LOG.info("StockReportController.queryListPartition商品库存导出mod、startCount、endCount参数:{}, {}", newStart, newEnd);
 				List<StockReportVo> tempList = stockReportService.queryList(qo);
 				voList.addAll(tempList);
 			}
 		}else{
 			List<StockReportVo> tempList = stockReportService.queryList(qo);
+			LOG.info("StockReportController.queryListPartition商品库存导出不超过:{}", LIMIT_REQ_COUNT);
 			voList.addAll(tempList);
 		}
 		return voList;
