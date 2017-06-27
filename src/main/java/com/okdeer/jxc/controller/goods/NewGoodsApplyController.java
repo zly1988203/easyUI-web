@@ -155,6 +155,8 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 		qo.setPageNumber(pageNumber);
 		qo.setPageSize(pageSize);
 		PageUtils<NewGoodsApply> page = newGoodsApplyService.queryPageByParams(qo);
+        // 过滤数据权限字段
+        cleanAccessData(page);
 		return page;
 	}
 
@@ -693,6 +695,8 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 				}
 				String fileName = "新品申请导出" + "_" + DateUtils.getCurrSmallStr();
 				String templateName = ExportExcelConstant.NEW_GOODS_APPLY_REPORT;
+				// 过滤数据权限字段
+		        cleanAccessData(list);
 				exportListForXLSX(response, list, fileName, templateName);
 			} else {
 				RespJson json = RespJson.error("无数据可导");
