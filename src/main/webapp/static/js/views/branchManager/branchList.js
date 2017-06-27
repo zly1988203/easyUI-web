@@ -59,7 +59,7 @@ function zTreeOnClick(event, treeId, treeNode) {
 }
 var dg;
 function initDatagridBranchList() {
-	var updatePermission = $("#updatePermission").html().trim();
+	var updatePermission = $.trim($("#updatePermission").html());
     gridHandel.setGridName(gridName);
     dg = $("#"+gridName).datagrid({
         method:'post',
@@ -113,9 +113,9 @@ function  openEditBranchDailog(branchId) {
         queryParams:{
         	branchId : branchId
         },
-        width: dialogWidth,
-        height: dialogHeight,
-        left:dialogLeft,
+        width: 1000, //bug19840
+        height: 600,
+//        left:dialogLeft,
         title: "修改机构信息",
         closable: true,
         resizable: true,

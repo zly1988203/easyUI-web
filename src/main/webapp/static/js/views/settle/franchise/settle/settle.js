@@ -42,6 +42,7 @@ $(function(){
 	//监听numberbox 点击事件
 	$("input#actualAmount").next("span").children().first().on('click',function(){
 		gridHandel.endEditRow();
+		checkActMountFlag = false;
 		editRowNumbeboxFlag = false;
 	});
 	
