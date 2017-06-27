@@ -95,7 +95,7 @@ public class PurchaseReplenishAnalyController extends BaseController<PurchaseRep
 			buldSearchParams(qo);
 
 			PageUtils<PurchaseGuideGoodsPo> page = purchaseReplenishAnalyService.getReplenishAnalyReportPage(qo);
-			cleanAccessData(page.getList());
+			cleanAccessData(page);
 			return page;
 		} catch (Exception e) {
 			LOG.error("门店补货分析报表分页获取数据异常:", e);

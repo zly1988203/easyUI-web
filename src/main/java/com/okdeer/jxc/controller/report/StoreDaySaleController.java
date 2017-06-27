@@ -69,7 +69,7 @@ public class StoreDaySaleController extends BaseController<StoreDaySaleControlle
 			vo.setSourceBranchId(UserUtil.getCurrBranchId());
 			PageUtils<StoreDaySaleReportVo> goodsSaleReportList = storeDaySaleReportServiceApi.getStoreDaySale(vo);
 			LOG.debug(LogConstant.PAGE, goodsSaleReportList.toString());
-			cleanAccessData(goodsSaleReportList.getList());
+			cleanAccessData(goodsSaleReportList);
 			return goodsSaleReportList;
 		} catch (Exception e) {
 			LOG.error("类别销售列表信息异常:{}", e);

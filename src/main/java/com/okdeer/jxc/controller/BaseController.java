@@ -24,6 +24,7 @@ import com.okdeer.jxc.common.parser.MapAccessParser;
 import com.okdeer.jxc.common.parser.vo.KeyExtendVo;
 import com.okdeer.jxc.common.report.DataRecord;
 import com.okdeer.jxc.common.result.RespJson;
+import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.PriceGrantUtil;
@@ -299,6 +300,21 @@ public class BaseController<T> {
 		Set<String> forbiddenSets = PriceGrantUtil.getNoPriceGrantSets();
 		DataAccessParser parser = new DataAccessParser(cls, forbiddenSets);
 		parser.cleanDataObjects(datas);
+	}
+	/**
+     * 过滤价格权限数据（vo list）
+     * @param datas 要过滤的vo对象
+     */
+	protected void cleanAccessData(PageUtils<? extends Object> page) {
+	    if(CollectionUtils.isNotEmpty(page.getFooter())){
+	        cleanAccessData(page.getFooter());
+	    }
+	    if(CollectionUtils.isNotEmpty(page.getList())){
+	        cleanAccessData(page.getList());
+	    }
+	    if(CollectionUtils.isNotEmpty(page.getRows())){
+	        cleanAccessData(page.getRows());
+	    }
 	}
 
 	/**

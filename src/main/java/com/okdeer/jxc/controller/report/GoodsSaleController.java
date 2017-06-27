@@ -83,8 +83,8 @@ public class GoodsSaleController extends BaseController<GoodsSaleController> {
 			}
 			goodsSaleReportList.setFooter(footer);
 			LOG.debug(LogConstant.PAGE, goodsSaleReportList.toString());
-			cleanAccessData(goodsSaleReportList.getFooter());
-			cleanAccessData(goodsSaleReportList.getList());
+			// 过滤数据权限字段
+			cleanAccessData(goodsSaleReportList);
 			return goodsSaleReportList;
 		} catch (Exception e) {
 			LOG.error("获取单据列表信息异常:{}", e);

@@ -61,7 +61,7 @@ public class GoodsComponentController extends BaseController<GoodsSelectControll
 			vo.setPageSize(pageSize);
 			vo.setBranchId(getCurrBranchId());
 			PageUtils<GoodsComponent> page= goodsComponentApi.queryLists(vo);
-			cleanAccessData(page.getList());
+			cleanAccessData(page);
 			return page;
 		}catch(Exception e){
 			LOG.error("查询组合商品失败！:{}",e);

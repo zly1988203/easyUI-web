@@ -103,7 +103,7 @@ public class BranchGoodsSaleReportController extends BaseController<GoodsReportC
 			}
 			PageUtils<BranchGoodsSaleReportVo> bgsReportPage = branchGoodsSaleReportApi.queryBranchGoodsSaleReport(qo);
 			// 过滤数据权限字段
-            cleanAccessData(bgsReportPage.getList());
+            cleanAccessData(bgsReportPage);
 			return bgsReportPage;
 		} catch (Exception e) {
 			LOG.error("分公司商品查询数据出现异常:", e);

@@ -446,7 +446,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 			}
 			PageUtils<DeliverForm> deliverForms = queryDeliverFormServiceApi.queryLists(vo);
 			// 过滤数据权限字段
-            cleanAccessData(deliverForms.getList());
+            cleanAccessData(deliverForms);
 			LOG.debug(LogConstant.PAGE, deliverForms.toString());
 			return deliverForms;
 		} catch (Exception e) {

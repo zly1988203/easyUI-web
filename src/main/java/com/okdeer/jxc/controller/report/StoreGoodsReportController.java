@@ -92,13 +92,11 @@ public class StoreGoodsReportController extends BaseController<StoreGoodsReportC
 
 			// 1、列表查询
 			PageUtils<StockReportVo> page = storeGoodsReportService.queryListToPage(qo);
-			// 过滤数据权限字段
-			cleanAccessData(page.getList());
 			// 获取页脚合计一栏数据
 			List<StockReportVo> sum = getFooterList(qo);
-			// 过滤数据权限字段
-			cleanAccessData(sum);
 			page.setFooter(sum);
+			// 过滤数据权限字段
+			cleanAccessData(page);
 			return page;
 		} catch (Exception e) {
 			LOG.error("商品库存查询异常:", e);
