@@ -103,7 +103,7 @@ function getAccountColumns(){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
 				}
 			},
-			{field: 'payTime', title: '付款日期', width: '120px', align: 'right',
+			{field: 'payTime', title: '付款日期', width: '120px', align: 'left',
 				formatter: function (value, row, index) {
 					if(!value){
 						return '';
