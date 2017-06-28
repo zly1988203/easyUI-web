@@ -328,6 +328,8 @@ function initDatagridOrders() {
 			gridHandel.setDatagridHeader("center");
 		}
 	});
+	
+
 }
 
 // 搜索导出清除左侧条件
