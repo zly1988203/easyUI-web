@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.utils.StringUtils;
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.alibaba.dubbo.rpc.RpcException;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
@@ -315,10 +316,16 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 			vo.setValidUserName(user.getUserName());
 			vo.setValidTime(DateUtils.getCurrFullStr());
 			return stocktakingOperateServiceApi.auditDiffDispose(vo);
-		} catch (Exception e) {
+		} catch (RpcException e) {
+            LOG.error("审核差异处理信息异常:{}", e);
+            respJson = RespJson.error("审核差异处理信息异常");
+        } catch (RuntimeException e) {
 			LOG.error("审核差异处理信息异常:{}", e);
 			respJson = RespJson.error(e.getMessage());
-		}
+		} catch (Exception e) {
+            LOG.error("审核差异处理信息异常:{}", e);
+            respJson = RespJson.error("审核差异处理信息异常");
+        }
 		return respJson;
 	}
 	
