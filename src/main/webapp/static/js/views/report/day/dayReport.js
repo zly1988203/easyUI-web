@@ -300,7 +300,7 @@ function initDatagridDay(){
     
     var param = {
 			//期初成本价->beginCostPrice  期末成本价-->endCostPrice   销售成本金额->costAmount  采购收货金额->piAmount 采购退货金额->prAmount	采购直送收货金额->pmAmount
-		costPrice:["costAmount","beginCostAmount","dcoAmount","dciAmount","costChangeAmount","otherAmount","endCostAmount","endSaleAmount","purchaseAmount"],
+		costPrice:["costAmount","beginCostAmount","costChangeAmount","otherAmount","endCostAmount","endSaleAmount","purchaseAmount"],
 		//配送出库金额	配送入库金额
 		distributionPrice:['dcoAmount','dciAmount']			
 	}
