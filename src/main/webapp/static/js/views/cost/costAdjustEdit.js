@@ -133,7 +133,6 @@ function initDatagridEditRequireOrder(){
 		        		  value:'0',
 		        		  options:{
 		        			  disabled:true,
-		        			  min:0,
 		        			  precision:2,
 
 		        		  }
@@ -201,7 +200,7 @@ function initDatagridEditRequireOrder(){
 //监听新价
 function onChangeCostPrice(newV,oldV) {
 	//获取差额
-	var actual = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'actual')||0;
+	var actual = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'actual')||0;
 	var oldCostPrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'oldCostPrice')||0;
 	var CostPrice = newV;
 	gridHandel.setFieldValue('diffMoney',(parseFloat(actual)*(parseFloat(newV)-parseFloat(oldCostPrice)).toFixed(2)));
