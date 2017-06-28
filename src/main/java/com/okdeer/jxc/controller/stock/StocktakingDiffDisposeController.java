@@ -317,7 +317,7 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 			return stocktakingOperateServiceApi.auditDiffDispose(vo);
 		} catch (Exception e) {
 			LOG.error("审核差异处理信息异常:{}", e);
-			respJson = RespJson.error("审核差异处理信息异常");
+			respJson = RespJson.error(e.getMessage());
 		}
 		return respJson;
 	}
