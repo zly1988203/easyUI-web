@@ -130,23 +130,23 @@ public class FranchiseAccountCurrentController extends BaseController<FranchiseA
 					templateName = ExportExcelConstant.FRANCHISE_ACCOUNT1;
 					break;
 				case 2:
-					fileName = "加盟店往来账款" + "_" + DateUtils.getCurrSmallStr();
+					fileName = "加盟店历史往来账款" + "_" + DateUtils.getCurrSmallStr();
 					templateName = ExportExcelConstant.FRANCHISE_ACCOUNT2;
 					break;
 				case 3:
-					fileName = "加盟店往来账款" + "_" + DateUtils.getCurrSmallStr();
+					fileName = "加盟店未收款账款汇总" + "_" + DateUtils.getCurrSmallStr();
 					templateName = ExportExcelConstant.FRANCHISE_ACCOUNT3;
 					break;
 				case 4:
-					fileName = "加盟店往来账款" + "_" + DateUtils.getCurrSmallStr();
+					fileName = "加盟店未收款账款明细" + "_" + DateUtils.getCurrSmallStr();
 					templateName = ExportExcelConstant.FRANCHISE_ACCOUNT4;
 					break;
 				case 5:
-					fileName = "加盟店往来账款" + "_" + DateUtils.getCurrSmallStr();
+					fileName = "加盟店已收账款明细" + "_" + DateUtils.getCurrSmallStr();
 					templateName = ExportExcelConstant.FRANCHISE_ACCOUNT5;
 					break;
 				case 6:
-					fileName = "加盟店往来账款" + "_" + DateUtils.getCurrSmallStr();
+					fileName = "加盟店预收账款明细" + "_" + DateUtils.getCurrSmallStr();
 					templateName = ExportExcelConstant.FRANCHISE_ACCOUNT6;
 					break;
 				default:
