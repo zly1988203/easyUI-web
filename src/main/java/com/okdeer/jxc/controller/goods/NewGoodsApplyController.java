@@ -292,6 +292,11 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 			NewGoodsApply sku = newGoodsApplyService.selectByPrimaryKey(id);
 			sku.setSaleWayName(SaleWayEnum.getValue(sku.getSaleWay()));
 			RespJson jesp = RespJson.success();
+			NewGoodsApplyEnum examineStatus = sku.getExamineStatus();
+            if (NewGoodsApplyEnum.EXAMINE_PASS.equals(examineStatus)) {
+                // 过滤数据权限字段
+                cleanAccessData(sku);
+            }
 			jesp.put("_data", sku);
 			return jesp;
 		} else {
