@@ -558,6 +558,7 @@ function saveBranchCost() {
     },function(result){
         if(result['code'] == 0){
             $_jxc.alert("保存成功！");
+            getBranchInfo();
         }else{
             $_jxc.alert(result['message']);
         }
