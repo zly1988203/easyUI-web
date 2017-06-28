@@ -290,7 +290,7 @@ function initDatagridArchives(){
         wholesalePrice:["wholesalePrice"],
         purchasePrice:["purchasePrice"],
         distributionPrice:["distributionPrice"],
-        costPrice:["costPrice"],
+        costPrice:["costPrice","marginTax"],
         vipPrice:["vipPrice"],
         salePrice:["salePrice"],
     }

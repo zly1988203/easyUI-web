@@ -62,19 +62,19 @@ function initDatagridDay(){
                     }
                 }},
             {field:'beginCostAmount',title:'期初成本金额',width:'130px',align:'right',
-                	formatter:function(value,row,index){
-    				    if(value || value ==0){
-    				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
-    				    }
-    				},
-                	editor:{
-                        type:'numberbox',
-                        options:{
-                        	disabled:true,
-                            min:0,
-                            precision:1
-                        }
-                    }},
+            	formatter:function(value,row,index){
+				    if(value || value ==0){
+				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
+				    }
+				},
+            	editor:{
+                    type:'numberbox',
+                    options:{
+                    	disabled:true,
+                        min:0,
+                        precision:1
+                    }
+                }},
             {field:'beginSaleAmount',title:'期初销售金额',width:'130px',align:'right',
                     	formatter:function(value,row,index){
                     		 if(value || value ==0){
@@ -291,12 +291,21 @@ function initDatagridDay(){
 		}
     });
 
-    if(hasCostPrice==false){
+    /*if(hasCostPrice==false){
     	var fieldArr = ["costAmount","beginCostAmount","dcoAmount",
 			"dciAmount","costChangeAmount","otherAmount","endCostAmount","endSaleAmount"
 		]
         priceGrantUtil.grantCostPrice(gridName,fieldArr)
-    }
+    }*/
+    
+    var param = {
+			//期初成本价->beginCostPrice  期末成本价-->endCostPrice   销售成本金额->costAmount  采购收货金额->piAmount 采购退货金额->prAmount	采购直送收货金额->pmAmount
+		costPrice:["costAmount","beginCostAmount","dcoAmount","dciAmount","costChangeAmount","otherAmount","endCostAmount","endSaleAmount","purchaseAmount"],
+		//配送出库金额	配送入库金额
+		distributionPrice:['dcoAmount','dciAmount']			
+	}
+	
+	priceGrantUtil.grantPrice(gridName,param);
 
 }
 
