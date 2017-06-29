@@ -714,7 +714,7 @@ function selectSupplier(){
 	}
     new publicSupplierService(function(data){
         var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
-        if( $("#supplierId").val() != "" && data.id != $("#supplierId").val() && nowRows.length > 0){
+        if( data.id != $("#supplierId").val() && nowRows.length > 0){
             $_jxc.confirm('修改供应商后会清空明细，是否要修改？',function(r){
                 if(r){
                     $("#supplierId").val(data.id);
@@ -726,7 +726,7 @@ function selectSupplier(){
                     }
                 }
             })
-        }else  if( $("#supplierId").val() != "" && data.id != $("#supplierId").val() && nowRows.length == 0){
+        }else  if( data.id != $("#supplierId").val() && nowRows.length == 0){
             $("#supplierId").val(data.id);
             $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
             gridHandel.setLoadData([$.extend({},gridDefault)]);
