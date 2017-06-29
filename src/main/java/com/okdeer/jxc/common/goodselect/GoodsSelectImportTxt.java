@@ -183,6 +183,8 @@ public class GoodsSelectImportTxt {
 				paramVo.setBarCodes(list);
 				paramVo.setBranchIds(Arrays.asList(branchId));
 				paramVo.setIsManagerStock(1);
+				// 盘点商品状态（0，1，2）商品状态：0正常，1停售，2停购，3淘汰
+				paramVo.setStatusList(Arrays.asList(0,1,2));
 				StocktakingBatchVo batchVo = stocktakingApplyServiceApi.getStocktakingBatchVoById(batchId);
 				if(batchVo != null && StringUtils.isNotBlank(batchVo.getCategoryShowsStr())){
 					// 过滤类别条件
