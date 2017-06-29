@@ -344,7 +344,7 @@ function initDatagridArchives(){
         distributionPrice:["distributionPrice"],
         costPrice:["costPrice","marginTax"],
         vipPrice:["vipPrice"],
-        salePrice:["salePrice"],
+        salePrice:["salePrice"]
     }
     priceGrantUtil.grantPrice("gridArchives",param);
 }
@@ -403,8 +403,8 @@ function addGoodsView(){
 
 //打开Dialog
 var  dalogTemp;
-var dialogHeight = $(window).height()*(4/5);
-var dialogWidth = $(window).width()*(5/9);
+var dialogHeight = 590;//$(window).height()*(4/5)
+var dialogWidth = 950;//$(window).width()*(5/9)
 function openDialog(argUrl,argTitle,argType,params) {
     dalogTemp = $('<div/>').dialog({
         href: argUrl,

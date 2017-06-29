@@ -103,8 +103,8 @@ function editHandel(branchId){
     openEditBranchDailog(branchId);
 }
 
-var dialogHeight = $(window).height()*(4/5);
-var dialogWidth = $(window).width()*(5/9);
+var dialogHeight = 550;//$(window).height()*(4/5);
+var dialogWidth = 1000;//$(window).width()*(5/9);
 var dialogLeft = $(window).width()*(1/5);
 var  editDialogTemp
 function  openEditBranchDailog(branchId) {
@@ -113,8 +113,8 @@ function  openEditBranchDailog(branchId) {
         queryParams:{
         	branchId : branchId
         },
-        width: 1000, //bug19840
-        height: 600,
+        width: dialogWidth, //bug19840
+        height: dialogHeight,
 //        left:dialogLeft,
         title: "修改机构信息",
         closable: true,

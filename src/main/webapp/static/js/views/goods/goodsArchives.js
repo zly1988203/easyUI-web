@@ -351,8 +351,8 @@ function addGoodsView(){
 	}
 }
 var  dalogTemp;
-var dialogHeight = 640;
-var dialogWidth = 950;
+var dialogHeight = 630;
+var dialogWidth = 930;
 var dialogLeft = ($(window).width() - dialogWidth) / 2;
 //打开Dialog
 function openDialog(argUrl,argTitle,argType,params) {
@@ -360,7 +360,7 @@ function openDialog(argUrl,argTitle,argType,params) {
         href: argUrl,
          width: dialogWidth,
         height: dialogHeight,
-        left:dialogLeft,
+//        left:dialogLeft,
         title: argTitle,
         closable: true,
         resizable: true,
