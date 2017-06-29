@@ -574,13 +574,26 @@ function saveItemHandel(){
             isCheckResult = false;
             return false;
         };
+        
+        //箱数判断  bug 19886
+        if(parseFloat(v["largeNum"])<=0){
+        	$_jxc.alert("第"+(i+1)+"行，箱数要大于0");
+            isCheckResult = false;
+            isChcekNum = true;
+            return false;
+        }
+        //数量判断 bug 19886
+        if(parseFloat(v["realNum"])<=0){
+        	$_jxc.alert("第"+(i+1)+"行，数量要大于0");
+            isCheckResult = false;
+            isChcekNum = true;
+            return false;
+        }
+        
         if(parseFloat(v["price"])<=0&&v["isGift"]==0){
             isChcekPrice = true;
         }
-        //数量判断
-        if(parseFloat(v["realNum"])<=0){
-        	isChcekNum = true;
-        }
+        
     });
     if(isCheckResult){
         if(isChcekPrice){
@@ -593,11 +606,11 @@ function saveItemHandel(){
             });
         }else{
         	if(isChcekNum){
-       		 $_jxc.confirm('存在数量为0的商品,是否继续保存?',function(data){
-       			if(data){
-       				saveDataHandel(rows);
-       		    }
-       		 });
+	       		 $_jxc.confirm('存在数量为0的商品,是否继续保存?',function(data){
+	       			if(data){
+	       				saveDataHandel(rows);
+	       		    }
+	       		 });
          	}else{
          		saveDataHandel(rows);
          	}
