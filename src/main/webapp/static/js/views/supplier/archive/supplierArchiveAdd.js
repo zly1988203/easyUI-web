@@ -2,7 +2,6 @@
  * Created by huangj02 on 2016/10/12.
  */
 $(function(){
-	debugger;
 	//供应商区域选择事件
 	bindSupplierAreaSelect();
 	

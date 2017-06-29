@@ -26,7 +26,6 @@ function changeBalance() {
 
 
 function save() {
-    debugger;
     var addBalance = $('#addBalance').numberbox('getValue');
     if(!addBalance||addBalance <= 0.00){
     	 $_jxc.alert("充值金额不能为空！");

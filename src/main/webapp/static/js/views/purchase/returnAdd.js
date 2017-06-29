@@ -31,10 +31,10 @@ function initConditionParams(){
 	}
     
 	
-	//设置默认供应商信息
-	$("#supplierId").val(sessionSupplierId);
-	$("#saleWay").val(sessionSupplierSaleWay);
-    $("#supplierName").val(sessionSupplierCodeName);
+	//设置默认供应商信息 孔言言 让改的 06/29
+//	$("#supplierId").val(sessionSupplierId);
+//	$("#saleWay").val(sessionSupplierSaleWay);
+//    $("#supplierName").val(sessionSupplierCodeName);
     
     //设置付款期限默认值
     $("#paymentTime").val(dateUtil.getCurrentDateDay());
