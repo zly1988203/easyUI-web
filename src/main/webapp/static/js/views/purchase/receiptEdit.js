@@ -562,6 +562,21 @@ function saveItemHandel(){
             return false;
         };
 
+        //箱数判断  bug 19886
+        if(parseFloat(v["largeNum"])<=0){
+        	$_jxc.alert("第"+(i+1)+"行，箱数要大于0");
+            isCheckResult = false;
+            isChcekNum = true;
+            return false;
+        }
+        //数量判断 bug 19886
+        if(parseFloat(v["realNum"])<=0){
+        	$_jxc.alert("第"+(i+1)+"行，数量要大于0");
+            isCheckResult = false;
+            isChcekNum = true;
+            return false;
+        }
+        
         if(hasPurchasePrice==true){
             if(parseFloat(v["price"])<=0&&v["isGift"]==0){
                 isChcekPrice = true;
