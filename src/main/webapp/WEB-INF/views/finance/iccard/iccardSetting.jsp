@@ -56,6 +56,7 @@
 			</div>
 
     </form>
+		<c:if test="${user.branchId ne '0'}" >
 			<div class="ub upad-4 umar-t10 umar-l50">
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-100 ut-r">一卡通列表:</div>
@@ -85,6 +86,7 @@
 
 			</div>
 		</div>
+		</c:if>
 	</div>
 </body>
 </html>
