@@ -28,9 +28,9 @@ function initConditionParams(){
     $("#branchId").val(sessionBranchId);
 	$("#branchName").val(sessionBranchCodeName);
 	
-	//设置默认供应商信息
-	$("#supplierId").val(sessionSupplierId);
-    $("#supplierName").val(sessionSupplierCodeName);
+	//设置默认供应商信息  孔言言 让改的  06/29
+//	$("#supplierId").val(sessionSupplierId);
+//    $("#supplierName").val(sessionSupplierCodeName);
     
     //设置默认供应商交货期限
     var diliveCycle = null;

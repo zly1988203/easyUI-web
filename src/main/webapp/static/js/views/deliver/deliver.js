@@ -1162,7 +1162,7 @@ function selectSourceBranch(){
                 //$("#sourceBranchName").val(data.branchName);
                 $("#sourceBranchName").val("["+data.branchCode+"]"+data.branchName);
                 gridHandel.setLoadData([$.extend({},gridDefault)]);
-                alert(data.stockMinAmount);
+                //alert(data.stockMinAmount);
                 // 刷新起订金额
                 getSourceMinAmount(data.stockMinAmount);
             }
@@ -1174,7 +1174,7 @@ function selectSourceBranch(){
                 //$("#sourceBranchName").val(data.branchName);
                 $("#sourceBranchName").val("["+data.branchCode+"]"+data.branchName);
                 gridHandel.setLoadData([$.extend({},gridDefault)]);
-                alert(data.stockMinAmount);
+                //alert(data.stockMinAmount);
                 // 刷新起订金额
                 getSourceMinAmount(data.stockMinAmount);
             }

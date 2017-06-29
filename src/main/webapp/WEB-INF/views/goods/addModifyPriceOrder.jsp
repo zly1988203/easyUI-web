@@ -140,8 +140,7 @@
 				<div class="ub umar-t8">
 					<div class="ub ub-ac uw-608">
 						<div class="umar-r10 uw-70 ut-r">备注:</div>
-						<input class="uinp ub ub-f1" name="remark"
-							value="${goodsPriceForm.remark}" type="text" id="remark">
+						<input class="uinp ub ub-f1" name="remark" value="${goodsPriceForm.remark}" type="text" id="remark">
 					</div>
 					<!--input-checkbox-->
 					<div class="ub ub-ac umar-l28" id="checkBoxPrice">
@@ -151,67 +150,67 @@
 						<c:if test="${priceGrantMap != null }">
 							<div class="ub ub-ac umar-r10">
 								<c:if test="${priceGrantMap.purchase_price!=null }">
-									<c:if
-										test="${goodsPriceForm.isModifyPurPrice==0||goodsPriceForm.isModifyPurPrice==null}">
-										<label><input class="priceItem" type="checkbox"
-											name="isModifyPurPrice" id="purchasePrice" /><span>进货价</span></label>
+									<c:if test="${goodsPriceForm.isModifyPurPrice==0||goodsPriceForm.isModifyPurPrice==null}">
+										<label><input class="priceItem" type="checkbox" name="isModifyPurPrice" id="purchasePrice" /><span>进货价</span></label>
 									</c:if>
 									<c:if test="${goodsPriceForm.isModifyPurPrice==1}">
-										<label><input class="priceItem" type="checkbox"
-											name="isModifyPurPrice" id="purchasePrice" checked="checked" /><span>进货价</span></label>
+										<label><input class="priceItem" type="checkbox" name="isModifyPurPrice" id="purchasePrice" checked="checked" /><span>进货价</span></label>
 									</c:if>
 								</c:if>
 							</div>
 							<div class="ub ub-ac umar-r10">
 								<c:if test="${priceGrantMap.sale_price!=null }">
-									<c:if
-										test="${goodsPriceForm.isModifySalePrice==0||goodsPriceForm.isModifySalePrice==null}">
-										<label><input class="priceItem" type="checkbox"
-											name="isModifySalePrice" id="retailPrice" checked="checked"/><span>零售价</span></label>
-									</c:if>
-									<c:if test="${goodsPriceForm.isModifySalePrice==1}">
-										<label><input class="priceItem" type="checkbox"
-											name="isModifySalePrice" checked="checked" id="retailPrice" /><span>零售价</span></label>
-									</c:if>
+								    <!-- 默认勾选零售价  -->
+									<c:choose>
+										<c:when test="${empty goodsPriceForm.id}">
+											<label><input class="priceItem" type="checkbox" name="isModifySalePrice" id="retailPrice" checked="checked"  /><span>零售价</span></label>	
+										</c:when>
+										<c:otherwise>
+											<c:if test="${goodsPriceForm.isModifySalePrice==0||goodsPriceForm.isModifySalePrice==null}">
+												<label><input class="priceItem" type="checkbox" name="isModifySalePrice" id="retailPrice"/><span>零售价</span></label>
+											</c:if>
+											<c:if test="${goodsPriceForm.isModifySalePrice==1}">
+												<label><input class="priceItem" type="checkbox" name="isModifySalePrice" checked="checked" id="retailPrice" /><span>零售价</span></label>
+											</c:if>
+										</c:otherwise>
+									</c:choose>
 								</c:if>
 							</div>
 							<div class="ub ub-ac umar-r10">
 								<c:if test="${priceGrantMap.vip_price!=null	}">
-									<c:if
-										test="${goodsPriceForm.isModifyVipPrice==0||goodsPriceForm.isModifyVipPrice==null}">
-										<label><input class="priceItem" type="checkbox"
-											name="isModifyVipPrice" id="memberPrice" checked="checked"/><span>会员价</span></label>
-									</c:if>
-									<c:if test="${goodsPriceForm.isModifyVipPrice==1}">
-										<label><input class="priceItem" type="checkbox"
-											name="isModifyVipPrice" checked="checked" id="memberPrice" /><span>会员价</span></label>
-									</c:if>
+									<!-- 默认勾选会员价  -->
+									<c:choose>
+										<c:when test="${empty goodsPriceForm.id}">
+											<label><input class="priceItem" type="checkbox" name="isModifyVipPrice" id="memberPrice" checked="checked"/><span>会员价</span></label>	
+										</c:when>
+										<c:otherwise>
+											<c:if test="${goodsPriceForm.isModifyVipPrice==0||goodsPriceForm.isModifyVipPrice==null}">
+												<label><input class="priceItem" type="checkbox" name="isModifyVipPrice" id="memberPrice" /><span>会员价</span></label>
+											</c:if>
+											<c:if test="${goodsPriceForm.isModifyVipPrice==1}">
+												<label><input class="priceItem" type="checkbox" name="isModifyVipPrice" checked="checked" id="memberPrice" /><span>会员价</span></label>
+											</c:if>
+										</c:otherwise>
+									</c:choose>
 								</c:if>
 							</div>
 							<div class="ub ub-ac umar-r10">
 								<c:if test="${priceGrantMap.distribution_price!=null }">
-									<c:if
-										test="${goodsPriceForm.isModifyDcPrice==0||goodsPriceForm.isModifyDcPrice==null}">
-										<label><input class="priceItem" type="checkbox"
-											name="isModifyDcPrice" id="distributionPrice" /><span>配送价</span></label>
+									<c:if test="${goodsPriceForm.isModifyDcPrice==0||goodsPriceForm.isModifyDcPrice==null}">
+										<label><input class="priceItem" type="checkbox" name="isModifyDcPrice" id="distributionPrice" /><span>配送价</span></label>
 									</c:if>
 									<c:if test="${goodsPriceForm.isModifyDcPrice==1}">
-										<label><input class="priceItem" type="checkbox"
-											name="isModifyDcPrice" checked="checked"
-											id="distributionPrice" /><span>配送价</span></label>
+										<label><input class="priceItem" type="checkbox" name="isModifyDcPrice" checked="checked" id="distributionPrice" /><span>配送价</span></label>
 									</c:if>
 								</c:if>
 							</div>
 							<div class="ub ub-ac umar-r10">
 								<c:if test="${priceGrantMap.wholesale_price!=null }">
-									<c:if
-										test="${goodsPriceForm.isModifyWsPrice==0||goodsPriceForm.isModifyWsPrice==null}">
-										<label><input class="priceItem" type="checkbox"
-											name="isModifyWsPrice" id="tradePrice" /><span>批发价</span></label>
+									<c:if test="${goodsPriceForm.isModifyWsPrice==0||goodsPriceForm.isModifyWsPrice==null}">
+										<label><input class="priceItem" type="checkbox" name="isModifyWsPrice" id="tradePrice" /><span>批发价</span></label>
 									</c:if>
 									<c:if test="${goodsPriceForm.isModifyWsPrice==1}">
-										<label><input class="priceItem" type="checkbox"
-											name="isModifyWsPrice" checked="checked" id="tradePrice" /><span>批发价</span></label>
+										<label><input class="priceItem" type="checkbox" name="isModifyWsPrice" checked="checked" id="tradePrice" /><span>批发价</span></label>
 									</c:if>
 								</c:if>
 							</div>
