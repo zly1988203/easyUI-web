@@ -213,9 +213,9 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
 			if (StringUtils.isNullOrEmpty(vo.getDeliverType())) {
 				vo.setDeliverType("");
 			}
-			if(BranchTypeEnum.HEAD_QUARTERS.getCode().toString().equals(vo.getBranchId())) {
-				vo.setBranchId(null);
-			}
+//			if(BranchTypeEnum.HEAD_QUARTERS.getCode().toString().equals(vo.getBranchId())) {
+//				vo.setBranchId(null);
+//			}
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
 			PageUtils<DeliverDaAndDoFormListVo> page = deliverFormReportServiceApi.queryDaAndDoFormList(vo);
@@ -255,9 +255,9 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
 			if (StringUtils.isNullOrEmpty(vo.getDeliverType())) {
 				vo.setDeliverType("");
 			}
-			if (BranchTypeEnum.HEAD_QUARTERS.getCode().toString().equals(vo.getBranchId())) {
-				vo.setBranchId(null);
-			}
+//			if (BranchTypeEnum.HEAD_QUARTERS.getCode().toString().equals(vo.getBranchId())) {
+//				vo.setBranchId(null);
+//			}
 			List<DeliverDaAndDoFormListVo> exportList = deliverFormReportServiceApi.queryDaAndDoFormLists(vo);
 
 			DeliverDaAndDoFormListVo deliverDaAndDoFormListVo = deliverFormReportServiceApi
