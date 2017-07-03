@@ -69,6 +69,13 @@ $(function(){
 	
 })
 
+//解决bug 19930
+function filterData(e){
+	gridHandel.endEditRow();
+	checkActMountFlag = false;
+	editRowNumbeboxFlag = false;
+}
+
 //支付方式 默认勾选第一个
 function loadFilter(data){
 	if(pageStatus === 'add'){

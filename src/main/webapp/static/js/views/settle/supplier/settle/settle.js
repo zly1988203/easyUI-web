@@ -109,6 +109,13 @@ $(function(){
 	
 })
 
+//解决bug 19930
+function filterData(e){
+	gridHandel.endEditRow();
+	checkActMountFlag = false;
+	editRowNumbeboxFlag = false;
+}
+
 //combobox 过滤
 function loadFilter(data){
 	if(operateType  === 'add'){
