@@ -10,3 +10,4 @@ bin
 /.apt_generated/
 application.properties
 application-dev.properties
+rebel.xml

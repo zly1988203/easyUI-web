@@ -113,7 +113,7 @@ public class PurchaseSelectController extends BaseController<PurchaseSelectContr
 			PageUtils<PurchaseSelect> suppliers = purchaseSelectServiceApi
 					.queryLists(vo);
 			LOG.debug("page:{}", suppliers.toString());
-			cleanAccessData(suppliers.getList());
+			cleanAccessData(suppliers);
 			return suppliers;
 		} catch (Exception e) {
 			LOG.error("采购订单选择查询数据出现异常:", e);

@@ -80,25 +80,39 @@ public class ICCardTradingController extends BasePrintController<TradeOrderPayVo
 		if (StringUtils.isNotBlank(salesmanId)) {
 			vo.setOperatorId(salesmanId);
 		}
-		vo.setBranchCode(getCurrentUser().getBranchCompleCode());
-		PageUtils<TradeOrderPayVo> suppliers = PageUtils.emptyPage();
+		String branchCompleCode = request.getParameter("branchCompleCode");
+		if(StringUtils.isNotBlank(branchCompleCode)){
+			vo.setBranchCode(branchCompleCode);
+		}else{
+			vo.setBranchCode(getCurrentUser().getBranchCompleCode());
+		}
+
+		PageUtils<TradeOrderPayVo> suppliers;// = PageUtils.emptyPage();
 		try {
 			if (StringUtils.equalsIgnoreCase("1", queryType)) {
 				suppliers = icCardTradingService.selectTradingList(vo, Boolean.TRUE);
+				TradeOrderPayVo tradeOrderPayVo = icCardTradingService.sumTradingList(vo);
+				tradeOrderPayVo = tradeOrderPayVo == null ? new TradeOrderPayVo() : tradeOrderPayVo;
+				tradeOrderPayVo.setBranchCode("SUM");
+				List<TradeOrderPayVo> list = new ArrayList<TradeOrderPayVo>();
+				list.add(tradeOrderPayVo);
+				suppliers.setFooter(list);
 			} else {
 				vo.setValue("");
 				suppliers = icCardTradingService.selectTradingSumList(vo, Boolean.TRUE);
+				TradeOrderPayVo tradeOrderPayVo = icCardTradingService.sumTradingSumList(vo);
+				tradeOrderPayVo = tradeOrderPayVo == null ? new TradeOrderPayVo() : tradeOrderPayVo;
+				tradeOrderPayVo.setBranchCode("SUM");
+				List<TradeOrderPayVo> list = new ArrayList<TradeOrderPayVo>();
+				list.add(tradeOrderPayVo);
+				suppliers.setFooter(list);
 			}
-			TradeOrderPayVo tradeOrderPayVo = icCardTradingService.sumTradingSumList(vo);
-			tradeOrderPayVo = tradeOrderPayVo == null ? new TradeOrderPayVo() : tradeOrderPayVo;
-			tradeOrderPayVo.setBranchCode("SUM");
-			List<TradeOrderPayVo> list = new ArrayList<TradeOrderPayVo>();
-			list.add(tradeOrderPayVo);
+
 			return suppliers;
 		} catch (Exception e) {
 			logger.error("一卡通查询列表失败！", e);
 		}
-		return suppliers;
+		return PageUtils.emptyPage();
 	}
 
 	@RequestMapping(value = "/exports")
@@ -108,14 +122,19 @@ public class ICCardTradingController extends BasePrintController<TradeOrderPayVo
 			vo = optional.orElse(new TradeOrderPayVo());
 			vo.setPageNumber(Integer.valueOf(PAGE_NO));
 			vo.setPageSize(PrintConstant.PRINT_MAX_LIMIT);
-			// 默认当前机构
-			if (StringUtils.isBlank(vo.getBranchCode()) && StringUtils.isBlank(vo.getBranchName())) {
-				vo.setBranchCode(getCurrBranchCompleCode());
-			}
 			String salesmanId = request.getParameter("salesmanId");
 			String queryType = request.getParameter("queryType");
+			String branchCompleCode = request.getParameter("branchCompleCode");
 			if (StringUtils.isNotBlank(salesmanId)) {
 				vo.setOperatorId(salesmanId);
+			}
+			if(StringUtils.isNotBlank(branchCompleCode)){
+				vo.setBranchCode(branchCompleCode);
+			}else{
+				vo.setBranchCode(getCurrentUser().getBranchCompleCode());
+			}
+			if(StringUtils.isNotBlank(vo.getBranchName())){
+				vo.setBranchName(vo.getBranchCode().replaceAll("[\\[\\d+\\]]",""));
 			}
 			if (StringUtils.equalsIgnoreCase("1", queryType)) {
 				PageUtils<TradeOrderPayVo> suppliers = icCardTradingService.selectTradingList(vo, Boolean.FALSE);
@@ -152,15 +171,22 @@ public class ICCardTradingController extends BasePrintController<TradeOrderPayVo
 		vo = optional.orElse(new TradeOrderPayVo());
 		vo.setPageNumber(Integer.valueOf(PAGE_NO));
 		vo.setPageSize(PrintConstant.PRINT_MAX_LIMIT);
-		// 默认当前机构
-		if (StringUtils.isBlank(vo.getBranchCode()) && StringUtils.isBlank(vo.getBranchName())) {
-			vo.setBranchCode(getCurrBranchCompleCode());
-		}
+
 		PageUtils<TradeOrderPayVo> suppliers;
 		String salesmanId = request.getParameter("salesmanId");
 		String queryType = request.getParameter("queryType");
+		String branchCompleCode = request.getParameter("branchCompleCode");
+
 		if (StringUtils.isNotBlank(salesmanId)) {
 			vo.setOperatorId(salesmanId);
+		}
+		if(StringUtils.isNotBlank(branchCompleCode)){
+			vo.setBranchCode(branchCompleCode);
+		}else{
+			vo.setBranchCode(getCurrentUser().getBranchCompleCode());
+		}
+		if(StringUtils.isNotBlank(vo.getBranchName())){
+			vo.setBranchName(vo.getBranchCode().replaceAll("[\\[\\d+\\]]",""));
 		}
 		String path;
 		if (StringUtils.equalsIgnoreCase("1", queryType)) {

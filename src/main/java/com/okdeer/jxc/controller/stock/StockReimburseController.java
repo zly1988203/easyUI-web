@@ -111,7 +111,7 @@ public class StockReimburseController extends BasePrintController<StockReimburse
 			vo.setFormType(StockAdjustEnum.REIMBURSE.getKey());
 			PageUtils<StockFormVo> stockFormList = stockAdjustServiceApi.getStockFormList(vo);
 		    // 过滤数据权限字段
-	        cleanAccessData(stockFormList.getList());
+	        cleanAccessData(stockFormList);
 			LOG.debug(LogConstant.PAGE, stockFormList.toString());
 			return stockFormList;
 		} catch (Exception e) {

@@ -42,7 +42,7 @@ import com.okdeer.jxc.utils.UserUtil;
  *
  */
 @Controller
-@RequestMapping("report/day_old")
+@RequestMapping("report/day")
 public class DayReportController extends BaseController<DayReportController> {
 
 	@Reference(version = "1.0.0", check = false)
@@ -74,8 +74,6 @@ public class DayReportController extends BaseController<DayReportController> {
 			vo.setPageSize(pageSize);
 			vo.setSourceBranchId(UserUtil.getCurrBranchId());
 			PageUtils<DayReportVo> poolSaleReportList = dayReportService.getDayReportList(vo);
-			// 过滤数据权限字段
-	        cleanAccessData(poolSaleReportList.getList());
 			DayReportVo dayReportVo = dayReportService.queryDayReportSum(vo);
 			// 过滤数据权限字段
 	        cleanAccessData(dayReportVo);
@@ -84,6 +82,8 @@ public class DayReportController extends BaseController<DayReportController> {
 				footer.add(dayReportVo);
 			}
 			poolSaleReportList.setFooter(footer);
+			// 过滤数据权限字段
+			cleanAccessData(poolSaleReportList);
 			return poolSaleReportList;
 		} catch (Exception e) {
 			LOG.error("获取日销售列表信息异常:{}", e);

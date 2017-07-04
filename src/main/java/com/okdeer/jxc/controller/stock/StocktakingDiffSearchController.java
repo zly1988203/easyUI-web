@@ -92,7 +92,7 @@ public class StocktakingDiffSearchController extends BaseController<StocktakingD
 			PageUtils<StocktakingDifferenceVo> stocktakingBatchList = stocktakingOperateServiceApi
 					.getDiffSearchList(vo);
 			// 过滤数据权限字段
-            cleanAccessData(stocktakingBatchList.getList());
+            cleanAccessData(stocktakingBatchList);
 			LOG.debug(LogConstant.PAGE, stocktakingBatchList.toString());
 			return stocktakingBatchList;
 		} catch (Exception e) {

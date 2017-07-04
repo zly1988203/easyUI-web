@@ -42,6 +42,7 @@ $(function(){
 	//监听numberbox 点击事件
 	$("input#actualAmount").next("span").children().first().on('click',function(){
 		gridHandel.endEditRow();
+		checkActMountFlag = false;
 		editRowNumbeboxFlag = false;
 	});
 	
@@ -67,6 +68,13 @@ $(function(){
 	}
 	
 })
+
+//解决bug 19930
+function filterData(e){
+	gridHandel.endEditRow();
+	checkActMountFlag = false;
+	editRowNumbeboxFlag = false;
+}
 
 //支付方式 默认勾选第一个
 function loadFilter(data){
@@ -198,6 +206,12 @@ function initSupChkAcoAdd(){
         onUncheck:function(rowIndex,rowData){
         	editRowFlag = true;
         	rowData.checked = false;
+        	//取消勾选实付金额重置
+        	gridHandel.setBeginRow(rowIndex);
+        	rowData.actualAmount = 0;
+        	gridHandel.setFieldValue('actualAmount',0);
+        	gridHandel.endEditRow();
+        	
         	updateFooter();
         },
         onCheckAll:function(rows){
@@ -209,9 +223,13 @@ function initSupChkAcoAdd(){
         },
         onUncheckAll:function(rows){
         	editRowFlag = true;
+        	
         	$.each(rows,function(index,item){
         		item.checked = false;
+        		item.actualAmount = 0;
         	});
+        	$(this).datagrid("loadData",rows);
+        	
         	updateFooter();
         },
         onClickCell:function(rowIndex,field,value){
@@ -223,12 +241,6 @@ function initSupChkAcoAdd(){
             gridHandel.setSelectFieldName(field);
             var target = gridHandel.getFieldTarget(field);
             if(target){
-//            	var _unpayAmount = $(this).datagrid('getRows')[rowIndex].unpayAmount || 0;
-//            	if(_unpayAmount >= 0){
-//            		$(target).numberbox('options').min = 0;
-//            	}else{
-//            		$(target).numberbox('options').max = 0;
-//            	}
                 gridHandel.setFieldFocus(target);
             }else{
                 gridHandel.setSelectFieldName("actualAmount");
@@ -294,13 +306,13 @@ function changeActAmount(vewV,oldV){
 		return;
 	}
 	var _unpayAmount = parseFloat(gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'unpayAmount')||0);
-	if(_unpayAmount > 0 && (vewV < 0 ) && oldV){
+	if(_unpayAmount >= 0 && (vewV < 0 ) && oldV){
 		$_jxc.alert('实收金额不能小于零');
 		checkFlag = true;
 		$(this).numberbox('setValue',oldV);
 		return;
 	}
-	if(_unpayAmount > 0 && (vewV > _unpayAmount ) && oldV){
+	if(_unpayAmount >= 0 && (vewV > _unpayAmount ) && oldV){
 		$_jxc.alert('实收金额不能大于未收金额');
 		checkFlag = true;
 		$(this).numberbox('setValue',oldV);
@@ -348,6 +360,10 @@ function changeActMountFrom(newV,oldV){
 	}
 	
 	var _unpayAmountText = parseFloat($('#unpayAmount').val()||0);
+	//格式化2位小数比较
+	_unpayAmountText = parseFloat(_unpayAmountText||0).toFixed(2);
+	//转成数字
+	_unpayAmountText = parseFloat(_unpayAmountText||0);
 	
 	if(_unpayAmountText >= 0 && (newV < 0)){
 		$_jxc.alert('实收金额汇总不能小于零');
@@ -574,7 +590,7 @@ function saveFranchiseSet(){
     rows.forEach(function(data,i){
     	if(data.checked && validFlag){
     		//第N行实收金额不能为0，请检查！确认
-    		if(parseFloat(data.actualAmount) == 0){
+    		if(parseFloat(data.actualAmount) == 0 && parseFloat(data.unpayAmount)!= 0){
     			validFlag = false;
     			$_jxc.alert("第"+(i+1)+"行实收金额不能为零，请检查！");
     			return;

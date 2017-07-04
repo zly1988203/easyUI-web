@@ -106,46 +106,49 @@
            <div class="ub umar-t8">
            		<div class="ub ub-ac uw-330">
            			<div class="umar-r10 uw-110 ut-r">销售金额:</div>
-           			 <input class="uinp ub ub-f1 uinp-no-more" type="text"  value="<fmt:formatNumber value="${chainVo.sumSaleAmount}"  pattern="0.00#"/>" id="sumSaleAmount" readonly="readonly"   name="sumSaleAmount">
+           			 <input class="uinp ub ub-f1 uinp-no-more" type="text"  value="<fmt:formatNumber value="${chainVo.sumSaleAmount}"  pattern="0.0#"/>" id="sumSaleAmount" readonly="readonly"   name="sumSaleAmount">
            		</div>
            		<div class="ub ub-ac uw-330 umar-l10">
            			<div class="umar-r10 uw-110 ut-r">供应商货款:</div>
-           			 <input class="uinp ub ub-f1 uinp-no-more" type="text" value="<fmt:formatNumber value="${chainVo.sumSupplierAmount}"  pattern="0.00#"/>" id="sumSupplierAmount" readonly="readonly"   name="sumSupplierAmount">
+           			 <input class="uinp ub ub-f1 uinp-no-more" type="text" value="<fmt:formatNumber value="${chainVo.sumSupplierAmount}"  pattern="0.0#"/>" id="sumSupplierAmount" readonly="readonly"   name="sumSupplierAmount">
            			 <input type="hidden" id="divideAmount">
            		</div>
            		<div class="ub ub-ac uw-320">
            			<div class="umar-r10 uw-100 ut-r">保底金额:</div>
-           			 <input class="uinp ub ub-f1 uinp-no-more" type="text" value="<fmt:formatNumber value="${chainVo.supplierMinAmount}"  pattern="0.00#"/>" id="supplierMinAmount"  readonly="readonly"  name="supplierMinAmount">
+           			 <input class="uinp ub ub-f1 uinp-no-more" type="text" value="<fmt:formatNumber value="${chainVo.supplierMinAmount}"  pattern="0.0#"/>" id="supplierMinAmount"  readonly="readonly"  name="supplierMinAmount">
            		</div>	
            		<div class="ub ub-ac uw-320">
            			<div class="umar-r10 uw-100 ut-r">汇总税额:</div>
-           			 <input class="uinp ub ub-f1 uinp-no-more" type="text" value="<fmt:formatNumber value="${chainVo.sumTaxAmount}"  pattern="0.00#"/>" id="sumTaxAmount" readonly="readonly"  name="sumTaxAmount">
+           			 <input class="uinp ub ub-f1 uinp-no-more" type="text" value="<fmt:formatNumber value="${chainVo.sumTaxAmount}"  pattern="0.0#"/>" id="sumTaxAmount" readonly="readonly"  name="sumTaxAmount">
            		</div>
            </div>
            <div class="ub umar-t8">
            		<div class="ub ub-ac uw-330">
            			<div class="umar-r10 uw-110 ut-r">供应商承担比例:</div>
-           			 <input class="uinp " style="width:210px" value="<fmt:formatNumber value="${chainVo.supplierRate}"  pattern="0.00#"/>%" readonly="readonly"  type="text" id="supplierRate"   name="supplierRate">
+           			 <input class="uinp " style="width:210px" value="<fmt:formatNumber value="${chainVo.supplierRate}"  pattern="0.0#"/>%" readonly="readonly"  type="text" id="supplierRate"   name="supplierRate">
            		</div>
            		<div class="ub ub-ac uw-330 umar-l10">
            			<div class="umar-r10 uw-110 ut-r">供应商承担税额:</div>
-           			 <input class="uinp ub ub-f1 uinp-no-more" type="text" value="<fmt:formatNumber value="${chainVo.supplierTaxAmount}"  pattern="0.00#"/>" id="supplierTaxAmount" readonly="readonly"   name="supplierTaxAmount">
+           			 <input class="uinp ub ub-f1 uinp-no-more" type="text" value="<fmt:formatNumber value="${chainVo.supplierTaxAmount}"  pattern="0.0#"/>" id="supplierTaxAmount" readonly="readonly"   name="supplierTaxAmount">
            		</div>
            		<div class="ub ub-ac uw-320">
            			<div class="umar-r10 uw-100 ut-r">其他扣款:</div>
-           			 <input class="uinp " style="width:210px" value="<fmt:formatNumber value="${chainVo.otherAmount}"  pattern="0.00#"/>"  readonly="readonly" type="text" id="otherAmount"   name="otherAmount">
+           			 <input class="uinp " style="width:210px" value="<fmt:formatNumber value="${chainVo.otherAmount}"  pattern="0.0#"/>"  readonly="readonly" type="text" id="otherAmount"   name="otherAmount">
            		</div>	
            		<div class="ub ub-ac uw-320">
            			<div class="umar-r10 uw-100 ut-r">实际应付款:</div>
-           			 <input class="uinp ub ub-f1 uinp-no-more" type="text"  value="<fmt:formatNumber value="${chainVo.actualAmount}"  pattern="0.00#"/>" id="actualAmount" readonly="readonly"   name="actualAmount">
+           			 <input class="uinp ub ub-f1 uinp-no-more" type="text"  value="<fmt:formatNumber value="${chainVo.actualAmount}"  pattern="0.0#"/>" id="actualAmount" readonly="readonly"   name="actualAmount">
            		</div>
            </div>
            
            <div class="ub umar-t8">
-               <div class="ub ub-ac umar-l40 uw-500 " style='width:1270px;'>
+               <div class="ub ub-ac umar-l40 uw-500 " style='width:630px;'>
                    <div class="umar-r10 uw-70 ut-r">备注:</div>
                    <input class="uinp ub ub-f1" type="text" id="remark" readonly="readonly" value="${chainVo.remark}" maxlength="20"  name="remark">
-               </div>               
+               </div>   
+               <div class="ub ub-ac uw-200 umar-l40" style="width:453px;">
+               		说明:实际应付款 = 销售金额-分成金额（如果分成金额 < 保底金额，取保底金额）-供应商承担税额-其他扣款
+               </div>             
            </div>
            </form>
            <%--datagrid-edit--%>

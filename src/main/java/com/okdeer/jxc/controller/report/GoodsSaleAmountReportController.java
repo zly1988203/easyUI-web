@@ -73,16 +73,14 @@ public class GoodsSaleAmountReportController extends BaseController<GoodsSaleAmo
 			vo.setPageSize(pageSize);
 			vo.setSourceBranchId(UserUtil.getCurrBranchId());
 			PageUtils<GoodsSaleAmountReportVo> goodsOutInfoDetailList = goodsSaleAmountReportServiceApi.goodsSaleAmountList(vo);
-			// 过滤数据权限字段
-            cleanAccessData(goodsOutInfoDetailList.getList());
 			GoodsSaleAmountReportVo goodsSaleAmountReportVo = goodsSaleAmountReportServiceApi.queryGoodsSaleAmountSum(vo);
-			// 过滤数据权限字段
-            cleanAccessData(goodsSaleAmountReportVo);
 			List<GoodsSaleAmountReportVo> footer = new ArrayList<GoodsSaleAmountReportVo>();
 			if(goodsSaleAmountReportVo !=null){
 				footer.add(goodsSaleAmountReportVo);
 			}
 			goodsOutInfoDetailList.setFooter(footer);
+			// 过滤数据权限字段
+			cleanAccessData(goodsOutInfoDetailList);
 			return goodsOutInfoDetailList;
 		} catch (Exception e) {
 			LOG.error("获取单品ABC销售额列表异常:{}", e);

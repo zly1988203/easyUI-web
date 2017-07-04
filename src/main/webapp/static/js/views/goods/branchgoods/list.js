@@ -46,7 +46,7 @@ $(function() {
 	// 初始化机构ID，机构名称
 	$("#branchId").val(sessionBranchId);
 	$("#branchName").val(sessionBranchCodeName);
-
+	$("#branchType").val(sessionBranchType);
 	initDatagridOrders();
 
 	// 商品过滤单选框
@@ -328,6 +328,8 @@ function initDatagridOrders() {
 			gridHandel.setDatagridHeader("center");
 		}
 	});
+	
+
 }
 
 // 搜索导出清除左侧条件
@@ -401,7 +403,7 @@ function selectBranches() {
 			}
 		});
 		if (flag) {
-			messager("未选择分公司");
+			messager("商品引入时未选择所属分公司:" + $("#branchName").val());
 			return;
 		}
 		branchesId = branchesId.substring(0,branchesId.length - 1);
@@ -427,6 +429,7 @@ function selectBranches() {
 
 function branchesLeadInto(branchesId){
 	var skuIds = getSkuIds();
+	gFunStartLoading('正在引入，请稍后...');
 	$.ajax({
 		url : contextPath + "/branch/goods/branchesLeadInto",
 		type : "POST",
@@ -435,6 +438,7 @@ function branchesLeadInto(branchesId){
 			'skuIds' : skuIds
 		},
 		success : function(result) {
+			gFunEndLoading();
 			if (result['code'] == 0) {
 				messager(result.data);
 			} else {

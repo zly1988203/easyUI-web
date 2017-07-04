@@ -44,7 +44,7 @@ var gridDefault = {
     isGift:0,
 }
 var gridHandel = new GridClass();
-var gridName = "gridRequireOrder";
+var gridName = "gridEditOrder";
 var editRowData = null;
 function initDatagridAddRequireOrder(){
     gridHandel.setGridName("gridEditOrder");
@@ -259,6 +259,7 @@ function initDatagridAddRequireOrder(){
         onLoadSuccess:function(data){
             gridHandel.setDatagridHeader("center");
             updateFooter();
+            
         }
 
     });

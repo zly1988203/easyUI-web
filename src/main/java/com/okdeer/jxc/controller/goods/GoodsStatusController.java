@@ -100,7 +100,8 @@ public class GoodsStatusController extends BaseController<GoodsStatusController>
 			vo.setPageSize(pageSize);
 			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
 			PageUtils<GoodsStatusVo> list = goodsStatusService.getGoodsStatusList(vo);
-			cleanAccessData(list.getList());
+			// 过滤数据权限字段
+			cleanAccessData(list);
 			return list;
 		} catch (Exception e) {
 			LOG.error("获取滞销信息列表信息异常:{}", e);
@@ -131,7 +132,8 @@ public class GoodsStatusController extends BaseController<GoodsStatusController>
 			}
 			
 			PageUtils<GoodsStatusVo> list = goodsStatusService.getOutGuideList(vo);
-			cleanAccessData(list.getList());
+			// 过滤数据权限字段
+			cleanAccessData(list);
 			return list;
 		} catch (Exception e) {
 			LOG.error("获取滞销信息列表信息异常:{}", e);
@@ -162,7 +164,7 @@ public class GoodsStatusController extends BaseController<GoodsStatusController>
 			}
 			//vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
 			PageUtils<GoodsStatusVo> list = goodsStatusService.getStopGuideList(vo);
-			cleanAccessData(list.getList());
+			cleanAccessData(list);
 			return list;
 		} catch (Exception e) {
 			LOG.error("获取滞销信息列表信息异常:{}", e);
@@ -229,7 +231,6 @@ public class GoodsStatusController extends BaseController<GoodsStatusController>
 
 						}
 					},map);
-			cleanAccessData(vo.getList());
 			respJson.put("importInfo", vo);
 		} catch (IOException e) {
 			respJson = RespJson.error("读取Excel流异常");

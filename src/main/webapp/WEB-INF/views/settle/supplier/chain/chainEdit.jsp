@@ -88,11 +88,11 @@
            <div class="ub umar-t8">
            		<div class="ub ub-ac uw-310 umar-l20">
            			<div class="umar-r10 uw-90 ut-r">计算时间:</div>
-<%--            			<input id="beginDate" name="beginDate" value="${chainVo.beginDate}" class="Wdate ub ub-f1" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true,maxDate:'#F{$dp.$D(\'endDate\')||dateUtil.getCurrDayPreOrNextDay(\'prev\',1)}'})" /> --%>
-           			<input id="beginDate" name="beginDate" value="${chainVo.beginDate}" class="Wdate ub ub-f1" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true,maxDate:'#F{$dp.$D(\'endDate\')}'})" />
+           			<input id="beginDate" name="beginDate" value="${chainVo.beginDate}" class="Wdate ub ub-f1" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true,maxDate:'#F{$dp.$D(\'endDate\')||dateUtil.getCurrDayPreOrNextDay(\'prev\',1)}'})" />
+<%--            			<input id="beginDate" name="beginDate" value="${chainVo.beginDate}" class="Wdate ub ub-f1" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true,maxDate:'#F{$dp.$D(\'endDate\')}'})" /> --%>
            				&nbsp;至&nbsp;
-<%--            			<input id="endDate" name="endDate" value="${chainVo.endDate}" class="Wdate ub ub-f1" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true,minDate:'#F{$dp.$D(\'beginDate\')}',maxDate:'%y-%M-{%d-1}'})" /> --%>
-           			<input id="endDate" name="endDate" value="${chainVo.endDate}" class="Wdate ub ub-f1" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true,minDate:'#F{$dp.$D(\'beginDate\')}'})" />
+           			<input id="endDate" name="endDate" value="${chainVo.endDate}" class="Wdate ub ub-f1" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true,minDate:'#F{$dp.$D(\'beginDate\')}',maxDate:'%y-%M-{%d-1}'})" />
+<%--            			<input id="endDate" name="endDate" value="${chainVo.endDate}" class="Wdate ub ub-f1" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true,minDate:'#F{$dp.$D(\'beginDate\')}'})" /> --%>
            		</div>
            		<div class="ub ub-ac uw-320 umar-l20">
            			<div class="umar-r10 uw-100 ut-r">付款日期:</div>
@@ -148,9 +148,12 @@
            </div>
            
            <div class="ub umar-t8">
-               <div class="ub ub-ac umar-l40 uw-500 " style='width:1270px;'>
+               <div class="ub ub-ac umar-l40 uw-500 " style='width:630px;'>
                    <div class="umar-r10 uw-70 ut-r">备注:</div>
                    <input class="uinp ub ub-f1" type="text" id="remark" value="${chainVo.remark}" maxlength="20"  name="remark">
+               </div>
+               <div class="ub ub-ac uw-200 umar-l40" style="width:453px;">
+               		说明:实际应付款 = 销售金额-分成金额（如果分成金额 < 保底金额，取保底金额）-供应商承担税额-其他扣款
                </div>               
            </div>
            </form>

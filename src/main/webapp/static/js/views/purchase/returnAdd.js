@@ -31,10 +31,10 @@ function initConditionParams(){
 	}
     
 	
-	//设置默认供应商信息
-	$("#supplierId").val(sessionSupplierId);
-	$("#saleWay").val(sessionSupplierSaleWay);
-    $("#supplierName").val(sessionSupplierCodeName);
+	//设置默认供应商信息 孔言言 让改的 06/29
+//	$("#supplierId").val(sessionSupplierId);
+//	$("#saleWay").val(sessionSupplierSaleWay);
+//    $("#supplierName").val(sessionSupplierCodeName);
     
     //设置付款期限默认值
     $("#paymentTime").val(dateUtil.getCurrentDateDay());
@@ -701,7 +701,7 @@ function selectSupplier(){
 	}
 	new publicSupplierService(function(data){
         var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
-        if( $("#supplierId").val() != "" && data.id != $("#supplierId").val() && nowRows.length > 0){
+        if(data.id != $("#supplierId").val() && nowRows.length > 0){
             $_jxc.confirm('修改供应商后会清空明细，是否要修改？',function(r){
                 if(r){
                     $("#supplierId").val(data.id);
@@ -714,7 +714,7 @@ function selectSupplier(){
                     }
                 }
             })
-        }else  if( $("#supplierId").val() != "" && data.id != $("#supplierId").val() && nowRows.length == 0){
+        }else if(data.id != $("#supplierId").val() && nowRows.length == 0){
             $("#supplierId").val(data.id);
             $("#saleWay").val(data.saleWay);
             $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);

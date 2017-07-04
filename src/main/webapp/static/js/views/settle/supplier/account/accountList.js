@@ -74,13 +74,21 @@ function getAccountColumns(){
             ]);
 	}
 	//未付款账款汇总
-	if(accountType == 3 || accountType == 7){
+	if(accountType == 3){
 		defaultColumns = defaultColumns.concat([
-			{field: 'payableAmount', title: '预付金额', width: '80px', align: 'right',
+			{field: 'advanceAmount', title: '预付金额', width: '80px', align: 'right',
 				formatter: function (value, row, index) {
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
 				}
 			}])
+	}
+	if(accountType == 7){
+		defaultColumns = defaultColumns.concat([
+            {field: 'payableAmount', title: '预付金额', width: '80px', align: 'right',
+            	formatter: function (value, row, index) {
+            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+            	}
+            }])
 	}
 	//预付账款明细
 	if(accountType == 7){
@@ -95,12 +103,12 @@ function getAccountColumns(){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
 				}
 			},
-			{field: 'payTime', title: '付款日期', width: '120px', align: 'right',
+			{field: 'payTime', title: '付款日期', width: '120px', align: 'left',
 				formatter: function (value, row, index) {
 					if(!value){
 						return '';
 					}
-					return new Date(value).format('yyyy-MM-dd hh:mm');
+					return new Date(value).format('yyyy-MM-dd');
 				}
 			}
             ]);

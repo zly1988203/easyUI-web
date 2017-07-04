@@ -87,9 +87,9 @@ public class ArrivalRateController extends BaseController<PurchaseForm>{
 			
 			//2、汇总查询
 			List<ArrivalRateVo> footer = arrivalRateService.findArrivalRateSum(qo);
-			cleanAccessData(footer);
 			arrivalRateReport.setFooter(footer);
-			cleanAccessData(arrivalRateReport.getList());
+			// 过滤数据权限字段
+			cleanAccessData(arrivalRateReport);
 			return arrivalRateReport;
 		} catch (Exception e) {
 			LOG.error("到货率分析查询异常:", e);

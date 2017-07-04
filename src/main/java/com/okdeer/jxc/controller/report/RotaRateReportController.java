@@ -71,7 +71,7 @@ public class RotaRateReportController extends BaseController<RotaRateReportContr
 			vo.setPageSize(pageSize);
 			PageUtils<RotaRateReportVo> rotaRateReportList = rotaRateReportServiceApi.getRotaRateReportList(vo);
 			// 过滤数据权限字段
-            cleanAccessData(rotaRateReportList.getList());
+            cleanAccessData(rotaRateReportList);
 			LOG.debug(LogConstant.PAGE, rotaRateReportList.toString());
 			return rotaRateReportList;
 		} catch (Exception e) {

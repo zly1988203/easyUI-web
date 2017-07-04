@@ -161,7 +161,7 @@ function query(){
 	$("#memberOrderData").datagrid("options").queryParams = formData;
 	$("#memberOrderData").datagrid("options").method = "post";
 
-	var radioValue = $('input:radio:checked').val();
+	var radioValue = $('input[name="queryType"]:checked').val();
 	if (radioValue == 'memberOrderAll') {
 		$("#memberOrderData").datagrid("options").url =  contextPath+"/memberOrder/report/memberOrderAll";
 	} else if (radioValue == 'memberOrderList') {

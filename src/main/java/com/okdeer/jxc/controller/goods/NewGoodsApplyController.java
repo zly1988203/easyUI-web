@@ -155,6 +155,8 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 		qo.setPageNumber(pageNumber);
 		qo.setPageSize(pageSize);
 		PageUtils<NewGoodsApply> page = newGoodsApplyService.queryPageByParams(qo);
+        // 过滤数据权限字段
+        cleanAccessData(page);
 		return page;
 	}
 
@@ -290,6 +292,11 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 			NewGoodsApply sku = newGoodsApplyService.selectByPrimaryKey(id);
 			sku.setSaleWayName(SaleWayEnum.getValue(sku.getSaleWay()));
 			RespJson jesp = RespJson.success();
+			NewGoodsApplyEnum examineStatus = sku.getExamineStatus();
+            if (NewGoodsApplyEnum.EXAMINE_PASS.equals(examineStatus)) {
+                // 过滤数据权限字段
+                cleanAccessData(sku);
+            }
 			jesp.put("_data", sku);
 			return jesp;
 		} else {
@@ -376,7 +383,7 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 	 */
 	@RequestMapping(value = "updateGoods", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson copyGoods(@Valid NewGoodsApply sku, BindingResult validate) {
+	public RespJson updateGoods(@Valid NewGoodsApply sku, BindingResult validate) {
 		if (validate.hasErrors()) {
 			String errorMessage = validate.getFieldError().getDefaultMessage();
 			return RespJson.error(errorMessage);
@@ -401,6 +408,9 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 			if (sku.getLowestPrice() == null) {
 				sku.setLowestPrice(price);
 			}
+			
+			sku.setUpdateTime(new Date());
+			sku.setUpdateUserId(getCurrUserId());
 			newGoodsApplyService.updateByPrimaryKey(sku);
 			return RespJson.success();
 		} catch (Exception e) {
@@ -690,6 +700,8 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 				}
 				String fileName = "新品申请导出" + "_" + DateUtils.getCurrSmallStr();
 				String templateName = ExportExcelConstant.NEW_GOODS_APPLY_REPORT;
+				// 过滤数据权限字段
+		        cleanAccessData(list);
 				exportListForXLSX(response, list, fileName, templateName);
 			} else {
 				RespJson json = RespJson.error("无数据可导");

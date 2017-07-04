@@ -120,6 +120,8 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 		qo.setPageNumber(pageNumber);
 		qo.setPageSize(pageSize);
 		PageUtils<GoodsSku> page = goodsSkuService.querySkuByPage(qo);
+		// 过滤数据权限字段
+        cleanAccessData(page);
 		LOG.debug("page" + page.toString());
 		return page;
 	}
@@ -534,6 +536,8 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 
 				// 导出Excel
 				list = handleDateReport(list);
+				// 过滤数据权限字段
+		        cleanAccessData(list);
 				exportListForXLSX(response, list, fileName, templateName);
 			} else {
 				RespJson json = RespJson.error("无数据可导");

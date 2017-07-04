@@ -112,7 +112,6 @@ function initGridShopList(cardType) {
             }}
         ]],
         onSelect:function(rowIndex,rowData){
-        	//debugger;
             $("#"+gridEquipment).datagrid('loadData', { total: 0, rows: [] });
             selectView(rowData);
         },

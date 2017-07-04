@@ -108,15 +108,11 @@ public class MonthlyReportController extends BaseController<MonthlyReportControl
 		if(pageUtils==null){
 			return PageUtils.emptyPage();
 		}
-		// 过滤数据权限字段
-		cleanAccessData(pageUtils.getList());
 		// 汇总合计
 		List<MonthlyReportVo> vos = pageUtils.getRows();
 		if (!CollectionUtils.isEmpty(vos)) {
 			if (pageUtils != null) {
 			    	MonthlyReportVo footer = monthStatementService.sumMonthReportList(vo);
-			        // 过滤数据权限字段
-			    	cleanAccessData(footer);
 			    	if(footer!=null){
         			    	footer.setBranchCode("SUM");
         				pageUtils.setFooter(new ArrayList<MonthlyReportVo>(){
@@ -129,6 +125,8 @@ public class MonthlyReportController extends BaseController<MonthlyReportControl
 			    	}
 			}
 			
+			// 过滤数据权限字段
+			cleanAccessData(pageUtils);
 			return pageUtils;
 		}
 		PageUtils<MonthlyReportVo> returnPageUtils = PageUtils.emptyPage();

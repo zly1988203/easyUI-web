@@ -28,9 +28,9 @@ function initConditionParams(){
     $("#branchId").val(sessionBranchId);
 	$("#branchName").val(sessionBranchCodeName);
 	
-	//设置默认供应商信息
-	$("#supplierId").val(sessionSupplierId);
-    $("#supplierName").val(sessionSupplierCodeName);
+	//设置默认供应商信息  孔言言 让改的  06/29
+//	$("#supplierId").val(sessionSupplierId);
+//    $("#supplierName").val(sessionSupplierCodeName);
     
     //设置默认供应商交货期限
     var diliveCycle = null;
@@ -574,13 +574,26 @@ function saveItemHandel(){
             isCheckResult = false;
             return false;
         };
+        
+        //箱数判断  bug 19886
+        if(parseFloat(v["largeNum"])<=0){
+        	$_jxc.alert("第"+(i+1)+"行，箱数要大于0");
+            isCheckResult = false;
+            isChcekNum = true;
+            return false;
+        }
+        //数量判断 bug 19886
+        if(parseFloat(v["realNum"])<=0){
+        	$_jxc.alert("第"+(i+1)+"行，数量要大于0");
+            isCheckResult = false;
+            isChcekNum = true;
+            return false;
+        }
+        
         if(parseFloat(v["price"])<=0&&v["isGift"]==0){
             isChcekPrice = true;
         }
-        //数量判断
-        if(parseFloat(v["realNum"])<=0){
-        	isChcekNum = true;
-        }
+        
     });
     if(isCheckResult){
         if(isChcekPrice){
@@ -593,11 +606,11 @@ function saveItemHandel(){
             });
         }else{
         	if(isChcekNum){
-       		 $_jxc.confirm('存在数量为0的商品,是否继续保存?',function(data){
-       			if(data){
-       				saveDataHandel(rows);
-       		    }
-       		 });
+	       		 $_jxc.confirm('存在数量为0的商品,是否继续保存?',function(data){
+	       			if(data){
+	       				saveDataHandel(rows);
+	       		    }
+	       		 });
          	}else{
          		saveDataHandel(rows);
          	}
@@ -714,7 +727,7 @@ function selectSupplier(){
 	}
     new publicSupplierService(function(data){
         var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
-        if( $("#supplierId").val() != "" && data.id != $("#supplierId").val() && nowRows.length > 0){
+        if( data.id != $("#supplierId").val() && nowRows.length > 0){
             $_jxc.confirm('修改供应商后会清空明细，是否要修改？',function(r){
                 if(r){
                     $("#supplierId").val(data.id);
@@ -726,7 +739,7 @@ function selectSupplier(){
                     }
                 }
             })
-        }else  if( $("#supplierId").val() != "" && data.id != $("#supplierId").val() && nowRows.length == 0){
+        }else  if( data.id != $("#supplierId").val() && nowRows.length == 0){
             $("#supplierId").val(data.id);
             $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
             gridHandel.setLoadData([$.extend({},gridDefault)]);

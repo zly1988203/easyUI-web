@@ -24,7 +24,7 @@
 
 			<div class="ub ub-ac upad-8">
 				<div class="ubtns">
-					<button class="ubtns-item" onclick="saveCardSetting()">保存</button>
+					<button class="ubtns-item" id="btnSave" onclick="saveCardSetting()">保存</button>
 					<button class="ubtns-item" onclick="toClose()">关闭</button>
 				</div>
 			</div>
@@ -56,6 +56,7 @@
 			</div>
 
     </form>
+		<c:if test="${user.branchId ne '0'}" >
 			<div class="ub upad-4 umar-t10 umar-l50">
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-100 ut-r">一卡通列表:</div>
@@ -85,6 +86,19 @@
 
 			</div>
 		</div>
+		</c:if>
 	</div>
 </body>
+<script type="application/javascript">
+	$(function () {
+        <c:if test="${user.branchId eq '0'}" >
+        	successTip('总部不可以设置!');
+        	disableSaveBtn();
+		</c:if>
+    });
+    //禁用保存
+    function disableSaveBtn(){
+        $("#btnSave").removeClass("ubtns-item").addClass("ubtns-item-disabled").unbind("click");
+    }
+</script>
 </html>

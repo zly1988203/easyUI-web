@@ -130,7 +130,7 @@ function queryForm(){
 var branchId;
 function selectBranches(){
 	new publicAgencyService(function(data){
-//        $("#branchId").val(data.branchesId);
+        //$("#branchId").val(data.branchesId);
         //$("#branchName").val(data.branchName);
         $("#branchName").val("["+data.branchCode+"]"+data.branchName);
 	},'',branchId);

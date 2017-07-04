@@ -18,11 +18,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.enums.BranchTypeEnum;
+import com.okdeer.jxc.common.handler.PriceGrantHandler;
 import com.okdeer.jxc.common.parser.DataAccessParser;
 import com.okdeer.jxc.common.parser.MapAccessParser;
 import com.okdeer.jxc.common.parser.vo.KeyExtendVo;
 import com.okdeer.jxc.common.report.DataRecord;
 import com.okdeer.jxc.common.result.RespJson;
+import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.PriceGrantUtil;
@@ -73,6 +75,13 @@ public class BaseController<T> {
 	 * @Fields error_Msg : 500页面错误提示消息key值
 	 */
 	protected static final String ERROR_MSG = "errorMsg";
+	
+	
+	protected static Integer LIMIT_MAX_COUNT = 20000;//数据导出最大导出为2万条，如果没有值的话
+	
+	protected static Integer LIMIT_MIN_COUNT = 100;//如果数据导出pageSize没传的话，默认导出100条
+	
+	protected static Integer LIMIT_REQ_COUNT = 2000;//一次请求的数据量
 
 	/**
 	 * @Description: 获取当前用户信息
@@ -148,6 +157,16 @@ public class BaseController<T> {
 	protected List<String> getCurrCategoryGrants() {
 		SysUser user = getCurrentUser();
 		return user == null ? null : user.getCategoryCodes();
+	}
+
+	/**
+	 * @Description: 过滤价格权限
+	 * @param handler PriceGrantHandler接口
+	 * @author liwb
+	 * @date 2016年8月19日
+	 */
+	protected void filterPriceGrant(PriceGrantHandler handler) {
+		PriceGrantUtil.grantPrice(handler);
 	}
 
 	/**
@@ -282,6 +301,21 @@ public class BaseController<T> {
 		DataAccessParser parser = new DataAccessParser(cls, forbiddenSets);
 		parser.cleanDataObjects(datas);
 	}
+	/**
+     * 过滤价格权限数据（vo list）
+     * @param datas 要过滤的vo对象
+     */
+	protected void cleanAccessData(PageUtils<? extends Object> page) {
+	    if(CollectionUtils.isNotEmpty(page.getFooter())){
+	        cleanAccessData(page.getFooter());
+	    }
+	    if(CollectionUtils.isNotEmpty(page.getList())){
+	        cleanAccessData(page.getList());
+	    }
+	    if(CollectionUtils.isNotEmpty(page.getRows())){
+	        cleanAccessData(page.getRows());
+	    }
+	}
 
 	/**
 	 * 过滤价格权限数据（单个map）
@@ -361,4 +395,27 @@ public class BaseController<T> {
 		return keyList;
 	}
 
+	/**
+	 * 限制导出数据的起始数量
+	 * @return
+	 */
+	protected Integer limitStartCount(Integer startCount) {
+		if(startCount == null || startCount < 0){
+			startCount = 0;
+		}
+		return startCount;
+	}
+
+	/**
+	 * 限制导出数据的总数量
+	 * @return
+	 */
+	protected Integer limitEndCount(Integer endCount) {
+		if(endCount == null || endCount < 0){
+			endCount = LIMIT_MIN_COUNT;
+		}else if(endCount > LIMIT_MAX_COUNT){
+			endCount = LIMIT_MAX_COUNT;
+		}
+		return endCount;
+	}
 }

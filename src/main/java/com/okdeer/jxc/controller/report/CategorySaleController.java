@@ -78,8 +78,8 @@ public class CategorySaleController extends BaseController<CategorySaleControlle
 			}
 			goodsSaleReportList.setFooter(footer);
 			LOG.debug(LogConstant.PAGE, goodsSaleReportList.toString());
-			cleanAccessData(goodsSaleReportList.getFooter());
-			cleanAccessData(goodsSaleReportList.getList());
+			// 过滤数据权限字段
+			cleanAccessData(goodsSaleReportList);
 			return goodsSaleReportList;
 		} catch (Exception e) {
 			LOG.error("类别销售列表信息异常:{}", e);

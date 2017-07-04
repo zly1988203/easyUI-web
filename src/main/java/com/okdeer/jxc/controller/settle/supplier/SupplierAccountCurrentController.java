@@ -109,25 +109,25 @@ public class SupplierAccountCurrentController extends BaseController<SupplierAcc
 				String templateName = null;
 
 				if (1 == qo.getRadioType()) {
-					fileName = "到期账款" + "_" + DateUtils.getCurrSmallStr();
+					fileName = "供应商到期账款" + "_" + DateUtils.getCurrSmallStr();
 					templateName = ExportExcelConstant.EXPIRE_ACCOUNTS_PAYABLE;
 				} else if (2 == qo.getRadioType()) {
-					fileName = "历史往来账款" + "_" + DateUtils.getCurrSmallStr();
+					fileName = "供应商历史往来账款" + "_" + DateUtils.getCurrSmallStr();
 					templateName = ExportExcelConstant.DEALINGS_ACCOUNTS_PAYABLE;
 				} else if (3 == qo.getRadioType()) {
-					fileName = "未付款账款汇总" + "_" + DateUtils.getCurrSmallStr();
+					fileName = "供应商未付款账款汇总" + "_" + DateUtils.getCurrSmallStr();
 					templateName = ExportExcelConstant.UNPAID_ACCOUNTS_PAYABLE;
 				} else if (4 == qo.getRadioType()) {
-					fileName = "未付款账款明细" + "_" + DateUtils.getCurrSmallStr();
+					fileName = "供应商未付款账款明细" + "_" + DateUtils.getCurrSmallStr();
 					templateName = ExportExcelConstant.UNPAID_ACCOUNTS_PAYABLE_DETAIL;
 				} else if (5 == qo.getRadioType()) {
-					fileName = "已付账款汇总" + "_" + DateUtils.getCurrSmallStr();
+					fileName = "供应商已付账款汇总" + "_" + DateUtils.getCurrSmallStr();
 					templateName = ExportExcelConstant.PAID_ACCOUNTS_PAYABLE;
 				} else if (6 == qo.getRadioType()) {
-					fileName = "已付账款明细" + "_" + DateUtils.getCurrSmallStr();
+					fileName = "供应商已付账款明细" + "_" + DateUtils.getCurrSmallStr();
 					templateName = ExportExcelConstant.PAID_ACCOUNTS_PAYABLE_DETAIL;
 				} else if (7 == qo.getRadioType()) {
-					fileName = "预付账款明细" + "_" + DateUtils.getCurrSmallStr();
+					fileName = "供应商预付账款明细" + "_" + DateUtils.getCurrSmallStr();
 					templateName = ExportExcelConstant.ADVANCE_ACCOUNTS_PAYABLE_DETAIL;
 				}
 
